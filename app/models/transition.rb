@@ -20,7 +20,7 @@ class Transition < ApplicationRecord
 
   after_initialize :defaults, unless: :persisted?
   before_create :perform
-  after_commit :notify_by_email, if: :in_progress?
+  after_commit :notify_by_email
 
   after_save :index_record
 
@@ -83,7 +83,13 @@ class Transition < ApplicationRecord
     type.underscore
   end
 
+  def notified_statuses
+    [Transition::STATUS_INPROGRESS]
+  end
+
   def notify_by_email
+    return unless notified_statuses.include?(status)
+
     TransitionNotifyJob.perform_later(id)
   end
 

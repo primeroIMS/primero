@@ -1,7 +1,7 @@
 id:
   date:
     today: 'Today'
-    clear: 'Clear'
+    clear: 'Hapus'
     first_day: 0
     abbr_day_names_short:
     - Su
@@ -11,48 +11,60 @@ id:
     - Th
     - Fr
     - Sa
+    abbr_day_names:
+    - Minggu
+    - Senin
+    - Selasa
+    - Rabu
+    - Kamis
+    - Jum'at
+    - Sabtu
     abbr_month_names:
     - ~
     - Jan
     - Feb
     - Mar
     - Apr
-    - May
+    - Mei
     - Jun
     - Jul
     - Aug
     - Sep
     - Oct
     - Nov
-    - Dec
+    - Des
     day_names:
-    - Sunday
-    - Monday
-    - Tuesday
-    - Wednesday
-    - Thursday
-    - Friday
-    - Saturday
+    - Minggu
+    - Senin
+    - Selasa
+    - Rabu
+    - Kamis
+    - Jum'at
+    - Sabtu
     month_names:
     - ~
-    - January
-    - February
-    - March
+    - Januari
+    - Februari
+    - Maret
     - April
-    - May
-    - June
-    - July
-    - August
+    - Mei
+    - Juni
+    - Juli
+    - Agustus
     - September
-    - October
+    - Oktober
     - November
-    - December
+    - Desember
     formats:
       default: "%d-%b-%Y"
       with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
   time:
     formats:
       default: "%d-%b-%Y"
       with_time: "%d-%b-%Y %H:%M"
-  'true': "Yes"
-  'false': "No"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
+  'true': "Ya"
+  'false': "Tidak"

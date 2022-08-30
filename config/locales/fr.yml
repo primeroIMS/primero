@@ -9,6 +9,7 @@ fr:
   sandbox_ui: Démo
   description: Description
   form: Formulaire
+  minimum_reportable_fields: "Champs minimum à remplir %{record_type}"
   name: Nom
   offline: Hors ligne
   unavailable_offline: Non disponible hors ligne
@@ -45,6 +46,7 @@ fr:
     save: Enregistrer
     services_from_case_creation_success: Création réussie du dossier de prestation de services.
     services_section_from_case: Ajouter une prestation de service
+    mark_for_offline: Marque pour hors ligne
   agencies:
     label: Agence
     translations:
@@ -234,6 +236,12 @@ fr:
       reopened: Rouvert
       service_implemented: Service mis en œuvre
       services_implemented: Service mis en œuvre
+  linkedincidents:
+    label: Incidents liés
+  activity_log:
+    label: Log activités
+    accepted_transfer: '%{to} accepté transfert %{record_type} %{record_id} de %{from}'
+    rejected_transfer: '%{to} rejeté transfert %{record_type} %{record_id} de %{from}'
   cases:
     action_plan: 'Plan d''action '
     age: 'Age '
@@ -268,6 +276,10 @@ fr:
     enable_dialog_title: Activer le cas
     enable_success: Cas activé avec succès
     export: Exporter
+    mark_for_offline:
+      title: Marque pour hors ligne
+      text: Êtes-vous sûr de vouloir marquer ces cas pour les utiliser lorsque vous êtes hors ligne ?
+      success: Cas marqués avec succès pour une utilisation hors ligne
     filter_by:
       3month_inactivity: Pendant 3+ mois
       action_plan: Plan d'action
@@ -414,6 +426,8 @@ fr:
           label: Voir les souhaits des enfants
     survivor_code: CODE DE LA SURVIVANTE
     transfer_accepted: En cliquant sur "Accepter", vous acceptez la responsabilité de ce cas ; une fois que vous aurez cliqué sur "Accepter", vous deviendrez le propriétaire du cas dans le système.
+    transfer_managed_user_accepted: Si vous cliquez "Accepter", %{transitioned_to} deviendra responsable de ce cas ; une fois que vous aurez cliqué sur "Accepter", %{transitioned_to}  deviendra le gestionnaire de cas dans le système.
+    transfer_managed_user_rejected: En cliquant sur "Rejeter", vous indiquez que %{transitioned_to} n'est pas prêt à accepter la responsabilité de ce cas pour le moment. Veuillez indiquer la raison pour laquelle vous rejetez ce cas. Une fois que vous aurez cliqué sur "Rejeter", %{transitioned_to} n'aura plus accès à cet enregistrement.
     transfer_accepted_rejected: Transfert rejeté du cas %{record_id}
     transfer_accepted_success: 'Transfert du cas accepté avec succès '
     transfer_reject_reason_label: 'Raisons du rejet '
@@ -432,6 +446,8 @@ fr:
     change: 'de "%{from_value}" à "%{to_value}"'
     updated_subform: 'Mise à jour des données du sous formulaires %{subform_name}%{short_id}'
     update_subform: 'Sous formulaire %{subform_name} mis à jour'
+    from: 'de '
+    to: 'à '
   children:
     selectable_date_options:
       assessment_requested_on: Date de l'Evaluation
@@ -547,42 +563,55 @@ fr:
     comprehensive_need_intervention: Réponse compréhensible ou complète
     count_new_bia_approvals:
       one: '%{stat}nouveau %{stat_type}Approbations'
+      many: '%{stat}nouveau %{stat_type} Approbations'
       other: '%{stat}nouveau %{stat_type} Approbations'
     count_new_case_plan_approvals:
       one: '%{stat}nouveau %{stat_type}Approbations'
+      many: '%{stat} nouveau %{stat_type}Approbations'
       other: '%{stat} nouveau %{stat_type}Approbations'
     count_new_closure_approvals:
       one: '%{stat}nouveau %{stat_type}Approbations'
+      many: '%{stat}nouveau %{stat_type}Approbations'
       other: '%{stat}nouveau %{stat_type}Approbations'
     count_pending_approval_total:
       one: Tu as %{stat}en attendant %{stat_type}Approbations
+      many: Tu as %{stat}en attendant %{stat_type}Approbations
       other: Tu as %{stat}en attendant %{stat_type}Approbations
     count_pending_transfers:
       one: Tu as %{stat} transferts en attente
+      many: Tu as %{stat} transferts en attente
       other: Tu as %{stat} transferts en attente
     count_records_new:
       one: et %{stat}nouveaux cas
+      many: et %{stat}nouveaux cas
       other: et %{stat}nouveaux cas
     count_records_total:
       one: Tu as %{stat} nombre total de cas
+      many: Tu as %{stat} nombre total de cas
       other: Tu as %{stat} nombre total de cas
     count_referrals_new:
       one: et %{stat} nouvelles références
+      many: et %{stat}nouvelles références
       other: et %{stat}nouvelles références
     count_referrals_total:
       one: Tu as %{stat} nombre total de références
+      many: Tu as %{stat}nombre total de références
       other: Tu as %{stat}nombre total de références
     count_rejected_approval_total:
       one: et %{stat} rejeté %{stat_type} Approbations
+      many: et %{stat}rejeté %{stat_type}Approbations
       other: et %{stat}rejeté %{stat_type}Approbations
     count_rejected_transfers:
       one: et %{stat} transferts refusés
+      many: et %{stat} transferts refusés
       other: et %{stat} transferts refusés
     count_risk_level_new:
       one: et %{stat} nouveau %{stat_type}cas à risque
+      many: et %{stat} nouveau %{stat_type}cas à risque
       other: et %{stat} nouveau %{stat_type}cas à risque
     count_risk_level_total:
       one: Tu as %{stat}%{stat_type} cas à risque
+      many: Tu as %{stat} %{stat_type}cas à risque
       other: Tu as %{stat} %{stat_type}cas à risque
     count_waiting_for_acceptance_transfers: Tu as %{stat} Virements en attente de votre acceptation
     current_owner: Propriétaire actuel
@@ -591,6 +620,7 @@ fr:
     dash_shared_from_my_team: Partagé par mon équipe
     dash_shared_with_me: Partagé avec moi
     dash_shared_with_my_team: Partagé avec mon équipe
+    dash_shared_with_my_team_overview: Partagé avec mon équipe (Aperçu)
     dash_shared_with_others: Partagé avec d'autres
     dash_national_admin_summary: Résumé de l'administrateur
     date: Date
@@ -620,12 +650,15 @@ fr:
     low_risk: Priorité faible
     manager_count_closed_total:
       one: et %{stat}dossiers clos
+      many: et %{stat} dossiers clos
       other: et %{stat} dossiers clos
     manager_count_open_total:
       one: Tu as %{stat}cas ouverts
+      many: Tu as %{stat} cas ouverts
       other: Tu as %{stat} cas ouverts
     manager_transfers_totals:
       one: Tu as %{stat} %{stat_type}Transferts
+      many: Tu as %{stat} %{stat_type} Transferts
       other: Tu as %{stat} %{stat_type} Transferts
     match_result: Résultats des correspondances
     medium_level: Moyen
@@ -662,6 +695,8 @@ fr:
     outstanding_transfers: Transferts en attente
     overdue_activities: Activités en retard
     overdue_cases_to_assign: Cas en retard à attribuer
+    overdue_cases_to_assign_high: Vous avez eu ces cas depuis plus de 1 heure
+    overdue_cases_to_assign_low: Vous avez eu ces cas depuis plus de 3 heures
     overview: Aperçu
     pending: En Attente
     pending_approvals: 'Approbation en attente '
@@ -691,6 +726,7 @@ fr:
     shared_with_me_new_referrals: Nouvelles références
     shared_with_me_total_referrals: 'Total des références '
     shared_with_me_transfers_awaiting_acceptance: 'Transfert en attente d''acceptation '
+    shared_with_my_team_pending_transfers_overview: Transferts en attente d'acceptation
     shared_with_my_team_pending_transfers: Transfert en attente
     shared_with_my_team_referrals: Référencements
     shared_with_others_pending_transfers: 'Transfert en attente '
@@ -711,9 +747,11 @@ fr:
     without_incidents: 'Sans incident '
     worker_count_referrals_total:
       one: '%{case_worker} a %{stat} nombre total de références'
+      many: '%{case_worker}a %{stat} nombre total de références'
       other: '%{case_worker}a %{stat} nombre total de références'
     worker_count_total:
       one: '%{case_worker} a %{stat} nombre total de cas'
+      many: '%{case_worker} a %{stat} nombre total de cas'
       other: '%{case_worker} a %{stat} nombre total de cas'
     workflow: Flux d'information
     workflow_team: Fux d'informations - Cas des équipes
@@ -851,6 +889,7 @@ fr:
         national_id_no: Numéro d'identité nationale
         progress_id: N° Progress
         sex_mapping_m_f_u: le genre
+        other_agency_id: 'Code de l''hôpital et numéro du patient '
       male_abbreviation: Masculin
       unknown_abbreviation: U
     exported: Génération du fichier d'exportation réussie
@@ -869,6 +908,7 @@ fr:
         on_short_form: Sur le resumé
         option_ids: Option ID
         options: Options
+        options_lookup: Référence
         help_text: Texte d'aide
         guiding_questions: Questions d'orientation
         visible: Visible
@@ -883,6 +923,12 @@ fr:
         reportinglocation: 'Lieu de rapportage '
         subforms: 'Sous formulaire %{subform_name}'
         collapsed_fields: 'Champs imbriqués :  %{fields}'
+        country: Pays
+      summary_header:
+        form_group: Groupe de formulaire Primero
+        form: 'Formulaire Primero '
+        status: 'Statut '
+        notes: Notes
     go_to_exports: 'Allez sur la page Exporter pour télécharger '
     incident_recorder_xls:
       all: 'Registre des incidents '
@@ -979,6 +1025,16 @@ fr:
         db_error: 'Erreur lors de la création de %{location_code} : %{message}'
         locale_invalid: 'Saut %{column_name} : Non valide'
         insert_all_error: 'Echec de l''importation. Erreur de la base de données : %{message}'
+    csv_record:
+      messages:
+        success: Cas importés avec succès
+        no_data: 'Importation non exécutée : Aucune donnée n''a été transmise'
+        no_file: 'Importation non exécutée : Le fichier n''existe pas'
+        csv_parse_error: 'Importation non exécutée : Erreur d''analyse des données CSV'
+        error: 'Ligne %{row_number} non traitée :  %{message}'
+        db_error: 'Erreur lors de la création %{location_code} : %{message}'
+        locale_invalid: 'Saut %{column_name} : section invalide'
+        insert_all_error: 'Importation non traitée. Erreur de base de données : '
   sync_record:
     failed: 'Dernière synchronisation : échec'
     last: 'Dernière synchronisation %{date_time}'
@@ -1008,11 +1064,13 @@ fr:
     date_help: jj-mm-aaaa
     date_help_with_time: jj-mm-aa hh:mn
     date_not_valid: Cette date n'est pas valide
+    time: Temps
     date_range:
       date: Date
       date_range: Période
       from: De
       to: À
+      view_by: 'Voir par '
     date_range_field: Période
     date_time: Date heure
     db_name: Date de la base de données
@@ -1105,12 +1163,15 @@ fr:
     subform_sort_by: Filtrer par
     successfully_added: Le champ a bien été ajouté
     tally_field: Champ du compte
+    tally_items: Items de pointage
+    tally_items_maximum: (Maximum 5)
     text_area: Zone de texte
     text_field: Champ de texte
     textarea: Zone de texte
     tick_box: Case à cocher
     tick_box_label: Étiquette de la case à cocher
     translation_text: Traduction du texte
+    total: Total
     type: Type
     updated: Champ mis à jour
     visibility: 'Visibilité '
@@ -1210,6 +1271,7 @@ fr:
     web_app: Application Web
   home:
     ar: العربية
+    ar-IQ: العربية (العراقية)
     ar-JO: Arabe (jordanien)
     ar-LB: Arabe (Libanais)
     ar-SD: arabe (soudanais)
@@ -1218,15 +1280,23 @@ fr:
     dashboard: Tableau de bord
     en: English
     es: Español
+    es-GT: Espagnol (Guatemala)
     fr: Français
     id: Bahasa
     km: ភាសាខ្មែរ
     ku: کوردی
+    ku-IQ: کوردی (بادینی)
+    fa-AF: فارسی (افغانستان)
+    ps-AF: پښتو (افغانستان)
+    sw-KE: Kiswahili (Kenya)
+    sw-TZ: Kiswahili (Tanzania)
+    ne: नेपाली
     label: Accueil
     language: Langue
     manage_system_users: 'Gérer la synchronisation des serveurs des utilisateurs '
     my: ဗမာစာ
     pt: Português
+    pt-BR: Portugais (Brésil)
     records_need_attention: 'Dossiers requérant votre attention '
     ru: Русский
     so: Af-Soomaali
@@ -1244,7 +1314,19 @@ fr:
       update_success: 'L''incident %{record_id} a bien été mis à jour.'
       update_success_queue: 'L''incident %{record_id} a été mis à jour avec succès en arrière plan '
     violation:
+      update_and_return: 'Mettre à jour et retourner à %{association}'
+      save_and_return: 'Ajouter et retourner à %{association}'
       pending: 'Vérification en attente '
+      title: Violations
+      types:
+        killing: Meurtre d'enfants
+        maiming: Mutilations d'enfants
+        recruitment: Recrutement et/ou utilisation d'enfants
+        sexual_violence: Viol et/ou autres formes de violence sexuelle
+        abduction: Enlèvement
+        attack_on: Attaque d'école(s) et/ou d'hôpital(s)
+        military_use: Utilisation militaire d'école(s) et/ou d'hôpital(s)
+        denial_humanitarian_access: Refus de l'accès humanitaire aux enfants
   incidents:
     disable_dialog: En cliquant sur OK, le statut de cet incident passera à Désactivé.
     disable_dialog_title: 'Incident désactivé '
@@ -1255,16 +1337,22 @@ fr:
     id: ID
     date_of_interview: 'Date de l''entretien '
     date_of_incident: 'Date de l''incident '
+    incident_location: Lieu de l'incident
+    violations: Violations
     export: Exporter
     label: Incidents
     filter_by:
       boys: 'Garçons '
       by_date: 'Par date '
+      children: Enfants
       girls: Filles
       incident_location: 'Localisation de l''incident '
       unaccompanied_separated_status: 'Statut de protection '
       unknown: Inconnu
+      verification_status: Statut de la vérification
       violence_type: 'Type de violence '
+      armed_force_group_name: Nom du groupe de forces armées
+      armed_force_group_type: Type du groupe de forces armées
     register_new_incident: Nouvel incident
     selectable_date_options:
       date_of_first_report: 'Date de l''entretien '
@@ -1366,9 +1454,18 @@ fr:
       title: "8. Services fournis"
       service: "Service"
       count: "Temps de mise en œuvre"
+      male: "Masculin"
+      female: "Féminin"
+      0-11: "0-11"
+      12-17: "12-17"
+      '>18': ">18"
+      disability: "Handicap"
+      no_disability: "Pas de handicap"
+      helptext: "Cet indicateur compte le type de service(s) fourni(s) aux survivants dans le cadre du processus de gestion de cas. \nPar service fourni, nous entendons le service qui est fourni par l'organisation d'origine du gestionnaire de cas, \net non le service fourni par des références à d'autres services ou des références internes. \n"
     average_referrals:
       title: "9. Moyenne des référencements"
       label: "Nombre moyen de références par cas"
+      helptext: "Cet indicateur compte le nombre moyen de références pour chaque cas enregistré (pour tous les types de services) \ndans tous les cas, que le cas soit actif/ouvert ou fermé. \nIl inclut les références enregistrés dans le dossier, et pas seulement les référence effectuées via la plateforme.\n"
     referrals_per_service:
       title: "Référencements par service"
     average_followup_meetings_per_case:
@@ -1379,27 +1476,34 @@ fr:
         par agent sur la plate-forme. Une réunion de suivi est une réunion entre la personne chargé du dossier et
         le survivant à la suite de l'entretien/révélation initiale.
     time_from_case_open_to_close:
+      title: "11. Temps écoulé de l'ouverture à la fermeture du cas"
       time: "Temps "
       percent: "Pourcentage des cas"
       helptext: "Cet indicateur mesure combien de temps le cas est resté ouvert, la durée à l'ouverture des cas, jusqu'à la clôture du cas\nLe processus va du contact initial à l'organisation utilisatrice jusqu'à la clôture du dossier. La durée est \nventilée selon les délais suivants : moins d'un mois ; entre 1 et 3 mois ; entre\n3-6 mois ; plus de 6 mois.\n"
     case_closure_rate:
+      title: "12. Décompte des clôtures de dossiers"
       reporting_site: "Site de rapportage "
       helptext: |
         Cet indicateur mesure le nombre de cas clôturés par mois et par site. Un site de rapportage
         est entendu comme le site où l'organisation fournit des services et où
         l'incident a été signalé au prestataire de services.
     client_satisfaction_rate:
+      title: "13. Taux de satisfaction des clients"
       label: "Satisfaction du client "
+      invalid: "Nous ne pouvons pas calculer cela pour le moment."
       helptext: |
         Cet indicateur mesure le pourcentage de survivants qui ont répondu à l'enquête sur les feedback des clients et
         qui sont satisfaits des services de gestion de cas qui leur sont fournis. Cet indicateur est
         alimenté par le remplissage du formulaire de feedback sur le GBVIMS+ par un membre du personnel autre que le
         que la personne chargé du dossier qui a fourni le service au survivant.
     supervisor_to_caseworker_ratio:
+      title: "14. Ratio superviseur/travailleur social"
       label: "Gestionnaire de cas par superviseur "
       helptext: |
         Cet indicateur est le nombre de gestionnaire de cas qu'un superviseur supervise : le ratio entre superviseur et gestionnaires de cas. Ce calcul est basé sur les rôles système attribués sur la plate-forme.
     case_load:
+      title: "Nombre de cas"
+      case_load: "Nombre de cas"
       percent: "pourcentage des gestionnaires de cas par rapport aux cas"
       10cases: "< 10 Cas"
       20cases: "11 - 20 Cas"
@@ -1423,6 +1527,7 @@ fr:
       camp: Camp
       chiefdom: Chefferie
       city: Ville
+      community: Communauté
       country: Pays
       county: Pays
       district: District
@@ -1450,6 +1555,10 @@ fr:
     import_title: 'Importé les lieux '
     message: Veuillez sélectionner un fichier CSV à télécharger. Ce fichier doit utiliser un encodage UTF-8 et inclure des hashtags HXL dans la deuxième ligne d'en-tête de chaque colonne.
     no_location: Veuillez importer des emplacements avant de créer des comptes d'utilisateur.
+    enable_title: 'Activer le lieu '
+    enable_text: 'Êtes-vous sûr ? Si vous activez les lieux sélectionnés, ils apparaîtront en tant qu''options dans les champs "Lieu". '
+    disable_title: Désactiver le lieu
+    disable_text: Etes vous sûr ? Si vous désactivez les lieux sélectionnés, ils n'apparaîtront plus comme options dans les champs des lieu.
   logger:
     actions:
       _approved: Approuvé
@@ -1628,14 +1737,84 @@ fr:
     no_options: Cette référence n'a actuellement aucune option.
     translation_label: Traduction du texte
     values: Options
+  managed_reports:
+    label: Insights
+    total: Total
+    filter_by:
+      date: Date
+      verification_status: Statut de la vérification
+    date_range:
+      month: Mois
+      quarter: Trimestre
+      year: Année
+    date_range_options:
+      this_quarter: Ce trimestre
+      last_quarter: Le trimestre passé
+      this_month: Ce mois
+      last_month: Le mois passé
+      this_year: Cette année
+      last_year: L'année passée
+      custom: Personnaliser
+    no_data: Aucune donnée n'existe pour ces éléments
+    no_data_table: Aucun tableau de données n'existe pour cet aperçu
+    violations:
+      name: Violations
+      filter_options:
+        incident_date: Date de l'incident
+        date_of_report: Date du signalement
+        ctfmr_verified_date: Date de la vérification
+      reports:
+        killing: 'Meurtres d''enfants '
+        maiming: Mutilation d'enfants
+        recruitment: Recrutement et/ou utilisation d'enfants
+        sexual_violence: Viol et/ou autres formes de violence sexuelle
+        abduction: Enlèvement
+        attack_on: Attaque d'école(s) et/ou d'hôpital(s)
+        military_use: Utilisation militaire d'école(s) et/ou d'hôpital(s)
+        denial_humanitarian_access: Refus de l'accès humanitaire aux enfants
+      sub_reports:
+        combined: Violations
+        detention_detained: 'Reste en détention '
+        detention_released: Libéré
+        perpetrators: Nombre d'enfants par auteur
+        reporting_location: Nombre d'enfants par région
+        attack_type: 'Nombre d''enfants par type d''attaque '
+        boys: 'Garçons '
+        girls: Filles
+        unknown: 'Inconnu '
+        total: Total
+    gbv_statistics:
+      name: Statistiques VBG
+      filter_options:
+        date_of_first_report: Date de l'Interview
+        incident_date: 'Date de l''incident '
+      reports:
+        incidents: Incidents
+        perpetrators: Auteur
+      sub_reports:
+        combined: Incidents
+        total: Nombre de cas VBG rapporté
+        gbv_sexual_violence: Nombre d'incident ou violence sexuel rapporté
+        gbv_previous_incidents: Nombre d'incidents signalés par survivants ayant déjà été victimes de violence basée sur le genre.
+        gbv_sexual_violence_type: 'Type d''incident '
+        incident_timeofday: Heure de l'incident
+        elapsed_reporting_time: Délai entre l'incident et le signalement
+        elapsed_reporting_time_rape: Incidents de viol, temps écoulé entre l'incident et la date du signalement
+        incident_location_type: 'Lieu de l''incident '
+        number_of_perpetrators: Nombre d'auteurs principaux
+        perpetrator_relationship: Relation entre l'auteur principal présumé et la survivante
+        perpetrator_age_group: 'Groupe d''âge des principaux auteurs présumés '
+        perpetrator_occupation: 'Profession du présumé auteur principal '
   messages:
     alert_items: Vous avez %{items}éléments à noter.
     alerts_for:
       approval: Approbation est en attente pour %{form_section_name}
       field_change: '%{form_section_name} a été mis à jour le %{alert_time}'
       transfer_request: 'Un nouveau transfert demandé a été effectué le %{date} par %{user} à %{agency} '
+      duplicate_field: Un autre cas dans le système a le même %{field_name} que celui-ci.
     cannot_edit: Vous ne pouvez pas éditer ceci
     confirmation_message: Si vous cliquez sur OK, vos changements non enregistrés seront perdus et vous reviendrez à l'affichage de la liste. Cliquez sur Annuler pour revenir au dossier.
+    confirmation_message_subform: En cliquant sur OK, les modifications non sauvegardées apportées à cet élément seront annulées. Cliquez sur Annuler pour poursuivre les modifications.
     dashboard_offline: Vous êtes offline, le tableau de bord sera totalement fonctionnel lorsque vous serez en ligne
     field_name_on_form_name: 'Champ %{field_name} du formulaire %{form_name}'
     logout_confirmation: 'Voulez vous continuer votre session ? '
@@ -1660,6 +1839,7 @@ fr:
     incidents: 'Incident '
     logout: 'Déconnecter '
     reports: Rapports
+    insights: Insights
     search: Rechercher
     settings: 'Paramètres '
     support: Support
@@ -1670,6 +1850,7 @@ fr:
       system_information: 'Information du système '
     tasks: 'Tâches '
     tracing_request: 'Demande de traçage '
+    activity_log: Log activités
     registry_records: Registre
   notes:
     note_success: Notes ajouté avec succès
@@ -1752,6 +1933,8 @@ fr:
       export_unhcr_csv: Exporter HCR au format csv
       export_xls: Exporter au format xls
       find_tracing_match: chercher une correspondance à partir d'un cas
+      view_registry_record: Voir le cas
+      add_registry_record: Ajouter un cas au registre
       flag: 'Marquer '
       form: Formulaires
       group: Accéder à tous les dossiers ou utilisateurs de mon groupe
@@ -1763,6 +1946,7 @@ fr:
       kpi: Impulsion/KPI
       lookup: Références
       manage: Gérer
+      mark_for_offline: Marquer pour hors ligne
       matching_configuration: Configuration des correspondante
       metadata: Formulaires, Références
       potential_match: Probabilité de correspondance
@@ -1777,6 +1961,7 @@ fr:
       remove_assigned_users: Supprimer les autres utilisateurs attribué (référencements)
       reopen: 'Réouvert '
       report: Rapport
+      managed_report: Insights
       request_approval: Demande d'Approbation
       request_approval_action_plan: Demande d'approbation %{approval_label}
       request_approval_assessment: Demande d'approbation %{approval_label}
@@ -1793,6 +1978,7 @@ fr:
       services_section_from_case: Ajouter une prestation de service au cas d'un autre utilisateur
       specific_roles: Accéder à une liste précise de fonctions
       sync_external: Synchronisation avec un système externe de gestion de l'information
+      sync_mobile: Marquer pour hors ligne
       system: Système
       tracing_request: Demande de traçage
       transfer: Peut être utilisé pour un transfert
@@ -1803,9 +1989,11 @@ fr:
       view_photo: Afficher les photos
       view_protection_concerns_filter: Afficher le filtre relatif aux problèmes de protection
       view_response: Voir Réponses
+      webhook: Webhook
       workflow: Flux d'information - Cas individuel
       workflow_team: Flux d'information - Cas des équipes
       write: Écrire
+      activity_log: Log activités
     resource:
       kpi:
         actions:
@@ -1823,8 +2011,10 @@ fr:
             label: Moyenne des référencements
           kpi_case_closure_rate:
             explanation: Possibilité de voir combien de cas ont été clôturés sur chaque site par mois.
+            label: Décompte des clôtures de dossiers
           kpi_case_load:
             explanation: Possibilité de voir le nombre moyen de cas ouverts par chaque gestionnaire de cas.
+            label: Nombre de cas
           kpi_client_satisfaction_rate:
             explanation: Possibilité de voir, pour chaque cas auquel l'utilisateur a accès, quel est le taux de satisfaction des survivants qui ont donné leur feedback.
             label: Taux de satisfaction des clients
@@ -1857,6 +2047,7 @@ fr:
             label: 'Ration superviseur par gestionnaire de cas '
           kpi_time_from_case_open_to_close:
             explanation: Possibilité de voir, pour tous les cas auxquels l'utilisateur a accès, combien de temps les cas restent ouverts.
+            label: Temps écoulé de l'ouverture à la fermeture du cas
         label: KPI
       agency:
         actions:
@@ -1875,18 +2066,23 @@ fr:
           write:
             explanation: Possibilité de modifier les informations sur les agences. Veuillez noter que cela s'applique à toutes les agences du système.
             label: 'Editer '
+        explanation: Représente une organisation dont les membres utilisent Primero. Les agences existent indépendamment des groupes d'utilisateurs.
         label: Agence
       audit_log:
         actions:
           read:
             explanation: Permet à l'utilisateur de voir et de filtrer une liste de toutes les actions effectuées dans le système, ventilée par utilisateur, type d'action, ID du cas et heure de l'action. Cette fonction convient mieux aux administrateurs au niveau national ou à celui des agences, car elle permet de voir les actions effectuées par tous les utilisateurs dans le système. Veuillez noter que le journal d'audit n'affiche pas d'informations personnelles sur les cas impliqués dans chaque action.
             label: Voir
+        explanation: Liste des filtres de toutes les actions effectuées dans le système. Ne comprend pas d'informations identifiables sur les cas, les incidents ou les demandes de traçage.
         label: Journaux d'audit
       case:
         actions:
           add_note:
             explanation: Permet à un utilisateur d'ajouter des notes dans le sous-formulaire "Notes" (aussi parfois appelé "Commentaires"). L'utilisateur le fait en cliquant sur le bouton "Ajouter des notes" sur la page de présentation des cas. Cette action est particulièrement utile pour les superviseurs qui n'ont pas la possibilité de modifier les cas, mais qui veulent ajouter des rappels à un cas pour le gestionnaire chargé du cas. De cette façon, l'ajout d'une note est similaire à l'ajout d'un marquage ou d'un drapeau. L'avantage de l'ajout d'une note est que, lorsque le gestionnaire ajoute une note à un dossier, une notification apparaîtra sur le dossier pour le gestionnaire chargé du dossier lorsqu'il visualisera le dossier.
             label: Ajouter des notes au cas
+          add_registry_record:
+            explanation: Permet à un utilisateur de lier un registre à un cas à partir du formulaire de détails du registre. Permet également à l'utilisateur de dissocier tout cas déjà lié au registre.
+            label: Ajouter / mettre à jour un dossier à partir d'un cas
           approve_action_plan:
             explanation: Permet au superviseur d'approuver le %{approval_label} des gestionnaires de cas
             label: Approuver %{approval_label}
@@ -1985,6 +2181,9 @@ fr:
           receive_referral:
             explanation: Permet à un utilisateur de recevoir une référence. Les utilisateurs ayant cette autorisation apparaîtront comme des destinataires potentiels d'une action de référence, tandis que les utilisateurs sans cette autorisation n'apparaîtront pas comme des destinataires potentiels lorsque quelqu'un recherche un destinataire dans le mode de référence.
             label: 'Recevoir une référence '
+          receive_referral_different_module:
+            explanation: 'Permet à un utilisateur de recevoir une référence pour un cas créé dans un autre module de Primero. Les utilisateurs disposant de cette autorisation apparaîtront comme des destinataires potentiels d''une action de référence pour ce cas, tandis que les utilisateurs sans cette autorisation n''apparaîtront pas comme des destinataires potentiels lorsque quelqu''un recherchera un destinataire dans la fenêtre de référence. '
+            label: Recevoir une référence d'un utilisateur d'un module différent
           receive_transfer:
             explanation: Permet à un utilisateur de recevoir un transfert. Les utilisateurs ayant cette autorisation apparaîtront comme des destinataires potentiels d'une action de transfert, tandis que les utilisateurs sans cette autorisation n'apparaîtront pas comme des destinataires potentiels lorsque quelqu'un recherche un destinataire dans le mode de transfert.
             label: 'Recevoir un transfert '
@@ -2033,6 +2232,9 @@ fr:
           sync_external:
             explanation: Possibilité de synchroniser un cas avec un système externe de gestion de l'information
             label: Synchronisation avec un système externe de gestion de l'information
+          sync_mobile:
+            explanation: Permet à l'utilisateur de mettre en cache les cas pour une utilisation hors ligne.
+            label: Marquer pour hors ligne
           transfer:
             explanation: Permet à un utilisateur d'envoyer un cas de son propriétaire actuel à tout utilisateur du système ayant la possibilité de recevoir des transferts. La propriété du cas ne change toutefois pas tant que le destinataire du transfert ne l'a pas "accepté". Si le destinataire "rejette" le transfert, il perd l'accès au cas et celui ci reste la propriété de son propriétaire d'origine.
             label: Transférer
@@ -2042,9 +2244,25 @@ fr:
           view_incident_from_case:
             explanation: '"Lors de la consultation d''un cas, l''utilisateur peut voir une liste des incidents liés à ce cas, ainsi que des informations sommaires sur chacun d''entre eux.'
             label: Voir les incidents d'un cas
+          view_protection_concerns_filter:
+            explanation: Permet à l'utilisateur de voir un filtre sur les problèmes de protection sur la page de la liste des cas.
+            label: Voir le filtre relatif aux problèmes de protection
+          view_registry_record:
+            explanation: 'Permet à un utilisateur de visualiser les informations lié à un cas. Permet également à l''utilisateur de voir le formulaire des détails sur le cas. '
+            label: Visualiser le dossier du cas
           write:
             explanation: Possibilité de cliquer sur le bouton "Modifier", de mettre à jour les informations d'un cas, et de cliquer sur "Enregistrer".
             label: Editer
+          accept_or_reject_transfer:
+            explanation: Permet à l'utilisateur d'accepter ou de refuser un transfert au nom d'un autre utilisateur de votre équipe (par exemple, un superviseur acceptant un transfert qui a été envoyé à son travailleur social)
+            label: Accepter ou refuser le transfert d'un autre utilisateur de votre équipe.
+          list_case_names:
+            explanation: Les superviseurs ne peuvent généralement pas voir les noms des cas dans la liste des cas. Si un supérieur a cette permission, il pourra voir les noms dans la liste.
+            label: Si le supérieur, peut voir les noms des cas sur la liste des cas.
+          mark_for_offline:
+            explanation: Permet à l'utilisateur de mettre en cache les cas pour une utilisation hors ligne.
+            label: Marquer pour hors ligne
+        explanation: Représente un enfant, un survivant ou un autre bénéficiaire.
         label: Cas
       dashboard:
         actions:
@@ -2135,6 +2353,8 @@ fr:
           dash_shared_with_my_team:
             explanation: Afficher au superviseur, le nombre de cas référé ou transféré par chaque gestionnaire de cas de son équipe
             label: Partagé avec mon équipe
+          dash_shared_with_my_team_overview:
+            label: Partagé avec mon équipe (Aperçu)
           dash_shared_with_others:
             explanation: Indique le nombre de mes cas dont la référence est active, les transferts en attente ou les transferts rejetées. Ne concerne généralement pas les superviseurs, sauf s'ils gèrent eux-mêmes les cas.
             label: Partagé avec d'autres
@@ -2169,6 +2389,7 @@ fr:
           workflow_team:
             explanation: Permet à un superviseur de voir un tableau indiquant le nombre de cas traités par ses gestionnaire de cas à chaque étape du processus de gestion des cas.
             label: Cas par flux de travail et gestionnaire de cas
+        explanation: Détermine les informations récapitulatives qui apparaissent sur la page d'accueil.
         label: Tableau de bord
       disabled:
         explanation: Si vous désactivez ce rôle, vous ne pourrez plus l'attribuer aux comptes d'utilisateur.
@@ -2178,16 +2399,21 @@ fr:
           read:
             explanation: Permet à l'utilisateur d'effectuer une recherche avancée pour tous les cas dans le système, en utilisant un certain nombre de critères, notamment le nom, le surnom, le sexe, l'âge et la nationalité.
             label: Voir
+        explanation: Recherche avancée de cas pour les administrateurs.
         label: Recherche de doublons
       forms:
         case:
           explanation: 'La limitation de l''accès d''un utilisateur aux formulaires sur les cas limite les informations que l''utilisateur peut voir sur un incident. Par exemple, si l''utilisateur n''a accès qu''au formulaire Information sur le gestionnaire de cas, il ne pourra également voir que les informations contenues dans les champs de ce formulaire. Si l''utilisateur actuel a un accès limité au formulaire et a la possibilité de superviser la configuration du formulaire, le fait de limiter son accès au formulaire limite également les formulaires qu''il peut configurer. REMARQUE : si aucun formulaire n''est spécifié, cela signifie que le rôle a accès à tous les formulaires pour les cas.'
           label: Formulaires - Cas
         incident:
+          explanation: 'Limiter l''accès d''un utilisateur aux formulaires sur les incidents limite les informations que l''utilisateur peut voir sur un incident. Par exemple, si l''utilisateur n''a accès qu''au formulaire des informations sur le gestionnaire de cas, il ne pourra également voir que les informations contenues dans les champs de ce formulaire. Si l''utilisateur en question a un accès limité aux formulaires et a la possibilité de gérer la configuration des formulaires, le fait de limiter son accès aux formulaires limite également les formulaires qu''il peut configurer. NOTE : Si aucun formulaire n''est spécifié, cela signifie que la fonction a accès à tous les formulaires pour les incidents.'
           label: Formulaire - Incident
         tracing_request:
           explanation: 'La limitation de l''accès d''un utilisateur aux formulaires de demande de recherche limite les informations que l''utilisateur peut voir sur une demande de recherche. Par exemple, si l''utilisateur n''a accès qu''au formulaire Information sur le cas, il ne pourra également voir que les informations contenues dans les champs de ce formulaire. Si l''utilisateur actuel a un accès limité au formulaire et a la possibilité de superviser la configuration du formulaire, le fait de limiter son accès au formulaire limite également les formulaires qu''il peut configurer. REMARQUE : si aucun formulaire n''est spécifié, cela signifie que le rôle a accès à tous les formulaires de recherche des demandes.'
           label: Formulaire - Demande de traçage
+        registry_record:
+          explanation: 'Limiter l''accès d''un utilisateur aux formulaires des registres limite les informations que l''utilisateur peut voir. Par exemple, si l''utilisateur a uniquement accès au formulaire des informations sur le gestionnaire de cas, il ne pourra également voir que les informations contenues dans les champs de ce formulaire. Si l''utilisateur en question a un accès limité aux formulaires et a la possibilité de gérer la configuration des formulaires, le fait de limiter son accès aux formulaires limite également les formulaires qu''il peut configurer. NOTE : Si aucun formulaire n''est spécifié, cela signifie que le rôle a accès à tous les formulaires '
+          label: Formulaires - Registre
       group:
         actions:
           admin_only:
@@ -2259,21 +2485,30 @@ fr:
           write:
             explanation: Possibilité de cliquer sur le bouton "Modifier", de mettre à jour les informations relatives à l'incident et de cliquer sur "Enregistrer". Permet également à l'utilisateur de désactiver ou d'activer un incident.
             label: 'Editer '
+        explanation: Représente un événement qui s'est produit. Il s'agit généralement d'incidents d'abus ou de violence, mais ils peuvent également correspondre à des événements tels que des rencontres avec les forces de l'ordre. Les incidents sont souvent liés à des cas.
         label: Incident
       is_manager:
         explanation: S'applique à toute fonction d'utilisateur qui supervise généralement d'autres utilisateurs. Cela permet à un utilisateur de voir des tableaux de bord et des filtres qui l'aident à superviser une équipe.
         label: est ce un superviseur ?
+      managed_report:
+        actions:
+          violations:
+            label: Violations
+          gbv_statistics:
+            label: Statistiques VBG
       matching_configuration:
         actions:
           manage:
             explanation: Possibilité de comparés des champs pour trouver des correspondances entre la demande de traçage et les cas. Comme cela contrôle la manière dont la correspondance est effectuée dans l'ensemble du système, cette permission ne devrait généralement être accessible qu'à l'administrateur du système.
             label: Gérer (toutes les autorisations pour ce type de ressources)
+        explanation: Contrôle les champs qui sont utilisés pour comparer les demandes de recherche avec les cas pendant la recherche et la réunification des familles.
         label: Configuration correspondante
       metadata:
         actions:
           manage:
             explanation: Capacité à créer, modifier, traduire et supprimer des formulaires, des champs de formulaires et des consultations. Veuillez noter qu'un utilisateur ayant cette autorisation ne pourra gérer que les formulaires auxquels il a accès. Par exemple, si un administrateur national n'a pas la possibilité de voir le formulaire "Informations sur le gestionnaire de cas", il ne pourra que mettre à jour la configuration de ce formulaire.
             label: Gérer (toutes les autorisations pour ce type de ressources)
+        explanation: Contrôle la capacité de configurer les formulaires et les champs de Primero, ainsi que les options de recherche utilisées dans ces derniers.
         label: Formulaires, références
       module:
         actions:
@@ -2304,6 +2539,41 @@ fr:
             label: Ce rôle peut-il être utilisé pour les références en externes ?
         label: 'Référence '
       registry_record:
+        actions:
+          change_log:
+            explanation: L'utilisateur peut voir un historique de toutes les modifications apportées au cas depuis sa création. Cela inclut les valeurs enregistrées pour tous les champs.
+            label: 'Journal '
+          create:
+            explanation: 'Possibilité de créer un cas '
+            label: Créer
+          enable_disable_record:
+            explanation: Possibilité de désactiver ou d'activer un cas du Registre. Les cas "désactivés" n'apparaissent pas par défaut dans la liste. Les utilisateurs peuvent voir les cas désactivés dans la liste en utilisant un filtre.
+            label: Activer/ Désactiver
+          export_csv:
+            explanation: 'L''utilisateur peut générer une exportation de fichier CSV à partir des listes ou des affichage, qui contient tous les champs auxquels l''utilisateur actuel a accès, pour un, plusieurs ou tous les cas auxquels l''utilisateur a accès. NOTE : L''exportation CSV ne rend pas les caractères non-latins (ex. arabe, bangali).'
+            label: Exporter en CVS
+          export_json:
+            explanation: L'utilisateur peut générer un fichier d'exportation JSON à partir de la liste du registre ou des pages d'affichage, qui contient tous les champs auxquels l'utilisateur a accès. Le format JSON est lisible mais n'est pas pratique pour la plupart des utilisateurs.
+            label: Exporter en JSON
+          export_xls:
+            explanation: 'L''utilisateur peut générer une exportation de fichier XLS à partir des pages des liste affichage du registre, qui contient tous les champs auxquels l''utilisateur actuel a accès. REMARQUE : Le format XLS rend les caractères non latins (par exemple, arabe, bangali) dans un format lisible, alors que l''exportation CSV ne le fait pas.'
+            label: Exporter en Excel (fichier XLS)
+          flag:
+            explanation: 'Possibilité d''ajouter un drapeau à un cas. Les utilisateurs disposant de cette autorisation peuvent également supprimer les drapeaux qu''ils ont ajoutés à un cas. '
+            label: Drapeau
+          manage:
+            explanation: Permet à un utilisateur d'effectuer toutes les actions disponibles sur un cas. L'autorisation "Gérer" signifie essentiellement "tout".
+            label: Gérer (toutes les autorisations pour ce type de ressource)
+          read:
+            explanation: 'Possibilité de voir les cas '
+            label: Voir
+          write:
+            explanation: Possibilité de cliquer sur le bouton "Modifier", de mettre à jour les informations relatives à un cas et de cliquer sur "Enregistrer".
+            label: 'Editer  '
+          sync_mobile:
+            explanation: Permet à l'utilisateur de mettre en cache les cas pour une utilisation hors ligne.
+            label: Marquer pour hors ligne
+        explanation: Il peut s'agir d'une personne ou d'une institution qui doit être liée à d'autres cas ou des incidents, qui sont très nombreux et qui sont mis à jour de façon répétée avec de nouvelles informations. Ils sont similaires aux références, mais avec un ensemble plus complexe d'informations.
         label: Dossier du registre
       report:
         actions:
@@ -2322,6 +2592,7 @@ fr:
           write:
             explanation: Possibilité de modifier tous les rapports (y compris ceux créés par d'autres utilisateurs).
             label: 'Editer '
+        explanation: Outil d'analyse des données désagrégées. Comprend des représentations des données sous forme de tableaux et de graphiques.
         label: Rapport
       reporting_location_level:
         explanation: 'Cela permettra de contrôler le niveau des lieux qui apparaissent pour ce rôle dans les tableaux de bord, les filtres, les modes de référence et les modes de transfert. Si vous laissez ce champ vide, ce rôle verra le niveau de localisation par défaut du système.'
@@ -2352,12 +2623,14 @@ fr:
           write:
             explanation: Possibilité de cliquer sur le bouton "Modifier" de la page de présentation de la fonction , de mettre à jour les autorisations de la fonction, puis d'enregistrer la fonction.
             label: 'Editer '
+        explanation: Détermine les actions qu'un utilisateur peut effectuer dans Primero.
         label: Fonction
       system:
         actions:
           manage:
             explanation: Possibilité de voir et de mettre à jour les informations sur les coordonnées du système, les paramètres par défaut de notification et de courrier électronique de bienvenue, et les serveurs synchronisés. Cette autorisation est généralement réservée à l'administrateur du système
             label: Gérer (toutes les autorisations pour ce type de ressources)
+        explanation: Divers paramètres de configuration du système.
         label: 'Système '
       tracing_request:
         actions:
@@ -2388,6 +2661,9 @@ fr:
           export_pdf:
             explanation: L'utilisateur peut générer une exportation de fichier PDF à partir de la liste des demandes de traçage ou des pages d'affichage des demandes de traçage, qui contient tous les champs auxquels l'utilisateur actuel a accès, pour un, plusieurs ou tous les enregistrements auxquels l'utilisateur a accès. Dans le fichier d'exportation PDF, les informations sont d'abord répertoriées par cas, puis organisées par le formulaire sur lequel les informations apparaissent.
             label: Exporter en PDF
+          export_xls:
+            explanation: 'L''utilisateur peut générer une exportation de fichier XLS à partir de la liste des demandes de traçage ou des pages d''affichage des demandes de traçage, qui contient tous les champs auxquels l''utilisateur a accès, pour une, plusieurs ou toutes les demandes de traçage auxquelles l''utilisateur a accès. Dans cette exportation, chaque formulaire est représenté dans son propre onglet dans le fichier XLS. REMARQUE : Le format XLS rend les caractères non latins (par exemple, l''arabe, le bangali) dans un format lisible, alors que l''exportation CSV ne le fait pas.'
+            label: Exporter en Excel (fichier XLS)
           flag:
             explanation: Possibilité d'ajouter un marquage ou drapeau à une demande de traçage. Les utilisateurs ayant cette autorisation peuvent également supprimer les marquages ou drapeaux qu'ils ont ajoutés à une demande de recherche.
             label: 'Drapeau '
@@ -2403,6 +2679,7 @@ fr:
           write:
             explanation: Possibilité de cliquer sur le bouton "Editer", de mettre à jour les informations relatives à la demande de traçage et de cliquer sur "Enregistrer". Permet également à l'utilisateur de désactiver ou d'activer une demande de traçage
             label: 'Editer '
+        explanation: Représente une personne qui tente de localiser un enfant non accompagné ou séparé pour sa réunification.
         label: 'Demande de traçage '
       transfer:
         actions:
@@ -2427,6 +2704,7 @@ fr:
           write:
             explanation: Possibilité de cliquer sur le bouton "Editer" de la page de l'utilisateur de l'exposition, de mettre à jour les informations concernant l'utilisateur, puis d'enregistrer. Veuillez noter que cette autorisation donne également la possibilité de désactiver les comptes d'utilisateur.
             label: 'Editer '
+        explanation: Représente un compte utilisateur individuel.
         label: Utilisateurs
       user_group:
         actions:
@@ -2448,7 +2726,32 @@ fr:
           write:
             explanation: Aptitude à éditer les groupes d'utilisateurs
             label: 'Editer  '
+        explanation: Représente une équipe ou un groupe d'utilisateurs qui peuvent partager des informations. Les supérieurs peuvent généralement voir tous les dossiers gérés par les travailleurs sociaux dans leurs groupes d'utilisateurs.
         label: 'Groupe d''utilisateurs '
+      webhook:
+        actions:
+          read:
+            label: Voir
+            explanation: Possibilité de lister et d'examiner les configurations webhooks via l'API
+          write:
+            label: 'Editer  '
+            explanation: Possibilité de créer et de modifier une configuration webhook via l'API
+          create:
+            explanation: Possibilité de créer configuration webhook via l'API
+            label: Créer
+          delete:
+            explanation: Possibilité de supprimer une configuration Webhook via l'API
+            label: Supprimer
+          manage:
+            label: Gérer (toutes les autorisations pour ce type de ressource)
+      activity_log:
+        actions:
+          transfer:
+            explanation: L'utilisateur peut cliquer dans la section " Log activité " du tableau de bord et voir un journal de tous les transferts acceptés ou rejetés pour les cas auxquels il a accès.
+            label: Transferts
+          manage:
+            label: Gérer (toutes les autorisations pour ce type de ressource)
+        label: Log activités
   potential_match:
     case_id: ID du cas
     child_age: âge
@@ -2476,6 +2779,7 @@ fr:
     users_label: 'Destinataire '
   record_information:
     assigned_user_names: Autres utilisateurs assignés
+    created_at: Cas créé à
     created_by: Dossier créé par
     created_organization: Créé par l'organisation
     current_owner_separator: Gestionnaire actuel
@@ -2523,6 +2827,7 @@ fr:
     disabled:
       explanation: Si vous désactivez ce rapport, il n'apparaîtra pas dans les rapports disponibles.
       label: Désactivé
+    exclude_empty_rows: Ne pas afficher les lignes vides
     disaggregate_by: Grouper par colonne
     filters:
       label: Filtres du rapport
@@ -2563,6 +2868,7 @@ fr:
       edit: Modifier les traductions
       manage: Gérer les traductions
       select_language: Choisir la langue
+    error_loading: Erreur lors du chargement du rapport(s)
   request_transfer:
     notes_label: Notes
     submit_label: Envoyer une demande
@@ -2717,7 +3023,12 @@ fr:
     show_registry_record: 'ID record de registre: %{short_id}'
     register_new_registry_record: Nouveau record de registre
     export: Exportation
+    mark_for_offline:
+      title: Marquer pour hors ligne
+      text: Êtes-vous sûr de vouloir marquer ces pour les utiliser lorsque vous êtes hors ligne ?
+      success: Les cas ont été marqués avec succès pour une utilisation hors ligne
   transfer:
+    label: Transfert
     agency_label: Organisation
     consent_from_individual_label: Avez-vous le consentement de la personne concernée pour effectuer ce transfert ?
     consent_label: les dossiers n'ont pas fourni de consentement.
@@ -2731,6 +3042,9 @@ fr:
     success: 'Transféré avec succès '
     transfer_label: Transférer quand même ?
     user_mandatory: Le destinataire est requis
+    rejected_reason: 'Raison du rejet '
+  transfer_assignment:
+    title: Transferts et assignations
   transition:
     agency_label: Organisation
     assigned_by: 'Assigné par '
@@ -2757,6 +3071,7 @@ fr:
       in_progress: 'En attente '
       inprogress: 'En attente '
       rejected: 'Rejeté '
+      revoked: Révoqué
     type:
       assign: 'Assigner '
       reassign: 'Assigner '
@@ -2828,6 +3143,7 @@ fr:
       enabled_label: Envoyer un email de bienvenue?
       text_label: Texte du email de bienvenue
     password_reset:
+      subject: 'Instructions pour la réinitialisation du mot de passe'
       email_greeting: "Cher(e) %{full_name}"
       email_body1: "Quelqu'un a fait une demande pour définir votre mot de passe pour %{host_href}. Cliquez sur l'url ci-dessous pour commencer :"
       email_body2: "Ce lien expirera dans %{hours} heures et ne pourra être utilisé qu'une seule fois. Veuillez ignorer ce mail si vous n'avez pas fait de demande de réinitialisation de mot de passe ou si un nouvel utilisateur de Primero n'a pas été enregistré en votre nom. Si le lien ci-dessus est expiré, veuillez cliquer sur %{reset_request_href} pour soumettre à nouveau une demande de réinitialisation de mot de passe."
@@ -2845,6 +3161,7 @@ fr:
       body2_reset_notification: "Vous recevrez un mail supplémentaire vous invitant à réinitialiser votre mot de passe."
       body3: "Vous êtes responsable de la mise en œuvre sûre et à temps. Pour chaque déploiement, vous devez avoir complété le plan de mise en œuvre avec la stratégie d'intégration et de gestion des utilisateurs et le protocole de partage des informations. Vous devez également veiller à ce qu'un contrat d'utilisation signé soit conservé par toutes les organisations utilisatrices."
   user_group:
+    associated_agencies: Agences associées à ce groupe d'utilisateurs
     description: Description
     disabled:
       explanation: Si vous désactivez ce groupe d'utilisateurs, vous ne pourrez plus l'affecter à des comptes d'utilisateurs.
@@ -2868,3 +3185,8 @@ fr:
       invalid: "Invalide %{authentication_keys} ou mot de passe"
       locked: "Votre compte est verrouillé."
       last_attempt: "Vous avez encore une tentative avant que votre compte ne soit verrouillé."
+  admin:
+    locations:
+      selected_records: '%{select_records} lieu(x) sélectionné(s)'
+      selected_all_records: Sélectionnez tous les cas %{total_records} qui correspondent à cette requête.
+      updated: '%{updated_records} localités mis à jour '

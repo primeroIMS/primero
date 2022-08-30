@@ -87,7 +87,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
 
                   updateDateBirthField(renderProps.form, value);
 
-                  return renderProps.form.setFieldValue(renderProps.field.name, value, true);
+                  return renderProps.form.setFieldValue(renderProps.field.name, value, false);
                 }
               }}
               {...fieldProps}

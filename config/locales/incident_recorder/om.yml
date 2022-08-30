@@ -1,0 +1,76 @@
+om:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "Galmeessaa taatee gara biraatti /alatti ergame."
+  exports:
+    incident_recorder_xls:
+      all:  "Galmeessaa /waraabaa Taatee. "
+      one:  Waraabaa Taatee.
+      selected:  Taatee waraabaman/ galmaa'an filachuu.
+      "yes": "Eeyyen."
+      "no": "Miti."
+      gender:
+        male: "Dhiira."
+        female: "Dubartii."
+        both: "Dhiiraa fi dubartii."
+      age_group:
+        age: "Umurii."
+        61_older: "61 fi  achii ol."
+        unknown: "Hin beekamu."
+        header: "Garee umurii nama yakka raawwachuuf yaalii taasisee."
+      age_type:
+        adult: "Ga'eessa."
+        minor: "Umurii  xiqqaa/Gadi aanaa."
+        both: "Ga'eessaa fi  umurii xiqqaa"
+        unknown: "Hin beekamu."
+        header: "Akaakuu/gosa umurii nama yakka/miidhaa raawwachuuf yaalii taasisee."
+      service_referral:
+        undecided: "Murteessuu hindandeenye."
+      headers:
+        incident_id: "Eeyumeessaa Taatee."
+        survivor_code: "Koodii daa'ima balaa irraa hafee/kunuunsaa kan hinqabne."
+        case_manager_code: "Koodii Gaggeessaa Dhimmaa."
+        case_worker_code: "Koodii Hojjetaa Dhimmaa."
+        date_of_interview: "Guyyaa Gaaffii fi deebii."
+        date_of_incident: "Guyyaa Taateen uumame."
+        date_of_birth: "Guyyaa Dhalootaa."
+        sex: "Saala."
+        ethnicity: "Gosa/sanyii."
+        country_of_origin: "Madda/ka'umsa Biyyaa."
+        marital_status: "Haala/sadarkaa nama loltuu  hin taanee/hin heerumnee."
+        displacement_status: "Sadarkaa/haala Buqqa'insaa Gabaasarratti dhiyaate. "
+        disability_type: "Nama qaama miidhamaa?"
+        unaccompanied_separated_status: "Daa'ima gatame ykn maatiin adda bahe."
+        stage_of_displacement: "Sadarkaa buqqa'insaa taatee irratti."
+        time_of_day: "Yeroo guyyaa taatee."
+        location: "Iddoo/bakka taatee."
+        county: "Biyya taatee."
+        district: "Ona/aanaa taatee."
+        camp_town: "Buufata/magaalaa taatee."
+        camp: "Buufata taatee."
+        gbv_type: "Akaakuu/gosa Miidhaa Kornaayaa Bu'ureeffatee./MKB/."
+        harmful_traditional_practice: "Barmaatilee Miidhaa Geessisan."
+        goods_money_exchanged: "Maallaqa,meeshaalee,faayidaawwanii fi / ykn tajaajiloota jijjiiraman?"
+        abduction_type: "Akaakuu/gosa Butii."
+        previously_reported: "Taateen kun duratti gabaasameeraa?"
+        gbv_previous_incidents: "Taatewwan duraa jeequmsa kornaayaa bu'ureeffatanii"
+        number_primary_perpetrators: "Laakkofsa/baay'ina jalqabaa  nama miidhaa geessisuuf yaalanii."
+        perpetrator:
+          sex: "Saala nama miidhaa/yakka raawwachuuf yaalii taasisee."
+          former: "Taatee duraanii nama yakka raawwate kana wajjiin walqabate."
+          relationship: "Quunnamtii nama yakka raawwachuuf yaalee fi midhaa irraa baraaramee gidduu jiru."
+          occupation: "Hojii nama yakka/miidhaa geessisuuf yaalii taasisee."
+          age_group: "Umurii Garee/gurmuu nama miidhaa/yakka geessisuuf yaalii taasisanii."
+          age_type: "Akaakuu umurii nama miidhaa geessisuuf yaalii taasisee."
+        service:
+          referred_from: "Eessarraa gara keessanitti dabarsame?"
+          safehouse_referral: "Mana nagaa/da'oo."
+          medical_referral: "Tajaajiloota Fayyaa/Wal'aansaa."
+          psycho_referral: "Tajaajiloota xin-sammuu hawaasaa."
+          wants_legal_action: "Tarkaanfii seer qabeessa barbaadaa/fedhaa?"
+          legal_referral: "Tajaajiloota gargaarsa/deggarsa seer qabeessaa/"
+          police_referral: "Poolisii/nama biraa nageenya kabachiisu. "
+          livelihoods_referral: "Sagantaa adeemsa jireenyaa."
+          protection_referral: "Tajaajiloota Eegumsa Daa'imaa/tajaajiloota barnootaa."
+        consent: "Hayyama/waliigaltee Kennaman."
+        agency_code: "Koodii Ejensii gabaasee."

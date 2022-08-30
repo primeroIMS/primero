@@ -3,7 +3,6 @@ fields = [
         "type" => "tick_box",
         "editable" => false,
         "disabled" => true,
-        "selected_value" => true,
         "display_name_en" => "Valid Record?"
         }),
   Field.new({"name" => "owned_by_agency_id",

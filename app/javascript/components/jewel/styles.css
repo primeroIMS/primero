@@ -45,4 +45,9 @@
   .circle {
     font-size: var(--fs-16);
   }
+
+  .circleForm {
+    position: absolute;
+    right: 0;
+  }
 }

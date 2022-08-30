@@ -25,11 +25,6 @@
   font-weight: bold;
 }
 
-.anotherFormLabel {
-  font-weight: bold;
-  margin: 0 0 10px 0;
-}
-
 .subformFieldTitle {
   display: flex;
   flex-direction: row;

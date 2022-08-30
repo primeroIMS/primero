@@ -1,0 +1,70 @@
+om:
+  date:
+    today: 'Har''a/hardha.'
+    clear: 'Ifa/qulqulluu.'
+    first_day: 0
+    abbr_day_names_short:
+    - Dilbata.
+    - Wixata/Dafinoo.
+    - Kibxata.
+    - Roobii/Harbaa.
+    - Kamisa.
+    - Jimaata.
+    - Sanbata/Sanbata xiqqaa.
+    abbr_day_names:
+    - Dilbata/Sanbata guddaa.
+    - Wixata/Dafinoo.
+    - Kibxata/Facaasaa.
+    - Roobii/Harbaa.
+    - Kamisa.
+    - Jimaata.
+    - Sanbata/Sanbata xiqqaa.
+    abbr_month_names:
+    - ~
+    - Amajjii.
+    - Gurraandhala.
+    - Bitooteessa.
+    - Ebla.
+    - Caamsaa.
+    - Waxabajjii.
+    - Adooleessa.
+    - Hagayya.
+    - Fulbaana.
+    - Onkololeessa.
+    - Sadaasa.
+    - Mudde.
+    day_names:
+    - Dilbata.
+    - Wixata.
+    - Kibxata.
+    - Roobii.
+    - Kamisa.
+    - Jimaata.
+    - Sanbata.
+    month_names:
+    - ~
+    - Amajjii.
+    - Gurraandhala.
+    - Bitooteessa.
+    - Ebla.
+    - Caamsaa.
+    - Waxabajjii.
+    - Adooleessa.
+    - Hagayya.
+    - Fulbaana.
+    - Onkololeessa.
+    - Sadaasa.
+    - Mudde.
+    formats:
+      default: "1%d-%b-%Y"
+      with_time: "1%d-%b-1%Y%H,%M"
+      rtl: "1Y-%b-1%d"
+      rtl_with_time: "%M:%H%Y-%b-1%d"
+  time:
+    formats:
+      default: "1%d-%b-%Y"
+      with_time: "1%d-%b-%Y%H:%M"
+      rtl: "%Y-%b-1%d"
+      rtl_with_time: "%M:%H%Y-%b-1%d"
+  'true': "Eeyyen."
+  'false': "Miti."

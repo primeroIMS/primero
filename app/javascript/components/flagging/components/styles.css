@@ -68,6 +68,25 @@
 
 .date {
   font-size: var(--fs-16);
+  & div:first-of-type {
+    font-size: var(--fs-16);
+    font-weight: normal;
+    color: var(--c-black);
+    margin-top: 0;
+  }
+  & fieldset {
+    border: none;
+  }
+
+  & label {
+    display: none;
+  }
+
+  & input {
+    padding-top: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }
 
 .resolveButton {

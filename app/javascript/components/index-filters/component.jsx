@@ -19,7 +19,7 @@ import { getReportingLocationConfig } from "../user/selectors";
 import { DEFAULT_FILTERS } from "../record-list/constants";
 import { overwriteMerge, useMemoizedSelector } from "../../libs";
 
-import { DEFAULT_SELECTED_RECORDS_VALUE, FILTER_CATEGORY, HIDDEN_FIELDS } from "./constants";
+import { DEFAULT_SELECTED_RECORDS_VALUE, FILTER_CATEGORY, HIDDEN_FIELDS, ID_SEARCH } from "./constants";
 import { compactFilters, transformFilters } from "./utils";
 import { Search } from "./components/filter-types";
 import { applyFilters, setFilters } from "./action-creators";
@@ -117,19 +117,26 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
     setOpen(true);
   }, []);
 
-  const handleClear = useCallback(() => {
-    resetSelectedRecords();
-    methods.reset({ ...defaultFiltersPlainObject, filter_category: methods.getValues("filter_category") });
-    batch(() => {
-      dispatch(setFilters({ recordType, data: defaultFiltersPlainObject }));
-      dispatch(push({}));
-    });
+  const handleClear = useCallback(
+    setIdSearch => {
+      resetSelectedRecords();
+      methods.reset({
+        ...defaultFiltersPlainObject,
+        filter_category: methods.getValues("filter_category"),
+        ...(setIdSearch && { [ID_SEARCH]: true })
+      });
+      batch(() => {
+        dispatch(setFilters({ recordType, data: defaultFiltersPlainObject }));
+        dispatch(push({}));
+      });
 
-    setMoreSectionFilters({});
-    setReset(true);
-    setMore(false);
-    setFilterToList(DEFAULT_FILTERS);
-  }, [recordType, defaultFiltersPlainObject]);
+      setMoreSectionFilters({});
+      setReset(true);
+      setMore(false);
+      setFilterToList(DEFAULT_FILTERS);
+    },
+    [recordType, defaultFiltersPlainObject]
+  );
 
   const handleChangeTabs = (event, value) => setTabIndex(value);
 

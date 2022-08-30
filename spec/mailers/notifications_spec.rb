@@ -5,13 +5,12 @@ require 'rails_helper'
 describe NotificationMailer, type: :mailer do
   before do
     clean_data(SystemSettings)
-    SystemSettings.create(default_locale: 'en', notification_email_enabled: true, unhcr_needs_codes_mapping: {},
-                          changes_field_to_form: {})
+    SystemSettings.create(default_locale: 'en', unhcr_needs_codes_mapping: {}, changes_field_to_form: {})
   end
 
   describe 'approvals' do
     before do
-      clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role)
+      clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role, Agency)
       @lookup = Lookup.create!(id: 'lookup-approval-type', unique_id:'lookup-approval-type', name: 'approval type',
                                lookup_values_en: [{'id' => 'value1', 'display_text' => 'value1'}])
       role = create(:role, is_manager: true)
@@ -89,6 +88,7 @@ describe NotificationMailer, type: :mailer do
 
   describe 'Transitions' do
     before :each do
+      clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role, Agency, Child)
       @primero_module = PrimeroModule.new(name: 'CP')
       @primero_module.save(validate: false)
       @permission_assign_case = Permission.new(
@@ -126,6 +126,15 @@ describe NotificationMailer, type: :mailer do
         locale: 'ar-LB'
       )
       @user3.save(validate: false)
+      @user4 = User.new(
+        user_name: 'user4',
+        role: @role,
+        user_groups: [@group2],
+        email: 'user4@test.com',
+        send_mail: false,
+        agency: agency
+      )
+      @user4.save(validate: false)
       @case = Child.create(
         data: {
           name: 'Test', owned_by: 'user1',
@@ -149,6 +158,17 @@ describe NotificationMailer, type: :mailer do
 
       it 'renders the body' do
         expect(mail.body.encoded).to match('user1 from Test Agency has referred the following Case to you')
+      end
+    end
+
+    describe 'when user has send_mail false' do
+      before do
+        @referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user4', record: @case)
+      end
+
+      let(:mail) { NotificationMailer.transition_notify(@referral.id) }
+      it 'mail should be nil' do
+        expect(mail.parent.class.name).to eq('NilClass')
       end
     end
 
@@ -202,7 +222,7 @@ describe NotificationMailer, type: :mailer do
         expect(mail.text_part.body.encoded).to match('حوّل لك user1 Case التالي')
       end
     end
-    
+
     describe 'assign' do
       before do
         @assign = Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)

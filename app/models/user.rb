@@ -25,7 +25,8 @@ class User < ApplicationRecord
     'user_group_ids' => { 'type' => 'array' }, 'user_group_unique_ids' => { 'type' => 'array' },
     'services' => { 'type' => 'array' }, 'module_unique_ids' => { 'type' => 'array' },
     'password_reset' => { 'type' => 'boolean' }, 'role_id' => { 'type' => 'string' },
-    'agency_office' => { 'type' => 'string' }, 'code_of_conduct_id' => { 'type' => 'integer' }
+    'agency_office' => { 'type' => 'string' }, 'code_of_conduct_id' => { 'type' => 'integer' },
+    'send_mail' => { 'type' => 'boolean' }
   }.freeze
 
   attr_accessor :exists_reporting_location, :should_send_password_reset_instructions,
@@ -367,7 +368,7 @@ class User < ApplicationRecord
   end
 
   def send_welcome_email(admin_user)
-    return unless email && SystemSettings.current&.welcome_email_enabled
+    return unless email
     return if identity_provider&.sync_identity?
 
     UserMailJob.perform_later(id, admin_user.id)

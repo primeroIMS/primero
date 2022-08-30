@@ -4,7 +4,9 @@ import getProperty from "lodash/get";
 
 export const get = (object, key, defaultValue) => {
   if (isImmutable(object)) {
-    return object[Array.isArray(key) ? "getIn" : "get"](key, defaultValue);
+    const parsedKey = Array.isArray(key) ? key : key.split(".");
+
+    return object.getIn(parsedKey, defaultValue);
   }
 
   return getProperty(object, key, defaultValue);

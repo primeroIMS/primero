@@ -1,24 +1,70 @@
-ku-IQ:
+ku_IQ:
   date:
-    today: 'Today'
-    clear: 'Clear'
+    today: 'ئەڤرو'
+    clear: 'ڤالاکرن'
     first_day: 0
     abbr_day_names_short:
-    - Su
-    - Mo
-    - Tu
-    - We
-    - Th
-    - Fr
-    - Sa
+    - ئێک شەمب
+    - دووشەمب
+    - سێ شەمب
+    - چارشەمب
+    - پێنچ شەمب
+    - ئەینی
+    - شەمبی
+    abbr_day_names:
+    - ئێک شەمب
+    - دووشەمب
+    - سێ شەمب
+    - چارشەمب
+    - پێنچ شەمب
+    - ئەینی
+    - شەمبی
+    abbr_month_names:
+    - ~
+    - کانونا دوویێ
+    - شوبات
+    - ئادار
+    - نیسان
+    - ئەیار
+    - "خزیران "
+    - تیرمە
+    - تەباخ
+    - ئەیلول
+    - چریا ئێکێ
+    - چریا دوویێ
+    - کانونا ئێکێ
+    day_names:
+    - "ئێک شه مب "
+    - دووشەمب
+    - سێ شەمب
+    - چارشەمب
+    - پێنچ شەمب
+    - ئەینی
+    - شەمبی
+    month_names:
+    - ~
+    - کانونا دوویێ
+    - شوبات
+    - ئادار
+    - نیسان
+    - ئەیار
+    - "خزیران "
+    - تیرمە
+    - تەباخ
+    - ئەیلول
+    - چریا ئێکێ
+    - چریا دوویێ
+    - کانونا ئێکێ
     formats:
-      default: "%d-%b-%Y"
-      with_time: "%d-%b-%Y %H:%M"
-      rtl: "%Y-%b-%d"
-      rtl_with_time: "%M:%H %Y-%b-%d"
+      default: "%d -%b-%Y"
+      with_time: "%d -%b-%Y %H:%M"
+      rtl: "%d %Y-%b-"
+      rtl_with_time: "%d %M:%H %Y-%b-"
   time:
     formats:
-      default: "%d-%b-%Y"
-      with_time: "%d-%b-%Y %H:%M"
-      rtl: "%Y-%b-%d"
-      rtl_with_time: "%M:%H %Y-%b-%d"
+      default: "-%b-%Y %d"
+      with_time: "%d -%b-%Y %H:%M"
+      rtl: " %d %Y-%b-"
+      rtl_with_time: "%d %M:%H %Y-%b-"
+  'true': "بەلێ"
+  'false': "نەخێر"

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { Hidden, IconButton } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import ImportExportIcon from "@material-ui/icons/ImportExport";
 
 import { PageHeading } from "../../page";
 import RecordActions from "../../record-actions";
@@ -11,10 +12,21 @@ import { NAME } from "./constants";
 
 const mode = { isShow: true };
 
-const Component = ({ title, recordType, handleDrawer, selectedRecords, currentPage, clearSelectedRecords }) => {
+const Component = ({
+  title,
+  recordType,
+  handleDrawer,
+  handleSortDrawer,
+  selectedRecords,
+  currentPage,
+  clearSelectedRecords
+}) => {
   return (
     <PageHeading title={title}>
       <Hidden mdUp>
+        <IconButton onClick={handleSortDrawer} color="primary">
+          <ImportExportIcon />
+        </IconButton>
         <IconButton onClick={handleDrawer} color="primary">
           <FilterListIcon />
         </IconButton>
@@ -38,6 +50,7 @@ Component.propTypes = {
   clearSelectedRecords: PropTypes.func,
   currentPage: PropTypes.number,
   handleDrawer: PropTypes.func.isRequired,
+  handleSortDrawer: PropTypes.func.isRequired,
   recordType: PropTypes.string.isRequired,
   selectedRecords: PropTypes.object,
   title: PropTypes.string.isRequired

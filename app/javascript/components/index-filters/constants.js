@@ -8,6 +8,8 @@ export const FILTER_TYPES = Object.freeze({
   DATES: "dates"
 });
 
+export const ID_SEARCH = "id_search";
+
 export const HIDDEN_FIELDS = [
   "approval_status_assessment",
   "approval_status_closure",
@@ -16,7 +18,7 @@ export const HIDDEN_FIELDS = [
   "case_plan_due_dates",
   "fields",
   "followup_due_dates",
-  "id_search",
+  ID_SEARCH,
   "not_edited_by_owner",
   "query",
   "referred_users",
@@ -48,7 +50,7 @@ export const VIOLATIONS_FILTER_NAMES = Object.freeze([
 
 export const PRIMARY_FILTERS = ["sex", "age", "risk_level", "approval_status_case_plan", "last_updated_at"];
 
-export const DEFAULT_FILTERS = ["fields", "status", "record_state", "id_search"];
+export const DEFAULT_FILTERS = ["fields", "status", "record_state", ID_SEARCH];
 
 export const OR_FIELDS = ["owned_by", "assigned_user_names"];
 
