@@ -58,7 +58,7 @@ describe("<Support />", () => {
     });
 
     it("should render 4 ListItem components", () => {
-      expect(component.find(ListItem)).to.have.lengthOf(3);
+      expect(component.find(ListItem)).to.have.lengthOf(4);
     });
 
     it("should render CodeOfConduct component when clicking menu from the Navigation list", () => {

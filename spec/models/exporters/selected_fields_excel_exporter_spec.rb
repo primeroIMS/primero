@@ -192,6 +192,17 @@ describe Exporters::SelectedFieldsExcelExporter do
       create(:child, 'name_first' => 'Name2', 'name_last' => 'LastName2', 'id' => '00000000005'),
       create(:child, 'name_first' => 'Name3', 'name_last' => 'LastName3', 'id' => '00000000006'),
     ]
+
+    @record_with_special_id =[
+      create(
+        :child,
+        'name' => 'record with special id', 'name_first' => 'record',
+        'name_middle' => 'special', 'name_last' => 'number',
+        'case_id' => 'e50814f9-dcbd-4679-8e9b-138751e24566',
+        'short_id' => '1e24566',
+        'id' => '00000000007', 'hidden_name' => true, 'field_5' => 'Value 1'
+      )
+    ]
     # @user = User.new(:user_name => 'fakeadmin', module_ids: ['primeromodule-cp'])
     @role = create(:role, modules: [@primero_module], form_sections: [form1, form2, form3, form_gbv, form4, form5])
     @user_en = create(:user, user_name: 'fakeadmin_en', role: @role, locale: :en)
@@ -390,6 +401,21 @@ describe Exporters::SelectedFieldsExcelExporter do
       workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       expect(workbook.sheet(0).row(1)).to eq(%w[ID name])
       expect(workbook.sheet(0).row(8).slice(1..2)).to eq([RecordDataService::CENSORED_VALUE])
+    end
+  end
+
+  context 'when the records has short id with a special format' do
+    let(:workbook) do
+      data = Exporters::SelectedFieldsExcelExporter.export(
+        @record_with_special_id,
+        @user_en,
+        field_names: %w[name_first]
+      )
+      Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+    end
+    it 'render the id' do
+      expect(workbook.sheet(0).row(1).first).to eq('ID')
+      expect(workbook.sheet(0).row(2).first).to eq(@record_with_special_id[0].short_id)
     end
   end
 end

@@ -1,14 +1,15 @@
-sw-TZ:
+sw_TZ:
   'true': 'Ndio'
   'false': 'Hapana'
   accepted: Imekubalika
-  cancel: Sitisha
+  cancel: Sitisha / Futa
   connection_lost: Hakuna mtandao kwa sasa
   connected: Imeunganishwa
-  clear: Futa
-  sandbox_ui: Majaribio
+  clear: 'Iko wazi '
+  sandbox_ui: Onesha
   description: maelezo
   form: Fomu
+  minimum_reportable_fields: "%{record_type}Sehemu za chini zinazoweza kuripotiwa "
   name: Jina
   offline: Nje ya mtandao
   unavailable_offline: Haipatikani nje ya mtandao
@@ -45,6 +46,7 @@ sw-TZ:
     save: Tunza
     services_from_case_creation_success: Rekodi ya Utoaji wa Huduma imefanikiwa kuundwa
     services_section_from_case: Ongeza Utoaji wa Huduma
+    mark_for_offline: Alama kwa Nje ya Mtandao
   agencies:
     label: Shirika
     translations:
@@ -76,5 +78,3065 @@ sw-TZ:
     terms_of_use_enabled: 'Onyesha Masharti ya Matumizi? '
   approvals:
     approved_by: Imeidhinishwa na
+    case_plan_type_label: Aina ya mpango wa kesi
+    manager_comments_label: Dhibiti Maoni
+    rejected_by: 'Imekataliwa na '
+    requested_by: Imeombwa na
+    requested_for_label: Idhini iliyoombwa kwa
+    requested_for_title: Ombi la idhini
+    response_for_label: 'Idhini kwa '
+    response_for_title: Idhini
+    action_plan: Mpango wa utekelezaji
+    gbv_closure: Kufungwa kwa Udhalilishaji wa Kijinsia
+    status:
+      approved: Imeidhinishwa
+      pending: Inasubiri
+      rejected: Imekataliwa
+      requested: Imeombwa
+  audit_log:
+    action: Hatua / Kitendo
+    description: Maelezo
+    record_owner: Mmiliki wa rekodi
+    timestamp: Wakati / Muda
+    user_name: 'Uliofanywa na '
+  bulk_export:
+    file_name: Faili
+    record_type: Aina
+    retry: Usafirishaji huu ni batili. Tafadhali jaribu kurudisha / kurekebisha usafirishaji wako
+    started_on: Ilianza
+    status: Hali
+  form_export:
+    label: 'Usanidi wa Fomu ya kuuza nje '
+    include_hidden: Ni pamoja na fomu na uwanja uliofichwa
+    file_name: Tengeneza jina la faili lako (hiari)
+    success_message: Imefanikiwa kutengeneza faili la kuuza nje
+  buttons:
+    accept: Kubali
+    add: Ongeza
+    add_another_option: Ongeza chaguo jingine
+    add_note: Ongeza Maelezo
+    apply: Omba / Tumia
+    approvals: Idhini
+    approve_action_plan: Idhinisha Mpango wa Utekelezaji
+    approve_bia: Idhinisha B/A
+    approve_case_plan: Idhinisha Mpango wa Kesi
+    approve_closure: Idhinisha Kufungwa
+    approve_gbv_closure: Idhinisha Kufungwa kwa Ukatili wa Kijinsia
+    back: Nyuma
+    bundle_export: Kifurushi cha Mpangilio
+    bundle_import: Kifurushi cha Mpangilio
+    cancel: Futa / Ghairi
+    change_password: Badilisha Neno la Siri
+    check_status: Angalia Hali
+    clear_default: Weka wazi chaguo lamsingi
+    clear_selection: Uteuzi ulioko wazi
+    clear: Wazi
+    close: Funga / Karibu
+    continue: Endelea
+    create_case: Tengeneza Kesi
+    create_incident: Tengeneza Tukio
+    create_new_record: Unda Mpya / Tengeneza Mpya %{model}
+    delete: Futa
+    disable: Lemaza
+    disable_photo_wall: Lemaza ukuta wa picha
+    done: Kumaliza
+    download: Kupakua
+    edit: Kuhariri
+    edit_subform: Hariri Fomu ndogo
+    enable: Wezesha
+    enable_photo_wall: Wezesha ukuta wa picha
+    export: Kuuza nje
+    filter: Tumia Kichujio
+    filter_clear: Weka wazi Vichujio / Vichujio Vilivyoko wazi
+    filter_label: 'Chujio'
+    filter_restore: Rejesha kwa Mipangilio ya Mfumo
+    find_tracing_match: Tafuta Kufuatilia mechi / yanayolingana
+    flag_model: Bendera%{model}
+    flag_records: Bendera
+    flags: Bendera
+    guidance: Muongozo
+    guiding_questions: Maswali ya Kuongoza
+    import: Kuagiza
+    login: Ingia
+    logout: Toka nje
+    mark_for_mobile: Alama ya simu ya mkononi
+    new: Mpya
+    ok: Sawa
+    print: Chapisha
+    reassign: Mpe
+    referral: Rejea
+    referral_again: 'Rejea Tena '
+    reject: Kukataa
+    remove_referrals: Ondoa marejeo
+    reorder: Panga upya
+    request_approval: Omba Idhini
+    request_transfer: Omba Uhamisho
+    reunite: Kuungana tena
+    save: Kuokoa
+    save_and_add_service_provision: Kuokoa na Kuongeza Utoaji wa Huduma
+    save_and_return: Kuokoa na Kurudi
+    save_continue: Kuokoa na Kuendelea
+    save_changes: Hifadhi mabadiliko
+    select: Chagua
+    send: Tuma
+    sort_by_case: Kesi
+    sort_by_tr: Kufuatilia Ombi
+    sync: Usawazishaji
+    submit: Wasilisha
+    transfer: Uhamisho
+    unflag_model: Kufungua%{model}
+    unflag_model_history: Historia ya Bendera%{model}
+    unmark_for_mobile: Ondoa alama kwa simu ya mkononi
+    update: Kuingiza toleo jipya
+    view: Angalia / Mtazamo
+    view_flags_history: 'Angalia / Tazama Historia '
+    return_to_case: Kurudi kwenye Kesi
+  case:
+    label: Kesi
+    create_new_case: Tengeneza Kesi Mpya
+    add_new: Ongeza Mpya
+    back_to_case: Rudi kwenye Kesi
+    back_to_results: Rudi kwenye Matokeo
+    back_to_search: Rudi Kutafuta
+    search_by: Tafuta kwa
+    search_for: Tafuta %{record_type}
+    results: Matokeo
+    details: Maelezo ya Kina
+    select: Chagua
+    deselect: Ondoa Chaguo
+    enter_id_number: Ingiza nambari ya kitambulisho ili kutafuta rekodi iliyopo
+    id_search_no_results: Hakuna kitu kilichofanana katika mfumo. kwa %{search_query}Tafadhali tengheneza rekodi mpya
+    messages:
+      disabled: Kesi imelemazwa
+      update_success: 'Taarifa mpya ziliwekwa %{record_id}kwenye kesi kwa mafanikio '
+      update_success_queue: 'Kesi %{record_id}iliwekwa taarifa mpya katika mafanikio katika sehemu yake ya historia'
+      creation_success: 'Rekodi ya kesi imetayarishwa kwa mafanikio'
+      creation_success_queue: 'Rekodi ya kesi imetayarishwa kwa mafanikio katika sehemu ya historia'
+      already_matched: Muulizaji tayari ameshafananishwa na kesi yako
+      already_matched_not_current_case: Tayari iko kesi katika mfumo ambayo imefananishwa na muulizaji
+      not_found_case: Hakuna kesi inayolingana iliyopatikana%{search_value} Tayarisha kesi nyingine
+      introductory_sentence: Tafadhali taja idhini ya mtu binafsi atakayepokea huduma za usimamizi wa kesi na taarifa zao kuhifadhiwa katika Primero
+      consent_agreements_required: Tafadhali chagua angalau chaguo moja kutoka kwenye makubaliano ya idhini
+      legitimate_basis_required: Tafadhali chaguo angalau chaguo moja kutoka kwenye uainishaji wa msingi halali
+    save: Ihifadhi kesi
+    save_text: Kabla ya kuendelea, tafadhali yahifadhi mabadiliko yako kwenye kesi
+    skip_and_create: Ruka na Utengeneze Kesi Mpya
+    search_existing: Tafuta kesi zilizopo
+    search_helper_text: Kwa nini? Kuzuiya utengenezwaji wa kesi zinazojirudia
+    consent_agreements: Chagua makubaliano yote ya idhini ambayo yanatumika
+    legitimate_basis: 'Chagua uainishaji wa msingi halali unaotumika '
+    workflow:
+      assessment: Tathmini
+      case_plan: Mpango
+      closed: Imefungwa
+      created_on: 'Imeundwa / Imetayarishwa  tarehe '
+      in_progress: Inaendelea
+      new: Mpya
+      on_label: 'Juu / Kuwasha '
+      reopened: Imefunguliwa tena
+      service_implemented: Huduma imetekelezwa
+      services_implemented: Huduma imetekelezwa
+  linkedincidents:
+    label: Tukio Lililounganishwa
+  activity_log:
+    label: Logi ya Vitendo/Shughuli
+    accepted_transfer: '%{to}Uhamisho uliokubalika wa %{record_type}%{record_id}kutoka %{from}'
+    rejected_transfer: '%{to}uhamisho uliokataliwa wa %{record_type}%{record_id}Kutoka %{from}'
   cases:
-    approved_success_assessment: 'Imekubalika'
+    action_plan: Mpango wa Utekelezaji
+    age: Umri
+    age_estimated: Makadirio ya Umri?
+    agency: Wakala
+    apply_filter: Tumia / Omba
+    approval_comments: Maoni
+    approval_radio: 'Ningependa '
+    approval_radio_accept: Idhinisha
+    approval_radio_reject: Kutokubali
+    approval_select: Fomu kwa
+    approved_success_action_plan: '%{approval_label}imeidhinishwa'
+    approved_success_assessment: '%{approval_label}mekubalika'
+    approved_success_bia: '%{approval_label}imeidhinishwa'
+    approved_success_case_plan: '%{approval_label}iImeidhinishwa'
+    approved_success_closure: '%{approval_label}Imeidhinishwa'
+    approved_success_gbv_closure: '%{approval_label}imeidhinishwa'
+    assessment: Tathmini
+    case_opening_date: Tarehe ya kufungua kesi
+    case_plan: Mpango wa Kesi
+    case_worker_code: Alama ya Mfanyakazi wa Kesi
+    clear_filter: Iko Wazi
+    close_dialog: Kubonyeza sawa itabadilisha hali ya kesi hii kuwa imefungwa
+    close_dialog_title: Funga kesi
+    close_success: Kesi iliyofungwa kwa mafanikio
+    closure: Kufungwa
+    date_of_birth: Tarehe ya kuzaliwa
+    disable_dialog: Kubonyeza SAWA kutabadilisha hali ya kesi hii kuwa iliyozimwa
+    disable_dialog_title: Lemaza / Zima Kesi
+    disable_success: Kesi imezimwa / imelemazwa Kikamilifi
+    enable_dialog: Kubonyeza sawa itabadilisha hali ya kesi hii kuwa Iliyowezeshwa
+    enable_dialog_title: Wezesha Kesi
+    enable_success: Kesi imewezeshwa kikamilifu
+    export: Kuuza nje
+    mark_for_offline:
+      title: Alama kwa Nje ya Mtandao
+      text: Je unahakika unataka kuzitumia Kesi hizi ukiwa huko kwenye mtandao
+      success: Kesi zimefanikiwa kuwekwa alama kwa matumizi bila ya mtandao
+    filter_by:
+      3month_inactivity: Kwa zaidi ya miezi 3
+      action_plan: 'Mpango wa utekelezaji '
+      age_0_5: 0 - 5
+      age_12_17: 12 - 17
+      age_18_more: 18 na zaidi
+      age_6_11: 6 - 11
+      age_range: Kiwango cha umri
+      agency: Wakala
+      approval_status: Hadhi ya Vibali
+      approvals:
+        approved: Imeidhinishwa
+        pending: Inasubiri
+        rejected: Imekataliwa
+      bia: B/A
+      by_date: Kwa Tarehe
+      case_open_date: Tarehe ya Kufungua Kesi
+      case_plan: Mpango wa Kesi
+      closed: Imefungwa
+      closure: Kufungwa
+      current_location: Eneo la Sasa
+      date: Tarehe
+      displacement_status: Hali ya Kuhamishwa
+      district: Wilaya
+      duplicate: Kurudia
+      enabled_disabled: Imewezeshwa / Imelemazwa
+      female: Kike
+      flag: Zimepigwa alama
+      flag_label: Zimetiwa alama?
+      gbv_closure: Kufungwa kwa Ukatili wa Kijinsia
+      high: Juu
+      low: Chini
+      male: Kiume
+      medium: Kati
+      mobile: Simu
+      mobile_label: Imetiwa alama kwenye simu?
+      my_cases: Kesi Zangu
+      no_action: Hakuna Hatua
+      no_activity: Hakuna Shughuli
+      open: Fungua / Wazi
+      other: Nyingine
+      photo: Picha
+      photo_label: Ina Picha?
+      protection_concerns: Wasiwasi wa Ulinzi
+      protection_status: Hali ya Ulinzi
+      record_state: Hali ya Rekodi / Kumbukumbu
+      referred_cases: Kesi zilizoletwa kwangu
+      registration_date: Tarehe ya Usajili
+      risk_level: Kiwango cha Hatari
+      sex: Jinsi / Ngono
+      social_worker: Eneo la Kesi / Mfanyakazi wa Kijamii
+      status: Hali
+      transferred: Kuhamishwa
+      type_of_risk: Aina ya Hatari
+      urgent_protection_concern: Wasiwasi wa Haraka wa Ulinzi
+      user_group: Kikundi cha / Kundi la Watumiaji
+      workflow: Kesi na Mtiririko wa Kazi
+    flag_summary: Muhtasari wa bendera
+    full_name: Jina kamili
+    gbv_closure: Kufungwa kwa Ukatili wa Kijinsia
+    hide_name: Ficha Jina
+    hide_name_error: Hitilafu ilitokea wakati wa kuhifadhi mabadiliko yako. Tafadhali jaribu tena
+    id: Nambari ya Kitambulisho
+    label: Kesi
+    my_filters: Vichujio Vyangu
+    name: Jina
+    notes_dialog_title: Ongeza Maelezo
+    notes_form_notes: Maelezo
+    notes_form_subject: Somo
+    ok: Sawa
+    order_by:
+      label: Agiza kwa
+      most_recently: Hivi Karibuni
+      name: Jina
+    owned_by: Mmiliki wa rekodi
+    owned_by_agency: Wakala wa Mmiliki wa Rekodi
+    photo: Picha
+    photos: Photo
+    quick_view:
+      tracing_message: 'Angalizo / Kumbuka: kuna  mtu kwenye mfumo anayelingana na muulizaji anayemtafuta mtoto huyu. Wasiliana na mfanyakazi wa jamii anyehusika na rekodi hii kwa hatua zaidi ikiwa mtot atapenda / anataka'
+    referral_done: 'Kubonyeza ''imemalizika'' inaashiria kuwa umekamilisha kazi ya rufaa inayohusishwa na kesi hii.  Mara tu utakapobonyeza ''umemaliza'' hutaweza tena kuipata rekodi hii '
+    referral_done_success: Rufaa imefanywa
+    referral_accepted_header: Kubali rufaa
+    referral_accepted: Una uhakika? Kuanzia sasa hivi wewe ndiye utakaewkuwa na wajibu wa kukamilisha kazi inayohusiana na rufaa hii
+    referral_accepted_success: Rufaa imekubalika
+    referral_rejected: 'Kwa kubonyeza ''Kataa'' unaashiria kuwa huko tayari kukubali jukumu la rufaa hii kwa wakati / muda huu. Tafadhali ingiza sababu ya kuikataa rufaa hii; mara tu baada ya kubonyeza ''Kataa'' hutaweza tena kuipata rekodi ya kesi hii '
+    referral_rejected_success: Rufaa imekataliwa
+    register_new_case: Kesi Mpya
+    registration_date: Tarehe ya usajili
+    rejected_success_action_plan: '%{approval_label}Haijaidhinishwa'
+    rejected_success_assessment: '%{approval_label}Haijaidhinishwa'
+    rejected_success_bia: '%{approval_label}Haijaidhinishwa'
+    rejected_success_case_plan: '%{approval_label}Haijaidhinishwa'
+    rejected_success_closure: '%{approval_label}Haijaidhinishwa'
+    rejected_success_gbv_closure: '%{approval_label}Haijaidhinishwa'
+    reopen_dialog: Kubonyeza Sawa itabadilisha hali ya kesi hii na Kuifungua
+    reopen_dialog_title: Fungua tena kesi
+    reopen_success: Kesi imefunguliwa tena kwa mafanikio
+    request_approval_failure: Hitilafu imetokea, tafadhali wasiliana na sehemu ya msaada
+    request_approval_select: 'Omba idhini ya '
+    request_approval_success_action_plan: '%{approval_label}Idhini iliyoombwa kwa fomu'
+    request_approval_success_assessment: Idhini iliyoombwa kwa fomu%{approval_label}
+    request_approval_success_case_plan: Idhini iliyoombwa kwa fomu%{approval_label}
+    request_approval_success_closure: Idhini iliyoombwa kwa %{approval_label}fomu
+    request_approval_success_gbv_closure: Idhini iliyoombwa kwa %{approval_label}fomu
+    request_approval_type_of_case_plan: Aina ya Idhini ya Mpango wa Kesi
+    request_approve_action_plan: Mpango wa Utekelezaji Uidhinishwe?
+    request_approve_bia: Tathmini iidhinishwe?
+    request_approve_case_plan: Mpango wa kesi uidhinishwe?
+    request_approve_closure: Kufungwa Kuidhinishwe?
+    request_approve_gbv_closure: Kuidhinishwe kufungwa kwa Ukatili wa Kijinsia?
+    revoke_failure: Hitilafu ilitokea wakati wa kubatilisha;%{transition_type} tafadhali wasiliana kwenye msaada
+    revoke_message: 'Kwa kubonyeza ''Batilisha'' utaondoa %{transition_type}uwezo wa mpokeaji kuifikia kesi hiyo '
+    revoke_success_message: Kesi %{case_id}%{transition_type}kwenda %{recipient_username}kufutwa
+    save_filter: Hifadhi
+    selected_all_records: 'Zichague kesi zote %{total_records}zinazoendana / zinazolingana na swali '
+    selected_records: '%{select_records}Kesi (zi)lizochaguliwa.'
+    sex: Jinsi / Ngono
+    show_case: 'Kitambulisho cha Kesi%{short_id}'
+    social_worker: Mfanyakazi wa Kijamii
+    status: Hali
+    summary:
+      label: Muhtasari
+      find_match: Tafuta Zinazolingana / Zinazofanana
+      matched_trace: 'Linganisha nambari%{trace_id}'
+      cannot_find_matches: Hakuna zinazolingana. Idhini haikupatikana kutoka kwa Kesi hii kufichua taarifa kwa lengo la ufuatiliaji
+      matched: Zinaendana / Zinafanana
+      fields:
+        consent_for_tracing:
+          label: Idhini imepatikana ya kufichua taarifa kwa lengo la ufuatiliaji
+          help_text: Ikiwa imeandikwa ''Hapana', rekodi ya kesi ya mtoto haitaonekana kwenye Kulinganisha na Ombi la Ufuatiliaji la Muulizaji
+        wishes_child_family_tracing:
+          label: Je, mtoto anataka kuwafuatilia wanafamilia?
+        wishes_reunification:
+          label: Je, mtoto anataka kuunganishwa tena na familia yake?
+          options:
+            yes_as_soon_as_possible: Ndio, haraka iwezekanavyo
+            yes_but_later: Ndio, lakini baadaye
+            not_sure: Sina hakika
+            'no': 'Hapana'
+        data_confidentiality_link:
+          label: Angalia taarifa/data / Usiri
+        child_wishes_link:
+          label: Angalia Matakwa ya Mtoto
+    survivor_code: Alama ya Manusura
+    transfer_accepted: Kwa kubonyeza 'Kubali' unakubali kuwajibika kwa kesi hii, ukibonyeza 'Kubali' utakuwa mmiliki wa rekodi kwenye mfumo
+    transfer_managed_user_accepted: Ikiwa unatabonyeza 'Kubali' %{transitioned_to}Utawajibika kwa kesi hii; mara tu untakapo bonyeza 'Kubali', %{transitioned_to}utakuwa mmiliki wa rekodi/taarifa katika mfumo huu.
+    transfer_managed_user_rejected: Kwa kubonyeza 'Kataa'  unamaanisha kuwa %{transitioned_to}huko tayari kukubali jukumu la kesi hii kwa wakati huu. Tafadhali ingiza sababu ya kuwa wewe unaikataa kesi hii;vmara tu utakapo bonye za 'Kataa' %{transitioned_to}hutaweza tena kuzifikia kumbukumbu/rekodi za Kesi hii.
+    transfer_accepted_rejected: Uhamisho wa kesi%{record_id} umekataliwa
+    transfer_accepted_success: Uhamisho wa kesi umekubaliwa kwa mafanikio
+    transfer_reject_reason_label: Sababu ya  Kukataliwa
+    transfer_rejected: Kwa kubonyeza 'Kataa' unaashirian kuwa huko tayari kukubali jukumu la kesi hii kwa wakati / muda huu.  Tafadhali ingiza sababu ya kukataa kesi hii; mara tu baada ya kubonyeza 'Kataa' hutaweza tena kuipata rekodi ya kesi hii.
+    view_name: Angalia Jina
+  change_logs:
+    filters:
+      form: Fomu
+      field: Uwanja
+    add_subform: 'Imeongezwa %{subform_name}nambari ya kuingia kwenye fomu ndogo%{short_id}'
+    changes_subform: 'Badili kuwa /%{subform_name}Form ndogo'
+    create: Rekodi iliyotengenezwa / iliyotayarishwa
+    deleted_subform: 'Nambari ya kuingiza fomu ndogo%{subform_name} iliyoondolewa%{short_id}'
+    label: Badilisha log
+    see_details: Angalia maelezo
+    change: 'Kutoka %{from_value}kwa%{to_value}'
+    updated_subform: 'Nambari ya kuingiza fomu ndogo%{subform_name} imeingizwa taarifa mpya%{short_id}'
+    update_subform: 'Fomu ndogo%{subform_name} iliyoongezwa taarifa mpya'
+    from: Kutoka
+    to: Kwa
+  children:
+    selectable_date_options:
+      assessment_requested_on: Tarehe ya Tathmini
+      closure_approved_date: 'Tarehe ya Kufungwa Kesi'
+      created_at: 'Tarehe ya Kufunguliwa Kesi '
+      date_case_plan_initiated: Tarehe ya Mpango wa Kesi
+      date_of_creation: Tarehe ya uundwaji / Uumbaji
+      registration_date: Tarehe ya Usajili
+  configurations:
+    apply_label: 'Mpangilio utatumika kwenye mfumo. Utapoteza mipangilio yako yote ya sasa na hutaweza kuipata tena isipokuwa tayeri umezihifadhi katika mpangilio mwengine '
+    apply_label_bold: Primero utakuwa haupatikani kwa watumiaji kwa dakika chache wakati mabadiliko yatakapokuwa  yanafanyika
+    version_mismatch_tooltip: Huwezi kuutumia mpangilio huu kwa vile ulitengenezwa kwa kutumia toleo la Primero kuliko hiyo ambayo mtandao wako unatumia.  Tafadhali usitumie mpangilio huu mpaka utakapotumia toleo jipya la Primero.
+    send_header: Imepelekwa katika sehemu ya Uzalishaji / Umetumwa kwa Uzalishaji
+    send_text: Una hakika? Ukibonyeza Tuma, utatuma mpangilio huu kwenye wavuti yako ya Uzalishaji. Mpangilio huu hautatumika kwenye uzalishaji mpaka msimamizi kwenye wavuti atumie mwenyewe
+    attributes:
+      created_by: 'Imetengenezwa na '
+      date_created: Tarehe Iliyotengenezwa
+      description: Maelezo
+      last_applied_by: Mwisho Ilitumika Na
+      last_applied_on: Mwisho Ilitumika Kwa
+      name: Jina
+      version: Toleo la Mpangilio
+      primero_version: Toleo la Primero
+    delete_label: Je, unauhakika unataka kufanya hivi? Hii inawakilisha mazingira yote kuanzia pale ambapo mpangilio huu ulipotengenezwa. Hutaweza tena kurudi nyuma na kurejesha mazingira haya mara tu utakapoifuta mpangilio huu
+    explanation: 'Kwa kubonyeza Hifadhi utatengeneza rekodi ya mpangilio wa mazingira yaliyopo sasa hivi (mfano: majukumu, mashirika, Fomu) kwa wakati huu. Baada ya kuhifadhi, unaweza kuyapeleka mabadiliko haya kwenda kwenye matukio mengine ya Primero. Ikiwa katika siku zijazo, utafanya mabadiliko ya mpangilio ambayo utapenda kuyaondoa, unaweza kutumia rekodi za mpangilio huu kuyarejesha mabadiliko yote ya mpangilio ambayo uliyafanya kwa wakati huu '
+    label: Mipangilio
+    label_new: 'Mpangilio Mpya '
+    messages:
+      applied: Mpangilio mpya ulitumika kwa mafanikio
+      created: Mpangilio utitengenezwa kwa mafanikio
+      deleted: Mpangilio ulifutwa kwa mafanikio
+      updated: Toleo jipya liliingizwa kwenye mpangilio kwa mafanikio
+      sent: Kuupeleka mpangilio kwenye uzalishaji. Tafadhali angalia tovuti ya uzalishaji kuona kwamba mpangilio wako umefika.
+    not_allowed: Hairuhusiwi
+    unavailable_server: Seva haipatikani kwa muda
+  contact:
+    field:
+      email: Baruapepe
+      location: Eneo
+      name: Jina
+      organization: Shirika
+      other_information: Taarifa / Habari nyingine
+      phone: Simu
+      position: Nafasi
+      primero_version: Toleo la Primero
+      support_forum: 'Jukwaa la Msaada '
+      system_version: 'Toleo la Mfumo '
+    info_label: Taarifa / Maelezo ya Mawasiliano
+    updated: Toleo jipya liliwekwa katika taarifa / maelezo ya mawasiliano kwa mafanikio
+  code_of_conduct:
+    field:
+      title: Kichwa cha maneno / habari
+      content: Maudhui
+      created_on: Imetengenezwa / Imeundwa kwenye
+      created_by: 'Imetengenezwa na '
+    info_label: Kanuni za Maadili
+    updated: Toleo jipya liliingizwa katika kanuni za maadili kwa mafanikio
+  dashboard:
+    activity: Shughuli
+    admin_only: Bonyeza%{links} ili kufanya mabadiliko kwenye programu
+    all_cases: Kesi Zote
+    all_services_implemented: Huduma Zote Zinazotekelezwa
+    and: 'na'
+    approval_action_plan_approved: Kuidhinishwa / Kupitishwa
+    approval_action_plan_pending: Inasubiri
+    approval_action_plan_pending_group: Mpango Kazi
+    approval_action_plan_rejected: 'Imekataliwa '
+    approval_assessment_approved: Imeidhinishwa / Imepitishwa
+    approval_assessment_pending: Inasubiri
+    approval_assessment_pending_group: Tathmini
+    approval_assessment_rejected: Imekataliwa
+    approval_case_plan_approved: Imethibitishwa / Imepitishwa
+    approval_case_plan_pending: Inasubiri
+    approval_case_plan_pending_group: 'Mpango wa Kesi '
+    approval_case_plan_rejected: Imekataliwa
+    approval_closure_approved: Imethibitishwa / Imepitishwa
+    approval_closure_pending: Inasubiri
+    approval_closure_pending_group: Kufungwa
+    approval_closure_rejected: Imekataliwa
+    approval_gbv_closure_approved: Imethibitishwa
+    approval_gbv_closure_pending: Inasubiri
+    approval_gbv_closure_pending_group: Kufungwa kwa Udhalilishaji wa Kijinsia
+    approval_gbv_closure_rejected: Imekataliwa
+    approvals: Vibali
+    approvals_action_plan: Mpango Kazi
+    approvals_assessment: Tathmini
+    approvals_case_plan: Mpango wa Kesi
+    approvals_closure: Kufungwa
+    approvals_gbv_closure: Kufungwa kwa Udhalilishaji wa Kijinsia
+    approved: Imethibitishwa / Imepitishwa
+    assessment: Tathmini
+    awaiting_acceptance: Wakisubiri Kukubalika
+    cases_by_social_worker_total: Jumla
+    cases_by_social_worker_new_or_updated: Mpya na imeingizwa / Imewekewa toleo jipya
+    case_id: 'Nambari ya Kitambulisho cha Kesi'
+    case_management_service: Huduma za Usimamizi wa Kesi
+    case_overview: Kesi Zangu
+    case_plan: Mpango wa Kesi
+    case_risk: Kesi kwa Kiwango cha Tathmini
+    case_stat_by_approval_type: Vibali
+    case_stat_by_assessment_level: Kesi kwa Kiwango cha Tathmini
+    case_stat_referrals: Rufaa
+    case_stats: Kesi
+    case_worker: Mfanyakazi wa Kesi
+    cases_by_social_worker: Kesi na mfanyakazi wa kijamii
+    cases_by_task_overdue: Kazi zilizochelewa
+    cases_by_workflow: Kesi Kwa Mtiririko wa Kazi
+    cases_this_week: Kesi za Wiki Hii
+    cases_to_assign: Kesi Za Kuwapa
+    closed: Imefungwa
+    closed_last_week: Imefungwa (wiki iliyopita)
+    closed_this_week: Imefungwa (wiki hii)
+    comprehensive_need_intervention: Majibu ya Kina
+    count_new_bia_approvals:
+      one: '%{stat} Mpya %{stat_type} Idhini'
+      other: '%{stat} Mpya %{stat_type} idhini'
+    count_new_case_plan_approvals:
+      one: '%{stat} Idhini Mpya%{stat_type} '
+      other: '%{stat} Vibali vipya%{stat_type} '
+    count_new_closure_approvals:
+      one: '%{stat} Vibali vipya%{stat_type} '
+      other: '%{stat} Vibali vipya%{stat_type} '
+    count_pending_approval_total:
+      one: Una %{stat} Inasubiri %{stat_type} Idhini
+      other: 'Una %{stat} Vinasubiri%{stat_type} Vibali '
+    count_pending_transfers:
+      one: Una%{stat}inasubiri uhamisho
+      other: Unazo %{stat}zinazosubiri uhamisho
+    count_records_new:
+      one: na %{stat}kesi mpya
+      other: na %{stat}kesi mpya
+    count_records_total:
+      one: una %{stat}jumla ya kesi
+      other: Una %{stat}jumla ya kesi
+    count_referrals_new:
+      one: na %{stat}rufaa mpya
+      other: na %{stat}rufaa mpya
+    count_referrals_total:
+      one: unayo %{stat} jumla rufaa
+      other: unazo %{stat} jumla ya rufaa
+    count_rejected_approval_total:
+      one: na %{stat} iliyokataliwa %{stat_type} Idhini
+      other: na %{stat} vilizokataliwa %{stat_type} vibali
+    count_rejected_transfers:
+      one: na %{stat} uhamisho uliokataliwa
+      other: na %{stat} uhamisho uliokataliwa
+    count_risk_level_new:
+      one: na %{stat} mpya %{stat_type} kesi hatarishi
+      other: na %{stat} mpya %{stat_type} kesi hatarishi
+    count_risk_level_total:
+      one: unayo %{stat} %{stat_type} kesi ya hatari
+      other: unazo %{stat} %{stat_type} kesi za hatari
+    count_waiting_for_acceptance_transfers: Unao%{stat}Uhamisho unaosubiri kukubalika kwako
+    current_owner: Mmiliki wa sasa hivi
+    dash_case_incident_overview: Kesi zangu
+    dash_group_overview: Kesi za kundi langu
+    dash_shared_from_my_team: Imeshirikishwa kutoka kwenye timu yangu
+    dash_shared_with_me: Imeshirikishwa nami
+    dash_shared_with_my_team: Iliyoshirikishwa na timu yangu
+    dash_shared_with_my_team_overview: Shirikisha Timu yangu (Muhtasari)
+    dash_shared_with_others: 'Imeshirikishwa na wengine '
+    dash_national_admin_summary: Muhtasari wa Msimamizi
+    date: Tarehe
+    date_of_incident: Tarehe ya tukio
+    date_of_interview: Tarehe ya usaili
+    due: Imechelewa
+    flagged: Iliyotiwa Alama
+    flagged_by: 'Imeripotiwa na '
+    flagged_by_me: Iliyotiwa Alama na mimi
+    flagged_by_other: Imeripotiwa Na Mtu Mwingine
+    flagged_cases: Kesi zilizoripotiwa
+    follow_up: Fuatilia
+    forms: Kichupo cha FOMU
+    geographic_area: Eneo la Kijiografia
+    group_overview_closed: Imefungwa
+    group_overview_open: Fungua / Iko wazi
+    high_level: Juu
+    high_risk: Kipaumbele cha Juu
+    immediate_response: Majibu ya papo hapo
+    in_progress: Inaendelea
+    incident_id: 'Nambari ya Kitambulisho cha Tukio'
+    incident_location: Eneo la Tukio
+    incident_status_open: Fungua / Iko wazi
+    last_updated: Iliingizwa Toleo Jipya Mwisho
+    link_see_all: Ona yote / Angalia zote
+    low_level: Chini
+    low_risk: Kipaumbele cha Chini
+    manager_count_closed_total:
+      one: na %{stat} kesi iliyofungwa
+      other: na %{stat} kesi zilizofungwa
+    manager_count_open_total:
+      one: anayo %{stat} kesi inayoendelea
+      other: unazo %{stat} kesi zinazoendelea
+    manager_transfers_totals:
+      one: unayo %{stat} %{stat_type} ya Uhamisho
+      other: unayo %{stat} %{stat_type} za Uhamisho
+    match_result: Matokeo Yanayolingana
+    medium_level: Kati
+    medium_risk: Kipaumbele cha Kati
+    missed_cases: Kesi zilizokosekana
+    name: Jina
+    name_or_survivor_code: Jina au msimbo wa aliyenusurika
+    near_deadline: Karibu na tarehe ya mwisho
+    new: Mpya na Iliyoingizwa Toleo Jipya
+    new_child_assigned_to_you: Kesi Mpya Ulizokabidhiwa
+    new_incident: Matukio Mepya
+    new_incident_assigned_to_you: Matukio Mepya Yaliyotolewa
+    new_last_week: Mpya (Wiki Iliyopita)
+    new_or_updated: Mpya au Imeingizwa Toleo Jipya
+    new_referred: Rufaa Mpya
+    new_service_provision: Masharti Mapya ya Huduma
+    new_this_week: Mpya (wiki hii)
+    no_action_risk: Hakuna Hatua
+    no_case_stats: Hakuna Takwikmu za Kesi
+    no_caseworker_data: Hakuna Taarifa / Data ya Mfanyakazi wa Kesi
+    no_flagged_child: Hakuna Kesi iliyoripotiwa
+    no_flagged_incident: Hakuna Matukio Yaliyoripotiwa
+    no_open_incidents: Hakuna Matukio ya Wazi
+    no_overdue_activities: Hakuna Shughuli zilizocheleweshwa
+    no_recent_activities: Hakuna Shughuli za Hivi Karibuni
+    no_scheduled_activities: 'Hakuna Shughuli Zilizopangwa '
+    none_risk: Hakuna Kipaumbele
+    number_of_victims: Idadi ya waathirika
+    number_of_violations: Idadi ya Ukiukwaji
+    number_of_violations_verified: Ukiukaji umethibitishwa
+    open: Wazi
+    open_cases: 'Fungua Kesi / Kesi zilizokowazi '
+    open_incidents: 'Matukio Ya Wazi '
+    outstanding_transfers: Uhamisho ambao Haujakamilika
+    overdue_activities: Kazi Zilizocheleweshwa
+    overdue_cases_to_assign: Kesi Zilizochelewa Kukabidhiwa
+    overdue_cases_to_assign_high: Umekuwa nazo kesi hizi kwa zaidi ya saa 1
+    overdue_cases_to_assign_low: Umekuwa nazo kesi hizi kwa zaidi ya saa tatu
+    overview: Muhtasari
+    pending: Inasubiri
+    pending_approvals: 'IUhamisho Unaosubiri '
+    pending_transfers: Kazi Zilizochelewa Kukabidhiwa
+    protection_concern: Wasiwasi wa Ulinzi
+    protection_concerns: Wasiwasi wa Ulinzi
+    range12+: Zaidi ya 12
+    range4: 0-4
+    range4_8: 4-8
+    range8_12: 8-12
+    recent_activities: Shughuli za Hivi Karibuni
+    recently_flagged_child: Kesi Zilizoripotiwa Hivi Karibuni
+    recently_flagged_incident: Matukio Yaliyoripotiwa Hivi Karibuni
+    referrals_by_social_worker: Rufaa kutoka kwa mfanyakazi wa kijamii
+    registration: Usajili
+    rejected: Kukataliwa
+    rejected_transfers: Uhamisho Uliokataliwa
+    response: Majibu (Yanaendelea)
+    scheduled_activities: Shughuli Zilizopangwa
+    score_range: Alama Mbalmbali
+    screening_service: Huduma za Uchunguzi
+    services: 'Huduma '
+    services_implemented: Huduma Zinazotekelezwa
+    shared_from_my_team_pending_transfers: Uhamisho Unaosubiri
+    shared_from_my_team_referrals: Rufaa
+    shared_from_my_team_rejected_transfers: Uhamisho Uliokataliwa
+    shared_with_me_new_referrals: Rufaa Mpya
+    shared_with_me_total_referrals: Jumla ya Rufaa
+    shared_with_me_transfers_awaiting_acceptance: Uhamisho Unaosubiri Kukubalika
+    shared_with_my_team_pending_transfers_overview: Uhamisho unaosubiri kukubalika
+    shared_with_my_team_pending_transfers: Uhamisho Unaosubiri
+    shared_with_my_team_referrals: Rufaa
+    shared_with_others_pending_transfers: Uhamisho Unaosubiri
+    shared_with_others_referrals: Rufaa
+    shared_with_others_rejected_transfers: Uhamisho Uliokataliwa
+    status_of_cases: 'Hali ya Kesi '
+    system_user: Mfumo
+    total: 'Jumla '
+    total_cases: Jumla ya Kesi
+    total_referred: Jumla ya Rufaa
+    tr_stats: 'Kufuatilia Maombi '
+    transers_awaiting_acceptance: Uhamisho Unaosubiri Kukubaliwa
+    transfers_by_social_worker: Uhamisho na Mfanyakazi wa Kijamii
+    users: Ikoni ya Mazingira / Mipangilio
+    violence_type: Aina ya Vurugu
+    with_incidents: 'Na Matukio '
+    with_new_incidents: Na Matukio Mapya
+    without_incidents: Bila ya Matukio
+    worker_count_referrals_total:
+      one: '%{case_worker} unayo %{stat} jumla ya rufaa'
+      other: '%{case_worker} inazo %{stat} jumla ya rufaa'
+    worker_count_total:
+      one: '%{case_worker} unayo %{stat} jumla ya kesi'
+      other: '%{case_worker} unzo %{stat} jumla ya kesi'
+    workflow: Mtiririko wa Kazi
+    workflow_team: Mtririko wa Kazi - Kesi za Timu
+    you_have: 'Unayo'
+  disabled:
+    status:
+      disabled: Walemavu
+      enabled: 'Kuwezeshwa '
+  email_notification:
+    assign: '%{user}Amekabidhi yafuatao %{record_type}kwako%{record_id}'
+    assign_subject: '%{record_type}%{id}Umekabidhiwa wewe'
+    approval_request: 'Mtumiaji%{user} anaomba idhini kwa%{approval_type} kesi %{case_id}'
+    approval_request_subject: 'Kesi: %{id}Ombi la Idhini '
+    approval_response: '%{user}Ina%{status} ombi la kupitishwa %{approval_type}kwa kesi %{case_id}'
+    approval_response_subject: 'Kesi: %{id}Jibu la Idhini '
+    referral: '%{user} kutoka %{agency}ameleta wafuatao %{record_type}kwako. %{record_id}kwa %{service_type}'
+    transfer: '%{user}amewahamisha wafuatayo%{record_type} kuja kwako%{record_id}'
+    transfer_request_subject: 'Ombi la Uhamisho kwa moja ya kesi zako '
+    transfer_subject: '%{record_type}%{id}- Uhamisho'
+    referral_subject: '%{record_type}%{id}Rufaa'
+    transfer_request: '%{user}Mtumiaji wa Primero kutoka %{agency}anakuomba uhamishe umili wako %{record_type}wa rekodi %{record_id}ili waweze kukupa %{record_type}huduma za usimamizi kwa mtu binafsi katika maeneo yao. Ikiwa uhamisho huu unakubalika kwako, tafadhali bonyeza %{record_type}kwenye kiungo cha kitambulisho katika barua pepe hii kufungua %{record_type}Primero na uanzishe uhamisho.'
+    approval_request_html: 'Mtumiaji <strong>%{user}</strong>anaomba ruhusa kwa <strong>%{approval_type}</strong>kuhusu kesi <strong>%{case_id}</strong>'
+    approval_response_html: '<strong>%{user}</strong>anayo <strong>%{status}</strong> ombi la kuidhinishwa kwa <strong>%{approval_type}</strong>kesi <strong>%{case_id}</strong>'
+    referral_html: '<strong>%{user}</strong>kutoka%{agency}amewaleta wafuatao %{record_type}kuja kwako<strong>%{record_id}</strong>kwa %{service_type}'
+    transfer_html: '<strong>%{user}</strong>amewahamisha wafuatao %{record_type}kuja kwako <strong>%{record_id}</strong>'
+    assign_html: '<strong>%{user}</strong>amewakabidhi wafuatao %{record_type}kuja kwako<strong>%{record_id}</strong>'
+    transfer_request_html: 'Mtumiaji wa Primero <strong>%{user}</strong>kutoka %{agency}anakuomba uhahishe umiliki wa hii %{record_type}rekodi<strong>%{record_id}</strong>ili waweze kutoa %{record_type}huduma za usimamizi kwa watu binafsi katika maeneo yao . Ikiwa utaukubali uhamisho huu bonyeza %{record_type}Kiungo cha Kitambulisho katika baruapepe hii ya kufungulia %{record_type}katika Primero uanzishe uhamisho.'
+    transfer_request_notes_html: 'Maelezo kutoka kwa mtu binafsi anayeomba %{request_transfer_notes}'
+  encrypt:
+    export_type: Aina ya usafirishaji
+    file_name: Tengeneza jina la faili lako (hiari)
+    password_extra_info: Nenosiri liwe na angalau herufi 8. Nenosiri hili litahusishwa na faili na litabidi kuingizwa na mtu yeyote yule atakayefungua faili hili katika siku za usoni
+    password_label: Tafadhali ingiza nenosiri litakalokomea faili lako
+  error_message:
+    address_fields: Unahitaji kushughulikia%{fields} maeneo katika %{forms}fomu
+    address_form_fields: Unahitaji kushughulikia%{fields} maeneo katika fomu hii
+    address_subform_fields: '%{subform}Ina %{fields}maeneo batili'
+  error_page:
+    not_authorized:
+      server_error: Hujaidhinishwa kufikia ukurasa huu
+      title: Haijaidhinishwa
+    not_found:
+      contact_admin: Ikiwa unaamini uko hapa kimakosa, tafadhali wasiliana na msimamizi wako
+      something_went_wrong: Samahani, kunakitu kilikosewa/kilienda vibaya!
+  errors:
+    error_loading: Hitilafu ya Upakiaji rekodi (moja au zaidi)
+    models:
+      agency:
+        code_present: Lasima Isiwe tupu
+        logo_format: Faili linatakiwa kuwa la png
+        terms_of_use_format: Faili linatakiwa kuwa la png
+        name_present: Lasima Isiwe tupu
+      child:
+        age: Umri ni lazima uwe kati ya 0 mpaka 130
+        date_of_birth: Tafadhali ingiza tarehe halali ya kuzaliwa kwaajili ya suala hili
+      export_configuration:
+        opt_out_field_does_not_exist: Bainisha sehemu ya kuchagua kutoka haipo kwenye rekodi hii
+        record_type: Aina batili ya rekodi. Lazima awe mtoto, Ombi la kufuatilia, au Tukio
+      field:
+        translated_options_do_not_match: Chaguo la Sehemu zilizotafsiriwa lazima ziwe na utambulisho sawa
+      location:
+        admin_level_present: Lasima Isiwe tupu
+        code_present: Lasima Isiwe tupu
+        name_present: Lasima Isiwe tupu
+        unique_location_code: Eneo lenye utambulisho huu tayari lipo, tafadhali ingiza utambulisho mwengine wa eneo.
+      lookup:
+        being_used: Sehemu hii inatumika kwa sasa na haiwezi kufutwa
+        name_present: Jina lazima liandikwe/lijazwe
+        values_ids_blank: Utambulisho unaoangalia haujajazwa
+      primero_module:
+        associated_record_types: Angalau aina moja ya rekodi lazima ihusishwe na moduli hii
+        form_section_ids: Angalau fomu moja ihusishwe na moduli hii
+        name_present: Jina lazima liandikwe/lijazwe
+        unique_name: Moduli yenye jina hilo tayari ipo, tafadhali ingiza jina jingine tofauti
+      report:
+        module_presence: Moduli lazima iandikwe / ijazwe
+        module_syntax: Moduli zote za ripoti lazima ziwe tayari
+        name_presence: Jina lazima liandikwe/lijazwe
+      role:
+        permission_presence: Tafadhali chagua angalau ruhusa moja
+      user:
+        email: "Tafadhali ingiza baruapepe (mfano: 'name@example.org')"
+        password_mismatch: Sehemu ya neno siri haina nenosiri sawa
+        password_length: Nenosiri liwe na angalau %{min}herufi
+        email_uniqueness: Mtumiaji mwenye anuani ya barua pepe hii tayari yupo. Tafadhali ingiza anuani tofauti
+      code_of_conduct:
+        title_present: Kichwa cha maneno / habari lazima kiandikwe / kijazwe
+        content_present: Maudhui lazima yaandikwe
+        created_by_present: Aliyetengeneza lazima aandikwe
+    not_found: Hakuna Rekodi (I ) Zilizoonekana
+    try_again: Jaribu tena
+  exports:
+    case_pdf:
+      all: PDF
+      one: PDF
+      selected: Iliyochaguliwa kwenye PDF
+    csv:
+      all: CSV
+      one: CSV
+      selected: Iliyochaguliwa kwenye CSV
+    custom:
+      all: Desturi
+    custom_exports:
+      all: Desturi
+      choose_fields: Je, ungependa kuchagua nyanja za kibinafsi kwenye fomu?
+      empty_fields_forms: 'Tafadhali chagua baadhi ya fomu au sehemu za kusafirisha '
+      empty_format: 'Tafadhali chagua muundo wa usafirishaji '
+      empty_module: 'Tafadhali chagua ya kusafirisha '
+      empty_password: Tafadhali ingiza neosiri ambalo lita encrypt faili lako
+      field_label: Uwanja / Eneo
+      fields: Chagua Sehemu za kuhamisha
+      form_label: Fomu
+      format_label: Chagua Mfumo
+      forms: ChaguabFomu za kusafirisha
+      label: 'Mauzo Maalum ya Nje '
+      module_placeholder: 'Tafadhali chagua moduli '
+      select_module: 'Chagua Moduli '
+      submit: 'Sawa '
+      header: Kichwa
+      custom_header: 'Kichwa Maalum '
+      signatures: 'Ingiza Mistari ya Kuweka Saini '
+      include_implementation_logos: Weka nembo za utekelezaji
+      include_implementation_logos_help_text: Hii itakuwa ni pamoja na nembo ya urambazaji na au ukurasa wa kuingia
+      include_agency_logo: Weka nembo ya shirika
+      include_other_logos: Ni pamoja na nembo nyingine?
+    duplicate_id_csv:
+      all: Rudufu ya Vitambulisho
+      female_abbreviation: F /Mke
+      headers:
+        age: Umri
+        case_id: Kitambulisho cha Kesi
+        child_name_last_first: Jina la Mtoto
+        family_size: Ukubwa wa Familia
+        moha_id: KITAMBULISHO CHA MOHA KIMESHUKA THAMANI
+        national_id_no: Nambari ya Kitambulisho cha Taifa
+        progress_id: Kitambulisho cha Maendeleo
+        sex_mapping_m_f_u: Jinsia
+        other_agency_id: Utambulisho wa Hospitali na nambari ya mgonjwa
+      male_abbreviation: M / Mume
+      unknown_abbreviation: U
+    exported: Faili la usafirishaji limetengenezwa kwa mafanikio
+    exported_error: Hitilafu imetokea wakati wa kutengeneza faili la usafirishaji
+    forms:
+      button: Fomu za Usafirishaji
+      label: Kusafirisha nje
+      header:
+        form_group: Kuunda Kikundi
+        form_name: Jina la Fomu
+        field_id: Sehemu ya Utambulisho
+        field_type: Aina ya Eneo
+        field_name: Sehemu ya Jina
+        required: Inahitajika / Muhimu
+        on_mobile: Kwenye simu
+        on_short_form: Kwa kifupi
+        option_ids: Chaguo la Kitambulisho
+        options: Chaguo
+        options_lookup: Tafuta / Taza juu
+        help_text: Msaada wa Kimaandishi
+        guiding_questions: Maswali ya muongozo
+        visible: Inayoonekana
+        lookup_id: Tafuta Kitambulisho
+        lookup_name: Tafuta Jina
+        option_id: Chaguo la Kitambulisho
+        option_name: Jina la Chaguo
+      options:
+        location: Maeneo
+        agency: Mashirika
+        user: Watumiaji
+        reportinglocation: Eneo la Kuripoti / Eneo la kutoa Taarifa
+        subforms: 'Fomu ndogo%{subform_name}'
+        collapsed_fields: 'Maeneo yaliyochanganywa %{fields}'
+        country: Nchi
+      summary_header:
+        form_group: Kikundi cha form ya Primerou
+        form: Fomu za Primero
+        status: Hali
+        notes: Maelezo
+    go_to_exports: Nenda kwenye Ukurasa wa Usafirishaji ili upakue
+    incident_recorder_xls:
+      all: Kifaa chenye Kurekodi Matukio
+      one: Kifaa chenye Kurekodi Matukio
+      selected: Kuchaguliwa kwa Kinasa Sauti
+    json:
+      all: JSON
+      one: JSON
+      selected: Imechaguliwa kwenye JSON
+    list_view_csv:
+      all: Muonekano wa Orodha ya Kusafirishwa
+      selected: Imechaguliwa kwenye CSV
+    messages:
+      no_exporter: Hakuna Msafirishaji Aliyebainishwa
+    mrm_violation_xls:
+      all: Ukiukwaji wa MRM
+      one: Ukiukwaji wa MRM
+      selected: Kuchaguliwa kwa Ukiukaji wa MRM
+    no_records: Hakuna rekodi / Kumbukumbu Zinazopatikana
+    pdf:
+      all: PDF (Halijakomewa)
+      one: PDF
+      selected: Imechaguliwa kwenye PDF
+    pdf_exports:
+      label: PDF
+      recipient: Mpokeaji
+      case_worker: Mfanyakazi wa Kesi
+      client: Mteja
+      date: Tarehe
+      recipient_name: Jina la Mpokeaji
+      recipient_agency: Wakala wa Mpokeaji
+      caseworker_name: Jina la Mfanyakazi
+      caseworker_agency: Wakala wa Mfanyakazi wa Kesi
+    photowall:
+      all: Ukuta wa Picha
+      flag_suspect_record: Iliyotiwa alama kama Rekodi ya Mtuhumiwa
+      no_photos_available: Hakuna picha zinazopatikana
+      one: Ukuta wa Picha
+      reunited: Kuunganishwa tena
+      selected: Imechaguliwa kwenye Ukuta wa Picha
+      success_message: Kutengeneza Ukuta wa Picha %{file_name}Kesi ambazo hazina picha hazitajumuishwa
+    printed: 'Iliyochapishwa: %{date}'
+    queueing: Kutengeneza faili la usafirishaji%{file_name}
+    selected_xls:
+      all: 'Bora '
+      one: Bora
+      selected: Kuchaguliwa kwa Ubora
+      selected_fields: Sehemu Zilizochaguliwa
+    unhcr_csv:
+      all: 'Shirika la Umoja wa Mataifa la '
+      female_abbreviation: Mwanamke
+      headers:
+        age: Umri
+        case_status: Hali ya Kesi
+        causes_of_separation: 'Sababu za Kutengana '
+        country_of_origin: Nchi ya Asili
+        cpims_code: Alama ya CPMS
+        current_care_arrangement: Mpangilio wa Kesi ya Sasa
+        date_of_birth: Tarehe ya Kuzaliwa
+        date_of_identification: Tarehe ya Kitambulisho
+        family_count_no: Nambari ya Mahakama ya Familia
+        governorate_country: Nchi ya Ugavana
+        id: Utambulisho
+        individual_progress_id: Kitambulisho cha Maendeleo ya Mtu Binafsi
+        locations_by_level: Anuani (Kambi, Nyumba na viwango vingine vya anuani vinavyotumika, kama vile makazi na viratibu vya GPS)
+        long_id: 'Kitambulisho Kirefu '
+        moha_id: Kitambulisho cha MOHA
+        name_of_caregiver: Jina kamili la mlezi
+        name_of_child_last_first: Jina kamili la mtoto
+        primary_protection_concerns: Masuala ya Msingi ya Ulinzi
+        progres_id: 'Kitambulisho cha Maendeleo '
+        reunification_status: Hali ya Kuunganishwa tena
+        secondary_protection_concerns: Masuala ya Ulinzi wa Pili
+        sex: Jinsia
+        sex_mapping_m_f_u: Jinsi
+        short_id: Kitambulisho Kifupi
+        vulnerability_code: Alama ya Mazingira Magumu
+        vulnerability_details_code: Alama ya Maelezo ya Mazingira Magumu
+      male_abbreviation: Mwanamme
+      one: Shirika la Umoja wa Mataifa la Wakimbizi
+      selected: Imechaguliwa nkwenye Shirika la Umoja wa Mataifa la Wakimbizi
+      unknown_abbreviation: U
+    xlsx:
+      all: Bora
+      one: Bora
+      selected: Imechaguliwa kwenye Ubora
+  imports:
+    csv_hxl_location:
+      messages:
+        success: Maeneo yaliletwa kwa ufanisi
+        no_data: 'Uagizaji Haujafanyika. Hakuna Taarifa / Data Iliyopitishwa  '
+        csv_parse_error: 'Uagizaji Haujafanyika. Hitilafu katika Kuchanganua Taarifa / Data ya CSV'
+        error: 'Safu %{row_number} Haijachakatwa%{message}'
+        db_error: 'Kutengeneza Hitilafu%{location_code}%{message}'
+        locale_invalid: 'Kuruka. %{column_name} Eneo batili'
+        insert_all_error: 'Kuagiza Hakujafanyika.  Hitilafu ya Kanzidata%{message}'
+    csv_record:
+      messages:
+        success: Rekodi /kumbukumbu ziliingizwa kwa ufanisi
+        no_data: 'Uagizaji haujashughulikiwa. Hakuna data /taarifa iliyopitishwa'
+        no_file: 'Uagizaji Haujashughulikiwa. Faili halipo '
+        csv_parse_error: 'Uagizaji Haujashughulikiwa. Hitilafu katika kuchanganua taarifa /data ya CSV '
+        error: 'Safu %{row_number}Haijashughulikiwa %{message}'
+        db_error: 'Hitilafu katika kuunda /kutengeneza %{location_code} : %{message}'
+        locale_invalid: 'Kuruka  %{column_name} : Eneo ni batili'
+        insert_all_error: 'Uagizaji Haujashughulikiwa. Hitilafu ya kanzidata: %{message}'
+  sync_record:
+    failed: 'Usawazishaji wa Mwisho Haukufanikiwa'
+    last: 'Usawazishajio wa Mwisho%{date_time}'
+    not_found: 'Data / Taarifa za Uwezeshaji wa Mwisho Hazikuonekana / Hazijapatikana '
+    retrieving: Kurejesha Data / Taarifa
+    see_details: Angalia  / Tazama Maelezo
+  fields:
+    action: Kitendo / Hatua
+    actions: Vitendo / Hatua
+    add: Ongeza / Jumlisha
+    add_new_field: Tengeneza Eneo / Sehemu / Uwanja Mpya
+    add_existing_field: Ongeza Eneo / Sehemu Iliyopo
+    add_field: Ongeza Sehemu / Uwanja
+    add_field_type: Ongeza %{file_type}
+    audio:
+      current: Sauti ya Sasa
+    audio_upload_box: Upakiaji wa Sauti
+    bia_document: Hati ya BIIA
+    bid_document: Hati ya BID
+    check_box: Angalia Masanduku  / Masnduku ya Kuangalia
+    clear_group_by: Weka Wazi  / Kisafishe Kikundi Na
+    clear_sort_by: Kupanga kwa Uwazi kwa
+    copy_from_another_form: Uwanja huu ulinakiliwa kutoka kwenye fomu nyingine
+    create_field: Tengeneza Sehemu / Eneo / Uwanja
+    create_unique_values: Tengeneza / Unda maadili ya Kipekee
+    date_field: Sehemu ya Tarehe
+    date_help: siku-mwezi-mwaka
+    date_help_with_time: siku-mwezi-mwaka /saa.dakika
+    date_not_valid: Tarehe hii si halali
+    time: Muda
+    date_range:
+      date: Tarehe
+      date_range: Safu ya Tarehe
+      from: Kutoka / Kuanzia
+      to: Kwa /  Mpaka
+      view_by: Tazama Kwa /Angalia Kwa
+    date_range_field: Safu ya Tarehe
+    date_time: Tarehe-Saa
+    db_name: Jina la Kihifadhidata
+    default: Chaguo-msingi?
+    default_date_validation: Uthibitishaji wa tarehe chaguo-msingi
+    default_to_current_date: Chaguo-msingi kwa Tarehe ya sasa?
+    default_to_current_datetime: Chaguo-msingi kwa tarehe na wakati wa sasa?
+    default_value: Thamani Chaguo-msingi
+    deleted: Eneo%{display_name} lmefutwa
+    detail: Undani
+    disabled: Walemavu
+    display_name: Onyesha jina
+    document:
+      comments: Maoni
+      current: Je, hii ndio hati ya sasa?
+      date: Tarehe ya Hati
+      name: Jina la Hati
+      is_current: Je, hii ndio hati ya sasa?
+    document_upload_box: Upakiaji wa Hati
+    edit_label: Hariri Uga / Eneo
+    enabled: Imewezeshwa?
+    enabled_label: Kuwezeshwa
+    english_text: Maandishi ya Kiingereza
+    field_name: Jina la Eneo / Uwanja
+    field_type: Aina ya eneo / Uwanja
+    attachment_too_large: Ukubwa wa faili usizidi 10mb
+    file_upload_box:
+      add_document_label: Ongeza Hati
+      add_new_document_button_text: Ongeza hati nyingine
+      add_new_photo_button_text: Ongeza picha nyingine
+      add_photo_label: Ongeza Picha
+      document_description: Maelezo ya Hati
+      document_file_restrictions_message: Ukubwa wa faili usizidi 2MB (faili inayoweza kutekelezwa (exe) haiwezi kupakiwa).
+      no_file_selected: Hakuna faili lililochaguliwa
+      photo_file_restrictions_message: 'Ukubwa wa picha usizidi 10mb. Ukubwa wa faili za sauti usizidi 10mb. Kila inapokuwa ndogo ndio vizuri zaidi '
+      recorded_audio_label: Sauti iliyorekodiwa
+      select_file_button_text: Chagua Faili
+    find_lookup: Tafuta Tafuta
+    form_name: Jina la Fomu.
+    future_date_not_valid: Haiwezikuwa siku zijazo
+    guidance: Muongozo
+    guiding_questions: Maswali ya Muongozo
+    help_text: Maandishi ya Msaada
+    hide_on_view_page: Onyesha ukurasa
+    label: Eneo / Viwanja /Nyanja
+    mobile_visible: Programu ya simu
+    move_to: Hamia / Sogeza
+    multi_select: Inaweza kuchagua chaguzi nyingi
+    multi_select_box: Uteuzi mbalimbali
+    must_be_english: Ni lazima iingizwe kwa Kiingereza
+    name: Jina
+    not_future_date: Si tarehe ya siku zijazo
+    number_not_valid: Tafadhali ingiza data ya nambari
+    numeric_field: Eneo la kuweka Nambari
+    on_collapsed_subform: Katika fomu ndogo iliyofupishwa
+    option_strings_add_option: Ongeza Chaguo
+    option_strings_source: Tafuta / Tazama juu
+    option_strings_text: Chaguo
+    option_strings_text_display: Maandishi ya Chaguo
+    option_strings_text_key: Ufunguo wa Chaguo
+    options_indications_lookup_values: Unaweza kutumia utafutaji uliofafanuliwa kabla au kuunda maadili ya kipekee
+    options_indications_restrictions: 'Huwezi kufanya vyote viwili '
+    options_or_lookup_warning: Tafadhali ongeza Chaguzi au chagua Tafuta / Tazama juu. Usiingize yote mmawili
+    other_documents: Hati Nyingine
+    photo_upload_box: Kupakia Picha
+    predifined_lookups: Tumia utafutaji ulioainishwa awali
+    radio_button: Kitufe cha Redio
+    remove: Ondoa
+    remove_attachment_confirmation: Je, unahakika unataka kukiondoa kiambatisho hiki?
+    required: Inahitajika
+    required_field: '%{field}Inahitajika '
+    search_existing: Tafuta eneo lililopo / Tafuta Uwanja uliopo
+    select_box: Chagua Chakuangusha Chini
+    select_date_validation: Chagua Njia ya Kuhalalisha tarehe
+    select_multiple: Chagua yote yanayotumumika
+    select_single: (Chagua...)
+    separator: Mgawanyiko
+    show: Onyesha?
+    show_on: Onyesha
+    show_on_minify_form: Fomu fuoi/ Kwa ufupi
+    subform: Fomu ndodo
+    subform_group_by: Kundi kwa / Kusanya kwa
+    subform_remove_message: Je, una hakika unatakaa kuiondoa fomu hii ndogo?
+    subform_section:
+      description: Maelezo ya fomu ndogo
+      name: Mada Ndogo  Kichwa cha habari cha fomu ndogo
+      starts_with_one_entry: Tuanze kwa kuingiza fomu ndogo moja?
+      subform_append_only: Ulandanishi/ Uoanishaji  Uliochaguliwa kwenye Simu ya Mkononi
+      subform_prevent_item_removal: Zuiya kuondolewa kwa kuingizwa kwa fomu ndogo?
+    subform_sort_by: Panga kwa
+    successfully_added: Eneo limefanikiwa kuongezwa
+    tally_field: Eneo / Uwanja wa Hesabu
+    tally_items: Vitu vinavyooana / vinavyolingana
+    tally_items_maximum: (5 Kiwango cha juu)
+    text_area: Eneo la Maandishi
+    text_field: Eneo / Uwanja wa Maandishi
+    textarea: Eneo la Maandishi
+    tick_box: Kisanduku cha Kuweka Alama
+    tick_box_label: Lebo ya Kisanduku cha Kuweka Alama
+    translation_text: Maandishi ya Tafsiri
+    total: Jumla
+    type: Aina / Chapa
+    updated: 'Eneo llimewekwa toleo jipya  '
+    visibility: Kuonekana
+    web_app: Programu ya Tovuti
+  filters:
+    apply_filters: Omba
+    clear_filters: Wazi
+    less: Kidogo
+    more: Zaidi
+    save_filters: 'Hifadhi '
+  flags:
+    add_flag_tab: Ongeza Bendera Mpya
+    date: 'Tarehe'
+    flag_added: Bendera imeongezwa kwa mafanikio
+    flag_date: Tarehe ya Bendera
+    flag_reason: 'Sababu ya Bendera '
+    flag_reason_maximun_label: Zisizidi herufi 255
+    flag_resolved: Bendera Kutatuliwa
+    flags_tab: Bendera
+    no_flags: Hakuna bendera zilizoonekana
+    resolve_button: Kutatua
+    resolve_flag: Kutatua Bendera
+    resolve_reason: Kutatua Sababu
+    resolved: Bendera Zilizotatuliwa
+    resolved_date: 'Imetatuliwa'
+    resolved_reason: 'Kutatua Sababu'
+    title: Bendera
+  followup_reminders:
+    system_generated_followup_flag: 'Ziara ya lazima ya ufuatiliaji '
+  form_section:
+    form_name: Jina la Fomu
+    module: Moduli
+    name: 'Jina '
+    record_type: Aina ya rekodi
+    required_field: '%{field}Inahitajika'
+  forms:
+    add: Ongeza Fomu
+    description: 'Maelezo ya Fomu '
+    fields: Maeneo
+    form_description: Maelezo
+    form_group: Unda Kikundi
+    form_title: Kichwa cha habari cha fomu
+    help_text:
+      must_be_english: 'Lazima iingizwe / iandikwe kwa Kiingereza '
+      related_groups: Iweke fomu katika kikundi kinachohusiana na watumiaji
+      summariaze_purpose: Muhtasari wa madhumuni ya fomu. Lazima uingizwe / uandikwe kwa Kiingereza
+    invalid_characters_field: '%{field}Ina herufi batili'
+    label: Fomu
+    manage: Kusimamia
+    messages:
+      created: Sehemu ya fomu imetengenezwa kwa mafanikio
+      fields_with_same_name: Fomu haziwezi kuwa na eneo lenye jina linalofanan
+      save_success: Sehemu ya fomu umeongezwa tole jipya kwa mafanikio
+      save_with_errors: Kulikuwa na tatizo na sehemu nyingine za fomu hazikuongezwa matleo mepya
+      updated: Sehemu ya fomu imeongezwa toleo jipya kwa mafanikio
+      use_existing: 'Tunakuhimiza utumie fomu zilizopo kwa sababu kufanya hivyo kutarahisisha kubadilishana data na kuunganisha data baina ya taasisi. '
+    mobile_app: Programu ya simu
+    module: Moduli
+    no_subform_filters_added: Kwa sasa Fomu hii ndogo haina  eneo / nyuga
+    record_type: Aina ya Rekodi
+    record_types:
+      approvals: Vibali
+      case: Kesi
+      child: Kesi
+      incident: Tuklio
+      individual_victim: Muathirika Binafsi
+      potential_match: Inauwezekano wa Kulingana
+      record_information: Irewkodi Taarifa / Habari
+      referrals: Rufaa
+      reportable_follow_up: Fuatilia
+      reportable_protection_concern: Wasiwasi wa Ulinzi
+      reportable_service: Huduma
+      tracing_request: Ombi la Kufuatilia
+      transfers_assignments: Uhamisho / Kazi
+      violation: Ukiukaji
+      registry_details: Maelezo ya Usajili
+      registry_record: Rekodi za Usajili
+    required_field: '%{field}Ni eneo linalohitajika'
+    select_label: Chagua
+    settings: Mipangilio
+    show_on: Onyesha
+    subform_need_to_be_added: Wanahitaji kuongezwa
+    subform_need_to_be_added_single: Hii inahitaji kuongezwa
+    subform_not_found: Hapana %{subform_name} kupatikana
+    title: Kichwa cha Habari cha Fomu
+    translations:
+      edit: Hariri tafsiri
+      edit_form_group: Hariri Utafutaji Fomu ya Kikundi
+      manage: Simamia / dhibiti tafsiri
+      no_changes_message: 'Hukufanya mabadiliko ya tafsiri '
+      note: 'Kumbuka:'
+      note_form_group: 'Ili kuongeza tafsiri kwa kikundi cha fomu utahitaji kuhariri tafsiri ya kuangalia kikundi '
+      select_language: Chagua lugha
+      title: Tafsiri
+    type_label: Aina
+    visibility: 'Kuonekana '
+    web_app: Programu ya Tovuti
+  home:
+    ar: العربية
+    ar-IQ: العربية (العراقية)
+    ar-JO: العربية (الأردنية)
+    ar-LB: العربية (اللبنانية)
+    ar-SD: العربية (السودانية)
+    bn: বাংলা
+    current_time_zone: Saa za eneo la sasa
+    dashboard: Dashbodi
+    en: 'Kiingerza '
+    es: Kihispania
+    es-GT: Español (Guatemala)
+    fr: Français
+    id: Bahasa
+    km: ភាសាខ្មែរ
+    ku: کوردی
+    ku-IQ: کوردی (بادینی)
+    fa-AF: فارسی (افغانستان)
+    ps-AF: پښتو (افغانستان)
+    sw-KE: Kiswahili (Kenya)
+    sw-TZ: Kiswahili (Tanzania)
+    ne: नेपाली
+    label: Nyumbani
+    language: Lugha
+    manage_system_users: Tukio limeongezwa toleo jipya kwenye historia kwa mafanikio
+    my: ဗမာစာ
+    pt: Português
+    pt-BR: Português (Brasil)
+    records_need_attention: Rikodi zinahitaji Kushughulikiwa
+    ru: Русский
+    so: Af-Soomaali
+    th: ไทย
+    users: Dhibiti Watumiaji
+    view_records: Angalia Rekodi / Kumbukumbu
+    welcome: Karibu kwenye Primero
+    zh: 中文
+  incident:
+    associated_case: "Kesi inayohusiana"
+    messages:
+      creation_success: Rekodi ya tukio imetengenezwa kwa mafanikio
+      creation_success_queue: Rekodi ya tukio imetengenezwa katika sehemu ya historia
+      disabled: Tukio limezimwa
+      update_success: 'Tukio%{record_id} limeongezwa toleo jipya kwa mafanikio'
+      update_success_queue: 'Tukio%{record_id} limeongezwa toleo jipya kwnye historia kwa mafanikio'
+    violation:
+      update_and_return: 'Ongeza taarifa na uirejeshe kwa %{association}'
+      save_and_return: 'Ongeza na Uirudishe kwa %{association}'
+      pending: Inasubiri Kuthibitishwa
+      title: Ukiukaji
+      types:
+        killing: Mauaji ya Watoto
+        maiming: Kuiga Watoto
+        recruitment: Kuajiri na/au matumia ya watoto
+        sexual_violence: Ubakaji na/au aina nyengine za udhalilishaji wa kijinsia
+        abduction: Utoroshaji/Utekaji nyara
+        attack_on: Kushambulia skuli na/ au hospitali
+        military_use: Matumizi ya Kijeshi ya Skuli na/au hospitali
+        denial_humanitarian_access: Kunyimwa Ufikiaji wa kibiniaadamu kwa watoto
+  incidents:
+    disable_dialog: Kubonyeza SAWA kutabadilisha hali ya tukio hili kuwa ya walemavu
+    disable_dialog_title: Kuzima Tukio
+    disable_success: Tukio limezimwa kwa mafanikio
+    enable_dialog: Kubonyeza SAWA kutaibadilisha hali ya tukio hili kuwa ni lenye kuwezeshwa
+    enable_dialog_title: Tukio lililo wezeshwa
+    enable_success: Tukio limewezeshwa kwa mafanikio
+    id: Nambari ya Kitambulisho
+    date_of_interview: Tarehe ya Usaili
+    date_of_incident: Tarehe ya Tukio
+    incident_location: Eneo la Tukio
+    violations: Ukiukaji
+    export: Kuuza Nje
+    label: Matukio
+    filter_by:
+      boys: Watoto wa Kiume
+      by_date: Kwa Tarehe
+      children: Watoto
+      girls: Watoto wa Kike
+      incident_location: Eneo la Tukio
+      unaccompanied_separated_status: Hali ya Hifadha / Ulinzi
+      unknown: Haijuilikani
+      verification_status: Hali ya uthibitishaji
+      violence_type: Aina ya Udhalilishaji
+      armed_force_group_name: Jina la Kundi cha Jeshi
+      armed_force_group_type: Aina ya Kikundi cha Kijeshi
+    register_new_incident: Tukio jipya
+    selectable_date_options:
+      date_of_first_report: Tarehe ya Usaili
+      incident_date_derived: Tarehe ya tukio
+    selected_records: '%{select_records} (Ma)tukio yaliyochaguliwa'
+    selected_all_records: 'Chagua yote%{total_records} Matukio yaliyofanana na swali'
+    survivor_code: Alama ya Aliyenusurika
+    show_incident: 'kitambulisho cha tukio%{short_id}'
+    social_worker: Mfanyakazi wa Kijamii
+    violence_type: Aina ya Udhalilishaji
+    type_violence: Aina ya Udhalilishaji
+  key_performance_indicators:
+    label: "Mapigo ya Moyo /KPIs"
+    case_assessment: "Mgao wa kesi"
+    case_action_planning: "Mpango wa Utekelezaji wa kesi"
+    case_action_plan_implementation: "Utekelezaji wa Mpango kazi wa kesi"
+    case_follow_up: "Ufuatiliaji wa Kesi"
+    case_closure: "Kufungwa kwa kesi"
+    feedback: "Mrejesho / Maoni"
+    other: "Nyengine"
+    date_format: "%b %Y"
+    date_range_select:
+      custom_range: 'Desturi'
+    long_date_format: "Siku/Mwezi/Mwaka"
+    time_periods:
+      all_time: 'Makati wote'
+      current_month: "Mwezi huu"
+      last_3_months: "Miezi 3 iliyopita"
+      last_6_months: "Miezi 6 iliyopita"
+      last_1_year: "Mwaka uliopita /Mwaka jana"
+      0-3days: "Siku 0 - 3"
+      4-5days: "Siku 4 - 5"
+      6-14days: "Siku 6 - 14"
+      15-30days: "Siku 15 - 30"
+      1-3months: "Mwezi 1 - 3"
+      4months: "Zaidi ya Miezi 3"
+      1-month: "Chini ya Mwezi 1"
+      3-6months: "Miezi 3 - 6"
+      7-months: "Zaidi ya Miezi 6"
+    helptext:
+      helptext: "Jifunze kuhusu KPI hizi"
+    number_of_cases:
+      title: "1. Nambari ya kesi zilizorikodiwa"
+      reporting_site: "Tovuti ya Kuripoti/Kutoa taarifa"
+      helptext: |
+        Kiashiria kinahesabu ni kesi ngapi mpya zinazofunguliwa kila mwezi katika tovuti inayotoa ripoti.
+        Tovuti inayotoa ripoti unafahamika kama tovuti ambayo Shirika la Mtumiaji hutoa huduma na pahala ambapo kesi iliripotiwa kwa mtoa huduma.
+    number_of_incidents:
+      title: "2. Nambari ya matukio yaliyoripotiwa"
+      reporting_site: "Tovuti ya Kuripoti/Kutoa taarifa"
+      helptext: |
+        Kiashiria hiki kinahesabu idadi ya matukio mepya yaliyofunguliwa kila mwezi katika tovuti ya kuripoti.  Tovuti ya kuripoti inafahamika kama tovuti ambayo aShirika la Mtumiaji linatoa huduma na ambapo tukio liliripotiwa kwa mtoa huduma
+    reporting_delay:
+      title: "3. Kuchelewa kuripoti"
+      delay: "Kuchelewa "
+      total_incidents: "Jumla ya Matukio"
+      helptext: |
+        Kiashiria hiki huhesabu na kuainisha idadi ya siku ambazo zimepita kati ya aliyenusurika / muathirika alipofanyiwa Udhalilishaji wa Kijinsia na siku ambayo muathirika aliripoti kwa mara ya kwanza kwa mtoa huduma. Inahesabiwa kulingana na lini tukio liliripotiwa kwa mara ya kwanza katika Shirika la Mtumiaji. Data / Taarifa huainishwa kutokana na urefu wa muda (siku 0-3; siku 4-5; siku 6-14; siku 15-30; Zaidi ya ya mwezi mmoja; Zaidi ya miezi mitatu)
+    service_access_delay:
+      title: "Ucheleweshaji wa Upatikanaji wa Huduma"
+      delay: "Kuchelewa"
+      total_incidents: "Jumla ya Matukio"
+    assessment_status:
+      title: "4. Hali ya Tathmini"
+      completed: "Imekamilika"
+      completed_supervisor_approved: "Imekamilika na Kuthibitishwa na Muangalizi"
+      helptext: |
+        Kiashiria hiki kinahesabu uwiano wa kesi hai /zinazoendelea ambazo fomu zao za tathmini zimejazwa / zimekamilishwa. Tathmini inachukuliwa kuwa imekamilika ikiwa maeneo yote ya lazima katika fomu ya Tathmini ya Muathirika yatakuwa yamekamilika
+    completed_case_safety_plans:
+      title: "5 Mpango wa Usalama wa Kesi Uliokamilika"
+      completed: "Mpango wa Usalama wa Kesi Uliokamilika"
+      helptext: |
+        Kiashiria hiki kinahesabu uwiano wa kesi hai / zinazoendelea ambazo mpango wa usalama ulionekana nai muhimu kuzingatiwa na ulikamilishwa (mfano, udhalilishaji wa mpenzi wa karibu; hatari ya kujiua / mauaji; ulinzi wa mtoto) Mpango wa usalama huchukuliwa kuwa umekamilika pale ambapo maeneo yote ya lazima katika fomu ya Mpango wa Usalama imekamilishwa.
+    completed_case_action_plans:
+      title: "6. Mpango wa Usalama wa Kesi Uliokamilika"
+      completed: "Mpango wa Usalama wa Kesi Uliokamilika"
+      label: "Mpango wa Usalama wa Kesi uliokamilika"
+      helptext: |+
+        Kiashiria hiki kinahesabu uwiano wa kesi hai / zinazoendelea ambapo Mpango wa Utekelezaji wa Kesi ulikamilishwa. Mpango wa Utekelezaji wa kesi huchukuliwa kama umekamiliwa pale ambapo maeneo ya lazima katika fomu ya Mpango wa Utekelezaji umekamilika.
+
+    completed_supervisor_approved_case_action_plans:
+      title: "7. Mipango ya Utekelezaji wa Kesi  Imepitishwa na Msimamizi"
+      completed_and_approved: "Mipango ya Utekelezaji wa Kesi Iliyokamilika Imepitishwa na Msimamizi"
+      helptext: |+
+        Kiashiria hiki kinahesabu uwiano wa kesi hai / zinazoendelea na kupitishwa na msimamizi. Mpango wa utekelezaji wa kesi unachukuliwa kama umekamilika pale ambapo maeneo ya lazima katika fomu ya Mpango wa Utekelezaji yamekamilishwa. Mpango wa kesi unachukuliwa kama umepitishwa pale ambapo fanyakazi wa kesi anaomba kuthibitishwa kwa mpango wa kesi na msimamizi anaupitisha mpango wa kesi kwenye jukwaa
+
+
+    services_provided:
+      title: "8.  Huduma  Zinazotolewa"
+      service: "Huduma"
+      count: "Nyakati Zinazotolewa"
+      male: "Mwanamme"
+      female: "Mwanamke"
+      0-11: "0-11"
+      12-17: "12-17"
+      '>18': "Zaidi ya 18"
+      disability: "Ulemavu"
+      no_disability: "Hakuna Ulemavu"
+      helptext: |
+        Kiashiria hiki kinahesabu aina ya/ za huduma (zi)inayotolewa kwa waathirika katika mchakato wa usimamizi wa kesi. Kutokana na huduma inayotolewa, tunakusudia huduma ambayo inatolewa na shirika la mtumiaji ya ndani, na siyo huduma ya rufaa kutoka kwenye huduma nyingine au rufaa.
+    average_referrals:
+      title: "9. Wastani wa Rufaa"
+      label: "Wastani wa Rufaa kwa Kesi"
+      helptext: |
+        Kiashiria hiki kinahesabu idadi ya wastani wa rufaa kwa kila kesi iliyowekewa rekodi (kwa aina zote za huduma) kwa kesi zote, ikiwa kesi inaendelea /iko wazi au imefungwa. Inajumuisha rufaa zilizorikodiwa katika kichupo cha kesi, siyo rufaa zilizofanyika kwa kupitia jukwaa.
+    referrals_per_service:
+      title: "Rufaa kwa kila Huduma"
+    average_followup_meetings_per_case:
+      title: "10. Wastani wa Vikao vya Ufuatiliaji kwa kila Kesi"
+      label: "Wastani wa vikao vya ufuatiliaji  kwa kila kesi"
+      helptext: "Kiashiria hiki kinahesabu wastani wa idadi ya vikao vilivyofanyika kwa kila kesi inayoendelea kwa kila mfanyakazi wa kesi kwenye jukwaa.Kikao cha ufuatiliaji ni kikao kati ya mfanyakazi wa kesi na muathirika baada ya mahojiano ya awali \n"
+    time_from_case_open_to_close:
+      title: "11. Muda Kati ya Kufunguliwa kwa Kesi Mpaka Kufungwa Kwake"
+      time: "Wakati"
+      percent: "Asilimia ya Kesi"
+      helptext: |+
+        Kiashiria hiki kinapima muda gani ambao kesi zinawekwa wazi, ni muda gani mchakato wa usimamizi wa kesi unachukua kutoka ripoti ya awali  kwa Shirika la Mtumiaji mpaka kufikia kufungwa kwa kesi.  Urefu wa muda unavunjwa vunjwa kwa kutumia muda huu: chini ya mwezi 1; kati ya mwezi 1 na miezi 3, kati ya miezi 3-6; zaidi ya miezi 6
+
+    case_closure_rate:
+      title: "I12. dadi ya Kesi Zitakazofungwa"
+      reporting_site: "Tovuti ya Kuripoti"
+      helptext: "Kiashiria hiki kinapima idadi yankesi zinazofungwa kila mwezi kwa kila moja ya tovuti ya kuripoti. Tovuti ya kuripoti inafahamika kama tovuti ambayo Shirika la Mtumiaji linatoa huduma na pale ambapo tukio liliripotiwa kwa mtoa huduma. \n"
+    client_satisfaction_rate:
+      title: "13. Kiwango cha Kuridhika  kwa Mteja"
+      label: "Kuridhika kwa Mteja"
+      invalid: "Hatuwezi kuikokotoa hii kwa sasa"
+      helptext: |+
+        Kiashiria hiki kinapima asilimia ya waathirika waliokamilisha Utafiti wa Mrejesho wa Mteja ambao wameridhika na huduma za usimamizi wa kesi zinazotolewa kwao. Kiashiria hiki kinaongozwa na kukamilishwa kwa fomu ya Maoni ya Mteja au kuhusu Mfumo wa Usimamizi wa Taarifa za Udhalilishaji wa Kijinsia kwa mfanyakazi mwengine ambaye siye mfanyakazi wa kesi aliyeto huduman kwa muathirika
+
+    supervisor_to_caseworker_ratio:
+      title: "14. Uwiano wa Msimamizi na Wafanyakazi wa Kesi"
+      label: "Mfanyakazi wa kesi kwa msimamizi"
+      helptext: |
+        Kiashiria hiki ni idadi ya wafanyakazi wa kesi ambao msimamizi anawasimamia ; msimamizi kwa uwiano wa mfanyakazi wa kesi. Kukokotoa huku kunatokana na majukumu ya mfumo yaliyotengwa kwenye jukwaa.
+    case_load:
+      title: "15. Wingi wa kesi"
+      case_load: "Wingi / Mzigo wa kesi"
+      percent: "asilimia ya wafanyakazi wa kesi na mzigo / wingi wa kesi"
+      10cases: "<10 Kesi"
+      20cases: "11-20 Kesi "
+      21-30cases: "21-30 Kesi"
+      30cases: "Zaidi ya 30 Kesi"
+      helptext: "Kiashiria hiki kinapima wastani wa uzito/ wingi wa kesi kwa kila mfanyakazi wa kesi aliyewezeshwa kwa kesi zinazoendelea.Uwiano wa kesi kwa wafanyakazi wa kesi hugawanywa kwa kuzingatia mgawanyo huu: chini ya kesi kumi zilizoko wazi / zinazoendelea, kati ya kesi 10-20,  kati ya kesi 21-30,  zaidi ya kesi 30 zinazoendelea \n"
+    date_range_dialog:
+      title: "Tarehe Maalum"
+      description: "Mabadiliko yakitekelezwa,data / taarifa itachaguliwa kati ya tarehe mbili zilizopo hapo chini"
+      apply: 'Kuomba'
+      from: 'Kutoka '
+      to: 'Kwa'
+      aria-labels:
+        from: "Data / Taarifa itachaguliwa baada ya tarehe hii"
+        to: "Data / Taarifa itachaguliwa kabla ya tarehe hii"
+  location:
+    base_types:
+      camp: Kambi
+      chiefdom: Uchifu
+      city: Jiji
+      community: Jamii
+      country: Nchi
+      county: Kata
+      district: Wilaya
+      governorate: Mkoa
+      locality: Eneo
+      other: Nyingine
+      province: Jimbo
+      region: Mkoa
+      site: Tovuti
+      state: Jimbo /Nchi
+      sub-district: Wilaya ndogo
+      village: Kijiji
+      zone: 'Eneo / Ukanda '
+      association: Muungano
+      division: Mgawanyiko
+      central_warehouse: Ghala kuu
+      warehouse: Ghala
+      buyingstation: Kituo cha Manunuzi
+    label: Eneo
+    name: Jina
+    code: Alama / Kanuni
+    admin_level: Ngazi ya Utawala
+    type: Aina
+    hierarchy: 'Uongozi '
+    import_title: Eneo la Kuagiza
+    message: 'Tafadhali chagua faili la CSV kwa kupakia.  Faili hili linatakiwa kutumia UTF-8 kwa usimbaji na inajumuisha HXL lebo za reli kwenye kichwa cha pili cha kila  safu.   '
+    no_location: 'Tafadhali ingiza Eneo kabla ya kutengeneza Akaunti za watumiaji '
+    enable_title: Wezesha Eneo
+    enable_text: Je, una hakika? Ikiwa utayawezesha maeneo yaliyochagliwa, yatajitokeza / yataonekana kama chaguo katika Uga wa eneo
+    disable_title: Zima Eneo
+    disable_text: Je, unahakika? Ikiwa utayazima Maeneo yaliyochaguliwa, hayataonekana tena kama chaguo katika Eneo
+  logger:
+    actions:
+      _approved: Kupitishwa
+      _rejected: Iliyokataliwa / Kukuataliwa
+      _requested: Aliomba / Iliombwa
+      add_note: Ongeza maelezo
+      assign: Kabidhi
+      assign_to: 'Kabidhi kwa '
+      attach: Funganisha
+      bulk_assign: Kugawa kwa Wingi
+      bulk_create: 'Tengeneza kwa wingi '
+      bulk_index: Vielezo vilivyowekwa pamoja
+      case_plan_approved: Mpango wa kesi umepitishwa
+      case_plan_rejected: Mpango wa kesi umekataliwa
+      case_plan_requested: Mpango wa Kesi umekataliwa
+      close: Funga / Karibu
+      create: Tengeneza  / Unda
+      create_bulk: Tengeneza kwa wngi
+      delete: Futa
+      destroy: Kuharibu
+      detach: Tenganisha
+      enable_disable_record: 'Wezesha kuzima rekadi '
+      export: Kuuza nje
+      flag: Bendera
+      import: Kuagiza
+      incident_details_from_case: Maelezo ya tukio kutoka kwenye kesi
+      index: Kielezo
+      list: Orodha
+      login: 'Ingia '
+      password_reset: Kuweka upya nenosiri
+      password_reset_request: Ombi la kuweka upya neno siri
+      refer: Rejea
+      refer_accepted: Rejeleo Limekubalika
+      refer_done: Rejea imefanyika
+      refer_rejected: Rejea imekataliwa
+      refer_revoke: Rejea imebatilishwa
+      refer_to: Rejea kwa
+      reopen: Fungua upya
+      services_section_from_case: Sehemu ya huduma kutoka kwenye kesi
+      show: Onyesha
+      show_alerts: Onyesha tahadhari  / arifa
+      traces: Athari
+      transfer: Uhamisho
+      transfer_accepted: Uhamisho umekubaliwa
+      transfer_rejected: Uhamisho umekataliwa
+      transfer_request: Ombi la uhamisho
+      transfer_to: Uhamisho kwenda
+      unflag: Ondoa bendera
+      update: Ongeza toleo jipya
+      user_password_reset_request: Ombi la kuweka upya nenosiri la mtumiaji
+      webhook: Mtandao
+    approve_form:
+      action_plan: Fomu ya Mpango kazi
+      bia: Fomu ya B/A
+      case_plan: Fomu ya Mpango wa Kesi
+      closure: Fomu ya kufungwa
+      'false': Kukataa
+      gbv_closure: 'Fomu ya Kufungwa kwa Udhalilishaji wa Kijinsia '
+      'true': Kuidhinishwa
+    assessment_approved: "%{approval_label}Imeidhinishwa kwa "
+    assessment_requested: "%{approval_label}imeombwa kwa"
+    bulk_index: Orodhesha vyote
+    by_user: Kwa mtumiaji
+    case_plan_approved: "%{approval_label}Imeidhinishwa kwa "
+    case_plan_requested: "%{approval_label}Imeombwa kwa"
+    close: Funga / Karibu
+    closure_approved: "%{approval_label}Imeidhinishwa kwa"
+    closure_requested: "%{approval_label}Imeombwa kwa"
+    consent_count: Hesabu ya Idhini
+    copy: Kunakili
+    create: Kuunda / Kutengeneza / Kutayarisha
+    create_subform: Kutayarisha Fomu ndogo
+    destroy: Kufuta
+    edit: Kuhariri
+    enable_disable_record: 'Kuwezesha / Kulemaza '
+    export: 'Kusafirisha data kwa '
+    flag: Kuashiria /Kuripoti
+    flag_records: Kuashiria / Kuripoti
+    graph_data: Kuangalia data / taarifa ya mchoro
+    hide_name:
+      protect: Ficha Jina
+      view: Angalia / Tazama Jina
+    index: Kuorodhesha Rekodi
+    list: Orodha
+    login: Ingia
+    logout: Toka / Ondoka
+    lookups_for_field: Utafutaji wa eneo
+    mark_for_mobile:
+      'false': Ondoa alama kwenye simu ya mkononi
+      'true': ' Alama kwa simu ya mkononi'
+    match_record: Rekodi inayolingana
+    permitted_field_list: Orodha ya sehemu / eneo / uga inayokubaliwa
+    quick_view: Kutazama Mtazamo wa Haraka
+    reassign: Kugawa
+    resources:
+      audit_log: 'Daftari la ukaguzi '
+      user: Mtumiaji
+      agency: Shirika
+      user_group: Kundi la watumiaji
+      child: Mtoto
+      alert: Tahadhari
+      form_section: Fomu
+      lookup: Tafuta / Tazama juu
+      system_settings: Mpangilio wa mfumo
+      permission: Ruhusa
+      dashboard: Dashbodi
+      report: Ripoti
+      bulk_export: Mauzo ya nje kwa wingi
+      saved_search: Utafutaji uliohifadhiwa
+      role: Jukumu
+      incident: Tuklio
+      location: Eneo
+      primero_configuration: Usandi wa Primero
+      code_of_conduct: Kanuni za maadili
+      task: Kazi
+    record_state:
+      'false': Kulemaza
+      'true': Kuwezesha
+    refer: Rejea
+    refer_to: Tafuta Mpokeaji Rufaa
+    referral: Akimaanisha
+    relinquish_referral: Kuachilia rufaa Kufanywa
+    reopen: Fungua upya
+    reopen_case: 'Kufungua upya '
+    request_approval:
+      action_plan: Kuomba Kibali cha fomu ya Mpango wa Utekelezaji
+      bia: Kuomba Kibali cha fomu ya B/A
+      case_plan: Kuomba Kibali cha fomu ya Mpango wa Kesi
+      closure: Kuomba Kibali cha fomu ya Kufungwa
+      gbv_closure: Kuomba Kibali cha fomu ya Kufungwa Udhalilishaji wa Kijinsia
+    request_transfer: Kupeleka Ombi la Uhamisho
+    request_transfer_view: Kuangalia Uhamisho wa Ombi
+    save_subform: Kuihifadhi Fomu ndogo
+    search: Utafutaji wa API
+    show: Kutazama
+    show_alerts: Kuangalia tahadhari za
+    to: Kwa
+    to_user: Kwa mtumiaji
+    transfer: Kuhamisha
+    transfer_status:
+      Accepted: Uhamisho Uliokubalika
+      Rejected: Uhamisho Uliokataliwa
+    unflag: Kuondoa bendera
+    update: Kuingiza toleo jipya
+  login:
+    label: Ingia
+    password:
+      label: Nenosiri
+    password_confirmation:
+      label: Kuthibitisha Nenosiri
+    password_match:
+      label: Nenosiri Lazima Lilingane
+    provider_title: Na %{provider}
+    title: 'Ingia '
+    username: Jina la Mtumiaji
+    password_reset_modal: Weka upya Nenosiri
+    password_reset_modal_text: Primero itakutumia kiungo cha kuweka upya nenosiri katika barua pepe
+    password_reset_email: Baruapepe
+    forgot_password: Umesahau nenosiri lako?
+    email:
+      label: Baruapepe
+  lookup:
+    create: Utafutaji Mpya
+    enabled_label: Imewezeshwa?
+    english_label: Jaribio la Kiingereza
+    label: Tafuta / Angalia juu
+    language_label: Lugha
+    messages:
+      cannot_create: Utafutaji haukuweza kutengenezwa /kuundwa
+      correct_errors: 'Tafadhali rekebisha makosa yafuatayo na uwasilishe tena'
+      created: Utafutaji uliundwa / ulitengezwa kwa mafanikio
+      updated: Utafutaji uliongezwa toleo jipya kwa mafanikio
+    name: Jina
+    no_options: Utafutaji huu kwa sasa hauna chaguo
+    translation_label: Maandishi ya Tafsiri
+    values: Chaguo
+  managed_reports:
+    label: Utambuzi
+    total: Jumla
+    filter_by:
+      date: Tarehe
+      verification_status: Hali ya uthibitishaji
+    date_range:
+      month: Month
+      quarter: 'Ribo '
+      year: Mwaka
+    date_range_options:
+      this_quarter: Robo hii
+      last_quarter: Robo iliyopita
+      this_month: Mwezi huu
+      last_month: Mwezi Uliopita
+      this_year: Mwaka Huu
+      last_year: Mwaka Jana
+      custom: Desturi
+    no_data: Hakuna data iliyopo kwa maarifa haya
+    no_data_table: Hakuna data ya Jadweli iliyopo kwa maarifa haya
+    violations:
+      name: Ukiukaji
+      filter_options:
+        incident_date: Tarehe ya Tukio
+        date_of_report: Tarehe ya Repoti
+        ctfmr_verified_date: Tarehe ya Uthibitisho
+      reports:
+        killing: Mauaji ya Watoto
+        maiming: Kuiga Watoto
+        recruitment: Kuwaajiri na/au kuwatumia watoto
+        sexual_violence: Ubakaji na/au aina nyingine za udhalilishaji wa kijinsia
+        abduction: Kutorosha /Kuteka Nyara
+        attack_on: Mashambulizi ya skuli na/au hospitali
+        military_use: Matumizi ya kijeshi ya skuli na/au hospitali
+        denial_humanitarian_access: Kunyimwa ufikiaji wa kibinaadamu kwa watoto
+      sub_reports:
+        combined: Ukiukaji
+        detention_detained: Kubaki Kizuizini
+        detention_released: Kutolewa /Kuachiwa
+        perpetrators: Idadi ya Watoto kwa Wahalifu
+        reporting_location: Idadi ya Watoto kwa Mkoa
+        attack_type: Idadi ya Watoto kwa Aina ya Mashambulizi
+        boys: Watoto wa Kiume
+        girls: Watoto wa Kike
+        unknown: Haijuilikani
+        total: Jumla
+    gbv_statistics:
+      name: Takwimu za Udhalilishaji wa Kijinsia
+      filter_options:
+        date_of_first_report: Tarehe ya Mahojiano
+        incident_date: Tarehe ya Tukio
+      reports:
+        incidents: Matukio
+        perpetrators: Wahalifu
+      sub_reports:
+        combined: Matukio
+        total: Idadi ya Matukio ya Udhalilishaji wa Kijinsia Yaliyoripotiwa
+        gbv_sexual_violence: Idadi ya Matukio ya Ukatili wa Kijinsia Yaliyotolewa Taarifa
+        gbv_previous_incidents: Idadi ya Matukio Yaliyoripotiwa na Walioathirika na Matukio ya Ukatili wa Kijinsia hapo Kabla
+        gbv_sexual_violence_type: Aina ya Tukio
+        incident_timeofday: Wakati wa Siku ya Tukio
+        elapsed_reporting_time: Muda kati ya Tukio na Tarehe liliporipotiwa
+        elapsed_reporting_time_rape: Matukeo ya Ubakaji, Muda Uliopita kati ya Tukio na TareheLlililoripotiwa
+        incident_location_type: Eneo la Tukio
+        number_of_perpetrators: Idadi ya Wahusika Wakuu
+        perpetrator_relationship: Uhusiano kati ya Wahalifu Wakuu na Muhanga / Aliyenusurika
+        perpetrator_age_group: Kikundi cha Umri wa Anayedaiwa kuwa  Muhisika Mkuu
+        perpetrator_occupation: Kazi ya Anayetuhumiwa kuwa Muhusika Mkuu
+  messages:
+    alert_items: Unavyo %{items}vitu vya kuzingatia
+    alerts_for:
+      approval: Idhini inasubiri kwa%{form_section_name}
+      field_change: '%{form_section_name}iliingizwa toleo jipya  saa%{alert_time}'
+      transfer_request: Ombi Jipya la Uhamisho Lilifanyiwa %{date}na%{user}kwenye%{agency}
+      duplicate_field: Kesi Nyingine kwenye mfumo inayo %{field_name} kama hii
+    cannot_edit: Huwezi kuihariri hii
+    confirmation_message: Kubonyeza SAWA kutaondoa mabadiliko yasiyohifadhiwa na kurudi kwenye muonekano wa orodha. Bonyeza ghairi ili kurudi kwenye rekodi
+    confirmation_message_subform: Kubonyeza OK /sawa kutayatupa mabadiliko yoyote ambayo hayajahifadhiwa katika kipengele hiki. Bonyeza ghairi ili kuendelea kufanya mabadiliko.
+    dashboard_offline: 'Uko nje ya mtandao / Hujaunganishwa. Dashbodi itafanya kazi kikamilifu utakaporejea kwenye mtandao / Utakapounganishwa tena. '
+    field_name_on_form_name: '%{field_name}eneo kwenye%{form_name} fomu'
+    logout_confirmation: Je, unataka kuendelea na kikao chako?
+    logout_offline_warning: Unahakika unataka kutoka / kuondoka? Ukitoka hutaweza kuingia tena mpaka uwe mtandaoni tena. Mabadiliko yoyote uliyoyafanya ukiwa nje ya mtandao yatapotea.
+    logout_warning: Utaondolewa baada ya dakika 5
+    logout_dialog_header: Nje ya mtandao.  Toka
+    logout_confirmation_title: Uthibitisho wa kutoka / kuondoka
+    logout_confirmation_text: Je, unahakika unataka kutoka nje?
+    no_changes: Hukufanya mabadiliko yoytote ya eneo / uwanja
+    not_available: Haipatikani
+    record_list:
+      column_header_tooltip: Panga kwa%{column}
+      of: 'ya '
+      no_match: Samahani, hakuna rekodi inayolingana iliyopatikana
+      rows_per_page: Safu kwa kila ukurasa
+      sort: Panga
+  navigation:
+    bulk_exports: Kuuza nje
+    cases: Kesi
+    home: Nyumbani
+    key_performance_indicators: Mapigo ya moyo / KPls
+    incidents: Matukio
+    logout: Toka nje
+    reports: 'Ripoti / Kumbukumbu '
+    insights: Utambuzi
+    search: Tafuta
+    settings: Mipangilio
+    support: Msaada
+    support_menu:
+      contact_information: Maelezo / Taarifa ya Mawasiliano
+      code_of_conduct: Kanuni za Maadili
+      terms_of_use: Masharti ya Matumizi
+      system_information: Habari ya Mfumo
+    tasks: kazi
+    tracing_request: Ombi la Kufuatilia
+    activity_log: Logi la Vitendo /Shughuli
+    registry_records: Usajili
+  notes:
+    note_success: Umefaulu kuongeza dokezo
+  permissions:
+    label: Ruhusa
+    permission:
+      All: Zote / Wote / Yote
+      add_note: 'Ongeza Maelezo '
+      admin_only: Hakuna kumbukumbu - Ni kwa kazi / matumizi ya Msimamizi pekee
+      administrator_read: Soma Msimamizi
+      agency: Shirika
+      agency_read: Shirika Kusoma
+      all: Fikia rekodi / kumbukumbu zote au watumiaji
+      approvals_assessment: '%{approval_label}'
+      approvals_assessment_pending: '%{approval_label}Inasubiri'
+      approvals_case_plan: '%{approval_label}'
+      approvals_case_plan_pending: '%{approval_label}Inasubiri'
+      approvals_closure: '%{approval_label}'
+      approvals_closure_pending: '%{approval_label}Inasubiri'
+      approve_action_plan: Kidhinisha%{approval_label}
+      approve_assessment: Kupitisha %{approval_label}fomu
+      approve_case_plan: Kuidhinisha%{approval_label}
+      approve_closure: Kupitisha %{approval_label}fomu
+      approve_gbv_closure: Kupitisha %{approval_label}fomu
+      assign: Kabidhi
+      assign_within_agency: Kugawa ndani ya wakala
+      assign_within_user_group: Gawa ndani ya kikundi cha watumiaji
+      audit_log: Daftari la Ukaguzi
+      case: Kesi
+      case_approvals: Vibali vya Kesi
+      case_assignments_referrals_transfers: Mgao wa kesi, rufaa na uhamisho
+      case_exports: Kesi Nje ya Nchi
+      case_overview: Kesi Zangu
+      case_risk: Kesi kwa Kiwango cha Tathmini
+      cases_by_task_overdue_assessment: Tazama kesi kwa Tathmini ya Kuchelewa kwa Kazi
+      cases_by_task_overdue_case_plan: Tazama Kesi kwa Mpango wa Kesi uliochelewa
+      cases_by_task_overdue_followups: Tazama Kesi kwa Huduma Zilizopitwa na Wakati
+      cases_by_task_overdue_services: Tazama Kesi kwa Huduma Zilizopitwa na Wakati
+      cases_managed_other_users: Kesi kusimamiwa na watumiaji wengine
+      close: Karibu / Funga
+      consent_override: Idhini imechelewa
+      copy: Nakala / Nakili
+      copy_of: Nakala ya
+      create: Kutengeneza / Kuunda
+      dash_case_incident_overview: Kesi Zangu / Matukio Yangu
+      dash_cases_by_social_worker: Tazama Kesi kwa Wafanyakazi wa Jamii
+      dash_cases_by_task_overdue: Tazama Kesi kwa Kazi Iliyochelewa
+      dash_cases_by_workflow: Tazama Kesi kwa Mtiririko wa Kazi
+      dash_cases_to_assign: Tazama Kesi Za Kugawa
+      dash_group_overview: Kesi za Vikundi vyangu
+      dash_manager_transfers: Tazama Uhamishaji wa Msimamizi
+      dash_matching_results: Tazama Matokeo Yanayolingana
+      dash_protection_concerns: Angalia Masuala ya Ulinzi
+      dash_protection_concerns_by_location: Angalia Masuala ya Ulinzi Kulingana na Eneo
+      dash_referrals_by_socal_worker: Tazama Marejeo ya Mfanyakazi wa Kijamii
+      dash_reporting_location: 'Tazama Maeneo ya Kuripoti '
+      dash_service_provisions: Tazama Masharti ya Huduma
+      dash_shared_from_my_team: Imesambazwa kutoka kwa Timu Yangu
+      dash_shared_with_me: Imeletwa kwangu
+      dash_shared_with_my_team: Imesambazwa kwenye Timu  Yangu
+      dash_shared_with_others: Imesambazwa kwa Wengine
+      dash_show_none_values: 'Usione Maadili yoyote '
+      dash_tasks: Tazama Kazi
+      dash_transfers_by_socal_worker: Tazama Uhamishaji wa Wafanyakazi wa Kijamii
+      dash_national_admin_summary: Muhtasari wa Msimamizi
+      dashboard: Dashbodi
+      delete: Futa
+      display_view_page: Onyesha Ukurasa wa Kutazama
+      duplicate: Utafutaji wa Nakala
+      enable_disable_record: Lemaza
+      export_case_pdf: PDF la Kesi za Nje
+      export_csv: Kuuza Nje csv
+      export_custom: Desturi ya Kuuza nje
+      export_duplicate_id_csv: Nakala za Usafirishaji   ? Usafirishaji wa Nakala
+      export_json: Kuuza nje json
+      export_list_view_csv: Muonekano wa Orodha ya kuuza nje csv
+      export_mrm_violation_xls: Usafirishaji mrm udhalilishaji xls
+      export_pdf: Kuuza nje pdf  /  pdf ya kuuza nje
+      export_photowall: Usafirishaji wa picha
+      export_unhcr_csv: Safirisha csv za Shirika la Umoja wa Mataifa la Wakimbizi
+      export_xls: Kuuza nje xls
+      find_tracing_match: Kupata kufuatilia yaliyofanana kutoka kwenye kesi
+      view_registry_record: Tazama rekodi ya usajili
+      add_registry_record: Ongeza rekodi ya usajili
+      flag: 'Bendera '
+      form: Fomu
+      group: Fikia rekodi zote au watumiaji wote katika kikundi changu
+      group_read: Kikundi Kimesomwa
+      import: 'Kuagiza '
+      incident: Tukio
+      incident_details_from_case: Ongeza Maelezo ya Tukio kwenye kesi ya mtumiaji mwingine
+      incident_from_case: Tengeneza tukio kutoka kwenye Kesi
+      kpi: Mapigo ya Moyo / KPls.
+      lookup: 'Tazama /Angalia '
+      manage: Kusimamia
+      mark_for_offline: Alama kwa Nje ya Mtandao
+      matching_configuration: Kuoanisha Mifumo
+      metadata: Tazama / Tafuta.  Fomu
+      potential_match: Inayoweza Kulingana
+      primero_configuration: Mpangilio
+      read: Soma / Iliyosomwa
+      reassign: Gawa upya
+      receive_referral: Pokea Rufaa
+      receive_transfer: Pokea Uhamisho
+      referral: Inaweza kutumika kwa rufaa
+      referral_from_service: Rejelea Kesi kutoka kwenye fomu ya Huduma
+      registry_record: Usajili
+      remove_assigned_users: Ondoa watumiaji wengine (rufaa)
+      reopen: Fungua upya
+      report: Ripoti
+      managed_report: Utambuzi
+      request_approval: Ombi la kupitishwa / kkuidhinishwa
+      request_approval_action_plan: '%{approval_label}Ombi la kibali'
+      request_approval_assessment: '%{approval_label}Ombi la kibali'
+      request_approval_case_plan: '%{approval_label}Ombi la kibali'
+      request_approval_closure: '%{approval_label}Ombi la kibali'
+      request_approval_gbv_closure: '%{approval_label}Ombi la kibali'
+      request_transfer: Omba Uhamisho
+      role: Majukumu
+      save_search: Hifadhi Utafutaji
+      saved_search: Utafutaji Uliohifadhiwa
+      search_owned_by_others: 'Tafuta rekodi / kumbukumbu za kesi zinazomilikiwa na watumiaji wengine '
+      self: Fikia rekodi zangu tu au mtumiaji pekee
+      service_provision_incident_details: Angalia Ongeza Kitufe cha Utoaji Huduma au Mfano wa Maelezo ya Matukio
+      services_section_from_case: Ongeza utoaji wa Huduma kwenye kesi ya mtumiaji mwengine
+      specific_roles: Fikia orodha maalumu ya majukumu
+      sync_external: Sawazisha na mfumo wa usimamizi wa habari wa nje
+      sync_mobile: Alama kwa Nje ya Mtandao
+      system: Mfumo
+      tracing_request: 'Ombi la kufuatilia '
+      transfer: Inaweza klutumika kwa uhamisho
+      user: Watumiaji
+      user_group: Vikundi vya Watumiaji
+      view_approvals: Tazama Vibali
+      view_assessment: Tazama / Angalia Tathmini
+      view_photo: Tazama / Anglia Picha
+      view_protection_concerns_filter: Tazama / Angalia Vichungio vya Masuala ya Ulinzi
+      view_response: 'Tazama / Angalia Majibu '
+      webhook: Mtandao
+      workflow: Mtiririko wa kazi - Kesi za Mtu mmoja mmoja
+      workflow_team: Mtiririko wa kazi - Kesi za kikundi
+      write: Kuandika
+      activity_log: Logi la Vitendo /Shughuli
+    resource:
+      kpi:
+        actions:
+          read:
+            explanation: Uwezo wa kufikia ukurasa wa mapigo ya moyo/KPI
+            label: Kufikia ukurasa wa mapigo ya moyo/KPI
+          kpi_assessment_status:
+            explanation: Uwezo wa kuona, kwa kesi zinazoendelea ambazo mtumiaji anaweza kufikia, kiwango gani fomu zao za tathmini zimejazwa/zimekamilishwa.
+            label: Hali ya Tathmini
+          kpi_average_followup_meetings_per_case:
+            explanation: Uwezo wa kuona, kwa kesi hai / zinazoendelea ambazo mtumiaji anauwezo wa kufikia, wastani wa idadi ya vikao vya ufuatiliaji vilivyofanyika katika kipindi cha muda malum
+            label: Wastani wa Vikao vya Ufuatiliaji kwa kila Kesi
+          kpi_average_referrals:
+            explanation: Uwezo wa kuziona tena kesi hai / zinazoendelea zote ambazo mtumiaji anauwezo wa kuzifikia, kwa wastani wa idadi ya rufaa zilizofanywa kwa kila aina ya huduma
+            label: Wastani wa Rufaa
+          kpi_case_closure_rate:
+            explanation: 'Uwezo wa kuona idadi ya kesi zilizofungwa katika kila tovuti kila mwezi '
+            label: Idadi ya Kesi za Kufungwa
+          kpi_case_load:
+            explanation: Uwezo wa kuona wastani wa idadi ya kesi ambazo kila mfanyakazi wa kesi alizonazo
+            label: Wingi wa kesi / Mzigo wa kesi
+          kpi_client_satisfaction_rate:
+            explanation: Uwezo wa kuona, kwa kila kesi ambayo mtumiaji anyoweza kuifikia, ni uwiano gani wa waathirika waliokamilisha Uchunguzi wa Maoni walikuwa wameridhika.
+            label: Kiwango cha Kuridhika kwa Mteja
+          kpi_completed_case_action_plans:
+            explanation: Uwezo wa kuona kwa kesi hai / zinazoendelea ambazo mtumiaji anauwezo wa kuzifikia, ni sehemu gani wamekamilisha Mpango wa Utekelezaji wa Kesi
+            label: Mipango ya Utekelezaji wa Kesi Iliyokamilika
+          kpi_completed_case_safety_plans:
+            explanation: Uwezo wa kuona, kesi hai / zinazoendelea ambazo mtumiaji anaouwezo wa kuzifikia, ni kwa uwiano gani zinahitaji na zimekamilisha Mpango wa Usalama
+            label: Mpango wa Usalama wa Kesi Uliokamilika
+          kpi_completed_supervisor_approved_case_action_plans:
+            explanation: Uwezo wa kuona, kesi hai / zinazoendelea ambazo mtumiaji anauwezo wa kuzifikia, ni kwa uwiano gani walikamilisha Mpango wa Utekelezaji wa Kesi ambazo zilipitishwa na msimamizi
+            label: Mpango wa Utekelezaji Uliokamilika na Kuidhinishwa na Msimamizi
+          kpi_goal_progress_per_need:
+            explanation: Uwezo wa kuona, kesi ambazo mtumiaji anauwezo wa kuzifikia, ni asilimia ngapi ya malengo katika kila aina ya mahitaji yametimizwa
+            label: Maendeleo yaliyofanyika Kufikia Malengo
+          kpi_number_of_cases:
+            explanation: Uwezo wa kuona ni kesi ngapi mpya zilizoripotiwa hufunguliwa kila mwezi kwa kila tovuti
+            label: Idadi ya Kesi
+          kpi_number_of_incidents:
+            explanation: Uwezo wa kuona ni matukio mangapi mepya yaliyoripotiwa hufunguliwa kila mwezi kwa kila wovuti
+            label: Idadi ya Matukio
+          kpi_reporting_delay:
+            explanation: Uwezo wa kuona, kwa matukio yote ambayo mtumiaji anaouwezo wa kuyafikia, ni siku ngapi zimepita kati ya muathirika kufanyiwa Udhalilishaji wa Kijinsia na pale muathirika aliporipoti kwa mtoa huduma
+            label: Kuchelewa Kuripoti
+          kpi_services_provided:
+            explanation: Uwezo wa kuona, kesi zote ambazo mtumiaji anaouwezo wa kuzifikia, ni aina gani ya huduma zilizotolewa na shirika nyumbani
+            label: Huduma Zilizotolewa
+          kpi_supervisor_to_caseworker_ratio:
+            explanation: Uwezo wa kuona uwiano wa wafanyakazi wa kesi kwa wasimamizi
+            label: Uwiano wa Wasimamizi kwa Wafanyakazi wa Kesi
+          kpi_time_from_case_open_to_close:
+            explanation: Uwezo wa Kuona, kwa kesi zote ambazo mtumiaji anaouwezo wa kuzifikia, ni kwa muda gani kesi zinakuwa wazi / zinaendelea
+            label: Muda ambao Kesi Inafunguliwa mpaka Kesi Inapofungwa
+        label: 'Kiashiria Muhimu cha Utendaji / '
+      agency:
+        actions:
+          assign:
+            explanation: Uwezo wa kuchagua wakala wakati wa kutengeneza / kufungua akaunti ya mtumiaji. Ikiwa mtumiaji wa sasa anayo ruhusa pamoja na ruhusa ya "Shirika Kusoma'" kwa watumiaji, watakuwa na uwezo wa kuongeza mtumiaji kwa wakala wao
+            label: Kabidhi
+          create:
+            explanation: Uwezo wa kutengeneza / kutayarisha wakala
+            label: Tengeneza / Unda / Fungua
+          manage:
+            explanation: 'Inaruhusu mtumiaji kufanya shughuli zote zinazopatikana kwenye Wakala. Ruhusa ya "Kusimamia" inamaanisha "kila kitu" MUHIMU: Hii inatoa pia uwezo wa kutengeneza wakala mpya.'
+            label: Kusimamia (ruhusa zote kwa aina ya rasilimali)
+          read:
+            explanation: Uwezo wa kuwaona wakala
+            label: Mtazamo
+          write:
+            explanation: Uwezo wa kuhariri taarifa kuhusu wakala. Tafadhali kumbuka kwamba hii ni kwa mawakala wote kwenye mfumao
+            label: Hariri
+        explanation: 'Inawakilisha shirika lenye wajumbe wanaotumia Primero. Mashirika yapo bila ya Makundi ya Watumiaji '
+        label: Wakala
+      audit_log:
+        actions:
+          read:
+            explanation: Inaruhusu mtumiaji kuona na kuchuja orodha ya vitendo / shughuli zote zinazofanyika katika mfumo, imegawanywa kulingana na aina ya kitendo cha mtumiaji, kitambulisho cha rekodi na wakati wa kitendo.  Hii inafaa zaidi kwa wasimamizi wa ngazi ya kitaifa  au wakala, kwa vile hii inaonesha vitendo / shughuli zote zinazofanywa na watumiaji wote katika mfumo.  Tafadhali kumbuka kwamba daftari la ukaguzi halionyeshi taarifa inayomtambulisha mtu binafsi kuhusu rekodi zilnazohusika katika kila kitendo.
+            label: Mtazamo
+        explanation: Orodha ya vitendo /shughuli inayoweza kuchujwa katika mfumo. Haijumuishi taarifa yoyote inayotambulika ya Kesi, Matukio, au Kufuatilia Maombi
+        label: Daftari la Ukaguzi
+      case:
+        actions:
+          add_note:
+            explanation: Inaruhusu mtumiaji kuongeza ingizo kwenye fomu ndogo ya "Maelezo / Madokezo" (ambayo mara nyingine huitwa "maoni"). Mtumiaji hufanya hivi kwa kubonyeza kitufe cha "Ongeza Maelezo" katika ukurasa wa kuonyesha kesi. Kitendo hiki hufanywa hasa na wasimamizi ambao hawana uwezo wa kuhariri kesi, lakini unataka kuongeza ukumbusho / angalizo kwenye kesi kwa ajili ya mfanyakazi wa kesi. Kwa kufanya hivi, kuongeza maelezo ni sawa na kuogeza bendera. Faida ya kuongeza maelezo ni kwamba, msimamizi anapoongeza maelezo kwenye kesi, alama / arifa itaonekana kwenye kesi kwa ajili ya mfanyakazi wa kesi anapoangalia kesi kwenye kifaa chake cha mkononi
+            label: Ongeza Maelezo kwenye Kesi
+          add_registry_record:
+            explanation: 'Inamuwezesha mtumiaji kuunganisha Usajili na Kesi kutoka kwenye fomu ya maelezo ya Usajili. Pia inamuwezesha mtumiaji kuondoa Usajili wowote ambao umeunganishwa kwenye Kesi '
+            label: Ongeza / ingiza taarifa mpya ya rekodi ya Usajili kuoka kwenye kesi
+          approve_action_plan:
+            explanation: Inamruhusu meneja kuidhinisha %{approval_label}kwa kesi za wafanyakazi wao wa kesi
+            label: Kuidhinisha %{approval_label}
+          approve_assessment:
+            explanation: Inamruhusu meneja kuidhinisha %{approval_label}kwa kesi za wafanyakazi wa kesi
+            label: Kupitisha %{approval_label}fomu
+          approve_bia:
+            explanation: Inamruhusu meneja kuidhinisha %{approval_label}kwa kesi za wafanyakazi wao wa kesi
+            label: Kupitisha %{approval_label}fomu
+          approve_case_plan:
+            explanation: Inamruhusu meneja kuidhinish %{approval_label}ya kesi za wafanyakazi wao wa kesi
+            label: Kuidhinisha %{approval_label}
+          approve_closure:
+            explanation: Inamruhusu meneja kuidhinisha %{approval_label}ya kesi za wafanyakazi waon wa kesi
+            label: Kupitisha %{approval_label}fomu
+          approve_gbv_closure:
+            explanation: Inamruhusu meneja kuidhinisha %{approval_label}ya kesi za wafanyakazi wao wa kesi
+            label: Kupitisha%{approval_label}fomu
+          assign:
+            explanation: 'Inamruhusu mtumiaji kupeleka kesi kutoka kwa mmiliki wa rekodi wa asili kwenda kwa mtumiaji yeyote mwengine aliyeko kwenye mfumo. Idhini ya mtoto haihitajiki katika kufanya hivyo. Kinyume na uhamisho, mpokeaji hapewi nafasi ya kukubali au kukataa mgao huo. '
+            label: Kabidhi / gawa
+          assign_within_agency:
+            explanation: 'Inamruhusu mtumiaji kupeleka kesi kutoka kwa mmiliki wa rekodi wa asilikwenda kwa mtumiaji yeyote mwengine aliyeko katika wakala wa sasa hivi wa mtumiaji. Idhini ya mtoto haihitajiki katika kufanya hivi. Kinyume na uhamisho, mpokeaji hapewi nafasi ya kukubali au kukataa mgao huu. '
+            label: Gawa kwa mtumiaji ndani ya wakala wangu
+          assign_within_user_group:
+            explanation: Inamruhusu mtumiaji kupeleka kesi kutoka kwa mmiliki wa asili wa rekodi kwenda kwa mtumiaji mwengine yeyote katika kikundi cha mtumiaji wa sasa. Idhini ya mtoto haihitajiki kwa kufanya hvyo.  Kinyume na uhamisho, mpokeaji hapewi nafasi ya kukubali au kukataa mgao huo.
+            label: Gawa kwa mtumiaji ndani ya kikundi changu cha watumiaji
+          change_log:
+            explanation: Mtumiaji anaweza kuona historia ya mabadiliko yote kuanzia ilipotengenezwa. Hii ni pamoja na thamani zilizorekodiwa kwa nyanja zote
+            label: Badilisha Daftari
+          close:
+            explanation: Inarmuhusu mtumiaji kuweka hali ya kesi iliyofunguliwa kuwa imefungwa
+            label: Karibu / Funga
+          consent_override:
+            explanation: Inamruhusu mtumiaji kufanya rufaa au uhamisho kwa kesi ambayo haina kibali / haijatoa kibali
+            label: Batilisha ukosefu wa idhini wakati wa kurejea au kuhamisha
+          create:
+            explanation: Uwezo wa kutengeneza kesi
+            label: Kutengeneza/Kuunda
+          display_view_page:
+            explanation: Ikiwa mtumiaji anatafuta kesi ambayo hana ufikiaji nayo / hawezi kuifikia, ruhusa hii inamruhusu aweze kuona mfano mdogo / modal ndogo, wenye taarifa za msingi za kesi hata kama mtumiaji hataweza kubonyeza kuingia kwenye kesi kuona taarifa yote. Sehemu / Eneo linaloonekana katika ""Ona Mfano" ni eneo lililowekwa kwenye mpangilio wa "Onyesha kwa ufupi". Mfano hjuu ni muhimu kwa watumiaji wanaotfanya shughuli za Kutafuta Familia na  Kuziunganisha, kwa vile "Ona Mfano" huweza kufikiwa na watumiaji wakati wanapopitia kesi ambazo huonekana kama "Huenda Zikafanana'" kwa Ombi la Kufuatilia.
+            label: Onyesha Ukurasa wa Kutazama/Kuchagua
+          enable_disable_record:
+            explanation: Uwezo wa kuilemza au kuiwezesha kesi .  Kesi "Zilizolemazwa" hazionekani kama chaguo la msingi kwenye orodha ya kesi. Mtumiaji anaweza kuziona kesi zilizolemazwa katika orodha ya kesi kwa kutumia kichujo. Kwa vile Primero hairuhusu watumiaji kuzifuta kesi , mtumiaji anaweza kuamua kuilemaza kesi kama  mbadala. Kwa mfano ikiwa mtumiaji alitengeneza kesi kimakosa, au kesi ikawa na data mbaya, mtumiaji itambidi ailemaze kesi hiyo.
+            label: Kuwezesha / Kulemaza
+          export_case_pdf:
+            explanation: 'Mtumiaji anaweza kutengeneza faili la PDF la usafirishaji kutoka kwenye orodha ya kesi au ukurasa wa onyesho la kesi, ambalo mtumiaji wa sasa anaouwezo wa kuifikia kesi moja, nyingi au hata zote . Katika faili la kusafirisha la PDF, taarifa huorodheshwa kwanza kwa kesi na baada ya hapo kupangwa kwa fomu ambazo taarifa hujitokeza. '
+            label: Safirisha kesi kwenda PDF
+          export_csv:
+            explanation: 'Mtumiaji anaweza kutengeneza faili la usafirishaji la CSV kutoka kwenye orodha ya kesi au ukurasa wa onyesho la kesi, ambao una maeneo yote ambayo mtumiaji wa sasa anaouwezo wa kufikia kesi moja, nyingi, au zote. ANGALIZO, Usafirishaji wa CSV hautoi herufi zisizokuwa za Kilatini (mfano Kiarabu, Kibengali) katika muundo unaoweza kusomeka '
+            label: Safirisha kwenda CSV
+          export_custom:
+            explanation: 'Mtumiaji anaweza kutengeneza faili la kusafirisha la XLS kutoka kwenye orodha ya kesi au ukurasa wa onyesho la kesi, ambao una seti maalum ya fomu, au eneo kwa kesi moja, nyingi au zote ambazo mtumiaji anaweza kuzifikia. Katika usafirishaji huu, kila fomu moja inawakilishwa na kichupo (tab) chake katika faili la XLS. Mtumiaji anaweza kuchagua ni fomu zipi au maeneo gani wangependa yaingizwe katika usafirishaji kwa kutumia muundo Maalum wa Usafirishaji. Tafadhali kumbuka kuwa watumiaji wanaweza kuingiza fomu na maeneo katika usafirishaji, ikiwa watakuwa tayari wano uwezo wa kuziona fomu hizo na maeneo hayo pale watakapokuwa wakiiangalia kesi katika maombi. '
+            label: Desturi za Usafirishaji i
+          export_duplicate_id_csv:
+            explanation: 'Tengeneza usafirishaji wa kesi kwa CSV ambao una eneo la aina moja la Kitambulisho cha Taifa (inaweza kuwa na lebo /utambulisho tofauti kwa kutegemea mpangilio) unaotekelezwa kutoka kwenye ukurasa wa kesi tu. '
+            label: Usafirishaji wa Nakala
+          export_json:
+            explanation: Mtumiaji anaweza kutengeneza faili la kusafirisha la JSON kutoka kwenye orodha ya kesi au ukurasa wa onyesho la kesi, wenye maeneo yote ambayo mtumiaji anao uwezo wa kuifikia  kesi moja, nyingi, au zote. Usafirishaji huu hutumiwa zaidi na wale wanaotaka kusafirisha kesi kutoka kwenye mfumo wa sasa wa Primero na baadae kuziingiza katika mfumo tofauti wa Primero au katika mfumo mwengine wa usimamizi wa taarifa. Mfumo wa JSON unasomwa kwa kutumia mashine na kwa hivyo watumiaji walio wengi hawawezi kuutumia
+            label: Safirisha JSON
+          export_list_view_csv:
+            explanation: Mtumiaji anaweza kutengeneza faili la kusafirisha la CSV kutoka kwenye ukurasa wa orodha ya kesi wenye maeneo sawa  na yale yanayoonekana na mtumiaji huyo katika orodha ya kesi. Yaliyofanyiwa kazi kwenye ukurasa wa kesi tu.
+            label: 'Hamisha muonekano wa orodha kwenda CSV '
+          export_pdf:
+            explanation: Mtumiajia anaweza kutengeneza faili la usafirishaji la PDF kutoka kwenye orodha ya kesi au kurasa za kuonyesha kesi ambazo zinazyomaeneo yote ambayo mtumiaji wa sasa anao uwezo wa kuyafikia kwa kesi moja, nyingi au zote. Katika faili la usafirishaji la PDF, taarifa imeandikwa kwanza kwa kesi, na baada ya hapo limepangiliwa katika fomu ambayo taarifa inaonekana.
+            label: Safirisha kesi kwenda PDF
+          export_photowall:
+            explanation: Inamruhusu mtumiaji kusafirisha faili kutoka kwenye ukurasa wenye picha zote za kesi zilizochaguliwa,  Ripoti hii inatumika hasa kufuatilia mambo ya familia na shughuli za kuwaungngabisha watu.  Iliyotekelezwa kutoka kwenye ukurasa wa orodha ya peji.
+            label: Itifaki ya Kusafirisha nje
+          export_unhcr_csv:
+            label: 'Usafirishaji kwa CSV ya Shirika la Wakimbizi la Umoja wa Mataifa '
+          export_xls:
+            explanation: 'Mtumiaji anaweza kutengeneza faili la usafirishaji la XLS kutoka kwenye orodha ya kesi au kurasa za kuonyesha kesi, zenye  maeneo yote ambayo mtumiaji wa sasa anao uwezo wa kuyafikia kwa kesi moja, nyingi au zote. Katika usafirishaji huu, kila fomu moja inawakilishwa na kichupo chake kwenye faili la XLS. ANGALIZO, Usafirishaji wa  XLS hutoia herufi zisizokuwa za Kilatin  (mfano, Kiarabu , Kibengali) katika mfumo unaoweza kusomeka, wakati usafitishaji wa CSV hautoi huduma hiyo. '
+            label: 'Usafirishaji wa Excel (kwa faili la XLS) '
+          find_tracing_match:
+            explanation: Hii hutumika katika mazingira ya kushughulikia Kutafuta / Kufuatilia na Kuunganisha Familia tu. Watumiaji wenye ruhusa ya kufanya hivi wataona kitufe cha "Tafuta Ulinganisho" katika ukurasa wa kuonyesha kesi" Watakapobonyeza kitufe hiki, wataingia katika orodha ya ombi la kutafuta katika mfumo ambao unaonesha ulinganisho unaowezekana kwa kesi zao.
+            label: Tafuta kulinganisha kunakoweza kuonekana kutoka kwenye kesi
+          flag:
+            explanation: Uwezo wa kuongeza bendera kwenye kesi. Watumiaji wenye ruhusa ya kufanya hivi wanaweza pia kuziondoa bendera walizoziweka hapo awali.
+            label: Bendera
+          import:
+            explanation: 'Inamruhusu mtumiaji kuweza kutengeneza kesi nyingine moja au zaidi mpya kwa kuziagiza kutoka kwenye faili la CSV, Excel au JSON. Faili ambalo linaagizwa lazima liwe limetengenezwa mahsusi "kabisa'' kwa taarifa kuweza kuingizwa ipasavyo. Kipengele hiki kiwe kinapatikana kwa watumiaji wa utawala / usimamizi ambao wenye ujuzi wa hali ya juu wa kiufundi na ufahamu wa kina kuhusu namna ambayo data / taarifa inavyopangwa katika Primero. Inatekelezwa kutoka kwa ukurasa wa orodha ya kesi tu. '
+            label: Kuagiza
+          incident_details_from_case:
+            explanation: Uwezo wa kuongeza kitu kingine katika fomu ndogo ya Maelezo ya Tukio katika kesi uliyoiona katika matokeo ya utfutaji lakini huna uwezo wa kuifikia,. Mtumiaji anaweza kufanya kazi hii kutoka kwenye ukurasa wa matokeo ya utafutaji kwa kuchagua kesi moja au zaidi kutoka kwenue menyu ya vitendo.  Baada ya hapo, mtumiaji ataona  muundo wenye maeneo yote au fomu ndogo ya maelezo ya tukio sehemu ambayo ambapo wanaweza  kuingia na kutoa taarifa kuhusu huduma , Kwa sababu shughuli hii inaweza kufanya kutoka  kwenye ukurasa wa matokeo ya utafutaji tu.  Italeta maana pale tu ambapo mtu huyo atakuwa pia na ruhusa ya "kutafuta kwa rekodi ya kesi ambayo zinazomilikiwa na watu wengine"
+            label: 'Ongeza Maelezo ya Tukio la mtumiaji mwingine wa kesi kutoka kwenye ukurasa wa matokeo ya utafutaji.  '
+          incident_from_case:
+            explanation: Ruhusa hii inaruhusu mtumiaji kubonyeza kitufe cha "Tengeneza Tukio" . Hii itatengeneza tukio ambalo linaweza kuwa na taarifa iliyonakiliwa kutoka kwenye kesi. Kwa kesi za Udhalilishaji wa Kijinsia, kitufe kiko juu katika ukurasa wa maonyesho ya kesi na inalingana na taarifa kuhusu kesi yote kwa jumla.. Kwenye baadhi ya muktadha wa ufuati;liaji wa matukio, kitufe kiko kwenye fomu ndogo ya "Maelezo ya Tukio". Katika hali hii, baadhi ya taarifa huenda ikawa imenakiliwa kutoka kwenye fomu ndogo ya maelezo ya tukio, ambapo kitufe kilibonyezwa, pamoja na kutoka kwenye kesi yenyewe kwa jumla. hii ni kwamba tukio jipya lililo tengenezwa linaweza kuwa na eneo / sehemu ya "Aina ya Udhalilishaji" kutoka kwenye fomu ndogo ya kmtu binafsi yenye maelezo ya tukio, lakini inaweza pia kuwa na umri na jinsia ya kesi yenyewe. Kumbuka kuwa ruhusa hii inamruhusu pia mtumiaji kuwewza kuona kiunganishi kinachokwenda kwenye tukio lililotengenezwa.
+            label: Tengeneza tukio kutoka kwenye kesi
+          manage:
+            explanation: Inatoa ruhusa kwa mtumiaji kutekeleza shughuli zote zinazopatikana kuhusu kesi. Ruhusa ya "Kusimamia" ina maana ya "kila kitu"
+            label: Simamia (ruhusa zote za aina hii ya rasilimali)
+          read:
+            explanation: Uwezo wa kutazama / kuangalia kesi
+            label: Mtazamo / Tazama
+          receive_referral:
+            explanation: Inamruhusu mtumiaji kupokea rufaa. Watumiaji wenye ruhusa wataonekana kama watu wenye uwezekano wa kushughulikia rufaa, wakati watumiaji ambao hawana ruhusa hiyo, hawataonekana kama ni watu wenye uwezekano huo wakati mtu atakapokuwa anaangalia mpokeaji katika mfumo wa rufaa
+            label: Kupokea Rufaa
+          receive_referral_different_module:
+            explanation: Inaruhusu mtumiaji kupokea rufaa ya rekodi ambayo imetengenezwa katika moduli tofauti ya Primero. Watumiaji wenye ruhusa wataonekana kama watu wenye uwezekano wa kushughulikia rufaa kwa rekodi hiyo, wakati ambapo watumiaji ambao hawana ruhusa hiyo hawataonekana kuwa ni watu wenye uwezekano wa kupokea rufaa wakati mtu atakapotafuta mpokeaji katika mfumo wa rufaa.
+            label: Kupokea Rufaa kutoka kwa mtumiaji kutoka kwenye moduli tofauti
+          receive_transfer:
+            explanation: Inamruhusu mtumiaji kupokea uhamisho. Watumiaji wenye ruhusa hii wataonekana kama watu wenye uwezekano wa kupokea shughuli za uhamisho, wakati wale ambao hawana ruhusa hiyo, hawataonekana kama watu wenye uwezekano wa kupokea, pale ambapo mtu atakuwa anaangalia mpokeaji katika mfumo wa uhamisho.
+            label: Kupokea Uhamisho
+          referral:
+            explanation: 'Inamruhusu mtumiaji kuweza kumpa mtumiaji mwengine ufikiaji wa muda wa kesi. Mpokeaji wa rufaa ataweza kufanya shughuli zote za rufaa ya kesi iliyoletwa kama vile ambavyo wangeweza kufanya katika kesi zao wenyewe. Pale ambapo mpokeaji hahitaji tena kuifikia kesi hiyo, atabonyeza kitufe cha "Imekamilika" katika fomu ndogo ya Rufaa na Uhamisho, na hawatakuwa tena na uwezo wa kuifikia kesi hiyo. Unaweza kupeleka rufaa ya kesi kwa mtumiaji ambaye jukumu lake linamuwezesha kupkea rufaa. '
+            label: Rufaa
+          referral_from_service:
+            explanation: Inamruhusu mtumiaji kukiona kitufe cha "Rufaa" katika fomu ndogo ya Huduma. Mtumiaji atakapobonyeza kitufe hiki, mfumo wa rufaa utaonekana ukiwa na maandishi yafuatayo, Aina ya Huduma, Wakala, Mtoa Huduma, na sehemu za Eneo zimezimwa, lakini zimejazwa taarifa kiotomatiki katika fomu ndogo ya Huduma ambayo mtumiaji alibonyeza kitufe cha Rufaa.
+            label: Rejea Kesi kutoka fomu ndogo ya Huduma
+          remove_assigned_users:
+            explanation: 'Inamruhusu mtumiaji kuwaondoa watumiaji wengine kutoka kwenye sehemu ya "Watumiaji Wengine Waliopewa Ruhusa". Mtumiaji huorodheshwa hapa ikiwa atakuwa amepokea rufaa ya kesi au amepokea uhamisho wa kesi, lakini bado hajaikubali au kuikataa. Utakapomtoa mtumiaji kutoka kwenye sehemu ya "Watumiaji Wengine Waliopewa Ruhusa", unawaondolea uwezo wao wa kuifikia kesi. Kwa hivyo watumiaji waliopewa ruhusa hii wanaweza kuwazuiya watumiaji wengine ambao waliwahi kupokea rufaa au waanaosubiri kupokea kesi za uhamisho, wasiweze tena kufikia kesi hizo. Kumbuka kuwa ruhusa hii inafanya kazi pale tu ambapo mtumiaji wa sasa anao uwezo wa kuhariri kesi. '
+            label: Ondoa watumiaji wengine waliopewa ruhusa (Kuondoa ufikiaji wa kesi kwa watumiaji waliorejelewa kesi)
+          reopen:
+            explanation: Inamruhusu mtumiaji kufungua kesi ambayo kwa sasa imefungwa
+            label: Fungua tena
+          request_approval_action_plan:
+            explanation: Inamruhusu mtumiaji (mara nyingi anakuwa ni mfanyakazi wa kesi) kumuomba meneja wao aidhinishe kesi zake%{approval_label}
+            label: 'Omba %{approval_label}kibali '
+          request_approval_assessment:
+            explanation: Inamruhusu mtumiaji (mara nyingi anakuwa ni mfanyakazi wa kesi) aombe meneja wao aidhinishe kesi zake%{approval_label}
+            label: Omba %{approval_label}kibali
+          request_approval_bia:
+            explanation: Inamruhusu mtumiaji (mara nyingi anakuwa ni mfanyakazi wa kesi) kuomba meneja wao aidhinishe kesi zake%{approval_label}
+            label: Omba %{approval_label}Kibali
+          request_approval_case_plan:
+            explanation: Inamruhusu mtumiaji (mara nyingi anakuwa ni mfanyakazi wa kesi) kuomba meneja wao aidhinishe kesi zake%{approval_label}
+            label: Omba %{approval_label}Kibali
+          request_approval_closure:
+            explanation: Inamruhusu mtumiaji (mara nyingi anakuwa ni mfanyakazi wa kesi) kuomba meneja wao aidhinishe kesi zake%{approval_label}
+            label: Omba %{approval_label}Kibali
+          request_approval_gbv_closure:
+            explanation: Inamruhusu mtumiaji (mara nyingi anakuwa ni mfanyakazi wa kesi) kuomba meneja wao aidhinishe kesi zake %{approval_label}
+            label: Omba %{approval_label}Kibali
+          request_transfer:
+            explanation: 'Inaonyesha kitufe cha "Omba Uhamisho" kwenye "Tazama Mfumo". Kitufe kinamruhusu mtumiaji kutuma ujumbe wenye maelezo ya kibinafsi kwa kupitia baruapepe kwenda kwa mmiliki wa rekodi ya kesi wa sasa hivi, akimuomba mmiliki wa rekodi kuihamisha kesi kwenda kwa mtumiaji aliyetuma ombi hilo. Hii inasaidia sana katika mazingira ambayo watoto wanabadilisha maeneo yao mara kwa mara, na ambapo wafanyakazi wa kesi watahitaji mfanyakazi wa kesi aliyeishughulikia hapo awali atume taarifa kuhusu mtoto huyo ili wasijekutengeneza nakala nyingine ya rekodi. '
+            label: Omba Uhamisho
+          search_owned_by_others:
+            explanation: 'Inamruhusu mtumiaji kufanya utafiti wa rekodi ambazo kwa kawaida hawana uwezo wa kuzifikia, huenda ni kwa sababu sio wamiliki wa rekodi za kesi hiyo au (kwa mameneja) kwa sababu wamiliki wa rekodi hizo hawamo katika kikundi chao cha watumiaji. Kumbuka kwamba ingawa mtumiaji ataiona kesi katika matokeo ya utafiti wake, hawataweza kubonyeza kwenye ukurasa wa onyesho la kesi kwa kesi hiyo, ikiwa na maana kuwa hawatakuwa na uwezo wa kuona taarifa ya kina kuhusu kesi hiyo.  '
+            label: Tafuta rekodi nyingine za kesi zinazomilikiwa na watumiaji wengine
+          service_provision_incident_details:
+            explanation: Inamruhusu mtumiaji kukiona kitufe kilichoandikwa "Hifadhi na Ongeza Utoaji wa Huduma" upande wa chini wa mfumo wa Ongeza Tukio. Kubonyeza kitufe hiki kutaihifadhi taarifa ambayo imeingizwa sasa hivi kuhusu tukio, na baada ya hapo kumchukua mtumiaji kwenda kwenye mfumo wa shughuli za Ongezab Utoaji wa Huduma. Kwa vile kitendo hiki kimeunganishwa moja kwa moja na vitendo vya Ongeza Tukio na Ongeza Huduma. Italeta maana ikiwa kupewa ruhusa hii kutafunganishwa na  jukumu ikiwa jukumu hilo llinayo ruhusa ya "Ongeza Maelezo ya Tuklio kwenda kwa mtumiaji mwingine wa kesi" na "Ongeza utoaji wa Huduma kweenda kwa mtumiaji mwingine wa kesi"
+            label: Angalia Kitufe cha Ongeza Utowaji wa Huduma au Mfumo wa Maelezo ya Tukio.
+          services_section_from_case:
+            explanation: Uwezo wa kuongeza kiingilio cha fomu ndogo ya Huduma au kwenye kesi uliyoiona katika matokeo ya utafiti, lakini ambayo wewe huwezi kuifikia.  Mtumiaji anafanya kitendo hiki kutoka kwenye ukurasa wa matokeo ya utafiti kwa kuchagua kesi moja ua zaidi, na baada ya hapo kuchagua "Ongeza Utoaji Huduma" kutoka kwenye orodha ya vitendo. Baada ya hapo mtumiaji ataona mfumo wenye maeneo yote katika fomu ndogo ya Huduma, pahala ambapo wataweza kuingia na kuwasilisha taarifa kuhusu huduma. Kwa sababu kitendo hiki kinaweza kufanyika kutoka kwenye ukurasa wa matokeo ya utafiti pekee, italeta maana ikiwa mwenye jukumu aitakaekuwa na ruhusa hii atakuwa pia na ruhusa ya "Kutafuta rekodi za kesi zinazomilikiwa na watumiaji wengine"
+            label: Ongeza utoaji wa Huduma kwa mtumiaji mwengine wa kesi
+          sync_external:
+            explanation: 'Uwezo wa kusawazisha Rekodi pamoja na mfumo wa nje wa usimamizi wa taarifa  '
+            label: 'Kusawazisha na mfumo wa nje wa usimamizi wa taarifa '
+          sync_mobile:
+            explanation: Inamuwezesha mtumiaji kuzihifadhi kesi kwa matumizi nje ya mtandao
+            label: Alama kwa Nje ya Mtandao
+          transfer:
+            explanation: Inamruhusu mtumiaji kutuma / kupeleka kesi kutoka kwa mmiliki wa rekodi wa sasa kwenda kwa mtumiaji yeyote kwenye mfumo ambaye anao uwezo wa kupokea uhamisho. Umiliki wa rekodi ya kesi haubadiliki, hata hivyompaka hapo mpokeaji wa uhamisho huo "atakapoikubali".  Ikiwa mpokeaji "ataukataa" uhamisho ho, mpokeaji huyo atakuwa hawezi tena kuifikia kesi hiyo, na rekodi hiyo itabaki na mmiliki wake wa asili
+            label: Uhamisho
+          view_photo:
+            explanation: 'Inamruhusu mtumiaji kuweza kuona picha za kesi kutoka kwenye muonekano wa orodha ya kesi. Bila ya kuwa na ruhusa, mtumiaji hawezi kuiona safu wima ya "Picha" ya jadweli ya orodha ya kesi, au aikon za picha zinazoonekana hapo. Ruhusa hii inamruhusu pia mtumiaji kuziona picha za mtoto katika "Tazama Mfumo" '
+            label: Tazama Picha kutoka kwenye orodha ya kuona kesi
+          view_incident_from_case:
+            explanation: Wakati wa kuangalia Kesi, Mtumiaji ataweza kuona orodha ya Matukio iiliyounganishwa na Kesi, pamoja na taarifa fupi ya kila kesi.
+            label: Tazama Matukio kutoka kwenye Kesi
+          view_protection_concerns_filter:
+            explanation: Inamuwezesha mtumiaji kuona kichujo cha masuala ya hifadhi katika ukurasa wa orodha ya kesi
+            label: Tazama kichujo cha Masuala ya Hifadhi katika ukurasa wa orodha ya kesi
+          view_registry_record:
+            explanation: Inamuwezesha mtumiaji kuziona taarifa za Usajili zilizounganishwa na Kesi. Pia inamuwezesha mtumiaji kuiona fomu ya maelezo ya Usajili kuhusu Kesi
+            label: Tazama rekodi ya Usajili kutoka kwenye Kesi
+          write:
+            explanation: Uwezo wa kubonyeza kitufe cha "Kuhariri", ingeza taarifa mpya kwenye kesi na ubonyeze "Hifadhai"
+            label: Kuhariri
+          accept_or_reject_transfer:
+            explanation: Inamuwezesha mtumiaji kukubali au kukataa uhamisho kwa niaba ya mtumiaji mwengine ambaye yuko katika timu yako (kwa mfano, msimamizi kuukubali uhamisho ambao umepelekwa kwa mfanyakazi wao wa kijamii)
+            label: Kubali au kataa uhamisho kwa mtumiaji mwengine kwenye timu yako
+          list_case_names:
+            explanation: Wasimamizi kwa kawaida hawawezi kuona majina ya Kesi kwenye Orodha ya Kesi. Ikiwa msimamizi atakuwa na ruhusa hii, atakuwa na uwezo wa kuyaona majina kwenye orodha
+            label: Ikiwa msimamizi ataweza kuyaona majina ya Kesi katika Orodha ya Kesi
+          mark_for_offline:
+            explanation: Inamuwezesha mtumiaji kuihifadhi Kesi kwa matumizi nje ya mtandao
+            label: Alama kwa Nje ya Mtandao
+        explanation: Inamuwakilisha mtoto binafsi, aliyenusurika au mnufaika mwengine
+        label: Kesi
+      dashboard:
+        actions:
+          approvals_action_plan:
+            explanation: Inaonyesha nambari ya kesi ya mtumiaji wa sasa pamoja na maombi ya kuidhinishwa kwa  Mpango wa Utekelezaji ambayo  bado Yanasubiri, Yaliyoidhinishwa, au Yaliyokataliwa.
+            label: Vibali vya  %{approval_label}Mfanyakazi wa kesi.
+          approvals_action_plan_pending:
+            explanation: 'Inaonyesha idadi ya kesi katika timu ya meneja ambazo zinayo maombi yanayosubiri ya kuidhinishwa Mpango wa Utekelezaji '
+            label: Vibali / Idhini%{approval_label}ya Meneja
+          approvals_assessment:
+            explanation: 'Inaonyesha idadi ya kesi za mtumiaji wa sasa zenye maombi ya idhini ya tathmini ambayo Yanasubiri, Yaliyokubalika / Yaliyoidhinishwa au Yaliyokataliwa. '
+            label: Vibali %{approval_label}vya wafanyakazi wa kesi
+          approvals_assessment_pending:
+            explanation: Inaonyesha idadi ya kesi katika timu ya meneja yenye maombi ya kuidhinishwa Tathmini ambayo bado yanasubiri
+            label: Vibali / Idhini %{approval_label}ya meneja
+          approvals_case_plan:
+            explanation: Inaonyesha idadi ya kesi ya mtumiaji wa sasa zenye maombi ya kuidhinishwa kwa Mpango wa Kesi ambayo Yanasubiri, Yameidhinishwa, au Yamekataliwa.
+            label: Vibali %{approval_label}vya mfanyakazi wa kesi
+          approvals_case_plan_pending:
+            explanation: Inaonyesha idadi ya kesi kwenye timu ya meneja yenye maombi ya kuidhinishwa kwa Mpango wa Kesi ambayo yanasubiri
+            label: Vibali / Idhini %{approval_label}ya meneja
+          approvals_closure:
+            explanation: Inaonyesha idadi ya kesi za mtumiaji wa sasa zenye maombi ya kuidhinishwa Kufungwa ambayo bado Yanasubiri, Yameidhinishwa, au Yamekataliwa
+            label: Vibali %{approval_label}vya Mfanyakazi wa kesi
+          approvals_closure_pending:
+            explanation: Inaonyesha idadi ya kesi kwenye timu ya meneja zenye maombi yanayosubiri ya kuidhinishwa Kufungwa.
+            label: Vibali / Idhini %{approval_label}ya meneja
+          approvals_gbv_closure:
+            explanation: Inaonyesha idadi ya kesi za mtumiaji wa sasa zenye maombi ya kuidhinishwa Kufungwa kwa kesi za Udhalilishaji wa Kijinsia ambayo Yanasubiri, Yameidhinishwa, au Yamekataliwa
+            label: Vibali %{approval_label}vya mfanyakazi wa kesi
+          approvals_gbv_closure_pending:
+            explanation: 'Inaonyesha idadi ya kesi kwenye timu ya meneja zenye maombi yanayosubiri kuidhinishwa  Kufungwa kwa kesi ya Udhalilishaji wa Kijinsia '
+            label: Vibali / Idhini %{approval_label}ya meneja
+          case_overview:
+            explanation: Kadi ya dashbodi ya muhtasari iliyopo juu kwenye ukurasa wa nyumbani, ambayo inajumuisha takwimu kama vile Jumla na Kesi mpya
+            label: Dashbodi ya Muhtasari
+          case_risk:
+            explanation: Inaonyesha ni kesi ngapi ziko katika kiwango cha hatari
+            label: Kesi kwa kiwango cha hatari
+          cases_by_task_overdue_assessment:
+            explanation: Inamruhusu meneja kuweza kuona idadi ya kesi zenye kazi za tathmini zilizochelewa kwa kila mmoja ya mfanyakazi wa kesi
+            label: Kazi za Tathmini zilizochelewa
+          cases_by_task_overdue_case_plan:
+            explanation: Inamruhusu meneja kuona ni kesi ngapi ambazo zinazo kazi za Mpango wa Kazi zilizochelewa kwa kila mfanyakazi wa kesi.
+            label: Kazi za Mpango wa Kesi zilizochelewa.
+          cases_by_task_overdue_followups:
+            explanation: Inamruhusu meneja kuona ni kesi ngapi zenye kazi za Ufuatiliaji zilizochelewa kwa kila mmoja ya wafanyakazi wa kesi
+            label: Kazi za Ufuatiliaji zilizochelewa
+          cases_by_task_overdue_services:
+            explanation: Inamruhusu meneja kuona idadi ya kesi zenye kazi za Huduma zilizocheleweshwa kwa kila mmoja ya wafanyakazi wa kesi
+            label: Kazi za Huduma Zilizocheleweshwa.
+          dash_case_incident_overview:
+            explanation: .
+            label: Muhtasari wa - Kesi Zangu / Matukio Yangu
+          dash_cases_by_social_worker:
+            explanation: Jedwali linaloonesha ni kwa namna gani jumla ya kesi zilizofunguliwa na idadi ya kesi mpya zinazosimamiwa na kila mtumiaji katika kikundi cha watumiaji wa sasa. Kila safuni mtumiaji katika vikundi vya watumiaji wa sasa, wakati "Jumla" na "Mpya"ni safu wima mbili.
+            label: Kuangalia Kesi na Wafanyakazi wa Kijamii
+          dash_cases_to_assign:
+            explanation: 'MUHIMU: Kwa mameneja tu,. Inaonyesha idadi ya kesi zinazomilikiwa moja kwa moja na mmiliki wa sasa (ni lazima awe meneja). Dashbodi hii inachukulia kuwa meneja hawasimamii kesi zao wenyewe, na ikiwa meneja atakuwa na kesi yake, mwenyewe, itawabidi wamkabidhi mfanyakazi wa kesi katika timu yake.'
+            label: Kwa Kesi za (Mameneja) Inabidi niwakabidhi watu kwenye timu yangu
+          dash_flags:
+            explanation: Inaonyesha orodha ya bendera ambazo watumiaji wengine wameziongeza kwenye rekodi zangu, pamoja na bendera nilizoziongeza mimi mwenyewe kwenye rekodi za watumiaji wengingine.
+            label: Rekodi zilizotiwa Alama
+          dash_group_overview:
+            explanation: Inamuonyesha meneja idadi ya kesi zilizoko wazi / zinazoendelea na zilizofungwa zinazosimamiwa na watumiaji katika timu zao
+            label: Kesi za Kikundi Changu
+          dash_matching_results:
+            explanation: 'IMESHUKA THAMANI: Dasbodi hii haifanyi kazi na itaondolewa ndani ya x2.'
+            label: Tazama Matokeo Yanayolingana
+          dash_protection_concerns:
+            explanation: 'Jedwali linaloonyesha ni kesi ngapi zina masuala ya kila ulinzi. Kila safu moja ya Jedwali ni suala la ulinzi, wakati safu wima zinaonyesha hadhi tofauti kwa kesi ("Kesi Zote", "Kesi zilizoko Wazi/ Zinazoendelea", "Mpya (za wiki hii)", "Zimefungwa (wiki hii)") '
+            label: Kesi kwa Masuala ya Ulinzi
+          dash_protection_concerns_by_location:
+            explanation: Hii ni sawa na  dashbodi ya "Tazama Masuala ya Ulinzi" isipokuwa hapa ni kuwa mtumiaji anaweza kuchagua eneo kutoka kwenye orodha inayoonyesha takwimu za kuenea kwa masuala /wasiwasi wa ulinzi katika  eneo.
+            label: Tazama Masuala ya Ulinzi Kwa Eneo
+          dash_reporting_location:
+            explanation: 'Jedwali linaloonyesha ni kesi ngapi zipo katika kila eneo (katika ngazi moja maalum kama vile "Mkoa" au  "Wilaya"). Kila safu ya Jedwali ni eneo na safu wima inaashiria hadhi tofauti ya kesi hiyo ("KESI ZILIZOKO WAZI/ ZINAZOENDELEA", "MPYA (WIKI ILIYOPITA)", "MPYA (WIKI HII)", "IMEFUNGWA (WIKI ILIYOPITA)", IMEFUNGWA (WIKI HII)'' ). Mara nyingi hutumika kwa meneja au akaunti za usimamizi. '
+            label: Kesi kwa Eneo la kutoa Ripoti
+          dash_service_provisions:
+            explanation: 'Inaonyesha idadi ya kesi ambazo ziliwahi kuwa na watumiaji wegine ambao waliwahi kuongezewa masharti ya huduma kwao. Idadi hiyo itaonekana katika sehemu kubwa ya dasbodi '
+            label: Kesi kwa aina ya Utoaji wa Huduma
+          dash_shared_from_my_team:
+            explanation: Inamuonesha meneja idadi ya kesi zinazosimamiwa na kila mtumiaji katika timu, ambazo zinapelekwa rufaa au zinahamishwa kwenda kwa watumiaji wengine.
+            label: Imesambazwa Kutoka kwenye Timu Yangu
+          dash_shared_with_me:
+            explanation: Inaonyesha ni kesi ngapi zilizoltwa kama rufaa au uhamisho kuja kwako
+            label: Zimewasilishwa Kwangu
+          dash_shared_with_my_team:
+            explanation: Inamuonyesha meneja idadi ya kesi zilizoletwa kama rufaa au uhamisho kwa kila mtumiaji mmoja katika timu yao
+            label: Imesambazwa kwa Timu Yangu
+          dash_shared_with_my_team_overview:
+            label: Imeshirikisha Timu yangu (Muhtasari)
+          dash_shared_with_others:
+            explanation: Inaonyesha ni kiasi gani cha kesi zangu zina rufaa zinazoendelea kufanyiwa kazi, uhamisho unaosubiri, au uhamisho uliokataliwa. Hii si kwa meneja ispokuwa pale tu ambapo meneja anasimamia kesi yeye mwenyewe
+            label: Imesambazwa Kwa Wengine
+          dash_show_none_values:
+            explanation: Inaongeza uwanja wa ziada wa 'Hakuna Kiwango cha Hatari' kwadashbodi zote ambazo zinazigawa kesi kutokana na kiwango cha hatari. Hii ni mahsusi kwa wale wanaotengeneza mifumo ambayo inzipanga kesi kwa kiwango cha hatari. Hii ni mahsusi kwa mifumo ambayo inayo chaguo la nne la "Hakuna Hatari" linalotumika katika maeneo ya kuchagua ya hatua ya hatari.
+            label: Angalia kesi ambazo 'Hazina Kiwango cha Hatari' katika Dashbodi ya Tathmini.
+          dash_tasks:
+            explanation: Inamruhusu mtumiaji kuona ukurasa wa . Hii inatakiwa itumike kwa wafanyakazi wa kesi na watoaji huduma, kwa vile nambari zitakuwa ni maalum kwa kesi unazozisimamia moja kwa moja. Meneja badala yake itambidi apate dashbodi ya "Angalia /Tazama Kesi kwa Kazi Iliyochelewa", kwa sababu hii itawawezesha kuona kazi zilizochelewa za kila mtu katika kikundi chao cha watumiaji
+            label: Ukurasa wa Majukumu.
+          dash_national_admin_summary:
+            explanation: Inaonyesha jumla ya Kesi zote zilizoko wazi / zinazoendelea katika mfumo,  idadi ya Kesi mpya zilizofunguliwa  katika kila wiki kwa kipindi cha wiki mbili zilizopita, na idadi ya Kesi zilizofungwa katika kila wiki kwa kipindi cha wiki mbili zilizopita.
+            label: Muhtasari wa Msimamizi
+          view_response:
+            explanation: Kwa kila aina ya jibu, inaonyesha ni kesi ngapi katika kila hatua ya hatari ina huduma ambazo karibu zitamalizika muda wake au kuchelewa kukamilika.
+            label: Tazama Majibu
+          workflow:
+            explanation: Inamruhusu mfanyakazi wa kesi kuiona chati ya duara (pai) inayoonyesha ni idadi gani ya kesi zao ziko katika kila hatua ya mtiririko wa usimamizi wa kesi
+            label: Kesi zilizogawanywa kwan uzito / wingi wa kesi
+          workflow_team:
+            explanation: 'Inamruhusu meneja kuona jedwali linaloonyesha ni kesi ngapi za wafanyakazi wao zilizoko katika kila hatua ya mchakato wa usimamizi wa kesi '
+            label: Kesi kwa Wingi wa Kesi na Mfanyakazi wa Kesi
+        explanation: Inaelekeza ni habari ipi ya muhtasari ionekane kwenye ukurasa wa nyumbani
+        label: Dashbodi
+      disabled:
+        explanation: Ikiwa utaiondoa Jukumu hili, hutaweza tena kulkabidhi kwa akaunti ya mtumiaji
+        label: Imelemazwa / Imezimwa
+      duplicate:
+        actions:
+          read:
+            explanation: Inamruhusu mtumiaji kufanya utafiti wa hali ya juu kuhusu kesi zote zilizoko kwenye mfumo kwa kutumia vigezo kadhaa, ikiwa ni pamoja na Jina, Jina la utani, Jinsia, na Uraia /Utaifa
+            label: Mtazamo
+        explanation: Utafutaji wa hali ya juu kwa utawala
+        label: Utafutaji wa Nakala
+      forms:
+        case:
+          explanation: 'Kuzuiya watumiaji wasizifikie fomu za kesi kunaweka mipaka kuhusu taarifa ambayo mtumiaji anaweza kuiona kuhusu tukio.  Kwa mfano, ikiwa mtumiaji atakuwa na uwezo wa kuzifikia fomu za Mmiliki wa Rekodi, wataweza pia kuona taarifa katika maeneo ya fomu hiyo. Ikiwa mtumiaji wa sasa atakuwa na ufikiaji mdogo wa fomu na ana uwezo wa kusimamia mpangilio wa fomu, uwezo wao mdogo wa kuzifikia  fomu unapunguza pia uwezo wao wa idadi ya fomu watakazoweza kuzipangilia. KUMBUKA: Ikiwa hakuna fomu zilizowekwa maalum, inamaanisha kuwa mtu mwenye jukumu hili anaweza kuzifikia fomu zote za kesi.'
+          label: Fomu - Kesi
+        incident:
+          explanation: 'Kuzuiya ufikiaji wa mtumiaji wa fomu za matukio kunaweka mipaka ni taarifa gani mtumiaji anayoweza kuiona kuhusu tukio. Kwa mfano, ikiwa mtumiaji atakuwa na uwezo wa kuifikia fomu ya Mmiliki wa Rekodi, atweza pia kuona taarifa iliyomo katika maeneo ya fomu hiyo tu. Ikiwa mtumiaji wa sasa ana ufikiaji mdogo wa fomu na anauwezo wa kuusimamia mpangilio wa fomu, ufikiaji mdogo wa fomu pia unazuiya fomu gani wanaweza kuziwekea mpangilio wake. IKUMBUKA kiwa hakuna fomu maalum zilizotajwa, ina maana ya kuwa analojukumu la ufikiaji wa fomu zote za matukio  '
+          label: Fomu - Tukio
+        tracing_request:
+          explanation: 'Kupunguza uwezo wa mtumiaji wa kuzifikia fomu zenye maombi ya kufuatilia , kunapunguza kiwango cha taarifa ambacho mtumiaji anaweza kuziona.  Kwa mfano, ikiwa mtumiaji ana uwezo wa kufikia fomu ya Mmiliki wa Rewkodi tu, ataweza pia kuona taarifa katika maeneo ya fomu hiyo tu. Ikiwa mtumiaji wa sasa atakuwa na ufikiaji mdogo wa fomu, na ana uwezo wa kusimamia mpangilio wa fomu,  uwezo wake mdogo wa kuzifikia fomu utapunguza pia uwezo wake wa idadi ya fomu atakazoweza kuzipangilia. KUMBUKA, ikiwa hakuna fomu zilizowekwa maalum, inamaanisha kuwa mwenye jukumu hili ataweza kuzifikia fomu zote zenye Maombi ya Kufuatilia  '
+          label: Fomu - Ombi la Kufuatilia
+        registry_record:
+          explanation: 'Kuzuiya ufikiaji wa mtumiaji wenye fomu au usajili kunatoa ufikiaji mdodgo wa aina ya taarifa ambazo mtumiaji anaweza kuziona kuhusu usajili. Kwa mfano, ikiwa mtumiaji anauwezo wa kuifikia fomu ya Mmiliki wa fomu ya Usajili, wataweza kuona taarifa ya maeneo ya fomu ile tu. Ikwa mtumiaji wa sasa ana uwez omdogo wa kuzifikia fomu na anauwezo wa kusimamia mpagilio uwezo mdogo wa kufikia fomu pia una athiri  namna ambavyo anaweka kuisimamia miipangilio ya fomu zenyewe. KUMBUKA Ikiwa hakuna fomu maalum, inamaana mwenye jukumu anaweza kuzifikia fomu zote za usajili  '
+          label: Fomu - Usajili
+      group:
+        actions:
+          admin_only:
+            explanation: 'Hii ina maana kuwa mtumiaji mwenye jukumu hili ataweza kuona mambo yanayohusiana na utawala wa mfumo tu, kama vile ripoti, fomu na mpangilio wa kuangalia, watumiaji, majukumu na vikundi vya watumiaji. Hawataweza kuziwaona kesi za watu binafsi, maombi ya kufuatilia, au matukio. '
+            label: Hakuna rekodi - Kwa ufanyaji kazi wa msimamizi tu
+          agency:
+            explanation: Mwenye jukumu hili anaweza kuifikia usimamizi wa kumbukumbu kwa watumiaji wote katika wakala wao.
+            label: Rekodi / Kumbukumbu zote za watumiaji katika wakala wangu.
+          all:
+            explanation: 'Jukumu hili linaweza kufikia rekodi zote, watumiaji na vikundi vya watumiaji katika mfumo, bila ya kujali kikundi gani cha watumiaji wao wenyewe wamo.  '
+            label: Fikia rekodi zote au watumiaji
+          group:
+            explanation: Jukumu hili linaweza kufikia rekodi zinazosimamiwa na watumiaji wote katika vikundi vyao vya watumiaji. Wanaweza kuwafikia watumiaji katika vikundi vyao vya watumiaji tu. Wanaweza kufikia vikundi vyao vya watumiaji pekee.
+            label: Fikia rekodi zote au watumiaji katika kikundi changu
+          self:
+            explanation: Majukumu haya yanaweza kufikia rekodi zao wenyewe (kesi, maombi ya kutafuta, au matuklio), na wanaweza kuhariri akaunti zao za mtumiaji
+            label: Fikia rekodi zangu tu au mtumiaji
+        explanation: 'inadhibiti rekodi ambazo jukumu hili linaweza kuzifikia (Kesi, Kufuatilia Maombi, au Matukio), Ikiwa jukumu litakuwa na uwezo wa kufikia Watumiaji na Vikundi vya Watumiaji, hii inazuiya ni Watumiaji wepi na Vikundi vya Watumiaji wanavyoweza kuvifikia. Majukumu yenye ufikiaji wa "Hakuna Rekodi / Kumbukumbu" yanaweza kufikia mpangilio wa mfumo kama vile Fomu, Watumiaji, na Ripoti tu. '
+        label: Jukumu hili linaathiri recodi zipi / gani?
+      incident:
+        actions:
+          change_log:
+            explanation: Mtumiaji anaweza kuona historia ya mabadiliko yote yaliyofanywa kuanzia ilipotengenezwa. Hii ni pamoja na thamani zilizorekodiwa kwa maeneo yote
+            label: Badilisha Daftari / Badilisha Logi
+          create:
+            explanation: Uwezo wa kutengeneza tukio
+            label: Kutengeneza / Kuunda
+          enable_disable_record:
+            explanation: Uwezo wa kuzima au kuwezesha tukio. Matukio "Yaliyozimwa" hayaonekani kwenye chaguo - msingi katika orodha ya tukio. Watumiaji wanaweza kuyaona matukio yaliyozimwa katika orodha ya matukio kwa kutumia kichujio.
+            label: Kuwezesha / Kulemaza
+          export_case_pdf:
+            explanation: 'Mtumiaji anawerza kutengeneza faili la usafirishaji la PDF kutoka kwenye orodha ya matukio au kurasa za maonyesho ya matukio, ambazo zinayo maeneo ambayo mtumiaji wa sasa anao uwezo wa  kufikia rekodi moja, nyingi au zote. Katika faili la usafirishaji la PDF, taarifa imeandikwa kwanza kwa kesi, na baada ya hapo imepangiliwa katika mtiririko ambao taarifa inaonekana. '
+            label: Kusafirisha PDF / PDF ya Kuuza nje
+          export_csv:
+            explanation: Mtumiaji anaweza kutengeneza faili la usafirishaji la CSVkutoka kwenye orodha ya matukio au kurasa za maonyesho ya matukioambazo zina maeneo yote ambayo mtumiaji wa sasa ana uwezo wa kufikia tukio moja, mengi au yote.
+            label: Safirisha kwenda CSV /  Usafirishaji kwa CSV
+          export_custom:
+            label: Safirisha desturi / Desturi ya kuuza nje
+          export_incident_recorder_xls:
+            explanation: Mtumiaji anaweza kutengeneza usafirishaji maalum wa faili ya XLS ambalo litaruhusu kubadilishana data / taarifa na zana ya Kurekodi Matukio ya Udhalilishaji wa Kijinsia
+            label: Tuma xls ya rekodi za matukio
+          export_json:
+            explanation: 'Mtumiaji  anaweza kutengeneza faili la kusafirisha la JSON kutoka kwenye orodha ya matukio au kurasa za maonyesho ya matukio wenye maeneo yote ambayo mtumiaji wa sasa anao uwezo wa kufikia tukio moja, menigi au yote. Usafirishaji huu hutumiwa zaidi na wale wanaotaka matukio kutoka kwenye mfumo wa sasa wa Primero na baadaye kuyaingiza katika mfumo tofauti wa Primero au katika mfumo mwengine wa usimamizi wa taarifa. Mfumo wa JSON unasomwa kwa kutumia mashine na kwa hivyo watumiaji walio wengi hawawezi kuutumia.   '
+            label: Safirisha JSON
+          export_list_view_csv:
+            explanation: 'Mtumiaji anaweza kutengeneza faili la kusafirisha la CSVkutoka kwenye ukurasa wa orodha ya matukio wenye maeneo sawa na yale yanayoonekana na mtumiaji huyo katika orodha ya matukio. Yaliyofanyiwa kazi kwenye ukurasa wa matukio tu. '
+            label: Hamisha muonekano wa orodha kwenda CSV
+          export_pdf:
+            explanation: 'Mtumiaji anaweza kutengeneza faili la usafirishaji la PDF kutoka kwenye orodha ya matukio au kurasa za maonyesho ya matukio ambazo zinayo maeneo ambayo mtumiaji wa sasa anao uwezo wa kufikia rekodi moja, nyingi au zote. Katika faili la usafirishaji la PDF, taarifa imeandikwa kwanza kwa kesi, na baada ya hapo imepangiliwa katika mtiririko ambao taarifa inaonekana. '
+            label: Kusafirisha PDF / PDF ya kuuza nje
+          export_xls:
+            explanation: 'Mtumiaji anaweza kutengeneza faili la kusafirisha la XLS kutoka kwenye orodha ya matukio au kurasa za maonyesho za matukio ambazo zina seti mkaalum za fomu au maeneo kwa kesi moja, nyingi au zote ambazo mtumiaji anaweza kuzifikia. Katika usafirishaji huu, kila fomu moja inawakilishwa na kichupo chake katika faili la XLS. Mtumiaji anaweza kuchagua ni fomu zipi au maeneo gani anependa yaingizwe katika usafirishaji kwa kutumia muundo Maalum wa Usafirishaji.. Tafadhali kumbuka kuwa watumiaji wanaweza kuingiza fomu na maeneo katika usafirishaji ikiwa watakuwa tayari wanao uwewzo wa kuziona fomu hizo na maeneo  hayo pale watakapokuwa wakiangalia kesi katika maombi.  '
+            label: Usafirishaji wa Excel (kwa faili la XLS)
+          flag:
+            explanation: Uwezo wa kuongeza bendera kwenye tukio. Watumiaji wenye ruhusa ya kufanya hivi wanaweza pia kuziondoa bendera walizoziongeza katika tukio.
+            label: Bendera
+          import:
+            explanation: 'Inamruhusu mtumiaji kuweza kutengeneza tukio moja au zaidi mpya kwa kuyaagiza kutoka kwenye faili la CSV, Excel au JSON. Faili ambalo litaagizwa lazima liwe limetengenezwa mahsusi "kabisa" kwa taarifa kuweza kuingizwa ipasavyo. Kipengele hiki kiwe kinapatikana kwa watumiaji wa utawala / usimamizi ambao wenye ujuzi wa hali ya juu wa kiufundi na ufahamu wa kina kuhusu namna ambayo data/ taarifa inavyopangwa katika Primero. Inatekelezwa kutoka kwenye ukurasa wa orodha ya matukio tu. '
+            label: Kuagiza
+          manage:
+            explanation: Inatoa ruhusa kwa mtumiaji kutekeleza shughuli zote zinazopatikana kuhusu matukio. Ruhusa ya "Kusimamia" ina maana ya "Kila kitu"
+            label: Kusimamia (ruhusa zote kwa aina ya rasilimali)
+          read:
+            explanation: Uwezo wa kutazama tukio.
+            label: Mtazamo
+          sync_mobile:
+            explanation: Ruhusa hii kwa kawaida inamruhusu mtumiaji kutumia kifaa chake cha mkononi. Kwa kuanzia inamruhusu mtumiaji kuziona shughuli zote za "Weka Alama kwenye Simu" na "Ondoa Alama kwenye Simu"ambazo huonekana kwenye orodha ya matukio na kurasa za kuonyesha matukio. Kuweka alama ya tukio kwenye simuinamaanisha kuwa taarifa kuhus tukio hilo itabidi isawazishwe kati ya kifaa cha mkononi cha mtumiaji na programu ya tovuti, wakati kuondoa alama kwenye tukio la kifaa cha mkononi kunazuiya uunganishaji usitokee.  Watumiaji ambao hawana ruhusa hii pia hawawezi kuunganisha vifaa vyao vya mkononi na tovuti, kwa hivyo hawataweza kutumia simu zao kusimamia matukio hayo.
+            label: 'Sawazisha /Unganisha na vifaa vya / simu za mkononi. '
+          write:
+            explanation: 'Uwezo wa kubonyeza kitufe cha "Kuhariri", kinaingiza taarifa mpya kuhusu tukio na kubonyeza "Hifadhi" Pia kunamruhusu mtumiaji kuzima/ kulemaz au kuwezesha tukio. '
+            label: Kuhariri
+        explanation: Inawakilisha tukio lililotokea .  Haya mara nyingi niatukio  matukio ya udhalilishaji au ukatili ingawaje pia wanaweza kuwasiliana na matukio yanayoweza kukutana, na wasimamizi wa sheria . Matukio mara nyingi yanaungana na Kesi
+        label: Tuklio
+      is_manager:
+        explanation: Inatumika kwa mtumiaji yeyoteambaye kwa kawaida anawasimamia watumiaji wengine. Hii humruhusu mtumiaji kuona dashbodi na vichujio ambavyo vinamsaidia mtumiaji kuisimamia timu.
+        label: Ni Meneja?
+      managed_report:
+        actions:
+          violations:
+            label: Ukiukaji
+          gbv_statistics:
+            label: Takwimu za Udhalilishaji wa Kijinsia
+      matching_configuration:
+        actions:
+          manage:
+            explanation: 'Uwezo wa kudhibiti ni maeneo gani yanalinganishwa na kutafuta yaliyolingana kati ya ombi la kutafuta na kesi. Kwa vile hii inadhibiti namna ambavyo ulinganishaji unavyoendeshwa katika mfumo mzima, ruhusa hii kwa kawaida inabidi itumiwe  na wasimamizi wa mfumo tu. '
+            label: Kusimamia (ruhusa zote kwa aina ya rasilimali)
+        explanation: Inadhibiti maeneo gani yanatumika kulinganisha Ombi la Kufuatilia na Kesi wakati wa Ufuatiliaji wa Familia na Kuunganisha tena.
+        label: Kuoanisha Mfumo
+      metadata:
+        actions:
+          manage:
+            explanation: Uwezo wa kutengeneza, kuhariri, kutafsiri, na kufuta fomu, maeneo katika fomu, na kutafuta. Tafadhali kumbuka kuwa mtumiaji mwenye ruhusa hii ataweza kuzisimamia fomu ambazo anaweza kuzifikia tu. Kwa mfano, ikiwa msimamizi wa kitaifa ana uwezo wa kuziona fomu za kesi za Mmiliki wa Rekodi tu, watakuwa na uwezo wa kuingiza toleo jipya katika mfumo wa fomu hiyo tu.
+            label: Kusimamia (ruhusa zote kwa aina ya rasilimali)
+        explanation: Inadhibiti uwezo wa kuweka mpangilio wa Fomu za Primero na maeneo, pamoja na kutafuta chaguo zinazotumika ndani yake
+        label: Tazama/ Tafuta Fomu
+      module:
+        actions:
+          cp:
+            label: Ulinzi wa Mtoto
+          gbv:
+            label: Udhalilishaji wa Kijinsia
+          mrm:
+            label: MRM
+        explanation: Inadhibiti ni moduli zipi jukumu hili linahusiana nalo
+        label: Moduli
+      potential_match:
+        actions:
+          read:
+            explanation: Inawakilisha kiunganisho kati ya Ombi la Kutafuta na Kesi. Ufikiaji wa vyenye uwezekano wa Kulingana ni lazima kwa  kazi ya Ufuatiliaji wa Familia na Kuunganishwa tena (FTR).  Inamruhusu mtu,miaji kuona fomu ya Muhtasari wa Ufuatiliaji kuhusu kesi
+            label: Mtazamo
+        label: Inauwezekano wa Kulingana
+      primero_configuration:
+        actions:
+          manage:
+            explanation: 'Uwezo wa kuhifadhi, kutumia na na kutuma mipangilio. Ruhusa hii kwa kawaida ni kwa msimamizi wa mfumo. '
+            label: Kusimamia (ruhusa zote kwa aina hii ya rasilimali)
+        label: Mpangilio
+      referral:
+        actions:
+          refer:
+            explanation: Hii ina maana ya kuwa endapo mtumiaji atafanya rufaa ya nje,, jukumu hili litajitokeza kama chaguo kwa "Aina ya Mpokeaji". Ikiwa mtumiaji ataatachagua jukumu hili kuwa aina ya rufaa, usafirishaji ambao Primero utazalisha pale mtumiaji atakapowasilisha rufaa, utakuwa na taarifa inayopatikana kwenye fomu ambayo jukumu hili lina uwezo wa kuzifikia tu. Kwa hivyo, kwa mfano, ikiwa mtumiaji atachagua "Mtoa Huduma za Matibabu" kama aina ya mpokeaji, na ikawa jukumu la Mtoa Huduma za Matibabu linaweza kuzifikia fomu za Utambulisho wa Msingi na Masuala ya Ulinzi tu,  faili la usafirishaji ambalo Primero inatumia kusafirisha nje rufaa litakuwa na maeneo ambayo yamo kwenye fomu hizi mbili tu.
+            label: Je, jukumu hili linaweza kutumika kwa Rufaa za nje?
+        label: Rufaa
+      registry_record:
+        actions:
+          change_log:
+            explanation: 'Mtumiaji anaweza kuona historia ya mabadiliko yote yaliyofanywa kwenye rekodi tokea zilipoanzishwa. Hii ni pamoja na thamani zilizorekodiwa kwa maeneo yote '
+            label: Badilisha Daftari / Badilisha Logi
+          create:
+            explanation: Uwezo wa kutengeneza rekodi ya Usajili
+            label: Kutengeneza / Kuunda
+          enable_disable_record:
+            explanation: Uwezo wa kuzima au kuwezesha rekodi ya Usajili. Matukio "Yaliyozimwa" hayaonekani katika chaguo -msingi kwenye orodha ya Usajili. Watumiaji wanaweza kuziona rekodi za Usajili zilizozimwa katika orodha ya Usajili kwa kutumia kichujo.
+            label: Kuwezesha / Kulemaza
+          export_csv:
+            explanation: 'Mtumiaji anaweza kutayarisha faili la usafirishaji la CSV kutoka kwenye orodha ya Usajili au kurasa za maonesho za Usajili zenye maeneo yote ambayo mtumiaji wa sasa anaweza kuzifikia moja, nyingi au rekodi za Usajili zote ambazo mtumiaji anauwezo wa kuzifikia. ANGALIZO Usafirshaji wa CSV hautoi herufi zisizokuwa za Kilatini (mfano Kiarabu, Kibengali) katika muundo unaoweza kusomeka '
+            label: Peleka kuwa CSV
+          export_json:
+            explanation: Mtumiaji anaweza kutengeneza faili la usafirishaji la JSON kutoka kwenye orodha ya Usajili au karatasi za maonesho za Usajili zenye maeneo yote ambayo mtumiaji wa sasa anaweza kuyafikia. Mfumo wa JSON unasomwa kwa mashine na kwa hivyo sio rafiki kwa watumiaji walio wengi
+            label: Peleka kuwa JSON
+          export_xls:
+            explanation: 'Mtumiaji anaweza kutengeneza faili la usafirishaji la XLS kutoka kwenye orodha ya Usajili au kwenye kurasa za maonesho za Usajili ambazo mtumiaji wa sasa anao uwezo wa kuzifika. ANGALIZO Mfumo wa usafirishaji wa XLS hutoa herufi zisizokuwa za Kilatini (mfano Kiarabu, Kibengali) katika mfumo unaoweza kuonekana, wakati usafirishaji wa CSV hautoi huduma hiyo. '
+            label: Peleka kuwa Excel (faili XLS)
+          flag:
+            explanation: Uwezo wa kuongeza bendera kwenye rekodi ya Usajili. Watumiaji wenye ruhusa ya kufanya hivi wanaweza pia kuziondoa bendera walizoziongeza katika rekodi ya Usajili.
+            label: Bendera
+          manage:
+            explanation: Inamuwezesha mtumiaji kutekeleza shughuli zote zinazopatikana kuhusu rekodi za Usajili. Ruhusa ya "Kusimamia" kimsingi ina maana ya "kila kitu"
+            label: Kusimamia (ruhusa zote kwa aina hii ya rasilimali)
+          read:
+            explanation: Uwezo wa kuziona rekodi za Usajili.
+            label: Mtazamo
+          write:
+            explanation: Uwezo wa kubonyeza kitufe cha "Hariri", ingiza taarifa mpya kuhusu rekodi za Usajili na kubonyeza "Hifadhi"
+            label: Kuhariri
+          sync_mobile:
+            explanation: Humuwezesha mtumiaji kuhifadhi rekodi za usajili kwa matumizi nje ya mtandao.
+            label: Alama kwa Nje ya Mtandao
+        explanation: "Hii inaweza kumuwakilisha mtu binafsi au taasisi inayohitaji kuunganishwa na rekodi nyingine kama vile kesi au matukio, ni wengi sana, na huongezwa taarifa mpya mara kwa mara. Inafanana na uchunguzi lakini ina  taarifa mchanganyiko kwa kila ingizo. \n. "
+        label: Rekodi za Usajili
+      report:
+        actions:
+          create:
+            explanation: Uwezo wa kutengeneza ripoti mpya. Mtumiaji anapotengeneza ripoti, huwa inaonekana na watumiajin wote wenye uwezo wa kuzifikia ripoti kwa kupitia "Soma" au "Usomaji wa Kikundi"
+            label: Kutengeneza / Kuunda
+          group_read:
+            explanation: 'Uwezo wa kuziona ripoti zote. Idadi katika kila  ripoti itaonyesha rekodi zile tu zinazoweza kufikiwa na watumiaji katika kikundi cha watumiaji wa sasa. Ruhusa mara nyingi inatumika kwa wasimamizi wa ndani, wa kikanda au wakala wanataka kupata maarifa kuhusu utendaji wa timu zao au wa shirika.  Ruhusa hii inampa mtumiaji pia uwezo wa kusafirisha data / taarifa kutoka kwenye ripoti. '
+            label: Angalia (data / Taarifa ya Kikundi)
+          manage:
+            explanation: Inamruhusu mtumiaji kufanya / kutekeleza shughuli zote zilizopo / zinazopatikana kuhusu wakala. Ruhusa ya "Kusimamia" ina maana ya "kila kitu".
+            label: Kusimamia (ruhusa zote kwa aina hii ya rasilimali)
+          read:
+            explanation: Uwezo wa kutazama / kuziona rpoti zote. Idadi katika kila ripoti itaonyesha rekodi zote katika mfumo, na sio rekodi ambazo mtumiaji wa sasa ata uwezo wa kuzifikia tu. Ruhusa hii pia inampa mtumiaji uwezo wa kusafirisha data / taarifa kutoka kwenye ripoti.
+            label: Mtazamo
+          write:
+            explanation: Kuwa na uwezo wa kuhariri ripoti zote (zikiwemo zile zilizotayarishwa na watumiaji wengine)
+            label: Kuhariri
+        explanation: Zana ya uchambuzi wa jumla wa data /taarifa. Inajumuisha jadweli na  uwakilishi wa data kwa njia ya grafu.
+        label: Ripoti
+      reporting_location_level:
+        explanation: 'Hii inadhibiti ni kiwango gani cha maeneo yanaonekana kwa Jukumu hili katika dashbodi, vichujio, mfumo wa rufaa, na usafirishaji. Ikiwa utaliwacha eneo hili bila ya kuandika / kujaza chochote, Jukumu  litaona kiwango cha eneo la kuripoti chaguo msingi la mfumo.'
+        label: Ni aina gani ya eneo linapaswa kutumika kuripoti jukumu?
+      role:
+        actions:
+          assign:
+            explanation: Uwezo wa kuchagua jukumu wakati wa kutengeneza au kuhariri akaunti ya mtumiaji. Ruhusa hii ni muhimu kwa jukumu lolote litakalokuwa linatengeneza au kuhariri akaunti za mtumiaji..
+            label: Kabidhi
+          copy:
+            explanation: Uwezo wa kutengeneza nakala ya jukumu. Hii ni muhimu kwa wasimamizi wa mfumo ambao watakuwa wakitengeneza idadi ya majukumu ambayo yamefanana sana (mfano watoaji wa huduma)
+            label: Nakala / Nakili
+          create:
+            explanation: 'Uwezo wa kutengeneza jukumu '
+            label: Kutengeneza  / Kuunda
+          delete:
+            explanation: Uwezo wa kulifuta jukumu.
+            label: Futa
+          manage:
+            explanation: 'Inamruhusu mtumiaji kutekeleza shughuli zote zinazopatikana kwenye majukumu.  Ruhusa ya "Kusimamia" kimsingi ina maana ya / inamaanisha "kila kitu". MUHIMU: Hii pia inatoa uwezo wa kutengeneza na kufuta majukumu.'
+            label: Kusimamia (ruhusa zote kwa aina hii ya rasilimali)
+          permitted_roles:
+            explanation: Ikiwa jukumu linauwezo wa kutekeleza kitendo chochote kati ya kati ya shughuli vlivyopo hapo juu kwenye jukumu, wataweza kutekeleza shughuli kwenye majukumu  yaliyoainishwa kwenye orodha. Kwa hivyo, kwa mfano, ikiwa jukumu litakuwa na ruhusa ya "Kusoma" na "KUkabidhi"kwenye majukumu, lakini akawa na "Mfanyakazi wa Kesi ya Ulinzi wa Mtoto" na Meneja wa Ulinzi wa Mtoto" kuwa ndiyo yaliyoorodheshwa kama "Majukumu Yanayosimamiwa", litakuwa na uwezo wa kuyaona majukumu hayo mawili tu, na wataweza kukabidhi majukumu hayo mawili tu kwa watumiaji wepya. Ikiwa majukumu hayo hayatakuwa na "Majukumu Yanayosimamiwa" yaliyoainishwa, yatakuwa na uwezo wa kuona majukumu yote na yatakuwa na uwezo wa kutengeneza akaunti mpya za watumiaji kwa jukumu lolote kwenye mfumo.
+            label: Majukumu mengine yanayosimamiwa na jukumu hili.
+          read:
+            explanation: Uwezo wa kuyaona majukumu
+            label: Mtazamo / Tazama
+          write:
+            explanation: Uwezo wa kubonyeza kitufe cha "Kuhariri" katika ukurasa wa kuonyesha majukumu, inaongeza toleo jipya katika ruhusa ya majukumu na  baadaye kulihifadhi jukumu hilo.
+            label: Kuhariri
+        explanation: Huamua ni shughuli gani mtumiaji anaweza kufanya kwenye Primero.
+        label: Majukumu
+      system:
+        actions:
+          manage:
+            explanation: Uwezo wa kuona na kuongeza toleo jipya katika taarifa inayohusu mawasiliano ya mfumo, taarifa ya chaguo msingi na makaribisho katika mipangilio ya barua pepe, na seva zilizosawazishwa / zilizounganishwa. Ruhusa hii kwa kawaida imewekwa kwa ajili ya wasimamizi wa mifumo.
+            label: Kusimamia(ruhusa zote kwa aina hii ya rasilimali)
+        explanation: Mfumo mbalimbali wenye mpangilio mpana
+        label: Mfumo
+      tracing_request:
+        actions:
+          change_log:
+            explanation: Mtumiaji anaweza kuona historia ya mabadiliko yote yaliyofanywa kuanzia ilipotengenezwa. Hii ni pamoja na thamani zilizorekodiwa kwa maeneo yaote.
+            label: Badilisha Daftari / Badilisha Logi
+          create:
+            explanation: Uwezo wa kutengeneza ombi la kutafuta / Kufuatilia.
+            label: Kutengeneza / Kuunda
+          enable_disable_record:
+            explanation: 'Uwezo wa kuzima au kuwezesha Ombi la Kufuatilia. Ombi la Kufuatilia lililo "Zimwa / Liliilolemazwa" halionekani kama chaguo msingi katika orodha ya Maombi ya Kufuatilia. Watumioaji wanaweza kuyaona Maombi ya Kufuatilia yaliyozimwa / yaliyolemazwa katika orodha ya Maombi ya Kufuatilia kwa kutumia kichujo.  '
+            label: Kuwezesha / Kulemaza
+          export_case_pdf:
+            explanation: 'Mtumiaji anaweza kutengeneza faili la usafiriushaji la PDF kutoka kwenye orodha ya maombi ya kufuatilia au kurasa za maonyesho ya maombi ya kufuatilia ambazo zinayo maeneo yote ambayo mtumiaji wa sasa anao uwezo wa kufikia rekodi moja, nyingi, au zote katika faili la usafirishaji la PDF, taarifa imeandikwa kwanza kwa kesi, na baada ya hapo imepangiliwa katika mtiririko ambao taarifa inaonekana.  '
+            label: Kusafirisha PDF / PDF ya Kusafirisha nje
+          export_csv:
+            explanation: 'Mtumiajia naweza kutengeneza faili la usafirishaji la CSV kutoka kwenye orodha ya ombi la kufuatilia au kurasa za maonyesho ya ombi la kufuatilia ambazo zina maeneo yote ambayo mtumiaji wa sasa ana uwezo wa kufikia ombi la kufuatilia moja, mengi, au yote. '
+            label: Safirisha kwenda CSV / Usafirishaji kwa CSV
+          export_custom:
+            explanation: Mtumiaji anaweza kutengeneza faili la kusafirisha la XLS kutoka kwenye orodha ya ombi la kufuatilia au kurasa za maonyesho za ombi la kufuatilia, ambazo zina seti maalum za fomu au maeneo ambayo mtumiaji anaweza kufikia ombi la kufuatilia moja, mengi, au yote. Katika usafirishaji huu, kila fomu moja inawakilishwa na kichupo chake katika faili la XLS. Mtumiaji anaweza kuchagua ni fomu zipi au maeneo gani anapenda yaingizwe katika usafirishaji kwa kutumia Muundo Maalum wa Usafirishaji. Tafadhali kumbuka kuwa watumiaji wanaweza kuingiza fomu na maeneo katika usafirishaji ikiwa watakuwa tayari wanao uwezo wa kuziona fomu hizo na maeneo hayo watakapokuwa wakiangalia ombi la kufuatilia katika maombi.
+            label: Safirisha desturi / Desturi ya kusafirisha
+          export_json:
+            explanation: 'Mtumiaji anaweza kutengeneza faili la kusafirisha la JSON kutoka kwenye orodha ya ombi la kufuatilia au kurasa za maonyesho za ombi la kufuatilia yenye maeneo yote ambayo mtumiaji wa sasa anao uwezo wa kufikia ombi la kufuatilia moja, mengi au yote. Usafirishaji huu hutumiwa zaidi na wale wanaotaka kusafirisha maombi ya kufuatilia kutoka kwenye mfumo wa sasa wa Primero na baadaye kuyaingiza katika mfumo tofauti wa Primero au katika mfumo mwengine wa usimamizi wa taarifa. Mfumo wa JSON unasomwa kwa kutumia mashine na kwa hivyo watumiaji walio wengi hawawezi kuutumia.  '
+            label: Safirisha JSON
+          export_list_view_csv:
+            explanation: 'Mtumiaji anweza kutengeneza faili la kusafirisha la CSV kutoka kwenye ukurasa wa orodha ya ombi la kufuatilia yenye maeneo sawa na yale yanayoonekana na mtumiaji huyo katika orodha ya ombi la kufuatilia. Yaliyofanyiwa kazi katika ukurasa wa orodha ya ombi la kufuatilia tu. '
+            label: Hamisha muonekano wa orodha kwenda CSV
+          export_pdf:
+            explanation: 'Mtumiaji anaweza kutengeneza faili la usafirishaji la PDF kutoka kwenye orodha ya maombi ya kufuatilia au kurasa za maonyesho ya maombi ya kufuatilia ambazo zinayo maeneo yote ambayo mtumiaji wa sasa anao uwezo wa kufikia rekodi moja, nyingi , au zote. Katika faili la usafirishaji la PDF, taarifa imeandikwa kwanza kwa kesi, na baada ya hapo imepangiliwa katika mtiririko ambao taarifa inaonekana. '
+            label: Kusafirisha PDF / PDF ya Kusafirisha nje
+          export_xls:
+            explanation: 'Mtumiaji anweza faili la usafirishaji la XLS kutoka kwenye orodha ya Ombi la Kufuatilia au kurasa zinazonesha za Ombi la Kufuatilia, zenye maeneo yote ambayo ambayo mtumiaji wa sasa anao uwezo wa kuyafikia, kwa Ombi la Kufuatilia moja, mengi au yote. Katika usafirishaji huu, kila fomu inawakilishwa na kichupo chake kwenye faili la XLS. ANGALIZO Usafirishaji wa faili la XLS hutoa herufi zisizokuwa za Kilatin (mfano Kiarabu, Kibengali) katika mfumo unaoweza kusomeka, wakati usafirishaji wa CSV hautoi huduma hiyo. '
+            label: Peleka kuwa Excel (faili XLS)
+          flag:
+            explanation: 'Uwezo wa kuongeza bendera kwenye ombi la kufuatilia. Watumiaji wenye ruhusa ya kufanya hivi wanaweza pia kuziondoa bendera walizoziongeza katika ombi la kufuatilia. '
+            label: Bendera
+          import:
+            explanation: Inamruhusu mtumiaji kuweza kuongeza kesi nyingine moja au zaidi mpya kwa kuziagiza kutoka kwenye faili la CSV, Excel au JSON.  Faili ambalo linaagizwa lazima liwe limetengenezwa mahsusi "kabisa" kwa taarifa kuweza kuingizwa ipasavyo. Kipengele hiki kiwe kinapatikana kwa watumiaji wa utawala / usimamizi ambao wenye ujuzi wa hali ya juu wa kiufundi na ufahamu wa kina kuhusu namna ambavyo data / taarifa inavyopangwa katika Primero. Inatekelezwa kutoka kwa ukurasa wa orodha ya kesi tu.
+            label: Kuagiza
+          manage:
+            explanation: Inatoa ruhusa kwa mtumiaji kutekeleza shughuli zote zinazopatikana kuhusu maombi ya kufuatilia. Ruhusa ya "Kusimamia" kimsingi ina maana ya "kila kitu"
+            label: Kusimamia (ruhusa zote kwa aina hii ya rasilimali)
+          read:
+            explanation: Uwezo wa kuangalia ombi la kufuatilia. Majukumu yenye uwezo wa kuona ombi la kufuatilia ni lazima pia liwe na uwezo wa kuona aina ya rekodi Yenyeuwezekano wa Kulingana.
+            label: Mtazamo
+          write:
+            explanation: Uwezo wa kubonyeza kitufe cha "Kuhariri", ingiza toleo jipya la taarifa kuhusu ombi la kufuatilia, na bonyeza "Hifadhi". Inamruhusu pia mtumiaji kulemaz au kuwezesha ombi la kufuatilia.
+            label: Kuhariri
+        explanation: Unamuwakilisha mtu binafsi anayejaribu kutafuta na kuunganisha na Kesi isiyoambatana au iliyotenganishwa.
+        label: 'Ombi la Kufuatilia '
+      transfer:
+        actions:
+          transfer:
+            explanation: Hii ina maana kuwa endapo mtumiaji atafanya rufaa ya nje, jukumu hili litajitokeza kama chaguo kwa "Aina ya Mpokeaji" Ikiwa mtumiaji atachagua jukumu hili kuwa ni aina ya uhamisho, Usafirishaji ambao Primero atautengeneza baada ya mtumiaji kuwasilisha uhamisho itakuwa na taarifa ambayo inaonekana kwenye fomu ambayo jukumu hili linaweza kuifikia tu.. Kwa hivyo, kwa mfano ikiwa  mtumiaji atachagua "Mtoa Huduma za Matibabu"kama aina ya mpokeaji, na ikiwa Mtoa Huduma za Matibabu linaweza kuzifikia fomu za Utambulisho wa Msingi na na Masuala ya Ulinzi tu, faili la usafirishaji ambalo Primero inalitumia kusafirisha nje taarifa litakuwa na maeneo ambayo yamo kwenye fomu hizi mbili tu.
+            label: Je, jukumu hili linaweza kutumika kwa uhamisho wa nje?
+        label: Uhamisho
+      user:
+        actions:
+          agency_read:
+            explanation: "Uwezo wa kuziona akaunti za watumiaji wakala wa sasa wa mtumiaji  tu. Hii pia inaathiri ni akaunti gani ya mtumiaji mtumiaji wa sasa anaweza kufanya vitendo vyengine. Kwa mfano, ikiwa mtumiaji wa sasa anayoruhusa ya \"Kuandika\" kwa watumiaji lakini pia anayo idhini ya Kusoma ya Wakala, watakuwa na uwezo wa kuhariri akaunti za watumiaji ambao wako kwenye wakala wao. Vile vile, ikiwa mtumiaji wa sasa anayo ruhusa ya \"Kusimamia\" kwa watumiaji, lakini wanayo idhini ya \"Kusoma ya Wakala\", watakuwa na uwezo wa kutengeneza watumiaji kwa wakala wao tu  \n "
+            label: Mtazamo (Nani ya Wakala)
+          create:
+            explanation: Uwezo wa kutengeneza akaunti ya mtumiaji
+            label: Kutengeneza / Kuunda
+          manage:
+            explanation: 'Inamruhusu mtumiaji kutekeleza shughuli zote za watumiaji. Ruhusa ya "Kusimamia" kimsingi ina maana ya "kila kitu". MUHIMU: Hii pia inatoa uwezo wa kutengeneza akaunti mpya za watumiaji.'
+            label: Kusimamia (ruhusa zote za kwa aina hii ya rasilimali)
+          read:
+            explanation: Uwezo wa kuziona akaunti za mtumiaji. Kwa kutumia chaguo msingi, kila mtumiaji anao uwezo wa kuona na kuhariri taarifa kuhusu akaunti zao wenyewe (mfano nenosiri, baruapepe)
+            label: Mtazamo / Tazama
+          write:
+            explanation: 'Uwezo wa kubonyeza kitufe cha  "Kuhariri" kwenye ukurasa wa maonyesho, kuingiza toleo jipya kuhusu taarifa za mtumiaji, na baadaye kuihifadhi. Tafadhali kumbuka kwamba ruhusa hii inatoa pia uwezo wa kuzima / kulemaza akaunti za watumiaji '
+            label: Kuhariri
+        explanation: Inawakilisha akaunti ya Mtumiaji binafsi
+        label: Watumiaji
+      user_group:
+        actions:
+          assign:
+            explanation: Uwezo wa kuchagua vikundi vya watumiaji wakati wa kutengeneza au kuhariri akaunti ya mtumiaji. Tafadhali kumbuka kuwa ikiwa mtumiaji wa sasa atakuwa na kiwango cha ufikiaji wa 'rekodi tu au watumiaji katika kundi langu', watakuwa na uwezo wa kuchagua moja au zaidi katika vikundi vya watumiaji "vyao wenyewe" kwa akaunti ya watumiaji tu  ambayo wanaitengeneza au kuihariri. Hii ina maana kwamba meneja mwenye uwezo wa kugawa vikundi vya watumiaji, atakuwa na uwezo wa kuongeza mtumiaji kwenye vikundi vya watumiaji katika vile vikundi ambavyo meneja mwenyewe yuko kwa sasa. Ruhusa hii ni lazima kwa jukumu lolote ambalo litakuwa likitengeneza au kuhariri akaunti za watumiaji.
+            label: Kabidhi
+          create:
+            explanation: Uwezo wa kutengeneza kikundi cha watumioaji
+            label: Kutengeneza / Kuunda
+          delete:
+            explanation: Uwezo wa kufuta kikundi cha watumiaji
+            label: Kufuta / Futa
+          manage:
+            explanation: 'Inamruhusu mtumiaji kutekeleza shughuli zote zinazopatikana kuhusu vikundi vya watumiaji. Ruhusa ya "Kusimamia" kimsingi ina maana ya "kila kitu", MUHIMU: Hii pia inatoa uwezo wa kutengeneza na kufuta vikundi vya watumiaji.'
+            label: Kusimamia (ruhusa zote kwa aina hii ya rasilimali)
+          read:
+            explanation: Uwezo wa kuviona vikundi vya watumiaji
+            label: Mtazamo / Tazama
+          write:
+            explanation: Uwezo wa kuhariri vikundi vya watumiaji
+            label: Kuhariri
+        explanation: Inawakilisha timu au kikundi chenye ushirikiano cha watumiaji ambao wanaweza kubadilishana taarifa. Wasimamizi wanaweza kuziona rekodi zote zinazosimamiwa na wafanyakazi wa kijamii katika Mkundi ya Watumiaji. .
+        label: Vikundi vya Watumiaji
+      webhook:
+        actions:
+          read:
+            label: Mtazamo / Tazama
+            explanation: Uwezo wa kuorodhesha na kupitia mpangilio wa mtandao kwa kupitia API
+          write:
+            label: Kuhariri
+            explanation: Uwezo wa kutengeneza na kuhariri mpangilio wa mtandao kwa kupitia API
+          create:
+            explanation: Uwezo wa kutengeneza mpangilio wa mtandao kwa kupitia API
+            label: Kutengeneza / Kuunda
+          delete:
+            explanation: Uwezo wa kufuta mpangilio wa mtandao kwa kupitia API
+            label: Kufuta / Futa
+          manage:
+            label: Kusimamia (ruhusa zote kwa aina hii ya rasilimali)
+      activity_log:
+        actions:
+          transfer:
+            explanation: Mtumiaji anaweza kubonyeza katika sehemu ya Shughuli / Log ya dashibodi na kuona logi ya uhamisho uliokubalika na uliokataliwa kwa Kesi ambazo anaweza kuzifikia
+            label: Uhamisho
+          manage:
+            label: Kusimamia (ruhusa zote kwa aina hii ya rasilimali)
+        label: Logi la Shughuli
+  potential_match:
+    case_id: Kitambulisho cha Kesi
+    child_age: Umri
+    child_gender: Jinsia
+    child_id: Nambari ya kitambulisho cha mtoto
+    inquirer_id: nambari ya kitambulisho cha muulizaji
+    inquirer_tr_name: 'ombi la kufuatilia '
+    inquiry_date: Tarehe ya uchunguzi
+    name: Jina
+    score: Alama
+    social_worker: Mfanyakazi wa kijamii
+    social_worker_agency: Wakala
+    tracing_request_id: Utambulisho wa Ombi la Kufuatilia
+    trace: Kufuatilia
+    likelihood_likely: Uwezekano / Inawezekana
+    likelihood_possible: Inawezekana
+  potential_matches:
+    display: Kuonyesha uwezekano wa kulingana kwa%{type}%{id}
+  reassign:
+    multiple_error: Hitilafu ilitokea %{select_records}kesi (moja au zaidi) hazikukabidhiwa / hazikugawanywa
+    multiple_successfully: '%{select_records}kesi (moja au zaidi) ziligawanywa kwa mafanikio'
+    notes_label: Maelezo
+    successfully: Imekabidhiwa upya kwa ufanisi
+    user_mandatory_label: Mpokeaji anahitajika
+    users_label: Mpokeaji
+  record_information:
+    assigned_user_names: Watumiaji Wengine Waliopewa
+    created_at: Rekodi imetayarishwa kwa
+    created_by: Rekodi imetayarishwa na
+    created_organization: Imetengenezwa na wakala
+    current_owner_separator: Mmiliki wa sasa hivi
+    module_id: Moduli
+    owned_by: Nambari ya Mfanyakazi  wa Kesi
+    owned_by_agency_id: Wakala
+    owned_by_text: Eneo / Kesi / Mfanyakazi wa kijamii
+    previously_owned_by: Mmiliki wa Awali
+    previously_owned_by_agency: Wakala Uliopita
+    reassigned_tranferred_on: Imekabidhiwa Upya /  Kuhamishwa kwenye
+    record_history_separator: Rekodi ya Historia
+    last_updated_at: Limeingizwa Toleo jipya ,
+    last_updated_by: Toleo Jipya la Mwisho Lmeingizwa Na
+  record_panel:
+    record_information: 'Rekodi / Taarifa '
+  referral:
+    type_of_recipient: Aina ya Mpokeaji
+    type_of_referral_required: Aina ya Rufaa inahitajika
+    agency_label: Wakala
+    is_remote_label: Je, unarejelea / unapeleka rufaa sehemu ya mbali?
+    location_label: Eneo
+    notes_label: Maelezo
+    notes_on_referral: Maelezo kuhusu rufaa
+    note_on_referral_from_provider: Maelezo kuhusu rufaa kutoka kwa mtoa huduma
+    provided_consent_label: Idhini haikutolewa kwenye fomu
+    recipient_label: Mpokeaji
+    refer_anyway_label: Rejea hata hivyo?
+    service_label: Huduma
+    success: '%{record_type}%{id}Rejea imefanikiwa'
+    user_mandatory_label: Mpokeaji anahitajika
+    date: Tarehe
+    rejected_reason: Sababu ya Kukataliwa
+  report:
+    aggregate_by: Kusanya kikundi kwa safu
+    attribute: Sifa
+    constraint: Kizuizi
+    date_ranges:
+      date: Siku
+      month: Mwezi
+      quarter: Robo
+      quarter_abbr: '%{quarter}'
+      week: Wikli
+      year: Wiki
+    description: Maelezo
+    disabled:
+      explanation: Ukiifuta / Ukiilemaza Ripoti hii, haitaonekana tena kwenye ripoti zilizopo
+      label: Imelemzwa / Imezimwa
+    exclude_empty_rows: Usionyeshe safu tupu / ambazo hazijaandikwa
+    disaggregate_by: Kusanya kikundi kwa safu wima
+    filters:
+      label: Ripoti vichujio
+      label_new: Kichujio kipya cha ripoti
+      attribute: Kichujio
+      value: na
+      not_null: Sio tupu?  / Haijaandikwa?
+      less_than: 'Chini ya '
+      greater_than: Kubwa kuliko
+      equal_to: 'Sawa na '
+      not_blank: Sio tupu? Haijaandikwa?
+      is: ni
+      before: Kabla
+      after: 'Baada ya '
+      delete_filter_message: Je, una hakika unataka kulifuta faili hili?
+    group_ages: Tumia safu za umri
+    group_dates_by: Tumia safu za tarehe
+    is_graph: Tengeneza grafu
+    messages:
+      delete_success: Ripoti ilifutwa
+      success: Ripoti ilitayarishwa kwa ufanisi
+      updated: Ripoti iliingizwa toleo jipya kwa ufanisi
+    modules: Moduli
+    name: Jina
+    name_mandatory: Jina linahitajika
+    no_data: Hakuna data / taarifa kwa ripoti hii
+    no_filters_added: Hakuna vichujio vilivyoongezwa
+    not_selected: Haikuchaguliwa
+    record_type: Aina ya rekodi
+    total: Jumla
+    value: Thamani
+  reports:
+    delete_report: Futa Ripoti
+    delete_report_message: Je, unahakika unataka kuifuta ripoti hii? Ukiifuta hutaweza kuirudisha. Bonyeza OK/sawa kuifuta ripoti
+    label: Ripoti
+    register_new_report: Tayarisha Ripoti
+    translations:
+      edit: Zihariri tafsiri
+      manage: Simamia tafsiri
+      select_language: Chagua lugha
+    error_loading: Hitilafu katika Upakiaji Ripoti( moja au zaidi)
+  request_transfer:
+    notes_label: Maelezo
+    submit_label: Peleka Maombi
+    success: Ombi la uhamisho limepelekwa
+  role:
+    agency_ids_label: Mashirika yanayesimamiwa na jukumu hili
+    copy_failure: Hitilafun katika kunakili Jukumu.  Hakikisha kuwa jina halipingani na Jukumu jingine
+    copy_success: Jukumu limenakiliwa kwa ufanisi
+    create: Tengeneza / Tayarisha Jukumu
+    delete_header: Futa Jukumu
+    description: Maelezo
+    edit: Lihariri Jukumu
+    error_in_updating: Hitilafu katika kuingiza toleo jipya kwemye maelezo ya Jukumu
+    group_permission_label: Ni rekodi zipi zinzazoathiriwa na jukumu hili?
+    label: Jukumu
+    manager: Meneja
+    messages:
+      confirmation: Je, unahakika unataka kulifuta jukumku hili? Ukilifuta hutaweza kulirudisha. Bonyeza sawa kulifuta jukumu.
+      created: Jukumu lilitengenezwa kwa ufanisi
+      deleted: Jukumu lilifutwa
+      updated: Toleo jipya liliongezwa kwenye jukumu kwa ufanisi.
+    name: Jina
+    referral_label: Je, jukumu hili linaweza kutumika kwa Rufaa?
+    reporting_location_level_label: Ni aina gani ya eneo linaloweza kutumika kwa kuripoti jukumu hili?
+    role_ids_label: Majukumu mengine yanayosimamiwa na jukumu hili
+    successfully_updated: Toleo jipya limeingizwa kwenye maelezo ya jukumu kwa ufanisi
+    transfer_label: Je, jukumu hili linaweza kutumika kwa Uhamisho?
+    hide: Ficha
+    read: Onyesha
+    read_write: 'Onyesha na uhariri '
+  roles:
+    label: Majukumu
+  saved_search:
+    deleted: Utafutaji umefutwa
+    filters_tab: Vichujio
+    no_filters: Hakuna vichujio vilivyo chaguliwa
+    save_success: Utafutaji umehifadhiwa
+    saved_searches_tab: Utafutaji uliohifadhiwa
+    title_description: Je, una hakika unataka kufuta ufuatiliaji uliohifadhiwa?
+    title_modal: Futa utafutaji uliohifadhiwa
+  saved_searches:
+    no_save_searches: Huna utafutaji uliohifadhiwa
+    save_search: Hifadhi utafutaji
+  settings:
+    navigation:
+      agencies: Mashirika
+      audit_logs: Madaftari ya Ukaguzi
+      configurations: Mpangilio
+      contact_information: 'Maelezo / Taarifa ya mawasiliano '
+      forms: Fomu
+      locations: Maeneo
+      lookups: Uchunguzi
+      user_groups: Vikundi vya Watumiaji
+      users: Watumiaji
+      roles: Majukumu
+      code_of_conduct: Kanuni za Maadili
+    title: Mipangilio
+  system_settings:
+    label: Mipangilio ya mfumo
+  task:
+    due_date: Tarehe ya Kukamilisha
+    id: Nambari ya Kitambulisho
+    name: Jina
+    priorities:
+      high_level: Juu
+      low_level: Chini
+      medium_level: Kati
+      no_action_level: Hakuna Hatua
+    priority: Kipaumbele / Kiwango
+    status: Hali
+    statuses:
+      overdue: Imechelewa
+      upcoming_soon: Karibu Ikamilishwe
+    type: Aina ya Hatua
+    types:
+      assessment: Tathmini
+      case_plan: Mpango wa Kesi
+      follow_up: Ufuatiliaji%{subtype}
+      service: 'Huduma- %{subtype} '
+  tracing_request:
+    label: 'Ombi la kufuatilia '
+    has_match: Ipo Inayofanana / Inayolingana
+    find_match: 'Tafuta Inayolingana '
+    back_to_traces: Rudi kwenye Athari
+    back_to_potential_matches: Rudi kwenye Uwezekano wa Kulingana
+    traces: Athari
+    trace: Fuatilia / Kufuatilia
+    match: Zinazoendana / Zinazofanana
+    matches: Zinazoendana / Zinazofanana
+    unmatch: Usilinganishe
+    messages:
+      already_matched: Tayari katika mfumo yuko anayelingana na huyu anayemuulizia mtoto
+      disabled: Ombi la Ufuatiliaji limezimwa / Limeondolewa
+      nothing_found: Hakuna Kilichoonekana
+      update_success: 'Ombi la kufuatilia %{record_id}limeongezwa toleo jipya kwa mafanikio'
+      creation_success: Rekodi ya Ombi la Kufuatilia imetengenezwa kwa mafanikio
+      update_success_queue: 'Ombi la Kufuatilia %{record_id}limeingizwa toleo jipya katika historia yake'
+      creation_success_queue: Rekodi ya historia ya Ombi la Kufuatilia imetayarishwa
+      match_action: Imelinganisha kwa mafanikio athari %{trace_id}na Kesi %{record_id}
+      unmatch_action: Imetenganisha kwa mafanikio Athari %{trace_id}na Kesi %{record_id}
+  registry_record:
+    messages:
+      update_success: 'Rekodi ya Usajili %{record_id} ilifanikiwa kuwekewa toleo jipya'
+      creation_success: 'Rekodi ya Usajili imetayarishwa kwa mafanikio'
+      disabled: Rekodi ya Usajili imezimwa
+  tracing_requests:
+    date_of_inquiry: Tarehe ya Uchunguzi
+    disable_dialog_title: Ombi la Kufuatilia Lililoondolewa
+    disable_dialog: Kubonyeza SAWA /OK kutabadilisha hali ya ombi la kufuatilia kuwa Lililo ondolewa
+    disable_success: Ombi la kufuatilia limezimwa / limelemzwa
+    enable_dialog: Kubonyeza SAWA / OK kutabadilisha hali ya ombi la kufuatilia kuwa Lililowezeshwa
+    enable_dialog_title: Wezesha Ombi la Kufuatilia
+    enable_success: Ombi la kufuatilia limewezeshwa kwa  mafanikio
+    id: Utambulisho / Kitambulisho
+    filter_by:
+      by_date: Ifikapo Tarehe / Kwa Tarehe
+      location_separation: Eneo la Kutenganisha / Eneo la Kujitenga
+      separation_cause: Sababu ya Kutenganisha
+      status: Hali
+    label: Maombi ya Kufuatilia
+    name_of_inquirer: Jina la Muulizaji
+    inquirer: Muulizaji
+    name: Name
+    register_new_tracing_request: Ombi Jipya la Kufuatilia
+    selectable_date_options:
+      inquiry_date: Tarehe ya Uchunguzi
+    selected_records: '%{select_records}(ombi) /maombi ya kufuatilia yamechaguliwa'
+    selected_all_records: 'Chagua zote %{total_records}maombi ya kufuatilia yanayolingana na swali'
+    show_tracing_request: 'Kitambulisho cha Ombi la Kufuatilia %{short_id}'
+    tracing_requests: Maombi ya Kufuatilia
+    export: 'Kusafirisha '
+  registry_records:
+    id: Utambulisho
+    label: Rekodi za Usajili
+    name: Jina
+    registry_no: Nambari ya Usajili
+    location: Eneo
+    registration_date: Tarehe ya Usajili
+    selected_records: '%{select_records} rekodi ya (za) usajili imechaguliwa'
+    selected_all_records: 'Chagua zote %{total_records} rekodi za usajili yaliyolingana na swali'
+    disable_dialog_title: Zizime /Zifunge Rekodi za Usajili
+    disable_dialog: Kubonyeza SAWA /OK kutabadilisha hali ya rekodi hii ya usajili kuwa imezimwa
+    disable_success: Rekodi ya usajili imefanikiwa kuzimwa
+    enable_dialog_title: Wezesha Rekodi ya Usajili
+    enable_dialog: Kubonyeza SAWA /Ok kutaibadilisha hali ya rekodi hii ya usajili kuwa Imewezeshwa
+    enable_success: Rekodi ya usajili imefanikiwa kuwezeshwa
+    filter_by:
+      by_date: Kwa tarehe
+      status: Hali
+    selectable_date_options:
+      registration_date: Tarehe ya Usajili
+    show_registry_record: 'Utambulisho wa Usajili /Rekodi:  %{short_id}'
+    register_new_registry_record: Rekodi Mpya za Usajili
+    export: Kusafirisha
+    mark_for_offline:
+      title: Alama kwa Nje ya Mtandao
+      text: Je, unahakika unataka kuziwekea alama rekodi hizi za usajili ili ziweze kutumika wakati ukiwa nje ya mtandao?
+      success: Rekodi za Usajili zimefanikiwa kuwekwa alama kwa matumizi ya nje ya mtandao
+  transfer:
+    label: Uhamisho
+    agency_label: Wakala
+    consent_from_individual_label: Je, unayo idhini kutoka kwa mtu binafsi itakayokuwezesha kufanya uhamisho huu?
+    consent_label: Rekodi hazionyeshi idhini
+    consent_override_label: Je, unataka kuubadilisha mpangilio huu?
+    is_remote_label: Je, unaihamishia kwenda mfumo wa mbali?
+    location_label: Eneo
+    notes_label: Maelezo
+    provided_consent_label: Idhini haikutolewa kwenye fomu
+    recipient_label: Mpokeaji
+    select_label: Chagua
+    success: Imehamishwa kwa mafanikio
+    transfer_label: Hamisha hata hivyo?
+    user_mandatory: Mpokeaji Anahitajika
+    rejected_reason: Sababu iliyokataliwa
+  transfer_assignment:
+    title: Uhamisho na Kazi
+  transition:
+    agency_label: Wakala
+    assigned_by: Imetolewa Na
+    consent_individual_transfer_value:
+      true_label: 'Ndio'
+      false_label: 'Hapana'
+    consent_overridden_value:
+      false_label: 'Hapana'
+      true_label: 'Ndio'
+    errors:
+      consent: Idhini haikutolewa
+      to_user_can_receive: Mtumiaji huyu hawezi kupokea rekodi
+    individual_consent: Je, mfanyakazi wa kesi anayo idhini ya mtu binafsi ili afanye uhamisho huu?
+    no_consent_share: Je, unakubali kushiriki katika mipango iliyobatilishwa?
+    notes: Maelezo
+    recipient: Mpokeaji
+    rejected: Sababu Imekataliwa
+    requested_by: 'Imeombwa na '
+    service_label: Huduma
+    responded_at: Ilijibiwa Kwa
+    status:
+      accepted: Imekubalika / Imekubaliwa
+      done: Imemalizika / Kumaliza
+      in_progress: Inasubiri
+      inprogress: Inasubiri
+      rejected: Imekataliwa
+      revoked: Kubatilishwa
+    type:
+      assign: Kabidhi
+      reassign: Kabidhi
+      referral: Rufaa
+      external_referral: Rufaa ya Nje
+      transfer: Uhamisho
+      transferRequest: Ombi la Uhamisho
+  user:
+    agency_office: Ofisi ya Wakala (eneo la Udhalilishaji wa Kijinsia)
+    code: Alama ya Mtumiaji
+    disabled: Imelemazwa / Imezimwa
+    email: Baruapepe
+    full_name: Jina Kamili
+    identity_provider: Mtoaji wa Kitambulisho
+    invalid_provider_username: 'Mpangilio batili wa jina la mtumiaji. Mfano: jinalamtumiaji.langu@%{domain}'
+    label: Mtumiaji
+    language: Lugha
+    locale: Eneo
+    location: Eneo
+    messages:
+      confirmation: Je, unahakika unataka kumfuta / kumuondoa mtumiaji huyu? Ukimuondoa hutaweza kumuona tena. Bonyeza SAWA /OK Kumfuta Mtumiaji
+      created: Mtumiaji alitayarishwa / aliingizwa kwa ufanisi
+      failure: Hitilafu imetokea. Tafadhali wasiliana na sehemu ya msaada
+      new_confirm_html: Unakaribia kumualika mtumiaji<b>%{username}</b>kutoka<b>%{identity}</b>mwenye jukumu <b>%{role}</b>la kutumia Primero. Baruapepe ya uthibitisho itapelekwa /itatumwa kwa <b>%{email}</b>. Je, ungependa kuendelea?
+      new_confirm_non_identity_html: Unakaribia kumualika mtumiaji<b>%{username}</b>mwenye jukumu<b>%{role}</b>la kutumia Primero. Baruapepe ya uthibitisho itapelekwa / itatumwa kwa <b>%{email}</b>. Je, ungependa kuendelea?
+      not_found: Mtumiaji mwenye kitambulisho kilichotolewa hapatikani / haonekani
+      password_changed_successfully: Neno siri limebadilishwa kwa usanifu
+      passwords_do_not_match: 'hailingani na nenosiri la sasa '
+      time_zone_updated: mabadiliko yalifanyika kwa kuingizwa toleo jipya
+      updated: Mtumiaji aliingiziwa toleo jipya kwa ufanisi
+    organization: Shirika
+    agency: Wakala
+    services_help_text: Ikiwa hutafafanua huduma, mtumiaji huyu atapewa huduma zile zile ambazo wakala wake anazo
+    password_setting:
+      label: Primero aliweke vipi nenosiri la mtumiaji?
+      self: Nitaweka nenosiri
+      user: Mtumiaji ataweka nenosiri kwa kutumia baruapepe ya kumkaribisha
+      help_text: Tafadhali kumbuka kuwa , ikiwa wewe msimamizi , utaweka nenosiri kwa mkono, utahitaji kumpelekea mtumiaji kwa njia salama.
+    password_reset_header: Tuma baruapepe ya kuweka upya nenosiri
+    password_reset_text: 'Ikiwa utabonyeza ''Tuma / Peleka'' : mtumiaji huyu atapata baruapepe yenye kiungo cha kuweka upya nenosiri lake'
+    password_reset_request: Tuma / Peleka baruapepe ya kuweka upya nenosiri
+    password: Nenosiri
+    password_confirmation: Uthibitisho wa Nenosiri
+    phone: 'Simu '
+    position: Sehemu
+    provider_username_help: 'Mfano: jinalamtumiaji.langu%{domain}'
+    role_id: Jukumu
+    send_mail: Kupokea taarifa ya baruapepe?
+    user_group_unique_ids: Vikundi vya Watumiaji
+    user_name: Jina la mtumiaji
+    services: Huduma
+    welcome_email:
+      subject: 'Karibu kwenye%{system}'
+      greeting: 'Karibu kwenye%{system}'
+      body_native: 'Umeongezwa kama ni %{role_name}Tafadhali wasiliana na %{admin_full_name}(%{admin_email}) kwa maelekezo ya ufuatiliaji ili kuanza kuyafanyia kazi%{host}'
+      sso:
+        body: 'Umeingizwa kama%{role_name}'
+        step1: 'Nenda%{host}na ubonyeze%{identity_provider}'
+        step2: 'Ingia kwa%{identity_provider}akaunti yako%{user_name}'
+        step3: 'Tumia nenosiri hilo hilo unalotumia siku zote %{identity_provider}kwa akaunti yako'
+        footer: 'Tafadhali wasiliana na %{admin_full_name}(%{admin_email})kwa maelezo zaidi.'
+      otp:
+        body: 'Umeongezwa kama %{role_name}'
+        step1: 'Tafadhali wasiliana %{admin_full_name}(%{admin_email}) kupokea nenosiri lako'
+        step2: 'Nenda%{host}na ubonyeze "Ingia kwa kutumia jina la mtumiaji la Primero'''
+        step3: 'Ingia kwa kutumia jina lako la mtumiaji na nenosiri la muda%{otp}'
+        step4: 'Utakapo hamasishwa, weka upya nenosiri lako'
+      url_label: Primetro
+      enabled_label: Kuuma Baruapepe ya Kukaribisha?
+      text_label: Maandishi ya Baruapepe ya Kukaribisha
+    password_reset:
+      subject: 'Weka upya maagizo ya nenosiri'
+      email_greeting: "Mpenzi / Mpendwa%{full_name}"
+      email_body1: "Mtu mmoja alileta ombi la kuwekwa nenosiri lako kwa %{host_href}. Bonyeza url hapo chini ili uweze kuanza"
+      email_body2: "Kiungo hiki kitamalizika muda wake baada ya saa%{hours}na inaweza kutumika mara moja tu. Tafadhali ipuuze baruapepe hii ikiwa hukuleta ombi la kuweka upya nenosiri au mtumiaji mpya wa Primero ambaye hajasajiliwa kwa niaba yako. Ikiwa kiungo cha hapo juu kimemalizika muda wake, tafadhali bonyeza %{reset_request_href}kuwasilisha tena ombi lako la kuweka upya nenosiri ."
+      email_body_link: Hapa
+      request_submitted: "Ombi la kuweka upya nenosiri limewqasilishwa"
+      success: "Nenosiri limebadilishwa kwa ufanisi"
+      errors:
+        reset_password_token: "Ishara batili ya kuweka upya nenosiri"
+        password_confirmation: "Nenosiri ni lazima lilingane"
+    onboard_email:
+      subject: "Kwenyekupanda kwa%{system}"
+      greeting: "Mpenzi%{full_name}"
+      body1: "Karibu Primero!"
+      body2: "Umeteuliwa kuwa msimamizi wa utekelezaji wa%{host_href}%{reset_notification}"
+      body2_reset_notification: "Utapokea baruapepe ya ziada ikikutaka uweke upya nenosiri lako"
+      body3: "Unao wajibu wa kuhakikisha utekelezaji salama na kwa wakati.  Kwa kila uchapishaji unapaswan uwe umekamilisha mpango wa utekelezaji pamoja na onboarding na mkakati wa usimamizi wa mtumiaji na itifaki ya kubadilishana habari. Unawajibu pia wa kuhakikisha kuwa sheria na masharti ya matumizi yako kwenye faili kwa mashirika yote ya watumiaji"
+  user_group:
+    associated_agencies: Mashirika yanayohusiana na Kikundi cha Watumiaji
+    description: Maelezo
+    disabled:
+      explanation: Ikiwa utakiwezesha Kikundi hiki cha Watumiaji hutaweza tena kuikabidhi kwa akaunti za Watumiaji
+      label: Imezimwa / Imelemazwa
+    messages:
+      created: Kikundi cha watumiaji kiliundwa / Kilitengenezwa kwa ufanisi
+      updated: Kikundin cha watumiaji kiliingizwab toleo jipya kwa ufanisi
+    name: Jina
+  user_groups:
+    label: Vikundi vya Watumiaji
+  users:
+    label: Watumiaji
+    headers:
+      full_name: Jina Kamili
+      user_name: Jina la mtumiaji
+      position: Nafasi
+      agency: Wakala
+  devise:
+    failure:
+      already_authenticated: "Tayari umeingia "
+      invalid: "Batili%{authentication_keys}au nenosiri"
+      locked: "Akaunti yako imefungwa"
+      last_attempt: "Una jaribio moja zaidi kabla akaunti yako haijafungwa"
+  admin:
+    locations:
+      selected_records: '%{select_records}(eneo) /maeneo yamechaguliwa'
+      selected_all_records: Chagua %{total_records}kesi zote zinazolingana na swali hili
+      updated: '%{updated_records} (Eneo) / Maeneo yaliyoingizwa toleo jipya'

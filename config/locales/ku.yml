@@ -1,30 +1,38 @@
 ku:
   'true': 'بەڵێ'
   'false': 'نه خێر '
-  accepted: قبوڵکرا
-  cancel: لابردن
-  connection_lost: لە باری ئۆفلایندایە
-  connected: پێکەوەلکاو/پەیوەندیدار
+  accepted: پەسەندکرا
+  cancel: پاشگەزبونەوە
+  connection_lost: لە باری ناچالاکدایە
+  connected: پێکەوەلکاو/پەیوەست
   clear: روونە
   sandbox_ui: پیشاندان
   description: وەسفکردن
   form: فۆرم
+  minimum_reportable_fields: "كەمترین بواری راپۆرتكردن %{record_type}"
   name: ناو
-  offline: ئۆفلاین
-  unavailable_offline: لە باری ئپفلایندا بەردەست نیە
-  online: ئۆنلاین
+  offline: 'ناچالاک '
+  unavailable_offline: لە باری ئوفلایندا بەردەست نیە
+  online: چالاک،لەسەر هێڵ
   yes_label: 'به لێ'
   or_label: یان
   select_provider: پێشکەشکار هەڵبژێرە
   select_language: زمان هەڵبژێرە
+  log_in_primero_idp: داخڵ ببە بە ناوی تۆمارکراو %{idp_name}
+  offline_submitted_changes: ئێستا تۆ لەسەر هێڵ نییت، كاتێك دەگەڕێیتەوە سەر هێڵ ئەوا گۆڕانكارییەكانت پێشكەش دەكرێن
   updated: نوێ کراوە
+  sync:
+    success: "%{records} تۆماركردنەكە بە سەركەوتویی گرێدرا"
+    error:
+      create: سەركەوتوو نەبوو لە دروستكردنی%{record_type} تكایە پەیوەندی بە هاوكارییەوە بكە
+      update: نوێكردنەوە بۆ %{record_type}%{short_id} سەركەوتوو نەبوو. تكایە پەیوەندی بە هاوكارییەوە بكە
   actions:
     approvals: رەزامەندیەکان
     button: کردارەکان
     close: داخراو
     description:
-      invalid: تومارێن کارپێنەکرى
-      valid: تومارێن کارپێکرى
+      invalid: توماری كارپێنەكراو
+      valid: تومارێن کارپێكراو
     disable: لەکارخستن
     enable: بەکارخستن
     incident_details_from_case: رووداو زیادبکە
@@ -32,10 +40,15 @@ ku:
     next: دواتر
     notes: تێبینی داخڵ بکە
     previous: پێشووتر
-    reopen: دوبارەکردنەوە
+    reopen: دوبارە کردنەوە
     request_approval: داوای رەزامەندی بکە
+    revoke: هەڵوەشاندنەوە
     save: هەڵگرتن
+    services_from_case_creation_success: 'تۆماری دەستەبەركردنی خزمەتگوزاری  بەسەرکەوتووى دروستکرا
+
+       '
     services_section_from_case: خزمەتگوزاریە پێدراوەکان زیادبکە
+    mark_for_offline: نیشانە كە ئاماژە بێت بە نەبوونی هێڵی ئەنتەرنێت
   agencies:
     label: دامەزراوە
     translations:
@@ -45,25 +58,42 @@ ku:
     code: کودى دامەزراوە
     description: شروڤەکردن
     disabled: لەکارخراو
+    exclude_agency_from_lookups: ' ئەم ئاژانسە لە گەڕانە و فلتەرەكان دووربخەرەوە'
+    exclude_agency_from_lookups_help: ' لەوە ووردبەرەوە ئایا ئەم ئاژانسە بەكارهێنەری هەیە ( بۆ نموونە، ئاژانسەكە زیاد كرا  بە چەشنێك كە بتوانرێت لۆگۆكە جێبەجێ بكرێت بەسەر ناردنەكاندا. '
+    label: ' ئاژانس
+
+       '
+    logo_enabled: ' لۆگۆی ئاژانسەكە لە سەرەتادا پیشان بدە؟
+
+       '
+    logo_enabled_help: لۆگۆی ئاژانسەكە لە سەرەتادا پیشان بدە
     logo_icon: ئایکۆنی لۆگۆ
+    logo_icon_help: ئەمە لەسەر شاشە قەبارە بچووكەكان، تابلێت، و  ئامێرەكانی تەلەفۆن دەردەكەوێت،  و پێویستە ئەمە چوارگۆشە بێت.
     logo_large: لۆگۆی گەورە
+    logo_large_help: ئەم پەڕەیە لەسەر شاشەی قەبارە گەورە  دەردەكەون و بە شێوەی پی دی ئێف دەنێردرێت. پێویستە ئەمە لاكێشەیی بێت، كە درێژییەكانی درێژتر بن لە بەرزییەكانی
     messages:
       created: دامەزراوەکە سەرکەوتوانە دروستکرا
       updated: دامەزراوەکە سەرکەوتوانە نوێ کرایەوە
     name: ناوى دامەزراوە
     pdf_logo_option: 'لۆگۆکە بەشێوەی PDF بەردەست بێت؟ '
+    pdf_logo_option_help: ' تێبینی:  لۆگۆی ئاژانسی بەكارهێنەران بە شێوەیەكی ئاسایی بەردەستە بۆیان، كەواتە تۆ تەنها ئەو كاتە ئەمە دیاری دەكەیت ئەگەر بتەوێ ئەم لۆگۆیە بۆ سەرجەم بەكارهێنەران بەردەست بێت. '
     services: خزمەتگوزارى دامەزراوه كانى
-    terms_of_use_download_button: بە PDF داونلۆدی بکە
+    terms_of_use: مەرجەكانی بەكارهێنان
+    terms_of_use_help: تەنها فایلی پی دی ئێف رێپێدراوە
+    terms_of_use_download_button: بە پی دی ئێف داونلۆدی بکە
+    terms_of_use_enabled: مەرجەكانی بەكارهێنان پیشان بدە
   approvals:
+    approved_by: رەزامەندی لەسەر دراوە لەلایەن
+    case_plan_type_label: جۆری پلانی كەیس
     manager_comments_label: سەرنجی بەڕێوەبەر
     rejected_by: رەتکراوەتەوە لە لایەن
     requested_by: داواکراوە لە لایەن
-    requested_for_label: پەسەندکردن داواکراوە بۆ
-    requested_for_title: 'داواکردنی پەسەندکردن '
+    requested_for_label: داواکاری پەسەندکردن بۆ
+    requested_for_title: 'داواکاری پەسەندکردن '
     response_for_label: پەسەندکردن بۆ
     response_for_title: پەسەندکردن
     action_plan: پلانی کار
-    gbv_closure: داخستنی GBV
+    gbv_closure: داخستنی كەیسی توندتیژی جێندەری
     status:
       approved: پەسەندکرا
       pending: چاوەروانى کردن
@@ -71,7 +101,7 @@ ku:
       requested: داواکراو
   audit_log:
     action: کردار
-    description: وەسفکردن
+    description: ڕونکردنەوە
     record_owner: خاوەنى تومارەکە
     timestamp: کات
     user_name: جێبەجێکراوە لەلایەن
@@ -80,7 +110,14 @@ ku:
     record_type: جور
     retry: ئەم ناردنە کارپێنەکراوە. تکایە ناردنى خوت دروستبکە
     started_on: دەستیپێکرد
-    status: دوخ
+    status: دۆخ
+  form_export:
+    label: پێكهێنانی فۆرمی ناردن
+    include_hidden: ' فۆرم و بواری شاردراوە لەخۆدەگرێت؟'
+    file_name: ناوی فایلی تایبەت بە خۆت دروست بكە ( ئارەزومەندانە)
+    success_message: ' سەركەوتووانە فایلی ناردنی دروست كرد
+
+       '
   buttons:
     accept: رازیبون
     add: زیادی بکە
@@ -91,31 +128,44 @@ ku:
     approve_action_plan: پەسەندکردنی پلانی کار
     approve_bia: پەسەندکرن BIA
     approve_case_plan: پەسەندکرنى پلانى کەیسەکە
-    approve_closure: پەسەندکردنى گرتنەوە
+    approve_closure: پەسەندکردنى داخستن
+    approve_gbv_closure: رەزامەندیدان لەسەر داخستنی كەیسی توندوتیژی جێندەری
     back: گەرانەوە
     bundle_export: پێکهاتەى خشتە
     bundle_import: پێکهاتەى خشتە
-    cancel: رەتکردن
-    change_password: گوهرینى ژمارەى نهێنى
+    cancel: پاشگەزبونەوە
+    change_password: گۆڕینى ژمارەى نهێنى
+    check_status: لەبارودۆخەكە بڕوانە
+    clear_default: پاككردنەوەی خەنكردنە بنەڕەتییەكە
+    clear_selection: پاككردنەوەی هەڵبژاردنەكە
+    clear: پاككردنەوە
+    close: داخراو
+    continue: 'بەردەوامی دان
+
+       '
     create_case: تومارکردنى كه يسه كان
     create_incident: تومارکردنى رووداو
     create_new_record: 'زیادکردنی نوێ '
     delete: بسرەوە
     disable: لەکارخستن
-    disable_photo_wall: وێنەى دواوە لەکاربێخە
+    disable_photo_wall: وێنەى دواوە لەکاربخە
     done: ئەنجامدا
+    download: 'دابەزاندن
+
+       '
     edit: دەستکاریکرن
     edit_subform: دەستکاریکردنى فورمى ناسەرەکى
     enable: بەکارخستن
     enable_photo_wall: وێنەى دواوە دەستبەکاربکە
     export: گواستنەوە
     filter: فیلتەرى بەکاربێنە
-    filter_clear: فیلتەرەکە لایبە
+    filter_clear: فیلتەرەکە لاببە
     filter_label: 'فیلتەر:'
     filter_restore: گەرانەوەی رێکخستنی سیستەم
     find_tracing_match: دوزينةوةى بةيوةندى بةدواداجون
     flag_model: نیشان
     flag_records: 'نیشان '
+    flags: نیشانەكان
     guidance: ڕێبەری
     guiding_questions: پرسیاری رونکەرەوە
     import: هێنانەوە
@@ -126,8 +176,8 @@ ku:
     ok: باشە
     print: چاپکردن
     reassign: پێسپاردن
-    referral: ئیحالەکردن
-    referral_again: دوبارە ئیحالەکردن
+    referral: رەوانەكردن
+    referral_again: دوبارە رەوانەكردن
     reject: رەدکردن
     remove_referrals: پێشنیارەکان لایبە
     reorder: ڕێکخستن
@@ -146,8 +196,8 @@ ku:
     sync: دابەزاندن
     submit: پێشکێشکردن
     transfer: گواستنەوە
-    unflag_model: نیشان نەکردن
-    unflag_model_history: نیشانکردنی مێژوەکە
+    unflag_model: نیشان نەکردن%{model}
+    unflag_model_history: نیشانکردنی مێژوەکە%{model}
     unmark_for_mobile: بو موبایل دەستنیشان مەکە
     update: نوێکردنەوە
     view: پێداچوون
@@ -156,57 +206,113 @@ ku:
   case:
     label: کەیس
     create_new_case: کەیسى نوێ توماربکە
+    add_new: 'تێبینى زیادبکە
+
+       '
+    back_to_case: گەڕانەوە بۆ كەیس
+    back_to_results: گەڕانەوە بۆ ئەنجامەكان
+    back_to_search: گەڕانەوە بۆ لێگەڕانەكە
+    search_by: لێگەڕان بە گوێرەی
+    search_for: لێگەڕان بۆ%{record_type}
+    results: ' ئەنجامەكان'
+    details: 'ووردەكاری
+
+       '
+    select: 'هەڵبژاردن
+
+       '
+    deselect: ' هەڵوەشاندنەوەی هەڵبژاردنەكە'
     enter_id_number: ژمارەى ناسنامەکە داخلبکە بو لێگەریانى تومارى هەیى
+    id_search_no_results: "هاوشێویەكی نییە لە سیستمەكەدا بۆ %{search_query}. تكایە تۆمارێكی نوێ دروست بكە. \n "
     messages:
       disabled: کارانەکردنی کەیسەکە
-      update_success: 'کەیسەکە بەسەركەوتووى نوێکرایەوە'
+      update_success: 'کەیسەکە %{record_id}بەسەركەوتووى نوێکرایەوە'
+      update_success_queue: '%{record_id} كەیسی بە سەركەوتوویی نوێكرایەوە لە رووی پاشخانەوە'
       creation_success: 'تومارى کەیسەکە  بەسەركەوتووى  دروستکرا'
-      already_matched: ئەم داواکاریە لەگەڵ کەیسەکەتدا گەنجاوە
+      creation_success_queue: 'تۆماركردنی كەیس بە سەركەوتویی دروستكرا لە نێو پاشخانەكەدا. '
+      already_matched: ئەم داواکاریە لەگەڵ کەیسەکەتدا گونجاوە
       already_matched_not_current_case: کەیسێک لە سیستمەکەدا هەیە لەگەڵ ئەم داواکاریەدا گونجاوە
+      not_found_case: '%{search_value} هیچ كەیسێك بەدی نەكرا كە هاوشێوە بێن، كەیسێكی نوێ دروست بكە'
+      introductory_sentence: تكایە رەزامەندی كەسەكە دەستنیشان بكە بۆ وەرگرتنی  خزمەتگوزاری بەڕێوەبردنی كەیس و هەڵگرتنی زانیارییەكانیان لە پریمێرۆدا
+      consent_agreements_required: تكایە لانی كەم یەكێك لە بژاردەكان لە رێككەوتنی رەزامەندییەكان هەڵبژێرە
+      legitimate_basis_required: تكایە لانی كەم یەكێك لە بژاردەكان لە پۆلێنكردنە بنەڕەتیا رەواكان هەڵبژێرە
     save: پاراستنی کەیسەکە
+    save_text: پێش بەردەوامبوون، تكایە گۆڕانكارییەكان لە كەیسەكەدا خەزن بكە
+    skip_and_create: فەرامۆش بكە و كەیسێكی نوێ دروست بكە
+    search_existing: لێگەڕان لەو كەیسانەی لە ئارادان
+    search_helper_text: بۆچی؟ بۆ بەرگرتن بە دروستكردنی كەیسی دووباربۆوە
+    consent_agreements: سەرجەم رێككەوتنەكانی رەزامەندی دەستنیشان بكە كە جێبەجێ دەبن
+    legitimate_basis: سەرجەم پۆلێنكردنە رەوا و بناغەییەكان دەستنیشان بكە كە جێبەجێ دەبن
     workflow:
       assessment: لێکولینەوە
       case_plan: پلانی كەیسەكە
       closed: داخراو
       created_on: دروستکراوە دەربارەى
-      in_progress: لە پێشەوةدایە
+      in_progress: لە پرۆسەدایە
       new: نوێ
       on_label: 'دەربارەى'
-      reopened: دوبارەکراوەتەوە
+      reopened: 'کرانەوە جارێکیتر '
       service_implemented: خزمەتگوزاریەکە جێبەجێکرا
       services_implemented: خزمەتگوزاریەکە جێبەجێکرا
+  linkedincidents:
+    label: رووداوە لێكگرێدراوەكان
+  activity_log:
+    label: 'تۆماری چالاكی  
+
+       '
+    accepted_transfer: ' %{to}گواستنەوەی   %{record_type}%{record_id}قبوڵكردووە لە%{from}'
+    rejected_transfer: '%{to}گواستنەوەیان رەتكراوەتەوە  بۆ%{record_type}%{record_id}لە%{from}'
   cases:
+    action_plan: 'پلانی كار 
+
+       '
     age: تەمەن
-    age_estimated: تەمەنی خەمڵینراو
-    agency: دامەزراوە
+    age_estimated: 'تەمەنی خەمڵینراو؟ '
+    agency: ئاژانس
     apply_filter: پەسەندکردن
     approval_comments: تێبینیەکان
     approval_radio: 'پێم باشە '
     approval_radio_accept: پەسەندکردن
     approval_radio_reject: پەسەندنەکراو
-    approval_select: فۆرمی
+    approval_select: فۆرمەكە بۆ
+    approved_success_action_plan: '%{approval_label}- پەسەندكراوە'
+    approved_success_assessment: '%{approval_label}- پەسەندكراوە'
+    approved_success_bia: '%{approval_label}- پەسەندكراوە'
+    approved_success_case_plan: '%{approval_label}- پەسەندكراوە'
+    approved_success_closure: '%{approval_label}- پەسەندكراوە'
+    approved_success_gbv_closure: '%{approval_label}- پەسەندكراوە'
     assessment: هەلسەنگاندن
     case_opening_date: رێککەوتى کردنەوەى کەیس
     case_plan: پلانی كەیسەكە
-    case_worker_code: کودى لێکولەرى کەیس
+    case_worker_code: کۆدى بەرێوەبەری کەیس
     clear_filter: روونە
+    close_dialog: 'كلیككردن لەسەر باشە -ئۆكەی-  باری كەیسەكە دەگۆڕێت بۆ داخراو '
     close_dialog_title: کەیسی داخراو
-    close_success: سەرکەوتوانە کەیسەکە دواخرا
+    close_success: سەرکەوتوانە کەیسەکە داخرا
     closure: داخستن
     date_of_birth: رێککەوتى لەدایکبون
-    disable_dialog: کلیککردن لەسەر باشە بارى ئەم کەیسە دەیگورێ بۆ کارانەکراو
-    disable_dialog_title: کەسەکە ناکارابکە
+    disable_dialog: کلیککردن لەسەر باشە-ئۆكەی- بارى ئەم کەیسە دەگورێ بۆ کارانەکراو
+    disable_dialog_title: کەیسەکە ناکارا بکە
     disable_success: سەرکەوتوانە کەیسەکە ناکارا کرا
+    enable_dialog: ' کلیککردن لەسەر باشە -ئۆكەی- بارى ئەم کەیسە دەگورێ بۆ کاراكراو
+
+       '
     enable_dialog_title: کەیسەکە کارا بکە
     enable_success: سەرکەوتوانە کەیسەکە کارا کرا
     export: ناردن
+    mark_for_offline:
+      title: ' نیشانە كە ئاماژە بێت بە نەبوونی هێڵی ئەنتەرنێت'
+      text: ' ئایا دڵنیاییت كە دەتەوێ نیشانە لەسەر ئەم كەیسانە دابنێیت بۆ ئەوەی بەكاریان بهێنێت كاتێك لەسەر هێڵی ئەنتەرنێت نییت؟ '
+      success: ' سەركەوتووانە نیشانە لەسەر كەیسەكان دانرا بۆ ئەوەی بەكاربهنێرێن كاتێك هێڵی ئەنتەرنێتیش نەبێت'
     filter_by:
       3month_inactivity: ' بۆ 3+ مانگ'
       action_plan: پلانی کار
-      age_0_5: ٠-٥
-      age_12_17: ١٢-١٧
-      age_18_more: ١٨+
-      age_6_11: ٦-١١
+      age_0_5: '0 - 5
+
+         '
+      age_12_17: 12-17
+      age_18_more: '+18'
+      age_6_11: 6-11
       age_range: رێژەی تەمەن
       agency: دامەزراوە
       approval_status: باری پەسەندکردن
@@ -229,7 +335,7 @@ ku:
       female: مێ
       flag: نیشانەکراو
       flag_label: دەستنیشانکرا؟
-      gbv_closure: داخستنی GBV
+      gbv_closure: داخستنی كەیسی توندوتیژی جێندەری
       high: بەرز
       low: نزم
       male: نێر
@@ -242,29 +348,29 @@ ku:
       open: کردنەوە
       other: هی تر
       photo: وێنە
-      photo_label: 'وێنە هەیەتى؟ '
+      photo_label: 'وێنەی هەیە؟ '
       protection_concerns: نیگەرانیەکانى پاراستن
       protection_status: 'دوخى پاراستن:'
       record_state: دوخى تومار
-      referred_cases: کەیسەکانى بو لاى من هەناردەکراو
+      referred_cases: کەیسەکانى بو لاى من هەناردەکراوە
       registration_date: رێککەوتى تومارکردن
       risk_level: 'ئاستى مەترسى:'
       sex: رەگەز
-      social_worker: کارمەندی مەیدان/ کەیس/ توێزەرى کومەلایەتى
+      social_worker: کارمەندی مەیدان/ کەیس/ توێژەرى کومەلایەتى
       status: دۆخ
       transferred: گواستراوە
-      type_of_risk: 'جورى مەترسى:'
+      type_of_risk: 'جۆرى مەترسى:'
       urgent_protection_concern: 'نیگەرانى خێراى پاراستن:'
       user_group: گروپی بەکارهێنەران
-      workflow: کەیسەکان لەلایەن ستافى کار
+      workflow: کەیسەکان لەلایەن خشتەی كار
     flag_summary: پوختەکە دەستنیشانبکە
     full_name: ناوی سیانی
-    gbv_closure: داخستنی GBV
+    gbv_closure: داخستنی كەیسی توندوتیژی جێندەری
     hide_name: ناوەکە بشارەوە
-    hide_name_error: هەلەیەک لەکاتى خەزنکردنى گوهرینەکان روویدا. تکایە هەولبدەوە
+    hide_name_error: هەلەیەک لەکاتى خەزنکردنى گۆڕینەکان روویدا. تکایە هەولبدەوە
     id: ناسنامە#
     label: کەیسەکان
-    my_filters: فیلتەرەکانم
+    my_filters: فلتەرەکانم
     name: ناو
     notes_dialog_title: تێبینى زیادبکە
     notes_form_notes: تێبینی
@@ -275,12 +381,12 @@ ku:
       most_recently: لەو دواییانەدا
       name: ناو
     owned_by: خاوەنى تومارەکە
-    owned_by_agency: دامەزراوى خاوەنى تومارەکە
+    owned_by_agency: ئاژانسی خاوەن تومارەکە
     photo: وێنە
     photos: وێنە
     quick_view:
-      tracing_message: 'تێبینى: هاوبەشێک هەیە لە سیستەمەکەدا لەگەل ڤەکولەر کە لەم منالە دەگەرێ. پەیوەندى بە ڤەکولەرى کومەلایەتى ئەم تومارە بکە بو کردارى تر ئەگەر منال رەزامەندى هەبێت. '
-    referral_done: کلیک کردن لسەر باشە دەریدەخات کە کارە پێشنیارکراوەکان تەواوتکرد کە پەیوەست بون بە کەیەسەکە. هەر کاتێک کلیک لسەر باشە کرا تو مولەتى چوونە ناو ئەم تومارە نامێنیت
+      tracing_message: 'تێبینى: هاوبەشێک هەیە لە سیستەمەکەدا لەگەل توێژەری کۆمەلایەتی کە لەم منالە دەگەرێ. پەیوەندى بە توێژەری کومەلایەتى ئەم تومارە بکە بو کردارى تر ئەگەر منال رەزامەندى هەبێت. '
+    referral_done: کلیک کردن لەسەر باشە دەریدەخات کە کارە پێشنیارکراوەکان تەواوتکرد کە پەیوەست بون بە کەیەسەکە. هەر کاتێک کلیک لسەر باشە کرا تو مولەتى چوونە ناو ئەم تومارە نامێنیت
     referral_done_success: ئیحالەکە جێبەجێکرا
     referral_accepted_header: ئیحالەکە وەربگرە
     referral_accepted: دڵنیایت؟ لە ئێستاوە بەرپرس دەبیت بەرامبەر تەواوکردنی کارەکانی تایبەتن بەم ئیحالەکردنەوە
@@ -289,84 +395,377 @@ ku:
     referral_rejected_success: ئیحالەکە قبوڵ نەکرا
     register_new_case: کەیسى نوێ
     registration_date: رێککەوتى تومارکردن
-    reopen_dialog: کلیککردن لەسەر باشە بارى ئەم کەیسە دەیگورێ بو کردنەوە
+    rejected_success_action_plan: '%{approval_label}- پەسەندكراوە'
+    rejected_success_assessment: '%{approval_label}--- پەسەند نەكراوە'
+    rejected_success_bia: '%{approval_label}--- پەسەند نەكراوە'
+    rejected_success_case_plan: '%{approval_label}--- پەسەند نەكراوە'
+    rejected_success_closure: '%{approval_label}--- پەسەند نەكراوە'
+    rejected_success_gbv_closure: '%{approval_label}-- پەسەند نەكراوە'
+    reopen_dialog: کلیککردن لەسەر باشە بارى ئەم کەیسە دەیگورێ بو کراوە
     reopen_dialog_title: دوبارەکردنەوە
-    reopen_success: سەرکەوتوانە وەڵامی کەیسەکە درایەوە
+    reopen_success: سەرکەوتوانە کەیسەکە کرایەوە
+    request_approval_failure: 'هەڵەیەک ڕویداوە، تکایە پەیوەندی بكە و داوای هاوكاری بكە
+
+       '
+    request_approval_select: داواكاری رەزامەندی لەسەر
+    request_approval_success_action_plan: داواكاری رەزامەندی لەسەر فۆرمی%{approval_label}
+    request_approval_success_assessment: 'داواكاری رەزامەندی لەسەر فۆرمی '
+    request_approval_success_case_plan: 'داواكاری رەزامەندی لەسەر فۆرمی %{approval_label}
+
+       '
+    request_approval_success_closure: ' داواكاری رەزامەندی كراوە بۆ فۆرمی%{approval_label}'
+    request_approval_success_gbv_closure: داواكاری رەزامەندی كراوە بۆ فۆرمی%{approval_label}
+    request_approval_type_of_case_plan: جۆری رەزامەندی لەسەر پلانی كەیسەكە
+    request_approve_action_plan: پەسەندکردنی پلانی کار؟
+    request_approve_bia: پەسەندكردنی هەڵسەنگاندنەكە
+    request_approve_case_plan: پەسەندكردنی پلانی كەیسەكە؟
+    request_approve_closure: 'پەسەندكردنی داخستن؟  '
+    request_approve_gbv_closure: رەزامەندیدان لەسەر داخستنی كەیسی توندوتیژی جێندەری؟
+    revoke_failure: هەڵەیەك روویدا لە كاتی هەڵوەشاندنەوەی %{transition_type}، تكایە داوای هاوكاری بكە
+    revoke_message: بە كلیككردن لەسەر هەڵوەشاندنەوە، ئەوا تۆ %{transition_type}لادەبەیت لە دەستڕاگەیشتنی وەرگرانی خزمەت بە كەیسەكە
+    revoke_success_message: كەیسی%{case_id}%{transition_type} بۆ%{recipient_username} هەڵوەشاندنەوە
     save_filter: خەزنکرن
+    selected_all_records: '%{total_records}سەرجەم ئەو كەیسانە دەستنیشان بكە كە لەگەڵ ئەم پرسەدا دەگونجێن'
+    selected_records: '%{select_records} كەیس(ەكان) دەستنیشانكران'
+    sex: رەگەز
+    show_case: '%{short_id}شوناسی كەیسەكە'
+    social_worker: كارمەندی كۆمەڵایەتی
+    status: دۆخ
+    summary:
+      label: پوختە
+      find_match: هاوشێوەیەك بدۆزەرەوە
+      matched_trace: '%{trace_id}وەك یەك'
+      cannot_find_matches: كەیسێكی هاوشێوە بەدی ناكرێت. رەزامەندی نەدرا بۆ ئەم كەیسە بۆ ئاشكراكردنی زانیاری بۆ ئامانجی بەدواداچوون
+      matched: وەكیەك
+      fields:
+        consent_for_tracing:
+          label: رەزامەندی بەدەستهێنرا بۆ ئاشكراكردنی زانیاری بۆ ئامانجەكانی بەدواداچوون
+          help_text: ' ئەگەر ئەم بوارە نەخێر بێت، ئەوا تۆماركردنی كەیسی منداڵ لە كەیسەهاوشێوەكاندا هاوشان بە ئامانجەكانی پرسیاركار بۆ مەبەستی بەدواداچوون'
+        wishes_child_family_tracing:
+          label: ئایا منداڵەكە دەیەوێت بەدواداچوون بكات بۆ ئەندامانی خێزانەكەی؟
+        wishes_reunification:
+          label: 'ئایا منداڵەكە دەیەوێت بە خێزانەكەی شاد بێتەوە؟ '
+          options:
+            yes_as_soon_as_possible: بەڵێ، لە نزیكترین كاتدا
+            yes_but_later: بەڵێ، بەڵام دواتر
+            not_sure: دڵنیانییم
+            'no': 'نەخێر
+
+               '
+        data_confidentiality_link:
+          label: سەرنجی نهێنیپارێزی داتاکان بدە
+        child_wishes_link:
+          label: داخوازییەكانی منداڵان ببینە
+    survivor_code: 'كۆدی رزگاربوو
+
+       '
+    transfer_accepted: 'بە كلیككردن لەسەر "پەسەندكردن" تۆ  لە ئەستۆگرتنی بەرپرسیارێتی ئەم كەیسە قبوڵ دەكەیت، هەر كاتێك كلیككت كرد لەسەر "پەسەندكردن" ئەوا دەبێتە خاوەنی تۆمارەكە لە سیستمەكەدا. '
+    transfer_managed_user_accepted: ' ئەگەر كلیك بكەیت لەسەر "قبوڵكردن"، %{transitioned_to} بەرپرسیار دەبێت بۆ كەیسەكە، كاتێك كلیك دەكەیت لەسەر "قبوڵكردن"%{transitioned_to} دەبیتە خاوەنی تۆمارەكە لە سیستمەكەدا. '
+    transfer_managed_user_rejected: 'بە كلیككردن لەسەر "رەتكردنەوە" تۆ ئاماژە بەوە دەكەیت كە %{transitioned_to} ئامادە نییە بۆ لە ئەستۆگرتنی بەرپرسیارێتی بۆ ئەم كەیسە لەم كاتەدا. تكایە هۆكارێك بنووسە بۆ رەتكردنەوەی ئەم كەیسە، هەر كاتێك كلیكت كرد لەسەر "رەتكردنەوە"%{transitioned_to}ئەوا چیتر دەستتڕاناگات بەم تۆماری كەیسە. '
+    transfer_accepted_rejected: گواستنەوەی كەیسی %{record_id} رەتكرایەوە
+    transfer_accepted_success: گواستنەوەی كەیسەكە بە سەركەوتوویی قبوڵكرا
+    transfer_reject_reason_label: 'هۆکاری رەتکردنەوە
+
+       '
+    transfer_rejected: ' بە كلیككردن لەسەر "رەتكردنەوە" تۆ ئاماژە بەوە دەكەیت كە تۆ ئامادە نییت لەم كاتەدا بەرپرسیارێتی ئەم كەیسە لە ئەستۆ بگریت. تكایە هۆكارێك بنووسیت بۆ رەتكردنەوەی ئەم كەیسە، هەر كاتێك تۆ كلیكت كرد لەسەر "رەتكردنەوە" ئەوا چیتر دەستت راناگات بە تۆماری ئەم كەیسە. '
     view_name: ناوەکە دیاربکە
+  change_logs:
+    filters:
+      form: فۆرم
+      field: 'بوار
+
+         '
+    add_subform: '%{subform_name} زیاد بكە داخڵكردنی فۆرمی لاوەكی#%{short_id}'
+    changes_subform: ' گۆڕینی بۆ فۆرمی لاوەكی %{subform_name}'
+    create: تۆمارە دروستكراوەكە
+    deleted_subform: 'لابردنی %{subform_name}داخڵكردنی فۆرمی لاوەكی  #%{short_id}'
+    label: لۆگەكە بگۆڕە
+    see_details: بڕوانە ووردەكارییەكان
+    change: 'فۆرمی %{from_value}بۆ%{to_value}'
+    updated_subform: '%{subform_name} نوێكراوەتەوە داخڵكردنی فۆرمی لاوەكی#%{short_id}'
+    update_subform: 'فۆرمی لاوەكی%{subform_name} نوێكراوە'
+    from: فۆرم
+    to: بۆ
   children:
     selectable_date_options:
-      assessment_requested_on: رێککەوتى ڤەکولینەکە
+      assessment_requested_on: بەرواری راپرسی
       closure_approved_date: 'رێککەوتى داخستنى کەیسەکە'
       created_at: رێککەوتى کردنەوەى کەیس
       date_case_plan_initiated: رێککەوتى پلانى کەیسەکە
+      date_of_creation: رێككەوتی دروستكردن
       registration_date: رێککەوتى تومارکردن
+  configurations:
+    apply_label: ئایا دڵنیایت؟ ئەگەر جێبەجێی بكەیت، ئەوا دانانەكانی ئەم پێكهاتەیە بەسەر سیستمەكەدا جێبەجێ دەبێت. و سەرجەم دانانەكانی ئێستا لە دەست دەدەیت و ناتوانیت بەدەستیان بهێنیتەوە تەنها ئەو كاتە نەبێت كە لە  پێكهاتەیەكدا خەزنت كردبن
+    apply_label_bold: لە كاتی دابەزاندنی گۆڕانكارییەكەدا ئەوا بۆ چەند خولەكێكی كەم پریمێرۆ بەردەست نابێت بۆ بەكارهێنەران
+    version_mismatch_tooltip: 'ناتوانیت ئەم پێكهاتەیە جێبەجێ بكەیت، چونكە لەوەتەی دروستكراوە ڤێرژنێكی پریمێرۆ  بەكار دەهێنێت كە بەرزترە لە ڤێرژنی ئەو سایتەی تۆ بەڕێوەی دەبەیت. تكایە چاوەڕوان بە بۆ جێبەجێكردنی ئەم رێكخستنە تاوەكو دوایین ڤێرژنی پریمێۆر بەكار دەهێنیت. '
+    send_header: نێردرا بۆ بەرهەمهێنان
+    send_text: 'ئایا تۆ دڵنیاییت؟ ئەگەر كلیك لەسەر ناردن بكەیت، ئەوا ئەم پێكهاتەیە دەنێریت بۆ سایتی بەرهەمهێنانی تایبەت بە خۆت. ئەم پێكهاتەیە جێبەجێ نابێت بەسەر بەرهەمهێنانەكەدا تاوەكو بەڕێوەبەرێك لەو  سایتەدا بەدەست جێبەجێیكردنی نەكات. '
+    attributes:
+      created_by: 'دروستکرا لەلایەن
+
+         '
+      date_created: 'رێككەوتی دروستكردن
+
+         '
+      description: 'وەسفكردن
+
+         '
+      last_applied_by: دوایین جار جێبەجێكراوە لەلایەن
+      last_applied_on: دوایین جار جێبەجێكراوە لەسەر
+      name: 'ناو
+
+         '
+      version: 'ڤێرژنی پێكهاتە
+
+         '
+      primero_version: 'ڤێرژنی سەرەتا
+
+         '
+    delete_label: 'ئایا دڵنیاییت كە دەتەوێ ئەم كارە بكەیت؟ ئەمە ئاماژەیە بە سەرجەم  دانانەكان لە دوای دروستكردنی ئەم پێكهاتەیەوە. تۆ ناتوانیت بگەڕێیتەوە و ئەم دانانانە بەدەست بهێنیتەوە كاتێك ئەم پێكهاتەیەت سڕییەوە.   '
+    explanation: 'كلیككردن لەسەر "خەزنكردن"  دەبێتەهۆی دروستكردنی تۆمارێك بۆ دانانەكانی پێكهاتەكەی ئێستا ( بۆ نموونە: رۆڵەكان، ئاژانسەكان، فۆرمەكان) لەم كاتەدا. دوای خەزنكردن، دەتوانیت ئەم گۆڕانكارییانە ببەیتە نموونەیەكی دیكەی پریمێرۆ. ئەگەر، لە ئایندەدا، گۆڕانكاریت كرد لە پێكهاتەكەدا  و یستت پێچەوانەی بكەیتەوە، ئەوا دەتوانیت ئەم تۆماری پێكهاتەیە بەكار بهێنیێت بۆ بەدەستهێنانەوەی سەرجەم گۆڕانكارییەكانی پێكهاتەكە كە لەم كاتەدا ئەنجامت دان. '
+    label: 'پێكهاتەكان
+
+       '
+    label_new: پێكهاتەی نوێ
+    messages:
+      applied: 'پێكهاتەكە بە سەركەوتویی جێبەجێكرا
+
+         '
+      created: 'پێكهاتەكە بە سەركەوتویی دروستكرا
+
+         '
+      deleted: پێكهاتەكە بە سەركەوتویی سڕدرایەوە
+      updated: پێكهاتەكە بە سەركەوتویی نوێكرایەوە
+      sent: ناردنی پێكهاتەكە بۆ بەرهەمهێنان. تكایە لە سایتی بەرهەمەكە بڕوانە بۆ ئەوەی ببینیت ئایا پێكهاتەكەت گەیشتووە
+    not_allowed: رێپێدراو نییە
+    unavailable_server: سێرڤەركە بە شێوەیەكی كاتی بەردەست نییە
   contact:
     field:
-      email: ئیمێل
+      email: بەریدی ئەلەکترۆنی
       location: شوێن
       name: ناو
       organization: رێکخراو
       other_information: زانیاریەکانى تر
       phone: موبایل
       position: پۆست
+      primero_version: 'ڤێرژنی سەرەتا 
+
+         '
       support_forum: کوربەندى پالپشتى
+      system_version: ڤێرژنی سیستمەكە
     info_label: زانیاریەکانى پەیوەندى کردن
     updated: زانیاریەکانى پەیوەندى  بەسەركەوتووى نوێکرا
+  code_of_conduct:
+    field:
+      title: ناوونیشان
+      content: ناوەڕۆك
+      created_on: دروستكراوە لە
+      created_by: دروستكراوە لەلایەن
+    info_label: رێساكانی رەفتاركردن
+    updated: رێساكانی رەفتاركردن بە سەركەوتووی نوێكرایەوە
   dashboard:
     activity: چالاکى
     admin_only: کلیک لەسەر %{links} بکە بو گورینەکان لە ئەپلیکەیشنەکە
     all_cases: هەموو کەیسەکان
     all_services_implemented: هەموو خزمەتگوزاریەکان جێبەجێکران
     and: 'وە'
-    approvals: پەسەندان
+    approval_action_plan_approved: 'پەسەندکراوە 
+
+       '
+    approval_action_plan_pending: 'هەڵپەسێردراوە
+
+       '
+    approval_action_plan_pending_group: 'پلانی كار
+
+       '
+    approval_action_plan_rejected: 'رەتكراوەتەوە
+
+       '
+    approval_assessment_approved: پەسەندکراوە
+    approval_assessment_pending: 'هەڵپەسێردراوە 
+
+       '
+    approval_assessment_pending_group: 'هەڵسەنگاندن
+
+       '
+    approval_assessment_rejected: رەتكراوەتەوە
+    approval_case_plan_approved: 'پەسەندکراوە
+
+       '
+    approval_case_plan_pending: هەڵپەسێردراوە
+    approval_case_plan_pending_group: 'پلانی كەیسەكە 
+
+       '
+    approval_case_plan_rejected: رەتكراوەتەوە
+    approval_closure_approved: پەسەندکراوە
+    approval_closure_pending: هەڵپەسێردراوە
+    approval_closure_pending_group: 'داخستن
+
+       '
+    approval_closure_rejected: رەتكراوەتەوە
+    approval_gbv_closure_approved: 'پەسەندکراوە
+
+       '
+    approval_gbv_closure_pending: 'هەڵپەسێردراوە
+
+       '
+    approval_gbv_closure_pending_group: 'داخستنی كەیسی توندوتیژی جێندەری 
+
+       '
+    approval_gbv_closure_rejected: رەتكراوەتەوە
+    approvals: پەسەندکراوەکان
+    approvals_action_plan: پلانی كار
+    approvals_assessment: هەڵسەنگاندن
+    approvals_case_plan: 'پلانی كەیسەكە
+
+       '
+    approvals_closure: داخستن
+    approvals_gbv_closure: 'داخستنی كەیسی توندوتیژی جێندەری
+
+       '
     approved: پەسەندکرا
     assessment: لێکولینەوە
+    awaiting_acceptance: لە چاوەڕوانی پەسەندكردندایە
+    cases_by_social_worker_total: سەرجەم
+    cases_by_social_worker_new_or_updated: 'نوێ & نوێکراوەتەوە
+
+       '
     case_id: 'کەیس# ناسنامە'
+    case_management_service: خزمەتگوزاری بەڕێوەبردنی كەیس
+    case_overview: کەیسەکانم
     case_plan: پلانی كەیسەكە
+    case_risk: كەیسەكان بە گوێرەی ئاستی هەڵسەنگاندن
     case_stat_by_approval_type: پەسەندەکان
     case_stat_by_assessment_level: کەیسەکان بە ئاستى لێکولینەوە
-    case_stat_referrals: 'پێشنیارەکان '
+    case_stat_referrals: ئیحالەکان- نێردراوەکان
     case_stats: کەیسەکان
     case_worker: لێکولەرى کەیس
     cases_by_social_worker: کەیسەکانى له لايةن لێکولەرى کومەلایەتى
     cases_by_task_overdue: ئەرکەکانى دوواکەوتوو
     cases_by_workflow: کەیسەکان لەلایەن ستاف
-    cases_this_week: کەیسەکانى لەم حەفتیەدا
+    cases_this_week: کەیسەکان لەم حەفتیەدا
     cases_to_assign: کەیسەکانى دەبى وەربگیرێن
     closed: داخراو
+    closed_last_week: داخراوە ( هەفتەی رابردوو)
+    closed_this_week: 'داخراوە ( ئەم هەفتەیە)
+
+       '
     comprehensive_need_intervention: وەڵامى گشتگير
+    count_new_bia_approvals:
+      one: ' %{stat}رەزامەندییەكی%{stat_type} نوێ'
+      other: ' "%{stat}"  رەزامەندییە "%{stat_type}" نوێییەكان'
+    count_new_case_plan_approvals:
+      one: '"%{stat}" رەزامەندییە"%{stat_type}" نوێییەكان'
+      other: ' "%{stat}" رەزامەندییە "%{stat_type}" نوێییەكان'
+    count_new_closure_approvals:
+      one: '  "%{stat}" رەزامەندییە "%{stat_type}" نوێییەكان'
+      other: ' "%{stat}" رەزامەندییە "%{stat_type}" نوێییەكان '
+    count_pending_approval_total:
+      one: ' تۆ  "%{stat}" رەزامەندی هەڵپەسێردراوی "%{stat_type} " هەیە'
+      other: تۆ%{stat} رەزامەندی%{stat_type} هەڵپەسێدراوت هەیە
+    count_pending_transfers:
+      one: '  تۆ "%{stat}" گواستنەوەی هەڵپەسێردراوت هەیە'
+      other: '  تۆ %{stat} گواستنەوەی هەڵپەسێردراوت هەیە'
+    count_records_new:
+      one: ' و %{stat} كەیسی نوێ'
+      other: ' و %{stat}كەیسی نوێ '
+    count_records_total:
+      one: ' تۆ %{stat} كەیسی تەواوت هەیە. '
+      other: '  تۆ %{stat} كەیسی تەواوت هەیە '
+    count_referrals_new:
+      one: ' و %{stat}رەوانەكردنی نوێ'
+      other: ' و %{stat} رەوانەكردنی نوێ'
+    count_referrals_total:
+      one: 'تۆ "%{stat}"كەیسی تەواوت هەیە
+
+           '
+      other: '  تۆ %{stat} سەرجەم رەوانەكردنەکانت هەیە '
+    count_rejected_approval_total:
+      one: '  و %{stat} رەزامەندی %{stat_type} رەتكراوەت هەیە'
+      other: ' و %{stat} رەزامەندی رەتكراوت %{stat_type} هەیە '
+    count_rejected_transfers:
+      one: '  و "%{stat}"  گواستنەوەی رەتكراوە '
+      other: ' گواستراوەی رەتکراو'
+    count_risk_level_new:
+      one: '  و "%{stat}" كەیسی مەترسی "%{stat_type}"  نوێت هەیە '
+      other: ' نوێ- کەیسی مەترسی'
+    count_risk_level_total:
+      one: ' تۆ%{stat}%{stat_type}كەیسی مەترسیت هەیە '
+      other: '  تۆ %{stat} %{stat_type} كەیسی مەترسیت هەیە'
+    count_waiting_for_acceptance_transfers: تۆ %{stat}گواستنەوەت هەیە كە لە چاوەڕوانی پەسەندكردندان
     current_owner: خاوەنى ئێستا
+    dash_case_incident_overview: کەیسەکانم
+    dash_group_overview: 'كەیسەكانی گروپەكەی من
+
+       '
+    dash_shared_from_my_team: 'هاوبەشیكردن لەلایەن تیمەكەوە 
+
+       '
+    dash_shared_with_me: 'هاوبەشیكردن لەگەڵ خۆمدا 
+
+       '
+    dash_shared_with_my_team: 'هاوبەشیكردن لەگەڵ تیمەكەمدا 
+
+       '
+    dash_shared_with_my_team_overview: هاوبەشیكردن لەگەڵ تیمەكەمدا  ( تێڕوانینێكی گشتی)
+    dash_shared_with_others: هاوبەشیكردن لەگەڵ ئەوانی دیكە
+    dash_national_admin_summary: 'پوختەی بەڕێوەبەرەكە
+
+       '
     date: رێککەوت
     date_of_incident: رێککەوتى روداوەکە
     date_of_interview: رێککەوتى چاوپێکەوتنەکە
-    due: دواكەوتوو
-    flagged_by: 'دەستنیانکرا لەلایەن:'
-    flagged_by_me: لەلایەن منەوە دەستنیانکرا
-    flagged_by_other: لەلایەن کەسێکى ترەوە دەستنیانکرا
-    follow_up: بەدواکەوتن
+    due: درەنگوەخت
+    flagged: نیشانەکراو
+    flagged_by: 'دەستنیشانکرا لەلایەن:'
+    flagged_by_me: لەلایەن منەوە دەستنیشانکرا
+    flagged_by_other: لەلایەن کەسێکى ترەوە دەستنیشانکرا
+    flagged_cases: کەیسە دەستنیشانکراوەکان
+    follow_up: بەدواداچون
     forms: خشتەى فورمەکان
     geographic_area: ناوچەى جوگرافى
-    high_risk: ' ئاستى گرنگى بەرز'
+    group_overview_closed: داخراو
+    group_overview_open: كردنەوە
+    high_level: بەرز
+    high_risk: 'زۆر گرنگ '
     immediate_response: ' وەڵامى دەسبەجێ'
+    in_progress: لە بەرەوپێشچووندایە
     incident_id: 'رووداو#ناسنامە'
     incident_location: شوێنى رووداوەکە
     incident_status_open: کردنەوە
     last_updated: دوواین نوێکردنەوە
     link_see_all: هەموویان ببینە
+    low_level: 'نزم
+
+       '
     low_risk: ئاستى گرنگى نزم
+    manager_count_closed_total:
+      one: ' و "%{stat}" كەیسی داخراو'
+      other: ' و  %{stat} كەیسی داخراو'
+    manager_count_open_total:
+      one: ' تۆ "%{stat}" كەیسی كراوەت هەیە.  '
+      other: '    تۆ%{stat} كەیسی كراوەت هەیە '
+    manager_transfers_totals:
+      one: ' تۆ %{stat} %{stat_type} گواستنەوەت هەیە. '
+      other: '  تۆ%{stat} %{stat_type} گوستنەوەت هەیە '
     match_result: ئەنجامە هاوبەشەکان
+    medium_level: 'مام ناوەند
+
+       '
     medium_risk: ئاستى گرنگى ناوەند
-    missed_cases: کەیسەکانى بەجێهێلاو
+    missed_cases: کەیسە فەرامۆشکراوەکان
     name: ناو
-    name_or_survivor_code: ناو یان کودى رزگاربوى
-    near_deadline: نزيك دوا مۆڵەت
+    name_or_survivor_code: ناو یان کۆدى رزگاربو
+    near_deadline: نزيك لەدوا مۆڵەت
     new: نوێ & نوێکراو
-    new_child_assigned_to_you: کەیسەکانى نوێ بو تو وەرگیران
+    new_child_assigned_to_you: کەیسە نوێکان کە بو تو وەرگیراون
     new_incident: كه يسه نوێكان
-    new_incident_assigned_to_you: رووداوەکانى نوێى وەرگیراو
-    new_referred: پێشنیارەکانى نوێ
-    new_service_provision: خزمەتگوزاریە پێدراوەکانى نوێ
+    new_incident_assigned_to_you: رووداوە وەرگیراوە نوێیەکان
+    new_last_week: نوێ ( هەفتەی رابردوو)
+    new_or_updated: نوێ یان نوێكراوەتەوە
+    new_referred: نیردراوە نوێیەکان
+    new_service_provision: خزمەتگوزاریە پێدراوە نوێیەکان
+    new_this_week: نوێ ( ئەم هەفتەیە)
     no_action_risk: كردار نيه
     no_case_stats: هیچ دوخێکى کەیسەکە نیە
     no_caseworker_data: هیچ زانیاریەکى لێکولەرى کەیس نیە
@@ -383,46 +782,89 @@ ku:
     open: کردنەوە
     open_cases: كه يسه كراوه كان
     open_incidents: رووداوەکان بکەرەوە
+    outstanding_transfers: رەوانەكردنە گرنگەكان
     overdue_activities: چالاکیەکانى دواکەوتوو
     overdue_cases_to_assign: کەیسەکانى دواکەوتوو بو وەرگرتن
+    overdue_cases_to_assign_high: تۆ ئەم كەیسانەت بۆ زیاتر لە 1 كاتژمێر هەبوو
+    overdue_cases_to_assign_low: 'تۆ ئەم كەیسانەت بۆ زیاتر لە سێ كاتژمێر هەبوو
+
+       '
+    overview: پوختە
     pending: چاوەروانى کردن
+    pending_approvals: رەزامەندییە هەڵپەسێردراوەكان
     pending_transfers: نێردراوەکان لە چاوەروانی دایە
     protection_concern: نیگەرانى پاراستن
     protection_concerns: نیگەرانیەکانى پاراستن
-    range12+: ١٢+
+    range12+: '+12 '
     range4: ٠-٤
     range4_8: ٤-٨
     range8_12: ٨-١٢
-    recent_activities: چالاکیەکانى تازە
-    recently_flagged_child: کەیسەکانى لەم دواییانە دەستنیشانکراو
-    recently_flagged_incident: رووداوەکانى لەم دواییانە دەستنیانکراو
-    referrals_by_social_worker: پێشنیارەکانى لێکولەرى کومەلایەتى
-    rejected: رەتیکرد
-    rejected_transfers: ناردن رەتیکرد
+    recent_activities: چالاکیە تازەکان
+    recently_flagged_child: کەیسەکانى لەم دواییانە دەستنیشانکراوە
+    recently_flagged_incident: رووداوەکانى لەم دواییانەدا دەستنیشانکراوە
+    referrals_by_social_worker: نێردراوەکان لەلایەن توێژەری کۆمەڵایەتی
+    registration: تۆماركردن
+    rejected: رەتیکرایەوە
+    rejected_transfers: ناردن رەتکرایەوە
+    response: وەڵامدانەوە ( لە پرۆسەدایە)
     scheduled_activities: چالاکیەکانى پلان دارێژراو
-    score_range: مەوداى خال
+    score_range: ڕێژەی خال
+    screening_service: خزمەتگوزاری پێداچوونەوە
     services: خزمەتگوزاریەکان
     services_implemented: خزمەتگوزاریەکان جێبەجێکران
+    shared_from_my_team_pending_transfers: 'لە چاوەڕوانی گواستنەوەدایە
+
+       '
+    shared_from_my_team_referrals: 'رەوانەكردنەكان
+
+       '
+    shared_from_my_team_rejected_transfers: 'رەوانەكردنە رەتكراوەكان
+
+       '
+    shared_with_me_new_referrals: رەوانەكردنە نوێیەكان
+    shared_with_me_total_referrals: تێكڕای رەوانەكردنەكان
+    shared_with_me_transfers_awaiting_acceptance: رەوانەكردنەكان لە چاوەڕوانی پەسەندكرندان
+    shared_with_my_team_pending_transfers_overview: 'رەوانەكردنەكان لە چاوەڕوانی پەسەندكرندان
+
+       '
+    shared_with_my_team_pending_transfers: لە چاوەڕوانی گواستنەوەدایە
+    shared_with_my_team_referrals: رەوانەكردنەكان
+    shared_with_others_pending_transfers: لە چاوەڕوانی گواستنەوەدایە
+    shared_with_others_referrals: رەوانەكردنەكان
+    shared_with_others_rejected_transfers: رەوانەكردنە رەتكراوەكان
     status_of_cases: دوخى کەیسەکان
-    system_user: سیستەم
+    system_user: بەرنامە
     total: سەرجەم
-    total_cases: سەرجەمى کەیسەکان
+    total_cases: سەرجەم کەیسەکان
     total_referred: سەرجەم پێشنیارەکان 
     tr_stats: داخوازیەکانى بەدواداچون
     transers_awaiting_acceptance: گواستنەوە چاوەروانى رەزامەندى دەكەن
-    transfers_by_social_worker: نێرداروەکانى ڤەکولەرى کومەلایەتى
+    transfers_by_social_worker: نێرداروەکان لەلایەن توێژەری کۆمەلایەتى
     users: ئایکونى رێکخستنەکان
-    violence_type: جورى توندوتیژى
-    you_have: 'تو هەیتە'
+    violence_type: جۆرى توندوتیژى
+    with_incidents: ' لەگەڵ رووداوەكاندا'
+    with_new_incidents: لەگەڵ روودانی نوێدا
+    without_incidents: بە بێ رووداوەكان
+    worker_count_referrals_total:
+      one: '  "%{case_worker}" تێكڕای"%{stat}" رەوانەكردنی هەیە '
+      other: '  %{case_worker} تێكڕا%{stat} گواستنەوەت هەیە '
+    worker_count_total:
+      one: ' %{case_worker} كەیس هەیە بە تێكڕا%{stat}'
+      other: '  %{case_worker} تێكڕا%{stat} كەیست هەیە '
+    workflow: خشتەی كار
+    workflow_team: خشتەی كار-كەیسەكان تیمەكان
+    you_have: 'تۆ هەتە'
   disabled:
     status:
       disabled: لەکارخست
       enabled: تواناپێدرا
   email_notification:
-    approval_request: 'بەکارهێنەر %{user} داخوازى پەسەنکردن دەکات بو %{approval_type} دەربارەى  کەیسى %{case_id}.'
-    approval_request_subject: 'کەیس  %{id} -داخوازى پەسەنکراو'
+    assign: '%{user}ئەمانەی خوارەوەی سپارد%{record_type}بۆ تۆ%{record_id}'
+    assign_subject: '%{record_type}:%{id} بە تۆ سپێردران'
+    approval_request: 'بەکارهێنەر %{user} داخوازى پەسەندکردن دەکات بۆ %{approval_type} دەربارەى  کەیسى %{case_id}.'
+    approval_request_subject: 'کەیس  %{id} -داخوازى پەسەندکراو'
     approval_response: '%{user} %{status} داخوازى پەسەندکردنى هەیە بو %{approval_type} بو کەیسى %{case_id}'
-    approval_response_subject: 'کەیس %{id} - وەلامى پەسەنکراو'
+    approval_response_subject: 'کەیس %{id} - وەلامى پەسەندکراو'
     referral: '%{user} لە %{agency} ئەم پێشنیارانەى هەى %{record_type} بو تو %{record_id} بو %{service_type}.'
     transfer: '%{user} ئەم پێشنیارانەى کردووە %{record_type} بوتو%{record_id}.'
     transfer_request_subject: داخوازى گواستنەوە بو یەکێک لە کەیسەکانت
@@ -433,17 +875,37 @@ ku:
     approval_response_html: '%{user} دوخى   2%{status}2 هەیەتى و داخوازى پەسەند بو 3%{approval_type} بو کەیسى %{case_id}4'
     referral_html: '%{user}1  لە %{agency}  ئەم  %{record_type} بو تو پێشنیارکرا: %{record_id}2 بو %{service_type}.'
     transfer_html: '%{user}1 ئەم %{record_type} بو تو نارد : 2%{record_id}2.'
+    assign_html: '<strong>%{user}</strong>ئەمانەی خوارەوەی سپارد%{record_type}بۆ تۆ<strong>%{record_id}</strong>'
     transfer_request_html: 'بەکارهێنەرى %{user}1} لە %{agency} داخوازدەکات خاوەندارێتى %{record_type} بوى بنێرى بو تومارى 2%{record_id}2 تا بتوانن خزمەتگوزایەکانى بەرێوەبردن %{record_type} بو تاکەکانى ئەو ناوچەیە دابینبکەن. ئەگەر رازیت لەسەر ئەم ناردنە، تکایە کلیک لەسەر %{record_type} ناسنامەى لینکى ئەم ئیمێلە بکە بو کردنەوەى %{record_type} لە پریمێرو وە ناردنەکە دەستپێبکرێت'
-    transfer_request_notes_html: 'تێبینیەکان لەلایەن تاکەکانەوە داخوایەکان دروست دەکەن: %{request_transfer_notes}'
+    transfer_request_notes_html: 'تێبینیەکان لەلایەن تاکەکانەوە داخوازیەکان دروست دەکەن: %{request_transfer_notes}'
   encrypt:
+    export_type: جۆری ناردن
     file_name: ناوى فایلى خوت دروستبکە (ئارەزومەندانە)
-    password_label: تکایە ژمارەیەکى نهێنى بنوسە کە بتوانى فایلەکەت ب پارێزێت
+    password_extra_info: 'پێویستە ووشە نهێنییەكە بەلای كەمەوە 8 كاراكتەر بێت. ئەم ووشە نهێنییە پەیوەستە بە فایلە نێردراوەكانەوە و پێویستە داخڵ بكرێت  لەلایەن هەر كەسێكەوە كە ئەم فایلانە دەكاتەوە لە ئایندەدا
+
+      . '
+    password_label: تکایە ژمارەیەکى نهێنى بنوسە کە بتوانى فایلەکەت بپارێزێت
+  error_message:
+    address_fields: پێویستە ئاڕاستە%{fields} بواری%{forms} فۆرمەكان بكەیت
+    address_form_fields: پێویستە ئاڕاستەی بوار %{fields}بكەیت لەسەر ئەم فۆرمە
+    address_subform_fields: '%{subform}%{fields} بواری نادروستی هەیە '
   error_page:
+    not_authorized:
+      server_error: تۆ رێپێدراو نییت بچیتە نێو ئەم پەیجەوە
+      title: رێپێدراو نییە
     not_found:
       contact_admin: ئەگەر لەو باوەرەدابیت کە بە هەلە لە لێرەیت، تکایە پەیوەندى بە بەرێوەبەرت بکە
       something_went_wrong: ببورە، شتێك بەهەڵەى رۆيشت!
   errors:
+    error_loading: هەڵە لە داگرتنی تۆمار(ەكان)
     models:
+      agency:
+        code_present: نابێت بەتاڵ بمێنێت
+        logo_format: پێویستە فایلەكە بە شێوەی png
+        terms_of_use_format: پێویستە فایلەكە بە شێوەی png
+        name_present: 'نابێت بەتاڵ بمێنێت
+
+           '
       child:
         age: تەمەن دەبێت لە نێوان ٠ و ١٣٠ بێت
         date_of_birth: ' تکایە رێککەوتێکى لەدایکبونى راست بو تومارى ئەم کەیسە بنوسە'
@@ -460,18 +922,29 @@ ku:
       lookup:
         being_used: ئەم بەدواگەرانەوەیە بەکارهاتووە و ناتوانرێت بسرێتەوە
         name_present: شوێنى ناو دەبێت بەتال نەمێنیت
+        values_ids_blank: گەڕان- شوناسی بەهاكە بەتاڵە
       primero_module:
         associated_record_types: بە لایەنى کەمەوە پێویستە جورى تومارێک هەبیت پەیوەست بەو نموونەیەوە بێت
+        form_section_ids: بە لایەنى کەمەوە پێویستە فورمێک هەبیت پەیوەست بەو نموونەیەوە بێت
         name_present: شوێنى ناو دەبێت بەتال نەمێنیت
-        unique_name: نموونەیەک بەو ناوە بونى هەیە، تکایە ناوێکى جێواز بنووسە
+        unique_name: نموونەیەک بەو ناوە بونى هەیە، تکایە ناوێکى جیاواز بنووسە
       report:
         module_presence: شوێنى نموونەکە دەبێت بەتال نەمێنیت
         module_syntax: پێویستە هەموو نموونەکانى ریپورت بونیان هەبێت
-        name_presence: شوێنى ناو دەبێت بەتال نەمێنیت
+        name_presence: شوێنى ناو نابێت بەتال بێت
       role:
         permission_presence: تکایە بە لایەنى کەمەوە یەک مولەت هەلبژێرە
       user:
+        email: " تكایە ئیمەیڵێك داخڵ بكە كە بەكار بێت ( بۆ نموونە: 'name@example.org') "
         password_mismatch: شوێنى ژمارەى نهێنى هەمان ژمارەى نهێنى نیە
+        password_length: ' پێویستە ووشە نهێنییەكە بەلای كەمەوە %{min}ووشە بێت'
+        email_uniqueness: بەكارهێنەری ئەم ئیمەیڵە بوونی هەیە، تكایە ئیمەیڵێكی جیاواز داخڵ بكە
+      code_of_conduct:
+        title_present: نابێت ناوونیشانەكە بەتاڵ بێت
+        content_present: ' نابێت ناوەڕۆكەكە بەتاڵ بێت'
+        created_by_present: نابێت دروستكردن لەلایەن بەتاڵ بێت
+    not_found: ' هیچ تۆمارێك نەدۆزرایەوە '
+    try_again: دوباره هه ول بدەرەوە
   exports:
     case_pdf:
       all: PDF
@@ -481,12 +954,15 @@ ku:
       all: CSV
       one: CSV
       selected: بو CSV دەستنیشانکرا
+    custom:
+      all: تەرخانكراو
     custom_exports:
+      all: تەرخانكراو
       choose_fields: دەتەوێت شوێنەکانى تاکەکەس هەلبژێرى بو فورمێک؟
       empty_fields_forms: تکایە هەندێک فورمەکان یان فیلدەکان دەستنیشانبکە بو ناردن
       empty_format: تکایە فورمەتەک هەلبژێرە بو ناردن
-      empty_module: تکایە نمووەنەیەک هەلبژێرە بو ناردن
-      empty_password: تکایە ژمارەیەکى نهێنى بنوسە کە بتوانى فایلەکەت ب پارێزێت
+      empty_module: تکایە نموونەیەک هەلبژێرە بو ناردن
+      empty_password: تکایە ژمارەیەکى نهێنى بنوسە کە بتوانى فایلەکەت بپارێزێت
       field_label: شوێن
       fields: دەستنیشانکردنى شوێنەکان بو ناردن
       form_label: فورم
@@ -496,6 +972,13 @@ ku:
       module_placeholder: تکایە نموونەیەک هەلبژێرە
       select_module: دەستنیشانکردنى نموونە
       submit: باشە
+      header: بەشی سەرەوە
+      custom_header: ناوونیشانی پەڕەكە
+      signatures: 'هێڵی واژوو لە خۆدەگرێت بۆ '
+      include_implementation_logos: لۆگۆی جێبەجێكردن لە خۆدەگرێت؟
+      include_implementation_logos_help_text: ئەمە لۆگۆ لەخۆدەگرێت كە كە لەسەر لیستی گەڕانەكە و پەیجی داخڵبوون دەردەكەوێت
+      include_agency_logo: لۆگۆی ئاژانسە لەخۆدەگرێت
+      include_other_logos: لۆگۆی دیكە لەخۆدەگرێت
     duplicate_id_csv:
       all: ناسنامەى دووبارە
       female_abbreviation: مێ
@@ -504,15 +987,63 @@ ku:
         case_id: ناسنامەى كەیسەكە
         child_name_last_first: ناوى منال
         family_size: ئەندامانى خێزان
-        moha_id: MOHA ID DEPRECATED
-        national_id_no: زماره ناسنامةى نةتةوةيى
+        moha_id: ناسنامەیMOHA  پشتگوێخراوە
+        national_id_no: ژمارەی ناسنامەی کارتی نیشتمانی
         progress_id: ناسنامەى بەدواداچوون
         sex_mapping_m_f_u: رەگەز
+        other_agency_id: كۆدی نەخۆشخانەو  ژمارەی نەخۆش
       male_abbreviation: نێر
       unknown_abbreviation: U
+    exported: سەركەوتووانە فایلی ناردنی دروست كرد
+    exported_error: هەڵەیەك لە بەكارخستنی فایلی ناردن
     forms:
       button: ناردنىى فورمەکان
-      label: هنارتن
+      label: ناردن
+      header:
+        form_group: فۆرمی گروپ
+        form_name: ناوی فۆرم
+        field_id: شوناسی بوارەكە
+        field_type: جۆری بوارەكە
+        field_name: ' ناوی بوارەكە'
+        required: داواكراوە
+        on_mobile: لەسەر مۆبایل
+        on_short_form: لەسەر فۆرمێكی بچووك
+        option_ids: بژاردەی ناسنامەكان
+        options: بژاردەکان
+        options_lookup: 'گەڕان '
+        help_text: 'دەقى هاوکارى
+
+           '
+        guiding_questions: پرسیاری رێنیشاندەر
+        visible: بەرچاو
+        lookup_id: گەڕان لە ناسنامە
+        lookup_name: گەڕان لە ناو
+        option_id: بژاردەی ناسنامە
+        option_name: بژاردەی ناو
+      options:
+        location: شوێنەكان
+        agency: ئاژانسەكان
+        user: بەكارهێنەران
+        reportinglocation: هەواڵدان لەبارەی شوێنەكانەوە
+        subforms: 'فۆرمی لاوەكی:%{subform_name}'
+        collapsed_fields: ' بوارە لەكاركەوتووەكان:%{fields}'
+        country: ووڵاتەکان
+      summary_header:
+        form_group: فۆرمی سەرەتای گروپ
+        form: ' فۆرمەكانی سەرەتا'
+        status: دۆخ
+        notes: ' تێبینییەكان'
+    go_to_exports: بچۆ بۆ پەیجی ناردن بۆ ئەوەی دایببەزێنیت
+    incident_recorder_xls:
+      all: 'تۆمارکاری رووداو
+
+         '
+      one: 'تۆمارکاری رووداو 
+
+         '
+      selected: 'دەستنیشانكرا بۆ تۆمارکاری رووداو
+
+         '
     json:
       all: JSON
       one: JSON
@@ -520,26 +1051,44 @@ ku:
     list_view_csv:
       all: لیستى  ناردنەکان
       selected: بو CSV دەستنیشانکرا
+    messages:
+      no_exporter: ناردن دەستنیشان نەكراوە
     mrm_violation_xls:
       all: توندوتیژیەکانى MRM
       one: توندوتیژیەکانى MRM
       selected: بو توندوتیژیەکانى MRM دەستنیشانکرا
     no_records: هیچ تومارێک لەبەردەست نیە
     pdf:
+      all: ' PDF(شیفرەی بۆ دانەنراوە)'
       one: PDF
       selected: بو PDF دەستنیشانکرا
     pdf_exports:
       label: PDF
+      recipient: وەرگر
+      case_worker: كارمەندی كەیس
+      client: وەرگری خزمەت
+      date: رێككەوت
+      recipient_name: ناوی وەرگر
+      recipient_agency: ئاژانسی وەرگر
+      caseworker_name: ناوی كارمەندی كەیس
+      caseworker_agency: كۆدی كارمەندی كەیس
     photowall:
       all: وێنەى پشتەوە
-      one: وێنەى پشتەوە
+      flag_suspect_record: وەك تۆمارێكی گومانلێكراو هەواڵی لەبارەوە دراوە
+      no_photos_available: هیچ وێنەیەک بەردەست نییە
+      one: وێنەى دیوار
+      reunited: یەكگرتنەوە
       selected: بو وێنەى پشتەوە دەستنیشانکرا
+      success_message: دروستكردنی وێنەی سەر دیوار%{file_name} ئەو كەیسانە لە خۆناگیرێت كە وێنەیان لەگەڵدا نییە
+    printed: 'چاپكراوە: %{date}'
+    queueing: بەرهەمهێنانی فایلی ناردن %{file_name}
     selected_xls:
       all: ئێکسل
       one: ئێکسل
       selected: بو ئێکسل دەستنیشانکرا
+      selected_fields: فایلە هەڵبژێردراوەكان
     unhcr_csv:
-      all: UNHCR
+      all: كۆمیسیۆنی باڵای پەنابەرانی سەر بە نەتەوە یەكگرتوەكان
       female_abbreviation: مێ
       headers:
         age: تەمەن
@@ -547,7 +1096,7 @@ ku:
         causes_of_separation: ئەگەر جودابوونەوە
         country_of_origin: ولاتى بنەرەت
         cpims_code: کودى CPIMS
-        current_care_arrangement: رێکخستنى ئێستاى چاودێرى
+        current_care_arrangement: رێکخستنى چاودێرى ئێستا
         date_of_birth: رێککەوتى لەدایکبون
         date_of_identification: رێککەوتى ناسنامە
         family_count_no: ژمارەى ئەندامانى خێزان
@@ -558,9 +1107,9 @@ ku:
         long_id: ناسنامەى درێژ
         moha_id: ناسنامەى MOHA
         name_of_caregiver: ناوى سێقولى چاودێرەکە
-        name_of_child_last_first: ناوى سێقولى منالەکە
+        name_of_child_last_first: ناوى سیانی منالەکە
         primary_protection_concerns: نیگەرانیە سەرتاییەکانى پاراستن
-        progres_id: ناسنامەى بەدواداچوون
+        progres_id: ناسنامەى قۆناغەکە
         reunification_status: دوخى دووبارەیەکگرتنەوە
         secondary_protection_concerns: نیگەرانیە دووەمیەکانى پاراستن
         sex: رەگەز
@@ -569,40 +1118,105 @@ ku:
         vulnerability_code: کودە لاوازەکان
         vulnerability_details_code: زانیاری کودەکانى لاواز
       male_abbreviation: نێر
-      one: UNHCR
+      one: كۆمیسیۆنی باڵای پەنابەرانی سەر بە نەتەوە یەكگرتوەكان
       selected: بو UNHCR دەستنیشانکرا
       unknown_abbreviation: U
     xlsx:
       all: ئێکسل
       one: ئێکسل
       selected: بو ئێکسل دەستنیشانکرا
+  imports:
+    csv_hxl_location:
+      messages:
+        success: شوێنەكەكان بەسەركەوتویی هێنرانەوە
+        no_data: 'داخڵكردنەكە پرۆسە نەكراوە: هیچ داتایەك تێنەپەڕێنراوە'
+        csv_parse_error: ' داخڵكردنەك پرۆسێس نەكراوە: هەڵەیەك لە شرۆڤەكردنی داتاكانیCSV '
+        error: ' ریزی%{row_number} پرۆسێس نەكراوە: %{message}'
+        db_error: 'هەڵەیەك لە دروستكردن%{location_code}:%{message}'
+        locale_invalid: 'فەرامۆشكردن%{column_name}: شوێنەكە دروست نییە'
+        insert_all_error: 'داخڵكردنەكە پرۆسێس نەكراوە: هەڵەی داتا بەیس-بنكەی زانیاری:%{message}'
+    csv_record:
+      messages:
+        success: 'تۆمارەكان سەركەوتووانە  بەدەستهێنرانەوە '
+        no_data: 'بەدەستهێنانەكەوە  پرۆسێس نەكراوە: هیچ داتایەك تێنەپەڕێنراوە'
+        no_file: 'بەدەستهێنانەوەكە پرۆسێس نەكراوە: فایلەكە بوونی نییە'
+        csv_parse_error: '  بەدەستهێنانەوەكە پرۆسێس نەكراوە: هەڵە لە شرۆڤەكردنی داتاكانی csv'
+        error: ' %{row_number} سەرەتای پرۆسێس نەكراوە:%{message} '
+        db_error: 'هەڵەیەك لە دروستكردنی %{location_code}:%{message}'
+        locale_invalid: 'فەرامۆشكردن%{column_name}:  شوێنەكە دروست نییە'
+        insert_all_error: 'داخڵكردنەكە پرۆسێس نەكراوە: هەڵەی داتا بەیس-بنكەی زانیاری:%{message}'
+  sync_record:
+    failed: 'دوایین هاوكاتكردن: سەركەوتو نەبوو'
+    last: 'دوایین هاوكاتكردن: %{date_time}
+
+       '
+    not_found: 'دوایین هاوكاتكردن: داتا بەدی نەكراوە'
+    retrieving: گەڕاندنەوەی داتاكان
+    see_details: 'بڕوانە ووردەكارییەكان
+
+       '
   fields:
     action: کردار
     actions: کردارەکان
     add: زیادکردن
+    add_new_field: دروستكردنی بواری نوێ
+    add_existing_field: ئەو بوارە زیاد بكە كە لە ئارادایە
+    add_field: بوارێك زیاد بكە
+    add_field_type: '%{file_type}زیاد بكە'
     audio:
       current: دەنگى بەکارهاتوو
+    audio_upload_box: ئەپلۆدكردنی دەنگی
+    bia_document: بەڵگەنامەی BIA 
+    bid_document: 'بەلگەنامەى BID
+
+       '
     check_box: سندوقەکانى پشکنین
+    clear_group_by: گروپەكە پاك بكەرەوە بە
+    clear_sort_by: سرینەوەی ریزبەندییەكە بەپێی
+    copy_from_another_form: ئەم بوارە لە فۆرمێكی دیكەوە كۆپیكراوە
+    create_field: بوارێك دروست بكە
+    create_unique_values: دروستكردنی بەهای دەگمەن
     date_field: رێککەوتى فیلد
-    date_help: رر - م م - س س
-    date_help_with_time: ر-م-س  د:خ
+    date_help: رۆژ- مانگ- سال
+    date_help_with_time: رۆژ- مانگ- سال
     date_not_valid: ئەم رێککەوتە راست نيە
+    time: ' كات'
     date_range:
       date: رێککەوت
       date_range: مەوداى رێککەوت
       from: فوورم
       to: بۆ
+      view_by: ' بیینین لە رێگەی'
     date_range_field: زنجیرەى ریککەوت
+    date_time: مێژوو-رێككەوت
+    db_name: ناوی داتابەیس-بنكەی زانیاری-
+    default: 'دواكەوتن. '
     default_date_validation: خودوزینەوەى رێککەوتى گونجاو
+    default_to_current_date: 'دواكەوتن یان رێككەوتی ئێستا؟ '
+    default_to_current_datetime: 'دواكەوتن لە رێككەوت و كاتی ئێستا؟ '
+    default_value: بەهای دواكەوتن
     deleted: فیلدى%{display_name}سرییەوە
+    detail: ووردەكاری
+    disabled: لەکارخراو
     display_name: ناوەکە پیشانبدە
     document:
       comments: تێبینیەکان
-      current: ئەمە بەلگەنامەى بەکارهاتووە؟
+      current: ئەمە بەلگەنامەى دیاریکراوە؟
       date: رێککەوتى بەلگەنامەکە
       name: ناوى بەلگەنامەکە
+      is_current: 'ئایا ئەمە بەڵگەنامەكەی ئێستایە؟ '
+    document_upload_box: ئەپلۆدكردنی بەڵگەنامە
+    edit_label: دەستکاریکردنی بوارەکە
+    enabled: 'بەكارخراوە؟ '
+    enabled_label: بەكارخراوە
+    english_text: دقەكە بە ئینگلیزی
     field_name: ناوى فیلدەکە
+    field_type: جۆری بوارەكە
+    attachment_too_large: نابێت قەبارەی فایلەكە گەورەتر بێت لە 10 مێگابایت
     file_upload_box:
+      add_document_label: 'بەڵگەنامە زياد بكە
+
+         '
       add_new_document_button_text: بەلگەیەکى تر زیادبکە
       add_new_photo_button_text: وێنەیەکى تر زیادبکە
       add_photo_label: وێنە زیادبکە
@@ -612,35 +1226,94 @@ ku:
       photo_file_restrictions_message: وێنەکان نابێت لە 10MB زیاتربن. فایلەکانى دەنگ نابێت لە 10MBزیاتربن. چەند بچووكتربێت باشترە
       recorded_audio_label: دەنگى تومارکراو
       select_file_button_text: فایلەکە هەلبژێرە
+    find_lookup: 'دەستکاریکرندى گەراندنەوە
+
+       '
     form_name: ناوى فورمەکە
+    future_date_not_valid: ناكرێت لە ئایندە بێت
+    guidance: رێنمایی
+    guiding_questions: پرسیارری رێنیشاندەر
     help_text: دەقى هاوکارى
+    hide_on_view_page: پیشاندانی پەیج
     label: فیلدەکان
+    mobile_visible: 'ئەپلیکەیشنی موبایل
+
+       '
     move_to: بجولێنە بو
+    multi_select: دەتوانێت چەند بژاردەیەك دەستنیشان بكات
+    multi_select_box: چەند هەڵبژاردنێك
+    must_be_english: پێویستە بە ئینگلیزی داخڵ بكرێت
+    name: ناو
     not_future_date: بەروارێكى داهاتوو نيە
     number_not_valid: تكايە برو ناو زانیاریەکانى ژمارەى
-    numeric_field: فیلدى ژمارەى
+    numeric_field: ژمارەى مەیدانی کار
+    on_collapsed_subform: فۆرمێكی لاوەكی لەكاركەوتوو؟
     option_strings_add_option: زیادکردنى هەلبژاردە
     option_strings_source: گەراندنەوەکان
     option_strings_text: بژاردەکان
     option_strings_text_display: دەقى بژاردە
     option_strings_text_key: کلیلى بژاردە
+    options_indications_lookup_values: یان ئەو گەڕانە بەكار بهێنێیت كە پێشتر دەستنیشان كراوە یان بەهای تایبەت دروست بكەیت
+    options_indications_restrictions: تۆ ناتوانیت هەردووكیان ئەنجام بدەیت
     options_or_lookup_warning: تکایە بژاردەکان زیادبکە یان گەراندنەوە هەلبژێرە. داخلى هەردووکیان مەبە
+    other_documents: بەڵگەنامەی دیكە
+    photo_upload_box: ئەپلۆدكردنی وێنە
+    predifined_lookups: بەكارهێنانی ئەو گەڕانەی پێشتر دەستنیشان كراوە
     radio_button: دوگمەى رادیو
     remove: لایبە
+    remove_attachment_confirmation: 'ئایا دڵنیایت لەوەی دەتەوێت ئەم هاوپێچە لابدەیت؟ '
+    required: پێویستە
+    required_field: '%{field}پێویستە'
+    search_existing: گەڕان بە دوای ئەو بوارانەی لەئارادان
     select_box: نیشانەى بەرەوخوارەوە هەلبژێرە
-    select_date_validation: شێوازى راستکردنى رێککەوت هەلبژێرە
+    select_date_validation: شێوازى راستکردنەوەی رێککەوت هەلبژێرە
+    select_multiple: هەموو ئەوانە هەڵبژێرە كە جێبەجێ دەبن
+    select_single: '( هەڵبژێرە...)دیاری بکە '
     separator: جياكەرەوە
+    show: 'نیشان بدە؟ '
+    show_on: نيشان بدە لەسەر
+    show_on_minify_form: فۆرمی بچووك
     subform: فورمى ناسەرەکى
+    subform_group_by: گروپ لەلایەن
     subform_remove_message: دلنیایى دەتەویێت ئەم فورمى ناسەرەکى لاببەیت؟
+    subform_section:
+      description: وەسفی فۆرمی لاوەكی
+      name: ناوونیشانی فۆرمی لاوەكی
+      starts_with_one_entry: دەستپێكردن بە داخڵكردنی یەك فۆرمی لاوەكی؟
+      subform_append_only: هەڵبژاردنی هاوككاتكردن لەسەر مۆبایل
+      subform_prevent_item_removal: 'رێگرتن لە لابردنی داخڵكردنی فۆرمەكە؟ '
+    subform_sort_by: رێكخستن بە گوێرەی
     successfully_added: فیلدەکە بەسەركەوتووى  زیادکرا
     tally_field: فیلدى چونیەک
+    tally_items: بابەتەكانی دواتر
+    tally_items_maximum: ( ئەوپەڕی 5)
     text_area: شوێنى دەق
     text_field: شوێنى دەق
     textarea: شوێنى دەق
     tick_box: چوارگوشەى نیشانە
     tick_box_label: بژاردەکانى چوارگوتى نیشانە
+    translation_text: دەقی وەرگێڕان
+    total: سەرجەم
+    type: جۆر
     updated: فیلدەکە نوێکرا
+    visibility: بەرچاو
+    web_app: ئەپڵیكەیشنی تۆڕ
+  filters:
+    apply_filters: جێبەجێی بكە
+    clear_filters: روونە
+    less: كەمتر
+    more: زیاتر
+    save_filters: خەزنكردن
   flags:
+    add_flag_tab: زیادكردنی نیشانەیەكی نوێ
+    date: 'رێككەوت'
+    flag_added: نیشانەكە بە سەركەوتوویی زیادكرا
+    flag_date: مێژویی نیشانەكە
+    flag_reason: هۆكاری نیشانەكە
+    flag_reason_maximun_label: ئەوپەڕی 255 كاراكتەر
+    flag_resolved: نیشانەكە لابرا
+    flags_tab: نیشانەكان
+    no_flags: هیچ نیشانەیەك بەدی نەكرا
     resolve_button: 'چارەسەری بکە '
     resolve_flag: نیشانەکان چارەسەربکە
     resolve_reason: 'هۆکارەکە چارەسەربکە:'
@@ -659,84 +1332,340 @@ ku:
   forms:
     add: فۆرم زیادبکە
     description: شروڤەکردنى فۆرمەکان
+    fields: بوارەكان
+    form_description: وەسفكردن
     form_group: پێکهێنانی گروپ
     form_title: ناونیشانی فۆرم
+    help_text:
+      must_be_english: پێویستە بە ئینگلیزی داخڵ بكرێت
+      related_groups: فۆرمەكە لە نێو گروپێكی پەیوەندیدار بە بەكارهێنەرەكانەوە دابنێ
+      summariaze_purpose: 'ئامانجی فۆرمەكە پوخت بكەرەوە. پێویستە بە ئینگلیزی داخڵ بكرێت. '
+    invalid_characters_field: '%{field}كاراكتەر نادروستی تێدا نییە'
     label: فورمەکان
     manage: بەرێوەبردن
     messages:
+      created: بەشی فۆر بە سەركەوتووی دروست كرا
+      fields_with_same_name: نابێت بوارەكانی فۆرمەكان هەمان ناوییان هەبێت
+      save_success: بەشەكانی فۆر بە سەركەوتووی نوێكرانەوە
+      save_with_errors: كێشەیەك هەبوو و هەندێ لە بەشەكان نوێ نەكرانەوە
+      updated: بەشەكانی فۆرم بە سەركەوتووی نوێكرانەوە
       use_existing: ئێمە هانتددەین کە فورمەکانى بەردەست بەکاربێنى کە ئەمە بلاوکردن و رێکخستنى زانیاریەکان لە نێوان دامەزاروەکان ئاسان دەکات.
     mobile_app: ئەپلیکەیشنی موبایل
     module: نموونەکان
+    no_subform_filters_added: لە ئێستادا ئەم فۆرمە لاوەكییە هیچ بوارێكی نییە
     record_type: جۆرى تومارەکە
     record_types:
       approvals: پەسەندەکان
       case: ' کەیس'
       child: ' کەیس'
       incident: رووداو
+      individual_victim: قوربانی تاكەكەسی
       potential_match: هاوبەشە شاراوەکان
-      referrals: ئیحالەکراوەکان
-      reportable_follow_up: بەدواکەوتن
+      record_information: تۆماركردنی زانیاری
+      referrals: رەوانەكردنەكان
+      reportable_follow_up: بەدواداچون
       reportable_protection_concern: نیگەرانیەکانى پاراستن
       reportable_service: خزمەتگوزارى
       tracing_request: داخوازى بەدواداچون
+      transfers_assignments: 'گواستنەوە/ پێسپاردنەكان
+
+         '
       violation: توندوتیژى
-    select_label: هەڵبژاردن
+      registry_details: ووردەكارییەكانی تۆمار
+      registry_record: 'رێكخستنی تۆمارەكان 
+
+         '
+    required_field: ' %{field}فایلیكی پێویستە'
+    select_label: دیاریکردن
     settings: ڕیکخستن
+    show_on: نیشانی بدە لەسەر
+    subform_need_to_be_added: ' پێویستە زیاد بكرێن'
+    subform_need_to_be_added_single: پێویستە ئەمە زیاد بكرێت
+    subform_not_found: ' هیچ %{subform_name}نەدۆزرایەوە'
     title: ناونیشانی فۆرم
     translations:
       edit: دەستکاریکردنى وەرگێڕان
+      edit_form_group: ' راستكردنەوەی فۆرمی گروپی گەڕان'
       manage: ڕێکخستنی وەرگێران
+      no_changes_message: ' هیچ گۆڕانكارییەك لە وەرگێڕانەكەدا نەكراوە'
+      note: 'تێبینی'
+      note_form_group: بۆ زیادكردنی وەرگێڕانەكان بۆ فۆرمی گروپەكە، پێویستت بە راستكردنەوەی وەرگێڕانەكانی فۆرمی گروپی گەڕانەكە هەیە
       select_language: زمان هەڵبژێرە
       title: وه رگێران
     type_label: جۆر
     visibility: بەرچاو
+    web_app: 'ئەپڵیكەیشنی تۆڕی ئەنتەرنێت
+
+       '
   home:
     ar: عره بی
+    ar-IQ: 'عەرەبی (عێراقی)
+
+       '
+    ar-JO: 'عەرەبی (ئوردنی)
+
+       '
     ar-LB: عرەبى(لوبنانى)
+    ar-SD: 'عەرەبی (سودانی)
+
+       '
     bn: بەنگلادشى
     current_time_zone: کاتى شوێنى دیارکراو
     dashboard: داشبورد
-    en: English
+    en: ئینگلیزی
     es: ئیسپانی
+    es-GT: ئیسپانی ( گواتیمالا)
     fr: فره نسی
     id: ئیندونیسی
+    km: خمێری
     ku: کوردى
+    ku-IQ: ' کوردی (بادینی)'
+    fa-AF: فارسی (ئەفغانستان)
+    ps-AF: پشتو (ئەفغانستان)
+    sw-KE: کیسواهیلی (کینیا)
+    sw-TZ: کیسواهیلی (تانزانیا)
+    ne: نیپالی
     label: لاپه ره ى سه ره كى
     language: زمان
     manage_system_users: بەكاربەرى هاوكات كردنى سێرڤەر بەرێوە ببە
     my: میانمار
-    records_need_attention: تومارا پێويستى ب هشیارى يه
+    pt: پورتوگالی
+    pt-BR: پورتوگالی (بەرازیل)
+    records_need_attention: تۆمارەکان پێویستی بە چاوەروانییە
     ru: روسى
     so: سومالى
     th: تایلەندى
     users: بەریێوەبردنى بەکارهێنەرەکان
-    view_records: تومارەکان دیاربکە
+    view_records: تومارەکان ببینە
     welcome: بەخێربێى بو پریمێرو
     zh: چینى
   incident:
+    associated_case: "كەیسی پێكەوەگرێدراو"
     messages:
+      creation_success: تۆماری رووداوەكە بە سەركەوتوویی دروستكرا
+      creation_success_queue: 'تۆماری كەیسەكە بە سەركەوتویی دروستكرا لە نێو پاشخانەكەدا.
+
+         '
+      disabled: رووداوەكە لەكارخرا
       update_success: 'رووداو %{record_id}  بەسەركەوتووى نوێکرا.'
+      update_success_queue: 'رووداوی %{record_id}بە سەركەوتویی نوێكرایەوە لە پاشخانەكەدا'
+    violation:
+      update_and_return: ' زیادكردن و گەڕانەوە بۆ %{association}'
+      save_and_return: ' زیادكردن و گەڕانەوە بۆ %{association}'
+      pending: لە چاوەڕوانی پشتڕاستكردنەوەدایە
+      title: 'پێشێلكارییەكان
+
+         '
+      types:
+        killing: 'كوشتنی منداڵان
+
+           '
+        maiming: 'شێواندنی منداڵان
+
+           '
+        recruitment: ' خستنەسەركار و/یان بەكارهێنانی منداڵان
+
+           '
+        sexual_violence: 'لاقەكردن و/ یان شێوازەكانی دیكەی توندوتیژی جنسی
+
+           '
+        abduction: 'رفاندن
+
+           '
+        attack_on: ' هێرشكردنەسەر قوتابخانە(كان) و/یان نەخۆشخانە(كان)
+
+           '
+        military_use: 'بەكارهێنانی سەربازییانەی قوتابخانە (كان) و/یان نەخۆشخانە(كان) 
+
+           '
+        denial_humanitarian_access: 'رێگەگرتن لە گەیشتنی هاوكارییە مرۆییەكان بە منداڵان
+
+           '
   incidents:
+    disable_dialog: كلیككردن لەسەر باشە-ئۆكەی- باری ئەم رووداوە بۆ لەكارخراو دەگۆڕێت
+    disable_dialog_title: لەكارخستنی رووداوەكە
+    disable_success: رووداوەكە بە سەركەوتویی لەكارخرا
+    enable_dialog: كلیككردن لەسەر باشە-ئۆكەی- باری رووداوەكە دەگۆڕێت بۆ لەكاركەوتوو
+    enable_dialog_title: بەكارخستنی رووداوەكە
+    enable_success: رووداوەكان بە سەركەوتوویی خرانەكار
+    id: ناسنامە#
+    date_of_interview: رێککەوتى چاوپێکەوتنەکە
+    date_of_incident: رێککەوتى روداوەکە
+    incident_location: شوێنى رووداوەکە
+    violations: پێشێلكارییەكان
+    export: ناردن
     label: رووداو
     filter_by:
       boys: کورەکان
+      by_date: 'بە گوێرەی رێككەوتەكە: '
+      children: منداڵان
       girls: کچەکان
+      incident_location: شوێنی رووداوەكە
+      unaccompanied_separated_status: باری پاراستن
       unknown: نه نیاس
+      verification_status: باری پشتڕاستكردنەوە
+      violence_type: جۆری توندوتیژی
+      armed_force_group_name: ناوی گروپی هێزی چەكداری
+      armed_force_group_type: جۆری گروپی هێزی چەكدار
     register_new_incident: رووداوى نوێ
     selectable_date_options:
       date_of_first_report: رێککەوتى چاوپێکەوتنەکە
       incident_date_derived: رێککەوتى روداوەکە
+    selected_records: '%{select_records}رووداو (ەكان) دەستنیشانكران'
+    selected_all_records: 'سەرجەم %{total_records} رووداوەكان لەگەڵ ئەم لیكۆڵینەوە دەگونجێت'
+    survivor_code: كۆدی رزگاربوو
+    show_incident: '%{short_id} ناسنامەی رووداوەكە'
+    social_worker: كارمەندی كۆمەڵایەتی
+    violence_type: جۆری توندوتیژی
+    type_violence: جۆری توندوتیژی
+  key_performance_indicators:
+    label: "ئاماژەكەری ئەدا/KPIs"
+    case_assessment: "هەڵسەنگاندنی كەیس"
+    case_action_planning: "پلاندانانی كاری كەیس"
+    case_action_plan_implementation: "جێبەجێكردنی پلانی كاری كەیس"
+    case_follow_up: "بەدواداچوونی كەیس"
+    case_closure: "داخستنی كەیس"
+    feedback: "فییدباك"
+    other: "هی دیكە"
+    date_format: "%b %Y%"
+    date_range_select:
+      custom_range: 'تەرخانكراو
+
+         '
+    long_date_format: "رۆژ/مانگ/ساڵ"
+    time_periods:
+      all_time: 'هەموو كات'
+      current_month: "ئەو مانگەی ئێستا تێیداین"
+      last_3_months: "3 مانگی رابردو"
+      last_6_months: "6 مانگی رابردو"
+      last_1_year: "ساڵ پار"
+      0-3days: "3-0 رۆژ"
+      4-5days: "5-4 رۆژ"
+      6-14days: "14-6 رۆژ"
+      15-30days: "30-15 رۆژ"
+      1-3months: "3-1 مانگ"
+      4months: "زیاتر لە 3 مانگ"
+      1-month: "كەمتر لە 1 مانگ"
+      3-6months: "3-6 مانگ"
+      7-months: "زیاتر لە 6 مانگ"
+    helptext:
+      helptext: "زانیاری بەدەست بهێنە لەبارەی ئاماژەكاری سەرەكی ئەدا"
+    number_of_cases:
+      title: "1. ژمارەی كەیسە تۆماركراوەكان"
+      reporting_site: "سایتی راپۆرتكردن"
+      helptext: "ئەم ئاماژەیە هەموو ئەو كەیسانە هەژمارە دەكات كە لە هەر مانگێكدا و  لەلایەن سایتی راپۆرتكردنەوە كراونەتەوە. \nسایتی راپۆرتكردن وەك سایتێك هەژمار دەكرێت كە رێكخراوی بەكارهێنەر خزمەتگوزاری دەستەبەر دەكات و \nئایا كەیسەكە راپۆرت كراوە بۆ دەستەبەركاری خزمەتەكە. \n"
+    number_of_incidents:
+      title: "2. ژمارەی رووداوە تۆماركراوەكان"
+      reporting_site: "سایتی راپۆرتكردن"
+      helptext: "ئەم ئاماژەیە هەموو ئەو كەیسانە هەژمارە دەكات كە لە هەر مانگێكدا و لەلایەن سایتی راپۆرتكردنەوە كراونەتەوە.\n سایتی راپۆرتكردن وەك سایتێك هەژمار دەكرێت كە رێكخراوی بەكارهێنەر خزمەتگوزاری دەستەبەر دەكات و \nئایا كەیسەكە راپۆرت كراوە بۆ دەستەبەركاری خزمەتەكە. \n"
+    reporting_delay:
+      title: "3. هەواڵدان لەبارەی دواخستنەوە"
+      delay: "دواخستن"
+      total_incidents: "سەرجەم رووداوەكان"
+      helptext: "ئەم ئاماژەیەهەژماركردن و پۆلێنكاری دەكات بۆ ژمارەی ئەو رۆژانەی تێپەڕیوون لەو كاتەی \nكە رزگاربووەكە روبەڕوی توندوتیژی جێندەری بۆتەوە و كاتێك بۆ یەكەمجار رزگاربووەكە هەواڵی لەبارەوە دا بە دەستەبەركاری خزمەتەكە. ئەمەش هەژماردەكرێت\n لەسەر بنەمای ئایا بۆ یەكەمجار كەی بوو كە هەواڵ درا لەبارەی رێكخراوە بەكارهێنەرەكەوە. داتاكە پۆلێنكراوە\n لەسەر بنەمای ماوە جیاوازەكانی كاتەكە ( 0-3 رۆژ، 4-5  رۆژ،  6-14 رۆژ، 15-30 ۆژ، زیاتر لە 1 مانگ\n زیاتر لە 3 مانگ)\n"
+    service_access_delay:
+      title: "دواخستنی دەستڕاگەیشتن بە خزمەتگوزاری"
+      delay: "دواخستن"
+      total_incidents: "سەرجەم رووداوەكان"
+    assessment_status:
+      title: "4. باری هەڵسەنگاندن"
+      completed: "تەواوكراوە"
+      completed_supervisor_approved: "تەواوكراوە& سەرپەرشتیار پەسەندی كردووە"
+      helptext: "ئەم ئاماژەیە هەژماركردن دەكات بۆ رێژەی كەیسە چالاكەكان بۆ كە فۆرمی هەڵسەنگاندنیان بۆ تەواو كراوە. \nهەڵسەنگاندنێك بە تەواوكراوی دادەنرێت كە هەندێ بواری ناچاری لەخۆبگرێت\nفۆرمی هەڵسەنگاندنی رزگاربوو تەواوكراوە\n"
+    completed_case_safety_plans:
+      title: "5. پلانەكانی سەلامەتی کەیس تەواوكراون"
+      completed: "پلانی سەلامەتی كەیس تەواوكراوە"
+      helptext: "ئەم ئاماژەیە هەژماركردن دەكات بۆ رێژەی كەیسە چالاكەكان كە پلانی سەلامەتی بە پێویست زانراوە \nبۆیان و تەواو كراوە ( بۆ نموونە، توندوتیژی هاوبەشی نزیك، مەترسی خۆكوشتن، پاراستنی منداڵ).\nپلانێكی سەلامەتی بە تەواوكراوی دادەنرێت ئەگەر كە هەندێ بواری ناچاری نێو فۆرمی پلانی سەلامەتی تەواوكرابن. \n"
+    completed_case_action_plans:
+      title: "6. پلانە تەواوكراوەكانی كاری كەیسەكە"
+      completed: "پلانی تەواوكراوی كاری كەیسەكە "
+      label: "پلانی تەواوكراوی كاری كەیسەكە\n  "
+      helptext: |
+        ئەم ئاماژەیە هەژماركردن دەكات بۆ رێژەی كەیسە چالاكەكان  كە پلانی كاری كەیسیان بۆ تەواوكراوە.  پلانی كاری كەیسیش بە تەواوكراو دادەنرێت ئەگەر بێتوو كۆمەڵێك بواری
+         ناچاری لە نێو فۆرمی پلانی كاردا تەواو كرابن
+    completed_supervisor_approved_case_action_plans:
+      title: "7. پلانەكانی كاری كەیسەكە لەلایەن سەرپەرشتیارەكەوە پەسەندكران"
+      completed_and_approved: "پلانە تەواوكراوەكانی كەیسی كاركردن لەلایەن سەرپەرشتیارەكەوە پەسەندكراوە"
+      helptext: " ئەم ئاماژەیە رێژەی كەیسە چالاكەكان كە پلانی كاری كەیسەكەیان تەواو بووە و رەزامەندی لەسەر دراوە لەلایەن سەرپەرشتیارێكەوە هەژمار دەكات.  پلانی كاری كەیسەكە بە تەواو بوو دادەنرێت كاتێك كۆمەڵێك بواری ناچاری لە نێو فۆرمی پلانی كاردا تەواو دەكرێن. پلانی كەیس وا دادەنرێت كە رەزامەندی لەسەر دراوە كاتێك كارمەندی كەیسەكە  داوای رەزامەندی دەكات بۆ پلانی كەیسەكە و سەرپەرشتیارەكەش رەزامەندی لەسەر  پلانی كەیسەكە دەدات لە پلاتفۆرمەكەدا.   \n"
+    services_provided:
+      title: "8. خزمەتگوزارییە دەستەبەركراوەكان"
+      service: "خزمەتگوزاری"
+      count: "كاتە تەرخانكراوەكان"
+      male: "نێر"
+      female: "مێ"
+      0-11: "0-11"
+      12-17: "12-17"
+      '>18': "زیاتر لە 18"
+      disability: "پەككەوتەیی"
+      no_disability: "پەككەوتەیی لە ئارادا نییە"
+      helptext: "ئەم ئاماژەیە هەژماركردن دەكات بۆ جۆری خزمەتی (ە) دەستەبەركراوەكان بۆ رزگاربووانی لە پرۆسەی بەڕێوەبردنی كەیسدا. \nمەبەستمان لە خزمەتگوزارییە دابینكراوەكان ئەو خزمەتگوزارییانەیە كەلەلایەن رێكخراوی بەكارهێنەرەوە دەستەبەركراون لە ماڵدا\nنەك خزمەتگوزارییە دەستەبەركراوەكان لە رێی رەوانەكردنەوە بۆ خزمەتگوزارییەكانی دیكە یان رەوانەكردنی ناوخۆیی. \n"
+    average_referrals:
+      title: "9.  رێژەی رەوانەكردن"
+      label: "9. رێژەی رەوانەكردن بە گوێرەی هەر كەیسێك"
+      helptext: "ئەم ئاماژەی هەژماركردن دەكات بۆ رێژەی ژمارەی رەوانەكردنەكان بۆ هەر كەیسێكی تۆماركراو ( بۆ سەرجەم جۆرەكانی \nخزمەتگوزارییەكان) لە نێو سەرجەم كەیسەكاندا، ئیدی كەیسەكە چالاك/كراوە یان داخراو بێت. \nئەو رەوانەكردنانە لەخۆدەگرێت كە تۆماركراون لەسەر پۆلێنی كەیسەكە، نەك تەنها ئەو رەوانەكردنانەی ئەنجامدراون لە رێگەی پلاتفۆرمەكەوە\n"
+    referrals_per_service:
+      title: "رەوانەكردنەكان بە گوێرەی هەر خزمەتگوزارییەك"
+    average_followup_meetings_per_case:
+      title: "10. رێژەی كۆبونەوەی بەدواداچوون بۆ هەر كەیسێك\n "
+      label: "رێژەی كۆبونەوەكانی بەدواداچوون بۆ هەر كەیسێك"
+      helptext: " ئەم ئاماژە رێژەی ژمارەی كۆبونەوەكانی بەدواداچوون هەژمار دەكات كە بۆ هەر كەیسێكی چالاك  و بە گوێرەی هەر كارمەندێكی كەیسەكە لە نێو پلاتفۆرمەكەدا ئەنجامدراون. كۆبونەوەی بەدواداچوون كۆبونەوەیە لە نێوان كارمەندێكی كەیس و رزگاربوویەك لە دوای چاوپێكەوتن/ئاشكراكردنی سەرەتایی ئەنجام دەدرێت. \n"
+    time_from_case_open_to_close:
+      title: "11. ئەو ماوەیەی كە كەیسەكە كراوەتەوە هەتاوەكو دادەخرێت\n "
+      time: "کات"
+      percent: "رێژەی سەدی كەیسەكان"
+      helptext: |
+        ئەم ئاماژەیە  پێوانە ئەوە دەكات بۆ ماوەی چەند كەیسەكان بە كراوەیی دەمێننەوە، پرۆسەی بەڕێوەبردنی
+         كەیسەكە چەند دەخایەنێت هەر لە راپۆرتدانی سەرەتاییەوە بۆ رێكخراوە بەكارهێنەرەكە بۆ داخستنی كەیسەكە. درێژی ماوەكە
+         بە گوێرەی ئەم چوارچێوە زەمەنیانەی خوارەوە دابەشكراون: كەمتر لە 1 مانگ، لە نێوان
+         1بۆ3 مانگدا، لە نێوانی 3-6 مانگدا، زیاتر لە 6 مانگ.
+    case_closure_rate:
+      title: "12. هەژماركردنی داخستنی كەیسەكە"
+      reporting_site: "سایتی راپۆرتكردن"
+      helptext: "ئەم ئاماژەیە پێوانەی پێوانەی ژمارەی كەیسە داخراوەكان بۆ هەر مانگێك و بە گوێرەی سایتی راپۆرتكردنەكە ئەنجام دەدات. سایتی راپۆرتەكە\nوا لێی دەڕوانرێت كە سایتێكە كە رێكخراوی بەكارهێنەر خزمەتگوزاری دەستەبەر  دەكات كە \nرووداوەكە راپۆرت كراوە بۆ دەستەبەركاری خزمەتگوزارییەكە.\n\n"
+    client_satisfaction_rate:
+      title: "13. رێژەی رازیبوونی وەرگری خزمەت"
+      label: "رازیبوونی وەرگری خزمەت"
+      invalid: "ناتوانین لە ئێستادا ئەمە هەژمار بكەین"
+      helptext: |
+        ئەم ئاماژەیە پێوانەی رێژەی سەدی ئەو رزگاربووانە دەكات كە روماڵی فییدباكی وەرگری خزمەتیان تەواو كردووە
+        كە رازین لە خزمەتگوزارییەكانی بەڕێوەبردنی كەیس كە بۆیان دابین كراوە. ئەم ئاماژەیە
+        ئەنجام دەدرێت بە تەواوكردنی فۆرمی فییدباكی وەرگری خزمەت لەسەر سیستمی بەڕێوەبردنی زانیاری تایبەت بە توندوتیژی جێندەری+ لەلایەن ئەندامی ستافەكە جگە لەوانەی كارمەندی كەیسن كە خزمەتگوزارییان بۆ رزگاربووەكەكە دەستەبەر كردووە
+    supervisor_to_caseworker_ratio:
+      title: "14. رێژەی چاودێری بۆ كارمەندی كەیس"
+      label: "كارمەندانی كەیست بە گوێرەی هەر سەرپەرشتێ"
+      helptext: "ئەم ئاماژەی بریتیە لە ژمارەی ئەو كارمەندانەی كەیس كە سەرپەرشتیارێك سەرپەرشتیان دەكات:  رێژەی چاودێر بۆ كارمەندی كەیس. ئەم هەژماركردنە ئەنجام دەدرێت لەسەر بنەمای رۆڵی سیستمەكە كە لەسەر پلاتفۆرمەكە تەرخان كراوە. \n"
+    case_load:
+      title: "15. بارگرانی كەیس"
+      case_load: "بارگرانی كەیس"
+      percent: "رێژەی سەتی كارمەندانی كەیس بۆ بارگرانی كەیس"
+      10cases: "كەمتر لە 10 كەیس"
+      20cases: "11-20 كەیس"
+      21-30cases: "21-3- كەیس"
+      30cases: "زیاتر لە 3- كەیس"
+      helptext: "ئەم ئاماژە پێوانەی  رێژەی بارگرانی كەیس دەكات بە گوێرەی كارمەندی كەیسی بەكارخراو لەسەر بنەمای كەیسە چالاكەكان. رێژەی كەیسەكان بۆ كارمەندانی كەیس دابەشكراوە لەسەر بنەمای ئەم ئاماژانەی خوارەوە: كەمتر لە 10،  كەیسە كراوەكان، لە نێوان 10-20 كەیسی كراوە، لە نێوان 21-30 كەیسی كراوە، زیاتر لە 30 كەیسی كراوە.  \n"
+    date_range_dialog:
+      title: "رێژەی رێككەوتی تەرخانكردن "
+      description: " هەر كاتێك ئەو گۆڕانكارییە جێبەجێ كرا، داتاكە لە نێوان ئەم دو رێككەوتەی خوارەوەدا هەڵدەبژێردرێت. "
+      apply: 'جێبەجێی بكە
+
+         '
+      from: 'لە'
+      to: 'بۆ'
+      aria-labels:
+        from: "داتاكە هەڵدەبژێردرێت دوای ئەم رێككەوتەوە. "
+        to: " داتاكە هەڵدەبژێردرێت لە  پێش  ئەم رێككەوتەوە. "
   location:
     base_types:
       camp: کەمپ
       chiefdom: سەروکایەتى
       city: شار
+      community: كۆمەڵگە
       country: ولات
       county: ولات
       district: قەزا
       governorate: پارێزگا
       locality: ناوخؤيى
-      other: ئەوى تر
+      other: 'هیتر '
       province: پارێزگا
       region: هەرێم
       site: شوێن
@@ -744,10 +1673,75 @@ ku:
       sub-district: ناحيا
       village: گوند
       zone: ناوچە
+      association: ' كۆمەڵە'
+      division: ' بەش'
+      central_warehouse: ' كۆگای سەرەكی'
+      warehouse: كۆگا
+      buyingstation: شوێنی کڕین
+    label: شوێن
+    name: ناو
+    code: 'کۆد- ڕەمز '
+    admin_level: ئاستی كارگێڕی
+    type: جۆر
+    hierarchy: 'پلەبەندى
+
+       '
+    import_title: داخڵكردنی شوێنەكە
+    message: 'تكایە فایلێكی CSV دەستنیشان بكە بۆ  ئەپلۆدكردن. پێویستە ئەم فایلە كۆدی UTF-8 بەكار بهێنێت كە هاشتاگی HXL  لەخۆبگرێت كە لە هێدەری دووەمی هەر ستوونێكدا. '
+    no_location: تكایە پێش دروستكردنی هەر هەژمارێكی بەكارهێنەر شوێنەكە داخڵ بكە
+    enable_title: بەكارخستنی شوێنەكە
+    enable_text: 'ئایا تۆ دڵنیاییت ئەگەر تۆ شوێنە دەستنیشانكراوەكان بەكار بخەیت، ئەوا وەك بژاردە لە بوارەكانی شوێنەكەدا دەردەكەون.
+
+       '
+    disable_title: لەكارخستنی شوێنەكە
+    disable_text: 'ئایا تۆ دڵنیاییت ئەگەر تۆ شوێنە دەستنیشانكراوەكان لەكاربخەیت، ئەوا چیتر وەك بژاردە لە بوارەكانی شوێنەكەدا دەرناكەون. '
   logger:
     actions:
-      refer_to: ئاماژەپێکردن %{model}
+      _approved: پەسەندکرا
+      _rejected: رەتكرایەوە
+      _requested: داواكراوە
+      add_note: تێبینی زیاد بكە
+      assign: پێسپاردن
+      assign_to: پێسپاردن بە
+      attach: هاوپێچ
+      bulk_assign: دەستنیشانكردن بە كۆمەڵ
+      bulk_create: دروستكردن بە كۆمەڵ
+      bulk_index: پاشكۆی بە كۆمەڵ
+      case_plan_approved: پلانی كەیسەكە پەسەندكرا
+      case_plan_rejected: پلانی كەیسەكە رەتكرایەوە
+      case_plan_requested: پلانی كەیسەكە داواكرا
+      close: داخراو
+      create: 'دروستکرن
+
+         '
+      create_bulk: دروستكردنی بەشە گەورەكە
+      delete: بسڕەوە
+      destroy: لەناوی ببە
+      detach: لێكی جیابكەرەوە
+      enable_disable_record: بەكارخستن و لەكارخستنی تۆمار
+      export: ناردن
+      flag: 'نیشانە
+
+         '
+      import: 'هێنانەوە
+
+         '
+      incident_details_from_case: ووردەكاری رووداوەكە لە كەیسەكەوە
+      index: پاشكۆ
+      list: لیست
+      login: 'چونەژوورەوە
+
+         '
+      password_reset: داڕشتنەوەی ووشە نهێنییەكە
+      password_reset_request: داواكاری داڕشتنەوەی ووشە نهێنییەكە
+      refer: رەوانەكردن
+      refer_accepted: رەوانەكردنەكە پەسەندكرا
+      refer_done: رەوانەكردنەكە ئەنجامدرا
+      refer_rejected: رەوانەكردنەكە رەتكرایەوە
+      refer_revoke: رەوانەكردنەكە هەڵوەشێنرایەوە
+      refer_to: ناردن بۆ  %{model}
       reopen: دوبارەکردنەوە
+      services_section_from_case: بەشی خزمەتگوزاری كەیسەكە
       show: پیشاندان
       show_alerts: پیشاندانی ئاگادارکردنەوەکان
       traces: بەدواداچونەکان
@@ -759,15 +1753,16 @@ ku:
       unflag: لابردنی نیشانە
       update: نویکردنەوە
       user_password_reset_request: داواکاری گۆڕینی ووشەی نهێنی
+      webhook: نامەی ئاگادارکەرەوە
     approve_form:
       action_plan: فۆرمی پلانی کار
       bia: فورمى BIA
       case_plan: فورمى پلانى کەیسەکە
       closure: داخستنى فورم
-      'false': رەتیدەکرێت
+      'false': رەتدەکرێتەوە
       gbv_closure: داخستنی  فۆرمی GBV
       'true': پەسەنکردن
-    assessment_approved: "قبوڵکرا بۆ"
+    assessment_approved: "پەسەند کرا بۆ"
     assessment_requested: "داواکرا بۆ"
     bulk_index: لیستکردنی سەرجەمیان
     by_user: لەلایەن بەکارهێنەر
@@ -777,7 +1772,7 @@ ku:
     closure_approved: "قبوڵکرا بۆ"
     closure_requested: "داواکرا بۆ"
     consent_count: هەژمارەى رەزامەندى
-    copy: کوپیکردن
+    copy: لەبەرگرتنەوە
     create: درووستکردن
     create_subform: دروستکردنى فورمى بنچینە
     destroy: سرینەوە
@@ -793,12 +1788,12 @@ ku:
     index: رێکخستنى تومارەکان
     list: لیست
     login: چونەژوور
-    logout: دەرکەوتن
+    logout: جونەدەرەوە
     lookups_for_field: بەدواداگەرانى شوێن
     mark_for_mobile:
       'false': نیشان بو موبایل لابە
       'true': بو موبایل دەستنیشانبکە
-    match_record: تومارێن هاوبەش
+    match_record: توماری هاوبەش
     permitted_field_list: لیستى مولەتەکان
     quick_view: پیشاندانى بژاردەى خێرا
     reassign: وەرگرتن
@@ -810,25 +1805,28 @@ ku:
       child: مناڵ
       alert: ئاگادارکردنەوە
       form_section: فۆرم
+      lookup: 'گەڕان
+
+         '
       system_settings: رێکخستنێنى سیستەم
       permission: رێگەپێدان
-      dashboard: داشبورد
+      dashboard: بۆردی زانیاری
       report: ریپورت
       bulk_export: ناردنى فایلەکان بە کومەل
       saved_search: پاراستنی گەڕان
       role: ڕۆڵ
       incident: رووداو
       location: شوێن
-      primero_configuration: ڕێکخستنەکانی پریمێرۆ
+      primero_configuration: ڕێکخستنەکانی سەرەتا
       code_of_conduct: بنەماکانی رەفتار
       task: ئەرک
     record_state:
       'false': لەکارخستن
       'true': بەکارخستن
-    refer: ئیحالەکردن
-    refer_to: گەڕان بدوای وەرگرێکدا بۆ ئیحالەکردن
-    referral: پێشنیارکردن
-    relinquish_referral: وازهێنانى ئاماژە ئەنجامدرا
+    refer: رەوانەكردن
+    refer_to: گەڕان بەدوای وەرگرێکدا بۆ ڕەوانەکردن
+    referral: ناردن
+    relinquish_referral: وازهێنانى رەوانەکردن ئەنجامدرا
     reopen: دوبارەکردنەوە
     reopen_case: دوبارەدەکرێتەوە
     request_approval:
@@ -862,53 +1860,290 @@ ku:
     provider_title: لەگەڵ
     title: چونەژوورەوە
     username: ناوى بەکارهێنەر
+    password_reset_modal: نوێكردنەوەی ووشەی نهێنی
+    password_reset_modal_text: 'پریمێرۆ  بەستەری نوێكردنەوەی ووشە نهێنییەكە دەنێرێت بۆ ئیمەیڵەكەی تۆ '
+    password_reset_email: 'بەریدی ئەلەکترۆنی
+
+       '
+    forgot_password: 'ووشە نهێنییەكەی خۆت لە بیركردووە؟ '
+    email:
+      label: ئیمەیڵ
   lookup:
     create: گەراندنەوەى نوێ
+    enabled_label: 'بەكارخراوە؟
+
+       '
+    english_label: 'دقەكە بە ئینگلیزی
+
+       '
     label: گەراندنەوە
+    language_label: 'زمان
+
+       '
     messages:
       cannot_create: ناتوانیت گەراندنەوە دروستبکەیت
       correct_errors: 'تکایە هەلەکان راستبکە و دووبارە پێشکێشبکە'
+      created: "گەڕانەكە بە سەركەوتویی دروستكرا \n "
+      updated: 'گەڕانەكە بە سەركەوتویی نوێكرایەوە
+
+         '
     name: ناو
+    no_options: لە ئێستادا گەڕانەكە هیچ بژاردەیەكی نییە
+    translation_label: 'دەقی وەرگێڕان
+
+       '
     values: هەلبژاردەکان
+  managed_reports:
+    label: تێڕوانینەكان
+    total: 'سەرجەم 
+
+       '
+    filter_by:
+      date: رێككەوت
+      verification_status: 'باری پشتڕاستكردنەوە
+
+         '
+    date_range:
+      month: مانگ
+      quarter: ' چارەك'
+      year: ' ساڵ'
+    date_range_options:
+      this_quarter: ' ئەم چارەكە'
+      last_quarter: ' چارەكی كۆتایی'
+      this_month: 'ئەم مانگە 
+
+         '
+      last_month: ' مانگی رابردوو
+
+         '
+      this_year: ' ئەم ساڵ'
+      last_year: ساڵی رابردو
+      custom: 'تەرخانكراو 
+
+         '
+    no_data: ' هیچ زانیارییەك بۆ ئەم تێگەیشتنە لەبەردەستدا نییە'
+    no_data_table: 'هیچ زانیارییەك بۆ ئەم تێگەیشتنە لەبەردەستدا نییە
+
+       '
+    violations:
+      name: 'پێشێلكارییەكان 
+
+         '
+      filter_options:
+        incident_date: 'رێککەوتى روداوەکە
+
+           '
+        date_of_report: رێککەوتى راپۆرتەكە
+        ctfmr_verified_date: ' رێككەوتی پشتڕاستكردنەوە'
+      reports:
+        killing: '  كوشتنی منداڵان'
+        maiming: ' شێواندنی منداڵان'
+        recruitment: ' خستنەسەركار و/یان بەكارهێنانی منداڵان'
+        sexual_violence: لاقەكردن و/ یان شێوازەكانی دیكەی توندوتیژی جنسی
+        abduction: رفاندن
+        attack_on: ' هێرشكردنەسەر قوتابخانە(كان) و/یان نەخۆشخانە(كان) '
+        military_use: ' بەكارهێنانی سەربازییانەی قوتابخانە (كان) و/یان نەخۆشخانە(كان) '
+        denial_humanitarian_access: ' رێگەگرتن لە گەیشتنی هاوكارییە مرۆییەكان بە منداڵان'
+      sub_reports:
+        combined: 'پێشێلكارییەكان  
+
+           '
+        detention_detained: ' بە دەستبەسەركراوی دەمێنێتەوە'
+        detention_released: ئازادكراوە
+        perpetrators: ' ژمارەی منداڵان بە گوێرەی تاوانباران'
+        reporting_location: 'ژمارەی منداڵان بە گوێرەی ناوچەكە
+
+           '
+        attack_type: 'ژمارەی منداڵان بە گوێرەی جۆری هێرشەكە
+
+           '
+        boys: كوڕەكان
+        girls: 'کچەکان
+
+           '
+        unknown: 'نەزانراو
+
+           '
+        total: 'سەرجەم
+
+           '
+    gbv_statistics:
+      name: ' ئامارەكانی توندوتیژی جێندەری'
+      filter_options:
+        date_of_first_report: 'رێککەوتى چاوپێکەوتنەکە
+
+           '
+        incident_date: ' رێککەوتى روداوەکە 
+
+           '
+      reports:
+        incidents: 'رووداوەكان
+
+           '
+        perpetrators: ' تاوانباران'
+      sub_reports:
+        combined: 'رووداوەكان 
+
+           '
+        total: ' ژمارەی ئەو رووداوانەی توندوتیژی جێندەری كە هەواڵیان لەبارەوە دراوە'
+        gbv_sexual_violence: ' ژمارەی ئەو رووداوانەی توندوتیژی جنسی كە هەواڵی لەبارەوە دراوە'
+        gbv_previous_incidents: ' ژمارەی ئەو رووداوانەی هەواڵیان لەبارەوە دراوە لەلایەن رزگاربووەكانەوە لەگەڵ رووداوەكانی پێشووی توندوتیژی جێندەری'
+        gbv_sexual_violence_type: جۆری رووداوەكە
+        incident_timeofday: ' كاتی رووداوەكە لە رۆژدا'
+        elapsed_reporting_time: '  كاتی نێوان رووداوەكە و رۆژی هەواڵدان لەبارەیەوە'
+        elapsed_reporting_time_rape: ' رووداوەكانی لاقەكردن،  كاتی تێپەڕبوون لە نێوان رووداوەكە و رێككەوتی راپۆرتەكە'
+        incident_location_type: 'شوێنی رووداوەكە
+
+           '
+        number_of_perpetrators: ژمارەی تاوانبارە سەرەكییەكان
+        perpetrator_relationship: پەیوەندی نێوان تاوانبار و رزگاربوو
+        perpetrator_age_group: تەمەنی تاوانبار
+        perpetrator_occupation: 'پیشەی تاوانبار
+
+           '
   messages:
+    alert_items: تۆ %{items}بابەتت هەیە بۆ تێبینیكردن
+    alerts_for:
+      approval: پەسەندكردن هەڵپەسێردراوە بۆ %{form_section_name}
+      field_change: '%{form_section_name}نوێكرایەوە لەسەر%{alert_time}'
+      transfer_request: داواكارییەكی نوێی گواستنەوە كرا لەسەر%{date}لەلایەن %{user} لە%{agency}
+      duplicate_field: ' كەیسێكی دیكە لە سیستمەكەدا هەمان%{field_name} ئەوەی ئێستای هەبوو'
+    cannot_edit: ناتوانی گورانکاری ئەنجام بدەی
     confirmation_message: بە کلیککردن لەسەر باشە دەسبەردار دەبیت لەسەر هەموو گورانکاریە خەزننەکراوەکان و لێگەریانى لاپەرى داخوازکراو. کلیک لسەرە رەدکردن بکە بو گەرانەوە بو لیستى ديار
+    confirmation_message_subform: 'كلیككردن لەسەر باشە_ ئۆكەی_هەر گۆڕانكارییەكی خەزننەكراو  بۆ ئەم بابەتە فەرامۆش دەكەیت. كلیلك لەسەر هەڵوەشاندنەوە بكە بۆ بەردەوامیدان بە ئەنجامدانی گۆڕانكارییەكان.  '
+    dashboard_offline: ' تۆ لەسەر هێڵی نییت. داشبۆرەكە تەواو كارا دەبێت كاتێك دەگەڕێتەوە سەر هێڵ. '
+    field_name_on_form_name: ' %{field_name} بوارێك لە فۆرمی%{form_name}'
+    logout_confirmation: 'دەتەوێت بەردەوام بیت لە دانیشتنەكە؟ '
+    logout_offline_warning: 'ئایا دڵنیاییت لەوەی دەتەوێ بچیتە دەرەوە؟ ئەگەر  دەتەوێ، ئەوا  ناتوانی داخڵ بیتەوە تاوەكو جارێكی دیكە لەسەر هێڵی نەبیت. هەر گۆڕانكارییەك ئەنجام بدەیت كاتێك لەسەر هێڵ نەبیت لەدەست دەچێت. '
+    logout_warning: لە 5 خولەكەدا دەردەچیت
+    logout_dialog_header: 'چونە دەرەوە، ناکارا '
+    logout_confirmation_title: پشتڕاستكردنەوەی دەرچوون
+    logout_confirmation_text: 'ئایا دڵنیایت لەوەی دەرچییت؟ '
+    no_changes: هیچ گۆڕانكارییەكت لە بوارەكەدا نەكردووە
+    not_available: بەردەست نییە
+    record_list:
+      column_header_tooltip: ریزكراوە بۆ%{column}
+      of: 'لە '
+      no_match: ببورە، تۆماری هاوشێوە نەدۆزرایەوە
+      rows_per_page: ژمارەی ریزەكان لە لاپەڕەكەدا
+      sort: ریزكردن
   navigation:
-    search: لێگەریان
+    bulk_exports: ناردن
+    cases: 'کەیسەکان
+
+       '
+    home: 'لاپه ره ى سه ره كى
+
+       '
+    key_performance_indicators: لێدان/ئاماژەكەری سەرەكی ئەدا
+    incidents: رووداوەكان
+    logout: 'چوونەدەرەوە
+
+       '
+    reports: راپۆرتەكان
+    insights: ' تێڕوانینەكان'
+    search: گەڕان
+    settings: رێكخستن
+    support: پاڵپشتی
+    support_menu:
+      contact_information: 'زانیاریەکانى پەیوەندى کردن
+
+         '
+      code_of_conduct: 'رێساكانی رەفتاركردن - ئاکاری کار
+
+         '
+      terms_of_use: 'مەرجەكانی بەكارهێنان
+
+         '
+      system_information: سیستمی زانیاری
+    tasks: ئەرکەکان
+    tracing_request: ' داواكاری بەدواداچوون
+
+       '
+    activity_log: 'تۆماری چالاكی
+
+       '
+    registry_records: 'تۆمار
+
+       '
+  notes:
+    note_success: تێبینییەكە بە سەركەوتویی زیادكرا
   permissions:
     label: رێگەپێدانەکان
     permission:
       All: هەموو
-      add_note: تێبینیێ زێدەکە
-      admin_only: هیچ تومارەکان نینن- تەنیا فەرمانى بەرێوەربەر
+      add_note: تێبینی زیادبکە
+      admin_only: هیچ تومارێک نییە - تەنیا فەرمانى بەرێوەربەر
       administrator_read: خواندنى رێنماییەکان
       agency: دامەزراوە
       agency_read: خواندنى دامەزراو
       all: بە ناوهەموو تومارەکان یان بەکارهێنەرەکان تێپەربە
+      approvals_assessment: ' %{approval_label}'
+      approvals_assessment_pending: '%{approval_label}هەڵپەسێردراو'
+      approvals_case_plan: ' %{approval_label}'
+      approvals_case_plan_pending: '%{approval_label}هەڵپەسێردراو'
+      approvals_closure: '%{approval_label}'
+      approvals_closure_pending: '%{approval_label}هەڵپەسێردراو'
+      approve_action_plan: رەزامەندیدان لەسەر%{approval_label}
+      approve_assessment: رەزامەندیدان لەسەر فۆرمی%{approval_label}
+      approve_case_plan: رەزامەندیدان لەسەر%{approval_label}
+      approve_closure: '%{approval_label}رەزامەندیدان لەسەر فۆرمی'
+      approve_gbv_closure: رەزامەندیدان لەسەر فۆرمی%{approval_label}
       assign: دابين كردن
       assign_within_agency: نيشانكرا لةناو وةكالةى
       assign_within_user_group: نيشانكرا لة ناو بكارهينةرى كروب
       audit_log: پشکنین
       case: ' کەیس'
-      consent_override: هەلوەشاندنەوەى پەسەند
-      copy: کوپىبکە
-      create: دروستبکە
+      case_approvals: پەسەندكردنەكانی كەیس
+      case_assignments_referrals_transfers: ئەركەكانی كەیس، رەوانەكردنەكان، و گواستنەوەكان
+      case_exports: ناردنەكانی كەیس
+      case_overview: کەیسەکانم
+      case_risk: 'كەیسەكان بە گوێرەی ئاستی هەڵسەنگاندن
+
+         '
+      cases_by_task_overdue_assessment: خستنەڕوی كەیسەكان لە رێی هەڵسەنگاندنی ئەركە درەنگوەختەوە
+      cases_by_task_overdue_case_plan: خستنەڕوی كەیسەكان بە گوێرەی ئەركی پلانی كەیسی درەنگوەختەوە
+      cases_by_task_overdue_followups: خستنەڕوی كەیسەكان بە گوێرەی ئەركی درەنگوەختی خزمەتگوزارییەكانەوە
+      cases_by_task_overdue_services: 'خستنەڕوی كەیسەكان بە گوێرەی ئەركی درەنگوەختی خزمەتگوزارییەكانەوە
+
+         '
+      cases_managed_other_users: ئەو كەیسانەی بەڕێوەبردراون لەلایەن بەكارهێنەرانی دیكەوە
+      close: 'داخراو
+
+         '
+      consent_override: هەلوەشاندنەوەى رەزامەندی
+      copy: کۆپیکردن
+      copy_of: كۆپییەك لە
+      create: دروستکردن
+      dash_case_incident_overview: كەیسەكانم/رووداوەكانم
       dash_cases_by_social_worker: کەیسەکانى لێکولەرى کومەلایەتى پیشانبدە
       dash_cases_by_task_overdue: کەیسەکانى دواکەوتوو پیشانبدە
       dash_cases_by_workflow: کەیسەکان لەلایەن ستافى کارەوە پیشانبدە
       dash_cases_to_assign: کەیسەکان پیشانبدە بو دابين كردن
+      dash_group_overview: كەیسەكانی گروپەكەی من
       dash_manager_transfers: نێردراوەکانى بەرێوەبەر پیشانبدە
       dash_matching_results: ئەنجامەکانى هاوبەش پیشانبدە
       dash_protection_concerns: بایەخەکان پاراستن پیشانبدە
-      dash_referrals_by_socal_worker: پێشنیارەکانى ڤەکولەرى کومەلایەتى پیشانبدە
+      dash_protection_concerns_by_location: پیشاندانی نیگەرانییەكان پەیوەست بە پاراستنەوە بە گوێرەی شوێن
+      dash_referrals_by_socal_worker: بینینی نێردراوەکان لەلایەن توێژەری کۆمەلایەتییەوە
       dash_reporting_location: شوێنى ریپورتکردن پیشانبدە
       dash_service_provisions: خزمەتگوزاریە پێدراوەکان پیشانبدە
-      dash_tasks: پێداچونا ئەرکان
-      dash_transfers_by_socal_worker: نێردراوەکانى ڤەکولەرى کومەلایەتى پیشانبدە
-      dashboard: داشبورد
-      display_view_page: پیشاندانى لاپەرى بینراو
+      dash_shared_from_my_team: هاوبەشیكردن لەلایەن تیمەكەوە
+      dash_shared_with_me: هاوبەشیكردن لەگەڵ خۆمدا
+      dash_shared_with_my_team: هاوبەشیكردن لەگەڵ تیمەكەمدا
+      dash_shared_with_others: 'هاوبەشیكردن لەگەڵ ئەوانی دیكە
+
+         '
+      dash_show_none_values: 'پیشاندانی هیچ بەهایەك '
+      dash_tasks: بینینی ئەرکەکان
+      dash_transfers_by_socal_worker: نیشاندانی نێردراوەکان لەلایەن کارمەندی کاری کۆمەڵایەتی
+      dash_national_admin_summary: پوختەی بەڕێوەبەرەكە
+      dashboard: بۆردی زانیاری
+      delete: سرینەوە
+      display_view_page: پیشاندانى لاپەرەى بینراو
       duplicate: لێگەریانی دووبارە
-      enable_disable_record: لەکاربێخە
-      export_case_pdf: ناردنى pdfى کەیس
+      enable_disable_record: لەکارخستن
+      export_case_pdf: ناردنى کەیس بەشێوەی PDF
       export_csv: ناردنى csv
       export_custom: ناردنى تایبەت
       export_duplicate_id_csv: ناردنى دووبارەبووەکان
@@ -920,25 +2155,45 @@ ku:
       export_unhcr_csv: ناردنى unhcr csv
       export_xls: ناردنى  xls
       find_tracing_match: دۆزینەوەی پەیوەندی بەدواداچون لە کەیس
+      view_registry_record: پیشاندنی رێكخستنی تۆمار
+      add_registry_record: زیادكردنی رێكخستنی تۆمار
       flag: نیشان
       form: فورمەکان
       group: بە ناوهەموو تومارەکان یان بەکارهێنەرەکانى ناوگروپم تێپەربە
-      group_read: خواندنى گروپ
+      group_read: خوێندنەوەی گروپ
       import: هێنانەوە
-      incident: رویدان
+      incident: روداو
       incident_details_from_case: زیادکردنى زانیاریەکان رووداو بو کەیسى بەکارهێنەرەکى تر
-      incident_from_case: درستکردنى فورکى رووداوى کەیس
+      incident_from_case: دروستکردنى فۆرمی رووداو بۆ کەیسەکە
+      kpi: لێدان/ئاماژە سەرەكییەكانی ئەدا
       lookup: گەراندنەوەکان
-      manage: بەرێوەبەر
-      matching_configuration: پێکهاتێن هەڤبەش
+      manage: بەرێوەبردن
+      mark_for_offline: نیشانە كە ئاماژە بێت بە نەبوونی هێڵی ئەنتەرنێت
+      matching_configuration: پێکهاتنی هاوبەش
       metadata: فورمەکان، گەراندنەوەکان
       potential_match: هاوبەشە شاراوەکان
-      read: بخوێنە
+      primero_configuration: 'رێکخستن
+
+         '
+      read: بیخوێنەرەوە
       reassign: دووبارە دابين كردن
+      receive_referral: وەرگرتنی رەوانەكردن
+      receive_transfer: وەرگرتنی گواستنەوە
+      referral: دەكرێت بەكار بهێنرێت بۆ رەوانەكردن
       referral_from_service: ئاماژەکردنى کەیس لە خزمەتگوزارى فورم
+      registry_record: ' تۆمار'
       remove_assigned_users: بەکارهێنەرەکانى دابين كراو لایبەت (پێشنیارەکان)
+      reopen: 'دووبارە-كردنەوە
+
+         '
       report: ریپورت
+      managed_report: تێڕوانینەكان
       request_approval: داخوازى بو پەسەندکردن
+      request_approval_action_plan: رەزامەندی لەسەر داواكاری%{approval_label}
+      request_approval_assessment: رەزامەندی لەسەر داواكاری%{approval_label}
+      request_approval_case_plan: رەزامەندی لەسەر داواكاری%{approval_label}
+      request_approval_closure: رەزامەندی لەسەر داواكاری%{approval_label}
+      request_approval_gbv_closure: رەزامەندی لەسەر داواكاری%{approval_label}
       request_transfer: داخوازى ناردن
       role: رولەکان
       save_search: لێگەریانە بە خەزکراوەکان
@@ -948,9 +2203,13 @@ ku:
       service_provision_incident_details: دوگمەى زیادکردنى خزمەتگوزارى پەسەندکراو ببێنە لەسەر خشتەى زانیاریەکانى رووداو
       services_section_from_case: زیادکردنى خزمەتگوزاریە پێدراوەکان بو کەیسى بەکارهێنەرەکى تر
       specific_roles: بەناو لیستى دیارکراوى رۆلەکان تێپەربە
-      sync_mobile: هاوكات بكە بە ئامرازى مۆبايل
+      sync_external: هاووكاتكردن لەگەڵ سیستمی دەرەكی بەڕێوەبردنی زانیاری
+      sync_mobile: نیشانە كە ئاماژە بێت بە نەبوونی هێڵی ئەنتەرنێت
       system: سیستەم
       tracing_request: داخوازى بەدواداچون
+      transfer: 'دەتوانرێت  بۆ گواستنەوە بەکاربێت
+
+          '
       user: بەکارهێنەرەکان
       user_group: گروپەکانى بەکارهێنەر
       view_approvals: پەسەندەکان پیشانبدە
@@ -958,20 +2217,1022 @@ ku:
       view_photo: پیشاندانى وێنە
       view_protection_concerns_filter: فیلتەرى نیگەرانیەکانى پاراستن پیشانبدە
       view_response: نیشاندانی وەلامەکان
+      webhook: 'نامەی ئاگادارکەرەوە
+
+         '
+      workflow: 'خشتەی كار-كەیسە تاكەكەسییەكان
+
+         '
+      workflow_team: 'خشتەی كار-كەیسەكان تیمەكان
+
+         '
       write: بنووسە
+      activity_log: 'تۆماری چالاكی 
+
+         '
     resource:
+      kpi:
+        actions:
+          read:
+            explanation: توانای دەستڕاگەیشتن بە پەڕەی نیشانە یان ئاماژە سەرەكییەكانی ئەدا
+            label: دەستڕاگەیشتن بە نیشانە یان ئاماژە سەرەكییەكانی ئەدا
+          kpi_assessment_status:
+            explanation: 'توانای بینین، بۆ كەیسە چالاكەكان كە بەكارهێنەرەكە دەستی پێیان ڕادەگات، چ رێژەیەك لەوتانە فۆرمی هەڵسەنگاندنی تەواو كردووە.
+
+               '
+            label: باری هەڵسەنگاندن
+          kpi_average_followup_meetings_per_case:
+            explanation: توانای بینین، بۆ ئەو كەیسە چالاكانەی كە بەكارهێنەرەكە دەستی پێڕادەگات، رێژەی چاوپێكەوتنەكانی بەدواداچوون لە ماوەیەكی دیاریكراودا
+            label: رێژەی كۆبونەوەی بەدواداچوون بۆ هەر كەیسێك
+          kpi_average_referrals:
+            explanation: توانای بینین، رێژەی گشتی كەیسە چالاكەكان كە بەكارهێنەرەكە دەستی پێڕادەگات، رێژەی ژمارەی رەوانەكردنەكان بۆ هەر جۆرێكی خزمەتگوزارییەكان
+            label: رێژەی رەوانەكردن
+          kpi_case_closure_rate:
+            explanation: توانای بینینی ئەوەی چۆن كەیسەكانی داخران لە هەر سایتێكە و بۆ هەر مانگێك
+            label: هەژماری داخستنی كەیس
+          kpi_case_load:
+            explanation: ' توانای بینینی رێژەی ژمارەی كەیسە كراوەكان كە لای هەر كارمەندێكی كەیس هەن. '
+            label: 'بارگرانی كەیس
+
+               '
+          kpi_client_satisfaction_rate:
+            explanation: 'توانای بینینی هەر كەیسێك كە بەكارهێنەرەكە دەستی پێی رابگات، چ رێژەیەك لەو رزگاربووانەی كە روماڵی  فییدباكیان تەواو كردووە رەزامەندن. '
+            label: رێژەی رازییبونی وەرگری خزمەت
+          kpi_completed_case_action_plans:
+            explanation: " توانای بینینی كەیسە چالاكەكان كە بەكارهێنەرەكە دەستی پێیان ڕادەگات، چ رێژەیەك پلانی كاری كەیسەكەی تەواوكردووە. \n "
+            label: 'پلانی تەواوكراوی كاری كەیسەكە
+
+               '
+          kpi_completed_case_safety_plans:
+            explanation: 'توانای بینین، بۆ كەیسە چالاكەكان كە بەكارهێنەرەكە دەستی پێیان ڕادەگات، پێویست بە چ رێژەیەك دەكات و پلانی سەلامەتی تەواو كردووە. '
+            label: 'پلانی سەلامەتی کەیس تەواوکراوە '
+          kpi_completed_supervisor_approved_case_action_plans:
+            explanation: 'توانای بینین، بۆ كەیسە چالاكەكان كە بەكارهێنەر دەسی پێیان ڕادەگات، چ رێژەیەك پلانی كاری كەیسی تەواوكردووە كە پەسەندكرابوو لەلایەن سەرپەرشتیارێكەوە. '
+            label: پلانی تەواوكراوی كار كە لەلایەن سەرپەرشتیارەوە پەسەندكراوە
+          kpi_goal_progress_per_need:
+            explanation: 'توانای بینین، بۆ ئەو كەسانەی كە بەكارهێنەرەكە دەستی پێیانڕادەگات، چ رێژەیەكی سەتی لە ئامانجەكانی هەر یەك لە پۆلێنەكانی پێویستی بەدی هاتوون. '
+            label: بەرەوپێشچوون بەدیهێنراوە بەئاڕاستەی ئامانجەكان
+          kpi_number_of_cases:
+            explanation: توانای بینینی ئەوەی هەواڵ لەبارەی ئەوەی چەند كەیسی نوێ كە هەواڵی لەبارەوە دراوە كراونەتەوە لە هەر مانگێكدا و بۆ هەر سایتێك
+            label: ژمارەی كەیسەكان
+          kpi_number_of_incidents:
+            explanation: توانای بینینی ئەوەی چەند رووداوی نوێ هەواڵیان لەبارەوە دراوە كە لە میانەی هەر مانگێكدا و لە سایتەكە دەكرێنەوە
+            label: ژمارەی رووداوەكان
+          kpi_reporting_delay:
+            explanation: 'توانای بینینی سەرجەم ئەو رووداوانەی كە بەكارهێنەر دەستی پێیان رادەگات، ژمارەی ئەو رۆژانەی تێپەڕیوون لە نێوان ئەو كاتەی كە رزگاربووەكە روبەڕوی توندوتیژی جێندەری بۆتەوە و كاتێك رزگاربووەكە هەواڵی لەبارەوە دا بە دەستەبەركارێكی خزمەت. '
+            label: 'هەواڵدان لەبارەی دواخستنەوە
+
+               '
+          kpi_services_provided:
+            explanation: 'توانای بینینی سەرجەم ئەو كەیسانەی كە بەكارهێنەرەكە دەستی پێیان رادەگات، چ جۆرە خزمەتگوزارییەك دەستەبەركراوە لەلایەن رێكخراوەكەوە لە ماڵەوە. '
+            label: '8. خزمەتگوزارییە دەستەبەركراوەكان
+
+               '
+          kpi_supervisor_to_caseworker_ratio:
+            explanation: توانای بینینی رێژەی كارمەندانی كەیس بۆ سەرپەرشتیارن
+            label: 'رێژەی چاودێری بۆ كارمەندی كەیس
+
+               '
+          kpi_time_from_case_open_to_close:
+            explanation: 'توانای بینین، بۆ سەرجەم كەیسەكان كە بەكارهێنەر دەستی پێیان ڕادەگات، تا چەند كەیسەكە بە كراوەیی دەمێنێتەوە. '
+            label: ئەو ماوەیەی كە كەیسەكە كراوەتەوە هەتاوەكو دادەخرێت
+        label: ئاماژە سەرەكییەكانی ئەدا
+      agency:
+        actions:
+          assign:
+            explanation: ' توانای هەڵبژاردنی ئاژانسێك لە كاتی دروستكردن یان راستكردنەوەی هەژماری بەكارهێنەرێك.  ئەگەر بێتوو بەكارهێنەرەكەی ئێستا ئەم رێگەپێدانەی هەبوو لەگەڵ رێگەپێدانی "خوێندنەوەی ئاژانسی" بۆ  بەكارهێنەران هەبوو، ئەوا تەنها دەتوانن بەكارهێنەرێك زیاد بكەن بۆ ئاژانسەكەیان. '
+            label: 'پێسپاردن 
+
+               '
+          create:
+            explanation: توانای دروستكردنی  ئاژانسێك
+            label: 'دروستبکە    
+
+               '
+          manage:
+            explanation: "رێگە دەدات بە بەكارهێنەرێك بۆ ئەنجامدانی كردارە بەردەستەكانی ئاژانسەكان. لە بنەڕەتدا رێگەپێدانی \"بەڕێوەبردن\" بە مانای \"هەموو شتێك\" دێت. \nگرنگ: هەروەها ئەمە توانای دروستكردنی ئاژانسێكی نوێ دەستەبەر دەكات. "
+            label: 'بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە)
+
+               '
+          read:
+            explanation: توانای بینینی ئاژانسەكان
+            label: بینین
+          write:
+            explanation: 'توانای راستكردنەوەی زانیارییەكان لەبارەی ئاژانسەكانەوە. تكایە سەرنجی ئەوە بدە كە ئەمە جێبەجێ دەبێت بەسەر سەرجەم ئاژانسەكانی سیستمەكەدا. '
+            label: دەستکاریکردن
+        explanation: ' ئاماژەیە بە رێكخراوێك كە ئەندامەكانی پریمێرۆ بەكار دەهێنن. ئاژانسەكان بە شێوەیەكی سەربەخۆ لە گروپە بەكارهێنەرەكان بوونیان هەیە. '
+        label: ئاژانس
+      audit_log:
+        actions:
+          read:
+            explanation: 'رێگە بە بەكارهێنەرەكە دەدات بۆ بینین و فلتەركردنی لیستێك لە سەرجەم ئەو كردارانەی ئەنجام دران لە نێو سیستمەكەدا، كە ریزكراون لەلایەن بەكارهێنەرەوە،  لەگەڵ جۆری كردارەكە، ناسنامەی تۆمارەكە،  و كاتی ئەنجامدانی كارەكە. ئەمەش زۆر باشە گونجاوە بۆ ئاستە نیشتیمانییەكە یان بەڕێوەبەرانی ئاستی ئاژانسەكە، لەبەر ئەوەی ئەمە ئەو كردارانە پیشان دەدات  كەلەلایەن سەرجەم بەكارهێنەرەكانەوە و لە نێو سیستمەمەدا ئەنجام دراون. تكایە سەرنجی ئەوە بدە كە تۆماری پێداچوونە زانیاری كەسی و ناسینەوە ناخاتەڕوو لەبارەی تۆمارەكانی هەر یەكێك لەم كردارانەوە. '
+            label: بینین
+        explanation: ' لیستێكی قابیلی فلتەكردنی ئەو كارانەی لە نێو سیستمەكەدا ئەنجامدراون. هیچ زانیارییەكی ناسینەوە لەبارەی كەیسەكان، رووداوەكان، یان داواكارییەكانی بەدواداچوون لە خۆناگرێت. '
+        label: تۆماری پێداچوونەوە
+      case:
+        actions:
+          add_note:
+            explanation: 'رێ بە بەكارهێنەرێك دەدات بۆ زیادكردنی هەر داخڵكردنێك لە نێو  فۆرمی "لاوەی تێبینییەكان" ( كە هەندێ جاری پێی دەووترێت "سەرنجەكان"). بەكارهێنەرەكە ئەم كارە ئەنجام دەداتلە رێی كلیككردن لەسەر دوگمەی "تێبینی زیاد بكە" لەسەر لاپەڕەی پیشاندانی كەیس. ئەم كارە سوودێكی تایبەتی هەیە بۆ ئەو بەڕێوەبەرانەی كە توانانی راستكردنەوەی كەیسەكانیان نییە، بەڵام دەیانەوێت بیرخەرەوەیەك زیاد بكەن بۆ كەیسەكە بۆ كارمەندی كەیسەكە. بەم شێوەیە، زیادكردنی تێبینی هاوشێوەی زیادكردنی نیشانەیەكە. سوودی زیادكردنی تێبینی ئەوەیە كە كاتێك بەڕێوەبەرەكە تێبینیەك زیاد دەكات بۆ كەیسەكە، ئەوا ئاگادارییەك لەسەر كەیسەكە دروست دەبێت بۆ كارمەندی كەیسەكە كاتێك كەیسەكە لەسەر مۆبایلی خۆیان دەبینن. '
+            label: زیادكردنی تبینییەكان بۆ كەیسێك
+          add_registry_record:
+            explanation: ' رێگە بە بەكارهێنەرێك دەدات كە تۆمارەكە گرێبداتەوە بە كەیسێك لە فۆرمێكی پڕ ووردەكاری تۆمارەوە. هەروەها رێگە دەدات بە بەكارهێنەرێك بۆ  هەڵوەشاندنەوەی گرێدانەوەی هەر تۆمارێك كە لە ئێستادا گرێدراوەتەوە بە كەیسەكەوە. '
+            label: زیادكردن/نوێكردنەوەی تۆماری تۆماركارەكە لە كەیسەوە
+          approve_action_plan:
+            explanation: رێگەدەدات بە بەڕێوەبەرێك بۆ رەزامەندیدان لەسەر%{approval_label}بۆ كارمەندی كەیسی كەیسەكەیان
+            label: رەزامەندی - پەسەندکردن
+          approve_assessment:
+            explanation: ' رێگەدەدات بە بەڕێوەبەرێك بۆ رەزامەندیدان لەسەر%{approval_label}بۆ  كارمەندی كەیسی كەیسەكەیان. '
+            label: رەزامەندیدان لەسەر فۆرمی%{approval_label}
+          approve_bia:
+            explanation: 'رێگەدان بە بەڕێوەبەر بۆ رەزامەندیدان لەسەر%{approval_label} بۆ كەیسەكانی كارمەندی كەیسەكەیان. '
+            label: رەزامەندیدان لەسەر فۆرمی%{approval_label}
+          approve_case_plan:
+            explanation: 'رێگەدان بە بەڕێوەبەر بۆ رەزامەندیدان لەسەر %{approval_label}بۆ كەیسەكانی كارمەندی كەیسەكەیان. '
+            label: 'رەزامەندیدان لەسەر%{approval_label}
+
+               '
+          approve_closure:
+            explanation: 'رێگەدان بە بەڕێوەبەر بۆ رەزامەندیدان لەسەر %{approval_label}بۆ كەیسەكانی كارمەندی كەیسەكەیان. '
+            label: رەزامەندیدان لەسەر فۆرمی%{approval_label}
+          approve_gbv_closure:
+            explanation: 'رێگەدان بە بەڕێوەبەر بۆ رەزامەندیدان لەسەر%{approval_label} بۆ كەیسەكانی كارمەندی كەیسەكەیان. '
+            label: رەزامەندیدان لەسەر فۆرمی%{approval_label}
+          assign:
+            explanation: 'رێگەدان بە بەكارهێنەرێك بۆ ناردنی كەیسێك لە خاوەنی بنەڕەتی تۆماركردن بۆ هەر بەكارهێنەرێكی دیكە لە سیستمەكەدا. پێویست بە رەزامەندی منداڵەكە ناكات بۆ ئەنجامدانی ئەم كارە. بە پێچەوانەی رەوانەكردنەوە، وەرگرەكە دەرفەتی پێدەدرێت بۆ قبوڵكردنی یان رەتكردنەوەی ئەركەكە. '
+            label: پێسپاردن
+          assign_within_agency:
+            explanation: 'رێگە بە بەكارهێنەرێك بدە بۆ ناردنی كەیسەكە لە خاوەنی بنەڕەتی تۆمارەكە بۆ هەر بەكارهێنەرێكی دیكە لە ئاژانسی ئێستای بەكارهێنەرەكەوە. پێویست بە رەزامەندی منداڵ ناكات بۆ ئەنجامدانی ئەم ئەركە. بە پێچەوانەی رەوانەكردنەوە، وەرگرەكە دەرفەتی ئەوەی پێنادرێت كە ئەركەكە قبوڵ بكات یان رەتبكاتەوە. '
+            label: پێسپاردن بە بەكارهێنەرێك لە نێو ئاژانسەكەمدا
+          assign_within_user_group:
+            explanation: 'رێگە بە بەكارهێنەرێك بدە بۆ ناردنی كەیسەكە لە خاوەنی بنەڕەتی تۆمارەكە بۆ هەر بەكارهێنەرێكی دیكە لە گروپی بەكارهێنەرانی بەكارهێنەرەكەی ئێستاوە. پێویست بە رەزامەندی منداڵ ناكات بۆ ئەنجامدانی ئەم ئەركە. بە پێچەوانەی رەوانەكردنەوە، وەرگرەكە دەرفەتی ئەوەی پێنادرێت كە ئەركەكە قبوڵ بكات یان رەتبكاتەوە. '
+            label: 'پێسپاردن بە بەكارهێنەرێك لە نێو گروپی بەكارهێنەرەكەدا
+
+               '
+          change_log:
+            explanation: 'بەكارهێنەرەكە دەتوانێت مێژویی سەرجەم ئەو گۆڕانكارییانە ببینێت كە لە تۆمارەكەدا ئەنجامدراون لە دوای دروستكردنییەوە. ئەمەش ئەو بەهایانە دەگرێتەوە كە لەسەرجەم بوارەكان تۆماركراون. '
+            label: 'لۆگەكە بگۆڕە
+
+               '
+          close:
+            explanation: ' رێگە بە بەكارهێنەرێك دەدات بۆ جێگیكردنی بارێك بۆ ئەوەی كەیسێكی كراوە دابخرێت. '
+            label: 'داخراو
+
+               '
+          consent_override:
+            explanation: رێگە بە بەكارهێنەر دەدات بۆ ئەنجامدانی رەوانەكردن بۆ كەیسێك كە رەزامەندی لەسەر نەدراوە
+            label: تێپپەڕاندنی نەبوونی رەزامەندی لە كاتی رەوانەكردن یان گواستنەوە
+          create:
+            explanation: توانای دروستكردنی كەیسێك
+            label: دروستبکە
+          display_view_page:
+            explanation: 'ئەگەر بەكارهێنەرێك گەڕانێكی ئەنجامدا بۆ كەیسێك كە دەستیان پێیڕاناگات، ئەم رێپێدانە بواریان پێدەدات بۆ بینینی نموونەیەكی بچووك كە زانیاری بنەڕەتی لەخۆبگرێت لەبارەی كەیسەكەوە، تەنانەت ئەگەر بەكارهێنەرەكە نەتواانێت كلیلك بكات لەسەر كەیسەكە بۆ بینینی سەرجەم زانیارییەكان. ئەوا ئەو بوارانەی لە "بینینی نموونە"دا دەردەكەون، ئەو بوارانەن كە رێكخراون بۆ "پیشاندانان لەسەر فۆرمی بچووك". هەروەها ئەمە نموونەیەكی سوودبەخشە بۆ ئەو بەكارهێنەرانەی كاری بەدواداچوون و پێكشادكردنەوەی خێزانەكان ئەنجام دەدن، لەبەر ئەوەی ئەم "بینینی نموونەیە" بەردەستە بۆ بەكارهێنەرەكە بۆ دەستراگەیشتن كاتێك پێداچوونەوە دەكەن بەو كەیسانەی دەردەكەون لە "هاوشێوە پێشبینیكراوەكان" بۆ داخوازی بەدواداچوون. '
+            label: 'پیشاندانى لاپەرى بینراو
+
+               '
+          enable_disable_record:
+            explanation: 'توانای بەكارخستن یان لەكارخستنی كەیس. كەیسە " لەكارخراوەكان"  لە لیستی گریمانەیی كەیسەكاندا دەرناكەون. بەكارهێنەران دەتواننلە لیستی كەیسەكەدا، كەیسە لەكارخراوەكان ببینن لە رێی بەكارهێنانەی فلتەرەوە. لەبەر ئەوەی پریمیرۆ رێگە بە بەكارهێنەران دەدات سڕینەوەی كەیسەكان، ئەوا رەنگە بەكارهێنەرێك بخوازێك كەیسێك لەكاربخات وەك جێگرەوەیەك. بۆ نموونە، ئەگەر بەكارهێنەرێك بە هەڵە كەیسێكی دروستكرد، یان كەیسەكە داتای خراپی هەبوو، ئەوا پێویستە بەكارهێنەرەكە لەكاری بخات. '
+            label: بەكارخستن/لەكارخستن
+          export_case_pdf:
+            explanation: 'بەكارهێنەر دەتوانێت فایلی ناردن بە شێوەی پی دی ئێف دروست بكات لە لیستی كەیسەكە یان لاپەڕەكانی پیشاندانی كەیسەكەوە، كە سەرجەم بوارەكان لە خۆدەگرێت كە بەكارهێنەرەكەی ئێستا دەستی پێیان رادەگات، بۆ یەك، چەند دانەیەك یان سەرجەم كەیسەكان كە بەكارهێنەر دەستی پێیان ڕادەگات، ئەوا زانیارییەكان لیستكراون یەكەمجار بە گوێرەی كەیس، و دواتر زیاتر رێكخراون بە گوێرەی ئەو فۆرمەی كە تێیدا زانیارییەكە دەردەكەوێت. '
+            label: 'ناردنى کەیس بەشێوەی pdf
+
+               '
+          export_csv:
+            explanation: 'بەكارهێنەر دەتوانێت فایلی ناردنیCSV  دروستبكات لە لیستی كەیسەكە یان لاپەڕەی پیشاندانی كەیس، كە سەرجەم ئەو بوارانە لەخۆدەگرێت كە بەكارهێنەری ئێستای دەستی پێیانڕادەگات، بۆ یەك، بۆ چەند دانەیەك، یان سەرجەم ئەو كەیسانەی كە بەكارهێنەرەكە دەستی پێیانڕادەگات. تێبینی: ناردن بە شێوەی CSV  كاراكتەرە-پیتە- غەیرە لاتینییەكان ( بۆ نموونە عەرەبی، بەنگالی) ناگۆڕێت بۆ  چەشنێك كە بخوێنرێتەوە. '
+            label: ناردنی CSV
+          export_custom:
+            explanation: 'بەركاهێنەر دەتوانێت ناردنی فایلی  XLS  دروست بكات لە لیستی كەیسەكە یان لاپەڕەكانی پیشاندانی كەیس، كە كۆمەڵێك فۆرم یان بواری تەرخانكراو لە خۆدەگرێت، بۆ یەك، چەند دانەیەك یان سەرجەم ئەو كەیسانەی كە كە بەكارهێنەر دەستی پێیانڕادەگات. لەم ناردنەدا، هەر فۆرمێك بەرجەستە دەبێت لە پۆلێنی تایبەت لە نێوی فایلی XLS دا. بەكارهێنەر دەتوانێت دەستنیشان ئەوە بكات كە چ فۆرمێك یان بوارێك لەخۆبگیرێت لە ناردنەكەدا، ئەویش بە بەكارهێنانی نموونەی تەرخانكراوی ناردن. تكایە سەرنجی ئەوە بدە بەكارهێنەران دەتوانن تەنها ئەو فۆرم و بوارانەی نێو ناردنەكە لەخۆبگرن ئەگەر هاتوو توانای ئەوەیان هەبوو ئەو فۆرم و بوارانە ببینن كاتێك كەیسێك لە ئەپڵكەیشنێكدا دەبینن. '
+            label: 'ناردنى تەرخانكراو  
+
+               '
+          export_duplicate_id_csv:
+            explanation: ' دروستكردنی ناردنی CSV ی كەیسەكان كە هەمان بواری ناسنامەی نیشتمانی هەیە ( رەنگە ناونانێكی جیاوازی هەیە، ئەویش بەندە بە پێكهاتەكەوە). تەنها لە لاپەڕەی لیستی كەیسەكەدا ئەنجام دەدرێت. '
+            label: 'ناردنى دووبارەبووەکان
+
+               '
+          export_json:
+            explanation: ' بەكارهێنەر دەتوانێت فایلی ناردنی JSON  بنێرێت لە لیستی كەیسەكە یان لاپەڕەكانی پیشاندانی كەیسەكە، كە سەرجەم ئەو بوارانە لەخۆدەگرێت كە بەكارهێنەری ئێستا دەستی پێی ڕادەگات، بۆ یەكێك، چەند دانەیەك، یان سەرجەم ئەو كەیسانەی كە بەكارهێنەران دەستی پێیان ڕادەگات. بە شێوەیەكی سەرەكی ئەم ناردنە بەكار دەهێنرێت بۆ ئەو كەسانەی دەیانەوێت كەیسەكان بنێرن لە سیستمی ئێستای پریمێرۆ و دواتر بیانێرێت بۆ سیستمی جیاوازی پریمێرۆ، یان بۆ سیستمێكی دیكەی بەڕێوەبردنی زانیاری. شێوازی JSON  خوێندنەوەیە بە بەكارهێنانی ئامێر و كرداری نییە بۆ زۆرێك لە بەكارهێنەران. '
+            label: 'ناردنی JSON  
+
+               '
+          export_list_view_csv:
+            explanation: ' بەكارهێنەر دەتوانێت فایلی ناردنی CSV  دروست بكات لە لاپەڕەی لیستی كەیسەكە كە هەمان ئەو بوارانە لەخۆدەگرێت كە بۆ بەكارهێنەرەكە دەردەكەوێت لە لیستی كەیسەكە. تەنها لە لاپەڕەی لیستی كەیسەكەدا ئەنجام دەدرێت. '
+            label: 'ناردنی لیستی پیشاندانیCSV
+
+               '
+          export_pdf:
+            explanation: 'بەكارهێنەر دەتوانێت فایلی ناردن بە شێوەی پی دی ئێف دروست بكات لە لیستی كەیسەكە یان لاپەڕەكانی پیشاندانی كەیسەكەوە، كە سەرجەم بوارەكان لە خۆدەگرێت كە بەكارهێنەرەكەی ئێستا دەستی پێیان رادەگات، بۆ یەك، چەند دانەیەك یان سەرجەم كەیسەكان كە بەكارهێنەر دەستی پێیان ڕادەگات، لە فایلی ناردنی پی دی ئێف دا، زانیارییەكان لیستكراون یەكەمجار بە گوێرەی كەیس، و دواتر زیاتر رێكخراون بە گوێرەی ئەو فۆرمەی كە تێیدا زانیارییەكە دەردەكەوێت.
+
+               '
+            label: 'ناردنى pdfى کەیس 
+
+               '
+          export_photowall:
+            explanation: 'رێگە بە بەكارهێنەر دەدات بۆ ناردنی فایلێك لە لاپەڕەی لیستی كەیسەكەوە كە وێنەی سەرجەم كەیسە دەستنیشانكراوەكان لەخۆدەگرێت. بە شێوەیەكی سەرەكی ئەم ناردنە بەكار دێت بۆ چالاكییەكانی بەدواداچوون و پێكشادكردنەوەی خێزان. تەنها لەلاپەڕەی لیستی كەیسەكەدا ئەنجام دەدرێت. '
+            label: ناردنی وێنەی دیوار
+          export_unhcr_csv:
+            label: ناردنی UNHCR CSV
+          export_xls:
+            explanation: "بەكارهێنەر دەتوانێت فایلی ناردنی XLS دروست بكات لە لیستی كەیسەكە یان لاپەڕەكانی پیشاندانی كەیسەكە، كە سەرجەم ئەو بوارانە لەخۆدەگرێت كە بەكارهێنەری ئێستا دەستی پێیان ڕادەگات، بۆ یەكێك، بۆ چەند دانەیەك، یان سەرجەم كەیسەكان كە بەكارهێنەرەكە دەستی پێیان ڕادەگات. لەم ناردنەدا، هەر فۆرمێك بەرجەستە دەبێت لە پۆلێنكردنەكانی تایبەت لە نێو  فایلی XLSدا. تێبینی: شێوازی XLS كاراكتەرە-پیتەكانی-  غەیرە لاتینییەكان( بۆ نموونە عەرەبی، بەنگالی) دەگۆڕێت بۆ شێوازێك كە بتوانرێت بخوێنرێتەوە، لە كاتێكدا كە ناردنی فایلی CSV ئەم كارە ئەنجام نادات. \n\n "
+            label: 'ناردنی ئیكسڵ ( فایلی XLS) '
+          find_tracing_match:
+            explanation: 'ئەمە تەنها و تەنها بەكاردێت لە هەلومەرجێكدا كە كە چالاكی بەدواداچوون و پێكشادكردنەوەی خێزانی تێدا ئەنجام دەدرێت. ئەو بەكارهێنەرانەی كە ئەم رێگەپێدانەیان هەیە دوگمەی "گەڕان بەدوای هاوشێوەی بەدواداچوون" لە لاپەڕەی پیشاندانی كەیسەكەدا ببینن. كاتێك كلیكی لەسەر دەكەن، ئەوا دەگەنە لیستێك لە داواكارییەكانی بەدواداچوون لە نێو سیستمەكەدا كە پێیشبینی دەكرێت هاوشێوە بن لە كەیسەكانیاندا.  '
+            label: گەڕان بە دوای هاوشێوە لە كەیسەكەدا
+          flag:
+            explanation: 'توانای زیادكردنی نیشانەیەك بۆ رووداوێك. ئەو بەكارهێنەرانەی ئەم رێگەپێدانەیان هەیە دەتوانن ئەو نیشانانە لاببەن كە زیادییان كردووە بۆ كەیسێك.
+
+               '
+            label: نیشانە
+          import:
+            explanation: 'رێگە بە بەكارهێنەرەكە دەدات بۆ دروستكردنی كەیسێكی نوێ یان زیاتر بە گەڕاندنەوەیان لە فایلیCSV, Excel یان JSON. پێویستە فایلە گەڕێندراوەكان بە شێوازی "زۆر" بێت بە دیاریكراوی بۆ ئەو زانیارییانەی بە شێوەیەكی گونجاو گەڕێندراونەتەوە. پێویستە ئەم كارە تەنها بەردەست بێت بۆ بەكارهێنەرە كارگێڕییەكان كە كارامەییەكی تەكنیكی پێشكەوتوو و زانیارییەكی قووڵیان هەیە لەبارەی ئەوەی زانیارییەكە چۆن رێكبخرێن لە نێو پریمێرۆدا. تەنها  لە لاپەڕەی لیستی كەیسەكە ئەنجام دەدرێت.
+
+               '
+            label: 'گەڕاندنەوە   
+
+               '
+          incident_details_from_case:
+            explanation: 'توانای زیادكردنی داخڵكردنی بۆ فۆرمی ووردەكارییەكانی رووداوەكە لەسەر كەیسێك كە لە ئەنجامی لێگەڕانەكەدا دۆزیوتەتەوە، بەڵام دەستت پێی ڕاناگات. بەكارهێنەرەكە ئەم كارە ئەنجام دەدات لە لاپەڕەی ئەنجامی لێگەڕانەكان لە رێی هەڵبژاردنی كەیسێك یان زیاتر، دواتر هەڵبژاردنی "رووداوێك زیاد بكە" لە لیستی كردارەكان. دواتر بەكارهێنەرەكە نموونەیەك دەبینیت كە سەرجەم بوارەكانی فۆرمی لاوەكی ووردەكارییەكانی رووداوەكە دەبینیت، كە دەتوانن داخڵ بن و زانیاری پێشكەش بكەن لەبارەی خزمەتگوزارییەكەوە. لەبەر ئەوەی دەتوانرێت ئەم كارە تەنها لە لاپەڕەی ئەنجامەكانی لێگەڕان ئەنجام بدرێت، ئەوا كارێكی لۆژیكییە بۆ ئەوەی رۆڵەكە ئەم رێگەپێدانەی هەبێت ئەگەر هاتوو رێگەپێدانی "لێگەڕان بۆ تۆمارەكانی كەیس كە لەلایەن بەكارهێنەرەكانی دیكەوە خاوەندارێتی دەكرێن" هەبوو. '
+            label: 'زیادكردنی ووردەكارییەكانی رووداوەكە بۆ كەیسی بەكارهێنەرێكی دیكە لە لاپەڕەی ئەنجامەکانی لێگەڕانەوە. '
+          incident_from_case:
+            explanation: 'ئەم رێگەپێدانە بوار بە بەكارهێنەر دەدات بۆ ئەوە كلیلككردن لەسەر دوگمەی "دروستكردنی رووداوێك". ئەمەش رووداوێك دروست دەكات  كە رەنگە هەندێ زانیاری لەخۆبگرێت كە لە كەیسەكەوە كۆپی كراوە. بۆ كەیسەكانی توندوتیژی جێندەری، ئم دوگمەیە لە سەرەوەی لاپەڕەی پیشاندانی كەیسەكەیە،  و یەكدەگرێتەوە لەگەڵ ئەو زانیارییانەی پەیوەستن بە تێكڕای كەیسەكەوە. لە هەندێ هەلومەرجی بەدواداچوونی رووداوەكەدا، ئەم دوگمەیە لە نێو  فۆرمی لاوەكی "ووردەكارییەكانی رووداو"دایە. لەم بارودۆخەدا، رەنگە هەندێ زانیاری كۆپی بكرێن لە فۆرمی لاوەكی ووردەكارییەكانی رووداودا كە تێیدا كلیك كرا لەسەر دوگمەكە، هەروەها لە تێكڕای كەیسەكەوە. بۆ نموونە، رەنگە ئەو روداوە نوێیەی دروستكرا  بواری جۆری توندوتیژی لەخۆبگرێت لە فۆرمی ووردەكارییەكانی رووداوە تاكەكەسییەكە، بەڵام رەنگە لە هەمان كاتدا تەمەن و رەگەزی خودی كەیسەكە لەخۆبگرێت. تێبینی ئەوە بكە كە ئەم رێگەپێدانە لە هەمان كاتدا بوار دەدات بە بەكارهێنەرەكە بۆ بینینی بەستەرێك بۆ ئەو رووداوەی كە دروست كرا. '
+            label: دروستكردنی فۆرمی رووداوی كەیس
+          manage:
+            explanation: رێگە بە بەكارهێنەر دەدا بۆ ئەنجامدانی سەرجەم كارە بەردەستەكان لەسەر كەیسەكان . لە بنەڕەتدا رێگەپێدانی "بەڕێوەببە" بە مانای "هەموو شتێك" دێت
+            label: 'بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە)
+
+               '
+          read:
+            explanation: توانای پیشاندانی كەیس
+            label: 'بینین
+
+               '
+          receive_referral:
+            explanation: 'رێگە بە بەكارهێنەرێك دەدات بۆ وەرگرتنی رەوانەكردن. ئەو بەكارهێنانەی ئەم رێپێدانەیان هەیە وەك وەرگری پێشبینیكراو بۆ كرداری رەوانەكردن دەردەكەون، لە كاتێكدا ئەو بەكارهێنەرانەی ئەم رێپێدانەیان نییە، وەك وەرگری پێشبینیكراو دەرناكەون كاتێك كەسێك دەگەڕێت بۆ وەرگرێك لە نموونەی رەوانەكردندا. '
+            label: 'وەرگرتنی رەوانەكردن
+
+               '
+          receive_referral_different_module:
+            explanation: 'رێگە بە بەكارهێنەر دەدات بۆ وەرگرتنی رەوانەكردن لە تۆمارێكەوە كە لە یەكەكی جیاوازی پریمێرۆدا دروستكراوە. بەكارهێنەرانی ئەم رێپێدانە وەك وەرگری پێشبینیكراوی كرداری رەوانەكردن بۆ تۆمارەكە دەردەكەون، لە كاتێكدا ئەو بەكارهێنەرانەی ئەم رێپێدانەیان نییە، وەك وەرگری پێشبینیكراو دەرناكەون كاتێك كەسێك لە نموونەی رەوانەكردنەكەدا بۆ وەرگر دەگەڕێت. '
+            label: 'وەرگرتنی رەوانەكردن لە بەكارهێنەرێكی یەكەیەكی جیاوازەوە. '
+          receive_transfer:
+            explanation: رێگە بە بەكارهێنەرێك دەدات بۆ وەرگرتنی گواستنەوە. ئەو بەكارهێنەرانەی ئەم رێپێدانەیان هەیە وەك وەرگری پێشبینیكراو بۆ كرداری گواستنەوە دەردەكەون، لە كاتێكدا ئەو بەكارهێنەرانەی ئەم رێپێدانەیان نییە، وەك وەرگری پێشبینیكراو دەرناكەون كاتێك كەسێك دەگەڕێت بۆ وەرگرێك لە نموونەی گواستنەوەدا.
+            label: 'وەرگرتنی گواستنەوە
+
+               '
+          referral:
+            explanation: 'رێگە دەدات بە بەكارهێنەر بۆ ئەوەی بە شێوەیەكی كاتی دەستی رابگات بە كەیسی بەكارهێنەرێكی دیكە. وەرگری رەوانەكردنەكە دەتوانێت سەرجەم كارەكانی كەیسە رەوانەكراوەكە ئەنجام بدات لە كاتێكدا كە دەتوانن كەیسی خۆشیان ئەنجام بدەن. كاتێك چیتر وەرگرەكە پێویستی بە دەستراگەیشتن بە كەیسەكە نامێنێت، ئەوا دەتوانن كلیلك لەسەر دوگمەی "ئەنجامدان"  لە فۆرمی لاوەكی رەوانەكردن و گواستنەوەدا بكەن، و ئەو كاتە دەستراگەیشتنیان بە كەیسەك لەدەست دەدەن. تۆ تەنها دەتوانی كەیسێك رەوانە بكەیت بۆ بەكارهێنەرێك كە رۆڵەكەی ئەو توانای وەرگرتنی رەوانەكردن لە خۆدەگرێت. '
+            label: رەوانەكردن
+          referral_from_service:
+            explanation: 'رێگە دەدات بە بەكارهێنەرەكە بۆ ئەوەی دوگمەی "رەوانەكردن" ببینێت لە نێو فۆرمی لاوەكی خزمەتگوزارییەكاندا. كاتێك بەكارهێنەرەكە كلیك دەكات لەسەر ئەم دوگمەیە، ئەوا نموونەی رەوانەكردنەكە دەردەكەوێت كە جۆری خزمەت، ئاژانس، دەستەبەركاری خزمەتگوزاری، و بوارەكانی شوێن لەكاردەخرێن، بەڵام  راستەوخۆ پڕ دەكرێنەوە بە زانیاری بۆ ئەو بوارانەی لە فۆرمی لاوەكی خزمەتگوزارییەكاندا هەیە كە تێیدا بەكارهێنەرەكە كلیكی كردووە لەسەر دوگمەی رەوانەكردن. '
+            label: رەوانەكردنی كەیس لە فۆرمی لاوەكی خزمەتگوزارییەوە
+          remove_assigned_users:
+            explanation: 'رێگە بە بەكارهێنەرەكە دەدات بۆ لابردنی بەكارهێنەرەكانی دیكە لە بواری "بەكارهێنەرە پێسپێردراوەكانی دیكە". بەكارهێنەرێك لێردا لیستكراوە ئەگەر هاتوو رەوانەكردنیان پێگەیشت بۆ  كەیسەكە یان گواستنەوەیان بۆ كەیسەكە پێگەیشت، بەڵام هێشتا  قبوڵیان نەكردووە یان رەتیان نەكردۆتەوە. كاتێك بەكارهێنەرێك لادەبەیت لە بواری "بەكارهێنەرە پێسپێردراوەكانی دیكە"، ئەوا دەستڕاگەیشتنی ئەوانت بۆ كەیسەكە لابردووە. كەواتە  ئەو بەكارهێنەرانەی ئەم رێگەپێدانەیان هەیە دەتوانن دەستڕاگەیشتن بە كەیس بۆ بەكارهێنەران لاببەن كە پێشتر رەوانەكردنیان بۆ كەیسەكە یان گواستنەوەیان بۆ كەیسەكە پێگەیشتووە  كە هێشتا لە چاوەڕوانی وەڵامدانەوەدایە. سەرنجی ئەوە بدە كە ئەم رێگەپێدانە تەنها ئەو كاتە كار دەكات كە بەكارهێنەری ئێستا لە هەمان كاتدا توانای ئەوەی هەبت ئەم كەیسە راست بكاتەوە.  '
+            label: '  بەكارهێنەرە دیاریكراوەكانی دیكە لابدە ( گەڕاندنەوەی دەستڕاگەیشتن بە كەیسەكە لەو بەكارهێنەرانەی كە رەوانەكردنەوەیان بۆ ئەنجام دراوە)'
+          reopen:
+            explanation: ' رێگە بە بەكارهێنەرێك دەدات بۆ كردنەوەی كەیسێك كە لە ئێستادا داخراوە'
+            label: دووبارە-كردنەوە
+          request_approval_action_plan:
+            explanation: ' رێگە بە بەكارهێنەرێك دەدات ( بە زۆری كارمەندی كەیس) بۆ ئەوەی داوای ئەوە بكات كە بەڕێوەبەرەكەیان رەزامەندی بدات لەسەر كەیسەكەیان%{approval_label}
+
+               '
+            label: 'رەزامەندی لەسەر داواكاری%{approval_label}
+
+               '
+          request_approval_assessment:
+            explanation: ' رێگە بە بەكارهێنەرێك دەدات ( بە زۆری كارمەندی كەیس) بۆ ئەوەی داوای ئەوە بكات كە بەڕێوەبەرەكەیان رەزامەندی بدات لەسەر كەیسەكەیان %{approval_label}'
+            label: 'رەزامەندی لەسەر داواكاری%{approval_label}
+
+               '
+          request_approval_bia:
+            explanation: 'رێگە بە بەكارهێنەرێك دەدات ( بە زۆری كارمەندی كەیس) بۆ ئەوەی داوای ئەوە بكات كە بەڕێوەبەرەكەیان رەزامەندی بدات لەسەر كەیسەكەیان%{approval_label}. '
+            label: رەزامەندی لەسەر داواكاری%{approval_label}
+          request_approval_case_plan:
+            explanation: "رێگە بە بەكارهێنەرێك دەدات ( بە زۆری كارمەندی كەیس) بۆ ئەوەی داوای ئەوە بكات كە بەڕێوەبەرەكەیان رەزامەندی بدات لەسەر كەیسەكەیان%{approval_label}. \n "
+            label: رەزامەندی لەسەر داواكاری%{approval_label}
+          request_approval_closure:
+            explanation: رێگە بە بەكارهێنەرێك بدە ( بە زۆری كارمەندی كەیس) بۆ ئەوەی داوای ئەوە بكات كە بەڕێوەبەرەكەیان رەزامەندی بدات لەسەر كەیسەكەیان%{approval_label}
+            label: داوای رەزامەندی%{approval_label} بكە
+          request_approval_gbv_closure:
+            explanation: رێگە بە بەكارهێنەرێك بدە ( بە زۆری كارمەندی كەیس) بۆ ئەوەی داوای ئەوە بكات كە بەڕێوەبەرەكەیان رەزامەندی بدات لەسەر كەیسەكەیان%{approval_label}
+            label: داوای رەزامەندی%{approval_label} بكە
+          request_transfer:
+            explanation: 'ئاشكراكردنی  دوگمەی "داخوازی گواستنەوە" لەسەر "مۆدیلەكە ببینە". دوگمەكە رێگە بە بەكارهێنەرەكە دەدات بۆ ناردنی نامەیەك هاوشان بە تێبینییەكی كەسی لە رێگەی ئیمەیڵەوە بۆ خاوەنی ئێستای تۆماری كەیسەكە، داواكردنی ئەوەی كە خاوەنی تۆمارەكە كەیسەكە بگوازێتەوە بۆ ئەو بەكارهێنەرەی كە داخوازییەكە ناردووە. '
+            label: داخوازی گواستنەوە
+          search_owned_by_others:
+            explanation: 'رێگە بە بەكارهێنەرێك دەدات بۆ ئەنجامدانی گەڕان بە دوای تۆمارەكان كە بە شێوەیەكی ئاسایی دەستیان پێی راناگات، ئیدی یان لەبەر ئەوەی خاوەتی تۆماری ئەو كەیسە نیین، یان ( بۆ بەڕێوەبەران) لەبەر ئەوەی خاوەنی تۆمارەكە لە گروپی بەكارهێنەراندا نییە. سەرنجی ئەوە بدە، لە كاتێكدا كە بەكارهێنەرەكە كەیسەكە دەبینیت لە ئەنجامی گەڕانەكەدا، بەڵام ناتوانن كلیك بكەن لەسەر لە ناو پەیجی بینینی كەیسدا لە پەیوەندیدا بەو كەیسەوە، بەو مانایەی كە ناتوانن هیچ زانیارییەكی وورد ببینین لەبارەی كەیسەكەوە. '
+            label: 'گەڕان  بۆ تۆماری كەیسەكان كە لەلایەن بەكارهێنەرانی دیكەی خاوەندارێتی دەكرێن. '
+          service_provision_incident_details:
+            explanation: رێگە بە بەكارهێنەرەكە دەدات بۆ بینینی دوگمەیەك بە ناوی  خەزنكردن زیادكردنی دەستەبەركردنی خزمەتگوزاری لە كۆتایی مۆداڵی زیادكردنی رووداوەوە. كلیككردن لەسەر ئەم دوگمەیە دەبێتەهۆی خەزنكردنی ئەو زانیارییانەی لە ئێستادا لەبارەی رووداوەكەوە خەزنكراون، و دواتر راستەوخۆ بەكارهێنەرەكە دەباتە مۆداڵی زیادكردنی دەستەبەركردنی خزمەتگوزاری. لەبەر ئەوەی ئەوەی ئەم كردارە گرێدراوە بە كردارەكانی زیادكردنی  رووداو یان زیادكردنی دەستەبەركردنی خزمەتەوە، كاری لۆژیكی تەنها ئەوەیە كە ئەم رێگەپێدانە بدرێت بە رۆڵێك ئەگەر هاتوو ئەو رۆڵە رێگەپێدانی "زیادكردنی ووردەكارییەكانی رووداوەكە بۆ كەیسی بەكارهێنەرێكی دیكە" و "زیادكردنی دەستەبەركردنی خزمەتگوزاری بۆ كەیسێكی بەكارهێنەرێكی دیكەی" هەبوو
+            label: 'بڕوانە لە دوگمەی زیادكردنی دەستەبەركردنی خزمەت لە نموونەی ووردەكارییەكانی رووداوەكە '
+          services_section_from_case:
+            explanation: 'توانای زیادكردنی داخڵكردنێك بۆ فۆرمی لاوەكی خزمەتگوزارییەكان لەسەر كەیسێك كە لە دەرئەنجامی لێگەڕانەكەدا دۆزیوتەتەوە، بەڵام دەستت پێی راناگات. بەكارهێنەرەكە ئەم بەشە لەپەڕەی ئەنجامی لێگەڕانەكەدا ئەنجام دەدات لە رێی دەستنیشانكردنی كەیسێك یان زیاتر، دواتر لە لیستی كردارەكان "زیادكردنی دەستەبەركردنی خزمەتگوزاری" دەستنیشان دەكات. دواتر بەكارهێنەرەكە  نموونەیەك دەبینێت كە سەرجەم بوارەكان لە فۆرمی خزمەتگوزارییەكان لەخۆدەگرێت، كە تێیدا دەتوانن زانیاری داخڵ و پێشكەش بكەن لەبارەی خزمەتگوزارییەكەوە. لەبەر ئەوەی ئەم كردارە  دەتوانێت تەنها لەلاپەڕەی  ئەنجامەكانی لێگەڕاندا جێبەجێ بكرێت، ئەوا كارێكی لۆژیكییە بۆ ئەوەی رۆڵەكە ئەم رێگەپێدانەی هەبێت ئەگەر هاتوو لە هەمان كاتدا رێپێدانی "لێگەڕان بۆ تۆمارەكانی كەیس كە بەكارهێنەرەكانی دیكە خاوەنین" هەیە. '
+            label: زیاكردنی دەستەبەركردنی خزمەتگوزاری بۆ كەیسی بەكارهێنەرێكی دیكە.
+          sync_external:
+            explanation: توانای هاوكاتكردن تۆمارێك لەگەڵ  سیستمی دەرەكی بەڕێوەبردنی زانیاری
+            label: 'هاووكاتكردن لەگەڵ سیستمی دەرەكی بەڕێوەبردنی زانیاری
+
+               '
+          sync_mobile:
+            explanation: ' بوار بە بەكارهێنەر دەدات بۆ ئەوەی بە شێوەیەكی كاتی كەیسەكان خەزن بكات بۆ ئەوەی لە كاتی نەبوونی هێڵی ئەنتەرنێتدا بەكاریان بهێنێت'
+            label: نیشانە كە ئاماژە بێت بە نەبوونی هێڵی ئەنتەرنێت
+          transfer:
+            explanation: 'رێگە بە بەكارهێنەرێك دەدات بۆ ناردنی كەیسێك لە خاوەنی ئێستای تۆمارەكەوە بۆ هەر بەكارهێنەرێكەوە لە نێو سیستمەكەدا كە توانای وەرگرتنی گواستنەوەی هەبێت, لەگەڵ ئەوەشدا خاوەنی تۆمارەكە گۆڕانكاری بەسەردا نایەت تاوەكو وەرگری گواستنەوەكە "قبوڵی" دەكات. ئەگەر لەبری ئەوە وەرگرەكە "رەتك بكاتەوە"، ئەوا وەرگرەكە دەستڕاگەیشتنی بە كەیسەكە لەدەست دەدات، و پارێزگاری لە خاوەنە بنەڕەتییەكەی تۆمارە دەكات. '
+            label: گواستنەوە
+          view_photo:
+            explanation: ' رێگە دەدات بە بەكارهێنەرێك بۆ بینیی وێنەكانی كەیسەكە لە لبستی بینینی كەیسەكە. بە بێ ئەم رێگەپێدانە، بەكارهێنەرەكە ستونی "وێنەی" خشتەی لیستی كەیسەكە نابینێت، یان رەمزی وێنەكان كە لەوێدا دەردەكەون. هەروەها ئەم رێگەپێدانە بوار دەدات بە بەكارهێنەرێك بۆ بینینی وێنەكانی منداڵێك لە "مۆداڵی خستنەڕو"ودا. '
+            label: خستنەڕوی وێنە لە پیشاندانی لیستی كەیسەكەوە
+          view_incident_from_case:
+            explanation: ' لە كاتی خستنەڕوی كەیسێك، بەكارهێنەر دەتوانێت لیستێك لەو رووداوانە ببینێت كە گرێدراون بە كەیسەكەوە، سەرباری هەندێ  پوختەی زانیاری لەبارەی هەر یەكێكیانەوە. '
+            label: خستنەڕوی رووداوەكان لە كەیسەكەوە
+          view_protection_concerns_filter:
+            explanation: 'رێگە بە بەكارهێنەرەكە دەدات بۆ بینینی فلتەرەكانی نیگەرانییەكانی پاراستن لەسەر لاپەڕەی لیستی كەیسەكە. '
+            label: پیشاندانی فلتەری پاراستنی نیگەرانییەكانی پاراستن لە پەیجی لیستی كەیسدا
+          view_registry_record:
+            explanation: '   بوار بە بەكارهێنەر دەدات بۆ بینینی زانیاری هەر تۆمارێكی گرێدراو بە كەیسێكەوە. هەروەها رێگە دەدات بە بەكارهێنەرەكە بۆ بینینی ووردەكارییەكانی تۆمارەكە لە كەیسەكەوە. '
+            label: ' خستنەڕوی رێكخستنی تۆمار لە كەیسەكەوە'
+          write:
+            explanation: توانای كلیككردن لەسەر دوگمەی "راستكردنەو"، نوێكردنەوەی زانیاری لەسەر كەیسەكە، و كلیككردن لەسەر "خەزنكردن"
+            label: 'دەستکاریکردن
+
+               '
+          accept_or_reject_transfer:
+            explanation: 'رێگە دەدات بە بەكارهێنەرەكە بۆ قبوڵكردن یان رەتكردنەوەی گواستنەوە لەبری بەكارهێنەرێكی دیكە كە لە تیمەكەتدا بێت ( بۆ نموونە، سەرپەرشتیارێك كە گواستنەوەكی قبوڵ دەكات كە نێردراوە بۆ كارمەندە كۆمەڵایەتییەكەیان). '
+            label: قبوڵكردن یان رەتكردنەوەی گواستنەوە بۆ بەكارهێنەرێكی دیكەی تیمەكەت
+          list_case_names:
+            explanation: 'بە زۆری بەڕێوەبەران ناتوانن ناوی كەیسەكان لە لیستی كەیسەكەدا ببینن. ئەگەر هاتوو بەڕێوەبەرەكە رێپێدانی هەبوو، ئەوا دەتوانن ناوەكانی لیستەكە ببینن. '
+            label: 'ئەگەر بەڕێوەبەر، بتوانێت ناوی كەیسەكان لە لیستی كەیسەكاندا ببینێت. '
+          mark_for_offline:
+            explanation: ' بوار بە بەكارهێنەر دەدات بۆ ئەوەی بە شێوەیەكی كاتی كەیسەكان خەزن بكات بۆ ئەوەی لە كاتی نەبوونی هێڵی ئەنتەرنێتدا بەكاریان بهێنێت'
+            label: نیشانە كە ئاماژە بێت بە نەبوونی هێڵی ئەنتەرنێت
+        explanation: ' ئاماژەیە بە منداڵێك، رزگاربوویەك، یان سوودمەندێكی دیكە. '
+        label: 'کەیس
+
+           '
+      dashboard:
+        actions:
+          approvals_action_plan:
+            explanation: 'ژمارەی كەیسەكانی بەكارهێنەری ئێستا پیشان دەدات لەگەڵ داواكارییەكانی رەزامەندیدان لەسەر  پلانی كار كە هەڵپەسێردراون، رەزامەندییان لەسەر دراوە، یان رەتكراوونەتەوە.
+
+               '
+            label: رەزامەندییەكانی%{approval_label}كارمەندی كەیس
+          approvals_action_plan_pending:
+            explanation: 'ژمارەی ئەو كەیسانەی نێو تیمی بەڕێوەبەرەكە پیشان دەدات لەگەڵ داواكارییەكانی رەزامەندیدان لەسەر پلانی كاری هەڵپەسێردراوی كەیسەكە.
+
+               '
+            label: ' رەزامەندییەكانی%{approval_label} بەڕێوەبەر'
+          approvals_assessment:
+            explanation: "ژمارەی كەیسەكانی بەكارهێنەری ئێستا پیشان دەدات لەگەڵ داواكارییەكانی رەزامەندیدان لەسەر هەڵسەنگاندن كە هەڵپەسێردراون، رەزامەندییان لەسەر دراوە، یان رەتكراوونەتەوە.  \n "
+            label: رەزامەندییەكانی %{approval_label}كارمەندی كەیس
+          approvals_assessment_pending:
+            explanation: 'ژمارەی ئەو كەیسانەی نێو تیمی بەڕێوەبەرەكە پیشان دەدات لەگەڵ داواكارییەكانی رەزامەندیدان لەسەر هەڵسەنگاندنەكە.
+
+               '
+            label: "رەزامەندییەكانی%{approval_label}بەڕێوەبەر \n "
+          approvals_case_plan:
+            explanation: "ژمارەی كەیسەكانی بەكارهێنەری ئێستا پیشان دەدات لەگەڵ داواكارییەكانی رەزامەندیدان لەسەر پلانی كەیس كە هەڵپەسێردراون، رەزامەندییان لەسەر دراوە، یان رەتكراوونەتەوە. \n "
+            label: "رەزامەندییەكانی %{approval_label}كارمەندی كەیس \n "
+          approvals_case_plan_pending:
+            explanation: ' ژمارەی ئەو كەیسانەی نێو تیمی بەڕێوەبەرەكە پیشان دەدات لەگەڵ داواكارییەكانی رەزامەندیدان لەسەر پلانی هەڵپەسێردراوی كەیسەكە. '
+            label: رەزامەندییەكانی%{approval_label}بەڕێوەبەر
+          approvals_closure:
+            explanation: 'ژمارەی كەیسەكانی بەكارهێنەری ئێستا پیشان دەدات لەگەڵ داواكارییەكانی رەزامەندیدان لەسەر داخست كە هەڵپەسێردراون، رەزامەندییان لەسەر دراوە، یان رەتكراوونەتەوە. '
+            label: رەزامەندییەكانی %{approval_label}كارمەندی كەیس
+          approvals_closure_pending:
+            explanation: 'ژمارەی ئەو كەیسانەی نێو تیمی بەڕێوەبەرەكە پیشان دەدات لەگەڵ داواكارییەكانی رەزامەندیدان لەسەر داخستنە هەڵپەسێردراوەكان .
+
+               '
+            label: رەزامەندییەكانی%{approval_label} بەڕێوەبەر
+          approvals_gbv_closure:
+            explanation: 'ژمارەی كەیسەكانی بەكارهێنەری ئێستا پیشان دەدات لەگەڵ داواكارییەكانی رەزامەندیدان لەسەر داخستنی توندوتیژی جێندەری كە هەڵپەسێردراون، رەزامەندییان لەسەر دراوە، یان رەتكراوونەتەوە.
+
+               '
+            label: ' رەزامەندییەكانی %{approval_label}كارمەندی كەیس
+
+               '
+          approvals_gbv_closure_pending:
+            explanation: " ژمارەی ئەو كەیسانەی نێو تیمی بەڕێوەبەرەكە پیشان دەدات لەگەڵ داواكارییە هەڵپەسێردراوەكانی رەزامەندی لەسەر داخستنی توندوتیژی جێندەری . \n "
+            label: 'رەزامەندییەكانی%{approval_label}بەڕێوەبەر
+
+               '
+          case_overview:
+            explanation: 'تێڕوانینێكی گشتی لەسەر كارتی بۆردی زانیارییەكە لەسەرەوەی لاپەڕەی سەرەكی، كە ژمارە لەخۆدەگرێت وەك سەرجەم و كەیسە نوێیەكان. '
+            label: پوختەی داشبۆردەكە
+          case_risk:
+            explanation: '  ژمارەی كەیسەكان پیشاندا دەدات لە هەر ئاستیێكی مەترسیدا. '
+            label: كەیسەكان بە گوێرەی ئاستی مەترسییەكە
+          cases_by_task_overdue_assessment:
+            explanation: ' رێگە بە بەڕێوەبەرێك دەدات بۆ بینینی ئەوەی چەند كەیس ئەركی درەنگوەختی هەڵسەنگاندنیان هەیە بۆ  هەر یەكێك لە كارمەندانی كەیسەكەیان. '
+            label: ئەركە درەنگوەختەكانی  هەڵسەنگاندن
+          cases_by_task_overdue_case_plan:
+            explanation: ' رێگە بە بەڕێوەبەرێك دەدات بۆ بینینی ئەوەی چەند كەیس ئەركی درەنگوەختی پلانی كەیسیان هەیە بۆ هەر یەكێك لە كارمەندانی كەیسەكەیان. '
+            label: ئەركە درەنگوەختەكانی پلانی كەیس
+          cases_by_task_overdue_followups:
+            explanation: ' رێگە بە بەڕێوەبەرێك دەدات بۆ بینینی ئەوەی چەند كەیس ئەركی درەنگوەختی بەدواداچوونیان هەیە بۆ هەر یەكێك لە كارمەندانی كەیسەكەیان. '
+            label: ئەركی درەنگوەختەی بەدواداچوون
+          cases_by_task_overdue_services:
+            explanation: 'رێگە بە بەڕێوەبەرێك دەدات بۆ بینینی ئەوەی چەند  ئەركی درەنگوەختی  خزمەتگوزاری هەیە بۆ هەر یەكێك لە كارمەندانی كەیسەكەیان.
+
+               '
+            label: ئەركە درەنگوەختەكانی خزمەتگوزاری
+          dash_case_incident_overview:
+            explanation: '  '
+            label: پوختە-كەیسەكانم/ رووداوەكانم
+          dash_cases_by_social_worker:
+            explanation: ' خشتەیەك ئەوە پیشان دەدات كە چۆن تێكڕای ژمارەی كەیسە كراوەكان و ژمارەی كەیسە نوێیە بەڕێوەبردرێن لەلایەن هەر بەكارهێنەرێكەوە لە گروپە بەكارهێنەرەكانی بەكارهێنەری ئێستا. هەر ریزێك بەكارهێنەرە لە گروپە بەكارهێنەرەكانی بەكارهێنەری ئێستا، كە "تێكڕا" و "نوێ" دوو ستوونی نوێن. '
+            label: پیشاندانی كەیسەكان بە گوێرەی كارمەندی كۆمەڵایەتی
+          dash_cases_to_assign:
+            explanation: ' گرنگ: تەنها بۆ بەڕێوەبەران. ژمارەی ئەو كەیسانە بخەرەڕوو كە خاوەندارێتییەكی راستەوخۆ دەكرێن لەلایەن بەكارهێنەری ئێستاوە (  پێویستە بەڕێوەبەر بێت). ئەم داشبۆردە گریمانەی ئەوە دەكات كە بەڕێوەبەرەكان  كەیسەكانی خۆیان بەڕێوە نابەن، و ئەگەر بەڕێوەبەرێك كەیسی خۆیان هەبێت، ئەوا پێویستە ئەم كەیسانە بسپێرن بە كارمەندی كەیسەكانی تیمەكانی خۆیان. '
+            label: ( بۆ بەڕێوەبەران) ئەو كەیسانەی پێویستە پیێانسپێرم بە كەسانی نێو تیمەكەم
+          dash_flags:
+            explanation: 'لیستێك لەو نیشانانە پیشان دەدات كە بەكارهێنەرەكانی دیكە زیادیان كردووە بۆ تۆمارەكانیان، هەروەها ئەو نیشانانەی كە من زیادم كردوون بۆ تۆمارەكانی بەكارهێنەرەكانی دیكە. '
+            label: 'ئەو كەیسانەی هەواڵیان لەبارەوە دراوە
+
+               '
+          dash_group_overview:
+            explanation: ژمارەی كەیسە كراوە و داخراوە بەڕێوەبردراوەكان لەلایەن بەكارهێنەرانی تیەمەكەتەوە پیشانی بەڕێوەبەرێك دەدات
+            label: كەیسەكانی گروپەكەی من
+          dash_matching_results:
+            explanation: 'فەرامۆشكردن: ئەم داشبۆردە كارا نییە و لادەبردرێت لە ڤی 2دا. '
+            label: 'ئەنجامەکانى هاوشێوەكان پیشانبدە
+
+               '
+          dash_protection_concerns:
+            explanation: ' خشتەیەك ئەوە پیشان دەدات كە چەند كەیس نیگەرانی پاراستنیان هەیە. هەر ریزێكی خشتەكە  بریتیە لە نیگەرانی پاراستن، لە كاتێكدا ستوونەكان باری جیاواز لە خۆدەگرن بۆ كەیسەكان ( "سەرجەم كەیسەكان"، "كەیسە كراوەكان،" "نوێ ( ئەم هەفتەیە)"، "داخراو ( ئەم هەفتەیە)")'
+            label: كەیسەكان بە گوێرەی نیگەرانییەكانی پاراستن
+          dash_protection_concerns_by_location:
+            explanation: 'ئەمە هەمان داشبۆردی پیشاندانی نیگەرانییەكانی پاراستنە، جگە لەوەی كە بەكارهێنەرەكە دەتوانێت شوێنێك دەستنیشان بكات لە لیستی لە سەرەوە بۆ خوارەوە بۆ پیشاندانی ئامارەكان لەسەر بڵاوبونەوەی نیگەرانییەكانی پاراستن لەو شوێنەدا. '
+            label: پیشاندانی نیگەرانییەكان پەیوەست بە پاراستنەوە بە گوێرەی شوێن
+          dash_reporting_location:
+            explanation: 'خشتەیەك ئەوە پیشان دەدات كە لە هەر شوێنێكدا چەند كەیس لە ئارادان ( لە ئاستێكی تایبەتدا وەك پارێزگا یان قەزا) هەر ریزێكی خشتەكە شوێنە،  و ستوونەكانیش  ئاماژە بە بارە جیاوازەكانی كەیسەكان دەكەن(  "كەیسی كراوە"، "نوێ ( هەفتەی رابردوو)"، "نوێ ( ئەم هەفتەیە)". "داخراو ( هەفتەی رابردوو)")، "داخراو (ئەم هەفتەیە). بە زۆری بۆ بەڕێوەبەرەكان یان كارگێڕەكانی هەژمارەكان بەكاردێت. '
+            label: كەیسەكان بە گوێرەی هەواڵدان لەبارەی شوێنەكەوە
+          dash_service_provisions:
+            explanation: 'پیشاندانانی ژمارەیەك لە كەیسەكان كە بەكارهێنەری دیكەیان هەبوو كە دەستەبەركردنی خزمەتگوزارییان بۆ زیاد دەكرێت. ئەم ژمارەیەك لە بەشی سەرەكی داشبۆردا دەردەكەوێت. '
+            label: ' كەیسەكان بە گوێرەی جۆری دەستەبەركردنی خزمەتگوزاری'
+          dash_shared_from_my_team:
+            explanation: ' ژمارەی ئەو كەیسانە بە بەڕێوەبەرێك پیشان دەدات كە لەلایەن هەر بەركاهێنەرێكی تیمەكەیانەوە بەڕێوەدەبردرێت، كە رەوانەكراوون یان گواستراونەتەوە بۆ بەكارهێنەرەكانی دیكە. '
+            label: 'هاوبەشیكردن لەلایەن تیمەكەوە
+
+               '
+          dash_shared_with_me:
+            explanation: ' ئەوە پیشان دەدات كە چەند كەیس رەوانەكراون یان گواستنراونەتەوە بۆ تۆ. '
+            label: 'هاوبەشیكردن لەگەڵ مندا
+
+               '
+          dash_shared_with_my_team:
+            explanation: 'ژمارەی ئەو كەیسانە بە بەڕێوەبەرەكە پیشان دەدات كە رەوانەكراون یان گواستراونەتەوە بۆ هەر یەكێك لە بەكارهێنەرەكانی تیمەكەیان. '
+            label: 'هاوبەشیكردن لەگەڵ تیمەكەمدا
+
+                '
+          dash_shared_with_my_team_overview:
+            label: 'هاوبەشیكردن لەگەڵ تیمەكەمدا  ( تێڕوانینێكی گشتی)
+
+               '
+          dash_shared_with_others:
+            explanation: 'ئەوە پیشان دەدات كە چەند كەیس چالاكانە رەوانەكراون، گواستنەوەیان هەڵپەسێردراوە، یان گواستنەوەیان رەتكراوەتەوە. بە زۆری ئەمە بۆ بەڕێوەبەرەكان نییە، تەنها ئەو كاتە نەبێت كە خۆیان كەیسەكان بەڕێوە ببەن. '
+            label: 'هاوبەشیكردن لەگەڵ ئەوانی دیكە 
+
+               '
+          dash_show_none_values:
+            explanation: ' پۆلێنێكی زیادی "بە بێ ئاستی مەترسی" زیاد دەكات بۆ سەرجەم داشبۆردەكان كە كەیسەكانیش بە گوێرەی مەترسی دابەش دەكات. ئەمەش بە دیاریكراوی بۆ ئەو رێكخستنانەیە كە بژاردەی چواری "نەبوونی مەترسی" لە بوارەكانی ئاستی مەترسی هەیە. '
+            label: 'خستنەڕووی ئەو كەیسانەی كە "ئاستی نەبوونی مەترسی" یان نییە لە داشبۆردی هەڵسەنگاندندا. '
+          dash_tasks:
+            explanation: 'رێگە بە بەكارهێنەرەكە دەدات بۆ بینینی لاپەڕەی ئەركەكان. پێویستە ئەمە بەكار بهێنرێت بۆ كرامەندەكانی كەیس و دەستەبەركارانی خزمەتگوزاری، لەبەر ئەوەی ژمارەكان بە دیاریكراوی بۆ ئەو كەیسانە دەبێت كە تۆ بە شێوەیەكی راستەوخۆ بەڕێوەیان دەبەیت. پێویستە لەبری ئەوەی بەڕێوەبەرەكان داشبۆردی پیشاندانی كەیسەكان بە گوێرەی ئەركی درەنگوەخت،  لەبەر ئەوەی ئەمە رێگادەدات ئەركە درەنگوەختەكان ببینن بۆ هەموو كەسێك كە لە نێو گروپەكانی بەكارهێنەراندا هەن. '
+            label: پەیجی ئەركەكان
+          dash_national_admin_summary:
+            explanation: 'سەرجەم كەیسە كراوەكان لە سیستمەكەدا پیشان دەدات، ژمارەی كەیسە نوێیەكان كە دروستكراوە لەهەر یەكێك لە دوو هەفتەی رابردودا، و ژمارەی كەیسە داخراوەكان لە هەر یەكێك لە دوو هەفتەی رابردودا. '
+            label: 'پوختەی بەڕێوەبەرایەتی 
+
+               '
+          view_response:
+            explanation: 'بۆ هەر جۆرێكی وەڵامدانەوە، ئەوە پیشان دەدات كە چەند كەیس لە هەر ئاستێكی مەترسیدا خزمەتگوزارییان كە نزیكە لە وادەی كۆتایییەوە یان درەنگوەختە بۆ تەواوكردنی. '
+            label: 'نیشاندانی وەلامەکان
+
+               '
+          workflow:
+            explanation: " رێگە بە  كارمەندێكی كەیس دەدات بۆ بینینی هێڵكارییەكی روونكردنەوە كە ژمارەی كەیسەكانیان پیشان دەدات لە هەر قۆناغێكی خشتەی كاری بەڕێوەبردنی كەیسدا. \n "
+            label: كەیسەكان بە گوێرەی خشتەی كار ریزكراون
+          workflow_team:
+            explanation: ' رێگە بە بەڕێوەبەرێك دەدات بۆ بینین خشتەیەك كە ژمارەی كەیسەكانی كارمەندانی كۆمەڵایەتی پیشان دەدات لە هەر ئاستێكی پرۆسەی بەڕێوەبردنی كەیسدا. '
+            label: كەیسەكان بە گوێرەی خشتەی كار و كارمەندی كەیس
+        explanation: ' ئەوە دەسەپێنێت كە چ  پوختەیەكی زانیاری لەسەر لاپەڕەی سەرەكی دەردەكەوێت. '
+        label: 'بۆردی زانیاری '
+      disabled:
+        explanation: ئەگەر تۆ ئەم رۆڵە لەكاربخەیت، ئەوا چیتر ناتوانیت پیسپێریت بە هەژماری بەكارهێنەران.
+        label: لەکارخراو
+      duplicate:
+        actions:
+          read:
+            explanation: ' رێگە بە بەكارهێنەر دەدات بۆ ئەنجامدانی لێگەڕانێكی پێشكەوتوو بۆ سەرجەم كەیسەكان لە سیستمەكەدا، ئەویش بە بەكارهێنانی ژمارەیەك لە پێوەر، لە نێویاندا، ناو، نازناو، رەگەز، تەمەن، و رەگەزنامە. '
+            label: بینین
+        explanation: گەڕانێكی پێشكەوتویی كەیس بۆ بەڕێوەبەران
+        label: گەڕانی دووبارە
+      forms:
+        case:
+          explanation: 'سنورداركردنی دەستڕاگەیشتنی بەكارهێنەر بە فۆرمەكان لە كەیسەكاندا دەبێتەهۆی سنورداركردنی ئەوەی بەكارهێنەر دەتوانێت چ زانیارییەك ببینێت لە لە رووداوێكدا. بۆ نموونە، ئەگەر بەكارهێنەر تەنها  دەستی رابگات بە فۆرمی خاوەنی تۆمار، ئەوا تەنها دەتوانن ئەو زانیارییانە ببینن كە لە بوارەكانی ئەو فۆرمەدا هەن. ئەگەر بەكارهێنەری ئێستا دەستڕاگەیشتنێكی سنورداری هەبێت بە فۆرمەكان  و توانای ئەوەی هەبێت رێكخستنی فۆرمەكان بەڕێوە ببات، ئەوا سنورداركردنی دەستڕاگەیشتن بە فۆرمەكە لە هەمان كاتدا دەبێتەهۆی سنورداركردنی  ئەوەی دەتوانن چ فۆرمێك رێكبخەن. تێبینی: ئەگەر هیچ فۆرمێك دەستنیشان نەكرابێت، ئەوا ئەمە بە مانای ئەوە دێت كە رۆڵەكە دەستی بە سەرجەم فۆرمەكانی كەیسەكەدا رادەگات. '
+          label: فۆرمەكان-كەیس
+        incident:
+          explanation: 'سنورداركردنی دەستڕاگەیشتنی بەكارهێنەر بە فۆرمەكانی تایبەت بە رووداوەكان دەبێتەهۆی سنورداركردنی ئەوەی بەكارهێنەر بتوانێت چ زانیارییەك ببینێت لە  رووداوێكدا. بۆ نموونە، ئەگەر بەكارهێنەر تەنها دەستی رابگات بە فۆرمی خاوەنی تۆمار، ئەوا تەنها دەتوانن ئەو زانیارییانە ببینن كە لە بوارەكانی ئەو فۆرمەدا هەن. ئەگەر بەكارهێنەری ئێستا دەستڕاگەیشتنێكی سنورداری هەبێت بە فۆرمەكان و توانای ئەوەی هەبێت رێكخستنی فۆرمەكان بەڕێوە ببات، ئەوا سنورداركردنی دەستڕاگەیشتن بە فۆرمەكە لە هەمان كاتدا دەبێتەهۆی سنورداركردنی ئەوەی دەتوانن چ فۆرمێك رێكبخەن. تێبینی: ئەگەر هیچ فۆرمێك دەستنیشان نەكرابێت، ئەوا ئەمە بە مانای ئەوە دێت كە رۆڵەكە دەستی بە سەرجەم فۆرمەكانی  رووداوەكان رادەگات.
+
+             '
+          label: ' فۆرمەكان-رووداو'
+        tracing_request:
+          explanation: 'سنورداركردنی دەستڕاگەیشتنی بەكارهێنەر بە فۆرمەكان لەبارەی داواكاری بەدواداچوون و ئەمەش دەبێتەهۆی سنورداركردنی هەر زانیارییەك كە بەكارهێنەرەكە دەتوانێت ببینێت لەبارەی داواكاری بەدواداچوونەوە. بۆ نموونە، ئەگەر بەكارهێنەر تەنها دەستراگەیشتنی هەبێت بۆ فۆرمی خاوەنی تۆمارەكە، ئەوا تەنها دەتوانن ئەو زانیارییانە ببینین كە لە نێو بوارەكانی ئەو فۆرمەدا هەن. ئەگەر هاتوو بەكارهێنەری ئێستا دەستڕاگەیشتنێكی سنورداری هەبوو بۆ فۆرمەكە و ئەگەر توانای هەبوو بۆ بەڕێوەبردنی فۆرمی رێكخستنەكەی هەبێت، ئەوا ئەمە دەبێتەهۆی سنورداركردنی دەستڕاگەیشتنی فۆرمەكە و هەروەها ئەمە دەستڕاگەیشتن سنوردار دەكات بە ئەو فۆرمانەی كە خۆیان پێكیدەهێنن.  تێبینی: ئەگەر هیچ فۆرمێك دەستنشان نەكرا، ئەوا بە مانای ئەوە دێت كە رۆڵەكە دەستڕاگەیشتنی هەیە بە سەرجەم فۆرمەكانی بۆ داواكارییەكانی بەدواداچوون. '
+          label: فۆرمەكان-بەدواداچوونی داواكاری
+        registry_record:
+          explanation: 'سنورداركردنی دەستڕاگەیشتنی بەكارهێنەر بە تۆمارەكان لە كەیسەكاندا دەبێتەهۆی سنورداركردنی ئەوەی بەكارهێنەر دەتوانێت چ زانیارییەك ببینێت لە  تۆمارێكدا. بۆ نموونە، ئەگەر بەكارهێنەر تەنها دەستی رابگات بە فۆرمی خاوەنی تۆمار، ئەوا تەنها دەتوانن ئەو زانیارییانە ببینن كە لە بوارەكانی ئەو فۆرمەدا هەن. ئەگەر بەكارهێنەری ئێستا دەستڕاگەیشتنێكی سنورداری هەبێت بە فۆرمەكان و توانای ئەوەی هەبێت رێكخستنی فۆرمەكان بەڕێوە ببات، ئەوا سنورداركردنی دەستڕاگەیشتن بە فۆرمەكە لە هەمان كاتدا دەبێتەهۆی سنورداركردنی ئەوەی دەتوانن چ فۆرمێك رێكبخەن. تێبینی: ئەگەر هیچ فۆرمێك دەستنیشان نەكرابێت، ئەوا ئەمە بە مانای ئەوە دێت كە رۆڵەكە دەستی بە سەرجەم فۆرمەكانی تۆمارەكان رادەگات.
+
+             '
+          label: ' فۆرمەكان-تۆمار'
+      group:
+        actions:
+          admin_only:
+            explanation: ' ئەمە بەو مانایە دێت كە ئەو بەكارهێنەرانەی ئەم رۆڵەیان هەیە تەنها دەتوانن ئەو شتانە ببینن كە پەیوەستن بە بەڕێوەبردنی سیستمەكەوە، وەك راپۆرتەكان، فۆرم و رێكخستنەكانی لێگەڕانەكان، بەكارهێنەران، رۆڵەكان، و گروپەكانی بەكارهێنەران. هیچ كەیسێكی تاكەكەسی، بە دواداچوونی داواكاری، یان رووداوەكان نابینن. '
+            label: هیچ تۆمارێك نییە-تەنها ئەركەكانی بەرپرسەكە
+          agency:
+            explanation: 'رۆڵەكە دەتوانێت دەستی ڕابگات بەو تۆمارانەی بەڕێوەدەبردرێن لەلایەن سەرجەم بەكارهێنەرانەوە لە ئاژانسەكانیاندا.  ئەگەر هاتوو بەكارهێنەرەكە دەستی رانەگات بە بەكارهێنەرەكان، ئەوا دەتوانن دەستیان بە سەرجەم بەكارهێنەرانی نێو ئاژانسەكەیان رابگات. '
+            label: سەرجەم تۆمارەكان یان بەكارهێنەران لە ئاژانسەكەمدا
+          all:
+            explanation: 'رۆڵەكە دەتوانێت دەستی بە سەرجەم تۆمارەكان، بەكارهێنەران یان گروپەكانی بەكارهێنەری نێو سیستمەكە رابگات، بە چاوپۆشین لەوەی كە خۆیان سەر بە چ گروپێكی بەكارهێنەرن. '
+            label: دەستراگەیشتن بە سەرجەم تۆمارەكان یان بەكارهێنەرەكان
+          group:
+            explanation: 'رۆڵەكە دەستراگەیشتن لە خۆدەگرێت بۆ ئەو تۆمارانەی بەڕێوەدەبردرێن لەلایەن سەرجەم بەكارهێنەرانی گروپە بەكارهێنەرەكانییانەوە. تەنها دەتوانن دەستیان بەو بەكارهێنەرانە رابگات كە لە نێو گروپە بەكارهێنەرەكانی خۆیاندان. تەنها دەتوانن دەستیانڕابگات بە گروپی بەكارهێنەری خۆیان. '
+            label: دەستڕاگەیشتن بە سەرجەم تۆمارەكان یان بەكارهێنەرەكانی گروپەكەم
+          self:
+            explanation: 'رۆڵەكە دەتوانێت دەستی رابگات بە تۆمارەكانیان ( كەیسەكان، داواكارییەكان بەدواداچوون، یان رووداوەكان)، و دەتوانێت هەژمارەكانی خۆیان راست بكەنەوە. '
+            label: دەستراگەیشتن تەنها بە تۆمارەكانم یان بەكارهێنەر
+        explanation: 'كۆنترۆڵكردنەكانی تۆمارەكان ( كەیسەكان، داواكارییەكانی بەدواداچوون، یان رووداوەكان)، كە رۆڵەكە دەتوانێت دەستی پێی رابگات. ئەگەر رۆڵەكە دەستڕاگەیشتنی هەبوو بۆ بەكارهێنەران  و گروپەكانی بەكارهێنەر، هەروەها ئەمە كۆنترۆڵی ئەو بەكارهێنەرانە یان گروپەكانی بەكارهێنەر دەدات كە دەتوانن دەستیان پێی رابگات. ئەو رۆڵانەی دەستیان رادەگات بە هیچ "تۆمارێك نییە" تەنها دەتوانن دەستیان رابگات بە سیستمی رێكخستنەكە وەك فۆرمەكان، بەكارهێنەران و راپۆرتەكان. '
+        label: 'ئەم رولە کارتێکرن لە کام لە تومارەکان دەکات؟
+
+           '
+      incident:
+        actions:
+          change_log:
+            explanation: 'بەكارهێنەر دەتوانێت مێژویی سەرجەم ئەو گۆڕانكارییانە ببینێت كە لە نێو تۆمارەكەدا ئەنجامدراوە لەو كاتەی كە دروست كراوە. ئەمە سەرجەم ئەو بەهایانە لە خۆدەگرێت كە بۆ سەرجەم بوارەكان تۆماركراون. '
+            label: 'لۆگەكە بگۆڕە
+
+               '
+          create:
+            explanation: 'توانای دروستكردنی رووداوێك
+
+               '
+            label: 'دروستبکە
+
+               '
+          enable_disable_record:
+            explanation: 'توانای لەكارخستن یان بەكارخستنی  رووداوێك.  رووداوە "لەكارخراوەكانی" بە شێوەیەكی گریمانەی دەرناكەون لە لیستی  رووداوەكاندا. دەكرێت بەكارهێنەرەكان رووداوە لەكارخراوەكان  ببینین لە لیستی رووداودا و لە رێی بەكارهێنانی فلتەرێكەوە.
+
+               '
+            label: 'بەكارخستن/لەكارخستن  
+
+               '
+          export_case_pdf:
+            explanation: ' بەكارهێنەر دەتوانێت ناردنی فایلی PDF دروست بكات لە لە لیستی رووداوەكان یان لاپەڕەی پیشاندانی رووداوەكە، كە سەرجەم ئەو بوارانە لەخۆدەگرێت كە بەكارهێنەری ئێستا دەستی پێیان ڕادەگات، بۆ یەكێك، چەند دانەیەك، یان سەرجەم ئەو  تۆمارانەی كە بەكارهێنەرەكە دەستی پێی رادەگات. لە ناردنی فایلی PDFدا، زانیارییەكان یەكەمجار  بە گوێرەی كەیس لیستكراون، دواتر زیاتر رێكخراون بە گوێرەی ئەو فۆرمەی زانیارییەكانی تێدا دەردەكەوێت. '
+            label: 'ناردنى pdf   
+
+               '
+          export_csv:
+            explanation: 'بەكارهێنەر دەتوانێت  ناردنی فایلی CSV دروست بكات لە لیستی داواكاری بەدواداچوون یان لاپەڕەكانی پیشاندانی داواكاری بەدواداچوون، كە سەرجەم بوارەكان لەخۆدەگرێت كە بەكارهێنەری ئێستا دەستی پێ ڕادەگات، بۆ یەكێك، چەند دانەیەك یان سەرجەم داواكارییەكانی بەدواداچوون كە بەكارهێنەر دەستی پێیان ڕادەگات.
+
+               '
+            label: 'ناردنی CSV
+
+               '
+          export_custom:
+            label: 'ناردنى تەرخانكراو
+
+               '
+          export_incident_recorder_xls:
+            explanation: ' بەكارهێنەر دەتوانێت ناردنی فایلێكی تایبەتمەندی XLS دروست بكات كە رێگە دەدات بە ئاڵوگۆڕی داتاكە لەگەڵ ئامرازی تۆماركاری رووداوی توندوتیژی جێندەری. '
+            label: 'ناردنى تۆمارکاری رووداو xls
+
+               '
+          export_json:
+            explanation: ' بەكارهێنەر دەتوانێت ناردنی فایلی  JSON  دروست بكات لە لیستی روداوەكە یان لاپەڕەكانی پیشاندانی رووداوەكە، كە سەرجەم ئەو بوارانە لەخۆدەگرێت كە بەكارهێنەری ئێستا دەستی پێیان رادەگات. بۆ یەكێك، چەند دانەیەك یان سەرجەم ئەو رووداوانەی كە بەكارهێنەرەكە دەستی پێیان رادەگات. بە شێوەیەكی سەرەكی ئەم ناردنە بەكار دەهێنرێت بۆ ئەوانەی دەیانەوێت رووداوەكان بنێرن لە سیستمی ئێستای پریمێرۆوە و دواتر بیانگەڕێننەوە بۆ سیستمێكی جیاوازی پریمێرۆ، یان لە سیستمێكی دیكەی بەڕێوەبردنی زانیاری. شێوازی JSON  بریتیە لە خوێندنەوە لە رێگەی ئامێرەوە و كرداری نییە بۆ زۆرێك لە بەكارهێنەران.  '
+            label: 'ناردنی JSON
+
+               '
+          export_list_view_csv:
+            explanation: "بەكارهێنەر دەتوانێت فایلی ناردنی CSV  دروست بكات لە لاپەڕەی لیستی رووداو كە هەمان ئەو بوارانە لەخۆدەگرێت كە بۆ بەكارهێنەرەكە دەردەكەوێت لە لیستی رووداوەكە. تەنها لە لاپەڕەی لیستی رووداودا ئەنجام دەدرێت. \n "
+            label: ' ناردنی لیستی پیشاندانی CSV'
+          export_pdf:
+            explanation: 'بەكارهێنەر دەتوانێت ناردنی فایلی PDF دروست بكات لە لە لیستی رووداوەكان یان لاپەڕەی پیشاندانی رووداوەكە، كە سەرجەم ئەو بوارانە لەخۆدەگرێت كە بەكارهێنەری ئێستا دەستی پێیان ڕادەگات، بۆ یەكێك، چەند دانەیەك، یان سەرجەم ئەو تۆمارانەی كە بەكارهێنەرەكە دەستی پێی رادەگات. لە ناردنی فایلی PDFدا، زانیارییەكان یەكەمجار بە گوێرەی كەیس لیستكراون، دواتر زیاتر رێكخراون بە گوێرەی ئەو فۆرمەی زانیارییەكانی تێدا دەردەكەوێت.
+
+               '
+            label: 'ناردنى pdf
+
+               '
+          export_xls:
+            explanation: 'بەكارهێنەر دەتوانێت ناردنی فایلی XLS دروست بكات لە لیستی رووداوەكە یان لاپەڕەكانی پیشاندانی رووداوەكە، كە كۆمەڵێكی تەرخانكراو لە فۆرم یان بوارەكان لەخۆدەگرێت، بۆ یەكێك، چەند دانەیەك یان سەرجەم ئەو كەیسانەی كە بەكارهێنەر دەستی پێیان رادەگات. لەم ناردنەدا، هەر  فۆرمێك بەرجەستە دەبێت لە پۆلێنكردنەكانی تایبەت بە خۆیان كە لە نێو ناردنەكەدا هەن بە بەكارهێنانی مۆدێلی تەرخانكراوی ناردن. تكایە سەرنجی ئەوە بدە كە بەكارهێنەران تەنها دەتوانن فۆرم و بواراەكان بخەنە نێو ناردنەكەدا ئەگەر هاتوو توانای ئەوەیان هەبوو ئەو فۆرم و بوارانە ببینن كاتێك لە ئەپڵیكەیشنەدا كەیسێك دەبینن. '
+            label: 'ناردنی ئیكسڵ ( فایلی XLS)  
+
+               '
+          flag:
+            explanation: 'توانای زیادكردنی نیشانەیەك بۆ رووداوێك. ئەو بەكارهێنەرانەی ئەم رێگەپێدانەیان هەیە دەتوانن ئەو نیشانانە لاببەن كە زیادییان كردووە بۆ رووداوێك. '
+            label: نیشانە
+          import:
+            explanation: 'رێگە بە بەكارهێنەرەكە دەدات بۆ دروستكردنی رووداوێكی نوێ یان زیاتر لەرێی زیادكردنی فایلەكانی CSV, Excel, و  JSON. پێویستە ئەو فایلانەی زیادكراون بە شێوازی "زۆر" دیاریكراو بن بۆ زانیارییەكان بۆ ئەوەی بە شێوەیەكی گونجاو داخڵ بكرێت. پێویستە ئەم كارە تەنها ئەو كاتە بەردەست بێت بۆ بەكارهێنەرە كارگێڕییەكان كە كارامەییەكی تەكنیكی پێشكەوتوو و زانیارییەكی باشیان هەبێت لەبارەی ئەوەی چۆن داتا لە نێو پریمێرۆدا رێكدەخرێت. تەنها لە لیستی لاپەڕەكەوە ئەنجام دەدرێت.  '
+            label: 'گەڕاندنەوە 
+
+               '
+          manage:
+            explanation: " رێگە بە بەكارهێنەر دەدا بۆ ئەنجامدانی سەرجەم كارە بەردەستەكان لەسەر  رووداوەكان . لە بنەڕەتدا رێگەپێدانی \"بەڕێوەببە\" بە مانای \"هەموو شتێك\" دێت \n "
+            label: 'بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە) '
+          read:
+            explanation: توانای پیشاندانی رووداوێك
+            label: 'بینین
+
+               '
+          sync_mobile:
+            explanation: 'بە شێوەیەكی گشتی ئەم رێگەپێدانە بوار بە بەكارهێنەرەكە دەدات بۆ بەكارهێنانی ئەپڵیكەیشنی مۆبایل. یەكەم، بوار بە بەكارهێنەرەكە دەدات بۆ بینینی كردارەكانی "نیشانەكردن بۆ مۆبایل" و "نیشانەنەكردن بۆ مۆبایل"، كە لە لیستی رووداوەكە یان لاپەڕەكانی پیشاندانی رووداوەكە دەردەكەون. نیشانەكردنی رووداوەكە بۆ ئاماژەكانی مۆبایل كە پێویستە زانیاری پەیوەست بە رووداوەكەوە هاوكات بكرێت لە نێوان ئامێری مۆبایلی بەكارهێنەرەكە و ئەپڵیكەیشتنی تۆڕی ئەنتەرنێتدا، لە كاتێكدا نیشانەنەكردنی رووداوێك بۆ مۆبایلەكە رێگە لە روودانی هاوكاتكردنەكە دەگرێت. ئەو بەكارهێنەرانەی ئەم رێگەپێدانەیان نییە ناتوانن ئامێری مۆبایلەكانیان هاوكات بكەن لەگەڵ ئەپڵیكەیشنەكانی تۆڕی ئەنتەرنێت بە شێوەیەكی گشتی، بەو مانایەی كە ناتوانن ئەپڵیكەیشنی مۆبایل بەكار بهێننن بۆ بەڕێوەبردنی رووداوەكان.  '
+            label: هاوكاتكردن لەگەڵ ئامێری مۆبایل
+          write:
+            explanation: 'توانای كلیككردن لەسەر دوگمەی "راستكردنەوە"، نوێكردنەوەی زانیاری لەبارەی بەدواداچوونی داواكاری، و كلیككردن لەسەر "خەزنكردن". رێگەدان بە بەكارهێنەرەكە بۆ بەكارخستن یان لەكارخستنی بەدواداچوونی داواكاری.
+
+               '
+            label: دەستکاریکردن
+        explanation: ' ئاماژەیە بە رووداوێك كە روویداوە. ئەمانە بە زۆری رووداوی پێشێلكاری یان توندوتیژین، ئەگەرچی دەكرێت یەكبگرێتەوە لەگەڵ رووداوەكانی چەشنی روبەڕوبونەوە لەگەڵ دەسەڵاتەكانی جێبەجێكردنی یاسا.  بە زۆری رووداوەكان گرێدراون بە كەیسەكانەوە. '
+        label: 'رووداو
+
+           '
+      is_manager:
+        explanation: 'جێبەجێ دەبێت بەسەر  رۆڵی هەر بەكارهێنەرێك كە بە شێوەیەكی گشتی سەرپەرشتی بەكارهێنەرەكانی دیكە دەكات. ئەمەش بوار بە بەكارهێنەر دەدات بۆ بینینی داشبۆردەكە و فلتەرەكان كە ئەمەش هاوكار دەبێت بۆ بەكارهێنەر بۆ بەڕێوەبردنی تیمەكە. '
+        label: بەڕێوەبەرەكەیە؟
+      managed_report:
+        actions:
+          violations:
+            label: پێشێلكارییەكان
+          gbv_statistics:
+            label: 'ئامارەكانی توندوتیژی جێندەری
+
+               '
+      matching_configuration:
+        actions:
+          manage:
+            explanation: 'توانای كۆنترۆڵكردنی ئەوەی چ بوارێك بەراورد بكرێت بۆ دۆزینەوەی هاوشێوەكان لە نێوان داواكاری بەدواداچوون و كەیسەكاندا. لەبەر ئەوەی ئەمە كۆنترۆڵی ئەوە دەكات كە چۆن هاوشێوەكردن لە نێو تەواوی سیستمەكەدا بەڕێوەدەبردرێت،  بە شێوەیەكی گشتی پێویستە ئەم رێگەپێدانە تەنها فەراهەم بێت بۆ بەڕێوەبەرانی سیستمەكە.   '
+            label: بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە)
+        explanation: ' كۆنترۆڵی ئەوە دەكات  چ بوارێك بەكار دەهێنرێت بۆ بەراوركردنی داواكارییەكانی بەدواداچوون لەگەڵ كەیسەكاندا لە میانەی بەدواداچوون و پێكشادكردنەوەی خێزان. '
+        label: رێكخستنی هاوشێوە
+      metadata:
+        actions:
+          manage:
+            explanation: 'توانای دروستكردن، راستكردنەوە، وەرگێڕان، و سڕینەوەی فۆرمەكان، فۆرمی بوارەكان،  و گەڕانەكان. تكایە سەرنجی ئەوە بدە كە بەكارهێنەرەكە كە ئەمە رێگەپێدانەی هەیە تەنها دەتوانێت ئەو فۆرمانە بەڕێوەببات كە دەستیان پێی رادەگات. بۆ نموونە ئەگەر بەڕێوەبەرە نیشتیمانییەكە تەنها توانای ئەوە هەیبوو كە فۆرمی كەیسەكانی خاوەنی تۆمارەكە ببینین، ئەوا تەنها دەتوانن رێكخستنەكە نوێ بكەنەوە بۆ ئەو فۆرمە. '
+            label: 'بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە)    
+
+               '
+        explanation: ' كۆنترۆڵی توانای رێكخستنی فۆرم و بوارەكانی سەرەتا دەكات، لەگەڵ بژاردە بەكارهێنراوەكانی گەڕان تێیاندا.'
+        label: 'فورمەکان، گەڕانەكان
+
+           '
+      module:
+        actions:
+          cp:
+            label: CP
+          gbv:
+            label: توندوتیژی جێندەری
+          mrm:
+            label: 'MRM
+
+               '
+        explanation: ' كۆنترۆڵی ئەوە دەكات كە ئەم رۆڵە بەسەر چ یەكەیەكدا جێبەجێ دەبێت '
+        label: یەكەكان
+      potential_match:
+        actions:
+          read:
+            explanation: ' ئاماژەیە بە پەیوەندی نێوان داواكاری بەدواداچوون و كەیسەكەدا. دەستڕاگەیشتن بە هاوشێوە پێشبینیكراوەكان كارێكی پێویستە بۆ كاری بەدواداچوون و پێكشادكردنەوەی خێزان. رێگە بە بەكارهێنەر دەدات بۆ بینینی فۆرمی پوختەی بەدواداچوون لەسەر كەیسەكان.  '
+            label: بینین
+        label: هاوشێوە پێشبینیكراوەكان
+      primero_configuration:
+        actions:
+          manage:
+            explanation: ' توانای خەزنكردن، جێبەجێكردن، و ناردنی پێكهاتەكان. بە زۆری ئەم رێگەپێدانە تەرخان دەكرێت بۆ بەڕێوەبەری سیستمەكە.  '
+            label: بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە)
+        label: پێكهاتە
+      referral:
+        actions:
+          refer:
+            explanation: 'ئەمە بەو مانایە دێت كە رۆڵەكە وەك بژاردەی "جۆری وەرگر" دەردەكەوێت كاتێك كە بەكارهێنەرەكە رەوانەكردنێكی دەرەكی ئەنجام دەدات. ئەگەر بێتوو بەكارهێنەرەكە ئەم رۆڵەی هەڵبژارد وەك جۆرێكی رەوانەكردن، ئەو ناردنەی كە پریمێرۆ دروستی دەكات كاتێك بەكارهێنەر رەوانەكردنەكە پێشكەش دەكات كە تەنها ئەو زانیارییانە لە خۆدەگرن كە لەو فۆرمەدایە كە ئەم رۆڵە دەستی پێی ڕادەگات. كەواتە، بۆ نموونە، ئەگەر بەكارهێنەرەكە "دەستەبەركاری خزمەتگوزاری پزیشكی" هەڵبژارد، و ئەگەر دەستەبەركاری خزمەتگوزاری پزیشكیش تەنها دەستڕاگەیشتنی هەبوو بە ناسنامەی بنەڕەتی و فۆرمەكانی نیگەرانییەكانی پەیوەست بە پاراستنەوە، ئەوا فایلی ناردن كە پریمێرۆ دەینێرێت بۆ رەوانەكردنی دەرەكی تەنها ئەو بوارانە لەخۆدەگرێت كە لە نێو ئەو دوو فۆرمەدا هەن. '
+            label: 'ئایا دەكرێت ئەم رۆڵە بۆ رەوانەكردنی دەرەكی بەكار بهێنرێت؟
+
+               '
+        label: رەوانەكردن
+      registry_record:
+        actions:
+          change_log:
+            explanation: 'بەكارهێنەر دەتوانێت مێژویی سەرجەم ئەو گۆڕانكارییانە ببینێت كە لە نێو تۆمارەكەدا ئەنجامدراوە لەو كاتەی كە دروست كراوە. ئەمە سەرجەم ئەو بەهایانە لە خۆدەگرێت كە بۆ سەرجەم بوارەكان تۆماركراون. 
+
+               '
+            label: ' لۆگەكە بگۆڕە  
+
+               '
+          create:
+            explanation: ' توانای  دروستكردنی رێكخستنی تۆمارەكان
+
+               '
+            label: 'دروستبکە     
+
+               '
+          enable_disable_record:
+            explanation: 'توانای لەكارخستن یان بەكارخستنی  رێكخستنی تۆمار.  تۆمارە "لەكارخراوەكان" بە بە شێوەیەكی گریمانەی دەرناكەون لە لیستی داواكاری تۆماردا. دەكرێت بەكارهێنەرەكان رێكخستنی تۆمارە لەكارخراوەكان ببینین لە لیستی  تۆماردا و لە رێی بەكارهێنانی فلتەرێكەوە.
+
+               '
+            label: 'بەكارخستن/لەكارخستن 
+
+               '
+          export_csv:
+            explanation: 'بەكارهێنەر دەتوانێت فایلی ناردنیCSV  دروستبكات لە لیستی كەیسەكە یان لاپەڕەی پیشاندانی كەیس، كە سەرجەم ئەو بوارانە لەخۆدەگرێت كە بەكارهێنەری ئێستای دەستی پێیانڕادەگات، بۆ یەك، بۆ چەند دانەیەك، یان سەرجەم ئەو  رێكخستانەی تۆمار كە بەكارهێنەرەكە دەستی پێیانڕادەگات. تێبینی: ناردن بە شێوەی CSV  كاراكتەرە-پیتە- غەیرە لاتینییەكان ( بۆ نموونە عەرەبی، بەنگالی) ناگۆڕێت بۆ چەشنێك كە بخوێنرێتەوە.
+
+               '
+            label: 'ناردنی CSV  
+
+               '
+          export_json:
+            explanation: 'بەكارهێنەر دەتوانێت فایلی ناردنی JSON دروست بكات لە لیستی تۆمار یان لاپەڕەكانی پیشاندانی تۆمارەكە، كە سەرجەم بوارەكاتن لەخۆدەگرێت كە بەكارهێنەری ئێستا دەستی پێی ڕادەگات. شێوازی JSON  بە كەڵی ئەوە دێت بە شێوەی ئامێر بخوێنرێتەوە و كرداری نییە بۆ زۆرێك لە بەكارهێنەران. '
+            label: 'ناردنی JSON 
+
+               '
+          export_xls:
+            explanation: "بەكارهێنەر دەتوانێت فایلی ناردنی XLS  دروست بكات لە لیستی تۆمار یان لاپەڕەكانی پیشاندانی تۆمارەكە، كە سەرجەم بوارەكان لەخۆدەگرێت كە بەكارهێنەری ئێستا دەستی پێی ڕادەگات. تێبینی: شێوازی  XLS   كاراكتەرە- پیتە غەیرە لاتینییەكان ( بۆ نموونە، عەرەبی، بەنگال) دەگۆڕێت بۆ شێوازێك كە بخوێنرێتەوە، لە كاتێكدا كە ناردنی CSV ئەم كارە ناكات. \n "
+            label: 'ناردنی ئیكسڵ ( فایلی XLS)
+
+               '
+          flag:
+            explanation: 'توانای زیادكردنی نیشانەیەك بۆ  رێكخستنی تۆمارێك. ئەو بەكارهێنەرانەی ئەم رێگەپێدانەیان هەیە دەتوانن ئەو نیشانانە لاببەن كە زیادییان كردووە بۆ رێكخستنی كەیسێك. '
+            label: نیشانە
+          manage:
+            explanation: 'رێگە بە بەكارهێنەر دەدا بۆ ئەنجامدانی سەرجەم كارە بەردەستەكان لەسەر  رێكخستنی كەیسەكان . لە بنەڕەتدا رێگەپێدانی "بەڕێوەببە" بە مانای "هەموو شتێك" دێت
+
+               '
+            label: 'بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە)   
+
+               '
+          read:
+            explanation: توانای بینینی رێكخستنی تۆمارەكان
+            label: بینین
+          write:
+            explanation: ' توانای كلیككردن لەسەر دوگمەی "راستكردنەو"، نوێكردنەوەی زانیاری لەسەر  رێكخستنی تۆمارەكە، و كلیككردن لەسەر "خەزنكردن"
+
+               '
+            label: 'دەستکاریکردن 
+
+               '
+          sync_mobile:
+            explanation: ' بوار بە بەكارهێنەر دەدات بۆ ئەوەی بە شێوەیەكی كاتی تۆمارەكان خەزن بكات بۆ ئەوەی لە كاتی نەبوونی هێڵی ئەنتەرنێتدا بەكاریان بهێنێت'
+            label: نیشانە كە ئاماژە بێت بە نەبوونی هێڵی ئەنتەرنێت
+        explanation: ' دەكرێت ئەمە ئاماژەیەك بێت بە كەسێك یان بە هەلومەرجێك كە پێویستە گرێبدرێتەوە بە تۆمارەكانی دیكەوە وەك كەیسەكان یان رووداوەكان، كە ژمارەیان زۆرە، و بە بەردەوامی بە زانیاری نوێ ئەپدەیت دەكرێنەوە. ئەوان هاوشێوەی لێگەڕانەكانن، بەڵام كۆمەڵێك زانیاری ئاڵۆزتر لە خۆدەگرن بۆ هەر داخڵكردنێك. '
+        label: 'رێكخستنی تۆمارەكان
+
+           '
+      report:
+        actions:
+          create:
+            explanation: ' توانای دروستكردنی راپۆرتێكی نوێ. كاتێك بەكارهێنەرێك راپۆرتێك دروست دەكات، ئەوا بەرچاو دەبێت بۆ سەرجەم بەكارهێنەرەكان كە دەستیان رادەگات بە "خوێندنەوە" یان "خوێندنەوەی گروپ" تاوكو راپۆرتەكان. '
+            label: 'دروستکردن
+
+               '
+          group_read:
+            explanation: ' توانای بینینی سەرجەم راپۆرتەكان. ژمارەكانی هەر راپۆرتێك تەنها رەنگدانەوەی ئەو تۆمارانەن كە بەكارهێنەران دەستیان پێی رادەگات لە گروپە بەكارهێنەرەكانی بەكارهێنەری ئێستادا. بە زۆری ئەم رێگەپێدانە بەكاردەهێنرێت بۆ ئەو بەڕێوەبەر مەحەلی، هەرێمایەتی یان ئاژانسەی دەیانەوێت تێڕوانینێكی ووردیان هەبێت لەسەر ئەدای تیمەكە یان رێكخراوەكەیان. هەروەها ئەم رێگەپێدانە توانا بە بەكارهێنەرەكە دەدات بۆ ناردنی داتا لە راپۆرتێكەوە. '
+            label: پیشاندان ( داتای پەیوەست بە گروپ)
+          manage:
+            explanation: 'رێگە بە بەكارهێنەر دەدا بۆ ئەنجامدانی سەرجەم كارە بەردەستەكان لەسەر ئاژانسەكان . لە بنەڕەتدا رێگەپێدانی "بەڕێوەببە" بە مانای "هەموو شتێك" دێت
+
+               '
+            label: 'بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە) 
+
+               '
+          read:
+            explanation: ' توانای بینینی سەرجەم راپۆرتەكان. ژمارەكانی نێو هەر راپۆرتێك رەنگدانەوەی سەرجەم تۆمارەكانی نێو سیستمەكەن، لەبری ئەوەی تەنها تۆمار بن كە بەكارهێنەری ئێستا دەستی پێیان رابگات. هەروەها ئەم رێگەپێدانە توانا دەستەبەر دەكات بۆ ناردنی داتاكان لە راپۆرتێكەوە.  '
+            label: 'بینین  
+
+               '
+          write:
+            explanation: ' توانای راستكردنەوەی سەرجەم راپۆرتەكان ( لە نێویاندا ئەوانەی لەلایەن بەكارهێنەرانی دیكەوە دروستكراون). '
+            label: 'دەستکاریکردن
+
+               '
+        explanation: ' ئامرازی شرۆڤەكردنی داتا كۆكراوەكان. لە نێویاندا خشتە و هێڵكاری بەیانی داتاكان. '
+        label: 'راپورت
+
+           '
+      reporting_location_level:
+        explanation: ' ئەمە كۆنترۆڵی ئەوە دەكات كە چ ئاشتێك لە شوێنەكان دەردەكەوێت بۆ ئەو رۆڵە لە نێو داشبۆردەكان، فلتەرەكان، مۆدێلی رەوانەكردنەكان، و مۆدێلەكانی گواستنەوە. ئەگەر بێتوو بڕیار بدەیت ئەم بوارە بەتاڵ بێت، ئەوا  ئەم رۆڵە ئاستی شوێنی پێڕاگەیاندنی گریمانەیی سیستمەكە دەبینێت. '
+        label: 'ئایا پێویستە چ جۆرە شوێنێك بەكار بهێنرێت بۆ راپۆرتكردنی ئەم رۆڵە؟
+
+           '
+      role:
+        actions:
+          assign:
+            explanation: 'توانای دەستنیشانكردنی رۆڵێك لە كاتی دروستكردن  یان راستكردنەوەی هەژماری بەكارهێنەرێك. ئەم رێگەپێدانە پێویستە بۆ هەر رۆڵێك كە هەژمارەكانی بەكارهێنەر دروست دەكات یان راست دەكاتەوە. '
+            label: 'پێسپاردن
+
+               '
+          copy:
+            explanation: 'توانای دروستكردنی كۆپییەك بۆ رۆڵەكە. ئەمەش سوودمەند دەبێت بۆ بەڕێوەبەرانی سیستەمەكە كە رەنگە ژمارەیەك لە رۆڵەكان دروست بكەن كە بە راددەیەكی زۆر گەورە هاوشێوەی یەكتر دەبن ( بۆ نموونە، دەستەبەركاری خزمەتگوزاری). '
+            label: 'کوپىبکە
+
+               '
+          create:
+            explanation: 'توانای دروستكردنی رۆڵێك
+
+               '
+            label: 'دروستبکە 
+
+               '
+          delete:
+            explanation: توانای دروستكردنی رۆڵێك
+            label: بسڕەوە
+          manage:
+            explanation: "رێگە  بە كارهێنەر دەدات بۆ ئەنجامدانی سەرجەم كردارە بەردەستەكانی نێو رۆڵەكان. بە شێوەیەكی بنەڕەتی رێگەپێدانی\" بەڕێوەبردن\" بە مانای \"هەموو شتێك\" دێت. \nگرنگ: ئەمە تەنها توانا دەستەبەر دەكات بۆ دروستكردن و سڕینەوەی رۆڵەكان. \n "
+            label: 'بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە)
+
+               '
+          permitted_roles:
+            explanation: 'ئەگەر رۆڵێك توانای ئەوەی هەبوو هەر یەكێك لەو كارانەی سەرەوەی نێو رۆڵەكە ئەنجام بدات، ئەوا دەتوانن ئەو كارانەش ئەنجام بدەن كە لە نێو ئەو رۆڵانەدا هاتوون كە لەم لیستەدا دیاریكراون. كەواتە، بۆ نموونە، ئەگەر رۆڵەكە  رێگەپێدانی "خوێندنەوە" و "پێسپاردن" ی هەبوو لەسەر رۆڵەكان، بەڵام تەنها "كارمەندی كەیسی پاراستنی منداڵ" و "بەڕێوەبەری پاراستنی منداڵی" هەبوو وەك وەك "رۆڵە بەڕێوەبردراوەكان" لیست كراوە، ئەوا تەنها دەتوانن تەنها ئەو دوو رۆڵە ببینن، و تەنها دەتوانن بەكارهێنەرە نوێیەكان بەو دوو رۆڵە بسپێرن. ئەگەر هەمان رۆڵ "رۆڵە بەڕێوەبردراوەكان"ی بۆ دیاری نەكرابوو، ئەوا دەتوانێت سەرجەم رۆڵەكان ببینێت و بتوانێت هەژماری بەكارهێنەری نوێ دروست بكات لەگەڵ هەر رۆڵێكی نوێی سیستمەكەدا. '
+            label: رۆڵەكانی دیكە كە لەلایەن ئەم رۆڵەوە بەڕێوەدەبردرێن
+          read:
+            explanation: توانای بینینی رۆڵەكان
+            label: 'بینین
+
+               '
+          write:
+            explanation: ' توانای كلیككردن لەسەر دوگمەی "راستكردنەوە" لەسەر لاپەڕەی پیشاندانی رۆڵ، نوێكردنەوەی رێگەپێدانەكانی رۆڵەكە، و دواتر خەزنكردنی رۆڵەكە. '
+            label: دەستکاریکردن
+        explanation: ' ئەو رێككارانە دەسەپێنریت كە  بەكارهێنەرێك دەتوانێت ئەنجام بدات لە سەرەتادا. '
+        label: ڕۆڵەکان
+      system:
+        actions:
+          manage:
+            explanation: 'توانای بینین و نوێكردنەوەی زانیارییەكان لەسەر سیستمی زانیارییەكانی پەیوەندیكردن ئاگاداركردنەوە گریمانەكراوەكان و  رێكخستنەكانی پەیوەست بە ئیمەیڵی پێشوازی، و خزمەتگوزارییە هاوكاتكراوەكانەوە. بە زۆری ئەم رێگەپێدانە تەرخانكراوە بۆ بەڕێوەبەری سیستمەكە. '
+            label: 'بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە)  
+
+               '
+        explanation: دانانە جۆراجۆرەكانی رێكحستن لەسەر ئاستی سیستمەكە
+        label: 'بەرنامە
+
+           '
+      tracing_request:
+        actions:
+          change_log:
+            explanation: ' بەكارهێنەر دەتوانێت مێژویی سەرجەم ئەو گۆڕانكارییانە ببینێت كە لە نێو تۆمارەكەدا ئەنجامدراوە لەو كاتەی كە دروست كراوە. ئەمە سەرجەم ئەو بەهایانە لە خۆدەگرێت كە بۆ سەرجەم بوارەكان تۆماركراون.
+
+               '
+            label: 'لۆگەكە بگۆڕە 
+
+               '
+          create:
+            explanation: توانای دروستكردنی داواكاری بەدواداچوون
+            label: 'دروستبکە   
+
+               '
+          enable_disable_record:
+            explanation: ' توانای لەكارخستن یان بەكارخستنی داواكاری بەدواداچوون. داواكارییە "لەكارخراوەكانی" بەدواداچوون بە شێوەیەكی گریمانەی دەرناكەون لە لیستی داواكاری بەدواداچووندا. دەكرێت بەكارهێنەرەكان داواكارییە لەكارخراوەكانی بەدواداچوون ببینین لە لیستی داواكاری بەدواداچووندا و لە رێی بەكارهێنانی فلتەرێكەوە. '
+            label: 'بەكارخستن/لەكارخستن
+
+               '
+          export_case_pdf:
+            explanation: 'بەكارهێنەر دەتوانێت فایلی ناردنی پی دی ئێف دروست بكات لە لیستی داواكاری بەدواداچوون یان لاپەڕەكانی پیشاندانی داواكاری بەدواداچوونەوە، كە سەرجەم ئەو بوارانە لە خۆدەگرێت كە بەكارهێنەری ئێستای دەستی پێیان ڕادەگات، بۆ یەكێك، بۆ چەند دانەیەك، یان سەرجەم ئەو تۆمارانەی كە بەكارهێنەر دەستیان پێی ڕادەگات. لە فایلی ناردنی پی دی ئێف دا، زانیارییەكان رێكخراون، یەكەم بە گوێرەی كەیسەكە، و دواتر زیاتر رێكدەخرێن بە گوێرەی ئەو ئەو فۆرمەی كە زانیارییەكانی تێدا دەردەكەوێت.
+
+               '
+            label: 'ناردنى pdf  
+
+               '
+          export_csv:
+            explanation: 'بەكارهێنەر دەتوانێت فایلی ناردنی CSV دروست بكات لە لیستی داواكاری بەدواداچوون یان لاپەڕەكانی پیشاندانی داواكاری بەدواداچوون، كە سەرجەم بوارەكان لەخۆدەگرێت كە بەكارهێنەری ئێستا دەستی پێ ڕادەگات، بۆ یەكێك، چەند دانەیەك یان سەرجەم داواكارییەكانی بەدواداچوون كە بەكارهێنەر دەستی پێیان ڕادەگات. '
+            label: 'ناردنی CSV 
+
+               '
+          export_custom:
+            explanation: 'بەكارهێنەر دەتوانێت فایلی ناردنی  XLS دروست بكات لە لیستی دواداكاری بەدواداچوون یان لاپەڕەكانی پیشاندانی داواكاری بەدواداچوون، كە كۆمەڵێكی تەرخانكراوی فۆرمەكان یان بوارەكان لە خۆدەگرێت، بۆ دانەیەك، چەند دانەیەك یان سەرجەم داواكاری بەدواداچوون كە بەكارهێنەرەكە دەستی پێی ڕادەگات. لەم ناردنەدا، هەر فۆرمێك بەرجەستە دەبێت لە نێو پۆلێنكردنەكانیدا لە نێو فایلیXLS. بەكارهێنەرەكە دەتوانێت ئەو فۆرمە یان بوارانە هەڵبژێرێت كە دەیەوێت لە نێو ناردنەكەدا بێت بە بەكارهێنانی مۆدێلی تەرخانكردنی ناردن. تكایە سەرنجی ئەوە بدە كە بەكارهێنەرەكان  تەنها دەتوانن ئەو فۆرم  و بوارانەی نێو ناردنەكە تێكهەڵكێش بكەن ئەگەر هاتوو توانای ئەوەیان هەبوو لە ئێستادا ئەو فۆرم یان بوارانە ببینن كاتێك لە ئەپڵیكەیشنەكەدا داواكاری بەدواداچوون دەبینن. '
+            label: 'ناردنى تەرخانكراو 
+
+               '
+          export_json:
+            explanation: 'بەكارهێنەر دەتوانێت ناردنی فایلیJSON دروست بكات لە لیستی داواكاری بەدواداچوون یان پەیجەكانی پیشاندانانی داواكاری بەدواداچوون، كە سەرجەم ئەو بوارانە لەخۆدەگرێت كە بەكارهێنەری ئێستا دەستی پێیانڕادەگات، بۆ یەكێك، چەند دانەیەك، یان سەرجەم داواكارییەكانی بەدواداچوون كە بەكارهێنەرەكە دەستی پێییان ڕادەگات. بە شێوەیەكی سەرەكی ئەم ناردنە بەكاردەهێنرێت بۆ ئەوانەی دەیانەوێت داوای بەدواداچوون بنێرێت لە سیستمی ئێستای پریمێرۆوە و دواتر بیانگەڕێنێتەوە بۆ سیستمێكی جیاوازی پریمێرۆ، یان بۆ سیستمێكی دیكەی بەڕێوەبردنی زانیاری. شێوازی JSON لە رێی ئامێرەوە دەخوێنرێتەوە و كرداری نییە بۆ زۆربەی بەكارهێنەران. '
+            label: ناردنی JSON
+          export_list_view_csv:
+            explanation: 'بەكارهێنەر فایلی ناردنی CSV دروست دەكات لە  پەڕەی لیستی داخوازی بەدواداچوونەوە كە هەمان بوارەكان لە خۆدەگرێت كە بۆ هەمان بەكارهێنەر دەردەكەون لەسەر لیستی بەدواداچوونی داواكاری. كە بە تەنیا لەلاپەڕەی لیستی بەدواداچوونی داخوازی ئەنجام دەدرێت. '
+            label: ناردنی لیستی پیشاندانیCSV
+          export_pdf:
+            explanation: 'بەكارهێنەر دەتوانێت فایلی ناردنی پی دی ئێف دروست بكات لە لیستی داواكاری بەدواداچوون  یان لاپەڕەكانی پیشاندانی داواكاری بەدواداچوونەوە، كە سەرجەم ئەو بوارانە لە خۆدەگرێت كە بەكارهێنەری ئێستای دەستی پێیان ڕادەگات، بۆ یەكێك، بۆ چەند دانەیەك، یان سەرجەم ئەو تۆمارانەی كە بەكارهێنەر دەستیان پێی ڕادەگات. لە فایلی ناردنی پی دی ئێف دا، زانیارییەكان رێكخراون، یەكەم بە گوێرەی كەیسەكە، و دواتر زیاتر رێكدەخرێن بە گوێرەی ئەو ئەو فۆرمەی كە زانیارییەكانی تێدا دەردەكەوێت. '
+            label: 'ناردنى pdf 
+
+               '
+          export_xls:
+            explanation: 'بەكاهێنەر دەتوانێت ناردنی فایلی  XLS دروست بكات لە لیستی داواكارییەكانی بەدواداچوون یان لاپەڕەكانی پیشاندانی داواكاری بەدواداچوون، كە سەرجەم بوارەكان لە خۆدەگرێت كە بەكارهێنەری ئێستا دەستی پێی ڕادەگات، بۆ یەكێك، چەند دانەیەك یان سەرجەم داواكارییەكانی بەدواداچوون كە بەكارهێنەر دەستی پێیان رادەگات. لەم ناردنەدا، هەر فۆرمێك بەرجەستە دەبێت لە پۆلێنكردنە تایبەتیەكەیاندا لە نێو فایلی XLS. تێبینی: شێوازی XLS كاراكتەرە-پیتە- غەیرە لاتینییەكان ( بۆ نموونە عەرەبی، بەنگالی) دەگۆڕێت بۆ شێوازێك كە بخوێنرێتەوە، لە كاتێكدا ناردنی CSV  ئەم كارە ناكات. '
+            label: 'ناردنی ئیكسڵ ( فایلی XLS) 
+
+               '
+          flag:
+            explanation: 'توانای زیادكردنی نیشانەیەك بۆ داواكارییەكی بەدواداچون. ئەو بەكارهێنەرانەی ئەم رێگەپێدانەیان هەیە دەتوانن ئەو نیشانانە لاببەن كە زیادییان كردووە بۆ داواكاری بەدواداچوون.
+
+               '
+            label: 'نیشانە
+
+               '
+          import:
+            explanation: ' رێگە بە بەكارهێنەرەكە دەدات بۆ دروستكردنی كەیسێكی نوێ یان زیاتر بە گەڕاندنەوەیان لە فایلیCSV, Excel یان JSON. پێویستە فایلە گەڕێندراوەكان بە شێوازی "زۆر" بێت بە دیاریكراوی بۆ ئەو زانیارییانەی بە شێوەیەكی گونجاو گەڕێندراونەتەوە. پێویستە ئەم كارە تەنها بەردەست بێت بۆ بەكارهێنەرە كارگێڕییەكان كە كارامەییەكی تەكنیكی پێشكەوتوو و زانیارییەكی قووڵیان هەیە لەبارەی ئەوەی زانیارییەكە چۆن رێكبخرێن لە نێو  پریمێرۆدا. تەنها لە لاپەڕەی لیستی كەیسەكە ئەنجام دەدرێت. '
+            label: 'گەڕاندنەوە  
+
+               '
+          manage:
+            explanation: "رێگە بە بەكارهێنەر دەدا بۆ ئەنجامدانی سەرجەم كارە بەردەستەكان لەسەر  داواكارییەكانی بەدواداچوون . لە بنەڕەتدا رێگەپێدانی \"بەڕێوەببە\" بە مانای \"هەموو شتێك\" دێت  \n "
+            label: بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە)
+          read:
+            explanation: 'رێگەدەدات بە بەدواداچوونی داواكاری.  پێویستە ئەو رۆڵانەی توانای بینینی بەدواداچوونیان هەیە توانای ئەوەشیان هەبێت كە جۆری تۆماركردنی هاوشێوەی پێشبینیكراو ببینن. '
+            label: بینین
+          write:
+            explanation: 'توانای كلیككردن لەسەر دوگمەی "راستكردنەوە"، نوێكردنەوەی زانیاری لەبارەی بەدواداچوونی داواكاری، و كلیككردن لەسەر "خەزنكردن". رێگەدان بە بەكارهێنەرەكە بۆ بەكارخستن یان لەكارخستنی بەدواداچوونی داواكاری. '
+            label: 'دەستکاریکرن
+
+               '
+        explanation: ' بەرجەستەی كەسێك دەكات كە هەوڵی دیاریكردنی شوێنەكە و یەكگرتنەوە دەدات لە كەیسێكی هاوەڵنەكراو یان كەیسێكی جیادا. '
+        label: بەدواداچوونی داواكاری
+      transfer:
+        actions:
+          transfer:
+            explanation: 'ئەمە بەو مانایە دێت كە رۆڵەكە وەك بژاردەیەك دەردەكەوێت بۆ " جۆری وەرگر" كاتێك بەكارهێنەر رەوانەكردنی دەرەكی ئەنجام دەدات. ئەگەر بەكارهێنەر ئەم رۆڵە هەڵبژێرێت وەك جۆری رەوانەكردنەكە، ئەوا ئەو ناردنەی كە پریمێرۆ  دروستی دەكات كاتێك بەكارهێنەرەكە رەوانەكردنەكە پێشكەش دەكات تەنها ئەو زانیارییانە لە خۆدەگرێت كە لە ناو فۆرمەكەدا هەن كە ئەم رۆڵە دەستی پێی رادەگات. كەواتە، بۆ نموونە ئەگەر بەكارهێنەر "دەستەبەركاری خزمەتی پزیشكی" هەڵبژێرێت وەك  رۆڵی دەستەبەركاری  دەستەبەركاری خزمەتگوزاری پزیشكی تەنها دەستیرادەگات بە فۆرمەكانی ناسنامەی بنەڕەتی و نیگەرانییەكانی پاراستن، فایلی ناردن كە پریمیرۆ دەیاننێرێت بۆ  رەوانەكردنی دەرەكی تەنها ئەو بوارانە لە خۆدەگرێت كە لەم دوو فۆرمەدا هەن. '
+            label: 'ئایا دەكرێت ئەم رۆڵە  بۆ رەوانەكردنی دەرەكی بەكار بهێنرێت؟ '
+        label: 'گواستنەوە 
+
+           '
       user:
+        actions:
+          agency_read:
+            explanation: 'توانای بینینی تەنها ئەو هەژمارانەی بەكارهێنەرەكە كە لە ئاژانسی بەكارهێنەرەكەی ئێستادا هەن. هەروەها ئەمە كاریگەری هەیە لەسەر ئەوەی چ هەژمارێكی بەكارهێنەر هەیە كە بەكارهێنەری ئێستا  دەتوانێت كارەكانی دیكەی تێدا ئەنجام بدات. بۆ نموونە، ئەگەر هاتوو بەكارهێنەری ئێستا رێگەپێدانی "بنووسە"ی هەبوو بۆ بەكارهێنەران، بەڵام لە هەمان كاتدا رێگەپێدانی خوێندنەوەی ئاژانسی هەبووو، ئەوا تەنها دەتوانن راستكردنەوە بكەن بۆ هەژماری بەكارهێنەران كە لە نێو ئاژانسەكانی خۆیاندان. بە هەمان شێوە، ئەگەر هاتوو بەكارهێنەری ئێستا رێگەپێدانی "بەڕێوەبردن"ی هەبوو بۆ بەكارهێنەران، بەڵام رێگەپێدانی "خوێندنەوەی ئاژانسی" هەبوو، ئەوا تەنها دەتوانن بەكارهێنەر بۆ خودی ئاژانسەكەیان دروست بكەن. '
+            label: ' پیشاندان ( لە نێو ئاژانسدا)'
+          create:
+            explanation: 'توانای دروستكردنی هەژماری بەكارهێنەرێك. '
+            label: 'دروستبکە  
+
+               '
+          manage:
+            explanation: "رێگە دەدات بە بەكارهێنەرێك بۆ ئەنجامدانی سەرجەم كردارە بەردەستەكان بۆ بەكارهێنەران.  لە بنەڕەتدا رێگەپێدانی \"بەڕێوەبردن\" بە مانای \"هەموو شتێك\" دێت. گرنگ: هەروەها ئەمە توانای دروستكردنی هەژماری بەكارهێنەری نوێ دەدات. \n "
+            label: 'بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە)
+
+               '
+          read:
+            explanation: 'توانای بینین هەژماری بەكارهێنەران. بە شێوەیەكی گریمانەیی، هەر بەكارهێنەرێك توانای بینینی و راستكردنەوەی زانیاری هەیە لەبارەی  هەژماری تایبەت بە بەكارهێنەر ( بۆ نموونە ووشەی نهێنی، ئیمەیڵ). '
+            label: 'بینین 
+
+               '
+          write:
+            explanation: 'توانای كلیككردن لەسەر دوگمەی راستكردنەوە لەسەر پەڕەی پیشاندانی بەكارهێنەر، نوێكردنەوەی زانیارییەكان لەبارەی بەكارهێنەرەوە، و دواتر خەزن دەكرێت. تكایە سەرنجی ئەوە بدە كە ئەم رێگەپێدانە  لە هەمان كاتدا توانای ئەوە دەستەبەر دەكات كە هەژمارەكانی بەكارهێنەرەكە لەكاربخات. '
+            label: 'دەستکاریکردن 
+
+               '
+        explanation: ' ئاماژەیە بۆ هەژماری بەكارهێنەرێكی تاكەكەسی'
         label: بەکارهێنەر
       user_group:
         actions:
           assign:
+            explanation: 'توانای هەڵبژاردنی گروپەكانی بەكارهێنەر كاتێك كە هەژماری بەكارهێنەر دروست دەكرێت یان راستدەكرێتەوە. تكایە سەرنجی ئەوە بدە ئەگەر بەكارهێنەری ئێستا  ئاستی دەستڕاگەیشتنی هەبوو "تەنها بۆ تۆمارەكانی یان بەكارهێنەرەكانی گروپەكەم"، ئەوا تەنها دەتوانن یەكێك یان زیاتر لە گروپە بەكارهێنەرەكانی "تایبەت بە خۆیان" هەڵبژێرن بۆ هەژماری بەكارهێنەرەكە كە دروستی دەكەن یان راستی بكەنەوە. ئەمە بەو مانایە دێت كە بەڕێوەبەرەكە كە توانای پێسپاردنی هەیە بە گروپە بەكارهێنەرەكان تەنها دەتوانێت بەكارهێنەرێك زیاد بكات بۆ گروپە بەكارهێنەرەكان كە بەڕێوەبەرەكەش سەر بەو گروپەیە. ئەم رێگەپێدانەش پێویستە بۆ هەر رۆڵێك كە هەژماری بەكارهێنەر دروست دەكات یان راستی دەكاتەوە. '
             label: پێسپاردن
           create:
+            explanation: توانای دروستكردنی گروپێكی بەكارهێنەر
             label: دروستبکە
+          delete:
+            explanation: توانای سڕینەوەی گروپی بەكارهێنەر
+            label: 'سرینەوە
+
+               '
+          manage:
+            explanation: 'رێگە بە بەكارهێنەر دەدات بۆ ئەنجامدانی سەرجەم چالاكییە بەردەستەكان لە گروپەكانی بەكارهێنەردا. لە بنەڕەتدا رێگەپێدانی " بەڕێوەبردن" بە مانای "هەموو شتێك" دێت. گرنگ: هەروەها ئەمە توانایەك دەستەبەر دەكات بۆ دروستكردن و سڕینەوەی گروپە بەركاهێنەرەكان'
+            label: بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە)
           read:
+            explanation: توانای بینینی گروپە بەكارهێنەرەكان
             label: پیشاندان
           write:
+            explanation: 'توانای راستكردنەوەی گروپە بەكارهێنەرەكان
+
+               '
             label: دەستکاریکرن
+        explanation: '  ئاماژەیە بە تیمێك یان گروپێكی هاوكار لە بەكارهێنەران كە دەتوانن زانیاری هاوبەشی پێبكەن. بە زۆری بەڕێوەبەران دەتوانن سەرجەم ئەو تۆمارانە ببینن كە لەلایەن كارمەندە كۆمەڵایەتییەكانەوە بەڕێوەبردراون لە گروپە بەكارهێنەرەكانیاندا. '
+        label: گروپەكانی بەكارهێنەر
+      webhook:
+        actions:
+          read:
+            label: بینین
+            explanation: توانای لیستكردن و پێداچوونەوە بە رێكخستنەوەكانی وێبهووك لە رێی ئاماژە سەرەكییەكانی ئەدا
+          write:
+            label: دەستکاریکرن
+            explanation: توانای دروستكردن و راستكردنەوەی رێكخستنەوەی وێبهووك لە رێی API
+          create:
+            explanation: توانای دروستكردن و راستكردنەوەی رێكخستنەوەی وێبهووك لە رێی API
+            label: دروستکردن
+          delete:
+            explanation: توانای سڕینەوەی رێكخستنی وێبهووك لە رێی API
+            label: 'سرینەوە
+
+               '
+          manage:
+            label: ' بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە)'
+      activity_log:
+        actions:
+          transfer:
+            explanation: بەكارهێنەر دەتوانێت كلیلك بكان لەسەر بەشی تۆماری چالاكی داشبۆردەكە و بینینی سەرجەم رەوانەكردنە قبوڵكراوە و رەتكراوەكان بۆ ئەو كەیسانەی دەستیان پێی رادەگات
+            label: گواستنەوە
+          manage:
+            label: بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە)
+        label: تۆماری چالاكی
   potential_match:
     case_id: ناسنامەى كەیسەكە
     child_age: تەمەن
@@ -982,32 +3243,54 @@ ku:
     inquiry_date: رێککەوتى لێکولینەوە
     name: ناو
     score: خال
-    social_worker: ڤەکولەرى کومەلایەتى
+    social_worker: توێژەری کومەلایەتى
     social_worker_agency: دامەزراوە
+    tracing_request_id: بەدواداچوونی ناسنامەی داواكاری
     trace: به دواداچوون
     likelihood_likely: لەوانەیە
-    likelihood_possible: لەوانەیە
+    likelihood_possible: دەگونجێت
   potential_matches:
     display: هاوبەشە شاراوەکان پیشانبدە بو  %{type} %{id}
   reassign:
+    multiple_error: هەڵەیەك روویدا%{select_records}كەیسەكە(كەیسەكان) دەستنیشان نەكراون
+    multiple_successfully: '%{select_records}كەیس(ەكان) بە سەركەوتویی دەستنیشانكران'
     notes_label: تێبینیەکان
+    successfully: سەرکەوتوانە دەستنیشانكرانەوە
     user_mandatory_label: وەرگر پێویستە
     users_label: وەرگر
   record_information:
     assigned_user_names: بەکارهێنەرەکانى تر
+    created_at: 'تومارەكە دروستکرا لەلایەن
+
+       '
     created_by: تومار دروستکرا لەلایەن
+    created_organization: لەلایەن ئاژانسەكەوە دروستكراوە
     current_owner_separator: خاوەنى ئێستا
     module_id: نموونەکان
     owned_by: کودى لێکولەرى کەیس
     owned_by_agency_id: دامەزراوە
     owned_by_text: کارمەندی مەیدان/ کەیس/ توێزەرى کومەلایەتى
+    previously_owned_by: خاوەنی پێشوو
+    previously_owned_by_agency: ئاژانسی پێشوو
+    reassigned_tranferred_on: پێسپاردنەوە/گواستنەوە بۆ
+    record_history_separator: تۆماری مێژوو
+    last_updated_at: دوایین نوێكرنەوە لە
+    last_updated_by: 'دوایین نوێكرنەوە لەلایەن
+
+       '
   record_panel:
     record_information: زانیاریەکانى تومار
   referral:
+    type_of_recipient: جۆری وەرگر
+    type_of_referral_required: جۆری داواكراوی رەوانەكردن
     agency_label: دامەزراوە
     is_remote_label: ئایا ئاماژە بو سیستەمى بنەرەت دەکەیت؟
     location_label: شوێن
     notes_label: تێبینیەکان
+    notes_on_referral: ' تێبینییەكان لەسەر رەوانەكردن'
+    note_on_referral_from_provider: ' تێبینییەكان لەسەر رەوانەكردنەوە لە دەستەبەركارەوە'
+    provided_consent_label: رەزامەندی لە فۆرمەكەدا دەستەبەرنەكراوە
+    recipient_label: وەرگر
     refer_anyway_label: ئیحالەی بکە هەرچۆنێک بێت؟
     service_label: خزمەتگوزارى
     success: '%{record_type} %{id} بە سەرکەوتووى پێشنیارکرا'
@@ -1016,15 +3299,20 @@ ku:
     rejected_reason: هۆکاری رەتکردنەوە
   report:
     aggregate_by: گروپ لە دوایى یەک
+    attribute: وەسفكردن
+    constraint: ئاستەنگی
     date_ranges:
       date: روژ
       month: مانگ
       quarter: چارەک
+      quarter_abbr: چارەك%{quarter}
       week: هەفتە
       year: سال
     description: وەسفکردن
     disabled:
+      explanation: ئەگەر ئەم راپۆرتە لەكاربخەیت، ئەوا لە راپۆرتە بەردەستەكاندا دەرناكەون
       label: لەکارخراو
+    exclude_empty_rows: ریزە بەتاڵەكان پیشان مەدە
     disaggregate_by: گروپ بە شێوازى ستونى
     filters:
       label: فیلتەرەکانى ریپورت
@@ -1035,6 +3323,8 @@ ku:
       less_than: کەمتر لە
       greater_than: زیاتر لە
       equal_to: یەکسانە بە
+      not_blank: بەتاڵ نییە
+      is: بریتیە لە
       before: پێشوو
       after: دواتر
       delete_filter_message: دڵنیایت لە سڕینەوەی ئەم فلتەرە؟
@@ -1043,22 +3333,35 @@ ku:
     is_graph: هێلکاریەک دروستبکە؟
     messages:
       delete_success: ریپیورت  بەسەركەوتووى سرییەوە
+      success: 'راپۆرتەكە بەسەركەوتویی دروستكرا
+
+         '
+      updated: راپۆرتەكە بەسەركەوتویی نوێكرایەوە
     modules: نموونەکان
     name: ناو
     name_mandatory: ناو پێویستە
     no_data: هیچ زانیاریەک بو ئەم ریپورتە بەردەست نیە
+    no_filters_added: هیچ فلتەرێكی زیاد نەكراوە
+    not_selected: دەستنیشان نەكراوە
     record_type: جورى تومارەکە
     total: سەرجەم
+    value: بەها
   reports:
+    delete_report: سڕینەوەی راپۆرتەكە
+    delete_report_message: ئایا دڵنیایت كە دەتەوێ ئەم راپۆرتە بسڕیتەوە؟ سڕینەوەكە پێچەوانە ناكرێتەوە. كلیلك لەسەر باشە-ئۆكەی- بكە بۆ سڕینەوەی راپۆرتەكە
     label: ریپورتەکان
     register_new_report: ریپورت دروست بکە
     translations:
+      edit: دەستکاریکردنى وەرگێڕان
+      manage: ڕێکخستنی وەرگێران
       select_language: زمان هەڵبژێرە
+    error_loading: راپۆرت(ەكان)ی هەڵەی داگرتن
   request_transfer:
     notes_label: تێبینیەکان
     submit_label: داخوازى بنێرە
-    success: داخوازى گواستنەوە نارد
+    success: داخوازى گواستنەوە نێردرا
   role:
+    agency_ids_label: ئەو ئاژانسانەی لەلایەن ئەو رۆڵەوە بەڕێوەدەبردرێن
     copy_failure: هەلە لە کوپیکردنى رولدا. دلنیابە ناوەکە دژ بە هیچ رولەکى تر نیە
     copy_success: رولەکە  بەسەركەوتووى کوپیکرا.
     create: رول دروستبکە
@@ -1069,8 +3372,14 @@ ku:
     group_permission_label: ئەم رولە کارتێکرن لە کام تومارەکان دەکات؟
     label: ڕۆڵ
     manager: بەرێوەبەر
+    messages:
+      confirmation: ئایا دلنیایت دەتەوێ ئەم رولە بسریتەوە؟ سڕینەوەكە پێچەوانە ناكرێتەوە. کلیک لەسەر باشە-ئۆكەی- بکە بو سرینەوەى رولەکە
+      created: رۆڵەكە بە سەركەوتووی دروست كرا
+      deleted: رۆڵەكە بە سەركەوتویی سڕدرایەوە
+      updated: رۆڵەكە بە سەركەوتویی نوێكرایەوە
     name: ناو
-    referral_label: دەتوانرێت ئەم رولە بو پێشنیارکردن بەکاربێت؟
+    referral_label: دەتوانرێت ئەم رولە بو رەوانەکردن بەکاربێت؟
+    reporting_location_level_label: 'ئایا پێویستە چ جۆرە شوێنێك بەكار بهێنرێت بۆ راپۆرتكردنی ئەم رۆڵە؟ '
     role_ids_label: رۆلەکان تر لەلایەن ئەم رولە بەرێوەبردن
     successfully_updated: زانیاریەکانى رولەکە  بەسەركەوتووى نوێکرا.
     transfer_label: دەتوانرێت ئەم رولە بو گواستنەوە بەکاربێت؟
@@ -1082,24 +3391,34 @@ ku:
   saved_search:
     deleted: بەدواگەران بەسەركەوتووى سرييەوە
     filters_tab: فیلتەرەکان
+    no_filters: فلتەرەكان دەستنیشان نەكراون
     save_success: بەدواگەران بەسەركەوتووى خەزنکرا
     saved_searches_tab: لێگەریانى حەزنکراو
+    title_description: ئایا دڵنیایت لەوەی ئەم گەڕانە سەلامەتە بسڕیتەوە؟
+    title_modal: سڕینەوەی گەڕانە سەلامەتەكان
   saved_searches:
     no_save_searches: هیچ لێگەریانێکى خەزنکراوت نیە
-    save_search: لێگەریانى خەزنکراو
+    save_search: ' خەزنکردنی لێگەڕان'
   settings:
     navigation:
-      agencies: دامەزراوە كان
+      agencies: ئاژانسەکان
       audit_logs: پشکنین
+      configurations: 'رێکخستنەكان 
+
+         '
       contact_information: زانیاریەکانى پەیوەندى کردن
       forms: فورمەکان
       locations: شوێن
+      lookups: گەڕانەكان
       user_groups: گروپی بەکاربەران
       users: بەکاربەرەکان
       roles: ڕۆڵەکان
-    title: ڕیکخستن
+      code_of_conduct: 'رێساكانی رەفتاركردن
+
+         '
+    title: دانان
   system_settings:
-    label: رێکخستنێن سیستەمى
+    label: دانانەكانی سیستەمەكە
   task:
     due_date: رێککەوتى گونجاو
     id: ناسنامە#
@@ -1122,19 +3441,46 @@ ku:
       service: خزمەتگوزارى١%{subtype}
   tracing_request:
     label: داواکاری بەدواداچوون
+    has_match: هاوشێوەیەك هەیە
     find_match: دۆزینەوەی هاوبەشەکان
     back_to_traces: گەڕانەوە بۆ بەدواداچونەکان
+    back_to_potential_matches: گەڕانەوە بۆ هاوشێوەی پێشبینیكراوەكان
     traces: بەدواداچونەکان
     trace: به دواداچوون
     match: هاوبەش
     matches: هاوبەشەکان
     unmatch: نا هاوبەش
     messages:
+      already_matched: 'لە ئێستادا هاوشێوەیییەك هەیە لە سیستمەكەدا كە لێكۆڵەرەكە بەدوای ئەم منداڵەدا دەگەڕێت. '
+      disabled: بەدواداچوونی داواكار لەكارخراوە
       nothing_found: هیچ بەردەست نیە
       update_success: 'داخوازیى بەدواداچون %{record_id} بە سەرکەوتووى نوێکرا'
       creation_success: داخوازی بەدواداچونى تومار %{record_id}بەسەرکەوتووى دروستکرا
+      update_success_queue: ' بەدواداچوونی داواكاری%{record_id}بە سەركەوتویی نوێكرایەوە لە پاشخانەكەدا'
+      creation_success_queue: بەدواداچوونی داواكاری تۆماركردن بە سەركەوتویی دروستكرا لە پاشخانەكەدا
+      match_action: هاوشێوەكردنی بەدواداچوونی %{trace_id}بەسەركەوتویی ئەنجامدرا لەگەڵ كەیسی %{record_id}
+      unmatch_action: بەدواداچوونی سەركەوتووانەی نا-هاوشێوە%{trace_id} لەگەڵ كەیس%{record_id}
+  registry_record:
+    messages:
+      update_success: ' رێكخستنی تۆمارەكە%{record_id} بەسەركەوتووى نوێکرایەوە
+
+         '
+      creation_success: 'رێكخستنی رووداوەكە بە سەركەوتوویی دروستكرا
+
+         '
+      disabled: رێكخستنی تۆمار لەكارخرا
   tracing_requests:
     date_of_inquiry: رێککەوتى لێکولینەوە
+    disable_dialog_title: ' لەكارخستنی داواكاری بەدواداچوون'
+    disable_dialog: 'كلیككردن لەسەر باشە-ئۆكەی- باری ئەم  داواكاری بەدواداچوونە بۆ لەكارخراو دەگۆڕێت
+
+       '
+    disable_success: بەسەركەوتووی داواكاری بەدواداچوونی لەكارخرا
+    enable_dialog: "كلیككردن لەسەر باشە-ئۆكەی- باری ئەم داواكاری بەدواداچوونە بۆ بەكارخراو دەگۆڕێت \n "
+    enable_dialog_title: 'لەكارخستنی داواكاری بەدواداچوون
+
+       '
+    enable_success: بەسەركەوتویی داواكاری بەدواداچوون بەكارخرا
     id: ناسنامە
     filter_by:
       by_date: 'بە رێککەوت:'
@@ -1148,22 +3494,76 @@ ku:
     register_new_tracing_request: داخوازی  نوێى بەدواداچون
     selectable_date_options:
       inquiry_date: رێککەوتى لێکولینەوە
+    selected_records: ' داواكاری( داواكارییەكانی) بەدواداچوونی دەستنیشانكرا%{select_records}'
+    selected_all_records: ' دەستنیشانكردنی سەرجەم%{total_records} داواكارییەكانی بەدواداچوون كە هاوشێوەی ئەم پرسیاركردنە'
+    show_tracing_request: 'ناسنامەی%{short_id} داواكاری بەدواداچوون'
     tracing_requests: داواکاری بەدواداچون
-    export: هەناردن
+    export: ناردن
+  registry_records:
+    id: 'ناسنامە
+
+       '
+    label: رێكخستنی تۆمارەكان
+    name: ناو
+    registry_no: '  ژمارەی تۆمار'
+    location: ' شوێن'
+    registration_date: ' رێککەوتى تومارکردن
+
+       '
+    selected_records: ' داواكاری( داواكارییەكانی) بەدواداچوونی دەستنیشانكرا%{select_records}'
+    selected_all_records: 'دەستنیشانكردنی سەرجەم%{total_records}داواكارییەكانی بەدواداچوون كە هاوشێوەی ئەم پرسیاركردنە
+
+       '
+    disable_dialog_title: 'بەكارخستنی رێكخستنی تۆمارەكان
+
+       '
+    disable_dialog: 'كلیككردن لەسەر باشە-ئۆكەی- باری ئەم رێكخستنی تۆمارە بۆ لەكارخراو دەگۆڕێت
+
+       '
+    disable_success: ' بەسەركەوتووی  رێكخستنی تۆمارەكە لەكارخرا
+
+       '
+    enable_dialog_title: 'بەكارخستنی رێكخستنی تۆمارەكان 
+
+       '
+    enable_dialog: " كلیككردن لەسەر باشە-ئۆكەی- باری ئەم رێكخستنی تۆمارە بۆ  بەكارخراو دەگۆڕێت \n "
+    enable_success: "بەسەركەوتووی رێكخستنی تۆمارەكە بەكارخرا \n "
+    filter_by:
+      by_date: 'بە گوێرەی رێككەوتەكە:
+
+         '
+      status: دۆخ
+    selectable_date_options:
+      registration_date: 'رێککەوتى تومارکردن
+
+         '
+    show_registry_record: ' ناسنامەی رێكخستنی تۆمار%{short_id}'
+    register_new_registry_record: رێكخستنی نوێی تۆمار
+    export: ناردن
+    mark_for_offline:
+      title: نیشانە كە ئاماژە بێت بە نەبوونی هێڵی ئەنتەرنێت
+      text: 'ئایا دڵنیاییت كە دەتەوێ نیشانە لەسەر ئەم تۆمارانە دابنێیت بۆ ئەوەی بەكاریان بهێنێت كاتێك لەسەر هێڵی ئەنتەرنێت نییت؟ '
+      success: سەركەوتووانە نیشانە لەسەر تۆمارەكان دانرا بۆ ئەوەی بەكاربهنێرێن كاتێك هێڵی ئەنتەرنێتیش نەبێت
   transfer:
+    label: 'گواستنەوە
+
+       '
     agency_label: دامەزراوە
+    consent_from_individual_label: 'ئایا رەزامەندی كەسەكەت هەیە بۆ ئەنجامدانی ئەم گواستنەوەیە؟ '
     consent_label: تۆمار رەزامەندييان دەستەبەر نەكردووە.
     consent_override_label: دەتەوێت ئەم رێکخستنە لەکاربێخیت؟
-    is_remote_label: ئایا بو سیستەمێکى بنەرەت دەنێریت؟
+    is_remote_label: ئایا بو سیستەمێکى دووری دەنێریت؟
     location_label: شوێن
     notes_label: تێبینیەکان
+    provided_consent_label: رەزامەندی لە فۆرمەكەدا دەستەبەرنەكراوە
     recipient_label: وەرگر
     select_label: هەڵبژێرە...
     success: سەرکەوتوانە گواسترایەوە
     transfer_label: 'گواستنەوە هەرچۆنێکبێت؟ '
     user_mandatory: وەرگر پێویستە
+    rejected_reason: هۆكارە رەتكراوەكە
   transfer_assignment:
-    title: گواستنەوە و پێسپاردن
+    title: گواستنەوە و پێسپاردنەكان
   transition:
     agency_label: دامەزراوە
     assigned_by: 'سپێردراوە لە لایەن '
@@ -1174,7 +3574,10 @@ ku:
       false_label: 'نەخێر'
       true_label: 'بەڵێ'
     errors:
+      consent: ' رەزامەندی نەدرا'
       to_user_can_receive: ئەم بەکاربەرە ناتوانێ ئەم تۆمارە وەربگرێت
+    individual_consent: ئایا كارمەندی كەیسەكە رەزامەندی كەسەكەی هەیە بۆ ئەنجامدانی گواستنەوەكە؟
+    no_consent_share: 'رەزامەندیدان لەسەر هاوبەشیكردن ئەو دانانانەی دووبارە دارێژرانەوە؟ '
     notes: تێبینی
     recipient: وەرگر
     rejected: هۆکاری رەتکردنەوە
@@ -1187,20 +3590,22 @@ ku:
       in_progress: هەڵپەسێردراو
       inprogress: هەڵپەسێردراو
       rejected: رەتکردنەوە
+      revoked: هەڵوەشاندنەوە
     type:
       assign: پێسپاردن
       reassign: پێسپاردن
-      referral: ئیحالەکردن
-      external_referral: ئیحالەکردنی دەرەکی
+      referral: رەوانەكردن
+      external_referral: رەوانەكردنی  دەرەکی
       transfer: گواستنەوە
       transferRequest: داواکاری گواستنەوە
   user:
-    agency_office: ئۆفیسی دامەزراوە
+    agency_office: نووسینگەی ئاژانسەکە، بواری بەرەنگاربونەوەی توندوتیژی
     code: کۆدى بەکارهێنەر
     disabled: لەکارخراو
     email: ئیمەیڵ
     full_name: ناوى سیانی
     identity_provider: بەخشەری ناسنامە
+    invalid_provider_username: "شێوازی نادروستی ناوی بەکارهێنەر نموونە: رێساكانی رەفتاركردن\n %{domain}"
     label: بەکاربەر
     language: زمان
     locale: ناوخۆیی
@@ -1209,6 +3614,8 @@ ku:
       confirmation: دلنیایى دەتەوێ ئەم بەکارهێنەرە بسریتەوە؟ سرینەوە هەلناوەشێنرێت. کلیک لەسەر باشە بکە بو سرینەوەى بەکارهێنەر
       created: بەکارهێنەر بەسەركەوتووى دروستکرا
       failure: هەڵەیەک ڕویداوە، تکایە پەیوەندی بە پاڵپشتیکارانەوە بکە
+      new_confirm_html: ' تۆ خەریكە داوای لە بەكارهێنەر<b>%{username}</b> دەكەیت لە<b></b> لەگەڵ رۆڵی<b>%{role} بۆ بەكارهێنانی پریمیێرۆ.  ئیمەیڵێكی پشتڕاستكردنەوە دەنێردرێت<b>%{email}</b>. ئایا دەتەوێت بەردەوام بیت؟ '
+      new_confirm_non_identity_html: ' تۆ خەریكە داوا لە بەكارهێنەر<b>%{username}</b> دەكەیت  لەگەڵ رۆڵی<b>%{role}</b>بۆ بەكارهێنانی پریمیێرۆ. ئیمەیڵێكی پشتڕاستكردنەوە دەنێردرێت<b>%{email}</b> ئایا دەتەوێت بەردەوام بیت؟ '
       not_found: بەکارهێنەر بەم ناسناوە نەدوزرا
       password_changed_successfully: ژمارەى نهێنى بەسەركەوتووى گورا
       passwords_do_not_match: لەگەر ژمارەى نهێنى کارپێکراو ناگونجێت
@@ -1221,6 +3628,7 @@ ku:
       label: پریمێرۆ بە چ شێوازێک پێویستە وشەی نهێنی بەکاربەر دابنێت؟
       self: وشەی نهێنی دادەنێم
       user: بەکاربەر لە ڕێی ئیمەیڵی بەخێرهاتنەوە وشەی نهێنی دادەنێت
+      help_text: 'تكایە ئەوەت لە یاد بێت كە ئەگەر تۆ ، بەڕێوەبەرەكە، بە شێوەیەكی دەستكرد ووشەی نهێنیت دانا، ئەوا پێویستە بە شێوەیەكی سەلامەت هاوبەشی پێبكەیت لە بەكارهێنەرەكەدا. '
     password_reset_header: ئیمەیڵی گۆڕینی وشەی نهێنی بنێرە
     password_reset_text: بە کلیک کردن لە "ناردن" ئەم هەژمارە ئیمەیڵێکی پێ دەگات کە لینکیکی تێدایە تا بەهۆیەوە وشەی نهێنی بگۆڕێت
     password_reset_request: ئیمەیڵی گۆڕینی وشەی نهێنی بنێرە
@@ -1228,18 +3636,38 @@ ku:
     password_confirmation: پشتراستکردنەوەی وشەی نهێنی
     phone: تەلەفون
     position: پۆست
+    provider_username_help: 'نمونە: %{domain} @ my.username'
     role_id: ڕۆڵ
     send_mail: وەرگرتنى وریاکردنەوەى ئیمێل؟
     user_group_unique_ids: گروپی بەکاربەران
     user_name: ناوی بەکاربەر
     services: خزمەتگوزاریەکان
     welcome_email:
+      subject: ' بەخێربێن بۆ%{system}!'
+      greeting: 'بەخێربێن بۆ %{system}!
+
+         '
+      body_native: ' تۆ زیادكرایت وەك%{role_name}. تكایە پەیوەندی بكە بە%{admin_full_name}%{admin_email} بۆ بەدواداچوونی رێنماییەكان بۆ دەستكردن بە كاركردن لەگەڵ %{host} '
+      sso:
+        body: 'تۆ زیادكرایت وەك %{role_name}'
+        step1: 'بڕۆ بۆ %{host} و كلیلك بكە لەسەر %{identity_provider}'
+        step2: 'چوونە ژوورەوە بە هەژمارەكەت%{identity_provider}%{user_name}'
+        step3: 'هەمان ووشەی نهێنی بەكاربهێنە كە هەمیشە بەكاری دەهێنیت بۆ  هەژمارەكەی%{identity_provider}'
+        footer: 'بۆ ووردەكاری زیاتر تكایە پەیوەندی بكە بە%{admin_full_name}%{admin_email}'
       otp:
+        body: 'تۆ زیادكرایت وەك%{role_name}'
+        step1: ' تكایە پەیوەندی بكە بە%{admin_full_name}%{admin_email} بۆ وەرگرتنی ناوی بەکارهێنەر'
+        step2: 'بڕۆ بۆ %{host} و كلیلك بكە لەسەر "چوونە ژوورەوە بە و نازناوەی لەسەرەتادا تۆمارکردوە. "'
+        step3: 'چوونەژوورەوە بە نازناو، ووشەی نهێنی كاتییەوە%{otp}.'
         step4: 'کە داواتلێکرا، وشەی نهێنی بگۆڕە'
-      url_label: پریمێرۆ
+      url_label: سەرەتای
       enabled_label: 'ئیمەیڵی بەخێرهاتن بنێرە؟ '
       text_label: تێکستی ئیمەیڵی بەخێرهاتن
     password_reset:
+      subject: 'رێنماییەكانی نوێكردنەوەی ووشەی نهێنی'
+      email_greeting: "بەڕێز%{full_name}"
+      email_body1: "كەسێك داواكارییەكی پێشكەش كردووە بۆ دروستكردنی ووشەی نهێنی بۆ %{host_href}. كلیك بكە لەسەر شوێندۆزی سەرچاوەی جیھانی خوارەوە بكە بۆ ئەوەی دەست پێبكەیت"
+      email_body2: "بەستەرەكە بەسەر دەچێت لە %{hours}كاتژمێردا و دەكرێت تەنها یەكجار بەكار بهێنرێت. تكایە ئەم ئیمەیڵە فەرامۆش بكە ئەگەر هاتوو لەبری تۆ داوای نوێكردنەوەی ووشەی نهێنیت نەكرد یان پریمێرۆییەكی نوێ تۆمار نەكرا، تكایە كلیك بكە لەسەر%{reset_request_href}بۆ دووبارە داوای نوێكردنەوەی ووشە نهێنییەكە پێشكەش بكەرەوە. "
       email_body_link: ئێرە
       request_submitted: "داواکاری گۆڕینی وشەی نهێنی داخڵکرا"
       success: "وشەی نهێنی سەرکەوتوانە گۆڕا"
@@ -1247,14 +3675,17 @@ ku:
         reset_password_token: "نیشانەی گۆڕینی وشەی نهێنی دروست نیە"
         password_confirmation: "وشەی نهێنی مەرجە هاوشێوەبێت"
     onboard_email:
+      subject: " ئەنجامدانی رێكخستن بۆ%{system}"
       greeting: "بەرێز"
-      body1: "بەخێربێیت بؤ پریمێرۆ! "
+      body1: "بەخێربێیت بۆ سەرەتا و دەستپێک "
       body2: "وەک بەڕێوەبەری جێبەجێکردن دەستنیشانکرایت"
       body2_reset_notification: "ئیمەیلێکی ترت بەدەست دەگات داوای گۆڕینی وشەی نهێنیت لێ دەکات"
+      body3: "تۆ بەرپرسیاریت لەوەی بە شێوەیەكی سەلامەت و لە كاتی گونجاودا جێبەجێكردنەكە ئەنجام بدەیت. بۆ هەر دەستپێكردنێك، پێویستە پلانی جێبەجێكردنەكەت تەواو كردبێت لەگەڵ ستراتیژییەتی دانان و بەڕێوەبردنی بەكارهێنەر و پرۆتۆكۆڵی هاوبەشیكردنی زانیاری. هەروەها تۆ بەرپرسیاریت لە دڵنیابوونەوە لەوەی كە مەرجە واژوكراوەكانی بەكارهێنان لە نێو فایلەكەدایە بۆ سەرجەم رێكخراوە بەكارهێنەرەكان. "
   user_group:
+    associated_agencies: 'ئەو ئاژانسانەی پەیوەست بەم گروپی بەكارهێنەرەوە '
     description: وەسفکردن
     disabled:
-      explanation: ئەگەر ئەم گروپی بەکاربەرە لەکار بخەیت، توانای پیسپاردنت بۆ هەژماری بەکاربەرەکان نابێت
+      explanation: ئەگەر ئەم گروپی بەکاربەرە لەکار بخەیت، چیتر توانای پیسپاردنت بۆ هەژماری بەکاربەرەکان نابێت
       label: لەکارخراو
     messages:
       created: گروپی بەکاربەرەکان سەرکەوتوانە دروستکرا
@@ -1266,11 +3697,17 @@ ku:
     label: بەکارهێنەرەکان
     headers:
       full_name: ناوی سیانی
-      user_name: ناوی بەکاربەر
+      user_name: ناوی بەکارهێنەر
       position: پۆست
-      agency: دامەزراوە
+      agency: ئاژانس
   devise:
     failure:
       already_authenticated: "لە باری چونەژورەوەدایت"
+      invalid: "%{authentication_keys} یان ووشە نهێنییەكە دروست نییە"
       locked: "هەژمارەکەت داخراوە"
       last_attempt: "تەنها یەک تاقیکردنەوەی ترت لەبەردەمدایە پێش داخستنی هەژمارەکەت"
+  admin:
+    locations:
+      selected_records: '%{select_records}شوێن(ەكان) دەستنیشانكراون'
+      selected_all_records: '%{total_records}سەرجەم ئەو كەیسانە دەستنیشان بكە كە لەگەڵ ئەم پرسەدا دەگونجێن'
+      updated: '%{updated_records}شوێن(ەكان) دەستنیشانكراون'

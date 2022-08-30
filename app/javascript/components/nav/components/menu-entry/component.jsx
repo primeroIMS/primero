@@ -25,7 +25,11 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   const { to, divider, icon, name, disableOffline, disabled, validateWithUserPermissions, resources } = menuEntry;
 
   const jewel = jewelCount ? (
-    <Jewel value={jewelCount} mobileDisplay={mobileDisplay} isForm={name === NAV_SETTINGS} />
+    <Jewel
+      value={jewelCount}
+      mobileDisplay={mobileDisplay}
+      isForm={[NAV_SETTINGS, "navigation.support"].includes(name)}
+    />
   ) : null;
 
   const renderDivider = divider && <div className={css.navSeparator} />;

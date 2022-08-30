@@ -99,12 +99,18 @@ describe Referral do
     end
 
     it 'revokes the referral and does not mark any service as implemented' do
-      @revoke_referral.revoke!
+      @revoke_referral.revoke!(@user1)
       service_object = @case.services_section.find { |current| current['unique_id'] == @service1['unique_id'] }
 
       expect(@revoke_referral.status).to eq(Referral::STATUS_REVOKED)
       expect(@case.assigned_user_names).not_to include(@revoke_referral.transitioned_to)
       expect(service_object['service_implemented']).to be_nil
+    end
+
+    it 'it save a record history when referral is rejected' do
+      @case.update_properties(@user2, { consent_for_services: true })
+      @revoke_referral.done!(@user1)
+      expect(@case.ordered_histories.first.user_name).to eq(@user1.user_name)
     end
 
     after :each do
@@ -119,7 +125,7 @@ describe Referral do
     end
 
     it 'changes the status to DONE and removes the referred user' do
-      @done_referral.done!
+      @done_referral.done!(@user1)
       @done_referral.reload
 
       expect(@done_referral.status).to eq(Transition::STATUS_DONE)
@@ -138,7 +144,7 @@ describe Referral do
         service_record_id: @service1['unique_id']
       )
       referral.status = Transition::STATUS_ACCEPTED
-      referral.done!
+      referral.done!(@user1)
 
       @case.reload
       service_object = @case.services_section.find { |current| current['unique_id'] == @service1['unique_id'] }
@@ -155,7 +161,7 @@ describe Referral do
         service_record_id: @service2['unique_id']
       )
       referral.status = Transition::STATUS_ACCEPTED
-      referral.done!
+      referral.done!(@user1)
 
       @case.reload
       service_object = @case.services_section.find { |current| current['unique_id'] == @service2['unique_id'] }
@@ -173,7 +179,7 @@ describe Referral do
       )
       referral.status = Transition::STATUS_ACCEPTED
       rejection_note = 'This is a test'
-      referral.done!(rejection_note)
+      referral.done!(@user1, rejection_note)
 
       @case.reload
       service_object = @case.services_section.find { |current| current['unique_id'] == @service1['unique_id'] }
@@ -188,7 +194,7 @@ describe Referral do
       end
 
       it 'changes the status to DONE and removes the referred user' do
-        @done_referral.done!
+        @done_referral.done!(@user1)
         @done_referral.reload
 
         expect(@done_referral.status).to eq(Transition::STATUS_DONE)
@@ -218,7 +224,7 @@ describe Referral do
         @transfer.status = Transition::STATUS_INPROGRESS
         @transfer.save!
 
-        @done_referral.done!
+        @done_referral.done!(@user1)
         @done_referral.reload
 
         expect(@done_referral.status).to eq(Transition::STATUS_DONE)
@@ -229,7 +235,7 @@ describe Referral do
         @transfer.status = Transition::STATUS_ACCEPTED
         @transfer.save!
 
-        @done_referral.done!
+        @done_referral.done!(@user1)
         @done_referral.reload
 
         expect(@done_referral.status).to eq(Transition::STATUS_DONE)
@@ -240,7 +246,7 @@ describe Referral do
         @transfer.status = Transition::STATUS_REJECTED
         @transfer.save!
 
-        @done_referral.done!
+        @done_referral.done!(@user1)
         @done_referral.reload
 
         expect(@done_referral.status).to eq(Transition::STATUS_DONE)
@@ -251,7 +257,7 @@ describe Referral do
         @transfer.status = Transition::STATUS_DONE
         @transfer.save!
 
-        @done_referral.done!
+        @done_referral.done!(@user1)
         @done_referral.reload
 
         expect(@done_referral.status).to eq(Transition::STATUS_DONE)
@@ -268,7 +274,7 @@ describe Referral do
         @referral.status = Transition::STATUS_INPROGRESS
         @referral.save!
 
-        @done_referral.done!
+        @done_referral.done!(@user1)
         @done_referral.reload
 
         expect(@done_referral.status).to eq(Transition::STATUS_DONE)
@@ -279,7 +285,7 @@ describe Referral do
         @referral.status = Transition::STATUS_ACCEPTED
         @referral.save!
 
-        @done_referral.done!
+        @done_referral.done!(@user1)
         @done_referral.reload
 
         expect(@done_referral.status).to eq(Transition::STATUS_DONE)
@@ -290,7 +296,7 @@ describe Referral do
         @referral.status = Transition::STATUS_REJECTED
         @referral.save!
 
-        @done_referral.done!
+        @done_referral.done!(@user1)
         @done_referral.reload
 
         expect(@done_referral.status).to eq(Transition::STATUS_DONE)
@@ -301,12 +307,18 @@ describe Referral do
         @referral.status = Transition::STATUS_DONE
         @referral.save!
 
-        @done_referral.done!
+        @done_referral.done!(@user1)
         @done_referral.reload
 
         expect(@done_referral.status).to eq(Transition::STATUS_DONE)
         expect(@case.assigned_user_names).not_to include('user2')
       end
+    end
+
+    it 'it save a record history when referral is rejected' do
+      @case.update_properties(@user2, { consent_for_services: true })
+      @done_referral.done!(@user1)
+      expect(@case.ordered_histories.first.user_name).to eq(@user1.user_name)
     end
 
     after :each do
@@ -339,7 +351,7 @@ describe Referral do
     end
 
     it 'changes the referral status to REJECTED and removes the referred user' do
-      @rejected_referral.reject!(@rejected_reason)
+      @rejected_referral.reject!(@user1, @rejected_reason)
       @rejected_referral.reload
 
       expect(@rejected_referral.status).to eq(Transition::STATUS_REJECTED)
@@ -354,7 +366,7 @@ describe Referral do
       end
 
       it 'changes the status to REJECTED and removes the referred user' do
-        @rejected_referral.reject!
+        @rejected_referral.reject!(@user1)
         @rejected_referral.reload
 
         expect(@rejected_referral.status).to eq(Transition::STATUS_REJECTED)
@@ -384,7 +396,7 @@ describe Referral do
         @transfer.status = Transition::STATUS_INPROGRESS
         @transfer.save!
 
-        @rejected_referral.reject!(@rejected_reason)
+        @rejected_referral.reject!(@user1, @rejected_reason)
         @rejected_referral.reload
 
         expect(@rejected_referral.status).to eq(Transition::STATUS_REJECTED)
@@ -397,7 +409,7 @@ describe Referral do
         @transfer.status = Transition::STATUS_ACCEPTED
         @transfer.save!
 
-        @rejected_referral.reject!(@rejected_reason)
+        @rejected_referral.reject!(@user1, @rejected_reason)
         @rejected_referral.reload
 
         expect(@rejected_referral.status).to eq(Transition::STATUS_REJECTED)
@@ -410,7 +422,7 @@ describe Referral do
         @transfer.status = Transition::STATUS_REJECTED
         @transfer.save!
 
-        @rejected_referral.reject!(@rejected_reason)
+        @rejected_referral.reject!(@user1, @rejected_reason)
         @rejected_referral.reload
 
         expect(@rejected_referral.status).to eq(Transition::STATUS_REJECTED)
@@ -423,7 +435,7 @@ describe Referral do
         @transfer.status = Transition::STATUS_DONE
         @transfer.save!
 
-        @rejected_referral.reject!(@rejected_reason)
+        @rejected_referral.reject!(@user1, @rejected_reason)
         @rejected_referral.reload
 
         expect(@rejected_referral.status).to eq(Transition::STATUS_REJECTED)
@@ -442,7 +454,7 @@ describe Referral do
         @referral.status = Transition::STATUS_INPROGRESS
         @referral.save!
 
-        @rejected_referral.reject!(@rejected_reason)
+        @rejected_referral.reject!(@user1, @rejected_reason)
         @rejected_referral.reload
 
         expect(@rejected_referral.status).to eq(Transition::STATUS_REJECTED)
@@ -455,7 +467,7 @@ describe Referral do
         @referral.status = Transition::STATUS_ACCEPTED
         @referral.save!
 
-        @rejected_referral.reject!(@rejected_reason)
+        @rejected_referral.reject!(@user1, @rejected_reason)
         @rejected_referral.reload
 
         expect(@rejected_referral.status).to eq(Transition::STATUS_REJECTED)
@@ -468,7 +480,7 @@ describe Referral do
         @referral.status = Transition::STATUS_REJECTED
         @referral.save!
 
-        @rejected_referral.reject!(@rejected_reason)
+        @rejected_referral.reject!(@user1, @rejected_reason)
         @rejected_referral.reload
 
         expect(@rejected_referral.status).to eq(Transition::STATUS_REJECTED)
@@ -481,7 +493,7 @@ describe Referral do
         @referral.status = Transition::STATUS_DONE
         @referral.save!
 
-        @rejected_referral.reject!(@rejected_reason)
+        @rejected_referral.reject!(@user1, @rejected_reason)
         @rejected_referral.reload
 
         expect(@rejected_referral.status).to eq(Transition::STATUS_REJECTED)
@@ -489,9 +501,12 @@ describe Referral do
         expect(@rejected_referral.responded_at).to eq(@now)
         expect(@case.assigned_user_names).not_to include('user2')
       end
+
+      it 'it save a record history when referral is rejected' do
+        @rejected_referral.reject!(@user1, @rejected_reason)
+        expect(@case.ordered_histories.first.user_name).to eq(@user1.user_name)
+      end
     end
-
-
   end
   after do
     clean_data(Child, Role, UserGroup, User, PrimeroModule, Transition, Transfer, Referral)

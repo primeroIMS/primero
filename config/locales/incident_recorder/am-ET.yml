@@ -1,0 +1,75 @@
+am-ET:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "የተከሰተ አደጋ መመመዝገቢያ ወደ ሌላ ድርጅት ማስተላለፍ"
+  exports:
+    incident_recorder_xls:
+      all: የአጋጣሚ መመዝገቢያ
+      one: የአጋጣሚ መመዝገቢያ
+      selected: ለአጋጣሚ መመዝገቢያ የተመረጠ
+      'yes': "አዎ"
+      'no': "አይደለም"
+      gender:
+        male: "ወንድ"
+        female: "ሴት"
+        both: "ወንድና ሴት"
+      age_group:
+        age: "ዕድሜ"
+        61_older: "ከ61 ዓመት በላይ"
+        unknown: "የማይታወቅ"
+        header: "የተጠርጣሪዎች በግልጽ የሚታወቅ ዕድሜ"
+      age_type:
+        adult: "አዋቂ"
+        minor: "ህጻን"
+        both: "አዋቂና ህጻን"
+        unknown: "የማይታወቅ"
+        header: "የተጠርጣሪዎች በግልጽ የሚታወቅ ዕድሜ "
+      service_referral:
+        undecided: "ያልተወሰነ"
+      headers:
+        incident_id: "የአደጋ ጊዜ መታወቂያ"
+        survivor_code: "የአገልግሎት ተጠቃሚ መለያ"
+        case_manager_code: "የጉዳይ አያያዝ ተቆጣጣሪው መለያ"
+        case_worker_code: "የጉዳይ አያያዝ ባለሙያ መለያ"
+        date_of_interview: "የቃለመጠይቅ ቀን"
+        date_of_incident: "አደጋው የተከሰተበት ቀን"
+        date_of_birth: "የትውልድ ቀን"
+        sex: "ጾታ"
+        country_of_origin: "የመጡበት ሀገር"
+        marital_status: "የጋብቻ ሁኔታ"
+        displacement_status: "የመፈናቀል ሁኔታ በሪፖርት ወቅት"
+        disability_type: "አካል ጉዳተኛ"
+        unaccompanied_separated_status: "ከቤተሰቦቻቸው የተነጠሉ/የተለዩ ህጻናት"
+        stage_of_displacement: "የመፈናቀል ሁኔታ በ አደጋ ጊዜ"
+        time_of_day: "አደጋው የተከሰተበት ቀን"
+        location: "አደጋው የተከሰተበት ቦታ"
+        county: "አደጋው የተከሰተበት ሀገር"
+        district: "አደጋው የተከሰተበት ክልል"
+        camp_town: "አደጋው የተከሰተበት ከተማ/ወረዳ"
+        camp: "አደጋው የተከሰተበት መጠለያ"
+        gbv_type: "የጾታዊ ጥቃት አይነት"
+        harmful_traditional_practice: "ጎጂ ልማዳዊ ድርጊቶች"
+        goods_money_exchanged: "ገንዘብ፣ እቃዎች፣ ጥቅሞችና ወይም የተቀየሩ አገልግሎቶች"
+        abduction_type: "የጠለፋ አይነት"
+        previously_reported: "አደጋው ከዚህ በፊት ሪፖርት ተደርጎ ነበር?"
+        gbv_previous_incidents: "ከዚህ በፊት የተከሰተ የጾታዊ ጥቃት "
+        number_primary_perpetrators: " የመጀመሪያ ደረጃ  ተጠርጣሪዎች ቁጥር"
+        perpetrator:
+          sex: "የተጠርጣሪዎች ጾታ"
+          former: "ከዚህ በፊት በተጠርጣሪው የደረሰ ጉዳት"
+          relationship: "በተጠርጣሪውና ጉዳት በደረሰበት ሰው መካከል ያለ ግንኙነት"
+          occupation: "የተጠርጣሪው ስራ"
+          age_group: "ተጠርጣሪው የሚገኝበት የእድሜ ክልል"
+          age_type: "ተጠርጣሪው የሚገኝበት የእድሜ አይነት"
+        service:
+          referred_from: "ቅብብሎሽ የፈጸመው ድርጅት"
+          safehouse_referral: "የማረፊያና ማገገሚያ ማዕከል/መጠለያ"
+          medical_referral: "የጤና/ህክምና አገልግሎት"
+          psycho_referral: "የስነልቦናና ማህበራዊ አገልግሎት"
+          wants_legal_action: "የሚያስፈልግ የህግ እርምጃ "
+          legal_referral: "የህግ ድጋፍ አገልግሎት"
+          police_referral: "ፖሊስ/ሌላ የደህንነት አካል"
+          livelihoods_referral: "የኑሮ ማሻሻያ ፕሮግራም"
+          protection_referral: "የህጻናት ጥበቃ አገልግሎቶች/የትምህርት አገልግሎቶች"
+        consent: "የተሰጠ ስምምነት"
+        agency_code: "ሪፖርት ያደረገው ድርጅት መለያ"

@@ -122,7 +122,7 @@ describe Transfer do
       @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
                                    disclosure_other_orgs: true })
       @transfer = Transfer.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case.reload)
-      @transfer.reload.accept!
+      @transfer.reload.accept!(@user2)
     end
 
     it 'sets status to Accepted' do
@@ -130,6 +130,10 @@ describe Transfer do
       expect(@transfer.responded_at).to eq(@now)
       expect(case1.transfer_status).to eq(Transition::STATUS_ACCEPTED)
       expect(case1.status).to eq(Record::STATUS_OPEN)
+    end
+
+    it 'should have a entry in record histories' do
+      expect(@case.ordered_histories.order(id: :desc).first.user_name).to eq(@user2.user_name)
     end
 
     describe 'change ownership' do
@@ -189,7 +193,7 @@ describe Transfer do
           @transfer = Transfer.create(
             transitioned_by: 'user1', transitioned_to: 'user2', record: case_with_incidents.reload
           )
-          @transfer.reload.accept!
+          @transfer.reload.accept!(@user1)
           @incident1 = case_with_incidents.incidents.first
           @incident2 = case_with_incidents.incidents.last
         end
@@ -263,7 +267,7 @@ describe Transfer do
     end
 
     it 'revokes access to this record for the target user' do
-      @rejected_transfer.reject!
+      @rejected_transfer.reject!(@user1)
 
       expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
       expect(@rejected_transfer.responded_at).to eq(@now)
@@ -273,7 +277,7 @@ describe Transfer do
     end
 
     it 'does not change ownership of the record' do
-      @rejected_transfer.reject!
+      @rejected_transfer.reject!(@user1)
 
       expect(@case.owned_by).to eq('user1')
       expect(@case.owned_by_full_name).to eq('Test User One')
@@ -287,7 +291,7 @@ describe Transfer do
       end
 
       it 'changes the status to REJECTED and removes the referred user' do
-        @rejected_transfer.reject!
+        @rejected_transfer.reject!(@user1)
         @rejected_transfer.reload
 
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
@@ -319,7 +323,7 @@ describe Transfer do
         @referral.status = Transition::STATUS_INPROGRESS
         @referral.save!
 
-        @rejected_transfer.reject!
+        @rejected_transfer.reject!(@user1)
         @rejected_transfer.reload
 
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
@@ -331,7 +335,7 @@ describe Transfer do
         @referral.status = Transition::STATUS_ACCEPTED
         @referral.save!
 
-        @rejected_transfer.reject!
+        @rejected_transfer.reject!(@user1)
         @rejected_transfer.reload
 
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
@@ -343,7 +347,7 @@ describe Transfer do
         @referral.status = Transition::STATUS_REJECTED
         @referral.save!
 
-        @rejected_transfer.reject!
+        @rejected_transfer.reject!(@user1)
         @rejected_transfer.reload
 
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
@@ -355,7 +359,7 @@ describe Transfer do
         @referral.status = Transition::STATUS_DONE
         @referral.save!
 
-        @rejected_transfer.reject!
+        @rejected_transfer.reject!(@user1)
         @rejected_transfer.reload
 
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
@@ -373,7 +377,7 @@ describe Transfer do
         @transfer.status = Transition::STATUS_INPROGRESS
         @transfer.save!
 
-        @rejected_transfer.reject!
+        @rejected_transfer.reject!(@user1)
         @rejected_transfer.reload
 
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
@@ -385,7 +389,7 @@ describe Transfer do
         @transfer.status = Transition::STATUS_ACCEPTED
         @transfer.save!
 
-        @rejected_transfer.reject!
+        @rejected_transfer.reject!(@user1)
         @rejected_transfer.reload
 
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
@@ -397,7 +401,7 @@ describe Transfer do
         @transfer.status = Transition::STATUS_REJECTED
         @transfer.save!
 
-        @rejected_transfer.reject!
+        @rejected_transfer.reject!(@user1)
         @rejected_transfer.reload
 
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
@@ -409,12 +413,19 @@ describe Transfer do
         @transfer.status = Transition::STATUS_DONE
         @transfer.save!
 
-        @rejected_transfer.reject!
+        @rejected_transfer.reject!(@user1)
         @rejected_transfer.reload
 
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
         expect(@rejected_transfer.responded_at).to eq(@now)
         expect(@case.assigned_user_names).not_to include('user2')
+      end
+
+      it 'should have a entry in record histories' do
+        @case.update_properties(@user, { consent_for_services: true })
+
+        @rejected_transfer.reject!(@user1)
+        expect(@case.ordered_histories.order(id: :desc).first.user_name).to eq(@user1.user_name)
       end
     end
   end

@@ -7,10 +7,11 @@ import ModuleLogo from "../module-logo";
 import { useApp } from "../application";
 import { useI18n } from "../i18n";
 import { DEMO } from "../application/constants";
+import Jewel from "../jewel";
 
 import css from "./styles.css";
 
-const MobileToolbar = ({ openDrawer }) => {
+const MobileToolbar = ({ openDrawer, hasUnsubmittedOfflineChanges = false }) => {
   const { demo } = useApp();
   const i18n = useI18n();
 
@@ -23,6 +24,11 @@ const MobileToolbar = ({ openDrawer }) => {
         <Toolbar className={css[demo ? "toolbar-demo" : "toolbar"]}>
           <IconButton edge="start" color="default" aria-label="Menu" onClick={openDrawer}>
             <MenuIcon />
+            {hasUnsubmittedOfflineChanges && (
+              <div className={css.menuAlert}>
+                <Jewel value mobileDisplay isForm />
+              </div>
+            )}
           </IconButton>
           <ModuleLogo className={css.logo} />
           {demoText}
@@ -36,6 +42,7 @@ const MobileToolbar = ({ openDrawer }) => {
 MobileToolbar.displayName = "MobileToolbar";
 
 MobileToolbar.propTypes = {
+  hasUnsubmittedOfflineChanges: PropTypes.bool,
   openDrawer: PropTypes.func.isRequired
 };
 

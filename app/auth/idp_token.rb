@@ -48,7 +48,7 @@ class IdpToken
   end
 
   def user_name
-    payload && payload['emails'].first
+    payload && payload['emails'].first&.downcase
   end
 
   def issuer

@@ -1,36 +1,36 @@
 ne:
   permissions:
     permission:
-      export_incident_recorder_xls: "घटना अभिलेख xls export गर्नुहोस् । "
+      export_incident_recorder_xls: "घटना अभिलेखकर्ता xls मा export गर्नुहोस् ।"
   exports:
     incident_recorder_xls:
-      all: घटना अभिलेख
-      one: 'घटना अभिलेख '
-      selected: 'घटना अभिलेख चयन गरिएको '
-      'yes': "हो"
-      'no': "होइन "
+      all:  घटना अभिलेखकर्ता
+      one:  घटना अभिलेखकर्ता
+      selected:  "घटना अभिलेखकर्ताको लागि छनौट गरिएको "
+      "yes": "हो"
+      "no": "होइन "
       gender:
         male: "पुरुष"
         female: "महिला"
         both: "पुरुष र महिला"
       age_group:
         age: "उमेर"
-        61_older: "61 र त्यो भन्दा अधिक उमेरको "
+        61_older: "६१ र सो भन्दा माथि"
         unknown: "अज्ञात"
-        header: "कथित अपराधीको उमेर समूह"
+        header: "आरोपित पीडकको उमेर समूह"
       age_type:
         adult: "वयस्क"
         minor: "नाबालिग"
         both: "वयस्क र नाबालिग"
         unknown: "अज्ञात"
-        header: "कथित अपराधीको उमेर प्रकार"
+        header: "आरोपित पीडकको उमेर समूह"
       service_referral:
         undecided: "निर्णय नभएको"
       headers:
         incident_id: "घटना आईडी"
-        survivor_code: "बाँचेको व्यक्तिको कोड"
-        case_manager_code: "केस प्रबन्धक कोड"
-        case_worker_code: "केस कार्य कोड"
+        survivor_code: "बचेको व्यक्तिको कोड"
+        case_manager_code: "घटना प्रबन्धक कोड"
+        case_worker_code: "घटना प्रबन्धक कोड"
         date_of_interview: "अन्तर्वाताको मिति"
         date_of_incident: "घटनाको मिति"
         date_of_birth: "जन्ममिति"
@@ -38,8 +38,8 @@ ne:
         ethnicity: "जातीयता"
         country_of_origin: "मूल देश"
         marital_status: "नागरिक/ वैवाहिक स्थिति"
-        displacement_status: "रिपोर्टमा विस्थापन स्थिति"
-        disability_type: "अपागङ्ता भएका व्यक्ति ? "
+        displacement_status: "प्रतिवेदनमा विस्थापन स्थिति"
+        disability_type: "अपागङ्ता भएका व्यक्ति ?"
         unaccompanied_separated_status: "एक्लो वा अलग भएका बालबालिका"
         stage_of_displacement: "घटना भएको समयमा विस्थापनको चरण"
         time_of_day: "घटना भएको दिनको समय"
@@ -48,29 +48,29 @@ ne:
         district: "घटना भएको जिल्ला"
         camp_town: "घटना शिविर/सहर"
         camp: "घटना शिविर"
-        gbv_type: "जिबीभी प्रकार"
+        gbv_type: "GBV प्रकार"
         harmful_traditional_practice: "हानिकारक परम्परागत अभ्यास"
         goods_money_exchanged: "पैसा, सामान, लाभ वा सेवाहरू आदान प्रदान?"
         abduction_type: "अपहरणको प्रकार"
         previously_reported: "के यो घटना पहिले रिपोर्ट गरिएको थियो ?"
         gbv_previous_incidents: "अघिल्लो GBV घटनाहरु"
-        number_primary_perpetrators: "थिएन । कथित प्राथमिक अपराधी(हरू)"
+        number_primary_perpetrators: "आरोपित प्राथमिक पीडक(हरू) नभएको"
         perpetrator:
-          sex: "कथित अपराधी लिङ्ग"
-          former: "यस अपराधीसँग पहिले कुनै घटना"
-          relationship: "कथित अपराधी- ‌बाँचेको व्यक्ति सम्बन्ध"
-          occupation: "कथित अपराधीको पेसा"
-          age_group: "कथित अपराधीको उमेर समूह"
-          age_type: "कथित अपराधीको उमेरको प्रकार"
+          sex: "आरोपित पीडकको लिङ्ग"
+          former: "यस पीडकको पुरानो घटना"
+          relationship: "आरोपित पीडक र ‌बचेको व्यक्ति बीचको सम्बन्ध"
+          occupation: "आरोपित पीडकको पेसा"
+          age_group: "आरोपित पीडकको उमेर समूह"
+          age_type: "आरोपित पीडकको उमेरको प्रकार"
         service:
-          referred_from: "तपाईँलाई प्रेषण गर्नेको नाम ?"
-          safehouse_referral: "सुरक्षित घर/ आश्रय"
+          referred_from: "तपाईलाई रिफर गर्नेको नाम ?"
+          safehouse_referral: "सुरक्षित घर/ आश्रयस्थल"
           medical_referral: "स्वास्थ्य/ चिकित्सा सेवाहरू"
           psycho_referral: "मनोसामाजिक सेवाहरू"
           wants_legal_action: "कानुनी कारबाही चाहनुहुन्छ ?"
           legal_referral: "कानुनी सहायता सेवा"
           police_referral: "प्रहरी वा अन्य सुरक्षाकर्मी"
           livelihoods_referral: "‌जीविकोपार्जन कार्यक्रम"
-          protection_referral: "बालसुरक्षा सेवा/ शिक्षा सेवाहरू"
+          protection_referral: "बालसंरक्षण सेवा/ शिक्षा सेवाहरू"
         consent: "सहमति दिइएको"
-        agency_code: "रिपोर्टिङ एजेन्सी कोड"
+        agency_code: "प्रतिवेदन गर्ने निकायको कोड"

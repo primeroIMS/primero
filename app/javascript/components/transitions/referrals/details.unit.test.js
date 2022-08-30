@@ -3,6 +3,7 @@ import { fromJS } from "immutable";
 
 import DisplayData from "../../display-data";
 import { setupMountedComponent } from "../../../test";
+import DateTransitions from "../components/date-transitions";
 
 import ReferralDetail from "./details";
 
@@ -122,6 +123,10 @@ describe("<ReferralDetail />", () => {
       expect(component.find(ReferralDetail).find(DisplayData).at(5).children("div").childAt(0).text()).to.equal(
         "transition.responded_at"
       );
+    });
+
+    it("should render DateTransitions component", () => {
+      expect(component.find(ReferralDetail).find(DateTransitions)).to.have.lengthOf(1);
     });
   });
 });

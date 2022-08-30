@@ -85,7 +85,7 @@ module Exporters
               age_type: 'adult',
               unique_id: '3341413f-15e4-411c-8158-5535e4cf2fae',
               perpetrator_sex: 'male',
-              former_perpetrator: true,
+              former_perpetrator: 'true',
               perpetrator_ethnicity: 'ethnicity4',
               perpetrator_occupation: 'occupation_1',
               perpetrator_nationality: 'nationality2',
@@ -135,7 +135,7 @@ module Exporters
                 age_group: '18_25',
                 unique_id: '3341413f-15e4-411c-8158-5535e4cf2fae',
                 perpetrator_sex: 'male',
-                former_perpetrator: true,
+                former_perpetrator: 'true',
                 perpetrator_ethnicity: 'ethnicity4',
                 perpetrator_occupation: 'occupation_1',
                 perpetrator_nationality: 'nationality2',
@@ -145,7 +145,7 @@ module Exporters
                 age_group: '18_30',
                 unique_id: '3341413f-154e-411c-8158-5535e4cf2fae',
                 perpetrator_sex: 'female',
-                former_perpetrator: true,
+                former_perpetrator: 'true',
                 primary_perpetrator: 'primary',
                 perpetrator_ethnicity: 'ethnicity4',
                 perpetrator_occupation: 'occupation_2',
@@ -333,7 +333,7 @@ module Exporters
         model = @record_with_all_fields.first
         expect(workbook.sheet(0).row(2)).to eq(
           [
-            model.incident_id, '111-222', 'test01', I18n.l(model.date_of_first_report), I18n.l(model.incident_date),
+            '111-22-ir', '111-222', 'test01', I18n.l(model.date_of_first_report), I18n.l(model.incident_date),
             I18n.l(model.data['date_of_birth']), 'F', 'Ethnicity3', 'andorra', 'divorced_separated', 'refugee',
             'mental_disability', 'separated_child', 'During Flight', 'afternoon', 'garden', 'Guinea', 'Kindia', 'town',
             'sexual_assault', 'type_of_practice_1', 'false', 'forced_conscription', 'non-gbvims-org', 'true', 2,

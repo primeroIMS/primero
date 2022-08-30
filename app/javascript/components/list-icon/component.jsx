@@ -16,6 +16,8 @@ import {
   LibraryBooks
 } from "@material-ui/icons";
 import PropTypes from "prop-types";
+import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
+import SignalWifi4BarIcon from "@material-ui/icons/SignalWifi4Bar";
 
 import { CasesIcon, IncidentsIcon, LogoutIcon, Insights, RegistryRecordIcon } from "../../images/primero-icons";
 
@@ -63,6 +65,10 @@ const ListIcon = ({ icon }) => {
       return <Insights />;
     case "registry_records":
       return <RegistryRecordIcon />;
+    case "disconnected":
+      return <SignalWifiOffIcon />;
+    case "connected":
+      return <SignalWifi4BarIcon />;
     default:
       return null;
   }

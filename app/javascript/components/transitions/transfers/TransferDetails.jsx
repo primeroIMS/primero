@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { useI18n } from "../../i18n";
 import DisplayData from "../../display-data";
 import css from "../styles.css";
+import DateTransitions from "../components/date-transitions";
 
 import { NAME } from "./constants";
 import renderIconValue from "./render-icon-value";
@@ -17,12 +18,6 @@ const TransferDetails = ({ transition }) => {
         <DisplayData label="transition.rejected" value={transition.rejected_reason} />
       </Grid>
     ) : null;
-
-  const renderRespondedAt = transition.responded_at ? (
-    <Grid item md={6} xs={12}>
-      <DisplayData label="transition.responded_at" value={transition.responded_at} />
-    </Grid>
-  ) : null;
 
   return (
     <Grid container spacing={2}>
@@ -69,7 +64,14 @@ const TransferDetails = ({ transition }) => {
           }
         />
       </Grid>
-      {renderRespondedAt}
+      <Grid item md={6} xs={12}>
+        <DateTransitions
+          valueWithTime
+          name="responded_at"
+          label="transition.responded_at"
+          value={transition.responded_at}
+        />
+      </Grid>
       {renderRejected}
       <Grid item md={12} xs={12}>
         <Divider className={css.divider} />

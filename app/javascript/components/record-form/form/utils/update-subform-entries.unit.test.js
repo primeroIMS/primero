@@ -8,14 +8,26 @@ describe("updateSubformEntries", () => {
       values: {},
       setFieldValue: spy()
     };
-    const values = [
-      {
-        name: "test"
-      }
-    ];
-
-    formik.setFieldValue.calledWith(values);
+    const values = {
+      name: "test"
+    };
 
     updateSubformEntries(formik, "testFieldName", 0, values, true);
+
+    expect(formik.setFieldValue).to.have.been.calledWith("testFieldName[0]", values, false);
+  });
+
+  it("does not omit blank values if it is not a violation", () => {
+    const formik = {
+      values: { name: "test" },
+      setFieldValue: spy()
+    };
+    const values = {
+      name: ""
+    };
+
+    updateSubformEntries(formik, "testFieldName", 0, values, false);
+
+    expect(formik.setFieldValue).to.have.been.calledWith("testFieldName[0]", values, false);
   });
 });

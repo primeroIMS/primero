@@ -17,6 +17,7 @@ import handleReturnUrl from "./handle-return-url";
 import redirectTo from "./redirect-to";
 import loginSuccessHandler from "./login-success-handler";
 import logoutSuccessHandler from "./logout-success-handler";
+import userToggleOffline from "./user-toggle-offline";
 
 export {
   checkFieldSubformErrors,
@@ -37,5 +38,6 @@ export {
   queueFetch,
   redirectTo,
   retrieveData,
-  startSignout
+  startSignout,
+  userToggleOffline
 };

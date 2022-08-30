@@ -102,7 +102,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def form_name(form)
-    form.name(locale.to_s).sub(%r{[\[\]:*?\/\\]}, ' ')
+    form.name(locale.to_s).gsub(%r{[\[\]:*?\/\\]}, ' ')
   end
 
   def format_form_name(name)
@@ -162,7 +162,11 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   def write_value(worksheet, value, column, rows_to_write, current_worksheet_id)
     value_array = value.is_a?(Array) ? value : Array.new(rows_to_write, value)
     value_array.each_with_index do |val, i|
-      worksheet&.write((worksheets[current_worksheet_id][:row] + i), column, val)
+      if column.zero?
+        worksheet&.write_string((worksheets[current_worksheet_id][:row] + i), column, val)
+      else
+        worksheet&.write((worksheets[current_worksheet_id][:row] + i), column, val)
+      end
     end
   end
 

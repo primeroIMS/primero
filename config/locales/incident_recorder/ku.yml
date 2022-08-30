@@ -4,11 +4,11 @@ ku:
       export_incident_recorder_xls: "ناردنى تۆمارکەری رووداو xls"
   exports:
     incident_recorder_xls:
-      all: تۆمارکەری رووداو
-      one: تۆمارکەری رووداو
-      selected: هەلبژێردرا بۆ تۆمارکەری رووداو
-      'yes': "به لێ"
-      'no': "نه خێر"
+      all:  تۆمارکەری رووداو
+      one:  تۆمارکەری رووداو
+      selected:  هەلبژێردرا بۆ تۆمارکەری رووداو
+      "yes": "به لێ"
+      "no": "نه خێر"
       gender:
         male: "نێر"
         female: "مێ"
@@ -21,7 +21,7 @@ ku:
       age_type:
         adult: "پێگەیشتو"
         minor: "بچوک"
-        both: "پێگەيشتو & بچوک"
+        both: "پێگەيشتو & کەمینە"
         unknown: "نەزانراو"
         header: "تەمەنی تاوانباری دیاریکراو"
       service_referral:
@@ -37,34 +37,34 @@ ku:
         sex: "رەگەز"
         ethnicity: "نەتەوە"
         country_of_origin: "ولاتی بنچینەیی"
-        marital_status: "سڤیل/ باری کەسی"
+        marital_status: "باری/ باری کەسی"
         displacement_status: "دۆخی جێگۆرین لە راپۆرتەکەدا"
-        disability_type: "کەسی کەمئەندام؟"
+        disability_type: "کەسی کەمئەندام؟ خاوەن پێداویستی تایبەت"
         unaccompanied_separated_status: "منداڵی بێ سەرپەرشت یان دابڕاو؟"
-        stage_of_displacement: "ئاستی جێگۆرین لە رووداوەکەدا"
+        stage_of_displacement: "ئاستی ئاوارەبون لە کاتی رووداوەکەدا"
         time_of_day: "کات و رۆژی رووداوەکە"
         location: "شوێنی رووداوەکە"
         county: "ولاتی رووداوەکە"
         district: "ناوچەی رووداوەکە"
         camp_town: "شارۆچکە/کەمپی رووداوەکە"
         camp: "کەمپی رووداوەکە"
-        gbv_type: " جۆریGBV"
+        gbv_type: " جۆری توندوتیژی"
         harmful_traditional_practice: "ئەو نەریتانەی زیانبەخشن"
         goods_money_exchanged: "پارە، کەل و پەل، سوود و/ یان خزمەتگوزاری گۆردراوە؟"
-        abduction_type: "جۆری فراندن یان رفاندن"
-        previously_reported: "ئەو رووداوە پێش ئێستا ریپۆرتکراوە؟"
-        gbv_previous_incidents: "رووداوەکانی GBV پێش ئێستا"
-        number_primary_perpetrators: "ژ. ئەو تاوانبارە سەرەکی(یانەی) کە دیاریکراون"
+        abduction_type: "جۆری رفاندن"
+        previously_reported: "ئەو رووداوە پێشتریپۆرتکراوە؟"
+        gbv_previous_incidents: "رووداوی توندوتیژی تری بەرامبەرکراوە پێشتر"
+        number_primary_perpetrators: "ژمارەی. ئەو تاوانبارە سەرەکی(یانەی) کە دیاریکراون"
         perpetrator:
           sex: "رەگەزی تاوانباری دیاریکراو"
-          former: "رووداوەکانی پێش ئێستا لە گەل ئەم تاوانبارە"
+          former: "تاوانبار پێشتر روداوی هاوشێوەی ئەنجامداوە"
           relationship: "پەیوەندی نێوان تاوانبار و رزگاربوو"
           occupation: "کاری تاوانباری دیاریکراو"
           age_group: "گروپی تەمەنی تاوانباری دیاریکراو"
           age_type: "تەمەنی تاوانباری دیاریکراو"
         service:
-          referred_from: "ئیحالە کراوە بۆ تۆ لە لایەن؟"
-          safehouse_referral: "خانوی پارێزراو/ پەناگە"
+          referred_from: "رەوانە کراوە بۆ تۆ لە لایەن؟"
+          safehouse_referral: "خانەی داڵدەدان/ پەناگە"
           medical_referral: "تەندروستی/ خزمەتگوزاری پزیشکی"
           psycho_referral: "خزمەتگوزاری دەروونی"
           wants_legal_action: "کاری یاسایی پێویستە؟"
