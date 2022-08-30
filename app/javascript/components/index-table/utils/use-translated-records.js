@@ -21,6 +21,8 @@ export const buildComponentColumns = (componentColumns, order, orderBy) => {
 
     return componentColumns;
   }
+
+  return componentColumns;
 };
 
 export function useTranslatedRecords({
