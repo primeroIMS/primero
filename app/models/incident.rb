@@ -155,7 +155,8 @@ class Incident < ApplicationRecord
         incidents: { from: old_incident_values, to: new_incident_values }
       }
     )
-
+    self.case.last_updated_by = created_by
+    self.case.last_updated_at = DateTime.now
     self.case.save!
   end
 

@@ -1,0 +1,30 @@
+.sortContainer { 
+  padding: 10px;
+
+  & div {
+    gap: 0;
+  }
+}
+
+.sortByTitle {
+  margin: 0;
+  padding: 5px;
+}
+
+.sortableColumn {
+  display: flex;
+  padding: 10px 5px;
+  border: 1px solid var(--c-warm-grey-1);
+
+  &:not(:last-of-type) {
+    border-bottom: 0;
+  }
+
+  & .sortField {
+    flex: 1 1 auto;
+  }
+
+  & .sortDir {
+    flex-grow: 0;
+  }
+}

@@ -9,7 +9,8 @@ import * as retrieveData from "./utils/retrieve-data";
 describe("middleware/offline-middleware.js", () => {
   const setupMiddleware = online =>
     createMiddleware(offlineMiddleware, {
-      application: { online }
+      application: { online },
+      connectivity: { serverOnline: online, online, fieldMode: false }
     });
 
   describe("passes through", () => {

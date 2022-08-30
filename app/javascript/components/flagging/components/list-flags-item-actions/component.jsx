@@ -11,6 +11,7 @@ import { UNFLAG_DIALOG } from "../unflag/constants";
 import { setSelectedFlag } from "../../action-creators";
 import { useDialog } from "../../../action-dialog";
 import { useMemoizedSelector } from "../../../../libs";
+import DateFlag from "../../../transitions/components/date-transitions-summary";
 
 import { NAME } from "./constants";
 
@@ -45,7 +46,8 @@ const Component = ({ flag }) => {
   const renderActions = flag.removed ? (
     <div className={css.flagRemovedInfo}>
       <div className={css.date}>
-        {i18n.t("flags.resolved_date")} {i18n.localizeDate(flag.unflagged_date)}
+        {i18n.t("flags.resolved_date")}
+        <DateFlag value={flag.unflagged_date} />
       </div>
       <div className={css.resolvedReason}>
         {i18n.t("flags.resolved_reason")} {flag.unflag_message}
@@ -54,7 +56,8 @@ const Component = ({ flag }) => {
   ) : (
     <div className={css.actions}>
       <div className={css.date}>
-        {i18n.t("flags.date")} {i18n.localizeDate(flag.date)}
+        {i18n.t("flags.date")}
+        <DateFlag value={flag.date} />
       </div>
       <div className={css.actionDivider}>
         <Divider orientation="vertical" classes={{ vertical: css.verticalDivider }} />

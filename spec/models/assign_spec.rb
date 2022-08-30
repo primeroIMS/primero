@@ -24,6 +24,9 @@ describe Assign do
     @user2 = User.new(user_name: 'user2', full_name: 'Test User Two', location: 'loc8675309', role: @role,
                       user_groups: [@group2], agency_id: @agency2.id)
     @user2.save(validate: false)
+    @user3 = User.new(user_name: 'user3', full_name: 'Test User Three', location: 'loc8675309', role: @role,
+                      user_groups: [@group2], agency_id: @agency2.id)
+    @user3.save(validate: false)
   end
 
   context 'and the user has permission' do
@@ -273,6 +276,21 @@ describe Assign do
 
       expect(assign.valid?).to be_falsey
       expect(@case.owned_by).to eq('user1')
+    end
+  end
+
+  context 'the change logs show the right user' do
+    before do
+      @case = Child.create(data: { 'name' => 'Test', 'owned_by' => 'user1',
+                                   module_id: @primero_module.unique_id })
+      @case.update_last_updated_by(@user2)
+      @case.save!
+      @case.reload
+      Assign.create!(transitioned_by: 'user3', transitioned_to: 'user2', record: @case)
+    end
+
+    it 'should create a record history with a specific user' do
+      expect(@case.ordered_histories.first.user_name).to eq(@user3.user_name)
     end
   end
 

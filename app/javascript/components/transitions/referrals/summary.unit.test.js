@@ -1,4 +1,5 @@
 import { setupMountedComponent } from "../../../test";
+import DateTransitionsSummary from "../components/date-transitions-summary";
 
 import ReferralSummary from "./summary";
 
@@ -32,6 +33,6 @@ describe("<ReferralSummary />", () => {
   it("renders divs with its corresponding class", () => {
     expect(component.find("div.wrapperStyle")).to.have.lengthOf(1);
     expect(component.find("div.titleHeaderStyle")).to.have.lengthOf(1);
-    expect(component.find("div.dateStyle")).to.have.lengthOf(1);
+    expect(component.find(DateTransitionsSummary)).to.have.lengthOf(1);
   });
 });

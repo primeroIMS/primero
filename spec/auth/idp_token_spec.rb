@@ -20,13 +20,20 @@ describe IdpToken do
       identity_provider: @idp
     )
     @user.save(validate: false)
+    @user2 = User.new(
+      user_name: 'UserTest@primero.org',
+      identity_provider: @idp
+    )
+    @user2.save(validate: false)
     @rsa_private = OpenSSL::PKey::RSA.generate 2048
     @rsa_public = @rsa_private.public_key
     @jwk = JWT::JWK.new(@rsa_private)
     @jwks = { keys: [@jwk.export] }
     @header = { kid: @jwk.kid }
     @payload = { aud: '123', iss: 'https://primeroims.org', emails: ['test@primero.org'] }
+    @payload_capital_letters = { aud: '123', iss: 'https://primeroims.org', emails: ['UserTest@primero.org'] }
     @valid_token = JWT.encode @payload, @rsa_private, 'RS256', @header
+    @valid_token_capital_letters = JWT.encode @payload_capital_letters, @rsa_private, 'RS256', @header
     @invalid_token = JWT.encode @payload, OpenSSL::PKey::RSA.generate(2048), 'RS256', @header
   end
 
@@ -66,6 +73,14 @@ describe IdpToken do
       user = IdpToken.build(@valid_token).user
 
       expect(user.user_name).to eq('test@primero.org')
+    end
+    context 'when email has capital letters' do
+      it 'return the primero user' do
+        allow(IdentityProvider).to receive(:jwks).and_return(@jwks)
+        user = IdpToken.build(@valid_token_capital_letters).user
+
+        expect(user.user_name).to eq('usertest@primero.org')
+      end
     end
   end
 

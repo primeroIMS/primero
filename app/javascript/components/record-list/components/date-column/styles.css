@@ -1,0 +1,26 @@
+.readonly {
+
+  & fieldset {
+    border: none;
+  }
+
+  & label {
+    display: none;
+  }
+
+  & input {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  & input::placeholder {
+    color: var(--c-black) !important;
+  }
+
+  & input:hover {
+    background-color: #F5F4F6;
+    border: #F5F4F6;
+  }
+}

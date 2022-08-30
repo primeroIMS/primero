@@ -1,53 +1,138 @@
 id:
   'true': 'Ya'
   'false': 'Tidak'
+  accepted: Diterima
   cancel: Batal
-  clear: Bersihkan
+  connection_lost: Saat ini menggunakan moda luring
+  connected: Terhubung
+  clear: Hapus
+  sandbox_ui: Demo
   description: Deskripsi
+  form: Formulir
+  minimum_reportable_fields: "Minimum kolom yang dapat dilaporkan %{record_type}"
+  name: Nama
+  offline: Luring
+  unavailable_offline: Tidak tersedia luring
+  online: Daring
   yes_label: 'Ya'
+  or_label: atau
+  select_provider: Pilih penyedia
+  select_language: Pilih bahasa
+  log_in_primero_idp: Masuk menggunakan nama pengguna %{idp_name}
+  offline_submitted_changes: Saat ini Anda di luar jaringan. Perubahan Anda akan terkirim setelah Anda dalam jaringan lagi.
+  updated: Diperbaharui
+  sync:
+    success: "%{records}rekaman berhasil disesuaikan."
+    error:
+      create: Gagal membuat %{record_type}. Silakan menghubungi kontak bantuan.
+      update: Pembaharuan untuk %{record_type}%{short_id}gagal. Silakan menghubungi kontak bantuan.
   actions:
+    approvals: Persetujuan
     button: Tindakan
+    close: Ditutup
     description:
       invalid: Data tidak valid
       valid: Data Valid
     disable: Nonaktifkan
     enable: Aktif
     incident_details_from_case: Tambahkan Kejadian
+    incident_from_case: Buat kejadian
+    next: Selanjutnya
+    notes: Tambahkan catatan
+    previous: Sebelumnya
     reopen: Buka kembali
-    services_section_from_case: Tambahkan Pemberian Layanan
+    request_approval: Meminta persetujuan
+    revoke: Ditarik
+    save: Simpan
+    services_from_case_creation_success: Data Penyediaan Layanan berhasil dibuat
+    services_section_from_case: Tambahkan Penyediaan Layanan
+    mark_for_offline: Tandai untuk Offline
   agencies:
     label: Agensi
+    translations:
+      manage: Atur Terjemahan
   agency:
+    agency_logos: Logo Agensi
     code: Kode Agensi
-    name: Nama Agensi
+    description: Deskripsi
+    disabled: Nonaktifkan
+    exclude_agency_from_lookups: Kecualikan lembaga ini dari pencarian dan filter
+    exclude_agency_from_lookups_help: Centang ini jika Lembaga tidak memiliki pengguna (misalnya, Lembaga telah ditambahkan sehingga logo dapat digunakan untuk diekspor.
+    label: Lembaga
+    logo_enabled: Tampilkan logo lembaga ini di Primero?
+    logo_enabled_help: Tampilkan logo lembaga ini di Primero?
+    logo_icon: Lambang Logo
+    logo_icon_help: Logo akan muncul pada ukuran layar kecil, tablet dan ponsel. Bentuknya harus persegi.
+    logo_large: Logo besar
+    logo_large_help: Logo akan muncul pada layar besar dan pada ekspor PDF. Bentuknya dapat berupa persegi panjang, dengan panjangnya lebih panjang dari tinggi.
+    messages:
+      created: Lembaga berhasil dibuat.
+      updated: Lembaga berhasil diperbarui.
+    name: Nama Lembaga
+    pdf_logo_option: Jadikan logo dapat digunakan untuk ekspor PDF?
+    pdf_logo_option_help: 'Catatan: logo Lembaga pengguna langsung dapat mereka akses secara otomatis, jadi Anda hanya perlu mencentang ini jika Anda ingin logo dapat dilihat oleh semua pengguna.'
     services: Layanan Lembaga
+    terms_of_use: Syarat Penggunaan
+    terms_of_use_help: Hanya file PDF yang diperbolehkan.
+    terms_of_use_download_button: Unduh PDF
+    terms_of_use_enabled: Tampilkan Syarat Penggunaan?
   approvals:
+    approved_by: Disetujui oleh
+    case_plan_type_label: Jenis rencana kasus
+    manager_comments_label: Komentar manajer
+    rejected_by: Ditolak oleh
+    requested_by: Diminta oleh
+    requested_for_label: Meminta persetujuan untuk
+    requested_for_title: Meminta persetujuan
+    response_for_label: Persetujuan untuk
+    response_for_title: Persetujuan
+    action_plan: Rencana Tindakan
+    gbv_closure: Penghentian GBV
     status:
       approved: Disetujui
       pending: Tertunda
       rejected: Ditolak
+      requested: Sudah diminta
   audit_log:
     action: Tindakan
     description: Deksripsi
-    record_owner: Penanggungjawab Catatan Kasus
+    record_owner: Penanggungjawab Data
+    timestamp: Waktu
+    user_name: Dilaksanakan oleh
   bulk_export:
     file_name: File
     record_type: Tipe
-    retry: Ekspor ini tidak valid Silakan mencoba menciptakan kembali ekspor Anda.
+    retry: Ekspor ini tidak valid. Silakan mencoba ekspor kembali.
     started_on: Dimulai
     status: Status
+  form_export:
+    label: Konfigurasi Format Ekspor
+    include_hidden: Sertakan format dan bidang tersembunyi?
+    file_name: Buat nama file Anda sendiri (Opsional)
+    success_message: File ekspor berhasil dibuat
   buttons:
     accept: Terima
+    add: Tambah
+    add_another_option: Tambahkan pilihan lain
     add_note: Tambahkan Catatan
+    apply: Gunakan
     approvals: Persetujuan
-    approve_bia: Setujui BIA
-    approve_case_plan: Setujui Rencana Kasus
-    approve_closure: Setujui Terminasi
+    approve_action_plan: Menyetujui Rencana Tindakan
+    approve_bia: Menyetujui BIA
+    approve_case_plan: Menyetujui Rencana Kasus
+    approve_closure: Menyetujui Penghentian
+    approve_gbv_closure: Menyetujui Penghentian GBV
     back: Kembali
     bundle_export: Paket Konfigurasi
     bundle_import: Paket Konfigurasi
     cancel: Batal
     change_password: Ganti Kata Sandi
+    check_status: Periksa Status
+    clear_default: Hapus default
+    clear_selection: Hapus pilihan
+    clear: Hapus
+    close: Tutup
+    continue: Lanjutkan
     create_case: Buat Data Kasus
     create_incident: Buat Data Insiden
     create_new_record: Buat %{model} baru
@@ -55,95 +140,349 @@ id:
     disable: Nonaktifkan
     disable_photo_wall: Nonaktifkan dinding foto
     done: Selesai
+    download: Unduh
     edit: Ubah
     edit_subform: Ubah sub formulir
-    enable: Aktif
-    enable_photo_wall: Aktifkan Foto Profil
+    enable: Aktifkan
+    enable_photo_wall: Aktifkan dinding foto
     export: Ekspor
-    filter: Terapkan Filtrasi
+    filter: Gunakan filter
     filter_clear: Hapus Filter
     filter_label: 'Filter:'
     filter_restore: Kembalikan ke Pengaturan Sistem
-    find_tracing_match: Temukan Kecocokan Penelusuran
-    flag_model: Bendera %{model}
-    flag_records: Bendera
+    find_tracing_match: Temukan Kecocokan Pelacakan
+    flag_model: Tandai %{model}
+    flag_records: Penanda
+    flags: Penanda
+    guidance: Panduan
+    guiding_questions: Pertanyaan Panduan
     import: Impor
     login: Masuk
+    logout: Keluar
     mark_for_mobile: Tandai untuk seluler
+    new: Baru
     ok: OK
+    print: Cetak
+    reassign: Menugaskan
+    referral: Merujuk
+    referral_again: Merujuk kembali
     reject: Tolak
     remove_referrals: Hapus rujukan
-    request_approval: Minta Persetujuan
+    reorder: Memerintahkan ulang
+    request_approval: Meminta Persetujuan
     request_transfer: Permintaan Pemindahan
     reunite: Menyatukan kembali
     save: Simpan
-    save_and_add_service_provision: Save dan Tambahkan Layanan
+    save_and_add_service_provision: Simpan dan Tambahkan Layanan
+    save_and_return: Simpan dan Kembali
+    save_continue: Simpan dan Lanjutkan
+    save_changes: Simpan perubahan
+    select: Pilih
+    send: Kirim
     sort_by_case: Kasus
-    sort_by_tr: Permintaan Penelusuran
+    sort_by_tr: Permintaan Pelacakan
+    sync: Penyelarasan
     submit: Kirim
-    unflag_model: Tidak ditandai Bendera %{model}
-    unflag_model_history: Tandai Bendera Sejarah %{model}
+    transfer: Pindahkan
+    unflag_model: Tidak ditandai %{model}
+    unflag_model_history: Riwayat Penanda %{model}
     unmark_for_mobile: Tidak ditandai untuk seluler
+    update: Perbarui
     view: Lihat
     view_flags_history: Lihat Riwayat
+    return_to_case: Kembali ke Kasus
   case:
+    label: Kasus
     create_new_case: Buat Kasus Baru
+    add_new: Tambah yang Baru
+    back_to_case: Kembali ke Kasus
+    back_to_results: Kembali ke Hasil
+    back_to_search: Kembali ke Pencarian
+    search_by: Cari menggunakan
+    search_for: Cari %{record_type}
+    results: Hasil
+    details: Rincian
+    select: Pilih
+    deselect: Batalkan Pilihan
     enter_id_number: Masukkan nomor ID untuk mencari catatan kasus yang telah ada
+    id_search_no_results: Tidak ditemukan kecocokan pada sistem untuk "%{search_query}". Silakan membuat data baru.
     messages:
-      update_success: 'Kasus %{record_id} telah berhasil diperbarui.'
-      creation_success: 'Kasus %{record_id} telah berhasil dibuat.'
+      disabled: Kasus dinonaktifkan
+      update_success: 'Kasus %{record_id}  berhasil diperbarui.'
+      update_success_queue: 'Kasus %{record_id}  berhasil diperbarui pada latar belakang.'
+      creation_success: 'Data kasus berhasil dibuat.'
+      creation_success_queue: 'Data kasus berhasil dibuat pada latar belakang.'
+      already_matched: Penyelidik ini sudah dicocokkan dengan kasus Anda.
+      already_matched_not_current_case: Sudah ada kasus di sistem yang cocok dengan penyelidik ini.
+      not_found_case: Tidak ada Kasus yang cocok dengan "%{search_value}". Buat Kasus baru.
+      introductory_sentence: Mohon jelaskan persetujuan individu untuk menerima layanan manajemen kasus dan persetujuan untuk penyimpanan data mereka di Primero.
+      consent_agreements_required: Silakan memilih salah satu pilihan dari kesepakatan persetujuan.
+      legitimate_basis_required: Silakan memilih salah satu pilihan dari dasar klasifikasi resmi.
+    save: Simpan Kasus
+    save_text: Sebelum melanjutkan, silakan menyimpan perubahan Anda pada Kasus.
+    skip_and_create: Lewati dan Buat Kasus Baru
+    search_existing: Cari kasus yang sudah ada
+    search_helper_text: Kenapa? Untuk mencegah duplikasi kasus.
+    consent_agreements: Pilih semua kesepakatan persetujuan yang berlaku
+    legitimate_basis: Pilih semua dasar klasifikasi resmi yang berlaku
     workflow:
-      assessment: Asesmen
+      assessment: Penilaian
       case_plan: Rencana Kasus
-      closed: Tutup
+      closed: Ditutup
       created_on: Dibuat pada
       in_progress: Dalam Penanganan
       new: Baru
       on_label: 'di'
       reopened: Dibuka Kembali
-      service_implemented: Layanan telah Dilakukan
-      services_implemented: Layanan telah Dilakukan
+      service_implemented: Layanan telah Dilaksanakan
+      services_implemented: Layanan telah Dilaksanakan
+  linkedincidents:
+    label: Insiden yang Terkait
+  activity_log:
+    label: Log Aktivitas
+    accepted_transfer: '%{to} transfer yang diterima %{record_type}%{record_id} dari %{from}'
+    rejected_transfer: '%{to} transfer yang ditolak %{record_type} %{record_id} dari %{from}'
   cases:
-    apply_filter: Terapkan
-    clear_filter: Bersihkan
+    action_plan: Rencana Tindakan
+    age: Usia
+    age_estimated: Perkiraan usia?
+    agency: Lembaga
+    apply_filter: Gunakan
+    approval_comments: Komentar
+    approval_radio: Saya ingin
+    approval_radio_accept: Setuju
+    approval_radio_reject: Tidak setuju
+    approval_select: Formulir untuk
+    approved_success_action_plan: '%{approval_label}- Disetujui'
+    approved_success_assessment: '%{approval_label}- Disetujui'
+    approved_success_bia: '%{approval_label}- Disetujui'
+    approved_success_case_plan: '%{approval_label}- Disetujui'
+    approved_success_closure: '%{approval_label}- Disetujui'
+    approved_success_gbv_closure: '%{approval_label}- Disetujui'
+    assessment: Penilaian
+    case_opening_date: Tanggal Kasus Dibuka
+    case_plan: Rencana Kasus
+    case_worker_code: Kode Pekerja Kasus
+    clear_filter: Hapus
+    close_dialog: Mengklik OK akan mengubah status kasus ini menjadi Ditutup
+    close_dialog_title: Kasus Ditutup
+    close_success: Kasus berhasil ditutup
+    closure: Dihentikan
+    date_of_birth: Tanggal lahir
+    disable_dialog: Mengklik OK akan mengubah status kasus ini menjadi Dinonaktifkan
+    disable_dialog_title: Kasus dinonaktifkan
+    disable_success: Kasus berhasil dinonaktifkan
+    enable_dialog: Mengklik OK akan mengubah status kasus ini menjadi Diaktifkan
+    enable_dialog_title: Kasus diaktifkan
+    enable_success: Kasus berhasil diaktifkan
     export: Ekspor
+    mark_for_offline:
+      title: Tandai untuk Offline
+      text: Apakah anda yakin ingin menandai Kasus ini dapat digunakan saat offline?
+      success: Kasus berhasil ditandai untuk penggunaan offline
     filter_by:
       3month_inactivity: Untuk 3+ bulan
+      action_plan: Rencana Tindakan
+      age_0_5: 0 - 5
+      age_12_17: 12 - 17
+      age_18_more: 18+
+      age_6_11: 6 - 11
+      age_range: Rentang Usia
+      agency: Lembaga
+      approval_status: Status Persetujuan
       approvals:
         approved: Disetujui
+        pending: Tertunda
         rejected: Ditolak
+      bia: BIA
+      by_date: 'Berdasarkan Tanggal:'
+      case_open_date: Tanggal Kasus Dibuka
+      case_plan: Rencana Kasus
+      closed: Ditutup
+      closure: Dihentikan
+      current_location: Lokasi saat ini
       date: Tanggal
+      displacement_status: 'Status Pemindahan:'
+      district: 'Kabupaten/Kota:'
+      duplicate: Duplikasi
+      enabled_disabled: Aktifkan / Nonaktifkan
       female: Perempuan
+      flag: Ditandai
       flag_label: Ditandai Bendera?
+      gbv_closure: Penghentian GBV
+      high: Tinggi
+      low: Rendah
       male: Laki-Laki
+      medium: Sedang
+      mobile: 'Seluler:'
       mobile_label: Tandai untuk seluler?
       my_cases: Data Kasus Saya
+      no_action: Tak Perlu Tindakan
       no_activity: Tidak ada aktifitas
+      open: Buka
+      other: Lainnya
+      photo: Foto
       photo_label: Punya Foto?
+      protection_concerns: Masalah perlindungan
+      protection_status: 'Status Perlindungan:'
+      record_state: Status Data
       referred_cases: Kasus yang direferensikan ke saya
+      registration_date: Tanggal Pendaftaran
+      risk_level: Level Risiko
+      sex: Jenis Kelamin
+      social_worker: 'Kolom/Kasus/Pekerja Sosial:'
+      status: Status
+      transferred: Dipindahkan
+      type_of_risk: Jenis Risiko
+      urgent_protection_concern: Masalah Perlindungan Darurat
+      user_group: Kelompok Pengguna
       workflow: Kasus-kasus berdasar Alur Penanganan
     flag_summary: Tandai Bendera di Ringkasan
+    full_name: Nama Lengkap
+    gbv_closure: Penghentian GBV
     hide_name: Sembunyikan Nama
     hide_name_error: Terjadi kesalahan saat menyimpan perubahan Anda. Silahkan coba lagi
+    id: ID#
     label: Kasus
     my_filters: Saringan saya
+    name: Nama
+    notes_dialog_title: Tambahkan catatan
+    notes_form_notes: Catatan
+    notes_form_subject: Perihal
     ok: OK
     order_by:
       label: Urut Berdasarkan
       most_recently: Baru-baru saja
       name: Nama
+    owned_by: Penanggungjawab Data
+    owned_by_agency: Lembaga Penanggungjawab Data
+    photo: Foto
+    photos: Foto
     quick_view:
       tracing_message: 'Catatan: Ada kecocokan data dengan Seseorang yang sedang mencari anak ini. Jika anak menyetujui, hubungi Pekerja Sosial yang menangani kasus ini untuk menindaklanjutinya.'
+    referral_done: Menekan tombol 'Selesai' menandakan bahwa Anda telah menyelesaikan tugas rujukan yang terkait dengan kasus ini. Setelah Anda menekan tombol 'Selesai' Anda tidak lagi memiliki akses ke data ini.
+    referral_done_success: Rujukan Selesai.
+    referral_accepted_header: Terima Rujukan
+    referral_accepted: Anda yakin? Anda akan bertanggungjawab untuk menyelesaikan tugas yang berkaitan dengan Rujukan ini.
+    referral_accepted_success: Rujukan diterima.
+    referral_rejected: Dengan menekan tombol 'Tolak' menunjukkan bahwa Anda belum siap untuk menerima tanggung jawab atas kasus ini sekarang. Mohon jelaskan alasan mengapa Anda menolak kasus ini; Setelah Anda menekan tombol 'Tolak' Anda tidak lagi memiliki akses ke data Kasus ini.
+    referral_rejected_success: Rujukan ditolak.
     register_new_case: Kasus Baru
+    registration_date: Tanggal Pendaftaran
+    rejected_success_action_plan: '%{approval_label}- Tidak disetujui'
+    rejected_success_assessment: '%{approval_label}- Tidak disetujui'
+    rejected_success_bia: '%{approval_label}- Tidak disetujui'
+    rejected_success_case_plan: '%{approval_label}- Tidak disetujui'
+    rejected_success_closure: '%{approval_label}- Tidak disetujui'
+    rejected_success_gbv_closure: '%{approval_label}- Tidak disetujui'
+    reopen_dialog: Mengklik OK akan mengubah status kasus ini menjadi Dibuka
+    reopen_dialog_title: Membuka kembali kasus
+    reopen_success: Kasus berhasil dibuka
+    request_approval_failure: Terjadi kesalahan, silakan hubungi bantuan.
+    request_approval_select: Meminta persetujuan untuk
+    request_approval_success_action_plan: Persetujuan diminta untuk lembar %{approval_label}.
+    request_approval_success_assessment: Persetujuan diminta untuk lembar %{approval_label}.
+    request_approval_success_case_plan: Persetujuan diminta untuk lembar %{approval_label}.
+    request_approval_success_closure: Persetujuan diminta untuk lembar %{approval_label}.
+    request_approval_success_gbv_closure: Persetujuan diminta untuk lembar %{approval_label}.
+    request_approval_type_of_case_plan: Jenis Persetujuan Rencana Kasus
+    request_approve_action_plan: Menyetujui Rencana Tindakan?
+    request_approve_bia: Menyetujui Penilaian?
+    request_approve_case_plan: Menyetujui Rencana Kasus?
+    request_approve_closure: Menyetujui Penghentian?
+    request_approve_gbv_closure: Menyetujui Penghentian GBV?
+    revoke_failure: Kesalahan terjadi ketika menarik %{transition_type}, silakan hubungi bantuan.
+    revoke_message: Dengan menekan tombol 'Ditarik', Anda akan menghilangkan akses penerima %{transition_type}kepada kasus ini.
+    revoke_success_message: Kasus %{case_id}%{transition_type}terhadap %{recipient_username}ditarik.
     save_filter: Simpan
+    selected_all_records: Pilih semua kasus %{total_records} yang cocok dengan permintaan ini.
+    selected_records: 'Kasus %{select_records}dipilih'
+    sex: Jenis Kelamin
+    show_case: 'ID Kasus: %{short_id}'
+    social_worker: Pekerja Sosial
+    status: Status
+    summary:
+      label: Ringkasan
+      find_match: Temukan Kecocokan
+      matched_trace: 'Cocok #%{trace_id}'
+      cannot_find_matches: Tidak menemukan kecocokan. Kasus ini tidak mendapatkan persetujuan untuk mengungkap informasi yang diperlukan untuk tujuan pelacakan.
+      matched: Cocok.
+      fields:
+        consent_for_tracing:
+          label: Mendapatkan persetujuan untuk mengungkap informasi yang diperlukan untuk tujuan pelacakan.
+          help_text: Jika kolom ini diisi 'Tidak', data kasus anak tidak akan muncul pada 'Kecocokan' dengan Permintaan Pelacakan oleh Penyelidik.
+        wishes_child_family_tracing:
+          label: Apakah anak ingin melacak anggota keluarga?
+        wishes_reunification:
+          label: Apakah anak ingin berkumpul kembali dengan keluarganya?
+          options:
+            yes_as_soon_as_possible: Ya, secepat mungkin.
+            yes_but_later: Ya, tetapi nanti.
+            not_sure: Ragu-ragu.
+            'no': 'Tidak'
+        data_confidentiality_link:
+          label: Lihat Kerahasiaan Data
+        child_wishes_link:
+          label: Lihat Keinginan Anak
+    survivor_code: Kode Penyintas
+    transfer_accepted: Dengan menekan tombol 'Terima' Anda menerima tanggung jawab untuk kasus ini; setelah Anda menekan tombol 'OK' Anda akan menjadi penanggungjawab data ini di sistem.
+    transfer_managed_user_accepted: Jika anda klik 'Terima', %{transitioned_to} akan menjadi penanggungjawab kasus ini; Setelah anda klik 'Terima', %{transitioned_to} akan menjadi pemilik catatan kasus di sistem.
+    transfer_managed_user_rejected: Dengan mengklik 'Tolak' Anda manyatakan bahwa %{transitioned_to} belum siap untuk menerima tanggung jawab atas kasus ini saat ini. Mohon jelaskan alasan mengapa Anda menolak kasus ini; Setelah Anda klik 'Tolak' %{transitioned_to} tidak lagi memiliki akses ke data kasus ini.
+    transfer_accepted_rejected: Pemindahan kasus %{record_id}ditolak.
+    transfer_accepted_success: Pemindahan kasus berhasil diterima.
+    transfer_reject_reason_label: Alasan Penolakan
+    transfer_rejected: Dengan menekan tombol 'Tolak' menunjukkan bahwa Anda belum siap untuk menerima tanggung jawab atas kasus ini saat ini. Mohon jelaskan alasan mengapa Anda menolak kasus ini; Setelah Anda menekan tombol 'Tolak' Anda tidak lagi memiliki akses ke data kasus ini.
     view_name: Tampilkan Nama
+  change_logs:
+    filters:
+      form: Formulir
+      field: Kolom
+    add_subform: 'Tambahkan "%{subform_name}" subformulir entri #%{short_id}'
+    changes_subform: 'Ubah ke subformulir "%{subform_name}"'
+    create: Data dibuat
+    deleted_subform: 'Hapus "%{subform_name}" subformulir entri #%{short_id}'
+    label: Ubah Log
+    see_details: Lihat Rincian.
+    change: 'dari "%{from_value}" ke "%{to_value}"'
+    updated_subform: 'Perbarui "%{subform_name}" subformulir entri #%{short_id}'
+    update_subform: 'Perbarui subformulir "%{subform_name}" '
+    from: dari
+    to: untuk
   children:
     selectable_date_options:
       assessment_requested_on: Tanggal asesmen
       closure_approved_date: 'Tanggal Penutupan Kasus'
       created_at: Tanggal Buka Kasus
       date_case_plan_initiated: Tanggal Perencanaan Kasus
+      date_of_creation: Tanggal Pembuatan
       registration_date: Tanggal pendaftaran
+  configurations:
+    apply_label: Apakah Anda yakin? Jika Anda pilih, pengaturan pada konfigurasi ini akan diterapkan pada sistem. Anda akan kehilangan seluruh pengaturan saat ini dan Anda tidak akan bisa mengaksesnya lagi kecuali jika Anda sudah menyimpannya pada Konfigurasi lain.
+    apply_label_bold: Primero tidak dapat diakses oleh pengguna selama beberapa menit selama perubahan sedang dimuat.
+    version_mismatch_tooltip: Anda tidak dapat menggunakan konfigurasi ini, karena dibuat menggunakan versi Primero yang lebih tinggi dibandingkan dengan yang saat ini digunakan di lokasi Anda. Mohon menunggu untuk menggunakan konfigurasi ini hingga Anda sudah menggunakan versi Primero terkini.
+    send_header: Mengirim ke Produksi
+    send_text: Apakah Anda yakin? Jika Anda menekan tombol Kirim, Anda akan mengirimkan konfigurasi ini ke situs Produksi Anda. Konfigurasi ini tidak akan digunakan di Produksi sampai administrator di situs tersebut menggunakannya secara manual.
+    attributes:
+      created_by: Dibuat Oleh
+      date_created: 'Tanggal Dibuat:'
+      description: Deskripsi
+      last_applied_by: Terakhir Digunakan Oleh
+      last_applied_on: Terakhir Digunakan Pada
+      name: Nama
+      version: Versi Konfigurasi
+      primero_version: Versi Primero
+    delete_label: Apakah Anda yakin ingin melakukan ini? Bagian ini menampilkan seluruh pengaturan dari awal Konfigurasi ini dibuat. Anda tidak akan bisa kembali dan mengembalikan pengaturan ini setelah Anda menghapus Konfigurasi.
+    explanation: 'Menekan tombol Simpan akan menyimpan data dari seluruh pengaturan Konfigurasi saat ini (misalnya: Jabatan, Lembaga, Formulir) hingga titik yang ada sekarang. Setelah Anda simpan, Anda bisa meneruskan perubahan ini ke bagian lain di Primero. Jika, di masa depan, Anda ingin membatalkan perubahan konfigurasi, Anda bisa menggunakan data Konfigurasi ini untuk mengembalikan seluruh perubahan konfigurasi ke yang sudah ada sekarang.'
+    label: Konfigurasi
+    label_new: Konfigurasi Baru
+    messages:
+      applied: Konfigurasi berhasil digunakan.
+      created: Konfigurasi berhasil dibuat.
+      deleted: Konfigurasi berhasil dihapus.
+      updated: Konfigurasi berhasil diperbarui.
+      sent: Mengirimkan konfigurasi ke produksi. Mohon memeriksa situs produksi untuk melihat apakah konfigurasi Anda sudah diterima.
+    not_allowed: Tidak diizinkan
+    unavailable_server: Server tidak dapat diakses sementara
   contact:
     field:
       email: Surel
@@ -153,20 +492,61 @@ id:
       other_information: Informasi Lainnya
       phone: Telepon
       position: Posisi
+      primero_version: Versi Primero
       support_forum: Forum Dukungan
+      system_version: Versi Sistem
     info_label: Informasi Kontak
     updated: Informasi kontak berhasil diupdate.
+  code_of_conduct:
+    field:
+      title: Judul
+      content: Konten
+      created_on: Dibuat pada
+      created_by: Dibuat oleh
+    info_label: Kode Etik
+    updated: Kode Etik berhasil diperbarui.
   dashboard:
     activity: Aktifitas
     admin_only: Klik %{links} untuk membuat perubahan pada aplikasi
     all_cases: Seluruh Kasus
     all_services_implemented: Semua layanan dilaksanakan
     and: 'dan'
+    approval_action_plan_approved: Disetujui
+    approval_action_plan_pending: Tertunda
+    approval_action_plan_pending_group: Rencana Tindakan
+    approval_action_plan_rejected: Ditolak
+    approval_assessment_approved: Disetujui
+    approval_assessment_pending: Tertunda
+    approval_assessment_pending_group: Penilaian
+    approval_assessment_rejected: Ditolak
+    approval_case_plan_approved: Disetujui
+    approval_case_plan_pending: Tertunda
+    approval_case_plan_pending_group: Rencana Kasus
+    approval_case_plan_rejected: Ditolak
+    approval_closure_approved: Disetujui
+    approval_closure_pending: Tertunda
+    approval_closure_pending_group: Dihentikan
+    approval_closure_rejected: Ditolak
+    approval_gbv_closure_approved: Disetujui
+    approval_gbv_closure_pending: Tertunda
+    approval_gbv_closure_pending_group: Penghentian GBV
+    approval_gbv_closure_rejected: Ditolak
     approvals: Persetujuan
+    approvals_action_plan: Rencana Tindakan
+    approvals_assessment: Penilaian
+    approvals_case_plan: Rencana Kasus
+    approvals_closure: Dihentikan
+    approvals_gbv_closure: Penghentian GBV
     approved: Disetujui
     assessment: Asesmen
+    awaiting_acceptance: Menunggu Persetujuan
+    cases_by_social_worker_total: Total
+    cases_by_social_worker_new_or_updated: Baru dan Telah Diperbarui
     case_id: '#ID Kasus'
+    case_management_service: Layanan Pengelolaan Kasus
+    case_overview: Kasus Saya
     case_plan: Rencana Kasus
+    case_risk: Kasus berdasarkan Tingkat Penilaian
     case_stat_by_approval_type: Persetujuan
     case_stat_by_assessment_level: Kasus berdasarkan Tingkat Penilaian
     case_stat_referrals: Rujukan
@@ -178,27 +558,78 @@ id:
     cases_this_week: Kasus Minggu Ini
     cases_to_assign: Kasus yang akan ditetapkan penugasannya
     closed: Tutup
+    closed_last_week: Ditutup (minggu lalu)
+    closed_this_week: Ditutup (minggu ini)
     comprehensive_need_intervention: Respon Komprehensif
+    count_new_bia_approvals:
+      other: '%{stat}Persetujuan%{stat_type}baru'
+    count_new_case_plan_approvals:
+      other: '%{stat}Persetujuan%{stat_type}baru'
+    count_new_closure_approvals:
+      other: '%{stat}Persetujuan%{stat_type}baru'
+    count_pending_approval_total:
+      other: Anda memiliki %{stat}Persetujuan%{stat_type} tertunda
+    count_pending_transfers:
+      other: Anda memiliki %{stat}pemindahan tertunda
+    count_records_new:
+      other: dan %{stat}kasus baru
+    count_records_total:
+      other: Anda memiliki total %{stat}kasus
+    count_referrals_new:
+      other: dan %{stat}rujukan baru
+    count_referrals_total:
+      other: Anda memiliki total %{stat}rujukan
+    count_rejected_approval_total:
+      other: dan %{stat}Persetujuan %{stat_type}ditolak
+    count_rejected_transfers:
+      other: dan %{stat}pemindahan ditolak
+    count_risk_level_new:
+      other: dan %{stat}risiko kasus %{stat_type}baru
+    count_risk_level_total:
+      other: Anda memiliki %{stat}risiko kasus%{stat_type}
+    count_waiting_for_acceptance_transfers: Anda memiliki %{stat}Pemindahan menunggu untuk diterima
     current_owner: Pemilik saat ini
+    dash_case_incident_overview: Kasus Saya
+    dash_group_overview: Kasus Kelompok Saya
+    dash_shared_from_my_team: Dibagikan Dari Team saya
+    dash_shared_with_me: Dibagikan Dengan Saya
+    dash_shared_with_my_team: Bagikan Dengan Team saya
+    dash_shared_with_my_team_overview: Bagikan dengan Team saya (Overview)
+    dash_shared_with_others: Bagikan Dengan Yang Lain
+    dash_national_admin_summary: Ringkasan Administrator
     date: Tanggal
     date_of_incident: Tanggal dari Insiden
     date_of_interview: Tanggal Wawancara
     due: Melampaui Tenggat Waktu
+    flagged: Ditandai
     flagged_by: 'Ditandai Bendera Oleh'
     flagged_by_me: Ditandai dengan Bendera oleh Saya
     flagged_by_other: Ditandai dengan Bendera oleh Orang lain
+    flagged_cases: Kasus yang ditandai
     follow_up: Menindaklanjuti
     forms: tab FORM
     geographic_area: Area Geografis
+    group_overview_closed: Tutup
+    group_overview_open: Buka
+    high_level: Tinggi
     high_risk: Prioritas Tinggi
     immediate_response: Respon Segera
+    in_progress: Dalam Proses
     incident_id: '#ID Insiden'
     incident_location: Lokasi Insiden
     incident_status_open: Buka
     last_updated: Terakhir diperbarui
     link_see_all: Lihat Semua
+    low_level: Rendah
     low_risk: Prioritas Rendah
+    manager_count_closed_total:
+      other: dan %{stat} kasus yang <span>tutup</span>
+    manager_count_open_total:
+      other: Anda memiliki %{stat} kasus yang terbuka
+    manager_transfers_totals:
+      other: Anda memiliki %{stat} %{stat_type} Pemindahan
     match_result: Hasil Pencocokan
+    medium_level: Sedang
     medium_risk: Prioritas Sedang
     missed_cases: Kasus yang Terlewatkan
     name: Nama
@@ -208,8 +639,11 @@ id:
     new_child_assigned_to_you: Kasus Baru yang Ditugaskan Untuk Anda
     new_incident: Kejadian Baru
     new_incident_assigned_to_you: Insiden Baru yang Ditugaskan
+    new_last_week: Baru (minggu lalu)
+    new_or_updated: Baru atau Telah Diperbarui
     new_referred: Rujukan Baru
     new_service_provision: Pemberian Layanan Baru
+    new_this_week: Baru (minggu ini)
     no_action_risk: Tak Perlu Tindakan
     no_case_stats: Tidak ada statistik kasus
     no_caseworker_data: Tidak ada data Pekerja Kasus
@@ -226,9 +660,14 @@ id:
     open: Buka
     open_cases: Kasus yang terbuka
     open_incidents: Buka Insiden
+    outstanding_transfers: Pemindahan Baki
     overdue_activities: Aktivitas Terlambat
     overdue_cases_to_assign: Kasus lewat batas waktu yang akan ditetapkan penugasannya
+    overdue_cases_to_assign_high: Anda telah membuka kasus ini lebih dari 1 jam
+    overdue_cases_to_assign_low: Anda telah membuka kasus ini lebih dari 3 jam
+    overview: Gambaran
     pending: Tertunda
+    pending_approvals: Persetujuan Tertunda
     pending_transfers: Pengalihan yang Ditunda
     protection_concern: Masalah Perlindungan
     protection_concerns: Masalah perlindungan
@@ -240,28 +679,54 @@ id:
     recently_flagged_child: Data Kasus yang Baru Ditandai dengan Bendera
     recently_flagged_incident: Data Insiden yang Baru Ditandai dengan Bendera
     referrals_by_social_worker: Arahan oleh pekerja sosial
+    registration: Pendaftaran
     rejected: Ditolak
     rejected_transfers: Pengalihan yang Ditolak
+    response: Respon (Dalam proses)
     scheduled_activities: Aktivitas Terjadwal
     score_range: Rentang Nilai
+    screening_service: Layanan Seleksi
     services: Layanan
     services_implemented: Layanan yang dilaksanakan
+    shared_from_my_team_pending_transfers: Pengalihan yang Tertunda
+    shared_from_my_team_referrals: Rujukan
+    shared_from_my_team_rejected_transfers: Pengalihan yang Ditolak
+    shared_with_me_new_referrals: Rujukan Baru
+    shared_with_me_total_referrals: Total Rujukan
+    shared_with_me_transfers_awaiting_acceptance: Pengalihan sedang Menunggu Persetujuan
+    shared_with_my_team_pending_transfers_overview: Transfer menunggu Penerimaan
+    shared_with_my_team_pending_transfers: Pengalihan yang Tertunda
+    shared_with_my_team_referrals: Rujukan
+    shared_with_others_pending_transfers: Pengalihan yang Tertunda
+    shared_with_others_referrals: Rujukan
+    shared_with_others_rejected_transfers: Pengalihan yang Ditolak
     status_of_cases: Status Kasus
     system_user: Sistem
     total: Total
     total_cases: Total Jumlah Kasus
     total_referred: Total Rujukan
-    tr_stats: Permintaan Penelusuran
+    tr_stats: Permintaan Pelacakan
     transers_awaiting_acceptance: Pengalihan sedang Menunggu Persetujuan
     transfers_by_social_worker: Dialihkan oleh Pekerja Sosial
     users: tanda PENGATURAN
     violence_type: Jenis Kekerasan
+    with_incidents: Dengan Insiden
+    with_new_incidents: Dengan Insiden Baru
+    without_incidents: Tanpa Insiden
+    worker_count_referrals_total:
+      other: '%{case_worker} memiliki total %{stat} rujukan'
+    worker_count_total:
+      other: '%{case_worker} memiliki total %{stat} kasus'
+    workflow: Alur Kerja
+    workflow_team: Alur Kerja - Kasus-kasus Tim
     you_have: 'Anda memiliki'
   disabled:
     status:
       disabled: Dinonaktifkan
       enabled: Diaktifkan
   email_notification:
+    assign: '%{user} telah menugaskan %{record_type} berikut kepada Anda: %{record_id}.'
+    assign_subject: '%{record_type}: %{id} - Ditugaskan kepada Anda'
     approval_request: 'Pengguna %{user} meminta persetujuan %{approval_type} untuk kasus %{case_id}.'
     approval_request_subject: 'Kasus: %{id} - Permintaan Persetujuan'
     approval_response: '%{user} telah %{status} terhadap permintaan persetujuan %{approval_type} untuk kasus %{case_id}.'
@@ -276,23 +741,39 @@ id:
     approval_response_html: '<strong>%{user}</strong> telah <strong>%{status}</strong> terhadap permintaan persetujuan <strong>%{approval_type}</strong> untuk kasus <strong>%{case_id}</strong>.'
     referral_html: '<strong>%{user}</strong> dari %{agency} telah merujuk  %{record_type} berikut kepada Anda: <strong>%{record_id}</strong> untuk %{service_type} '
     transfer_html: '<strong>%{user}</strong> telah mengalihkan %{record_type} berikut kepada Anda: <strong>%{record_id}</strong>.'
+    assign_html: '<strong>%{user}</strong> telah menugaskan %{record_type} berikut kepada Anda: <strong>%{record_id}</strong>.'
     transfer_request_html: 'Pengguna Primero <strong>%{user}</strong> dari %{agency} meminta Anda untuk menyerahkan tanggungjawab atas %{record_type} dari <strong>%{record_id}</strong> agar mereka dapat melakukan pengelolaan layanan %{record_type} bagi individu di wilayah mereka. Jika Anda menyetujui pengalihan ini, silahkan klik tautan ID %{record_type}  di email ini untuk membuka catatan %{rescord_type} di Primero dan memulai proses pengalihan.'
     transfer_request_notes_html: 'Catatan dari individu yang mengajukan %{request_transfer_notes}'
   encrypt:
+    export_type: Tipe Ekspor
     file_name: Buat nama file Anda sendiri (Opsional)
+    password_extra_info: Kata sandi harus minimal 8 karakter. Kata sandi ini akan dikaitkan dengan file yang diekspor dan harus dimasukkan oleh siapa pun yang membuka file ini di masa mendatang.
     password_label: Silahkan masukkan password yang akan meng-enkripsi data
+  error_message:
+    address_fields: Anda harus menetapkan %{fields} kolom pada %{forms} formulir
+    address_form_fields: Anda harus menetapkan %{fields} kolom pada formulir ini
+    address_subform_fields: '%{subform} memiliki %{fields} kolom tidak valid'
   error_page:
+    not_authorized:
+      server_error: Anda tidak diizinkan untuk mengakses laman ini.
+      title: Tidak Diizinkan
     not_found:
       contact_admin: Jika Anda yakin Anda berada di sini karena kesalahan, silahkan hubungi admin.
       something_went_wrong: Ma'af, Ada Kesalahan!
   errors:
+    error_loading: Gagal Memuat Rekaman
     models:
+      agency:
+        code_present: Tidak boleh kosong
+        logo_format: File harus dalam png
+        terms_of_use_format: File harus dalam png
+        name_present: Tidak boleh kosong
       child:
         age: Umur harus antara 0 dan 130
         date_of_birth: Silahkan masukkan tanggal lahir yang benar untuk data kasus ini
       export_configuration:
         opt_out_field_does_not_exist: Bidang opt_out yang ditentukan tidak ada pada catatan.
-        record_type: Jenis catatan tidak valid. Harus Kasus Anak, Permintaan Penelusuran, atau Insiden.
+        record_type: Jenis catatan tidak valid. Harus Kasus Anak, Permintaan Pelacakan, atau Insiden.
       field:
         translated_options_do_not_match: Pilihan-pilihan bidang harus memiliki ID yang sama
       location:
@@ -303,8 +784,10 @@ id:
       lookup:
         being_used: Referensi ini sedang digunakan dan tidak dapat dihapus
         name_present: Nama tidak boleh kosong
+        values_ids_blank: id nilai_referensi kosong
       primero_module:
         associated_record_types: Setidaknya satu jenis rekaman harus dikaitkan dengan modul ini
+        form_section_ids: Setidaknya satu formulir harus dikaitkan dengan modul ini
         name_present: Nama tidak boleh kosong
         unique_name: Sebuah modul dengan nama itu sudah ada, mohon masukkan nama yang berbeda
       report:
@@ -314,7 +797,16 @@ id:
       role:
         permission_presence: Harap pilih setidaknya satu izin
       user:
+        email: "Masukkan email yang valid (contoh: 'name@example.org')"
         password_mismatch: Kolom kata sandi tidak memiliki kata sandi yang sama
+        password_length: Kata sandi harus lebih dari %{min} karakter
+        email_uniqueness: Peran dengan alamat email itu sudah ada, mohon masukkan alamat email yang berbeda
+      code_of_conduct:
+        title_present: Judul tidak boleh kosong
+        content_present: Konten tidak boleh kosong
+        created_by_present: Dibuat Oleh tidak boleh kosong
+    not_found: Tidak Ada Rekaman yang Ditemukan
+    try_again: Coba lagi
   exports:
     case_pdf:
       all: PDF
@@ -324,7 +816,10 @@ id:
       all: CSV
       one: CSV
       selected: Dipilih untuk CSV
+    custom:
+      all: Kostumasi
     custom_exports:
+      all: Kostumasi
       choose_fields: Apakah Anda ingin memilih kolom individu untuk formulir?
       empty_fields_forms: Silahkan pilih beberapa form atau kolom untuk ekspor
       empty_format: Silahkan pilih sebuah format untuk ekspor
@@ -339,6 +834,13 @@ id:
       module_placeholder: Silahkan pilih sebuah modul
       select_module: Pilih modul
       submit: OK
+      header: Tajuk
+      custom_header: Tajuk Khusus
+      signatures: Sertakan garis tanda tangan untuk
+      include_implementation_logos: Masukkan logo implementasi?
+      include_implementation_logos_help_text: Ini akan menyertakan logo yang muncul pada menu navigasi dan pada laman login.
+      include_agency_logo: Masukkan logo lembaga?
+      include_other_logos: Masukkan logo lain?
     duplicate_id_csv:
       all: Duplikat ID
       female_abbreviation: P
@@ -351,11 +853,51 @@ id:
         national_id_no: Nomor KTP
         progress_id: Progress ID
         sex_mapping_m_f_u: Jenis Kelamin
+        other_agency_id: Kode rumah sakit dan nomor pasien
       male_abbreviation: L
       unknown_abbreviation: U
+    exported: File ekspor berhasil dibuat
+    exported_error: File ekspor gagal dibuat
     forms:
       button: Ekspor Formulir
       label: Ekspor
+      header:
+        form_group: Kelompok Formulir
+        form_name: Nama Formulir
+        field_id: ID Kolom
+        field_type: Tipe Kolom
+        field_name: Nama Kolom
+        required: Wajib
+        on_mobile: Pada Seluler
+        on_short_form: Pada Formulir Ringkas
+        option_ids: Pilihan ID
+        options: Pilihan
+        options_lookup: Referensi
+        help_text: Tulisan Bantuan
+        guiding_questions: Pertanyaan Panduan
+        visible: Penglihatan
+        lookup_id: Lihat ID
+        lookup_name: Lihat Nama
+        option_id: Pilihan ID
+        option_name: Pilihan Nama
+      options:
+        location: Lokasi
+        agency: Lembaga-Lembaga
+        user: Pengguna
+        reportinglocation: Lokasi Laporan
+        subforms: 'Subformulir: %{subform_name}'
+        collapsed_fields: 'Kolom yang dikolaps: %{fields}'
+        country: Negara
+      summary_header:
+        form_group: Kelompok Formulir Primero
+        form: Formulir Primero
+        status: Status
+        notes: Catatan
+    go_to_exports: Buka laman Ekspor untuk mengunduh
+    incident_recorder_xls:
+      all: Perekam Insiden
+      one: Perekam Insiden
+      selected: Dipilih untuk Perekam Insiden
     json:
       all: JSON
       one: JSON
@@ -363,24 +905,42 @@ id:
     list_view_csv:
       all: Ekspor Tampilah Daftar
       selected: Dipilih untuk CSV
+    messages:
+      no_exporter: Eksportir Tidak Ditetapkan
     mrm_violation_xls:
       all: Pelanggaran MRM
       one: Pelanggaran MRM
       selected: Dipilih untuk Pelanggaran MRM
     no_records: Tidak ada Data yang tersedia!
     pdf:
+      all: PDF (tidak terenkripsi)
       one: PDF
       selected: Dipilih untuk PDF
     pdf_exports:
       label: PDF
+      recipient: Penerima
+      case_worker: Pekerja Kasus
+      client: Klien
+      date: Tanggal
+      recipient_name: Nama Penerima
+      recipient_agency: Lembaga Penerima
+      caseworker_name: Nama Pekerja Kasus
+      caseworker_agency: Lembaga Pekerja Kasus
     photowall:
       all: Foto Dinding
+      flag_suspect_record: Ditandai sebagai Rekaman yang Dicurigai
+      no_photos_available: Tidak ada foto yang tersedia!
       one: Foto Dinding
+      reunited: Penyatuan Kembali
       selected: Dipilih ke Foto Dinding
+      success_message: Membuat Photowall%{file_name} Kasus-kasus tanpa foto tidak akan dimasukkan.
+    printed: 'Telah dicetak: %{date}'
+    queueing: Membuat file ekspor %{file_name}
     selected_xls:
       all: Excel
       one: Excel
       selected: Dipilih untuk Excel
+      selected_fields: Kolom yang Dipilih
     unhcr_csv:
       all: UNHCR
       female_abbreviation: P
@@ -419,33 +979,90 @@ id:
       all: Excel
       one: Excel
       selected: Dipilih untuk Excel
+  imports:
+    csv_hxl_location:
+      messages:
+        success: Lokasi berhasil diimpor
+        no_data: 'Impor Tidak Diproses: Tidak ada data yang masuk'
+        csv_parse_error: 'Impor Tidak Diproses: Kesalahan saat menguraikan data CSV'
+        error: 'Baris %{row_number} Tidak Diproses: %{message}'
+        db_error: 'Gagal Membuat %{location_code}: %{message}'
+        locale_invalid: 'Melewatkan %{column_name}: Lokal tidak valid'
+        insert_all_error: 'Impor Tidak Diproses. Kesalahan Basis Data: %{message}'
+    csv_record:
+      messages:
+        success: Catatan berhasil diimport
+        no_data: 'Import Tidak Diproses: Tak ada data masuk'
+        no_file: 'Import Tidak Diproses: File tidak ada'
+        csv_parse_error: 'Impor Tidak Diproses: Kesalahan saat menguraikan data CSV'
+        error: 'Baris %{row_number} Tidak Diproses: %{message}'
+        db_error: 'Kesalahan Membuat %{location_code}: %{message}'
+        locale_invalid: 'Melewatkan %{column_name}: Lokal tidak valid'
+        insert_all_error: 'Impor Tidak Diproses. Kesalahan Basis Data: %{message}'
+  sync_record:
+    failed: 'Penyelarasan Terakhir: Gagal'
+    last: 'Penyelarasan terakhir: %{date_time}'
+    not_found: 'Penyelarasan Terakhir: Data tidak ditemukan'
+    retrieving: Mengambil Data.
+    see_details: Lihat Rincian.
   fields:
     action: Tindakan
     actions: Tindakan
     add: Tambah
+    add_new_field: Buat Kolom Baru
+    add_existing_field: Tambahkan Kolom Yang Sudah Ada
+    add_field: Tambahkan Kolom
+    add_field_type: Tambahkan %{file_type}
     audio:
       current: Audio yang ada
+    audio_upload_box: Unggah Audio
+    bia_document: Dokumen BIA
+    bid_document: Dokumen BID
     check_box: Kotak centang
+    clear_group_by: Hapus Grup Berdasarkan
+    clear_sort_by: Hapus Sunting Berdasarkan
+    copy_from_another_form: Kolom ini disalin dari formulir lain
+    create_field: Buat Kolom
+    create_unique_values: Buat nilai unik
     date_field: Kolom Tanggal
     date_help: dd-mmm-yyyy
     date_help_with_time: hh-bbb-tttt jj:mm
     date_not_valid: Tanggal ini tidak valid
+    time: Waktu
     date_range:
       date: Tanggal
       date_range: Rentang Tanggal
       from: Dari
       to: Untuk
+      view_by: Dilihat oleh
     date_range_field: Rentang Tanggal
+    date_time: Tanggal- Waktu
+    db_name: Nama Basis Data
+    default: Default?
     default_date_validation: Validasi tanggal default
+    default_to_current_date: Default ke tanggal saat ini?
+    default_to_current_datetime: Default ke tanggal dan waktu saat ini?
+    default_value: Nilai Default
     deleted: Kolom %{display_name} sudah dihapus.
+    detail: Rincian
+    disabled: Nonaktifkan
     display_name: Nama Tampilan
     document:
       comments: Komentar
       current: Apakah ini dokumen terbaru?
       date: Tanggal Dokumen
       name: Nama Dokumen
+      is_current: Apakah ini dokumen terbaru?
+    document_upload_box: Dokumen Diunggah
+    edit_label: Ubah Kolom
+    enabled: Diaktifkan?
+    enabled_label: Diaktifkan
+    english_text: Teks Bahasa Inggris
     field_name: Nama Kolom
+    field_type: Tipe Kolom
+    attachment_too_large: Kolom tidak boleh lebih besar dari pada 10mb
     file_upload_box:
+      add_document_label: Tambah Dokumen
       add_new_document_button_text: Tambah dokumen lain
       add_new_photo_button_text: Tambah photo lain
       add_photo_label: Tambah Photo
@@ -455,70 +1072,195 @@ id:
       photo_file_restrictions_message: Foto seharusnya tidak lebih besar dari 10mb. File audio seharusnya tidak lebih besar dari 10mb. Semakin kecil semakin baik.
       recorded_audio_label: Rekaman Suara
       select_file_button_text: Pilih Dokumen
+    find_lookup: Cari Referensi
     form_name: Nama Formulir
+    future_date_not_valid: Tidak bisa di masa depan.
+    guidance: Panduan
+    guiding_questions: Pertanyaan Panduan
     help_text: Teks bantuan
+    hide_on_view_page: Tampilkan laman
     label: Kolom
+    mobile_visible: Aplikasi Seluler
     move_to: Pindah ke
+    multi_select: Dapat memilih beberapa pilihan
+    multi_select_box: Pilihan Majemuk
+    must_be_english: Harus diisi dalam bahasa Inggris
+    name: Nama
     not_future_date: Bukan tanggal yang akan datang
     number_not_valid: Silahkan masukkan data angka
     numeric_field: Kolom angka
+    on_collapsed_subform: Pada subformulir yang dikolaps?
     option_strings_add_option: Tambah Pilihan
     option_strings_source: Lihat Referensi
     option_strings_text: Pilihan
     option_strings_text_display: Teks Pilihan
     option_strings_text_key: Kunci Pilihan
+    options_indications_lookup_values: Anda dapat menggunakan referensi yang telah ditentukan sebelumnya atau membuat nilai unik.
+    options_indications_restrictions: Anda tidak dapat memilih keduanya
     options_or_lookup_warning: Tambahkan Pilihan atau pilih Lookup. Jangan kedua-duanya.
+    other_documents: Dokumen Lain
+    photo_upload_box: Unggah Foto
+    predifined_lookups: Gunakan referensi yang telah ditentukan
     radio_button: Tombol radio
     remove: Hapus
+    remove_attachment_confirmation: Anda yakin ingin menghapus lampiran ini?
+    required: Wajib
+    required_field: '%{field} wajib'
+    search_existing: Cari kolom yang sudah ada
     select_box: Pilih Kombo Pilihan
     select_date_validation: Pilih metode validasi tanggal
+    select_multiple: Pilih semua yang berlaku
+    select_single: (Pilih...)
     separator: Pemisah
+    show: Tunjukkan?
+    show_on: Tunjukkan pada
+    show_on_minify_form: Formulir Ringkas
     subform: Subform
+    subform_group_by: Grup berdasarkan
     subform_remove_message: Yakin ingin menghapus subform ini?
-    successfully_added: Kolom berhasil ditambahkan
-    tally_field: Kolom yang sesuai
+    subform_section:
+      description: Deskripsi Subformulir
+      name: Judul Subformulir
+      starts_with_one_entry: Mulai dengan satu entri subformulir
+      subform_append_only: Penyelarasan Sebagian pada Seluler
+      subform_prevent_item_removal: Mencegah penghapusan entri subformulir
+    subform_sort_by: Sunting berdasarkan
+    successfully_added: Bidang berhasil ditambahkan
+    tally_field: Hitung Jumlah Bidang
+    tally_items: Hitung Jumlah Items
+    tally_items_maximum: (Maksimum 5)
     text_area: Area Teks
     text_field: Kolom Teks
     textarea: Area Teks
     tick_box: Kotak centang
     tick_box_label: Label Kotak centang
+    translation_text: Teks Terjemahan
+    total: Total
+    type: Tipe
     updated: Kolom diperbarui
+    visibility: Penglihatan
+    web_app: Aplikasi Web
+  filters:
+    apply_filters: Gunakan
+    clear_filters: Hapus
+    less: Kurangi
+    more: Lebihkan...
+    save_filters: Simpan
+  flags:
+    add_flag_tab: Tambahkan Tanda Bendera Baru
+    date: 'Tanggal:'
+    flag_added: Penambahan tanda bendera berhasil
+    flag_date: Tanggal Ditandai Bendera
+    flag_reason: Alasan Tandai Bendera
+    flag_reason_maximun_label: Maksimum 255 karakter.
+    flag_resolved: Tanda Bendera telah diselesaikan
+    flags_tab: Tanda Bendera
+    no_flags: Tanda bendera tidak ditemukan
+    resolve_button: Selesai
+    resolve_flag: Tanda Bendera Selesai
+    resolve_reason: Alasan Selesai
+    resolved: Tanda Bendera yang Selesai
+    resolved_date: 'Selesai:'
+    resolved_reason: 'Alasan Selesai:'
+    title: Tanda Bendera
   followup_reminders:
     system_generated_followup_flag: Kunjungan tindak lanjut wajib
   form_section:
+    form_name: Nama Formulir
+    module: Modul
     name: Nama
+    record_type: Jenis Data
     required_field: '%{field} wajib'
   forms:
+    add: Tambahkan Formulir
+    description: Deskripsi Formulir
+    fields: Kolom
+    form_description: Deskripsi
+    form_group: Kelompok Formulir
+    form_title: Judul Formulir
+    help_text:
+      must_be_english: Harus diisi dalam bahasa Inggris
+      related_groups: Masukkan formulir ke grup yang berkaitan untuk pengguna
+      summariaze_purpose: Ringkas tujuan formulir. Harus diisi dalam bahasa Inggris
+    invalid_characters_field: '%{field} mengandung karakter yang tidak valid.'
     label: Formulir
+    manage: Kelola
     messages:
+      created: Bagian formulir sudah berhasil dibuat
+      fields_with_same_name: Nama kolom tidak boleh sama dalam formulir
+      save_success: Bagian formulir sudah berhasil diperbarui
+      save_with_errors: Ada masalah dan beberapa bagian formulir tidak diperbarui.
+      updated: Bagian formulir sudah berhasil diperbarui
       use_existing: Kami mendorong Anda untuk menggunakan formulir yang ada karena ini membuat data sharing dan penggabungan data antar institusi menjadi lebih mudah.
+    mobile_app: Aplikasi Seluler
+    module: Modul
+    no_subform_filters_added: Subformulir ini saat ini tidak memiliki kolom.
+    record_type: Jenis Data
     record_types:
+      approvals: Persetujuan
       case: Kasus
       child: Kasus
       incident: Insiden
+      individual_victim: Korban Perorangan
       potential_match: Potensi Kecocokan
+      record_information: Informasi Data
+      referrals: Rujukan
       reportable_follow_up: Menindaklanjuti
       reportable_protection_concern: Masalah Perlindungan
       reportable_service: Pelayanan
-      tracing_request: Permintaan Penelusuran
+      tracing_request: Permintaan Pelacakan
+      transfers_assignments: Transfer / Tugas
       violation: Pelanggaran
+      registry_details: Detil Pendaftaran
+      registry_record: Catatan Pendaftaran
+    required_field: '%{field} adalah kolom wajib'
+    select_label: Pilih
+    settings: Pengaturan
+    show_on: Tunjukkan pada
+    subform_need_to_be_added: Perlu ditambahkan.
+    subform_need_to_be_added_single: Ini perlu ditambahkan
+    subform_not_found: Tidak ada %{subform_name} ditemukan.
+    title: Judul Formulir
+    translations:
+      edit: Ubah Terjemahan
+      edit_form_group: Ubah pencarian Grup Formulir
+      manage: Atur Terjemahan
+      no_changes_message: Anda tidak melakukan pengubahan terjemahan
+      note: 'Catatan:'
+      note_form_group: Untuk menambahkan terjemahan pada Kelompok Formulir, Anda harus ubah terjemahan pencarian Grup Formulir.
+      select_language: Pilih bahasa
+      title: Terjemahan
+    type_label: Tipe
+    visibility: Penglihatan
+    web_app: Aplikasi Web
   home:
     ar: العربية
-    ar-IQ: العربية (العراقية)
+    ar-IQ: Arab (Irak)
+    ar-JO: العربية (الأردنية)
     ar-LB: العربية (اللبنانية)
+    ar-SD: العربية (السودانية)
     bn: বাংলা
     current_time_zone: Zona waktu setempat
     dashboard: Dashboard
     en: English
     es: Español
+    es-GT: Español (Guatemala)
     fr: Français
     id: Bahasa
+    km: ភាសាខ្មែរ
     ku: کوردی
-    ku-IQ: کوردی (بادینی)
+    ku-IQ: Kurdi (Badini)
+    fa-AF: ارسی (Afghanistan)
+    ps-AF: Pashto (Afghanistan)
+    sw-KE: Kiswahili (Kenya)
+    sw-TZ: Kiswahili (Tanzania)
+    ne: Nepali
     label: Beranda
     language: Bahasa
     manage_system_users: Mengelola Pengguna Sinkronisasi Server
     my: ဗမာစာ
+    pt: Português
+    pt-BR: Português (Brasil)
     records_need_attention: Data yang perlu perhatian
     ru: Русский
     so: Af-Soomaali
@@ -528,23 +1270,244 @@ id:
     welcome: Selamat Datang di Primero
     zh: 中文
   incident:
+    associated_case: "Kasus yang Berkaitan:"
     messages:
+      creation_success: Data insiden berhasil dibuat.
+      creation_success_queue: Data insiden berhasil dibuat pada latar belakang.
+      disabled: Insiden dinonaktifkan
       update_success: 'Data Insiden %{record_id} berhasil diubah.'
+      update_success_queue: 'Insiden %{record_id}  berhasil diperbarui pada latar belakang.'
+    violation:
+      update_and_return: 'Perbarui dan Kembali ke %{association}'
+      save_and_return: 'Tambahkan dan Kembali ke %{association}'
+      pending: Verifikasi Tertunda
+      title: Pelanggaran
+      types:
+        killing: Pembunuhan Anak-anak
+        maiming: Mencederai Anak-anak
+        recruitment: Merekrut dan/atau Memanfaatkan Anak-anak
+        sexual_violence: Perkosaan dan/atau Bentuk Lain Kekerasan Seksual
+        abduction: Penculikan
+        attack_on: Serangan di Sekolah dan/atau Rumah sakit
+        military_use: Penggunaan Sekolah dan/atau Rumahsakit oleh Militer
+        denial_humanitarian_access: Penolakan akses bantuan kemanusiaan untuk anak
   incidents:
+    disable_dialog: Mengklik OK akan mengubah status insiden ini menjadi Dinonaktifkan
+    disable_dialog_title: Insiden yang Dinonaktifkan
+    disable_success: Insiden berhasil dinonaktifkan
+    enable_dialog: Mengklik OK akan mengubah status insiden ini menjadi Diaktifkan.
+    enable_dialog_title: Insiden yang Diaktifkan
+    enable_success: Insiden berhasil diaktifkan.
+    id: ID#
+    date_of_interview: Tanggal Wawancara
+    date_of_incident: Tanggal dari Insiden
+    incident_location: Lokasi insiden
+    violations: Pelanggaran
+    export: Ekspor
     label: Insiden
     filter_by:
       boys: Anak laki-laki
+      by_date: Berdasarkan Tanggal
+      children: Anak-anak
       girls: Anak perempuan
+      incident_location: Lokasi Insiden
+      unaccompanied_separated_status: Status Perlindungan
       unknown: Tidak diketahui
+      verification_status: Status Verifikasi
+      violence_type: Jenis Kekerasan
+      armed_force_group_name: Nama Kelompok Bersenjata
+      armed_force_group_type: Jenis Kelompok Bersenjata
     register_new_incident: Insiden Baru
     selectable_date_options:
       date_of_first_report: Tanggal Wawancara
       incident_date_derived: Tanggal Kejadian
+    selected_records: 'Insiden %{select_records} dipilih'
+    selected_all_records: 'Pilih semua insiden %{total_records} yang cocok dengan permintaan ini.'
+    survivor_code: Kode Penyintas
+    show_incident: 'ID Insiden: %{short_id}'
+    social_worker: Pekerja Sosial
+    violence_type: Jenis Kekerasan
+    type_violence: Jenis dari Kekerasan
+  key_performance_indicators:
+    label: "Pulse/KPIs"
+    case_assessment: "Penilaian Kasus"
+    case_action_planning: "Perencanaan Tindakan Kasus"
+    case_action_plan_implementation: "Implementasi Perencanaan Tindakan Kasus"
+    case_follow_up: "Tindak Lanjut Kasus"
+    case_closure: "Penghentian Kasus"
+    feedback: "Umpan Balik"
+    other: "Lainnya"
+    date_format: "%b %Y"
+    date_range_select:
+      custom_range: 'Sesuaikan'
+    long_date_format: "Hari/Bulan/Tahun"
+    time_periods:
+      all_time: 'Sepanjang Waktu'
+      current_month: "Bulan saat ini"
+      last_3_months: "3 Bulan Terakhir"
+      last_6_months: "6 Bulan Terakhir"
+      last_1_year: "Tahun Lalu"
+      0-3days: "0 - 3 Hari"
+      4-5days: "4 - 5 Hari"
+      6-14days: "6 - 14 Hari"
+      15-30days: "15 - 30 Hari"
+      1-3months: "1 - 3 Bulan"
+      4months: "> 3 Bulan"
+      1-month: "< 1 Bulan"
+      3-6months: "3 - 6 Bulan"
+      7-months: "> 6 Bulan"
+    helptext:
+      helptext: "Pelajari tentang KPI ini."
+    number_of_cases:
+      title: "1. Jumlah Kasus yang Terekam"
+      reporting_site: "Lokasi Laporan"
+      helptext: |
+        Indikator ini menghitung berapa banyak kasus baru yang terbuka setiap bulan setiap lokasi laporan.
+        Lokasi laporan dipahami sebagai lokasi dimana Organisasi Pengguna menyediakan layanan dan
+        dimana kasus dilaporakan kepada penyedia layanan.
+    number_of_incidents:
+      title: "2. Jumlah Insiden yang Tercatat"
+      reporting_site: "Lokasi Laporan"
+      helptext: |
+        Indikator ini menghitung berapa banyak insiden baru yang terbuka setiap bulan setiap lokasi laporan.
+        Lokasi laporan dipahami sebagai lokasi dimana Organisasi Pengguna menyediakan layanan dan
+        dimana insiden dilaporakan kepada penyedia layanan.
+    reporting_delay:
+      title: "3. Keterlambatan Pelaporan"
+      delay: "Keterlambatan"
+      total_incidents: "Total Insiden"
+      helptext: |
+        Indikator ini menghitung dan mengkategorikan jumlah hari yang telah berlalu antara saat
+        penyintas mengalami GBV dan saat penyintas pertama kali melaporkannya ke penyedia layanan.
+        Hal ini diperhitungkan berdasarkan ketika insiden itu pertama kali dilaporkan ke Organisasi Pengguna.
+        Data dikategorikan berdasarkan jangka waktu yang berbeda (0-3 hari; 4-5 hari; 6-14 hari; 15-30 hari; Lebih dari
+        1 bulan; Lebih dari 3 bulan).
+    service_access_delay:
+      title: "Keterlambatan Akses Layanan"
+      delay: "Keterlambatan"
+      total_incidents: "Total Insiden"
+    assessment_status:
+      title: "4. Status Penilaian"
+      completed: "Selesai"
+      completed_supervisor_approved: "Selesai & Disetujui Supervisor"
+      helptext: |
+        Indikator ini menghitung proporsi kasus aktif yang formulir penilaiannya
+        telah dilengkapi. Sebuah penilaian dianggap selesai jika satu set kolom wajib dalam
+        Formulir Penilaian Korban telah dilengkapi.
+    completed_case_safety_plans:
+      title: "5. Rencana Keselamatan Kasus yang Telah Diselesaikan"
+      completed: "Rencana Keselamatan Kasus yang Telah Diselesaikan"
+      helptext: |
+        Indikator ini menghitung proporsi kasus aktif yang rencana keselamatannya dianggap
+        diperlukan dan telah diselesaikan (mis. kekerasan pasangan intim, risiko bunuh diri/pembunuhan, perlindungan anak).
+        Sebuah rencana keselamatan dianggap selesai di mana satu set kolom wajib dalam formulir Rencana Keselamatan
+        telah dilengkapi.
+    completed_case_action_plans:
+      title: "6. Rencana Tindakan Kasus yang Telah Diselesaikan"
+      completed: "Rencana Tindakan Kasus yang Telah Diselesaikan"
+      label: "Rencana Tindakan Kasus yang Telah Diselesaikan"
+      helptext: |
+        Indikator ini menghitung proporsi kasus aktif di mana Rencana Tindakan Kasus telah diselesaikan.
+        Sebuah rencana aksi kasus dianggap selesai di mana satu set kolom wajib dalam
+        formulir Rencana Tindakan selesai.
+    completed_supervisor_approved_case_action_plans:
+      title: "7. Rencana Tindakan Kasus Disetujui oleh Supervisor"
+      completed_and_approved: "Rencana Tindakan Kasus Disetujui oleh Supervisor"
+      helptext: |
+        Indikator ini menghitung proporsi kasus aktif di mana Rencana Tindakan Kasus
+        telah diselesaikan dan disetujui oleh supervisor. Sebuah rencana tindakan kasus dianggap selesai ketika
+        set kolom wajib dalam formulir Rencana Tindakan telah dilengkapi. Sebuah rencana kasus dianggap
+        disetujui ketika pekerja sosial meminta persetujuan untuk rencana kasus dan supervisor
+        menyetujui rencana kasus pada platform.
+    services_provided:
+      title: "8. Penyedia Layanan"
+      service: "Layanan"
+      count: "Waktu yang Disediakan"
+      male: "Laki-Laki"
+      female: "Perempuan"
+      0-11: "0-11"
+      12-17: "12-17"
+      '>18': ">18"
+      disability: "Cacat"
+      no_disability: "Tidak cacat"
+      helptext: |
+        Indikator ini menghitung jenis layanan yang diberikan kepada penyintas dalam proses manajemen kasus
+        Yang kami maksud dengan layanan yang diberikan adalah layanan yang disediakan oleh organisasi Pengguna secara
+        internal, bukan layanan yang diberikan oleh rujukan ke layanan lain atau rujukan internal.
+    average_referrals:
+      title: "9. Rujukan Rata-rata"
+      label: "Rata-rata rujukan per kasus"
+      helptext: |
+        Indikator ini menghitung jumlah rata-rata rujukan untuk setiap kasus yang tercatat (untuk semua jenis
+        layanan) di semua kasus, apakah kasus tersebut aktif/terbuka atau tertutup. Ini termasuk referensi
+        dicatat pada tab kasus, tidak hanya rujukan yang dilakukan melalui platform.
+    referrals_per_service:
+      title: "Rujukan Per Layanan"
+    average_followup_meetings_per_case:
+      title: "10. Rata-Rata Pertemuan Tindak Lanjut per Kasus"
+      label: "Rata-rata pertemuan tindak lanjut per kasus"
+      helptext: |
+        Indikator ini menghitung rata-rata jumlah pertemuan tindak lanjut yang dilakukan untuk setiap kasus aktif
+        per pekerja kasus di platform. Pertemuan lanjutan adalah pertemuan antara pekerja kasus dan
+        penyintas setelah wawancara/pengungkapan awal.
+    time_from_case_open_to_close:
+      title: "11. Waktu Dari Kasus Dibuka Sampai Kasus Ditutup"
+      time: "Waktu"
+      percent: "Persentase dari Kasus"
+      helptext: |
+        Indikator ini mengukur berapa lama kasus dibiarkan terbuka, berapa lama proses
+        manajemen kasus dari laporan awal ke Organisasi Pengguna hingga penutupan kasus. Lamanya waktu
+        dirinci dengan jangka waktu berikut: kurang dari 1 bulan; antara 1 dan 3 bulan; di antara
+        3-6 bulan; lebih dari 6 bulan.
+    case_closure_rate:
+      title: "12. Jumlah Penutupan Kasus"
+      reporting_site: "Lokasi Laporan"
+      helptext: |
+        Indikator ini mengukur jumlah kasus yang ditutup per bulan per lokasi pelaporan. Lokasi pelaporan
+        adalah lokasi Organisasi Pengguna menyediakan layanan dan tempat
+        insiden dilaporkan kepada penyedia layanan.
+    client_satisfaction_rate:
+      title: "13. Tingkat Kepuasan Klien"
+      label: "Kepuasan Klien"
+      invalid: "Kami tidak dapat menghitungnya untuk saat ini."
+      helptext: |
+        Indikator ini mengukur persentase orang yang selamat yang menyelesaikan Survei Umpan Balik Klien
+        yang puas dengan layanan manajemen kasus yang diberikan kepada mereka. Indikator
+        ini diinformasikan oleh pengisian formulir Umpan Balik Klien tentang GBVIMS+ oleh anggota staf lainnya
+        selain pekerja kasus yang memberikan layanan kepada penyintas.
+    supervisor_to_caseworker_ratio:
+      title: "14. Rasio Supervisor Terhadap Pekerja Kasus"
+      label: "Pekerja kasus per supervisor"
+      helptext: |
+        Indikator ini adalah jumlah pekerja sosial yang diawasi oleh supervisor: rasio supervisor terhadap
+        pekerja kasus. Perhitungan ini didasarkan pada peran sistem yang dialokasikan pada platform.
+    case_load:
+      title: "15. Beban kasus"
+      case_load: "Beban kasus"
+      percent: "persentase pekerja kasus dengan beban kasus"
+      10cases: "< 10 Kasus"
+      20cases: "11 - 20 Kasus"
+      21-30cases: "21 - 30 Kasus"
+      30cases: "> 30 Kasus"
+      helptext: |
+        Indikator ini mengukur beban kasus rata-rata per pekerja kasus yang diaktifkan berdasarkan kasus aktif.
+        Rasio kasus terhadap pekerja kasus dibagi berdasarkan perincian berikut: kasus terbuka
+        kurang dari 10, kasus terbuka antara 10-20, kasus terbuka antara 21-30, kasus terbuka lebih dari 30.
+    date_range_dialog:
+      title: "Kustomisasi Rentang Tanggal "
+      description: "Setelah perubahan ini diterapkan, data akan dipilih dari antara dua tanggal di bawah ini."
+      apply: 'Gunakan'
+      from: 'Dari'
+      to: 'Untuk'
+      aria-labels:
+        from: "Data akan dipilih setelah tanggal ini"
+        to: "Data akan dipilih sebelum tanggal ini"
   location:
     base_types:
       camp: Kemah
       chiefdom: Kepala Sekolah
       city: Kota
+      community: Komunitas
       country: Negara
       county: Negara
       district: 'Kabupaten/Kota:'
@@ -558,20 +1521,99 @@ id:
       sub-district: Kecamatan
       village: Desa
       zone: Zona
+      association: Asosiasi
+      division: Divisi
+      central_warehouse: Gudang Pusat
+      warehouse: Gudang
+      buyingstation: Stasiun Pembelian
+    label: Lokasi
+    name: Nama
+    code: Kode
+    admin_level: Tingkat Admin
+    type: Tipe
+    hierarchy: Hirarki
+    import_title: Lokasi Impor
+    message: Pilih file CSV untuk diunggah. File ini harus menggunakan penyandian UTF-8 dan menyertakan tagar HXL di baris header kedua setiap kolom.
+    no_location: Harap impor Lokasi sebelum membuat akun Pengguna apa pun.
+    enable_title: Aktifkan Lokasi
+    enable_text: Apa kamu yakin? Jika Anda mengaktifkan Lokasi yang dipilih, Lokasi akan muncul sebagai opsi di bidang Lokasi
+    disable_title: Nonaktifkan Lokasi
+    disable_text: Apa kamu yakin? Jika Anda me-nonaktifkan Lokasi yang dipilih, Lokasi tidak akan muncul sebagai opsi di bidang Lokasi
   logger:
+    actions:
+      _approved: Disetujui
+      _rejected: Ditolak
+      _requested: Sudah diminta
+      add_note: Tambahkan catatan
+      assign: Menugaskan
+      assign_to: Menugaskan kepada
+      attach: Lampirkan
+      bulk_assign: Menugaskan massal
+      bulk_create: Buat massal
+      bulk_index: Indeks massal
+      case_plan_approved: Rencana kasus disetujui
+      case_plan_rejected: Rencana kasus ditolak
+      case_plan_requested: Rencana kasus diminta
+      close: Tutup
+      create: Buat
+      create_bulk: Buat Massal
+      delete: Hapus
+      destroy: Hancurkan
+      detach: Terpisah
+      enable_disable_record: Aktifkan data yang dinonaktifkan
+      export: Ekspor
+      flag: Tandai Bendera
+      import: Impor
+      incident_details_from_case: Rincian insiden dari kasus
+      index: Indeks
+      list: Daftar
+      login: Login
+      password_reset: Atur ualng kata sandi
+      password_reset_request: Permintaan atur ulang kata sandi
+      refer: Merujuk
+      refer_accepted: Rujukan diterima
+      refer_done: Rujukan Selesai
+      refer_rejected: Rujukan ditolak
+      refer_revoke: Rujukan dicabut
+      refer_to: Merujuk kepada
+      reopen: Buka kembali
+      services_section_from_case: Pilihan layanan dari kasus
+      show: Tunjukkan
+      show_alerts: Tampilkan Peringatan
+      traces: Telusuri
+      transfer: Pemindahan
+      transfer_accepted: Pemindahan diterima
+      transfer_rejected: Pemindahan ditolak
+      transfer_request: Permintaan pemindahan
+      transfer_to: Pindahkan ke
+      unflag: Tidak Ditandai Bendera
+      update: Perbarui
+      user_password_reset_request: Permintaan atur ulang kata sandi pengguna
+      webhook: Webhook
     approve_form:
+      action_plan: Formulir Rencana Tindakan
       bia: Formulir BIA
       case_plan: Formulir Rencana Kasus
       closure: Formulir Terminasi
       'false': Menolak
+      gbv_closure: Formulir Penghentian GBV
       'true': Menyetujui
+    assessment_approved: "%{approval_label} disetujui untuk"
+    assessment_requested: "%{approval_label} diminta untuk"
+    bulk_index: Daftarkan semua
     by_user: dari pengguna
+    case_plan_approved: "%{approval_label} disetujui untuk"
+    case_plan_requested: "%{approval_label} diminta untuk"
+    close: Tutup
+    closure_approved: "%{approval_label} disetujui untuk"
+    closure_requested: "%{approval_label} diminta untuk"
     consent_count: Jumlah Persetujuan
     copy: Menyalin
     create: Membuat
     create_subform: Membuat Sub-Form
     destroy: Menghapus
     edit: Mengubah
+    enable_disable_record: Aktifkan / Nonaktifkan
     export: Mengekspor data untuk
     flag: Tandai dengan Bendera
     flag_records: Tandai dengan Bendera
@@ -580,6 +1622,7 @@ id:
       protect: Sembunyikan Nama
       view: Tunjukkan Nama
     index: Membuat Daftar Data Catatan
+    list: Daftar
     login: Masuk
     logout: Keluar
     lookups_for_field: Cari untuk kolom
@@ -590,20 +1633,48 @@ id:
     permitted_field_list: Daftar kolom yang diizinkan
     quick_view: Melihat Tampilan Cepat
     reassign: Menugaskan
+    resources:
+      audit_log: Audit Log
+      user: Pengguna
+      agency: Lembaga
+      user_group: Grup Pengguna
+      child: Anak
+      alert: Peringatan
+      form_section: Formulir
+      lookup: Referensi
+      system_settings: Pengaturan Sistem
+      permission: Izin
+      dashboard: Dashboard
+      report: Laporan
+      bulk_export: Expor kumpulan
+      saved_search: PencarianTersimpan
+      role: Peran
+      incident: Insiden
+      location: Lokasi
+      primero_configuration: Konfigurasi Primero
+      code_of_conduct: Kode Etik
+      task: Tugas-tugas
     record_state:
       'false': Nonaktifkan
       'true': Aktifkan
+    refer: Merujuk
+    refer_to: Pencarian penerima Rujukan
     referral: Merujuk
     relinquish_referral: Mempublikasikan rujukan yang selesai
+    reopen: Buka kembali
     reopen_case: Membuka kembali
     request_approval:
+      action_plan: Meminta Persetujuan untuk formulir Rencana Tindakan
       bia: Meminta Persetujuan untuk formulir BIA
       case_plan: Meminta Persetujuan untuk formulir Rencana Kasus
       closure: Meminta Persetujuan untuk formulir Terminasi
+      gbv_closure: Meminta Persetujuan untuk formulir Penghentian GBV
     request_transfer: Mengirim Permintaan Pengalihan
     request_transfer_view: Melihat Pemindahan Permintaan
     save_subform: Menyimpan Sub-Form
+    search: Pencarian API
     show: Melihat
+    show_alerts: Lihat peringatan untuk
     to: untuk
     to_user: untuk pengguna
     transfer: Memindahkan
@@ -616,19 +1687,151 @@ id:
     label: Masuk
     password:
       label: Kata sandi
+    password_confirmation:
+      label: Konfirmasi Kata Sandi
+    password_match:
+      label: Kata Sandi Harus Cocok
+    provider_title: dengan %{provider}
+    title: Log In
     username: Nama Pengguna
+    password_reset_modal: Atur Ulang Sandi Baru
+    password_reset_modal_text: Primero akan mengirim tautan pengaturan ulang kata sandi ke alamat email anda
+    password_reset_email: Email
+    forgot_password: Lupa kata sandi anda?
+    email:
+      label: Email
   lookup:
     create: Referensi Baru
+    enabled_label: Aktifkan?
+    english_label: Teks Bahasa Inggris
     label: Lihat Referensi
+    language_label: Bahasa
     messages:
       cannot_create: Referensi tidak bisa dibuat
       correct_errors: 'Perbaiki kesalahan berikut dan kirimkan lagi:'
+      created: Referensi berhasil dibuat.
+      updated: Referensi berhasil diperbarui.
     name: Nama
+    no_options: Pencarian pilihan ini tidak memiliki pilihan
+    translation_label: Teks Terjemahan
     values: Pilihan
+  managed_reports:
+    label: Insights
+    total: Total
+    filter_by:
+      date: Tanggal
+      verification_status: Status Verifikasi
+    date_range:
+      month: Bulan
+      quarter: Triwulan
+      year: Tahun
+    date_range_options:
+      this_quarter: Triwulan ini
+      last_quarter: Triwulan lalu
+      this_month: Bulan ini
+      last_month: Bulan lalu
+      this_year: Tahun ini
+      last_year: Tahun lalu
+      custom: Sesuaikan
+    no_data: Tidak ada data untuk insight ini
+    no_data_table: Tidak ada data tabel untuk insight ini
+    violations:
+      name: Pelanggaran
+      filter_options:
+        incident_date: Tanggal Insiden
+        date_of_report: Tanggal Laporan
+        ctfmr_verified_date: Tanggal Verifikasi
+      reports:
+        killing: Pembunuhan Anak-anak
+        maiming: Mencederai Anak-anak
+        recruitment: Rekrutmen dan/atau Pemanfaatan Anak-anak
+        sexual_violence: Perkosaan dan/atau Bentuk Kekerasan Seksual lainnya
+        abduction: Penculikan
+        attack_on: Penyerangan di Sekolah dan/atau Rumahsakit
+        military_use: Penggunaan Sekolah dan/atau Rumahsakit oleh Militer
+        denial_humanitarian_access: Penolakan akses bantuan kemanusdiaan untuk anak-anak
+      sub_reports:
+        combined: Pelanggaran
+        detention_detained: Tetap Ditahan
+        detention_released: Dibebaskan
+        perpetrators: Jumlah Anak berdasar Pelaku Kekerasan
+        reporting_location: Jumlah Anak berdasar Agama
+        attack_type: Jumlah Anak berdasar Jenis Serangan
+        boys: Anak Laki-laki
+        girls: Anak Perempuan
+        unknown: Tidak Diketahui
+        total: Total
+    gbv_statistics:
+      name: Statistik KBG
+      filter_options:
+        date_of_first_report: Tanggal Wawancara
+        incident_date: Tanggal Insiden
+      reports:
+        incidents: Insiden
+        perpetrators: Pelaku Kekerasan
+      sub_reports:
+        combined: Insiden
+        total: Jumlah Insiden KBG yang Dilaporkan
+        gbv_sexual_violence: Jumlah Insiden Kekerasan Seksual yang Dilaporkan
+        gbv_previous_incidents: Jumlah Insiden yang Dilaporkan oleh Penyintas dengan Insiden GBV Sebelumnya
+        gbv_sexual_violence_type: Jenis Insiden
+        incident_timeofday: Waktu terjadinya Insiden
+        elapsed_reporting_time: Jeda antara Tanggal Insiden dan Pelaporan
+        elapsed_reporting_time_rape: Insiden Perkosaan, Jeda Waktu antara Tanggal Insiden dan Pelaporan
+        incident_location_type: Lokasi Insiden
+        number_of_perpetrators: Jumlah Pelaku (Kekerasan) Utama
+        perpetrator_relationship: Hubungan antara Terduga Pelaku Utama dengan Penyintas
+        perpetrator_age_group: Kelompok Usias Terduga Pelaku Utama
+        perpetrator_occupation: Pekerjaan Terduga Pelaku Utama
   messages:
+    alert_items: Anda memiliki %{items} item yang dicatat.
+    alerts_for:
+      approval: Persetujuan ditunda untuk %{form_section_name}
+      field_change: '%{form_section_name} diperbarui pada %{alert_time}'
+      transfer_request: Permintaan pemindahan baru dilakukan pada %{date} oleh %{user} pada %{agency}
+      duplicate_field: Kasus lain di dalam Sistem yang memiliki kesamaan %{field_name} dengan kasus ini.
+    cannot_edit: Anda tidak dapat mengubah ini
     confirmation_message: Menekan tombol OK akan membuang perubahan yang belum disimpan dan kembali ke tampilan daftar. Tekan tombol BATAL untuk kembali ke data.
+    confirmation_message_subform: Mengklik OK akan menghilangkan semua perubahan yang belum disimpan. Klik Batal untuk melanjutkan perubahan.
+    dashboard_offline: Anda offline. Dashboard akan berfungsi penuh saat Anda kembali online
+    field_name_on_form_name: '''%{field_name}'' kolom pada formulir ''%{form_name}''.'
+    logout_confirmation: Apakah Anda ingin melanjutkan sesi Anda?
+    logout_offline_warning: Yakin ingin logout? Jika ya, Anda tidak akan dapat masuk kembali hingga Anda online kembali. Setiap perubahan yang Anda buat saat offline akan hilang.
+    logout_warning: Anda akan keluar dalam 5 menit
+    logout_dialog_header: Offline Log Out
+    logout_confirmation_title: Konfirmasi Keluar
+    logout_confirmation_text: Apakah Anda yakin ingin keluar?
+    no_changes: Anda tidak melakukan perubahan kolom
+    not_available: Tidak tersedia
+    record_list:
+      column_header_tooltip: Sunting untuk %{column}
+      of: dari
+      no_match: Maaf, tidak ada catatan yang cocok ditemukan
+      rows_per_page: Baris per laman
+      sort: Sunting
   navigation:
+    bulk_exports: Ekspor
+    cases: Kasus
+    home: Beranda
+    key_performance_indicators: Pulse/KPIs
+    incidents: Insiden
+    logout: Keluar
+    reports: Laporan
+    insights: Insights
     search: Cari
+    settings: Pengaturan
+    support: Bantuan
+    support_menu:
+      contact_information: Informasi Kontak
+      code_of_conduct: Kode Etik
+      terms_of_use: Syarat Penggunaan
+      system_information: Informasi Sistem
+    tasks: Tugas-tugas
+    tracing_request: Permintaan Pelacakan
+    activity_log: Log Aktivitas
+    registry_records: Pendaftaran
+  notes:
+    note_success: Catatan berhasil ditambahkan
   permissions:
     label: Izin
     permission:
@@ -639,27 +1842,60 @@ id:
       agency: Agensi
       agency_read: Pembacaan Agensi
       all: Akses semua data atau pengguna
+      approvals_assessment: '%{approval_label}'
+      approvals_assessment_pending: '%{approval_label} Tertunda'
+      approvals_case_plan: '%{approval_label}'
+      approvals_case_plan_pending: '%{approval_label} Tertunda'
+      approvals_closure: '%{approval_label}'
+      approvals_closure_pending: '%{approval_label} Tertunda'
+      approve_action_plan: Setujui %{approval_label}
+      approve_assessment: Setujui formulir %{approval_label}
+      approve_case_plan: Setujui %{approval_label}
+      approve_closure: Setujui formulir %{approval_label}
+      approve_gbv_closure: Setujui formulir %{approval_label}
       assign: Menugaskan
       assign_within_agency: Tugaskan dalam lembaga
       assign_within_user_group: Tugaskan dalam kelompok pengguna
       audit_log: Audit Log
       case: Kasus
+      case_approvals: Persetujuan Kasus
+      case_assignments_referrals_transfers: Penugasan, rujukan, dan pemindahan kasus
+      case_exports: Ekspor Kasus
+      case_overview: Kasus Saya
+      case_risk: Kasus berdasarkan Tingkat Penilaian
+      cases_by_task_overdue_assessment: Tinjau Kasus Berdasarkan Penilaian Keterlambatan Tugas
+      cases_by_task_overdue_case_plan: Tinjau Kasus Berdasarkan Rencana Kasus Keterlambatan Tugas
+      cases_by_task_overdue_followups: Tinjau Kasus Berdasarkan Layanan Keterlambatan Tugas
+      cases_by_task_overdue_services: Tinjau Kasus Berdasarkan Layanan Keterlambatan Tugas
+      cases_managed_other_users: Kasus yang dikelola oleh pengguna lain
+      close: Tutup
       consent_override: Persetujuan diganti
       copy: Salin
+      copy_of: Salinan dari
       create: Buat
+      dash_case_incident_overview: Kasus / Insiden Saya
       dash_cases_by_social_worker: Tinjau Kasus-kasus berdasar Pekerja Sosial
       dash_cases_by_task_overdue: Tinjau Kasus yang Mengalami Keterlambatan
       dash_cases_by_workflow: Tinjau Kasus berdasar Alur Penanganan
       dash_cases_to_assign: Tinjau Kasus untuk Ditetapkan Penugasannya
+      dash_group_overview: Kasus Kelompok Saya
       dash_manager_transfers: Tinjau Pengalihan Manajer Kasus
       dash_matching_results: Tinjau Hasil Pencocokan
       dash_protection_concerns: 'Lihat Masalah perlindungan:'
+      dash_protection_concerns_by_location: Tinjau Kekhawatiran Perlindungan Berdasarkan Lokasi
       dash_referrals_by_socal_worker: Tinjau Rujukan berdasar Pekerja Sosial
       dash_reporting_location: Lihat Lokasi Laporan
       dash_service_provisions: Tinjau Pemberian Layanan
+      dash_shared_from_my_team: Dibagikan Dari Team Saya
+      dash_shared_with_me: Dibagikan Dengan Saya
+      dash_shared_with_my_team: Bagikan Dengan Team Saya
+      dash_shared_with_others: Bagikan Dengan Yang Lain
+      dash_show_none_values: Tinjau Tidak Ada Nilai
       dash_tasks: Tinjau tugas-tugas
       dash_transfers_by_socal_worker: Tinjau Pengalihan berdasar Pekerja Sosial
+      dash_national_admin_summary: Ringkasan Administrator
       dashboard: Dashboard
+      delete: Hapus
       display_view_page: Tampilkan Tinjauan Halaman
       duplicate: Pencarian Duplikat
       enable_disable_record: Nonaktifkan
@@ -674,7 +1910,9 @@ id:
       export_photowall: Ekspor Foto Dinding
       export_unhcr_csv: Ekspor unhcr csv
       export_xls: Ekspor XLS
-      find_tracing_match: Temukan kecocokan penelusuran dari kasus
+      find_tracing_match: Temukan kecocokan pelacakan dari kasus
+      view_registry_record: Lihat catatan pendaftaran
+      add_registry_record: Tambahkan catatan pendaftaran
       flag: Tandai dengan Bendera
       form: Formulir
       group: Akses semua data atau pengguna di grup saya
@@ -683,29 +1921,45 @@ id:
       incident: Insiden
       incident_details_from_case: Tambahkan Rincian Kejadian untuk Kasus Milik Pengguna Lain
       incident_from_case: Buat insiden dari sebuah kasus
+      kpi: Pulse/KPIs
       lookup: Lihat Referensi
       manage: Kelola
+      mark_for_offline: Tandai untuk Offline
       matching_configuration: Pengaturan Pencocokan
       metadata: Formulir, Lihat Referensi
       potential_match: Potensi Kecocokan
+      primero_configuration: Konfigurasi
       read: Baca
       reassign: Menugaskan kembali
+      receive_referral: Terima Rujukan
+      receive_transfer: Terima Pemindahan
+      referral: Dapatkah peran ini digunakan untuk Rujukan?
       referral_from_service: Rujuk Kasus dari Form Layanan
+      registry_record: Pendaftaran
       remove_assigned_users: Hapus pengguna lain (kasus rujukan)
+      reopen: Buka kembali
       report: Laporan
+      managed_report: Insights
       request_approval: Meminta persetujuan
+      request_approval_action_plan: Persetujuan permintaan %{approval_label}
+      request_approval_assessment: Persetujuan permintaan %{approval_label}
+      request_approval_case_plan: Persetujuan permintaan %{approval_label}
+      request_approval_closure: Persetujuan permintaan %{approval_label}
+      request_approval_gbv_closure: Persetujuan permintaan %{approval_label}
       request_transfer: Permintaan Pemindahan
       role: Peran
       save_search: Simpan Pencarian
       saved_search: Pencarian yang tersimpan
       search_owned_by_others: Cari catatan kasus milik pengguna lain
       self: Akses hanya data saya atau pengguna
-      service_provision_incident_details: Lihat Tobol Penambahan Penyediaan Layanan di Mode Rincian Layanan
+      service_provision_incident_details: Lihat Tombol Penambahan Penyediaan Layanan di Mode Rincian Layanan
       services_section_from_case: Tambahkan pemberian layanan untuk kasus milik pengguna lain
       specific_roles: Akses daftar peran yang ditentukan
-      sync_mobile: Sinkronisasi dengan perangkat seluler
+      sync_external: Sinkronkan dengan sistem manajemen informasi eksternal
+      sync_mobile: Tandai untuk Offline
       system: Sistem
-      tracing_request: Permintaan Penelusuran
+      tracing_request: Permintaan Pelacakan
+      transfer: Dapat digunakan untuk pemindahan
       user: Pengguna
       user_group: Grup Pengguna
       view_approvals: Lihat Persetujuan
@@ -713,8 +1967,758 @@ id:
       view_photo: Lihat Foto
       view_protection_concerns_filter: Tinjau Filter Masalah Perlindungan Anak
       view_response: Tinjau Respons
+      webhook: Webhook
+      workflow: Alur Kerja - Kasus-kasus Perorangan
+      workflow_team: Alur Kerja - Kasus-kasus Tim
       write: Tulis
+      activity_log: Log Aktivitas
+    resource:
+      kpi:
+        actions:
+          read:
+            explanation: Kemampuan untuk akses laman Pulse/KPIs.
+            label: Akses laman Pulse/KPIs.
+          kpi_assessment_status:
+            explanation: Kemampuan untuk melihat, untuk kasus aktif yang dapat diakses pengguna, berapa proporsinya yang memiliki formulir penilaian yang lengkap.
+            label: Status Penilaian
+          kpi_average_followup_meetings_per_case:
+            explanation: Kemampuan untuk melihat, untuk kasus aktif yang dapat diakses pengguna, jumlah rata-rata pertemuan tindak lanjut yang dilakukan selama periode waktu tertentu.
+            label: Rata-rata pertemuan tindak lanjut per kasus
+          kpi_average_referrals:
+            explanation: Kemampuan untuk melihat, dari semua kasus aktif yang dapat diakses pengguna, jumlah rata-rata rujukan yang dibuat untuk setiap jenis layanan.
+            label: Rujukan Rata-rata
+          kpi_case_closure_rate:
+            explanation: Kemampuan untuk melihat berapa banyak kasus yang ditutup di setiap lokasi per bulan.
+            label: Jumlah Penutupan Kasus
+          kpi_case_load:
+            explanation: Kemampuan untuk melihat jumlah rata-rata kasus yang dibuka oleh pekerja kasus.
+            label: Beban kasus
+          kpi_client_satisfaction_rate:
+            explanation: Kemampuan untuk melihat, untuk setiap kasus yang dapat diakses pengguna, rasio penyintas yang melengkapi Survei Umpan Balik yang puas.
+            label: Tingkat Kepuasan Klien
+          kpi_completed_case_action_plans:
+            explanation: Kemampuan untuk melihat, untuk kasus aktif yang dapat diakses pengguna, proporsi mana yang memiliki Rencana Tindakan Kasus yang lengkap.
+            label: Rencana Tindakan Kasus yang Telah Diselesaikan
+          kpi_completed_case_safety_plans:
+            explanation: Kemampuan untuk melihat, untuk kasus aktif yang dapat diakses pengguna, proporsi apa yang diperlukan dan menyelesaikan Rencana Keselamatan.
+            label: Rencana Keselamatan Kasus yang Telah Diselesaikan
+          kpi_completed_supervisor_approved_case_action_plans:
+            explanation: Kemampuan untuk melihat, untuk kasus aktif yang dapat diakses pengguna, proporsi apa yang menyelesaikan Rencana Tindakan Kasus yang disetujui oleh supervisor.
+            label: Rencana Tindakan Yang Telah Diselesaikan Disetujui oleh Supervisor
+          kpi_goal_progress_per_need:
+            explanation: Kemampuan untuk melihat, untuk kasus-kasus yang dapat diakses pengguna, berapa persentase tujuan dalam setiap kategori kebutuhan yang telah terpenuhi.
+            label: Kemajuan Dibuat menuju Tujuan
+          kpi_number_of_cases:
+            explanation: Kemampuan untuk melihat berapa banyak kasus baru yang dilaporkan dibuka setiap bulan per lokasi.
+            label: Jumlah Kasus
+          kpi_number_of_incidents:
+            explanation: Kemampuan untuk melihat berapa banyak insiden baru yang dilaporkan dibuka setiap bulan per lokasi.
+            label: Jumlah Insiden
+          kpi_reporting_delay:
+            explanation: Kemampuan untuk melihat, untuk semua insiden yang dapat diakses pengguna, jumlah hari yang berlalu antara saat penyintas mengalami GBV dan saat penyintas melaporkannya ke penyedia layanan.
+            label: Keterlambatan Pelaporan
+          kpi_services_provided:
+            explanation: Kemampuan untuk melihat, semua kasus yang dapat diakses pengguna, jenis layanan apa yang telah disediakan oleh organisasi secara internal.
+            label: Penyedia Layanan
+          kpi_supervisor_to_caseworker_ratio:
+            explanation: Kemampuan untuk melihat rasio pekerja kasus terhadap supervisor.
+            label: Rasio Supervisor Terhadap Pekerja Kasus
+          kpi_time_from_case_open_to_close:
+            explanation: Kemampuan untuk melihat, untuk semua kasus yang dapat diakses pengguna, berapa lama kasus tetap terbuka.
+            label: Waktu Dari Kasus Dibuka Sampai Kasus Ditutup
+        label: KPI
+      agency:
+        actions:
+          assign:
+            explanation: Kemampuan untuk memilih lembaga saat membuat atau mengubah akun pengguna. Jika pengguna saat ini memiliki izin ini serta izin "Baca Lembaga" pada pengguna, mereka hanya dapat menambahkan pengguna ke lembaga mereka sendiri.
+            label: Menugaskan
+          create:
+            explanation: Kemampuan untuk membuat lembaga.
+            label: Buat
+          manage:
+            explanation: 'Memungkinkan pengguna untuk melakukan semua tindakan yang tersedia di Lembaga. Izin "Kelola" pada dasarnya berarti "semuanya". PENTING: Hal ini juga memberikan kemampuan untuk membuat lembaga baru.'
+            label: Kelola (semua izin untuk jenis sumber daya ini)
+          read:
+            explanation: Kemampuan untuk melihat lembaga.
+            label: Lihat
+          write:
+            explanation: Kemampuan untuk mengedit informasi tentang lembaga. Harap garis bawahi bahwa ini berlaku untuk semua lembaga dalam sistem.
+            label: Ubah
+        explanation: Mewakili organisasi dengan anggota yang menggunakan Primero. Lembaga tidak menjadi bagian dari Grup Pengguna.
+        label: Lembaga
+      audit_log:
+        actions:
+          read:
+            explanation: Memungkinkan pengguna untuk melihat dan memfilter daftar semua tindakan yang dilakukan dalam sistem, dikelompokkan berdasarkan pengguna, jenis tindakan, ID rekaman, dan waktu tindakan. Ini paling cocok untuk administrator tingkat nasional atau lembaga, karena ini menunjukkan tindakan yang dilakukan oleh semua pengguna dalam sistem. Harap dicatat bahwa log audit tidak menampilkan informasi identitas pribadi tentang rekaman yang terlibat dalam setiap tindakan.
+            label: Lihat
+        explanation: Daftar semua tindakan yang dilakukan dalam sistem yang dapat difilter. Tidak termasuk informasi yang dapat diidentifikasi pada Kasus, Insiden, atau Permintaan Pelacakan.
+        label: Audit Log
+      case:
+        actions:
+          add_note:
+            explanation: Memungkinkan pengguna untuk menambahkan entri ke dalam subformulir "Catatan" (kadang juga disebut "Komentar"). Pengguna melakukan ini dengan mengklik tombol "Tambah Catatan" pada laman pertunjukan kasus. Tindakan ini sangat berguna bagi manajer yang tidak memiliki kemampuan untuk mengubah kasus, tetapi ingin menambahkan pengingat ke kasus untuk pekerja kasus. Dengan cara ini, menambahkan catatan mirip dengan menambahkan bendera. Keuntungan menambahkan catatan adalah, ketika manajer menambahkan catatan ke kasus, pemberitahuan akan muncul di kasus untuk pekerja kasus ketika mereka melihat kasus di perangkat seluler mereka.
+            label: Tambahkan Catatan pada kasus
+          add_registry_record:
+            explanation: Izinkan pengguna menautkan Nomor Pendaftaran ke Kasus dari formulir detail pendaftaran. Juga izinkan pengguna untuk melakukan pembatalan.
+            label: Tambahkan / Perbarui catatan Pendaftaran dari Kasus
+          approve_action_plan:
+            explanation: Memungkinkan manajer untuk menyetujui  %{approval_label} untuk kasus pekerja kasus mereka.
+            label: Setujui %{approval_label}
+          approve_assessment:
+            explanation: Memungkinkan manajer untuk menyetujui  %{approval_label} untuk kasus pekerja kasus mereka.
+            label: Setujui formulir %{approval_label}
+          approve_bia:
+            explanation: Memungkinkan manajer untuk menyetujui  %{approval_label} untuk kasus pekerja kasus mereka.
+            label: Setujui formulir %{approval_label}
+          approve_case_plan:
+            explanation: Memungkinkan manajer untuk menyetujui  %{approval_label} untuk kasus pekerja kasus mereka.
+            label: Setujui %{approval_label}
+          approve_closure:
+            explanation: Memungkinkan manajer untuk menyetujui  %{approval_label} untuk kasus pekerja kasus mereka.
+            label: Setujui formulir %{approval_label}
+          approve_gbv_closure:
+            explanation: Memungkinkan manajer untuk menyetujui  %{approval_label} untuk kasus pekerja kasus mereka.
+            label: Setujui formulir %{approval_label}
+          assign:
+            explanation: Memungkinkan pengguna untuk mengirim kasus dari pemilik rekaman aslinya ke pengguna lain dalam sistem. Tidak diperlukan persetujuan anak untuk tindakan ini. Berbeda dengan pemindahan, penerima tidak diberi kesempatan untuk menerima atau menolak penugasan.
+            label: Menugaskan
+          assign_within_agency:
+            explanation: Mengizinkan pengguna mengirim kasus dari pemilik rekaman aslinya ke pengguna lain di lembaga pengguna saat ini. Tidak diperlukan persetujuan anak untuk tindakan ini. Berbeda dengan transfer, penerima tidak diberi kesempatan untuk menerima atau menolak penugasan.
+            label: Tugaskan kepada pengguna dalam lembaga saya
+          assign_within_user_group:
+            explanation: Mengizinkan pengguna mengirim kasus dari pemilik rekaman aslinya ke pengguna lain di grup pengguna milik pengguna saat ini. Tidak diperlukan persetujuan anak untuk tindakan ini. Berbeda dengan transfer, penerima tidak diberi kesempatan untuk menerima atau menolak penugasan.
+            label: Tugaskan kepada pengguna dalam grup pengguna saya
+          change_log:
+            explanation: Pengguna dapat melihat riwayat semua perubahan yang dibuat pada catatan sejak dibuat. Ini termasuk nilai yang direkam untuk semua bidang.
+            label: Ubah Log
+          close:
+            explanation: Memungkinkan pengguna untuk mengatur status kasus terbuka menjadi tertutup.
+            label: Tutup
+          consent_override:
+            explanation: Memungkinkan pengguna untuk melakukan rujukan atau transfer untuk kasus yang belum memberikan persetujuan.
+            label: Abaikan kurangnya persetujuan saat merujuk atau memindahkan
+          create:
+            explanation: Kemampuan untuk membuat kasus
+            label: Buat
+          display_view_page:
+            explanation: Jika pengguna melakukan pencarian untuk kasus yang mereka tidak memiliki akses, izin ini memungkinkan mereka untuk melihat modal kecil dengan informasi dasar tentang kasus tersebut, bahkan jika pengguna tidak dapat mengklik ke dalam kasus untuk melihat semua informasinya. Kolom yang muncul di "Lihat Modal" ini adalah kolom yang telah dikonfigurasi ke "Tampilkan pada Formulir Ringkas". Modal ini juga berguna bagi pengguna yang melakukan tindakan Pelacakan Keluarga dan Penyatuan Kembali, karena "Lihat Modal" tersedia untuk diakses pengguna saat mereka meninjau kasus yang muncul sebagai "Kemungkinan Cocok" untuk Permintaan Pelacakan.
+            label: Tampilkan Tinjauan Halaman
+          enable_disable_record:
+            explanation: Kemampuan untuk menonaktifkan atau mengaktifkan kasus. Kasus yang "dinonaktifkan" tidak muncul secara default dalam daftar kasus. Pengguna dapat melihat kasus yang dinonaktifkan dalam daftar kasus dengan menggunakan filter. Karena Primero tidak mengizinkan pengguna untuk menghapus kasus, pengguna mungkin ingin menonaktifkan kasus sebagai pengganti. Misalnya, jika pengguna membuat kasus secara tidak sengaja, atau kasus memiliki data yang buruk, pengguna harus menonaktifkannya.
+            label: Aktifkan / Nonaktifkan
+          export_case_pdf:
+            explanation: Pengguna dapat menghasilkan ekspor file PDF dari daftar kasus atau halaman pertunjukan kasus, yang berisi semua kolom yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua kasus yang dapat diakses oleh pengguna. Dalam file ekspor PDF, informasi didaftar pertama berdasarkan kasus, dan kemudian diatur lebih lanjut oleh formulir di mana informasi muncul.
+            label: Ekspor PDF kasus
+          export_csv:
+            explanation: 'Pengguna dapat membuat ekspor file CSV dari daftar kasus atau halaman pertunjukan kasus, yang berisi semua kolom yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua kasus yang dapat diakses pengguna. CATATAN: Ekspor CSV tidak merender karakter non-Latin (misalnya Arab, Bangla) dalam format yang dapat dibaca.'
+            label: Ekspor CSV
+          export_custom:
+            explanation: Pengguna dapat membuat ekspor file XLS dari daftar kasus atau halaman pertunjukan kasus, yang berisi kumpulan formulir atau bidang khusus, untuk satu, beberapa, atau semua kasus yang dapat diakses pengguna. Dalam ekspor ini, setiap formulir diwakili di tabnya sendiri di dalam file XLS. Pengguna dapat memilih formulir atau bidang mana yang ingin mereka sertakan dalam ekspor menggunakan modal Ekspor Kustomisasi. Harap dicatat bahwa pengguna hanya dapat memasukkan formulir dan bidang dalam ekspor jika mereka sudah dapat melihat formulir dan bidang tersebut saat melihat kasus di aplikasi.
+            label: Ekspor kustomisasi
+          export_duplicate_id_csv:
+            explanation: Membuat ekspor CSV dari kasus yang memiliki bidang ID Nasional yang sama (mungkin memiliki label yang berbeda, tergantung pada konfigurasi). Hanya dilakukan dari halaman daftar kasus.
+            label: Eksport Duplikat
+          export_json:
+            explanation: Pengguna dapat membuat ekspor file JSON dari daftar kasus atau halaman pertunjukan kasus, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua kasus yang dapat diakses pengguna. Ekspor ini terutama digunakan untuk mereka yang ingin mengekspor kasus dari sistem Primero saat ini dan kemudian mengimpornya ke sistem Primero yang berbeda, atau ke sistem manajemen informasi lainnya. Format JSON dapat dibaca mesin dan tidak praktis untuk sebagian besar pengguna.
+            label: Ekspor JSON
+          export_list_view_csv:
+            explanation: Pengguna dapat menghasilkan ekspor file CSV dari halaman daftar kasus yang berisi bidang yang sama yang muncul untuk pengguna tersebut pada daftar kasus. Hanya dilakukan dari halaman daftar kasus.
+            label: Tampilan daftar ekspor CSV
+          export_pdf:
+            explanation: Pengguna dapat menghasilkan ekspor file PDF dari daftar kasus atau halaman pertunjukan kasus, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua kasus yang dapat diakses oleh pengguna. Dalam file ekspor PDF, informasi didaftar pertama berdasarkan kasus, dan kemudian diatur lebih lanjut oleh formulir di mana informasi muncul.
+            label: Ekspor PDF kasus
+          export_photowall:
+            explanation: Memungkinkan pengguna untuk mengekspor file dari halaman daftar kasus yang berisi foto dari semua kasus yang dipilih. Ekspor ini terutama digunakan untuk kegiatan Family Tracing dan Reunification. Hanya dilakukan dari halaman daftar kasus.
+            label: Ekspor Foto Dinding
+          export_unhcr_csv:
+            label: Ekspor UNCHR CSV
+          export_xls:
+            explanation: 'Pengguna dapat membuat ekspor file XLS dari daftar kasus atau halaman pertunjukan kasus, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua kasus yang dapat diakses oleh pengguna. Dalam ekspor ini, setiap formulir diwakili di tabnya sendiri di dalam file XLS. CATATAN: Format XLS merender karakter non-Latin (misalnya Arab, Bangla) dalam format yang dapat dibaca, sedangkan ekspor CSV tidak.'
+            label: Ekspor Excel (file XLS)
+          find_tracing_match:
+            explanation: Ini digunakan secara eksklusif untuk konteks dengan aktivitas Pelacakan Keluarga dan Penyatuan Kembali. Pengguna dengan izin ini akan melihat tombol "Temukan Pelacakan yang Cocok" di halaman pertunjukan kasus. Ketika mereka mengkliknya, mereka akan sampai pada daftar permintaan pelacakan dalam sistem yang merupakan kemungkinan cocok untuk kasus mereka.
+            label: Temukan kecocokan pelacakan dari kasus
+          flag:
+            explanation: Kemampuan untuk menambahkan tanda bendera ke kasus. Pengguna dengan izin ini juga dapat menghapus tanda bendera yang telah mereka tambahkan ke kasus.
+            label: Tandai Bendera
+          import:
+            explanation: Memungkinkan pengguna membuat satu atau beberapa kasus baru dengan mengimpornya dari file CSV, Excel, atau JSON. File yang diimpor harus diformat *sangat* khusus agar informasi dapat diimpor dengan benar. Fungsi ini seharusnya hanya tersedia untuk pengguna administratif dengan keterampilan teknis tingkat lanjut dan pengetahuan mendalam tentang bagaimana data diformat di Primero. Hanya dilakukan dari halaman daftar kasus.
+            label: Impor
+          incident_details_from_case:
+            explanation: Kemampuan untuk menambahkan entri untuk subformulir Rincian Insiden pada kasus yang Anda temukan di hasil pencarian, tetapi tidak dapat Anda akses. Pengguna melakukan tindakan ini dari halaman hasil pencarian dengan memilih satu kasus atau lebih, lalu memilih "Tambah Insiden" dari menu tindakan. Pengguna kemudian melihat modal yang berisi semua bidang pada subformulir Detail Insiden, tempat mereka dapat memasukkan dan mengirimkan informasi tentang suatu layanan. Karena tindakan ini hanya dapat dilakukan dari halaman hasil pencarian, masuk akal jika peran memiliki izin ini jika mereka juga memiliki izin "Telusuri rekaman kasus yang dimiliki oleh pengguna lain".
+            label: Tambahkan Rincian Insiden ke kasus pengguna lain dari halaman hasil pencarian
+          incident_from_case:
+            explanation: Izin ini memungkinkan pengguna untuk mengklik tombol "Buat Insiden". Ini menghasilkan insiden yang mungkin berisi beberapa informasi yang disalin dari kasus tersebut. Untuk kasus GBV, tombol ini berada di bagian atas halaman show case, dan sesuai dengan informasi tentang kasus secara keseluruhan. Dalam beberapa konteks pelacakan insiden, tombol ini ada di subformulir "Rincian Insiden". Dalam situasi ini, beberapa informasi dapat disalin dari subformulir rincian insiden tempat tombol diklik, serta dari kasus secara keseluruhan. Yaitu. insiden baru yang dibuat mungkin berisi kolom "Jenis Kekerasan" dari subformulir rincian insiden perorangan, tetapi juga dapat berisi usia dan jenis kelamin kasus itu sendiri. Perhatikan bahwa izin ini juga memungkinkan pengguna untuk melihat tautan ke insiden yang telah dibuat.
+            label: Buat insiden dari sebuah kasus
+          manage:
+            explanation: Memungkinkan pengguna untuk melakukan semua tindakan yang tersedia pada kasus. Izin "Kelola" pada dasarnya berarti "semuanya".
+            label: Kelola (semua izin untuk jenis sumber daya ini)
+          read:
+            explanation: Kemampuan untuk melihat kasus
+            label: Lihat
+          receive_referral:
+            explanation: Memungkinkan pengguna untuk menerima rujukan. Pengguna dengan izin ini akan muncul sebagai calon penerima tindakan rujukan, sedangkan pengguna tanpa izin ini, tidak akan muncul sebagai calon penerima saat seseorang mencari penerima di modal rujukan.
+            label: Terima Rujukan
+          receive_referral_different_module:
+            explanation: Memungkinkan pengguna untuk menerima rujukan catatan yang dibuat dalam modul Primero yang berbeda. Pengguna dengan izin ini akan muncul sebagai calon penerima tindakan rujukan untuk catatan itu, sementara pengguna tanpa izin ini, tidak akan muncul sebagai calon penerima saat seseorang mencari penerima di modal rujukan.
+            label: Terima Rujukan dari pengguna dalam modul yang berbeda
+          receive_transfer:
+            explanation: Memungkinkan pengguna untuk menerima rujukan. Pengguna dengan izin ini akan muncul sebagai calon tindakan pemindahan, sedangkan pengguna tanpa izin ini, tidak akan muncul sebagai calon penerima saat seseorang mencari penerima di modal pemindahan.
+            label: Terima Pemindahan
+          referral:
+            explanation: Mengizinkan pengguna memberikan akses sementara ke kasus ke pengguna lain. Penerima rujukan akan dapat melakukan semua tindakan yang sama pada kasus yang dirujuk seperti yang dapat mereka lakukan pada kasus mereka sendiri. Ketika penerima tidak lagi membutuhkan akses ke kasus, mereka dapat mengklik tombol "Selesai" di subformulir Rujukan dan Transfer, dan mereka akan kehilangan akses ke kasus. Anda hanya dapat merujuk kasus ke pengguna yang perannya memiliki kemampuan untuk menerima rujukan.
+            label: Rujukan
+          referral_from_service:
+            explanation: Memungkinkan pengguna untuk melihat tombol "Rujuk" pada subformulir Layanan. Ketika pengguna mengklik tombol ini, modal rujukan akan muncul dengan kolom Jenis Layanan, Lembaga, Penyedia Layanan, dan Lokasi dinonaktifkan, tetapi secara otomatis diisi dengan informasi untuk kolom tersebut di subformulir Layanan tempat pengguna mengklik tombol Rujuk.
+            label: Rujuk Kasus dari Form Layanan subformulir
+          remove_assigned_users:
+            explanation: Mengizinkan pengguna menghapus pengguna lain dari bidang "Pengguna yang Ditugaskan Lainnya". Seorang pengguna terdaftar di sini jika mereka telah menerima rujukan untuk kasus tersebut atau telah menerima transfer untuk kasus tersebut, tetapi belum menerima atau menolaknya. Saat Anda menghapus pengguna dari bidang "Pengguna yang Ditugaskan Lainnya", Anda menghapus akses mereka ke kasus. Jadi, pengguna dengan izin ini dapat menghapus akses kasus dari pengguna yang sebelumnya telah menerima rujukan atau pemindahan kasus yang masih menunggu keputusan. Perhatikan bahwa izin ini hanya berfungsi jika pengguna saat ini juga memiliki kemampuan untuk mengedit kasus.
+            label: Hapus pengguna lain yang ditugaskan (mengambil kembali akses kasus dari pengguna yang dirujuk)
+          reopen:
+            explanation: Memungkinkan pengguna untuk membuka kasus yang saat ini ditutup.
+            label: Buka kembali
+          request_approval_action_plan:
+            explanation: Memungkinkan pengguna (biasanya pekerja kasus) untuk meminta manajer mereka untuk menyetujui kasus-kasus mereka%{approval_label}.
+            label: Persetujuan permintaan %{approval_label}
+          request_approval_assessment:
+            explanation: Memungkinkan pengguna (biasanya pekerja kasus) untuk meminta manajer mereka untuk menyetujui kasus-kasus mereka%{approval_label}.
+            label: Persetujuan permintaan %{approval_label}
+          request_approval_bia:
+            explanation: Memungkinkan pengguna (biasanya pekerja kasus) untuk meminta manajer mereka untuk menyetujui kasus-kasus mereka%{approval_label}.
+            label: Persetujuan permintaan %{approval_label}
+          request_approval_case_plan:
+            explanation: Memungkinkan pengguna (biasanya pekerja kasus) untuk meminta manajer mereka untuk menyetujui kasus-kasus mereka%{approval_label}.
+            label: Persetujuan permintaan %{approval_label}
+          request_approval_closure:
+            explanation: Memungkinkan pengguna (biasanya pekerja kasus) untuk meminta manajer mereka untuk menyetujui kasus-kasus mereka%{approval_label}.
+            label: Persetujuan permintaan %{approval_label}
+          request_approval_gbv_closure:
+            explanation: Memungkinkan pengguna (biasanya pekerja kasus) untuk meminta manajer mereka untuk menyetujui kasus-kasus mereka%{approval_label}.
+            label: Persetujuan permintaan %{approval_label}
+          request_transfer:
+            explanation: Menampilkan tombol "Permintaan Pemindahan" pada "Lihat Modal". Tombol ini memungkinkan pengguna untuk mengirim pesan dengan catatan pribadi melalui email ke pemilik rekaman kasus saat ini, meminta pemilik rekaman memindahkan kasus ke pengguna yang mengirim permintaan. Ini berguna dalam konteks di mana anak-anak sering berpindah lokasi, dan pekerja kasus memerlukan pekerja kasus anak sebelumnya untuk mengirim informasi tentang anak tersebut untuk menghindari pembuatan rekaman ganda.
+            label: Permintaan Pemindahan
+          search_owned_by_others:
+            explanation: Mengizinkan pengguna melakukan pencarian rekaman yang biasanya tidak dapat mereka akses, baik karena mereka bukan pemilik rekaman untuk kasus tersebut, atau (untuk manajer) karena pemilik rekaman tidak ada dalam grup pengguna mereka. Perhatikan bahwa, meskipun pengguna akan melihat kasus dalam tampilan hasil pencarian, mereka tidak akan dapat mengklik ke halaman pertunjukan kasus untuk kasus tersebut, yang berarti mereka tidak akan dapat melihat informasi terperinci tentang kasus tersebut.
+            label: Cari catatan kasus milik pengguna lain
+          service_provision_incident_details:
+            explanation: Memungkinkan pengguna untuk melihat tombol berlabel "Simpan dan Tambahkan Penyediaan Layanan" di bagian bawah modal Tambahkan Insiden. Mengklik tombol ini menyimpan informasi yang saat ini dimasukkan tentang insiden tersebut, dan kemudian membawa pengguna langsung ke modal Tambahkan Penyediaan Layanan. Karena tindakan ini secara langsung ditautkan ke tindakan Tambahkan Insiden dan Tambahkan Penyediaan Layanan, masuk akal untuk memberikan izin ini ke peran jika peran tersebut juga memiliki "Tambahkan Rincian Insiden ke kasus pengguna lain" dan "Tambahkan penyediaan Layanan ke pengguna lain. izin kasus".
+            label: Lihat Tombol Penambahan Penyediaan Layanan di Mode Rincian Layanan
+          services_section_from_case:
+            explanation: Kemampuan untuk menambahkan entri untuk subformulir Layanan pada kasus yang Anda temukan di hasil pencarian, tetapi Anda tidak memiliki aksesnya. Pengguna melakukan tindakan ini dari halaman hasil pencarian dengan memilih satu kasus atau lebih, lalu memilih "Tambah Penyediaan Layanan" dari menu tindakan. Pengguna kemudian melihat modal yang berisi semua bidang pada subformulir Layanan, tempat mereka dapat memasukkan dan mengirimkan informasi tentang layanan. Karena tindakan ini hanya dapat dilakukan dari halaman hasil pencarian, masuk akal jika peran memiliki izin ini jika mereka juga memiliki izin "Telusuri catatan kasus yang dimiliki oleh pengguna lain".
+            label: Tambahkan pemberian layanan untuk kasus milik pengguna lain
+          sync_external:
+            explanation: Kemampuan untuk menyinkronkan Rekam dengan sistem manajemen informasi eksternal
+            label: Sinkronkan dengan sistem manajemen informasi eksternal
+          sync_mobile:
+            explanation: Izinkan pengguna untuk menyimpan kasus untuk penggunaan offline
+            label: Tandai untuk Offline
+          transfer:
+            explanation: Mengizinkan pengguna mengirim kasus dari pemilik rekamannya saat ini ke pengguna mana pun dalam sistem dengan kemampuan untuk menerima transfer. Namun, pemilik catatan kasus tidak berubah, sampai penerima transfer "menerimanya". Jika penerima malah "menolak" transfer, penerima kehilangan akses ke kasus, dan menyimpan pemilik rekaman aslinya.
+            label: Pemindahan
+          view_photo:
+            explanation: Memungkinkan pengguna untuk melihat foto kasus dari tampilan daftar kasus. Tanpa izin ini, pengguna tidak akan melihat kolom "Foto" dari tabel daftar kasus, atau ikon foto yang muncul di sana. Izin ini juga memungkinkan pengguna untuk melihat foto anak di "Lihat Modal".
+            label: Lihat Foto dari tampilan daftar kasus
+          view_incident_from_case:
+            explanation: “Saat melihat Kasus, Pengguna dapat melihat daftar Insiden terkait dengan Kasus, bersama dengan beberapa informasi ringkasan tentang masing-masing.
+            label: Lihat Insiden dari Kasus
+          view_protection_concerns_filter:
+            explanation: Memungkinkan pengguna untuk melihat filter masalah perlindungan pada halaman daftar kasus.
+            label: Lihat filter Kekhawatiran Perlindungan pada halaman daftar kasus
+          view_registry_record:
+            explanation: Izinkan pengguna untuk melihat informasi dari Pendaftaran mana pun yang ditautkan ke Kasus. Juga izinkan pengguna untuk melihat formulir detail Pendaftaran Kasus
+            label: Lihat catatan pendaftaran dari Kasus
+          write:
+            explanation: Kemampuan untuk mengklik tombol "Ubah", memperbarui informasi dalam kasus ini, dan klik "Simpan"
+            label: Ubah
+          accept_or_reject_transfer:
+            explanation: Izinkan pengguna untuk menerima atau menolak transfer atas nama pengguna lain yang ada di tim Anda (misalnya, supervisor menerima transfer yang telah dikirim ke pekerja sosial mereka).
+            label: Terima atau tolak transfer untuk pengguna lain di tim Anda
+          list_case_names:
+            explanation: Manajer biasanya tidak dapat melihat nama Kasus di Daftar Kasus. Jika seorang manajer memiliki izin ini, mereka akan dapat melihat nama dalam daftar.
+            label: Jika manajer, dapat melihat nama Kasus di daftar Kasus
+          mark_for_offline:
+            explanation: Izinkan pengguna untuk menyimpan kasus untuk penggunaan offline
+            label: Tandai untuk Offline
+        explanation: Mewakili individual anak, penyintas, atau penerima manfaat lainnya
+        label: Kasus
+      dashboard:
+        actions:
+          approvals_action_plan:
+            explanation: Menunjukkan jumlah kasus pengguna saat ini dengan permintaan persetujuan Rencana Tindakan yang Tertunda, Disetujui, atau Ditolak.
+            label: Persetujuan %{approval_label} pekerja kasus
+          approvals_action_plan_pending:
+            explanation: Menunjukkan jumlah kasus dalam tim manajer dengan permintaan persetujuan Rencana Tindakan yang tertunda.
+            label: Persetujuan %{approval_label} manajer
+          approvals_assessment:
+            explanation: Menunjukkan jumlah kasus pengguna saat ini dengan permintaan persetujuan Penilaian yang Tertunda, Disetujui, atau Ditolak.
+            label: Persetujuan %{approval_label} pekerja kasus
+          approvals_assessment_pending:
+            explanation: Menunjukkan jumlah kasus dalam tim manajer dengan permintaan persetujuan Penilaian yang tertunda.
+            label: Persetujuan %{approval_label} manajer
+          approvals_case_plan:
+            explanation: Menunjukkan jumlah kasus pengguna saat ini dengan permintaan persetujuan Rencana Kasus yang Tertunda, Disetujui, atau Ditolak.
+            label: Persetujuan %{approval_label} pekerja kasus
+          approvals_case_plan_pending:
+            explanation: Menunjukkan jumlah kasus dalam tim manajer dengan permintaan persetujuan Rencana Kasus yang tertunda.
+            label: Persetujuan %{approval_label} manajer
+          approvals_closure:
+            explanation: Menunjukkan jumlah kasus pengguna saat ini dengan permintaan persetujuan Penghentian yang Tertunda, Disetujui, atau Ditolak.
+            label: Persetujuan %{approval_label} pekerja kasus
+          approvals_closure_pending:
+            explanation: Menunjukkan jumlah kasus dalam tim manajer dengan permintaan persetujuan Penghentian yang tertunda.
+            label: Persetujuan %{approval_label} manajer
+          approvals_gbv_closure:
+            explanation: Menunjukkan jumlah kasus pengguna saat ini dengan permintaan persetujuan Penghentian GBV yang Tertunda, Disetujui, atau Ditolak.
+            label: Persetujuan %{approval_label} pekerja kasus
+          approvals_gbv_closure_pending:
+            explanation: Menunjukkan jumlah kasus dalam tim manajer dengan permintaan persetujuan Penghentian GBV yang tertunda.
+            label: Persetujuan %{approval_label} manajer
+          case_overview:
+            explanation: Kartu dasbor ikhtisar di bagian atas halaman beranda, yang mencakup angka-angka seperti Total dan Kasus baru
+            label: Ikhtisar Dashboard
+          case_risk:
+            explanation: Menunjukkan berapa banyak kasus pada setiap tingkat risiko.
+            label: Kasus berdasarkan tingkat risiko
+          cases_by_task_overdue_assessment:
+            explanation: Memungkinkan manajer untuk melihat berapa banyak kasus yang memiliki tugas Penilaian yang terlambat untuk masing-masing pekerja kasus mereka.
+            label: Tugas Penilaian Terlambat
+          cases_by_task_overdue_case_plan:
+            explanation: Memungkinkan manajer untuk melihat berapa banyak kasus yang memiliki tugas Rencana Kasus yang terlambat untuk masing-masing pekerja kasus mereka.
+            label: Tugas Rencana Kasus Terlambat
+          cases_by_task_overdue_followups:
+            explanation: Memungkinkan manajer untuk melihat berapa banyak kasus yang memiliki tugas Tindak Lanjut yang terlambat untuk masing-masing pekerja kasus mereka.
+            label: Tugas Tindak Lanjut yang Terlambat
+          cases_by_task_overdue_services:
+            explanation: Memungkinkan manajer untuk melihat berapa banyak kasus yang memiliki tugas Layanan yang terlambat untuk masing-masing pekerja kasus mereka.
+            label: Tugas Layanan Terlambat
+          dash_case_incident_overview:
+            explanation: .
+            label: Ikhtisar - Kasus / Insiden Saya
+          dash_cases_by_social_worker:
+            explanation: Tabel yang menunjukkan bagaimana jumlah total kasus terbuka dan jumlah kasus baru yang dikelola oleh setiap pengguna di grup pengguna milik pengguna saat ini. Setiap baris adalah pengguna di grup pengguna pengguna saat ini, sedangkan "Total" dan "Baru" adalah dua kolom.
+            label: Tinjau Kasus-kasus berdasar Pekerja Sosial
+          dash_cases_to_assign:
+            explanation: 'PENTING: Hanya untuk manajer. Menampilkan jumlah kasus yang dimiliki langsung oleh pengguna saat ini (harus seorang manajer). Dashboard ini mengasumsikan bahwa manajer tidak mengelola kasus mereka sendiri, dan bahwa, jika seorang manajer memiliki kasus mereka sendiri, mereka harus menugaskan kasus ini ke pekerja kasus di tim mereka.'
+            label: (Untuk Manajer) Kasus yang harus saya berikan kepada orang-orang di tim saya
+          dash_flags:
+            explanation: Menampilkan daftar tanda yang telah ditambahkan pengguna lain ke rekaman saya, serta tanda yang telah saya tambahkan ke rekaman pengguna lain.
+            label: Data yang Ditandai Bendera
+          dash_group_overview:
+            explanation: Menunjukkan kepada manajer jumlah kasus terbuka dan tertutup yang dikelola oleh pengguna di tim mereka.
+            label: Kasus Kelompok Saya
+          dash_matching_results:
+            explanation: TIDAK DIGUNAKAN LAGI. Dashboard ini tidak berfungsi dan akan dihapus di v2.
+            label: Tinjau Hasil Pencocokan
+          dash_protection_concerns:
+            explanation: Tabel yang menunjukkan berapa banyak kasus yang memiliki perhatian perlindungan masing-masing. Setiap baris tabel adalah masalah perlindungan, sedangkan kolom menunjukkan status berbeda untuk kasus ("Semua kasus", "Buka kasus", "Baru (minggu ini)", "Tutup (minggu ini)")
+            label: Kasus berdasarkan Pertimbangan Perlindungan
+          dash_protection_concerns_by_location:
+            explanation: Ini sama dengan dashboard "Lihat Masalah Perlindungan", kecuali bahwa pengguna dapat memilih lokasi dari tarik-turun untuk menampilkan statistik tentang prevalensi masalah perlindungan hanya di lokasi tersebut.
+            label: Tinjau Kekhawatiran Perlindungan Berdasarkan Lokasi
+          dash_reporting_location:
+            explanation: Tabel yang menunjukkan berapa banyak kasus yang ada di setiap lokasi (pada satu tingkat kekhususan seperti "Provinsi" atau "Kabupaten"). Setiap baris tabel adalah lokasi, dan kolom menunjukkan status berbeda untuk kasus ("BUKA KASUS," "BARU(MINGGU TERAKHIR)", "BARU(MINGGU INI)", "TUTUP(MINGGU TERAKHIR)", "TUTUP (MINGGU INI)"). Biasanya digunakan untuk akun manager atau administrator.
+            label: Kasus berdasarkan Lokasi Pelaporan
+          dash_service_provisions:
+            explanation: Menampilkan jumlah kasus yang membuat pengguna lain menambahkan penyediaan layanan kepada mereka. Nomor ini muncul di bagian utama dashboard.
+            label: Kasus menurut jenis Penyediaan Layanan
+          dash_shared_from_my_team:
+            explanation: Menunjukkan kepada manajer jumlah kasus yang dikelola oleh setiap pengguna dalam tim mereka, yang dirujuk atau dipindahkan ke pengguna lain.
+            label: Dibagikan Dari Team Saya
+          dash_shared_with_me:
+            explanation: Menunjukkan berapa banyak kasus yang telah dirujuk atau dialihkan kepada Anda.
+            label: Dibagikan Dengan Saya
+          dash_shared_with_my_team:
+            explanation: Menunjukkan kepada manajer jumlah kasus yang dirujuk atau dipindahkan ke masing-masing pengguna di tim mereka.
+            label: Bagikan Dengan Team Saya
+          dash_shared_with_my_team_overview:
+            label: Dibagikan dengan Tim saya (Overview)
+          dash_shared_with_others:
+            explanation: Menunjukkan berapa banyak kasus saya yang memiliki rujukan aktif, pemindahan tertunda, atau transfer ditolak. Biasanya tidak untuk manajer, kecuali jika mereka mengelola kasus sendiri.
+            label: Bagikan Dengan Yang Lain
+          dash_show_none_values:
+            explanation: Menambahkan kategori "Tanpa Tingkat Risiko" tambahan ke semua dashboard yang mengelompokkan kasus berdasarkan tingkat risiko. Ini khusus untuk konfigurasi yang memiliki opsi "Tanpa Risiko" keempat untuk bidang tingkat risiko.
+            label: Lihat kasus dengan 'Tanpa Tingkat Risiko' di Dasbor Penilaian
+          dash_tasks:
+            explanation: Memungkinkan pengguna untuk melihat halaman tugas. Ini harus digunakan untuk pekerja kasus dan penyedia layanan, karena jumlahnya akan khusus untuk kasus yang Anda kelola secara langsung. Sebagai gantinya, manajer harus mendapatkan dashboard "Lihat Kasus Berdasarkan Tugas Terlambat", karena ini memungkinkan mereka melihat tugas yang terlambat untuk semua orang di grup pengguna mereka.
+            label: Laman Tugas
+          dash_national_admin_summary:
+            explanation: Menunjukkan total Kasus terbuka dalam sistem, jumlah Kasus baru yang dibuat di masing-masing dari dua minggu terakhir, dan jumlah Kasus yang ditutup di masing-masing dari dua minggu terakhir.
+            label: Ringkasan Administrator
+          view_response:
+            explanation: Untuk setiap jenis respons, tunjukkan berapa banyak kasus di setiap tingkat risiko yang memiliki layanan yang mendekati tenggat waktu atau terlambat untuk diselesaikan.
+            label: Tinjau Respons
+          workflow:
+            explanation: Memungkinkan pekerja kasus melihat grafik pai yang menunjukkan berapa banyak kasus mereka di setiap tahap alur kerja manajemen kasus.
+            label: Kasus diselesaikan berdasarkan alur kerja
+          workflow_team:
+            explanation: Memungkinkan manajer untuk melihat tabel yang menunjukkan berapa banyak kasus pekerja kasus mereka di setiap tahap proses manajemen kasus.
+            label: Kasus Berdasarkan Alur Kerja dan Pekerja Kasus
+        explanation: Tuliskan informasi ringkasan mana yang muncul di halaman beranda
+        label: Dashboard
+      disabled:
+        explanation: Jika Anda menonaktifkan Peran ini, Anda tidak dapat lagi menetapkannya ke akun Pengguna.
+        label: Nonaktifkan
+      duplicate:
+        actions:
+          read:
+            explanation: Memungkinkan pengguna melakukan pencarian lanjutan untuk semua kasus dalam sistem, menggunakan sejumlah kriteria, termasuk Nama, Nama Panggilan, Jenis Kelamin, Usia, dan Kebangsaan.
+            label: Lihat
+        explanation: Pencarian kasus tingkat lanjut untuk administrator
+        label: Pencarian Duplikat
+      forms:
+        case:
+          explanation: 'Membatasi akses pengguna ke formulir pada kasus membatasi informasi mana yang dapat dilihat pengguna pada suatu insiden. Misalnya, jika pengguna hanya memiliki akses ke formulir Pemilik Rekaman, mereka juga hanya dapat melihat informasi yang terdapat dalam bidang pada formulir tersebut. Jika pengguna saat ini memiliki akses formulir terbatas dan memiliki kemampuan untuk mengelola konfigurasi formulir, membatasi akses formulir mereka juga membatasi formulir mana yang dapat mereka konfigurasi. CATATAN: Jika tidak ada formulir yang ditentukan, itu berarti peran tersebut memiliki akses ke semua formulir untuk kasus.'
+          label: Fromulir - Kasus
+        incident:
+          explanation: 'Pembatasan akses pengguna ke formulir insiden membatasi informasi mana yang dapat dilihat pengguna pada suatu insiden. Misalnya, jika pengguna hanya memiliki akses ke formulir Pemilik Catatan, mereka juga hanya dapat melihat informasi yang terdapat dalam kolom pada formulir tersebut. Jika pengguna saat ini memiliki akses formulir terbatas dan memiliki kemampuan untuk mengelola konfigurasi formulir, membatasi akses formulir mereka juga membatasi formulir mana yang dapat mereka konfigurasi. CATATAN: Jika tidak ada formulir yang ditentukan, artinya peran tersebut memiliki akses ke semua formulir untuk insiden.'
+          label: Formulir - Insiden
+        tracing_request:
+          explanation: 'Membatasi akses pengguna ke formulir pada permintaan pelacakan membatasi informasi mana yang dapat dilihat pengguna pada permintaan pelacakan. Misalnya, jika pengguna hanya memiliki akses ke formulir Pemilik Rekaman, mereka juga hanya dapat melihat informasi yang terdapat dalam kolom pada formulir tersebut. Jika pengguna saat ini memiliki akses formulir terbatas dan memiliki kemampuan untuk mengelola konfigurasi formulir, membatasi akses formulir mereka juga membatasi formulir mana yang dapat mereka konfigurasi. CATATAN: Jika tidak ada formulir yang ditentukan, artinya peran tersebut memiliki akses ke semua formulir untuk Permintaan Pelacakan.'
+          label: Formulir - Permintaan Pelacakan
+        registry_record:
+          explanation: 'Pembatasan akses pengguna ke formulir Pendaftaran membatasi informasi mana yang dapat dilihat pengguna pada suatu Pendaftaran. Misalnya, jika pengguna hanya memiliki akses ke formulir Pemilik Catatan, mereka juga hanya dapat melihat informasi yang terdapat dalam kolom pada formulir tersebut. Jika pengguna saat ini memiliki akses formulir terbatas dan memiliki kemampuan untuk mengelola konfigurasi formulir, membatasi akses formulir mereka juga membatasi formulir mana yang dapat mereka konfigurasi. CATATAN: Jika tidak ada formulir yang ditentukan, artinya peran tersebut memiliki akses ke semua formulir untuk Pendaftaran.'
+          label: Formulir - Pendaftaran
+      group:
+        actions:
+          admin_only:
+            explanation: Artinya, pengguna dengan peran ini hanya akan dapat melihat hal-hal yang berkaitan dengan administrasi sistem, seperti laporan, konfigurasi formulir dan pencarian, pengguna, peran, dan grup pengguna. Mereka tidak akan melihat kasus individual, permintaan pelacakan, atau insiden apa pun.
+            label: Tidak ada data - Hanya untuk Admin
+          agency:
+            explanation: Peran tersebut dapat mengakses rekaman yang dikelola oleh semua pengguna di lembaga mereka. Jika pengguna memiliki akses ke pengguna, mereka dapat mengakses semua pengguna di lembaga mereka.
+            label: Semua rekaman atau pengguna di lembaga saya
+          all:
+            explanation: Peran tersebut dapat mengakses semua rekaman, pengguna, dan grup pengguna dalam sistem, terlepas dari grup pengguna mana mereka berada.
+            label: Akses semua data atau pengguna
+          group:
+            explanation: Peran tersebut dapat mengakses rekaman yang dikelola oleh semua Pengguna di Grup Pengguna mereka. Mereka hanya dapat mengakses Pengguna di Grup Pengguna mereka. Mereka hanya dapat mengakses Grup Pengguna mereka sendiri.
+            label: Akses semua data atau pengguna di grup saya
+          self:
+            explanation: Peran dapat mengakses data mereka sendiri (kasus, permintaan pelacakan, atau insiden), dan dapat mengubah akun pengguna mereka sendiri.
+            label: Akses hanya data saya atau pengguna
+        explanation: Mengontrol rekaman mana (Kasus, Permintaan Pelacakan, atau Insiden), yang dapat diakses oleh peran. Jika peran memiliki akses ke Pengguna dan Grup Pengguna, ini juga mengontrol Pengguna dan Grup Pengguna mana yang dapat mereka akses. Peran dengan akses ke "Tidak Ada Data" hanya dapat mengakses konfigurasi sistem seperti Formulir, Pengguna, dan Laporan.
+        label: Data apa yang mempengaruhi peran ini?
+      incident:
+        actions:
+          change_log:
+            explanation: Pengguna dapat melihat riwayat semua perubahan yang dibuat pada catatan sejak dibuat. Ini termasuk nilai yang direkam untuk semua bidang.
+            label: Ubah Log
+          create:
+            explanation: Kemampuan untuk membuat insiden.
+            label: Buat
+          enable_disable_record:
+            explanation: Kemampuan untuk menonaktifkan atau mengaktifkan Insiden. Insiden "Dinonaktifkan" tidak muncul secara default dalam daftar Insiden. Pengguna dapat melihat Insiden yang dinonaktifkan dalam daftar Insiden dengan menerapkan filter.
+            label: Aktifkan / Nonaktifkan
+          export_case_pdf:
+            explanation: Pengguna dapat membuat ekspor file PDF dari daftar insiden atau halaman acara insiden, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua catatan yang dapat diakses pengguna. Dalam file ekspor PDF, informasi didaftar pertama berdasarkan kasus, dan kemudian diatur lebih lanjut oleh formulir di mana informasi muncul.
+            label: PDF Ekspor
+          export_csv:
+            explanation: Pengguna dapat membuat ekspor file CSV dari daftar insiden atau halaman acara insiden, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua insiden yang dapat diakses pengguna.
+            label: Ekspor CSV
+          export_custom:
+            label: Ekspor kustomisasi
+          export_incident_recorder_xls:
+            explanation: Pengguna dapat membuat ekspor file XLS khusus yang memungkinkan pertukaran data dengan alat Perekam Insiden GBV.
+            label: Perekam insiden ekspor xls
+          export_json:
+            explanation: Pengguna dapat membuat ekspor file JSON dari daftar insiden atau halaman acara insiden, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua insiden yang dapat diakses pengguna. Ekspor ini terutama digunakan untuk mereka yang ingin mengekspor insiden dari sistem Primero saat ini dan kemudian mengimpornya ke sistem Primero yang berbeda, atau ke sistem manajemen informasi lainnya. Format JSON dapat dibaca mesin dan tidak praktis untuk sebagian besar pengguna.
+            label: Ekspor JSON
+          export_list_view_csv:
+            explanation: Pengguna dapat menghasilkan ekspor file CSV dari halaman daftar insiden yang berisi kolom yang sama yang muncul untuk pengguna tersebut pada daftar insiden. Hanya dilakukan dari halaman daftar insiden.
+            label: Tampilan daftar ekspor CSV
+          export_pdf:
+            explanation: Pengguna dapat membuat ekspor file PDF dari daftar insiden atau halaman acara insiden, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua catatan yang dapat diakses pengguna. Dalam file ekspor PDF, informasi didaftar pertama berdasarkan kasus, dan kemudian diatur lebih lanjut oleh formulir di mana informasi muncul.
+            label: PDF Ekspor
+          export_xls:
+            explanation: Pengguna dapat membuat ekspor file XLS dari daftar insiden atau halaman acara insiden, yang berisi kumpulan formulir atau bidang khusus, untuk satu, beberapa, atau semua kasus yang dapat diakses pengguna. Dalam ekspor ini, setiap formulir diwakili di tabnya sendiri di dalam file XLS. Pengguna dapat memilih formulir atau bidang mana yang ingin mereka sertakan dalam ekspor menggunakan modal Ekspor Kustom. Harap dicatat bahwa pengguna hanya dapat memasukkan formulir dan bidang dalam ekspor jika mereka sudah memiliki kemampuan untuk melihat formulir dan bidang tersebut saat melihat kasus di aplikasi.
+            label: Ekspor Excel (file XLS)
+          flag:
+            explanation: Kemampuan untuk menambahkan tanda bendera ke sebuah insiden. Pengguna dengan izin ini juga dapat menghapus tanda bendera yang telah mereka tambahkan ke insiden.
+            label: Tandai Bendera
+          import:
+            explanation: Memungkinkan pengguna membuat satu atau beberapa insiden baru dengan mengimpornya dari file CSV, Excel, atau JSON. File yang diimpor harus diformat *sangat* khusus agar informasi dapat diimpor dengan benar. Fungsi ini seharusnya hanya tersedia untuk pengguna administratif dengan keterampilan teknis tingkat lanjut dan pengetahuan mendalam tentang bagaimana data diformat di Primero. Hanya dilakukan dari halaman daftar insiden.
+            label: Impor
+          manage:
+            explanation: Memungkinkan pengguna untuk melakukan semua tindakan yang tersedia pada insiden. Izin "Kelola" pada dasarnya berarti "semuanya".
+            label: Kelola (semua izin untuk jenis sumber daya ini)
+          read:
+            explanation: Kemampuan untuk lihat insiden.
+            label: Lihat
+          sync_mobile:
+            explanation: Izin ini umumnya memungkinkan pengguna untuk menggunakan aplikasi seluler. Pertama, ini memungkinkan pengguna untuk melihat tindakan "Tandai untuk Seluler" dan "Hapus tanda untuk Seluler", yang muncul di daftar insiden dan halaman acara insiden. Menandai insiden untuk seluler menunjukkan bahwa informasi tentang insiden itu harus disinkronkan antara perangkat seluler pengguna dan aplikasi web, sementara menghapus tanda insiden untuk seluler menghentikan sinkronisasi ini terjadi. Pengguna tanpa izin ini juga tidak dapat menyinkronkan perangkat seluler mereka dengan aplikasi web secara umum, artinya mereka tidak dapat menggunakan aplikasi seluler untuk mengelola insiden.
+            label: Sinkronisasi dengan perangkat seluler
+          write:
+            explanation: Kemampuan untuk mengklik tombol "Ubah", memperbarui informasi tentang insiden tersebut, dan mengklik "Simpan". Juga memungkinkan pengguna untuk menonaktifkan atau mengaktifkan insiden.
+            label: Ubah
+        explanation: Mewakili suatu peristiwa yang telah terjadi. Ini biasanya merupakan insiden pelecehan atau kekerasan, meskipun bisa juga terkait dengan peristiwa seperti berurusan dengan penegak hukum. Insiden sering dikaitkan dengan Kasus.
+        label: Insiden
+      is_manager:
+        explanation: Berlaku untuk setiap peran pengguna yang umumnya mengawasi pengguna lain. Ini memungkinkan pengguna untuk melihat dashboard dan filter yang membantu pengguna mengelola tim.
+        label: Adalah Manajer?
+      managed_report:
+        actions:
+          violations:
+            label: Pelanggaran
+          gbv_statistics:
+            label: Statistik KBG
+      matching_configuration:
+        actions:
+          manage:
+            explanation: Kemampuan untuk mengontrol kolom mana yang dibandingkan untuk menemukan kecocokan antara permintaan pelacakan dan kasus. Karena ini mengontrol bagaimana pencocokan dijalankan di seluruh sistem, izin ini biasanya hanya tersedia untuk administrator sistem.
+            label: Kelola (semua izin untuk jenis sumber daya ini)
+        explanation: Mengatur bidang mana yang digunakan untuk membandingkan Permintaan Pelacakan dengan Kasus selama tahap Pelacakan dan Reunifikasi Keluarga.
+        label: Pengaturan Pencocokan
+      metadata:
+        actions:
+          manage:
+            explanation: Kemampuan untuk membuat, mengubah, menerjemahkan, dan menghapus formulir, kolom formulir, dan pencarian. Harap perhatikan bahwa pengguna dengan izin ini hanya dapat mengelola formulir yang dapat mereka akses. Misalnya, jika administrator nasional hanya memiliki kemampuan untuk melihat formulir Pemilik Rekaman pada kasus, maka mereka hanya akan dapat memperbarui konfigurasi untuk formulir ini.
+            label: Kelola (semua izin untuk jenis sumber daya ini)
+        explanation: Mengatur kemampuan untuk mengkonfigurasi Formulir dan Bidang Primero, serta opsi Pencarian Pilihan yang digunakan di dalamnya.
+        label: Formulir, Lihat Referensi
+      module:
+        actions:
+          cp:
+            label: CP
+          gbv:
+            label: GBV
+          mrm:
+            label: MRM
+        explanation: Mengontrol modul mana yang menerapkan peran ini
+        label: Modul
+      potential_match:
+        actions:
+          read:
+            explanation: Mewakili hubungan antara Permintaan Pelacakan dan Kasus. Akses ke Kecocokan Potensial diperlukan untuk pekerjaan Family Tracing and Reunification (FTR). Memungkinkan pengguna untuk melihat formulir Ringkasan Pelacakan pada Kasus.
+            label: Lihat
+        label: Potensi Kecocokan
+      primero_configuration:
+        actions:
+          manage:
+            explanation: Kemampuan untuk menyimpan, menerapkan, dan mengirim Konfigurasi. Izin ini biasanya disediakan untuk administrator sistem.
+            label: Kelola (semua izin untuk jenis sumber daya ini)
+        label: Konfigurasi
+      referral:
+        actions:
+          refer:
+            explanation: Ini berarti peran akan muncul sebagai opsi untuk "Jenis Penerima" ketika pengguna melakukan rujukan eksternal. Jika pengguna memilih peran ini sebagai jenis rujukan, ekspor yang dihasilkan Primero saat pengguna mengirimkan rujukan hanya akan berisi informasi yang ditemukan dalam formulir yang dapat diakses oleh peran ini. Jadi, misalnya, jika pengguna memilih "Penyedia Layanan Medis" sebagai jenis penerima, dan peran Penyedia Layanan Medis hanya memiliki akses ke formulir Kekhawatiran Identitas dan Perlindungan Dasar, file ekspor yang diekspor Primero untuk rujukan eksternal hanya akan berisi kolom-kolom yang ada dalam dua bentuk tersebut.
+            label: Dapatkah peran ini digunakan untuk Rujukan eksternal?
+        label: Rujukan
+      registry_record:
+        actions:
+          change_log:
+            explanation: Pengguna dapat melihat riwayat semua perubahan yang dibuat di dalam catatan kasus sejak dibuat. Ini termasuk informasi yang dicatatkan untuk semua bidang.
+            label: Ubah Log
+          create:
+            explanation: Kemampuan untuk membuat sebuah catatan Pendaftaran
+            label: Buat
+          enable_disable_record:
+            explanation: Kemampuan untuk menonaktifkan atau mengaktifkan catatan Pendaftaran. Catatan "Dinonaktifkan" tidak muncul secara default dalam daftar Pendaftaran. Pengguna dapat melihat Pendaftaran yang dinonaktifkan dalam daftar Pendaftaran dengan menerapkan filter.
+            label: Aktifkan / Nonaktifkan
+          export_csv:
+            explanation: 'Pengguna dapat membuat ekspor file CSV dari daftar Pendaftaran atau halaman tampilan Pendaftaran, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua Pendaftaran yang dapat diakses pengguna. CATATAN: Ekspor CSV tidak merender karakter non-Latin (misalnya Arab, Bangla)'
+            label: Ekspor CSV
+          export_json:
+            explanation: Pengguna dapat membuat ekspor file JSON dari daftar Pendaftaran atau halaman tampilan Pendaftaran, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini. Format JSON dapat dibaca mesin dan tidak praktis untuk sebagian besar pengguna.
+            label: Ekspor JSON
+          export_xls:
+            explanation: 'Pengguna dapat membuat ekspor file XLS dari daftar Pendaftaran atau halaman tampilan Pendaftaran, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini. CATATAN: Format XLS merender karakter non-Latin (misalnya Arab, Bangla) dalam format yang dapat dibaca, sedangkan ekspor CSV tidak.'
+            label: Ekspor Excel (file XLS)
+          flag:
+            explanation: Kemampuan untuk menambahkan bendera ke catatan Pendaftaran. Pengguna dengan izin ini juga dapat menghapus tanda yang telah mereka tambahkan ke catatan Pendaftaran.
+            label: Tandai Bendera
+          manage:
+            explanation: Memungkinkan pengguna untuk melakukan semua tindakan yang tersedia pada catatan Pendaftaran. Izin "Kelola" pada dasarnya berarti "semuanya".
+            label: Kelola (semua izin untuk jenis sumber daya ini)
+          read:
+            explanation: Kemampuan untuk melihat catatan Pendaftaran
+            label: Lihat
+          write:
+            explanation: Kemampuan untuk mengklik tombol "Edit/Ubah", memperbarui informasi tentang catatan Pendaftaran, dan klik "Simpan".
+            label: Ubah
+          sync_mobile:
+            explanation: Izinkan pengguna untuk menyimpan catatan pendaftaran untuk penggunaan offline
+            label: Tandai untuk Offline
+        explanation: Ini dapat mewakili individu atau institusi yang perlu dikaitkan dengan catatan lain seperti kasus atau insiden, sangat banyak, dan diperbarui berulang kali dengan informasi baru. Mereka mirip dengan pencarian pilihan, tetapi dengan kumpulan informasi yang lebih kompleks untuk setiap entri.
+        label: Catatan Pendaftaran
+      report:
+        actions:
+          create:
+            explanation: Kemampuan untuk membuat laporan baru. Saat pengguna membuat laporan, laporan tersebut dapat dilihat oleh semua pengguna dengan akses "Baca" atau "Baca Grup" ke laporan.
+            label: Buat
+          group_read:
+            explanation: Kemampuan untuk melihat semua laporan. Angka dalam setiap laporan hanya akan mencerminkan catatan yang dapat diakses oleh pengguna di grup pengguna milik pengguna saat ini. Izin ini sering digunakan untuk administrator lokal, regional, atau lembaga yang ingin mendapatkan wawasan tentang kinerja tim atau organisasi mereka sendiri. Izin ini juga memberi pengguna kemampuan untuk mengekspor data dari laporan.
+            label: Lihat (data berbasis grup)
+          manage:
+            explanation: Memungkinkan pengguna untuk melakukan semua tindakan yang tersedia di Agensi. Izin "Kelola" pada dasarnya berarti "semuanya".
+            label: Kelola (semua izin untuk jenis sumber daya ini)
+          read:
+            explanation: Kemampuan untuk melihat semua laporan. Angka-angka di setiap laporan akan mencerminkan semua catatan dalam sistem, bukan hanya catatan yang dapat diakses oleh pengguna saat ini. Izin ini juga memberi pengguna kemampuan untuk mengekspor data dari laporan.
+            label: Lihat
+          write:
+            explanation: Kemampuan untuk mengubah semua laporan (termasuk yang dibuat oleh pengguna lain).
+            label: Ubah
+        explanation: Alat analisis data agregat. Termasuk tabel dan grafik representasi data.
+        label: Laporan
+      reporting_location_level:
+        explanation: 'Ini akan mengontrol tingkat lokasi yang muncul untuk Peran ini di dasbor, filter, modal rujukan, dan modal transfer. Jika Anda membiarkan kolom ini kosong, Peran ini akan melihat tingkat Lokasi Pelaporan default sistem.'
+        label: Jenis lokasi apa yang harus digunakan untuk pelaporan peran ini?
+      role:
+        actions:
+          assign:
+            explanation: Kemampuan untuk memilih peran saat membuat atau mengubah akun pengguna. Izin ini diperlukan untuk peran apa pun yang akan membuat atau mengubah akun pengguna.
+            label: Menugaskan
+          copy:
+            explanation: Kemampuan untuk membuat salinan peran. Ini berguna untuk administrator sistem yang mungkin membuat sejumlah peran yang sangat mirip satu sama lain (mis. penyedia layanan).
+            label: Salin
+          create:
+            explanation: Kemampuan untuk membuat peran
+            label: Buat
+          delete:
+            explanation: Kemampuan untuk menghapus peran.
+            label: Hapus
+          manage:
+            explanation: 'Memungkinkan pengguna untuk melakukan semua tindakan yang tersedia pada peran. Izin "Kelola" pada dasarnya berarti "semuanya". PENTING: Ini juga memberikan kemampuan untuk membuat dan menghapus peran.'
+            label: Kelola (semua izin untuk jenis sumber daya ini)
+          permitted_roles:
+            explanation: Jika peran memiliki kemampuan untuk melakukan salah satu tindakan di atas pada peran, mereka akan dapat melakukan tindakan tersebut pada peran yang ditentukan dalam daftar ini. Jadi, misalnya, jika suatu peran memiliki izin "Baca" dan "Tetapkan" pada peran, tetapi hanya memiliki "Pekerja Kasus CP" dan "Manajer CP" yang terdaftar sebagai "Peran Terkelola", itu hanya akan dapat melihat dua peran tersebut, dan hanya dapat menetapkan pengguna baru ke dua peran tersebut. Jika peran yang sama tidak memiliki "Peran Terkelola" yang ditentukan, peran tersebut akan dapat melihat semua peran dan akan dapat membuat akun pengguna baru dengan peran apa pun dalam sistem.
+            label: Peran lainnya dikelola oleh peran ini
+          read:
+            explanation: Kemampuan untuk melihat peran.
+            label: Lihat
+          write:
+            explanation: Kemampuan untuk mengklik tombol "Ubah" di halaman tampilkan peran, perbarui izin peran, lalu simpan peran.
+            label: Ubah
+        explanation: Tetapkan tindakan mana yang dapat dilakukan pengguna di Primero
+        label: Peran
+      system:
+        actions:
+          manage:
+            explanation: Kemampuan untuk melihat dan memperbarui informasi tentang informasi kontak sistem, pemberitahuan default dan pengaturan email selamat datang, dan server yang disinkronkan. Izin ini biasanya disediakan untuk administrator sistem
+            label: Kelola (semua izin untuk jenis sumber daya ini)
+        explanation: Pengaturan konfigurasi sistem untuk lain-lain
+        label: Sistem
+      tracing_request:
+        actions:
+          change_log:
+            explanation: Pengguna dapat melihat riwayat semua perubahan yang dibuat pada catatan sejak dibuat. Ini termasuk nilai yang direkam untuk semua bidang.
+            label: Ubah Log
+          create:
+            explanation: Kemampuan untuk membuat permintaan pelacakan
+            label: Buat
+          enable_disable_record:
+            explanation: Kemampuan untuk menonaktifkan atau mengaktifkan Permintaan Pelacakan. Permintaan Pelacakan "Dinonaktifkan" tidak muncul secara default di daftar Permintaan Pelacakan. Pengguna dapat melihat Permintaan Pelacakan yang dinonaktifkan di daftar Permintaan Pelacakan dengan menerapkan filter.
+            label: Aktifkan / Nonaktifkan
+          export_case_pdf:
+            explanation: Pengguna dapat menghasilkan ekspor file PDF dari daftar permintaan pelacakan atau halaman acara permintaan penelusuran, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua catatan yang dapat diakses pengguna. Dalam file ekspor PDF, informasi didaftar pertama berdasarkan kasus, dan kemudian diatur lebih lanjut oleh formulir di mana informasi muncul.
+            label: PDF Ekspor
+          export_csv:
+            explanation: Pengguna dapat membuat ekspor file CSV dari daftar permintaan penelusuran atau halaman acara permintaan penelusuran, yang berisi semua kolom yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua permintaan pelacakan yang dapat diakses pengguna.
+            label: Ekspor CSV
+          export_custom:
+            explanation: Pengguna dapat membuat ekspor file XLS dari daftar permintaan pelacakan atau halaman acara permintaan pelacakan, yang berisi kumpulan formulir atau bidang khusus, untuk satu, beberapa, atau semua permintaan pelacakan yang dapat diakses pengguna. Dalam ekspor ini, setiap formulir diwakili di tabnya sendiri di dalam file XLS. Pengguna dapat memilih formulir atau bidang mana yang ingin mereka sertakan dalam ekspor menggunakan modal Ekspor Kustom. Harap diperhatikan bahwa pengguna hanya dapat menyertakan formulir dan bidang dalam ekspor jika mereka telah memiliki kemampuan untuk melihat formulir dan bidang tersebut saat melihat permintaan pelacakan dalam aplikasi.
+            label: Ekspor kustomisasi
+          export_json:
+            explanation: Pengguna dapat membuat ekspor file JSON dari daftar permintaan penelusuran atau halaman acara permintaan penelusuran, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua permintaan pelacakan yang dapat diakses pengguna. Ekspor ini terutama digunakan bagi mereka yang ingin mengekspor permintaan pelacakan dari sistem Primero saat ini dan kemudian mengimpornya ke sistem Primero yang berbeda, atau ke sistem manajemen informasi lainnya. Format JSON dapat dibaca mesin dan tidak praktis untuk sebagian besar pengguna.
+            label: Ekspor JSON
+          export_list_view_csv:
+            explanation: Pengguna dapat membuat ekspor file CSV dari halaman daftar permintaan pelacakan yang berisi bidang yang sama yang muncul untuk pengguna tersebut pada daftar permintaan pelacakan. Hanya dilakukan dari halaman daftar permintaan penelusuran.
+            label: Tampilan daftar ekspor CSV
+          export_pdf:
+            explanation: Pengguna dapat menghasilkan ekspor file PDF dari daftar permintaan pelacakan atau halaman acara permintaan penelusuran, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua catatan yang dapat diakses pengguna. Dalam file ekspor PDF, informasi didaftar pertama berdasarkan kasus, dan kemudian diatur lebih lanjut oleh formulir di mana informasi muncul.
+            label: PDF Ekspor
+          export_xls:
+            explanation: 'Pengguna dapat membuat ekspor file XLS dari daftar Permintaan Pelacakan atau halaman tampilan Permintaan Pelacakan, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua Permintaan Pelacakan yang dapat diakses oleh pengguna. Dalam ekspor ini, setiap formulir diwakili di tabnya sendiri di dalam file XLS. CATATAN: Format XLS merender karakter non-Latin (misalnya Arab, Bangla) dalam format yang dapat dibaca, sedangkan ekspor CSV tidak.'
+            label: Ekspor Excel (file XLS)
+          flag:
+            explanation: Kemampuan untuk menambahkan tanda bendera ke permintaan pelacakan. Pengguna dengan izin ini juga dapat menghapus tanda bendera yang telah mereka tambahkan ke permintaan pelacakan.
+            label: Tandai Bendera
+          import:
+            explanation: Memungkinkan pengguna membuat satu atau beberapa kasus baru dengan mengimpornya dari file CSV, Excel, atau JSON. File yang diimpor harus diformat *sangat* khusus agar informasi dapat diimpor dengan benar. Fungsi ini seharusnya hanya tersedia untuk pengguna administratif dengan keterampilan teknis tingkat lanjut dan pengetahuan mendalam tentang bagaimana data diformat di Primero. Hanya dilakukan dari halaman daftar kasus.
+            label: Impor
+          manage:
+            explanation: Memungkinkan pengguna untuk melakukan semua tindakan yang tersedia pada permintaan pelacakan. Izin "Kelola" pada dasarnya berarti "semuanya".
+            label: Kelola (semua izin untuk jenis sumber daya ini)
+          read:
+            explanation: Kemampuan untuk melihat permintaan pelacakan. Peran dengan kemampuan untuk melihat permintaan pelacakan juga harus memiliki kemampuan untuk melihat jenis rekaman Kemungkinan Cocok.
+            label: Lihat
+          write:
+            explanation: Kemampuan untuk mengklik tombol "Ubah", memperbarui informasi tentang permintaan pelacakan, dan mengklik "Simpan". Juga memungkinkan pengguna untuk menonaktifkan atau mengaktifkan permintaan pelacakan
+            label: Ubah
+        explanation: Mewakili individu yang mencoba menemukan dan menyatukan kembali dengan Kasus yang anak tanpa pendamping atau terpisah.
+        label: Permintaan Pelacakan
+      transfer:
+        actions:
+          transfer:
+            explanation: Ini berarti peran akan muncul sebagai opsi untuk "Jenis Penerima" ketika pengguna melakukan rujukan eksternal. Jika pengguna memilih peran ini sebagai jenis transfer, ekspor yang dihasilkan Primero saat pengguna mengirimkan transfer hanya akan berisi informasi yang ditemukan dalam formulir yang dapat diakses oleh peran ini. Jadi, misalnya, jika pengguna memilih "Penyedia Layanan Medis" sebagai jenis penerima, dan peran Penyedia Layanan Medis hanya memiliki akses ke formulir Kekhawatiran Identitas dan Perlindungan Dasar, file ekspor yang diekspor Primero untuk transfer eksternal hanya akan berisi bidang-bidang yang ada dalam dua bentuk tersebut.
+            label: Bisakah peran ini digunakan untuk pemindahan eksternal?
+        label: Pemindahan
+      user:
+        actions:
+          agency_read:
+            explanation: Kemampuan untuk melihat hanya akun pengguna tersebut di lembaga pengguna saat ini. Ini juga memengaruhi akun pengguna mana yang dapat digunakan pengguna saat ini untuk melakukan tindakan lain. Misalnya, jika pengguna saat ini memiliki izin "Tulis" pada pengguna, tetapi juga memiliki izin Baca Agensi, mereka hanya akan dapat mengedit akun pengguna yang berada di agensi mereka sendiri. Demikian pula, jika pengguna saat ini memiliki izin "Kelola" pada pengguna, tetapi memiliki izin "Baca Lembaga", mereka hanya dapat membuat pengguna untuk agensi mereka sendiri.
+            label: Lihat (Dalam Lembaga)
+          create:
+            explanation: Kemampuan untuk membuat akun pengguna.
+            label: Buat
+          manage:
+            explanation: 'Memungkinkan pengguna untuk melakukan semua tindakan yang tersedia pada pengguna. Izin "Kelola" pada dasarnya berarti "semuanya". PENTING: Ini juga memberikan kemampuan untuk membuat akun pengguna baru.'
+            label: Kelola (semua izin untuk jenis sumber daya ini)
+          read:
+            explanation: Kemampuan untuk melihat akun pengguna. Secara default, setiap pengguna memiliki kemampuan untuk melihat dan mengedit informasi tentang akun pengguna mereka sendiri (misalnya kata sandi, email).
+            label: Lihat
+          write:
+            explanation: Kemampuan untuk mengklik tombol "Ubah" di halaman tampilkan pengguna, perbarui informasi tentang pengguna, lalu simpan. Harap dicatat bahwa izin ini juga memberikan kemampuan untuk menonaktifkan akun pengguna.
+            label: Ubah
+        explanation: Mewakili akun Pengguna individu.
+        label: Pengguna
+      user_group:
+        actions:
+          assign:
+            explanation: Kemampuan untuk memilih grup pengguna saat membuat atau mengedit akun pengguna. Harap perhatikan bahwa jika pengguna saat ini memiliki tingkat akses "hanya catatan atau pengguna di grup saya", mereka hanya dapat memilih satu atau beberapa grup pengguna *mereka sendiri* untuk akun pengguna yang mereka buat atau edit. Ini berarti bahwa pengelola dengan kemampuan untuk menetapkan grup pengguna hanya akan dapat menambahkan pengguna ke grup pengguna yang saat ini dimiliki oleh pengelola. Izin ini diperlukan untuk peran apa pun yang akan membuat atau mengedit akun pengguna.
+            label: Menugaskan
+          create:
+            explanation: Kemampuan untuk membuat grup pengguna.
+            label: Buat
+          delete:
+            explanation: Kemampuan untuk menghapus grup pengguna.
+            label: Hapus
+          manage:
+            explanation: 'Memungkinkan pengguna untuk melakukan semua tindakan yang tersedia pada grup pengguna. Izin "Kelola" pada dasarnya berarti "semuanya". PENTING: Ini juga memberikan kemampuan untuk membuat dan menghapus grup pengguna.'
+            label: Kelola (semua izin untuk jenis sumber daya ini)
+          read:
+            explanation: Kemampuan untuk melihat grup pengguna.
+            label: Lihat
+          write:
+            explanation: Kemampuan untuk ubah grup pengguna.
+            label: Ubah
+        explanation: Mewakili tim atau grup kolaboratif pengguna yang dapat berbagi informasi. Manajer biasanya dapat melihat semua catatan yang dikelola oleh pekerja sosial di Grup Pengguna mereka
+        label: Grup Pengguna
+      webhook:
+        actions:
+          read:
+            label: Lihat
+            explanation: Kemampuan untuk membuat daftar dan meninjau konfigurasi webhook melalui API
+          write:
+            label: Ubah
+            explanation: Kemampuan untuk membuat dan mengubah konfigurasi webhook melalui API
+          create:
+            explanation: Kemampuan untuk membuat konfigurasi webhook melalui API.
+            label: Buat
+          delete:
+            explanation: Kemampuan untuk menghapus konfigurasi webhook melalui API.
+            label: Hapus
+          manage:
+            label: Kelola (semua izin untuk jenis sumber daya ini)
+      activity_log:
+        actions:
+          transfer:
+            explanation: Pengguna dapat mengeklik bagian Log Aktivitas di Dasbor dan melihat log semua transfer yang diterima atau ditolak untuk Kasus yang dapat mereka akses.
+            label: Pemindahan
+          manage:
+            label: Kelola (semua izin untuk jenis sumber daya ini)
+        label: Log Aktivitas
   potential_match:
+    case_id: ID Kasus
     child_age: Umur
     child_gender: Gender
     child_id: '#id anak'
@@ -725,76 +2729,184 @@ id:
     score: Nilai
     social_worker: Pekerja Sosial
     social_worker_agency: Agensi
+    tracing_request_id: 'ID Permintaan Pelacakan '
+    trace: Lacak
+    likelihood_likely: Kemungkinan Besar
+    likelihood_possible: Ada kemungkinan
   potential_matches:
     display: Menampilkan kecocokan yang mungkin ada untuk %{type} %{id}
   reassign:
+    multiple_error: Terjadi kesalahan. %{select_records} kasus tidak ditugaskan.
+    multiple_successfully: '%{select_records} kasus berhasil ditugaskan'
     notes_label: Catatan
+    successfully: Berhasil ditugaskan kembali
+    user_mandatory_label: Penerima diwajibkan
+    users_label: Penerima
+  record_information:
+    assigned_user_names: Pengguna Lain yang Ditugaskan
+    created_at: Data dibuat pada
+    created_by: Data dibuat oleh
+    created_organization: Dibuat Oleh lembaga
+    current_owner_separator: Pemilik saat ini
+    module_id: Modul
+    owned_by: Kode Pekerja Kasus
+    owned_by_agency_id: Lembaga
+    owned_by_text: Kolom/Kasus/Pekerja Sosial
+    previously_owned_by: Pemilik Sebelumnya
+    previously_owned_by_agency: Lembaga Sebelumnya
+    reassigned_tranferred_on: Ditugaskan Kembali / Dipindahkan pada
+    record_history_separator: Riwayat Data
+    last_updated_at: Terakhir diperbarui pada
+    last_updated_by: Terakhir diperbarui oleh
   record_panel:
     record_information: Informasi Data
   referral:
+    type_of_recipient: Tipe Penerima
+    type_of_referral_required: Tipe Rujukan diwajibkan
     agency_label: Agensi
     is_remote_label: Apakah Anda mengacu pada sistem remote?
     location_label: Lokasi
     notes_label: Catatan
+    notes_on_referral: Catatan pada rujukan
+    note_on_referral_from_provider: Catatan pada rujukan dari penyedia
+    provided_consent_label: Persetujuan tidak diberikan dalam Formulir.
+    recipient_label: Penerima
+    refer_anyway_label: Tetap merujuk?
     service_label: Layanan
     success: '%{record_type} %{id} berhasil dirujuk'
+    user_mandatory_label: Penerima diwajibkan
+    date: Tanggal
+    rejected_reason: Alasan Penolakan
   report:
     aggregate_by: Grup berdasarkan Baris
+    attribute: Atribut
+    constraint: Batasan
     date_ranges:
       date: Hari
       month: Bulan
+      quarter: Triwulan
+      quarter_abbr: Q%{quarter}
       week: Minggu
       year: Tahun
     description: Deksripsi
+    disabled:
+      explanation: Jika Anda menonaktifkan Laporan ini, Laporan ini tidak akan muncul di laporan yang tersedia.
+      label: Nonaktifkan
+    exclude_empty_rows: Jangan tampilkan baris kosong
     disaggregate_by: Grup berdasarkan Kolom
     filters:
       label: Laporan Filter
+      label_new: Laporan Filter Baru
+      attribute: Sunting
+      value: Dengan
+      not_null: Tidak kosong?
+      less_than: Kurang dari
+      greater_than: Lebih dari
+      equal_to: Sama dengan
+      not_blank: Tidak kosong
+      is: adalah
+      before: Sebelum
+      after: Setelah
+      delete_filter_message: Yakin ingin menghapus filter ini?
     group_ages: Gunakan rentang usia
     group_dates_by: Gunakan rentang tanggal
     is_graph: Buat grafik?
     messages:
       delete_success: Laporan sudah berhasil di hapus
+      success: Laporan sudah berhasil di buat
+      updated: Laporan sudah berhasil di perbarui
     modules: Modul
     name: Nama
+    name_mandatory: Nama diwajibkan
     no_data: Tidak ada data untuk laporan ini
+    no_filters_added: Tidak ada filter yang ditambahkan
+    not_selected: Tidak dipilih
     record_type: Jenis Data
     total: Total
+    value: Nilai
   reports:
+    delete_report: Hapus Laporan
+    delete_report_message: Yakin ingin menghapus laporan ini? Penghapusan tidak dapat dikembalikan. Klik tombol OK untuk menghapus laporan.
     label: Laporan
     register_new_report: Buat Laporan
+    translations:
+      edit: Ubah Terjemahan
+      manage: Atur Terjemahan
+      select_language: Pilih bahasa
+    error_loading: Gagal Memuat Laporan
   request_transfer:
     notes_label: Catatan
     submit_label: Kirim Permintaan
     success: Permintaan Pengalihan telah Dikirim
   role:
+    agency_ids_label: Lembaga yang dikelola oleh peran ini
     copy_failure: Kesalahan saat menyalin Peran Pastikan namanya tidak bertentangan dengan Peran lain.
     copy_success: Peran berhasil disalin.
     create: Buat Peran
+    delete_header: Hapus Peran
     description: Deskripsi
     edit: Ubah Peran
     error_in_updating: Kesalahan dalam memperbarui detail Peran.
     group_permission_label: Data apa yang mempengaruhi peran ini?
+    label: Peran
+    manager: Manajer
+    messages:
+      confirmation: Anda yakin ingin menghapus peran ini? Penghapusan tidak dapat dikembalikan. Tekan tombol OK untuk menghapus peran.
+      created: Peran berhasil dibuat.
+      deleted: Peran berhasil dihapus.
+      updated: Peran berhasil diperbarui.
     name: Nama
     referral_label: Dapatkah peran ini digunakan untuk Referral?
+    reporting_location_level_label: Jenis lokasi apa yang harus digunakan untuk pelaporan peran ini?
     role_ids_label: Peran lainnya dikelola oleh peran ini
     successfully_updated: Rincian peran berhasil diperbarui.
     transfer_label: Dapatkah peran ini digunakan untuk Transfer?
+    hide: Sembunyikan
+    read: Tunjukkan
+    read_write: Tunjukkan dan Ubah
   roles:
     label: Peran
   saved_search:
     deleted: Pencarian berhasil dihapus
     filters_tab: Saringan
+    no_filters: Tidak ada filter yang dipilih
     save_success: Pencarian berhasil disimpan
     saved_searches_tab: Pencarian yang Tersimpan
+    title_description: Yakin ingin menghapus pencarian yang tersimpan ini?
+    title_modal: Hapus pencarian yang tersimpan
   saved_searches:
     no_save_searches: Anda tidak memiliki pencarian yang tersimpan
     save_search: Simpan Pencarian
+  settings:
+    navigation:
+      agencies: Lembaga-Lembaga
+      audit_logs: Audit Logs
+      configurations: Konfigurasi
+      contact_information: Informasi Kontak
+      forms: Formulir
+      locations: Lokasi
+      lookups: Lihat Referensi
+      user_groups: Grup Pengguna
+      users: Pengguna
+      roles: Peran
+      code_of_conduct: Kode Etik
+    title: Pengaturan
   system_settings:
     label: Pengaturan sistem
   task:
     due_date: Tanggal Batas Waktu
     id: ID#
+    name: Nama
+    priorities:
+      high_level: Tinggi
+      low_level: Rendah
+      medium_level: Sedang
+      no_action_level: Tak Perlu Tindakan
     priority: Tingkat Prioritas
+    status: Status
+    statuses:
+      overdue: Melampaui Tenggat Waktu
+      upcoming_soon: Mendekati Tenggat Waktu
     type: Jenis Tindakan
     types:
       assessment: Asesmen
@@ -802,40 +2914,244 @@ id:
       follow_up: Tindak Lanjut - %{subtype}
       service: Layanan - %{subtype}
   tracing_request:
+    label: Permintaan Pelacakan
+    has_match: Cocok
+    find_match: Temukan Kecocokan
+    back_to_traces: Kembali ke Melacak
+    back_to_potential_matches: Kembali ke Potensi Cocok
+    traces: Pelacakan
+    trace: Lacak
+    match: Cocok
+    matches: Cocok
+    unmatch: Tidak cocok
     messages:
+      already_matched: Sudah terdapat kecocokan dalam sistem dengan Penyelidik yang mencari anak ini.
+      disabled: Permintaan Pelacakan Dinonaktifkan
+      nothing_found: Tidak ditemukan
       update_success: 'Permintaan Penelusuran %{record_id} telah berhasil diperbarui.'
+      creation_success: Rekaman Permintaan Pelacakan berhasil dibuat.
+      update_success_queue: 'Permintaan Pelacakan %{record_id} berhasil diperbarui di latar belakang.'
+      creation_success_queue: Rekaman Permintaan Pelacakan berhasil dibuat di latar belakang.
+      match_action: Berhasil cocok Pelacakan %{trace_id} dengan Kasus%{record_id}.
+      unmatch_action: Berhasil membatalkan kecocokan Pelacakan %{trace_id} dan Kasus %{record_id}.
+  registry_record:
+    messages:
+      update_success: 'Catatan Pendaftaran  %{record_id}  berhasil diperbarui.'
+      creation_success: 'Catatan Pendaftaran berhasil dibuat.'
+      disabled: Pencatatan Pendaftaran dinonaktifkan
   tracing_requests:
+    date_of_inquiry: Tanggal Penyelidikan
+    disable_dialog_title: Permintaan Pelacakan yang Dinonaktifkan
+    disable_dialog: Mengklik OK akan mengubah status pelacakan ini menjadi Dinonaktifkan
+    disable_success: Permintaan pelacakan berhasil dinonaktifkan
+    enable_dialog: Mengklik OK akan mengubah status permintaan pelacakan ini menjadi Diaktifkan.
+    enable_dialog_title: Aktifkan Permintaan Pelacakan
+    enable_success: Permintaan pelacakan berhasil diaktifkan.
+    id: ID
+    filter_by:
+      by_date: Berdasarkan Tanggal
+      location_separation: Lokasi Keterpisahan
+      separation_cause: Penyebab Keterpisahan
+      status: Status
+    label: Permintaan Pelacakan
+    name_of_inquirer: Nama dari Penyelidik
+    inquirer: Penyelidik
+    name: Nama
     register_new_tracing_request: Permintaan Penelusuran Baru
     selectable_date_options:
       inquiry_date: Tanggal Penyelidikan
+    selected_records: '%{select_records} permintaan pelacakan telah dipilih'
+    selected_all_records: 'Pilih semua permintaan pelacakan %{total_records} yang cocok dengan permintaan ini.'
+    show_tracing_request: 'ID Permintaan Pelacakan %{short_id}'
+    tracing_requests: Permintaan Pelacakan
+    export: Ekspor
+  registry_records:
+    id: ID
+    label: Catatan Pendaftaran
+    name: Nama
+    registry_no: Nomor Pendaftaran
+    location: Lokasi
+    registration_date: Tanggal Pendaftaran
+    selected_records: '%{select_records} catatan Pendaftaran telah dipilih'
+    selected_all_records: 'Pilih semua catatan pendaftaran  %{total_records} yang cocok dengan permintaan ini.'
+    disable_dialog_title: Nonaktifkan Catatan Pendaftaran
+    disable_dialog: Mengklik OK akan mengubah status catatan pendaftaran ini menjadi Dinonaktifkan
+    disable_success: Catatan Pendaftaran berhasil dinonaktifkan
+    enable_dialog_title: Aktifkan Catatan Pendaftaran
+    enable_dialog: Mengklik OK akan mengubah status catatan pendaftaran ini menjadi Diaktifkan
+    enable_success: Catatan Pendaftaran berhasil diaktifkan
+    filter_by:
+      by_date: Berdasarkan Tanggal
+      status: Status
+    selectable_date_options:
+      registration_date: Tanggal pendaftaran
+    show_registry_record: 'ID Catatan Pendaftaran: %{short_id} '
+    register_new_registry_record: Catatan Pendaftaran Baru
+    export: Ekspor
+    mark_for_offline:
+      title: Tandai untuk Offline
+      text: Apakah anda yakin ingin menandai catatan pendaftaran ini dapat digunakan saat offline?
+      success: Catatan pendaftaran berhasil ditandai untuk penggunaan offline
   transfer:
+    label: Pemindahan
     agency_label: Agensi
+    consent_from_individual_label: Apakah Subjek telah menyetujui untuk pemindahan kasus ini?
     consent_label: Data belum diberikan persetujuan
     consent_override_label: Apakah Anda ingin mengganti pengaturan ini?
     is_remote_label: Apakah Anda memindahkan ke sistem remote?
     location_label: Lokasi
     notes_label: Catatan
+    provided_consent_label: Persetujuan tidak diberikan dalam Formulir.
+    recipient_label: Penerima
+    select_label: Pilih...
+    success: Berhasil dipindahkan
+    transfer_label: Tetap pindahkan?
+    user_mandatory: Penerima diwajibkan
+    rejected_reason: Alasan yang ditolak
+  transfer_assignment:
+    title: Pemindahan dan Penugasan
+  transition:
+    agency_label: Lembaga
+    assigned_by: Ditugaskan Oleh
+    consent_individual_transfer_value:
+      true_label: 'Ya'
+      false_label: 'Tidak'
+    consent_overridden_value:
+      false_label: 'Tidak'
+      true_label: 'Ya'
+    errors:
+      consent: Persetujuan tidak diberikan
+      to_user_can_receive: Pengguna ini tidak dapat menerima data ini
+    individual_consent: Apakah pekerja kasus mendapatkan persetujuan dari individu untuk melakukan pemindahan kasus ini?
+    no_consent_share: Persetujuan untuk berbagi pengaturan ditimpa?
+    notes: Catatan
+    recipient: Penerima
+    rejected: Alasan ditolak
+    requested_by: Diminta oleh
+    service_label: Layanan
+    responded_at: Direspon pada
+    status:
+      accepted: Diterima
+      done: Selesai
+      in_progress: Tertunda
+      inprogress: Tertunda
+      rejected: Ditolak
+      revoked: Ditarik kembali
+    type:
+      assign: Menugaskan
+      reassign: Menugaskan
+      referral: Rujukan
+      external_referral: Rujukan Eksternal
+      transfer: Pemindahan
+      transferRequest: Permintaan pemindahan
   user:
     agency_office: 'Kantor Lembaga '
     code: Kode Pengguna
     disabled: Di non-aktifkan
+    email: Email
     full_name: Nama Lengkap
+    identity_provider: Pemberi Identitas
+    invalid_provider_username: 'Format nama pengguna tidak valid. Contoh: my.username@%{domain}'
+    label: Pengguna
+    language: Bahasa
+    locale: Lokal
     location: Lokasi
     messages:
       confirmation: Anda yakin ingin menghapus pengguna ini? Penghapusan tidak dapat dibatalkan. Tekan tombol OK Untuk Menghapus pengguna.
       created: Pengguna sudah berhasil dibuat
+      failure: Terjadi kesalahan, silakan hubungi bantuan.
+      new_confirm_html: Anda sedang mengundang pengguna <b>%{username}</b> dari <b>%{identity}</b> dengan peran <b>%{role}</b> untuk menggunakan Primero. Email konfirmasi akan dikirimkan kepada <b>%{email}</b>. Apakah ingin Anda lanjutkan?
+      new_confirm_non_identity_html: Anda sedang mengundang <b>%{username}</b> dengan peran <b>%{role}</b> untuk menggunakan Primero. Email konfirmasi akan dikirimkan kepada <b>%{email}</b>. Apakah ingin Anda lanjutkan?
       not_found: Pengguna dengan id yang diberikan tidak ditemukan
       password_changed_successfully: Kata sandi berhasil diubah
       passwords_do_not_match: Tidak cocok dengan kata sandi saat ini
       time_zone_updated: Perubahan itu berhasil diupdate.
       updated: Pengguna berhasil diperbarui.
     organization: Organisasi
+    agency: Lembaga
+    services_help_text: Jika Anda tidak menentukan layanan, Pengguna ini akan diberikan layanan yang sama dengan yang dimiliki Lembaganya.
+    password_setting:
+      label: Bagaimana Primero mengatur kata sandi pengguna?
+      self: Saya akan mengatur kata sandi
+      user: Pengguna akan mengatur kata sandi menggunakan email selamat datang
+      help_text: Harap diperhatikan bahwa jika Anda, administrator, mengatur kata sandi secara manual, Anda harus membaginya dengan pengguna dengan cara yang aman.
+    password_reset_header: Kirim email pengaturan ulang kata sandi
+    password_reset_text: Bila anda klik ‘Kirim,’ pengguna ini akan menerima email dengan tautan ke pengaturan ulang kata sandinya.
+    password_reset_request: Kirim email pengaturan ulang kata sandi
+    password: Kata sandi
+    password_confirmation: Konfirmasi Kata Sandi
+    phone: Telepon
     position: Posisi
+    provider_username_help: 'Contoh: my.username@%{domain}'
+    role_id: Peran
     send_mail: Terima pemberitahuan email?
+    user_group_unique_ids: Grup Pengguna
+    user_name: Nama pengguna
+    services: Layanan
+    welcome_email:
+      subject: 'Selamat Datang di %{system}!'
+      greeting: 'Selamat Datang di %{system}!'
+      body_native: 'Anda telah ditambahkan sebagai %{role_name}. Silakan hubungi %{admin_full_name} (%{admin_email}) untuk instruksi lanjutan untuk mulai bekerja dengan %{host}.'
+      sso:
+        body: 'Anda telah ditambahkan sebagai %{role_name}.'
+        step1: 'Buka %{host} dan klik %{identity_provider}.'
+        step2: 'Masuk dengan akun%{identity_provider} Anda %{user_name}.'
+        step3: 'Gunakan kata sandi yang selalu Anda gunakan untuk akun %{identity_provider}.'
+        footer: 'Silakan hubungi %{admin_full_name} (%{admin_email}) untuk rincian lebih lanjut.'
+      otp:
+        body: 'Anda telah ditambahkan sebagai %{role_name}.'
+        step1: 'Silakan hubungi %{admin_full_name} (%{admin_email}) untuk menerima nama pengguna Anda.'
+        step2: 'Buka %{host} dan klik "masuk dengan nama pengguna Primero.".'
+        step3: 'Masuk dengan nama pengguna Anda dan kata sandi sementaranya%{otp}.'
+        step4: 'Saat diminta, atur ulang kata sandi Anda.'
+      url_label: Primero
+      enabled_label: Kirim email penyambutan?
+      text_label: Text email Penyambutan
+    password_reset:
+      subject: 'Instruksi reset password'
+      email_greeting: "Yang terhormat %{full_name}"
+      email_body1: "Seseorang meminta untuk mengatur kata sandi Anda untuk%{host_href}. Klik pada url berikut untuk memulai:"
+      email_body2: "Tautan ini akan kadarluwarsa dalam %{hours} jam dan hanya dapat digunakan sekali. Silakan abaikan email ini bila Anda tidak meminta pengaturan ulang kata sandi atau pengguna Primero baru tidak terdaftar atas nama Anda. Bila tautan di atas kadaluwarsa, silakan klik%{reset_request_href} untuk mengirimkan kembali permintaan pengaturan ulang kata sandi."
+      email_body_link: di sini
+      request_submitted: "Permintaan atur ulang kata sandi telah dikirimkan"
+      success: "Kata sandi berhasil diubah"
+      errors:
+        reset_password_token: "Token pengaturan kata sandi tidak valid"
+        password_confirmation: "Kata Sandi Harus Cocok"
+    onboard_email:
+      subject: "Orientasi terhadap %{system}"
+      greeting: "Yang terhormat %{full_name},"
+      body1: "Selamat Datang di Primero!"
+      body2: "Anda telah ditunjuk sebagai administrator implementasi untuk %{host_href}. %{reset_notification}"
+      body2_reset_notification: "Anda akan menerima email tambahan meminta Anda untuk mengatur ulang kata sandi Anda."
+      body3: "Anda bertanggung jawab untuk memastikan implementasi yang aman dan tepat waktu. Untuk setiap peluncuran, Anda harus menyelesaikan Rencana Implementasi dengan strategi orientasi dan manajemen pengguna serta protokol berbagi informasi. Anda juga bertanggung jawab untuk memastikan bahwa Persyaratan Penggunaan yang ditandatangani telah disimpan untuk semua organisasi pengguna."
   user_group:
+    associated_agencies: Lembaga yang diasosiasikan dengan Kelompok Pengguna
     description: Deksripsi
+    disabled:
+      explanation: Bila Anda menonaktifkan Grup Pengguna, Anda tidak akan lagi dapat menetapkannya sebagai akun Pengguna.
+      label: Dinonaktifkan
+    messages:
+      created: Grup Pengguna berhasil dibuat.
+      updated: Grup Pengguna berhasil diperbarui.
     name: Nama
   user_groups:
     label: Grup Pengguna
   users:
     label: Pengguna
+    headers:
+      full_name: Nama Lengkap
+      user_name: Nama pengguna
+      position: Posisi
+      agency: Lembaga
+  devise:
+    failure:
+      already_authenticated: "Anda sudah masuk"
+      invalid: " %{authentication_keys} atau kata sandi tidak valid."
+      locked: "Akun Anda terkunci."
+      last_attempt: "Anda memiliki satu kali lagi percobaan sebelum akun Anda terkunci."
+  admin:
+    locations:
+      selected_records: '%{select_records} lokasi terpilih'
+      selected_all_records: Pilih semua kasus %{total_records} yang cocok dengan permintaan ini.
+      updated: '%{select_records} lokasi diperbarui'

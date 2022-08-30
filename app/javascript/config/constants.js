@@ -438,11 +438,9 @@ export const APPLICATION_NAV = (permissions, userId) => {
       icon: "support",
       divider: true
     },
-    // {
-    //   name: "navigation.my_account",
-    //   to: myAccountTo,
-    //   icon: "account"
-    // },
+    {
+      component: "fieldMode"
+    },
     { name: "username", to: `${ROUTES.account}/${userId}`, icon: "account", disableOffline: true },
     {
       name: "navigation.settings",

@@ -1,13 +1,15 @@
 import { fromJS, List } from "immutable";
 import isEmpty from "lodash/isEmpty";
 
-import { LOOKUPS, RECORD_TYPES_PLURAL, STRING_SOURCES_TYPES } from "../../config";
-import { displayNameHelper, valueFromOptionSource } from "../../libs";
-import useMemoizedSelector, { useProxySelector } from "../../libs/use-memoized-selector";
-import { getLookupsByIDs } from "../form/selectors";
-import useOptions from "../form/use-options";
-import { useI18n } from "../i18n";
-import { getFieldsByName } from "../record-form/selectors";
+import { LOOKUPS, RECORD_TYPES_PLURAL, STRING_SOURCES_TYPES } from "../../../config";
+import { displayNameHelper, valueFromOptionSource } from "../../../libs";
+import useMemoizedSelector, { useProxySelector } from "../../../libs/use-memoized-selector";
+import { getLookupsByIDs } from "../../form/selectors";
+import useOptions from "../../form/use-options";
+import { useI18n } from "../../i18n";
+import { getFieldsByName } from "../../record-form/selectors";
+
+import buildLocationsList from "./build-location-list";
 
 export const buildComponentColumns = (componentColumns, order, orderBy) => {
   if (order && orderBy) {
@@ -19,25 +21,6 @@ export const buildComponentColumns = (componentColumns, order, orderBy) => {
 
     return componentColumns;
   }
-
-  return componentColumns;
-};
-
-export const buildLocationsList = (records, columnsWithLookups) => {
-  const locationIDS = [];
-  const locationFields = columnsWithLookups
-    .filter(field =>
-      [LOOKUPS.reporting_locations, STRING_SOURCES_TYPES.LOCATION].includes(field.get("option_strings_source"))
-    )
-    .map(field => [field.get("name"), field.get("option_strings_source")]);
-
-  records.forEach(record => {
-    locationFields.forEach(locationField => {
-      locationIDS.push(record.get(locationField[0]));
-    });
-  });
-
-  return [...new Set(locationIDS)];
 };
 
 export function useTranslatedRecords({
@@ -150,3 +133,5 @@ export function useTranslatedRecords({
 
   return fromJS([]);
 }
+
+export default useTranslatedRecords;

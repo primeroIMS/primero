@@ -25,6 +25,7 @@ export default async ({ attachments, id, recordType }) => {
             db: { id, collection: DB_COLLECTIONS_NAMES.RECORDS, recordType }
           },
           fromQueue: uuid.v4(),
+          tries: 0,
           fromAttachment: {
             ...(isDelete && { id: attachment?._destroy }),
             field_name: current,

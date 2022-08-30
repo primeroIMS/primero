@@ -71,7 +71,7 @@ describe Approval do
         @approval = Approval.get!(
           Approval::CASE_PLAN,
           @case,
-          @user1.user_name,
+          @user1,
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
         )
         @approval.perform!(Approval::APPROVAL_STATUS_REQUESTED)
@@ -93,7 +93,7 @@ describe Approval do
         approval = Approval.get!(
           Approval::ASSESSMENT,
           @case,
-          @user1.user_name,
+          @user1,
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
         )
         approval.perform!(Approval::APPROVAL_STATUS_REQUESTED)
@@ -109,7 +109,7 @@ describe Approval do
         approval = Approval.get!(
           Approval::CLOSURE,
           @case,
-          @user1.user_name,
+          @user1,
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
         )
         approval.perform!(Approval::APPROVAL_STATUS_REQUESTED)
@@ -125,7 +125,7 @@ describe Approval do
         @approval = Approval.get!(
           Approval::ACTION_PLAN,
           @case,
-          @user1.user_name,
+          @user1,
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
         )
         @approval.perform!(Approval::APPROVAL_STATUS_REQUESTED)
@@ -147,7 +147,7 @@ describe Approval do
         approval = Approval.get!(
           Approval::GBV_CLOSURE,
           @case,
-          @user1.user_name,
+          @user1,
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
         )
         approval.perform!(Approval::APPROVAL_STATUS_REQUESTED)
@@ -163,7 +163,7 @@ describe Approval do
         @approval = Approval.get!(
           Approval::ACTION_PLAN,
           @case,
-          @user1.user_name,
+          @user1,
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
         )
         @approval.perform!(Approval::APPROVAL_STATUS_REQUESTED)
@@ -187,7 +187,7 @@ describe Approval do
         approval = Approval.get!(
           Approval::ASSESSMENT,
           @case,
-          @user1.user_name,
+          @user1,
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
         )
         expect(approval.class).to eq(Approval)
@@ -199,7 +199,7 @@ describe Approval do
         approval = Approval.get!(
           Approval::CASE_PLAN,
           @case,
-          @user1.user_name,
+          @user1,
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
         )
         expect(approval.class).to eq(Approval)
@@ -211,7 +211,7 @@ describe Approval do
         approval = Approval.get!(
           Approval::CLOSURE,
           @case,
-          @user1.user_name,
+          @user1,
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
         )
         expect(approval.class).to eq(Approval)
@@ -223,7 +223,7 @@ describe Approval do
         approval = Approval.get!(
           Approval::ACTION_PLAN,
           @case,
-          @user1.user_name,
+          @user1,
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
         )
         expect(approval.class).to eq(Approval)
@@ -236,7 +236,7 @@ describe Approval do
         approval = Approval.get!(
           Approval::GBV_CLOSURE,
           @case,
-          @user1.user_name,
+          @user1,
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
         )
         expect(approval.class).to eq(Approval)
@@ -251,7 +251,7 @@ describe Approval do
         @approval = Approval.get!(
           Approval::CLOSURE,
           @case,
-          @user1.user_name,
+          @user1,
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
         )
         @approval.perform!(Approval::APPROVAL_STATUS_REQUESTED)
@@ -274,7 +274,7 @@ describe Approval do
         @approval = Approval.get!(
           Approval::ACTION_PLAN,
           @case,
-          @user1.user_name,
+          @user1,
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
         )
       end
@@ -283,6 +283,36 @@ describe Approval do
         expect(@case.alerts.count).to eq(2)
         @approval.approve!
         expect(@case.alerts.count).to eq(1)
+      end
+    end
+  end
+
+  describe '.perform!' do
+    context 'and record has alerts' do
+      before do
+        Alert.create(
+          type: Approval::ACTION_PLAN,
+          alert_for: 'approval',
+          date: Date.today,
+          record_id: @case.id,
+          record_type: @case.class
+        )
+        @approval = Approval.get!(
+          Approval::ACTION_PLAN,
+          @case,
+          @user1,
+          approval_status: Approval::APPROVAL_STATUS_REQUESTED
+        )
+        @case.update_properties(@user, { consent_for_services: true })
+        @approval.perform!(Approval::APPROVAL_STATUS_APPROVED)
+      end
+
+      it 'should delete one alert for the approval type' do
+        expect(@case.alerts.count).to eq(0)
+      end
+
+      it 'should create a record history with a specific user' do
+        expect(@case.ordered_histories.first.user_name).to eq(@user1.user_name)
       end
     end
   end

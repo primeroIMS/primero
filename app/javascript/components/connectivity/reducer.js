@@ -1,5 +1,6 @@
 import { fromJS } from "immutable";
 
+import { METHODS } from "../../config";
 import { QUEUE_PENDING } from "../../libs/queue";
 
 import actions from "./actions";
@@ -10,7 +11,8 @@ const DEFAULT_STATE = fromJS({
   serverOnline: true,
   pendingUserLogin: false,
   queueStatus: QUEUE_PENDING,
-  serverStatusRetries: 0
+  serverStatusRetries: 0,
+  fieldMode: false
 });
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
@@ -28,8 +30,17 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("serverOnline", false).set("serverStatusRetries", state.get("serverStatusRetries", 0) + 1);
     case actions.QUEUE_STATUS:
       return state.set("queueStatus", payload);
+    case actions.SET_QUEUE_DATA:
+      return state.set(
+        "queueData",
+        fromJS(payload).filter(item => {
+          return [METHODS.POST, METHODS.PATCH, METHODS.PUT].includes(item.getIn(["api", "method"]));
+        })
+      );
     case actions.PENDING_USER_LOGIN:
       return state.set("pendingUserLogin", payload);
+    case actions.USER_TOGGLE_OFFLINE:
+      return state.set("fieldMode", payload);
     default:
       return state;
   }

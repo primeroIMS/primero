@@ -409,7 +409,6 @@ es:
       role: Roles
       self: Acceso solo a mis registros o usuario
       specific_roles: Acceso a listas específicas de roles
-      sync_mobile: Sincronizar con dispositivo móvil
       system: Sistema
       tracing_request: Localizando solicitud
       user: Usuarios

@@ -4,6 +4,7 @@ import { Divider } from "@material-ui/core";
 import { setupMountedComponent } from "../../../../test";
 import { FormAction } from "../../../form";
 import ActionButton from "../../../action-button";
+import DateFlag from "../../../transitions/components/date-transitions-summary";
 
 import ListFlagsItemActions from "./component";
 
@@ -46,6 +47,10 @@ describe("<ListFlagsItemActions />", () => {
 
   it("should render the ActionButton", () => {
     expect(component.find(ActionButton)).to.have.lengthOf(1);
+  });
+
+  it("should render the DateFlag", () => {
+    expect(component.find(DateFlag)).to.have.lengthOf(1);
   });
 
   it("renders component with valid props", () => {
