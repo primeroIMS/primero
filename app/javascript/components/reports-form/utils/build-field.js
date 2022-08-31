@@ -20,7 +20,7 @@ export const buildLocationFields = (current, formSection, i18n, reportingLocatio
   const adminLevelMap = reportingLocationConfig?.get("admin_level_map");
 
   // eslint-disable-next-line no-plusplus
-  for (let i = 1; i <= adminLevel; i++) {
+  for (let i = 0; i <= adminLevel; i++) {
     locationFields.push({
       ...buildField(current, formSection, locale),
       id: `${current.get("name")}${i}`,
