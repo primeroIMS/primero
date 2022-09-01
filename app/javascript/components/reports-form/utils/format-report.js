@@ -1,3 +1,5 @@
+import isNil from "lodash/isNil";
+
 export default report => {
   return Object.entries(report).reduce((acc, curr) => {
     const [key, value] = curr;
@@ -8,10 +10,10 @@ export default report => {
       case "fields": {
         const rows = value
           .filter(({ position }) => position.type === "horizontal")
-          .map(({ name, admin_level: adminLevel }) => `${name}${adminLevel || ""}`);
+          .map(({ name, admin_level: adminLevel }) => `${name}${isNil(adminLevel) ? "" : adminLevel}`);
         const columns = value
           .filter(({ position }) => position.type === "vertical")
-          .map(({ name, admin_level: adminLevel }) => `${name}${adminLevel || ""}`);
+          .map(({ name, admin_level: adminLevel }) => `${name}${isNil(adminLevel) ? "" : adminLevel}`);
 
         return { ...acc, aggregate_by: rows, disaggregate_by: columns };
       }
