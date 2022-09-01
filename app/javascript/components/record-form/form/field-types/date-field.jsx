@@ -33,7 +33,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, fo
         ? toServerDateFormat(fieldValue.current, { includeTime: dateIncludeTime })
         : fieldValue.current;
 
-      formInstance.current.setFieldValue(name, currentValue, true);
+      formInstance.current.setFieldValue(name, currentValue, false);
     }
   }, [fieldValue.current, formInstance]);
 
