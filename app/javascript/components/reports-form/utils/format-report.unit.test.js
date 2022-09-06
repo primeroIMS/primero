@@ -50,5 +50,25 @@ describe("<ReportForm>/utils/formatReport()", () => {
     it("should return an array with a field containing the admin level as part of the string", () => {
       expect(formatReport(reportWithAdminLevel).aggregate_by).to.deep.equal(["location1"]);
     });
+
+    describe("when admin_level is zero", () => {
+      const reportWithAdminLevelZero = {
+        name: "test",
+        description: null,
+        fields: [
+          {
+            admin_level: 0,
+            name: "location",
+            position: {
+              type: "horizontal"
+            }
+          }
+        ]
+      };
+
+      it("should return an array with a field containing the admin level as part of the string", () => {
+        expect(formatReport(reportWithAdminLevelZero).aggregate_by).to.deep.equal(["location0"]);
+      });
+    });
   });
 });
