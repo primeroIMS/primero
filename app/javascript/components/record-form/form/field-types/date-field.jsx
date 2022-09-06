@@ -45,7 +45,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, fo
     if (dateOfBirthMatches && date && isAgeVisible) {
       const diff = differenceInYears(new Date(), date || new Date());
 
-      form.setFieldValue(ageFieldName, diff, true);
+      form.setFieldValue(ageFieldName, diff, false);
     }
   };
 
@@ -78,7 +78,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, fo
   const fieldTouched = getIn(formik.touched, name);
 
   const handleClearable = useCallback(() => {
-    formInstance.current.setFieldValue(name, null, true);
+    formInstance.current.setFieldValue(name, null, false);
   }, [formInstance.current]);
 
   return (
@@ -89,7 +89,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, fo
 
           const formattedDate = date ? toServerDateFormat(date, { includeTime: dateIncludeTime }) : null;
 
-          return form.setFieldValue(name, formattedDate, true);
+          return form.setFieldValue(name, formattedDate, false);
         };
 
         const dateProps = {
