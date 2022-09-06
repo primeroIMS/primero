@@ -1,3 +1,5 @@
+import isNil from "lodash/isNil";
+
 import { displayNameHelper } from "../../../libs";
 
 export const buildField = (current, formSection, locale) => ({
@@ -20,14 +22,16 @@ export const buildLocationFields = (current, formSection, i18n, reportingLocatio
   const adminLevelMap = reportingLocationConfig?.get("admin_level_map");
 
   // eslint-disable-next-line no-plusplus
-  for (let i = 1; i <= adminLevel; i++) {
-    locationFields.push({
-      ...buildField(current, formSection, locale),
-      id: `${current.get("name")}${i}`,
-      display_text: `${displayNameHelper(current.get("display_name"), locale)} (${i18n.t(
-        `location.base_types.${adminLevelMap.getIn([String(i), 0])}`
-      )})`
-    });
+  for (let i = 0; i <= adminLevel; i++) {
+    if (!isNil(adminLevelMap.getIn([String(i), 0]))) {
+      locationFields.push({
+        ...buildField(current, formSection, locale),
+        id: `${current.get("name")}${i}`,
+        display_text: `${displayNameHelper(current.get("display_name"), locale)} (${i18n.t(
+          `location.base_types.${adminLevelMap.getIn([String(i), 0])}`
+        )})`
+      });
+    }
   }
 
   return locationFields;
