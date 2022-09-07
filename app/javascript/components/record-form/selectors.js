@@ -10,7 +10,7 @@ import { displayNameHelper } from "../../libs";
 import { checkPermissions, getPermissionsByRecord } from "../permissions";
 import { ALERTS_FOR, INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_PLURAL } from "../../config";
 import { FieldRecord } from "../form/records";
-import { OPTION_TYPES } from "../form/constants";
+import { OPTION_TYPES, SEPARATOR } from "../form/constants";
 import { getLocale } from "../i18n/selectors";
 import { getRecordFormAlerts } from "../records";
 import { selectorEqualityFn } from "../../libs/use-memoized-selector";
@@ -411,8 +411,18 @@ export const getFieldsByName = (state, names = fromJS([])) => {
   return state.getIn([NAMESPACE, "fields"], fromJS([])).filter(field => names.includes(field.name));
 };
 
-export const getRecordFields = createCachedSelector(getRecordForms, formSections =>
-  formSections.flatMap(formSection => formSection.fields)
+export const getRecordFields = createCachedSelector(
+  getRecordForms,
+  (_state, query) => query,
+  (formSections, query) => {
+    const recordFields = formSections.flatMap(formSection => formSection.fields);
+
+    if (query.includeSeparators === false) {
+      return recordFields.filter(field => field.type !== SEPARATOR);
+    }
+
+    return recordFields;
+  }
 )(defaultCacheSelectorOptions);
 
 export const getMiniFormFields = (state, recordType, primeroModule, excludeFieldNames) => {
