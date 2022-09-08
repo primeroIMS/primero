@@ -49,17 +49,22 @@ BUILD_NGINX="docker build -f nginx/Dockerfile . -t primero/nginx:${tag} -t ${rep
 BUILD_SOLR="docker build -f solr/Dockerfile ../ -t primero/solr:${tag} -t ${repository}/primero/solr:${tag} --build-arg BUILD_REGISTRY=${build_registry}"
 BUILD_APP="docker build -f application/Dockerfile ../ -t primero/application:${tag} -t ${repository}/primero/application:${tag} --build-arg APP_ROOT=${APP_ROOT} --build-arg RAILS_LOG_PATH=${RAILS_LOG_PATH} --build-arg APP_UID=${APP_UID} --build-arg APP_GID=${APP_GID} --build-arg BUILD_REGISTRY=${build_registry}"
 BUILD_POSTGRES="docker build -f postgres/Dockerfile . -t primero/postgres:${tag} -t ${repository}/primero/postgres:${tag} --build-arg BUILD_REGISTRY=${build_registry}"
+BUILD_POSTGRES11="docker build -f postgres/Dockerfile . -t primero/postgres:${tag}-pg11 -t ${repository}/primero/postgres:${tag}-pg11 --build-arg BUILD_REGISTRY=${build_registry} --build-arg POSTGRES_VERSION=11.17"
+BUILD_POSTGRES14="docker build -f postgres/Dockerfile . -t primero/postgres:${tag}-pg14 -t ${repository}/primero/postgres:${tag}-pg14 --build-arg BUILD_REGISTRY=${build_registry} --build-arg POSTGRES_VERSION=14.5"
 
 apply_tags () {
   local image=${1}
-  docker tag "primero/${image}:${tag}" "primeroims/${image}:${tag}"
-  docker tag "primero/${image}:${tag}" "${repository}/primero/${image}:${tag}"
-  docker tag "primero/${image}:${tag}" "${repository}/primeroims/${image}:${tag}"
+  local subtag=${2:-""}
+  [[ -n "${subtag}" ]] && subtag="-${subtag}"
+
+  docker tag "primero/${image}:${tag}${subtag}" "primeroims/${image}:${tag}${subtag}"
+  docker tag "primero/${image}:${tag}${subtag}" "${repository}/primero/${image}:${tag}${subtag}"
+  docker tag "primero/${image}:${tag}${subtag}" "${repository}/primeroims/${image}:${tag}${subtag}"
   if [[ "${with_latest}" == true ]] ; then
-    docker tag "primero/${image}:${tag}" "primero/${image}:latest"
-    docker tag "primero/${image}:${tag}" "primeroims/${image}:latest"
-    docker tag "${repository}/primero/${image}:${tag}" "${repository}/primero/${image}:latest"
-    docker tag "${repository}/primero/${image}:${tag}" "${repository}/primeroims/${image}:latest"
+    docker tag "primero/${image}:${tag}${subtag}" "primero/${image}:latest${subtag}"
+    docker tag "primero/${image}:${tag}${subtag}" "primeroims/${image}:latest${subtag}"
+    docker tag "${repository}/primero/${image}:${tag}${subtag}" "${repository}/primero/${image}:latest${subtag}"
+    docker tag "${repository}/primero/${image}:${tag}${subtag}" "${repository}/primeroims/${image}:latest${subtag}"
   fi
 }
 
@@ -76,12 +81,16 @@ case ${image} in
     ;;
   postgres)
     eval "${BUILD_POSTGRES}" && apply_tags postgres
+    eval "${BUILD_POSTGRES11}" && apply_tags postgres pg11
+    eval "${BUILD_POSTGRES14}" && apply_tags postgres pg14
     ;;
   all)
     eval "${BUILD_APP}" && apply_tags application
     eval "${BUILD_SOLR}" && apply_tags solr
     eval "${BUILD_NGINX}" && apply_tags nginx
     eval "${BUILD_POSTGRES}" && apply_tags postgres
+    eval "${BUILD_POSTGRES11}" && apply_tags postgres pg11
+    eval "${BUILD_POSTGRES14}" && apply_tags postgres pg14
     ;;
   *)
     echo "${USAGE}"
