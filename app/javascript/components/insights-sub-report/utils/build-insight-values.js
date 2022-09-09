@@ -157,7 +157,7 @@ export default {
         ? buildGroupedRows({ data, key, getLookupValue, groupedBy, subColumnItems: subColumnItems.toJS() })
         : buildSingleRows({ data, getLookupValue, key });
 
-    if (key === "age" || key.includes("_age")) {
+    if (key === "age" || key?.includes("_age")) {
       return sortWithSortedArray(rows, ageRanges, sortByFn, incompleteDataLabel);
     }
 

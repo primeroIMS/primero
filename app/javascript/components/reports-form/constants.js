@@ -41,6 +41,8 @@ export const DATE_CONSTRAINTS = Object.freeze({
 
 export const ALLOWED_FIELD_TYPES = [DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD, TICK_FIELD];
 
+export const ALLOWED_FIELD_NAMES = ["created_by", "created_by_groups", "owned_by", "owned_by_groups"];
+
 export const REPORT_FIELD_TYPES = Object.freeze({
   horizontal: "horizontal",
   vertical: "vertical"

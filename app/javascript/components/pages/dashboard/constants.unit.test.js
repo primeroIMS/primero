@@ -46,6 +46,7 @@ describe("Verifying config constant", () => {
       "CASES_TO_ASSIGN",
       "GROUP_OVERVIEW",
       "NATIONAL_ADMIN_SUMMARY",
+      "PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES",
       "PROTECTION_CONCERNS",
       "REPORTING_LOCATION",
       "SHARED_FROM_MY_TEAM",
@@ -60,6 +61,7 @@ describe("Verifying config constant", () => {
     );
 
     expect(clone.INDICATOR_NAMES).to.have.all.keys(
+      "PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES",
       "PROTECTION_CONCERNS_ALL_CASES",
       "PROTECTION_CONCERNS_CLOSED_THIS_WEEK",
       "PROTECTION_CONCERNS_NEW_THIS_WEEK",

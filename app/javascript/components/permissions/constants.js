@@ -50,6 +50,7 @@ export const ACTIONS = {
   DASH_WORKFLOW: "workflow",
   DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS: "dash_violations_category_verification_status",
   DASH_VIOLATIONS_CATEGORY_REGION: "dash_violations_category_region",
+  DASH_PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES: "dash_perpetrator_armed_force_group_party_names",
   DELETE: "delete",
   DISPLAY_VIEW_PAGE: "display_view_page",
   ENABLE_DISABLE_RECORD: "enable_disable_record",

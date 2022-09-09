@@ -1,5 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 
+export const escapeCsvText = text => `"${text.replace(/"/g, '""')}"`;
+
 export const tableToCsv = tableSelector => {
   const tableData = [];
   const rows = document.querySelectorAll(tableSelector);
@@ -10,7 +12,7 @@ export const tableToCsv = tableSelector => {
     for (const value of row.querySelectorAll("th, td").entries()) {
       const column = value[1];
 
-      rowData.push(column.innerText);
+      rowData.push(escapeCsvText(column.innerText));
     }
     tableData.push(rowData.join(","));
   }

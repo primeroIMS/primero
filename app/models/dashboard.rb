@@ -134,6 +134,12 @@ class Dashboard < ValueObject
     indicators: [Indicators::Incident::VIOLATIONS_CATEGORY_VERIFICATION_STATUS]
   ).freeze
 
+  DASH_PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES = Dashboard.new(
+    name: 'dash_perpetrator_armed_force_group_party_names',
+    type: 'indicator',
+    indicators: [Indicators::Incident::PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES]
+  ).freeze
+
   def self.cases_by_task_overdue_assessment
     Dashboard.new(
       name: 'cases_by_task_overdue_assessment',
