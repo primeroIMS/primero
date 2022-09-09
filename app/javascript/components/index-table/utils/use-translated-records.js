@@ -12,17 +12,19 @@ import { getFieldsByName } from "../../record-form/selectors";
 import buildLocationsList from "./build-location-list";
 
 export const buildComponentColumns = (componentColumns, order, orderBy) => {
+  const sortedColumns = List.isList(componentColumns) ? componentColumns : List(componentColumns);
+
   if (order && orderBy) {
-    const sortedColumn = componentColumns.findIndex(c => c.name === orderBy);
+    const sortedColumn = sortedColumns.findIndex(column => column.name === orderBy);
 
     if (sortedColumn) {
-      return componentColumns.setIn([sortedColumn, "options", "sortOrder"], order);
+      return sortedColumns.setIn([sortedColumn, "options", "sortOrder"], order);
     }
 
-    return componentColumns;
+    return sortedColumns;
   }
 
-  return componentColumns;
+  return sortedColumns;
 };
 
 export function useTranslatedRecords({
