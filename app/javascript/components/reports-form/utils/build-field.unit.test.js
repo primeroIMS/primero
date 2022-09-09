@@ -52,6 +52,7 @@ describe("<ReportForm>/utils/build-field", () => {
       const reportingLocationConfig = fromJS({
         admin_level: 2,
         admin_level_map: {
+          0: ["country"],
           1: ["city"],
           2: ["district"]
         }
@@ -61,6 +62,7 @@ describe("<ReportForm>/utils/build-field", () => {
 
       const expected = [
         { ...locationField, visible: true },
+        { ...locationField, id: "location0", display_text: "Location (location.base_types.country)" },
         { ...locationField, id: "location1", display_text: "Location (location.base_types.city)", visible: true },
         { ...locationField, id: "location2", display_text: "Location (location.base_types.district)", visible: true }
       ];

@@ -12,6 +12,17 @@
 .itemHeader {
   font-size: var(--fs-16);
   font-weight: bold;
+  & fieldset {
+    border: none;
+  }
+  & label {
+    display: none;
+  }
+  & input {
+    padding-top: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }
 
 .container {

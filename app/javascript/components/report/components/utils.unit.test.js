@@ -12,7 +12,7 @@ describe("components/report/components/utils.js", () => {
       expect(clone).to.be.empty;
     });
 
-    ["tableToCsv", "downloadFile"].forEach(property => {
+    ["escapeCsvText", "downloadFile", "tableToCsv"].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(utils).to.have.property(property);
         delete clone[property];
@@ -116,12 +116,12 @@ describe("components/report/components/utils.js", () => {
 
       it("creates a csv for merged columns and rows", () => {
         const expected = [
-          ",Header 1,Header 1,Header 1,Total",
-          ",Column 1,Column 2,Column Total,",
-          "Group 1,,,,8",
-          "Group 1,Value 1,1,1,1",
-          "Group 2,,,,8",
-          "Group 2,Value 2,2,2,2"
+          ',"Header 1","Header 1","Header 1","Total"',
+          ',"Column 1","Column 2","Column Total",""',
+          '"Group 1",,,,"8"',
+          '"Group 1","Value 1","1","1","1"',
+          '"Group 2",,,,"8"',
+          '"Group 2","Value 2","2","2","2"'
         ];
 
         expect(utils.tableToCsv().split("\n")).to.deep.equals(expected);
@@ -130,6 +130,13 @@ describe("components/report/components/utils.js", () => {
       afterEach(() => {
         global.document = globalDocument;
       });
+    });
+  });
+
+  describe("escapeCsvText", () => {
+    it("returns a escaped text for csv", () => {
+      expect(utils.escapeCsvText('"GBV" Survivor')).to.equals('"""GBV"" Survivor"');
+      expect(utils.escapeCsvText("Survivor, Proctected and Released")).to.equals('"Survivor, Proctected and Released"');
     });
   });
 });

@@ -14,7 +14,7 @@ id:
         female: "P"
         both: "L dan P"
       age_group:
-        age: "Umur"
+        age: "Usia"
         61_older: "61 ke atas"
         unknown: "Tidak diketahui"
         header: "KELOMPOK USIA TERDUGA PELAKU KEKERASAN"
@@ -25,7 +25,7 @@ id:
         unknown: "Tidak diketahui"
         header: "GOLONGAN USIA TERDUGA PELAKU "
       service_referral:
-        undecided: ""
+        undecided: "Tidak diputuskan"
       headers:
         incident_id: "ID KEJADIAN"
         survivor_code: "KODE PENYINTAS"
@@ -38,7 +38,7 @@ id:
         ethnicity: "SUKU"
         country_of_origin: "NEGARA ASAL"
         marital_status: "STATUS PERKAWINAN"
-        displacement_status: "STATUS PERPINDAHAN DI DALAM LAPORAN !!"
+        displacement_status: "STATUS PERPINDAHAN DI DALAM LAPORAN "
         disability_type: "PENYANDANG DISABILITAS?"
         unaccompanied_separated_status: "ANAK TANPA PENDAMPING ATAU ANAK TERPISAH"
         stage_of_displacement: "KEADAAN PERPINDAHAN ANAK PADA SAAT KEJADIAN"

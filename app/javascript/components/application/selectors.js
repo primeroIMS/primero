@@ -154,6 +154,8 @@ export const getRegistryTypes = (state, type) =>
     .getIn(["application", "systemOptions", "registry_types"], fromJS([]))
     .find(registryType => registryType.get("id") === type, null, fromJS({}));
 
+export const getFieldMode = state => state.getIn([NAMESPACE, "systemOptions", "field_mode"], false);
+
 export const getAppData = memoize(state => {
   const modules = selectModules(state);
   const userModules = selectUserModules(state);

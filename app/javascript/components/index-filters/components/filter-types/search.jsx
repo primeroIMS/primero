@@ -55,8 +55,7 @@ const Search = ({ handleReset }) => {
 
   const handleClear = () => {
     setValue(fieldName, undefined);
-    setValue(fieldNameIdSearch, undefined);
-    handleReset();
+    handleReset(true);
   };
 
   return (

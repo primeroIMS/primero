@@ -306,7 +306,7 @@ describe Incident do
 
   describe '.copy_from_case' do
     before(:each) do
-      clean_data(Incident, Child, PrimeroModule) && module_cp
+      clean_data(Incident, Child, PrimeroModule, User) && module_cp
       module_cp = PrimeroModule.new(
         unique_id: 'primeromodule-cp',
         field_map: {
@@ -321,12 +321,24 @@ describe Incident do
       module_cp.save(validate: false)
     end
 
+    let(:incident_user) do
+      incident_user = User.new(user_name: 'incident_user', agency_id: Agency.last.id)
+      incident_user.save(validate: false)
+      incident_user
+    end
+
     let(:case_cp) do
-      Child.create!(
+      cp_user = User.new(user_name: 'cp_user', agency_id: Agency.last.id)
+      cp_user.save(validate: false)
+      case_cp = Child.new_with_user(
+        cp_user,
         name: 'Niall McPherson', age: 12, sex: 'male',
         protection_concerns: %w[unaccompanied separated], ethnicity: 'other',
-        module_id: 'primeromodule-cp'
+        module_id: 'primeromodule-cp',
+        created_by: 'user1'
       )
+      case_cp.save!
+      case_cp.reload
     end
 
     it 'copies data from the linked case according to the configuration' do
@@ -355,6 +367,17 @@ describe Incident do
 
       expect(incident.survivor_code).to eq('xyz123')
       expect(incident.data['age']).to eq(12)
+    end
+
+    it 'copies data from the linked case according to the configuration' do
+      incident = Incident.new_with_user(
+        incident_user,
+        survivor_code: 'abc123', module_id: 'primeromodule-cp', incident_case_id: case_cp.id
+      )
+      incident.save!
+      case_cp.reload
+
+      expect(case_cp.last_updated_by).to eq('incident_user')
     end
   end
 

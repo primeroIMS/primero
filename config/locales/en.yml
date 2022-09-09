@@ -17,7 +17,9 @@ en:
   accepted: Accepted
   cancel: Cancel
   connection_lost: Currently in offline mode
+  field_mode_offline: Currently in field mode
   connected: Connected
+  no_connection: No Connection
   clear: Clear
   sandbox_ui: Demo
   description: Description
@@ -25,6 +27,9 @@ en:
   minimum_reportable_fields: "Minimum reportable fields %{record_type}"
   name: Name
   offline: Offline
+  field_mode: "Field Mode: %{mode}"
+  field_mode_on: "On"
+  field_mode_off: "Off"
   unavailable_offline: Unavailable offline
   online: Online
   yes_label: 'Yes'
@@ -206,6 +211,15 @@ en:
     view: View
     view_flags_history: View History
     return_to_case: Return to Case
+  resync_records:
+    id: ID
+    record_type: Record Type
+    action: Action
+    date: Date
+    last_attempt: Last Attempt
+    create: Create
+    update: Update
+    resync: Submit
   case:
     label: Case
     create_new_case: Create New Case
@@ -471,6 +485,7 @@ en:
       you are rejecting this case; once you click ‘Reject’ you will no longer have
       access to this case record.
     view_name: View Name
+    sort_by: Sort By
   change_logs:
     filters:
       form: Form
@@ -658,8 +673,9 @@ en:
     dash_shared_with_my_team_overview: Shared with my Team (Overview)
     dash_shared_with_others: Shared With Others
     dash_national_admin_summary: Administrator Summary
-    dash_violations_category_verification_status: Total number of violations per verification status
-    dash_violations_category_region: Total number of verified violations per region
+    dash_violations_category_verification_status: Total number of Incidents per verification status
+    dash_violations_category_region: Total number of verified Incidents per region
+    dash_perpetrator_armed_force_group_party_names: Total number of incidents per perpetrator
     date: Date
     date_of_incident: Date of Incident
     date_of_interview: Date of Interview
@@ -1333,7 +1349,7 @@ en:
     dashboard: Dashboard
     en: English
     es: Español
-    es-GT: Español (Guatemala)
+    es-GT: Español
     es-ES: Español (España)
     fr: Français
     hu: Magyar
@@ -1470,6 +1486,7 @@ en:
     violence_type: Violence Type
     type_violence: Type of Violence
     violation_summary: Summary
+    sort_by: Sort By
   key_performance_indicators:
     label: "Pulse/KPIs"
     case_assessment: "Case Assessment"
@@ -1670,6 +1687,7 @@ en:
       warehouse: Warehouse
       buyingstation: Buying Station
       township: Township
+      municipality: Municipality
     label: Location
     name: Name
     code: Code
@@ -2068,6 +2086,7 @@ en:
       code_of_conduct: Code of Conduct
       terms_of_use: Terms of Use
       system_information: System Information
+      resync: Unsubmitted Offline Changes
     tasks: Tasks
     tracing_request: Tracing Request
     activity_log: Activity Log
@@ -2842,6 +2861,10 @@ en:
             explanation: Shows how many MRM violations have occurred in each region,
               broken down by violation type.
             label: MRM - Number of violations per region
+          dash_perpetrator_armed_force_group_party_names:
+            explanation: Shows how many MRM violations of each type have occurred,
+              broken down by perpetrator.
+            label: MRM - Number of violations per perpetrator
           dash_show_none_values:
             explanation: Adds an additional "No Risk Level" category to all dashboards
               which break down cases by risk level. This is specifically for configurations
@@ -3772,6 +3795,7 @@ en:
     show_tracing_request: 'Tracing Request ID %{short_id}'
     tracing_requests: Tracing Requests
     export: Export
+    sort_by: Sort By
   registry_records:
     id: ID
     label: Registry Records

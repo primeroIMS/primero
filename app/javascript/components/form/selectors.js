@@ -170,10 +170,10 @@ const agenciesCurrentUser = createCachedSelector(
 
 const locationList = memoize(state => state.getIn(["forms", "options", "locations"], fromJS([])));
 
-const getLocationName = (location, { adminLevel, locale }) => {
+const getLocationName = (location, { adminLevel, locale, usePlacename = true }) => {
   const locationName = displayNameHelper(location.get("name"), locale);
 
-  if (adminLevel) {
+  if (adminLevel && usePlacename) {
     const splittedName = locationName.includes("::") ? locationName.split("::") : locationName.split(":");
 
     return splittedName[adminLevel] || locationName;
@@ -182,13 +182,13 @@ const getLocationName = (location, { adminLevel, locale }) => {
   return locationName;
 };
 
-const locationsParser = (data, { includeAdminLevel, locale, adminLevel }) => {
+const locationsParser = (data, { includeAdminLevel, locale, adminLevel, usePlacename }) => {
   return data.reduce(
     (prev, current) => [
       ...prev,
       {
         id: current.get("code"),
-        display_text: getLocationName(current, { adminLevel, locale }),
+        display_text: getLocationName(current, { adminLevel, locale, usePlacename }),
         ...(includeAdminLevel && { admin_level: current.get("admin_level") })
       }
     ],

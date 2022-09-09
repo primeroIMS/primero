@@ -151,7 +151,7 @@ module Exporters
           [
             'cases_test_subform_2', 'cases_test_form_2', 'cases_test_form_1',
             'cases_test_subform_1', 'cases_test_subform_3', 'cases_test_subform_4',
-            'Test Arabic   .', 'cases_test_form-cases_test_s...', 'cases_test_form-cases_test_s.-1',
+            'Test Arabic فاكيا قد به،. بـ...', 'cases_test_form-cases_test_s...', 'cases_test_form-cases_test_s.-1',
             'cases_test_form-cases_test_s.-2', 'cases_test_form-cases_test_s.-3',
             'case_test_form_-cases_test_s...', 'cases_test_subform_5'
           ]
@@ -204,6 +204,47 @@ module Exporters
         expect(workbook.sheet(10).last_row).to eq(2)
         expect(workbook.sheet(10).row(2)).to eq([@record_id, nil, nil])
       end
+
+      context 'when forms name has special characters' do
+        before do
+          clean_data(Field, FormSection, PrimeroModule)
+          form1 = FormSection.new(
+            name: "Child's Details / Identity / Another / Word", parent_form: 'case', visible: true,
+            order_form_group: 2, order: 0, order_subform: 0, form_group_id: 'form_group1',
+            unique_id: 'basic_identity'
+          )
+          form1.fields << Field.new(
+            name: 'basic_identity_field_1',
+            type: Field::TEXT_FIELD,
+            display_name: 'basic_identity field'
+          )
+          form1.save!
+
+          form2 = FormSection.new(
+            name: 'cases_test_form_2', parent_form: 'case', visible: true,
+            order_form_group: 1, order: 0, order_subform: 0, form_group_id: 'form_group2',
+            unique_id: 'cases_test_form_2'
+          )
+          form2.fields << Field.new(
+            name: 'cases_test_form_2_field_2',
+            type: Field::TEXT_FIELD,
+            display_name: 'cases_test_form_2 field'
+          )
+          form2.save!
+
+          create(:primero_module, unique_id: 'primeromodule-cp', name: 'CP', form_sections: [form1, form2])
+
+          exporter = Exporters::FormExporter.new
+          exporter.export
+          @book = Roo::Spreadsheet.open(exporter.file_name)
+        end
+
+        it 'export sheets with correct name' do
+          expected_sheets = ['Key', 'Primero Forms', 'cases_test_form_2', "Child's Details   Identity   An", "lookups"]
+          expect(@book.sheets).to match_array(expected_sheets)
+        end
+      end
+
     end
     after do
       clean_data(Child, Role, UserGroup, User, Agency, Field, FormSection, PrimeroProgram, PrimeroModule)

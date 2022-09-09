@@ -1,17 +1,18 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
-/* eslint-disable import/prefer-default-export */
 
 import { fromJS } from "immutable";
 import { Tooltip } from "@material-ui/core";
 import OfflinePin from "@material-ui/icons/OfflinePin";
+import isNil from "lodash/isNil";
 
 import { ToggleIconCell } from "../../index-table";
-import { RECORD_PATH, RECORD_TYPES, DATE_TIME_FORMAT } from "../../../config";
+import { RECORD_PATH, RECORD_TYPES } from "../../../config";
 import { ConditionalWrapper } from "../../../libs";
 import DisableOffline from "../../disable-offline";
 import { ALERTS_COLUMNS, ALERTS, ID_COLUMNS, COMPLETE } from "../constants";
 import PhotoColumnBody from "../components/photo-column-body";
+import DateColumn from "../components/date-column";
 
 export default (allowedColumns, i18n, recordType, css, recordAvailable, online) => {
   const iconColumns = Object.values(ALERTS_COLUMNS);
@@ -21,9 +22,16 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online) 
   const tableColumns = data => {
     // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label, react/prop-types
     const disableColumnOffline = args => {
-      const { component: Component, props = {}, value, rowIndex } = args || {};
+      const { component: Component, props = {}, value, rowIndex, withTime, type } = args || {};
       const rowAvailable = recordAvailable(data.getIn(["data", rowIndex], fromJS({}))) || online;
       const parsedValue = Array.isArray(value) ? value.join(", ") : value;
+      const columnValue = isNil(parsedValue) ? "" : parsedValue;
+
+      if (type === "date") {
+        return (
+          <DateColumn rowAvailable={rowAvailable} wrapper={DisableOffline} value={value} valueWithTime={withTime} />
+        );
+      }
 
       return (
         <ConditionalWrapper
@@ -32,7 +40,7 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online) 
           offlineTextKey="unavailable_offline"
           overrideCondition={!rowAvailable}
         >
-          <>{Component !== undefined ? <Component {...props} /> : parsedValue || ""}</>
+          <>{Component !== undefined ? <Component {...props} /> : columnValue}</>
         </ConditionalWrapper>
       );
     };
@@ -56,12 +64,12 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online) 
             case "registration_date":
               return {
                 customBodyRender: (value, { rowIndex }) =>
-                  disableColumnOffline({ value: i18n.localizeDate(value), rowIndex })
+                  disableColumnOffline({ value, withTime: false, rowIndex, type: "date" })
               };
             case "case_opening_date":
               return {
                 customBodyRender: (value, { rowIndex }) =>
-                  disableColumnOffline({ value: value && i18n.localizeDate(value, DATE_TIME_FORMAT), rowIndex })
+                  disableColumnOffline({ value, withTime: true, type: "date", rowIndex })
               };
             case "id":
               return {

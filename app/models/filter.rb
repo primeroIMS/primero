@@ -414,7 +414,7 @@ class Filter < ValueObject
     def field_based_filters(user)
       filter_fields = Field.where(name: CASE_FILTER_FIELD_NAMES).map { |f| [f.name, f] }.to_h
       filters = []
-      filters += protection_concern_filter(user, filter_fields)
+      filters += protection_concern_filter(user)
       filters += gbv_displacement_filter(user, filter_fields)
       filters += protection_status_filter(user, filter_fields)
       filters += urgent_protection_concern_filter(user, filter_fields)
@@ -422,8 +422,8 @@ class Filter < ValueObject
       filters
     end
 
-    def protection_concern_filter(user, filter_fields)
-      if user.can?(:view_protection_concerns_filter, Child) && visible?('protection_concerns', filter_fields)
+    def protection_concern_filter(user)
+      if user.can?(:view_protection_concerns_filter, Child)
         return [PROTECTION_CONCERNS]
       end
 

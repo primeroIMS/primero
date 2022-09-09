@@ -11,30 +11,33 @@ class Transfer < Transition
     end
   end
 
-  def accept!
+  def accept!(user)
     return unless in_progress?
 
     self.status = record.transfer_status = Transition::STATUS_ACCEPTED
     self.responded_at = DateTime.now
     remove_assigned_user
     record.owned_by = transitioned_to
+    record.update_last_updated_by(user)
     record.save! && save!
     update_incident_ownership
   end
 
-  def reject!
+  def reject!(user)
     return unless in_progress?
 
     self.status = record.transfer_status = Transition::STATUS_REJECTED
     self.responded_at = DateTime.now
 
     remove_assigned_user
+    record.update_last_updated_by(user)
     record.save! && save!
   end
 
-  def revoke!
-    self.status = Transition::STATUS_REVOKED
+  def revoke!(user)
+    self.status = record.transfer_status = Transition::STATUS_REVOKED
     remove_assigned_user
+    record.update_last_updated_by(user)
     record.save! && save!
   end
 
@@ -78,6 +81,7 @@ class Transfer < Transition
     return if transitioned_to_user.nil?
 
     perform_record_system_transfer
+    record.last_updated_by = transitioned_by
     record.save!
   end
 end

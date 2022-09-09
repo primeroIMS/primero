@@ -1,0 +1,24 @@
+.readonly {
+  display: flex;
+  pointer-events: none;
+  & div {
+    max-width: 5.5em;
+  }
+  & fieldset {
+    border: none;
+  }
+
+  & input {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  & input::placeholder {
+    color: var(--c-black) !important;
+  }
+
+  & div:hover {
+    background-color: var(--c-light-grey);
+    border: 1px solid var(--c-light-grey);
+  }
+}

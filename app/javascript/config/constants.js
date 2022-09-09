@@ -260,7 +260,8 @@ export const LOOKUPS = {
   legitimate_basis: "lookup-legitimate-basis",
   legitimate_basis_explanations: "lookup-legitimate-basis-explanations",
   verification_status: "lookup-verification-status",
-  violation_type: "lookup-violation-type"
+  violation_type: "lookup-violation-type",
+  armed_force_group_or_other_party: "lookup-armed-force-group-or-other-party"
 };
 
 export const ADMIN_NAV = [
@@ -438,11 +439,9 @@ export const APPLICATION_NAV = (permissions, userId) => {
       icon: "support",
       divider: true
     },
-    // {
-    //   name: "navigation.my_account",
-    //   to: myAccountTo,
-    //   icon: "account"
-    // },
+    {
+      component: "fieldMode"
+    },
     { name: "username", to: `${ROUTES.account}/${userId}`, icon: "account", disableOffline: true },
     {
       name: "navigation.settings",

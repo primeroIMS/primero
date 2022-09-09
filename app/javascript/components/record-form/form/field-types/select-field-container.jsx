@@ -74,7 +74,12 @@ const SelectFieldContainer = ({
     optionsSelector(
       OPTION_TYPES.AGENCY === optionStringsSource
         ? { filterOptions: agencyFilterOptions, includeServices: true, tags }
-        : { tags }
+        : {
+            tags,
+            usePlacename:
+              OPTION_TYPES.REPORTING_LOCATIONS === optionStringsSource &&
+              SERVICE_SECTION_FIELDS.deliveryLocation !== name
+          }
     )
   );
 

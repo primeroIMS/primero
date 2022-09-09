@@ -1,5 +1,6 @@
 import ContactInformation from "../../contact-information";
 import NotImplemented from "../../not-implemented/component";
+import ResyncRecords from "../../resync-records";
 
 import { CodeOfConduct, TermOfUse } from "./components";
 import { SUPPORT_FORMS } from "./constants";
@@ -17,6 +18,10 @@ export const menuList = (i18n, disableCodeOfConduct) => [
     id: SUPPORT_FORMS.codeOfConduct,
     text: i18n.t(`navigation.support_menu.${SUPPORT_FORMS.codeOfConduct}`),
     disabled: disableCodeOfConduct
+  },
+  {
+    id: SUPPORT_FORMS.resync,
+    text: i18n.t(`navigation.support_menu.${SUPPORT_FORMS.resync}`)
   }
 ];
 
@@ -28,7 +33,8 @@ export const renderSupportForm = id => {
       return CodeOfConduct;
     case SUPPORT_FORMS.termsOfUse:
       return TermOfUse;
-
+    case SUPPORT_FORMS.resync:
+      return ResyncRecords;
     default:
       return NotImplemented;
   }

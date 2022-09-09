@@ -6,6 +6,7 @@ describe("<ReportsForm /> - Constants", () => {
 
     [
       "AGGREGATE_BY_FIELD",
+      "ALLOWED_FIELD_NAMES",
       "ALLOWED_FIELD_TYPES",
       "CONSENT_REPORTING_FIELD",
       "CONSTRAINTS",

@@ -4,6 +4,7 @@ import uniq from "lodash/uniq";
 
 import { ACTIONS } from "../../permissions";
 import { displayNameHelper } from "../../../libs";
+import { reduceMapToObject } from "../../../libs/component-helpers";
 import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD, SEPERATOR, SUBFORM_SECTION } from "../../record-form/constants";
 
 import { ALL_EXPORT_TYPES, EXPORT_FORMAT, FILTERS_TO_SKIP } from "./constants";
@@ -52,6 +53,15 @@ export const formatFileName = (filename, extension) => {
   return "";
 };
 
+export const skipFilters = data =>
+  Object.entries(data).reduce((acc, [key, value]) => {
+    if (!FILTERS_TO_SKIP.includes(key)) {
+      return { ...acc, [key]: value };
+    }
+
+    return acc;
+  }, {});
+
 export const exporterFilters = (
   isShowPage,
   allCurrentRowsSelected,
@@ -70,20 +80,13 @@ export const exporterFilters = (
   if (isShowPage) {
     filters = { short_id: [record.get("short_id")] };
   } else {
-    const applied = appliedFilters.entrySeq().reduce((acc, curr) => {
-      const [key, value] = curr;
-
-      if (!FILTERS_TO_SKIP.includes(key)) {
-        return { ...acc, [key]: value };
-      }
-
-      return acc;
-    }, {});
+    const applied = skipFilters(reduceMapToObject(appliedFilters) || {});
+    const params = skipFilters(queryParams || {});
 
     if (!allRecordsSelected && (allCurrentRowsSelected || shortIds.length)) {
       filters = { short_id: shortIds };
-    } else if (Object.keys(queryParams || {}).length || Object.keys(applied || {}).length) {
-      filters = { ...(queryParams || {}), ...(applied || {}) };
+    } else if (Object.keys(params).length || Object.keys(applied).length) {
+      filters = { ...params, ...applied };
     } else {
       filters = defaultFilters;
     }

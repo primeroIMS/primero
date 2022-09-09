@@ -182,3 +182,15 @@
 .violationMenu {
   width: 100%;
 }
+
+.listItemNepaliItem {
+  display: flex;
+  & label {
+    display: none;
+  }
+  & input {
+    margin-right: 0.5em;
+    max-width: 5.5em;
+    padding-top: 0px;
+  }
+}

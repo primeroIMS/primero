@@ -2,6 +2,8 @@
 
 const hasMergedRows = () => [...document.querySelectorAll("tr td").entries()].some(([, row]) => row.colSpan > 1);
 
+const escapeCsvText = text => `"${text.replace(/"/g, '""')}"`;
+
 const buildHeaders = (headers, mergedRows = false) => {
   const headerRows = mergedRows ? [""] : [];
 
@@ -10,15 +12,17 @@ const buildHeaders = (headers, mergedRows = false) => {
 
     if (column.colSpan > 1) {
       for (let i = 0; i < column.colSpan; i++) {
-        headerRows.push(column.innerText);
+        headerRows.push(escapeCsvText(column.innerText));
       }
     } else {
-      headerRows.push(column.innerText);
+      headerRows.push(escapeCsvText(column.innerText));
     }
   }
 
   return headerRows;
 };
+
+export { escapeCsvText };
 
 export const tableToCsv = tableSelector => {
   const tableData = [];
@@ -43,14 +47,14 @@ export const tableToCsv = tableSelector => {
         }
 
         if (column.colSpan > 1) {
-          mergedRowText = column.innerText;
+          mergedRowText = escapeCsvText(column.innerText);
           dataRow[0] = mergedRowText;
 
           for (let i = 0; i < column.colSpan; i++) {
             dataRow.push("");
           }
         } else {
-          dataRow.push(column.innerText);
+          dataRow.push(escapeCsvText(column.innerText));
         }
       }
       tableData.push(dataRow.join(","));

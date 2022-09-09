@@ -10,13 +10,13 @@ import { ThemeProvider } from "@material-ui/core/styles";
 
 import { dataToJS, ConditionalWrapper, useThemeHelper, useMemoizedSelector } from "../../../libs";
 import { useI18n } from "../../i18n";
-import { RECORD_PATH, ROWS_PER_PAGE_OPTIONS } from "../../../config";
+import { RECORD_PATH } from "../../../config";
 import { ALERTS_COLUMNS } from "../../record-list/constants";
 import recordListTheme from "../theme";
 import { NAME } from "../config";
 import { getFilters } from "../selectors";
 import CustomToolbarSelect from "../custom-toolbar-select";
-import { buildComponentColumns, useTranslatedRecords } from "../utils";
+import { buildComponentColumns, defaultTableOptions, useTranslatedRecords } from "../utils";
 import { useApp } from "../../application";
 
 import TableLoadingIndicator from "./table-loading-indicator";
@@ -28,7 +28,7 @@ const Datatable = ({
   checkOnline = false,
   columns,
   data,
-  defaultFilters,
+  defaultFilters = fromJS({}),
   errors,
   isRowSelectable,
   loading,
@@ -53,8 +53,8 @@ const Datatable = ({
   const filters = useMemoizedSelector(state => getFilters(state, recordType));
 
   const hasData = !loading && Boolean(data?.size);
-  const order = filters.get("order");
-  const orderBy = filters.get("order_by");
+  const order = filters?.get("order");
+  const orderBy = filters?.get("order_by");
   const componentColumns = buildComponentColumns(
     typeof columns === "function" ? columns(data) : columns,
     order,
@@ -175,33 +175,20 @@ const Datatable = ({
   );
 
   const options = {
-    responsive: "vertical",
-    count: total,
-    rowsPerPage: per,
-    rowHover: true,
-    filterType: "checkbox",
-    fixedHeader: true,
-    elevation: 3,
-    filter: false,
-    download: false,
-    search: false,
-    print: false,
-    viewColumns: false,
-    serverSide: true,
-    setTableProps: () => ({ "aria-label": title }),
-    customToolbar: showCustomToolbar && customToolbarSelect,
-    selectableRows: "multiple",
-    rowsSelected: selectedRecordsOnCurrentPage?.length ? selectedRecordsOnCurrentPage : [],
-    onRowSelectionChange: (_currentRowsSelected, allRowsSelected) => {
-      setSelectedRecords({
-        [currentPage]: allRowsSelected.map(ars => ars.dataIndex)
-      });
-    },
-    onTableChange: handleTableChange,
-    rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
-    page: currentPage,
-    enableNestedDataAccess: ".",
-    sortOrder: sortDir,
+    ...defaultTableOptions({
+      currentPage,
+      customToolbarSelect,
+      handleTableChange,
+      i18n,
+      per,
+      selectedRecords,
+      selectedRecordsOnCurrentPage,
+      setSelectedRecords,
+      showCustomToolbar,
+      sortDir,
+      title,
+      total
+    }),
     isRowSelectable: dataIndex => {
       if (isRowSelectable) {
         return isRowSelectable(records.get(dataIndex));
@@ -222,17 +209,6 @@ const Datatable = ({
       }
     },
     customToolbarSelect,
-    textLabels: {
-      body: {
-        noMatch: i18n.t("messages.record_list.no_match"),
-        toolTip: i18n.t("messages.record_list.sort"),
-        columnHeaderTooltip: ({ label }) => i18n.t("messages.record_list.column_header_tooltip", { column: label })
-      },
-      pagination: {
-        rowsPerPage: i18n.t("messages.record_list.rows_per_page"),
-        displayRows: i18n.t("messages.record_list.of")
-      }
-    },
     ...tableOptionsProps
   };
 
