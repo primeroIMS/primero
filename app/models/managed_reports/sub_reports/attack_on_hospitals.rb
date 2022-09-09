@@ -17,8 +17,8 @@ class ManagedReports::SubReports::AttackOnHospitals < ManagedReports::SubReport
 
   def lookups
     {
-      ManagedReports::Indicators::Perpetrators.id => 'lookup-armed-force-group-or-other-party',
-      ManagedReports::Indicators::ReportingLocation.id => 'Location',
+      ManagedReports::Indicators::PerpetratorsDenials.id => 'lookup-armed-force-group-or-other-party',
+      ManagedReports::Indicators::ReportingLocationDenials.id => 'Location',
       ManagedReports::Indicators::FacilityAttackType.id => 'lookup-facility-attack-type'
     }
   end

@@ -15,14 +15,15 @@ describe("<RecordActions /> - exports/utils", () => {
 
       [
         "allowedExports",
-        "buildFields",
         "buildAgencyLogoPdfOptions",
+        "buildFields",
+        "exportFormsOptions",
         "exporterFilters",
         "formatFields",
         "formatFileName",
         "isCustomExport",
         "isPdfExport",
-        "exportFormsOptions"
+        "skipFilters"
       ].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
@@ -366,6 +367,12 @@ describe("<RecordActions /> - exports/utils", () => {
       const expected = [{ id: "test", display_text: "Test" }];
 
       expect(utils.exportFormsOptions(forms, "en")).to.deep.equal(expected);
+    });
+  });
+
+  describe("skipFilters", () => {
+    it("removes the FILTERS_TO_SKIP", () => {
+      expect(utils.skipFilters({ param1: "value1", per: 5, page: 1 })).to.deep.equal({ param1: "value1" });
     });
   });
 });

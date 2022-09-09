@@ -10,6 +10,7 @@ describe("User - index", () => {
       "checkUserAuthentication",
       "currentUser",
       "fetchAuthenticatedUserData",
+      "getAppResources",
       "getAssignedAgency",
       "getCodeOfConductAccepteOn",
       "getCodeOfConductId",
@@ -25,15 +26,15 @@ describe("User - index", () => {
       "getServerErrors",
       "getUser",
       "getUserSavingRecord",
+      "hasPrimeroModule",
       "hasUserPermissions",
       "reducer",
       "refreshToken",
       "resetPassword",
       "setAuthenticatedUser",
       "setUser",
-      "useRefreshUserToken",
       "showLoginDialog",
-      "getAppResources"
+      "useRefreshUserToken"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

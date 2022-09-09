@@ -18,7 +18,7 @@ class ManagedReports::SubReports::DenialHumanitarianAccess < ManagedReports::Sub
   def lookups
     {
       ManagedReports::Indicators::Perpetrators.id => 'lookup-armed-force-group-or-other-party',
-      ManagedReports::Indicators::ReportingLocation.id => 'Location',
+      ManagedReports::Indicators::ReportingLocationDenials.id => 'Location',
       ManagedReports::Indicators::DenialType.id => 'lookup-denial-method'
     }
   end

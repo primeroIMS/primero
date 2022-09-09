@@ -3,7 +3,8 @@ import {
   MRM_INSIGHTS_SUBREPORTS,
   GBV_INSIGHTS_SUBREPORTS,
   LOOKUPS,
-  GHN_REPORT_SUBREPORTS
+  GHN_REPORT_SUBREPORTS,
+  INDIVIDUAL_CHILDREN
 } from "../../config/constants";
 import { DATE_FIELD, FieldRecord, SELECT_FIELD, HIDDEN_FIELD } from "../form";
 
@@ -24,6 +25,7 @@ const DATE_OF_REPORT = "date_of_report";
 const VERIFIED = "verified";
 const VERIFICATION_STATUS = "verification_status";
 const GHN_DATE_FILTER = "ghn_date_filter";
+const VIOLATION_TYPE = "violation_type";
 
 const GBV_STATISTICS = "gbv_statistics";
 const VIOLATIONS = "violations";
@@ -68,6 +70,7 @@ export const DATE_RANGE_FROM_DISPLAY_NAME = [FIELDS, DATE_RANGE, FROM];
 export const DATE_RANGE_TO_DISPLAY_NAME = [FIELDS, DATE_RANGE, TO];
 export const FILTER_BY_DATE_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, DATE];
 export const FILTER_BY_VERIFICATION_STATUS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, VERIFICATION_STATUS];
+export const FILTER_BY_VIOLATION_TYPE_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, VIOLATION_TYPE];
 
 export const SHARED_FILTERS = [
   {
@@ -129,39 +132,43 @@ export const SHARED_FILTERS = [
   }
 ];
 
+export const VIOLATIONS_FILTERS = [
+  ...SHARED_FILTERS,
+  {
+    name: DATE,
+    display_name: FILTER_BY_DATE_DISPLAY_NAME,
+    option_strings_text: [
+      { id: INCIDENT_DATE, display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, INCIDENT_DATE] },
+      { id: DATE_OF_FIRST_REPORT, display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, DATE_OF_REPORT] },
+      {
+        id: CTFMR_VERIFIED_DATE,
+        display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, CTFMR_VERIFIED_DATE]
+      }
+    ],
+    type: SELECT_FIELD
+  },
+  {
+    name: VERIFIED_CTFMR_TECHNICAL,
+    display_name: FILTER_BY_VERIFICATION_STATUS_DISPLAY_NAME,
+    option_strings_source: LOOKUPS.verification_status,
+    type: SELECT_FIELD
+  }
+];
+
+export const DEFAULT_VIOLATION_FILTERS = {
+  [GROUPED_BY]: QUARTER,
+  [DATE_RANGE]: THIS_QUARTER,
+  [DATE]: INCIDENT_DATE,
+  [VERIFIED_CTFMR_TECHNICAL]: VERIFIED
+};
+
 export const INSIGHTS_CONFIG = {
   [MODULES.MRM]: {
     violations: {
       ids: MRM_INSIGHTS_SUBREPORTS,
       localeKeys: [MANAGED_REPORTS, VIOLATIONS, REPORTS],
-      defaultFilterValues: {
-        [GROUPED_BY]: QUARTER,
-        [DATE_RANGE]: THIS_QUARTER,
-        [DATE]: INCIDENT_DATE,
-        [VERIFIED_CTFMR_TECHNICAL]: VERIFIED
-      },
-      filters: [
-        ...SHARED_FILTERS,
-        {
-          name: DATE,
-          display_name: FILTER_BY_DATE_DISPLAY_NAME,
-          option_strings_text: [
-            { id: INCIDENT_DATE, display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, INCIDENT_DATE] },
-            { id: DATE_OF_REPORT, display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, DATE_OF_REPORT] },
-            {
-              id: CTFMR_VERIFIED_DATE,
-              display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, CTFMR_VERIFIED_DATE]
-            }
-          ],
-          type: SELECT_FIELD
-        },
-        {
-          name: VERIFIED_CTFMR_TECHNICAL,
-          display_name: FILTER_BY_VERIFICATION_STATUS_DISPLAY_NAME,
-          option_strings_source: LOOKUPS.verification_status,
-          type: SELECT_FIELD
-        }
-      ].map(filter => FieldRecord(filter))
+      defaultFilterValues: DEFAULT_VIOLATION_FILTERS,
+      filters: VIOLATIONS_FILTERS.map(filter => FieldRecord(filter))
     },
     ghn_report: {
       ids: GHN_REPORT_SUBREPORTS,
@@ -178,6 +185,21 @@ export const INSIGHTS_CONFIG = {
         [DATE_RANGE]: LAST_QUARTER,
         [DATE]: GHN_DATE_FILTER
       }
+    },
+    individual_children: {
+      ids: INDIVIDUAL_CHILDREN,
+      localeKeys: [MANAGED_REPORTS, INDIVIDUAL_CHILDREN, REPORTS],
+      defaultFilterValues: DEFAULT_VIOLATION_FILTERS,
+      filters: [
+        ...VIOLATIONS_FILTERS,
+        {
+          name: VIOLATION_TYPE,
+          display_name: FILTER_BY_VIOLATION_TYPE_DISPLAY_NAME,
+          option_strings_source: LOOKUPS.violation_type,
+          multi_select: true,
+          type: SELECT_FIELD
+        }
+      ].map(filter => FieldRecord(filter))
     }
   },
   [MODULES.GBV]: {
@@ -186,7 +208,8 @@ export const INSIGHTS_CONFIG = {
       localeKeys: [MANAGED_REPORTS, GBV_STATISTICS, REPORTS],
       defaultFilterValues: {
         [GROUPED_BY]: MONTH,
-        [DATE_RANGE]: LAST_MONTH
+        [DATE_RANGE]: LAST_MONTH,
+        [DATE]: INCIDENT_DATE
       },
       filters: [
         ...SHARED_FILTERS,

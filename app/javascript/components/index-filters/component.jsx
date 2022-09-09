@@ -1,10 +1,11 @@
 import { useCallback, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, FormProvider } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, batch } from "react-redux";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
-import merge from "lodash/merge";
+import merge from "deepmerge";
+import omit from "lodash/omit";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
 import { Tabs, Tab } from "@material-ui/core";
@@ -14,32 +15,24 @@ import SavedSearches, { fetchSavedSearches } from "../saved-searches";
 import SavedSearchesForm from "../saved-searches/SavedSearchesForm";
 import { currentUser } from "../user";
 import { useI18n } from "../i18n";
-import { RECORD_PATH } from "../../config";
 import { getReportingLocationConfig } from "../user/selectors";
 import { DEFAULT_FILTERS } from "../record-list/constants";
-import { useMemoizedSelector } from "../../libs";
+import { overwriteMerge, useMemoizedSelector } from "../../libs";
 
-import { filterType, compactFilters } from "./utils";
-import {
-  DEFAULT_SELECTED_RECORDS_VALUE,
-  HIDDEN_FIELDS,
-  PRIMARY_FILTERS,
-  MY_CASES_FILTER_NAME,
-  OR_FILTER_NAME
-} from "./constants";
+import { DEFAULT_SELECTED_RECORDS_VALUE, HIDDEN_FIELDS, ID_SEARCH } from "./constants";
+import { compactFilters, transformFilters } from "./utils";
 import { Search } from "./components/filter-types";
-import { getFiltersByRecordType } from "./selectors";
 import { applyFilters, setFilters } from "./action-creators";
-import Actions from "./components/actions";
 import css from "./components/styles.css";
-import MoreSection from "./components/more-section";
+import TabFilters from "./components/tab-filters";
 
 const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const queryParams = qs.parse(location.search.replace("?", ""));
+  const queryString = location.search.replace("?", "");
+  const queryParams = qs.parse(queryString);
 
   const [open, setOpen] = useState(false);
   const [rerender, setRerender] = useState(false);
@@ -56,102 +49,18 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   };
 
   const methods = useForm({
-    defaultValues: isEmpty(queryParams) ? merge(defaultFiltersPlainObject, filterToList) : queryParams
+    defaultValues: merge({ ...defaultFiltersPlainObject, filter_category: recordType }, filterToList, {
+      arrayMerge: overwriteMerge
+    }),
+    shouldUnregister: false
   });
 
   const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
-  const filters = useMemoizedSelector(state => getFiltersByRecordType(state, recordType));
   const userName = useMemoizedSelector(state => currentUser(state));
 
   const ownedByLocation = `${reportingLocationConfig.get("field_key")}${reportingLocationConfig.get("admin_level")}`;
 
   const addFilterToList = useCallback(data => setFilterToList({ ...filterToList, ...data }), [filterToList]);
-
-  const allPrimaryFilters = filters.filter(f => PRIMARY_FILTERS.includes(f.field_name));
-  const allDefaultFilters = filters.filter(f => [...defaultFilters.keys()].includes(f.field_name));
-
-  const queryParamsKeys = Object.keys(queryParams);
-  const moreSectionKeys = Object.keys(moreSectionFilters);
-  const defaultFilterNames = allDefaultFilters.map(t => t.field_name);
-
-  const isDateFieldFromValue = (field, keys) => {
-    if (field.type !== "dates") {
-      return false;
-    }
-
-    const datesOption = field?.options?.[i18n.locale];
-
-    if (!datesOption) {
-      return false;
-    }
-
-    return datesOption?.filter(dateOption => keys.includes(dateOption.id))?.length > 0;
-  };
-
-  const renderFilters = () => {
-    let primaryFilters = filters;
-
-    if (recordType === RECORD_PATH.cases) {
-      const showMyCasesFilter = (field, keys) =>
-        field.field_name === MY_CASES_FILTER_NAME && keys.includes(OR_FILTER_NAME);
-
-      const selectedFromMoreSection = primaryFilters.filter(
-        f =>
-          moreSectionKeys.includes(f.field_name) ||
-          showMyCasesFilter(f, moreSectionKeys) ||
-          isDateFieldFromValue(f, moreSectionKeys)
-      );
-
-      const queryParamsFilter = primaryFilters.filter(
-        f =>
-          !more &&
-          (queryParamsKeys.includes(f.field_name) ||
-            showMyCasesFilter(f, queryParamsKeys) ||
-            isDateFieldFromValue(f, queryParamsKeys)) &&
-          !(
-            defaultFilterNames.includes(f.field_name) || allPrimaryFilters.map(t => t.field_name).includes(f.field_name)
-          )
-      );
-
-      const mergedFilters = fromJS([
-        ...allPrimaryFilters,
-        ...allDefaultFilters,
-        ...queryParamsFilter,
-        ...(!more ? selectedFromMoreSection : [])
-      ]);
-
-      primaryFilters = mergedFilters;
-    }
-
-    return primaryFilters.map(filter => {
-      const Filter = filterType(filter.type);
-      const secondary =
-        moreSectionKeys.includes(filter.field_name) ||
-        (filter.field_name === MY_CASES_FILTER_NAME && moreSectionKeys.includes(OR_FILTER_NAME)) ||
-        isDateFieldFromValue(filter, moreSectionKeys);
-
-      const mode = {
-        secondary,
-        defaultFilter: defaultFilterNames.includes(filter.field_name)
-      };
-
-      if (!Filter) return null;
-
-      return (
-        <Filter
-          key={filter.field_name}
-          filter={filter}
-          moreSectionFilters={moreSectionFilters}
-          setMoreSectionFilters={setMoreSectionFilters}
-          reset={reset}
-          setReset={setReset}
-          mode={mode}
-          addFilterToList={addFilterToList}
-          filterToList={filterToList}
-        />
-      );
-    });
-  };
 
   useEffect(() => {
     [...HIDDEN_FIELDS, ownedByLocation].forEach(field => methods.register({ name: field }));
@@ -164,9 +73,6 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   }, []);
 
   useEffect(() => {
-    if (tabIndex === 0) {
-      methods.reset(merge(queryParams, filterToList));
-    }
     if (tabIndex === 1) {
       dispatch(fetchSavedSearches());
     }
@@ -182,7 +88,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
         }
       });
       setMoreSectionFilters({});
-      methods.reset(filtersToApply);
+      methods.reset({ ...filtersToApply, filter_category: recordType });
       resetSelectedRecords();
       dispatch(applyFilters({ recordType, data: compactFilters(filtersToApply) }));
 
@@ -191,34 +97,46 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
     }
   }, [rerender]);
 
+  useEffect(() => {
+    methods.reset({ ...transformFilters.split(queryParams), filter_category: recordType });
+  }, [queryString]);
+
   const tabs = [
     { name: i18n.t("saved_search.filters_tab"), selected: true },
     { name: i18n.t("saved_search.saved_searches_tab") }
   ];
 
   const handleSubmit = useCallback(data => {
-    const payload = compactFilters(data);
+    const payload = omit(transformFilters.combine(compactFilters(data)), "filter_category");
 
     resetSelectedRecords();
     dispatch(applyFilters({ recordType, data: payload }));
   }, []);
 
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     setOpen(true);
-  };
+  }, []);
 
-  const handleClear = useCallback(() => {
-    resetSelectedRecords();
-    methods.reset(defaultFiltersPlainObject);
-    dispatch(setFilters({ recordType, data: defaultFiltersPlainObject }));
+  const handleClear = useCallback(
+    setIdSearch => {
+      resetSelectedRecords();
+      methods.reset({
+        ...defaultFiltersPlainObject,
+        filter_category: recordType,
+        ...(setIdSearch && { [ID_SEARCH]: true })
+      });
+      batch(() => {
+        dispatch(setFilters({ recordType, data: defaultFiltersPlainObject }));
+        dispatch(push({}));
+      });
 
-    dispatch(push({}));
-
-    setMoreSectionFilters({});
-    setReset(true);
-    setMore(false);
-    setFilterToList(DEFAULT_FILTERS);
-  }, [recordType, defaultFiltersPlainObject]);
+      setMoreSectionFilters({});
+      setReset(true);
+      setMore(false);
+      setFilterToList(DEFAULT_FILTERS);
+    },
+    [recordType, defaultFiltersPlainObject]
+  );
 
   const handleChangeTabs = (event, value) => setTabIndex(value);
 
@@ -241,22 +159,22 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
             </Tabs>
 
             {tabIndex === 0 && (
-              <div className={css.tabContent}>
-                <Actions handleSave={handleSave} handleClear={handleClear} />
-                {renderFilters()}
-                <MoreSection
-                  addFilterToList={addFilterToList}
-                  allAvailable={filters}
-                  defaultFilters={allDefaultFilters}
-                  filterToList={filterToList}
-                  more={more}
-                  moreSectionFilters={moreSectionFilters}
-                  primaryFilters={allPrimaryFilters}
-                  recordType={recordType}
-                  setMore={setMore}
-                  setMoreSectionFilters={setMoreSectionFilters}
-                />
-              </div>
+              <TabFilters
+                addFilterToList={addFilterToList}
+                defaultFilters={defaultFilters}
+                filterToList={filterToList}
+                handleClear={handleClear}
+                handleSave={handleSave}
+                more={more}
+                formMethods={methods}
+                moreSectionFilters={moreSectionFilters}
+                queryParams={queryParams}
+                recordType={recordType}
+                reset={reset}
+                setMore={setMore}
+                setMoreSectionFilters={setMoreSectionFilters}
+                setReset={setReset}
+              />
             )}
             {tabIndex === 1 && (
               <div className={css.tabContent}>

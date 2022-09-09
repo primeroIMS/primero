@@ -75,6 +75,12 @@ export const ALL_EXPORT_TYPES = Object.freeze([
     permission: ACTIONS.EXPORT_INCIDENT_RECORDER,
     format: EXPORT_FORMAT.EXCEL,
     recordTypes: [RECORD_PATH.incidents]
+  }),
+  Object.freeze({
+    id: "mrm_violation_xls",
+    permission: ACTIONS.EXPORT_MRM_VIOLATION_XLS,
+    format: EXPORT_FORMAT.EXCEL,
+    recordTypes: [RECORD_PATH.incidents]
   })
 ]);
 
@@ -92,7 +98,7 @@ export const INCLUDE_IMPLEMENTATION_LOGOS = "include_implementation_logos";
 export const INCLUDE_AGENCY_LOGO = "include_agency_logos";
 export const INCLUDE_OTHER_LOGOS = "include_other_logos";
 export const SIGNATURES = "signatures";
-export const FILTERS_TO_SKIP = Object.freeze(["fields", "id_search", "per", "page", "total"]);
+export const FILTERS_TO_SKIP = Object.freeze(["fields", "id_search", "per", "page", "total", "filter_category"]);
 export const PASSWORD_FIELD = "password";
 export const CUSTOM_EXPORT_FILE_NAME_FIELD = "custom_export_file_name";
 export const CASE_WORKER = "case_worker";

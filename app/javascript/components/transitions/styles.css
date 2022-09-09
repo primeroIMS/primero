@@ -81,7 +81,7 @@
     border: solid 1px var(--c-blue);
     background-color: var(--c-blue);
   }
-  
+
   &.done {
     border: solid 1px var(--c-green);
     background-color: var(--c-green);
@@ -144,5 +144,22 @@
 
   .titleHeader {
     line-height: 1.27;
+  }
+}
+
+.readonly {
+  pointer-events: none;
+  max-width: 5.5em;
+  & fieldset {
+    border: none;
+  }
+
+  & input {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  & input::placeholder {
+    color: var(--c-black) !important;
   }
 }

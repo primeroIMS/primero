@@ -11,12 +11,12 @@ describe ManagedReports::SubReports::Abduction do
 
   it 'return an Array of instance' do
     expect(recruitment.indicators).to be_an_instance_of(Array)
-    expect(recruitment.indicators.size).to eq(4)
+    expect(recruitment.indicators.size).to eq(5)
   end
 
   it 'return a Hash of Lookups' do
     expect(recruitment.lookups).to be_an_instance_of(Hash)
-    expect(recruitment.lookups.size).to eq(3)
+    expect(recruitment.lookups.size).to eq(4)
   end
 
   it 'return Lookups keys as values' do
@@ -25,6 +25,18 @@ describe ManagedReports::SubReports::Abduction do
         lookup-armed-force-group-or-other-party
         Location
         lookup-violation-tally-options
+        lookup-abduction-purpose
+      ]
+    )
+  end
+
+  it 'return indicators_subcolumns keys as values' do
+    expect(recruitment.indicators_subcolumns.keys).to match_array(
+      %w[
+        perpetrators
+        reporting_location
+        abducted_status
+        abduction_reasons
       ]
     )
   end

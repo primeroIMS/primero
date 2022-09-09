@@ -25,7 +25,30 @@ describe("<RecordForm>/form/validations", () => {
         }
       };
 
+      const subformField2 = {
+        name: "subform_2",
+        type: SUBFORM_SECTION,
+        subform_section_id: {
+          fields: [
+            {
+              name: "field_1",
+              display_name: { en: "Field 1" },
+              required: false,
+              type: TEXT_FIELD
+            },
+            {
+              name: "field_2",
+              display_name: { en: "Field 1" },
+              required: true,
+              type: TEXT_FIELD,
+              display_conditions_subform: { eq: { field_1: "test-value" } }
+            }
+          ]
+        }
+      };
+
       const schema = object().shape(validations.fieldValidations(subformField, { i18n, online: true }));
+      const schema2 = object().shape(validations.fieldValidations(subformField2, { i18n, online: true }));
 
       context("when the required field is present", () => {
         it("should be valid", () => {
@@ -59,6 +82,26 @@ describe("<RecordForm>/form/validations", () => {
           } catch (e) {
             expect(e.path).to.equals("subform_1[1].field_1");
           }
+        });
+      });
+
+      context("conditional subform fields", () => {
+        it("not valid when condition met and no corresponding value", () => {
+          const formData = { subform_2: [{ field_1: "test-value" }, {}] };
+
+          expect(schema2.isValidSync(formData)).to.be.false;
+        });
+
+        it("valid when condition met and corresponding value", () => {
+          const formData = { subform_2: [{}, { field_1: "test-value", field_2: "test-value-2" }] };
+
+          expect(schema2.isValidSync(formData)).to.be.true;
+        });
+
+        it("valid when condition not met", () => {
+          const formData = { subform_2: [{ field_1: "test-value-not-eq" }] };
+
+          expect(schema2.isValidSync(formData)).to.be.true;
         });
       });
     });
@@ -221,6 +264,48 @@ describe("<RecordForm>/form/validations", () => {
         it("should be valid if one of its childrens have values between min and max", () => {
           const schema = object().shape(validations.fieldValidations({ ...tallyField }, { i18n }));
           const formData = { tally_name: { test1: 1, test2: 3 } };
+
+          expect(schema.isValidSync(formData)).to.be.true;
+        });
+      });
+
+      context("and has conditions display", () => {
+        const tallyFieldWithDisplayConditions = {
+          ...tallyField,
+          required: true,
+          display_conditions_record: {
+            or: [
+              {
+                in: {
+                  violation_category: ["killing"]
+                }
+              },
+              {
+                in: {
+                  violation_category: ["maiming"]
+                }
+              }
+            ]
+          }
+        };
+
+        it("should be invalid if field is empty and conditions make it required", () => {
+          const schema = object().shape(validations.fieldValidations(tallyFieldWithDisplayConditions, { i18n }));
+          const formData = { violation_category: ["killing"] };
+
+          expect(schema.isValidSync(formData)).to.be.false;
+        });
+
+        it("should be valid if field is NOT empty and it is required by other field", () => {
+          const schema = object().shape(validations.fieldValidations(tallyFieldWithDisplayConditions, { i18n }));
+          const formData = { tally_name: { test1: 1, test2: 3 }, violation_category: ["killing"] };
+
+          expect(schema.isValidSync(formData)).to.be.true;
+        });
+
+        it("should be valid if field is empty and conditions make it NOT required", () => {
+          const schema = object().shape(validations.fieldValidations(tallyFieldWithDisplayConditions, { i18n }));
+          const formData = { violation_category: ["test"] };
 
           expect(schema.isValidSync(formData)).to.be.true;
         });

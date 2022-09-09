@@ -57,10 +57,10 @@ class NotificationMailer < ApplicationMailer
   end
 
   def assert_notifications_enabled(user)
-    (user&.email && user&.send_mail) ||
-      Rails.logger.info(
-        "Mail not sent. Notifications disabled for #{user&.user_name || 'nil user'}"
-      )
+    return true if user&.email && user&.send_mail
+
+    Rails.logger.info("Mail not sent. Notifications disabled for #{user&.user_name || 'nil user'}")
+    false
   end
 
   def manager_approval_message

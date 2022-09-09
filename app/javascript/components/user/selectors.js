@@ -46,3 +46,6 @@ export const getAssignedAgency = state => state.getIn([NAMESPACE, "agencyId"], f
 export const getCodeOfConductId = state => state.getIn([NAMESPACE, "codeOfConductId"], null);
 
 export const getCodeOfConductAccepteOn = state => state.getIn([NAMESPACE, "codeOfConductAcceptedOn"], null);
+
+export const hasPrimeroModule = (state, primeroModule) =>
+  state.getIn([NAMESPACE, "modules"], fromJS([])).includes(primeroModule);

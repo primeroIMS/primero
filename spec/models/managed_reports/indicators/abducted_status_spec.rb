@@ -99,7 +99,7 @@ describe ManagedReports::Indicators::AbductedStatus do
       data: {
         type: 'abduction',
         violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 3, 'total': 6 },
-        abduction_regained_freedom: 'false'
+        abduction_regained_freedom: 'no'
       },
       incident_id: incident1.id
     )
@@ -122,8 +122,8 @@ describe ManagedReports::Indicators::AbductedStatus do
       data: {
         type: 'abduction',
         violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 },
-        abduction_regained_freedom: 'true',
-        abduction_regained_freedom_how: 'escape'
+        abduction_regained_freedom: 'yes',
+        abduction_regained_freedom_how: ['escape']
       },
       incident_id: incident4.id
     )
@@ -131,8 +131,8 @@ describe ManagedReports::Indicators::AbductedStatus do
       data: {
         type: 'abduction',
         violation_tally: { 'boys': 2, 'girls': 5, 'unknown': 2, 'total': 9 },
-        abduction_regained_freedom: 'true',
-        abduction_regained_freedom_how: 'payment_of_ransom'
+        abduction_regained_freedom: 'yes',
+        abduction_regained_freedom_how: ['payment_of_ransom']
       },
       incident_id: incident5.id
     )
@@ -146,10 +146,10 @@ describe ManagedReports::Indicators::AbductedStatus do
 
     expect(abducted_status_data).to match_array(
       [
-        { total: 6, id: 'still_being_held' },
-        { total: 9, id: 'released' },
-        { total: 3, id: 'unknown' },
-        { total: 7, id: 'escape' }
+        { boys: 2, girls: 5, id: 'released', total: 9, unknown: 2 },
+        { boys: 1, girls: 2, id: 'still_being_held', total: 6, unknown: 3 },
+        { boys: 1, girls: 1, id: 'unknown', total: 3, unknown: 1 },
+        { boys: 2, girls: 3, id: 'escaped', total: 7, unknown: 2 }
       ]
     )
   end
@@ -160,7 +160,7 @@ describe ManagedReports::Indicators::AbductedStatus do
 
       expect(abducted_status_data).to match_array(
         [
-          { total: 6, id: 'still_being_held' }
+          { boys: 1, girls: 2, id: 'still_being_held', total: 6, unknown: 3 }
         ]
       )
     end
@@ -170,7 +170,9 @@ describe ManagedReports::Indicators::AbductedStatus do
 
       expect(abducted_status_data).to match_array(
         [
-          { id: 'escape', total: 7 }, { id: 'released', total: 9 }, { id: 'unknown', total: 3 }
+          { boys: 2, girls: 3, id: 'escaped', total: 7, unknown: 2 },
+          { boys: 2, girls: 5, id: 'released', total: 9, unknown: 2 },
+          { boys: 1, girls: 1, id: 'unknown', total: 3, unknown: 1 }
         ]
       )
     end
@@ -180,7 +182,7 @@ describe ManagedReports::Indicators::AbductedStatus do
 
       expect(abducted_status_data).to match_array(
         [
-          { id: 'unknown', total: 3 }
+          { boys: 1, girls: 1, id: 'unknown', total: 3, unknown: 1 }
         ]
       )
     end
@@ -190,10 +192,10 @@ describe ManagedReports::Indicators::AbductedStatus do
 
       expect(abducted_status_data).to match_array(
         [
-          { id: 'escape', total: 7 },
-          { id: 'released', total: 9 },
-          { id: 'still_being_held', total: 6 },
-          { id: 'unknown', total: 3 }
+          { boys: 2, girls: 3, id: 'escaped', total: 7, unknown: 2 },
+          { boys: 2, girls: 5, id: 'released', total: 9, unknown: 2 },
+          { boys: 1, girls: 2, id: 'still_being_held', total: 6, unknown: 3 },
+          { boys: 1, girls: 1, id: 'unknown', total: 3, unknown: 1 }
         ]
       )
     end
@@ -217,9 +219,15 @@ describe ManagedReports::Indicators::AbductedStatus do
 
         expect(data).to match_array(
           [
-            { group_id: 2022, data: [{ id: 'escape', total: 7 }, { id: 'released', total: 9 }] },
-            { group_id: 2020, data: [{ id: 'still_being_held', total: 6 }] },
-            { group_id: 2021, data: [{ id: 'unknown', total: 3 }] }
+            { group_id: 2020, data: [{ boys: 1, girls: 2, id: 'still_being_held', total: 6, unknown: 3 }] },
+            { group_id: 2021, data: [{ boys: 1, girls: 1, id: 'unknown', total: 3, unknown: 1 }] },
+            {
+              group_id: 2022,
+              data: [
+                { boys: 2, girls: 3, id: 'escaped', total: 7, unknown: 2 },
+                { boys: 2, girls: 5, id: 'released', total: 9, unknown: 2 }
+              ]
+            }
           ]
         )
       end
@@ -242,14 +250,14 @@ describe ManagedReports::Indicators::AbductedStatus do
 
         expect(data).to match_array(
           [
-            { group_id: '2021-08', data: [{ id: 'unknown', total: 3 }] },
+            { group_id: '2021-08', data: [{ boys: 1, girls: 1, id: 'unknown', total: 3, unknown: 1 }] },
             { group_id: '2021-09', data: [] },
             { group_id: '2021-10', data: [] },
             { group_id: '2021-11', data: [] },
             { group_id: '2021-12', data: [] },
             { group_id: '2022-01', data: [] },
-            { group_id: '2022-02', data: [{ id: 'escape', total: 7 }] },
-            { group_id: '2022-03', data: [{ id: 'released', total: 9 }] }
+            { group_id: '2022-02', data: [{ boys: 2, girls: 3, id: 'escaped', total: 7, unknown: 2 }] },
+            { group_id: '2022-03', data: [{ boys: 2, girls: 5, id: 'released', total: 9, unknown: 2 }] }
           ]
         )
       end
@@ -264,7 +272,7 @@ describe ManagedReports::Indicators::AbductedStatus do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-06-01',
-              to: '2022-03-20'
+              to: '2022-03-30'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'abduction')
           }
@@ -273,13 +281,19 @@ describe ManagedReports::Indicators::AbductedStatus do
         expect(data).to match_array(
           [
             { group_id: '2020-Q2', data: [] },
-            { group_id: '2020-Q3', data: [{ id: 'still_being_held', total: 6 }] },
+            { group_id: '2020-Q3', data: [{ boys: 1, girls: 2, id: 'still_being_held', total: 6, unknown: 3 }] },
             { group_id: '2020-Q4', data: [] },
             { group_id: '2021-Q1', data: [] },
             { group_id: '2021-Q2', data: [] },
-            { group_id: '2021-Q3', data: [{ id: 'unknown', total: 3 }] },
+            { group_id: '2021-Q3', data: [{ boys: 1, girls: 1, id: 'unknown', total: 3, unknown: 1 }] },
             { group_id: '2021-Q4', data: [] },
-            { group_id: '2022-Q1', data: [{ id: 'escape', total: 7 }] }
+            {
+              group_id: '2022-Q1',
+              data: [
+                { boys: 2, girls: 3, id: 'escaped', total: 7, unknown: 2 },
+                { boys: 2, girls: 5, id: 'released', total: 9, unknown: 2 }
+              ]
+            }
           ]
         )
       end

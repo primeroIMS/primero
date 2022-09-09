@@ -183,4 +183,20 @@ describe("User - Selectors", () => {
       expect(selectors.getCodeOfConductAccepteOn(fromJS({}))).to.be.null;
     });
   });
+
+  describe("hasPrimeroModule", () => {
+    const state = fromJS({
+      user: {
+        modules: ["primeromodule-cp"]
+      }
+    });
+
+    it("should return true if the user has the module", () => {
+      expect(selectors.hasPrimeroModule(state, "primeromodule-cp")).to.be.true;
+    });
+
+    it("should return false if the user does not have the module", () => {
+      expect(selectors.hasPrimeroModule(state, "primeromodule-gbv")).to.be.false;
+    });
+  });
 });

@@ -1,15 +1,19 @@
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 import isEmpty from "lodash/isEmpty";
 import sortBy from "lodash/sortBy";
 import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
-import last from "lodash/last";
 import { createCachedSelector } from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import memoize from "proxy-memoize";
 
 import { RECORD_PATH } from "../../config";
-import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
+import {
+  getIncidentReportingLocationConfig,
+  getReportingLocationConfig,
+  getRoles,
+  getUserGroups
+} from "../application/selectors";
 import { displayNameHelper } from "../../libs";
 import {
   getAssignedAgency,
@@ -166,13 +170,25 @@ const agenciesCurrentUser = createCachedSelector(
 
 const locationList = memoize(state => state.getIn(["forms", "options", "locations"], fromJS([])));
 
-const locationsParser = (data, { includeAdminLevel, locale }) => {
+const getLocationName = (location, { adminLevel, locale }) => {
+  const locationName = displayNameHelper(location.get("name"), locale);
+
+  if (adminLevel) {
+    const splittedName = locationName.includes("::") ? locationName.split("::") : locationName.split(":");
+
+    return splittedName[adminLevel] || locationName;
+  }
+
+  return locationName;
+};
+
+const locationsParser = (data, { includeAdminLevel, locale, adminLevel }) => {
   return data.reduce(
     (prev, current) => [
       ...prev,
       {
         id: current.get("code"),
-        display_text: displayNameHelper(current.get("name"), locale),
+        display_text: getLocationName(current, { adminLevel, locale }),
         disabled: current.get("disabled"),
         ...(includeAdminLevel && { admin_level: current.get("admin_level") })
       }
@@ -181,31 +197,39 @@ const locationsParser = (data, { includeAdminLevel, locale }) => {
   );
 };
 
-const locations = memoize((state, options) => {
+const locations = memoize(([state, options]) => {
   const locale = getLocale(state);
   const data = locationList(state);
 
-  return locationsParser(data, { ...options, locale });
+  const reportingLocationData = options?.useIncidentReportingLocationConfig
+    ? getIncidentReportingLocationConfig(state)
+    : getReportingLocationConfig(state);
+
+  return locationsParser(data, {
+    ...options,
+    locale,
+    adminLevel: options?.useReportingLocationName && reportingLocationData?.get("admin_level")
+  });
 });
 
-const reportingLocations = memoize((state, options) => {
+// REFACTOR: This and the selector above could actually be a single selector.
+const reportingLocations = memoize(([state, options]) => {
   const locale = getLocale(state);
   const data = locationList(state);
-  const locationData = locationsParser(data, { ...options, locale, includeAdminLevel: true });
-  const getReportingLocationConfigData = getReportingLocationConfig(state);
 
-  return locationData
-    .filter(location => location.admin_level === getReportingLocationConfigData.get("admin_level"))
-    .map(location => {
-      // eslint-disable-next-line camelcase
-      const { id, display_text } = location;
+  const reportingLocationData = options?.useIncidentReportingLocationConfig
+    ? getIncidentReportingLocationConfig(state)
+    : getReportingLocationConfig(state);
 
-      return {
-        id,
-        // eslint-disable-next-line camelcase
-        display_text: last(display_text.split(":"))
-      };
-    });
+  return locationsParser(
+    data.filter(location => location.get("admin_level") >= reportingLocationData.get("admin_level")),
+    {
+      ...options,
+      includeAdminLevel: true,
+      locale,
+      adminLevel: reportingLocationData?.get("admin_level")
+    }
+  );
 });
 
 const modules = createCachedSelector(moduleList, data => {
@@ -227,6 +251,10 @@ const lookupValues = createCachedSelector(
   (_state, options) => options,
   (locale, data, options) => {
     const { fullLookup, source } = options;
+
+    if (List.isList(source)) {
+      return [];
+    }
 
     const lookup = data.find(option => option.get("unique_id") === source.replace(/lookup /, ""), null, fromJS({}));
 
@@ -503,9 +531,12 @@ export const getValueFromOtherField = (state, fields, values) => {
       ?.get(current.key, "");
 
     if (current.optionStringSource && current.setWhenEnabledInSource) {
-      const options = current.optionStringSource
-        ? getOptions(current.optionStringSource)(state, { source: current.optionStringSource, useUniqueId: true })
-        : [];
+      const isLocationSource = [OPTION_TYPES.LOCATION, OPTION_TYPES.REPORTING_LOCATIONS].includes(
+        current.optionStringSource
+      );
+      const options = isLocationSource
+        ? getOptions(current.optionStringSource)([state, { source: current.optionStringSource, useUniqueId: true }])
+        : getOptions(current.optionStringSource)(state, { source: current.optionStringSource, useUniqueId: true });
       const selectedOption = options.find(option => option.id === value);
 
       if (selectedOption && !selectedOption.disabled) {
@@ -526,5 +557,5 @@ export const getLookupsByIDs = (state, ids) => {
 
   return state
     .getIn(["forms", "options", "lookups"], fromJS([]))
-    .filter(lookup => ids.includes(`lookup ${lookup.get("unique_id")}`), fromJS([]));
+    .filter(lookup => ids.map(keys => keys.replace("lookup ", "")).includes(lookup.get("unique_id")), fromJS([]));
 };

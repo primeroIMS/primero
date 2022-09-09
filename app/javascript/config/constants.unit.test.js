@@ -108,6 +108,8 @@ describe("Verifying config constant", () => {
       "VIOLATIONS_FORM",
       "VIOLATIONS_SUBFORM_UNIQUE_IDS",
       "VIOLATION_GROUP",
+      "VIOLATION_VERIFICATION_STATUS",
+      "VIOLATION_TYPE",
       "GBV_INSIGHTS_SUBREPORTS",
       "CHART_COLORS",
       "REGISTRY_FROM_CASE",
@@ -119,7 +121,9 @@ describe("Verifying config constant", () => {
       "Q4",
       "GHN_REPORT_SUBREPORTS",
       "SUMMARY_INCIDENT_MRM",
-      "VIOLATION_FORMS_MAPPING"
+      "VIOLATION_FORMS_MAPPING",
+      "VIOLATIONS_ASSOCIATIONS_RESPONSES",
+      "INDIVIDUAL_CHILDREN"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);
@@ -200,9 +204,11 @@ describe("Verifying config constant", () => {
           "gbv_violence_type",
           "cp_violence_type",
           "gender",
+          "gender_unknown",
           "legitimate_basis",
           "legitimate_basis_explanations",
-          "verification_status"
+          "verification_status",
+          "violation_type"
         );
         expect(constants.RECORD_INFORMATION).to.be.an("array");
         expect(constants.INCIDENT_FROM_CASE).to.be.an("string");

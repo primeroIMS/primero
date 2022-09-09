@@ -9,3 +9,4 @@ export { default as useMemoizedSelector } from "./use-memoized-selector";
 export { default as buildFieldMap } from "./build-field-map";
 export { default as toIdentifier } from "./to-identifier";
 export { default as valueFromOptionSource } from "./value-from-option-source";
+export { default as overwriteMerge } from "./overwrite-merge";

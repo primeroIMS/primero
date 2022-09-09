@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# An indicator that returns the reporting locations of violation type killing
+# An indicator that returns status of violation type abduction
 class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndicator
   include ManagedReports::MRMIndicatorHelper
 
@@ -15,7 +15,7 @@ class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndi
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
-        select status as name, sum(value::integer) as sum, 'total' as key
+        select status as name, sum(value::integer) as sum, key
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         from (
             select
@@ -25,13 +25,23 @@ class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndi
                                  table_name_for_query(params))&.concat(' as group_id,')}
             (
               case
-              when (violations."data"->>'abduction_regained_freedom' = 'false')
+              when (violations."data"->>'abduction_regained_freedom' = 'no')
                 then 'still_being_held'
-              when (violations."data"->>'abduction_regained_freedom' = 'true'
-                and violations."data"->>'abduction_regained_freedom_how' = 'escape')
-                then 'escape'
-              when (violations."data"->>'abduction_regained_freedom' = 'true'
-                and violations."data"->>'abduction_regained_freedom_how' <> 'escape')
+              when (violations."data"->>'abduction_regained_freedom' = 'yes'
+                and (
+                  'escape' = ANY(
+                    ARRAY(SELECT jsonb_array_elements_text(violations.data->'abduction_regained_freedom_how'))
+                  ))
+                )
+                then 'escaped'
+              when (violations."data"->>'abduction_regained_freedom' = 'yes'
+                and (
+                  ('escape' <> ANY(
+                    ARRAY(SELECT jsonb_array_elements_text(violations.data->'abduction_regained_freedom_how'))
+                  ))
+                  or (violations."data"->>'abduction_regained_freedom_how' is null)
+                )
+              )
                 then 'released'
               else violations."data"->>'abduction_regained_freedom'
               end
@@ -48,8 +58,7 @@ class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndi
                   #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
                   #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
              ) as subquery
-             where key = 'total'
-         group by name
+         group by key, name
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         order by name
       }

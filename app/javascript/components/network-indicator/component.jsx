@@ -5,19 +5,29 @@ import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
 
 import { useApp } from "../application";
 import { useI18n } from "../i18n";
+import { useMemoizedSelector } from "../../libs";
+import { getFieldMode } from "../application/selectors";
 
+import NetworkStatus from "./components/network-status";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
 const Component = ({ mobile }) => {
   const { online } = useApp();
   const i18n = useI18n();
+
+  const fieldMode = useMemoizedSelector(state => getFieldMode(state));
+
   const classes = clsx({
     [css.networkIndicator]: true,
     [css.offline]: !online,
     [css.online]: online,
     [css.mobile]: mobile
   });
+
+  if (fieldMode) {
+    return <NetworkStatus mobile={mobile} />;
+  }
 
   return (
     <div className={classes}>

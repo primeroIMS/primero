@@ -18,4 +18,14 @@ describe ManagedReports::SubReports::Detention do
     expect(detention.lookups).to be_an_instance_of(Hash)
     expect(detention.lookups.size).to eq(3)
   end
+
+  it 'return indicators_subcolumns keys as values' do
+    expect(detention.indicators_subcolumns.keys).to match_array(
+      %w[
+        perpetrator_detention
+        reporting_location_detention
+        detention_status
+      ]
+    )
+  end
 end

@@ -17,9 +17,7 @@ describe("Application - Reducers", () => {
 
   const systemOptions = {
     show_alerts: true,
-    welcome_email_enabled: true,
     code_of_conduct_enabled: true,
-    notification_email_enabled: true,
     due_date_from_appointment_date: true
   };
 
@@ -77,6 +75,12 @@ describe("Application - Reducers", () => {
       baseLanguage: "en",
       primeroVersion: "2.0.0.1",
       reportingLocationConfig: {
+        admin_level: 2,
+        field_key: "owned_by_location",
+        admin_level_map: { 1: ["province"], 2: ["district"] },
+        label_keys: ["district"]
+      },
+      incidentReportingLocationConfig: {
         admin_level: 2,
         field_key: "owned_by_location",
         admin_level_map: { 1: ["province"], 2: ["district"] },
@@ -159,6 +163,12 @@ describe("Application - Reducers", () => {
           code_of_conduct: codesOfConduct,
           primero_version: "2.0.0.1",
           reporting_location_config: {
+            admin_level: 2,
+            field_key: "owned_by_location",
+            admin_level_map: { 1: ["province"], 2: ["district"] },
+            label_keys: ["district"]
+          },
+          incident_reporting_location_config: {
             admin_level: 2,
             field_key: "owned_by_location",
             admin_level_map: { 1: ["province"], 2: ["district"] },

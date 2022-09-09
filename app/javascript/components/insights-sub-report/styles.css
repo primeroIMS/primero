@@ -7,13 +7,12 @@
   font-size: var(--fs-13);
 }
 
-.subReportContent {
-  display: flex;
-
+.container {
+  flex: 1;
 }
 
-.subReportTables {
-  flex: 1;
+.subReportContent {
+  max-width: 1200px;
 }
 
 .section {

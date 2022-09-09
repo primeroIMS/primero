@@ -6,7 +6,7 @@ class ManagedReports::Indicators::PerpetratorsDenials < ManagedReports::SqlRepor
 
   class << self
     def id
-      'perpetrators'
+      'perpetrators_denial'
     end
 
     # rubocop:disable Metrics/AbcSize

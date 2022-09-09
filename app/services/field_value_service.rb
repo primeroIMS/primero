@@ -45,7 +45,7 @@ class FieldValueService < ValueObject
     lookup = self.lookup(lookup_unique_id, opts)
     return value unless lookup
 
-    value_for(lookup.lookup_values, value, opts)
+    value_for(lookup.lookup_values_i18n, value, opts)
   end
 
   def record_name_value(class_name, value, opts = {})

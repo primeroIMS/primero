@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 # Represents actions to request approval for a record and to approve those requests
-# rubocop:disable Metrics/ClassLength
 class Approval < ValueObject
-  attr_accessor :record, :fields, :user_name, :approval_type, :approval_id, :comments
+  attr_accessor :record, :fields, :user, :approval_type, :approval_id, :comments
 
   ASSESSMENT = 'assessment'
   CASE_PLAN = 'case_plan'
@@ -54,10 +53,10 @@ class Approval < ValueObject
   }.freeze
 
   class << self
-    def get!(approval_id, record, user_name, params = {})
+    def get!(approval_id, record, user, params = {})
       raise Errors::UnknownPrimeroEntityType, 'approvals.error_invalid_approval' if types.exclude?(approval_id)
 
-      Approval.new(approval_id: approval_id, record: record, user_name: user_name,
+      Approval.new(approval_id: approval_id, record: record, user: user,
                    fields: "Approval::#{approval_id.upcase}_FIELDS".constantize, approval_type: params[:approval_type],
                    comments: params[:notes])
     end
@@ -74,6 +73,7 @@ class Approval < ValueObject
     when Approval::APPROVAL_STATUS_REJECTED then reject!
     else raise Errors::InvalidPrimeroEntityType, 'approvals.error_invalid_status'
     end
+    record.update_last_updated_by(user)
     record.save!
   end
 
@@ -81,15 +81,16 @@ class Approval < ValueObject
     record.send("#{fields[:approval_status]}=", Approval::APPROVAL_STATUS_PENDING)
     load_request
     record.approval_subforms ||= []
-    record.approval_subforms << approval_request_action(Approval::APPROVAL_STATUS_PENDING, approval_id, user_name)
+    record.approval_subforms << approval_request_action(Approval::APPROVAL_STATUS_PENDING, approval_id, user.user_name)
   end
 
   def approve!
     record.send("#{fields[:approval_status]}=", Approval::APPROVAL_STATUS_APPROVED)
     load_approve
     record.approval_subforms ||= []
-    record.approval_subforms << approval_response_action(Approval::APPROVAL_STATUS_APPROVED, approval_id, user_name,
-                                                         comments)
+    record.approval_subforms << approval_response_action(
+      Approval::APPROVAL_STATUS_APPROVED, approval_id, user.user_name, comments
+    )
     delete_approval_alerts
   end
 
@@ -97,7 +98,7 @@ class Approval < ValueObject
     record.send("#{fields[:approval_status]}=", Approval::APPROVAL_STATUS_REJECTED)
     load_reject
     record.approval_subforms ||= []
-    record.approval_subforms << approval_response_action(Approval::APPROVAL_STATUS_REJECTED, approval_id, user_name,
+    record.approval_subforms << approval_response_action(Approval::APPROVAL_STATUS_REJECTED, approval_id, user.user_name,
                                                          comments)
     delete_approval_alerts
   end
@@ -152,4 +153,3 @@ class Approval < ValueObject
     record.alerts.where(type: approval_id, alert_for: Alertable::APPROVAL).destroy_all
   end
 end
-# rubocop:enable Metrics/ClassLength

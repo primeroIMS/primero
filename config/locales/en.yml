@@ -17,7 +17,9 @@ en:
   accepted: Accepted
   cancel: Cancel
   connection_lost: Currently in offline mode
+  field_mode_offline: Currently in field mode
   connected: Connected
+  no_connection: No Connection
   clear: Clear
   sandbox_ui: Demo
   description: Description
@@ -25,6 +27,9 @@ en:
   minimum_reportable_fields: "Minimum reportable fields %{record_type}"
   name: Name
   offline: Offline
+  field_mode: "Field Mode: %{mode}"
+  field_mode_on: "On"
+  field_mode_off: "Off"
   unavailable_offline: Unavailable offline
   online: Online
   yes_label: 'Yes'
@@ -206,6 +211,15 @@ en:
     view: View
     view_flags_history: View History
     return_to_case: Return to Case
+  resync_records:
+    id: ID
+    record_type: Record Type
+    action: Action
+    date: Date
+    last_attempt: Last Attempt
+    create: Create
+    update: Update
+    resync: Submit
   case:
     label: Case
     create_new_case: Create New Case
@@ -471,6 +485,7 @@ en:
       you are rejecting this case; once you click ‘Reject’ you will no longer have
       access to this case record.
     view_name: View Name
+    sort_by: Sort By
   change_logs:
     filters:
       form: Form
@@ -658,6 +673,8 @@ en:
     dash_shared_with_my_team_overview: Shared with my Team (Overview)
     dash_shared_with_others: Shared With Others
     dash_national_admin_summary: Administrator Summary
+    dash_violations_category_verification_status: Total number of Incidents per verification status
+    dash_violations_category_region: Total number of verified Incidents per region
     date: Date
     date_of_incident: Date of Incident
     date_of_interview: Date of Interview
@@ -1227,6 +1244,10 @@ en:
     less: Less...
     more: More...
     save_filters: Save
+    categories:
+      violations: Violations
+      incidents: Incidents
+      individual_victims: Individual Victims
   flags:
     add_flag_tab: Add New Flag
     date: 'Date:'
@@ -1327,7 +1348,7 @@ en:
     dashboard: Dashboard
     en: English
     es: Español
-    es-GT: Español (Guatemala)
+    es-GT: Español
     es-ES: Español (España)
     fr: Français
     hu: Magyar
@@ -1409,11 +1430,31 @@ en:
       unknown: Unknown
       verification_status: Verification Status
       violence_type: Violence Type
-      armed_force_group_name: Armed Force Group Name
+      armed_force_group_party_name: Armed force, group, or other party
       armed_force_group_type: Armed Force Group Type
+      violations: Violations
+      individual_violations: Individual Violations
+      individual_age: Individual Age
+      individual_sex: Individual Sex
+      victim_deprived_liberty_security_reasons: Deprived of Liberty
+      reasons_deprivation_liberty: What are the reasons for the deprivation of liberty?
+      victim_facilty_victims_held: Please select the facility where the victim(s) was/were being held
+      torture_punishment_while_deprivated_liberty: Was/were the child(ren) subject to torture or other cruel, inhuman or degrading treatment or punishment while deprived of liberty?
+      verified_ghn_reported: Specify the GHN in which this incident was included
+      weapon_type: 'Type of weapon/method used'
+      facility_impact: 'Type and extent of physical impact'
+      facility_attack_type: 'Type of health- or education-related violation'
+      child_role: 'What role did the child(ren) play in the armed force/group?'
+      abduction_purpose_single: 'Purpose of the abduction'
+      military_use_type: 'Type of military use'
+      types_of_aid_disrupted_denial: 'Type of aid/service denied/disrupted.'
+      late_verified_violations: Late verified violations
+      perpetrator_category: Type of Perpetrator
     register_new_incident: New Incident
     selectable_date_options:
       date_of_first_report: Interview Date
+      mrm_date_of_first_report: Date of initial report to CTFMR member
+      ctfmr_verified_date: Date of Verification decision by CTFMR
       incident_date_derived: Incident Date
     selected_records: '%{select_records} incident(s) selected'
     selected_all_records: 'Select all %{total_records} incidents that match this query.'
@@ -1421,7 +1462,7 @@ en:
       label: Summary of the Incident
       fields:
         children_multiple_violation:
-          label: Children with multiple violations
+          label: Children affected by multiple violations
         summary_of_incident:
           label: Summary of the Incident
         incident_total_tally:
@@ -1440,8 +1481,11 @@ en:
     survivor_code: Survivor Code
     show_incident: 'Incident ID %{short_id}'
     social_worker: Social Worker
+    violation_type: Violation Type
     violence_type: Violence Type
     type_violence: Type of Violence
+    violation_summary: Summary
+    sort_by: Sort By
   key_performance_indicators:
     label: "Pulse/KPIs"
     case_assessment: "Case Assessment"
@@ -1642,6 +1686,7 @@ en:
       warehouse: Warehouse
       buyingstation: Buying Station
       township: Township
+      municipality: Municipality
     label: Location
     name: Name
     code: Code
@@ -1835,9 +1880,11 @@ en:
     generated_on: Generated On
     label: Insights
     total: Total
+    violations_total: Violations
     filter_by:
       date: Date
       verification_status: Verification Status
+      violation_type: Violation Type
     date_range:
       month: Month
       quarter: Quarter
@@ -1853,15 +1900,28 @@ en:
     no_data: No data exists for this insight
     no_data_table: No table data exists for this insight
     incomplete_data: Incomplete Data
+    individual_children:
+      name: Individual Children
+      description: ''
+      reports:
+        individual_children: Individual Children
+      sub_reports:
+        individual_age: Individual Children by Age
+        individual_violation_type: Individual Children by Violation Type
+        individual_region: Individual Children by Region
+        individual_perpetrator: Individual Children by Perpetrator
     ghn_report:
       name: Global Horizontal Note
       description: ''
       reports:
         ghn_report: Global Horizontal Note
       sub_reports:
-        verified_information: Verified Information
-        late_verification: Late Verification
-        unverified_information: Unverified Information
+        verified_information: Verified Information - Victims
+        late_verification: Late Verification - Victims
+        unverified_information: Unverified Information - Victims
+        verified_information_violations: Verified Information - Violations
+        late_verification_violations: Late Verification - Violations
+        unverified_information_violations: Unverified Information - Violations
         killing: Killing of Children
         maiming: Maiming of Children
         recruitment: Recruitment and/or use of children
@@ -1872,11 +1932,13 @@ en:
         attack_on_schools: Attacks on school(s)
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
+        multiple_violations: Children affected by multiple violations
         detention: Detention
         boys: Boys
         girls: Girls
         total: Total
         unknown: Unknown
+        associated_violations: Associated Violations
     violations:
       name: Violations
       description: ''
@@ -1898,16 +1960,20 @@ en:
         denial_humanitarian_access: Denial of humanitarian access for children
         detention: Detention
       sub_reports:
+        children: Children
         combined: Violations
         denial_humanitarian_access: Denial of humanitarian
         denial_type: Type of denials
         detention_detained: Remain Detained
         detention_released: Released
-        detention_status: Status of Detained children
         perpetrators: Number of Children by Perpetrators
+        perpetrators_denial: Number of Violations by Perpetrators
+        perpetrator_detention: Number of Children by Perpetrators
         perpetrators_incidents: Number of incidents by Perpetrators
         reporting_location_incidents: Number of incidents by Region
         reporting_location: Number of Children by Region
+        reporting_location_detention: Number of Children by Region
+        reporting_location_denial: Number of Violations by Region
         attack_type: Number of Children by Attack Type
         boys: Boys
         girls: Girls
@@ -1921,9 +1987,13 @@ en:
         still_being_held: Still being held
         released: 'Released'
         escaped: 'Escaped'
+        abduction_reasons: Reasons for Abduction
         abducted_status: Status of Abducted
         facility_attack_type: Type of violation
         received_response: Children Received Response
+        male: Male
+        female: Female
+        military_use_type_of_use: Number of violations by type of use
     gbv_statistics:
       name: GBV Statistics
       description: ''
@@ -2015,6 +2085,7 @@ en:
       code_of_conduct: Code of Conduct
       terms_of_use: Terms of Use
       system_information: System Information
+      resync: Unsubmitted Offline Changes
     tasks: Tasks
     tracing_request: Tracing Request
     activity_log: Activity Log
@@ -2781,6 +2852,14 @@ en:
               transfers, or rejected transfers. Not typically for managers, unless
               they manage cases themselves.
             label: Shared With Others
+          dash_violations_category_verification_status:
+            explanation: Shows how many MRM violations of each type have occurred,
+              broken down by verification status.
+            label: MRM - Number of violations per verification status
+          dash_violations_category_region:
+            explanation: Shows how many MRM violations have occurred in each region,
+              broken down by violation type.
+            label: MRM - Number of violations per region
           dash_show_none_values:
             explanation: Adds an additional "No Risk Level" category to all dashboards
               which break down cases by risk level. This is specifically for configurations
@@ -2931,6 +3010,10 @@ en:
             explanation: User can generate a specialized XLS file export which allows
               for data exchange with the GBV Incident Recorder tool.
             label: Export incident recorder xls
+          export_mrm_violation_xls:
+            explanation: User can generate a specialized Excel (XLS file) export for MRM Violations.
+              This action is available on the Incident show page and Incident list.
+            label: Export MRM Violations to Excel (XLS file)
           export_json:
             explanation: User can generate a JSON file export from the incident list
               or incident show pages, which contains all fields to which the current
@@ -3015,6 +3098,8 @@ en:
             label: GBV Statistics
           ghn_report:
             label: Global Horizontal Note
+          individual_children:
+            label: Individual Children
       matching_configuration:
         actions:
           manage:
@@ -3705,6 +3790,7 @@ en:
     show_tracing_request: 'Tracing Request ID %{short_id}'
     tracing_requests: Tracing Requests
     export: Export
+    sort_by: Sort By
   registry_records:
     id: ID
     label: Registry Records

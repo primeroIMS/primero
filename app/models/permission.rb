@@ -107,6 +107,8 @@ class Permission < ValueObject
   DASH_SHARED_WITH_MY_TEAM_OVERVIEW = 'dash_shared_with_my_team_overview'
   DASH_CASE_INCIDENT_OVERVIEW = 'dash_case_incident_overview'
   DASH_NATIONAL_ADMIN_SUMMARY = 'dash_national_admin_summary'
+  DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS = 'dash_violations_category_verification_status'
+  DASH_VIOLATIONS_CATEGORY_REGION = 'dash_violations_category_region'
   SEARCH_OWNED_BY_OTHERS = 'search_owned_by_others'
   DISPLAY_VIEW_PAGE = 'display_view_page'
   REQUEST_TRANSFER = 'request_transfer'
@@ -160,6 +162,8 @@ class Permission < ValueObject
   VIOLATION_REPORT = 'violations'
   GBV_STATISTICS_REPORT = 'gbv_statistics'
   GHN_REPORT = 'ghn_report'
+  INDIVIDUAL_CHILDREN = 'individual_children'
+  VIOLATIONS_CATEGORY_VERIFICATION_STATUS = 'violations_category_verification_status'
 
   RESOURCE_ACTIONS = {
     CASE => [
@@ -178,7 +182,7 @@ class Permission < ValueObject
     ],
     INCIDENT => [
       READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF,
-      EXPORT_INCIDENT_RECORDER, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, SYNC_MOBILE, CHANGE_LOG,
+      EXPORT_INCIDENT_RECORDER, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, SYNC_MOBILE, CHANGE_LOG, EXPORT_MRM_VIOLATION_XLS,
       MANAGE
     ],
     TRACING_REQUEST => [
@@ -195,7 +199,7 @@ class Permission < ValueObject
     AGENCY => [READ, WRITE, ASSIGN, MANAGE],
     WEBHOOK => [CREATE, READ, WRITE, DELETE, MANAGE],
     REPORT => [READ, GROUP_READ, AGENCY_READ, CREATE, WRITE, MANAGE],
-    MANAGED_REPORT => [VIOLATION_REPORT, GBV_STATISTICS_REPORT, GHN_REPORT],
+    MANAGED_REPORT => [VIOLATION_REPORT, GBV_STATISTICS_REPORT, GHN_REPORT, INDIVIDUAL_CHILDREN],
     METADATA => [MANAGE],
     POTENTIAL_MATCH => [READ, VIEW_AUDIO, VIEW_PHOTO, MANAGE],
     DUPLICATE => [READ],
@@ -212,7 +216,8 @@ class Permission < ValueObject
       DASH_PROTECTION_CONCERNS_BY_LOCATION, DASH_SHOW_NONE_VALUES,
       DASH_TASKS, DASH_FLAGS, DASH_SHARED_WITH_ME, DASH_SHARED_WITH_OTHERS, DASH_GROUP_OVERVIEW,
       DASH_SHARED_WITH_MY_TEAM, DASH_SHARED_WITH_MY_TEAM_OVERVIEW, DASH_SHARED_FROM_MY_TEAM,
-      DASH_CASE_INCIDENT_OVERVIEW, DASH_NATIONAL_ADMIN_SUMMARY
+      DASH_CASE_INCIDENT_OVERVIEW, DASH_NATIONAL_ADMIN_SUMMARY, DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS,
+      DASH_VIOLATIONS_CATEGORY_REGION
     ],
     AUDIT_LOG => [READ],
     MATCHING_CONFIGURATION => [MANAGE],
@@ -242,7 +247,6 @@ class Permission < ValueObject
 
     # TODO: This replaces the old method that just listed all actions in an array
     # TODO: The result of this is 113 actions vs 86 in the old method
-    # TODO: The only permission NOT returned by this method that was in the old method:  export_mrm_violation_xls
     def actions
       Permission::RESOURCE_ACTIONS.values.flatten.uniq
     end

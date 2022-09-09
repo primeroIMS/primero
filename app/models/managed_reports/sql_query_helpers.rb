@@ -14,6 +14,19 @@ module ManagedReports::SqlQueryHelpers
       )
     end
 
+    def equal_value_query_multiple(param, table_name = nil, map_to = nil)
+      return unless param.present?
+
+      field_name = map_to || param.field_name
+
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          "#{quoted_query(table_name, 'data')} #> '{#{field_name}}' ?| array[:values]",
+          values: param.values
+        ]
+      )
+    end
+
     def date_range_query(param, table_name = nil)
       return unless param.present?
 
@@ -108,12 +121,18 @@ module ManagedReports::SqlQueryHelpers
       )
     end
 
-    def age_ranges_query(field_name = 'age', table_name = nil)
+    def age_ranges_query(field_name = 'age', table_name = nil, is_json_field = true)
       SystemSettings.primary_age_ranges.reduce("case \n") do |acc, range|
+        column = if is_json_field 
+                   "#{quoted_query(table_name, 'data')} ->> :field_name" 
+                 else 
+                   quoted_query(table_name, field_name)
+                 end
+
         acc + ActiveRecord::Base.sanitize_sql_for_conditions(
           [
             %{
-              when int4range(:start, :end, '[]') @> cast(#{quoted_query(table_name, 'data')} ->> :field_name as integer)
+              when int4range(:start, :end, '[]') @> cast(#{column} as integer)
               then #{range != SystemSettings.primary_age_ranges.last ? "':start - :end'" : "':start+' end"}
             }, field_name: field_name, start: range.first, end: range.last
           ]

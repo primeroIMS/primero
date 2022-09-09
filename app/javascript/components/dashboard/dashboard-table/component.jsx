@@ -7,6 +7,7 @@ import { dataToJS, useMemoizedSelector } from "../../../libs";
 import { buildFilter } from "../utils";
 import { getPermissions } from "../../user/selectors";
 import tableCellGreaterThanZero from "../../pages/dashboard/utils/table-cell-greater-than-zero";
+import { defaultTableOptions } from "../../index-table/utils";
 
 import css from "./styles.css";
 
@@ -16,21 +17,7 @@ const DashboardTable = ({ columns, data, query, title, pathname }) => {
 
   const dispatch = useDispatch();
   const options = {
-    responsive: "vertical",
-    fixedHeader: false,
-    elevation: 0,
-    filter: false,
-    download: false,
-    search: false,
-    print: false,
-    viewColumns: false,
-    serverSide: true,
-    setTableProps: () => ({ "aria-label": title }),
-    customToolbar: () => null,
-    onTableChange: () => null,
-    pagination: false,
-    selectableRows: "none",
-    sort: false,
+    ...defaultTableOptions({ simple: true, title }),
     onCellClick: (colData, cellMeta) => {
       const { colIndex, rowIndex } = cellMeta;
       const columnName = columns[colIndex].name;

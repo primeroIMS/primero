@@ -10,7 +10,7 @@ export default async (store, action) => {
   const { api, type } = action;
   const touchedAction = await skipSyncedAttachments(store, withGeneratedProperties(action, store));
 
-  await queueIndexedDB.add({ ...touchedAction, fromQueue: uuid.v4() });
+  await queueIndexedDB.add({ ...touchedAction, fromQueue: uuid.v4(), tries: 0 });
 
   try {
     const dbPayload = await buildDBPayload(store, withResponseParams(touchedAction));

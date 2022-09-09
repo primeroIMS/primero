@@ -6,6 +6,5 @@ export const FIELD_NAMES = {
   incident_total_tally: "incident_total_tally",
   incident_date: "incident_date",
   incident_location: "incident_location",
-  incident_description: "incident_description",
-  incident_update: "incident_update"
+  incident_description: "incident_description"
 };

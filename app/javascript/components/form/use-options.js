@@ -8,6 +8,7 @@ import { VIOLATION_GROUP } from "../../config";
 import { getOptions } from "./selectors";
 import transformOptions from "./utils/transform-options";
 import filterTaggedOptions from "./utils/filter-tagged-options";
+import { OPTION_TYPES } from "./constants";
 
 const useOptions = (config = {}) => {
   const { source, run = true } = config;
@@ -23,11 +24,20 @@ const useOptions = (config = {}) => {
           source.map(([key, src]) => {
             const selector = getOptions(src);
 
+            // TODO: Refactor. The locations selector uses proxy-memoize. This is a workaround to pass options
+            if ([OPTION_TYPES.LOCATION, OPTION_TYPES.REPORTING_LOCATIONS].includes(src)) {
+              return [key, selector([state, { ...selectorConfig, source: src, locale, localizeDate }])];
+            }
+
             return [key, selector(state, { ...selectorConfig, source: src, locale, localizeDate })];
           })
         );
       }
       const selector = getOptions(source);
+
+      if ([OPTION_TYPES.LOCATION, OPTION_TYPES.REPORTING_LOCATIONS].includes(source)) {
+        return filterTaggedOptions(selector([state, { ...selectorConfig, locale, localizeDate }]), tags);
+      }
 
       return filterTaggedOptions(selector(state, { ...selectorConfig, locale, localizeDate }), tags);
     }

@@ -55,6 +55,9 @@ export const selectUserIdle = state => state.getIn([NAMESPACE, "userIdle"], fals
 
 export const getReportingLocationConfig = state => state.getIn([NAMESPACE, "reportingLocationConfig"], fromJS({}));
 
+export const getIncidentReportingLocationConfig = state =>
+  state.getIn([NAMESPACE, "incidentReportingLocationConfig"], fromJS({}));
+
 export const getAdminLevel = state => getReportingLocationConfig(state).get("admin_level");
 
 export const getAgencyLogos = (state, fromApplication) => {
@@ -150,6 +153,8 @@ export const getRegistryTypes = (state, type) =>
   state
     .getIn(["application", "systemOptions", "registry_types"], fromJS([]))
     .find(registryType => registryType.get("id") === type, null, fromJS({}));
+
+export const getFieldMode = state => state.getIn([NAMESPACE, "systemOptions", "field_mode"], false);
 
 export const getAppData = memoize(state => {
   const modules = selectModules(state);

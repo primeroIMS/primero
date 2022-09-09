@@ -46,7 +46,10 @@ describe("<Report /> - constants", () => {
       "FILTER_BY_VERIFICATION_STATUS_DISPLAY_NAME",
       "DATE_RANGE",
       "GROUPED_BY",
-      "REPORTS"
+      "REPORTS",
+      "DEFAULT_VIOLATION_FILTERS",
+      "FILTER_BY_VIOLATION_TYPE_DISPLAY_NAME",
+      "VIOLATIONS_FILTERS"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
@@ -60,7 +63,7 @@ describe("<Report /> - constants", () => {
     const expectModuleKeys = [MODULES.MRM, MODULES.GBV];
 
     expect(Object.keys(clonedInsightsConfig)).to.eql(expectModuleKeys);
-    expect(Object.keys(clonedInsightsConfig[MODULES.MRM])).to.eql(["violations", "ghn_report"]);
+    expect(Object.keys(clonedInsightsConfig[MODULES.MRM])).to.eql(["violations", "ghn_report", "individual_children"]);
     expect(Object.keys(clonedInsightsConfig[MODULES.GBV])).to.eql(["gbv_statistics"]);
   });
 });

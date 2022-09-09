@@ -6,7 +6,7 @@ class ManagedReports::Indicators::MilitaryUse < ManagedReports::SqlReportIndicat
 
   class << self
     def id
-      'detention_status'
+      'military_use_type_of_use'
     end
 
     # rubocop:disable Metrics/MethodLength

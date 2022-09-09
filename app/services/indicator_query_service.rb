@@ -42,11 +42,12 @@ class IndicatorQueryService
     def group_indicators_by_scope(indicators)
       indicators.group_by do |indicator|
         scope_key = indicator.scope&.map(&:to_h) || {}
+        pivots = indicator.is_a?(Indicators::PivotedIndicator) ? indicator.pivots : []
         [
           indicator.scope_to_owner, indicator.scope_to_referred,
           indicator.scope_to_transferred, indicator.scope_to_owned_by_groups,
           indicator.scope_to_not_last_update, indicator.scope_to_transferred_groups, scope_key,
-          indicator.exclude_zeros, indicator.scope_to_user
+          indicator.exclude_zeros, indicator.scope_to_user, pivots
         ]
       end
     end

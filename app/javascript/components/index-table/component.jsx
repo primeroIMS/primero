@@ -34,7 +34,7 @@ Component.defaultProps = {
   bypassInitialFetch: false,
   canSelectAll: true,
   showCustomToolbar: false,
-  useReportingLocations: false
+  useReportingLocations: true
 };
 
 Component.propTypes = {

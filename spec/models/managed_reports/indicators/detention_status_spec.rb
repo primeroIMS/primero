@@ -102,9 +102,18 @@ describe ManagedReports::Indicators::DetentionStatus do
     violation1.individual_victims = [
       IndividualVictim.create!(
         data: {
-          victim_deprived_liberty_security_reasons: 'true',
-          length_deprivation_liberty: Date.today.beginning_of_month - 1.week,
-          deprivation_liberty_end: Date.today
+          victim_deprived_liberty_security_reasons: 'yes',
+          depriviation_liberty_date: Date.today.beginning_of_month - 1.week,
+          depriviation_liberty_end_date: Date.today - 1.day,
+          individual_sex: 'female'
+        }
+      ),
+
+      IndividualVictim.create!(
+        data: {
+          victim_deprived_liberty_security_reasons: 'yes',
+          depriviation_liberty_date: Date.today.beginning_of_month - 1.week,
+          depriviation_liberty_end_date: Date.today - 1.day,
         }
       )
     ]
@@ -115,9 +124,10 @@ describe ManagedReports::Indicators::DetentionStatus do
     violation2.individual_victims = [
       IndividualVictim.create!(
         data: {
-          victim_deprived_liberty_security_reasons: 'true',
-          length_deprivation_liberty: Date.today.beginning_of_month - 1.month,
-          deprivation_liberty_end: Date.today - 3.days
+          victim_deprived_liberty_security_reasons: 'yes',
+          depriviation_liberty_date: Date.today.beginning_of_month - 1.month,
+          depriviation_liberty_end_date: Date.today - 3.days,
+          individual_sex: 'unknown'
         }
       )
     ]
@@ -128,8 +138,9 @@ describe ManagedReports::Indicators::DetentionStatus do
     violation3.individual_victims = [
       IndividualVictim.create!(
         data: {
-          victim_deprived_liberty_security_reasons: 'true',
-          length_deprivation_liberty: Date.today.beginning_of_month
+          victim_deprived_liberty_security_reasons: 'yes',
+          depriviation_liberty_date: Date.today.beginning_of_month,
+          individual_sex: 'male'
         }
       )
     ]
@@ -140,16 +151,18 @@ describe ManagedReports::Indicators::DetentionStatus do
     violation4.individual_victims = [
       IndividualVictim.create!(
         data: {
-          victim_deprived_liberty_security_reasons: 'true',
-          length_deprivation_liberty: Date.today.beginning_of_month,
-          deprivation_liberty_end: Date.today + 3.days
+          victim_deprived_liberty_security_reasons: 'yes',
+          depriviation_liberty_date: Date.today.beginning_of_month,
+          depriviation_liberty_end_date: Date.today + 3.days,
+          individual_sex: 'female'
         }
       ),
       IndividualVictim.create!(
         data: {
-          victim_deprived_liberty_security_reasons: 'true',
-          length_deprivation_liberty: Date.today,
-          deprivation_liberty_end: Date.today + 3.days
+          victim_deprived_liberty_security_reasons: 'yes',
+          depriviation_liberty_date: Date.today,
+          depriviation_liberty_end_date: Date.today + 3.days,
+          individual_sex: 'male'
         }
       )
     ]
@@ -160,8 +173,9 @@ describe ManagedReports::Indicators::DetentionStatus do
     violation5.individual_victims = [
       IndividualVictim.create!(
         data: {
-          victim_deprived_liberty_security_reasons: 'false',
-          length_deprivation_liberty: Date.today.beginning_of_year
+          victim_deprived_liberty_security_reasons: 'no',
+          depriviation_liberty_date: Date.today.beginning_of_year,
+          individual_sex: 'unknown'
         }
       ),
       IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'unknown' })
@@ -175,8 +189,8 @@ describe ManagedReports::Indicators::DetentionStatus do
 
     expect(violation_tally_data).to match_array(
       [
-        { total: 3, id: 'detention_detained' },
-        { total: 2, id: 'detention_released' }
+        { id: 'detention_detained', female: 1, male: 2, total: 3 },
+        { id: 'detention_released', female: 1, total: 2, unknown: 1 }
       ]
     )
   end
@@ -187,7 +201,7 @@ describe ManagedReports::Indicators::DetentionStatus do
 
       expect(violation_tally_data).to match_array(
         [
-          { total: 1, id: 'detention_released' }
+          { id: 'detention_released', female: 1, total: 1 }
         ]
       )
     end
@@ -197,8 +211,8 @@ describe ManagedReports::Indicators::DetentionStatus do
 
       expect(violation_tally_data).to match_array(
         [
-          { total: 3, id: 'detention_detained' },
-          { total: 1, id: 'detention_released' }
+          { female: 1, id: 'detention_detained', male: 2, total: 3 },
+          { id: 'detention_released', total: 1, unknown: 1 }
         ]
       )
     end
@@ -208,8 +222,8 @@ describe ManagedReports::Indicators::DetentionStatus do
 
       expect(violation_tally_data).to match_array(
         [
-          { total: 1, id: 'detention_detained' },
-          { total: 1, id: 'detention_released' }
+          { id: 'detention_detained', male: 1, total: 1 },
+          { id: 'detention_released', total: 1, unknown: 1 }
         ]
       )
     end
@@ -219,8 +233,8 @@ describe ManagedReports::Indicators::DetentionStatus do
 
       expect(violation_tally_data).to match_array(
         [
-          { total: 3, id: 'detention_detained' },
-          { total: 2, id: 'detention_released' }
+          { female: 1, id: 'detention_detained', male: 2, total: 3 },
+          { female: 1, id: 'detention_released', total: 2, unknown: 1 }
         ]
       )
     end
@@ -244,9 +258,9 @@ describe ManagedReports::Indicators::DetentionStatus do
 
         expect(data).to match_array(
           [
-            { group_id: 2020, data: [{ id: 'detention_released', total: 1 }] },
-            { group_id: 2021, data: [{ id: 'detention_released', total: 1 }] },
-            { group_id: 2022, data: [{ id: 'detention_detained', total: 3 }] }
+            { group_id: 2020, data: [{ id: 'detention_released', female: 1, total: 1 }] },
+            { group_id: 2021, data: [{ id: 'detention_released', total: 1, unknown: 1 }] },
+            { group_id: 2022, data: [{ id: 'detention_detained', female: 1, male: 2, total: 3 }] }
           ]
         )
       end
@@ -269,7 +283,7 @@ describe ManagedReports::Indicators::DetentionStatus do
 
         expect(data).to match_array(
           [
-            { group_id: '2020-08', data: [{ id: 'detention_released', total: 1 }] },
+            { group_id: '2020-08', data: [{ id: 'detention_released', female: 1, total: 1 }] },
             { group_id: '2020-09', data: [] },
             { group_id: '2020-10', data: [] },
             { group_id: '2020-11', data: [] },
@@ -281,13 +295,13 @@ describe ManagedReports::Indicators::DetentionStatus do
             { group_id: '2021-05', data: [] },
             { group_id: '2021-06', data: [] },
             { group_id: '2021-07', data: [] },
-            { group_id: '2021-08', data: [{ id: 'detention_released', total: 1 }] },
+            { group_id: '2021-08', data: [{ id: 'detention_released', unknown: 1, total: 1 }] },
             { group_id: '2021-09', data: [] },
             { group_id: '2021-10', data: [] },
             { group_id: '2021-11', data: [] },
             { group_id: '2021-12', data: [] },
-            { group_id: '2022-01', data: [{ id: 'detention_detained', total: 1 }] },
-            { group_id: '2022-02', data: [{ id: 'detention_detained', total: 2 }] },
+            { group_id: '2022-01', data: [{ id: 'detention_detained', male: 1, total: 1 }] },
+            { group_id: '2022-02', data: [{ id: 'detention_detained', female: 1, male: 1, total: 2 }] },
             { group_id: '2022-03', data: [] }
           ]
         )
@@ -311,13 +325,13 @@ describe ManagedReports::Indicators::DetentionStatus do
 
         expect(data).to match_array(
           [
-            { group_id: '2020-Q3', data: [{ id: 'detention_released', total: 1 }] },
+            { group_id: '2020-Q3', data: [{ id: 'detention_released', female: 1, total: 1 }] },
             { group_id: '2020-Q4', data: [] },
             { group_id: '2021-Q1', data: [] },
             { group_id: '2021-Q2', data: [] },
-            { group_id: '2021-Q3', data: [{ id: 'detention_released', total: 1 }] },
+            { group_id: '2021-Q3', data: [{ id: 'detention_released', unknown: 1, total: 1 }] },
             { group_id: '2021-Q4', data: [] },
-            { group_id: '2022-Q1', data: [{ id: 'detention_detained', total: 3 }] }
+            { group_id: '2022-Q1', data: [{ id: 'detention_detained', female: 1, male: 2, total: 3 }] }
           ]
         )
       end

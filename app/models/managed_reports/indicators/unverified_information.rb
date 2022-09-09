@@ -10,9 +10,6 @@ class ManagedReports::Indicators::UnverifiedInformation < ManagedReports::SqlRep
     end
 
     # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/CyclomaticComplexity
-    # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
         select key as name, 'total' as key,
@@ -26,15 +23,16 @@ class ManagedReports::Indicators::UnverifiedInformation < ManagedReports::SqlRep
         WHERE violations.data->>'violation_tally' is not null
         #{date_range_query(date_filter_param(params['ghn_date_filter']), 'incidents')&.prepend('and ')}
         and violations.data->>'ctfmr_verified' = 'report_pending_verification'
+        and violations.data ->> 'type' != 'denial_humanitarian_access'
         group by key, violations.data ->> 'type'
-        #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
         order by
         name
       }
     end
     # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/CyclomaticComplexity
-    # rubocop:enable Metrics/PerceivedComplexity
+
+    def date_filter
+      'incident_date'
+    end
   end
 end
