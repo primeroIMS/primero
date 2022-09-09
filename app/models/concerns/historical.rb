@@ -10,7 +10,7 @@ module Historical
 
   included do
     store_accessor :data, :created_organization, :created_agency_office, :created_by, :created_by_full_name,
-                   :created_at, :last_updated_at, :last_updated_by, :last_updated_by_full_name,
+                   :created_by_groups, :created_at, :last_updated_at, :last_updated_by, :last_updated_by_full_name,
                    :last_updated_organization, :posted_at
 
     has_many :record_histories, as: :record
@@ -19,6 +19,7 @@ module Historical
       %i[created_organization created_agency_office created_by last_updated_by last_updated_organization].each do |f|
         string f, as: "#{f}_sci"
       end
+      string(:created_by_groups, multiple: true)
       %i[created_at last_updated_at posted_at].each { |f| time(f) }
     end
 
@@ -52,11 +53,16 @@ module Historical
   end
 
   def creation_fields_for(user)
-    self.last_updated_by = user&.user_name
     self.created_by = user&.user_name
     self.created_by_full_name = user&.full_name
     self.created_organization = user&.organization&.unique_id
     self.created_agency_office = user&.agency_office
+    self.created_by_groups = user&.user_group_unique_ids
+    other_creation_fields_for(user)
+  end
+
+  def other_creation_fields_for(user)
+    self.last_updated_by = user&.user_name
     update_last_updated_at
     self.posted_at = DateTime.now
   end
