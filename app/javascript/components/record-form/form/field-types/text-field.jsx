@@ -41,7 +41,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
 
   useEffect(() => {
     if (recordName && name === "name" && !formik.touched.name) {
-      formik.setFieldValue("name", recordName, true);
+      formik.setFieldValue("name", recordName, false);
     }
   }, [recordName, name, formik.touched.name]);
 
@@ -57,7 +57,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
       const currentYear = new Date().getFullYear();
       const diff = subYears(new Date(currentYear, 0, 1), value);
 
-      form.setFieldValue(dateOfBirthFieldName, toServerDateFormat(diff), true);
+      form.setFieldValue(dateOfBirthFieldName, toServerDateFormat(diff), false);
     }
   };
 
