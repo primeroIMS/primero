@@ -675,6 +675,7 @@ en:
     dash_national_admin_summary: Administrator Summary
     dash_violations_category_verification_status: Total number of Incidents per verification status
     dash_violations_category_region: Total number of verified Incidents per region
+    dash_perpetrator_armed_force_group_party_names: Total number of incidents per perpetrator
     date: Date
     date_of_incident: Date of Incident
     date_of_interview: Date of Interview
@@ -2860,6 +2861,10 @@ en:
             explanation: Shows how many MRM violations have occurred in each region,
               broken down by violation type.
             label: MRM - Number of violations per region
+          dash_perpetrator_armed_force_group_party_names:
+            explanation: Shows how many MRM violations of each type have occurred,
+              broken down by perpetrator.
+            label: MRM - Number of violations per perpetrator
           dash_show_none_values:
             explanation: Adds an additional "No Risk Level" category to all dashboards
               which break down cases by risk level. This is specifically for configurations

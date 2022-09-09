@@ -17,6 +17,14 @@ module Indicators
       scope_to_owned_by_groups: true
     ).freeze
 
+    PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES = FacetedIndicator.new(
+      name: 'perpetrator_armed_force_group_party_names',
+      record_model: ::Incident,
+      facet: 'armed_force_group_party_names',
+      scope: OPEN_ENABLED,
+      scope_to_owned_by_groups: true
+    )
+
     def self.violation_category_region(role)
       admin_level = role&.incident_reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
 

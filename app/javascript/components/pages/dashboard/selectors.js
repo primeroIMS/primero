@@ -80,6 +80,9 @@ export const getViolationsCategoryVerificationStatus = state =>
 export const getViolationsCategoryRegion = state =>
   getDashboardByName(state, DASHBOARD_NAMES.VIOLATIONS_CATEGORY_REGION);
 
+export const getPerpetratorArmedForceGroupPartyNames = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES);
+
 export const getReportingLocation = state => getDashboardByName(state, DASHBOARD_NAMES.REPORTING_LOCATION);
 
 export const getApprovalsAssessmentPending = state =>
