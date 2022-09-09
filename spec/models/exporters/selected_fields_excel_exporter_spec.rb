@@ -25,8 +25,8 @@ describe Exporters::SelectedFieldsExcelExporter do
       order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_subform_2',
       unique_id: 'cases_test_subform_2'
     )
-    subform2.fields << Field.new(name: 'field_3', type: Field::TEXT_FIELD, display_name: 'field_3')
-    subform2.fields << Field.new(name: 'field_4', type: Field::TEXT_FIELD, display_name: 'field_4')
+    subform2.fields << Field.new(name: 'field_3', type: Field::TEXT_FIELD, display_name: 'field_3', order: 0)
+    subform2.fields << Field.new(name: 'field_4', type: Field::TEXT_FIELD, display_name: 'field_4', order: 1)
     subform2.save!
 
     form1 = FormSection.new(
@@ -36,7 +36,7 @@ describe Exporters::SelectedFieldsExcelExporter do
     )
     form1.fields << Field.new(
       name: 'cases_test_subform_2', type: Field::SUBFORM,
-      display_name: 'subform field', subform_section_id: subform2.id
+      display_name: 'subform field', subform_section_id: subform2.id, order: 0
     )
     form1.save!
 
@@ -45,9 +45,9 @@ describe Exporters::SelectedFieldsExcelExporter do
       order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_form_2',
       unique_id: 'cases_test_form_2'
     )
-    form2.fields << Field.new(name: 'relationship', type: Field::TEXT_FIELD, display_name: 'relationship')
+    form2.fields << Field.new(name: 'relationship', type: Field::TEXT_FIELD, display_name: 'relationship', order: 0)
     form2.fields << Field.new(
-      name: 'array_field', type: Field::SELECT_BOX, display_name: 'array_field', multi_select: true,
+      name: 'array_field', type: Field::SELECT_BOX, display_name: 'array_field', multi_select: true, order: 1,
       option_strings_text: [
         { id: 'option1', display_text: 'Option1' }, { id: 'option2', display_text: 'Option2' },
         { id: 'option5', display_text: 'Option5' }, { id: 'option4', display_text: 'Option4' }
@@ -59,8 +59,8 @@ describe Exporters::SelectedFieldsExcelExporter do
       order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_subform_1',
       unique_id: 'cases_test_subform_1'
     )
-    subform.fields << Field.new(name: 'field_1', type: Field::TEXT_FIELD, display_name: 'field_1')
-    subform.fields << Field.new(name: 'field_2', type: Field::TEXT_FIELD, display_name: 'field_2')
+    subform.fields << Field.new(name: 'field_1', type: Field::TEXT_FIELD, display_name: 'field_1', order: 0)
+    subform.fields << Field.new(name: 'field_2', type: Field::TEXT_FIELD, display_name: 'field_2', order: 1)
     subform.save!
 
     subform_different_name = FormSection.new(
@@ -77,7 +77,7 @@ describe Exporters::SelectedFieldsExcelExporter do
       order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_form_gbv',
       unique_id: 'cases_test_form_gbv', primero_modules: [@primero_module_gbv]
     )
-    form_gbv.fields << Field.new(name: 'field_gbv', type: Field::TEXT_FIELD, display_name: 'field_gbv')
+    form_gbv.fields << Field.new(name: 'field_gbv', type: Field::TEXT_FIELD, display_name: 'field_gbv', order: 0)
     form_gbv.save!
 
     form3 = FormSection.new(
@@ -85,23 +85,28 @@ describe Exporters::SelectedFieldsExcelExporter do
       :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_id => 'cases_test_form_1',
       :unique_id => 'cases_test_form_1'
     )
-    form3.fields << Field.new(name: 'name', type: Field::TEXT_FIELD, display_name: 'name')
+    form3.fields << Field.new(name: 'name', type: Field::TEXT_FIELD, display_name: 'name', order: 0)
     form3.fields << Field.new(
       name: 'name_first',
       type: Field::TEXT_FIELD,
       display_name: 'name_first',
-      hide_on_view_page: true
+      hide_on_view_page: true,
+      order: 1
     )
     form3.fields << Field.new(
       name: 'name_last',
       type: Field::TEXT_FIELD,
       display_name: 'name_last',
-      hide_on_view_page: true
+      hide_on_view_page: true,
+      order: 2
     )
-    form3.fields << Field.new(name: 'name_middle', type: Field::TEXT_FIELD, display_name: 'name_middle', visible: false)
+    form3.fields << Field.new(
+      name: 'name_middle', type: Field::TEXT_FIELD, display_name: 'name_middle', visible: false, order: 3
+    )
     form3.fields << Field.new(
       name: 'cases_test_subform_1', type: Field::SUBFORM,
-      display_name: 'subform field', subform_section_id: subform.id
+      display_name: 'subform field', subform_section_id: subform.id,
+      order: 4
     )
     form3.save!
 
@@ -110,7 +115,7 @@ describe Exporters::SelectedFieldsExcelExporter do
       :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_id => 'cases_test_form_4',
       :unique_id => 'cases_test_form_4'
     )
-    form4.fields << Field.new(name: 'name_first', type: Field::TEXT_FIELD, display_name: 'name_first')
+    form4.fields << Field.new(name: 'name_first', type: Field::TEXT_FIELD, display_name: 'name_first', order: 0)
     form4.save!
 
     form5 = FormSection.new(
@@ -120,7 +125,7 @@ describe Exporters::SelectedFieldsExcelExporter do
     )
     form5.fields << Field.new(
       name: 'subform_with_name', type: Field::SUBFORM,
-      display_name: 'subform with a name', subform_section_id: subform_different_name.id
+      display_name: 'subform with a name', subform_section_id: subform_different_name.id, order: 0
     )
     form5.save!
 
@@ -373,7 +378,7 @@ describe Exporters::SelectedFieldsExcelExporter do
     it 'contains a sheet for the selected nested fields' do
       data = Exporters::SelectedFieldsExcelExporter.export(
         @records, @user_subform,
-        field_names: ['name', 'field_3', 'field_4']
+        field_names: %w[name field_3 field_4]
       )
       workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       expect(workbook.sheet(0).row(1)).to eq(%w[ID name field_3 field_4])
@@ -395,9 +400,13 @@ describe Exporters::SelectedFieldsExcelExporter do
 
   context 'when the name is not visible' do
     it 'hide the name field and does not export the hide_on_view_page fields' do
-      data = Exporters::SelectedFieldsExcelExporter.export(@records, @user_en, {
-        form_unique_ids: %w[cases_test_form_1],
-      })
+      data = Exporters::SelectedFieldsExcelExporter.export(
+        @records,
+        @user_en,
+        {
+          form_unique_ids: %w[cases_test_form_1]
+        }
+      )
       workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       expect(workbook.sheet(0).row(1)).to eq(%w[ID name])
       expect(workbook.sheet(0).row(8).slice(1..2)).to eq([RecordDataService::CENSORED_VALUE])

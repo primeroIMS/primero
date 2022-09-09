@@ -35,7 +35,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
   const fieldProps = {
     name,
     value: value === undefined ? null : value,
-    onChange: (e, val) => formik.setFieldValue(name, val, true),
+    onChange: (e, val) => formik.setFieldValue(name, val, false),
     ...omitBy(rest, (val, key) =>
       [
         "InputProps",
