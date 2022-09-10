@@ -3,9 +3,8 @@ import { useForm, useFieldArray, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import PropTypes from "prop-types";
 import CheckIcon from "@material-ui/icons/Check";
-import isNil from "lodash/isNil";
 
-import { whichFormMode, FormSection } from "../../../../../form";
+import { whichFormMode, FormSection, SELECT_FIELD, TICK_FIELD, RADIO_FIELD } from "../../../../../form";
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { reduceMapToObject, useMemoizedSelector } from "../../../../../../libs";
 import { useI18n } from "../../../../../i18n";
@@ -13,7 +12,8 @@ import { getFieldByName, getRecordFields } from "../../../../../record-form/sele
 import { MODULES_FIELD, RECORD_TYPE_FIELD } from "../../constants";
 
 import { conditionsForm, validationSchema } from "./form";
-import { ATTRIBUTE_FIELD, FORM_NAME, NAME } from "./constants";
+import { ATTRIBUTE_FIELD, CONSTRAINT_FIELD, FORM_NAME, NAME, VALUE_FIELD } from "./constants";
+import { registerFields, updateCondition } from "./utils";
 
 function Component({ formMethods, conditionsFieldName = "display_conditions" }) {
   const i18n = useI18n();
@@ -23,6 +23,7 @@ function Component({ formMethods, conditionsFieldName = "display_conditions" }) 
   const dialogFormMethods = useForm({ defaultValues: initialValues, resolver: yupResolver(validationSchema(i18n)) });
   const { handleSubmit } = dialogFormMethods;
   const attribute = useWatch({ control: dialogFormMethods.control, name: ATTRIBUTE_FIELD });
+  const constraint = useWatch({ control: dialogFormMethods.control, name: CONSTRAINT_FIELD });
   const recordType = useWatch({ control: formMethods.control, name: RECORD_TYPE_FIELD });
   const primeroModule = useWatch({ control: formMethods.control, name: MODULES_FIELD });
   const selectedField = useMemoizedSelector(state => getFieldByName(state, attribute));
@@ -35,39 +36,42 @@ function Component({ formMethods, conditionsFieldName = "display_conditions" }) 
     dialogClose();
   }, []);
 
-  const formSections = conditionsForm({ fields, i18n, selectedField });
+  const formSections = conditionsForm({ fields, i18n, selectedField, isNotNullConstraint: constraint === "not_null" });
 
   const onSubmit = data => {
     if (formMode.isNew) {
       append(data);
     } else {
-      formMethods.setValue(`${conditionsFieldName}.${params.get("index")}.constraint`, data.constraint, {
-        shouldTouch: true,
-        shouldDirty: true
+      registerFields({
+        register: formMethods.register,
+        fieldsRef: formMethods.control.fieldsRef.current,
+        index: params.get("index"),
+        conditionsFieldName
       });
-      formMethods.setValue(`${conditionsFieldName}.${params.get("index")}.attribute`, data.attribute, {
-        shouldTouch: true,
-        shouldDirty: true
-      });
-      formMethods.setValue(`${conditionsFieldName}.${params.get("index")}.value`, data.value, {
-        shouldTouch: true,
-        shouldDirty: true
+      updateCondition({
+        setValue: formMethods.setValue,
+        index: params.get("index"),
+        condition: data,
+        conditionsFieldName
       });
     }
     handleClose();
   };
 
   useEffect(() => {
-    dialogFormMethods.reset(initialValues);
-  }, [JSON.stringify(initialValues)]);
+    if (attribute && attribute !== initialValues?.attribute && selectedField) {
+      dialogFormMethods.setValue(CONSTRAINT_FIELD, "");
+      if ([TICK_FIELD, SELECT_FIELD, RADIO_FIELD].includes(selectedField.type)) {
+        dialogFormMethods.setValue(VALUE_FIELD, []);
+      } else {
+        dialogFormMethods.setValue(VALUE_FIELD, "");
+      }
+    }
+  }, [attribute]);
 
   useEffect(() => {
-    if (formMethods.register && !isNil(params.get("index"))) {
-      formMethods.register(`${conditionsFieldName}.${params.get("index")}.constraint`);
-      formMethods.register(`${conditionsFieldName}.${params.get("index")}.attribute`);
-      formMethods.register(`${conditionsFieldName}.${params.get("index")}.value`);
-    }
-  }, [formMethods.register, params.get("index")]);
+    dialogFormMethods.reset(initialValues);
+  }, [JSON.stringify(initialValues)]);
 
   return (
     <ActionDialog
@@ -78,7 +82,7 @@ function Component({ formMethods, conditionsFieldName = "display_conditions" }) 
         form: FORM_NAME,
         type: "submit"
       }}
-      dialogTitle="Add condition"
+      dialogTitle={i18n.t("forms.conditions.add")}
       omitCloseAfterSuccess
       cancelHandler={handleClose}
     >

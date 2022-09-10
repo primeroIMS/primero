@@ -9,13 +9,14 @@ import {
   RADIO_FIELD,
   DATE_FIELD,
   NUMERIC_FIELD,
-  OPTION_TYPES
+  OPTION_TYPES,
+  TEXT_AREA
 } from "../../../form";
 import { CONSTRAINTS, DATE_CONSTRAINTS } from "../../constants";
 
 import { ATTRIBUTE, CONSTRAINT, VALUE } from "./constants";
 
-const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
+export const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
   const commonProps = {
     type: TEXT_FIELD,
     inputClassname: isConstraintNotNull ? css.hideValue : ""
@@ -83,7 +84,7 @@ const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
   }
 };
 
-const constraintInputType = (currentField, i18n) => {
+export const constraintInputType = (currentField, constraints, i18n, textFieldOnlyNotBlank = false) => {
   const allowedTickboxConstraint = [SELECT_FIELD, RADIO_FIELD];
 
   if (allowedTickboxConstraint.includes(currentField?.type)) {
@@ -97,17 +98,30 @@ const constraintInputType = (currentField, i18n) => {
     return { visible: false };
   }
 
+  if (textFieldOnlyNotBlank && [TEXT_FIELD, TEXT_AREA].includes(currentField?.type)) {
+    return {
+      display_name: i18n.t("report.constraint"),
+      type: SELECT_FIELD,
+      option_strings_text: [
+        {
+          id: "not_null",
+          display_text: i18n.t(constraints.default.not_null)
+        }
+      ]
+    };
+  }
+
   return {
     display_name: i18n.t("report.constraint"),
     type: SELECT_FIELD,
-    option_strings_text: Object.entries(CONSTRAINTS).map(value => {
+    option_strings_text: Object.entries(constraints.default).map(value => {
       // eslint-disable-next-line camelcase
       const [id, translationKey] = value;
 
       return {
         id,
         display_text: i18n.t(
-          currentField?.type === DATE_FIELD && ["<", ">"].includes(id) ? DATE_CONSTRAINTS[id] : translationKey
+          currentField?.type === DATE_FIELD && ["<", ">"].includes(id) ? constraints.date[id] : translationKey
         )
       };
     })
@@ -128,7 +142,7 @@ export default (i18n, fields, currentField, isConstraintNotNull, css) => {
         }),
         FieldRecord({
           name: CONSTRAINT,
-          ...constraintInputType(currentField, i18n)
+          ...constraintInputType(currentField, { default: CONSTRAINTS, date: DATE_CONSTRAINTS }, i18n)
         }),
         FieldRecord({
           display_name: i18n.t("report.value"),

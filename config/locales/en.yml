@@ -1341,9 +1341,6 @@ en:
     skip_logic_title: This form should be visible if
     conditions:
       add: Add Condition
-      value: Value
-      attribute: Attribute
-      constraint: Constraint
   home:
     ar: العربية
     ar-IQ: العربية (العراقية)

@@ -250,6 +250,17 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
   const handleAutocompleteOnChange = fieldOnChange => (_, data, reason) => fieldOnChange(handleChange(data, reason));
   const handleGroupBy = option => option[groupBy];
   const handleGetOptionDisabled = option => getOptionDisabled(option);
+  const handleMultiSelectValue = fieldValue => {
+    if (multiSelect) {
+      if (Array.isArray(fieldValue)) {
+        return fieldValue;
+      }
+
+      return [fieldValue];
+    }
+
+    return fieldValue;
+  };
 
   return (
     <Controller
@@ -280,7 +291,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
           {...loadingProps}
           renderInput={renderInput(fieldValue)}
           renderTags={handleRenderTags}
-          value={fieldValue}
+          value={handleMultiSelectValue(fieldValue)}
         />
       )}
     />
