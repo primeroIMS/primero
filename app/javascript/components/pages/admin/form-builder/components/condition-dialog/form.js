@@ -43,7 +43,7 @@ export const validationSchema = i18n =>
     })
   });
 
-export const conditionsForm = ({ fields, i18n, selectedField, isNotNullConstraint }) => {
+export const conditionsForm = ({ fields, i18n, selectedField, isNotNullConstraint, mode }) => {
   return [
     FormSectionRecord({
       unique_id: "conditions_form",
@@ -52,6 +52,7 @@ export const conditionsForm = ({ fields, i18n, selectedField, isNotNullConstrain
           display_name: i18n.t("report.attribute"),
           name: ATTRIBUTE_FIELD,
           type: SELECT_FIELD,
+          disabled: mode.isEdit,
           option_strings_text: fields.map(field => ({
             id: field.name,
             display_text: displayNameHelper(field.display_name, i18n.locale)

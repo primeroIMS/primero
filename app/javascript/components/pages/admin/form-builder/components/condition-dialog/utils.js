@@ -1,3 +1,5 @@
+import { NOT_NULL } from "../../../../../reports-form/constants";
+
 export const registerFields = ({ register, fieldsRef, index, conditionsFieldName }) => {
   if (!fieldsRef[`${conditionsFieldName}.${index}.constraint`]) {
     register(`${conditionsFieldName}.${index}.constraint`);
@@ -20,3 +22,6 @@ export const updateCondition = ({ setValue, conditionsFieldName, index, conditio
     shouldDirty: true
   });
 };
+
+export const isNotNullConstraint = constraint =>
+  constraint === NOT_NULL || constraint === "true" || constraint === true;

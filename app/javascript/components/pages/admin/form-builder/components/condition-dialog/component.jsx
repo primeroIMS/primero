@@ -13,7 +13,7 @@ import { MODULES_FIELD, RECORD_TYPE_FIELD } from "../../constants";
 
 import { conditionsForm, validationSchema } from "./form";
 import { ATTRIBUTE_FIELD, CONSTRAINT_FIELD, FORM_NAME, NAME, VALUE_FIELD } from "./constants";
-import { registerFields, updateCondition } from "./utils";
+import { isNotNullConstraint, registerFields, updateCondition } from "./utils";
 
 function Component({ formMethods, conditionsFieldName = "display_conditions" }) {
   const i18n = useI18n();
@@ -36,7 +36,13 @@ function Component({ formMethods, conditionsFieldName = "display_conditions" }) 
     dialogClose();
   }, []);
 
-  const formSections = conditionsForm({ fields, i18n, selectedField, isNotNullConstraint: constraint === "not_null" });
+  const formSections = conditionsForm({
+    fields,
+    i18n,
+    selectedField,
+    isNotNullConstraint: isNotNullConstraint(constraint),
+    mode: formMode
+  });
 
   const onSubmit = data => {
     if (formMode.isNew) {
