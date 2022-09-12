@@ -1,5 +1,4 @@
 export { default as ConditionDialog } from "./condition-dialog";
-export { default as ConditionItem } from "./condition-item";
 export { default as ConditionList } from "./condition-list";
 export { default as FormBuilderActionButtons } from "./action-buttons";
 export { default as TabPanel } from "./tab-panel";

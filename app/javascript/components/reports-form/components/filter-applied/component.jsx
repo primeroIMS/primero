@@ -5,9 +5,9 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 
 import { useI18n } from "../../../i18n";
-import { getOptions } from "../../../record-form/selectors";
+import { getFieldByName, getOptions } from "../../../record-form/selectors";
 import { OPTION_TYPES } from "../../../form/constants";
-import { dataToJS, useMemoizedSelector, useThemeHelper } from "../../../../libs";
+import { dataToJS, displayNameHelper, useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import useOptions from "../../../form/use-options";
 import { formatValue } from "../filters/utils";
 
@@ -15,22 +15,31 @@ import { NAME } from "./constants";
 import { getConstraintLabel } from "./utils";
 import css from "./styles.css";
 
-const Component = ({ filter, field, handleClickOpen, handleClickEdit, optionSources }) => {
+const Component = ({ filter, handleClickOpen, handleClickEdit }) => {
   const i18n = useI18n();
   const { isRTL } = useThemeHelper();
-
   const [index, { data }] = filter;
-  const { value } = data;
+  const { attribute, value } = data;
+  const field = useMemoizedSelector(state => getFieldByName(state, attribute));
 
   const allLookups = useMemoizedSelector(state => getOptions(state));
-  const location = useOptions({ source: OPTION_TYPES.LOCATION, run: optionSources[OPTION_TYPES.LOCATION] });
+  const location = useOptions({
+    source: OPTION_TYPES.LOCATION,
+    run: field?.option_strings_source === OPTION_TYPES.LOCATION
+  });
   const agencies = useOptions({
     source: OPTION_TYPES.AGENCY,
-    run: optionSources[OPTION_TYPES.AGENCY],
+    run: field?.option_strings_source === OPTION_TYPES.AGENCY,
     useUniqueId: true
   });
-  const modules = useOptions({ source: OPTION_TYPES.MODULE, run: optionSources[OPTION_TYPES.MODULE] });
-  const formGroups = useOptions({ source: OPTION_TYPES.FORM_GROUP, run: optionSources[OPTION_TYPES.FORM_GROUP] });
+  const modules = useOptions({
+    source: OPTION_TYPES.MODULE,
+    run: field?.option_strings_source === OPTION_TYPES.MODULE
+  });
+  const formGroups = useOptions({
+    source: OPTION_TYPES.FORM_GROUP,
+    run: field?.option_strings_source === OPTION_TYPES.FORM_GROUP
+  });
 
   const lookups = [
     ...dataToJS(allLookups),
@@ -44,7 +53,7 @@ const Component = ({ filter, field, handleClickOpen, handleClickEdit, optionSour
 
   const formattedReportFilterName = [
     // eslint-disable-next-line camelcase
-    field?.display_text || "",
+    displayNameHelper(field?.display_name, i18n.locale),
     i18n.t("report.filters.is"),
     constraintLabel,
     formatValue(value, i18n, { field, lookups })
@@ -56,10 +65,10 @@ const Component = ({ filter, field, handleClickOpen, handleClickEdit, optionSour
     <div key={index} className={css.filterContainer}>
       <div className={css.filterName}>{formattedReportFilterName}</div>
       <div className={css.filterActions}>
-        <IconButton onClick={handleClickOpen(index)}>
+        <IconButton onClick={handleClickOpen(index, filter)}>
           <DeleteIcon />
         </IconButton>
-        <IconButton onClick={handleClickEdit(index)}>{renderIcon}</IconButton>
+        <IconButton onClick={handleClickEdit(index, filter)}>{renderIcon}</IconButton>
       </div>
     </div>
   );
@@ -68,11 +77,9 @@ const Component = ({ filter, field, handleClickOpen, handleClickEdit, optionSour
 Component.displayName = NAME;
 
 Component.propTypes = {
-  field: PropTypes.object,
   filter: PropTypes.object,
   handleClickEdit: PropTypes.func,
-  handleClickOpen: PropTypes.func,
-  optionSources: PropTypes.object
+  handleClickOpen: PropTypes.func
 };
 
 export default Component;
