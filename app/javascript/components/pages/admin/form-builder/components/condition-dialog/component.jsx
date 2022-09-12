@@ -28,7 +28,13 @@ function Component({ formMethods, conditionsFieldName = "display_conditions" }) 
   const primeroModule = useWatch({ control: formMethods.control, name: MODULES_FIELD });
   const selectedField = useMemoizedSelector(state => getFieldByName(state, attribute));
   const fields = useMemoizedSelector(state =>
-    getRecordFields(state, { recordType, primeroModule, includeNested: false, includeSeparators: false })
+    getRecordFields(state, {
+      recordType,
+      primeroModule,
+      includeNested: false,
+      includeSeparators: false,
+      omitDuplicates: true
+    })
   );
   const formMode = whichFormMode(params.get("mode"));
 

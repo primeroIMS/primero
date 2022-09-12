@@ -415,10 +415,17 @@ export const getRecordFields = createCachedSelector(
   getRecordForms,
   (_state, query) => query,
   (formSections, query) => {
-    const recordFields = formSections.flatMap(formSection => formSection.fields);
+    let recordFields = formSections.flatMap(formSection => formSection.fields);
 
     if (query.includeSeparators === false) {
-      return recordFields.filter(field => field.type !== SEPARATOR);
+      recordFields = recordFields.filter(field => field.type !== SEPARATOR);
+    }
+
+    if (query.omitDuplicates === true) {
+      recordFields = recordFields
+        .groupBy(field => field.name)
+        .valueSeq()
+        .map(fields => fields.first());
     }
 
     return recordFields;
