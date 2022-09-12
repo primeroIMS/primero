@@ -97,9 +97,10 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
   };
 
   const optionLabel = option => {
-    if (typeof option === "string" && option === "") {
+    if ((typeof option === "string" && option === "") || isNil(option)) {
       return "";
     }
+
     const {
       display_name: displayName,
       display_text: displayText,
