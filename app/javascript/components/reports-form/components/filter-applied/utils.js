@@ -9,7 +9,8 @@ export const getConstraintLabel = (data, field, i18n) => {
   if (
     (typeof constraint === "boolean" && constraint) ||
     (Array.isArray(value) && value.includes(NOT_NULL)) ||
-    constraint === NOT_NULL
+    constraint === NOT_NULL ||
+    constraint === "true"
   ) {
     return i18n.t(CONSTRAINTS.not_null);
   }
