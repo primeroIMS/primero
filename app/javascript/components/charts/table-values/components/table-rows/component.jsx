@@ -13,7 +13,7 @@ const Component = ({ values, subColumnItemsSize }) => {
     const classes = clsx({ [css.tableRow]: colspan !== 0, [css.tableRowValues]: true });
 
     return (
-      <TableRow className={classes} key={`${generateKey("data")}`}>
+      <TableRow className={classes} key={generateKey(JSON.stringify(value.row))}>
         {row.map((rowData, index) => {
           const cellClass =
             subColumnItemsSize &&
@@ -23,7 +23,7 @@ const Component = ({ values, subColumnItemsSize }) => {
             });
 
           return (
-            <TableCell colSpan={colspan} key={generateKey(value)} className={cellClass}>
+            <TableCell colSpan={index === 0 ? colspan : 1} key={generateKey(rowData)} className={cellClass}>
               <span>{rowData}</span>
             </TableCell>
           );
