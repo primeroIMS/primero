@@ -6,7 +6,6 @@ describe("pages/admin/<FormBuilder>/components - index", () => {
   it("should have known properties", () => {
     [
       "ConditionDialog",
-      "ConditionItem",
       "ConditionList",
       "CustomFieldDialog",
       "FieldDialog",

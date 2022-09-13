@@ -38,5 +38,11 @@ export default conditions => {
   const [constraint, condition] = first(Object.entries(conditions));
   const [attribute, value] = first(Object.entries(condition));
 
+  if (isNotNullCondition(conditions)) {
+    const [key] = first(Object.entries(value));
+
+    return { constraint: NOT_NULL, attribute: key };
+  }
+
   return [{ constraint, attribute, value }];
 };

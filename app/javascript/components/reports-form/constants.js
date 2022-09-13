@@ -1,4 +1,4 @@
-import { DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD, TICK_FIELD } from "../form";
+import { DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD, TICK_FIELD } from "../form/constants";
 
 export const FORM_ID = "reports-form";
 export const NAME = "ReportsForm";
@@ -39,7 +39,7 @@ export const DATE_CONSTRAINTS = Object.freeze({
   ">": "report.filters.after"
 });
 
-export const ALLOWED_FIELD_TYPES = [DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD, TICK_FIELD];
+export const ALLOWED_FIELD_TYPES = Object.freeze([DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD, TICK_FIELD]);
 
 export const REPORT_FIELD_TYPES = Object.freeze({
   horizontal: "horizontal",

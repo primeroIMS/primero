@@ -9,11 +9,11 @@ const getConstraint = condition => {
     return { not: { eq: { [attribute]: "" } } };
   }
 
-  if (Array.isArray(value) && value.length > 1) {
+  if (Array.isArray(value)) {
     return COMPARISON_OPERATORS.IN;
   }
 
-  return COMPARISON_OPERATORS.EQ;
+  return isOperator(constraint) ? constraint : COMPARISON_OPERATORS.EQ;
 };
 
 export default conditionArray =>
