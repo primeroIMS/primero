@@ -1,6 +1,6 @@
 export const NAME = "InsightsSubReport";
 export const COMBINED_INDICATORS = {
-  incidents: ["total", "gbv_sexual_violence", "gbv_previous_incidents"]
+  incidents: ["total", "gbv_previous_incidents"]
 };
 export const GROUPED_BY_FILTER = "grouped_by";
 export const GHN_VIOLATIONS_INDICATORS_IDS = [

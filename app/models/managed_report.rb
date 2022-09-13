@@ -13,7 +13,7 @@ class ManagedReport < ValueObject
         id: 'gbv_statistics',
         name: 'managed_reports.gbv_statistics.name',
         description: 'managed_reports.gbv_statistics.description',
-        subreports: %w[incidents perpetrators survivors referrals],
+        subreports: %w[incidents],
         permitted_filters: [:grouped_by, date_of_first_report: {}, incident_date: {}],
         module_id: PrimeroModule::GBV
       ),

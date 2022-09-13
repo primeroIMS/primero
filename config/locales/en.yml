@@ -2042,35 +2042,35 @@ en:
         date_of_first_report: Date of Interview
         incident_date: Date of Incident
       reports:
-        incidents: Incidents
+        incidents: GBV Statistics
         perpetrators: Perpetrators
         survivors: Survivors
         referrals: Referrals
       sub_reports:
-        combined: Incidents
-        total: Number of GBV Incidents Reported
-        gbv_sexual_violence: Number of Incidents of Sexual Violence Reported
-        gbv_previous_incidents: Number of Incidents Reported by Survivors with Prior GBV Incidents
-        gbv_sexual_violence_type: Incident Type
-        incident_timeofday: Incident Time of Day
-        elapsed_reporting_time: Time Between Incident and Report Date
-        elapsed_reporting_time_rape: Incidents of Rape, Time Elapsed between Incident and Report Date
-        elapsed_reporting_time_rape_health_referral: Incidents of Rape, Time Elapsed between Incident and Report Date (Health Service or Referral)
-        incident_location_type: Incident Location
-        number_of_perpetrators: Number of Perpetrators
-        perpetrator_relationship: Alleged Primary Perpetrator's Relationship to Survivor
-        perpetrator_age_group: Alleged Primary Perpetrators Age Group
-        perpetrator_occupation: Alleged Primary Perpetrator Occupation
-        age: Number of Survivors by Age
-        sex: Number of Survivors by Sex
-        marital_status: Marital Status of Survivors
-        displacement_status: Displacement Status of Survivors
-        displacement_incident: Stage of Displacement at time of Incident
-        gbv_case_context: Case Context
-        incidents_first_point_of_contact: Number of Incidents where your organization is the first point of contact
-        incidents_from_other_service_provider: Incidents Referred from Other Service Providers
-        number_of_services_provided: Number of Services Provided for Incidents
-        number_of_services_provided_other: New Incident Referrals to Other Service Providers
+        combined: General Statistics
+        total: 1. New GBV Incidents Reported this Month
+        gbv_sexual_violence: Survivor Statistics - 9. Number of Incidents of Sexual Violence Reported
+        gbv_previous_incidents: 2. New Incidents of Sexual Violence Reported this Month
+        gbv_sexual_violence_type: Incident Statistics - 10. Type of GBV
+        incident_timeofday: Incident Statistics - 11. Incident Time of Day
+        elapsed_reporting_time: Incident Statistics - 13. Time Between Incident and Report Date
+        elapsed_reporting_time_rape: Incident Statistics - 14. Incidents of Rape, Time Elapsed between Incident and Report Date
+        elapsed_reporting_time_rape_health_referral: Incident Statistics - 15. Incidents of Rape, Time Elapsed (Health Service or Referral)
+        incident_location_type: Incident Statistics - 16. Incident Location
+        number_of_perpetrators: Perpetrator Statistics - 17. Number of Primary Perpetrators
+        perpetrator_relationship: Perpetrator Statistics - 18. Alleged Perpetrator - Survivor Relationship
+        perpetrator_age_group: Perpetrator Statistics - 19. Alleged Primary Perpetrators Age Group
+        perpetrator_occupation: Perpetrator Statistics - 20. Alleged Primary Perpetrator Occupation
+        age: Survivor Statistics - 4. Age of survivors
+        sex: Survivor Statistics - 3. Sex of survivors
+        marital_status: Survivor Statistics - 5. Marital Status of Survivors
+        displacement_status: Survivor Statistics - 6. Displacement Status at Time of Report
+        displacement_incident: Survivor Statistics - 7. Stage of Displacement at Time of Incident
+        gbv_case_context: Incident Statistics - 12. Case Context
+        incidents_first_point_of_contact: Referral Statistics - 21. Number of incidents for which your organisation is the first point of contact
+        incidents_from_other_service_provider: Referral Statistics - 22. Incidents Referred From Other Service Providers
+        number_of_services_provided: Referral Statistics - 23. Number of Services Provided for Incidents
+        number_of_services_provided_other: Referral Statistics - 24. New Incident Referrals to Other Service Providers
         service_safehouse_referral: Safe House/Safe Shelter Referral
         service_medical_referral: Health/Medical Referral
         service_psycho_referral: Psychosocial/Counseling Services
@@ -2078,7 +2078,7 @@ en:
         service_police_referral: Police or Other Type of Security Services
         service_livelihoods_referral: Livelihoods Services
         service_protection_referral: Child Protection Services
-        vulnerable_populations: Vulnerable Populations
+        vulnerable_populations: Survivor Statistics - 8. Vulnerable Populations
         survivors_disability_type: With Disabilities
     success_message: Successfully generated the export file
   messages:
