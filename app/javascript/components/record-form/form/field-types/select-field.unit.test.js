@@ -121,8 +121,8 @@ describe("<SelectField />", () => {
         }
       );
       const expected = [
-        { id: "MCMP1MD1", admin_level: 2, disabled: undefined, display_text: "MyCountry:MyProvince1:MyDistrict1" },
-        { id: "MCMP2MD2", admin_level: 2, disabled: undefined, display_text: "MyCountry:MyProvince2:MyDistrict2" }
+        { id: "MCMP1MD1", admin_level: 2, disabled: false, display_text: "MyCountry:MyProvince1:MyDistrict1" },
+        { id: "MCMP2MD2", admin_level: 2, disabled: false, display_text: "MyCountry:MyProvince2:MyDistrict2" }
       ];
       const selectField = componentSelectField.find(SelectField);
       const searchableSelect = selectField.find(SearchableSelect);

@@ -189,6 +189,7 @@ const locationsParser = (data, { includeAdminLevel, locale, adminLevel, usePlace
       {
         id: current.get("code"),
         display_text: getLocationName(current, { adminLevel, locale, usePlacename }),
+        disabled: current.get("disabled"),
         ...(includeAdminLevel && { admin_level: current.get("admin_level") })
       }
     ],
