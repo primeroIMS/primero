@@ -1,9 +1,9 @@
 /* eslint-disable camelcase, import/prefer-default-export */
 
-import { CONSTRAINTS, DATE_CONSTRAINTS, NOT_NULL } from "../../constants";
+import { NOT_NULL } from "../../constants";
 import { DATE_FIELD } from "../../../form";
 
-export const getConstraintLabel = (data, field, i18n) => {
+export const getConstraintLabel = (data, field, constraints, i18n) => {
   const { constraint, value } = data;
 
   if (
@@ -12,12 +12,12 @@ export const getConstraintLabel = (data, field, i18n) => {
     constraint === NOT_NULL ||
     constraint === "true"
   ) {
-    return i18n.t(CONSTRAINTS.not_null);
+    return i18n.t(constraints.default.not_null);
   }
 
-  if (field?.type === DATE_FIELD && ["<", ">"].includes(constraint)) {
-    return i18n.t(DATE_CONSTRAINTS[constraint]);
+  if (field?.type === DATE_FIELD && Object.keys(constraints.date).includes(constraint)) {
+    return i18n.t(constraints.date[constraint]);
   }
 
-  return Array.isArray(value) ? "" : i18n.t(CONSTRAINTS[constraint]);
+  return Array.isArray(value) ? "" : i18n.t(constraints.default[constraint]);
 };

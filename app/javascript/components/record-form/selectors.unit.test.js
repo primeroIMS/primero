@@ -1119,4 +1119,66 @@ describe("<RecordForm /> - Selectors", () => {
       expect(selectors.getDuplicatedFields(state, "cases", "form1")).to.deep.equals(fromJS([field]));
     });
   });
+
+  describe("getRecordFields", () => {
+    it("returns the record fields and omits duplicates", () => {
+      const formsWithDuplicates = {
+        10: {
+          id: 10,
+          unique_id: "form_1",
+          name: { en: "Form 1" },
+          visible: true,
+          parent_form: "case",
+          module_ids: ["primeromodule-cp"],
+          form_group_id: "identification_registration",
+          form_group_name: { en: "Identification / Registration" },
+          fields: [1],
+          is_nested: null
+        },
+        20: {
+          id: 10,
+          unique_id: "form_2",
+          name: { en: "Form 2" },
+          visible: true,
+          parent_form: "case",
+          module_ids: ["primeromodule-cp"],
+          form_group_id: "identification_registration",
+          form_group_name: { en: "Identification / Registration" },
+          fields: [1],
+          is_nested: null
+        }
+      };
+      const duplicatedFields = {
+        1: {
+          name: "name_first",
+          type: "text_field",
+          editable: true,
+          disabled: null,
+          visible: true,
+          display_name: { en: "First Name" },
+          required: true,
+          date_validation: "default_date_validation"
+        }
+      };
+
+      const stateWithDuplicateFields = fromJS({
+        forms: {
+          formSections: mapEntriesToRecord(formsWithDuplicates, R.FormSectionRecord),
+          fields: mapEntriesToRecord(duplicatedFields, R.FieldRecord)
+        }
+      });
+
+      expect(
+        selectors
+          .getRecordFields(stateWithDuplicateFields, {
+            recordType: "case",
+            primeroModule: "primeromodule-cp",
+            includeNested: false,
+            includeSeparators: false,
+            omitDuplicates: true
+          })
+          .map(field => field.name)
+      ).to.deep.equals(fromJS(["name_first"]));
+    });
+  });
 });

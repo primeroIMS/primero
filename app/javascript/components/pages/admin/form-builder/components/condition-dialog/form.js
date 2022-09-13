@@ -6,7 +6,7 @@ import { FieldRecord, FormSectionRecord, SELECT_FIELD } from "../../../../../for
 import { constraintInputType, valueFieldType } from "../../../../../reports-form/components/filters-dialog/form";
 import css from "../../../../../reports-form/components/filters-dialog/styles.css";
 
-import { ATTRIBUTE_FIELD, CONSTRAINTS, CONSTRAINT_FIELD, DATE_CONSTRAINTS, VALUE_FIELD } from "./constants";
+import { ATTRIBUTE_FIELD, CONSTRAINTS, CONSTRAINT_FIELD, VALUE_FIELD } from "./constants";
 
 export const validationSchema = i18n =>
   object().shape({
@@ -60,7 +60,7 @@ export const conditionsForm = ({ fields, i18n, selectedField, isNotNullConstrain
         }),
         FieldRecord({
           name: CONSTRAINT_FIELD,
-          ...constraintInputType(selectedField, { default: CONSTRAINTS, date: DATE_CONSTRAINTS }, i18n, true)
+          ...constraintInputType(selectedField, CONSTRAINTS, i18n, true)
         }),
         FieldRecord({
           display_name: i18n.t("report.value"),

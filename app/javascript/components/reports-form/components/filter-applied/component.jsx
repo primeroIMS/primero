@@ -10,12 +10,13 @@ import { OPTION_TYPES } from "../../../form/constants";
 import { dataToJS, displayNameHelper, useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import useOptions from "../../../form/use-options";
 import { formatValue } from "../filters/utils";
+import { CONSTRAINTS } from "../../constants";
 
 import { NAME } from "./constants";
 import { getConstraintLabel } from "./utils";
 import css from "./styles.css";
 
-const Component = ({ filter, handleClickOpen, handleClickEdit }) => {
+const Component = ({ filter, handleClickOpen, handleClickEdit, constraints = CONSTRAINTS }) => {
   const i18n = useI18n();
   const { isRTL } = useThemeHelper();
   const [index, { data }] = filter;
@@ -49,7 +50,7 @@ const Component = ({ filter, handleClickOpen, handleClickEdit }) => {
     ...[{ unique_id: OPTION_TYPES.FORM_GROUP, values: dataToJS(formGroups) }]
   ];
 
-  const constraintLabel = getConstraintLabel(data, field, i18n);
+  const constraintLabel = getConstraintLabel(data, field, constraints, i18n);
 
   const formattedReportFilterName = [
     // eslint-disable-next-line camelcase
@@ -77,6 +78,7 @@ const Component = ({ filter, handleClickOpen, handleClickEdit }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  constraints: PropTypes.object,
   filter: PropTypes.object,
   handleClickEdit: PropTypes.func,
   handleClickOpen: PropTypes.func

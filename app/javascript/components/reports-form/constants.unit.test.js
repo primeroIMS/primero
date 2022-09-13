@@ -11,6 +11,7 @@ describe("<ReportsForm /> - Constants", () => {
       "CONSTRAINTS",
       "DATE",
       "DATE_CONSTRAINTS",
+      "DEFAULT_CONSTRAINTS",
       "DEFAULT_FILTERS",
       "DESCRIPTION_FIELD",
       "DISABLED_FIELD",

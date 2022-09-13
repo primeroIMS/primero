@@ -4,7 +4,7 @@ import { useFieldArray, useWatch } from "react-hook-form";
 import { useDialog } from "../../../../../action-dialog";
 import { FORM_MODE_EDIT } from "../../../../../form";
 import FiltersList from "../../../../../reports-form/components/filters-list";
-import { NAME as CONDITIONS_DIALOG } from "../condition-dialog/constants";
+import { CONSTRAINTS, NAME as CONDITIONS_DIALOG } from "../condition-dialog/constants";
 
 function Component({ formMethods, conditionsFieldName = "display_conditions" }) {
   const { setDialog } = useDialog(CONDITIONS_DIALOG);
@@ -25,6 +25,7 @@ function Component({ formMethods, conditionsFieldName = "display_conditions" }) 
 
   return (
     <FiltersList
+      constraints={CONSTRAINTS}
       handleOpenModal={handleDelete}
       handleEdit={handleEdit}
       indexes={displayConditions.map((condition, index) => ({ index, data: condition }))}

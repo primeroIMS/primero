@@ -7,7 +7,7 @@ import FilterApplied from "../filter-applied";
 
 import { NAME } from "./constants";
 
-const Component = ({ handleOpenModal, handleEdit, indexes }) => {
+const Component = ({ constraints, handleOpenModal, handleEdit, indexes }) => {
   const i18n = useI18n();
 
   const handleClickOpen = useCallback((index, filter) => () => handleOpenModal(index, filter), []);
@@ -19,6 +19,7 @@ const Component = ({ handleOpenModal, handleEdit, indexes }) => {
 
   return Object.entries(indexes).map(filter => (
     <FilterApplied
+      constraints={constraints}
       key={filter.index}
       filter={filter}
       handleClickOpen={handleClickOpen}
@@ -30,6 +31,7 @@ const Component = ({ handleOpenModal, handleEdit, indexes }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  constraints: PropTypes.object,
   handleEdit: PropTypes.func,
   handleOpenModal: PropTypes.func,
   indexes: PropTypes.array

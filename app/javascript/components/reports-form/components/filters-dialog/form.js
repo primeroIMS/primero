@@ -12,7 +12,7 @@ import {
   OPTION_TYPES,
   TEXT_AREA
 } from "../../../form";
-import { CONSTRAINTS, DATE_CONSTRAINTS } from "../../constants";
+import { CONSTRAINTS } from "../../constants";
 
 import { ATTRIBUTE, CONSTRAINT, VALUE } from "./constants";
 
@@ -121,7 +121,9 @@ export const constraintInputType = (currentField, constraints, i18n, textFieldOn
       return {
         id,
         display_text: i18n.t(
-          currentField?.type === DATE_FIELD && ["<", ">"].includes(id) ? constraints.date[id] : translationKey
+          currentField?.type === DATE_FIELD && Object.keys(constraints.date).includes(id)
+            ? constraints.date[id]
+            : translationKey
         )
       };
     })
@@ -142,7 +144,7 @@ export default (i18n, fields, currentField, isConstraintNotNull, css) => {
         }),
         FieldRecord({
           name: CONSTRAINT,
-          ...constraintInputType(currentField, { default: CONSTRAINTS, date: DATE_CONSTRAINTS }, i18n)
+          ...constraintInputType(currentField, CONSTRAINTS, i18n)
         }),
         FieldRecord({
           display_name: i18n.t("report.value"),

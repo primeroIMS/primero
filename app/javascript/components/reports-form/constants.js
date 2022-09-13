@@ -27,7 +27,7 @@ export const REPORTABLE_TYPES = Object.freeze({
   reportable_follow_up: "followup"
 });
 
-export const CONSTRAINTS = Object.freeze({
+export const DEFAULT_CONSTRAINTS = Object.freeze({
   "<": "report.filters.less_than",
   ">": "report.filters.greater_than",
   "=": "report.filters.equal_to",
@@ -37,6 +37,11 @@ export const CONSTRAINTS = Object.freeze({
 export const DATE_CONSTRAINTS = Object.freeze({
   "<": "report.filters.before",
   ">": "report.filters.after"
+});
+
+export const CONSTRAINTS = Object.freeze({
+  default: DEFAULT_CONSTRAINTS,
+  date: DATE_CONSTRAINTS
 });
 
 export const ALLOWED_FIELD_TYPES = Object.freeze([DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD, TICK_FIELD]);
