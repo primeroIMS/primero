@@ -5,6 +5,11 @@ all:
       ansible_user: 'ubuntu'
       primero_host: 'primero.example.com'
       primero_tag: 'latest'
+      # As of Primero v2.5, the default Docker deployed PostgreSQL is 10.22.
+      # If you want to run Primero with a different version of PostgreSQL,
+      # set primero_postgres_version to either '11' or '14'.
+      # NOTE: YOU NEED TO PERFORM A DATA MIGRATION BEFORE CHANGING POSTGRES VERSIONS!!!!!!
+      # primero_postgres_version: '14'
       locale_all: 'en,fr,ar'
       always_pull: true,
       # These 3 variables are used to drive the build task.

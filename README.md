@@ -3,6 +3,8 @@ Primero
 [![Build Status](https://api.travis-ci.org/primeroIMS/primero.svg?branch=master)](https://travis-ci.org/primeroIMS/primero/branches)
 
 
+> :warning **Primero v2.5 adds support for PostgreSQL 14!** Support for PostgreSQL 10 is retained and remains the default when running using Ansible/Docker Compose. Please use this opportunity to upgrade! PostgreSQL 14 will be the default starting with Primero v2.6, and support for PostgreSQL 10 will be eventually dropped. See [here](doc/postgres_upgrade.md) for a recomended upgrade process.
+
 ## Development
 
 To develop the application locally, we recommend that you install [Docker](https://docs.docker.com/install/)
@@ -34,7 +36,7 @@ you will need to run the build and the compose scripts as `sudo`.
     $
     $ #For macs with m1 chips do the following
     $ brew install libffi
-    $ export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig" 
+    $ export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig"
     $ LDFLAGS="-L/opt/homebrew/opt/libffi/lib" CPPFLAGS="-I/opt/homebrew/opt/libffi/include" rvm install `cat .ruby-version`
     $
     $ #Install Ruby
