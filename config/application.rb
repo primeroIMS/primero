@@ -58,6 +58,7 @@ class Primero::Application < Rails::Application
     password encrypted_password data location phone
     email code full_name reporting_location_code
     agency_office reset_password_token record_changes
+    notes message
   ]
 
   ENV['RAILS_LOG_PATH'].present? &&
