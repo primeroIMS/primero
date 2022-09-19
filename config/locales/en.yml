@@ -2048,9 +2048,9 @@ en:
         referrals: Referrals
       sub_reports:
         combined: General Statistics
-        total: 1. New GBV Incidents Reported this Month
+        total: 1. New GBV Incidents Reported
         gbv_sexual_violence: Survivor Statistics - 9. Number of Incidents of Sexual Violence Reported
-        gbv_previous_incidents: 2. New Incidents of Sexual Violence Reported this Month
+        gbv_previous_incidents: 2. New Incidents of Sexual Violence Reported
         gbv_sexual_violence_type: Incident Statistics - 10. Type of GBV
         incident_timeofday: Incident Statistics - 11. Incident Time of Day
         elapsed_reporting_time: Incident Statistics - 13. Time Between Incident and Report Date

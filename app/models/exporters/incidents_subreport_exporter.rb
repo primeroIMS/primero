@@ -2,7 +2,7 @@
 
 # Class to export the Incidents Subreport
 class Exporters::IncidentsSubreportExporter < Exporters::SubreportExporter
-  COMBINED_INDICATORS = %w[total gbv_sexual_violence gbv_previous_incidents].freeze
+  COMBINED_INDICATORS = %w[total gbv_previous_incidents].freeze
 
   def write_export
     write_header
