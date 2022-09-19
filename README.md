@@ -24,41 +24,61 @@ All command below assume that you are starting in the Primero root directory.
 Note that on Linux, where Docker runs as root by default,
 you will need to run the build and the compose scripts as `sudo`.
 
-### Install RVM and Ruby
+### Install rbenv and Ruby
 
-    $ #Install RVM
-    $ gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-    $ \curl -sSL https://get.rvm.io | bash
-    $ echo "source ~/.rvm/scripts/rvm" >> ~/.bashrc
-    $ source  ~/.rvm/scripts/rvm
-    $
-    $ #For macs with m1 chips do the following
-    $ brew install libffi
-    $ export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig" 
-    $ LDFLAGS="-L/opt/homebrew/opt/libffi/lib" CPPFLAGS="-I/opt/homebrew/opt/libffi/include" rvm install `cat .ruby-version`
-    $
-    $ #Install Ruby
-    $ rvm install `cat .ruby-version`
+1. Install rbenv
 
-### Install Node and NPM
+    MacOS via Homebrew
 
-On MacOS, with [Homebrew](https://brew.sh):
+        $ brew install rbenv ruby-build
 
-    $ #Install Node
-    $ brew install node
+    Debian, Ubuntu, etc
 
-On Ubuntu:
+        $ sudo apt install rbenv
 
-    $ #Install Node 12.x
-    $ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-    $ sudo apt-get install -y nodejs
+2. Setup rbenv in your shell
 
-On Fedora:
+        $ rbenv init
 
-    $ #Install Node 12.x
-    $ sudo dnf install -y gcc-c++ make
-    $ curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash -
-    $ sudo dnf install nodejs
+3. Close your terminal and reopen
+
+4.  Verify rbenv
+
+        $ curl -fsSL https://github.com/rbenv/rbenv-installer/raw/main/bin/rbenv-doctor | bash
+
+    ```
+    Checking for `rbenv' in PATH: /usr/local/bin/rbenv
+    Checking for rbenv shims in PATH: OK
+    Checking `rbenv install' support: /usr/local/bin/rbenv-install (ruby-build 20170523)
+    Counting installed Ruby versions: none
+    There aren't any Ruby versions installed under `~/.rbenv/versions'.
+    You can install Ruby versions like so: rbenv install 2.2.4
+    Checking RubyGems settings: OK
+    Auditing installed plugins: OK
+    ```
+
+5. Install ruby version
+
+        $ rbenv install 2.7.4
+
+### Install Node and NPM via NVM
+
+Install NVM
+
+    $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+
+The script below should add the following to either `~/.bash_profile`, `~/.zshrc`, `~/.profile`, or `~/.bashrc`
+
+
+    $ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+Install the version of node needed.
+
+    $ nvm install 13.14.0
+
+Set the node version by running
+
+    $ nvm use v13.14.0
 
 ### Install binary dependencies
 
