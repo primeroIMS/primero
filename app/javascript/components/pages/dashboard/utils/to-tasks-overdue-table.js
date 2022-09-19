@@ -6,18 +6,18 @@ export default (overdueTasksDashboards, i18n) => {
     .map(dashboard => dashboard.get("indicators").valueSeq().first());
 
   const hashedData = indicatorsResults.reduce(
-    (acc, indicatorResult) => {
+    (acc, indicatorResult, index) => {
       indicatorResult.forEach((value, key) => {
         if (acc.values[key]) {
           acc.values[key].push(value.get("count"));
         } else {
-          acc.values[key] = [key, value.get("count")];
+          acc.values[key] = [key, ...Array(index).fill(0), value.get("count")];
         }
 
         if (acc.queries[key]) {
           acc.queries[key].push(value.get("query").toJS());
         } else {
-          acc.queries[key] = [[], value.get("query").toJS()];
+          acc.queries[key] = [[], ...Array(index).fill([]), value.get("query").toJS()];
         }
       });
 
