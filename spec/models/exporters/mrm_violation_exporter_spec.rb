@@ -22,13 +22,17 @@ module Exporters
       ]
     end
 
-    def generate_field(unique_id)
-      Field.new(
-        type: Field::TEXT_FIELD,
-        name: "#{unique_id}_field_1",
-        display_name: "#{unique_id.capitalize} - Field 1",
-        order: 0
-      )
+    def generate_fields(unique_id)
+      [
+        Field.new(
+          type: Field::TEXT_FIELD, name: "#{unique_id}_field_1", display_name: "#{unique_id.capitalize} - Field 1",
+          order: 0
+        ),
+        Field.new(
+          type: Field::SELECT_BOX, name: "#{unique_id}_field_2", multi_select: true,
+          display_name: "#{unique_id.capitalize} - Field 2", order: 1
+        )
+      ]
     end
 
     def violation?(unique_id)
@@ -38,11 +42,11 @@ module Exporters
     def generate_subforms(form_unique_ids)
       form_unique_ids.each_with_object({}) do |unique_id, memo|
         name = violation?(unique_id) ? unique_id : "#{unique_id}_subform_section"
-        field = generate_field(unique_id)
+        fields = generate_fields(unique_id)
 
         memo[unique_id] = FormSection.create!(
           name: name, unique_id: name, visible: true, order_form_group: 0, order: 0, order_subform: 0, is_nested: true,
-          fields: violation?(unique_id) ? [field, violation_tally_field] + verification_fields : [field]
+          fields: violation?(unique_id) ? [fields.first, violation_tally_field] + verification_fields : fields
         )
       end
     end
@@ -169,7 +173,13 @@ module Exporters
               violation_tally: { tally1: 1, tally2: 2, tally3: 1, total: 4 }
             },
             individual_victims: [
-              IndividualVictim.new(data: { individual_victims_field_1: 'Incident 3 IV Value 1' })
+              IndividualVictim.new(
+                data:
+                  {
+                    individual_victims_field_1: 'Incident 3 IV Value 1',
+                    individual_victims_field_2: ['Value 1', 'Value 2']
+                  }
+              )
             ],
             source: Source.new(data: { sources_field_1: 'Incident 3 Source Value 1' })
           ),
@@ -232,26 +242,41 @@ module Exporters
 
       it 'prints the headers for each association' do
         expect(workbook.sheet(1).row(2)).to eq(
-          ['Incident', 'Violation', 'Violation Type', 'Summary', 'Sources - Field 1']
+          [
+            'Incident', 'Violation', 'Violation Type', 'Summary', 'Incident Code', 'Source ID',
+            'Sources - Field 1', 'Sources - Field 2' 
+          ]
         )
         expect(workbook.sheet(2).row(2)).to eq(
-          ['Incident', 'Violation', 'Violation Type', 'Summary', 'Perpetrators - Field 1']
+          [
+            'Incident', 'Violation', 'Violation Type', 'Summary', 'Incident Code', 'Perpetrator ID',
+            'Perpetrators - Field 1', 'Perpetrators - Field 2'
+          ]
         )
         expect(workbook.sheet(3).row(2)).to eq(
-          ['Incident', 'Violation', 'Violation Type', 'Summary', 'Individual_victims - Field 1']
+          [
+            'Incident', 'Violation', 'Violation Type', 'Summary', 'Incident Code', 'Individual Victim ID',
+            'Individual_victims - Field 1', 'Individual_victims - Field 2'
+          ]
         )
         expect(workbook.sheet(4).row(2)).to eq(
-          ['Incident', 'Violation', 'Violation Type', 'Summary', 'Group_victims - Field 1']
+          [
+            'Incident', 'Violation', 'Violation Type', 'Summary', 'Incident Code', 'Group Victim ID',
+            'Group_victims - Field 1', 'Group_victims - Field 2'
+          ]
         )
         expect(workbook.sheet(5).row(2)).to eq(
-          ['Incident', 'Violation', 'Violation Type', 'Summary', 'Responses - Field 1']
+          [
+            'Incident', 'Violation', 'Violation Type', 'Summary', 'Incident Code', 'Response ID',
+            'Responses - Field 1', 'Responses - Field 2'
+          ]
         )
       end
 
       it 'prints the violation data' do
         expect(workbook.sheet(0).row(4)).to eq(
           [
-            @incident1.id,@incident1.violations[0].id, 'Killing of Children',
+            @incident1.id, @incident1.violations[0].id, 'Killing of Children',
             "Killing of Children - Killing Value 1 - #{@incident1.violations[0].id[0..4]}",
             'Incident 1 - Value 1', nil,
             nil, nil,
@@ -306,55 +331,50 @@ module Exporters
         expect(workbook.sheet(1).row(3)).to eq(
           [
             @incident3.id, @incident3.violations.first.id, 'Attacks on hospital(s)',
-            "Attacks on hospital(s) - #{@incident3.violations[0].id[0..4]}", 'Incident 3 Source Value 1'
+            "Attacks on hospital(s) - #{@incident3.violations[0].id[0..4]}", @incident3.incident_code,
+            @incident3.violations[0].source.id, 'Incident 3 Source Value 1', nil
           ]
         )
         expect(workbook.sheet(2).row(3)).to eq(
           [
             @incident2.id, @incident2.violations[1].id, 'Abduction',
-            "Abduction - #{@incident2.violations[1].id[0..4]}", 'Incident 2 Perpetrator Value 1'
+            "Abduction - #{@incident2.violations[1].id[0..4]}", @incident2.incident_code,
+            @incident2.violations[1].perpetrators.first.id, 'Incident 2 Perpetrator Value 1', nil
           ]
         )
         expect(workbook.sheet(3).row(3)).to eq(
           [
-            @incident1.id,@incident1.violations[0].id, 'Killing of Children',
-            "Killing of Children - Killing Value 1 - #{@incident1.violations[0].id[0..4]}",
-            'Incident 1 IV Value 1'
+            @incident1.id, @incident1.violations[0].id, 'Killing of Children',
+            "Killing of Children - Killing Value 1 - #{@incident1.violations[0].id[0..4]}", @incident1.incident_code,
+            @incident1.violations[0].individual_victims.first.id, 'Incident 1 IV Value 1', nil
           ]
         )
         expect(workbook.sheet(3).row(4)).to eq(
           [
             @incident2.id, @incident2.violations[0].id, 'Maiming of Children',
-            "Maiming of Children - #{@incident2.violations[0].id[0..4]}",
-            'Incident 2 IV Value 1'
+            "Maiming of Children - #{@incident2.violations[0].id[0..4]}", @incident2.incident_code,
+            @incident2.violations[0].individual_victims.first.id, 'Incident 2 IV Value 1', nil
           ]
         )
         expect(workbook.sheet(3).row(5)).to eq(
           [
             @incident3.id, @incident3.violations[0].id, 'Attacks on hospital(s)',
-            "Attacks on hospital(s) - #{@incident3.violations[0].id[0..4]}",
-            'Incident 3 IV Value 1'
-          ]
-        )
-        expect(workbook.sheet(3).row(5)).to eq(
-          [
-            @incident3.id, @incident3.violations[0].id, 'Attacks on hospital(s)',
-            "Attacks on hospital(s) - #{@incident3.violations[0].id[0..4]}",
-            'Incident 3 IV Value 1'
+            "Attacks on hospital(s) - #{@incident3.violations[0].id[0..4]}", @incident3.incident_code,
+            @incident3.violations[0].individual_victims.first.id, 'Incident 3 IV Value 1', 'Value 1 ||| Value 2'
           ]
         )
         expect(workbook.sheet(4).row(3)).to eq(
           [
-            @incident1.id,@incident1.violations[0].id, 'Killing of Children',
-            "Killing of Children - Killing Value 1 - #{@incident1.violations[0].id[0..4]}",
-            'Incident 1 GV Value 1'
+            @incident1.id, @incident1.violations[0].id, 'Killing of Children',
+            "Killing of Children - Killing Value 1 - #{@incident1.violations[0].id[0..4]}", @incident1.incident_code,
+            @incident1.violations[0].group_victims.first.id, 'Incident 1 GV Value 1', nil
           ]
         )
         expect(workbook.sheet(5).row(3)).to eq(
           [
             @incident3.id, @incident3.violations[1].id, 'Military use of school(s) and/or hospital(s)',
             "Military use of school(s) and/or hospital(s) - Military Value 1 - #{@incident3.violations[1].id[0..4]}",
-            'Incident 3 Response Value 1'
+            @incident3.incident_code, @incident3.violations[1].responses.first.id, 'Incident 3 Response Value 1', nil
           ]
         )
       end
