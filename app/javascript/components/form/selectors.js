@@ -222,7 +222,11 @@ const reportingLocations = memoize(([state, options]) => {
     : getReportingLocationConfig(state);
 
   return locationsParser(
-    data.filter(location => location.get("admin_level") >= reportingLocationData.get("admin_level")),
+    data.filter(location =>
+      options.includeChildren === true
+        ? location.get("admin_level") >= reportingLocationData.get("admin_level")
+        : location.get("admin_level") === reportingLocationData.get("admin_level")
+    ),
     {
       ...options,
       includeAdminLevel: true,
