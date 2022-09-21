@@ -23,7 +23,7 @@ describe ManagedReport do
 
     it 'should return subreports of gbv_statistics' do
       expect(managed_reports[Permission::GBV_STATISTICS_REPORT].subreports).to match_array(
-        %w[incidents perpetrators survivors referrals]
+        %w[incidents]
       )
     end
 

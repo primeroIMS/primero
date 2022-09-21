@@ -105,32 +105,32 @@ describe ManagedReports::Indicators::IncidentsFirstPointOfContact do
   it 'returns the total number of incidents where the organization is the first point of contact' do
     total = ManagedReports::Indicators::IncidentsFirstPointOfContact.build.data
 
-    expect(total).to eq([{ 'id' => 'incidents_first_point_of_contact', 'total' => 3 }])
+    expect(total).to eq([{ 'id' => 'incidents', 'total' => 3 }])
   end
 
   describe 'records in scope' do
     it 'returns owned records for a self scope' do
       total = ManagedReports::Indicators::IncidentsFirstPointOfContact.build(@self_user).data
 
-      expect(total).to eq([{ 'id' => 'incidents_first_point_of_contact', 'total' => 1 }])
+      expect(total).to eq([{ 'id' => 'incidents', 'total' => 1 }])
     end
 
     it 'returns group records for a group scope' do
       total = ManagedReports::Indicators::IncidentsFirstPointOfContact.build(@group_user).data
 
-      expect(total).to eq([{ 'id' => 'incidents_first_point_of_contact', 'total' => 2 }])
+      expect(total).to eq([{ 'id' => 'incidents', 'total' => 2 }])
     end
 
     it 'returns agency records for an agency scope' do
       total = ManagedReports::Indicators::IncidentsFirstPointOfContact.build(@agency_user).data
 
-      expect(total).to eq([{ 'id' => 'incidents_first_point_of_contact', 'total' => 2 }])
+      expect(total).to eq([{ 'id' => 'incidents', 'total' => 2 }])
     end
 
     it 'returns all records for an all scope' do
       total = ManagedReports::Indicators::IncidentsFirstPointOfContact.build(@all_user).data
 
-      expect(total).to eq([{ 'id' => 'incidents_first_point_of_contact', 'total' => 3 }])
+      expect(total).to eq([{ 'id' => 'incidents', 'total' => 3 }])
     end
   end
 
@@ -151,8 +151,8 @@ describe ManagedReports::Indicators::IncidentsFirstPointOfContact do
 
         expect(data).to match_array(
           [
-            { group_id: 2020, data: [{ 'id' => 'incidents_first_point_of_contact', 'total' => 1 }] },
-            { group_id: 2021, data: [{ 'id' => 'incidents_first_point_of_contact', 'total' => 2 }] }
+            { group_id: 2020, data: [{ 'id' => 'incidents', 'total' => 1 }] },
+            { group_id: 2021, data: [{ 'id' => 'incidents', 'total' => 2 }] }
           ]
         )
       end
@@ -175,14 +175,14 @@ describe ManagedReports::Indicators::IncidentsFirstPointOfContact do
         expect(data).to match_array(
           [
             { group_id: '2020-09', data: [] },
-            { group_id: '2020-10', data: [{ 'id' => 'incidents_first_point_of_contact', 'total' => 1 }] },
+            { group_id: '2020-10', data: [{ 'id' => 'incidents', 'total' => 1 }] },
             { group_id: '2020-11', data: [] }, { group_id: '2020-12', data: [] },
             { group_id: '2021-01', data: [] }, { group_id: '2021-02', data: [] },
             { group_id: '2021-03', data: [] }, { group_id: '2021-04', data: [] },
             { group_id: '2021-05', data: [] }, { group_id: '2021-06', data: [] },
             { group_id: '2021-07', data: [] },
-            { group_id: '2021-08', data: [{ 'id' => 'incidents_first_point_of_contact', 'total' => 1 }] },
-            { group_id: '2021-09', data: [{ 'id' => 'incidents_first_point_of_contact', 'total' => 1 }] },
+            { group_id: '2021-08', data: [{ 'id' => 'incidents', 'total' => 1 }] },
+            { group_id: '2021-09', data: [{ 'id' => 'incidents', 'total' => 1 }] },
             { group_id: '2021-10', data: [] }
           ]
         )
@@ -206,9 +206,9 @@ describe ManagedReports::Indicators::IncidentsFirstPointOfContact do
         expect(data).to match_array(
           [
             { group_id: '2020-Q3', data: [] },
-            { group_id: '2020-Q4', data: [{ 'id' => 'incidents_first_point_of_contact', 'total' => 1 }] },
+            { group_id: '2020-Q4', data: [{ 'id' => 'incidents', 'total' => 1 }] },
             { group_id: '2021-Q1', data: [] }, { group_id: '2021-Q2', data: [] },
-            { group_id: '2021-Q3', data: [{ 'id' => 'incidents_first_point_of_contact', 'total' => 2 }] },
+            { group_id: '2021-Q3', data: [{ 'id' => 'incidents', 'total' => 2 }] },
             { group_id: '2021-Q4', data: [] }
           ]
         )

@@ -11,7 +11,7 @@ class ManagedReports::Indicators::IncidentsFromOtherServiceProvider < ManagedRep
       date_param = filter_date(params)
       %{
         select
-        'incidents_from_other_service_provider' as id,
+        'incidents' as id,
          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
           count(*) as total
         from incidents

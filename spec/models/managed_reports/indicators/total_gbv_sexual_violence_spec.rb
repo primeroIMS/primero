@@ -109,32 +109,32 @@ describe ManagedReports::Indicators::TotalGBVSexualViolence do
   it 'returns the total number of incidents with a gbv_sexual_violence_type' do
     total_incidents = ManagedReports::Indicators::TotalGBVSexualViolence.build.data
 
-    expect(total_incidents).to eq([{ 'id' => 'gbv_sexual_violence_type', 'total' => 3 }])
+    expect(total_incidents).to eq([{ 'id' => 'incidents', 'total' => 3 }])
   end
 
   describe 'records in scope' do
     it 'returns owned records for a self scope' do
       total_incidents = ManagedReports::Indicators::TotalGBVSexualViolence.build(@self_user).data
 
-      expect(total_incidents).to eq([{ 'id' => 'gbv_sexual_violence_type', 'total' => 1 }])
+      expect(total_incidents).to eq([{ 'id' => 'incidents', 'total' => 1 }])
     end
 
     it 'returns group records for a group scope' do
       total_incidents = ManagedReports::Indicators::TotalGBVSexualViolence.build(@group_user).data
 
-      expect(total_incidents).to eq([{ 'id' => 'gbv_sexual_violence_type', 'total' => 2 }])
+      expect(total_incidents).to eq([{ 'id' => 'incidents', 'total' => 2 }])
     end
 
     it 'returns agency records for an agency scope' do
       total_incidents = ManagedReports::Indicators::TotalGBVSexualViolence.build(@agency_user).data
 
-      expect(total_incidents).to eq([{ 'id' => 'gbv_sexual_violence_type', 'total' => 2 }])
+      expect(total_incidents).to eq([{ 'id' => 'incidents', 'total' => 2 }])
     end
 
     it 'returns all records for an all scope' do
       total_incidents = ManagedReports::Indicators::TotalGBVSexualViolence.build(@all_user).data
 
-      expect(total_incidents).to eq([{ 'id' => 'gbv_sexual_violence_type', 'total' => 3 }])
+      expect(total_incidents).to eq([{ 'id' => 'incidents', 'total' => 3 }])
     end
   end
 
@@ -155,8 +155,8 @@ describe ManagedReports::Indicators::TotalGBVSexualViolence do
 
         expect(data).to match_array(
           [
-            { group_id: 2020, data: [{ 'id' => 'gbv_sexual_violence_type', 'total' => 1 }] },
-            { group_id: 2021, data: [{ 'id' => 'gbv_sexual_violence_type', 'total' => 2 }] }
+            { group_id: 2020, data: [{ 'id' => 'incidents', 'total' => 1 }] },
+            { group_id: 2021, data: [{ 'id' => 'incidents', 'total' => 2 }] }
           ]
         )
       end
@@ -179,14 +179,14 @@ describe ManagedReports::Indicators::TotalGBVSexualViolence do
         expect(data).to match_array(
           [
             { group_id: '2020-09', data: [] },
-            { group_id: '2020-10', data: [{ 'id' => 'gbv_sexual_violence_type', 'total' => 1 }] },
+            { group_id: '2020-10', data: [{ 'id' => 'incidents', 'total' => 1 }] },
             { group_id: '2020-11', data: [] }, { group_id: '2020-12', data: [] },
             { group_id: '2021-01', data: [] }, { group_id: '2021-02', data: [] },
             { group_id: '2021-03', data: [] }, { group_id: '2021-04', data: [] },
             { group_id: '2021-05', data: [] }, { group_id: '2021-06', data: [] },
             { group_id: '2021-07', data: [] },
-            { group_id: '2021-08', data: [{ 'id' => 'gbv_sexual_violence_type', 'total' => 1 }] },
-            { group_id: '2021-09', data: [{ 'id' => 'gbv_sexual_violence_type', 'total' => 1 }] }
+            { group_id: '2021-08', data: [{ 'id' => 'incidents', 'total' => 1 }] },
+            { group_id: '2021-09', data: [{ 'id' => 'incidents', 'total' => 1 }] }
           ]
         )
       end
@@ -209,9 +209,9 @@ describe ManagedReports::Indicators::TotalGBVSexualViolence do
         expect(data).to match_array(
           [
             { group_id: '2020-Q3', data: [] },
-            { group_id: '2020-Q4', data: [{ 'id' => 'gbv_sexual_violence_type', 'total' => 1 }] },
+            { group_id: '2020-Q4', data: [{ 'id' => 'incidents', 'total' => 1 }] },
             { group_id: '2021-Q1', data: [] }, { group_id: '2021-Q2', data: [] },
-            { group_id: '2021-Q3', data: [{ 'id' => 'gbv_sexual_violence_type', 'total' => 2 }] }
+            { group_id: '2021-Q3', data: [{ 'id' => 'incidents', 'total' => 2 }] }
           ]
         )
       end

@@ -11,7 +11,7 @@ class ManagedReports::Indicators::TotalGBVSexualViolence < ManagedReports::SqlRe
       date_param = filter_date(params)
       %{
         select
-         'gbv_sexual_violence_type' as id,
+         'incidents' as id,
           #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
           count(*) as total
         from  incidents

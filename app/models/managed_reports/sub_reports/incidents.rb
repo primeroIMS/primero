@@ -50,11 +50,10 @@ class ManagedReports::SubReports::Incidents < ManagedReports::SubReport
       ManagedReports::Indicators::SurvivorsDisplacementStatus.id => 'lookup-displacement-status',
       ManagedReports::Indicators::SurvivorsDisplacementIncident.id => 'lookup-displacement-incident',
       ManagedReports::Indicators::SurvivorsVulnerablePopulations.id => 'lookup-unaccompanied-separated-status',
-      ManagedReports::Indicators::SurvivorsSex.id => 'lookup-gender',
-      ManagedReports::Indicators::SurvivorsMaritalStatus.id => 'lookup-marital-status',
-      ManagedReports::Indicators::SurvivorsDisplacementStatus.id => 'lookup-displacement-status',
-      ManagedReports::Indicators::SurvivorsDisplacementIncident.id => 'lookup-displacement-incident',
-      ManagedReports::Indicators::SurvivorsVulnerablePopulations.id => 'lookup-unaccompanied-separated-status'
+      ManagedReports::Indicators::NumberOfPerpetrators.id => 'lookup-number-of-perpetrators',
+      ManagedReports::Indicators::PerpetratorRelationship.id => 'lookup-perpetrator-relationship',
+      ManagedReports::Indicators::PerpetratorAgeGroup.id => 'lookup-perpetrator-age-group',
+      ManagedReports::Indicators::PerpetratorOccupation.id => 'lookup-perpetrator-occupation'
     }.freeze
   end
   # rubocop:enable Metrics/MethodLength

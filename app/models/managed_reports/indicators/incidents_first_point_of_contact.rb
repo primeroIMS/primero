@@ -11,7 +11,7 @@ class ManagedReports::Indicators::IncidentsFirstPointOfContact < ManagedReports:
       date_param = filter_date(params)
       %{
         select
-        'incidents_first_point_of_contact' as id,
+        'incidents' as id,
          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
           count(*) as total
         from incidents
