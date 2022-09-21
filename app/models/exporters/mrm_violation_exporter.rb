@@ -39,6 +39,8 @@ module Exporters
       'perpetrators' => 'Perpetrator',
       'responses' => 'Response'
     }.freeze
+    ID_CELL_LENGTH = 300
+    INCIDENT_CODE_CELL_LENGTH = 85
 
     attr_accessor :workbook, :worksheets, :constrained_subforms
 
@@ -176,6 +178,8 @@ module Exporters
     end
 
     def write_association_header(worksheet, id)
+      worksheet.set_column_pixels(4, 4, INCIDENT_CODE_CELL_LENGTH)
+      worksheet.set_column_pixels(5, 5, ID_CELL_LENGTH)
       worksheet.write(@header_row, 4, I18n.t('incident.code'))
       worksheet.write(@header_row, 5, "#{ASSOCIATION_ID_NAME[id]} ID")
     end
@@ -190,6 +194,7 @@ module Exporters
     end
 
     def write_violation_id_headers(worksheet)
+      worksheet.set_column_pixels(0, 3, ID_CELL_LENGTH)
       worksheet.merge_range(@header_row - 1, 0, @header_row - 1, 1, I18n.t('incidents.id'), @formats[:centered_black])
       worksheet.write(@header_row, 0, I18n.t('forms.record_types.incident'))
       worksheet.write(@header_row, 1, I18n.t('forms.record_types.violation'))
