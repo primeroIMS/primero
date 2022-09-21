@@ -59,4 +59,21 @@ describe("toFacetedTable - pages/dashboard/utils/", () => {
       ]
     });
   });
+
+  it("returns an empty table if there is no data for the indicator", () => {
+    const data = fromJS({
+      indicators: { facetedIndicator: null }
+    });
+
+    const lookup = [
+      { id: "value2", display_text: "Value 2" },
+      { id: "value1", display_text: "Value 1" }
+    ];
+
+    expect(toFacetedTable(data, "Total", lookup, "facetedIndicator")).to.deep.equals({
+      columns: [],
+      data: [],
+      query: []
+    });
+  });
 });

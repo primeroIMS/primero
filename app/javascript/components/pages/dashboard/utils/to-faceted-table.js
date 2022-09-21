@@ -17,6 +17,10 @@ export default (data, totalLabel = "Total", lookup = [], indicator) => {
   const result = reduceMapToObject(data);
   const indicatorData = result.indicators[indicator];
 
+  if (!indicatorData) {
+    return { columns: [], data: [], query: [] };
+  }
+
   const sortedKeys = sortWithSortedArray(
     Object.keys(indicatorData),
     lookup.map(value => value.id)
