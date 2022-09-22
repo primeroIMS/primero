@@ -52,7 +52,8 @@ const Component = ({
   const lookups = useOptions({
     source: optionStringsSource,
     optionStringsSourceIdKey,
-    filterOptions: sourceOptions => sourceOptions.filter(option => !option.disabled)
+    filterOptions: sourceOptions => sourceOptions.filter(option => !option.disabled),
+    includeChildren: true
   });
 
   const filterOptions = whichOptions({
