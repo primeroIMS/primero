@@ -3,7 +3,7 @@ Primero
 [![Build Status](https://api.travis-ci.org/primeroIMS/primero.svg?branch=master)](https://travis-ci.org/primeroIMS/primero/branches)
 
 
-> :warning **Primero v2.5 adds support for PostgreSQL 14!** Support for PostgreSQL 10 is retained and remains the default when running using Ansible/Docker Compose. Please use this opportunity to upgrade! PostgreSQL 14 will be the default starting with Primero v2.6, and support for PostgreSQL 10 will be eventually dropped. See [here](doc/postgres_upgrade.md) for a recomended upgrade process.
+> :warning: **Primero v2.5 adds support for PostgreSQL 14!** Support for PostgreSQL 10 is retained and remains the default when running using Ansible/Docker Compose. Please use this opportunity to upgrade! PostgreSQL 14 will be the default starting with Primero v2.6, and support for PostgreSQL 10 will be eventually dropped. See [here](doc/postgres_upgrade.md) for a recomended upgrade process.
 
 ## Development
 
