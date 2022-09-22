@@ -15,6 +15,10 @@ describe("toTasksOverdueTable - pages/dashboard/utils/", () => {
             primero: {
               count: 0,
               query: ["record_state=true"]
+            },
+            primero_mgr_cp: {
+              count: 3,
+              query: ["record_state=true"]
             }
           }
         }
@@ -40,7 +44,6 @@ describe("toTasksOverdueTable - pages/dashboard/utils/", () => {
               count: 2,
               query: ["record_state=true"]
             },
-
             primero_cp: {
               count: 1,
               query: ["record_state=true"]
@@ -59,6 +62,7 @@ describe("toTasksOverdueTable - pages/dashboard/utils/", () => {
       ],
       data: [
         ["primero", 0, 0, 2],
+        ["primero_mgr_cp", 3, 0, 0],
         ["primero_cp", 0, 0, 1]
       ],
       query: [
@@ -67,6 +71,12 @@ describe("toTasksOverdueTable - pages/dashboard/utils/", () => {
           case_plan: ["record_state=true"],
           followups: ["record_state=true"],
           assessment: ["record_state=true"]
+        },
+        {
+          assessment: [],
+          case_plan: [],
+          case_worker: [],
+          followups: ["record_state=true"]
         },
         {
           case_worker: [],

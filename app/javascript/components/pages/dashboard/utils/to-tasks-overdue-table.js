@@ -5,19 +5,23 @@ export default (overdueTasksDashboards, i18n) => {
     .filter(dashboard => dashboard.size)
     .map(dashboard => dashboard.get("indicators").valueSeq().first());
 
+  const indicatorsKeys = [...new Set(indicatorsResults.map(aa => [...aa.keys()]).flat())];
+
   const hashedData = indicatorsResults.reduce(
-    (acc, indicatorResult, index) => {
-      indicatorResult.forEach((value, key) => {
+    (acc, indicatorResult) => {
+      indicatorsKeys.forEach(key => {
+        const value = indicatorResult.get(key);
+
         if (acc.values[key]) {
-          acc.values[key].push(value.get("count"));
+          acc.values[key].push(value?.get("count") || 0);
         } else {
-          acc.values[key] = [key, ...Array(index).fill(0), value.get("count")];
+          acc.values[key] = [key, value?.get("count") || 0];
         }
 
         if (acc.queries[key]) {
-          acc.queries[key].push(value.get("query").toJS());
+          acc.queries[key].push(value?.get("query")?.toJS() || []);
         } else {
-          acc.queries[key] = [[], ...Array(index).fill([]), value.get("query").toJS()];
+          acc.queries[key] = [[], value?.get("query")?.toJS() || []];
         }
       });
 
