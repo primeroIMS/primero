@@ -1214,6 +1214,7 @@ en:
     show: Show?
     show_on: Show on
     show_on_minify_form: Short form
+    skip_logic: Skip Logic
     subform: Subform
     subform_group_by: Group by
     subform_remove_message: Are you sure you want to remove this subform?
