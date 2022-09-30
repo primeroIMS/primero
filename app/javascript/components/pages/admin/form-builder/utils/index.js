@@ -1,8 +1,10 @@
 export { default as affectedOrderRange } from "./affected-order-range";
 export { default as buildFormGroupUniqueId } from "./build-form-group-unique-id";
 export { default as buildOrderUpdater } from "./build-order-updater";
+export { default as conditionsToFieldArray } from "./conditions-to-field-array";
 export { default as convertToFieldsArray } from "./convert-to-fields-array";
 export { default as convertToFieldsObject } from "./convert-to-fields-object";
+export { default as fieldArrayToConditions } from "./field-array-to-conditions";
 export { default as getFieldsTranslations } from "./get-fields-translations";
 export { default as getFormGroupsOptions } from "./get-form-groups-options";
 export { default as getFormRequestPath } from "./get-form-request-path";

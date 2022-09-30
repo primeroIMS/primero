@@ -24,7 +24,7 @@ class FormSection < ApplicationRecord
     'initial_subforms' => { 'type' => 'integer' }, 'form_group_id' => { 'type' => 'string' },
     'shared_subform' => { 'type' => 'string' }, 'shared_subform_group' => { 'type' => 'string' },
     'collapsed_field_names' => { 'type' => 'array' }, 'fields' => { 'type' => 'array' },
-    'module_ids' => { 'type' => 'array' }
+    'module_ids' => { 'type' => 'array' }, 'display_conditions' => { 'type' => 'object' }
   }.freeze
 
   localize_properties :name, :help_text, :description
@@ -72,7 +72,8 @@ class FormSection < ApplicationRecord
         'visible', 'order', 'order_form_group', 'order_subform', 'form_group_keyed', 'form_group_id', 'is_nested',
         'is_first_tab', 'initial_subforms', 'subform_prevent_item_removal', 'subform_append_only',
         'subform_header_links', 'display_help_text_view', 'shared_subform', 'shared_subform_group',
-        'is_summary_section', 'hide_subform_placeholder', 'mobile_form', { 'collapsed_field_names' => [] }
+        'is_summary_section', 'hide_subform_placeholder', 'mobile_form', { 'collapsed_field_names' => [] },
+        { 'display_conditions' => {} }
       ]
     end
 

@@ -1,5 +1,5 @@
 import { DATE_FIELD } from "../../../form";
-import { NOT_NULL } from "../../constants";
+import { CONSTRAINTS, NOT_NULL } from "../../constants";
 
 import * as utils from "./utils";
 
@@ -10,7 +10,7 @@ describe("ReportFiltersList - utils", () => {
     it("should return not_blank when constraint is a boolean and it's true", () => {
       const data = { value: ["true"], constraint: true };
 
-      expect(utils.getConstraintLabel(data, {}, i18n)).to.be.equals("report.filters.not_blank");
+      expect(utils.getConstraintLabel(data, {}, CONSTRAINTS, i18n)).to.be.equals("report.filters.not_blank");
     });
 
     it("should return not_blank when value is an array an contains not_null value", () => {
@@ -20,7 +20,7 @@ describe("ReportFiltersList - utils", () => {
         attribute: "test"
       };
 
-      expect(utils.getConstraintLabel(data, {}, i18n)).to.be.equals("report.filters.not_blank");
+      expect(utils.getConstraintLabel(data, {}, CONSTRAINTS, i18n)).to.be.equals("report.filters.not_blank");
     });
 
     it("should return a valid constraint if value is not an array", () => {
@@ -30,7 +30,7 @@ describe("ReportFiltersList - utils", () => {
         attribute: "test"
       };
 
-      expect(utils.getConstraintLabel(data, {}, i18n)).to.be.equals("report.filters.equal_to");
+      expect(utils.getConstraintLabel(data, {}, CONSTRAINTS, i18n)).to.be.equals("report.filters.equal_to");
     });
 
     describe("when the field is DATE_FIELD type", () => {
@@ -42,10 +42,10 @@ describe("ReportFiltersList - utils", () => {
       };
 
       it("should return after if the constraint is >", () => {
-        expect(utils.getConstraintLabel(data, field, i18n)).to.be.equals("report.filters.after");
+        expect(utils.getConstraintLabel(data, field, CONSTRAINTS, i18n)).to.be.equals("report.filters.after");
       });
       it("should return before if the constraint is <", () => {
-        expect(utils.getConstraintLabel({ ...data, constraint: "<" }, field, i18n)).to.be.equals(
+        expect(utils.getConstraintLabel({ ...data, constraint: "<" }, field, CONSTRAINTS, i18n)).to.be.equals(
           "report.filters.before"
         );
       });

@@ -14,7 +14,7 @@ export const touchedFormData = (touched, data, hasInitialValues = false, initial
           initialValues?.[current]?.[key]
         );
       });
-    } else if ((hasInitialValues && initialValues?.[current] !== data[current]) || !hasInitialValues) {
+    } else if ((hasInitialValues && initialValues?.[current] !== data?.[current]) || !hasInitialValues) {
       obj[current] = data[current];
     }
 
