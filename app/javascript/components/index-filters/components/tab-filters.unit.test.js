@@ -16,7 +16,7 @@ describe("components/index-filters/<TabFilters>", () => {
     more: false,
     moreSectionFilters: {},
     queryParams: {},
-    recordType: "cases",
+    recordType: "incidents",
     reset: false,
     setMore: () => {},
     setMoreSectionFilters: () => {},
@@ -35,5 +35,15 @@ describe("components/index-filters/<TabFilters>", () => {
     const { component } = setupMockFormComponent(TabFilters, { props: defaultProps, state });
 
     expect(component.find(FilterCategory)).to.have.lengthOf(1);
+  });
+
+  it("does not renders a FilterCategory if the recordType is not incident", () => {
+    const state = fromJS({ user: { modules: [MODULES.MRM] } });
+    const { component } = setupMockFormComponent(TabFilters, {
+      props: { ...defaultProps, recordType: "cases" },
+      state
+    });
+
+    expect(component.find(FilterCategory)).to.be.empty;
   });
 });
