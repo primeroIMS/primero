@@ -35,10 +35,19 @@
     src: overrides.env.j2
     dest: '{{ env_override_path }}'
     mode: 'u=rw,go=r'
+    force: no
   become: yes
   tags:
   - 'never'
   - 'remote-env'
+
+- name: 'Source override.env'
+  command: |
+    'test -e {{ env_override_path }} && source {{ env_override_path }}'
+  become: yes
+  tags:
+  - 'never'
+  - 'source-override-env'
 
 - name: 'build the Docker containers'
   command: |
@@ -143,17 +152,3 @@
   tags:
   - 'never'
   - 'start'
-
-- name: '(re)start the Docker containers'
-  command: |
-    ./compose.prod.sh up -d --force-recreate --no-build --env-file ~/overrides.env
-  args:
-    chdir: '/srv/primero/docker'
-  environment:
-    PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
-    PRIMERO_IMAGE_REPOSITORY: '{{ primero_image_repositroy|default("primeroims") }}'
-    PRIMERO_DEPLOY_NODB: '{{ primero_deploy_nodb|default("false") }}'
-    PRIMERO_POSTGRES_VERSION: '{{ primero_postgres_version }}'
-  tags:
-  - 'never'
-  - 'start-remote'
