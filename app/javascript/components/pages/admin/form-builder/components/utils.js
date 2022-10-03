@@ -1,5 +1,4 @@
 import get from "lodash/get";
-import omit from "lodash/omit";
 import { fromJS } from "immutable";
 
 import { getObjectPath } from "../../../../../libs";
@@ -63,19 +62,17 @@ export const getLabelTypeField = field => {
 export const localesToRender = i18n => fromJS(i18n.applicationLocales.filter(locale => locale.id !== LOCALE_KEYS.en));
 
 export const setFieldDataInFormContext = ({ name, data, fieldsPath, contextFields, register, setValue }) => {
-  getObjectPath("", omit(data, ["display_name", "display_conditions_record"])).forEach(path => {
+  getObjectPath("", data).forEach(path => {
     const isDisabledProp = path.endsWith("disabled");
     const value = get(data, path);
     const fieldFullPath = `${fieldsPath || "fields"}.${name}.${path}`;
 
-    if (!contextFields[fieldFullPath]) {
-      register({ name: fieldFullPath });
+    if (!path.startsWith("display_name")) {
+      if (!contextFields[fieldFullPath]) {
+        register({ name: fieldFullPath });
+      }
+
+      setValue(fieldFullPath, isDisabledProp ? !value : value, { shouldDirty: true });
     }
-
-    setValue(fieldFullPath, isDisabledProp ? !value : value, { shouldDirty: true });
   });
-
-  const fieldFullPath = `${fieldsPath || "fields"}.${name}.display_conditions_record`;
-
-  setValue(fieldFullPath, data.display_conditions_record, { shouldDirty: true });
 };

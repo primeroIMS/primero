@@ -3,7 +3,6 @@ import { memo, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { batch, useDispatch } from "react-redux";
 import { useForm, useWatch } from "react-hook-form";
-import { fromJS } from "immutable";
 import Add from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
 import get from "lodash/get";
@@ -13,7 +12,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { RADIO_FIELD, SELECT_FIELD, submitHandler, whichFormMode } from "../../../../../form";
 import { useI18n } from "../../../../../i18n";
-import { getObjectPath, displayNameHelper, useMemoizedSelector, reduceMapToObject } from "../../../../../../libs";
+import { getObjectPath, displayNameHelper, useMemoizedSelector } from "../../../../../../libs";
 import { getSelectedField, getSelectedFields, getSelectedSubform, getSelectedSubformField } from "../../selectors";
 import {
   createSelectedField,
@@ -35,9 +34,6 @@ import FieldTranslationsDialog, { NAME as FieldTranslationsDialogName } from "..
 import { SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "../field-list-item/constants";
 import FieldDialogLabel from "../field-dialog-label";
 import { useApp } from "../../../../../application";
-import { conditionsToFieldArray, fieldArrayToConditions } from "../../utils";
-import SkipLogic from "../skip-logic";
-import { NAME as CONDITIONS_DIALOG } from "../condition-dialog/constants";
 
 import css from "./styles.css";
 import {
@@ -54,22 +50,17 @@ import {
   generateUniqueId,
   mergeTranslationKeys
 } from "./utils";
-import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM, RESET_OPTIONS, SKIP_LOGIC_FIELD } from "./constants";
+import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM, RESET_OPTIONS } from "./constants";
 
-const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule, recordType }) => {
+const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { limitedProductionSite } = useApp();
 
-  const { dialogOpen, dialogClose, setDialog } = useDialog([
-    ADMIN_FIELDS_DIALOG,
-    FieldTranslationsDialogName,
-    CONDITIONS_DIALOG
-  ]);
+  const { dialogOpen, dialogClose, setDialog } = useDialog([ADMIN_FIELDS_DIALOG, FieldTranslationsDialogName]);
 
   const selectedField = useMemoizedSelector(state => getSelectedField(state));
-  const selectedIsSubformField = isSubformField(selectedField);
 
   const selectedSubformField = useMemoizedSelector(state => getSelectedSubformField(state));
   const selectedSubform = useMemoizedSelector(state => getSelectedSubform(state));
@@ -103,8 +94,6 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
     formState: { dirtyFields }
   } = formMethods;
 
-  const skipLogic = useWatch({ control: formMethods.control, name: `${selectedFieldName}.${SKIP_LOGIC_FIELD}` });
-
   const parentFieldName = selectedField?.get("name", "");
 
   const subformSortBy = useWatch({
@@ -118,7 +107,6 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
 
   const openFieldDialog = dialogOpen[ADMIN_FIELDS_DIALOG];
   const openTranslationDialog = dialogOpen[FieldTranslationsDialogName];
-  const openSkipLogicDialog = dialogOpen[CONDITIONS_DIALOG];
 
   const handleClose = useCallback(() => {
     if (onClose) {
@@ -147,7 +135,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
     setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: true });
   }, []);
 
-  const editDialogTitle = selectedIsSubformField
+  const editDialogTitle = isSubformField(selectedField)
     ? (selectedSubform.get("name") && displayNameHelper(selectedSubform.get("name"), i18n.locale)) || ""
     : i18n.t("fields.edit_label");
 
@@ -160,8 +148,6 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
   const confirmButtonLabel = formMode.get("isEdit") ? i18n.t("buttons.update") : i18n.t("buttons.add");
   const confirmButtonIcon = formMode.get("isNew") ? <Add /> : <CheckIcon />;
 
-  const isFieldDialogOpen = openFieldDialog || openTranslationDialog || openSkipLogicDialog;
-
   const modalProps = {
     confirmButtonLabel,
     confirmButtonProps: {
@@ -170,7 +156,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
       type: "submit"
     },
     dialogTitle,
-    open: isFieldDialogOpen,
+    open: openFieldDialog || openTranslationDialog,
     cancelHandler: handleClose,
     omitCloseAfterSuccess: true,
     showSuccessButton: !limitedProductionSite
@@ -232,10 +218,6 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
 
     const dataToSave = buildDataToSave(selectedField, fieldData, lastField?.get("order"), randomSubformId);
 
-    dataToSave[selectedFieldName].display_conditions_record = fieldArrayToConditions(
-      dataToSave[selectedFieldName].display_conditions_record
-    );
-
     batch(() => {
       if (!isNested) {
         onSuccess(dataToSave);
@@ -246,7 +228,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
         addOrUpdatedSelectedField(dataToSave);
       }
 
-      if (selectedIsSubformField) {
+      if (isSubformField(selectedField)) {
         if (selectedField.get("name") === NEW_FIELD) {
           dispatch(
             setNewSubform({
@@ -280,7 +262,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
       i18n,
       initialValues: {},
       onSubmit: submit,
-      submitAllFields: true
+      submitAllFields: isSubformField(selectedField)
     });
   };
 
@@ -316,16 +298,10 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
 
       const optionStringsText = disableOptionStringsText(selectedField, fieldData, option_strings_text);
 
-      const displayConditionsRecord = conditionsToFieldArray(
-        reduceMapToObject(selectedField.get("display_conditions_record", fromJS([])))
-      );
-
       reset(
         {
           [selectedFieldName]: {
             ...fieldData,
-            display_conditions_record: displayConditionsRecord,
-            skip_logic: displayConditionsRecord.length > 0,
             ...([RADIO_FIELD, SELECT_FIELD].includes(selectedField.get("type"))
               ? { option_strings_text: optionStringsText }
               : {})
@@ -335,7 +311,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
         RESET_OPTIONS
       );
     }
-  }, [isFieldDialogOpen, selectedField]);
+  }, [openFieldDialog, selectedField]);
 
   useEffect(() => {
     return () => {
@@ -354,16 +330,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
             selectedSubform={selectedSubform}
           />
           <FieldsForm fieldsForm={fieldsForm} formMode={formMode} formMethods={formMethods} />
-          {skipLogic && (
-            <SkipLogic
-              formMethods={formMethods}
-              conditionsFieldName={`${selectedFieldName}.display_conditions_record`}
-              primeroModule={primeroModule}
-              recordType={recordType}
-              handleClose={backToFieldDialog}
-            />
-          )}
-          {selectedIsSubformField && (
+          {isSubformField(selectedField) && (
             <SubformFieldsList
               formMethods={formMethods}
               subformField={selectedField}
@@ -371,7 +338,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
               subformGroupBy={subformGroupBy}
             />
           )}
-          {selectedIsSubformField && (
+          {isSubformField(selectedField) && (
             <ClearButtons
               subformField={selectedField}
               subformSortBy={subformSortBy}
@@ -403,9 +370,7 @@ Component.propTypes = {
   mode: PropTypes.string.isRequired,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func,
-  parentForm: PropTypes.string,
-  primeroModule: PropTypes.string,
-  recordType: PropTypes.string
+  parentForm: PropTypes.string
 };
 
 export default memo(Component);
