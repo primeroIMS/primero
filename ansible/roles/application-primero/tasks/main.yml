@@ -31,9 +31,9 @@
   - 'local-env'
 
 - name: 'create the overrides.env file'
-  file:
-    state: touch
-    path: '~/overrides.env'
+  template:
+    src: touch
+    dest: '{{ env_override_path }}'
     mode: 'u=rw,go=r'
   become: yes
   tags:

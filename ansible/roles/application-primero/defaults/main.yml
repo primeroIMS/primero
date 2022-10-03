@@ -1,2 +1,3 @@
 ---
 primero_postgres_version: "10"
+env_override_path: ~/overrides.env
