@@ -16,8 +16,12 @@ const getConstraint = condition => {
   return isOperator(constraint) ? constraint : COMPARISON_OPERATORS.EQ;
 };
 
-export default conditionArray =>
-  conditionArray.reduce(
+export default conditionArray => {
+  if (!conditionArray || conditionArray.length <= 0) {
+    return {};
+  }
+
+  return conditionArray.reduce(
     (acc, elem) => {
       const constraint = getConstraint(elem);
 
@@ -32,3 +36,4 @@ export default conditionArray =>
       and: []
     }
   );
+};
