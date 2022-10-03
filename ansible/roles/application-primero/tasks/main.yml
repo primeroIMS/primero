@@ -62,6 +62,17 @@
   - 'never'
   - 'configure'
 
+- name: 'Untar and move config'
+  command: |
+    tar -xzvf primero-configuration.tar.gz -C /srv && rm primero-configuration.tar.gz && rm -rf /srv/primero-configuration
+  args:
+    chdir: '/home/{{ ansible_user }}'
+  when: primero_configuration_path is defined
+  become: yes
+  tags:
+  - 'never'
+  - 'configure-remote'
+
 - name: 'configure Primero with a custom configuration'
   command: |
     ./compose.configure.sh /srv/primero-configuration/ '{{ primero_configuration_path }}'
@@ -76,6 +87,17 @@
   tags:
   - 'never'
   - 'configure'
+  - 'configure-remote'
+
+- name: 'Clean up configuration files'
+  command: |
+    rm -rf /srv/primero-configuration
+  args:
+    chdir: '/home/{{ ansible_user }}'
+  when: primero_configuration_path is defined
+  become: yes
+  tags:
+  - 'never'
   - 'configure-remote'
 
 - name: 'configure Primero with the default seeds'
