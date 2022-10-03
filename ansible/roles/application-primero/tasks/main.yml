@@ -32,7 +32,7 @@
 
 - name: 'create the overrides.env file'
   template:
-    src: touch
+    src: overrides.env.j2
     dest: '{{ env_override_path }}'
     mode: 'u=rw,go=r'
   become: yes
@@ -76,6 +76,7 @@
   tags:
   - 'never'
   - 'configure'
+  - 'configure-remote'
 
 - name: 'configure Primero with the default seeds'
   command: |
