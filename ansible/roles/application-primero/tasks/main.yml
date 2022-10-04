@@ -41,23 +41,6 @@
   - 'never'
   - 'remote-env'
 
-- name: check if overrides.env exists
-  stat: 
-    path: '{{ env_override_path }}'
-  register: override_exists
-  tags:
-  - 'never'
-  - 'source-override-env'
-
-- name: 'Source override.env'
-  command: |
-    source '{{ env_override_path }}'
-  become: yes
-  when: override_exists.stat.exists
-  tags:
-  - 'never'
-  - 'source-override-env'
-
 - name: 'build the Docker containers'
   command: |
     ./build.sh all -t '{{ build_docker_tag }}' -r '{{ build_docker_container_registry }}' -l
@@ -120,7 +103,7 @@
 
 - name: 'configure Primero with the default seeds'
   command: |
-    ./compose.configure.sh
+    if test -f "{{ env_override_path }}"; then source '{{ env_override_path }}'; fi && ./compose.configure.sh
   args:
     chdir: '/srv/primero/docker'
   environment:
@@ -150,7 +133,7 @@
 
 - name: '(re)start the Docker containers'
   command: |
-    ./compose.prod.sh up -d --force-recreate --no-build
+    if test -f "{{ env_override_path }}"; then source {{ env_override_path }}; fi && ./compose.prod.sh up -d --force-recreate --no-build
   args:
     chdir: '/srv/primero/docker'
   environment:
