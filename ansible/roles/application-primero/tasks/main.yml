@@ -41,10 +41,19 @@
   - 'never'
   - 'remote-env'
 
+- name: check if overrides.env exists
+  stat: 
+    path: '{{ env_override_path }}'
+  register: override_exists
+  tags:
+  - 'never'
+  - 'source-override-env'
+
 - name: 'Source override.env'
   command: |
-    test -e '{{ env_override_path }}' && source '{{ env_override_path }}'
+    source '{{ env_override_path }}'
   become: yes
+  when: override_exists.stat.exists
   tags:
   - 'never'
   - 'source-override-env'
