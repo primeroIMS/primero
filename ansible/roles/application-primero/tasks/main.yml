@@ -41,6 +41,14 @@
   - 'never'
   - 'remote-env'
 
+- name: 'add overrides.env to .bash_profile'
+  blockinfile:
+    dest: ~/.bash_profile
+    block: |-
+      if test -f {{ env_override_path }}; then 
+        source {{ env_override_path }}
+      fi
+
 - name: 'build the Docker containers'
   command: |
     ./build.sh all -t '{{ build_docker_tag }}' -r '{{ build_docker_container_registry }}' -l
@@ -114,7 +122,7 @@
 
 - name: 'configure Primero with the default seeds'
   command: |
-    if test -f {{ env_override_path }}; then source {{ env_override_path }}; fi && ./compose.configure.sh
+    ./compose.configure.sh
   args:
     chdir: '/srv/primero/docker'
   environment:
@@ -144,7 +152,7 @@
 
 - name: '(re)start the Docker containers'
   command: |
-    if test -f {{ env_override_path }}; then source {{ env_override_path }}; fi && ./compose.prod.sh up -d --force-recreate --no-build
+    ./compose.prod.sh up -d --force-recreate --no-build
   args:
     chdir: '/srv/primero/docker'
   environment:
