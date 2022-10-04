@@ -67,6 +67,7 @@
   ansible.builtin.unarchive:
     src: /home/{{ ansible_user }}/primero-configuration.tar.gz
     dest: /srv
+    remote_src: yes
   when: primero_configuration_path is defined
   become: yes
   tags:
