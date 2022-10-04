@@ -43,11 +43,15 @@
 
 - name: 'add overrides.env to .bash_profile'
   blockinfile:
-    dest: ~/.bash_profile
+    dest: '/home/{{ ansible_user }}/.bash_profile'
+    create: yes
     block: |-
       if test -f {{ env_override_path }}; then 
         source {{ env_override_path }}
       fi
+  tags:
+  - 'never'
+  - 'remote-env'
 
 - name: 'build the Docker containers'
   command: |
