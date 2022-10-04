@@ -75,19 +75,8 @@
   - 'never'
   - 'configure'
 
-- name: 'Clean previous configuration files'
-  command: |
-    rm primero-configuration.tar.gz && rm -rf /srv/primero-configuration
-  args:
-    chdir: '/home/{{ ansible_user }}'
-  when: primero_configuration_path is defined
-  become: yes
-  tags:
-  - 'never'
-  - 'configure-remote'
-
 - name: Extract config into /srv
-  ansible.builtin.unarchive:
+  unarchive:
     src: /home/{{ ansible_user }}/primero-configuration.tar.gz
     dest: /srv
     remote_src: yes
