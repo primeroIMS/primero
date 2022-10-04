@@ -65,7 +65,7 @@
 
 - name: 'Untar and move config'
   command: |
-    tar -xzvf primero-configuration.tar.gz -C /srv && rm primero-configuration.tar.gz && rm -rf /srv/primero-configuration
+    tar -xvf primero-configuration.tar.gz -C /srv && rm primero-configuration.tar.gz && rm -rf /srv/primero-configuration
   args:
     chdir: '/home/{{ ansible_user }}'
   when: primero_configuration_path is defined
