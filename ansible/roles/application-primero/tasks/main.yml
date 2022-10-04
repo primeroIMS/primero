@@ -65,7 +65,7 @@
 
 - name: Extract config into /srv
   ansible.builtin.unarchive:
-    src: /home/'{{ ansible_user }}'/primero-configuration.tar.gz
+    src: /home/{{ ansible_user }}/primero-configuration.tar.gz
     dest: /srv
   when: primero_configuration_path is defined
   become: yes
