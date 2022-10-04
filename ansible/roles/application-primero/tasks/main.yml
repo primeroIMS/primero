@@ -78,7 +78,7 @@
 - name: Extract config into /srv
   unarchive:
     src: /home/{{ ansible_user }}/primero-configuration.tar.gz
-    dest: /srv
+    dest: /srv/
     remote_src: yes
   when: primero_configuration_path is defined
   become: yes
@@ -100,17 +100,6 @@
   tags:
   - 'never'
   - 'configure'
-  - 'configure-remote'
-
-- name: 'Clean up configuration files'
-  command: |
-    rm -rf /srv/primero-configuration
-  args:
-    chdir: '/home/{{ ansible_user }}'
-  when: primero_configuration_path is defined
-  become: yes
-  tags:
-  - 'never'
   - 'configure-remote'
 
 - name: 'configure Primero with the default seeds'
