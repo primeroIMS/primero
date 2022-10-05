@@ -20,6 +20,7 @@ class Filter < ValueObject
     end.inject(&:merge)
   )
   SOCIAL_WORKER = Filter.new(name: 'cases.filter_by.social_worker', field_name: 'owned_by')
+  RECORD_OWNER = Filter.new(name: 'incidents.filter_by.record_owner', field_name: 'owned_by')
   MY_CASES = Filter.new(name: 'cases.filter_by.my_cases', field_name: 'my_cases')
   WORKFLOW = Filter.new(name: 'cases.filter_by.workflow', field_name: 'workflow')
   DATE_CASE = Filter.new(
@@ -502,7 +503,7 @@ class Filter < ValueObject
         DEPRIVED_LIBERTY_SECURITY_REASONS, REASONS_DEPRIVATION_LIBERTY,
         VICTIM_FACILTY_VICTIMS_HELD, TORTURE_PUNISHMENT_WHILE_DEPRIVATED_LIBERTY,
         WEAPON_TYPE, FACILITY_IMPACT, FACILITY_ATTACK_TYPE, CHILD_ROLE, ABDUCTION_PURPOSE_SINGLE,
-        MILITARY_USE_TYPE, TYPES_OF_AID_DISRUPTED_DENIAL
+        MILITARY_USE_TYPE, TYPES_OF_AID_DISRUPTED_DENIAL, RECORD_OWNER, AGENCY
       ]
     end
 
