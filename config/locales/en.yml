@@ -1381,6 +1381,7 @@ en:
     welcome: Welcome to Primero
     zh: 中文
   incident:
+    code: Incident Code
     associated_case: "Associated Case:"
     messages:
       creation_success: Incident record successfully created.

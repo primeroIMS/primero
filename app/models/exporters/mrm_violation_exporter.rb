@@ -23,6 +23,24 @@ module Exporters
     ].freeze
     INCIDENT_FORMS = %w[incident_form].freeze
     INCIDENT_ID_FIELD_NAMES = %w[incident_id short_id].freeze
+    FIELD_DISPLAY_NAME = {
+      'violation_tally' => 'Number of victims',
+      'facility_attack_type' => 'Type of health- or education-related violation',
+      'facility_operational_before' => 'Was the facility operational before the attack or military use?',
+      'human_impact_of_attack_section' => 'Human impact of the attack (Adult impact for Denial of Humanitarian Access)',
+      'facility_impact_section' => 'Physical impact of the attack or military use',
+      'facility_closed' => 'Was the facility closed as a result of the attack or military use?'
+    }.freeze
+    VIOLATIONS_IDS_FIELD_NAME = 'violations_ids'
+    ASSOCIATION_ID_NAME = {
+      'individual_victims' => 'Individual Victim',
+      'group_victims' => 'Group Victim',
+      'sources' => 'Source',
+      'perpetrators' => 'Perpetrator',
+      'responses' => 'Response'
+    }.freeze
+    ID_CELL_LENGTH = 300
+    INCIDENT_CODE_CELL_LENGTH = 85
 
     attr_accessor :workbook, :worksheets, :constrained_subforms
 
@@ -60,6 +78,10 @@ module Exporters
     end
 
     private
+
+    def field_display_name(field)
+      FIELD_DISPLAY_NAME[field.name] || field.display_name(locale)
+    end
 
     def build_formats
       @formats = {
@@ -115,8 +137,8 @@ module Exporters
       @verification_fields ||= fields.select { |field| VERIFICATION_FIELD_NAMES.include?(field.name) }.sort_by(&:order)
     end
 
-    def additional_forms
-      @additional_forms ||= forms.select do |form|
+    def association_forms
+      @association_forms ||= forms.select do |form|
         Violation::MRM_ASSOCIATIONS_KEYS.include?(form.unique_id)
       end.sort_by(&:order)
     end
@@ -125,6 +147,10 @@ module Exporters
       return [] unless form.present?
 
       form.fields.select { |field| EXPORTABLE_FIELD_TYPES.include?(field.type) }
+    end
+
+    def exportable_subform_fields(subform)
+      exportable_form_fields(subform).reject { |field| field.name == VIOLATIONS_IDS_FIELD_NAME }
     end
 
     def write_violations(violations)
@@ -145,9 +171,17 @@ module Exporters
       @header_row = initial_row
       worksheet = workbook.add_worksheet(build_worksheet_name(name))
       write_violation_id_headers(worksheet)
+      write_association_header(worksheet, id) if id != :violations
       write_field_headers(worksheet, fields)
       write_violation_headers_by_type(worksheet) if id == :violations
       self.worksheets = { id => { worksheet: worksheet, row: id == :violations ? 3 : 2 } }
+    end
+
+    def write_association_header(worksheet, id)
+      worksheet.set_column_pixels(4, 4, INCIDENT_CODE_CELL_LENGTH)
+      worksheet.set_column_pixels(5, 5, ID_CELL_LENGTH)
+      worksheet.write(@header_row, 4, I18n.t('incident.code'))
+      worksheet.write(@header_row, 5, "#{ASSOCIATION_ID_NAME[id]} ID")
     end
 
     def write_violation_headers_by_type(worksheet)
@@ -160,6 +194,7 @@ module Exporters
     end
 
     def write_violation_id_headers(worksheet)
+      worksheet.set_column_pixels(0, 3, ID_CELL_LENGTH)
       worksheet.merge_range(@header_row - 1, 0, @header_row - 1, 1, I18n.t('incidents.id'), @formats[:centered_black])
       worksheet.write(@header_row, 0, I18n.t('forms.record_types.incident'))
       worksheet.write(@header_row, 1, I18n.t('forms.record_types.violation'))
@@ -182,7 +217,7 @@ module Exporters
         if field.type == Field::TALLY_FIELD
           write_tally_field_header(worksheet, field)
         elsif field.type == Field::SUBFORM
-          write_field_headers(worksheet, field.subform.fields.sort_by(&:order))
+          write_field_headers(worksheet, exportable_subform_fields(field.subform).sort_by(&:order))
         else
           write_field_header(worksheet, field)
         end
@@ -190,7 +225,7 @@ module Exporters
     end
 
     def write_field_header(worksheet, field)
-      display_name = field.display_name(locale)
+      display_name = field_display_name(field)
       worksheet.set_column_pixels(@header_column, @header_column, display_name.length * 11)
       worksheet.write(@header_row, @header_column, display_name)
       @header_column += 1
@@ -203,7 +238,7 @@ module Exporters
         @header_column,
         tally_row,
         @header_column + field.tally.size,
-        field.display_name(locale),
+        field_display_name(field),
         @formats[:centered_black]
       )
       write_tally_option_headers(worksheet, field)
@@ -237,10 +272,10 @@ module Exporters
     end
 
     def write_violation_data_ids(worksheet, violation)
-      worksheet.write(@record_row, 0, violation.incident.id)
-      worksheet.write(@record_row, 1, violation.id)
-      worksheet.write(@record_row, 2, I18n.t("incident.violation.types.#{violation.type}"))
-      worksheet.write(@record_row, 3, violation_summary(violation))
+      worksheet.write_string(@record_row, 0, violation.incident.id, @formats[:black])
+      worksheet.write_string(@record_row, 1, violation.id, @formats[:black])
+      worksheet.write_string(@record_row, 2, I18n.t("incident.violation.types.#{violation.type}"), @formats[:black])
+      worksheet.write_string(@record_row, 3, violation_summary(violation), @formats[:black])
     end
 
     def violation_summary(violation)
@@ -261,7 +296,7 @@ module Exporters
 
       fields.each do |field|
         if field.type == Field::SUBFORM
-          write_record_data(worksheet, record, field.subform.fields)
+          write_record_data(worksheet, record, exportable_subform_fields(field.subform).sort_by(&:order))
         else
           write_field_data(worksheet, record, field)
         end
@@ -269,12 +304,10 @@ module Exporters
     end
 
     def write_field_data(worksheet, record, field)
-      if field.type == Field::TALLY_FIELD
-        write_tally_data(worksheet, record, field)
-      elsif [Field::TEXT_FIELD, Field::TEXT_AREA].include?(field.type)
-        write_string_data(worksheet, record, field)
-      elsif field.type == Field::DATE_FIELD
-        write_date_data(worksheet, record, field)
+      case field.type
+      when Field::TALLY_FIELD then write_tally_data(worksheet, record, field)
+      when Field::TEXT_FIELD, Field::TEXT_AREA then write_string_data(worksheet, record, field)
+      when Field::DATE_FIELD then write_date_data(worksheet, record, field)
       else
         worksheet.write(@record_row, @record_column, export_value(record.data[field.name], field))
         @record_column += 1
@@ -293,21 +326,13 @@ module Exporters
 
     def write_date_data(worksheet, record, field)
       date_format = field.date_include_time ? @formats[:date_time] : @formats[:date]
-      field_value = record_date_value(record, field)
+      field_value = export_value(record.data[field.name], field)
       if field_value.present?
         worksheet.write_date_time(@record_row, @record_column, field_value, date_format)
       else
         worksheet.write_blank(@record_row, @record_column, @formats[:black])
       end
       @record_column += 1
-    end
-
-    def record_date_value(record, field)
-      field_value = record.data[field.name]
-      return unless field_value.present?
-      return field_value.strftime('%Y-%m-%dT%H:%M:%S.%L') if field.date_include_time
-
-      record.data[field.name].strftime('%Y-%m-%dT')
     end
 
     def write_tally_data(worksheet, record, field)
@@ -323,36 +348,68 @@ module Exporters
       @record_column += 1
     end
 
-    def write_violation_associations(violations)
-      additional_forms.each do |form|
-        additional_form_fields = exportable_form_fields(form).sort_by(&:order)
-        write_worksheet_headers(1, 4, form.unique_id, form.name(locale), additional_form_fields)
-        write_associations(violations, form, additional_form_fields)
+    alias super_export_value export_value
+    def export_value(value, field)
+      case field.type
+      when Field::DATE_FIELD then date_value(value, field)
+      when Field::SELECT_BOX then select_value(value, field)
+      else super_export_value(value, field)
       end
     end
 
-    def write_associations(violations, form, additional_form_fields)
+    def date_value(value, field)
+      return unless value.present?
+      return value.strftime('%Y-%m-%dT%H:%M:%S.%L') if field.date_include_time
+
+      value.strftime('%Y-%m-%dT')
+    end
+
+    def select_value(value, field)
+      if field.multi_select && value.present? && value.is_a?(Array)
+        return value.map { |current| super_export_value(current, field) }.join(' ||| ')
+      end
+
+      super_export_value(value, field)
+    end
+
+    def write_violation_associations(violations)
+      association_forms.each do |form|
+        association_form_fields = exportable_form_fields(form).sort_by(&:order)
+        write_worksheet_headers(1, 6, form.unique_id, form.name(locale), association_form_fields)
+        write_associations(violations, form, association_form_fields)
+      end
+    end
+
+    def write_association_ids(worksheet, violation, association)
+      worksheet.write_string(@record_row, 4, violation.incident.incident_code, @formats[:black])
+      worksheet.write_string(@record_row, 5, association.id, @formats[:black])
+    end
+
+    def write_associations(violations, form, association_form_fields)
       worksheet = worksheets[form.unique_id][:worksheet]
       @record_row = worksheets[form.unique_id][:row]
       association_key = form.unique_id == 'sources' ? 'source' : form.unique_id
-      write_association_data(worksheet, violations, additional_form_fields, association_key)
+      write_association_data(worksheet, violations, association_form_fields, association_key)
       worksheets[form.unique_id][:row] = @record_row
     end
 
-    def write_association_data(worksheet, violations, additional_form_fields, association_key)
+    def write_association_data(worksheet, violations, association_form_fields, association_key)
       violations.each do |violation|
         associations = violation.send(association_key)
         next unless associations.present?
 
-        @record_column = 4
         records = associations.is_a?(Source) ? [associations] : associations
-        records.each { |record| write_association_record(worksheet, violation, record, additional_form_fields) }
+        records.each do |record|
+          @record_column = 6
+          write_association_record(worksheet, violation, record, association_form_fields)
+        end
       end
     end
 
-    def write_association_record(worksheet, violation, association, additional_form_fields)
+    def write_association_record(worksheet, violation, association, association_form_fields)
       write_violation_data_ids(worksheet, violation)
-      write_record_data(worksheet, association, additional_form_fields)
+      write_association_ids(worksheet, violation, association)
+      write_record_data(worksheet, association, association_form_fields)
       @record_row += 1
     end
 
