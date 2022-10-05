@@ -2,7 +2,7 @@ import { useWatch } from "react-hook-form";
 import PropTypes from "prop-types";
 
 import { useMemoizedSelector } from "../../../libs";
-import { MODULES } from "../../../config";
+import { MODULES, RECORD_TYPES_PLURAL } from "../../../config";
 import { hasPrimeroModule } from "../../user";
 import { getFiltersByRecordType } from "../selectors";
 import { PRIMARY_FILTERS } from "../constants";
@@ -38,7 +38,9 @@ const TabFilters = ({
   return (
     <div className={css.tabContent}>
       <Actions handleSave={handleSave} handleClear={handleClear} />
-      {hasPrimeroModuleMRM && <FilterCategory formMethods={formMethods} />}
+      {hasPrimeroModuleMRM && RECORD_TYPES_PLURAL.incident === recordType && (
+        <FilterCategory formMethods={formMethods} />
+      )}
       <RecordFilters
         addFilterToList={addFilterToList}
         defaultFilters={allDefaultFilters}
