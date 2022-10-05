@@ -1,0 +1,29 @@
+import { NESTED_FIELDS } from "../constants";
+
+export default (field, fieldUpdate) => {
+  const fieldRemoved = NESTED_FIELDS.reduce((acc, elem) => {
+    if (field.get(elem)?.size > 0) {
+      return acc.remove(elem);
+    }
+
+    return acc;
+  }, field);
+
+  const updateRemoved = NESTED_FIELDS.reduce((acc, elem) => {
+    if (acc.get(elem)?.size > 0) {
+      return acc.remove(elem);
+    }
+
+    return acc;
+  }, fieldUpdate);
+
+  const updated = NESTED_FIELDS.reduce((acc, elem) => {
+    if (fieldUpdate.get(elem)?.size > 0) {
+      return acc.set(elem, fieldUpdate.get(elem));
+    }
+
+    return acc;
+  }, fieldRemoved);
+
+  return updated.mergeDeep(updateRemoved);
+};

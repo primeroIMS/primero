@@ -411,6 +411,50 @@ export const getFieldsByName = (state, names = fromJS([])) => {
   return state.getIn([NAMESPACE, "fields"], fromJS([])).filter(field => names.includes(field.name));
 };
 
+export const getNestedFields = createCachedSelector(
+  allFormSections,
+  state => state.getIn(["forms"], fromJS({})),
+  getLocale,
+  (_state, query) => query,
+  (formSections, formObject, appLocale, query) => {
+    const selectedForms = forms({
+      ...query,
+      formSections,
+      checkPermittedForms: false,
+      appLocale,
+      includeNested: true,
+      checkVisible: false
+    });
+
+    if (isNil(query.nestedFormIds)) {
+      return fromJS([]);
+    }
+
+    const nestedForms = selectedForms.filter(form => form.is_nested && query.nestedFormIds.includes(form.id));
+
+    let nestedFields = denormalizeFormData(OrderedMap(nestedForms.map(form => form.id)), formObject)
+      .valueSeq()
+      .flatMap(form => form.fields);
+
+    if (query.includeSeparators === false) {
+      nestedFields = nestedFields.filter(field => field.type !== SEPARATOR);
+    }
+
+    if (query.excludeFieldNames) {
+      nestedFields = nestedFields.filter(field => !query.excludeFieldNames.includes(field.name));
+    }
+
+    if (query.omitDuplicates === true) {
+      nestedFields = nestedFields
+        .groupBy(field => field.name)
+        .valueSeq()
+        .map(fields => fields.first());
+    }
+
+    return nestedFields;
+  }
+)(defaultCacheSelectorOptions);
+
 export const getRecordFields = createCachedSelector(
   getRecordForms,
   (_state, query) => query,

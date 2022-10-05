@@ -1,12 +1,9 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
 import { memo } from "react";
 import { useDispatch, batch } from "react-redux";
-import { Controller } from "react-hook-form";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Draggable } from "react-beautiful-dnd";
-import { Button, Radio } from "@material-ui/core";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
 import { SUBFORM_SECTION } from "../../../../../form";
 import {

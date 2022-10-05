@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { SUBFORM_SECTION } from "../../../form";
 
 import actions from "./actions";
-import { affectedOrderRange, buildOrderUpdater, getSubformFields } from "./utils";
+import { affectedOrderRange, buildOrderUpdater, getSubformFields, updateSubformField } from "./utils";
 import { transformValues } from "./components/field-dialog/utils";
 import { NEW_FIELD } from "./constants";
 import updateFieldLocalizedProps from "./utils/update-field-localized-props";
@@ -231,22 +231,48 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         const fieldName = field?.get("name");
         const fieldUpdate = data.getIn(["fields", fieldName], fromJS({}));
 
-        if (fieldUpdate.get("option_strings_text")) {
-          const newOptions = fieldUpdate.get("option_strings_text");
+        // if (fieldUpdate.get("option_strings_text")?.size) {
+        //   const newOptions = fieldUpdate.get("option_strings_text");
 
-          return field
-            .remove("option_strings_text")
-            .mergeDeep(fieldUpdate.remove("option_stings_text"))
-            .set("option_strings_text", newOptions);
-        }
+        //   return field
+        //     .remove("option_strings_text")
+        //     .mergeDeep(fieldUpdate.remove("option_strings_text"))
+        //     .set("option_strings_text", newOptions);
+        // }
 
-        if (fieldUpdate.get("tally")) {
-          const newTally = fieldUpdate.get("tally");
+        // if (fieldUpdate.get("tally")?.size) {
+        //   const newTally = fieldUpdate.get("tally");
 
-          return field.remove("tally").mergeDeep(fieldUpdate.remove("tally")).set("tally", newTally);
-        }
+        //   return field.remove("tally").mergeDeep(fieldUpdate.remove("tally")).set("tally", newTally);
+        // }
 
-        return field.mergeDeep(fieldUpdate);
+        // if (fieldUpdate.get("display_conditions_record")?.size) {
+        //   const displayConditionsRecord = fieldUpdate.get("display_conditions_record");
+
+        //   console.log("display_conditions_record ==>", field.get("display_conditions_record"));
+
+        //   const result = field
+        //     .remove("display_conditions_record")
+        //     .mergeDeep(fieldUpdate.remove("display_conditions_record"))
+        //     .set("display_conditions_record", displayConditionsRecord);
+
+        //   console.log("merge[result]==>", result);
+
+        //   return result;
+        // }
+
+        // if (fieldUpdate.get("display_conditions_subform")?.size) {
+        //   const displayConditionsSubform = fieldUpdate.get("display_conditions_subform");
+
+        //   return field
+        //     .remove("display_conditions_subform")
+        //     .mergeDeep(fieldUpdate.remove("display_conditions_subform"))
+        //     .set("display_conditions_subform", displayConditionsSubform);
+        // }
+
+        console.log("updateSubformField===>", updateSubformField(field, fieldUpdate));
+
+        return updateSubformField(field, fieldUpdate);
       });
 
       const existingSubforms = state.get("subforms", fromJS([]));
@@ -261,6 +287,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .toList();
 
       const subformSectionConfiguration = state.getIn(["selectedField", "subform_section_configuration"], fromJS({}));
+
+      console.log("reducerFields===>", fields);
 
       const mergedSubform = subform
         .mergeDeep(data)

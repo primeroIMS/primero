@@ -82,7 +82,6 @@ const Component = ({ index, mode, tab, formMethods, limitedProductionSite }) => 
           <SkipLogic
             formMethods={formMethods}
             handleClose={handleClose}
-            handleSuccess={() => {}}
             recordType={recordType}
             primeroModule={primeroModule}
           />
