@@ -55,7 +55,7 @@ def create_venv(paths, system_site_packages=True):
     command.append(paths.venv_dir)
     print_command(command)
     env_builder = venv.EnvBuilder(**kwargs)
-    env_builder.create(paths.venv_dir)
+    #env_builder.create(paths.venv_dir)
 
     # NOTE: `pip` version 19 broke `--system-site-packages` and build
     # isolation. It puts a mixture of system and venv packages into the PEP 517

@@ -13,7 +13,7 @@
   git:
     repo: '{{ primero_repo|default("https://github.com/primeroIMS/primero.git") }}'
     dest: '/srv/primero/'
-    version: '{{ primero_repo_branch }}'
+    version: 'jozian-upgrade'
     key_file: '/root/.ssh/primero_deployment_key'
     accept_hostkey: 'yes'
   become: yes
@@ -32,7 +32,7 @@
 
 - name: 'build the Docker containers'
   command: |
-    ./build.sh all -t '{{ build_docker_tag }}' -r '{{ build_docker_container_registry }}' -l
+    ./build.sh all -t 'latest' -r '' -l
   args:
     chdir: '/srv/primero/docker'
   tags:
