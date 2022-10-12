@@ -33,7 +33,7 @@
 - name: 'create the overrides.env file'
   template:
     src: overrides.env.j2
-    dest: '{{ env_override_path }}'
+    dest: '{{ env_override_path | default('/home/' ~ ansible_user ~ '/overrides.env') }}'
     mode: 'u=rw,go=r'
     force: no
   become: yes
@@ -46,7 +46,7 @@
     dest: '/home/{{ ansible_user }}/.bash_profile'
     create: yes
     block: |-
-      if test -f {{ env_override_path }}; then 
+      if test -f {{ env_override_path | default('/home/' ~ ansible_user ~ '/overrides.env') }}; then 
         source {{ env_override_path }}
       fi
   tags:
@@ -78,7 +78,7 @@
 - name: Extract config into /srv
   unarchive:
     src: /home/{{ ansible_user }}/primero-configuration.tar.gz
-    dest: /srv/
+    dest: /srv/primero-configuration/
     remote_src: yes
   when: primero_configuration_path is defined
   become: yes
