@@ -36,7 +36,7 @@ describe("<ReportFilters /> - utils", () => {
 
         expect(
           utils.formatValue(value, i18n, {
-            field: { ...field, tick_box_label: "test" },
+            field: { ...field, tick_box_label: { en: "test" } },
             lookups: {}
           })
         ).to.be.equals("test");

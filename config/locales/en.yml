@@ -1297,6 +1297,7 @@ en:
       use_existing: We encourage you to use the existing forms as this makes data
         sharing and data merging between institutions easier.
     mobile_app: Mobile App
+    skip_logic: Skip Logic?
     module: Module
     no_subform_filters_added: This Subform currently has no fields.
     record_type: Record Type
@@ -1338,6 +1339,9 @@ en:
     type_label: Type
     visibility: Visibility
     web_app: Web App
+    skip_logic_title: This form should be visible if
+    conditions:
+      add: Add Condition
   home:
     ar: العربية
     ar-IQ: العربية (العراقية)

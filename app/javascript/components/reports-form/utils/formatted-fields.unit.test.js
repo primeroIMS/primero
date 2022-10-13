@@ -5,7 +5,7 @@ import { MODULES, RECORD_TYPES } from "../../../config";
 
 import formattedFields from "./formatted-fields";
 
-describe("<ReportForm>/utils/buildFields()", () => {
+describe("<ReportForm>/utils/formattedFields()", () => {
   it("returns data excluding some field types when isReportable is false", () => {
     const i18n = {
       locale: "en",
