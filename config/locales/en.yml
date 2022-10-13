@@ -1362,6 +1362,8 @@ en:
     sw-KE: Kiswahili (Kenya)
     sw-TZ: Kiswahili (Tanzania)
     ne: नेपाली
+    om: Oromo
+    am-ET: Amharic (Ethiopia)
     label: Home
     language: Language
     manage_system_users: Manage Server Synchronisation Users
