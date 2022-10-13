@@ -11,7 +11,7 @@ PT_FALLBACK = %i[pt en].freeze
 I18n.fallbacks = {
   ne: EN_FALLBACK,
   en: EN_FALLBACK,
-  'am-ET': AR_FALLBACK,
+  'am-ET': EN_FALLBACK,
   ar: EN_FALLBACK,
   'ar-IQ': AR_FALLBACK,
   'ar-LB': AR_FALLBACK,
