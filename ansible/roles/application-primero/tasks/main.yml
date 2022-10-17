@@ -79,6 +79,7 @@
   file:
     path: /srv/primero-configuration
     state: directory
+  become: yes
   tags:
   - 'never'
   - 'configure-remote'
