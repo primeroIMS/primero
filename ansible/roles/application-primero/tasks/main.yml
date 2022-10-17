@@ -75,6 +75,14 @@
   - 'never'
   - 'configure'
 
+- name: Create /srv/primero-configuration directory
+  file:
+    path: /srv/primero-configuration
+    state: directory
+  tags:
+  - 'never'
+  - 'configure-remote'
+
 - name: Extract config into /srv
   unarchive:
     src: /home/{{ ansible_user }}/primero-configuration.tar.gz
@@ -112,7 +120,7 @@
     PRIMERO_IMAGE_REPOSITORY: '{{ primero_image_repositroy|default("primeroims") }}'
     PRIMERO_DEPLOY_NODB: '{{ primero_deploy_nodb|default("false") }}'
     PRIMERO_POSTGRES_VERSION: '{{ primero_postgres_version }}'
-  when: primero_configuration_path is defined
+  when: primero_configuration_path is not defined
   tags:
   - 'never'
   - 'configure'
