@@ -326,7 +326,9 @@ class Filter < ValueObject
   LATE_VERIFIED_VIOLATIONS = Filter.new(
     name: 'incidents.filter_by.late_verified_violations',
     field_name: 'has_late_verified_violations',
-    option_strings_source: 'lookup-yes-no'
+    options: I18n.available_locales.map do |locale|
+      { locale => [{ id: 'true', display_name: I18n.t('true', locale: locale) }] }
+    end.inject(&:merge)
   )
 
   PERPETRATOR_CATEGORY = Filter.new(
