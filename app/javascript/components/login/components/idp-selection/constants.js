@@ -1,3 +1,2 @@
-/* eslint-disable import/prefer-default-export */
-
 export const PRIMERO_IDP = "primeroims";
+export const FORM_ID = "form-idp-id";

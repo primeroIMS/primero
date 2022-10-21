@@ -1,8 +1,10 @@
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
+import SelectInput from "../../../form/fields/select-input";
 
 import LoginSelection from "./container";
+import PrimeroIdpSelect from "./components/primero-idp-select";
 
 describe("<LoginSelection />", () => {
   let component;
@@ -39,8 +41,9 @@ describe("<LoginSelection />", () => {
     ).component;
   });
 
-  it("renders login buttons for providers", () => {
-    expect(component.find("button")).to.have.lengthOf(1);
+  it("renders login PrimeroIdpSelect for providers", () => {
+    expect(component.find(PrimeroIdpSelect)).to.have.lengthOf(1);
+    expect(component.find(SelectInput)).to.have.lengthOf(1);
   });
 
   it("renders a link for primeroims provider", () => {

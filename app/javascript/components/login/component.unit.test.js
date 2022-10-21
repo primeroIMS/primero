@@ -3,6 +3,7 @@ import { fromJS } from "immutable";
 import { setupMountedComponent } from "../../test";
 
 import Login from "./component";
+import PrimeroIdpSelect from "./components/idp-selection/components/primero-idp-select";
 
 describe("<Login />", () => {
   describe("for login form", () => {
@@ -57,7 +58,7 @@ describe("<Login />", () => {
     });
 
     it("renders login selection", () => {
-      expect(component.find(".loginSelection")).to.have.length(1);
+      expect(component.find(PrimeroIdpSelect)).to.have.lengthOf(1);
     });
   });
 });
