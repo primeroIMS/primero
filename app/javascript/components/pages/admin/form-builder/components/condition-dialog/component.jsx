@@ -153,7 +153,6 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
 Component.displayName = NAME;
 
 Component.propTypes = {
-  conditionsFieldName: PropTypes.string,
   field: PropTypes.object,
   formMethods: PropTypes.object,
   handleClose: PropTypes.func,

@@ -4,7 +4,16 @@ describe("<FormBuilder /> - Constants", () => {
   it("should have known properties", () => {
     const clonedActions = { ...constants };
 
-    ["NAME", "NEW_FIELD", "MODULES_FIELD", "RECORD_TYPE_FIELD", "FORM_GROUP_FIELD", "FORM_ID"].forEach(property => {
+    [
+      "NAME",
+      "NESTED_FIELDS",
+      "NEW_FIELD",
+      "MODULES_FIELD",
+      "RECORD_TYPE_FIELD",
+      "SKIP_LOGIC_FIELD",
+      "FORM_GROUP_FIELD",
+      "FORM_ID"
+    ].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];
     });

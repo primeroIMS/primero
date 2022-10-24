@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash";
+import isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
 import { useFieldArray, useWatch } from "react-hook-form";
 
@@ -15,12 +15,12 @@ function Component({ field, formMethods }) {
   const { remove: removeCondition } = useFieldArray({ control: formMethods.control, name: conditionsFieldName });
   const { remove: removeConditionSubform } = useFieldArray({
     control: formMethods.control,
-    name: `${field.name}.display_conditions_subform`
+    name: `${field?.name}.display_conditions_subform`
   });
   const displayConditions = useWatch({ control: formMethods.control, name: conditionsFieldName, defaultValue: [] });
   const displayConditionsSubform = useWatch({
     control: formMethods.control,
-    name: `${field.name}.display_conditions_subform`,
+    name: `${field?.name}.display_conditions_subform`,
     defaultValue: []
   });
 

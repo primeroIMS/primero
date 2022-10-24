@@ -226,8 +226,6 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
   };
 
   const submit = data => {
-    console.log("submitted display_conditions_record ==>", data.display_conditions_record);
-    console.log("submitted display_conditions_subform ==>", data.display_conditions_subform);
     const randomSubformId = Math.floor(Math.random() * 100000);
     const subformData = setInitialForms(data.subform_section);
     const fieldData = setSubformData(toggleHideOnViewPage(data[selectedFieldName]), subformData);
@@ -309,16 +307,12 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
 
   useEffect(() => {
     if (openFieldDialog && selectedField?.toSeq()?.size) {
-      console.log("selectedField.display_conditions_record ==>", selectedField.get("display_conditions_record"));
-
       const currFormValues = getValues()[selectedField.get("name")];
       const subform = getUpdatedSubform(selectedField, selectedSubform, getValues());
       const plainSelectedField = selectedField.toJS();
 
       const { disabled, hide_on_view_page, option_strings_text } = plainSelectedField;
       const selectedFormField = { ...plainSelectedField, disabled: !disabled, hide_on_view_page: !hide_on_view_page };
-
-      console.log("selectedFormField===>", selectedFormField);
 
       const data = mergeTranslationKeys(selectedFormField, currFormValues);
 
@@ -332,11 +326,6 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
 
       const displayConditionsSubform = conditionsToFieldArray(
         reduceMapToObject(selectedField.get("display_conditions_subform", fromJS([])))
-      );
-
-      console.log(
-        "after merge | selectedField.display_conditions_record ==>",
-        selectedField.get("display_conditions_record")
       );
 
       reset(
