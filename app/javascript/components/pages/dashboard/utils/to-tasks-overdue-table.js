@@ -11,6 +11,7 @@ export default (overdueTasksDashboards, i18n) => {
     (acc, indicatorResult) => {
       indicatorsKeys.forEach(key => {
         const value = indicatorResult.get(key);
+        const valueQuery = value?.get("query")?.toJS() || [];
 
         if (acc.values[key]) {
           acc.values[key].push(value?.get("count") || 0);
@@ -19,9 +20,9 @@ export default (overdueTasksDashboards, i18n) => {
         }
 
         if (acc.queries[key]) {
-          acc.queries[key].push(value?.get("query")?.toJS() || []);
+          acc.queries[key].push(valueQuery);
         } else {
-          acc.queries[key] = [[], value?.get("query")?.toJS() || []];
+          acc.queries[key] = [[], valueQuery];
         }
       });
 
