@@ -151,6 +151,7 @@ describe RecalculateAge, search: true do
     let(:today) { Date.new(2022, 2, 23) }
     describe '.recalculate!' do
       before do
+        clean_data(Child)
         25.times do |index|
           Child.create(data: { name: "case#{index}'", date_of_birth: Date.today - index.years })
         end
