@@ -6,7 +6,7 @@ describe("<FormBuilder /> - Constants", () => {
 
     [
       "NAME",
-      "NESTED_FIELDS",
+      "NESTED_DATA_FIELDS",
       "NEW_FIELD",
       "MODULES_FIELD",
       "RECORD_TYPE_FIELD",

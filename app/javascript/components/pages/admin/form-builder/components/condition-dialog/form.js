@@ -60,7 +60,7 @@ export const conditionsForm = ({ fields, i18n, selectedField, mode }) => {
         }),
         FieldRecord({
           name: CONSTRAINT_FIELD,
-          ...constraintInputType(selectedField, CONSTRAINTS, i18n, true)
+          ...constraintInputType(selectedField, CONSTRAINTS, i18n, true, false)
         }),
         FieldRecord({
           display_name: i18n.t("report.value"),
