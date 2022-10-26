@@ -19,12 +19,4 @@ describe("conditionsToFieldArray", () => {
 
     expect(conditionsToFieldArray(conditions)).to.deep.equal(expected);
   });
-
-  it("should return create a not null constraint", () => {
-    const conditions = { not: { eq: { field_1: "" } } };
-
-    const expected = { attribute: "field_1", constraint: "not_null" };
-
-    expect(conditionsToFieldArray(conditions)).to.deep.equal(expected);
-  });
 });

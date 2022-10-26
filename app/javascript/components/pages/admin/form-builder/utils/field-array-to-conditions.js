@@ -1,13 +1,8 @@
 import { COMPARISON_OPERATORS } from "../../../../../libs/expressions/constants";
 import { isOperator } from "../../../../../libs/expressions/utils";
-import { isNotNullConstraint } from "../components/condition-dialog/utils";
 
 const getConstraint = condition => {
-  const { attribute, constraint, value } = condition;
-
-  if (isNotNullConstraint(constraint)) {
-    return { not: { eq: { [attribute]: "" } } };
-  }
+  const { constraint, value } = condition;
 
   if (Array.isArray(value)) {
     return COMPARISON_OPERATORS.IN;

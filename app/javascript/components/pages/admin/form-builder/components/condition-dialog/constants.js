@@ -6,8 +6,7 @@ export const VALUE_FIELD = "value";
 export const DEFAULT_CONSTRAINTS = Object.freeze({
   lt: "report.filters.less_than",
   gt: "report.filters.greater_than",
-  eq: "report.filters.equal_to",
-  not_null: "report.filters.not_blank"
+  eq: "report.filters.equal_to"
 });
 export const DATE_CONSTRAINTS = Object.freeze({
   gt: "report.filters.before",

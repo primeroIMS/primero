@@ -20,7 +20,7 @@ import { getFieldByName, getNestedFields, getRecordFields } from "../../../../..
 
 import { conditionsForm, validationSchema } from "./form";
 import { ATTRIBUTE_FIELD, CONSTRAINT_FIELD, FORM_NAME, NAME, VALUE_FIELD } from "./constants";
-import { isNotNullConstraint, registerFields, updateCondition } from "./utils";
+import { convertValue, registerFields, updateCondition } from "./utils";
 
 function Component({ formMethods, handleClose, handleSuccess, primeroModule, recordType, field }) {
   const i18n = useI18n();
@@ -41,7 +41,6 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
   const dialogFormMethods = useForm({ defaultValues, resolver: yupResolver(validationSchema(i18n)) });
   const { handleSubmit } = dialogFormMethods;
   const attribute = useWatch({ control: dialogFormMethods.control, name: ATTRIBUTE_FIELD });
-  const constraint = useWatch({ control: dialogFormMethods.control, name: CONSTRAINT_FIELD });
   const selectedField = useMemoizedSelector(state => getFieldByName(state, attribute));
   const nestedFields = useMemoizedSelector(state =>
     getNestedFields(state, {
@@ -69,7 +68,6 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
     fields: fields.concat(nestedFields),
     i18n,
     selectedField,
-    isNotNullConstraint: isNotNullConstraint(constraint),
     mode: formMode
   });
 
@@ -77,12 +75,13 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
     const isNestedField = nestedFields.some(nested => nested.name === data.attribute);
     const conditionsFieldName = isNestedField ? "display_conditions_subform" : "display_conditions_record";
     const fieldName = field ? `${field.name}.${conditionsFieldName}` : "display_conditions";
+    const dataConverted = { ...data, value: convertValue(data.value, selectedField.type) };
 
     if (formMode.isNew) {
       if (isNestedField) {
-        appendConditionSubform(data);
+        appendConditionSubform(dataConverted);
       } else {
-        appendConditionRecord(data);
+        appendConditionRecord(dataConverted);
       }
     } else {
       registerFields({
@@ -94,7 +93,7 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
       updateCondition({
         setValue: formMethods.setValue,
         index: params.get("index"),
-        condition: data,
+        condition: dataConverted,
         fieldName
       });
     }

@@ -1,4 +1,4 @@
-import { NOT_NULL } from "../../../../../reports-form/constants";
+import { NUMERIC_FIELD, TICK_FIELD } from "../../../../../form";
 
 export const registerFields = ({ register, fieldsRef, index, fieldName }) => {
   if (!fieldsRef[`${fieldName}.${index}.constraint`]) {
@@ -23,5 +23,14 @@ export const updateCondition = ({ setValue, fieldName, index, condition }) => {
   });
 };
 
-export const isNotNullConstraint = constraint =>
-  constraint === NOT_NULL || constraint === "true" || constraint === true;
+export const convertValue = (source, fieldType) => {
+  if (fieldType === NUMERIC_FIELD) {
+    return parseInt(source, 10);
+  }
+
+  if (fieldType === TICK_FIELD) {
+    return source.map(elem => elem === "true");
+  }
+
+  return source;
+};

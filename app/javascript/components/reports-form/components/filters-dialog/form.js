@@ -52,11 +52,11 @@ export const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => 
     case TICK_FIELD: {
       const options = [
         {
-          id: "true",
+          id: true,
           display_text: currentField.tick_box_label || i18n.t("true")
         },
         {
-          id: "false",
+          id: false,
           display_text: i18n.t("report.not_selected")
         }
       ];

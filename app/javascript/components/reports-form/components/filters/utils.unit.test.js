@@ -32,7 +32,7 @@ describe("<ReportFilters /> - utils", () => {
       };
 
       it("should return the value of tick_box_label included in the field", () => {
-        const value = ["true"];
+        const value = [true];
 
         expect(
           utils.formatValue(value, i18n, {
@@ -42,7 +42,7 @@ describe("<ReportFilters /> - utils", () => {
         ).to.be.equals("test");
       });
       it("should return true if the value includes true and if there's not tick_box_label", () => {
-        const value = ["true"];
+        const value = [true];
 
         expect(
           utils.formatValue(value, i18n, {
@@ -52,7 +52,7 @@ describe("<ReportFilters /> - utils", () => {
         ).to.be.equals("true");
       });
       it("should return not selected if the value doesn't include true", () => {
-        const value = ["false"];
+        const value = [false];
 
         expect(
           utils.formatValue(value, i18n, {

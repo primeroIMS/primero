@@ -7,12 +7,14 @@ export const touchedFormData = (touched, data, hasInitialValues = false, initial
     if (Array.isArray(touched[current]) && data[current].find(elem => typeof elem === "object")) {
       obj[current] = [];
       touched[current].forEach((value, key) => {
-        obj[current][key] = touchedFormData(
-          value,
-          data[current][key],
-          hasInitialValues,
-          initialValues?.[current]?.[key]
-        );
+        if (data[current][key]) {
+          obj[current][key] = touchedFormData(
+            value,
+            data[current][key],
+            hasInitialValues,
+            initialValues?.[current]?.[key]
+          );
+        }
       });
     } else if ((hasInitialValues && initialValues?.[current] !== data?.[current]) || !hasInitialValues) {
       obj[current] = data[current];
