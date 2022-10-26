@@ -1,4 +1,4 @@
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 import PropTypes from "prop-types";
 
 import { useMemoizedSelector } from "../../../libs";
@@ -47,6 +47,13 @@ const InsightFilterTags = ({ filters = [] }) => {
 
     if (filter.option_strings_text) {
       return option ? i18n.t(option) : null;
+    }
+
+    if (List.isList(value)) {
+      return options
+        .filter(opt => value.includes(get(opt, "id")))
+        .map(opt => get(opt, "display_text"))
+        .join(", ");
     }
 
     return option;

@@ -22,6 +22,7 @@ export const DASHBOARD_NAMES = Object.freeze({
   CASES_BY_TASK_OVERDUE_SERVICES: "dashboard.cases_by_task_overdue_services",
   GROUP_OVERVIEW: "dashboard.dash_group_overview",
   NATIONAL_ADMIN_SUMMARY: "dashboard.dash_national_admin_summary",
+  PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES: "dashboard.dash_perpetrator_armed_force_group_party_names",
   PROTECTION_CONCERNS: "dashboard.dash_protection_concerns",
   REPORTING_LOCATION: "dashboard.reporting_location",
   SHARED_FROM_MY_TEAM: "dashboard.dash_shared_from_my_team",
@@ -29,6 +30,8 @@ export const DASHBOARD_NAMES = Object.freeze({
   SHARED_WITH_MY_TEAM: "dashboard.dash_shared_with_my_team",
   SHARED_WITH_MY_TEAM_OVERVIEW: "dashboard.dash_shared_with_my_team_overview",
   SHARED_WITH_OTHERS: "dashboard.dash_shared_with_others",
+  VIOLATIONS_CATEGORY_VERIFICATION_STATUS: "dashboard.dash_violations_category_verification_status",
+  VIOLATIONS_CATEGORY_REGION: "dashboard.dash_violations_category_region",
   WORKFLOW_TEAM: "dashboard.workflow_team",
   WORKFLOW: "dashboard.workflow"
 });
@@ -42,10 +45,12 @@ export const INDICATOR_NAMES = Object.freeze({
   REPORTING_LOCATION_OPEN_THIS_WEEK: "reporting_location_open_this_week",
   REPORTING_LOCATION_ClOSED_LAST_WEEK: "reporting_location_closed_last_week",
   REPORTING_LOCATION_ClOSED_THIS_WEEK: "reporting_location_closed_this_week",
+  PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES: "perpetrator_armed_force_group_party_names",
   PROTECTION_CONCERNS_ALL_CASES: "protection_concerns_all_cases",
   PROTECTION_CONCERNS_OPEN_CASES: "protection_concerns_open_cases",
   PROTECTION_CONCERNS_NEW_THIS_WEEK: "protection_concerns_new_this_week",
-  PROTECTION_CONCERNS_CLOSED_THIS_WEEK: "protection_concerns_closed_this_week"
+  PROTECTION_CONCERNS_CLOSED_THIS_WEEK: "protection_concerns_closed_this_week",
+  VIOLATIONS_CATEGORY_VERIFICATION_STATUS: "violations_category_verification_status"
 });
 
 export const PROTECTION_CONCERNS_ORDER_NAMES = Object.freeze([

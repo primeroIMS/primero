@@ -9,9 +9,19 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
   def indicators
     [
       ManagedReports::Indicators::VerifiedInformation,
+      ManagedReports::Indicators::VerifiedInformationViolations,
       ManagedReports::Indicators::LateVerification,
-      ManagedReports::Indicators::UnverifiedInformation
+      ManagedReports::Indicators::LateVerificationViolations,
+      ManagedReports::Indicators::UnverifiedInformation,
+      ManagedReports::Indicators::UnverifiedInformationViolations,
+      ManagedReports::Indicators::MultipleViolations
     ]
+  end
+
+  def lookups
+    {
+      ManagedReports::Indicators::MultipleViolations.id => %w[lookup-gender-unknown-total lookup-violation-type]
+    }.freeze
   end
 
   def display_graph

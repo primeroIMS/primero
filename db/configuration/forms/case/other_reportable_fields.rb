@@ -7,14 +7,14 @@ fields = [
         }),
   Field.new({"name" => "owned_by_agency_id",
         "type" => "select_box",
-        "display_name_en" => "Case Manager's Agency",
+        "display_name_en" => "Record Owner's Agency",
         "editable" => false,
         "disabled" => true,
         "option_strings_source" => "Agency"
         }),
   Field.new({"name" => "owned_by_location",
         "type" => "select_box",
-        "display_name_en" => "Case Manager's Location",
+        "display_name_en" => "Record Owner's Location",
         "editable" => false,
         "disabled" => true,
         "option_strings_source" => "Location"

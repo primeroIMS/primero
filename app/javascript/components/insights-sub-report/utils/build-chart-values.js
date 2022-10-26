@@ -10,29 +10,29 @@ import translateGroup from "./translate-group";
 import sortWithSortedArray from "./sort-with-sorted-array";
 import groupIdComparator from "./group-id-comparator";
 
-const sortTuples = ({ valueKey, tuples, ageRanges, lookupDisplayTexts }) => {
+const sortTuples = ({ valueKey, tuples, ageRanges, lookupDisplayTexts, incompleteDataLabel }) => {
   const sortByFn = elem => first(elem);
 
   if (valueKey === "age") {
-    return sortWithSortedArray(tuples, ageRanges, sortByFn);
+    return sortWithSortedArray(tuples, ageRanges, sortByFn, incompleteDataLabel);
   }
 
   if (lookupDisplayTexts.length > 1) {
-    return sortWithSortedArray(tuples, lookupDisplayTexts, sortByFn);
+    return sortWithSortedArray(tuples, lookupDisplayTexts, sortByFn, incompleteDataLabel);
   }
 
   return sortBy(tuples, sortByFn);
 };
 
-const sortEntries = ({ valueKey, entries, ageRanges, lookupDisplayTexts }) => {
+const sortEntries = ({ valueKey, entries, ageRanges, lookupDisplayTexts, incompleteDataLabel }) => {
   const sortByFn = ([, entryValue]) => entryValue;
 
-  if (valueKey === "age") {
-    return sortWithSortedArray(entries, ageRanges, sortByFn);
+  if (valueKey === "age" || valueKey.includes("_age")) {
+    return sortWithSortedArray(entries, ageRanges, sortByFn, incompleteDataLabel);
   }
 
   if (lookupDisplayTexts.length > 1) {
-    return sortWithSortedArray(entries, lookupDisplayTexts, sortByFn);
+    return sortWithSortedArray(entries, lookupDisplayTexts, sortByFn, incompleteDataLabel);
   }
 
   return sortBy(entries, sortByFn);
@@ -45,7 +45,8 @@ const buildGroupedChartValues = ({
   groupedBy,
   localizeDate,
   ageRanges,
-  lookupDisplayTexts
+  lookupDisplayTexts,
+  incompleteDataLabel
 }) => {
   const options = value
     .flatMap(elem => elem.get("data", fromJS([])))
@@ -59,7 +60,9 @@ const buildGroupedChartValues = ({
 
   const optionEntries = Object.entries(options);
 
-  const ids = sortEntries({ valueKey, entries: optionEntries, ageRanges, lookupDisplayTexts }).map(([key]) => key);
+  const ids = sortEntries({ valueKey, entries: optionEntries, ageRanges, lookupDisplayTexts, incompleteDataLabel }).map(
+    ([key]) => key
+  );
 
   const sortedData = value.sort(groupIdComparator(groupedBy));
 
@@ -114,7 +117,8 @@ export default ({
       groupedBy,
       localizeDate,
       ageRanges,
-      lookupDisplayTexts
+      lookupDisplayTexts,
+      incompleteDataLabel
     });
   }
 
@@ -122,7 +126,7 @@ export default ({
     return [...acc, [getLookupValue(valueKey, elem), elem.get("total")]];
   }, []);
 
-  const sortedTuples = sortTuples({ valueKey, tuples, ageRanges, lookupDisplayTexts });
+  const sortedTuples = sortTuples({ valueKey, tuples, ageRanges, lookupDisplayTexts, incompleteDataLabel });
 
   return {
     datasets: [

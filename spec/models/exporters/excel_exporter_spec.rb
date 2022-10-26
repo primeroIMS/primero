@@ -151,7 +151,7 @@ module Exporters
           [
             'cases_test_subform_2', 'cases_test_form_2', 'cases_test_form_1',
             'cases_test_subform_1', 'cases_test_subform_3', 'cases_test_subform_4',
-            'Test Arabic   .', 'cases_test_form-cases_test_s...', 'cases_test_form-cases_test_s.-1',
+            'Test Arabic فاكيا قد به،. بـ...', 'cases_test_form-cases_test_s...', 'cases_test_form-cases_test_s.-1',
             'cases_test_form-cases_test_s.-2', 'cases_test_form-cases_test_s.-3',
             'case_test_form_-cases_test_s...', 'cases_test_subform_5'
           ]

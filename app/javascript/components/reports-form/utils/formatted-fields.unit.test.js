@@ -141,6 +141,16 @@ describe("<ReportForm>/utils/buildFields()", () => {
 
     const expected = [
       {
+        display_text: "Test 2",
+        formSection: "testFormCase",
+        id: "owned_by",
+        option_strings_source: undefined,
+        option_strings_text: null,
+        tick_box_label: undefined,
+        type: "select_field",
+        visible: true
+      },
+      {
         display_text: "Test 3",
         formSection: "testFormCase",
         id: "test3",

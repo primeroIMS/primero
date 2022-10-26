@@ -26,7 +26,7 @@ module Indicators
           params['facet'] = 'true'
           params['facet.missing'] = 'true'
           params['facet.pivot'] = this.pivots.map do |pivot|
-            SolrUtils.indexed_field_name('case', pivot)
+            SolrUtils.indexed_field_name(Record.map_name(this.record_model.name), pivot)
           end.join(',')
           params['facet.pivot.mincount'] = this.exclude_zeros == true ? '1' : '-1'
           params['facet.pivot.limit'] = '-1'
@@ -48,6 +48,8 @@ module Indicators
     end
 
     def row_stats(rows, owner, user, name_map)
+      return {} unless rows.present?
+
       rows.each_with_object({}) do |row, stats|
         stats[row['value']] = row['pivot'].map do |pivot|
           stat = {

@@ -27,7 +27,7 @@ const Component = ({ loadingIndicator }) => {
         <DashboardTable
           pathname={ROUTES.cases}
           title={i18n.t("dashboard.workflow_team")}
-          {...toListTable(casesWorkflowTeam, workflowLabels, i18n.locale)}
+          {...toListTable(casesWorkflowTeam, workflowLabels, [], i18n.locale)}
         />
       </OptionsBox>
     </Permission>

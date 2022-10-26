@@ -80,6 +80,12 @@ describe("Application - Reducers", () => {
         admin_level_map: { 1: ["province"], 2: ["district"] },
         label_keys: ["district"]
       },
+      incidentReportingLocationConfig: {
+        admin_level: 2,
+        field_key: "owned_by_location",
+        admin_level_map: { 1: ["province"], 2: ["district"] },
+        label_keys: ["district"]
+      },
       ageRanges: {
         primero: ["0..5", "6..11", "12..17", "18..999"]
       },
@@ -157,6 +163,12 @@ describe("Application - Reducers", () => {
           code_of_conduct: codesOfConduct,
           primero_version: "2.0.0.1",
           reporting_location_config: {
+            admin_level: 2,
+            field_key: "owned_by_location",
+            admin_level_map: { 1: ["province"], 2: ["district"] },
+            label_keys: ["district"]
+          },
+          incident_reporting_location_config: {
             admin_level: 2,
             field_key: "owned_by_location",
             admin_level_map: { 1: ["province"], 2: ["district"] },

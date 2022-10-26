@@ -40,13 +40,13 @@ class GenerateLocationFilesService
     def create_directory
       FileUtils.mkdir_p(output_dir[:root]) unless File.directory?(output_dir[:root])
       FileUtils.rm_rf Dir.glob("#{output_dir[:root]}/*")
-      FileUtils.rm_rf Dir.glob("#{app_share_dir}/options/*") if use_app_share_dir?
+      FileUtils.rm_rf Dir.glob("#{app_share_dir}/options/*")
     end
 
     def write_locations_to_file
       locations_data_json = Location.connection.select_all(
         "SELECT json_build_object('data', json_agg(loc)) " \
-        'FROM (SELECT id, location_code AS code, type, admin_level, name_i18n AS name FROM locations) loc'
+        'FROM (SELECT id, location_code AS code, type, admin_level, name_i18n AS name, disabled FROM locations) loc'
       )
       File.open(output_dir[:locations_file], 'a') do |f|
         f.write(locations_data_json[0]['json_build_object'])

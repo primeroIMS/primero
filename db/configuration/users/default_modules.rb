@@ -4,7 +4,7 @@ PrimeroModule.create_or_update!(
   unique_id: 'primeromodule-cp',
   name: "CP",
   description: "Child Protection",
-  associated_record_types: ["case", "tracing_request", "incident"],
+  associated_record_types: ["case", "tracing_request", "incident", "registry_record"],
   form_sections: FormSection.where(unique_id: [
     "activities", "assessment", "basic_identity", "best_interest",
     "care_arrangements", "care_assessment", "child_under_5", "bia_documents",
@@ -17,7 +17,8 @@ PrimeroModule.create_or_update!(
     "other_reportable_fields_tracing_request", "referral_transfer", "notes", "cp_case_plan", "cp_bia_form",
     "cp_incident_form", "cp_individual_details", "cp_offender_details", "cp_other_reportable_fields", "cp_incident_record_owner",
     "incident_details_container", "approvals", "conference_details_container",
-    "summary", "referral", "incident_from_case", "transfer_assignments", "change_logs"
+    "summary", "referral", "incident_from_case", "transfer_assignments", "change_logs",
+    "registry_from_case", "registry_details"
   ]),
   field_map: {
     map_to: "primeromodule-cp",

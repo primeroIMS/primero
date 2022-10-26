@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Methods for groupable exporters
+# rubocop:disable Metrics/ModuleLength
 module Exporters::GroupableExporter
   extend ActiveSupport::Concern
 
@@ -39,12 +40,18 @@ module Exporters::GroupableExporter
     end
   end
 
-  def write_grouped_headers
+  def indicators_subcolumns_data(indicator_key)
+    indicators_subcolumns[indicator_key] || []
+  end
+
+  def write_grouped_headers(indicator_key = nil)
+    sub_item_size = indicators_subcolumns[indicator_key]&.size || 1
     if grouped_by_year?
-      write_years_headers
+      write_years_headers(sub_item_size)
     else
-      write_groups_headers
+      write_groups_headers(sub_item_size)
     end
+    write_sub_items_columns_headers(indicator_key)
   end
 
   def columns_number
@@ -64,43 +71,80 @@ module Exporters::GroupableExporter
 
     worksheet.set_row(current_row, 30)
     worksheet.merge_range(
-      current_row, 0, current_row, columns_number,
-      I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{indicator_key}", locale: locale),
+      current_row, 0, current_row, columns_number * (indicators_subcolumns[indicator_key]&.size || 1),
+      build_label(indicator_key),
       formats[:blue_header]
     )
+
     self.current_row += 1
   end
 
-  def write_years_headers
+  def write_years_headers(sub_item_size = 1)
     years.each_with_index do |year, index|
-      columns_size = groups[year].size
-      prev_column_size = groups[years[index - 1]].size if index >= 1
-      start_index = index * (prev_column_size || columns_size)
-      write_year_header(start_index, year)
+      start_index = start_index_header(year, index, sub_item_size)
+      write_year_header(start_index, year, sub_item_size)
     end
 
     self.current_row += 1
   end
 
-  def write_year_header(start_index, year)
-    worksheet.write(current_row, start_index + 1, year, formats[:bold_blue])
+  def write_year_header(start_index, year, sub_item_size)
+    if sub_item_size == 1
+      worksheet.write(current_row, start_index, year, formats[:bold_blue])
+    else
+      worksheet.merge_range(
+        current_row, start_index,
+        current_row, start_index + sub_item_size - 1,
+        year, formats[:bold_blue_align]
+      )
+    end
   end
 
-  def write_groups_headers
+  def start_index_header(year, year_index, sub_item_size)
+    columns_size = groups[year].size * sub_item_size
+    prev_column_size = groups[years[year_index - 1]].size * sub_item_size if year_index >= 1
+
+    year_index * (prev_column_size || columns_size) + 1
+  end
+
+  def write_groups_headers(sub_item_size = 1)
     years.each_with_index do |year, year_index|
-      columns_size = groups[year].size
-      prev_column_size = groups[years[year_index - 1]].size if year_index >= 1
-      start_index = year_index * (prev_column_size || columns_size) + 1
-      write_group_header(start_index, year)
+      start_index = start_index_header(year, year_index, sub_item_size)
+      write_group_header(start_index, year, sub_item_size)
     end
 
     self.current_row += 1
   end
 
-  def write_group_header(start_index, year)
+  def write_group_header(start_index, year, subitems_size)
     sort_group(year).each_with_index do |group, group_index|
-      worksheet.write(current_row, start_index + group_index, "#{year}-#{translate_group(group)}", formats[:bold_blue])
+      translated_group = translate_group(group)
+      group_header_label = header_include_year? ? "#{year}-#{translated_group}" : translated_group
+      if subitems_size == 1
+        worksheet.write(current_row, start_index + group_index, group_header_label, formats[:bold_blue])
+        next
+      end
+
+      worksheet.merge_range(current_row, calculate_position(start_index, (group_index * subitems_size)),
+                            current_row, calculate_position(start_index, (((group_index + 1) * subitems_size) - 1)),
+                            group_header_label, formats[:bold_blue])
     end
+  end
+
+  def write_sub_items_columns_headers(indicator_key = nil)
+    indicators_subcolumns_keys = indicators_subcolumns_data(indicator_key)
+    return if indicators_subcolumns_keys.blank?
+
+    years.each_with_index do |year, year_index|
+      start_index = start_index_header(year, year_index, indicators_subcolumns_keys.size)
+
+      indicators_subcolums_per_group(year, indicator_key).each_with_index do |subcolumn, subcolumn_index|
+        worksheet.write(current_row, calculate_position(start_index, subcolumn_index),
+                        build_label(subcolumn), formats[:bold_blue])
+      end
+    end
+
+    self.current_row += 1
   end
 
   def translate_group(group)
@@ -116,12 +160,12 @@ module Exporters::GroupableExporter
     write_grouped_table_header(indicator_key)
     return if indicator_values.blank?
 
-    write_grouped_headers
+    write_grouped_headers(indicator_key)
     options = sort_options(indicator_options(indicator_values), indicator_lookups, indicator_key == 'age')
     options_display_text(options, indicator_lookups)
     write_indicator_options(options)
-    write_grouped_indicator_data(indicator_values, options)
-    write_grouped_graph(options)
+    write_grouped_indicator_data(indicator_values, options, indicator_key)
+    write_grouped_graph(options) unless indicators_subcolumns_data(indicator_key).present?
   end
 
   def write_grouped_graph(options)
@@ -198,40 +242,66 @@ module Exporters::GroupableExporter
     end
   end
 
-  def write_grouped_indicator_data(indicator_values, options)
+  def write_grouped_indicator_data(indicator_values, options, indicator_key)
     grouped_data = indicator_values.group_by { |value| value['group_id'].to_s }
+
     years.each_with_index do |year, year_index|
       if grouped_by_year?
-        write_year_data(grouped_data, options, year_index, year)
+        write_year_data(grouped_data, options, year_index, year, indicator_key)
       else
-        subcolumn_initial_index = written_subcolumns_number(year_index) + 1
-        write_subcolumns_data(grouped_data, options, subcolumn_initial_index, year)
+        subcolumn_initial_index = written_subcolumns_number(year_index, indicator_key) + 1
+        write_subcolumns_data(grouped_data, options, subcolumn_initial_index, year, indicator_key)
       end
     end
 
     self.current_row += options.size
   end
 
-  def write_year_data(grouped_data, options, initial_index, year)
+  def write_year_data(grouped_data, options, initial_index, year, indicator_key)
     group_data = grouped_data[year.to_s].first['data']
-    write_columns_data(group_data, options, 0, initial_index + 1)
+    write_columns_data(group_data, options, 1, initial_index, indicator_key)
   end
 
-  def write_subcolumns_data(grouped_data, options, initial_index, year)
+  def write_subcolumns_data(grouped_data, options, initial_index, year, indicator_key)
     sort_group(year).each_with_index do |group, group_index|
       group_data = grouped_data["#{year}-#{group}"].first['data']
-      write_columns_data(group_data, options, initial_index, group_index)
+      write_columns_data(group_data, options, initial_index, group_index, indicator_key)
     end
   end
 
-  def write_columns_data(group_data, options, initial_index, group_index)
+  def write_columns_data(group_data, options, initial_index, group_index, indicator_key)
     options.each_with_index do |option, option_index|
       cell_format = option != options.last ? formats[:black] : formats[:blue_bottom_border]
+      write_column_data(
+        {
+          group_data: group_data, group_index: group_index, option: option, option_index: option_index,
+          initial_index: initial_index, cell_format: cell_format, indicator_key: indicator_key
+        }
+      )
+    end
+  end
+
+  def write_column_data(params = {})
+    if indicators_subcolumns_data(params[:indicator_key]).present?
+      write_indicators_subcolumns_data(params)
+      return
+    end
+
+    worksheet.write(
+      current_row + params[:option_index],
+      params[:initial_index] + params[:group_index],
+      option_total(params[:group_data], params[:option]),
+      params[:cell_format]
+    )
+  end
+
+  def write_indicators_subcolumns_data(params)
+    subcolumns_data = indicators_subcolumns_data(params[:indicator_key])
+    subcolumns_data.each_with_index do |subcolumn, subcolumn_index|
       worksheet.write(
-        current_row + option_index,
-        initial_index + group_index,
-        option_total(group_data, option),
-        cell_format
+        calculate_position(current_row, params[:option_index]),
+        calculate_position(params[:initial_index], (params[:group_index] * subcolumns_data.size), subcolumn_index),
+        option_value(params[:group_data], params[:option], subcolumn), params[:cell_format]
       )
     end
   end
@@ -240,8 +310,14 @@ module Exporters::GroupableExporter
     group_data.find { |elem| elem['id'] == option['id'] }&.dig('total') || 0
   end
 
-  def written_subcolumns_number(column_index)
-    column_index.times.each_with_index.reduce(0) { |acc, (_, index)| acc + groups[years[index]].size }
+  def option_value(group_data, option, subcolumns_id)
+    group_data.find { |elem| elem['id'] == option['id'] }&.dig(subcolumns_id) || 0
+  end
+
+  def written_subcolumns_number(column_index, indicator_key = nil)
+    column_index.times.each_with_index.reduce(0) do |acc, (_, index)|
+      acc + (groups[years[index]].size * (indicators_subcolumns[indicator_key]&.size || 1))
+    end
   end
 
   def sort_group(year)
@@ -257,4 +333,21 @@ module Exporters::GroupableExporter
   def grouped_by_year?
     grouped_by.value == GROUPED_BY[:year]
   end
+
+  def build_label(label_key)
+    I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{label_key}", locale: locale)
+  end
+
+  def indicators_subcolums_per_group(year, indicator_key = nil)
+    indicators_subcolumns_data(indicator_key) * groups[year]&.size
+  end
+
+  def calculate_position(*args)
+    args.sum
+  end
+
+  def header_include_year?
+    true
+  end
 end
+# rubocop:enable Metrics/ModuleLength

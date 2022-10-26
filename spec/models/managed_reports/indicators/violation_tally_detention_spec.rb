@@ -98,28 +98,36 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
       incident_id: incident1.id
     )
     violation1.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'yes' })
     ]
     violation2 = Violation.create!(
       data: { type: 'killing', violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 } },
       incident_id: incident2.id
     )
     violation2.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes' })
     ]
     violation3 = Violation.create!(
       data: { type: 'maiming', violation_tally: { 'boys': 2, 'girls': 1, 'unknown': 2, 'total': 5 } },
       incident_id: incident3.id
     )
     violation3.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' })
     ]
     violation4 = Violation.create!(
       data: { type: 'killing', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
       incident_id: incident4.id
     )
     violation4.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'yes' })
     ]
     violation5 = Violation.create!(
       data: { type: 'maiming', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
@@ -138,10 +146,9 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
 
     expect(violation_tally_data).to match_array(
       [
-        { id: 'boys', total: 6 },
-        { id: 'unknown', total: 8 },
-        { id: 'girls', total: 7 },
-        { id: 'total', total: 21 }
+        { id: 'female', total: 4 },
+        { id: 'male', total: 5 },
+        { id: 'unknown', total: 2 }
       ]
     )
   end
@@ -154,10 +161,8 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
 
       expect(violation_tally_data).to match_array(
         [
-          { id: 'boys', total: 1 },
-          { id: 'unknown', total: 3 },
-          { id: 'girls', total: 2 },
-          { id: 'total', total: 6 }
+          { id: 'female', total: 1 },
+          { id: 'male', total: 2 }
         ]
       )
     end
@@ -169,10 +174,9 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
 
       expect(violation_tally_data).to match_array(
         [
-          { id: 'boys', total: 5 },
-          { id: 'unknown', total: 5 },
-          { id: 'girls', total: 5 },
-          { id: 'total', total: 15 }
+          { id: 'female', total: 3 },
+          { id: 'male', total: 3 },
+          { id: 'unknown', total: 2 }
         ]
       )
     end
@@ -184,10 +188,8 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
 
       expect(violation_tally_data).to match_array(
         [
-          { id: 'boys', total: 3 },
-          { id: 'unknown', total: 3 },
-          { id: 'girls', total: 2 },
-          { id: 'total', total: 8 }
+          { id: 'female', total: 3 },
+          { id: 'male', total: 2 }
         ]
       )
     end
@@ -199,10 +201,9 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
 
       expect(violation_tally_data).to match_array(
         [
-          { id: 'boys', total: 6 },
-          { id: 'unknown', total: 8 },
-          { id: 'girls', total: 7 },
-          { id: 'total', total: 21 }
+          { id: 'male', total: 5 },
+          { id: 'unknown', total: 2 },
+          { id: 'female', total: 4 }
         ]
       )
     end
@@ -229,28 +230,23 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
             {
               group_id: 2020,
               data: [
-                { id: 'boys', total: 1 },
-                { id: 'girls', total: 2 },
-                { id: 'total', total: 6 },
-                { id: 'unknown', total: 3 }
+                { id: 'female', total: 1 },
+                { id: 'male', total: 2 }
               ]
             },
             {
               group_id: 2021,
               data: [
-                { id: 'boys', total: 1 },
-                { id: 'girls', total: 1 },
-                { id: 'total', total: 3 },
-                { id: 'unknown', total: 1 }
+                { id: 'female', total: 1 },
+                { id: 'male', total: 1 }
               ]
             },
             {
               group_id: 2022,
               data: [
-                { id: 'boys', total: 4 },
-                { id: 'girls', total: 4 },
-                { id: 'total', total: 12 },
-                { id: 'unknown', total: 4 }
+                { id: 'female', total: 2 },
+                { id: 'male', total: 2 },
+                { id: 'unknown', total: 2 }
               ]
             }
           ]
@@ -278,10 +274,8 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
             {
               group_id: '2020-08',
               data: [
-                { id: 'boys', total: 1 },
-                { id: 'girls', total: 2 },
-                { id: 'total', total: 6 },
-                { id: 'unknown', total: 3 }
+                { id: 'female', total: 1 },
+                { id: 'male', total: 2 }
               ]
             },
             { group_id: '2020-09', data: [] }, { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] },
@@ -290,10 +284,8 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
             {
               group_id: '2021-05',
               data: [
-                { id: 'boys', total: 1 },
-                { id: 'girls', total: 1 },
-                { id: 'total', total: 3 },
-                { id: 'unknown', total: 1 }
+                { id: 'female', total: 1 },
+                { id: 'male', total: 1 }
               ]
             },
             { group_id: '2021-06', data: [] }, { group_id: '2021-07', data: [] }, { group_id: '2021-08', data: [] },
@@ -302,18 +294,14 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
             {
               group_id: '2022-02',
               data: [
-                { id: 'boys', total: 2 },
-                { id: 'girls', total: 1 },
-                { id: 'total', total: 5 },
-                { id: 'unknown', total: 2 }
+                { id: 'female', total: 2 },
+                { id: 'male', total: 1 }
               ]
             },
             {
               group_id: '2022-03',
               data: [
-                { id: 'boys', total: 2 },
-                { id: 'girls', total: 3 },
-                { id: 'total', total: 7 },
+                { id: 'male', total: 1 },
                 { id: 'unknown', total: 2 }
               ]
             }
@@ -342,30 +330,25 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
             {
               group_id: '2020-Q3',
               data: [
-                { id: 'boys', total: 1 },
-                { id: 'girls', total: 2 },
-                { id: 'total', total: 6 },
-                { id: 'unknown', total: 3 }
+                { id: 'female', total: 1 },
+                { id: 'male', total: 2 }
               ]
             },
             { group_id: '2020-Q4', data: [] }, { group_id: '2021-Q1', data: [] },
             {
               group_id: '2021-Q2',
               data: [
-                { id: 'boys', total: 1 },
-                { id: 'girls', total: 1 },
-                { id: 'total', total: 3 },
-                { id: 'unknown', total: 1 }
+                { id: 'female', total: 1 },
+                { id: 'male', total: 1 }
               ]
             },
             { group_id: '2021-Q3', data: [] }, { group_id: '2021-Q4', data: [] },
             {
               group_id: '2022-Q1',
               data: [
-                { id: 'boys', total: 4 },
-                { id: 'girls', total: 4 },
-                { id: 'total', total: 12 },
-                { id: 'unknown', total: 4 }
+                { id: 'female', total: 2 },
+                { id: 'male', total: 2 },
+                { id: 'unknown', total: 2 }
               ]
             }
           ]

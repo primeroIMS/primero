@@ -19,6 +19,7 @@ import {
 import handleFilterChange from "../value-handlers";
 import { listboxClasses, virtualize } from "../../../../searchable-select/components/listbox-component";
 import useOptions from "../../../../form/use-options";
+import { OPTION_TYPES } from "../../../../form";
 
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
@@ -48,7 +49,12 @@ const Component = ({
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
 
-  const lookups = useOptions({ source: optionStringsSource, optionStringsSourceIdKey });
+  const lookups = useOptions({
+    source: optionStringsSource,
+    optionStringsSourceIdKey,
+    filterOptions: sourceOptions => sourceOptions.filter(option => !option.disabled),
+    includeChildren: true
+  });
 
   const filterOptions = whichOptions({
     optionStringsSource,
@@ -81,6 +87,15 @@ const Component = ({
       isMultiSelect: multiple
     });
 
+    return () => {
+      unregister(fieldName);
+      if (setReset) {
+        setReset(false);
+      }
+    };
+  }, [register, unregister, fieldName]);
+
+  useEffect(() => {
     const value = filterOptions.filter(l => moreSectionFilters?.[fieldName]?.includes(l?.code || l?.id));
 
     setMoreFilterOnPrimarySection(moreSectionFilters, fieldName, setSecondaryValues, value);
@@ -90,23 +105,20 @@ const Component = ({
     }
 
     if (Object.keys(queryParams).length) {
-      const paramValues = queryParams[fieldName];
+      const paramValues = [OPTION_TYPES.LOCATION, OPTION_TYPES.REPORTING_LOCATIONS].includes(optionStringsSource)
+        ? queryParams[fieldName]?.map(paramValue => paramValue.toUpperCase())
+        : queryParams[fieldName];
 
       if (paramValues?.length) {
-        const selected = filterOptions.filter(l => paramValues.includes(l?.code?.toString() || l?.id?.toString()));
+        const selected = filterOptions.filter(filterOption =>
+          paramValues.includes(filterOption?.code?.toString() || filterOption?.id?.toString())
+        );
 
         setValue(fieldName, selected);
         setInputValue(selected);
       }
     }
-
-    return () => {
-      unregister(fieldName);
-      if (setReset) {
-        setReset(false);
-      }
-    };
-  }, [register, unregister, fieldName]);
+  }, [filterOptions.length, fieldName, reset]);
 
   const handleChange = (event, value) => {
     handleFilterChange({
@@ -137,6 +149,10 @@ const Component = ({
 
     if (typeof option === "string") {
       foundOption = filterOptions.find(lookupValue => [lookupValue?.code, lookupValue?.id].includes(option));
+    }
+
+    if (!foundOption) {
+      return option;
     }
 
     return getOptionName(foundOption, i18n);

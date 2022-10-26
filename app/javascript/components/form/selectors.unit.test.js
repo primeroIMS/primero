@@ -90,11 +90,23 @@ describe("Forms - Selectors", () => {
           lookup2
         ],
         locations: [
-          { id: 1, code: "MC", admin_level: 0, name: { en: "MyCountry" } },
-          { id: 2, code: "MCMP1", admin_level: 1, name: { en: "MyProvince1" } },
-          { id: 3, code: "MCMP2", admin_level: 1, name: { en: "MyProvince2" } },
-          { id: 4, code: "MCMP1MD1", admin_level: 2, name: { en: "MyDistrict1" } },
-          { id: 5, code: "MCMP2MD2", admin_level: 2, name: { en: "MyDistrict2" } }
+          { id: 1, code: "MC", admin_level: 0, name: { en: "MyCountry" }, disabled: false },
+          { id: 2, code: "MCMP1", admin_level: 1, name: { en: "MyCountry:MyProvince1" }, disabled: false },
+          { id: 3, code: "MCMP2", admin_level: 1, name: { en: "MyCountry:MyProvince2" }, disabled: false },
+          {
+            id: 4,
+            code: "MCMP1MD1",
+            admin_level: 2,
+            name: { en: "MyCountry:MyProvince1:MyDistrict1" },
+            disabled: false
+          },
+          {
+            id: 5,
+            code: "MCMP2MD2",
+            admin_level: 2,
+            name: { en: "MyCountry:MyProvince2:MyDistrict2" },
+            disabled: false
+          }
         ]
       },
       fields: [
@@ -378,14 +390,33 @@ describe("Forms - Selectors", () => {
   });
 
   describe("when optionStringsSource is REPORTING_LOCATIONS", () => {
-    it("should disabled the agencies that are not permitted for the current user", () => {
-      const options = selectors.getOptions(OPTION_TYPES.REPORTING_LOCATIONS)(stateWithLookups, {
-        source: OPTION_TYPES.REPORTING_LOCATIONS
-      });
+    it("should return the reporting location options", () => {
+      const options = selectors.getOptions(OPTION_TYPES.REPORTING_LOCATIONS)([
+        stateWithLookups,
+        {
+          source: OPTION_TYPES.REPORTING_LOCATIONS
+        }
+      ]);
 
       const expected = [
-        { id: "MCMP1MD1", display_text: "MyDistrict1" },
-        { id: "MCMP2MD2", display_text: "MyDistrict2" }
+        { id: "MCMP1MD1", display_text: "MyDistrict1", admin_level: 2, disabled: false },
+        { id: "MCMP2MD2", display_text: "MyDistrict2", admin_level: 2, disabled: false }
+      ];
+
+      expect(options).to.deep.equal(expected);
+    });
+    it("should return reporting location options with full location name", () => {
+      const options = selectors.getOptions(OPTION_TYPES.REPORTING_LOCATIONS)([
+        stateWithLookups,
+        {
+          source: OPTION_TYPES.REPORTING_LOCATIONS,
+          usePlacename: false
+        }
+      ]);
+
+      const expected = [
+        { id: "MCMP1MD1", display_text: "MyCountry:MyProvince1:MyDistrict1", admin_level: 2, disabled: false },
+        { id: "MCMP2MD2", display_text: "MyCountry:MyProvince2:MyDistrict2", admin_level: 2, disabled: false }
       ];
 
       expect(options).to.deep.equal(expected);

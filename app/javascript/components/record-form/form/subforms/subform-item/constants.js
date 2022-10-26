@@ -9,4 +9,6 @@ export const ORDER_OF_FORMS = [
   "responses"
 ];
 export const VIOLATION_TALLY = "violation_tally";
+export const VIOLATION_TALLY_ESTIMATED = "violation_tally_estimated";
 export const VIOLATIONS_FIELDS = "violations_fields";
+export const DENIAL_HUMANITARIAN_ACCESS = "denial_humanitarian_access";

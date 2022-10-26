@@ -47,7 +47,40 @@ describe("<SelectField />", () => {
             disabled: false,
             services: ["service_test_1", "service_test_2"]
           }
-        ]
+        ],
+        reportingLocationConfig: {
+          field_key: "owned_by_location",
+          admin_level: 2,
+          admin_level_map: {
+            1: ["province"],
+            2: ["district"]
+          },
+          hierarchy_filter: [],
+          label_keys: ["district"]
+        }
+      },
+      forms: {
+        options: {
+          locations: [
+            { id: 1, code: "MC", admin_level: 0, disabled: false, name: { en: "MyCountry" } },
+            { id: 2, code: "MCMP1", admin_level: 1, disabled: false, name: { en: "MyCountry:MyProvince1" } },
+            { id: 3, code: "MCMP2", admin_level: 1, disabled: false, name: { en: "MyCountry:MyProvince2" } },
+            {
+              id: 4,
+              code: "MCMP1MD1",
+              admin_level: 2,
+              disabled: false,
+              name: { en: "MyCountry:MyProvince1:MyDistrict1" }
+            },
+            {
+              id: 5,
+              code: "MCMP2MD2",
+              admin_level: 2,
+              disabled: false,
+              name: { en: "MyCountry:MyProvince2:MyDistrict2" }
+            }
+          ]
+        }
       }
     });
 
@@ -61,6 +94,37 @@ describe("<SelectField />", () => {
         { id: "agency-test-2", disabled: false, display_text: "Agency Test 2" }
       ];
       const selectField = component.find(SelectField);
+      const searchableSelect = selectField.find(SearchableSelect);
+
+      expect(searchableSelect).to.have.lengthOf(1);
+      expect(searchableSelect.props().options).to.deep.equal(expected);
+    });
+
+    it("render the select field with options for ReportingLocations", () => {
+      const { component: componentSelectField } = setupMountedComponent(
+        SelectField,
+        {
+          ...props,
+          field: {
+            option_strings_source: OPTION_TYPES.REPORTING_LOCATIONS
+          },
+          name: "service_delivery_location",
+          optionsSelector: () => ({
+            source: OPTION_TYPES.REPORTING_LOCATIONS,
+            usePlacename: false
+          })
+        },
+        initialState,
+        [],
+        {
+          initialValues: { service_delivery_location: "MCMP2MD2" }
+        }
+      );
+      const expected = [
+        { id: "MCMP1MD1", admin_level: 2, disabled: false, display_text: "MyCountry:MyProvince1:MyDistrict1" },
+        { id: "MCMP2MD2", admin_level: 2, disabled: false, display_text: "MyCountry:MyProvince2:MyDistrict2" }
+      ];
+      const selectField = componentSelectField.find(SelectField);
       const searchableSelect = selectField.find(SearchableSelect);
 
       expect(searchableSelect).to.have.lengthOf(1);

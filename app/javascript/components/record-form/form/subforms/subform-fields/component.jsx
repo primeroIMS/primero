@@ -37,7 +37,8 @@ const Component = ({
   formik,
   parentForm,
   isViolationAssociation,
-  entryFilter = false
+  entryFilter = false,
+  parentTitle
 }) => {
   const i18n = useI18n();
 
@@ -157,7 +158,9 @@ const Component = ({
                 values={values}
                 onClick={handleEdit(index)}
                 isViolationSubform={isViolationSubform}
-                associatedViolations={entryFilter && associatedViolations}
+                renderSecondaryText={Boolean(entryFilter)}
+                associatedViolations={associatedViolations}
+                parentTitle={parentTitle}
               />
               <ListItemSecondaryAction classes={{ root: css.listActions }}>
                 {isTracesSubform && <TracingRequestStatus values={values[index]} />}
@@ -218,6 +221,7 @@ Component.propTypes = {
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
   parentForm: PropTypes.object.isRequired,
+  parentTitle: PropTypes.string,
   setDialogIsNew: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired

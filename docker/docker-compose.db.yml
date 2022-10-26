@@ -2,7 +2,7 @@
 version: '3'
 services:
   postgres:
-    image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/postgres:${PRIMERO_TAG:-latest}'
+    image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/postgres:${PRIMERO_TAG:-latest}-pg${PRIMERO_POSTGRES_VERSION:-10}'
     volumes:
       - database:/var/lib/postgresql/data
     env_file:

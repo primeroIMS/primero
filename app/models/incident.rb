@@ -15,7 +15,7 @@ class Incident < ApplicationRecord
   include Kpi::GBVIncident
   include ReportableLocation
   include GenderBasedViolence
-  # include IncidentMonitoringRecording #TODO: Refactor with Violations
+  include MonitoringReportingMechanism
 
   store_accessor(
     :data,
@@ -29,6 +29,8 @@ class Incident < ApplicationRecord
   )
 
   has_many :violations, dependent: :destroy, inverse_of: :incident
+  has_many :perpetrators, through: :violations
+  has_many :individual_victims, through: :violations
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
   after_save :save_violations_and_associations
 
@@ -84,9 +86,6 @@ class Incident < ApplicationRecord
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
-    string :verification_status, multiple: true do
-      verification_status_list
-    end
   end
 
   after_initialize :set_unique_id
@@ -231,6 +230,20 @@ class Incident < ApplicationRecord
   def save_violations_and_associations
     save_violations
     save_violations_associations
+    reindex_violations_and_associations if @violations_to_save.present? || @associations_to_save.present?
+  end
+
+  # TODO: This method will trigger queries to reload the violations and associations in order to index the latest data
+  def reindex_violations_and_associations
+    violations.reload if @violations_to_save.present?
+
+    if @associations_to_save.present?
+      association_classes = @associations_to_save.map(&:class).uniq.compact
+      individual_victims.reload if association_classes.include?(IndividualVictim)
+      perpetrators.reload if association_classes.include?(Perpetrator)
+    end
+
+    Sunspot.index!(self)
   end
 
   def associations_as_data(_current_user)
@@ -251,28 +264,20 @@ class Incident < ApplicationRecord
   # Returns a list of Violations to be associated with
   # Violation::MRM_ASSOCIATIONS_KEYS (perpetrators, victims...) on API update
   def violations_for_associated(violations_ids)
+    ids = (violations_ids.is_a?(Array) ? violations_ids : [violations_ids])
     violations_result = []
-    saved_violations = violations_already_saved(violations_ids)
+
     if @violations_to_save.present?
-      violations_result += @violations_to_save.select { |violation| violations_ids.include?(violation.id) }
+      violations_result += @violations_to_save.select { |violation| ids.include?(violation.id) }
     end
-    violations_result += Violation.where(id: saved_violations) if saved_violations
+    violations_result += Violation.where(id: ids - violations_result.map(&:id))
 
     violations_result
   end
 
-  def violations_already_saved(violations_ids)
-    @violations_to_save.present? ? @violations_to_save.map(&:id) - violations_ids : violations_ids
-  end
 
   def reporting_location_property
     'incident_reporting_location_config'
-  end
-
-  def verification_status_list
-    return [] unless violations.any?
-
-    violations.pluck(Arel.sql("data->>'ctfmr_verified'")).uniq.compact
   end
 end
 # rubocop:enable Metrics/ClassLength

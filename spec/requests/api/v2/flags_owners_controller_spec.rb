@@ -132,13 +132,20 @@ describe Api::V2::FlagsOwnersController, type: :request do
 
             expect(response).to have_http_status(200)
             expect(json['data'].size).to eq(2)
-            expect(json['data'][0]['record_id']).to eq(@case1.id.to_s)
-            expect(json['data'][0]['record_type']).to eq('cases')
-            expect(json['data'][0]['message']).to eq('This is a flag')
-            expect(json['data'][0]['name']).to eq('*******')
-            expect(json['data'][0]['hidden_name']).to be
-            expect(json['data'][0]['owned_by']).to eq('user1')
-            expect(json['data'][0]['removed']).to be_falsey
+            api_result = json['data'].each_with_object({}) do |curr, acc|
+              curr.each do |key, value|
+                acc[key] ||= []
+                acc[key] << value
+              end
+            end
+
+            expect(api_result['record_id']).to match_array([@case1.id, @case1.id])
+            expect(api_result['record_type']).to match_array(%w[cases cases])
+            expect(api_result['message']).to match_array(['This is a flag', 'This is test flag 3'])
+            expect(api_result['name']).to match_array(%w[******* *******])
+            expect(api_result['hidden_name']).to match_array([true, true])
+            expect(api_result['owned_by']).to match_array(%w[user1 user1])
+            expect(api_result['removed']).to match_array([false, true])
           end
         end
 

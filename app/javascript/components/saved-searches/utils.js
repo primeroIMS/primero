@@ -1,5 +1,5 @@
 export const buildFiltersApi = filters => {
-  const excludeDefaultFiltersKeys = ["short", "per", "page", "fields"];
+  const excludeDefaultFiltersKeys = ["short", "per", "page", "fields", "filters_category"];
 
   return filters.reduce((acc, filter) => {
     const [key, value] = filter;

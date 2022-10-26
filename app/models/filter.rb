@@ -20,6 +20,7 @@ class Filter < ValueObject
     end.inject(&:merge)
   )
   SOCIAL_WORKER = Filter.new(name: 'cases.filter_by.social_worker', field_name: 'owned_by')
+  RECORD_OWNER = Filter.new(name: 'incidents.filter_by.record_owner', field_name: 'owned_by')
   MY_CASES = Filter.new(name: 'cases.filter_by.my_cases', field_name: 'my_cases')
   WORKFLOW = Filter.new(name: 'cases.filter_by.workflow', field_name: 'workflow')
   DATE_CASE = Filter.new(
@@ -170,15 +171,11 @@ class Filter < ValueObject
     field_name: 'unaccompanied_separated_status',
     option_strings_source: 'lookup-unaccompanied-separated-status'
   )
-  ARMED_FORCE_GROUP = Filter.new(
-    name: 'incidents.filter_by.armed_force_group_name',
-    field_name: 'armed_force_group_names',
-    option_strings_source: 'lookup-armed-force-group-name'
-  )
-  ARMED_FORCE_GROUP_TYPE = Filter.new(
-    name: 'incidents.filter_by.armed_force_group_type',
-    field_name: 'perpetrator_sub_categories',
-    option_strings_source: 'lookup-armed-force-group-type'
+  ARMED_FORCE_GROUP_PARTY = Filter.new(
+    name: 'incidents.filter_by.armed_force_group_party_name',
+    field_name: 'armed_force_group_party_names',
+    option_strings_source: 'lookup-armed-force-group-or-other-party',
+    type: 'multi_select'
   )
   TRACING_REQUEST_STATUS = Filter.new(
     name: 'tracing_requests.filter_by.status',
@@ -224,6 +221,122 @@ class Filter < ValueObject
     gbv_displacement_status protection_status urgent_protection_concern
     protection_concerns type_of_risk
   ].freeze
+
+  VIOLATION_FILTER = Filter.new(
+    name: 'incidents.filter_by.violations',
+    field_name: 'violation_category',
+    option_strings_source: 'lookup-violation-type',
+    type: 'multi_select'
+  )
+
+  INDIVIDUAL_VIOLATIONS = Filter.new(
+    name: 'incidents.filter_by.individual_violations',
+    field_name: 'individual_violations',
+    option_strings_source: 'lookup-violation-type'
+  )
+
+  INDIVIDUAL_AGE = Filter.new(
+    name: 'incidents.filter_by.individual_age',
+    field_name: 'individual_age',
+    type: 'multi_toggle'
+  )
+
+  INDIVIDUAL_SEX = Filter.new(
+    name: 'incidents.filter_by.individual_sex',
+    field_name: 'individual_sex',
+    option_strings_source: 'lookup-gender-unknown'
+  )
+
+  DEPRIVED_LIBERTY_SECURITY_REASONS = Filter.new(
+    name: 'incidents.filter_by.victim_deprived_liberty_security_reasons',
+    field_name: 'victim_deprived_liberty_security_reasons',
+    option_strings_source: 'lookup-mrm-yes-no-unknown'
+  )
+
+  REASONS_DEPRIVATION_LIBERTY = Filter.new(
+    name: 'incidents.filter_by.reasons_deprivation_liberty',
+    field_name: 'reasons_deprivation_liberty',
+    option_strings_source: 'lookup-reasons-deprivation-liberty'
+  )
+
+  VICTIM_FACILTY_VICTIMS_HELD = Filter.new(
+    name: 'incidents.filter_by.victim_facilty_victims_held',
+    field_name: 'victim_facilty_victims_held',
+    option_strings_source: 'lookup-detention-facility-type'
+  )
+
+  TORTURE_PUNISHMENT_WHILE_DEPRIVATED_LIBERTY = Filter.new(
+    name: 'incidents.filter_by.torture_punishment_while_deprivated_liberty',
+    field_name: 'torture_punishment_while_deprivated_liberty',
+    option_strings_source: 'lookup-mrm-yes-no-unknown'
+  )
+
+  VERIFIED_GHN_REPORTED = Filter.new(
+    name: 'incidents.filter_by.verified_ghn_reported',
+    field_name: 'verified_ghn_reported',
+    type: 'multi_select',
+    option_strings_source: 'lookup-verified-ghn-reported'
+  )
+
+  WEAPON_TYPE = Filter.new(
+    name: 'incidents.filter_by.weapon_type',
+    field_name: 'weapon_type',
+    type: 'multi_select',
+    option_strings_source: 'lookup-weapon-type'
+  )
+
+  FACILITY_IMPACT = Filter.new(
+    name: 'incidents.filter_by.facility_impact',
+    field_name: 'facility_impact',
+    option_strings_source: 'lookup-facility-impact-type'
+  )
+
+  FACILITY_ATTACK_TYPE = Filter.new(
+    name: 'incidents.filter_by.facility_attack_type',
+    field_name: 'facility_attack_type',
+    type: 'multi_select',
+    option_strings_source: 'lookup-facility-attack-type'
+  )
+
+  CHILD_ROLE = Filter.new(
+    name: 'incidents.filter_by.child_role',
+    field_name: 'child_role',
+    option_strings_source: 'lookup-combat-role-type'
+  )
+
+  ABDUCTION_PURPOSE_SINGLE = Filter.new(
+    name: 'incidents.filter_by.abduction_purpose_single',
+    field_name: 'abduction_purpose_single',
+    type: 'multi_select',
+    option_strings_source: 'lookup-abduction-purpose'
+  )
+
+  MILITARY_USE_TYPE = Filter.new(
+    name: 'incidents.filter_by.military_use_type',
+    field_name: 'military_use_type',
+    option_strings_source: 'lookup-military-use-type'
+  )
+
+  TYPES_OF_AID_DISRUPTED_DENIAL = Filter.new(
+    name: 'incidents.filter_by.types_of_aid_disrupted_denial',
+    field_name: 'types_of_aid_disrupted_denial',
+    option_strings_source: 'lookup-aid-service-type'
+  )
+
+  LATE_VERIFIED_VIOLATIONS = Filter.new(
+    name: 'incidents.filter_by.late_verified_violations',
+    field_name: 'has_late_verified_violations',
+    options: I18n.available_locales.map do |locale|
+      { locale => [{ id: 'true', display_name: I18n.t('true', locale: locale) }] }
+    end.inject(&:merge)
+  )
+
+  PERPETRATOR_CATEGORY = Filter.new(
+    name: 'incidents.filter_by.perpetrator_category',
+    field_name: 'perpetrator_category',
+    type: 'multi_select',
+    option_strings_source: 'lookup-perpetrator-category-type',
+  )
 
   class << self
     def filters(user, record_type)
@@ -304,7 +417,7 @@ class Filter < ValueObject
     def field_based_filters(user)
       filter_fields = Field.where(name: CASE_FILTER_FIELD_NAMES).map { |f| [f.name, f] }.to_h
       filters = []
-      filters += protection_concern_filter(user, filter_fields)
+      filters += protection_concern_filter(user)
       filters += gbv_displacement_filter(user, filter_fields)
       filters += protection_status_filter(user, filter_fields)
       filters += urgent_protection_concern_filter(user, filter_fields)
@@ -312,8 +425,8 @@ class Filter < ValueObject
       filters
     end
 
-    def protection_concern_filter(user, filter_fields)
-      if user.can?(:view_protection_concerns_filter, Child) && visible?('protection_concerns', filter_fields)
+    def protection_concern_filter(user)
+      if user.can?(:view_protection_concerns_filter, Child)
         return [PROTECTION_CONCERNS]
       end
 
@@ -371,13 +484,29 @@ class Filter < ValueObject
       [PHOTO]
     end
 
+    # rubocop:disable Metrics/AbcSize
     def incident_filters(user)
       filters = [FLAGGED_CASE] + violence_type_filter(user) + social_worker_filter(user)
-      filters += agency_office_filter(user) + user_group_filter(user) + status_filters(user) + [AGE_RANGE]
+      filters += agency_office_filter(user) + user_group_filter(user) + status_filters(user)
+      filters += violation_filter(user)
+      filters += [AGE_RANGE] if user.module?(PrimeroModule::GBV) || user.module?(PrimeroModule::CP)
       filters += children_verification_and_location_filters(user)
-      filters += [INCIDENT_DATE] + unaccompanied_filter(user) + armed_force_group_filters(user)
+      filters += [INCIDENT_DATE] + unaccompanied_filter(user)
+      filters += perpetrator_category_filters(user) + armed_force_group_filters(user)
       filters << ENABLED
+      filters += mrm_incident_filters if user.module?(PrimeroModule::MRM)
       filters
+    end
+    # rubocop:enable Metrics/AbcSize
+
+    def mrm_incident_filters
+      [
+        INDIVIDUAL_VIOLATIONS, INDIVIDUAL_AGE, INDIVIDUAL_SEX,
+        DEPRIVED_LIBERTY_SECURITY_REASONS, REASONS_DEPRIVATION_LIBERTY,
+        VICTIM_FACILTY_VICTIMS_HELD, TORTURE_PUNISHMENT_WHILE_DEPRIVATED_LIBERTY,
+        WEAPON_TYPE, FACILITY_IMPACT, FACILITY_ATTACK_TYPE, CHILD_ROLE, ABDUCTION_PURPOSE_SINGLE,
+        MILITARY_USE_TYPE, TYPES_OF_AID_DISRUPTED_DENIAL, RECORD_OWNER, AGENCY
+      ]
     end
 
     def violence_type_filter(user)
@@ -400,9 +529,19 @@ class Filter < ValueObject
       user.module?(PrimeroModule::MRM) ? [INCIDENT_STATUS] : [STATUS]
     end
 
+    def violation_filter(user)
+      return [] unless user.module?(PrimeroModule::MRM)
+
+      [VIOLATION_FILTER]
+    end
 
     def children_verification_and_location_filters(user)
-      filters = user.module?(PrimeroModule::MRM) ? [CHILDREN, VERIFICATION_STATUS] : []
+      filters = []
+
+      if user.module?(PrimeroModule::MRM)
+        filters = [CHILDREN, VERIFICATION_STATUS, LATE_VERIFIED_VIOLATIONS, VERIFIED_GHN_REPORTED]
+      end
+
       filters += location_filters(user)
       filters
     end
@@ -420,8 +559,12 @@ class Filter < ValueObject
       user.module?(PrimeroModule::GBV) ? [UNACCOMPANIED_PROTECTION_STATUS] : []
     end
 
+    def perpetrator_category_filters(user)
+      user.module?(PrimeroModule::MRM) ? [PERPETRATOR_CATEGORY] : []
+    end
+
     def armed_force_group_filters(user)
-      user.module?(PrimeroModule::MRM) ? [ARMED_FORCE_GROUP, ARMED_FORCE_GROUP_TYPE] : []
+      user.module?(PrimeroModule::MRM) ? [ARMED_FORCE_GROUP_PARTY] : []
     end
 
     def tracing_request_filter(user)
@@ -480,11 +623,11 @@ class Filter < ValueObject
   end
 
   def age_options(_opts = {})
-    system_settings = SystemSettings.current
-    self.options = system_settings.age_ranges[system_settings.primary_age_range].map do |age_range|
+    self.options = SystemSettings.primary_age_ranges.map do |age_range|
       { id: age_range.to_s, display_name: age_range.to_s }
     end
   end
+  alias individual_age_options age_options
 
   def owned_by_groups_options(_opts = {})
     enabled_user_groups = UserGroup.where(disabled: false).map do |user_group|
@@ -545,15 +688,33 @@ class Filter < ValueObject
     self.options = I18n.available_locales.map do |locale|
       locale_options = []
       locale_options << date_of_first_report_options(locale) if opts[:user].module?(PrimeroModule::GBV)
+      if opts[:user].module?(PrimeroModule::MRM)
+        locale_options << date_of_first_report_options(locale, 'mrm_date_of_first_report')
+        locale_options << ctfmr_verified_date_options(locale)
+      end
       locale_options << incident_date_derived_options(locale)
       { locale => locale_options }
     end.inject(&:merge)
   end
 
-  def date_of_first_report_options(locale)
+  def date_of_first_report_options(locale, label_key = 'date_of_first_report')
     {
       id: 'date_of_first_report',
-      display_name: I18n.t('incidents.selectable_date_options.date_of_first_report', locale: locale)
+      display_name: I18n.t("incidents.selectable_date_options.#{label_key}", locale: locale)
+    }
+  end
+
+  def mrm_date_of_first_report_options(locale)
+    {
+      id: 'date_of_first_report',
+      display_name: I18n.t('incidents.selectable_date_options.mrm_date_of_first_report', locale: locale)
+    }
+  end
+
+  def ctfmr_verified_date_options(locale)
+    {
+      id: 'ctfmr_verified_date',
+      display_name: I18n.t('incidents.selectable_date_options.ctfmr_verified_date', locale: locale)
     }
   end
 
@@ -592,7 +753,8 @@ class Filter < ValueObject
           approval_status_action_plan approval_status_gbv_closure].include? field_name
       approval_status_options
     elsif %w[
-      owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date incidents_by_date registry_records_by_date
+      owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date incidents_by_date
+      registry_records_by_date individual_age
     ].include? field_name
       opts = { user: user, record_type: record_type }
       send("#{field_name}_options", opts)

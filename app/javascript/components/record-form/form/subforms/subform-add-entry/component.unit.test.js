@@ -152,4 +152,33 @@ describe("<SubformAddEntry />", () => {
   it("renders the MenuItem", () => {
     expect(component.find(MenuItem)).lengthOf(1);
   });
+
+  context("when the field is a response", () => {
+    const responseProps = {
+      ...props,
+
+      field: FieldRecord({
+        name: "responses",
+        display_name: { en: "Response" },
+        subform_section_id: FormSectionRecord({
+          unique_id: "responses_section",
+          fields: [
+            FieldRecord({
+              name: "responses_field",
+              visible: true,
+              type: "text_field"
+            })
+          ]
+        })
+      })
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(SubformAddEntry, responseProps, {}, [], formProps));
+    });
+    it("should NOT renderd the Menu", () => {
+      expect(component.find(SubformAddEntry)).lengthOf(1);
+      expect(component.find(Menu)).lengthOf(0);
+    });
+  });
 });

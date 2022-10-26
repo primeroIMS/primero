@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
+import isEmpty from "lodash/isEmpty";
 
 export const getMultiSelectValues = (values, source, locale) =>
   values
@@ -6,9 +6,17 @@ export const getMultiSelectValues = (values, source, locale) =>
       const value = source.find(o => o.id === lookupValue);
 
       if (locale) {
-        return value.display_text?.[locale] || "";
+        return value?.display_text?.[locale] || "";
       }
 
-      return value.display_text || "";
+      return value?.display_text || "";
     })
     .join(", ");
+
+export const buildAssociatedViolationsLabels = (associatedViolations, value) => {
+  if (isEmpty(associatedViolations) || isEmpty(value)) {
+    return null;
+  }
+
+  return Object.entries(associatedViolations).find(val => val[1].includes(value))?.[0];
+};

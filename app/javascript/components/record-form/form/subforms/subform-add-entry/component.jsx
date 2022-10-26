@@ -8,6 +8,7 @@ import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { useI18n } from "../../../../i18n";
 import { buildViolationAssociationsOptions } from "../../utils";
+import { VIOLATIONS_ASSOCIATIONS_RESPONSES } from "../../../../../config";
 import css from "../styles.css";
 
 import { NAME, NEW } from "./constants";
@@ -30,7 +31,8 @@ const Component = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const { mobileDisplay } = useThemeHelper();
   const renderAddText = !mobileDisplay ? i18n.t("fields.add") : null;
-  const shouldRenderViolationAssociationMenu = isViolationAssociation && Boolean(parentTitle);
+  const shouldRenderViolationAssociationMenu =
+    isViolationAssociation && field.name !== VIOLATIONS_ASSOCIATIONS_RESPONSES && Boolean(parentTitle);
 
   if (mode.isShow || isDisabled || !isReadWriteForm) {
     return null;

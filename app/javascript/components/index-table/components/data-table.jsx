@@ -82,7 +82,8 @@ const Datatable = ({
     localizedFields,
     columnsName,
     validRecordTypes,
-    useReportingLocations
+    useReportingLocations,
+    recordType
   });
 
   useEffect(() => {

@@ -24,7 +24,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         approvals_labels: approvalsLabels,
         code_of_conduct: codesOfConduct,
         system_options: systemOptions,
-        export_require_password: exportRequirePassword
+        export_require_password: exportRequirePassword,
+        incident_reporting_location_config: incidentReportingLocationConfig
       } = payload.data;
 
       return state.merge(
@@ -35,6 +36,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           baseLanguage,
           primeroVersion,
           reportingLocationConfig,
+          incidentReportingLocationConfig,
           ageRanges,
           approvalsLabels,
           codesOfConduct,

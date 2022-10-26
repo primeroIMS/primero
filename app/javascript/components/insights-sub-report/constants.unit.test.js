@@ -1,11 +1,17 @@
 import * as constants from "./constants";
 
-describe("<Report /> - constants", () => {
+describe("<InsightsSubReport /> - constants", () => {
   const clone = { ...constants };
 
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
-    ["COMBINED_INDICATORS", "GROUPED_BY_FILTER", "NAME"].forEach(property => {
+    [
+      "COMBINED_INDICATORS",
+      "GROUPED_BY_FILTER",
+      "NAME",
+      "GHN_VIOLATIONS_INDICATORS_IDS",
+      "REPORTING_LOCATION_INSIGHTS"
+    ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });

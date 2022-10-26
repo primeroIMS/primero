@@ -1,0 +1,92 @@
+.listItemText {
+  width: 100%;
+
+  & span:after {
+    top:50%;
+    transform:translateY(-50%);
+    content:"•";
+    margin: 0.4em;
+  }
+
+  & span:last-of-type:after {
+    content: ""
+  }
+}
+
+.listText {
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.27;
+  letter-spacing: normal;
+  color: var(--c-blue);
+  text-transform: none;
+  display: inline-block;
+}
+
+.listItem:hover {
+  background: var(--c-light-grey);
+  cursor: pointer;
+}
+
+.listDivider {
+  border-bottom: 1px solid var(--c-warm-grey-2);
+}
+
+.list {
+  border: 1px solid var(--c-warm-grey-2);
+  border-radius: 5px;
+  background: var(--c-white);
+
+  & a {
+    text-decoration: none;
+  }
+}
+
+.listActions {
+  right: -3px;
+  left: initial;
+  display: flex;
+  padding: 5px;
+  align-items: center;
+
+  & .subformShow {
+    background-color: inherit;
+    color: var(--c-black);
+  }
+}
+
+.listDivider {
+  border-bottom: 1px solid var(--c-warm-grey-2);
+}
+
+.secondaryTitle {
+  margin: var(--sp-1) 0;
+}
+
+.secondaryList {
+  padding-left: var(--sp-3);
+  list-style: none;
+}
+
+.secondaryList li {
+  display: flex;
+  align-items: center;
+  line-height: 1.1;
+}
+
+.secondaryList li::before {
+  content: "\2022";
+  color: var(--c-blue);
+  font-weight: bold;
+  display: inline-block;
+  width: var(--sp-2);
+  margin-left: -1em;
+  font-size: 1.5em;
+}
+
+
+[dir="rtl"] .listActions {
+  right: initial;
+  left: -3px;
+}

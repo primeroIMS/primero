@@ -9,11 +9,11 @@ module ManagedReports::GhnIndicatorHelper
   # ClassMethods
   module ClassMethods
     def date_filter
-      'incident_date'
+      'ctfmr_verified_date'
     end
 
     def date_filter_param(filter)
-      filter.field_name = date_filter
+      filter.field_name = date_filter if filter.present?
       filter
     end
 

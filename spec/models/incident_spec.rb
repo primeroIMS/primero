@@ -160,6 +160,110 @@ describe Incident do
         expect(GroupVictim.count).to eq(1)
         expect(group_victim.unique_id).to eq('ae0de249-d8d9-44a6-9f7f-9dd316b46385')
       end
+
+      context 'when an associations is added to a violation' do
+        let(:data) do
+          { 'status' => 'open',
+            'incident_title' => 'incident for rspec',
+            'violation_category' => %w[killing maiming],
+            'is_incident_date_range' => false,
+            'incident_date' => Date.today,
+            'estimated_indicator' => false,
+            'incident_location' => 'IQG08Q02N02',
+            'incident_description' => 'none',
+            'incident_total_tally' => { 'boys' => 1, 'total' => 1 },
+            'incident_code': '9f88531',
+            'individual_victims' =>
+             [{ 'violations_ids' => ['222d97fb-b49d-401a-aff5-55dbe81a6fbf'],
+                'individual_multiple_violations' => false,
+                'individual_sex' => 'female',
+                'individual_age' => 2,
+                'individual_age_estimated' => false,
+                'depriviation_liberty_date_range' => false,
+                'unique_id' => 'ffbf1366-03b7-4fb6-acf7-a3ea678e0976' },
+              { 'violations_ids' => ['9c0a3d5d-96b9-4179-9f0d-6a064ece25dd'],
+                'individual_multiple_violations' => false,
+                'individual_sex' => 'male',
+                'individual_age' => 3,
+                'individual_age_estimated' => false,
+                'depriviation_liberty_date_range' => false,
+                'unique_id' => 'fdab72b7-9186-4986-a521-f63fb8a6e762' },
+              { 'violations_ids' => ['9c0a3d5d-96b9-4179-9f0d-6a064ece25dd'],
+                'individual_multiple_violations' => false,
+                'individual_sex' => 'unknown',
+                'individual_age' => 4,
+                'individual_age_estimated' => false,
+                'depriviation_liberty_date_range' => false,
+                'unique_id' => 'ab75e7ac-ec72-40d3-9565-200652b6ebe4' }],
+            'killing' =>
+             [{ 'violation_tally' => { 'total' => 1, 'girls' => 1 },
+                'context_km' => 'military_clashes',
+                'attack_type' => 'undetermined',
+                'weapon_category' => 'unknown',
+                'weapon_type' => 'unknown',
+                'verified' => 'report_pending_verification',
+                'ctfmr_verified' => 'report_pending_verification',
+                'unique_id' => '222d97fb-b49d-401a-aff5-55dbe81a6fbf' }],
+            'maiming' =>
+             [{ 'violation_tally' => { 'boys' => 1, 'unknown' => 1, 'total' => 2 },
+                'context_km' => 'intercommunal_violence',
+                'attack_type' => 'indirect_attack',
+                'weapon_category' => 'small_arms_lights_weapons',
+                'weapon_type' => 'assault_rifle',
+                'verified' => 'report_pending_verification',
+                'ctfmr_verified' => 'report_pending_verification',
+                'unique_id' => '9c0a3d5d-96b9-4179-9f0d-6a064ece25dd' }],
+            'module_id' => 'primeromodule-mrm' }
+        end
+        before :each do
+          clean_data(Incident, Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim)
+          incident_record = Incident.new_with_user(fake_user, data)
+          incident_record.save!
+        end
+
+        it 'creates a incident record' do
+          incident = Incident.first
+          expect(Incident.count).to eq(1)
+          expect(incident.incident_code).to eq('9f88531')
+        end
+
+        it 'creates a violation record' do
+          expect(Incident.first.violations.count).to eq(2)
+          expect(Incident.first.violations.map(&:unique_id)).to match_array(
+            %w[222d97fb-b49d-401a-aff5-55dbe81a6fbf 9c0a3d5d-96b9-4179-9f0d-6a064ece25dd]
+          )
+        end
+
+        it 'creates a individual_victims record' do
+          expect(IndividualVictim.count).to eq(3)
+          individual_victim_unique_ids = Incident.first.violations.map do |violation|
+            violation.individual_victims.map(&:unique_id)
+          end.flatten
+          expect(individual_victim_unique_ids).to match_array(
+            %w[
+              ab75e7ac-ec72-40d3-9565-200652b6ebe4
+              fdab72b7-9186-4986-a521-f63fb8a6e762
+              ffbf1366-03b7-4fb6-acf7-a3ea678e0976
+            ]
+          )
+        end
+
+        it 'create the correct associations for killing violation' do
+          killing_violation = Incident.first.violations.find { |inc| inc.type == 'killing' }
+          individual_victims = killing_violation.associations_as_data['individual_victims']
+          expect(individual_victims.count).to eq(1)
+          expect(individual_victims[0]['unique_id']).to eq('ffbf1366-03b7-4fb6-acf7-a3ea678e0976')
+        end
+
+        it 'create the correct associations for maiming violation' do
+          killing_violation = Incident.first.violations.find { |inc| inc.type == 'maiming' }
+          individual_victims = killing_violation.associations_as_data['individual_victims']
+          expect(individual_victims.count).to eq(2)
+          expect(individual_victims.map { |iv| iv['unique_id'] }).to match_array(
+            %w[fdab72b7-9186-4986-a521-f63fb8a6e762 ab75e7ac-ec72-40d3-9565-200652b6ebe4]
+          )
+        end
+      end
     end
   end
 
@@ -423,6 +527,12 @@ describe Incident do
 
   describe '#associations_as_data' do
     let(:incident) { Incident.create!(unique_id: '1a2b3c', incident_code: '987654', description: 'this is a test') }
+    let(:incident2) do
+      Incident.create!(
+        unique_id: '15e65cf1-6980-4c7c-a591-94f900f5d721',
+        incident_code: '6980', description: 'this is a second test'
+      )
+    end
 
     before(:each) do
       clean_data(Incident, Violation, IndividualVictim)
@@ -559,46 +669,47 @@ describe Incident do
       end
       expect(individual_victim['name']).to eq('individual2')
     end
-  end
 
-  describe '#verification_status_list', search: true do
-    before do
-      @incident = Incident.create!(data: { incident_date: Date.today, status: 'open' })
-      @incident2 = Incident.create!(data: { incident_date: Date.today, status: 'open' })
-      Violation.create!(
-        data: {
-          type: 'killing',
-          ctfmr_verified: 'verified'
-        },
-        incident_id: @incident.id
-      )
-      Violation.create!(
-        data: {
-          type: 'maiming',
-          ctfmr_verified: 'verified'
-        },
-        incident_id: @incident.id
-      )
-      Violation.create!(
-        data: {
-          type: 'killing',
-          ctfmr_verified: 'not_mrm'
-        },
-        incident_id: @incident2.id
-      )
-      Incident.reindex
-      Sunspot.commit
-    end
-    it 'can find an incident by verification_status' do
-      search_result = SearchService.search(
-        Incident,
-        filters: [
-          SearchFilters::Value.new(field_name: 'verification_status', value: 'not_mrm')
-        ]
-      ).results
-      expect(search_result).to have(1).incident
-      expect(search_result.first.incident_id).to eq(@incident2.incident_id)
-      expect(search_result.first.incident_code).to eq(@incident2.incident_code)
+    context 'when add a new violation with its response' do
+      it 'insert the violation and violation association' do
+        data_to_update = {
+          'responses' => [
+            {
+              'intervention_action_notes' => 'random test',
+              'violations_ids' => 'dca4d9fa-9522-49fb-8050-1d92497669f4',
+              'intervention_armed_force_group' => 'test',
+              'intervention_task_force_type' => %w[public_statement none_required],
+              'unique_id' => '535d15f1-f01a-4884-86e8-7de9333b49b3'
+            }
+          ],
+          'killing' => [
+            {
+              'attack_type' => 'direct_attack',
+              'weapon_type' => 'airstrike',
+              'type' => 'killing',
+              'unique_id' => 'dca4d9fa-9522-49fb-8050-1d92497669f4',
+              'violation_tally' => { 'boys' => 3, 'girls' => 1, 'total' => 4, 'unknown' => 0 }
+            }
+
+          ]
+        }
+        incident2.update_properties(fake_user, data_to_update)
+        incident2.save!
+        killing_data = incident2.associations_as_data('user')['killing']
+        responses_data = incident2.associations_as_data('user')['responses']
+        killing_unique_ids = killing_data.map { |data| data['unique_id'] }
+        responses_unique_ids = responses_data.map { |data| data['unique_id'] }
+
+        expect(killing_unique_ids.count).to eq(1)
+        expect(killing_unique_ids).to match_array(
+          %w[dca4d9fa-9522-49fb-8050-1d92497669f4]
+        )
+
+        expect(responses_unique_ids.count).to eq(1)
+        expect(responses_unique_ids).to match_array(
+          %w[535d15f1-f01a-4884-86e8-7de9333b49b3]
+        )
+      end
     end
   end
 

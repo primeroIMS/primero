@@ -1,21 +1,20 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
-/* eslint-disable import/prefer-default-export */
 
 import { fromJS } from "immutable";
 import { Tooltip } from "@material-ui/core";
 import OfflinePin from "@material-ui/icons/OfflinePin";
+import isNil from "lodash/isNil";
 
-import { ToggleIconCell } from "../index-table";
-import { RECORD_PATH, RECORD_TYPES } from "../../config";
-import { ConditionalWrapper } from "../../libs";
-import DisableOffline from "../disable-offline";
+import { ToggleIconCell } from "../../index-table";
+import { RECORD_PATH, RECORD_TYPES } from "../../../config";
+import { ConditionalWrapper } from "../../../libs";
+import DisableOffline from "../../disable-offline";
+import { ALERTS_COLUMNS, ALERTS, ID_COLUMNS, COMPLETE } from "../constants";
+import PhotoColumnBody from "../components/photo-column-body";
+import DateColumn from "../components/date-column";
 
-import { ALERTS_COLUMNS, ALERTS, ID_COLUMNS, COMPLETE } from "./constants";
-import PhotoColumnBody from "./components/photo-column-body";
-import DateColumn from "./components/date-column";
-
-export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordAvailable, online) => {
+export default (allowedColumns, i18n, recordType, css, recordAvailable, online) => {
   const iconColumns = Object.values(ALERTS_COLUMNS);
   // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label
   const emptyHeader = name => <th key={name} className={css.overdueHeading} />;
@@ -26,6 +25,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
       const { component: Component, props = {}, value, rowIndex, withTime, type } = args || {};
       const rowAvailable = recordAvailable(data.getIn(["data", rowIndex], fromJS({}))) || online;
       const parsedValue = Array.isArray(value) ? value.join(", ") : value;
+      const columnValue = isNil(parsedValue) ? "" : parsedValue;
 
       if (type === "date") {
         return (
@@ -40,7 +40,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
           offlineTextKey="unavailable_offline"
           overrideCondition={!rowAvailable}
         >
-          <>{Component !== undefined ? <Component {...props} /> : parsedValue || ""}</>
+          <>{Component !== undefined ? <Component {...props} /> : columnValue}</>
         </ConditionalWrapper>
       );
     };

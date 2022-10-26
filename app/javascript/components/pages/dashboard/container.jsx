@@ -12,18 +12,21 @@ import { RECORD_PATH } from "../../../config";
 import { useMemoizedSelector } from "../../../libs";
 
 import {
+  Approvals,
+  CasesBySocialWorker,
+  CasesToAssign,
+  Flags,
+  OverdueTasks,
   Overview,
+  PerpetratorArmedForceGroupPartyNames,
+  ProtectionConcern,
+  ReportingLocation,
   SharedFromMyTeam,
   SharedWithMyTeam,
+  ViolationsCategoryRegion,
+  ViolationsCategoryVerificationStatus,
   WorkflowIndividualCases,
-  Approvals,
-  OverdueTasks,
-  WorkflowTeamCases,
-  ReportingLocation,
-  ProtectionConcern,
-  Flags,
-  CasesBySocialWorker,
-  CasesToAssign
+  WorkflowTeamCases
 } from "./components";
 import NAMESPACE from "./namespace";
 import { NAME } from "./constants";
@@ -80,6 +83,9 @@ const Dashboard = () => {
             <WorkflowTeamCases loadingIndicator={indicatorProps} />
             <ReportingLocation loadingIndicator={indicatorProps} />
             <ProtectionConcern loadingIndicator={indicatorProps} />
+            <ViolationsCategoryVerificationStatus loadingIndicator={indicatorProps} />
+            <ViolationsCategoryRegion loadingIndicator={indicatorProps} />
+            <PerpetratorArmedForceGroupPartyNames loadingIndicator={indicatorProps} />
           </Grid>
           <Grid item xl={3} md={4} xs={12}>
             <Flags loadingIndicator={flagsIndicators} />

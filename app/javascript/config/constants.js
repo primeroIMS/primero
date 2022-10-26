@@ -26,7 +26,7 @@ export const PASSWORD_MIN_LENGTH = 8;
 export const MAX_IMAGE_SIZE = 600;
 
 // Max allowed size for attachments
-export const MAX_ATTACHMENT_SIZE = 10485760;
+export const MAX_ATTACHMENT_SIZE = 20971520;
 
 // Time (ms) when fetch request will timeout
 export const FETCH_TIMEOUT = 90000;
@@ -256,9 +256,12 @@ export const LOOKUPS = {
   gbv_violence_type: "lookup-gbv-sexual-violence-type",
   cp_violence_type: "lookup-cp-violence-type",
   gender: "lookup-gender",
+  gender_unknown: "lookup-gender-unknown",
   legitimate_basis: "lookup-legitimate-basis",
   legitimate_basis_explanations: "lookup-legitimate-basis-explanations",
-  verification_status: "lookup lookup-verification-status"
+  verification_status: "lookup-verification-status",
+  violation_type: "lookup-violation-type",
+  armed_force_group_or_other_party: "lookup-armed-force-group-or-other-party"
 };
 
 export const ADMIN_NAV = [
@@ -598,11 +601,15 @@ export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
   "responses"
 ];
 
+export const VIOLATIONS_ASSOCIATIONS_RESPONSES = "responses";
+
 export const MRM_INSIGHTS_SUBREPORTS = [...VIOLATIONS_SUBFORM_UNIQUE_IDS, "detention"];
 
 export const GBV_INSIGHTS_SUBREPORTS = ["incidents", "perpetrators", "survivors", "referrals"];
 
 export const GHN_REPORT_SUBREPORTS = ["ghn_report"];
+
+export const INDIVIDUAL_CHILDREN = ["individual_children"];
 
 export const CHART_COLORS = Object.freeze({
   blue: "rgb(0, 147, 186)",
@@ -628,3 +635,22 @@ export const QUARTERS_TO_NUMBER = Object.freeze({
 });
 
 export const QUARTERS = Object.freeze([Q1, Q2, Q3, Q4]);
+
+export const VIOLATION_TYPE = Object.freeze({
+  killing: "killing",
+  maiming: "maiming",
+  recruitment: "recruitment",
+  sexual_violence: "sexual_violence",
+  abduction: "abduction",
+  attack_on_hospitals: "attack_on_hospitals",
+  attack_on_schools: "attack_on_schools",
+  military_use: "military_use",
+  denial_humanitarian_access: "denial_humanitarian_access"
+});
+
+export const VIOLATION_VERIFICATION_STATUS = Object.freeze({
+  verified: "verified",
+  report_pending_verification: "report_pending_verification",
+  not_mrm: "not_mrm",
+  verification_found_that_incident_did_not_occur: "verification_found_that_incident_did_not_occur"
+});

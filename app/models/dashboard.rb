@@ -17,6 +17,7 @@ class Dashboard < ValueObject
     cases_by_task_overdue_followups
     dash_cases_to_assign
     dash_national_admin_summary
+    dash_violations_category_region
   ].freeze
 
   # Note: The constant name of each Dashboard needs to match the value of the corresponding Permission
@@ -125,6 +126,18 @@ class Dashboard < ValueObject
     name: 'approvals_gbv_closure_pending',
     type: 'indicator',
     indicators: [Indicators::Case::APPROVALS_GBV_CLOSURE_PENDING_GROUP]
+  ).freeze
+
+  DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS = Dashboard.new(
+    name: 'dash_violations_category_verification_status',
+    type: 'indicator',
+    indicators: [Indicators::Incident::VIOLATIONS_CATEGORY_VERIFICATION_STATUS]
+  ).freeze
+
+  DASH_PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES = Dashboard.new(
+    name: 'dash_perpetrator_armed_force_group_party_names',
+    type: 'indicator',
+    indicators: [Indicators::Incident::PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES]
   ).freeze
 
   def self.cases_by_task_overdue_assessment
@@ -272,6 +285,14 @@ class Dashboard < ValueObject
         Indicators::Case.closed_last_week, Indicators::Case.closed_this_week
       ]
     )
+  end
+
+  def self.dash_violations_category_region(role = nil)
+    Dashboard.new(
+      name: 'dash_violations_category_region',
+      type: 'indicator',
+      indicators: [Indicators::Incident.violation_category_region(role)]
+    ).freeze
   end
 end
 # rubocop:enable Metrics/ClassLength

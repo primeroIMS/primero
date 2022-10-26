@@ -28,6 +28,28 @@ describe("<InsightsSubReport />/utils/getLookupValue", () => {
         display_text: "MyDistrict2"
       }
     ],
+    reporting_location_detention: [
+      {
+        id: "MC",
+        display_text: "MyCountry"
+      },
+      {
+        id: "MCMP1",
+        display_text: "MyProvince1"
+      },
+      {
+        id: "MCMP2",
+        display_text: "MyProvince2"
+      },
+      {
+        id: "MCMP1MD1",
+        display_text: "MyDistrict1"
+      },
+      {
+        id: "MCMP2MD2",
+        display_text: "MyDistrict2"
+      }
+    ],
     lookup_sample: [
       {
         id: "lookup_sample_1",
@@ -55,6 +77,15 @@ describe("<InsightsSubReport />/utils/getLookupValue", () => {
       const columns = getLookupValue(lookups, translateId, "reporting_location", value);
 
       expect(columns).to.equal("MyDistrict1");
+    });
+  });
+
+  context("when is reporting_location_detention", () => {
+    it("returns Location translated", () => {
+      const value = fromJS({ id: "MCMP2MD2", boys: 1, total: 2, unknown: 1 });
+      const columns = getLookupValue(lookups, translateId, "reporting_location_detention", value);
+
+      expect(columns).to.equal("MyDistrict2");
     });
   });
 

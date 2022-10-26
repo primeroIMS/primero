@@ -11,6 +11,7 @@ env:
     SECRET_VARS_release_2_2: 'PrimeroCicdSecretrelease-2-2'
     SECRET_VARS_release_2_3: 'PrimeroCicdSecretrelease-2-3'
     SECRET_VARS_release_2_4: 'PrimeroCicdSecretrelease-2-4'
+    SECRET_VARS_release_2_5: 'PrimeroCicdSecretrelease-2-5'
 
 phases:
   pre_build:
@@ -31,7 +32,9 @@ phases:
     commands:
       - echo ${CONTAINER_REGISTRY}/primeroims/application:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/solr:${TAG}
-      - docker push ${CONTAINER_REGISTRY}/primeroims/postgres:${TAG}
+      - docker push ${CONTAINER_REGISTRY}/primeroims/postgres:${TAG}-pg10
+      - docker push ${CONTAINER_REGISTRY}/primeroims/postgres:${TAG}-pg11
+      - docker push ${CONTAINER_REGISTRY}/primeroims/postgres:${TAG}-pg14
       - docker push ${CONTAINER_REGISTRY}/primeroims/nginx:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/application:${TAG}
       - ../buildspec/send-command.sh

@@ -99,4 +99,12 @@ describe("<RecordList /> - Selectors", () => {
       expect(values).to.be.empty;
     });
   });
+
+  describe("getAppliedFiltersAsQueryString", () => {
+    it("returns a query string with the current filters", () => {
+      const queryString = selectors.getAppliedFiltersAsQueryString(stateWithRecords, "cases");
+
+      expect(queryString).to.equal("disabled%5B0%5D=true");
+    });
+  });
 });
