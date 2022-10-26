@@ -125,6 +125,7 @@ module Exporters
         data: { incident_field_1: 'Incident 1 - Value 1', owned_by: 'user_mrm' },
         violations: [
           Violation.new(
+            id: '9d8cb3fd-d1ac-4592-bd9e-2b5bd3194765',
             data: {
               type: 'killing',
               violation_tally: { tally1: 1, tally2: 3, tally3: 0, total: 4 },
@@ -144,21 +145,23 @@ module Exporters
         data: { incident_field_1: 'Incident 2 - Value 1', owned_by: 'user_mrm' },
         violations: [
           Violation.new(
-            data: {
-              type: 'maiming',
-              violation_tally: { tally1: 1, tally2: 0, tally3: 1, total: 2 },
-            },
-            individual_victims: [
-              IndividualVictim.new(data: { individual_victims_field_1: 'Incident 2 IV Value 1' })
-            ]
-          ),
-          Violation.new(
+            id: 'afb11b92-0d19-49e9-ada4-84f1cdecfa04',
             data: {
               type: 'abduction',
               violation_tally: { tally1: 1, tally2: 0, tally3: 0, total: 1 }
             },
             perpetrators: [
               Perpetrator.new(data: { perpetrators_field_1: 'Incident 2 Perpetrator Value 1' })
+            ]
+          ),
+          Violation.new(
+            id: 'c4297ffe-c512-4414-abbb-aa5da0a0c05b',
+            data: {
+              type: 'maiming',
+              violation_tally: { tally1: 1, tally2: 0, tally3: 1, total: 2 },
+            },
+            individual_victims: [
+              IndividualVictim.new(data: { individual_victims_field_1: 'Incident 2 IV Value 1' })
             ]
           )
         ]
@@ -168,6 +171,7 @@ module Exporters
         data: { incident_field_1: 'Incident 3 - Value 1', owned_by: 'user_mrm' },
         violations: [
           Violation.new(
+            id: 'cad37342-c334-43de-be32-fab64b2e39f8',
             data: {
               type: 'attack_on_hospitals',
               violation_tally: { tally1: 1, tally2: 2, tally3: 1, total: 4 }
@@ -184,6 +188,7 @@ module Exporters
             source: Source.new(data: { sources_field_1: 'Incident 3 Source Value 1' })
           ),
           Violation.new(
+            id: 'd751788b-fabc-4609-bd5c-951b44df893f',
             data: {
               type: 'military_use',
               violation_tally: { tally1: 1, tally2: 1, tally3: 1, total: 3 },
@@ -286,21 +291,21 @@ module Exporters
         )
         expect(workbook.sheet(0).row(5)).to eq(
           [
-            @incident2.id, @incident2.violations[0].id, 'Maiming of Children',
-            "Maiming of Children - #{@incident2.violations[0].id[0..4]}",
+            @incident2.id, @incident2.violations[0].id, 'Abduction',
+            "Abduction - #{@incident2.violations[0].id[0..4]}",
             'Incident 2 - Value 1', nil,
             nil, nil,
-            1, 0, 1, 2,
+            1, 0, 0, 1,
             nil, nil, nil, nil, nil, nil, nil, nil, nil
           ]
         )
         expect(workbook.sheet(0).row(6)).to eq(
           [
-            @incident2.id, @incident2.violations[1].id, 'Abduction',
-            "Abduction - #{@incident2.violations[1].id[0..4]}",
+            @incident2.id, @incident2.violations[1].id, 'Maiming of Children',
+            "Maiming of Children - #{@incident2.violations[1].id[0..4]}",
             'Incident 2 - Value 1', nil,
             nil, nil,
-            1, 0, 0, 1,
+            1, 0, 1, 2,
             nil, nil, nil, nil, nil, nil, nil, nil, nil
           ]
         )
@@ -337,9 +342,9 @@ module Exporters
         )
         expect(workbook.sheet(2).row(3)).to eq(
           [
-            @incident2.id, @incident2.violations[1].id, 'Abduction',
-            "Abduction - #{@incident2.violations[1].id[0..4]}", @incident2.incident_code,
-            @incident2.violations[1].perpetrators.first.id, 'Incident 2 Perpetrator Value 1', nil
+            @incident2.id, @incident2.violations[0].id, 'Abduction',
+            "Abduction - #{@incident2.violations[0].id[0..4]}", @incident2.incident_code,
+            @incident2.violations[0].perpetrators.first.id, 'Incident 2 Perpetrator Value 1', nil
           ]
         )
         expect(workbook.sheet(3).row(3)).to eq(
@@ -351,9 +356,9 @@ module Exporters
         )
         expect(workbook.sheet(3).row(4)).to eq(
           [
-            @incident2.id, @incident2.violations[0].id, 'Maiming of Children',
-            "Maiming of Children - #{@incident2.violations[0].id[0..4]}", @incident2.incident_code,
-            @incident2.violations[0].individual_victims.first.id, 'Incident 2 IV Value 1', nil
+            @incident2.id, @incident2.violations[1].id, 'Maiming of Children',
+            "Maiming of Children - #{@incident2.violations[1].id[0..4]}", @incident2.incident_code,
+            @incident2.violations[1].individual_victims.first.id, 'Incident 2 IV Value 1', nil
           ]
         )
         expect(workbook.sheet(3).row(5)).to eq(
