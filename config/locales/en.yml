@@ -33,12 +33,14 @@ en:
   unavailable_offline: Unavailable offline
   online: Online
   yes_label: 'Yes'
-  or_label: or
+  or_label: or,
   select_provider: Select provider
   select_language: Select language
   log_in_primero_idp: log in with %{idp_name} username
   offline_submitted_changes: You are currently offline. Your changes will be submitted when you are back online.
   updated: Updated
+  go: Go
+  select_idp_error: Please select a provider.
   sync:
     success: "%{records} records successfully synced."
     error:
