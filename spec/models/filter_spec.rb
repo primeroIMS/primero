@@ -334,6 +334,14 @@ describe Filter do
           )
         )
       end
+
+      it 'has late_verified_violations filter with one option' do
+        late_verified_violations_options = @filters_mrm.first[:incidents].find do |filter|
+          filter.field_name == 'has_late_verified_violations'
+        end.options[:en]
+        expect(late_verified_violations_options.count).to eq(1)
+        expect(late_verified_violations_options.first[:display_name]).to eq('Yes')
+      end
     end
   end
 
