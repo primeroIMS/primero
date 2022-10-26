@@ -11,7 +11,10 @@ import {
   FormSection,
   SELECT_FIELD,
   TICK_FIELD,
-  RADIO_FIELD
+  RADIO_FIELD,
+  TEXT_FIELD,
+  TEXT_AREA,
+  SEPARATOR
 } from "../../../../../form";
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { reduceMapToObject, useMemoizedSelector } from "../../../../../../libs";
@@ -46,7 +49,7 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
     getNestedFields(state, {
       recordType,
       primeroModule,
-      includeSeparators: false,
+      excludeTypes: [SEPARATOR, TEXT_FIELD, TEXT_AREA],
       omitDuplicates: true,
       excludeFieldNames: field?.name ? [field.name] : null,
       nestedFormIds: field?.get("form_section_id") ? [field?.get("form_section_id")] : null
@@ -58,7 +61,7 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
       recordType,
       primeroModule,
       includeNested: false,
-      includeSeparators: false,
+      excludeTypes: [SEPARATOR, TEXT_FIELD, TEXT_AREA],
       omitDuplicates: true
     })
   );

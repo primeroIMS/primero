@@ -461,8 +461,8 @@ export const getRecordFields = createCachedSelector(
   (formSections, query) => {
     let recordFields = formSections.flatMap(formSection => formSection.fields);
 
-    if (query.includeSeparators === false) {
-      recordFields = recordFields.filter(field => field.type !== SEPARATOR);
+    if (!isEmpty(query.excludeTypes)) {
+      recordFields = recordFields.filter(field => !query.excludeTypes.includes(field.type));
     }
 
     if (query.omitDuplicates === true) {
