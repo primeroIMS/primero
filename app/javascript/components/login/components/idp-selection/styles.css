@@ -38,15 +38,6 @@
   display: none;
 }
 
-@media (max-width:599.95px) {
-  .loginSelection,
-  .logoutSelection {
-    & button {
-      width: 100%;
-    }
-  }
-}
-
 .idpSelectContainer {
   display: flex;
   margin-top: 5px;
@@ -56,5 +47,25 @@
   }
   & span > button {
     min-height: 38px;
+  }
+}
+
+
+@media (max-width:599.95px) {
+  .loginSelection,
+  .logoutSelection {
+    & button {
+      width: 100%;
+    }
+  }
+
+  .idpSelectContainer {
+    display: grid;
+    & form {
+      margin-right: 0;
+    }
+    & span > button {
+      min-width: 100%;
+    }
   }
 }
