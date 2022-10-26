@@ -5,7 +5,7 @@ export const SKIP_LOGIC_FIELD = "skip_logic";
 export const RECORD_TYPE_FIELD = "parent_form";
 export const FORM_GROUP_FIELD = "form_group_id";
 export const FORM_ID = "form-builder-form";
-export const NESTED_FIELDS = [
+export const NESTED_DATA_FIELDS = [
   "option_strings_text",
   "tally",
   "display_conditions_record",

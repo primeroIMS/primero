@@ -1,7 +1,7 @@
-import { NESTED_FIELDS } from "../constants";
+import { NESTED_DATA_FIELDS } from "../constants";
 
 export default (field, fieldUpdate) => {
-  const fieldRemoved = NESTED_FIELDS.reduce((acc, elem) => {
+  const fieldRemoved = NESTED_DATA_FIELDS.reduce((acc, elem) => {
     if (field.get(elem)?.size > 0) {
       return acc.remove(elem);
     }
@@ -9,7 +9,7 @@ export default (field, fieldUpdate) => {
     return acc;
   }, field);
 
-  const updateRemoved = NESTED_FIELDS.reduce((acc, elem) => {
+  const updateRemoved = NESTED_DATA_FIELDS.reduce((acc, elem) => {
     if (acc.get(elem)?.size > 0) {
       return acc.remove(elem);
     }
@@ -17,7 +17,7 @@ export default (field, fieldUpdate) => {
     return acc;
   }, fieldUpdate);
 
-  const updated = NESTED_FIELDS.reduce((acc, elem) => {
+  const updated = NESTED_DATA_FIELDS.reduce((acc, elem) => {
     if (fieldUpdate.get(elem)?.size > 0) {
       return acc.set(elem, fieldUpdate.get(elem));
     }
