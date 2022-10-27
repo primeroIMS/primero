@@ -1695,6 +1695,7 @@ en:
       buyingstation: Buying Station
       township: Township
       municipality: Municipality
+      autonomous_region: Autonomous Region
     label: Location
     name: Name
     code: Code
