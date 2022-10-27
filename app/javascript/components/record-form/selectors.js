@@ -10,7 +10,7 @@ import { displayNameHelper } from "../../libs";
 import { checkPermissions, getPermissionsByRecord } from "../permissions";
 import { ALERTS_FOR, INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_PLURAL } from "../../config";
 import { FieldRecord } from "../form/records";
-import { OPTION_TYPES, SEPARATOR } from "../form/constants";
+import { OPTION_TYPES } from "../form/constants";
 import { getLocale } from "../i18n/selectors";
 import { getRecordFormAlerts } from "../records";
 import { selectorEqualityFn } from "../../libs/use-memoized-selector";
@@ -436,8 +436,8 @@ export const getNestedFields = createCachedSelector(
       .valueSeq()
       .flatMap(form => form.fields);
 
-    if (query.includeSeparators === false) {
-      nestedFields = nestedFields.filter(field => field.type !== SEPARATOR);
+    if (!isEmpty(query.excludeTypes)) {
+      nestedFields = nestedFields.filter(field => !query.excludeTypes.includes(field.type));
     }
 
     if (query.excludeFieldNames) {

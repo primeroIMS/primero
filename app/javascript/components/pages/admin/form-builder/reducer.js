@@ -228,7 +228,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       const data = fromJS(payload.data);
 
       const fields = subform.get("fields", fromJS([])).map(field => {
-        const fieldName = field?.get("name");
+        const fieldName = field.get("name");
         const fieldUpdate = data.getIn(["fields", fieldName], fromJS({}));
 
         return updateSubformField(field, fieldUpdate);
