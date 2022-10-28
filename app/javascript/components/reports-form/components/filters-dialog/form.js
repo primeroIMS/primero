@@ -91,7 +91,11 @@ export const constraintInputType = (
   textFieldOnlyNotBlank = false,
   allowedNotNullConstraint
 ) => {
-  const allowedTickboxConstraint = allowedNotNullConstraint === false ? [] : [SELECT_FIELD, RADIO_FIELD];
+  const allowedTickboxConstraint = [SELECT_FIELD, RADIO_FIELD];
+
+  if (allowedNotNullConstraint === false && allowedTickboxConstraint.includes(currentField?.type)) {
+    return { visible: false };
+  }
 
   if (allowedTickboxConstraint.includes(currentField?.type)) {
     return {
