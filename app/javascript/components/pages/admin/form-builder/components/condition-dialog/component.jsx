@@ -14,7 +14,9 @@ import {
   RADIO_FIELD,
   TEXT_FIELD,
   TEXT_AREA,
-  SEPARATOR
+  SEPARATOR,
+  NUMERIC_FIELD,
+  DATE_FIELD
 } from "../../../../../form";
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { reduceMapToObject, useMemoizedSelector } from "../../../../../../libs";
@@ -120,6 +122,16 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
       }
     }
   }, [attribute]);
+
+  useEffect(() => {
+    if (defaultValues.value) {
+      const value = [DATE_FIELD, NUMERIC_FIELD].includes(selectedField?.type)
+        ? defaultValues.value
+        : [].concat(defaultValues.value);
+
+      dialogFormMethods.setValue("value", value);
+    }
+  }, [selectedField?.type]);
 
   useEffect(() => {
     dialogFormMethods.reset(defaultValues);
