@@ -49,7 +49,7 @@ export const conditionsForm = ({ fields, i18n, selectedField, mode }) => {
       unique_id: "conditions_form",
       fields: [
         FieldRecord({
-          display_name: i18n.t("report.attribute"),
+          display_name: i18n.t("forms.conditions.field_name"),
           name: ATTRIBUTE_FIELD,
           type: SELECT_FIELD,
           disabled: mode.isEdit,
@@ -60,7 +60,8 @@ export const conditionsForm = ({ fields, i18n, selectedField, mode }) => {
         }),
         FieldRecord({
           name: CONSTRAINT_FIELD,
-          ...constraintInputType(selectedField, CONSTRAINTS, i18n, true, false)
+          ...constraintInputType(selectedField, CONSTRAINTS, i18n, true, false),
+          display_name: i18n.t("forms.conditions.condition")
         }),
         FieldRecord({
           display_name: i18n.t("report.value"),

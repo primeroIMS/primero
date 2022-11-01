@@ -1343,6 +1343,8 @@ en:
     skip_logic_title: This form should be visible if
     conditions:
       add: Add Condition
+      field_name: Field Name
+      condition: Condition
   home:
     ar: العربية
     ar-IQ: العربية (العراقية)
