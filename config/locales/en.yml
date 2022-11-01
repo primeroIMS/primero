@@ -1214,6 +1214,7 @@ en:
     show: Show?
     show_on: Show on
     show_on_minify_form: Short form
+    skip_logic: Skip Logic
     subform: Subform
     subform_group_by: Group by
     subform_remove_message: Are you sure you want to remove this subform?
@@ -1342,6 +1343,8 @@ en:
     skip_logic_title: This form should be visible if
     conditions:
       add: Add Condition
+      field_name: Field Name
+      condition: Condition
   home:
     ar: العربية
     ar-IQ: العربية (العراقية)

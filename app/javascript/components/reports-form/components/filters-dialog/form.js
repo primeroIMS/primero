@@ -52,11 +52,11 @@ export const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => 
     case TICK_FIELD: {
       const options = [
         {
-          id: "true",
+          id: true,
           display_text: currentField.tick_box_label || i18n.t("true")
         },
         {
-          id: "false",
+          id: false,
           display_text: i18n.t("report.not_selected")
         }
       ];
@@ -84,8 +84,18 @@ export const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => 
   }
 };
 
-export const constraintInputType = (currentField, constraints, i18n, textFieldOnlyNotBlank = false) => {
+export const constraintInputType = (
+  currentField,
+  constraints,
+  i18n,
+  textFieldOnlyNotBlank = false,
+  allowedNotNullConstraint
+) => {
   const allowedTickboxConstraint = [SELECT_FIELD, RADIO_FIELD];
+
+  if (allowedNotNullConstraint === false && allowedTickboxConstraint.includes(currentField?.type)) {
+    return { visible: false };
+  }
 
   if (allowedTickboxConstraint.includes(currentField?.type)) {
     return {

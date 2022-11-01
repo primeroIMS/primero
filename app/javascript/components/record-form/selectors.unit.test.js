@@ -12,7 +12,7 @@ import {
   REFERRAL,
   TRANSFERS_ASSIGNMENTS
 } from "../../config";
-import { FieldRecord } from "../form";
+import { FieldRecord, SEPARATOR, TEXT_FIELD } from "../form";
 
 import * as R from "./records";
 import * as selectors from "./selectors";
@@ -1174,8 +1174,128 @@ describe("<RecordForm /> - Selectors", () => {
             recordType: "case",
             primeroModule: "primeromodule-cp",
             includeNested: false,
-            includeSeparators: false,
+            excludeTypes: [SEPARATOR],
             omitDuplicates: true
+          })
+          .map(field => field.name)
+      ).to.deep.equals(fromJS(["name_first"]));
+    });
+
+    it("returns the record fields and exclude some field types", () => {
+      const formsWithDuplicates = {
+        10: {
+          id: 10,
+          unique_id: "form_1",
+          name: { en: "Form 1" },
+          visible: true,
+          parent_form: "case",
+          module_ids: ["primeromodule-cp"],
+          form_group_id: "identification_registration",
+          form_group_name: { en: "Identification / Registration" },
+          fields: [1, 2, 3],
+          is_nested: null
+        }
+      };
+      const formFields = {
+        1: {
+          name: "name_first",
+          type: "text_field",
+          editable: true,
+          disabled: null,
+          visible: true,
+          display_name: { en: "First Name" },
+          required: true,
+          date_validation: "default_date_validation"
+        },
+        2: {
+          name: "header",
+          type: "separator",
+          editable: true,
+          disabled: null,
+          visible: true,
+          display_name: { en: "Header" },
+          required: false,
+          date_validation: "default_date_validation"
+        },
+        3: {
+          name: "sex",
+          type: "select_box",
+          editable: true,
+          disabled: null,
+          visible: true,
+          display_name: { en: "Sex" },
+          required: false,
+          option_strings_source: "lookup lookup-sex",
+          date_validation: "default_date_validation"
+        }
+      };
+
+      const stateWithDuplicateFields = fromJS({
+        forms: {
+          formSections: mapEntriesToRecord(formsWithDuplicates, R.FormSectionRecord),
+          fields: mapEntriesToRecord(formFields, R.FieldRecord)
+        }
+      });
+
+      expect(
+        selectors
+          .getRecordFields(stateWithDuplicateFields, {
+            recordType: "case",
+            primeroModule: "primeromodule-cp",
+            includeNested: false,
+            excludeTypes: [SEPARATOR, TEXT_FIELD],
+            omitDuplicates: true
+          })
+          .map(field => field.name)
+      ).to.deep.equals(fromJS(["sex"]));
+    });
+  });
+
+  describe("getNestedFields", () => {
+    it("returns the nested fields", () => {
+      const formsWithDuplicates = {
+        20: {
+          id: 20,
+          unique_id: "form_2",
+          name: { en: "Nested Form 2" },
+          visible: true,
+          parent_form: "case",
+          module_ids: ["primeromodule-cp"],
+          form_group_id: "identification_registration",
+          form_group_name: { en: "Identification / Registration" },
+          fields: [1],
+          is_nested: true
+        }
+      };
+      const nestedFields = {
+        1: {
+          name: "name_first",
+          type: "text_field",
+          editable: true,
+          disabled: null,
+          visible: true,
+          display_name: { en: "First Name" },
+          required: true,
+          date_validation: "default_date_validation"
+        }
+      };
+
+      const stateWithDuplicateFields = fromJS({
+        forms: {
+          formSections: mapEntriesToRecord(formsWithDuplicates, R.FormSectionRecord),
+          fields: mapEntriesToRecord(nestedFields, R.FieldRecord)
+        }
+      });
+
+      expect(
+        selectors
+          .getRecordFields(stateWithDuplicateFields, {
+            recordType: "case",
+            primeroModule: "primeromodule-cp",
+            includeNested: true,
+            excludeTypes: [SEPARATOR],
+            omitDuplicates: true,
+            nestedFormIds: [20]
           })
           .map(field => field.name)
       ).to.deep.equals(fromJS(["name_first"]));

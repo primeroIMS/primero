@@ -10,7 +10,7 @@ import { displayNameHelper } from "../../libs";
 import { checkPermissions, getPermissionsByRecord } from "../permissions";
 import { ALERTS_FOR, INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_PLURAL } from "../../config";
 import { FieldRecord } from "../form/records";
-import { OPTION_TYPES, SEPARATOR } from "../form/constants";
+import { OPTION_TYPES } from "../form/constants";
 import { getLocale } from "../i18n/selectors";
 import { getRecordFormAlerts } from "../records";
 import { selectorEqualityFn } from "../../libs/use-memoized-selector";
@@ -411,14 +411,58 @@ export const getFieldsByName = (state, names = fromJS([])) => {
   return state.getIn([NAMESPACE, "fields"], fromJS([])).filter(field => names.includes(field.name));
 };
 
+export const getNestedFields = createCachedSelector(
+  allFormSections,
+  state => state.getIn(["forms"], fromJS({})),
+  getLocale,
+  (_state, query) => query,
+  (formSections, formObject, appLocale, query) => {
+    const selectedForms = forms({
+      ...query,
+      formSections,
+      checkPermittedForms: false,
+      appLocale,
+      includeNested: true,
+      checkVisible: false
+    });
+
+    if (isNil(query.nestedFormIds)) {
+      return fromJS([]);
+    }
+
+    const nestedForms = selectedForms.filter(form => form.is_nested && query.nestedFormIds.includes(form.id));
+
+    let nestedFields = denormalizeFormData(OrderedMap(nestedForms.map(form => form.id)), formObject)
+      .valueSeq()
+      .flatMap(form => form.fields);
+
+    if (!isEmpty(query.excludeTypes)) {
+      nestedFields = nestedFields.filter(field => !query.excludeTypes.includes(field.type));
+    }
+
+    if (query.excludeFieldNames) {
+      nestedFields = nestedFields.filter(field => !query.excludeFieldNames.includes(field.name));
+    }
+
+    if (query.omitDuplicates === true) {
+      nestedFields = nestedFields
+        .groupBy(field => field.name)
+        .valueSeq()
+        .map(fields => fields.first());
+    }
+
+    return nestedFields;
+  }
+)(defaultCacheSelectorOptions);
+
 export const getRecordFields = createCachedSelector(
   getRecordForms,
   (_state, query) => query,
   (formSections, query) => {
     let recordFields = formSections.flatMap(formSection => formSection.fields);
 
-    if (query.includeSeparators === false) {
-      recordFields = recordFields.filter(field => field.type !== SEPARATOR);
+    if (!isEmpty(query.excludeTypes)) {
+      recordFields = recordFields.filter(field => !query.excludeTypes.includes(field.type));
     }
 
     if (query.omitDuplicates === true) {

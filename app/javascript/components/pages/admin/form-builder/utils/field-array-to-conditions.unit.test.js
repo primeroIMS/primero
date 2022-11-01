@@ -19,28 +19,4 @@ describe("fieldArrayToConditions", () => {
 
     expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
   });
-
-  it("should return a not eq condition for a not null constraint", () => {
-    const conditionArray = [{ attribute: "field_1", constraint: "not_null" }];
-
-    const expected = { and: [{ not: { eq: { field_1: "" } } }] };
-
-    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
-  });
-
-  it("should return a not eq condition for a true constraint", () => {
-    const conditionArray = [{ attribute: "field_1", constraint: true }];
-
-    const expected = { and: [{ not: { eq: { field_1: "" } } }] };
-
-    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
-  });
-
-  it("should return a not eq condition for string true constraint", () => {
-    const conditionArray = [{ attribute: "field_1", constraint: "true" }];
-
-    const expected = { and: [{ not: { eq: { field_1: "" } } }] };
-
-    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
-  });
 });

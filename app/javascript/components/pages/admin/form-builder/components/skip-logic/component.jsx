@@ -11,7 +11,7 @@ import ConditionList from "../condition-list";
 import ConditionDialog from "../condition-dialog";
 import { NAME as CONDITIONS_DIALOG } from "../condition-dialog/constants";
 
-function Component({ formMethods }) {
+function Component({ field, formMethods, handleClose, handleSuccess, primeroModule, recordType }) {
   const i18n = useI18n();
   const { setDialog } = useDialog(CONDITIONS_DIALOG);
 
@@ -22,8 +22,15 @@ function Component({ formMethods }) {
   return (
     <>
       <h1>{i18n.t("forms.skip_logic_title")}</h1>
-      <ConditionList formMethods={formMethods} conditionsFieldName="display_conditions" />
-      <ConditionDialog formMethods={formMethods} conditionsFieldName="display_conditions" />
+      <ConditionList formMethods={formMethods} field={field} />
+      <ConditionDialog
+        field={field}
+        formMethods={formMethods}
+        primeroModule={primeroModule}
+        recordType={recordType}
+        handleClose={handleClose}
+        handleSuccess={handleSuccess}
+      />
       <ActionButton
         id="add-skip-logic"
         icon={<AddIcon />}
@@ -39,7 +46,12 @@ function Component({ formMethods }) {
 Component.displayName = "SkipLogic";
 
 Component.propTypes = {
-  formMethods: PropTypes.object
+  field: PropTypes.number,
+  formMethods: PropTypes.object,
+  handleClose: PropTypes.func,
+  handleSuccess: PropTypes.func,
+  primeroModule: PropTypes.string,
+  recordType: PropTypes.string
 };
 
 export default Component;

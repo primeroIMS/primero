@@ -5,7 +5,7 @@ import get from "lodash/get";
 import { useWatch } from "react-hook-form";
 
 import { getObjectPath } from "../../../../../../libs";
-import { setDialog } from "../../../../../action-dialog";
+import { setDialog, useDialog } from "../../../../../action-dialog";
 import FormTranslationsDialog from "../form-translations-dialog";
 import TabPanel from "../tab-panel";
 import { NAME as FormTranslationsDialogName } from "../form-translations-dialog/constants";
@@ -13,6 +13,8 @@ import css from "../../styles.css";
 import { whichFormMode } from "../../../../../form";
 import SettingsForm from "../settings-form";
 import SkipLogic from "../skip-logic";
+import { NAME as CONDITIONS_DIALOG } from "../condition-dialog/constants";
+import { MODULES_FIELD, RECORD_TYPE_FIELD, SKIP_LOGIC_FIELD } from "../../constants";
 
 import { NAME } from "./constants";
 
@@ -30,7 +32,11 @@ const Component = ({ index, mode, tab, formMethods, limitedProductionSite }) => 
     }
   } = formMethods;
 
-  const skipLogic = useWatch({ control: formMethods.control, name: "skip_logic" });
+  const { dialogClose } = useDialog(CONDITIONS_DIALOG);
+
+  const skipLogic = useWatch({ control: formMethods.control, name: SKIP_LOGIC_FIELD });
+  const recordType = useWatch({ control: formMethods.control, name: RECORD_TYPE_FIELD });
+  const primeroModule = useWatch({ control: formMethods.control, name: MODULES_FIELD });
 
   const onManageTranslation = useCallback(() => {
     dispatch(setDialog({ dialog: FormTranslationsDialogName, open: true }));
@@ -55,6 +61,10 @@ const Component = ({ index, mode, tab, formMethods, limitedProductionSite }) => 
     });
   };
 
+  const handleClose = useCallback(() => {
+    dialogClose();
+  }, []);
+
   const getFormValues = useCallback(props => getValues(props), []);
   const formReset = useCallback(props => reset(props), []);
 
@@ -68,7 +78,14 @@ const Component = ({ index, mode, tab, formMethods, limitedProductionSite }) => 
           onEnglishTextChange={onEnglishTextChange}
           limitedProductionSite={limitedProductionSite}
         />
-        {skipLogic && <SkipLogic formMethods={formMethods} />}
+        {skipLogic && (
+          <SkipLogic
+            formMethods={formMethods}
+            handleClose={handleClose}
+            recordType={recordType}
+            primeroModule={primeroModule}
+          />
+        )}
       </div>
       <FormTranslationsDialog mode={mode} getValues={getFormValues} onSuccess={onUpdateTranslation} reset={formReset} />
     </TabPanel>
