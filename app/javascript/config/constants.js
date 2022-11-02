@@ -26,7 +26,7 @@ export const PASSWORD_MIN_LENGTH = 8;
 export const MAX_IMAGE_SIZE = 600;
 
 // Max allowed size for attachments
-export const MAX_ATTACHMENT_SIZE = 10485760;
+export const MAX_ATTACHMENT_SIZE = 20971520;
 
 // Time (ms) when fetch request will timeout
 export const FETCH_TIMEOUT = 90000;

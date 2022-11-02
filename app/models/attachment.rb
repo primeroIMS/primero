@@ -15,7 +15,7 @@ class Attachment < ApplicationRecord
                               application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
                               image/jpg image/jpeg image/png].freeze
 
-  MAX_SIZE = 10.megabytes.freeze
+  MAX_SIZE = 20.megabytes.freeze
   EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url
 
   belongs_to :record, polymorphic: true, optional: true

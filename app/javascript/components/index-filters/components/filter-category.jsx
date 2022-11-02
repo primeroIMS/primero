@@ -22,7 +22,7 @@ const FilterCategory = ({ formMethods }) => {
         options={options}
         commonInputProps={{
           InputLabelProps: { shrink: true },
-          label: "Filter Category",
+          label: i18n.t("incidents.filter_by.filter_category"),
           name: "filter_category",
           id: "filter_category"
         }}

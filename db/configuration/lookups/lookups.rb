@@ -919,6 +919,15 @@ Lookup.create_or_update!(
 )
 
 Lookup.create_or_update!(
+  unique_id: 'lookup-form-group-cp-registry-record',
+  name_en: 'Form Groups - CP Registry',
+  lookup_values_en: [
+    { id: 'record_information', display_text: 'Record Information' },
+    { id: 'registry_details', display_text: 'Farmer Details' }
+  ].map(&:with_indifferent_access)
+)
+
+Lookup.create_or_update!(
   :unique_id => "lookup-agency-office",
   :name_en => "Agency Office",
   :locked => true,

@@ -32,7 +32,8 @@ const Component = ({
   submitAlways,
   formClassName,
   registerFields,
-  resetAfterSubmit = false
+  resetAfterSubmit = false,
+  errorMessage = null
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -104,7 +105,8 @@ const Component = ({
       initialValues,
       onSubmit,
       submitAllFields,
-      submitAlways
+      submitAlways,
+      ...(errorMessage && { message: errorMessage })
     });
   };
 
@@ -138,6 +140,7 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
+  errorMessage: PropTypes.string,
   formClassName: PropTypes.string,
   formErrors: PropTypes.object,
   formID: PropTypes.string.isRequired,

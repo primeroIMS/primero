@@ -1,15 +1,19 @@
+import { List } from "immutable";
+
 const buildComponentColumns = (componentColumns, order, orderBy) => {
+  const sortedColumns = List.isList(componentColumns) ? componentColumns : List(componentColumns);
+
   if (order && orderBy) {
-    const sortedColumn = componentColumns.findIndex(column => column.name === orderBy);
+    const sortedColumn = sortedColumns.findIndex(column => column.name === orderBy);
 
     if (sortedColumn) {
-      return componentColumns.setIn([sortedColumn, "options", "sortOrder"], order);
+      return sortedColumns.setIn([sortedColumn, "options", "sortOrder"], order);
     }
 
-    return componentColumns;
+    return sortedColumns;
   }
 
-  return componentColumns;
+  return sortedColumns;
 };
 
 export default buildComponentColumns;

@@ -15,6 +15,10 @@ describe("toTasksOverdueTable - pages/dashboard/utils/", () => {
             primero: {
               count: 0,
               query: ["record_state=true"]
+            },
+            primero_mgr_cp: {
+              count: 3,
+              query: ["record_state=true"]
             }
           }
         }
@@ -30,6 +34,22 @@ describe("toTasksOverdueTable - pages/dashboard/utils/", () => {
             }
           }
         }
+      }),
+      fromJS({
+        name: "dashboard.cases_by_task_overdue_assessment",
+        type: "indicator",
+        indicators: {
+          tasks_overdue_assessment: {
+            primero: {
+              count: 2,
+              query: ["record_state=true"]
+            },
+            primero_cp: {
+              count: 1,
+              query: ["record_state=true"]
+            }
+          }
+        }
       })
     ];
 
@@ -37,14 +57,32 @@ describe("toTasksOverdueTable - pages/dashboard/utils/", () => {
       columns: [
         { name: "case_worker", label: {} },
         { name: "followups", label: {} },
-        { name: "case_plan", label: {} }
+        { name: "case_plan", label: {} },
+        { name: "assessment", label: {} }
       ],
-      data: [["primero", 0, 0]],
+      data: [
+        ["primero", 0, 0, 2],
+        ["primero_mgr_cp", 3, 0, 0],
+        ["primero_cp", 0, 0, 1]
+      ],
       query: [
         {
           case_worker: [],
+          case_plan: ["record_state=true"],
           followups: ["record_state=true"],
-          case_plan: ["record_state=true"]
+          assessment: ["record_state=true"]
+        },
+        {
+          assessment: [],
+          case_plan: [],
+          case_worker: [],
+          followups: ["record_state=true"]
+        },
+        {
+          case_worker: [],
+          case_plan: [],
+          followups: [],
+          assessment: ["record_state=true"]
         }
       ]
     };
