@@ -267,8 +267,8 @@ describe Filter do
       expect(@filters_mrm.count).to eq(1)
     end
     describe 'incident filters' do
-      it 'has 27 filters' do
-        expect(@filters_mrm.first[:incidents].count).to eq(27)
+      it 'has 29 filters' do
+        expect(@filters_mrm.first[:incidents].count).to eq(29)
         expect(@filters_mrm.first[:incidents].map(&:name)).to match_array(
           %w[
             cases.filter_by.flag
@@ -298,6 +298,8 @@ describe Filter do
             incidents.filter_by.military_use_type
             incidents.filter_by.types_of_aid_disrupted_denial
             incidents.filter_by.weapon_type
+            incidents.filter_by.record_owner
+            cases.filter_by.agency
           ]
         )
       end
@@ -331,6 +333,14 @@ describe Filter do
             option_strings_source: 'lookup-verified-ghn-reported'
           )
         )
+      end
+
+      it 'has late_verified_violations filter with one option' do
+        late_verified_violations_options = @filters_mrm.first[:incidents].find do |filter|
+          filter.field_name == 'has_late_verified_violations'
+        end.options[:en]
+        expect(late_verified_violations_options.count).to eq(1)
+        expect(late_verified_violations_options.first[:display_name]).to eq('Yes')
       end
     end
   end

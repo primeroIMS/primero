@@ -13,16 +13,14 @@ module Indicators
       name: 'violations_category_verification_status',
       record_model: ::Incident,
       facet: 'violation_with_verification_status',
-      scope: OPEN_ENABLED,
-      scope_to_owned_by_groups: true
+      scope: OPEN_ENABLED
     ).freeze
 
     PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES = FacetedIndicator.new(
       name: 'perpetrator_armed_force_group_party_names',
       record_model: ::Incident,
       facet: 'armed_force_group_party_names',
-      scope: OPEN_ENABLED,
-      scope_to_owned_by_groups: true
+      scope: OPEN_ENABLED
     )
 
     def self.violation_category_region(role)
@@ -32,8 +30,7 @@ module Indicators
         name: 'violations_category_region',
         record_model: ::Incident,
         pivots: ["incident_location#{admin_level}", 'violation_with_verification_status'],
-        scope: OPEN_ENABLED,
-        scope_to_owned_by_groups: true
+        scope: OPEN_ENABLED
       ).freeze
     end
   end

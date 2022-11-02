@@ -33,12 +33,14 @@ en:
   unavailable_offline: Unavailable offline
   online: Online
   yes_label: 'Yes'
-  or_label: or
+  or_label: or,
   select_provider: Select provider
   select_language: Select language
   log_in_primero_idp: log in with %{idp_name} username
   offline_submitted_changes: You are currently offline. Your changes will be submitted when you are back online.
   updated: Updated
+  go: Go
+  select_idp_error: Please select a provider.
   sync:
     success: "%{records} records successfully synced."
     error:
@@ -1155,7 +1157,7 @@ en:
     english_text: English Text
     field_name: Field Name
     field_type: Field type
-    attachment_too_large: File should not be larger than 10mb
+    attachment_too_large: File should not be larger than 20mb
     file_upload_box:
       add_document_label: Add Document
       add_new_document_button_text: Add another document
@@ -1369,6 +1371,8 @@ en:
     sw-KE: Kiswahili (Kenya)
     sw-TZ: Kiswahili (Tanzania)
     ne: नेपाली
+    om: Oromo
+    am-ET: Amharic (Ethiopia)
     label: Home
     language: Language
     manage_system_users: Manage Server Synchronisation Users
@@ -1388,6 +1392,7 @@ en:
     welcome: Welcome to Primero
     zh: 中文
   incident:
+    code: Incident Code
     associated_case: "Associated Case:"
     messages:
       creation_success: Incident record successfully created.
@@ -1428,6 +1433,7 @@ en:
     export: Export
     label: Incidents
     filter_by:
+      filter_category: Filter Category
       boys: Boys
       by_date: By Date
       children: Children
@@ -1456,8 +1462,9 @@ en:
       abduction_purpose_single: 'Purpose of the abduction'
       military_use_type: 'Type of military use'
       types_of_aid_disrupted_denial: 'Type of aid/service denied/disrupted.'
-      late_verified_violations: Late verified violations
+      late_verified_violations: Late-verified violations
       perpetrator_category: Type of Perpetrator
+      record_owner: Record Owner
     register_new_incident: New Incident
     selectable_date_options:
       date_of_first_report: Interview Date
@@ -1695,6 +1702,7 @@ en:
       buyingstation: Buying Station
       township: Township
       municipality: Municipality
+      autonomous_region: Autonomous Region
     label: Location
     name: Name
     code: Code

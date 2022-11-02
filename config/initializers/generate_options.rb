@@ -2,7 +2,7 @@
 
 # This has to be after initialize because we need to load first the locale first
 Rails.application.config.after_initialize do
-  next unless ENV['PRIMERO_GENERATE_LOCATIONS']
+  next unless ::ActiveRecord::Type::Boolean.new.cast(ENV['PRIMERO_GENERATE_LOCATIONS']) == true
 
   Rails.logger.info 'Generating locations JSON file on server boot'
   begin

@@ -18,6 +18,7 @@
 }
 
 .linkButtonContainer {
+  display: flex;
 
   & span {
     padding-right: 3px;
@@ -37,11 +38,34 @@
   display: none;
 }
 
+.idpSelectContainer {
+  display: flex;
+  margin-top: 5px;
+  & form {
+    min-width: 80%;
+    margin-right: 5%;
+  }
+  & span > button {
+    min-height: 38px;
+  }
+}
+
+
 @media (max-width:599.95px) {
   .loginSelection,
   .logoutSelection {
     & button {
       width: 100%;
+    }
+  }
+
+  .idpSelectContainer {
+    display: grid;
+    & form {
+      margin-right: 0;
+    }
+    & span > button {
+      min-width: 100%;
     }
   }
 }
