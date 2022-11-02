@@ -31,11 +31,11 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
   const i18n = useI18n();
   const { append: appendConditionRecord } = useFieldArray({
     control: formMethods.control,
-    name: field ? `${field.name}.display_conditions_record` : "display_conditions"
+    name: field ? `${field.get("name")}.display_conditions_record` : "display_conditions"
   });
   const { append: appendConditionSubform } = useFieldArray({
     control: formMethods.control,
-    name: field ? `${field.name}.display_conditions_subform` : "display_conditions_subform"
+    name: field ? `${field.get("name")}.display_conditions_subform` : "display_conditions_subform"
   });
 
   const { dialogOpen, params } = useDialog(NAME);
@@ -79,7 +79,7 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
   const onSubmit = data => {
     const isNestedField = nestedFields.some(nested => nested.name === data.attribute);
     const conditionsFieldName = isNestedField ? "display_conditions_subform" : "display_conditions_record";
-    const fieldName = field ? `${field.name}.${conditionsFieldName}` : "display_conditions";
+    const fieldName = field ? `${field.get("name")}.${conditionsFieldName}` : "display_conditions";
     const dataConverted = { ...data, value: convertValue(data.value, selectedField.type) };
 
     if (formMode.isNew) {

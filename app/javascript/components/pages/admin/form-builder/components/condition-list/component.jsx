@@ -11,16 +11,16 @@ import { CONSTRAINTS, NAME as CONDITIONS_DIALOG } from "../condition-dialog/cons
 function Component({ field, formMethods }) {
   const i18n = useI18n();
   const { setDialog } = useDialog(CONDITIONS_DIALOG);
-  const conditionsFieldName = field ? `${field.name}.display_conditions_record` : "display_conditions";
+  const conditionsFieldName = field ? `${field.get("name")}.display_conditions_record` : "display_conditions";
   const { remove: removeCondition } = useFieldArray({ control: formMethods.control, name: conditionsFieldName });
   const { remove: removeConditionSubform } = useFieldArray({
     control: formMethods.control,
-    name: `${field?.name}.display_conditions_subform`
+    name: `${field?.get("name")}.display_conditions_subform`
   });
   const displayConditions = useWatch({ control: formMethods.control, name: conditionsFieldName, defaultValue: [] });
   const displayConditionsSubform = useWatch({
     control: formMethods.control,
-    name: `${field?.name}.display_conditions_subform`,
+    name: `${field?.get("name")}.display_conditions_subform`,
     defaultValue: []
   });
 
