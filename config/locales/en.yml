@@ -1242,6 +1242,7 @@ en:
     updated: Field updated
     visibility: Visibility
     web_app: Web app
+    skip_logic_title: This field should be visible if
   filters:
     apply_filters: Apply
     clear_filters: Clear

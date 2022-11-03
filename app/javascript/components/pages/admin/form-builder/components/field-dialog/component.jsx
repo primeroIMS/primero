@@ -370,6 +370,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
               recordType={recordType}
               handleClose={backToFieldDialog}
               field={selectedField}
+              title={i18n.t("fields.skip_logic_title")}
             />
           )}
           {selectedIsSubformField && (
