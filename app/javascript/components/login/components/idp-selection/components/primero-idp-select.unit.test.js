@@ -12,6 +12,10 @@ describe("<PrimeroIdpSelect />", () => {
       {
         unique_id: "primeroims",
         name: "Primero"
+      },
+      {
+        unique_id: "randomidp",
+        name: "RandomIDP"
       }
     ]),
     css: {}
@@ -22,6 +26,7 @@ describe("<PrimeroIdpSelect />", () => {
   });
 
   it("renders forms components", () => {
+    expect(component.find("p")).to.have.lengthOf(1);
     expect(component.find(PrimeroIdpSelect)).to.have.lengthOf(1);
     expect(component.find(Form)).to.have.lengthOf(1);
     expect(component.find(FormAction)).to.have.lengthOf(1);

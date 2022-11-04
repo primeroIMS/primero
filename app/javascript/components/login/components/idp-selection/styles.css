@@ -30,6 +30,15 @@
   }
 }
 
+.onlyLink {
+
+  & a {
+    text-transform: capitalize;
+    font-size: 1rem;
+  }
+
+}
+
 .selectProvider {
   margin: 0;
 }
