@@ -15,6 +15,10 @@
   padding-top: 0;
   margin-left: 0;
   width: 100%;
+
+  &.demo {
+    height: 96vh;
+  }
 }
 
 .loadingIndicator {
