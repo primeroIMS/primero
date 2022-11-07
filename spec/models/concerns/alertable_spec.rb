@@ -217,6 +217,11 @@ describe Alertable do
         )
       end
 
+      it 'count alert from self permissions users that has owned and referred' do
+        expect(Child.alert_count(@user_a)).to eq(2)
+        expect(Child.alert_count_self(@user_a)).to eq(2)
+      end
+
       it 'count alert from self permissions users' do
         expect(Child.alert_count(@user_d)).to eq(1)
       end
