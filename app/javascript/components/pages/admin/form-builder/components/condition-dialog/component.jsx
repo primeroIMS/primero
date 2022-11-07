@@ -12,9 +12,6 @@ import {
   SELECT_FIELD,
   TICK_FIELD,
   RADIO_FIELD,
-  TEXT_FIELD,
-  TEXT_AREA,
-  SEPARATOR,
   NUMERIC_FIELD,
   DATE_FIELD
 } from "../../../../../form";
@@ -24,7 +21,7 @@ import { useI18n } from "../../../../../i18n";
 import { getFieldByName, getNestedFields, getRecordFields } from "../../../../../record-form/selectors";
 
 import { conditionsForm, validationSchema } from "./form";
-import { ATTRIBUTE_FIELD, CONSTRAINT_FIELD, FORM_NAME, NAME, VALUE_FIELD } from "./constants";
+import { ATTRIBUTE_FIELD, CONSTRAINT_FIELD, EXCLUDED_FIELD_TYPES, FORM_NAME, NAME, VALUE_FIELD } from "./constants";
 import { convertValue, registerFields, updateCondition } from "./utils";
 
 function Component({ formMethods, handleClose, handleSuccess, primeroModule, recordType, field }) {
@@ -51,7 +48,7 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
     getNestedFields(state, {
       recordType,
       primeroModule,
-      excludeTypes: [SEPARATOR, TEXT_FIELD, TEXT_AREA],
+      excludeTypes: EXCLUDED_FIELD_TYPES,
       omitDuplicates: true,
       excludeFieldNames: field?.name ? [field.name] : null,
       nestedFormIds: field?.get("form_section_id") ? [field?.get("form_section_id")] : null
@@ -63,7 +60,7 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
       recordType,
       primeroModule,
       includeNested: false,
-      excludeTypes: [SEPARATOR, TEXT_FIELD, TEXT_AREA],
+      excludeTypes: EXCLUDED_FIELD_TYPES,
       omitDuplicates: true
     })
   );

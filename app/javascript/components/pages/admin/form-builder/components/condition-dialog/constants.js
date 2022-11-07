@@ -1,3 +1,5 @@
+import { TEXT_FIELD, TEXT_AREA, SEPARATOR, SUBFORM_SECTION } from "../../../../../form";
+
 export const NAME = "ConditionsDialog";
 export const FORM_NAME = "ConditionsForm";
 export const ATTRIBUTE_FIELD = "attribute";
@@ -16,3 +18,5 @@ export const CONSTRAINTS = Object.freeze({
   default: DEFAULT_CONSTRAINTS,
   date: DATE_CONSTRAINTS
 });
+
+export const EXCLUDED_FIELD_TYPES = Object.freeze([SEPARATOR, TEXT_FIELD, TEXT_AREA, SUBFORM_SECTION]);
