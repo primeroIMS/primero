@@ -9,8 +9,8 @@ export const DEFAULT_CONSTRAINTS = Object.freeze({
   eq: "report.filters.equal_to"
 });
 export const DATE_CONSTRAINTS = Object.freeze({
-  gt: "report.filters.before",
-  lt: "report.filters.after"
+  gt: "report.filters.after",
+  lt: "report.filters.before"
 });
 export const CONSTRAINTS = Object.freeze({
   default: DEFAULT_CONSTRAINTS,
