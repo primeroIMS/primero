@@ -53,7 +53,7 @@ const Component = ({
     source: optionStringsSource,
     optionStringsSourceIdKey,
     filterOptions: sourceOptions => sourceOptions.filter(option => !option.disabled),
-    includeChildren: true
+    includeChildren: optionStringsSource === "Location"
   });
 
   const filterOptions = whichOptions({
