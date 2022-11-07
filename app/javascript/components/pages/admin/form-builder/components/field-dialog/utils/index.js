@@ -8,6 +8,7 @@ export { default as getFormField } from "./get-form-field";
 export { default as getSelectedDateValue } from "./get-selected-date-value";
 export { default as getSubformValues } from "./get-subform-values";
 export { default as getUpdatedSubform } from "./get-updated-subform";
+export { default as handleDisplayConditions } from "./handle-display-conditions";
 export { default as isSubformField } from "./is-subform-field";
 export { default as mergeTranslationKeys } from "./merge-translation-keys";
 export { default as setInitialForms } from "./set-initial-forms";

@@ -35,7 +35,7 @@ import FieldTranslationsDialog, { NAME as FieldTranslationsDialogName } from "..
 import { SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "../field-list-item/constants";
 import FieldDialogLabel from "../field-dialog-label";
 import { useApp } from "../../../../../application";
-import { conditionsToFieldArray, fieldArrayToConditions } from "../../utils";
+import { conditionsToFieldArray } from "../../utils";
 import SkipLogic from "../skip-logic";
 import { NAME as CONDITIONS_DIALOG } from "../condition-dialog/constants";
 
@@ -52,7 +52,8 @@ import {
   toggleHideOnViewPage,
   buildDataToSave,
   generateUniqueId,
-  mergeTranslationKeys
+  mergeTranslationKeys,
+  handleDisplayConditions
 } from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM, RESET_OPTIONS, SKIP_LOGIC_FIELD } from "./constants";
 
@@ -230,14 +231,9 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
     const subformData = setInitialForms(data.subform_section);
     const fieldData = setSubformData(toggleHideOnViewPage(data[selectedFieldName]), subformData);
 
-    const dataToSave = buildDataToSave(selectedField, fieldData, lastField?.get("order"), randomSubformId);
-
-    dataToSave[selectedFieldName].display_conditions_record = fieldArrayToConditions(
-      dataToSave[selectedFieldName].display_conditions_record
-    );
-
-    dataToSave[selectedFieldName].display_conditions_subform = fieldArrayToConditions(
-      dataToSave[selectedFieldName].display_conditions_subform
+    const dataToSave = handleDisplayConditions(
+      buildDataToSave(selectedField, fieldData, lastField?.get("order"), randomSubformId),
+      selectedFieldName
     );
 
     batch(() => {
