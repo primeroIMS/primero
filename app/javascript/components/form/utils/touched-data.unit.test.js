@@ -23,4 +23,20 @@ describe("touchedFormData()", () => {
 
     expect(touchedFormData(touched, data)).to.deep.equal(expected);
   });
+
+  it("returns touched data for a field that was array and now is a single value", () => {
+    const data = {
+      prop1: "single"
+    };
+
+    const expected = {
+      prop1: "single"
+    };
+
+    const touched = {
+      prop1: ["value1", "value2"]
+    };
+
+    expect(touchedFormData(touched, data)).to.deep.equal(expected);
+  });
 });
