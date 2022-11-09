@@ -923,7 +923,7 @@ Lookup.create_or_update!(
   name_en: 'Form Groups - CP Registry',
   lookup_values_en: [
     { id: 'record_information', display_text: 'Record Information' },
-    { id: 'registry_details', display_text: 'Farmer Details' }
+    { id: 'registry_details', display_text: 'Registry Details' }
   ].map(&:with_indifferent_access)
 )
 
