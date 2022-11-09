@@ -6,9 +6,9 @@ import { FieldRecord, FormSectionRecord, SELECT_FIELD } from "../../../../../for
 import { constraintInputType, valueFieldType } from "../../../../../reports-form/components/filters-dialog/form";
 import css from "../../../../../reports-form/components/filters-dialog/styles.css";
 
-import { ATTRIBUTE_FIELD, CONSTRAINTS, CONSTRAINT_FIELD, VALUE_FIELD } from "./constants";
+import { ATTRIBUTE_FIELD, CONSTRAINTS, CONSTRAINT_FIELD, TYPE_FIELD, VALUE_FIELD } from "./constants";
 
-export const validationSchema = i18n =>
+export const validationSchema = (i18n, isFirstCondition) =>
   object().shape({
     [ATTRIBUTE_FIELD]: string()
       .nullable()
@@ -28,6 +28,19 @@ export const validationSchema = i18n =>
           })
         )
     }),
+    [TYPE_FIELD]: lazy(() => {
+      if (isFirstCondition) {
+        return string().nullable();
+      }
+
+      return string()
+        .nullable()
+        .required(
+          i18n.t("forms.required_field", {
+            field: i18n.t("forms.conditions.type")
+          })
+        );
+    }),
     [VALUE_FIELD]: lazy(val => {
       const schema = Array.isArray(val) ? array().of(string()) : string();
 
@@ -43,11 +56,22 @@ export const validationSchema = i18n =>
     })
   });
 
-export const conditionsForm = ({ fields, i18n, selectedField, mode }) => {
+export const conditionsForm = ({ fields, i18n, selectedField, mode, isFirstCondition = true }) => {
   return [
     FormSectionRecord({
       unique_id: "conditions_form",
       fields: [
+        FieldRecord({
+          display_name: i18n.t("forms.conditions.type"),
+          required: true,
+          visible: !isFirstCondition,
+          name: TYPE_FIELD,
+          type: SELECT_FIELD,
+          option_strings_text: [
+            { id: "and", display_text: i18n.t("forms.conditions.types.and") },
+            { id: "or", display_text: i18n.t("forms.conditions.types.or") }
+          ]
+        }),
         FieldRecord({
           display_name: i18n.t("forms.conditions.field_name"),
           name: ATTRIBUTE_FIELD,

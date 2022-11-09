@@ -1,4 +1,6 @@
-import { COMPARISON_OPERATORS } from "../../../../../libs/expressions/constants";
+import last from "lodash/last";
+
+import { COMPARISON_OPERATORS, LOGICAL_OPERATORS } from "../../../../../libs/expressions/constants";
 import { isOperator } from "../../../../../libs/expressions/utils";
 
 const getConstraint = condition => {
@@ -16,19 +18,31 @@ export default conditionArray => {
     return {};
   }
 
-  return conditionArray.reduce(
-    (acc, elem) => {
-      const constraint = getConstraint(elem);
+  if (conditionArray.length === 1) {
+    const elem = conditionArray[0];
 
-      return {
-        and: [
-          ...acc.and,
-          isOperator(constraint) ? { [getConstraint(elem)]: { [elem.attribute]: elem.value } } : constraint
-        ]
-      };
-    },
-    {
-      and: []
+    return { [getConstraint(elem)]: { [elem.attribute]: elem.value } };
+  }
+
+  return conditionArray.reduce((acc, elem, index) => {
+    const condition = { [getConstraint(elem)]: { [elem.attribute]: elem.value } };
+
+    if (index === 0) {
+      return condition;
     }
-  );
+
+    if (elem.type === LOGICAL_OPERATORS.AND && acc[LOGICAL_OPERATORS.OR]) {
+      return {
+        [LOGICAL_OPERATORS.OR]: [...acc.or.slice(0, acc.or.length - 1), { [elem.type]: [last(acc.or), condition] }]
+      };
+    }
+
+    if (elem.type && acc[elem.type]) {
+      return { [elem.type]: [...acc[elem.type], condition] };
+    }
+
+    return {
+      [elem.type || LOGICAL_OPERATORS.AND]: [acc, condition]
+    };
+  }, {});
 };

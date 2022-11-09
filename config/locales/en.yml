@@ -1347,6 +1347,10 @@ en:
       add: Add Condition
       field_name: Field Name
       condition: Condition
+      type: Type
+      types:
+        and: And this condition
+        or: Or this condition
   home:
     ar: العربية
     ar-IQ: العربية (العراقية)

@@ -29,21 +29,28 @@ import { convertValue, registerFields, updateCondition } from "./utils";
 
 function Component({ formMethods, handleClose, handleSuccess, primeroModule, recordType, field }) {
   const i18n = useI18n();
+  const recordConditionsName = field ? `${field.get("name")}.display_conditions_record` : "display_conditions";
+  const subformConditionsName = field
+    ? `${field.get("name")}.display_conditions_subform`
+    : "display_conditions_subform";
   const { append: appendConditionRecord } = useFieldArray({
     control: formMethods.control,
-    name: field ? `${field.get("name")}.display_conditions_record` : "display_conditions"
+    name: recordConditionsName
   });
   const { append: appendConditionSubform } = useFieldArray({
     control: formMethods.control,
-    name: field ? `${field.get("name")}.display_conditions_subform` : "display_conditions_subform"
+    name: subformConditionsName
   });
 
+  const recordConditions = formMethods.getValues(recordConditionsName) || [];
+  const subformConditions = formMethods.getValues(subformConditionsName) || [];
   const { dialogOpen, params } = useDialog(NAME);
+  const isFirstCondition = recordConditions.length + subformConditions.length <= 0;
   const initialValues = params.get("initialValues", fromJS({}));
   const defaultValues = initialValues.size
     ? reduceMapToObject(initialValues)
     : { attribute: "", constraint: "", value: "" };
-  const dialogFormMethods = useForm({ defaultValues, resolver: yupResolver(validationSchema(i18n)) });
+  const dialogFormMethods = useForm({ defaultValues, resolver: yupResolver(validationSchema(i18n, isFirstCondition)) });
   const { handleSubmit } = dialogFormMethods;
   const attribute = useWatch({ control: dialogFormMethods.control, name: ATTRIBUTE_FIELD });
   const selectedField = useMemoizedSelector(state => getFieldByName(state, attribute));
@@ -73,7 +80,8 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
     fields: fields.concat(nestedFields),
     i18n,
     selectedField,
-    mode: formMode
+    mode: formMode,
+    isFirstCondition
   });
 
   const onSubmit = data => {
