@@ -19,6 +19,11 @@ function Component({ field, formMethods, handleClose, handleSuccess, primeroModu
     setDialog({ dialog: CONDITIONS_DIALOG, open: true, params: { mode: FORM_MODE_NEW, initialValues: {} } });
   }, []);
 
+  const conditionsFieldName = field ? `${field.get("name")}.display_conditions_record` : "display_conditions";
+  const displayConditions = formMethods.getValues(conditionsFieldName) || [];
+  const displayConditionsSubform = formMethods.getValues(`${field?.get("name")}.display_conditions_subform`) || [];
+  const showAddCondition = displayConditions.length + displayConditionsSubform.length < 4;
+
   return (
     <>
       <h1>{i18n.t("forms.skip_logic_title")}</h1>
@@ -37,6 +42,7 @@ function Component({ field, formMethods, handleClose, handleSuccess, primeroModu
         text={i18n.t("forms.conditions.add")}
         type={ACTION_BUTTON_TYPES.default}
         noTranslate
+        disabled={!showAddCondition}
         rest={{ onClick: onAddCondition }}
       />
     </>
