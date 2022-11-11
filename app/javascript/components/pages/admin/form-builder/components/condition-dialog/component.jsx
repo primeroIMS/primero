@@ -45,7 +45,8 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
   const recordConditions = formMethods.getValues(recordConditionsName) || [];
   const subformConditions = formMethods.getValues(subformConditionsName) || [];
   const { dialogOpen, params } = useDialog(NAME);
-  const isFirstCondition = recordConditions.length + subformConditions.length <= 0;
+  const isFirstCondition =
+    parseInt(params.get("index"), 10) === 0 || recordConditions.length + subformConditions.length <= 0;
   const initialValues = params.get("initialValues", fromJS({}));
   const defaultValues = initialValues.size
     ? reduceMapToObject(initialValues)
