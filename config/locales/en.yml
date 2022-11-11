@@ -1349,8 +1349,12 @@ en:
       condition: Condition
       type: Type
       types:
-        and: And this condition
-        or: Or this condition
+        and:
+          display_text: And this condition
+          name: AND
+        or:
+          display_text: Or this condition
+          name: OR
   home:
     ar: العربية
     ar-IQ: العربية (العراقية)

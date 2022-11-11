@@ -68,8 +68,8 @@ export const conditionsForm = ({ fields, i18n, selectedField, mode, isFirstCondi
           name: TYPE_FIELD,
           type: SELECT_FIELD,
           option_strings_text: [
-            { id: "and", display_text: i18n.t("forms.conditions.types.and") },
-            { id: "or", display_text: i18n.t("forms.conditions.types.or") }
+            { id: "and", display_text: i18n.t("forms.conditions.types.and.display_text") },
+            { id: "or", display_text: i18n.t("forms.conditions.types.or.display_text") }
           ]
         }),
         FieldRecord({
