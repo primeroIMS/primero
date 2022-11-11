@@ -53,6 +53,7 @@ function Component({ field, formMethods }) {
         constraints={CONSTRAINTS}
         handleOpenModal={handleDelete}
         handleEdit={handleEdit}
+        disablesDelete
         indexes={displayConditions.map((condition, index) => ({ index, data: condition }))}
       />
       <FiltersList
@@ -60,6 +61,7 @@ function Component({ field, formMethods }) {
         constraints={CONSTRAINTS}
         handleOpenModal={handleDeleteSubform}
         handleEdit={handleEdit}
+        disablesDelete
         indexes={displayConditionsSubform.map((condition, index) => ({ index, data: condition }))}
       />
     </>

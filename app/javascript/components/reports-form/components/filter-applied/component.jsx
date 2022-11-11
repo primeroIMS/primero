@@ -16,7 +16,7 @@ import { NAME } from "./constants";
 import { getConstraintLabel } from "./utils";
 import css from "./styles.css";
 
-const Component = ({ filter, handleClickOpen, handleClickEdit, constraints = CONSTRAINTS }) => {
+const Component = ({ filter, handleClickOpen, handleClickEdit, constraints = CONSTRAINTS, deleteDisabled }) => {
   const i18n = useI18n();
   const { isRTL } = useThemeHelper();
   const [index, { data }] = filter;
@@ -66,7 +66,7 @@ const Component = ({ filter, handleClickOpen, handleClickEdit, constraints = CON
     <div key={index} className={css.filterContainer}>
       <div className={css.filterName}>{formattedReportFilterName}</div>
       <div className={css.filterActions}>
-        <IconButton onClick={handleClickOpen(index, filter)}>
+        <IconButton onClick={handleClickOpen(index, filter)} disabled={deleteDisabled}>
           <DeleteIcon />
         </IconButton>
         <IconButton onClick={handleClickEdit(index, filter)}>{renderIcon}</IconButton>
@@ -79,6 +79,7 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   constraints: PropTypes.object,
+  deleteDisabled: PropTypes.bool,
   filter: PropTypes.object,
   handleClickEdit: PropTypes.func,
   handleClickOpen: PropTypes.func
