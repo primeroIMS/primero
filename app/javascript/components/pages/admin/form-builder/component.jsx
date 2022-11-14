@@ -98,12 +98,12 @@ const Component = ({ mode }) => {
       isEdit: formMode.isEdit,
       dirtyFields,
       submitAlways: !selectedSubforms?.isEmpty(),
-      submitAllFields: true,
+      submitAllArrayData: dirtyFields.display_conditions?.length > 0,
       onSubmit: formData => {
         const mergedData = mergeTranslations(formData);
         const subforms = selectedSubforms;
-        const updatedNewFields = convertToFieldsArray(mergedData.fields || {});
-        const displayConditions = fieldArrayToConditions(mergedData.display_conditions || []);
+        const updatedNewFields = convertToFieldsArray(mergedData.fields || []);
+        const displayConditions = fieldArrayToConditions(mergedData.display_conditions || {});
         const body = {
           data: {
             ...mergedData,
