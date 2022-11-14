@@ -62,6 +62,7 @@ describe("Verifying config constant", () => {
       "LOOKUPS",
       "MATCH_VALUES",
       "MAX_ATTACHMENT_SIZE",
+      "MAX_CONDITIONS",
       "MAX_IMAGE_SIZE",
       "METHODS",
       "MODES",
