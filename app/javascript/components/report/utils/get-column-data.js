@@ -22,11 +22,15 @@ const getColumnData = (column, data, i18n, qtyColumns, qtyRows) => {
   return keys
     .filter(key => key !== totalLabel)
     .map(key => {
-      const columnValue = data[key][column]
-        ? data[key][column][totalLabel]
-        : getColumnData(column, data[key], i18n, qtyColumns, qtyRows);
+      if (data[key][column] && data[key][column][totalLabel]) {
+        return data[key][column][totalLabel];
+      }
 
-      return columnValue;
+      if (data[key][column]) {
+        return getColumnData(column, data[key], i18n, qtyColumns, qtyRows);
+      }
+
+      return 0;
     })
     .flat();
 };
