@@ -87,10 +87,10 @@ describe Flag do
               expect(f1['record_id']).to eq(@case1.id.to_s)
               expect(f1['record_type']).to eq('Child')
               expect(f1['message']).to eq('This is test flag 1')
-              expect(f1['short_id']).to eq('abc123')
-              expect(f1['name']).to eq('*******')
-              expect(f1['hidden_name']).to be
-              expect(f1['owned_by']).to eq('user1')
+              expect(f1.short_id).to eq('abc123')
+              expect(f1.name).to eq('*******')
+              expect(f1.hidden_name).to be true
+              expect(f1.owned_by).to eq('user1')
             end
           end
 
@@ -107,10 +107,10 @@ describe Flag do
               expect(f1['record_id']).to eq(@case1.id.to_s)
               expect(f1['record_type']).to eq('Child')
               expect(f1['message']).to eq('This is test flag 1')
-              expect(f1['short_id']).to eq('abc123')
-              expect(f1['name']).to eq('*******')
-              expect(f1['hidden_name']).to be
-              expect(f1['owned_by']).to eq('user1')
+              expect(f1.short_id).to eq('abc123')
+              expect(f1.name).to eq('*******')
+              expect(f1.hidden_name).to be
+              expect(f1.owned_by).to eq('user1')
             end
           end
         end
@@ -136,10 +136,10 @@ describe Flag do
             expect(case_flag).to be
             expect(case_flag['record_id']).to eq(@case1.id.to_s)
             expect(case_flag['message']).to eq('This is test flag 1')
-            expect(case_flag['short_id']).to eq('abc123')
-            expect(case_flag['name']).to eq('*******')
-            expect(case_flag['hidden_name']).to be
-            expect(case_flag['owned_by']).to eq('user1')
+            expect(case_flag.short_id).to eq('abc123')
+            expect(case_flag.name).to eq('*******')
+            expect(case_flag.hidden_name).to be
+            expect(case_flag.owned_by).to eq('user1')
           end
 
           it 'returns incident flags owned by or asssociated with the current user' do
@@ -147,10 +147,10 @@ describe Flag do
             expect(incident_flag).to be
             expect(incident_flag['record_id']).to eq(@incident1.id.to_s)
             expect(incident_flag['message']).to eq('This is a flag IN')
-            expect(incident_flag['short_id']).to eq(@incident1.short_id)
-            expect(incident_flag['name']).to be_nil
-            expect(incident_flag['hidden_name']).to be_nil
-            expect(incident_flag['owned_by']).to eq('user1')
+            expect(incident_flag.short_id).to eq(@incident1.short_id)
+            expect(incident_flag.name).to be_nil
+            expect(incident_flag.hidden_name).to be_nil
+            expect(incident_flag.owned_by).to eq('user1')
           end
 
           it 'returns tracing_request flags owned by or asssociated with the current user' do
@@ -158,10 +158,10 @@ describe Flag do
             expect(tr_flag).to be
             expect(tr_flag['record_id']).to eq(@tracing_request1.id.to_s)
             expect(tr_flag['message']).to eq('This is a flag TR')
-            expect(tr_flag['short_id']).to eq(@tracing_request1.short_id)
-            expect(tr_flag['name']).to be_nil
-            expect(tr_flag['hidden_name']).to be_nil
-            expect(tr_flag['owned_by']).to eq('user1')
+            expect(tr_flag.short_id).to eq(@tracing_request1.short_id)
+            expect(tr_flag.name).to be_nil
+            expect(tr_flag.hidden_name).to be_nil
+            expect(tr_flag.owned_by).to eq('user1')
           end
         end
 
@@ -184,10 +184,10 @@ describe Flag do
             expect(case_flag).to be
             expect(case_flag['record_id']).to eq(@case1.id.to_s)
             expect(case_flag['message']).to eq('This is test flag 1')
-            expect(case_flag['short_id']).to eq('abc123')
-            expect(case_flag['name']).to eq('*******')
-            expect(case_flag['hidden_name']).to be
-            expect(case_flag['owned_by']).to eq('user1')
+            expect(case_flag.short_id).to eq('abc123')
+            expect(case_flag.name).to eq('*******')
+            expect(case_flag.hidden_name).to be
+            expect(case_flag.owned_by).to eq('user1')
           end
 
           it 'returns incident flags owned by or asssociated with the current user' do
@@ -195,10 +195,10 @@ describe Flag do
             expect(incident_flag).to be
             expect(incident_flag['record_id']).to eq(@incident1.id.to_s)
             expect(incident_flag['message']).to eq('This is a flag IN')
-            expect(incident_flag['short_id']).to eq(@incident1.short_id)
-            expect(incident_flag['name']).to be_nil
-            expect(incident_flag['hidden_name']).to be_nil
-            expect(incident_flag['owned_by']).to eq('user1')
+            expect(incident_flag.short_id).to eq(@incident1.short_id)
+            expect(incident_flag.name).to be_nil
+            expect(incident_flag.hidden_name).to be_nil
+            expect(incident_flag.owned_by).to eq('user1')
           end
 
           it 'returns tracing_request flags owned by or asssociated with the current user' do
@@ -206,10 +206,10 @@ describe Flag do
             expect(tr_flag).to be
             expect(tr_flag['record_id']).to eq(@tracing_request1.id.to_s)
             expect(tr_flag['message']).to eq('This is a flag TR')
-            expect(tr_flag['short_id']).to eq(@tracing_request1.short_id)
-            expect(tr_flag['name']).to be_nil
-            expect(tr_flag['hidden_name']).to be_nil
-            expect(tr_flag['owned_by']).to eq('user1')
+            expect(tr_flag.short_id).to eq(@tracing_request1.short_id)
+            expect(tr_flag.name).to be_nil
+            expect(tr_flag.hidden_name).to be_nil
+            expect(tr_flag.owned_by).to eq('user1')
           end
         end
       end
@@ -262,10 +262,10 @@ describe Flag do
               expect(f1['record_id']).to eq(@case1.id.to_s)
               expect(f1['record_type']).to eq('Child')
               expect(f1['message']).to eq('This is test flag 1')
-              expect(f1['short_id']).to eq('abc123')
-              expect(f1['name']).to eq('*******')
-              expect(f1['hidden_name']).to be
-              expect(f1['owned_by']).to eq('user1')
+              expect(f1.short_id).to eq('abc123')
+              expect(f1.name).to eq('*******')
+              expect(f1.hidden_name).to be
+              expect(f1.owned_by).to eq('user1')
 
               # expect(flags.first['removed']).to be_falsey
             end
@@ -283,10 +283,10 @@ describe Flag do
               expect(f1['record_id']).to eq(@incident1.id.to_s)
               expect(f1['record_type']).to eq('Incident')
               expect(f1['message']).to eq('This is a flag IN')
-              expect(f1['short_id']).to eq(@incident1.short_id)
-              expect(f1['name']).to be_nil
-              expect(f1['hidden_name']).to be_nil
-              expect(f1['owned_by']).to eq('user1')
+              expect(f1.short_id).to eq(@incident1.short_id)
+              expect(f1.name).to be_nil
+              expect(f1.hidden_name).to be_nil
+              expect(f1.owned_by).to eq('user1')
 
               # expect(flags.first['removed']).to be_falsey
             end
@@ -304,10 +304,10 @@ describe Flag do
               expect(f1['record_id']).to eq(@tracing_request1.id.to_s)
               expect(f1['record_type']).to eq('TracingRequest')
               expect(f1['message']).to eq('This is a flag TR')
-              expect(f1['short_id']).to eq(@tracing_request1.short_id)
-              expect(f1['name']).to be_nil
-              expect(f1['hidden_name']).to be_nil
-              expect(f1['owned_by']).to eq('user1')
+              expect(f1.short_id).to eq(@tracing_request1.short_id)
+              expect(f1.name).to be_nil
+              expect(f1.hidden_name).to be_nil
+              expect(f1.owned_by).to eq('user1')
 
               # expect(flags.first['removed']).to be_falsey
             end
@@ -363,7 +363,7 @@ describe Flag do
             expect(flags.map(&:message)).to match_array(['This is test flag 3', 'This is test flag 4'])
             expect(flags.map(&:short_id)).to match_array([@case3.short_id, @case5.short_id])
             expect(flags.map(&:name)).to match_array(%w[Test3 Test5])
-            expect(flags.first['hidden_name']).not_to be
+            expect(flags.first.hidden_name).not_to be
             expect(flags.map(&:owned_by)).to match_array(%w[user2 user3])
           end
         end
@@ -380,10 +380,10 @@ describe Flag do
             expect(f1['record_id']).to eq(@incident2.id.to_s)
             expect(f1['record_type']).to eq('Incident')
             expect(f1['message']).to eq('This is a fourth flag IN')
-            expect(f1['short_id']).to eq(@incident2.short_id)
-            expect(f1['name']).to be_nil
-            expect(f1['hidden_name']).to be_nil
-            expect(f1['owned_by']).to eq('user2')
+            expect(f1.short_id).to eq(@incident2.short_id)
+            expect(f1.name).to be_nil
+            expect(f1.hidden_name).to be_nil
+            expect(f1.owned_by).to eq('user2')
           end
         end
 
@@ -399,10 +399,10 @@ describe Flag do
             expect(f1['record_id']).to eq(@tracing_request3.id.to_s)
             expect(f1['record_type']).to eq('TracingRequest')
             expect(f1['message']).to eq('This is a second flag TR')
-            expect(f1['short_id']).to eq(@tracing_request3.short_id)
-            expect(f1['name']).to be_nil
-            expect(f1['hidden_name']).to be_nil
-            expect(f1['owned_by']).to eq('user2')
+            expect(f1.short_id).to eq(@tracing_request3.short_id)
+            expect(f1.name).to be_nil
+            expect(f1.hidden_name).to be_nil
+            expect(f1.owned_by).to eq('user2')
           end
         end
       end
