@@ -11,3 +11,7 @@
 .filterActions {
   display: flex;
 }
+
+.filterType {
+  padding: 0 1.5em;
+}

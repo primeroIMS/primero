@@ -5,6 +5,7 @@ export const registerFields = ({ register, fieldsRef, index, fieldName }) => {
     register(`${fieldName}.${index}.constraint`);
     register(`${fieldName}.${index}.attribute`);
     register(`${fieldName}.${index}.value`);
+    register(`${fieldName}.${index}.type`);
   }
 };
 
@@ -18,6 +19,10 @@ export const updateCondition = ({ setValue, fieldName, index, condition }) => {
     shouldDirty: true
   });
   setValue(`${fieldName}.${index}.value`, condition.value, {
+    shouldTouch: true,
+    shouldDirty: true
+  });
+  setValue(`${fieldName}.${index}.type`, condition.type, {
     shouldTouch: true,
     shouldDirty: true
   });

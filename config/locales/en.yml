@@ -1242,6 +1242,7 @@ en:
     updated: Field updated
     visibility: Visibility
     web_app: Web app
+    skip_logic_title: This field should be visible if
   filters:
     apply_filters: Apply
     clear_filters: Clear
@@ -1347,6 +1348,14 @@ en:
       add: Add Condition
       field_name: Field Name
       condition: Condition
+      type: Type
+      types:
+        and:
+          display_text: And this condition
+          name: AND
+        or:
+          display_text: Or this condition
+          name: OR
   home:
     ar: العربية
     ar-IQ: العربية (العراقية)

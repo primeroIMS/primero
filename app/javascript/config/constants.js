@@ -654,3 +654,5 @@ export const VIOLATION_VERIFICATION_STATUS = Object.freeze({
   not_mrm: "not_mrm",
   verification_found_that_incident_did_not_occur: "verification_found_that_incident_did_not_occur"
 });
+
+export const MAX_CONDITIONS = 4;

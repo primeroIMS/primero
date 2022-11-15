@@ -11,12 +11,20 @@ import { dataToJS, displayNameHelper, useMemoizedSelector, useThemeHelper } from
 import useOptions from "../../../form/use-options";
 import { formatValue } from "../filters/utils";
 import { CONSTRAINTS } from "../../constants";
+import { LOGICAL_OPERATORS } from "../../../../libs/expressions/constants";
 
 import { NAME } from "./constants";
 import { getConstraintLabel } from "./utils";
 import css from "./styles.css";
 
-const Component = ({ filter, handleClickOpen, handleClickEdit, constraints = CONSTRAINTS }) => {
+const Component = ({
+  filter,
+  handleClickOpen,
+  handleClickEdit,
+  conditionTypes = [],
+  constraints = CONSTRAINTS,
+  deleteDisabled
+}) => {
   const i18n = useI18n();
   const { isRTL } = useThemeHelper();
   const [index, { data }] = filter;
@@ -52,6 +60,9 @@ const Component = ({ filter, handleClickOpen, handleClickEdit, constraints = CON
 
   const constraintLabel = getConstraintLabel(data, field, constraints, i18n);
 
+  const conditionType = conditionTypes[index];
+  const conditionName = i18n.t(`forms.conditions.types.${conditionType}.name`);
+
   const formattedReportFilterName = [
     // eslint-disable-next-line camelcase
     displayNameHelper(field?.display_name, i18n.locale),
@@ -63,22 +74,30 @@ const Component = ({ filter, handleClickOpen, handleClickEdit, constraints = CON
   const renderIcon = isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRight />;
 
   return (
-    <div key={index} className={css.filterContainer}>
-      <div className={css.filterName}>{formattedReportFilterName}</div>
-      <div className={css.filterActions}>
-        <IconButton onClick={handleClickOpen(index, filter)}>
-          <DeleteIcon />
-        </IconButton>
-        <IconButton onClick={handleClickEdit(index, filter)}>{renderIcon}</IconButton>
+    <>
+      <div key={index} className={css.filterContainer}>
+        <div className={css.filterName}>
+          {formattedReportFilterName}
+          {conditionType === LOGICAL_OPERATORS.AND && <span className={css.filterType}>{conditionName}</span>}
+        </div>
+        <div className={css.filterActions}>
+          <IconButton onClick={handleClickOpen(index, filter)} disabled={deleteDisabled}>
+            <DeleteIcon />
+          </IconButton>
+          <IconButton onClick={handleClickEdit(index, filter)}>{renderIcon}</IconButton>
+        </div>
       </div>
-    </div>
+      {conditionType === LOGICAL_OPERATORS.OR && <p>{conditionName}</p>}
+    </>
   );
 };
 
 Component.displayName = NAME;
 
 Component.propTypes = {
+  conditionTypes: PropTypes.array,
   constraints: PropTypes.object,
+  deleteDisabled: PropTypes.bool,
   filter: PropTypes.object,
   handleClickEdit: PropTypes.func,
   handleClickOpen: PropTypes.func
