@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import PropTypes from "prop-types";
 import AddIcon from "@material-ui/icons/Add";
 
+import { MAX_CONDITIONS } from "../../../../../../config";
 import { useDialog } from "../../../../../action-dialog";
 import { useI18n } from "../../../../../i18n";
 import ActionButton from "../../../../../action-button";
@@ -18,6 +19,11 @@ function Component({ field, formMethods, handleClose, handleSuccess, primeroModu
   const onAddCondition = useCallback(() => {
     setDialog({ dialog: CONDITIONS_DIALOG, open: true, params: { mode: FORM_MODE_NEW, initialValues: {} } });
   }, []);
+
+  const conditionsFieldName = field ? `${field.get("name")}.display_conditions_record` : "display_conditions";
+  const displayConditions = formMethods.getValues(conditionsFieldName) || [];
+  const displayConditionsSubform = formMethods.getValues(`${field?.get("name")}.display_conditions_subform`) || [];
+  const showAddCondition = displayConditions.length + displayConditionsSubform.length < MAX_CONDITIONS;
 
   return (
     <>
@@ -37,6 +43,7 @@ function Component({ field, formMethods, handleClose, handleSuccess, primeroModu
         text={i18n.t("forms.conditions.add")}
         type={ACTION_BUTTON_TYPES.default}
         noTranslate
+        disabled={!showAddCondition}
         rest={{ onClick: onAddCondition }}
       />
     </>

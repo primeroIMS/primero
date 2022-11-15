@@ -2,7 +2,6 @@ import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import get from "lodash/get";
-import { useWatch } from "react-hook-form";
 
 import { getObjectPath } from "../../../../../../libs";
 import { setDialog, useDialog } from "../../../../../action-dialog";
@@ -34,9 +33,9 @@ const Component = ({ index, mode, tab, formMethods, limitedProductionSite }) => 
 
   const { dialogClose } = useDialog(CONDITIONS_DIALOG);
 
-  const skipLogic = useWatch({ control: formMethods.control, name: SKIP_LOGIC_FIELD });
-  const recordType = useWatch({ control: formMethods.control, name: RECORD_TYPE_FIELD });
-  const primeroModule = useWatch({ control: formMethods.control, name: MODULES_FIELD });
+  const skipLogic = getValues(SKIP_LOGIC_FIELD);
+  const recordType = getValues(RECORD_TYPE_FIELD);
+  const primeroModule = getValues(MODULES_FIELD);
 
   const onManageTranslation = useCallback(() => {
     dispatch(setDialog({ dialog: FormTranslationsDialogName, open: true }));

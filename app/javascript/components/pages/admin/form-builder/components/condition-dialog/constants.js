@@ -3,6 +3,7 @@ export const FORM_NAME = "ConditionsForm";
 export const ATTRIBUTE_FIELD = "attribute";
 export const CONSTRAINT_FIELD = "constraint";
 export const VALUE_FIELD = "value";
+export const TYPE_FIELD = "type";
 export const DEFAULT_CONSTRAINTS = Object.freeze({
   lt: "report.filters.less_than",
   gt: "report.filters.greater_than",

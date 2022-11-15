@@ -12,10 +12,77 @@ describe("fieldArrayToConditions", () => {
     expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
   });
 
-  it("should return an IN condition for an array value", () => {
+  it("should return a single IN condition for an array value", () => {
     const conditionArray = [{ attribute: "field_1", value: ["value1", "value2"] }];
 
-    const expected = { and: [{ in: { field_1: ["value1", "value2"] } }] };
+    const expected = { in: { field_1: ["value1", "value2"] } };
+
+    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
+  });
+
+  it("combines the conditions using the condition type", () => {
+    const conditionArray = [
+      { attribute: "field_1", value: "value1", constraint: "eq" },
+      { attribute: "field_2", value: "value2", constraint: "gt", type: "and" }
+    ];
+
+    const expected = { and: [{ eq: { field_1: "value1" } }, { gt: { field_2: "value2" } }] };
+
+    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
+  });
+
+  it("groups AND conditions together", () => {
+    const conditionArray = [
+      { attribute: "field_1", value: "value1", constraint: "eq" },
+      { attribute: "field_2", value: "value2", constraint: "gt", type: "and" },
+      { attribute: "field_3", value: "value3", constraint: "eq", type: "or" },
+      { attribute: "field_4", value: "value4", constraint: "lt", type: "and" }
+    ];
+
+    const expected = {
+      or: [
+        { and: [{ eq: { field_1: "value1" } }, { gt: { field_2: "value2" } }] },
+        { and: [{ eq: { field_3: "value3" } }, { lt: { field_4: "value4" } }] }
+      ]
+    };
+
+    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
+  });
+
+  it("does not group OR conditions", () => {
+    const conditionArray = [
+      { attribute: "field_1", value: "value1", constraint: "eq" },
+      { attribute: "field_2", value: "value2", constraint: "gt", type: "and" },
+      { attribute: "field_3", value: "value3", constraint: "eq", type: "or" },
+      { attribute: "field_4", value: "value4", constraint: "lt", type: "or" }
+    ];
+
+    const expected = {
+      or: [
+        { and: [{ eq: { field_1: "value1" } }, { gt: { field_2: "value2" } }] },
+        { eq: { field_3: "value3" } },
+        { lt: { field_4: "value4" } }
+      ]
+    };
+
+    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
+  });
+
+  it("does not group OR conditions", () => {
+    const conditionArray = [
+      { attribute: "field_1", value: "value1", constraint: "eq" },
+      { attribute: "field_2", value: "value2", constraint: "lt", type: "or" },
+      { attribute: "field_3", value: "value3", constraint: "eq", type: "or" },
+      { attribute: "field_4", value: "value4", constraint: "gt", type: "and" }
+    ];
+
+    const expected = {
+      or: [
+        { eq: { field_1: "value1" } },
+        { lt: { field_2: "value2" } },
+        { and: [{ eq: { field_3: "value3" } }, { gt: { field_4: "value4" } }] }
+      ]
+    };
 
     expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
   });
