@@ -10,6 +10,7 @@ json.record_type Record.map_name(flag.record_type).pluralize
 
 record_access_denied = !current_user.can?(:read, flag.record)
 json.record_access_denied record_access_denied
+
 if local_assigns.key? :updates_for_record
   unless record_access_denied
     json.record do

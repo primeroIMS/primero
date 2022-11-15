@@ -146,15 +146,6 @@ class Flag < ApplicationRecord
       where_params[:removed] = false if active_only
       where_params
     end
-
-    def select_fields(record_type)
-      (Flag.column_names.map { |column| "flags.#{column}" } +
-         record_fields_for_select.map { |field| "#{record_type}.data -> '#{field}' as #{field}" }).join(', ')
-    end
-
-    def record_fields_for_select
-      %w[short_id name hidden_name owned_by owned_by_agency_id]
-    end
   end
 
   def name
