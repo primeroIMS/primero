@@ -12,7 +12,7 @@ import ConditionList from "../condition-list";
 import ConditionDialog from "../condition-dialog";
 import { NAME as CONDITIONS_DIALOG } from "../condition-dialog/constants";
 
-function Component({ field, formMethods, handleClose, handleSuccess, primeroModule, recordType }) {
+function Component({ field, formMethods, handleClose, handleSuccess, primeroModule, recordType, title }) {
   const i18n = useI18n();
   const { setDialog } = useDialog(CONDITIONS_DIALOG);
 
@@ -27,7 +27,7 @@ function Component({ field, formMethods, handleClose, handleSuccess, primeroModu
 
   return (
     <>
-      <h1>{i18n.t("forms.skip_logic_title")}</h1>
+      <h1>{title || i18n.t("forms.skip_logic_title")}</h1>
       <ConditionList formMethods={formMethods} field={field} />
       <ConditionDialog
         field={field}
@@ -58,7 +58,8 @@ Component.propTypes = {
   handleClose: PropTypes.func,
   handleSuccess: PropTypes.func,
   primeroModule: PropTypes.string,
-  recordType: PropTypes.string
+  recordType: PropTypes.string,
+  title: PropTypes.string
 };
 
 export default Component;
