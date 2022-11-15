@@ -148,26 +148,6 @@ class Flag < ApplicationRecord
     end
   end
 
-  def name
-    RecordDataService.visible_name(record)
-  end
-
-  def short_id
-    record&.short_id
-  end
-
-  def hidden_name
-    record.try(:hidden_name)
-  end
-
-  def owned_by
-    record&.owned_by
-  end
-
-  def owned_by_agency_id
-    record&.owned_by_agency_id
-  end
-
   def flag_history
     update_flag_history(EVENT_FLAG, flagged_by)
   end

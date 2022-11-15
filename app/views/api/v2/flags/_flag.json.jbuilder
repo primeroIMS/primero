@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 json.merge! flag.attributes
-json.name flag&.name
-json.short_id flag&.short_id
-json.hidden_name flag&.hidden_name
-json.owned_by flag&.owned_by
-json.owned_by_agency_id flag&.owned_by_agency_id
+json.name RecordDataService.visible_name(flag.record)
+json.short_id flag.record.short_id
+json.owned_by flag.record.owned_by
+json.owned_by_agency_id flag.record.owned_by_agency_id
 json.record_type Record.map_name(flag.record_type).pluralize
 
 record_access_denied = !current_user.can?(:read, flag.record)
