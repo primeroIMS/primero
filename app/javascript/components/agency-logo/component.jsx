@@ -1,35 +1,41 @@
 import PropTypes from "prop-types";
-import { useMediaQuery } from "@material-ui/core";
 import { memo } from "react";
+import clsx from "clsx";
 
 import { getAgencyLogos } from "../application/selectors";
 import { useMemoizedSelector } from "../../libs";
 
 import css from "./styles.css";
 
-const AgencyLogo = ({ alwaysFullLogo }) => {
+function AgencyLogo({ alwaysFullLogo = false }) {
   const agencyLogos = useMemoizedSelector(state => getAgencyLogos(state));
-  const tabletDisplay = useMediaQuery(theme => theme.breakpoints.down("md"));
 
   const renderLogos = () => {
     return agencyLogos.map(agency => {
       const uniqueId = agency.get("unique_id");
+      const styleIcon = { backgroundImage: `url(${agency.get("logo_icon")})` };
+      const styleFull = { backgroundImage: `url(${agency.get("logo_full")})` };
+      const classesIcon = clsx([css.agencyLogo, css.agencyLogoIcon]);
+      const classesFull = clsx(css.agencyLogo, { [css.agencyLogoFull]: !alwaysFullLogo });
+      const fullLogo = <div id={`${uniqueId}-logo`} key={uniqueId} className={classesFull} style={styleFull} />;
 
-      const logo = tabletDisplay && !alwaysFullLogo ? agency.get("logo_icon") : agency.get("logo_full");
-      const style = { backgroundImage: `url(${logo})` };
+      if (alwaysFullLogo) {
+        return fullLogo;
+      }
 
-      return <div id={`${uniqueId}-logo`} key={uniqueId} className={css.agencyLogo} style={style} />;
+      return (
+        <>
+          <div id={`${uniqueId}-logo`} key={uniqueId} className={classesIcon} style={styleIcon} />
+          {fullLogo}
+        </>
+      );
     });
   };
 
   return <div className={css.agencyLogoContainer}>{renderLogos()}</div>;
-};
+}
 
 AgencyLogo.displayName = "AgencyLogo";
-
-AgencyLogo.defaultProps = {
-  alwaysFullLogo: false
-};
 
 AgencyLogo.propTypes = {
   alwaysFullLogo: PropTypes.bool
