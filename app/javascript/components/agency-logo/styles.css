@@ -58,8 +58,14 @@
   }
 }
 
-@media (max-width:959.95px) {
-  .agencyLogo {
-    width: 35%;
+@media (min-width:1279px) {
+  .agencyLogoIcon {
+    display: none !important;
+  }
+}
+
+@media (max-width:1279px) {
+  .agencyLogoFull {
+    display: none !important;
   }
 }
