@@ -90,7 +90,7 @@ export const conditionsForm = ({ fields, i18n, selectedField, mode, isFirstCondi
         FieldRecord({
           display_name: i18n.t("report.value"),
           name: VALUE_FIELD,
-          ...valueFieldType(selectedField, false, css, i18n)
+          ...valueFieldType(selectedField, false, css, i18n, false)
         })
       ]
     })
