@@ -29,6 +29,7 @@ export const FieldRecord = Record({
   filterOptionSource: null,
   forceShowIf: false,
   form_section_id: null,
+  form_section_name: null,
   freeSolo: false,
   groupBy: null,
   guiding_questions: "",
