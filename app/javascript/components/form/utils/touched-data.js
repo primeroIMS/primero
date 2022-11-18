@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 
-export const touchedFormData = (touched, data, hasInitialValues = false, initialValues) => {
+export const touchedFormData = (touched, data, hasInitialValues = false, initialValues, keepArrayData = false) => {
   return Object.keys(touched).reduce((prev, current) => {
     const obj = prev;
 
@@ -9,17 +9,21 @@ export const touchedFormData = (touched, data, hasInitialValues = false, initial
       Array.isArray(data[current]) &&
       data[current].find(elem => typeof elem === "object")
     ) {
-      obj[current] = [];
-      touched[current].forEach((value, key) => {
-        if (data[current][key]) {
-          obj[current][key] = touchedFormData(
-            value,
-            data[current][key],
-            hasInitialValues,
-            initialValues?.[current]?.[key]
-          );
-        }
-      });
+      if (!keepArrayData) {
+        obj[current] = [];
+        touched[current].forEach((value, key) => {
+          if (data[current][key]) {
+            obj[current][key] = touchedFormData(
+              value,
+              data[current][key],
+              hasInitialValues,
+              initialValues?.[current]?.[key]
+            );
+          }
+        });
+      } else {
+        obj[current] = data[current];
+      }
     } else if ((hasInitialValues && initialValues?.[current] !== data?.[current]) || !hasInitialValues) {
       obj[current] = data[current];
     }
