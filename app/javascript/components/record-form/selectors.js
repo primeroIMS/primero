@@ -434,7 +434,15 @@ export const getNestedFields = createCachedSelector(
 
     let nestedFields = denormalizeFormData(OrderedMap(nestedForms.map(form => form.id)), formObject)
       .valueSeq()
-      .flatMap(form => form.fields);
+      .flatMap(formSection => {
+        if (query.includeFormSectionName) {
+          return formSection.fields.map(field => {
+            return field.set("form_section_name", formSection.get("name"));
+          });
+        }
+
+        return formSection.fields;
+      });
 
     if (!isEmpty(query.excludeTypes)) {
       nestedFields = nestedFields.filter(field => !query.excludeTypes.includes(field.type));
@@ -459,7 +467,15 @@ export const getRecordFields = createCachedSelector(
   getRecordForms,
   (_state, query) => query,
   (formSections, query) => {
-    let recordFields = formSections.flatMap(formSection => formSection.fields);
+    let recordFields = formSections.flatMap(formSection => {
+      if (query.includeFormSectionName) {
+        return formSection.fields.map(field => {
+          return field.set("form_section_name", formSection.get("name"));
+        });
+      }
+
+      return formSection.fields;
+    });
 
     if (!isEmpty(query.excludeTypes)) {
       recordFields = recordFields.filter(field => !query.excludeTypes.includes(field.type));

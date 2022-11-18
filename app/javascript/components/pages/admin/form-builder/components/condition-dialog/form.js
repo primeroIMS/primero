@@ -77,9 +77,11 @@ export const conditionsForm = ({ fields, i18n, selectedField, mode, isFirstCondi
           name: ATTRIBUTE_FIELD,
           type: SELECT_FIELD,
           disabled: mode.isEdit,
+          groupBy: "form_section_name",
           option_strings_text: fields.map(field => ({
             id: field.name,
-            display_text: displayNameHelper(field.display_name, i18n.locale)
+            display_text: displayNameHelper(field.display_name, i18n.locale),
+            form_section_name: displayNameHelper(field.form_section_name, i18n.locale)
           }))
         }),
         FieldRecord({

@@ -59,7 +59,8 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
       excludeTypes: EXCLUDED_FIELD_TYPES,
       omitDuplicates: true,
       excludeFieldNames: field?.name ? [field.name] : null,
-      nestedFormIds: field?.get("form_section_id") ? [field?.get("form_section_id")] : null
+      nestedFormIds: field?.get("form_section_id") ? [field?.get("form_section_id")] : null,
+      includeFormSectionName: true
     })
   );
 
@@ -69,13 +70,15 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
       primeroModule,
       includeNested: false,
       excludeTypes: EXCLUDED_FIELD_TYPES,
-      omitDuplicates: true
+      omitDuplicates: true,
+      includeFormSectionName: true
     })
   );
+
   const formMode = whichFormMode(params.get("mode"));
 
   const formSections = conditionsForm({
-    fields: fields.concat(nestedFields),
+    fields: nestedFields.concat(fields),
     i18n,
     selectedField,
     mode: formMode,

@@ -1,4 +1,4 @@
-import { TEXT_FIELD, TEXT_AREA, SEPARATOR, SUBFORM_SECTION } from "../../../../../form";
+import { TEXT_FIELD, TEXT_AREA, SEPARATOR, SUBFORM_SECTION, TALLY_FIELD } from "../../../../../form";
 
 export const NAME = "ConditionsDialog";
 export const FORM_NAME = "ConditionsForm";
@@ -20,4 +20,4 @@ export const CONSTRAINTS = Object.freeze({
   date: DATE_CONSTRAINTS
 });
 
-export const EXCLUDED_FIELD_TYPES = Object.freeze([SEPARATOR, TEXT_FIELD, TEXT_AREA, SUBFORM_SECTION]);
+export const EXCLUDED_FIELD_TYPES = Object.freeze([SEPARATOR, SUBFORM_SECTION, TALLY_FIELD, TEXT_FIELD, TEXT_AREA]);
