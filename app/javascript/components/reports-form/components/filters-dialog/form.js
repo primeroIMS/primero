@@ -16,7 +16,7 @@ import { CONSTRAINTS } from "../../constants";
 
 import { ATTRIBUTE, CONSTRAINT, VALUE } from "./constants";
 
-export const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
+export const valueFieldType = (currentField, isConstraintNotNull, css, i18n, allowedNotNullConstraint = true) => {
   const commonProps = {
     type: TEXT_FIELD,
     inputClassname: isConstraintNotNull ? css.hideValue : ""
@@ -54,12 +54,15 @@ export const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => 
         {
           id: true,
           display_text: currentField.tick_box_label || i18n.t("true")
-        },
-        {
-          id: false,
-          display_text: i18n.t("report.not_selected")
         }
       ];
+
+      if (allowedNotNullConstraint) {
+        options.push({
+          id: false,
+          display_text: i18n.t("report.not_selected")
+        });
+      }
 
       return {
         ...commonProps,
