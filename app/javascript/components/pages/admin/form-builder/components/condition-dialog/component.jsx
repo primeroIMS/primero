@@ -98,6 +98,9 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
     }
   };
 
+  const confirmButtonLabel = formMode.isNew ? i18n.t("buttons.add") : i18n.t("buttons.update");
+  const dialogTitle = formMode.isNew ? i18n.t("forms.conditions.add") : i18n.t("forms.conditions.update");
+
   useEffect(() => {
     if (attribute && attribute !== defaultValues?.attribute && selectedField) {
       dialogFormMethods.setValue(CONSTRAINT_FIELD, "");
@@ -126,13 +129,13 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
   return (
     <ActionDialog
       open={dialogOpen}
-      confirmButtonLabel={formMode.isNew ? i18n.t("buttons.add") : i18n.t("buttons.update")}
+      confirmButtonLabel={confirmButtonLabel}
       confirmButtonProps={{
         icon: <CheckIcon />,
         form: FORM_NAME,
         type: "submit"
       }}
-      dialogTitle={formMode.isNew ? i18n.t("forms.conditions.add") : i18n.t("forms.conditions.update")}
+      dialogTitle={dialogTitle}
       omitCloseAfterSuccess
       cancelHandler={handleClose}
     >

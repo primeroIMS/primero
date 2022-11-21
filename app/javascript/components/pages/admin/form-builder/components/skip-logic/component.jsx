@@ -42,6 +42,20 @@ function Component({
   const displayConditionsSubform = formMethods.getValues(subformFieldName) || [];
   const showAddCondition = displayConditions.length + displayConditionsSubform.length < MAX_CONDITIONS;
 
+  const addRecordButtonProps = {
+    disabled: !showAddCondition,
+    text: isNested
+      ? i18n.t("fields.skip_logic.record_section.buttons.add")
+      : i18n.t("forms.skip_logic.section.buttons.add"),
+    onClick: onAddRecordCondition
+  };
+
+  const addSubformButtonProps = {
+    disabled: !showAddCondition,
+    text: i18n.t("fields.skip_logic.subform_section.buttons.add"),
+    onClick: onAddSubformCondition
+  };
+
   return (
     <>
       <ConditionList
@@ -49,13 +63,7 @@ function Component({
         fieldName={recordFieldName}
         title={title || i18n.t("forms.skip_logic.section.title")}
         hasNestedConditions={isNested && displayConditionsSubform.length > 0}
-        addButtonProps={{
-          disabled: !showAddCondition,
-          text: isNested
-            ? i18n.t("fields.skip_logic.record_section.buttons.add")
-            : i18n.t("forms.skip_logic.section.buttons.add"),
-          onClick: onAddRecordCondition
-        }}
+        addButtonProps={addRecordButtonProps}
       />
       {isNested && (
         <ConditionList
@@ -63,11 +71,7 @@ function Component({
           fieldName={subformFieldName}
           title={i18n.t("fields.skip_logic.subform_section.title")}
           isNested
-          addButtonProps={{
-            disabled: !showAddCondition,
-            text: i18n.t("fields.skip_logic.subform_section.buttons.add"),
-            onClick: onAddSubformCondition
-          }}
+          addButtonProps={addSubformButtonProps}
         />
       )}
       <ConditionDialog
