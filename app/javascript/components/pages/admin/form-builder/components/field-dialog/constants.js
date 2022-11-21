@@ -38,3 +38,5 @@ export const LOCALIZABLE_OPTIONS_FIELD_NAME = Object.freeze({
 export const SUBFORM_TRANSLATABLE_OPTIONS = ["name", "description"];
 
 export const RESET_OPTIONS = Object.freeze({ errors: true, dirtyFields: true, isDirty: true, touched: true });
+
+export const SKIP_LOGIC_FIELD = "skip_logic";

@@ -1,50 +1,54 @@
+import { useCallback } from "react";
 import isEmpty from "lodash/isEmpty";
-import last from "lodash/last";
+import isNil from "lodash/isNil";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../../i18n";
 import FilterApplied from "../filter-applied";
 
-import { getOptionSources } from "./utils";
 import { NAME } from "./constants";
 
-const Component = ({ fields, handleOpenModal, handleEdit, indexes }) => {
+const Component = ({
+  constraints,
+  handleOpenModal,
+  handleEdit,
+  indexes,
+  isConditionsList = false,
+  showEmptyMessage = true
+}) => {
   const i18n = useI18n();
 
-  const optionSources = getOptionSources(fields);
+  const handleClickOpen = useCallback((index, filter) => () => handleOpenModal(index, filter), []);
+  const handleClickEdit = useCallback((index, filter) => () => handleEdit(index, filter), []);
 
-  if (isEmpty(indexes)) {
+  if (isEmpty(indexes) && showEmptyMessage) {
     return <p>{i18n.t("report.no_filters_added")}</p>;
   }
 
-  const handleClickOpen = index => () => handleOpenModal(index);
-  const handleClickEdit = index => () => handleEdit(index);
+  const conditionTypes = isConditionsList ? indexes.map(current => current.data.type).filter(type => !isNil(type)) : [];
 
-  return Object.entries(indexes).map(filter => {
-    const { attribute } = last(filter).data;
-    const field = fields.find(f => f.id === attribute);
-
-    if (!field) return false;
-
-    return (
-      <FilterApplied
-        filter={filter}
-        field={field}
-        optionSources={optionSources}
-        handleClickOpen={handleClickOpen}
-        handleClickEdit={handleClickEdit}
-      />
-    );
-  });
+  return Object.entries(indexes).map((filter, index) => (
+    <FilterApplied
+      constraints={constraints}
+      key={filter.index}
+      filter={filter}
+      deleteDisabled={isConditionsList && index === 0 && indexes.length > 1}
+      conditionTypes={conditionTypes}
+      handleClickOpen={handleClickOpen}
+      handleClickEdit={handleClickEdit}
+    />
+  ));
 };
 
 Component.displayName = NAME;
 
 Component.propTypes = {
-  fields: PropTypes.object,
+  constraints: PropTypes.object,
   handleEdit: PropTypes.func,
   handleOpenModal: PropTypes.func,
-  indexes: PropTypes.array
+  indexes: PropTypes.array,
+  isConditionsList: PropTypes.bool,
+  showEmptyMessage: PropTypes.bool
 };
 
 export default Component;

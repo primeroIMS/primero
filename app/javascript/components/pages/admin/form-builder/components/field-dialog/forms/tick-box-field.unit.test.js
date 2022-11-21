@@ -31,6 +31,6 @@ describe("tickboxFieldForm", () => {
   });
 
   it("should return 4 fields from the visible ection form", () => {
-    expect(visibilitySection).to.have.lengthOf(4);
+    expect(visibilitySection).to.have.lengthOf(5);
   });
 });

@@ -89,6 +89,10 @@ const Container = ({
   );
   const reportableFields = fields.concat(minimumReportableFields || []);
 
+  const filterIndexes = indexes.filter(currentIndex =>
+    reportableFields.some(reportableField => reportableField.id === currentIndex.data.attribute)
+  );
+
   useEffect(() => {
     if (selectedRecordType && formMode.isNew) {
       const reportableFieldNames = reportableFields.filter(f => f.visible === true).map(f => f.id);
@@ -140,12 +144,7 @@ const Container = ({
         </IconButton>
       </Typography>
 
-      <FiltersList
-        fields={reportableFields}
-        handleOpenModal={handleOpenModal}
-        handleEdit={handleEdit}
-        indexes={indexes}
-      />
+      <FiltersList handleOpenModal={handleOpenModal} handleEdit={handleEdit} indexes={filterIndexes} />
 
       <ActionDialog
         open={deleteModal}

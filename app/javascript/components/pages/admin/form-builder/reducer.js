@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { SUBFORM_SECTION } from "../../../form";
 
 import actions from "./actions";
-import { affectedOrderRange, buildOrderUpdater, getSubformFields } from "./utils";
+import { affectedOrderRange, buildOrderUpdater, getSubformFields, updateSubformField } from "./utils";
 import { transformValues } from "./components/field-dialog/utils";
 import { NEW_FIELD } from "./constants";
 import updateFieldLocalizedProps from "./utils/update-field-localized-props";
@@ -228,25 +228,10 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       const data = fromJS(payload.data);
 
       const fields = subform.get("fields", fromJS([])).map(field => {
-        const fieldName = field?.get("name");
+        const fieldName = field.get("name");
         const fieldUpdate = data.getIn(["fields", fieldName], fromJS({}));
 
-        if (fieldUpdate.get("option_strings_text")) {
-          const newOptions = fieldUpdate.get("option_strings_text");
-
-          return field
-            .remove("option_strings_text")
-            .mergeDeep(fieldUpdate.remove("option_stings_text"))
-            .set("option_strings_text", newOptions);
-        }
-
-        if (fieldUpdate.get("tally")) {
-          const newTally = fieldUpdate.get("tally");
-
-          return field.remove("tally").mergeDeep(fieldUpdate.remove("tally")).set("tally", newTally);
-        }
-
-        return field.mergeDeep(fieldUpdate);
+        return updateSubformField(field, fieldUpdate);
       });
 
       const existingSubforms = state.get("subforms", fromJS([]));

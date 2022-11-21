@@ -26,7 +26,8 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - v
         "test_1.visible",
         "test_1.mobile_visible",
         "test_1.hide_on_view_page",
-        "test_1.show_on_minify_form"
+        "test_1.show_on_minify_form",
+        "test_1.skip_logic"
       ]);
     });
 

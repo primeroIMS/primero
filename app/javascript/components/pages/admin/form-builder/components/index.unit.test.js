@@ -5,6 +5,8 @@ describe("pages/admin/<FormBuilder>/components - index", () => {
 
   it("should have known properties", () => {
     [
+      "ConditionDialog",
+      "ConditionList",
       "CustomFieldDialog",
       "FieldDialog",
       "FieldDialogLabel",
@@ -15,7 +17,9 @@ describe("pages/admin/<FormBuilder>/components - index", () => {
       "FieldsTab",
       "FormBuilderActionButtons",
       "FormTranslationsDialog",
+      "SettingsForm",
       "SettingsTab",
+      "SkipLogic",
       "SubformFieldsList",
       "TabPanel",
       "TranslationsForm",

@@ -11,6 +11,7 @@ export const FieldRecord = Record({
   display_name: {},
   editable: null,
   form_section_id: null,
+  form_section_name: null,
   guiding_questions: "",
   help_text: {},
   hidden_text_field: false,

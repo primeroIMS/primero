@@ -37,8 +37,10 @@ import {
   getUpdatedFormIds
 } from "./selectors";
 import {
+  conditionsToFieldArray,
   convertToFieldsArray,
   convertToFieldsObject,
+  fieldArrayToConditions,
   getFieldsTranslations,
   getSubformErrorMessages,
   mergeTranslations
@@ -96,12 +98,18 @@ const Component = ({ mode }) => {
       isEdit: formMode.isEdit,
       dirtyFields,
       submitAlways: !selectedSubforms?.isEmpty(),
+      submitAllArrayData: dirtyFields.display_conditions?.length > 0,
       onSubmit: formData => {
         const mergedData = mergeTranslations(formData);
         const subforms = selectedSubforms;
-        const updatedNewFields = convertToFieldsArray(mergedData.fields || {});
+        const updatedNewFields = convertToFieldsArray(mergedData.fields || []);
+        const displayConditions = fieldArrayToConditions(mergedData.display_conditions || {});
         const body = {
-          data: { ...mergedData, ...(updatedNewFields.length && { fields: updatedNewFields }) }
+          data: {
+            ...mergedData,
+            ...(updatedNewFields.length && { fields: updatedNewFields }),
+            display_conditions: displayConditions
+          }
         };
         const parentFormParams = {
           id,
@@ -182,7 +190,8 @@ const Component = ({ mode }) => {
         dispatch(push(ROUTES.forms));
       } else {
         const fieldTree = convertToFieldsObject(selectedForm.get("fields").toJS());
-        const formData = selectedForm.set("fields", fieldTree).toJS();
+        const displayConditions = conditionsToFieldArray(selectedForm.get("display_conditions", fromJS({})).toJS());
+        const formData = selectedForm.delete("display_conditions").set("fields", fieldTree).toJS();
 
         methods.reset({
           ...formData,
@@ -191,7 +200,9 @@ const Component = ({ mode }) => {
             name: formData.name,
             description: formData.description,
             fields: getFieldsTranslations(fieldTree)
-          }
+          },
+          skip_logic: Boolean(displayConditions.length),
+          display_conditions: displayConditions
         });
 
         setModuleId(selectedForm.get("module_ids", fromJS([])).first());

@@ -1216,6 +1216,7 @@ en:
     show: Show?
     show_on: Show on
     show_on_minify_form: Short form
+    skip_logic: Skip Logic
     subform: Subform
     subform_group_by: Group by
     subform_remove_message: Are you sure you want to remove this subform?
@@ -1241,6 +1242,7 @@ en:
     updated: Field updated
     visibility: Visibility
     web_app: Web app
+    skip_logic_title: This field should be visible if
   filters:
     apply_filters: Apply
     clear_filters: Clear
@@ -1299,6 +1301,7 @@ en:
       use_existing: We encourage you to use the existing forms as this makes data
         sharing and data merging between institutions easier.
     mobile_app: Mobile App
+    skip_logic: Skip Logic?
     module: Module
     no_subform_filters_added: This Subform currently has no fields.
     record_type: Record Type
@@ -1340,6 +1343,19 @@ en:
     type_label: Type
     visibility: Visibility
     web_app: Web App
+    skip_logic_title: This form should be visible if
+    conditions:
+      add: Add Condition
+      field_name: Field Name
+      condition: Condition
+      type: Type
+      types:
+        and:
+          display_text: And this condition
+          name: AND
+        or:
+          display_text: Or this condition
+          name: OR
   home:
     ar: العربية
     ar-IQ: العربية (العراقية)

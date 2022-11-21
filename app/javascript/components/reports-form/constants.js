@@ -1,4 +1,4 @@
-import { DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD, TICK_FIELD } from "../form";
+import { DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD, TICK_FIELD } from "../form/constants";
 
 export const FORM_ID = "reports-form";
 export const NAME = "ReportsForm";
@@ -27,7 +27,7 @@ export const REPORTABLE_TYPES = Object.freeze({
   reportable_follow_up: "followup"
 });
 
-export const CONSTRAINTS = Object.freeze({
+export const DEFAULT_CONSTRAINTS = Object.freeze({
   "<": "report.filters.less_than",
   ">": "report.filters.greater_than",
   "=": "report.filters.equal_to",
@@ -39,7 +39,12 @@ export const DATE_CONSTRAINTS = Object.freeze({
   ">": "report.filters.after"
 });
 
-export const ALLOWED_FIELD_TYPES = [DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD, TICK_FIELD];
+export const CONSTRAINTS = Object.freeze({
+  default: DEFAULT_CONSTRAINTS,
+  date: DATE_CONSTRAINTS
+});
+
+export const ALLOWED_FIELD_TYPES = Object.freeze([DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD, TICK_FIELD]);
 
 export const ALLOWED_FIELD_NAMES = ["created_by", "created_by_groups", "owned_by", "owned_by_groups"];
 
