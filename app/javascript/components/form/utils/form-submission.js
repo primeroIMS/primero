@@ -13,12 +13,13 @@ export const submitHandler = ({
   initialValues,
   onSubmit,
   submitAllFields,
+  submitAllArrayData = false,
   message = null,
   submitAlways
 }) => {
   // formState needs to be called here otherwise touched will not work.
   // https://github.com/react-hook-form/react-hook-form-website/issues/154
-  const changedFormData = touchedFormData(dirtyFields, data, isEdit, initialValues);
+  const changedFormData = touchedFormData(dirtyFields, data, isEdit, initialValues, submitAllArrayData);
 
   if (isEmpty(changedFormData) && !submitAlways) {
     return dispatch(

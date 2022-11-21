@@ -28,6 +28,7 @@ describe("<Form /> - index", () => {
       "HIDDEN_FIELD",
       "LABEL_FIELD",
       "LINK_FIELD",
+      "notPropagatedOnSubmit",
       "NUMERIC_FIELD",
       "OPTION_TYPES",
       "ORDERABLE_OPTIONS_FIELD",

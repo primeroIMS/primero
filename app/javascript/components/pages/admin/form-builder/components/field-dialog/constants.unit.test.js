@@ -11,6 +11,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog /> - Constants", (
       "FIELD_FORM",
       "FIELD_TRANSLATABLE_OPTIONS",
       "LOCALIZABLE_OPTIONS_FIELD_NAME",
+      "SKIP_LOGIC_FIELD",
       "SUBFORM_TRANSLATABLE_OPTIONS",
       "RESET_OPTIONS"
     ].forEach(property => {

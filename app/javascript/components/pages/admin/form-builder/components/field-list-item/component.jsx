@@ -1,12 +1,9 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
 import { memo } from "react";
 import { useDispatch, batch } from "react-redux";
-import { Controller } from "react-hook-form";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Draggable } from "react-beautiful-dnd";
-import { Button, Radio } from "@material-ui/core";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
 import { SUBFORM_SECTION } from "../../../../../form";
 import {
@@ -26,10 +23,11 @@ import { getFieldsAttribute, getLabelTypeField } from "../utils";
 import css from "../fields-list/styles.css";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { setInitialForms, toggleHideOnViewPage } from "../field-dialog/utils";
-import { displayNameHelper } from "../../../../../../libs";
 import { useApp } from "../../../../../application";
+import FieldListColumn from "../field-list-column";
+import FieldListName from "../field-list-name";
 
-import { NAME, SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "./constants";
+import { NAME, SUBFORM_GROUP_BY, SUBFORM_SORT_BY } from "./constants";
 
 const Component = ({ field, formMethods, index, subformField, subformSortBy, subformGroupBy }) => {
   const dispatch = useDispatch();
@@ -40,7 +38,7 @@ const Component = ({ field, formMethods, index, subformField, subformSortBy, sub
   const fieldsAttribute = getFieldsAttribute(isNested);
   const fieldName = field.get("name");
   const visibleFieldName = `${fieldsAttribute}.${fieldName}.visible`;
-  const { control, getValues } = formMethods;
+  const { getValues } = formMethods;
 
   const onNested = () => {
     dispatch(clearSelectedSubformField());
@@ -91,41 +89,6 @@ const Component = ({ field, formMethods, index, subformField, subformSortBy, sub
 
   const isNotEditable = field.get("editable") === false;
 
-  const renderFieldName = () => {
-    const icon = isNotEditable ? <VpnKeyIcon className={css.rotateIcon} /> : <span />;
-    const className = clsx({ [css.editable]: !isNotEditable });
-
-    return (
-      <>
-        {icon}
-        <Button id="field-name-button" className={className} onClick={handleClick}>
-          {displayNameHelper(field.get("display_name"), i18n.locale)}
-        </Button>
-      </>
-    );
-  };
-
-  const renderColumn = column => {
-    const checked =
-      (SUBFORM_SORT_BY === column && subformSortBy === fieldName) ||
-      (SUBFORM_GROUP_BY === column && subformGroupBy === fieldName);
-
-    return (
-      isNested && (
-        <div className={css.fieldColumn}>
-          <Controller
-            control={control}
-            as={<Radio />}
-            inputProps={{ value: fieldName }}
-            checked={checked}
-            name={`${parentFieldName}.${SUBFORM_SECTION_CONFIGURATION}.${column}`}
-            disabled={limitedProductionSite}
-          />
-        </div>
-      )
-    );
-  };
-
   const indicatorColumnClasses = clsx([css.fieldColumn, css.dragIndicatorColumn]);
   const fieldNameClasses = clsx([css.fieldColumn, css.fieldName]);
   const fieldShowClasses = clsx([css.fieldColumn, css.fieldShow]);
@@ -140,10 +103,30 @@ const Component = ({ field, formMethods, index, subformField, subformSortBy, sub
             <div className={indicatorColumnClasses}>
               <DragIndicator {...provided.dragHandleProps} isDragDisabled={limitedProductionSite} />
             </div>
-            <div className={fieldNameClasses}>{renderFieldName(field)}</div>
+            <div className={fieldNameClasses}>
+              <FieldListName field={field} handleClick={handleClick} isNotEditable={isNotEditable} />
+            </div>
             <div className={css.fieldColumn}>{i18n.t(`fields.${getLabelTypeField(field)}`)}</div>
-            {renderColumn(SUBFORM_SORT_BY)}
-            {renderColumn(SUBFORM_GROUP_BY)}
+            {isNested && (
+              <FieldListColumn
+                columnName={SUBFORM_SORT_BY}
+                fieldName={fieldName}
+                formMethods={formMethods}
+                limitedProductionSite={limitedProductionSite}
+                parentFieldName={parentFieldName}
+                checked={subformSortBy === fieldName}
+              />
+            )}
+            {isNested && (
+              <FieldListColumn
+                columnName={SUBFORM_GROUP_BY}
+                fieldName={fieldName}
+                formMethods={formMethods}
+                limitedProductionSite={limitedProductionSite}
+                parentFieldName={parentFieldName}
+                checked={subformGroupBy === fieldName}
+              />
+            )}
             <div className={fieldShowClasses}>
               <SwitchInput
                 commonInputProps={{ name: visibleFieldName, disabled: limitedProductionSite || isNotEditable }}
