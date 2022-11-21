@@ -1,34 +1,79 @@
 import { useCallback } from "react";
 import PropTypes from "prop-types";
-import AddIcon from "@material-ui/icons/Add";
 
 import { MAX_CONDITIONS } from "../../../../../../config";
 import { useDialog } from "../../../../../action-dialog";
 import { useI18n } from "../../../../../i18n";
-import ActionButton from "../../../../../action-button";
-import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 import { FORM_MODE_NEW } from "../../../../../form";
 import ConditionList from "../condition-list";
 import ConditionDialog from "../condition-dialog";
 import { NAME as CONDITIONS_DIALOG } from "../condition-dialog/constants";
+import { buildFieldName } from "../condition-dialog/utils";
 
-function Component({ field, formMethods, handleClose, handleSuccess, primeroModule, recordType, title }) {
+function Component({
+  field,
+  formMethods,
+  handleClose,
+  handleSuccess,
+  isNested = false,
+  primeroModule,
+  recordType,
+  title
+}) {
   const i18n = useI18n();
   const { setDialog } = useDialog(CONDITIONS_DIALOG);
 
-  const onAddCondition = useCallback(() => {
+  const onAddRecordCondition = useCallback(() => {
     setDialog({ dialog: CONDITIONS_DIALOG, open: true, params: { mode: FORM_MODE_NEW, initialValues: {} } });
   }, []);
 
-  const conditionsFieldName = field ? `${field.get("name")}.display_conditions_record` : "display_conditions";
-  const displayConditions = formMethods.getValues(conditionsFieldName) || [];
-  const displayConditionsSubform = formMethods.getValues(`${field?.get("name")}.display_conditions_subform`) || [];
+  const onAddSubformCondition = useCallback(() => {
+    setDialog({
+      dialog: CONDITIONS_DIALOG,
+      open: true,
+      params: { mode: FORM_MODE_NEW, initialValues: {}, isNested: true }
+    });
+  }, []);
+
+  const recordFieldName = buildFieldName(field, false);
+  const subformFieldName = buildFieldName(field, true);
+
+  const displayConditions = formMethods.getValues(recordFieldName) || [];
+  const displayConditionsSubform = formMethods.getValues(subformFieldName) || [];
   const showAddCondition = displayConditions.length + displayConditionsSubform.length < MAX_CONDITIONS;
+
+  const addRecordButtonProps = {
+    disabled: !showAddCondition,
+    text: isNested
+      ? i18n.t("fields.skip_logic.record_section.buttons.add")
+      : i18n.t("forms.skip_logic.section.buttons.add"),
+    onClick: onAddRecordCondition
+  };
+
+  const addSubformButtonProps = {
+    disabled: !showAddCondition,
+    text: i18n.t("fields.skip_logic.subform_section.buttons.add"),
+    onClick: onAddSubformCondition
+  };
 
   return (
     <>
-      <h1>{title || i18n.t("forms.skip_logic_title")}</h1>
-      <ConditionList formMethods={formMethods} field={field} />
+      <ConditionList
+        formMethods={formMethods}
+        fieldName={recordFieldName}
+        title={title || i18n.t("forms.skip_logic.section.title")}
+        hasNestedConditions={isNested && displayConditionsSubform.length > 0}
+        addButtonProps={addRecordButtonProps}
+      />
+      {isNested && (
+        <ConditionList
+          formMethods={formMethods}
+          fieldName={subformFieldName}
+          title={i18n.t("fields.skip_logic.subform_section.title")}
+          isNested
+          addButtonProps={addSubformButtonProps}
+        />
+      )}
       <ConditionDialog
         field={field}
         formMethods={formMethods}
@@ -36,15 +81,6 @@ function Component({ field, formMethods, handleClose, handleSuccess, primeroModu
         recordType={recordType}
         handleClose={handleClose}
         handleSuccess={handleSuccess}
-      />
-      <ActionButton
-        id="add-skip-logic"
-        icon={<AddIcon />}
-        text={i18n.t("forms.conditions.add")}
-        type={ACTION_BUTTON_TYPES.default}
-        noTranslate
-        disabled={!showAddCondition}
-        rest={{ onClick: onAddCondition }}
       />
     </>
   );
@@ -57,6 +93,7 @@ Component.propTypes = {
   formMethods: PropTypes.object,
   handleClose: PropTypes.func,
   handleSuccess: PropTypes.func,
+  isNested: PropTypes.bool,
   primeroModule: PropTypes.string,
   recordType: PropTypes.string,
   title: PropTypes.string

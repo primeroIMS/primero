@@ -103,7 +103,7 @@ const Component = ({ mode }) => {
         const mergedData = mergeTranslations(formData);
         const subforms = selectedSubforms;
         const updatedNewFields = convertToFieldsArray(mergedData.fields || []);
-        const displayConditions = fieldArrayToConditions(mergedData.display_conditions || {});
+        const displayConditions = fieldArrayToConditions(mergedData.display_conditions || []);
         const body = {
           data: {
             ...mergedData,

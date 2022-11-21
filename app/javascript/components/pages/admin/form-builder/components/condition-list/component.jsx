@@ -1,28 +1,21 @@
 import isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
-import { useFieldArray, useWatch } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
+import AddIcon from "@material-ui/icons/Add";
 
 import { useI18n } from "../../../../../i18n";
 import { useDialog } from "../../../../../action-dialog";
 import { FORM_MODE_EDIT } from "../../../../../form";
 import FiltersList from "../../../../../reports-form/components/filters-list";
+import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../../action-button";
 import { CONSTRAINTS, NAME as CONDITIONS_DIALOG } from "../condition-dialog/constants";
 
-function Component({ field, formMethods }) {
+function Component({ addButtonProps, fieldName, formMethods, hasNestedConditions, isNested, title }) {
   const i18n = useI18n();
   const { setDialog } = useDialog(CONDITIONS_DIALOG);
-  const conditionsFieldName = field ? `${field.get("name")}.display_conditions_record` : "display_conditions";
-  const { remove: removeCondition } = useFieldArray({ control: formMethods.control, name: conditionsFieldName });
-  const { remove: removeConditionSubform } = useFieldArray({
-    control: formMethods.control,
-    name: `${field?.get("name")}.display_conditions_subform`
-  });
-  const displayConditions = useWatch({ control: formMethods.control, name: conditionsFieldName, defaultValue: [] });
-  const displayConditionsSubform = useWatch({
-    control: formMethods.control,
-    name: `${field?.get("name")}.display_conditions_subform`,
-    defaultValue: []
-  });
+  const { onClick, text, disabled } = addButtonProps;
+  const { remove: removeCondition } = useFieldArray({ control: formMethods.control, name: fieldName });
+  const displayConditions = formMethods.getValues(fieldName) || [];
 
   const handleEdit = (index, filter) => {
     const [, value] = filter;
@@ -30,7 +23,7 @@ function Component({ field, formMethods }) {
     setDialog({
       dialog: CONDITIONS_DIALOG,
       open: true,
-      params: { mode: FORM_MODE_EDIT, index, initialValues: value.data }
+      params: { mode: FORM_MODE_EDIT, index, initialValues: value.data, isNested }
     });
   };
 
@@ -38,31 +31,32 @@ function Component({ field, formMethods }) {
     removeCondition(index);
   };
 
-  const handleDeleteSubform = index => {
-    removeConditionSubform(index);
-  };
-
-  if (isEmpty(displayConditions) && isEmpty(displayConditionsSubform)) {
-    return <p>{i18n.t("report.no_filters_added")}</p>;
-  }
+  const indexes = displayConditions.map((condition, index) => ({ index, data: condition }));
 
   return (
     <>
-      <FiltersList
-        showEmptyMessage={false}
-        constraints={CONSTRAINTS}
-        handleOpenModal={handleDelete}
-        handleEdit={handleEdit}
-        isConditionsList
-        indexes={displayConditions.map((condition, index) => ({ index, data: condition }))}
-      />
-      <FiltersList
-        showEmptyMessage={false}
-        constraints={CONSTRAINTS}
-        handleOpenModal={handleDeleteSubform}
-        handleEdit={handleEdit}
-        isConditionsList
-        indexes={displayConditionsSubform.map((condition, index) => ({ index, data: condition }))}
+      <h1>{title || i18n.t("forms.skip_logic.title")}</h1>
+      {isEmpty(displayConditions) ? (
+        <p>{i18n.t("report.no_filters_added")}</p>
+      ) : (
+        <FiltersList
+          showEmptyMessage={false}
+          constraints={CONSTRAINTS}
+          handleOpenModal={handleDelete}
+          handleEdit={handleEdit}
+          hasNestedConditions={hasNestedConditions}
+          isConditionsList
+          indexes={indexes}
+        />
+      )}
+      <ActionButton
+        id={`add-${fieldName}`}
+        icon={<AddIcon />}
+        text={text}
+        type={ACTION_BUTTON_TYPES.default}
+        noTranslate
+        disabled={disabled}
+        rest={{ onClick }}
       />
     </>
   );
@@ -71,8 +65,16 @@ function Component({ field, formMethods }) {
 Component.displayName = "ConditionList";
 
 Component.propTypes = {
-  field: PropTypes.object,
-  formMethods: PropTypes.object
+  addButtonProps: PropTypes.shape({
+    disabled: PropTypes.bool,
+    onClick: PropTypes.func,
+    text: PropTypes.string
+  }),
+  fieldName: PropTypes.string,
+  formMethods: PropTypes.object,
+  hasNestedConditions: PropTypes.bool,
+  isNested: PropTypes.bool,
+  title: PropTypes.string
 };
 
 export default Component;

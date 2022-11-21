@@ -365,8 +365,9 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
               primeroModule={primeroModule}
               recordType={recordType}
               handleClose={backToFieldDialog}
+              isNested={isNested}
               field={selectedField}
-              title={i18n.t("fields.skip_logic_title")}
+              title={i18n.t("fields.skip_logic.record_section.title")}
             />
           )}
           {selectedIsSubformField && (
