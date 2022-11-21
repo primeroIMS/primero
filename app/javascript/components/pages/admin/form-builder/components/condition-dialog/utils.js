@@ -39,3 +39,11 @@ export const convertValue = (source, fieldType) => {
 
   return source;
 };
+
+export const buildFieldName = (field, isNested) => {
+  if (field) {
+    return `${field.get("name")}.${isNested ? "display_conditions_subform" : "display_conditions_record"}`;
+  }
+
+  return "display_conditions";
+};

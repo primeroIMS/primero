@@ -12,6 +12,7 @@ const Component = ({
   constraints,
   handleOpenModal,
   handleEdit,
+  hasNestedConditions = false,
   indexes,
   isConditionsList = false,
   showEmptyMessage = true
@@ -36,6 +37,7 @@ const Component = ({
       conditionTypes={conditionTypes}
       handleClickOpen={handleClickOpen}
       handleClickEdit={handleClickEdit}
+      showAndLabel={hasNestedConditions && index === indexes.length - 1}
     />
   ));
 };
@@ -46,6 +48,7 @@ Component.propTypes = {
   constraints: PropTypes.object,
   handleEdit: PropTypes.func,
   handleOpenModal: PropTypes.func,
+  hasNestedConditions: PropTypes.bool,
   indexes: PropTypes.array,
   isConditionsList: PropTypes.bool,
   showEmptyMessage: PropTypes.bool
