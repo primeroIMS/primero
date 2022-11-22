@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import { array, object, string, lazy } from "yup";
 
 import {
   FormSectionRecord,
@@ -16,10 +17,58 @@ import { CONSTRAINTS } from "../../constants";
 
 import { ATTRIBUTE, CONSTRAINT, VALUE } from "./constants";
 
-export const valueFieldType = (currentField, isConstraintNotNull, css, i18n, allowedNotNullConstraint = true) => {
+export const validationSchema = i18n =>
+  object().shape({
+    [ATTRIBUTE]: string()
+      .nullable()
+      .required(
+        i18n.t("forms.required_field", {
+          field: i18n.t("report.attribute")
+        })
+      ),
+    [CONSTRAINT]: string().when(VALUE, {
+      is: Array.isArray,
+      then: string().nullable(),
+      otherwise: string()
+        .nullable()
+        .required(
+          i18n.t("forms.required_field", {
+            field: i18n.t("report.constraint")
+          })
+        )
+    }),
+    [VALUE]: lazy(val => {
+      const requiredValueMessage = i18n.t("forms.required_field", {
+        field: i18n.t("report.value")
+      });
+
+      const schema = Array.isArray(val) ? array() : string();
+
+      return schema.when(CONSTRAINT, {
+        is: value => value === "not_null",
+        then: schema.nullable(),
+        otherwise: () => {
+          if (schema.type === "array") {
+            return schema.nullable().min(1, requiredValueMessage);
+          }
+
+          return schema.required(requiredValueMessage);
+        }
+      });
+    })
+  });
+
+export const valueFieldType = (
+  currentField,
+  isNotNullConstraintOrTrue,
+  css,
+  i18n,
+  allowedNotNullConstraint = true,
+  useBooleanOptions = true
+) => {
   const commonProps = {
     type: TEXT_FIELD,
-    inputClassname: isConstraintNotNull ? css.hideValue : ""
+    inputClassname: isNotNullConstraintOrTrue ? css.hideValue : ""
   };
 
   if (typeof currentField === "undefined") {
@@ -52,14 +101,14 @@ export const valueFieldType = (currentField, isConstraintNotNull, css, i18n, all
     case TICK_FIELD: {
       const options = [
         {
-          id: true,
+          id: useBooleanOptions ? true : "true",
           display_text: currentField.tick_box_label || i18n.t("true")
         }
       ];
 
       if (allowedNotNullConstraint) {
         options.push({
-          id: false,
+          id: useBooleanOptions ? false : "false",
           display_text: i18n.t("report.not_selected")
         });
       }
@@ -143,7 +192,7 @@ export const constraintInputType = (
   };
 };
 
-export default (i18n, fields, currentField, isConstraintNotNull, css) => {
+export default (i18n, fields, currentField, isNotNullConstraintOrTrue, css, useBooleanOptions = true) => {
   return fromJS([
     FormSectionRecord({
       unique_id: "reportFilter",
@@ -162,7 +211,7 @@ export default (i18n, fields, currentField, isConstraintNotNull, css) => {
         FieldRecord({
           display_name: i18n.t("report.value"),
           name: VALUE,
-          ...valueFieldType(currentField, isConstraintNotNull, css, i18n)
+          ...valueFieldType(currentField, isNotNullConstraintOrTrue, css, i18n, useBooleanOptions)
         })
       ]
     })
