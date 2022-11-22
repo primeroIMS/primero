@@ -30,28 +30,10 @@
   - 'never'
   - 'local-env'
 
-- name: 'create the overrides.env file'
-  template:
-    src: overrides.env.j2
-    dest: "{{ env_override_path | default('/home/' + ansible_user + '/overrides.env') }}"
-    mode: 'u=rw,go=r'
-    force: no
-  become: yes
-  tags:
-  - 'never'
-  - 'remote-env'
-
-- name: 'add overrides.env to .bash_profile'
-  blockinfile:
-    dest: '/home/{{ ansible_user }}/.bash_profile'
-    create: yes
-    block: |-
-      if test -f {{ env_override_path | default('/home/' + ansible_user + '/overrides.env') }}; then 
-        source {{ env_override_path }}
-      fi
-  tags:
-  - 'never'
-  - 'remote-env'
+- name: Check if overrides.env exists
+  stat:
+    path: "{{ env_override_path | default('/home/' + ansible_user + '/overrides.env') }}"
+  register: overrides_env_result
 
 - name: 'Merge overrides.env with local.env'
   ansible.builtin.shell: |
@@ -60,9 +42,10 @@
 
     awk -F "=" '!a[$1]++' tmp0 > tmp1 && mv tmp1 /srv/primero/docker/local.env && rm tmp0
   become: yes
+  when: overrides_env_result.stat.exists
   tags:
   - 'never'
-  - 'remote-env'
+  - 'localized-env'
 
 - name: 'build the Docker containers'
   command: |
@@ -93,7 +76,7 @@
   become: yes
   tags:
   - 'never'
-  - 'configure-remote'
+  - 'configure-localized'
 
 - name: Extract config into /srv
   unarchive:
@@ -106,7 +89,7 @@
   become: yes
   tags:
   - 'never'
-  - 'configure-remote'
+  - 'configure-localized'
 
 - name: 'configure Primero with a custom configuration'
   command: |
@@ -122,7 +105,7 @@
   tags:
   - 'never'
   - 'configure'
-  - 'configure-remote'
+  - 'configure-localized'
 
 - name: 'configure Primero with the default seeds'
   command: |
