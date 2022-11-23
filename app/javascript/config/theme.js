@@ -69,8 +69,9 @@ const overrides = {
   MuiCssBaseline: {
     "@global": {
       "#root": {
-        height: "100vh",
-        overflow: "hidden"
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh"
       },
       legend: {
         display: "none"
