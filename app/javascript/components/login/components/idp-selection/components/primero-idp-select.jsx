@@ -12,6 +12,7 @@ import Form, { FormAction, FieldRecord, FormSectionRecord } from "../../../../fo
 const Component = ({ identityProviders, css }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const primeroIdp = identityProviders.find(idp => idp.get("unique_id") === PRIMERO_IDP);
 
   const tokenCallback = accessToken => {
     dispatch(attemptIDPLogin(accessToken));
@@ -22,6 +23,10 @@ const Component = ({ identityProviders, css }) => {
 
     signIn(idp, tokenCallback);
   };
+
+  if (primeroIdp && identityProviders?.size === 1) {
+    return null;
+  }
 
   const options = identityProviders.reduce((acc, idp) => {
     const uniqueID = idp.get("unique_id");
@@ -47,16 +52,19 @@ const Component = ({ identityProviders, css }) => {
   ]);
 
   return (
-    <div className={css.idpSelectContainer}>
-      <Form
-        formSections={formSections}
-        onSubmit={handleSubmit}
-        formID={FORM_ID}
-        submitAllFields
-        errorMessage={i18n.t("select_idp_error")}
-      />
-      <FormAction options={{ form: FORM_ID, type: "submit" }} text={i18n.t("go")} />
-    </div>
+    <>
+      <p className={css.selectProvider}>{i18n.t("select_provider")}</p>
+      <div className={css.idpSelectContainer}>
+        <Form
+          formSections={formSections}
+          onSubmit={handleSubmit}
+          formID={FORM_ID}
+          submitAllFields
+          errorMessage={i18n.t("select_idp_error")}
+        />
+        <FormAction options={{ form: FORM_ID, type: "submit" }} text={i18n.t("go")} />
+      </div>
+    </>
   );
 };
 

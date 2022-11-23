@@ -96,7 +96,6 @@ describe Api::V2::FlagsOwnersController, type: :request do
           expect(json['data'][0]['flagged_by']).to eq('faketest')
           expect(json['data'][0]['short_id']).to eq(@case1.short_id)
           expect(json['data'][0]['name']).to eq('*******')
-          expect(json['data'][0]['hidden_name']).to be
           expect(json['data'][0]['owned_by']).to eq('user1')
           expect(json['data'][0]['owned_by_agency_id']).to eq(@agency1.unique_id)
         end
@@ -120,7 +119,6 @@ describe Api::V2::FlagsOwnersController, type: :request do
             expect(json['data'][0]['unflagged_date']).to be_nil
             expect(json['data'][0]['short_id']).to eq(@case1.short_id)
             expect(json['data'][0]['name']).to eq('*******')
-            expect(json['data'][0]['hidden_name']).to be
             expect(json['data'][0]['owned_by']).to eq('user1')
             expect(json['data'][0]['owned_by_agency_id']).to eq(@agency1.unique_id)
           end
@@ -143,7 +141,6 @@ describe Api::V2::FlagsOwnersController, type: :request do
             expect(api_result['record_type']).to match_array(%w[cases cases])
             expect(api_result['message']).to match_array(['This is a flag', 'This is test flag 3'])
             expect(api_result['name']).to match_array(%w[******* *******])
-            expect(api_result['hidden_name']).to match_array([true, true])
             expect(api_result['owned_by']).to match_array(%w[user1 user1])
             expect(api_result['removed']).to match_array([false, true])
           end
@@ -159,6 +156,7 @@ describe Api::V2::FlagsOwnersController, type: :request do
             expect(json['data'][0]['record_type']).to eq('incidents')
             expect(json['data'][0]['message']).to eq('This is a flag IN')
             expect(json['data'][0]['removed']).to be_falsey
+            expect(json['data'][0]['short_id']).to eq(@incident1.short_id)
           end
         end
 
@@ -172,6 +170,7 @@ describe Api::V2::FlagsOwnersController, type: :request do
             expect(json['data'][0]['record_type']).to eq('tracing_requests')
             expect(json['data'][0]['message']).to eq('This is a flag TR')
             expect(json['data'][0]['removed']).to be_falsey
+            expect(json['data'][0]['short_id']).to eq(@tracing_request1.short_id)
           end
         end
       end
@@ -193,9 +192,9 @@ describe Api::V2::FlagsOwnersController, type: :request do
           expect(flag_data['record_type']).to eq('cases')
           expect(flag_data['message']).to eq('This is a flag')
           expect(flag_data['name']).to eq('*******')
-          expect(flag_data['hidden_name']).to be
           expect(flag_data['owned_by']).to eq('user1')
           expect(flag_data['removed']).to be_falsey
+          expect(flag_data['short_id']).to eq(@case1.short_id)
         end
       end
 
@@ -214,9 +213,9 @@ describe Api::V2::FlagsOwnersController, type: :request do
           expect(json['data'][0]['record_type']).to eq('cases')
           expect(json['data'][0]['message']).to eq('This is a flag')
           expect(json['data'][0]['name']).to eq('Test3')
-          expect(json['data'][0]['hidden_name']).not_to be
           expect(json['data'][0]['owned_by']).to eq('user2')
           expect(json['data'][0]['removed']).to be_falsey
+          expect(json['data'][0]['short_id']).to eq(@case3.short_id)
         end
       end
     end
