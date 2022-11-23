@@ -30,6 +30,23 @@
   - 'never'
   - 'local-env'
 
+- name: Check if overrides.env exists
+  stat:
+    path: "{{ env_override_path | default('/home/' + ansible_user + '/overrides.env') }}"
+  register: overrides_env_result
+
+- name: 'Merge overrides.env with local.env'
+  ansible.builtin.shell: |
+    cat {{ env_override_path }} | grep -vE "^#" > tmp0
+    cat /srv/primero/docker/local.env >> tmp0
+
+    awk -F "=" '!a[$1]++' tmp0 > tmp1 && mv tmp1 /srv/primero/docker/local.env && rm tmp0
+  become: yes
+  when: overrides_env_result.stat.exists
+  tags:
+  - 'never'
+  - 'localized-env'
+
 - name: 'build the Docker containers'
   command: |
     ./build.sh all -t '{{ build_docker_tag }}' -r '{{ build_docker_container_registry }}' -l
@@ -52,6 +69,28 @@
   - 'never'
   - 'configure'
 
+- name: Creating configuration dir
+  file:
+    path: /srv/primero-configuration
+    state: directory
+  become: yes
+  tags:
+  - 'never'
+  - 'configure-localized'
+
+- name: Extract config into /srv
+  unarchive:
+    src: /home/{{ ansible_user }}/primero-configuration.tar.gz
+    dest: /srv/primero-configuration
+    remote_src: yes
+    extra_opts: 
+    - --strip-components=1
+  when: primero_configuration_path is defined
+  become: yes
+  tags:
+  - 'never'
+  - 'configure-localized'
+
 - name: 'configure Primero with a custom configuration'
   command: |
     ./compose.configure.sh /srv/primero-configuration/ '{{ primero_configuration_path }}'
@@ -66,6 +105,7 @@
   tags:
   - 'never'
   - 'configure'
+  - 'configure-localized'
 
 - name: 'configure Primero with the default seeds'
   command: |
