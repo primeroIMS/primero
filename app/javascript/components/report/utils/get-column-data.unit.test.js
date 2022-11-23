@@ -15,7 +15,7 @@ describe("<Report /> - utils", () => {
       expect(getColumnData(column, data, i18n, qtyColumns, qtyRows)).to.deep.equals([5, 5]);
     });
 
-    it("returns 0 when the column is not presnt", () => {
+    it("returns 0 when the column is not present", () => {
       const column = "Column1";
       const data = {
         Row1: { Column2: { Total: 2 }, Total: 7 },
@@ -26,6 +26,54 @@ describe("<Report /> - utils", () => {
       const qtyRows = 1;
 
       expect(getColumnData(column, data, i18n, qtyColumns, qtyRows)).to.deep.equals([0, 5]);
+    });
+
+    it("returns data for two rows", () => {
+      const column = ["6 - 11"];
+      const data = {
+        High: {
+          Abandonment: {
+            "0 - 5": {
+              Total: 1
+            },
+            Total: 1
+          }
+        },
+        Medium: {
+          Abandonment: {
+            "0 - 5": {
+              Total: 1
+            },
+            "6 - 11": {
+              Total: 1
+            },
+            Total: 2
+          },
+          Rape: {
+            "0 - 5": {
+              Total: 2
+            },
+            Total: 2
+          }
+        },
+        Low: {
+          Neglect: {
+            "6 - 11": {
+              Total: 1
+            },
+            Total: 2
+          }
+        },
+        none: {
+          Total: 6
+        }
+      };
+
+      const i18n = { t: key => (key === "report.total" ? "Total" : key) };
+      const qtyColumns = 1;
+      const qtyRows = 2;
+
+      expect(getColumnData(column, data, i18n, qtyColumns, qtyRows)).to.deep.equals([0, 1, 1, 0]);
     });
   });
 });
