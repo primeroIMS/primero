@@ -181,10 +181,10 @@ export default [
         actions: READ_REPORTS
       },
       {
-        path: ROUTES.insights, // TODO: CHANGE PERMISSION CONSTANTS
+        path: ROUTES.insights,
         component: InsightsList,
-        resources: RESOURCES.reports,
-        actions: READ_REPORTS
+        resources: RESOURCES.managed_reports,
+        actions: READ_MANAGED_REPORTS
       },
       {
         path: `${ROUTES.insights}/:moduleID/:id`,

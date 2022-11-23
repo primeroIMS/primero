@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 class Primero::Application
-  VERSION = '2.5.2.2'
+  VERSION = '2.5.3'
 end

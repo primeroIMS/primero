@@ -8,6 +8,7 @@ describe("<Form /> - Utils", () => {
       "buildLinkedIncidentOptions",
       "buildRoleOptions",
       "get",
+      "notPropagatedOnSubmit",
       "notVisible",
       "optionText",
       "submitHandler",

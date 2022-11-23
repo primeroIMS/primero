@@ -15,19 +15,23 @@ const getLabels = (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies,
     return keys;
   }
 
-  keys.forEach(key => {
-    if (containsColumns(columns, data[key], i18n)) {
-      currentLabels.push(
-        keys
-          .map(current => {
-            return formattedDate(current, i18n);
-          })
-          .filter(label => label !== totalLabel)
-      );
-    } else {
-      currentLabels.concat(getLabels(columns, data[key], i18n, fields, qtyColumns, qtyRows, { agencies, locations }));
-    }
-  });
+  if (qtyColumns > 0) {
+    keys.forEach(key => {
+      if (containsColumns(columns, data[key], i18n)) {
+        currentLabels.push(
+          keys
+            .map(current => {
+              return formattedDate(current, i18n);
+            })
+            .filter(label => label !== totalLabel)
+        );
+      } else {
+        currentLabels.concat(getLabels(columns, data[key], i18n, fields, qtyColumns, qtyRows, { agencies, locations }));
+      }
+    });
+  } else {
+    currentLabels.push(keys);
+  }
 
   return uniq(currentLabels.flat()).map(key =>
     getTranslatedKey(key, field, {

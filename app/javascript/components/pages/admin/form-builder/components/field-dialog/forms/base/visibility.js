@@ -19,6 +19,12 @@ export const visibilityFields = ({ fieldName, i18n, limitedProductionSite }) => 
     type: TICK_FIELD,
     disabled: limitedProductionSite
   }),
+  skipLogic: FieldRecord({
+    display_name: i18n.t("fields.skip_logic.name"),
+    name: `${fieldName}.skip_logic`,
+    type: TICK_FIELD,
+    disabled: limitedProductionSite
+  }),
   mobileVisible: FieldRecord({
     display_name: i18n.t("fields.mobile_visible"),
     name: `${fieldName}.mobile_visible`,
@@ -53,17 +59,18 @@ export const visibilityForm = ({
   isNested = false,
   limitedProductionSite
 }) => {
-  const { showOn, visible, mobileVisible, hideOnViewPage, showOnMinifyForm, onCollapsedSubform } = visibilityFields({
-    fieldName,
-    i18n,
-    limitedProductionSite
-  });
+  const { showOn, visible, mobileVisible, hideOnViewPage, showOnMinifyForm, onCollapsedSubform, skipLogic } =
+    visibilityFields({
+      fieldName,
+      i18n,
+      limitedProductionSite
+    });
 
   const miniFormField = fieldType === DOCUMENT_RECORD_FIELD ? [] : [showOnMinifyForm];
 
-  const row = [visible, mobileVisible, hideOnViewPage].concat(
-    isNested && fieldType !== DOCUMENT_RECORD_FIELD ? onCollapsedSubform : miniFormField
-  );
+  const row = [visible, mobileVisible, hideOnViewPage]
+    .concat(isNested && fieldType !== DOCUMENT_RECORD_FIELD ? onCollapsedSubform : miniFormField)
+    .concat(skipLogic);
 
   return FormSectionRecord({
     unique_id: "field_visibility",

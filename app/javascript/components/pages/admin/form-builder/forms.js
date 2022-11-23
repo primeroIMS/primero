@@ -159,6 +159,12 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
               name: "mobile_form",
               type: TICK_FIELD,
               disabled: limitedProductionSite
+            }),
+            FieldRecord({
+              display_name: i18n.t("forms.skip_logic.name"),
+              name: "skip_logic",
+              type: TICK_FIELD,
+              disabled: limitedProductionSite
             })
           ],
           equalColumns: false

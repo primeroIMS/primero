@@ -1216,6 +1216,16 @@ en:
     show: Show?
     show_on: Show on
     show_on_minify_form: Short form
+    skip_logic:
+      name: Skip Logic?
+      record_section:
+        title: This field should be visible if record
+        buttons:
+          add: Add record condition
+      subform_section:
+        title: This field should be visible if subform
+        buttons:
+          add: Add subform condition
     subform: Subform
     subform_group_by: Group by
     subform_remove_message: Are you sure you want to remove this subform?
@@ -1340,6 +1350,25 @@ en:
     type_label: Type
     visibility: Visibility
     web_app: Web App
+    skip_logic:
+      name: Skip Logic?
+      section:
+        title: This form should be visible if
+        buttons:
+          add: Add condition
+    conditions:
+      add: Add condition
+      update: Update condition
+      field_name: Field Name
+      condition: Condition
+      type: Type
+      types:
+        and:
+          display_text: And this condition
+          name: AND
+        or:
+          display_text: Or this condition
+          name: OR
   home:
     ar: العربية
     ar-IQ: العربية (العراقية)

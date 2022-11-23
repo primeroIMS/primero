@@ -36,7 +36,9 @@ export const formatValue = (value, i18n, { field, lookups }) => {
   }
 
   if (field && field.type === TICK_FIELD) {
-    return value.includes("true") ? field?.tick_box_label || i18n.t("true") : i18n.t("report.not_selected");
+    return Array.isArray(value) && value.includes(true)
+      ? displayNameHelper(field?.tick_box_label, i18n.locale) || i18n.t("true")
+      : i18n.t("report.not_selected");
   }
 
   if (field && [SELECT_FIELD, RADIO_FIELD].includes(field.type) && Array.isArray(value)) {
@@ -45,7 +47,9 @@ export const formatValue = (value, i18n, { field, lookups }) => {
     }
 
     if (field.option_strings_source) {
-      const lookupValues = lookups.find(lookup => lookup.unique_id === field.option_strings_source)?.values;
+      const lookupValues = lookups.find(
+        lookup => lookup.unique_id === field.option_strings_source.replace(/lookup /, "")
+      )?.values;
 
       return value
         .map(currentValue => {
@@ -60,7 +64,7 @@ export const formatValue = (value, i18n, { field, lookups }) => {
 
     return value
       .map(
-        currentValue => field.option_strings_text.find(option => option.id === currentValue).display_text[i18n.locale]
+        currentValue => field.option_strings_text?.find(option => option.id === currentValue).display_text[i18n.locale]
       )
       .join(", ");
   }

@@ -1,8 +1,8 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { useCallback, useEffect } from "react";
+import { hash } from "immutable";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import clsx from "clsx";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import { getObjectPath, useMemoizedSelector } from "../../../../../../libs";
@@ -12,9 +12,10 @@ import { reorderFields } from "../../action-creators";
 import { getCopiedFields, getRemovedFields, getSelectedFields } from "../../selectors";
 import { getFieldsAttribute, setFieldDataInFormContext } from "../utils";
 import Fields from "../fields";
+import FieldListHeaders from "../field-list-headers";
 
-import { NAME } from "./constants";
 import css from "./styles.css";
+import { NAME } from "./constants";
 
 const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy }) => {
   const dispatch = useDispatch();
@@ -43,6 +44,10 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
         register({ name: `${fieldsAttribute}.${name}.order` });
       }
 
+      if (!formContextFields[`${fieldsAttribute}.${name}.display_conditions_record`]) {
+        register({ name: `${fieldsAttribute}.${name}.display_conditions_record` });
+      }
+
       setValue(`${fieldsAttribute}.${name}.order`, field.get("order"), { shouldDirty: true });
 
       i18n.applicationLocales.forEach(locale => {
@@ -62,7 +67,7 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
       register({ name: fieldsAttribute });
       setValue(fieldsAttribute, [], { shouldDirty: true });
     }
-  }, [fields]);
+  }, [hash(fields)]);
 
   useEffect(() => {
     copiedFields.forEach(field => {
@@ -94,12 +99,6 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
     [isNested]
   );
 
-  const nameClasses = clsx([css.fieldColumn, css.fieldName, css.fieldHeader]);
-  const fieldTypeClasses = clsx([css.fieldColumn, css.fieldHeader]);
-  const fieldShowClasses = clsx([css.fieldColumn, css.fieldHeader, css.fieldShow]);
-
-  const renderColumn = text => isNested && <div className={fieldTypeClasses}>{text}</div>;
-
   if (!fields.size) {
     return <div className={css.noFiltersAdded}>{i18n.t("forms.no_subform_filters_added")}</div>;
   }
@@ -111,11 +110,7 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
           {(provided, snapshot) => (
             <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
               <div className={css.fieldRow}>
-                <div className={nameClasses}>{i18n.t("fields.name")}</div>
-                <div className={fieldTypeClasses}>{i18n.t("fields.type")}</div>
-                {renderColumn(i18n.t("fields.subform_sort_by"))}
-                {renderColumn(i18n.t("fields.subform_group_by"))}
-                <div className={fieldShowClasses}>{i18n.t("fields.show")}</div>
+                <FieldListHeaders isNested={isNested} />
               </div>
               <Fields
                 fields={fields}

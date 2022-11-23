@@ -923,7 +923,7 @@ Lookup.create_or_update!(
   name_en: 'Form Groups - CP Registry',
   lookup_values_en: [
     { id: 'record_information', display_text: 'Record Information' },
-    { id: 'registry_details', display_text: 'Farmer Details' }
+    { id: 'registry_details', display_text: 'Registry Details' }
   ].map(&:with_indifferent_access)
 )
 
@@ -937,5 +937,25 @@ Lookup.create_or_update!(
     {id: "agency_office_3", display_text: "Agency Office 3"},
     {id: "agency_office_4", display_text: "Agency Office 4"},
     {id: "agency_office_5", display_text: "Agency Office 5"}
+  ].map(&:with_indifferent_access)
+)
+
+Lookup.create_or_update!(
+  unique_id: 'lookup-registry-status',
+  name_en: 'Registry Status',
+  lookup_values_en: [
+    { id: 'open', display_text: 'Open' },
+    { id: 'closed', display_text: 'Closed' },
+    { id: 'duplicate', display_text: 'Duplicate' }
+  ].map(&:with_indifferent_access)
+)
+
+Lookup.create_or_update!(
+  unique_id: 'lookup-registry-category',
+  name_en: 'Registry Category',
+  lookup_values_en: [
+    { id: 'registry_category1', display_text: 'Registry Category 1' },
+    { id: 'registry_category2', display_text: 'Registry Category 2' },
+    { id: 'registry_category3', display_text: 'Registry Category 3' }
   ].map(&:with_indifferent_access)
 )
