@@ -61,7 +61,12 @@ class DuplicateBulkExport < BulkExport
     return @duplicate_field_name if @duplicate_field_name
 
     @duplicate_field_name = SystemSettings.current&.duplicate_export_field
-    @duplicate_field_name = 'national_id_no' if @duplicate_field_name.blank?
+    if @duplicate_field_name.blank?
+      @duplicate_field_name = 'national_id_no_filterable'
+    elsif model_class.filterable_id_fields.include?(@duplicate_field_name)
+      @duplicate_field_name = "#{@duplicate_field_name}_filterable"
+    end
+
     @duplicate_field_name
   end
 
