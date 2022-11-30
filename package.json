@@ -33,7 +33,8 @@
     "nth-check": "2.0.1",
     "react": "17.0.2",
     "uuid": "8.3.2",
-    "dom-to-image-more": "2.8.0"
+    "dom-to-image-more": "2.8.0",
+    "react-svg-loader/loader-utils": "1.4.2"
   },
   "devDependencies": {
     "@babel/core": "~7.17.8",
