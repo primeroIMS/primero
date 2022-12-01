@@ -87,6 +87,10 @@
   border-radius: 0px 15px 15px 0px;
 }
 
+.hideLoginLogo {
+  display: none;
+}
+
 .loginLogo > div {
   height: 100%;
   justify-content: center;
