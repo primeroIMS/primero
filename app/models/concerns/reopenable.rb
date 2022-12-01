@@ -11,7 +11,6 @@ module Reopenable
 
     after_initialize :default_reopened_logs
     before_save :close_record
-    before_save :reopen_record
     before_save :update_reopened_logs
   end
 
@@ -33,14 +32,6 @@ module Reopenable
 
   def reopened_date
     reopened_logs&.last&.dig('reopened_date')
-  end
-
-  def reopen_record
-    return unless status == Record::STATUS_CLOSED
-    return unless mark_for_reopen || (changes_to_save_for_record.keys & %w[services_section]).present?
-
-    self.status = Record::STATUS_OPEN
-    self.case_status_reopened = true
   end
 
   def update_reopened_logs
