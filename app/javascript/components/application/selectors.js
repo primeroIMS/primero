@@ -68,6 +68,8 @@ export const getAgencyLogos = (state, fromApplication) => {
   return state.getIn(["application", "primero", "agencies"], fromJS([]));
 };
 
+export const hasAgencyLogos = (state, fromApplication) => !getAgencyLogos(state, fromApplication).isEmpty();
+
 export const getAgencyLogosPdf = (state, fromApplication) => {
   if (fromApplication) {
     return state.getIn(["application", "primero", "agenciesLogoPdf"], fromJS([]));

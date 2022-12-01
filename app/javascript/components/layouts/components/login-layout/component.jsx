@@ -7,18 +7,22 @@ import AgencyLogo from "../../../agency-logo";
 import TranslationsToggle from "../../../translations-toggle";
 import Notifier from "../../../notifier";
 import DemoIndicator from "../../../demo-indicator";
+import { useMemoizedSelector } from "../../../../libs";
 import { useApp } from "../../../application";
+import { hasAgencyLogos } from "../../../application/selectors";
 
 import { NAME } from "./constants";
 import css from "./styles.css";
 
 const Component = ({ children }) => {
   const { demo } = useApp();
+  const hasLogos = useMemoizedSelector(state => hasAgencyLogos(state));
 
   // TODO: Module hardcoded till we figure out when to switch modules
   const primeroModule = "cp";
   const moduleClass = `${primeroModule}${demo ? "-demo" : ""}`;
   const classes = clsx({ [css.primeroBackground]: true, [css[moduleClass]]: true, [css.demo]: demo });
+  const classesLoginLogo = clsx({ [css.loginLogo]: true, [css.hideLoginLogo]: !hasLogos });
 
   return (
     <>
@@ -34,7 +38,7 @@ const Component = ({ children }) => {
               <div className={css.formContainer}>
                 <div className={css.form}>{children}</div>
               </div>
-              <div className={css.loginLogo}>
+              <div className={classesLoginLogo}>
                 <AgencyLogo alwaysFullLogo />
               </div>
             </div>
