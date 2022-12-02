@@ -72,6 +72,10 @@
   }
 }
 
+.noLogosWidth {
+  width: 35%;
+}
+
 .loginLogo {
   display: flex;
   flex: 1 1 50%;
@@ -138,10 +142,17 @@
   .auth {
     width: 90%;
   }
+  .noLogosWidth {
+    width: 50%;
+  }
 }
 
 @media (min-width:600px) and (max-width:959.95px) {
   .auth {
     width: 90%;
+  }
+
+  .noLogosWidth {
+    width: 50%;
   }
 }

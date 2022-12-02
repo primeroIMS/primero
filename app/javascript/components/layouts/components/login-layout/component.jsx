@@ -23,6 +23,7 @@ const Component = ({ children }) => {
   const moduleClass = `${primeroModule}${demo ? "-demo" : ""}`;
   const classes = clsx({ [css.primeroBackground]: true, [css[moduleClass]]: true, [css.demo]: demo });
   const classesLoginLogo = clsx({ [css.loginLogo]: true, [css.hideLoginLogo]: !hasLogos });
+  const classesAuthDiv = clsx({ [css.auth]: true, [css.noLogosWidth]: !hasLogos });
 
   return (
     <>
@@ -34,7 +35,7 @@ const Component = ({ children }) => {
             <ModuleLogo white />
           </div>
           <div className={css.authContainer}>
-            <div className={css.auth}>
+            <div className={classesAuthDiv}>
               <div className={css.formContainer}>
                 <div className={css.form}>{children}</div>
               </div>
