@@ -229,12 +229,11 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
   const submit = data => {
     const randomSubformId = Math.floor(Math.random() * 100000);
     const subformData = setInitialForms(data.subform_section);
-    const fieldData = setSubformData(toggleHideOnViewPage(data[selectedFieldName]), subformData);
-
-    const dataToSave = handleDisplayConditions(
-      buildDataToSave(selectedField, fieldData, lastField?.get("order"), randomSubformId),
-      selectedFieldName
+    const fieldData = handleDisplayConditions(
+      setSubformData(toggleHideOnViewPage(data[selectedFieldName]), subformData)
     );
+
+    const dataToSave = buildDataToSave(selectedField, fieldData, lastField?.get("order"), randomSubformId);
 
     batch(() => {
       if (!isNested) {
