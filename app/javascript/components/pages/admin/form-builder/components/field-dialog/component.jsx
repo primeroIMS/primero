@@ -300,6 +300,11 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
     });
   }, []);
 
+  const fieldProps = {
+    name: selectedField.get("name"),
+    formSectionId: isNested ? selectedSubform.get("id") : null
+  };
+
   useEffect(() => {
     if (openFieldDialog && selectedField?.toSeq()?.size) {
       const currFormValues = getValues()[selectedField.get("name")];
@@ -365,7 +370,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
               recordType={recordType}
               handleClose={backToFieldDialog}
               isNested={isNested}
-              field={selectedField}
+              fieldProps={fieldProps}
               title={i18n.t("fields.skip_logic.record_section.title")}
             />
           )}
