@@ -132,12 +132,6 @@
   text-decoration: none;
 }
 
-.rotateIcon {
-  color: var(--c-gold-yellow);
-  transform: rotate(90deg);
-  transform-origin: 50% 50%;
-}
-
 .reorderButton {
   margin: 1em 0;
 }

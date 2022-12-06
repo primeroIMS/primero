@@ -19,7 +19,7 @@ import {
   validations,
   getDisabledInfo
 } from "../../utils";
-import { FieldRecord, SELECT_FIELD, whichFormMode } from "../../../../../form";
+import { FieldRecord, SELECT_FIELD } from "../../../../../form";
 import FormSectionField from "../../../../../form/components/form-section-field";
 import { useI18n } from "../../../../../i18n";
 import { dataToJS } from "../../../../../../libs";
@@ -31,12 +31,11 @@ import { LOCALE_KEYS, SAVE_METHODS } from "../../../../../../config";
 
 import { NAME, FORM_ID } from "./constants";
 
-const Component = ({ mode, lookup }) => {
+const Component = ({ formMode, lookup }) => {
   const { id } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const formMode = whichFormMode(mode);
   const locales = i18n.applicationLocales;
   const localesKeys = [
     LOCALE_KEYS.en,
@@ -142,8 +141,8 @@ const Component = ({ mode, lookup }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  lookup: PropTypes.object,
-  mode: PropTypes.string
+  formMode: PropTypes.object,
+  lookup: PropTypes.object
 };
 
 export default Component;
