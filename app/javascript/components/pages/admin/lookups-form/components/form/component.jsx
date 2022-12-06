@@ -4,11 +4,8 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { useForm, useWatch } from "react-hook-form";
-import { Grid } from "@material-ui/core";
 import { fromJS } from "immutable";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
-import AddIcon from "@material-ui/icons/Add";
 import { yupResolver } from "@hookform/resolvers/yup";
 import isEmpty from "lodash/isEmpty";
 import find from "lodash/find";
@@ -22,20 +19,17 @@ import {
   validations,
   getDisabledInfo
 } from "../../utils";
-import { FieldRecord, TEXT_FIELD, SELECT_FIELD, whichFormMode } from "../../../../../form";
+import { FieldRecord, SELECT_FIELD, whichFormMode } from "../../../../../form";
 import FormSectionField from "../../../../../form/components/form-section-field";
 import { useI18n } from "../../../../../i18n";
 import { dataToJS } from "../../../../../../libs";
 import { LOOKUP_NAME, LOOKUP_VALUES } from "../../constants";
-import HeaderValues from "../header-values";
-import DraggableRow from "../draggable-row";
-import css from "../styles.css";
+import LookupLocalizedName from "../lookup-localized-name";
+import LookupOptions from "../lookup-options";
 import { saveLookup } from "../../action-creators";
 import { LOCALE_KEYS, SAVE_METHODS } from "../../../../../../config";
-import ActionButton from "../../../../../action-button";
-import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
-import { NAME, TEMP_OPTION_ID, FORM_ID } from "./constants";
+import { NAME, FORM_ID } from "./constants";
 
 const Component = ({ mode, lookup }) => {
   const { id } = useParams();
@@ -60,7 +54,7 @@ const Component = ({ mode, lookup }) => {
     ...(validationsSchema && { resolver: yupResolver(validationsSchema) }),
     shouldUnregister: false
   });
-  const { control, reset, getValues, handleSubmit } = formMethods;
+  const { control, reset, handleSubmit } = formMethods;
 
   const watchedOption = useWatch({
     control,
@@ -107,113 +101,6 @@ const Component = ({ mode, lookup }) => {
     reset(defaultValues);
   }, [defaultValues.name[defaultLocale]]);
 
-  const getListStyle = isDraggingOver => ({
-    background: isDraggingOver ? "transparent" : "ligthblue"
-  });
-
-  const onDragEnd = result => {
-    const { source, destination } = result;
-
-    if (!destination) {
-      return;
-    }
-    const { index: startIndex } = source;
-    const { index: endIndex } = destination;
-
-    const newItems = reorderValues(items, startIndex, endIndex);
-
-    setItems(newItems);
-    const newValues = getValues();
-
-    reset({ ...newValues, ...{ values } });
-  };
-
-  const handleAdd = () => setItems([...items, `${TEMP_OPTION_ID}_${items.length}`]);
-
-  const renderLookupLocalizedName = () =>
-    !isEmpty(localesKeys) &&
-    localesKeys.map(localeID => {
-      const show = defaultLocale === localeID || selectedOption === localeID;
-
-      return (
-        <FormSectionField
-          field={FieldRecord({
-            display_name:
-              defaultLocale === localeID ? i18n.t("lookup.english_label") : i18n.t("lookup.translation_label"),
-            name: `name.${localeID}`,
-            type: TEXT_FIELD,
-            required: true,
-            showIf: () => show,
-            forceShowIf: true
-          })}
-          key={`name.${localeID}`}
-          formMode={formMode}
-          formMethods={formMethods}
-        />
-      );
-    });
-
-  const renderLookupsValues = () => {
-    return items.map((item, index) => {
-      return (
-        <DraggableRow
-          key={item}
-          firstLocaleOption={defaultLocale}
-          index={index}
-          isDragDisabled={!formMode.get("isEdit")}
-          localesKeys={localesKeys}
-          selectedOption={selectedOption}
-          uniqueId={item}
-          formMode={formMode}
-          formMethods={formMethods}
-        />
-      );
-    });
-  };
-
-  const renderOptions = () => {
-    const renderOptionText = (
-      <span className={css.optionsLabel}>
-        {formMode.get("isNew") && items.length <= 0 ? i18n.t("lookup.no_options") : i18n.t("lookup.values")}
-      </span>
-    );
-    const renderAddButton = !formMode.get("isShow") && (
-      <ActionButton
-        icon={<AddIcon />}
-        text="fields.add"
-        type={ACTION_BUTTON_TYPES.default}
-        rest={{
-          onClick: handleAdd
-        }}
-      />
-    );
-    const renderValues = items.length > 0 && (
-      <Grid item xs={12} className={formMode.get("isShow") ? css.showColor : ""}>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="droppableLookup" type="lookupGroup">
-            {(provided, snapshot) => (
-              <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
-                <HeaderValues hideTranslationColumn={defaultLocale === selectedOption} />
-                {renderLookupsValues()}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </Grid>
-    );
-
-    return (
-      <Grid container spacing={1}>
-        <div className={css.optionsContainer}>
-          {renderOptionText}
-          {renderAddButton}
-        </div>
-        {renderValues}
-      </Grid>
-    );
-  };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} id={FORM_ID}>
       <FormSectionField
@@ -228,8 +115,26 @@ const Component = ({ mode, lookup }) => {
         formMode={formMode}
         formMethods={formMethods}
       />
-      {renderLookupLocalizedName()}
-      {renderOptions()}
+      {!isEmpty(localesKeys) && (
+        <LookupLocalizedName
+          defaultLocale={defaultLocale}
+          formMethods={formMethods}
+          formMode={formMode}
+          localesKeys={localesKeys}
+          selectedOption={selectedOption}
+        />
+      )}
+      <LookupOptions
+        defaultLocale={defaultLocale}
+        formMethods={formMethods}
+        formMode={formMode}
+        items={items}
+        localesKeys={localesKeys}
+        reorderValues={reorderValues}
+        selectedOption={selectedOption}
+        setItems={setItems}
+        values={values}
+      />
     </form>
   );
 };
