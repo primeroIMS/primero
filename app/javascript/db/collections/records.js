@@ -5,6 +5,7 @@ import merge from "deepmerge";
 import DB from "../db";
 import subformAwareMerge from "../utils/subform-aware-merge";
 import getCreatedAt from "../utils/get-created-at";
+import RecordSearch from "../../record-search";
 
 const Records = {
   find: async ({ collection, recordType, db }) => {
@@ -76,6 +77,8 @@ const Records = {
         value: recordType
       }
     });
+
+    RecordSearch.syncIndex(records);
 
     return {
       data: records,

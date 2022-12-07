@@ -656,3 +656,37 @@ export const VIOLATION_VERIFICATION_STATUS = Object.freeze({
 });
 
 export const MAX_CONDITIONS = 4;
+
+export const QUICK_SEARCH_FIELDS = Object.freeze([
+  "biometrics_id",
+  "camp_id",
+  "case_id",
+  "case_id_display",
+  "dss_id",
+  "family_count_no",
+  "icrc_ref_no",
+  "name",
+  "name_nickname",
+  "name_other",
+  "national_id_no",
+  "nfi_distribution_id",
+  "oscar_number",
+  "other_agency_id",
+  "other_id_no",
+  "ration_card_no",
+  "rc_id_no",
+  "registry_no",
+  "short_id",
+  "survivor_code_no",
+  "tent_number",
+  "un_no",
+  "unhcr_id_no",
+  "unhcr_individual_no",
+  "unique_identifier"
+]);
+
+export const RECORD_ID_FIELD = "id";
+
+export const RECORD_TYPE_FIELD = "type";
+
+export const RECORD_DOCUMENT_FIELDS = QUICK_SEARCH_FIELDS.concat([RECORD_ID_FIELD, RECORD_TYPE_FIELD]);
