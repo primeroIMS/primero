@@ -48,7 +48,9 @@ class IdpToken
   end
 
   def user_name
-    payload && payload['emails'].first&.downcase
+    email = payload['emails']&.first&.downcase || payload['email']
+    Rails.logger.error('Email missing from payload') unless email.present?
+    payload && email
   end
 
   def issuer
