@@ -48,9 +48,9 @@ class IdpToken
   end
 
   def user_name
-    email = payload['emails']&.first&.downcase || payload['email']
-    Rails.logger.error('Email missing from payload') unless email.present?
-    payload && email
+    email = payload && (payload['emails']&.first || payload['email'])
+    Rails.logger.error('The claims ‘emails’ or ‘email’ are missing or malformed in the third party JWT') unless email.present?
+    email&.downcase
   end
 
   def issuer
