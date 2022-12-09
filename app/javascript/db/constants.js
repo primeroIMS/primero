@@ -20,7 +20,14 @@ export const DB_STORES = Object.freeze({
 });
 
 export const DB_COLLECTIONS_V1 = [
-  [DB_STORES.RECORDS, { keyPath: "id" }, ["type", "type", { multiEntry: true }]],
+  [
+    DB_STORES.RECORDS,
+    { keyPath: "id" },
+    [
+      ["type", "type", { multiEntry: true }],
+      ["terms", "terms", { multiEntry: true }]
+    ]
+  ],
   [DB_STORES.USER, { keyPath: "user_name" }],
   [DB_STORES.OFFLINE_REQUESTS, { keyPath: "fromQueue" }],
   [DB_STORES.MANIFESTS, { keyPath: "collection" }],

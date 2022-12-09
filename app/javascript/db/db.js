@@ -2,6 +2,8 @@
 import merge from "deepmerge";
 import isEmpty from "lodash/isEmpty";
 import { openDB } from "idb";
+import fuzzysort from "fuzzysort";
+import sortBy from "lodash/sortBy";
 
 import { DATABASE_NAME } from "../config/constants";
 
@@ -55,7 +57,11 @@ class DB {
 
       const store = db.createObjectStore(name, options);
 
-      if (index) store.createIndex(...index);
+      if (index) {
+        index.forEach(current => {
+          store.createIndex(...current);
+        });
+      }
     } else {
       db.createObjectStore(collection, {
         keyPath: "id",
@@ -91,6 +97,25 @@ class DB {
 
   async delete(store, item) {
     return (await this._db).delete(store, item);
+  }
+
+  async searchIndex(store, indexKey, term) {
+    const index = (await this._db).transaction(store).store.index(indexKey);
+    const results = [];
+
+    let cursor = await index.openCursor();
+
+    while (cursor) {
+      const fuzzyResults = fuzzysort.go(term, [cursor.key], { threshold: -100 });
+
+      if (fuzzyResults.length) {
+        // eslint-disable-next-line no-loop-func
+        results.push(...fuzzyResults.flatMap(result => [{ ...result, data: cursor.value }]));
+      }
+      cursor = await cursor.continue();
+    }
+
+    return sortBy(results, ["score"]).map(result => result.data);
   }
 
   async clear(store) {

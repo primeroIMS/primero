@@ -1,6 +1,5 @@
 import { fromJS, Map } from "immutable";
 
-import RecordSearch from "../../record-search";
 import { selectNetworkStatus } from "../connectivity/selectors";
 import { keyIn } from "../../libs";
 
@@ -16,17 +15,7 @@ export const getRecords = (state, namespace, isComplete = false) => {
   }
 
   if (!isOnline) {
-    const recordIds = filters.get("query")
-      ? RecordSearch.getSearch()
-          .search(filters.get("query"))
-          .map(elem => elem.id)
-      : [];
-
-    const offlineRecords = filters.get("query")
-      ? records.get("data", fromJS([])).filter(record => recordIds.includes(record.get("id")))
-      : records.get("data", fromJS([]));
-
-    const sortedRecords = offlineRecords.sortBy(record => record.get(filters.get("order_by")));
+    const sortedRecords = records.get("data", fromJS([])).sortBy(record => record.get(filters.get("order_by")));
 
     return fromJS({
       data: filters.get("order", "asc") === "asc" ? sortedRecords : sortedRecords.reverse(),

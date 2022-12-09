@@ -5,8 +5,6 @@ import { IconButton, InputBase, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
 
-// import { useOfflineSearch } from "../../../offline-search";
-import DisableOffline from "../../../disable-offline";
 import { useI18n } from "../../../i18n";
 
 import css from "./styles.css";
@@ -16,7 +14,6 @@ import handleFilterChange from "./value-handlers";
 const Search = ({ handleReset }) => {
   const i18n = useI18n();
 
-  // const { miniSearch } = useOfflineSearch();
   const { register, unregister, setValue } = useFormContext();
   const [inputValue, setInputValue] = useState();
   const valueRef = useRef();
@@ -63,11 +60,9 @@ const Search = ({ handleReset }) => {
   return (
     <div className={css.searchContainer}>
       <div className={css.searchInputContainer}>
-        {/* <DisableOffline button> */}
-          <IconButton className={css.iconSearchButton} aria-label="menu" type="submit" color="primary">
-            <SearchIcon />
-          </IconButton>
-        {/* </DisableOffline> */}
+        <IconButton className={css.iconSearchButton} aria-label="menu" type="submit" color="primary">
+          <SearchIcon />
+        </IconButton>
         <InputBase
           id="search-input"
           className={css.searchInput}

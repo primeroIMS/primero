@@ -1,20 +1,31 @@
 import compact from "lodash/compact";
 import isEmpty from "lodash/isEmpty";
+import isNil from "lodash/isNil";
 import merge from "deepmerge";
+import slice from "lodash/slice";
 
 import DB from "../db";
 import subformAwareMerge from "../utils/subform-aware-merge";
 import getCreatedAt from "../utils/get-created-at";
-import RecordSearch from "../../record-search";
+import { QUICK_SEARCH_FIELDS } from "../../config";
+
+const sortData = data => data.sort((record1, record2) => getCreatedAt(record2) - getCreatedAt(record1));
 
 const Records = {
-  find: async ({ collection, recordType, db }) => {
+  find: async ({ collection, recordType, db, json }) => {
     const { id } = db;
+    const params = json?.api?.params;
+
+    if (params.query) {
+      const results = await DB.searchIndex(collection, "terms", params.query);
+
+      return { data: results };
+    }
 
     const data = id ? await DB.getRecord(collection, id) : await DB.getAllFromIndex(collection, "type", recordType);
 
     return {
-      data: Array.isArray(data) ? data.sort((record1, record2) => getCreatedAt(record2) - getCreatedAt(record1)) : data
+      data: Array.isArray(data) ? sortData(data) : data
     };
   },
 
@@ -56,13 +67,34 @@ const Records = {
     return markComplete && online ? { ...data, complete: true } : data;
   },
 
+  dataTokenizedTerms(data) {
+    if (Array.isArray(data)) {
+      return data.map(record => this.dataTokenizedTerms(record));
+    }
+
+    return {
+      ...data,
+      terms: QUICK_SEARCH_FIELDS.reduce((acc, quickField) => {
+        const value = data[quickField];
+
+        if (!isNil(value)) {
+          return acc.concat(data[quickField]);
+        }
+
+        return acc;
+      }, [])
+    };
+  },
+
   save: async ({ collection, json, recordType, online = false, params }) => {
     const { data, metadata } = json;
     const { fields, id_search: idSearch } = params || {};
     const dataKeys = Object.keys(data);
     const jsonData = dataKeys.length === 1 && dataKeys.includes("record") ? data.record : data;
     const dataIsArray = Array.isArray(jsonData);
-    const recordData = Records.dataMarkedComplete(jsonData, !(fields === "short" || idSearch), online);
+    const recordData = Records.dataTokenizedTerms(
+      Records.dataMarkedComplete(jsonData, !(fields === "short" || idSearch), online)
+    );
 
     // eslint-disable-next-line camelcase
     if (data?.incident_case_id && recordType === "incidents") {
@@ -77,8 +109,6 @@ const Records = {
         value: recordType
       }
     });
-
-    RecordSearch.syncIndex(records);
 
     return {
       data: records,
