@@ -2,15 +2,17 @@ import isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import ActionDialog from "../../../action-dialog";
-import { RADIO_FIELD, SELECT_FIELD, TICK_FIELD, whichFormMode } from "../../../form";
+import { RADIO_FIELD, SELECT_FIELD, whichFormMode } from "../../../form";
 import FormSection from "../../../form/components/form-section";
 import { useI18n } from "../../../i18n";
 import { NOT_NULL } from "../../constants";
 
 import { ATTRIBUTE, CONSTRAINT, NAME, VALUE, FORM_ID } from "./constants";
-import form from "./form";
+import form, { validationSchema } from "./form";
+import { getFilterConstraint, getFilterValue, isNotNullConstraintOrTrue } from "./utils";
 import css from "./styles.css";
 
 const Component = ({ fields, open, setOpen, selectedIndex, setSelectedIndex, indexes, onSuccess }) => {
@@ -20,12 +22,11 @@ const Component = ({ fields, open, setOpen, selectedIndex, setSelectedIndex, ind
 
   const isNew = selectedIndex === null;
 
-  const formMethods = useForm();
+  const formMethods = useForm({ resolver: yupResolver(validationSchema(i18n)) });
   const {
     control,
     reset,
     handleSubmit,
-    getValues,
     formState: { dirtyFields }
   } = formMethods;
 
@@ -35,9 +36,7 @@ const Component = ({ fields, open, setOpen, selectedIndex, setSelectedIndex, ind
   const watchedConstraint = useWatch({ control, name: CONSTRAINT });
 
   const isAttributeTouched = Object.keys(dirtyFields).includes(ATTRIBUTE);
-
-  const isConstraintNotNullOrTrue =
-    watchedConstraint === NOT_NULL || (typeof watchedConstraint === "boolean" && watchedConstraint);
+  const notNullConstraintOrTrue = isNotNullConstraintOrTrue(watchedConstraint);
 
   const currentField = fields.find(field => field.id === watchedAttribute);
   const selectedReportFilter = indexes[selectedIndex]?.data;
@@ -68,16 +67,8 @@ const Component = ({ fields, open, setOpen, selectedIndex, setSelectedIndex, ind
 
       reset({
         ...selectedReportFilter,
-        constraint:
-          [SELECT_FIELD, TICK_FIELD, RADIO_FIELD].includes(type) &&
-          Array.isArray(selectedReportFilter?.constraint) &&
-          selectedReportFilter?.constraint?.includes(NOT_NULL)
-            ? true
-            : selectedReportFilter?.constraint,
-        values:
-          Array.isArray(selectedReportFilter?.value) && selectedReportFilter?.value.includes(NOT_NULL)
-            ? []
-            : selectedReportFilter?.value
+        [CONSTRAINT]: getFilterConstraint(selectedReportFilter, type),
+        [VALUE]: getFilterValue(selectedReportFilter, type)
       });
     }
     if (selectedIndex === null && open) {
@@ -86,38 +77,19 @@ const Component = ({ fields, open, setOpen, selectedIndex, setSelectedIndex, ind
   }, [open]);
 
   useEffect(() => {
-    if (isConstraintNotNullOrTrue) {
+    if (notNullConstraintOrTrue) {
       formMethods.setValue(CONSTRAINT, NOT_NULL);
     }
   }, [watchedConstraint]);
 
   useEffect(() => {
-    if (watchedAttribute) {
-      const filterValue = getValues()[VALUE];
-
-      if ([TICK_FIELD, SELECT_FIELD, RADIO_FIELD].includes(currentField.type)) {
-        reset({
-          attribute: getValues()[ATTRIBUTE],
-          constraint: isNew
-            ? false
-            : (Array.isArray(filterValue) && filterValue.includes(NOT_NULL)) || getValues()[CONSTRAINT],
-          value:
-            // eslint-disable-next-line no-nested-ternary
-            isNew || (Array.isArray(filterValue) && filterValue.includes(NOT_NULL)) || isAttributeTouched
-              ? []
-              : getValues()[VALUE]
-        });
-      } else {
-        reset({
-          attribute: getValues()[ATTRIBUTE],
-          constraint: isNew ? "" : getValues()[CONSTRAINT],
-          value: isNew ? [] : getValues()[VALUE]
-        });
-      }
+    if (isAttributeTouched) {
+      formMethods.setValue(CONSTRAINT, "");
+      formMethods.setValue(VALUE, []);
     }
-  }, [watchedAttribute]);
+  }, [isAttributeTouched]);
 
-  const reportFiltersForm = form(i18n, fields, currentField, isConstraintNotNullOrTrue, css);
+  const reportFiltersForm = form(i18n, fields, currentField, notNullConstraintOrTrue, css, false);
 
   return (
     <>
