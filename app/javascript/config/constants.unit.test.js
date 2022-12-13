@@ -116,6 +116,7 @@ describe("Verifying config constant", () => {
       "REGISTRY_FROM_CASE",
       "QUARTERS",
       "QUARTERS_TO_NUMBER",
+      "QUICK_SEARCH_FIELDS",
       "Q1",
       "Q2",
       "Q3",

@@ -684,9 +684,3 @@ export const QUICK_SEARCH_FIELDS = Object.freeze([
   "unhcr_individual_no",
   "unique_identifier"
 ]);
-
-export const RECORD_ID_FIELD = "id";
-
-export const RECORD_TYPE_FIELD = "type";
-
-export const RECORD_DOCUMENT_FIELDS = QUICK_SEARCH_FIELDS.concat([RECORD_ID_FIELD, RECORD_TYPE_FIELD]);

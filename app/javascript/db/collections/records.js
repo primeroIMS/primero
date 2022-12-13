@@ -2,7 +2,6 @@ import compact from "lodash/compact";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
 import merge from "deepmerge";
-import slice from "lodash/slice";
 
 import DB from "../db";
 import subformAwareMerge from "../utils/subform-aware-merge";
@@ -17,7 +16,7 @@ const Records = {
     const params = json?.api?.params;
 
     if (params.query) {
-      const results = await DB.searchIndex(collection, "terms", params.query);
+      const results = await DB.searchIndex(collection, params.query, recordType);
 
       return { data: results };
     }

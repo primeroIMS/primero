@@ -99,18 +99,20 @@ class DB {
     return (await this._db).delete(store, item);
   }
 
-  async searchIndex(store, indexKey, term) {
-    const index = (await this._db).transaction(store).store.index(indexKey);
+  async searchIndex(store, term, recordType) {
+    const index = (await this._db).transaction(store).store.index("type");
     const results = [];
 
-    let cursor = await index.openCursor();
+    let cursor = await index.openCursor(IDBKeyRange.only(recordType));
 
     while (cursor) {
-      const fuzzyResults = fuzzysort.go(term, [cursor.key], { threshold: -100 });
+      const data = cursor.value;
+
+      const fuzzyResults = fuzzysort.go(term, data.terms, { threshold: -100 });
 
       if (fuzzyResults.length) {
         // eslint-disable-next-line no-loop-func
-        results.push(...fuzzyResults.flatMap(result => [{ ...result, data: cursor.value }]));
+        results.push(...fuzzyResults.flatMap(result => [{ ...result, data }]));
       }
       cursor = await cursor.continue();
     }
