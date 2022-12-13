@@ -1361,6 +1361,7 @@ en:
       update: Update condition
       field_name: Field Name
       condition: Condition
+      empty: No conditions added
       type: Type
       types:
         and:

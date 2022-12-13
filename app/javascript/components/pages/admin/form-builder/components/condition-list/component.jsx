@@ -37,7 +37,7 @@ function Component({ addButtonProps, fieldName, formMethods, hasNestedConditions
     <>
       <h1>{title || i18n.t("forms.skip_logic.title")}</h1>
       {isEmpty(displayConditions) ? (
-        <p>{i18n.t("report.no_filters_added")}</p>
+        <p>{i18n.t("forms.conditions.empty")}</p>
       ) : (
         <FiltersList
           showEmptyMessage={false}
