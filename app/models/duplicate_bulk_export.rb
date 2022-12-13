@@ -62,6 +62,11 @@ class DuplicateBulkExport < BulkExport
 
     @duplicate_field_name = SystemSettings.current&.duplicate_export_field
     if @duplicate_field_name.blank?
+
+      # NOTE: national_id_no is indexed as: national_id_no_text, national_id_no_filterable and national_id_no_sortable
+      # When a duplicate export is performed by default the national_id_no_text is used to get the duplicates,
+      # that field breaks dashes in separate parts, for example: abc-123 is searched as [abc, 123].
+      # Here we use _filterable fields to avoid that behavior.
       @duplicate_field_name = 'national_id_no_filterable'
     elsif model_class.filterable_id_fields.include?(@duplicate_field_name)
       @duplicate_field_name = "#{@duplicate_field_name}_filterable"
