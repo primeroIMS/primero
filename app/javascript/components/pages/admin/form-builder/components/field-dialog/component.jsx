@@ -229,12 +229,11 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
   const submit = data => {
     const randomSubformId = Math.floor(Math.random() * 100000);
     const subformData = setInitialForms(data.subform_section);
-    const fieldData = setSubformData(toggleHideOnViewPage(data[selectedFieldName]), subformData);
-
-    const dataToSave = handleDisplayConditions(
-      buildDataToSave(selectedField, fieldData, lastField?.get("order"), randomSubformId),
-      selectedFieldName
+    const fieldData = handleDisplayConditions(
+      setSubformData(toggleHideOnViewPage(data[selectedFieldName]), subformData)
     );
+
+    const dataToSave = buildDataToSave(selectedField, fieldData, lastField?.get("order"), randomSubformId);
 
     batch(() => {
       if (!isNested) {
@@ -301,6 +300,11 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
     });
   }, []);
 
+  const fieldProps = {
+    name: selectedField.get("name"),
+    formSectionId: isNested ? selectedSubform.get("id") : null
+  };
+
   useEffect(() => {
     if (openFieldDialog && selectedField?.toSeq()?.size) {
       const currFormValues = getValues()[selectedField.get("name")];
@@ -366,7 +370,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
               recordType={recordType}
               handleClose={backToFieldDialog}
               isNested={isNested}
-              field={selectedField}
+              fieldProps={fieldProps}
               title={i18n.t("fields.skip_logic.record_section.title")}
             />
           )}
