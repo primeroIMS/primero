@@ -93,7 +93,7 @@ An assign changes the record owner of a particular record.
 A referral grants an additional user access to this record.
 * [List all referrals that took place for a record](v2/docs/referrals/get.md): `GET /api/v2/cases/:id/referrals`
 * [Refer a record](v2/docs/referrals/id/post.md): `POST /api/v2/cases/:id/referrals`
-* [Refer a set of records in bulk](v2/docs/referrals/post.md): `POST /api/v2/cases/referrals`
+* [Refer a set of records in bulk](v2/docs/referrals/post_referrals.md): `POST /api/v2/cases/referrals`
 * [Relinquish or retract a referral](v2/docs/referrals/id/delete.md): `DELETE /api/v2/cases/:id/referrals/:referral_id`
 
 ### Transfers
