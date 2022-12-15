@@ -45,15 +45,29 @@ export const DB_COLLECTIONS_V6 = [
     DB_STORES.RECORDS,
     { keyPath: "id" },
     [
-      ["cases_name", "cases_name", { multiEntry: true }],
-      ["cases_case_id_display", "cases_case_id_display", { multiEntry: true }],
-      ["cases_age", "cases_age", { multiEntry: true }],
-      ["cases_sex", "cases_sex", { multiEntry: true }],
-      ["cases_registration_date", "cases_registration_date", { multiEntry: true }],
-      ["cases_created_at", "cases_created_at", { multiEntry: true }],
-      ["cases_owned_by", "cases_owned_by", { multiEntry: true }],
-      ["cases_has_photo", "cases_has_photo", { multiEntry: true }],
-      ["incidents_owned_by", "incidents_owned_by", { multiEntry: true }]
+      ["type+case_id_display", ["type", "case_id_display"], { unique: false }],
+      ["type+short_id", ["type", "short_id"], { unique: false }],
+      ["type+name", ["type", "name"], { unique: false }],
+      ["type+complete", ["type", "complete"], { unique: false }],
+      ["type+survivor_code_no", ["type", "survivor_code_no"], { unique: false }],
+      ["type+age", ["type", "age"], { unique: false }],
+      ["type+sex", ["type", "sex"], { unique: false }],
+      ["type+registration_date", ["type", "registration_date_sortable"], { unique: false }],
+      ["type+created_at", ["type", "created_at_sortable"], { unique: false }],
+      ["type+has_photo", ["type", "has_photo"], { unique: false }],
+      ["type+owned_by", ["type", "owned_by"], { unique: false }],
+      ["type+alert_count", ["type", "alert_count"], { unique: false }],
+      ["type+flag_count", ["type", "flag_count"], { unique: false }],
+      ["type+incident_date", ["type", "incident_date_sortable"], { unique: false }],
+      ["type+survivor_code", ["type", "survivor_code"], { unique: false }],
+      ["type+date_of_first_report", ["type", "date_of_first_report_sortable"], { unique: false }],
+      ["type+gbv_sexual_violence_type", ["type", "gbv_sexual_violence_type"], { unique: false }],
+      ["type+cp_incident_violence_type", ["type", "cp_incident_violence_type"], { unique: false }],
+      ["type+incident_location", ["type", "incident_location"], { unique: false }],
+      ["type+violation_category", ["type", "violation_category"], { unique: false }],
+      ["type+relation_name", ["type", "relation_name"], { unique: false }],
+      ["type+inquiry_date", ["type", "inquiry_date_sortable"], { unique: false }],
+      ["type+registry_no", ["type", "registry_no"], { unique: false }]
     ]
   ]
 ];

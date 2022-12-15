@@ -685,7 +685,10 @@ export const QUICK_SEARCH_FIELDS = Object.freeze([
   "unique_identifier"
 ]);
 
-export const SORTABLE_FIELDS = Object.freeze({
-  cases: ["case_id_display", "name", "sex", "age", "registration_date", "created_at", "owned_by", "has_photo"],
-  incidents: ["owned_by"]
-});
+export const DATE_SORTABLE_FIELDS = Object.freeze([
+  "created_at",
+  "registration_date",
+  "incident_date",
+  "date_of_first_report",
+  "inquiry_date"
+]);

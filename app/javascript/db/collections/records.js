@@ -10,7 +10,7 @@ import { parseISO } from "date-fns";
 import DB from "../db";
 import subformAwareMerge from "../utils/subform-aware-merge";
 import getCreatedAt from "../utils/get-created-at";
-import { QUICK_SEARCH_FIELDS, SORTABLE_FIELDS } from "../../config";
+import { QUICK_SEARCH_FIELDS, DATE_SORTABLE_FIELDS } from "../../config";
 import { reduceMapToObject, hasApiDateFormat } from "../../libs";
 
 const sortData = data => data.sort((record1, record2) => getCreatedAt(record2) - getCreatedAt(record1));
@@ -35,7 +35,7 @@ const Records = {
       const total = await DB.count(collection, "type", recordType);
 
       const data = await DB.slice(collection, {
-        orderBy: `${recordType}_${params.order_by || "created_at"}`,
+        orderBy: params.order_by || "created_at",
         orderDir: params.order || "prev",
         offset,
         limit: params.per,
@@ -94,13 +94,9 @@ const Records = {
       return data.map(record => this.dataTokenizedTerms(record, recordType));
     }
 
-    const sortableFields = (SORTABLE_FIELDS[recordType] || []).reduce((acc, field) => {
-      if (hasApiDateFormat(data[field])) {
-        return { ...acc, [`${recordType}_${field}`]: parseISO(data[field]).getTime() };
-      }
-
-      if (!isNil(data[field])) {
-        return { ...acc, [`${recordType}_${field}`]: data[field] };
+    const sortableDateFields = DATE_SORTABLE_FIELDS.reduce((acc, field) => {
+      if (!isNil(data[field]) && hasApiDateFormat(data[field])) {
+        return { ...acc, [`${field}_sortable`]: parseISO(data[field]) };
       }
 
       return acc;
@@ -108,7 +104,7 @@ const Records = {
 
     return {
       ...data,
-      ...sortableFields,
+      ...sortableDateFields,
       terms: QUICK_SEARCH_FIELDS.reduce((acc, quickField) => {
         const value = data[quickField];
 

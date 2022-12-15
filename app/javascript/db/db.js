@@ -56,7 +56,7 @@ class DB {
     return DB.instance;
   }
 
-  async createCollections(collection, db, transaction) {
+  createCollections(collection, db, transaction) {
     if (Array.isArray(collection)) {
       const [name, options, index] = collection;
 
@@ -131,16 +131,16 @@ class DB {
     return sortBy(results, ["score"]).map(result => result.data);
   }
 
-  async slice(store, { orderBy, orderDir, offset, limit, recordType, total }) {
+  async slice(store, { orderBy, orderDir, offset, limit, recordType }) {
     const results = [];
     let cursor = null;
     const transaction = (await this._db).transaction(store);
     const cursorType = orderDir === "desc" ? "prev" : "next";
 
     if (orderBy) {
-      const index = transaction.store.index(orderBy);
+      const index = transaction.store.index(`type+${orderBy}`);
 
-      cursor = await index.openCursor(null, cursorType);
+      cursor = await index.openCursor(IDBKeyRange.bound([recordType], [recordType, []]), cursorType);
     } else {
       cursor = await transaction.store.index("type").openCursor(IDBKeyRange.only(recordType), cursorType);
     }
@@ -150,21 +150,12 @@ class DB {
     }
 
     let resultCount = 0;
-    let continuations = 0;
 
     while (cursor && resultCount < limit) {
       results.push(cursor.value);
       cursor = await cursor.continue();
       // eslint-disable-next-line no-plusplus
       resultCount++;
-      // eslint-disable-next-line no-plusplus
-      continuations++;
-    }
-
-    if (cursor) {
-      const skip = total - offset - continuations;
-
-      cursor = await cursor.advance(skip);
     }
 
     return results;
