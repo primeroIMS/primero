@@ -40,12 +40,31 @@ export const DB_COLLECTIONS_V4 = [DB_STORES.PERMISSIONS, DB_STORES.CONTACT_INFOR
 
 export const DB_COLLECTIONS_V5 = [DB_STORES.TRANSLATIONS];
 
+export const DB_COLLECTIONS_V6 = [
+  [
+    DB_STORES.RECORDS,
+    { keyPath: "id" },
+    [
+      ["cases_name", "cases_name", { multiEntry: true }],
+      ["cases_case_id_display", "cases_case_id_display", { multiEntry: true }],
+      ["cases_age", "cases_age", { multiEntry: true }],
+      ["cases_sex", "cases_sex", { multiEntry: true }],
+      ["cases_registration_date", "cases_registration_date", { multiEntry: true }],
+      ["cases_created_at", "cases_created_at", { multiEntry: true }],
+      ["cases_owned_by", "cases_owned_by", { multiEntry: true }],
+      ["cases_has_photo", "cases_has_photo", { multiEntry: true }],
+      ["incidents_owned_by", "incidents_owned_by", { multiEntry: true }]
+    ]
+  ]
+];
+
 export const DB_COLLECTIONS = [
   ...DB_COLLECTIONS_V1,
   ...DB_COLLECTIONS_V2,
   ...DB_COLLECTIONS_V3,
   ...DB_COLLECTIONS_V4,
-  ...DB_COLLECTIONS_V5
+  ...DB_COLLECTIONS_V5,
+  ...DB_COLLECTIONS_V6
 ];
 
 export const DB_COLLECTIONS_NAMES = DB_COLLECTIONS.reduce((prev, current) => {

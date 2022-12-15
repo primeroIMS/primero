@@ -684,3 +684,8 @@ export const QUICK_SEARCH_FIELDS = Object.freeze([
   "unhcr_individual_no",
   "unique_identifier"
 ]);
+
+export const SORTABLE_FIELDS = Object.freeze({
+  cases: ["case_id_display", "name", "sex", "age", "registration_date", "created_at", "owned_by", "has_photo"],
+  incidents: ["owned_by"]
+});

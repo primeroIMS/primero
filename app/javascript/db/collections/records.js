@@ -1,31 +1,54 @@
 import compact from "lodash/compact";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
+import sortBy from "lodash/sortBy";
+import reverse from "lodash/reverse";
 import merge from "deepmerge";
+import { isImmutable } from "immutable";
+import { parseISO } from "date-fns";
 
 import DB from "../db";
 import subformAwareMerge from "../utils/subform-aware-merge";
 import getCreatedAt from "../utils/get-created-at";
-import { QUICK_SEARCH_FIELDS } from "../../config";
+import { QUICK_SEARCH_FIELDS, SORTABLE_FIELDS } from "../../config";
+import { reduceMapToObject, hasApiDateFormat } from "../../libs";
 
 const sortData = data => data.sort((record1, record2) => getCreatedAt(record2) - getCreatedAt(record1));
 
 const Records = {
   find: async ({ collection, recordType, db, json }) => {
     const { id } = db;
-    const params = json?.api?.params;
+
+    const params =
+      json?.api?.params && isImmutable(json?.api?.params) ? reduceMapToObject(json.api.params) : json?.api?.params;
 
     if (params.query) {
       const results = await DB.searchIndex(collection, params.query, recordType);
+      const data = params.order_by ? sortBy(results, [params.order_by]) : sortData(results);
 
-      return { data: results };
+      return { data: params.order === "desc" ? reverse(data) : data };
+    }
+
+    if (params.page && params.per) {
+      const offset = (params.page - 1) * params.per;
+
+      const total = await DB.count(collection, "type", recordType);
+
+      const data = await DB.slice(collection, {
+        orderBy: `${recordType}_${params.order_by || "created_at"}`,
+        orderDir: params.order || "prev",
+        offset,
+        limit: params.per,
+        recordType,
+        total
+      });
+
+      return { data, metadata: { per: params.per, page: params.page, total } };
     }
 
     const data = id ? await DB.getRecord(collection, id) : await DB.getAllFromIndex(collection, "type", recordType);
 
-    return {
-      data: Array.isArray(data) ? sortData(data) : data
-    };
+    return { data: Array.isArray(data) ? sortData(data) : data };
   },
 
   updateCaseIncidents: async (data, online) => {
@@ -66,13 +89,26 @@ const Records = {
     return markComplete && online ? { ...data, complete: true } : data;
   },
 
-  dataTokenizedTerms(data) {
+  dataTokenizedTerms(data, recordType) {
     if (Array.isArray(data)) {
-      return data.map(record => this.dataTokenizedTerms(record));
+      return data.map(record => this.dataTokenizedTerms(record, recordType));
     }
+
+    const sortableFields = (SORTABLE_FIELDS[recordType] || []).reduce((acc, field) => {
+      if (hasApiDateFormat(data[field])) {
+        return { ...acc, [`${recordType}_${field}`]: parseISO(data[field]).getTime() };
+      }
+
+      if (!isNil(data[field])) {
+        return { ...acc, [`${recordType}_${field}`]: data[field] };
+      }
+
+      return acc;
+    }, {});
 
     return {
       ...data,
+      ...sortableFields,
       terms: QUICK_SEARCH_FIELDS.reduce((acc, quickField) => {
         const value = data[quickField];
 
@@ -92,7 +128,8 @@ const Records = {
     const jsonData = dataKeys.length === 1 && dataKeys.includes("record") ? data.record : data;
     const dataIsArray = Array.isArray(jsonData);
     const recordData = Records.dataTokenizedTerms(
-      Records.dataMarkedComplete(jsonData, !(fields === "short" || idSearch), online)
+      Records.dataMarkedComplete(jsonData, !(fields === "short" || idSearch), online),
+      recordType
     );
 
     // eslint-disable-next-line camelcase

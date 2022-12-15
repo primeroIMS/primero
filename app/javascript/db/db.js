@@ -15,6 +15,7 @@ import {
   DB_COLLECTIONS_V3,
   DB_COLLECTIONS_V4,
   DB_COLLECTIONS_V5,
+  DB_COLLECTIONS_V6,
   TRANSACTION_MODE
 } from "./constants";
 
@@ -23,8 +24,8 @@ class DB {
     if (!DB.instance) {
       const self = this;
 
-      this._db = openDB(DATABASE_NAME, 5, {
-        upgrade(db, oldVersion) {
+      this._db = openDB(DATABASE_NAME, 6, {
+        upgrade(db, oldVersion, _newVersion, transaction) {
           if (oldVersion < 1) {
             DB_COLLECTIONS_V1.forEach(collection => self.createCollections(collection, db));
           }
@@ -43,6 +44,10 @@ class DB {
           if (oldVersion < 5) {
             DB_COLLECTIONS_V5.forEach(collection => self.createCollections(collection, db));
           }
+
+          if (oldVersion < 6) {
+            DB_COLLECTIONS_V6.forEach(collection => self.createCollections(collection, db, transaction));
+          }
         }
       });
       DB.instance = this;
@@ -51,11 +56,17 @@ class DB {
     return DB.instance;
   }
 
-  createCollections(collection, db) {
+  async createCollections(collection, db, transaction) {
     if (Array.isArray(collection)) {
       const [name, options, index] = collection;
 
-      const store = db.createObjectStore(name, options);
+      let store;
+
+      if (db.objectStoreNames && db.objectStoreNames.contains(name)) {
+        store = transaction.objectStore(name);
+      } else {
+        store = db.createObjectStore(name, options);
+      }
 
       if (index) {
         index.forEach(current => {
@@ -118,6 +129,53 @@ class DB {
     }
 
     return sortBy(results, ["score"]).map(result => result.data);
+  }
+
+  async slice(store, { orderBy, orderDir, offset, limit, recordType, total }) {
+    const results = [];
+    let cursor = null;
+    const transaction = (await this._db).transaction(store);
+    const cursorType = orderDir === "desc" ? "prev" : "next";
+
+    if (orderBy) {
+      const index = transaction.store.index(orderBy);
+
+      cursor = await index.openCursor(null, cursorType);
+    } else {
+      cursor = await transaction.store.index("type").openCursor(IDBKeyRange.only(recordType), cursorType);
+    }
+
+    if (offset > 0) {
+      cursor = await cursor.advance(offset);
+    }
+
+    let resultCount = 0;
+    let continuations = 0;
+
+    while (cursor && resultCount < limit) {
+      results.push(cursor.value);
+      cursor = await cursor.continue();
+      // eslint-disable-next-line no-plusplus
+      resultCount++;
+      // eslint-disable-next-line no-plusplus
+      continuations++;
+    }
+
+    if (cursor) {
+      const skip = total - offset - continuations;
+
+      cursor = await cursor.advance(skip);
+    }
+
+    return results;
+  }
+
+  async count(store, index, recordType) {
+    if (index) {
+      return (await this._db).countFromIndex(store, index, recordType);
+    }
+
+    return (await this._db).count(store);
   }
 
   async clear(store) {
