@@ -498,6 +498,8 @@ export const ALERTS_FOR = {
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 75, 100];
 
+export const OFFLINE_ROWS_PER_PAGE_OPTIONS = [20, 50];
+
 export const DEFAULT_METADATA = Object.freeze({
   page: 1,
   per: 20

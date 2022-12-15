@@ -187,7 +187,8 @@ const Datatable = ({
       showCustomToolbar,
       sortDir,
       title,
-      total
+      total,
+      online
     }),
     isRowSelectable: dataIndex => {
       if (isRowSelectable) {

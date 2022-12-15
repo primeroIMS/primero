@@ -4,7 +4,8 @@ import { ButtonBase, Typography, TablePagination } from "@material-ui/core";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
-import { ROWS_PER_PAGE_OPTIONS } from "../../../config/constants";
+import { OFFLINE_ROWS_PER_PAGE_OPTIONS, ROWS_PER_PAGE_OPTIONS } from "../../../config/constants";
+import { useApp } from "../../application";
 
 import css from "./styles.css";
 import { NAME } from "./constants";
@@ -23,6 +24,7 @@ const Component = ({
   setSelectedRecords,
   totalRecords
 }) => {
+  const { online } = useApp();
   const dispatch = useDispatch();
   const i18n = useI18n();
   const allRecordsSelected = Object.values(selectedRecords).flat()?.length === totalRecords && totalRecords > 0;
@@ -86,7 +88,7 @@ const Component = ({
     count: totalRecords,
     page: page - 1,
     rowsPerPage: perPage,
-    rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
+    rowsPerPageOptions: online ? ROWS_PER_PAGE_OPTIONS : OFFLINE_ROWS_PER_PAGE_OPTIONS,
     component: "div",
     onChangePage,
     className: css.customToolbarPagination,
