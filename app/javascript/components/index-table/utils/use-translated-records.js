@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from "react";
 import { fromJS, List } from "immutable";
 import isEmpty from "lodash/isEmpty";
 
@@ -38,31 +39,49 @@ export function useTranslatedRecords({
 }) {
   const i18n = useI18n();
 
-  const allFields = useProxySelector(state => getFieldsByName(state, columnsName), [columnsName]);
+  const allFields = useProxySelector(
+    state => getFieldsByName(state, columnsName),
+    [columnsName],
+    (fields1, fields2) => fields1.equals(fields2)
+  );
 
-  const fieldWithColumns = allFields.toSeq().filter(fieldName => {
-    if (columnsName.includes(fieldName.get("name")) && !isEmpty(fieldName.get("option_strings_source"))) {
-      return fieldName;
-    }
+  const fieldWithColumns = useMemo(
+    () =>
+      allFields.toSeq().filter(fieldName => {
+        if (columnsName.includes(fieldName.get("name")) && !isEmpty(fieldName.get("option_strings_source"))) {
+          return fieldName;
+        }
 
-    return null;
-  });
+        return null;
+      }),
+    [allFields]
+  );
 
-  const columnsWithLookups = fieldWithColumns
-    .groupBy(column => column.get("option_strings_source"))
-    .valueSeq()
-    .map(column => column.first());
+  const columnsWithLookups = useMemo(
+    () =>
+      fieldWithColumns
+        .groupBy(column => column.get("option_strings_source"))
+        .valueSeq()
+        .map(column => column.first()),
+    [fieldWithColumns]
+  );
 
-  const optionsList = columnsWithLookups.map(field => field.get("option_strings_source"), fromJS([]));
+  const optionsList = useMemo(
+    () => columnsWithLookups.map(field => field.get("option_strings_source"), fromJS([])),
+    [columnsWithLookups]
+  );
 
   const allAgencies = useOptions({
     source: STRING_SOURCES_TYPES.AGENCY,
     useUniqueId: true,
     run: optionsList.includes(STRING_SOURCES_TYPES.AGENCY)
   });
-  const allLookups = useMemoizedSelector(state => getLookupsByIDs(state, optionsList));
+  const allLookups = useMemoizedSelector(
+    state => getLookupsByIDs(state, optionsList),
+    (lookups1, lookups2) => lookups1.equals(lookups2)
+  );
 
-  const locationIDS = buildLocationsList(records, columnsWithLookups);
+  const locationIDS = useMemo(() => buildLocationsList(records, columnsWithLookups), [columnsWithLookups]);
 
   const locations = useOptions({
     source: useReportingLocations ? LOOKUPS.reporting_locations : STRING_SOURCES_TYPES.LOCATION,
@@ -71,7 +90,38 @@ export function useTranslatedRecords({
     useIncidentReportingLocationConfig: recordType === RECORD_TYPES_PLURAL.incident
   });
 
-  if (localizedFields) {
+  const reducedRecords = useCallback(
+    () =>
+      records.reduce((accum, record) => {
+        const result = record.mapEntries(recordEntry => {
+          const [key, value] = recordEntry;
+
+          if (columnsWithLookups.map(columnWithLookup => columnWithLookup.name).includes(key)) {
+            const optionStringsSource = columnsWithLookups
+              .find(column => column.get("name") === key, null, fromJS({}))
+              .get("option_strings_source");
+
+            const recordValue = valueFromOptionSource(
+              allAgencies,
+              allLookups,
+              locations,
+              i18n.locale,
+              optionStringsSource,
+              value
+            );
+
+            return [key, recordValue];
+          }
+
+          return [key, value];
+        });
+
+        return accum.push(result);
+      }, List()),
+    [records, columnsWithLookups]
+  );
+
+  const translateLocalizedFields = useCallback(() => {
     return records.map(current => {
       const translatedFields = localizedFields.reduce((acc, field) => {
         const translatedValue = displayNameHelper(current.get(field), i18n.locale);
@@ -89,37 +139,9 @@ export function useTranslatedRecords({
 
       return current.merge(translatedFields);
     });
-  }
+  }, [localizedFields, records]);
 
-  const reducedRecords = () =>
-    records.reduce((accum, record) => {
-      const result = record.mapEntries(recordEntry => {
-        const [key, value] = recordEntry;
-
-        if (columnsWithLookups.map(columnWithLookup => columnWithLookup.name).includes(key)) {
-          const optionStringsSource = columnsWithLookups
-            .find(column => column.get("name") === key, null, fromJS({}))
-            .get("option_strings_source");
-
-          const recordValue = valueFromOptionSource(
-            allAgencies,
-            allLookups,
-            locations,
-            i18n.locale,
-            optionStringsSource,
-            value
-          );
-
-          return [key, recordValue];
-        }
-
-        return [key, value];
-      });
-
-      return accum.push(result);
-    }, List());
-
-  if (arrayColumnsToString) {
+  const convertColumnsToString = useCallback(() => {
     return reducedRecords().map(currentRecord => {
       return currentRecord.map((value, key) => {
         if (arrayColumnsToString.includes(key)) {
@@ -129,6 +151,14 @@ export function useTranslatedRecords({
         return value;
       });
     });
+  }, []);
+
+  if (localizedFields) {
+    return translateLocalizedFields();
+  }
+
+  if (arrayColumnsToString) {
+    return convertColumnsToString();
   }
 
   if (allFields.size && records && validRecordTypes) {
