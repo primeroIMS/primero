@@ -29,8 +29,10 @@ const Records = {
       return { data: params.order === "desc" ? reverse(data) : data };
     }
 
-    if (params.page && params.per) {
-      const offset = (params.page - 1) * params.per;
+    if (params) {
+      const page = params.page || 1;
+      const per = params.per || 20;
+      const offset = (page - 1) * per;
 
       const total = await DB.count(collection, "type", recordType);
 
@@ -38,17 +40,15 @@ const Records = {
         orderBy: params.order_by || "created_at",
         orderDir: params.order || "prev",
         offset,
-        limit: params.per,
+        limit: per,
         recordType,
         total
       });
 
-      return { data, metadata: { per: params.per, page: params.page, total } };
+      return { data, metadata: { per, page, total } };
     }
 
-    const data = id ? await DB.getRecord(collection, id) : await DB.getAllFromIndex(collection, "type", recordType);
-
-    return { data: Array.isArray(data) ? sortData(data) : data };
+    return { data: await DB.getRecord(collection, id) };
   },
 
   updateCaseIncidents: async (data, online) => {
