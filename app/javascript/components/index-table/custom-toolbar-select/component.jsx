@@ -25,6 +25,7 @@ const Component = ({
   totalRecords
 }) => {
   const { online } = useApp();
+  const rowsPerPage = perPage > 50 && !online ? 50 : perPage;
   const dispatch = useDispatch();
   const i18n = useI18n();
   const allRecordsSelected = Object.values(selectedRecords).flat()?.length === totalRecords && totalRecords > 0;
@@ -47,7 +48,7 @@ const Component = ({
 
       return;
     }
-    setSelectedRecords(selectAllRecords(totalRecords, perPage));
+    setSelectedRecords(selectAllRecords(totalRecords, rowsPerPage));
   };
 
   const selectAllButton = selectedRows && selectedRows?.data?.length === displayData?.length && (
@@ -87,7 +88,7 @@ const Component = ({
   const paginationProps = {
     count: totalRecords,
     page: page - 1,
-    rowsPerPage: perPage,
+    rowsPerPage,
     rowsPerPageOptions: online ? ROWS_PER_PAGE_OPTIONS : OFFLINE_ROWS_PER_PAGE_OPTIONS,
     component: "div",
     onChangePage,

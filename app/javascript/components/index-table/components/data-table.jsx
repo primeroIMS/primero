@@ -179,7 +179,7 @@ const Datatable = ({
       customToolbarSelect,
       handleTableChange,
       i18n,
-      per,
+      per: !online && per > 50 ? 50 : per,
       selectedRecords,
       selectedRecordsOnCurrentPage,
       setSelectedRecords,
