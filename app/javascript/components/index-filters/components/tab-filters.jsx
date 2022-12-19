@@ -80,7 +80,6 @@ TabFilters.displayName = "TabFilters";
 
 TabFilters.propTypes = {
   addFilterToList: PropTypes.func,
-  defaultFilters: PropTypes.object,
   filterToList: PropTypes.object,
   formMethods: PropTypes.object,
   handleClear: PropTypes.func,
