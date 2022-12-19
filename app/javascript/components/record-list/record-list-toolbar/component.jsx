@@ -7,27 +7,25 @@ import { PageHeading } from "../../page";
 import RecordActions from "../../record-actions";
 import Permission, { CREATE_RECORDS } from "../../permissions";
 import AddRecordMenu from "../add-record-menu";
+import { useDrawer } from "../../drawer";
+import { FILTER_DRAWER } from "../components/filter-container/constants";
+import { SORT_DRAWER } from "../components/sort-container/constants";
 
 import { NAME } from "./constants";
 
 const mode = { isShow: true };
 
-const Component = ({
-  title,
-  recordType,
-  handleDrawer,
-  handleSortDrawer,
-  selectedRecords,
-  currentPage,
-  clearSelectedRecords
-}) => {
+const Component = ({ title, recordType, selectedRecords, currentPage, clearSelectedRecords }) => {
+  const { toggleDrawer: toggleFilterDrawer } = useDrawer(FILTER_DRAWER);
+  const { toggleDrawer: toggleSortDrawer } = useDrawer(SORT_DRAWER);
+
   return (
     <PageHeading title={title}>
       <Hidden mdUp>
-        <IconButton onClick={handleSortDrawer} color="primary">
+        <IconButton onClick={toggleSortDrawer} color="primary">
           <ImportExportIcon />
         </IconButton>
-        <IconButton onClick={handleDrawer} color="primary">
+        <IconButton onClick={toggleFilterDrawer} color="primary">
           <FilterListIcon />
         </IconButton>
       </Hidden>
@@ -49,8 +47,6 @@ const Component = ({
 Component.propTypes = {
   clearSelectedRecords: PropTypes.func,
   currentPage: PropTypes.number,
-  handleDrawer: PropTypes.func.isRequired,
-  handleSortDrawer: PropTypes.func.isRequired,
   recordType: PropTypes.string.isRequired,
   selectedRecords: PropTypes.object,
   title: PropTypes.string.isRequired

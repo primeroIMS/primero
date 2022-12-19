@@ -22,21 +22,19 @@ import { usePermissions, ACTIONS } from "../permissions";
 import PageContainer, { PageContent } from "../page";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
-import FilterContainer from "./filter-container";
 import { buildTableColumns } from "./utils";
 import RecordListToolbar from "./record-list-toolbar";
 import { getListHeaders, getMetadata, getAppliedFiltersAsQueryString } from "./selectors";
 import css from "./styles.css";
 import ViewModal from "./view-modal";
-import SortContainer from "./components/sort-container/component";
+import SortContainer from "./components/sort-container";
+import FilterContainer from "./components/filter-container";
 
 const Container = ({ match, location }) => {
   const { mobileDisplay } = useThemeHelper();
   const i18n = useI18n();
   const currentQueryString = location.search.replace("?", "");
   const queryParams = qs.parse(currentQueryString);
-  const [drawer, setDrawer] = useState(false);
-  const [sortDrawer, setSortDrawer] = useState(false);
   const { online } = useApp();
   const { url } = match;
   const recordType = url.replace("/", "");
@@ -124,14 +122,6 @@ const Container = ({ match, location }) => {
     [online]
   );
 
-  const handleDrawer = useCallback(() => {
-    setDrawer(!drawer);
-  }, [drawer]);
-
-  const handleSortDrawer = useCallback(() => {
-    setSortDrawer(!sortDrawer);
-  }, [sortDrawer]);
-
   const clearSelectedRecords = useCallback(() => {
     setSelectedRecords({});
   }, []);
@@ -170,8 +160,6 @@ const Container = ({ match, location }) => {
         <RecordListToolbar
           title={title}
           recordType={recordType}
-          handleDrawer={handleDrawer}
-          handleSortDrawer={handleSortDrawer}
           currentPage={currentPage}
           selectedRecords={selectedRecords}
           clearSelectedRecords={clearSelectedRecords}
@@ -195,16 +183,8 @@ const Container = ({ match, location }) => {
             </div>
           </div>
 
-          {mobileDisplay && (
-            <SortContainer
-              open={sortDrawer}
-              onClose={handleSortDrawer}
-              columns={columns}
-              recordType={recordType}
-              applyFilters={applyFilters}
-            />
-          )}
-          <FilterContainer drawer={drawer} handleDrawer={handleDrawer} mobileDisplay={mobileDisplay}>
+          {mobileDisplay && <SortContainer columns={columns} recordType={recordType} applyFilters={applyFilters} />}
+          <FilterContainer mobileDisplay={mobileDisplay}>
             <Filters recordType={recordType} setSelectedRecords={handleSelectedRecords} />
           </FilterContainer>
         </PageContent>

@@ -7,13 +7,16 @@ import PropTypes from "prop-types";
 import { useMemoizedSelector } from "../../../../libs";
 import { useI18n } from "../../../i18n";
 import { getFilters } from "../../../index-table";
+import { useDrawer } from "../../../drawer";
 
+import { NAME, SORT_DRAWER } from "./constants";
 import SortableColumns from "./sortable-columns";
 import css from "./styles.css";
 
 const EXCLUDED_COLUMNS = Object.freeze(["case_id_display"]);
 
-function SortContainer({ columns, open, onClose, recordType, applyFilters }) {
+function SortContainer({ columns, recordType, applyFilters }) {
+  const { drawerOpen, toggleDrawer } = useDrawer(SORT_DRAWER);
   const filters = useMemoizedSelector(state => getFilters(state, recordType));
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -34,14 +37,14 @@ function SortContainer({ columns, open, onClose, recordType, applyFilters }) {
       const orderBy = value.replace("_asc", "").replace("_desc", "");
       const order = value.replace(`${orderBy}_`, "");
 
-      onClose();
+      toggleDrawer();
       dispatch(applyFilters({ recordType, data: filters.merge(fromJS({ order, order_by: orderBy })) }));
     },
-    [open, recordType, filters]
+    [drawerOpen, recordType, filters]
   );
 
   return (
-    <Drawer anchor="right" open={open} onClose={onClose} onChange={onChange}>
+    <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer} onChange={onChange}>
       <div className={css.sortContainer}>
         <h3 className={css.sortByTitle}>{i18n.t(`${recordType}.sort_by`)}</h3>
         <SortableColumns filters={filters} sortableColumns={sortableColumns} recordType={recordType} />
@@ -50,13 +53,11 @@ function SortContainer({ columns, open, onClose, recordType, applyFilters }) {
   );
 }
 
-SortContainer.displayName = "SortContainer";
+SortContainer.displayName = NAME;
 
 SortContainer.propTypes = {
   applyFilters: PropTypes.func.isRequired,
   columns: PropTypes.array,
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
   recordType: PropTypes.string.isRequired
 };
 
