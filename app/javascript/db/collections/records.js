@@ -3,17 +3,15 @@ import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
 import sortBy from "lodash/sortBy";
 import reverse from "lodash/reverse";
+import slice from "lodash/slice";
 import merge from "deepmerge";
 import { isImmutable } from "immutable";
 import { parseISO } from "date-fns";
 
 import DB from "../db";
 import subformAwareMerge from "../utils/subform-aware-merge";
-import getCreatedAt from "../utils/get-created-at";
 import { QUICK_SEARCH_FIELDS, DATE_SORTABLE_FIELDS } from "../../config";
 import { reduceMapToObject, hasApiDateFormat } from "../../libs";
-
-const sortData = data => data.sort((record1, record2) => getCreatedAt(record2) - getCreatedAt(record1));
 
 const Records = {
   find: async ({ collection, recordType, db, json }) => {
@@ -22,17 +20,21 @@ const Records = {
     const params =
       json?.api?.params && isImmutable(json?.api?.params) ? reduceMapToObject(json.api.params) : json?.api?.params;
 
-    if (params.query) {
-      const results = await DB.searchIndex(collection, params.query, recordType);
-      const data = params.order_by ? sortBy(results, [params.order_by]) : sortData(results);
-
-      return { data: params.order === "desc" ? reverse(data) : data };
-    }
-
     if (params) {
       const page = params.page || 1;
       const per = params.per || 20;
       const offset = (page - 1) * per;
+
+      if (params.query) {
+        const results = await DB.searchIndex(collection, params.query, recordType);
+        const sortedResults = params.order_by ? sortBy(results, [params.order_by]) : results;
+        const data = slice(sortedResults, offset, offset + per);
+
+        return {
+          data: params.order === "desc" ? reverse(data) : data,
+          metadata: { per, page, total: results.length }
+        };
+      }
 
       const total = await DB.count(collection, "type", recordType);
 
@@ -89,9 +91,9 @@ const Records = {
     return markComplete && online ? { ...data, complete: true } : data;
   },
 
-  dataTokenizedTerms(data, recordType) {
+  dataSearchableFields(data, recordType) {
     if (Array.isArray(data)) {
-      return data.map(record => this.dataTokenizedTerms(record, recordType));
+      return data.map(record => this.dataSearchableFields(record, recordType));
     }
 
     const sortableDateFields = DATE_SORTABLE_FIELDS.reduce((acc, field) => {
@@ -105,6 +107,7 @@ const Records = {
     return {
       ...data,
       ...sortableDateFields,
+      has_photo: data.photo ? 1 : 0,
       terms: QUICK_SEARCH_FIELDS.reduce((acc, quickField) => {
         const value = data[quickField];
 
@@ -123,7 +126,7 @@ const Records = {
     const dataKeys = Object.keys(data);
     const jsonData = dataKeys.length === 1 && dataKeys.includes("record") ? data.record : data;
     const dataIsArray = Array.isArray(jsonData);
-    const recordData = Records.dataTokenizedTerms(
+    const recordData = Records.dataSearchableFields(
       Records.dataMarkedComplete(jsonData, !(fields === "short" || idSearch), online),
       recordType
     );
