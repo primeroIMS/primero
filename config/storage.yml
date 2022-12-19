@@ -18,3 +18,12 @@ amazon:
   secret_access_key:  <%= ENV['PRIMERO_STORAGE_AWS_SECRET_ACCESS_KEY'] %>
   region: <%= ENV['PRIMERO_STORAGE_AWS_REGION'] %>
   bucket: <%= ENV['PRIMERO_STORAGE_AWS_BUCKET'] %>
+
+minio:
+  service: S3
+  access_key_id: <%= ENV['PRIMERO_STORAGE_MINIO_ACCESS_KEY'] %>
+  secret_access_key:  <%= ENV['PRIMERO_STORAGE_MINIO_SECRET_ACCESS_KEY'] %>
+  region: <%= ENV['PRIMERO_STORAGE_MINIO_REGION'] %>
+  bucket: <%= ENV['PRIMERO_STORAGE_MINIO_BUCKET'] %>
+  endpoint: <%= ENV['PRIMERO_STORAGE_MINIO_ENDPOINT'] %>
+  force_path_style: true
