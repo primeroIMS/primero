@@ -107,6 +107,7 @@ const Records = {
     return {
       ...data,
       ...sortableDateFields,
+      complete_sortable: data.complete ? 1 : 0,
       has_photo: data.photo ? 1 : 0,
       terms: QUICK_SEARCH_FIELDS.reduce((acc, quickField) => {
         const value = data[quickField];

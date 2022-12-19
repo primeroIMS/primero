@@ -48,7 +48,7 @@ export const DB_COLLECTIONS_V6 = [
       ["type+case_id_display", ["type", "case_id_display"], { unique: false }],
       ["type+short_id", ["type", "short_id"], { unique: false }],
       ["type+name", ["type", "name"], { unique: false }],
-      ["type+complete", ["type", "complete"], { unique: false }],
+      ["type+complete", ["type", "complete_sortable"], { unique: false }],
       ["type+survivor_code_no", ["type", "survivor_code_no"], { unique: false }],
       ["type+age", ["type", "age"], { unique: false }],
       ["type+sex", ["type", "sex"], { unique: false }],
