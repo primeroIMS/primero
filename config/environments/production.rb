@@ -34,7 +34,7 @@ Rails.application.configure do
   config.force_ssl = true
   config.ssl_options = { redirect: false }
 
-  storage_type = %w[local microsoft amazon].find do |t|
+  storage_type = %w[local microsoft amazon minio].find do |t|
     t == ENV['PRIMERO_STORAGE_TYPE']
   end || 'local'
   config.active_storage.service = storage_type.to_sym
