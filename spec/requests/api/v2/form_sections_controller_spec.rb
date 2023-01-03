@@ -53,7 +53,22 @@ describe Api::V2::FormSectionsController, type: :request do
     @form4 = FormSection.create!(
       unique_id: 'form_section_4',
       name_i18n: { en: 'Form Section_4 ' },
-      is_nested: true
+      is_nested: true,
+      collapsed_field_names: %w[fs4_field_1 fs4_field_2],
+      fields: [
+        Field.new(
+          name: 'fs4_field_1',
+          type: Field::TEXT_FIELD,
+          display_name_i18n: { en: 'First field in subform section 4' },
+          order: 2
+        ),
+        Field.new(
+          name: 'fs4_field_2',
+          type: Field::TEXT_FIELD,
+          display_name_i18n: { en: 'Second field in subform section 4' },
+          order: 1
+        )
+      ]
     )
 
     @form3.fields = [
@@ -98,6 +113,16 @@ describe Api::V2::FormSectionsController, type: :request do
         expected = [@form1.unique_id, @form2.unique_id, @form3.unique_id]
         expect(json['data'].map { |c| c['unique_id'] }).to match_array(expected)
       end
+    end
+
+    it 'includes collapsed fields' do
+      login_for_test
+
+      get '/api/v2/forms', params: {}
+
+      expect(response).to have_http_status(200)
+      expected = %w[fs4_field_1 fs4_field_2]
+      expect(json['data'].map { |form| form['collapsed_field_names'] }.flatten).to match_array(expected)
     end
   end
 
