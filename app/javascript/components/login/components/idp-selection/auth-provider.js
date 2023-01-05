@@ -1,4 +1,4 @@
-import { InteractionRequiredAuthError } from "msal/lib-commonjs/error/InteractionRequiredAuthError";
+import { InteractionRequiredAuthError } from "msal";
 
 import { SELECTED_IDP } from "../../../user/constants";
 
@@ -6,14 +6,17 @@ import { setMsalApp, setMsalConfig, getLoginRequest, getTokenRequest } from "./u
 
 let msalApp;
 
-const getToken = tokenRequest => {
-  // eslint-disable-next-line consistent-return
-  return msalApp.acquireTokenSilent(tokenRequest).catch(error => {
+const getToken = tokenRequest =>
+  msalApp.acquireTokenSilent(tokenRequest).catch(error => {
     if (error instanceof InteractionRequiredAuthError) {
-      msalApp.acquireTokenPopup(tokenRequest);
+      return msalApp.acquireTokenPopup(tokenRequest);
     }
+
+    // eslint-disable-next-line no-console
+    console.warn("Failed to acquire token", error);
+
+    return undefined;
   });
-};
 
 const setupMsal = idp => {
   const identityScope = idp.get("identity_scope")?.toJS() || [""];
@@ -32,10 +35,7 @@ const setupMsal = idp => {
 };
 
 const handleResponse = async (tokenRequest, successCallback) => {
-  const tokenResponse = await getToken(tokenRequest).catch(error => {
-    // eslint-disable-next-line no-console
-    console.warn(error);
-  });
+  const tokenResponse = await getToken(tokenRequest);
 
   if (tokenResponse) {
     successCallback();
