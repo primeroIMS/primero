@@ -60,7 +60,7 @@ const Container = ({ match, location }) => {
 
   const fromDashboard = useMemo(() => Boolean(new URLSearchParams(search).get("fromDashboard")), [search]);
 
-  const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata);
+  const defaultFilters = fromJS(Object.keys(queryParams).length ? queryParams : DEFAULT_FILTERS).merge(metadata);
 
   useMetadata(recordType, metadata, applyFilters, "data", {
     defaultFilterFields: Object.keys(queryParams).length ? queryParams : defaultFilters.toJS(),
