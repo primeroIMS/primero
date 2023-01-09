@@ -198,6 +198,18 @@ describe PrimeroConfiguration do
       end
     end
   end
+
+  describe '#save!' do
+    let(:current_configuration_data) { PrimeroConfiguration.current_configuration_data }
+    it 'save the record with the primero version' do
+      primero_configuration = PrimeroConfiguration.current(fake_user)
+      primero_configuration.primero_version = 'v2.5.5'
+      primero_configuration.save!
+
+      expect(primero_configuration.reload.primero_version).to eq('v2.5.5')
+    end
+  end
+
   after do
     clean_data(PrimeroConfiguration, FormSection, Field, Lookup, Agency, Role, UserGroup, Report, ContactInformation,
                PrimeroModule, SystemSettings)
