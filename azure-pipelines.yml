@@ -64,6 +64,9 @@ jobs:
       - bash: |
           npm run test:batch:3
         displayName: 'Run Integration test Batch 3'
+      - bash: |
+          npm run test:batch:4
+        displayName: 'Run Integration test Batch 4'
 
 
   - job: Build
