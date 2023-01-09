@@ -30,19 +30,17 @@
   - 'never'
   - 'local-env'
 
-- name: Check if overrides.env exists
-  stat:
-    path: "{{ env_override_path | default('/home/' + ansible_user + '/overrides.env') }}"
-  register: overrides_env_result
-
 - name: 'Merge overrides.env with local.env'
   ansible.builtin.shell: |
-    cat {{ env_override_path }} | grep -vE "^#" > tmp0
-    cat /srv/primero/docker/local.env >> tmp0
+    if test -f "{{ env_override_path | default('/home/' + ansible_user + '/overrides.env') }}"; then
+      cat {{ env_override_path }} | grep -vE "^#" > tmp0
+      cat /srv/primero/docker/local.env >> tmp0
 
-    awk -F "=" '!a[$1]++' tmp0 > tmp1 && mv tmp1 /srv/primero/docker/local.env && rm tmp0
+      awk -F "=" '!a[$1]++' tmp0 > tmp1 && mv tmp1 /srv/primero/docker/local.env && rm tmp0
+    else
+      echo "No overrides file"
+    fi
   become: yes
-  when: overrides_env_result.stat.exists
   tags:
   - 'never'
   - 'localized-env'

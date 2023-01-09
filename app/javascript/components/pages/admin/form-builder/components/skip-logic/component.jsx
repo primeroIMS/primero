@@ -11,11 +11,11 @@ import { NAME as CONDITIONS_DIALOG } from "../condition-dialog/constants";
 import { buildFieldName } from "../condition-dialog/utils";
 
 function Component({
-  field,
+  fieldProps = {},
   formMethods,
   handleClose,
   handleSuccess,
-  isNested = false,
+  isNested,
   primeroModule,
   recordType,
   title
@@ -35,8 +35,8 @@ function Component({
     });
   }, []);
 
-  const recordFieldName = buildFieldName(field, false);
-  const subformFieldName = buildFieldName(field, true);
+  const recordFieldName = buildFieldName(fieldProps.name, false);
+  const subformFieldName = buildFieldName(fieldProps.name, true);
 
   const displayConditions = formMethods.getValues(recordFieldName) || [];
   const displayConditionsSubform = formMethods.getValues(subformFieldName) || [];
@@ -75,7 +75,7 @@ function Component({
         />
       )}
       <ConditionDialog
-        field={field}
+        fieldProps={fieldProps}
         formMethods={formMethods}
         primeroModule={primeroModule}
         recordType={recordType}
@@ -89,7 +89,10 @@ function Component({
 Component.displayName = "SkipLogic";
 
 Component.propTypes = {
-  field: PropTypes.number,
+  fieldProps: PropTypes.shape({
+    formSectionId: PropTypes.number,
+    name: PropTypes.string
+  }),
   formMethods: PropTypes.object,
   handleClose: PropTypes.func,
   handleSuccess: PropTypes.func,

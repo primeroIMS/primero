@@ -24,12 +24,13 @@ import { conditionsForm, validationSchema } from "./form";
 import { ATTRIBUTE_FIELD, CONSTRAINT_FIELD, EXCLUDED_FIELD_TYPES, FORM_NAME, NAME, VALUE_FIELD } from "./constants";
 import { buildFieldName, convertValue, registerFields, updateCondition } from "./utils";
 
-function Component({ formMethods, handleClose, handleSuccess, primeroModule, recordType, field }) {
+function Component({ fieldProps, formMethods, handleClose, handleSuccess, primeroModule, recordType }) {
   const i18n = useI18n();
   const { dialogOpen, params } = useDialog(NAME);
-  const initialValues = params.get("initialValues", fromJS({}));
   const isNested = params.get("isNested", false);
-  const fieldName = buildFieldName(field, isNested);
+  const initialValues = params.get("initialValues", fromJS({}));
+  const { name, formSectionId } = fieldProps;
+  const fieldName = buildFieldName(name, isNested);
 
   const { append } = useFieldArray({ control: formMethods.control, name: fieldName });
 
@@ -52,8 +53,8 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
       includeFormSectionName: true,
       ...(isNested
         ? {
-            excludeFieldNames: field?.name ? [field.name] : null,
-            nestedFormIds: field?.get("form_section_id") ? [field?.get("form_section_id")] : null
+            excludeFieldNames: name ? [name] : null,
+            nestedFormIds: formSectionId ? [formSectionId] : null
           }
         : { includeNested: false })
     })
@@ -156,7 +157,10 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
 Component.displayName = NAME;
 
 Component.propTypes = {
-  field: PropTypes.object,
+  fieldProps: PropTypes.shape({
+    formSectionId: PropTypes.number,
+    name: PropTypes.string
+  }),
   formMethods: PropTypes.object,
   handleClose: PropTypes.func,
   handleSuccess: PropTypes.func,

@@ -43,28 +43,28 @@ describe Reopenable do
       @child = Child.create!(data: { 'status' => Record::STATUS_CLOSED })
     end
 
-    it 'reopens a closed record on incident update and logs' do
+    it 'does not reopen a closed record on incident update and logs' do
       @child.update_properties(
         fake_user(user_name: 'reopen_user'),
         'services_section' => [{ 'service_type' => 'nfi' }]
       )
       @child.save!
 
-      expect(@child.status).to eq(Record::STATUS_OPEN)
-      expect(@child.case_status_reopened).to eq(true)
-      expect(@child.reopened_logs.last['reopened_user']).to eq('reopen_user')
+      expect(@child.status).to eq(Record::STATUS_CLOSED)
+      expect(@child.case_status_reopened).to be_falsey
+      expect(@child.reopened_logs.size).to eq(0)
     end
 
-    it 'reopens a closed record on service update and logs' do
+    it 'does not reopen a closed record on service update and logs' do
       @child.update_properties(
         fake_user(user_name: 'reopen_user'),
         'incident_details' => [{ 'description' => 'An incident is recorded' }]
       )
       @child.save!
 
-      expect(@child.status).to eq(Record::STATUS_OPEN)
-      expect(@child.case_status_reopened).to eq(true)
-      expect(@child.reopened_logs.last['reopened_user']).to eq('reopen_user')
+      expect(@child.status).to eq(Record::STATUS_CLOSED)
+      expect(@child.case_status_reopened).to be_falsey
+      expect(@child.reopened_logs.size).to eq(0)
     end
 
     it "doesn't reopen the record on arbitrary updates" do

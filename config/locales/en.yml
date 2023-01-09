@@ -1361,6 +1361,7 @@ en:
       update: Update condition
       field_name: Field Name
       condition: Condition
+      empty: No conditions added
       type: Type
       types:
         and:
@@ -1914,6 +1915,7 @@ en:
     no_options: This Lookup currently has no options.
     translation_label: Translation Text
     values: Options
+    locked_alert_message: This Lookup is locked.
   managed_reports:
     generated_on: Generated On
     label: Insights

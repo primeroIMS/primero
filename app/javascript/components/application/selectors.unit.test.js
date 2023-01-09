@@ -498,4 +498,35 @@ describe("Application - Selectors", () => {
       expect(result).to.deep.equal(workflowOptions);
     });
   });
+
+  describe("hasAgencyLogos", () => {
+    it("returns false if there are no logos", () => {
+      const result = selectors.hasAgencyLogos(
+        fromJS({
+          application: {
+            primero: {
+              agencies: []
+            }
+          },
+          user: { modules: ["module-1"] }
+        })
+      );
+
+      expect(result).to.be.false;
+    });
+
+    it("returns true if there are logos", () => {
+      const result = selectors.hasAgencyLogos(
+        fromJS({
+          application: {
+            primero: {
+              agencies: [{ unique_id: "agency_1", name: "Agency 1" }]
+            }
+          }
+        })
+      );
+
+      expect(result).to.be.true;
+    });
+  });
 });
