@@ -23,6 +23,7 @@ class Report < ApplicationRecord
     Field::TALLY_FIELD
   ].freeze
 
+  AGE = 'age'
   DAY = 'date' # eg. 13-Jan-2015
   WEEK = 'week' # eg. Week 2 Jan-2015
   MONTH = 'month' # eg. Jan-2015
@@ -167,6 +168,141 @@ class Report < ApplicationRecord
   def key_at?(tree, parents, key)
     tree = tree_for_parents(tree, parents)
     tree.present? ? tree.key?(key) : false
+  end
+
+  def new_build_report
+    results = ActiveRecord::Base.connection.execute(build_query).to_a
+    results.each_with_object({}) do |result, acc|
+      field_queries.reduce(acc) do |field_acc, field_query|
+        write_field_data(field_acc, field_query, result)
+        field_acc[value]
+      end
+    end
+  end
+
+  def write_field_data(field_acc, field_query, result)
+    fill_lookup_rows(field_acc, field_query.field) unless exclude_empty_rows?
+    value = result.dig(field_query.column_name.delete('"'))
+    if field_acc.dig(value).present?
+      field_acc[value]['_total'] += result['total']
+    else
+      field_acc[value] = { '_total' => result['total'] }
+    end
+  end
+
+  def fill_lookup_rows(field_acc, field)
+    lookup_values = field.options_list(locale: I18n.locale, lookups: lookups)
+    return unless lookup_values.is_a?(Array)
+
+    lookup_values&.each do |lookup_value|
+      next unless field_acc.dig(lookup_value['id']).blank?
+
+      field_acc[lookup_value['id']] = { '_total' => 0 }
+    end
+  end
+
+  def lookups
+    sources = fields.each_with_object([]) do |field, acc|
+      acc << field.option_strings_source.split.last if field.option_strings_source.present?
+    end
+
+    @lookups ||= Lookup.where(unique_id: sources)
+  end
+
+  def model
+    @model ||= Record.model_from_name(record_type)
+  end
+
+  def build_query
+    query = model.try(:parent_record_type).present? ? join_nested_model : model
+    query = query.select(Arel.sql("#{field_queries.map(&:to_sql).join(",\n")}, count(*) as total"))
+    query = apply_filters(query)
+    query = query.group(group_by_fields)
+    query = query.order(sort_fields)
+    query.to_sql
+  end
+
+  def join_nested_model
+    model.parent_record_type.joins(
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          %(
+            CROSS JOIN jsonb_array_elements(data->:nested_field_name)
+            as #{ActiveRecord::Base.connection.quote_table_name(model.record_field_name)}
+          ), nested_field_name: model.record_field_name
+        ]
+      )
+    )
+  end
+
+  def group_by_fields
+    (sort_fields + column_names).uniq
+  end
+
+  def column_names
+    @column_names ||= field_queries.map(&:column_name)
+  end
+
+  def sort_fields
+    @sort_fields ||= field_queries.map(&:sort_field)
+  end
+
+  def field_queries
+    @field_queries ||= fields.map do |field|
+      case field.type
+      when Field::DATE_FIELD then Reports::FieldQueries::DateFieldQuery.new(
+        record_field_name: record_field_name(field), field: field, group_by: group_dates_by
+      )
+      when Field::NUMERIC_FIELD then Reports::FieldQueries::NumericFieldQuery.new(numeric_field_args(field))
+      else
+        Reports::FieldQueries::FieldQuery.new(field: field, record_field_name: record_field_name(field))
+      end
+    end
+  end
+
+  def record_field_name(field)
+    record_field_name = model.try(:record_field_name)
+    return unless record_field_name.present?
+    return if model.parent_record_type.minimum_reportable_fields.values.flatten.include?(field.name)
+
+    record_field_name
+  end
+
+  def numeric_field_args(field)
+    return { field: field, record_field_name: record_field_name(field) } unless age_field?(field)
+
+    {
+      field: field,
+      record_field_name: record_field_name(field),
+      range: SystemSettings.primary_age_ranges,
+      abrreviate_range: true
+    }
+  end
+
+  def apply_filters(query)
+    filters.each do |filter|
+      field = filter_fields[filter['attribute']]
+      record_field_name = record_field_name(field)
+      query = Reports::FilterFieldQuery.apply(query, field, filter, record_field_name)
+    end
+
+    query
+  end
+
+  def age_field?(field)
+    field.type == Field::NUMERIC_FIELD && field.name.starts_with?('age')
+  end
+
+  def filter_fields
+    @filter_fields ||= Field.find_by_name(filter_attributes).group_by(&:name).map { |k, v| [k, v.first] }.to_h
+  end
+
+  def filter_attributes
+    filters.map { |filter| filter['attribute'] }
+  end
+
+  def report_table_name
+    Record.model_from_name(record_type).table_name
   end
 
   # Run the Solr query that calculates the pivots and format the output.
@@ -394,6 +530,10 @@ class Report < ApplicationRecord
     @pivot_fields ||= Field.find_by_name(pivots).group_by(&:name).map { |k, v| [k, v.first] }.to_h
   end
 
+  def fields
+    @fields ||= pivots.map { |pivot| pivot_fields[pivot.gsub(/\d+$/, '')] }
+  end
+
   def pivots_map
     @pivots_map ||= pivots.map { |pivot| [pivot, Field.find_by_name(pivot)&.first] }.to_h
   end
@@ -518,7 +658,7 @@ class Report < ApplicationRecord
   end
 
   def filter_attribute_value(attribute, value, constraint, is_permission_filter)
-    if constraint.present?
+    if constraint.present? && %w[> < =].include?(constraint)
       filter_constraint(attribute, value, constraint)
     elsif value.respond_to?(:map) && value.size.positive?
       filter_value(attribute, value, is_permission_filter)
