@@ -174,7 +174,6 @@ class Report < ApplicationRecord
   def build_report
     # Prepopulates pivot fields
     pivot_fields
-    filters << permission_filter if permission_filter.present?
     return if pivots.blank?
 
     self.values = report_values(record_type, pivots, filters)
@@ -423,7 +422,7 @@ class Report < ApplicationRecord
     # TODO: This has to be valid and open if a case.
     number_of_pivots = pivots.size # can also be dimensionality, but the goal is to move the solr methods out
     pivots_string = pivots.map { |p| SolrUtils.indexed_field_name(record_type, p) }.select(&:present?).join(',')
-    filter_query = build_solr_filter_query(record_type, filters)
+    filter_query = build_solr_filter_query(record_type, merge_permission_filter(filters))
     mincount = exclude_empty_rows? ? 1 : -1
     result_pivots = if number_of_pivots == 1
                       get_by_field_facet(filter_query, pivots_string, mincount)
@@ -431,6 +430,23 @@ class Report < ApplicationRecord
                       get_by_pivot_facet(filter_query, pivots_string, mincount)
                     end
     { 'pivot' => result_pivots }
+  end
+
+  def merge_permission_filter(filters)
+    return filters if permission_filter.blank?
+    return filters + [permission_filter] unless filters_include_permission_filter?
+
+    filters.map do |elem|
+      next(elem) unless elem['attribute'] == permission_filter['attribute']
+
+      elem.merge('value' => elem['value'] + permission_filter['value'])
+    end
+  end
+
+  def filters_include_permission_filter?
+    return false unless permission_filter.present?
+
+    filters.any? { |elem| elem['attribute'] == permission_filter['attribute'] }
   end
 
   def get_by_field_facet(filter_query, pivots_string, mincount)
@@ -493,18 +509,19 @@ class Report < ApplicationRecord
     attribute = SolrUtils.indexed_field_name(record_type, filter['attribute'])
     constraint = filter['constraint']
     value = filter['value']
+    is_permission_filter = filter['attribute'] == permission_filter&.dig('attribute')
     if attribute.present? && value.present?
-      filter_attribute_value(attribute, value, constraint)
+      filter_attribute_value(attribute, value, constraint, is_permission_filter)
     elsif attribute.present? && constraint.present? && constraint == 'not_null'
       "#{attribute}:[* TO *]"
     end
   end
 
-  def filter_attribute_value(attribute, value, constraint)
+  def filter_attribute_value(attribute, value, constraint, is_permission_filter)
     if constraint.present?
       filter_constraint(attribute, value, constraint)
     elsif value.respond_to?(:map) && value.size.positive?
-      filter_value(attribute, value)
+      filter_value(attribute, value, is_permission_filter)
     end
   end
 
@@ -519,8 +536,11 @@ class Report < ApplicationRecord
     end
   end
 
-  def filter_value(attribute, value)
-    "#{attribute}:(" + value.map { |v| v == 'not_null' ? '[* TO *]' : Sunspot::Util.escape(v.to_s) }.join(' OR ') + ')'
+  def filter_value(attribute, value, is_permission_filter)
+    condition = is_permission_filter ? ' AND ' : ' OR '
+    "#{attribute}:(" +
+      value.map { |v| v == 'not_null' ? '[* TO *]' : Sunspot::Util.escape(v.to_s) }.join(condition) +
+      ')'
   end
 
   def solr_record_type(record_type)

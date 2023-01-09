@@ -1216,7 +1216,16 @@ en:
     show: Show?
     show_on: Show on
     show_on_minify_form: Short form
-    skip_logic: Skip Logic
+    skip_logic:
+      name: Skip Logic?
+      record_section:
+        title: This field should be visible if record
+        buttons:
+          add: Add record condition
+      subform_section:
+        title: This field should be visible if subform
+        buttons:
+          add: Add subform condition
     subform: Subform
     subform_group_by: Group by
     subform_remove_message: Are you sure you want to remove this subform?
@@ -1242,7 +1251,6 @@ en:
     updated: Field updated
     visibility: Visibility
     web_app: Web app
-    skip_logic_title: This field should be visible if
   filters:
     apply_filters: Apply
     clear_filters: Clear
@@ -1301,7 +1309,6 @@ en:
       use_existing: We encourage you to use the existing forms as this makes data
         sharing and data merging between institutions easier.
     mobile_app: Mobile App
-    skip_logic: Skip Logic?
     module: Module
     no_subform_filters_added: This Subform currently has no fields.
     record_type: Record Type
@@ -1343,11 +1350,18 @@ en:
     type_label: Type
     visibility: Visibility
     web_app: Web App
-    skip_logic_title: This form should be visible if
+    skip_logic:
+      name: Skip Logic?
+      section:
+        title: This form should be visible if
+        buttons:
+          add: Add condition
     conditions:
-      add: Add Condition
+      add: Add condition
+      update: Update condition
       field_name: Field Name
       condition: Condition
+      empty: No conditions added
       type: Type
       types:
         and:
@@ -1901,6 +1915,7 @@ en:
     no_options: This Lookup currently has no options.
     translation_label: Translation Text
     values: Options
+    locked_alert_message: This Lookup is locked.
   managed_reports:
     generated_on: Generated On
     label: Insights

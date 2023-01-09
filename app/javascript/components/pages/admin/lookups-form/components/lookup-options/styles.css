@@ -1,0 +1,17 @@
+.showColor {
+  color: #9b9c9e;
+}
+
+.optionsLabel {
+  color: var(--c-black);
+  font-weight: bold;
+}
+
+.optionsContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin: 15px auto;
+}

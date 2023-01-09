@@ -3,6 +3,10 @@
   height: 100vh;
   overflow: hidden;
   overflow-y: scroll;
+
+  &.demo {
+    height: 96vh;
+  }
 }
 
 .toolbar {
@@ -15,6 +19,10 @@
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
+
+  &.demo {
+    height: 96vh;
+  }
 }
 
 .wrap {

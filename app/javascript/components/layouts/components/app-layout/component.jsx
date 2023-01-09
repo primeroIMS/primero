@@ -19,6 +19,7 @@ const Component = ({ children }) => {
   const { demo } = useApp();
 
   const classes = clsx({ [css.root]: true, [css.demo]: demo });
+  const contentClasses = clsx({ [css.content]: true, [css.demo]: demo });
 
   const hasPermissions = useMemoizedSelector(state => hasUserPermissions(state));
 
@@ -37,7 +38,7 @@ const Component = ({ children }) => {
         <Notifier />
         <Nav />
         <SessionTimeoutDialog />
-        <main className={css.content}>{children}</main>
+        <main className={contentClasses}>{children}</main>
         <LoginDialog />
       </div>
     </>

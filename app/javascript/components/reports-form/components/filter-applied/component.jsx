@@ -23,7 +23,8 @@ const Component = ({
   handleClickEdit,
   conditionTypes = [],
   constraints = CONSTRAINTS,
-  deleteDisabled
+  deleteDisabled,
+  showAndLabel = false
 }) => {
   const i18n = useI18n();
   const { isRTL } = useThemeHelper();
@@ -61,7 +62,7 @@ const Component = ({
   const constraintLabel = getConstraintLabel(data, field, constraints, i18n);
 
   const conditionType = conditionTypes[index];
-  const conditionName = i18n.t(`forms.conditions.types.${conditionType}.name`);
+  const conditionName = i18n.t(`forms.conditions.types.${showAndLabel ? "and" : conditionType}.name`);
 
   const formattedReportFilterName = [
     // eslint-disable-next-line camelcase
@@ -78,7 +79,9 @@ const Component = ({
       <div key={index} className={css.filterContainer}>
         <div className={css.filterName}>
           {formattedReportFilterName}
-          {conditionType === LOGICAL_OPERATORS.AND && <span className={css.filterType}>{conditionName}</span>}
+          {(conditionType === LOGICAL_OPERATORS.AND || showAndLabel) && (
+            <span className={css.filterType}>{conditionName}</span>
+          )}
         </div>
         <div className={css.filterActions}>
           <IconButton onClick={handleClickOpen(index, filter)} disabled={deleteDisabled}>
@@ -100,7 +103,8 @@ Component.propTypes = {
   deleteDisabled: PropTypes.bool,
   filter: PropTypes.object,
   handleClickEdit: PropTypes.func,
-  handleClickOpen: PropTypes.func
+  handleClickOpen: PropTypes.func,
+  showAndLabel: PropTypes.bool
 };
 
 export default Component;

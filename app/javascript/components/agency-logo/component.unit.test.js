@@ -23,6 +23,6 @@ describe("<AgencyLogo />", () => {
     });
     const { component } = setupMountedComponent(AgencyLogo, {}, state);
 
-    expect(component.find("div").at(1).prop("style")).to.have.property("backgroundImage", "url(logo-full.png)");
+    expect(component.find("div").at(2).prop("style")).to.have.property("backgroundImage", "url(logo-full.png)");
   });
 });

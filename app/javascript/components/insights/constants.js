@@ -6,7 +6,8 @@ import {
   GHN_REPORT_SUBREPORTS,
   INDIVIDUAL_CHILDREN
 } from "../../config/constants";
-import { DATE_FIELD, FieldRecord, SELECT_FIELD, HIDDEN_FIELD } from "../form";
+import { DATE_FIELD, SELECT_FIELD, HIDDEN_FIELD } from "../form";
+import { FieldRecord } from "../form/records";
 
 const DATE_RANGE_OPTIONS = "date_range_options";
 const VIEW_BY = "view_by";

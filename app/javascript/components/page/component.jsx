@@ -1,20 +1,25 @@
+import clsx from "clsx";
 import PropTypes from "prop-types";
 
 import { useThemeHelper } from "../../libs";
+import { useApp } from "../application";
 
 import css from "./styles.css";
 
 const Component = ({ children, twoCol, fullWidthMobile }) => {
+  const { demo } = useApp();
   const { mobileDisplay } = useThemeHelper();
+  const contentClasses = clsx({ [css.root]: true, [css.demo]: demo });
+  const twoColClasses = clsx({ [css.twoCol]: true, [css.demo]: demo });
 
   const contentContainer = fullWidthMobile && mobileDisplay ? css.noWrap : css.wrap;
 
   if (twoCol) {
-    return <div className={css.twoCol}>{children}</div>;
+    return <div className={twoColClasses}>{children}</div>;
   }
 
   return (
-    <div className={css.root}>
+    <div className={contentClasses}>
       <div className={contentContainer}>{children}</div>
     </div>
   );

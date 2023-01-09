@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
+import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import CreateIcon from "@material-ui/icons/Create";
 import CheckIcon from "@material-ui/icons/Check";
@@ -16,6 +17,8 @@ import { fetchSystemSettings, useApp } from "../../../application";
 import { ROUTES } from "../../../../config";
 import { useMemoizedSelector } from "../../../../libs";
 import Permission, { RESOURCES, MANAGE } from "../../../permissions";
+import InternalAlert from "../../../internal-alert";
+import LockedIcon from "../../../locked-icon";
 
 import { NAME } from "./constants";
 import { getLookup, getSavingLookup } from "./selectors";
@@ -24,9 +27,6 @@ import { LookupForm } from "./components";
 import { FORM_ID } from "./components/form/constants";
 
 const Container = ({ mode }) => {
-  const formMode = whichFormMode(mode);
-  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
   const dispatch = useDispatch();
@@ -35,6 +35,10 @@ const Container = ({ mode }) => {
 
   const lookup = useMemoizedSelector(state => getLookup(state));
   const saving = useMemoizedSelector(state => getSavingLookup(state));
+
+  const isLockedLookup = lookup.get("locked", false);
+  const formMode = isLockedLookup ? fromJS({ isShow: true }) : whichFormMode(mode);
+  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
   useEffect(() => {
     if (isEditOrShow) {
@@ -84,7 +88,7 @@ const Container = ({ mode }) => {
     </>
   );
 
-  const editButton = formMode.get("isShow") && (
+  const editButton = formMode.get("isShow") && !isLockedLookup && (
     <FormAction
       actionHandler={handleEdit}
       text={i18n.t("buttons.edit")}
@@ -101,7 +105,13 @@ const Container = ({ mode }) => {
           {saveButton}
         </PageHeading>
         <PageContent>
-          <LookupForm mode={mode} lookup={lookup} />
+          {isLockedLookup && (
+            <InternalAlert
+              customIcon={<LockedIcon />}
+              items={fromJS([{ message: i18n.t("lookup.locked_alert_message") }])}
+            />
+          )}
+          <LookupForm formMode={formMode} lookup={lookup} />
         </PageContent>
       </LoadingIndicator>
     </Permission>

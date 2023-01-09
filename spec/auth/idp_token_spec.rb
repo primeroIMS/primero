@@ -32,7 +32,7 @@ describe IdpToken do
     @header = { kid: @jwk.kid }
     @payload = { aud: '123', iss: 'https://primeroims.org', emails: ['test@primero.org'] }
     @payload_capital_letters = { aud: '123', iss: 'https://primeroims.org', emails: ['UserTest@primero.org'] }
-    @valid_token = JWT.encode @payload, @rsa_private, 'RS256', @header
+    @valid_token = valid_token @payload
     @valid_token_capital_letters = JWT.encode @payload_capital_letters, @rsa_private, 'RS256', @header
     @invalid_token = JWT.encode @payload, OpenSSL::PKey::RSA.generate(2048), 'RS256', @header
   end
@@ -67,6 +67,33 @@ describe IdpToken do
     end
   end
 
+  describe '.user_name' do
+    before :each do
+      allow(IdentityProvider).to receive(:jwks).and_return(@jwks)
+    end
+
+    it 'safe navigation when email/emails undefined' do
+      token = valid_token({ aud: '123', iss: 'https://primeroims.org' })
+      user_name = IdpToken.build(token).user_name
+
+      expect(user_name).to eq(nil)
+    end
+
+    it 'return email when emails not present' do
+      token = valid_token({ aud: '123', iss: 'https://primeroims.org', email: 'test@primero.org' })
+      user_name = IdpToken.build(token).user_name
+
+      expect(user_name).to eq('test@primero.org')
+    end
+
+    it 'returns first email from array' do
+      token = valid_token({ aud: '123', iss: 'https://primeroims.org', emails: ['test@primero.org'] })
+      user_name = IdpToken.build(token).user_name
+
+      expect(user_name).to eq('test@primero.org')
+    end
+  end
+
   describe '.user' do
     it 'extrapolates a real Primero user from the JWT token based on the email and issuer' do
       allow(IdentityProvider).to receive(:jwks).and_return(@jwks)
@@ -86,5 +113,11 @@ describe IdpToken do
 
   after :each do
     clean_data(User, IdentityProvider)
+  end
+
+  private
+
+  def valid_token(payload)
+    JWT.encode payload, @rsa_private, 'RS256', @header
   end
 end
