@@ -114,6 +114,8 @@ class Report < ApplicationRecord
   def build_report
     results = ActiveRecord::Base.connection.execute(build_query).to_a
     self.data = results.each_with_object({}) do |result, acc|
+      next if result.values.include?(nil)
+
       field_queries.reduce(acc) do |field_acc, field_query|
         write_field_data(field_acc, field_query, result)
       end
@@ -194,8 +196,19 @@ class Report < ApplicationRecord
       next(build_date_field_query(field)) if field.type == Field::DATE_FIELD
       next(build_numeric_field_query(field)) if field.type == Field::NUMERIC_FIELD
 
+      if field.type == Field::SELECT_BOX && field.option_strings_source == 'Location'
+        next(build_location_field_query(field))
+      end
+
       build_field_query(field)
     end
+  end
+
+  def build_location_field_query(field)
+    admin_level = pivots.select { |pivot| pivot.starts_with?(field.name) }.last
+    Reports::FieldQueries::LocationFieldQuery.new(
+      field: field, record_field_name: record_field_name(field), admin_level: admin_level.number? ? admin_level.to_i : 0
+    )
   end
 
   def build_date_field_query(field)
