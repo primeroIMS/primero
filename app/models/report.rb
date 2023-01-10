@@ -170,12 +170,11 @@ class Report < ApplicationRecord
     tree.present? ? tree.key?(key) : false
   end
 
-  def new_build_report
+  def build_report
     results = ActiveRecord::Base.connection.execute(build_query).to_a
-    results.each_with_object({}) do |result, acc|
+    self.data = results.each_with_object({}) do |result, acc|
       field_queries.reduce(acc) do |field_acc, field_query|
         write_field_data(field_acc, field_query, result)
-        field_acc[value]
       end
     end
   end
@@ -188,6 +187,8 @@ class Report < ApplicationRecord
     else
       field_acc[value] = { '_total' => result['total'] }
     end
+
+    field_acc[value]
   end
 
   def fill_lookup_rows(field_acc, field)
@@ -249,15 +250,35 @@ class Report < ApplicationRecord
 
   def field_queries
     @field_queries ||= fields.map do |field|
-      case field.type
-      when Field::DATE_FIELD then Reports::FieldQueries::DateFieldQuery.new(
-        record_field_name: record_field_name(field), field: field, group_by: group_dates_by
-      )
-      when Field::NUMERIC_FIELD then Reports::FieldQueries::NumericFieldQuery.new(numeric_field_args(field))
-      else
-        Reports::FieldQueries::FieldQuery.new(field: field, record_field_name: record_field_name(field))
-      end
+      next(build_date_field_query(field)) if field.type == Field::DATE_FIELD
+      next(build_numeric_field_query(field)) if field.type == Field::NUMERIC_FIELD
+
+      build_field_query(field)
     end
+  end
+
+  def build_date_field_query(field)
+    Reports::FieldQueries::DateFieldQuery.new(
+      record_field_name: record_field_name(field), field: field, group_by: group_dates_by
+    )
+  end
+
+  def build_numeric_field_query(field)
+    args = { field: field, record_field_name: record_field_name(field) }
+    if age_field?(field)
+      args = {
+        field: field,
+        record_field_name: record_field_name(field),
+        range: SystemSettings.primary_age_ranges,
+        abrreviate_range: true
+      }
+    end
+
+    Reports::FieldQueries::NumericFieldQuery.new(args)
+  end
+
+  def build_field_query(field)
+    Reports::FieldQueries::FieldQuery.new(field: field, record_field_name: record_field_name(field))
   end
 
   def record_field_name(field)
@@ -268,22 +289,16 @@ class Report < ApplicationRecord
     record_field_name
   end
 
-  def numeric_field_args(field)
-    return { field: field, record_field_name: record_field_name(field) } unless age_field?(field)
-
-    {
-      field: field,
-      record_field_name: record_field_name(field),
-      range: SystemSettings.primary_age_ranges,
-      abrreviate_range: true
-    }
-  end
-
   def apply_filters(query)
     filters.each do |filter|
       field = filter_fields[filter['attribute']]
-      record_field_name = record_field_name(field)
-      query = Reports::FilterFieldQuery.apply(query, field, filter, record_field_name)
+      query = Reports::FilterFieldQuery.new(
+        query: query, field: field, filter: filter, record_field_name: record_field_name(field)
+      ).apply
+    end
+
+    if permission_filter.present?
+      query = Reports::FilterFieldQuery.new(permission_filter: permission_filter, query: query).apply
     end
 
     query
@@ -301,13 +316,9 @@ class Report < ApplicationRecord
     filters.map { |filter| filter['attribute'] }
   end
 
-  def report_table_name
-    Record.model_from_name(record_type).table_name
-  end
-
   # Run the Solr query that calculates the pivots and format the output.
   # rubocop:disable Metrics/AbcSize
-  def build_report
+  def old_build_report
     # Prepopulates pivot fields
     pivot_fields
     return if pivots.blank?

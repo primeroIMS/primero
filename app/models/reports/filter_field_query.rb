@@ -3,22 +3,27 @@
 # Filters an active record query by field
 class Reports::FilterFieldQuery < ValueObject
   CONSTRAINTS = %w[= > <].freeze
-  attr_accessor :query, :field, :filter, :record_field_name
-
-  def self.apply(query, field, filter, record_field_name)
-    new(query: query, field: field, filter: filter, record_field_name: record_field_name).apply
-  end
+  attr_accessor :query, :field, :filter, :record_field_name, :permission_filter
 
   def data_column_name
     ActiveRecord::Base.connection.quote_column_name(record_field_name || 'data')
   end
 
   def apply
+    return permission_filter_query if permission_filter?
     return not_null_query if not_null_constraint?
     return multi_select_query if field.multi_select?
     return array_query if filter['value'].is_a?(Array) && filter['value'].size > 1
 
     field_type_query
+  end
+
+  def permission_filter?
+    permission_filter.present?
+  end
+
+  def permission_filter_query
+    query.where("#{data_column_name}->:attribute ?& array[:value]", permission_filter.with_indifferent_access)
   end
 
   def multi_select_query
