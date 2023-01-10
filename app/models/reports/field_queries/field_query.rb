@@ -34,7 +34,7 @@ class Reports::FieldQueries::FieldQuery < ValueObject
   def multi_select_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
-        "jsonb_array_elements(#{data_column_name}-> :field_name) as #{column_name}", field_name: field.name
+        "jsonb_array_elements_text(#{data_column_name}-> :field_name) as #{column_name}", field_name: field.name
       ]
     )
   end
