@@ -1,4 +1,5 @@
 ARG version=1.23.3
+ARG BUILD_REGISTRY
 
 FROM nginx:${version}-alpine AS builder
 
@@ -9,8 +10,8 @@ WORKDIR /root/
 RUN apk add --update --no-cache build-base git pcre-dev openssl-dev zlib-dev linux-headers \
     && wget http://nginx.org/download/nginx-${version}.tar.gz \
     && tar zxf nginx-${version}.tar.gz \
-    && git clone https://github.com/google/ngx_brotli.git \
-    && git clone https://github.com/openresty/headers-more-nginx-module.git \
+    && git clone https://github.com/quoin/ngx_brotli.git \
+    && git clone https://github.com/quoin/headers-more-nginx-module.git \
     && cd ngx_brotli \
     && git submodule update --init --recursive \
     && cd ../nginx-${version} \
