@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Field
+# Represents a query against a date field
 class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
   attr_accessor :group_by
 

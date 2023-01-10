@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Field
+# Represents a query against a field
 class Reports::FieldQueries::FieldQuery < ValueObject
   attr_accessor :field, :record_field_name
 

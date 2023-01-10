@@ -259,7 +259,7 @@ class Report < ApplicationRecord
   end
 
   def age_field?(field)
-    field.type == Field::NUMERIC_FIELD && field.name.starts_with?('age')
+    field.type == Field::NUMERIC_FIELD && field.name.starts_with?(AGE)
   end
 
   def filter_fields
