@@ -22,4 +22,8 @@ class Reports::FieldQueries::LocationFieldQuery < Reports::FieldQueries::FieldQu
     )
   end
   # rubocop:enable Metrics/MethodLength
+
+  def column_name(_suffix = '')
+    super(admin_level)
+  end
 end

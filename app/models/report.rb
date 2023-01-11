@@ -146,7 +146,7 @@ class Report < ApplicationRecord
   end
 
   def lookups
-    sources = fields.each_with_object([]) do |field, acc|
+    sources = pivots_map.values.each_with_object([]) do |(field), acc|
       acc << field.option_strings_source.split.last if field.option_strings_source.present?
     end
 
@@ -192,20 +192,20 @@ class Report < ApplicationRecord
   end
 
   def field_queries
-    @field_queries ||= fields.map do |field|
+    @field_queries ||= pivots_map.entries.map do |(pivot, field)|
       next(build_date_field_query(field)) if field.type == Field::DATE_FIELD
       next(build_numeric_field_query(field)) if field.type == Field::NUMERIC_FIELD
 
       if field.type == Field::SELECT_BOX && field.option_strings_source == 'Location'
-        next(build_location_field_query(field))
+        next(build_location_field_query(field, pivot))
       end
 
       build_field_query(field)
     end
   end
 
-  def build_location_field_query(field)
-    admin_level = pivots.select { |pivot| pivot.starts_with?(field.name) }.last
+  def build_location_field_query(field, pivot)
+    admin_level = pivot&.last
     Reports::FieldQueries::LocationFieldQuery.new(
       field: field, record_field_name: record_field_name(field), admin_level: admin_level.number? ? admin_level.to_i : 0
     )
@@ -300,12 +300,8 @@ class Report < ApplicationRecord
     @pivot_fields ||= Field.find_by_name(pivots).group_by(&:name).map { |k, v| [k, v.first] }.to_h
   end
 
-  def fields
-    @fields ||= pivots.map { |pivot| pivot_fields[pivot.gsub(/\d+$/, '')] }
-  end
-
   def pivots_map
-    @pivots_map ||= pivots.map { |pivot| [pivot, Field.find_by_name(pivot)&.first] }.to_h
+    @pivots_map ||= pivots.map { |pivot| [pivot, pivot_fields[pivot.gsub(/\d+$/, '')]] }.to_h
   end
 end
 # rubocop:enable Metrics/ClassLength
