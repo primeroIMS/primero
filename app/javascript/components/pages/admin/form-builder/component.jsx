@@ -108,7 +108,7 @@ const Component = ({ mode }) => {
           data: {
             ...mergedData,
             ...(updatedNewFields.length && { fields: updatedNewFields }),
-            display_conditions: displayConditions
+            ...(Object.keys(displayConditions).length > 0 && { display_conditions: displayConditions })
           }
         };
         const parentFormParams = {
