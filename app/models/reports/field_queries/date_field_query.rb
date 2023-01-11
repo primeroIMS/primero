@@ -26,7 +26,7 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
   end
 
   def sort_field
-    return super unless [Report::MONTH, Report::WEEK].include?(group_by)
+    return super unless [Report::DAY, Report::MONTH, Report::WEEK].include?(group_by)
 
     column_name('sort')
   end
@@ -43,7 +43,11 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
   def grouped_by_year_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
-        "DATE_PART('year', to_timestamp(#{data_column_name} ->> :field_name, 'YYYY-MM-DD')) as #{column_name}",
+        %(
+          CAST(
+            DATE_PART('year', to_timestamp(#{data_column_name} ->> :field_name, 'YYYY-MM-DD')) AS INTEGER
+          ) as #{column_name}
+        ),
         field_name: field.name
       ]
     )
@@ -102,7 +106,19 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
   def grouped_by_day_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
-        "to_timestamp(#{data_column_name} ->> :field_name, 'YYYY-MM-DD') as #{column_name}",
+        %(
+          #{sort_by_day_query},
+          to_char(to_timestamp(#{data_column_name} ->> :field_name, 'YYYY-MM-DD'), 'YYYY-MM-DD') as #{column_name}
+        ),
+        field_name: field.name
+      ]
+    )
+  end
+
+  def sort_by_day_query
+    ActiveRecord::Base.sanitize_sql_for_conditions(
+      [
+        "to_timestamp(#{data_column_name} ->> :field_name, 'YYYY-MM-DD') as #{sort_field}",
         field_name: field.name
       ]
     )
