@@ -17,7 +17,7 @@ class Reports::FieldQueries::LocationFieldQuery < Reports::FieldQueries::FieldQu
           ) as #{column_name}
         ),
         field_name: field.name,
-        admin_level: admin_level.zero? ? admin_level : admin_level - 1
+        admin_level: admin_level
       ]
     )
   end
