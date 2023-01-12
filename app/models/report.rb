@@ -113,25 +113,27 @@ class Report < ApplicationRecord
 
   def build_report
     results = ActiveRecord::Base.connection.execute(build_query).to_a
-    self.data = results.each_with_object({}) do |result, acc|
-      next if result.values.include?(nil)
+    self.data = results.each_with_object({}) { |result, acc| write_result(result, acc) }
+  end
 
-      field_queries.reduce(acc) do |field_acc, field_query|
-        write_field_data(field_acc, field_query, result)
-      end
+  def write_result(result, data_hash)
+    field_queries.reduce(data_hash) do |acc, field_query|
+      fill_lookup_rows(acc, field_query.field) unless exclude_empty_rows?
+      value = result.dig(field_query.column_name.delete('"'))
+      break if value.blank?
+
+      write_field_data(acc, value, result)
     end
   end
 
-  def write_field_data(field_acc, field_query, result)
-    fill_lookup_rows(field_acc, field_query.field) unless exclude_empty_rows?
-    value = result.dig(field_query.column_name.delete('"'))
-    if field_acc.dig(value).present?
-      field_acc[value]['_total'] += result['total']
+  def write_field_data(field_hash, value, result)
+    if field_hash.dig(value).present?
+      field_hash[value]['_total'] += result['total']
     else
-      field_acc[value] = { '_total' => result['total'] }
+      field_hash[value] = { '_total' => result['total'] }
     end
 
-    field_acc[value]
+    field_hash[value]
   end
 
   def fill_lookup_rows(field_acc, field)

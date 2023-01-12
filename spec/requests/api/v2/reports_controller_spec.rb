@@ -108,7 +108,6 @@ describe Api::V2::ReportsController, type: :request do
                                                unique_id: 'f0a0f184-ab1d-4e02-a56b-9e1a1836b903',
                                                service_type: 'education_formal',
                                                service_implemented: 'not_implemented',
-                                               service_implementing_agency: 'agency1',
                                                service_status_referred: false,
                                                service_appointment_date: '2022-04-07'
                                              }
@@ -123,7 +122,6 @@ describe Api::V2::ReportsController, type: :request do
                                                unique_id: 'f0a0f184-ab1d-4e02-a56b-9e1a1836b903',
                                                service_type: 'education_formal',
                                                service_implemented: 'not_implemented',
-                                               service_implementing_agency: 'agency1',
                                                service_status_referred: false,
                                                service_appointment_date: '2022-04-07'
                                              }
@@ -202,7 +200,7 @@ describe Api::V2::ReportsController, type: :request do
 
       get "/api/v2/reports/#{@report2.id}"
 
-      report_data = { 'education_formal' => { '_total' => 1, 'agency1' => { '_total' => 1 } } }
+      report_data = { 'education_formal' => { '_total' => 1 } }
 
       expect(response).to have_http_status(200)
       expect(json['data']['report_data']).to eq(report_data)
