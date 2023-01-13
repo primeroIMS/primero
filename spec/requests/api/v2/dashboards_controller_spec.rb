@@ -95,14 +95,14 @@ describe Api::V2::DashboardsController, type: :request do
     Child.create!(data: { record_state: false, status: 'open', owned_by: 'foo', workflow: 'new' })
     Child.create!(data: {
                     record_state: true, status: 'closed', owned_by: 'foo',
-                    date_closure: this_week, workflow: 'closed', protection_concerns: ['refugee']
+                    date_closure: last_week, workflow: 'closed', protection_concerns: ['refugee']
                   })
     Child.create!(data: {
-                    record_state: true, status: 'closed', owned_by: 'foo',
+                    record_state: true, status: 'closed', owned_by: 'foo', created_at: last_week,
                     date_closure: this_week, workflow: 'closed'
                   })
     Child.create!(data: {
-                    record_state: true, status: 'closed', owned_by: 'foo', date_closure: last_week,
+                    record_state: true, status: 'closed', owned_by: 'foo', date_closure: this_week,
                     workflow: 'closed', created_at: last_week, protection_concerns: ['refugee']
                   })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar', workflow: 'new' })

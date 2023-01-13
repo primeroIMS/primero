@@ -19,7 +19,7 @@ import css from "./styles.css";
 
 const useStylesExpansionPanel = makeStyles(expansionPanelSummaryClasses);
 
-const Component = ({ title, items, severity }) => {
+const Component = ({ title, items, severity, customIcon }) => {
   const i18n = useI18n();
 
   const classes = useStylesExpansionPanel();
@@ -63,7 +63,7 @@ const Component = ({ title, items, severity }) => {
 
     return (
       <>
-        <div className={css.icon}>{renderIcon()}</div>
+        <div className={css.icon}>{customIcon || renderIcon()}</div>
         <span className={css.message}>{titleMessage}</span>
       </>
     );
@@ -93,6 +93,7 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
+  customIcon: PropTypes.node,
   items: PropTypes.object,
   severity: PropTypes.string,
   title: PropTypes.string

@@ -12,7 +12,7 @@ describe("<Form /> - components/form/component", () => {
   let component;
   const props = {
     formRef: { current: { submitForm: () => {} } },
-    mode: "show",
+    formMode: fromJS({ isShow: true }),
     lookup: fromJS(lookups().data[0])
   };
   const initialState = fromJS({

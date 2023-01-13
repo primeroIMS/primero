@@ -2,24 +2,6 @@
   display: none !important;
 }
 
-.showColor {
-  color: #9b9c9e;
-}
-
-.optionsContainer {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-  margin: 15px auto;
-}
-
-.optionsLabel {
-  color: var(--c-black);
-  font-weight: bold;
-}
-
 .header {
   font-weight: bold;
   text-tranform: uppercase;

@@ -90,6 +90,20 @@ describe DuplicateBulkExport, search: true do
     end
   end
 
+  context 'when cases have duplicate ids with dashes' do
+    before do
+      @child1 = create(:child, national_id_no: 'test-1', age: 5, name: 'Test Child 1')
+      @child2 = create(:child, national_id_no: 'test-1', age: 6, name: 'Test Child 2')
+      Sunspot.commit
+    end
+
+    it 'export cases with duplicate ids' do
+      expect(export_csv.count).to eq(3)
+      expect(export_csv[0]).to eq(@expected_headers)
+      expect([export_csv[1][3], export_csv[2][3]]).to include(@child1.case_id, @child2.case_id)
+    end
+  end
+
   context 'when no cases have duplicate ids' do
     before do
       @child1 = create(:child, national_id_no: 'test1', age: 5, name: 'Test Child 1')

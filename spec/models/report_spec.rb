@@ -501,4 +501,84 @@ describe Report do
       expect(report.data[:values][%w[alternative_care implemented]]).to eq(1)
     end
   end
+
+  describe 'user group report scope', search: true do
+    let(:group_1) { UserGroup.create!(name: 'Test User Group 1') }
+    let(:group_2) { UserGroup.create!(name: 'Test User Group 2') }
+
+    let(:case_worker_1) do
+      user = User.new(user_name: 'case_worker_1', user_groups: [group_1])
+      user.save(validate: false) && user
+    end
+
+    let(:case_worker_2) do
+      user = User.new(user_name: 'case_worker_2', user_groups: [group_1, group_2])
+      user.save(validate: false) && user
+    end
+
+    let(:case_worker_3) do
+      user = User.new(user_name: 'case_worker_3', user_groups: [group_2])
+      user.save(validate: false) && user
+    end
+
+    let(:child_1) do
+      Child.create!(
+        data: {
+          status: 'open', worklow: 'open', sex: 'male', module_id: @module.unique_id,
+          owned_by: case_worker_1.user_name
+        }
+      )
+    end
+
+    let(:child_2) do
+      Child.create!(
+        data: {
+          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          owned_by: case_worker_2.user_name
+        }
+      )
+    end
+
+    let(:child_3) do
+      Child.create!(
+        data: {
+          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          owned_by: case_worker_3.user_name
+        }
+      )
+    end
+
+    before(:each) do
+      clean_data(User, UserGroup, Child, Report)
+      child_1
+      child_2
+      child_3
+      Child.reindex
+      Sunspot.commit
+    end
+
+    let(:report) do
+      Report.new(
+        name: 'Report by Status and Sex',
+        record_type: 'case',
+        module_id: @module.unique_id,
+        aggregate_by: ['status'],
+        disaggregate_by: ['sex'],
+        permission_filter: { 'attribute' => 'owned_by_groups', 'value' => [group_1.unique_id] }
+      )
+    end
+
+    it 'can be seen by the group scope' do
+      report.build_report
+      expect(report.data[:values][%w[open male]]).to eq(1)
+      expect(report.data[:values][%w[open female]]).to eq(1)
+    end
+
+    it 'can be seen by group if they also meet the filter' do
+      report.filters = [{ 'attribute' => 'owned_by_groups', 'value' => [group_2.unique_id] }]
+      report.build_report
+      expect(report.data[:values][%w[open male]]).to eq(0)
+      expect(report.data[:values][%w[open female]]).to eq(1)
+    end
+  end
 end

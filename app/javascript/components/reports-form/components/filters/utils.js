@@ -25,6 +25,7 @@ export const registerValues = (index, data, currentValues, methods) => {
       if (!methods.control[restFieldName]) {
         methods.register({ name: restFieldName });
       }
+
       methods.setValue(restFieldName, restElData[entry[0]]);
     });
   });
@@ -36,7 +37,7 @@ export const formatValue = (value, i18n, { field, lookups }) => {
   }
 
   if (field && field.type === TICK_FIELD) {
-    return Array.isArray(value) && value.includes(true)
+    return Array.isArray(value) && (value.includes(true) || value.includes("true"))
       ? displayNameHelper(field?.tick_box_label, i18n.locale) || i18n.t("true")
       : i18n.t("report.not_selected");
   }
