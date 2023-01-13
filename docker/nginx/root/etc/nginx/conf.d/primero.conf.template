@@ -83,11 +83,11 @@ server {
         deny all;
     }
 
-    location /login/ {
+    location /v2/login/ {
         limit_req zone=login_app_limit burst=5;
     }
 
-    location /api/login/ {
+    location /api/v2/tokens {
         limit_req zone=login_app_limit burst=5;
     }
 

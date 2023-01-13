@@ -16,4 +16,19 @@ http {
     access_log /var/log/nginx/access.log  "qi-report-format";
     sendfile on;
     keepalive_timeout 65;
+
+    server {
+        listen 80;
+        listen [::]:80;
+        listen *:443 ssl;
+        listen [::]:443 ssl;
+
+        # @begin-ssl
+        ssl_certificate_key ${NGINX_SSL_KEY_PATH};
+        ssl_certificate ${NGINX_SSL_CERT_PATH};
+        ssl_session_tickets off;
+        # @end-ssl
+        server_name _;
+        return 444;
+    }
 }
