@@ -4,7 +4,11 @@ import { ButtonBase, Typography, TablePagination } from "@material-ui/core";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
-import { OFFLINE_ROWS_PER_PAGE_OPTIONS, ROWS_PER_PAGE_OPTIONS } from "../../../config/constants";
+import {
+  MAX_OFFLINE_ROWS_PER_PAGE,
+  OFFLINE_ROWS_PER_PAGE_OPTIONS,
+  ROWS_PER_PAGE_OPTIONS
+} from "../../../config/constants";
 import { useApp } from "../../application";
 
 import css from "./styles.css";
@@ -25,7 +29,7 @@ const Component = ({
   totalRecords
 }) => {
   const { online } = useApp();
-  const rowsPerPage = perPage > 50 && !online ? 50 : perPage;
+  const rowsPerPage = perPage > MAX_OFFLINE_ROWS_PER_PAGE && !online ? MAX_OFFLINE_ROWS_PER_PAGE : perPage;
   const dispatch = useDispatch();
   const i18n = useI18n();
   const allRecordsSelected = Object.values(selectedRecords).flat()?.length === totalRecords && totalRecords > 0;

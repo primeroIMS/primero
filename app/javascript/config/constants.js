@@ -496,6 +496,8 @@ export const ALERTS_FOR = {
   duplicate_field: "duplicate_field"
 };
 
+export const MAX_OFFLINE_ROWS_PER_PAGE = 50;
+
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 75, 100];
 
 export const OFFLINE_ROWS_PER_PAGE_OPTIONS = [20, 50];

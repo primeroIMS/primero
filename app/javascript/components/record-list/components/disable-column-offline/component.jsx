@@ -13,6 +13,8 @@ function DisableColumnOffline({ component, value, withTime, rowAvailable, type }
     return <DateColumn rowAvailable={rowAvailable} wrapper={DisableOffline} value={value} valueWithTime={withTime} />;
   }
 
+  const wrappedContent = <>{component !== undefined ? component : columnValue}</>;
+
   return (
     <ConditionalWrapper
       condition={!rowAvailable}
@@ -20,7 +22,7 @@ function DisableColumnOffline({ component, value, withTime, rowAvailable, type }
       offlineTextKey="unavailable_offline"
       overrideCondition={!rowAvailable}
     >
-      <>{component !== undefined ? component : columnValue}</>
+      {wrappedContent}
     </ConditionalWrapper>
   );
 }
