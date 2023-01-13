@@ -65,6 +65,7 @@ describe("Verifying config constant", () => {
       "MAX_ATTACHMENT_SIZE",
       "MAX_CONDITIONS",
       "MAX_IMAGE_SIZE",
+      "MAX_OFFLINE_ROWS_PER_PAGE",
       "METHODS",
       "MODES",
       "MODULES",
