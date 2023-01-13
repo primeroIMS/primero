@@ -32,8 +32,10 @@ export default ({
       )
   );
 
+  const selectedPrimaryFilters = primaryFilters.filter(filter => !defaultFilterNames.includes(filter.field_name));
+
   return fromJS([
-    ...primaryFilters,
+    ...selectedPrimaryFilters,
     ...defaultFilters,
     ...queryParamsFilter,
     ...(!more ? selectedFromMoreSection : [])
