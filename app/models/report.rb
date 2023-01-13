@@ -207,9 +207,8 @@ class Report < ApplicationRecord
   end
 
   def build_location_field_query(field, pivot)
-    admin_level = pivot&.last
     Reports::FieldQueries::LocationFieldQuery.new(
-      field: field, record_field_name: record_field_name(field), admin_level: admin_level.number? ? admin_level.to_i : 0
+      field: field, record_field_name: record_field_name(field), admin_level: pivot&.last.to_i
     )
   end
 
@@ -246,18 +245,22 @@ class Report < ApplicationRecord
   end
 
   def apply_filters(query)
-    filters.each do |filter|
+    filter_query = filters.reduce(query) do |current_query, filter|
       field = filter_fields[filter['attribute']]
-      query = Reports::FilterFieldQuery.new(
-        query: query, field: field, filter: filter, record_field_name: record_field_name(field)
+      Reports::FilterFieldQuery.new(
+        query: current_query, field: field, filter: filter, record_field_name: record_field_name(field)
       ).apply
     end
 
-    if permission_filter.present?
-      query = Reports::FilterFieldQuery.new(permission_filter: permission_filter, query: query).apply
-    end
+    filter_query = apply_permission_filter(filter_query)
 
-    query
+    filter_query
+  end
+
+  def apply_permission_filter(query)
+    return query unless permission_filter.present?
+
+    Reports::FilterFieldQuery.new(permission_filter: permission_filter, query: query).apply
   end
 
   def age_field?(field)
@@ -265,7 +268,11 @@ class Report < ApplicationRecord
   end
 
   def filter_fields
-    @filter_fields ||= Field.find_by_name(filter_attributes).group_by(&:name).map { |k, v| [k, v.first] }.to_h
+    @filter_fields ||= Field.find_by_name(filter_attributes).each_with_object({}) do |field, hash|
+      next if hash[field.name].present?
+
+      hash[field.name] = field
+    end
   end
 
   def filter_attributes

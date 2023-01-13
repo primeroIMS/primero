@@ -223,7 +223,7 @@ describe Report do
       end
 
       it 'should not return values with zero' do
-        Child.where('data @> ?', { sex: 'male' }.to_json).map(&:destroy!)
+        Child.where('data @> ?', { sex: 'male' }.to_json).destroy_all
 
         @report.build_report
 
@@ -246,7 +246,7 @@ describe Report do
       end
 
       it 'should return values with zero' do
-        Child.where('data @> ?', { sex: 'male' }.to_json).map(&:destroy!)
+        Child.where('data @> ?', { sex: 'male' }.to_json).destroy_all
 
         @report.build_report
 
