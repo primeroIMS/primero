@@ -168,7 +168,7 @@ ar:
     remove_referrals: إلغاء الإحالات
     reorder: اعادة ترتيب
     request_approval: طلب المصادقة
-    request_transfer: طلب تحويل
+    request_transfer: طلب نقل
     reunite: إعادة لمّ الشمل
     save: حفظ
     save_and_add_service_provision: حفظ وإضافة تقديم خدمة
@@ -181,7 +181,7 @@ ar:
     sort_by_tr: تتبع الطلبات
     sync: مزامنة
     submit: تقديم
-    transfer: نقل حالة
+    transfer: نقل
     unflag_model: إزالة العلامة %{model}
     unflag_model_history: وضع علامة للتاريخ%{model}
     unmark_for_mobile: إزالة علامة للمحمول
@@ -276,7 +276,7 @@ ar:
       by_date: حسب التاريخ
       case_open_date: تاريخ فتح الحالة
       case_plan: خطة الحالة
-      closed: 'مُعلّق '
+      closed: مغلقة
       closure: اغلاق
       current_location: الموقع الحالي
       date: تاريخ
@@ -301,7 +301,7 @@ ar:
       other: أخرى
       photo: صورة
       photo_label: هل توجد صورة؟
-      protection_concerns: مخاوف تتعلّق بالحماية
+      protection_concerns: مخاوف تتعلّق بالحماية (المشاكل/الحماية)
       protection_status: وضع الحماية
       record_state: حالة السجل
       referred_cases: الحالات التي تم إحالتها الي
@@ -310,7 +310,7 @@ ar:
       sex: الجنس
       social_worker: حقل/حالة/اختصاصي إجتماعي
       status: وضع
-      transferred: تمّ التحويل
+      transferred: تم النقل
       type_of_risk: نوع المخاطر
       urgent_protection_concern: مخاوف عاجلة بشأن الحماية
       user_group: مجموعة المستخدم
@@ -526,12 +526,12 @@ ar:
     case_stat_referrals: الإحالات
     case_stats: الحالات
     case_worker: 'باحث اجتماعي:'
-    cases_by_social_worker: الحالات حسب الباحث الاجتماعي
+    cases_by_social_worker: الحالات حسب الاخصائي الاجتماعي
     cases_by_task_overdue: المهام المتأخرة
     cases_by_workflow: الحالات حسب سريان العمل
     cases_this_week: الحالات هذا الأسبوع
     cases_to_assign: الحالات منتظرة التعيين
-    closed: 'مُعلّق '
+    closed: مغلقة
     closed_last_week: أُغلقت (الأسبوع المنصرم)
     closed_this_week: أُغلقت (هذا الاسبوع)
     comprehensive_need_intervention: تدخل شامل
@@ -613,9 +613,9 @@ ar:
     overview: لمحة عامّة
     pending: قيد الانتظار
     pending_approvals: الموافقات المعلّقة
-    pending_transfers: عمليات التحويل المعلّقة
+    pending_transfers: عمليات النقل المُعلّقة
     protection_concern: شؤون تنتهك الحماية
-    protection_concerns: شؤون تنتهك الحماية
+    protection_concerns: شؤون تنتهك الحماية (المشاكل/الحماية)
     range12+: '+12'
     range4: 0-4
     range4_8: 4-8
@@ -623,42 +623,42 @@ ar:
     recent_activities: أنشطة حديثة
     recently_flagged_child: حالات تم تمميزها بعلامة مؤخرا
     recently_flagged_incident: حوادث مميزة بعلامة مؤخرًا
-    referrals_by_social_worker: الإحالات بواسطة الباحث الاجتماعي
+    referrals_by_social_worker: الإحالات بواسطة الاخصائي الاجتماعي
     registration: التسجيل
     rejected: رُفض
-    rejected_transfers: عمليات التحويل المرفوضة
+    rejected_transfers: عمليات النقل المرفوضة
     response: الاستجابة (قيد التقدم)
     scheduled_activities: أنشطة مجدولة
     score_range: نطاق النتائج
     screening_service: خدمة الفرز
     services: الخدمات
     services_implemented: تم تقديم الخدمة
-    shared_from_my_team_pending_transfers: عمليات التحويل المُعلّقة
+    shared_from_my_team_pending_transfers: عمليات النقل المُعلّقة
     shared_from_my_team_referrals: الإحالات
-    shared_from_my_team_rejected_transfers: عمليات التحويل المرفوضة
+    shared_from_my_team_rejected_transfers: عمليات النقل المرفوضة
     shared_with_me_new_referrals: إحالات جديدة
     shared_with_me_total_referrals: مجموع الإحالات
-    shared_with_me_transfers_awaiting_acceptance: عمليات التحويل بانتظار القبول
-    shared_with_my_team_pending_transfers: عمليات التحويل المُعلّقة
+    shared_with_me_transfers_awaiting_acceptance: عمليات النقل بانتظار القبول
+    shared_with_my_team_pending_transfers: عمليات النقل المُعلّقة
     shared_with_my_team_referrals: الإحالات
-    shared_with_others_pending_transfers: عمليات التحويل المُعلّقة
+    shared_with_others_pending_transfers: عمليات النقل المُعلّقة
     shared_with_others_referrals: الإحالات
-    shared_with_others_rejected_transfers: عمليات التحويل المرفوضة
+    shared_with_others_rejected_transfers: عمليات النقل المرفوضة
     status_of_cases: وضع الحالات
     system_user: النظام
     total: المجموع
     total_cases: إجمالي الحالات
     total_referred: مجموع الإحالات
     tr_stats: تتبع الطلبات
-    transers_awaiting_acceptance: عمليات التحويل بانتظار القبول
-    transfers_by_social_worker: التحويلات حسب الباحث الاجتماعي
+    transers_awaiting_acceptance: عمليات النقل بانتظار القبول
+    transfers_by_social_worker: التحويلات/النقل حسب الاخصائي الاجتماعي
     users: أيقونة الإعدادات
     violence_type: نوع العنف
     with_incidents: مع حوادث
     with_new_incidents: مع حوادث جديدة
     without_incidents: من دون حوادث
     workflow: سير العمل
-    workflow_team: سير العمل - حالات الفرق
+    workflow_team: سير العمل - حالات الفريق/الفرق
     you_have: 'لديك'
   disabled:
     status:
@@ -1075,10 +1075,10 @@ ar:
     no_flags: لم يتمّ العثور على علامات
     resolve_button: حلّ
     resolve_flag: حلّ العلامات
-    resolve_reason: حلّ السبب
+    resolve_reason: سبب الإنهاء / الحل
     resolved: العلامات التي تمّ حلّها
     resolved_date: 'تمّ حلّها:'
-    resolved_reason: 'سبب الحلّ:'
+    resolved_reason: 'سبب الإنهاء / الحل'
     title: العلامات
   followup_reminders:
     system_generated_followup_flag: زيارة متابعة إلزامية
@@ -1126,7 +1126,7 @@ ar:
       reportable_protection_concern: امر مقلق خاص بالحماية
       reportable_service: خدمة
       tracing_request: طلب التتبع
-      transfers_assignments: التحويلات/ التعيينات
+      transfers_assignments: عمليات النقل والتعيينات
       violation: انتهاك
     required_field: '%{field} هو حقل مطلوب'
     select_label: اختيار
@@ -1634,7 +1634,7 @@ ar:
       copy_of: نسخة من
       create: انشاء
       dash_case_incident_overview: حالاتي/حوادثي
-      dash_cases_by_social_worker: عرض الحالات التي تولاها الباحث الاجتماعي
+      dash_cases_by_social_worker: عرض الحالات التي تولاها الاخصائي الاجتماعي
       dash_cases_by_task_overdue: عرض الحالات حسب استحقاق المهمة
       dash_cases_by_workflow: عرض الحالات حسب مخطط سير العمل
       dash_cases_to_assign: عرض الحالات التي بانتظار التعيين
@@ -1643,7 +1643,7 @@ ar:
       dash_matching_results: عرض النتائج المتشابهة
       dash_protection_concerns: عرض الأمور الخاصة بالحماية
       dash_protection_concerns_by_location: عرض المخاوف المرتبطة بالحماية بحسب الموقع
-      dash_referrals_by_socal_worker: عرض الإحالات التي قام بها الباحث الاجتماعي
+      dash_referrals_by_socal_worker: عرض الإحالات التي قام بها الاخصائي الاجتماعي
       dash_reporting_location: عرض مواقع الإبلاغ
       dash_service_provisions: عرض تقديم الخدمات
       dash_shared_from_my_team: تمّ تشاركها من فريقي
@@ -1722,7 +1722,7 @@ ar:
       view_protection_concerns_filter: عرض عامل التصفية الخاص بعملية الحماية
       view_response: عرض الاستجابات
       workflow: سير العمل - الحالات الفردية
-      workflow_team: سير العمل - حالات الفرق
+      workflow_team: سير العمل - حالات الفريق/الفرق
       write: كتابة
     resource:
       kpi:
@@ -2034,7 +2034,7 @@ ar:
             label: عرض النتائج المتطابقة
           dash_protection_concerns:
             explanation: الجدول الذي يوضح عدد الحالات التي لديها مخاوف تتعلّق بالحماية. يمثل كلّ سطر في الجدول إحدى المخاوف المتعلقة بالحماية، بينما تشير الأعمدة إلى أوضاع مختلفة للحالات ("كلّ الحالات"، "الحالات المفتوحة"، "الجديدة (هذا الأسبوع)"، "المغلقة (هذا الأسبوع)")
-            label: الحالات حسب المخاوف المتعلّقة بالحماية
+            label: الحالات حسب مشاكل/قضايا الحماية
           dash_protection_concerns_by_location:
             explanation: يشبه لوحة معلومات "عرض المخاوف المتعلّقة بالحماية"، باستثناء أنه يمكن للمستخدم اختيار موقع من القائمة المنسدلة لإظهار إحصائيات حول انتشار المخاوف المتعلّقة بالحماية في هذا الموقع فقط.
             label: عرض المخاوف المرتبطة بالحماية بحسب الموقع
@@ -2362,7 +2362,7 @@ ar:
     inquiry_date: تاريخ الاستفسار
     name: الاسم
     score: النتيجة
-    social_worker: 'الباحث الاجتماعي\ الباحثة الاجتماعية '
+    social_worker: 'الاخصائي الاجتماعي\ الاخصائية الاجتماعية '
     social_worker_agency: مؤسسة
     tracing_request_id: معرّف طلبات التتبّع
     trace: تتبّع
@@ -2604,8 +2604,6 @@ ar:
     success: تمّ التحويل بنجاح
     transfer_label: هل تريد التحويل على أي حال؟
     user_mandatory: المستلم مطلوب
-  transfer_assignment:
-    title: عمليات التحويل و التعيينات
   transition:
     agency_label: وكالة
     assigned_by: تعيين من قِبَل
