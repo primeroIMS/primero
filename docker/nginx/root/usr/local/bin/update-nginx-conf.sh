@@ -90,9 +90,5 @@ else
 fi
 
 eval sed ${SED_ARGS} \
-    < /etc/nginx/nginx.conf.template \
-    > /etc/nginx/nginx.conf
-
-eval sed ${SED_ARGS} \
     < /etc/nginx/conf.d/primero.conf.template \
     > /etc/nginx/conf.d/primero.conf
