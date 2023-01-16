@@ -21,7 +21,6 @@ gem 'file_validators',     '~> 2.3'    # ActiveRecord extension for validating a
 gem 'i18n-js',             '~> 3.9'    # Shares Rails i18n strings with the front end
 gem 'image_processing',    '~> 1.12'   # Ruby bindings for ImageMagick, resize attachments. Depenency of ActiveStorage
 gem 'jbuilder',            '~> 2.11'   # JSON templating for the API
-gem 'mail'                 '~> 2.7.1'  # Pin this to 2.7 due to https://github.com/mikel/mail/issues/1489
 gem 'json_schemer',        '~> 0.2'    # Validation for submited JSON
 gem 'minipack',            '~> 0.3'    # An alternative to Webpacker. TODO: Is this still needed? In prod?
 gem 'net-http-persistent', '~> 3.1'    # Thread safe persistent HTTP connections, optional Faraday dependency
