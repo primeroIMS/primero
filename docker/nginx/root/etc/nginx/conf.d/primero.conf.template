@@ -87,7 +87,7 @@ server {
         limit_req zone=login_app_limit burst=5;
     }
 
-    location /api/v2/tokens {
+    location /api/v2/tokens/ {
         limit_req zone=login_app_limit burst=5;
     }
 
