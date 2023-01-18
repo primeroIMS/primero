@@ -9,6 +9,7 @@ ar:
   sandbox_ui: تجريبي
   description: الوصف
   form: استمارة
+  minimum_reportable_fields: "الحد الأدنى من الحقول القابلة للإبلاغ  %{record_type}"
   name: اسم
   offline: غير متصل بالشبكة
   unavailable_offline: غير متاح غير متصل بالشبكة
@@ -224,6 +225,8 @@ ar:
       reopened: تم إعادة فتحها
       service_implemented: تم تطبيق الخدمة
       services_implemented: تم نطبيق الخدمة
+  activity_log:
+    accepted_transfer: '%{to} قبول نقل %{record_type} %{record_id} من %{from}'
   cases:
     action_plan: خطة العمل
     age: العمر
@@ -422,6 +425,8 @@ ar:
     change: 'من "%{from_value}" إلى "%{to_value}"'
     updated_subform: 'تمّ تحديث %{subform_name} رقم مُدخل النموذج الفرعي "%{short_id}"'
     update_subform: 'تمّ تحديث النموذج الفرعي "%{subform_name}" '
+    from: من
+    to: إلى
   children:
     selectable_date_options:
       assessment_requested_on: تاريخ التقييم
@@ -639,6 +644,7 @@ ar:
     shared_with_me_new_referrals: إحالات جديدة
     shared_with_me_total_referrals: مجموع الإحالات
     shared_with_me_transfers_awaiting_acceptance: عمليات النقل بانتظار القبول
+    shared_with_my_team_pending_transfers_overview: عمليات النقل في انتظار القبول
     shared_with_my_team_pending_transfers: عمليات النقل المُعلّقة
     shared_with_my_team_referrals: الإحالات
     shared_with_others_pending_transfers: عمليات النقل المُعلّقة
@@ -1557,6 +1563,7 @@ ar:
       transfer_request: تمّ القيام بطلب تحويل في %{date}من قبل %{user} إلى %{agency}
     cannot_edit: لا يمكن تعديله
     confirmation_message: انقر فوق موافق لتجاهل أي تغييرات غير محفوظة والعودة إلى عرض القائمة. انقر فوق إلغاء للعودة إلى السجل.
+    confirmation_message_subform: النقر على موافق سيتجاهل أي تغييرات غير محفوظة والعودة إلى عرض القائمة. انقر فوق إلغاء للعودة إلى السجل.
     dashboard_offline: أنت غير متصل بالشبكة حاليًا. ستعمل لوحة المعلومات بكامل طاقتها عندما تعاود الاتصال بالإنترنت
     field_name_on_form_name: 'الحقل %{field_name} على النموذج %{form_name}'
     logout_confirmation: هل تريد متابعة جلستك؟
@@ -2630,6 +2637,7 @@ ar:
       in_progress: معلّقة
       inprogress: معلّقة
       rejected: رُفض
+      revoked: تم الغاء او ملغي
     type:
       assign: تعيين
       reassign: تعيين
