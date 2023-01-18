@@ -29,6 +29,7 @@ Rails.application.configure do
     logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = Logger::Formatter.new
     config.logger = ActiveSupport::TaggedLogging.new(logger)
+    config.log_tags = [:request_id, lambda { |_request| Thread.current.object_id }]
   end
 
   config.force_ssl = true
