@@ -1,6 +1,12 @@
 import fieldArrayToConditions from "./field-array-to-conditions";
 
 describe("fieldArrayToConditions", () => {
+  it("returns null when there are no conditions", () => {
+    const conditionArray = [];
+
+    expect(fieldArrayToConditions(conditionArray)).to.be.null;
+  });
+
   it("should return a conditions object", () => {
     const conditionArray = [
       { attribute: "field_1", value: "value1", constraint: "eq" },

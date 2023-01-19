@@ -15,7 +15,7 @@ const getConstraint = condition => {
 
 export default conditionArray => {
   if (!conditionArray || conditionArray.length <= 0) {
-    return {};
+    return null;
   }
 
   if (conditionArray.length === 1) {
