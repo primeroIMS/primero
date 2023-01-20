@@ -1,10 +1,10 @@
 import fieldArrayToConditions from "./field-array-to-conditions";
 
 describe("fieldArrayToConditions", () => {
-  it("returns null when there are no conditions", () => {
+  it("returns an empty object when there are no conditions", () => {
     const conditionArray = [];
 
-    expect(fieldArrayToConditions(conditionArray)).to.be.null;
+    expect(fieldArrayToConditions(conditionArray)).to.deep.equal({});
   });
 
   it("should return a conditions object", () => {
