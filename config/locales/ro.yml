@@ -1746,7 +1746,7 @@ ro:
     not_available: Indisponibil
     record_list:
       column_header_tooltip: Sortare pentru %{column}
-      of: al
+      of: din
       no_match: Din păcate, căutarea nu returnează înregistrări
       rows_per_page: Rânduri pe pagină
       sort: Sortare

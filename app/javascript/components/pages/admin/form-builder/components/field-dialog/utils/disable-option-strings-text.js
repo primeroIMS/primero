@@ -1,9 +1,9 @@
 import isEmpty from "lodash/isEmpty";
 
-import { SELECT_FIELD } from "../../../../../../form";
+import { SELECT_FIELD, RADIO_FIELD } from "../../../../../../form";
 
 export default (selectedField, fieldData, optionStringsText) => {
-  if (selectedField.get("type") !== SELECT_FIELD || !fieldData.option_strings_text) {
+  if (![RADIO_FIELD, SELECT_FIELD].includes(selectedField.get("type")) || !fieldData.option_strings_text) {
     return [];
   }
 
