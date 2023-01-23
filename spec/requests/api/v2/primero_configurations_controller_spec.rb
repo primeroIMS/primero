@@ -112,7 +112,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
           end
         end
 
-        context 'and json strutture is invalid' do
+        context 'and json structure is invalid' do
           before do
             @config_data = build(:primero_configuration)
           end
@@ -159,6 +159,17 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
             expect(json['errors'].map { |e| e['detail'] }).to contain_exactly('data')
             expect(json['errors'][0]['message']).to match_array(['errors.models.configuration.data'])
           end
+        end
+      end
+
+      context 'and primero_version is passed in' do
+        it 'creates a configuration record with the right primero version' do
+          params = { data: { name: 'Test', primero_version: '2.5.5' } }
+          post '/api/v2/configurations', params: params
+
+          expect(response).to have_http_status(200)
+          expect(json['data']['name']).to eq('Test')
+          expect(json['data']['primero_version']).to eq('2.5.5')
         end
       end
     end

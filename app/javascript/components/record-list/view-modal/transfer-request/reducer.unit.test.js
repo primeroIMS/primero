@@ -24,7 +24,7 @@ describe("<Transitions /> - Reducers", () => {
       data: [],
       transferRequest: {
         errors: true,
-        message: ["Forbidden"]
+        loading: false
       }
     });
     const action = {
