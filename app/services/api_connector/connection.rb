@@ -28,6 +28,10 @@ class ApiConnector::Connection
     wrap { driver.post(path, to_json(params), headers, &block) }
   end
 
+  def put(path, params = nil, headers = nil, &block)
+    wrap { driver.put(path, to_json(params), headers, &block) }
+  end
+
   def url(options = {})
     tls = ::ActiveRecord::Type::Boolean.new.cast(options['tls'])
     "#{tls ? 'https' : 'http'}://#{options['host']}:#{options['port']}"
