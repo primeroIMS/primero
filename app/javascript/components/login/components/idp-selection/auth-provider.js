@@ -1,5 +1,4 @@
-import { InteractionRequiredAuthError } from "msal";
-import { CryptoUtils } from "msal/lib-es6/utils/CryptoUtils";
+import { CryptoUtils, InteractionRequiredAuthError } from "msal";
 
 import { SELECTED_IDP } from "../../../user/constants";
 
