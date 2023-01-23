@@ -417,14 +417,7 @@ export const getNestedFields = createCachedSelector(
   getLocale,
   (_state, query) => query,
   (formSections, formObject, appLocale, query) => {
-    const selectedForms = forms({
-      ...query,
-      formSections,
-      checkPermittedForms: false,
-      appLocale,
-      includeNested: true,
-      checkVisible: false
-    });
+    const selectedForms = forms({ ...query, formSections, all: true, appLocale });
 
     if (isNil(query.nestedFormIds)) {
       return fromJS([]);

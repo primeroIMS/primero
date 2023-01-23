@@ -22,6 +22,7 @@ import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
 import { useApp } from "../../../application";
 import Permission, { RESOURCES, MANAGE } from "../../../permissions";
+import getDisplayConditions from "../../../record-form/form/utils/get-display-conditions";
 
 import { FormBuilderActionButtons, TranslationsTab, SettingsTab, FieldsTab } from "./components";
 import { localesToRender } from "./components/utils";
@@ -97,6 +98,7 @@ const Component = ({ mode }) => {
       dispatch,
       isEdit: formMode.isEdit,
       dirtyFields,
+      submitAllFields: true,
       submitAlways: !selectedSubforms?.isEmpty(),
       submitAllArrayData: dirtyFields.display_conditions?.length > 0,
       onSubmit: formData => {
@@ -104,13 +106,15 @@ const Component = ({ mode }) => {
         const subforms = selectedSubforms;
         const updatedNewFields = convertToFieldsArray(mergedData.fields || []);
         const displayConditions = fieldArrayToConditions(mergedData.display_conditions || []);
+
         const body = {
           data: {
             ...mergedData,
             ...(updatedNewFields.length && { fields: updatedNewFields }),
-            display_conditions: displayConditions
+            display_conditions: { ...displayConditions, disabled: !formData.skip_logic }
           }
         };
+
         const parentFormParams = {
           id,
           saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
@@ -190,7 +194,9 @@ const Component = ({ mode }) => {
         dispatch(push(ROUTES.forms));
       } else {
         const fieldTree = convertToFieldsObject(selectedForm.get("fields").toJS());
-        const displayConditions = conditionsToFieldArray(selectedForm.get("display_conditions", fromJS({})).toJS());
+        const displayConditions = conditionsToFieldArray(
+          getDisplayConditions(selectedForm.get("display_conditions", fromJS({})).toJS())
+        );
         const formData = selectedForm.delete("display_conditions").set("fields", fieldTree).toJS();
 
         methods.reset({
@@ -201,7 +207,7 @@ const Component = ({ mode }) => {
             description: formData.description,
             fields: getFieldsTranslations(fieldTree)
           },
-          skip_logic: Boolean(displayConditions.length),
+          skip_logic: !selectedForm.getIn(["display_conditions", "disabled"], true),
           display_conditions: displayConditions
         });
 

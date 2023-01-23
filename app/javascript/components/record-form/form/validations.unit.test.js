@@ -318,18 +318,33 @@ describe("<RecordForm>/form/validations", () => {
           display_conditions_record: {}
         };
 
-        it("should be invalid if field is empty", () => {
+        it("is invalid if field is empty", () => {
           const schema = object().shape(validations.fieldValidations(tallyFieldWithDisplayConditions, { i18n }));
           const formData = {};
 
           expect(schema.isValidSync(formData)).to.be.false;
         });
+      });
 
-        it("should be valid if field is NOT empty", () => {
+      context("and display conditions are disabled", () => {
+        const tallyFieldWithDisplayConditions = {
+          ...tallyField,
+          required: true,
+          display_conditions_record: { disabled: true }
+        };
+
+        it("is valid if is NOT empty", () => {
           const schema = object().shape(validations.fieldValidations(tallyFieldWithDisplayConditions, { i18n }));
           const formData = { tally_name: { test1: 1, test2: 3 } };
 
           expect(schema.isValidSync(formData)).to.be.true;
+        });
+
+        it("is not valid if is empty", () => {
+          const schema = object().shape(validations.fieldValidations(tallyFieldWithDisplayConditions, { i18n }));
+          const formData = {};
+
+          expect(schema.isValidSync(formData)).to.be.false;
         });
       });
     });
