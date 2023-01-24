@@ -10,7 +10,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 
 import { dataToJS, ConditionalWrapper, useThemeHelper, useMemoizedSelector } from "../../../libs";
 import { useI18n } from "../../i18n";
-import { RECORD_PATH } from "../../../config";
+import { MAX_OFFLINE_ROWS_PER_PAGE, RECORD_PATH } from "../../../config";
 import { ALERTS_COLUMNS } from "../../record-list/constants";
 import recordListTheme from "../theme";
 import { NAME } from "../config";
@@ -179,7 +179,7 @@ const Datatable = ({
       customToolbarSelect,
       handleTableChange,
       i18n,
-      per: !online && per > 50 ? 50 : per,
+      per: !online && per > MAX_OFFLINE_ROWS_PER_PAGE ? MAX_OFFLINE_ROWS_PER_PAGE : per,
       selectedRecords,
       selectedRecordsOnCurrentPage,
       setSelectedRecords,
