@@ -10,9 +10,7 @@ const DEFAULT_STATE = fromJS({ data: [] });
 export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case actions.TRANSFER_REQUEST_FAILURE:
-      return state
-        .setIn([NAMESPACE, "errors"], true)
-        .setIn([NAMESPACE, "message"], fromJS(payload.errors.map(e => e.message).flat()));
+      return state.setIn([NAMESPACE, "errors"], true).setIn([NAMESPACE, "loading"], false);
     case actions.TRANSFER_REQUEST_STARTED:
       return state.setIn([NAMESPACE, "errors"], false).setIn([NAMESPACE, "loading"], payload);
     case actions.TRANSFER_REQUEST_SUCCESS:

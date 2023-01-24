@@ -10,7 +10,9 @@ class PrimeroConfiguration < ApplicationRecord
     'id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => PermittedFieldService::UUID_REGEX },
     'name' => { 'type' => 'string' }, 'description' => { 'type' => %w[string null] },
     'version' => { 'type' => 'string' }, 'apply_now' => { 'type' => 'boolean' },
-    'promote' => { 'type' => 'boolean' }, 'data' => { 'type' => 'object' }
+    'promote' => { 'type' => 'boolean' }, 'data' => { 'type' => 'object' },
+    'primero_version' => { 'type' => 'string' }
+
   }.freeze
 
   attr_accessor :apply_now
@@ -124,7 +126,7 @@ class PrimeroConfiguration < ApplicationRecord
   end
 
   def populate_primero_version
-    self.primero_version = Primero::Application::VERSION
+    self.primero_version ||= Primero::Application::VERSION
   end
 
   def generate_version

@@ -34,7 +34,6 @@ const Container = ({ match, location }) => {
   const { mobileDisplay } = useThemeHelper();
   const i18n = useI18n();
   const currentQueryString = location.search.replace("?", "");
-  const queryParams = qs.parse(currentQueryString);
   const { online } = useApp();
   const { url } = match;
   const recordType = url.replace("/", "");
@@ -56,7 +55,12 @@ const Container = ({ match, location }) => {
     canSearchOthers: [ACTIONS.SEARCH_OTHERS]
   });
 
-  const defaultFilters = useMemo(() => fromJS(DEFAULT_FILTERS).merge(metadata), [metadata]);
+  const queryParams = useMemo(() => qs.parse(currentQueryString), [currentQueryString]);
+
+  const defaultFilters = useMemo(
+    () => fromJS(Object.keys(queryParams).length ? queryParams : DEFAULT_FILTERS).merge(metadata),
+    [metadata, queryParams]
+  );
 
   useMetadata(recordType, metadata, applyFilters, "data", {
     defaultFilterFields: Object.keys(queryParams).length ? queryParams : defaultFilters.toJS(),
