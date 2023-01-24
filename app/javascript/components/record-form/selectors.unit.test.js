@@ -6,6 +6,7 @@ import { ACTIONS } from "../permissions";
 import {
   APPROVALS,
   CHANGE_LOGS,
+  IDENTIFICATION_REGISTRATION,
   INCIDENT_FROM_CASE,
   RECORD_INFORMATION_GROUP,
   RECORD_OWNER,
@@ -997,6 +998,23 @@ describe("<RecordForm /> - Selectors", () => {
           fields: List([]),
           is_nested: null,
           core_form: true
+        },
+        63: {
+          id: 63,
+          unique_id: "incident_from_case",
+          name: Map({ en: "Incidents from state" }),
+          visible: true,
+          is_first_tab: true,
+          order: 16,
+          order_form_group: 1,
+          parent_form: "case",
+          editable: true,
+          module_ids: List(["primeromodule-cp"]),
+          form_group_id: IDENTIFICATION_REGISTRATION,
+          form_group_name: Map({ en: "Identification / Registration" }),
+          fields: List([]),
+          is_nested: null,
+          core_form: true
         }
       };
 
@@ -1020,8 +1038,7 @@ describe("<RecordForm /> - Selectors", () => {
           "Record Owner from State",
           "change_logs.label",
           "forms.record_types.referrals",
-          "forms.record_types.transfers_assignments",
-          "incidents.label"
+          "forms.record_types.transfers_assignments"
         ])
       );
     });

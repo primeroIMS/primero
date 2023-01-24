@@ -15,7 +15,7 @@ import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
 import { PageContent, PageHeading } from "../../../page";
 import { submitHandler, whichFormMode } from "../../../form";
-import { ROUTES, SAVE_METHODS, MODES } from "../../../../config";
+import { ROUTES, MODES } from "../../../../config";
 import { dataToJS, displayNameHelper, useMemoizedSelector } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
@@ -38,13 +38,11 @@ import {
   getUpdatedFormIds
 } from "./selectors";
 import {
+  calculateFormParams,
   conditionsToFieldArray,
-  convertToFieldsArray,
   convertToFieldsObject,
-  fieldArrayToConditions,
   getFieldsTranslations,
-  getSubformErrorMessages,
-  mergeTranslations
+  getSubformErrorMessages
 } from "./utils";
 import css from "./styles.css";
 
@@ -102,25 +100,8 @@ const Component = ({ mode }) => {
       submitAlways: !selectedSubforms?.isEmpty(),
       submitAllArrayData: dirtyFields.display_conditions?.length > 0,
       onSubmit: formData => {
-        const mergedData = mergeTranslations(formData);
+        const parentFormParams = calculateFormParams({ id, formData, formMode, i18n });
         const subforms = selectedSubforms;
-        const updatedNewFields = convertToFieldsArray(mergedData.fields || []);
-        const displayConditions = fieldArrayToConditions(mergedData.display_conditions || []);
-
-        const body = {
-          data: {
-            ...mergedData,
-            ...(updatedNewFields.length && { fields: updatedNewFields }),
-            display_conditions: { ...displayConditions, disabled: !formData.skip_logic }
-          }
-        };
-
-        const parentFormParams = {
-          id,
-          saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
-          body,
-          message: i18n.t(`forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
-        };
 
         if (!subforms.isEmpty()) {
           dispatch(saveSubforms(subforms, parentFormParams));

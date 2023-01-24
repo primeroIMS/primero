@@ -1,4 +1,4 @@
-<script>
+<script nonce="<%= request.content_security_policy_nonce %>">
   (function(root, factory){
     root.IDP = factory(root);
   })(this, function(global) {
