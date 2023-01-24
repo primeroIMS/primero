@@ -1,7 +1,31 @@
+ARG version=1.23.3
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}nginx:1.19.3-alpine
+
+FROM nginx:${version}-alpine AS builder
+
+ARG version
+
+WORKDIR /root/
+
+RUN apk add --update --no-cache build-base git pcre-dev openssl-dev zlib-dev linux-headers \
+    && wget http://nginx.org/download/nginx-${version}.tar.gz \
+    && tar zxf nginx-${version}.tar.gz \
+    && git clone https://github.com/quoin/ngx_brotli.git \
+    && git clone https://github.com/quoin/headers-more-nginx-module.git \
+    && cd ngx_brotli \
+    && git submodule update --init --recursive \
+    && cd ../nginx-${version} \
+    && ./configure \
+    --add-dynamic-module=../ngx_brotli \
+    --add-dynamic-module=../headers-more-nginx-module \
+    --with-compat \
+    && make modules
+
+ARG BUILD_REGISTRY
+FROM ${BUILD_REGISTRY}nginx:${version}-alpine
 EXPOSE 80 443
 
+ARG version
 ARG NGINX_UID
 ARG NGINX_GID
 ENV USER_ID=${NGINX_UID}
@@ -37,6 +61,10 @@ RUN set -ex \
 RUN apk add libcap && setcap 'cap_net_bind_service=+ep' /usr/sbin/nginx
 
 USER docker-nginx
+
+COPY --from=builder /root/nginx-${version}/objs/ngx_http_brotli_filter_module.so /usr/lib/nginx/modules/
+COPY --from=builder /root/nginx-${version}/objs/ngx_http_brotli_static_module.so /usr/lib/nginx/modules/
+COPY --from=builder /root/nginx-${version}/objs/ngx_http_headers_more_filter_module.so /usr/lib/nginx/modules/
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD [ "nginx", "-g", "daemon off;" ]
