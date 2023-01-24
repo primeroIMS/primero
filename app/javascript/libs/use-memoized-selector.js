@@ -14,8 +14,8 @@ const useMemoizedSelector = (selector, equalityFn) => {
 };
 
 const createProxySelectorHook = () => {
-  const useProxySelector = (fn, deps) => {
-    return useMemoizedSelector(useCallback(memoize(fn), deps));
+  const useProxySelector = (fn, deps, equalityFn) => {
+    return useMemoizedSelector(useCallback(memoize(fn), deps), equalityFn || selectorEqualityFn);
   };
 
   return useProxySelector;

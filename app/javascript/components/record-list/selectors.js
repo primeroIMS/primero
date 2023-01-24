@@ -23,3 +23,5 @@ export const getAppliedFiltersAsQueryString = (state, namespace) => {
 export const getLoading = (state, namespace) => state.getIn(getNamespacePath(namespace).concat("loading"), false);
 
 export const getErrors = (state, namespace) => state.getIn(getNamespacePath(namespace).concat("errors"), false);
+
+export const getDrawer = state => state.getIn(["ui", "drawers"], fromJS({}));

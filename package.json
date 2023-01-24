@@ -103,6 +103,7 @@
     "file-loader": "^6.2.0",
     "formik": "^2.2.9",
     "formik-material-ui": "^3.0.1",
+    "fuzzysort": "^2.0.4",
     "history": "^4.9.0",
     "html2pdf-dom-to-image-more": "0.9.5",
     "i18n-js": "^3.5.1",

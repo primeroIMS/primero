@@ -1,50 +1,23 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
-
 import { fromJS } from "immutable";
 import { Tooltip } from "@material-ui/core";
 import OfflinePin from "@material-ui/icons/OfflinePin";
-import isNil from "lodash/isNil";
 
 import { ToggleIconCell } from "../../index-table";
 import { RECORD_PATH, RECORD_TYPES } from "../../../config";
-import { ConditionalWrapper } from "../../../libs";
-import DisableOffline from "../../disable-offline";
 import { ALERTS_COLUMNS, ALERTS, ID_COLUMNS, COMPLETE } from "../constants";
 import PhotoColumnBody from "../components/photo-column-body";
-import DateColumn from "../components/date-column";
+import DisableColumnOffline from "../components/disable-column-offline";
 
 export default (allowedColumns, i18n, recordType, css, recordAvailable, online) => {
   const iconColumns = Object.values(ALERTS_COLUMNS);
   // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label
   const emptyHeader = name => <th key={name} className={css.overdueHeading} />;
 
+  const rowAvailable = (rowIndex, data) => recordAvailable(data.getIn(["data", rowIndex], fromJS({}))) || online;
+
   const tableColumns = data => {
-    // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label, react/prop-types
-    const disableColumnOffline = args => {
-      const { component: Component, props = {}, value, rowIndex, withTime, type } = args || {};
-      const rowAvailable = recordAvailable(data.getIn(["data", rowIndex], fromJS({}))) || online;
-      const parsedValue = Array.isArray(value) ? value.join(", ") : value;
-      const columnValue = isNil(parsedValue) ? "" : parsedValue;
-
-      if (type === "date") {
-        return (
-          <DateColumn rowAvailable={rowAvailable} wrapper={DisableOffline} value={value} valueWithTime={withTime} />
-        );
-      }
-
-      return (
-        <ConditionalWrapper
-          condition={!rowAvailable}
-          wrapper={DisableOffline}
-          offlineTextKey="unavailable_offline"
-          overrideCondition={!rowAvailable}
-        >
-          <>{Component !== undefined ? <Component {...props} /> : columnValue}</>
-        </ConditionalWrapper>
-      );
-    };
-
     let columns = allowedColumns
       .filter(column => ![ALERTS_COLUMNS.flag_count, ALERTS_COLUMNS.alert_count].includes(column.get("name")))
       .map(column => {
@@ -58,18 +31,34 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online) 
                   return { style: { width: "45px" } };
                 },
                 // eslint-disable-next-line react/no-multi-comp, react/display-name
-                customBodyRender: (value, { rowIndex }) =>
-                  disableColumnOffline({ component: PhotoColumnBody, props: { value, css }, rowIndex })
+                customBodyRender: (value, { rowIndex }) => (
+                  <DisableColumnOffline
+                    component={<PhotoColumnBody value={value} css={css} />}
+                    rowAvailable={rowAvailable(rowIndex, data)}
+                  />
+                )
               };
             case "registration_date":
               return {
-                customBodyRender: (value, { rowIndex }) =>
-                  disableColumnOffline({ value, withTime: false, rowIndex, type: "date" })
+                customBodyRender: (value, { rowIndex }) => (
+                  <DisableColumnOffline
+                    value={value}
+                    withTime={false}
+                    rowAvailable={rowAvailable(rowIndex, data)}
+                    type="date"
+                  />
+                )
               };
             case "case_opening_date":
               return {
-                customBodyRender: (value, { rowIndex }) =>
-                  disableColumnOffline({ value, withTime: true, type: "date", rowIndex })
+                customBodyRender: (value, { rowIndex }) => (
+                  <DisableColumnOffline
+                    value={value}
+                    withTime
+                    type="date"
+                    rowAvailable={rowAvailable(rowIndex, data)}
+                  />
+                )
               };
             case "id":
               return {
@@ -77,7 +66,11 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online) 
                 customBodyRender: (value, { rowData, rowIndex }) => {
                   const idValue = column.get("field_name") === ID_COLUMNS.case_id_display ? value || rowData[1] : value;
 
-                  return <div className={css.id}>{disableColumnOffline({ value: idValue, rowIndex })}</div>;
+                  return (
+                    <div className={css.id}>
+                      <DisableColumnOffline value={idValue} rowAvailable={rowAvailable(rowIndex, data)} />
+                    </div>
+                  );
                 }
               };
             case "complete":
@@ -98,7 +91,9 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online) 
             default:
               return {
                 sort: column.get("sort", true),
-                customBodyRender: (value, { rowIndex }) => disableColumnOffline({ value, rowIndex })
+                customBodyRender: (value, { rowIndex }) => (
+                  <DisableColumnOffline value={value} rowAvailable={rowAvailable(rowIndex, data)} />
+                )
               };
           }
         })(column.get("name"));
@@ -117,10 +112,8 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online) 
       })
       .sortBy(column => (iconColumns.includes(column.name) ? 1 : 0));
 
-    const canShowAlertIcon = allowedColumns
-      .map(allowedColumn => allowedColumn.name)
-      .includes(ALERTS_COLUMNS.alert_count);
-    const canShowFlagIcon = allowedColumns.map(allowedColumn => allowedColumn.name).includes(ALERTS_COLUMNS.flag_count);
+    const canShowAlertIcon = allowedColumns.some(allowedColumn => allowedColumn.name === ALERTS_COLUMNS.alert_count);
+    const canShowFlagIcon = allowedColumns.some(allowedColumn => allowedColumn.name === ALERTS_COLUMNS.flag_count);
 
     if ([RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests].includes(recordType)) {
       columns = columns.push({
@@ -149,15 +142,17 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online) 
                 <span />
               );
 
-            return disableColumnOffline({
-              value: (
-                <div className={css.alerts}>
-                  {alertIcon}
-                  {flagIcon}
-                </div>
-              ),
-              rowIndex
-            });
+            return (
+              <DisableColumnOffline
+                value={
+                  <div className={css.alerts}>
+                    {alertIcon}
+                    {flagIcon}
+                  </div>
+                }
+                rowAvailable={rowAvailable(rowIndex, data)}
+              />
+            );
           }
         }
       });
