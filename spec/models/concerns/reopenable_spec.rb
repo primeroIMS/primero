@@ -43,31 +43,86 @@ describe Reopenable do
       @child = Child.create!(data: { 'status' => Record::STATUS_CLOSED })
     end
 
-    it 'does not reopen a closed record on incident update and logs' do
+    it 'keeps the record closed even if created with a service' do
+      child_with_service = Child.create!(
+        data: {
+          'status' => Record::STATUS_CLOSED,
+          'services_section' => [{ 'service_type' => 'service_1' }]
+        }
+      )
+
+      expect(child_with_service.status).to eq(Record::STATUS_CLOSED)
+      expect(child_with_service.case_status_reopened).to be_falsey
+      expect(child_with_service.reopened_logs.size).to eq(0)
+    end
+
+    it 'does not reopen a record if it is disabled' do
+      disabled_child = Child.create!(
+        data: {
+          'status' => Record::STATUS_CLOSED,
+          'record_state' => false
+        }
+      )
+
+      disabled_child.update_properties(
+        fake_user(user_name: 'reopen_user'),
+        'services_section' => [{ 'service_type' => 'nfi' }]
+      )
+
+      expect(disabled_child.status).to eq(Record::STATUS_CLOSED)
+      expect(disabled_child.case_status_reopened).to be_falsey
+      expect(disabled_child.reopened_logs.size).to eq(0)
+    end
+
+    it 'reopen a closed record if a service is added and logs' do
       @child.update_properties(
         fake_user(user_name: 'reopen_user'),
         'services_section' => [{ 'service_type' => 'nfi' }]
       )
       @child.save!
 
-      expect(@child.status).to eq(Record::STATUS_CLOSED)
-      expect(@child.case_status_reopened).to be_falsey
-      expect(@child.reopened_logs.size).to eq(0)
+      expect(@child.status).to eq(Record::STATUS_OPEN)
+      expect(@child.case_status_reopened).to eq(true)
+      expect(@child.reopened_logs.last['reopened_user']).to eq('reopen_user')
     end
 
-    it 'does not reopen a closed record on service update and logs' do
+    it 'reopen a closed record on incident update and logs' do
       @child.update_properties(
         fake_user(user_name: 'reopen_user'),
         'incident_details' => [{ 'description' => 'An incident is recorded' }]
       )
       @child.save!
 
+      expect(@child.status).to eq(Record::STATUS_OPEN)
+      expect(@child.case_status_reopened).to eq(true)
+      expect(@child.reopened_logs.last['reopened_user']).to eq('reopen_user')
+    end
+
+    it 'does not reopen a closed record if a service is updated' do
+      child_with_service = Child.create!(
+        data: {
+          'status' => Record::STATUS_CLOSED,
+          'services_section' => [{ 'service_type' => 'service_1' }]
+        }
+      )
+
+      child_with_service.update_properties(
+        fake_user(user_name: 'reopen_user'),
+        'services_section' => [
+          child_with_service.services_section.first.merge('service_implemented' => 'not_implemented')
+        ]
+      )
+
+      child_with_service.save!
+      child_with_service.reload
+
+      expect(child_with_service.services_section.first['service_implemented']).to eq('not_implemented')
       expect(@child.status).to eq(Record::STATUS_CLOSED)
       expect(@child.case_status_reopened).to be_falsey
       expect(@child.reopened_logs.size).to eq(0)
     end
 
-    it "doesn't reopen the record on arbitrary updates" do
+    it 'does not reopen the record on arbitrary updates' do
       @child.update_properties(fake_user(user_name: 'reopen_user'), 'name' => 'Test 1')
       @child.save!
 
