@@ -496,7 +496,11 @@ export const ALERTS_FOR = {
   duplicate_field: "duplicate_field"
 };
 
+export const MAX_OFFLINE_ROWS_PER_PAGE = 50;
+
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 75, 100];
+
+export const OFFLINE_ROWS_PER_PAGE_OPTIONS = [20, 50];
 
 export const DEFAULT_METADATA = Object.freeze({
   page: 1,
@@ -656,3 +660,39 @@ export const VIOLATION_VERIFICATION_STATUS = Object.freeze({
 });
 
 export const MAX_CONDITIONS = 4;
+
+export const QUICK_SEARCH_FIELDS = Object.freeze([
+  "biometrics_id",
+  "camp_id",
+  "case_id",
+  "case_id_display",
+  "dss_id",
+  "family_count_no",
+  "icrc_ref_no",
+  "name",
+  "name_nickname",
+  "name_other",
+  "national_id_no",
+  "nfi_distribution_id",
+  "oscar_number",
+  "other_agency_id",
+  "other_id_no",
+  "ration_card_no",
+  "rc_id_no",
+  "registry_no",
+  "short_id",
+  "survivor_code_no",
+  "tent_number",
+  "un_no",
+  "unhcr_id_no",
+  "unhcr_individual_no",
+  "unique_identifier"
+]);
+
+export const DATE_SORTABLE_FIELDS = Object.freeze([
+  "created_at",
+  "registration_date",
+  "incident_date",
+  "date_of_first_report",
+  "inquiry_date"
+]);

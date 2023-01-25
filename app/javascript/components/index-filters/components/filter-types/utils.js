@@ -9,7 +9,8 @@ export const registerInput = ({
   defaultValue,
   setInputValue,
   clearSecondaryInput,
-  isMultiSelect
+  isMultiSelect,
+  isLocation
 }) => {
   return register(
     Object.defineProperty(
@@ -19,7 +20,17 @@ export const registerInput = ({
       "value",
       {
         set(data) {
-          setInputValue(data || defaultValue);
+          const dataValue = data || defaultValue;
+
+          if (isLocation) {
+            const inputValue = isMultiSelect
+              ? dataValue.map(current => (typeof current === "string" ? current.toUpperCase() : current))
+              : dataValue.toUpperCase();
+
+            setInputValue(inputValue);
+          } else {
+            setInputValue(dataValue);
+          }
 
           // eslint-disable-next-line no-param-reassign
           ref.current = isMultiSelect && data ? data.map(value => value?.code || value?.id || value) : data;

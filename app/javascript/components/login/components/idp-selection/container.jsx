@@ -20,7 +20,6 @@ const Container = () => {
   return (
     <>
       <PageHeading title={i18n.t("login.title")} noPadding noElevation />
-      <p className={css.selectProvider}>{i18n.t("select_provider")}</p>
       <PrimeroIdpSelect identityProviders={identityProviders} css={css} />
       <PrimeroIdpLink identityProviders={identityProviders} i18n={i18n} dispatch={dispatch} css={css} />
     </>

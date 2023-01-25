@@ -32,8 +32,13 @@ export default conditionArray => {
     }
 
     if (elem.type === LOGICAL_OPERATORS.AND && acc[LOGICAL_OPERATORS.OR]) {
+      const lastCondition = last(acc.or);
+
       return {
-        [LOGICAL_OPERATORS.OR]: [...acc.or.slice(0, acc.or.length - 1), { [elem.type]: [last(acc.or), condition] }]
+        [LOGICAL_OPERATORS.OR]: [
+          ...acc.or.slice(0, acc.or.length - 1),
+          { [elem.type]: [...(lastCondition.and ? lastCondition.and : [lastCondition]), condition] }
+        ]
       };
     }
 

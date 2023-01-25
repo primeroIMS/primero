@@ -134,17 +134,10 @@ class Flag < ApplicationRecord
       flags = []
       record_types.each do |record_type|
         params[:type] = record_type
-        f = send(scope_to_use, params).where(where_params(flagged_by, active_only)).select(select_fields(record_type))
+        f = send(scope_to_use, params).includes(:record).where(where_params(flagged_by, active_only))
         flags << f
       end
-      mask_flag_names(flags.flatten)
-    end
-
-    def mask_flag_names(flags)
-      flags.each_with_object([]) do |flag, flag_list|
-        flag.name = RecordDataService.visible_name(flag)
-        flag_list << flag
-      end
+      flags.flatten
     end
 
     def where_params(flagged_by, active_only)
@@ -152,15 +145,6 @@ class Flag < ApplicationRecord
       where_params[:flagged_by] = flagged_by if flagged_by.present?
       where_params[:removed] = false if active_only
       where_params
-    end
-
-    def select_fields(record_type)
-      (Flag.column_names.map { |column| "flags.#{column}" } +
-         record_fields_for_select.map { |field| "#{record_type}.data -> '#{field}' as #{field}" }).join(', ')
-    end
-
-    def record_fields_for_select
-      %w[short_id name hidden_name owned_by owned_by_agency_id]
     end
   end
 

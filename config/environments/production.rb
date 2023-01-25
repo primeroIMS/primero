@@ -29,12 +29,13 @@ Rails.application.configure do
     logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = Logger::Formatter.new
     config.logger = ActiveSupport::TaggedLogging.new(logger)
+    config.log_tags = [:request_id, lambda { |_request| Thread.current.object_id }]
   end
 
   config.force_ssl = true
   config.ssl_options = { redirect: false }
 
-  storage_type = %w[local microsoft amazon].find do |t|
+  storage_type = %w[local microsoft amazon minio].find do |t|
     t == ENV['PRIMERO_STORAGE_TYPE']
   end || 'local'
   config.active_storage.service = storage_type.to_sym

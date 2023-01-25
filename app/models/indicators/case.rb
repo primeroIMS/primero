@@ -581,7 +581,7 @@ module Indicators
         facet: facet_name,
         record_model: Child,
         scope: CLOSED_ENABLED + [
-          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.last_week))
+          SearchFilters::DateRange.new({ field_name: 'date_closure' }.merge(FacetedIndicator.last_week))
         ]
       )
     end
@@ -592,7 +592,7 @@ module Indicators
         facet: facet_name,
         record_model: Child,
         scope: CLOSED_ENABLED + [
-          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
+          SearchFilters::DateRange.new({ field_name: 'date_closure' }.merge(FacetedIndicator.this_week))
         ]
       )
     end
@@ -693,7 +693,7 @@ module Indicators
         name: 'closed_this_week',
         record_model: Child,
         queries: CLOSED_ENABLED + [
-          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(QueriedIndicator.this_week))
+          SearchFilters::DateRange.new({ field_name: 'date_closure' }.merge(QueriedIndicator.this_week))
         ].freeze
       )
     end
@@ -703,7 +703,7 @@ module Indicators
         name: 'closed_last_week',
         record_model: Child,
         queries: CLOSED_ENABLED + [
-          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(QueriedIndicator.last_week))
+          SearchFilters::DateRange.new({ field_name: 'date_closure' }.merge(QueriedIndicator.last_week))
         ].freeze
       )
     end

@@ -9,7 +9,7 @@ FormSection.create_or_update!(
   form_group_id: 'identification_registration',
   is_first_tab: true,
   fields: [],
-  name_en: 'Farmer Details',
+  name_en: 'Registry Details',
   description_en: 'Registry from case',
   core_form: true
 )

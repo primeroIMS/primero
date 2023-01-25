@@ -22,29 +22,20 @@ import { getFieldByName, getNestedFields, getRecordFields } from "../../../../..
 
 import { conditionsForm, validationSchema } from "./form";
 import { ATTRIBUTE_FIELD, CONSTRAINT_FIELD, EXCLUDED_FIELD_TYPES, FORM_NAME, NAME, VALUE_FIELD } from "./constants";
-import { convertValue, registerFields, updateCondition } from "./utils";
+import { buildFieldName, convertValue, registerFields, updateCondition } from "./utils";
 
-function Component({ formMethods, handleClose, handleSuccess, primeroModule, recordType, field }) {
+function Component({ fieldProps, formMethods, handleClose, handleSuccess, primeroModule, recordType }) {
   const i18n = useI18n();
-  const recordConditionsName = field ? `${field.get("name")}.display_conditions_record` : "display_conditions";
-  const subformConditionsName = field
-    ? `${field.get("name")}.display_conditions_subform`
-    : "display_conditions_subform";
-  const { append: appendConditionRecord } = useFieldArray({
-    control: formMethods.control,
-    name: recordConditionsName
-  });
-  const { append: appendConditionSubform } = useFieldArray({
-    control: formMethods.control,
-    name: subformConditionsName
-  });
-
-  const recordConditions = formMethods.getValues(recordConditionsName) || [];
-  const subformConditions = formMethods.getValues(subformConditionsName) || [];
   const { dialogOpen, params } = useDialog(NAME);
-  const isFirstCondition =
-    parseInt(params.get("index"), 10) === 0 || recordConditions.length + subformConditions.length <= 0;
+  const isNested = params.get("isNested", false);
   const initialValues = params.get("initialValues", fromJS({}));
+  const { name, formSectionId } = fieldProps;
+  const fieldName = buildFieldName(name, isNested);
+
+  const { append } = useFieldArray({ control: formMethods.control, name: fieldName });
+
+  const currentConditions = formMethods.getValues(fieldName) || [];
+  const isFirstCondition = parseInt(params.get("index"), 10) === 0 || currentConditions.length <= 0;
   const defaultValues = initialValues.size
     ? reduceMapToObject(initialValues)
     : { attribute: "", constraint: "", value: "" };
@@ -52,33 +43,27 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
   const { handleSubmit } = dialogFormMethods;
   const attribute = useWatch({ control: dialogFormMethods.control, name: ATTRIBUTE_FIELD });
   const selectedField = useMemoizedSelector(state => getFieldByName(state, attribute));
-  const nestedFields = useMemoizedSelector(state =>
-    getNestedFields(state, {
-      recordType,
-      primeroModule,
-      excludeTypes: EXCLUDED_FIELD_TYPES,
-      omitDuplicates: true,
-      excludeFieldNames: field?.name ? [field.name] : null,
-      nestedFormIds: field?.get("form_section_id") ? [field?.get("form_section_id")] : null,
-      includeFormSectionName: true
-    })
-  );
-
+  const fieldsSelector = isNested ? getNestedFields : getRecordFields;
   const fields = useMemoizedSelector(state =>
-    getRecordFields(state, {
+    fieldsSelector(state, {
       recordType,
       primeroModule,
-      includeNested: false,
       excludeTypes: EXCLUDED_FIELD_TYPES,
       omitDuplicates: true,
-      includeFormSectionName: true
+      includeFormSectionName: true,
+      ...(isNested
+        ? {
+            excludeFieldNames: name ? [name] : null,
+            nestedFormIds: formSectionId ? [formSectionId] : null
+          }
+        : { includeNested: false })
     })
   );
 
   const formMode = whichFormMode(params.get("mode"));
 
   const formSections = conditionsForm({
-    fields: nestedFields.concat(fields),
+    fields,
     i18n,
     selectedField,
     mode: formMode,
@@ -86,17 +71,10 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
   });
 
   const onSubmit = data => {
-    const isNestedField = nestedFields.some(nested => nested.name === data.attribute);
-    const conditionsFieldName = isNestedField ? "display_conditions_subform" : "display_conditions_record";
-    const fieldName = field ? `${field.get("name")}.${conditionsFieldName}` : "display_conditions";
     const dataConverted = { ...data, value: convertValue(data.value, selectedField.type) };
 
     if (formMode.isNew) {
-      if (isNestedField) {
-        appendConditionSubform(dataConverted);
-      } else {
-        appendConditionRecord(dataConverted);
-      }
+      append(dataConverted);
     } else {
       registerFields({
         register: formMethods.register,
@@ -120,6 +98,9 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
       handleSuccess();
     }
   };
+
+  const confirmButtonLabel = formMode.isNew ? i18n.t("buttons.add") : i18n.t("buttons.update");
+  const dialogTitle = formMode.isNew ? i18n.t("forms.conditions.add") : i18n.t("forms.conditions.update");
 
   useEffect(() => {
     if (attribute && attribute !== defaultValues?.attribute && selectedField) {
@@ -149,13 +130,13 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
   return (
     <ActionDialog
       open={dialogOpen}
-      confirmButtonLabel={formMode.isNew ? i18n.t("buttons.add") : i18n.t("buttons.update")}
+      confirmButtonLabel={confirmButtonLabel}
       confirmButtonProps={{
         icon: <CheckIcon />,
         form: FORM_NAME,
         type: "submit"
       }}
-      dialogTitle={i18n.t("forms.conditions.add")}
+      dialogTitle={dialogTitle}
       omitCloseAfterSuccess
       cancelHandler={handleClose}
     >
@@ -176,7 +157,10 @@ function Component({ formMethods, handleClose, handleSuccess, primeroModule, rec
 Component.displayName = NAME;
 
 Component.propTypes = {
-  field: PropTypes.object,
+  fieldProps: PropTypes.shape({
+    formSectionId: PropTypes.number,
+    name: PropTypes.string
+  }),
   formMethods: PropTypes.object,
   handleClose: PropTypes.func,
   handleSuccess: PropTypes.func,

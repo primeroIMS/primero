@@ -57,7 +57,7 @@ const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
   };
 
   useEffect(() => {
-    const { submitCount } = formikRef.current?.getFormikBag() || {};
+    const { submitCount } = formikRef.current || {};
 
     if (!loading && !errors && submitCount > 0) {
       close();

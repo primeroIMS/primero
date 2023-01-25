@@ -53,7 +53,22 @@ describe Api::V2::FormSectionsController, type: :request do
     @form4 = FormSection.create!(
       unique_id: 'form_section_4',
       name_i18n: { en: 'Form Section_4 ' },
-      is_nested: true
+      is_nested: true,
+      collapsed_field_names: %w[fs4_field_1 fs4_field_2],
+      fields: [
+        Field.new(
+          name: 'fs4_field_1',
+          type: Field::TEXT_FIELD,
+          display_name_i18n: { en: 'First field in subform section 4' },
+          order: 2
+        ),
+        Field.new(
+          name: 'fs4_field_2',
+          type: Field::TEXT_FIELD,
+          display_name_i18n: { en: 'Second field in subform section 4' },
+          order: 1
+        )
+      ]
     )
 
     @form3.fields = [
@@ -68,6 +83,23 @@ describe Api::V2::FormSectionsController, type: :request do
     ]
 
     @form3.save!
+
+    @form5 = FormSection.create!(
+      unique_id: 'form_section_5',
+      name_i18n: { en: 'Form Section 5' },
+      parent_form: 'case',
+      editable: false,
+      display_conditions: { eq: { fs1_field_1: 'some text' } },
+      fields: [
+        Field.new(
+          name: 'fs5_field_1',
+          type: Field::TEXT_FIELD,
+          display_name_i18n: { en: 'First field in form section' },
+          display_conditions_record: { eq: { fs1_field_1: 'some text' } },
+          editable: false
+        )
+      ]
+    )
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -80,8 +112,8 @@ describe Api::V2::FormSectionsController, type: :request do
         get '/api/v2/forms'
 
         expect(response).to have_http_status(200)
-        expect(json['data'].size).to eq(4)
-        expected = [@form1.unique_id, @form2.unique_id, @form3.unique_id, @form4.unique_id]
+        expect(json['data'].size).to eq(5)
+        expected = [@form1.unique_id, @form2.unique_id, @form3.unique_id, @form4.unique_id, @form5.unique_id]
         expect(json['data'].map { |c| c['unique_id'] }).to match_array(expected)
       end
     end
@@ -94,10 +126,20 @@ describe Api::V2::FormSectionsController, type: :request do
         get '/api/v2/forms', params: params
 
         expect(response).to have_http_status(200)
-        expect(json['data'].size).to eq(3)
-        expected = [@form1.unique_id, @form2.unique_id, @form3.unique_id]
+        expect(json['data'].size).to eq(4)
+        expected = [@form1.unique_id, @form2.unique_id, @form3.unique_id, @form5.unique_id]
         expect(json['data'].map { |c| c['unique_id'] }).to match_array(expected)
       end
+    end
+
+    it 'includes collapsed fields' do
+      login_for_test
+
+      get '/api/v2/forms', params: {}
+
+      expect(response).to have_http_status(200)
+      expected = %w[fs4_field_1 fs4_field_2]
+      expect(json['data'].map { |form| form['collapsed_field_names'] }.flatten).to match_array(expected)
     end
   end
 
@@ -527,6 +569,42 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(@form2.name_en).to eq(params[:data][:name][:en])
       expect(field.name).to eq(params[:data][:fields][0][:name])
       expect(@form2.fields.size).to eq(1)
+    end
+
+    it 'removes display_conditions if they are null' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
+        ]
+      )
+
+      params = {
+        data: {
+          display_conditions: nil,
+          fields: [
+            {
+              name: 'fs5_field_1',
+              type: Field::TEXT_FIELD,
+              display_name_i18n: { en: 'First field in form section' },
+              display_conditions_record: nil,
+              editable: false
+            }
+          ]
+        }
+      }
+
+      expect(@form5.fields.last.name).to eq('fs5_field_1')
+
+      patch "/api/v2/forms/#{@form5.id}", params: params, as: :json
+
+      @form5.reload
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@form5.id)
+
+      field = @form5.fields.last
+      expect(field.name).to eq(params[:data][:fields][0][:name])
+      expect(field.display_conditions_record).to be_nil
     end
 
     it "returns 403 if user isn't authorized to update records" do

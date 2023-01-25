@@ -20,7 +20,7 @@ export const visibilityFields = ({ fieldName, i18n, limitedProductionSite }) => 
     disabled: limitedProductionSite
   }),
   skipLogic: FieldRecord({
-    display_name: i18n.t("fields.skip_logic"),
+    display_name: i18n.t("fields.skip_logic.name"),
     name: `${fieldName}.skip_logic`,
     type: TICK_FIELD,
     disabled: limitedProductionSite

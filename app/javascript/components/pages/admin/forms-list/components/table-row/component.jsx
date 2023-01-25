@@ -2,13 +2,13 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Draggable } from "react-beautiful-dnd";
 import findKey from "lodash/findKey";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import clsx from "clsx";
 
 import { useI18n } from "../../../../../i18n";
 import { MODULES, RECORD_PATH } from "../../../../../../config/constants";
 import css from "../../styles.css";
 import DragIndicator from "../drag-indicator";
+import LockedIcon from "../../../../../locked-icon";
 
 const Component = ({ name, modules, parentForm, uniqueID, id, index, editable, isDragDisabled }) => {
   const i18n = useI18n();
@@ -20,7 +20,7 @@ const Component = ({ name, modules, parentForm, uniqueID, id, index, editable, i
 
   const formSectionModules = modules.map(module => findKey(MODULES, value => module === value))?.join(", ");
 
-  const renderIcon = !editable ? <VpnKeyIcon className={css.rotateIcon} /> : null;
+  const renderIcon = !editable ? <LockedIcon /> : null;
 
   return (
     <Draggable draggableId={uniqueID} index={index} isDragDisabled={isDragDisabled}>

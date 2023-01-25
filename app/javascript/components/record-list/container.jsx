@@ -22,23 +22,20 @@ import { usePermissions, ACTIONS } from "../permissions";
 import PageContainer, { PageContent } from "../page";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
-import FilterContainer from "./filter-container";
 import { buildTableColumns } from "./utils";
 import RecordListToolbar from "./record-list-toolbar";
 import { getListHeaders, getMetadata, getAppliedFiltersAsQueryString } from "./selectors";
 import css from "./styles.css";
 import ViewModal from "./view-modal";
-import SortContainer from "./components/sort-container/component";
+import SortContainer from "./components/sort-container";
+import FilterContainer from "./components/filter-container";
 
 const Container = ({ match, location }) => {
   const { mobileDisplay } = useThemeHelper();
   const i18n = useI18n();
-  const queryParams = qs.parse(location.search.replace("?", ""));
-  const [drawer, setDrawer] = useState(false);
-  const [sortDrawer, setSortDrawer] = useState(false);
+  const currentQueryString = location.search.replace("?", "");
   const { online } = useApp();
   const { url } = match;
-  const { search } = location;
   const recordType = url.replace("/", "");
   const dispatch = useDispatch();
 
@@ -58,9 +55,12 @@ const Container = ({ match, location }) => {
     canSearchOthers: [ACTIONS.SEARCH_OTHERS]
   });
 
-  const fromDashboard = useMemo(() => Boolean(new URLSearchParams(search).get("fromDashboard")), [search]);
+  const queryParams = useMemo(() => qs.parse(currentQueryString), [currentQueryString]);
 
-  const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata);
+  const defaultFilters = useMemo(
+    () => fromJS(Object.keys(queryParams).length ? queryParams : DEFAULT_FILTERS).merge(metadata),
+    [metadata, queryParams]
+  );
 
   useMetadata(recordType, metadata, applyFilters, "data", {
     defaultFilterFields: Object.keys(queryParams).length ? queryParams : defaultFilters.toJS(),
@@ -100,35 +100,31 @@ const Container = ({ match, location }) => {
   }, []);
 
   useEffect(() => {
-    const currentQueryString = location.search.replace("?", "");
-
     if (filtersQueryString && currentQueryString !== filtersQueryString) {
       dispatch(replace({ search: filtersQueryString }));
     }
-  }, [location, filtersQueryString]);
+  }, [currentQueryString, filtersQueryString]);
 
   const handleViewModalClose = useCallback(() => {
     setOpenViewModal(false);
   }, []);
 
-  const listHeaders =
-    // eslint-disable-next-line camelcase
-    filters.id_search && canSearchOthers ? headers.filter(header => header.id_search) : headers;
+  const listHeaders = useMemo(
+    () =>
+      // eslint-disable-next-line camelcase
+      filters.id_search && canSearchOthers ? headers.filter(header => header.id_search) : headers,
+    [filters.id_search, headers, canSearchOthers]
+  );
 
-  const recordAvaialble = record => {
-    const allowedToOpenRecord =
-      record && typeof record.get("record_in_scope") !== "undefined" ? record.get("record_in_scope") : false;
+  const recordAvailable = useCallback(
+    record => {
+      const allowedToOpenRecord =
+        record && typeof record.get("record_in_scope") !== "undefined" ? record.get("record_in_scope") : false;
 
-    return (!online && record.get("complete", false) && allowedToOpenRecord) || (online && allowedToOpenRecord);
-  };
-
-  const handleDrawer = useCallback(() => {
-    setDrawer(!drawer);
-  }, [drawer]);
-
-  const handleSortDrawer = useCallback(() => {
-    setSortDrawer(!sortDrawer);
-  }, [sortDrawer]);
+      return (!online && record.get("complete", false) && allowedToOpenRecord) || (online && allowedToOpenRecord);
+    },
+    [online]
+  );
 
   const clearSelectedRecords = useCallback(() => {
     setSelectedRecords({});
@@ -137,19 +133,22 @@ const Container = ({ match, location }) => {
   const page = metadata?.get("page", 1);
   const currentPage = page - 1;
 
-  const handleRowClick = useCallback(record => {
-    if (recordAvaialble(record)) {
-      dispatch(push(`${recordType}/${record.get("id")}`));
-    } else if (canViewModal && online) {
-      setCurrentRecord(record);
-      setOpenViewModal(true);
-    }
-  }, []);
+  const handleRowClick = useCallback(
+    record => {
+      if (recordAvailable(record)) {
+        dispatch(push(`${recordType}/${record.get("id")}`));
+      } else if (canViewModal && online) {
+        setCurrentRecord(record);
+        setOpenViewModal(true);
+      }
+    },
+    [canViewModal, online]
+  );
 
-  const rowSelectable = useCallback(record => recordAvaialble(record) || online, []);
+  const rowSelectable = useCallback(record => recordAvailable(record) || online, [online]);
 
   const columns = useMemo(
-    () => buildTableColumns(listHeaders, i18n, recordType, css, recordAvaialble, online),
+    () => buildTableColumns(listHeaders, i18n, recordType, css, recordAvailable, online),
     [online, listHeaders, recordType]
   );
 
@@ -165,8 +164,6 @@ const Container = ({ match, location }) => {
         <RecordListToolbar
           title={title}
           recordType={recordType}
-          handleDrawer={handleDrawer}
-          handleSortDrawer={handleSortDrawer}
           currentPage={currentPage}
           selectedRecords={selectedRecords}
           clearSelectedRecords={clearSelectedRecords}
@@ -190,22 +187,9 @@ const Container = ({ match, location }) => {
             </div>
           </div>
 
-          {mobileDisplay && (
-            <SortContainer
-              open={sortDrawer}
-              onClose={handleSortDrawer}
-              columns={columns}
-              recordType={recordType}
-              applyFilters={applyFilters}
-            />
-          )}
-          <FilterContainer drawer={drawer} handleDrawer={handleDrawer} mobileDisplay={mobileDisplay}>
-            <Filters
-              recordType={recordType}
-              defaultFilters={defaultFilters}
-              setSelectedRecords={handleSelectedRecords}
-              fromDashboard={fromDashboard}
-            />
+          {mobileDisplay && <SortContainer columns={columns} recordType={recordType} applyFilters={applyFilters} />}
+          <FilterContainer mobileDisplay={mobileDisplay}>
+            <Filters recordType={recordType} setSelectedRecords={handleSelectedRecords} />
           </FilterContainer>
         </PageContent>
       </PageContainer>

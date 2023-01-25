@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { TextField } from "@material-ui/core";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
-import { useLocation } from "react-router-dom";
-import qs from "qs";
 
 import Panel from "../../panel";
 import { useI18n } from "../../../../i18n";
@@ -46,14 +44,12 @@ const Component = ({
     option_strings_source: optionStringsSource,
     option_strings_source_id_key: optionStringsSourceIdKey
   } = filter;
-  const location = useLocation();
-  const queryParams = qs.parse(location.search.replace("?", ""));
 
   const lookups = useOptions({
     source: optionStringsSource,
     optionStringsSourceIdKey,
     filterOptions: sourceOptions => sourceOptions.filter(option => !option.disabled),
-    includeChildren: true
+    includeChildren: optionStringsSource === "Location"
   });
 
   const filterOptions = whichOptions({
@@ -84,7 +80,8 @@ const Component = ({
       ref: valueRef,
       defaultValue: [],
       setInputValue,
-      isMultiSelect: multiple
+      isMultiSelect: multiple,
+      isLocation: [OPTION_TYPES.LOCATION, OPTION_TYPES.REPORTING_LOCATIONS].includes(optionStringsSource)
     });
 
     return () => {
@@ -93,7 +90,7 @@ const Component = ({
         setReset(false);
       }
     };
-  }, [register, unregister, fieldName]);
+  }, [register, unregister, fieldName, optionStringsSource]);
 
   useEffect(() => {
     const value = filterOptions.filter(l => moreSectionFilters?.[fieldName]?.includes(l?.code || l?.id));
@@ -102,21 +99,6 @@ const Component = ({
 
     if (reset && !mode?.defaultFilter) {
       handleReset();
-    }
-
-    if (Object.keys(queryParams).length) {
-      const paramValues = [OPTION_TYPES.LOCATION, OPTION_TYPES.REPORTING_LOCATIONS].includes(optionStringsSource)
-        ? queryParams[fieldName]?.map(paramValue => paramValue.toUpperCase())
-        : queryParams[fieldName];
-
-      if (paramValues?.length) {
-        const selected = filterOptions.filter(filterOption =>
-          paramValues.includes(filterOption?.code?.toString() || filterOption?.id?.toString())
-        );
-
-        setValue(fieldName, selected);
-        setInputValue(selected);
-      }
     }
   }, [filterOptions.length, fieldName, reset]);
 
@@ -188,6 +170,7 @@ const Component = ({
         getOptionSelected={handleOptionSelected}
         renderInput={handleRenderInput}
         filterOptions={filterOptionsProp}
+        filterSelectedOptions
       />
     </Panel>
   );

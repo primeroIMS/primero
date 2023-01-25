@@ -78,7 +78,7 @@ export default ({
         disableOffline: true,
         enabledFor: ENABLED_FOR_ONE_MANY,
         name: `${i18n.t("buttons.reassign")} ${formRecordType}`,
-        recordListAction: true,
+        recordListAction: false,
         recordType: RECORD_PATH.cases
       },
       {

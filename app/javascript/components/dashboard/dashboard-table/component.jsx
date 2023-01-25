@@ -7,6 +7,7 @@ import { dataToJS, useMemoizedSelector } from "../../../libs";
 import { buildFilter } from "../utils";
 import { getPermissions } from "../../user/selectors";
 import tableCellGreaterThanZero from "../../pages/dashboard/utils/table-cell-greater-than-zero";
+import getCellValue from "../../pages/dashboard/utils/get-cell-value";
 import { defaultTableOptions } from "../../index-table/utils";
 
 import css from "./styles.css";
@@ -25,7 +26,9 @@ const DashboardTable = ({ columns, data, query, title, pathname }) => {
       if (typeof query[rowIndex] !== "undefined") {
         const clickedCellQuery = query[rowIndex][columnName];
 
-        if (clickableCell && Array.isArray(clickedCellQuery) && colData > 0) {
+        const colValue = getCellValue(colData);
+
+        if (clickableCell && Array.isArray(clickedCellQuery) && colValue > 0) {
           dispatch(
             push({
               pathname,

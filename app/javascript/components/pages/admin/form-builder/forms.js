@@ -161,7 +161,7 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
               disabled: limitedProductionSite
             }),
             FieldRecord({
-              display_name: i18n.t("forms.skip_logic"),
+              display_name: i18n.t("forms.skip_logic.name"),
               name: "skip_logic",
               type: TICK_FIELD,
               disabled: limitedProductionSite
