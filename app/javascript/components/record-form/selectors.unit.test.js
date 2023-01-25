@@ -1278,7 +1278,6 @@ describe("<RecordForm /> - Selectors", () => {
           unique_id: "form_2",
           name: { en: "Nested Form 2" },
           visible: true,
-          parent_form: "case",
           module_ids: ["primeromodule-cp"],
           form_group_id: "identification_registration",
           form_group_name: { en: "Identification / Registration" },
@@ -1308,7 +1307,7 @@ describe("<RecordForm /> - Selectors", () => {
 
       expect(
         selectors
-          .getRecordFields(stateWithDuplicateFields, {
+          .getNestedFields(stateWithDuplicateFields, {
             recordType: "case",
             primeroModule: "primeromodule-cp",
             includeNested: true,

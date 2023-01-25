@@ -85,7 +85,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       );
     }
     case actions.SAVE_FORM_FAILURE:
-      return state.set("errors", true).set("serverErrors", fromJS(payload.errors));
+      return state.set("errors", true).set("serverErrors", fromJS(payload.errors)).set("saving", false);
     case actions.SAVE_FORM_FINISHED:
       return state.set("saving", false);
     case actions.SAVE_FORM_STARTED:

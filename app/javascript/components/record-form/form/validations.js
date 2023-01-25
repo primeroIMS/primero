@@ -3,7 +3,6 @@ import { number, date, array, object, string, bool, lazy } from "yup";
 import { addDays } from "date-fns";
 import compact from "lodash/compact";
 import first from "lodash/first";
-import isEmpty from "lodash/isEmpty";
 
 import {
   NUMERIC_FIELD,
@@ -18,6 +17,8 @@ import {
 import { parseExpression } from "../../../libs/expressions";
 
 import { asyncFieldOffline } from "./utils";
+import displayConditionsEnabled from "./utils/display-conditions-enabled";
+import getDisplayConditions from "./utils/get-display-conditions";
 
 const MAX_PERMITTED_INTEGER = 2147483647;
 
@@ -41,13 +42,6 @@ function conditionalFieldAttrs(conditions) {
     condition,
     relatedField: conditionRelatedField(condition)
   };
-}
-
-function hasDisplayConditions(field) {
-  const { display_conditions_subform: displayConditionsSubform, display_conditions_record: displayConditionsRecord } =
-    field;
-
-  return !isEmpty(displayConditionsRecord) || !isEmpty(displayConditionsSubform);
 }
 
 export const fieldValidations = (field, { i18n, online = false }) => {
@@ -153,8 +147,10 @@ export const fieldValidations = (field, { i18n, online = false }) => {
 
     const schema = validations[name] || string();
 
-    if (hasDisplayConditions(field)) {
-      const displayConditions = isEmpty(displayConditionsSubform) ? displayConditionsRecord : displayConditionsSubform;
+    if (displayConditionsEnabled(displayConditionsRecord) || displayConditionsEnabled(displayConditionsSubform)) {
+      const displayConditions = getDisplayConditions(
+        displayConditionsEnabled(displayConditionsRecord) ? displayConditionsRecord : displayConditionsSubform
+      );
       const { relatedField } = conditionalFieldAttrs(displayConditions);
 
       validations[name] = schema.when(relatedField, {
