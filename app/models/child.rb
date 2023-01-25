@@ -40,7 +40,7 @@ class Child < ApplicationRecord
   include Webhookable
   include Kpi::GBVChild
   include DuplicateIdAlertable
-  include Followable
+  include FollowUpable
 
   store_accessor(
     :data,

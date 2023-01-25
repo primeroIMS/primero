@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Followable do
+describe FollowUpable do
   before :each do
     clean_data(Child)
     @child = Child.create!(
