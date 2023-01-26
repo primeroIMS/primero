@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_28_075916) do
+ActiveRecord::Schema.define(version: 2023_01_26_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(version: 2022_03_28_075916) do
     t.uuid "duplicate_case_id"
     t.uuid "registry_record_id"
     t.index ["data"], name: "index_cases_on_data", using: :gin
+    t.index ["duplicate_case_id"], name: "index_cases_on_duplicate_case_id"
     t.index ["registry_record_id"], name: "index_cases_on_registry_record_id"
   end
 
@@ -233,6 +234,7 @@ ActiveRecord::Schema.define(version: 2022_03_28_075916) do
     t.string "collapse"
     t.jsonb "option_strings_condition"
     t.jsonb "calculation"
+    t.index ["collapsed_field_for_subform_section_id"], name: "index_fields_on_collapsed_field_for_subform_section_id"
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["type"], name: "index_fields_on_type"
@@ -290,6 +292,8 @@ ActiveRecord::Schema.define(version: 2022_03_28_075916) do
   create_table "form_sections_primero_modules", id: false, force: :cascade do |t|
     t.integer "primero_module_id"
     t.integer "form_section_id"
+    t.index ["form_section_id"], name: "index_form_sections_primero_modules_on_form_section_id"
+    t.index ["primero_module_id"], name: "index_form_sections_primero_modules_on_primero_module_id"
   end
 
   create_table "form_sections_roles", force: :cascade do |t|
@@ -298,8 +302,10 @@ ActiveRecord::Schema.define(version: 2022_03_28_075916) do
     t.string "permission", default: "rw"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["form_section_id"], name: "index_form_sections_roles_on_form_section_id"
     t.index ["id"], name: "index_form_sections_roles_on_id", unique: true
     t.index ["role_id", "form_section_id"], name: "index_form_sections_roles_on_role_id_and_form_section_id", unique: true
+    t.index ["role_id"], name: "index_form_sections_roles_on_role_id"
   end
 
   create_table "group_victims", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -408,7 +414,9 @@ ActiveRecord::Schema.define(version: 2022_03_28_075916) do
   create_table "primero_modules_roles", id: false, force: :cascade do |t|
     t.integer "role_id"
     t.integer "primero_module_id"
+    t.index ["primero_module_id"], name: "index_primero_modules_roles_on_primero_module_id"
     t.index ["role_id", "primero_module_id"], name: "index_primero_modules_roles_on_role_id_and_primero_module_id", unique: true
+    t.index ["role_id"], name: "index_primero_modules_roles_on_role_id"
   end
 
   create_table "primero_modules_saved_searches", id: :serial, force: :cascade do |t|
@@ -656,9 +664,38 @@ ActiveRecord::Schema.define(version: 2022_03_28_075916) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "agencies_user_groups", "agencies"
+  add_foreign_key "agencies_user_groups", "user_groups"
+  add_foreign_key "alerts", "agencies"
+  add_foreign_key "alerts", "users"
+  add_foreign_key "cases", "cases", column: "duplicate_case_id"
+  add_foreign_key "cases", "registry_records"
   add_foreign_key "cases", "tracing_requests", column: "matched_tracing_request_id"
+  add_foreign_key "fields", "form_sections"
+  add_foreign_key "fields", "form_sections", column: "collapsed_field_for_subform_section_id"
   add_foreign_key "fields", "form_sections", column: "subform_section_id"
+  add_foreign_key "form_sections_primero_modules", "form_sections"
+  add_foreign_key "form_sections_primero_modules", "primero_modules"
+  add_foreign_key "form_sections_roles", "form_sections"
+  add_foreign_key "form_sections_roles", "roles"
+  add_foreign_key "group_victims_violations", "group_victims"
+  add_foreign_key "group_victims_violations", "violations"
+  add_foreign_key "incidents", "cases", column: "incident_case_id"
+  add_foreign_key "individual_victims_violations", "individual_victims"
+  add_foreign_key "individual_victims_violations", "violations"
+  add_foreign_key "perpetrators_violations", "perpetrators"
+  add_foreign_key "perpetrators_violations", "violations"
+  add_foreign_key "primero_modules", "primero_programs"
+  add_foreign_key "primero_modules_roles", "primero_modules"
+  add_foreign_key "primero_modules_roles", "roles"
+  add_foreign_key "primero_modules_saved_searches", "primero_modules"
+  add_foreign_key "primero_modules_saved_searches", "saved_searches"
   add_foreign_key "responses", "violations"
+  add_foreign_key "saved_searches", "users"
+  add_foreign_key "traces", "cases", column: "matched_case_id"
+  add_foreign_key "traces", "tracing_requests"
+  add_foreign_key "user_groups_users", "user_groups"
+  add_foreign_key "user_groups_users", "users"
   add_foreign_key "users", "codes_of_conduct", column: "code_of_conduct_id"
   add_foreign_key "violations", "incidents"
   add_foreign_key "violations", "sources"
