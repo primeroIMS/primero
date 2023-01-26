@@ -33,5 +33,14 @@ class AddForeignKeys < ActiveRecord::Migration[6.1]
     add_foreign_key :individual_victims_violations, :individual_victims, column: 'individual_victim_id'
     add_foreign_key :group_victims_violations, :violations, column: 'violation_id'
     add_foreign_key :group_victims_violations, :group_victims, column: 'group_victim_id'
+
+    add_index :primero_modules_roles, :primero_module_id
+    add_index :primero_modules_roles, :role_id
+    add_index :form_sections_primero_modules, :primero_module_id
+    add_index :form_sections_primero_modules, :form_section_id
+    add_index :form_sections_roles, :role_id
+    add_index :form_sections_roles, :form_section_id
+    add_index :fields, :collapsed_field_for_subform_section_id
+    add_index :cases, :duplicate_case_id
   end
 end
