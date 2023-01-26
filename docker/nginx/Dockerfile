@@ -1,7 +1,7 @@
 ARG version=1.23.3
 ARG BUILD_REGISTRY
 
-FROM nginx:${version}-alpine AS builder
+FROM ${BUILD_REGISTRY}nginx:${version}-alpine AS builder
 
 ARG version
 
