@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_26_000000) do
+ActiveRecord::Schema.define(version: 2023_01_26_000001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -138,7 +138,7 @@ ActiveRecord::Schema.define(version: 2023_01_26_000000) do
     t.string "matched_trace_id"
     t.uuid "duplicate_case_id"
     t.uuid "registry_record_id"
-    t.index ["data"], name: "index_cases_on_data", using: :gin
+    t.index "((data ->> 'case_id'::text))", name: "cases_on_case_id"
     t.index ["duplicate_case_id"], name: "index_cases_on_duplicate_case_id"
     t.index ["registry_record_id"], name: "index_cases_on_registry_record_id"
   end
