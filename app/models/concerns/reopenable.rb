@@ -51,7 +51,7 @@ module Reopenable
 
   def reopen_record
     return if new_record?
-    return unless status == Record::STATUS_CLOSED || record_state == true
+    return unless status == Record::STATUS_CLOSED && record_state == true
     return unless mark_for_reopen || services_section_added?
 
     self.status = Record::STATUS_OPEN

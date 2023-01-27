@@ -122,6 +122,17 @@ describe Reopenable do
       expect(@child.reopened_logs.size).to eq(0)
     end
 
+    it 'does not reopen an already open record if it is enabled' do
+      child_open = Child.create!(data: { 'status' => Record::STATUS_OPEN })
+      child_open.services_section = [{ service_type: 'new_service' }]
+      child_open.record_state = true
+      child_open.save!
+
+      expect(child_open.status).to eq(Record::STATUS_OPEN)
+      expect(child_open.case_status_reopened).to be_falsey
+      expect(child_open.reopened_logs.size).to eq(0)
+    end
+
     it 'does not reopen the record on arbitrary updates' do
       @child.update_properties(fake_user(user_name: 'reopen_user'), 'name' => 'Test 1')
       @child.save!
