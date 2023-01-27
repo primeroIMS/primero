@@ -4,6 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import { openDB } from "idb";
 import fuzzysort from "fuzzysort";
 import sortBy from "lodash/sortBy";
+import uniq from "lodash/uniq";
 
 import { DATABASE_NAME } from "../config/constants";
 
@@ -119,7 +120,7 @@ class DB {
     while (cursor) {
       const data = cursor.value;
 
-      const fuzzyResults = fuzzysort.go(term, data.terms, { threshold: -100 });
+      const fuzzyResults = fuzzysort.go(term, uniq(data.terms), { threshold: -100 });
 
       if (fuzzyResults.length) {
         // eslint-disable-next-line no-loop-func
