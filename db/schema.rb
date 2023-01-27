@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(version: 2023_01_26_000001) do
     t.uuid "duplicate_case_id"
     t.uuid "registry_record_id"
     t.index "((data ->> 'case_id'::text))", name: "cases_on_case_id"
+    t.index ["data"], name: "index_cases_on_data", using: :gin
     t.index ["duplicate_case_id"], name: "index_cases_on_duplicate_case_id"
     t.index ["registry_record_id"], name: "index_cases_on_registry_record_id"
   end
@@ -234,7 +235,6 @@ ActiveRecord::Schema.define(version: 2023_01_26_000001) do
     t.string "collapse"
     t.jsonb "option_strings_condition"
     t.jsonb "calculation"
-    t.index ["collapsed_field_for_subform_section_id"], name: "index_fields_on_collapsed_field_for_subform_section_id"
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["type"], name: "index_fields_on_type"
@@ -672,7 +672,6 @@ ActiveRecord::Schema.define(version: 2023_01_26_000001) do
   add_foreign_key "cases", "registry_records"
   add_foreign_key "cases", "tracing_requests", column: "matched_tracing_request_id"
   add_foreign_key "fields", "form_sections"
-  add_foreign_key "fields", "form_sections", column: "collapsed_field_for_subform_section_id"
   add_foreign_key "fields", "form_sections", column: "subform_section_id"
   add_foreign_key "form_sections_primero_modules", "form_sections"
   add_foreign_key "form_sections_primero_modules", "primero_modules"
