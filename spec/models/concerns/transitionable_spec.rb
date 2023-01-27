@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Transitionable do
   before :each do
     clean_data(
-      PrimeroModule, Role, UserGroup, User,
+      Role, PrimeroModule, UserGroup, User,
       Child, Referral
     )
     @module_cp = PrimeroModule.new(name: 'CP')
@@ -209,6 +209,6 @@ describe Transitionable do
   end
 
   after :each do
-    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition, Agency)
+    clean_data(Role, PrimeroModule, UserGroup, User, Child, Transition, Agency)
   end
 end

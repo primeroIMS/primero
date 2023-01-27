@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe FormSection do
   before :each do
-    clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Role, Lookup)
+    clean_data(Field, FormSection, Role, PrimeroModule, PrimeroProgram, Lookup)
 
     @lookup = Lookup.create!(
       unique_id: 'lookup-form-group-cp-case',
@@ -795,7 +795,7 @@ describe FormSection do
       )
     end
     before(:each) do
-      clean_data(Field, FormSection, PrimeroModule)
+      clean_data(Field, FormSection, Role, PrimeroModule)
       form1 && field1 && subform && field_on_subform && subform_field && module1 && form1.reload
     end
 
@@ -896,7 +896,7 @@ describe FormSection do
       )
     end
     before do
-      clean_data(Field, FormSection, PrimeroModule)
+      clean_data(Field, FormSection, Role, PrimeroModule)
       form1 && field1 && form2 && field2 && subform && field_on_subform && subform_field && module1 && form1.reload && form2.reload
     end
 
@@ -941,7 +941,7 @@ describe FormSection do
 
   describe 'touch_roles' do
     before do
-      clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Role)
+      clean_data(Field, FormSection, Role, PrimeroModule, PrimeroProgram, Role)
 
       @child_form = FormSection.create!(
         unique_id: 'child_form',
@@ -1073,6 +1073,6 @@ describe FormSection do
   end
 
   after do
-    clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Role, Lookup)
+    clean_data(Field, FormSection, Role, PrimeroModule, PrimeroProgram, Lookup)
   end
 end

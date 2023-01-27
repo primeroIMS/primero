@@ -6,8 +6,7 @@ describe TransitionNotifyJob, type: :job do
   include ActiveJob::TestHelper
 
   before do
-
-    clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, User, UserGroup, Role, Agency)
+    clean_data(Role, PrimeroModule, PrimeroProgram, Field, FormSection, User, UserGroup, Agency)
     role = create :role, is_manager: true
     @owner = create :user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev'
     @manager1 = create :user, role: role, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
@@ -39,7 +38,7 @@ describe TransitionNotifyJob, type: :job do
   end
 
   after :each do
-    clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, User, UserGroup, Role, Agency)
+    clean_data(Role, PrimeroModule, PrimeroProgram, Field, FormSection, User, UserGroup, Agency)
   end
 
   private

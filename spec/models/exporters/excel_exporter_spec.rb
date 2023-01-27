@@ -8,7 +8,7 @@ require 'roo'
 module Exporters
   describe ExcelExporter do
     before do
-      clean_data(Child, Role, UserGroup, User, Agency, Field, FormSection, PrimeroProgram, PrimeroModule)
+      clean_data(Child, Role, UserGroup, User, Agency, Field, FormSection, PrimeroModule, PrimeroProgram)
       #### Build Form Section with subforms fields only ######
       subform = FormSection.new(name: 'cases_test_subform_2', parent_form: 'case', visible: false, is_nested: true,
                                 order_form_group: 2, order: 0, order_subform: 0, form_group_id: 'case_form_3',
@@ -207,7 +207,7 @@ module Exporters
 
       context 'when forms name has special characters' do
         before do
-          clean_data(Field, FormSection, PrimeroModule)
+          clean_data(Field, FormSection, Role, PrimeroModule)
           form1 = FormSection.new(
             name: "Child's Details / Identity / Another / Word", parent_form: 'case', visible: true,
             order_form_group: 2, order: 0, order_subform: 0, form_group_id: 'form_group1',
@@ -240,14 +240,14 @@ module Exporters
         end
 
         it 'export sheets with correct name' do
-          expected_sheets = ['Key', 'Primero Forms', 'cases_test_form_2', "Child's Details   Identity   An", "lookups"]
+          expected_sheets = ['Key', 'Primero Forms', 'cases_test_form_2', "Child's Details   Identity   An", 'lookups']
           expect(@book.sheets).to match_array(expected_sheets)
         end
       end
 
     end
     after do
-      clean_data(Child, Role, UserGroup, User, Agency, Field, FormSection, PrimeroProgram, PrimeroModule)
+      clean_data(Child, Role, UserGroup, User, Agency, Field, FormSection, PrimeroModule, PrimeroProgram)
     end
   end
 end
