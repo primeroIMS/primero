@@ -4,7 +4,9 @@ require 'rails_helper'
 
 describe Api::V2::ReportsController, type: :request do
   before :each do
-    [PrimeroModule, PrimeroProgram, Report, User, Role, Agency, Lookup, Child, Location, FormSection, Field].each(&:destroy_all)
+    [
+      Role, PrimeroModule, PrimeroProgram, Report, User, Agency, Lookup, Child, Location, Field, FormSection
+    ].each(&:destroy_all)
 
     @system_settings = SystemSettings.new(primary_age_range: 'primero',
                                           age_ranges: { 'primero' => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
@@ -660,6 +662,8 @@ describe Api::V2::ReportsController, type: :request do
   end
 
   after :each do
-    [PrimeroModule, PrimeroProgram, Report, User, Role, Agency, Child, Location, FormSection, Field].each(&:destroy_all)
+    [
+      Role, PrimeroModule, PrimeroProgram, Report, User, Agency, Child, Location, Lookup, Field, FormSection
+    ].each(&:destroy_all)
   end
 end

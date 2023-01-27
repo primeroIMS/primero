@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe User do
   before :all do
-    clean_data(Location, AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, Field, FormSection, UserGroup, User)
+    clean_data(Location, AuditLog, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, User)
   end
 
   def build_user(options = {})
@@ -24,7 +24,7 @@ describe User do
 
   describe 'validations' do
     before do
-      clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, FormSection, User, UserGroup)
+      clean_data(AuditLog, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, User, UserGroup)
       create(:agency)
       create(:role)
       primero_program = create(:primero_program)
@@ -117,13 +117,13 @@ describe User do
       end
     end
     after do
-      clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, FormSection, User, UserGroup)
+      clean_data(AuditLog, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, User, UserGroup)
     end
   end
 
   describe 'other validations' do
     before do
-      clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, FormSection, User)
+      clean_data(AuditLog, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, User)
       create(:agency)
       create(:role)
       primero_program = create(:primero_program)
@@ -233,7 +233,7 @@ describe User do
         clean_data(IdentityProvider)
       end
       after do
-        clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, FormSection, User)
+        clean_data(AuditLog, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, User)
       end
     end
   end
@@ -585,7 +585,7 @@ describe User do
 
   describe 'services' do
     before do
-      clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, FormSection, User)
+      clean_data(AuditLog, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, User)
       create(:agency, name: 'unicef', agency_code: 'unicef', services: %w[health_medical_service shelter_service])
       create(:role)
       primero_program = create(:primero_program)
@@ -652,13 +652,13 @@ describe User do
     end
 
     after do
-      clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, FormSection, User)
+      clean_data(AuditLog, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, User)
     end
   end
 
   describe 'update user_groups in the cases where the user is assigned', search: true do
     before do
-      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+      clean_data(Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, User, Child)
       @program = PrimeroProgram.create!(unique_id: 'primeroprogram-primero', name: 'Primero',
                                         description: 'Default Primero Program')
       @form_section = FormSection.create!(unique_id: 'test_form', name: 'Test Form',
@@ -697,13 +697,13 @@ describe User do
     end
 
     after do
-      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+      clean_data(Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, User, Child)
     end
   end
 
   describe 'update agencies in the cases where the user is assigned', search: true do
     before do
-      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+      clean_data(Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, User, Child)
       @program = PrimeroProgram.create!(unique_id: 'primeroprogram-primero', name: 'Primero',
                                         description: 'Default Primero Program')
       @form_section = FormSection.create!(unique_id: 'test_form', name: 'Test Form',
@@ -740,7 +740,7 @@ describe User do
     end
 
     after do
-      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+      clean_data(Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, User, Child)
     end
   end
 
@@ -808,7 +808,7 @@ describe User do
 
   describe '#user_query_scope' do
     before do
-      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+      clean_data(Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, User, Child)
       @program = PrimeroProgram.create!(unique_id: 'primeroprogram-primero', name: 'Primero',
                                         description: 'Default Primero Program')
       @form_section = FormSection.create!(unique_id: 'test_form', name: 'Test Form',
@@ -835,13 +835,13 @@ describe User do
     end
 
     after do
-      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+      clean_data(Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, User, Child)
     end
   end
 
   describe '#record_query_scope' do
     before do
-      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+      clean_data(Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, User, Child)
       @agency_test = Agency.create!(name: 'Agency test1', agency_code: 'agency_test1')
       @group_test = UserGroup.create!(name: 'group test')
       @role_test = Role.create!(name: 'Admin role1', unique_id: 'role_test1', group_permission: 'group',
@@ -858,13 +858,13 @@ describe User do
     end
 
     after do
-      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+      clean_data(Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, User, Child)
     end
   end
 
   describe 'when user groups are updated for a user', search: true do
     before do
-      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+      clean_data(Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, User, Child)
       create(:agency)
       create(:role)
       @user1 = build_user
@@ -892,7 +892,7 @@ describe User do
     end
 
     after do
-      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+      clean_data(Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, User, Child)
     end
   end
 

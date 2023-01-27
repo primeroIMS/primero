@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Api::V2::TransferRequestsController, type: :request do
   include ActiveJob::TestHelper
   before :each do
-    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition)
+    clean_data(Role, PrimeroModule, UserGroup, User, Child, Transition)
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
     @permission_transfer_case = Permission.new(
@@ -140,13 +140,10 @@ describe Api::V2::TransferRequestsController, type: :request do
       @case.reload
       expect(@case.assigned_user_names.present?).to be_falsey
     end
-
   end
 
   after :each do
     clear_enqueued_jobs
-    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition)
+    clean_data(Role, PrimeroModule, UserGroup, User, Child, Transition)
   end
-
-
 end

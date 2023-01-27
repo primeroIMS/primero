@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe TransferActivityLog do
   before :each do
-    clean_data(PrimeroProgram, FormSection, PrimeroModule, Role, UserGroup, User, Child, RecordHistory)
+    clean_data(Role, PrimeroModule, PrimeroProgram, FormSection, UserGroup, SavedSearch, User, Child, RecordHistory)
 
     @program = PrimeroProgram.create!(
       unique_id: 'primeroprogram-primero',

@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Api::V2::AssignsController, type: :request do
   include ActiveJob::TestHelper
   before do
-    clean_data(PrimeroModule, Role, UserGroup, User, Child, Transition)
+    clean_data(Role, PrimeroModule, UserGroup, User, Child, Transition)
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
     @permission_assign_case = Permission.new(
@@ -141,6 +141,6 @@ describe Api::V2::AssignsController, type: :request do
 
   after do
     clear_enqueued_jobs
-    clean_data(PrimeroModule, Role, UserGroup, User, Child, Transition)
+    clean_data(Role, PrimeroModule, UserGroup, User, Child, Transition)
   end
 end
