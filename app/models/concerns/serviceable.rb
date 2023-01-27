@@ -115,6 +115,15 @@ module Serviceable
       hash_diff(data_change[1], data_change[0]).to_h['services_section'].present?
     end
 
+    def services_section_added?
+      from = changes_to_save_for_record['services_section']&.first
+      to = changes_to_save_for_record['services_section']&.last
+      return false if to.blank?
+      return true if from.blank? && to.present?
+
+      to.size > from.size
+    end
+
     private
 
     def convert_time(string)
