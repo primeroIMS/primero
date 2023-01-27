@@ -21,4 +21,14 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog /> - Constants", (
 
     expect(clonedActions).to.be.empty;
   });
+
+  describe("values", () => {
+    it("should have correct constant value", () => {
+      expect(constants.LOCALIZABLE_OPTIONS_FIELD_NAME).to.deep.equal({
+        select_box: "option_strings_text",
+        radio_button: "option_strings_text",
+        tally_field: "tally"
+      });
+    });
+  });
 });
