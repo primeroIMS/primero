@@ -29,7 +29,7 @@ Rails.application.configure do
     logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = Logger::Formatter.new
     config.logger = ActiveSupport::TaggedLogging.new(logger)
-    config.log_tags = [:request_id, lambda { |_request| Thread.current.object_id }]
+    config.log_tags = [:remote_ip, :request_id, :client_ip, ->(_request) { '||' }, ->(_request) { Thread.current.object_id }, :ip]
   end
 
   config.force_ssl = true
