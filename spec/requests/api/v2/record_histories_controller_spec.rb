@@ -225,6 +225,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'notes_section' => { 'from' => nil, 'to' => [] } },
           { 'reopened_logs' => { 'from' => nil, 'to' => [] } },
           { 'case_id_display' => { 'from' => nil, 'to' => Child.first.case_id_display } },
+          { 'followup_status' => { 'from' => nil, 'to' => 'follow_ups_not_planned' } },
           { 'owned_by_groups' => { 'from' => nil, 'to' => [] } },
           { 'created_by_groups' => { 'from' => nil, 'to' => [] } },
           { 'registration_date' => { 'from' => nil, 'to' => Child.first.registration_date.iso8601 } },
