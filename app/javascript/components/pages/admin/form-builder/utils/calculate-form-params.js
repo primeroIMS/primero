@@ -6,12 +6,12 @@ import mergeTranslations from "./merge-translations";
 
 export default ({ id, formData, formMode, i18n }) => {
   const mergedData = mergeTranslations(formData);
-  const updatedNewFields = convertToFieldsArray(mergedData.fields || []);
+  const updatedNewFields = convertToFieldsArray(mergedData.fields || {});
   const displayConditions = fieldArrayToConditions(mergedData.display_conditions || []);
   const body = {
     data: {
       ...mergedData,
-      ...(updatedNewFields.length && { fields: updatedNewFields }),
+      fields: updatedNewFields,
       display_conditions: { ...displayConditions, disabled: !formData.skip_logic }
     }
   };
