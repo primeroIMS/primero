@@ -91,6 +91,7 @@ class Incident < ApplicationRecord
 
   after_initialize :set_unique_id
   before_save :copy_from_case
+  before_save :update_violations
   # TODO: Reconsider whether this is necessary.
   # We will only be creating an incident from a case using a special business logic that
   # will certainly trigger a reindex on the case
@@ -276,6 +277,11 @@ class Incident < ApplicationRecord
     violations_result
   end
 
+  def update_violations
+    return unless !new_record? && incident_date_changed? || incident_date_end_changed?
+
+    violations.each(&:touch)
+  end
 
   def reporting_location_property
     'incident_reporting_location_config'
