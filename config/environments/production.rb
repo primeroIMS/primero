@@ -29,7 +29,13 @@ Rails.application.configure do
     logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = Logger::Formatter.new
     config.logger = ActiveSupport::TaggedLogging.new(logger)
-    config.log_tags = [:remote_ip, :request_id, :client_ip, ->(_request) { '||' }, ->(_request) { Thread.current.object_id }, :ip]
+    config.log_tags = [
+      :request_id, ->(_request) { '----->' },
+      lambda do |request|
+        request.headers.to_h.except('puma.config', 'action_dispatch.logger', 'action_dispatch.backtrace_cleaner', 'action_dispatch.parameter_filter')
+      end,
+      ->(_request) { '<-----' }
+    ]
   end
 
   config.force_ssl = true
