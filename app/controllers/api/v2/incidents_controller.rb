@@ -21,6 +21,7 @@ class Api::V2::IncidentsController < ApplicationApiController
 
   def find_record
     model_query = model_class
+    # TODO: Should check the module param to determine if mrm, not the user's module.
     if current_user.module?(PrimeroModule::MRM)
       model_query = model_class.eager_load(:violations, :perpetrators, individual_victims: :violations)
     end

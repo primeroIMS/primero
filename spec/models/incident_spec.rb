@@ -386,6 +386,7 @@ describe Incident do
       {
         'unique_id' => '790f958d-ac8e-414b-af64-e75831e3353a',
         'incident_code' => '0123456',
+        'module_id' => 'primeromodule-mrm',
         'incident_date' => Date.new(2022, 12, 23),
         'description' => 'this is a test',
         'killing' => [{ 'violation_tally' => { 'total' => 1, 'girls' => 1 },

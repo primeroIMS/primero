@@ -27,7 +27,6 @@ class Violation < ApplicationRecord
   after_initialize :set_unique_id
 
   before_save :calculate_late_verifications
-  after_touch :calculate_late_verifications
 
   def set_unique_id
     self.unique_id = id

@@ -278,9 +278,12 @@ class Incident < ApplicationRecord
   end
 
   def update_violations
-    return unless !new_record? && incident_date_changed? || incident_date_end_changed?
+    update_violations = !new_record? && module_id == PrimeroModule::MRM &&
+                        (incident_date_changed? || incident_date_end_changed?)
 
-    violations.each(&:touch)
+    return unless update_violations
+
+    violations.each(&:calculate_late_verifications)
   end
 
   def reporting_location_property
