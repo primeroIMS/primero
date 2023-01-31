@@ -98,7 +98,7 @@ function difference(object, base, nested) {
 }
 
 function fieldsFilteredByUserPermission(formSections, permission) {
-  formSections
+  return formSections
     .filter(formSection => formSection.userPermission === permission)
     .flatMap(formSection => formSection.fields.map(field => field.name));
 }
