@@ -79,6 +79,8 @@ const Component = ({ fields, open, setOpen, selectedIndex, setSelectedIndex, ind
   useEffect(() => {
     if (notNullConstraintOrTrue) {
       formMethods.setValue(CONSTRAINT, NOT_NULL);
+    } else if (watchedConstraint === false) {
+      formMethods.setValue(CONSTRAINT, null);
     }
   }, [watchedConstraint]);
 

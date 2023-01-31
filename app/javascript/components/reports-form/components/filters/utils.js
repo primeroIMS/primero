@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
-
 import { format } from "date-fns";
+import isEmpty from "lodash/isEmpty";
 
 import { FILTERS_FIELD, NOT_NULL } from "../../constants";
 import { DATE_FORMAT } from "../../../../config";
 import { displayNameHelper } from "../../../../libs";
-import { TICK_FIELD, SELECT_FIELD, RADIO_FIELD } from "../../../form";
+import { NUMERIC_FIELD, RADIO_FIELD, DATE_FIELD, TICK_FIELD, SELECT_FIELD } from "../../../form";
 
 export const registerValues = (index, data, currentValues, methods) => {
   Object.entries(data).forEach(entry => {
@@ -72,3 +72,37 @@ export const formatValue = (value, i18n, { field, lookups }) => {
 
   return value;
 };
+
+export const onFilterDialogSuccess =
+  ({ indexes, i18n, parentFormMethods, setIndexes }) =>
+  (index, currentReportFilter, currentField) => {
+    const data =
+      currentField.type === DATE_FIELD && Array.isArray(currentReportFilter.value) && isEmpty(currentReportFilter.value)
+        ? { ...currentReportFilter, value: formatValue(new Date(), i18n, {}) }
+        : currentReportFilter;
+
+    if ([DATE_FIELD, NUMERIC_FIELD].includes(currentField.type) && currentReportFilter.constraint === NOT_NULL) {
+      data.value = "";
+    }
+
+    if (
+      [SELECT_FIELD, RADIO_FIELD].includes(currentField.type) &&
+      typeof currentReportFilter.constraint === "boolean" &&
+      currentReportFilter.constraint
+    ) {
+      data.constraint = false;
+      data.value = [NOT_NULL];
+    }
+
+    if (Object.is(index, null)) {
+      setIndexes([...indexes, { index: indexes.length, data }]);
+      registerValues(indexes.length, data, indexes, parentFormMethods);
+    } else {
+      const indexesCopy = [...indexes].slice();
+
+      indexesCopy[index] = { ...indexesCopy[index], data };
+
+      setIndexes(indexesCopy);
+      registerValues(index, data, indexes, parentFormMethods);
+    }
+  };

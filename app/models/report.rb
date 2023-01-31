@@ -23,6 +23,8 @@ class Report < ApplicationRecord
     Field::TALLY_FIELD
   ].freeze
 
+  CONSTRAINTS = %w[= > <].freeze
+
   DAY = 'date' # eg. 13-Jan-2015
   WEEK = 'week' # eg. Week 2 Jan-2015
   MONTH = 'month' # eg. Jan-2015
@@ -518,7 +520,7 @@ class Report < ApplicationRecord
   end
 
   def filter_attribute_value(attribute, value, constraint, is_permission_filter)
-    if constraint.present?
+    if constraint.present? && CONSTRAINTS.include?(constraint)
       filter_constraint(attribute, value, constraint)
     elsif value.respond_to?(:map) && value.size.positive?
       filter_value(attribute, value, is_permission_filter)
