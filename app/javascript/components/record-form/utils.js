@@ -97,16 +97,16 @@ function difference(object, base, nested) {
   });
 }
 
+function fieldsFilteredByUserPermission(formSections, permission) {
+  formSections
+    .filter(formSection => formSection.userPermission === permission)
+    .flatMap(formSection => formSection.fields.map(field => field.name));
+}
+
 function fieldsFromReadOnlyFormSection(formSections) {
   const readOnlyFieldMap = Object.create(null);
-
-  const readOnlyFields = formSections
-    .filter(formSection => formSection.userPermission === RECORD_FORM_PERMISSION.read)
-    .flatMap(formSection => formSection.fields.map(field => field.name));
-
-  const readWriteFields = formSections
-    .filter(formSection => formSection.userPermission === RECORD_FORM_PERMISSION.readWrite)
-    .flatMap(formSection => formSection.fields.map(field => field.name));
+  const readOnlyFields = fieldsFilteredByUserPermission(formSections, RECORD_FORM_PERMISSION.read);
+  const readWriteFields = fieldsFilteredByUserPermission(formSections, RECORD_FORM_PERMISSION.readWrite);
 
   readOnlyFields
     .filter(field => !readWriteFields.includes(field))
