@@ -29,7 +29,7 @@ jobs:
         displayName: 'Make required directories and copy files'
       - task: NodeTool@0
         inputs:
-          versionSpec: '12.20.1'
+          versionSpec: '18.13.0'
         displayName: 'Install node'
       - bash: npm ci
         displayName: 'Install npm packages'
