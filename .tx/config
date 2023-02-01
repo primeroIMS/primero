@@ -1,24 +1,24 @@
 [main]
 host = https://www.transifex.com
 
-[primero-app-v2.enyml]
-file_filter = config/locales/<lang>.yml
+[o:primero-v2:p:primero-app-v2:r:date-strings]
+file_filter  = config/locales/dates/<lang>.yml
+source_file  = config/locales/dates/en.yml
+source_lang  = en
+type         = YML
 minimum_perc = 0
-source_file = config/locales/en.yml
-source_lang = en
-type = YML
 
-[primero-app-v2.incident-recorder]
-file_filter = config/locales/incident_recorder/<lang>.yml
+[o:primero-v2:p:primero-app-v2:r:enyml]
+file_filter  = config/locales/<lang>.yml
+source_file  = config/locales/en.yml
+source_lang  = en
+type         = YML
 minimum_perc = 0
-source_file = config/locales/incident_recorder/en.yml
-source_lang = en
-type = YML
 
-[primero-app-v2.date-strings]
-file_filter = config/locales/dates/<lang>.yml
+[o:primero-v2:p:primero-app-v2:r:incident-recorder]
+file_filter  = config/locales/incident_recorder/<lang>.yml
+source_file  = config/locales/incident_recorder/en.yml
+source_lang  = en
+type         = YML
 minimum_perc = 0
-source_file = config/locales/dates/en.yml
-source_lang = en
-type = YML
 
