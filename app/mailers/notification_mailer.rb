@@ -12,7 +12,6 @@ class NotificationMailer < ApplicationMailer
     @user = @child.owner || (return log_not_found('User', @child.owned_by))
     @approval_type = Lookup.display_value('lookup-approval-type', approval_type)
     @locale_email = @manager.locale || I18n.locale
-    return log_not_found('Lookup', 'lookup-approval-type') unless @approval_type
 
     mail(to: @manager.email, subject: t('email_notification.approval_request_subject', id: @child.short_id,
                                                                                        locale: @locale_email))
