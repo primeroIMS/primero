@@ -74,7 +74,7 @@ describe Reopenable do
       expect(disabled_child.reopened_logs.size).to eq(0)
     end
 
-    it 'reopen a closed record if a service is added and logs' do
+    it 'reopens a closed record if a service is added, logs and workflow' do
       @child.update_properties(
         fake_user(user_name: 'reopen_user'),
         'services_section' => [{ 'service_type' => 'nfi' }]
@@ -84,9 +84,10 @@ describe Reopenable do
       expect(@child.status).to eq(Record::STATUS_OPEN)
       expect(@child.case_status_reopened).to eq(true)
       expect(@child.reopened_logs.last['reopened_user']).to eq('reopen_user')
+      expect(@child.workflow).to eq(Workflow::WORKFLOW_REOPENED)
     end
 
-    it 'reopen a closed record on incident update and logs' do
+    it 'reopens a closed record on incident update, logs and workflow' do
       @child.update_properties(
         fake_user(user_name: 'reopen_user'),
         'incident_details' => [{ 'description' => 'An incident is recorded' }]
@@ -96,6 +97,7 @@ describe Reopenable do
       expect(@child.status).to eq(Record::STATUS_OPEN)
       expect(@child.case_status_reopened).to eq(true)
       expect(@child.reopened_logs.last['reopened_user']).to eq('reopen_user')
+      expect(@child.workflow).to eq(Workflow::WORKFLOW_REOPENED)
     end
 
     it 'does not reopen a closed record if a service is updated' do
