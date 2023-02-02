@@ -92,7 +92,7 @@ class ApiConnector::KeycloakConnector < ApiConnector::AbstractConnector
     when 200, 201
       Rails.logger.info("Connector #{id}: Successfully synced User #{user.user_name} #{message_suffix}")
     else
-      Rails.logger.error("Error syncing User #{user.user_name} #{message_suffix}")
+      Rails.logger.error("Error syncing User #{user.user_name} with status #{status} #{message_suffix}")
     end
   end
 end
