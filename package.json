@@ -8,7 +8,6 @@
     "node": ">=18.13.0"
   },
   "scripts": {
-    "preinstall": "npx npm-force-resolutions",
     "build": "NODE_ENV=production webpack --config webpack/index.js",
     "dev": "node --trace-deprecation ./node_modules/.bin/webpack-dev-server --config webpack/index.js",
     "dev:debug": "NODE_ENV=profile npm run dev",
@@ -28,14 +27,15 @@
     "lint": "npm run lint:run -- --fix",
     "lint:run": "eslint './app/javascript/**'"
   },
-  "resolutions": {
-    "minimist": "npm:minimist-lite@^2.2.1",
+  "overrides": {
+    "minimist": "1.2.7",
     "ansi-regex": "5.0.1",
     "nth-check": "2.0.1",
-    "react": "17.0.2",
-    "uuid": "8.3.2",
+    "react": "$react",
+    "react-dom": "$react-dom",
+    "uuid": "$uuid",
     "dom-to-image-more": "2.8.0",
-    "react-svg-loader/loader-utils": "1.4.2"
+    "immutable": "$immutable"
   },
   "devDependencies": {
     "@babel/core": "~7.17.8",
