@@ -278,10 +278,10 @@ class Incident < ApplicationRecord
   end
 
   def update_violations
-    update_violations = !new_record? && module_id == PrimeroModule::MRM &&
-                        (incident_date_changed? || incident_date_end_changed?)
+    should_update_violations = !new_record? && module_id == PrimeroModule::MRM &&
+                               (incident_date_changed? || incident_date_end_changed?)
 
-    return unless update_violations
+    return unless should_update_violations
 
     violations.each(&:calculate_late_verifications)
   end
