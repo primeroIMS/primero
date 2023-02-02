@@ -102,6 +102,6 @@ describe Reopenable do
   end
 
   after :each do
-    clean_data(Child)
+    clean_data(Incident, Child)
   end
 end

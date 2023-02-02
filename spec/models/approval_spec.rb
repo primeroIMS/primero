@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Approval do
   before :each do
-    clean_data(SystemSettings, Role, Agency, User, Child, Alert, PrimeroProgram, PrimeroModule, FormSection)
+    clean_data(SystemSettings, Role, Agency, User, Incident, Child, Alert, PrimeroModule, PrimeroProgram, FormSection)
     SystemSettings.create!(
       approval_forms_to_alert: {
         cp_bia_form: 'assessment',
@@ -318,6 +318,6 @@ describe Approval do
   end
 
   after :each do
-    clean_data(SystemSettings, Role, Agency, User, Child, Alert, PrimeroProgram, PrimeroModule, FormSection)
+    clean_data(SystemSettings, Role, Agency, User, Incident, Child, Alert, PrimeroModule, PrimeroProgram, FormSection)
   end
 end

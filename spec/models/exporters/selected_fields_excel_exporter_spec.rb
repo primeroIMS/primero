@@ -6,8 +6,8 @@ require 'roo'
 describe Exporters::SelectedFieldsExcelExporter do
   before :each do
     clean_data(
-      Agency, Role, UserGroup, User, PrimeroProgram,
-      Field, FormSection, PrimeroModule, Child
+      Agency, Role, UserGroup, User, PrimeroModule, PrimeroProgram,
+      Field, FormSection, Child
     )
 
     @primero_module = create(

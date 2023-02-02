@@ -6,7 +6,7 @@ describe Api::V2::FlagsOwnersController, type: :request do
   include ActiveJob::TestHelper
 
   before do
-    clean_data(Flag, User, Child, TracingRequest, Incident, PrimeroModule, UserGroup, Agency)
+    clean_data(Flag, User, Incident, Child, TracingRequest, Role, PrimeroModule, UserGroup, Agency)
 
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
@@ -222,6 +222,6 @@ describe Api::V2::FlagsOwnersController, type: :request do
   end
 
   after do
-    clean_data(Flag, User, Child, TracingRequest, Incident, PrimeroModule, UserGroup, Agency)
+    clean_data(Flag, User, Incident, Child, TracingRequest, Role, PrimeroModule, UserGroup, Agency)
   end
 end

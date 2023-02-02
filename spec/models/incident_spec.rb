@@ -6,8 +6,8 @@ require 'will_paginate'
 describe Incident do
   before do
     clean_data(
-      Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection, Field,
-      Incident, Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
+      Agency, User, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection, Field,
+      Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
     )
 
     create(:agency)
@@ -722,8 +722,8 @@ describe Incident do
 
   after do
     clean_data(
-      Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection, Field,
-      Incident, Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
+      Agency, User, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection, Field,
+      Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
     )
   end
 end

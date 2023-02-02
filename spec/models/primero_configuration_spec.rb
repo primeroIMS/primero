@@ -4,8 +4,10 @@ require 'rails_helper'
 
 describe PrimeroConfiguration do
   before do
-    clean_data(PrimeroConfiguration, FormSection, Field, Lookup, Agency, Role, UserGroup, Report, ContactInformation,
-               PrimeroModule, SystemSettings)
+    clean_data(
+      Role, PrimeroModule, PrimeroConfiguration, Field, FormSection, Lookup, Agency,
+      UserGroup, Report, ContactInformation, SystemSettings
+    )
     @form1 = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
     @lookup1 = Lookup.create!(unique_id: 'lookup1', name: 'lookup1')
     @agency1 = Agency.create!(name: 'irc', agency_code: '12345')
@@ -107,6 +109,7 @@ describe PrimeroConfiguration do
       )
       current_configuration = PrimeroConfiguration.current
       current_configuration.save!
+
       Field.destroy_all
       FormSection.destroy_all
       current_configuration.apply!
@@ -211,7 +214,9 @@ describe PrimeroConfiguration do
   end
 
   after do
-    clean_data(PrimeroConfiguration, FormSection, Field, Lookup, Agency, Role, UserGroup, Report, ContactInformation,
-               PrimeroModule, SystemSettings)
+    clean_data(
+      Role, PrimeroModule, PrimeroConfiguration, Field, FormSection, Lookup, Agency, UserGroup, Report,
+      ContactInformation, SystemSettings
+    )
   end
 end

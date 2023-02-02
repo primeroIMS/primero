@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe RecordScopeService do
   before do
-    clean_data(PrimeroProgram, PrimeroModule, Role, Agency, UserGroup, User, Child)
+    clean_data(Role, PrimeroModule, PrimeroProgram, Agency, UserGroup, User, Child)
 
     @program = PrimeroProgram.create!(unique_id: 'primeroprogram-primero', name: 'Primero',
                                       description: 'Default Primero Program')

@@ -378,7 +378,7 @@ describe Child do
 
   describe 'record ownership' do
     before do
-      clean_data(Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection)
+      clean_data(Agency, User, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection)
 
       @owner = create :user
       @previous_owner = create :user
@@ -393,7 +393,7 @@ describe Child do
     end
 
     after do
-      clean_data(Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection)
+      clean_data(Agency, User, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection)
     end
   end
 
@@ -949,7 +949,7 @@ describe Child do
   end
 
   after do
-    clean_data(Child, Field, FormSection, PrimeroModule)
+    clean_data(Incident, Child, Field, FormSection, PrimeroModule)
   end
 
   private
