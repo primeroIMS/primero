@@ -11,16 +11,19 @@ describe Api::V2::ReferralsController, type: :request do
     @primero_module.save(validate: false)
     @permission_refer_case = Permission.new(
       resource: Permission::CASE,
-      actions: [
-        Permission::READ, Permission::WRITE, Permission::CREATE,
-        Permission::REFERRAL, Permission::RECEIVE_REFERRAL
-      ]
+      actions: [Permission::READ, Permission::REFERRAL]
+    )
+    @permission_receive_referral = Permission.new(
+      resource: Permission::CASE,
+      actions: [Permission::READ, Permission::RECEIVE_REFERRAL]
     )
     @permission_referral_from_service = Permission.new(
       resource: Permission::CASE, actions: [Permission::REFERRAL_FROM_SERVICE]
     )
     @role = Role.new(permissions: [@permission_refer_case], modules: [@primero_module])
     @role.save(validate: false)
+    @role_receive = Role.new(permissions: [@permission_receive_referral], modules: [@primero_module])
+    @role_receive.save(validate: false)
     @role_service = Role.new(
       permissions: [@permission_referral_from_service],
       modules: [@primero_module]
@@ -30,7 +33,7 @@ describe Api::V2::ReferralsController, type: :request do
     @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
     @user1.save(validate: false)
     @group2 = UserGroup.create!(name: 'Group2')
-    @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2])
+    @user2 = User.new(user_name: 'user2', role: @role_receive, user_groups: [@group2])
     @user2.save(validate: false)
     @user3 = User.new(user_name: 'user3', role: @role_service, user_groups: [@group1])
     @user3.save(validate: false)
@@ -228,7 +231,7 @@ describe Api::V2::ReferralsController, type: :request do
     end
 
     it 'completes this referral' do
-      sign_in(@user1)
+      sign_in(@user2)
       delete "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}"
 
       expect(response).to have_http_status(200)
@@ -252,7 +255,7 @@ describe Api::V2::ReferralsController, type: :request do
     end
 
     it 'accepts this referral' do
-      sign_in(@user1)
+      sign_in(@user2)
       params = { data: { status: Transition::STATUS_ACCEPTED } }
 
       patch "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params: params
@@ -271,7 +274,7 @@ describe Api::V2::ReferralsController, type: :request do
     end
 
     it 'rejects this referral' do
-      sign_in(@user1)
+      sign_in(@user2)
       params = { data: { status: Transition::STATUS_REJECTED } }
 
       patch "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params: params
@@ -290,7 +293,7 @@ describe Api::V2::ReferralsController, type: :request do
     end
 
     it 'rejects this referral and sets a rejected_reason' do
-      sign_in(@user1)
+      sign_in(@user2)
       rejected_reason = 'Some reason to reject'
       params = { data: { status: Transition::STATUS_REJECTED, rejected_reason: rejected_reason } }
 
@@ -311,7 +314,7 @@ describe Api::V2::ReferralsController, type: :request do
     end
 
     it 'completes this referral and returns the notes from provider' do
-      sign_in(@user1)
+      sign_in(@user2)
       @referral1.status = Transition::STATUS_ACCEPTED
       @referral1.save!
 
