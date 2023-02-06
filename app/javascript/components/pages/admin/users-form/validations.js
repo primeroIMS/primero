@@ -14,7 +14,7 @@ export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage
       const providerId = this.resolve(inputRef);
       const provider = providers.find(currentProvider => currentProvider.get("unique_id") === providerId);
 
-      if (provider) {
+      if (provider && !formMode.get("isEdit")) {
         const regexMatch = new RegExp(`@${provider.get("user_domain")}$`);
 
         return value.match(regexMatch)
@@ -26,6 +26,8 @@ export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage
               path: this.path
             });
       }
+
+      return true;
     });
   };
 
