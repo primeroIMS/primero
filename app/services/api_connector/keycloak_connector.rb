@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # This is the sync connector for the Keycloak identity provider.
+# rubocop:disable Metrics/ClassLength
 class ApiConnector::KeycloakConnector < ApiConnector::AbstractConnector
   IDENTIFIER = 'keycloak'
   ADMIN_TOKEN_CACHE_KEY = 'keycloak_connector/admin_token'
@@ -38,6 +39,8 @@ class ApiConnector::KeycloakConnector < ApiConnector::AbstractConnector
     log_response(user, status, response)
 
     kc_user = fetch(user)
+    trigger_password_email(kc_user['id'])
+
     response_attributes(kc_user)
   end
 
@@ -69,6 +72,20 @@ class ApiConnector::KeycloakConnector < ApiConnector::AbstractConnector
   end
 
   protected
+
+  def trigger_password_email(kc_id)
+    actions_body = ['UPDATE_PASSWORD'].to_json
+    status, response = connection.put(
+      "/admin/realms/#{realm}/users/#{kc_id}/execute-actions-email?lifespan=9999999", actions_body, auth_header
+    )
+
+    case status
+    when 200, 204
+      Rails.logger.info("Password update triggered for user #{kc_id}")
+    else
+      Rails.logger.error("Failed to trigger update for user #{kc_id}; status #{status}, error body #{response}")
+    end
+  end
 
   def auth_header
     {
@@ -154,3 +171,4 @@ class ApiConnector::KeycloakConnector < ApiConnector::AbstractConnector
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
