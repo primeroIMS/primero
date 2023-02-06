@@ -79,7 +79,7 @@ class ApiConnector::KeycloakConnector < ApiConnector::AbstractConnector
   def trigger_password_email(kc_id)
     actions_body = ['UPDATE_PASSWORD'].to_json
     status, response = connection.put(
-      "/admin/realms/#{realm}/users/#{kc_id}/execute-actions-email?lifespan=9999999", actions_body, auth_header
+      "/admin/realms/#{realm}/users/#{kc_id}/execute-actions-email?lifespan=#{7.days}", actions_body, auth_header
     )
 
     case status
