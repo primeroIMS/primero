@@ -162,7 +162,7 @@ class ApiConnector::KeycloakConnector < ApiConnector::AbstractConnector
           full_name: full_name,
           email: response['email'],
           enabled: response['enabled'],
-          locale: response['attributes']['locale'],
+          locale: response['attributes']['locale'][0],
           id: response['id']
         }
       }
