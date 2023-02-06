@@ -66,9 +66,12 @@ class ApiConnector::KeycloakConnector < ApiConnector::AbstractConnector
   end
 
   def relevant_updates?(user)
-    user.email != user['identity_provider_sync']['keycloak']['email'] ||
-      user.full_name != user['identity_provider_sync']['keycloak']['full_name'] ||
-      !user.disabled != user['identity_provider_sync']['keycloak']['enabled']
+    idp_sync_data = user['identity_provider_sync']['keycloak']
+
+    user.locale != idp_sync_data['locale'] ||
+      user.email != idp_sync_data['email'] ||
+      user.full_name != idp_sync_data['full_name'] ||
+      !user.disabled != idp_sync_data['enabled']
   end
 
   protected
@@ -134,6 +137,7 @@ class ApiConnector::KeycloakConnector < ApiConnector::AbstractConnector
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
   def create_user_representation(user)
     first, last = user.full_name.split(' ', 2)
 
@@ -142,22 +146,29 @@ class ApiConnector::KeycloakConnector < ApiConnector::AbstractConnector
       email: user.email,
       firstName: first,
       lastName: last,
-      enabled: !user.disabled
+      enabled: !user.disabled,
+      attributes: {
+        locale: user.locale
+      }
     }
   end
 
   def response_attributes(response)
+    full_name = "#{response['firstName']}#{' ' if response['lastName']}#{response['lastName']}"
+
     {
       identity_provider_sync: {
         keycloak: {
-          full_name: "#{response['firstName']}#{' ' if response['lastName']}#{response['lastName']}",
+          full_name: full_name,
           email: response['email'],
           enabled: response['enabled'],
+          locale: response['attributes']['locale'],
           id: response['id']
         }
       }
     }.compact
   end
+  # rubocop:enable Metrics/MethodLength
 
   def log_response(user, status, response)
     message_suffix = "with IDP #{user&.identity_provider&.name} (#{user&.identity_provider&.unique_id})"
