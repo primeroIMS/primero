@@ -12,6 +12,7 @@ class ManagedReports::Indicators::IndividualPerpetrator < ManagedReports::SqlRep
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
         select
@@ -23,7 +24,7 @@ class ManagedReports::Indicators::IndividualPerpetrator < ManagedReports::SqlRep
         count(*) as sum
         from (
           select
-            incidents.data AS data,
+            #{table_name_for_query(params)}.data as data,
             perpetrators.data ->> 'armed_force_group_party_name' AS name
           from
             perpetrators perpetrators
@@ -33,7 +34,9 @@ class ManagedReports::Indicators::IndividualPerpetrator < ManagedReports::SqlRep
             inner join individual_victims_violations on violations.id = individual_victims_violations.violation_id
             inner join individual_victims on individual_victims.id = individual_victims_violations.individual_victim_id
             #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
-          where #{date_range_query(params['incident_date'], 'incidents')}
+          where
+            perpetrators.data ->> 'armed_force_group_party_name' is not null
+            #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
             #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
             #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
             #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
@@ -44,6 +47,7 @@ class ManagedReports::Indicators::IndividualPerpetrator < ManagedReports::SqlRep
         order by name
       }
     end
+   # rubocop:enable Metrics/PerceivedComplexity
    # rubocop:enable Metrics/AbcSize
    # rubocop:enable Metrics/MethodLength
    # rubocop:enable Metrics/CyclomaticComplexity
