@@ -30,8 +30,9 @@ Rails.application.configure do
     logger.formatter = Logger::Formatter.new
     config.logger = ActiveSupport::TaggedLogging.new(logger)
     config.log_tags = [
-      ->(request) { request.headers['HTTP_X_FORWARD_FOR'] || request.headers['HTTP_X_REAL_IP'] },
-      :request_id
+      :request_id,
+      ->(_request) { LogUtils.thread_id },
+      ->(request) { LogUtils.remote_ip(request) }
     ]
   end
 
