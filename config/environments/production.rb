@@ -30,11 +30,8 @@ Rails.application.configure do
     logger.formatter = Logger::Formatter.new
     config.logger = ActiveSupport::TaggedLogging.new(logger)
     config.log_tags = [
-      :request_id, ->(_request) { '----->' },
-      lambda do |request|
-        request.headers.to_h.except('puma.config', 'action_dispatch.logger', 'action_dispatch.backtrace_cleaner', 'action_dispatch.parameter_filter')
-      end,
-      ->(_request) { '<-----' }
+      ->(request) { request.headers['HTTP_X_FORWARD_FOR'] || request.headers['HTTP_X_REAL_IP'] },
+      :request_id
     ]
   end
 
