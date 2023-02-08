@@ -97,23 +97,36 @@ function difference(object, base, nested) {
   });
 }
 
+function fieldsFilteredByUserPermission(formSections, permission) {
+  return formSections
+    .filter(formSection => formSection.userPermission === permission)
+    .flatMap(formSection => formSection.fields.map(field => field.name));
+}
+
+function fieldsFromReadOnlyFormSection(formSections) {
+  const readOnlyFieldMap = Object.create(null);
+  const readOnlyFields = fieldsFilteredByUserPermission(formSections, RECORD_FORM_PERMISSION.read);
+  const readWriteFields = fieldsFilteredByUserPermission(formSections, RECORD_FORM_PERMISSION.readWrite);
+
+  readOnlyFields
+    .filter(field => !readWriteFields.includes(field))
+    .forEach(field => {
+      readOnlyFieldMap[field] = true;
+    });
+
+  return readOnlyFieldMap;
+}
+
 export const emptyValues = element => Object.values(element).every(isEmpty);
 
 export const compactValues = (values, initialValues) => difference(values, initialValues);
 
 export const compactReadOnlyFields = (values, formSections) => {
   const results = Object.create(null);
-  const readOnlyFieldMap = Object.create(null);
-  const readOnlyFields = formSections
-    .filter(formSection => formSection.userPermission === RECORD_FORM_PERMISSION.read)
-    .flatMap(formSection => formSection.fields.map(field => field.name));
-
-  readOnlyFields.forEach(field => {
-    readOnlyFieldMap[field] = true;
-  });
+  const readOnlyFields = fieldsFromReadOnlyFormSection(formSections);
 
   Object.entries(values).forEach(([key, value]) => {
-    if (!readOnlyFieldMap[key]) {
+    if (!readOnlyFields[key]) {
       results[key] = value;
     }
   });

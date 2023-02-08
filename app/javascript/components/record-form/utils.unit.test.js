@@ -663,6 +663,70 @@ describe("<RecordForms /> - utils", () => {
         )
       ).to.deep.equals({ field_1: "value 1", field_3: "value 3" });
     });
+
+    it("keep fields from readWrite forms when field is present in readOnly Forms", () => {
+      const formSections = fromJS([
+        FormSectionRecord({
+          unique_id: "form_1",
+          userPermission: "r",
+          fields: [
+            FieldRecord({
+              name: "field_2",
+              type: TICK_FIELD,
+              visible: true
+            }),
+            FieldRecord({
+              name: "field_4",
+              type: DATE_FIELD,
+              visible: true
+            }),
+            FieldRecord({
+              display_name: "Random field",
+              name: "field_5",
+              type: TEXT_FIELD,
+              visible: true
+            })
+          ]
+        }),
+        FormSectionRecord({
+          unique_id: "form_2",
+          userPermission: "rw",
+          fields: [
+            FieldRecord({ name: "field_1", visible: true }),
+            FieldRecord({
+              name: "field_1",
+              type: SELECT_FIELD,
+              multi_select: true,
+              visible: true
+            }),
+            FieldRecord({
+              name: "field_3",
+              type: DATE_FIELD,
+              visible: true
+            }),
+            FieldRecord({
+              display_name: "Random field",
+              name: "field_5",
+              type: TEXT_FIELD,
+              visible: true
+            })
+          ]
+        })
+      ]);
+
+      expect(
+        utils.compactReadOnlyFields(
+          {
+            field_1: "value 1",
+            field_2: "value 2",
+            field_3: "value 3",
+            field_4: "value 4",
+            field_5: "value 5"
+          },
+          formSections
+        )
+      ).to.deep.equals({ field_1: "value 1", field_3: "value 3", field_5: "value 5" });
+    });
   });
 
   describe("getFieldDefaultValue", () => {
