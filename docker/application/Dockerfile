@@ -5,6 +5,7 @@ FROM ${BUILD_REGISTRY}ruby:2.7.4-alpine3.13 AS build-env
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git
 ENV PYTHON_PACKAGES python3 py3-pip
 ENV BUILD_DEP_PACKAGES postgresql-dev
+ENV POSTGRES_PACKAGES postgresql-client
 ENV RUNTIME_PACKAGES libc6-compat nodejs gettext libintl npm imagemagick libsodium-dev
 ENV DEV_PACKAGES busybox-extras tree cairo pixman pixman-dev
 ENV RAILS_ENV production
@@ -37,6 +38,7 @@ RUN set -euox pipefail \
         ; apk add --no-cache $PYTHON_PACKAGES \
         ; ln -sf python3 /usr/bin/python \
         ; apk add $BUILD_DEP_PACKAGES \
+        ; apk add $POSTGRES_PACKAGES \
         # ; apk add $DEV_PACKAGES \
         ; apk add --no-cache $RUNTIME_PACKAGES \
         ; rm -rf /var/cache/apk/*
@@ -96,6 +98,7 @@ FROM ${BUILD_REGISTRY}ruby:2.7.4-alpine3.13
 
 ENV BUILD_PACKAGES bash
 ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip curl
+ENV POSTGRES_PACKAGES postgresql-client
 
 ARG APP_UID
 ARG APP_GID
@@ -112,6 +115,7 @@ RUN set -euox pipefail \
         ; apk update \
         ; apk add --no-cache $BUILD_PACKAGES \
         ; apk add --no-cache $RUNTIME_PACKAGES \
+        ; apk add --no-cache $POSTGRES_PACKAGES \
         ; rm -rf /var/cache/apk/*
 
 COPY [ "docker/sub.sh", "docker/application/root/", "/" ]
