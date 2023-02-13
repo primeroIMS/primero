@@ -62,4 +62,6 @@ fi
 
 ls "$SOLR_DIR/logs"
 
+cat "$SOLR_DIR/logs/solr.log"
+
 
