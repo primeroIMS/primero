@@ -60,4 +60,6 @@ else
   su solr -c "solr start -s $SOLR_DIR/data"
 fi
 
+ls "$SOLR_DIR/logs"
+
 
