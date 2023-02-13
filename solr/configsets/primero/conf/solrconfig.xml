@@ -407,6 +407,19 @@
        not be initialized until the first request that uses it.
 
     -->
+  <!-- SearchHandler
+
+       http://wiki.apache.org/solr/SearchHandler
+
+       For processing Search Queries, the primary Request Handler
+       provided with Solr is "SearchHandler" It delegates to a sequent
+       of SearchComponents (see below) and supports distributed
+       queries across multiple shards
+    -->
+  <requestHandler name="/select" class="solr.SearchHandler">
+    <arr name="last-components">
+    </arr>
+  </requestHandler>
 
   <!-- A request handler that returns indented JSON by default -->
   <requestHandler name="/query" class="solr.SearchHandler">
@@ -416,6 +429,8 @@
        <str name="indent">true</str>
        <str name="df">text</str>
      </lst>
+     <arr name="last-components">
+     </arr>
   </requestHandler>
 
 
