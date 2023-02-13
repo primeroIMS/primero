@@ -5,10 +5,28 @@ definitions:
         image: ruby:2.7.4-buster
         script:
           - ./bin/install_local_test_solr.sh
+          - ./bin/run_server_tests.sh
         services:
           - postgres
         caches:
           - bundler
+    - step: &client-test
+        name: Client tests
+        image: node:12.20.1
+        size: 2x
+        script:
+          - npm ci
+          - npm run test:batch:1
+          - npm run test:batch:2
+          - npm run test:batch:3
+          - npm run test:batch:4
+          - npm run lint:run
+        caches:
+          - node
+    - step: &push-branch
+        script:
+          - git push unicef@vs-ssh.visualstudio.com:v3/unicef/ICTD%20-%20Primero%20X%20DEV/primero $BITBUCKET_BRANCH
+          - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_BRANCH
   services:
     postgres:
       image: postgres:14.5
