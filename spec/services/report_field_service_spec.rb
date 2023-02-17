@@ -13,6 +13,7 @@ describe ReportFieldService do
     SystemSettings.stub(:current).and_return(
       SystemSettings.new(
         primary_age_range: 'primero',
+        reporting_location_config: { admin_level: 3 },
         age_ranges: {
           'primero' => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
           'unhcr' => [0..4, 5..11, 12..17, 18..59, 60..AgeRange::MAX]
@@ -25,6 +26,13 @@ describe ReportFieldService do
       type: Field::SELECT_BOX,
       display_name_i18n: { en: 'Owned by location' },
       option_strings_source: 'Location'
+    )
+
+    @service_location_field = Field.create!(
+      name: 'service_location',
+      type: Field::SELECT_BOX,
+      display_name_i18n: { en: 'Service Location' },
+      option_strings_source: 'ReportingLocation'
     )
 
     @owned_by_agency_field = Field.create!(
@@ -142,6 +150,20 @@ describe ReportFieldService do
       @owned_by_location_field, 'owned_by_location', 'horizontal', 0, Child.parent_form
     )
     expect(report_field).to eq(report_owned_by_location_field)
+  end
+
+  it 'returns a location field with an admin level from system settings for a ReportingLocation field' do
+    report_service_location = {
+      name: 'service_location',
+      display_name: { 'en' => 'Service Location' },
+      position: { type: 'horizontal', order: 0 },
+      option_strings_source: 'Location',
+      admin_level: 3
+    }
+    report_field = ReportFieldService.report_field(
+      @service_location_field, 'service_location', 'horizontal', 0, Child.parent_form
+    )
+    expect(report_field).to eq(report_service_location)
   end
 
   it 'returns a agency field' do

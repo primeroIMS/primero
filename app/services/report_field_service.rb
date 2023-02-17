@@ -7,23 +7,23 @@ class ReportFieldService
 
   def self.horizontal_fields(report)
     report.aggregate_by.each_with_index.map do |f, i|
-      report_field(report.pivots_map[f], f, HORIZONTAL, i)
+      report_field(report.pivots_map[f], f, HORIZONTAL, i, report.record_type)
     end
   end
 
   def self.vertical_fields(report)
     report.disaggregate_by.each_with_index.map do |f, i|
-      report_field(report.pivots_map[f], f, VERTICAL, i)
+      report_field(report.pivots_map[f], f, VERTICAL, i, report.record_type)
     end
   end
 
-  def self.report_field(field, pivot_name, type, order)
+  def self.report_field(field, pivot_name, type, order, record_type)
     report_field_hash = {
       name: field&.name,
       display_name: field&.display_name_i18n,
       position: { type: type, order: order }
     }
-    report_field_hash.merge(report_field_options(field, pivot_name) || {})
+    report_field_hash.merge(report_field_options(field, pivot_name, record_type) || {})
   end
 
   def self.report_option_strings_source(field)
@@ -37,16 +37,26 @@ class ReportFieldService
     { option_labels: all_lookup_values }
   end
 
-  def self.report_field_options(field, pivot_name)
-    if field&.location?
-      admin_level = pivot_name.last.is_number? ? pivot_name.last.to_i : 0
-      { option_strings_source: 'Location', admin_level: admin_level }
+  def self.report_field_options(field, pivot_name, record_type)
+    if field&.location? || field&.reporting_location?
+      { option_strings_source: 'Location', admin_level: report_field_admin_level(field, pivot_name, record_type) }
     elsif field&.agency?
       { option_strings_source: 'Agency' }
     elsif field&.option_strings_text_i18n.present?
       { option_labels: FieldI18nService.fill_options(field.option_strings_text_i18n) }
     elsif field&.option_strings_source.present?
       report_option_strings_source(field)
+    end
+  end
+
+  def self.report_field_admin_level(field, pivot_name, record_type)
+    if field&.location?
+      pivot_name.last.is_number? ? pivot_name.last.to_i : 0
+    elsif field&.reporting_location?
+      system_settings = SystemSettings.current
+      return system_settings.incident_reporting_location_config.admin_level if record_type == Incident.parent_form
+
+      system_settings.reporting_location_config.admin_level
     end
   end
 
