@@ -12,7 +12,12 @@ const getLabels = (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies,
   const keys = sortByDate(Object.keys(data));
 
   if (qtyRows >= 2 && qtyColumns > 0) {
-    return keys;
+    return keys.map(key =>
+      getTranslatedKey(key, field, {
+        agencies,
+        locations
+      })
+    );
   }
 
   if (qtyColumns > 0) {
@@ -33,12 +38,14 @@ const getLabels = (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies,
     currentLabels.push(keys);
   }
 
-  return uniq(currentLabels.flat()).map(key =>
-    getTranslatedKey(key, field, {
+  return uniq(currentLabels.flat()).map(key => {
+    const translation = getTranslatedKey(key, field, {
       agencies,
       locations
-    })
-  );
+    });
+
+    return translation;
+  });
 };
 
 export default (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies, locations }) =>
