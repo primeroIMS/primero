@@ -185,7 +185,9 @@ module Exporters
                   }
               )
             ],
-            source: Source.new(data: { sources_field_1: 'Incident 3 Source Value 1' })
+            sources: [
+              Source.new(data: { sources_field_1: 'Incident 3 Source Value 1' })
+            ]
           ),
           Violation.new(
             id: 'd751788b-fabc-4609-bd5c-951b44df893f',
@@ -249,7 +251,7 @@ module Exporters
         expect(workbook.sheet(1).row(2)).to eq(
           [
             'Incident', 'Violation', 'Violation Type', 'Summary', 'Incident Code', 'Source ID',
-            'Sources - Field 1', 'Sources - Field 2' 
+            'Sources - Field 1', 'Sources - Field 2'
           ]
         )
         expect(workbook.sheet(2).row(2)).to eq(
@@ -337,7 +339,7 @@ module Exporters
           [
             @incident3.id, @incident3.violations.first.id, 'Attacks on hospital(s)',
             "Attacks on hospital(s) - #{@incident3.violations[0].id[0..4]}", @incident3.incident_code,
-            @incident3.violations[0].source.id, 'Incident 3 Source Value 1', nil
+            @incident3.violations[0].sources[0].id, 'Incident 3 Source Value 1', nil
           ]
         )
         expect(workbook.sheet(2).row(3)).to eq(

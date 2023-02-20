@@ -31,6 +31,7 @@ class Incident < ApplicationRecord
   has_many :violations, dependent: :destroy, inverse_of: :incident
   has_many :perpetrators, through: :violations
   has_many :individual_victims, through: :violations
+  has_many :sources, through: :violations
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
   after_save :save_violations_and_associations
 
@@ -274,7 +275,6 @@ class Incident < ApplicationRecord
 
     violations_result
   end
-
 
   def reporting_location_property
     'incident_reporting_location_config'

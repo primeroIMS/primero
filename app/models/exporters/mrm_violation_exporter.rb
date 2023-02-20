@@ -388,8 +388,7 @@ module Exporters
     def write_associations(violations, form, association_form_fields)
       worksheet = worksheets[form.unique_id][:worksheet]
       @record_row = worksheets[form.unique_id][:row]
-      association_key = form.unique_id == 'sources' ? 'source' : form.unique_id
-      write_association_data(worksheet, violations, association_form_fields, association_key)
+      write_association_data(worksheet, violations, association_form_fields, form.unique_id)
       worksheets[form.unique_id][:row] = @record_row
     end
 
@@ -398,8 +397,7 @@ module Exporters
         associations = violation.send(association_key)
         next unless associations.present?
 
-        records = associations.is_a?(Source) ? [associations] : associations
-        records.each do |record|
+        associations.each do |record|
           @record_column = 6
           write_association_record(worksheet, violation, record, association_form_fields)
         end

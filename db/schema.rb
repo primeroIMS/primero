@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_26_000001) do
+ActiveRecord::Schema.define(version: 2023_02_16_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -508,6 +508,13 @@ ActiveRecord::Schema.define(version: 2023_01_26_000001) do
     t.index ["data"], name: "index_sources_on_data", using: :gin
   end
 
+  create_table "sources_violations", force: :cascade do |t|
+    t.uuid "violation_id"
+    t.uuid "source_id"
+    t.index ["source_id"], name: "index_sources_violations_on_source_id"
+    t.index ["violation_id"], name: "index_sources_violations_on_violation_id"
+  end
+
   create_table "system_settings", id: :serial, force: :cascade do |t|
     t.string "default_locale", default: "en"
     t.string "locales", default: ["en"], array: true
@@ -691,6 +698,8 @@ ActiveRecord::Schema.define(version: 2023_01_26_000001) do
   add_foreign_key "primero_modules_saved_searches", "saved_searches"
   add_foreign_key "responses", "violations"
   add_foreign_key "saved_searches", "users"
+  add_foreign_key "sources_violations", "sources"
+  add_foreign_key "sources_violations", "violations"
   add_foreign_key "traces", "cases", column: "matched_case_id"
   add_foreign_key "traces", "tracing_requests"
   add_foreign_key "user_groups_users", "user_groups"
