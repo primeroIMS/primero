@@ -1,6 +1,8 @@
 import omit from "lodash/omit";
 import merge from "deepmerge";
 
+import { TOTAL_KEY } from "../constants";
+
 export default (object, qtyRows) => {
   let columnObjects = {};
   // eslint-disable-next-line consistent-return
@@ -24,5 +26,5 @@ export default (object, qtyRows) => {
   };
 
   // Removing "_total" from columns object
-  return omit(getColumnsObj(object), "_total");
+  return omit(getColumnsObj(object), TOTAL_KEY);
 };
