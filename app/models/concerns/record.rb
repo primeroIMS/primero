@@ -145,7 +145,7 @@ module Record
 
   def index_nested_reportables
     nested_reportables_hash.each do |_, reportables|
-      Sunspot.index! reportables if reportables.present?
+      Sunspot.index reportables if reportables.present?
     end
   end
 
