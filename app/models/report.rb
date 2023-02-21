@@ -220,13 +220,8 @@ class Report < ApplicationRecord
 
   def build_numeric_field_query(field)
     args = { field: field, record_field_name: record_field_name(field) }
-    if age_field?(field)
-      args = {
-        field: field,
-        record_field_name: record_field_name(field),
-        range: SystemSettings.primary_age_ranges,
-        abrreviate_range: true
-      }
+    if age_field?(field) && group_ages?
+      args = args.merge(range: SystemSettings.primary_age_ranges, abrreviate_range: true)
     end
 
     Reports::FieldQueries::NumericFieldQuery.new(args)
