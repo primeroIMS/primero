@@ -8,3 +8,4 @@ $RAILS_ENV:
     log_file: $SOLR_LOG_DIR
   auto_index_callback: after_commit
   auto_remove_callback: after_commit
+  auto_commit_after_request: $SOLR_AUTO_COMMIT_AFTER_REQUEST
