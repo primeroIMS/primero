@@ -20,5 +20,5 @@ export const getFilterConstraint = (filter, fieldType) => {
     return true;
   }
 
-  return filter?.constraint;
+  return filter?.constraint ? filter.constraint : null;
 };
