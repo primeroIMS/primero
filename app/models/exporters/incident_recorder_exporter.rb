@@ -35,8 +35,8 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
   end
 
   # @returns: a String with the Excel file data
-  def export(models, owner, _args)
-    @builder.export(models, owner)
+  def export(models, user, _args)
+    @builder.export(models, user)
   end
 
   # private
@@ -201,9 +201,6 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       incident_recorder_age_groups[age] || age
     end
 
-    # TODO: Should we change the value in the form section?
-    # TODO: If we do, this can go away and just use the field translation
-    #      spreadsheet is expecting the "Age" at the beginning and the dash between blanks.
     def incident_recorder_age_groups
       age_group_label = I18n.t('exports.incident_recorder_xls.age_group.age', { locale: locale })
       @incident_recorder_age_groups ||= {
