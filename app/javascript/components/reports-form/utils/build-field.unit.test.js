@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { buildField, buildLocationFields } from "./build-field";
+import { buildField, buildLocationFields, buildMinimumLocationField } from "./build-field";
 
 describe("<ReportForm>/utils/build-field", () => {
   describe("buildField()", () => {
@@ -68,6 +68,50 @@ describe("<ReportForm>/utils/build-field", () => {
       ];
 
       expect(buildLocationFields(field, "Form 1", i18n, reportingLocationConfig)).to.deep.equal(expected);
+    });
+  });
+
+  describe("buildMinimumLocationField()", () => {
+    const locationField = {
+      id: "owned_by_location",
+      display_text: "Owner's Location",
+      formSection: "Form 1",
+      type: "select_field",
+      option_strings_source: "Location",
+      option_strings_text: undefined,
+      tick_box_label: undefined,
+      visible: true
+    };
+
+    it("returns all the location fields for the admin level", () => {
+      const reportingLocationConfig = fromJS({
+        admin_level: 2,
+        admin_level_map: {
+          0: ["country"],
+          1: ["city"],
+          2: ["district"]
+        }
+      });
+
+      const i18n = { locale: "en", t: value => value };
+
+      const expected = [
+        { ...locationField, id: "owned_by_location0", display_text: "Owner's Location (location.base_types.country)" },
+        {
+          ...locationField,
+          id: "owned_by_location1",
+          display_text: "Owner's Location (location.base_types.city)",
+          visible: true
+        },
+        {
+          ...locationField,
+          id: "owned_by_location2",
+          display_text: "Owner's Location (location.base_types.district)",
+          visible: true
+        }
+      ];
+
+      expect(buildMinimumLocationField(locationField, i18n, reportingLocationConfig)).to.deep.equal(expected);
     });
   });
 });
