@@ -209,13 +209,11 @@ const SelectFieldContainer = ({
     if (
       filterState?.filtersChanged &&
       !filterState?.userIsSelected &&
-      [SERVICE_SECTION_FIELDS.implementingAgencyIndividual, SERVICE_SECTION_FIELDS.implementingAgency].find(fieldName =>
-        name.endsWith(fieldName)
-      )
+      name.endsWith(SERVICE_SECTION_FIELDS.implementingAgency)
     ) {
       setFieldValue(name, null, false);
     }
-  }, [service, agency]);
+  }, [service]);
 
   useEffect(() => {
     if (
@@ -225,7 +223,7 @@ const SelectFieldContainer = ({
     ) {
       setFieldValue(name, null, false);
     }
-  }, [location]);
+  }, [service, agency, location]);
 
   useEffect(() => {
     if (fieldValue && (!stickyOption || isEmpty(stickyOption))) {
