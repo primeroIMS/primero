@@ -22,7 +22,7 @@ describe("middleware/utils/handle-offline-attachments.js", () => {
 
       const expected = { data: { photos: [photo1, photo2] } };
 
-      const dbPayload = await buildDBPayload(store, { api: { body: { data: { photos: [photo2] } } } });
+      const dbPayload = await buildDBPayload(store, { api: { id: "123a", body: { data: { photos: [photo2] } } } });
 
       expect(dbPayload).to.deep.equal(expected);
     });
@@ -44,9 +44,11 @@ describe("middleware/utils/handle-offline-attachments.js", () => {
     it("should get rid of the already synchronized attachments", async () => {
       const store = { getState: () => stateWithFields };
 
-      const expected = { api: { body: { data: { photos: [photo2] } } } };
+      const expected = { api: { id: "a123", body: { data: { photos: [photo2] } } } };
 
-      const dbPayload = await skipSyncedAttachments(store, { api: { body: { data: { photos: [photo1, photo2] } } } });
+      const dbPayload = await skipSyncedAttachments(store, {
+        api: { id: "a123", body: { data: { photos: [photo1, photo2] } } }
+      });
 
       expect(dbPayload).to.deep.equal(expected);
     });
