@@ -20,14 +20,14 @@ class ManagedReports::Indicators::IndividualRegion < ManagedReports::SqlReportIn
           incident_location as name,
           'total' as key,
           #{grouped_date_query(params['grouped_by'],
-                              date_filter,
-                              'individual_children')&.concat(' as group_id,')}
+                               date_filter,
+                               'individual_children')&.concat(' as group_id,')}
           count(*) as sum
         from (
           select distinct
             individual_victims_violations.individual_victim_id AS id,
             incidents.data ->> 'incident_location' as incident_location,
-            incidents.data as data
+            #{table_name_for_query(params)}.data as data
           from
             violations violations
             inner join individual_victims_violations on violations.id = individual_victims_violations.violation_id
@@ -37,7 +37,9 @@ class ManagedReports::Indicators::IndividualRegion < ManagedReports::SqlReportIn
               on locations.location_code = incidents.data->>'incident_location'
               and locations.admin_level >= #{SystemSettings.current.incident_reporting_location_config.admin_level}
             #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
-          where #{date_range_query(params['incident_date'], 'incidents')}
+          where
+            incidents.data ->> 'incident_location' is not null
+            #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
             #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
             #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
             #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}

@@ -407,6 +407,17 @@ describe User do
       expect(manager.managed_users).to match_array([@grunt1, @grunt2, @manager, manager])
     end
 
+    context 'when user belongs multiple user_groups and managers' do
+      before(:each) do
+        @group_c = create(:user_group, name: 'C')
+        @manager2 = create(:user, role_id: @manager_role.id, user_group_ids: [@group_a.id, @group_b.id, @group_c.id])
+        @user5 = create(:user, role_id: @grunt_role.id, user_group_ids: [@group_a.id, @group_b.id, @group_c.id])
+      end
+      it 'return managers' do
+        expect(@user5.user_managers).to match_array([@manager, @manager2])
+      end
+    end
+
     after do
       clean_data(Agency, Role, User, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
     end

@@ -218,7 +218,7 @@ class User < ApplicationRecord
   end
 
   def user_location
-    @user_location ||= Location.find_by(location_code: location)
+    @user_location ||= LocationService.instance.find_by_code(location)
   end
 
   def reporting_location
@@ -293,14 +293,11 @@ class User < ApplicationRecord
   end
 
   def user_managers
-    @managers = User.all.select do |u|
-      (u.user_group_ids & user_group_ids).any? && u.manager?
-    end
+    User.joins(:user_groups, :role).where(user_groups: { id: user_group_ids }, roles: { is_manager: true }).uniq
   end
 
   def managers
     user_managers
-    @managers
   end
 
   # This method indicates what records or flags this user can search for.
