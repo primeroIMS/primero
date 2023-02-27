@@ -205,6 +205,7 @@ const Container = ({ match, location }) => {
               defaultFilters={defaultFilters}
               setSelectedRecords={handleSelectedRecords}
               fromDashboard={fromDashboard}
+              metadata={metadata}
             />
           </FilterContainer>
         </PageContent>

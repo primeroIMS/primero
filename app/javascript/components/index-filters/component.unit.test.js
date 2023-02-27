@@ -56,4 +56,44 @@ describe("<IndexFitlers>", () => {
 
     expect(component.find(FilterActions)).to.have.lengthOf(1);
   });
+
+  it("clear filters", () => {
+    const propFilters = {
+      ...props,
+      defaultFilters: fromJS({
+        record_state: ["true"],
+        status: ["open"],
+        risk_level: ["medium"]
+      }),
+      setSelectedRecords: () => {},
+      metadata: {}
+    };
+    const { component } = setupMountedComponent(IndexFilters, propFilters, state, [
+      "/cases?record_state[0]=true&status[0]=open&risk_level[0]=medium&page=1&per=20"
+    ]);
+
+    expect(component.props().store.getActions()).to.deep.equal([]);
+
+    component.find(Search).find("button").last().simulate("click");
+
+    expect(component.props().store.getActions()[0]).to.deep.equals({
+      type: "cases/SET_FILTERS",
+      payload: { fields: "short", status: ["open"], record_state: ["true"] }
+    });
+  });
+
+  it("renders component with valid props", () => {
+    const { component } = setupMountedComponent(
+      IndexFilters,
+      { ...props, metadata: {}, setSelectedRecords: () => {} },
+      state
+    );
+    const propsIndexFilters = component.find(IndexFilters).props();
+
+    ["defaultFilters", "metadata", "recordType", "setSelectedRecords"].forEach(property => {
+      expect(propsIndexFilters).to.have.property(property);
+      delete propsIndexFilters[property];
+    });
+    expect(propsIndexFilters).to.be.empty;
+  });
 });
