@@ -15,6 +15,7 @@ describe("calculateFormParams", () => {
             display_conditions: {
               disabled: true
             },
+            fields: [],
             subform_test_c5d3e6c: {
               name: "subform_test_c5d3e6c",
               hide_on_view_page: false,
@@ -80,6 +81,7 @@ describe("calculateFormParams", () => {
         saveMethod: SAVE_METHODS.update,
         body: {
           data: {
+            fields: [],
             description: {
               en: "Test"
             },
@@ -121,6 +123,7 @@ describe("calculateFormParams", () => {
             description: {
               en: "Test"
             },
+            fields: [],
             skip_logic: true,
             display_conditions: {
               disabled: false,

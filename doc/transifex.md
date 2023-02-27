@@ -31,10 +31,10 @@ Where <API-TOKEN/> is generate [here](https://www.transifex.com/user/settings/ap
 If you want to create or update a file you can use `tx push`.
 
 ### Resource
-When the file to be pushed is a source file you need to set `-s` flag.
+When the file to be pushed is a source file you need to set `-s` and `-r` flag.
 
 ```bash
-tx push -s primero-app-v2.enyml
+tx push -s -r primero-app-v2.enyml
 ```
 
 ### Translation

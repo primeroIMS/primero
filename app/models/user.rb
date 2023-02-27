@@ -218,7 +218,7 @@ class User < ApplicationRecord
   end
 
   def user_location
-    @user_location ||= Location.find_by(location_code: location)
+    @user_location ||= LocationService.instance.find_by_code(location)
   end
 
   def reporting_location

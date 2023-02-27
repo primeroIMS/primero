@@ -18,6 +18,7 @@ import { useI18n } from "../i18n";
 import { getReportingLocationConfig } from "../user/selectors";
 import { DEFAULT_FILTERS } from "../record-list/constants";
 import { overwriteMerge, useMemoizedSelector } from "../../libs";
+import { reduceMapToObject } from "../../libs/component-helpers";
 
 import { DEFAULT_SELECTED_RECORDS_VALUE, FILTER_CATEGORY, HIDDEN_FIELDS, ID_SEARCH } from "./constants";
 import { compactFilters, transformFilters } from "./utils";
@@ -26,7 +27,7 @@ import { applyFilters, setFilters } from "./action-creators";
 import css from "./components/styles.css";
 import TabFilters from "./components/tab-filters";
 
-const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
+const Component = ({ recordType, defaultFilters, setSelectedRecords, metadata }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -43,6 +44,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   const [moreSectionFilters, setMoreSectionFilters] = useState({});
 
   const defaultFiltersPlainObject = defaultFilters.toJS();
+  const defaultFiltersForClear = reduceMapToObject(fromJS(DEFAULT_FILTERS).merge(metadata));
 
   const resetSelectedRecords = () => {
     setSelectedRecords(DEFAULT_SELECTED_RECORDS_VALUE);
@@ -121,12 +123,12 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
     setIdSearch => {
       resetSelectedRecords();
       methods.reset({
-        ...defaultFiltersPlainObject,
+        ...defaultFiltersForClear,
         filter_category: methods.getValues("filter_category"),
         ...(setIdSearch && { [ID_SEARCH]: true })
       });
       batch(() => {
-        dispatch(setFilters({ recordType, data: defaultFiltersPlainObject }));
+        dispatch(setFilters({ recordType, data: defaultFiltersForClear }));
         dispatch(push({}));
       });
 
@@ -135,7 +137,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
       setMore(false);
       setFilterToList(DEFAULT_FILTERS);
     },
-    [recordType, defaultFiltersPlainObject]
+    [recordType, defaultFiltersForClear]
   );
 
   const handleChangeTabs = (event, value) => setTabIndex(value);
@@ -197,6 +199,7 @@ Component.displayName = "IndexFilters";
 
 Component.propTypes = {
   defaultFilters: PropTypes.object,
+  metadata: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   setSelectedRecords: PropTypes.func
 };
