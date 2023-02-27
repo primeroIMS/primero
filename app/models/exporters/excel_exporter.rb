@@ -19,15 +19,14 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     end
   end
 
-  def initialize(output_file_path = nil)
-    super(output_file_path)
+  def initialize(output_file_path = nil, locale = nil, record_type = nil, user = nil, options = {})
+    super(output_file_path, locale, record_type, user, options)
     self.workbook = WriteXLSX.new(buffer)
     self.worksheets = {}
+    self.locale = user&.locale || I18n.locale
   end
 
-  def export(records, user, options = {})
-    self.locale = user&.locale || I18n.locale
-    establish_export_constraints(records, user, options)
+  def export(records)
     constraint_subforms
     build_worksheets_with_headers
 

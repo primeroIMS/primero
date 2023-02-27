@@ -7,7 +7,8 @@ class Exporters::BaseExporter
     Field::DATE_FIELD, Field::DATE_RANGE, Field::TICK_BOX, Field::TALLY_FIELD, Field::SUBFORM
   ].freeze
 
-  attr_accessor :locale, :lookups, :fields, :forms, :field_value_service, :location_service
+  attr_accessor :locale, :lookups, :fields, :field_names, :forms, :field_value_service,
+                :location_service, :record_type, :user, :options
 
   class << self
     def supported_models
@@ -36,30 +37,29 @@ class Exporters::BaseExporter
     end
   end
 
-  def initialize(output_file_path = nil, locale = nil)
-    @io = if output_file_path.present?
-            File.new(output_file_path, 'w')
-          else
-            StringIO.new
-          end
+  def initialize(output_file_path = nil, locale = nil, record_type = nil, user = nil, options = {})
+    @io = output_file_path.present? ? File.new(output_file_path, 'w') : StringIO.new
     self.locale = locale || I18n.locale
-    self.location_service = LocationService.instance
-    self.field_value_service = FieldValueService.new(location_service: location_service)
+    self.record_type = record_type
+    self.user = user
+    self.options = options
+    intialize_services
+    establish_export_constraints
   end
 
   def export(*_args)
     raise NotImplementedError
   end
 
-  def establish_export_constraints(records, user, options = {})
-    self.forms = forms_to_export(records, user, options)
-    self.fields = fields_to_export(forms, options)
+  def intialize_services
+    self.location_service = LocationService.instance
+    self.field_value_service = FieldValueService.new(location_service: location_service)
   end
 
-  def model_class(models)
-    return unless models.present? && models.is_a?(Array)
-
-    models.first.class
+  def establish_export_constraints
+    self.forms = forms_to_export
+    self.fields = fields_to_export
+    self.field_names = fields.map(&:name)
   end
 
   def export_value(value, field)
@@ -84,8 +84,7 @@ class Exporters::BaseExporter
 
   private
 
-  def forms_to_export(records, user, options = {})
-    record_type = model_class(records)&.parent_form
+  def forms_to_export
     user_forms_subforms_permitted = user.role.permitted_forms(record_type, true, true)
     forms = user_forms_subforms_permitted.map { |form| forms_without_hidden_fields(form) }
 
@@ -94,7 +93,7 @@ class Exporters::BaseExporter
     forms.select { |form| options[:form_unique_ids].include?(form.unique_id) }
   end
 
-  def fields_to_export(forms, options = {})
+  def fields_to_export
     fields = forms.map(&:fields).flatten.reject(&:hide_on_view_page?).uniq(&:name)
     fields -= (self.class.excluded_field_names&.to_a || [])
     return fields if options[:field_names].blank?
@@ -113,9 +112,8 @@ class Exporters::BaseExporter
   end
 
   def forms_without_hidden_fields(form)
-    form_dup = form.dup
-    form_dup.subform_field = form.subform_field
-    form.fields.reject(&:hide_on_view_page?).map(&:dup).each do |field|
+    form_dup = duplicate_form(form)
+    form_dup.fields.reject(&:hide_on_view_page?).each do |field|
       if field.type == Field::SUBFORM
         # TODO: This cause N+1
         field.subform = forms_without_hidden_fields(field.subform)
@@ -124,5 +122,18 @@ class Exporters::BaseExporter
       form_dup.fields << field
     end
     form_dup
+  end
+
+  def duplicate_form(form)
+    form_dup = FormSection.new(form.as_json)
+    form_dup.subform_field = duplicate_field(form.subform_field) if form.subform_field.present?
+    form_dup.fields = form.fields.map { |field| duplicate_field(field) }
+    form_dup
+  end
+
+  def duplicate_field(field)
+    field_dup = Field.new(field.as_json)
+    field_dup.subform = FormSection.new(field.subform.as_json) if field.subform.present?
+    field_dup
   end
 end

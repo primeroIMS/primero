@@ -22,7 +22,7 @@ class BulkExport < ApplicationRecord
   validates :owned_by, presence: true
   validates :record_type, presence: true
   validates :format, presence: true
-  validates :export_file, file_size: { less_than_or_equal_to: 50.megabytes }, if: -> { export_file.attached? }
+  # validates :export_file, file_size: { less_than_or_equal_to: 50.megabytes }, if: -> { export_file.attached? }
 
   before_save :generate_file_name
 
@@ -37,9 +37,7 @@ class BulkExport < ApplicationRecord
   end
 
   def export(password)
-    process_records_in_batches(500) do |records_batch|
-      exporter.export(records_batch, owner, custom_export_params&.with_indifferent_access || {})
-    end
+    process_records_in_batches(500) { |records_batch| exporter.export(records_batch) }
     exporter.complete
     zipped_file = ZipService.zip(stored_file_name, password)
     attach_export_file(zipped_file)
@@ -55,7 +53,11 @@ class BulkExport < ApplicationRecord
   end
 
   def exporter
-    @exporter ||= exporter_type.new(stored_file_name)
+    return @exporter if @exporter.present?
+
+    @exporter = exporter_type.new(
+      stored_file_name, nil, record_type, owner, custom_export_params&.with_indifferent_access || {}
+    )
   end
 
   def search_filters
