@@ -59,8 +59,8 @@ module Exporters
       end
     end
 
-    def initialize(output_file_path = nil)
-      super(output_file_path)
+    def initialize(output_file_path = nil, config = {}, options = {})
+      super(output_file_path, config, options)
       self.worksheets = {}
       self.workbook = WriteXLSX.new(buffer)
       build_formats
@@ -70,8 +70,7 @@ module Exporters
       workbook.close
     end
 
-    def export(records, user, options = {})
-      establish_export_constraints(records, user, options)
+    def export(records)
       violations = Violation.where(incident_id: records).order(:incident_id, :id)
       write_violations(violations)
       write_violation_associations(violations)

@@ -26,9 +26,9 @@ module Exporters
       end
     end
 
-    def initialize(output_file_path = nil, pdf = nil)
-      super(output_file_path)
-      @pdf = pdf || Prawn::Document.new
+    def initialize(output_file_path = nil, config = {}, options = {})
+      super(output_file_path, config, options)
+      @pdf = config[:pdf] || Prawn::Document.new
     end
 
     def complete

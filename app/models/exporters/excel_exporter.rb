@@ -19,8 +19,8 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     end
   end
 
-  def initialize(output_file_path = nil, locale = nil, record_type = nil, user = nil, options = {})
-    super(output_file_path, locale, record_type, user, options)
+  def initialize(output_file_path = nil, config = {}, options = {})
+    super(output_file_path, config, options)
     self.workbook = WriteXLSX.new(buffer)
     self.worksheets = {}
     self.locale = user&.locale || I18n.locale
@@ -209,7 +209,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
 
     return field.subform unless field_names.present?
 
-    subform = field.subform.dup
+    subform = field.subform
     subform.fields = field.subform.fields.to_a.select do |sf_field|
       field_names[sf_field.name] == true
     end

@@ -17,13 +17,17 @@ class Exporters::UNHCRCsvExporter < Exporters::ConfigurableExporter
     end
   end
 
-  def initialize(output_file_path = nil)
-    super(output_file_path, export_config_id)
+  def initialize(output_file_path = nil, config = {}, options = {})
+    super(output_file_path, config.merge(export_config_id: export_config_id), options)
     @fields = Field.find_by_name(ID_FIELD_NAMES).inject({}) { |acc, field| acc.merge(field.name => field) }
     @headers = [' '] +
                properties_to_export(PROPERTIES).keys.map do |prop|
                  I18n.t("exports.unhcr_csv.headers.#{prop}")
                end
+  end
+
+  def setup_export_constraints?
+    false
   end
 
   def write_case(record, index, rows)

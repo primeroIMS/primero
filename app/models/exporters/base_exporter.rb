@@ -29,19 +29,19 @@ class Exporters::BaseExporter
 
     # This is a class method that does a one-shot export to a String buffer.
     # Don't use this for large data sets.
-    def export(*args)
-      exporter_obj = new
-      exporter_obj.export(*args)
+    def export(records, *args)
+      exporter_obj = new(*args)
+      exporter_obj.export(records)
       exporter_obj.complete
       exporter_obj.buffer.string
     end
   end
 
-  def initialize(output_file_path = nil, locale = nil, record_type = nil, user = nil, options = {})
+  def initialize(output_file_path = nil, config = {}, options = {})
     @io = output_file_path.present? ? File.new(output_file_path, 'w') : StringIO.new
-    self.locale = locale || I18n.locale
-    self.record_type = record_type
-    self.user = user
+    self.locale = config[:locale] || I18n.locale
+    self.record_type = config[:record_type]
+    self.user = config[:user]
     self.options = options
     intialize_services
     establish_export_constraints
@@ -57,9 +57,15 @@ class Exporters::BaseExporter
   end
 
   def establish_export_constraints
+    return unless setup_export_constraints? && user.present?
+
     self.forms = forms_to_export
     self.fields = fields_to_export
     self.field_names = fields.map(&:name)
+  end
+
+  def setup_export_constraints?
+    true
   end
 
   def export_value(value, field)
@@ -113,27 +119,30 @@ class Exporters::BaseExporter
 
   def forms_without_hidden_fields(form)
     form_dup = duplicate_form(form)
-    form_dup.fields.reject(&:hide_on_view_page?).each do |field|
-      if field.type == Field::SUBFORM
-        # TODO: This cause N+1
+    form_dup.fields = form_dup.fields.reject { |field| field.hide_on_view_page? || !field.visible }.map do |field|
+      # TODO: This cause N+1
+      if field.subform.present? && field.type == Field::SUBFORM
         field.subform = forms_without_hidden_fields(field.subform)
-      elsif !field.visible then next
       end
-      form_dup.fields << field
+
+      field
     end
     form_dup
   end
 
   def duplicate_form(form)
-    form_dup = FormSection.new(form.as_json)
-    form_dup.subform_field = duplicate_field(form.subform_field) if form.subform_field.present?
-    form_dup.fields = form.fields.map { |field| duplicate_field(field) }
+    form_dup = FormSection.new(form.as_json.except('id'))
+    form_dup.subform_field = Field.new(form.subform_field.as_json.except('id')) if form.subform_field.present?
+    form_dup.fields = duplicate_fields(form)
     form_dup
   end
 
-  def duplicate_field(field)
-    field_dup = Field.new(field.as_json)
-    field_dup.subform = FormSection.new(field.subform.as_json) if field.subform.present?
-    field_dup
+  def duplicate_fields(form)
+    form.fields.map do |field|
+      field_dup = Field.new(field.as_json.except('id'))
+      field_dup.subform = duplicate_form(field.subform) if field.subform.present?
+      field_dup.form = form
+      field_dup
+    end
   end
 end

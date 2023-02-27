@@ -22,7 +22,7 @@ class BulkExport < ApplicationRecord
   validates :owned_by, presence: true
   validates :record_type, presence: true
   validates :format, presence: true
-  # validates :export_file, file_size: { less_than_or_equal_to: 50.megabytes }, if: -> { export_file.attached? }
+  validates :export_file, file_size: { less_than_or_equal_to: 50.megabytes }, if: -> { export_file.attached? }
 
   before_save :generate_file_name
 
@@ -56,7 +56,9 @@ class BulkExport < ApplicationRecord
     return @exporter if @exporter.present?
 
     @exporter = exporter_type.new(
-      stored_file_name, nil, record_type, owner, custom_export_params&.with_indifferent_access || {}
+      stored_file_name,
+      { record_type: record_type, user: owner },
+      custom_export_params&.with_indifferent_access || {}
     )
   end
 

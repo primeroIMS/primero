@@ -27,41 +27,41 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
     end
   end
 
-  def establish_export_constraints(records, user, options)
-    if constraining_fields?(options)
-      constrain_fields(records, user, options)
-    elsif constraining_forms_and_fields?(options)
-      constrain_forms_and_fields(records, user, options)
+  def establish_export_constraints
+    if constraining_fields?
+      constrain_fields
+    elsif constraining_forms_and_fields?
+      constrain_forms_and_fields
     else
-      super(records, user, options)
+      super
     end
     self.forms = constrain_form_fields(forms.to_a + [metadata_form])
   end
 
-  def constraining_fields?(options)
+  def constraining_fields?
     options[:form_unique_ids].blank? && options[:field_names]
   end
 
-  def constraining_forms_and_fields?(options)
+  def constraining_forms_and_fields?
     options[:form_unique_ids] && options[:field_names]
   end
 
-  def constrain_fields(records, user, options)
-    forms = forms_to_export(records, user)
-    fields = fields_to_export(forms, options)
-    self.forms = [selected_fields_form(fields)]
+  def constrain_fields
+    self.forms = forms_to_export
+    self.fields = fields_to_export
+    self.forms = [selected_fields_form]
   end
 
-  def constrain_forms_and_fields(records, user, options)
-    forms = forms_to_export(records, user)
-    field_names = fields_to_export(forms, options).map(&:name)
+  def constrain_forms_and_fields
+    self.forms = forms_to_export
+    field_names = fields_to_export.map(&:name)
     self.forms = forms.map { |form| filter_fields(form, field_names) }
-    self.forms = self.forms.select { |f| f.fields.size.positive? }
+    self.forms = forms.select { |f| f.fields.size.positive? }
   end
 
   def constrain_form_fields(forms)
     forms.map do |form|
-      form_dup = form.dup
+      form_dup = duplicate_form(form)
       form_dup.fields = form.fields.reject(&:hide_on_view_page?)
       form_dup
     end
@@ -70,13 +70,12 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
   private
 
   def filter_fields(form, field_names)
-    form_dup = form.dup
-    form_dup.subform_field = form.subform_field
-    form_dup.fields = form.fields.select { |f| field_names.include?(f.name) }.map(&:dup)
+    form_dup = duplicate_form(form)
+    form_dup.fields = form.fields.select { |f| field_names.include?(f.name) }
     form_dup
   end
 
-  def selected_fields_form(fields)
+  def selected_fields_form
     form = FormSection.new(
       unique_id: 'selected_fields',
       fields: fields

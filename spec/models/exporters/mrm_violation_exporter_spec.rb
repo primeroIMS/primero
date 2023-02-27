@@ -204,7 +204,7 @@ module Exporters
 
     describe 'Export' do
       let(:workbook) do
-        data = MRMViolationExporter.export([@incident1, @incident2, @incident3], user)
+        data = MRMViolationExporter.export([@incident1, @incident2, @incident3], nil, { user: user })
         Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
       end
 
