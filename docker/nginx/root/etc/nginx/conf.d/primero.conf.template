@@ -19,7 +19,10 @@ server {
     listen ${NGINX_HTTP_PORT};
     server_name ${NGINX_SERVER_NAME};
 
-    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
+    location ~ ^/\.well-known/acme-challenge/ {
+        default_type "text/plain";
+        root /usr/share/nginx/html;
+    }
 
     # @begin-ssl
     location / {
@@ -48,9 +51,11 @@ server {
     client_max_body_size ${NGINX_CLIENT_MAX_BODY_SIZE};
     client_body_buffer_size ${NGINX_CLIENT_BODY_BUFFER_SIZE};
 
-    try_files $uri/index.html $uri.html $uri @app;
-
     location / {
+        try_files $uri/index.html $uri.html $uri @app;
+    }
+
+    location @app {
         proxy_pass ${NGINX_PROXY_PASS_URL};
         proxy_http_version 1.1;
         proxy_set_header Host $http_host;
