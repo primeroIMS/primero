@@ -36,3 +36,17 @@ export const buildLocationFields = (current, formSection, i18n, reportingLocatio
 
   return locationFields;
 };
+
+export const buildMinimumLocationField = (current, i18n, reportingLocationConfig) => {
+  const adminLevelMap = reportingLocationConfig?.get("admin_level_map");
+
+  return adminLevelMap?.entrySeq()?.reduce(
+    (acc, [key, value]) =>
+      acc.concat({
+        ...current,
+        id: `${current.id}${key}`,
+        display_text: `${current.display_text} (${i18n.t(`location.base_types.${value.first()}`)})`
+      }),
+    []
+  );
+};

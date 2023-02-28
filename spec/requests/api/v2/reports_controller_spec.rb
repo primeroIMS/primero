@@ -202,7 +202,7 @@ describe Api::V2::ReportsController, type: :request do
 
       get "/api/v2/reports/#{@report2.id}"
 
-      report_data = { 'education_formal' => { '_total' => 1 } }
+      report_data = { 'education_formal' => { '_total' => 1, 'incomplete_data' => { '_total' => 1 } } }
 
       expect(response).to have_http_status(200)
       expect(json['data']['report_data']).to eq(report_data)
