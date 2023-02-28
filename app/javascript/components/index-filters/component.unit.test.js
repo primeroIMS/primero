@@ -5,7 +5,6 @@ import { setupMountedComponent } from "../../test";
 import IndexFilters from "./component";
 import MoreSection from "./components/more-section";
 import FilterActions from "./components/actions";
-import { Search } from "./components/filter-types";
 
 describe("<IndexFitlers>", () => {
   const state = fromJS({
@@ -31,18 +30,6 @@ describe("<IndexFitlers>", () => {
     const { component } = setupMountedComponent(IndexFilters, props, state);
 
     expect(component.exists("input#search-input")).to.be.true;
-  });
-
-  it("renders search bar with valid props", () => {
-    const { component } = setupMountedComponent(IndexFilters, props, state);
-    const clone = { ...component.find(Search).props() };
-
-    ["handleReset"].forEach(property => {
-      expect(clone).to.have.property(property);
-      delete clone[property];
-    });
-
-    expect(clone).to.be.empty;
   });
 
   it("renders MoreSection filters", () => {
@@ -74,7 +61,7 @@ describe("<IndexFitlers>", () => {
 
     expect(component.props().store.getActions()).to.deep.equal([]);
 
-    component.find(Search).find("button").last().simulate("click");
+    component.find(FilterActions).find("button").last().simulate("click");
 
     expect(component.props().store.getActions()[0]).to.deep.equals({
       type: "cases/SET_FILTERS",
