@@ -13,19 +13,13 @@ ssl_certificate_key       ${NGINX_SSL_KEY_PATH};
 ssl_certificate           ${NGINX_SSL_CERT_PATH};
 # @end-ssl
 
-upstream app {
-    server unix://${NGINX_CURRENT_PATH}/tmp/primero.sock fail_timeout=0;
-}
-
 limit_req_zone $binary_remote_addr zone=login_app_limit:10m rate=1r/s;
 
 server {
     listen ${NGINX_HTTP_PORT};
-    server_name www.${NGINX_SERVER_NAME} ${NGINX_SERVER_NAME};
-    
-    location ~ ^/.well-known/acme-challenge/ {
-        root /usr/share/nginx/html/;
-    }
+    server_name ${NGINX_SERVER_NAME};
+
+    include /etc/nginx/snippets/letsencrypt-acme-challenge.conf;
 
     # @begin-ssl
     location / {
@@ -34,9 +28,8 @@ server {
 }
 
 server {
-
     listen ${NGINX_HTTPS_PORT} ssl;
-    server_name www.${NGINX_SERVER_NAME} ${NGINX_SERVER_NAME};
+    server_name ${NGINX_SERVER_NAME};
     # @end-ssl
 
     if ($request_method !~ ^(GET|PUT|POST|PATCH|DELETE)$ ) {
@@ -57,7 +50,7 @@ server {
 
     try_files $uri/index.html $uri.html $uri @app;
 
-    location @app {
+    location / {
         proxy_pass ${NGINX_PROXY_PASS_URL};
         proxy_http_version 1.1;
         proxy_set_header Host $http_host;
