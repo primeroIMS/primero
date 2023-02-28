@@ -141,7 +141,7 @@ module Exporters
 
     describe 'Export' do
       let(:workbook) do
-        data = ExcelExporter.export(@records, @user)
+        data = ExcelExporter.export(@records, nil, { user: @user })
         Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
       end
 
@@ -244,7 +244,6 @@ module Exporters
           expect(@book.sheets).to match_array(expected_sheets)
         end
       end
-
     end
     after do
       clean_data(Child, Role, UserGroup, User, Agency, Field, FormSection, PrimeroModule, PrimeroProgram)
