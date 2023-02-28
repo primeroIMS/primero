@@ -13,7 +13,7 @@ class Reports::FieldQueries::FieldQuery < ValueObject
   def default_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
-        "#{data_column_name} ->> :field_name as #{column_name}", field_name: field.name
+        "COALESCE(#{data_column_name} ->> :field_name, 'incomplete_data') AS #{column_name}", field_name: field.name
       ]
     )
   end

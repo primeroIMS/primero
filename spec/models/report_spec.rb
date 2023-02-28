@@ -5,7 +5,7 @@ require 'rails_helper'
 # TODO: add i18n tests
 describe Report do
   before :all do
-    clean_data(PrimeroProgram, PrimeroModule, FormSection, Field, Child)
+    clean_data(PrimeroModule, PrimeroProgram, FormSection, Field, Child)
     @module = create :primero_module
   end
 
@@ -553,6 +553,74 @@ describe Report do
         {
           'open' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } },
           'closed' => { '_total' => 0 }
+        }
+      )
+    end
+  end
+
+  describe 'Incomplete Data' do
+    before(:each) do
+      clean_data(Field, Lookup, Child, Report)
+
+      Lookup.create!(
+        unique_id: 'lookup-service-type',
+        name_en: 'status',
+        lookup_values_en: [
+          { id: 'education_formal', display_text: 'Education Formal' }
+        ].map(&:with_indifferent_access)
+      )
+
+      Field.create!(
+        name: 'service_type',
+        display_name: 'Service Type',
+        type: Field::SELECT_BOX,
+        option_strings_source: 'lookup lookup-service-type'
+      )
+
+      Field.create!(
+        name: 'service_implementing_agency',
+        display_name: 'Service Implementing Agency',
+        type: Field::SELECT_BOX,
+        option_strings_source: 'Agency'
+      )
+
+      Child.create!(
+        data: {
+          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          owned_by: 'user_owner', services_section: [
+            {
+              unique_id: 'f0a0f184-ab1d-4e02-a56b-9e1a1836b903',
+              service_type: 'education_formal',
+              service_implemented: 'not_implemented',
+              service_status_referred: false,
+              service_appointment_date: '2022-04-07'
+            },
+            {
+              unique_id: 'c532d23e-5ce6-4ec2-a3bb-abc793aec459',
+              service_type: 'education_formal',
+              service_implemented: 'not_implemented',
+              service_implementing_agency: 'agency1',
+              service_status_referred: false,
+              service_appointment_date: '2022-04-07'
+            }
+          ]
+        }
+      )
+    end
+
+    it 'returns incomplete_data if there is missing data' do
+      report = Report.new(
+        name: 'Report by Status and Sex',
+        record_type: 'reportable_service',
+        module_id: @module.unique_id,
+        aggregate_by: ['service_implementing_agency'],
+        disaggregate_by: ['service_type']
+      )
+
+      expect(report.build_report).to eq(
+        {
+          'agency1' => { '_total' => 1, 'education_formal' => { '_total' => 1 } },
+          'incomplete_data' => { '_total' => 1, 'education_formal' => { '_total' => 1 } }
         }
       )
     end
