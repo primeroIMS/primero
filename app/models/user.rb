@@ -10,6 +10,7 @@
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::Allowlist
   include ConfigurationRecord
+  include LocationCacheable
 
   USER_NAME_REGEX = /\A[^ ]+\z/.freeze
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
@@ -29,8 +30,7 @@ class User < ApplicationRecord
     'send_mail' => { 'type' => 'boolean' }
   }.freeze
 
-  attr_accessor :exists_reporting_location, :should_send_password_reset_instructions,
-                :user_groups_changed
+  attr_accessor :should_send_password_reset_instructions, :user_groups_changed
   attr_writer :user_location, :reporting_location
 
   delegate :can?, :cannot?, to: :ability
@@ -218,7 +218,7 @@ class User < ApplicationRecord
   end
 
   def user_location
-    @user_location ||= LocationService.instance.find_by_code(location)
+    @user_location ||= location_service.find_by_code(location)
   end
 
   def reporting_location
@@ -226,7 +226,7 @@ class User < ApplicationRecord
     return nil if user_location.blank?
     return user_location if user_location.admin_level == reporting_location_admin_level
 
-    @reporting_location || user_location.ancestor(reporting_location_admin_level)
+    @reporting_location || location_service.ancestor(user_location.location_code, reporting_location_admin_level)
   end
 
   def reporting_location_admin_level
