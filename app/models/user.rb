@@ -217,16 +217,19 @@ class User < ApplicationRecord
     !using_idp? && (!persisted? || !password.nil? || !password_confirmation.nil?)
   end
 
-  def user_location
-    @user_location ||= LocationService.instance.find_by_code(location)
+  def user_location(location_service = LocationService.instance)
+    @user_location ||= location_service.find_by_code(location)
   end
 
-  def reporting_location
+  def reporting_location(location_service = LocationService.instance)
     return @reporting_location if @reporting_location
-    return nil if user_location.blank?
-    return user_location if user_location.admin_level == reporting_location_admin_level
 
-    @reporting_location || user_location.ancestor(reporting_location_admin_level)
+    current_user_location = user_location(location_service)
+
+    return nil if current_user_location.blank?
+    return current_user_location if current_user_location.admin_level == reporting_location_admin_level
+
+    @reporting_location || current_user_location.ancestor(reporting_location_admin_level)
   end
 
   def reporting_location_admin_level

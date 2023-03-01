@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe UserTransitionService do
   before do
-    clean_data(UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
+    clean_data(UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, Location)
 
     @program = PrimeroProgram.create!(
       unique_id: 'primeroprogram-primero',
