@@ -16,15 +16,23 @@ export const buildLocationFields = (current, formSection, i18n, reportingLocatio
 
   const adminLevelMap = reportingLocationConfig?.get("admin_level_map");
 
-  return adminLevelMap?.entrySeq()?.reduce(
-    (acc, [key, value]) =>
-      acc.concat({
-        ...buildField(current, formSection, locale),
-        id: `${current.get("name")}${key}`,
-        display_text: `${displayNameHelper(current.get("display_name"), locale)} (${i18n.t(
-          `location.base_types.${value.first()}`
-        )})`
-      }),
-    []
+  return [
+    {
+      ...buildField(current, formSection, locale),
+      id: current.get("name"),
+      display_text: `${displayNameHelper(current.get("display_name"), locale)}`
+    }
+  ].concat(
+    adminLevelMap?.entrySeq()?.reduce(
+      (acc, [key, value]) =>
+        acc.concat({
+          ...buildField(current, formSection, locale),
+          id: `${current.get("name")}${key}`,
+          display_text: `${displayNameHelper(current.get("display_name"), locale)} (${i18n.t(
+            `location.base_types.${value.first()}`
+          )})`
+        }),
+      []
+    )
   );
 };
