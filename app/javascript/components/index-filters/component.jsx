@@ -146,7 +146,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords, metadata })
     <div className={css.root}>
       <FormProvider {...methods} user={userName}>
         <form onSubmit={methods.handleSubmit(handleSubmit)}>
-          <Search handleReset={handleClear} />
+          <Search />
           <div className={css.tabContainer}>
             <Tabs value={tabIndex} onChange={handleChangeTabs} classes={{ root: css.tabs }} variant="fullWidth">
               {tabs.map(({ name, selected, ...rest }) => (
