@@ -14,6 +14,7 @@ class RegistryRecord < ApplicationRecord
   include Alertable
   include Attachable
   include EagerLoadable
+  include LocationCacheable
 
   store_accessor(
     :data,

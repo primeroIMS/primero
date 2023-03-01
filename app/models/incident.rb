@@ -16,6 +16,7 @@ class Incident < ApplicationRecord
   include ReportableLocation
   include GenderBasedViolence
   include MonitoringReportingMechanism
+  include LocationCacheable
 
   store_accessor(
     :data,
