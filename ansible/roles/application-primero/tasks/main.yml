@@ -9,6 +9,20 @@
   tags:
   - 'always'
 
+- name: 'Checking for external certs on remote machine'
+  stat:
+    path: '{{ nginx_ssl_cert_path }}'
+  register: external_certs_crt
+
+- name: 'Checking for external certs (key) on remote machine'
+  stat:
+    path: '{{ nginx_ssl_key_path }}'
+  register: external_certs_key
+
+- name: 'Fail if no external certs on remote machine'
+  fail: msg="Remote machine missing external certs"
+  when: not external_certs_crt.stat.exists or not external_certs_key.stat.exists
+
 - name: 'Pull Primero from Git'
   git:
     repo: '{{ primero_repo|default("https://github.com/primeroIMS/primero.git") }}'
@@ -24,7 +38,7 @@
   template:
     src: local.env.j2
     dest: '/srv/primero/docker/local.env'
-    mode: 'u=rw,go=r'
+    mode: 'u=rw'
   become: yes
   tags:
   - 'never'
