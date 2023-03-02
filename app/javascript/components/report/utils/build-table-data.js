@@ -12,7 +12,7 @@ export default (report, i18n, { agencies, ageRanges, locations }) => {
   };
 
   const newColumns = getColumnsTableData(translatedReportWithAllFields, ageRanges, i18n);
-  const newRows = getRowsTableData(translatedReportWithAllFields, newColumns, i18n);
+  const newRows = getRowsTableData(translatedReportWithAllFields, newColumns, ageRanges, i18n);
 
   const columns = newColumns;
   const rows = reportData?.fields?.filter(field => field.position.type === "horizontal");
