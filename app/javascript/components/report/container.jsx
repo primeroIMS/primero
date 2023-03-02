@@ -57,7 +57,7 @@ const Report = ({ mode }) => {
 
   const name = displayNameHelper(report.get("name"), i18n.locale);
   const description = displayNameHelper(report.get("description"), i18n.locale);
-  const ageRanges = formatAgeRange(reduceMapToObject(primeroAgeRanges || fromJS([])));
+  const ageRanges = formatAgeRange(reduceMapToObject(primeroAgeRanges) || []);
 
   const setDeleteModal = open => {
     setDialog({ dialog: DELETE_MODAL, open });

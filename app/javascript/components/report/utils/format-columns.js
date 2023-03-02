@@ -22,7 +22,14 @@ export default (keys, columns, ageRanges, groupAges, i18n) => {
     let uniqueItems = uniq(columnsHeading(keys, column, index));
 
     if (column.name.startsWith("age") && groupAges) {
-      uniqueItems = sortWithSortedArray(uniqueItems, ageRanges);
+      uniqueItems = sortWithSortedArray(uniqueItems, ageRanges, null, i18n.t("report.incomplete_data"));
+    } else if (column.option_labels) {
+      uniqueItems = sortWithSortedArray(
+        uniqueItems,
+        column.option_labels[i18n.locale].map(option => option.display_text),
+        null,
+        i18n.t("report.incomplete_data")
+      );
     } else {
       uniqueItems = sortByDate(uniqueItems);
     }
