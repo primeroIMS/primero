@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import { Paper, Typography } from "@material-ui/core";
 import { push } from "connected-react-router";
@@ -7,6 +8,7 @@ import { useLocation, useParams } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
 
+import { getAgeRanges } from "../application/selectors";
 import { BarChart as BarChartGraphic, TableValues } from "../charts";
 import { getLoading, getErrors } from "../index-table/selectors";
 import LoadingIndicator from "../loading-indicator";
@@ -16,9 +18,10 @@ import { FormAction, whichFormMode } from "../form";
 import { usePermissions, WRITE_RECORDS, MANAGE } from "../permissions";
 import ActionDialog, { useDialog } from "../action-dialog";
 import { STRING_SOURCES_TYPES } from "../../config";
-import { displayNameHelper, useMemoizedSelector } from "../../libs";
+import { displayNameHelper, reduceMapToObject, useMemoizedSelector } from "../../libs";
 import { clearSelectedReport } from "../reports-form/action-creators";
 import useOptions from "../form/use-options";
+import { formatAgeRange } from "../reports-form/utils";
 
 import { buildGraphData, buildTableData } from "./utils";
 import { getReport } from "./selectors";
@@ -27,8 +30,6 @@ import namespace from "./namespace";
 import { NAME, DELETE_MODAL } from "./constants";
 import Exporter from "./components/exporter";
 import css from "./styles.css";
-
-// const { dialogOpen, setDialog } = useDialog(DELETE_MODAL);
 
 const Report = ({ mode }) => {
   const { id } = useParams();
@@ -50,11 +51,13 @@ const Report = ({ mode }) => {
   const loading = useMemoizedSelector(state => getLoading(state, namespace));
   const report = useMemoizedSelector(state => getReport(state));
 
+  const primeroAgeRanges = useMemoizedSelector(state => getAgeRanges(state));
   const agencies = useOptions({ source: STRING_SOURCES_TYPES.AGENCY, useUniqueId: true });
   const locations = useOptions({ source: STRING_SOURCES_TYPES.LOCATION });
 
   const name = displayNameHelper(report.get("name"), i18n.locale);
   const description = displayNameHelper(report.get("description"), i18n.locale);
+  const ageRanges = formatAgeRange(reduceMapToObject(primeroAgeRanges) || []);
 
   const setDeleteModal = open => {
     setDialog({ dialog: DELETE_MODAL, open });
@@ -118,10 +121,10 @@ const Report = ({ mode }) => {
           {reportDescription}
           {report.get("graph") && (
             <Paper>
-              <BarChartGraphic {...buildGraphData(report, i18n, { agencies, locations })} showDetails />
+              <BarChartGraphic {...buildGraphData(report, i18n, { agencies, ageRanges, locations })} showDetails />
             </Paper>
           )}
-          <TableValues {...buildTableData(report, i18n, { agencies, locations })} />
+          <TableValues {...buildTableData(report, i18n, { agencies, ageRanges, locations })} />
         </LoadingIndicator>
         <ActionDialog
           open={dialogOpen}

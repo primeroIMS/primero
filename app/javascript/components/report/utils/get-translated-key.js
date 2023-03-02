@@ -5,8 +5,10 @@ import { STRING_SOURCES_TYPES } from "../../../config";
 const isBooleanKey = key => ["true", "false"].includes(key);
 
 export default (key, field, { agencies, i18n, locations } = {}) => {
-  if (key === "incomplete_data") {
-    return i18n.t("report.incomplete_data");
+  const incompleteDataLabel = i18n.t("report.incomplete_data");
+
+  if (key === "incomplete_data" || key === incompleteDataLabel) {
+    return incompleteDataLabel;
   }
 
   if (field?.option_strings_source === STRING_SOURCES_TYPES.AGENCY && agencies?.length > 0) {

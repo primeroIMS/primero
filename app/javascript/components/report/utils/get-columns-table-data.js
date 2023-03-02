@@ -4,7 +4,7 @@ import removeTotalKeys from "./remove-total-keys";
 import formatColumns from "./format-columns";
 import getColumnsObjects from "./get-column-objects";
 
-export default (data, i18n) => {
+export default (data, ageRanges, i18n) => {
   if (isEmpty(data.report_data)) {
     return [];
   }
@@ -14,7 +14,8 @@ export default (data, i18n) => {
   const columnsObjects = getColumnsObjects(data.report_data, qtyRows);
   const totalabel = i18n.t("report.total");
   const keysWithoutTotal = removeTotalKeys(totalabel, columnsObjects);
-  const renderColumns = formatColumns(keysWithoutTotal, columns, i18n).flat();
+  const groupAges = data.group_ages;
+  const renderColumns = formatColumns(keysWithoutTotal, columns, ageRanges, groupAges, i18n).flat();
 
   return renderColumns;
 };
