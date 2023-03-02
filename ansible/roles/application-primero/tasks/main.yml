@@ -15,7 +15,7 @@
   register: external_certs_crt
   when: use_external_certs
   tags:
-    - 'always'
+  - 'always'
 
 - name: 'Checking for external certs (key) on remote machine'
   stat:
@@ -23,13 +23,13 @@
   register: external_certs_key
   when: use_external_certs
   tags:
-    - 'always'
+  - 'always'
 
 - name: 'Fail if no external certs on remote machine'
   fail: msg="Remote machine missing external certs"
   when: use_external_certs and not external_certs_crt.stat.exists or not external_certs_key.stat.exists
   tags:
-    - 'always'
+  - 'always'
 
 - name: 'Pull Primero from Git'
   git:
