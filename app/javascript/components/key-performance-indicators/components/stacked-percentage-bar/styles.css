@@ -16,7 +16,7 @@
 .StackedPercentageBar1Complete {
   display: inline-block;
   height: 100%;
-  background-color: var(c-blue);
+  background-color: var(--c-blue);
 }
 
 .StackedPercentageBar2Complete {
