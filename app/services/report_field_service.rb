@@ -39,8 +39,8 @@ class ReportFieldService
 
   def self.report_field_options(field, pivot_name)
     if field&.location?
-      admin_level = pivot_name.last.is_number? ? pivot_name.last.to_i : 0
-      { option_strings_source: 'Location', admin_level: admin_level }
+      options = { option_strings_source: 'Location' }
+      pivot_name.last.is_number? ? options.merge(admin_level: pivot_name.last.to_i) : options
     elsif field&.agency?
       { option_strings_source: 'Agency' }
     elsif field&.option_strings_text_i18n.present?

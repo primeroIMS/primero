@@ -16,6 +16,7 @@ class Incident < ApplicationRecord
   include ReportableLocation
   include GenderBasedViolence
   include MonitoringReportingMechanism
+  include LocationCacheable
 
   store_accessor(
     :data,
@@ -99,7 +100,7 @@ class Incident < ApplicationRecord
   after_create :add_alert_on_case, :add_case_history
 
   def index_record
-    Sunspot.index!(self.case) if self.case.present?
+    Sunspot.index(self.case) if self.case.present?
   end
 
   alias super_defaults defaults
@@ -245,7 +246,7 @@ class Incident < ApplicationRecord
       perpetrators.reload if association_classes.include?(Perpetrator)
     end
 
-    Sunspot.index!(self)
+    Sunspot.index(self)
   end
 
   def associations_as_data(_current_user)

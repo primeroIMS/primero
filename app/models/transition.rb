@@ -94,7 +94,7 @@ class Transition < ApplicationRecord
   end
 
   def index_record
-    Sunspot.index!(record) if record
+    Sunspot.index(record) if record
   end
 
   def update_incident_ownership

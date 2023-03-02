@@ -2,22 +2,19 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { IconButton, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
-import { DATE_FIELD } from "../../../form";
 import FiltersDialog from "../filters-dialog";
 import FiltersList from "../filters-list";
-import { DEFAULT_FILTERS, MATCH_REPORTABLE_TYPES, NOT_NULL, RECORD_STATE_FIELD, STATUS_FIELD } from "../../constants";
+import { DEFAULT_FILTERS, MATCH_REPORTABLE_TYPES, RECORD_STATE_FIELD, STATUS_FIELD } from "../../constants";
 import { formattedFields } from "../../utils";
-import { NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD } from "../../../form/constants";
 import ActionDialog from "../../../action-dialog";
 import { useMemoizedSelector } from "../../../../libs";
 import { getRecordFields } from "../../../record-form/selectors";
 
 import { NAME } from "./constants";
 import css from "./styles.css";
-import { formatValue, registerValues } from "./utils";
+import { onFilterDialogSuccess } from "./utils";
 
 const Container = ({
   indexes,
@@ -42,37 +39,7 @@ const Container = ({
   const [deleteModal, setDeleteModal] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const onSuccess = (index, currentReportFilter, currentField) => {
-    const data =
-      currentField.type === DATE_FIELD && Array.isArray(currentReportFilter.value) && isEmpty(currentReportFilter.value)
-        ? { ...currentReportFilter, value: formatValue(new Date(), i18n, {}) }
-        : currentReportFilter;
-
-    if ([DATE_FIELD, NUMERIC_FIELD].includes(currentField.type) && currentReportFilter.constraint === NOT_NULL) {
-      data.value = "";
-    }
-
-    if (
-      [SELECT_FIELD, RADIO_FIELD].includes(currentField.type) &&
-      typeof currentReportFilter.constraint === "boolean" &&
-      currentReportFilter.constraint
-    ) {
-      data.constraint = false;
-      data.value = [NOT_NULL];
-    }
-
-    if (Object.is(index, null)) {
-      setIndexes([...indexes, { index: indexes.length, data }]);
-      registerValues(indexes.length, data, indexes, parentFormMethods);
-    } else {
-      const indexesCopy = [...indexes].slice();
-
-      indexesCopy[index] = { ...indexesCopy[index], data };
-
-      setIndexes(indexesCopy);
-      registerValues(index, data, indexes, parentFormMethods);
-    }
-  };
+  const onSuccess = onFilterDialogSuccess({ indexes, parentFormMethods, setIndexes, i18n });
 
   const fields = formattedFields(
     allRecordForms,

@@ -160,7 +160,7 @@ class Flag < ApplicationRecord
   end
 
   def index_record
-    Sunspot.index!(record) if record
+    Sunspot.index(record) if record
   end
 
   private
