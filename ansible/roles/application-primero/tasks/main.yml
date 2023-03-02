@@ -11,7 +11,7 @@
 
 - name: 'Checking for external certs on remote machine'
   stat:
-    path: '{{ nginx_ssl_cert_path }}'
+    path: '/srv/primero{{ nginx_ssl_cert_path }}'
   register: external_certs_crt
   when: use_external_certs
   tags:
@@ -19,7 +19,7 @@
 
 - name: 'Checking for external certs (key) on remote machine'
   stat:
-    path: '{{ nginx_ssl_key_path }}'
+    path: '/srv/primero{{ nginx_ssl_key_path }}'
   register: external_certs_key
   when: use_external_certs
   tags:
