@@ -142,6 +142,7 @@
   tags:
   - 'never'
   - 'configure'
+  - 'configure_primero'
 
 - name: 'Pull docker images'
   command: |
