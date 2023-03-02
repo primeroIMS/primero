@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import { Paper, Typography } from "@material-ui/core";
 import { push } from "connected-react-router";
