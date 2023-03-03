@@ -198,7 +198,7 @@ describe Exporters::SelectedFieldsExcelExporter do
       create(:child, 'name_first' => 'Name3', 'name_last' => 'LastName3', 'id' => '00000000006'),
     ]
 
-    @record_with_special_id =[
+    @record_with_special_id = [
       create(
         :child,
         'name' => 'record with special id', 'name_first' => 'record',
@@ -251,15 +251,12 @@ describe Exporters::SelectedFieldsExcelExporter do
     end
 
     it 'contains a worksheet for every form and nested subform unless they are visible: false or hide_on_view_page' do
-      expect(workbook.sheets.size).to eq(8 + 1)
+      expect(workbook.sheets.size).to eq(6)
       expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3 field_4])
-      expect(workbook.sheet(1).row(1)).to eq(%w[ID field_3 field_4])
-      expect(workbook.sheet(2).row(1)).to eq(%w[ID relationship array_field])
+      expect(workbook.sheet(1).row(1)).to eq(%w[ID relationship array_field])
+      expect(workbook.sheet(2).row(1)).to eq(%w[ID name])
       expect(workbook.sheet(3).row(1)).to eq(%w[ID field_1 field_2])
       expect(workbook.sheet(4).row(1)).to eq(['ID', 'field X', 'field Y'])
-      expect(workbook.sheet(5).row(1)).to eq(%w[ID name])
-      expect(workbook.sheet(6).row(1)).to eq(%w[ID field_1 field_2])
-      expect(workbook.sheet(7).row(1)).to eq(['ID', 'field X', 'field Y'])
     end
 
     it 'correctly exports record values for a form' do
@@ -267,7 +264,7 @@ describe Exporters::SelectedFieldsExcelExporter do
     end
 
     it 'correctly exports record values for a subform' do
-      expect(workbook.sheet(2).row(2)).to eq([@records[0].short_id, 'Mother', 'Option1 ||| Option2'])
+      expect(workbook.sheet(1).row(2)).to eq([@records[0].short_id, 'Mother', 'Option1 ||| Option2'])
     end
   end
 
@@ -382,8 +379,8 @@ describe Exporters::SelectedFieldsExcelExporter do
       )
       workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       expect(workbook.sheet(0).row(1)).to eq(%w[ID name field_3 field_4])
-      expect(workbook.sheet(0).row(2)).to eq(["abc123", "John Doe", "field_3 value", "field_4 value"])
-      expect(workbook.sheet(0).row(3)).to eq(["abc123", "John Doe", "field_33 value", "field_44 value"])
+      expect(workbook.sheet(0).row(2)).to eq(['abc123', 'John Doe', 'field_3 value', 'field_4 value'])
+      expect(workbook.sheet(0).row(3)).to eq(['abc123', 'John Doe', 'field_33 value', 'field_44 value'])
     end
 
     it 'contains a sheet for the selected nested fields with their form' do
@@ -393,8 +390,8 @@ describe Exporters::SelectedFieldsExcelExporter do
         field_names: %w[field_3 name]
       )
       workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
-      expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3])
-      expect(workbook.sheet(1).row(1)).to eq(%w[ID name])
+      expect(workbook.sheet(0).row(1)).to eq(%w[ID name])
+      expect(workbook.sheet(1).row(1)).to eq(%w[ID field_3])
     end
   end
 

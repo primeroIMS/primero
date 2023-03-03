@@ -148,38 +148,33 @@ module Exporters
       end
 
       it 'contains a worksheet for each form and subform' do
-        expect(workbook.sheets.size).to eq(13)
+        expect(workbook.sheets.size).to eq(8)
         expect(workbook.sheets).to match_array(
           [
-            'cases_test_subform_2', 'cases_test_form_2', 'cases_test_form_1',
-            'cases_test_subform_1', 'cases_test_subform_3', 'cases_test_subform_4',
+            'cases_test_form_2', 'cases_test_form_1',
             'Test Arabic فاكيا قد به،. بـ...', 'cases_test_form-cases_test_s...', 'cases_test_form-cases_test_s.-1',
             'cases_test_form-cases_test_s.-2', 'cases_test_form-cases_test_s.-3',
-            'case_test_form_-cases_test_s...', 'cases_test_subform_5'
+            'case_test_form_-cases_test_s...'
           ]
         )
       end
 
       it 'prints a header for each form and subform' do
         expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3 field_4])
-        expect(workbook.sheet(1).row(1)).to eq(%w[ID field_3 field_4])
-        expect(workbook.sheet(2).row(1)).to eq(%w[ID relationship array_field])
+        expect(workbook.sheet(1).row(1)).to eq(%w[ID relationship array_field])
+        expect(workbook.sheet(2).row(1)).to eq(%w[ID first_name last_name address])
         expect(workbook.sheet(3).row(1)).to eq(%w[ID field_1 field_2])
         expect(workbook.sheet(4).row(1)).to eq(%w[ID field_5 field_6])
-        expect(workbook.sheet(5).row(1)).to eq(%w[ID first_name last_name address])
-        expect(workbook.sheet(6).row(1)).to eq(%w[ID field_1 field_2])
-        expect(workbook.sheet(7).row(1)).to eq(%w[ID field_5 field_6])
-        expect(workbook.sheet(8).row(1)).to eq(['ID', 'arabic text', 'arabic array'])
-        expect(workbook.sheet(9).row(1)).to eq(%w[ID field_1 field_2])
-        expect(workbook.sheet(10).row(1)).to eq(%w[ID field_7 field_8])
-        expect(workbook.sheet(11).row(1)).to eq(%w[ID field_2])
+        expect(workbook.sheet(5).row(1)).to eq(['ID', 'arabic text', 'arabic array'])
+        expect(workbook.sheet(6).row(1)).to eq(%w[ID field_2])
+        expect(workbook.sheet(7).row(1)).to eq(%w[ID field_7])
       end
 
       it 'exports record values for regular forms' do
-        expect(workbook.sheets[2]).to eq('cases_test_form_2')
-        expect(workbook.sheet(2).row(2)).to eq([@record_id, 'Mother', 'Option 1 ||| Option 2'])
-        expect(workbook.sheets[5]).to eq('cases_test_form_1')
-        expect(workbook.sheet(5).row(2)).to eq([@record_id, 'John', 'Doe', 'this is an address'])
+        expect(workbook.sheets[1]).to eq('cases_test_form_2')
+        expect(workbook.sheet(1).row(2)).to eq([@record_id, 'Mother', 'Option 1 ||| Option 2'])
+        expect(workbook.sheets[2]).to eq('cases_test_form_1')
+        expect(workbook.sheet(2).row(2)).to eq([@record_id, 'John', 'Doe', 'this is an address'])
       end
 
       it 'exports record values for each instance of subforms' do
@@ -197,14 +192,14 @@ module Exporters
       end
 
       it 'exports only the record values for each instance of subforms that meets the condition' do
-        expect(workbook.sheet(11).last_row).to eq(2)
-        expect(workbook.sheet(11).row(2)).to eq([@record_id, 'field_2 value'])
+        expect(workbook.sheet(6).last_row).to eq(2)
+        expect(workbook.sheet(6).row(2)).to eq([@record_id, 'field_2 value'])
       end
 
       it 'does not exports data if the conditional subform is empty' do
-        expect(workbook.sheets[10]).to eq('cases_test_subform_5')
-        expect(workbook.sheet(10).last_row).to eq(2)
-        expect(workbook.sheet(10).row(2)).to eq([@record_id, nil, nil])
+        expect(workbook.sheets[7]).to eq('case_test_form_-cases_test_s...')
+        expect(workbook.sheet(7).last_row).to eq(2)
+        expect(workbook.sheet(7).row(2)).to eq([@record_id, nil])
       end
 
       context 'when forms name has special characters' do
