@@ -108,6 +108,16 @@ jobs:
             $(latest)
 
       - task: Docker@2
+        displayName: 'Migration - Push an image to UNICEF ACR'
+        inputs:
+          containerRegistry: '$(dockerRegistryServiceConnection)'
+          repository: 'primero/migration'
+          command: 'push'
+          tags: |
+            $(tag)
+            $(latest)
+
+      - task: Docker@2
         displayName: 'Application Push an image to Dockerhub'
         inputs:
           containerRegistry: 'dockerhub-primeroims'
