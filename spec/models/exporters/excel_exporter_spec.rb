@@ -18,7 +18,7 @@ module Exporters
       subform.save!
 
       form_a = FormSection.new(name: 'cases_test_form_3', parent_form: 'case', visible: true,
-                               order_form_group: 2, order: 0, order_subform: 0, form_group_id: 'case_form_3',
+                               order_form_group: 2, order: 1, order_subform: 0, form_group_id: 'case_form_3',
                                unique_id: 'cases_test_form_3')
 
       form_a.fields << Field.new(name: subform.name, type: Field::SUBFORM, display_name: 'subform field',
@@ -28,7 +28,7 @@ module Exporters
 
       #### Build Form Section with no subforms fields ######
       form_b = FormSection.new(name: 'cases_test_form_2', parent_form: 'case', visible: true,
-                               order_form_group: 1, order: 0, order_subform: 0, form_group_id: 'case_form_2',
+                               order_form_group: 1, order: 2, order_subform: 0, form_group_id: 'case_form_2',
                                unique_id: 'cases_test_form_2')
       form_b.fields << Field.new(name: 'relationship', type: Field::TEXT_FIELD, display_name: 'relationship')
       form_b.fields << Field.new(name: 'array_field', type: Field::SELECT_BOX, display_name: 'array_field',
@@ -55,7 +55,7 @@ module Exporters
       subform3.save!
 
       form_c = FormSection.new(name: 'cases_test_form_1', parent_form: 'case', visible: true,
-                               order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'case_form_1',
+                               order_form_group: 0, order: 3, order_subform: 0, form_group_id: 'case_form_1',
                                unique_id: 'cases_test_form_1')
       form_c.fields << Field.new(name: 'first_name', type: Field::TEXT_FIELD, display_name: 'first_name')
       form_c.fields << Field.new(name: 'last_name', type: Field::TEXT_FIELD, display_name: 'last_name')
@@ -69,7 +69,7 @@ module Exporters
 
       #### Build Form Section with Arabic characters in the form name ######
       form_d = FormSection.new(name: "Test Arabic فاكيا قد به،. بـ حتى", parent_form: 'case', visible: true,
-                               order_form_group: 3, order: 0, order_subform: 0, form_group_id: 'form_group_arabic')
+                               order_form_group: 3, order: 4, order_subform: 0, form_group_id: 'form_group_arabic')
       form_d.fields << Field.new(name: 'arabic_text', type: Field::TEXT_FIELD, display_name: 'arabic text')
       form_d.fields << Field.new(name: 'arabic_array', type: Field::SELECT_BOX, display_name: 'arabic array',
                                  multi_select: true,
@@ -92,7 +92,7 @@ module Exporters
       subform5.save!
 
       form_e = FormSection.new(name: 'cases_test_form_4', parent_form: 'case', visible: true,
-                               order_form_group: 0, order: 1, order_subform: 0, form_group_id: 'case_form_1',
+                               order_form_group: 0, order: 5, order_subform: 0, form_group_id: 'case_form_1',
                                unique_id: 'cases_test_form_4')
 
       form_e.fields << Field.new(name: 'cases_test_subform_4', type: Field::SUBFORM, display_name: 'subform 4 field',
@@ -103,7 +103,7 @@ module Exporters
       form_e.save!
 
       form_f = FormSection.new(name: 'case_test_form_5', parent_form: 'case', visible: true,
-                               order_form_group: 0, order: 2, order_subform: 0, form_group_id: 'case_form_1',
+                               order_form_group: 0, order: 6, order_subform: 0, form_group_id: 'case_form_1',
                                unique_id: 'cases_test_form_5')
 
       form_f.fields << Field.new(name: 'cases_test_subform_5', type: Field::SUBFORM, display_name: 'subform 5 field',

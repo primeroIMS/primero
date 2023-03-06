@@ -42,7 +42,7 @@ describe Exporters::SelectedFieldsExcelExporter do
 
     form2 = FormSection.new(
       name: 'cases_test_form_2', parent_form: 'case', visible: true,
-      order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_form_2',
+      order_form_group: 0, order: 1, order_subform: 0, form_group_id: 'cases_test_form_2',
       unique_id: 'cases_test_form_2'
     )
     form2.fields << Field.new(name: 'relationship', type: Field::TEXT_FIELD, display_name: 'relationship', order: 0)
@@ -74,7 +74,7 @@ describe Exporters::SelectedFieldsExcelExporter do
 
     form_gbv = FormSection.new(
       name: 'cases_test_form_gbv', parent_form: 'case', visible: true,
-      order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_form_gbv',
+      order_form_group: 0, order: 3, order_subform: 0, form_group_id: 'cases_test_form_gbv',
       unique_id: 'cases_test_form_gbv', primero_modules: [@primero_module_gbv]
     )
     form_gbv.fields << Field.new(name: 'field_gbv', type: Field::TEXT_FIELD, display_name: 'field_gbv', order: 0)
@@ -82,7 +82,7 @@ describe Exporters::SelectedFieldsExcelExporter do
 
     form3 = FormSection.new(
       :name => 'cases_test_form_1', :parent_form => 'case', 'visible' => true,
-      :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_id => 'cases_test_form_1',
+      :order_form_group => 0, :order => 4, :order_subform => 0, :form_group_id => 'cases_test_form_1',
       :unique_id => 'cases_test_form_1'
     )
     form3.fields << Field.new(name: 'name', type: Field::TEXT_FIELD, display_name: 'name', order: 0)
@@ -112,7 +112,7 @@ describe Exporters::SelectedFieldsExcelExporter do
 
     form4 = FormSection.new(
       :name => 'cases_test_form_4', :parent_form => 'case', 'visible' => false,
-      :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_id => 'cases_test_form_4',
+      :order_form_group => 0, :order => 5, :order_subform => 0, :form_group_id => 'cases_test_form_4',
       :unique_id => 'cases_test_form_4'
     )
     form4.fields << Field.new(name: 'name_first', type: Field::TEXT_FIELD, display_name: 'name_first', order: 0)
@@ -120,7 +120,7 @@ describe Exporters::SelectedFieldsExcelExporter do
 
     form5 = FormSection.new(
       :name => 'cases_test_form_5', :parent_form => 'case', 'visible' => true,
-      :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_id => 'cases_test_form_5',
+      :order_form_group => 0, :order => 6, :order_subform => 0, :form_group_id => 'cases_test_form_5',
       :unique_id => 'cases_test_form_5'
     )
     form5.fields << Field.new(
