@@ -11,4 +11,7 @@ RUN set -euox pipefail \
         ; rm -rf /var/cache/apk/*
 
 USER docker-primero
+RUN set -euox pipefail \
+        ; mkdir -p /home/docker-primero/.ssh
+
 CMD ["sleep", "infinity"]
