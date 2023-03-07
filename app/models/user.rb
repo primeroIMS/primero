@@ -365,8 +365,7 @@ class User < ApplicationRecord
   end
 
   def send_welcome_email(admin_user)
-    return unless email
-    return if identity_provider&.sync_identity?
+    return if !emailable? || identity_provider&.sync_identity?
 
     UserMailJob.perform_later(id, admin_user.id)
   end
@@ -463,6 +462,10 @@ class User < ApplicationRecord
 
   def agency_read?
     permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
+  end
+
+  def emailable?
+    email.present? && send_mail == true && !disabled?
   end
 
   private
