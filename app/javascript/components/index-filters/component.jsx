@@ -195,7 +195,6 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
 Component.displayName = "IndexFilters";
 
 Component.propTypes = {
-  defaultFilters: PropTypes.object,
   metadata: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   setSelectedRecords: PropTypes.func

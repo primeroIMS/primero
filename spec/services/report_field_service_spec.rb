@@ -154,7 +154,9 @@ describe ReportFieldService do
       option_strings_source: 'Location',
       admin_level: 2
     }
-    report_field = ReportFieldService.report_field(@owned_by_location_field, 'owned_by_location2', 'horizontal', 0)
+    report_field = ReportFieldService.report_field(
+      @owned_by_location_field, 'owned_by_location2', 'horizontal', 0, Child.parent_form
+    )
     expect(report_field).to eq(report_owned_by_location_field)
   end
 
