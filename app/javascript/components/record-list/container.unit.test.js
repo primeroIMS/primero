@@ -355,6 +355,19 @@ describe("<RecordList />", () => {
     expect(recordListToolbarProps).to.be.empty;
   });
 
+  it("renders valid props for Filters components", () => {
+    const filtersProps = {
+      ...component.find(Filters).props()
+    };
+
+    expect(component.find(Filters)).to.have.lengthOf(1);
+    ["recordType", "defaultFilters", "setSelectedRecords", "fromDashboard", "metadata"].forEach(property => {
+      expect(filtersProps).to.have.property(property);
+      delete filtersProps[property];
+    });
+    expect(filtersProps).to.be.empty;
+  });
+
   describe("when offline", () => {
     const { component: offlineComponent } = setupMountedComponent(
       routedComponent,

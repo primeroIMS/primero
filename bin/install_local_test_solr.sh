@@ -59,5 +59,3 @@ if solr status 2>/dev/null; then
 else
   su solr -c "solr start -s $SOLR_DIR/data"
 fi
-
-

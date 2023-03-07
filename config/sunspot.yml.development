@@ -7,6 +7,10 @@ development:
     path: /solr/primero
   auto_index_callback: after_commit
   auto_remove_callback: after_commit
+  # Determines if the solr index receive a commit after each http-request.
+  # Should be true in development. In some production instances, this is 
+  # disabled for performance reasons
+  auto_commit_after_request: true
 
 test:
   solr:

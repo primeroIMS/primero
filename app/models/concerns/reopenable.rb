@@ -11,6 +11,7 @@ module Reopenable
 
     after_initialize :default_reopened_logs
     before_save :close_record
+    before_save :reopen_record
     before_save :update_reopened_logs
   end
 
@@ -46,5 +47,14 @@ module Reopenable
     return unless changes_to_save_for_record['status'] == [Record::STATUS_OPEN, Record::STATUS_CLOSED]
 
     self.date_closure ||= Date.today
+  end
+
+  def reopen_record
+    return if new_record?
+    return unless status == Record::STATUS_CLOSED && record_state == true
+    return unless mark_for_reopen || services_section_added?
+
+    self.status = Record::STATUS_OPEN
+    self.case_status_reopened = true
   end
 end

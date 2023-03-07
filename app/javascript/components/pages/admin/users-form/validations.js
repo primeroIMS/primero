@@ -11,6 +11,12 @@ export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage
   const isIdpProvider = function (inputRef, message) {
     // eslint-disable-next-line func-names, consistent-return
     return this.test("isIdpProvider", message, function (value) {
+      if (formMode.get("isEdit")) {
+        // The username field is disabled anyway in edit mode
+        // Skipping this validation allows editing users with invalid usernames from the UI
+        return true;
+      }
+
       const providerId = this.resolve(inputRef);
       const provider = providers.find(currentProvider => currentProvider.get("unique_id") === providerId);
 

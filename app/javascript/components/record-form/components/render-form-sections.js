@@ -11,6 +11,8 @@ import SubformField from "../form/subforms";
 import { parseExpression } from "../../../libs/expressions";
 import { getViolationFieldForGuidance, isViolationSubform } from "../form/utils";
 import getOptionStringsTags from "../form/utils/get-option-strings-tags";
+import displayConditionsEnabled from "../form/utils/display-conditions-enabled";
+import getDisplayConditions from "../form/utils/get-display-conditions";
 
 const renderFormFields = (
   forms,
@@ -44,8 +46,8 @@ const renderFormFields = (
     }
 
     if (
-      !isEmpty(field.display_conditions_record) &&
-      !parseExpression(field.display_conditions_record).evaluate(values)
+      displayConditionsEnabled(field.display_conditions_record) &&
+      !parseExpression(getDisplayConditions(field.display_conditions_record)).evaluate(values)
     ) {
       return null;
     }

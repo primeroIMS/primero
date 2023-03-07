@@ -39,7 +39,7 @@ class ReportFieldService
 
   def self.report_field_options(field, pivot_name, record_type)
     if field&.location? || field&.reporting_location?
-      { option_strings_source: 'Location', admin_level: report_field_admin_level(field, pivot_name, record_type) }
+      build_reporting_location_field_options(field, pivot_name, record_type)
     elsif field&.agency?
       { option_strings_source: 'Agency' }
     elsif field&.option_strings_text_i18n.present?
@@ -51,7 +51,7 @@ class ReportFieldService
 
   def self.report_field_admin_level(field, pivot_name, record_type)
     if field&.location?
-      pivot_name.last.is_number? ? pivot_name.last.to_i : 0
+      pivot_name.last.to_i
     elsif field&.reporting_location?
       system_settings = SystemSettings.current
       return system_settings.incident_reporting_location_config.admin_level if record_type == Incident.parent_form
@@ -68,5 +68,12 @@ class ReportFieldService
   def self.disaggregate_by_from_params(params)
     report_params = params[:fields]&.select { |param| param['position']['type'] == VERTICAL }
     report_params&.sort_by { |field| field[:position][:order] }&.map { |field| field['name'] }
+  end
+
+  def self.build_reporting_location_field_options(field, pivot_name, record_type)
+    options = { option_strings_source: 'Location' }
+    return options unless pivot_name.last.is_number?
+
+    options.merge(admin_level: report_field_admin_level(field, pivot_name, record_type))
   end
 end

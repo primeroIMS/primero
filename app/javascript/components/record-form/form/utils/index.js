@@ -8,6 +8,7 @@ export { default as buildTallyErrors } from "./build-tally-errors";
 export { default as buildViolationOptions } from "./build-violation-options";
 export { default as buildViolationSubform } from "./build-violation-subform";
 export { default as buildViolationAssociationsOptions } from "./build-violation-associations-options";
+export { default as clearServiceFieldValue } from "./clear-service-field-value";
 export { default as getConnectedFields } from "./get-connected-fields";
 export { default as getDefaultForms } from "./get-default-forms";
 export { default as getOptionStringsTags } from "./get-option-strings-tags";

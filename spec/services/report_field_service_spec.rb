@@ -60,15 +60,13 @@ describe ReportFieldService do
     )
 
     Lookup.create!(
-      {
-        unique_id: 'lookup-risk-level',
-        name_en: 'risk_level',
-        lookup_values_en: [
-          { id: 'high', display_text: 'High' },
-          { id: 'medium', display_text: 'Medium' },
-          { id: 'low', display_text: 'Low' }
-        ].map(&:with_indifferent_access)
-      }
+      unique_id: 'lookup-risk-level',
+      name_en: 'risk_level',
+      lookup_values_en: [
+        { id: 'high', display_text: 'High' },
+        { id: 'medium', display_text: 'Medium' },
+        { id: 'low', display_text: 'Low' }
+      ].map(&:with_indifferent_access)
     )
 
     @risk_level_field = Field.create!(
@@ -79,20 +77,18 @@ describe ReportFieldService do
     )
 
     @report1 = Report.create!(
-      {
-        id: 1,
-        name_en: 'Protection Concerns By Location',
-        description_en: '',
-        module_id: PrimeroModule::CP,
-        record_type: 'case',
-        aggregate_by: ['owned_by_location'],
-        disaggregate_by: ['protection_concerns'],
-        filters: [
-          { 'attribute' => 'status', 'value' => [Record::STATUS_OPEN] },
-          { 'attribute' => 'record_state', 'value' => ['true'] }
-        ],
-        editable: false
-      }
+      id: 1,
+      name_en: 'Protection Concerns By Location',
+      description_en: '',
+      module_id: PrimeroModule::CP,
+      record_type: 'case',
+      aggregate_by: ['owned_by_location'],
+      disaggregate_by: ['protection_concerns'],
+      filters: [
+        { 'attribute' => 'status', 'value' => [Record::STATUS_OPEN] },
+        { 'attribute' => 'record_state', 'value' => ['true'] }
+      ],
+      editable: false
     )
   end
 
@@ -101,8 +97,7 @@ describe ReportFieldService do
       name: 'owned_by_location',
       display_name: { 'en' => 'Owned by location' },
       position: { type: 'horizontal', order: 0 },
-      option_strings_source: 'Location',
-      admin_level: 0
+      option_strings_source: 'Location'
     }
     horizontal_fields = ReportFieldService.horizontal_fields(@report1)
     expect(horizontal_fields.first).to eq(horizontal_field)
@@ -143,8 +138,7 @@ describe ReportFieldService do
       name: 'owned_by_location',
       display_name: { 'en' => 'Owned by location' },
       position: { type: 'horizontal', order: 0 },
-      option_strings_source: 'Location',
-      admin_level: 0
+      option_strings_source: 'Location'
     }
     report_field = ReportFieldService.report_field(
       @owned_by_location_field, 'owned_by_location', 'horizontal', 0, Child.parent_form
@@ -152,18 +146,16 @@ describe ReportFieldService do
     expect(report_field).to eq(report_owned_by_location_field)
   end
 
-  it 'returns a location field with an admin level from system settings for a ReportingLocation field' do
-    report_service_location = {
-      name: 'service_location',
-      display_name: { 'en' => 'Service Location' },
+  it 'returns a location field with admin level' do
+    report_owned_by_location_field = {
+      name: 'owned_by_location',
+      display_name: { 'en' => 'Owned by location' },
       position: { type: 'horizontal', order: 0 },
       option_strings_source: 'Location',
-      admin_level: 3
+      admin_level: 2
     }
-    report_field = ReportFieldService.report_field(
-      @service_location_field, 'service_location', 'horizontal', 0, Child.parent_form
-    )
-    expect(report_field).to eq(report_service_location)
+    report_field = ReportFieldService.report_field(@owned_by_location_field, 'owned_by_location2', 'horizontal', 0)
+    expect(report_field).to eq(report_owned_by_location_field)
   end
 
   it 'returns a agency field' do

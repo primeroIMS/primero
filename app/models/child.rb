@@ -28,10 +28,10 @@ class Child < ApplicationRecord
   include Ownable
   include AutoPopulatable
   include Serviceable
+  include Reopenable
   include Workflow
   include Flaggable
   include Transitionable
-  include Reopenable
   include Approvable
   include Alertable
   include Attachable
@@ -41,6 +41,7 @@ class Child < ApplicationRecord
   include Kpi::GBVChild
   include DuplicateIdAlertable
   include FollowUpable
+  include LocationCacheable
 
   store_accessor(
     :data,

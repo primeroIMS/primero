@@ -35,8 +35,8 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
   end
 
   # @returns: a String with the Excel file data
-  def export(models)
-    @builder.export(models)
+  def export(models, user, _args)
+    @builder.export(models, user)
   end
 
   def setup_export_constraints?
@@ -48,21 +48,6 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
   # This is a private utility class that encapsulates the business logic of exporting to the GBV IR.
   # The state of the class represents the individual export.
   class IRBuilder < Exporters::IncidentRecorderExporter
-    # Spreadsheet is expecting "M" and "F".
-    SEX = { 'male' => I18n.t('exports.incident_recorder_xls.gender.male'),
-            'female' => I18n.t('exports.incident_recorder_xls.gender.female') }.freeze
-
-    # TODO: Should we change the value in the form section?
-    # TODO: If we do, this can go away and just use the field translation
-    #      spreadsheet is expecting the "Age" at the beginning and the dash between blanks.
-    AGE_GROUP = { '0_11' => "#{I18n.t('exports.incident_recorder_xls.age_group.age')} 0 - 11",
-                  '12_17' => "#{I18n.t('exports.incident_recorder_xls.age_group.age')} 12 - 17",
-                  '18_25' => "#{I18n.t('exports.incident_recorder_xls.age_group.age')} 18 - 25",
-                  '26_40' => "#{I18n.t('exports.incident_recorder_xls.age_group.age')} 26 - 40",
-                  '41_60' => "#{I18n.t('exports.incident_recorder_xls.age_group.age')} 41 - 60",
-                  '61' => I18n.t('exports.incident_recorder_xls.age_group.61_older'),
-                  'unknown' => I18n.t('exports.incident_recorder_xls.age_group.unknown') }.freeze
-
     def close
       # Print at the end of the processing the data collected
       # because this is batch mode, this is the end of the processing
@@ -121,7 +106,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
 
       @data_headers = true
       @data_worksheet.write_row(
-        0, 0, @props.keys.map { |prop| I18n.t("exports.incident_recorder_xls.headers.#{prop}") }
+        0, 0, @props.keys.map { |prop| I18n.t("exports.incident_recorder_xls.headers.#{prop}", { locale: locale }) }
       )
       # TODO: revisit, there is a bug in the gem.
       # set_column_widths(@data_worksheet, props.keys)
@@ -132,17 +117,24 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
 
       @menu_headers = true
       header = %w[case_worker_code ethnicity location county district camp]
-      @menu_worksheet.write_row(0, 0, header.map { |prop| I18n.t("exports.incident_recorder_xls.headers.#{prop}") })
+      @menu_worksheet.write_row(
+        0, 0, header.map { |prop| I18n.t("exports.incident_recorder_xls.headers.#{prop}", { locale: locale }) }
+      )
       # TODO: revisit, there is a bug in the gem.
       # set_column_widths(@menu_worksheet, header)
     end
 
-    def export(models)
+    def export(models, user)
+      self.locale = user&.locale || I18n.locale
       incident_data(models)
     end
 
     def incident_recorder_sex(sex)
-      SEX[sex] || sex
+      # Spreadsheet is expecting "M" and "F".
+      case sex
+      when 'male' then I18n.t('exports.incident_recorder_xls.gender.male', { locale: locale })
+      when 'female' then I18n.t('exports.incident_recorder_xls.gender.female', { locale: locale })
+      end
     end
 
     def perpetrators_sex(perpetrators = [])
@@ -157,12 +149,12 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     def perpetrators_sex_string(female_count, male_count)
       if male_count.positive?
         if female_count.positive?
-          I18n.t('exports.incident_recorder_xls.gender.both')
+          I18n.t('exports.incident_recorder_xls.gender.both', { locale: locale })
         else
-          I18n.t('exports.incident_recorder_xls.gender.male')
+          I18n.t('exports.incident_recorder_xls.gender.male', { locale: locale })
         end
       elsif female_count.positive?
-        I18n.t('exports.incident_recorder_xls.gender.female')
+        I18n.t('exports.incident_recorder_xls.gender.female', { locale: locale })
       end
     end
 
@@ -210,7 +202,20 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
 
     def incident_recorder_age_group(perpetrators)
       age = perpetrators&.first&.[]('age_group')
-      AGE_GROUP[age] || age
+      incident_recorder_age_groups[age] || age
+    end
+
+    def incident_recorder_age_groups
+      age_group_label = I18n.t('exports.incident_recorder_xls.age_group.age', { locale: locale })
+      @incident_recorder_age_groups ||= {
+        '0_11' => "#{age_group_label} 0 - 11",
+        '12_17' => "#{age_group_label} 12 - 17",
+        '18_25' => "#{age_group_label} 18 - 25",
+        '26_40' => "#{age_group_label} 26 - 40",
+        '41_60' => "#{age_group_label} 41 - 60",
+        '61' => I18n.t('exports.incident_recorder_xls.age_group.61_older', { locale: locale }),
+        'unknown' => I18n.t('exports.incident_recorder_xls.age_group.unknown', { locale: locale })
+      }
     end
 
     def incident_recorder_age_type(perpetrators)
@@ -226,12 +231,12 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     def age_type_string(adult_count, minor_count, unknown_count)
       if adult_count.positive?
         if minor_count.positive?
-          I18n.t('exports.incident_recorder_xls.age_type.both')
+          I18n.t('exports.incident_recorder_xls.age_type.both', { locale: locale })
         else
-          I18n.t('exports.incident_recorder_xls.age_type.adult')
+          I18n.t('exports.incident_recorder_xls.age_type.adult', { locale: locale })
         end
-      elsif minor_count.positive? then I18n.t('exports.incident_recorder_xls.age_type.minor')
-      elsif unknown_count.positive? then I18n.t('exports.incident_recorder_xls.age_type.unknown')
+      elsif minor_count.positive? then I18n.t('exports.incident_recorder_xls.age_type.minor', { locale: locale })
+      elsif unknown_count.positive? then I18n.t('exports.incident_recorder_xls.age_type.unknown', { locale: locale })
       end
     end
 
@@ -385,9 +390,9 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       lambda do |model|
         former_perpetrators = primary_alleged_perpetrator(model).map { |ap| ap['former_perpetrator'] }.reject(&:nil?)
         if former_perpetrators.include? 'true'
-          I18n.t('exports.incident_recorder_xls.yes')
+          I18n.t('exports.incident_recorder_xls.yes', { locale: locale })
         elsif former_perpetrators.all? { |is_fp| is_fp == 'false' }
-          I18n.t('exports.incident_recorder_xls.no')
+          I18n.t('exports.incident_recorder_xls.no', { locale: locale })
         end
       end
     end
@@ -452,9 +457,10 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
         return if legal_counseling.blank?
 
         actions = legal_counseling.map { |l| l.try(:[], 'pursue_legal_action') }
-        if actions.include?('true') then I18n.t('exports.incident_recorder_xls.yes')
-        elsif actions.include?('false') then I18n.t('exports.incident_recorder_xls.no')
-        elsif actions.include?('undecided') then I18n.t('exports.incident_recorder_xls.service_referral.undecided')
+        if actions.include?('true') then I18n.t('exports.incident_recorder_xls.yes', { locale: locale })
+        elsif actions.include?('false') then I18n.t('exports.incident_recorder_xls.no', { locale: locale })
+        elsif actions.include?('undecided')
+          I18n.t('exports.incident_recorder_xls.service_referral.undecided', { locale: locale })
         end
       end
     end
@@ -499,7 +505,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
 
     def format_value(prop, value)
       if value.is_a?(Date)
-        I18n.l(value)
+        I18n.l(value, { locale: locale })
       elsif prop.is_a?(Proc)
         value
       else

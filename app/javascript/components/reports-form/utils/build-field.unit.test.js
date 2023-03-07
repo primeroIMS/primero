@@ -37,7 +37,7 @@ describe("<ReportForm>/utils/build-field", () => {
       visible: true
     });
 
-    it("returns all the location fields for the admin level", () => {
+    it("returns the location field and a location field for each level in the admin_level_map", () => {
       const locationField = {
         id: "location",
         display_text: "Location",
@@ -61,7 +61,7 @@ describe("<ReportForm>/utils/build-field", () => {
       const i18n = { locale: "en", t: value => value };
 
       const expected = [
-        { ...locationField, visible: true },
+        locationField,
         { ...locationField, id: "location0", display_text: "Location (location.base_types.country)" },
         { ...locationField, id: "location1", display_text: "Location (location.base_types.city)", visible: true },
         { ...locationField, id: "location2", display_text: "Location (location.base_types.district)", visible: true }

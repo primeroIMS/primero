@@ -8,6 +8,7 @@ class Api::V2::UsersTransitionsController < ApplicationApiController
   def assign_to
     authorize_assign!(@record_model)
     @users = UserTransitionService.assign(current_user, @record_model, @record_module_unique_id).transition_users
+    LocationService.inject(@users)
     render 'api/v2/users/users_for_transition'
   end
 
@@ -18,6 +19,7 @@ class Api::V2::UsersTransitionsController < ApplicationApiController
       @record_model,
       @record_module_unique_id
     ).transition_users(user_filters)
+    LocationService.inject(@users)
     render 'api/v2/users/users_for_transition'
   end
 
@@ -28,7 +30,7 @@ class Api::V2::UsersTransitionsController < ApplicationApiController
       @record_model,
       @record_module_unique_id
     ).transition_users(user_filters)
-    UserLocationService.inject_locations(@users)
+    LocationService.inject(@users)
     render 'api/v2/users/users_for_transition'
   end
 

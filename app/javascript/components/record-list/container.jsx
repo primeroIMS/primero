@@ -189,7 +189,7 @@ const Container = ({ match, location }) => {
 
           {mobileDisplay && <SortContainer columns={columns} recordType={recordType} applyFilters={applyFilters} />}
           <FilterContainer mobileDisplay={mobileDisplay}>
-            <Filters recordType={recordType} setSelectedRecords={handleSelectedRecords} />
+            <Filters recordType={recordType} setSelectedRecords={handleSelectedRecords} metadata={metadata} />
           </FilterContainer>
         </PageContent>
       </PageContainer>
