@@ -66,8 +66,14 @@ class Violation < ApplicationRecord
     self.is_late_verification = late_verification?
   end
 
+  def late_verification_date_range?
+    ctfmr_verified_date > (incident.incident_date_end || Date.today).end_of_quarter
+  end
+
   def late_verification?
     return false unless ctfmr_verified_date.present? && incident.incident_date.present?
+
+    return late_verification_date_range? if incident.is_incident_date_range
 
     ctfmr_verified_date > incident.incident_date.end_of_quarter
   end

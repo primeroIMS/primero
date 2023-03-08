@@ -8,6 +8,12 @@ class LocationService
     new(Rails.configuration.use_app_cache)
   end
 
+  def self.inject(records, service = LocationService.instance)
+    records.each do |record|
+      record.location_service = service
+    end
+  end
+
   def initialize(with_cache = false)
     self.with_cache = with_cache
     self.unique_id_attribute = 'location_code'

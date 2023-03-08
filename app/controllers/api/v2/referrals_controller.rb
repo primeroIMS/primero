@@ -16,7 +16,7 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
   end
 
   def update
-    authorize! :update, @record
+    authorize_update!(@record)
     @transition = Referral.find(params[:id])
     @transition.process!(current_user, update_params)
     updates_for_record(@transition.record)
@@ -31,7 +31,7 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
   end
 
   def destroy
-    authorize! :update, @record
+    authorize_update!(@record)
     @transition = Referral.find(params[:id])
     @transition.revoke!(current_user)
     updates_for_record(@transition.record)
@@ -75,6 +75,12 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
     raise e unless params[:data][:service_record_id]
 
     authorize! :referral_from_service, record
+  end
+
+  def authorize_update!(record)
+    authorize! :update, record
+  rescue CanCan::AccessDenied
+    authorize! :receive_referral, record
   end
 
   def update_params

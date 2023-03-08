@@ -5,7 +5,6 @@ import { setupMountedComponent } from "../../test";
 import IndexFilters from "./component";
 import MoreSection from "./components/more-section";
 import FilterActions from "./components/actions";
-import { Search } from "./components/filter-types";
 
 describe("<IndexFitlers>", () => {
   const state = fromJS({
@@ -33,18 +32,6 @@ describe("<IndexFitlers>", () => {
     expect(component.exists("input#search-input")).to.be.true;
   });
 
-  it("renders search bar with valid props", () => {
-    const { component } = setupMountedComponent(IndexFilters, props, state);
-    const clone = { ...component.find(Search).props() };
-
-    ["handleReset"].forEach(property => {
-      expect(clone).to.have.property(property);
-      delete clone[property];
-    });
-
-    expect(clone).to.be.empty;
-  });
-
   it("renders MoreSection filters", () => {
     const { component } = setupMountedComponent(IndexFilters, props, state);
 
@@ -55,5 +42,45 @@ describe("<IndexFitlers>", () => {
     const { component } = setupMountedComponent(IndexFilters, props, state);
 
     expect(component.find(FilterActions)).to.have.lengthOf(1);
+  });
+
+  it("clear filters", () => {
+    const propFilters = {
+      ...props,
+      defaultFilters: fromJS({
+        record_state: ["true"],
+        status: ["open"],
+        risk_level: ["medium"]
+      }),
+      setSelectedRecords: () => {},
+      metadata: {}
+    };
+    const { component } = setupMountedComponent(IndexFilters, propFilters, state, [
+      "/cases?record_state[0]=true&status[0]=open&risk_level[0]=medium&page=1&per=20"
+    ]);
+
+    expect(component.props().store.getActions()).to.deep.equal([]);
+
+    component.find(FilterActions).find("button").last().simulate("click");
+
+    expect(component.props().store.getActions()[0]).to.deep.equals({
+      type: "cases/SET_FILTERS",
+      payload: { fields: "short", status: ["open"], record_state: ["true"] }
+    });
+  });
+
+  it("renders component with valid props", () => {
+    const { component } = setupMountedComponent(
+      IndexFilters,
+      { ...props, metadata: {}, setSelectedRecords: () => {} },
+      state
+    );
+    const propsIndexFilters = component.find(IndexFilters).props();
+
+    ["metadata", "recordType", "setSelectedRecords"].forEach(property => {
+      expect(propsIndexFilters).to.have.property(property);
+      delete propsIndexFilters[property];
+    });
+    expect(propsIndexFilters).to.be.empty;
   });
 });

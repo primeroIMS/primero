@@ -53,11 +53,13 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def build_worksheet_fields(form, worksheet)
-    form.fields.each_with_index do |field, i|
+    index = 0
+    form.fields.each do |field|
       if field.type == Field::SUBFORM
         build_worksheet_with_headers(constrained_subforms[subform_path(field)], field)
       else
-        worksheet&.write(0, i + 1, field.display_name(locale))
+        index += 1
+        worksheet&.write(0, index, field.display_name(locale))
       end
     end
   end

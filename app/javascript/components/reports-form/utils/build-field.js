@@ -1,5 +1,3 @@
-import isNil from "lodash/isNil";
-
 import { displayNameHelper } from "../../../libs";
 
 export const buildField = (current, formSection, locale) => ({
@@ -16,25 +14,27 @@ export const buildField = (current, formSection, locale) => ({
 export const buildLocationFields = (current, formSection, i18n, reportingLocationConfig) => {
   const { locale } = i18n;
 
-  const locationFields = [buildField(current, formSection, locale)];
-
-  const adminLevel = reportingLocationConfig?.get("admin_level");
   const adminLevelMap = reportingLocationConfig?.get("admin_level_map");
 
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i <= adminLevel; i++) {
-    if (!isNil(adminLevelMap.getIn([String(i), 0]))) {
-      locationFields.push({
-        ...buildField(current, formSection, locale),
-        id: `${current.get("name")}${i}`,
-        display_text: `${displayNameHelper(current.get("display_name"), locale)} (${i18n.t(
-          `location.base_types.${adminLevelMap.getIn([String(i), 0])}`
-        )})`
-      });
+  return [
+    {
+      ...buildField(current, formSection, locale),
+      id: current.get("name"),
+      display_text: `${displayNameHelper(current.get("display_name"), locale)}`
     }
-  }
-
-  return locationFields;
+  ].concat(
+    adminLevelMap?.entrySeq()?.reduce(
+      (acc, [key, value]) =>
+        acc.concat({
+          ...buildField(current, formSection, locale),
+          id: `${current.get("name")}${key}`,
+          display_text: `${displayNameHelper(current.get("display_name"), locale)} (${i18n.t(
+            `location.base_types.${value.first()}`
+          )})`
+        }),
+      []
+    )
+  );
 };
 
 export const buildMinimumLocationField = (current, i18n, reportingLocationConfig) => {

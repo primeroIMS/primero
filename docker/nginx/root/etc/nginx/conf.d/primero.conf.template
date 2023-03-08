@@ -21,7 +21,7 @@ limit_req_zone $binary_remote_addr zone=login_app_limit:10m rate=1r/s;
 
 server {
     listen ${NGINX_HTTP_PORT};
-    server_name ${NGINX_SERVER_NAME};
+    server_name www.${NGINX_SERVER_NAME} ${NGINX_SERVER_NAME};
     
     location ~ ^/.well-known/acme-challenge/ {
         root /usr/share/nginx/html/;
@@ -36,11 +36,15 @@ server {
 server {
 
     listen ${NGINX_HTTPS_PORT} ssl;
-    server_name ${NGINX_SERVER_NAME};
+    server_name www.${NGINX_SERVER_NAME} ${NGINX_SERVER_NAME};
     # @end-ssl
 
-    if ($request_method = HEAD ) {
+    if ($request_method !~ ^(GET|PUT|POST|PATCH|DELETE)$ ) {
         return 444;
+    }
+
+    if ($http_user_agent ~* LWP::Simple|BBBike|wget|msnbot|scrapbot) {
+        return 403;
     }
 
     ssl_dhparam ${NGINX_DH_PARAM};
@@ -79,11 +83,11 @@ server {
         deny all;
     }
 
-    location /login/ {
+    location /v2/login/ {
         limit_req zone=login_app_limit burst=5;
     }
 
-    location /api/login/ {
+    location /api/v2/tokens/ {
         limit_req zone=login_app_limit burst=5;
     }
 

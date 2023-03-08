@@ -11,6 +11,8 @@ import { buildViolationOptions, getOptionStringsTags, getViolationIdsForAssociat
 import { useI18n } from "../../../../i18n";
 import SubformFieldSubform from "../subform-field-subform";
 import uuid from "../../../../../libs/uuid";
+import displayConditionsEnabled from "../../utils/display-conditions-enabled";
+import getDisplayConditions from "../../utils/get-display-conditions";
 
 import { NAME, VIOLATION_IDS_NAME } from "./constants";
 
@@ -118,10 +120,10 @@ const Component = ({
     };
 
     if (
-      (!isEmpty(subformSectionField.display_conditions_record) &&
-        !parseExpression(subformSectionField.display_conditions_record).evaluate(parentValues)) ||
-      (!isEmpty(subformSectionField.display_conditions_subform) &&
-        !parseExpression(subformSectionField.display_conditions_subform).evaluate(values))
+      (displayConditionsEnabled(subformSectionField.display_conditions_record) &&
+        !parseExpression(getDisplayConditions(subformSectionField.display_conditions_record)).evaluate(parentValues)) ||
+      (displayConditionsEnabled(subformSectionField.display_conditions_subform) &&
+        !parseExpression(getDisplayConditions(subformSectionField.display_conditions_subform)).evaluate(values))
     ) {
       return null;
     }

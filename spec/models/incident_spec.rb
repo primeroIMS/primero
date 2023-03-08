@@ -381,6 +381,62 @@ describe Incident do
     end
   end
 
+  describe '.update_violations' do
+    let(:incident_data) do
+      {
+        'unique_id' => '790f958d-ac8e-414b-af64-e75831e3353a',
+        'incident_code' => '0123456',
+        'module_id' => 'primeromodule-mrm',
+        'incident_date' => Date.new(2022, 12, 23),
+        'description' => 'this is a test',
+        'killing' => [{ 'violation_tally' => { 'total' => 1, 'girls' => 1 },
+                        'context_km' => 'military_clashes',
+                        'attack_type' => 'undetermined',
+                        'weapon_category' => 'unknown',
+                        'weapon_type' => 'unknown',
+                        'verified' => 'report_pending_verification',
+                        'ctfmr_verified' => 'verified',
+                        'ctfmr_verified_date' => Date.new(2023, 1, 23),
+                        'unique_id' => '222d97fb-b49d-401a-aff5-55dbe81a6fbf' }]
+      }
+    end
+
+    before do
+      travel_to Time.zone.local(2023, 1, 30, 11, 30, 44)
+    end
+
+    before :each do
+      clean_data(Incident, Violation)
+      incident_record = Incident.new_with_user(fake_user, incident_data)
+      incident_record.save!
+    end
+
+    after do
+      travel_back
+    end
+
+    shared_examples_for 'prop_change_update_violations' do |prop, additional = {}|
+      it "updates violations if #{prop} attributes changed" do
+        incident = Incident.first
+
+        incident.update(additional.merge(prop.to_s => Date.today))
+
+        expect(incident.violations.first.is_late_verification).to be(false)
+      end
+    end
+
+    it_should_behave_like 'prop_change_update_violations', 'incident_date'
+    it_should_behave_like 'prop_change_update_violations', 'incident_date_end', is_incident_date_range: true
+
+    it 'does not update violations other attributes changed' do
+      incident = Incident.first
+      incident.incident_code = 'new-code'
+      incident.save!
+
+      expect(incident.violations.first.is_late_verification).to be(true)
+    end
+  end
+
   describe 'add_alert_on_case' do
     before(:each) do
       clean_data(Agency, SystemSettings, User, Incident, Child, PrimeroModule, Violation) && module_cp

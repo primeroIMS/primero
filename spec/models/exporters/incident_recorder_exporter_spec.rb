@@ -255,7 +255,7 @@ module Exporters
 
     describe 'Export format' do
       let(:workbook) do
-        data = IncidentRecorderExporter.export(@records, nil, { user: @user })
+        data = IncidentRecorderExporter.export(@records, nil, { user: @user }, {})
         Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       end
 
@@ -292,6 +292,25 @@ module Exporters
         expect(workbook.sheet(1).row(1)).to eq(
           ['CASEWORKER CODE', 'ETHNICITY', 'INCIDENT LOCATION', 'INCIDENT COUNTY', 'INCIDENT DISTRICT', 'INCIDENT CAMP']
         )
+      end
+    end
+
+    context 'when the locale is es' do
+      it 'translate a metadata worksheet to spanish' do
+        @user = create(:user, user_name: 'fakeadmin_es', role: @role, code: 'test01', locale: :es)
+        data = IncidentRecorderExporter.export(@records, nil, { user: @user }, {})
+        workbook_es = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+
+        sheet = workbook_es.sheet(workbook_es.sheets.last)
+        headers = sheet.row(1)
+
+        metadata_headers = [
+          'CÓDIGO DE EL/LA TRABAJADOR(A) DEL CASO', 'ETNIA', 'LOCALIDAD DEL INCIDENTE', 'CONDADO DEL INCIDENTE',
+          'DISTRITO DEL INCIDENTE', 'CAMPAMENTO DEL INCIDENTE'
+        ]
+
+        expect(headers).to eq(metadata_headers)
+        expect(sheet.last_row).to eq(1)
       end
     end
 
