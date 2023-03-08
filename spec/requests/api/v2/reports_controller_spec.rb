@@ -78,7 +78,7 @@ describe Api::V2::ReportsController, type: :request do
                                 associated_record_types: %w[case tracing_request incident],
                                 primero_program: @program, form_sections: [FormSection.create!(name: 'form_1')])
     @report1 = Report.create(name_en: 'Protection Concerns By Location', description_en: '',
-                             module_id: PrimeroModule::CP, record_type: 'case', aggregate_by: ['owned_by_location'],
+                             module_id: PrimeroModule::CP, record_type: 'case', aggregate_by: ['owned_by_location0'],
                              disaggregate_by: ['protection_concerns'],
                              filters: [{ 'attribute' => 'status', 'value' => [Record::STATUS_OPEN] },
                                        { 'attribute' => 'record_state', 'value' => ['true'] }],
@@ -202,7 +202,7 @@ describe Api::V2::ReportsController, type: :request do
 
       get "/api/v2/reports/#{@report2.id}"
 
-      report_data = { 'education_formal' => { '_total' => 1 } }
+      report_data = { 'education_formal' => { '_total' => 1, 'incomplete_data' => { '_total' => 1 } } }
 
       expect(response).to have_http_status(200)
       expect(json['data']['report_data']).to eq(report_data)
@@ -323,8 +323,7 @@ describe Api::V2::ReportsController, type: :request do
           },
           {
             'name' => 'owned_by_location', 'display_name' => { 'en' => 'Owned by location', 'es' => '', 'fr' => '' },
-            'position' => { 'type' => 'horizontal', 'order' => 1 }, 'option_strings_source' => 'Location',
-            'admin_level' => 0
+            'position' => { 'type' => 'horizontal', 'order' => 1 }, 'option_strings_source' => 'Location'
           }
         ],
         'filters' => [
@@ -545,6 +544,7 @@ describe Api::V2::ReportsController, type: :request do
           graph: true,
           disabled: false,
           editable: true,
+          aggregate_by: %w[owned_by_location],
           fields: [
             {
               name: 'owned_by_location',
@@ -600,8 +600,7 @@ describe Api::V2::ReportsController, type: :request do
           },
           {
             'name' => 'owned_by_location', 'display_name' => { 'en' => 'Owned by location', 'es' => '', 'fr' => '' },
-            'position' => { 'type' => 'vertical', 'order' => 0 }, 'option_strings_source' => 'Location',
-            'admin_level' => 0
+            'position' => { 'type' => 'vertical', 'order' => 0 }, 'option_strings_source' => 'Location'
           }
         ],
         'filters' => [

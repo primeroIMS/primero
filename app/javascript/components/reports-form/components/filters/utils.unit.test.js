@@ -8,7 +8,7 @@ describe("<ReportFilters /> - utils", () => {
     it("should have known methods", () => {
       const clone = { ...utils };
 
-      ["formatValue", "registerValues"].forEach(property => {
+      ["formatValue", "onFilterDialogSuccess", "registerValues"].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
         delete clone[property];

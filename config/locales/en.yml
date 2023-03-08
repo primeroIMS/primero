@@ -1396,6 +1396,7 @@ en:
     ne: नेपाली
     om: Oromo
     am-ET: Amharic (Ethiopia)
+    tr: Türkçe
     label: Home
     language: Language
     manage_system_users: Manage Server Synchronisation Users
@@ -3684,6 +3685,7 @@ en:
     record_type: Record type
     total: Total
     value: Value
+    incomplete_data: Incomplete Data
   reports:
     delete_report: Delete Report
     delete_report_message: Are you sure you want to delete this report? Deletion can

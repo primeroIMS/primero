@@ -24,13 +24,13 @@ describe("<SubformDialogFields />", () => {
                 name: "field1",
                 type: TEXT_FIELD,
                 visible: true,
-                display_conditions_record: { eq: { sex: "male" } }
+                display_conditions_record: { disabled: false, eq: { sex: "male" } }
               }),
               FieldRecord({
                 name: "field2",
                 type: TEXT_FIELD,
                 visible: true,
-                display_conditions_subform: { le: { age: 18 } }
+                display_conditions_subform: { disabled: false, le: { age: 18 } }
               }),
               FieldRecord({ name: "field3", type: TEXT_FIELD, visible: true })
             ]

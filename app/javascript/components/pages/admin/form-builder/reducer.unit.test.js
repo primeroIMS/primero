@@ -12,6 +12,7 @@ describe("<FormsBuilder /> - Reducers", () => {
   it("should handle SAVE_FORM_FAILURE", () => {
     const expected = fromJS({
       serverErrors: ["some error"],
+      saving: false,
       errors: true
     });
 

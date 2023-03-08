@@ -37,9 +37,7 @@ class BulkExport < ApplicationRecord
   end
 
   def export(password)
-    process_records_in_batches(500) do |records_batch|
-      exporter.export(records_batch, owner, custom_export_params&.with_indifferent_access || {})
-    end
+    process_records_in_batches(500) { |records_batch| exporter.export(records_batch) }
     exporter.complete
     zipped_file = ZipService.zip(stored_file_name, password)
     attach_export_file(zipped_file)
@@ -55,7 +53,13 @@ class BulkExport < ApplicationRecord
   end
 
   def exporter
-    @exporter ||= exporter_type.new(stored_file_name)
+    return @exporter if @exporter.present?
+
+    @exporter = exporter_type.new(
+      stored_file_name,
+      { record_type: record_type, user: owner },
+      custom_export_params&.with_indifferent_access || {}
+    )
   end
 
   def search_filters

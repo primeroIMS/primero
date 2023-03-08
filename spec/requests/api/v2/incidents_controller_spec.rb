@@ -65,6 +65,21 @@ describe Api::V2::IncidentsController, type: :request do
       incident_case_id: @case1.id
     )
 
+    SOURCE_FIELD = [
+      Field.new(
+        name: 'sources',
+        display_name_en: 'Source',
+        type: Field::SUBFORM,
+        subform: FormSection.new(
+          fields: [
+            Field.new(name: 'unique_id', type: Field::TEXT_FIELD),
+            Field.new(name: 'source_type', type: Field::SELECT_BOX),
+            Field.new(name: 'violations_ids', type: Field::SELECT_BOX, multi_select: true)
+          ]
+        )
+      )
+
+    ].freeze
     Sunspot.commit
   end
 
@@ -259,6 +274,43 @@ describe Api::V2::IncidentsController, type: :request do
 
       %w[data].each do |fp|
         expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
+      end
+    end
+
+    context 'When is a Violation incident' do
+      before(:each) do
+        data = @incident1.data.clone
+        data['recruitment'] = [
+          {
+            'unique_id' => '8dccaf74-e9aa-452a-9b58-dc365b1062a2',
+            'violation_tally': { 'boys': 3, 'girls': 1, 'unknown': 0, 'total': 4 },
+            'name' => 'violation1'
+          }
+        ]
+        @incident1.update_properties(fake_user, data)
+        @incident1.save!
+      end
+
+      it 'add a source to a violation' do
+        login_for_test(
+          permitted_fields: FakeDeviseLogin::COMMON_PERMITTED_FIELDS + SOURCE_FIELD,
+          permitted_field_names: (common_permitted_field_names << 'sources')
+        )
+        source_data = [
+          {
+            'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2'],
+            'source_type' => 'photograph',
+            'unique_id' => 'ba604357-5dce-4861-b740-af5d40398ef7'
+          }
+        ]
+        params = { data: {
+          sources: source_data
+        } }
+        patch "/api/v2/incidents/#{@incident1.id}", params: params, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['id']).to eq(@incident1.id)
+        expect(json['data']['sources']).to match_array(source_data)
       end
     end
   end

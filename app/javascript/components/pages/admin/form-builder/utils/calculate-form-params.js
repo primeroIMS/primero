@@ -4,16 +4,15 @@ import convertToFieldsArray from "./convert-to-fields-array";
 import fieldArrayToConditions from "./field-array-to-conditions";
 import mergeTranslations from "./merge-translations";
 
-export default ({ id, formData, dirtyFields, formMode, i18n }) => {
+export default ({ id, formData, formMode, i18n }) => {
   const mergedData = mergeTranslations(formData);
-  const updatedNewFields = convertToFieldsArray(mergedData.fields || []);
+  const updatedNewFields = convertToFieldsArray(mergedData.fields || {});
   const displayConditions = fieldArrayToConditions(mergedData.display_conditions || []);
   const body = {
     data: {
       ...mergedData,
-      ...(updatedNewFields.length && { fields: updatedNewFields }),
-      ...((Object.keys(dirtyFields).includes("display_conditions") ||
-        Object.keys(dirtyFields).includes("skip_logic")) && { display_conditions: displayConditions })
+      fields: updatedNewFields,
+      display_conditions: { ...displayConditions, disabled: !formData.skip_logic }
     }
   };
 

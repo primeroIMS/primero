@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Describes a request by a single individual to trace one or more children (cases)
-# rubocop:disable Metrics/ClassLength
 class TracingRequest < ApplicationRecord
   include Record
   include Searchable
@@ -12,6 +11,7 @@ class TracingRequest < ApplicationRecord
   include Attachable
   include EagerLoadable
   include Webhookable
+  include LocationCacheable
 
   has_many :traces
   store_accessor :data,
@@ -132,4 +132,3 @@ class TracingRequest < ApplicationRecord
     self.tracing_request_id ||= unique_identifier
   end
 end
-# rubocop:enable Metrics/ClassLength

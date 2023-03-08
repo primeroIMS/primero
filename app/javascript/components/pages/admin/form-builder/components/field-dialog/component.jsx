@@ -30,6 +30,7 @@ import ClearButtons from "../clear-buttons";
 import { NEW_FIELD } from "../../constants";
 import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
 import { getOptions } from "../../../../../record-form/selectors";
+import getDisplayConditions from "../../../../../record-form/form/utils/get-display-conditions";
 import { getLabelTypeField } from "../utils";
 import FieldTranslationsDialog, { NAME as FieldTranslationsDialogName } from "../field-translations-dialog";
 import { SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "../field-list-item/constants";
@@ -321,12 +322,16 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
       const optionStringsText = disableOptionStringsText(selectedField, fieldData, option_strings_text);
 
       const displayConditionsRecord = conditionsToFieldArray(
-        reduceMapToObject(selectedField.get("display_conditions_record", fromJS([])))
+        getDisplayConditions(reduceMapToObject(selectedField.get("display_conditions_record", fromJS({}))))
       );
 
       const displayConditionsSubform = conditionsToFieldArray(
-        reduceMapToObject(selectedField.get("display_conditions_subform", fromJS([])))
+        getDisplayConditions(reduceMapToObject(selectedField.get("display_conditions_subform", fromJS({}))))
       );
+
+      const skipLogicSelectedField =
+        selectedField.getIn(["display_conditions_record", "disabled"], true) ||
+        selectedField.getIn(["display_conditions_subform", "disabled"], true);
 
       reset(
         {
@@ -334,7 +339,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
             ...fieldData,
             display_conditions_record: displayConditionsRecord,
             display_conditions_subform: displayConditionsSubform,
-            skip_logic: displayConditionsRecord.length > 0 || displayConditionsSubform.length > 0,
+            skip_logic: !skipLogicSelectedField,
             ...([RADIO_FIELD, SELECT_FIELD].includes(selectedField.get("type"))
               ? { option_strings_text: optionStringsText }
               : {})

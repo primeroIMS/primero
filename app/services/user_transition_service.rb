@@ -41,7 +41,7 @@ class UserTransitionService
   def transition_users(filters = {})
     return User.none unless model.present?
 
-    users = User.where(disabled: false).where.not(id: transitioned_by_user.id)
+    users = User.includes(:agency, :role).where(disabled: false).where.not(id: transitioned_by_user.id)
 
     return with_assign_scope(users) if transition == Assign.name
 

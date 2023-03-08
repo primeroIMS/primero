@@ -84,6 +84,10 @@ const Component = ({
     actionBody.data.notes = comment;
   }
 
+  if (typeOfCasePlan) {
+    actionBody.data.approval_type = typeOfCasePlan;
+  }
+
   const message =
     approvalType === "request"
       ? `${recordType}.request_approval_success_${requestType}`

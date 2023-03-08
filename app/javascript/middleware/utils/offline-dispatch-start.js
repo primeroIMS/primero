@@ -1,6 +1,8 @@
 export default (store, action) => {
+  const { type } = action;
+
   store.dispatch({
-    type: `${action.type}_STARTED`,
+    type: `${type}_STARTED`,
     payload: true
   });
 };
