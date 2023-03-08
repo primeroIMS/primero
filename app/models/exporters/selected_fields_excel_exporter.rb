@@ -71,12 +71,14 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
   private
 
   def forms_subforms(forms)
-    forms.reduce([]) do |acc, form|
-      subform_fields = form.fields.select { |field| field.type == Field::SUBFORM }
+    subform_fields = forms.reduce([]) do |acc, form|
+      subform_fields = form.subform_fields
       next(acc) unless subform_fields.present?
 
-      acc + subform_fields.map(&:subform)
+      acc + subform_fields
     end
+
+    FormSection.where(unique_id: subform_fields.map { |field| field.subform.unique_id })
   end
 
   def filter_fields(form, field_names)
