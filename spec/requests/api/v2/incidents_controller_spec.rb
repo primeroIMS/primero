@@ -3,6 +3,59 @@
 require 'rails_helper'
 
 describe Api::V2::IncidentsController, type: :request do
+  def mrm_fields
+    [
+      Field.new(
+        name: 'sources',
+        display_name_en: 'Sources',
+        type: Field::SUBFORM,
+        subform: FormSection.new(
+          fields: [
+            Field.new(name: 'unique_id', type: Field::TEXT_FIELD),
+            Field.new(name: 'source_type', type: Field::SELECT_BOX),
+            Field.new(name: 'violations_ids', type: Field::SELECT_BOX, multi_select: true)
+          ]
+        )
+      ),
+      Field.new(
+        name: 'perpetrators',
+        display_name_en: 'Perpetrators',
+        type: Field::SUBFORM,
+        subform: FormSection.new(
+          fields: [
+            Field.new(name: 'unique_id', type: Field::TEXT_FIELD),
+            Field.new(name: 'source_type', type: Field::SELECT_BOX),
+            Field.new(name: 'violations_ids', type: Field::SELECT_BOX, multi_select: true)
+          ]
+        )
+      ),
+      Field.new(
+        name: 'individual_victims',
+        display_name_en: 'Individual victims',
+        type: Field::SUBFORM,
+        subform: FormSection.new(
+          fields: [
+            Field.new(name: 'unique_id', type: Field::TEXT_FIELD),
+            Field.new(name: 'source_type', type: Field::SELECT_BOX),
+            Field.new(name: 'violations_ids', type: Field::SELECT_BOX, multi_select: true)
+          ]
+        )
+      ),
+      Field.new(
+        name: 'abduction',
+        display_name_en: 'Abduction',
+        type: Field::SUBFORM,
+        subform: FormSection.new(
+          fields: [
+            Field.new(name: 'unique_id', type: Field::TEXT_FIELD),
+            Field.new(name: 'source_type', type: Field::SELECT_BOX),
+            Field.new(name: 'violations_ids', type: Field::SELECT_BOX, multi_select: true)
+          ]
+        )
+      )
+
+    ].freeze
+  end
   before :each do
     @case1 = Child.create!(data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false })
     @incident1 = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' })
@@ -120,6 +173,81 @@ describe Api::V2::IncidentsController, type: :request do
 
       %w[data].each do |fp|
         expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
+      end
+    end
+    context 'when incident with violation is created ' do
+      it 'creates a new record with violation and its association' do
+        login_for_test(
+          permitted_fields: FakeDeviseLogin::COMMON_PERMITTED_FIELDS + mrm_fields,
+
+          permitted_field_names: (
+            common_permitted_field_names +
+            %w[
+              sources perpetrators individual_victims abduction violation_category
+              status incident_title incident_total_tally
+            ]
+          )
+        )
+        params = {
+          data: {
+            status: 'open',
+            incident_title: 'random incident',
+            violation_category: ['abduction'],
+            incident_date: Date.today,
+            incident_location: 'code_1000001',
+            incident_total_tally: { 'boys' => 1, 'total' => 1 },
+            module_id: 'primeromodule-mrm',
+            abduction: [
+              {
+                violation_tally: { 'boys' => 1, 'total' => 1 },
+                abduction_purpose_single: 'extortion',
+                abduction_crossborder: 'yes',
+                verified: 'report_pending_verification',
+                ctfmr_verified: 'report_pending_verification',
+                unique_id: '4e51ac87-c6aa-4a47-a4ef-1cc7ccfd0118'
+              }
+            ],
+            individual_victims: [
+              {
+                violations_ids: ['4e51ac87-c6aa-4a47-a4ef-1cc7ccfd0118'],
+                individual_sex: 'male',
+                individual_age: 1,
+                unique_id: '6d417a13-4217-435e-83f0-b8cbcb0c8d36'
+              }
+            ],
+            perpetrators: [
+              {
+                violations_ids: ['4e51ac87-c6aa-4a47-a4ef-1cc7ccfd0118'],
+                perpetrator_number: 1,
+                unique_id: '1f01bf92-184a-4b14-8378-5c65c42079d0'
+              }
+            ],
+            sources: [
+              { violations_ids: ['4e51ac87-c6aa-4a47-a4ef-1cc7ccfd0118'],
+                primary_reporting_organization: 'partner_1',
+                source_category: 'primary_victim',
+                source_type: 'document_e_g_medical_police_report_judicial_records',
+                unique_id: 'cf37b8da-72e6-4de7-8745-c7249b44eaa9' },
+              { violations_ids: ['4e51ac87-c6aa-4a47-a4ef-1cc7ccfd0118'],
+                primary_reporting_organization: 'partner_2',
+                source_category: 'secondary',
+                source_type: 'oral_testimony',
+                unique_id: '5e584bff-d79b-42d3-8563-2acc97c34172' }
+            ]
+          }
+        }
+        post '/api/v2/incidents', params: params, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['id']).not_to be_empty
+        expect(json['data']['sources'].count).to eq(2)
+        expect(json['data']['sources'].map { |source| source['unique_id'] }).to match_array(
+          params[:data][:sources].map { |source| source[:unique_id] }
+        )
+
+        expect(json['data']['abduction'].count).to eq(1)
+        expect(json['data']['abduction'][0]['unique_id']).to eq(params[:data][:abduction][0][:unique_id])
+        expect(Incident.find_by(id: json['data']['id'])).not_to be_nil
       end
     end
   end
