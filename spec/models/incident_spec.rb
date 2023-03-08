@@ -708,6 +708,27 @@ describe Incident do
       )
     end
 
+    it 'adding new source association' do
+      data_to_update = {
+        'sources' => [
+          {
+            'id_number' => '1',
+            'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2'],
+            "source_interview_date": '2023-02-01',
+            "source_category": 'secondary',
+            "source_type": 'photograph',
+            "unique_id": 'ba604357-5dce-4861-b740-af5d40398ef7'
+          }
+        ]
+      }
+      incident.update_properties(fake_user, data_to_update)
+      incident.save!
+      source_result = incident.associations_as_data('user')['sources']
+
+      expect(source_result.count).to eq(1)
+      expect(source_result.first['unique_id']).to eq('ba604357-5dce-4861-b740-af5d40398ef7')
+    end
+
     it 'updating a violation association' do
       data_to_update = {
         'individual_victims' => [

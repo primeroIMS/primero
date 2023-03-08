@@ -238,15 +238,22 @@ class Incident < ApplicationRecord
 
   # TODO: This method will trigger queries to reload the violations and associations in order to index the latest data
   def reindex_violations_and_associations
-    violations.reload if @violations_to_save.present?
+    association_classes = association_classes_to_save
 
-    if @associations_to_save.present?
-      association_classes = @associations_to_save.map(&:class).uniq.compact
+    violations.reload if @violations_to_save.present? || association_classes.include?(Source)
+
+    if association_classes.present?
       individual_victims.reload if association_classes.include?(IndividualVictim)
       perpetrators.reload if association_classes.include?(Perpetrator)
     end
 
     Sunspot.index(self)
+  end
+
+  def association_classes_to_save
+    return unless @associations_to_save
+
+    @associations_to_save.map(&:class).uniq.compact
   end
 
   def associations_as_data(_current_user)
