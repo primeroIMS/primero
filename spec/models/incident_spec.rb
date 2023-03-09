@@ -725,8 +725,10 @@ describe Incident do
       incident.save!
       source_result = incident.associations_as_data('user')['sources']
 
-      expect(source_result.count).to eq(1)
-      expect(source_result.first['unique_id']).to eq('ba604357-5dce-4861-b740-af5d40398ef7')
+      expect(source_result.count).to eq(2)
+      expect(source_result.map { |source| source['unique_id'] }).to match_array(
+        %w[ba604357-5dce-4861-b740-af5d40398ef7 7742b9db-2db2-4421-bff7-9aae6272fc4a]
+      )
     end
 
     it 'updating a violation association' do
