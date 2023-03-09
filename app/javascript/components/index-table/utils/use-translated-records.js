@@ -9,8 +9,10 @@ import { getLookupsByIDs } from "../../form/selectors";
 import useOptions from "../../form/use-options";
 import { useI18n } from "../../i18n";
 import { getFieldsByName } from "../../record-form/selectors";
+import { getIncidentReportingLocationConfig, getReportingLocationConfig } from "../../application/selectors";
 
 import buildLocationsList from "./build-location-list";
+import getValueForOptionSource from "./get-value-for-option-source";
 
 export const buildComponentColumns = (componentColumns, order, orderBy) => {
   const sortedColumns = List.isList(componentColumns) ? componentColumns : List(componentColumns);
@@ -81,7 +83,7 @@ export function useTranslatedRecords({
     (lookups1, lookups2) => lookups1.equals(lookups2)
   );
 
-  const locationIDS = useMemo(() => buildLocationsList(records, columnsWithLookups), [columnsWithLookups]);
+  const locationIDS = useMemo(() => buildLocationsList(records, columnsWithLookups), [records, columnsWithLookups]);
 
   const locations = useOptions({
     source: useReportingLocations ? LOOKUPS.reporting_locations : STRING_SOURCES_TYPES.LOCATION,
@@ -90,6 +92,12 @@ export function useTranslatedRecords({
     useIncidentReportingLocationConfig: recordType === RECORD_TYPES_PLURAL.incident
   });
 
+  const reportingLocationConfig = useMemoizedSelector(state =>
+    useReportingLocations && recordType === RECORD_TYPES_PLURAL.incident
+      ? getIncidentReportingLocationConfig(state)
+      : getReportingLocationConfig(state)
+  );
+
   const reducedRecords = useCallback(
     () =>
       records.reduce((accum, record) => {
@@ -97,6 +105,14 @@ export function useTranslatedRecords({
           const [key, value] = recordEntry;
 
           if (columnsWithLookups.map(columnWithLookup => columnWithLookup.name).includes(key)) {
+            const valueForOptionSource = getValueForOptionSource({
+              value,
+              useReportingLocations,
+              fieldName: key,
+              reportingLocationConfig,
+              recordReportingLocationHierarchy: record.get("reporting_location_hierarchy")
+            });
+
             const optionStringsSource = columnsWithLookups
               .find(column => column.get("name") === key, null, fromJS({}))
               .get("option_strings_source");
@@ -107,7 +123,7 @@ export function useTranslatedRecords({
               locations,
               i18n.locale,
               optionStringsSource,
-              value
+              valueForOptionSource
             );
 
             return [key, recordValue];
@@ -118,7 +134,7 @@ export function useTranslatedRecords({
 
         return accum.push(result);
       }, List()),
-    [records, columnsWithLookups]
+    [records, columnsWithLookups, locations]
   );
 
   const translateLocalizedFields = useCallback(() => {
