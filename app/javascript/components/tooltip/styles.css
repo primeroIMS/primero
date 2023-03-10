@@ -1,9 +1,9 @@
 .arrow {
-  color: var(c-black)
+  color: var(--c-black)
 }
 
 .tooltip {
-  background: var(c-black)
+  background: var(--c-black)
 }
 
 .disabled {
