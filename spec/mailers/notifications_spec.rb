@@ -10,19 +10,29 @@ describe NotificationMailer, type: :mailer do
 
   describe 'approvals' do
     before do
-      clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role, Agency)
+      clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role, Agency, Referral)
       @lookup = Lookup.create!(id: 'lookup-approval-type', unique_id:'lookup-approval-type', name: 'approval type',
                                lookup_values_en: [{'id' => 'value1', 'display_text' => 'value1'}])
       role = create(:role, is_manager: true)
       @manager1 = create(:user, role: role, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1')
       @manager2 = create(:user, role: role, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2')
-      @manager3 = create(:user, role: role, email: 'manager3@primero.dev', send_mail: true, user_name: 'manager3', locale: 'ar-LB')
+      @manager3 = create(
+        :user, role: role, email: 'manager3@primero.dev', send_mail: true, user_name: 'manager3', locale: 'ar-LB'
+      )
+      @manager4 = create(
+        :user, role: role, email: 'manager4@primero.dev', send_mail: true, user_name: 'manager4', disabled: true
+      )
       @owner = create(:user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev')
+      @disabled_user = create(
+        :user, user_name: 'duser', full_name: 'Disabled User', email: 'duser@primero.dev', disabled: true
+      )
       @arabic_owner = create(:user, user_name: 'jdoe', full_name: 'Jhon Doe', email: 'arabic_owner@primero.dev', locale: 'ar-LB')
       @child = child_with_created_by(@owner.user_name, name: 'child1', module_id: PrimeroModule::CP,
                                                        case_id_display: '12345')
       @arabic_child = child_with_created_by(@arabic_owner.user_name, name: 'arabic_child1', module_id: PrimeroModule::CP,
                                                         case_id_display: '67890')
+      @referral = Referral.new(transitioned_by: 'manager1', transitioned_to: 'duser', record: @child)
+      @referral.save(validate: false)
     end
 
     describe 'manager_approval_request' do
@@ -82,6 +92,38 @@ describe NotificationMailer, type: :mailer do
       it 'renders the body in arabic locale' do
         expect(mail.text_part.body.encoded)
           .to match("طلب manager1 تم رفضه الموافقة value1 للملفّ .*#{@arabic_child.short_id}")
+      end
+    end
+
+    describe 'when a  manager is disabled' do
+      let(:mail) do
+        NotificationMailer.manager_approval_request(@child.id, 'value1', @manager4.user_name)
+      end
+
+      it 'does not render the headers' do
+        expect(mail.subject).to be_nil
+        expect(mail.to).to be_nil
+      end
+
+      it 'does not render the body' do
+        expect(mail.body).to be_empty
+      end
+    end
+
+    describe 'transition_notify' do
+      describe 'when a  user is disabled' do
+        let(:mail) do
+          NotificationMailer.transition_notify(@referral.id)
+        end
+
+        it 'does not render the headers' do
+          expect(mail.subject).to be_nil
+          expect(mail.to).to be_nil
+        end
+
+        it 'does not render the body' do
+          expect(mail.body).to be_empty
+        end
       end
     end
   end

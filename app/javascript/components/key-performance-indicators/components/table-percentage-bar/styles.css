@@ -19,7 +19,7 @@
   height: 100%;
   border-radius: 1rem;
   vertical-align: top;
-  background-color: var(c-blue);
+  background-color: var(--c-blue);
   color: var(--c-light-grey);
 }
 

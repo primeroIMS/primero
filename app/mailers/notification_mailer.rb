@@ -12,6 +12,7 @@ class NotificationMailer < ApplicationMailer
     @user = @child.owner || (return log_not_found('User', @child.owned_by))
     @approval_type = Lookup.display_value('lookup-approval-type', approval_type)
     @locale_email = @manager.locale || I18n.locale
+    return unless assert_notifications_enabled(@manager)
 
     mail(to: @manager.email, subject: t('email_notification.approval_request_subject', id: @child.short_id,
                                                                                        locale: @locale_email))
@@ -56,9 +57,10 @@ class NotificationMailer < ApplicationMailer
   end
 
   def assert_notifications_enabled(user)
-    return true if user&.email && user&.send_mail
+    return true if user&.emailable?
 
     Rails.logger.info("Mail not sent. Notifications disabled for #{user&.user_name || 'nil user'}")
+
     false
   end
 
