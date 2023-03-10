@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_16_000000) do
+ActiveRecord::Schema.define(version: 2023_03_10_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -644,7 +644,6 @@ ActiveRecord::Schema.define(version: 2023_02_16_000000) do
     t.uuid "source_id"
     t.index ["data"], name: "index_violations_on_data", using: :gin
     t.index ["incident_id"], name: "index_violations_on_incident_id"
-    t.index ["source_id"], name: "index_violations_on_source_id"
   end
 
   create_table "webhooks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -706,6 +705,5 @@ ActiveRecord::Schema.define(version: 2023_02_16_000000) do
   add_foreign_key "user_groups_users", "users"
   add_foreign_key "users", "codes_of_conduct", column: "code_of_conduct_id"
   add_foreign_key "violations", "incidents"
-  add_foreign_key "violations", "sources"
   add_foreign_key "whitelisted_jwts", "users", on_delete: :cascade
 end
