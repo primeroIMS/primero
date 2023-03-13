@@ -6,7 +6,7 @@ describe ApiConnector::PrimeroConfigurationConnector do
   let(:configuration_hash) do
     {
       'id' => SecureRandom.uuid, 'name' => 'Test', 'description' => 'Test',
-      'version' => SecureRandom.uuid, 'data' => {}
+      'version' => SecureRandom.uuid, 'primero_version' => 'v2.6.0', 'data' => {}
     }
   end
   let(:configuration) { PrimeroConfiguration.new(configuration_hash) }
@@ -46,6 +46,20 @@ describe ApiConnector::PrimeroConfigurationConnector do
       it 'does nothing' do
         result = connector.sync(configuration)
         expect(result).to eq({})
+      end
+    end
+  end
+
+  describe '.params' do
+    context 'return a structure of params for PrimeroConfiguration' do
+      before do
+        @configuration_params = configuration_hash.merge({ 'random_key' => 'random_value', 'foo' => 'bar' })
+      end
+
+      it 'show params with an expected structure' do
+        result = connector.params(configuration)
+        expect(result.keys).to match_array([:data])
+        expect(result[:data].keys).to match_array(configuration_hash.keys)
       end
     end
   end
