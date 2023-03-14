@@ -82,16 +82,18 @@ class Exporters::BaseExporter
     @io
   end
 
+  def user_permitted_forms(record_type, user)
+    user.role.permitted_forms(record_type, true, false)
+  end
+
   private
 
   def forms_to_export(records, user, options = {})
     record_type = model_class(records)&.parent_form
-    user_forms_subforms_permitted = user.role.permitted_forms(record_type, true, true)
-    forms = user_forms_subforms_permitted.map { |form| forms_without_hidden_fields(form) }
+    forms = user_permitted_forms(record_type, user)
+    forms = forms.where(unique_id: options[:form_unique_ids]) if options[:form_unique_ids].present?
 
-    return forms unless options[:form_unique_ids].present?
-
-    forms.select { |form| options[:form_unique_ids].include?(form.unique_id) }
+    forms.map { |form| forms_without_hidden_fields(form) }
   end
 
   def fields_to_export(forms, options = {})
@@ -116,11 +118,11 @@ class Exporters::BaseExporter
     form_dup = form.dup
     form_dup.subform_field = form.subform_field
     form.fields.reject(&:hide_on_view_page?).map(&:dup).each do |field|
-      if field.type == Field::SUBFORM
-        # TODO: This cause N+1
-        field.subform = forms_without_hidden_fields(field.subform)
-      elsif !field.visible then next
-      end
+      next unless field.visible
+
+      field.form_section = form_dup
+      # TODO: This cause N+1
+      field.subform = forms_without_hidden_fields(field.subform) if field.type == Field::SUBFORM
       form_dup.fields << field
     end
     form_dup
