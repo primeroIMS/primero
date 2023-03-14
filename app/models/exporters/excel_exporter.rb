@@ -19,15 +19,14 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     end
   end
 
-  def initialize(output_file_path = nil)
-    super(output_file_path)
+  def initialize(output_file_path = nil, config = {}, options = {})
+    super(output_file_path, config, options)
     self.workbook = WriteXLSX.new(buffer)
     self.worksheets = {}
+    self.locale = user&.locale || I18n.locale
   end
 
-  def export(records, user, options = {})
-    self.locale = user&.locale || I18n.locale
-    establish_export_constraints(records, user, options)
+  def export(records)
     constraint_subforms
     build_worksheets_with_headers
 
@@ -54,11 +53,13 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def build_worksheet_fields(form, worksheet)
-    form.fields.each_with_index do |field, i|
+    index = 0
+    form.fields.each do |field|
       if field.type == Field::SUBFORM
         build_worksheet_with_headers(constrained_subforms[subform_path(field)], field)
       else
-        worksheet&.write(0, i + 1, field.display_name(locale))
+        index += 1
+        worksheet&.write(0, index, field.display_name(locale))
       end
     end
   end
@@ -210,7 +211,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
 
     return field.subform unless field_names.present?
 
-    subform = field.subform.dup
+    subform = field.subform
     subform.fields = field.subform.fields.to_a.select do |sf_field|
       field_names[sf_field.name] == true
     end

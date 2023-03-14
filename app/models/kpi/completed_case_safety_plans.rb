@@ -19,7 +19,7 @@ class Kpi::CompletedCaseSafetyPlans < Kpi::Search
     {
       data: {
         completed: nan_safe_divide(
-          search.facet(:completed_safety_plan).rows.count,
+          search.facet(:completed_safety_plan).rows.first&.count || 0,
           search.total
         )
       }

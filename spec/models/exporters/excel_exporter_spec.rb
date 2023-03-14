@@ -63,6 +63,7 @@ module Exporters
                                  subform_section_id: subform1.id)
       form_c.fields << Field.new(name: 'cases_test_subform_3', type: Field::SUBFORM, display_name: 'subform 3 field',
                                  subform_section_id: subform3.id)
+      form_c.fields << Field.new(name: 'address', type: Field::TEXT_AREA, display_name: 'address')
       form_c.save!
       #### Build Form Section with subforms fields and others kind of fields ######
 
@@ -116,8 +117,9 @@ module Exporters
       @role = create(:role, form_sections: [form_a, form_b, form_c, form_d, form_e, form_f], modules: [@primero_module])
       @user = create(:user, user_name: 'fakeadmin', role: @role)
       @records = [create(:child, id: '1234', short_id: 'abc123', first_name: 'John', last_name: 'Doe',
-                                 relationship: 'Mother', array_field: %w[option_1 option_2],
-                                 arabic_text: "لدّفاع", arabic_array: ["النفط", "المشتّتون"],
+                                 address: 'this is an address', relationship: 'Mother',
+                                 array_field: %w[option_1 option_2], arabic_text: "لدّفاع",
+                                 arabic_array: ["النفط", "المشتّتون"],
                                  cases_test_subform_1: [
                                    { unique_id: '1', field_1: 'field_1 value', field_2: 'field_2 value' }
                                  ],
@@ -141,7 +143,7 @@ module Exporters
 
     describe 'Export' do
       let(:workbook) do
-        data = ExcelExporter.export(@records, @user)
+        data = ExcelExporter.export(@records, nil, { user: @user })
         Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
       end
 
@@ -164,7 +166,7 @@ module Exporters
         expect(workbook.sheet(2).row(1)).to eq(%w[ID relationship array_field])
         expect(workbook.sheet(3).row(1)).to eq(%w[ID field_1 field_2])
         expect(workbook.sheet(4).row(1)).to eq(%w[ID field_5 field_6])
-        expect(workbook.sheet(5).row(1)).to eq(%w[ID first_name last_name])
+        expect(workbook.sheet(5).row(1)).to eq(%w[ID first_name last_name address])
         expect(workbook.sheet(6).row(1)).to eq(%w[ID field_1 field_2])
         expect(workbook.sheet(7).row(1)).to eq(%w[ID field_5 field_6])
         expect(workbook.sheet(8).row(1)).to eq(['ID', 'arabic text', 'arabic array'])
@@ -177,7 +179,7 @@ module Exporters
         expect(workbook.sheets[2]).to eq('cases_test_form_2')
         expect(workbook.sheet(2).row(2)).to eq([@record_id, 'Mother', 'Option 1 ||| Option 2'])
         expect(workbook.sheets[5]).to eq('cases_test_form_1')
-        expect(workbook.sheet(5).row(2)).to eq([@record_id, 'John', 'Doe'])
+        expect(workbook.sheet(5).row(2)).to eq([@record_id, 'John', 'Doe', 'this is an address'])
       end
 
       it 'exports record values for each instance of subforms' do
@@ -244,7 +246,6 @@ module Exporters
           expect(@book.sheets).to match_array(expected_sheets)
         end
       end
-
     end
     after do
       clean_data(Child, Role, UserGroup, User, Agency, Field, FormSection, PrimeroModule, PrimeroProgram)

@@ -381,6 +381,62 @@ describe Incident do
     end
   end
 
+  describe '.update_violations' do
+    let(:incident_data) do
+      {
+        'unique_id' => '790f958d-ac8e-414b-af64-e75831e3353a',
+        'incident_code' => '0123456',
+        'module_id' => 'primeromodule-mrm',
+        'incident_date' => Date.new(2022, 12, 23),
+        'description' => 'this is a test',
+        'killing' => [{ 'violation_tally' => { 'total' => 1, 'girls' => 1 },
+                        'context_km' => 'military_clashes',
+                        'attack_type' => 'undetermined',
+                        'weapon_category' => 'unknown',
+                        'weapon_type' => 'unknown',
+                        'verified' => 'report_pending_verification',
+                        'ctfmr_verified' => 'verified',
+                        'ctfmr_verified_date' => Date.new(2023, 1, 23),
+                        'unique_id' => '222d97fb-b49d-401a-aff5-55dbe81a6fbf' }]
+      }
+    end
+
+    before do
+      travel_to Time.zone.local(2023, 1, 30, 11, 30, 44)
+    end
+
+    before :each do
+      clean_data(Incident, Violation)
+      incident_record = Incident.new_with_user(fake_user, incident_data)
+      incident_record.save!
+    end
+
+    after do
+      travel_back
+    end
+
+    shared_examples_for 'prop_change_update_violations' do |prop, additional = {}|
+      it "updates violations if #{prop} attributes changed" do
+        incident = Incident.first
+
+        incident.update(additional.merge(prop.to_s => Date.today))
+
+        expect(incident.violations.first.is_late_verification).to be(false)
+      end
+    end
+
+    it_should_behave_like 'prop_change_update_violations', 'incident_date'
+    it_should_behave_like 'prop_change_update_violations', 'incident_date_end', is_incident_date_range: true
+
+    it 'does not update violations other attributes changed' do
+      incident = Incident.first
+      incident.incident_code = 'new-code'
+      incident.save!
+
+      expect(incident.violations.first.is_late_verification).to be(true)
+    end
+  end
+
   describe 'add_alert_on_case' do
     before(:each) do
       clean_data(Agency, SystemSettings, User, Incident, Child, PrimeroModule, Violation) && module_cp
@@ -649,6 +705,29 @@ describe Incident do
       expect(individual_victims_result.count).to eq(2)
       expect(individual_victims_result_unique_id).to match_array(
         %w[8d18d459-d75f-4a68-9862-3846b47ca3a0 53baed05-a012-42e9-ad8d-5c5660ac5159]
+      )
+    end
+
+    it 'adding new source association' do
+      data_to_update = {
+        'sources' => [
+          {
+            'id_number' => '1',
+            'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2'],
+            "source_interview_date": '2023-02-01',
+            "source_category": 'secondary',
+            "source_type": 'photograph',
+            "unique_id": 'ba604357-5dce-4861-b740-af5d40398ef7'
+          }
+        ]
+      }
+      incident.update_properties(fake_user, data_to_update)
+      incident.save!
+      source_result = incident.associations_as_data('user')['sources']
+
+      expect(source_result.count).to eq(2)
+      expect(source_result.map { |source| source['unique_id'] }).to match_array(
+        %w[ba604357-5dce-4861-b740-af5d40398ef7 7742b9db-2db2-4421-bff7-9aae6272fc4a]
       )
     end
 

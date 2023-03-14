@@ -13,18 +13,15 @@ ssl_certificate_key       ${NGINX_SSL_KEY_PATH};
 ssl_certificate           ${NGINX_SSL_CERT_PATH};
 # @end-ssl
 
-upstream app {
-    server unix://${NGINX_CURRENT_PATH}/tmp/primero.sock fail_timeout=0;
-}
-
 limit_req_zone $binary_remote_addr zone=login_app_limit:10m rate=1r/s;
 
 server {
     listen ${NGINX_HTTP_PORT};
     server_name ${NGINX_SERVER_NAME};
-    
-    location ~ ^/.well-known/acme-challenge/ {
-        root /usr/share/nginx/html/;
+
+    location ~ ^/\.well-known/acme-challenge/ {
+        default_type "text/plain";
+        root /usr/share/nginx/html;
     }
 
     # @begin-ssl
@@ -34,13 +31,16 @@ server {
 }
 
 server {
-
     listen ${NGINX_HTTPS_PORT} ssl;
     server_name ${NGINX_SERVER_NAME};
     # @end-ssl
 
-    if ($request_method = HEAD ) {
+    if ($request_method !~ ^(GET|PUT|POST|PATCH|DELETE)$ ) {
         return 444;
+    }
+
+    if ($http_user_agent ~* LWP::Simple|BBBike|wget|msnbot|scrapbot) {
+        return 403;
     }
 
     ssl_dhparam ${NGINX_DH_PARAM};
@@ -51,7 +51,9 @@ server {
     client_max_body_size ${NGINX_CLIENT_MAX_BODY_SIZE};
     client_body_buffer_size ${NGINX_CLIENT_BODY_BUFFER_SIZE};
 
-    try_files $uri/index.html $uri.html $uri @app;
+    location / {
+        try_files $uri/index.html $uri.html $uri @app;
+    }
 
     location @app {
         proxy_pass ${NGINX_PROXY_PASS_URL};
@@ -79,11 +81,11 @@ server {
         deny all;
     }
 
-    location /login/ {
+    location /v2/login/ {
         limit_req zone=login_app_limit burst=5;
     }
 
-    location /api/login/ {
+    location /api/v2/tokens/ {
         limit_req zone=login_app_limit burst=5;
     }
 

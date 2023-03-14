@@ -20,7 +20,7 @@ class Kpi::AssessmentStatus < Kpi::Search
     {
       data: {
         completed: nan_safe_divide(
-          search.facet(:completed_survivor_assessment).rows.count,
+          search.facet(:completed_survivor_assessment).rows.first&.count || 0,
           search.total
         )
       }

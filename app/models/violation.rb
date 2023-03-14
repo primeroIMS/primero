@@ -15,8 +15,8 @@ class Violation < ApplicationRecord
   has_and_belongs_to_many :individual_victims
   has_and_belongs_to_many :group_victims
   has_and_belongs_to_many :perpetrators
+  has_and_belongs_to_many :sources
   has_many :responses, dependent: :destroy, inverse_of: :violation
-  belongs_to :source, optional: true
   belongs_to :incident
 
   store_accessor :data,
@@ -34,7 +34,7 @@ class Violation < ApplicationRecord
 
   def associations_as_data
     @associations_as_data ||= {
-      'sources' => [source&.associations_as_data],
+      'sources' => sources.map(&:associations_as_data),
       'perpetrators' => perpetrators.map(&:associations_as_data),
       'individual_victims' => individual_victims.map(&:associations_as_data),
       'group_victims' => group_victims.map(&:associations_as_data),
@@ -66,8 +66,14 @@ class Violation < ApplicationRecord
     self.is_late_verification = late_verification?
   end
 
+  def late_verification_date_range?
+    ctfmr_verified_date > (incident.incident_date_end || Date.today).end_of_quarter
+  end
+
   def late_verification?
     return false unless ctfmr_verified_date.present? && incident.incident_date.present?
+
+    return late_verification_date_range? if incident.is_incident_date_range
 
     ctfmr_verified_date > incident.incident_date.end_of_quarter
   end

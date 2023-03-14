@@ -1,4 +1,4 @@
-import { SELECT_FIELD, TALLY_FIELD } from "../../../../../form/constants";
+import { SELECT_FIELD, TALLY_FIELD, RADIO_FIELD } from "../../../../../form/constants";
 
 export const NAME = "FieldDialog";
 export const ADMIN_FIELDS_DIALOG = "admin_fields_dialog";
@@ -32,6 +32,7 @@ export const FIELD_TRANSLATABLE_OPTIONS = Object.freeze([
 
 export const LOCALIZABLE_OPTIONS_FIELD_NAME = Object.freeze({
   [SELECT_FIELD]: "option_strings_text",
+  [RADIO_FIELD]: "option_strings_text",
   [TALLY_FIELD]: "tally"
 });
 

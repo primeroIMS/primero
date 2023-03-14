@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { IconButton, InputBase, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
@@ -11,7 +10,7 @@ import css from "./styles.css";
 import { registerInput } from "./utils";
 import handleFilterChange from "./value-handlers";
 
-const Search = ({ handleReset }) => {
+const Search = () => {
   const i18n = useI18n();
 
   const { register, unregister, setValue } = useFormContext();
@@ -54,7 +53,6 @@ const Search = ({ handleReset }) => {
 
   const handleClear = () => {
     setValue(fieldName, undefined);
-    handleReset(true);
   };
 
   return (
@@ -85,9 +83,5 @@ const Search = ({ handleReset }) => {
 };
 
 Search.displayName = "Search";
-
-Search.propTypes = {
-  handleReset: PropTypes.func
-};
 
 export default Search;

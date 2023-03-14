@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe UserTransitionService do
   before do
-    clean_data(UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
+    clean_data(UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, Location)
 
     @program = PrimeroProgram.create!(
       unique_id: 'primeroprogram-primero',
@@ -113,6 +113,8 @@ describe UserTransitionService do
       role_cannot.save(validate: false)
       agency = Agency.new(unique_id: 'fake-agency', agency_code: 'fkagency')
       agency.save(validate: false)
+      agency2 = Agency.new(unique_id: 'fake-agency-2', agency_code: 'fkagency-2')
+      agency2.save(validate: false)
 
       Location.create(
         placename_en: 'Country',
@@ -150,11 +152,15 @@ describe UserTransitionService do
       @user5.save(validate: false)
       @user6 = User.new(user_name: 'user6', role: role_receive_different_module, agency: agency)
       @user6.save(validate: false)
+      @user7 = User.new(user_name: 'user7', role: role_receive, agency: agency2)
+      @user7.save(validate: false)
+      @user8 = User.new(user_name: 'user8', role: role_receive, agency: agency2)
+      @user8.save(validate: false)
     end
 
     it 'returns all users that can be referred to based on permission and module CP' do
       users = UserTransitionService.referral(@user1, Child, @cp.unique_id).transition_users
-      expect(users.map(&:user_name)).to match_array(%w[user2 user3 user6])
+      expect(users.map(&:user_name)).to match_array(%w[user2 user3 user6 user7 user8])
     end
 
     it 'returns all users that can be referred to based on permission and module OTHER' do
@@ -174,6 +180,13 @@ describe UserTransitionService do
         'location' => 'ST'
       )
       expect(users.map(&:user_name)).to match_array(%w[user2 user3])
+    end
+
+    it 'filters users based on agency' do
+      users = UserTransitionService.referral(@user7, Child, @cp.unique_id).transition_users(
+        'agency' => 'fake-agency-2'
+      )
+      expect(users.map(&:user_name)).to match_array(%w[user8])
     end
   end
 

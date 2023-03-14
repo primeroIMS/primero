@@ -16,6 +16,7 @@ class Incident < ApplicationRecord
   include ReportableLocation
   include GenderBasedViolence
   include MonitoringReportingMechanism
+  include LocationCacheable
 
   store_accessor(
     :data,
@@ -25,12 +26,14 @@ class Incident < ApplicationRecord
     :date_of_incident_to, :individual_details_subform_section, :incident_location,
     :health_medical_referral_subform_section, :psychosocial_counseling_services_subform_section,
     :legal_assistance_services_subform_section, :police_or_other_type_of_security_services_subform_section,
-    :livelihoods_services_subform_section, :child_protection_services_subform_section, :violation_category
+    :livelihoods_services_subform_section, :child_protection_services_subform_section, :violation_category,
+    :incident_date_end, :is_incident_date_range
   )
 
   has_many :violations, dependent: :destroy, inverse_of: :incident
   has_many :perpetrators, through: :violations
   has_many :individual_victims, through: :violations
+  has_many :sources, through: :violations
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
   after_save :save_violations_and_associations
 
@@ -59,7 +62,7 @@ class Incident < ApplicationRecord
       common_summary_fields + %w[
         date_of_interview date_of_incident violence_type
         incident_location violations social_worker date_of_first_report
-        cp_incident_violence_type
+        cp_incident_violence_type reporting_location_hierarchy
         gbv_sexual_violence_type incident_date survivor_code
         violation_category incident_date_derived
       ]
@@ -90,6 +93,7 @@ class Incident < ApplicationRecord
 
   after_initialize :set_unique_id
   before_save :copy_from_case
+  before_save :update_violations
   # TODO: Reconsider whether this is necessary.
   # We will only be creating an incident from a case using a special business logic that
   # will certainly trigger a reindex on the case
@@ -97,7 +101,7 @@ class Incident < ApplicationRecord
   after_create :add_alert_on_case, :add_case_history
 
   def index_record
-    Sunspot.index!(self.case) if self.case.present?
+    Sunspot.index(self.case) if self.case.present?
   end
 
   alias super_defaults defaults
@@ -235,15 +239,22 @@ class Incident < ApplicationRecord
 
   # TODO: This method will trigger queries to reload the violations and associations in order to index the latest data
   def reindex_violations_and_associations
-    violations.reload if @violations_to_save.present?
+    association_classes = association_classes_to_save
 
-    if @associations_to_save.present?
-      association_classes = @associations_to_save.map(&:class).uniq.compact
+    violations.reload if @violations_to_save.present? || association_classes.include?(Source)
+
+    if association_classes.present?
       individual_victims.reload if association_classes.include?(IndividualVictim)
       perpetrators.reload if association_classes.include?(Perpetrator)
     end
 
-    Sunspot.index!(self)
+    Sunspot.index(self)
+  end
+
+  def association_classes_to_save
+    return unless @associations_to_save
+
+    @associations_to_save.map(&:class).uniq.compact
   end
 
   def associations_as_data(_current_user)
@@ -275,6 +286,14 @@ class Incident < ApplicationRecord
     violations_result
   end
 
+  def update_violations
+    should_update_violations = !new_record? && module_id == PrimeroModule::MRM &&
+                               (incident_date_changed? || incident_date_end_changed?)
+
+    return unless should_update_violations
+
+    violations.each(&:calculate_late_verifications)
+  end
 
   def reporting_location_property
     'incident_reporting_location_config'

@@ -9,7 +9,13 @@ import { fetchReferralUsers } from "../../../record-actions/transitions/action-c
 import SearchableSelect from "../../../searchable-select";
 import { getUserFilters } from "../../../record-actions/transitions/components/utils";
 import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
-import { buildOptions, getSelectFieldDefaultValue, handleChangeOnServiceUser, asyncFieldOffline } from "../utils";
+import {
+  buildOptions,
+  getSelectFieldDefaultValue,
+  handleChangeOnServiceUser,
+  asyncFieldOffline,
+  clearServiceFieldValue
+} from "../utils";
 import { useMemoizedSelector } from "../../../../libs";
 import { getOptionsAreLoading } from "../../selectors";
 import { getLoading } from "../../../record-list/selectors";
@@ -206,26 +212,22 @@ const SelectFieldContainer = ({
   };
 
   useEffect(() => {
-    if (
-      filterState?.filtersChanged &&
-      !filterState?.userIsSelected &&
-      [SERVICE_SECTION_FIELDS.implementingAgencyIndividual, SERVICE_SECTION_FIELDS.implementingAgency].find(fieldName =>
-        name.endsWith(fieldName)
-      )
-    ) {
-      setFieldValue(name, null, false);
-    }
-  }, [service, agency]);
+    clearServiceFieldValue({
+      filterState,
+      fieldName: name,
+      serviceField: SERVICE_SECTION_FIELDS.implementingAgency,
+      setFieldValue
+    });
+  }, [service]);
 
   useEffect(() => {
-    if (
-      filterState?.filtersChanged &&
-      !filterState?.userIsSelected &&
-      name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
-    ) {
-      setFieldValue(name, null, false);
-    }
-  }, [location]);
+    clearServiceFieldValue({
+      filterState,
+      fieldName: name,
+      serviceField: SERVICE_SECTION_FIELDS.implementingAgencyIndividual,
+      setFieldValue
+    });
+  }, [service, agency, location]);
 
   useEffect(() => {
     if (fieldValue && (!stickyOption || isEmpty(stickyOption))) {

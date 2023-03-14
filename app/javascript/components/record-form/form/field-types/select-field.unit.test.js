@@ -275,6 +275,71 @@ describe("<SelectField />", () => {
     });
   });
 
+  context("when is service_implementing_agency", () => {
+    const paramsService = "health_medical_service";
+    const initialStateAgency = fromJS({
+      application: {
+        agencies: [
+          {
+            unique_id: "agency-test-1",
+            name: {
+              en: "Agency Test 1"
+            },
+            agency_code: "test1",
+            disabled: false,
+            services: ["service_test_1"]
+          },
+          {
+            unique_id: "agency-test-2",
+            name: {
+              en: "Agency Test 2"
+            },
+            agency_code: "test2",
+            disabled: false,
+            services: ["service_test_1", "service_test_2"]
+          }
+        ]
+      }
+    });
+    const propsSelectAgency = {
+      name: SERVICE_SECTION_FIELDS.implementingAgency,
+      field: {
+        option_strings_text: "Agency"
+      },
+      label: "Implementing Agency",
+      mode: whichFormMode("edit"),
+      open: true,
+      filters: { values: { service: "another-service" }, filterState: { filtersChanged: true, userIsSelected: false } },
+      formik: {
+        values: {
+          [SERVICE_SECTION_FIELDS.type]: paramsService,
+          [SERVICE_SECTION_FIELDS.implementingAgency]: "agency-test-1"
+        }
+      },
+      recordType: "cases",
+      recordModuleID: "record-module-1",
+      optionsSelector: () => ({ source: OPTION_TYPES.AGENCY, useUniqueId: true })
+    };
+
+    it("should clear out field if filters", () => {
+      const { component: componentSelectUser } = setupMountedComponent(
+        SelectField,
+        propsSelectAgency,
+        initialStateAgency,
+        [],
+        {
+          initialValues: {
+            [SERVICE_SECTION_FIELDS.implementingAgency]: "agency-test-1",
+            [SERVICE_SECTION_FIELDS.type]: paramsService
+          }
+        }
+      );
+      const selectFieldAgency = componentSelectUser.find(SearchableSelect);
+
+      expect(selectFieldAgency.props().value).to.be.equal(null);
+    });
+  });
+
   context("when the lookup is yes-no-lookup", () => {
     const props = {
       name: "test",

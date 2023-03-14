@@ -16,8 +16,7 @@ class Exporters::JsonExporter < Exporters::BaseExporter
     end
   end
 
-  def export(records, user, options = {})
-    establish_export_constraints(records, user, options)
+  def export(records)
     hashes = records.map { |m| convert_model_to_hash(m) }
     buffer.write(JSON.pretty_generate(hashes))
   end

@@ -12,6 +12,10 @@ describe("calculateFormParams", () => {
         saveMethod: SAVE_METHODS.update,
         body: {
           data: {
+            display_conditions: {
+              disabled: true
+            },
+            fields: [],
             subform_test_c5d3e6c: {
               name: "subform_test_c5d3e6c",
               hide_on_view_page: false,
@@ -26,7 +30,6 @@ describe("calculateFormParams", () => {
               date_include_time: false,
               subform_section_temp_id: 54780,
               subform_section_unique_id: "subform_test_c5d3e6c",
-              display_conditions_record: {},
               display_name: {
                 en: "subform test"
               }
@@ -54,30 +57,8 @@ describe("calculateFormParams", () => {
               date_include_time: false,
               subform_section_temp_id: 54780,
               subform_section_unique_id: "subform_test_c5d3e6c",
-              display_conditions_record: {},
               display_name: {
                 en: "subform test"
-              }
-            }
-          },
-          dirtyFields: {
-            fields: {
-              subform_test_c5d3e6c: {
-                hide_on_view_page: true,
-                name: true,
-                visible: true,
-                mobile_visible: true,
-                type: true,
-                disabled: true,
-                skip_logic: true,
-                order: true,
-                multi_select: true,
-                date_include_time: true,
-                subform_section_temp_id: true,
-                subform_section_unique_id: true,
-                display_name: {
-                  en: true
-                }
               }
             }
           },
@@ -93,18 +74,19 @@ describe("calculateFormParams", () => {
     });
   });
 
-  describe("when skip_logic is true but display conditions is empty", () => {
+  describe("when skip_logic is false", () => {
     it("should return form object with body", () => {
       const expected = {
         id: 5,
         saveMethod: SAVE_METHODS.update,
         body: {
           data: {
+            fields: [],
             description: {
               en: "Test"
             },
             skip_logic: false,
-            display_conditions: {}
+            display_conditions: { disabled: true }
           }
         },
         message: "forms.messages.updated"
@@ -118,12 +100,6 @@ describe("calculateFormParams", () => {
               en: "Test"
             },
             skip_logic: false
-          },
-          dirtyFields: {
-            description: {
-              en: true
-            },
-            skip_logic: true
           },
           formMode: fromJS({
             isShow: false,
@@ -147,8 +123,10 @@ describe("calculateFormParams", () => {
             description: {
               en: "Test"
             },
+            fields: [],
             skip_logic: true,
             display_conditions: {
+              disabled: false,
               in: {
                 bia_approved: [true]
               }
@@ -170,17 +148,6 @@ describe("calculateFormParams", () => {
               {
                 value: [true],
                 attribute: "bia_approved"
-              }
-            ]
-          },
-          dirtyFields: {
-            description: {
-              en: true
-            },
-            skip_logic: true,
-            display_conditions: [
-              {
-                attribute: true
               }
             ]
           },

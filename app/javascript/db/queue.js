@@ -3,6 +3,7 @@ import { QUEUE_ADD, QUEUE_FINISHED } from "../libs/queue/constants";
 
 import { DB_STORES } from "./constants";
 import DB from "./db";
+import existsSameRequest from "./utils/exists-same-request";
 
 const queueIndexedDB = {
   getAll: () => {
@@ -10,8 +11,12 @@ const queueIndexedDB = {
   },
 
   add: async action => {
-    await Promise.allSettled([].concat(action).map(current => DB.add(DB_STORES.OFFLINE_REQUESTS, current)));
-    EventManager.publish(QUEUE_ADD, action);
+    const existsRequest = await existsSameRequest(action);
+
+    if (!existsRequest) {
+      await Promise.allSettled([].concat(action).map(current => DB.add(DB_STORES.OFFLINE_REQUESTS, current)));
+      EventManager.publish(QUEUE_ADD, action);
+    }
   },
 
   failed: async index => {

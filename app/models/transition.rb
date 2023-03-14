@@ -20,7 +20,7 @@ class Transition < ApplicationRecord
 
   after_initialize :defaults, unless: :persisted?
   before_create :perform
-  after_commit :notify_by_email
+  after_save_commit :notify_by_email
 
   after_save :index_record
 
@@ -94,7 +94,7 @@ class Transition < ApplicationRecord
   end
 
   def index_record
-    Sunspot.index!(record) if record
+    Sunspot.index(record) if record
   end
 
   def update_incident_ownership

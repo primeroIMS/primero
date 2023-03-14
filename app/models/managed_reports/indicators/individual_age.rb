@@ -11,6 +11,7 @@ class ManagedReports::Indicators::IndividualAge < ManagedReports::SqlReportIndic
 
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/CyclomaticComplexity
     def sql(current_user, params = {})
       date_filter = filter_date(params)
 
@@ -24,7 +25,7 @@ class ManagedReports::Indicators::IndividualAge < ManagedReports::SqlReportIndic
           select distinct
             individual_victims_violations.individual_victim_id AS id,
             individual_victims.data ->> 'individual_age' as individual_age,
-            incidents.data as data
+            #{table_name_for_query(params)}.data as data
           from
             violations violations
             inner join incidents incidents
@@ -33,7 +34,8 @@ class ManagedReports::Indicators::IndividualAge < ManagedReports::SqlReportIndic
             inner join individual_victims on individual_victims.id = individual_victims_violations.individual_victim_id
             #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
           where
-            #{date_range_query(params['incident_date'], 'incidents')}
+            individual_victims.data ->> 'individual_age' is not null
+            #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
             #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
             #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
             #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
@@ -46,6 +48,7 @@ class ManagedReports::Indicators::IndividualAge < ManagedReports::SqlReportIndic
         order by name
       }
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
   end

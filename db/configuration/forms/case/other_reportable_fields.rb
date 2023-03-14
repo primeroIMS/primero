@@ -31,7 +31,7 @@ fields = [
         "editable" => false,
         "disabled" => true
         }),
-  Field.new({"name" => "workflow_status",
+  Field.new({"name" => "workflow",
         "type" =>"select_box",
         "display_name_en" => "Workflow Status",
         "editable" => false,
