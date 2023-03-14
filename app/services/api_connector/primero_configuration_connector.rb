@@ -16,7 +16,7 @@ class ApiConnector::PrimeroConfigurationConnector < ApiConnector::PrimeroConnect
   end
 
   def params(configuration)
-    attributes = %w[id name description version data]
+    attributes = %w[id name description version primero_version data]
     { data: configuration.attributes.slice(*attributes) }
   end
 end

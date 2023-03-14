@@ -48,14 +48,15 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
 
   def constrain_fields(records, user, options)
     forms = forms_to_export(records, user)
-    fields = fields_to_export(forms, options)
+    fields = fields_to_export(forms + forms_subforms(forms), options)
     self.forms = [selected_fields_form(fields)]
   end
 
   def constrain_forms_and_fields(records, user, options)
     forms = forms_to_export(records, user)
-    field_names = fields_to_export(forms, options).map(&:name)
-    self.forms = forms.map { |form| filter_fields(form, field_names) }
+    subforms = forms_subforms(forms)
+    field_names = fields_to_export(forms + subforms, options).map(&:name)
+    self.forms = (forms + subforms).map { |form| filter_fields(form, field_names) }
     self.forms = self.forms.select { |f| f.fields.size.positive? }
   end
 
@@ -68,6 +69,17 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
   end
 
   private
+
+  def forms_subforms(forms)
+    subform_fields = forms.reduce([]) do |acc, form|
+      subform_fields = form.subform_fields
+      next(acc) unless subform_fields.present?
+
+      acc + subform_fields
+    end
+
+    FormSection.where(unique_id: subform_fields.map { |field| field.subform.unique_id })
+  end
 
   def filter_fields(form, field_names)
     form_dup = form.dup
