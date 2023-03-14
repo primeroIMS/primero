@@ -13,7 +13,7 @@
   stat:
     path: '/srv/primero{{ nginx_ssl_cert_path }}'
   register: external_certs_crt
-  when: use_external_certs
+  when: use_external_certs == 'true'
   tags:
   - 'always'
 
@@ -21,13 +21,13 @@
   stat:
     path: '/srv/primero{{ nginx_ssl_key_path }}'
   register: external_certs_key
-  when: use_external_certs
+  when: use_external_certs == 'true'
   tags:
   - 'always'
 
 - name: 'Fail if no external certs on remote machine'
   fail: msg="Remote machine missing external certs"
-  when: use_external_certs and not external_certs_crt.stat.exists or not external_certs_key.stat.exists
+  when: use_external_certs == 'true' and (not external_certs_crt.stat.exists or not external_certs_key.stat.exists)
   tags:
   - 'always'
 
@@ -103,7 +103,7 @@
     src: /home/{{ ansible_user }}/primero-configuration.tar.gz
     dest: /srv/primero-configuration
     remote_src: yes
-    extra_opts: 
+    extra_opts:
     - --strip-components=1
   when: primero_configuration_path is defined
   become: yes

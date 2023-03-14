@@ -11,7 +11,7 @@ all:
       # NOTE: YOU NEED TO PERFORM A DATA MIGRATION BEFORE CHANGING POSTGRES VERSIONS!!!!!!
       # primero_postgres_version: '14'
       locale_all: 'en,fr,ar'
-      always_pull: true,
+      always_pull: true
       # These 3 variables are used to drive the build task.
       # Can be omitted if pulling images from Dockerhub
       primero_repo_branch: 'master'
