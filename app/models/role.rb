@@ -105,11 +105,11 @@ class Role < ApplicationRecord
       { parent_form: record_type, visible: (visible_only || nil) }.compact.merge(is_nested: false)
     )
 
-    return forms unless include_subforms
+    return forms.order(:order) unless include_subforms
 
     FormSection.where(subform_field: forms.joins(:fields).where(fields: { type: Field::SUBFORM })).or(
       FormSection.where(id: forms)
-    )
+    ).order(:order, :order_subform)
   end
 
   def permitted_roles
