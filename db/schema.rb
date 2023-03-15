@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_16_000000) do
+ActiveRecord::Schema.define(version: 2023_02_27_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -138,7 +138,7 @@ ActiveRecord::Schema.define(version: 2023_02_16_000000) do
     t.string "matched_trace_id"
     t.uuid "duplicate_case_id"
     t.uuid "registry_record_id"
-    t.index "((data ->> 'case_id'::text))", name: "cases_on_case_id"
+    t.index "((data ->> 'case_id'::text))", name: "cases_case_id_unique_idx", unique: true
     t.index ["data"], name: "index_cases_on_data", using: :gin
     t.index ["duplicate_case_id"], name: "index_cases_on_duplicate_case_id"
     t.index ["registry_record_id"], name: "index_cases_on_registry_record_id"
@@ -334,6 +334,7 @@ ActiveRecord::Schema.define(version: 2023_02_16_000000) do
   create_table "incidents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.uuid "incident_case_id"
+    t.index "((data ->> 'incident_id'::text))", name: "incidents_incident_id_unique_idx", unique: true
     t.index ["data"], name: "index_incidents_on_data", using: :gin
     t.index ["incident_case_id"], name: "index_incidents_on_incident_case_id"
   end
@@ -553,6 +554,7 @@ ActiveRecord::Schema.define(version: 2023_02_16_000000) do
 
   create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
+    t.index "((data ->> 'tracing_request_id'::text))", name: "tracing_requests_tracing_request_id_unique_idx", unique: true
     t.index ["data"], name: "index_tracing_requests_on_data", using: :gin
   end
 
