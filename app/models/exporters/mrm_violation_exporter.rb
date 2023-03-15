@@ -76,6 +76,10 @@ module Exporters
       write_violation_associations(violations)
     end
 
+    def user_permitted_forms(record_type, user, _include_subforms)
+      super(record_type, user, true)
+    end
+
     private
 
     def field_display_name(field)

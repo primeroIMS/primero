@@ -18,7 +18,7 @@ module Exporters
       subform.save!
 
       form_a = FormSection.new(name: 'cases_test_form_3', parent_form: 'case', visible: true,
-                               order_form_group: 2, order: 0, order_subform: 0, form_group_id: 'case_form_3',
+                               order_form_group: 2, order: 1, order_subform: 0, form_group_id: 'case_form_3',
                                unique_id: 'cases_test_form_3')
 
       form_a.fields << Field.new(name: subform.name, type: Field::SUBFORM, display_name: 'subform field',
@@ -28,7 +28,7 @@ module Exporters
 
       #### Build Form Section with no subforms fields ######
       form_b = FormSection.new(name: 'cases_test_form_2', parent_form: 'case', visible: true,
-                               order_form_group: 1, order: 0, order_subform: 0, form_group_id: 'case_form_2',
+                               order_form_group: 1, order: 2, order_subform: 0, form_group_id: 'case_form_2',
                                unique_id: 'cases_test_form_2')
       form_b.fields << Field.new(name: 'relationship', type: Field::TEXT_FIELD, display_name: 'relationship')
       form_b.fields << Field.new(name: 'array_field', type: Field::SELECT_BOX, display_name: 'array_field',
@@ -55,7 +55,7 @@ module Exporters
       subform3.save!
 
       form_c = FormSection.new(name: 'cases_test_form_1', parent_form: 'case', visible: true,
-                               order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'case_form_1',
+                               order_form_group: 0, order: 3, order_subform: 0, form_group_id: 'case_form_1',
                                unique_id: 'cases_test_form_1')
       form_c.fields << Field.new(name: 'first_name', type: Field::TEXT_FIELD, display_name: 'first_name')
       form_c.fields << Field.new(name: 'last_name', type: Field::TEXT_FIELD, display_name: 'last_name')
@@ -69,7 +69,7 @@ module Exporters
 
       #### Build Form Section with Arabic characters in the form name ######
       form_d = FormSection.new(name: "Test Arabic فاكيا قد به،. بـ حتى", parent_form: 'case', visible: true,
-                               order_form_group: 3, order: 0, order_subform: 0, form_group_id: 'form_group_arabic')
+                               order_form_group: 3, order: 4, order_subform: 0, form_group_id: 'form_group_arabic')
       form_d.fields << Field.new(name: 'arabic_text', type: Field::TEXT_FIELD, display_name: 'arabic text')
       form_d.fields << Field.new(name: 'arabic_array', type: Field::SELECT_BOX, display_name: 'arabic array',
                                  multi_select: true,
@@ -92,7 +92,7 @@ module Exporters
       subform5.save!
 
       form_e = FormSection.new(name: 'cases_test_form_4', parent_form: 'case', visible: true,
-                               order_form_group: 0, order: 1, order_subform: 0, form_group_id: 'case_form_1',
+                               order_form_group: 0, order: 5, order_subform: 0, form_group_id: 'case_form_1',
                                unique_id: 'cases_test_form_4')
 
       form_e.fields << Field.new(name: 'cases_test_subform_4', type: Field::SUBFORM, display_name: 'subform 4 field',
@@ -103,7 +103,7 @@ module Exporters
       form_e.save!
 
       form_f = FormSection.new(name: 'case_test_form_5', parent_form: 'case', visible: true,
-                               order_form_group: 0, order: 2, order_subform: 0, form_group_id: 'case_form_1',
+                               order_form_group: 0, order: 6, order_subform: 0, form_group_id: 'case_form_1',
                                unique_id: 'cases_test_form_5')
 
       form_f.fields << Field.new(name: 'cases_test_subform_5', type: Field::SUBFORM, display_name: 'subform 5 field',
@@ -148,38 +148,33 @@ module Exporters
       end
 
       it 'contains a worksheet for each form and subform' do
-        expect(workbook.sheets.size).to eq(13)
+        expect(workbook.sheets.size).to eq(8)
         expect(workbook.sheets).to match_array(
           [
-            'cases_test_subform_2', 'cases_test_form_2', 'cases_test_form_1',
-            'cases_test_subform_1', 'cases_test_subform_3', 'cases_test_subform_4',
+            'cases_test_form_2', 'cases_test_form_1',
             'Test Arabic فاكيا قد به،. بـ...', 'cases_test_form-cases_test_s...', 'cases_test_form-cases_test_s.-1',
             'cases_test_form-cases_test_s.-2', 'cases_test_form-cases_test_s.-3',
-            'case_test_form_-cases_test_s...', 'cases_test_subform_5'
+            'case_test_form_-cases_test_s...'
           ]
         )
       end
 
       it 'prints a header for each form and subform' do
         expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3 field_4])
-        expect(workbook.sheet(1).row(1)).to eq(%w[ID field_3 field_4])
-        expect(workbook.sheet(2).row(1)).to eq(%w[ID relationship array_field])
+        expect(workbook.sheet(1).row(1)).to eq(%w[ID relationship array_field])
+        expect(workbook.sheet(2).row(1)).to eq(%w[ID first_name last_name address])
         expect(workbook.sheet(3).row(1)).to eq(%w[ID field_1 field_2])
         expect(workbook.sheet(4).row(1)).to eq(%w[ID field_5 field_6])
-        expect(workbook.sheet(5).row(1)).to eq(%w[ID first_name last_name address])
-        expect(workbook.sheet(6).row(1)).to eq(%w[ID field_1 field_2])
-        expect(workbook.sheet(7).row(1)).to eq(%w[ID field_5 field_6])
-        expect(workbook.sheet(8).row(1)).to eq(['ID', 'arabic text', 'arabic array'])
-        expect(workbook.sheet(9).row(1)).to eq(%w[ID field_1 field_2])
-        expect(workbook.sheet(10).row(1)).to eq(%w[ID field_7 field_8])
-        expect(workbook.sheet(11).row(1)).to eq(%w[ID field_2])
+        expect(workbook.sheet(5).row(1)).to eq(['ID', 'arabic text', 'arabic array'])
+        expect(workbook.sheet(6).row(1)).to eq(%w[ID field_2])
+        expect(workbook.sheet(7).row(1)).to eq(%w[ID field_7])
       end
 
       it 'exports record values for regular forms' do
-        expect(workbook.sheets[2]).to eq('cases_test_form_2')
-        expect(workbook.sheet(2).row(2)).to eq([@record_id, 'Mother', 'Option 1 ||| Option 2'])
-        expect(workbook.sheets[5]).to eq('cases_test_form_1')
-        expect(workbook.sheet(5).row(2)).to eq([@record_id, 'John', 'Doe', 'this is an address'])
+        expect(workbook.sheets[1]).to eq('cases_test_form_2')
+        expect(workbook.sheet(1).row(2)).to eq([@record_id, 'Mother', 'Option 1 ||| Option 2'])
+        expect(workbook.sheets[2]).to eq('cases_test_form_1')
+        expect(workbook.sheet(2).row(2)).to eq([@record_id, 'John', 'Doe', 'this is an address'])
       end
 
       it 'exports record values for each instance of subforms' do
@@ -197,14 +192,14 @@ module Exporters
       end
 
       it 'exports only the record values for each instance of subforms that meets the condition' do
-        expect(workbook.sheet(11).last_row).to eq(2)
-        expect(workbook.sheet(11).row(2)).to eq([@record_id, 'field_2 value'])
+        expect(workbook.sheet(6).last_row).to eq(2)
+        expect(workbook.sheet(6).row(2)).to eq([@record_id, 'field_2 value'])
       end
 
       it 'does not exports data if the conditional subform is empty' do
-        expect(workbook.sheets[10]).to eq('cases_test_subform_5')
-        expect(workbook.sheet(10).last_row).to eq(2)
-        expect(workbook.sheet(10).row(2)).to eq([@record_id, nil, nil])
+        expect(workbook.sheets[7]).to eq('case_test_form_-cases_test_s...')
+        expect(workbook.sheet(7).last_row).to eq(2)
+        expect(workbook.sheet(7).row(2)).to eq([@record_id, nil])
       end
 
       context 'when forms name has special characters' do
