@@ -47,13 +47,13 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
   end
 
   def constrain_fields
-    self.forms = forms_to_export
+    self.forms = forms_to_export(true)
     self.fields = fields_to_export
     self.forms = [selected_fields_form]
   end
 
   def constrain_forms_and_fields
-    self.forms = forms_to_export
+    self.forms = forms_to_export(true)
     field_names = fields_to_export.map(&:name)
     self.forms = forms.map { |form| filter_fields(form, field_names) }
     self.forms = forms.select { |f| f.fields.size.positive? }
@@ -76,10 +76,7 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
   end
 
   def selected_fields_form
-    form = FormSection.new(
-      unique_id: 'selected_fields',
-      fields: fields
-    )
+    form = FormSection.new(unique_id: 'selected_fields', fields: fields)
     form.send(:name=, I18n.t('exports.selected_xls.selected_fields', locale: locale), locale)
     form
   end

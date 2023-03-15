@@ -1,26 +1,13 @@
-# encoding: utf-8
-#
-# This is the English localization file for Primero.  It is based on the sample
-# English localization file found in the repository linked below[1].
-#
-# Anyone editing this file is strongly encouraged to use yamllint[2] to ensure
-# that this document remains valid YAML.
-#
-# [1] https://github.com/svenfuchs/rails-i18n/
-# [2] https://yamllint.readthedocs.io/en/stable/
-
-
----
 bn:
   'true': 'হ্যাঁ '
   'false': 'না '
   accepted: গৃহীত
-  cancel: "বাতিল "
+  cancel: 'বাতিল '
   connection_lost: বর্তমানে অফলাইন ধরন রয়েছে
   connected: সংযুক্ত
   clear: মুছে ফেলা
   sandbox_ui: পরীক্ষামূলক
-  description: "বর্ণনা "
+  description: 'বর্ণনা '
   form: ফর্ম
   minimum_reportable_fields: "ন্যূনতম রিপোর্টযোগ্য স্থান"
   name: নাম
@@ -28,18 +15,16 @@ bn:
   unavailable_offline: অপ্রাপ্য নীরব
   online: অনলাইন
   yes_label: 'হ্যাঁ '
-  or_label: অথবা
   select_provider: সরবরাহকারি নির্বাচন করুন
   select_language: ভাষা নির্বাচন করুন
-  log_in_primero_idp: ব্যবহারকারীর নাম দিয়ে লগ ইন করুন
+  log_in_primero_idp: ব্যবহারকারীর নাম দিয়ে%{idp_name} লগ ইন করুন
   offline_submitted_changes: আপনি বর্তমানে অফলাইনে আছেন। আপনি যখন অনলাইনে ফিরে আসবেন তখন আপনার পরিবর্তনগুলি জমা দেওয়া হবে
   updated: হালনাগাদ করা হয়েছে
   sync:
-    success: " রেকর্ডগুলি সফলভাবে সিঙ্ক হয়েছে।"
+    success: " %{records}রেকর্ডগুলি সফলভাবে সিঙ্ক হয়েছে।"
     error:
-      create: তৈরি করতে ব্যর্থ হয়েছে। অনুগ্রহ করে সহায়তার জন্য যোগাযোগ করুন।
-      update: হালনাগাদ ব্যর্থ হয়েছে। অনুগ্রহ করে সহায়তার সাথে যোগাযোগ করুন।
-
+      create: তৈরি করতে ব্যর্থ হয়েছে%{record_type}। অনুগ্রহ করে সহায়তার জন্য যোগাযোগ করুন।
+      update: হালনাগাদ%{record_type} ব্যর্থ %{short_id}হয়েছে। অনুগ্রহ করে সহায়তার সাথে যোগাযোগ করুন।
   actions:
     approvals: অনুমোদনসমূহ
     button: কার্যক্রম
@@ -48,18 +33,18 @@ bn:
       invalid: অকার্যকর দলিল
       valid: কার্যকর দলিল
     disable: অক্ষম
-    enable: "সক্ষম "
-    incident_details_from_case: "ঘটনা যোগ করুন "
+    enable: 'সক্ষম '
+    incident_details_from_case: 'ঘটনা যোগ করুন '
     incident_from_case: ঘটনা তৈরি করুন
     next: পরবর্তী
     notes: নোট যোগ করুন
     previous: পূর্ববর্তী
-    reopen: "পুনরায় খোলা "
+    reopen: 'পুনরায় খোলা '
     request_approval: অনুমোদনের অনুরোধ
     revoke: প্রত্যাহার করুন
     save: সংরক্ষণ
     services_from_case_creation_success: সেবা প্রদানের রেকর্ড সফলভাবে তৈরি করা হয়েছে।
-    services_section_from_case: "সেবার বিধান যোগ করুণ "
+    services_section_from_case: 'সেবার বিধান যোগ করুণ '
     mark_for_offline: অফলাইনের জন্য চিহ্নিত করুন
   agencies:
     label: সংস্থা
@@ -67,29 +52,29 @@ bn:
       manage: অনুবাদগুলি পরিচালনা করুন
   agency:
     agency_logos: এজেন্সি লোগো
-    code: "সংস্থার কোড "
+    code: 'সংস্থার কোড '
     description: বর্ণনা
     disabled: অক্ষম
     exclude_agency_from_lookups: লুকআপ এবং ফিল্টারগুলি থেকে এই এজেন্সিটি বাদ দিন
-    exclude_agency_from_lookups_help: "যদি এজেন্সির ব্যবহারকারী না থাকে তবে এটি পরীক্ষা করে দেখুন (উদাহরণস্বরূপ, এজেন্সিটি যোগ করা হয়েছিল যাতে লোগোটি রপ্তানিতে প্রয়োগ করা যেতে পারে।"
+    exclude_agency_from_lookups_help: যদি এজেন্সির ব্যবহারকারী না থাকে তবে এটি পরীক্ষা করে দেখুন (উদাহরণস্বরূপ, এজেন্সিটি যোগ করা হয়েছিল যাতে লোগোটি রপ্তানিতে প্রয়োগ করা যেতে পারে।
     label: সংস্থা
-    logo_enabled: "প্রাইমরোতে এই সংস্থার লোগোটি প্রদর্শন করবেন?"
-    logo_enabled_help: "প্রাইমরোতে এই সংস্থার লোগোটি প্রদর্শন করবেন?"
+    logo_enabled: প্রাইমরোতে এই সংস্থার লোগোটি প্রদর্শন করবেন?
+    logo_enabled_help: প্রাইমরোতে এই সংস্থার লোগোটি প্রদর্শন করবেন?
     logo_icon: আইকন লোগো
-    logo_icon_help: "এটি ছোট পর্দার আকার, ট্যাবলেট এবং ফোনগুলিতে উপস্থিত হবে। এটি একটি বর্গক্ষেত্র হওয়া উচিত।"
+    logo_icon_help: এটি ছোট পর্দার আকার, ট্যাবলেট এবং ফোনগুলিতে উপস্থিত হবে। এটি একটি বর্গক্ষেত্র হওয়া উচিত।
     logo_large: বড় লোগো
-    logo_large_help: "এটি বড় স্ক্রিন এর আকার এবং পিডিএফ এ প্রদর্শিত হবে। এটি একটি আয়তক্ষেত্র হওয়া উচিত, উচ্চতার চেয়ে দৈর্ঘ্য বেশি।"
+    logo_large_help: এটি বড় স্ক্রিন এর আকার এবং পিডিএফ এ প্রদর্শিত হবে। এটি একটি আয়তক্ষেত্র হওয়া উচিত, উচ্চতার চেয়ে দৈর্ঘ্য বেশি।
     messages:
       created: এজেন্সি সফলভাবে তৈরি করা হয়েছে
       updated: এজেন্সি সফলভাবে হালনাগাদ করা হয়েছে।
-    name: "সংস্থার নাম "
-    pdf_logo_option: "পিডিএফ এক্সপোর্টের জন্য লোগো উপলব্ধ করবেন?"
+    name: 'সংস্থার নাম '
+    pdf_logo_option: পিডিএফ এক্সপোর্টের জন্য লোগো উপলব্ধ করবেন?
     pdf_logo_option_help: 'দ্রষ্টব্য: ব্যবহারকারীর এজেন্সি লোগোগুলি ডিফল্টরূপে তাদের কাছে উপলব্ধ, তাই আপনি যদি এই লোগোটি সমস্ত ব্যবহারকারীর কাছে উপলব্ধ করতে চান তবেই আপনি এটি পরীক্ষা করে দেখুন।'
-    services: "সংস্থার সেবাসমূহ "
+    services: 'সংস্থার সেবাসমূহ '
     terms_of_use: ব্যবহারের শর্তাবলী
     terms_of_use_help: শুধুমাত্র পিডিএফ ফাইল অনুমোদিত।
     terms_of_use_download_button: পিডিএফ ডাউনলোড করুন
-    terms_of_use_enabled: "ব্যবহারের শর্তাবলী প্রদর্শন করবেন?"
+    terms_of_use_enabled: ব্যবহারের শর্তাবলী প্রদর্শন করবেন?
   approvals:
     approved_by: দ্বারা অনুমোদিত
     case_plan_type_label: কেস পরিকল্পনার ধরণ
@@ -103,69 +88,69 @@ bn:
     action_plan: কর্ম পরিকল্পনা
     gbv_closure: GBV ক্লোজার
     status:
-      approved: "অনুমোদিত "
+      approved: 'অনুমোদিত '
       pending: মুলতবী
-      rejected: "বাতিলকৃত "
+      rejected: 'বাতিলকৃত '
       requested: অনুরোধকৃত
   audit_log:
     action: কার্যক্রম
-    description: "বর্ণনা "
-    record_owner: "নথির মালিক "
+    description: 'বর্ণনা '
+    record_owner: 'নথির মালিক '
     timestamp: সময়
     user_name: দ্বারা সম্পাদিত
   bulk_export:
-    file_name: "ফাইল "
-    record_type: "ধরণ "
+    file_name: 'ফাইল '
+    record_type: 'ধরণ '
     retry: এই এক্সপোর্ট সঠিক নয় । আপনার এক্সপোর্ট পুনরূদ্ধারের চেষ্টা করুন
-    started_on: "শুরু হয়েছিল "
+    started_on: 'শুরু হয়েছিল '
     status: অবস্থা
   form_export:
     label: ফরম কনফিগারেশন রপ্তানী করুন
-    include_hidden: "লুকানো ফর্ম এবং ক্ষেত্রগুলি অন্তর্ভুক্ত করবেন?"
+    include_hidden: লুকানো ফর্ম এবং ক্ষেত্রগুলি অন্তর্ভুক্ত করবেন?
     file_name: আপনার নিজের ফাইলের নাম তৈরি করুন (ঐচ্ছিক)
     success_message: রপ্তানী ফাইলটি সফলভাবে উৎপন্ন হয়েছে
   buttons:
-    accept: "গ্রহন করা "
+    accept: 'গ্রহন করা '
     add: যুক্ত
     add_another_option: অন্য বিকল্প যোগ করুন
-    add_note: "নোট সংযোজন করা "
+    add_note: 'নোট সংযোজন করা '
     apply: প্রয়োগ
-    approvals: "অনুমোদনসমুহ "
+    approvals: 'অনুমোদনসমুহ '
     approve_action_plan: কর্ম পরিকল্পনা অনুমোদন করুন
-    approve_bia: "বিআইএ অনুমোদন "
-    approve_case_plan: "কেস পরিকল্পনা অনুমোদন "
-    approve_closure: "বন্ধের অনুমোদন "
+    approve_bia: 'বিআইএ অনুমোদন '
+    approve_case_plan: 'কেস পরিকল্পনা অনুমোদন '
+    approve_closure: 'বন্ধের অনুমোদন '
     approve_gbv_closure: GBV ক্লোজার অনুমোদন করুন
     back: পেছনে
     bundle_export: কনফিগারেশন বান্ডিল
     bundle_import: কনফিগারেশন বান্ডিল
-    cancel: "বাতিল "
-    change_password: "পাসওয়ার্ড পরিবর্তন "
+    cancel: 'বাতিল '
+    change_password: 'পাসওয়ার্ড পরিবর্তন '
     check_status: স্থিতি পরীক্ষা করুন
     clear_default: আদ্যাবস্থা মুছুন
     clear_selection: নির্বাচন পরিষ্কার করুন
     clear: মুছুন
     close: বন্ধ
     continue: অবিরত
-    create_case: "কেস তৈরি করুন "
+    create_case: 'কেস তৈরি করুন '
     create_incident: ঘটনা তৈরি করুন
-    create_new_record: "নতুন তৈরি ১% [মডেল]"
-    delete: "মুছে ফেলা "
+    create_new_record: নতুন তৈরি ১% [মডেল]
+    delete: 'মুছে ফেলা '
     disable: অক্ষম
     disable_photo_wall: ছবি প্রাচীর নিষ্ক্রিয় করুন
-    done: "করা হয়েছে "
+    done: 'করা হয়েছে '
     download: ডাউনলোড
     edit: সম্পাদনা করা
     edit_subform: সাব ফরম সম্পাদনা করুন
-    enable: "সক্ষম "
+    enable: 'সক্ষম '
     enable_photo_wall: ছবি প্রাচীর সক্রিয় করুন
     export: রপ্তানি
-    filter: "ছাঁকুনি প্রয়োগ করা "
-    filter_clear: "Filter মুছে ফেলা "
+    filter: 'ছাঁকুনি প্রয়োগ করা '
+    filter_clear: 'Filter মুছে ফেলা '
     filter_label: 'ছাঁকনি'
     filter_restore: সিস্টেম সেটিং-এ সংরক্ষণ করুণ
     find_tracing_match: অনুসন্ধানের মিল খুঁজুন
-    flag_model: "পতাকা ১% [মডেল]"
+    flag_model: পতাকা ১% [মডেল]
     flag_records: পতাকা
     flags: পতাকা
     guidance: নির্দেশনা
@@ -173,36 +158,36 @@ bn:
     import: আমদানি
     login: লগ ইন
     logout: লগ আউট করুন
-    mark_for_mobile: "মোবাইলের জন্য চিহ্নিত করা "
+    mark_for_mobile: 'মোবাইলের জন্য চিহ্নিত করা '
     new: নতুন
     ok: ওকে
     print: প্রিন্ট
     reassign: নিযুক্ত করুন
     referral: রেফার
     referral_again: আবার রেফার করুন
-    reject: "প্রত্যাখ্যান করা "
-    remove_referrals: " রেফারেলগুলোকে বাদ দেয়া  "
+    reject: 'প্রত্যাখ্যান করা '
+    remove_referrals: ' রেফারেলগুলোকে বাদ দেয়া  '
     reorder: পুনঃক্রম
-    request_approval: "অনুরোধ অনুমোদন "
-    request_transfer: "অনুমতি হস্তান্তর "
-    reunite: "পুন: সংযুক্ত করা"
-    save: "সংরক্ষন করন "
+    request_approval: 'অনুরোধ অনুমোদন '
+    request_transfer: 'অনুমতি হস্তান্তর '
+    reunite: 'পুন: সংযুক্ত করা'
+    save: 'সংরক্ষন করন '
     save_and_add_service_provision: সংরক্ষণ করুন এবং সেবার নিয়ম যোগ করুন
     save_and_return: সংরক্ষণ করুন এবং ফিরে যান
     save_continue: সংরক্ষণ করুন এবং চালিয়ে যান
     save_changes: পরিবর্তনগুলো  সংরক্ষন  করুন
     select: বাছাই  করুন
     send: পাঠান
-    sort_by_case: "কেসসমুহ "
+    sort_by_case: 'কেসসমুহ '
     sort_by_tr: অনুসন্ধানের অনুরোধ
     sync: সিংক্রোনাইজ
     submit: জমা দেওয়া
     transfer: স্থানান্তর
-    unflag_model: "পতাকা খুলে নেওয়া ১% [মডেল]"
-    unflag_model_history: "পতাকা ইতিহাস ১% [মডেল]"
+    unflag_model: পতাকা খুলে নেওয়া ১% [মডেল]
+    unflag_model_history: পতাকা ইতিহাস ১% [মডেল]
     unmark_for_mobile: মোবাইলের জন্য চিহ্নিত না করা
     update: হালনাগাদ করুন
-    view: "দেখা "
+    view: 'দেখা '
     view_flags_history: ইতিহাস দেখা
     return_to_case: কেস-এ ফেরত যান
   case:
@@ -213,13 +198,13 @@ bn:
     back_to_results: ফলাফলে ফেরত যান
     back_to_search: অনুসন্ধানে ফিরে যান
     search_by: দ্বারা অনুসন্ধান করুন
-    search_for: "%{record_type}অনুসন্ধান করুন"
+    search_for: '%{record_type}অনুসন্ধান করুন'
     results: ফলাফল
     details: বিস্তারিত
     select: নির্বাচন করুন
     deselect: নির্বাচনমুক্ত করুন
     enter_id_number: একটি বিদ্যমান নথি অনুসন্ধান করতে আইডি নম্বরে প্রবেশ করুন
-    id_search_no_results: "এর জন্য সিস্টেমে কোনও মিল নেই। \"%{search_query}”.দয়া করে একটি নতুন রেকর্ড তৈরি করুন।"
+    id_search_no_results: এর জন্য সিস্টেমে কোনও মিল নেই। "%{search_query}”.দয়া করে একটি নতুন রেকর্ড তৈরি করুন।
     messages:
       disabled: কেস অক্ষম করা হয়েছে
       update_success: 'কেইস ১% [নথি_আইডি] নিশ্চিতভাবে আপডেট করা হয়েছে।'
@@ -228,26 +213,26 @@ bn:
       creation_success_queue: 'ব্যাকগ্রাউন্ডে কেস রেকর্ড সফলভাবে তৈরি হয়েছে।'
       already_matched: এই অনুসন্ধানকারীটি ইতিমধ্যে আপনার কেসের সাথে মিলিত হয়েছে।
       already_matched_not_current_case: এই অনুসন্ধানকারীর সাথে মিলে যাওয়া সিস্টেমে ইতিমধ্যে একটি কেস রয়েছে।
-      not_found_case: "\"\" এর সাথে মেলে এমন কোনও কেস খুঁজে পাওয়া যায়নি। একটি নতুন কেস তৈরি করুন।"
+      not_found_case: '"" এর সাথে মেলে এমন কোনও কেস খুঁজে পাওয়া যায়নি। একটি নতুন কেস তৈরি করুন।'
       introductory_sentence: কেস ম্যানেজমেন্ট সেবাগুলি গ্রহণ করতে এবং তাদের ডাটা প্রাইমরোতে সংরক্ষণ করার জন্য দয়া করে ব্যক্তির সম্মতি নির্দিষ্ট করুন।
       consent_agreements_required: অনুগ্রহ করে সম্মতি চুক্তিগুলি থেকে কমপক্ষে একটি বিকল্প নির্বাচন করুন।
       legitimate_basis_required: দয়া করে বৈধ ভিত্তিতে শ্রেণিবিন্যাস থেকে কমপক্ষে একটি বিকল্প নির্বাচন করুন।
     save: কেস সংরক্ষণ করুন
-    save_text: "অবিরত রাখার আগে, অনুগ্রহ করে আপনার পরিবর্তনগুলি কেসে সংরক্ষণ করুন।"
+    save_text: অবিরত রাখার আগে, অনুগ্রহ করে আপনার পরিবর্তনগুলি কেসে সংরক্ষণ করুন।
     skip_and_create: এড়িয়ে যান এবং নতুন কেস তৈরি করুন
     search_existing: বিদ্যমান কেসগুলি অনুসন্ধান করুন
-    search_helper_text: "কেন? সদৃশ কেস তৈরি প্রতিরোধ করতে।"
+    search_helper_text: কেন? সদৃশ কেস তৈরি প্রতিরোধ করতে।
     consent_agreements: প্রযোজ্য সমস্ত সম্মতি চুক্তি নির্বাচন করুন
     legitimate_basis: প্রযোজ্য সমস্ত বৈধ ভিত্তিতে শ্রেণিবিন্যাস নির্বাচন করুন
     workflow:
       assessment: মূল্যায়ন
       case_plan: কেস পরিকল্পনা
-      closed: "বন্ধ "
-      created_on: "সৃষ্টি হয়েছে "
-      in_progress: "চলমান "
-      new: "নতুন "
+      closed: 'বন্ধ '
+      created_on: 'সৃষ্টি হয়েছে '
+      in_progress: 'চলমান '
+      new: 'নতুন '
       on_label: 'অন'
-      reopened: "পুনরায় খোলা "
+      reopened: 'পুনরায় খোলা '
       service_implemented: সেবা বাস্তবায়ন করা হয়েছে
       services_implemented: সেবা বাস্তবায়ন করা হয়েছে
   linkedincidents:
@@ -259,7 +244,7 @@ bn:
   cases:
     action_plan: কর্ম পরিকল্পনা
     age: বয়স
-    age_estimated: "আনুমানিক বয়স?"
+    age_estimated: আনুমানিক বয়স?
     agency: সংস্থা
     apply_filter: আবেদন করা
     approval_comments: মন্তব্য
@@ -277,7 +262,7 @@ bn:
     case_opening_date: কেস খোলার তারিখ
     case_plan: কেস পরিকল্পনা
     case_worker_code: কেস ওয়ার্কার কোড
-    clear_filter: "মুছে ফেলুন "
+    clear_filter: 'মুছে ফেলুন '
     close_dialog: ঠিক আছে ক্লিক করলে এই কেসের স্থিতি বন্ধ হয়ে যাবে
     close_dialog_title: কেস বন্ধ করুন
     close_success: কেস সফলভাবে বন্ধ করা হয়েছে
@@ -292,10 +277,10 @@ bn:
     export: রপ্তানি
     mark_for_offline:
       title: অফলাইনের জন্য চিহ্নিত করুন
-      text: "আপনি কি নিশ্চিত যে আপনি অফলাইনে থাকাকালীন ব্যবহারের জন্য এই কেসগুলি চিহ্নিত করতে চান?"
+      text: আপনি কি নিশ্চিত যে আপনি অফলাইনে থাকাকালীন ব্যবহারের জন্য এই কেসগুলি চিহ্নিত করতে চান?
       success: কেসগুলি অফলাইন ব্যবহারের জন্য সফলভাবে চিহ্নিত করা হয়েছে
     filter_by:
-      3month_inactivity: " ৩ এর অধিক মাসের জন্য "
+      3month_inactivity: ' ৩ এর অধিক মাসের জন্য '
       action_plan: কর্ম পরিকল্পনা
       age_0_5: 0-৫
       age_12_17: 12 - 17
@@ -305,9 +290,9 @@ bn:
       agency: সংস্থা
       approval_status: অনুমোদনের স্থিতি
       approvals:
-        approved: "অনুমোদিত "
+        approved: 'অনুমোদিত '
         pending: মুলতুবি
-        rejected: "বাতিলকৃত "
+        rejected: 'বাতিলকৃত '
       bia: বি আই এ
       by_date: তারিখ অনুযায়ী
       case_open_date: কেস খোলার তারিখ
@@ -315,32 +300,32 @@ bn:
       closed: বন্ধ
       closure: বন্ধ করা
       current_location: বর্তমান অবস্থান
-      date: "তারিখ "
+      date: 'তারিখ '
       displacement_status: স্থানচ্যুতির স্থিতি
       district: জেলা
       duplicate: অনুরূপ
       enabled_disabled: সক্রিয় / অক্ষম
-      female: "মহিলা "
+      female: 'মহিলা '
       flag: নিশানযুক্ত
-      flag_label: "পতাকাযুক্ত?"
+      flag_label: পতাকাযুক্ত?
       gbv_closure: GBV বন্ধ করা
       high: উচ্চ
       low: নিম্ন
-      male: "পুরুষ "
+      male: 'পুরুষ '
       medium: মাঝারি
       mobile: মোবাইল
-      mobile_label: "মোবাইলের জন্য চিহ্নিত করা? "
-      my_cases: "আমার কেস "
+      mobile_label: 'মোবাইলের জন্য চিহ্নিত করা? '
+      my_cases: 'আমার কেস '
       no_action: কোনও ক্রিয়া নেই
-      no_activity: "কোনো কাজ নেই "
+      no_activity: 'কোনো কাজ নেই '
       open: খুলুন
       other: অন্যান্য
       photo: ছবি
-      photo_label: "ছবি কি আছে? "
+      photo_label: 'ছবি কি আছে? '
       protection_concerns: সুরক্ষা উদ্বেগ
       protection_status: সুরক্ষার স্থিতি
       record_state: রেকর্ড অবস্থা
-      referred_cases: "কেইসগুলো আমার কাছে রেফার করা হয়েছিল "
+      referred_cases: 'কেইসগুলো আমার কাছে রেফার করা হয়েছিল '
       registration_date: নিবন্ধনের তারিখ
       risk_level: ঝুঁকির স্তর
       sex: লিঙ্গ
@@ -354,34 +339,34 @@ bn:
     flag_summary: পতাকা সারাংশ
     full_name: পুরো নাম
     gbv_closure: জি বি ভি বন্ধ
-    hide_name: " নাম লুকানো"
+    hide_name: ' নাম লুকানো'
     hide_name_error: আপনার পরিবর্তন সংরক্ষণ করার সময় একটি ত্রুটি ঘটেছে। অনুগ্রহপূর্বক আবার চেষ্টা করুন।
     id: আই ডি
-    label: "কেসসমুহ "
-    my_filters: "আমার ফিল্টার "
+    label: 'কেসসমুহ '
+    my_filters: 'আমার ফিল্টার '
     name: নাম
     notes_dialog_title: নোটগুলি যোগ করুন
     notes_form_notes: নোট
     notes_form_subject: বিষয়শ্রেণী
-    ok: "ওকে "
+    ok: 'ওকে '
     order_by:
       label: আদেশক্রমে
-      most_recently: "অতি সম্প্রতি "
-      name: "নাম "
+      most_recently: 'অতি সম্প্রতি '
+      name: 'নাম '
     owned_by: রেকর্ড মালিক
     owned_by_agency: রেকর্ড মালিক সংস্থা
     photo: ছবি
     photos: ছবি
     quick_view:
       tracing_message: 'দ্রষ্টব্য: এই শিশুকে খুঁজছে এমন একজন অনুসন্ধানকারীর সাথে সিস্টেমে একটি মিল আছে।শিশুটি চািইলে অধিক কার্যক্রমের জন্য এই রেকর্ডের সমাজকর্মীর সাথে যোগাযোগ করুন।'
-    referral_done: "'সম্পন্ন' ক্লিক করলে বোঝা যায় যে আপনি কেসের এই  সাথে যুক্ত রেফারেলের কাজটি সম্পন্ন করেছেন। একবার আপনি 'সম্পন্ন' ক্লিক করলে আপনার আর এই রেকর্ডে প্রবেশ করতে পারবেন না"
+    referral_done: '''সম্পন্ন'' ক্লিক করলে বোঝা যায় যে আপনি কেসের এই  সাথে যুক্ত রেফারেলের কাজটি সম্পন্ন করেছেন। একবার আপনি ''সম্পন্ন'' ক্লিক করলে আপনার আর এই রেকর্ডে প্রবেশ করতে পারবেন না'
     referral_done_success: রেফারেল সম্পন্ন করা হয়েছে।
     referral_accepted_header: রেফারেল গ্রহণ করুন
-    referral_accepted: "আপনি কি নিশ্চিত? আপনি এখন এই রেফারেলের সাথে সম্পর্কিত কাজ শেষ করার জন্য দায়বদ্ধ থাকবেন।"
+    referral_accepted: আপনি কি নিশ্চিত? আপনি এখন এই রেফারেলের সাথে সম্পর্কিত কাজ শেষ করার জন্য দায়বদ্ধ থাকবেন।
     referral_accepted_success: রেফারেল গৃহীত হয়েছে।
-    referral_rejected: "'প্রত্যাখ্যান ' এ ক্লিক করে আপনি ইঙ্গিত দিচ্ছেন যে আপনি এই সময়ে এই রেফারেলের দায়িত্ব গ্রহণ করতে প্রস্তুত নন। অনুগ্রহ করে একটি কারণ লিখুন যে আপনি এই রেফারেল প্রত্যাখ্যান করছেন; একবার আপনি 'প্রত্যাখ্যান' ক্লিক করলে আপনার আর এই কেস রেকর্ডে আর প্রবেশ থাকবে না।"
+    referral_rejected: '''প্রত্যাখ্যান '' এ ক্লিক করে আপনি ইঙ্গিত দিচ্ছেন যে আপনি এই সময়ে এই রেফারেলের দায়িত্ব গ্রহণ করতে প্রস্তুত নন। অনুগ্রহ করে একটি কারণ লিখুন যে আপনি এই রেফারেল প্রত্যাখ্যান করছেন; একবার আপনি ''প্রত্যাখ্যান'' ক্লিক করলে আপনার আর এই কেস রেকর্ডে আর প্রবেশ থাকবে না।'
     referral_rejected_success: রেফারেল প্রত্যাখ্যাত হয়েছে।
-    register_new_case: "নতুন কেস "
+    register_new_case: 'নতুন কেস '
     registration_date: নিবন্ধনের তারিখ
     rejected_success_action_plan: ' - অনুমোদিত নয়'
     rejected_success_assessment: ' - অনুমোদিত নয়'
@@ -392,7 +377,7 @@ bn:
     reopen_dialog: ঠিক আছে ক্লিক করলে এই কেসের স্থিতি খুলুন এ পরিবর্তিত হবে
     reopen_dialog_title: কেস পুনরায় খুলুন
     reopen_success: কেস সফলভাবে পুনরায় খোলা হয়েছে
-    request_approval_failure: "একটি ত্রুটি ঘটেছে, অনুগ্রহ করে সহায়তার সাথে যোগাযোগ করুন।"
+    request_approval_failure: একটি ত্রুটি ঘটেছে, অনুগ্রহ করে সহায়তার সাথে যোগাযোগ করুন।
     request_approval_select: অনুমোদনের জন্য অনুরোধ করুন
     request_approval_success_action_plan: ফর্মের জন্য অনুমোদনের জন্য অনুরোধ করা হয়েছে।
     request_approval_success_assessment: ফর্মের জন্য অনুমোদনের জন্য অনুরোধ করা হয়েছে।
@@ -400,13 +385,13 @@ bn:
     request_approval_success_closure: ফর্মের জন্য অনুমোদনের জন্য অনুরোধ করা হয়েছে
     request_approval_success_gbv_closure: ফর্মের জন্য অনুরোধ করা অনুমোদন
     request_approval_type_of_case_plan: কেস প্ল্যান অনুমোদনের ধরণ
-    request_approve_action_plan: "অ্যাকশন প্ল্যান অনুমোদন করবেন?"
-    request_approve_bia: "মূল্যায়ন অনুমোদন করবেন?"
-    request_approve_case_plan: "কেস প্ল্যান অনুমোদন করবেন?"
-    request_approve_closure: "বন্ধ অনুমোদন করবেন?"
-    request_approve_gbv_closure: "GBV বন্ধ করা অনুমোদন করবেন?"
-    revoke_failure: "প্রত্যাহার করার সময় একটি ত্রুটি ঘটেছে, অনুগ্রহ করে সহায়তার সাথে যোগাযোগ করুন।"
-    revoke_message: "'প্রত্যাহার' ক্লিক করে, আপনি কেসে প্রাপকের অ্যাক্সেস অপসারণ করবেন।"
+    request_approve_action_plan: অ্যাকশন প্ল্যান অনুমোদন করবেন?
+    request_approve_bia: মূল্যায়ন অনুমোদন করবেন?
+    request_approve_case_plan: কেস প্ল্যান অনুমোদন করবেন?
+    request_approve_closure: বন্ধ অনুমোদন করবেন?
+    request_approve_gbv_closure: GBV বন্ধ করা অনুমোদন করবেন?
+    revoke_failure: প্রত্যাহার করার সময় একটি ত্রুটি ঘটেছে, অনুগ্রহ করে সহায়তার সাথে যোগাযোগ করুন।
+    revoke_message: '''প্রত্যাহার'' ক্লিক করে, আপনি কেসে প্রাপকের অ্যাক্সেস অপসারণ করবেন।'
     revoke_success_message: কেস প্রত্যাহার
     save_filter: সংরক্ষণ করা
     selected_all_records: এই প্রশ্নের সাথে মেলে এমন সমস্ত কেস নির্বাচন করুন
@@ -426,12 +411,12 @@ bn:
           label: ট্রেসিং উদ্দেশ্যে তথ্য প্রকাশ করার জন্য সম্মতি প্রাপ্ত হয়েছে
           help_text: যদি এই ক্ষেত্রটি 'না' হয় তবে শিশুর কেস রেকর্ডটি ইনকোয়ারি ট্রেসিং অনুরোধের সাথে ম্যাচগুলিতে প্রদর্শিত হবে না।
         wishes_child_family_tracing:
-          label: "শিশুটি কি পরিবারের সদস্যদের খুঁজে বের করতে চায়?"
+          label: শিশুটি কি পরিবারের সদস্যদের খুঁজে বের করতে চায়?
         wishes_reunification:
-          label: "শিশুটি কি পারিবারিক পুনর্মিলন চায়?"
+          label: শিশুটি কি পারিবারিক পুনর্মিলন চায়?
           options:
-            yes_as_soon_as_possible: "শিশুটি কি পারিবারিক পুনর্মিলন চায়?"
-            yes_but_later: "হ্যাঁ, কিন্তু পরে"
+            yes_as_soon_as_possible: শিশুটি কি পারিবারিক পুনর্মিলন চায়?
+            yes_but_later: হ্যাঁ, কিন্তু পরে
             not_sure: নিশ্চিত নয়
             'no': 'না'
         data_confidentiality_link:
@@ -439,14 +424,14 @@ bn:
         child_wishes_link:
           label: শিশুর ইচ্ছা দেখুন
     survivor_code: সারভাইভার কোড
-    transfer_accepted: "'Accept' এ ক্লিক করে আপনি এই মামলার দায় স্বীকার করেন; একবার আপনি 'Accept' এ ক্লিক করলে আপনি সিস্টেমের রেকর্ড মালিক হয়ে যাবেন।"
-    transfer_managed_user_accepted: "আপনি যদি 'Accept' এ ক্লিক করেন, তাহলে এই মামলার জন্য দায়ী হয়ে উঠবেন; একবার আপনি 'Accept' এ ক্লিক করলে, সিস্টেমে রেকর্ড এর  মালিক হয়ে উঠবেন।"
-    transfer_managed_user_rejected: "'প্রত্যাখ্যান' এ ক্লিক করে আপনি ইঙ্গিত দিচ্ছেন যে এই মুহূর্তে এই মামলার দায় স্বীকার করতে প্রস্তুত নয়। অনুগ্রহ করে একটি কারণ লিখুন যে আপনি এই কেসটি প্রত্যাখ্যান করছেন; একবার আপনি 'প্রত্যাখ্যান' ক্লিক করলে এই কেস রেকর্ডে আর প্রবেশাধিকার থাকবে না।"
+    transfer_accepted: '''Accept'' এ ক্লিক করে আপনি এই মামলার দায় স্বীকার করেন; একবার আপনি ''Accept'' এ ক্লিক করলে আপনি সিস্টেমের রেকর্ড মালিক হয়ে যাবেন।'
+    transfer_managed_user_accepted: আপনি যদি 'Accept' এ ক্লিক করেন, তাহলে এই মামলার জন্য দায়ী হয়ে উঠবেন; একবার আপনি 'Accept' এ ক্লিক করলে, সিস্টেমে রেকর্ড এর  মালিক হয়ে উঠবেন।
+    transfer_managed_user_rejected: '''প্রত্যাখ্যান'' এ ক্লিক করে আপনি ইঙ্গিত দিচ্ছেন যে এই মুহূর্তে এই মামলার দায় স্বীকার করতে প্রস্তুত নয়। অনুগ্রহ করে একটি কারণ লিখুন যে আপনি এই কেসটি প্রত্যাখ্যান করছেন; একবার আপনি ''প্রত্যাখ্যান'' ক্লিক করলে এই কেস রেকর্ডে আর প্রবেশাধিকার থাকবে না।'
     transfer_accepted_rejected: কেস ট্রান্সফার প্রত্যাখ্যাত হয়েছে
     transfer_accepted_success: কেস স্থানান্তর সফলভাবে গৃহীত হয়েছে।
     transfer_reject_reason_label: প্রত্যাখ্যানের কারণ
-    transfer_rejected: "'প্রত্যাখ্যান করুন'-এ ক্লিক করে আপনি নির্দেশ করছেন যে আপনি এই মুহূর্তে এই মামলার দায়িত্ব গ্রহণ করতে প্রস্তুত নন। দয়া করে কারণ লিখুন কেন আপনি এই মামলা প্রত্যাখ্যান করছেন, একবার আপনি 'প্রত্যাখ্যান করুন' ক্লিক করলে এই কেস রেকর্ডে আপনার সাথে আর কোন সংযোগ থাকবে না।"
-    view_name: "নাম দেখা "
+    transfer_rejected: '''প্রত্যাখ্যান করুন''-এ ক্লিক করে আপনি নির্দেশ করছেন যে আপনি এই মুহূর্তে এই মামলার দায়িত্ব গ্রহণ করতে প্রস্তুত নন। দয়া করে কারণ লিখুন কেন আপনি এই মামলা প্রত্যাখ্যান করছেন, একবার আপনি ''প্রত্যাখ্যান করুন'' ক্লিক করলে এই কেস রেকর্ডে আপনার সাথে আর কোন সংযোগ থাকবে না।'
+    view_name: 'নাম দেখা '
   change_logs:
     filters:
       form: ফর্ম
@@ -466,16 +451,16 @@ bn:
     selectable_date_options:
       assessment_requested_on: পর্যালোচনার তারিখ
       closure_approved_date: 'কেস বন্ধের তারিখ '
-      created_at: "কেস খোলার তারিখ "
-      date_case_plan_initiated: "কেস পরিকল্পনার তারিখ "
-      date_of_creation: "তৈরি করার তারিখ "
-      registration_date: "নিবন্ধনের তারিখ "
+      created_at: 'কেস খোলার তারিখ '
+      date_case_plan_initiated: 'কেস পরিকল্পনার তারিখ '
+      date_of_creation: 'তৈরি করার তারিখ '
+      registration_date: 'নিবন্ধনের তারিখ '
   configurations:
-    apply_label: "আপনি কি নিশ্চিত? আপনি যদি প্রয়োগ করেন তবে এই কনফিগারেশনের সেটিংস সিস্টেমে প্রয়োগ করা হবে। আপনি আপনার সমস্ত বর্তমান সেটিংস হারাবেন এবং আপনি ইতিমধ্যে অন্য কনফিগারেশনে সেগুলি সংরক্ষণ না করা পর্যন্ত সেগুলি ফিরে পেতে সক্ষম হবেন না।"
+    apply_label: আপনি কি নিশ্চিত? আপনি যদি প্রয়োগ করেন তবে এই কনফিগারেশনের সেটিংস সিস্টেমে প্রয়োগ করা হবে। আপনি আপনার সমস্ত বর্তমান সেটিংস হারাবেন এবং আপনি ইতিমধ্যে অন্য কনফিগারেশনে সেগুলি সংরক্ষণ না করা পর্যন্ত সেগুলি ফিরে পেতে সক্ষম হবেন না।
     apply_label_bold: পরিবর্তনগুলি লোড হওয়ার সময় প্রাইমরো কয়েক মিনিটের জন্য ব্যবহারকারীদের কাছে অনুপলব্ধ থাকবে।
-    version_mismatch_tooltip: "আপনি এই কনফিগারেশনটি প্রয়োগ করতে পারবেন না, যেহেতু এটি আপনার সাইটটি যেটি চলছে তার চেয়ে প্রাইমেরো উচ্চতর সংস্করণ ব্যবহার করে তৈরি করা হয়েছিল। আপনি প্রামেরোর সর্বশেষ সংস্করণটি চালানো না হওয়া পর্যন্ত অনুগ্রহ করে এই কনফিগারেশনটি প্রয়োগ করার জন্য অপেক্ষা করুন।"
+    version_mismatch_tooltip: আপনি এই কনফিগারেশনটি প্রয়োগ করতে পারবেন না, যেহেতু এটি আপনার সাইটটি যেটি চলছে তার চেয়ে প্রাইমেরো উচ্চতর সংস্করণ ব্যবহার করে তৈরি করা হয়েছিল। আপনি প্রামেরোর সর্বশেষ সংস্করণটি চালানো না হওয়া পর্যন্ত অনুগ্রহ করে এই কনফিগারেশনটি প্রয়োগ করার জন্য অপেক্ষা করুন।
     send_header: উৎপাদনে প্রেরণ করুন
-    send_text: "তুমি কি নিশ্চিত? আপনি যদি পাঠান ক্লিক করেন তবে আপনি এই কনফিগারেশনটি আপনার উৎপাদন সাইটে প্রেরণ করবেন। এই কনফিগারেশনটি উৎপাদনে প্রয়োগ করা হবে না যতক্ষণ না সেই সাইটের একজন এডমিনিস্ট্রেটর  ম্যানুয়ালি এটি প্রয়োগ করে।"
+    send_text: তুমি কি নিশ্চিত? আপনি যদি পাঠান ক্লিক করেন তবে আপনি এই কনফিগারেশনটি আপনার উৎপাদন সাইটে প্রেরণ করবেন। এই কনফিগারেশনটি উৎপাদনে প্রয়োগ করা হবে না যতক্ষণ না সেই সাইটের একজন এডমিনিস্ট্রেটর  ম্যানুয়ালি এটি প্রয়োগ করে।
     attributes:
       created_by: দ্বারা তৈরি
       date_created: তারিখ তৈরি করা হয়েছে
@@ -485,7 +470,7 @@ bn:
       name: নাম
       version: কনফিগারেশন সংস্করণ
       primero_version: প্রাইমেরো সংস্করণ
-    delete_label: "আপনি কি নিশ্চিত যে আপনি এটি করতে চান? এই কনফিগারেশনটি তৈরি হওয়ার সময় থেকে এটি সমস্ত সেটিংসের প্রতিনিধিত্ব করে। একবার আপনি এই কনফিগারেশনটি মুছে ফেলার পরে আপনি ফিরে যেতে এবং এই সেটিংস পুনরুদ্ধার করতে সক্ষম হবেন না।"
+    delete_label: আপনি কি নিশ্চিত যে আপনি এটি করতে চান? এই কনফিগারেশনটি তৈরি হওয়ার সময় থেকে এটি সমস্ত সেটিংসের প্রতিনিধিত্ব করে। একবার আপনি এই কনফিগারেশনটি মুছে ফেলার পরে আপনি ফিরে যেতে এবং এই সেটিংস পুনরুদ্ধার করতে সক্ষম হবেন না।
     explanation: 'সংরক্ষণ ক্লিক করলে এই সময়ে সমস্ত বর্তমান কনফিগারেশন সেটিংস (উদাহরণস্বরূপ: ভূমিকা, সংস্থা, ফর্ম) এর একটি রেকর্ড তৈরি হবে। আপনি সংরক্ষণ করার পরে, আপনি এই পরিবর্তনগুলি প্রাইমোর অন্য একটি উদাহরণে ঠেলে দিতে পারেন। যদি, ভবিষ্যতে, আপনি কনফিগারেশন পরিবর্তন করেন যা আপনি পূর্বাবস্থায় ফিরিয়ে আনতে চান, তাহলে আপনি এই সময়ে আপনার সমস্ত কনফিগারেশন পরিবর্তন পুনরুদ্ধার করতে এই কনফিগারেশন রেকর্ডটি প্রয়োগ করতে পারেন।'
     label: কনফিগারেশন
     label_new: নতুন কনফিগারেশন
@@ -500,14 +485,14 @@ bn:
   contact:
     field:
       email: ইমেইল
-      location: "স্থান "
-      name: "নাম "
+      location: 'স্থান '
+      name: 'নাম '
       organization: প্রতিষ্ঠান
-      other_information: "অন্যান্য তথ্য "
+      other_information: 'অন্যান্য তথ্য '
       phone: ফোন
       position: অবস্থান
       primero_version: প্রাইেমরো সংস্করণ
-      support_forum: "সহায়তা ফোরাম "
+      support_forum: 'সহায়তা ফোরাম '
       system_version: সিস্টেম সংস্করণ
     info_label: যোগাযোগের তথ্য
     updated: যোগাযোগের তথ্য সফলভাবে আপডেট করা হয়েছে।
@@ -521,9 +506,9 @@ bn:
     updated: আচরণবিধি সফলভাবে আপডেট করা হয়েছে।
   dashboard:
     activity: কার্যক্রম
-    admin_only: "আবেদন পরিবর্তন করতে ক্লিক করুন১% [লিংক]- এ "
+    admin_only: 'আবেদন পরিবর্তন করতে ক্লিক করুন১% [লিংক]- এ '
     all_cases: সকল কেসসমূহ
-    all_services_implemented: "সকল সেবা বাস্তবায়ন করা হয়েছে "
+    all_services_implemented: 'সকল সেবা বাস্তবায়ন করা হয়েছে '
     and: 'এবং'
     approval_action_plan_approved: স্বীকৃত
     approval_action_plan_pending: মুলতুবি
@@ -545,38 +530,38 @@ bn:
     approval_gbv_closure_pending: মুলতুবি
     approval_gbv_closure_pending_group: GBV বন্ধ করা হয়েছে
     approval_gbv_closure_rejected: প্রত্যাখ্যাত
-    approvals: "অনুমোদনসমুহ "
+    approvals: 'অনুমোদনসমুহ '
     approvals_action_plan: কর্ম পরিকল্পনা
     approvals_assessment: মূল্যায়ন
     approvals_case_plan: কেস পরিকল্পনা
-    approvals_closure: "বন্ধ "
+    approvals_closure: 'বন্ধ '
     approvals_gbv_closure: GBV বন্ধ করা হয়েছে
-    approved: "অনুমোদিত "
+    approved: 'অনুমোদিত '
     assessment: মূল্যায়ন
     awaiting_acceptance: গ্রহণযোগ্যতার অপেক্ষায়
     cases_by_social_worker_total: মোট
     cases_by_social_worker_new_or_updated: নতুন এবং হালনাগাদকৃত
     case_id: 'কেস #আইডি'
-    case_management_service: "কেস ব্যবস্থাপনার সেবা "
+    case_management_service: 'কেস ব্যবস্থাপনার সেবা '
     case_overview: আমার কেস
     case_plan: কেইস পরিকল্পনা
-    case_risk: " মূল্যায়ন ধাপ ভেদে কেস সমুহ"
-    case_stat_by_approval_type: "অনুমোদনসমুহ "
-    case_stat_by_assessment_level: "মূল্যায়ন পর্যায় দ্বারা কেসসমুহ "
+    case_risk: ' মূল্যায়ন ধাপ ভেদে কেস সমুহ'
+    case_stat_by_approval_type: 'অনুমোদনসমুহ '
+    case_stat_by_assessment_level: 'মূল্যায়ন পর্যায় দ্বারা কেসসমুহ '
     case_stat_referrals: হস্তান্তর
     case_stats: কেসসমূহ
     case_worker: কেসকর্মী
-    cases_by_social_worker: "সামাজকর্মীদের দ্বারা কেস "
+    cases_by_social_worker: 'সামাজকর্মীদের দ্বারা কেস '
     cases_by_task_overdue: বিলম্বিত কার্যক্রম
     cases_by_workflow: কর্মপ্রবাহ অনুযায়ী কেসসমূহ
-    cases_this_week: "এই সপ্তাহের কেসসমূহ "
-    cases_to_assign: "বরাদ্দকৃত কেসসমুহ "
-    closed: "বন্ধ "
+    cases_this_week: 'এই সপ্তাহের কেসসমূহ '
+    cases_to_assign: 'বরাদ্দকৃত কেসসমুহ '
+    closed: 'বন্ধ '
     closed_last_week: বন্ধ (গত সপ্তাহে)
     closed_this_week: বন্ধ (এই সপ্তাহে)
-    comprehensive_need_intervention: "ব্যাপক প্রতিক্রিয়া "
+    comprehensive_need_intervention: 'ব্যাপক প্রতিক্রিয়া '
     count_new_bia_approvals:
-      one: '1%{stat}নতুন 2%{stat_type}অনুমোদন'
+      one: 1%{stat}নতুন 2%{stat_type}অনুমোদন
       other: '%{stat}নতুন %{stat_type}অনুমোদন'
     count_new_case_plan_approvals:
       one: '%{stat}নতুন %{stat_type}অনুমোদন'
@@ -585,37 +570,37 @@ bn:
       one: '%{stat}নতুন %{stat_type}অনুমোদন'
       other: '%{stat}নতুন %{stat_type}অনুমোদন'
     count_pending_approval_total:
-      one: 'আপনার%{stat} অমীমাংসিত%{stat_type} অনুমোদন আছে'
-      other: 'আপনার%{stat} অমীমাংসিত%{stat_type} অনুমোদন আছে'
+      one: আপনার%{stat} অমীমাংসিত%{stat_type} অনুমোদন আছে
+      other: আপনার%{stat} অমীমাংসিত%{stat_type} অনুমোদন আছে
     count_pending_transfers:
-      one: 'আপনার %{stat} অমীমাংসিত এবং স্থানান্তর আছে'
-      other: 'আপনার %{stat} অমীমাংসিত এবং স্থানান্তর আছে'
+      one: আপনার %{stat} অমীমাংসিত এবং স্থানান্তর আছে
+      other: আপনার %{stat} অমীমাংসিত এবং স্থানান্তর আছে
     count_records_new:
       one: 'এবং %{stat} নতুন কেসসমূহ '
       other: 'এবং %{stat} নতুন কেসসমূহ '
     count_records_total:
-      one: 'আপনার %{stat}মোট কেসসমূহ'
-      other: 'আপনার %{stat}মোট কেসসমূহ'
+      one: আপনার %{stat}মোট কেসসমূহ
+      other: আপনার %{stat}মোট কেসসমূহ
     count_referrals_new:
       one: এবং %{stat} নতুন সুপারিশ
       other: এবং %{stat} নতুন সুপারিশ
     count_referrals_total:
-      one: 'আপনার %{stat}মোট সুপারিশ সমূহ'
-      other: 'আপনার %{stat}মোট সুপারিশ সমূহ'
+      one: আপনার %{stat}মোট সুপারিশ সমূহ
+      other: আপনার %{stat}মোট সুপারিশ সমূহ
     count_rejected_approval_total:
-      one: 'এবং %{stat} প্রত্যাখ্যাত%{stat_type} অনুমোদন সমূহ'
-      other: 'এবং %{stat} প্রত্যাখ্যাত %{stat_type} অনুমোদন সমূহ'
+      one: এবং %{stat} প্রত্যাখ্যাত%{stat_type} অনুমোদন সমূহ
+      other: এবং %{stat} প্রত্যাখ্যাত %{stat_type} অনুমোদন সমূহ
     count_rejected_transfers:
-      one: 'এবং %{stat} বাতিল স্থানান্তর সমূহ'
-      other: 'এবং %{stat} বাতিল স্থানান্তর সমূহ'
+      one: এবং %{stat} বাতিল স্থানান্তর সমূহ
+      other: এবং %{stat} বাতিল স্থানান্তর সমূহ
     count_risk_level_new:
       one: এবং%{stat}নতুন %{stat_type}ঝুঁকি কেস সমূহ
       other: এবং %{stat} নতুন %{stat_type}ঝুঁকি কেস সমূহ
     count_risk_level_total:
-      one: 'আপনার %{stat} %{stat_type}ঝুঁকি কেস সমূহ'
-      other: 'আপনার %{stat} %{stat_type} ঝুঁকি কেস সমূহ'
-    count_waiting_for_acceptance_transfers: "আপনার স্বীকৃতির জন্য %{stat}অপেক্ষমান স্থানান্তর সমূহ "
-    current_owner: "বর্তমান মালিক "
+      one: আপনার %{stat} %{stat_type}ঝুঁকি কেস সমূহ
+      other: আপনার %{stat} %{stat_type} ঝুঁকি কেস সমূহ
+    count_waiting_for_acceptance_transfers: 'আপনার স্বীকৃতির জন্য %{stat}অপেক্ষমান স্থানান্তর সমূহ '
+    current_owner: 'বর্তমান মালিক '
     dash_case_incident_overview: আমার কেস
     dash_group_overview: আমার গ্রুপের কেস
     dash_shared_from_my_team: আমার টিম থেকে শেয়ার করা হয়েছে
@@ -624,18 +609,18 @@ bn:
     dash_shared_with_my_team_overview: আমার টিমের সাথে শেয়ার করা হয়েছে (সারসংক্ষেপ)
     dash_shared_with_others: অন্যদের সাথে শেয়ার
     dash_national_admin_summary: প্রশাসকের সারসংক্ষেপ
-    date: "তারিখ "
-    date_of_incident: "ঘটনার তারিখ "
+    date: 'তারিখ '
+    date_of_incident: 'ঘটনার তারিখ '
     date_of_interview: সাক্ষাৎকারের তারিখ
     due: বিলম্বিত
     flagged: পতাকাঙ্কিত
     flagged_by: 'পতাকাযুক্ত দ্বারা:'
-    flagged_by_me: "আমার দ্বারা পতাকাঙ্কিত "
-    flagged_by_other: "অন্য কেউ দ্বারা পতাকাঙ্কিত "
+    flagged_by_me: 'আমার দ্বারা পতাকাঙ্কিত '
+    flagged_by_other: 'অন্য কেউ দ্বারা পতাকাঙ্কিত '
     flagged_cases: পতাকাঙ্কিত কেসসমূহ
     follow_up: ফলোআপ
     forms: ফরম ট্যাব
-    geographic_area: "ভৌগলিক এলাকা "
+    geographic_area: 'ভৌগলিক এলাকা '
     group_overview_closed: বন্ধ
     group_overview_open: খুলুন
     high_level: উচ্চ
@@ -643,43 +628,43 @@ bn:
     immediate_response: তাৎক্ষণিক প্রতিক্রিয়া
     in_progress: প্রগতিতে আছে
     incident_id: 'ঘটনা#আইডি'
-    incident_location: "ঘটনার স্থান "
+    incident_location: 'ঘটনার স্থান '
     incident_status_open: উন্মুক্ত
-    last_updated: "সর্বশেষ আপডেট "
+    last_updated: 'সর্বশেষ আপডেট '
     link_see_all: সব দেখুন
     low_level: নিম্ন
     low_risk: নিম্নমাত্রার অগ্রাধিকার
     manager_count_closed_total:
-      one: 'এবং%{stat} সমাপ্ত কেস সমূহ'
-      other: 'এবং%{stat} সমাপ্ত  কেস সমূহ'
+      one: এবং%{stat} সমাপ্ত কেস সমূহ
+      other: এবং%{stat} সমাপ্ত  কেস সমূহ
     manager_count_open_total:
-      one: 'আপনার%{stat}খোলা কেস আছে'
-      other: 'আপনার %{stat}খোলা কেস আছে'
+      one: আপনার%{stat}খোলা কেস আছে
+      other: আপনার %{stat}খোলা কেস আছে
     manager_transfers_totals:
-      one: 'আপনার %{stat}%{stat_type}স্থানান্তর আছে'
-      other: 'আপনার %{stat}%{stat_type}স্থানান্তর আছে'
+      one: আপনার %{stat}%{stat_type}স্থানান্তর আছে
+      other: আপনার %{stat}%{stat_type}স্থানান্তর আছে
     match_result: সামঞ্জস্যপূর্ণ ফলাফল
     medium_level: মাঝারি।
-    medium_risk: "মাঝারি অগ্রাধিকার "
+    medium_risk: 'মাঝারি অগ্রাধিকার '
     missed_cases: হারানো কেসসমূহ
-    name: "নাম "
+    name: 'নাম '
     name_or_survivor_code: নাম অথবা সারভিভোর কোড
-    near_deadline: "সময়সীমা কাছাকাছি "
+    near_deadline: 'সময়সীমা কাছাকাছি '
     new: নতুন এবং আপডেট করা হয়েছে
-    new_child_assigned_to_you: "আপনার প্রতি অর্পিত নতুন কেস "
-    new_incident: "নতুন ঘটনা "
+    new_child_assigned_to_you: 'আপনার প্রতি অর্পিত নতুন কেস '
+    new_incident: 'নতুন ঘটনা '
     new_incident_assigned_to_you: নতুন অর্পিত ঘটনা
     new_last_week: নতুন (গত সপ্তাহে)
     new_or_updated: নতুন বা হালনাগাদকৃত
     new_referred: নতুন হস্তান্তর
-    new_service_provision: "নতুন সেবা বিধান "
+    new_service_provision: 'নতুন সেবা বিধান '
     new_this_week: নতুন (এই সপ্তাহে)
-    no_action_risk: "কোন পদক্ষেপ নেই "
+    no_action_risk: 'কোন পদক্ষেপ নেই '
     no_case_stats: কোনো কেস পরিসংখ্যান নেই
     no_caseworker_data: কেসকর্মীর কোনো উপাত্ত নেই
     no_flagged_child: পতাকাযুক্ত কোনো কেস নেই
     no_flagged_incident: পতাকাযুক্ত কোনো ঘটনা নেই
-    no_open_incidents: "উন্মুক্ত কোনো ঘটনা নেই "
+    no_open_incidents: 'উন্মুক্ত কোনো ঘটনা নেই '
     no_overdue_activities: বিলম্বিত কোনো কার্যক্রম নেই
     no_recent_activities: সাম্প্রতিককালে কোনো কার্যক্রম নেই
     no_scheduled_activities: সুনির্দিষ্ট কোনো কার্যক্রম নেই
@@ -692,29 +677,29 @@ bn:
     open_incidents: ঘটনা উন্মুক্ত করুন
     outstanding_transfers: অসামান্য স্থানান্তর
     overdue_activities: বিলম্বিত কার্যক্রম
-    overdue_cases_to_assign: "বরাদ্দকৃত বিলম্বিত কেসসমুহ "
+    overdue_cases_to_assign: 'বরাদ্দকৃত বিলম্বিত কেসসমুহ '
     overdue_cases_to_assign_high: আপনি 1 ঘন্টারও বেশি সময় ধরে এই কেসগুলি পেয়েছেন
     overdue_cases_to_assign_low: আপনি তিন ঘন্টারও বেশি সময় ধরে এই কেসগুলি পেয়েছেন
     overview: সারসংক্ষেপ
     pending: Pending
-    pending_approvals: "অনুমোদন মুলতুবি "
-    pending_transfers: "মুলতুবি স্থানান্তর "
+    pending_approvals: 'অনুমোদন মুলতুবি '
+    pending_transfers: 'মুলতুবি স্থানান্তর '
     protection_concern: সুরক্ষা উদ্বেগসমূহ
     protection_concerns: সুরক্ষা উদ্বেগসমূহ
     range12+: ১২+
-    range4: "০-৪  "
-    range4_8: "৪-৮ "
+    range4: '০-৪  '
+    range4_8: '৪-৮ '
     range8_12: ৮-১২
     recent_activities: সাম্প্রতিক কার্যক্রম
     recently_flagged_child: সম্প্রতি পতাকাঙ্কিত ঘটনা
     recently_flagged_incident: সম্প্রতি পতাকাঙ্কিত ঘটনা
-    referrals_by_social_worker: "সামাজকর্মীদের দ্বারা হস্তান্তর "
+    referrals_by_social_worker: 'সামাজকর্মীদের দ্বারা হস্তান্তর '
     registration: নিবন্ধীকরণ
-    rejected: "বাতিলকৃত "
+    rejected: 'বাতিলকৃত '
     rejected_transfers: স্থানান্তর গ্রহণের অপেক্ষায়
     response: প্রতিক্রিয়া(অগ্রগতিতে)
     scheduled_activities: নির্ধারিত কার্যক্রম
-    score_range: "স্কোর সীমা "
+    score_range: 'স্কোর সীমা '
     screening_service: স্ক্রীনিং সেবা
     services: সেবাসমূহ
     services_implemented: সেবা বাস্তবায়িত
@@ -732,30 +717,30 @@ bn:
     shared_with_others_rejected_transfers: প্রত্যাখ্যাত স্থানান্তরসমূহ
     status_of_cases: কেসের অবস্থা
     system_user: পদ্ধতি
-    total: "মোট "
+    total: 'মোট '
     total_cases: সর্বমোট কেস
     total_referred: মোট হস্তান্তর
     tr_stats: অনুসন্ধানের অনুরোধ
-    transers_awaiting_acceptance: "ট্রান্সফার স্বীকৃতির অপেক্ষায় "
-    transfers_by_social_worker: "সামাজকর্মীদের দ্বারা স্থানান্তর "
+    transers_awaiting_acceptance: 'ট্রান্সফার স্বীকৃতির অপেক্ষায় '
+    transfers_by_social_worker: 'সামাজকর্মীদের দ্বারা স্থানান্তর '
     users: সের্টিং আইকন
-    violence_type: "সংঘাতের ধরন "
+    violence_type: 'সংঘাতের ধরন '
     with_incidents: ঘটনার সাথে
     with_new_incidents: নতুন ঘটনা
     without_incidents: ঘটনা ছাড়া
     worker_count_referrals_total:
-      one: 'আপনার %{case_worker}%{stat}মোট সুপারিশ সমূহ'
-      other: 'আপনার %{case_worker}%{stat}মোট সুপারিশ সমূহ'
+      one: আপনার %{case_worker}%{stat}মোট সুপারিশ সমূহ
+      other: আপনার %{case_worker}%{stat}মোট সুপারিশ সমূহ
     worker_count_total:
-      one: 'আপনার%{case_worker}%{stat}মোট কেসসমূহ'
-      other: 'আপনার%{case_worker} %{stat}মোট কেসসমূহ'
+      one: আপনার%{case_worker}%{stat}মোট কেসসমূহ
+      other: আপনার%{case_worker} %{stat}মোট কেসসমূহ
     workflow: কাজের প্রবাহ
     workflow_team: কাজের প্রবাহ - টিম কেস
     you_have: 'আপনার আছে'
   disabled:
     status:
-      disabled: "অক্ষম "
-      enabled: "সক্ষম "
+      disabled: 'অক্ষম '
+      enabled: 'সক্ষম '
   email_notification:
     assign: '%{user} নিম্নলিখিত %{record_type}আপনার নিকট অর্পণ করা হয়েছে %{record_id}'
     assign_subject: '%{record_type}: %{id} --আপনার জন্য নিযুক্ত করা হয়েছে।'
@@ -783,57 +768,55 @@ bn:
     password_label: আপনার ফাইল এনক্রিপ্ট করবে এরকম একটি পাসওয়ার্ড অনুগ্রহ করে লিখুন।
   error_message:
     address_fields: আপনাকে ফর্মগুলিতে ক্ষেত্রগুলি সম্বোধন করতে হবে
-    address_form_fields: ""
-    address_subform_fields: ''
+    address_form_fields: আপনাকে ফর্মগুলিতে ক্ষেত্রগুলি %{fields}সম্বোধন করতে হবে
+    address_subform_fields: '%{subform}অকার্যকর %{fields}ক্ষেত্র আছে'
   error_page:
     not_authorized:
-      code: 403
       server_error: আপনি এই পেজটিতে প্রবেশ করার জন্য অনুমোদিত নন।
       title: অনুমোদিত নয়
     not_found:
-      code: 404
-      contact_admin: "আপনি যদি বিশ্বাস করেন যে আপনি ভুল করে এখানে এসেছেন, তবে অনুগ্রহ করে আপনার অ্যাডমিনের সাথে যোগাযোগ করুন।"
-      something_went_wrong: "দুঃখিত, কিছু ভুল হয়েছে!"
+      contact_admin: আপনি যদি বিশ্বাস করেন যে আপনি ভুল করে এখানে এসেছেন, তবে অনুগ্রহ করে আপনার অ্যাডমিনের সাথে যোগাযোগ করুন।
+      something_went_wrong: দুঃখিত, কিছু ভুল হয়েছে!
   errors:
     error_loading: তথ্য জমা করার সময় ভুল (s)
     models:
       agency:
-        code_present: "খালি রাখবেন না "
+        code_present: 'খালি রাখবেন না '
         logo_format: ফাইল পি এন জি পদ্ধতিতে হওয়া উচিত
         terms_of_use_format: ফাইলটি png হওয়া উচিত
-        name_present: "খালি রাখবেন না "
+        name_present: 'খালি রাখবেন না '
       child:
-        age: "বয়স ০ এবং ১৩০ এর মধ্যে হতে হবে "
-        date_of_birth: "অনুগ্রহ করে এই ক্ষেত্রে রেকর্ডের জন্য একটি সঠিক জন্ম তারিখ লিখুন "
+        age: 'বয়স ০ এবং ১৩০ এর মধ্যে হতে হবে '
+        date_of_birth: 'অনুগ্রহ করে এই ক্ষেত্রে রেকর্ডের জন্য একটি সঠিক জন্ম তারিখ লিখুন '
       export_configuration:
-        opt_out_field_does_not_exist: " রেকর্ড-এ সুনির্দিষ্ট অপট_আউট থাকে না "
-        record_type: "অকার্যকর রেকর্ড এর ধরণ। অবশ্যই হবে শিশু, ট্রেসিং অনুরোধ, অথবা ঘটনা "
+        opt_out_field_does_not_exist: ' রেকর্ড-এ সুনির্দিষ্ট অপট_আউট থাকে না '
+        record_type: 'অকার্যকর রেকর্ড এর ধরণ। অবশ্যই হবে শিশু, ট্রেসিং অনুরোধ, অথবা ঘটনা '
       field:
-        translated_options_do_not_match: "ক্ষেত্রের অনুবাদের ক্ষেত্রে অবশ্যই একই আইডি থাকতে হবে "
+        translated_options_do_not_match: 'ক্ষেত্রের অনুবাদের ক্ষেত্রে অবশ্যই একই আইডি থাকতে হবে '
       location:
-        admin_level_present: "অবশ্যই ফাঁকা রাখা যাবে না  "
-        code_present: "অবশ্যই ফাঁকা রাখা যাবে না  "
-        name_present: "অবশ্যই ফাঁকা রাখা যাবে না  "
-        unique_location_code: "এই অবস্থান কোডের সঙ্গে একটি অবস্থান ইতিমধ্যে বিদ্যমান, অনুগ্রহ করে একটি ভিন্ন অবস্থান কোড লিখুন"
+        admin_level_present: 'অবশ্যই ফাঁকা রাখা যাবে না  '
+        code_present: 'অবশ্যই ফাঁকা রাখা যাবে না  '
+        name_present: 'অবশ্যই ফাঁকা রাখা যাবে না  '
+        unique_location_code: এই অবস্থান কোডের সঙ্গে একটি অবস্থান ইতিমধ্যে বিদ্যমান, অনুগ্রহ করে একটি ভিন্ন অবস্থান কোড লিখুন
       lookup:
         being_used: এই লুকআপ ব্যবহার করা হচ্ছে এবং মুছে ফেলা যাবে না
-        name_present: "নাম ফাঁকা রাখা যাবে না "
+        name_present: 'নাম ফাঁকা রাখা যাবে না '
         values_ids_blank: একটি lookup_value আইডি ফাঁকা আছে
       primero_module:
         associated_record_types: অন্তত একটি রেকর্ড টাইপ এই মডিউল সঙ্গে যুক্ত করা আবশ্যক
         form_section_ids: কমপক্ষে একটি ফর্ম এই মডিউলের সাথে যুক্ত হওয়া আবশ্যক
-        name_present: "নাম ফাঁকা রাখা যাবে না "
-        unique_name: "এই নামের সাথে একটি মডিউল ইতিমধ্যে বিদ্যমান, একটি ভিন্ন নাম লিখুন"
+        name_present: 'নাম ফাঁকা রাখা যাবে না '
+        unique_name: এই নামের সাথে একটি মডিউল ইতিমধ্যে বিদ্যমান, একটি ভিন্ন নাম লিখুন
       report:
-        module_presence: "মডিউল ফাঁকা হওয়া যাবে না "
+        module_presence: 'মডিউল ফাঁকা হওয়া যাবে না '
         module_syntax: সমস্ত রিপোর্ট মডিউল ইতিমধ্যে অবশ্যই বিদ্যমান থাকতে হবে
-        name_presence: "নাম ফাঁকা রাখা যাবে না "
+        name_presence: 'নাম ফাঁকা রাখা যাবে না '
       role:
         permission_presence: অন্তত একটি পারমিশান নির্বাচন করুন
       user:
         email: "অনুগ্রহ করে একটি বৈধ ইমেল লিখুন (উদাহরণস্বরূপ: 'name@example.org')"
         password_mismatch: পাসওয়ার্ড ক্ষেত্রে একই পাসওয়ার্ড নেই
-        password_length: "পাসওয়ার্ডটি অবশ্যই কমপক্ষে %{min}অক্ষরের হতে হবে"
+        password_length: পাসওয়ার্ডটি অবশ্যই কমপক্ষে %{min}অক্ষরের হতে হবে
         email_uniqueness: এই ইমেল ঠিকানাসহ একজন ব্যবহারকারী ইতিমধ্যে বিদ্যমান। অনুগ্রহ করে একটি ভিন্ন একটি লিখুন
       code_of_conduct:
         title_present: শিরোনাম অবশ্যই ফাঁকা হওয়া উচিত নয়
@@ -845,53 +828,53 @@ bn:
     case_pdf:
       all: পিডিএফ
       one: পিডিএফ
-      selected: "পিডিএফের জন্য নির্বাচিত "
+      selected: 'পিডিএফের জন্য নির্বাচিত '
     csv:
       all: সিএসভি
       one: সিএসভি
-      selected: "সিএসভি দ্বারা নির্বাচিত "
+      selected: 'সিএসভি দ্বারা নির্বাচিত '
     custom:
       all: পছন্দসই 
     custom_exports:
       all: রীতি
-      choose_fields: "আপনি কি একটি নির্দিষ্ট ফর্ম-এর জন্য পৃথক ক্ষেত্র নির্বাচন করতে চান? "
+      choose_fields: 'আপনি কি একটি নির্দিষ্ট ফর্ম-এর জন্য পৃথক ক্ষেত্র নির্বাচন করতে চান? '
       empty_fields_forms: রপ্তানি করার জন্য অনুগ্রহ করে কিছু ফর্ম বা ক্ষেত্র নির্বাচন করুন।
       empty_format: রপ্তানী করার জন্য অনুগ্রহ করে একটি ফরম্যাট নির্বাচন করুন।
       empty_module: রপ্তানী করার জন্য একটি মডিউল নির্বাচন করুন।
       empty_password: আপনার ফাইল এনক্রিপ্ট করবে - অনুগ্রহ করে এরকম একটি পাসওয়ার্ড লিখুন।
-      field_label: "ক্ষেত্র "
-      fields: "রপ্তানি করতে ক্ষেত্র নির্বাচন করুন "
+      field_label: 'ক্ষেত্র '
+      fields: 'রপ্তানি করতে ক্ষেত্র নির্বাচন করুন '
       form_label: ফরম
       format_label: ফরম্যাট নির্বাচন করুন
       forms: রপ্তানি করতে ফরম নির্বাচন করুন
       label: কাস্টম রপ্তানী
-      module_placeholder: "অনুগ্রহ করে একটি মডিউল নির্বাচন করুন "
-      select_module: "মডিউল নির্বাচন করুন "
+      module_placeholder: 'অনুগ্রহ করে একটি মডিউল নির্বাচন করুন '
+      select_module: 'মডিউল নির্বাচন করুন '
       submit: ঠিক আছে
       header: শিরোনাম
       custom_header: কাস্টম শিরোনাম
       signatures: স্বাক্ষর অন্তর্ভুক্ত করুন
-      include_implementation_logos: "বাস্তবায়ন লোগো অন্তর্ভুক্ত করবেন?"
+      include_implementation_logos: বাস্তবায়ন লোগো অন্তর্ভুক্ত করবেন?
       include_implementation_logos_help_text: এতে লোগোগুলি অন্তর্ভুক্ত থাকবে যা নেভিগেশন মেনুতে এবং লগইন পৃষ্ঠায় প্রদর্শিত হবে।
-      include_agency_logo: "সংস্থার লোগো অন্তর্ভুক্ত করবেন?"
-      include_other_logos: "অন্যান্য লোগো অন্তর্ভুক্ত করবেন?"
+      include_agency_logo: সংস্থার লোগো অন্তর্ভুক্ত করবেন?
+      include_other_logos: অন্যান্য লোগো অন্তর্ভুক্ত করবেন?
     duplicate_id_csv:
-      all: "নকল আইডি "
+      all: 'নকল আইডি '
       female_abbreviation: এফ
       headers:
-        age: "বয়স "
+        age: 'বয়স '
         case_id: ঘটনার আইডি
         child_name_last_first: শিশুর নাম
         family_size: পরিবারের আকার
         moha_id: মোহা আইডি থামানো হয়েছে
         national_id_no: জাতীয় পরিচয়পত্র নম্বর
-        progress_id: "অগ্রগতির আইডি "
+        progress_id: 'অগ্রগতির আইডি '
         sex_mapping_m_f_u: লিঙ্গ
         other_agency_id: হাসপাতালের কোড এবং রোগীর নম্বর
       male_abbreviation: এম
       unknown_abbreviation: ইউ
     exported: রপ্তানী ফাইলটি সফলভাবে উৎপন্ন হয়েছে
-    exported_error: ""
+    exported_error: 'এক্সপোর্ট ফাইল ত্রুটি তৈরি করচ্ছে '
     forms:
       button: ফর্ম রপ্তানী করুন
       label: রপ্তানি
@@ -919,15 +902,14 @@ bn:
         agency: সংস্থা
         user: ব্যবহারকারী
         reportinglocation: রিপোর্ট করার স্থান
-        subforms: ''
-        collapsed_fields: ''
+        subforms: 'সাবফর্ম:%{subform_name}'
+        collapsed_fields: 'সঙ্কুচিত ক্ষেত্র:%{fields}'
         country: দেশ
       summary_header:
         form_group: প্রাইমেরো ফর্ম গ্রুপ
         form: প্রাইমেরো ফর্ম
         status: স্থিতি
         notes: নোট
-
     go_to_exports: ডাউনলোড করতে রপ্তানী পৃষ্ঠায় যান
     incident_recorder_xls:
       all: ঘটনা রেকর্ডার
@@ -936,21 +918,21 @@ bn:
     json:
       all: জেসন
       one: জেসন
-      selected: "জেসন দ্বারা নির্বাচিত "
+      selected: 'জেসন দ্বারা নির্বাচিত '
     list_view_csv:
-      all: "এক্সপোর্ট তালিকা দেখুন  "
-      selected: "সিএসভির জন্য নির্বাচিত  "
+      all: 'এক্সপোর্ট তালিকা দেখুন  '
+      selected: 'সিএসভির জন্য নির্বাচিত  '
     messages:
       no_exporter: কোনও রপ্তানীকারক নির্দিষ্ট করা হয়নি
     mrm_violation_xls:
       all: এমআরএম লঙ্ঘন
-      one: "এমআরএম লঙ্ঘন "
-      selected: "এমআরএম লঙ্ঘন-এর জন্য নির্ধারিত "
-    no_records: "কোন নথি নেই "
+      one: 'এমআরএম লঙ্ঘন '
+      selected: 'এমআরএম লঙ্ঘন-এর জন্য নির্ধারিত '
+    no_records: 'কোন নথি নেই '
     pdf:
       all: পিডিএফ (নন-এনক্রিপ্ট করা)
       one: পিডিএফ
-      selected: "পিডিএফ করার জন্য  নির্বাচিত "
+      selected: 'পিডিএফ করার জন্য  নির্বাচিত '
     pdf_exports:
       label: পিডিএফ
       recipient: প্রাপক
@@ -962,37 +944,37 @@ bn:
       caseworker_name: কেসওয়ার্কারের নাম
       caseworker_agency: কেসওয়ার্কার এজেন্সি
     photowall:
-      all: "ছবি ওয়াল  "
+      all: 'ছবি ওয়াল  '
       flag_suspect_record: সন্দেহভাজন রেকর্ড হিসাবে পতাকাঙ্কিত
       no_photos_available: কোন ছবি নেই
       one: ছবি ওয়াল
       reunited: পুনর্মিলিত
-      selected: "ছবি ওয়ালের জন্য নির্বাচিত "
-      success_message: ""
-    printed: ''
+      selected: 'ছবি ওয়ালের জন্য নির্বাচিত '
+      success_message: ছবি ছাড়া ফটোওয়াল %{file_name}কেস অন্তর্ভুক্ত করা হবে না।
+    printed: 'ছাপা:%{date}'
     queueing: রপ্তানী ফাইল তৈরি করা হচ্ছে
     selected_xls:
       all: এক্সেল
       one: এক্সেল
-      selected: "এক্সেলের জন্য নির্বাচিত "
+      selected: 'এক্সেলের জন্য নির্বাচিত '
       selected_fields: নির্বাচিত ক্ষেত্রসমূহ
     unhcr_csv:
       all: ইউএনএইচসিআর
       female_abbreviation: এফ
       headers:
-        age: "বয়স "
+        age: 'বয়স '
         case_status: ঘটনার অবস্থা
         causes_of_separation: বিচ্ছেদের কারণ
-        country_of_origin: "মাতৃভূমি "
+        country_of_origin: 'মাতৃভূমি '
         cpims_code: সিপিআইএমএস কোড
-        current_care_arrangement: "বর্তমান যত্ন ব্যবস্থা "
-        date_of_birth: "জম্মতারিখ "
-        date_of_identification: "সনাক্তকরণের তারিখ "
+        current_care_arrangement: 'বর্তমান যত্ন ব্যবস্থা '
+        date_of_birth: 'জম্মতারিখ '
+        date_of_identification: 'সনাক্তকরণের তারিখ '
         family_count_no: পরিবার গণনা সংখ্যা
         governorate_country: গভর্ণোরেট - দেশ
         id: আইডি
         individual_progress_id: ব্যক্তিগত অগ্রগতি আইডি
-        locations_by_level: "ঠিকানা (ক্যাম্প, ব্লক, এবং প্রযোজ্য অন্যান্য ঠিকানা যেমন- বাসস্থান-এর জিপিএস)"
+        locations_by_level: ঠিকানা (ক্যাম্প, ব্লক, এবং প্রযোজ্য অন্যান্য ঠিকানা যেমন- বাসস্থান-এর জিপিএস)
         long_id: দীর্ঘ আইডি
         moha_id: মোহা আইডি
         name_of_caregiver: যত্মকারীর পূর্ণ নাম
@@ -1004,8 +986,8 @@ bn:
         sex: লিঙ্গ
         sex_mapping_m_f_u: লিঙ্গ
         short_id: সংক্ষিপ্ত আইডি
-        vulnerability_code: "বিপদাপন্নতার কোড "
-        vulnerability_details_code: "বিপদাপন্নতার কোড-এর বিস্তারিত "
+        vulnerability_code: 'বিপদাপন্নতার কোড '
+        vulnerability_details_code: 'বিপদাপন্নতার কোড-এর বিস্তারিত '
       male_abbreviation: এম
       one: ইউএনএইচসিআর
       selected: ইউএনএইচসিআর এর জন্য নির্বাচিত
@@ -1013,30 +995,30 @@ bn:
     xlsx:
       all: এক্সেল
       one: এক্সেল
-      selected: "এক্সেলের জন্য নির্বাচিত "
+      selected: 'এক্সেলের জন্য নির্বাচিত '
   imports:
     csv_hxl_location:
       messages:
         success: অবস্থানগুলি সফলভাবে আমদানি করা হয়েছে
         no_data: 'আমদানি প্রক্রিয়াকৃত নয়: কোনও তথ্য পাস করা হয়নি'
-        csv_parse_error: ''
-        error: ''
-        db_error: ''
-        locale_invalid: ''
-        insert_all_error: ''
+        csv_parse_error: 'আমদানি প্রক্রিয়া করা হয়নি: CSV ডেটা বিশ্লেষণ করার সময় ত্রুটি৷'
+        error: 'সারি %{row_number}প্রক্রিয়া করা হয়নি:%{message}'
+        db_error: 'ত্রুটি তৈরি হচ্ছে%{location_code} :%{message}'
+        locale_invalid: 'এড়িয়ে যাওয়া %{column_name}: অকার্যকর স্থান '
+        insert_all_error: 'আমদানি প্রক্রিয়া করা হয়নি। ডাটাবেস ত্রুটি:%{message}'
     csv_record:
       messages:
         success: রেকর্ডগুলি সফলভাবে আমদানি করা হয়েছে
-        no_data: ''
+        no_data: 'আমদানি প্রক্রিয়াকৃত নয়: ফাইলের অস্তিত্ব নেই'
         no_file: 'আমদানি প্রক্রিয়াকৃত নয়: ফাইলের অস্তিত্ব নেই'
-        csv_parse_error: ''
-        error: ''
-        db_error: ''
-        locale_invalid: ''
-        insert_all_error: ''
+        csv_parse_error: 'আমদানি প্রক্রিয়া করা হয়নি: CSV ডেটা বিশ্লেষণ করার সময় ত্রুটি৷'
+        error: 'সারি %{row_number}প্রক্রিয়া করা হয়নি:%{message}'
+        db_error: 'ত্রুটি তৈরি হচ্ছে%{location_code} :%{message}'
+        locale_invalid: 'এড়িয়ে যাওয়া %{column_name}: অকার্যকর স্থান '
+        insert_all_error: 'আমদানি প্রক্রিয়া করা হয়নি। ডাটাবেস ত্রুটি:%{message}'
   sync_record:
     failed: 'শেষ সিঙ্ক: ব্যর্থ হয়েছে'
-    last: ''
+    last: 'শেষ সিঙ্ক: %{date_time}'
     not_found: 'শেষ সিঙ্ক: তথ্য পাওয়া যায়নি'
     retrieving: তথ্য উদ্ধার করা হচ্ছে
     see_details: বিস্তারিত দেখুন।
@@ -1047,118 +1029,117 @@ bn:
     add_new_field: নতুন ক্ষেত্র তৈরি করুন
     add_existing_field: বিদ্যমান ক্ষেত্র যুক্ত করুন
     add_field: ক্ষেত্র যুক্ত করুন
-    add_field_type: ""
+    add_field_type: যুক্ত করুন %{file_type}
     audio:
       current: বর্তমান অডিও
     audio_upload_box: অডিও আপলোড
     bia_document: বি আই এ ডকুমেন্ট
     bid_document: বি আই ডি ডকুমেন্ট
-    check_box: "বক্স যাচােই করুন "
+    check_box: 'বক্স যাচােই করুন '
     clear_group_by: গ্রুপ অনুসারে পরিষ্কার করেন
-    clear_sort_by: ""
+    clear_sort_by: ক্রমানুসার পরিষ্কার করেন
     copy_from_another_form: এই ক্ষেত্রটি অন্য ফর্ম থেকে অনুলিপি করা হয়েছিল
     create_field: ক্ষেত্র তৈরি করুন
     create_unique_values: অনন্য মান তৈরি করুন
     date_field: তারিখ ক্ষেত্র
     date_help: দিন-মাস-বছর
-    date_help_with_time: "দিন-মাস-বছর ঘণ্টা:মিনিট"
-    date_not_valid: "এই তারিখ বৈধ নয়।  "
+    date_help_with_time: দিন-মাস-বছর ঘণ্টা:মিনিট
+    date_not_valid: 'এই তারিখ বৈধ নয়।  '
     time: সময়
     date_range:
-      date: "তারিখ "
-      date_range: "তারিখ সীমানা "
-      from: "হতে "
-      to: "প্রতি "
-      view_by: ""
-    date_range_field: "তারিখ সীমানা "
+      date: 'তারিখ '
+      date_range: 'তারিখ সীমানা '
+      from: 'হতে '
+      to: 'প্রতি '
+      view_by: দেখুন
+    date_range_field: 'তারিখ সীমানা '
     date_time: তারিখ-সময়
     db_name: ডাটাবেসের নাম
-    default: "ডিফল্ট?"
-    default_date_validation: "ডিফল্ট তারিখ বৈধতা  "
-    default_to_current_date: "ডিফল্টগুলি কি বর্তমান তারিখে?"
-    default_to_current_datetime: "বর্তমান তারিখ এবং সময়ে ডিফল্ট?"
+    default: ডিফল্ট?
+    default_date_validation: 'ডিফল্ট তারিখ বৈধতা  '
+    default_to_current_date: ডিফল্টগুলি কি বর্তমান তারিখে?
+    default_to_current_datetime: বর্তমান তারিখ এবং সময়ে ডিফল্ট?
     default_value: ডিফল্ট মান
-    deleted: "১% [ডিসপ্লে_নাম] ক্ষেত্র মুছে ফেলা হয়েছে।"
+    deleted: ১% [ডিসপ্লে_নাম] ক্ষেত্র মুছে ফেলা হয়েছে।
     detail: বিস্তারিত
     disabled: অক্ষম
     display_name: নাম দেখানো
     document:
-      comments: "মন্তব্যনমুহ "
-      current: "এটি কি বর্তমান নথি? "
+      comments: 'মন্তব্যনমুহ '
+      current: 'এটি কি বর্তমান নথি? '
       date: নথির তারিখ
       name: নথির নাম
-      is_current: "এটাই কি বর্তমান নথি?"
+      is_current: এটাই কি বর্তমান নথি?
     document_upload_box: নথি আপলোড
     edit_label: ক্ষেত্র সম্পাদনা করুন
-    enabled: "সক্ষম?"
-    enabled_label: ""
-    english_text: ""
+    enabled: সক্ষম?
+    enabled_label: 'সক্ষম '
+    english_text: ইংরেজি লিখন
     field_name: ক্ষে্ত্রের নাম
-    field_type: ""
-    attachment_too_large: ফাইল10mb এর চেয়ে বড় হওয়া উচিত নয়
+    field_type: ক্ষেত্রের ধরণ
     file_upload_box:
       add_document_label: নথি যোগ করুন
-      add_new_document_button_text: "অন্য আর একটি নথি যোগ করুন "
+      add_new_document_button_text: 'অন্য আর একটি নথি যোগ করুন '
       add_new_photo_button_text: অন্য ছবি যোগ করুন
       add_photo_label: ছবি যোগ করা
       document_description: নথির বর্ণনা
-      document_file_restrictions_message: "ফাইলগুলি 2 মেগাবাইটের চেয়ে বড় হওয়া উচিত নয় (এক্সিকিউটেবল (.এক্স) ফাইল আপলোড করা যাবে না)। "
-      no_file_selected: "নির্বাচিত কোন ফাইল নাই "
-      photo_file_restrictions_message: "ছবি ১০এমবি-এর চেয়ে বড় হবেনা। অডিও ফাইল ১০এমবি-এর চেয়ে বড় হবেনা। ছোটই ভালো। "
+      document_file_restrictions_message: 'ফাইলগুলি 2 মেগাবাইটের চেয়ে বড় হওয়া উচিত নয় (এক্সিকিউটেবল (.এক্স) ফাইল আপলোড করা যাবে না)। '
+      no_file_selected: 'নির্বাচিত কোন ফাইল নাই '
+      photo_file_restrictions_message: 'ছবি ১০এমবি-এর চেয়ে বড় হবেনা। অডিও ফাইল ১০এমবি-এর চেয়ে বড় হবেনা। ছোটই ভালো। '
       recorded_audio_label: রেকর্ডকৃত অডিও
-      select_file_button_text: "নথি নির্বাচন "
+      select_file_button_text: 'নথি নির্বাচন '
     find_lookup: সন্ধান করুন
-    form_name: "ফরমের নাম "
+    form_name: 'ফরমের নাম '
     future_date_not_valid: ভবিষ্যতে হতে পারে না।
     guidance: নির্দেশিকা
     guiding_questions: নির্দেশক প্রশ্নাবলী
     help_text: সাহায্যকারী টেক্সট
     hide_on_view_page: পৃষ্ঠা দেখান
-    label: "ক্ষেত্রসমূহ "
+    label: 'ক্ষেত্রসমূহ '
     mobile_visible: মোবাইল অ্যাপ
     move_to: যাওয়া
     multi_select: একাধিক বিকল্প নির্বাচন করতে পারে
     multi_select_box: বহু-নির্বাচন করুন
     must_be_english: অবশ্যই ইংরেজিতে প্রবেশ করাতে হবে
     name: নাম
-    not_future_date: "এটি ভবিষ্যতের তারিখ না  "
-    number_not_valid: "অনুগ্রহ করে সংখ্যাসূচক তথ্য লিখুন "
-    numeric_field: "সংখ্যাসূচক ক্ষেত্র "
-    on_collapsed_subform: ""
-    option_strings_add_option: "অপশন যোগ করুন "
+    not_future_date: 'এটি ভবিষ্যতের তারিখ না  '
+    number_not_valid: 'অনুগ্রহ করে সংখ্যাসূচক তথ্য লিখুন '
+    numeric_field: 'সংখ্যাসূচক ক্ষেত্র '
+    on_collapsed_subform: বন্ধ সাবফর্ম?
+    option_strings_add_option: 'অপশন যোগ করুন '
     option_strings_source: খোঁজা
-    option_strings_text: "বিকল্পসমূহ "
+    option_strings_text: 'বিকল্পসমূহ '
     option_strings_text_display: বিকল্প টেক্সট
     option_strings_text_key: বিকল্প চাবি
     options_indications_lookup_values: আপনি প্রাক-সংজ্ঞায়িত লুকআপগুলি ব্যবহার করতে পারেন বা অনন্য মান তৈরি করতে পারেন।
-    options_indications_restrictions: ""
+    options_indications_restrictions: আপনি দুটোই সম্পাদনা করতে পারবেন না।
     options_or_lookup_warning: বিকল্প কিছু যোগ করুন। উভয় জায়গাতে প্রবেশ করবেন না।
     other_documents: অন্যান্য নথি
     photo_upload_box: ফটো আপলোড
     predifined_lookups: প্রাক-সংজ্ঞায়িত লুকআপ ব্যবহার করুন
     radio_button: রেডিও বাটুন
     remove: বাদ দেওয়া
-    remove_attachment_confirmation: "আপনি কি নিশ্চিত যে আপনি এই সংযুক্তিটি অপসারণ করতে চান?"
+    remove_attachment_confirmation: আপনি কি নিশ্চিত যে আপনি এই সংযুক্তিটি অপসারণ করতে চান?
     required: প্রয়োজনীয়
-    required_field: ''
+    required_field: '%{field} দরকার '
     search_existing: বিদ্যমান ক্ষেত্রগুলি অনুসন্ধান করুন
     select_box: ড্রপ ডাউন নির্বাচন করুন
-    select_date_validation: "তারিখ যাচাই পদ্ধতি নির্বাচন করুন "
+    select_date_validation: 'তারিখ যাচাই পদ্ধতি নির্বাচন করুন '
     select_multiple: প্রযোজ্য সমস্ত নির্বাচন করুন
     select_single: (নির্বাচন করুন...)
     separator: পৃথককারক
-    show: "দেখান?"
+    show: দেখান?
     show_on: প্রদর্শন করুন
     show_on_minify_form: সংক্ষিপ্ত ফরম
     subform: সাব ফরম
     subform_group_by: দ্বারা গ্রুপ
-    subform_remove_message: "আপনি কি নিশ্চিত যে, এই সাবফরম বাদ দিতে চান?"
+    subform_remove_message: আপনি কি নিশ্চিত যে, এই সাবফরম বাদ দিতে চান?
     subform_section:
-      description: ""
+      description: ফর্মের বর্ণনা
       name: সাবফর্ম শিরোনাম
-      starts_with_one_entry: "একটি সাবফর্ম এন্ট্রি দিয়ে শুরু করবেন?"
+      starts_with_one_entry: একটি সাবফর্ম এন্ট্রি দিয়ে শুরু করবেন?
       subform_append_only: মোবাইলে সিলেক্টিভ সিঙ্ক করা হচ্ছে
-      subform_prevent_item_removal: "সাবফর্ম এন্ট্রি অপসারণ প্রতিরোধ করবেন?"
+      subform_prevent_item_removal: সাবফর্ম এন্ট্রি অপসারণ প্রতিরোধ করবেন?
     subform_sort_by: অনুসারে বাছাই করুন
     successfully_added: ক্ষেত্র সফলভাবে যোগ করা হয়েছে
     tally_field: ট্যালী ক্ষেত্র
@@ -1172,7 +1153,7 @@ bn:
     translation_text: অনুবাদকৃত টেক্সট
     total: মোট
     type: ধরন
-    updated: "ক্ষেত্র আপডেট "
+    updated: 'ক্ষেত্র আপডেট '
     visibility: দৃশ্যমানতা
     web_app: ওয়েব অ্যাপ
   filters:
@@ -1199,11 +1180,11 @@ bn:
     resolved_reason: 'ন্সমাধানের কারন:'
     title: পতাকা
   followup_reminders:
-    system_generated_followup_flag: "বাধ্যতামূলক ফলোআপ পরিদর্শন "
+    system_generated_followup_flag: 'বাধ্যতামূলক ফলোআপ পরিদর্শন '
   form_section:
     form_name: ফর্মের নাম
     module: মডিউল
-    name: "নাম "
+    name: 'নাম '
     record_type: রেকর্ডের ধরন
     required_field: '১% [ক্ষেত্র] দরকার '
   forms:
@@ -1217,7 +1198,7 @@ bn:
       must_be_english: ইংরেজিতে প্রবেশ করতে হবে
       related_groups: ব্যবহারকারীদের জন্য একটি সম্পর্কিত গোষ্ঠীতে ফর্মটি রাখুন
       summariaze_purpose: ফর্মের উদ্দেশ্য সারসংক্ষেপ করুন। ইংরেজিতে প্রবেশ করতে হবে
-    invalid_characters_field: ''
+    invalid_characters_field: '%{field}অকার্যকর অক্ষর আছে'
     label: ফরমস
     manage: পরিচালনা
     messages:
@@ -1233,22 +1214,22 @@ bn:
     record_type: রেকর্ডের ধরন
     record_types:
       approvals: অনুমোদনসমূহ
-      case: "কেস "
-      child: "কেস "
-      incident: "ঘটনা "
+      case: 'কেস '
+      child: 'কেস '
+      incident: 'ঘটনা '
       individual_victim: একক ভিক্টিম
       potential_match: সম্ভাব্য মিল
       record_information: তথ্য রেকর্ড করুন
       referrals: রেফারেল
       reportable_follow_up: ফলো-আপ
       reportable_protection_concern: সুরক্ষা উদ্বেগসমূহ
-      reportable_service: "সেবা "
+      reportable_service: 'সেবা '
       tracing_request: অনৃসন্ধানের অনুরোধ
       transfers_assignments: স্থানান্তর / অ্যাসাইনমেন্ট
       violation: নিয়ম লংঘন
       registry_details: রেজিস্ট্রি বিবরণ
       registry_record: রেজিস্ট্রি রেকর্ড
-    required_field: ''
+    required_field: '%{field}প্রয়োজনীয় ক্ষেত্র'
     select_label: নির্বাচন
     settings: সেটিংস
     show_on: প্রদর্শন করুন
@@ -1257,52 +1238,51 @@ bn:
     subform_not_found: খুঁজে পাওয়া যায়নি।
     title: ফর্ম শিরোনাম
     translations:
-      edit: ""
+      edit: অনুবাদ করুন
       edit_form_group: ফর্ম গ্রুপ লুক আপ সম্পাদনা করুন
       manage: অনুবাদগুলি পরিচালনা করুন
       no_changes_message: আপনি কোনও অনুবাদ পরিবর্তন করেননি
       note: 'নোট:'
-      note_form_group: "ফর্ম গ্রুপের জন্য অনুবাদ যোগ করতে, আপনাকে ফর্ম গ্রুপ লুকআপ অনুবাদগুলি সম্পাদনা করতে হবে।"
-      select_language: "ফর্ম গ্রুপের জন্য অনুবাদ যোগ করতে, আপনাকে ফর্ম গ্রুপ লুকআপ অনুবাদগুলি সম্পাদনা করতে হবে।"
+      note_form_group: ফর্ম গ্রুপের জন্য অনুবাদ যোগ করতে, আপনাকে ফর্ম গ্রুপ লুকআপ অনুবাদগুলি সম্পাদনা করতে হবে।
+      select_language: ফর্ম গ্রুপের জন্য অনুবাদ যোগ করতে, আপনাকে ফর্ম গ্রুপ লুকআপ অনুবাদগুলি সম্পাদনা করতে হবে।
       title: অনুবাদ
     type_label: ধরন
     visibility: দৃশ্যমানতা
     web_app: ওয়েব অ্যাপ
   home:
     ar: العربية
-    ar-IQ: ""
-    ar-JO: ""
+    ar-IQ: العربية (العراقية)
+    ar-JO: العربية (الأردنية)
     ar-LB: عربية (اللبنانية)
-    ar-SD: ""
-    bn: "বাংলা "
-    current_time_zone: "বর্তমান স্থানীয় সময় "
+    ar-SD: العربية (السودانية)
+    bn: 'বাংলা '
+    current_time_zone: 'বর্তমান স্থানীয় সময় '
     dashboard: ড্যাসবোর্ড
     en: ইংরেজি
     es: এসপানল
-    es-GT: ""
     fr: ফ্রানকাইস
     id: বাসাহা
-    km: ""
+    km: ភាសាខ្មែរ
     ku: کوردی
-    ku-IQ: ""
-    fa-AF: ""
-    ps-AF: ""
-    sw-KE: ""
-    sw-TZ: ""
-    ne: ""
+    ku-IQ: کوردی (بادینی)
+    fa-AF: فارسی (افغانستان)
+    ps-AF: پښتو (افغانستان)
+    sw-KE: Kiswahili (Kenya)
+    sw-TZ: Kiswahili (Tanzania)
+    ne: नेपाली
     label: বাড়ি
-    language: "ভাষা "
-    manage_system_users: "সার্ভার সামঞ্জস্যকরণ ব্যবহারকারীদের পরিচালনা "
+    language: 'ভাষা '
+    manage_system_users: 'সার্ভার সামঞ্জস্যকরণ ব্যবহারকারীদের পরিচালনা '
     my: ဗမာစာ
-    pt: ""
-    pt-BR: ""
-    records_need_attention: "নথিভূক্ত তথ্যের প্রতি মনোযোগ প্রয়োজন "
+    pt: Português
+    pt-BR: Português (Brasil)
+    records_need_attention: 'নথিভূক্ত তথ্যের প্রতি মনোযোগ প্রয়োজন '
     ru: Русский
     so: আল-সোমালী
     th: ไทย
-    users: "ব্যবহারকারীদের পরিচালনা "
-    view_records: " নথি দেখুন"
-    welcome: "প্রিমেরোতে স্বাগতম "
+    users: 'ব্যবহারকারীদের পরিচালনা '
+    view_records: ' নথি দেখুন'
+    welcome: 'প্রিমেরোতে স্বাগতম '
     zh: 中文
   incident:
     associated_case: "সংশ্লিষ্ট কেস"
@@ -1311,17 +1291,16 @@ bn:
       creation_success_queue: ব্যাকগ্রাউন্ডে ঘটনার রেকর্ড সফলভাবে তৈরি করা হয়েছে
       disabled: ঘটনা অক্ষম করা হয়েছে
       update_success: 'ঘটনা ১% [নথি_আইডি] সফলতার সাথে আপডেট করা হয়েছিল।'
-      update_success_queue: ''
+      update_success_queue: 'ঘটনা %{record_id}সফলভাবে পটভূমিতে হালনাগাদ করা হয়েছে৷'
     violation:
-      update_and_return: ''
-      save_and_return: ''
+      update_and_return: 'হালনাগাদ করুন এবং ফিরে যান%{association}'
+      save_and_return: 'যোগ করুন এবং ফিরে যান%{association}'
       pending: অপেক্ষারত যাচাই
       title: লঙ্ঘন
       types:
         killing: শিশুদের হত্যা
-        maiming: ""
+        maiming: 'অঙ্গহীন শিশু '
         recruitment: নিয়োগ এবং / অথবা শিশুদের ব্যবহার
-        sexual_violence: ধর্ষণ এবং / অথবা যৌন সহিংসতার অন্যান্য ফর্ম
         abduction: অপহরণ
         attack_on: স্কুল (গুলি) এবং / অথবা হাসপাতাল (গুলি) এর উপর আক্রমণ
         military_use: স্কুল (গুলি) এবং / অথবা হাসপাতাল (গুলি) এর সামরিক ব্যবহার
@@ -1333,38 +1312,37 @@ bn:
     enable_dialog: ওকে ক্লিক করলে এই ঘটনার স্থিতি সক্ষমে পরিবর্তিত হবে।
     enable_dialog_title: ঘটনা সক্রিয় করুন
     enable_success: ঘটনাগুলি সফলভাবে সক্ষম করা হয়েছে।
-    id: "আইডি #"
+    id: 'আইডি #'
     date_of_interview: সাক্ষাৎকারের তারিখ
     date_of_incident: ঘটনার তারিখ
     incident_location: ঘটনার অবস্থান
     violations: লঙ্ঘন
     export: রপ্তানি
-    label: "ঘটনা "
+    label: 'ঘটনা '
     filter_by:
-      boys: "বালকরা "
+      boys: 'বালকরা '
       by_date: তারিখ অনুযায়ী
       children: বাচ্চা
-      girls: "বালিকারা "
+      girls: 'বালিকারা '
       incident_location: ঘটনার অবস্থান
       unaccompanied_separated_status: সুরক্ষার স্থিতি
-      unknown: "অপরিচিত "
+      unknown: 'অপরিচিত '
       verification_status: যাচাইকরণের স্থিতি
       violence_type: সহিংসতার ধরন
-      armed_force_group_name: আর্মড ফোর্স গ্রুপের নাম
       armed_force_group_type: আর্মড ফোর্স গ্রুপের ধরন
     register_new_incident: নতুন ঘটনা
     selectable_date_options:
-      date_of_first_report: "সাক্ষাতকারের তারিখ "
-      incident_date_derived: "ঘটনার তারিখ "
-    selected_records: ''
-    selected_all_records: ''
+      date_of_first_report: 'সাক্ষাতকারের তারিখ '
+      incident_date_derived: 'ঘটনার তারিখ '
+    selected_records: '%{select_records}নির্বাচিত ঘটনা(গুলি)'
+    selected_all_records: 'এই প্রশ্নের সাথে মেলে এমন ঘটনা সমূহ নির্বাচন করুন%{total_records}। '
     survivor_code: সারভাইভার কোড
-    show_incident: ''
+    show_incident: 'ঘটনার আইডি%{short_id}'
     social_worker: সমাজকর্মী
     violence_type: সহিংসতার ধরন
     type_violence: সহিংসতার ধরন
   key_performance_indicators:
-    label: ""
+    label: "পালস/কেপিআই"
     case_assessment: "কেস মূল্যায়ন"
     case_action_planning: "কেস কর্ম পরিকল্পনা"
     case_action_plan_implementation: "কেস কর্ম পরিকল্পনা বাস্তবায়ন"
@@ -1372,121 +1350,117 @@ bn:
     case_closure: "কেস ক্লোজার"
     feedback: "ফিডব্যাক"
     other: "অন্যান্য"
-    date_format: ""
+    date_format: "%দ্বা %রা"
     date_range_select:
       custom_range: 'পছন্দসই'
-    long_date_format: ""
+    long_date_format: "দিন/মাস/বছর"
     time_periods:
-      all_time: ''
+      all_time: 'সব সময়'
       current_month: "বর্তমান মাস"
       last_3_months: "গত ৩ মাস"
-      last_6_months: ""
-      last_1_year: ""
-      0-3days: ""
-      4-5days: ""
-      6-14days: ""
-      15-30days: ""
-      1-3months: ""
-      4months: ""
-      1-month: ""
-      3-6months: ""
-      7-months: ""
+      last_6_months: "গত ৬ মাস"
+      last_1_year: "গত বছর"
+      0-3days: "০-৩ দিন "
+      4-5days: "৪-৫ দিন"
+      6-14days: "৬-১৪ দিন"
+      15-30days: "১৫-৩০ দিন"
+      1-3months: "১-৩ মাস"
+      4months: " ৩ মাসের অধিক "
+      1-month: "১ মাসের কম"
+      3-6months: "৩- ৬ মাস"
+      7-months: "৬ মাসের অধিক "
     helptext:
-      helptext: ""
+      helptext: "এই কেপিআই সম্পর্কে জানুন।"
     number_of_cases:
-      title: ""
-      reporting_site: ""
-      helptext: |
+      title: "১। নথিভুক্ত কেসের সংখ্যা৷"
+      reporting_site: "প্রতিবেদনের স্থান"
+      helptext: " রিপোর্টিং সাইটে প্রতি মাসে কতগুলি নতুন কেস খোলা হয়েছে তা এই সূচকটি দ্বারা নির্দেশিত হয়।\nএকটি রিপোর্টিং সাইট বলতে বোঝায় এমন একটি সাইট যেখানে ব্যবহারকারী সংস্থা পরিষেবা প্রদান করছে এবং\n যেখানে পরিষেবা প্রদানকারীর নিকট কেসগুলো রিপোর্ট করা হয়েছে৷ \n"
     number_of_incidents:
-      title: ""
+      title: "২। নথিভুক্ত কেসের সংখ্যা৷"
       reporting_site: "রিপোর্টিং সাইট"
-      helptext: |
+      helptext: "রিপোর্টিং সাইটে প্রতি মাসে কতগুলি নতুন ঘটনা খোলা হয়েছে বা নিবন্ধিত হয়েছে তা এই সূচকটি দ্বারা নির্দেশিত হয়।\nএকটি রিপোর্টিং সাইট বলতে বোঝায় এমন একটি সাইট যেখানে ব্যবহারকারী সংস্থা পরিষেবা প্রদান করছে এবং\nযেখানে পরিষেবা প্রদানকারীর নিকট কেসগুলো রিপোর্ট করা হয়েছে৷ \n"
     reporting_delay:
       title: "৩. রিপোর্টিং বিলম্ব"
       delay: "বিলম্ব"
       total_incidents: "মোট ঘটনা"
-      helptext: |
+      helptext: "এই সূচকটি, একজন GBV-সারভাইভার সেবা প্রদানকারীর কাছে রিপোর্ট করার সময় এবং ঘটনা ঘটার  সময়ের মধ্যে কতদিনের ব্যবধান রয়েছে নির্দেশ করে। \nসেবাপ্রদানকারী সংস্থার কাছে ঘটনাটি কখন রিপোর্ট করা হয়েছিল তার উপর ভিত্তি করে এটি\n গণনা করা হয়৷ বিভিন্ন সময়ের (0-3 দিন; 4-5 দিন; 6-14 দিন; 15-30 দিন; 1 মাসের বেশি; 3 মাসের বেশি) উপর ভিত্তি করে ডেটাগুলোকে শ্রেণীবদ্ধ করা হয়েছে।\n"
     service_access_delay:
-      title: ""
-      delay: ""
-      total_incidents: ""
+      title: "পরিষেবা গ্রহণে বিলম্ব"
+      delay: "বিলম্ব"
+      total_incidents: "মোট ঘটনা"
     assessment_status:
-      title: ""
+      title: "৪। মূল্যায়নের স্থিতি"
       completed: "সম্পূর্ণ"
       completed_supervisor_approved: "সম্পূর্ণ এবং সুপারভাইজার অনুমোদিত"
-      helptext: |
+      helptext: "চলমান বা সক্রিয় কেসগুলির মধ্যে কতগুলি কেসের জন্য অন্তত একটি মূল্যায়ন ফর্ম \nসম্পন্ন করা হয়েছে তার অনুপাত এই সূচক দ্বারা নির্দেশিত হয়।  একটি  মূল্যায়ন ফর্ম তখনই সম্পন্ন বলে মনে করা হবে যখন \nসেখানে বাধ্যতামূলক ক্ষেত্রগুলির একটি সেট পূরণ করা হবে। \n"
     completed_case_safety_plans:
-      title: "৫. সম্পন্ন কেস এর নিরাপত্তা পরিকল্পনা"
-      completed: "সম্পূর্ণ কেস নিরাপত্তা পরিকল্পনা"
+      title: "৫। কেস নিরাপত্তা পরিকল্পনা সম্পূর্ণ করা হয়েছে"
+      completed: "কেস নিরাপত্তা পরিকল্পনা সম্পূর্ণ করা হয়েছে"
       helptext: |
+        চলমান বা সক্রিয় কেসগুলির মধ্যে কতগুলি কেসের জন্য একটি  নিরাপত্তা পরিকল্পনা প্রয়োজন
+        বলে বিবেচিত হয়েছিল এবং তা সম্পন্ন করা হয়েছিল (উদাঃ অন্তরঙ্গ সঙ্গী দ্বারা নির্যাতন, আত্মহত্যা/হত্যার ঝুঁকি, শিশু সুরক্ষা) তার অনুপাত এই সূচক দ্বারা নির্দেশিত হয়।
+        একটি  নিরাপত্তা পরিকল্পনা তখনই সম্পন্ন বলে মনে করা হয় যেখানে নিরাপত্তা পরিকল্পনার ফর্মের বাধ্যতামূলক ক্ষেত্রগুলির একটি সেট পূরণ করা হয়।
     completed_case_action_plans:
-      title: "৬. সম্পন্ন কেস এর কর্ম পরিকল্পনা"
-      completed: "সম্পূর্ণ কেস অ্যাকশন প্ল্যান"
-      label: "সম্পূর্ণ কেস অ্যাকশন প্ল্যান"
+      title: ".৬। কেস এর কর্ম পরিকল্পনা সম্পন্ন করা হয়েছে।"
+      completed: "কেস এর কর্ম পরিকল্পনা সম্পন্ন করা হয়েছে "
+      label: "কেস এর কর্ম পরিকল্পনা সম্পন্ন করা হয়েছে "
       helptext: |
+        চলমান বা সক্রিয় কেসগুলির মধ্যে কতগুলি কেসের জন্য একটি কেস অ্যাকশন প্ল্যান সম্পন্ন করা হয়েছিল তার অনুপাত এই সূচক দ্বারা নির্দেশিত হয়।
+        একটি কেস অ্যাকশন প্ল্যান তখনই সম্পন্ন বলে মনে করা হয় যখন কেস অ্যাকশন প্ল্যান ফর্মের বাধ্যতামূলক ক্ষেত্রগুলির একটি সেট পূরণ করা হয়।
     completed_supervisor_approved_case_action_plans:
-      title: ""
-      completed_and_approved: ""
-      helptext: |
+      title: "কেস অ্যাকশন প্ল্যান সুপারভাইজার দ্বারা অনুমোদন করা হয়েছে"
+      completed_and_approved: "সুপারভাইজার দ্বারা অনুমোদিত কেস অ্যাকশন প্ল্যান সম্পূর্ণ হয়েছে। "
     services_provided:
-      title: ""
-      service: ""
-      count: ""
-      male: ""
-      female: ""
-      0-11: ""
-      12-17: ""
-      ">18": ""
+      title: "৮. পরিসেবা প্রদান করা হয়েছে "
+      service: "সেবা"
+      count: "সময় প্রদান করা হয়েছে"
+      male: "পুরুষ "
+      female: "মহিলা "
+      0-11: "০-১১"
+      12-17: "১২-১৭"
+      '>18': "১৮ এর অধিক"
       disability: "অক্ষমতা"
       no_disability: "কোনও অক্ষমতা নেই"
-      helptext: |
     average_referrals:
-      title: ""
+      title: "৯। গড় সুপারিশ"
       label: "প্রতি কেসে গড় রেফারেল"
-      helptext: |
     referrals_per_service:
       title: "প্রতি সেবা তে রেফারেল"
     average_followup_meetings_per_case:
       title: "১০. কেস প্রতি গড় ফলো-আপ মিটিং"
       label: "প্রতি ক্ষেত্রে গড় ফলো-আপ মিটিং"
-      helptext: |
     time_from_case_open_to_close:
-      title: ""
+      title: "১১. কেস খোলা থেকে কেস বন্ধ পর্যন্ত সময়"
       time: "সময়"
       percent: "কেস এর শতকরা হিসাব"
-      helptext: |
     case_closure_rate:
       title: "১২। কেস ক্লোজার কাউন্ট"
       reporting_site: "রিপোর্টিং সাইট"
-      helptext: |
     client_satisfaction_rate:
-      title: ""
-      label: ""
-      invalid: ""
-      helptext: |
+      title: "১৩। সেবা গ্রহিতার সন্তুষ্টি হার"
+      label: "সেবা গ্রহিতার সন্তুষ্টি "
+      invalid: "আমরা এই মুহুর্তে এটি গণনা করতে পারি না।"
     supervisor_to_caseworker_ratio:
-      title: ""
-      label: ""
-      helptext: |
+      title: "১৪। কেসওয়ার্কার অনুপাতের সুপারভাইজার"
+      label: "কেসওয়ার্কাররা প্রতি সুপারভাইজার"
+      helptext: "এই সূচক হল  একজন সুপারভাইজার কতজন কেসওয়ার্কারকে তত্ত্বাবধান করছেন তার সংখ্যা : ক সুপারভাইজার\nপ্রতি কেসওয়ার্কার এর অনুপাত। এই গণনাটি নির্ভর করবে  সিস্টেম নিবন্ধিত ব্যাক্তিদের ভূমিকার উপর । \n"
     case_load:
-      title: ""
-      case_load: "কেসলোড"
-      percent: ""
-      10cases: ""
-      20cases: ""
+      title: "১৫। অর্পিত কেসের ভার "
+      case_load: "অর্পিত কেসের ভার "
+      percent: " কেসওয়ার্কার অনুযায়ী কেসলোডের শতকরা হার। "
+      10cases: "< ১০ কেসগুলো"
+      20cases: "১১-২০ কেসগুলো"
       21-30cases: "২১ - ৩০ কেস"
       30cases: "> ৩০টি কেস"
-      helptext: |
     date_range_dialog:
-      title: ""
+      title: "তারিখ পরিবর্তনের পরিসীমা"
       description: "একবার এই পরিবর্তনটি প্রয়োগ করা হলে, দুটি তারিখের মধ্যে থেকে ডাটা নির্বাচন করা হবে।"
       apply: 'প্রয়োগ'
       from: 'থেকে'
       to: 'তে'
       aria-labels:
-        from: ""
-        to: ""
-
+        from: "ডেটা এই তারিখের পরে নির্বাচন করা হবে"
+        to: "ডেটা এই তারিখের আগে নির্বাচন করা হবে"
   location:
     base_types:
       camp: শিবির
@@ -1521,9 +1495,9 @@ bn:
     message: আপলোড করার জন্য অনুগ্রহ করে একটি CSV ফাইল নির্বাচন করুন। এই ফাইলটি UTF-8 এনকোডিং ব্যবহার করা উচিত এবং প্রতিটি কলামের দ্বিতীয় শিরোনাম সারিতে HXL হ্যাশট্যাগগুলি অন্তর্ভুক্ত করা উচিত।
     no_location: কোনও ব্যবহারকারীর অ্যাকাউন্ট তৈরি করার আগে অনুগ্রহ করে অবস্থানগুলি আমদানি করুন।
     enable_title: অবস্থান সক্রিয় করুন
-    enable_text: ""
+    enable_text: 'আপনি  কি নিশ্চিত? আপনি যদি নির্বাচিত স্থানগুলি চিহ্নিত করেন, তবে সেগুলি স্থান এর তালিকায় যুক্ত হয়ে যাবে।   '
     disable_title: অবস্থান অক্ষম করুন
-    disable_text: "তুমি কি নিশ্চিত? আপনি যদি নির্বাচিত অবস্থানগুলি অক্ষম করেন তবে সেগুলি আর অবস্থান ক্ষেত্রগুলিতে বিকল্প হিসাবে উপস্থিত হবে না"
+    disable_text: তুমি কি নিশ্চিত? আপনি যদি নির্বাচিত অবস্থানগুলি অক্ষম করেন তবে সেগুলি আর অবস্থান ক্ষেত্রগুলিতে বিকল্প হিসাবে উপস্থিত হবে না
   logger:
     actions:
       _approved: স্বীকৃত
@@ -1571,7 +1545,7 @@ bn:
       transfer_rejected: স্থানান্তর প্রত্যাখ্যাত হয়েছে
       transfer_request: স্থানান্তরের অনুরোধ
       transfer_to: স্থানান্তর করুন
-      unflag: ""
+      unflag: 'পতাকামুক্ত '
       update: হালনাগাদ
       user_password_reset_request: ব্যবহারকারীর পাসওয়ার্ড পুনঃবিন্যাসের অনুরোধ
       webhook: ওয়েব হুক
@@ -1583,19 +1557,19 @@ bn:
       'false': বাতিলকরণ
       gbv_closure: GBV ক্লোজার ফর্ম
       'true': অনুমোদন হচ্ছে
-    assessment_approved: ""
-    assessment_requested: ""
+    assessment_approved: "%{approval_label}এর জন্য অনুমোদিত"
+    assessment_requested: "%{approval_label}জন্য অনুরোধ করা হয়েছে"
     bulk_index: সকল তালিকা
-    by_user: "ব্যবহারকারী দ্বারা "
-    case_plan_approved: ""
-    case_plan_requested: ""
+    by_user: 'ব্যবহারকারী দ্বারা '
+    case_plan_approved: "%{approval_label}এর জন্য অনুমোদিত"
+    case_plan_requested: "%{approval_label}জন্য অনুরোধ করা হয়েছে"
     close: বন্ধ
-    closure_approved: ""
-    closure_requested: ""
-    consent_count: " গণনার সম্মতি"
+    closure_approved: "%{approval_label}এর জন্য অনুমোদিত"
+    closure_requested: "%{approval_label}জন্য অনুরোধ করা হয়েছে"
+    consent_count: ' গণনার সম্মতি'
     copy: কপি করছে
     create: সৃষ্টি করছে
-    create_subform: "সাব-ফর্ম তৈরি করছে "
+    create_subform: 'সাব-ফর্ম তৈরি করছে '
     destroy: মুছে ফেলছে
     edit: সম্পাদনা করছে
     enable_disable_record: সক্ষম / অক্ষম করুন
@@ -1604,11 +1578,11 @@ bn:
     flag_records: পতাকা নামানো
     graph_data: গ্রাফ তথ্য দেখতে
     hide_name:
-      protect: " নাম লুকানো"
+      protect: ' নাম লুকানো'
       view: নাম দেখানো
     index: রেকর্ডের তালিকাকরণ
     list: তালিকা
-    login: "প্রবেশ করা "
+    login: 'প্রবেশ করা '
     logout: বাহির হওয়া
     lookups_for_field: ক্ষেত্রের জন্য অনুসন্ধান করা
     mark_for_mobile:
@@ -1656,38 +1630,38 @@ bn:
       gbv_closure: GBV ক্লোজার ফর্মের  অনুমোদনের জন্য অনুরোধ করুন
     request_transfer: স্থানান্তরের অনুরোধ পাঠাচ্ছে
     request_transfer_view: স্থানান্তরের অনুরোধ দেখছে
-    save_subform: "সাব-ফর্ম সংরক্ষণ "
+    save_subform: 'সাব-ফর্ম সংরক্ষণ '
     search: API অনুসন্ধান
     show: দেখছে
     show_alerts: এর জন্য সতর্কতাগুলি দেখুন
     to: টু
-    to_user: "ব্যবহারকারীর নিকট "
+    to_user: 'ব্যবহারকারীর নিকট '
     transfer: স্থানান্তর করছে
     transfer_status:
       Accepted: স্থানান্তর গৃহিত হলো
-      Rejected: " স্থানান্তর বাতিল হলো"
+      Rejected: ' স্থানান্তর বাতিল হলো'
     unflag: পতাকা নামানো
     update: আপডেট করা হচ্ছে
   login:
-    label: "প্রবেশ করা "
+    label: 'প্রবেশ করা '
     password:
       label: পাসওয়ার্ড
     password_confirmation:
       label: পাসওয়ার্ড নিশ্চিতকরণ
     password_match:
       label: পাসওয়ার্ড অবশ্যই মেলাতে হবে
-    provider_title: ""
+    provider_title: সাথে%{provider}
     title: লগ ইন করুন
-    username: "ব্যবহারকারির নাম "
+    username: 'ব্যবহারকারির নাম '
     password_reset_modal: পাসওয়ার্ড রিসেট করুন
     password_reset_modal_text: প্রাইমেরো আপনার ইমেল ঠিকানায় একটি পাসওয়ার্ড রিসেট লিঙ্ক পাঠাবে
     password_reset_email: ইমেল
-    forgot_password: "পাসওয়ার্ড ভুলে গেছেন?"
+    forgot_password: পাসওয়ার্ড ভুলে গেছেন?
     email:
       label: ইমেল
   lookup:
     create: নতুন খোঁজা
-    enabled_label: "সক্ষম?"
+    enabled_label: সক্ষম?
     english_label: ইংরেজী টেক্সট
     label: খোঁজা
     language_label: ভাষা
@@ -1696,14 +1670,14 @@ bn:
       correct_errors: 'নিম্নলিখিত ত্রুটি সংশোধন করুন এবং পুনরায় জমা দিন:'
       created: লুকআপ সফলভাবে তৈরি করা হয়েছে।
       updated: লুকআপ সফলভাবে আপডেট করা হয়েছে।
-    name: "নাম "
+    name: 'নাম '
     no_options: এই লুকআপের বর্তমানে কোনও বিকল্প নেই।
     translation_label: কার্য
     values: বিকল্প
   managed_reports:
     label: অন্তর্দৃষ্টিসমূহ
     total: মোট
-    filter_by: 
+    filter_by:
       date: তারিখ
       verification_status: যাচাইকরণের স্থিতি
     date_range:
@@ -1722,18 +1696,15 @@ bn:
     no_data_table: এই অন্তর্দৃষ্টির জন্য কোনও সারণি তথ্য বিদ্যমান নেই
     violations:
       name: লঙ্ঘন
-      description: ''
       filter_options:
         incident_date: ঘটনার তারিখ
         date_of_report: প্রতিবেদনের তারিখ
         ctfmr_verified_date: যাচাইকরণের তারিখ
       reports:
         killing: শিশু হত্যা
-        maiming: ""
+        maiming: 'অঙ্গহীন শিশু '
         recruitment: নিয়োগ এবং / অথবা শিশুদের ব্যবহার
-        sexual_violence: ধর্ষণ এবং / অথবা যৌন সহিংসতার অন্যান্য ধরন
         abduction: অপহরণ
-        attack_on: স্কুল (গুলি) এবং / অথবা হাসপাতাল (গুলি) এর উপর আক্রমণ
         military_use: স্কুল (গুলি) এবং / অথবা হাসপাতাল (গুলি) এর সামরিক ব্যবহার
         denial_humanitarian_access: শিশুদের জন্য মানবিক প্রবেশাধিকার অস্বীকার করা
       sub_reports:
@@ -1749,63 +1720,60 @@ bn:
         total: মোট
     gbv_statistics:
       name: GBV পরিসংখ্যান
-      description: ''
       filter_options:
         date_of_first_report: সাক্ষাৎকারের তারিখ
         incident_date: ঘটনার তারিখ
-      reports: 
+      reports:
         incidents: ঘটনাসমূহ
         perpetrators: অপরাধীরা
       sub_reports:
         combined: ঘটনাসমূহ
         total: রিপোর্ট করা GBV ঘটনার সংখ্যা
         gbv_sexual_violence: যৌন সহিংসতার ঘটনার সংখ্যা রিপোর্ট করা হয়েছে
-        gbv_previous_incidents: পূর্ববর্তী GBV ঘটনার সাথে বেঁচে থাকা ব্যক্তিদের দ্বারা রিপোর্ট করা ঘটনাগুলির সংখ্যা 
+        gbv_previous_incidents: পূর্ববর্তী GBV ঘটনার সাথে বেঁচে থাকা ব্যক্তিদের দ্বারা রিপোর্ট করা ঘটনাগুলির সংখ্যা
         gbv_sexual_violence_type: ঘটনার ধরন
         incident_timeofday: দিনের ঘটনার সময়
         elapsed_reporting_time: ঘটনা এবং প্রতিবেদনের তারিখের মধ্যবর্তী সময়
-        elapsed_reporting_time_rape: "ধর্ষণের ঘটনা, ঘটনা এবং প্রতিবেদনের তারিখের মধ্যে সময় অতিবাহিত হয়েছে"
+        elapsed_reporting_time_rape: ধর্ষণের ঘটনা, ঘটনা এবং প্রতিবেদনের তারিখের মধ্যে সময় অতিবাহিত হয়েছে
         incident_location_type: ঘটনার অবস্থান
-        number_of_perpetrators: প্রাথমিক অপরাধীর সংখ্যা
-        perpetrator_relationship: বেঁচে থাকা ব্যক্তির সাথে প্রাথমিক অপরাধীর সম্পর্ক
         perpetrator_age_group: অভিযুক্ত প্রাথমিক অপরাধীদের বয়স গ্রুপ
         perpetrator_occupation: অভিযুক্ত প্রধান অপরাধী পেশা
   messages:
-    alert_items: ""
+    alert_items: আপনার আছে %{items}জিনিসপত্রের চিহ্ন।
     alerts_for:
-      approval: ""
-      field_change: ''
-      transfer_request: ""
-      duplicate_field: ""
+      approval: জন্য অনুমোদন মুলতুবি আছে%{form_section_name}
+      field_change: '%{form_section_name}আপডেট করা হয়েছিল%{alert_time}'
+      transfer_request: একটি নতুন স্থানান্তরের অনুরোধ করা হয়েছে%{date}এ %{user}দ্বারা%{agency}
+      duplicate_field: 'সিস্টেমে একই রকম কেস %{field_name}আরেকটি আছে। '
     cannot_edit: আপনি এটি সম্পাদনা করতে পারবেন না
     confirmation_message: ওকে ক্লিক করা হলে কোনও অসংরক্ষিত পরিবর্তন বাতিল হয়ে হবে এবং তালিকা অংশে ফিরে আসবে। রেকর্ড ফিরে পেতে বাতিল ক্লিক করুন।
     confirmation_message_subform: OK ক্লিক করলে এই আইটেম এ যে কোন অসংরক্ষিত পরিবর্তন পরিত্যাগ করা হবে । পরিবর্তনগুলি করা অবিরত রাখতে বাতিল ক্লিক করুন.
     dashboard_offline: আপনি অফলাইনে আছেন। আপনি যখন অনলাইনে ফিরে আসবেন তখন ড্যাশবোর্ডটি পুরোপুরি কার্যকরী হবে
-    field_name_on_form_name: ''
-    logout_confirmation: "আপনি কি আপনার সেশন চালিয়ে যেতে চান?"
-    logout_offline_warning: "আপনি কি নিশ্চিত যে আপনি লগ আউট করতে চান? আপনি যদি তা করেন তবে আপনি আবার অনলাইনে না আসা পর্যন্ত আপনি আবার লগ ইন করতে সক্ষম হবেন না। অফলাইনে থাকাকালীন আপনার করা যে কোনও পরিবর্তন হারিয়ে যাবে।"
-    logout_warning: ""
-    logout_dialog_header: ""
+    field_name_on_form_name: '''ক্ষেত্রে'' ফর্ম।'
+    logout_confirmation: আপনি কি আপনার সেশন চালিয়ে যেতে চান?
+    logout_offline_warning: আপনি কি নিশ্চিত যে আপনি লগ আউট করতে চান? আপনি যদি তা করেন তবে আপনি আবার অনলাইনে না আসা পর্যন্ত আপনি আবার লগ ইন করতে সক্ষম হবেন না। অফলাইনে থাকাকালীন আপনার করা যে কোনও পরিবর্তন হারিয়ে যাবে।
+    logout_warning: ৫ মিনিটের মধ্যে বন্ধ হয়ে যাবে
+    logout_dialog_header: অফলাইন এ বন্ধ
     logout_confirmation_title: লগ আউট নিশ্চিতকরণ
-    logout_confirmation_text: "আপনি কি নিশ্চিত যে আপনি লগ আউট করতে চান?"
+    logout_confirmation_text: আপনি কি নিশ্চিত যে আপনি লগ আউট করতে চান?
     no_changes: আপনি কোনও ক্ষেত্র পরিবর্তন করেননি
     not_available: পাওয়া
     record_list:
-      column_header_tooltip: ""
+      column_header_tooltip: সাজানোর জন্য%{column}
       of: এর
-      no_match: "দুঃখিত, কোনও মিলিত রেকর্ড খুঁজে পাওয়া যায়নি"
+      no_match: দুঃখিত, কোনও মিলিত রেকর্ড খুঁজে পাওয়া যায়নি
       rows_per_page: প্রতি পৃষ্ঠায় সারি
       sort: বাছাই
   navigation:
     bulk_exports: রপ্তানী
     cases: কেসগুলো
     home: বাড়ি
-    key_performance_indicators: ""
+    key_performance_indicators: স্পন্দন / কেপিআই
     incidents: ঘটনাসমূহ
     logout: লগ আউট করুন
     reports: রিপোর্ট
     insights: অন্তর্দৃষ্টিসমূহ
-    search: "অনুসন্ধান "
+    search: 'অনুসন্ধান '
     settings: সেটিংস
     support: সমর্থন
     support_menu:
@@ -1815,75 +1783,75 @@ bn:
       system_information: সিস্টেম তথ্য
     tasks: কার্য
     tracing_request: ট্রেসিং অনুরোধ
-    activity_log: ""
-    registry_records: ""
+    activity_log: কার্য বিবরণ
+    registry_records: নিবন্ধীকরণ
   notes:
-    note_success: ""
+    note_success: সফলভাবে মন্তব্য যোগ করা হয়েছে
   permissions:
-    label: "অনুমতি "
+    label: 'অনুমতি '
     permission:
-      All: "সব "
-      add_note: "নোট সংযোজন করুন "
+      All: 'সব '
+      add_note: 'নোট সংযোজন করুন '
       admin_only: কোন নথি নেই - শুধুমাত্র অ্যাডমিনের কার্যকারিতা
       administrator_read: প্রশাসকের পড়া
       agency: সংস্থা
       agency_read: সংস্থার পড়া
       all: সব নথি বা ব্যবহারকারীর অ্যাক্সেস
-      approvals_assessment: ''
-      approvals_assessment_pending: ''
-      approvals_case_plan: ''
-      approvals_case_plan_pending: ''
-      approvals_closure: ''
-      approvals_closure_pending: ''
-      approve_action_plan: ""
-      approve_assessment: ""
-      approve_case_plan: ""
-      approve_closure: ""
-      approve_gbv_closure: ""
+      approvals_assessment: '%{approval_label}'
+      approvals_assessment_pending: '%{approval_label}অমীমাংসিত'
+      approvals_case_plan: '%{approval_label}'
+      approvals_case_plan_pending: '%{approval_label}অমীমাংসিত'
+      approvals_closure: '%{approval_label}'
+      approvals_closure_pending: '%{approval_label}অমীমাংসিত'
+      approve_action_plan: অনুমোদন করুন%{approval_label}
+      approve_assessment: ফর্ম অনুমোদন করুন%{approval_label}
+      approve_case_plan: অনুমোদন করুন%{approval_label}
+      approve_closure: ফর্ম অনুমোদন করুন%{approval_label}
+      approve_gbv_closure: ফর্ম অনুমোদন করুন%{approval_label}
       assign: দায়িত্ব অর্পণ
       assign_within_agency: সংস্থার মধ্যে দায়িত্ব প্রদান
       assign_within_user_group: ব্যবহারকারী দলের মধ্যে দায়িত্ব প্রদান
       audit_log: অডিট লগ
-      case: "কেস "
-      case_approvals: ""
-      case_assignments_referrals_transfers: "কেস অ্যাসাইনমেন্ট, রেফারেল এবং স্থানান্তর"
+      case: 'কেস '
+      case_approvals: কেস অনুমোদন
+      case_assignments_referrals_transfers: কেস অ্যাসাইনমেন্ট, রেফারেল এবং স্থানান্তর
       case_exports: কেস এক্সপোর্ট
       case_overview: আমার কেস
       case_risk: অ্যাসেসমেন্ট লেভেল অনুযায়ী কেস
-      cases_by_task_overdue_assessment: ""
-      cases_by_task_overdue_case_plan: ""
-      cases_by_task_overdue_followups: ""
-      cases_by_task_overdue_services: ""
+      cases_by_task_overdue_assessment: 'মূল্যায়নে অবশিষ্ট কাজ দ্বারা কেস দেখুন  '
+      cases_by_task_overdue_case_plan: 'কর্ম পরিকল্পনায়ে অবশিষ্ট কাজ দ্বারা কেস দেখুন '
+      cases_by_task_overdue_followups: 'পরিসেবায় অবশিষ্ট কাজ দ্বারা কেস দেখুন '
+      cases_by_task_overdue_services: 'পরিসেবায় অবশিষ্ট কাজ দ্বারা কেস দেখুন '
       cases_managed_other_users: অন্যান্য ব্যবহারকারীদের দ্বারা পরিচালিত কেসগুলি
       close: বন্ধ
       consent_override: অনুমোদন অগ্রাহ্য করা
-      copy: "কপি "
+      copy: 'কপি '
       copy_of: এর কপি
       create: সৃষ্টি করা
       dash_case_incident_overview: আমার কেস/ ঘটনাসমূহ
-      dash_cases_by_social_worker: "সমাজকর্মী দ্বারা কেস দেখুন "
+      dash_cases_by_social_worker: 'সমাজকর্মী দ্বারা কেস দেখুন '
       dash_cases_by_task_overdue: অবশিষ্ট কাজ দ্বারা কেস দেখুন
       dash_cases_by_workflow: কর্মতালিকা অনুযায়ী কেস দেখুন
       dash_cases_to_assign: দায়িত্ব অর্পণের কেস দেখুন
       dash_group_overview: আমার গ্রুপের কেস
-      dash_manager_transfers: "ব্যবস্থাপক স্থানান্তর দেখুন "
-      dash_matching_results: "সামঞ্জস্যপূর্ণ ফলাফল দেখুন "
-      dash_protection_concerns: "সুরক্ষরা উদ্বেগ দেখুন "
+      dash_manager_transfers: 'ব্যবস্থাপক স্থানান্তর দেখুন '
+      dash_matching_results: 'সামঞ্জস্যপূর্ণ ফলাফল দেখুন '
+      dash_protection_concerns: 'সুরক্ষরা উদ্বেগ দেখুন '
       dash_protection_concerns_by_location: অবস্থান অনুসারে সুরক্ষা উদ্বেগগুলি দেখুন
-      dash_referrals_by_socal_worker: "সামজকর্মী দ্বারা রেফারেল দেখুন  "
-      dash_reporting_location: "প্রতিবেদনের অবস্থান দেখুন "
-      dash_service_provisions: "সেবার নিয়ম দেখুন "
+      dash_referrals_by_socal_worker: 'সামজকর্মী দ্বারা রেফারেল দেখুন  '
+      dash_reporting_location: 'প্রতিবেদনের অবস্থান দেখুন '
+      dash_service_provisions: 'সেবার নিয়ম দেখুন '
       dash_shared_from_my_team: আমার টিম থেকে শেয়ার করা হয়েছে
       dash_shared_with_me: আমার সাথে শেয়ার করা হয়েছে
       dash_shared_with_my_team: আমার দলের সাথে শেয়ার করা হয়েছে
       dash_shared_with_others: অন্যদের সাথে শেয়ার করা হয়েছে
-      dash_show_none_values: ""
-      dash_tasks: "কাজ দেখুন "
-      dash_transfers_by_socal_worker: "সমাজকর্মী দ্বারা স্তানান্তর দেখুন "
+      dash_show_none_values: 'দেখুন কোন মান নেই '
+      dash_tasks: 'কাজ দেখুন '
+      dash_transfers_by_socal_worker: 'সমাজকর্মী দ্বারা স্তানান্তর দেখুন '
       dash_national_admin_summary: প্রশাসকের সারসংক্ষেপ
-      dashboard: "ড্যাসবোর্ড "
+      dashboard: 'ড্যাসবোর্ড '
       delete: মুছুন
-      display_view_page: "দেখার পৃষ্ঠা প্রদর্শন "
+      display_view_page: 'দেখার পৃষ্ঠা প্রদর্শন '
       duplicate: প্রতিলিপি অনুসন্ধান
       enable_disable_record: অক্ষম
       export_case_pdf: কেস পিডিএফ রপ্তানী
@@ -1898,49 +1866,49 @@ bn:
       export_unhcr_csv: ইউএনএইচসিআর সিভিএস রপ্তানী
       export_xls: এক্সএলএস রপ্তানী
       find_tracing_match: কেস থেকে সামঞ্জস্য অনুসন্ধান
-      view_registry_record: ""
-      add_registry_record: ""
+      view_registry_record: নিবন্ধন নথি দেখুন
+      add_registry_record: নিবন্ধন নথি যোগ করুন
       flag: পতাকা
       form: ফরমস
       group: আমার গ্রুপের  সব নথি বা ব্যবহারকারীর অ্যাক্সেস
       group_read: গ্রুপের পড়া
       import: আমদানি
-      incident: "ঘটনা "
-      incident_details_from_case: "ঘটনাটি অন্য  কেস ব্যবহারকারীর ক্ষেত্রে যুক্ত করুন "
+      incident: 'ঘটনা '
+      incident_details_from_case: 'ঘটনাটি অন্য  কেস ব্যবহারকারীর ক্ষেত্রে যুক্ত করুন '
       incident_from_case: একটি কেস থেকে একটি ঘটনা তৈরি করুন
       kpi: পালস/কেপিআই
       lookup: খোঁজা
       manage: ব্যবস্থাপনা করা
       mark_for_offline: অফলাইনের জন্য চিহ্নিত করুন
       matching_configuration: কনফিগারেশান সামঞ্জস্য করা
-      metadata: "ফরম, খোঁজা"
+      metadata: ফরম, খোঁজা
       potential_match: সম্ভাব্য মিল
       primero_configuration: কনফিগারেশন
-      read: "পড়া "
+      read: 'পড়া '
       reassign: পুনরায় দায়িত্ব অর্পণ
       receive_referral: রেফারেল গ্রহণ করুন
       receive_transfer: স্থানান্তর গ্রহণ করুন
       referral: রেফারেলের জন্য ব্যবহার করা যেতে পারে
-      referral_from_service: "সেবা ফরম থেকে কেস উল্লেখ করুণ "
+      referral_from_service: 'সেবা ফরম থেকে কেস উল্লেখ করুণ '
       registry_record: রেজিস্ট্রি
-      remove_assigned_users: "অন্যান্য নির্ধারিত ব্যবহারকারীদের অপসারণ করুন (রেফারালগুলি) "
+      remove_assigned_users: 'অন্যান্য নির্ধারিত ব্যবহারকারীদের অপসারণ করুন (রেফারালগুলি) '
       reopen: পুনরায় খুলুন
       report: প্রতিবেদন
       managed_report: অন্তর্দৃষ্টিসমূহ
-      request_approval: "অনুমোদনের অনুরোধ "
-      request_approval_action_plan: ""
-      request_approval_assessment: ""
-      request_approval_case_plan: ""
-      request_approval_closure: ""
-      request_approval_gbv_closure: ""
-      request_transfer: "হস্তান্তরের অনুরোধ "
+      request_approval: 'অনুমোদনের অনুরোধ '
+      request_approval_action_plan: অনুমোদনের জন্য অনুরোধ%{approval_label} করুন
+      request_approval_assessment: অনুমোদনের জন্য অনুরোধ%{approval_label} করুন
+      request_approval_case_plan: অনুমোদনের জন্য অনুরোধ%{approval_label} করুন
+      request_approval_closure: অনুমোদনের জন্য অনুরোধ%{approval_label} করুন
+      request_approval_gbv_closure: অনুমোদনের জন্য অনুরোধ%{approval_label} করুন
+      request_transfer: 'হস্তান্তরের অনুরোধ '
       role: ভূমিকা
       save_search: অনুসন্ধান সংরক্ষণ করুন
       saved_search: অনুসন্ধান রক্ষা করা
-      search_owned_by_others: "অন্যান্য ব্যবহারকারীর কেস নথির মালিকানার জন্য অনুসন্ধান করুন "
-      self: "শুধুমাত্র আমার নথি বা ব্যবহারকারীর অ্যাক্সেস "
-      service_provision_incident_details: "সেবার নিয়মকানুনের বার্টুনটি ঘটনার বিস্থারিত মোডালের সাথে যুক্ত করুন "
-      services_section_from_case: "অন্য ব্যবহারকারীর ক্ষেত্রে সেবার নিয়ম যোগ করুন "
+      search_owned_by_others: 'অন্যান্য ব্যবহারকারীর কেস নথির মালিকানার জন্য অনুসন্ধান করুন '
+      self: 'শুধুমাত্র আমার নথি বা ব্যবহারকারীর অ্যাক্সেস '
+      service_provision_incident_details: 'সেবার নিয়মকানুনের বার্টুনটি ঘটনার বিস্থারিত মোডালের সাথে যুক্ত করুন '
+      services_section_from_case: 'অন্য ব্যবহারকারীর ক্ষেত্রে সেবার নিয়ম যোগ করুন '
       specific_roles: কার্যক্রমের নির্দিষ্ট তালিকার অ্যাক্সেস 
       sync_external: একটি বাহ্যিক তথ্য ব্যবস্থাপনা সিস্টেমের সাথে সিঙ্ক করুন
       sync_mobile: অফলাইনের জন্য চিহ্নিত করুন
@@ -1948,16 +1916,16 @@ bn:
       tracing_request: অনুসন্ধানের অনুরোধ
       transfer: স্থানান্তরের জন্য ব্যবহার করা যেতে পারে
       user: ব্যবহারকারী
-      user_group: "ব্যবহারকারীর গ্রুপ "
-      view_approvals: "অনুমোদন দেখুন "
-      view_assessment: "মূল্যায়ন দেখুন "
+      user_group: 'ব্যবহারকারীর গ্রুপ '
+      view_approvals: 'অনুমোদন দেখুন '
+      view_assessment: 'মূল্যায়ন দেখুন '
       view_photo: ছবি প্রদর্শন
-      view_protection_concerns_filter: "সুরক্ষার উদ্বেগ ফিল্টার দেখুন "
+      view_protection_concerns_filter: 'সুরক্ষার উদ্বেগ ফিল্টার দেখুন '
       view_response: সাড়া দেওয়াকে দেখা
       webhook: ওয়েব হুক
       workflow: ওয়ার্কফ্লো - পৃথক কেস
       workflow_team: ওয়ার্কফ্লো - টিম কেস
-      write: "লিখা "
+      write: 'লিখা '
       activity_log: একটিভিটি লগ
     resource:
       kpi:
@@ -1966,977 +1934,583 @@ bn:
             explanation: Pulse/KPI পৃষ্ঠা অ্যাক্সেস করার ক্ষমতা
             label: Pulse/KPI পৃষ্ঠা
           kpi_assessment_status:
-            explanation: "দেখার ক্ষমতা, সক্রিয় ক্ষেত্রে যে ব্যবহারকারীর অ্যাক্সেস আছে তার জন্য, তাদের মধ্যে কোন অনুপাতে একটি সম্পূর্ণ মূল্যায়ন ফর্ম রয়েছে।"
+            explanation: দেখার ক্ষমতা, সক্রিয় ক্ষেত্রে যে ব্যবহারকারীর অ্যাক্সেস আছে তার জন্য, তাদের মধ্যে কোন অনুপাতে একটি সম্পূর্ণ মূল্যায়ন ফর্ম রয়েছে।
             label: মূল্যায়নের স্থিতি
           kpi_average_followup_meetings_per_case:
-            explanation: "দেখার ক্ষমতা, ব্যবহারকারীর অ্যাক্সেস রয়েছে এমন সক্রিয় ক্ষেত্রে, একটি নির্দিষ্ট সময়ের মধ্যে পরিচালিত ফলো-আপ মিটিংগুলির গড় সংখ্যা।"
+            explanation: দেখার ক্ষমতা, ব্যবহারকারীর অ্যাক্সেস রয়েছে এমন সক্রিয় ক্ষেত্রে, একটি নির্দিষ্ট সময়ের মধ্যে পরিচালিত ফলো-আপ মিটিংগুলির গড় সংখ্যা।
             label: কেস প্রতি গড় ফলোআপ মিটিং
           kpi_average_referrals:
-            explanation: "দেখার ক্ষমতা, ব্যবহারকারীর অ্যাক্সেস রয়েছে এমন সমস্ত সক্রিয় ক্ষেত্রে, প্রতিটি ধরণের সেবাগুলিতে তৈরি রেফারেলগুলির গড় সংখ্যা।"
+            explanation: দেখার ক্ষমতা, ব্যবহারকারীর অ্যাক্সেস রয়েছে এমন সমস্ত সক্রিয় ক্ষেত্রে, প্রতিটি ধরণের সেবাগুলিতে তৈরি রেফারেলগুলির গড় সংখ্যা।
             label: গড় রেফারেল
           kpi_case_closure_rate:
-            explanation: ""
-            label: ""
+            explanation: প্রতি মাসে কতগুলি কেস বন্ধ করা হচ্ছে তা দেখার ক্ষমতা।
+            label: বন্ধ কেস গণনা
           kpi_case_load:
-            explanation: ""
-            label: ""
+            explanation: প্রত্যেক কেসওয়ার্কারের চলমান কেসের গড় সংখ্যা দেখার ক্ষমতা।
+            label: 'অর্পিত কেসের ভার '
           kpi_client_satisfaction_rate:
-            explanation: ""
-            label: ""
+            label: 'গ্রাহকের সন্তুষ্টির হার '
           kpi_completed_case_action_plans:
-            explanation: ""
-            label: ""
+            explanation: ' একজন ব্যবহারকারীর যে কেসগুলোতে অ্যাক্সেস আছে, তাদের মধ্যে কতগুলো কেসের ক্ষেত্রে  কেস প্ল্যান সম্পন্ন হয়েছে তা দেখার ক্ষমতা।'
+            label: 'কেস এর কর্ম পরিকল্পনা সম্পন্ন করা হয়েছে '
           kpi_completed_case_safety_plans:
-            explanation: ""
-            label: ""
+            explanation: ' একজন ব্যবহারকারীর যে কেসগুলোতে অ্যাক্সেস আছে, তাদের মধ্যে কতগুলো কেসের ক্ষেত্রে  নিরাপত্তা পরিকল্পনা সম্পন্ন হয়েছে তা দেখার ক্ষমতা।'
+            label: কেস নিরাপত্তা পরিকল্পনা সম্পূর্ণ করা হয়েছে
           kpi_completed_supervisor_approved_case_action_plans:
-            explanation: ""
-            label: ""
+            explanation: ' একজন ব্যবহারকারীর যে সক্রিয় কেসগুলোতে অ্যাক্সেস আছে, তাদের মধ্যে কতগুলো কেসের কেস প্ল্যান সুপারভাইজার অনুমোদন করেছেন তা দেখার ক্ষমতা।'
+            label: সুপারভাইজার দ্বারা কর্ম পরিকল্পনা অনুমোদন সম্পন্ন
           kpi_goal_progress_per_need:
-            explanation: ""
-            label: ""
+            explanation: ' একজন ব্যবহারকারীর যে কেসগুলোতে অ্যাক্সেস আছে, তাদের মধ্যে প্রতিটি বিভাগে কত শতাংশ কেসের ক্ষেত্রে চাহিদা অনুযায়ী লক্ষ্য পূরণ করা হয়েছে তা দেখার ক্ষমতা। '
+            label: লক্ষ্যের দিকে অগ্রগতি হয়েছে
           kpi_number_of_cases:
-            explanation: ""
+            explanation: প্রতি মাসে কতগুলি কেস নতুন করে নিবন্ধিত হয়েছে তা দেখার ক্ষমতা।
             label: কেসের  সংখ্যা
           kpi_number_of_incidents:
-            explanation: ""
+            explanation: সাইট অনুযায়ী প্রতি মাসে কতগুলি নতুন ঘটনা নিবন্ধিত হয়েছে তা দেখার ক্ষমতা।
             label: ঘটনার সংখ্যা
           kpi_reporting_delay:
-            explanation: "দেখার ক্ষমতা, ব্যবহারকারীর অ্যাক্সেস রয়েছে এমন সমস্ত ঘটনার জন্য, যখন বেঁচে থাকা ব্যক্তিটি  GBV অভিজ্ঞতা অর্জন করে এবং যখন বেঁচে থাকা ব্যক্তিটি কোনও সেবা সরবরাহকারীর কাছে এটি রিপোর্ট করে তখন দিনের সংখ্যা শেষ হয়ে যায়।"
+            explanation: দেখার ক্ষমতা, ব্যবহারকারীর অ্যাক্সেস রয়েছে এমন সমস্ত ঘটনার জন্য, যখন বেঁচে থাকা ব্যক্তিটি  GBV অভিজ্ঞতা অর্জন করে এবং যখন বেঁচে থাকা ব্যক্তিটি কোনও সেবা সরবরাহকারীর কাছে এটি রিপোর্ট করে তখন দিনের সংখ্যা শেষ হয়ে যায়।
             label: রিপোর্টিং বিলম্ব
           kpi_services_provided:
-            explanation: ""
+            explanation: ' একজন ব্যবহারকারীর যেসকল কেসে অ্যাক্সেস আছে,  নিজ প্রতিষ্ঠান হতে কী ধরনের পরিষেবা   প্রদান করা হয়েছে তা দেখার ক্ষমতা।'
             label: প্রদত্ত সেবাসমূহ
           kpi_supervisor_to_caseworker_ratio:
             explanation: সুপারভাইজারদের সাথে কেসওয়ার্কারদের অনুপাত দেখার ক্ষমতা।
             label: কেসওয়ার্কার অনুপাতের সুপারভাইজার
           kpi_time_from_case_open_to_close:
-            explanation: ""
+            explanation: ' একজন ব্যবহারকারীর যে কেসগুলোতে অ্যাক্সেস আছে, তাদের মধ্যে প্রতিটি কেস কতদিন ধরে চলমান আছে তা দেখার ক্ষমতা।'
             label: কেস খোলা থেকে কেস বন্ধ হওয়ার সময়
-        label: ""
+        label: কেপিআই
       agency:
         actions:
           assign:
-            explanation: ""
+            explanation: একজন ব্যবহারকারীর অ্যাকাউন্ট তৈরি বা সম্পাদনা করার সময় একটি  এজেন্সি বাছাই করার ক্ষমতা। যদি বর্তমান ব্যবহারকারীর কাছে এই অনুমতির পাশাপাশি ব্যবহারকারীদের "এজেন্সি রিড" অনুমতি থাকে, তবে তারা শুধুমাত্র তাদের নিজস্ব এজেন্সীর জন্য একজন নতুন ব্যবহারকারীকে যুক্ত করতে সক্ষম হবে।
             label: দায়িত্ব অর্পণ করা
           create:
             explanation: একটি সংস্থা তৈরি করার ক্ষমতা
             label: তৈরি
           manage:
-            explanation: ''
-            label: ""
+            explanation: "একজন ব্যবহারকারীকে এজেন্সিগুলোর সকল  ক্রিয়া সম্পাদন করার অনুমতি দেয়৷ \n\"পরিচালনার\" অনুমতি অর্থ মূলত \"সবকিছু\"। গুরুত্বপূর্ণ: এটি একটি নতুন সংস্থা তৈরি করার ক্ষমতাও দেয়৷"
+            label: নিয়ন্ত্রন করুন (এই সংস্থান জন্য সকল প্রকারের অনুমতি)
           read:
             explanation: সংস্থাগুলি দেখার ক্ষমতা
-            label: "প্রদর্শন "
+            label: 'প্রদর্শন '
           write:
-            explanation: ""
+            explanation: এজেন্সি সম্পর্কে তথ্য সম্পাদনা করার ক্ষমতা। দয়া করে মনে রাখবেন যে এটি সিস্টেমের সমস্ত সংস্থার জন্য প্রযোজ্য।
             label: সম্পাদনা
         explanation: প্রাইমেরো ব্যবহার করে এমন সদস্যদের সাথে একটি সংস্থার প্রতিনিধিত্ব করে। এজেন্সিগুলি ব্যবহারকারী গোষ্ঠী থেকে স্বাধীনভাবে বিদ্যমান।
         label: সংস্থা
       audit_log:
         actions:
           read:
-            explanation: ""
             label: দর্শন
-        explanation: ""
-        label: ""
+        explanation: সিস্টেমে সম্পাদিত সমস্ত ক্রিয়াগুলির ফিল্টারযোগ্য তালিকা৷ এই তালিকায় কেস, ঘটনা, বা ট্রেসিং অনুরোধের কোনো শনাক্তযোগ্য তথ্য অন্তর্ভুক্ত নয়।
+        label: অডিট লগ
       case:
         actions:
           add_note:
-            explanation: ""
-            label: ""
+            label: একটি  কেসে নোট যুক্ত করুন
           add_registry_record:
-            explanation: ""
+            explanation: একজন ব্যবহারকারীকে রেজিস্ট্রি বিবরণ ফর্ম থেকে একটি কেসের সাথে একটি রেজিস্ট্রি লিঙ্ক করার অনুমতি দেয়৷ এছাড়াও একজন ব্যবহারকারীকে কেসের সাথে ইতিমধ্যেই লিঙ্ক করা যেকোনো রেজিস্ট্রি আন-লিঙ্ক করার অনুমতি দেয়।
             label: কেস থেকে রেজিস্ট্রি রেকর্ডে যোগ / আপডেট করুন
           approve_action_plan:
-            explanation: ""
-            label: ""
+            explanation: 'একজন ম্যানেজারকে তাদের কেস ওয়ার্কার এর কেস অনুমোদন %{approval_label}করার অনুমতি দেয়া হয়। '
+            label: অনুমোদন করুন%{approval_label}
           approve_assessment:
-            explanation: ""
-            label: ""
+            explanation: ম্যানেজার তার কেস ওয়ার্কারদের কেস অনুমোদন%{approval_label} করুন
+            label: ফর্ম অনুমোদন %{approval_label} করুন
           approve_bia:
-            explanation: ""
-            label: ""
+            explanation: 'একজন ম্যানেজারকে তাদের কেস ওয়ার্কার এর কেস অনুমোদন %{approval_label}করার অনুমতি দেয়া হয়। '
+            label: ফর্ম অনুমোদন %{approval_label} করুন
           approve_case_plan:
-            explanation: ""
-            label: ""
+            explanation: 'একজন ম্যানেজারকে তাদের কেস ওয়ার্কার এর কেস অনুমোদন %{approval_label}করার অনুমতি দেয়া হয়। '
+            label: অনুমোদন করুন%{approval_label}
           approve_closure:
-            explanation: ""
-            label: ""
+            explanation: 'একজন ম্যানেজারকে তাদের কেস ওয়ার্কার এর কেস অনুমোদন%{approval_label} করার অনুমতি দেয়া হয়। '
+            label: ফর্ম অনুমোদন করুন%{approval_label}
           approve_gbv_closure:
-            explanation: ""
-            label: ""
+            explanation: 'একজন ম্যানেজারকে তাদের কেস ওয়ার্কার এর কেস অনুমোদন %{approval_label}করার অনুমতি দেয়া হয়। '
+            label: ফর্ম অনুমোদন করুন%{approval_label}
           assign:
-            explanation: ""
-            label: ""
+            label: দায়িত্ব অর্পণ করুন
           assign_within_agency:
-            explanation: ""
-            label: ""
+            label: ব্যবহারকারীকে আমার এজেন্সির মধ্যে যুক্ত করুন
           assign_within_user_group:
-            explanation: ""
-            label: ""
+            label: ব্যবহারকারীকে আমার দলের মধ্যে যুক্ত করুন
           change_log:
-            explanation: ""
-            label: ""
+            explanation: ব্যবহারকারী রেকর্ড তৈরি করার পর থেকে সমস্ত কারযাবলির রেকর্ড ইতিহাস দেখতে পারেন।  সমস্ত ক্ষেত্রের জন্য যত ধরনের  মান রয়েছে তা এইখানে অন্তর্ভুক্ত।
+            label: লগ পরিবর্তন করুন
           close:
-            explanation: ""
-            label: ""
+            explanation: 'একজন ব্যবহারকারীকে একটি সক্রিয়/ চলমান কেস বন্ধ করার অনুমতি দেয়া হয়। '
+            label: 'বন্ধ '
           consent_override:
-            explanation: ""
-            label: ""
+            explanation: সম্মতি প্রদান করেনি এমন একটি কেসের ক্ষেত্রে রেফারেল বা স্থানান্তর করার অনুমতি দেয়৷
+            label: রেফার বা স্থানান্তর করার সময় সম্মতির অভাবকে অগ্রাহ্য করা
           create:
-            explanation: ""
-            label: ""
+            explanation: একতি নতুন কেস নিবন্ধন করার ক্ষমতা
+            label: তৈরি
           display_view_page:
-            explanation: ""
-            label: ""
+            label: ভিউ পেজ প্রদর্শন
           enable_disable_record:
-            explanation: ""
-            label: ""
+            label: সক্রিয় / নিষ্ক্রিয়
           export_case_pdf:
-            explanation: ""
             label: কেস পিডিএফ এ এক্সপোর্ট করুন
-          export_csv:
-            explanation: ''
-            label: ""
           export_custom:
-            explanation: ""
-            label: ""
+            label: এক্সপোর্ট কাস্টম
           export_duplicate_id_csv:
-            explanation: ""
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
-          export_list_view_csv:
-            explanation: ""
-            label: ""
+            label: এক্সপোর্ট ডুপ্লিকেট
           export_pdf:
-            explanation: ""
-            label: ""
+            label: 'কেসের পিডিএফ এক্সপোর্ট '
           export_photowall:
-            explanation: ""
-            label: ""
-          export_unhcr_csv:
-            label: ""
-          export_xls:
-            explanation: ''
-            label: ""
+            label: ফটো ওয়াল এক্সপোর্ট
           find_tracing_match:
-            explanation: ""
-            label: ""
+            label: কেস থেকে ট্রেসিংএর ফলাফলের মিল খুঁজুন
           flag:
-            explanation: ""
-            label: ""
-          import:
-            explanation: ""
-            label: ""
+            explanation: একটি  কেসে পতাকা যুক্ত করার ক্ষমতা। যেইসব ব্যবহারকারীর এই সুযোগ রয়েছে তারা প্রয়োজনে যুক্ত করা পতাকাগুলিও সরিয়ে ফেলতে পারে
+            label: পতাকা
           incident_details_from_case:
-            explanation: ""
             label: অনুসন্ধানের ফলাফলপৃষ্ঠা থেকে অন্য ব্যবহারকারীর ক্ষেত্রে ঘটনার বিবরণ যোগ করুন
           incident_from_case:
-            explanation: ""
-            label: ""
+            label: একটি কেস থেকে একটি ঘটনা তৈরি করুন
           manage:
-            explanation: ""
-            label: ""
+            explanation: "একজন ব্যবহারকারীকে একটি কেসের ক্ষেত্রে বিদ্যমান সকল  ক্রিয়া সম্পাদন করার অনুমতি দেয়৷ \n\"পরিচালনার\" অনুমতি অর্থ মূলত \"সবকিছু\"।"
           read:
-            explanation: ""
-            label: ""
+            explanation: একটি কেস দেখার ক্ষমতা
+            label: 'প্রদর্শন '
           receive_referral:
-            explanation: ""
-            label: ""
-          receive_referral_different_module:
-            explanation: ""
-            label: ""
+            label: রেফারেল গ্রহণ করুন
           receive_transfer:
-            explanation: ""
-            label: ""
+            label: স্থানান্তর গ্রহণ করুন
           referral:
-            explanation: ""
-            label: ""
-          referral_from_service:
-            explanation: ""
-            label: ""
+            label: রেফারেল
           remove_assigned_users:
-            explanation: ""
-            label: ""
+            label: অন্যান্য ব্যবহারকারীদের সরান (রেফার করা ব্যবহারকারীদের কাছ থেকে কেস অ্যাক্সেস ফিরিয়ে নেওয়া)
           reopen:
-            explanation: ""
-            label: ""
+            explanation: একজন ব্যবহারকারীকে একটি বন্ধ কেস পুনরায় খোলার অনুমতি দেয়।
+            label: পুনরায় খোলা
           request_approval_action_plan:
-            explanation: ""
-            label: ""
+            explanation: একজন ব্যবহারকারীকে (সাধারণত একজন কেস ওয়ার্কার ) তাদের ম্যানেজারের নিকট কেস অনুমোদন করার অনুরোধ করার অনুমতি দেয়৷%{approval_label}
+            label: অনুমোদনের জন্য অনুরোধ%{approval_label} করুন
           request_approval_assessment:
-            explanation: ""
-            label: ""
+            explanation: একজন ব্যবহারকারীকে (সাধারণত একজন কেস ওয়ার্কার ) তাদের ম্যানেজারের নিকট কেস অনুমোদন করার অনুরোধ করার অনুমতি দেয়৷%{approval_label}
+            label: অনুমোদনের জন্য অনুরোধ%{approval_label} করুন
           request_approval_bia:
-            explanation: ""
-            label: ""
+            explanation: একজন ব্যবহারকারীকে (সাধারণত একজন কেস ওয়ার্কার ) তাদের ম্যানেজারের নিকট কেস অনুমোদন করার অনুরোধ করার অনুমতি দেয়৷%{approval_label}
+            label: অনুমোদনের জন্য অনুরোধ%{approval_label} করুন
           request_approval_case_plan:
-            explanation: ""
-            label: ""
+            explanation: একজন ব্যবহারকারীকে (সাধারণত একজন কেস ওয়ার্কার ) তাদের ম্যানেজারের নিকট কেস অনুমোদন করার অনুরোধ করার অনুমতি দেয়৷%{approval_label}
+            label: অনুমোদনের জন্য অনুরোধ%{approval_label} করুন
           request_approval_closure:
-            explanation: ""
-            label: ""
+            explanation: একজন ব্যবহারকারীকে (সাধারণত একজন কেস ওয়ার্কার ) তাদের ম্যানেজারের নিকট কেস অনুমোদন করার অনুরোধ করার অনুমতি দেয়৷%{approval_label}
+            label: অনুমোদনের জন্য অনুরোধ%{approval_label} করুন
           request_approval_gbv_closure:
-            explanation: ""
-            label: ""
+            explanation: একজন ব্যবহারকারীকে (সাধারণত একজন কেস ওয়ার্কার ) তাদের ম্যানেজারের নিকট কেস অনুমোদন করার অনুরোধ করার অনুমতি দেয়৷%{approval_label}
+            label: অনুমোদনের জন্য অনুরোধ%{approval_label} করুন
           request_transfer:
-            explanation: ""
-            label: ""
+            label: 'হস্তান্তরের অনুরোধ '
           search_owned_by_others:
-            explanation: ""
-            label: ""
+            label: অন্যান্য ব্যবহারকারীদের অধীন কেস রেকর্ড অনুসন্ধান করুন
           service_provision_incident_details:
-            explanation: ""
-            label: ""
+            label: 'ইনসিডেন্ট ডিটেইলস মোডেল এ নতুন সার্ভিস যুক্ত করার ঘর দেখুন '
           services_section_from_case:
-            explanation: ""
-            label: ""
+            label: অন্য ব্যবহারকারীর ক্ষেত্রে সেবার নিয়ম যোগ করুন
           sync_external:
-            explanation: ""
-            label: ""
+            explanation: একটি বাহ্যিক তথ্য ব্যবস্থাপনা সিস্টেমের সাথে সিঙ্ক করার ক্ষমতা
+            label: একটি বাহ্যিক তথ্য ব্যবস্থাপনা সিস্টেমের সাথে সিঙ্ক করুন
           sync_mobile:
-            explanation: ""
-            label: ""
+            explanation: 'ব্যবহারকারীকে অফলাইনে ব্যবহারের জন্য একটি কেস  বাছাই করে রাখার অনুমতি দেয়। '
+            label: অফলাইনের জন্য চিহ্নিত করুন
           transfer:
-            explanation: ""
-            label: ""
+            label: হস্তান্তর
           view_photo:
-            explanation: ""
-            label: ""
+            label: কেস লিস্ট ভিউ থেকে ছবি দেখুন
           view_incident_from_case:
-            explanation: ""
-            label: ""
+            label: কেস থেকে ঘটনা দেখুন
           view_protection_concerns_filter:
-            explanation: ""
-            label: ""
+            explanation: 'ব্যাবহারকারীকে  কেস তালিকা পৃষ্ঠায় সুরক্ষা উদ্বেগ আনুযায়ী ফিল্টার দেখার অনুমতি দেয়া।  '
+            label: কেস তালিকা পৃষ্ঠায় সুরক্ষা উদ্বেগ আনুযায়ী ফিল্টার দেখুন
           view_registry_record:
-            explanation: ""
-            label: ""
+            explanation: একজন ব্যবহারকারীকে একটি কেসের সাথে সংযুক্ত অন্যান্য কেসের দেখতে দেয়। এছাড়াও ব্যবহারকারীকে ওই কেসের রেজিস্ট্রি বিশদ ফর্ম দেখতে দেয়।
+            label: কেস থেকে রেজিস্ট্রি রেকর্ড দেখুন
           write:
-            explanation: ""
-            label: ""
+            explanation: '"সম্পাদনা" বোতামে ক্লিক  করুন, তথ্য আপডেট করুন এবং "সেইভ" এ ক্লিক করুন'
+            label: সম্পাদনা
           accept_or_reject_transfer:
-            explanation: ""
-            label: ""
+            label: আপনার দলের অন্য ব্যবহারকারীর জন্য হস্তান্তর গ্রহণ বা প্রত্যাখ্যান করুন।
           list_case_names:
-            explanation: ""
-            label: "ম্যানেজার হলে, কেস লিস্টে কেসের নাম দেখতে পারেন।"
+            explanation: ম্যানেজাররা সাধারণত কেস তালিকায় কেসের নাম দেখতে পারেন না। যদি একজন ম্যানেজারের কাছে এই অনুমতি থাকে, তাহলে তিনি তালিকায় নাম দেখতে পারবে।
+            label: ম্যানেজার হলে, কেস লিস্টে কেসের নাম দেখতে পারেন।
           mark_for_offline:
             explanation: ব্যবহারকারীকে অফলাইনে ব্যবহারের জন্য একটি কেস ক্যাশ করার সম্মতি প্রদান করে।
             label: অফলাইনের জন্য চিহ্নিত করুন
-        explanation: ""
+        explanation: একটি শিশু, সারভাইভার, বা অন্যান্য সুবিধাভোগীর প্রতিনিধিত্ব করে।
         label: কেস
       dashboard:
         actions:
           approvals_action_plan:
-            explanation: "কর্ম পরিকল্পনা অনুমোদনের অনুরোধগুলির সাথে বর্তমান ব্যবহারকারীর কেসগুলির সংখ্যা দেখায় যা মুলতুবি, অনুমোদিত বা প্রত্যাখ্যাত।"
-            label: ""
+            explanation: কর্ম পরিকল্পনা অনুমোদনের অনুরোধগুলির সাথে বর্তমান ব্যবহারকারীর কেসগুলির সংখ্যা দেখায় যা মুলতুবি, অনুমোদিত বা প্রত্যাখ্যাত।
+            label: কেস ওয়ার্কার এর %{approval_label} অনুমোদন
           approvals_action_plan_pending:
-            explanation: ""
-            label: ""
+            explanation: 'একজন ম্যানেজারের দলে অনুমোদনের অপেক্ষারত  কতগুলি কেস রয়েছে তা প্রদর্শন করে। '
+            label: ম্যানেজারের%{approval_label} অনুমোদন
           approvals_assessment:
-            explanation: ""
-            label: ""
+            label: কেস ওয়ার্কার এর %{approval_label} অনুমোদন
           approvals_assessment_pending:
-            explanation: ""
-            label: ""
+            explanation: 'একজন ম্যানেজারেট দলে যতগুলো কেসের মূল্যায়ন অসম্পন্ন আছে তার সংখ্যা প্রদর্শন করে।  '
+            label: ম্যানেজারের%{approval_label} অনুমোদন
           approvals_case_plan:
-            explanation: ""
-            label: ""
+            explanation: বর্তমান ব্যবহারকারীর যতগুলো কেসের প্ল্যান অসম্পন্ন রয়েছে, অনুমোদিত হয়েছে বা হয়নি তার সংখ্যা প্রদর্শন করে ।
+            label: কেস ওয়ার্কার এর %{approval_label} অনুমোদন
           approvals_case_plan_pending:
             explanation: মুলতুবি কেস প্ল্যান অনুমোদনের অনুরোধসহ একজন ম্যানেজারের দলে মামলার সংখ্যা দেখায়।
-            label: ""
+            label: ম্যানেজারের%{approval_label} অনুমোদন
           approvals_closure:
-            explanation: ""
-            label: ""
+            explanation: বর্তমান ব্যবহারকারীর যতগুলো কেসের বন্ধ করার অনুরোধ  অসম্পন্ন রয়েছে, অনুমোদিত হয়েছে বা বাতিল হয়েছে তার সংখ্যা প্রদর্শন করে ।
+            label: কেস ওয়ার্কার এর %{approval_label} অনুমোদন
           approvals_closure_pending:
             explanation: মুলতুবি ক্লোজার অনুমোদনের অনুরোধসহ একজন ম্যানেজারের দলে মামলার সংখ্যা দেখায়।
-            label: ""
+            label: ম্যানেজারের%{approval_label} অনুমোদন
           approvals_gbv_closure:
-            explanation: "GBV ক্লোজার অনুমোদনের অনুরোধগুলির সাথে বর্তমান ব্যবহারকারীর কেসগুলির সংখ্যা দেখায় যা মুলতুবি, অনুমোদিত বা প্রত্যাখ্যাত।"
-            label: ""
+            explanation: GBV ক্লোজার অনুমোদনের অনুরোধগুলির সাথে বর্তমান ব্যবহারকারীর কেসগুলির সংখ্যা দেখায় যা মুলতুবি, অনুমোদিত বা প্রত্যাখ্যাত।
+            label: কেস ওয়ার্কার এর %{approval_label} অনুমোদন
           approvals_gbv_closure_pending:
-            explanation: ""
-            label: ""
+            explanation: 'একজন ম্যানেজারের দলে কতগুলি জিভিবি কেস বন্ধ করার অনুমোদনের অপেক্ষারত রয়েছে তার সংখ্যা  প্রদর্শন করে। '
+            label: ম্যানেজারের%{approval_label} অনুমোদন
           case_overview:
-            explanation: ""
-            label: ""
+            explanation: হোম পৃষ্ঠার শীর্ষে ওভারভিউ ড্যাশবোর্ড কার্ড, যাতে মোট এবং নতুন কেসগুলির  মতো পরিসংখ্যান অন্তর্ভুক্ত রয়েছে৷
+            label: ওভারভিউ ড্যাশবোর্ড
           case_risk:
-            explanation: ""
-            label: ""
+            explanation: প্রতিটি ঝুঁকির স্তরে কতগুলি কেস রয়েছে তা প্রদর্শন করে।
+            label: 'ঝুঁকির স্তর অনুযায়ী কেস সমূহ। '
           cases_by_task_overdue_assessment:
-            explanation: ""
-            label: ""
+            explanation: ' একজন ম্যানেজারকে তাদের প্রত্যেক কেস ওয়ার্কারের কতগুলি কেসের মূল্যায়ন এর কাজ বিলম্বিত হয়েছে তা দেখার সুযোগ দেয়া হয়। '
+            label: 'মূল্যায়ন এর কাজ বিলম্বিত হয়েছে। '
           cases_by_task_overdue_case_plan:
-            explanation: ""
-            label: ""
+            explanation: ' একজন ম্যানেজারকে তাদের প্রত্যেক কেস ওয়ার্কারের কতগুলি কেসের পরিকল্পনার কাজ বিলম্বিত হয়েছে তা দেখার সুযোগ দেয়া হয়। '
+            label: 'কেস প্ল্যান এর কাজ বিলম্বিত হয়েছে। '
           cases_by_task_overdue_followups:
-            explanation: ""
-            label: ""
+            explanation: ' একজন ম্যানেজারকে তাদের প্রত্যেক কেস ওয়ার্কারের কতগুলি কেসের ফলোআপের কাজ বিলম্বিত হয়েছে তা দেখার সুযোগ দেয়া হয়। '
+            label: 'ফলো-আপ এর কাজ বিলম্বিত হয়েছে '
           cases_by_task_overdue_services:
-            explanation: ""
-            label: ""
+            explanation: ' একজন ম্যানেজারকে তাদের প্রত্যেক কেস ওয়ার্কারের কতগুলি কেসের সেবা প্রদান বিলম্বিত হয়েছে তা দেখার সুযোগ দেয়া হয়। '
+            label: 'প্রয়োজনীয় সেবা প্রদান বিলম্ব হয়েছে।  '
           dash_case_incident_overview:
-            explanation: ""
             label: ওভারভিউ - আমার কেস / ঘটনা
           dash_cases_by_social_worker:
-            explanation: ""
             label: সমাজকর্মী এর কেসগুলি দেখুন
           dash_cases_to_assign:
-            explanation: ''
             label: (ম্যানেজারদের জন্য) কেসগুলি আমাকে আমার দলের লোকেদের কাছে বরাদ্দ করতে হবে
-          dash_flags:
-            explanation: ""
-            label: ""
           dash_group_overview:
-            explanation: ""
-            label: ""
+            explanation: একজন ম্যানেজারকে তার দলের ব্যবহারকারীদের দ্বারা পরিচালিত চলমান এবং বন্ধ কেসের  সংখ্যা দেখায়।
+            label: 'আমার গ্রুপ এর কেস সমূহ '
           dash_matching_results:
-            explanation: ""
             label: মিলিত ফলাফল দেখুন
           dash_protection_concerns:
-            explanation: ""
-            label: ""
+            label: 'সুরক্ষা উদ্বেগ অনুযায়ী কেস সমূহ। '
           dash_protection_concerns_by_location:
-            explanation: ""
-            label: ""
+            label: 'স্থান অনুযায়ী সুরক্ষা উদ্বেগ সমূহ। '
           dash_reporting_location:
-            explanation: ""
-            label: ""
+            label: 'স্থান অনুযায়ী কেস সমূহ। '
           dash_service_provisions:
-            explanation: ""
-            label: ""
+            label: 'পরিষেবা প্রদানের ধরন অনুযায়ী কেসসমূহ।  '
           dash_shared_from_my_team:
-            explanation: ""
-            label: ""
+            label: আমার দল থেকে শেয়ার করা হয়েছে
           dash_shared_with_me:
-            explanation: ""
-            label: ""
+            explanation: 'আপনার কাছে কতগুলি কেস রেফার করা হয়েছে বা হস্তান্তর করা হয়েছে তা প্রদর্শন করে। '
+            label: ' আমার সাথে শেয়ার করা হয়েছে'
           dash_shared_with_my_team:
-            explanation: ""
+            explanation: 'একজন ম্যানেজারকে তার দলের ব্যবহারকারীদের নিকট  রেফার বা হস্তান্তর হওয়া কেসের  সংখ্যা প্রদর্শন করে। '
             label: আমার দলের সাথে শেয়ার করা হয়েছে
           dash_shared_with_my_team_overview:
             label: আমার টিমের সাথে শেয়ার করা হয়েছে (ওভারভিউ)
           dash_shared_with_others:
-            explanation: ""
-            label: ""
+            label: অন্যদের সাথে শেয়ার করা হয়েছে
           dash_show_none_values:
-            explanation: ""
-            label: ""
-          dash_tasks:
-            explanation: ""
-            label: ""
+            label: 'অ্যাসেসমেন্ট ড্যাশবোর্ডে ''নো রিস্ক লেভেল'' এর কেসগুলি প্রদর্শন। '
           dash_national_admin_summary:
-            explanation: ""
-            label: ""
-          view_response:
-            explanation: ""
-            label: ""
+            label: 'তত্ত্বাবধায়কের জন্য সারাংশ '
           workflow:
-            explanation: ""
-            label: ""
+            explanation: 'কেস ম্যানেজমেন্ট  এর কর্ম প্রবাহের প্রতিটি পর্যায়ে একজন কেসওয়ার্কারের  কতগুলি কেস আছে তা একটি পাই গ্রাফ এর মাধ্যামে প্রদর্শন করে।  '
+            label: 'কাজের প্রবাহ অনুযায়ী কেস সমূহ বিভক্ত করা। '
           workflow_team:
-            explanation: ""
             label: ওয়ার্কফ্লো এবং কেস ওয়ার্কার এর কেস
         explanation: মূল পৃষ্ঠায় কোন সারসংক্ষেপ তথ্য প্রদর্শিত হবে তা নির্দেশ করে।
         label: ড্যাশবোর্ড
       disabled:
         explanation: আপনি যদি এই ভূমিকাটি অক্ষম করেন তবে আপনি এটি আর ব্যবহারকারীর অ্যাকাউন্টগুলিতে বরাদ্দ করতে সক্ষম হবেন না।
-        label: ""
+        label: অচল
       duplicate:
         actions:
           read:
-            explanation: ""
-            label: ""
-        explanation: ""
-        label: ""
+            label: 'প্রদর্শন '
+        label: ডুপ্লিকেট অনুসন্ধান
       forms:
         case:
-          explanation: ''
-          label: ""
+          label: ফর্ম- কেস
         incident:
-          explanation: ''
-          label: ""
+          label: ' ফর্ম - ঘটনা'
         tracing_request:
-          explanation: ''
-          label: ""
+          label: ফর্ম সমূহ - অনুসন্ধানের অনুরোধ
         registry_record:
-          explanation: ''
-          label: ""
+          label: 'ফর্ম সমূহ - নিবন্ধন '
       group:
         actions:
-          admin_only:
-            explanation: ""
-            label: ""
           agency:
-            explanation: ""
-            label: ""
+            label: আমার এজেন্সির সমস্ত রেকর্ড বা ব্যবহারকারী
           all:
-            explanation: ""
-            label: ""
+            label: সমস্ত রেকর্ড বা ব্যবহারকারী অ্যাক্সেস
           group:
-            explanation: ""
-            label: ""
+            label: আমার গ্রুপের সমস্ত রেকর্ড বা ব্যবহারকারীর অ্যাক্সেস
           self:
-            explanation: ""
             label: শুধুমাত্র অ্যাক্সেস আমার রেকর্ড বা ব্যাবহারকারি
-        explanation: ""
-        label: ""
+        label: এই রোল/ভূমিকা কোন রেকর্ডগুলোকে প্রভাবিত করে
       incident:
         actions:
           change_log:
-            explanation: ""
-            label: ""
+            label: লগ পরিবর্তন করুন
           create:
-            explanation: ""
-            label: ""
+            label: তৈরি
           enable_disable_record:
-            explanation: ""
-            label: ""
+            label: সক্রিয় / নিষ্ক্রিয়
           export_case_pdf:
-            explanation: ""
             label: পিডিএফ এক্সপোর্ট করুন
           export_csv:
-            explanation: ""
             label: CSV রপ্তানী করুন
-          export_custom:
-            label: ""
-          export_incident_recorder_xls:
-            explanation: ""
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
           export_list_view_csv:
-            explanation: ""
             label: রপ্তানী তালিকা প্রদর্শন CSV
-          export_pdf:
-            explanation: ""
-            label: ""
-          export_xls:
-            explanation: ""
-            label: ""
           flag:
-            explanation: ""
             label: পতাকা
-          import:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          sync_mobile:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        explanation: ""
-        label: ""
-      is_manager:
-        explanation: ""
-        label: ""
-      managed_report:
-        actions:
-          violations:
-            label: ""
-          gbv_statistics:
-            label: ""
-      matching_configuration:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        explanation: ""
-        label: ""
-      metadata:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        explanation: ""
-        label: ""
-      module:
-        actions:
-          cp:
-            label: ""
-          gbv:
-            label: ""
-          mrm:
-            label: ""
-        explanation: ""
-        label: ""
-      potential_match:
-        actions:
-          read:
-            explanation: ""
-            label: ""
-        label: ""
-      primero_configuration:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        label: ""
-      referral:
-        actions:
-          refer:
-            explanation: ""
-            label: ""
-        label: ""
       registry_record:
         actions:
-          change_log:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
           enable_disable_record:
-            explanation: ""
             label: সক্ষম / অক্ষম করুন
-          export_csv:
-            explanation: ''
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
-          export_xls:
-            explanation: ''
-            label: ""
-          flag:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-          sync_mobile:
-            explanation: ""
-            label: ""
-        explanation: ""
-        label: ""
       report:
         actions:
-          create:
-            explanation: ""
-            label: ""
-          group_read:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
           read:
-            explanation: ""
             label: দর্শন
           write:
             explanation: সমস্ত প্রতিবেদন সম্পাদনা করার ক্ষমতা (অন্যান্য ব্যবহারকারীদের দ্বারা তৈরি সহ)
             label: সম্পাদনা
-        explanation: "সামগ্রিক তথ্য বিশ্লেষণ টুল। ডাটার সারণি এবং গ্রাফ উপস্থাপনা অন্তর্ভুক্ত "
-        label: ""
-      reporting_location_level:
-        explanation: ''
-        label: ""
-      role:
-        actions:
-          assign:
-            explanation: ""
-            label: ""
-          copy:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          delete:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          permitted_roles:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        explanation: ""
-        label: ""
-      system:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        explanation: ""
-        label: ""
+        explanation: 'সামগ্রিক তথ্য বিশ্লেষণ টুল। ডাটার সারণি এবং গ্রাফ উপস্থাপনা অন্তর্ভুক্ত '
       tracing_request:
-        actions:
-          change_log:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          enable_disable_record:
-            explanation: ""
-            label: ""
-          export_case_pdf:
-            explanation: ""
-            label: ""
-          export_csv:
-            explanation: ""
-            label: ""
-          export_custom:
-            explanation: ""
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
-          export_list_view_csv:
-            explanation: ""
-            label: ""
-          export_pdf:
-            explanation: ""
-            label: ""
-          export_xls:
-            explanation: ''
-            label: ""
-          flag:
-            explanation: ""
-            label: ""
-          import:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        explanation: ""
         label: ট্রেসিং অনুরোধ
-      transfer:
-        actions:
-          transfer:
-            explanation: ""
-            label: ""
-        label: ""
       user:
         actions:
-          agency_read:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
           read:
-            explanation: ""
-            label: ""
+            label: 'প্রদর্শন '
           write:
-            explanation: ""
-            label: ""
-        explanation: ""
-        label: ""
+            label: সম্পাদনা
+        explanation: একজন স্বতন্ত্র ব্যবহারকারীর অ্যাকাউন্ট এর প্রতিনিধিত্ব করে।
+        label: ব্যবহারকারী
       user_group:
         actions:
           assign:
-            explanation: ""
-            label: ""
+            label: দায়িত্ব অর্পণ করা
           create:
-            explanation: ""
-            label: ""
+            explanation: ব্যবহারকারীদের একটি গ্রুপ তৈরি করার ক্ষমতা
+            label: তৈরি
           delete:
-            explanation: ""
-            label: ""
+            explanation: ব্যবহারকারীদের একটি গ্রুপ মুছে ফেলা বা বাতিল করার ক্ষমতা
+            label: মুছে ফেলা
           manage:
-            explanation: ''
-            label: ""
+            label: নিয়ন্ত্রন করুন (এই সংস্থান জন্য সকল প্রকারের অনুমতি)
           read:
-            explanation: ""
-            label: ""
+            label: 'প্রদর্শন '
           write:
-            explanation: ""
-            label: ""
-        explanation: ""
-        label: ""
+            explanation: ব্যবহারকারীদের একটি গ্রুপ সম্পাদন করার ক্ষমতা
+            label: সম্পাদনা
+        label: ব্যবহারকারী গ্রুপ
       webhook:
         actions:
           read:
             label: দর্শন
             explanation: এপিআই-এর মাধ্যমে ওয়েবহুক কনফিগারেশনগুলি তালিকা এবং পর্যালোচনা করার ক্ষমতা
           write:
-            label: ""
-            explanation: ""
+            label: সম্পাদনা
+            explanation: এপিআই-এর মাধ্যমে ওয়েবহুক কনফিগারেশন তৈরি এবং সম্পাদন করার ক্ষমতা
           create:
-            explanation: ""
-            label: ""
+            explanation: এপিআই-এর মাধ্যমে ওয়েবহুক কনফিগারেশন তৈরি করার ক্ষমতা
+            label: তৈরি
           delete:
-            explanation: ""
-            label: ""
-          manage:
-            label: ""
-            explanation:
+            explanation: এপিআই-এর মাধ্যমে ওয়েবহুক কনফিগারেশন বাতিল করার ক্ষমতা
+            label: মুছে ফেলা
       activity_log:
         actions:
           transfer:
-            explanation: ""
-            label: ""
-          manage:
-            label: ""
-            explanation:
-        label: ""
+            label: হস্তান্তর
+        label: কার্য বিবরণ
   potential_match:
-    case_id: ""
-    child_age: "বয়স "
-    child_gender: "লিঙ্গ "
+    case_id: কেস আইডি
+    child_age: 'বয়স '
+    child_gender: 'লিঙ্গ '
     child_id: শিশু আইডি#
     inquirer_id: অনুসন্ধানকারীর আইডি#
-    inquirer_tr_name: "অনুসন্ধানের অনুরোধ "
-    inquiry_date: "অনুসন্ধানের তারিখ "
-    name: "নাম "
-    score: "স্কোর "
-    social_worker: "সমাজকর্মী "
+    inquirer_tr_name: 'অনুসন্ধানের অনুরোধ '
+    inquiry_date: 'অনুসন্ধানের তারিখ '
+    name: 'নাম '
+    score: 'স্কোর '
+    social_worker: 'সমাজকর্মী '
     social_worker_agency: সংস্থা
-    tracing_request_id: ""
-    trace: ""
-    likelihood_likely: ""
-    likelihood_possible: ""
+    tracing_request_id: অনুসন্ধানের অনুরোধ
+    trace: অনুসন্ধান
+    likelihood_likely: সম্ভাব্য
+    likelihood_possible: সম্ভব
   potential_matches:
-    display: "১% [টাইপ] এবং ২% [আইডি] এর জন্য সম্ভাব্য মিলগুলো প্রদর্শন করুন।"
+    display: ১% [টাইপ] এবং ২% [আইডি] এর জন্য সম্ভাব্য মিলগুলো প্রদর্শন করুন।
   reassign:
-    multiple_error: ""
-    multiple_successfully: ''
+    multiple_error: একটি ত্রুটি ঘটেছে। %{select_records}কেস(গুলি) বরাদ্দ করা হয়নি।
+    multiple_successfully: '%{select_records}কেস(গুলি) সফলভাবে বরাদ্দ করা হয়েছে৷'
     notes_label: নোটসমুহ
-    successfully: ""
-    user_mandatory_label: ""
-    users_label: ""
+    successfully: সফলভাবে পুনরায় বরাদ্দ করা হয়েছে৷
+    user_mandatory_label: প্রাপক আবশ্যক
+    users_label: প্রাপক
   record_information:
-    assigned_user_names: ""
-    created_at: ""
-    created_by: ""
-    created_organization: ""
-    current_owner_separator: ""
-    module_id: ""
-    owned_by: ""
-    owned_by_agency_id: ""
-    owned_by_text: ""
-    previously_owned_by: ""
-    previously_owned_by_agency: ""
-    reassigned_tranferred_on: ""
-    record_history_separator: ""
-    last_updated_at: ""
-    last_updated_by: ""
+    assigned_user_names: অন্যান্য বরাদ্দকৃত ব্যবহারকারী
+    created_at: রেকর্ড তৈরি হয়েছে যেখানে
+    created_by: যার দ্বারা রেকর্ড তৈরি হয়েছে
+    created_organization: যে এজেন্সি দ্বারা রেকর্ড তৈরি হয়েছে
+    current_owner_separator: 'বর্তমান মালিক '
+    module_id: মডিউল
+    owned_by: কেস ওয়ার্কার কোড
+    owned_by_agency_id: সংস্থা
+    owned_by_text: মাঠ / কেস / সমাজকর্মী
+    previously_owned_by: পূর্ববর্তী মালিক
+    previously_owned_by_agency: পূর্ববর্তী সংস্থা
+    reassigned_tranferred_on: 'পুনরায় নিয়োগ / হস্তান্তরিত '
+    last_updated_at: সর্বশেষ হাল নাগাদ করা হয়েছে
+    last_updated_by: সর্বশেষ যার দ্বারা হাল নাগাদ করা হয়েছে
   record_panel:
-    record_information: "রেকর্ডকৃত তথ্য "
+    record_information: 'রেকর্ডকৃত তথ্য '
   referral:
-    type_of_recipient: ""
-    type_of_referral_required: ""
+    type_of_recipient: প্রাপকের ধরন
+    type_of_referral_required: কোন ধরনের রেফারেল করা প্রয়োজন
     agency_label: সংস্থা
-    is_remote_label: "আপনি কি রিমোর্ট পদ্ধতিকে রেফার করছেন? "
-    location_label: "স্থান "
+    is_remote_label: 'আপনি কি রিমোর্ট পদ্ধতিকে রেফার করছেন? '
+    location_label: 'স্থান '
     notes_label: নোটসমুহ
-    notes_on_referral: ""
-    note_on_referral_from_provider: ""
-    provided_consent_label: ""
-    recipient_label: ""
-    refer_anyway_label: ""
-    service_label: "সেবা "
+    notes_on_referral: রেফারেলে নোট
+    note_on_referral_from_provider: প্রদানকারী থেকে রেফারেল নোট
+    provided_consent_label: ফর্মে অনুমতি দেওয়া হয় নি
+    recipient_label: প্রাপক
+    refer_anyway_label: যেভাবেই হোক রেফার করবেন?
+    service_label: 'সেবা '
     success: '১% [রেকর্ড_ধরন] ২% [আইডি] স্থানান্তর সফলভাবে হয়েছে '
-    user_mandatory_label: ""
-    date: ""
-    rejected_reason: ""
+    user_mandatory_label: প্রাপক আবশ্যক
+    date: তারিখ
+    rejected_reason: 'বাতিলের কারণ '
   report:
     aggregate_by: সারি দ্বারা দল
-    attribute: ""
-    constraint: ""
+    attribute: বৈশিষ্ট্য
+    constraint: সীমাবদ্ধতা
     date_ranges:
       date: দিন
       month: মাস
-      quarter: ""
-      quarter_abbr: ""
+      quarter: ত্রৈমাসিক
       week: সপ্তাহ
       year: বছর
-    description: "বর্ণনা "
+    description: 'বর্ণনা '
     disabled:
-      explanation: ""
-      label: ""
-    exclude_empty_rows: ""
+      label: অচল করা হয়েছে
+    exclude_empty_rows: খালি সারি প্রদর্শন করবেন না
     disaggregate_by: কলাম দ্বারা দল
     filters:
-      label: " রিপোর্ট ছেঁকে নেওয়া"
-      label_new: ""
-      attribute: ""
-      value: ""
-      not_null: ""
-      less_than: ""
-      greater_than: ""
-      equal_to: ""
-      not_blank: ""
-      is: ""
-      before: ""
-      after: ""
-      delete_filter_message: ""
+      label: ' রিপোর্ট ছেঁকে নেওয়া'
+      attribute: ফিল্টার
+      value: সাথে
+      not_null: খালি নয়?
+      less_than: থেকে কম
+      greater_than: থেকে বেশি
+      equal_to: সমান
+      not_blank: খালি নয়
+      before: ' আগে'
+      after: পরে
     group_ages: বয়স পরিসীমা ব্যবহার করুন
     group_dates_by: তারিখ পরিসীমা ব্যবহার করুন
-    is_graph: "একটি গ্রাফ তৈরি? "
+    is_graph: 'একটি গ্রাফ তৈরি? '
     messages:
-      delete_success: "রিপোর্ট সফলভাবে মুছে ফেলা হয়েছে। "
-      success: ""
-      updated: ""
+      delete_success: 'রিপোর্ট সফলভাবে মুছে ফেলা হয়েছে। '
+      success: 'সফলভাবে রিপোর্ট তৈরি করা হয়েছে। '
+      updated: 'সফলভাবে রিপোর্ট আপডেট করা হয়েছে। '
     modules: মডিউল
-    name: "নাম "
-    name_mandatory: ""
-    no_data: "কোন তথ্য এই রিপোর্টের জন্য বিদ্যমান নেই "
-    no_filters_added: ""
-    not_selected: ""
+    name: 'নাম '
+    no_data: 'কোন তথ্য এই রিপোর্টের জন্য বিদ্যমান নেই '
+    not_selected: 'নির্বাচিত নুয় '
     record_type: রেকর্ডের ধরন
-    total: "মোট "
-    value: ""
+    total: 'মোট '
   reports:
-    delete_report: ""
-    delete_report_message: ""
+    delete_report: রিপোর্ট মুছে ফেলুন
     label: রিপোর্ট
     register_new_report: রিপোর্ট সৃষ্টি করুন
     translations:
-      edit: ""
-      manage: ""
-      select_language: ""
-    error_loading: ""
+      edit: অনুবাদ সম্পাদন করুন
+      select_language: ভাষা নির্বাচন করুন
   request_transfer:
     notes_label: নোটসমুহ
-    submit_label: "অনুরোধ প্রেরন করা "
-    success: "স্থানান্তরের অনুরোধ প্রেরন করা হয়েছে "
+    submit_label: 'অনুরোধ প্রেরন করা '
+    success: 'স্থানান্তরের অনুরোধ প্রেরন করা হয়েছে '
   role:
-    agency_ids_label: ""
-    copy_failure: "ভূমিকাকে কপি করতে গিয়ে ত্রুটি  দেখা যায়।। নিশ্চিত করুন যে, নাম যেন অন্য কোনো ভূমিকার সঙ্গে দ্বন্দ্বে না জড়ায়।"
+    copy_failure: ভূমিকাকে কপি করতে গিয়ে ত্রুটি  দেখা যায়।। নিশ্চিত করুন যে, নাম যেন অন্য কোনো ভূমিকার সঙ্গে দ্বন্দ্বে না জড়ায়।
     copy_success: ভূমিকাকে সফলভাবে কপি করা হয়েছে।
     create: ভূমিকা সৃষ্টি করা
-    delete_header: ""
-    description: "বর্ণনা "
+    description: 'বর্ণনা '
     edit: ভূমিকা সম্পাদনা করা
     error_in_updating: ভূমিকা বিবরণ আপডেট করার সময় ত্রুুটি
-    group_permission_label: "কোন্ নথিকে এই ভূমিকা প্রভাবিত করে?"
-    label: ""
-    manager: ""
-    messages:
-      confirmation: ""
-      created: ""
-      deleted: ""
-      updated: ""
-    name: "নাম "
-    referral_label: "ফেরত দেবার ক্ষেত্রে কি এই ভূমিকা ব্যবহার করা যাবে?"
-    reporting_location_level_label: ""
+    group_permission_label: কোন্ নথিকে এই ভূমিকা প্রভাবিত করে?
+    name: 'নাম '
+    referral_label: ফেরত দেবার ক্ষেত্রে কি এই ভূমিকা ব্যবহার করা যাবে?
     role_ids_label: এই ভূমিকা দ্বারা অন্যান্য ভূমিকা পরিচালিত হয়
     successfully_updated: ভূমিকার বিস্তারিত বিবরণ সফলভাবে আপডেট করা হয়।
-    transfer_label: "এই ভূমিকা কি স্থানান্তরের জন্য ব্যবহার করা যাবে?"
-    hide: ""
-    read: ""
-    read_write: ""
+    transfer_label: এই ভূমিকা কি স্থানান্তরের জন্য ব্যবহার করা যাবে?
   roles:
-    label: "ভুমিকাগুলো "
+    label: 'ভুমিকাগুলো '
   saved_search:
-    deleted: "অনুসন্ধানকে সফলভাবে মুছে ফেলা হয়েছে। "
+    deleted: 'অনুসন্ধানকে সফলভাবে মুছে ফেলা হয়েছে। '
     filters_tab: ছাঁকুনি
-    no_filters: ""
     save_success: অনুসন্ধানকে সফলভাবে সংরক্ষণ করা হয়েছে ।
     saved_searches_tab: সংরক্ষণ করা হয়েছে এমন অনুসন্ধান
-    title_description: ""
-    title_modal: ""
   saved_searches:
-    no_save_searches: "আপনার কোন সংরক্ষিত অনুসন্ধান নাই। "
+    no_save_searches: 'আপনার কোন সংরক্ষিত অনুসন্ধান নাই। '
     save_search: অনুসন্ধান সংরক্ষণ
   settings:
     navigation:
-      agencies: ""
-      audit_logs: ""
-      configurations: ""
-      contact_information: ""
-      forms: ""
-      locations: ""
-      lookups: ""
-      user_groups: ""
-      users: ""
-      roles: ""
-      code_of_conduct: ""
-    title: ""
+      agencies: সংস্থা
+      audit_logs: অডিট লগ
+      contact_information: যোগাযোগের তথ্য
+      forms: ফর্ম সমূহ
+      locations: 'স্থান '
+      user_groups: ব্যবহারকারী গ্রুপ
+      users: ব্যবহারকারী
+      roles: ভূমিকা
+      code_of_conduct: আচরণবিধি
+    title: সেটিংস
   system_settings:
-    label: "পদ্ধতি নির্ধারণ "
+    label: 'পদ্ধতি নির্ধারণ '
   task:
     due_date: নির্দিষ্ট তারিখ
     id: আইডি#
-    name: ""
+    name: নাম
     priorities:
-      high_level: ""
-      low_level: ""
-      medium_level: ""
-      no_action_level: ""
+      no_action_level: 'কোন পদক্ষেপ নেই '
     priority: অগ্রাধিকার স্তর
-    status: ""
+    status: 'অবস্থা '
     statuses:
-      overdue: ""
-      upcoming_soon: ""
-    type: "কার্যক্রমের ধরণ "
+      overdue: বিলম্বিত
+    type: 'কার্যক্রমের ধরণ '
     types:
       assessment: মূল্যায়ন
-      case_plan: "কেস পরিকল্পনা "
-      follow_up: "অনুসরণ করুন-১% [সাব-টাইপ]।"
-      service: "সেবা -১% [সাবটাইপ]"
+      case_plan: 'কেস পরিকল্পনা '
+      follow_up: অনুসরণ করুন-১% [সাব-টাইপ]।
+      service: সেবা -১% [সাবটাইপ]
   tracing_request:
-    label: ""
-    has_match: ""
-    find_match: ""
-    back_to_traces: ""
-    back_to_potential_matches: ""
-    traces: ""
-    trace: ""
-    match: ""
-    matches: ""
-    unmatch: ""
+    label: অনৃসন্ধানের অনুরোধ
+    has_match: মিল আছে
+    find_match: 'মিল পাওয়া গেছে '
+    back_to_potential_matches: সম্ভাব্য মিল এ ফেরত যান
     messages:
-      already_matched: ""
-      disabled: ""
-      nothing_found: ""
+      nothing_found: কিছু খুঁজে পাওয়া যায়নি
       update_success: 'অনুসন্ধান অনুরোধ ১% [নথি _আইডি] সফলভাবে আপডেট করা হয়েছিল।'
-      creation_success: ""
-      update_success_queue: ''
-      creation_success_queue: ""
-      match_action: ""
-      unmatch_action: ""
-  registry_record:
-    messages:
-      update_success: ''
-      creation_success: ''
-      disabled: ""
+      creation_success: অনুসন্ধান অনুরোধের রেকর্ড সফলভাবে সৃষ্টি হয়েছিল।
   tracing_requests:
-    date_of_inquiry: ""
-    disable_dialog_title: ""
-    disable_dialog: ""
-    disable_success: ""
-    enable_dialog: ""
-    enable_dialog_title: ""
-    enable_success: ""
-    id: ""
     filter_by:
       by_date: তারিখ অনুযায়ী
       location_separation: বিচ্ছেদের অবস্থান
@@ -2944,79 +2518,50 @@ bn:
       status: স্থিতি
     label: ট্রেসিং অনুরোধ
     name_of_inquirer: অনুসন্ধানকারীর নাম
-    inquirer: ""
-    name: ""
     register_new_tracing_request: নতুন অনসন্ধানের অনুরোধ
     selectable_date_options:
       inquiry_date: অনুসন্ধানের তারিখ
-    selected_records: ''
     selected_all_records: 'efwfwef'
-    show_tracing_request: ''
     tracing_requests: ট্রেসিং অনুরোধ
     export: রপ্তানি
   registry_records:
     id: আইডি
     label: রেজিস্ট্রি রেকর্ড
     name: নাম
-    registry_no: ""
-    location: ""
-    registration_date: ""
-    selected_records: ''
-    selected_all_records: ''
-    disable_dialog_title: ""
-    disable_dialog: ""
-    disable_success: ""
-    enable_dialog_title: ""
-    enable_dialog: ""
-    enable_success: ""
     filter_by:
       by_date: তারিখ অনুযায়ী
       status: স্থিতি
     selectable_date_options:
       registration_date: নিবন্ধনের তারিখ
-    show_registry_record: ''
     register_new_registry_record: নতুন রেজিস্ট্রি রেকর্ড
     export: রপ্তানি
     mark_for_offline:
       title: অফলাইনের জন্য চিহ্নিত করুন
-      text: "আপনি কি নিশ্চিত যে আপনি অফলাইনে থাকাকালীন ব্যবহারের জন্য এই রেজিস্ট্রি রেকর্ডগুলি চিহ্নিত করতে চান?"
-      success: ""
+      text: আপনি কি নিশ্চিত যে আপনি অফলাইনে থাকাকালীন ব্যবহারের জন্য এই রেজিস্ট্রি রেকর্ডগুলি চিহ্নিত করতে চান?
   transfer:
-    label: ""
-    agency_label: "এজেন্সি "
-    consent_from_individual_label: ""
+    agency_label: 'এজেন্সি '
     consent_label: রেকর্ড সম্মতি প্রদান করে নি।
-    consent_override_label: "আপনি কি এই সেটিং অগ্রাহ্য করতে চান?"
-    is_remote_label: "আপনি কি রিমোর্ট ব্যবস্থায় স্থানান্তরিত হচ্ছেন? "
-    location_label: "স্থান "
+    consent_override_label: আপনি কি এই সেটিং অগ্রাহ্য করতে চান?
+    is_remote_label: 'আপনি কি রিমোর্ট ব্যবস্থায় স্থানান্তরিত হচ্ছেন? '
+    location_label: 'স্থান '
     notes_label: নোটসমুহ
-    provided_consent_label: ""
-    recipient_label: ""
     select_label: নির্বাচন...
     success: সফলভাবে স্থানান্তরিত হয়েছে
-    transfer_label: "যেভাবেই হোক স্থানান্তর করবেন?"
+    transfer_label: যেভাবেই হোক স্থানান্তর করবেন?
     user_mandatory: প্রাপক আবশ্যক
-    rejected_reason: ""
-  transfer_assignment:
-    title: ""
   transition:
-    agency_label: ""
-    assigned_by: ""
-    consent_individual_transfer_value:
-      true_label: ''
-      false_label: ''
     consent_overridden_value:
       false_label: 'না'
       true_label: 'হ্যাঁ'
     errors:
       consent: সম্মতি প্রদান করা হয়নি
       to_user_can_receive: এই ব্যবহারকারী এই রেকর্ডটি গ্রহণ করতে পারে না
-    individual_consent: "কেস কর্মীর কি এই স্থানান্তর করার জন্য ব্যক্তির সম্মতি ছিল?"
-    no_consent_share: "ওভাররাইট করা সেটিং শেয়ার করতে সম্মত হবেন?"
+    individual_consent: কেস কর্মীর কি এই স্থানান্তর করার জন্য ব্যক্তির সম্মতি ছিল?
+    no_consent_share: ওভাররাইট করা সেটিং শেয়ার করতে সম্মত হবেন?
     notes: নোট
     recipient: প্রাপক
     rejected: প্রত্যাখ্যাতের কারণ
-    requested_by: " অনুরোধ করা হয়েছে যার দ্বারা"
+    requested_by: ' অনুরোধ করা হয়েছে যার দ্বারা'
     service_label: সেবা
     responded_at: উত্তর দিয়েছেন
     status:
@@ -3031,116 +2576,48 @@ bn:
       reassign: বরাদ্দ করুন
       referral: রেফারেল
       external_referral: বাহ্যিক রেফারেল
-      transfer: ""
-      transferRequest: ""
   user:
     agency_office: সংস্থার কার্যালয়
-    code: "ব্যবহারকারীর কোড "
-    disabled: "অক্ষম "
-    email: ""
-    full_name: "সম্পুর্ণ নাম "
-    identity_provider: ""
-    invalid_provider_username: ''
-    label: ""
-    language: ""
-    locale: ""
-    location: "স্থান "
+    code: 'ব্যবহারকারীর কোড '
+    disabled: 'অক্ষম '
+    full_name: 'সম্পুর্ণ নাম '
+    location: 'স্থান '
     messages:
-      confirmation: "আপনি কি নিশ্চিত যে, আপনি এই ব্যবহারকারী মুছে ফেলতে চান? মুছে ফেললে পূর্বাবস্থায় ফেরানো যাবে না। ব্যবহারকারী মুছে ফেলার জন্য ওকে ক্লিক করুন।"
+      confirmation: আপনি কি নিশ্চিত যে, আপনি এই ব্যবহারকারী মুছে ফেলতে চান? মুছে ফেললে পূর্বাবস্থায় ফেরানো যাবে না। ব্যবহারকারী মুছে ফেলার জন্য ওকে ক্লিক করুন।
       created: সাফলতার সাথে ব্যবহারকারী তৈরী করা হয়েছে।
-      failure: ""
-      new_confirm_html: ""
-      new_confirm_non_identity_html: ""
       not_found: প্রদত্ত আইডিসহ ব্যবহারকারী পাওয়া যায় নি।
       password_changed_successfully: পাসওয়ার্ড সফলভাবে পরিবর্তন
       passwords_do_not_match: বর্তমান পাসওয়ার্ড মেলে না
       time_zone_updated: পরিবর্তন সফলভাবে আপডেট করা হয়েছে
       updated: সাফলতার সাথে ব্যবহারকারী আপডেট করা হয়েছে।
     organization: প্রতিষ্ঠান
-    agency: ""
-    services_help_text: ""
-    password_setting:
-      label: ""
-      self: ""
-      user: ""
-      help_text: ""
-    password_reset_header: ""
-    password_reset_text: ""
-    password_reset_request: ""
-    password: ""
     password_confirmation: পাসওয়ার্ড নিশ্চিতকরণ
     phone: ফোন
     position: অবস্থান
-    provider_username_help: ''
     role_id: ভূমিকা
-    send_mail: "ইমেইলে বিজ্ঞপ্তি পাবেন?"
+    send_mail: ইমেইলে বিজ্ঞপ্তি পাবেন?
     user_group_unique_ids: ব্যাবহারকারি
     user_name: ব্যবহারকারীর নাম
     services: সেবাগুলো
-    welcome_email:
-      subject: ''
-      greeting: ''
-      body_native: ''
-      sso:
-        body: ''
-        step1: ''
-        step2: ''
-        step3: ''
-        footer: ''
-      otp:
-        body: ''
-        step1: ''
-        step2: ''
-        step3: ''
-        step4: ''
-      url_label: ""
-      enabled_label: ""
-      text_label: ""
-    password_reset:
-      subject: ''
-      email_greeting: ""
-      email_body1: ""
-      email_body2: ""
-      email_body_link: ""
-      request_submitted: ""
-      success: ""
-      errors:
-        reset_password_token: ""
-        password_confirmation: ""
-    onboard_email:
-      subject: ""
-      greeting: ""
-      body1: ""
-      body2: ""
-      body2_reset_notification: ""
-      body3: ""
   user_group:
-    associated_agencies: ""
-    description: "বর্ণনা "
+    description: 'বর্ণনা '
     disabled:
-      explanation: ""
       label: অক্ষম
     messages:
       created: সাফলতার সাথে ব্যবহারকারী দল তৈরী করা হয়েছে।
-      updated: "ব্যবহারকারী দল সফলভাবে হালনাগাদ করা হয়েছে "
-    name: "নাম "
+      updated: 'ব্যবহারকারী দল সফলভাবে হালনাগাদ করা হয়েছে '
+    name: 'নাম '
   user_groups:
-    label: "ব্যবহারকারীর গ্রুপ "
+    label: 'ব্যবহারকারীর গ্রুপ '
   users:
     label: ব্যবহারকারী
     headers:
-      full_name: "সম্পুর্ণ নাম "
+      full_name: 'সম্পুর্ণ নাম '
       user_name: ব্যবহারকারীর নাম
       position: অবস্থান
       agency: সংস্থা
   devise:
     failure:
       already_authenticated: "আপনি ইতিমধ্যেই প্রবেশ করেছেন"
-      invalid: ""
       locked: "আপনার একাউন্ট বদ্ধ করা আছে"
       last_attempt: "আপনার অ্যাকাউন্ট বন্ধ হওয়ার আগে আপনার আরো একটি প্রচেষ্টা আছে"
-  admin:
-    locations:
-      selected_records: ''
-      selected_all_records: ""
-      updated: ''
