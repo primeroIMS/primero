@@ -6,7 +6,7 @@ require 'roo'
 
 describe BulkExport, search: true do
   before :each do
-    clean_data(BulkExport, Agency, Location, UserGroup, Role, User, Field,
+    clean_data(BulkExport, Location, UserGroup, User, Agency, Role, Field,
                FormSection, Child, PrimeroModule, PrimeroProgram, SystemSettings,
                FormPermission)
 
@@ -50,7 +50,7 @@ describe BulkExport, search: true do
   end
 
   after :each do
-    clean_data(BulkExport, Agency, Location, UserGroup, Role, User, Field,
+    clean_data(BulkExport, Location, UserGroup, User, Agency, Role, Field,
                FormSection, Child, PrimeroModule, PrimeroProgram, SystemSettings,
                FormPermission)
   end

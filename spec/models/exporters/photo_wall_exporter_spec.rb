@@ -6,7 +6,7 @@ require 'rails_helper'
 module Exporters
   describe PhotoWallExporter do
     before :each do
-      clean_data(Child, Role, PrimeroModule, User)
+      clean_data(Child, User, Role, PrimeroModule)
       primero_module = PrimeroModule.new(name: 'CP')
       primero_module.save(validate: false)
       permissions = Permission.new(
@@ -56,7 +56,7 @@ module Exporters
     end
 
     after :each do
-      clean_data(Child, Role, PrimeroModule, User)
+      clean_data(Child, User, Role, PrimeroModule)
     end
   end
 end

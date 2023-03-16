@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::RecordHistoriesController, type: :request do
   before :each do
-    clean_data(Role, User, Agency, Child, TracingRequest, Incident, RecordHistory)
+    clean_data(User, Role, Agency, Child, TracingRequest, Incident, RecordHistory)
 
     agency_a = Agency.create!(
       unique_id: 'agency_1',
@@ -277,6 +277,6 @@ describe Api::V2::RecordHistoriesController, type: :request do
   end
 
   after :each do
-    clean_data(Role, User, Agency, Child, TracingRequest, Incident, RecordHistory)
+    clean_data(User, Role, Agency, Child, TracingRequest, Incident, RecordHistory)
   end
 end

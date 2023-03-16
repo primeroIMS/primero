@@ -120,7 +120,7 @@ describe Child do
 
   describe 'save' do
     before(:each) do
-      Agency.destroy_all
+      clean_data(User, Agency)
       create(:agency, name: 'unicef')
     end
 
@@ -160,7 +160,7 @@ describe Child do
 
   describe 'new_with_user_name' do
     before(:each) do
-      Agency.destroy_all
+      clean_data(User, Agency)
       create(:agency, name: 'unicef')
     end
 
@@ -378,7 +378,7 @@ describe Child do
 
   describe 'record ownership' do
     before do
-      clean_data(Agency, User, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection)
+      clean_data(User, Agency, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection)
 
       @owner = create :user
       @previous_owner = create :user
@@ -393,7 +393,7 @@ describe Child do
     end
 
     after do
-      clean_data(Agency, User, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection)
+      clean_data(User, Agency, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection)
     end
   end
 

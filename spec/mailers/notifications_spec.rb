@@ -10,7 +10,7 @@ describe NotificationMailer, type: :mailer do
 
   describe 'approvals' do
     before do
-      clean_data(Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, User, UserGroup, Agency, Referral)
+      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Referral)
 
       @lookup = Lookup.create!(id: 'lookup-approval-type', unique_id:'lookup-approval-type', name: 'approval type',
                                lookup_values_en: [{'id' => 'value1', 'display_text' => 'value1'}])
@@ -131,7 +131,7 @@ describe NotificationMailer, type: :mailer do
 
   describe 'Transitions' do
     before :each do
-      clean_data(Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, User, UserGroup, Agency, Child)
+      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Child)
       @primero_module = PrimeroModule.new(name: 'CP')
       @primero_module.save(validate: false)
       @permission_assign_case = Permission.new(
@@ -340,8 +340,8 @@ describe NotificationMailer, type: :mailer do
 
     after :each do
       clean_data(
-        Role, PrimeroModule, PrimeroProgram, Field, FormSection,
-        Lookup, User, UserGroup, Child, Transition, Agency
+        User, Role, PrimeroModule, PrimeroProgram, Field, FormSection,
+        Lookup, UserGroup, Child, Transition, Agency
       )
     end
   end
