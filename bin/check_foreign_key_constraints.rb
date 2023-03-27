@@ -4,7 +4,7 @@ ORPHANS_MAP = {
   primero_modules: {
     sql: %(
         SELECT
-          modules.unique_id AS id,
+          modules.unique_id AS unique_id,
           modules.id AS modules_id,
           programs.id AS programs_id,
           modules.primero_program_id as primero_program_id
@@ -26,7 +26,7 @@ ORPHANS_MAP = {
           modules_searches.id AS id,
           modules_searches.saved_search_id AS saved_search_id,
           modules_searches.primero_module_id AS primero_module_id
-          FROM primero_modules_saved_searches AS modules_searches
+        FROM primero_modules_saved_searches AS modules_searches
         LEFT JOIN saved_searches AS searches
         ON modules_searches.saved_search_id = searches.id
         LEFT JOIN primero_modules AS modules
@@ -38,15 +38,16 @@ ORPHANS_MAP = {
       saved_search_id: 'searches_id',
       primero_module_id: 'modules_id'
     },
-    primary_key: 'id'
+    primary_key: 'id',
+    join_table: true
   },
   primero_modules_roles: {
     sql: %(
         SELECT
           modules.id AS module_id,
-          roles.id AS role_id,
-          modules_roles.primero_module_id  AS primero_module_id,
-          modules_roles.role_id  AS module_role_id
+          roles.id AS roles_role_id,
+          modules_roles.primero_module_id,
+          modules_roles.role_id
         FROM primero_modules_roles modules_roles
         LEFT join primero_modules AS modules on modules.id = modules_roles.primero_module_id
         LEFT join roles on roles.id = modules_roles.role_id
@@ -55,8 +56,9 @@ ORPHANS_MAP = {
     ),
     foreign_keys_map: {
       primero_module_id: 'module_id',
-      module_role_id: 'role_id'
-    }
+      role_id: 'roles_role_id'
+    },
+    join_table: true
   },
   form_sections_primero_modules: {
     sql: %(
@@ -77,15 +79,16 @@ ORPHANS_MAP = {
     foreign_keys_map: {
       primero_module_id: 'module_id',
       form_section_id: 'form_id'
-    }
+    },
+    join_table: true
   },
   form_sections_roles: {
     sql: %(
       SELECT
         forms.id AS form_id,
-        roles.id AS role_id,
-        form_roles.role_id AS forms_role_id,
-        form_roles.form_section_id AS form_section_id
+        roles.id AS roles_role_id,
+        form_roles.role_id,
+        form_roles.form_section_id
       FROM form_sections_roles AS form_roles
       LEFT JOIN roles
       ON form_roles.role_id = roles.id
@@ -95,9 +98,10 @@ ORPHANS_MAP = {
       OR (forms.id IS NULL AND form_roles.form_section_id IS NOT NULL)
     ),
     foreign_keys_map: {
-      forms_role_id: 'form_id',
+      role_id: 'roles_role_id',
       form_section_id: 'form_id'
-    }
+    },
+    join_table: true
   },
   fields: {
     sql: %(
@@ -141,10 +145,10 @@ ORPHANS_MAP = {
     sql: %(
       SELECT
         alerts.id AS id,
-        users.id AS user_id,
-        agencies.id AS agency_id,
-        alerts.user_id AS alerts_user_id,
-        alerts.agency_id AS alerts_agency_id
+        users.id AS users_user_id,
+        agencies.id AS agencies_agency_id,
+        alerts.user_id,
+        alerts.agency_id
       FROM alerts
       LEFT JOIN users
         ON users.id = alerts.user_id
@@ -154,16 +158,16 @@ ORPHANS_MAP = {
       OR (agencies.id IS NULL AND alerts.agency_id IS NOT NULL)
     ),
     foreign_keys_map: {
-      alerts_user_id: 'user_id',
-      alerts_agency_id: 'agency_id'
+      user_id: 'users_user_id',
+      agency_id: 'agencies_agency_id'
     },
     primary_key: 'id'
   },
   saved_searches: {
     sql: %(
       SELECT
-        users.id AS user_id,
-        searches.user_id  AS searches_user_id,
+        users.id AS users_user_id,
+        searches.user_id,
         searches.id AS id
       FROM saved_searches searches
       LEFT JOIN users
@@ -171,7 +175,7 @@ ORPHANS_MAP = {
       WHERE users.id IS NULL AND searches.user_id IS NOT NULL
     ),
     foreign_keys_map: {
-      searches_user_id: 'user_id'
+      user_id: 'users_user_id'
     },
     primary_key: 'id'
   },
@@ -217,7 +221,7 @@ ORPHANS_MAP = {
       SELECT
         agencies_groups.id AS id,
         agencies.id AS agencies_pk_id,
-        user_groups.id AS group_id,
+        user_groups.id AS group_pk_id,
         agencies_groups.user_group_id,
         agencies_groups.agency_id
       FROM agencies_user_groups agencies_groups
@@ -227,12 +231,13 @@ ORPHANS_MAP = {
       OR (user_groups.id IS NULL AND agencies_groups.user_group_id IS NOT NULL)
     ),
     foreign_keys_map: {
-      user_groups_id: 'group_id',
+      user_group_id: 'group_pk_id',
       agency_id: 'agencies_pk_id'
     },
-    primary_key: 'id'
+    primary_key: 'id',
+    join_table: true
   },
-  user_groups_user: {
+  user_groups_users: {
     sql: %(
       SELECT
         users.id as user_pk,
@@ -250,7 +255,8 @@ ORPHANS_MAP = {
       user_group_id: 'user_group_pk',
       user_id: 'user_pk'
     },
-    primary_key: 'id'
+    primary_key: 'id',
+    join_table: true
   },
   perpetrators_violations: {
     sql: %(
@@ -270,7 +276,8 @@ ORPHANS_MAP = {
       perpetrator_id: 'perpetrator_pk',
       violation_id: 'violations_pk'
     },
-    primary_key: 'id'
+    primary_key: 'id',
+    join_table: true
   },
   individual_victims_violations: {
     sql: %(
@@ -290,7 +297,8 @@ ORPHANS_MAP = {
       individual_victim_id: 'individual_victims_pk',
       violation_id: 'violations_pk'
     },
-    primary_key: 'id'
+    primary_key: 'id',
+    join_table: true
   },
   group_victims_violations: {
     sql: %(
@@ -310,7 +318,8 @@ ORPHANS_MAP = {
       group_victim_id: 'group_victims_pk',
       violation_id: 'violations_pk'
     },
-    primary_key: 'id'
+    primary_key: 'id',
+    join_table: true
   },
   users: {
     sql: %(
@@ -339,15 +348,67 @@ ORPHANS_MAP = {
   }
 }.freeze
 
+fix_records = ARGV[0] == 'true'
+
 def execute_query(query)
   ActiveRecord::Base.connection.exec_query(query).to_a
 end
 
-def check_result(result, primary_key, foreign_keys_map)
-  foreign_keys_map.entries.each do |(foreign_key, table_key)|
+def show_orphan_keys(table_config, result)
+  table_config[:foreign_keys_map].entries.each do |(foreign_key, table_key)|
     next unless result[foreign_key.to_s].present? && result[table_key].nil?
 
-    print_orphan_detail(result, primary_key, foreign_key)
+    print_orphan_detail(result, table_config[:primary_key], foreign_key)
+  end
+end
+
+def delete_orphan_join_record(table_name, table_config, result)
+  puts 'Deleting orphan record in join table...'
+  foreign_key_values = table_config[:foreign_keys_map].keys.reduce([]) do |memo, foreign_key|
+    memo + [
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        ["#{ActiveRecord::Base.connection.quote_column_name(foreign_key)} = ?", result[foreign_key.to_s]]
+      )
+    ]
+  end
+
+  execute_query(
+    ActiveRecord::Base.sanitize_sql_for_conditions(
+      [
+        %(
+          DELETE FROM #{ActiveRecord::Base.connection.quote_table_name(table_name)}
+          WHERE #{foreign_key_values.join(' AND ')}
+        )
+      ]
+    )
+  )
+end
+
+def nullify_orphan_foreign_keys(table_name, table_config, result)
+  puts 'Setting orphan foreign keys to null...'
+  table_config[:foreign_keys_map].entries.each do |(foreign_key, table_key)|
+    next unless result[foreign_key.to_s].present? && result[table_key].nil?
+
+    execute_query(
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          %(
+            UPDATE #{ActiveRecord::Base.connection.quote_table_name(table_name)}
+            SET #{ActiveRecord::Base.connection.quote_column_name(foreign_key)} = NULL
+            WHERE #{ActiveRecord::Base.connection.quote_column_name(foreign_key)} = ?
+          ),
+          result[foreign_key.to_s]
+        ]
+      )
+    )
+  end
+end
+
+def fix_orphan_record(table_name, table_config, result)
+  if table_config[:join_table] == true
+    delete_orphan_join_record(table_name, table_config, result)
+  else
+    nullify_orphan_foreign_keys(table_name, table_config, result)
   end
 end
 
@@ -355,9 +416,8 @@ def print_orphan_detail(orphan, primary_key, foreign_key)
   foreign_key_value = orphan[foreign_key.to_s]
 
   if primary_key.present?
-    primary_key_value = orphan[primary_key]
     puts(
-      "With #{primary_key} = #{primary_key_value}, non-existent foreign_key #{foreign_key} = #{foreign_key_value}"
+      "With #{primary_key} = #{orphan[primary_key]}, non-existent foreign_key #{foreign_key} = #{foreign_key_value}"
     )
   else
     puts("#{foreign_key} = #{foreign_key_value} does not exists.")
@@ -370,13 +430,23 @@ ORPHANS_MAP.entries.each do |(key, value)|
   puts("\nChecking table: #{key}...")
 
   results = execute_query(value[:sql])
-  primary_key = value[:primary_key]
 
-  puts('No primary key defined.') if primary_key.blank?
+  puts('No primary key defined.') if value[:primary_key].blank?
 
   if results.present?
-    puts('The following records are orphaned:')
-    results.each { |result| check_result(result, primary_key, value[:foreign_keys_map]) }
+    if fix_records == true
+      puts('Fixing orphan records...')
+    else
+      puts('The following records are orphaned:')
+    end
+
+    results.each do |result|
+      if fix_records == true
+        fix_orphan_record(key, value, result)
+      else
+        show_orphan_keys(value, result)
+      end
+    end
     puts('Done.')
   else
     puts('---No orphans found---')
