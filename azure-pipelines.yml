@@ -18,6 +18,8 @@ jobs:
   - job: Test
     displayName: 'Run tests'
     pool: primerox-azdo-a-ms
+    demands:
+      - agent.name -equals primero-build-agent3
     steps:
       - bash: ./bin/install_local_test_solr.sh
       - bash: |
@@ -35,7 +37,7 @@ jobs:
         displayName: 'Install npm packages'
       - bash: |
           apt-get update
-          apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-10
+          apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-14
         displayName: 'Install dependencies'
       - bash: |
           . ~/.bash_env
