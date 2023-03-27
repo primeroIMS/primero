@@ -17,9 +17,10 @@ variables:
 jobs:
   - job: Test
     displayName: 'Run tests'
-    pool: primerox-azdo-a-ms
-    demands:
-      - agent.name -equals primero-build-agent3
+    pool: 
+      name: primerox-azdo-a-ms
+      demands:
+        - agent.name -equals primero-build-agent3
     steps:
       - bash: ./bin/install_local_test_solr.sh
       - bash: |
