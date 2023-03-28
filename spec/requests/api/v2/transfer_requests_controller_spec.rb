@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Api::V2::TransferRequestsController, type: :request do
   include ActiveJob::TestHelper
   before :each do
-    clean_data(Role, PrimeroModule, UserGroup, User, Child, Transition)
+    clean_data(User, Role, PrimeroModule, UserGroup, Child, Transition)
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
     @permission_transfer_case = Permission.new(
@@ -65,7 +65,6 @@ describe Api::V2::TransferRequestsController, type: :request do
   end
 
   describe 'POST /api/v2/case/:id/transfer_requests' do
-
     it 'makes a transfer request for the record to the record owner' do
       sign_in(@user2)
       params = {data: {notes: 'Test Notes'}}
@@ -144,6 +143,6 @@ describe Api::V2::TransferRequestsController, type: :request do
 
   after :each do
     clear_enqueued_jobs
-    clean_data(Role, PrimeroModule, UserGroup, User, Child, Transition)
+    clean_data(User, Role, PrimeroModule, UserGroup, Child, Transition)
   end
 end

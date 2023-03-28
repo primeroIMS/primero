@@ -6,7 +6,7 @@ require 'roo'
 describe Exporters::SelectedFieldsExcelExporter do
   before :each do
     clean_data(
-      Agency, Role, UserGroup, User, PrimeroModule, PrimeroProgram,
+      User, Agency, Role, UserGroup, PrimeroModule, PrimeroProgram,
       Field, FormSection, Child
     )
 

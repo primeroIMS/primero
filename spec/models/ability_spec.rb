@@ -19,8 +19,8 @@ describe Ability do
 
   after do
     clean_data(
-      Role, PrimeroModule, PrimeroProgram,
-      User, Child, Field, FormSection,
+      User, Role, PrimeroModule, PrimeroProgram,
+      Child, Field, FormSection,
       Agency, UserGroup
     )
   end
@@ -182,17 +182,25 @@ describe Ability do
           Permission::ROLE, Permission::USER, Permission::USER_GROUP,
           Permission::AGENCY, Permission::METADATA, Permission::SYSTEM
         ]
-        @permissions_super_user_list = super_user_permissions_to_manage.map{|p| Permission.new(resource: p, actions: [Permission::MANAGE])}
+        @permissions_super_user_list = super_user_permissions_to_manage.map do |p|
+          Permission.new(resource: p, actions: [Permission::MANAGE])
+        end
         user_admin_permissions_to_manage = [
           Permission::ROLE, Permission::USER, Permission::USER_GROUP,
           Permission::AGENCY, Permission::METADATA, Permission::SYSTEM
         ]
-        @permissions_user_admin_list = user_admin_permissions_to_manage.map{|p| Permission.new(resource: p, actions: [Permission::MANAGE])}
-        @super_role = create :role, name: 'super_user_role', permissions: @permissions_super_user_list, group_permission: Permission::ALL
+        @permissions_user_admin_list = user_admin_permissions_to_manage.map do |p|
+          Permission.new(resource: p, actions: [Permission::MANAGE])
+        end
+        @super_role = create(
+          :role, name: 'super_user_role', permissions: @permissions_super_user_list, group_permission: Permission::ALL
+        )
       end
 
       it 'does not allow a user with super user status to edit another super user role' do
-        super_role2 = create :role, name: 'super_user_role2', permissions: @permissions_super_user_list, group_permission: Permission::ALL
+        super_role2 = create(
+          :role, name: 'super_user_role2', permissions: @permissions_super_user_list, group_permission: Permission::ALL
+        )
         @user1.role = @super_role
         @user1.save
 
@@ -230,8 +238,15 @@ describe Ability do
       end
 
       it 'does not allow a user to edit or assign a super user role' do
-        user_admin_role = create :role, name: 'user_admin_role', permissions: @permissions_user_admin_list, group_permission: Permission::ADMIN_ONLY
-        user_role = create :role, name: 'user_role', permissions: [@permission_role_read_write], group_permission: Permission::ALL
+        user_admin_role = create(
+          :role,
+          name: 'user_admin_role',
+          permissions: @permissions_user_admin_list,
+          group_permission: Permission::ADMIN_ONLY
+        )
+        user_role = create(
+          :role, name: 'user_role', permissions: [@permission_role_read_write], group_permission: Permission::ALL
+        )
 
         @user1.role = user_admin_role
         @user1.save
@@ -251,7 +266,7 @@ describe Ability do
       end
 
       after :each do
-        Role.all.each &:destroy
+        clean_data(User, Role)
       end
     end
 
@@ -303,7 +318,7 @@ describe Ability do
 
     context 'when Role Specific permission' do
       before :each do
-        Role.destroy_all
+        clean_data(User, Role)
         @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
         @role_case_read = create :role, permissions: [@permission_case_read]
         @permission_tracing_request_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
@@ -346,7 +361,7 @@ describe Ability do
           @role_role_specific_read_write = create(
             :role, permissions: [@permission_role_specific_read_write], group_permission: Permission::GROUP
           )
-          @user1.role= @role_role_specific_read_write
+          @user1.role = @role_role_specific_read_write
           @user1.save
 
           @ability = Ability.new @user1
@@ -395,13 +410,13 @@ describe Ability do
       end
 
       after :each do
-        Role.destroy_all
+        clean_data(User, Role)
       end
     end
 
     context 'when specifying which ROLES can be assigned' do
       before do
-        Role.all.each &:destroy
+        clean_data(User, Role)
         @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
         @role_case_read = create :role, permissions: [@permission_case_read]
         @permission_tracing_request_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
@@ -521,7 +536,7 @@ describe Ability do
       end
 
       after do
-        Role.all.each(&:destroy)
+        clean_data(User, Role)
       end
     end
   end
@@ -765,7 +780,7 @@ describe Ability do
 
     context 'when Agency Specific permission' do
       before do
-        Agency.all.each(&:destroy)
+        clean_data(User, Agency)
         @agency1 = Agency.create(name: 'agency one', agency_code: '1111')
         @agency2 = Agency.create(name: 'agency two', agency_code: '2222')
         @agency3 = Agency.create(name: 'agency three', agency_code: '3333')
@@ -869,20 +884,25 @@ describe Ability do
       end
 
       after do
-        Agency.all.each(&:destroy)
+        clean_data(User, Agency)
       end
     end
 
     context 'when specifying which ROLES can be assigned' do
       before do
-        Role.all.each(&:destroy)
+        clean_data(User, Role)
         @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
         @role_case_read = create :role, permissions: [@permission_case_read]
         @permission_tracing_request_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
         @role_tracing_request_read = create :role, permissions: [@permission_tracing_request_read]
         @permission_incident_read = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ])
         @role_incident_read = create :role, permissions: [@permission_incident_read]
-        @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+        @permission_user_read_write = Permission.new(
+          resource: Permission::USER,
+          actions: [
+            Permission::READ, Permission::WRITE, Permission::CREATE
+          ]
+        )
       end
 
       context 'and specifies 2 roles' do
@@ -995,7 +1015,7 @@ describe Ability do
       end
 
       after do
-        Role.all.each(&:destroy)
+        clean_data(User, Role)
       end
     end
   end

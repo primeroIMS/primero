@@ -6,7 +6,7 @@ describe Alertable do
   context 'when a transfer_request alert exists' do
     before do
       clean_data(
-        SystemSettings, Role, Agency, Alert, User, Child, UserGroup,
+        SystemSettings, Alert, User, Role, Agency, Child, UserGroup,
         PrimeroModule, PrimeroProgram, Referral, FormSection
       )
       program = PrimeroProgram.create!(
@@ -237,7 +237,7 @@ describe Alertable do
 
     after do
       clean_data(
-        SystemSettings, Role, Agency, Alert, User, Child, UserGroup,
+        SystemSettings, Alert, User, Role, Agency, Child, UserGroup,
         PrimeroModule, PrimeroProgram, Referral, FormSection
       )
     end
@@ -278,7 +278,7 @@ describe Alertable do
   context 'when a incident_from_case alert exists' do
     before do
       clean_data(
-        SystemSettings, Role, Agency, Alert, User, Child, UserGroup,
+        SystemSettings, Alert, User, Role, Agency, Child, UserGroup,
         PrimeroProgram, PrimeroModule, Referral, FormSection
       )
 
@@ -377,7 +377,7 @@ describe Alertable do
 
   after do
     clean_data(
-      SystemSettings, Role, Agency, Alert, User, Child, UserGroup,
+      SystemSettings, Alert, User, Role, Agency, Child, UserGroup,
       PrimeroModule, PrimeroProgram, Referral, FormSection
     )
   end

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::AgenciesController, type: :request do
   before :each do
-    clean_data(Role, User, Agency)
+    clean_data(User, Role, Agency)
     @role = Role.create!(
       name: 'Test Role 1',
       unique_id: 'test-role-1',
@@ -524,6 +524,6 @@ describe Api::V2::AgenciesController, type: :request do
   end
 
   after :each do
-    clean_data(Role, User, Agency)
+    clean_data(User, Role, Agency)
   end
 end

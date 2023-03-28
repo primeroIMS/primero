@@ -5,7 +5,7 @@ require 'rails_helper'
 describe PrimeroConfiguration do
   before do
     clean_data(
-      Role, PrimeroModule, PrimeroConfiguration, Field, FormSection, Lookup, Agency,
+      User, Role, PrimeroModule, PrimeroConfiguration, Field, FormSection, Lookup, Agency,
       UserGroup, Report, ContactInformation, SystemSettings
     )
     @form1 = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
@@ -215,7 +215,7 @@ describe PrimeroConfiguration do
 
   after do
     clean_data(
-      Role, PrimeroModule, PrimeroConfiguration, Field, FormSection, Lookup, Agency, UserGroup, Report,
+      User, Role, PrimeroModule, PrimeroConfiguration, Field, FormSection, Lookup, Agency, UserGroup, Report,
       ContactInformation, SystemSettings
     )
   end

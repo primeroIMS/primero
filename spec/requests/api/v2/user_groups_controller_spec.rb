@@ -173,7 +173,7 @@ describe Api::V2::UserGroupsController, type: :request do
 
     describe 'POST user_group as a admin' do
       before :each do
-        clean_data(UserGroup, Agency, Role, PrimeroModule, User, FormSection, PrimeroProgram)
+        clean_data(User, UserGroup, Agency, Role, PrimeroModule, FormSection, PrimeroProgram)
         agency = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
         program = PrimeroProgram.create!(
           unique_id: 'primeroprogram-primero',
@@ -227,7 +227,7 @@ describe Api::V2::UserGroupsController, type: :request do
       end
 
       after :each do
-        clean_data(UserGroup, Agency, Role, PrimeroModule, User, FormSection, PrimeroProgram)
+        clean_data(User, UserGroup, Agency, Role, PrimeroModule, FormSection, PrimeroProgram)
       end
     end
 

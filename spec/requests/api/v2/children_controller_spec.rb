@@ -6,7 +6,7 @@ describe Api::V2::ChildrenController, type: :request do
   include ActiveJob::TestHelper
 
   before :each do
-    clean_data(Alert, Flag, Attachment, Incident, Child, Agency, User, Role, Lookup, PrimeroModule, RegistryRecord)
+    clean_data(Alert, Flag, Attachment, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord)
 
     @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
     @cp = PrimeroModule.create!(unique_id: PrimeroModule::CP, name: 'CP', description: 'Child Protection',
@@ -923,7 +923,9 @@ describe Api::V2::ChildrenController, type: :request do
   end
 
   after :each do
-    clean_data(Trace, Alert, Flag, Attachment, Incident, Child, Agency, User, Role, Lookup, PrimeroModule, RegistryRecord)
+    clean_data(
+      Trace, Alert, Flag, Attachment, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord
+    )
     clear_performed_jobs
     clear_enqueued_jobs
   end

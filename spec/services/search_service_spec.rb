@@ -224,7 +224,7 @@ describe SearchService, search: true do
   end
 
   after :example do
-    clean_data(Agency, UserGroup, User, Child)
+    clean_data(User, Agency, UserGroup, Child)
   end
 
   describe 'Filter search' do

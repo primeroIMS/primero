@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe ManagedReports::Indicators::ReportingLocationDetention do
   before do
-    clean_data(SystemSettings, Role, Agency, UserGroup, User, Incident, Violation, Location, IndividualVictim)
+    clean_data(SystemSettings, User, Role, Agency, UserGroup, Incident, Violation, Location, IndividualVictim)
     SystemSettings.create!(
       default_locale: 'en',
       incident_reporting_location_config: {

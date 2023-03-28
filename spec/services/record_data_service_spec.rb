@@ -177,6 +177,6 @@ describe RecordDataService do
   end
 
   after :each do
-    clean_data(Role)
+    clean_data(User, Role)
   end
 end

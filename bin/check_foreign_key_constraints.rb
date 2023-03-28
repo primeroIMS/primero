@@ -310,7 +310,7 @@ ORPHANS_MAP = {
         violations.id AS violations_pk
       FROM group_victims_violations
       LEFT JOIN group_victims ON group_victims.id = group_victims_violations.group_victim_id
-      LEFT JOIN violations ON violations.id  = group_victims_violations.violation_id 
+      LEFT JOIN violations ON violations.id  = group_victims_violations.violation_id
       WHERE (group_victims.id IS NULL AND group_victims_violations.group_victim_id IS NOT NULL)
       OR (violations.id IS NULL AND group_victims_violations.violation_id IS NOT NULL)
     ),
@@ -320,6 +320,31 @@ ORPHANS_MAP = {
     },
     primary_key: 'id',
     join_table: true
+  },
+  users: {
+    sql: %(
+      SELECT
+        users.id,
+        users.agency_id,
+        users.role_id,
+        users.identity_provider_id,
+        agencies.id as agency_pk,
+        roles.id as role_pk,
+        identity_providers.id as identity_provider_pk
+      FROM users
+      LEFT JOIN agencies ON agencies.id = users.agency_id
+      LEFT JOIN roles ON roles.id = users.role_id
+      LEFT JOIN identity_providers  ON identity_providers.id = users.identity_provider_id
+      WHERE (agencies.id IS NULL AND users.agency_id IS NOT NULL)
+      OR (roles.id IS NULL AND users.role_id  IS NOT NULL)
+      OR (identity_providers.id IS NULL AND users.identity_provider_id IS NOT NULL)
+    ),
+    foreign_keys_map: {
+      role_id: 'role_pk',
+      identity_provider_id: 'identity_provider_pk',
+      agency_id: 'agency_pk'
+    },
+    primary_key: 'id'
   }
 }.freeze
 
