@@ -1,4 +1,4 @@
 ---
 collections:
 - name: 'git+https://github.com/Quoin/ansible-infrastructure.git#quoin/infrastructure'
-  version: 'v1.0.0'
+  version: 'release-1.1.0'
