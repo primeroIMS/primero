@@ -30,13 +30,15 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
     getOptionFromAppModule(state, primeroModule, DATA_PROTECTION_FIELDS)
   );
 
+  const filters = { ...DEFAULT_FILTERS, status: ["open", "closed"] };
+
   const goToNewCase = () => dispatch(push(`/${recordType}/${primeroModule}/new`));
 
   const onSearchCases = data => {
     dispatch(
       applyFilters({
         recordType,
-        data: { ...DEFAULT_FILTERS, ...(!isEmpty(data) && { ...data, id_search: true }) }
+        data: { ...filters, ...(!isEmpty(data) && { ...data, id_search: true }) }
       })
     );
   };
