@@ -40,6 +40,8 @@ class DataRemovalService
         blobs_conditional = agency_blob_ids.present? ? "WHERE id NOT IN (#{agency_blob_ids})" : ''
         ActiveRecord::Base.connection.execute("DELETE FROM active_storage_blobs #{blobs_conditional}")
       end
+
+      Sunspot.remove_all(RECORD_MODELS)
     end
 
     def remove_config(args = {})

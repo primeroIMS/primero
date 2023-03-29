@@ -7,14 +7,16 @@ class ModelDeletionService < ValueObject
 
   def delete_records!(query)
     puts "Removing data for model: #{model_class.name}..."
+    record_ids = query.pluck(:id)
 
     ActiveRecord::Base.transaction do
       delete_data_references(query)
       nullify_record_references(query)
       delete_join_references(query)
-      Sunspot.remove_by_id(model_class, query.pluck(:id))
       query.delete_all
     end
+
+    Sunspot.remove_by_id(model_class, record_ids)
   end
 
   def delete_all!
