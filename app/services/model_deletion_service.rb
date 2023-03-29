@@ -21,12 +21,26 @@ class ModelDeletionService < ValueObject
     puts "Removing all data for model: #{model_class.name} and its associations..."
     ActiveRecord::Base.transaction do
       delete_join_tables
+      delete_whitelisted_jwts if model_class == User
+      delete_agency_attachments if model_class == Agency
       nullify_references
       model_class.delete_all
     end
   end
 
   private
+
+  def delete_agency_attachments
+    blob_ids = ActiveRecord::Base.connection.execute(
+      "SELECT blob_id FROM active_storage_attachments WHERE record_type = 'Agency'"
+    ).to_a.map { |result| result['blob_id'] }
+
+    delete_blob_ids(blob_ids, 'Agency')
+  end
+
+  def delete_whitelisted_jwts
+    ActiveRecord::Base.connection.execute('DELETE FROM whitelisted_jwts')
+  end
 
   def delete_join_tables
     model_join_reflections.each do |reflection|
@@ -51,16 +65,6 @@ class ModelDeletionService < ValueObject
     end
   end
 
-  def delete_referenced_tables
-    model_reflections.each do |reflection|
-      table_name = ActiveRecord::Base.connection.quote_table_name(reflection.table_name)
-      puts "Removing data in referenced table: #{table_name}..."
-      ActiveRecord::Base.connection.execute(
-        ActiveRecord::Base.sanitize_sql_for_conditions(["DELETE FROM #{table_name}"])
-      )
-    end
-  end
-
   def nullify_record_references(query)
     record_model_reflections.each do |reflection|
       table_name = ActiveRecord::Base.connection.quote_table_name(reflection.table_name)
@@ -77,6 +81,7 @@ class ModelDeletionService < ValueObject
     data_model_reflections.each do |reflection|
       table_name = ActiveRecord::Base.connection.quote_table_name(reflection.table_name)
       column_name = ActiveRecord::Base.connection.quote_column_name(reflection.foreign_key)
+      delete_attachment_references(query, column_name) if reflection.klass == Attachment
       ActiveRecord::Base.connection.execute(
         ActiveRecord::Base.sanitize_sql_for_conditions(
           ["DELETE FROM #{table_name} WHERE #{column_name} IN (#{data_query(reflection.klass, query).to_sql})"]
@@ -89,6 +94,35 @@ class ModelDeletionService < ValueObject
     return query.select('id') if UUID_REFERENCED_MODELS.include?(data_model)
 
     query.select('CAST (id AS VARCHAR) as id')
+  end
+
+  def delete_attachment_references(query, column_name)
+    attachments = Attachment.where("#{column_name} IN (#{query.select('id').to_sql})")
+
+    blob_ids = active_storage_blob_ids(attachments)
+
+    return unless blob_ids.present?
+
+    delete_blob_ids(blob_ids, 'Attachment')
+  end
+
+  def delete_blob_ids(blob_ids, record_type = 'Attachment')
+    ActiveRecord::Base.connection.execute(
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        ['DELETE FROM active_storage_attachments WHERE record_type = ? AND blob_id IN (?)', record_type, blob_ids]
+      )
+    )
+
+    ActiveRecord::Base.connection.execute(
+      ActiveRecord::Base.sanitize_sql_for_conditions(['DELETE FROM active_storage_blobs WHERE id IN (?)', blob_ids])
+    )
+  end
+
+  def active_storage_blob_ids(attachments)
+    sql_query = attachments.select(:id).to_sql
+    ActiveRecord::Base.connection.execute(
+      "SELECT blob_id FROM active_storage_attachments WHERE record_type != 'Agency' AND record_id IN (#{sql_query})"
+    ).to_a.map { |result| result['blob_id'] }
   end
 
   def delete_join_references(query)
