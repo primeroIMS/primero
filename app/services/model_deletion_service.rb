@@ -47,7 +47,6 @@ class ModelDeletionService < ValueObject
   def delete_join_tables
     model_join_reflections.each do |reflection|
       join_table = ActiveRecord::Base.connection.quote_column_name(reflection.join_table)
-      puts "Removing join table: #{join_table}..."
       ActiveRecord::Base.connection.execute(
         ActiveRecord::Base.sanitize_sql_for_conditions(["DELETE FROM #{join_table}"])
       )
