@@ -17,16 +17,18 @@ class DataRemovalService
       if args.present?
         record_models = args[:record_models].present? ? record_models_to_delete(args[:record_models]) : RECORD_MODELS
         if record_models.present?
-          record_models.each do |record_model|
-            query = apply_filters(record_model, args[:filters])
-            ModelDeletionService.new(model_class: record_model).delete_records!(query)
-          end
+          record_models.each { |record_model| remove_model_records(record_model, args[:filters]) }
         else
           puts 'No valid record model was entered. Nothing was deleted.'
         end
       else
         remove_all_records
       end
+    end
+
+    def remove_model_records(record_model, filters)
+      query = apply_filters(record_model, filters)
+      ModelDeletionService.new(model_class: record_model).delete_records!(query)
     end
 
     def remove_all_records
