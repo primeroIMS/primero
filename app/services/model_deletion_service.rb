@@ -38,6 +38,8 @@ class ModelDeletionService < ValueObject
     ).to_a.map { |result| result['blob_id'] }
 
     delete_blob_ids(blob_ids, 'Agency')
+
+    Attachment.where(record_type: 'Agency').delete_all
   end
 
   def delete_whitelisted_jwts
