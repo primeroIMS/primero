@@ -6,7 +6,7 @@ class ModelDeletionService < ValueObject
   attr_accessor :model_class
 
   def delete_records!(query)
-    puts "Removing data for model: #{model_class.name}..."
+    puts "Deleting records for model: #{model_class.name}..."
     record_ids = query.pluck(:id)
 
     ActiveRecord::Base.transaction do
@@ -20,7 +20,7 @@ class ModelDeletionService < ValueObject
   end
 
   def delete_all!
-    puts "Removing all data for model: #{model_class.name} and its associations..."
+    puts "Deleting all data for model: #{model_class.name} and its associations..."
     ActiveRecord::Base.transaction do
       delete_join_tables
       delete_whitelisted_jwts if model_class == User

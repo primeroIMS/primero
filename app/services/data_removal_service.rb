@@ -64,13 +64,13 @@ class DataRemovalService
 
     def apply_filters(model, filters)
       query = model
-      filters.each do |filter|
+      filters.each do |(key, value)|
         # TODO: We only allow the created_at filter for now but once the
         # SearchService is migrated we'll use it here instead
-        next unless filter[:created_at].present? && filter.is_a?(Hash)
+        next unless key == :created_at && value.is_a?(Hash)
 
-        query = from_query(query, filter[:created_at])
-        query = to_query(query, filter[:created_at])
+        query = from_query(query, value)
+        query = to_query(query, value)
       end
 
       query
