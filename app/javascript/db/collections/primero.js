@@ -10,13 +10,13 @@ const Primero = {
   },
 
   save: async ({ collection, json }) => {
+    console.trace("trigger save===>");
     await DB.put({ store: collection, data: json.data, key: { id: 1 } });
 
     if (json?.data?.agencies) {
       const logos = await Logos.save(json.data.agencies);
-      const agenciesLogoPdf = await Logos.save(json.data.agencies_logo_options);
 
-      return { data: { logos, agenciesLogoPdf, ...json.data } };
+      return { data: { logos, agenciesLogoPdf: [], ...json.data } };
     }
 
     return json;

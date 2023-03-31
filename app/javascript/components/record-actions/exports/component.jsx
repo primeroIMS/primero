@@ -13,6 +13,7 @@ import { RECORD_TYPES } from "../../../config";
 import { useMemoizedSelector } from "../../../libs";
 import ActionDialog from "../../action-dialog";
 import { useApp } from "../../application";
+import { fetchAgencyLogoOptions } from "../../application/action-creators";
 import { getAgencyLogos, getAgencyLogosPdf, getExportRequirePassword } from "../../application/selectors";
 import { whichFormMode } from "../../form";
 import FormSectionField from "../../form/components/form-section-field";
@@ -277,6 +278,13 @@ const Component = ({
       formMethods.setValue(FORM_TO_EXPORT_FIELD, []);
     }
   }, [individualFields]);
+
+  useEffect(() => {
+    if (agencyLogosPdf.isEmpty()) {
+      console.log("fetchAgencyLogoOptions===>", agencyLogosPdf);
+      dispatch(fetchAgencyLogoOptions());
+    }
+  }, [agencyLogosPdf.isEmpty()]);
 
   const onSubmit = data => {
     submitHandler({
