@@ -7,7 +7,6 @@ import fetchPayload from "./utils/fetch-payload";
 
 const restMiddleware = options => store => next => action => {
   if (action?.api?.db?.params?.pdfLogoOption) {
-    console.log("===>fetchPdfLogos");
     return fetchPdfLogos(action, store, options, next);
   }
 

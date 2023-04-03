@@ -281,7 +281,6 @@ const Component = ({
 
   useEffect(() => {
     if (agencyLogosPdf.isEmpty()) {
-      console.log("fetchAgencyLogoOptions===>", agencyLogosPdf);
       dispatch(fetchAgencyLogoOptions());
     }
   }, [agencyLogosPdf.isEmpty()]);

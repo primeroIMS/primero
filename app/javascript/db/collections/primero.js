@@ -10,7 +10,6 @@ const Primero = {
   },
 
   save: async ({ collection, json }) => {
-    console.trace("trigger save===>");
     await DB.put({ store: collection, data: json.data, key: { id: 1 } });
 
     if (json?.data?.agencies) {
