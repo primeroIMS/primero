@@ -11,7 +11,7 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  vmImageName: 'Ubuntu-22.04'
+  vmImageName: 'Ubuntu-18.04'
   latestBranch: master
 
 jobs:
