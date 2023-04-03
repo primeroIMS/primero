@@ -40,13 +40,7 @@ const rules = [
   },
   {
     test: /\.svg$/,
-    loader: "react-svg-loader",
-    options: {
-      jsx: true,
-      svgo: {
-        plugins: [{ cleanupIDs: { prefix: svgPrefix } }]
-      }
-    }
+    loader: "@svgr/webpack"
   },
   {
     test: /\.(png|svg|jpg|jpeg|gif)$/,
