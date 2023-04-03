@@ -3,6 +3,22 @@
 require 'rails_helper'
 
 describe Api::V2::IncidentsController, type: :request do
+  SOURCE_FIELD = [
+    Field.new(
+      name: 'sources',
+      display_name_en: 'Source',
+      type: Field::SUBFORM,
+      subform: FormSection.new(
+        fields: [
+          Field.new(name: 'unique_id', type: Field::TEXT_FIELD),
+          Field.new(name: 'source_type', type: Field::SELECT_BOX),
+          Field.new(name: 'violations_ids', type: Field::SELECT_BOX, multi_select: true)
+        ]
+      )
+    )
+
+  ].freeze
+
   def mrm_fields
     [
       Field.new(
@@ -64,22 +80,6 @@ describe Api::V2::IncidentsController, type: :request do
       data: { incident_date: Date.new(2018, 3, 1), description: 'Test 3' },
       incident_case_id: @case1.id
     )
-
-    SOURCE_FIELD = [
-      Field.new(
-        name: 'sources',
-        display_name_en: 'Source',
-        type: Field::SUBFORM,
-        subform: FormSection.new(
-          fields: [
-            Field.new(name: 'unique_id', type: Field::TEXT_FIELD),
-            Field.new(name: 'source_type', type: Field::SELECT_BOX),
-            Field.new(name: 'violations_ids', type: Field::SELECT_BOX, multi_select: true)
-          ]
-        )
-      )
-
-    ].freeze
     Sunspot.commit
   end
 
