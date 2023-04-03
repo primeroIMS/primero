@@ -118,7 +118,7 @@ module Exporters
     end
 
     before do
-      clean_data(Incident, Role, UserGroup, User, Agency, Field, FormSection, PrimeroProgram, PrimeroModule)
+      clean_data(Incident, User, Agency, Role, UserGroup, Field, FormSection, PrimeroProgram, PrimeroModule)
 
       @incident1 = Incident.create!(
         id: '20b60ced-b862-41db-ab17-2dc5048ea925',

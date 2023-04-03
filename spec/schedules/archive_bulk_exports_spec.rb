@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe ArchiveBulkExports do
   before :each do
-    clean_data(Role, PrimeroModule, PrimeroProgram, FormSection, Agency, User, BulkExport)
+    clean_data(User, Role, PrimeroModule, PrimeroProgram, FormSection, Agency, BulkExport)
     program = PrimeroProgram.create!(
       unique_id: 'primeroprogram-test',
       name: 'Primero',
@@ -81,6 +81,6 @@ describe ArchiveBulkExports do
     end
   end
   after do
-    clean_data(Role, PrimeroModule, PrimeroProgram, FormSection, Agency, User, BulkExport)
+    clean_data(User, Role, PrimeroModule, PrimeroProgram, FormSection, Agency, BulkExport)
   end
 end

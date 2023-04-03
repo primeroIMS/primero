@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Transfer do
   before do
-    clean_data(User, Role, PrimeroModule, UserGroup, Agency, Transition, Incident, Child)
+    clean_data(User, Agency, Role, PrimeroModule, UserGroup, Transition, Incident, Child)
 
     @module_cp = PrimeroModule.new(name: 'CP')
     @module_cp.save(validate: false)
@@ -431,6 +431,6 @@ describe Transfer do
   end
 
   after :each do
-    clean_data(Role, PrimeroModule, UserGroup, User, Incident, Child, Transition, Agency)
+    clean_data(User, Role, PrimeroModule, UserGroup, Incident, Child, Transition, Agency)
   end
 end

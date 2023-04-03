@@ -3,7 +3,7 @@ require 'rails_helper'
 describe SavedSearch do
   describe 'saved searches' do
     before :each do
-      [SavedSearch, Field, FormSection, Role, Agency, User, PrimeroModule, PrimeroProgram].each(&:destroy_all)
+      [SavedSearch, Field, FormSection, User, Role, Agency, PrimeroModule, PrimeroProgram].each(&:destroy_all)
 
       @program = PrimeroProgram.create!(
         unique_id: 'primeroprogram-primero',
@@ -45,7 +45,6 @@ describe SavedSearch do
       )
 
       @saved_search = SavedSearch.create!(
-        name: 'test',
         record_type: 'child',
         user: @user1,
         filters: [

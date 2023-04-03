@@ -6,7 +6,7 @@ require 'will_paginate'
 describe Incident do
   before do
     clean_data(
-      Agency, User, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection, Field,
+      User, Agency, Role, Incident, Child, PrimeroModule, PrimeroProgram, UserGroup, FormSection, Field,
       Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
     )
 
@@ -801,7 +801,7 @@ describe Incident do
 
   after do
     clean_data(
-      Agency, User, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection, Field,
+      User, Agency, Role, Incident, Child, PrimeroModule, PrimeroProgram, UserGroup, FormSection, Field,
       Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
     )
   end
