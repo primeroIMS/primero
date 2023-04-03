@@ -514,7 +514,8 @@ class User < ApplicationRecord
       update_user_groups: user_groups_changed,
       update_agencies: saved_change_to_attribute?('agency_id'),
       update_locations: saved_change_to_attribute?('location'),
-      update_agency_offices: saved_change_to_attribute('agency_office')&.last&.present?
+      update_agency_offices: saved_change_to_attribute('agency_office')&.last&.present?,
+      model: 'Child'
     )
   end
 

@@ -2,11 +2,11 @@
 
 # Synchronize the associated records for a user
 class AssociatedRecordsService < ValueObject
-  attr_accessor :user, :update_user_groups, :update_agencies, :update_locations, :update_agency_offices
+  attr_accessor :user, :update_user_groups, :update_agencies, :update_locations, :update_agency_offices, :model
 
   def update_associated_records
     records = []
-    associated_records_for_update.find_each(batch_size: 500) do |record|
+    associated_records_for_update(model).find_each(batch_size: 500) do |record|
       update_record_ownership_fields(record)
 
       record.update_associated_user_groups if update_user_groups
@@ -18,11 +18,11 @@ class AssociatedRecordsService < ValueObject
     ActiveRecord::Base.transaction { records.each(&:save!) }
   end
 
-  def associated_records_for_update
+  def associated_records_for_update(model)
     if update_user_groups || update_agencies
-      Child.associated_with(user.user_name)
+      model.associated_with(user.user_name)
     else
-      Child.owned_by(user.user_name)
+      model.owned_by(user.user_name)
     end
   end
 

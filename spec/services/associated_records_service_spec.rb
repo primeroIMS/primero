@@ -34,7 +34,7 @@ describe AssociatedRecordsService do
       @associated_user.save(validate: false)
 
       AssociatedRecordsService.new(
-        user: @associated_user, update_user_groups: true
+        user: @associated_user, update_user_groups: true, model: Child
       ).update_associated_records
 
       expect(@child1.reload.associated_user_groups).to include(@group1.unique_id, @group2.unique_id)
@@ -76,7 +76,7 @@ describe AssociatedRecordsService do
       @associated_user.save(validate: false)
 
       AssociatedRecordsService.new(
-        user: @associated_user, update_agencies: true
+        user: @associated_user, update_agencies: true, model: Child
       ).update_associated_records
 
       expect(@child1.reload.associated_user_agencies).to include(@agency1.unique_id, @agency2.unique_id)

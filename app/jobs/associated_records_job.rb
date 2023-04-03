@@ -6,7 +6,7 @@ class AssociatedRecordsJob < ApplicationJob
 
   def perform(args = {})
     AssociatedRecordsService.new(
-      args.except(:user_id).merge(user: User.find(args[:user_id]))
+      args.except(:user_id, :model).merge(user: User.find(args[:user_id]), model: args[:model].constantize)
     ).update_associated_records
   end
 end
