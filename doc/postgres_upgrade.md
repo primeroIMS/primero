@@ -5,7 +5,7 @@ PostgreSQL data directories cannot be reused between major version upgrades. A d
 
 In the instructions below, the **Primero Server** refers to the machine that runs a Dockerized Primero and the **Ansible Server** refers to the machine that is used to provision it with Ansible.
 
-1. Create a back up of the database volume. This will not be used for the migration, but can be used to roll back the upgrade if something goes wrong. Look at the [Docker documentation](https://docs.docker.com/storage/volumes/#backup-restore-or-migrate-data-volumes) for more information about backing up and restoring vaolumes. On the **Primero Server**:
+1. Create a back up of the database volume. This will not be used for the migration, but can be used to roll back the upgrade if something goes wrong. Look at the [Docker documentation](https://docs.docker.com/storage/volumes/#backup-restore-or-migrate-data-volumes) for more information about backing up and restoring volumes. On the **Primero Server**:
 
         $ mkdir postgres_backup && chmod 777 postgres_backup
         $ docker run --rm --volumes-from primero_postgres_1 -v $(pwd)/postgres_backup:/backup busybox tar czvf /backup/primero-postgres-volume-backup.tar.gz /var/lib/postgresql/data
@@ -18,7 +18,7 @@ In the instructions below, the **Primero Server** refers to the machine that run
 3. Create the migration data dump. On the **Primero Server**:
 
         $ mkdir migration_data
-        $ docker exec -t primero_postgres_1 pg_dumpall -c -U primero > primero_migration_data.sql
+        $ docker exec -t primero_postgres_1 pg_dumpall -c -U primero > migration_data/primero_migration_data.sql
 
 4. Delete the PostgreSQL data volume. On the **Primero Server**:
 
@@ -35,12 +35,12 @@ In the instructions below, the **Primero Server** refers to the machine that run
 
 6. Restore the migration dump file to the new database. On the **Primero Server**:
 
-        $ docker cp $(pwd)/primero_migration_data.sql primero_postgres_1:/
+        $ docker cp $(pwd)/migration_data/primero_migration_data.sql primero_postgres_1:/
         $ docker exec -t primero_postgres_1 psql -f /primero_migration_data.sql -U primero
 
 7. **(Necessary if upgrading from PostgreSQL 10.)** If the password encryption strategy is changing (MD5 to SCRAM), the `primero` role password will need to be reset. On the **Primero Server:**
 
-        $ docker exec -t primero_postgres_1 bash -c 'echo "ALTER ROLE primero PASSWORD '"'"'${POSTGRES_PASSWORD}'"'"';" psql -U primero'
+        $ docker exec -t primero_postgres_1 bash -c 'echo "ALTER ROLE primero PASSWORD '"'"'${POSTGRES_PASSWORD}'"'"';" | psql -U primero'
 
 8. Restart again, from the ***Ansible Server:**
 
