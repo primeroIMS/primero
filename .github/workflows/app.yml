@@ -48,7 +48,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '18'
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
       - name: Run client tests
@@ -62,7 +62,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '18'
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
       - name: Run client tests
@@ -76,7 +76,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '18
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
       - name: Run client tests
@@ -90,7 +90,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '18'
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
       - name: Run client tests
@@ -104,7 +104,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '18'
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
       - name: Run client linter
