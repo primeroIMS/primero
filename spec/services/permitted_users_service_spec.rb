@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe PermittedUsersService do
   before :each do
-    clean_data(Agency, Role, UserGroup, User, PrimeroModule)
+    clean_data(User, Agency, Role, UserGroup, PrimeroModule)
 
     @super_user_permissions = [
       Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE]),

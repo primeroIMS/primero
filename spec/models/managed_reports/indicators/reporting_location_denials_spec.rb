@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe ManagedReports::Indicators::ReportingLocationDenials do
   before do
-    clean_data(SystemSettings, Role, Agency, User, Incident, Violation, Location)
+    clean_data(SystemSettings, User, Role, Agency, Incident, Violation, Location)
     SystemSettings.create!(
       default_locale: 'en',
       incident_reporting_location_config: {

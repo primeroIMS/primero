@@ -13,7 +13,6 @@
   <title>Primero</title>
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-  <!-- jss-insertion-point -->
   <%= stylesheet_bundle_tag 'application', skip_pipeline: true, manifest: :application, nonce: true %>
 </head>
 <body dir="ltr">
@@ -21,7 +20,7 @@
   <%= javascript_tag nonce: true do %>
     window.locationManifest = <%= available_locations %>
   <% end %>
-  <script src="/javascripts/i18n.js"></script>
+  <%= javascript_include_tag '/javascripts/i18n.js', nonce: true %>
 
   <% translations_file_names = Rails.configuration.i18n_translations_file.split("\n")%>
   <% I18n.available_locales.each do |locale|%>
@@ -29,7 +28,7 @@
 
     <% next if translation_file.blank? %>
 
-    <script src="/<%= translation_file %>"></script>
+    <%= javascript_include_tag "/#{translation_file}", nonce: true %>
   <% end %>
   <%= javascript_bundles_with_chunks_tag 'application', skip_pipeline: true, manifest: :application, nonce: true %>
 </body>

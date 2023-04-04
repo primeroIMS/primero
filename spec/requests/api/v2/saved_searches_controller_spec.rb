@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Api::V2::SavedSearchesController, type: :request do
   before :each do
-    [SavedSearch, FormSection, Role, Agency, User, PrimeroModule, PrimeroProgram].each(&:destroy_all)
+    [SavedSearch, FormSection, User, Role, Agency, PrimeroModule, PrimeroProgram].each(&:destroy_all)
 
     @program = PrimeroProgram.create!(
       unique_id: 'primeroprogram-primero',
@@ -127,6 +127,6 @@ describe Api::V2::SavedSearchesController, type: :request do
   end
 
   after :each do
-    [SavedSearch, FormSection, Role, Agency, User, PrimeroModule, PrimeroProgram].each(&:destroy_all)
+    [SavedSearch, FormSection, User, Role, Agency, PrimeroModule, PrimeroProgram].each(&:destroy_all)
   end
 end

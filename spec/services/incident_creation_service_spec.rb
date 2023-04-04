@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe IncidentCreationService do
-  before(:each) { clean_data(Incident, Child, Role, PrimeroModule, User) }
+  before(:each) { clean_data(User, Incident, Child, Role, PrimeroModule) }
   let(:module_cp) do
     module_cp = PrimeroModule.new(
       unique_id: 'primeromodule-cp',
@@ -191,5 +191,5 @@ describe IncidentCreationService do
     end
   end
 
-  after { clean_data(Incident, Child, Role, PrimeroModule, User) }
+  after { clean_data(User, Incident, Child, Role, PrimeroModule) }
 end

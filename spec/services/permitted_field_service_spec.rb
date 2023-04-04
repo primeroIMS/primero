@@ -117,7 +117,7 @@ describe PermittedFieldService, search: true do
   end
 
   before(:each) do
-    clean_data(PrimeroProgram, Agency, Role, User, FormSection, Field, SystemSettings)
+    clean_data(PrimeroProgram, User, Agency, Role, FormSection, Field, SystemSettings)
     system_settings
     form
     field
@@ -170,7 +170,7 @@ describe PermittedFieldService, search: true do
     expect(permitted_field_names.include?('id')).to be false
   end
 
-  after(:each) { clean_data(Agency, Role, User, FormSection, Field) }
+  after(:each) { clean_data(User, Agency, Role, FormSection, Field) }
 
   it 'returns the reporting_location field permitted' do
     permitted_reporting_location_field = PermittedFieldService.new(user, Child).permitted_reporting_location_field.first
@@ -265,7 +265,7 @@ describe PermittedFieldService, search: true do
       )
     end
     before(:each) do
-      clean_data(PrimeroModule, Agency, Role, User, FormSection, Field, SystemSettings)
+      clean_data(PrimeroModule, User, Agency, Role, FormSection, Field, SystemSettings)
       mrm_module
       mrm_form
       mrm_field
@@ -282,5 +282,5 @@ describe PermittedFieldService, search: true do
       expect((Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS) - permitted_fields_schema.keys).to be_empty
     end
   end
-  after(:each) { clean_data(PrimeroProgram, Agency, Role, User, FormSection, Field, SystemSettings) }
+  after(:each) { clean_data(PrimeroProgram, User, Agency, Role, FormSection, Field, SystemSettings) }
 end

@@ -29,13 +29,13 @@ jobs:
         displayName: 'Make required directories and copy files'
       - task: NodeTool@0
         inputs:
-          versionSpec: '12.20.1'
+          versionSpec: '18.13.0'
         displayName: 'Install node'
       - bash: npm ci
         displayName: 'Install npm packages'
       - bash: |
           apt-get update
-          apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-10
+          apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-14
         displayName: 'Install dependencies'
       - bash: |
           . ~/.bash_env

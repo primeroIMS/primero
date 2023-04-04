@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_27_000000) do
+ActiveRecord::Schema.define(version: 2023_03_15_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -706,7 +706,10 @@ ActiveRecord::Schema.define(version: 2023_02_27_000000) do
   add_foreign_key "traces", "tracing_requests"
   add_foreign_key "user_groups_users", "user_groups"
   add_foreign_key "user_groups_users", "users"
+  add_foreign_key "users", "agencies"
   add_foreign_key "users", "codes_of_conduct", column: "code_of_conduct_id"
+  add_foreign_key "users", "identity_providers"
+  add_foreign_key "users", "roles"
   add_foreign_key "violations", "incidents"
   add_foreign_key "violations", "sources"
   add_foreign_key "whitelisted_jwts", "users", on_delete: :cascade
