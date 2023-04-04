@@ -76,11 +76,11 @@ The script below should add the following to either `~/.bash_profile`, `~/.zshrc
 
 Install the version of node needed.
 
-    $ nvm install 13.14.0
+    $ nvm install 18.13.0
 
 Set the node version by running
 
-    $ nvm use v13.14.0
+    $ nvm use v18.13.0
 
 ### Install binary dependencies
 
