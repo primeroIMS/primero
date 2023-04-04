@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="<%= I18n.locale %>">
 <head>
-  <!-- jss-insertion-point -->
+  <%= csrf_meta_tag %>
+  <%= csp_property_meta_tag %>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
   <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="google" value="notranslate" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <%= csrf_meta_tag %>
-  <%= csp_property_meta_tag %>
   <title>Primero</title>
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <!-- jss-insertion-point -->
   <%= stylesheet_bundle_tag 'application', skip_pipeline: true, manifest: :application, nonce: true %>
 </head>
 <body dir="ltr">
