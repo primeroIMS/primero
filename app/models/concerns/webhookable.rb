@@ -5,7 +5,6 @@ module Webhookable
   extend ActiveSupport::Concern
 
   included do
-    has_many :record_send_logs, as: :record
     store_accessor :data, :mark_synced, :mark_synced_url, :mark_synced_status
 
     before_update :log_sync_status, if: :valid_sync_log
