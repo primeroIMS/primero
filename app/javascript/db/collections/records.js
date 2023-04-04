@@ -6,7 +6,7 @@ import reverse from "lodash/reverse";
 import slice from "lodash/slice";
 import merge from "deepmerge";
 import { isImmutable } from "immutable";
-import { parseISO } from "date-fns";
+import { isDate, parseISO } from "date-fns";
 
 import DB from "../db";
 import subformAwareMerge from "../utils/subform-aware-merge";
@@ -97,7 +97,15 @@ const Records = {
     }
 
     const sortableDateFields = DATE_SORTABLE_FIELDS.reduce((acc, field) => {
-      if (!isNil(data[field]) && hasApiDateFormat(data[field])) {
+      if (isNil(data[field])) {
+        return acc;
+      }
+
+      if (isDate(data[field])) {
+        return { ...acc, [`${field}_sortable`]: data[field] };
+      }
+
+      if (hasApiDateFormat(data[field])) {
         return { ...acc, [`${field}_sortable`]: parseISO(data[field]) };
       }
 
