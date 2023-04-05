@@ -44,14 +44,14 @@ module Exporters
       expect(pdf_spy).to receive(:image) do |image, _|
         expect(compute_checksum_in_chunks(image)).to eq(@child_b.photo.file.blob.checksum)
       end
-      data = PhotoWallExporter.new(nil, pdf_spy).export(@records, @user)
+      data = PhotoWallExporter.new(nil, user: @user, pdf: pdf_spy).export(@records)
       expect(data.present?).to be true
     end
 
     it 'Getting the No photos available' do
       pdf_spy = spy('Prawn::Document')
       expect(pdf_spy).to receive(:text).with('No photos available', any_args)
-      data = PhotoWallExporter.new(nil, pdf_spy).export([@child_c], @user)
+      data = PhotoWallExporter.new(nil, user: @user, pdf: pdf_spy).export([@child_c])
       expect(data.present?).to be false
     end
 
