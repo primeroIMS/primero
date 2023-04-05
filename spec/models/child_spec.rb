@@ -948,6 +948,30 @@ describe Child do
     end
   end
 
+  describe 'urgent_protection_concern', search: true do
+    it 'finds cases where the value is stored as string true' do
+      child = Child.create!(data: { name: 'Lonnie', urgent_protection_concern: 'true' })
+      child.index!
+      search_result = SearchService.search(
+        Child,
+        filters: [SearchFilters::Value.new(field_name: 'urgent_protection_concern', value: true)]
+      ).results
+      expect(search_result).to have(1).child
+      expect(search_result.first.id).to eq(child.id)
+    end
+
+    it 'finds cases where the value is stored as string false' do
+      child = Child.create!(data: { name: 'Lonnie', urgent_protection_concern: 'false' })
+      child.index!
+      search_result = SearchService.search(
+        Child,
+        filters: [SearchFilters::Value.new(field_name: 'urgent_protection_concern', value: false)]
+      ).results
+      expect(search_result).to have(1).child
+      expect(search_result.first.id).to eq(child.id)
+    end
+  end
+
   after do
     clean_data(Incident, Child, Field, FormSection, PrimeroModule)
   end
