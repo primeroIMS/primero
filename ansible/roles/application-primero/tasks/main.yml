@@ -174,3 +174,33 @@
   tags:
   - 'never'
   - 'start'
+
+- name: 'create/update docker version file'
+  copy:
+    dest: '/srv/primero/docker-app-version.txt'
+    content: '{{ primero_tag|default("latest") }}'
+  become: yes
+  tags:
+  - 'never'
+  - 'start'
+
+- name: 'copy docker cleanup script'
+  copy:
+    dest: '/srv/primero/primero-docker-cleanup.sh'
+    src: 'primero-docker-cleanup.sh'
+    mode: 'u=rwx,go=rx'
+  become: yes
+  tags:
+  - 'never'
+  - 'start' 
+
+- name: 'create cron entry for pruning docker images'
+  cron:
+    name: 'pruning docker images'
+    special_time: daily
+    job: /srv/primero/primero-docker-cleanup.sh
+    user: root
+  become: yes
+  tags:
+  - 'never'
+  - 'start' 
