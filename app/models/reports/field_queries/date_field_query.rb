@@ -82,7 +82,8 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
       [
         %(
           #{sort_by_week_query},
-          to_char(date_trunc('week', to_timestamp(#{data_column_name} ->> :field_name, 'YYY-MM-DD')),'dd-Mon-yyyy') || ' - ' ||
+          to_char(date_trunc('week', to_timestamp(#{data_column_name} ->> :field_name, 'YYY-MM-DD')),'dd-Mon-yyyy')
+          || ' - ' ||
           to_char(
             date_trunc('week', to_timestamp(#{data_column_name} ->> :field_name, 'YYY-MM-DD')) + '6 days'::interval,
             'dd-Mon-yyyy'
