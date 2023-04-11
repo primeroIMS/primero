@@ -199,6 +199,7 @@
     name: 'pruning docker images'
     special_time: daily
     job: /srv/primero/primero-docker-cleanup.sh
+    user: root
   tags:
   - 'never'
   - 'start' 
