@@ -40,7 +40,7 @@ const Records = {
 
       const data = await DB.slice(collection, {
         orderBy: params.order_by || "created_at",
-        orderDir: params.order || "prev",
+        orderDir: params.order || "desc",
         offset,
         limit: per,
         recordType,

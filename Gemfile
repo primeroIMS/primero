@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.7.4'
+ruby '2.7.8'
 
 gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
 gem 'aws-sdk-s3',          '~> 1.113', # Access and manage Amazon S3 storage (with ActiveStorage).
