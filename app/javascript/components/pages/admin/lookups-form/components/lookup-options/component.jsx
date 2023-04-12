@@ -15,6 +15,7 @@ function Component({
   defaultLocale,
   formMethods,
   formMode,
+  isLockedLookup,
   items,
   localesKeys,
   reorderValues,
@@ -57,7 +58,7 @@ function Component({
     <Grid container spacing={1}>
       <div className={css.optionsContainer}>
         <span className={css.optionsLabel}>{optionsLabelText}</span>
-        {!formMode.get("isShow") && (
+        {!formMode.get("isShow") && !isLockedLookup && (
           <ActionButton
             icon={<AddIcon />}
             text="fields.add"
@@ -86,6 +87,7 @@ function Component({
                       uniqueId={item}
                       formMode={formMode}
                       formMethods={formMethods}
+                      isLockedLookup={isLockedLookup}
                     />
                   ))}
                   {provided.placeholder}
@@ -105,6 +107,7 @@ Component.propTypes = {
   defaultLocale: PropTypes.string,
   formMethods: PropTypes.object,
   formMode: PropTypes.object,
+  isLockedLookup: PropTypes.bool,
   items: PropTypes.array,
   localesKeys: PropTypes.array,
   reorderValues: PropTypes.func,
