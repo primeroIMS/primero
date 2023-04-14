@@ -457,14 +457,14 @@ DEPENDENCIES
   net-imap
   net-pop
   net-smtp
-  nokogiri (>= 1.14.3)
+  nokogiri (~> 1.14)
   pg (~> 1.1)
   prawn (~> 2.2)
   prawn-table (~> 0.2)
   pry
   pry-byebug
   puma (~> 4.3)
-  rack (>= 2.2.6.4)
+  rack (~> 2.2)
   rack-attack (>= 6.3.1)
   rack-mini-profiler (>= 1.0.0)
   rack-test (~> 1.1)
