@@ -35,7 +35,8 @@
     "react-dom": "$react-dom",
     "uuid": "$uuid",
     "dom-to-image-more": "2.8.0",
-    "immutable": "$immutable"
+    "immutable": "$immutable",
+    "xml2js": "0.5.0"
   },
   "devDependencies": {
     "@babel/core": "~7.17.8",
@@ -168,7 +169,7 @@
     "style-loader": "^2.0.0",
     "timezone-mock": "^1.0.18",
     "uuid": "^8.3.2",
-    "webpack": "^5.70.0",
+    "webpack": "^5.76.0",
     "webpack-assets-manifest": "^5.1.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4",
