@@ -1,10 +1,9 @@
-import { useCallback, useMemo, useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, FormProvider } from "react-hook-form";
 import { useDispatch, batch } from "react-redux";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
-import merge from "deepmerge";
 import omit from "lodash/omit";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
@@ -17,7 +16,7 @@ import { currentUser } from "../user";
 import { useI18n } from "../i18n";
 import { getReportingLocationConfig } from "../user/selectors";
 import { DEFAULT_FILTERS } from "../record-list/constants";
-import { overwriteMerge, useMemoizedSelector } from "../../libs";
+import { useMemoizedSelector } from "../../libs";
 import { reduceMapToObject } from "../../libs/component-helpers";
 
 import { DEFAULT_SELECTED_RECORDS_VALUE, FILTER_CATEGORY, HIDDEN_FIELDS, ID_SEARCH } from "./constants";
@@ -40,7 +39,6 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [more, setMore] = useState(false);
   const [reset, setReset] = useState(false);
-  const [filterToList, setFilterToList] = useState(DEFAULT_FILTERS);
   const [moreSectionFilters, setMoreSectionFilters] = useState({});
 
   const defaultFiltersForClear = reduceMapToObject(fromJS(DEFAULT_FILTERS).merge(metadata));
@@ -49,22 +47,15 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
     setSelectedRecords(DEFAULT_SELECTED_RECORDS_VALUE);
   };
 
-  const defaultValues = useMemo(
-    () =>
-      merge({ ...DEFAULT_FILTERS, filter_category: FILTER_CATEGORY.incidents }, filterToList, {
-        arrayMerge: overwriteMerge
-      }),
-    [DEFAULT_FILTERS, filterToList]
-  );
-
-  const methods = useForm({ defaultValues, shouldUnregister: false });
+  const methods = useForm({
+    defaultValues: { ...DEFAULT_FILTERS, filter_category: FILTER_CATEGORY.incidents },
+    shouldUnregister: false
+  });
 
   const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
   const userName = useMemoizedSelector(state => currentUser(state));
 
   const ownedByLocation = `${reportingLocationConfig.get("field_key")}${reportingLocationConfig.get("admin_level")}`;
-
-  const addFilterToList = useCallback(data => setFilterToList({ ...filterToList, ...data }), [filterToList]);
 
   useEffect(() => {
     [...HIDDEN_FIELDS, ownedByLocation].forEach(field => methods.register({ name: field }));
@@ -97,7 +88,6 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
       dispatch(applyFilters({ recordType, data: compactFilters(filtersToApply) }));
 
       setRerender(false);
-      setFilterToList(DEFAULT_FILTERS);
     }
   }, [rerender]);
 
@@ -137,12 +127,11 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
       setMoreSectionFilters({});
       setReset(true);
       setMore(false);
-      setFilterToList(DEFAULT_FILTERS);
     },
     [recordType, defaultFiltersForClear]
   );
 
-  const handleChangeTabs = (event, value) => setTabIndex(value);
+  const handleChangeTabs = (_event, value) => setTabIndex(value);
 
   return (
     <div className={css.root}>
@@ -164,8 +153,6 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
 
             {tabIndex === 0 && (
               <TabFilters
-                addFilterToList={addFilterToList}
-                filterToList={filterToList}
                 handleClear={handleClear}
                 handleSave={handleSave}
                 more={more}

@@ -15,8 +15,6 @@ import css from "./styles.css";
 import FilterCategory from "./filter-category";
 
 const TabFilters = ({
-  addFilterToList,
-  filterToList,
   formMethods,
   handleClear,
   handleSave,
@@ -48,7 +46,6 @@ const TabFilters = ({
         <FilterCategory formMethods={formMethods} />
       )}
       <RecordFilters
-        addFilterToList={addFilterToList}
         defaultFilters={allDefaultFilters}
         filters={filters}
         more={more}
@@ -61,10 +58,8 @@ const TabFilters = ({
         setReset={setReset}
       />
       <MoreSection
-        addFilterToList={addFilterToList}
         allAvailable={filters}
         defaultFilters={allDefaultFilters}
-        filterToList={filterToList}
         more={more}
         moreSectionFilters={moreSectionFilters}
         primaryFilters={allPrimaryFilters}
@@ -79,8 +74,8 @@ const TabFilters = ({
 TabFilters.displayName = "TabFilters";
 
 TabFilters.propTypes = {
-  addFilterToList: PropTypes.func,
-  filterToList: PropTypes.object,
+  // addFilterToList: PropTypes.func,
+  // filterToList: PropTypes.object,
   formMethods: PropTypes.object,
   handleClear: PropTypes.func,
   handleSave: PropTypes.func,

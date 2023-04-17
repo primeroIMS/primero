@@ -7,7 +7,6 @@ import { Select, MenuItem } from "@material-ui/core";
 import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { useLocation } from "react-router-dom";
 import qs from "qs";
-import isEmpty from "lodash/isEmpty";
 
 import { toServerDateFormat } from "../../../../../libs";
 import localize from "../../../../../libs/date-picker-localization";
@@ -21,16 +20,7 @@ import NepaliCalendar from "../../../../nepali-calendar-input";
 import { getDatesValue, getDateValue } from "./utils";
 import { NAME } from "./constants";
 
-const Component = ({
-  addFilterToList,
-  filter,
-  filterToList,
-  mode,
-  moreSectionFilters,
-  setMoreSectionFilters,
-  reset,
-  setReset
-}) => {
+const Component = ({ filter, mode, moreSectionFilters, setMoreSectionFilters, reset, setReset }) => {
   const i18n = useI18n();
 
   const { register, unregister, setValue, getValues } = useFormContext();
@@ -69,10 +59,6 @@ const Component = ({
     if (mode?.secondary) {
       setMoreSectionFilters({ ...moreSectionFilters, [selectedField]: value });
     }
-
-    if (addFilterToList) {
-      addFilterToList({ [selectedField]: value || getDatesValue(undefined, dateIncludeTime) });
-    }
   };
 
   const handleSelectedField = event => {
@@ -84,10 +70,6 @@ const Component = ({
 
     setSelectedField(value);
     setValue(value, getDatesValue(undefined, dateIncludeTime));
-
-    if (addFilterToList) {
-      addFilterToList({ [value]: getDatesValue(undefined, dateIncludeTime) });
-    }
 
     if (mode?.secondary) {
       handleMoreFiltersChange(moreSectionFilters, setMoreSectionFilters, value, {});
@@ -106,10 +88,6 @@ const Component = ({
         moreSectionFilters,
         setMoreSectionFilters
       );
-
-      if (addFilterToList) {
-        addFilterToList({ [fieldName]: getDatesValue(undefined, dateIncludeTime) });
-      }
     }
   };
 
@@ -137,13 +115,6 @@ const Component = ({
       const data = filter?.options?.[i18n.locale].find(option => queryParamsKeys.includes(option.id));
       const selectValue = data?.id;
       const datesValue = queryParams?.[selectValue];
-
-      setSelectedField(selectValue);
-      setInputValue(getDatesValue(datesValue, dateIncludeTime));
-    } else if (filterToList && !isEmpty(Object.keys(filterToList))) {
-      const data = filter?.options?.[i18n.locale].find(option => Object.keys(filterToList).includes(option.id));
-      const selectValue = data?.id;
-      const datesValue = filterToList?.[selectValue];
 
       setSelectedField(selectValue);
       setInputValue(getDatesValue(datesValue, dateIncludeTime));
