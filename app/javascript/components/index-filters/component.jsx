@@ -19,7 +19,7 @@ import { DEFAULT_FILTERS } from "../record-list/constants";
 import { useMemoizedSelector } from "../../libs";
 import { reduceMapToObject } from "../../libs/component-helpers";
 
-import { DEFAULT_SELECTED_RECORDS_VALUE, FILTER_CATEGORY, HIDDEN_FIELDS, ID_SEARCH } from "./constants";
+import { DEFAULT_SELECTED_RECORDS_VALUE, FILTER_CATEGORY, HIDDEN_FIELDS } from "./constants";
 import { compactFilters, transformFilters } from "./utils";
 import { Search } from "./components/filter-types";
 import { applyFilters, setFilters } from "./action-creators";
@@ -35,6 +35,7 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
   const queryParams = qs.parse(queryString);
 
   const [open, setOpen] = useState(false);
+  const [resetFilters, setResetFilters] = useState(true);
   const [rerender, setRerender] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [more, setMore] = useState(false);
@@ -92,8 +93,11 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
   }, [rerender]);
 
   useEffect(() => {
-    methods.reset({ ...transformFilters.split(queryParams), filter_category: methods.getValues("filter_category") });
-  }, [queryString]);
+    if (methods.reset && queryString && resetFilters) {
+      methods.reset({ ...transformFilters.split(queryParams), filter_category: methods.getValues("filter_category") });
+      setResetFilters(false);
+    }
+  }, [methods.reset, queryString, resetFilters]);
 
   const tabs = [
     { name: i18n.t("saved_search.filters_tab"), selected: true },
@@ -111,25 +115,21 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
     setOpen(true);
   }, []);
 
-  const handleClear = useCallback(
-    setIdSearch => {
-      resetSelectedRecords();
-      methods.reset({
-        ...defaultFiltersForClear,
-        filter_category: methods.getValues("filter_category"),
-        ...(setIdSearch && { [ID_SEARCH]: true })
-      });
-      batch(() => {
-        dispatch(setFilters({ recordType, data: defaultFiltersForClear }));
-        dispatch(push({}));
-      });
+  const handleClear = useCallback(() => {
+    resetSelectedRecords();
+    methods.reset({
+      ...defaultFiltersForClear,
+      filter_category: methods.getValues("filter_category")
+    });
+    batch(() => {
+      dispatch(setFilters({ recordType, data: defaultFiltersForClear }));
+      dispatch(push({}));
+    });
 
-      setMoreSectionFilters({});
-      setReset(true);
-      setMore(false);
-    },
-    [recordType, defaultFiltersForClear]
-  );
+    setMoreSectionFilters({});
+    setReset(true);
+    setMore(false);
+  }, [recordType, defaultFiltersForClear]);
 
   const handleChangeTabs = (_event, value) => setTabIndex(value);
 

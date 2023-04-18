@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import isEmpty from "lodash/isEmpty";
 
 import Panel from "../../panel";
 import { getOption } from "../../../../record-form";

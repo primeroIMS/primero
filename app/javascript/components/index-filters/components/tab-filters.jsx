@@ -41,7 +41,7 @@ const TabFilters = ({
 
   return (
     <div className={css.tabContent}>
-      <Actions handleSave={handleSave} handleClear={handleClear} />
+      <Actions handleSave={handleSave} handleClear={() => handleClear()} />
       {hasPrimeroModuleMRM && RECORD_TYPES_PLURAL.incident === recordType && (
         <FilterCategory formMethods={formMethods} />
       )}
@@ -74,8 +74,6 @@ const TabFilters = ({
 TabFilters.displayName = "TabFilters";
 
 TabFilters.propTypes = {
-  // addFilterToList: PropTypes.func,
-  // filterToList: PropTypes.object,
   formMethods: PropTypes.object,
   handleClear: PropTypes.func,
   handleSave: PropTypes.func,
