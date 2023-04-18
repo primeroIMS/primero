@@ -1,4 +1,4 @@
-import { stub, createMockStore, spy } from "../../test";
+import { stub, createMockStore, spy } from "../../test-utils";
 import { generate } from "../../components/notifier";
 
 import handleConfiguration from "./handle-configuration";

@@ -21,7 +21,6 @@ describe("app/javascript/test/index", () => {
     "useFakeTimers",
     "mock",
     "createSimpleMount",
-    "createMockStore",
     "createMiddleware",
     "listHeaders",
     "lookups",

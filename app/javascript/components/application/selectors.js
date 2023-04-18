@@ -2,7 +2,7 @@ import { Map, fromJS } from "immutable";
 import { isEqual, isNil, omitBy } from "lodash";
 import createCachedSelector from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import memoize from "proxy-memoize";
+import { memoize } from "proxy-memoize";
 
 import { displayNameHelper } from "../../libs";
 import { getLocale } from "../i18n/selectors";

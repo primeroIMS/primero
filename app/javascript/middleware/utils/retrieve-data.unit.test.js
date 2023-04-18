@@ -1,4 +1,4 @@
-import { stub, createMockStore } from "../../test";
+import { stub, createMockStore } from "../../test-utils";
 import * as syncIndexedDB from "../../db/sync";
 
 import retrieveData from "./retrieve-data";
