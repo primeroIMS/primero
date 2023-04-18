@@ -11,7 +11,7 @@
     "build": "NODE_ENV=production webpack --config webpack/index.js",
     "dev": "node --trace-deprecation ./node_modules/.bin/webpack-dev-server --config webpack/index.js",
     "dev:debug": "NODE_ENV=profile npm run dev",
-    "test": "jest",
+    "test": "npm run test:run './app/javascript/**/*.unit.test.js'",
     "test:all": "npm test",
     "test:batch": "npm run test:run \"./app/javascript/components/[$BATCH_RANGE]*/**/*.unit.test.js\"",
     "test:batch:1": "cross-env BATCH_RANGE=a-p npm run test:batch",
@@ -22,11 +22,11 @@
     "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test:all",
     "test:run": "NODE_ENV=test mocha --timeout 8000  --check-leaks --parallel --reporter=dot --exit",
     "test:all-bb": "NODE_ENV=test mocha --timeout 8000 --check-leaks --reporter=dot './app/javascript/**/*.unit.test.js'",
+    "test:new": "NODE_ENV=test jest",
     "jscpd": "npm run jscpd:run 'app/javascript/**'",
     "jscpd:run": "jscpd",
     "lint": "npm run lint:run -- --fix",
-    "lint:run": "eslint './app/javascript/**'",
-    "test:jest": "NODE_ENV=test jest"
+    "lint:run": "eslint './app/javascript/**'"
   },
   "overrides": {
     "minimist": "1.2.7",
@@ -203,8 +203,7 @@
     "require": [
       "@babel/register",
       "./.mochaignore.js",
-      "./app/javascript/test-utils/jsdom.setup.js",
-      "./app/javascript/test-utils/setup.js",
+      "./app/javascript/test/jsdom.setup.js",
       "./app/javascript/test/test.setup.js"
     ],
     "exclude": [
