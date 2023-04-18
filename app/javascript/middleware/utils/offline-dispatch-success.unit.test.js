@@ -1,4 +1,4 @@
-import { spy, createMockStore } from "../../test-utils";
+import { spy, createMockStore } from "../../test";
 
 import offlineDispatchSuccess from "./offline-dispatch-success";
 import * as handleRestCallback from "./handle-rest-callback";

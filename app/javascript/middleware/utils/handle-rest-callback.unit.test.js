@@ -1,4 +1,4 @@
-import { spy, createMockStore } from "../../test-utils";
+import { spy, createMockStore } from "../../test";
 
 import handleRestCallback from "./handle-rest-callback";
 

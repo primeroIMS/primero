@@ -1,4 +1,4 @@
-import { spy, createMockStore } from "../../test-utils";
+import { spy, createMockStore } from "../../test";
 
 import redirectTo from "./redirect-to";
 
