@@ -35,7 +35,6 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
   const queryParams = qs.parse(queryString);
 
   const [open, setOpen] = useState(false);
-  const [resetFilters, setResetFilters] = useState(true);
   const [rerender, setRerender] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [more, setMore] = useState(false);
@@ -93,11 +92,10 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
   }, [rerender]);
 
   useEffect(() => {
-    if (methods.reset && queryString && resetFilters) {
+    if (methods.reset && queryString) {
       methods.reset({ ...transformFilters.split(queryParams), filter_category: methods.getValues("filter_category") });
-      setResetFilters(false);
     }
-  }, [methods.reset, queryString, resetFilters]);
+  }, [methods.reset, queryString]);
 
   const tabs = [
     { name: i18n.t("saved_search.filters_tab"), selected: true },
