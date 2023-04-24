@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
 import isEmpty from "lodash/isEmpty";
 import { MemoryRouter, Route, Router } from "react-router-dom";
+import { Form, Formik, useFormikContext } from "formik";
 
 import { ApplicationProvider } from "../components/application";
 import I18nProvider from "../components/i18n/provider";
@@ -13,8 +14,35 @@ import ThemeProvider from "../theme-provider";
 
 import { createMockStore, DEFAULT_STATE } from "./create-mock-store";
 
-function mountedComponent(Component, state = {}, options = {}, initialEntries = {}, path = "") {
+const FormikValueFromHook = () => {
+  return null;
+};
+
+const FormikForm = ({ children }) => {
+  const formContext = useFormikContext();
+
+  return (
+    <Form>
+      <FormikValueFromHook {...formContext} />
+      {children}
+    </Form>
+  );
+};
+
+function mountedComponent(Component, state = {}, options = {}, initialEntries = {}, formProps = {}, path = "") {
   const { store, history } = createMockStore(DEFAULT_STATE, state);
+
+  function FormProvider({ children }) {
+    if (isEmpty(formProps)) {
+      return children;
+    }
+
+    return (
+      <Formik {...formProps}>
+        <FormikForm>{children}</FormikForm>
+      </Formik>
+    );
+  }
 
   function RouteProvider({ children }) {
     if (isEmpty(initialEntries)) {
@@ -36,7 +64,9 @@ function mountedComponent(Component, state = {}, options = {}, initialEntries = 
             <SnackbarProvider>
               <ApplicationProvider>
                 <ThemeProvider>
-                  <RouteProvider>{children}</RouteProvider>
+                  <RouteProvider>
+                    <FormProvider>{children}</FormProvider>
+                  </RouteProvider>
                 </ThemeProvider>
               </ApplicationProvider>
             </SnackbarProvider>
@@ -55,3 +85,5 @@ function mountedComponent(Component, state = {}, options = {}, initialEntries = 
 }
 
 export default mountedComponent;
+
+export { FormikValueFromHook };

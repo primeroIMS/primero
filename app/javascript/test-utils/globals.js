@@ -8,6 +8,8 @@ const storage = {};
 
 global.html2pdf = {};
 
+document.head.insertBefore(document.createComment("jss-insertion-point"), document.head.firstChild);
+
 global.window.I18n = {
   defaultLocale: "en",
   locale: "en",
