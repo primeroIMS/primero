@@ -17,7 +17,6 @@ describe("<ActionButton />", () => {
       disableApplication: false
     }
   };
-
   it("renders DefaultButton with text", () => {
     mountedComponent(<ActionButton {...props} />, state);
     expect(screen.getByRole("button")).toHaveTextContent("Test Button");
@@ -28,50 +27,37 @@ describe("<ActionButton />", () => {
       ...props,
       rest: { hide: true }
     };
-
     mountedComponent(<ActionButton {...newProps} />, state);
     expect(screen.queryByText("Test Button")).not.toBeInTheDocument();
   });
-
-  // Check if transparent class is set
-  //it.todo("renders transparent button");
+ 
   it("renders transparent button", () => {
     const newProps = {
       ...props,
       isTransparent: true
-    }; 
-    
+    };     
     mountedComponent(<ActionButton {...newProps} />, state);
     expect(screen.getAllByRole('button', { className: 'isTransparent' })).toHaveLength(1);
-   
   });
 
-  // Check if outlined class is set
-  //it.todo("renders outlined button");
-
-  //it.todo("renders a pending state");
-
-  //it.todo("triggers a passed cancel function");
   it("should contain .cancel class", () => {
     const newProps = {
       ...props,
       cancel:true
     };
-
-   mountedComponent(<ActionButton {...newProps} />, state);
-   expect(screen.getAllByRole('button', { className: 'cancel' })).toHaveLength(1);
-    
+    mountedComponent(<ActionButton {...newProps} />, state);
+    expect(screen.getAllByRole('button', { className: 'cancel' })).toHaveLength(1);   
   });
 
-  // check if svg or certain class for icon
   it("renders an icon button", () => {
     const newProps = {
       ...props,
       className: "MuiSvgIcon-root"
     };
-
     mountedComponent(<ActionButton {...newProps} />, state);
     expect(screen.getByRole("button")).toHaveClass('MuiSvgIcon-root');
-  });
- 
+  }); 
+  
+  it.todo("renders outlined button");
+  it.todo("renders a pending state");
 });
