@@ -14,12 +14,12 @@ all:
       always_pull: true
       # These 3 variables are used to drive the build task.
       # Can be omitted if pulling images from Dockerhub
-      primero_repo_branch: 'master'
+      primero_repo_branch: 'main'
       build_docker_tag: 'latest'
       build_docker_container_registry: ''
       # If you want to seed from a private configuration repo
       primero_configuration_repo: 'git@bitbucket.org:quoin/primero-x-configuration.git'
-      primero_configuration_repo_branch: 'master'
+      primero_configuration_repo_branch: 'main'
       primero_configuration_path: 'directory/of/config/loader/script'
       use_lets_encrypt: 'true'
       # The other certbot/lets_encrypt variables are optional. Include only if using Let's Encrypt

@@ -139,7 +139,7 @@ Below is example of what the file should look like. There is also a sample templ
                   certbot_domain:
                   - '{{ primero_host }}'
                   certbot_email: 'primero-example@example.com'
-                  primero_repo_branch: 'master'
+                  primero_repo_branch: 'main'
                   build_docker_tag: ''
                   build_docker_container_registry: ''
                   primero_tag: 'latest'
@@ -150,7 +150,7 @@ Below is example of what the file should look like. There is also a sample templ
                   nginx_ssl_key_path: '/etc/letsencrypt/live/primero/privkey.pem'
                   # If you want to seed from a private configuration repo
                   primero_configuration_repo: 'git@bitbucket.org:quoin/primero-x-configuration.git'
-                  primero_configuration_repo_branch: 'master'
+                  primero_configuration_repo_branch: 'main'
                   primero_configuration_path: 'directory/of/config/loader/script.rb'
 
 
