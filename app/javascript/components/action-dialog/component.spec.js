@@ -47,25 +47,6 @@ describe("<ActionDialog />", () => {
     expect(screen.queryByText("cancel")).toBeInTheDocument();
   });
 
-  it('should accept valid props', () => {
-    const newProps = {
-      closeHandler: () => { },
-      dialogSubHeader: "Test SubHeader",
-      dialogSubtitle: "Test Subtitle",
-      dialogTitle: "Test Title",
-      disableActions: false,
-      onClose: () => { },
-      successHandler: () => { }
-    };
-    mountedComponent(<ActionDialog {...newProps} />);
-    expect(newProps.closeHandler).toBeDefined();
-    expect(newProps.dialogSubtitle).toBeDefined();
-    expect(newProps.dialogTitle).toBeDefined();
-    expect(newProps.dialogSubHeader).toBeDefined();
-    expect(newProps.disableActions).toBeDefined();
-    expect(newProps.successHandler).toBeDefined();
-  });
-
   it("should render DialogSubtitle with it's correct value ", () => {
     expect(screen.getByRole("dialog")).toHaveTextContent("Test Subtitle");
   });
@@ -86,9 +67,9 @@ describe("<ActionDialog />", () => {
     expect(screen.getByRole("dialog")).not.toHaveClass('dialogSubHeader');
   });
 
-  // it("should render DialogActions", () => {
-  //   expect(component.find(DialogActions)).to.have.lengthOf(1);
-  // });
+  it("should render DialogActions", () => {
+    expect(component.find(DialogActions)).to.have.lengthOf(1);
+  });
 });
 
 

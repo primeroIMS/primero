@@ -29,20 +29,4 @@ describe("<TitleWithClose />", () => {
     mountedComponent(<TitleWithClose {...newProps} />);
     expect(screen.getAllByRole('button', { className: 'MuiSvgIcon-root' })).toBeTruthy();
   });
-
-  it('should accept valid props', () => {
-    const newProps = {
-      closeHandler: () => { },
-      dialogAction: 'submit',
-      dialogSubtitle: 'Testing Valid SubTitle',
-      dialogTitle: 'Testing Valid Title',
-      disableClose: false
-    };
-    mountedComponent(<TitleWithClose {...newProps} />);
-    expect(newProps.closeHandler).toBeDefined();
-    expect(newProps.dialogAction).toBeDefined();
-    expect(newProps.dialogSubtitle).toBeDefined();
-    expect(newProps.dialogTitle).toBeDefined();
-    expect(newProps.disableClose).toBeDefined();
-  });
 });
