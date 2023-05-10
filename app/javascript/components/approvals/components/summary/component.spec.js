@@ -32,23 +32,11 @@ describe("<ApprovalSummary /> - Component", () => {
   });
 
   it("render ApprovalSummary component", () => {
-    const element = screen.getByText("approvals.status.approved");
-    expect(element).toBeInTheDocument();
+    expect(screen.getAllByRole('sectionheader')).toHaveLength(1);
   });
 
-  // it("render a Grid", () => {
-  //   expect(component.find(Grid)).to.have.lengthOf(3);
-  // });
-
-  // it("render a Chip", () => {
-  //   expect(component.find(Chip)).to.have.lengthOf(1);
-  // });
-
-  it('should accept valid props', () => {
-    expect(props.approvalSubform).toBeDefined();
-    expect(props.css).toBeDefined();
-    expect(props.isResponse).toBe(true);
-    expect(props.isRequest).toBe(false);
+  it("render a Chip with the correct approvals label", () => {
+    expect(screen.getByText("approvals.status.approved")).toBeTruthy();
   });
 });
 
