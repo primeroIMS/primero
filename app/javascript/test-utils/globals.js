@@ -46,15 +46,6 @@ global.window.defaultMediaQueryList = (args = {}) => ({
 
 global.window.matchMedia = query => window.defaultMediaQueryList({ media: query });
 
-global.document.createRange = () => ({
-  setStart: () => {},
-  setEnd: () => {},
-  commonAncestorContainer: {
-    nodeName: "BODY",
-    ownerDocument: document
-  }
-});
-
 global.HTMLCanvasElement.prototype.getContext = () => {
   return {
     fillRect() {},
