@@ -1,1 +1,3 @@
-describe.skip("TODO: <ActivityLog />/components/<ActivityItem />", () => {});
+describe("<ActivityLog />/components/<ActivityItem />", () => {
+  it.todo("TODO: Add component unit test");
+});
