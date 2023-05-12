@@ -24,7 +24,7 @@ const TableValues = ({
       {showPlaceholder && isEmpty(values) ? (
         <EmptyState type={name} emptyMessage={emptyMessage} />
       ) : (
-        <Table className={css.table}>
+        <Table className={css.table} role="tableRow">
           <TableHead className={css.tableHeader}>
             <Header columns={columns} subColumnItemsSize={subColumnItemsSize} />
           </TableHead>

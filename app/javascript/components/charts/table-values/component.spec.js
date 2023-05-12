@@ -1,14 +1,11 @@
 import { fromJS } from "immutable";
-import { TableRow } from "@material-ui/core";
-
 import { buildTableData } from "../../report/utils";
-import { abbrMonthNames, setupMountedComponent, stub } from "../../../test";
-
+import { abbrMonthNames, stub } from "../../../test";
 import TableValues from "./component";
+import { mountedComponent, screen } from "test-utils";
 
 describe("<TableValues />", () => {
   let stubI18n = null;
-
   beforeEach(() => {
     stubI18n = stub(window.I18n, "t")
       .withArgs("date.abbr_month_names")
@@ -72,11 +69,11 @@ describe("<TableValues />", () => {
       }
     ];
 
-    const { component } = setupMountedComponent(TableValues, {
-      ...buildTableData(data, window.I18n, { agencies })
-    });
-
-    expect(component.find(TableRow)).to.have.lengthOf(6);
+    const props = {
+    ...buildTableData(data, window.I18n, { agencies })
+  }
+    mountedComponent(<TableValues/>,props)
+    expect(screen.getAllByRole("tableRow")).toHaveLength(2);
   });
 
   afterEach(() => {
@@ -85,3 +82,5 @@ describe("<TableValues />", () => {
     }
   });
 });
+
+

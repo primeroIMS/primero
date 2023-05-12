@@ -1,9 +1,7 @@
 import { Map } from "immutable";
-
 import { buildGraphData } from "../../report/utils";
-import { setupMountedThemeComponent } from "../../../test";
-
 import BarChart from "./component";
+import { mountedComponent, screen } from "test-utils";
 
 describe("<BarChart />", () => {
   it("renders canvas with bar chart and description", () => {
@@ -26,13 +24,15 @@ describe("<BarChart />", () => {
     });
     const showDetails = false;
     const description = "Number of cases broken down by nationality";
-    const component = setupMountedThemeComponent(BarChart, {
+    const props = {
+      
       ...buildGraphData(data, { t: () => "Total" }, { agencies }),
       description,
       showDetails
-    });
-
-    expect(component.find("p").props().children).to.equal("Number of cases broken down by nationality");
-    expect(component.find("canvas")).to.have.lengthOf(1);
+    }
+    
+    mountedComponent(<BarChart  {...props} />)
+    expect(screen.getByText("Number of cases broken down by nationality")).toBeInTheDocument()
+    expect(screen.getByRole("canvas")).toBeInTheDocument()
   });
 });
