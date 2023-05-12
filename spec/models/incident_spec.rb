@@ -6,8 +6,8 @@ require 'will_paginate'
 describe Incident do
   before do
     clean_data(
-      Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection, Field,
-      Incident, Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
+      User, Agency, Role, Incident, Child, PrimeroModule, PrimeroProgram, UserGroup, FormSection, Field,
+      Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
     )
 
     create(:agency)
@@ -708,6 +708,29 @@ describe Incident do
       )
     end
 
+    it 'adding new source association' do
+      data_to_update = {
+        'sources' => [
+          {
+            'id_number' => '1',
+            'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2'],
+            "source_interview_date": '2023-02-01',
+            "source_category": 'secondary',
+            "source_type": 'photograph',
+            "unique_id": 'ba604357-5dce-4861-b740-af5d40398ef7'
+          }
+        ]
+      }
+      incident.update_properties(fake_user, data_to_update)
+      incident.save!
+      source_result = incident.associations_as_data('user')['sources']
+
+      expect(source_result.count).to eq(2)
+      expect(source_result.map { |source| source['unique_id'] }).to match_array(
+        %w[ba604357-5dce-4861-b740-af5d40398ef7 7742b9db-2db2-4421-bff7-9aae6272fc4a]
+      )
+    end
+
     it 'updating a violation association' do
       data_to_update = {
         'individual_victims' => [
@@ -778,8 +801,8 @@ describe Incident do
 
   after do
     clean_data(
-      Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection, Field,
-      Incident, Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
+      User, Agency, Role, Incident, Child, PrimeroModule, PrimeroProgram, UserGroup, FormSection, Field,
+      Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
     )
   end
 end

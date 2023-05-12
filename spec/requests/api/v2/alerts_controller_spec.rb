@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Api::V2::AlertsController, type: :request do
   include ActiveJob::TestHelper
   before do
-    clean_data(User, Alert, Child, Incident, TracingRequest, Role, Agency)
+    clean_data(Alert, User, Incident, TracingRequest, Child, Role, Agency)
 
     role = Role.create!(
       name: 'Test Role 1',
@@ -199,6 +199,6 @@ describe Api::V2::AlertsController, type: :request do
 
   after do
     clear_enqueued_jobs
-    clean_data(User, Alert, Child, Incident, TracingRequest, Role, Agency)
+    clean_data(Alert, User, Incident, TracingRequest, Child, Role, Agency)
   end
 end

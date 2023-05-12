@@ -132,6 +132,6 @@ describe Attachment, search: true do
   end
 
   after(:each) do
-    clean_data(Attachment, Child, User)
+    clean_data(Child, Attachment, User)
   end
 end

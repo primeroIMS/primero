@@ -3,11 +3,11 @@
 require 'rails_helper'
 require 'roo'
 
-xdescribe Exporters::SelectedFieldsExcelExporter do
+describe Exporters::SelectedFieldsExcelExporter do
   before :each do
     clean_data(
-      Agency, Role, UserGroup, User, PrimeroProgram,
-      Field, FormSection, PrimeroModule, Child
+      User, Agency, Role, UserGroup, PrimeroModule, PrimeroProgram,
+      Field, FormSection, Child
     )
 
     @primero_module = create(
@@ -219,7 +219,7 @@ xdescribe Exporters::SelectedFieldsExcelExporter do
 
   describe 'Export format' do
     let(:workbook) do
-      data = Exporters::SelectedFieldsExcelExporter.export(@records, @user_en, {})
+      data = Exporters::SelectedFieldsExcelExporter.export(@records, nil, { user: @user_en }, {})
       Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
     end
 
@@ -243,7 +243,7 @@ xdescribe Exporters::SelectedFieldsExcelExporter do
     end
 
     it 'contains the correct created_organization es name' do
-      data = Exporters::SelectedFieldsExcelExporter.export(@records, @user_es, {})
+      data = Exporters::SelectedFieldsExcelExporter.export(@records, nil, { user: @user_es }, {})
       workbook_es = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       sheet = workbook_es.sheet(workbook_es.sheets.last)
       created_organization_values = sheet.column(2).compact
@@ -270,7 +270,9 @@ xdescribe Exporters::SelectedFieldsExcelExporter do
 
   context 'Selected forms' do
     let(:workbook) do
-      data = Exporters::SelectedFieldsExcelExporter.export(@records, @user_en, form_unique_ids: %w[cases_test_form_1])
+      data = Exporters::SelectedFieldsExcelExporter.export(
+        @records, nil, { user: @user_en }, { form_unique_ids: %w[cases_test_form_1] }
+      )
       Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
     end
 
@@ -290,21 +292,24 @@ xdescribe Exporters::SelectedFieldsExcelExporter do
     context "when field of type subform does' have the same name of their subform" do
       let(:workbook_subform) do
         record_data = Exporters::SelectedFieldsExcelExporter.export(
-          @records_for_subforms_test, @user_en, form_unique_ids: %w[cases_test_form_5]
+          @records_for_subforms_test, nil, { user: @user_en }, { form_unique_ids: %w[cases_test_form_5] }
         )
         Roo::Spreadsheet.open(StringIO.new(record_data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       end
 
       let(:workbook_field) do
         record_data = Exporters::SelectedFieldsExcelExporter.export(
-          @records_for_subforms_test, @user_en, field_names: %w[field_x]
+          @records_for_subforms_test, nil, { user: @user_en }, { field_names: %w[field_x] }
         )
         Roo::Spreadsheet.open(StringIO.new(record_data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       end
 
       let(:workbook_form_field) do
         record_data = Exporters::SelectedFieldsExcelExporter.export(
-          @records_for_subforms_test, @user_en, form_unique_ids: %w[cases_test_form_5], field_names: %w[field_x]
+          @records_for_subforms_test,
+          nil,
+          { user: @user_en },
+          { form_unique_ids: %w[subform_with_different_name], field_names: %w[field_x] }
         )
         Roo::Spreadsheet.open(StringIO.new(record_data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       end
@@ -329,7 +334,7 @@ xdescribe Exporters::SelectedFieldsExcelExporter do
   context 'Selected fields' do
     let(:workbook) do
       data = Exporters::SelectedFieldsExcelExporter.export(
-        @records, @user_en, field_names: %w[name_first array_field]
+        @records, nil, { user: @user_en }, { field_names: %w[name_first array_field] }
       )
       Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
     end
@@ -349,9 +354,13 @@ xdescribe Exporters::SelectedFieldsExcelExporter do
   context 'Selected forms and fields' do
     let(:workbook) do
       data = Exporters::SelectedFieldsExcelExporter.export(
-        @records, @user_en,
-        form_unique_ids: %w[cases_test_form_1 cases_test_form_gbv],
-        field_names: %w[name field_gbv]
+        @records,
+        nil,
+        { user: @user_en },
+        {
+          form_unique_ids: %w[cases_test_form_1 cases_test_form_gbv],
+          field_names: %w[name field_gbv]
+        }
       )
       Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
     end
@@ -374,8 +383,10 @@ xdescribe Exporters::SelectedFieldsExcelExporter do
   context 'Selected nested forms and fields' do
     it 'contains a sheet for the selected nested fields' do
       data = Exporters::SelectedFieldsExcelExporter.export(
-        @records, @user_subform,
-        field_names: %w[name field_3 field_4]
+        @records,
+        nil,
+        { user: @user_subform },
+        { field_names: %w[name field_3 field_4] }
       )
       workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       expect(workbook.sheet(0).row(1)).to eq(%w[ID name field_3 field_4])
@@ -385,13 +396,17 @@ xdescribe Exporters::SelectedFieldsExcelExporter do
 
     it 'contains a sheet for the selected nested fields with their form' do
       data = Exporters::SelectedFieldsExcelExporter.export(
-        @records, @user_subform,
-        form_unique_ids: %w[cases_test_subform_2 cases_test_form_1],
-        field_names: %w[field_3 name]
+        @records,
+        nil,
+        { user: @user_subform },
+        {
+          form_unique_ids: %w[cases_test_subform_2 cases_test_form_1],
+          field_names: %w[field_3 name]
+        }
       )
       workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
-      expect(workbook.sheet(0).row(1)).to eq(%w[ID name])
-      expect(workbook.sheet(1).row(1)).to eq(%w[ID field_3])
+      expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3])
+      expect(workbook.sheet(1).row(1)).to eq(%w[ID name])
     end
   end
 
@@ -399,7 +414,8 @@ xdescribe Exporters::SelectedFieldsExcelExporter do
     it 'hide the name field and does not export the hide_on_view_page fields' do
       data = Exporters::SelectedFieldsExcelExporter.export(
         @records,
-        @user_en,
+        nil,
+        { user: @user_en },
         {
           form_unique_ids: %w[cases_test_form_1]
         }
@@ -414,8 +430,9 @@ xdescribe Exporters::SelectedFieldsExcelExporter do
     let(:workbook) do
       data = Exporters::SelectedFieldsExcelExporter.export(
         @record_with_special_id,
-        @user_en,
-        field_names: %w[name_first]
+        nil,
+        { user: @user_en },
+        { field_names: %w[name_first] }
       )
       Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
     end

@@ -1,13 +1,17 @@
 import { Drawer } from "@material-ui/core";
 import PropTypes from "prop-types";
 
-import { FILTER_CONTAINER_NAME as NAME } from "./constants";
+import { useDrawer } from "../../../drawer";
+
+import { FILTER_DRAWER, NAME } from "./constants";
 import css from "./styles.css";
 
-const FilterContainer = ({ children, mobileDisplay, drawer, handleDrawer }) => {
+const FilterContainer = ({ children, mobileDisplay }) => {
+  const { drawerOpen, toggleDrawer } = useDrawer(FILTER_DRAWER);
+
   if (mobileDisplay) {
     return (
-      <Drawer anchor="right" open={drawer} onClose={handleDrawer}>
+      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
         {children}
       </Drawer>
     );
@@ -24,8 +28,6 @@ FilterContainer.displayName = NAME;
 
 FilterContainer.propTypes = {
   children: PropTypes.node.isRequired,
-  drawer: PropTypes.bool.isRequired,
-  handleDrawer: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired
 };
 

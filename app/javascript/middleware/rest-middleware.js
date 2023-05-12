@@ -1,10 +1,15 @@
 import { ROUTES } from "../config";
 
 import { isOnline, isServerOnline } from "./utils";
+import fetchPdfLogos from "./utils/fetch-pdf-logos";
 import fetchFromCache from "./utils/fetch-from-cache";
 import fetchPayload from "./utils/fetch-payload";
 
 const restMiddleware = options => store => next => action => {
+  if (action?.api?.db?.params?.pdfLogoOption) {
+    return fetchPdfLogos(action, store, options, next);
+  }
+
   if (
     !(action.api && (Array.isArray(action.api) || "path" in action.api)) ||
     !isOnline(store) ||

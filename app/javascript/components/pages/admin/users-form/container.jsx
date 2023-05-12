@@ -1,5 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 import { useState, useEffect } from "react";
+import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
@@ -23,12 +24,13 @@ import CancelPrompt from "../../../form/components/cancel-prompt";
 import { currentUser, getCurrentUserGroupPermission } from "../../../user/selectors";
 import UserActions from "../../../user-actions";
 import { useMemoizedSelector } from "../../../../libs";
+import InternalAlert from "../../../internal-alert";
 
 import { form } from "./form";
 import validations from "./validations";
-import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
-import { USER_CONFIRMATION_DIALOG, PASSWORD_MODAL, FORM_ID } from "./constants";
-import { getUser, getServerErrors, getIdentityProviders, getSavingRecord } from "./selectors";
+import { fetchUser, clearSelectedUser, saveUser, clearRecordsUpdate } from "./action-creators";
+import { USER_CONFIRMATION_DIALOG, PASSWORD_MODAL, FORM_ID, FIELD_NAMES } from "./constants";
+import { getUser, getServerErrors, getIdentityProviders, getSavingRecord, getRecordsUpdate } from "./selectors";
 import UserConfirmation from "./user-confirmation";
 import ChangePassword from "./change-password";
 
@@ -52,6 +54,7 @@ const Container = ({ mode }) => {
   const currentUserName = useMemoizedSelector(state => currentUser(state));
   const saving = useMemoizedSelector(state => getSavingRecord(state));
   const currentRoleGroupPermission = useMemoizedSelector(state => getCurrentUserGroupPermission(state));
+  const recordsUpdate = useMemoizedSelector(state => getRecordsUpdate(state));
 
   const setPasswordModal = () => {
     setDialog({ dialog: PASSWORD_MODAL, open: true });
@@ -86,6 +89,9 @@ const Container = ({ mode }) => {
         dialogName: USER_CONFIRMATION_DIALOG,
         saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
         body: { data },
+        recordsUpdate: [FIELD_NAMES.USER_GROUP_UNIQUE_IDS, FIELD_NAMES.LOCATION, FIELD_NAMES.AGENCY_ID].some(
+          field => data[field]
+        ),
         message: i18n.t("user.messages.updated")
       })
     );
@@ -192,7 +198,10 @@ const Container = ({ mode }) => {
 
     return () => {
       if (isEditOrShow) {
-        dispatch(clearSelectedUser());
+        batch(() => {
+          dispatch(clearSelectedUser());
+          dispatch(clearRecordsUpdate());
+        });
       }
     };
   }, [id]);
@@ -217,6 +226,9 @@ const Container = ({ mode }) => {
       </PageHeading>
       <PageContent>
         <>
+          {recordsUpdate && !pending && formMode.get("isShow") && (
+            <InternalAlert items={fromJS([{ message: i18n.t("user.messages.records_update") }])} />
+          )}
           <CancelPrompt useCancelPrompt isShow={formMode.get("isShow")} formState={formMethods.formState} />
           <form noValidate id={FORM_ID} onSubmit={formMethods.handleSubmit(onSubmit)}>
             {renderFormSections()}

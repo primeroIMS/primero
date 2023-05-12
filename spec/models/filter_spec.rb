@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Filter do
   before :each do
-    clean_data(PrimeroProgram, Field, FormSection, PrimeroModule, Role, Agency, User, UserGroup, SystemSettings)
+    clean_data(User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, SystemSettings)
     @program = PrimeroProgram.create!(
       unique_id: 'primeroprogram-primero',
       name: 'Primero',
@@ -346,7 +346,7 @@ describe Filter do
   end
 
   after do
-    clean_data(PrimeroProgram, Field, FormSection, PrimeroModule, Role, Agency, User, UserGroup, SystemSettings)
+    clean_data(User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, SystemSettings)
     @system_settings.save!
     SystemSettings.current(true)
   end
