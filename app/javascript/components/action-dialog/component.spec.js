@@ -37,33 +37,14 @@ describe("<ActionDialog />", () => {
   it("should render Submit Button", () => {
     const newProps = {
       ...props,
-      className: "MuiSvgIcon-root"
+      className: "MuiSvgIcon-rootcc"
     };
     mountedComponent(<ActionDialog {...newProps} />);
-    expect(screen.getAllByRole('button', { className: 'MuiSvgIcon-root' })).toBeTruthy();
+    expect(screen.getByText('submit')).toBeInTheDocument();
   });
 
   it("should render cancel Button", () => {
     expect(screen.queryByText("cancel")).toBeInTheDocument();
-  });
-
-  it('should accept valid props', () => {
-    const newProps = {
-      closeHandler: () => { },
-      dialogSubHeader: "Test SubHeader",
-      dialogSubtitle: "Test Subtitle",
-      dialogTitle: "Test Title",
-      disableActions: false,
-      onClose: () => { },
-      successHandler: () => { }
-    };
-    mountedComponent(<ActionDialog {...newProps} />);
-    expect(newProps.closeHandler).toBeDefined();
-    expect(newProps.dialogSubtitle).toBeDefined();
-    expect(newProps.dialogTitle).toBeDefined();
-    expect(newProps.dialogSubHeader).toBeDefined();
-    expect(newProps.disableActions).toBeDefined();
-    expect(newProps.successHandler).toBeDefined();
   });
 
   it("should render DialogSubtitle with it's correct value ", () => {
@@ -86,9 +67,7 @@ describe("<ActionDialog />", () => {
     expect(screen.getByRole("dialog")).not.toHaveClass('dialogSubHeader');
   });
 
-  // it("should render DialogActions", () => {
-  //   expect(component.find(DialogActions)).to.have.lengthOf(1);
-  // });
+  it.todo("should render DialogActions");
 });
 
 
