@@ -1,16 +1,9 @@
+import { mountedComponent, screen } from "test-utils";
 import { fromJS, OrderedMap } from "immutable";
-import Timeline from "@material-ui/lab/Timeline";
-
-import { setupMountedComponent } from "../../../../test";
 import { FieldRecord } from "../../../record-form";
 import { ChangeLogsRecord } from "../../records";
-import ChangeLogItem from "../change-log-item";
-
 import ChangeLog from "./component";
-
 describe("ChangeLog - Component", () => {
-  let component;
-
   const allFields = OrderedMap({
     0: FieldRecord({
       id: 1,
@@ -123,24 +116,21 @@ describe("ChangeLog - Component", () => {
         record_changes: []
       })
     ]),
-    setCalculatingChangeLog: () => {},
-    setOpen: () => {},
-    setRecordChanges: () => {}
+    setCalculatingChangeLog: () => { },
+    setOpen: () => { },
+    setRecordChanges: () => { }
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(ChangeLog, props, {}));
+    mountedComponent(<ChangeLog {...props} />);
   });
-
   it("renders ChangeLog", () => {
-    expect(component.find(ChangeLog)).to.have.lengthOf(1);
-  });
-
-  it("renders Timeline", () => {
-    expect(component.find(Timeline)).to.have.lengthOf(1);
+    const element = screen.getByText("change_logs.create");
+    expect(element).toBeInTheDocument();
   });
 
   it("renders ChangeLogItem", () => {
-    expect(component.find(ChangeLogItem)).to.have.lengthOf(4);
+    expect(screen.getAllByRole('timeline')).toHaveLength(4);
   });
 });
+

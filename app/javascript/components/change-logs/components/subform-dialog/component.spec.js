@@ -1,16 +1,9 @@
+import { mountedComponent, screen } from "test-utils";
 import { fromJS, OrderedMap } from "immutable";
-import Timeline from "@material-ui/lab/Timeline";
-
-import { setupMountedComponent } from "../../../../test";
 import { FieldRecord } from "../../../record-form";
-import ActionDialog from "../../../action-dialog";
-import ChangeLogItem from "../change-log-item";
-
 import SubformDialog from "./component";
 
 describe("SubformDialog - Component", () => {
-  let component;
-
   const allFields = OrderedMap({
     0: FieldRecord({
       id: 1,
@@ -132,27 +125,25 @@ describe("SubformDialog - Component", () => {
     },
     open: true,
     calculatingChangeLog: false,
-    setCalculatingChangeLog: () => {},
-    setOpen: () => {}
+    setCalculatingChangeLog: () => { },
+    setOpen: () => { }
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(SubformDialog, props, {}));
+    mountedComponent(<SubformDialog {...props} />);
   });
 
   it("renders SubformDialog", () => {
-    expect(component.find(SubformDialog)).to.have.lengthOf(1);
+    const element = screen.getByText("change_logs.add_subform");
+    expect(element).toBeInTheDocument();
   });
 
   it("renders ActionDialog", () => {
-    expect(component.find(ActionDialog)).to.have.lengthOf(1);
-  });
-
-  it("renders Timeline", () => {
-    expect(component.find(Timeline)).to.have.lengthOf(1);
+    expect(screen.getAllByRole('dialog')).toHaveLength(1);
   });
 
   it("renders ChangeLogItem", () => {
-    expect(component.find(ChangeLogItem)).to.have.lengthOf(2);
+    expect(screen.getAllByRole('timeline')).toHaveLength(2);
   });
 });
+

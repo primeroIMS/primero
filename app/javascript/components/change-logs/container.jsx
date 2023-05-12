@@ -65,7 +65,7 @@ const Container = ({
   };
 
   return (
-    <div className={css.container}>
+    <div className={css.container} role={"container"}>
       <RecordFormTitle
         mobileDisplay={mobileDisplay}
         handleToggleNav={handleToggleNav}
