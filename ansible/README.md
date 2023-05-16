@@ -60,7 +60,7 @@
 
           (venv) $ ansible-playbook application-primero.yml --tags "build"
 
-    Configure Primero and apply the database schema using tag `configure`.
+    Configure Primero and apply the database schema using tag `configure`. Before running, if you would like to run primero with the default seeds remove and set `primero_configuration_path` to '' and `RUN_DEFAULT_PRIMERO_SEEDS` to 'true' in your inventory file under environment_variables.
 
           (venv) $ ansible-playbook application-primero.yml --tags "configure"
 
