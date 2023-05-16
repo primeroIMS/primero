@@ -34,5 +34,6 @@ all:
       # Optionally parametrize Primero containers with other environment attributes.
       # Do not use this dictionary for secrets!!!
       environment_variables:
+        RUN_DEFAULT_PRIMERO_SEEDS: 'false' # Set to true if you want to run default seeds
         PRIMERO_DEFAULT_USERS: 'true' # Seed default users when using the managed Primero SaaS configs
         # LOCALE_DEFAULT: 'ar' # Optionally override English as the default locale.
