@@ -60,7 +60,7 @@
 
           (venv) $ ansible-playbook application-primero.yml --tags "build"
 
-    Configure Primero and apply the database schema using tag `configure`.
+    Configure Primero and apply the database schema using tag `configure`. Before running, if you would like to run primero with the default seeds remove and set `primero_configuration_path` to '' and `RUN_DEFAULT_PRIMERO_SEEDS` to 'true' in your inventory file under environment_variables.
 
           (venv) $ ansible-playbook application-primero.yml --tags "configure"
 
@@ -139,7 +139,7 @@ Below is example of what the file should look like. There is also a sample templ
                   certbot_domain:
                   - '{{ primero_host }}'
                   certbot_email: 'primero-example@example.com'
-                  primero_repo_branch: 'master'
+                  primero_repo_branch: 'main'
                   build_docker_tag: ''
                   build_docker_container_registry: ''
                   primero_tag: 'latest'
@@ -150,7 +150,7 @@ Below is example of what the file should look like. There is also a sample templ
                   nginx_ssl_key_path: '/etc/letsencrypt/live/primero/privkey.pem'
                   # If you want to seed from a private configuration repo
                   primero_configuration_repo: 'git@bitbucket.org:quoin/primero-x-configuration.git'
-                  primero_configuration_repo_branch: 'master'
+                  primero_configuration_repo_branch: 'main'
                   primero_configuration_path: 'directory/of/config/loader/script.rb'
 
 
