@@ -631,7 +631,7 @@ describe Report do
       Child.create!(
         data: {
           status: 'open', worklow: 'open', sex: 'male', module_id: @module.unique_id,
-          created_at: '2022-10-12T06:32:10.000Z'
+          created_at: '2021-09-12T06:32:10.000Z'
         }
       )
     end
@@ -649,7 +649,7 @@ describe Report do
       Child.create!(
         data: {
           status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
-          created_at: '2022-10-10T04:32:10.000Z'
+          created_at: '2022-10-05T04:32:10.000Z'
         }
       )
     end
@@ -702,7 +702,7 @@ describe Report do
         disaggregate_by: ['created_at'],
         group_dates_by: Report::DAY,
         filters: [
-          { 'value': '2022-10-12', 'attribute': 'created_at', 'constraint': '>' }
+          { 'value': '2022-10-10', 'attribute': 'created_at', 'constraint': '>' }
         ]
       )
     end
@@ -710,18 +710,45 @@ describe Report do
     it 'returns a data dissaggregate by created_at' do
       expect(report.build_report).to eq(
         {
-          'male' => { '_total' => 1, '2022-10-12' => { '_total' => 1 } },
-          'female' => { '_total' => 2, '2022-10-10' => { '_total' => 2 } }
+          'male' => { '_total' => 1, '2021-09-12' => { '_total' => 1 } },
+          'female' => { '_total' => 2, '2022-10-05' => { '_total' => 1 }, '2022-10-10' => { '_total' => 1 } }
         }
       )
     end
 
-    it 'returns data only for records after 2020-10-10' do
+    it 'returns data only for records after 2022-10-10' do
       expect(report_with_date_filter.build_report).to eq(
         {
-          'female' => { '_total' => 0 },
-          'male' => { '_total' => 1, '2022-10-12' => { '_total' => 1 } }
+          'female' => { '_total' => 1, '2022-10-10' => { '_total' => 1 } },
+          'male' => { '_total' => 0 }
         }
+      )
+    end
+
+    it 'groups data by week' do
+      report.group_dates_by = Report::WEEK
+
+      expect(report.build_report).to eq(
+        'male' => { '_total' => 1, '06-Sep-2021 - 12-Sep-2021' => { '_total' => 1 } },
+        'female' => { '_total' => 2, '03-Oct-2022 - 09-Oct-2022' => { '_total' => 1 }, '10-Oct-2022 - 16-Oct-2022' => { '_total' => 1 } }
+      )
+    end
+
+    it 'groups data by month' do
+      report.group_dates_by = Report::MONTH
+
+      expect(report.build_report).to eq(
+        'male' => { '_total' => 1, '2021-Sep' => { '_total' => 1 } },
+        'female' => { '_total' => 2, '2022-Oct' => { '_total' => 2 } }
+      )
+    end
+
+    it 'groups data by year' do
+      report.group_dates_by = Report::YEAR
+
+      expect(report.build_report).to eq(
+        'male' => { '_total' => 1, 2021 => { '_total' => 1 } },
+        'female' => { '_total' => 2, 2022 => { '_total' => 2 } }
       )
     end
   end
