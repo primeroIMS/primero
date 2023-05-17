@@ -64,7 +64,7 @@ const DashboardTable = ({ columns, data, query, title, pathname }) => {
   };
 
   return (
-    <div className={css.tableContainer}>
+    <div className={css.tableContainer} data-testid="dashboard-table">
       <MUIDataTable {...tableOptions} />
     </div>
   );

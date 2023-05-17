@@ -66,7 +66,7 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
 
     return indicators.keySeq().map(item => {
       return (
-        <Fragment key={item}>
+        <Fragment key={item} data-testid="overview-box" role="GBV_Closure">
           <ActionButton
             id={`overview-${item}-number`}
             className={css.itemButtonNumber}

@@ -39,7 +39,7 @@ const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, error
     const queryValue = value ? value.get("query") : [];
 
     return (
-      <div key={lk.id}>
+      <div key={lk.id} role="DashboardChip">
         <DashboardChip label={`${countValue} ${lk.display_text}`} type={lk.id} handleClick={handleClick(queryValue)} />
       </div>
     );
@@ -47,7 +47,7 @@ const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, error
 
   return (
     <>
-      <LoadingIndicator {...loadingIndicatorProps}>
+      <LoadingIndicator {...loadingIndicatorProps} data-testid="badged-indicator">
         <div className={css.sectionTitle}>{sectionTitle}</div>
         <div className={css.content}>{dashboardChips}</div>
       </LoadingIndicator>

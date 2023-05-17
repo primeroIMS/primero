@@ -16,10 +16,16 @@ const Component = ({ date, reason, recordId, title, user }) => {
 
   return (
     <div className={css.Flag} onClick={handleFlagOpen(recordId)} role="button" tabIndex="0">
-      <h4 className={css.FlagTitle}>{title}</h4>
-      <span className={css.FlagDate}>{date}</span>
-      <p className={css.FlagContent}>{reason}</p>
-      <span className={css.FlagStatus}>
+      <h4 id="h4" className={css.FlagTitle}>
+        {title}
+      </h4>
+      <span id="span" className={css.FlagDate}>
+        {date}
+      </span>
+      <p id="p" className={css.FlagContent}>
+        {reason}
+      </p>
+      <span id="span" className={css.FlagStatus}>
         <UserArrowIcon className={css.FlagCasesMineIcon} />
         {user}
       </span>
