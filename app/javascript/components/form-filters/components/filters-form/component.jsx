@@ -7,7 +7,7 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import { useDrawer } from "../../../drawer";
 import { filterType } from "../../../index-filters/utils";
 import { currentUser } from "../../../user";
-import FilterContainer from "../../../record-list/filter-container";
+import FilterContainer from "../../../record-list/components/filter-container";
 import Actions from "../../../index-filters/components/actions";
 import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
 
@@ -80,13 +80,13 @@ const Component = ({
   };
 
   return (
-    <div className={css.recordFormFilters}>
+    <div className={css.recordFormFilters} role="region">
       {showFilterIcon}
-      <FilterContainer drawer={drawerOpen} handleDrawer={toggleDrawer} mobileDisplay={mobileDisplay && showDrawer}>
-        <div className={css.filtersContainer}>
+      <FilterContainer drawer={drawerOpen} handleDrawer={toggleDrawer} mobileDisplay={mobileDisplay && showDrawer} >
+        <div className={css.filtersContainer} role="form">
           <FormProvider {...methods} user={userName}>
-            <form onSubmit={methods.handleSubmit(handleOnSubmit)}>
-              <Actions handleClear={onClear} />
+            <form onSubmit={methods.handleSubmit(handleOnSubmit)} >
+              <Actions handleClear={onClear}/>
               {renderFilters()}
             </form>
           </FormProvider>

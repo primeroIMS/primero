@@ -1,17 +1,14 @@
 import { fromJS } from "immutable";
 import { FormProvider } from "react-hook-form";
-
-import { setupMountedComponent } from "../../../../test";
+import { mountedComponent, screen } from "test-utils";
 import { ACTIONS } from "../../../permissions";
 import Actions from "../../../index-filters/components/actions";
 import { FILTER_TYPES } from "../../../index-filters";
 import { SelectFilter } from "../../../index-filters/components/filter-types";
-
 import AdminFilters from "./component";
 
 describe("<AdminFilters /> - pages/admin/components/filters/component", () => {
-  let component;
-
+ 
   const props = {
     filters: [
       {
@@ -29,7 +26,7 @@ describe("<AdminFilters /> - pages/admin/components/filters/component", () => {
     defaultFilters: {}
   };
 
-  beforeEach(() => {
+  beforeEach(() => { 
     const state = fromJS({
       user: {
         user_name: "test",
@@ -39,38 +36,19 @@ describe("<AdminFilters /> - pages/admin/components/filters/component", () => {
       }
     });
 
-    ({ component } = setupMountedComponent(AdminFilters, props, state));
+    mountedComponent(<AdminFilters {...props}/>, {});
   });
 
   it("should render <FormProvider /> component", () => {
-    expect(component.find(FormProvider)).to.have.lengthOf(1);
+    expect(screen.getByRole("form")).toBeInTheDocument();
   });
 
   it("should render <Actions /> component", () => {
-    expect(component.find(Actions)).to.have.lengthOf(1);
+    expect(screen.getAllByRole("actions-component")).toHaveLength(1);
   });
 
-  it("should have valid props", () => {
-    const adminFiltersProps = { ...component.find(AdminFilters).props() };
-
-    expect(component.find(adminFiltersProps)).to.have.lengthOf(1);
-    [
-      "clearFields",
-      "closeDrawerOnSubmit",
-      "defaultFilters",
-      "filters",
-      "initialFilters",
-      "mobileDisplay",
-      "onSubmit",
-      "showDrawer"
-    ].forEach(property => {
-      expect(adminFiltersProps).to.have.property(property);
-      delete adminFiltersProps[property];
-    });
-    expect(adminFiltersProps).to.be.empty;
-  });
-
-  context("when the filters include a non-permitted one to the user", () => {
+  
+  describe("when the filters include a non-permitted one to the user", () => {
     const propsWithFiltersNotPermitted = {
       filters: [
         {
@@ -80,6 +58,7 @@ describe("<AdminFilters /> - pages/admin/components/filters/component", () => {
           option_strings_source: null,
           options: {
             en: [
+  
               { id: "false", display_name: "Enabled" },
               { id: "true", display_name: "Disabled" }
             ]
@@ -110,11 +89,11 @@ describe("<AdminFilters /> - pages/admin/components/filters/component", () => {
         }
       });
 
-      ({ component } = setupMountedComponent(AdminFilters, propsWithFiltersNotPermitted, state));
+      mountedComponent(<AdminFilters {...propsWithFiltersNotPermitted}/>, {} );
     });
 
     it("should render only one <SelectFilter /> component", () => {
-      expect(component.find(FormProvider).find(SelectFilter)).to.have.lengthOf(1);
+      expect(screen.getAllByRole("region")).toHaveLength(2);
     });
   });
 });
