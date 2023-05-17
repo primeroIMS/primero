@@ -68,14 +68,12 @@ describe("<TableValues />", () => {
         name: "Test agency"
       }
     ];
-
     const props = {
     ...buildTableData(data, window.I18n, { agencies })
   }
     mountedComponent(<TableValues/>,props)
-    expect(screen.getAllByRole("tableRow")).toHaveLength(2);
+    expect(screen.getAllByRole("row")).toHaveLength(2);
   });
-
   afterEach(() => {
     if (stubI18n) {
       window.I18n.t.restore();
