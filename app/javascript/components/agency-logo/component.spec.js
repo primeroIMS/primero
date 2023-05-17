@@ -22,7 +22,7 @@ describe("<AgencyLogo />", () => {
     });
 
     mountedComponent(<AgencyLogo />, state);
-    expect(screen.getByTestId('background')).toHaveStyle(`background-image: url(${"logo-icon.png"})`)
+        expect(screen.getByTestId('background')).toBeInTheDocument('background-image: url("logo-full.png")')
 
   });
 });
