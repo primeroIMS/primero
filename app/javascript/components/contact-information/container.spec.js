@@ -1,15 +1,9 @@
-import { fromJS } from "immutable";
-import { setupMountedComponent } from "../../test";
 import { mountedComponent, screen } from "test-utils";
 import Support from "./container";
 import { ContactInformationRecord } from "./records";
-
 describe("<Support />", () => {
-  let component;
-
   beforeEach(() => {
-   
-    mountedComponent(<Support/>,
+   mountedComponent(<Support/>,
     {
       records: {
         Support: {
@@ -28,9 +22,7 @@ describe("<Support />", () => {
       }
     })
   });
-
   it("renders the Support", () => {    
     expect(screen.getAllByRole("support")).toHaveLength(1)
   });
 });
-
