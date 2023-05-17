@@ -44,13 +44,13 @@ describe("<TranslationsForm />", () => {
 
     component
       .find(TranslationsForm)
-      .find("input[name='translations.name.en']")
-      .simulate("blur", { target: { value: "Updated Name", name: "translations.name.en" } });
+      .find("input[name='name.en']")
+      .simulate("blur", { target: { value: "Updated Name", name: "name.en" } });
 
     component
       .find(TranslationsForm)
-      .find("input[name='translations.description.en']")
-      .simulate("blur", { target: { value: "Updated Description", name: "translations.description.en" } });
+      .find("input[name='description.en']")
+      .simulate("blur", { target: { value: "Updated Description", name: "description.en" } });
 
     expect(getValues().name.en).to.equal("Updated Name");
     expect(getValues().description.en).to.equal("Updated Description");
