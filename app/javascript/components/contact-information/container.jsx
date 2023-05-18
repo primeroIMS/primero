@@ -24,14 +24,15 @@ const Support = () => {
             label: `contact.field.${x}`,
             value: supportData[x]
           }}
-          
         />
       );
     });
 
   return (
     <>
-      <h1 className={css.PageTitle} role="support">{i18n.t("contact.info_label")}</h1>
+      <h1 className={css.PageTitle} role="support">
+        {i18n.t("contact.info_label")}
+      </h1>
       {renderInformation}
     </>
   );

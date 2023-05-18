@@ -1,10 +1,13 @@
 import { mountedComponent, screen } from "test-utils";
+
 import Support from "./container";
 import { ContactInformationRecord } from "./records";
+
 describe("<Support />", () => {
+  let component;
+
   beforeEach(() => {
-   mountedComponent(<Support/>,
-    {
+    mountedComponent(<Support />, {
       records: {
         Support: {
           data: ContactInformationRecord({
@@ -20,9 +23,10 @@ describe("<Support />", () => {
           })
         }
       }
-    })
+    });
   });
-  it("renders the Support", () => {    
-    expect(screen.getAllByRole("support")).toHaveLength(1)
+
+  it("renders the Support", () => {
+    expect(screen.getAllByRole("support")).toHaveLength(1);
   });
 });
