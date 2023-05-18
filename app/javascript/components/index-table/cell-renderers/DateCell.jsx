@@ -1,9 +1,7 @@
 import PropTypes from "prop-types";
-
 import { useI18n } from "../../i18n";
 import { LOCALE_KEYS } from "../../../config";
 import NepaliCalendar from "../../nepali-calendar-input";
-
 import css from "./styles.css";
 
 const DateCell = ({ value, withTime }) => {
@@ -11,7 +9,7 @@ const DateCell = ({ value, withTime }) => {
 
   if (i18n.locale === LOCALE_KEYS.ne) {
     return (
-      <div className={css.readonly}>
+      <div className={css.readonly}  role="toggle-icon-cell">
         <NepaliCalendar
           dateProps={{
             value,
@@ -22,7 +20,6 @@ const DateCell = ({ value, withTime }) => {
       </div>
     );
   }
-
   return <>{i18n.l(`date.formats.${withTime ? "with_time" : "default"}`, value)}</>;
 };
 
