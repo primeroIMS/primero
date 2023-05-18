@@ -1,11 +1,14 @@
 import { fromJS } from "immutable";
+import { mountedComponent, screen } from "test-utils";
+
 import { buildTableData } from "../../report/utils";
 import { abbrMonthNames, stub } from "../../../test";
+
 import TableValues from "./component";
-import { mountedComponent, screen } from "test-utils";
 
 describe("<TableValues />", () => {
   let stubI18n = null;
+
   beforeEach(() => {
     stubI18n = stub(window.I18n, "t")
       .withArgs("date.abbr_month_names")
@@ -68,17 +71,18 @@ describe("<TableValues />", () => {
         name: "Test agency"
       }
     ];
+
     const props = {
-    ...buildTableData(data, window.I18n, { agencies })
-  }
-    mountedComponent(<TableValues/>,props)
-    expect(screen.getAllByRole("row")).toHaveLength(2);
+      ...buildTableData(data, window.I18n, { agencies })
+    };
+
+    mountedComponent(<TableValues />, props);
+    expect(screen.getAllByRole("tableRow")).toHaveLength(2);
   });
+
   afterEach(() => {
     if (stubI18n) {
       window.I18n.t.restore();
     }
   });
 });
-
-

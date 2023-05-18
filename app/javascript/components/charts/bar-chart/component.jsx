@@ -77,7 +77,11 @@ const BarChart = ({ data, description, showDetails = false, hideLegend = false }
 
   return (
     <div>
-      {!showDetails ? <p className={css.description} data role="p">{description}</p> : null}
+      {!showDetails ? (
+        <p className={css.description} aria-role="paragraph">
+          {description}
+        </p>
+      ) : null}
       <canvas id="reportGraph" role="canvas" ref={chartRef} height={!showDetails ? null : 400} />
     </div>
   );

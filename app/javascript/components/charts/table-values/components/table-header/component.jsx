@@ -31,7 +31,9 @@ const TableHeader = ({ columns }) => {
     return (
       <TableRow key={generateKey("column-row")} role="tableRow">
         {singleColumns.map(column => (
-          <TableCell key={generateKey("cell")} role="tableCell">{column}</TableCell>
+          <TableCell key={generateKey("cell")} role="tableCell">
+            {column}
+          </TableCell>
         ))}
       </TableRow>
     );
@@ -53,7 +55,7 @@ const TableHeader = ({ columns }) => {
           <TableRow className={classes} key={generateKey("column-row")} role="tableRow">
             {allCells.map(cell => {
               if (isEmpty(cell)) {
-                return <TableCell className={css.borderHeadingRight} key={generateKey()}  role="tableCell"/>;
+                return <TableCell className={css.borderHeadingRight} key={generateKey()} role="tableCell" />;
               }
               if (cell === "Total") {
                 return (
