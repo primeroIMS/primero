@@ -77,12 +77,12 @@ describe("<TableValues />", () => {
     };
 
     mountedComponent(<TableValues />, props);
-    expect(screen.getAllByRole("tableRow")).toHaveLength(2);
+    expect(screen.getAllByRole("row")).toHaveLength(1);
   });
-
   afterEach(() => {
     if (stubI18n) {
       window.I18n.t.restore();
     }
   });
 });
+
