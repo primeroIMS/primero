@@ -4,6 +4,7 @@ on:
     branches:
       - master
       - 'release-*'
+      - develop_react_upgrade
   workflow_dispatch:
 
 jobs:
