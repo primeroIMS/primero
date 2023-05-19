@@ -26,7 +26,9 @@ the `develop_react_upgrade` branch in Github.
 - There are some utility functions that we use to render test components in `/app/javascript/test-utils`. `mountedComponent` will be the most used for unit test. The function takes a component to test, desired store data, and other options. It will return a rendered component to use with your assertions. For an example see: `app/javascript/components/action-button/component.spec.js`
 - If there is a component without an unit test file please create one. In that file please place the following.
   ```
-    describe.skip('TODO: $COMPONENT_NAME', () => {});
+    describe("$COMPONENT_NAME", () => {
+      it.todo("TODO: Add component unit test");
+    });
   ```
   this will be a good placeholder for developer to add the necessary unit test.
 - Use `describe` for groups of test and `it` for test.
