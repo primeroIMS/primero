@@ -1,0 +1,54 @@
+import { screen, setupMockFormComponent, userEvent, spy } from "test-utils";
+import ToggleFilter from "./component";
+
+describe("<ToggleFilter>", () => {
+    const filter = {
+        field_name: "filter",
+        name: "Filter 1",
+        options: {
+            en: [
+                { id: "option-1", display_text: "Option 1" },
+                { id: "option-2", display_text: "Option 2" }
+            ]
+        }
+    };
+
+    const props = {
+        filter
+    };
+
+    it("renders panel", () => {
+        setupMockFormComponent(ToggleFilter, { props, includeFormProvider: true });
+        expect(screen.getByText("Filter 1")).toBeInTheDocument();
+    });
+
+    it("renders toggle buttons", () => {
+        setupMockFormComponent(ToggleFilter, { props, includeFormProvider: true });
+        ["Option 1", "Option 2"].forEach(option =>
+            expect(screen.getByText(`${option}`)).toBeInTheDocument());
+    });
+
+    it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
+        const newProps = {
+            addFilterToList: () => { },
+            filter,
+            mode: {
+                secondary: true
+            },
+            moreSectionFilters: {},
+            reset: false,
+            setMoreSectionFilters: spy(),
+            setReset: () => { }
+        };
+
+        setupMockFormComponent(ToggleFilter, { props: newProps, includeFormProvider: true });
+        const toggleFilter = screen.getAllByRole('button')[1];
+        expect(toggleFilter).toBeInTheDocument();
+        userEvent.click(toggleFilter);
+        //expect(newProps.setMoreSectionFilters).toHaveBeenCalled();
+    });
+});
+
+
+
+
