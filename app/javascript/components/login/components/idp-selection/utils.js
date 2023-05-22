@@ -1,4 +1,5 @@
-import { Authority, UserAgentApplication } from "msal";
+import { PublicClientApplication } from "@azure/msal-browser";
+import { Authority } from "@azure/msal-common";
 
 import { DOMAIN, PROTOCOL } from "./config";
 
@@ -11,8 +12,8 @@ export const setMsalConfig = idp => {
       redirectUri: `${PROTOCOL}//${DOMAIN}/login/${idp.get("provider_type")}`
     },
     cache: {
-      cacheLocation: "localStorage",
-      storeAuthStateInCookie: true
+      cacheLocation: "sessionStorage",
+      storeAuthStateInCookie: false
     }
   };
 };
@@ -30,7 +31,7 @@ export const setMsalApp = (msalConfig, forceStandardOidc) => {
     Authority.isAdfs = () => true;
   }
 
-  const app = new UserAgentApplication(msalConfig);
+  const app = new PublicClientApplication(msalConfig);
 
   if (forceStandardOidc) {
     // A second situation where it expects a parameter that isn't standard, this time "scope"

@@ -1,4 +1,4 @@
-import { UserAgentApplication } from "msal";
+import { PublicClientApplication } from "@azure/msal-browser";
 
 import { DOMAIN } from "../components/login/components/idp-selection/config";
 
@@ -16,5 +16,5 @@ export const setMsalConfig = {
 };
 
 export const setMsalApp = msalConfig => {
-  return new UserAgentApplication(msalConfig);
+  return new PublicClientApplication(msalConfig);
 };

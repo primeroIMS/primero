@@ -1,4 +1,6 @@
-import { CryptoUtils, InteractionRequiredAuthError } from "msal";
+/* eslint-disable no-return-await */
+import { InteractionRequiredAuthError } from "@azure/msal-common";
+import { CryptoOps } from "@azure/msal-browser/dist/internals";
 
 import { SELECTED_IDP } from "../../../user/constants";
 
@@ -7,10 +9,12 @@ import { setMsalApp, setMsalConfig, getLoginRequest, getTokenRequest } from "./u
 let msalApp;
 let forceStandardOIDC = false;
 
-const getToken = tokenRequest =>
-  msalApp.acquireTokenSilent(tokenRequest).catch(error => {
+async function getToken(tokenRequest) {
+  return await msalApp.acquireTokenSilent(tokenRequest).catch(async error => {
     if (error instanceof InteractionRequiredAuthError) {
-      return msalApp.acquireTokenPopup(tokenRequest);
+      return await msalApp.acquireTokenPopup(tokenRequest).catch(popupError => {
+        console.error(popupError);
+      });
     }
 
     // eslint-disable-next-line no-console
@@ -18,6 +22,7 @@ const getToken = tokenRequest =>
 
     return undefined;
   });
+}
 
 const setupMsal = idp => {
   const identityScope = idp.get("identity_scope")?.toJS() || [""];
@@ -67,7 +72,7 @@ export const signOut = () => {
       // https://openid.net/specs/openid-connect-rpinitiated-1_0.html#RPLogout
       // Since MSAL does not offer any way to add parameters to logout, we piggyback on the correlationId argument
       // The GUID is what msal uses as the default when the argument is not specified
-      msalApp.logout(`${CryptoUtils.createNewGuid()}&client_id=${encodeURIComponent(msalApp.config.auth.clientId)}`);
+      msalApp.logout(`${CryptoOps.createNewGuid()}&client_id=${encodeURIComponent(msalApp.config.auth.clientId)}`);
     } else {
       msalApp.logout();
     }
