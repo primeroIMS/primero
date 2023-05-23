@@ -3,6 +3,7 @@ import { fromJS, OrderedMap } from "immutable";
 import { ChangeLogsRecord } from "./records";
 import { FieldRecord } from "../record-form";
 import ChangeLogs from "./container";
+
 describe("ChangeLogs - Container", () => {
     const props = {
         handleToggleNav: () => { },
@@ -138,6 +139,7 @@ describe("ChangeLogs - Container", () => {
             })
         })
     });
+
     beforeEach(() => {
         mountedComponent(<ChangeLogs {...props} />, defaultState);
     });
