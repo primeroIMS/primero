@@ -1,4 +1,4 @@
-import { mountedComponent, screen, setupMockFormComponent, spy } from "test-utils";
+import { mountedComponent, screen, setupMockFormComponent, spy, userEvent } from "test-utils";
 import CheckboxFilter from "./component";
 
 describe("<CheckboxFilter>", () => {
@@ -24,28 +24,24 @@ describe("<CheckboxFilter>", () => {
       expect(screen.getByText(`${option}`)).toBeInTheDocument());
   });
 
-  //   it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
-  //     const newProps = {
-  //       addFilterToList: () => {},
-  //       filter,
-  //       mode: {
-  //         secondary: false
-  //       },
-  //       moreSectionFilters: {},
-  //       reset: false,
-  //       setMoreSectionFilters: spy(),
-  //       setReset: () => {}
-  //     };
-
-  //     setupMockFormComponent(CheckboxFilter, { props: newProps, includeFormProvider: true });
-
-  //     const checkbox = document.querySelector(`input[name="Option 1"]`);
-  //     console.log("divyanshu--",checkbox)
-  //     //expect(checkbox).toBeInTheDocument();
-  //     //userEvent.click(checkbox);
-
-  //     //expect(newProps.setMoreSectionFilters).not.toHaveBeenCalled();
-  //   });  
+  it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", async () => {
+    const setMoreSectionFiltersSpy = jest.fn();
+    const newProps = {
+      addFilterToList: () => { },
+      filter,
+      mode: {
+        secondary: false
+      },
+      moreSectionFilters: {},
+      reset: false,
+      setMoreSectionFilters: setMoreSectionFiltersSpy,
+      setReset: () => { }
+    };
+    const user = userEvent.setup()
+    setupMockFormComponent(CheckboxFilter, { props: newProps, includeFormProvider: true });
+    await user.click(screen.getByText("Option 1"));
+    expect(setMoreSectionFiltersSpy).not.toHaveBeenCalled();
+  });
 });
 
 

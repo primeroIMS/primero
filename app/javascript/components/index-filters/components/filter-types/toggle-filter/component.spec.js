@@ -29,6 +29,7 @@ describe("<ToggleFilter>", () => {
     });
 
     it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
+        const setMoreSectionFiltersSpy = jest.fn();
         const newProps = {
             addFilterToList: () => { },
             filter,
@@ -37,7 +38,7 @@ describe("<ToggleFilter>", () => {
             },
             moreSectionFilters: {},
             reset: false,
-            setMoreSectionFilters: spy(),
+            setMoreSectionFilters: setMoreSectionFiltersSpy,
             setReset: () => { }
         };
 
@@ -45,7 +46,7 @@ describe("<ToggleFilter>", () => {
         const toggleFilter = screen.getAllByRole('button')[1];
         expect(toggleFilter).toBeInTheDocument();
         userEvent.click(toggleFilter);
-        //expect(newProps.setMoreSectionFilters).toHaveBeenCalled();
+        expect(setMoreSectionFilters).toHaveBeenCalled();
     });
 });
 
