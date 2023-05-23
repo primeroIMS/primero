@@ -7,6 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
+import { SURVIVORS_SUBREPORTS } from "../../config";
+import { fetchUserGroups } from "../application";
 import { useI18n } from "../i18n";
 import { SELECT_FIELD, whichFormMode } from "../form";
 import WatchedFormSectionField from "../form/components/watched-form-section-field";
@@ -63,6 +65,9 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
 
   useEffect(() => {
     if (subReport) {
+      if (SURVIVORS_SUBREPORTS.includes(subReport)) {
+        dispatch(fetchUserGroups());
+      }
       getInsights(formMethods.getValues());
     }
   }, [subReport]);

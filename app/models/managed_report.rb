@@ -17,6 +17,16 @@ class ManagedReport < ValueObject
         permitted_filters: [:grouped_by, date_of_first_report: {}, incident_date: {}],
         module_id: PrimeroModule::GBV
       ),
+      Permission::SURVIVOR_REPORT => ManagedReport.new(
+        id: 'survivors',
+        name: 'managed_reports.survivors.name',
+        description: 'managed_reports.survivors.description',
+        subreports: %w[cases_workflow],
+        permitted_filters: [
+          :grouped_by, :created_by_groups, :owned_by_groups, status: {}, registration_date: {}
+        ],
+        module_id: PrimeroModule::CP
+      ),
       Permission::VIOLATION_REPORT => ManagedReport.new(
         id: 'violations',
         name: 'managed_reports.violations.name',

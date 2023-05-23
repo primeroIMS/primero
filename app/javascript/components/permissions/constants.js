@@ -104,6 +104,7 @@ export const ACTIONS = {
   REQUEST_TRANSFER: "request_transfer",
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
+  SURVIVORS: "survivors",
   SYNC_EXTERNAL: "sync_external",
   TRANSFER: "transfer",
   VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
@@ -167,7 +168,7 @@ export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
 
 export const READ_REPORTS = [...MANAGE, ACTIONS.READ, ACTIONS.GROUP_READ, ACTIONS.AGENCY_READ];
 
-export const READ_MANAGED_REPORTS = [...MANAGE, ACTIONS.GBV_STATISTICS, ACTIONS.VIOLATIONS];
+export const READ_MANAGED_REPORTS = [...MANAGE, ACTIONS.GBV_STATISTICS, ACTIONS.VIOLATIONS, ACTIONS.SURVIVORS];
 
 export const EXPORT_CUSTOM = [...MANAGE, ACTIONS.EXPORT_CUSTOM];
 

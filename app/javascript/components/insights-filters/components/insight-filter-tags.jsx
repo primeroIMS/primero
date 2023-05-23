@@ -1,11 +1,11 @@
-import { fromJS, List } from "immutable";
+import { List } from "immutable";
 import PropTypes from "prop-types";
+import isNil from "lodash/isNil";
 
 import { useMemoizedSelector } from "../../../libs";
-import { getLookupsByIDs } from "../../form/selectors";
+import useOptions from "../../form/use-options";
 import { get, optionText } from "../../form/utils";
 import { DATE_FIELD } from "../../form/constants";
-import transformOptions from "../../form/utils/transform-options";
 import { useI18n } from "../../i18n";
 import { selectInsightsFilters } from "../../insights-list/selectors";
 
@@ -15,26 +15,21 @@ const InsightFilterTags = ({ filters = [] }) => {
   const i18n = useI18n();
   const insightFilters = useMemoizedSelector(state => selectInsightsFilters(state));
 
-  const lookups = useMemoizedSelector(state =>
-    getLookupsByIDs(
-      state,
-      filters.map(filter => filter.option_strings_source).filter(source => source)
-    )
-  );
+  const sources = filters.reduce((acc, filter) => {
+    if (!isNil(filter.option_strings_source)) {
+      return [...acc, [filter.name, filter.option_strings_source]];
+    }
+
+    return acc;
+  }, []);
+  const lookups = useOptions({ source: sources });
 
   if (insightFilters.isEmpty() || !filters) {
     return null;
   }
 
   const getOption = (filter = {}, value) => {
-    const options = filter.option_strings_source
-      ? transformOptions(
-          lookups
-            .find(lookup => lookup.get("unique_id") === filter.option_strings_source.replace("lookup ", ""))
-            ?.get("values") || fromJS([]),
-          i18n.locale
-        )
-      : filter?.option_strings_text || [];
+    const options = filter.option_strings_source ? lookups[filter.name] : filter?.option_strings_text || [];
 
     if (filter.type === DATE_FIELD) {
       return i18n.localizeDate(value);

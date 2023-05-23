@@ -62,6 +62,7 @@ function Component({
           getLookupValue: lookupValue,
           data: value,
           key: valueKey,
+          totalText,
           isGrouped,
           groupedBy,
           ageRanges,
@@ -72,7 +73,7 @@ function Component({
         showPlaceholder
         name={namespace}
         emptyMessage={emptyMessage}
-        subColumnItemsSize={subColumnItems?.size}
+        subColumnItemsSize={subColumnItems?.length}
       />
     </div>
   );

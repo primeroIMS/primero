@@ -22,7 +22,7 @@ module ManagedReports::SqlQueryHelpers
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           "#{quoted_query(table_name, 'data')} #> '{#{field_name}}' ?| array[:values]",
-          values: param.values
+          values: param.respond_to?(:values) ? param.values : param.value
         ]
       )
     end

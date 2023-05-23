@@ -6,7 +6,7 @@ import last from "lodash/last";
 
 import { CHART_COLORS } from "../../../config/constants";
 
-import translateGroup from "./translate-group";
+import translateGroup from "./translate-group-id";
 import sortWithSortedArray from "./sort-with-sorted-array";
 import groupIdComparator from "./group-id-comparator";
 

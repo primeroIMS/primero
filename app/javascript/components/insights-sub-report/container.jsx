@@ -28,6 +28,7 @@ import namespace from "./namespace";
 import { GROUPED_BY_FILTER, NAME, GHN_VIOLATIONS_INDICATORS_IDS } from "./constants";
 import css from "./styles.css";
 import { setSubReport } from "./action-creators";
+import getSubcolumnItems from "./utils/get-subcolumn-items";
 
 const Component = () => {
   const { id, subReport } = useParams();
@@ -55,8 +56,13 @@ const Component = () => {
   const insightLookups = insightMetadata.get("lookups", fromJS({})).entrySeq().toArray();
   const displayGraph = insightMetadata.get("display_graph", true);
   const indicatorsSubcolumns = insightMetadata.get("indicators_subcolumns", fromJS({}));
+  const indicatorSubcolumnLookups = indicatorsSubcolumns
+    .entrySeq()
+    .toArray()
+    .filter(([, value]) => value.startsWith("lookup"));
 
   const lookups = useOptions({ source: insightLookups });
+  const subColumnLookups = useOptions({ source: indicatorSubcolumnLookups });
 
   const emptyMessage = i18n.t("managed_reports.no_data_table");
   const totalText = i18n.t("managed_reports.total");
@@ -69,6 +75,10 @@ const Component = () => {
   const translateId = valueID => {
     if (isNil(valueID)) {
       return incompleteDataLabel;
+    }
+
+    if (valueID === "total") {
+      return totalText;
     }
 
     return i18n.t(`managed_reports.${id}.sub_reports.${valueID}`, { defaultValue: valueID });
@@ -126,6 +136,7 @@ const Component = () => {
                   values={buildInsightValues[insightMetadata.get("table_type")]({
                     getLookupValue: lookupValue,
                     data: singleInsightsTableData,
+                    totalText,
                     isGrouped,
                     groupedBy,
                     incompleteDataLabel
@@ -141,8 +152,19 @@ const Component = () => {
               .get("aggregate", fromJS({}))
               .entrySeq()
               .map(([valueKey, value]) => {
+                const hasTotalColumn = value.some(elem =>
+                  elem.get("data", fromJS([])).some(row => !isNil(row.get("total")))
+                );
+
                 const Indicator = getIndicator(valueKey);
-                const subColumnItems = indicatorsSubcolumns.get(valueKey, fromJS([]));
+                const subColumnItems = getSubcolumnItems({
+                  hasTotalColumn,
+                  subColumnLookups,
+                  valueKey,
+                  ageRanges,
+                  indicatorsSubcolumns,
+                  totalText
+                });
 
                 return (
                   <Indicator
