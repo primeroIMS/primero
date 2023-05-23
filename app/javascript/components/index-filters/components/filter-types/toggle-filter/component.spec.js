@@ -28,7 +28,7 @@ describe("<ToggleFilter>", () => {
             expect(screen.getByText(`${option}`)).toBeInTheDocument());
     });
 
-    it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
+    it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", async () => {
         const setMoreSectionFiltersSpy = jest.fn();
         const newProps = {
             addFilterToList: () => { },
@@ -41,12 +41,10 @@ describe("<ToggleFilter>", () => {
             setMoreSectionFilters: setMoreSectionFiltersSpy,
             setReset: () => { }
         };
-
+        const user = userEvent.setup()
         setupMockFormComponent(ToggleFilter, { props: newProps, includeFormProvider: true });
-        const toggleFilter = screen.getAllByRole('button')[1];
-        expect(toggleFilter).toBeInTheDocument();
-        userEvent.click(toggleFilter);
-        expect(setMoreSectionFilters).toHaveBeenCalled();
+        await user.click(screen.getAllByRole('button')[1]);
+        expect(setMoreSectionFiltersSpy).toHaveBeenCalled();
     });
 });
 

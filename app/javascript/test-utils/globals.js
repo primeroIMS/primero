@@ -23,17 +23,17 @@ global.document.documentElement.lang = "en";
 
 global.MutationObserver = window.MutationObserver;
 
-// global.localStorage = {
-//   setItem: (key, value) => {
-//     storage[key] = value || "";
-//   },
-//   getItem: key => {
-//     return key in storage ? storage[key] : null;
-//   },
-//   removeItem: key => {
-//     delete storage[key];
-//   }
-// };
+global.localStorage = {
+  setItem: (key, value) => {
+    storage[key] = value || "";
+  },
+  getItem: key => {
+    return key in storage ? storage[key] : null;
+  },
+  removeItem: key => {
+    delete storage[key];
+  }
+};
 
 global.window.defaultMediaQueryList = (args = {}) => ({
   matches: false,
