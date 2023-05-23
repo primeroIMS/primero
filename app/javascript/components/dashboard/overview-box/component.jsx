@@ -1,141 +1,71 @@
-import { Fragment } from "react";
-import { Grid } from "@material-ui/core";
-import PropTypes from "prop-types";
-import { fromJS } from "immutable";
+import { createRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
+import Chart from "chart.js";
 import { push } from "connected-react-router";
 
 import { ROUTES } from "../../../config";
 import { buildFilter } from "../utils";
-import DoughnutChart from "../doughnut-chart";
-import { useI18n } from "../../i18n";
-import LoadingIndicator from "../../loading-indicator";
-import NAMESPACE from "../../pages/dashboard/namespace";
-import { useApp } from "../../application";
-import ActionButton from "../../action-button";
 
-import css from "./styles.css";
+import { NAME, COLORS } from "./constants";
 
-const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors }) => {
-  const i18n = useI18n();
-  const { approvalsLabels } = useApp();
+const PieChart = ({ data, labels, query }) => {
   const dispatch = useDispatch();
-  const indicators = items.get("indicators", fromJS({}));
-  const indicatorsKeys = indicators.keySeq();
+  const chartRef = createRef();
 
-  const loadingIndicatorProps = {
-    overlay: true,
-    hasData: indicators.size > 1,
-    type: NAMESPACE,
-    loading,
-    errors
-  };
+  const handleClick = item => {
+    if (query) {
+      const selectedIndex = item[0]._index;
 
-  const sum = () => {
-    return indicatorsKeys.reduce((prev, current) => prev + (indicators.getIn([current, "count"]) || 0), 0);
-  };
-
-  const handleClick = query => {
-    dispatch(
-      push({
-        pathname: ROUTES.cases,
-        search: buildFilter(query)
-      })
-    );
-  };
-
-  const buildLabelItem = item => {
-    switch (item) {
-      case "approval_assessment_pending_group":
-        return approvalsLabels.get("assessment");
-      case "approval_case_plan_pending_group":
-        return approvalsLabels.get("case_plan");
-      case "approval_closure_pending_group":
-        return approvalsLabels.get("closure");
-      case "approval_action_plan_pending_group":
-        return approvalsLabels.get("action_plan");
-      case "approval_gbv_closure_pending_group":
-        return approvalsLabels.get("gbv_closure");
-      default:
-        return i18n.t(`dashboard.${item}`);
+      dispatch(
+        push({
+          pathname: ROUTES.cases,
+          search: buildFilter(query[selectedIndex])
+        })
+      );
     }
   };
 
-  const statItems = () => {
-    const handleButtonClick = query => () => handleClick(query);
+  useEffect(() => {
+    const chartCtx = chartRef.current.getContext("2d");
 
-    return indicators.keySeq().map(item => {
-      return (
-        <Fragment key={item} data-testid="overview-box" role="GBV_Closure">
-          <ActionButton
-            id={`overview-${item}-number`}
-            className={css.itemButtonNumber}
-            type="link"
-            text={indicators.getIn([item, "count"])}
-            onClick={handleButtonClick(indicators.getIn([item, "query"], []))}
-            noTranslate
-          />
-          <ActionButton
-            id={`overview-${item}-text`}
-            className={css.itemButton}
-            type="link"
-            text={buildLabelItem(item)}
-            onClick={handleButtonClick(indicators.getIn([item, "query"], []))}
-            noTranslate
-          />
-        </Fragment>
-      );
+    const chartInstance = new Chart(chartCtx, {
+      type: "pie",
+      data: {
+        labels,
+        datasets: [
+          {
+            data,
+            backgroundColor: Object.values(COLORS)
+          }
+        ]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        onHover: (event, chartElement) => {
+          // eslint-disable-next-line no-param-reassign
+          event.target.style.cursor = chartElement[0] ? "pointer" : "default";
+        },
+        onClick: (e, item) => handleClick(item)
+      }
     });
-  };
 
-  const renderSum = () => {
-    return withTotal ? `${sum()} ${sumTitle}` : sumTitle;
-  };
+    return () => {
+      chartInstance.destroy();
+    };
+  });
 
-  // eslint-disable-next-line react/no-multi-comp, react/display-name
-  const renderItems = () => (
-    <LoadingIndicator {...loadingIndicatorProps}>
-      <div className={css.overviewBox}>
-        <div className={css.sectionTitle}>{renderSum()}</div>
-        <div className={css.overviewList}>{statItems()}</div>
-      </div>
-    </LoadingIndicator>
-  );
-
-  // eslint-disable-next-line react/no-multi-comp, react/display-name
-  const renderWithChart = () => (
-    <div className={css.root}>
-      <Grid container spacing={3}>
-        {chartData && (
-          <Grid item md={4} xs={12} className={css.dashboardChart}>
-            <DoughnutChart chartData={chartData} />
-          </Grid>
-        )}
-        <Grid item md={8} xs={12}>
-          {renderItems()}
-        </Grid>
-      </Grid>
-    </div>
-  );
-
-  const renderOverviewBox = chartData ? renderWithChart() : renderItems();
-
-  return <>{renderOverviewBox}</>;
+  return <canvas ref={chartRef} data-testid="pie-chart" />;
 };
 
-OverviewBox.defaultProps = {
-  withTotal: true
+PieChart.displayName = NAME;
+
+PieChart.propTypes = {
+  data: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+  labels: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+  query: PropTypes.oneOfType([PropTypes.array, PropTypes.number])
 };
 
-OverviewBox.displayName = "OverviewBox";
-
-OverviewBox.propTypes = {
-  chartData: PropTypes.object,
-  errors: PropTypes.bool,
-  items: PropTypes.object.isRequired,
-  loading: PropTypes.bool,
-  sumTitle: PropTypes.string,
-  withTotal: PropTypes.bool
-};
-
-export default OverviewBox;
+export default PieChart;
