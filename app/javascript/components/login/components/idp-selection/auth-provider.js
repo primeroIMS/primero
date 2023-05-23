@@ -57,10 +57,15 @@ export const refreshIdpToken = async (idp, successCallback) => {
 
 export const signIn = async (idp, successCallback) => {
   const { loginRequest, tokenRequest } = setupMsal(idp);
-  const loginResponse = await msalApp.loginPopup(loginRequest);
 
-  if (loginResponse) {
-    handleResponse(tokenRequest, successCallback);
+  try {
+    const loginResponse = await msalApp.loginPopup(loginRequest);
+
+    if (loginResponse) {
+      handleResponse(tokenRequest, successCallback);
+    }
+  } catch (error) {
+    throw new Error(error);
   }
 };
 

@@ -7,7 +7,7 @@ export const setMsalConfig = idp => {
   return {
     auth: {
       clientId: idp.get("client_id"),
-      authority: idp.get("authorization_url"),
+      authority: "https://login.microsoftonline.com/unicefpartners.onmicrosoft.com",
       validateAuthority: false,
       redirectUri: `${PROTOCOL}//${DOMAIN}/login/${idp.get("provider_type")}`
     },
