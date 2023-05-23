@@ -44,8 +44,11 @@ primero_configure() {
     printf "Applying configuration template\\n"
     bin/load_configuration.rb "${PRIMERO_CONFIGURATION_FILE}"
   else
-    printf "Applying seed configuration\\n"
-    bin/rails db:seed
+    if [[ -n "${RUN_DEFAULT_PRIMERO_SEEDS}" ]] && [[ "${RUN_DEFAULT_PRIMERO_SEEDS}" == 'true' ]]
+    then
+      printf "Applying seed configuration\\n"
+      bin/rails db:seed
+    fi
   fi
   set -u
 }

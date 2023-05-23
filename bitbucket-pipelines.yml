@@ -41,7 +41,7 @@ pipelines:
   branches:
     maint_*:
       - step: *push-branch
-    '{develop*,release-*,master}':
+    '{develop*,release-*,main}':
       - parallel:
         - step: *server-test
         - step: *client-test
