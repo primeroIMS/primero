@@ -36,6 +36,7 @@ const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
 
   return (
     <Controller
+      id="textinput"
       control={control}
       type={inputType}
       as={TextField}
