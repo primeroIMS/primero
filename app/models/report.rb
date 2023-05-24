@@ -307,7 +307,7 @@ class Report < ApplicationRecord
   end
 
   def pivots_map
-    @pivots_map ||= pivots.map { |pivot| [pivot, pivot_fields[pivot.gsub(/\d+$/, '')]] }.to_h
+    @pivots_map ||= pivots.map { |pivot| [pivot, pivot_fields[pivot] || pivot_fields[pivot.gsub(/\d+$/, '')]] }.to_h
   end
 end
 # rubocop:enable Metrics/ClassLength

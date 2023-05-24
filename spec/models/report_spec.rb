@@ -631,7 +631,7 @@ describe Report do
       Child.create!(
         data: {
           status: 'open', worklow: 'open', sex: 'male', module_id: @module.unique_id,
-          created_at: '2021-09-12T06:32:10.000Z'
+          created_at: '2021-09-12T06:32:10.000Z', custom_ec4b5a0: 'green'
         }
       )
     end
@@ -640,7 +640,7 @@ describe Report do
       Child.create!(
         data: {
           status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
-          created_at: '2022-10-10T04:32:10.000Z'
+          created_at: '2022-10-10T04:32:10.000Z', custom_ec4b5a0: 'red'
         }
       )
     end
@@ -649,7 +649,7 @@ describe Report do
       Child.create!(
         data: {
           status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
-          created_at: '2022-10-05T04:32:10.000Z'
+          created_at: '2022-10-05T04:32:10.000Z', custom_ec4b5a0: 'blue'
         }
       )
     end
@@ -668,6 +668,10 @@ describe Report do
 
       Field.create!(
         name: 'sex', display_name: 'sex', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-sex'
+      )
+
+      Field.create!(
+        name: 'custom_ec4b5a0', display_name: 'Custom', type: Field::TEXT_FIELD
       )
 
       Field.create!(
@@ -690,6 +694,16 @@ describe Report do
         aggregate_by: ['sex'],
         disaggregate_by: ['created_at'],
         group_dates_by: Report::DAY
+      )
+    end
+
+    let(:report_with_custom_field) do
+      Report.new(
+        name: 'Report by Sex and Custom Field',
+        record_type: 'case',
+        module_id: @module.unique_id,
+        aggregate_by: ['custom_ec4b5a0'],
+        disaggregate_by: ['sex']
       )
     end
 
@@ -749,6 +763,16 @@ describe Report do
       expect(report.build_report).to eq(
         'male' => { '_total' => 1, 2021 => { '_total' => 1 } },
         'female' => { '_total' => 2, 2022 => { '_total' => 2 } }
+      )
+    end
+
+    it 'returns data for the custom field' do
+      expect(report_with_custom_field.build_report).to eq(
+        {
+          'blue' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } },
+          'green' => { '_total' => 1, 'male' => { '_total' => 1 }, 'female' => { '_total' => 0 } },
+          'red' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } }
+        }
       )
     end
   end
