@@ -1,0 +1,37 @@
+import { screen, mountedComponent,setupMockFormComponent } from "test-utils";
+import { fromJS } from "immutable";
+import { Button } from "@material-ui/core";
+import DraggableOption from "../components/draggable-option";
+import ActionButton from "../../action-button";
+
+import OrderableOptionsField from "./orderable-options-field";
+
+describe("<Form /> - fields/<OrderableOptionsField />", () => {
+  let component;
+
+  beforeEach(() => {
+    ({ component } = setupMockFormComponent(OrderableOptionsField, {
+      props: {
+        inputProps: {
+          commonInputProps: { name: "field_1" },
+          metaInputProps: { selectedValue: "option_2", showDefaultAction: true }
+        }
+      },
+      defaultValues: {
+        field_1: [
+          { id: "option_1", display_text: { en: "Display text 1" } },
+          { id: "option_2", display_text: { en: "Display text 2" } },
+          { id: "option_3", display_text: { en: "Display text 3" } }
+        ]
+      }
+    }));
+  });
+
+  it("renders the options", () => {
+    expect(screen.getByText("fields.english_text")).toBeInTheDocument();
+  });
+  it("renders the action buttons", () => {
+    expect(screen.getAllByRole("button")).toBeTruthy();
+  });
+  it.todo("render the values for the field")    
+});

@@ -3,34 +3,34 @@ import { FieldRecord } from "../records";
 import CheckboxInput from "./checkbox-input";
 
 describe("<Form /> - fields/<SelectInput />", () => {
-    const options = [
-      { id: 1, display_text: "option-1" },
-      { id: 2, display_text: "option-2" }
-    ];
+  const options = [
+    { id: 1, display_text: "option-1" },
+    { id: 2, display_text: "option-2" }
+  ];
 
-    // it("renders checkbox inputs", () => {
-    //     const { component } = setupMockFieldComponent(CheckboxInput, FieldRecord, {}, { options });
-    
-    //     expect(component.find("input")).to.be.lengthOf(2);
-    //   });
+  it("renders checkbox inputs", () => {
+    setupMockFieldComponent(CheckboxInput, FieldRecord, {}, { options });
+    expect(screen.getByText("option-1")).toBeInTheDocument();
+    expect(screen.getByText("option-2")).toBeInTheDocument();
+  });
 
-    // it("renders checkbox inputs", () => {
-    //     setupMockFieldComponent(
-    //         CheckboxGroup,
-    //         FieldRecord,
-    //         {},
-    //         { options, value: [1], onChange: () => { } }
-    //     );
-    //     expect(screen.getByText("option-1")).toBeInTheDocument();
-    // });
+  it("renders help text", () => {
+   setupMockFieldComponent(CheckboxInput, FieldRecord);
+   expect(screen.getByText("Test Field 2 help text")).toBeInTheDocument();
+  });
 
-    // it("renders checkbox inputs with tooltips", () => {
-    //     setupMockFieldComponent(
-    //         CheckboxGroup,
-    //         FieldRecord,
-    //         {},
-    //         { options, value: [1], onChange: () => { } }
-    //     );
-    //     expect(screen.getByText("option-1")).toHaveAttribute("title", "option-1.tooltip");
-    // });
+  it("renders errors", () => {
+    setupMockFieldComponent(CheckboxInput, FieldRecord, {}, {}, {}, null, [
+      {
+        name: "test_field_2",
+        message: "Name is required"
+      }
+    ]);
+    expect(screen.getByText("Name is required")).toBeInTheDocument();
+  });
+
+  it("renders required indicator", () => {
+    setupMockFieldComponent(CheckboxInput, FieldRecord);
+    expect(screen.getByText("*")).toBeInTheDocument();
+  });  
 });
