@@ -649,13 +649,25 @@ describe Report do
       Child.create!(
         data: {
           status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
-          created_at: '2022-10-05T04:32:10.000Z', custom_ec4b5a0: 'blue'
+          created_at: '2022-10-05T04:32:10.000Z', custom_ec4b5a0: 'blue', custom_abc4x5a1: 'PR01'
         }
       )
     end
 
+    let(:country) { Location.create!(placename_all: 'MyCountry', type: 'country', location_code: 'MC01') }
+
+    let(:province) do
+      Location.create!(
+        hierarchy_path: "#{country.location_code}.PR01", type: 'province', location_code: 'PR01',
+        placename_i18n: { en: 'Province 1' }
+      )
+    end
+
     before(:each) do
-      clean_data(User, UserGroup, Field, Lookup, Child, Report)
+      clean_data(User, UserGroup, Field, Lookup, Location, Child, Report)
+
+      country
+      province
 
       Lookup.create!(
         unique_id: 'lookup-sex',
@@ -672,6 +684,11 @@ describe Report do
 
       Field.create!(
         name: 'custom_ec4b5a0', display_name: 'Custom', type: Field::TEXT_FIELD
+      )
+
+      Field.create!(
+        name: 'custom_abc4x5a1', display_name: 'Custom Location', type: Field::SELECT_BOX,
+        option_strings_source: 'Location'
       )
 
       Field.create!(
@@ -703,6 +720,16 @@ describe Report do
         record_type: 'case',
         module_id: @module.unique_id,
         aggregate_by: ['custom_ec4b5a0'],
+        disaggregate_by: ['sex']
+      )
+    end
+
+    let(:report_with_custom_location_field) do
+      Report.new(
+        name: 'Report by Custom Location and Sex',
+        record_type: 'case',
+        module_id: @module.unique_id,
+        aggregate_by: ['custom_abc4x5a11'],
         disaggregate_by: ['sex']
       )
     end
@@ -773,6 +800,12 @@ describe Report do
           'green' => { '_total' => 1, 'male' => { '_total' => 1 }, 'female' => { '_total' => 0 } },
           'red' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } }
         }
+      )
+    end
+
+    it 'returns data for the custom location field' do
+      expect(report_with_custom_location_field.build_report).to eq(
+        { 'PR01' => { '_total' => 1, 'female' => { '_total' => 1 }, 'male' => { '_total' => 0 } } }
       )
     end
   end
