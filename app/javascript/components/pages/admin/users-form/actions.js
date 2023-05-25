@@ -2,6 +2,7 @@ import { namespaceActions } from "../../../../libs";
 import NAMESPACE from "../namespace";
 
 export default namespaceActions(NAMESPACE, [
+  "CLEAR_RECORDS_UPDATE",
   "CLEAR_SELECTED_USER",
   "FETCH_USER",
   "FETCH_USER_FAILURE",
@@ -18,6 +19,7 @@ export default namespaceActions(NAMESPACE, [
   "PASSWORD_RESET_REQUEST_FINISHED",
   "PASSWORD_RESET_REQUEST_STARTED",
   "PASSWORD_RESET_REQUEST_SUCCESS",
+  "RECORDS_UPDATE",
   "SAVE_USER",
   "SAVE_USER_FAILURE",
   "SAVE_USER_FINISHED",

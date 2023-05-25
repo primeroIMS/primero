@@ -25,9 +25,10 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     end
   end
 
-  def initialize(output_file_path = nil)
-    super(output_file_path)
-    @builder = IRBuilder.new(self)
+  def initialize(output_file_path = nil, config = {}, options = {})
+    super(output_file_path, config, options)
+    self.locale = user&.locale || I18n.locale
+    @builder = IRBuilder.new(self, locale)
   end
 
   def complete
@@ -35,8 +36,12 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
   end
 
   # @returns: a String with the Excel file data
-  def export(models, user, _args)
-    @builder.export(models, user)
+  def export(models)
+    @builder.export(models)
+  end
+
+  def setup_export_constraints?
+    false
   end
 
   # private
@@ -120,8 +125,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       # set_column_widths(@menu_worksheet, header)
     end
 
-    def export(models, user)
-      self.locale = user&.locale || I18n.locale
+    def export(models)
       incident_data(models)
     end
 

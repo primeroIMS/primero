@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::FormSectionsController, type: :request do
   before :each do
-    clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Role, Lookup)
+    clean_data(Field, FormSection, Role, PrimeroModule, PrimeroProgram, Lookup)
     Field.where(editable: false).each do |f|
       f.editable = true
       f.save(validate: false)
@@ -744,7 +744,7 @@ describe Api::V2::FormSectionsController, type: :request do
 
   describe 'GET /api/v2/forms/export' do
     before do
-      clean_data(PrimeroModule, PrimeroProgram, Lookup)
+      clean_data(Role, PrimeroModule, PrimeroProgram, Lookup)
 
       @lookup_yes_no = Lookup.create!(
         unique_id: 'lookup-yes-no',
@@ -860,11 +860,11 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
     after do
-      clean_data(PrimeroModule, PrimeroProgram, Lookup)
+      clean_data(Role, PrimeroModule, PrimeroProgram, Lookup)
     end
   end
 
   after do
-    clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Role, Lookup)
+    clean_data(Field, FormSection, Role, PrimeroModule, PrimeroProgram, Lookup)
   end
 end

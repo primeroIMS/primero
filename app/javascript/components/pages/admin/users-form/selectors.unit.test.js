@@ -9,7 +9,8 @@ import {
   getPasswordResetLoading,
   getServerErrors,
   getSavingRecord,
-  getSavingNewPasswordReset
+  getSavingNewPasswordReset,
+  getRecordsUpdate
 } from "./selectors";
 
 const roles = [
@@ -140,6 +141,16 @@ describe("<UsersForm /> - Selectors", () => {
       const loading = getPasswordResetLoading(loadingState);
 
       expect(loading).to.be.false;
+    });
+  });
+
+  describe("getRecordsUpdate", () => {
+    it("should return true if it's loading", () => {
+      const currentState = fromJS({ records: { users: { recordsUpdate: true } } });
+
+      const recordsUpdate = getRecordsUpdate(currentState);
+
+      expect(recordsUpdate).to.be.true;
     });
   });
 });

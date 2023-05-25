@@ -11,11 +11,14 @@ export default (report, i18n, { agencies, locations }) => {
   if (!reportData.report_data) {
     return {};
   }
+
+  const totalLabel = i18n.t("report.total");
+
   const { fields } = reportData;
   const translatedReport = translateReportData(reportData, i18n);
   const qtyColumns = fields.filter(field => field.position.type === REPORT_FIELD_TYPES.vertical).length;
   const qtyRows = fields.filter(field => field.position.type === REPORT_FIELD_TYPES.horizontal).length;
-  const columns = getColumns(translatedReport.report_data, i18n, qtyColumns, qtyRows);
+  const columns = getColumns(translatedReport.report_data, totalLabel, qtyColumns, qtyRows);
 
   const graphData = {
     description: translatedReport.description ? translatedReport.description[i18n.locale] : "",

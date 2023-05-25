@@ -11,7 +11,8 @@ describe ManagedReports::Indicators::IndividualAge do
 
     violation1 = Violation.create!(
       data: {
-        type: 'killing', ctfmr_verified: 'verified',
+        type: 'killing',
+        ctfmr_verified: 'verified',
         violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 },
         ctfmr_verified_date: Date.new(2021, 5, 13)
       },

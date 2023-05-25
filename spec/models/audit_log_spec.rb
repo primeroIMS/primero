@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe AuditLog do
-  before(:each) { clean_data(Agency, AuditLog, Role, User) }
+  before(:each) { clean_data(AuditLog, User, Role, Agency) }
 
   describe '.display_id' do
     let(:role) do

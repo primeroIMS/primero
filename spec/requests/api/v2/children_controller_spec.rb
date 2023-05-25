@@ -6,7 +6,7 @@ describe Api::V2::ChildrenController, type: :request do
   include ActiveJob::TestHelper
 
   before :each do
-    clean_data(Alert, Flag, Attachment, Incident, Child, Agency, User, Role, Lookup, PrimeroModule, RegistryRecord)
+    clean_data(Alert, Flag, Attachment, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord)
 
     @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
     @cp = PrimeroModule.create!(unique_id: PrimeroModule::CP, name: 'CP', description: 'Child Protection',
@@ -254,9 +254,9 @@ describe Api::V2::ChildrenController, type: :request do
       login_for_test(permitted_field_names: ['urgent_protection_concern'])
       get '/api/v2/cases?urgent_protection_concern=false'
 
-      expect(json['data'].count).to eq(1)
-      expect(json['data'][0]['id']).to eq(@case1.id)
-      expect(json['data'][0]['urgent_protection_concern']).to be_falsey
+      expect(json['data'].count).to eq(4)
+      expect(json['data'].map { |elem| elem['id'] }).to match_array([@case1.id, @case3.id, @case4.id, @case5.id])
+      expect(json['data'].map { |elem| elem['urgent_protection_concern'] }).to all(be_falsey)
       expect(response).to have_http_status(200)
     end
 
@@ -923,7 +923,9 @@ describe Api::V2::ChildrenController, type: :request do
   end
 
   after :each do
-    clean_data(Trace, Alert, Flag, Attachment, Child, Agency, User, Role, Lookup, PrimeroModule, RegistryRecord)
+    clean_data(
+      Trace, Alert, Flag, Attachment, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord
+    )
     clear_performed_jobs
     clear_enqueued_jobs
   end

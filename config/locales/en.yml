@@ -3685,6 +3685,7 @@ en:
     record_type: Record type
     total: Total
     value: Value
+    incomplete_data: Incomplete Data
   reports:
     delete_report: Delete Report
     delete_report_message: Are you sure you want to delete this report? Deletion can
@@ -3931,6 +3932,8 @@ en:
     locale: Locale
     location: Location
     messages:
+      records_update: Primero is updating this user's records to reflect the changes you made.
+        It may take a little while for dashboards and reports to update.
       confirmation: Are you sure you want to delete this user? Deletion can not be
         undone. Click OK To Delete User.
       created: User was successfully created.

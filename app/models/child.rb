@@ -40,6 +40,7 @@ class Child < ApplicationRecord
   include Webhookable
   include Kpi::GBVChild
   include DuplicateIdAlertable
+  include FollowUpable
   include LocationCacheable
 
   store_accessor(
@@ -130,23 +131,18 @@ class Child < ApplicationRecord
     end
     quicksearch_fields.each { |f| text_index(f) }
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
-    %w[estimated urgent_protection_concern consent_for_tracing has_case_plan].each { |f| boolean(f) }
+    %w[estimated urgent_protection_concern consent_for_tracing has_case_plan].each do |f|
+      boolean(f) { data[f] == true || data[f] == 'true' }
+    end
     %w[day_of_birth age].each { |f| integer(f) }
     %w[id status sex current_care_arrangements_type].each { |f| string(f, as: "#{f}_sci") }
     string :risk_level, as: 'risk_level_sci' do
       risk_level.present? ? risk_level : RISK_LEVEL_NONE
     end
     string :protection_concerns, multiple: true
-
-    date :assessment_due_dates, multiple: true do
-      Tasks::AssessmentTask.from_case(self).map(&:due_date)
-    end
-    date :case_plan_due_dates, multiple: true do
-      Tasks::CasePlanTask.from_case(self).map(&:due_date)
-    end
-    date :followup_due_dates, multiple: true do
-      Tasks::FollowUpTask.from_case(self).map(&:due_date)
-    end
+    date(:assessment_due_dates, multiple: true) { Tasks::AssessmentTask.from_case(self).map(&:due_date) }
+    date(:case_plan_due_dates, multiple: true) { Tasks::CasePlanTask.from_case(self).map(&:due_date) }
+    date(:followup_due_dates, multiple: true) { Tasks::FollowUpTask.from_case(self).map(&:due_date) }
     boolean(:has_incidents) { incidents.size.positive? }
   end
 
