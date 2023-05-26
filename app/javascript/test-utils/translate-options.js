@@ -15,7 +15,7 @@ const translateOptions = (value, options, translations) => {
     currValue = currValue.replace(optionKey, optionValue);
   });
 
-  return currValue?.replace(/[^\w\s\'.]/gi, "");
+  return currValue?.replace(/[^\w\s'.]/gi, "");
 };
 
 export default translateOptions;

@@ -36,7 +36,7 @@ const Component = ({ approvalSubform, isRequest, isResponse }) => {
 
   return (
     <>
-      <Grid container spacing={2} role="section">
+      <Grid container spacing={2} data-testid="container">
         <Grid item md={6} xs={12}>
           <DisplayData label={renderApprovalLabel} value={renderApprovalValue} />
         </Grid>
