@@ -2102,6 +2102,8 @@ en:
       description: ''
       reports:
         cases_workflow: Cases
+      filter_options:
+        registration_date: Registration Date
       sub_reports:
         case_workflow_by_age: Workflow Status By Age
         case_workflow_by_sex: Workflow Status By Gender

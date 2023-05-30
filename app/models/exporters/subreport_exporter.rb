@@ -8,20 +8,17 @@ class Exporters::SubreportExporter < ValueObject
   EXCEL_COLUMN_WIDTH = 64
   EXCEL_ROW_HEIGHT = 20
 
-  include Exporters::GroupableExporter
-
   attr_accessor :id, :data, :workbook, :tab_color, :formats, :current_row,
                 :worksheet, :managed_report, :locale, :lookups, :grouped_by,
-                :years, :groups, :indicators_subcolumns
+                :indicators_subcolumns, :subcolumn_lookups
 
   def export
     self.current_row = 0
     self.data = managed_report.data[id][:data]
     self.worksheet = workbook.add_worksheet(build_worksheet_name)
     worksheet.tab_color = tab_color
-    load_lookups
     load_indicators_subcolumns
-    build_groups
+    load_lookups
     write_export
   end
 
@@ -122,6 +119,12 @@ class Exporters::SubreportExporter < ValueObject
     ]
   end
 
+  def grouped_by_param
+    self.grouped_by = managed_report.filters.find { |filter| filter.field_name == 'grouped_by' }
+
+    grouped_by
+  end
+
   def write_generated_on
     worksheet.merge_range_type(
       'rich_string',
@@ -131,54 +134,6 @@ class Exporters::SubreportExporter < ValueObject
       formats[:black]
     )
     self.current_row += 1
-  end
-
-  def write_table_header(indicator_key, total_i18n_key = 'managed_reports.total')
-    write_grey_row
-
-    worksheet.set_row(current_row, 30)
-    worksheet.merge_range(
-      current_row, 0, current_row, 1,
-      I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{indicator_key}", locale: locale),
-      formats[:blue_header]
-    )
-    self.current_row += 1
-
-    write_total_row(total_i18n_key)
-  end
-
-  def write_total_row(total_i18n_key)
-    worksheet.set_row(current_row, 40)
-    worksheet.write(current_row, 1, I18n.t(total_i18n_key, locale: locale), formats[:bold_blue])
-    self.current_row += 1
-  end
-
-  def write_graph(table_data_rows)
-    return unless table_data_rows.present?
-
-    chart = workbook.add_chart(type: 'column', embedded: 1, name: '')
-    chart.add_series(build_series(table_data_rows))
-    chart.set_size(height: INITIAL_CHART_HEIGHT, width: chart_width(table_data_rows))
-    chart.set_legend(none: true)
-    chart.set_y_axis(major_unit: 1)
-    worksheet.insert_chart(current_row, 0, chart, 0, 0)
-
-    self.current_row += (INITIAL_CHART_HEIGHT / EXCEL_ROW_HEIGHT)
-  end
-
-  def build_series(table_data_rows)
-    {
-      categories: [worksheet.name] + table_data_rows + [0, 0],
-      values: [worksheet.name] + table_data_rows + [1, 1],
-      points: Exporters::ManagedReportExporter::CHART_COLORS.values.map { |color| { fill: { color: color } } }
-    }
-  end
-
-  def chart_width(table_data_rows)
-    row_count = table_data_rows.last - table_data_rows.first
-    return INITIAL_CHART_WIDTH if row_count < 3
-
-    INITIAL_CHART_WIDTH + (row_count * EXCEL_COLUMN_WIDTH)
   end
 
   def transform_entries
@@ -191,66 +146,31 @@ class Exporters::SubreportExporter < ValueObject
     transform_entries.each do |(indicator_key, indicator_values)|
       next unless indicator_values.is_a?(Array)
 
-      if grouped_by.present?
-        write_grouped_indicator(indicator_key, indicator_values)
-      else
-        write_indicator(indicator_key, indicator_values)
-      end
+      indicator_exporter = build_indicator_exporter(indicator_key, indicator_values)
+      indicator_exporter.write
+      self.current_row = indicator_exporter.current_row
     end
   end
 
-  def write_indicator(indicator_key, indicator_values)
-    indicator_lookups = lookups[indicator_key]
-    write_table_header(indicator_key)
-    start_row = current_row
-    write_indicator_data(indicator_values, indicator_lookups)
-    last_row = current_row - 1
-    write_graph([start_row, last_row])
-    self.current_row += 1
+  def build_indicator_exporter(indicator_key, indicator_values)
+    indicator_exporter_class.new(
+      key: indicator_key,
+      values: indicator_values,
+      worksheet: worksheet,
+      lookups: lookups[indicator_key],
+      current_row: current_row,
+      grouped_by: grouped_by,
+      formats: formats,
+      managed_report: managed_report,
+      locale: locale,
+      workbook: workbook,
+      subcolumn_lookups: subcolumn_lookups[indicator_key],
+      indicator_subcolumns: indicators_subcolumns[indicator_key]
+    )
   end
 
-  def write_indicator_data(values, indicator_lookups)
-    values.each do |elem|
-      if elem == values.last
-        write_indicator_last_row(elem, indicator_lookups)
-      else
-        write_indicator_row(elem, indicator_lookups)
-      end
-      self.current_row += 1
-    end
-  end
-
-  def write_indicator_row(elem, indicator_lookups)
-    display_text = value_display_text(elem, indicator_lookups)
-    worksheet.write(current_row, 0, display_text, formats[:bold_black])
-    worksheet.write(current_row, 1, elem['total'])
-  end
-
-  def write_indicator_last_row(elem, indicator_lookups)
-    display_text = value_display_text(elem, indicator_lookups)
-    worksheet.write(current_row, 0, display_text, formats[:bold_black_blue_bottom_border])
-    worksheet.write(current_row, 1, elem['total'], formats[:blue_bottom_border])
-  end
-
-  def value_display_text(elem, indicator_lookups)
-    return I18n.t('managed_reports.incomplete_data') if elem.is_a?(Hash) && elem['id'].nil?
-
-    if indicator_lookups.blank?
-      return I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{elem['id']}", default: elem['id'])
-    end
-
-    display_text_from_lookup(elem, indicator_lookups) || elem['id']
-  end
-
-  def display_text_from_lookup(elem, indicator_lookups)
-    if indicator_lookups.is_a?(LocationService)
-      return indicator_lookups.find_by_code(elem['id'])&.name_i18n&.dig(I18n.locale.to_s)
-    end
-
-    indicator_lookups.find do |lookup_value|
-      value = elem.is_a?(Hash) ? elem['id'] : elem
-      lookup_value['id'] == value
-    end&.dig('display_text')
+  def indicator_exporter_class
+    grouped_by.present? ? Exporters::GroupedIndicatorExporter : Exporters::IndicatorExporter
   end
 
   def transform_indicator_values(values)
@@ -267,9 +187,12 @@ class Exporters::SubreportExporter < ValueObject
   end
 
   def load_lookups
-    subreport_lookups = metadata_property('lookups')
+    self.lookups = load_lookup_config(metadata_property('lookups') || {})
+    self.subcolumn_lookups = load_lookup_config(indicator_subcolumn_lookups)
+  end
 
-    self.lookups = (subreport_lookups || []).reduce({}) do |acc, (key, value)|
+  def load_lookup_config(lookup_config)
+    lookup_config.reduce({}) do |acc, (key, value)|
       if %w[reporting_location reporting_location_detention reporting_location_denial].include?(key)
         next acc.merge(key => LocationService.instance)
       end
@@ -282,6 +205,10 @@ class Exporters::SubreportExporter < ValueObject
 
   def load_indicators_subcolumns
     self.indicators_subcolumns = metadata_property('indicators_subcolumns')
+  end
+
+  def indicator_subcolumn_lookups
+    (indicators_subcolumns || {}).select { |_key, value| value.is_a?(String) && value.starts_with?('lookup') }
   end
 
   def date_display_text
