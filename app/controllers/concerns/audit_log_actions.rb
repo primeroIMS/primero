@@ -21,7 +21,12 @@ module AuditLogActions
       action: friendly_action_message,
       user_id: current_user.try(:id),
       resource_url: request.url,
-      metadata: { user_name: guessed_user_name }
+      metadata: {
+        user_name: guessed_user_name,
+        remote_ip: LogUtils.remote_ip(request),
+        agency_id: current_user.try(:agency_id),
+        role_id: current_user.try(:role_id)
+      }
     }
 
     audit_log_params = default_audit_params.merge(audit_params)

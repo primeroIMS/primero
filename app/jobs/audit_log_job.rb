@@ -7,6 +7,7 @@ class AuditLogJob < ApplicationJob
   def perform(**args)
     audit_log = AuditLog.new(args)
     audit_log.save
+    write_log_with_user_info(audit_log)
     write_log(audit_log.log_message)
 
     # TODO: Any external audit reporting integrations go here.
@@ -14,6 +15,16 @@ class AuditLogJob < ApplicationJob
 
   def write_log(log_message = {})
     logger.info("#{message_prefix(log_message)} #{log_message[:identifier]} #{message_suffix(log_message)}")
+  end
+
+  def write_log_with_user_info(audit_log)
+    return unless ENV['PRIMERO_ANNOTATE_LOGS_WITH_USER']
+
+    logger.info(
+      "#{audit_log.action} || #{audit_log.record_type} || "\
+      "#{audit_log.user_id} || #{audit_log.metadata['remote_ip']} || "\
+      "#{audit_log.metadata['role_id']} || #{audit_log.metadata['agency_id']}"
+    )
   end
 
   private
