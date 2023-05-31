@@ -54,7 +54,7 @@ describe Api::V2::TokensController, type: :request do
           action: 'login',
           user_id: @user.id,
           resource_url: request.url,
-          metadata: { user_name: @user.user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: nil }
+          metadata: { user_name: @user.user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: nil, http_method: 'POST' }
         )
     end
 

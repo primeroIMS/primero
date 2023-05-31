@@ -446,7 +446,7 @@ describe Api::V2::ChildrenController, type: :request do
               action: 'show',
               user_id: fake_user_id, # This is technically wrong, but an artifact of the way we do tests
               resource_url: request.url,
-              metadata: { user_name: fake_user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: nil})
+              metadata: { user_name: fake_user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: nil, http_method: 'GET'})
     end
 
     it 'obfuscates the case name when hidden' do
