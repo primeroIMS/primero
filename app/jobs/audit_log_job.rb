@@ -18,7 +18,7 @@ class AuditLogJob < ApplicationJob
   end
 
   def write_log_with_user_info(stadistic_message)
-    return unless ENV['PRIMERO_ANNOTATE_LOGS_WITH_USER']
+    # return unless ENV['PRIMERO_ANNOTATE_LOGS_WITH_USER']
 
     logger.info(stadistic_message)
   end
