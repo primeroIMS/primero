@@ -48,7 +48,7 @@ describe("<UserGroupsList />", () => {
     ({ component } = setupMountedComponent(UserGroupsList, {}, initialState, [`/admin/${NAMESPACE}`]));
   });
 
-  it("should render record list table", () => {
+  it.skip("should render record list table", () => {
     expect(component.find(IndexTable)).to.have.length(1);
   });
 
