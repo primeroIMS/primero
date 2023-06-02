@@ -4,6 +4,7 @@ import { FETCH_TIMEOUT, ROUTES } from "../../config";
 import { DEFAULT_FETCH_OPTIONS } from "../constants";
 import { disableNavigation } from "../../components/application/action-creators";
 import { applyingConfigMessage } from "../../components/pages/admin/configurations-form/action-creators";
+import userActions from "../../components/user/actions";
 
 import fetchStatus from "./fetch-status";
 import getToken from "./get-token";
@@ -95,6 +96,10 @@ const fetchSinglePayload = (action, store, options) => {
           fetchStatus({ store, type }, "FAILURE", json);
 
           if (status === 401) {
+            if (action.type === userActions.FETCH_USER_DATA) {
+              return Promise.reject(new Error("401 status from api, logging out."));
+            }
+
             startSignout(store);
           }
 

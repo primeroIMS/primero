@@ -1,6 +1,7 @@
 import { fromJS } from "immutable";
 import sinon from "sinon";
 import isEqual from "lodash/isEqual";
+import { createMocks } from "react-idle-timer";
 
 import { setupMountedComponent } from "../../test";
 import { setUserIdle } from "../application/action-creators";
@@ -13,7 +14,7 @@ describe("<SessionTimeoutDialog />", () => {
 
   before(() => {
     clock = sinon.useFakeTimers();
-
+    createMocks();
     component = setupMountedComponent(
       SessionTimeoutDialog,
       {},

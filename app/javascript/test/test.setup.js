@@ -14,13 +14,30 @@ import IDBIndex from "fake-indexeddb/lib/FDBIndex";
 import IDBCursor from "fake-indexeddb/lib/FDBCursor";
 import get from "lodash/get";
 import { parseISO, format as formatDate } from "date-fns";
+import { MessageChannel } from 'worker_threads'
 
 chai.use(chaiImmutable);
 chai.use(sinonChai);
 
 global.expect = chai.expect;
+global.URL.createObjectURL = () => {}
 
 const storage = {};
+
+class Worker {
+  constructor(stringUrl) {
+    this.url = stringUrl;
+    this.onmessage = () => {};
+  }
+
+  postMessage(msg) {
+    this.onmessage(msg);
+  }
+
+  addEventListener() {}
+}
+global.Worker = Worker;
+global.MessageChannel = MessageChannel
 
 const DATE_FORMATS = Object.freeze({
   date: Object.freeze({
