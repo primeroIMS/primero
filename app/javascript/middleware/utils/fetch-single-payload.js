@@ -77,6 +77,7 @@ const fetchSinglePayload = (action, store, options) => {
 
   const fetchPath = buildPath(path, options, urlParams, external);
 
+  // eslint-disable-next-line consistent-return
   const fetch = async () => {
     fetchStatus({ store, type }, "STARTED", true);
 

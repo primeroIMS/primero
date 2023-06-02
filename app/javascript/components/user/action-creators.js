@@ -48,6 +48,7 @@ export const setAuthenticatedUser = user => async dispatch => {
     },
     error => {
       dispatch(push(ROUTES.logout));
+      // eslint-disable-next-line no-console
       console.error(error);
     }
   );
