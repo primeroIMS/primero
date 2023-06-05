@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
 import isNil from "lodash/isNil";
+import isString from "lodash/isString";
 
 import { getAgeRanges } from "../application/selectors";
 import { getLoading, getErrors } from "../index-table/selectors";
@@ -12,6 +13,7 @@ import { useMemoizedSelector } from "../../libs";
 import { clearSelectedReport } from "../reports-form/action-creators";
 import TableValues from "../charts/table-values";
 import useOptions from "../form/use-options";
+import transformOptions from "../form/utils/transform-options";
 
 import DefaultIndicator from "./components/default-indicator";
 import MultipleViolationsIndicator from "./components/multiple-violations-indicator";
@@ -55,11 +57,22 @@ const Component = () => {
   const insightMetadata = insight.getIn(["report_data", subReport, "metadata"], fromJS({}));
   const insightLookups = insightMetadata.get("lookups", fromJS({})).entrySeq().toArray();
   const displayGraph = insightMetadata.get("display_graph", true);
+  const indicatorsRows = insightMetadata.get("indicators_rows", fromJS({}));
+  const indicatorsRowsAsOptions = useMemo(() => {
+    return indicatorsRows
+      .entrySeq()
+      .reduce((acc, [key, elems]) => ({ ...acc, [key]: transformOptions(elems, i18n.locale) }), {});
+  }, [indicatorsRows, i18n.locale]);
+
   const indicatorsSubcolumns = insightMetadata.get("indicators_subcolumns", fromJS({}));
-  const indicatorSubcolumnLookups = indicatorsSubcolumns
-    .entrySeq()
-    .toArray()
-    .filter(([, value]) => value.startsWith("lookup"));
+  const indicatorSubcolumnLookups = useMemo(
+    () =>
+      indicatorsSubcolumns
+        .entrySeq()
+        .toArray()
+        .filter(([, value]) => isString(value) && value.startsWith("lookup")),
+    [indicatorsSubcolumns]
+  );
 
   const lookups = useOptions({ source: insightLookups });
   const subColumnLookups = useOptions({ source: indicatorSubcolumnLookups });
@@ -82,7 +95,8 @@ const Component = () => {
 
   const subReportTitle = key => i18n.t(["managed_reports", id, "sub_reports", key].join("."));
 
-  const lookupValue = (data, key, property) => getLookupValue(lookups, translateId, data, key, property, totalText);
+  const lookupValue = (data, key, property) =>
+    getLookupValue(lookups, indicatorsRowsAsOptions, translateId, data, key, property, totalText);
 
   const singleInsightsTableData = buildSingleInsightsData(reportData, isGrouped).toList();
 
@@ -175,6 +189,7 @@ const Component = () => {
                     insightMetadata={insightMetadata}
                     isGrouped={isGrouped}
                     lookups={lookups}
+                    indicatorsRows={indicatorsRowsAsOptions}
                     lookupValue={lookupValue}
                     namespace={namespace}
                     subReportTitle={subReportTitle}

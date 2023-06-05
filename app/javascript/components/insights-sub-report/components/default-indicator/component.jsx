@@ -11,6 +11,7 @@ function Component({
   emptyMessage,
   groupedBy,
   incompleteDataLabel,
+  indicatorsRows,
   insightMetadata,
   isGrouped,
   lookups,
@@ -67,6 +68,7 @@ function Component({
           groupedBy,
           ageRanges,
           lookupValues: lookups[valueKey],
+          indicatorRows: indicatorsRows[valueKey],
           incompleteDataLabel,
           subColumnItems
         })}
@@ -87,6 +89,7 @@ Component.propTypes = {
   emptyMessage: PropTypes.string,
   groupedBy: PropTypes.string,
   incompleteDataLabel: PropTypes.string,
+  indicatorsRows: PropTypes.object,
   insightMetadata: PropTypes.object,
   isGrouped: PropTypes.bool,
   lookups: PropTypes.object,

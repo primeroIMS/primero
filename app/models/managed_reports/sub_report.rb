@@ -14,6 +14,7 @@ class ManagedReports::SubReport < ValueObject
         lookups: lookups,
         table_type: table_type,
         order: order,
+        indicators_rows: indicators_rows,
         indicators_subcolumns: indicators_subcolumns
       }
     }
@@ -42,6 +43,10 @@ class ManagedReports::SubReport < ValueObject
   end
 
   def indicators_subcolumns
+    {}
+  end
+
+  def indicators_rows
     {}
   end
 

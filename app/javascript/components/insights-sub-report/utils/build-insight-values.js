@@ -2,6 +2,7 @@ import { fromJS } from "immutable";
 import first from "lodash/first";
 import sortBy from "lodash/sortBy";
 import isObjectLike from "lodash/isObjectLike";
+import isEmpty from "lodash/isEmpty";
 
 import { WEEK, YEAR } from "../../insights/constants";
 
@@ -142,7 +143,8 @@ export default {
     lookupValues,
     incompleteDataLabel,
     totalText,
-    subColumnItems = []
+    subColumnItems = [],
+    indicatorRows
   }) => {
     if (data === 0) return [];
 
@@ -155,8 +157,16 @@ export default {
         ? buildGroupedRows({ data, key, getLookupValue, groupedBy, subColumnItems })
         : buildSingleRows({ data, getLookupValue, key });
 
-    if (lookupDisplayTexts.length > 1) {
+    if (!isEmpty(lookupDisplayTexts)) {
       const sortArray = [...lookupDisplayTexts, incompleteDataLabel, totalText];
+
+      return sortWithSortedArray(rows, sortArray, sortByFn);
+    }
+
+    const indicatorRowDisplaytexts = indicatorRows?.map(row => row.display_text);
+
+    if (!isEmpty(indicatorRowDisplaytexts)) {
+      const sortArray = [...indicatorRowDisplaytexts, incompleteDataLabel, totalText];
 
       return sortWithSortedArray(rows, sortArray, sortByFn);
     }
