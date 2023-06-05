@@ -259,9 +259,11 @@ export const INSIGHTS_CONFIG = {
       ids: SURVIVORS_SUBREPORTS,
       localeKeys: [MANAGED_REPORTS, SURVIVORS, REPORTS],
       defaultFilterValues: {
-        [GROUPED_BY]: MONTH,
-        [DATE_RANGE]: LAST_MONTH,
-        [DATE]: REGISTRATION_DATE
+        [GROUPED_BY]: WEEK,
+        [DATE_RANGE]: LAST_WEEK,
+        [STATUS]: [STATUS_OPEN],
+        [DATE]: REGISTRATION_DATE,
+        [USER_GROUPS_FIELD]: OWNED_BY_GROUPS
       },
       filters: [
         {
@@ -351,6 +353,7 @@ export const INSIGHTS_CONFIG = {
           display_name: USER_GROUP_DISPLAY_NAME,
           option_strings_source: OPTION_TYPES.USER_GROUP,
           watchedInputs: USER_GROUPS_FIELD,
+          defaultToFirstOption: true,
           handleWatchedInputs: value => ({
             name: CREATED_BY_GROUPS === value ? CREATED_BY_GROUPS : OWNED_BY_GROUPS
           })
@@ -358,6 +361,8 @@ export const INSIGHTS_CONFIG = {
         {
           name: OWNED_BY_GROUPS,
           watchedInputs: USER_GROUPS_FIELD,
+          display_name: USER_GROUP_DISPLAY_NAME,
+          option_strings_source: OPTION_TYPES.USER_GROUP,
           handleWatchedInputs: value => ({
             name: CREATED_BY_GROUPS === value ? OWNED_BY_GROUPS : CREATED_BY_GROUPS
           }),

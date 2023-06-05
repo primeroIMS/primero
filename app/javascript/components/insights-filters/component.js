@@ -10,19 +10,28 @@ import { useEffect } from "react";
 import { SURVIVORS_SUBREPORTS } from "../../config";
 import { fetchUserGroups } from "../application";
 import { useI18n } from "../i18n";
-import { SELECT_FIELD, whichFormMode } from "../form";
+import { OPTION_TYPES, SELECT_FIELD, whichFormMode } from "../form";
 import WatchedFormSectionField from "../form/components/watched-form-section-field";
 import FormSectionField from "../form/components/form-section-field";
-import { CONTROLS_GROUP, DATE_CONTROLS, DATE_CONTROLS_GROUP, INSIGHTS_CONFIG } from "../insights/constants";
+import {
+  CONTROLS_GROUP,
+  DATE_CONTROLS,
+  DATE_CONTROLS_GROUP,
+  INSIGHTS_CONFIG,
+  OWNED_BY_GROUPS
+} from "../insights/constants";
 import { fetchInsight } from "../insights-sub-report/action-creators";
 import { clearFilters, setFilters } from "../insights-list/action-creators";
 import { get } from "../form/utils";
+import useOptions from "../form/use-options";
+import { compactBlank } from "../record-form/utils";
 
 import css from "./styles.css";
 import { transformFilters } from "./utils";
 import validations from "./validations";
 
 const Component = ({ moduleID, id, subReport, toggleControls }) => {
+  const userGroups = useOptions({ source: OPTION_TYPES.USER_GROUP });
   const insightsConfig = get(INSIGHTS_CONFIG, [moduleID, id], {});
   const { defaultFilterValues } = insightsConfig;
 
@@ -35,7 +44,9 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
         insightsConfig.filters.map(filter => filter.name)
       )
     ),
-    ...(defaultFilterValues && { defaultValues: insightsConfig.defaultFilterValues })
+    ...(defaultFilterValues && {
+      defaultValues: { ...insightsConfig.defaultFilterValues }
+    })
   });
   const formMode = whichFormMode("new");
   const dispatch = useDispatch();
@@ -68,9 +79,12 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
       if (SURVIVORS_SUBREPORTS.includes(subReport)) {
         dispatch(fetchUserGroups());
       }
+      if (userGroups.length > 0) {
+        formMethods.setValue(OWNED_BY_GROUPS, userGroups[0]?.id);
+      }
       getInsights(formMethods.getValues());
     }
-  }, [subReport]);
+  }, [subReport, userGroups.length]);
 
   if (isEmpty(insightsConfig.filters)) {
     return null;
@@ -81,7 +95,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   );
 
   const submit = data => {
-    getInsights(data);
+    getInsights(compactBlank(data));
   };
 
   const filterInputs = (filterGroup = CONTROLS_GROUP) =>
