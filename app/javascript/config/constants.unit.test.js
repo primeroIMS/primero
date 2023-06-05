@@ -97,6 +97,7 @@ describe("Verifying config constant", () => {
       "STRING_SOURCES_TYPES",
       "SUBFORM_READONLY_FIELD_NAMES",
       "SUMMARY",
+      "SURVIVORS_SUBREPORTS",
       "TOKEN_REFRESH_INTERVAL",
       "TRACES_SUBFORM_UNIQUE_ID",
       "TRACING_REQUEST",

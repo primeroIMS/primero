@@ -146,11 +146,7 @@ export default {
   }) => {
     if (data === 0) return [];
 
-    const lookupDisplayTexts = [
-      ...(lookupValues?.map(lookupValue => lookupValue.display_text) || []),
-      incompleteDataLabel,
-      totalText
-    ];
+    const lookupDisplayTexts = lookupValues?.map(lookupValue => lookupValue.display_text) || [];
 
     const sortByFn = elem => first(elem.row);
 
@@ -160,11 +156,15 @@ export default {
         : buildSingleRows({ data, getLookupValue, key });
 
     if (lookupDisplayTexts.length > 1) {
-      return sortWithSortedArray(rows, lookupDisplayTexts, sortByFn, incompleteDataLabel);
+      const sortArray = [...lookupDisplayTexts, incompleteDataLabel, totalText];
+
+      return sortWithSortedArray(rows, sortArray, sortByFn);
     }
 
     if (key === "age" || key?.includes("_age")) {
-      return sortWithSortedArray(rows, ageRanges, sortByFn, incompleteDataLabel);
+      const sortArray = [...ageRanges, incompleteDataLabel, totalText];
+
+      return sortWithSortedArray(rows, sortArray, sortByFn);
     }
 
     return sortBy(rows, row => first(row.row));
