@@ -5,7 +5,7 @@ import {
   LOOKUPS,
   GHN_REPORT_SUBREPORTS,
   INDIVIDUAL_CHILDREN,
-  SURVIVORS_SUBREPORTS
+  FAMILY_VIOLENCE_SUBREPORTS
 } from "../../config/constants";
 import { DATE_FIELD, SELECT_FIELD, HIDDEN_FIELD, OPTION_TYPES } from "../form";
 import { FieldRecord } from "../form/records";
@@ -255,8 +255,8 @@ export const INSIGHTS_CONFIG = {
     }
   },
   [MODULES.CP]: {
-    survivors: {
-      ids: SURVIVORS_SUBREPORTS,
+    family_violence: {
+      ids: FAMILY_VIOLENCE_SUBREPORTS,
       localeKeys: [MANAGED_REPORTS, SURVIVORS, REPORTS],
       defaultFilterValues: {
         [GROUPED_BY]: WEEK,

@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
-import { SURVIVORS_SUBREPORTS } from "../../config";
+import { FAMILY_VIOLENCE_SUBREPORTS } from "../../config";
 import { fetchUserGroups } from "../application";
 import { useI18n } from "../i18n";
 import { OPTION_TYPES, SELECT_FIELD, whichFormMode } from "../form";
@@ -76,7 +76,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
 
   useEffect(() => {
     if (subReport) {
-      if (SURVIVORS_SUBREPORTS.includes(subReport)) {
+      if (FAMILY_VIOLENCE_SUBREPORTS.includes(subReport)) {
         dispatch(fetchUserGroups());
       }
       if (userGroups.length > 0) {
