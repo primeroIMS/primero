@@ -22,11 +22,11 @@ describe("<Form /> - fields/<ErrorField />", () => {
         expect(screen.getByText("Name is required")).toBeInTheDocument();
     });
 
-    // it("does not render the error field if the form doesn't have errors", () => {
-    //     setupMockFieldComponent(
-    //         ({ formMethods }) => <ErrorField formMethods={formMethods} errorsToCheck={fromJS(["name"])} />,
-    //         FieldRecord
-    //     );
-    //     expect(screen.firstChild).toBeNull();
-    // });
+    xit("does not render the error field if the form doesn't have errors", () => {
+        setupMockFieldComponent(
+            ({ formMethods }) => <ErrorField formMethods={formMethods} errorsToCheck={fromJS(["name"])} />,
+            FieldRecord
+        );
+        expect(screen.firstChild).toBeNull();
+    });
 });

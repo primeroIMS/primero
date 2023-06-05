@@ -1,8 +1,5 @@
 import { screen, mountedComponent,setupMockFormComponent } from "test-utils";
 import { fromJS } from "immutable";
-import { Button } from "@material-ui/core";
-import DraggableOption from "../components/draggable-option";
-import ActionButton from "../../action-button";
 
 import OrderableOptionsField from "./orderable-options-field";
 
@@ -30,8 +27,10 @@ describe("<Form /> - fields/<OrderableOptionsField />", () => {
   it("renders the options", () => {
     expect(screen.getByText("fields.english_text")).toBeInTheDocument();
   });
+
   it("renders the action buttons", () => {
     expect(screen.getAllByRole("button")).toBeTruthy();
   });
+  
   it.todo("render the values for the field")    
 });
