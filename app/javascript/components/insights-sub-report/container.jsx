@@ -77,16 +77,12 @@ const Component = () => {
       return incompleteDataLabel;
     }
 
-    if (valueID === "total") {
-      return totalText;
-    }
-
     return i18n.t(`managed_reports.${id}.sub_reports.${valueID}`, { defaultValue: valueID });
   };
 
   const subReportTitle = key => i18n.t(["managed_reports", id, "sub_reports", key].join("."));
 
-  const lookupValue = (data, key, property) => getLookupValue(lookups, translateId, data, key, property);
+  const lookupValue = (data, key, property) => getLookupValue(lookups, translateId, data, key, property, totalText);
 
   const singleInsightsTableData = buildSingleInsightsData(reportData, isGrouped).toList();
 

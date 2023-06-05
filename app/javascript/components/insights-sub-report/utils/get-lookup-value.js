@@ -11,11 +11,15 @@ const getReportingLocationValue = reportingLocationValue => {
   return last(reportingLocationValue.split(":"));
 };
 
-export default (lookups, translateId, key, value, property = "id") => {
+export default (lookups, translateId, key, value, property = "id", totalText) => {
   const valueKeyLookups = lookups[key];
 
   if (isEmpty(valueKeyLookups)) {
     return translateId(value.get(property));
+  }
+
+  if (value.get("id") === "total") {
+    return totalText;
   }
 
   const translatedValue =

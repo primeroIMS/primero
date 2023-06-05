@@ -160,11 +160,11 @@ export default {
         : buildSingleRows({ data, getLookupValue, key });
 
     if (lookupDisplayTexts.length > 1) {
-      return sortWithSortedArray(rows, lookupDisplayTexts, sortByFn, incompleteDataLabel, totalText);
+      return sortWithSortedArray(rows, lookupDisplayTexts, sortByFn, incompleteDataLabel);
     }
 
     if (key === "age" || key?.includes("_age")) {
-      return sortWithSortedArray(rows, ageRanges, sortByFn, incompleteDataLabel, totalText);
+      return sortWithSortedArray(rows, ageRanges, sortByFn, incompleteDataLabel);
     }
 
     return sortBy(rows, row => first(row.row));
