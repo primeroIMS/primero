@@ -140,9 +140,8 @@ Report.create(
     },
     {
       "attribute": "followup_date",
-      "value": [
-        "not_null"
-      ]
+      "constraint": "not_null",
+      "value": ''
     }
   ],
   group_ages: false,
@@ -173,9 +172,8 @@ Report.create(
     },
     {
       "attribute": "followup_date",
-      "value": [
-        "not_null"
-      ]
+      "constraint": "not_null",
+      "value": ''
     }
   ],
   group_ages: false,

@@ -1,4 +1,5 @@
 import { mountedComponent, screen } from "test-utils";
+
 import DefaultButton from "./component";
 
 describe("<DefaultButton /> components/action-button/components", () => {
@@ -10,6 +11,7 @@ describe("<DefaultButton /> components/action-button/components", () => {
     text: "Test",
     rest: {}
   };
+
   it("renders DefaultButton with text", () => {
     mountedComponent(<DefaultButton {...props} />);
     expect(screen.getByRole("button")).toHaveTextContent("Test");
@@ -20,9 +22,10 @@ describe("<DefaultButton /> components/action-button/components", () => {
       ...props,
       pending: true
     };
+
     mountedComponent(<DefaultButton {...newProps} />);
-    expect(screen.getAllByRole('progressbar')).toHaveLength(1);
-    expect(screen.getByRole('button', { disabled: true })).toBeInTheDocument();
+    expect(screen.getAllByRole("progressbar")).toHaveLength(1);
+    expect(screen.getByRole("button", { disabled: true })).toBeInTheDocument();
   });
 
   it("should contain .isTransparent class", () => {
@@ -30,8 +33,9 @@ describe("<DefaultButton /> components/action-button/components", () => {
       ...props,
       isTransparent: true
     };
+
     mountedComponent(<DefaultButton {...newProps} />);
-    expect(screen.getAllByRole('button', { className: 'isTransparent' })).toHaveLength(1);
+    expect(screen.getAllByRole("button", { className: "isTransparent" })).toHaveLength(1);
   });
 
   it("renders an default icon button class", () => {
@@ -39,8 +43,9 @@ describe("<DefaultButton /> components/action-button/components", () => {
       ...props,
       className: "MuiSvgIcon-root"
     };
+
     mountedComponent(<DefaultButton {...newProps} />);
-    expect(screen.getByRole("button")).toHaveClass('MuiSvgIcon-root');
+    expect(screen.getByRole("button")).toHaveClass("MuiSvgIcon-root");
   });
 
   it("should contain .cancel class", () => {
@@ -48,9 +53,8 @@ describe("<DefaultButton /> components/action-button/components", () => {
       ...props,
       cancel: true
     };
+
     mountedComponent(<DefaultButton {...newProps} />);
-    expect(screen.getAllByRole('button', { className: 'cancel' })).toHaveLength(1);
+    expect(screen.getAllByRole("button", { className: "cancel" })).toHaveLength(1);
   });
 });
-
-

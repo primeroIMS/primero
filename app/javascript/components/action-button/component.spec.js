@@ -1,4 +1,5 @@
 import { mountedComponent, screen } from "test-utils";
+
 import ActionButton from "./component";
 import { ACTION_BUTTON_TYPES } from "./constants";
 
@@ -17,6 +18,7 @@ describe("<ActionButton />", () => {
       disableApplication: false
     }
   };
+
   it("renders DefaultButton with text", () => {
     mountedComponent(<ActionButton {...props} />, state);
     expect(screen.getByRole("button")).toHaveTextContent("Test Button");
@@ -27,26 +29,29 @@ describe("<ActionButton />", () => {
       ...props,
       rest: { hide: true }
     };
+
     mountedComponent(<ActionButton {...newProps} />, state);
     expect(screen.queryByText("Test Button")).not.toBeInTheDocument();
   });
- 
+
   it("renders transparent button", () => {
     const newProps = {
       ...props,
       isTransparent: true
-    };     
+    };
+
     mountedComponent(<ActionButton {...newProps} />, state);
-    expect(screen.getAllByRole('button', { className: 'isTransparent' })).toHaveLength(1);
+    expect(screen.getAllByRole("button", { className: "isTransparent" })).toHaveLength(1);
   });
 
   it("should contain .cancel class", () => {
     const newProps = {
       ...props,
-      cancel:true
+      cancel: true
     };
+
     mountedComponent(<ActionButton {...newProps} />, state);
-    expect(screen.getAllByRole('button', { className: 'cancel' })).toHaveLength(1);   
+    expect(screen.getAllByRole("button", { className: "cancel" })).toHaveLength(1);
   });
 
   it("renders an icon button", () => {
@@ -54,10 +59,11 @@ describe("<ActionButton />", () => {
       ...props,
       className: "MuiSvgIcon-root"
     };
+
     mountedComponent(<ActionButton {...newProps} />, state);
-    expect(screen.getByRole("button")).toHaveClass('MuiSvgIcon-root');
-  }); 
-  
+    expect(screen.getByRole("button")).toHaveClass("MuiSvgIcon-root");
+  });
+
   it.todo("renders outlined button");
   it.todo("renders a pending state");
 });

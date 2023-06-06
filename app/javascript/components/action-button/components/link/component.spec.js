@@ -1,4 +1,5 @@
 import { mountedComponent, screen } from "test-utils";
+
 import Link from "./component";
 
 describe("<Link /> components/link-button/components", () => {
@@ -9,12 +10,14 @@ describe("<Link /> components/link-button/components", () => {
     text: "Test Link",
     id: "link"
   };
+
   it("renders a <Link /> component", () => {
     const newProps = {
       ...props,
       className: "MuiLink-root"
     };
+
     mountedComponent(<Link {...newProps} />);
-    expect(screen.getByText("Test Link").closest('a')).toHaveClass('MuiLink-root');
+    expect(screen.getByText("Test Link").closest("a")).toHaveClass("MuiLink-root");
   });
 });
