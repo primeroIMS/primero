@@ -20,6 +20,7 @@ definitions:
           - npm run test:batch:2
           - npm run test:batch:3
           - npm run test:batch:4
+          - npm run test:batch:5
           - npm run lint:run
         caches:
           - node
@@ -40,7 +41,7 @@ pipelines:
   branches:
     maint_*:
       - step: *push-branch
-    '{develop*,release-*,master}':
+    '{develop*,release-*,main}':
       - parallel:
         - step: *server-test
         - step: *client-test

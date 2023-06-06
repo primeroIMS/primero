@@ -98,8 +98,9 @@ class Approval < ValueObject
     record.send("#{fields[:approval_status]}=", Approval::APPROVAL_STATUS_REJECTED)
     load_reject
     record.approval_subforms ||= []
-    record.approval_subforms << approval_response_action(Approval::APPROVAL_STATUS_REJECTED, approval_id, user.user_name,
-                                                         comments)
+    record.approval_subforms << approval_response_action(
+      Approval::APPROVAL_STATUS_REJECTED, approval_id, user.user_name, comments
+    )
     delete_approval_alerts
   end
 

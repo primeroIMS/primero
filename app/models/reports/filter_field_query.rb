@@ -91,7 +91,7 @@ class Reports::FilterFieldQuery < ValueObject
   end
 
   def date_field_query
-    date_format = field.date_include_time ? 'YYYY-MM-DDTHH\\:\\MI\\:\\SS' : 'YYYY-MM-DD'
+    date_format = field.date_include_time ? Report::DATE_TIME_FORMAT : Report::DATE_FORMAT
     query.where(
       ActiveRecord::Base.sanitize_sql_for_conditions(
         ["to_timestamp(#{data_column_name} ->> :attribute, :format) #{constraint} to_timestamp(:value, :format)",
