@@ -1,4 +1,4 @@
-import { mountedComponent, screen } from "test-utils";
+import { mountedComponent, screen, userEvent } from "test-utils";
 
 import InsightExporter from "./component";
 
@@ -24,15 +24,16 @@ describe("<Insights />/components/<InsightsExporter />", () => {
   });
 
   // need to be complete.
-  // it("should send all as a subreport param", async () => {
-  //   const result = {
-  //     subreport: "all",
-  //     export_type: "xlsx",
-  //     id: undefined,
-  //     record_type: "incident"
-  //   };
-  //   const user = userEvent.setup();
-  //   await user.click(screen.getByText("submit"));
-  //   expect(globalStore.getActions()[0].api.params).to.deep.equals(result);
-  // });
+  xit("should send all as a subreport param", async () => {
+    const result = {
+      subreport: "all",
+      export_type: "xlsx",
+      id: undefined,
+      record_type: "incident"
+    };
+    const user = userEvent.setup();
+
+    await user.click(screen.getByText("submit"));
+    expect(globalStore.getActions()[0].api.params).to.deep.equals(result);
+  });
 });
