@@ -106,7 +106,7 @@ const Component = ({ addFilterToList, filter, moreSectionFilters, setMoreSection
         <FormControlLabel
           key={`${fieldName}-${option.id}`}
           control={
-            <Checkbox              
+            <Checkbox
               onChange={handleChange}
               value={option.id}
               checked={isObject ? option.key in inputValue : inputValue.includes(String(option.id))}

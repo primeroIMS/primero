@@ -1,4 +1,5 @@
 import { screen, setupMockFormComponent } from "test-utils";
+
 import SelectFilter from "./component";
 
 describe("<SelectFilter>", () => {
@@ -12,7 +13,7 @@ describe("<SelectFilter>", () => {
   };
 
   const props = {
-    addFilterToList: () => { },
+    addFilterToList: () => {},
     filter
   };
 
@@ -21,7 +22,3 @@ describe("<SelectFilter>", () => {
     expect(screen.getByText("Filter 1")).toBeInTheDocument();
   });
 });
-
-
-
-

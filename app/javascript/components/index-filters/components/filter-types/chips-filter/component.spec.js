@@ -1,4 +1,5 @@
 import { screen, setupMockFormComponent } from "test-utils";
+
 import ChipsFilter from "./component";
 
 describe("<ChipsFilter>", () => {
@@ -12,7 +13,7 @@ describe("<ChipsFilter>", () => {
   };
 
   const props = {
-    addFilterToList: () => { },
+    addFilterToList: () => {},
     filter
   };
 
@@ -23,11 +24,6 @@ describe("<ChipsFilter>", () => {
 
   it("renders chip inputs", () => {
     setupMockFormComponent(ChipsFilter, { props, includeFormProvider: true });
-    ["Option 1", "Option 2"].forEach(option =>
-      expect(screen.getByText(`${option}`)).toBeInTheDocument());
+    ["Option 1", "Option 2"].forEach(option => expect(screen.getByText(`${option}`)).toBeInTheDocument());
   });
 });
-
-
-
-

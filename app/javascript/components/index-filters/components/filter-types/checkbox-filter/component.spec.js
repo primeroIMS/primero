@@ -1,4 +1,5 @@
-import { mountedComponent, screen, setupMockFormComponent, spy, userEvent } from "test-utils";
+import { screen, setupMockFormComponent, userEvent } from "test-utils";
+
 import CheckboxFilter from "./component";
 
 describe("<CheckboxFilter>", () => {
@@ -11,7 +12,7 @@ describe("<CheckboxFilter>", () => {
     ]
   };
 
-  const props = { addFilterToList: () => { }, filter };
+  const props = { addFilterToList: () => {}, filter };
 
   it("renders panel", () => {
     setupMockFormComponent(CheckboxFilter, { props, includeFormProvider: true });
@@ -20,14 +21,13 @@ describe("<CheckboxFilter>", () => {
 
   it("renders checkbox inputs", () => {
     setupMockFormComponent(CheckboxFilter, { props, includeFormProvider: true });
-    ["Option 1", "Option 2"].forEach(option =>
-      expect(screen.getByText(`${option}`)).toBeInTheDocument());
+    ["Option 1", "Option 2"].forEach(option => expect(screen.getByText(`${option}`)).toBeInTheDocument());
   });
 
   it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", async () => {
     const setMoreSectionFiltersSpy = jest.fn();
     const newProps = {
-      addFilterToList: () => { },
+      addFilterToList: () => {},
       filter,
       mode: {
         secondary: false
@@ -35,15 +35,12 @@ describe("<CheckboxFilter>", () => {
       moreSectionFilters: {},
       reset: false,
       setMoreSectionFilters: setMoreSectionFiltersSpy,
-      setReset: () => { }
+      setReset: () => {}
     };
-    const user = userEvent.setup()
+    const user = userEvent.setup();
+
     setupMockFormComponent(CheckboxFilter, { props: newProps, includeFormProvider: true });
     await user.click(screen.getByText("Option 1"));
     expect(setMoreSectionFiltersSpy).not.toHaveBeenCalled();
   });
 });
-
-
-
-
