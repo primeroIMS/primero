@@ -120,7 +120,7 @@ describe Child do
 
   describe 'save' do
     before(:each) do
-      Agency.destroy_all
+      clean_data(User, Agency)
       create(:agency, name: 'unicef')
     end
 
@@ -160,7 +160,7 @@ describe Child do
 
   describe 'new_with_user_name' do
     before(:each) do
-      Agency.destroy_all
+      clean_data(User, Agency)
       create(:agency, name: 'unicef')
     end
 
@@ -378,7 +378,7 @@ describe Child do
 
   describe 'record ownership' do
     before do
-      clean_data(Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection)
+      clean_data(User, Agency, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection)
 
       @owner = create :user
       @previous_owner = create :user
@@ -393,7 +393,7 @@ describe Child do
     end
 
     after do
-      clean_data(Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection)
+      clean_data(User, Agency, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection)
     end
   end
 
@@ -948,8 +948,81 @@ describe Child do
     end
   end
 
+  describe 'urgent_protection_concern', search: true do
+    it 'finds cases where the value is stored as string true' do
+      child = Child.create!(data: { name: 'Lonnie', urgent_protection_concern: 'true' })
+      child.index!
+      search_result = SearchService.search(
+        Child,
+        filters: [SearchFilters::Value.new(field_name: 'urgent_protection_concern', value: true)]
+      ).results
+      expect(search_result).to have(1).child
+      expect(search_result.first.id).to eq(child.id)
+    end
+
+    it 'finds cases where the value is stored as string false' do
+      child = Child.create!(data: { name: 'Lonnie', urgent_protection_concern: 'false' })
+      child.index!
+      search_result = SearchService.search(
+        Child,
+        filters: [SearchFilters::Value.new(field_name: 'urgent_protection_concern', value: false)]
+      ).results
+      expect(search_result).to have(1).child
+      expect(search_result.first.id).to eq(child.id)
+    end
+  end
+
+  describe 'calculate_has_case_plan' do
+    before do
+      clean_data(Child)
+    end
+
+    let(:child_1) do
+      Child.create!(
+        data: {
+          name: 'Child 1',
+          age: 4,
+          cp_case_plan_subform_case_plan_interventions: [
+            { intervention_service_to_be_provided: ['service1'] }
+          ]
+        }
+      )
+    end
+
+    let(:child_2) do
+      Child.create!(
+        data: {
+          name: 'Child 2',
+          age: 2,
+          cp_case_plan_subform_case_plan_interventions: [
+            { intervention_service_goal: 'some goal' }
+          ]
+        }
+      )
+    end
+
+    let(:child_3) do
+      Child.create!(
+        data: {
+          name: 'Child 3',
+          age: 5
+        }
+      )
+    end
+
+    it 'calculates the has_case_plan field' do
+      expect(child_1.has_case_plan).to eq(true)
+      expect(child_2.has_case_plan).to eq(true)
+      expect(child_3.has_case_plan).to eq(false)
+    end
+
+    after do
+      clean_data(Child)
+    end
+  end
+
   after do
-    clean_data(Child, Field, FormSection, PrimeroModule)
+    clean_data(Incident, Child, Field, FormSection, PrimeroModule)
   end
 
   private

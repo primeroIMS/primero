@@ -3,7 +3,7 @@ import isEmpty from "lodash/isEmpty";
 import { displayNameHelper } from "../../../libs";
 import { ALLOWED_FIELD_NAMES, ALLOWED_FIELD_TYPES } from "../constants";
 
-import { buildLocationFields, buildField } from "./build-field";
+import { buildLocationFields, buildField, buildMinimumLocationField } from "./build-field";
 
 export default (data, i18n, isReportable, reportingLocationConfig, minimumReportableFields) => {
   const { locale } = i18n;
@@ -17,14 +17,24 @@ export default (data, i18n, isReportable, reportingLocationConfig, minimumReport
     const result = data.get("fields").reduce((prev, current) => {
       const lookup = current.get("option_strings_source")?.replace(/lookup /, "");
 
-      if (lookup === "Location") {
+      if (["Location", "ReportingLocation"].includes(lookup)) {
         return [...prev, ...buildLocationFields(current, formSection, i18n, reportingLocationConfig)];
       }
 
       return [...prev, buildField(current, formSection, locale)];
     }, []);
 
-    return minimumReportableFields ? result.concat(Object.values(minimumReportableFields).flat()) : result;
+    const minimumFields = Object.values(minimumReportableFields).flatMap(current => {
+      const lookup = current.option_strings_source?.replace(/lookup /, "");
+
+      if (["Location", "ReportingLocation"].includes(lookup)) {
+        return buildMinimumLocationField(current, i18n, reportingLocationConfig);
+      }
+
+      return [current];
+    }, []);
+
+    return minimumReportableFields ? result.concat(minimumFields) : result;
   }
 
   return data.reduce((acc, form) => {
@@ -40,7 +50,7 @@ export default (data, i18n, isReportable, reportingLocationConfig, minimumReport
       .reduce((prev, current) => {
         const lookup = current.get("option_strings_source")?.replace(/lookup /, "");
 
-        if (lookup === "Location") {
+        if (["Location", "ReportingLocation"].includes(lookup)) {
           return [
             ...prev,
             ...buildLocationFields(current, displayNameHelper(name, locale), i18n, reportingLocationConfig)

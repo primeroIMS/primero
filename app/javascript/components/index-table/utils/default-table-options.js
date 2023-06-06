@@ -1,4 +1,4 @@
-import { ROWS_PER_PAGE_OPTIONS } from "../../../config";
+import { OFFLINE_ROWS_PER_PAGE_OPTIONS, ROWS_PER_PAGE_OPTIONS } from "../../../config";
 
 const defaultTableOptions = ({
   currentPage,
@@ -13,7 +13,8 @@ const defaultTableOptions = ({
   simple,
   sortDir,
   title,
-  total
+  total,
+  online
 }) => {
   if (simple) {
     return {
@@ -60,7 +61,7 @@ const defaultTableOptions = ({
     },
     onColumnSortChange: () => selectedRecords && setSelectedRecords({}),
     onTableChange: handleTableChange,
-    rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
+    rowsPerPageOptions: online ? ROWS_PER_PAGE_OPTIONS : OFFLINE_ROWS_PER_PAGE_OPTIONS,
     page: currentPage,
     enableNestedDataAccess: ".",
     sortOrder: sortDir,

@@ -44,7 +44,7 @@ describe Exporters::JsonExporter do
     )
   end
 
-  let(:data_hash) { JSON.parse(Exporters::JsonExporter.export([@record], @user)) }
+  let(:data_hash) { JSON.parse(Exporters::JsonExporter.export([@record], nil, { user: @user })) }
 
   it 'converts models to JSON format' do
     expect(data_hash.size).to eq(1)

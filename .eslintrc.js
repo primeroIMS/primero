@@ -3,7 +3,7 @@ const developmentEnv = process.env.NODE_ENV === "development";
 module.exports = {
   parser: "@babel/eslint-parser",
   extends: ["airbnb", "prettier"],
-  plugins: ["react", "prettier", "react-hooks", "import", "unused-imports"],
+  plugins: ["react", "prettier", "react-hooks", "import", "unused-imports", "jest"],
   rules: {
     "react/jsx-uses-react": "off",
     "unused-imports/no-unused-imports": "error",
@@ -72,10 +72,12 @@ module.exports = {
     "react/destructuring-assignment": "off",
     "react/no-unstable-nested-components": "off",
     "no-unsafe-optional-chaining": "off",
-    "no-promise-executor-return": "off"
+    "no-promise-executor-return": "off",
+    "import/no-unresolved": [2, { ignore: ["test-utils"] }]
   },
   env: {
-    browser: true
+    browser: true,
+    "jest/globals": true
   },
   overrides: [
     {

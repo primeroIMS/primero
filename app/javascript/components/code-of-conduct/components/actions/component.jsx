@@ -15,6 +15,7 @@ const Component = ({ css, handleAccept, handleCancel, updatingCodeOfConduct, cod
         icon={<ClearIcon />}
         text="buttons.cancel"
         type={ACTION_BUTTON_TYPES.default}
+        cancel
         isTransparent
         rest={{
           onClick: handleCancel

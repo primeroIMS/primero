@@ -11,6 +11,7 @@ const buildLocationsList = (records, columnsWithLookups) => {
   records.forEach(record => {
     locationFields.forEach(locationField => {
       locationIDS.push(record.get(locationField[0]));
+      locationIDS.push(...(record.get("reporting_location_hierarchy")?.split(".") || []));
     });
   });
 
