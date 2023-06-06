@@ -33,8 +33,9 @@ module ManagedReports::SqlQueryHelpers
 
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          "to_timestamp(#{quoted_query(table_name, 'data')} ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
+          "to_timestamp(#{quoted_query(table_name, 'data')} ->> ?, ?) between ? and ?",
           param.field_name,
+          Report::DATE_TIME_FORMAT,
           param.from,
           param.to
         ]
@@ -87,9 +88,9 @@ module ManagedReports::SqlQueryHelpers
         [
           "DATE_PART(
             'year',
-            to_timestamp(#{quoted_query(table_name, 'data')} ->> :date_field, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS')
+            to_timestamp(#{quoted_query(table_name, 'data')} ->> :date_field, :format)
           )::integer",
-          date_field: date_param.field_name
+          date_field: date_param.field_name, format: Report::DATE_TIME_FORMAT
         ]
       )
     end
@@ -101,9 +102,9 @@ module ManagedReports::SqlQueryHelpers
 
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          "DATE_PART('year', to_timestamp(#{quoted_field}, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS'))|| '-' ||
-          'Q' || DATE_PART('quarter', to_timestamp(#{quoted_field}, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS')) ",
-          date_field: date_param.field_name
+          "DATE_PART('year', to_timestamp(#{quoted_field}, :format))|| '-' ||
+          'Q' || DATE_PART('quarter', to_timestamp(#{quoted_field}, :format)) ",
+          date_field: date_param.field_name, format: Report::DATE_TIME_FORMAT
         ]
       )
     end
@@ -115,9 +116,9 @@ module ManagedReports::SqlQueryHelpers
 
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          "DATE_PART('year', to_timestamp(#{quoted_field}, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS')) || '-' ||
+          "DATE_PART('year', to_timestamp(#{quoted_field}, :format)) || '-' ||
           to_char(to_timestamp(#{quoted_field}, 'YYYY-MM'),'mm')",
-          date_field: date_param.field_name
+          date_field: date_param.field_name, format: Report::DATE_TIME_FORMAT
         ]
       )
     end

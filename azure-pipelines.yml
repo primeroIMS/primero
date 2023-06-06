@@ -11,8 +11,8 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  vmImageName: 'Ubuntu-18.04'
-  latestBranch: master
+  vmImageName: 'Ubuntu-22.04'
+  latestBranch: main
 
 jobs:
   - job: Test
@@ -67,6 +67,9 @@ jobs:
       - bash: |
           npm run test:batch:4
         displayName: 'Run Integration test Batch 4'
+      - bash: |
+          npm run test:batch:5
+        displayName: 'Run Integration test Batch 5'
 
 
   - job: Build
