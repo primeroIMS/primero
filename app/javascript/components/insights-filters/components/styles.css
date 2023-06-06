@@ -35,7 +35,7 @@
     margin: 0 var(--sp-1) 0 0;
 
     &:after {
-      content: ',';
+      content: '';
     }
   }
 
