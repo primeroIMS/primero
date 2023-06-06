@@ -1,13 +1,10 @@
-import { screen, mountedComponent,setupMockFormComponent } from "test-utils";
-import { fromJS } from "immutable";
+import { screen, setupMockFormComponent } from "test-utils";
 
 import OrderableOptionsField from "./orderable-options-field";
 
 describe("<Form /> - fields/<OrderableOptionsField />", () => {
-  let component;
-
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(OrderableOptionsField, {
+    setupMockFormComponent(OrderableOptionsField, {
       props: {
         inputProps: {
           commonInputProps: { name: "field_1" },
@@ -21,7 +18,7 @@ describe("<Form /> - fields/<OrderableOptionsField />", () => {
           { id: "option_3", display_text: { en: "Display text 3" } }
         ]
       }
-    }));
+    });
   });
 
   it("renders the options", () => {
@@ -31,6 +28,6 @@ describe("<Form /> - fields/<OrderableOptionsField />", () => {
   it("renders the action buttons", () => {
     expect(screen.getAllByRole("button")).toBeTruthy();
   });
-  
-  it.todo("render the values for the field")    
+
+  it.todo("render the values for the field");
 });

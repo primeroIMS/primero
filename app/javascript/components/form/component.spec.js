@@ -1,10 +1,11 @@
-import { screen, mountedComponent, spy, userEvent } from "test-utils";
+import { screen, mountedComponent, spy } from "test-utils";
 import { fromJS } from "immutable";
-import * as yup from "yup";
+import { object, string } from "yup";
+
 import Form from "./component";
 import { FORM_MODE_DIALOG } from "./constants";
 import { FormSectionRecord, FieldRecord } from "./records";
-import { FormSection } from ".";
+
 describe("<Form>", () => {
   const formSubmit = spy();
   const FORM_ID = "test-form";
@@ -31,8 +32,8 @@ describe("<Form>", () => {
     formSections,
     mode: FORM_MODE_DIALOG,
     onSubmit: formSubmit,
-    validations: yup.object().shape({
-      test_field_1: yup.string().required()
+    validations: object().shape({
+      test_field_1: string().required()
     }),
     formID: FORM_ID
   };
@@ -43,7 +44,7 @@ describe("<Form>", () => {
     expect(screen.getAllByText("Test Field 2")).toBeTruthy();
   });
 
-  it.todo("should set form with initial values")
+  it.todo("should set form with initial values");
 
-  it.todo("should not submit form when invalid")
+  it.todo("should not submit form when invalid");
 });

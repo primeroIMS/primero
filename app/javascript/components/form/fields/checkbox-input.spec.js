@@ -1,5 +1,7 @@
 import { screen, setupMockFieldComponent } from "test-utils";
+
 import { FieldRecord } from "../records";
+
 import CheckboxInput from "./checkbox-input";
 
 describe("<Form /> - fields/<SelectInput />", () => {
@@ -15,8 +17,8 @@ describe("<Form /> - fields/<SelectInput />", () => {
   });
 
   it("renders help text", () => {
-   setupMockFieldComponent(CheckboxInput, FieldRecord);
-   expect(screen.getByText("Test Field 2 help text")).toBeInTheDocument();
+    setupMockFieldComponent(CheckboxInput, FieldRecord);
+    expect(screen.getByText("Test Field 2 help text")).toBeInTheDocument();
   });
 
   it("renders errors", () => {
@@ -32,5 +34,5 @@ describe("<Form /> - fields/<SelectInput />", () => {
   it("renders required indicator", () => {
     setupMockFieldComponent(CheckboxInput, FieldRecord);
     expect(screen.getByText("*")).toBeInTheDocument();
-  });  
+  });
 });
