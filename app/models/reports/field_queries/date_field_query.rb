@@ -35,7 +35,7 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
         "to_timestamp(#{data_column_name} ->> :field_name, :date_format) as #{column_name}",
-        field_name: field.name, date_format: field.date_include_time ? 'YYYY-MM-DDTHH\\:\\MI\\:\\SS' : 'YYYY-MM-DD'
+        field_name: field.name, date_format: field.date_include_time ? Report::DATE_TIME_FORMAT : Report::DATE_FORMAT
       ]
     )
   end
@@ -45,10 +45,10 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
       [
         %(
           CAST(
-            DATE_PART('year', to_timestamp(#{data_column_name} ->> :field_name, 'YYYY-MM-DD')) AS INTEGER
+            DATE_PART('year', to_timestamp(#{data_column_name} ->> :field_name, :date_format)) AS INTEGER
           ) as #{column_name}
         ),
-        field_name: field.name
+        field_name: field.name, date_format: Report::DATE_FORMAT
       ]
     )
   end
@@ -58,11 +58,11 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
       [
         %(
           #{sort_by_month_query},
-          DATE_PART('year', to_timestamp(#{data_column_name} ->> :field_name, 'YYYY-MM-DD')) || '-' ||
-          to_char(to_timestamp(#{data_column_name} ->> :field_name, 'YYYY-MM-DD'), 'Mon')
+          DATE_PART('year', to_timestamp(#{data_column_name} ->> :field_name, :date_format)) || '-' ||
+          to_char(to_timestamp(#{data_column_name} ->> :field_name, :date_format), 'Mon')
           as #{column_name}
         ),
-        field_name: field.name
+        field_name: field.name, date_format: Report::DATE_FORMAT
       ]
     )
   end
@@ -70,8 +70,8 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
   def sort_by_month_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
-        "date_trunc('month', to_timestamp(#{data_column_name} ->> :field_name, 'YYY-MM-DD')) as #{sort_field}",
-        field_name: field.name
+        "date_trunc('month', to_timestamp(#{data_column_name} ->> :field_name, :date_format)) as #{sort_field}",
+        field_name: field.name, date_format: Report::DATE_FORMAT
       ]
     )
   end
@@ -82,13 +82,16 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
       [
         %(
           #{sort_by_week_query},
-          to_char(date_trunc('week', to_timestamp(#{data_column_name} ->> :field_name, 'YYY-MM-DD')),'dd-Mon-yyyy') || ' - ' ||
           to_char(
-            date_trunc('week', to_timestamp(#{data_column_name} ->> :field_name, 'YYY-MM-DD')) + '6 days'::interval,
+            date_trunc('week', to_timestamp(#{data_column_name} ->> :field_name, :date_format)), 'dd-Mon-yyyy'
+          ) || ' - ' ||
+          to_char(
+            date_trunc('week', to_timestamp(#{data_column_name} ->> :field_name, :date_format)) + '6 days'::interval,
             'dd-Mon-yyyy'
           ) as #{column_name}
         ),
-        field_name: field.name
+        field_name: field.name,
+        date_format: Report::DATE_FORMAT
       ]
     )
   end
@@ -97,8 +100,9 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
   def sort_by_week_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
-        "date_trunc('week', to_timestamp(#{data_column_name} ->> :field_name, 'YYY-MM-DD')) as #{sort_field}",
-        field_name: field.name
+        "date_trunc('week', to_timestamp(#{data_column_name} ->> :field_name, :date_format)) as #{sort_field}",
+        field_name: field.name,
+        date_format: Report::DATE_FORMAT
       ]
     )
   end
@@ -108,9 +112,10 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
       [
         %(
           #{sort_by_day_query},
-          to_char(to_timestamp(#{data_column_name} ->> :field_name, 'YYYY-MM-DD'), 'YYYY-MM-DD') as #{column_name}
+          to_char(to_timestamp(#{data_column_name} ->> :field_name, :date_format), :date_format) as #{column_name}
         ),
-        field_name: field.name
+        field_name: field.name,
+        date_format: Report::DATE_FORMAT
       ]
     )
   end
@@ -118,8 +123,9 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
   def sort_by_day_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
-        "to_timestamp(#{data_column_name} ->> :field_name, 'YYYY-MM-DD') as #{sort_field}",
-        field_name: field.name
+        "to_timestamp(#{data_column_name} ->> :field_name, :date_format) as #{sort_field}",
+        field_name: field.name,
+        date_format: Report::DATE_FORMAT
       ]
     )
   end
