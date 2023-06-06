@@ -41,7 +41,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
   };
 
   return (
-    <Grid container spacing={2} alignItems="center" role="sectionheader">
+    <Grid container spacing={2} alignItems="center" data-testid="sectionheader">
       <Grid item md={10} xs={8}>
         <div className={css.wrapper}>
           {/* TODO: The date should be localized */}

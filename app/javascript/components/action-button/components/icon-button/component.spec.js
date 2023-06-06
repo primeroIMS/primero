@@ -1,4 +1,5 @@
 import { mountedComponent, screen } from "test-utils";
+
 import IconButton from "./component";
 
 describe("<IconButton /> components/action-button/components", () => {
@@ -7,12 +8,14 @@ describe("<IconButton /> components/action-button/components", () => {
     isTransparent: false,
     rest: {}
   };
+
   it("renders a <IconButton /> component", () => {
     const newProps = {
       ...props,
       className: "MuiSvgIcon-root"
     };
+
     mountedComponent(<IconButton {...newProps} />);
-    expect(screen.getByRole("button")).toHaveClass('MuiSvgIcon-root');
+    expect(screen.getByRole("button")).toHaveClass("MuiSvgIcon-root");
   });
 });

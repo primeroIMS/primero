@@ -1,9 +1,10 @@
 import { mountedComponent, screen } from "test-utils";
+
 import TitleWithClose from "./component";
 
 describe("<TitleWithClose />", () => {
   const props = {
-    closeHandler: () => { },
+    closeHandler: () => {},
     dialogSubtitle: "Test Subtitle",
     dialogTitle: "Test Title",
     dialogAction: <></>
@@ -26,7 +27,8 @@ describe("<TitleWithClose />", () => {
       ...props,
       className: "MuiSvgIcon-root"
     };
+
     mountedComponent(<TitleWithClose {...newProps} />);
-    expect(screen.getAllByRole('button', { className: 'MuiSvgIcon-root' })).toBeTruthy();
+    expect(screen.getAllByRole("button", { className: "MuiSvgIcon-root" })).toBeTruthy();
   });
 });

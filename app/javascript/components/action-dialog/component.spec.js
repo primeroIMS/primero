@@ -1,13 +1,14 @@
 import { mountedComponent, screen } from "test-utils";
+
 import ActionDialog from "./component";
 
 describe("<ActionDialog />", () => {
   const props = {
-    cancelHandler: () => { },
+    cancelHandler: () => {},
     children: [],
     confirmButtonLabel: "",
     confirmButtonProps: {},
-    dialogActions: 'Test',
+    dialogActions: "Test",
     dialogSubHeader: "Test SubHeader",
     dialogSubtitle: "Test Subtitle",
     dialogText: "",
@@ -16,10 +17,10 @@ describe("<ActionDialog />", () => {
     disableBackdropClick: false,
     maxSize: "sm",
     omitCloseAfterSuccess: false,
-    onClose: () => { },
+    onClose: () => {},
     open: true,
     pending: false,
-    successHandler: () => { }
+    successHandler: () => {}
   };
 
   beforeEach(() => {
@@ -27,7 +28,7 @@ describe("<ActionDialog />", () => {
   });
 
   it("should render Dialog", () => {
-    expect(screen.getAllByRole('dialog')).toHaveLength(1);
+    expect(screen.getAllByRole("dialog")).toHaveLength(1);
   });
 
   it("should render DialogTitle", () => {
@@ -39,8 +40,9 @@ describe("<ActionDialog />", () => {
       ...props,
       className: "MuiSvgIcon-root"
     };
+
     mountedComponent(<ActionDialog {...newProps} />);
-    expect(screen.getAllByRole('button', { className: 'MuiSvgIcon-root' })).toBeTruthy();
+    expect(screen.getAllByRole("button", { className: "MuiSvgIcon-root" })).toBeTruthy();
   });
 
   it("should render cancel Button", () => {
@@ -58,19 +60,14 @@ describe("<ActionDialog />", () => {
   it("should not render DialogSubtitle because isn't passed in props ", () => {
     delete props.dialogSubtitle;
     mountedComponent(<ActionDialog {...props} />);
-    expect(screen.getByRole("dialog")).not.toHaveClass('dialogSubtitle');
+    expect(screen.getByRole("dialog")).not.toHaveClass("dialogSubtitle");
   });
 
   it("should not render dialogSubHeader because isn't passed in props ", () => {
     delete props.dialogSubHeader;
     mountedComponent(<ActionDialog {...props} />);
-    expect(screen.getByRole("dialog")).not.toHaveClass('dialogSubHeader');
+    expect(screen.getByRole("dialog")).not.toHaveClass("dialogSubHeader");
   });
 
-  it.todo("should render DialogActions");  
+  it.todo("should render DialogActions");
 });
-
-
-
-
-
