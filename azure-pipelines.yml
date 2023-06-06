@@ -11,8 +11,8 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  vmImageName: 'Ubuntu-18.04'
-  latestBranch: master
+  vmImageName: 'Ubuntu-22.04'
+  latestBranch: main
 
 jobs:
   - job: Test
@@ -29,17 +29,17 @@ jobs:
         displayName: 'Make required directories and copy files'
       - task: NodeTool@0
         inputs:
-          versionSpec: '12.20.1'
+          versionSpec: '18.13.0'
         displayName: 'Install node'
       - bash: npm ci
         displayName: 'Install npm packages'
       - bash: |
           apt-get update
-          apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-10
+          apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-14
         displayName: 'Install dependencies'
       - bash: |
           . ~/.bash_env
-          rbenv global 2.7.4
+          rbenv global 2.7.8
           bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
         displayName: 'Bundle install'
         env:
@@ -67,6 +67,9 @@ jobs:
       - bash: |
           npm run test:batch:4
         displayName: 'Run Integration test Batch 4'
+      - bash: |
+          npm run test:batch:5
+        displayName: 'Run Integration test Batch 5'
 
 
   - job: Build
@@ -102,6 +105,16 @@ jobs:
         inputs:
           containerRegistry: '$(dockerRegistryServiceConnection)'
           repository: 'primero/solr'
+          command: 'push'
+          tags: |
+            $(tag)
+            $(latest)
+
+      - task: Docker@2
+        displayName: 'Migration - Push an image to UNICEF ACR'
+        inputs:
+          containerRegistry: '$(dockerRegistryServiceConnection)'
+          repository: 'primero/migration'
           command: 'push'
           tags: |
             $(tag)

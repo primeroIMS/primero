@@ -20,7 +20,7 @@ class Transition < ApplicationRecord
 
   after_initialize :defaults, unless: :persisted?
   before_create :perform
-  after_commit :notify_by_email
+  after_save_commit :notify_by_email
 
   after_save :index_record
 

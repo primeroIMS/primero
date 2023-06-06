@@ -2,7 +2,7 @@ definitions:
   steps:
     - step: &server-test
         name: Server tests
-        image: ruby:2.7.4-buster
+        image: ruby:2.7.8-buster
         script:
           - ./bin/install_local_test_solr.sh
           - ./bin/run_server_tests.sh
@@ -12,7 +12,7 @@ definitions:
           - bundler
     - step: &client-test
         name: Client tests
-        image: node:12.20.1
+        image: node:18.13.0
         size: 2x
         script:
           - npm ci
@@ -20,6 +20,7 @@ definitions:
           - npm run test:batch:2
           - npm run test:batch:3
           - npm run test:batch:4
+          - npm run test:batch:5
           - npm run lint:run
         caches:
           - node
@@ -40,7 +41,7 @@ pipelines:
   branches:
     maint_*:
       - step: *push-branch
-    '{develop*,release-*,master}':
+    '{develop*,release-*,main}':
       - parallel:
         - step: *server-test
         - step: *client-test

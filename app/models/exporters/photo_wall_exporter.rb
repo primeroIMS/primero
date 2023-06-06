@@ -37,7 +37,7 @@ module Exporters
       buffer.rewind
     end
 
-    def export(child_data, _, *_args)
+    def export(child_data)
       cases_with_photo = child_data.select(&:has_photo)
       return no_photo_available(@pdf) if cases_with_photo.empty?
 

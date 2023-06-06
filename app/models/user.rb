@@ -365,8 +365,7 @@ class User < ApplicationRecord
   end
 
   def send_welcome_email(admin_user)
-    return unless email
-    return if identity_provider&.sync_identity?
+    return if !emailable? || identity_provider&.sync_identity?
 
     UserMailJob.perform_later(id, admin_user.id)
   end
@@ -465,6 +464,10 @@ class User < ApplicationRecord
     permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
   end
 
+  def emailable?
+    email.present? && send_mail == true && !disabled?
+  end
+
   private
 
   def set_locale
@@ -506,38 +509,14 @@ class User < ApplicationRecord
     return if ENV['PRIMERO_BOOTSTRAP']
     return unless associated_attributes_changed?
 
-    records = []
-    associated_records_for_update.find_each(batch_size: 500) do |record|
-      update_record_ownership_fields(record)
-
-      record.update_associated_user_groups if user_groups_changed
-      record.update_associated_user_agencies if saved_change_to_attribute?('agency_id')
-
-      records << record if record.changed?
-    end
-
-    ActiveRecord::Base.transaction { records.each(&:save!) }
-  end
-
-  def associated_records_for_update
-    if user_groups_changed || saved_change_to_attribute?('agency_id')
-      Child.associated_with(user_name)
-    else
-      Child.owned_by(user_name)
-    end
-  end
-
-  def update_record_ownership_fields(record)
-    return unless record.owned_by == user_name
-
-    record.owned_by_location = location if saved_change_to_attribute?('location')
-    record.owned_by_groups = user_group_unique_ids if user_groups_changed
-    update_record_agency_ownership_fields(record)
-  end
-
-  def update_record_agency_ownership_fields(record)
-    record.owned_by_agency_id = agency&.unique_id if saved_change_to_attribute?('agency_id')
-    record.owned_by_agency_office = agency_office if saved_change_to_attribute('agency_office')&.last&.present?
+    AssociatedRecordsJob.perform_later(
+      user_id: id,
+      update_user_groups: user_groups_changed,
+      update_agencies: saved_change_to_attribute?('agency_id'),
+      update_locations: saved_change_to_attribute?('location'),
+      update_agency_offices: saved_change_to_attribute('agency_office')&.last&.present?,
+      model: 'Child'
+    )
   end
 
   def associated_attributes_changed?

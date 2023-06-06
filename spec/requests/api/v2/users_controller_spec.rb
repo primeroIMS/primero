@@ -4,7 +4,9 @@ require 'rails_helper'
 
 describe Api::V2::UsersController, type: :request do
   before :each do
-    clean_data(FormSection, Role, PrimeroModule, User, Agency, PrimeroProgram, IdentityProvider, CodeOfConduct, UserGroup)
+    clean_data(
+      FormSection, User, Role, PrimeroModule, Agency, PrimeroProgram, IdentityProvider, CodeOfConduct, UserGroup
+    )
 
     SystemSettings.stub(:current).and_return(
       SystemSettings.new(
@@ -801,6 +803,6 @@ describe Api::V2::UsersController, type: :request do
   end
 
   after :each do
-    clean_data(FormSection, Role, PrimeroModule, User, Agency, PrimeroProgram, UserGroup, CodeOfConduct)
+    clean_data(User, FormSection, Role, PrimeroModule, Agency, PrimeroProgram, UserGroup, CodeOfConduct)
   end
 end

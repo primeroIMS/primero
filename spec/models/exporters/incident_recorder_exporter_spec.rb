@@ -7,8 +7,9 @@ require 'roo'
 module Exporters
   describe IncidentRecorderExporter do
     before :each do
-      clean_data(Agency, Role, UserGroup, User, PrimeroModule, PrimeroProgram, Field, FormSection, Incident, Location,
-                 Lookup)
+      clean_data(
+        User, Agency, Role, UserGroup, PrimeroModule, PrimeroProgram, Field, FormSection, Incident, Location, Lookup
+      )
       subform = FormSection.new(
         name: 'cases_test_subform_2', parent_form: 'case', 'visible' => false, 'is_nested' => true,
         order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_subform_2',
@@ -421,7 +422,7 @@ module Exporters
     end
 
     after :each do
-      clean_data(Agency, Role, UserGroup, User, PrimeroModule, PrimeroProgram, Field, FormSection, Incident, Location)
+      clean_data(User, Agency, Role, UserGroup, PrimeroModule, PrimeroProgram, Field, FormSection, Incident, Location)
     end
   end
 end

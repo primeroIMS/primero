@@ -88,15 +88,16 @@ class Exporters::BaseExporter
     @io
   end
 
+  def user_permitted_forms(record_type, user, include_subforms = false)
+    user.role.permitted_forms(record_type, true, include_subforms)
+  end
+
   private
 
-  def forms_to_export
-    user_forms_subforms_permitted = user.role.permitted_forms(record_type, true, true)
-    forms = user_forms_subforms_permitted.map { |form| forms_without_hidden_fields(form) }
-
-    return forms unless options[:form_unique_ids].present?
-
-    forms.select { |form| options[:form_unique_ids].include?(form.unique_id) }
+  def forms_to_export(include_subforms = false)
+    forms = user_permitted_forms(record_type, user, include_subforms)
+    forms = forms.where(unique_id: options[:form_unique_ids]) if options[:form_unique_ids].present?
+    forms.map { |form| forms_without_hidden_fields(form) }
   end
 
   def fields_to_export
@@ -133,15 +134,15 @@ class Exporters::BaseExporter
   def duplicate_form(form)
     form_dup = FormSection.new(form.as_json.except('id'))
     form_dup.subform_field = Field.new(form.subform_field.as_json.except('id')) if form.subform_field.present?
-    form_dup.fields = duplicate_fields(form)
+    form_dup.fields = duplicate_fields(form_dup, form.fields)
     form_dup
   end
 
-  def duplicate_fields(form)
-    form.fields.map do |field|
+  def duplicate_fields(form_dup, fields)
+    fields.map do |field|
       field_dup = Field.new(field.as_json.except('id'))
       field_dup.subform = duplicate_form(field.subform) if field.subform.present?
-      field_dup.form = form
+      field_dup.form_section = form_dup
       field_dup
     end
   end

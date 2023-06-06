@@ -19,60 +19,19 @@ namespace :primero do
   task :remove_config_and_records, [:include_users] => %i[remove_config remove_records]
 
   desc 'Remove records'
-  task :remove_records, [:include_users] => :environment do |_, args|
-    record_models = [Child, Incident, TracingRequest, Trace, Flag]
-    data_config = [Alert, Attachment, AuditLog, BulkExport, RecordHistory,
-                   SavedSearch, Transition]
-    db_tables = %w[active_storage_variant_records primero_modules_saved_searches]
-
-    if args[:include_users].present? && args[:include_users].start_with?(/[yYTt]/)
-      record_models << User
-      db_tables << 'user_groups_users'
-    end
-
-    (record_models + data_config).each do |model|
-      puts "Removing data from #{model.name} table"
-      model.delete_all
-    end
-
-    db_tables.each do |table|
-      puts "Removing data from #{table} table"
-      ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
-    end
-
-    ActiveRecord::Base.connection.execute("DELETE FROM active_storage_attachments WHERE record_type != 'Agency'")
-    agenncy_blob_ids = ActiveStorage::Attachment.where(record_type: 'Agency').pluck(:blob_id).join(', ')
-    blobs_conditional = agenncy_blob_ids.present? ? "WHERE id NOT IN (#{agenncy_blob_ids})" : ''
-    ActiveRecord::Base.connection.execute("DELETE FROM active_storage_blobs #{blobs_conditional}")
-
-    Sunspot.remove_all(record_models)
+  task :remove_records, %i[record_models filters] => :environment do |_, args|
+    filters = DestringifyService.destringify(JSON.parse(args[:filters] || '{}').with_indifferent_access)
+    record_models = args[:record_models]&.split(' ')
+    DataRemovalService.remove_records(record_models: record_models, filters: filters)
   end
 
   # If you are planning to load the JSON config, use the remove_config_data task instead
   desc 'Deletes out all metadata. Do this only if you need to reseed from scratch!'
-  task :remove_config, [:metadata] => :environment do |_, args|
-    if args[:metadata].present?
-      metadata_models = args[:metadata].split(',').map { |m| Kernel.const_get(m) }
-      db_tables = []
-    else
-      metadata_models = [
-        Agency, ContactInformation, Field, FormSection, Location, Lookup, PrimeroModule,
-        PrimeroProgram, Report, Role, SystemSettings, UserGroup, ExportConfiguration,
-        PrimeroConfiguration, Webhook, IdentityProvider
-      ]
-
-      db_tables = %w[form_sections_primero_modules form_sections_roles primero_modules_roles agencies_user_groups]
-    end
-
-    metadata_models.each do |m|
-      puts "Removing data from #{m.name} table"
-      m.delete_all
-    end
-
-    db_tables.each do |table|
-      puts "Removing data from #{table} table"
-      ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
-    end
+  task :remove_config, %i[metadata include_users] => :environment do |_, args|
+    DataRemovalService.remove_config(
+      metadata: args[:metadata]&.split(' '),
+      include_users: args[:include_users] == 'true'
+    )
   end
 
   desc 'Export the configuraton as Ruby seed files'

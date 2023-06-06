@@ -12,6 +12,7 @@ describe("Application - Action Creators", () => {
 
     [
       "disableNavigation",
+      "fetchAgencyLogoOptions",
       "fetchRoles",
       "fetchSystemPermissions",
       "fetchSystemSettings",
