@@ -112,12 +112,14 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy, subColumnItems
     .map(value => ({ colspan: 0, row: value }));
 };
 
-const buildSingleRows = ({ getLookupValue, data, key }) =>
+const buildSingleRows = ({ getLookupValue, data, key, subColumnItems, hasTotalColumn }) =>
   data
     .map(value => {
       const lookupValue = getLookupValue(key, value);
+      const subcolumnValues = subColumnItems.map(subcolumn => value.get(subcolumn.id, 0));
+      const totalValue = hasTotalColumn ? [] : [value.get("total")];
 
-      return { colspan: 0, row: [lookupValue, value.get("total")] };
+      return { colspan: 0, row: [lookupValue, ...subcolumnValues, ...totalValue] };
     })
     .toArray();
 
@@ -144,7 +146,8 @@ export default {
     incompleteDataLabel,
     totalText,
     subColumnItems = [],
-    indicatorRows
+    indicatorRows,
+    hasTotalColumn
   }) => {
     if (data === 0) return [];
 
@@ -154,8 +157,8 @@ export default {
 
     const rows =
       isGrouped && groupedBy
-        ? buildGroupedRows({ data, key, getLookupValue, groupedBy, subColumnItems })
-        : buildSingleRows({ data, getLookupValue, key });
+        ? buildGroupedRows({ data, key, getLookupValue, groupedBy, subColumnItems, hasTotalColumn })
+        : buildSingleRows({ data, getLookupValue, key, subColumnItems, hasTotalColumn });
 
     if (!isEmpty(lookupDisplayTexts)) {
       const sortArray = [...lookupDisplayTexts, incompleteDataLabel, totalText];

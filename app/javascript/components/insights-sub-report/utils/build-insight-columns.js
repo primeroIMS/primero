@@ -36,11 +36,13 @@ export default {
 
     return [{ label: totalText }];
   },
-  default: ({ value, isGrouped, groupedBy, localizeDate, totalText, subColumnItems = [] }) => {
+  default: ({ value, isGrouped, groupedBy, localizeDate, totalText, subColumnItems = [], hasTotalColumn }) => {
     if (isGrouped && groupedBy) {
       return buildGroupedColumns(value, groupedBy, localizeDate, subColumnItems);
     }
 
-    return [{ label: totalText }];
+    const columns = subColumnItems.map(elem => ({ label: elem.display_text }));
+
+    return hasTotalColumn ? columns : [...columns, { label: totalText }];
   }
 };

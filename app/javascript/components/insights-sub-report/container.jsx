@@ -162,9 +162,9 @@ const Component = () => {
               .get("aggregate", fromJS({}))
               .entrySeq()
               .map(([valueKey, value]) => {
-                const hasTotalColumn = value.some(elem =>
-                  elem.get("data", fromJS([])).some(row => !isNil(row.get("total")))
-                );
+                const hasTotalColumn = isGrouped
+                  ? value.some(elem => elem.get("data", fromJS([])).some(row => !isNil(row.get("total"))))
+                  : value.some(row => !isNil(row.get("total")));
 
                 const Indicator = getIndicator(valueKey);
                 const subColumnItems = getSubcolumnItems({
@@ -196,6 +196,7 @@ const Component = () => {
                     TableComponent={TableComponent}
                     totalText={GHN_VIOLATIONS_INDICATORS_IDS.includes(valueKey) ? violationsText : totalText}
                     subColumnItems={subColumnItems}
+                    hasTotalColumn={hasTotalColumn}
                   />
                 );
               })}

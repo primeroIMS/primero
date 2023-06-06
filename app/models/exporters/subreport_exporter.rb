@@ -120,7 +120,7 @@ class Exporters::SubreportExporter < ValueObject
   end
 
   def grouped_by_param
-    self.grouped_by = managed_report.filters.find { |filter| filter.field_name == 'grouped_by' }
+    self.grouped_by = managed_report.filters.find { |filter| filter && filter.field_name == 'grouped_by' }
 
     grouped_by
   end
@@ -165,6 +165,7 @@ class Exporters::SubreportExporter < ValueObject
       locale: locale,
       workbook: workbook,
       subcolumn_lookups: subcolumn_lookups[indicator_key],
+      indicator_rows: metadata_property('indicators_rows')&.dig(indicator_key),
       indicator_subcolumns: indicators_subcolumns[indicator_key]
     )
   end

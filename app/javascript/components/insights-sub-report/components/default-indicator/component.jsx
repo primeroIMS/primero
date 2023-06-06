@@ -10,6 +10,7 @@ function Component({
   displayGraph,
   emptyMessage,
   groupedBy,
+  hasTotalColumn,
   incompleteDataLabel,
   indicatorsRows,
   insightMetadata,
@@ -57,7 +58,8 @@ function Component({
           totalText,
           getLookupValue: lookupValue,
           incompleteDataLabel,
-          subColumnItems
+          subColumnItems,
+          hasTotalColumn
         })}
         values={buildInsightValues[insightMetadata.get("table_type")]({
           getLookupValue: lookupValue,
@@ -70,7 +72,8 @@ function Component({
           lookupValues: lookups[valueKey],
           indicatorRows: indicatorsRows[valueKey],
           incompleteDataLabel,
-          subColumnItems
+          subColumnItems,
+          hasTotalColumn
         })}
         showPlaceholder
         name={namespace}
@@ -88,6 +91,7 @@ Component.propTypes = {
   displayGraph: PropTypes.bool,
   emptyMessage: PropTypes.string,
   groupedBy: PropTypes.string,
+  hasTotalColumn: PropTypes.bool,
   incompleteDataLabel: PropTypes.string,
   indicatorsRows: PropTypes.object,
   insightMetadata: PropTypes.object,

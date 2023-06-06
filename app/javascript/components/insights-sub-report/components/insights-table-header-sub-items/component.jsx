@@ -16,6 +16,7 @@ const InsightsTableHeaderSubItems = ({ addEmptyCell = true, groupedSubItemcolumn
     return null;
   }
 
+
   return (
     <TableRow className={css.tableRowSubHeader}>
       {addEmptyCell && <TableCell />}

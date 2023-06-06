@@ -7,15 +7,11 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
   GROUPED_CHART_WIDTH = 566
   GROUPED_BY = { month: 'month', year: 'year', quarter: 'quarter', week: 'week' }.freeze
 
-  attr_accessor :groups, :parent_groups, :subcolumn_options, :with_total_subcolumn, :indicator_subcolumns,
-                :indicator_options
+  attr_accessor :groups, :parent_groups
 
   def initialize(args = {})
     super(args)
-    self.with_total_subcolumn = total_subcolumn?
     load_groups
-    load_indicator_options
-    load_subcolumn_options
   end
 
   def load_groups
@@ -23,23 +19,9 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
     self.parent_groups = grouped_by_week? ? groups.keys : groups.keys.sort { |year1, year2| year1.to_i <=> year2.to_i }
   end
 
-  def load_subcolumn_options
-    if indicator_subcolumns.is_a?(String)
-      self.subcolumn_options = subcolumn_lookups if subcolumn_lookups.present?
-      self.subcolumn_options = SystemSettings.primary_age_ranges if indicator_subcolumns == 'AgeRange'
-      if with_total_subcolumn
-        self.subcolumn_options += [{ 'id' => 'total', 'display_text' => I18n.t('managed_reports.total') }]
-      end
-    else
-      self.subcolumn_options = indicator_subcolumns
-    end
-  end
-
   def load_indicator_options
-    self.indicator_options = sort_options(
-      values.map { |elem| elem['data'] }.flatten.uniq { |elem| elem['id'] },
-      key == 'age'
-    )
+    self.indicator_options = values.map { |elem| elem['data'] }.flatten.uniq { |elem| elem['id'] }
+    sort_options
     indicator_options.each { |option| option['display_text'] = value_display_text(option) }
   end
 
@@ -72,24 +54,6 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
     return 1 unless columns.present? && columns.positive?
 
     columns
-  end
-
-  def sort_options(options, use_age_ranges = false)
-    return sort_options_by_age_range(options) if use_age_ranges
-    return options if lookups.blank? || lookups.is_a?(LocationService)
-
-    options.sort_by do |option|
-      lookups.find_index { |lookup_value| lookup_value['id'] == option['id'] } || lookups.size
-    end
-  end
-
-  def sort_options_by_age_range(options)
-    age_ranges = SystemSettings.primary_age_ranges.map do |age_range|
-      next("#{age_range.first}+") if age_range.last >= 999
-
-      "#{age_range.first} - #{age_range.last}"
-    end
-    options.sort_by { |option| age_ranges.find_index { |age_range| option['id'] == age_range } || age_ranges.size }
   end
 
   def write
@@ -253,7 +217,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
       worksheet.write(
         current_row + params[:option_index],
         params[:initial_index] + params[:group_index],
-        option_total(params[:group_data], params[:option]),
+        grouped_subcolumn_total(params[:group_data], params[:option]),
         params[:cell_format]
       )
     end
@@ -264,7 +228,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
       worksheet.write(
         calculate_position(current_row, params[:option_index]),
         calculate_position(params[:initial_index], (params[:group_index] * subcolumn_options.size), subcolumn_index),
-        option_value(params[:group_data], params[:option], subcolumn), params[:cell_format]
+        grouped_subcolumn_value(params[:group_data], params[:option], subcolumn), params[:cell_format]
       )
     end
   end
@@ -392,17 +356,13 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
     end
   end
 
-  def option_total(group_data, option)
+  def grouped_subcolumn_total(group_data, option)
     group_data.find { |elem| elem['id'] == option['id'] }&.dig('total') || 0
   end
 
-  def option_value(group_data, option, subcolumn)
-    subcolumn_id = case subcolumn
-                   when Hash then subcolumn['id']
-                   when AgeRange then subcolumn.to_s
-                   else subcolumn
-                   end
-    group_data.find { |elem| elem['id'] == option['id'] }&.dig(subcolumn_id) || 0
+  def grouped_subcolumn_value(group_data, option, subcolumn)
+    group_option = group_data.find { |elem| elem['id'] == option['id'] }
+    subcolumn_value(group_option, subcolumn)
   end
 
   def written_subcolumns_number(column_index)
@@ -416,13 +376,6 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
     return groups[group].sort { |group1, group2| group1.to_i <=> group2.to_i } if grouped_by_month?
 
     groups[group].sort { |group1, group2| group1.last.to_i <=> group2.last.to_i }
-  end
-
-  def build_label(label_key)
-    return label_key.to_s if label_key.is_a?(AgeRange)
-    return label_key['display_text'] if label_key.is_a?(Hash)
-
-    I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{label_key}", locale: locale)
   end
 
   def total_subcolumn?
@@ -457,10 +410,6 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
 
   def grouped_by_week?
     grouped_by.value == GROUPED_BY[:week]
-  end
-
-  def calculate_position(*args)
-    args.sum
   end
 
   def header_include_year?
