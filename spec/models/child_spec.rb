@@ -972,6 +972,55 @@ describe Child do
     end
   end
 
+  describe 'calculate_has_case_plan' do
+    before do
+      clean_data(Child)
+    end
+
+    let(:child_1) do
+      Child.create!(
+        data: {
+          name: 'Child 1',
+          age: 4,
+          cp_case_plan_subform_case_plan_interventions: [
+            { intervention_service_to_be_provided: ['service1'] }
+          ]
+        }
+      )
+    end
+
+    let(:child_2) do
+      Child.create!(
+        data: {
+          name: 'Child 2',
+          age: 2,
+          cp_case_plan_subform_case_plan_interventions: [
+            { intervention_service_goal: 'some goal' }
+          ]
+        }
+      )
+    end
+
+    let(:child_3) do
+      Child.create!(
+        data: {
+          name: 'Child 3',
+          age: 5
+        }
+      )
+    end
+
+    it 'calculates the has_case_plan field' do
+      expect(child_1.has_case_plan).to eq(true)
+      expect(child_2.has_case_plan).to eq(true)
+      expect(child_3.has_case_plan).to eq(false)
+    end
+
+    after do
+      clean_data(Child)
+    end
+  end
+
   after do
     clean_data(Incident, Child, Field, FormSection, PrimeroModule)
   end

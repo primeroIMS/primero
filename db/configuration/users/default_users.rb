@@ -55,19 +55,6 @@ User.create_or_update!(
 )
 
 User.create_or_update!(
-  'user_name' => 'primero_ftr_manager',
-  'password' => 'primer0!',
-  'password_confirmation' => 'primer0!',
-  'full_name' => 'FTR Manager',
-  'email' => 'primero_ftr_manager@primero.com',
-  'disabled' => 'false',
-  'agency_id' => unicef.id,
-  'role_id' => Role.find_by_name('FTR Manager').id,
-  'user_groups' => [UserGroup.find_by(name: 'Primero FTR')],
-  'locale' => Primero::Application::LOCALE_ENGLISH
-)
-
-User.create_or_update!(
   'user_name' => 'primero_user_mgr_cp',
   'password' => 'primer0!',
   'password_confirmation' => 'primer0!',

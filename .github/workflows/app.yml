@@ -2,8 +2,9 @@ name: App
 on:
   pull_request:
     branches:
-      - master
+      - main
       - 'release-*'
+      - develop_react_upgrade
   workflow_dispatch:
 
 jobs:

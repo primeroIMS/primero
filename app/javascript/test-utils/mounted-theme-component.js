@@ -8,7 +8,7 @@ import ThemeProvider from "../theme-provider";
 import { createMockStore, DEFAULT_STATE } from "./create-mock-store";
 
 function mountedThemeComponent(Component, state = DEFAULT_STATE) {
-  const { store } = createMockStore(state, fromJS({}));
+  const { store, history } = createMockStore(state, fromJS({}));
 
   const Providers = ({ children }) => {
     return (
@@ -22,7 +22,7 @@ function mountedThemeComponent(Component, state = DEFAULT_STATE) {
     wrapper: Providers
   });
 
-  return { ...component };
+  return { ...component, store, history };
 }
 
 export default mountedThemeComponent;

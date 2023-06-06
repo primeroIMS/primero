@@ -1,9 +1,9 @@
 /* eslint-disable react/no-multi-comp */
 
-export { render, fireEvent } from "@testing-library/react";
+export { render, fireEvent, screen } from "@testing-library/react";
+export { default as userEvent } from "@testing-library/user-event";
 export { spy, useFakeTimers, stub, mock, fake, replace } from "sinon";
 export { createMockStore, DEFAULT_STATE } from "./create-mock-store";
-export { screen } from "@testing-library/react";
 export { default as mountedComponent } from "./mounted-component";
 export { default as translateOptions } from "./translate-options";
 export { default as tick } from "./tick";
