@@ -35,3 +35,4 @@ module Indicators
     end
   end
 end
+# rubocop:enable Style/ClassAndModuleChildren
