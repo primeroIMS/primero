@@ -7,18 +7,20 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
-import { WORKFLOW_SUBREPORTS } from "../../config";
-import { fetchUserGroups } from "../application";
+import { RECORD_TYPES, WORKFLOW_SUBREPORTS } from "../../config";
+import { fetchUserGroups, getWorkflowLabels } from "../application";
 import { useI18n } from "../i18n";
 import { OPTION_TYPES, SELECT_FIELD, whichFormMode } from "../form";
 import WatchedFormSectionField from "../form/components/watched-form-section-field";
 import FormSectionField from "../form/components/form-section-field";
+import { useMemoizedSelector } from "../../libs";
 import {
   CONTROLS_GROUP,
   DATE_CONTROLS,
   DATE_CONTROLS_GROUP,
   INSIGHTS_CONFIG,
-  OWNED_BY_GROUPS
+  OWNED_BY_GROUPS,
+  WORKFLOW
 } from "../insights/constants";
 import { fetchInsight } from "../insights-sub-report/action-creators";
 import { clearFilters, setFilters } from "../insights-list/action-creators";
@@ -34,6 +36,8 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   const userGroups = useOptions({ source: OPTION_TYPES.USER_GROUP });
   const insightsConfig = get(INSIGHTS_CONFIG, [moduleID, id], {});
   const { defaultFilterValues } = insightsConfig;
+
+  const workflowLabels = useMemoizedSelector(state => getWorkflowLabels(state, moduleID, RECORD_TYPES.cases));
 
   const i18n = useI18n();
   const formMethods = useForm({
@@ -101,6 +105,11 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   const filterInputs = (filterGroup = CONTROLS_GROUP) =>
     insightsConfigFilters[filterGroup]?.map(filter => {
       const FilterInput = filter?.watchedInputs ? WatchedFormSectionField : FormSectionField;
+
+      if (filter && filter.name === WORKFLOW) {
+        // eslint-disable-next-line no-param-reassign
+        filter = filter.set("option_strings_text", workflowLabels);
+      }
 
       return <FilterInput field={filter} formMethods={formMethods} formMode={formMode} />;
     });

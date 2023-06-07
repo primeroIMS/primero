@@ -55,6 +55,7 @@ export const CREATED_BY_GROUPS = "created_by_groups";
 export const OWNED_BY_GROUPS = "owned_by_groups";
 export const USER_GROUP = "user_group";
 export const USER_GROUPS_FIELD = "user_groups_field";
+export const WORKFLOW = "workflow";
 
 export const DATE_CONTROLS = [TO, FROM, GROUPED_BY, DATE_RANGE];
 export const DATE_CONTROLS_GROUP = DATE;
@@ -93,6 +94,7 @@ export const CREATED_BY_GROUPS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, CREAT
 export const OWNED_BY_GROUPS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, OWNED_BY_GROUPS];
 export const USER_GROUPS_FIELD_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, USER_GROUPS_FIELD];
 export const USER_GROUP_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, USER_GROUP];
+export const WORKFLOW_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, WORKFLOW];
 
 export const SHARED_FILTERS = [
   {
@@ -337,6 +339,11 @@ export const INSIGHTS_CONFIG = {
           filterOptionSource: (_, options) => {
             return options.filter(option => [STATUS_CLOSED, STATUS_OPEN].includes(option.id));
           }
+        },
+        {
+          name: WORKFLOW,
+          type: SELECT_FIELD,
+          display_name: WORKFLOW_DISPLAY_NAME
         },
         {
           name: USER_GROUPS_FIELD,

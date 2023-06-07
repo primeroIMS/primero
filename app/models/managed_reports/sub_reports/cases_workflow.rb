@@ -8,26 +8,19 @@ class ManagedReports::SubReports::CasesWorkflow < ManagedReports::SubReport
 
   def indicators
     [
-      ManagedReports::Indicators::CaseWorkflowBySex,
-      ManagedReports::Indicators::CaseWorkflowByAge
+      ManagedReports::Indicators::CaseWorkflowBySexAndAge
     ]
   end
 
-  def indicators_rows
-    workflow_statuses = FieldI18nService.convert_options(
-      Child.workflow_statuses([PrimeroModule.find_by(unique_id: PrimeroModule::CP)])
-    )
-
+  def lookups
     {
-      ManagedReports::Indicators::CaseWorkflowBySex.id => workflow_statuses,
-      ManagedReports::Indicators::CaseWorkflowByAge.id => workflow_statuses
+      ManagedReports::Indicators::CaseWorkflowBySexAndAge.id => 'lookup-gender'
     }
   end
 
   def indicators_subcolumns
     {
-      ManagedReports::Indicators::CaseWorkflowBySex.id => 'lookup-gender',
-      ManagedReports::Indicators::CaseWorkflowByAge.id => 'AgeRange'
+      ManagedReports::Indicators::CaseWorkflowBySexAndAge.id => 'AgeRange'
     }
   end
 end

@@ -1934,6 +1934,7 @@ en:
       status_closed: Closed
       user_group: User Group
       user_groups_field: By User Groups
+      workflow: Workflow Status
     status_options:
       open: Open
       closed: Closed
@@ -2105,8 +2106,7 @@ en:
       filter_options:
         registration_date: Registration Date
       sub_reports:
-        case_workflow_by_age: Workflow Status By Age
-        case_workflow_by_sex: Workflow Status By Gender
+        case_workflow_by_sex_and_age: Cases by Sex and Age
     success_message: Successfully generated the export file
   messages:
     alert_items: You have %{items} items of note.

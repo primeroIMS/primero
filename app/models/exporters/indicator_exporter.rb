@@ -193,7 +193,7 @@ class Exporters::IndicatorExporter < ValueObject
   end
 
   def display_text_from_indicator_row(elem)
-    return unless elem.present?
+    return unless elem.present? && indicator_rows.present?
 
     indicator_rows.find do |indicator_row|
       value = elem.is_a?(Hash) ? elem['id'] : elem
@@ -202,7 +202,7 @@ class Exporters::IndicatorExporter < ValueObject
   end
 
   def display_text_from_lookup(elem, lookup_id = nil)
-    return unless elem.present?
+    return unless elem.present? && lookups.present?
     return lookups.find_by_code(elem['id'])&.name_i18n&.dig(I18n.locale.to_s) if lookups.is_a?(LocationService)
 
     lookup_values = lookups.is_a?(Hash) ? lookups[lookup_id] : lookups

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 # An indicator that returns the total cases by workflow and sex
-class ManagedReports::Indicators::CaseWorkflowBySex < ManagedReports::SqlReportIndicator
+class ManagedReports::Indicators::CaseWorkflowBySexAndAge < ManagedReports::SqlReportIndicator
   include ManagedReports::TsfvIndicatorHelper
 
   class << self
     def id
-      'case_workflow_by_sex'
+      'case_workflow_by_sex_and_age'
     end
 
     # rubocop:disable Metrics/MethodLength
@@ -16,10 +16,10 @@ class ManagedReports::Indicators::CaseWorkflowBySex < ManagedReports::SqlReportI
     def sql(current_user, params = {})
       date_param = filter_date(params)
       %{
-          with case_workflow_by_sex as (
+          with case_workflow_by_sex_and_age as (
             select
-              data->> 'workflow' as name,
-              data->> 'sex' as key,
+              data->> 'sex' as name,
+              #{age_ranges_query} as key,
               #{grouped_date_query(params['grouped_by'], filter_date(params))&.concat(' as group_id,')}
               count(*) as sum
             from cases
@@ -29,6 +29,7 @@ class ManagedReports::Indicators::CaseWorkflowBySex < ManagedReports::SqlReportI
             #{equal_value_query_multiple(params['status'])&.prepend('and ')}
             #{date_range_query(date_param)&.prepend('and ')}
             #{equal_value_query(params['module_id'])&.prepend('and ')}
+            #{equal_value_query(params['workflow'])&.prepend('and ')}
             #{user_scope_query(current_user)&.prepend('and ')}
             group by name, key
               #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
@@ -36,14 +37,14 @@ class ManagedReports::Indicators::CaseWorkflowBySex < ManagedReports::SqlReportI
           )
           select
             name, key, sum #{params['grouped_by'].present? ? ', group_id' : ''}
-          from case_workflow_by_sex
+          from case_workflow_by_sex_and_age
           union all
           select
             name,
             'total' as key,
             cast(sum(sum) as integer) as sum
             #{params['grouped_by'].present? ? ', group_id' : ''}
-          from case_workflow_by_sex
+          from case_workflow_by_sex_and_age
           group by name #{params['grouped_by'].present? ? ', group_id' : ''}
           union all
           select
@@ -51,7 +52,7 @@ class ManagedReports::Indicators::CaseWorkflowBySex < ManagedReports::SqlReportI
             key,
             cast(sum(sum) as integer) as sum
             #{params['grouped_by'].present? ? ', group_id' : ''}
-          from case_workflow_by_sex
+          from case_workflow_by_sex_and_age
           group by key #{params['grouped_by'].present? ? ', group_id' : ''}
           union all
           select
@@ -59,7 +60,7 @@ class ManagedReports::Indicators::CaseWorkflowBySex < ManagedReports::SqlReportI
            'total' as key,
            cast(sum(sum) as integer) as sum
            #{params['grouped_by'].present? ? ', group_id' : ''}
-          from case_workflow_by_sex
+          from case_workflow_by_sex_and_age
           #{params['grouped_by'].present? ? 'group by group_id' : ''}
       }
     end

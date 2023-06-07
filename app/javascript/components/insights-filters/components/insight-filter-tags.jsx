@@ -2,17 +2,22 @@ import { List } from "immutable";
 import PropTypes from "prop-types";
 import isNil from "lodash/isNil";
 
+import { RECORD_TYPES } from "../../../config";
 import { useMemoizedSelector } from "../../../libs";
+import { getWorkflowLabels } from "../../application";
 import useOptions from "../../form/use-options";
 import { get, optionText } from "../../form/utils";
+import transformOptions from "../../form/utils/transform-options";
 import { DATE_FIELD } from "../../form/constants";
 import { useI18n } from "../../i18n";
 import { selectInsightsFilters } from "../../insights-list/selectors";
+import { WORKFLOW } from "../../insights/constants";
 
 import css from "./styles.css";
 
-const InsightFilterTags = ({ filters = [] }) => {
+const InsightFilterTags = ({ filters = [], moduleID }) => {
   const i18n = useI18n();
+  const workflowLabels = useMemoizedSelector(state => getWorkflowLabels(state, moduleID, RECORD_TYPES.cases));
   const insightFilters = useMemoizedSelector(state => selectInsightsFilters(state));
 
   const sources = filters.reduce((acc, filter) => {
@@ -28,13 +33,28 @@ const InsightFilterTags = ({ filters = [] }) => {
     return null;
   }
 
-  const getOption = (filter = {}, value) => {
-    const options = filter.option_strings_source ? lookups[filter.name] : filter?.option_strings_text || [];
+  const filterOptions = filter => {
+    if (filter.option_strings_source) {
+      return lookups[filter.name];
+    }
 
+    if (filter.option_strings_text) {
+      return filter.option_strings_text;
+    }
+
+    if (filter.name === WORKFLOW) {
+      return transformOptions(workflowLabels, i18n.locale);
+    }
+
+    return [];
+  };
+
+  const getOption = (filter = {}, value) => {
     if (filter.type === DATE_FIELD) {
       return i18n.localizeDate(value);
     }
 
+    const options = filterOptions(filter);
     const option = optionText(
       options.find(opt => get(opt, "id") === value),
       false
@@ -77,7 +97,8 @@ const InsightFilterTags = ({ filters = [] }) => {
 InsightFilterTags.displayName = "InsightFilterTags";
 
 InsightFilterTags.propTypes = {
-  filters: PropTypes.object
+  filters: PropTypes.object,
+  moduleID: PropTypes.string
 };
 
 export default InsightFilterTags;
