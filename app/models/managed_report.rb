@@ -17,10 +17,10 @@ class ManagedReport < ValueObject
         permitted_filters: [:grouped_by, date_of_first_report: {}, incident_date: {}],
         module_id: PrimeroModule::GBV
       ),
-      Permission::FAMILY_VIOLENCE_REPORT => ManagedReport.new(
-        id: 'family_violence',
-        name: 'managed_reports.family_violence.name',
-        description: 'managed_reports.family_violence.description',
+      Permission::WORKFLOW_REPORT => ManagedReport.new(
+        id: 'workflow_report',
+        name: 'managed_reports.workflow_report.name',
+        description: 'managed_reports.workflow_report.description',
         subreports: %w[cases_workflow],
         permitted_filters: [
           :grouped_by, :created_by_groups, :owned_by_groups, status: {}, registration_date: {}

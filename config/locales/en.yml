@@ -2097,11 +2097,11 @@ en:
         service_protection_referral: Child Protection Services
         vulnerable_populations: Vulnerable Populations
         survivors_disability_type: With Disabilities
-    family_violence:
-      name: Family Violence
+    workflow_report:
+      name: Workflow
       description: ''
       reports:
-        cases_workflow: Cases
+        cases_workflow: Workflow - Cases
       filter_options:
         registration_date: Registration Date
       sub_reports:
@@ -3172,9 +3172,9 @@ en:
             label: Global Horizontal Note
           individual_children:
             label: Individual Children
-          family_violence:
-            label: Family Violence
-            explanation: Ability to view statistics on Family Violence. This permission also allows the user to export
+          workflow_report:
+            label: Workflow
+            explanation: Ability to view statistics on Workflow Status. This permission also allows the user to export
               data from an Insight.
       matching_configuration:
         actions:

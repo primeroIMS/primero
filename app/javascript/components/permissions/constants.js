@@ -67,7 +67,6 @@ export const ACTIONS = {
   EXPORT_PHOTO_WALL: "export_photowall",
   EXPORT_UNHCR: "export_unhcr_csv",
   FIND_TRACING_MATCH: "find_tracing_match",
-  FAMILY_VIOLENCE: "family_violence",
   FLAG: "flag",
   GBV_STATISTICS: "gbv_statistics",
   GROUP_READ: "group_read",
@@ -110,6 +109,7 @@ export const ACTIONS = {
   VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
   VIEW_REGISTRY_RECORD: "view_registry_record",
   VIOLATIONS: "violations",
+  WORKFLOW_REPORT: "workflow_report",
   WRITE: "write"
 };
 
@@ -168,7 +168,7 @@ export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
 
 export const READ_REPORTS = [...MANAGE, ACTIONS.READ, ACTIONS.GROUP_READ, ACTIONS.AGENCY_READ];
 
-export const READ_MANAGED_REPORTS = [...MANAGE, ACTIONS.GBV_STATISTICS, ACTIONS.VIOLATIONS, ACTIONS.FAMILY_VIOLENCE];
+export const READ_MANAGED_REPORTS = [...MANAGE, ACTIONS.GBV_STATISTICS, ACTIONS.VIOLATIONS, ACTIONS.WORKFLOW_REPORT];
 
 export const EXPORT_CUSTOM = [...MANAGE, ACTIONS.EXPORT_CUSTOM];
 
