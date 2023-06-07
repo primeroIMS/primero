@@ -10,7 +10,7 @@ class AuditLog < ApplicationRecord
   SENDING = 'sending'      # Started HTTP send request
   SENT = 'sent'            # Completed HTTP send request successfully
   SYNCED = 'synced'        # The downstream system processed the send request and reverted
-  AUDIT_LOG_STADISTIC = '[AuditLogStadistic]'
+  AUDIT_LOG_STADISTIC = '[AuditLogStatistic]'
 
   default_scope { order(timestamp: :desc) }
 
