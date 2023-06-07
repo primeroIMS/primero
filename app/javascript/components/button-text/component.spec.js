@@ -1,4 +1,5 @@
 import { mountedComponent, screen } from "test-utils";
+
 import ButtonText from "./component";
 
 describe("<ButtonText />", () => {
@@ -14,8 +15,3 @@ describe("<ButtonText />", () => {
     expect(screen.getByText("Test Title")).toBeInTheDocument();
   });
 });
-
-
-
-
-
