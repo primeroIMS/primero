@@ -163,7 +163,7 @@ class Report < ApplicationRecord
 
   def build_query
     query = model.try(:parent_record_type).present? ? join_nested_model : model
-    query = query.select(Arel.sql("#{field_queries.map(&:to_sql).join(",\n")}, count(*) as total"))
+    query = select_fields(query)
     query = apply_filters(query)
     query = query.group(group_by_fields)
     query = query.order(sort_fields)
@@ -310,6 +310,14 @@ class Report < ApplicationRecord
     @pivots_map ||= pivots.map do |pivot|
       [pivot, pivot_fields[pivot] || pivot_fields[Field.remove_admin_level_from_name(pivot)]]
     end.to_h
+  end
+
+  def select_fields(query)
+    query.select(
+      Arel.sql(
+        "#{ActiveRecord::Base.sanitize_sql(field_queries.map(&:to_sql).join(",\n"))}, count(*) as total"
+      )
+    )
   end
 end
 # rubocop:enable Metrics/ClassLength
