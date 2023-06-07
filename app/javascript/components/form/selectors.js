@@ -5,7 +5,7 @@ import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
 import { createCachedSelector } from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import memoize from "proxy-memoize";
+import { memoize } from "proxy-memoize";
 
 import { RECORD_PATH } from "../../config";
 import {

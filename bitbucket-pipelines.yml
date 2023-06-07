@@ -21,6 +21,7 @@ definitions:
           - npm run test:batch:3
           - npm run test:batch:4
           - npm run test:batch:5
+          - npm run test:new -- --maxWorkers=2
           - npm run lint:run
         caches:
           - node

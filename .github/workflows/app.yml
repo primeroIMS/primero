@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - 'release-*'
+      - develop_react_upgrade
   workflow_dispatch:
 
 jobs:
@@ -111,6 +112,20 @@ jobs:
         run: |
           npm ci
           npm run test:batch:5
+  client-test-new:
+    name: Client Test (New)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+      - name: Run client tests
+        run: |
+          npm ci
+          npm run test:new -- --maxWorkers=2
   client-lint:
     name: Client Linter
     runs-on: ubuntu-latest

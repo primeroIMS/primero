@@ -70,7 +70,9 @@ jobs:
       - bash: |
           npm run test:batch:5
         displayName: 'Run Integration test Batch 5'
-
+      - bash: |
+          npm run test:new -- --maxWorkers=2
+        displayName: 'Run Integration test (New)'
 
   - job: Build
     displayName: 'Build and push'

@@ -16,7 +16,6 @@ describe("app/javascript/test/utils/index", () => {
     "tick",
     "createSimpleMount",
     "createMiddleware",
-    "createMockStore",
     "listHeaders",
     "lookups",
     "translateOptions",
