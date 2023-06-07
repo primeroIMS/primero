@@ -26,7 +26,7 @@ class Field < ApplicationRecord
   DATE_VALIDATION_DEFAULT = 'default_date_validation'
   DATE_VALIDATION_NOT_FUTURE = 'not_future_date'
 
-  ADMIN_LEVEL_REGEXP = Regexp.new("[#{Location::ADMIN_LEVELS.join}]$")
+  ADMIN_LEVEL_REGEXP = Regexp.new("[#{Location::ADMIN_LEVELS.join}]$").freeze
 
   localize_properties :display_name, :help_text, :guiding_questions, :tick_box_label
   localize_properties :option_strings_text, :tally, options_list: true
