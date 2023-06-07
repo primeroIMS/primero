@@ -10,7 +10,7 @@ class AuditLog < ApplicationRecord
   SENDING = 'sending'      # Started HTTP send request
   SENT = 'sent'            # Completed HTTP send request successfully
   SYNCED = 'synced'        # The downstream system processed the send request and reverted
-  AUDIT_LOG_STADISTIC = '[AuditLogStatistic]'
+  AUDIT_LOG_STATISTIC = '[AuditLogStatistic]'
 
   default_scope { order(timestamp: :desc) }
 
@@ -59,8 +59,8 @@ class AuditLog < ApplicationRecord
     log_message_hash
   end
 
-  def stadistic_message
-    "#{AUDIT_LOG_STADISTIC}: #{record_type},#{action},#{metadata['remote_ip']},#{user_id},"\
+  def statistic_message
+    "#{AUDIT_LOG_STATISTIC}[#{id}]: #{record_type},#{action},#{metadata['remote_ip']},#{user_id},"\
     "#{metadata['role_id']},#{metadata['agency_id']}"
   end
 

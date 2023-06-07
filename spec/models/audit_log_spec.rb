@@ -56,7 +56,7 @@ describe AuditLog do
     end
   end
 
-  describe '.stadistic_message' do
+  describe '.statistic_message' do
     before(:each) do
       clean_data(AuditLog)
     end
@@ -76,7 +76,7 @@ describe AuditLog do
       )
     end
 
-    it 'return empty when record_type is ManagedReport' do
+    it 'return a metadata values' do
       expect(audit_log.metadata['role_id']).to eq(1)
       expect(audit_log.metadata['agency_id']).to eq(1)
       expect(audit_log.metadata['remote_ip']).to eq("127.0.0.1")

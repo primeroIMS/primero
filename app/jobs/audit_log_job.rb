@@ -7,20 +7,14 @@ class AuditLogJob < ApplicationJob
   def perform(**args)
     audit_log = AuditLog.new(args)
     audit_log.save
-    write_log_with_user_info(audit_log.stadistic_message)
-    write_log(audit_log.log_message)
+    logger.info(audit_log.statistic_message)
 
     # TODO: Any external audit reporting integrations go here.
   end
 
+  # TODO: Deprecated
   def write_log(log_message = {})
     logger.info("#{message_prefix(log_message)} #{log_message[:identifier]} #{message_suffix(log_message)}")
-  end
-
-  def write_log_with_user_info(stadistic_message)
-    # return unless ENV['PRIMERO_ANNOTATE_LOGS_WITH_USER']
-
-    logger.info(stadistic_message)
   end
 
   private
