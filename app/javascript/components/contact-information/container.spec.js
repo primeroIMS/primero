@@ -4,8 +4,6 @@ import Support from "./container";
 import { ContactInformationRecord } from "./records";
 
 describe("<Support />", () => {
-  let component;
-
   beforeEach(() => {
     mountedComponent(<Support />, {
       records: {
@@ -27,6 +25,6 @@ describe("<Support />", () => {
   });
 
   it("renders the Support", () => {
-    expect(screen.getAllByRole("support")).toHaveLength(1);
+    expect(screen.getAllByTestId("support")).toHaveLength(1);
   });
 });

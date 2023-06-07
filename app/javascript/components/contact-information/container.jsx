@@ -30,7 +30,7 @@ const Support = () => {
 
   return (
     <>
-      <h1 className={css.PageTitle} role="support">
+      <h1 className={css.PageTitle} data-testid="support">
         {i18n.t("contact.info_label")}
       </h1>
       {renderInformation}
