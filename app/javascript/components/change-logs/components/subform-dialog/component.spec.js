@@ -1,6 +1,8 @@
 import { mountedComponent, screen } from "test-utils";
 import { fromJS, OrderedMap } from "immutable";
+
 import { FieldRecord } from "../../../record-form";
+
 import SubformDialog from "./component";
 
 describe("SubformDialog - Component", () => {
@@ -125,8 +127,8 @@ describe("SubformDialog - Component", () => {
     },
     open: true,
     calculatingChangeLog: false,
-    setCalculatingChangeLog: () => { },
-    setOpen: () => { }
+    setCalculatingChangeLog: () => {},
+    setOpen: () => {}
   };
 
   beforeEach(() => {
@@ -135,15 +137,15 @@ describe("SubformDialog - Component", () => {
 
   it("renders SubformDialog", () => {
     const element = screen.getByText("change_logs.add_subform");
+
     expect(element).toBeInTheDocument();
   });
 
   it("renders ActionDialog", () => {
-    expect(screen.getAllByRole('dialog')).toHaveLength(1);
+    expect(screen.getAllByRole("dialog")).toHaveLength(1);
   });
 
   it("renders ChangeLogItem", () => {
-    expect(screen.getAllByRole('timeline')).toHaveLength(2);
+    expect(screen.getAllByTestId("timeline")).toHaveLength(2);
   });
 });
-

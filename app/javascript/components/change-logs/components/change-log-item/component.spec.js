@@ -1,5 +1,6 @@
 import { mountedComponent, screen } from "test-utils";
-import ChangeLogItem from "../change-log-item";
+
+import ChangeLogItem from ".";
 
 describe("ChangeLogItems - Component", () => {
   const title = "Changed Nationality from Canada to Australia";
@@ -18,12 +19,13 @@ describe("ChangeLogItems - Component", () => {
   });
   it("renders ChangeLogItem", () => {
     const element = screen.getByText("Changed Nationality from Canada to Australia");
+
     expect(element).toBeInTheDocument();
   });
 
   it("renders the change", () => {
     const element = screen.getByText('change_logs.from "Canada" change_logs.to "Australia"');
+
     expect(element).toBeInTheDocument();
   });
 });
-

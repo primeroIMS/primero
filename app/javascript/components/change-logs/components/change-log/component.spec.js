@@ -1,8 +1,11 @@
 import { mountedComponent, screen } from "test-utils";
 import { fromJS, OrderedMap } from "immutable";
+
 import { FieldRecord } from "../../../record-form";
 import { ChangeLogsRecord } from "../../records";
+
 import ChangeLog from "./component";
+
 describe("ChangeLog - Component", () => {
   const allFields = OrderedMap({
     0: FieldRecord({
@@ -116,9 +119,9 @@ describe("ChangeLog - Component", () => {
         record_changes: []
       })
     ]),
-    setCalculatingChangeLog: () => { },
-    setOpen: () => { },
-    setRecordChanges: () => { }
+    setCalculatingChangeLog: () => {},
+    setOpen: () => {},
+    setRecordChanges: () => {}
   };
 
   beforeEach(() => {
@@ -126,11 +129,11 @@ describe("ChangeLog - Component", () => {
   });
   it("renders ChangeLog", () => {
     const element = screen.getByText("change_logs.create");
+
     expect(element).toBeInTheDocument();
   });
 
   it("renders ChangeLogItem", () => {
-    expect(screen.getAllByRole('timeline')).toHaveLength(4);
+    expect(screen.getAllByTestId("timeline")).toHaveLength(4);
   });
 });
-
