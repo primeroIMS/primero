@@ -45,3 +45,9 @@
     }
   }
 }
+
+[dir="rtl"] .filter {
+  & > div:first-of-type {
+    margin: 0 0 0 var(--sp-1);
+  }
+}
