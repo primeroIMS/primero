@@ -50,13 +50,18 @@ const Component = ({
     source: OPTION_TYPES.FORM_GROUP,
     run: field?.option_strings_source === OPTION_TYPES.FORM_GROUP
   });
+  const userGroups = useOptions({
+    source: OPTION_TYPES.USER_GROUP,
+    run: field?.option_strings_source === OPTION_TYPES.USER_GROUP
+  });
 
   const lookups = [
     ...dataToJS(allLookups),
     ...[{ unique_id: OPTION_TYPES.LOCATION, values: dataToJS(location) }],
     ...[{ unique_id: OPTION_TYPES.AGENCY, values: dataToJS(agencies) }],
     ...[{ unique_id: OPTION_TYPES.MODULE, values: dataToJS(modules) }],
-    ...[{ unique_id: OPTION_TYPES.FORM_GROUP, values: dataToJS(formGroups) }]
+    ...[{ unique_id: OPTION_TYPES.FORM_GROUP, values: dataToJS(formGroups) }],
+    ...[{ unique_id: OPTION_TYPES.USER_GROUP, values: dataToJS(userGroups) }]
   ];
 
   const constraintLabel = getConstraintLabel(data, field, constraints, i18n);

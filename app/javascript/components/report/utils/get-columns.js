@@ -1,18 +1,13 @@
 import uniq from "lodash/uniq";
 
-export default (data, i18n, qtyColumns, qtyRows) => {
-  const totalLabel = i18n.t("report.total");
-  const columnsArray = isNested => {
-    return uniq(
-      Object.values(data)
-        .map(currValue => Object.keys(isNested ? Object.values(currValue)[0] : currValue))
-        .flat()
-    ).filter(key => key !== totalLabel);
-  };
+import getFirstKeyValue from "./get-first-key-value";
 
-  if (qtyRows >= 2 && qtyColumns > 0) {
-    return columnsArray(true);
-  }
+export default (data, totalLabel, qtyColumns, qtyRows) => {
+  const isNested = qtyRows >= 2 && qtyColumns > 0;
 
-  return columnsArray();
+  return uniq(
+    Object.values(data)
+      .map(current => Object.keys(isNested ? getFirstKeyValue(current, totalLabel) : current))
+      .flat()
+  ).filter(key => key !== totalLabel);
 };

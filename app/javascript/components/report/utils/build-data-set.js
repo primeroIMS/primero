@@ -18,7 +18,7 @@ export default (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies, lo
 
   if (!isEmpty(columns)) {
     sortByDate(columns).forEach((column, index) => {
-      const label = getTranslatedKey(column, field, { agencies, locations });
+      const label = getTranslatedKey(column, field, { agencies, i18n, locations });
 
       dataResults.push({
         label: formattedDate(label, i18n),

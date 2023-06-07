@@ -6,7 +6,7 @@ require 'will_paginate'
 
 describe TracingRequest do
   before do
-    clean_data(Trace, TracingRequest, Agency)
+    clean_data(SavedSearch, User, Trace, TracingRequest, Agency)
 
     create(:agency)
   end
@@ -195,6 +195,6 @@ describe TracingRequest do
   end
 
   after do
-    clean_data(Trace, TracingRequest, Agency)
+    clean_data(SavedSearch, User, Trace, TracingRequest, Agency)
   end
 end

@@ -3,7 +3,7 @@ import { createSelectorCreator, defaultMemoize } from "reselect";
 import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
 import { useCallback } from "react";
-import memoize from "proxy-memoize";
+import { memoize } from "proxy-memoize";
 
 const selectorEqualityFn = (val1, val2) => {
   return val1 === val2;
@@ -14,8 +14,8 @@ const useMemoizedSelector = (selector, equalityFn) => {
 };
 
 const createProxySelectorHook = () => {
-  const useProxySelector = (fn, deps) => {
-    return useMemoizedSelector(useCallback(memoize(fn), deps));
+  const useProxySelector = (fn, deps, equalityFn) => {
+    return useMemoizedSelector(useCallback(memoize(fn), deps), equalityFn || selectorEqualityFn);
   };
 
   return useProxySelector;

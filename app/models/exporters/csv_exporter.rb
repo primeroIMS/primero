@@ -23,10 +23,9 @@ class Exporters::CsvExporter < Exporters::BaseExporter
     end
   end
 
-  def export(records, user, options = {})
-    establish_export_constraints(records, user, options)
+  def export(records)
     csv_export = CSVSafe.generate do |rows|
-      rows << headers(fields) if @called_first_time.nil?
+      rows << headers if @called_first_time.nil?
       @called_first_time ||= true
 
       records.each do |record|
@@ -38,8 +37,8 @@ class Exporters::CsvExporter < Exporters::BaseExporter
 
   private
 
-  def headers(fields)
-    ['id'] + fields.map(&:name)
+  def headers
+    ['id'] + field_names
   end
 
   def row(record, fields)

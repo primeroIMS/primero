@@ -10,9 +10,9 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { useDialog } from "../action-dialog";
-import { ROUTES, SAVE_METHODS } from "../../config";
+import { RECORD_PATH, ROUTES, SAVE_METHODS } from "../../config";
 import { useMemoizedSelector } from "../../libs";
-import { useApp } from "../application";
+import { fetchUserGroups, useApp } from "../application";
 import { getAgeRanges, getReportingLocationConfig } from "../application/selectors";
 import Form, { FormAction, whichFormMode } from "../form";
 import { useI18n } from "../i18n";
@@ -24,6 +24,7 @@ import { getReport } from "../report/selectors";
 import { NAME as TranslationsFormName } from "../translations-dialog/constants";
 import TranslationsDialog from "../translations-dialog";
 import { buildLocaleFields, localesToRender } from "../translations-dialog/utils";
+import { usePermissions, READ_RECORDS } from "../permissions";
 
 import { clearSelectedReport, saveReport } from "./action-creators";
 import ReportFilters from "./components/filters";
@@ -49,6 +50,8 @@ const Container = ({ mode }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { userModules } = useApp();
+
+  const canReadUserGroups = usePermissions(RECORD_PATH.user_groups, READ_RECORDS);
 
   const [selectedRecordType, setSelectedRecordType] = useState(null);
   const [selectedModule, setSelectedModule] = useState(null);
@@ -93,6 +96,12 @@ const Container = ({ mode }) => {
       setIndexes(SHARED_FILTERS.map((data, index) => ({ index, data })));
     }
   }, [report]);
+
+  useEffect(() => {
+    if (canReadUserGroups) {
+      dispatch(fetchUserGroups());
+    }
+  }, [canReadUserGroups]);
 
   const onManageTranslations = () => setDialog({ dialog: TranslationsFormName, open: true });
 

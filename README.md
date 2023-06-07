@@ -61,7 +61,7 @@ you will need to run the build and the compose scripts as `sudo`.
 
 5. Install ruby version
 
-        $ rbenv install 2.7.4
+        $ rbenv install 2.7.8
 
 ### Install Node and NPM via NVM
 

@@ -26,9 +26,9 @@ module Exporters
       end
     end
 
-    def initialize(output_file_path = nil, pdf = nil)
-      super(output_file_path)
-      @pdf = pdf || Prawn::Document.new
+    def initialize(output_file_path = nil, config = {}, options = {})
+      super(output_file_path, config, options)
+      @pdf = config[:pdf] || Prawn::Document.new
     end
 
     def complete
@@ -37,7 +37,7 @@ module Exporters
       buffer.rewind
     end
 
-    def export(child_data, _, *_args)
+    def export(child_data)
       cases_with_photo = child_data.select(&:has_photo)
       return no_photo_available(@pdf) if cases_with_photo.empty?
 

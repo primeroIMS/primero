@@ -74,6 +74,7 @@ class Header < ValueObject
     # rubocop:disable Metrics/PerceivedComplexity
     # rubocop:disable Metrics/MethodLength
     def case_headers(user)
+      # NOTE: If headers are updated they will also need to be updated on indexeddb.
       header_list = []
       header_list << CASE_ID_DISPLAY
       header_list << SHORT_ID
@@ -94,6 +95,7 @@ class Header < ValueObject
     end
 
     def incident_headers(user)
+      # NOTE: If headers are updated they will also need to be updated on indexeddb.
       header_list = []
       header_list << SHORT_ID
       header_list << DATE_OF_INCIDENT if user.module?(PrimeroModule::MRM)
@@ -115,10 +117,12 @@ class Header < ValueObject
     # rubocop:enable Metrics/MethodLength
 
     def tracing_request_headers
+      # NOTE: If headers are updated they will also need to be updated on indexeddb.
       [SHORT_ID, NAME_OF_INQUIRER, DATE_OF_INQUIRY, TRACING_REQUESTS, FLAG_COUNT]
     end
 
     def registry_record_headers(user)
+      # NOTE: If headers are updated they will also need to be updated on indexeddb.
       header_list = []
       header_list << SHORT_ID
       header_list << REGISTRY_NAME

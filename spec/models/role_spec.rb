@@ -234,7 +234,7 @@ describe Role do
     end
     context 'form from another primero-module' do
       before do
-        clean_data(PrimeroModule, PrimeroProgram, Role)
+        clean_data(Role, PrimeroModule, PrimeroProgram)
         @primero_module = create(
           :primero_module, name: 'CP', description: 'Child Protection', associated_record_types: ['case']
         )
@@ -264,7 +264,7 @@ describe Role do
         expect(role.form_sections).to eq([])
       end
       after do
-        clean_data(PrimeroModule, PrimeroProgram, Role)
+        clean_data(Role, PrimeroModule, PrimeroProgram)
       end
     end
   end

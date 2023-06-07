@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useWatch } from "react-hook-form";
 import PropTypes from "prop-types";
 
@@ -5,7 +6,7 @@ import { useMemoizedSelector } from "../../../libs";
 import { MODULES, RECORD_TYPES_PLURAL } from "../../../config";
 import { hasPrimeroModule } from "../../user";
 import { getFiltersByRecordType } from "../selectors";
-import { PRIMARY_FILTERS } from "../constants";
+import { DEFAULT_FILTERS, PRIMARY_FILTERS } from "../constants";
 
 import MoreSection from "./more-section";
 import Actions from "./actions";
@@ -15,7 +16,6 @@ import FilterCategory from "./filter-category";
 
 const TabFilters = ({
   addFilterToList,
-  defaultFilters,
   filterToList,
   formMethods,
   handleClear,
@@ -32,8 +32,14 @@ const TabFilters = ({
   const filterCategory = useWatch({ control: formMethods.control, name: "filter_category" });
   const filters = useMemoizedSelector(state => getFiltersByRecordType(state, recordType, filterCategory));
   const hasPrimeroModuleMRM = useMemoizedSelector(state => hasPrimeroModule(state, MODULES.MRM));
-  const allPrimaryFilters = filters.filter(filter => PRIMARY_FILTERS.includes(filter.field_name));
-  const allDefaultFilters = filters.filter(filter => [...defaultFilters.keys()].includes(filter.field_name));
+  const allPrimaryFilters = useMemo(
+    () => filters.filter(filter => PRIMARY_FILTERS.includes(filter.field_name)),
+    [filters]
+  );
+  const allDefaultFilters = useMemo(
+    () => filters.filter(filter => [...Object.keys(DEFAULT_FILTERS)].includes(filter.field_name)),
+    [filters]
+  );
 
   return (
     <div className={css.tabContent}>
@@ -74,7 +80,6 @@ TabFilters.displayName = "TabFilters";
 
 TabFilters.propTypes = {
   addFilterToList: PropTypes.func,
-  defaultFilters: PropTypes.object,
   filterToList: PropTypes.object,
   formMethods: PropTypes.object,
   handleClear: PropTypes.func,

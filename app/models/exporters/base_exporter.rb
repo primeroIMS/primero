@@ -7,7 +7,8 @@ class Exporters::BaseExporter
     Field::DATE_FIELD, Field::DATE_RANGE, Field::TICK_BOX, Field::TALLY_FIELD, Field::SUBFORM
   ].freeze
 
-  attr_accessor :locale, :lookups, :fields, :forms, :field_value_service, :location_service
+  attr_accessor :locale, :lookups, :fields, :field_names, :forms, :field_value_service,
+                :location_service, :record_type, :user, :options
 
   class << self
     def supported_models
@@ -28,38 +29,43 @@ class Exporters::BaseExporter
 
     # This is a class method that does a one-shot export to a String buffer.
     # Don't use this for large data sets.
-    def export(*args)
-      exporter_obj = new
-      exporter_obj.export(*args)
+    def export(records, *args)
+      exporter_obj = new(*args)
+      exporter_obj.export(records)
       exporter_obj.complete
       exporter_obj.buffer.string
     end
   end
 
-  def initialize(output_file_path = nil, locale = nil)
-    @io = if output_file_path.present?
-            File.new(output_file_path, 'w')
-          else
-            StringIO.new
-          end
-    self.locale = locale || I18n.locale
-    self.location_service = LocationService.instance
-    self.field_value_service = FieldValueService.new(location_service: location_service)
+  def initialize(output_file_path = nil, config = {}, options = {})
+    @io = output_file_path.present? ? File.new(output_file_path, 'w') : StringIO.new
+    self.locale = config[:locale] || I18n.locale
+    self.record_type = config[:record_type]
+    self.user = config[:user]
+    self.options = options
+    intialize_services
+    establish_export_constraints
   end
 
   def export(*_args)
     raise NotImplementedError
   end
 
-  def establish_export_constraints(records, user, options = {})
-    self.forms = forms_to_export(records, user, options)
-    self.fields = fields_to_export(forms, options)
+  def intialize_services
+    self.location_service = LocationService.instance
+    self.field_value_service = FieldValueService.new(location_service: location_service)
   end
 
-  def model_class(models)
-    return unless models.present? && models.is_a?(Array)
+  def establish_export_constraints
+    return unless setup_export_constraints? && user.present?
 
-    models.first.class
+    self.forms = forms_to_export
+    self.fields = fields_to_export
+    self.field_names = fields.map(&:name)
+  end
+
+  def setup_export_constraints?
+    true
   end
 
   def export_value(value, field)
@@ -82,21 +88,19 @@ class Exporters::BaseExporter
     @io
   end
 
-  def user_permitted_forms(record_type, user)
-    user.role.permitted_forms(record_type, true, false)
+  def user_permitted_forms(record_type, user, include_subforms = false)
+    user.role.permitted_forms(record_type, true, include_subforms)
   end
 
   private
 
-  def forms_to_export(records, user, options = {})
-    record_type = model_class(records)&.parent_form
-    forms = user_permitted_forms(record_type, user)
+  def forms_to_export(include_subforms = false)
+    forms = user_permitted_forms(record_type, user, include_subforms)
     forms = forms.where(unique_id: options[:form_unique_ids]) if options[:form_unique_ids].present?
-
     forms.map { |form| forms_without_hidden_fields(form) }
   end
 
-  def fields_to_export(forms, options = {})
+  def fields_to_export
     fields = forms.map(&:fields).flatten.reject(&:hide_on_view_page?).uniq(&:name)
     fields -= (self.class.excluded_field_names&.to_a || [])
     return fields if options[:field_names].blank?
@@ -115,16 +119,31 @@ class Exporters::BaseExporter
   end
 
   def forms_without_hidden_fields(form)
-    form_dup = form.dup
-    form_dup.subform_field = form.subform_field
-    form.fields.reject(&:hide_on_view_page?).map(&:dup).each do |field|
-      next unless field.visible
-
-      field.form_section = form_dup
+    form_dup = duplicate_form(form)
+    form_dup.fields = form_dup.fields.reject { |field| field.hide_on_view_page? || !field.visible }.map do |field|
       # TODO: This cause N+1
-      field.subform = forms_without_hidden_fields(field.subform) if field.type == Field::SUBFORM
-      form_dup.fields << field
+      if field.subform.present? && field.type == Field::SUBFORM
+        field.subform = forms_without_hidden_fields(field.subform)
+      end
+
+      field
     end
     form_dup
+  end
+
+  def duplicate_form(form)
+    form_dup = FormSection.new(form.as_json.except('id'))
+    form_dup.subform_field = Field.new(form.subform_field.as_json.except('id')) if form.subform_field.present?
+    form_dup.fields = duplicate_fields(form_dup, form.fields)
+    form_dup
+  end
+
+  def duplicate_fields(form_dup, fields)
+    fields.map do |field|
+      field_dup = Field.new(field.as_json.except('id'))
+      field_dup.subform = duplicate_form(field.subform) if field.subform.present?
+      field_dup.form_section = form_dup
+      field_dup
+    end
   end
 end

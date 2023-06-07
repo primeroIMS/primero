@@ -10,12 +10,17 @@ describe("<UsersForm /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
-    ["fetchUser", "saveUser", "clearSelectedUser", "newPasswordResetRequest", "passwordResetRequest"].forEach(
-      property => {
-        expect(creators).to.have.property(property);
-        delete creators[property];
-      }
-    );
+    [
+      "fetchUser",
+      "saveUser",
+      "clearSelectedUser",
+      "clearRecordsUpdate",
+      "newPasswordResetRequest",
+      "passwordResetRequest"
+    ].forEach(property => {
+      expect(creators).to.have.property(property);
+      delete creators[property];
+    });
 
     expect(creators).to.be.empty;
   });
@@ -73,6 +78,10 @@ describe("<UsersForm /> - Action Creators", () => {
             },
             {
               action: CLEAR_DIALOG
+            },
+            {
+              action: actions.RECORDS_UPDATE,
+              payload: false
             }
           ]
         }
