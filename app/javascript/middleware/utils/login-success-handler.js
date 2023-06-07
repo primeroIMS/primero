@@ -5,7 +5,7 @@ import { setAuthenticatedUser } from "../../components/user";
 
 import handleReturnUrl from "./handle-return-url";
 
-export default async (store, user = {}, history) => {
+export default async (store, user = {}) => {
   const { user_name: username, id } = user;
   const formattedUser = { username, id };
   const pendingUserLogin = store.getState().getIn(["connectivity", "pendingUserLogin"], false);
@@ -15,17 +15,14 @@ export default async (store, user = {}, history) => {
     await DB.clearDB();
   }
 
-  localStorage.setItem("user", JSON.stringify(formattedUser));
-  store.dispatch(setAuthenticatedUser(formattedUser));
-
   if (!pendingUserLogin) {
+    localStorage.setItem("user", JSON.stringify(formattedUser));
+    store.dispatch(setAuthenticatedUser(formattedUser));
     handleReturnUrl(store);
   }
 
   if (pendingUserLogin) {
-    const { pathname, search } = history.location;
-
-    history.push([pathname, search].join(""));
+    postMessage({ message: "reload" }, window.location.origin);
   }
 
   store.dispatch(clearDialog());
