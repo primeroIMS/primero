@@ -25,6 +25,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         code_of_conduct: codesOfConduct,
         system_options: systemOptions,
         export_require_password: exportRequirePassword,
+        primary_age_range: primaryAgeRange,
         incident_reporting_location_config: incidentReportingLocationConfig
       } = payload.data;
 
@@ -41,7 +42,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           approvalsLabels,
           codesOfConduct,
           systemOptions,
-          exportRequirePassword
+          exportRequirePassword,
+          primaryAgeRange
         })
       );
     }

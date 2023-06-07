@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import isNil from "lodash/isNil";
 import isString from "lodash/isString";
 
-import { getAgeRanges } from "../application/selectors";
+import { getAgeRanges, getPrimaryAgeRanges } from "../application/selectors";
 import { getLoading, getErrors } from "../index-table/selectors";
 import LoadingIndicator from "../loading-indicator";
 import { useI18n } from "../i18n";
@@ -52,7 +52,7 @@ const Component = () => {
   const insight = useMemoizedSelector(state => getInsight(state));
   const isGrouped = useMemoizedSelector(state => getIsGroupedInsight(state, subReport));
   const groupedBy = useMemoizedSelector(state => getInsightFilter(state, GROUPED_BY_FILTER));
-  const primeroAgeRanges = useMemoizedSelector(state => getAgeRanges(state));
+  const primaryAgeRanges = useMemoizedSelector(state => getPrimaryAgeRanges(state));
 
   const insightMetadata = insight.getIn(["report_data", subReport, "metadata"], fromJS({}));
   const insightLookups = insightMetadata.get("lookups", fromJS({})).entrySeq().toArray();
@@ -100,7 +100,7 @@ const Component = () => {
 
   const singleInsightsTableData = buildSingleInsightsData(reportData, isGrouped).toList();
 
-  const ageRanges = (primeroAgeRanges || fromJS([])).reduce((acc, range) => acc.concat(formatAgeRange(range)), []);
+  const ageRanges = (primaryAgeRanges || fromJS([])).reduce((acc, range) => acc.concat(formatAgeRange(range)), []);
 
   const TableComponent = {
     ghn_report: TableValues,

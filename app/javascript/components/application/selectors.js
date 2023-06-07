@@ -91,6 +91,10 @@ export const getResourceActions = (state, resource) =>
 
 export const getAgeRanges = (state, name = "primero") => state.getIn([NAMESPACE, "ageRanges", name], fromJS([]));
 
+export const getPrimaryAgeRange = state => state.getIn([NAMESPACE, "primaryAgeRange"], "primero");
+
+export const getPrimaryAgeRanges = state => getAgeRanges(state, getPrimaryAgeRange(state));
+
 export const getReportableTypes = state => state.getIn([NAMESPACE, "reportableTypes"], fromJS([]));
 
 export const approvalsLabels = state => state.getIn([NAMESPACE, "approvalsLabels"], fromJS({}));
