@@ -39,7 +39,7 @@ const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, error
     const queryValue = value ? value.get("query") : [];
 
     return (
-      <div key={lk.id} role="DashboardChip">
+      <div key={lk.id}>
         <DashboardChip label={`${countValue} ${lk.display_text}`} type={lk.id} handleClick={handleClick(queryValue)} />
       </div>
     );

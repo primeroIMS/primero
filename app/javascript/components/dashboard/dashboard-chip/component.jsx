@@ -9,7 +9,7 @@ const DashboardChip = ({ label, type, handleClick }) => {
   const classes = clsx(css.chip, css[type]);
 
   return (
-    <Button id={`chip-${type}`} label={label} className={classes} onClick={handler} variant="text" role="dashboard">
+    <Button id={`chip-${type}`} label={label} className={classes} onClick={handler} variant="text">
       {label}
     </Button>
   );

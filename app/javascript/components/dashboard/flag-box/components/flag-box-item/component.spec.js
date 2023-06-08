@@ -3,7 +3,6 @@ import { mountedComponent, screen } from "test-utils";
 import FlagBoxItem from "./component";
 
 describe("<FlagBoxItem />", () => {
-  let component;
   const props = {
     date: "2020-12-10",
     reason: "Reason 1",

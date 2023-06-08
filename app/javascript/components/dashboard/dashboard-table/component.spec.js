@@ -1,10 +1,9 @@
-import { fromJS } from "immutable";
 import { mountedComponent, screen } from "test-utils";
+import { fromJS } from "immutable";
 
 import DashboardTable from "./component";
 
 describe("<DashboardTable />", () => {
-  let component;
   const props = {
     columns: [],
     data: [],
@@ -26,7 +25,6 @@ describe("<DashboardTable />", () => {
   });
 
   it("renders a MUIDataTable />", () => {
-    // expect(component.find(MUIDataTable)).to.have.lengthOf(1);
     expect(screen.getByRole("toolbar")).toBeInTheDocument();
   });
 
@@ -35,9 +33,6 @@ describe("<DashboardTable />", () => {
   });
 
   it("should have attribute aria-label", () => {
-    // const label = component.find(MUIDataTable).find("table").first().props()["aria-label"];
-    // expect(label).to.equals(props.title);
-
     expect(screen.queryAllByText("label")).toBeTruthy();
   });
 });

@@ -1,12 +1,9 @@
 import { mountedComponent, screen } from "test-utils";
 import { fromJS } from "immutable";
 
-// import { setupMountedComponent } from "../../../test";
-
 import FlagBox from "./component";
 
 describe("<FlagBox />", () => {
-  let component;
   const props = {
     flags: fromJS([
       {
@@ -31,7 +28,6 @@ describe("<FlagBox />", () => {
   };
 
   beforeEach(() => {
-    // ({ component } = setupMountedComponent(FlagBox, props, {}));
     mountedComponent(<FlagBox {...props} />);
   });
 
