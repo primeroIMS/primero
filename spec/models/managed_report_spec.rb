@@ -18,7 +18,7 @@ describe ManagedReport do
     it 'should have gbv_statistics and violation keys' do
       expect(managed_reports.keys).to match_array([Permission::GBV_STATISTICS_REPORT,
                                                    Permission::VIOLATION_REPORT, Permission::GHN_REPORT,
-                                                   Permission::INDIVIDUAL_CHILDREN, Permission::SURVIVOR_REPORT])
+                                                   Permission::INDIVIDUAL_CHILDREN, Permission::WORKFLOW_REPORT])
     end
 
     it 'should return subreports of gbv_statistics' do

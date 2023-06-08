@@ -65,7 +65,9 @@ describe("<Report /> - constants", () => {
       "CREATED_BY_GROUPS_DISPLAY_NAME",
       "OWNED_BY_GROUPS_DISPLAY_NAME",
       "USER_GROUPS_FIELD_DISPLAY_NAME",
-      "USER_GROUP_DISPLAY_NAME"
+      "USER_GROUP_DISPLAY_NAME",
+      "WORKFLOW_DISPLAY_NAME",
+      "WORKFLOW"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

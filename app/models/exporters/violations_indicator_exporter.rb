@@ -2,6 +2,10 @@
 
 # Class to export the violations indicator
 class Exporters::ViolationsIndicatorExporter < Exporters::IndicatorExporter
+  def load_indicator_options
+    self.indicator_options = []
+  end
+
   def write
     write_table_header
     write_violations_data

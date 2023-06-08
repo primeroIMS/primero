@@ -235,15 +235,15 @@ describe Exporters::ManagedReportExporter do
 
           expect(workbook.sheet(0).row(12)).to eq(['Incident Type', nil])
           expect(workbook.sheet(0).row(13)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(14)).to eq(['Forced Marriage', 1])
-          expect(workbook.sheet(0).row(15)).to eq(['Rape', 1])
-          expect(workbook.sheet(0).row(16)).to eq(['Sexual Assault', 1])
+          expect(workbook.sheet(0).row(14)).to eq(['Rape', 1])
+          expect(workbook.sheet(0).row(15)).to eq(['Sexual Assault', 1])
+          expect(workbook.sheet(0).row(16)).to eq(['Forced Marriage', 1])
 
           expect(workbook.sheet(0).row(42)).to eq(['Incident Time of Day', nil])
           expect(workbook.sheet(0).row(43)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(44)).to eq(['Afternoon (noon to sunset)', 1])
-          expect(workbook.sheet(0).row(45)).to eq(['Evening/Night (sunset to sunrise)', 1])
-          expect(workbook.sheet(0).row(46)).to eq(['Morning (sunrise to noon)', 1])
+          expect(workbook.sheet(0).row(44)).to eq(['Morning (sunrise to noon)', 1])
+          expect(workbook.sheet(0).row(45)).to eq(['Afternoon (noon to sunset)', 1])
+          expect(workbook.sheet(0).row(46)).to eq(['Evening/Night (sunset to sunrise)', 1])
 
           expect(workbook.sheet(0).row(72)).to eq(['Time Between Incident and Report Date', nil])
           expect(workbook.sheet(0).row(73)).to eq([nil, 'Total'])
@@ -298,9 +298,9 @@ describe Exporters::ManagedReportExporter do
 
           expect(workbook.sheet(1).row(35)).to eq(["Alleged Primary Perpetrator's Relationship to Survivor", nil])
           expect(workbook.sheet(1).row(36)).to eq([nil, 'Total'])
-          expect(workbook.sheet(1).row(37)).to eq(['No relation', 2])
+          expect(workbook.sheet(1).row(37)).to eq(['Primary Caregiver', 3])
           expect(workbook.sheet(1).row(38)).to eq(['Other', 1])
-          expect(workbook.sheet(1).row(39)).to eq(['Primary Caregiver', 3])
+          expect(workbook.sheet(1).row(39)).to eq(['No relation', 2])
 
           expect(workbook.sheet(1).row(65)).to eq(['Alleged Primary Perpetrators Age Group', nil])
           expect(workbook.sheet(1).row(66)).to eq([nil, 'Total'])

@@ -37,7 +37,7 @@ class Exporters::IndicatorExporter < ValueObject
   end
 
   def total_subcolumn?
-    values.any? { |elem| elem.key?('total') }
+    subcolumn_options.present? && values.any? { |elem| elem.key?('total') }
   end
 
   def write

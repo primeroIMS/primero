@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import isNil from "lodash/isNil";
 import isString from "lodash/isString";
 
-import { getAgeRanges, getPrimaryAgeRanges } from "../application/selectors";
+import { getPrimaryAgeRanges } from "../application/selectors";
 import { getLoading, getErrors } from "../index-table/selectors";
 import LoadingIndicator from "../loading-indicator";
 import { useI18n } from "../i18n";
