@@ -104,6 +104,7 @@ class Exporters::IndicatorExporter < ValueObject
     chart.add_series(build_series(table_data_rows))
     chart.set_size(height: INITIAL_CHART_HEIGHT, width: chart_width(table_data_rows))
     chart.set_legend(none: true)
+    chart.set_x_axis(reverse: 1) if Primero::Application::RTL_LOCALES.include?(locale.to_sym)
     chart.set_y_axis(major_unit: 1)
     worksheet.insert_chart(current_row, 0, chart, 0, 0)
 

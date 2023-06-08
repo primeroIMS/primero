@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useMemo } from "react";
 
 import { useI18n } from "../../../i18n";
 import css from "../../styles.css";
@@ -26,6 +27,7 @@ function Component({
   valueKey
 }) {
   const i18n = useI18n();
+  const isRtl = useMemo(() => i18n.dir === "rtl", [i18n.dir]);
 
   return (
     <div className={css.section}>
@@ -46,6 +48,7 @@ function Component({
           })}
           showDetails
           hideLegend
+          reverse={isRtl}
         />
       )}
       <TableComponent

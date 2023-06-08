@@ -266,6 +266,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
     series = build_group_series
     series.each { |serie| chart.add_series(serie) }
     chart.set_size(height: Exporters::SubreportExporter::INITIAL_CHART_HEIGHT, width: grouped_chart_width)
+    chart.set_x_axis(reverse: 1) if Primero::Application::RTL_LOCALES.include?(locale.to_sym)
     chart.set_y_axis(major_unit: 1)
     worksheet.insert_chart(current_row, 0, chart, 0, 0)
 
