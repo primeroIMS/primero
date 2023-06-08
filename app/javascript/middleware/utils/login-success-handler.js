@@ -15,14 +15,13 @@ export default async (store, user = {}) => {
     await DB.clearDB();
   }
 
-  if (!pendingUserLogin) {
+  if (pendingUserLogin) {
+    store.dispatch(setAuthenticatedUser(formattedUser, false));
+    postMessage({ message: "reload" }, window.location.origin);
+  } else {
     localStorage.setItem("user", JSON.stringify(formattedUser));
     store.dispatch(setAuthenticatedUser(formattedUser));
     handleReturnUrl(store);
-  }
-
-  if (pendingUserLogin) {
-    postMessage({ message: "reload" }, window.location.origin);
   }
 
   store.dispatch(clearDialog());
