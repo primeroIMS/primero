@@ -2,7 +2,6 @@
 
 # This model persists the user-modifiable state of the Primero configuration as JSON.
 # If desired, this configuration state can replace the current Primero configuration state.
-# rubocop:disable Metrics/ClassLength
 class PrimeroConfiguration < ApplicationRecord
   CONFIGURABLE_MODELS = %w[FormSection Lookup Agency Role UserGroup Report ContactInformation].freeze
 
@@ -137,4 +136,3 @@ class PrimeroConfiguration < ApplicationRecord
     self.version = "#{date}.#{uid7}"
   end
 end
-# rubocop:enable Metrics/ClassLength
