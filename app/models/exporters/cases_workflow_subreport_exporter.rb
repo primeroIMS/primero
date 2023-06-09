@@ -33,8 +33,10 @@ class Exporters::CasesWorkflowSubreportExporter < Exporters::SubreportExporter
     return [] unless by_user_group_filter.present?
 
     [
-      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.user_groups_field', locale: locale)}: ",
-      formats[:black], "#{I18n.t("managed_reports.user_group_options.#{by_user_group_filter.value}", locale: locale)} / "
+      formats[:bold_blue],
+      "#{I18n.t('managed_reports.filter_by.user_groups_field', locale: locale)}: ",
+      formats[:black],
+      "#{I18n.t("managed_reports.user_group_options.#{by_user_group_filter.value}", locale: locale)} / "
     ]
   end
 
@@ -47,18 +49,20 @@ class Exporters::CasesWorkflowSubreportExporter < Exporters::SubreportExporter
     filter = status_filter
     return unless filter.present?
 
-    values = Lookup.values('lookup-case-status', nil, { locale: locale }).select do |value|
-      filter.values.include?(value['id'])
-    end
+    lookup_values = Lookup.values(
+      'lookup-case-status', nil, { locale: locale }
+    ).each_with_object({}) { |elem, memo| memo[elem['id']] = elem }
 
-    values.map { |value| value['display_text'] }.join(',')
+    filter.values.map { |value| lookup_values.dig(value, 'display_text') || value }.join(',')
   end
 
   def workflow_display_text
     workflow_statuses = Child.workflow_statuses([PrimeroModule.cp])
-    workflow_statuses.find do |workflow_status|
+    display_text = workflow_statuses[locale.to_sym].find do |workflow_status|
       workflow_status['id'] == workflow_filter.value
-    end&.dig('display_text', locale)
+    end&.dig('display_text')
+
+    display_text || workflow_filter.value
   end
 
   def user_group_display_text
