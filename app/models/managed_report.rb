@@ -21,7 +21,7 @@ class ManagedReport < ValueObject
         id: 'workflow_report',
         name: 'managed_reports.workflow_report.name',
         description: 'managed_reports.workflow_report.description',
-        subreports: %w[cases_workflow],
+        subreports: %w[cases_workflow incidents_workflow],
         permitted_filters: [
           :grouped_by, :user_groups_field, :created_by_groups, :workflow, :owned_by_groups, status: {}, registration_date: {}
         ],
