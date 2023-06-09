@@ -24,7 +24,7 @@ const Component = ({ close, i18n, open, pending, setPending }) => {
   const exportedInsight = useMemoizedSelector(state => getInsightExport(state));
 
   const onSubmit = data => {
-    const plainInsightFilters = reduceMapToObject(insightFilters);
+    const plainInsightFilters = reduceMapToObject(insightFilters) || {};
 
     const transformedFilters = { ...transformFilters(plainInsightFilters), subreport: EXPORT_ALL_SUBREPORTS };
 
