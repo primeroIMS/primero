@@ -67,7 +67,7 @@ const Component = ({
   };
 
   return (
-    <div key={incident.get("unique_id")} role="panel">
+    <div key={incident.get("unique_id")} data-testid="panel">
       <Accordion expanded={expanded} onChange={handleExpanded} className={css.panel}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}

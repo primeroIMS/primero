@@ -1,8 +1,10 @@
 import { mountedComponent, screen } from "test-utils";
 import { fromJS } from "immutable";
+
 import { RECORD_TYPES } from "../../config";
-import * as R from "../record-form/records";
+import { FieldRecord } from "../record-form/records";
 import { mapEntriesToRecord } from "../../libs";
+
 import IncidentFromCase from "./container";
 
 describe("<IncidentFromCase /> - Component", () => {
@@ -66,7 +68,7 @@ describe("<IncidentFromCase /> - Component", () => {
           }
         ]
       },
-      fields: mapEntriesToRecord(fields, R.FieldRecord)
+      fields: mapEntriesToRecord(fields, FieldRecord)
     },
     user: {
       permissions: {
@@ -81,10 +83,10 @@ describe("<IncidentFromCase /> - Component", () => {
 
   it("render IncidentFromCase component", () => {
     expect(screen.getByText("incidents.label")).toBeInTheDocument();
-  }); 
+  });
 
   it("render IncidentPanel component", () => {
-    expect(screen.getByRole("panel")).toBeInTheDocument();
+    expect(screen.getByTestId("panel")).toBeInTheDocument();
   });
 
   it("render IncidentDetail component", () => {
@@ -97,22 +99,18 @@ describe("<IncidentFromCase /> - Component", () => {
 
   it("render RecordFormAlerts component", () => {
     const stateWithAlerts = initialState.setIn(
-        ["records", "cases", "recordAlerts"],
-        fromJS([
-          {
-            alert_for: "field_change",
-            type: "incident_from_case",
-            date: "2021-12-21",
-            form_unique_id: "incident_from_case"
-          }
-        ])
-      );
-      mountedComponent(<IncidentFromCase {...props} />, stateWithAlerts);
-      expect(screen.getByText("messages.alerts_for.field_change")).toBeInTheDocument();
+      ["records", "cases", "recordAlerts"],
+      fromJS([
+        {
+          alert_for: "field_change",
+          type: "incident_from_case",
+          date: "2021-12-21",
+          form_unique_id: "incident_from_case"
+        }
+      ])
+    );
+
+    mountedComponent(<IncidentFromCase {...props} />, stateWithAlerts);
+    expect(screen.getByText("messages.alerts_for.field_change")).toBeInTheDocument();
   });
 });
-
-
-
-
-

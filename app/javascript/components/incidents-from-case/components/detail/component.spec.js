@@ -1,9 +1,11 @@
 import { mountedComponent, screen } from "test-utils";
 import { fromJS } from "immutable";
+
 import { RECORD_TYPES } from "../../../../config";
+
 import IncidentDetail from "./component";
 
-describe("<IncidentDetail /> - Component", () => {  
+describe("<IncidentDetail /> - Component", () => {
   const props = {
     css: {
       titleHeader: {}
@@ -30,7 +32,7 @@ describe("<IncidentDetail /> - Component", () => {
   });
 
   beforeEach(() => {
-    mountedComponent(<IncidentDetail {...props} />,initialState);
+    mountedComponent(<IncidentDetail {...props} />, initialState);
   });
 
   it("render IncidentDetail component", () => {
@@ -38,15 +40,10 @@ describe("<IncidentDetail /> - Component", () => {
   });
 
   it("render a DisplayData", () => {
-    expect(screen.getAllByRole("section")).toBeTruthy();
+    expect(screen.getAllByTestId("section")).toBeTruthy();
   });
 
   it("render a DisplayData with action button", () => {
     expect(screen.getAllByRole("button")).toBeTruthy();
-  });  
+  });
 });
-
-
-
-
-

@@ -9,7 +9,7 @@ const DisplayData = ({ label, value }) => {
   const i18n = useI18n();
 
   return (
-    <div className={css.data} role="section">
+    <div className={css.data} data-testid="section">
       <div className={css.label}>{i18n.t(label)}</div>
       <div className={css.value}>{value || "--"}</div>
     </div>

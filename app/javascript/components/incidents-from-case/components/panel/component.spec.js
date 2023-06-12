@@ -1,8 +1,10 @@
 import { mountedComponent, screen } from "test-utils";
 import { fromJS } from "immutable";
+
 import { RECORD_TYPES } from "../../../../config";
-import * as R from "../../../record-form/records";
+import { FieldRecord } from "../../../record-form/records";
 import { mapEntriesToRecord } from "../../../../libs";
+
 import IncidentPanel from "./component";
 
 describe("<IncidentPanel /> - Component", () => {
@@ -20,8 +22,8 @@ describe("<IncidentPanel /> - Component", () => {
     incidentCaseId: "case-id-1",
     css: {},
     mode: { isShow: false, isEdit: true },
-    setFieldValue: () => { },
-    handleSubmit: () => { },
+    setFieldValue: () => {},
+    handleSubmit: () => {},
     recordType: RECORD_TYPES.cases
   };
 
@@ -92,7 +94,7 @@ describe("<IncidentPanel /> - Component", () => {
           }
         ]
       },
-      fields: mapEntriesToRecord(fields, R.FieldRecord)
+      fields: mapEntriesToRecord(fields, FieldRecord)
     }
   });
 
@@ -101,7 +103,7 @@ describe("<IncidentPanel /> - Component", () => {
   });
 
   it("render IncidentPanel component", () => {
-    expect(screen.getByRole("panel")).toBeInTheDocument();
+    expect(screen.getByTestId("panel")).toBeInTheDocument();
   });
 
   it("render IncidentSummary component", () => {
@@ -116,8 +118,3 @@ describe("<IncidentPanel /> - Component", () => {
     expect(screen.getAllByText("Test1")).toBeTruthy();
   });
 });
-
-
-
-
-
