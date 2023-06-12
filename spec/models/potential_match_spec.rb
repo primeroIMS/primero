@@ -5,7 +5,7 @@ require 'sunspot'
 
 describe PotentialMatch do
   before do
-    clean_data(Child, TracingRequest, Trace)
+    clean_data(Trace, TracingRequest, Child)
   end
 
   let(:tracing_request) do

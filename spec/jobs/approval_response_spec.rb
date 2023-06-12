@@ -6,7 +6,7 @@ describe ApprovalResponseJob, type: :job do
   include ActiveJob::TestHelper
 
   before do
-    [PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role, Agency].each(&:destroy_all)
+    [User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency].each(&:destroy_all)
     @lookup = Lookup.create(id: 'lookup-approval-type', name: 'approval type')
     role = create :role, is_manager: true
     @manager1 = create :user, role: role, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
@@ -27,7 +27,7 @@ describe ApprovalResponseJob, type: :job do
   end
 
   after :each do
-    clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role)
+    clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup)
   end
 
   private

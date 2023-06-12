@@ -45,7 +45,7 @@ const Component = ({ index, mode, tab, formMethods, limitedProductionSite }) => 
   const onEnglishTextChange = useCallback(event => {
     const { name, value } = event.target;
 
-    setValue(`translations.${name}`, value, { shouldDirty: true });
+    setValue(name, value, { shouldDirty: true });
   }, []);
 
   const onUpdateTranslation = data => {
@@ -56,7 +56,6 @@ const Component = ({ index, mode, tab, formMethods, limitedProductionSite }) => 
 
       const value = get(data, path);
 
-      setValue(`translations.${path}`, value, { shouldDirty: true });
       setValue(path, value, { shouldDirty: true });
     });
   };

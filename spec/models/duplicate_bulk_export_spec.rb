@@ -5,7 +5,7 @@ require 'sunspot'
 
 describe DuplicateBulkExport, search: true do
   before :each do
-    clean_data(BulkExport, Agency, Location, UserGroup, Role, User, Field,
+    clean_data(BulkExport, User, Agency, Role, Location, UserGroup, Field,
                FormSection, Child, PrimeroModule, PrimeroProgram, SystemSettings,
                FormPermission)
 
@@ -148,7 +148,7 @@ describe DuplicateBulkExport, search: true do
   end
 
   after :each do
-    clean_data(BulkExport, Agency, Location, UserGroup, Role, User, Field,
+    clean_data(BulkExport, User, Agency, Role, Location, UserGroup, Field,
                FormSection, Child, PrimeroModule, PrimeroProgram, SystemSettings,
                FormPermission)
   end

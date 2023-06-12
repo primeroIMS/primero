@@ -17,3 +17,4 @@ export const ID_COLUMNS = Object.freeze({
   short_id: "short_id",
   case_id_display: "case_id_display"
 });
+export const SEARCH_OR_CREATE_FILTERS = Object.freeze({ ...DEFAULT_FILTERS, status: ["open", "closed"] });

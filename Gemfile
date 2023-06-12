@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.7.4'
+ruby '2.7.8'
 
 gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
 gem 'aws-sdk-s3',          '~> 1.113', # Access and manage Amazon S3 storage (with ActiveStorage).
@@ -28,14 +28,14 @@ gem 'net-http-persistent', '~> 3.1'    # Thread safe persistent HTTP connections
 gem 'net-imap', require: false         # TODO: Remove once mail gem issue resolved
 gem 'net-pop',  require: false         # TODO: Remove once mail gem issue resolved
 gem 'net-smtp', require: false         # TODO: Remove once mail gem issue resolved
-gem 'nokogiri',            '>= 1.13'   # Security assertion on implicit dependency.
+gem 'nokogiri',            '~> 1.14'   # Security assertion on implicit dependency.
 gem 'pg',                  '~> 1.1'    # Ruby PostgreSQL binding
 gem 'prawn',               '~> 2.2'    # PDF generation
 gem 'prawn-table',         '~> 0.2'    # PDF generation
 gem 'puma',                '~> 4.3'    # Ruby Rack server
-gem 'rack',                '>= 2.2.6.1'
+gem 'rack',                '~> 2.2'
 gem 'rack-attack',         '>= 6.3.1'  # Rack middleware to rate limit sensetive routes, such as those used for auth
-gem 'rails',               '6.1.7.1'
+gem 'rails',               '6.1.7.3'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files

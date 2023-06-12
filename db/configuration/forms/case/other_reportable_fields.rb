@@ -19,19 +19,13 @@ fields = [
         "disabled" => true,
         "option_strings_source" => "Location"
         }),
-  Field.new({"name" => "has_referrals",
-        "type" => "tick_box",
-        "display_name_en" => "Does this case have any referrals?",
-        "editable" => false,
-        "disabled" => true
-        }),
   Field.new({"name" => "has_case_plan",
         "type" => "tick_box",
         "display_name_en" => "Does this case have a case plan?",
         "editable" => false,
         "disabled" => true
         }),
-  Field.new({"name" => "workflow_status",
+  Field.new({"name" => "workflow",
         "type" =>"select_box",
         "display_name_en" => "Workflow Status",
         "editable" => false,
