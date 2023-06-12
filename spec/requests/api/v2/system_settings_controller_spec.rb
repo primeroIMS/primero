@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::SystemSettingsController, type: :request do
   before :each do
-    clean_data(Field, FormSection, Agency, PrimeroProgram, PrimeroModule, CodeOfConduct, SystemSettings)
+    clean_data(Field, FormSection, Agency, PrimeroModule, PrimeroProgram, CodeOfConduct, SystemSettings)
     I18n.locale = :en
     I18n.default_locale = :en
     I18n.available_locales = %i[en ar fr es]
@@ -105,6 +105,6 @@ describe Api::V2::SystemSettingsController, type: :request do
   end
 
   after :each do
-    clean_data(Field, FormSection, Agency, PrimeroProgram, PrimeroModule, CodeOfConduct, SystemSettings)
+    clean_data(Field, FormSection, Agency, PrimeroModule, PrimeroProgram, CodeOfConduct, SystemSettings)
   end
 end

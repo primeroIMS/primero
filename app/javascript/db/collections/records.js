@@ -1,20 +1,56 @@
 import compact from "lodash/compact";
 import isEmpty from "lodash/isEmpty";
+import isNil from "lodash/isNil";
+import sortBy from "lodash/sortBy";
+import reverse from "lodash/reverse";
+import slice from "lodash/slice";
 import merge from "deepmerge";
+import { isImmutable } from "immutable";
+import { isDate, parseISO } from "date-fns";
 
 import DB from "../db";
 import subformAwareMerge from "../utils/subform-aware-merge";
-import getCreatedAt from "../utils/get-created-at";
+import { QUICK_SEARCH_FIELDS, DATE_SORTABLE_FIELDS } from "../../config";
+import { reduceMapToObject, hasApiDateFormat } from "../../libs";
 
 const Records = {
-  find: async ({ collection, recordType, db }) => {
+  find: async ({ collection, recordType, db, json }) => {
     const { id } = db;
 
-    const data = id ? await DB.getRecord(collection, id) : await DB.getAllFromIndex(collection, "type", recordType);
+    const params =
+      json?.api?.params && isImmutable(json?.api?.params) ? reduceMapToObject(json.api.params) : json?.api?.params;
 
-    return {
-      data: Array.isArray(data) ? data.sort((record1, record2) => getCreatedAt(record2) - getCreatedAt(record1)) : data
-    };
+    if (params) {
+      const page = params.page || 1;
+      const per = params.per || 20;
+      const offset = (page - 1) * per;
+
+      if (params.query) {
+        const results = await DB.searchIndex(collection, params.query, recordType);
+        const sortedResults = params.order_by ? sortBy(results, [params.order_by]) : results;
+        const data = slice(sortedResults, offset, offset + per);
+
+        return {
+          data: params.order === "desc" ? reverse(data) : data,
+          metadata: { per, page, total: results.length }
+        };
+      }
+
+      const total = await DB.count(collection, "type", recordType);
+
+      const data = await DB.slice(collection, {
+        orderBy: params.order_by || "created_at",
+        orderDir: params.order || "desc",
+        offset,
+        limit: per,
+        recordType,
+        total
+      });
+
+      return { data, metadata: { per, page, total } };
+    }
+
+    return { data: await DB.getRecord(collection, id) };
   },
 
   updateCaseIncidents: async (data, online) => {
@@ -55,13 +91,54 @@ const Records = {
     return markComplete && online ? { ...data, complete: true } : data;
   },
 
+  dataSearchableFields(data, recordType) {
+    if (Array.isArray(data)) {
+      return data.map(record => this.dataSearchableFields(record, recordType));
+    }
+
+    const sortableDateFields = DATE_SORTABLE_FIELDS.reduce((acc, field) => {
+      if (isNil(data[field])) {
+        return acc;
+      }
+
+      if (isDate(data[field])) {
+        return { ...acc, [`${field}_sortable`]: data[field] };
+      }
+
+      if (hasApiDateFormat(data[field])) {
+        return { ...acc, [`${field}_sortable`]: parseISO(data[field]) };
+      }
+
+      return acc;
+    }, {});
+
+    return {
+      ...data,
+      ...sortableDateFields,
+      complete_sortable: data.complete ? 1 : 0,
+      has_photo: data.photo ? 1 : 0,
+      terms: QUICK_SEARCH_FIELDS.reduce((acc, quickField) => {
+        const value = data[quickField];
+
+        if (!isNil(value)) {
+          return acc.concat(data[quickField]);
+        }
+
+        return acc;
+      }, [])
+    };
+  },
+
   save: async ({ collection, json, recordType, online = false, params }) => {
     const { data, metadata } = json;
     const { fields, id_search: idSearch } = params || {};
     const dataKeys = Object.keys(data);
     const jsonData = dataKeys.length === 1 && dataKeys.includes("record") ? data.record : data;
     const dataIsArray = Array.isArray(jsonData);
-    const recordData = Records.dataMarkedComplete(jsonData, !(fields === "short" || idSearch), online);
+    const recordData = Records.dataSearchableFields(
+      Records.dataMarkedComplete(jsonData, !(fields === "short" || idSearch), online),
+      recordType
+    );
 
     // eslint-disable-next-line camelcase
     if (data?.incident_case_id && recordType === "incidents") {

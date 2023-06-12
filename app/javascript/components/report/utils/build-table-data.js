@@ -3,7 +3,7 @@ import getColumnsTableData from "./get-columns-table-data";
 import getRowsTableData from "./get-rows-table-data";
 import translateReportData from "./translate-report-data";
 
-export default (report, i18n, { agencies, locations }) => {
+export default (report, i18n, { agencies, ageRanges, locations }) => {
   const reportData = report.toJS();
   const translatedReport = translateReportData(reportData, i18n, { agencies, locations });
   const translatedReportWithAllFields = {
@@ -11,8 +11,8 @@ export default (report, i18n, { agencies, locations }) => {
     fields: reportData.fields
   };
 
-  const newColumns = getColumnsTableData(translatedReportWithAllFields, i18n);
-  const newRows = getRowsTableData(translatedReportWithAllFields, newColumns, i18n);
+  const newColumns = getColumnsTableData(translatedReportWithAllFields, ageRanges, i18n);
+  const newRows = getRowsTableData(translatedReportWithAllFields, newColumns, ageRanges, i18n);
 
   const columns = newColumns;
   const rows = reportData?.fields?.filter(field => field.position.type === "horizontal");

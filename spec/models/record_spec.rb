@@ -23,7 +23,7 @@ describe Record do
     it "should keep unique_identifier, short_id and #{record_id_name} if they are provided" do
       unique_identifier = "123456789"
       short_id = "1234567",
-      record_id = "987654321"
+      record_id = "987654320"
 
       record = model_class.new(:unique_identifier => unique_identifier, :short_id => short_id, "#{record_id_name}" => record_id)
 
@@ -61,6 +61,10 @@ describe Record do
   end
 
   describe "Child" do
+    before do
+      clean_data(Child)
+    end
+
     it_behaves_like "Record id's", Child, "case_id"
   end
 

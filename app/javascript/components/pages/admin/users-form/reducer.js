@@ -39,6 +39,10 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.setIn(["passwordResetRequest", "loading"], false);
     case actions.PASSWORD_RESET_REQUEST_FINISHED:
       return state.setIn(["passwordResetRequest", "loading"], false);
+    case actions.RECORDS_UPDATE:
+      return state.set("recordsUpdate", payload);
+    case actions.CLEAR_RECORDS_UPDATE:
+      return state.remove("recordsUpdate");
     default:
       return state;
   }

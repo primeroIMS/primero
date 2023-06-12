@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ReportFieldService do
@@ -11,6 +13,7 @@ describe ReportFieldService do
     SystemSettings.stub(:current).and_return(
       SystemSettings.new(
         primary_age_range: 'primero',
+        reporting_location_config: { admin_level: 3 },
         age_ranges: {
           'primero' => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
           'unhcr' => [0..4, 5..11, 12..17, 18..59, 60..AgeRange::MAX]
@@ -23,6 +26,13 @@ describe ReportFieldService do
       type: Field::SELECT_BOX,
       display_name_i18n: { en: 'Owned by location' },
       option_strings_source: 'Location'
+    )
+
+    @service_location_field = Field.create!(
+      name: 'service_location',
+      type: Field::SELECT_BOX,
+      display_name_i18n: { en: 'Service Location' },
+      option_strings_source: 'ReportingLocation'
     )
 
     @owned_by_agency_field = Field.create!(
@@ -42,7 +52,7 @@ describe ReportFieldService do
     @sex_field = Field.create!(
       name: 'sex',
       type: Field::SELECT_BOX,
-      display_name_i18n: {en: 'Sex'},
+      display_name_i18n: { en: 'Sex' },
       option_strings_text_i18n: [
         { id: 'male', display_text: { 'en' => 'Male' } },
         { id: 'female', display_text: { 'en' => 'Female' } }
@@ -62,8 +72,8 @@ describe ReportFieldService do
     @risk_level_field = Field.create!(
       name: 'risk_level',
       type: Field::SELECT_BOX,
-      display_name_i18n: {en: 'Risk level'},
-      option_strings_source: 'lookup lookup-risk-level',
+      display_name_i18n: { en: 'Risk level' },
+      option_strings_source: 'lookup lookup-risk-level'
     )
 
     @report1 = Report.create!(
@@ -107,7 +117,7 @@ describe ReportFieldService do
   it 'returns a field withs options from lookup' do
     report_risk_field = {
       name: 'risk_level',
-      display_name: { 'en' => 'Risk level'},
+      display_name: { 'en' => 'Risk level' },
       position: { type: 'horizontal', order: 0 },
       option_labels: {
         'en' => [
@@ -119,7 +129,7 @@ describe ReportFieldService do
         'fr' => []
       }
     }
-    report_field = ReportFieldService.report_field(@risk_level_field, 'risk_level', 'horizontal', 0)
+    report_field = ReportFieldService.report_field(@risk_level_field, 'risk_level', 'horizontal', 0, Child.parent_form)
     expect(report_field).to eq(report_risk_field)
   end
 
@@ -130,7 +140,9 @@ describe ReportFieldService do
       position: { type: 'horizontal', order: 0 },
       option_strings_source: 'Location'
     }
-    report_field = ReportFieldService.report_field(@owned_by_location_field, 'owned_by_location', 'horizontal', 0)
+    report_field = ReportFieldService.report_field(
+      @owned_by_location_field, 'owned_by_location', 'horizontal', 0, Child.parent_form
+    )
     expect(report_field).to eq(report_owned_by_location_field)
   end
 
@@ -142,7 +154,9 @@ describe ReportFieldService do
       option_strings_source: 'Location',
       admin_level: 2
     }
-    report_field = ReportFieldService.report_field(@owned_by_location_field, 'owned_by_location2', 'horizontal', 0)
+    report_field = ReportFieldService.report_field(
+      @owned_by_location_field, 'owned_by_location2', 'horizontal', 0, Child.parent_form
+    )
     expect(report_field).to eq(report_owned_by_location_field)
   end
 
@@ -153,7 +167,9 @@ describe ReportFieldService do
       position: { type: 'horizontal', order: 0 },
       option_strings_source: 'Agency'
     }
-    report_field = ReportFieldService.report_field(@owned_by_agency_field, 'owned_by_agency', 'horizontal', 0)
+    report_field = ReportFieldService.report_field(
+      @owned_by_agency_field, 'owned_by_agency', 'horizontal', 0, Child.parent_form
+    )
     expect(report_field).to eq(report_owned_by_agency_field)
   end
 
@@ -171,7 +187,7 @@ describe ReportFieldService do
         'fr' => []
       }
     }
-    report_field = ReportFieldService.report_field(@sex_field, 'sex_field', 'horizontal', 0)
+    report_field = ReportFieldService.report_field(@sex_field, 'sex_field', 'horizontal', 0, Child.parent_form)
     expect(report_field).to eq(report_sex_field)
   end
 end

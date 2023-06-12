@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Trace, search: true do
   before :each do
-    clean_data(PrimeroModule, TracingRequest, Trace, Child)
+    clean_data(SavedSearch, User, Role, PrimeroModule, Trace, TracingRequest, Child)
   end
 
   let(:tracing_request) do
@@ -95,6 +95,6 @@ describe Trace, search: true do
   end
 
   after :each do
-    clean_data(PrimeroModule, TracingRequest, Trace, Child)
+    clean_data(SavedSearch, User, Role, PrimeroModule, Trace, TracingRequest, Child)
   end
 end

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Assign do
   before do
-    clean_data(User, Role, PrimeroModule, UserGroup, Agency, Transition, Child, Incident)
+    clean_data(User, Role, PrimeroModule, UserGroup, Agency, Transition, Incident, Child)
 
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
@@ -295,6 +295,6 @@ describe Assign do
   end
 
   after do
-    clean_data(User, Role, PrimeroModule, UserGroup, Agency, Transition, Child, Incident)
+    clean_data(User, Role, PrimeroModule, UserGroup, Agency, Transition, Incident, Child)
   end
 end

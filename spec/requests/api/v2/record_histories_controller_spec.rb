@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::RecordHistoriesController, type: :request do
   before :each do
-    clean_data(Role, User, Agency, Child, TracingRequest, Incident, RecordHistory)
+    clean_data(User, Role, Agency, Child, TracingRequest, Incident, RecordHistory)
 
     agency_a = Agency.create!(
       unique_id: 'agency_1',
@@ -222,9 +222,11 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'created_at' => { 'from' => nil, 'to' => Child.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'record_state' => { 'from' => nil, 'to' => true } },
+          { 'has_case_plan' => { 'from' => nil, 'to' => false } },
           { 'notes_section' => { 'from' => nil, 'to' => [] } },
           { 'reopened_logs' => { 'from' => nil, 'to' => [] } },
           { 'case_id_display' => { 'from' => nil, 'to' => Child.first.case_id_display } },
+          { 'followup_status' => { 'from' => nil, 'to' => 'follow_ups_not_planned' } },
           { 'owned_by_groups' => { 'from' => nil, 'to' => [] } },
           { 'created_by_groups' => { 'from' => nil, 'to' => [] } },
           { 'registration_date' => { 'from' => nil, 'to' => Child.first.registration_date.iso8601 } },
@@ -276,6 +278,6 @@ describe Api::V2::RecordHistoriesController, type: :request do
   end
 
   after :each do
-    clean_data(Role, User, Agency, Child, TracingRequest, Incident, RecordHistory)
+    clean_data(User, Role, Agency, Child, TracingRequest, Incident, RecordHistory)
   end
 end

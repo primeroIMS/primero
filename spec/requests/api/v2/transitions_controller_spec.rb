@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::TransitionsController, type: :request do
   before do
-    clean_data(PrimeroProgram, PrimeroModule, Role, UserGroup, User, Child, Transition)
+    clean_data(User, Role, PrimeroProgram, PrimeroModule, UserGroup, Child, Transition)
 
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
@@ -58,6 +58,6 @@ describe Api::V2::TransitionsController, type: :request do
   end
 
   after do
-    clean_data(PrimeroProgram, PrimeroModule, Role, UserGroup, User, Child, Transition)
+    clean_data(User, Role, PrimeroProgram, PrimeroModule, UserGroup, Child, Transition)
   end
 end
