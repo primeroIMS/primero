@@ -1,10 +1,10 @@
 import { fromJS } from "immutable";
 import { mountedComponent, screen } from "test-utils";
+
 import AgencyLogo from "./component";
 
 describe("<AgencyLogo />", () => {
   it("renders agency logo from state", () => {
-
     const state = fromJS({
       application: {
         primero: {
@@ -22,8 +22,6 @@ describe("<AgencyLogo />", () => {
     });
 
     mountedComponent(<AgencyLogo />, state);
-        expect(screen.getByTestId('background')).toBeInTheDocument('background-image: url("logo-full.png")')
-
+    expect(screen.getByTestId("background")).toBeInTheDocument('background-image: url("logo-full.png")');
   });
 });
-
