@@ -80,10 +80,10 @@ const Component = ({
   };
 
   return (
-    <div className={css.recordFormFilters}>
+    <div className={css.recordFormFilters} role="region">
       {showFilterIcon}
       <FilterContainer drawer={drawerOpen} handleDrawer={toggleDrawer} mobileDisplay={mobileDisplay && showDrawer}>
-        <div className={css.filtersContainer}>
+        <div className={css.filtersContainer} role="form">
           <FormProvider {...methods} user={userName}>
             <form onSubmit={methods.handleSubmit(handleOnSubmit)}>
               <Actions handleClear={onClear} />
