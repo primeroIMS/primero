@@ -69,6 +69,29 @@ describe("<UsersForm /> - Reducers", () => {
     expect(newState).to.deep.equal(expected);
   });
 
+  it("should handle CLEAR_RECORDS_UPDATE", () => {
+    const expected = fromJS({});
+    const action = {
+      type: actions.CLEAR_RECORDS_UPDATE
+    };
+    const newState = reducer(fromJS({ recordsUpdate: true }), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle RECORDS_UPDATE", () => {
+    const expected = fromJS({
+      recordsUpdate: true
+    });
+    const action = {
+      type: actions.RECORDS_UPDATE,
+      payload: true
+    };
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
   it("should handle SAVE_USER_STARTED", () => {
     const expected = fromJS({ saving: true });
     const action = {

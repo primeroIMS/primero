@@ -31,7 +31,7 @@ const usePermissions = (entity, abilities) => {
       }, {}),
       permittedAbilities
     };
-  }, [permittedAbilities, abilities, getPermissions]);
+  }, [permittedAbilities, abilities]);
 
   return permissions;
 };

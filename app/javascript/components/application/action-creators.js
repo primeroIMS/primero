@@ -80,6 +80,16 @@ export const fetchSandboxUI = () => ({
   }
 });
 
+export const fetchAgencyLogoOptions = () => ({
+  type: actions.FETCH_AGENCY_LOGO_OPTIONS,
+  api: {
+    db: {
+      collection: DB_COLLECTIONS_NAMES.PRIMERO,
+      params: { pdfLogoOption: true }
+    }
+  }
+});
+
 export const setReturnUrl = payload => ({
   type: actions.SET_RETURN_URL,
   payload

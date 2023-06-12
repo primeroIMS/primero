@@ -18,7 +18,7 @@ storage_sources =
 
 media_sources = storage_sources + %i[data blob]
 font_and_image_sources = self_sources + %i[data blob]
-style_sources = self_sources + [-> { "'nonce-#{request.content_security_policy_nonce}'" }]
+style_sources = self_sources
 child_sources = self_sources + %i[blob]
 
 Rails.application.config.content_security_policy do |policy|

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 REVISION=${1}
-VERSION=${2:-master}
+VERSION=${2:-main}
 
 echo "${REVISION}" | awk -v version="${VERSION}" '{
   if ($0 ~ /^refs\/tags/)

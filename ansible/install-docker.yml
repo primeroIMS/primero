@@ -2,6 +2,7 @@
 - hosts: 'all'
   roles:
   - 'manage-users'
+  - 'quoin.infrastructure.configure_journald'
   - 'quoin.infrastructure.install_python3_virtualenv'
   - 'quoin.infrastructure.install_python3_docker'
   - 'quoin.infrastructure.install_python3_docker_compose'
