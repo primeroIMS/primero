@@ -46,6 +46,10 @@ else
 fi
 
 setup_test_env
+
+# Run rubocop
+bundle exec rubocop app lib config
+
 setup_database
 
 # Run tests

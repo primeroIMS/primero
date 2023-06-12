@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 # Service to handle deletion of data for a specific model and its associations
 class ModelDeletionService < ValueObject
   UUID_REFERENCED_MODELS = [Alert, Attachment, Trace, Violation].freeze
@@ -156,3 +157,4 @@ class ModelDeletionService < ValueObject
     model_class.reflect_on_all_associations(:has_and_belongs_to_many).reject(&:through_reflection?)
   end
 end
+# rubocop:enable Metrics/ClassLength
