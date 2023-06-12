@@ -60,7 +60,9 @@ class Reports::FilterFieldQuery < ValueObject
   end
 
   def numeric_query
-    query.where("CAST(#{data_column_name} ->> :attribute AS INTEGER) #{constraint} :value", filter.with_indifferent_access)
+    query.where(
+      "CAST(#{data_column_name} ->> :attribute AS INTEGER) #{constraint} :value", filter.with_indifferent_access
+    )
   end
 
   def tick_box_query
