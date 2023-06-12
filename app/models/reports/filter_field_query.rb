@@ -60,7 +60,9 @@ class Reports::FilterFieldQuery < ValueObject
   end
 
   def numeric_query
-    query.where("CAST(#{data_column_name} ->> :attribute AS INTEGER) #{constraint} :value", filter.with_indifferent_access)
+    query.where(
+      "CAST(#{data_column_name} ->> :attribute AS INTEGER) #{constraint} :value", filter.with_indifferent_access
+    )
   end
 
   def tick_box_query
@@ -68,7 +70,7 @@ class Reports::FilterFieldQuery < ValueObject
   end
 
   def date_field_query
-    date_format = field.date_include_time ? 'YYYY-MM-DDTHH\\:\\MI\\:\\SS' : 'YYYY-MM-DD'
+    date_format = field.date_include_time ? Report::DATE_TIME_FORMAT : Report::DATE_FORMAT
     query.where(
       "to_timestamp(#{data_column_name} ->> :attribute, :format) #{constraint} to_timestamp(:value, :format)",
       filter.merge('format' => date_format).with_indifferent_access

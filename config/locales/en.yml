@@ -1727,6 +1727,9 @@ en:
       township: Township
       municipality: Municipality
       autonomous_region: Autonomous Region
+      parish: Parish
+      cercle: Cercle
+      sub-county: Sub-county
     label: Location
     name: Name
     code: Code

@@ -38,3 +38,17 @@ global.IDBCursor = global.window.IDBCursor;
 
 global.window.IDBIndex = IDBIndex;
 global.IDBIndex = global.window.IDBIndex;
+
+const storage = {};
+
+global.localStorage = {
+  setItem: (key, value) => {
+    storage[key] = value || "";
+  },
+  getItem: key => {
+    return key in storage ? storage[key] : null;
+  },
+  removeItem: key => {
+    delete storage[key];
+  }
+};
