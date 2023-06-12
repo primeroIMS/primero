@@ -1,11 +1,14 @@
 import { mountedComponent, screen } from "test-utils";
+
 import { RECORD_TYPES } from "../../../../config/constants";
+
 import FlagForm from "./component";
+
 describe("<FlagForm />", () => {
   const props = {
     recordType: RECORD_TYPES.cases,
     record: "230590",
-    handleActiveTab: () => { }
+    handleActiveTab: () => {}
   };
 
   it("renders Form", () => {
@@ -18,8 +21,3 @@ describe("<FlagForm />", () => {
     expect(document.querySelector("#FlagForm")).toBeInTheDocument();
   });
 });
-
-
-
-
-

@@ -1,7 +1,10 @@
 import { mountedComponent, screen } from "test-utils";
 import { fromJS } from "immutable";
+
 import { FlagRecord } from "../../records";
+
 import ListFlags from "./component";
+
 describe("<ListFlags />", () => {
   const props = {
     recordType: "cases",
@@ -36,8 +39,3 @@ describe("<ListFlags />", () => {
     expect(screen.getByRole("listitem")).toBeInTheDocument();
   });
 });
-
-
-
-
-

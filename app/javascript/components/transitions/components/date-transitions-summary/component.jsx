@@ -29,7 +29,11 @@ const Component = ({ value }) => {
     );
   }
 
-  return <div className={css.date} role="dateflag">{i18n.localizeDate(value)}</div>;
+  return (
+    <div className={css.date} data-testid="dateflag">
+      {i18n.localizeDate(value)}
+    </div>
+  );
 };
 
 Component.displayName = NAME;

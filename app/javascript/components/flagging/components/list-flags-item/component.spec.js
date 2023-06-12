@@ -1,6 +1,8 @@
 import { mountedComponent, screen } from "test-utils";
 import { fromJS } from "immutable";
+
 import ListFlagsItemActions from "./component";
+
 describe("<ListFlagsItemActions />", () => {
   const props = {
     flag: {
@@ -29,6 +31,6 @@ describe("<ListFlagsItemActions />", () => {
   });
 
   it("should render the DateFlag", () => {
-    expect(screen.getByRole("dateflag")).toBeInTheDocument();
+    expect(screen.getByTestId("dateflag")).toBeInTheDocument();
   });
 });

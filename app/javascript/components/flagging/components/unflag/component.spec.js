@@ -1,7 +1,9 @@
 import { mountedComponent, screen } from "test-utils";
 import { fromJS } from "immutable";
+
 import Unflag from "./component";
 import { UNFLAG_DIALOG } from "./constants";
+
 describe("<Unflag />", () => {
   const props = {
     flag: {
@@ -32,8 +34,3 @@ describe("<Unflag />", () => {
     expect(screen.getByText("flags.resolve_button")).toBeInTheDocument();
   });
 });
-
-
-
-
-
