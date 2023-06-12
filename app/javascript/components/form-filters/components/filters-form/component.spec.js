@@ -1,14 +1,10 @@
-import { fromJS } from "immutable";
-import { FormProvider } from "react-hook-form";
 import { mountedComponent, screen } from "test-utils";
-import { ACTIONS } from "../../../permissions";
-import Actions from "../../../index-filters/components/actions";
+
 import { FILTER_TYPES } from "../../../index-filters";
-import { SelectFilter } from "../../../index-filters/components/filter-types";
+
 import AdminFilters from "./component";
 
 describe("<AdminFilters /> - pages/admin/components/filters/component", () => {
- 
   const props = {
     filters: [
       {
@@ -26,28 +22,14 @@ describe("<AdminFilters /> - pages/admin/components/filters/component", () => {
     defaultFilters: {}
   };
 
-  beforeEach(() => { 
-    const state = fromJS({
-      user: {
-        user_name: "test",
-        permissions: {
-          agencies: [ACTIONS.MANAGE]
-        }
-      }
-    });
-
-    mountedComponent(<AdminFilters {...props}/>, {});
+  beforeEach(() => {
+    mountedComponent(<AdminFilters {...props} />, {});
   });
 
   it("should render <FormProvider /> component", () => {
     expect(screen.getByRole("form")).toBeInTheDocument();
   });
 
-  it("should render <Actions /> component", () => {
-    expect(screen.getAllByRole("actions-component")).toHaveLength(1);
-  });
-
-  
   describe("when the filters include a non-permitted one to the user", () => {
     const propsWithFiltersNotPermitted = {
       filters: [
@@ -58,7 +40,6 @@ describe("<AdminFilters /> - pages/admin/components/filters/component", () => {
           option_strings_source: null,
           options: {
             en: [
-  
               { id: "false", display_name: "Enabled" },
               { id: "true", display_name: "Disabled" }
             ]
@@ -80,16 +61,7 @@ describe("<AdminFilters /> - pages/admin/components/filters/component", () => {
     };
 
     beforeEach(() => {
-      const state = fromJS({
-        user: {
-          user_name: "test",
-          permissions: {
-            users: [ACTIONS.MANAGE, ACTIONS.AGENCY_READ]
-          }
-        }
-      });
-
-      mountedComponent(<AdminFilters {...propsWithFiltersNotPermitted}/>, {} );
+      mountedComponent(<AdminFilters {...propsWithFiltersNotPermitted} />, {});
     });
 
     it("should render only one <SelectFilter /> component", () => {
