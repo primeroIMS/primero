@@ -1,6 +1,9 @@
 import { mountedComponent, screen } from "test-utils";
-import DemoIndicator from "./component";
+
 import { DEMO } from "../application/constants";
+
+import DemoIndicator from "./component";
+
 describe("<DemoIndicator />", () => {
   const props = {
     isDemo: false
@@ -8,6 +11,7 @@ describe("<DemoIndicator />", () => {
 
   it("when isDemo is false it should return null", () => {
     const { container } = mountedComponent(<DemoIndicator {...props} />);
+
     expect(container).toBeEmptyDOMElement();
   });
 
@@ -15,13 +19,10 @@ describe("<DemoIndicator />", () => {
     const newProps = {
       isDemo: true
     };
+
     mountedComponent(<DemoIndicator {...newProps} />);
     const element = screen.getByText(DEMO);
+
     expect(element).toBeInTheDocument();
   });
 });
-
-
-
-
-
