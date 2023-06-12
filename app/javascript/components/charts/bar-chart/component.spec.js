@@ -34,6 +34,6 @@ describe("<BarChart />", () => {
 
     mountedComponent(<BarChart {...props} />);
     expect(screen.getByText("Number of cases broken down by nationality")).toBeInTheDocument();
-    expect(screen.getByRole("canvas")).toBeInTheDocument();
+    expect(screen.getByTestId("canvas")).toBeInTheDocument();
   });
 });

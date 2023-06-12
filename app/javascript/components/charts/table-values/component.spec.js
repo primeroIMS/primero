@@ -77,7 +77,7 @@ describe("<TableValues />", () => {
     };
 
     mountedComponent(<TableValues />, props);
-    expect(screen.getAllByRole("row")).toHaveLength(1);
+    expect(screen.getAllByRole("row")).toHaveLength(2);
   });
   afterEach(() => {
     if (stubI18n) {
@@ -85,4 +85,3 @@ describe("<TableValues />", () => {
     }
   });
 });
-

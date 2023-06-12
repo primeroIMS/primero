@@ -29,9 +29,9 @@ const TableHeader = ({ columns }) => {
         : emptyColumn(i18n, true).concat(newColumns);
 
     return (
-      <TableRow key={generateKey("column-row")} role="tableRow">
+      <TableRow key={generateKey("column-row")} data-testid="tableRow">
         {singleColumns.map(column => (
-          <TableCell key={generateKey("cell")} role="tableCell">
+          <TableCell key={generateKey("cell")} data-testid="tableCell">
             {column}
           </TableCell>
         ))}
@@ -52,21 +52,21 @@ const TableHeader = ({ columns }) => {
         const classes = clsx({ [css.tableRowHeader]: index === 0, [css.tableRowSubHeader]: index > 0 });
 
         return (
-          <TableRow className={classes} key={generateKey("column-row")} role="tableRow">
+          <TableRow className={classes} key={generateKey("column-row")} data-testid="tableRow">
             {allCells.map(cell => {
               if (isEmpty(cell)) {
-                return <TableCell className={css.borderHeadingRight} key={generateKey()} role="tableCell" />;
+                return <TableCell className={css.borderHeadingRight} key={generateKey()} data-testid="tableCell" />;
               }
               if (cell === "Total") {
                 return (
-                  <TableCell className={css.borderHeadingRight} key={generateKey()} role="tableCell">
+                  <TableCell className={css.borderHeadingRight} key={generateKey()} data-testid="tableCell">
                     {cell}
                   </TableCell>
                 );
               }
 
               return (
-                <TableCell key={generateKey()} colSpan={colspan} role="tableCell">
+                <TableCell key={generateKey()} colSpan={colspan} data-testid="tableCell">
                   {cell}
                 </TableCell>
               );
