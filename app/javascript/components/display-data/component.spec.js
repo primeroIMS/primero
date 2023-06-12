@@ -1,5 +1,7 @@
 import { mountedComponent, screen } from "test-utils";
+
 import DisplayData from "./component";
+
 describe("<DisplayData />", () => {
   const props = {
     label: "Test",
@@ -16,13 +18,9 @@ describe("<DisplayData />", () => {
     const newProps = {
       label: "Test"
     };
+
     mountedComponent(<DisplayData {...newProps} />);
     expect(screen.getByText("Test")).toBeInTheDocument();
     expect(screen.getByText("--")).toBeInTheDocument();
   });
 });
-
-
-
-
-
