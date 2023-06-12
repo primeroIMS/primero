@@ -646,7 +646,6 @@ ActiveRecord::Schema.define(version: 2023_03_15_000000) do
     t.uuid "source_id"
     t.index ["data"], name: "index_violations_on_data", using: :gin
     t.index ["incident_id"], name: "index_violations_on_incident_id"
-    t.index ["source_id"], name: "index_violations_on_source_id"
   end
 
   create_table "webhooks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -711,6 +710,5 @@ ActiveRecord::Schema.define(version: 2023_03_15_000000) do
   add_foreign_key "users", "identity_providers"
   add_foreign_key "users", "roles"
   add_foreign_key "violations", "incidents"
-  add_foreign_key "violations", "sources"
   add_foreign_key "whitelisted_jwts", "users", on_delete: :cascade
 end
