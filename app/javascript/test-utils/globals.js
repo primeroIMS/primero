@@ -4,8 +4,6 @@ import { parseISO, format as formatDate } from "date-fns";
 
 import { DATE_FORMATS } from "./constants";
 
-const storage = {};
-
 global.html2pdf = {};
 
 document.head.insertBefore(document.createComment("jss-insertion-point"), document.head.firstChild);
@@ -23,18 +21,6 @@ global.document.documentElement.lang = "en";
 
 global.MutationObserver = window.MutationObserver;
 
-global.localStorage = {
-  setItem: (key, value) => {
-    storage[key] = value || "";
-  },
-  getItem: key => {
-    return key in storage ? storage[key] : null;
-  },
-  removeItem: key => {
-    delete storage[key];
-  }
-};
-
 global.window.defaultMediaQueryList = (args = {}) => ({
   matches: false,
   media: "",
@@ -45,15 +31,6 @@ global.window.defaultMediaQueryList = (args = {}) => ({
 });
 
 global.window.matchMedia = query => window.defaultMediaQueryList({ media: query });
-
-global.document.createRange = () => ({
-  setStart: () => {},
-  setEnd: () => {},
-  commonAncestorContainer: {
-    nodeName: "BODY",
-    ownerDocument: document
-  }
-});
 
 global.HTMLCanvasElement.prototype.getContext = () => {
   return {

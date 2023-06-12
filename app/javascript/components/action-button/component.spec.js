@@ -34,16 +34,36 @@ describe("<ActionButton />", () => {
     expect(screen.queryByText("Test Button")).not.toBeInTheDocument();
   });
 
-  // Check if transparent class is set
-  it.todo("renders transparent button");
+  it("renders transparent button", () => {
+    const newProps = {
+      ...props,
+      isTransparent: true
+    };
 
-  // Check if outlined class is set
+    mountedComponent(<ActionButton {...newProps} />, state);
+    expect(screen.getAllByRole("button", { className: "isTransparent" })).toHaveLength(1);
+  });
+
+  it("should contain .cancel class", () => {
+    const newProps = {
+      ...props,
+      cancel: true
+    };
+
+    mountedComponent(<ActionButton {...newProps} />, state);
+    expect(screen.getAllByRole("button", { className: "cancel" })).toHaveLength(1);
+  });
+
+  it("renders an icon button", () => {
+    const newProps = {
+      ...props,
+      className: "MuiSvgIcon-root"
+    };
+
+    mountedComponent(<ActionButton {...newProps} />, state);
+    expect(screen.getByRole("button")).toHaveClass("MuiSvgIcon-root");
+  });
+
   it.todo("renders outlined button");
-
   it.todo("renders a pending state");
-
-  it.todo("triggers a passed cancel function");
-
-  // check if svg or certain class for icon
-  it.todo("renders an icon button");
 });

@@ -35,21 +35,6 @@ cp_admin_permissions = [
     ]
   ),
   Permission.new(
-    resource: Permission::TRACING_REQUEST,
-    actions: [
-      Permission::READ,
-      Permission::WRITE,
-      Permission::FLAG,
-      Permission::IMPORT,
-      Permission::EXPORT_CUSTOM,
-      Permission::EXPORT_LIST_VIEW,
-      Permission::EXPORT_CSV,
-      Permission::EXPORT_EXCEL,
-      Permission::EXPORT_JSON,
-      Permission::CREATE
-    ]
-  ),
-  Permission.new(
     resource: Permission::ROLE,
     actions: [
       Permission::READ,
@@ -57,12 +42,12 @@ cp_admin_permissions = [
       Permission::ASSIGN,
       Permission::CREATE
     ],
-    role_unique_ids: [
-      'role-cp-case-worker',
-      'role-cp-manager',
-      'role-cp-user-manager',
-      'role-referral',
-      'role-transfer'
+    role_unique_ids: %w[
+      role-cp-case-worker
+      role-cp-manager
+      role-cp-user-manager
+      role-referral
+      role-transfer
     ]
   ),
   Permission.new(
@@ -178,26 +163,6 @@ cp_caseworker_permissions = [
     ]
   ),
   Permission.new(
-    resource: Permission::TRACING_REQUEST,
-    actions: [
-      Permission::READ,
-      Permission::WRITE,
-      Permission::FLAG,
-      Permission::EXPORT_LIST_VIEW,
-      Permission::EXPORT_CSV,
-      Permission::EXPORT_EXCEL,
-      Permission::EXPORT_JSON,
-      Permission::EXPORT_PDF,
-      Permission::CREATE
-    ]
-  ),
-  Permission.new(
-    resource: Permission::POTENTIAL_MATCH,
-    actions: [
-      Permission::READ
-    ]
-  ),
-  Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
       Permission::DASH_WORKFLOW,
@@ -257,25 +222,6 @@ cp_manager_permissions = [
       Permission::DISPLAY_VIEW_PAGE,
       Permission::RECEIVE_TRANSFER,
       Permission::VIEW_PHOTO
-    ]
-  ),
-  Permission.new(
-    resource: Permission::TRACING_REQUEST,
-    actions: [
-      Permission::READ,
-      Permission::FLAG,
-      Permission::EXPORT_CUSTOM,
-      Permission::EXPORT_LIST_VIEW,
-      Permission::EXPORT_CSV,
-      Permission::EXPORT_EXCEL,
-      Permission::EXPORT_JSON,
-      Permission::EXPORT_PDF
-    ]
-  ),
-  Permission.new(
-    resource: Permission::POTENTIAL_MATCH,
-    actions: [
-      Permission::READ
     ]
   ),
   Permission.new(
@@ -360,23 +306,6 @@ cp_user_manager_permissions = [
     ]
   ),
   Permission.new(
-    resource: Permission::TRACING_REQUEST,
-    actions: [
-      Permission::READ,
-      Permission::FLAG,
-      Permission::EXPORT_CUSTOM,
-      Permission::EXPORT_LIST_VIEW,
-      Permission::EXPORT_CSV,
-      Permission::EXPORT_EXCEL,
-      Permission::EXPORT_JSON,
-      Permission::EXPORT_PDF
-    ]
-  ),
-  Permission.new(
-    resource: Permission::POTENTIAL_MATCH,
-    actions: [Permission::READ]
-  ),
-  Permission.new(
     resource: Permission::REPORT,
     actions: [Permission::READ, Permission::WRITE]
   ),
@@ -427,12 +356,11 @@ create_or_update_role(
   modules: [PrimeroModule.cp]
 )
 
-
 agency_user_admin_permissions = [
   Permission.new(
     resource: Permission::ROLE,
     actions: [Permission::READ, Permission::ASSIGN],
-    role_unique_ids: ['role-cp-case-worker', 'role-cp-manager', 'role-cp-user-manager', 'role-cp-administrator']
+    role_unique_ids: %w[role-cp-case-worker role-cp-manager role-cp-user-manager role-cp-administrator]
   ),
   Permission.new(
     resource: Permission::USER,
@@ -463,7 +391,6 @@ create_or_update_role(
   modules: [PrimeroModule.cp]
 )
 
-
 referral_permissions = [
   Permission.new(
     resource: Permission::CASE,
@@ -493,6 +420,7 @@ create_or_update_role(
   name: 'Referral',
   permissions: referral_permissions,
   referral: true,
+  form_sections: FormSection.where(unique_id: %w[basic_identity]),
   modules: [PrimeroModule.cp]
 )
 
@@ -528,63 +456,40 @@ create_or_update_role(
   modules: [PrimeroModule.cp]
 )
 
-ftr_manager_permissions = [
+cp_serviceprovider_permissions = [
   Permission.new(
     resource: Permission::CASE,
     actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::FLAG,
-      Permission::EXPORT_LIST_VIEW,
-      Permission::EXPORT_CSV,
-      Permission::EXPORT_EXCEL,
-      Permission::EXPORT_JSON,
-      Permission::EXPORT_PHOTO_WALL,
-      Permission::EXPORT_PDF,
-      Permission::EXPORT_UNHCR,
-      Permission::SYNC_MOBILE,
-      Permission::CREATE,
-      Permission::VIEW_PROTECTION_CONCERNS_FILTER,
-      Permission::FIND_TRACING_MATCH
+      Permission::SERVICES_SECTION_FROM_CASE,
+      Permission::SEARCH_OWNED_BY_OTHERS,
+      Permission::DISPLAY_VIEW_PAGE,
+      Permission::RECEIVE_REFERRAL
     ]
   ),
   Permission.new(
-    resource: Permission::TRACING_REQUEST,
+    resource: Permission::DASHBOARD,
     actions: [
-      Permission::READ,
-      Permission::WRITE,
-      Permission::FLAG,
-      Permission::EXPORT_LIST_VIEW,
-      Permission::EXPORT_CSV,
-      Permission::EXPORT_EXCEL,
-      Permission::EXPORT_JSON,
-      Permission::EXPORT_PDF,
-      Permission::CREATE
-    ]
-  ),
-  Permission.new(
-    resource: Permission::POTENTIAL_MATCH,
-    actions: [Permission::READ]
-  ),
-  Permission.new(
-    resource: Permission::DUPLICATE,
-    actions: [Permission::READ]
-  ),
-  Permission.new(
-    resource: Permission::INCIDENT,
-    actions: [
-      Permission::READ,
-      Permission::WRITE,
-      Permission::CREATE
+      Permission::DASH_CASE_OVERVIEW,
+      Permission::VIEW_RESPONSE,
+      Permission::DASH_SHARED_WITH_ME,
+      Permission::DASH_CASE_RISK,
+      Permission::DASH_WORKFLOW,
+      Permission::DASH_FLAGS
     ]
   )
 ]
 
+cp_serviceprovider_forms = %w[basic_identity notes services cp_case_plan]
+
 create_or_update_role(
-  unique_id: 'role-ftr-manager',
-  name: 'FTR Manager',
-  permissions: ftr_manager_permissions,
-  is_manager: true,
+  unique_id: 'role-cp-service-provider',
+  name: 'CP Service Provider',
+  referral: true,
+  permissions: cp_serviceprovider_permissions,
+  form_sections: FormSection.where(unique_id: cp_serviceprovider_forms ),
   modules: [PrimeroModule.cp]
 )
 

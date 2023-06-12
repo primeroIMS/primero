@@ -81,7 +81,7 @@ function mountedComponent(Component, state = {}, options = {}, initialEntries = 
     ...options
   });
 
-  return { ...component };
+  return { ...component, history, store };
 }
 
 export default mountedComponent;

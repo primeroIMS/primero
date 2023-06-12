@@ -222,6 +222,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'created_at' => { 'from' => nil, 'to' => Child.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'record_state' => { 'from' => nil, 'to' => true } },
+          { 'has_case_plan' => { 'from' => nil, 'to' => false } },
           { 'notes_section' => { 'from' => nil, 'to' => [] } },
           { 'reopened_logs' => { 'from' => nil, 'to' => [] } },
           { 'case_id_display' => { 'from' => nil, 'to' => Child.first.case_id_display } },
