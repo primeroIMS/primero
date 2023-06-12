@@ -19,6 +19,7 @@ class DuplicatedFieldAlertService
       duplicate_records(record, field_name).exists?
     end
 
+    # TODO: Use left join to improve query
     def duplicate_alert(record, field_name)
       Alert.includes(:record)
            .where(alert_for: DuplicateIdAlertable::DUPLICATE_FIELD, type: field_name, record_type: record.class.name)

@@ -2,6 +2,9 @@
 
 # Represents a query against a field
 class Reports::FieldQueries::FieldQuery < ValueObject
+  DATE_FORMAT = 'YYYY-MM-DD'
+  DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:MI:SS'
+
   attr_accessor :field, :record_field_name
 
   def to_sql
