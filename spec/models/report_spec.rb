@@ -625,4 +625,131 @@ describe Report do
       )
     end
   end
+
+  describe 'datetimes' do
+    let(:child_1) do
+      Child.create!(
+        data: {
+          status: 'open', worklow: 'open', sex: 'male', module_id: @module.unique_id,
+          created_at: '2021-09-12T06:32:10.000Z'
+        }
+      )
+    end
+
+    let(:child_2) do
+      Child.create!(
+        data: {
+          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          created_at: '2022-10-10T04:32:10.000Z'
+        }
+      )
+    end
+
+    let(:child_3) do
+      Child.create!(
+        data: {
+          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          created_at: '2022-10-05T04:32:10.000Z'
+        }
+      )
+    end
+
+    before(:each) do
+      clean_data(User, UserGroup, Field, Lookup, Child, Report)
+
+      Lookup.create!(
+        unique_id: 'lookup-sex',
+        name_en: 'sex',
+        lookup_values_en: [
+          { id: 'male', display_text: 'Male' },
+          { id: 'female', display_text: 'Female' }
+        ].map(&:with_indifferent_access)
+      )
+
+      Field.create!(
+        name: 'sex', display_name: 'sex', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-sex'
+      )
+
+      Field.create!(
+        name: 'created_at',
+        display_name: 'Created At',
+        type: Field::DATE_FIELD,
+        date_include_time: true
+      )
+
+      child_1
+      child_2
+      child_3
+    end
+
+    let(:report) do
+      Report.new(
+        name: 'Report by Created at and Sex',
+        record_type: 'case',
+        module_id: @module.unique_id,
+        aggregate_by: ['sex'],
+        disaggregate_by: ['created_at'],
+        group_dates_by: Report::DAY
+      )
+    end
+
+    let(:report_with_date_filter) do
+      Report.new(
+        name: 'Report by Created at and Sex with Filter',
+        record_type: 'case',
+        module_id: @module.unique_id,
+        aggregate_by: ['sex'],
+        disaggregate_by: ['created_at'],
+        group_dates_by: Report::DAY,
+        filters: [
+          { 'value': '2022-10-10', 'attribute': 'created_at', 'constraint': '>' }
+        ]
+      )
+    end
+
+    it 'returns a data dissaggregate by created_at' do
+      expect(report.build_report).to eq(
+        {
+          'male' => { '_total' => 1, '2021-09-12' => { '_total' => 1 } },
+          'female' => { '_total' => 2, '2022-10-05' => { '_total' => 1 }, '2022-10-10' => { '_total' => 1 } }
+        }
+      )
+    end
+
+    it 'returns data only for records after 2022-10-10' do
+      expect(report_with_date_filter.build_report).to eq(
+        {
+          'female' => { '_total' => 1, '2022-10-10' => { '_total' => 1 } },
+          'male' => { '_total' => 0 }
+        }
+      )
+    end
+
+    it 'groups data by week' do
+      report.group_dates_by = Report::WEEK
+
+      expect(report.build_report).to eq(
+        'male' => { '_total' => 1, '06-Sep-2021 - 12-Sep-2021' => { '_total' => 1 } },
+        'female' => { '_total' => 2, '03-Oct-2022 - 09-Oct-2022' => { '_total' => 1 }, '10-Oct-2022 - 16-Oct-2022' => { '_total' => 1 } }
+      )
+    end
+
+    it 'groups data by month' do
+      report.group_dates_by = Report::MONTH
+
+      expect(report.build_report).to eq(
+        'male' => { '_total' => 1, '2021-Sep' => { '_total' => 1 } },
+        'female' => { '_total' => 2, '2022-Oct' => { '_total' => 2 } }
+      )
+    end
+
+    it 'groups data by year' do
+      report.group_dates_by = Report::YEAR
+
+      expect(report.build_report).to eq(
+        'male' => { '_total' => 1, 2021 => { '_total' => 1 } },
+        'female' => { '_total' => 2, 2022 => { '_total' => 2 } }
+      )
+    end
+  end
 end

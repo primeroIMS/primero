@@ -17,6 +17,8 @@ class DataRemovalService
       if args.present? && args[:filters].present?
         record_models = args[:record_models].present? ? record_models_to_delete(args[:record_models]) : RECORD_MODELS
         if record_models.present?
+          # TODO: We need to delete records in polymorphic models(RecordHistory, Flag, Transition, Alert, AuditLog)
+          # to avoid orphan records.
           ActiveRecord::Base.transaction { record_models.each { |model| remove_model_records(model, args[:filters]) } }
         else
           puts 'No valid record model was entered. Nothing was deleted.'
