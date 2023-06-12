@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Describes Incidents base on workflow status by gender/age subreport in Primero.
+# Describes Incidents based on workflow status by gender/age subreport in Primero.
 class ManagedReports::SubReports::IncidentsWorkflow < ManagedReports::SubReport
   def id
     'incidents_workflow'
@@ -8,22 +8,19 @@ class ManagedReports::SubReports::IncidentsWorkflow < ManagedReports::SubReport
 
   def indicators
     [
-      ManagedReports::Indicators::IncidentWorkflowBySex,
-      ManagedReports::Indicators::IncidentWorkflowByAge
+      ManagedReports::Indicators::IncidentWorkflowBySexAndAge
     ]
   end
 
   def lookups
     {
-      ManagedReports::Indicators::IncidentWorkflowBySex.id => 'lookup-workflow',
-      ManagedReports::Indicators::IncidentWorkflowByAge.id => 'lookup-workflow'
+      ManagedReports::Indicators::IncidentWorkflowBySexAndAge.id => 'lookup-gender'
     }
   end
 
   def indicators_subcolumns
     {
-      ManagedReports::Indicators::IncidentWorkflowBySex.id => 'lookup-gender',
-      ManagedReports::Indicators::IncidentWorkflowByAge.id => 'AgeRange'
+      ManagedReports::Indicators::IncidentWorkflowBySexAndAge.id => 'AgeRange'
     }
   end
 end
