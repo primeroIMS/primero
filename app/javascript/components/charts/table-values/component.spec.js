@@ -77,7 +77,7 @@ describe("<TableValues />", () => {
     };
 
     mountedComponent(<TableValues />, props);
-    expect(screen.getAllByRole("tableRow")).toHaveLength(2);
+    expect(screen.getAllByTestId("tableRow")).toHaveLength(2);
   });
 
   afterEach(() => {
