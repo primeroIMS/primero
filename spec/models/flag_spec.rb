@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Flag do
   before do
-    clean_data(Flag, User, Child, TracingRequest, Incident, PrimeroModule, UserGroup, Agency)
+    clean_data(Flag, User, TracingRequest, Incident, Child, Role, PrimeroModule, UserGroup, Agency)
 
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
@@ -391,6 +391,6 @@ describe Flag do
   end
 
   after do
-    clean_data(Flag, User, Child, TracingRequest, Incident, PrimeroModule, UserGroup, Agency)
+    clean_data(Flag, User, TracingRequest, Incident, Child, Role, PrimeroModule, UserGroup, Agency)
   end
 end

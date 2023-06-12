@@ -70,13 +70,17 @@ module Exporters::GroupableExporter
     write_grey_row
 
     worksheet.set_row(current_row, 30)
+    write_merged_table_header(indicator_key)
+
+    self.current_row += 1
+  end
+
+  def write_merged_table_header(indicator_key)
     worksheet.merge_range(
       current_row, 0, current_row, columns_number * (indicators_subcolumns[indicator_key]&.size || 1),
       build_label(indicator_key),
       formats[:blue_header]
     )
-
-    self.current_row += 1
   end
 
   def write_years_headers(sub_item_size = 1)
@@ -116,35 +120,50 @@ module Exporters::GroupableExporter
     self.current_row += 1
   end
 
+  def group_header_label(group, year)
+    translated_group = translate_group(group)
+    header_include_year? ? "#{year}-#{translated_group}" : translated_group
+  end
+
   def write_group_header(start_index, year, subitems_size)
     sort_group(year).each_with_index do |group, group_index|
-      translated_group = translate_group(group)
-      group_header_label = header_include_year? ? "#{year}-#{translated_group}" : translated_group
+      header_label = group_header_label(group, year)
       if subitems_size == 1
-        worksheet.write(current_row, start_index + group_index, group_header_label, formats[:bold_blue])
+        worksheet.write(current_row, start_index + group_index, header_label, formats[:bold_blue])
         next
       end
 
-      worksheet.merge_range(current_row, calculate_position(start_index, (group_index * subitems_size)),
-                            current_row, calculate_position(start_index, (((group_index + 1) * subitems_size) - 1)),
-                            group_header_label, formats[:bold_blue])
+      write_merged_group_header(start_index, group_index, subitems_size, header_label)
     end
+  end
+
+  def write_merged_group_header(start_index, group_index, subitems_size, header_label)
+    worksheet.merge_range(
+      current_row, calculate_position(start_index, (group_index * subitems_size)),
+      current_row, calculate_position(start_index, (((group_index + 1) * subitems_size) - 1)),
+      header_label, formats[:bold_blue]
+    )
   end
 
   def write_sub_items_columns_headers(indicator_key = nil)
     indicators_subcolumns_keys = indicators_subcolumns_data(indicator_key)
     return if indicators_subcolumns_keys.blank?
 
+    write_years_sub_headers(indicator_key, indicators_subcolumns_keys)
+
+    self.current_row += 1
+  end
+
+  def write_years_sub_headers(indicator_key, indicators_subcolumns_keys)
     years.each_with_index do |year, year_index|
       start_index = start_index_header(year, year_index, indicators_subcolumns_keys.size)
 
       indicators_subcolums_per_group(year, indicator_key).each_with_index do |subcolumn, subcolumn_index|
-        worksheet.write(current_row, calculate_position(start_index, subcolumn_index),
-                        build_label(subcolumn), formats[:bold_blue])
+        worksheet.write(
+          current_row, calculate_position(start_index, subcolumn_index), build_label(subcolumn), formats[:bold_blue]
+        )
       end
     end
-
-    self.current_row += 1
   end
 
   def translate_group(group)
@@ -298,12 +317,19 @@ module Exporters::GroupableExporter
   def write_indicators_subcolumns_data(params)
     subcolumns_data = indicators_subcolumns_data(params[:indicator_key])
     subcolumns_data.each_with_index do |subcolumn, subcolumn_index|
-      worksheet.write(
-        calculate_position(current_row, params[:option_index]),
-        calculate_position(params[:initial_index], (params[:group_index] * subcolumns_data.size), subcolumn_index),
-        option_value(params[:group_data], params[:option], subcolumn), params[:cell_format]
+      start_position = calculate_position(current_row, params[:option_index])
+      end_position = calculate_position(
+        params[:initial_index],
+        (params[:group_index] * subcolumns_data.size),
+        subcolumn_index
       )
+      write_indicator_subcolumn_data(start_position, end_position, subcolumn, params)
     end
+  end
+
+  def write_indicator_subcolumn_data(start_position, end_position, subcolumn, params)
+    value = option_value(params[:group_data], params[:option], subcolumn)
+    worksheet.write(start_position, end_position, value, params[:cell_format])
   end
 
   def option_total(group_data, option)

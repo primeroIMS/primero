@@ -77,7 +77,7 @@ describe("<IndexFitlers>", () => {
     );
     const propsIndexFilters = component.find(IndexFilters).props();
 
-    ["defaultFilters", "metadata", "recordType", "setSelectedRecords"].forEach(property => {
+    ["metadata", "recordType", "setSelectedRecords"].forEach(property => {
       expect(propsIndexFilters).to.have.property(property);
       delete propsIndexFilters[property];
     });

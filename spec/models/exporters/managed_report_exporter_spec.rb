@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Exporters::ManagedReportExporter do
   before do
-    clean_data(Lookup, Incident, Role, Agency, User, Violation)
+    clean_data(Lookup, Incident, User, Role, Agency, Violation)
     travel_to Time.zone.local(2022, 6, 30, 11, 30, 44)
 
     SystemSettings.stub(:primary_age_ranges).and_return([0..5, 6..11, 12..17, 18..AgeRange::MAX])

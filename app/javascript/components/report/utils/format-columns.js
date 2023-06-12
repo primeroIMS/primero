@@ -1,24 +1,34 @@
 import max from "lodash/max";
 import uniq from "lodash/uniq";
+import isNil from "lodash/isNil";
 
 import formattedDate from "./formatted-date";
-import sortByDate from "./sort-by-date";
 import translateColumn from "./translate-column";
+import sortTableData from "./sort-table-data";
 
-const columnsHeading = (formattedKeys, column, index) =>
-  formattedKeys.map(key => {
-    const splitted = key.split(".");
+const columnsHeading = (keys, column, index) =>
+  keys.reduce((acc, key) => {
+    if (!isNil(key[index])) {
+      return [...acc, translateColumn(column, key[index])];
+    }
 
-    return translateColumn(column, splitted[index]);
-  });
+    return acc;
+  }, []);
 
-export default (formattedKeys, columns, i18n) => {
+export default (keys, columns, ageRanges, groupAges, i18n) => {
   const items = columns.map((column, index) => {
-    const uniqueItems = sortByDate(
-      uniq(columnsHeading(formattedKeys, column, index).concat(i18n.t("report.total")))
-    ).map(columnHeading => formattedDate(columnHeading, i18n));
+    const sortedData = sortTableData({
+      field: column,
+      data: uniq(columnsHeading(keys, column, index)) || [],
+      ageRanges,
+      groupAges,
+      incompleteDataLabel: i18n.t("report.incomplete_data"),
+      locale: i18n.locale
+    });
 
-    return { items: uniqueItems };
+    return {
+      items: sortedData.map(columnHeading => formattedDate(columnHeading, i18n)).concat(i18n.t("report.total"))
+    };
   });
 
   const colspan = max(items.map((item, index) => (index === 1 ? item.items.length : 0)));

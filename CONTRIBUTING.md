@@ -33,10 +33,10 @@ To make a change, you should **make a new feature branch** from the tip of the m
 * Create a new branch with an appropriate name (**also add a story number if there is one and a short description**) and switch to the branch
 `git checkout -b <your_branch_name>`
 1833_add_follow_up_forms could be an example of the branch name.
-* Work on this branch as normal (**regularly pulling/rebasing to keep up to date and avoid conflicts. Also run tests before and after rebase with master**). After committing your code, push as normal to your new branch
+* Work on this branch as normal (**regularly pulling/rebasing to keep up to date and avoid conflicts. Also run tests before and after rebase with main**). After committing your code, push as normal to your new branch
 `git push`
 * On github, navigate to your branch and raise a pull request.
-* After that you can checkout to master or create a new branch for the next feature or bug
+* After that you can checkout to main or create a new branch for the next feature or bug
 * Also take a look at the excellent [OpenMRS guide to using git](https://wiki.openmrs.org/display/docs/Using+Git)
 
 #Tests

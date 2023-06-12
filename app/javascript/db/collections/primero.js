@@ -14,9 +14,8 @@ const Primero = {
 
     if (json?.data?.agencies) {
       const logos = await Logos.save(json.data.agencies);
-      const agenciesLogoPdf = await Logos.save(json.data.agencies_logo_options);
 
-      return { data: { logos, agenciesLogoPdf, ...json.data } };
+      return { data: { logos, agenciesLogoPdf: [], ...json.data } };
     }
 
     return json;

@@ -5,7 +5,7 @@ require 'rails_helper'
 # TODO: add i18n tests
 describe Report do
   before :all do
-    clean_data(PrimeroProgram, PrimeroModule, FormSection, Field, Child)
+    clean_data(PrimeroModule, PrimeroProgram, FormSection, Field, Child)
     @module = create :primero_module
   end
 
@@ -83,50 +83,6 @@ describe Report do
     end
   end
 
-  describe '#value_vector' do
-    it 'will parse a Solr output to build a vector of pivot counts keyd by the pivot fields' do
-      test_rsolr_output = {
-        'pivot' => [
-          {
-            'value' => 'Somalia',
-            'count' => 5,
-            'pivot' => [
-              { 'value' => 'male', 'count' => 3 },
-              { 'value' => 'female', 'count' => 2 }
-            ]
-          },
-          {
-            'value' => 'Burundi',
-            'count' => 7,
-            'pivot' => [
-              { 'value' => 'male', 'count' => 3 },
-              { 'value' => 'female', 'count' => 4 }
-            ]
-          },
-          {
-            'value' => 'Kenya',
-            'count' => 9,
-            'pivot' => [
-              { 'value' => 'male', 'count' => 5 },
-              { 'value' => 'female', 'count' => 4 }
-            ]
-          }
-        ]
-      }
-
-      r = Report.new
-      result = r.value_vector([], test_rsolr_output)
-      expect(result).to match_array(
-        [
-          [['', ''], nil],
-          [['Somalia', ''], 5], [%w[Somalia male], 3], [%w[Somalia female], 2],
-          [['Burundi', ''], 7], [%w[Burundi male], 3], [%w[Burundi female], 4],
-          [['Kenya', ''], 9], [%w[Kenya male], 5], [%w[Kenya female], 4]
-        ]
-      )
-    end
-  end
-
   describe 'modules_present' do
     it 'will reject the empty module_id list' do
       r = Report.new record_type: 'case', aggregate_by: %w[a b], module_id: ''
@@ -143,81 +99,6 @@ describe Report do
     it 'will accept the valid module_id list' do
       r = Report.new record_type: 'case', aggregate_by: %w[a b], module_id: 'primeromodule-cp'
       expect(r.modules_present).to be_nil
-    end
-  end
-
-  describe 'values_as_json_hash' do
-    it 'returns a hash with the values as nested keys' do
-      report = Report.new
-      report.stub(:values).and_return(%w[female country_1] => 5)
-      values_as_hash = { 'female' => { 'country_1' => { '_total' => 5 } } }
-      expect(report.values_as_json_hash).to eq(values_as_hash)
-    end
-
-    it 'returns a hash with the values as nested keys with 2 levels' do
-      report = Report.new
-      report.stub(:values).and_return(
-        %w[female country_1] => 5,
-        %w[female country_2] => 3,
-        ['female', ''] => 8
-      )
-      values_as_hash = {
-        'female' => {
-          'country_1' => { '_total' => 5 },
-          'country_2' => { '_total' => 3 },
-          '_total' => 8
-        }
-      }
-      expect(report.values_as_json_hash).to eq(values_as_hash)
-    end
-
-    it 'returns a hash with the values as nested keys with 3 levels' do
-      report = Report.new
-      report.stub(:values).and_return(
-        %w[female country_1 city_1] => 2,
-        %w[female country_1 city_2] => 2,
-        %w[female country_2 city_1] => 3,
-        %w[female country_2 city_2] => 2,
-        ['female', 'country_1', ''] => 4,
-        ['female', 'country_2', ''] => 5,
-        ['female', '', ''] => 9,
-        %w[male country_1 city_1] => 2,
-        %w[male country_1 city_2] => 2,
-        %w[male country_2 city_1] => 3,
-        %w[male country_2 city_2] => 2,
-        ['male', 'country_1', ''] => 4,
-        ['male', 'country_2', ''] => 5,
-        ['male', '', ''] => 9
-      )
-      values_as_hash = {
-        'female' => {
-          'country_1' => {
-            'city_1' => { '_total' => 2 },
-            'city_2' => { '_total' => 2 },
-            '_total' => 4
-          },
-          'country_2' => {
-            'city_1' => { '_total' => 3 },
-            'city_2' => { '_total' => 2 },
-            '_total' => 5
-          },
-          '_total' => 9
-        },
-        'male' => {
-          'country_1' => {
-            'city_1' => { '_total' => 2 },
-            'city_2' => { '_total' => 2 },
-            '_total' => 4
-          },
-          'country_2' => {
-            'city_1' => { '_total' => 3 },
-            'city_2' => { '_total' => 2 },
-            '_total' => 5
-          },
-          '_total' => 9
-        }
-      }
-      expect(report.values_as_json_hash).to eq(values_as_hash)
     end
   end
 
@@ -295,9 +176,9 @@ describe Report do
     end
   end
 
-  describe 'exclude_empty_rows', search: true do
+  describe 'exclude_empty_rows' do
     before :each do
-      clean_data(FormSection, Field, Child, Report)
+      clean_data(FormSection, Field, Child, Lookup, Report)
 
       SystemSettings.stub(:current).and_return(
         SystemSettings.new(
@@ -309,12 +190,22 @@ describe Report do
         )
       )
 
-      Child.create!(data: { sex: 'female', module_id: @module.unique_id })
-      Child.create!(data: { sex: 'female', module_id: @module.unique_id })
-      Child.create!(data: { sex: 'female', module_id: @module.unique_id })
-      Child.create!(data: { sex: 'male', module_id: @module.unique_id })
+      Lookup.create!(
+        unique_id: 'lookup-sex',
+        name_en: 'sex',
+        lookup_values_en: [
+          { id: 'male', display_text: 'Male' },
+          { id: 'female', display_text: 'Female' }
+        ].map(&:with_indifferent_access)
+      )
 
-      Child.reindex
+      Field.create!(
+        name: 'sex', display_name: 'sex', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-sex'
+      )
+
+      Child.create!(data: { sex: 'female', module_id: @module.unique_id })
+      Child.create!(data: { sex: 'female', module_id: @module.unique_id })
+      Child.create!(data: { sex: 'female', module_id: @module.unique_id })
     end
 
     context 'when it is true' do
@@ -332,11 +223,11 @@ describe Report do
       end
 
       it 'should not return values with zero' do
-        Child.where('data @> ?', { sex: 'male' }.to_json).each(&:remove_from_index!)
+        Child.where('data @> ?', { sex: 'male' }.to_json).destroy_all
 
         @report.build_report
 
-        expect(@report.values).to eq(['female'] => 3, [''] => nil)
+        expect(@report.data).to eq('female' => { '_total' => 3 })
       end
     end
 
@@ -355,18 +246,18 @@ describe Report do
       end
 
       it 'should return values with zero' do
-        Child.where('data @> ?', { sex: 'male' }.to_json).each(&:remove_from_index!)
+        Child.where('data @> ?', { sex: 'male' }.to_json).destroy_all
 
         @report.build_report
 
-        expect(@report.values).to eq(['female'] => 3, ['male'] => 0, [''] => nil)
+        expect(@report.data).to eq('female' => { '_total' => 3 }, 'male' => { '_total' => 0 })
       end
     end
   end
 
-  describe 'filter_query', search: true do
+  describe 'filter_query' do
     before :each do
-      clean_data(FormSection, Field, Child, Report)
+      clean_data(FormSection, Field, Child, Lookup, Report)
 
       SystemSettings.stub(:current).and_return(
         SystemSettings.new(
@@ -378,12 +269,36 @@ describe Report do
         )
       )
 
+      Lookup.create!(
+        unique_id: 'lookup-sex',
+        name_en: 'sex',
+        lookup_values_en: [
+          { id: 'male', display_text: 'Male' },
+          { id: 'female', display_text: 'Female' }
+        ].map(&:with_indifferent_access)
+      )
+
+      Lookup.create!(
+        unique_id: 'lookup-status',
+        name_en: 'status',
+        lookup_values_en: [
+          { id: 'open', display_text: 'Open' },
+          { id: 'closed', display_text: 'Closed' }
+        ].map(&:with_indifferent_access)
+      )
+
+      Field.create!(
+        name: 'sex', display_name: 'sex', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-sex'
+      )
+
+      Field.create!(
+        name: 'status', display_name: 'status', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-status'
+      )
+
       Child.create!(data: { status: 'closed', worklow: 'closed', sex: 'female', module_id: @module.unique_id })
       Child.create!(data: { status: 'closed', worklow: 'closed', sex: 'female', module_id: @module.unique_id })
       Child.create!(data: { status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id })
       Child.create!(data: { status: 'closed', worklow: 'closed', sex: 'male', module_id: @module.unique_id })
-      Child.reindex
-      Sunspot.commit
     end
 
     context 'when it has filter' do
@@ -410,7 +325,7 @@ describe Report do
 
       it 'should return 2 female and 1 male' do
         @report.build_report
-        expect(@report.values).to eq(['female'] => 2, ['male'] => 1, [''] => nil)
+        expect(@report.data).to eq('female' => { '_total' => 2 }, 'male' => { '_total' => 1 })
       end
     end
 
@@ -436,10 +351,10 @@ describe Report do
 
       it 'should return 3 female and 1 male total' do
         @report.build_report
-        expect(@report.values).to eq(
+        expect(@report.data).to eq(
           {
-            %w[female closed] => 2, %w[female open] => 1, ['female', ''] => 3,
-            %w[male closed] => 1, ['male', ''] => 1, ['', ''] => nil
+            'female' => { '_total' => 3, 'closed' => { '_total' => 2 }, 'open' => { '_total' => 1 } },
+            'male' => { '_total' => 1, 'closed' => { '_total' => 1 } }
           }
         )
       end
@@ -464,8 +379,32 @@ describe Report do
     end
 
     before(:each) do
-      clean_data(User, Agency, Child, Report)
-      child = Child.create!(
+      clean_data(User, Agency, Field, Lookup, Child, Report)
+      Lookup.create!(
+        unique_id: 'lookup-services',
+        name_en: 'services',
+        lookup_values_en: [
+          { id: 'alternative_care', display_text: 'Alternative Care' }
+        ].map(&:with_indifferent_access)
+      )
+
+      Field.create!(
+        name: 'service_type',
+        display_name: 'Service Type',
+        type: Field::SELECT_BOX,
+        option_strings_source: 'lookup lookup-services'
+      )
+
+      Field.create!(
+        name: 'service_implemented',
+        display_name: 'Service Implemented',
+        type: Field::SELECT_BOX,
+        option_strings_text_en: [
+          { id: 'implemented', display_text: 'Implemented' }
+        ]
+      )
+
+      Child.create!(
         data: {
           status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
           services_section: [
@@ -480,9 +419,6 @@ describe Report do
           assigned_user_names: [service_provider.user_name]
         }
       )
-      child.index_nested_reportables
-      Child.reindex
-      Sunspot.commit
     end
 
     let(:report) do
@@ -498,7 +434,7 @@ describe Report do
 
     it 'can be seen by the agency scope even if the agency has blank spaces in it unique_id' do
       report.build_report
-      expect(report.data[:values][%w[alternative_care implemented]]).to eq(1)
+      expect(report.data).to eq({ 'alternative_care' => { '_total' => 1, 'implemented' => { '_total' => 1 } } })
     end
   end
 
@@ -549,12 +485,44 @@ describe Report do
     end
 
     before(:each) do
-      clean_data(User, UserGroup, Child, Report)
+      clean_data(User, UserGroup, Field, Lookup, Child, Report)
+      Lookup.create!(
+        unique_id: 'lookup-sex',
+        name_en: 'sex',
+        lookup_values_en: [
+          { id: 'male', display_text: 'Male' },
+          { id: 'female', display_text: 'Female' }
+        ].map(&:with_indifferent_access)
+      )
+
+      Lookup.create!(
+        unique_id: 'lookup-status',
+        name_en: 'status',
+        lookup_values_en: [
+          { id: 'open', display_text: 'Open' },
+          { id: 'closed', display_text: 'Closed' }
+        ].map(&:with_indifferent_access)
+      )
+
+      Field.create!(
+        name: 'sex', display_name: 'sex', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-sex'
+      )
+
+      Field.create!(
+        name: 'status', display_name: 'status', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-status'
+      )
+
+      Field.create!(
+        name: 'owned_by_groups',
+        display_name: 'Groups of record owner',
+        type: Field::SELECT_BOX,
+        multi_select: true,
+        option_strings_source: 'UserGroup'
+      )
+
       child_1
       child_2
       child_3
-      Child.reindex
-      Sunspot.commit
     end
 
     let(:report) do
@@ -570,15 +538,218 @@ describe Report do
 
     it 'can be seen by the group scope' do
       report.build_report
-      expect(report.data[:values][%w[open male]]).to eq(1)
-      expect(report.data[:values][%w[open female]]).to eq(1)
+      expect(report.data).to eq(
+        {
+          'open' => { '_total' => 2, 'male' => { '_total' => 1 }, 'female' => { '_total' => 1 } },
+          'closed' => { '_total' => 0 }
+        }
+      )
     end
 
     it 'can be seen by group if they also meet the filter' do
       report.filters = [{ 'attribute' => 'owned_by_groups', 'value' => [group_2.unique_id] }]
       report.build_report
-      expect(report.data[:values][%w[open male]]).to eq(0)
-      expect(report.data[:values][%w[open female]]).to eq(1)
+      expect(report.data).to eq(
+        {
+          'open' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } },
+          'closed' => { '_total' => 0 }
+        }
+      )
+    end
+  end
+
+  describe 'Incomplete Data' do
+    before(:each) do
+      clean_data(Field, Lookup, Child, Report)
+
+      Lookup.create!(
+        unique_id: 'lookup-service-type',
+        name_en: 'status',
+        lookup_values_en: [
+          { id: 'education_formal', display_text: 'Education Formal' }
+        ].map(&:with_indifferent_access)
+      )
+
+      Field.create!(
+        name: 'service_type',
+        display_name: 'Service Type',
+        type: Field::SELECT_BOX,
+        option_strings_source: 'lookup lookup-service-type'
+      )
+
+      Field.create!(
+        name: 'service_implementing_agency',
+        display_name: 'Service Implementing Agency',
+        type: Field::SELECT_BOX,
+        option_strings_source: 'Agency'
+      )
+
+      Child.create!(
+        data: {
+          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          owned_by: 'user_owner', services_section: [
+            {
+              unique_id: 'f0a0f184-ab1d-4e02-a56b-9e1a1836b903',
+              service_type: 'education_formal',
+              service_implemented: 'not_implemented',
+              service_status_referred: false,
+              service_appointment_date: '2022-04-07'
+            },
+            {
+              unique_id: 'c532d23e-5ce6-4ec2-a3bb-abc793aec459',
+              service_type: 'education_formal',
+              service_implemented: 'not_implemented',
+              service_implementing_agency: 'agency1',
+              service_status_referred: false,
+              service_appointment_date: '2022-04-07'
+            }
+          ]
+        }
+      )
+    end
+
+    it 'returns incomplete_data if there is missing data' do
+      report = Report.new(
+        name: 'Report by Status and Sex',
+        record_type: 'reportable_service',
+        module_id: @module.unique_id,
+        aggregate_by: ['service_implementing_agency'],
+        disaggregate_by: ['service_type']
+      )
+
+      expect(report.build_report).to eq(
+        {
+          'agency1' => { '_total' => 1, 'education_formal' => { '_total' => 1 } },
+          'incomplete_data' => { '_total' => 1, 'education_formal' => { '_total' => 1 } }
+        }
+      )
+    end
+  end
+
+  describe 'datetimes' do
+    let(:child_1) do
+      Child.create!(
+        data: {
+          status: 'open', worklow: 'open', sex: 'male', module_id: @module.unique_id,
+          created_at: '2021-09-12T06:32:10.000Z'
+        }
+      )
+    end
+
+    let(:child_2) do
+      Child.create!(
+        data: {
+          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          created_at: '2022-10-10T04:32:10.000Z'
+        }
+      )
+    end
+
+    let(:child_3) do
+      Child.create!(
+        data: {
+          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          created_at: '2022-10-05T04:32:10.000Z'
+        }
+      )
+    end
+
+    before(:each) do
+      clean_data(User, UserGroup, Field, Lookup, Child, Report)
+
+      Lookup.create!(
+        unique_id: 'lookup-sex',
+        name_en: 'sex',
+        lookup_values_en: [
+          { id: 'male', display_text: 'Male' },
+          { id: 'female', display_text: 'Female' }
+        ].map(&:with_indifferent_access)
+      )
+
+      Field.create!(
+        name: 'sex', display_name: 'sex', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-sex'
+      )
+
+      Field.create!(
+        name: 'created_at',
+        display_name: 'Created At',
+        type: Field::DATE_FIELD,
+        date_include_time: true
+      )
+
+      child_1
+      child_2
+      child_3
+    end
+
+    let(:report) do
+      Report.new(
+        name: 'Report by Created at and Sex',
+        record_type: 'case',
+        module_id: @module.unique_id,
+        aggregate_by: ['sex'],
+        disaggregate_by: ['created_at'],
+        group_dates_by: Report::DAY
+      )
+    end
+
+    let(:report_with_date_filter) do
+      Report.new(
+        name: 'Report by Created at and Sex with Filter',
+        record_type: 'case',
+        module_id: @module.unique_id,
+        aggregate_by: ['sex'],
+        disaggregate_by: ['created_at'],
+        group_dates_by: Report::DAY,
+        filters: [
+          { 'value': '2022-10-10', 'attribute': 'created_at', 'constraint': '>' }
+        ]
+      )
+    end
+
+    it 'returns a data dissaggregate by created_at' do
+      expect(report.build_report).to eq(
+        {
+          'male' => { '_total' => 1, '2021-09-12' => { '_total' => 1 } },
+          'female' => { '_total' => 2, '2022-10-05' => { '_total' => 1 }, '2022-10-10' => { '_total' => 1 } }
+        }
+      )
+    end
+
+    it 'returns data only for records after 2022-10-10' do
+      expect(report_with_date_filter.build_report).to eq(
+        {
+          'female' => { '_total' => 1, '2022-10-10' => { '_total' => 1 } },
+          'male' => { '_total' => 0 }
+        }
+      )
+    end
+
+    it 'groups data by week' do
+      report.group_dates_by = Report::WEEK
+
+      expect(report.build_report).to eq(
+        'male' => { '_total' => 1, '06-Sep-2021 - 12-Sep-2021' => { '_total' => 1 } },
+        'female' => { '_total' => 2, '03-Oct-2022 - 09-Oct-2022' => { '_total' => 1 }, '10-Oct-2022 - 16-Oct-2022' => { '_total' => 1 } }
+      )
+    end
+
+    it 'groups data by month' do
+      report.group_dates_by = Report::MONTH
+
+      expect(report.build_report).to eq(
+        'male' => { '_total' => 1, '2021-Sep' => { '_total' => 1 } },
+        'female' => { '_total' => 2, '2022-Oct' => { '_total' => 2 } }
+      )
+    end
+
+    it 'groups data by year' do
+      report.group_dates_by = Report::YEAR
+
+      expect(report.build_report).to eq(
+        'male' => { '_total' => 1, 2021 => { '_total' => 1 } },
+        'female' => { '_total' => 2, 2022 => { '_total' => 2 } }
+      )
     end
   end
 end

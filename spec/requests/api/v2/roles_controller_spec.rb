@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::RolesController, type: :request do
   before :each do
-    clean_data(Role, FormSection, PrimeroProgram, PrimeroModule)
+    clean_data(Role, FormSection, PrimeroModule, PrimeroProgram)
     program = PrimeroProgram.create!(
       unique_id: 'primeroprogram-primero',
       name: 'Primero',
@@ -622,6 +622,6 @@ describe Api::V2::RolesController, type: :request do
   end
 
   after :each do
-    clean_data(Role, FormSection, PrimeroProgram, PrimeroModule)
+    clean_data(Role, FormSection, PrimeroModule, PrimeroProgram)
   end
 end

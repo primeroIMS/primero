@@ -4,10 +4,7 @@ require 'rails_helper'
 
 describe Transitionable do
   before :each do
-    clean_data(
-      PrimeroModule, Role, UserGroup, User,
-      Child, Referral
-    )
+    clean_data(User, Role, PrimeroModule, UserGroup, Child, Referral)
     @module_cp = PrimeroModule.new(name: 'CP')
     @module_cp.save(validate: false)
 
@@ -107,7 +104,7 @@ describe Transitionable do
 
   describe 'referrals_for_user' do
     before :each do
-      clean_data(Role, User, Referral, Agency)
+      clean_data(User, Role, Referral, Agency)
       permissions = Permission.new(
         resource: Permission::CASE,
         actions: [
@@ -209,6 +206,6 @@ describe Transitionable do
   end
 
   after :each do
-    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition, Agency)
+    clean_data(User, Role, PrimeroModule, UserGroup, Child, Transition, Agency)
   end
 end

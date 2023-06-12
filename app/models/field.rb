@@ -135,7 +135,7 @@ class Field < ApplicationRecord
 
     def find_as_location_fields(field_names)
       field_names = field_names.map { |field_name| field_name.gsub(/\d+$/, '') }
-      where(name: field_names, option_strings_source: 'Location')
+      where(name: field_names, option_strings_source: %w[Location ReportingLocation])
     end
   end
 
@@ -220,6 +220,10 @@ class Field < ApplicationRecord
 
   def location?
     option_strings_source == 'Location'
+  end
+
+  def reporting_location?
+    option_strings_source == 'ReportingLocation'
   end
 
   def agency?

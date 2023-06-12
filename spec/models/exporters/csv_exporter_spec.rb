@@ -31,7 +31,7 @@ module Exporters
     end
 
     it 'converts data to CSV format' do
-      data = CsvExporter.export(@records, @user)
+      data = CsvExporter.export(@records, nil, { user: @user })
 
       parsed = CSV.parse(data)
       expect(parsed[0]).to eq %w[id name age sex]
@@ -41,7 +41,7 @@ module Exporters
 
     it 'sanitizes formula injections' do
       unsafe_record = Child.new(data: { name: 'Joe', age: 12, sex: '=10+10' })
-      data = CsvExporter.export([unsafe_record], @user)
+      data = CsvExporter.export([unsafe_record], nil, { user: @user })
       parsed = CSV.parse(data)
       expect(parsed[1][1..3]).to eq(%w[Joe 12 '=10+10])
     end
