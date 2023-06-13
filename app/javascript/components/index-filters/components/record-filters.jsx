@@ -4,9 +4,7 @@ import { MY_CASES_FILTER_NAME, OR_FILTER_NAME } from "../constants";
 import { calculateFilters, filterType, isDateFieldFromValue } from "../utils";
 
 const RecordFilters = ({
-  addFilterToList,
   defaultFilters,
-  filterToList,
   filters,
   more,
   moreSectionFilters,
@@ -59,8 +57,6 @@ const RecordFilters = ({
         reset={reset}
         setReset={setReset}
         mode={mode}
-        addFilterToList={addFilterToList}
-        filterToList={filterToList}
       />
     );
   });

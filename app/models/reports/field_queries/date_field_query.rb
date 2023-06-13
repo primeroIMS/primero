@@ -101,7 +101,8 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
         "date_trunc('week', to_timestamp(#{data_column_name} ->> :field_name, :date_format)) as #{sort_field}",
-        field_name: field.name
+        field_name: field.name,
+        date_format: Report::DATE_FORMAT
       ]
     )
   end
