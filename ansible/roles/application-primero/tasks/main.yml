@@ -69,6 +69,7 @@
       cat /srv/primero/docker/local.env >> tmp0
 
       awk -F "=" '!a[$1]++' tmp0 > tmp1 && mv tmp1 /srv/primero/docker/local.env && rm tmp0
+      chmod 640 /srv/primero/docker/local.env
     else
       echo "No overrides file"
     fi
