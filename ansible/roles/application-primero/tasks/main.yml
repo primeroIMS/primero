@@ -100,7 +100,7 @@
   git:
     repo: '{{ primero_configuration_repo }}'
     dest: '/srv/primero-configuration/'
-    version: '{{ primero_configuration_repo_branch|default("master") }}'
+    version: '{{ primero_configuration_repo_branch|default("main") }}'
     key_file: '/root/.ssh/primero_deployment_key'
     accept_hostkey: 'yes'
   when: primero_configuration_repo is defined

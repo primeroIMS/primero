@@ -4,7 +4,9 @@ ro:
   accepted: Acceptat
   cancel: Anulat
   connection_lost: Momentan în mod offline
+  field_mode_offline: Momentan în mod teren
   connected: Conectat
+  no_connection: Fără conexiune
   clear: Golire
   sandbox_ui: Demo
   description: Descriere
@@ -12,15 +14,20 @@ ro:
   minimum_reportable_fields: "Câmpuri minime raportabile %{record_type}"
   name: Nume
   offline: Offline
+  field_mode: "Mod teren: %{mode}"
+  field_mode_on: "Pornit"
+  field_mode_off: "Oprit"
   unavailable_offline: Indisponibil offline
   online: Online
   yes_label: 'Da'
-  or_label: sau
+  or_label: sau,
   select_provider: Selectare furnizor
   select_language: Selectare limbă
   log_in_primero_idp: autentifică-te cu utilizator %{idp_name}
   offline_submitted_changes: 'Momentan ești offline. Modificările vor fi operate în momentul revenirii în online. '
   updated: Actualizat
+  go: Înainte
+  select_idp_error: Vă rugăm să selectați un furnizor.
   sync:
     success: "%{records}înregistrări sincronizate cu succes."
     error:
@@ -191,6 +198,15 @@ ro:
     view: Vizualizare
     view_flags_history: Vizualizare istoric
     return_to_case: Înapoi la înregistrare
+  resync_records:
+    id: ID
+    record_type: Tip înregistrare
+    action: Acțiune
+    date: Data
+    last_attempt: Ultima încercare
+    create: Creare
+    update: Actualizare
+    resync: Transmitere
   case:
     label: Înregistrare
     create_new_case: Creare înregistrare nouă
@@ -268,6 +284,7 @@ ro:
     close_dialog_title: Închidere înregistrare
     close_success: Înregistrare închisă cu succes
     closure: Închidere
+    complete: Disponibil offline
     date_of_birth: Data nașterii
     disable_dialog: Selectând OK vei modifica statusul cazului în Dezactivat.
     disable_dialog_title: Dezactivează caz
@@ -433,6 +450,7 @@ ro:
     transfer_reject_reason_label: Motiv respingere
     transfer_rejected: Selectând „Resping” este echivalent cu faptul că nu ești pregătit, pentru moment, să îți asumi responsabilitatea pentru acest caz. Te rugăm să introduci un motiv pentru respingerea acestui caz; odată selectată opțiunea „Resping”, nu vei mai avea acces la detaliile cazului.
     view_name: Vizualizare Nume
+    sort_by: Sortare după
   change_logs:
     filters:
       form: Formular
@@ -571,6 +589,9 @@ ro:
     dash_shared_with_my_team_overview: Partajat cu Echipa mea (Sumar)
     dash_shared_with_others: Partajat cu Alții
     dash_national_admin_summary: Sumar administrator
+    dash_violations_category_verification_status: Numărul total de incidente per status verificare
+    dash_violations_category_region: Numărul total de incidente verificate pe regiune
+    dash_perpetrator_armed_force_group_party_names: Numărul total de incidente per făptuitor
     date: Data
     date_of_incident: Dată incident
     date_of_interview: Data intervievării
@@ -1024,7 +1045,7 @@ ro:
     english_text: Text în engleză
     field_name: Denumire câmp
     field_type: Câmp Tip
-    attachment_too_large: Fișierul nu trebuie să fie mai mare de 10 MB
+    attachment_too_large: Fișierul nu trebuie să fie mai mare de 20MB
     file_upload_box:
       add_document_label: Adăugare document
       add_new_document_button_text: Adăugare alt document
@@ -1079,6 +1100,16 @@ ro:
     show: Afișează?
     show_on: Afișează pe
     show_on_minify_form: Formular scurt
+    skip_logic:
+      name: Condiție logică?
+      record_section:
+        title: Acest câmp ar trebui să fie vizibil dacă înregistrarea
+        buttons:
+          add: Adăugare condiție înregistrare
+      subform_section:
+        title: Acest câmp ar trebui să fie vizibil dacă subformularul
+        buttons:
+          add: Adăugare condiție subformular
     subform: Subformular
     subform_group_by: Grupare în funcție de
     subform_remove_message: Sigur dorești eliminarea acestui subformular?
@@ -1110,6 +1141,10 @@ ro:
     less: Mai puțin...
     more: Mai mult...
     save_filters: Salvare
+    categories:
+      violations: Încălcări
+      incidents: Incidente
+      individual_victims: Victime
   flags:
     add_flag_tab: Adăugare marcaj nou
     date: 'Data:'
@@ -1165,7 +1200,7 @@ ro:
       case: Înregistrare
       child: Înregistrare
       incident: Incident
-      individual_victim: Victimă individuală
+      individual_victim: Victimă
       potential_match: Potrivire potențială
       record_information: Informații înregistrare
       referrals: Referiri
@@ -1197,6 +1232,26 @@ ro:
     type_label: Tip
     visibility: Vizibilitate
     web_app: Aplicație web
+    skip_logic:
+      name: Condiție logică?
+      section:
+        title: Acest formular ar trebui să fie vizibil dacă
+        buttons:
+          add: Adăugare condiție
+    conditions:
+      add: Adăugare condiție
+      update: Actualizare condiție
+      field_name: Denumire câmp
+      condition: Condiție
+      empty: Nicio condiție adăugată
+      type: Tip
+      types:
+        and:
+          display_text: Și această condiție
+          name: ȘI
+        or:
+          display_text: Sau această condiție
+          name: SAU
   home:
     ar: العربية
     ar-IQ: العربية (العراقية)
@@ -1208,8 +1263,10 @@ ro:
     dashboard: Dashboard
     en: English
     es: Español
-    es-GT: Español (Guatemala)
+    es-GT: Spaniolă
+    es-ES: Spaniolă (Spania)
     fr: Français
+    hu: Maghiară
     id: Bahasa
     km: ភាសាខ្មែរ
     ku: کوردی
@@ -1219,21 +1276,28 @@ ro:
     sw-KE: Kiswahili (Kenya)
     sw-TZ: Kiswahili (Tanzania)
     ne: नेपाली
+    om: Oromo
+    am-ET: Amharic (Etiopia)
     label: Acasă
     language: Limbă
     manage_system_users: Gestionează Sincronizare Server Utilizatori
     my: ဗမာစာ
+    pl: Poloneză
     pt: Português
     pt-BR: Português (Brasil)
     records_need_attention: Înregistrările necesită atenție
+    ro: Română
     ru: Русский
+    sk: Slovenă
     so: Af-Soomaali
     th: ไทย
+    uk: Ucraineană
     users: Gestionare utilizatori
     view_records: Vizualizare înregistrări
     welcome: Bun venit pe Primero!
     zh: 中文
   incident:
+    code: Cod incident
     associated_case: "Caz asociat:"
     messages:
       creation_success: Registru incidente creat cu succes.
@@ -1242,6 +1306,7 @@ ro:
       update_success: 'Incident %{record_id}a fost actualizat cu succes.'
       update_success_queue: 'Incident %{record_id}a fost actualizat cu succes în fundal.'
     violation:
+      associated_violations: "Încălcări asociate:"
       update_and_return: 'Actualizare și revenire la %{association}'
       save_and_return: 'Adăugare și revenire la %{association} '
       pending: Verificare în așteptare
@@ -1250,9 +1315,11 @@ ro:
         killing: Uciderea copiilor
         maiming: Mutilarea copiilor
         recruitment: Recrutarea și/sau folosirea copiilor
-        sexual_violence: Viol și/ sau alte forme de violență sexuală
+        sexual_violence: Viol și alte forme de violență sexuală
         abduction: Răpire
         attack_on: Atacuri asupra școllor și/ sau spitalelor
+        attack_on_hospitals: Atacuri asupra spitalului (spitalelor)
+        attack_on_schools: Atacuri asupra școlii (școlilor)
         military_use: Utilizarea școlilor și/ sau spitalelor în scopuri militare
         denial_humanitarian_access: Refuzarea accesului umanitar pentru copii
   incidents:
@@ -1263,6 +1330,7 @@ ro:
     enable_dialog_title: Activare incident
     enable_success: Incidente activate cu succes.
     id: ID#
+    complete: Disponibil offline
     date_of_interview: Data intervievării
     date_of_incident: Data incidentului
     incident_location: Locația incidentului
@@ -1270,28 +1338,74 @@ ro:
     export: Export
     label: Incidente
     filter_by:
+      filter_category: Categorie filtru
       boys: Băieți
       by_date: În funcție de Dată
       children: Copii
       girls: Fete
       incident_location: Locație incident
+      status: Status
       unaccompanied_separated_status: Status protecție
       unknown: Necunoscut
       verification_status: Status verificare
       violence_type: Tip abuz
-      armed_force_group_name: Denumire Grup Forțe Armate
+      armed_force_group_party_name: Grupuri armate, militare sau altcineva
       armed_force_group_type: Tip Grup Forțe Armate
+      violations: Încălcări
+      individual_violations: Încălcări
+      individual_age: Vârsta
+      individual_sex: Sex
+      victim_deprived_liberty_security_reasons: Deprivare de libertate
+      reasons_deprivation_liberty: Care sunt motivele privării de libertate?
+      victim_facilty_victims_held: Vă rugăm să selectați locația în care victima (victimele) a fost /au fost reținute
+      torture_punishment_while_deprivated_liberty: A fost/au fost copilul (copiii) supuși torturii sau altor tratamente sau pedepse crude, inumane sau degradante în timp ce a fost privați de libertate?
+      verified_ghn_reported: Specificați GHN în care a fost inclus acest incident
+      weapon_type: 'Tip de instrument/ metodă folosită'
+      facility_impact: 'Tipul și amploarea impactului fizic'
+      facility_attack_type: 'Tipul de încălcare legată de sănătate sau educație'
+      child_role: 'Ce rol a jucat copilul(ii) în grupul armat/ militar?'
+      abduction_purpose_single: 'Scopul răpirii'
+      military_use_type: 'Tip utilizare militară'
+      types_of_aid_disrupted_denial: 'Tipul de ajutor/ serviciu refuzat/ întrerupt'
+      late_verified_violations: Încălcări verificate cu întârziere
+      perpetrator_category: Tip Făptuitor
+      record_owner: Deținătorul înregistrării
     register_new_incident: Incident nou
     selectable_date_options:
       date_of_first_report: Data intervievării
+      mrm_date_of_first_report: Data raportării inițiale către membrul CTFMR
+      ctfmr_verified_date: Data deciziei de verificare de către CTFMR
       incident_date_derived: Dată incident
     selected_records: '%{select_records} incident(e) selectat(e)'
     selected_all_records: 'Selectează toate incidentele %{total_records} care se potrivesc cu această interogare.'
+    summary_mrm:
+      label: Sumar Incident
+      fields:
+        children_multiple_violation:
+          label: Copii afectați de încălcări multiple
+        summary_of_incident:
+          label: Sumar Incident
+        incident_total_tally:
+          label: Număr victime
+          boys: Băieți
+          girls: Fete
+          unknown: Nespecificat
+        incident_date:
+          label: Dată incident
+        incident_location:
+          label: Locație incident
+        incident_description:
+          label: Relatarea incidentului
+        incident_update:
+          label: Actualizarea incidentului
     survivor_code: Cod supraviețuitor
     show_incident: 'Incident ID %{short_id}'
     social_worker: Utilizator
+    violation_type: Tip încălcare
     violence_type: Tip abuz
     type_violence: Tip abuz
+    violation_summary: Sumar
+    sort_by: Sortare după
   key_performance_indicators:
     label: "KPI-uri"
     case_assessment: "Evaluare caz"
@@ -1467,6 +1581,9 @@ ro:
       central_warehouse: Depozit central
       warehouse: Depozit
       buyingstation: Stație aprovizionare
+      township: Localitate
+      municipality: Județ
+      autonomous_region: Regiune autonomă
     label: Locație
     name: Nume
     code: Cod
@@ -1656,12 +1773,16 @@ ro:
     no_options: Această Căutare nu are momentan opțiuni.
     translation_label: Traducere text
     values: Opțiuni
+    locked_alert_message: Această căutare este blocată.
   managed_reports:
+    generated_on: Generat la
     label: Insights
     total: Total
+    violations_total: Încălcări
     filter_by:
       date: Data
       verification_status: Status verificare
+      violation_type: Tip Încălcare
     date_range:
       month: Lună
       quarter: Trimestru
@@ -1676,32 +1797,98 @@ ro:
       custom: Personalizare
     no_data: Nu există date pentru acest Insight
     no_data_table: Nu există date pentru acest Insight
+    incomplete_data: Date incomplete
+    individual_children:
+      name: Copii
+      reports:
+        individual_children: Copii
+      sub_reports:
+        individual_age: Copii în funcție de Vârstă
+        individual_violation_type: Copii în funcție de Tip încălcare
+        individual_region: Copii în funcție de Regiune
+        individual_perpetrator: Copii în funcție de Făptuitor
+    ghn_report:
+      name: Notă orizontală globală
+      reports:
+        ghn_report: Notă orizontală globală
+      sub_reports:
+        verified_information: Informații verificate - Victime
+        late_verification: Verificare întârziată - Victime
+        unverified_information: Informații neverificate - Victime
+        verified_information_violations: Informații verificate - Încălcări
+        late_verification_violations: Verificare întârziată - Încălcări
+        unverified_information_violations: Informații neverificate - Încălcări
+        killing: Omorârea copiilor
+        maiming: Mutilarea copiilor
+        recruitment: Recrutarea și/ sau folosirea copiilor
+        sexual_violence: Viol și alte forme de violență sexuală
+        rape: Viol și alte forme de violență sexuală
+        abduction: Răpire
+        attack_on_hospitals: Atacuri asupra spitalului(lor)
+        attack_on_schools: Atacuri asupra școlii(lor)
+        military_use: Utilizarea în scopuri militare a școlii (școlilor) și/sau a spitalului (spitalelor)
+        denial_humanitarian_access: Refuzul accesului umanitar al copiilor
+        multiple_violations: Copiii afectați de încălcări multiple
+        detention: Detenție
+        boys: Băieți
+        girls: Fete
+        total: Total
+        unknown: Nespecificat
+        associated_violations: Încălcări asociate
     violations:
       name: Abuzuri
       filter_options:
         incident_date: Dată incident
         date_of_report: Dată raport
         ctfmr_verified_date: Dată verificare
+        verified: Verificat
       reports:
         killing: Uciderea copiilor
         maiming: Mutilare copii
         recruitment: Recrutarea și/sau utilizarea copiilor
-        sexual_violence: Viol și/ sau alte forme de violență sexuală
+        sexual_violence: Viol și alte forme de violență sexuală
+        rape: Viol și alte forme de violență sexuală
         abduction: Răpire
-        attack_on: Atacuri asupra școllor și/ sau spitalelor
+        attack_on_hospitals: Atacuri asupra spitalului(lor)
+        attack_on_schools: Atacuri asupra școlii(lor)
         military_use: Utilizarea școlilor și/ sau spitalelor în scopuri militare
         denial_humanitarian_access: Refuzarea accesului umanitar pentru copii
+        detention: Detenție
       sub_reports:
+        children: Copii
         combined: Abuzuri
+        denial_humanitarian_access: Refuzul ajutorului umanitar
+        denial_type: Tipul de refuzuri
         detention_detained: Rămâne reținut
         detention_released: Eliberat
         perpetrators: Număr copii în funcție de Autori
+        perpetrators_denial: Numărul de fapte comise de făptuitori
+        perpetrator_detention: Număr de copii per Făptuitor
+        perpetrators_incidents: Număr incidente per Făptuitor
+        reporting_location_incidents: Număr Incidente în funcție de Regiune
         reporting_location: Număr de copii în funcție de Regiune
+        reporting_location_detention: Număr Copii în funcție de Regiune
+        reporting_location_denial: Număr încălcări per Regiune
         attack_type: Număr copii în funcție de Tip atac
         boys: Băieți
         girls: Fete
         unknown: Necunoscut
         total: Total
+        violation: Încălcări
+        sexual_violence_type: Formă(e) violență sexuală
+        detention_status: Status copii reținuți
+        type_of_use: Tip utilizare
+        factors_of_recruitment: Motive recrutare
+        still_being_held: Încă reținut
+        released: 'Eliberat'
+        escaped: 'Evadat'
+        abduction_reasons: Motiv Răpire
+        abducted_status: Status Răpire
+        facility_attack_type: Tip încălcare
+        received_response: Copii care au primit răspuns
+        male: Masculin
+        female: Feminin
+        military_use_type_of_use: Numărul de încălcări în funcție de tipul de utilizare
     gbv_statistics:
       name: Statistici GBV/ Violență pe bază pe gen
       filter_options:
@@ -1709,7 +1896,9 @@ ro:
         incident_date: Dată incident
       reports:
         incidents: Incidente
-        perpetrators: Autori
+        perpetrators: Făptuitori
+        survivors: Supraviețuitori
+        referrals: Referiri
       sub_reports:
         combined: Incidente
         total: Număr incidente GBV/ Violență pe bază de gen raportate
@@ -1719,11 +1908,32 @@ ro:
         incident_timeofday: Moment incident
         elapsed_reporting_time: Intervalul de timp dintre incident și data raportării
         elapsed_reporting_time_rape: Incidente precum Viol, Intervalul de timp scurs între Incident și Dată raportare
+        elapsed_reporting_time_rape_health_referral: Incidente de Viol, Timpul scurs între Incident și Data raportării (serviciu de sănătate sau referire)
         incident_location_type: Locație incident
-        number_of_perpetrators: Număr de Autori principali
-        perpetrator_relationship: Legătura Presupus autor principal - Supraviețuitor
+        number_of_perpetrators: Număr făptuitori
+        perpetrator_relationship: Presupusa legătură dintre Făptuitor și Supraviețuitor
         perpetrator_age_group: Grupă vârstă Presupus autor principal
         perpetrator_occupation: Ocupația Presupusului autor principal
+        age: Număr Supraviețuitori în funcție de Vârstă
+        sex: Număr Supraviețuitori în funcție de Sex
+        marital_status: Statut marital Supraviețuitori
+        displacement_status: Status relocare Supraviețuitor
+        displacement_incident: Status relocare la momentul Incidentului
+        gbv_case_context: Context Caz
+        incidents_first_point_of_contact: Numărul de incidente pentru care organizația dumneavoastră este primul punct de contact
+        incidents_from_other_service_provider: Incidentele referite de alți furnizori de servicii
+        number_of_services_provided: Număr servicii furnizate pentru incidente
+        number_of_services_provided_other: Noi referiri de incidente către alți furnizori de servicii
+        service_safehouse_referral: Referire Locație/ Adăpost sigur
+        service_medical_referral: Referire pentru Sănătate/ Medicală
+        service_psycho_referral: Servicii consiliere psihologică
+        service_legal_referral: Servicii asistență legală
+        service_police_referral: Poliție sau alt tip de servicii de securitate
+        service_livelihoods_referral: Servicii mijloace de subzistență
+        service_protection_referral: Servicii protecția copilului
+        vulnerable_populations: Grupuri vulnerabile
+        survivors_disability_type: Cu Dizabilități
+    success_message: Fișier export generat cu succes
   messages:
     alert_items: Ai o notificare %{items} la notițe.
     alerts_for:
@@ -1767,6 +1977,7 @@ ro:
       code_of_conduct: Cod etic
       terms_of_use: Termeni și condiții
       system_information: Informații despre sistem
+      resync: Modificări offline netrimise
     tasks: Sarcini
     tracing_request: Solicitare urmărire
     activity_log: Istoric Activitate
@@ -2277,6 +2488,15 @@ ro:
           dash_shared_with_others:
             explanation: 'Arată câte din înregistrările mele au referiri active, transferuri în așteptare sau transferuri respinse. Nu vizează coordonatorii în mod normal; doar dacă au înregistrări în gestionare. '
             label: Partajat cu Alții
+          dash_violations_category_verification_status:
+            explanation: Afișare număr încălcări MRM, de fiecare tip, care au avut loc, defalcate în funcție de status verificare.
+            label: MRM - Numărul de încălcări per status verificare
+          dash_violations_category_region:
+            explanation: Afișare număr încălcări MRM care au avut loc în fiecare regiune, defalcate în funcție de tipul de încălcare.
+            label: MRM - Numărul de încălcări pe regiune
+          dash_perpetrator_armed_force_group_party_names:
+            explanation: Afișare încălcări MRM, de fiecare tip, care au avut loc, defalcate în funcție de făptuitor.
+            label: MRM - Numărul de încălcări per făptuitor
           dash_show_none_values:
             explanation: Adaugă o categorie suplimentară „Fără risc” în toate dashboard-urile care defalcă înregistrările în funcție de nivelul de risc. Acest lucru este specific pentru configurațiile care au o a patra opțiune „Fără risc” pentru câmpurile referitoare la nivelul de risc.
             label: Vizualizare înregistrări având "Niciun nivel de risc" în Dashboard evaluare
@@ -2361,6 +2581,9 @@ ro:
           export_incident_recorder_xls:
             explanation: Utilizatorul poate genera un export specializat de fișiere XLS, care permite schimbul de date cu instrumentul GBV Înregistrare Incident.
             label: Export registru incident xls
+          export_mrm_violation_xls:
+            explanation: Utilizatorul poate genera un export în Excel (fișier XLS) pentru încălcări MRM. Această acțiune este disponibilă pe pagina Afișare incident și în Listă Incident.
+            label: Export încălcări MRM în Excel (fișier XLS)
           export_json:
             explanation: Utilizatorul poate genera un  fișier JSON pentru export din lista de incidente sau din paginile de prezentare a incidentelor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate incidentele la care are acces utilizatorul. Acest export este utilizat în principal pentru cei care doresc să exporte incidente din sistemul actual Primero și apoi să le importe într-un alt sistem Primero sau într-un alt sistem de management al informațiilor. Formatul JSON este adaptat pentru sisteme informatice și este mai puțin accesibil utilizatorilor.
             label: Export JSON
@@ -2402,6 +2625,10 @@ ro:
             label: Abuzuri
           gbv_statistics:
             label: Statistici GBV/ Violență pe bază pe gen
+          ghn_report:
+            label: Notă orizontală globală
+          individual_children:
+            label: Copii
       matching_configuration:
         actions:
           manage:
@@ -2431,6 +2658,15 @@ ro:
           read:
             explanation: Reprezintă legătura dintre o Solicitare urmărire și o Înregistrare. Accesul la Potriviri potențiale este necesar pentru activitatea de Urmărire și Reunificare a Familiei (FTR). Permite utilizatorului să vadă formularul Rezumat urmărire pe Înregistrări.
             label: Vizualizare
+          view_audio:
+            explanation: Verifică dacă un utilizator care caută în Solicitare urmărire poate vedea fișierele audio asociate unui Caz sau unei Solicitări de urmărire pentru o potențială potrivire.
+            label: Vizualizare audio
+          view_photo:
+            explanation: Verifică dacă un utilizator care caută în Solicitare urmărire poate vedea fotografiile asociate unui Caz sau unei Solicitări de urmărire pentru cu o potențială potrivire.
+            label: Vizualizare fotografii
+          manage:
+            explanation: Permite unui utilizator să efectueze toate acțiunile posibile pentru o potențială potrivire. Permisiunea "Gestionare" înseamnă, în esență, "totul".
+            label: Utilizare
         label: Potrivire potențială
       primero_configuration:
         actions:
@@ -2498,6 +2734,9 @@ ro:
           write:
             explanation: Posibilitatea de a edita toate rapoartele (inclusiv cele create de alți utilizatori)
             label: Editare
+          agency_read:
+            explanation: Posibilitatea de a vizualiza toate rapoartele. Numerele din fiecare raport vor reflecta numai acele înregistrări care sunt accesibile utilizatorilor din organizația utilizatorului curent. Această permisiune este adesea utilizată pentru administratorii organizației.
+            label: Afișare (date organizație)
         explanation: Instrument de analiză a datelor agregate. Include reprezentări sub formă de tabele și grafice pentru date.
         label: Raport
       reporting_location_level:
@@ -2865,6 +3104,10 @@ ro:
     match: Potrivire
     matches: Potriviri
     unmatch: Non-potrivire
+    tracing_request_photos: Fotografii pentru Solicitarea de urmărire
+    case_photos: Fotografii pentru acest Caz
+    tracing_request_audios: Audio pentru Solicitarea de urmărire
+    case_audios: Audio pentru acest Caz
     messages:
       already_matched: Există deja o potrivire în sistem cu un solicitant care caută acest copil.
       disabled: Dezactivare solicitare urmărire
@@ -2889,6 +3132,7 @@ ro:
     enable_dialog_title: Activare solicitare urmărire
     enable_success: Solicitare de urmărire activată cu succes.
     id: ID
+    complete: Disponibil offline
     filter_by:
       by_date: În funcție de Dată
       location_separation: Locația separării
@@ -2906,6 +3150,7 @@ ro:
     show_tracing_request: 'ID solicitare urmărire %{short_id}'
     tracing_requests: Solicitări urmărire
     export: Export
+    sort_by: Sortare după
   registry_records:
     id: ID
     label: Registru înregistrări
@@ -2921,6 +3166,7 @@ ro:
     enable_dialog_title: Activează Registru înregistrare
     enable_dialog: Selectând OK vei modifica statusul acestui Registru înregistrare în Activat.
     enable_success: Registru înregistrare activat cu succes
+    complete: Disponibil offline
     filter_by:
       by_date: În funcție de Dată
       status: Status
