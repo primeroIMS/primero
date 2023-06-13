@@ -31,7 +31,7 @@ import { LOCALE_KEYS, SAVE_METHODS } from "../../../../../../config";
 
 import { NAME, FORM_ID } from "./constants";
 
-const Component = ({ formMode, lookup }) => {
+const Component = ({ formMode, isLockedLookup, lookup }) => {
   const { id } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -133,6 +133,7 @@ const Component = ({ formMode, lookup }) => {
         selectedOption={selectedOption}
         setItems={setItems}
         values={values}
+        isLockedLookup={isLockedLookup}
       />
     </form>
   );
@@ -142,6 +143,7 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   formMode: PropTypes.object,
+  isLockedLookup: PropTypes.bool,
   lookup: PropTypes.object
 };
 

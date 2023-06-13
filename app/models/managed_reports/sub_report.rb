@@ -9,14 +9,18 @@ class ManagedReports::SubReport < ValueObject
       data: indicators.reduce({}) do |acc, indicator|
         acc.merge(indicator.id => indicator.build(current_user, params).data)
       end,
-      metadata: {
-        display_graph: display_graph,
-        lookups: lookups,
-        table_type: table_type,
-        order: order,
-        indicators_rows: indicators_rows,
-        indicators_subcolumns: indicators_subcolumns
-      }
+      metadata: metadata
+    }
+  end
+
+  def metadata
+    {
+      display_graph: display_graph,
+      lookups: lookups,
+      table_type: table_type,
+      order: order,
+      indicators_rows: indicators_rows,
+      indicators_subcolumns: indicators_subcolumns
     }
   end
 
