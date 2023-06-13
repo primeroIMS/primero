@@ -77,7 +77,6 @@ const fetchSinglePayload = (action, store, options) => {
 
   const fetchPath = buildPath(path, options, urlParams, external);
 
-  // eslint-disable-next-line consistent-return
   const fetch = async () => {
     fetchStatus({ store, type }, "STARTED", true);
 
@@ -89,62 +88,63 @@ const fetchSinglePayload = (action, store, options) => {
 
       if (status === 503 || (status === 204 && `/${checkHealthUrl}` === ROUTES.check_health)) {
         handleConfiguration(status, store, options, response, { fetchStatus, fetchSinglePayload, type });
-      } else {
-        const json =
-          status === 204 ? { data: { id: body?.data?.id }, ...buildAttachmentData(action) } : await response.json();
+      }
+      const json =
+        status === 204 ? { data: { id: body?.data?.id }, ...buildAttachmentData(action) } : await response.json();
 
-        if (!response.ok) {
-          fetchStatus({ store, type }, "FAILURE", json);
+      if (!response.ok) {
+        fetchStatus({ store, type }, "FAILURE", json);
 
-          if (status === 401) {
-            if (action.type === userActions.FETCH_USER_DATA) {
-              return Promise.reject(new Error("401 status from api, logging out."));
-            }
-
-            startSignout(store);
+        if (status === 401) {
+          if (action.type === userActions.FETCH_USER_DATA) {
+            throw new Error("401 status from api, logging out.");
           }
 
-          if (status === 404) {
-            deleteFromQueue(fromQueue);
-            messageQueueSkip();
-          } else if (failureCallback) {
-            messageQueueFailed(fromQueue);
-            handleRestCallback(store, failureCallback, response, json, fromQueue);
-          } else {
-            messageQueueFailed(fromQueue);
-            throw new FetchError(response, json);
-          }
+          startSignout(store);
+        }
+
+        if (status === 404) {
+          deleteFromQueue(fromQueue);
+          messageQueueSkip();
+        } else if (failureCallback) {
+          messageQueueFailed(fromQueue);
+          handleRestCallback(store, failureCallback, response, json, fromQueue);
         } else {
-          await handleSuccess(store, {
-            type,
-            json,
-            normalizeFunc,
-            path,
-            db,
-            fromQueue,
-            fromAttachment,
-            params: urlParams
-          });
-
-          messageQueueSuccess(action);
-
-          handleRestCallback(store, successCallback, response, json, fromQueue);
-
-          if (attachments) {
-            processAttachments({
-              attachments,
-              id: id || json?.data?.id,
-              recordType
-            });
-          }
+          messageQueueFailed(fromQueue);
+          throw new FetchError(response, json);
         }
-        fetchStatus({ store, type }, "FINISHED", false);
 
-        if (configurationCallback && response.ok) {
-          store.dispatch(disableNavigation());
-          handleRestCallback(store, applyingConfigMessage(), response, {});
-          fetchSinglePayload(configurationCallback, store, options);
-        }
+        throw new Error("Something went wrong.");
+      }
+      await handleSuccess(store, {
+        type,
+        json,
+        normalizeFunc,
+        path,
+        db,
+        fromQueue,
+        fromAttachment,
+        params: urlParams
+      });
+
+      messageQueueSuccess(action);
+
+      handleRestCallback(store, successCallback, response, json, fromQueue);
+
+      if (attachments) {
+        processAttachments({
+          attachments,
+          id: id || json?.data?.id,
+          recordType
+        });
+      }
+
+      fetchStatus({ store, type }, "FINISHED", false);
+
+      if (configurationCallback && response.ok) {
+        store.dispatch(disableNavigation());
+        handleRestCallback(store, applyingConfigMessage(), response, {});
+        fetchSinglePayload(configurationCallback, store, options);
       }
     } catch (error) {
       const errorDataObject = { json: error?.json, recordType, fromQueue, id, error };
@@ -167,6 +167,8 @@ const fetchSinglePayload = (action, store, options) => {
         responseText: error?.response?.statusText,
         responseStatus: error?.response?.status
       });
+
+      throw new Error(error);
     }
   };
 

@@ -21,9 +21,7 @@ export default () => {
     customMiddleware.restMiddleware({
       baseUrl: "/api/v2"
     }),
-    customMiddleware.authMiddleware({
-      history
-    }),
+    customMiddleware.authMiddleware,
     customMiddleware.offlineMiddleware
   ];
 

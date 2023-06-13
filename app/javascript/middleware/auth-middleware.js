@@ -21,7 +21,7 @@ import {
   isOnline
 } from "./utils";
 
-const authMiddleware = options => store => next => action => {
+const authMiddleware = store => next => action => {
   const state = store.getState();
   const online = isOnline(store);
   const routeChanged = action.type === LOCATION_CHANGED_ACTION;
@@ -38,7 +38,7 @@ const authMiddleware = options => store => next => action => {
   }
 
   if ([actions.LOGIN_SUCCESS_CALLBACK, Actions.RESET_PASSWORD_SUCCESS].includes(action.type)) {
-    loginSuccessHandler(store, action?.payload?.json || action?.payload, options.history);
+    loginSuccessHandler(store, action?.payload?.json || action?.payload);
   }
 
   if (

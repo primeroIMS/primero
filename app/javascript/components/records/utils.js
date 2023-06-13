@@ -110,25 +110,6 @@ export const useMetadata = (
       restActionParams: restActionParams || {},
       defaultMetadata: defaultMetadata || {}
     });
-
-    const messenger = window.addEventListener(
-      "message",
-      msg => {
-        if (msg?.data?.message === "reload" && msg.origin === window.location.origin) {
-          fetchDataIfNotBackButton(metadata?.toJS(), location, history, fetch, fetchParam, {
-            dispatch,
-            defaultFilterFields: defaultFilterFields || {},
-            restActionParams: restActionParams || {},
-            defaultMetadata: defaultMetadata || {}
-          });
-        }
-      },
-      false
-    );
-
-    return () => {
-      window.removeEventListener("message", messenger);
-    };
   }, []);
 
   useEffect(() => {

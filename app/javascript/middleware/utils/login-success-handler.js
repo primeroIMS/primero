@@ -17,7 +17,6 @@ export default async (store, user = {}) => {
 
   if (pendingUserLogin) {
     store.dispatch(setAuthenticatedUser(formattedUser, false));
-    postMessage({ message: "reload" }, window.location.origin);
   } else {
     localStorage.setItem("user", JSON.stringify(formattedUser));
     store.dispatch(setAuthenticatedUser(formattedUser));
