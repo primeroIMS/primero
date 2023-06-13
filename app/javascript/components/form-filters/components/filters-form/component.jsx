@@ -80,7 +80,7 @@ const Component = ({
   };
 
   return (
-    <div className={css.recordFormFilters}>
+    <div className={css.recordFormFilters} data-testid="form-filter">
       {showFilterIcon}
       <FilterContainer drawer={drawerOpen} handleDrawer={toggleDrawer} mobileDisplay={mobileDisplay && showDrawer}>
         <div className={css.filtersContainer}>
