@@ -21,13 +21,13 @@ describe("app/javascript/test/index", () => {
     "useFakeTimers",
     "mock",
     "createSimpleMount",
-    "createMockStore",
     "createMiddleware",
     "listHeaders",
     "lookups",
     "translateOptions",
     "setupHook",
-    "FormikValueFromHook"
+    "FormikValueFromHook",
+    "createMockStore"
   ].forEach(property => {
     it(`exports property '${property}'`, () => {
       expect(clone).to.have.property(property);

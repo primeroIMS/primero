@@ -18,11 +18,15 @@ class Exporters::SubreportExporter < ValueObject
     self.current_row = 0
     self.data = managed_report.data[id][:data]
     self.worksheet = workbook.add_worksheet(build_worksheet_name)
+    setup_export
+    write_export
+  end
+
+  def setup_export
     worksheet.tab_color = tab_color
     load_lookups
     load_indicators_subcolumns
     build_groups
-    write_export
   end
 
   def build_worksheet_name

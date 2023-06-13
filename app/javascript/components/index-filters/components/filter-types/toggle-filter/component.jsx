@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import isEmpty from "lodash/isEmpty";
 
 import Panel from "../../panel";
 import { getOption } from "../../../../record-form";
@@ -21,7 +20,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
-const Component = ({ addFilterToList, filter, mode, moreSectionFilters, reset, setMoreSectionFilters, setReset }) => {
+const Component = ({ filter, mode, moreSectionFilters, reset, setMoreSectionFilters, setReset }) => {
   const i18n = useI18n();
 
   const { register, unregister, setValue, getValues } = useFormContext();
@@ -37,10 +36,6 @@ const Component = ({ addFilterToList, filter, mode, moreSectionFilters, reset, s
   const handleReset = () => {
     setValue(fieldName, []);
     resetSecondaryFilter(mode?.secondary, fieldName, getValues()[fieldName], moreSectionFilters, setMoreSectionFilters);
-
-    if (addFilterToList) {
-      addFilterToList({ [fieldName]: undefined });
-    }
   };
 
   useEffect(() => {
@@ -89,10 +84,6 @@ const Component = ({ addFilterToList, filter, mode, moreSectionFilters, reset, s
     if (mode?.secondary) {
       handleMoreFiltersChange(moreSectionFilters, setMoreSectionFilters, fieldName, getValues()[fieldName]);
     }
-
-    if (addFilterToList) {
-      addFilterToList({ [fieldName]: !isEmpty(value) ? value : [] });
-    }
   };
 
   const renderOptions = () =>
@@ -136,7 +127,6 @@ Component.defaultProps = {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  addFilterToList: PropTypes.func,
   filter: PropTypes.object.isRequired,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,
