@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+
 import translateMonth from "./translate-month";
 
 describe("translateMonth", () => {
@@ -6,5 +7,5 @@ describe("translateMonth", () => {
     const result = translateMonth("03", format);
 
     expect(result).to.equal("Mar");
-  })
+  });
 });
