@@ -28,6 +28,7 @@ module ManagedReports::TsfvIndicatorHelper
       end.uniq
     end
 
+    # rubocop:disable Metrics/MethodLength
     def grouped_by_week_query(date_param, table_name)
       return unless date_param.present?
 
@@ -44,6 +45,7 @@ module ManagedReports::TsfvIndicatorHelper
         ]
       )
     end
+    # rubocop:enable Metrics/MethodLength
 
     def grouped_date_query(grouped_by_param, date_param, table_name = nil)
       if grouped_by_param&.value == ManagedReports::SqlReportIndicator::WEEK && date_param.present?

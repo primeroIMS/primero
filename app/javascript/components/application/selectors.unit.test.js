@@ -529,4 +529,31 @@ describe("Application - Selectors", () => {
       expect(result).to.be.true;
     });
   });
+
+  describe("getPrimaryAgeRange", () => {
+    it("returns the primaryAgeRange", () => {
+      const result = selectors.getPrimaryAgeRange(fromJS({ application: { primaryAgeRange: "unhcr" } }));
+
+      expect(result).to.equal("unhcr");
+    });
+  });
+
+  describe("getPrimaryAgeRanges", () => {
+    it("returns the primaryAgeRanges", () => {
+      const ageRange = fromJS(["0..4", "5..11", "12..17", "18..999"]);
+      const result = selectors.getPrimaryAgeRanges(
+        fromJS({
+          application: {
+            primaryAgeRange: "unhcr",
+            ageRanges: {
+              unhcr: ageRange,
+              primero: []
+            }
+          }
+        })
+      );
+
+      expect(result).to.deep.equal(ageRange);
+    });
+  });
 });

@@ -5,6 +5,7 @@ module ManagedReports::SqlQueryHelpers
   extend ActiveSupport::Concern
 
   # ClassMethods
+  # rubocop:disable Metrics/ModuleLength
   module ClassMethods
     def equal_value_query(param, table_name = nil)
       return unless param.present?
@@ -124,21 +125,27 @@ module ManagedReports::SqlQueryHelpers
 
     def age_ranges_query(field_name = 'age', table_name = nil, is_json_field = true)
       SystemSettings.primary_age_ranges.reduce("case \n") do |acc, range|
-        column = if is_json_field
-                   "#{quoted_query(table_name, 'data')} ->> :field_name"
-                 else
-                   quoted_query(table_name, field_name)
-                 end
+        column = age_range_column(field_name, table_name, is_json_field)
 
         acc + ActiveRecord::Base.sanitize_sql_for_conditions(
           [
-            %{
-              when int4range(:start, :end, '[]') @> cast(#{column} as integer)
-              then #{range != SystemSettings.primary_age_ranges.last ? "':start - :end'" : "':start+' end"}
+            %{ when int4range(:start, :end, '[]') @> cast(#{column} as integer)
+               then #{!last_range?(range) ? "':start - :end'" : "':start+' end"}
             }, field_name: field_name, start: range.first, end: range.last
           ]
         )
       end
     end
+
+    def last_range?(range)
+      range == SystemSettings.primary_age_ranges.last
+    end
+
+    def age_range_column(field_name = 'age', table_name = nil, is_json_field = true)
+      return "#{quoted_query(table_name, 'data')} ->> :field_name" if is_json_field
+
+      quoted_query(table_name, field_name)
+    end
   end
+  # rubocop:enable Metrics/ModuleLength
 end

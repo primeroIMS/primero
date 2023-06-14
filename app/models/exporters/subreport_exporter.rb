@@ -3,11 +3,6 @@
 # Class to export Subreports
 # rubocop:disable Metrics/ClassLength
 class Exporters::SubreportExporter < ValueObject
-  INITIAL_CHART_WIDTH = 384
-  INITIAL_CHART_HEIGHT = 460
-  EXCEL_COLUMN_WIDTH = 64
-  EXCEL_ROW_HEIGHT = 20
-
   attr_accessor :id, :data, :workbook, :tab_color, :formats, :current_row,
                 :worksheet, :managed_report, :locale, :lookups, :grouped_by,
                 :indicators_subcolumns, :subcolumn_lookups
@@ -15,11 +10,15 @@ class Exporters::SubreportExporter < ValueObject
   def export
     self.current_row = 0
     self.data = managed_report.data[id][:data]
-    self.worksheet = workbook.add_worksheet(build_worksheet_name)
-    worksheet.tab_color = tab_color
+    setup_worksheet
     load_indicators_subcolumns
     load_lookups
     write_export
+  end
+
+  def setup_worksheet
+    self.worksheet = workbook.add_worksheet(build_worksheet_name)
+    worksheet.tab_color = tab_color
   end
 
   def build_worksheet_name
@@ -152,6 +151,8 @@ class Exporters::SubreportExporter < ValueObject
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def build_indicator_exporter(indicator_key, indicator_values)
     indicator_exporter_class.new(
       key: indicator_key,
@@ -169,6 +170,8 @@ class Exporters::SubreportExporter < ValueObject
       indicator_subcolumns: indicators_subcolumns[indicator_key]
     )
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def indicator_exporter_class
     grouped_by.present? ? Exporters::GroupedIndicatorExporter : Exporters::IndicatorExporter
