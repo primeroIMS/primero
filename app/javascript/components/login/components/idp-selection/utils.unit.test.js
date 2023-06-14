@@ -22,7 +22,7 @@ describe("auth-utils", () => {
     const expected = {
       auth: {
         clientId: "123",
-        authority: "https://login.microsoftonline.com/unicefpartners.onmicrosoft.com",
+        authority: "authorization",
         validateAuthority: false,
         redirectUri: `${window.location.protocol}//${window.location.host}/login/b2c`
       },
