@@ -49,7 +49,25 @@ describe("<Report /> - constants", () => {
       "REPORTS",
       "DEFAULT_VIOLATION_FILTERS",
       "FILTER_BY_VIOLATION_TYPE_DISPLAY_NAME",
-      "VIOLATIONS_FILTERS"
+      "VIOLATIONS_FILTERS",
+      "WEEK",
+      "STATUS",
+      "STATUS_CLOSED",
+      "STATUS_OPEN",
+      "CREATED_BY_GROUPS",
+      "OWNED_BY_GROUPS",
+      "USER_GROUP",
+      "USER_GROUPS_FIELD",
+      "THIS_WEEK",
+      "LAST_WEEK",
+      "WEEK_OPTION_IDS",
+      "STATUS_DISPLAY_NAME",
+      "CREATED_BY_GROUPS_DISPLAY_NAME",
+      "OWNED_BY_GROUPS_DISPLAY_NAME",
+      "USER_GROUPS_FIELD_DISPLAY_NAME",
+      "USER_GROUP_DISPLAY_NAME",
+      "WORKFLOW_DISPLAY_NAME",
+      "WORKFLOW"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
@@ -60,7 +78,7 @@ describe("<Report /> - constants", () => {
 
   it("should have properties for INSIGHTS_CONFIG", () => {
     const clonedInsightsConfig = { ...constants.INSIGHTS_CONFIG };
-    const expectModuleKeys = [MODULES.MRM, MODULES.GBV];
+    const expectModuleKeys = [MODULES.MRM, MODULES.GBV, MODULES.CP];
 
     expect(Object.keys(clonedInsightsConfig)).to.eql(expectModuleKeys);
     expect(Object.keys(clonedInsightsConfig[MODULES.MRM])).to.eql(["violations", "ghn_report", "individual_children"]);

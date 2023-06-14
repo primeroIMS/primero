@@ -35,7 +35,7 @@
     margin: 0 var(--sp-1) 0 0;
 
     &:after {
-      content: ',';
+      content: '';
     }
   }
 
@@ -43,5 +43,11 @@
     &:after {
       content: '';
     }
+  }
+}
+
+[dir="rtl"] .filter {
+  & > div:first-of-type {
+    margin: 0 0 0 var(--sp-1);
   }
 }
