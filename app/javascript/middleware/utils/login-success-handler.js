@@ -15,11 +15,13 @@ export default async (store, user = {}) => {
     await DB.clearDB();
   }
 
-  if (pendingUserLogin) {
-    store.dispatch(setAuthenticatedUser(formattedUser, false));
-  } else {
+  if (!pendingUserLogin) {
     localStorage.setItem("user", JSON.stringify(formattedUser));
-    store.dispatch(setAuthenticatedUser(formattedUser));
+  }
+
+  store.dispatch(setAuthenticatedUser(formattedUser));
+
+  if (!pendingUserLogin) {
     handleReturnUrl(store);
   }
 
