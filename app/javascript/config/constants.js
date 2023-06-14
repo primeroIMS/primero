@@ -35,13 +35,13 @@ export const FETCH_TIMEOUT = 90000;
 export const DATABASE_NAME = "primero";
 
 // Time (ms) when the idle dialog will activate when a user is inactive
-export const IDLE_TIMEOUT = 15 * 1000 * 60;
+export const IDLE_TIMEOUT = 10 * 1000 * 60;
 
 // Time (ms) user has to respond to idle dialog before logged out
 export const IDLE_LOGOUT_TIMEOUT = 5 * 1000 * 60;
 
 // Time (ms) how often the backend is pinged to refresh the user's token
-export const TOKEN_REFRESH_INTERVAL = 30 * 1000 * 60;
+export const TOKEN_REFRESH_INTERVAL = 15 * 1000 * 60;
 
 export const CASE = "case";
 export const CASES = "cases";
