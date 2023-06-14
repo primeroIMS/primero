@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Class to export an Indicator
+# rubocop:disable Metrics/ClassLength
 class Exporters::IndicatorExporter < ValueObject
   INITIAL_CHART_WIDTH = 384
   INITIAL_CHART_HEIGHT = 460
@@ -10,7 +11,8 @@ class Exporters::IndicatorExporter < ValueObject
 
   attr_accessor :key, :values, :current_row, :worksheet, :lookups, :grouped_by, :formats,
                 :managed_report, :locale, :workbook, :subcolumn_lookups, :indicator_rows,
-                :indicator_options, :subcolumn_options, :with_total_subcolumn, :indicator_subcolumns
+                :indicator_options, :subcolumn_options, :with_total_subcolumn, :indicator_subcolumns,
+                :table_data_rows
 
   def initialize(args = {})
     super(args)
@@ -46,7 +48,8 @@ class Exporters::IndicatorExporter < ValueObject
     start_row = current_row
     write_indicator_data
     last_row = current_row - 1
-    write_graph([start_row, last_row])
+    self.table_data_rows = [start_row, last_row]
+    write_chart if table_data_rows.present?
     self.current_row += 1
   end
 
@@ -97,29 +100,37 @@ class Exporters::IndicatorExporter < ValueObject
     self.current_row += 1
   end
 
-  def write_graph(table_data_rows)
-    return unless table_data_rows.present?
-
-    chart = workbook.add_chart(type: 'column', embedded: 1, name: '')
-    chart.add_series(build_series(table_data_rows))
-    chart.set_size(height: INITIAL_CHART_HEIGHT, width: chart_width(table_data_rows))
-    chart.set_legend(none: true)
-    chart.set_x_axis(reverse: 1) if Primero::Application::RTL_LOCALES.include?(locale.to_sym)
-    chart.set_y_axis(major_unit: 1)
+  def write_chart
+    chart = setup_chart
+    build_series.each { |serie| chart.add_series(serie) }
     worksheet.insert_chart(current_row, 0, chart, 0, 0)
-
     self.current_row += (INITIAL_CHART_HEIGHT / EXCEL_ROW_HEIGHT)
   end
 
-  def build_series(table_data_rows)
-    {
-      categories: [worksheet.name] + table_data_rows + [0, 0],
-      values: [worksheet.name] + table_data_rows + [columns_number, columns_number],
-      points: Exporters::ManagedReportExporter::CHART_COLORS.values.map { |color| { fill: { color: color } } }
-    }
+  def setup_chart
+    chart = workbook.add_chart(type: 'column', embedded: 1, name: '')
+    chart.set_size(chart_size)
+    chart.set_legend(none: true)
+    chart.set_x_axis(reverse: 1) if Primero::Application::RTL_LOCALES.include?(locale.to_sym)
+    chart.set_y_axis(major_unit: 1)
+    chart
   end
 
-  def chart_width(table_data_rows)
+  def build_series
+    [
+      {
+        categories: [worksheet.name] + table_data_rows + [0, 0],
+        values: [worksheet.name] + table_data_rows + [columns_number, columns_number],
+        points: Exporters::ManagedReportExporter::CHART_COLORS.values.map { |color| { fill: { color: color } } }
+      }
+    ]
+  end
+
+  def chart_size
+    { height: INITIAL_CHART_HEIGHT, width: chart_width }
+  end
+
+  def chart_width
     row_count = table_data_rows.last - table_data_rows.first
     return INITIAL_CHART_WIDTH if row_count < 3
 
@@ -177,12 +188,9 @@ class Exporters::IndicatorExporter < ValueObject
   def value_display_text(elem)
     return I18n.t('managed_reports.incomplete_data') if incomplete_data_value?(elem)
     return I18n.t('managed_reports.total') if total_value?(elem)
+    return display_text_from_translation(elem) if lookups.blank? && indicator_rows.blank?
 
-    if lookups.blank? && indicator_rows.blank?
-      return I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{elem['id']}", default: elem['id'])
-    end
-
-    display_text_from_indicator_row(elem) || display_text_from_lookup(elem) || elem['id']
+    display_text_from_metadata(elem)
   end
 
   def incomplete_data_value?(value)
@@ -193,8 +201,18 @@ class Exporters::IndicatorExporter < ValueObject
     value['id'] == 'total'
   end
 
+  def display_text_from_translation(elem)
+    I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{elem['id']}", default: elem['id'])
+  end
+
+  def display_text_from_metadata(elem)
+    return unless elem.present?
+
+    display_text_from_indicator_row(elem) || display_text_from_lookup(elem) || elem['id']
+  end
+
   def display_text_from_indicator_row(elem)
-    return unless elem.present? && indicator_rows.present?
+    return unless indicator_rows.present?
 
     indicator_rows.find do |indicator_row|
       value = elem.is_a?(Hash) ? elem['id'] : elem
@@ -203,14 +221,18 @@ class Exporters::IndicatorExporter < ValueObject
   end
 
   def display_text_from_lookup(elem, lookup_id = nil)
-    return unless elem.present? && lookups.present?
-    return lookups.find_by_code(elem['id'])&.name_i18n&.dig(I18n.locale.to_s) if lookups.is_a?(LocationService)
+    return unless lookups.present?
+    return display_text_from_location(elem) if lookups.is_a?(LocationService)
 
     lookup_values = lookups.is_a?(Hash) ? lookups[lookup_id] : lookups
     lookup_values.find do |lookup_value|
       value = elem.is_a?(Hash) ? elem['id'] : elem
       lookup_value['id'] == value
     end&.dig('display_text')
+  end
+
+  def display_text_from_location(elem)
+    lookups.find_by_code(elem['id'])&.name_i18n&.dig(I18n.locale.to_s)
   end
 
   def sort_options
@@ -235,7 +257,9 @@ class Exporters::IndicatorExporter < ValueObject
 
   def sort_options_age_ranges
     age_ranges = SystemSettings.primary_age_ranges.map(&:to_s)
-    self.indicator_options = indicator_options.sort_by { |option| age_ranges.find_index { |age_range| option['id'] == age_range } || age_ranges.size }
+    self.indicator_options = indicator_options.sort_by do |option|
+      age_ranges.find_index { |age_range| option['id'] == age_range } || age_ranges.size
+    end
   end
 
   def date_locale
@@ -253,3 +277,4 @@ class Exporters::IndicatorExporter < ValueObject
     I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{label_key}", locale: locale)
   end
 end
+# rubocop:enable Metrics/ClassLength

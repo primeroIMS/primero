@@ -12,6 +12,7 @@ class Exporters::IncidentsSubreportExporter < Exporters::SubreportExporter
     write_indicators
   end
 
+  # rubocop:disable Metrics/MethodLength
   def write_merged_indicator
     merged_indicator = merged_indicator_class.new(
       key: 'combined',
@@ -27,6 +28,7 @@ class Exporters::IncidentsSubreportExporter < Exporters::SubreportExporter
     merged_indicator.write
     self.current_row = merged_indicator.current_row
   end
+  # rubocop:enable Metrics/MethodLength
 
   def merged_indicator_class
     return Exporters::GroupedMergedIndicatorExporter if grouped_by.present?

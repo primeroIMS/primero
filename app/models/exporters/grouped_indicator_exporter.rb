@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Class to export an Indicator
+# rubocop:disable Metrics/ClassLength
 class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
   include Writexlsx::Utility
 
@@ -26,18 +27,20 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
   end
 
   def calculate_groups
-    if grouped_by_week?
-      return group_list.reduce({}) do |acc, elem|
-        next(acc.merge(elem => [elem])) unless acc[elem].present?
-
-        acc.merge(elem => acc[elem] + [elem])
-      end
-    end
+    return calculate_week_groups if grouped_by_week?
 
     group_list.reduce({}) do |acc, elem|
       next(acc.merge(elem.first => [elem.last])) unless acc[elem.first].present?
 
       acc.merge(elem.first => acc[elem.first] + [elem.last])
+    end
+  end
+
+  def calculate_week_groups
+    group_list.reduce({}) do |acc, elem|
+      next(acc.merge(elem => [elem])) unless acc[elem].present?
+
+      acc.merge(elem => acc[elem] + [elem])
     end
   end
 
@@ -63,7 +66,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
     write_grouped_headers
     write_indicator_options
     write_grouped_indicator_data
-    write_grouped_graph
+    write_chart if indicator_options.present?
   end
 
   def write_grouped_table_header
@@ -148,27 +151,32 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
   end
 
   def write_groups_headers
-    parent_groups.each_with_index do |year, year_index|
-      start_index = start_index_header(year, year_index)
-      write_group_header(start_index, year)
+    parent_groups.each_with_index do |group, group_index|
+      start_index = start_index_header(group, group_index)
+      write_group_header(start_index, group)
     end
 
     self.current_row += 1
   end
 
-  def write_group_header(start_index, year)
-    sort_group(year).each_with_index do |group, group_index|
+  def write_group_header(start_index, parent_group)
+    sort_group(parent_group).each_with_index do |group, group_index|
       translated_group = translate_group(group)
-      group_header_label = header_include_year? ? "#{year}-#{translated_group}" : translated_group
+      group_header_label = header_include_year? ? "#{parent_group}-#{translated_group}" : translated_group
       if subitems_size == 1
         worksheet.write(current_row, start_index + group_index, group_header_label, formats[:bold_blue])
-        next
+      else
+        write_group_subcolumn_header(start_index, group_index, group_header_label)
       end
-
-      worksheet.merge_range(current_row, calculate_position(start_index, (group_index * subitems_size)),
-                            current_row, calculate_position(start_index, (((group_index + 1) * subitems_size) - 1)),
-                            group_header_label, formats[:bold_blue])
     end
+  end
+
+  def write_group_subcolumn_header(start_index, group_index, group_header_label)
+    worksheet.merge_range(
+      current_row, calculate_position(start_index, (group_index * subitems_size)),
+      current_row, calculate_position(start_index, (((group_index + 1) * subitems_size) - 1)),
+      group_header_label, formats[:bold_blue]
+    )
   end
 
   def write_grouped_indicator_data
@@ -226,11 +234,20 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
   def write_indicators_subcolumns_data(params)
     subcolumn_options.each_with_index do |subcolumn, subcolumn_index|
       worksheet.write(
-        calculate_position(current_row, params[:option_index]),
-        calculate_position(params[:initial_index], (params[:group_index] * subcolumn_options.size), subcolumn_index),
-        grouped_subcolumn_value(params[:group_data], params[:option], subcolumn), params[:cell_format]
+        grouped_subcolumn_row(params[:option_index]),
+        grouped_subcolumn_column(params[:initial_index], params[:group_index], subcolumn_index),
+        grouped_subcolumn_value(params[:group_data], params[:option], subcolumn),
+        params[:cell_format]
       )
     end
+  end
+
+  def grouped_subcolumn_row(option_index)
+    calculate_position(current_row, option_index)
+  end
+
+  def grouped_subcolumn_column(initial_index, group_index, subcolumn_index)
+    calculate_position(initial_index, (group_index * subcolumn_options.size), subcolumn_index)
   end
 
   def start_index_header(group, group_index)
@@ -259,29 +276,13 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
     self.current_row += 1
   end
 
-  def write_grouped_graph
-    return unless indicator_options.present?
-
-    chart = workbook.add_chart(type: 'column', embedded: 1, name: '')
-    series = build_group_series
-    series.each { |serie| chart.add_series(serie) }
-    chart.set_size(height: Exporters::SubreportExporter::INITIAL_CHART_HEIGHT, width: grouped_chart_width)
-    chart.set_x_axis(reverse: 1) if Primero::Application::RTL_LOCALES.include?(locale.to_sym)
-    chart.set_y_axis(major_unit: 1)
-    worksheet.insert_chart(current_row, 0, chart, 0, 0)
-
-    self.current_row += (
-      Exporters::SubreportExporter::INITIAL_CHART_HEIGHT / Exporters::SubreportExporter::EXCEL_ROW_HEIGHT
-    )
-  end
-
-  def grouped_chart_width
+  def chart_width
     return GROUPED_CHART_WIDTH if columns_number < 3
 
-    GROUPED_CHART_WIDTH + (columns_number * Exporters::SubreportExporter::EXCEL_COLUMN_WIDTH)
+    GROUPED_CHART_WIDTH + (columns_number * EXCEL_COLUMN_WIDTH)
   end
 
-  def build_group_series
+  def build_series
     colors = Exporters::ManagedReportExporter::CHART_COLORS.values
     options_size = subcolumn_options.present? ? indicator_options.size + 1 : indicator_options.size
     header_row = current_row - options_size
@@ -308,8 +309,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
 
   def generate_series_data(categories_row, header_row, option_index)
     series_groups.each_with_object(categories: [], values: []).with_index do |(_elem, memo), group_index|
-      row_value = header_row + option_index
-      row_value += 1 if subcolumn_options.present?
+      row_value = serie_row_value(header_row, option_index)
       start_column = (subcolumn_options.size * group_index) + 1
       end_column = subcolumn_options.size * (group_index + 1)
       memo[:categories] << [categories_row, categories_row, start_column, start_column]
@@ -341,20 +341,31 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
   end
 
   def options_to_series(colors, categories_row, header_row)
-    start_column = subcolumn_options.present? ? subcolumn_options.size : 1
-    end_column = subcolumn_options.present? ? subcolumn_options.size : columns_number
     indicator_options.each_with_index.map do |option, index|
-      row_value = header_row + index
-      row_value += 1 if subcolumn_options.present?
-      end_column = subcolumn_options.size * (index + 1) if subcolumn_options.present?
+      row_value = serie_row_value(header_row, index)
+      end_column = serie_end_column(index)
       {
-        name: option['display_text'],
-        fill: { color: colors.at(index) },
+        name: option['display_text'], fill: { color: colors.at(index) },
         categories: [worksheet.name, categories_row, categories_row, 1, end_column],
-        values: [worksheet.name, row_value, row_value, start_column, end_column],
+        values: [worksheet.name, row_value, row_value, serie_start_column, end_column],
         points: [{ fill: { color: colors.at(index) } }]
       }
     end
+  end
+
+  def serie_start_column
+    subcolumn_options.present? ? subcolumn_options.size : 1
+  end
+
+  def serie_end_column(index)
+    end_column = subcolumn_options.present? ? subcolumn_options.size : columns_number
+    subcolumn_options.present? ? subcolumn_options.size * (index + 1) : end_column
+  end
+
+  def serie_row_value(header_row, index)
+    row_value = header_row + index
+    row_value += 1 if subcolumn_options.present?
+    row_value
   end
 
   def grouped_subcolumn_total(group_data, option)
@@ -373,10 +384,11 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
   end
 
   def sort_group(group)
-    return groups[group] if grouped_by_week?
-    return groups[group].sort { |group1, group2| group1.to_i <=> group2.to_i } if grouped_by_month?
+    elems = groups[group]
+    return elems if grouped_by_week?
+    return elems.sort { |group1, group2| group1.to_i <=> group2.to_i } if grouped_by_month?
 
-    groups[group].sort { |group1, group2| group1.last.to_i <=> group2.last.to_i }
+    elems.sort { |group1, group2| group1.last.to_i <=> group2.last.to_i }
   end
 
   def total_subcolumn?
@@ -417,3 +429,4 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
     true
   end
 end
+# rubocop:enable Metrics/ClassLength

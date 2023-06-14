@@ -2,6 +2,7 @@
 
 # Class to export Ghn Subreports
 class Exporters::GhnReportSubreportExporter < Exporters::SubreportExporter
+  # rubocop:disable Metrics/MethodLength
   def build_indicator_exporter(indicator_key, indicator_values)
     indicator_exporter_class(indicator_key, indicator_values).new(
       key: indicator_key,
@@ -19,6 +20,7 @@ class Exporters::GhnReportSubreportExporter < Exporters::SubreportExporter
       subreport_id: id
     )
   end
+  # rubocop:enable Metrics/MethodLength
 
   def indicator_exporter_class(key, values)
     if values.any? { |g| g[:group_id].present? }
