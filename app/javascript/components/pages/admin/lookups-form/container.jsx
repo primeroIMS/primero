@@ -37,7 +37,7 @@ const Container = ({ mode }) => {
   const saving = useMemoizedSelector(state => getSavingLookup(state));
 
   const isLockedLookup = lookup.get("locked", false);
-  const formMode = isLockedLookup ? fromJS({ isShow: true }) : whichFormMode(mode);
+  const formMode = whichFormMode(mode);
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
   useEffect(() => {
@@ -88,7 +88,7 @@ const Container = ({ mode }) => {
     </>
   );
 
-  const editButton = formMode.get("isShow") && !isLockedLookup && (
+  const editButton = formMode.get("isShow") && (
     <FormAction
       actionHandler={handleEdit}
       text={i18n.t("buttons.edit")}
@@ -105,13 +105,13 @@ const Container = ({ mode }) => {
           {saveButton}
         </PageHeading>
         <PageContent>
-          {isLockedLookup && (
+          {isLockedLookup && formMode.get("isEdit") && (
             <InternalAlert
               customIcon={<LockedIcon />}
               items={fromJS([{ message: i18n.t("lookup.locked_alert_message") }])}
             />
           )}
-          <LookupForm formMode={formMode} lookup={lookup} />
+          <LookupForm formMode={formMode} lookup={lookup} isLockedLookup={isLockedLookup} />
         </PageContent>
       </LoadingIndicator>
     </Permission>

@@ -23,13 +23,19 @@ class RecalculateAge < PeriodicJob
     cases_range.find_in_batches(batch_size: 20) do |records|
       Child.transaction do
         Rails.logger.info "========================#{records.count}========================"
-        records.each do |record|
-          if update_age_for_case(record)
-            Rails.logger.info "Case:[#{record.id}] Updating age to #{record.age}. Date of birth:[#{record.date_of_birth}]"
-          else
-            Rails.logger.warn "Case:[#{record.id}] Not changed. Age remains at #{record.age}. Date of birth:[#{record.date_of_birth}]"
-          end
-        end
+        update_records_batch(records)
+      end
+    end
+  end
+
+  def update_records_batch(records)
+    records.each do |record|
+      if update_age_for_case(record)
+        Rails.logger.info "Case:[#{record.id}] Updating age to #{record.age}. Date of birth:[#{record.date_of_birth}]"
+      else
+        Rails.logger.warn(
+          "Case:[#{record.id}] Not changed. Age remains at #{record.age}. Date of birth:[#{record.date_of_birth}]"
+        )
       end
     end
   end

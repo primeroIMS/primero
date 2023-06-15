@@ -26,6 +26,8 @@ class Field < ApplicationRecord
   DATE_VALIDATION_DEFAULT = 'default_date_validation'
   DATE_VALIDATION_NOT_FUTURE = 'not_future_date'
 
+  ADMIN_LEVEL_REGEXP = Regexp.new("[#{Location::ADMIN_LEVELS.join}]$").freeze
+
   localize_properties :display_name, :help_text, :guiding_questions, :tick_box_label
   localize_properties :option_strings_text, :tally, options_list: true
 
@@ -127,15 +129,23 @@ class Field < ApplicationRecord
       field_names = [field_names] unless field_names.is_a?(Array)
       result = where(name: field_names)
       remainder = field_names - result.map(&:name)
-      remainder = remainder.select { |field_name| field_name =~ /\d+$/ }
+      remainder = remainder.select { |field_name| name_with_admin_level?(field_name) }
       return result unless remainder.present?
 
       result + find_as_location_fields(remainder)
     end
 
     def find_as_location_fields(field_names)
-      field_names = field_names.map { |field_name| field_name.gsub(/\d+$/, '') }
+      field_names = field_names.map { |field_name| remove_admin_level_from_name(field_name) }
       where(name: field_names, option_strings_source: %w[Location ReportingLocation])
+    end
+
+    def name_with_admin_level?(field_name)
+      ADMIN_LEVEL_REGEXP.match?(field_name)
+    end
+
+    def remove_admin_level_from_name(field_name)
+      field_name.gsub(ADMIN_LEVEL_REGEXP, '')
     end
   end
 

@@ -10,7 +10,7 @@ import handleFilterChange from "../value-handlers";
 
 import { NAME } from "./constants";
 
-const Component = ({ addFilterToList, filter, moreSectionFilters, setMoreSectionFilters, mode, reset, setReset }) => {
+const Component = ({ filter, moreSectionFilters, setMoreSectionFilters, mode, reset, setReset }) => {
   const i18n = useI18n();
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState();
@@ -35,19 +35,11 @@ const Component = ({ addFilterToList, filter, moreSectionFilters, setMoreSection
     if (mode?.secondary) {
       handleMoreFiltersChange(moreSectionFilters, setMoreSectionFilters, fieldName, value);
     }
-
-    if (addFilterToList) {
-      addFilterToList({ [fieldName]: value ? [value.toString()] : undefined });
-    }
   };
 
   const handleReset = () => {
     setValue(fieldName, false);
     resetSecondaryFilter(mode?.secondary, fieldName, getValues()[fieldName], moreSectionFilters, setMoreSectionFilters);
-
-    if (addFilterToList) {
-      addFilterToList({ [fieldName]: undefined });
-    }
   };
 
   useEffect(() => {
@@ -97,7 +89,6 @@ Component.defaultProps = {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  addFilterToList: PropTypes.func,
   filter: PropTypes.object.isRequired,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,

@@ -6,6 +6,7 @@ import { DragIndicator } from "../../../forms-list/components";
 import FormSectionField from "../../../../../form/components/form-section-field";
 import { FieldRecord, TEXT_FIELD } from "../../../../../form";
 import SwitchInput from "../../../../../form/fields/switch-input";
+import { LOCALE_KEYS } from "../../../../../../config";
 
 import { NAME } from "./constants";
 
@@ -13,6 +14,7 @@ const Component = ({
   firstLocaleOption,
   index,
   isDragDisabled,
+  isLockedLookup,
   localesKeys,
   selectedOption,
   uniqueId,
@@ -29,7 +31,7 @@ const Component = ({
       return (
         <div key={name}>
           <FormSectionField
-            field={FieldRecord({ name, type: TEXT_FIELD })}
+            field={FieldRecord({ name, type: TEXT_FIELD, disabled: localeKey === LOCALE_KEYS.en && isLockedLookup })}
             formMode={formMode}
             formMethods={formMethods}
           />
@@ -41,7 +43,7 @@ const Component = ({
   const renderDisabledCheckbox = (
     <div className={css.dragIndicatorContainer}>
       <SwitchInput
-        commonInputProps={{ name: `disabled.${uniqueId}`, disabled: isDragDisabled }}
+        commonInputProps={{ name: `disabled.${uniqueId}`, disabled: isDragDisabled || isLockedLookup }}
         metaInputProps={{ selectedValue: true }}
         formMethods={formMethods}
       />
@@ -73,6 +75,7 @@ Component.propTypes = {
   formMode: PropTypes.object.isRequired,
   index: PropTypes.number,
   isDragDisabled: PropTypes.bool,
+  isLockedLookup: PropTypes.bool,
   localesKeys: PropTypes.array,
   selectedOption: PropTypes.string,
   uniqueId: PropTypes.string
