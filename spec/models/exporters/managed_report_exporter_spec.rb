@@ -1226,25 +1226,54 @@ describe Exporters::ManagedReportExporter do
       )
     end
 
+    let(:incident1) do
+      Incident.create!(incident_case_id: case2.id)
+    end
+
+    let(:incident2) do
+      Incident.create!(incident_case_id: case2.id)
+    end
+
+    let(:incident3) do
+      Incident.create!(incident_case_id: case4.id)
+    end
+
     before do
       case1
       case2
       case3
       case4
+      incident1
+      incident2
+      incident3
     end
 
     it 'should export the excel' do
-      expect(workbook.sheets.size).to eq(1)
+      expect(workbook.sheets.size).to eq(2)
     end
 
     it 'prints subreport headers' do
       expect(workbook.sheet(0).row(1)).to eq(
         ['Workflow - Cases', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
       )
+      expect(workbook.sheet(1).row(1)).to eq(
+        [
+          'Workflow - Incidents', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
+          nil, nil, nil, nil, nil, nil, nil
+        ]
+      )
     end
 
     it 'prints report params' do
       expect(workbook.sheet(0).row(2)).to eq(
+        [
+          '<html><b>View By: </b>Week / <b>Date Range: </b>Custom / <b>From: </b>2023-04-30 / <b>To: </b>2023-05-19 / '\
+          '<b>Date: </b>Registration Date / <b>Status: </b>Open,Closed / <b>Workflow Status: </b>New / ' \
+          '<b>By User Groups: </b>User Groups of record owner / <b>User Group: </b>Group 1</html>',
+          nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+        ]
+      )
+      expect(workbook.sheet(1).row(2)).to eq(
         [
           '<html><b>View By: </b>Week / <b>Date Range: </b>Custom / <b>From: </b>2023-04-30 / <b>To: </b>2023-05-19 / '\
           '<b>Date: </b>Registration Date / <b>Status: </b>Open,Closed / <b>Workflow Status: </b>New / ' \
@@ -1284,6 +1313,36 @@ describe Exporters::ManagedReportExporter do
       )
       expect(workbook.sheet(0).row(10)).to eq(
         ['Total', 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+      )
+      expect(workbook.sheet(1).row(5)).to eq(
+        [
+          'Incidents by Sex and Age', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
+          nil, nil, nil, nil, nil, nil, nil, nil
+        ]
+      )
+      expect(workbook.sheet(1).row(6)).to eq(
+        [
+          nil, '2023-Apr-30 - 2023-May-06', nil, nil, nil, nil, nil,
+          '2023-May-07 - 2023-May-13', nil, nil, nil, nil, nil,
+          '2023-May-14 - 2023-May-20', nil, nil, nil, nil, nil
+        ]
+      )
+      expect(workbook.sheet(1).row(7)).to eq(
+        [
+          nil,
+          '0 - 4', '5 - 11', '12 - 17', '18 - 59', '60+', 'Total',
+          '0 - 4', '5 - 11', '12 - 17', '18 - 59', '60+', 'Total',
+          '0 - 4', '5 - 11', '12 - 17', '18 - 59', '60+', 'Total'
+        ]
+      )
+      expect(workbook.sheet(1).row(8)).to eq(
+        ['Male', 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      )
+      expect(workbook.sheet(1).row(9)).to eq(
+        ['Female', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+      )
+      expect(workbook.sheet(1).row(10)).to eq(
+        ['Total', 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
       )
     end
   end

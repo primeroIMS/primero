@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Describes Attack on schools subreport in Primero.
+# Describes Cases based on workflow status by gender/age subreport in Primero.
 class ManagedReports::SubReports::CasesWorkflow < ManagedReports::SubReport
   def id
     'cases_workflow'
