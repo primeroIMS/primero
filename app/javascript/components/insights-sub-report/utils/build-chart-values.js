@@ -106,7 +106,8 @@ export default ({
 
   const lookupDisplayTexts = [
     ...(lookupValues?.map(lookupValue => lookupValue.display_text) || []),
-    incompleteDataLabel
+    incompleteDataLabel,
+    totalText
   ];
 
   if (isGrouped && groupedBy) {
