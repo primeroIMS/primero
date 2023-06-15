@@ -2107,8 +2107,8 @@ en:
       filter_options:
         registration_date: Registration Date
       sub_reports:
-        case_workflow_by_sex_and_age: Cases by Sex and Age
-        incident_workflow_by_sex_and_age: Incidents by Sex and Age
+        case_workflow_by_sex_and_age: Total Number of Cases by Sex and Age
+        incident_workflow_by_sex_and_age: Total Number of Incidents by Sex and Age
     success_message: Successfully generated the export file
   messages:
     alert_items: You have %{items} items of note.
