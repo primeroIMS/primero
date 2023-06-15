@@ -8,6 +8,7 @@ export const setMsalConfig = idp => {
     auth: {
       clientId: idp.get("client_id"),
       authority: idp.get("authorization_url"),
+      knownAuthorities: ["unicefpartners.b2clogin.com"],
       validateAuthority: false,
       redirectUri: `${PROTOCOL}//${DOMAIN}/login/${idp.get("provider_type")}`
     },

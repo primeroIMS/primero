@@ -24,6 +24,7 @@ describe("auth-utils", () => {
         clientId: "123",
         authority: "authorization",
         validateAuthority: false,
+        knownAuthorities: ["unicefpartners.b2clogin.com"],
         redirectUri: `${window.location.protocol}//${window.location.host}/login/b2c`
       },
       cache: {
