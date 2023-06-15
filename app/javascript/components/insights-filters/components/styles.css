@@ -4,6 +4,7 @@
   & > div:first-of-type {
     font-weight: 600;
     margin: 0 var(--sp-1) 0 0;
+    flex: 0 0;
 
     &:after {
       content: ':';
@@ -33,6 +34,7 @@
 
   & > div {
     margin: 0 var(--sp-1) 0 0;
+    justify-content: space-evenly;
 
     &:after {
       content: '';
@@ -49,5 +51,21 @@
 [dir="rtl"] .filter {
   & > div:first-of-type {
     margin: 0 0 0 var(--sp-1);
+  }
+}
+
+@media (max-width:599.95px) {
+  .container {
+    display: block;
+
+    & > div {
+      justify-content: left;
+    }
+  }
+
+  .filter {
+    & > div:first-of-type {
+      flex: none;
+    }
   }
 }
