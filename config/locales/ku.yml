@@ -4,26 +4,34 @@ ku:
   accepted: پەسەند کرا
   cancel: پاشگەزبونەوە
   connection_lost: لە باری ناچالاکدایە
+  field_mode_offline: لە باری مەیدانیە ئێستا
   connected: پێکەوەلکاو/پەیوەست
+  no_connection: پەیوەندی نیە
   clear: روونە
   sandbox_ui: تاقیکاریی
   description: وەسفکردن
   form: فۆرم
-  minimum_reportable_fields: "كەمترین بوار کە پێویستە ڕاپۆرت بکرێن ٪{نوع السجل}"
+  minimum_reportable_fields: "كەمترین بوار کە پێویستە ڕاپۆرت بکرێن %{record_type}"
   name: ناو
   offline: 'ناچالاک '
+  field_mode: "باری مەیدانی:%{mode}"
+  field_mode_on: "چالاک"
+  field_mode_off: "ناچالاک"
   unavailable_offline: لە باری ئوفلایندا بەردەست نیە
   online: چالاک،لەسەر هێڵ
   yes_label: 'به لێ'
+  or_label: یان
   select_provider: پێشکەشکار هەڵبژێرە
   select_language: زمان هەڵبژێرە
-  log_in_primero_idp: چوونەژوورەوە بە ناوی بەکارهێنەر٪ {idp_name}
+  log_in_primero_idp: چوونەژوورەوە بە ناوی بەکارهێنەر%{idp_name}
   offline_submitted_changes: ئێستا تۆ لەسەر هێڵ نیت ، كاتێك دەگەڕێیتەوە سەر هێڵ ئەوا گۆڕانكارییەكانت تۆمار دەكرێن
   updated: نوێ کراوە
+  go: چوونە سەر
+  select_idp_error: تکایە دابینکەر هەڵبژێرە
   sync:
     success: "%{records}تۆمارکردنەکە بە سەرکەوتویی گرێدرا"
     error:
-      create: سەركەوتوو نەبوو لە تۆمارکردنی ٪ {نوع السجل} تكایە پەیوەندی بکە بۆ پاڵپشتی
+      create: سەركەوتوو نەبوو لە تۆمارکردنی%{record_type}  تكایە پەیوەندی بکە بۆ پاڵپشتی
       update: نوێكردنەوەی %{record_type}%{short_id} سەركەوتوو نەبوو. تكایە پەیوەندی بە پاڵشتی بكە
   actions:
     approvals: ڕەزامەندییەکان
@@ -194,6 +202,15 @@ ku:
     view: پیشاندان, سەیرکردن
     view_flags_history: مێژووی پیشاندان, سەیرکردن
     return_to_case: گەڕانەوە بۆ کەیسەکە
+  resync_records:
+    id: ناسنامەی کەسیی
+    record_type: جۆری تۆمارەکە
+    action: کردار
+    date: بەروار
+    last_attempt: دوایین هەوڵدان
+    create: دروستکردن
+    update: نوێکردنەوە
+    resync: پێشکەش بکە
   case:
     label: کەیس
     create_new_case: کەیسى نوێ توماربکە
@@ -214,7 +231,7 @@ ku:
     messages:
       disabled: کەیسەکە لەکار خرا
       update_success: 'کەیسەکە %{record_id}بەسەركەوتووى نوێکرایەوە'
-      update_success_queue: 'كەیسی ٪ {record_id} بە سەركەوتوویی نوێكرایەوە لە باکگڕاوەند'
+      update_success_queue: 'كەیسی %{record_id} بە سەركەوتوویی نوێكرایەوە لە باکگڕاوەند'
       creation_success: 'دروستکردنی تومارى کەیسەکە بەسەركەوتووى کرا'
       creation_success_queue: 'تۆماركردنی كەیس بە سەركەوتویی دروستكرا لە باکگڕاوند'
       already_matched: ئەم داواکارە لەگەڵ کەیسەکەتدا گونجاوە
@@ -275,6 +292,7 @@ ku:
     close_dialog_title: کەیسی داخراو
     close_success: بەسەرکەوتوویی کەیسەکە داخرا
     closure: داخستن
+    complete: بەردەستە بەئۆفلاین
     date_of_birth: بەرواری لەدایکبون
     disable_dialog: کلیککردن لەسەر باشە-دڵنیابوون- بارى ئەم کەیسە دەگورێ بۆ ناکارا
     disable_dialog_title: 'ناکارا کردنی کەیسەکە '
@@ -452,6 +470,7 @@ ku:
     transfer_reject_reason_label: هۆکاری رەتکردنەوەکە
     transfer_rejected: ' بە كلیككردن لەسەر "رەتكردنەوە" تۆ ئاماژە بەوە دەكەیت كە بەرپرسیارێتی ئەم كەیسە لە ئەستۆ ناگریت لە ئیستادا . تكایە هۆكاری رەتكردنەوەکە بنووسە، بەكلیك کردن لەسەر "رەتكردنەوە" ئەوا چیتر دەستت ناگات بە تۆماری ئەم كەیسە. '
     view_name: ناوەکە دەربخە
+    sort_by: ڕیزکردن بەپێی
   change_logs:
     filters:
       form: فۆرم
@@ -842,7 +861,7 @@ ku:
   error_message:
     address_fields: پێویستە ناونیشانی  %{fields} شوێنەکە%{forms} لە ناو فۆرمەكان تۆمار بکەی
     address_form_fields: پێویستە بوارەکانی %{fields} ئەم بەشە چارەسەر بکەی
-    address_subform_fields: 'ئەم بەشە٪ {نموذج فرعي}بواری٪{مجالات}  نادروستی تێدایە'
+    address_subform_fields: 'ئەم بەشە%{subform}بواری%{fields} نادروستی تێدایە'
   error_page:
     not_authorized:
       server_error: رێپێدراو نییت بچیتە نێو ئەم پەڕەیە
@@ -1154,6 +1173,7 @@ ku:
     english_text: دقەكە بە ئینگلیزی
     field_name: ' ناوی بوار'
     field_type: جۆری بوارەكە
+    attachment_too_large: نابێت فایلەکە لە 20میگابایت گەورەتر بێت
     file_upload_box:
       add_document_label: 'بەڵگەنامە زياد بكە
 
@@ -1212,6 +1232,16 @@ ku:
     show: 'نیشاندان؟ '
     show_on: پیشاندان لەسەر
     show_on_minify_form: فۆرمی کورت
+    skip_logic:
+      name: لۆژیک تێپەرێنێت؟
+      record_section:
+        title: ئەم بوارە دەبێت دیار بێت ئەگەر تۆمار بکرێت
+        buttons:
+          add: زیادکردنی مەرجی تۆمارکردن
+      subform_section:
+        title: ئەم بوارە دەبێت دیار بێت ئەگەر فۆرمی لاوەکی بێت
+        buttons:
+          add: زیادکردنی مەرجی فۆڕمی لاوەکی
     subform: فورمى ناسەرەکى-لاوەکی
     subform_group_by: گروپ لەلایەن
     subform_remove_message: دەتەویێت ئەم فورمە لاوەکیە لاببەیت, دڵنیاییت؟
@@ -1245,6 +1275,12 @@ ku:
     less: كەمتر
     more: زیاتر
     save_filters: خەزنكردن
+    categories:
+      violations: پێشێلكارییەكان
+      incidents: 'رووداوەكان 
+
+         '
+      individual_victims: 'تاکەکەسە قوربانیەکان '
   flags:
     add_flag_tab: نیشانەیەكی نوێ زیادبکە
     date: 'بەروار:'
@@ -1334,6 +1370,26 @@ ku:
     type_label: جۆر
     visibility: بینینراو
     web_app: بەرنامەی وێب
+    skip_logic:
+      name: لۆژیک فەرامۆش بکە؟
+      section:
+        title: ئەم فۆڕمە دەبێت دیار بێت ئەگەر...
+        buttons:
+          add: مەرج زیاد بکە
+    conditions:
+      add: مەرج زیاد بکە
+      update: نوێ کردنەوەی مەرج, حاڵەت
+      field_name: ' ناوی بوار'
+      condition: مەرج
+      empty: هیچ مەرجێک زیاد نەکراوە
+      type: جۆر
+      types:
+        and:
+          display_text: وە ئەم مەرجە
+          name: هەروەها
+        or:
+          display_text: یان ئەم مەرجە
+          name: یان
   home:
     ar: عەرەبی
     ar-IQ: 'عەرەبی (عێراقی)
@@ -1351,7 +1407,10 @@ ku:
     dashboard: داشبورد
     en: ئینگلیزی
     es: ئیسپانی
+    es-GT: ئیسپانی
+    es-ES: ئیسپانی ( ئیسپانیا)
     fr: فەڕەنسی
+    hu: هەنگاری
     id: ئیندونیسی
     km: خمێری
     ku: کوردى
@@ -1361,21 +1420,28 @@ ku:
     sw-KE: کیسواهیلی (کینیا)
     sw-TZ: کیسواهیلی (تانزانیا)
     ne: نیپالی
+    om: ئۆرۆمۆ
+    am-ET: ئەمهاری (ئەسیوپیا)
     label: لاپەڕەی سەرەکی
     language: زمان
     manage_system_users: بەڕێوەبردنی بەکارهێنەرانی هاوکاتکردنی سێرڤەر
     my: میانمار, بۆرما
+    pl: پۆڵەندی
     pt: پورتوگالی
     pt-BR: پورتوگالی (بەرازیل)
     records_need_attention: تۆمارەکان پێویستیان بە سەرنجدانە
+    ro: رۆمانی
     ru: رووسى
+    sk: سلۆڤاکی
     so: سومالى
     th: تایلەندى
+    uk: ئۆکرانی
     users: بەریێوەبردنى بەکارهێنەرەکان
     view_records: تومارەکان ببینە
     welcome: بەخێربێى بو پریمێرو
     zh: چینى
   incident:
+    code: کۆدی ڕووداوەکان
     associated_case: "کەیسی پەیوەندیدار:"
     messages:
       creation_success: تۆمارگەی رووداوەكە بە سەركەوتوویی دروستكرا
@@ -1386,6 +1452,7 @@ ku:
       update_success: 'رووداوەکە %{record_id}  بەسەركەوتووى نوێکرا.'
       update_success_queue: 'رووداوی %{record_id}بە سەركەوتویی نوێكرایەوە لە پاشخانەكەدا'
     violation:
+      associated_violations: "پێشێلکارییە پەیوەندیدارەکان:"
       update_and_return: ' نوێ کردنەوە و گەڕانەوە بۆ %{association}'
       save_and_return: ' زیادكردن و گەڕانەوە بۆ %{association}'
       pending: لە چاوەڕوانی پشتڕاستكردنەوەدایە
@@ -1396,10 +1463,13 @@ ku:
         recruitment: ' تەجنیدکردن و/یان بەكارهێنانی منداڵان
 
            '
+        sexual_violence: دەستدرێژی و جۆرەکانی تری توندوتیژی سێکسی
         abduction: رفاندن
         attack_on: ' هێرشكردنەسەر قوتابخانە(كان) و/یان نەخۆشخانە(كان)
 
            '
+        attack_on_hospitals: هێرشکردنە سەر نەخۆشخانە(کان)
+        attack_on_schools: هێرشکردنە سەر قوتابخانە(کان)
         military_use: 'بەكارهێنانی سەربازییانەی قوتابخانە (كان) و/یان نەخۆشخانە(كان) 
 
            '
@@ -1414,6 +1484,7 @@ ku:
     enable_dialog_title: بەكارخستنی رووداوەكە
     enable_success: رووداوەكان بە سەركەوتوویی خرانەكار
     id: ناسنامە#
+    complete: بەردەستە بەئۆفلاین
     date_of_interview: بەرواری چاوپێکەوتنەکە
     date_of_incident: بەرواری روداوەکە
     incident_location: شوێنى رووداوەکە
@@ -1421,27 +1492,74 @@ ku:
     export: هەناردەکردن
     label: رووداو
     filter_by:
+      filter_category: پۆلی فلتەر
       boys: کورەکان
       by_date: 'بەپێی بەرواری :'
       children: منداڵان
       girls: کچەکان
       incident_location: شوێنی رووداوەكە
+      status: دۆخ
       unaccompanied_separated_status: دۆخی پاراستن
       unknown: نەزانراو
       verification_status: دۆخی پشتڕاستکردنەوە
       violence_type: جۆری توندوتیژی
+      armed_force_group_party_name: هێزێکی چەکدار, گروپ, یان لایەنێکی تر
       armed_force_group_type: جۆری گروپی هێزی چەكدار
+      violations: پێشێلكارییەكان
+      individual_violations: پێشێلکاری تاکەکەسی
+      individual_age: تەمەنی تاک
+      individual_sex: ڕەگەزی تاک
+      victim_deprived_liberty_security_reasons: بێبەش لە ئازادی
+      reasons_deprivation_liberty: هۆکاری زەوتکردنی ئازادی چییە؟
+      victim_facilty_victims_held: تکایە ئەو شوێنە دەستنیشان بکە کە قوربانی(ەکان)ی تێدا ڕاگیرابوو/ئەوان ڕاگیرابوون
+      torture_punishment_while_deprivated_liberty: ئایا منداڵ (منداڵەکان) تووشی ئەشکەنجە یان مامەڵە یان سزای دڕندانە، نامرۆڤانە یان ڕیسواکەرانەی تر بوون لە کاتێکدا لە ئازادی بێبەش بوون؟
+      verified_ghn_reported: ئەو GHN دیاری بکە کە ئەم ڕووداوە تێیدا روویداوە
+      weapon_type: 'جۆری چەک/شێوازی بەکارهێنراو'
+      facility_impact: 'جۆر و ڕادەی کاریگەری جەستەیی'
+      facility_attack_type: 'جۆری پێشێلکاری پەیوەست بە تەندروستی یان پەروەردە'
+      child_role: 'منداڵ(منداڵەکان) چ ڕۆڵێکیان لە هێزی چەکدار/گرووپدا هەبووە؟'
+      abduction_purpose_single: 'هۆکاری ڕفاندن'
+      military_use_type: 'جۆری بەکارهێنانی سەربازی'
+      types_of_aid_disrupted_denial: 'جۆری یارمەتی/خزمەتگوزاری ڕەتکراوە/لەکارخراو.'
+      late_verified_violations: سەرپێچییە درەنگ پشتڕاستکراوەکان
+      perpetrator_category: جۆری تاوانبار
+      record_owner: خاوەن تومارەکە
     register_new_incident: رووداوى نوێ
     selectable_date_options:
       date_of_first_report: بەرواری چاوپێکەوتنەکە
+      mrm_date_of_first_report: بەرواری ڕاپۆرتی سەرەتایی بۆ ئەندامی لیژنەی نێودەولەتی CTFMR
+      ctfmr_verified_date: بەرواری بڕیاری پشتڕاستکردنەوە لەلایەن CTFMR
       incident_date_derived: بەرواری روداوەکە
     selected_records: '%{select_records}رووداو (ەكان) دەستنیشانكران'
     selected_all_records: 'دەستنیشانکردنی سەرجەم %{total_records} رووداوەكان لەگەڵ ئەم لیكۆڵینەوە دەگونجێت'
+    summary_mrm:
+      label: پوختەی ڕووداوەکە
+      fields:
+        children_multiple_violation:
+          label: ئەو منداڵانەی کە بەهۆی چەندین پێشێلکاری کاریگەرییان لەسەرە
+        summary_of_incident:
+          label: پوختەی ڕووداوەکە
+        incident_total_tally:
+          label: ژمارەی قوربانییان
+          boys: کوڕان
+          girls: کچان
+          unknown: نەزانراو
+        incident_date:
+          label: بەرواری ڕووداوەکە
+        incident_location:
+          label: شوێنی رووداوەكە
+        incident_description:
+          label: حسابی ڕووداوەکە
+        incident_update:
+          label: نوێکردنەوەی ڕووداوەکە
     survivor_code: كۆدی رزگاربوو
     show_incident: '%{short_id} ناسنامەی رووداوەكە'
     social_worker: كارمەندی كۆمەڵایەتی
+    violation_type: جۆری پێشێلکاریی
     violence_type: جۆری توندوتیژی
     type_violence: جۆری توندوتیژی
+    violation_summary: پوختە
+    sort_by: ڕیزکردن بەپێی
   key_performance_indicators:
     label: "نیشاندەری سەرەکی ئەدای کارکردن"
     case_assessment: "هەڵسەنگاندنی كەیس"
@@ -1598,6 +1716,9 @@ ku:
       central_warehouse: کۆگای ناوەندی
       warehouse: كۆگا
       buyingstation: وێستگەی کڕین
+      township: شارۆچکە
+      municipality: شارەوانی
+      autonomous_region: هەرێمی سەربەخۆ
     label: شوێن
     name: ناو
     code: کۆد
@@ -1791,12 +1912,16 @@ ku:
 
        '
     values: هەلبژاردەکان
+    locked_alert_message: ئەم گەڕانە قوفڵ کراوە
   managed_reports:
+    generated_on: دروستکراوە لەسەر
     label: تێڕوانینەكان
     total: سەرجەم
+    violations_total: پێشێلكارییەكان
     filter_by:
       date: بەروار
       verification_status: دۆخی پشتڕاستکردنەوە
+      violation_type: جۆری پێشێلکاریی
     date_range:
       month: مانگ
       quarter: ' چارەك'
@@ -1813,30 +1938,104 @@ ku:
       custom: تایبەتمەندکراو
     no_data: ' هیچ زانیارییەك بۆ ئەم تێگەیشتنە لەبەردەستدا نییە'
     no_data_table: هیچ خشتە داتایەک  بۆ ئەم تێگەیشتنە بوونی نییە
+    incomplete_data: زانیاریەکان تەواونەکراون
+    individual_children:
+      name: منداڵە تاکەکەسیەکان
+      reports:
+        individual_children: منداڵە تاکەکەسیەکان
+      sub_reports:
+        individual_age: تاک منداڵ بەپێی تەمەن
+        individual_violation_type: تاک منداڵ بەپێی جۆری توندوتیژی
+        individual_region: تاک منداڵ بەپێی هەرێم
+        individual_perpetrator: منداڵانی تاکەکەسی بەپێی تاوانبار
+    ghn_report:
+      name: تێبینی ئاسۆیی گشتگیر
+      reports:
+        ghn_report: تێبینی ئاسۆیی گشتگیر
+      sub_reports:
+        verified_information: 'قوربانییەکانی زانیاری پشتڕاستکراوە '
+        late_verification: درەنگ پشتڕاستکردنەوە - قوربانییەکان
+        unverified_information: زانیاری پشتڕاستنەکراوە - قوربانییەکان
+        verified_information_violations: زانیاری پشتڕاستکراوە - پێشێلکاری
+        late_verification_violations: درەنگ پشتڕاستکردنەوە - پێشێلکاری
+        unverified_information_violations: زانیاری پشتڕاستنەکراوە - پێشێلکاری
+        killing: كوشتنی منداڵان
+        maiming: شێواندنی منداڵان
+        recruitment: ' تەجنیدکردن و/یان بەكارهێنانی منداڵان
+
+           '
+        sexual_violence: دەستدرێژی و جۆرەکانی تری توندوتیژی سێکسی
+        rape: دەستدرێژی و جۆرەکانی تری توندوتیژی سێکسی
+        abduction: رفاندن
+        attack_on_hospitals: هێرشکردنە سەر نەخۆشخانە(کان)
+        attack_on_schools: هێرشکردنە سەر قوتابخانە(کان)
+        military_use: 'بەكارهێنانی سەربازییانەی قوتابخانە (كان) و/یان نەخۆشخانە(كان) 
+
+           '
+        denial_humanitarian_access: 'رێگەگرتن لە گەیشتنی هاوكارییە مرۆییەكان بە منداڵان
+
+           '
+        multiple_violations: ئەو منداڵانەی کە بەهۆی چەندین پێشێلکاری کاریگەرییان لەسەرە
+        detention: دەستبەسەرکردن
+        boys: کوڕان
+        girls: کچان
+        total: سەرجەم
+        unknown: نەزانراو
+        associated_violations: توندوتیژیە پەیوەندیدارەکان
     violations:
       name: توندوتیژی
       filter_options:
         incident_date: بەرواری روداوەکە
         date_of_report: بەرواری راپۆرتەكە
         ctfmr_verified_date: بەرواری پشتڕاستکردنەوە
+        verified: پشتڕاستکراوەتەوە
       reports:
         killing: '  كوشتنی منداڵان'
         maiming: ' شێواندنی منداڵان'
         recruitment: ' خستنەسەركار و/یان بەكارهێنانی منداڵان'
+        sexual_violence: دەستدرێژی و جۆرەکانی تری توندوتیژی سێکسی
+        rape: دەستدرێژی و جۆرەکانی تری توندوتیژی سێکسی
         abduction: رفاندن
+        attack_on_hospitals: هێرشکردنە سەر نەخۆشخانە(کان)
+        attack_on_schools: هێرشکردنە سەر قوتابخانە(کان)
         military_use: ' بەكارهێنانی سەربازییانەی قوتابخانە (كان) و/یان نەخۆشخانە(كان) '
         denial_humanitarian_access: ' رێگەگرتن لە گەیشتنی هاوكارییە مرۆییەكان بە منداڵان'
+        detention: دەستبەسەرکردن
       sub_reports:
+        children: منداڵان
         combined: توندوتیژی
+        denial_humanitarian_access: نکۆلیکردنی مرۆیی
+        denial_type: جۆری نکۆلیکردنەکە
         detention_detained: ' بە دەستبەسەركراوی دەمێنێتەوە'
         detention_released: ئازادكراوە
         perpetrators: ' ژمارەی منداڵان بە گوێرەی تاوانباران'
+        perpetrators_denial: ژمارەی توندوتیژیەکان لەلایەن تاوانبارانەوە
+        perpetrator_detention: ' ژمارەی منداڵان بە گوێرەی تاوانباران'
+        perpetrators_incidents: ژمارەی ڕووداوەکان لەلایەن تاوانبارانەوە
+        reporting_location_incidents: ژمارەی ڕووداوەکان بەپێی هەرێم
         reporting_location: ژمارەی منداڵان بە گوێرەی ناوچەكە
+        reporting_location_detention: ژمارەی منداڵان بە گوێرەی ناوچەكە
+        reporting_location_denial: ژمارەی توندوتیژیەکان بەپێی هەرێم
         attack_type: ژمارەی منداڵان بەپێی جۆری هێرش
         boys: کوڕان
         girls: کچان
         unknown: نەزانراو
         total: سەرجەم
+        violation: توندوتیژی
+        sexual_violence_type: فۆرم(ەکان)ی توندوتیژی سێکسی
+        detention_status: دۆخی منداڵانی دەستبەسەرکراو
+        type_of_use: جۆری بەکارهێنان
+        factors_of_recruitment: هۆکارەکانی بە کارمەندکردن
+        still_being_held: هێشتا دەست بەسەرکراوە
+        released: 'ئازادكراوە'
+        escaped: 'هەڵهات'
+        abduction_reasons: هۆکارەکانی ڕفاندن
+        abducted_status: دۆخی ڕفێنراوەکە
+        facility_attack_type: جورێ پێشێلکاری
+        received_response: منداڵان وەڵامیان دراوەتەوە
+        male: نێر
+        female: مێ
+        military_use_type_of_use: ژمارەی سەرپێچیەکان بەپێی جۆری بەکارهێنان
     gbv_statistics:
       name: ' ئامارەكانی توندوتیژی جێندەری'
       filter_options:
@@ -1847,6 +2046,8 @@ ku:
 
            '
         perpetrators: ' تاوانباران'
+        survivors: ڕزگاربووان
+        referrals: ئیحالەکان- ڕەوانەكردنەكان
       sub_reports:
         combined: 'رووداوەكان 
 
@@ -1858,11 +2059,34 @@ ku:
         incident_timeofday: ' كاتی رووداوەكە لە رۆژدا'
         elapsed_reporting_time: کاتی نێوان ڕووداو و بەرواری ڕاپۆرت
         elapsed_reporting_time_rape: ڕووداوەکانی دەستدرێژی سێکسی، کاتی بەسەرچوو لە نێوان ڕووداو و بەرواری ڕاپۆرت
+        elapsed_reporting_time_rape_health_referral: ڕووداوەکانی دەستدرێژی سێکسی، ماوەی تێپەڕبوو لە نێوان ڕووداو و بەرواری ڕاپۆرت (خزمەتگوزاری تەندروستی یان ڕەوانەکردن)
         incident_location_type: 'شوێنی رووداوەكە
 
            '
+        number_of_perpetrators: ژمارەی تاوانباران
+        perpetrator_relationship: پەیوەندی تاوانباری سەرەتایی گومانلێکراو لەگەڵ ڕزگاربوو
         perpetrator_age_group: گروپی تەمەنی تاوانبارانی سەرەکی
         perpetrator_occupation: پیشەی تاوانباری گومانلێکراوی سەرەکی
+        age: ژمارەی رزگاربوان بەپێی تەمەن
+        sex: ژمارەی رزگاربوان بەپێی ڕەگەز
+        marital_status: دۆخی خێزانی ڕزگاربوان
+        displacement_status: دۆخی ئاوارەبوونی ڕزگاربووان
+        displacement_incident: قۆناغی ئاوارەبوون لە کاتی ڕووداوەکەدا
+        gbv_case_context: سیاقی کەیسەکە
+        incidents_first_point_of_contact: ژمارەی ئەو ڕووداوانەی کە ڕێکخراوەکەت یەکەم خاڵی پەیوەندییە
+        incidents_from_other_service_provider: ئەو ڕووداوانەی کە لە پێشکەشکارانی خزمەتگوزارییەکانی ترەوە ڕەوانە دەکرێن
+        number_of_services_provided: ژمارەی ئەو خزمەتگوزارییانەی کە بۆ ڕووداوەکان پێشکەش دەکرێن
+        number_of_services_provided_other: ڕەوانەکردنی ڕووداوی نوێ بۆ پێشکەشکارانی خزمەتگوزاری تر
+        service_safehouse_referral: ڕەوانەکردنی خانووی سەلامەت/پەناگەی سەلامەت
+        service_medical_referral: ڕەوانەکردنی تەندروستی/پزیشکی
+        service_psycho_referral: خزمەتگوزاری دەروونی کۆمەڵایەتی/ڕاوێژکاری
+        service_legal_referral: خزمەتگوزاری هاوکاری یاسایی
+        service_police_referral: پۆلیس یان جۆرەکانی تری خزمەتگوزاری ئەمنی
+        service_livelihoods_referral: خزمەتگوزاری بژێوی ژیان
+        service_protection_referral: خزمەتگوزاری پاراستنی منداڵان
+        vulnerable_populations: دانیشتوانی لاواز
+        survivors_disability_type: لەگەڵ خاوەن پێداویستییە تایبەتەکان
+    success_message: بە سەرکەوتوویی فایلە هەناردەکراوەکانی دروست کرا
   messages:
     alert_items: تۆ %{items}بابەتت هەیە بۆ تێبینیكردن
     alerts_for:
@@ -1912,6 +2136,7 @@ ku:
          '
       terms_of_use: مەرجەکانی بەكارهێنان
       system_information: سیستمی زانیاری
+      resync: گۆڕانکارییەکانی ئۆفلاین کە پێشکەش نەکراون
     tasks: ئەرکەکان
     tracing_request: داواکاری بۆ بەدواداگەڕان
     activity_log: تۆمارگەی چالاکیەکان
@@ -2532,6 +2757,15 @@ ku:
             label: 'هاوبەشیكردن لەگەڵ ئەوانی دیكە 
 
                '
+          dash_violations_category_verification_status:
+            explanation: نیشان دەدات کە چەند پێشێلکاری MRM لە هەر جۆرێکدا ڕوویداوە، دابەشکراوە بەپێی دۆخی پشتڕاستکردنەوە.
+            label: MRM - ژمارەی پێشێلکارییەکان بۆ هەر دۆخێکی پشتڕاستکردنەوە
+          dash_violations_category_region:
+            explanation: نیشان دەدات کە چەند پێشێلکاری MRM لە هەر ناوچەیەکدا ڕوویداوە، بەپێی جۆری پێشێلکارییەکان دابەشکراوە.
+            label: MRM - ژمارەی توندوتیژیەکان بۆ هەر هەرێمێک
+          dash_perpetrator_armed_force_group_party_names:
+            explanation: نیشان دەدات کە چەند پێشێلکاری MRM لە هەر جۆرێکدا ڕوویداوە، بەپێی تاوانبارەکە دابەشکراوە.
+            label: MRM - ژمارەی پێشێلکارییەکان بۆ هەر تاوانبارێک
           dash_show_none_values:
             explanation: ' پۆلێنێكی زیادی "بە بێ ئاستی مەترسی" زیاد دەكات بۆ سەرجەم داشبۆردەكان كە كەیسەكانیش بە گوێرەی مەترسی دابەش دەكات. ئەمەش بە دیاریكراوی بۆ ئەو رێكخستنانەیە كە بژاردەی چواری "نەبوونی مەترسی" لە بوارەكانی ئاستی مەترسی هەیە. '
             label: 'خستنەڕووی ئەو كەیسانەی كە "ئاستی نەبوونی مەترسی" یان نییە لە داشبۆردی هەڵسەنگاندندا. '
@@ -2646,6 +2880,9 @@ ku:
             label: 'ناردنى تۆمارکاری رووداو xls
 
                '
+          export_mrm_violation_xls:
+            explanation: ' بەکارهێنەر دەتوانێت هەناردەکردنی تایبەتی Excel (فایل XLS) بۆ پێشێلکارییەکانی MRM دروست بکات. ئەم کردارە لە لاپەڕەی پیشاندانی ڕووداو و لیستی ڕووداوەکاندا بەردەستە.'
+            label: هەناردەکردنی پێشێلکارییەکانی MRM بۆ Excel (فایلێکی XLS)
           export_json:
             explanation: ' بەكارهێنەر دەتوانێت ناردنی فایلی  JSON  دروست بكات لە لیستی روداوەكە یان لاپەڕەكانی پیشاندانی رووداوەكە، كە سەرجەم ئەو بوارانە لەخۆدەگرێت كە بەكارهێنەری ئێستا دەستی پێیان رادەگات. بۆ یەكێك، چەند دانەیەك یان سەرجەم ئەو رووداوانەی كە بەكارهێنەرەكە دەستی پێیان رادەگات. بە شێوەیەكی سەرەكی ئەم ناردنە بەكار دەهێنرێت بۆ ئەوانەی دەیانەوێت رووداوەكان بنێرن لە سیستمی ئێستای پریمێرۆوە و دواتر بیانگەڕێننەوە بۆ سیستمێكی جیاوازی پریمێرۆ، یان لە سیستمێكی دیكەی بەڕێوەبردنی زانیاری. شێوازی JSON  بریتیە لە خوێندنەوە لە رێگەی ئامێرەوە و كرداری نییە بۆ زۆرێك لە بەكارهێنەران.  '
             label: 'ناردنی JSON
@@ -2705,6 +2942,10 @@ ku:
             label: 'ئامارەكانی توندوتیژی جێندەری
 
                '
+          ghn_report:
+            label: تێبینی ئاسۆیی گشتگیر
+          individual_children:
+            label: منداڵە تاکەکەسیەکان
       matching_configuration:
         actions:
           manage:
@@ -2740,6 +2981,15 @@ ku:
           read:
             explanation: ' ئاماژەیە بە پەیوەندی نێوان داواكاری بەدواداچوون و كەیسەكەدا. دەستڕاگەیشتن بە هاوشێوە پێشبینیكراوەكان كارێكی پێویستە بۆ كاری بەدواداچوون و پێكشادكردنەوەی خێزان. رێگە بە بەكارهێنەر دەدات بۆ بینینی فۆرمی پوختەی بەدواداچوون لەسەر كەیسەكان.  '
             label: بینین
+          view_audio:
+            explanation: کۆنتڕۆڵی ئەوە دەکات کە ئایا بەکارهێنەرێک کە بەدوای بەدواداگەرانە هاوشێوەکان دەگەڕێت دەتوانێت فایلە دەنگییەکانی داواکاری کەیس یان بەدواداگەران ببینێت کە پەیوەندییان بەئەگەری لێکچونیان هەیە.
+            label: پیشاندانی دەنگ
+          view_photo:
+            explanation: کۆنتڕۆڵی ئەوە دەکات کە ئایا بەکارهێنەرێک کە بەدوای بەدواداگەرانە هاوشێوەکان دەگەڕێت دەتوانێت فایلی وێنەکانی داواکاری کەیس یان بەدواداگەران ببینێت کە پەیوەندییان بەئەگەری لێکچونیان هەیە.
+            label: پیشاندانی وێنەکان
+          manage:
+            explanation: ڕێگە بە بەکارهێنەر دەدات هەموو کردارە بەردەستەکان لەسەر یەکسانبوونی پێشبینی کراو ئەنجام بدات. مۆڵەتی "بەڕێوەبردن" لە بنەڕەتدا بە واتای "هەموو شتێک" دێت.
+            label: بەرێوەبردن
         label: هاوشێوە پێشبینیكراوەكان
       primero_configuration:
         actions:
@@ -2843,6 +3093,9 @@ ku:
             label: 'دەستکاریکردن
 
                '
+          agency_read:
+            explanation: توانای بینینی هەموو ڕاپۆرتەکان. ژمارەکانی ناو هەر ڕاپۆرتێک تەنها ئەو تۆمارانە ڕەنگ دەدەنەوە کە بەکارهێنەرانی دەزگای بەکارهێنەری ئێستا دەتوانن دەستیان پێ بگات. ئەم مۆڵەتە زۆرجار بۆ بەڕێوەبەرانی دەزگا بەکاردەهێنرێت.
+            label: بینینی (بنەمای داتاکان - دەزگا)
         explanation: ' ئامرازی شرۆڤەكردنی داتا كۆكراوەكان. لە نێویاندا خشتە و هێڵكاری بەیانی داتاكان. '
         label: 'راپورت
 
@@ -3284,6 +3537,10 @@ ku:
     match: هاوبەش
     matches: هاوبەشەکان
     unmatch: نا هاوبەش
+    tracing_request_photos: وێنەکان بۆ ئەم داواکارییە بەدواداگەڕانە
+    case_photos: وێنەکان بۆ ئەم کەیسە
+    tracing_request_audios: دەنگ بۆ ئەم داواکارییە بەدواداگەڕانە
+    case_audios: دەنگ بۆ ئەم کەیسە
     messages:
       already_matched: 'لە ئێستادا هاوشێوەیییەك هەیە لە سیستمەكەدا كە لێكۆڵەرەكە بەدوای ئەم منداڵەدا دەگەڕێت. '
       disabled: بەدواداچوونی داواكار لەكارخراوە
@@ -3316,6 +3573,7 @@ ku:
        '
     enable_success: بەسەركەوتویی داواكاری بەدواداچوون بەكارخرا
     id: ناسنامە
+    complete: بەردەستە بەئۆفلاین
     filter_by:
       by_date: 'بە رێککەوت:'
       location_separation: شوێنى جیابونەوە
@@ -3333,6 +3591,7 @@ ku:
     show_tracing_request: 'ناسنامەی%{short_id} داواكاری بەدواداچوون'
     tracing_requests: داواکاری بەدواداچون
     export: ناردن
+    sort_by: ڕیزکردن بەپێی
   registry_records:
     id: 'ناسنامە
 
@@ -3362,6 +3621,7 @@ ku:
        '
     enable_dialog: " كلیككردن لەسەر باشە-ئۆكەی- باری ئەم رێكخستنی تۆمارە بۆ  بەكارخراو دەگۆڕێت \n "
     enable_success: "بەسەركەوتووی رێكخستنی تۆمارەكە بەكارخرا \n "
+    complete: بەردەستە بەئۆفلاین
     filter_by:
       by_date: 'بەپێی بەرواری :'
       status: دۆخ
