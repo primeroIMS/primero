@@ -1,6 +1,5 @@
 import { fromJS } from "immutable";
-
-import { setupMountedComponent } from "../../test";
+import { mountedComponent, screen } from "test-utils";
 
 import AgencyLogo from "./component";
 
@@ -21,8 +20,8 @@ describe("<AgencyLogo />", () => {
         }
       }
     });
-    const { component } = setupMountedComponent(AgencyLogo, {}, state);
 
-    expect(component.find("div").at(2).prop("style")).to.have.property("backgroundImage", "url(logo-full.png)");
+    mountedComponent(<AgencyLogo />, state);
+    expect(screen.getByTestId("background")).toBeInTheDocument('background-image: url("logo-full.png")');
   });
 });
