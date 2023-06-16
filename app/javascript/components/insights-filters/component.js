@@ -54,6 +54,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   });
   const formMode = whichFormMode("new");
   const dispatch = useDispatch();
+  const isWorkflowSubreport = WORKFLOW_SUBREPORTS.includes(subReport);
 
   const getInsights = (filters = {}) => {
     const transformedFilters = { ...transformFilters(filters), subreport: subReport };
@@ -79,7 +80,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   };
 
   useEffect(() => {
-    if (subReport) {
+    if (isWorkflowSubreport) {
       if (WORKFLOW_SUBREPORTS.includes(subReport)) {
         dispatch(fetchUserGroups());
       }
@@ -88,7 +89,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
       }
       getInsights(formMethods.getValues());
     }
-  }, [subReport, userGroups.length]);
+  }, [isWorkflowSubreport, userGroups.length]);
 
   if (isEmpty(insightsConfig.filters)) {
     return null;
