@@ -1,16 +1,15 @@
+import { mountedComponent, screen } from "test-utils";
 import { fromJS } from "immutable";
 import { parseISO, format } from "date-fns";
 
 import { DATE_TIME_FORMAT } from "../../../../config";
-import { setupMountedComponent, lookups } from "../../../../test";
-import IndexTable from "../../../index-table";
+import { lookups } from "../../../../test";
 import { ACTIONS } from "../../../permissions";
 
 import NAMESPACE from "./namespace";
 import ConfigurationsList from "./container";
 
 describe("<ConfigurationsList />", () => {
-  let component;
   const createdOn = "2020-08-26T15:35:13.720Z";
 
   const data = [
@@ -50,18 +49,14 @@ describe("<ConfigurationsList />", () => {
       }
     });
 
-    ({ component } = setupMountedComponent(ConfigurationsList, {}, initialState, [`/admin/${NAMESPACE}`]));
+    mountedComponent(<ConfigurationsList />, initialState, [`/admin/${NAMESPACE}`]);
   });
 
   it("should render record list table", () => {
-    expect(component.find(IndexTable)).to.have.length(1);
+    expect(screen.getByRole("grid")).toBeInTheDocument();
   });
 
   it("should use correct date format", () => {
-    const table = component.find(IndexTable);
-    const dateColumnFormat = table.find("tr").at(1).find("td").at(3).find("div").at(1).text();
-
-    expect(table).to.have.length(1);
-    expect(dateColumnFormat).to.be.equal(format(parseISO(createdOn), DATE_TIME_FORMAT));
+    expect(screen.getByText(format(parseISO(createdOn), DATE_TIME_FORMAT))).toBeInTheDocument();
   });
 });
