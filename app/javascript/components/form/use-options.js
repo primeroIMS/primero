@@ -1,7 +1,7 @@
 import { isImmutable } from "immutable";
 import isEmpty from "lodash/isEmpty";
 
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { useI18n } from "../i18n";
 import { VIOLATION_GROUP } from "../../config";
 

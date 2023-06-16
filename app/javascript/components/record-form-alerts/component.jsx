@@ -3,7 +3,7 @@ import { fromJS, List } from "immutable";
 
 import { useI18n } from "../i18n";
 import InternalAlert from "../internal-alert";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getRecordFormAlerts } from "../records";
 import { getSubformsDisplayName, getValidationErrors } from "../record-form";
 import { getDuplicatedFields } from "../record-form/selectors";
