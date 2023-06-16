@@ -13,6 +13,7 @@ async function getToken(tokenRequest) {
   return await msalApp.acquireTokenSilent(tokenRequest).catch(async error => {
     if (error instanceof InteractionRequiredAuthError) {
       return await msalApp.acquireTokenPopup(tokenRequest).catch(popupError => {
+        // eslint-disable-next-line no-console
         console.error(popupError);
       });
     }
