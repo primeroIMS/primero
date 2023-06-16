@@ -19,7 +19,7 @@ import { deleteFromQueue, messageQueueFailed, messageQueueSkip, messageQueueSucc
 import handleSuccess from "./handle-success";
 import FetchError from "./fetch-error";
 
-const fetchSinglePayload = (action, store, options) => {
+const fetchSinglePayload = async (action, store, options) => {
   const controller = new AbortController();
 
   setTimeout(() => {
@@ -62,7 +62,7 @@ const fetchSinglePayload = (action, store, options) => {
     })
   };
 
-  const token = getToken();
+  const token = await getToken();
 
   const headers = {};
 
