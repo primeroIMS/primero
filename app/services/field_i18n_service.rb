@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Methods to handle internationalization of the fields
-# rubocop:disable Metrics/ClassLength
 class FieldI18nService
   #  Converts the received parameters to localized properties
   #  of the class.
@@ -299,4 +298,3 @@ class FieldI18nService
     values_localized
   end
 end
-# rubocop:enable Metrics/ClassLength

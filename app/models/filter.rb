@@ -335,7 +335,7 @@ class Filter < ValueObject
     name: 'incidents.filter_by.perpetrator_category',
     field_name: 'perpetrator_category',
     type: 'multi_select',
-    option_strings_source: 'lookup-perpetrator-category-type',
+    option_strings_source: 'lookup-perpetrator-category-type'
   )
 
   class << self
@@ -426,9 +426,7 @@ class Filter < ValueObject
     end
 
     def protection_concern_filter(user)
-      if user.can?(:view_protection_concerns_filter, Child)
-        return [PROTECTION_CONCERNS]
-      end
+      return [PROTECTION_CONCERNS] if user.can?(:view_protection_concerns_filter, Child)
 
       []
     end
