@@ -6,7 +6,7 @@ import rtl from "jss-rtl";
 import { create } from "jss";
 
 import theme, { setCssVars, fontSizes, colors, spacing, drawerWidth, shadows, fontFamily } from "./config/theme";
-import { useMemoizedSelector } from "./libs";
+import useMemoizedSelector from "./libs/use-memoized-selector";
 import { getAppDirection } from "./components/i18n/selectors";
 
 const themeInitialOptions = {

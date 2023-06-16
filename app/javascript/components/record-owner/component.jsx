@@ -6,7 +6,7 @@ import { FieldRecord, FormSectionField } from "../record-form";
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import { selectAgencies } from "../application";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { NAME, FIELDS } from "./constants";
 

@@ -1,6 +1,6 @@
 import { List, fromJS } from "immutable";
 
-import { SAVING } from "../../config";
+import { SAVING } from "../../config/constants";
 
 import NAMESPACE from "./namespace";
 import { PERMISSIONS, LIST_HEADERS, PERMITTED_FORMS } from "./constants";
