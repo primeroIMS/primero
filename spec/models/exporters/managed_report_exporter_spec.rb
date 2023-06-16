@@ -1286,7 +1286,7 @@ describe Exporters::ManagedReportExporter do
     it 'prints indicator tables' do
       expect(workbook.sheet(0).row(5)).to eq(
         [
-          'Cases by Sex and Age', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
+          'Total Number of Cases by Sex and Age', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
           nil, nil, nil, nil, nil, nil, nil, nil
         ]
       )
@@ -1316,7 +1316,7 @@ describe Exporters::ManagedReportExporter do
       )
       expect(workbook.sheet(1).row(5)).to eq(
         [
-          'Incidents by Sex and Age', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
+          'Total Number of Incidents by Sex and Age', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
           nil, nil, nil, nil, nil, nil, nil, nil
         ]
       )

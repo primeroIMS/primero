@@ -16,6 +16,7 @@ describe("User - index", () => {
       "getCodeOfConductId",
       "getCurrentUserGroupPermission",
       "getCurrentUserGroupsUniqueIds",
+      "getCurrentUserUserGroups",
       "getIsAuthenticated",
       "getListHeaders",
       "getPermissions",

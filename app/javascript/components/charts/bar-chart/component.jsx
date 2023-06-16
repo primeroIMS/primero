@@ -15,8 +15,8 @@ const BarChart = ({ data, description, showDetails = false, hideLegend = false, 
     const chartInstance = new Chart(chatCtx, {
       type: "bar",
       data: {
-        ...data,
-        datasets: reverse ? arrayReverse(data.datasets) : data.datasets
+        ...(data || {}),
+        datasets: reverse ? arrayReverse(data?.datasets || []) : data?.datasets
       },
       options: {
         responsive: true,
