@@ -358,7 +358,7 @@ export const INSIGHTS_CONFIG = {
           name: CREATED_BY_GROUPS,
           type: SELECT_FIELD,
           display_name: USER_GROUP_DISPLAY_NAME,
-          option_strings_source: OPTION_TYPES.USER_GROUP,
+          option_strings_source: OPTION_TYPES.USER_GROUP_PERMITTED,
           watchedInputs: USER_GROUPS_FIELD,
           defaultToFirstOption: true,
           handleWatchedInputs: value => ({
@@ -369,7 +369,7 @@ export const INSIGHTS_CONFIG = {
           name: OWNED_BY_GROUPS,
           watchedInputs: USER_GROUPS_FIELD,
           display_name: USER_GROUP_DISPLAY_NAME,
-          option_strings_source: OPTION_TYPES.USER_GROUP,
+          option_strings_source: OPTION_TYPES.USER_GROUP_PERMITTED,
           handleWatchedInputs: value => ({
             name: CREATED_BY_GROUPS === value ? OWNED_BY_GROUPS : CREATED_BY_GROUPS
           }),
