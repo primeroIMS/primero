@@ -9,6 +9,8 @@ require 'singleton'
 class PrimeroDatabase
   include Singleton
 
+  MIGRATION_DATE_FORMAT = '%Y%m%d%H%M%S'.freeze
+
   attr_accessor :connection
 
   def initialize
@@ -36,8 +38,15 @@ class PrimeroDatabase
     ).values.empty?
     return false if missed_table
 
-    response = connection.exec('SELECT count(*) as count FROM schema_migrations')
-    response[0]['count'].to_i == Dir.glob("#{File.dirname(__FILE__)}/../db/migrate/**.rb").length
+    response = connection.exec('SELECT version FROM schema_migrations ORDER BY version DESC LIMIT 1')
+    response[0]['version'] == last_migration_date
+  end
+
+  def last_migration_date
+    migration_files = Dir.glob("#{File.dirname(__FILE__)}/../db/migrate/**.rb")
+    migration_dates = migration_files.map { |path| path.scan(/[0-9]{14}/) }.flatten
+    max_date = migration_dates.map { |migration_date| DateTime.strptime(migration_date, MIGRATION_DATE_FORMAT) }.max
+    max_date.strftime(MIGRATION_DATE_FORMAT)
   end
 
   def configuration_file_version
