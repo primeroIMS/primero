@@ -1,4 +1,4 @@
-#! /usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'yaml'
 require 'pg'
@@ -9,7 +9,7 @@ require 'singleton'
 class PrimeroDatabase
   include Singleton
 
-  MIGRATION_DATE_FORMAT = '%Y%m%d%H%M%S'.freeze
+  MIGRATION_DATE_FORMAT = '%Y%m%d%H%M%S'
 
   attr_accessor :connection
 
