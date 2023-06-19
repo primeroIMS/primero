@@ -10,10 +10,8 @@ import css from "./styles.css";
 import { NAME } from "./constants";
 
 const MoreSection = ({
-  addFilterToList,
   allAvailable,
   defaultFilters,
-  filterToList,
   more,
   moreSectionFilters,
   primaryFilters,
@@ -45,13 +43,11 @@ const MoreSection = ({
     return secondaryFilters.map(filter => {
       const Filter = filterType(filter.type);
 
-      if (!Filter) return {};
+      if (!Filter) return null;
 
       return (
         <Filter
-          addFilterToList={addFilterToList}
           filter={filter}
-          filterToList={filterToList}
           key={filter.field_name}
           mode={mode}
           moreSectionFilters={moreSectionFilters}
@@ -85,10 +81,8 @@ const MoreSection = ({
 MoreSection.displayName = NAME;
 
 MoreSection.propTypes = {
-  addFilterToList: PropTypes.func,
   allAvailable: PropTypes.object,
   defaultFilters: PropTypes.object,
-  filterToList: PropTypes.object,
   more: PropTypes.bool,
   moreSectionFilters: PropTypes.object,
   primaryFilters: PropTypes.object,

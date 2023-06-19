@@ -18,7 +18,7 @@ import { useI18n } from "../i18n";
 import { ROUTES } from "../../config";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { saveSearch } from "./action-creators";
 import { buildFiltersApi, buildFiltersState } from "./utils";

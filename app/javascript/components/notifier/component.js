@@ -5,7 +5,7 @@ import { useSnackbar } from "notistack";
 import { useApp } from "../application";
 import { useI18n } from "../i18n";
 import { RECORD_TYPES } from "../../config";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { getMessages } from "./selectors";
 import { removeSnackbar } from "./action-creators";
