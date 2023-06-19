@@ -94,7 +94,7 @@
   flex: 1;
   display: flex;
   padding: 0;
-  height: 100%;
+  height: 65%;
   
   & > div:first-of-type {
     padding: 0 0.5em;
