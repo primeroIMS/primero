@@ -6,7 +6,7 @@ describe AuditLogJob, type: :job do
   include ActiveJob::TestHelper
 
   before do
-    clean_data(User, Role, PrimeroModule, PrimeroProgram, Child, Agency, AuditLog, SystemSettings)
+    clean_data(User, Role, PrimeroModule, PrimeroProgram, Incident, Child, Agency, AuditLog, SystemSettings)
     SystemSettings.create!(
       default_locale: 'en',
       approvals_labels_en: {
@@ -66,7 +66,7 @@ describe AuditLogJob, type: :job do
   end
 
   after :each do
-    clean_data(User, Role, PrimeroModule, PrimeroProgram, Child, Agency, AuditLog, SystemSettings)
+    clean_data(User, Role, PrimeroModule, PrimeroProgram, Incident, Child, Agency, AuditLog, SystemSettings)
   end
 
   private

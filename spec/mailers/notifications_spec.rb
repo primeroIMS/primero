@@ -131,7 +131,9 @@ describe NotificationMailer, type: :mailer do
 
   describe 'Transitions' do
     before :each do
-      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Child)
+      clean_data(
+        User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Incident, Child
+      )
       @primero_module = PrimeroModule.new(name: 'CP')
       @primero_module.save(validate: false)
       @permission_assign_case = Permission.new(
@@ -341,7 +343,7 @@ describe NotificationMailer, type: :mailer do
     after :each do
       clean_data(
         User, Role, PrimeroModule, PrimeroProgram, Field, FormSection,
-        Lookup, UserGroup, Child, Transition, Agency
+        Lookup, UserGroup, Incident, Child, Transition, Agency
       )
     end
   end
