@@ -90,10 +90,12 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
       if (userGroups.length > 0) {
         formMethods.setValue(OWNED_BY_GROUPS, userGroups[0]?.id);
       }
-
-      getInsights(formMethods.getValues());
     }
   }, [isWorkflowSubreport, userGroups.length]);
+
+  useEffect(() => {
+    getInsights(formMethods.getValues());
+  }, [subReport]);
 
   if (isEmpty(insightsConfig.filters)) {
     return null;
