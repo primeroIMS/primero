@@ -159,7 +159,7 @@ const Component = ({ isSubform }) => {
         <Fragment key={field}>
           <ListItem selected={isItemSelected(name)} onClick={handleClickListItem(name)}>
             <ListItemText className={css.label}>
-              <div>{i18n.t(`fields.${name}`)}</div>
+              <div data-testid="field">{i18n.t(`fields.${name}`)}</div>
               <div className={css.inputPreviewContainer}>
                 <Icon className={classes} />
               </div>
