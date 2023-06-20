@@ -1933,14 +1933,17 @@ en:
       status_open: Open
       status_closed: Closed
       user_group: User Group
-      user_groups_field: By User Groups
+      agency: Agency
+      by: By
       workflow: Workflow Status
     status_options:
       open: Open
       closed: Closed
-    user_group_options:
+    by_options:
       created_by_groups: User Groups of record creator
       owned_by_groups: User Groups of record owner
+      created_organization: Agency of record creator
+      owned_by_agency_id: Agency of record owner
     date_range:
       month: Month
       quarter: Quarter

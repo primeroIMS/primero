@@ -2,6 +2,9 @@
 
 # Concern for Record Workflow Subreport Exporter
 class Exporters::RecordWorkflowSubreportExporter < Exporters::SubreportExporter
+  USER_GROUP_FIELD_NAMES = %w[created_by_groups owned_by_groups].freeze
+  AGENCY_FIELD_NAMES = %w[created_organization owned_by_agency_id].freeze
+
   def status_param
     return [] unless status_filter.present?
 
@@ -21,7 +24,7 @@ class Exporters::RecordWorkflowSubreportExporter < Exporters::SubreportExporter
   end
 
   def user_group_param
-    return [] unless user_group_filter.present?
+    return [] unless record_field_filter.present? && USER_GROUP_FIELD_NAMES.include?(record_field_filter.field_name)
 
     [
       formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.user_group', locale: locale)}: ",
@@ -29,20 +32,29 @@ class Exporters::RecordWorkflowSubreportExporter < Exporters::SubreportExporter
     ]
   end
 
-  def by_user_group_param
-    return [] unless by_user_group_filter.present?
+  def agency_param
+    return [] unless record_field_filter.present? && AGENCY_FIELD_NAMES.include?(record_field_filter.field_name)
+
+    [
+      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.agency', locale: locale)}: ",
+      formats[:black], agency_display_text
+    ]
+  end
+
+  def by_param
+    return [] unless by_filter.present?
 
     [
       formats[:bold_blue],
-      "#{I18n.t('managed_reports.filter_by.user_groups_field', locale: locale)}: ",
+      "#{I18n.t('managed_reports.filter_by.by', locale: locale)}: ",
       formats[:black],
-      "#{I18n.t("managed_reports.user_group_options.#{by_user_group_filter.value}", locale: locale)} / "
+      "#{I18n.t("managed_reports.by_options.#{by_filter.value}", locale: locale)} / "
     ]
   end
 
   def params_list
     view_by_param + date_range_param + date_range_values_param + filter_by_date_param + status_param +
-      workflow_param + by_user_group_param + user_group_param
+      workflow_param + by_param + user_group_param + agency_param
   end
 
   def status_display_text
@@ -66,9 +78,15 @@ class Exporters::RecordWorkflowSubreportExporter < Exporters::SubreportExporter
   end
 
   def user_group_display_text
-    return unless user_group_filter.present?
+    return unless record_field_filter.present?
 
-    UserGroup.find_by(unique_id: user_group_filter.value)&.name || user_group_filter.value
+    UserGroup.find_by(unique_id: record_field_filter.value)&.name || record_field_filter.value
+  end
+
+  def agency_display_text
+    return unless record_field_filter.present?
+
+    Agency.find_by(unique_id: record_field_filter.value)&.name || record_field_filter.value
   end
 
   def status_filter
@@ -79,13 +97,13 @@ class Exporters::RecordWorkflowSubreportExporter < Exporters::SubreportExporter
     managed_report.filters.find { |filter| filter.present? && filter.field_name == 'workflow' }
   end
 
-  def by_user_group_filter
-    managed_report.filters.find { |filter| filter.present? && filter.field_name == 'user_groups_field' }
+  def by_filter
+    managed_report.filters.find { |filter| filter.present? && filter.field_name == 'by' }
   end
 
-  def user_group_filter
-    return unless by_user_group_filter.present?
+  def record_field_filter
+    return unless by_filter.present?
 
-    managed_report.filters.find { |filter| filter.present? && filter.field_name == by_user_group_filter.value }
+    managed_report.filters.find { |filter| filter.present? && filter.field_name == by_filter.value }
   end
 end

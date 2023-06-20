@@ -26,6 +26,8 @@ class ManagedReports::Indicators::CaseWorkflowBySexAndAge < ManagedReports::SqlR
             where 1 = 1
             #{equal_value_query_multiple(params['owned_by_groups'])&.prepend('and ')}
             #{equal_value_query_multiple(params['created_by_groups'])&.prepend('and ')}
+            #{equal_value_query_multiple(params['owned_by_agency_id'])&.prepend('and ')}
+            #{equal_value_query_multiple(params['created_organization'])&.prepend('and ')}
             #{equal_value_query_multiple(params['status'])&.prepend('and ')}
             #{date_range_query(date_param)&.prepend('and ')}
             #{equal_value_query(params['module_id'])&.prepend('and ')}

@@ -27,6 +27,8 @@ class ManagedReports::Indicators::IncidentWorkflowBySexAndAge < ManagedReports::
             where 1 = 1
             #{equal_value_query_multiple(params['owned_by_groups'], 'cases')&.prepend('and ')}
             #{equal_value_query_multiple(params['created_by_groups'], 'cases')&.prepend('and ')}
+            #{equal_value_query_multiple(params['owned_by_agency_id'], 'cases')&.prepend('and ')}
+            #{equal_value_query_multiple(params['created_organization'], 'cases')&.prepend('and ')}
             #{equal_value_query_multiple(params['status'], 'cases')&.prepend('and ')}
             #{date_range_query(date_param, 'cases')&.prepend('and ')}
             #{equal_value_query(params['module_id'], 'cases')&.prepend('and ')}

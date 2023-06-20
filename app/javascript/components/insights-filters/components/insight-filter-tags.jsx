@@ -27,7 +27,7 @@ const InsightFilterTags = ({ filters = [], moduleID }) => {
 
     return acc;
   }, []);
-  const lookups = useOptions({ source: sources });
+  const lookups = useOptions({ source: sources, optionStringsSourceIdKey: "unique_id" });
 
   if (insightFilters.isEmpty() || !filters) {
     return null;
