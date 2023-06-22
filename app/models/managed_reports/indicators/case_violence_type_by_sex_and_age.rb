@@ -23,8 +23,13 @@ class ManagedReports::Indicators::CaseViolenceTypeBySexAndAge < ManagedReports::
               #{grouped_date_query(params['grouped_by'], filter_date(params), 'cases')&.concat(' as group_id,')}
               count(*) as sum
             from cases
-            inner join incidents on cases.id  = incidents.incident_case_id
-            where 1 = 1
+            where cases.id in (
+              select
+                incident_case_id
+              from incidents
+              where incident_case_id is not null
+              #{equal_value_query(params['cp_incident_violence_type'], 'incidents')&.prepend('and ')}
+            )
             #{equal_value_query_multiple(params['owned_by_groups'], 'cases')&.prepend('and ')}
             #{equal_value_query_multiple(params['created_by_groups'], 'cases')&.prepend('and ')}
             #{equal_value_query_multiple(params['owned_by_agency_id'], 'cases')&.prepend('and ')}
@@ -32,7 +37,6 @@ class ManagedReports::Indicators::CaseViolenceTypeBySexAndAge < ManagedReports::
             #{equal_value_query_multiple(params['status'], 'cases')&.prepend('and ')}
             #{date_range_query(date_param, 'cases')&.prepend('and ')}
             #{equal_value_query(params['module_id'], 'cases')&.prepend('and ')}
-            #{equal_value_query(params['cp_incident_violence_type'], 'incidents')&.prepend('and ')}
             #{user_scope_query(current_user, 'cases')&.prepend('and ')}
             group by name, key
               #{grouped_date_query(params['grouped_by'], date_param, 'cases')&.prepend(', ')}

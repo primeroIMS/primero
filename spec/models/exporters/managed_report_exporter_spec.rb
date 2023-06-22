@@ -1387,7 +1387,7 @@ describe Exporters::ManagedReportExporter do
     end
 
     let(:incident1) do
-      Incident.create!(incident_case_id: case1.id, data: { cp_incident_violence_type: 'forced_marriage' })
+      Incident.create!(incident_case_id: case1.id, data: { cp_incident_violence_type: 'sexual_assault' })
     end
 
     let(:incident2) do
@@ -1395,7 +1395,7 @@ describe Exporters::ManagedReportExporter do
     end
 
     let(:incident3) do
-      Incident.create!(incident_case_id: case2.id, data: { cp_incident_violence_type: 'sexual_assault' })
+      Incident.create!(incident_case_id: case2.id, data: { cp_incident_violence_type: 'forced_marriage' })
     end
 
     before do
@@ -1448,10 +1448,7 @@ describe Exporters::ManagedReportExporter do
         ['Male', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
       )
       expect(workbook.sheet(0).row(9)).to eq(
-        ['Female', 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
-      )
-      expect(workbook.sheet(0).row(10)).to eq(
-        ['Total', 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1]
+        ['Total', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
       )
     end
   end
