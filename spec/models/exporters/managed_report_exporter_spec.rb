@@ -1346,4 +1346,113 @@ describe Exporters::ManagedReportExporter do
       )
     end
   end
+
+  context 'when is a export of TSFV Violence Type' do
+    let(:workbook) do
+      data = ManagedReport.list[Permission::VIOLENCE_TYPE_REPORT].export(
+        nil,
+        [
+          SearchFilters::Value.new(field_name: 'grouped_by', value: 'week'),
+          SearchFilters::ValueList.new(field_name: 'status', values: %w[open closed]),
+          SearchFilters::Value.new(field_name: 'cp_incident_violence_type', value: 'forced_marriage'),
+          SearchFilters::Value.new(field_name: 'by', value: 'owned_by_groups'),
+          SearchFilters::Value.new(field_name: 'owned_by_groups', value: 'usergroup-group-1'),
+          SearchFilters::DateRange.new(
+            field_name: 'registration_date',
+            from: '2023-04-30',
+            to: '2023-05-13'
+          )
+        ],
+        { output_to_file: false }
+      )
+
+      Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+    end
+
+    let(:case1) do
+      Child.create!(
+        data: {
+          registration_date: '2023-05-02', sex: 'female', age: 5, status: 'open',
+          created_by_groups: ['usergroup-group-2'], owned_by_groups: ['usergroup-group-1']
+        }
+      )
+    end
+    let(:case2) do
+      Child.create!(
+        data: {
+          registration_date: '2023-05-12', sex: 'male', age: 2, status: 'open',
+          created_by_groups: ['usergroup-group-2'], owned_by_groups: ['usergroup-group-1']
+        }
+      )
+    end
+
+    let(:incident1) do
+      Incident.create!(incident_case_id: case1.id, data: { cp_incident_violence_type: 'forced_marriage' })
+    end
+
+    let(:incident2) do
+      Incident.create!(incident_case_id: case2.id, data: { cp_incident_violence_type: 'forced_marriage' })
+    end
+
+    let(:incident3) do
+      Incident.create!(incident_case_id: case2.id, data: { cp_incident_violence_type: 'sexual_assault' })
+    end
+
+    before do
+      case1
+      case2
+      incident1
+      incident2
+      incident3
+    end
+
+    it 'should export the excel' do
+      expect(workbook.sheets.size).to eq(1)
+    end
+
+    it 'prints subreport headers' do
+      expect(workbook.sheet(0).row(1)).to eq(
+        ['Type of Violence - Cases', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+      )
+    end
+
+    it 'prints report params' do
+      expect(workbook.sheet(0).row(2)).to eq(
+        [
+          '<html><b>View By: </b>Week / <b>Date Range: </b>Custom / <b>From: </b>2023-04-30 / <b>To: </b>2023-05-13 / '\
+          '<b>Date: </b>Registration Date / <b>Status: </b>Open,Closed / <b>Type of Violence: </b>Forced Marriage / ' \
+          '<b>By: </b>User Groups of record owner / <b>User Group: </b>Group 1</html>',
+          nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+        ]
+      )
+    end
+
+    it 'prints indicator tables' do
+      expect(workbook.sheet(0).row(5)).to eq(
+        ['Total Number of Cases by Sex and Age', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+      )
+      expect(workbook.sheet(0).row(6)).to eq(
+        [
+          nil, '2023-Apr-30 - 2023-May-06', nil, nil, nil, nil, nil,
+          '2023-May-07 - 2023-May-13', nil, nil, nil, nil, nil
+        ]
+      )
+      expect(workbook.sheet(0).row(7)).to eq(
+        [
+          nil,
+          '0 - 4', '5 - 11', '12 - 17', '18 - 59', '60+', 'Total',
+          '0 - 4', '5 - 11', '12 - 17', '18 - 59', '60+', 'Total'
+        ]
+      )
+      expect(workbook.sheet(0).row(8)).to eq(
+        ['Male', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+      )
+      expect(workbook.sheet(0).row(9)).to eq(
+        ['Female', 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+      )
+      expect(workbook.sheet(0).row(10)).to eq(
+        ['Total', 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1]
+      )
+    end
+  end
 end
