@@ -2118,10 +2118,12 @@ en:
       description: ''
       reports:
         cases_violence_type: Type of Violence - Cases
+        incidents_violence_type: Type of Violence - Incidents
       filter_options:
         registration_date: Registration Date
       sub_reports:
         case_violence_type_by_sex_and_age: Total Number of Cases by Sex and Age
+        incident_violence_type_by_sex_and_age: Total Number of Incidents by Sex and Age
     success_message: Successfully generated the export file
   messages:
     alert_items: You have %{items} items of note.

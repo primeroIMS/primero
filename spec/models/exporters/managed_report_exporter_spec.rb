@@ -1407,17 +1407,30 @@ describe Exporters::ManagedReportExporter do
     end
 
     it 'should export the excel' do
-      expect(workbook.sheets.size).to eq(1)
+      expect(workbook.sheets.size).to eq(2)
     end
 
     it 'prints subreport headers' do
       expect(workbook.sheet(0).row(1)).to eq(
         ['Type of Violence - Cases', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
       )
+
+      expect(workbook.sheet(1).row(1)).to eq(
+        ['Type of Violence - Incidents', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+      )
     end
 
     it 'prints report params' do
       expect(workbook.sheet(0).row(2)).to eq(
+        [
+          '<html><b>View By: </b>Week / <b>Date Range: </b>Custom / <b>From: </b>2023-04-30 / <b>To: </b>2023-05-13 / '\
+          '<b>Date: </b>Registration Date / <b>Status: </b>Open,Closed / <b>Type of Violence: </b>Forced Marriage / ' \
+          '<b>By: </b>User Groups of record owner / <b>User Group: </b>Group 1</html>',
+          nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
+        ]
+      )
+
+      expect(workbook.sheet(1).row(2)).to eq(
         [
           '<html><b>View By: </b>Week / <b>Date Range: </b>Custom / <b>From: </b>2023-04-30 / <b>To: </b>2023-05-13 / '\
           '<b>Date: </b>Registration Date / <b>Status: </b>Open,Closed / <b>Type of Violence: </b>Forced Marriage / ' \
@@ -1449,6 +1462,29 @@ describe Exporters::ManagedReportExporter do
       )
       expect(workbook.sheet(0).row(9)).to eq(
         ['Total', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+      )
+
+      expect(workbook.sheet(1).row(5)).to eq(
+        ['Total Number of Incidents by Sex and Age', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+      )
+      expect(workbook.sheet(1).row(6)).to eq(
+        [
+          nil, '2023-Apr-30 - 2023-May-06', nil, nil, nil, nil, nil,
+          '2023-May-07 - 2023-May-13', nil, nil, nil, nil, nil
+        ]
+      )
+      expect(workbook.sheet(1).row(7)).to eq(
+        [
+          nil,
+          '0 - 4', '5 - 11', '12 - 17', '18 - 59', '60+', 'Total',
+          '0 - 4', '5 - 11', '12 - 17', '18 - 59', '60+', 'Total'
+        ]
+      )
+      expect(workbook.sheet(1).row(8)).to eq(
+        ['Male', 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2]
+      )
+      expect(workbook.sheet(1).row(9)).to eq(
+        ['Total', 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2]
       )
     end
   end
