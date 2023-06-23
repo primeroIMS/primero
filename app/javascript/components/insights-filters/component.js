@@ -56,7 +56,8 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   });
   const formMode = whichFormMode("new");
   const dispatch = useDispatch();
-  const isTSFVSubreport = WORKFLOW_SUBREPORTS.concat(VIOLENCE_TYPE_SUBREPORTS).includes(subReport);
+  const isWorkflowSubreport = WORKFLOW_SUBREPORTS.includes(subReport);
+  const isViolenceTypeSubreport = VIOLENCE_TYPE_SUBREPORTS.includes(subReport);
 
   const getInsights = (filters = {}) => {
     const transformedFilters = { ...transformFilters(filters), subreport: subReport };
@@ -82,7 +83,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   };
 
   useEffect(() => {
-    if (isTSFVSubreport) {
+    if (isViolenceTypeSubreport || isWorkflowSubreport) {
       if (canReadUserGroups) {
         dispatch(fetchUserGroups());
       }
@@ -91,7 +92,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
         formMethods.setValue(OWNED_BY_GROUPS, userGroups[0]?.id);
       }
     }
-  }, [isTSFVSubreport, userGroups.length]);
+  }, [isWorkflowSubreport, isViolenceTypeSubreport, userGroups.length]);
 
   useEffect(() => {
     getInsights(formMethods.getValues());

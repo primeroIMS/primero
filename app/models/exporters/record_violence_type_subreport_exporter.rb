@@ -2,7 +2,7 @@
 
 # Concern for Record Violence Type Subreport Exporter
 class Exporters::RecordViolenceTypeSubreportExporter < Exporters::SubreportExporter
-  include Exporters::Concerns::TsfvInsightParams
+  include Exporters::Concerns::RecordFilterInsightParams
 
   def params_list
     view_by_param + date_range_param + date_range_values_param + filter_by_date_param + status_param +

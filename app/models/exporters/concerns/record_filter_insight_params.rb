@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Concern that handles TSFV Insight Params
-module Exporters::Concerns::TsfvInsightParams
+# Concern that handles Record Filter Insight Params
+module Exporters::Concerns::RecordFilterInsightParams
   extend ActiveSupport::Concern
 
   USER_GROUP_FIELD_NAMES = %w[created_by_groups owned_by_groups].freeze

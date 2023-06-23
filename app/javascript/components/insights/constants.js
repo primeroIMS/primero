@@ -102,67 +102,7 @@ export const AGENCY_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, AGENCY];
 export const WORKFLOW_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, WORKFLOW];
 export const VIOLENCE_TYPE_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, VIOLENCE_TYPE];
 
-export const SHARED_FILTERS = [
-  {
-    name: GROUPED_BY,
-    display_name: DATE_RANGE_VIEW_BY_DISPLAY_NAME,
-    clearDependentValues: [DATE_RANGE],
-    option_strings_text: [
-      { id: QUARTER, display_name: [MANAGED_REPORTS, DATE_RANGE, QUARTER] },
-      { id: MONTH, display_name: [MANAGED_REPORTS, DATE_RANGE, MONTH] },
-      { id: YEAR, display_name: [MANAGED_REPORTS, DATE_RANGE, YEAR] }
-    ],
-    type: SELECT_FIELD
-  },
-  {
-    name: DATE_RANGE,
-    display_name: DATE_RANGE_DISPLAY_NAME,
-    option_strings_text: [
-      { id: THIS_QUARTER, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, THIS_QUARTER] },
-      { id: LAST_QUARTER, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, LAST_QUARTER] },
-      { id: THIS_MONTH, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, THIS_MONTH] },
-      { id: LAST_MONTH, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, LAST_MONTH] },
-      { id: THIS_YEAR, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, THIS_YEAR] },
-      { id: LAST_YEAR, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, LAST_YEAR] },
-      { id: CUSTOM, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, CUSTOM] }
-    ],
-    type: SELECT_FIELD,
-    watchedInputs: GROUPED_BY,
-    filterOptionSource: (watchedInputsValue, options) => {
-      const filterBy = () => {
-        switch (watchedInputsValue) {
-          case QUARTER:
-            return QUARTER_OPTION_IDS;
-          case MONTH:
-            return MONTH_OPTION_IDS;
-          default:
-            return YEAR_OPTION_IDS;
-        }
-      };
-
-      return options.filter(option => filterBy().includes(option.id));
-    },
-    handleWatchedInputs: value => ({
-      disabled: !value
-    })
-  },
-  {
-    name: FROM,
-    display_name: DATE_RANGE_FROM_DISPLAY_NAME,
-    type: DATE_FIELD,
-    watchedInputs: DATE_RANGE,
-    showIf: value => value === CUSTOM
-  },
-  {
-    name: TO,
-    display_name: DATE_RANGE_TO_DISPLAY_NAME,
-    type: DATE_FIELD,
-    watchedInputs: DATE_RANGE,
-    showIf: value => value === CUSTOM
-  }
-];
-
-export const TSFV_FILTERS = {
+export const SHARED_FILTERS = {
   [GROUPED_BY]: {
     name: GROUPED_BY,
     display_name: DATE_RANGE_VIEW_BY_DISPLAY_NAME,
@@ -170,7 +110,6 @@ export const TSFV_FILTERS = {
     option_strings_text: [
       { id: QUARTER, display_name: [MANAGED_REPORTS, DATE_RANGE, QUARTER] },
       { id: MONTH, display_name: [MANAGED_REPORTS, DATE_RANGE, MONTH] },
-      { id: WEEK, display_name: [MANAGED_REPORTS, DATE_RANGE, WEEK] },
       { id: YEAR, display_name: [MANAGED_REPORTS, DATE_RANGE, YEAR] }
     ],
     type: SELECT_FIELD
@@ -183,8 +122,6 @@ export const TSFV_FILTERS = {
       { id: LAST_QUARTER, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, LAST_QUARTER] },
       { id: THIS_MONTH, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, THIS_MONTH] },
       { id: LAST_MONTH, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, LAST_MONTH] },
-      { id: THIS_WEEK, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, THIS_WEEK] },
-      { id: LAST_WEEK, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, LAST_WEEK] },
       { id: THIS_YEAR, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, THIS_YEAR] },
       { id: LAST_YEAR, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, LAST_YEAR] },
       { id: CUSTOM, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, CUSTOM] }
@@ -198,8 +135,6 @@ export const TSFV_FILTERS = {
             return QUARTER_OPTION_IDS;
           case MONTH:
             return MONTH_OPTION_IDS;
-          case WEEK:
-            return WEEK_OPTION_IDS;
           default:
             return YEAR_OPTION_IDS;
         }
@@ -224,6 +159,49 @@ export const TSFV_FILTERS = {
     type: DATE_FIELD,
     watchedInputs: DATE_RANGE,
     showIf: value => value === CUSTOM
+  }
+};
+
+export const RECORD_FILTERS = {
+  ...SHARED_FILTERS,
+  [GROUPED_BY]: {
+    ...SHARED_FILTERS[GROUPED_BY],
+    option_strings_text: [
+      { id: QUARTER, display_name: [MANAGED_REPORTS, DATE_RANGE, QUARTER] },
+      { id: MONTH, display_name: [MANAGED_REPORTS, DATE_RANGE, MONTH] },
+      { id: WEEK, display_name: [MANAGED_REPORTS, DATE_RANGE, WEEK] },
+      { id: YEAR, display_name: [MANAGED_REPORTS, DATE_RANGE, YEAR] }
+    ]
+  },
+  [DATE_RANGE]: {
+    ...SHARED_FILTERS[DATE_RANGE],
+    option_strings_text: [
+      { id: THIS_QUARTER, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, THIS_QUARTER] },
+      { id: LAST_QUARTER, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, LAST_QUARTER] },
+      { id: THIS_MONTH, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, THIS_MONTH] },
+      { id: LAST_MONTH, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, LAST_MONTH] },
+      { id: THIS_WEEK, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, THIS_WEEK] },
+      { id: LAST_WEEK, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, LAST_WEEK] },
+      { id: THIS_YEAR, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, THIS_YEAR] },
+      { id: LAST_YEAR, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, LAST_YEAR] },
+      { id: CUSTOM, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, CUSTOM] }
+    ],
+    filterOptionSource: (watchedInputsValue, options) => {
+      const filterBy = () => {
+        switch (watchedInputsValue) {
+          case QUARTER:
+            return QUARTER_OPTION_IDS;
+          case MONTH:
+            return MONTH_OPTION_IDS;
+          case WEEK:
+            return WEEK_OPTION_IDS;
+          default:
+            return YEAR_OPTION_IDS;
+        }
+      };
+
+      return options.filter(option => filterBy().includes(option.id));
+    }
   },
   [STATUS]: {
     name: STATUS,
@@ -287,7 +265,10 @@ export const TSFV_FILTERS = {
 };
 
 export const VIOLATIONS_FILTERS = [
-  ...SHARED_FILTERS,
+  SHARED_FILTERS[GROUPED_BY],
+  SHARED_FILTERS[DATE_RANGE],
+  SHARED_FILTERS[FROM],
+  SHARED_FILTERS[TO],
   {
     name: DATE,
     display_name: FILTER_BY_DATE_DISPLAY_NAME,
@@ -328,7 +309,10 @@ export const INSIGHTS_CONFIG = {
       ids: GHN_REPORT_SUBREPORTS,
       localeKeys: [MANAGED_REPORTS, GHN_REPORT_SUBREPORTS, REPORTS],
       filters: [
-        ...SHARED_FILTERS,
+        SHARED_FILTERS[GROUPED_BY],
+        SHARED_FILTERS[DATE_RANGE],
+        SHARED_FILTERS[FROM],
+        SHARED_FILTERS[TO],
         {
           name: DATE,
           type: HIDDEN_FIELD
@@ -366,7 +350,10 @@ export const INSIGHTS_CONFIG = {
         [DATE]: INCIDENT_DATE
       },
       filters: [
-        ...SHARED_FILTERS,
+        SHARED_FILTERS[GROUPED_BY],
+        SHARED_FILTERS[DATE_RANGE],
+        SHARED_FILTERS[FROM],
+        SHARED_FILTERS[TO],
         {
           name: DATE,
           display_name: FILTER_BY_DATE_DISPLAY_NAME,
@@ -397,22 +384,22 @@ export const INSIGHTS_CONFIG = {
         [BY]: OWNED_BY_GROUPS
       },
       filters: [
-        TSFV_FILTERS[GROUPED_BY],
-        TSFV_FILTERS[DATE_RANGE],
-        TSFV_FILTERS[FROM],
-        TSFV_FILTERS[TO],
-        TSFV_FILTERS[STATUS],
+        RECORD_FILTERS[GROUPED_BY],
+        RECORD_FILTERS[DATE_RANGE],
+        RECORD_FILTERS[FROM],
+        RECORD_FILTERS[TO],
+        RECORD_FILTERS[STATUS],
         {
           name: WORKFLOW,
           type: SELECT_FIELD,
           display_name: WORKFLOW_DISPLAY_NAME
         },
-        TSFV_FILTERS[BY],
-        TSFV_FILTERS[CREATED_BY_GROUPS],
-        TSFV_FILTERS[OWNED_BY_GROUPS],
-        TSFV_FILTERS[CREATED_ORGANIZATION],
-        TSFV_FILTERS[OWNED_BY_AGENCY_ID],
-        TSFV_FILTERS[DATE]
+        RECORD_FILTERS[BY],
+        RECORD_FILTERS[CREATED_BY_GROUPS],
+        RECORD_FILTERS[OWNED_BY_GROUPS],
+        RECORD_FILTERS[CREATED_ORGANIZATION],
+        RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+        RECORD_FILTERS[DATE]
       ].map(filter => FieldRecord(filter))
     },
     violence_type_report: {
@@ -425,23 +412,23 @@ export const INSIGHTS_CONFIG = {
         [BY]: OWNED_BY_GROUPS
       },
       filters: [
-        TSFV_FILTERS[GROUPED_BY],
-        TSFV_FILTERS[DATE_RANGE],
-        TSFV_FILTERS[FROM],
-        TSFV_FILTERS[TO],
-        TSFV_FILTERS[STATUS],
+        RECORD_FILTERS[GROUPED_BY],
+        RECORD_FILTERS[DATE_RANGE],
+        RECORD_FILTERS[FROM],
+        RECORD_FILTERS[TO],
+        RECORD_FILTERS[STATUS],
         {
           name: VIOLENCE_TYPE,
           type: SELECT_FIELD,
           display_name: VIOLENCE_TYPE_DISPLAY_NAME,
           option_strings_source: "lookup lookup-gbv-sexual-violence-type"
         },
-        TSFV_FILTERS[BY],
-        TSFV_FILTERS[CREATED_BY_GROUPS],
-        TSFV_FILTERS[OWNED_BY_GROUPS],
-        TSFV_FILTERS[CREATED_ORGANIZATION],
-        TSFV_FILTERS[OWNED_BY_AGENCY_ID],
-        TSFV_FILTERS[DATE]
+        RECORD_FILTERS[BY],
+        RECORD_FILTERS[CREATED_BY_GROUPS],
+        RECORD_FILTERS[OWNED_BY_GROUPS],
+        RECORD_FILTERS[CREATED_ORGANIZATION],
+        RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+        RECORD_FILTERS[DATE]
       ].map(filter => FieldRecord(filter))
     }
   }
