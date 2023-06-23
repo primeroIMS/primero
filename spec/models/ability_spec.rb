@@ -6,7 +6,7 @@ describe Ability do
   before do
     clean_data(
       Role, PrimeroModule, PrimeroProgram,
-      User, Child, Field, FormSection,
+      User, Incident, Child, Field, FormSection,
       Agency, UserGroup
     )
     @user1 = create :user
@@ -20,7 +20,7 @@ describe Ability do
   after do
     clean_data(
       User, Role, PrimeroModule, PrimeroProgram,
-      Child, Field, FormSection,
+      Incident, Child, Field, FormSection,
       Agency, UserGroup
     )
   end

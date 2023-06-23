@@ -1177,7 +1177,7 @@ describe Exporters::ManagedReportExporter do
           SearchFilters::Value.new(field_name: 'grouped_by', value: 'week'),
           SearchFilters::ValueList.new(field_name: 'status', values: %w[open closed]),
           SearchFilters::Value.new(field_name: 'workflow', value: 'new'),
-          SearchFilters::Value.new(field_name: 'user_groups_field', value: 'owned_by_groups'),
+          SearchFilters::Value.new(field_name: 'by', value: 'owned_by_groups'),
           SearchFilters::Value.new(field_name: 'owned_by_groups', value: 'usergroup-group-1'),
           SearchFilters::DateRange.new(
             field_name: 'registration_date',
@@ -1269,7 +1269,7 @@ describe Exporters::ManagedReportExporter do
         [
           '<html><b>View By: </b>Week / <b>Date Range: </b>Custom / <b>From: </b>2023-04-30 / <b>To: </b>2023-05-19 / '\
           '<b>Date: </b>Registration Date / <b>Status: </b>Open,Closed / <b>Workflow Status: </b>New / ' \
-          '<b>By User Groups: </b>User Groups of record owner / <b>User Group: </b>Group 1</html>',
+          '<b>By: </b>User Groups of record owner / <b>User Group: </b>Group 1</html>',
           nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
         ]
       )
@@ -1277,7 +1277,7 @@ describe Exporters::ManagedReportExporter do
         [
           '<html><b>View By: </b>Week / <b>Date Range: </b>Custom / <b>From: </b>2023-04-30 / <b>To: </b>2023-05-19 / '\
           '<b>Date: </b>Registration Date / <b>Status: </b>Open,Closed / <b>Workflow Status: </b>New / ' \
-          '<b>By User Groups: </b>User Groups of record owner / <b>User Group: </b>Group 1</html>',
+          '<b>By: </b>User Groups of record owner / <b>User Group: </b>Group 1</html>',
           nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
         ]
       )
@@ -1286,7 +1286,7 @@ describe Exporters::ManagedReportExporter do
     it 'prints indicator tables' do
       expect(workbook.sheet(0).row(5)).to eq(
         [
-          'Cases by Sex and Age', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
+          'Total Number of Cases by Sex and Age', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
           nil, nil, nil, nil, nil, nil, nil, nil
         ]
       )
@@ -1316,7 +1316,7 @@ describe Exporters::ManagedReportExporter do
       )
       expect(workbook.sheet(1).row(5)).to eq(
         [
-          'Incidents by Sex and Age', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
+          'Total Number of Incidents by Sex and Age', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
           nil, nil, nil, nil, nil, nil, nil, nil
         ]
       )

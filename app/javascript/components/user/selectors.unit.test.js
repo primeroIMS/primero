@@ -6,6 +6,18 @@ import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../config/constants";
 
 import * as selectors from "./selectors";
 
+const userGroups = fromJS([
+  {
+    id: 1,
+    unique_id: "test-1",
+    name: "Test 1"
+  },
+  {
+    id: 2,
+    unique_id: "test-2",
+    name: "Test 2"
+  }
+]);
 const stateWithoutUser = fromJS({});
 const stateWithUser = fromJS({
   user: {
@@ -20,7 +32,8 @@ const stateWithUser = fromJS({
     },
     saving: false,
     serverErrors: ["Test error"],
-    resetPassword: { saving: true }
+    resetPassword: { saving: true },
+    userGroups
   }
 });
 
@@ -197,6 +210,12 @@ describe("User - Selectors", () => {
 
     it("should return false if the user does not have the module", () => {
       expect(selectors.hasPrimeroModule(state, "primeromodule-gbv")).to.be.false;
+    });
+  });
+
+  describe("getCurrentUserUserGroups", () => {
+    it("returns the user groups of the current user", () => {
+      expect(selectors.getCurrentUserUserGroups(stateWithUser)).to.deep.equals(userGroups);
     });
   });
 });

@@ -9,6 +9,7 @@ import { useEffect } from "react";
 
 import { RECORD_TYPES, WORKFLOW_SUBREPORTS } from "../../config";
 import { fetchUserGroups, getWorkflowLabels } from "../application";
+import { READ_RECORDS, RESOURCES, usePermissions } from "../permissions";
 import { useI18n } from "../i18n";
 import { OPTION_TYPES, SELECT_FIELD, whichFormMode } from "../form";
 import WatchedFormSectionField from "../form/components/watched-form-section-field";
@@ -33,7 +34,8 @@ import { transformFilters } from "./utils";
 import validations from "./validations";
 
 const Component = ({ moduleID, id, subReport, toggleControls }) => {
-  const userGroups = useOptions({ source: OPTION_TYPES.USER_GROUP });
+  const canReadUserGroups = usePermissions(RESOURCES.user_groups, READ_RECORDS);
+  const userGroups = useOptions({ source: OPTION_TYPES.USER_GROUP_PERMITTED });
   const insightsConfig = get(INSIGHTS_CONFIG, [moduleID, id], {});
   const { defaultFilterValues } = insightsConfig;
 
@@ -54,6 +56,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   });
   const formMode = whichFormMode("new");
   const dispatch = useDispatch();
+  const isWorkflowSubreport = WORKFLOW_SUBREPORTS.includes(subReport);
 
   const getInsights = (filters = {}) => {
     const transformedFilters = { ...transformFilters(filters), subreport: subReport };
@@ -79,16 +82,20 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   };
 
   useEffect(() => {
-    if (subReport) {
-      if (WORKFLOW_SUBREPORTS.includes(subReport)) {
+    if (isWorkflowSubreport) {
+      if (canReadUserGroups) {
         dispatch(fetchUserGroups());
       }
+
       if (userGroups.length > 0) {
         formMethods.setValue(OWNED_BY_GROUPS, userGroups[0]?.id);
       }
-      getInsights(formMethods.getValues());
     }
-  }, [subReport, userGroups.length]);
+  }, [isWorkflowSubreport, userGroups.length]);
+
+  useEffect(() => {
+    getInsights(formMethods.getValues());
+  }, [subReport]);
 
   if (isEmpty(insightsConfig.filters)) {
     return null;

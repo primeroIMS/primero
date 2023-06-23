@@ -58,7 +58,7 @@ class Exporters::SubreportExporter < ValueObject
     return unless params.present?
 
     params += [formats[:black]]
-    worksheet.merge_range_type('rich_string', current_row, 0, current_row, 3, *params)
+    worksheet.write_rich_string(current_row, 0, *params)
     self.current_row += 1
   end
 

@@ -19,7 +19,7 @@ const DATE = "date";
 const FILTER_BY = "filter_by";
 const FILTER_OPTIONS = "filter_options";
 const DATE_OF_FIRST_REPORT = "date_of_first_report";
-const USER_GROUP_OPTIONS = "user_group_options";
+const BY_OPTIONS = "by_options";
 
 const CTFMR_VERIFIED_DATE = "ctfmr_verified_date";
 const VERIFIED_CTFMR_TECHNICAL = "ctfmr_verified";
@@ -53,8 +53,11 @@ export const MANAGED_REPORTS = "managed_reports";
 export const STATUS = "status";
 export const CREATED_BY_GROUPS = "created_by_groups";
 export const OWNED_BY_GROUPS = "owned_by_groups";
+export const CREATED_ORGANIZATION = "created_organization";
+export const OWNED_BY_AGENCY_ID = "owned_by_agency_id";
 export const USER_GROUP = "user_group";
-export const USER_GROUPS_FIELD = "user_groups_field";
+export const AGENCY = "agency";
+export const BY = "by";
 export const WORKFLOW = "workflow";
 
 export const DATE_CONTROLS = [TO, FROM, GROUPED_BY, DATE_RANGE];
@@ -92,8 +95,9 @@ export const FILTER_BY_VIOLATION_TYPE_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY
 export const STATUS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, STATUS];
 export const CREATED_BY_GROUPS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, CREATED_BY_GROUPS];
 export const OWNED_BY_GROUPS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, OWNED_BY_GROUPS];
-export const USER_GROUPS_FIELD_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, USER_GROUPS_FIELD];
+export const BY_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, BY];
 export const USER_GROUP_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, USER_GROUP];
+export const AGENCY_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, AGENCY];
 export const WORKFLOW_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, WORKFLOW];
 
 export const SHARED_FILTERS = [
@@ -265,7 +269,7 @@ export const INSIGHTS_CONFIG = {
         [DATE_RANGE]: LAST_WEEK,
         [STATUS]: [STATUS_OPEN],
         [DATE]: REGISTRATION_DATE,
-        [USER_GROUPS_FIELD]: OWNED_BY_GROUPS
+        [BY]: OWNED_BY_GROUPS
       },
       filters: [
         {
@@ -346,35 +350,49 @@ export const INSIGHTS_CONFIG = {
           display_name: WORKFLOW_DISPLAY_NAME
         },
         {
-          name: USER_GROUPS_FIELD,
+          name: BY,
           type: SELECT_FIELD,
-          display_name: USER_GROUPS_FIELD_DISPLAY_NAME,
+          display_name: BY_DISPLAY_NAME,
           option_strings_text: [
-            { id: CREATED_BY_GROUPS, display_name: [MANAGED_REPORTS, USER_GROUP_OPTIONS, CREATED_BY_GROUPS] },
-            { id: OWNED_BY_GROUPS, display_name: [MANAGED_REPORTS, USER_GROUP_OPTIONS, OWNED_BY_GROUPS] }
+            { id: OWNED_BY_GROUPS, display_name: [MANAGED_REPORTS, BY_OPTIONS, OWNED_BY_GROUPS] },
+            { id: CREATED_BY_GROUPS, display_name: [MANAGED_REPORTS, BY_OPTIONS, CREATED_BY_GROUPS] },
+            { id: OWNED_BY_AGENCY_ID, display_name: [MANAGED_REPORTS, BY_OPTIONS, OWNED_BY_AGENCY_ID] },
+            { id: CREATED_ORGANIZATION, display_name: [MANAGED_REPORTS, BY_OPTIONS, CREATED_ORGANIZATION] }
           ]
         },
         {
           name: CREATED_BY_GROUPS,
           type: SELECT_FIELD,
           display_name: USER_GROUP_DISPLAY_NAME,
-          option_strings_source: OPTION_TYPES.USER_GROUP,
-          watchedInputs: USER_GROUPS_FIELD,
-          defaultToFirstOption: true,
-          handleWatchedInputs: value => ({
-            name: CREATED_BY_GROUPS === value ? CREATED_BY_GROUPS : OWNED_BY_GROUPS
-          })
+          option_strings_source: OPTION_TYPES.USER_GROUP_PERMITTED,
+          watchedInputs: [BY],
+          showIf: values => values[BY] === CREATED_BY_GROUPS
         },
         {
           name: OWNED_BY_GROUPS,
-          watchedInputs: USER_GROUPS_FIELD,
+          type: SELECT_FIELD,
           display_name: USER_GROUP_DISPLAY_NAME,
-          option_strings_source: OPTION_TYPES.USER_GROUP,
-          handleWatchedInputs: value => ({
-            name: CREATED_BY_GROUPS === value ? OWNED_BY_GROUPS : CREATED_BY_GROUPS
-          }),
-          type: HIDDEN_FIELD,
-          showIf: value => !!value
+          option_strings_source: OPTION_TYPES.USER_GROUP_PERMITTED,
+          watchedInputs: [BY],
+          showIf: values => values[BY] === OWNED_BY_GROUPS
+        },
+        {
+          name: CREATED_ORGANIZATION,
+          type: SELECT_FIELD,
+          display_name: AGENCY_DISPLAY_NAME,
+          option_strings_source: OPTION_TYPES.AGENCY,
+          watchedInputs: [BY],
+          option_strings_source_id_key: "unique_id",
+          showIf: values => values[BY] === CREATED_ORGANIZATION
+        },
+        {
+          name: OWNED_BY_AGENCY_ID,
+          type: SELECT_FIELD,
+          display_name: AGENCY_DISPLAY_NAME,
+          option_strings_source: OPTION_TYPES.AGENCY,
+          watchedInputs: [BY],
+          option_strings_source_id_key: "unique_id",
+          showIf: values => values[BY] === OWNED_BY_AGENCY_ID
         },
         {
           name: DATE,

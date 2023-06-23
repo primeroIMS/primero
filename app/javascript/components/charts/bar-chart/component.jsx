@@ -1,6 +1,7 @@
 import Chart from "chart.js";
 import { createRef, useEffect } from "react";
 import PropTypes from "prop-types";
+import arrayReverse from "lodash/reverse";
 
 import css from "./styles.css";
 
@@ -13,7 +14,10 @@ const BarChart = ({ data, description, showDetails = false, hideLegend = false, 
     /* eslint-disable no-new */
     const chartInstance = new Chart(chatCtx, {
       type: "bar",
-      data,
+      data: {
+        ...(data || {}),
+        datasets: reverse ? arrayReverse(data?.datasets || []) : data?.datasets
+      },
       options: {
         responsive: true,
         animation: {
