@@ -2,15 +2,17 @@ import { PublicClientApplication } from "@azure/msal-browser";
 import { Authority } from "@azure/msal-common";
 
 import { DOMAIN, PROTOCOL } from "./config";
+import CustomNavigationClient from "./custom-navigation-client";
 
-export const setMsalConfig = idp => {
+export const setMsalConfig = (idp = {}) => {
   return {
     auth: {
-      clientId: idp.get("client_id"),
-      authority: idp.get("authorization_url"),
+      clientId: idp.client_id,
+      authority: idp.authorization_url,
       knownAuthorities: ["unicefpartners.b2clogin.com"],
       validateAuthority: false,
-      redirectUri: `${PROTOCOL}//${DOMAIN}/login/${idp.get("provider_type")}`
+      redirectUri: `${PROTOCOL}//${DOMAIN}/login/${idp.provider_type}`,
+      // postLogoutRedirectUri: `${PROTOCOL}//${DOMAIN}/v2`
     },
     cache: {
       cacheLocation: "sessionStorage",
@@ -19,7 +21,7 @@ export const setMsalConfig = idp => {
   };
 };
 
-export const setMsalApp = (msalConfig, forceStandardOidc) => {
+export const setMsalApp = (msalConfig, forceStandardOidc, historyObj) => {
   if (forceStandardOidc) {
     // This affects a couple of behaviours:
     // The first is the form of the OIDC well-known configuration URI, to which msal appends a non-standard "v2.0"
@@ -33,6 +35,8 @@ export const setMsalApp = (msalConfig, forceStandardOidc) => {
   }
 
   const app = new PublicClientApplication(msalConfig);
+  const navigationClient =new CustomNavigationClient(historyObj)
+  app.setNavigationClient(navigationClient);
 
   if (forceStandardOidc) {
     // A second situation where it expects a parameter that isn't standard, this time "scope"

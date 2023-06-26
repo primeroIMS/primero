@@ -56,7 +56,7 @@ import {
   ACTIVITY_LOGS,
   READ_MANAGED_REPORTS
 } from "../components/permissions";
-import Login from "../components/login";
+import Login, { IdpLogin } from "../components/login";
 import PasswordResetRequest from "../components/login/components/password-reset-form";
 
 import { ROUTES, MODES, RECORD_PATH } from "./constants";
@@ -104,6 +104,10 @@ export default [
       {
         path: ROUTES.password_reset_request,
         component: PasswordResetRequest
+      },
+      {
+        path: ROUTES.login_idp_redirect,
+        component: IdpLogin
       }
     ]
   },

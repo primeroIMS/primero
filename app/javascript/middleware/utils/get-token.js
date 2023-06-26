@@ -1,5 +1,5 @@
 const getToken = () => {
-  return window.cachedIdToken;
+  return localStorage.getItem("cachedIdToken");
 };
 
 export default getToken;

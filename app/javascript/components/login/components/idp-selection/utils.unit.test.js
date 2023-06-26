@@ -6,7 +6,7 @@ describe("auth-utils", () => {
   let idp;
 
   before(() => {
-    idp = fromJS({
+    idp = {
       name: "UNICEF",
       unique_id: "unicef",
       provider_type: "b2c",
@@ -15,7 +15,7 @@ describe("auth-utils", () => {
       identity_scope: ["123"],
       verification_url: "verification",
       domain_hint: "unicef"
-    });
+    };
   });
 
   it("returns provider details", () => {

@@ -1,6 +1,6 @@
 /* eslint-disable no-return-await */
 import { InteractionRequiredAuthError } from "@azure/msal-common";
-// import { CryptoOps } from "@azure/msal-browser/dist/internals";
+import { isImmutable } from "immutable";
 
 import { SELECTED_IDP } from "../../../user/constants";
 
@@ -10,7 +10,9 @@ let msalApp;
 let forceStandardOIDC = false;
 
 async function getToken(tokenRequest) {
-  return await msalApp.acquireTokenSilent(tokenRequest).catch(async error => {
+  try {
+    return await msalApp.acquireTokenSilent(tokenRequest);
+  } catch (error) {
     if (error instanceof InteractionRequiredAuthError) {
       return await msalApp.acquireTokenPopup(tokenRequest).catch(popupError => {
         // eslint-disable-next-line no-console
@@ -22,22 +24,24 @@ async function getToken(tokenRequest) {
     console.warn("Failed to acquire token", error);
 
     return undefined;
-  });
+  }
 }
 
-const setupMsal = idp => {
-  const identityScope = idp.get("identity_scope")?.toJS() || [""];
-  const domainHint = idp.get("domain_hint");
-  const msalConfig = setMsalConfig(idp);
+const setupMsal = (idp, historyObj) => {
+  const idpObj = isImmutable(idp) ? idp.toJS() : idp;
+
+  const identityScope = idpObj.identity_scope || [""];
+  const domainHint = idpObj.domain_hint;
+  const msalConfig = setMsalConfig(idpObj);
   const loginRequest = getLoginRequest(identityScope, domainHint);
   const tokenRequest = getTokenRequest(identityScope);
 
   if (!msalApp) {
-    forceStandardOIDC = idp.get("force_standard_oidc") === true;
-    msalApp = setMsalApp(msalConfig, forceStandardOIDC);
+    forceStandardOIDC = idpObj.force_standard_oidc === true;
+    msalApp = setMsalApp(msalConfig, forceStandardOIDC, historyObj);
   }
 
-  localStorage.setItem(SELECTED_IDP, idp.get("unique_id"));
+  localStorage.setItem(SELECTED_IDP, idpObj.unique_id);
 
   return { loginRequest, tokenRequest };
 };
@@ -50,23 +54,20 @@ const handleResponse = async (tokenRequest, successCallback) => {
   }
 };
 
-export const refreshIdpToken = async (idp, successCallback) => {
-  const { tokenRequest } = setupMsal(idp);
+export const refreshIdpToken = async (idp, successCallback, historyObj) => {
+  const { tokenRequest } = setupMsal(idp, historyObj);
 
   handleResponse(tokenRequest, successCallback);
 };
 
-export const signIn = async (idp, successCallback) => {
-  const { loginRequest } = setupMsal(idp);
+export const signIn = async (idp, callback, historyObj) => {
+  const { loginRequest } = setupMsal(idp, historyObj);
 
   try {
-    const loginResponse = await msalApp.loginPopup(loginRequest);
+    const response = await msalApp.loginPopup(loginRequest);
 
-    window.cachedIdToken = loginResponse.idToken;
-
-    if (loginResponse) {
-      handleResponse(loginResponse, successCallback);
-    }
+    localStorage.setItem("cachedIdToken", response.idToken);
+    callback(response.idToken);
   } catch (error) {
     throw new Error(error);
   }

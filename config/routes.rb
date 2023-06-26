@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   end
 
   resources :health, only: %i[index show]
-  resources :login, only: [:show]
+  get 'login/:id', to: redirect(path: '/v2/login/%{id}')
 
   namespace :api do
     namespace :v2, defaults: { format: :json },
