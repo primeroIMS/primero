@@ -36,6 +36,7 @@ class Permission < ValueObject
   TRACING_REQUEST = 'tracing_request'
   POTENTIAL_MATCH = 'potential_match'
   REGISTRY_RECORD = 'registry_record'
+  FAMILY = 'family'
   DUPLICATE = 'duplicate'
   USER = 'user'
   USER_GROUP = 'user_group'
@@ -196,6 +197,10 @@ class Permission < ValueObject
       READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, EXPORT_CSV, EXPORT_EXCEL, EXPORT_JSON,
       CHANGE_LOG, SYNC_MOBILE, MANAGE
     ],
+    FAMILY => [
+      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, EXPORT_CSV, EXPORT_EXCEL, EXPORT_JSON,
+      CHANGE_LOG, SYNC_MOBILE, MANAGE
+    ],
     ROLE => [CREATE, READ, WRITE, ASSIGN, COPY, MANAGE, DELETE],
     USER => [CREATE, READ, AGENCY_READ, WRITE, MANAGE],
     USER_GROUP => [CREATE, READ, WRITE, ASSIGN, MANAGE, DELETE],
@@ -263,7 +268,7 @@ class Permission < ValueObject
     end
 
     def records
-      [CASE, INCIDENT, TRACING_REQUEST, REGISTRY_RECORD]
+      [CASE, INCIDENT, TRACING_REQUEST, REGISTRY_RECORD, FAMILY]
     end
 
     def management
