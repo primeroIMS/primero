@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
-import { RECORD_TYPES, WORKFLOW_SUBREPORTS } from "../../config";
+import { RECORD_TYPES, VIOLENCE_TYPE_SUBREPORTS, WORKFLOW_SUBREPORTS } from "../../config";
 import { fetchUserGroups, getWorkflowLabels } from "../application";
 import { READ_RECORDS, RESOURCES, usePermissions } from "../permissions";
 import { useI18n } from "../i18n";
@@ -57,6 +57,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   const formMode = whichFormMode("new");
   const dispatch = useDispatch();
   const isWorkflowSubreport = WORKFLOW_SUBREPORTS.includes(subReport);
+  const isViolenceTypeSubreport = VIOLENCE_TYPE_SUBREPORTS.includes(subReport);
 
   const getInsights = (filters = {}) => {
     const transformedFilters = { ...transformFilters(filters), subreport: subReport };
@@ -82,7 +83,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   };
 
   useEffect(() => {
-    if (isWorkflowSubreport) {
+    if (isViolenceTypeSubreport || isWorkflowSubreport) {
       if (canReadUserGroups) {
         dispatch(fetchUserGroups());
       }
@@ -91,7 +92,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
         formMethods.setValue(OWNED_BY_GROUPS, userGroups[0]?.id);
       }
     }
-  }, [isWorkflowSubreport, userGroups.length]);
+  }, [isWorkflowSubreport, isViolenceTypeSubreport, userGroups.length]);
 
   useEffect(() => {
     getInsights(formMethods.getValues());
