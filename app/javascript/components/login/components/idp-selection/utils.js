@@ -11,8 +11,7 @@ export const setMsalConfig = (idp = {}) => {
       authority: idp.authorization_url,
       knownAuthorities: ["unicefpartners.b2clogin.com"],
       validateAuthority: false,
-      redirectUri: `${PROTOCOL}//${DOMAIN}/login/${idp.provider_type}`,
-      // postLogoutRedirectUri: `${PROTOCOL}//${DOMAIN}/v2`
+      redirectUri: `${PROTOCOL}//${DOMAIN}/login/${idp.provider_type}`
     },
     cache: {
       cacheLocation: "sessionStorage",
@@ -35,7 +34,8 @@ export const setMsalApp = (msalConfig, forceStandardOidc, historyObj) => {
   }
 
   const app = new PublicClientApplication(msalConfig);
-  const navigationClient =new CustomNavigationClient(historyObj)
+  const navigationClient = new CustomNavigationClient(historyObj);
+
   app.setNavigationClient(navigationClient);
 
   if (forceStandardOidc) {

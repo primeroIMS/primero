@@ -9,6 +9,16 @@ import { setMsalApp, setMsalConfig, getLoginRequest, getTokenRequest } from "./u
 let msalApp;
 let forceStandardOIDC = false;
 
+function createNewGuid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+
+  return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
+}
+
 async function getToken(tokenRequest) {
   try {
     return await msalApp.acquireTokenSilent(tokenRequest);
@@ -81,7 +91,7 @@ export const signOut = () => {
       // https://openid.net/specs/openid-connect-rpinitiated-1_0.html#RPLogout
       // Since MSAL does not offer any way to add parameters to logout, we piggyback on the correlationId argument
       // The GUID is what msal uses as the default when the argument is not specified
-      // msalApp.logout(`${CryptoOps.createNewGuid()}&client_id=${encodeURIComponent(msalApp.config.auth.clientId)}`);
+      msalApp.logout(`${createNewGuid()}&client_id=${encodeURIComponent(msalApp.config.auth.clientId)}`);
     } else {
       msalApp.logout();
     }
