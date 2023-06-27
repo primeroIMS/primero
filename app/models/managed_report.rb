@@ -32,7 +32,7 @@ class ManagedReport < ValueObject
         id: 'violence_type_report',
         name: 'managed_reports.violence_type_report.name',
         description: 'managed_reports.violence_type_report.description',
-        subreports: %w[cases_violence_type],
+        subreports: %w[cases_violence_type incidents_violence_type],
         permitted_filters: [
           :grouped_by, :by, :created_by_groups, :cp_incident_violence_type, :owned_by_groups,
           :created_organization, :owned_by_agency_id, status: {}, registration_date: {}
