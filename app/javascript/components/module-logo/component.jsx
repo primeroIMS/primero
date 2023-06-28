@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
 
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import css from "./styles.css";
 import { getLogo } from "./utils";

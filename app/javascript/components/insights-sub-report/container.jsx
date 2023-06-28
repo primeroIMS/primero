@@ -8,7 +8,7 @@ import { getAgeRanges } from "../application/selectors";
 import { getLoading, getErrors } from "../index-table/selectors";
 import LoadingIndicator from "../loading-indicator";
 import { useI18n } from "../i18n";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { clearSelectedReport } from "../reports-form/action-creators";
 import TableValues from "../charts/table-values";
 import useOptions from "../form/use-options";

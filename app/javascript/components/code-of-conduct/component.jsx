@@ -9,7 +9,7 @@ import { ROUTES } from "../../config";
 import TranslationsToggle from "../translations-toggle";
 import ModuleLogo from "../module-logo";
 import { useI18n } from "../i18n";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getCodeOfConductId, getUser } from "../user";
 import LoadingIndicator from "../loading-indicator";
 import { getCodesOfConduct } from "../application/selectors";

@@ -1,5 +1,5 @@
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}solr:8.9.0-slim
+FROM ${BUILD_REGISTRY}solr:8.11.2-slim
 
 ENV SOLR_PACKAGES gettext curl
 ENV SOLR_USER=solr
@@ -17,6 +17,7 @@ COPY --chown=solr [ "solr/solr.xml", "/opt/solr" ]
 RUN bin/bash -c set -euox pipefail \
         ; apt update \
         ; apt install -y $SOLR_PACKAGES \
+        ; addgroup -gid 200 mounted-volume \
         ; chown -R $SOLR_USER:$SOLR_GROUP /var/solr/data \
         ; chmod -R 700 /var/solr/data \
         ; chmod +x /sub.sh \

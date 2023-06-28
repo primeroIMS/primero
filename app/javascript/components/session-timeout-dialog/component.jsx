@@ -8,7 +8,7 @@ import { useRefreshUserToken } from "../user";
 import { useI18n } from "../i18n";
 import { IDLE_TIMEOUT, IDLE_LOGOUT_TIMEOUT, TOKEN_REFRESH_INTERVAL } from "../../config";
 import { setUserIdle, selectUserIdle, useApp } from "../application";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { NAME } from "./constants";
 
