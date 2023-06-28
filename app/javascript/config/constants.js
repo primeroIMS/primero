@@ -617,6 +617,10 @@ export const GHN_REPORT_SUBREPORTS = ["ghn_report"];
 
 export const INDIVIDUAL_CHILDREN = ["individual_children"];
 
+export const WORKFLOW_SUBREPORTS = ["cases_workflow", "incidents_workflow"];
+
+export const VIOLENCE_TYPE_SUBREPORTS = ["cases_violence_type", "incidents_violence_type"];
+
 export const CHART_COLORS = Object.freeze({
   blue: "rgb(0, 147, 186)",
   grey: "rgb(89, 89, 82)",

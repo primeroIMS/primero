@@ -19,6 +19,7 @@ import {
   getAssignedAgency,
   getCurrentUserGroupPermission,
   getCurrentUserGroupsUniqueIds,
+  getCurrentUserUserGroups,
   getPermittedRoleUniqueIds
 } from "../user/selectors";
 import { getRecordForms } from "../record-form";
@@ -355,18 +356,24 @@ const userGroups = createCachedSelector(
 
 const userGroupsPermitted = createCachedSelector(
   getUserGroups,
+  getCurrentUserUserGroups,
   getCurrentUserGroupsUniqueIds,
   getCurrentUserGroupPermission,
   (_state, options) => options,
-  (data, currentUserGroups, currentRoleGroupPermission, options) => {
+  (data, currentUserGroups, currentUserGroupIds, currentRoleGroupPermission, options) => {
     const allUserGroups = userGroupsParser(data, options);
+    const currentUserGroupOptions = userGroupsParser(currentUserGroups, options);
+
+    if (isEmpty(allUserGroups)) {
+      return currentUserGroupOptions;
+    }
 
     if (currentRoleGroupPermission === GROUP_PERMISSIONS.ALL) {
       return allUserGroups;
     }
 
     return allUserGroups.map(userGroup => {
-      if (currentUserGroups.includes(userGroup.id)) {
+      if (currentUserGroupIds.includes(userGroup.id)) {
         return userGroup;
       }
 

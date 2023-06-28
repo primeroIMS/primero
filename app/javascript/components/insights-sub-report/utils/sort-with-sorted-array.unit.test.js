@@ -10,16 +10,16 @@ describe("<InsightsSubReport/>/utils - sortWithSortedArray", () => {
   it("puts incomplete_data as last element", () => {
     const expected = [3, 2, 1, "incomplete_data"];
 
-    expect(sortWithSortedArray([1, "incomplete_data", 2, 3], [3, 2, 1], null, "incomplete_data")).to.deep.equal(
-      expected
-    );
+    expect(
+      sortWithSortedArray([1, "incomplete_data", 2, 3], [3, 2, 1, "incomplete_data"], null, "incomplete_data")
+    ).to.deep.equal(expected);
   });
 
   it("puts null as last element", () => {
     expect(
       sortWithSortedArray(
         [{ age: 1 }, { age: 2 }, { age: "incomplete_data" }, { age: 3 }],
-        [3, 2, 1],
+        [3, 2, 1, "incomplete_data"],
         elem => elem.age,
         "incomplete_data"
       )

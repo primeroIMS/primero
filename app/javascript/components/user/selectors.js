@@ -47,5 +47,7 @@ export const getCodeOfConductId = state => state.getIn([NAMESPACE, "codeOfConduc
 
 export const getCodeOfConductAccepteOn = state => state.getIn([NAMESPACE, "codeOfConductAcceptedOn"], null);
 
+export const getCurrentUserUserGroups = state => state.getIn([NAMESPACE, "userGroups"], fromJS([]));
+
 export const hasPrimeroModule = (state, primeroModule) =>
   state.getIn([NAMESPACE, "modules"], fromJS([])).includes(primeroModule);

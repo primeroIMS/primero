@@ -110,6 +110,7 @@ describe("Verifying config constant", () => {
       "REQUEST_TRANSFER",
       "SEARCH_OWNED_BY_OTHERS",
       "SERVICES_SECTION_FROM_CASE",
+      "WORKFLOW_REPORT",
       "SYNC_EXTERNAL",
       "TRANSFER",
       "VIEW_INCIDENT_FROM_CASE",

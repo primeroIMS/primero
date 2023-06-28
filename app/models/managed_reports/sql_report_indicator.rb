@@ -9,6 +9,7 @@ class ManagedReports::SqlReportIndicator < ValueObject
   QUARTER = 'quarter'
   MONTH = 'month'
   YEAR = 'year'
+  WEEK = 'week'
 
   class << self
     def sql(current_user, params = {}); end

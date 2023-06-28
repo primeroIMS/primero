@@ -1,45 +1,60 @@
-import { fromJS, List } from "immutable";
+import { List } from "immutable";
 import PropTypes from "prop-types";
+import isNil from "lodash/isNil";
 
+import { RECORD_TYPES } from "../../../config";
 import { useMemoizedSelector } from "../../../libs";
-import { getLookupsByIDs } from "../../form/selectors";
+import { getWorkflowLabels } from "../../application";
+import useOptions from "../../form/use-options";
 import { get, optionText } from "../../form/utils";
-import { DATE_FIELD } from "../../form/constants";
 import transformOptions from "../../form/utils/transform-options";
+import { DATE_FIELD } from "../../form/constants";
 import { useI18n } from "../../i18n";
 import { selectInsightsFilters } from "../../insights-list/selectors";
+import { WORKFLOW } from "../../insights/constants";
 
 import css from "./styles.css";
 
-const InsightFilterTags = ({ filters = [] }) => {
+const InsightFilterTags = ({ filters = [], moduleID }) => {
   const i18n = useI18n();
+  const workflowLabels = useMemoizedSelector(state => getWorkflowLabels(state, moduleID, RECORD_TYPES.cases));
   const insightFilters = useMemoizedSelector(state => selectInsightsFilters(state));
 
-  const lookups = useMemoizedSelector(state =>
-    getLookupsByIDs(
-      state,
-      filters.map(filter => filter.option_strings_source).filter(source => source)
-    )
-  );
+  const sources = filters.reduce((acc, filter) => {
+    if (!isNil(filter.option_strings_source)) {
+      return [...acc, [filter.name, filter.option_strings_source]];
+    }
+
+    return acc;
+  }, []);
+  const lookups = useOptions({ source: sources, optionStringsSourceIdKey: "unique_id" });
 
   if (insightFilters.isEmpty() || !filters) {
     return null;
   }
 
-  const getOption = (filter = {}, value) => {
-    const options = filter.option_strings_source
-      ? transformOptions(
-          lookups
-            .find(lookup => lookup.get("unique_id") === filter.option_strings_source.replace("lookup ", ""))
-            ?.get("values") || fromJS([]),
-          i18n.locale
-        )
-      : filter?.option_strings_text || [];
+  const filterOptions = filter => {
+    if (filter.option_strings_source) {
+      return lookups[filter.name];
+    }
 
+    if (filter.option_strings_text) {
+      return filter.option_strings_text;
+    }
+
+    if (filter.name === WORKFLOW) {
+      return transformOptions(workflowLabels, i18n.locale);
+    }
+
+    return [];
+  };
+
+  const getOption = (filter = {}, value) => {
     if (filter.type === DATE_FIELD) {
       return i18n.localizeDate(value);
     }
 
+    const options = filterOptions(filter);
     const option = optionText(
       options.find(opt => get(opt, "id") === value),
       false
@@ -82,7 +97,8 @@ const InsightFilterTags = ({ filters = [] }) => {
 InsightFilterTags.displayName = "InsightFilterTags";
 
 InsightFilterTags.propTypes = {
-  filters: PropTypes.object
+  filters: PropTypes.object,
+  moduleID: PropTypes.string
 };
 
 export default InsightFilterTags;

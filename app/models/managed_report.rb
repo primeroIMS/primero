@@ -17,6 +17,28 @@ class ManagedReport < ValueObject
         permitted_filters: [:grouped_by, date_of_first_report: {}, incident_date: {}],
         module_id: PrimeroModule::GBV
       ),
+      Permission::WORKFLOW_REPORT => ManagedReport.new(
+        id: 'workflow_report',
+        name: 'managed_reports.workflow_report.name',
+        description: 'managed_reports.workflow_report.description',
+        subreports: %w[cases_workflow incidents_workflow],
+        permitted_filters: [
+          :grouped_by, :by, :created_by_groups, :workflow, :owned_by_groups,
+          :created_organization, :owned_by_agency_id, status: {}, registration_date: {}
+        ],
+        module_id: PrimeroModule::CP
+      ),
+      Permission::VIOLENCE_TYPE_REPORT => ManagedReport.new(
+        id: 'violence_type_report',
+        name: 'managed_reports.violence_type_report.name',
+        description: 'managed_reports.violence_type_report.description',
+        subreports: %w[cases_violence_type incidents_violence_type],
+        permitted_filters: [
+          :grouped_by, :by, :created_by_groups, :cp_incident_violence_type, :owned_by_groups,
+          :created_organization, :owned_by_agency_id, status: {}, registration_date: {}
+        ],
+        module_id: PrimeroModule::CP
+      ),
       Permission::VIOLATION_REPORT => ManagedReport.new(
         id: 'violations',
         name: 'managed_reports.violations.name',

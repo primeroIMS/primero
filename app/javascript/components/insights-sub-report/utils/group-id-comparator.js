@@ -1,11 +1,16 @@
-import { YEAR } from "../../insights/constants";
+import { WEEK, YEAR } from "../../insights/constants";
 
 import getGroupComparator from "./get-group-comparator";
 import yearComparator from "./year-comparator";
+import weekComparator from "./week-comparator";
 
 export default groupedBy => {
   if (groupedBy === YEAR) {
     return (elem1, elem2) => yearComparator(elem1.get("group_id"), elem2.get("group_id"));
+  }
+
+  if (groupedBy === WEEK) {
+    return (elem1, elem2) => weekComparator(elem1.get("group_id"), elem2.get("group_id"));
   }
 
   const groupComparator = getGroupComparator(groupedBy);

@@ -1929,15 +1929,34 @@ en:
       date: Date
       verification_status: Verification Status
       violation_type: Violation Type
+      status: Status
+      status_open: Open
+      status_closed: Closed
+      user_group: User Group
+      agency: Agency
+      by: By
+      workflow: Workflow Status
+      cp_incident_violence_type: Type of Violence
+    status_options:
+      open: Open
+      closed: Closed
+    by_options:
+      created_by_groups: User Groups of record creator
+      owned_by_groups: User Groups of record owner
+      created_organization: Agency of record creator
+      owned_by_agency_id: Agency of record owner
     date_range:
       month: Month
       quarter: Quarter
       year: Year
+      week: Week
     date_range_options:
       this_quarter: This Quarter
       last_quarter: Last Quarter
       this_month: This Month
       last_month: Last Month
+      this_week: This Week
+      last_week: Last Week
       this_year: This Year
       last_year: Last Year
       custom: Custom
@@ -2083,6 +2102,28 @@ en:
         service_protection_referral: Child Protection Services
         vulnerable_populations: Vulnerable Populations
         survivors_disability_type: With Disabilities
+    workflow_report:
+      name: Workflow
+      description: ''
+      reports:
+        cases_workflow: Workflow - Cases
+        incidents_workflow: Workflow - Incidents
+      filter_options:
+        registration_date: Registration Date
+      sub_reports:
+        case_workflow_by_sex_and_age: Total Number of Cases by Sex and Age
+        incident_workflow_by_sex_and_age: Total Number of Incidents by Sex and Age
+    violence_type_report:
+      name: Type of Violence
+      description: ''
+      reports:
+        cases_violence_type: Type of Violence - Cases
+        incidents_violence_type: Type of Violence - Incidents
+      filter_options:
+        registration_date: Registration Date
+      sub_reports:
+        case_violence_type_by_sex_and_age: Total Number of Cases by Sex and Age
+        incident_violence_type_by_sex_and_age: Total Number of Incidents by Sex and Age
     success_message: Successfully generated the export file
   messages:
     alert_items: You have %{items} items of note.
@@ -3148,6 +3189,14 @@ en:
             label: Global Horizontal Note
           individual_children:
             label: Individual Children
+          workflow_report:
+            label: Workflow
+            explanation: Ability to view statistics on Workflow Status. This permission also allows the user to export
+              data from an Insight.
+          violence_type_report:
+            label: Type of Violence
+            explanation: Ability to view statistics on Type of Violence. This permission also allows
+              the user to export data from an Insight.
       matching_configuration:
         actions:
           manage:

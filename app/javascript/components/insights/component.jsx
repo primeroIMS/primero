@@ -70,7 +70,7 @@ const Component = ({ routes }) => {
     <PageContainer twoCol>
       <PageHeading
         title={name}
-        titleSecondary={<InsightFilterTags filters={insightType.filters} />}
+        titleSecondary={<InsightFilterTags moduleID={moduleID} filters={insightType.filters} />}
         controls={toggleControls => {
           return <InsightsFilters moduleID={moduleID} id={id} toggleControls={toggleControls} subReport={subReport} />;
         }}
