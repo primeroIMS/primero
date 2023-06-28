@@ -33,8 +33,9 @@ class PrimeroDatabase
   end
 
   def migrated?
+    # TODO: This might need to change if primero moves to a different schema.
     missed_table = connection.exec(
-      "SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'schema_migrations'"
+      "SELECT 1 FROM information_schema.tables WHERE table_name = 'schema_migrations'"
     ).values.empty?
     return false if missed_table
 
