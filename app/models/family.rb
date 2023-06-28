@@ -12,9 +12,9 @@ class Family < ApplicationRecord
   include EagerLoadable
   include LocationCacheable
 
-  store_accessor :data, :registration_date, :status, :family_id, :family_name, :family_number, :family_members_section
+  store_accessor :data, :registration_date, :status, :family_id, :family_name, :family_number, :family_members
 
-  alias family_details_section family_members_section
+  alias family_details_section family_members
 
   class << self
     def filterable_id_fields
@@ -42,7 +42,7 @@ class Family < ApplicationRecord
   alias super_defaults defaults
   def defaults
     super_defaults
-    self.family_members_section ||= []
+    self.family_members ||= []
   end
 
   def set_instance_id
