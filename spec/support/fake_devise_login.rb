@@ -40,7 +40,8 @@ module FakeDeviseLogin
         ]
       )
     ),
-    Field.new(name: 'registry_type', type: 'text_field', display_name_en: 'Registry Type')
+    Field.new(name: 'registry_type', type: 'text_field', display_name_en: 'Registry Type'),
+    Field.new(name: 'family_number', type: 'text_field', display_name_en: 'Family Number')
   ].freeze
 
   def permission_case
@@ -78,6 +79,13 @@ module FakeDeviseLogin
     )
   end
 
+  def permission_family
+    @permission_family ||= Permission.new(
+      resource: Permission::FAMILY,
+      actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
+    )
+  end
+
   def permission_flag_record
     actions = [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]
     @permission_flag_record = [
@@ -91,12 +99,17 @@ module FakeDeviseLogin
     COMMON_PERMITTED_FIELDS.map(&:name)
   end
 
+  def permissions
+    [
+      permission_case, permission_incident, permission_tracing_request, permission_registry, permission_family
+    ]
+  end
+
   def fake_role(opts = {})
-    permissions = opts[:permissions] ||
-                  [permission_case, permission_incident, permission_tracing_request, permission_registry]
+    role_permissions = opts[:permissions] || permissions
     group_permission = opts[:group_permission] || Permission::ALL
     role = Role.new(
-      permissions: permissions,
+      permissions: role_permissions,
       group_permission: group_permission,
       form_sections: opts[:form_sections] || []
     )

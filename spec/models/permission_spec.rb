@@ -21,7 +21,10 @@ describe Permission do
 
   describe '.records' do
     it 'returns all records' do
-      expected = [Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST, Permission::REGISTRY_RECORD]
+      expected = [
+        Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST, Permission::REGISTRY_RECORD,
+        Permission::FAMILY
+      ]
       expect(Permission.records).to match_array(expected)
     end
   end
