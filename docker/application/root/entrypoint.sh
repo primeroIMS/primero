@@ -33,7 +33,7 @@ primero_migrate() {
     bin/rails db:create
   fi
   set -u
-  bin/rails db:migrate
+  bin/check_migrated.rb && bin/rails db:migrate
 }
 
 # Apply a known configuration template

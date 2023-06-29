@@ -131,6 +131,12 @@ Rails.application.routes.draw do
         resources :alerts, only: [:index]
         get :record_history, to: 'record_histories#index'
       end
+
+      resources :families do
+        resources :flags, only: %i[index create update]
+        resources :alerts, only: [:index]
+        get :record_history, to: 'record_histories#index'
+      end
     end
   end
 end
