@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 
 import { useDialog } from "../action-dialog";
 import { RECORD_PATH, ROUTES, SAVE_METHODS } from "../../config";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { fetchUserGroups, useApp } from "../application";
 import { getAgeRanges, getReportingLocationConfig } from "../application/selectors";
 import Form, { FormAction, whichFormMode } from "../form";

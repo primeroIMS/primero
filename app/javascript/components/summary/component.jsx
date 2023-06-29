@@ -20,7 +20,7 @@ import {
   getLoadingMatchedTraces
 } from "../records";
 import { RECORD_PATH } from "../../config";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { MatchesForm, ComparisonForm, MatchedTraces } from "./components";
 import { NAME, FIELD_NAMES } from "./constants";

@@ -4,10 +4,11 @@ import debounce from "lodash/debounce";
 
 import Queue, { QUEUE_HALTED, QUEUE_READY } from "../../libs/queue";
 import { getIsAuthenticated } from "../user/selectors";
-import { clearDialog, selectDialog } from "../action-dialog";
+import { clearDialog } from "../action-dialog/action-creators";
+import { selectDialog } from "../action-dialog/selectors";
 import { useRefreshUserToken } from "../user";
 import { LOGIN_DIALOG } from "../login-dialog";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import DB, { DB_STORES } from "../../db";
 
 import {

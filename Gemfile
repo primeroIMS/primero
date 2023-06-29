@@ -43,8 +43,8 @@ gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files
 gem 'spreadsheet',         '~> 1.1'    # Read XLS spreadsheets for imports (not XLSX!). TODO: Different gem? Reconsider?
 # Note: if upgrading Sunspot, update the corresponding version of Solr on the Docker image
 # Current Solr version is 5.3.1
-gem 'sunspot_rails',       '~> 2.5'    # Rails ODM bindings to Solr
-gem 'sunspot_solr',        '~> 2.5'    # Ruby bindings to Solr
+gem 'sunspot_rails',       '~> 2.6'    # Rails ODM bindings to Solr
+gem 'sunspot_solr',        '~> 2.6'    # Ruby bindings to Solr
 gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
 gem 'tzinfo-data',         '~> 1.2021' # Timezone Data for TZInfo
 gem 'will_paginate',       '~> 3.1'    # Paginates ActiveRecord models  TODO: This can be refactored away.

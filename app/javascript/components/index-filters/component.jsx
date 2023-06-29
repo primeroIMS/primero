@@ -16,7 +16,7 @@ import { currentUser } from "../user";
 import { useI18n } from "../i18n";
 import { getReportingLocationConfig } from "../user/selectors";
 import { DEFAULT_FILTERS } from "../record-list/constants";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { reduceMapToObject } from "../../libs/component-helpers";
 
 import { DEFAULT_SELECTED_RECORDS_VALUE, FILTER_CATEGORY, HIDDEN_FIELDS } from "./constants";

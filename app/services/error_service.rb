@@ -50,6 +50,10 @@ class ErrorService
           headers: { 'Retry-After' => error&.retry_after&.to_s }
         )
       ]
+    when JWT::DecodeError, JWT::IncorrectAlgorithm, JWT::InvalidAudError, JWT::ExpiredSignature, JWT::InvalidIatError,
+      JWT::InvalidIssuerError, JWT::InvalidJtiError, JWT::ImmatureSignature, JWT::InvalidSubError
+      code = 401
+      errors = [ApplicationError.new(code: code, message: error.message, resource: request.path)]
     else
       code = 500
       errors = [

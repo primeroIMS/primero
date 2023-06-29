@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ActionDialog from "../action-dialog";
 import { useI18n } from "../i18n";
 import { getPasswordResetLoading } from "../pages/admin/users-form/selectors";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { NAME } from "./constants";
 
