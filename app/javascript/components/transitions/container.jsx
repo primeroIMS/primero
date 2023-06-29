@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { selectTransitions } from "./selectors";
 import { TRANSITIONS_NAME } from "./constants";

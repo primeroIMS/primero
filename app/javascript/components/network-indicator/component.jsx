@@ -5,7 +5,7 @@ import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
 
 import { useApp } from "../application";
 import { useI18n } from "../i18n";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getFieldMode } from "../application/selectors";
 
 import NetworkStatus from "./components/network-status";

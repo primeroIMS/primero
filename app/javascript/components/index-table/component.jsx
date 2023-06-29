@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getLoadingState } from "../record-form/selectors";
 
 import { NAME } from "./config";

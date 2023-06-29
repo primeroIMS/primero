@@ -3,7 +3,7 @@ import { memo } from "react";
 import clsx from "clsx";
 
 import { getAgencyLogos } from "../application/selectors";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import css from "./styles.css";
 

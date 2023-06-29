@@ -4,7 +4,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import ActionButton from "../action-button";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { usePermissions, CREATE_INCIDENT, RESOURCES } from "../permissions";
 import { ID_FIELD, UNIQUE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD, RECORD_TYPES_PLURAL } from "../../config";
 import { getIncidentFromCaseForm } from "../record-form/selectors";
