@@ -1,4 +1,4 @@
-import { APPROVALS, APPROVALS_TYPES } from "../../../config";
+import { APPROVALS, APPROVALS_TYPES } from "../../../config/constants";
 
 export default (item, i18n, approvalsLabels) => {
   switch (item) {
