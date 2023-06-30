@@ -28,6 +28,10 @@ class Family < ApplicationRecord
     def sortable_text_fields
       %w[short_id]
     end
+
+    def summary_field_names
+      common_summary_fields + %w[family_name]
+    end
   end
 
   searchable do

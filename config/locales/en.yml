@@ -2175,6 +2175,7 @@ en:
     tracing_request: Tracing Request
     activity_log: Activity Log
     registry_records: Registry
+    families: Families
   notes:
     note_success: Successfully added note
   permissions:
@@ -3917,6 +3918,17 @@ en:
       title: Mark for Offline
       text: Are you sure you want to mark these registry records for use when you are offline?
       success: Registry records successfully marked for offline use
+  families:
+    id: ID
+    label: Families
+    family_name: Family Name
+    family_registration_date: Registration Date
+    family_location_current: Family Location
+    export: Export
+    filter_by:
+      by_date: By Date
+      status: Status
+      current_location: Family Location
   transfer:
     label: Transfer
     agency_label: Agency

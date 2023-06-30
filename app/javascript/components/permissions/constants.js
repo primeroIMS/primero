@@ -125,6 +125,7 @@ export const RESOURCES = {
   configurations: "primero_configurations",
   contact_information: "contact_information",
   dashboards: "dashboards",
+  families: "families",
   forms: "forms",
   incidents: "incidents",
   kpis: "kpis",
