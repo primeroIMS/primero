@@ -2259,6 +2259,7 @@ en:
       find_tracing_match: Find tracing match from case
       view_registry_record: View registry record
       add_registry_record: Add registry record
+      family: Family
       flag: Flag
       form: Forms
       group: Access all records or users in my group
@@ -3035,6 +3036,8 @@ en:
             they can configure. NOTE: If no forms are specified, it means the role
             has access to all the forms for registries.'
           label: Forms - Registry
+        family:
+          label: Forms - Family
       group:
         actions:
           admin_only:
@@ -3328,6 +3331,85 @@ en:
           updated with new information. They are similar to lookups, but with a more complex
           set of information for each entry.
         label: Registry Record
+      family:
+        actions:
+          change_log:
+            explanation: User can see a history of all changes made to the record since it
+              was created. This includes values recorded for all fields.
+            label: Change Log
+          create:
+            explanation: Ability to create a Family.
+            label: Create
+          enable_disable_record:
+            explanation: Ability to disable or enable a Family. "Disabled" families
+              do not appear by default in the Family list. Users can see disabled Families
+              in the Family list by using a filter.
+            label: Enable / Disable
+          export_csv:
+            explanation: 'User can generate a CSV file export from the Family list or Family
+              show pages, which contains all fields to which the current user has access, for
+              one, multiple, or all Familiess to which the user has access. NOTE: The
+              CSV export does not render non-Latin characters (e.g. Arabic, Bangla)'
+            label: Export CSV
+          export_json:
+            explanation: User can generate a JSON file export from the Family list or Family
+              show pages, which contains all fields to which the current user has access. The
+              JSON format is machine-readable and not practical for most users.
+            label: Export JSON
+          export_xls:
+            explanation: 'User can generate a XLS file export from the Family list or Family
+              show pages, which contains all fields to which the current user has access. NOTE:
+              The XLS format renders non-Latin characters (e.g. Arabic, Bangla) in a readable
+              format, while the CSV export does not.'
+            label: Excel (XLS file) export
+          export_json:
+            explanation: User can generate a JSON file export from the Family list
+              or incident show pages, which contains all fields to which the current
+              user has access, for one, multiple, or all incidents to which the user
+              has access. This export is mainly used for those who want to export
+              incidents from the current Primero system and then import them into
+              a different Primero system, or into another information management system.
+              The JSON format is machine-readable and not practical for most users.
+            label: Export JSON
+          export_list_view_csv:
+            explanation: User can generate a CSV file export from the Family list
+              page which contains the same fields which appear for that user on the
+              family list. Only performed from the Family list page.
+            label: Export list view CSV
+          export_pdf:
+            explanation: User can generate a PDF file export from the Family list
+              or family show pages, which contains all fields to which the current
+              user has access, for one, multiple, or all records to which the user
+              has access. In the PDF export file, information is listed first by family,
+              and then further organized by the form on which information appears.
+            label: Export PDF
+          export_custom:
+            label: Export custom
+          flag:
+            explanation: Ability to add a flag to a Family. Users with this permission
+              can also remove the flags that they have added to a Family.
+            label: Flag
+          manage:
+            explanation: Allows a user to perform all available actions on Families. The
+              "Manage" permission essentially means "everything".
+            label: Manage (all permissions for this resource type)
+          read:
+            explanation: Ability to see Families
+            label: View
+          write:
+            explanation: Ability to click the "Edit" button, update information about the Family
+              and click "Save".
+            label: Edit
+          sync_mobile:
+            explanation: Allows the user to cache Families for usage offline.
+            label: Mark for Offline
+          close:
+            explanation: Allows a user to set the status of an open family to closed.
+            label: Close
+          reopen:
+            explanation: Allows a user to open a family which is currently closed.
+            label: Reopen
+        label: Family
       report:
         actions:
           create:
