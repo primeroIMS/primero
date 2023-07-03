@@ -3,8 +3,6 @@
 document_fields = [
   Field.new(name: 'documents',
             type: 'document_upload_box',
-            editable: false,
-            disabled: true,
             display_name_en: 'Document',
             help_text_en: 'Only PDF, TXT, DOC, DOCX, XLS, XLSX, CSV, JPG, JPEG, PNG files permitted')
 ]
