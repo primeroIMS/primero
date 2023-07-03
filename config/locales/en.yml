@@ -3925,6 +3925,8 @@ en:
     family_registration_date: Registration Date
     family_location_current: Family Location
     export: Export
+    register_new_family: New Family
+    show_family: 'Family ID %{short_id}'
     filter_by:
       by_date: By Date
       status: Status

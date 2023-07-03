@@ -928,6 +928,15 @@ Lookup.create_or_update!(
 )
 
 Lookup.create_or_update!(
+  unique_id: 'lookup-form-group-cp-family',
+  name_en: 'Form Groups - CP Family',
+  lookup_values_en: [
+    { id: 'record_information', display_text: 'Record Information' },
+    { id: 'family_overview', display_text: 'Family Overview' }
+  ].map(&:with_indifferent_access)
+)
+
+Lookup.create_or_update!(
   :unique_id => "lookup-agency-office",
   :name_en => "Agency Office",
   :locked => true,
