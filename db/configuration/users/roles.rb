@@ -167,9 +167,14 @@ cp_admin_families_permissions = [
       Permission::WRITE,
       Permission::ENABLE_DISABLE_RECORD,
       Permission::FLAG,
+      Permission::REOPEN,
+      Permission::CLOSE,
+      Permission::EXPORT_CUSTOM,
+      Permission::EXPORT_LIST_VIEW,
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
-      Permission::EXPORT_JSON
+      Permission::EXPORT_JSON,
+      Permission::EXPORT_PDF
     ]
   ),
   Permission.new(
@@ -395,9 +400,11 @@ cp_caseworker_families_permissions = [
       Permission::WRITE,
       Permission::ENABLE_DISABLE_RECORD,
       Permission::FLAG,
+      Permission::EXPORT_LIST_VIEW,
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
+      Permission::EXPORT_PDF,
       Permission::CHANGE_LOG,
       Permission::SYNC_MOBILE
     ]
@@ -536,9 +543,14 @@ cp_manager_families_permissions = [
       Permission::READ,
       Permission::ENABLE_DISABLE_RECORD,
       Permission::FLAG,
+      Permission::EXPORT_CUSTOM,
+      Permission::EXPORT_LIST_VIEW,
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
+      Permission::EXPORT_PDF,
+      Permission::REOPEN,
+      Permission::CLOSE,
       Permission::CHANGE_LOG,
       Permission::SYNC_MOBILE
     ]
