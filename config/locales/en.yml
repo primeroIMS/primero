@@ -4009,10 +4009,17 @@ en:
     export: Export
     register_new_family: New Family
     show_family: 'Family ID %{short_id}'
+    disable_dialog_title: Disable Family
+    disable_dialog: Clicking OK will change the status of this Family to Disabled.
     filter_by:
       by_date: By Date
       status: Status
       current_location: Family Location
+  family:
+    messages:
+      update_success: 'Family %{record_id} was successfully updated.'
+      creation_success: 'Family successfully created.'
+      disabled: Family is disabled
   transfer:
     label: Transfer
     agency_label: Agency
