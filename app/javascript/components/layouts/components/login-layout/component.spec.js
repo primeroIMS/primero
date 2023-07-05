@@ -3,7 +3,6 @@ import { mountedComponent, screen } from "../../../../test-utils";
 import LoginLayout from "./component";
 
 describe("layouts/components/<LoginLayout />", () => {
-  // let component;
   const state = {
     LoginLayout: { module: "primero" },
     application: { primero: { locales: ["en", "es", "ar"] } }
