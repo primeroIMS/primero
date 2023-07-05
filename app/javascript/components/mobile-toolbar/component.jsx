@@ -22,8 +22,8 @@ const MobileToolbar = ({ openDrawer, hasUnsubmittedOfflineChanges = false }) => 
 
   return (
     <Hidden mdUp implementation="css">
-      <AppBar position="fixed">
-        <Toolbar className={css[demo ? "toolbar-demo" : "toolbar"]}>
+      <AppBar position="fixed" data-testid="appBar">
+        <Toolbar data-testid="toolbar" className={css[demo ? "toolbar-demo" : "toolbar"]}>
           <IconButton edge="start" color="default" aria-label="Menu" onClick={openDrawer}>
             <MenuIcon className={css.hamburger} />
             {hasUnsubmittedOfflineChanges && (
