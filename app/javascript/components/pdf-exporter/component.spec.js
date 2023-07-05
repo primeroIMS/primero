@@ -1,10 +1,12 @@
+import { createRef } from "react";
 import { fromJS } from "immutable";
 
-import { mountedComponent, screen } from "../../test-utils";
+import { screen, setupMockFormComponent } from "../../test-utils";
 
 import PdfExporter from "./component";
 
 describe("<PdfExporter />", () => {
+  const formRef = createRef();
   const props = {
     agenciesWithLogosEnabled: [],
     currentUser: {},
@@ -68,28 +70,23 @@ describe("<PdfExporter />", () => {
     formsSelectedFieldDefault: "",
     formsSelectedSelector: "",
     record: fromJS({}),
-    ref: jest.fn()
+    ref: formRef
   };
 
   it("renders PdfExporter", () => {
-    mountedComponent(<PdfExporter {...props} />);
-    screen.debug();
-
-    expect(component.find(PdfExporter)).to.have.lengthOf(1);
+    setupMockFormComponent(PdfExporter, { props });
+    expect(screen.getAllByText(/exports.printed/i)).toHaveLength(2);
   });
 
   it("renders Logos", () => {
-    mountedComponent(<PdfExporter {...props} />);
-    expect(screen.getByText(/exports.printed/i)).toBeInTheDocument();
-    // const { component } = setupMockFormComponent(PdfExporter, { props });
+    setupMockFormComponent(PdfExporter, { props });
 
-    expect(component.find(Logos)).to.have.lengthOf(2);
+    expect(screen.getAllByText((content, element) => element.tagName.toLowerCase() === "svg")).toHaveLength(1);
   });
 
   it("renders RenderTable", () => {
-    mountedComponent(<PdfExporter {...props} />);
-    const { component } = setupMockFormComponent(PdfExporter, { props });
+    setupMockFormComponent(PdfExporter, { props });
 
-    expect(component.find(RenderTable)).to.have.lengthOf(1);
+    expect(screen.getByText(/Approved by Manager/i)).toBeInTheDocument();
   });
 });
