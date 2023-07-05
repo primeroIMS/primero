@@ -48,13 +48,11 @@ describe("<AppLayout />", () => {
 
   it("navigate to cases list", () => {
     mountedComponent(<AppLayout />, state);
-    // screen.debug();
     expect(screen.getAllByText("navigation.cases")).toHaveLength(2);
   });
 
   it("navigate to cases lis", () => {
     mountedComponent(<AppLayout />, state);
-    // screen.debug();
     expect(screen.getAllByText("navigation.incidents")).toHaveLength(2);
   });
 });
