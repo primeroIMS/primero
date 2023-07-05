@@ -4011,6 +4011,8 @@ en:
     show_family: 'Family ID %{short_id}'
     disable_dialog_title: Disable Family
     disable_dialog: Clicking OK will change the status of this Family to Disabled.
+    selected_records: '%{select_records} family record(s) selected'
+    selected_all_records: 'Select all %{total_records} families that match this query.'
     filter_by:
       by_date: By Date
       status: Status
