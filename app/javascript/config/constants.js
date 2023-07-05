@@ -716,3 +716,5 @@ export const DATE_SORTABLE_FIELDS = Object.freeze([
   "date_of_first_report",
   "inquiry_date"
 ]);
+
+export const FAMILY_MEMBERS_SUBFORM_ID = "family_members_section";

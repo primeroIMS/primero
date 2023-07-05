@@ -15,7 +15,7 @@ import SubformDrawer from "../subform-drawer";
 import { compactValues, constructInitialValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
 import SubformDialogFields from "../subform-dialog-fields";
-import ViolationActions from "../subform-fields/components/violation-actions";
+import SubformDrawerActions from "../subform-drawer-actions";
 import ViolationTitle from "../subform-fields/components/violation-title";
 import uuid from "../../../../../libs/uuid";
 import { useApp } from "../../../../application";
@@ -39,6 +39,7 @@ const Component = ({
   recordType,
   recordModuleID,
   parentTitle,
+  isFamilyMember,
   isViolation,
   isViolationAssociation,
   violationOptions
@@ -48,13 +49,13 @@ const Component = ({
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
-  const asDrawer = isViolation || isViolationAssociation;
+  const asDrawer = isViolation || isViolationAssociation || isFamilyMember;
 
   const subformValues = getSubformValues(field, index, formik.values, orderedValues, isViolation);
 
   const initialSubformValues = isEmpty(subformValues) ? initialValues : subformValues;
 
-  const isNewViolation = isEmpty(subformValues);
+  const isNewSubform = isEmpty(subformValues);
 
   const initialSubformErrors = isValidIndex ? getIn(formik.errors, `${field.name}[${index}]`) : {};
 
@@ -180,9 +181,11 @@ const Component = ({
         disableActions: isFormShow
       };
 
-  const handleBackLabel = i18n.t(`incident.violation.${isNewViolation ? "save" : "update"}_and_return`, {
+  const violationTitle = i18n.t(`incident.violation.${isNewSubform ? "save" : "update"}_and_return`, {
     association: isViolationAssociation ? parentTitle || title : i18n.t("incident.violation.title")
   });
+  const familyMemberTitle = i18n.t(`family.family_member.${isNewSubform ? "save" : "update"}_and_return`);
+  const handleBackLabel = isViolation || isViolationAssociation ? violationTitle : familyMemberTitle;
 
   useEffect(() => {
     if (open) {
@@ -214,7 +217,7 @@ const Component = ({
                   setTouched={setTouched}
                 />
                 {asDrawer && (
-                  <ViolationActions
+                  <SubformDrawerActions
                     handleBackLabel={handleBackLabel}
                     handleBack={event => submitForm(event)}
                     handleCancel={handleClose}
@@ -243,6 +246,7 @@ Component.propTypes = {
   formSection: PropTypes.object,
   i18n: PropTypes.object.isRequired,
   index: PropTypes.number,
+  isFamilyMember: PropTypes.bool,
   isFormShow: PropTypes.bool,
   isReadWriteForm: PropTypes.bool,
   isViolation: PropTypes.bool.isRequired,

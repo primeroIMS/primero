@@ -4016,6 +4016,9 @@ en:
       status: Status
       current_location: Family Location
   family:
+    family_member:
+      update_and_return: 'Update and Return'
+      save_and_return: 'Add and Return'
     messages:
       update_success: 'Family %{record_id} was successfully updated.'
       creation_success: 'Family successfully created.'

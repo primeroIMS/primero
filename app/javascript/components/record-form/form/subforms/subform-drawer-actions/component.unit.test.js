@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../../../../../test";
-import ActionButton from "../../../../../../action-button";
+import { setupMountedComponent } from "../../../../../test";
+import ActionButton from "../../../../action-button";
 
 import ViolationActions from "./component";
 
