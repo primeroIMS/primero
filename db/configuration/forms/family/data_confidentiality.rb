@@ -49,16 +49,16 @@ consent_fields = [
             'option_strings_source' => 'lookup lookup-yes-no'),
   Field.new('name' => 'family_consent_for_data_collection',
             'type' => 'radio_button',
-            'display_name_en' => 'Consent has been given to the caseworker assigned to the case to collect and store\
-                                  personal information about the case (e.g., name, photo, family details).',
+            'display_name_en' => 'Consent has been given to the caseworker assigned to the case to collect and store '\
+                                 'personal information about the case (e.g., name, photo, family details).',
             'option_strings_source' => 'lookup lookup-yes-no'),
   Field.new('name' => 'family_disclosure_other_orgs',
             'type' => 'tick_box',
             'tick_box_label_en' => 'Yes',
-            'display_name_en' => 'The individual providing consent agrees to share information about this case with\
-                                  other service providers according to the details described below.',
-            'help_text_en' => 'This includes sharing information with other organizations providing services,
-                               this does not include sharing information with UNHCR.'),
+            'display_name_en' => 'The individual providing consent agrees to share information about this case with ' \
+                                 'other service providers according to the details described below.',
+            'help_text_en' => 'This includes sharing information with other organizations providing services, '\
+                              'this does not include sharing information with UNHCR.'),
   Field.new('name' => 'family_information_shared_services',
             'type' => 'select_box',
             'display_name_en' => 'Information can be shared for the following services',

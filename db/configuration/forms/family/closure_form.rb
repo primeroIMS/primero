@@ -30,9 +30,7 @@ closure_fields = [
             display_name_en: 'If other, please specify'),
   Field.new(name: 'closure_details',
             type: 'textarea',
-            display_name_en: 'Provide further details on reason for family closure',
-            disabled: true,
-            editable: false)
+            display_name_en: 'Provide further details on reason for family closure')
 ]
 
 FormSection.create_or_update!(

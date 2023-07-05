@@ -73,7 +73,8 @@ family_overview_fields = [
             display_name_en: 'Family Address'),
   Field.new(name: 'family_landmark_current',
             type: 'text_field',
-            display_name_en: 'Family Landmark'),
+            display_name_en: 'Family Landmark',
+            visible: false),
   Field.new(name: 'family_location_current',
             type: 'select_box',
             display_name_en: 'Family Location',
@@ -84,8 +85,8 @@ family_overview_fields = [
   Field.new(name: 'family_location_notes',
             type: 'text_field',
             display_name_en: 'Notes on the Family Location and Telephone',
-            help_text_en: 'Note here if the family has multiple addresses and / or multiple telephone numbers \
-                           that should be used.')
+            help_text_en: 'Note here if the family has multiple addresses and / or multiple telephone numbers '\
+                          'that should be used.')
 ]
 
 FormSection.create_or_update!(
