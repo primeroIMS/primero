@@ -1,16 +1,13 @@
+import { mountedComponent, screen } from "test-utils";
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../test";
 import { RECORD_PATH, MODULES } from "../../config";
-import ActionButton from "../action-button";
-import FormSection from "../form/components/form-section";
 import { mapEntriesToRecord } from "../../libs";
 import { FormSectionRecord, FieldRecord } from "../record-form/records";
 
 import RecordCreationFlow from "./component";
 
 describe("<RecordCreationFlow />", () => {
-  let component;
   const formSections = {
     1: {
       id: 1,
@@ -58,18 +55,14 @@ describe("<RecordCreationFlow />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(RecordCreationFlow, props, initialState));
+    mountedComponent(<RecordCreationFlow {...props} />, initialState);
   });
 
   it("should render a <FormSection /> component", () => {
-    expect(component.find(FormSection)).to.have.lengthOf(1);
-  });
-
-  it("should render a form component", () => {
-    expect(component.find("form")).to.have.lengthOf(1);
+    expect(screen.getByText("case.create_new_case")).toBeInTheDocument();
   });
 
   it("should render a <ActionButton /> component", () => {
-    expect(component.find(ActionButton)).to.have.lengthOf(3);
+    expect(screen.getAllByRole("button")).toHaveLength(3);
   });
 });
