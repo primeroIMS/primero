@@ -19,7 +19,7 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
     end
 
     def supported_models
-      [Child, TracingRequest]
+      [Child, TracingRequest, Family]
     end
 
     def mime_type
