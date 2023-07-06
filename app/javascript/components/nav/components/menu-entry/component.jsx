@@ -42,18 +42,18 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   const navlinkProps = {
     ...(!disabledApplication &&
       !disabled && {
-        component: NavLink,
-        to,
-        activeClassName: clsx(css.navActive, { [css.contained]: useContainedNavStyle }),
-        onClick: closeDrawer,
-        disabled: disabledApplication
-      }),
+      component: NavLink,
+      to,
+      activeClassName: clsx(css.navActive, { [css.contained]: useContainedNavStyle }),
+      onClick: closeDrawer,
+      disabled: disabledApplication
+    }),
     ...(!disabledApplication &&
       !online &&
       to === ROUTES.logout && {
-        to: false,
-        onClick
-      })
+      to: false,
+      onClick
+    })
   };
 
   const userPermissions = useMemoizedSelector(state => getPermissions(state), isEqual);
@@ -66,11 +66,14 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
     <li id={name}>
       {renderDivider}
       <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button>
-        <ListItem {...navlinkProps} className={navLinkClasses}>
+
+        {/* <ListItem {...navlinkProps} className={navLinkClasses}> */}
+
+        <ListItem data-testid="listItem" {...navlinkProps} className={css.navLink}>
           <ListItemIcon classes={{ root: css.listIcon }}>
             <ListIcon icon={icon} />
           </ListItemIcon>
-          <ListItemText primary={navItemName} classes={{ primary: css.listText }} />
+          <ListItemText data-testid="listItemText" primary={navItemName} classes={{ primary: css.listText }} />
           {jewel}
         </ListItem>
       </ConditionalWrapper>
