@@ -62,11 +62,11 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
     <li id={name}>
       {renderDivider}
       <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button>
-        <ListItem {...navlinkProps} className={css.navLink}>
+        <ListItem data-testid="listItem" {...navlinkProps} className={css.navLink}>
           <ListItemIcon classes={{ root: css.listIcon }}>
             <ListIcon icon={icon} />
           </ListItemIcon>
-          <ListItemText primary={navItemName} classes={{ primary: css.listText }} />
+          <ListItemText data-testid="listItemText" primary={navItemName} classes={{ primary: css.listText }} />
           {jewel}
         </ListItem>
       </ConditionalWrapper>
