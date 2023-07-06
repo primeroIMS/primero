@@ -127,7 +127,7 @@ export default ({
         action: () => handleDialogClick(OPEN_CLOSE_DIALOG),
         condition: isShow && canOpenOrClose,
         name: i18n.t(`actions.${openState}`),
-        recordType: RECORD_PATH.cases
+        recordType: [RECORD_PATH.cases, RECORD_PATH.families]
       },
       {
         action: () => handleDialogClick(ENABLE_DISABLE_DIALOG),

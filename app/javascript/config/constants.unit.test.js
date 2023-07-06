@@ -44,6 +44,7 @@ describe("Verifying config constant", () => {
       "DONE",
       "FAMILIES",
       "FAMILY",
+      "FAMILY_MEMBERS_SUBFORM_ID",
       "FETCH_PARAM",
       "FETCH_TIMEOUT",
       "FILE_FORMAT",

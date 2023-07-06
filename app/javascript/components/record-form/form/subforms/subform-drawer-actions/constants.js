@@ -1,2 +1,2 @@
 /* eslint-disable import/prefer-default-export */
-export const NAME = "ViolationActions";
+export const NAME = "SubformDrawerActions";
