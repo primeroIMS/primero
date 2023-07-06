@@ -8,7 +8,7 @@ import { isEqual } from "lodash";
 import { ROUTES, PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import AgencyLogo from "../agency-logo";
 import ModuleLogo from "../module-logo";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import MobileToolbar from "../mobile-toolbar";
 import { useApp } from "../application";
 import Permission, { usePermissions, MANAGE, RESOURCES } from "../permissions";

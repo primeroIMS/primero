@@ -18,7 +18,7 @@ describe("pages/admin/<RolesForm> - utils", () => {
         adminLevelMap: fromJS({})
       });
 
-      expect(formsToRender).to.have.sizeOf(7);
+      expect(formsToRender).to.have.sizeOf(8);
     });
   });
 

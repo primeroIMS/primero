@@ -5,7 +5,7 @@ import { useState } from "react";
 import { DropdownDoubleIcon } from "../../images/primero-icons";
 import { useI18n } from "../i18n";
 import { selectLocales } from "../application/selectors";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import css from "./styles.css";
 import { NAME } from "./constants";

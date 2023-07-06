@@ -46,6 +46,9 @@ describe Api::V2::TokensController, type: :request do
     end
 
     it 'enqueues an audit log job that records the login attempt' do
+      metadata = {
+        user_name: @user.user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: nil, http_method: 'POST'
+      }
       post '/api/v2/tokens', params: @params
       expect(AuditLogJob).to have_been_enqueued
         .with(
@@ -54,7 +57,7 @@ describe Api::V2::TokensController, type: :request do
           action: 'login',
           user_id: @user.id,
           resource_url: request.url,
-          metadata: { user_name: @user.user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: nil, http_method: 'POST' }
+          metadata: metadata
         )
     end
 
@@ -83,6 +86,18 @@ describe Api::V2::TokensController, type: :request do
 
       it 'returns a 401 when attempting to log in with a valid non-idp user and password' do
         post '/api/v2/tokens', params: { user: { user_name: non_idp_user_name, password: password } }
+        expect(response).to have_http_status(401)
+      end
+
+      it 'returns a 401 when got JWT exception' do
+        headers = {
+          'HTTP_AUTHORIZATION' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'\
+          'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.'\
+          'SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+        }
+
+        post '/api/v2/tokens', headers: headers
+
         expect(response).to have_http_status(401)
       end
 

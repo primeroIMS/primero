@@ -57,6 +57,9 @@ class Header < ValueObject
   REGISTRY_NAME = Header.new(name: 'name', field_name: 'name')
   REGISTRY_CODE = Header.new(name: 'registry_no', field_name: 'registry_no')
   COMPLETE = Header.new(name: 'complete', field_name: 'complete')
+  FAMILY_NAME = Header.new(name: 'family_name', field_name: 'family_name')
+  FAMILY_LOCATION_CURRENT = Header.new(name: 'family_location_current', field_name: 'family_location_current')
+  FAMILY_REGISTRATION_DATE = Header.new(name: 'family_registration_date', field_name: 'family_registration_date')
 
   class << self
     def get_headers(user, record_type)
@@ -65,6 +68,7 @@ class Header < ValueObject
       when 'incident' then incident_headers(user)
       when 'tracing_request' then tracing_request_headers
       when 'registry_record' then registry_record_headers(user)
+      when 'family' then family_headers(user)
       else []
       end
     end
@@ -129,6 +133,17 @@ class Header < ValueObject
       header_list << COMPLETE if user.can?(:sync_mobile, RegistryRecord)
       header_list << REGISTRY_CODE
       header_list << REGISTRATION_DATE
+      header_list
+    end
+
+    def family_headers(user)
+      # NOTE: If headers are updated they will also need to be updated on indexeddb.
+      header_list = []
+      header_list << SHORT_ID
+      header_list << FAMILY_NAME
+      header_list << COMPLETE if user.can?(:sync_mobile, Family)
+      header_list << FAMILY_REGISTRATION_DATE
+      header_list << FAMILY_LOCATION_CURRENT
       header_list
     end
 

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 import LoadingIndicator from "../loading-indicator";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { NAME } from "./config";
 import IdpSelection from "./components/idp-selection";

@@ -11,7 +11,7 @@ import { useApp } from "../application";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import RecordCreationFlow from "../record-creation-flow";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getOptionFromAppModule } from "../application/selectors";
 
 import CreateRecordDialog from "./create-record-dialog";
