@@ -7,7 +7,7 @@ import { createCachedSelector } from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import { memoize } from "proxy-memoize";
 
-import { RECORD_PATH } from "../../config";
+import { RECORD_PATH } from "../../config/constants";
 import {
   getIncidentReportingLocationConfig,
   getReportingLocationConfig,

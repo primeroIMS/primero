@@ -8,7 +8,7 @@ import {
   WORKFLOW_SUBREPORTS,
   VIOLENCE_TYPE_SUBREPORTS
 } from "../../config/constants";
-import { DATE_FIELD, SELECT_FIELD, HIDDEN_FIELD, OPTION_TYPES } from "../form";
+import { DATE_FIELD, SELECT_FIELD, HIDDEN_FIELD, OPTION_TYPES } from "../form/constants";
 import { FieldRecord } from "../form/records";
 
 const DATE_RANGE_OPTIONS = "date_range_options";
