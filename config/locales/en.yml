@@ -1329,6 +1329,7 @@ en:
       violation: Violation
       registry_details: Registry Details
       registry_record: Registry Record
+      family_record: Family Record
     required_field: '%{field} is a required field'
     select_label: Select
     settings: Settings
@@ -2802,6 +2803,10 @@ en:
           mark_for_offline:
             explanation: Allows the user to cache a Case for usage offline.
             label: Mark for Offline
+          view_family_record:
+            explanation: Users can view the 'Family Record' form on the case,
+              which includes a link to the case's family record.
+            label:  View family record from case
         explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:
