@@ -17,7 +17,7 @@ import {
 import handleFilterChange from "../value-handlers";
 import { listboxClasses, virtualize } from "../../../../searchable-select/components/listbox-component";
 import useOptions from "../../../../form/use-options";
-import { OPTION_TYPES } from "../../../../form";
+import { OPTION_TYPES } from "../../../../form/constants";
 
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";

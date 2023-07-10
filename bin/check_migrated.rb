@@ -4,12 +4,12 @@ require_relative('../lib/primero_database.rb')
 
 def check_migrated
   if PrimeroDatabase.instance.migrated?
-    puts 'Database already migrated!'
-    PrimeroDatabase.connection.close
-    exit 1
+    puts 'DATABASE_MIGRATED'
   else
-    exit 0
+    puts 'DATABASE_MIGRATION_PENDING'
   end
+
+  PrimeroDatabase.instance.connection.close
 end
 
 check_migrated

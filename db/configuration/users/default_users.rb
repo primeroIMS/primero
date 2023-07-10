@@ -29,6 +29,19 @@ User.create_or_update!(
 )
 
 User.create_or_update!(
+  'user_name' => 'primero_admin_cp_fam',
+  'password' => 'primer0!',
+  'password_confirmation' => 'primer0!',
+  'full_name' => 'CP Administrator with Families',
+  'email' => 'primero_admin_cp_fam@primero.com',
+  'disabled' => 'false',
+  'agency_id' => unicef.id,
+  'role_id' => Role.find_by_name('CP Administrator with Families').id,
+  'user_groups' => [UserGroup.find_by(name: 'Primero CP with Families')],
+  'locale' => Primero::Application::LOCALE_ENGLISH
+)
+
+User.create_or_update!(
   'user_name' => 'primero_cp',
   'password' => 'primer0!',
   'password_confirmation' => 'primer0!',
@@ -42,6 +55,19 @@ User.create_or_update!(
 )
 
 User.create_or_update!(
+  'user_name' => 'primero_cp_fam',
+  'password' => 'primer0!',
+  'password_confirmation' => 'primer0!',
+  'full_name' => 'CP Worker with Families',
+  'email' => 'primero_cp_fam@primero.com',
+  'disabled' => 'false',
+  'agency_id' => unicef.id,
+  'role_id' => Role.find_by_name('CP Case Worker with Families').id,
+  'user_groups' => [UserGroup.find_by(name: 'Primero CP with Families')],
+  'locale' => Primero::Application::LOCALE_ENGLISH
+)
+
+User.create_or_update!(
   'user_name' => 'primero_mgr_cp',
   'password' => 'primer0!',
   'password_confirmation' => 'primer0!',
@@ -51,6 +77,19 @@ User.create_or_update!(
   'agency_id' => unicef.id,
   'role_id' => Role.find_by_name('CP Manager').id,
   'user_groups' => [UserGroup.find_by(name: 'Primero CP')],
+  'locale' => Primero::Application::LOCALE_ENGLISH
+)
+
+User.create_or_update!(
+  'user_name' => 'primero_mgr_cp_fam',
+  'password' => 'primer0!',
+  'password_confirmation' => 'primer0!',
+  'full_name' => 'CP Manager with Families',
+  'email' => 'primero_mgr_cp_fam@primero.com',
+  'disabled' => 'false',
+  'agency_id' => unicef.id,
+  'role_id' => Role.find_by_name('CP Manager with Families').id,
+  'user_groups' => [UserGroup.find_by(name: 'Primero CP with Families')],
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 

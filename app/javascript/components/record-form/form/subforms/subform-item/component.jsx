@@ -20,6 +20,7 @@ const Component = ({
   isReadWriteForm,
   isViolation,
   isViolationAssociation,
+  isFamilyMember,
   mode,
   open,
   orderedValues,
@@ -70,6 +71,7 @@ const Component = ({
       orderedValues={orderedValues}
       recordType={recordType}
       recordModuleID={recordModuleID}
+      isFamilyMember={isFamilyMember}
       isViolation={isViolation}
       isViolationAssociation={isViolationAssociation}
       parentTitle={parentTitle}
@@ -89,6 +91,7 @@ Component.propTypes = {
   formSection: PropTypes.object,
   index: PropTypes.number,
   isDisabled: PropTypes.bool,
+  isFamilyMember: PropTypes.bool,
   isReadWriteForm: PropTypes.bool,
   isTraces: PropTypes.bool,
   isViolation: PropTypes.bool,

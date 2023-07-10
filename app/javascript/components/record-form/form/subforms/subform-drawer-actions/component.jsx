@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import CloseIcon from "@material-ui/icons/Close";
 
-import ActionButton from "../../../../../../action-button";
-import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
+import ActionButton from "../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 import { NAME } from "./constants";
 import css from "./styles.css";

@@ -65,7 +65,8 @@ const recordPaths = [
   RECORD_PATH.cases,
   RECORD_PATH.incidents,
   RECORD_PATH.tracing_requests,
-  RECORD_PATH.registry_records
+  RECORD_PATH.registry_records,
+  RECORD_PATH.families
 ];
 
 const recordRoutes = [
@@ -142,6 +143,11 @@ export default [
       },
       {
         path: "/registry_records",
+        component: RecordList,
+        actions: READ_RECORDS
+      },
+      {
+        path: "/families",
         component: RecordList,
         actions: READ_RECORDS
       },
