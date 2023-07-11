@@ -1,18 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
-import { Formik, Form } from "formik";
 import { fromJS, Map, OrderedMap } from "immutable";
 
-import ActionDialog from "../../action-dialog";
-import { setupMountedComponent } from "../../../test";
+import { mountedComponent, screen } from "../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../record-form/records";
 import { RECORD_PATH } from "../../../config";
-import Fields from "../add-incident/fields";
 
 import AddService from "./component";
 
 describe("<AddService />", () => {
-  let component;
   const initialState = Map({
     records: fromJS({
       cases: {
@@ -124,33 +119,28 @@ describe("<AddService />", () => {
     setPending: () => {}
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(AddService, props, initialState));
-  });
-
   it("renders Formik", () => {
-    expect(component.find(Formik)).to.have.lengthOf(1);
+    mountedComponent(<AddService {...props} />, initialState);
+    expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "form")).toBeInTheDocument();
   });
 
   it("renders ActionDialog", () => {
-    expect(component.find(ActionDialog)).to.have.lengthOf(1);
+    mountedComponent(<AddService {...props} />, initialState);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
   it("renders Form", () => {
-    expect(component.find(Form)).to.have.lengthOf(1);
+    mountedComponent(<AddService {...props} />, initialState);
+    expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "form")).toBeInTheDocument();
   });
 
   it("renders Fields", () => {
-    expect(component.find(Fields)).to.have.lengthOf(1);
+    mountedComponent(<AddService {...props} />, initialState);
+    expect(screen.queryAllByRole("textbox")).toHaveLength(1);
   });
 
   it("renders component with valid props", () => {
-    const addService = { ...component.find(AddService).props() };
-
-    ["close", "pending", "recordType", "selectedRowsIndex", "setPending", "open"].forEach(property => {
-      expect(addService).to.have.property(property);
-      delete addService[property];
-    });
-    expect(addService).to.be.empty;
+    mountedComponent(<AddService {...props} />, initialState);
+    expect(screen.getByRole("presentation")).toBeInTheDocument();
   });
 });
