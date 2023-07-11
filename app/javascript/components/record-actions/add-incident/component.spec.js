@@ -1,16 +1,12 @@
-import { Formik, Form } from "formik";
 import { fromJS, Map, OrderedMap } from "immutable";
 
-import ActionDialog from "../../action-dialog";
-import { setupMountedComponent } from "../../../test";
+import { mountedComponent, screen } from "../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../record-form/records";
 import { RECORD_PATH } from "../../../config";
 
-import Fields from "./fields";
 import AddIncident from "./component";
 
 describe("<AddIncident />", () => {
-  let component;
   const initialState = Map({
     records: fromJS({
       cases: {
@@ -121,33 +117,28 @@ describe("<AddIncident />", () => {
     setPending: () => {}
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(AddIncident, props, initialState));
-  });
-
   it("renders Formik", () => {
-    expect(component.find(Formik)).to.have.lengthOf(1);
+    mountedComponent(<AddIncident {...props} />, initialState);
+    expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "form")).toBeInTheDocument();
   });
 
   it("renders ActionDialog", () => {
-    expect(component.find(ActionDialog)).to.have.lengthOf(1);
+    mountedComponent(<AddIncident {...props} />, initialState);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
   it("renders Form", () => {
-    expect(component.find(Form)).to.have.lengthOf(1);
+    mountedComponent(<AddIncident {...props} />, initialState);
+    expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "form")).toBeInTheDocument();
   });
 
   it("renders Fields", () => {
-    expect(component.find(Fields)).to.have.lengthOf(1);
+    mountedComponent(<AddIncident {...props} />, initialState);
+    expect(screen.queryAllByRole("textbox")).toHaveLength(1);
   });
 
   it("renders component with valid props", () => {
-    const addIncidentProps = { ...component.find(AddIncident).props() };
-
-    ["close", "pending", "recordType", "selectedRowsIndex", "setPending", "open"].forEach(property => {
-      expect(addIncidentProps).to.have.property(property);
-      delete addIncidentProps[property];
-    });
-    expect(addIncidentProps).to.be.empty;
+    mountedComponent(<AddIncident {...props} />, initialState);
+    expect(screen.getByRole("presentation")).toBeInTheDocument();
   });
 });
