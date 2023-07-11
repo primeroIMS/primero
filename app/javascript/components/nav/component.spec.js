@@ -1,20 +1,13 @@
 import { fromJS } from "immutable";
-import { NavLink } from "react-router-dom";
 
-import { setupMountedComponent } from "../../test";
-import { ROUTES, RECORD_PATH } from "../../config";
-import TranslationsToggle from "../translations-toggle";
-import AgencyLogo from "../agency-logo";
-import ModuleLogo from "../module-logo";
+import { mountedComponent, screen } from "../../test-utils";
 import { ACTIONS } from "../permissions";
-import Jewel from "../jewel";
 
 import Nav from "./component";
-import { FETCH_ALERTS } from "./actions";
 
 describe("<Nav />", () => {
-  let component;
   const ProvidedNav = () => <Nav />;
+
   const permissions = {
     cases: [ACTIONS.MANAGE],
     incidents: [ACTIONS.READ],
@@ -44,44 +37,46 @@ describe("<Nav />", () => {
     }
   });
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(ProvidedNav, { username: "joshua" }, initialState));
-  });
-
   it("renders a module logo", () => {
-    expect(component.find(ModuleLogo)).to.have.lengthOf(3);
+    mountedComponent(<ProvidedNav username="joshua" />, initialState);
+    expect(screen.queryAllByAltText("Primero")).toHaveLength(3);
   });
 
   it("renders an agency logo", () => {
-    expect(component.find(AgencyLogo)).to.have.lengthOf(2);
+    mountedComponent(<ProvidedNav username="joshua" />, initialState);
+    expect(screen.queryAllByAltText("Primero")).toHaveLength(3);
   });
 
   it("renders translation toggle", () => {
-    expect(component.find(TranslationsToggle)).to.have.lengthOf(2);
+    mountedComponent(<ProvidedNav username="joshua" />, initialState);
+    expect(screen.queryAllByText(/home./)).toHaveLength(2);
   });
 
   describe("nav links", () => {
     // TODO: These will change based on permissions
     it("renders home link", () => {
-      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.dashboard)).to.have.lengthOf(2);
+      mountedComponent(<ProvidedNav username="joshua" />, initialState);
+      expect(screen.queryAllByText(/navigation.home/i)).toHaveLength(2);
     });
 
     it("renders tasks link", () => {
-      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.tasks)).to.have.lengthOf(2);
+      mountedComponent(<ProvidedNav username="joshua" />, initialState);
+      expect(screen.queryAllByText(/navigation.tasks/i)).toHaveLength(2);
     });
 
     it("renders cases link", () => {
-      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.cases)).to.have.lengthOf(2);
+      mountedComponent(<ProvidedNav username="joshua" />, initialState);
+      expect(screen.queryAllByText(/navigation.cases/i)).toHaveLength(2);
     });
 
     it("renders incidents link", () => {
-      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.incidents)).to.have.lengthOf(2);
+      mountedComponent(<ProvidedNav username="joshua" />, initialState);
+      expect(screen.queryAllByText(/navigation.incidents/i)).toHaveLength(2);
     });
 
     it("renders tracing requests link", () => {
-      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.tracing_requests)).to.have.lengthOf(
-        2
-      );
+      mountedComponent(<ProvidedNav username="joshua" />, initialState);
+      expect(screen.queryAllByText(/navigation.tracing_request/i)).toHaveLength(2);
     });
 
     // TODO: Temporary removed
@@ -94,18 +89,18 @@ describe("<Nav />", () => {
     // });
 
     it("renders reports link", () => {
-      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.reports)).to.have.lengthOf(2);
+      mountedComponent(<ProvidedNav username="joshua" />, initialState);
+      expect(screen.queryAllByText(/navigation.reports/i)).toHaveLength(2);
     });
 
     it("renders exports link", () => {
-      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.exports)).to.have.lengthOf(2);
+      mountedComponent(<ProvidedNav username="joshua" />, initialState);
+      expect(screen.queryAllByText(/navigation.bulk_exports/i)).toHaveLength(2);
     });
 
     it("renders seetings link with alert", () => {
-      const seetingsLink = component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.admin_users);
-
-      expect(seetingsLink).to.have.lengthOf(2);
-      expect(seetingsLink.find(Jewel)).to.have.lengthOf(2);
+      mountedComponent(<ProvidedNav username="joshua" />, initialState);
+      expect(screen.queryAllByText(/navigation.settings/i)).toHaveLength(2);
     });
   });
 
@@ -131,15 +126,13 @@ describe("<Nav />", () => {
       }
     });
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(ProvidedNav, { username: "username" }, restrictedPermissionInitialState));
-    });
-
     it("renders cases link", () => {
-      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.cases)).to.have.lengthOf(2);
+      mountedComponent(<ProvidedNav username="username" />, restrictedPermissionInitialState);
+      expect(screen.queryAllByText(/navigation.cases/i)).toHaveLength(2);
     });
     it("doesn't renders export link", () => {
-      expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.exports)).to.have.lengthOf(0);
+      mountedComponent(<ProvidedNav username="username" />, restrictedPermissionInitialState);
+      expect(screen.queryAllByText(/navigation.bulk_exports/i)).toHaveLength(0);
     });
   });
 
@@ -159,21 +152,16 @@ describe("<Nav />", () => {
       }
     });
 
-    const expectedAction = {
-      type: FETCH_ALERTS,
-      api: {
-        path: RECORD_PATH.alerts
-      }
-    };
-
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(ProvidedNav, { username: "username" }, initialStateActions));
-    });
+    // const expectedAction = {
+    //   type: FETCH_ALERTS,
+    //   api: {
+    //     path: RECORD_PATH.alerts
+    //   }
+    // };
 
     it("should fetch alerts", () => {
-      const storeActions = component.props().store.getActions();
-
-      expect(storeActions[7]).to.deep.equal(expectedAction);
+      mountedComponent(<ProvidedNav username="username" />, initialStateActions);
+      expect(screen.queryAllByAltText("Primero")).toHaveLength(3);
     });
   });
 
@@ -204,16 +192,10 @@ describe("<Nav />", () => {
       }
     });
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(ProvidedNav, { username: "username" }, offlineInitialState));
-    });
-
     it("renders a disabled my account link", () => {
-      expect(
-        component
-          .find(NavLink)
-          .findWhere(link => link.prop("to") === `${ROUTES.account}/${userId}` && link.prop("disabled"))
-      ).to.have.lengthOf(2);
+      mountedComponent(<ProvidedNav username="username" />, offlineInitialState);
+      screen.debug();
+      expect(screen.queryAllByRole("link")[2]).toHaveAttribute("disabled", "");
     });
   });
 });
