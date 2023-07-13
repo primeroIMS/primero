@@ -10,5 +10,5 @@ export { default as tick } from "./tick";
 export { default as createMiddleware } from "./create-middleware";
 export { default as mountedThemeComponent } from "./mounted-theme-component";
 export { default as simpleMountedComponent } from "./simple-mounted-component";
-export { setupMockFieldComponent, setupMockFormComponent } from "./mounted-form-component";
+export { mountedFieldComponent, mountedFormComponent } from "./mounted-form-component";
 export { default as setupHook } from "./setup-hook";

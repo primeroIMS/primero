@@ -117,7 +117,7 @@ function mountedFormComponent(
   return { ...component, history, store };
 }
 
-function setupMockFieldComponent(
+function mountedFieldComponent(
   Component,
   FieldRecord,
   fieldRecordSettings = {},
@@ -147,4 +147,4 @@ function setupMockFieldComponent(
   return { ...component, history, store };
 }
 
-export { setupMockFieldComponent, mountedFormComponent };
+export { mountedFieldComponent, mountedFormComponent };
