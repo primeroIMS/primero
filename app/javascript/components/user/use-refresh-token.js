@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
 
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { refreshIdpToken } from "../login/components/idp-selection/auth-provider";
