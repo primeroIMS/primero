@@ -2,11 +2,12 @@
 
 import capitalize from "lodash/capitalize";
 import { useForm, FormProvider } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, cloneElement } from "react";
+import { render } from "@testing-library/react";
 
 import { whichFormMode } from "../components/form";
 
-import mountedComponent from "./mounted-component";
+import { setupMountedComponent } from "./mounted-component";
 
 const setupFormFieldRecord = (FieldRecord, field = {}) => {
   return FieldRecord({
@@ -41,30 +42,25 @@ const setupFormInputProps = (field = {}, props = {}, mode, errors = []) => {
   };
 };
 
-const setupMockFormComponent = (
-  Component,
-  {
-    props = {},
-    parentProps = {},
-    state = {},
-    defaultValues = {},
-    includeFormMethods = false,
-    includeFormProvider = false,
-    errors
-  } = {}
-) => {
-  const MockFormComponent = () => {
-    const { inputProps, field, mode } = props;
+function setupMockFormComponent({
+  defaultValues,
+  includeFormMethods,
+  errors,
+  includeFormProvider,
+  state,
+  additionalProps
+}) {
+  const MockFormComponent = ({ children, inputProps, field, mode }) => {
     const formMethods = useForm({ defaultValues });
     const formMode = whichFormMode(mode || "new");
 
     const commonInputProps = setupFormInputProps(field, inputProps, mode, formMethods?.errors);
 
     const componentProps = {
-      ...props,
       ...(includeFormMethods ? formMethods : {}),
       commonInputProps,
-      ...inputProps
+      ...inputProps,
+      ...additionalProps
     };
 
     useEffect(() => {
@@ -80,30 +76,61 @@ const setupMockFormComponent = (
     if (includeFormProvider) {
       return (
         <FormProvider {...formMethods} formMode={formMode}>
-          <Component {...componentProps} />
+          {cloneElement(children, componentProps)}
         </FormProvider>
       );
     }
 
-    return <Component {...componentProps} formMode={formMode} formMethods={formMethods} />;
+    return cloneElement(children, { formMode, formMethods, ...componentProps });
   };
 
-  return mountedComponent(<MockFormComponent {...parentProps} />, state);
-};
+  const { AppProviders, history, store } = setupMountedComponent({ state });
 
-const setupMockFieldComponent = (
-  fieldComponent,
+  function Providers({ children }) {
+    return (
+      <AppProviders>
+        <MockFormComponent {...children.props}>{children}</MockFormComponent>
+      </AppProviders>
+    );
+  }
+
+  return { history, store, Providers };
+}
+
+function mountedFormComponent(
+  Component,
+  { state = {}, defaultValues = {}, includeFormMethods = false, includeFormProvider = false, errors, options = {} } = {}
+) {
+  const { history, store, Providers } = setupMockFormComponent({
+    defaultValues,
+    includeFormMethods,
+    errors,
+    includeFormProvider,
+    state
+  });
+
+  const component = render(Component, {
+    wrapper: Providers,
+    ...options
+  });
+
+  return { ...component, history, store };
+}
+
+function setupMockFieldComponent(
+  Component,
   FieldRecord,
   fieldRecordSettings = {},
   inputProps = {},
   metaInputProps = {},
   mode = "new",
-  errors
-) => {
+  errors,
+  options
+) {
   const field = setupFormFieldRecord(FieldRecord, fieldRecordSettings);
 
-  return setupMockFormComponent(fieldComponent, {
-    props: {
+  const { history, store, Providers } = setupMockFormComponent({
+    additionalProps: {
       inputProps,
       metaInputProps,
       field,
@@ -111,6 +138,13 @@ const setupMockFieldComponent = (
     },
     errors
   });
-};
 
-export { setupMockFieldComponent, setupMockFormComponent };
+  const component = render(Component, {
+    wrapper: Providers,
+    ...options
+  });
+
+  return { ...component, history, store };
+}
+
+export { setupMockFieldComponent, mountedFormComponent };
