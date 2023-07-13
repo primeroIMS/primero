@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.7.8'
+ruby '3.2.2'
 
 gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
 gem 'aws-sdk-s3',          '~> 1.113', # Access and manage Amazon S3 storage (with ActiveStorage).
@@ -15,7 +15,7 @@ gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for m
     require: 'deep_merge/rails_compat'
 gem 'delayed_job_active_record', '~> 4.1.6'
 gem 'devise',              '~> 4.7'    # Authentication framework
-gem 'devise-jwt',          '0.8.0'     # JWT authentication for native Primero users
+gem 'devise-jwt',          '~> 0.10'     # JWT authentication for native Primero users
 gem 'faraday',             '~> 0.17'   # Ruby HTTP client
 gem 'file_validators',     '~> 2.3'    # ActiveRecord extension for validating attachment file sizes
 gem 'i18n-js',             '~> 3.9'    # Shares Rails i18n strings with the front end
@@ -23,8 +23,9 @@ gem 'image_processing',    '~> 1.12'   # Ruby bindings for ImageMagick, resize a
 gem 'jbuilder',            '~> 2.11'   # JSON templating for the API
 gem 'json_schemer',        '~> 0.2'    # Validation for submited JSON
 gem 'mail',                '~> 2.7.1'  # TODO: Remove once addressed bug with mail 2.8.0 https://github.com/mikel/mail/issues/1489
+gem 'matrix',              '~> 0.4'    # No longer part of Ruby 3.2 core. Must be included explicitly
 gem 'minipack',            '~> 0.3'    # An alternative to Webpacker. TODO: Is this still needed? In prod?
-gem 'net-http-persistent', '~> 3.1'    # Thread safe persistent HTTP connections, optional Faraday dependency
+gem 'net-http-persistent', '~> 4.0'    # Thread safe persistent HTTP connections, optional Faraday dependency
 gem 'net-imap', require: false         # TODO: Remove once mail gem issue resolved
 gem 'net-pop',  require: false         # TODO: Remove once mail gem issue resolved
 gem 'net-smtp', require: false         # TODO: Remove once mail gem issue resolved
@@ -51,7 +52,7 @@ gem 'will_paginate',       '~> 3.1'    # Paginates ActiveRecord models  TODO: Th
 gem 'write_xlsx',          '~> 1.09'   # Exports XLSX
 
 group :development, :test do
-  gem 'binding_of_caller',          '~> 0.8'
+#   gem 'binding_of_caller',          '~> 0.8'  # TODO: get rid of dependency if not necessary for debugging and testing
   gem 'bundler-audit',              '~> 0.8'
   gem 'ci_reporter',                '~> 2.0'
   gem 'factory_bot',                '~> 5.0'
