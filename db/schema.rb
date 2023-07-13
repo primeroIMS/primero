@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_26_000000) do
+ActiveRecord::Schema.define(version: 2023_07_13_162211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -635,6 +635,7 @@ ActiveRecord::Schema.define(version: 2023_06_26_000000) do
     t.boolean "service_account", default: false, null: false
     t.datetime "code_of_conduct_accepted_on"
     t.bigint "code_of_conduct_id"
+    t.boolean "receive_webpush"
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["code_of_conduct_id"], name: "index_users_on_code_of_conduct_id"
     t.index ["email"], name: "index_users_on_email", unique: true

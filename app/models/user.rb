@@ -27,7 +27,7 @@ class User < ApplicationRecord
     'services' => { 'type' => 'array' }, 'module_unique_ids' => { 'type' => 'array' },
     'password_reset' => { 'type' => 'boolean' }, 'role_id' => { 'type' => 'string' },
     'agency_office' => { 'type' => 'string' }, 'code_of_conduct_id' => { 'type' => 'integer' },
-    'send_mail' => { 'type' => 'boolean' }
+    'send_mail' => { 'type' => 'boolean' }, 'receive_webpush' => { 'type' => 'boolean' }
   }.freeze
 
   attr_accessor :should_send_password_reset_instructions, :user_groups_changed
@@ -466,6 +466,10 @@ class User < ApplicationRecord
 
   def emailable?
     email.present? && send_mail == true && !disabled?
+  end
+
+  def receive_webpush?
+    receive_webpush == true && !disabled?
   end
 
   private
