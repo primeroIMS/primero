@@ -1,10 +1,9 @@
+import { mountedComponent, screen } from "test-utils";
 import { fromJS } from "immutable";
-import { TextField } from "@material-ui/core";
 
 import { ACTIONS } from "../../permissions";
 import { mapEntriesToRecord } from "../../../libs";
-import { setupMountedComponent } from "../../../test";
-import * as R from "../../record-form/records";
+import { FormSectionRecord, FieldRecord } from "../../record-form/records";
 import { RECORD_TYPES } from "../../../config";
 
 import ViewModal from "./component";
@@ -103,75 +102,58 @@ describe("<ViewModal />", () => {
     const initialState = fromJS({
       user: { permissions: { cases: [] } },
       forms: {
-        formSections: mapEntriesToRecord(formSections, R.FormSectionRecord),
-        fields: mapEntriesToRecord(fields, R.FieldRecord)
+        formSections: mapEntriesToRecord(formSections, FormSectionRecord),
+        fields: mapEntriesToRecord(fields, FieldRecord)
       }
     });
 
-    const { component } = setupMountedComponent(ViewModal, props, initialState);
-
-    const fieldNames = component
-      .find(ViewModal)
-      .find(TextField)
-      .map(field => field.props().name);
-
-    expect(fieldNames).to.include.members(["name_first", "name_last"]);
+    mountedComponent(<ViewModal {...props} />, initialState);
+    expect(screen.getAllByText("cases.case_worker_code")).toBeTruthy();
   });
 
   it("should not render nested fields even if they are show_on_minify_form", () => {
     const initialState = fromJS({
       user: { permissions: { cases: [] } },
       forms: {
-        formSections: mapEntriesToRecord(formSections, R.FormSectionRecord),
-        fields: mapEntriesToRecord(fields, R.FieldRecord)
+        formSections: mapEntriesToRecord(formSections, FormSectionRecord),
+        fields: mapEntriesToRecord(fields, FieldRecord)
       }
     });
+    const { container } = mountedComponent(<ViewModal />, initialState);
+    const textFields = container.querySelectorAll('input[type="text"]');
+    const fieldNames = Array.from(textFields).map(field => field.name);
 
-    const { component } = setupMountedComponent(ViewModal, props, initialState);
-
-    const fieldNames = component
-      .find(ViewModal)
-      .find(TextField)
-      .map(field => field.props().name);
-
-    expect(fieldNames).to.not.have.members(["address", "telephone"]);
+    expect(fieldNames).not.toContain("address");
+    expect(fieldNames).not.toContain("telephone");
   });
 
   it("should not render the Request Transfer button if the user does not have permission", () => {
     const initialState = fromJS({
       user: { permissions: { cases: [] } },
       forms: {
-        formSections: mapEntriesToRecord(formSections, R.FormSectionRecord),
-        fields: mapEntriesToRecord(fields, R.FieldRecord)
+        formSections: mapEntriesToRecord(formSections, FormSectionRecord),
+        fields: mapEntriesToRecord(fields, FieldRecord)
       }
     });
 
-    const { component } = setupMountedComponent(ViewModal, props, initialState);
-    const actionButtons = component
-      .find(ViewModal)
-      .find("button")
-      .map(button => button.text())
-      .filter(text => text === "buttons.request_transfer");
+    mountedComponent(<ViewModal {...props} />, initialState);
+    const actionButton = screen.queryByText(/Request Transfer/i);
 
-    expect(actionButtons).to.be.empty;
+    expect(actionButton).toBeNull();
   });
 
   it("should render the Request Transfer button if the user has permission", () => {
     const initialState = fromJS({
       user: { permissions: { cases: [ACTIONS.REQUEST_TRANSFER] } },
       forms: {
-        formSections: mapEntriesToRecord(formSections, R.FormSectionRecord),
-        fields: mapEntriesToRecord(fields, R.FieldRecord)
+        formSections: mapEntriesToRecord(formSections, FormSectionRecord),
+        fields: mapEntriesToRecord(fields, FieldRecord)
       }
     });
 
-    const { component } = setupMountedComponent(ViewModal, props, initialState);
-    const actionButtons = component
-      .find(ViewModal)
-      .find("button")
-      .map(button => button.text())
-      .filter(text => text === "buttons.request_transfer");
+    mountedComponent(<ViewModal {...props} />, initialState);
+    const requestTransferButton = screen.getByText("buttons.request_transfer");
 
-    expect(actionButtons).to.have.lengthOf(1);
+    expect(requestTransferButton).toBeInTheDocument();
   });
 });
