@@ -5,6 +5,7 @@ import { RESOURCES, FORM_CHECK_ERRORS } from "../constants";
 
 import { buildPermissionOptions } from "./utils";
 import AssociatedRolesForm from "./associated-roles";
+import InsightsScopeForm from "./insights-scope-form";
 
 export default (resourceActions, i18n, approvalsLabels) =>
   RESOURCES.filter(resource => resourceActions.has(resource)).map(resource => {
@@ -12,6 +13,10 @@ export default (resourceActions, i18n, approvalsLabels) =>
 
     if (resource === "role") {
       return AssociatedRolesForm(actions, i18n);
+    }
+
+    if (resource === "managed_report") {
+      return InsightsScopeForm(actions, i18n);
     }
 
     return FormSectionRecord({

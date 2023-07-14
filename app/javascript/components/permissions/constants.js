@@ -281,6 +281,12 @@ export const GROUP_PERMISSIONS = {
   SELF: "self"
 };
 
+export const MANAGED_REPORT_SCOPE = {
+  AGENCY: "agency",
+  ALL: "all",
+  GROUP: "group"
+};
+
 export const ASSIGN = [
   ACTIONS.MANAGE,
   ACTIONS.ASSIGN,

@@ -4,6 +4,10 @@
 class ManagedReport < ValueObject
   DATE_RANGE_OPTIONS = %w[this_quarter last_quarter this_year last_year this_month last_month].freeze
 
+  ALL = 'all'
+  USER_GROUP = 'user_group'
+  AGENCY = 'agency'
+
   attr_accessor :id, :name, :description, :module_id, :subreports, :data, :permitted_filters, :user, :filters
 
   # rubocop:disable Metrics/MethodLength

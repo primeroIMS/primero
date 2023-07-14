@@ -12,7 +12,7 @@ class Permission < ValueObject
   # It associates other roles with this ROLE permission
   # That restricts this role to only be able to manage those associated roles
   # If the role_unique_ids property is empty on a ROLE permission, then that allows this role to manage all other ROLES
-  attr_accessor :resource, :actions, :role_unique_ids, :agency_unique_ids
+  attr_accessor :resource, :actions, :role_unique_ids, :agency_unique_ids, :managed_report_scope
 
   READ = 'read'
   WRITE = 'write'
@@ -312,6 +312,7 @@ class Permission < ValueObject
         hash[permission.resource] = permission.actions
         object_hash[Permission::AGENCY] = permission.agency_unique_ids if permission.agency_unique_ids
         object_hash[Permission::ROLE] = permission.role_unique_ids if permission.role_unique_ids
+        dump_managed_report_scope(permission, object_hash) if permission.managed_report_scope
       end
       json_hash['objects'] = object_hash
       json_hash
@@ -321,15 +322,33 @@ class Permission < ValueObject
       permission = Permission.new(resource: resource, actions: actions)
       return permission unless object_hash.present?
 
-      if resource == Permission::ROLE && object_hash.key?(Permission::ROLE)
-        permission.role_unique_ids = object_hash[Permission::ROLE]
-      end
-
-      if resource == Permission::AGENCY && object_hash.key?(Permission::AGENCY)
-        permission.agency_unique_ids = object_hash[Permission::AGENCY]
-      end
+      load_role_unique_ids(permission, object_hash) if resource == Permission::ROLE
+      load_agency_unique_ids(permission, object_hash) if resource == Permission::AGENCY
+      load_managed_report_scope(permission, object_hash) if resource == Permission::MANAGED_REPORT
 
       permission
+    end
+
+    def self.dump_managed_report_scope(permission, object_hash)
+      object_hash[Permission::MANAGED_REPORT] = { 'scope' => permission.managed_report_scope }
+    end
+
+    def self.load_role_unique_ids(permission, object_hash)
+      return unless object_hash.key?(Permission::ROLE)
+
+      permission.role_unique_ids = object_hash[Permission::ROLE]
+    end
+
+    def self.load_agency_unique_ids(permission, object_hash)
+      return unless object_hash.key?(Permission::AGENCY)
+
+      permission.agency_unique_ids = object_hash[Permission::AGENCY]
+    end
+
+    def self.load_managed_report_scope(permission, object_hash)
+      return unless object_hash.key?(Permission::MANAGED_REPORT)
+
+      permission.managed_report_scope = object_hash[Permission::MANAGED_REPORT]['scope']
     end
 
     def self.load(json_hash)
