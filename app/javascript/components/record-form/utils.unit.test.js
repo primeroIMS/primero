@@ -6,6 +6,7 @@ import { useFakeTimers } from "../../test";
 import {
   APPROVALS,
   CHANGE_LOGS,
+  FAMILY_FROM_CASE,
   INCIDENT_FROM_CASE,
   RECORD_OWNER,
   REFERRAL,
@@ -543,6 +544,7 @@ describe("<RecordForms /> - utils", () => {
         TRANSFERS_ASSIGNMENTS,
         CHANGE_LOGS,
         REGISTRY_FROM_CASE,
+        FAMILY_FROM_CASE,
         SUMMARY_INCIDENT_MRM
       ]);
     });
