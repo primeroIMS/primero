@@ -70,7 +70,7 @@ class ManagedReports::SqlReportIndicator < ValueObject
 
       if current_user.managed_report_scope == Permission::AGENCY
         agency_scope_query(current_user, table_name)
-      elsif current_user.group_permission?(Permission::GROUP)
+      elsif current_user.managed_report_scope == Permission::GROUP
         group_scope_query(current_user, table_name)
       else
         self_scope_query(current_user, table_name)

@@ -8,6 +8,7 @@ describe("pages/admin/<RolesForm>/forms - index", () => {
       "ActionButtons",
       "AssociatedFormSectionsForm",
       "AssociatedRolesForm",
+      "InsightsScopeForm",
       "ResourcesForm",
       "RolesMainForm",
       "Validations"

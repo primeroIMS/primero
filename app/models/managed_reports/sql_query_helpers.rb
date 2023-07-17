@@ -46,9 +46,11 @@ module ManagedReports::SqlQueryHelpers
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           %(
-             #{quoted_query(table_name, 'data')} #> '{associated_user_agencies}' ?| array[:agencies]
-             or
-             #{quoted_query(table_name, 'data')} ->> 'created_organization' in (:agencies)
+            (
+              #{quoted_query(table_name, 'data')} #> '{associated_user_agencies}' ?| array[:agencies]
+              or
+              #{quoted_query(table_name, 'data')} ->> 'created_organization' in (:agencies)
+            )
           ),
           agencies: [current_user.agency.unique_id]
         ]
@@ -59,9 +61,11 @@ module ManagedReports::SqlQueryHelpers
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           %(
-            #{quoted_query(table_name, 'data')} #> '{associated_user_groups}' ?| array[:groups]
-            or
-            #{quoted_query(table_name, 'data')} #> '{created_by_groups}' ?| array[:groups]
+            (
+              #{quoted_query(table_name, 'data')} #> '{associated_user_groups}' ?| array[:groups]
+              or
+              #{quoted_query(table_name, 'data')} #> '{created_by_groups}' ?| array[:groups]
+            )
           ),
           groups: current_user.user_group_unique_ids
         ]
