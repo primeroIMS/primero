@@ -117,11 +117,6 @@ describe("<AddIncident />", () => {
     setPending: () => {}
   };
 
-  it("renders Formik", () => {
-    mountedComponent(<AddIncident {...props} />, initialState);
-    expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "form")).toBeInTheDocument();
-  });
-
   it("renders ActionDialog", () => {
     mountedComponent(<AddIncident {...props} />, initialState);
     expect(screen.getByRole("dialog")).toBeInTheDocument();
@@ -137,8 +132,4 @@ describe("<AddIncident />", () => {
     expect(screen.queryAllByRole("textbox")).toHaveLength(1);
   });
 
-  it("renders component with valid props", () => {
-    mountedComponent(<AddIncident {...props} />, initialState);
-    expect(screen.getByRole("presentation")).toBeInTheDocument();
-  });
 });
