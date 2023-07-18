@@ -16,7 +16,8 @@ import {
   VIEW_KPIS,
   SHOW_SUMMARY,
   READ_MANAGED_REPORTS,
-  READ_REGISTRY_RECORD
+  READ_REGISTRY_RECORD,
+  READ_FAMILY
 } from "../components/permissions/constants";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
@@ -563,12 +564,16 @@ export const FILE_FORMAT = {
   pdf: "application/pdf"
 };
 
+export const FAMILY_MEMBERS_SUBFORM_ID = "family_members_section";
+export const FAMILY_FROM_CASE = "family_from_case";
+
 export const FORM_PERMISSION_ACTION = Object.freeze({
   [INCIDENT_FROM_CASE]: VIEW_INCIDENTS_FROM_CASE,
   [CHANGE_LOGS]: SHOW_CHANGE_LOG,
   [APPROVALS]: SHOW_APPROVALS,
   [SUMMARY]: SHOW_SUMMARY,
-  [REGISTRY_FROM_CASE]: READ_REGISTRY_RECORD
+  [REGISTRY_FROM_CASE]: READ_REGISTRY_RECORD,
+  [FAMILY_FROM_CASE]: READ_FAMILY
 });
 
 export const VIOLATIONS_FORM = [
@@ -718,5 +723,3 @@ export const DATE_SORTABLE_FIELDS = Object.freeze([
   "date_of_first_report",
   "inquiry_date"
 ]);
-
-export const FAMILY_MEMBERS_SUBFORM_ID = "family_members_section";

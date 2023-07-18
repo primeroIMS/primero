@@ -6,6 +6,7 @@ import { batch, useDispatch } from "react-redux";
 import { push, replace } from "connected-react-router";
 import qs from "qs";
 
+import { RECORD_TYPES_PLURAL } from "../../config";
 import IndexTable from "../index-table";
 import { useI18n } from "../i18n";
 import Filters, { getFiltersValuesByRecordType } from "../index-filters";
@@ -183,6 +184,7 @@ const Container = ({ match, location }) => {
                 selectedRecords={selectedRecords}
                 isRowSelectable={rowSelectable}
                 setSelectedRecords={handleSelectedRecords}
+                useReportingLocations={recordType !== RECORD_TYPES_PLURAL.family}
               />
             </div>
           </div>
