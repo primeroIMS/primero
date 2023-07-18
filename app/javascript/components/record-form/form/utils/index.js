@@ -19,6 +19,7 @@ export { default as getViolationAssociationsValues } from "./get-violation-assoc
 export { default as getViolationFieldForGuidance } from "./get-violation-field-for-guidance";
 export { default as getViolationIdsForAssociations } from "./get-violation-ids-for-associations";
 export { default as handleChangeOnServiceUser } from "./handle-change-service-user";
+export { default as isFamilyMemberSubform } from "./is-family-member-subform";
 export { default as isFormDirty } from "./is-form-dirty";
 export { default as isViolationSubform } from "./is-violation-subform";
 export { default as serviceHasReferFields } from "./service-has-refer-fields";

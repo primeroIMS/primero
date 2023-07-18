@@ -32,6 +32,7 @@ class RecordDataService
     data = embed_flag_metadata(data, record, selected_field_names)
     data = embed_alert_metadata(data, record, selected_field_names)
     data = embed_registry_record_info(data, record, selected_field_names)
+    data = embed_family_info(data, record, selected_field_names)
     data
   end
 
@@ -90,6 +91,13 @@ class RecordDataService
     return data unless selected_field_names.include?('registry_record_id')
 
     data['registry_record_id'] = record.registry_record_id
+    data
+  end
+
+  def embed_family_info(data, record, selected_field_names)
+    return data unless selected_field_names.include?('family_id')
+
+    data['family_id'] = record.family_id
     data
   end
 

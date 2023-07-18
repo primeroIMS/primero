@@ -109,7 +109,9 @@ export const ACTIONS = {
   VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
   VIEW_REGISTRY_RECORD: "view_registry_record",
   VIOLATIONS: "violations",
-  WRITE: "write"
+  WORKFLOW_REPORT: "workflow_report",
+  WRITE: "write",
+  VIEW_FAMILY_RECORD: "view_family_record"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -124,6 +126,7 @@ export const RESOURCES = {
   configurations: "primero_configurations",
   contact_information: "contact_information",
   dashboards: "dashboards",
+  families: "families",
   forms: "forms",
   incidents: "incidents",
   kpis: "kpis",
@@ -163,11 +166,13 @@ export const WRITE_REGISTRY_RECORD = [...MANAGE, ACTIONS.ADD_REGISTRY_RECORD];
 
 export const READ_REGISTRY_RECORD = [...MANAGE, ACTIONS.VIEW_REGISTRY_RECORD];
 
+export const READ_FAMILY = [...MANAGE, ACTIONS.VIEW_FAMILY_RECORD_FROM_CASE];
+
 export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
 
 export const READ_REPORTS = [...MANAGE, ACTIONS.READ, ACTIONS.GROUP_READ, ACTIONS.AGENCY_READ];
 
-export const READ_MANAGED_REPORTS = [...MANAGE, ACTIONS.GBV_STATISTICS, ACTIONS.VIOLATIONS];
+export const READ_MANAGED_REPORTS = [...MANAGE, ACTIONS.GBV_STATISTICS, ACTIONS.VIOLATIONS, ACTIONS.WORKFLOW_REPORT];
 
 export const EXPORT_CUSTOM = [...MANAGE, ACTIONS.EXPORT_CUSTOM];
 
@@ -277,6 +282,12 @@ export const GROUP_PERMISSIONS = {
   ALL: "all",
   GROUP: "group",
   SELF: "self"
+};
+
+export const MANAGED_REPORT_SCOPE = {
+  AGENCY: "agency",
+  ALL: "all",
+  GROUP: "group"
 };
 
 export const ASSIGN = [

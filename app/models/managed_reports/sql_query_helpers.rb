@@ -23,7 +23,7 @@ module ManagedReports::SqlQueryHelpers
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           "#{quoted_query(table_name, 'data')} #> '{#{field_name}}' ?| array[:values]",
-          values: param.values
+          values: param.respond_to?(:values) ? param.values : param.value
         ]
       )
     end
@@ -45,7 +45,13 @@ module ManagedReports::SqlQueryHelpers
     def agency_scope_query(current_user, table_name = nil)
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          "#{quoted_query(table_name, 'data')} #> '{associated_user_agencies}' ?| array[:agencies]",
+          %(
+            (
+              #{quoted_query(table_name, 'data')} #> '{associated_user_agencies}' ?| array[:agencies]
+              or
+              #{quoted_query(table_name, 'data')} ->> 'created_organization' in (:agencies)
+            )
+          ),
           agencies: [current_user.agency.unique_id]
         ]
       )
@@ -54,7 +60,13 @@ module ManagedReports::SqlQueryHelpers
     def group_scope_query(current_user, table_name = nil)
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          "#{quoted_query(table_name, 'data')} #> '{associated_user_groups}' ?| array[:groups]",
+          %(
+            (
+              #{quoted_query(table_name, 'data')} #> '{associated_user_groups}' ?| array[:groups]
+              or
+              #{quoted_query(table_name, 'data')} #> '{created_by_groups}' ?| array[:groups]
+            )
+          ),
           groups: current_user.user_group_unique_ids
         ]
       )

@@ -34,13 +34,13 @@ class OrderByPropertyService
     def order_query(model_class, locale, order_by, order)
       return { order_by => order } unless localized_property?(model_class, order_by.to_sym)
 
-      Arel.sql("#{order_by}_i18n ->> '#{locale}' #{order}")
+      Arel.sql(ActiveRecord::Base.sanitize_sql_for_order("#{order_by}_i18n ->> '#{locale}' #{order}"))
     end
 
     def insensitive_order_query(model_class, locale, order_by, order)
       return model_class.arel_table[order_by].lower.try(order) unless localized_property?(model_class, order_by.to_sym)
 
-      Arel.sql("LOWER(#{order_by}_i18n ->> '#{locale}') #{order}")
+      Arel.sql(ActiveRecord::Base.sanitize_sql_for_order("LOWER(#{order_by}_i18n ->> '#{locale}') #{order}"))
     end
 
     def localized_property?(model_class, order_by)

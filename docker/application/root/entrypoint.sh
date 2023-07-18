@@ -33,7 +33,12 @@ primero_migrate() {
     bin/rails db:create
   fi
   set -u
-  bin/rails db:migrate
+
+  status=`bin/check_migrated.rb`
+  if [[ $status == "DATABASE_MIGRATION_PENDING" ]]
+  then
+    bin/rails db:migrate
+  fi
 }
 
 # Apply a known configuration template

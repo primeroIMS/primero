@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@material-ui/core";
-import { useIdleTimer } from "react-idle-timer";
+import { useIdleTimer, workerTimers } from "react-idle-timer";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
@@ -8,18 +8,18 @@ import { useRefreshUserToken } from "../user";
 import { useI18n } from "../i18n";
 import { IDLE_TIMEOUT, IDLE_LOGOUT_TIMEOUT, TOKEN_REFRESH_INTERVAL } from "../../config";
 import { setUserIdle, selectUserIdle, useApp } from "../application";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { NAME } from "./constants";
 
 const SessionTimeoutDialog = () => {
   const { online } = useApp();
-  const logoutTimer = useRef();
   const tokenRefreshTimer = useRef();
   const dispatch = useDispatch();
-  const userIdle = useMemoizedSelector(state => selectUserIdle(state));
-  const i18n = useI18n();
   const { refreshUserToken } = useRefreshUserToken();
+  const i18n = useI18n();
+
+  const userIdle = useMemoizedSelector(state => selectUserIdle(state));
 
   const logout = () => {
     dispatch(push("/logout"));
@@ -27,92 +27,78 @@ const SessionTimeoutDialog = () => {
 
   const idleUser = useCallback(action => {
     dispatch(setUserIdle(action));
-    localStorage.setItem("userIdle", action);
-  });
-
-  const startLogoutTimer = () => {
-    logoutTimer.current = setTimeout(() => {
-      logout();
-    }, IDLE_LOGOUT_TIMEOUT);
-  };
-
-  const onIdle = () => {
-    idleUser(true);
-    startLogoutTimer();
-  };
-
-  const { reset, pause } = useIdleTimer({
-    timeout: IDLE_TIMEOUT,
-    onIdle
   });
 
   const startTokenRefreshTimer = useCallback(() => {
-    tokenRefreshTimer.current = setInterval(() => {
+    tokenRefreshTimer.current = workerTimers.setInterval(() => {
       refreshUserToken();
     }, TOKEN_REFRESH_INTERVAL);
   });
 
-  const stopAllTimers = () => {
-    if (logoutTimer.current) clearTimeout(logoutTimer.current);
-    if (tokenRefreshTimer.current) clearInterval(tokenRefreshTimer.current);
-  };
+  const stopTokenRefreshTimer = useCallback(() => {
+    if (tokenRefreshTimer.current) workerTimers.clearInterval(tokenRefreshTimer.current);
+  });
 
-  const onContinue = () => {
-    stopAllTimers();
-    reset();
-    idleUser(false);
-
-    refreshUserToken();
-    startTokenRefreshTimer();
-  };
-
-  const localStorageChange = e => {
-    const { key, newValue, oldValue } = e;
-
-    if (key === "userIdle") {
-      if (newValue === "true" && oldValue === "false") {
-        onIdle();
-      } else if (newValue === "false" && oldValue === "true") {
-        onContinue();
-      } else if (newValue === "logout") {
-        logout();
+  const { reset, pause, activate, message } = useIdleTimer({
+    timeout: IDLE_TIMEOUT + IDLE_LOGOUT_TIMEOUT,
+    leaderElection: true,
+    promptBeforeIdle: IDLE_LOGOUT_TIMEOUT,
+    crossTab: true,
+    syncTimers: 200,
+    timers: workerTimers,
+    onPrompt: () => {
+      idleUser(true);
+    },
+    onActive: () => {
+      idleUser(false);
+      refreshUserToken();
+      startTokenRefreshTimer();
+    },
+    onMessage: data => {
+      switch (data.action) {
+        case "LOGOUT":
+          logout();
+          break;
+        case "OFFLINE":
+          pause();
+          stopTokenRefreshTimer();
+          break;
+        case "ONLINE":
+          idleUser(false);
+          reset();
+          startTokenRefreshTimer();
+          break;
+        default:
       }
+    },
+    onIdle: () => {
+      message({ action: "LOGOUT" }, true);
     }
-  };
-
-  const stopTimeoutDialog = () => {
-    stopAllTimers();
-    window.removeEventListener("storage", localStorageChange);
-  };
+  });
 
   useEffect(() => {
     if (online) {
-      idleUser(false);
-      reset();
-      startTokenRefreshTimer();
-      window.addEventListener("storage", localStorageChange);
+      message({ action: "ONLINE" }, true);
     } else {
-      pause();
-      stopTimeoutDialog();
+      message({ action: "OFFLINE" }, true);
     }
   }, [online]);
 
-  useEffect(() => stopTimeoutDialog, []);
-
   useEffect(() => {
-    if (userIdle) {
+    return () => {
       pause();
-    }
-  }, [userIdle]);
+      stopTokenRefreshTimer();
+    };
+  }, []);
 
   const handleContinue = e => {
     e.preventDefault();
-    onContinue();
+    activate();
   };
 
   const handleLogout = e => {
     e.preventDefault();
-    logout();
+    message({ action: "LOGOUT" }, true);
   };
 
   return online ? (

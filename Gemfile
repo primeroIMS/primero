@@ -35,7 +35,7 @@ gem 'prawn-table',         '~> 0.2'    # PDF generation
 gem 'puma',                '~> 4.3'    # Ruby Rack server
 gem 'rack',                '~> 2.2'
 gem 'rack-attack',         '>= 6.3.1'  # Rack middleware to rate limit sensetive routes, such as those used for auth
-gem 'rails',               '6.1.7.3'
+gem 'rails',               '6.1.7.4'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files
@@ -43,8 +43,8 @@ gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files
 gem 'spreadsheet',         '~> 1.1'    # Read XLS spreadsheets for imports (not XLSX!). TODO: Different gem? Reconsider?
 # Note: if upgrading Sunspot, update the corresponding version of Solr on the Docker image
 # Current Solr version is 5.3.1
-gem 'sunspot_rails',       '~> 2.5'    # Rails ODM bindings to Solr
-gem 'sunspot_solr',        '~> 2.5'    # Ruby bindings to Solr
+gem 'sunspot_rails',       '~> 2.6'    # Rails ODM bindings to Solr
+gem 'sunspot_solr',        '~> 2.6'    # Ruby bindings to Solr
 gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
 gem 'tzinfo-data',         '~> 1.2021' # Timezone Data for TZInfo
 gem 'will_paginate',       '~> 3.1'    # Paginates ActiveRecord models  TODO: This can be refactored away.

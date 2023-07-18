@@ -1,3 +1,5 @@
+import { push } from "connected-react-router";
+
 import { RECORD_PATH, METHODS, ROUTES } from "../../config";
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { fetchSandboxUI, loadApplicationResources } from "../application/action-creators";
@@ -40,8 +42,16 @@ export const fetchAuthenticatedUserData = user => ({
 
 export const setAuthenticatedUser = user => async dispatch => {
   dispatch(setUser(user));
-  dispatch(fetchAuthenticatedUserData(user));
-  dispatch(loadApplicationResources());
+  dispatch(fetchAuthenticatedUserData(user)).then(
+    () => {
+      dispatch(loadApplicationResources());
+    },
+    error => {
+      dispatch(push(ROUTES.logout));
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  );
 };
 
 export const attemptSignout = () => ({

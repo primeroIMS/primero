@@ -2,6 +2,7 @@
 import Transitions from "../../../transitions";
 import {
   APPROVALS,
+  FAMILY_FROM_CASE,
   RECORD_OWNER,
   TRANSITION_TYPE,
   INCIDENT_FROM_CASE,
@@ -17,6 +18,7 @@ import IncidentFromCase from "../../../incidents-from-case";
 import ChangeLogs from "../../../change-logs";
 import Summary from "../../../summary";
 import CaseRegistry from "../../form/components/case-registry";
+import CaseFamily from "../../../case-family";
 import SummaryIncidentMRM from "../../../summary-incident-mrm";
 
 const externalForms =
@@ -95,6 +97,18 @@ const externalForms =
       ),
       [REGISTRY_FROM_CASE]: (
         <CaseRegistry
+          values={values}
+          record={record}
+          mode={containerMode}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          primeroModule={primeroModule}
+          recordType={recordType}
+          setFieldValue={setFieldValue}
+        />
+      ),
+      [FAMILY_FROM_CASE]: (
+        <CaseFamily
           values={values}
           record={record}
           mode={containerMode}

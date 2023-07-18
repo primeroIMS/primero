@@ -24,14 +24,14 @@ consent_fields = [
             'display_name_en' => 'Consent has been obtained to disclose information for tracing purposes',
             'option_strings_source' => 'lookup lookup-yes-no',
             'help_text' => "If this field is 'No', the child's case record will not show up in Matches with Inquirer"\
-                          'Tracing Requests.'),
+                          'Tracing Requests.',
+            'visible' => false),
   Field.new('name' => 'disclosure_other_orgs',
             'type' => 'tick_box',
             'tick_box_label_en' => 'Yes',
             'display_name_en' => 'The individual providing consent agrees to share collected information with other '\
                                   'organizations for service provision?',
-            'help_text' => 'This includes sharing information with other oranizations providing services, this does '\
-                          'not include sharing information with UNHCR.'),
+            'help_text' => 'This includes sharing information with other oranizations providing services.'),
   Field.new('name' => 'consent_share_separator',
             'type' => 'separator',
             'display_name_en' => 'Consent Details for Sharing Information'),

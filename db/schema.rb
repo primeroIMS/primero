@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_15_000000) do
+ActiveRecord::Schema.define(version: 2023_07_04_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -138,9 +138,11 @@ ActiveRecord::Schema.define(version: 2023_03_15_000000) do
     t.string "matched_trace_id"
     t.uuid "duplicate_case_id"
     t.uuid "registry_record_id"
+    t.uuid "family_id"
     t.index "((data ->> 'case_id'::text))", name: "cases_case_id_unique_idx", unique: true
     t.index ["data"], name: "index_cases_on_data", using: :gin
     t.index ["duplicate_case_id"], name: "index_cases_on_duplicate_case_id"
+    t.index ["family_id"], name: "index_cases_on_family_id"
     t.index ["registry_record_id"], name: "index_cases_on_registry_record_id"
   end
 
@@ -190,6 +192,11 @@ ActiveRecord::Schema.define(version: 2023_03_15_000000) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["unique_id"], name: "index_export_configurations_on_unique_id", unique: true
+  end
+
+  create_table "families", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.index ["data"], name: "index_families_on_data", using: :gin
   end
 
   create_table "fields", id: :serial, force: :cascade do |t|
@@ -677,6 +684,7 @@ ActiveRecord::Schema.define(version: 2023_03_15_000000) do
   add_foreign_key "alerts", "agencies"
   add_foreign_key "alerts", "users"
   add_foreign_key "cases", "cases", column: "duplicate_case_id"
+  add_foreign_key "cases", "families"
   add_foreign_key "cases", "registry_records"
   add_foreign_key "cases", "tracing_requests", column: "matched_tracing_request_id"
   add_foreign_key "fields", "form_sections"

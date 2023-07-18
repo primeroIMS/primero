@@ -93,7 +93,7 @@ tracing_fields = [
 FormSection.create_or_update!(
   :unique_id => 'tracing',
   :parent_form => 'case',
-  'visible' => true,
+  'visible' => false,
   :order_form_group => 130,
   :order => 20,
   :order_subform => 0,

@@ -15,7 +15,7 @@ class Exporters::CsvExporter < Exporters::BaseExporter
     end
 
     def supported_models
-      [Child, Incident, TracingRequest, RegistryRecord]
+      [Child, Incident, TracingRequest, RegistryRecord, Family]
     end
 
     def excluded_field_names

@@ -15,7 +15,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     end
 
     def supported_models
-      [Child, TracingRequest]
+      [Child, TracingRequest, Family]
     end
   end
 

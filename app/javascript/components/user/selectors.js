@@ -1,6 +1,6 @@
 import { List, fromJS } from "immutable";
 
-import { SAVING } from "../../config";
+import { SAVING } from "../../config/constants";
 
 import NAMESPACE from "./namespace";
 import { PERMISSIONS, LIST_HEADERS, PERMITTED_FORMS } from "./constants";
@@ -46,6 +46,8 @@ export const getAssignedAgency = state => state.getIn([NAMESPACE, "agencyId"], f
 export const getCodeOfConductId = state => state.getIn([NAMESPACE, "codeOfConductId"], null);
 
 export const getCodeOfConductAccepteOn = state => state.getIn([NAMESPACE, "codeOfConductAcceptedOn"], null);
+
+export const getCurrentUserUserGroups = state => state.getIn([NAMESPACE, "userGroups"], fromJS([]));
 
 export const hasPrimeroModule = (state, primeroModule) =>
   state.getIn([NAMESPACE, "modules"], fromJS([])).includes(primeroModule);

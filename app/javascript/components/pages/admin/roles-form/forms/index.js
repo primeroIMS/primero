@@ -4,3 +4,4 @@ export { default as ResourcesForm } from "./resources";
 export { default as RolesMainForm } from "./roles-main";
 export { default as Validations } from "./validations";
 export { default as ActionButtons } from "./action-buttons";
+export { default as InsightsScopeForm } from "./insights-scope-form";

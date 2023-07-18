@@ -928,6 +928,15 @@ Lookup.create_or_update!(
 )
 
 Lookup.create_or_update!(
+  unique_id: 'lookup-form-group-cp-family',
+  name_en: 'Form Groups - CP Family',
+  lookup_values_en: [
+    { id: 'record_information', display_text: 'Record Information' },
+    { id: 'family_overview', display_text: 'Family Overview' }
+  ].map(&:with_indifferent_access)
+)
+
+Lookup.create_or_update!(
   :unique_id => "lookup-agency-office",
   :name_en => "Agency Office",
   :locked => true,
@@ -957,5 +966,15 @@ Lookup.create_or_update!(
     { id: 'registry_category1', display_text: 'Registry Category 1' },
     { id: 'registry_category2', display_text: 'Registry Category 2' },
     { id: 'registry_category3', display_text: 'Registry Category 3' }
+  ].map(&:with_indifferent_access)
+)
+
+Lookup.create_or_update!(
+  unique_id: 'lookup-family-type',
+  name_en: 'Family Type',
+  lookup_values_en: [
+    { id: 'family_type1', display_text: 'Family Type 1' },
+    { id: 'family_type2', display_text: 'Family Type 2' },
+    { id: 'family_type3', display_text: 'Family Type 3' }
   ].map(&:with_indifferent_access)
 )

@@ -9,7 +9,7 @@ import Form from "../../../form";
 import { clearExportedInsight, exportInsights } from "../../action-creators";
 import { getInsightExport, getInsightFilters } from "../../selectors";
 import { RECORD_TYPES } from "../../../../config";
-import { useMemoizedSelector } from "../../../../libs";
+import { reduceMapToObject, useMemoizedSelector } from "../../../../libs";
 import { EXPORT_FORMAT } from "../../../record-actions/exports/constants";
 import { transformFilters } from "../../../insights-filters/utils";
 
@@ -24,9 +24,7 @@ const Component = ({ close, i18n, open, pending, setPending }) => {
   const exportedInsight = useMemoizedSelector(state => getInsightExport(state));
 
   const onSubmit = data => {
-    const plainInsightFilters = insightFilters.entrySeq().reduce((acc, [key, value]) => {
-      return { ...acc, [key]: value };
-    }, {});
+    const plainInsightFilters = reduceMapToObject(insightFilters) || {};
 
     const transformedFilters = { ...transformFilters(plainInsightFilters), subreport: EXPORT_ALL_SUBREPORTS };
 

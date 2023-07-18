@@ -145,7 +145,7 @@ describe Api::V2::FlagsController, type: :request do
               action: 'flag',
               user_id: fake_user_id, # This is technically wrong, but an artifact of the way we do tests
               resource_url: request.url,
-              metadata: { user_name: fake_user_name })
+              metadata: { user_name: fake_user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: nil,http_method: 'POST' })
     end
   end
 

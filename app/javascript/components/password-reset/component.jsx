@@ -7,7 +7,7 @@ import { PageHeading } from "../page";
 import Form, { FormAction } from "../form";
 import { useI18n } from "../i18n";
 import { getSavingPassword, resetPassword } from "../user";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { form, validationSchema } from "./form";
 import { NAME, RESET_PASSWORD_FORM } from "./constants";
