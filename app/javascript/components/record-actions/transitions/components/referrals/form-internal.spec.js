@@ -58,9 +58,5 @@ describe("<FormInternal />", () => {
     mountedComponent(<InternalForm {...props} />);
     expect(screen.queryAllByRole("textbox")).toHaveLength(3);
   });
-
-  it("renders TextFieldProps from SearchableSelect with valid props", () => {
-    mountedComponent(<InternalForm {...props} />);
-    expect(screen.queryAllByRole("textbox")).toHaveLength(3);
-  });
+  
 });
