@@ -1,7 +1,7 @@
 ---
-- name: 'create the /srv/primero/external-certs directory'
+- name: 'create the /srv/external-certs directory'
   file:
-    path: '/srv/primero/external-certs'
+    path: '/srv/external-certs'
     state: 'directory'
   become: yes
   tags:
@@ -9,7 +9,7 @@
 
 - name: 'Copy ssl key to remote host'
   copy:
-    dest: '/srv/primero/external-certs/primero.key'
+    dest: '/srv/external-certs/primero.key'
     mode: 'u=rw,go=r'
     content: '{{ nginx_ssl_key }}'
   become: yes
@@ -19,7 +19,7 @@
 
 - name: 'Copy ssl cert to remote host'
   copy:
-    dest: '/srv/primero/external-certs/primero.crt'
+    dest: '/srv/external-certs/primero.crt'
     mode: 'u=rw,go=r'
     content: '{{ nginx_ssl_cert }}'
   become: yes

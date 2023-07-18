@@ -2,7 +2,7 @@
 
 # An indicator that returns the total cases by workflow and sex
 class ManagedReports::Indicators::CaseWorkflowBySexAndAge < ManagedReports::SqlReportIndicator
-  include ManagedReports::TsfvIndicatorHelper
+  include ManagedReports::WeekIndicatorHelper
 
   class << self
     def id

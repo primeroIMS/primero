@@ -53,6 +53,7 @@ describe("Verifying config constant", () => {
       "IDLE_LOGOUT_TIMEOUT",
       "IDLE_TIMEOUT",
       "ID_FIELD",
+      "FAMILY_FROM_CASE",
       "INCIDENT",
       "INCIDENTS",
       "INCIDENT_CASE_ID_DISPLAY_FIELD",

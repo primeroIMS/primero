@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Helper methods for tsfv indicators
-module ManagedReports::TsfvIndicatorHelper
+module ManagedReports::WeekIndicatorHelper
   extend ActiveSupport::Concern
   # ClassMethods
   module ClassMethods

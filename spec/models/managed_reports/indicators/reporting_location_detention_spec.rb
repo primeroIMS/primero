@@ -15,40 +15,55 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
     )
     SystemSettings.current(true)
 
-    permissions = [
-      Permission.new(
-        resource: Permission::MANAGED_REPORT,
-        actions: [
-          Permission::VIOLATION_REPORT
-        ]
-      )
-    ]
     self_role = Role.create!(
       name: 'Self Role 1',
       unique_id: 'self-role-1',
       group_permission: Permission::SELF,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          managed_report_scope: Permission::SELF,
+          actions: [Permission::VIOLATION_REPORT]
+        )
+      ]
     )
 
     group_role = Role.create!(
       name: 'Group Role 1',
       unique_id: 'group-role-1',
       group_permission: Permission::GROUP,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          managed_report_scope: Permission::GROUP,
+          actions: [Permission::VIOLATION_REPORT]
+        )
+      ]
     )
 
     agency_role = Role.create!(
       name: 'Agency Role 1',
       unique_id: 'agency-role-1',
       group_permission: Permission::AGENCY,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          managed_report_scope: Permission::AGENCY,
+          actions: [Permission::VIOLATION_REPORT]
+        )
+      ]
     )
 
     all_role = Role.create!(
       name: 'All Role 1',
       unique_id: 'all-role-1',
       group_permission: Permission::ALL,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          actions: [Permission::VIOLATION_REPORT]
+        )
+      ]
     )
 
     agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1', unique_id: 'agency1')

@@ -2,7 +2,7 @@
 
 # An indicator that returns the total of incidents by sex and age
 class ManagedReports::Indicators::IncidentWorkflowBySexAndAge < ManagedReports::SqlReportIndicator
-  include ManagedReports::TsfvIndicatorHelper
+  include ManagedReports::WeekIndicatorHelper
 
   class << self
     def id
