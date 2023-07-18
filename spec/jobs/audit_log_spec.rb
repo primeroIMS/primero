@@ -56,7 +56,7 @@ describe AuditLogJob, type: :job do
 
     it 'creates an AuditLog record' do
       ActiveJob::Base.queue_adapter = :test
-      AuditLogJob.perform_now(@audit_log_params)
+      AuditLogJob.perform_now(**@audit_log_params)
       expect(AuditLog.count).to eq(1)
       audit_log = AuditLog.first
       expect(audit_log.record_type).to eq('Child')

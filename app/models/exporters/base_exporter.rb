@@ -7,6 +7,8 @@ class Exporters::BaseExporter
     Field::DATE_FIELD, Field::DATE_RANGE, Field::TICK_BOX, Field::TALLY_FIELD, Field::SUBFORM
   ].freeze
 
+  FIRST_ROW_INDEX = 1
+
   attr_accessor :locale, :lookups, :fields, :field_names, :forms, :field_value_service,
                 :location_service, :record_type, :user, :options
 
@@ -47,7 +49,7 @@ class Exporters::BaseExporter
     establish_export_constraints
   end
 
-  def export(*_args)
+  def export(_records)
     raise NotImplementedError
   end
 
@@ -145,5 +147,13 @@ class Exporters::BaseExporter
       field_dup.form_section = form_dup
       field_dup
     end
+  end
+
+  def locale_hash
+    { locale: locale }
+  end
+
+  def name_first_cell_by_column(column_index)
+    "#{ColName.instance.col_str(column_index)}#{FIRST_ROW_INDEX}"
   end
 end

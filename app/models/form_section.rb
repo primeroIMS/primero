@@ -298,10 +298,11 @@ class FormSection < ApplicationRecord
     end
   end
 
+  # TODO: We should use a different strategy to validate json structure
   def validate_name_format
     special_characters = /[*!@#%$\^]/
     white_spaces = /^(\s+)$/
-    return unless name =~ special_characters || name =~ white_spaces
+    return unless name.to_s =~ special_characters || name.to_s =~ white_spaces
 
     errors.add(:name, 'errors.models.form_section.format_of_name')
   end

@@ -332,7 +332,7 @@ class Field < ApplicationRecord
   def validate_display_name_format
     special_characters = /[*!@#%$\^]/
     white_spaces = /^(\s+)$/
-    return unless display_name_en =~ special_characters || display_name_en =~ white_spaces
+    return unless display_name_en.to_s =~ special_characters || display_name_en.to_s =~ white_spaces
 
     errors.add(:display_name, 'errors.models.field.display_name_format')
   end

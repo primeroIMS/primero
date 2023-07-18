@@ -125,9 +125,9 @@ class Child < ApplicationRecord
   searchable do
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
-    Child.child_matching_field_names.each { |f| text_index(f, suffix: 'matchable') }
+    Child.child_matching_field_names.each { |f| text_index(f, 'matchable') }
     Child.family_matching_field_names.each do |f|
-      text_index(f, suffix: 'matchable', subform_field_name: 'family_details_section')
+      text_index(f, 'matchable', :itself, 'family_details_section')
     end
     quicksearch_fields.each { |f| text_index(f) }
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }

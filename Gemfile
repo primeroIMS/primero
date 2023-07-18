@@ -8,7 +8,7 @@ gem 'aws-sdk-s3',          '~> 1.113', # Access and manage Amazon S3 storage (wi
     require: false
 gem 'azure-storage-blob',  '~> 1.1',   # Access and manage Microsoft Azure Storage Blob Services (with ActiveStorage).
     require: false
-gem 'cancancan',           '3.0.1'     # Endpoint user authorization
+gem 'cancancan',           '~> 3.5'     # Endpoint user authorization
 gem 'csv-safe',            '~> 3.0'    # Safely export data to CSV to avoid formula injection
 gem 'daemons',             '~> 1.4.0'  # Gem to run the delayed jobs
 gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for merging params to existing records.
@@ -17,7 +17,7 @@ gem 'delayed_job_active_record', '~> 4.1.6'
 gem 'devise',              '~> 4.7'    # Authentication framework
 gem 'devise-jwt',          '~> 0.10'     # JWT authentication for native Primero users
 gem 'faraday',             '~> 0.17'   # Ruby HTTP client
-gem 'file_validators',     '~> 2.3'    # ActiveRecord extension for validating attachment file sizes
+gem 'file_validators',     '~> 3.0'    # ActiveRecord extension for validating attachment file sizes
 gem 'i18n-js',             '~> 3.9'    # Shares Rails i18n strings with the front end
 gem 'image_processing',    '~> 1.12'   # Ruby bindings for ImageMagick, resize attachments. Depenency of ActiveStorage
 gem 'jbuilder',            '~> 2.11'   # JSON templating for the API
@@ -30,7 +30,7 @@ gem 'net-imap', require: false         # TODO: Remove once mail gem issue resolv
 gem 'net-pop',  require: false         # TODO: Remove once mail gem issue resolved
 gem 'net-smtp', require: false         # TODO: Remove once mail gem issue resolved
 gem 'nokogiri',            '~> 1.14'   # Security assertion on implicit dependency.
-gem 'pg',                  '~> 1.1'    # Ruby PostgreSQL binding
+gem 'pg',                  '~> 1.5'    # Ruby PostgreSQL binding
 gem 'prawn',               '~> 2.2'    # PDF generation
 gem 'prawn-table',         '~> 0.2'    # PDF generation
 gem 'puma',                '~> 4.3'    # Ruby Rack server
@@ -72,11 +72,11 @@ group :development, :test do
   # TODO: The app currently uses Spreadsheet to read excel files, but it only supports reading .xls
   # TODO: Changing the application to support reading .xlsx will be handled by a later ticket
   gem 'roo',                        '~> 2.9'
-  gem 'rspec',                      '~> 3.10'
+  gem 'rspec',                      '~> 3.12'
   gem 'rspec-activemodel-mocks',    '~> 1.1'
-  gem 'rspec-collection_matchers',  '~> 1.1'
+  gem 'rspec-collection_matchers',  '~> 1.2'
   gem 'rspec-instafail',            '~> 1.0'
-  gem 'rspec-rails',                '~> 5.0'
+  gem 'rspec-rails',                '~> 6.0'
   gem 'rubocop',                    '~> 0.93'
   gem 'rubocop-performance',        '~> 1.1'
   gem 'ruby-prof',                  '~> 0.17'
