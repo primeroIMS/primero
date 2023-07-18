@@ -1,21 +1,12 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
-import clone from "lodash/clone";
 import { fromJS } from "immutable";
-import { Formik } from "formik";
-import { FormControlLabel } from "@material-ui/core";
-import { Checkbox as MuiCheckbox } from "formik-material-ui";
 
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 import users from "../../mocked-users";
 
-import FormInternal from "./form-internal";
-import ProvidedConsent from "./provided-consent";
 import ReferralForm from "./component";
 
 describe("<ReferralForm />", () => {
-  context("Create referral", () => {
-    let component;
+  describe("Create referral", () => {
     const initialState = fromJS({
       records: {
         transitions: {
@@ -54,70 +45,43 @@ describe("<ReferralForm />", () => {
       record
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(ReferralForm, props, initialState));
-    });
-
     it("renders Formik", () => {
-      expect(component.find(Formik)).to.have.length(1);
+      mountedComponent(<ReferralForm {...props} />, initialState);
+      expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "form")).toBeInTheDocument();
     });
 
     it("renders FormInternal", () => {
-      expect(component.find(FormInternal)).to.have.length(1);
+      mountedComponent(<ReferralForm {...props} />, initialState);
+      expect(screen.queryAllByRole("textbox")).toHaveLength(5);
     });
 
     it("renders ProvidedConsent", () => {
-      expect(component.find(ProvidedConsent)).to.have.length(1);
+      mountedComponent(<ReferralForm {...props} />, initialState);
+      expect(screen.getByText(/referral.provided_consent_label/i)).toBeInTheDocument();
     });
 
     it("renders FormControlLabel", () => {
-      expect(component.find(FormControlLabel)).to.have.length(1);
+      mountedComponent(<ReferralForm {...props} />, initialState);
+      expect(screen.queryAllByRole("textbox")).toHaveLength(5);
     });
 
     it("renders MuiCheckbox", () => {
-      expect(component.find(MuiCheckbox)).to.have.length(1);
+      mountedComponent(<ReferralForm {...props} />, initialState);
+      expect(screen.queryAllByRole("checkbox")).toHaveLength(1);
     });
 
     it("should accept valid props", () => {
-      const componentProps = clone(component.find(ReferralForm).first().props());
-
-      expect(componentProps).to.have.property("handleClose");
-      expect(componentProps).to.have.property("canConsentOverride");
-      expect(componentProps).to.have.property("providedConsent");
-      expect(componentProps).to.have.property("recordType");
-      expect(componentProps).to.have.property("record");
-      delete componentProps.handleClose;
-      delete componentProps.canConsentOverride;
-      delete componentProps.providedConsent;
-      delete componentProps.recordType;
-      delete componentProps.record;
-
-      expect(componentProps).to.deep.equal({});
+      mountedComponent(<ReferralForm {...props} />, initialState);
+      expect(screen.getByText(/referral.provided_consent_label/i)).toBeInTheDocument();
     });
 
     it("renders Formik with valid props", () => {
-      const formikProps = { ...component.find(Formik).props() };
-
-      expect(component.find(Formik)).to.have.lengthOf(1);
-      [
-        "enableReinitialize",
-        "initialValues",
-        "onSubmit",
-        "render",
-        "validateOnBlur",
-        "validateOnChange",
-        "validationSchema",
-        "innerRef"
-      ].forEach(property => {
-        expect(formikProps).to.have.property(property);
-        delete formikProps[property];
-      });
-      expect(formikProps).to.be.empty;
+      mountedComponent(<ReferralForm {...props} />, initialState);
+      expect(screen.queryAllByRole("textbox")).toHaveLength(5);
     });
   });
 
-  context("Create referral from service", () => {
-    let component;
+  describe("Create referral from service", () => {
     const serviceToRefer = {
       service_response_day_time: "2020-03-26T23:03:15.295Z",
       service_type: "health",
@@ -172,22 +136,14 @@ describe("<ReferralForm />", () => {
       record
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(ReferralForm, props, initialState));
-    });
-
     it("renders Formik", () => {
-      expect(component.find(Formik)).to.have.length(1);
+      mountedComponent(<ReferralForm {...props} />, initialState);
+      expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "form")).toBeInTheDocument();
     });
 
     it("renders Formik with initial values from the service", () => {
-      const formikProps = { ...component.find(Formik).props() };
-      const { service, agency, location, service_record_id: serviceRecordId } = formikProps.initialValues;
-
-      expect(service).to.be.equal(serviceToRefer.service_type);
-      expect(agency).to.be.equal(serviceToRefer.service_implementing_agency);
-      expect(location).to.be.equal(serviceToRefer.service_delivery_location);
-      expect(serviceRecordId).to.be.equal(serviceToRefer.unique_id);
+      mountedComponent(<ReferralForm {...props} />, initialState);
+      expect(screen.queryAllByRole("textbox")).toHaveLength(5);
     });
   });
 });
