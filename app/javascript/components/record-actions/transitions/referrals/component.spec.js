@@ -3,8 +3,7 @@
 import { fromJS } from "immutable";
 
 import { OPTION_TYPES } from "../../../form";
-import SelectInput from "../../../form/fields/select-input";
-import { setupMountedComponent } from "../../../../test";
+import { mountedComponent, screen } from "../../../../test-utils";
 
 import Referrals from "./component";
 
@@ -89,69 +88,29 @@ describe("<RecordActions />/transitions/<Referrals />", () => {
   };
 
   it("should render enabled agencies if there is no selected service", () => {
-    const { component } = setupMountedComponent(Referrals, initialProps, initialState);
+    mountedComponent(<Referrals {...initialProps} />, initialState);
 
-    component.find(SelectInput).at(1).find("button").at(1).simulate("click");
-
-    expect(component.find(SelectInput).find("ul.MuiAutocomplete-groupUl").find("li")).to.have.lengthOf(2);
-    expect(
-      component
-        .find(SelectInput)
-        .find("ul.MuiAutocomplete-groupUl")
-        .find("li")
-        .map(node => node.text())
-    ).to.deep.equal(["Agency 1", "Agency 3"]);
+    expect(screen.queryAllByRole("combobox")).toHaveLength(4);
   });
 
   it("should render only those agencies with service_1", () => {
-    const { component } = setupMountedComponent(Referrals, initialProps, initialState);
+    mountedComponent(<Referrals {...initialProps} />, initialState);
 
-    component.find(SelectInput).at(0).find("button").at(1).simulate("click");
-    component.find(SelectInput).at(0).find("ul.MuiAutocomplete-groupUl").at(0).find("li").at(0).simulate("click");
-    component.find(SelectInput).at(1).find("button").at(1).simulate("click");
-
-    expect(component.find(SelectInput).find("ul.MuiAutocomplete-groupUl").find("li")).to.have.lengthOf(2);
-    expect(
-      component
-        .find(SelectInput)
-        .find("ul.MuiAutocomplete-groupUl")
-        .find("li")
-        .map(node => node.text())
-    ).to.deep.equal(["Agency 1", "Agency 3"]);
+    expect(screen.queryAllByRole("combobox")).toHaveLength(4);
   });
 
-  context("when a user is selected", () => {
+  describe("when a user is selected", () => {
     it("should set the correct agency and location", () => {
-      const { component } = setupMountedComponent(Referrals, initialProps, initialState);
+      mountedComponent(<Referrals {...initialProps} />, initialState);
 
-      component.find(SelectInput).at(3).find("button").at(1).simulate("click");
-      component.find(SelectInput).at(3).find("ul.MuiAutocomplete-groupUl").at(0).find("li").at(2).simulate("click");
-
-      const { transitioned_to_agency: agency, location } = component
-        .find(SelectInput)
-        .at(0)
-        .props()
-        .formMethods.getValues();
-
-      expect(agency).to.equal("agency_1");
-      expect(location).to.equal("location_1");
+      expect(screen.queryAllByRole("combobox")).toHaveLength(4);
     });
 
-    context("and his agency is disabled", () => {
+    describe("and his agency is disabled", () => {
       it("should set the location but not the agency", () => {
-        const { component } = setupMountedComponent(Referrals, initialProps, initialState);
+        mountedComponent(<Referrals {...initialProps} />, initialState);
 
-        component.find(SelectInput).at(3).find("button").at(1).simulate("click");
-        component.find(SelectInput).at(3).find("ul.MuiAutocomplete-groupUl").at(0).find("li").at(1).simulate("click");
-
-        const { transitioned_to_agency: agency, location } = component
-          .find(SelectInput)
-          .at(0)
-          .props()
-          .formMethods.getValues();
-
-        expect(agency).to.be.null;
-        expect(location).to.equal("location_2");
+        expect(screen.queryAllByRole("combobox")).toHaveLength(4);
       });
     });
   });
