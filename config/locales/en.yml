@@ -3190,6 +3190,14 @@ en:
         label: Is Manager?
       managed_report:
         actions:
+          managed_report_scope:
+            label: What records should this role be able to see in Insights?
+          managed_report_scope_all:
+            label: All
+          managed_report_scope_group:
+            label: Group-based data only
+          managed_report_scope_agency:
+            label: Agency-based data only
           violations:
             label: Violations
           gbv_statistics:

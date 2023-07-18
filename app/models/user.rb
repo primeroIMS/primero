@@ -272,6 +272,18 @@ class User < ApplicationRecord
     role&.group_permission == permission
   end
 
+  def managed_report_scope
+    managed_report_permission = role.permissions.find do |permission|
+      permission.resource == Permission::MANAGED_REPORT
+    end
+
+    managed_report_permission.managed_report_scope || Permission::ALL
+  end
+
+  def managed_report_scope_all?
+    managed_report_scope == Permission::ALL
+  end
+
   def can_preview?(record_type)
     permission_by_permission_type?(record_type.parent_form, Permission::DISPLAY_VIEW_PAGE)
   end
