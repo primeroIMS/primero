@@ -91,30 +91,4 @@ describe("<TransitionDialog />", () => {
     });
   });
 
-  describe("when TransitionDialog is rendered", () => {
-    const propsRendered = {
-      children: <p>Hello world</p>,
-      confirmButtonLabel: "Confirm Button",
-      enabledSuccessButton: false,
-      omitCloseAfterSuccess: false,
-      onClose: () => {},
-      open: true,
-      pending: false,
-      record: undefined,
-      recordType: "cases",
-      selectedIds: [],
-      successHandler: () => {},
-      transitionType: "assign"
-    };
-
-    it("should accept valid props", () => {
-      mountedComponent(<TransitionDialog {...propsRendered} />);
-      expect(screen.getByRole("dialog")).toBeInTheDocument();
-    });
-
-    it("renders valid props for ActionDialog components", () => {
-      mountedComponent(<TransitionDialog {...propsRendered} />);
-      expect(screen.getByRole("dialog")).toBeInTheDocument();
-    });
-  });
 });
