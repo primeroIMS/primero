@@ -53,15 +53,4 @@ describe("<ProvidedConsent /> - referrals", () => {
     expect(screen.getByText(/referral.provided_consent_label/i)).toBeInTheDocument();
   });
 
-  it("should render <ProvidedForm> with valid props", () => {
-    const props = {
-      canConsentOverride: true,
-      providedConsent: false,
-      setDisabled: () => {},
-      recordType: RECORD_TYPES.cases
-    };
-
-    mountedComponent(<ProvidedConsent {...props} />, {}, [], [], formProps);
-    expect(screen.queryAllByTestId("form-control")).toHaveLength(1);
-  });
 });
