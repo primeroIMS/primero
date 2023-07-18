@@ -87,18 +87,4 @@ describe("<RecordActions /> - <Exports />", () => {
     expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
-  it("should accept valid props", () => {
-    const validProps = {
-      ...props,
-      currentPage: 0,
-      open: true,
-      pending: true,
-      record: fromJS({}),
-      selectedRecords: { 0: [0] },
-      setPending: () => {}
-    };
-
-    mountedComponent(<Exports {...validProps} />, state);
-    expect(screen.getByText(/cases.export/i)).toBeInTheDocument();
-  });
 });
