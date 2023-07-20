@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 cp_incident_fields = [
   Field.new(
     'name' => 'cp_case_id',

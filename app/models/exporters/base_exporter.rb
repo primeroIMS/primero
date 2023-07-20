@@ -55,7 +55,7 @@ class Exporters::BaseExporter
 
   def intialize_services
     self.location_service = LocationService.instance
-    self.field_value_service = FieldValueService.new(location_service: location_service)
+    self.field_value_service = FieldValueService.new(location_service:)
   end
 
   def establish_export_constraints
@@ -76,14 +76,14 @@ class Exporters::BaseExporter
     elsif value.is_a?(Array)
       value.map { |v| export_value(v, field) }
     elsif field
-      field_value_service.value(field, value, locale: locale)
+      field_value_service.value(field, value, locale:)
     else
       value
     end
   end
 
   def complete
-    (buffer.class == File) && !buffer.closed? && @io.close
+    buffer.instance_of?(File) && !buffer.closed? && @io.close
   end
 
   def buffer
@@ -150,7 +150,7 @@ class Exporters::BaseExporter
   end
 
   def locale_hash
-    { locale: locale }
+    { locale: }
   end
 
   def name_first_cell_by_column(column_index)

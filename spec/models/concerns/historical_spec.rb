@@ -140,7 +140,7 @@ describe Historical do
           'file.jpg'
         end
       end
-      @inst.create_attachment(file: file, name: 'file.jpg')
+      @inst.create_attachment(file:, name: 'file.jpg')
 
       @inst.save!
       @inst.histories[0].record_changes['_attachments']['to']['file.jpg']['stub'].should be_truthy

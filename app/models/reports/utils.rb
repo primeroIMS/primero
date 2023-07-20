@@ -48,7 +48,7 @@ module Reports
       def merge_buckets(bucket, group_pivot_index)
         bucket.group_by do |pivots|
           if group_pivot_index < pivots[0].size - 1
-            pivots[0][(group_pivot_index + 1)..-1]
+            pivots[0][(group_pivot_index + 1)..]
           else
             []
           end

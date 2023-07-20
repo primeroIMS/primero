@@ -9,14 +9,14 @@ class ApiConnector::PrimeroConnector < ApiConnector::AbstractConnector
     # TODO: Retry logic
     status, response = connection.post(record.class.api_path, params(record))
     # TODO: Should we log on the record that it was sent?
-    { status: status, response: response }
+    { status:, response: }
   end
 
   def update(record)
     # TODO: Retry logic
     status, response = connection.patch(record.api_path, params(record))
     # TODO: Should we log on the record that it was sent?
-    { status: status, response: response }
+    { status:, response: }
   end
 
   def syncable?(_record)

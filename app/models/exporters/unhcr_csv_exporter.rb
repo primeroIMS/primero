@@ -17,7 +17,7 @@ class Exporters::UNHCRCsvExporter < Exporters::ConfigurableExporter
   end
 
   def initialize(output_file_path = nil, config = {}, options = {})
-    super(output_file_path, config.merge(export_config_id: export_config_id), options)
+    super(output_file_path, config.merge(export_config_id:), options)
     @fields = Field.find_by_name(ID_FIELD_NAMES).inject({}) { |acc, field| acc.merge(field.name => field) }
     @headers = [' '] +
                properties_to_export(PROPERTIES).keys.map do |prop|
@@ -41,7 +41,7 @@ class Exporters::UNHCRCsvExporter < Exporters::ConfigurableExporter
         value_from_array(record, generator)
       when Proc
         unhcr_needs_codes_value = export_value(record.unhcr_needs_codes, @fields['unhcr_needs_codes'])
-        generator.call(record: record, codes_value: unhcr_needs_codes_value, location_service: location_service)
+        generator.call(record:, codes_value: unhcr_needs_codes_value, location_service:)
       end
     end
   end

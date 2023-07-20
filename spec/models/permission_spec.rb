@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Permission do
   before do
-    # TODO add setup and teardown when we add instance method tests
+    # TODO: add setup and teardown when we add instance method tests
   end
 
   describe '.resources' do
@@ -38,6 +38,6 @@ describe Permission do
   end
 
   after do
-    # TODO add setup and teardown when we add instance method tests
+    # TODO: add setup and teardown when we add instance method tests
   end
 end

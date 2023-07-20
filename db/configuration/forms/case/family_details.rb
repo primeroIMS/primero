@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 family_details_section_fields = [
   Field.new('name' => 'relation_name',
             'type' => 'text_field',

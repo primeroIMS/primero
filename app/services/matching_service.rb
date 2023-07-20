@@ -32,7 +32,7 @@ class MatchingService
   def matches_for(matchable)
     match_result = find_match_records(matchable.match_criteria, matchable.matches_to)
     normalize_search_results(match_result).map do |id, normalized|
-      match = matchable.matches_to.find_by(id: id)
+      match = matchable.matches_to.find_by(id:)
       params = normalized.clone
       params.store(make_key(matchable), matchable)
       params.store(make_key(match), match)
@@ -45,9 +45,9 @@ class MatchingService
 
     normalized_search_result = results.map { |k, v| [k, v / results.values.max.to_f] }
     thresholded_search_result = normalized_search_result.select { |_, v| v > NORMALIZED_THRESHOLD }
-    thresholded_search_result.map do |id, score|
-      [id, { score: score, likelihood: likelihood(score, average_score(results), thresholded_search_result.size) }]
-    end.to_h
+    thresholded_search_result.transform_values do |score|
+      { score:, likelihood: likelihood(score, average_score(results), thresholded_search_result.size) }
+    end
   end
 
   def average_score(results)

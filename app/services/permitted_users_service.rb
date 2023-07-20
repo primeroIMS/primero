@@ -18,7 +18,7 @@ class PermittedUsersService
 
     users = apply_order(users, order_params)
 
-    { total: total, users: users }
+    { total:, users: }
   end
 
   private

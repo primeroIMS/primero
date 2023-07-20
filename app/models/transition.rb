@@ -107,14 +107,14 @@ class Transition < ApplicationRecord
   end
 
   def progress_or_accepted_transition?
-    Transition.where(transitioned_to: transitioned_to, type: [Referral.name],
+    Transition.where(transitioned_to:, type: [Referral.name],
                      status: [STATUS_INPROGRESS, STATUS_ACCEPTED],
                      record_id: record.id)
               .or(
-                Transition.where(transitioned_to: transitioned_to, type: [Transfer.name],
+                Transition.where(transitioned_to:, type: [Transfer.name],
                                  status: [STATUS_INPROGRESS],
                                  record_id: record.id)
-              ).where.not(id: id).exists?
+              ).where.not(id:).exists?
   end
 
   def remove_assigned_user

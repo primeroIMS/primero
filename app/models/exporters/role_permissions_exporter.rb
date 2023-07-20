@@ -62,7 +62,7 @@ class Exporters::RolePermissionsExporter
   def complete
     @workbook.close
     @io.close unless @io.closed?
-    puts 'Exported to ' + @export_file_name
+    puts "Exported to #{@export_file_name}"
     @io
   end
 
@@ -181,7 +181,7 @@ class Exporters::RolePermissionsExporter
     write_row resource_label
     @roles.each do |role|
       managed_roles_array =
-        @role_permissions_array.map { |p| '✔' if p.dig('role')&.dig('role_unique_ids')&.include? role.unique_id }
+        @role_permissions_array.map { |p| '✔' if p['role']&.dig('role_unique_ids')&.include? role.unique_id }
       role_row = ['', role.name] + managed_roles_array
       write_row role_row
     end
@@ -204,7 +204,7 @@ class Exporters::RolePermissionsExporter
 
   def write_out_permitted_form(form)
     forms_permitted_array = @roles.map do |r|
-      permitted = (r.permitted_form_id? form.unique_id) || r.form_sections.size.zero?
+      permitted = (r.permitted_form_id? form.unique_id) || r.form_sections.empty?
       get_check permitted
     end
     form_row = ['', form.send("name_#{@locale}")] + forms_permitted_array

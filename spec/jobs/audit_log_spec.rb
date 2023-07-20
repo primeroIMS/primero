@@ -29,7 +29,7 @@ describe AuditLogJob, type: :job do
     )
     agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
     @user_a = User.create!(full_name: 'Test User 1', user_name: 'test_user_a', email: 'test_user_a@localhost.com',
-                           agency_id: agency_a.id, role: role)
+                           agency_id: agency_a.id, role:)
 
     @child = child_with_created_by(@user_a.user_name, name: 'child1', module_id: PrimeroModule::CP,
                                                       case_id_display: '12345')
@@ -49,9 +49,9 @@ describe AuditLogJob, type: :job do
 
     it 'enqueues a job' do
       ActiveJob::Base.queue_adapter = :test
-      expect {
+      expect do
         AuditLogJob.perform_later(@audit_log_params)
-      }.to have_enqueued_job
+      end.to have_enqueued_job
     end
 
     it 'creates an AuditLog record' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :user, traits: [:active_model] do
     user_name { "user_name_#{counter}" }

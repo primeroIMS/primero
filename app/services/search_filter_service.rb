@@ -34,7 +34,7 @@ class SearchFilterService
       elsif value.is_a?(Array)
         SearchFilters::ValueList.new(field_name: key, values: value)
       else
-        SearchFilters::Value.new(field_name: key, value: value)
+        SearchFilters::Value.new(field_name: key, value:)
       end
     end
   end

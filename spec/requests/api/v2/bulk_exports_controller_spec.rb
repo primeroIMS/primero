@@ -110,7 +110,7 @@ describe Api::V2::BulkExportsController, type: :request do
             password: @password
           }
         }
-        post '/api/v2/exports', params: params
+        post '/api/v2/exports', params:
       end
 
       it 'creates a bulk export process' do
@@ -139,7 +139,7 @@ describe Api::V2::BulkExportsController, type: :request do
             custom_export_params: { field_names: %w[age sex] }
           }
         }
-        post '/api/v2/exports', params: params
+        post '/api/v2/exports', params:
       end
 
       it 'creates a custom bulk export' do
@@ -162,7 +162,7 @@ describe Api::V2::BulkExportsController, type: :request do
           password: @password
         }
       }
-      post '/api/v2/exports', params: params
+      post('/api/v2/exports', params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
@@ -179,7 +179,7 @@ describe Api::V2::BulkExportsController, type: :request do
           password: @password
         }
       }
-      post '/api/v2/exports', params: params
+      post('/api/v2/exports', params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
@@ -196,7 +196,7 @@ describe Api::V2::BulkExportsController, type: :request do
           password: 'weak'
         }
       }
-      post '/api/v2/exports', params: params
+      post('/api/v2/exports', params:)
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)

@@ -92,7 +92,7 @@ module Searchable
 
   # Helpers to index text fields
   module TextIndexing
-    def text_index(field_name, suffix=nil, from=:itself, subform_field_name=nil)
+    def text_index(field_name, suffix = nil, from = :itself, subform_field_name = nil)
       stored_field_name = suffix.present? ? "#{field_name}_#{suffix}" : field_name
       solr_field_type = PHONETIC_FIELD_NAMES.include?(field_name) ? 'ph' : 'text'
 

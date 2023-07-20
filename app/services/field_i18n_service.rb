@@ -111,7 +111,7 @@ class FieldI18nService
       next if option.dig('display_text', locale).nil?
 
       value = {}.with_indifferent_access
-      value['id'] = option.dig('id')
+      value['id'] = option['id']
       value['display_text'] = option.dig('display_text', locale)
 
       acc[locale.to_s] << value
@@ -288,13 +288,12 @@ class FieldI18nService
   def self.to_localized_values(field)
     return unless field
 
-    values_localized = field.each_with_object({}) do |(locale, values), acc|
+    field.each_with_object({}) do |(locale, values), acc|
       values.map do |key, value|
         acc[key] ||= I18n.available_locales.collect { |l| [l.to_s, ''] }.to_h
         acc[key][locale] = value
       end
       acc
     end
-    values_localized
   end
 end

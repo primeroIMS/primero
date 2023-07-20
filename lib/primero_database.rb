@@ -52,7 +52,7 @@ class PrimeroDatabase
 
   def configuration_file_version
     response = connection.exec('SELECT configuration_file_version FROM system_settings limit 1')
-    return if response.values.length.zero?
+    return if response.values.empty?
 
     response[0]['configuration_file_version']
   end

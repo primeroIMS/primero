@@ -1,6 +1,6 @@
 #! /usr/bin/env ruby
 
-require_relative('../lib/primero_database.rb')
+require_relative('../lib/primero_database')
 
 def check_not_seeded
   return true if ENV['PRIMERO_CONFIGURATION_RUN_SCRIPTS'] == 'true'
@@ -30,9 +30,9 @@ def usage
   puts 'Usage: load_configuration path/to/configuration/script.rb'
 end
 
-return usage unless ARGV.length.positive? && File.exist?(ARGV[0])
-return not_loading_already_seeded unless check_not_seeded
-return not_loading_pinned_version unless check_configuration_file_version
+return unless ARGV.length.positive? && File.exist?(ARGV[0])
+return unless check_not_seeded
+return unless check_configuration_file_version
 
 require_relative '../config/environment'
 require ARGV[0]

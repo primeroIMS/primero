@@ -128,7 +128,7 @@ class GBVKpiCalculationService
 
     return FormSectionResponseList.new(responses: [], form_section: nil) unless form_section
 
-    FormSectionResponseList.new(responses: form_section_results, form_section: form_section)
+    FormSectionResponseList.new(responses: form_section_results, form_section:)
   end
 
   # Cache data so that it can be shared across kpi calculations

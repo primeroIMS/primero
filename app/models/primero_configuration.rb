@@ -15,6 +15,7 @@ class PrimeroConfiguration < ApplicationRecord
   }.freeze
 
   attr_accessor :apply_now
+
   validate :validate_configuration_data
   validates :version, uniqueness: { message: 'errors.models.configuration.version.uniqueness' }
 

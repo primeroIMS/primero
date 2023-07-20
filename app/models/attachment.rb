@@ -40,7 +40,7 @@ class Attachment < ApplicationRecord
 
     decoded_attachment = Base64.decode64(attachment)
     io = StringIO.new(decoded_attachment)
-    file.attach(io: io, filename: file_name, content_type: content_type) || true
+    file.attach(io:, filename: file_name, content_type:) || true
   end
 
   def attach!

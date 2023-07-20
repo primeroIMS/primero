@@ -211,8 +211,8 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
       cell_format = option != indicator_options.last ? formats[:black] : formats[:blue_bottom_border]
       write_column_data(
         {
-          group_data: group_data, group_index: group_index, option: option, option_index: option_index,
-          initial_index: initial_index, cell_format: cell_format, indicator_key: key
+          group_data:, group_index:, option:, option_index:,
+          initial_index:, cell_format:, indicator_key: key
         }
       )
     end

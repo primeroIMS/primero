@@ -36,7 +36,7 @@ module Historical
   # Module for ClassMethods
   module ClassMethods
     def all_by_creator(created_by)
-      where('data @> ?', { created_by: created_by }.to_json)
+      where('data @> ?', { created_by: }.to_json)
     end
   end
 

@@ -53,7 +53,7 @@ gem 'will_paginate',       '~> 4.0'    # Paginates ActiveRecord models  TODO: Th
 gem 'write_xlsx',          '~> 1.11'   # Exports XLSX
 
 group :development, :test do
-#   gem 'binding_of_caller',          '~> 0.8'  # TODO: get rid of dependency if not necessary for debugging and testing
+  #   gem 'binding_of_caller',          '~> 0.8'  # TODO: get rid of dependency if not necessary for debugging and testing
   gem 'bundler-audit',              '~> 0.8'
   gem 'ci_reporter',                '~> 2.0'
   gem 'factory_bot',                '~> 5.0'
@@ -78,8 +78,8 @@ group :development, :test do
   gem 'rspec-collection_matchers',  '~> 1.2'
   gem 'rspec-instafail',            '~> 1.0'
   gem 'rspec-rails',                '~> 6.0'
-  gem 'rubocop',                    '~> 0.93'
-  gem 'rubocop-performance',        '~> 1.1'
+  gem 'rubocop',                    '~> 1.54'
+  gem 'rubocop-performance',        '~> 1.18'
   gem 'ruby-prof',                  '~> 0.17'
   gem 'simplecov',                  '~> 0.18'
   # TODO: Latest version (1.2.5) of this conflicts with sunspot gem. Upgrade when we upgrade sunspot

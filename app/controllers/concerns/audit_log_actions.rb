@@ -27,7 +27,7 @@ module AuditLogActions
   def default_audit_params
     {
       record_type: model_class.name,
-      record_id: record_id,
+      record_id:,
       action: friendly_action_message,
       user_id: current_user.try(:id),
       resource_url: request.url,

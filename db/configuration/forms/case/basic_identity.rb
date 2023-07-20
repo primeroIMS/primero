@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 basic_identity_fields = [
   Field.new('name' => 'case_id',
             'type' => 'text_field',

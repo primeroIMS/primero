@@ -31,7 +31,7 @@ class Kpi::GoalProgressPerNeed < Kpi::Search
   end
 
   def to_json(*_args)
-    { data: data }
+    { data: }
   end
 
   private
