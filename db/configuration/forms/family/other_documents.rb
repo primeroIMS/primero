@@ -18,6 +18,6 @@ FormSection.create_or_update!(
   editable: false,
   name_en: 'Documents',
   description_en: 'Documents',
-  form_group_id: 'documents',
+  form_group_id: 'family_documents',
   display_help_text_view: true
 )

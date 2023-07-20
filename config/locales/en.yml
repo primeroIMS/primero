@@ -1330,6 +1330,7 @@ en:
       registry_details: Registry Details
       registry_record: Registry Record
       family_record: Family Record
+      family: Family Record
     required_field: '%{field} is a required field'
     select_label: Select
     settings: Settings

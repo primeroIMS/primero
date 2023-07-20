@@ -932,7 +932,13 @@ Lookup.create_or_update!(
   name_en: 'Form Groups - CP Family',
   lookup_values_en: [
     { id: 'record_information', display_text: 'Record Information' },
-    { id: 'family_overview', display_text: 'Family Overview' }
+    { id: 'family_overview', display_text: 'Family Overview' },
+    { id: 'family_closure', display_text: 'Family Closure' },
+    { id: 'family_consent', display_text: 'Family Consent' },
+    { id: 'family_members', display_text: 'Family Members' },
+    { id: 'family_notes', display_text: 'Family Notes' },
+    { id: 'family_documents', display_text: 'Documents' },
+    { id: 'other_reportable_fields', display_text: 'Other Reportable Fields' }
   ].map(&:with_indifferent_access)
 )
 
