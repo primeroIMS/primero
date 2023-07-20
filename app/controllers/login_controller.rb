@@ -8,7 +8,7 @@ class LoginController < ApplicationController
   }.freeze
 
   rescue_from ActionView::MissingTemplate do
-    render_404
+    render404
   end
 
   def show
@@ -17,12 +17,12 @@ class LoginController < ApplicationController
     @identity_provider = IdentityProvider.find_by(provider_type:)
     template = PROVIDERS_TEMPLATES[@identity_provider&.provider_type]
 
-    return render_404 if template.nil?
+    return render404 if template.nil?
 
     render layout: 'identity', template:
   end
 
-  def render_404
+  def render404
     render file: 'public/404.html', status: 404, layout: false
   end
 end

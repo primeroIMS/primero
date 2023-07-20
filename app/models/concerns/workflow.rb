@@ -2,6 +2,7 @@
 
 # NOTE: Currently this concern contains logic / fields specific to Child/Case.
 # Note: This is dependent on the Serviceable concern.  Serviceable must be included before Workflow
+# Concern for Workflow
 module Workflow
   extend ActiveSupport::Concern
 

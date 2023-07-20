@@ -43,16 +43,14 @@ class Export < ValueObject
   end
 
   def export_status(exporter_instance)
-    if exporter_instance.respond_to?(:total)
-      self.success_total = exporter_instance.success_total
-      self.total = exporter_instance.total
-      if success_total.zero? then FAILURE
-      elsif success_total < total then SOME_FAILURE
-      else
-        SUCCESS
-      end
+    return error_messages.blank? ? SUCCESS : FAILURE unless exporter_instance.respond_to?(:total)
+
+    self.success_total = exporter_instance.success_total
+    self.total = exporter_instance.total
+    if success_total.zero? then FAILURE
+    elsif success_total < total then SOME_FAILURE
     else
-      error_messages.blank? ? SUCCESS : FAILURE
+      SUCCESS
     end
   end
 end

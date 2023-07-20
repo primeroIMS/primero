@@ -60,6 +60,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     attr_accessor :exporter
 
     def initialize(exporter, locale = nil)
+      super
       # TODO: I am dubious that these values are correctly accumulated.
       #      Shouldn't we be trying to fetch all possible values,
       #      rather than all values for incidents getting exported?
@@ -67,8 +68,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       self.exporter = exporter
       initialize_location_types
       @caseworker_code = {}
-      @age_group_count = -1
-      @age_type_count = -1
+      @age_group_count, @age_type_count = -1
       @fields = initialize_fields
       initialize_workbook(exporter)
 

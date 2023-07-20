@@ -237,9 +237,10 @@ class Exporters::FormExporter < ValueObject
     options = I18n.t('exports.forms.options.subforms', subform_name: subform.name, locale:)
     return options if subform.collapsed_fields.blank?
 
-    options += '\n' + I18n.t('exports.forms.options.collapsed_fields',
-                             fields: subform.collapsed_fields.map(&:name).join(', '),
-                             locale:)
+    options += '\n'
+    options += I18n.t('exports.forms.options.collapsed_fields',
+                      fields: subform.collapsed_fields.map(&:name).join(', '),
+                      locale:)
     options
   end
 

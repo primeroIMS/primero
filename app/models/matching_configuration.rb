@@ -23,7 +23,8 @@ class MatchingConfiguration
   # TODO: This is just broken. Refactor this whole class when migrating to Postgres
 
   attr_accessor :id, :form_ids, :case_forms, :case_form_options, :case_fields, :case_field_options,
-                :tracing_request_forms, :tracing_request_form_options, :tracing_request_fields, :tracing_request_field_options, :match_configuration
+                :tracing_request_forms, :tracing_request_form_options, :tracing_request_fields,
+                :tracing_request_field_options, :match_configuration
 
   ID_SEPARATOR = '::'
 

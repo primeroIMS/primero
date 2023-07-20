@@ -43,6 +43,7 @@ class Child < ApplicationRecord
   include FollowUpable
   include LocationCacheable
 
+  # rubocop:disable Naming/VariableNumber
   store_accessor(
     :data,
     :case_id, :case_id_code, :case_id_display,
@@ -63,6 +64,7 @@ class Child < ApplicationRecord
     :urgent_protection_concern, :child_preferences_section, :family_details_section, :care_arrangements_section,
     :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan
   )
+  # rubocop:enable Naming/VariableNumber
 
   has_many :incidents, foreign_key: :incident_case_id
   has_many :matched_traces, class_name: 'Trace', foreign_key: 'matched_case_id'
