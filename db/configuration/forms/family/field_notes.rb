@@ -4,6 +4,7 @@ field_notes_subform_fields = [
   Field.new(name: 'note_date',
             type: 'date_field',
             display_name_en: 'Date',
+            selected_value: 'today',
             date_include_time: true),
   Field.new(name: 'note_subject',
             type: 'text_field',
