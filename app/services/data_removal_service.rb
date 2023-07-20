@@ -48,7 +48,7 @@ class DataRemovalService
     end
 
     def remove_config(args = {})
-      metadata_models = [User] if args[:include_users] == true
+      metadata_models = args[:include_users] == true ? [User] : []
       metadata_models += args[:metadata].present? ? metadata_models_to_delete(args[:metadata]) : METADATA_MODELS
       metadata_models.each { |model| ModelDeletionService.new(model_class: model).delete_all! }
     end
