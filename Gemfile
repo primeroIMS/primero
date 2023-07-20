@@ -33,7 +33,7 @@ gem 'nokogiri',            '~> 1.14'   # Security assertion on implicit dependen
 gem 'pg',                  '~> 1.5'    # Ruby PostgreSQL binding
 gem 'prawn',               '~> 2.2'    # PDF generation
 gem 'prawn-table',         '~> 0.2'    # PDF generation
-gem 'puma',                '~> 4.3'    # Ruby Rack server
+gem 'puma',                '~> 6.3'    # Ruby Rack server
 gem 'rack',                '~> 2.2'
 gem 'rack-attack',         '>= 6.3.1'  # Rack middleware to rate limit sensetive routes, such as those used for auth
 gem 'rails',               '6.1.7.4'
@@ -48,6 +48,7 @@ gem 'sunspot_rails',       '~> 2.6'    # Rails ODM bindings to Solr
 gem 'sunspot_solr',        '~> 2.6'    # Ruby bindings to Solr
 gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
 gem 'tzinfo-data',         '~> 1.2021' # Timezone Data for TZInfo
+gem 'uri',                 '>= 0.12.2' # CVE-2023-36617: ReDoS vulnerability in URI
 gem 'will_paginate',       '~> 3.1'    # Paginates ActiveRecord models  TODO: This can be refactored away.
 gem 'write_xlsx',          '~> 1.09'   # Exports XLSX
 
