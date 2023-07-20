@@ -9,14 +9,14 @@ class Filter < ValueObject
     name: 'cases.filter_by.flag',
     field_name: 'flagged',
     options: I18n.available_locales.map do |locale|
-      { locale => [{ id: 'true', display_name: I18n.t('cases.filter_by.flag_label', locale: locale) }] }
+      { locale => [{ id: 'true', display_name: I18n.t('cases.filter_by.flag_label', locale:) }] }
     end.inject(&:merge)
   )
   MOBILE_CASE = Filter.new(
     name: 'cases.filter_by.mobile',
     field_name: 'marked_for_mobile',
     options: I18n.available_locales.map do |locale|
-      { locale => [{ id: 'true', display_name: I18n.t('cases.filter_by.mobile_label', locale: locale) }] }
+      { locale => [{ id: 'true', display_name: I18n.t('cases.filter_by.mobile_label', locale:) }] }
     end.inject(&:merge)
   )
   SOCIAL_WORKER = Filter.new(name: 'cases.filter_by.social_worker', field_name: 'owned_by')
@@ -110,8 +110,8 @@ class Filter < ValueObject
     options: I18n.available_locales.map do |locale|
       {
         locale => [
-          { id: 'true', display_name: I18n.t('disabled.status.enabled', locale: locale) },
-          { id: 'false', display_name: I18n.t('disabled.status.disabled', locale: locale) }
+          { id: 'true', display_name: I18n.t('disabled.status.enabled', locale:) },
+          { id: 'false', display_name: I18n.t('disabled.status.disabled', locale:) }
         ]
       }
     end.inject(&:merge)
@@ -122,7 +122,7 @@ class Filter < ValueObject
     options: I18n.available_locales.map do |locale|
       {
         locale => [
-          { id: 'photo', display_name: I18n.t('cases.filter_by.photo_label', locale: locale) }
+          { id: 'photo', display_name: I18n.t('cases.filter_by.photo_label', locale:) }
         ]
       }
     end.inject(&:merge)
@@ -138,9 +138,9 @@ class Filter < ValueObject
     options: I18n.available_locales.map do |locale|
       {
         locale => [
-          { id: 'boys', display_name: I18n.t('incidents.filter_by.boys', locale: locale) },
-          { id: 'girls', display_name: I18n.t('incidents.filter_by.girls', locale: locale) },
-          { id: 'unknown', display_name: I18n.t('incidents.filter_by.unknown', locale: locale) }
+          { id: 'boys', display_name: I18n.t('incidents.filter_by.boys', locale:) },
+          { id: 'girls', display_name: I18n.t('incidents.filter_by.girls', locale:) },
+          { id: 'unknown', display_name: I18n.t('incidents.filter_by.unknown', locale:) }
         ]
       }
     end.inject(&:merge)
@@ -201,7 +201,7 @@ class Filter < ValueObject
         locale => [
           {
             id: 'inquiry_date',
-            display_name: I18n.t('tracing_requests.selectable_date_options.inquiry_date', locale: locale)
+            display_name: I18n.t('tracing_requests.selectable_date_options.inquiry_date', locale:)
           }
         ]
       }
@@ -327,7 +327,7 @@ class Filter < ValueObject
     name: 'incidents.filter_by.late_verified_violations',
     field_name: 'has_late_verified_violations',
     options: I18n.available_locales.map do |locale|
-      { locale => [{ id: 'true', display_name: I18n.t('true', locale: locale) }] }
+      { locale => [{ id: 'true', display_name: I18n.t('true', locale:) }] }
     end.inject(&:merge)
   )
 
@@ -680,35 +680,35 @@ class Filter < ValueObject
   def registration_date_options(locale)
     {
       id: 'registration_date',
-      display_name: I18n.t('children.selectable_date_options.registration_date', locale: locale)
+      display_name: I18n.t('children.selectable_date_options.registration_date', locale:)
     }
   end
 
   def assessment_requested_on_options(locale)
     {
       id: 'assessment_requested_on',
-      display_name: I18n.t('children.selectable_date_options.assessment_requested_on', locale: locale)
+      display_name: I18n.t('children.selectable_date_options.assessment_requested_on', locale:)
     }
   end
 
   def date_case_plan_options(locale)
     {
       id: 'date_case_plan',
-      display_name: I18n.t('children.selectable_date_options.date_case_plan_initiated', locale: locale)
+      display_name: I18n.t('children.selectable_date_options.date_case_plan_initiated', locale:)
     }
   end
 
   def date_closure_options(locale)
     {
       id: 'date_closure',
-      display_name: I18n.t('children.selectable_date_options.closure_approved_date', locale: locale)
+      display_name: I18n.t('children.selectable_date_options.closure_approved_date', locale:)
     }
   end
 
   def created_at_options(locale, date_label)
     {
       id: 'created_at',
-      display_name: I18n.t("children.selectable_date_options.#{date_label}", locale: locale)
+      display_name: I18n.t("children.selectable_date_options.#{date_label}", locale:)
     }
   end
 
@@ -728,28 +728,28 @@ class Filter < ValueObject
   def date_of_first_report_options(locale, label_key = 'date_of_first_report')
     {
       id: 'date_of_first_report',
-      display_name: I18n.t("incidents.selectable_date_options.#{label_key}", locale: locale)
+      display_name: I18n.t("incidents.selectable_date_options.#{label_key}", locale:)
     }
   end
 
   def mrm_date_of_first_report_options(locale)
     {
       id: 'date_of_first_report',
-      display_name: I18n.t('incidents.selectable_date_options.mrm_date_of_first_report', locale: locale)
+      display_name: I18n.t('incidents.selectable_date_options.mrm_date_of_first_report', locale:)
     }
   end
 
   def ctfmr_verified_date_options(locale)
     {
       id: 'ctfmr_verified_date',
-      display_name: I18n.t('incidents.selectable_date_options.ctfmr_verified_date', locale: locale)
+      display_name: I18n.t('incidents.selectable_date_options.ctfmr_verified_date', locale:)
     }
   end
 
   def incident_date_derived_options(locale)
     {
       id: 'incident_date_derived',
-      display_name: I18n.t('incidents.selectable_date_options.incident_date_derived', locale: locale)
+      display_name: I18n.t('incidents.selectable_date_options.incident_date_derived', locale:)
     }
   end
 
@@ -757,7 +757,7 @@ class Filter < ValueObject
     self.options = I18n.available_locales.map do |locale|
       locale_options = [{
         id: 'registration_date',
-        display_name: I18n.t('registry_records.selectable_date_options.registration_date', locale: locale)
+        display_name: I18n.t('registry_records.selectable_date_options.registration_date', locale:)
       }]
       { locale => locale_options }
     end.inject(&:merge)
@@ -767,7 +767,7 @@ class Filter < ValueObject
     self.options = I18n.available_locales.map do |locale|
       locale_options = [{
         id: 'registration_date',
-        display_name: I18n.t('registry_records.selectable_date_options.registration_date', locale: locale)
+        display_name: I18n.t('registry_records.selectable_date_options.registration_date', locale:)
       }]
       { locale => locale_options }
     end.inject(&:merge)
@@ -780,7 +780,7 @@ class Filter < ValueObject
           Approval::APPROVAL_STATUS_PENDING, Approval::APPROVAL_STATUS_APPROVED,
           Approval::APPROVAL_STATUS_REJECTED
         ].map do |status|
-          { id: status, display_name: I18n.t("cases.filter_by.approvals.#{status}", locale: locale) }
+          { id: status, display_name: I18n.t("cases.filter_by.approvals.#{status}", locale:) }
         end
       }
     end.inject(&:merge)
@@ -794,7 +794,7 @@ class Filter < ValueObject
       owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date incidents_by_date
       registry_records_by_date individual_age families_by_date
     ].include? field_name
-      opts = { user: user, record_type: record_type }
+      opts = { user:, record_type: }
       send("#{field_name}_options", opts)
     end
   end
@@ -812,14 +812,14 @@ class Filter < ValueObject
   end
 
   def options_length_to_type(options_length)
-    case options_length
-    when 1
-      self.type = 'toggle'
-    when 2, 3
-      self.type = 'multi_toggle'
-    else
-      self.type = 'checkbox'
-    end
+    self.type = case options_length
+                when 1
+                  'toggle'
+                when 2, 3
+                  'multi_toggle'
+                else
+                  'checkbox'
+                end
   end
 
   def inspect

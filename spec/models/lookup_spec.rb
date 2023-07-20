@@ -52,7 +52,7 @@ describe Lookup do
   it 'should create a lookup from params' do
     unique_id = 'lookup-test-1'
     params = {
-      unique_id: unique_id,
+      unique_id:,
       name: {
         en: 'Lookup Test1 '
       },
@@ -70,13 +70,13 @@ describe Lookup do
     lookup_test = Lookup.new_with_properties(params)
     expect(lookup_test).to be_valid
     lookup_test.save!
-    expect(Lookup.find_by(unique_id: unique_id)).not_to be_nil
+    expect(Lookup.find_by(unique_id:)).not_to be_nil
   end
 
   it 'should update lookup values from params' do
     unique_id = 'lookup-some-lookup'
     some_lookup = Lookup.create!(
-      unique_id: unique_id, name: 'some_lookup', lookup_values: [{ id: 'value1', display_text: 'value1' }]
+      unique_id:, name: 'some_lookup', lookup_values: [{ id: 'value1', display_text: 'value1' }]
     )
 
     params = {
@@ -95,20 +95,20 @@ describe Lookup do
     some_lookup.update_properties(params)
     expect(some_lookup).to be_valid
     some_lookup.save!
-    expect(Lookup.find_by(unique_id: unique_id).lookup_values_en.size).to eq(2)
+    expect(Lookup.find_by(unique_id:).lookup_values_en.size).to eq(2)
   end
 
   it 'should re-order lookup values from order params' do
     unique_id = 'lookup-some-lookup'
     some_lookup = Lookup.create!(
-      unique_id: unique_id, name: 'some_lookup', lookup_values: [
+      unique_id:, name: 'some_lookup', lookup_values: [
         { id: 'value1', display_text: 'value1' },
         { id: 'value2', display_text: 'value2' }
       ]
     )
 
-    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n.first.dig('display_text', 'en')).to eq('value1')
-    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n.last.dig('display_text', 'en')).to eq('value2')
+    expect(Lookup.find_by(unique_id:).lookup_values_i18n.first.dig('display_text', 'en')).to eq('value1')
+    expect(Lookup.find_by(unique_id:).lookup_values_i18n.last.dig('display_text', 'en')).to eq('value2')
 
     params = {
       values: [
@@ -120,20 +120,20 @@ describe Lookup do
     some_lookup.update_properties(params)
     expect(some_lookup).to be_valid
     some_lookup.save!
-    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n.first.dig('display_text', 'en')).to eq('value2')
-    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n.last.dig('display_text', 'en')).to eq('value1')
+    expect(Lookup.find_by(unique_id:).lookup_values_i18n.first.dig('display_text', 'en')).to eq('value2')
+    expect(Lookup.find_by(unique_id:).lookup_values_i18n.last.dig('display_text', 'en')).to eq('value1')
   end
 
   it 'should delete a lookup value' do
     unique_id = 'lookup-some-lookup'
     some_lookup = Lookup.create!(
-      unique_id: unique_id, name: 'some_lookup', lookup_values: [
+      unique_id:, name: 'some_lookup', lookup_values: [
         { id: 'value1', display_text: 'value1' },
         { id: 'value2', display_text: 'value2' }
       ]
     )
 
-    expect(Lookup.find_by(unique_id: unique_id).lookup_values_en.size).to eq(2)
+    expect(Lookup.find_by(unique_id:).lookup_values_en.size).to eq(2)
 
     params = {
       values: [
@@ -144,7 +144,7 @@ describe Lookup do
     some_lookup.update_properties(params)
     expect(some_lookup).to be_valid
     some_lookup.save!
-    expect(Lookup.find_by(unique_id: unique_id).lookup_values_en.size).to eq(1)
+    expect(Lookup.find_by(unique_id:).lookup_values_en.size).to eq(1)
   end
 
   describe 'check being used' do
@@ -672,7 +672,7 @@ describe Lookup do
     it 'saves the specified tags for the lookup values' do
       unique_id = 'lookup-some-lookup'
       some_lookup = Lookup.create!(
-        unique_id: unique_id, name: 'some_lookup', lookup_values: [
+        unique_id:, name: 'some_lookup', lookup_values: [
           { id: 'value1', display_text: 'value1', tags: %w[tag1 tag2] },
           { id: 'value2', display_text: 'value2', tags: %w[tag2] }
         ]

@@ -36,6 +36,6 @@ class Kpi::TimeFromCaseOpenToClose < Kpi::BucketedSearch
   end
 
   def to_json(*_args)
-    { data: data }
+    { data: }
   end
 end

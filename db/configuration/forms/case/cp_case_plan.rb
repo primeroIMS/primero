@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 case_plan_fields_subform = [
   Field.new('name' => 'intervention_service_to_be_provided',
             'type' => 'text_field',

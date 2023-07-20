@@ -188,7 +188,8 @@ describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
     end
 
     it 'returns group records for a group scope' do
-      vulnerable_populations_data = ManagedReports::Indicators::SurvivorsVulnerablePopulations.build(group_user, {}).data
+      vulnerable_populations_data = ManagedReports::Indicators::SurvivorsVulnerablePopulations.build(group_user,
+                                                                                                     {}).data
 
       expect(vulnerable_populations_data).to match_array(
         [
@@ -201,7 +202,8 @@ describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
     end
 
     it 'returns agency records for an agency scope' do
-      vulnerable_populations_data = ManagedReports::Indicators::SurvivorsVulnerablePopulations.build(agency_user, {}).data
+      vulnerable_populations_data = ManagedReports::Indicators::SurvivorsVulnerablePopulations.build(agency_user,
+                                                                                                     {}).data
 
       expect(vulnerable_populations_data).to match_array(
         [

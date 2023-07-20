@@ -14,12 +14,12 @@ class LoginController < ApplicationController
   def show
     provider_type = params[:id]
 
-    @identity_provider = IdentityProvider.find_by(provider_type: provider_type)
+    @identity_provider = IdentityProvider.find_by(provider_type:)
     template = PROVIDERS_TEMPLATES[@identity_provider&.provider_type]
 
     return render_404 if template.nil?
 
-    render layout: 'identity', template: template
+    render layout: 'identity', template:
   end
 
   def render_404

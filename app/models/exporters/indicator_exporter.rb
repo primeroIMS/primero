@@ -79,12 +79,12 @@ class Exporters::IndicatorExporter < ValueObject
   end
 
   def indicator_header
-    I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{key}", locale: locale)
+    I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{key}", locale:)
   end
 
   def write_total_row
     worksheet.set_row(current_row, 40)
-    worksheet.write(current_row, 1, I18n.t(TOTAL_I18N_KEY, locale: locale), formats[:bold_blue])
+    worksheet.write(current_row, 1, I18n.t(TOTAL_I18N_KEY, locale:), formats[:bold_blue])
     self.current_row += 1
   end
 
@@ -121,7 +121,7 @@ class Exporters::IndicatorExporter < ValueObject
       {
         categories: [worksheet.name] + table_data_rows + [0, 0],
         values: [worksheet.name] + table_data_rows + [columns_number, columns_number],
-        points: Exporters::ManagedReportExporter::CHART_COLORS.values.map { |color| { fill: { color: color } } }
+        points: Exporters::ManagedReportExporter::CHART_COLORS.values.map { |color| { fill: { color: } } }
       }
     ]
   end
@@ -274,7 +274,7 @@ class Exporters::IndicatorExporter < ValueObject
     return label_key.to_s if label_key.is_a?(AgeRange)
     return label_key['display_text'] if label_key.is_a?(Hash)
 
-    I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{label_key}", locale: locale)
+    I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{label_key}", locale:)
   end
 end
 # rubocop:enable Metrics/ClassLength

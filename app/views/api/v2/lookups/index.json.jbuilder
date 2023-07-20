@@ -2,7 +2,7 @@
 
 json.data do
   json.array! @lookups do |lookup|
-    json.partial! 'api/v2/lookups/lookup', lookup: lookup
+    json.partial! 'api/v2/lookups/lookup', lookup:
   end
 end
 

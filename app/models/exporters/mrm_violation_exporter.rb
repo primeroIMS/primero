@@ -177,7 +177,7 @@ module Exporters
       write_association_header(worksheet, id) if id != :violations
       write_field_headers(worksheet, fields)
       write_violation_headers_by_type(worksheet) if id == :violations
-      self.worksheets = { id => { worksheet: worksheet, row: id == :violations ? 3 : 2 } }
+      self.worksheets = { id => { worksheet:, row: id == :violations ? 3 : 2 } }
     end
 
     def write_association_header(worksheet, id)
@@ -254,7 +254,8 @@ module Exporters
     def write_tally_option_headers(worksheet, field)
       field.tally(locale).each do |option|
         display_text = option['display_text']
-        worksheet.set_column_pixels(name_first_cell_by_column(@header_column), name_first_cell_by_column(@header_column), display_text.length * 11)
+        worksheet.set_column_pixels(name_first_cell_by_column(@header_column),
+                                    name_first_cell_by_column(@header_column), display_text.length * 11)
         worksheet.write(@header_row, @header_column, display_text)
         @header_column += 1
       end
@@ -419,7 +420,7 @@ module Exporters
     end
 
     def build_worksheet_name(worksheet_name)
-      worksheet_name.truncate(31).gsub(%r{[\[\]\/:*?]}, ' ')
+      worksheet_name.truncate(31).gsub(%r{[\[\]/:*?]}, ' ')
     end
   end
   # rubocop:enable Metrics/ClassLength

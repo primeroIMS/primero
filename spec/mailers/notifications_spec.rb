@@ -12,26 +12,27 @@ describe NotificationMailer, type: :mailer do
     before do
       clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Referral)
 
-      @lookup = Lookup.create!(id: 'lookup-approval-type', unique_id:'lookup-approval-type', name: 'approval type',
-                               lookup_values_en: [{'id' => 'value1', 'display_text' => 'value1'}])
+      @lookup = Lookup.create!(id: 'lookup-approval-type', unique_id: 'lookup-approval-type', name: 'approval type',
+                               lookup_values_en: [{ 'id' => 'value1', 'display_text' => 'value1' }])
       role = create(:role, is_manager: true)
-      @manager1 = create(:user, role: role, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1')
-      @manager2 = create(:user, role: role, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2')
+      @manager1 = create(:user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1')
+      @manager2 = create(:user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2')
       @manager3 = create(
-        :user, role: role, email: 'manager3@primero.dev', send_mail: true, user_name: 'manager3', locale: 'ar-LB'
+        :user, role:, email: 'manager3@primero.dev', send_mail: true, user_name: 'manager3', locale: 'ar-LB'
       )
       @manager4 = create(
-        :user, role: role, email: 'manager4@primero.dev', send_mail: true, user_name: 'manager4', disabled: true
+        :user, role:, email: 'manager4@primero.dev', send_mail: true, user_name: 'manager4', disabled: true
       )
       @owner = create(:user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev')
       @disabled_user = create(
         :user, user_name: 'duser', full_name: 'Disabled User', email: 'duser@primero.dev', disabled: true
       )
-      @arabic_owner = create(:user, user_name: 'jdoe', full_name: 'Jhon Doe', email: 'arabic_owner@primero.dev', locale: 'ar-LB')
+      @arabic_owner = create(:user, user_name: 'jdoe', full_name: 'Jhon Doe', email: 'arabic_owner@primero.dev',
+                                    locale: 'ar-LB')
       @child = child_with_created_by(@owner.user_name, name: 'child1', module_id: PrimeroModule::CP,
                                                        case_id_display: '12345')
       @arabic_child = child_with_created_by(@arabic_owner.user_name, name: 'arabic_child1', module_id: PrimeroModule::CP,
-                                                        case_id_display: '67890')
+                                                                     case_id_display: '67890')
       @referral = Referral.new(transitioned_by: 'manager1', transitioned_to: 'duser', record: @child)
       @referral.save(validate: false)
     end
@@ -152,7 +153,7 @@ describe NotificationMailer, type: :mailer do
       @user1 = User.new(
         user_name: 'user1', role: @role, user_groups: [@group1],
         email: 'uzer1@test.com', send_mail: true,
-        agency: agency
+        agency:
       )
       @user1.save(validate: false)
       @group2 = UserGroup.create!(name: 'Group2')
@@ -160,14 +161,14 @@ describe NotificationMailer, type: :mailer do
         user_name: 'user2', role: @role,
         user_groups: [@group2],
         email: 'uzer_to@test.com', send_mail: true,
-        agency: agency
+        agency:
       )
       @user2.save(validate: false)
       @user3 = User.new(
         user_name: 'user3', role: @role,
         user_groups: [@group2],
         email: 'ar_uzer_to@test.com', send_mail: true,
-        agency: agency,
+        agency:,
         locale: 'ar-LB'
       )
       @user3.save(validate: false)
@@ -177,7 +178,7 @@ describe NotificationMailer, type: :mailer do
         user_groups: [@group2],
         email: 'user4@test.com',
         send_mail: false,
-        agency: agency
+        agency:
       )
       @user4.save(validate: false)
       @case = Child.create(

@@ -29,14 +29,8 @@ class ApplicationApiController < ActionController::API
   end
 
   # Devise Magic method, explicitly declared.
-  def current_user
-    super
-  end
 
   # Devise Magic method, explicitly declared.
-  def authenticate_user!
-    super
-  end
 
   def check_config_update_lock!
     raise Errors::LockedForConfigurationUpdate if SystemSettings.locked_for_configuration_update?

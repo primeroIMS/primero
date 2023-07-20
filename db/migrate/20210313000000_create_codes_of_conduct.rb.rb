@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateCodesOfConduct < ActiveRecord::Migration[5.2]
   def change
     create_table :codes_of_conduct do |t|

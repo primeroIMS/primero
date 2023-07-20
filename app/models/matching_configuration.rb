@@ -22,17 +22,8 @@ class MatchingConfiguration
   # TODO: Create rspec tests
   # TODO: This is just broken. Refactor this whole class when migrating to Postgres
 
-  attr_accessor :id
-  attr_accessor :form_ids
-  attr_accessor :case_forms
-  attr_accessor :case_form_options
-  attr_accessor :case_fields
-  attr_accessor :case_field_options
-  attr_accessor :tracing_request_forms
-  attr_accessor :tracing_request_form_options
-  attr_accessor :tracing_request_fields
-  attr_accessor :tracing_request_field_options
-  attr_accessor :match_configuration
+  attr_accessor :id, :form_ids, :case_forms, :case_form_options, :case_fields, :case_field_options,
+                :tracing_request_forms, :tracing_request_form_options, :tracing_request_fields, :tracing_request_field_options, :match_configuration
 
   ID_SEPARATOR = '::'
 
@@ -145,9 +136,9 @@ class MatchingConfiguration
 
   def get_matchable_form_and_field_names(form_ids, parent_form)
     matchable_fields = Field.joins(:form_section).includes(:form_section)
-                            .where(form_sections: { id: form_ids, parent_form: parent_form }, matchable: true)
+                            .where(form_sections: { id: form_ids, parent_form: }, matchable: true)
     grouped_matchable_fields = matchable_fields.group_by { |f| f.form_section.unique_id }
-    grouped_matchable_fields.map { |form_id, fields| [form_id, fields.map(&:name)] }.to_h
+    grouped_matchable_fields.transform_values { |fields| fields.map(&:name) }
   end
 
   def load_matchable_fields(form_sections)

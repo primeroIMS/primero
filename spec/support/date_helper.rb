@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DateHelper
   def this_week
     if Time.zone.now.beginning_of_day == Time.zone.now.beginning_of_week

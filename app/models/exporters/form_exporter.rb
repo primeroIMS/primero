@@ -47,8 +47,8 @@ class Exporters::FormExporter < ValueObject
     self.visible_column_index = 5
     keys = %w[form_group form_name field_id field_type field_name required on_mobile on_short_form options
               options_lookup help_text guiding_questions]
-    keys = keys.insert(visible_column_index, 'visible') unless opts[:form_params][:visible]
-    opts[:header] = keys.map { |key| I18n.t("exports.forms.header.#{key}", locale: locale) }
+    keys.insert(visible_column_index, 'visible') unless opts[:form_params][:visible]
+    opts[:header] = keys.map { |key| I18n.t("exports.forms.header.#{key}", locale:) }
   end
 
   def export
@@ -103,7 +103,7 @@ class Exporters::FormExporter < ValueObject
 
   def summary_header
     keys = %w[form_group form status notes]
-    keys.map { |key| I18n.t("exports.forms.summary_header.#{key}", locale: locale) }
+    keys.map { |key| I18n.t("exports.forms.summary_header.#{key}", locale:) }
   end
 
   def form_summary_row(form)
@@ -143,7 +143,7 @@ class Exporters::FormExporter < ValueObject
   end
 
   def form_name(form)
-    form.name(locale.to_s).gsub(%r{[\[\]:*?\/\\]}, ' ')
+    form.name(locale.to_s).gsub(%r{[\[\]:*?/\\]}, ' ')
   end
 
   def format_form_name(name)
@@ -216,15 +216,15 @@ class Exporters::FormExporter < ValueObject
   end
 
   def field_options_select(field)
-    return I18n.t('exports.forms.options.country', locale: locale) if lookup_country?(field)
+    return I18n.t('exports.forms.options.country', locale:) if lookup_country?(field)
 
     %w[Location Agency User ReportingLocation].each do |option|
       next unless field.option_strings_source&.start_with?(option)
 
-      return I18n.t("exports.forms.options.#{option.downcase}", locale: locale)
+      return I18n.t("exports.forms.options.#{option.downcase}", locale:)
     end
 
-    field.options_list(lookups: lookups).map { |o| o.is_a?(String) ? o : o['display_text'] }.join(', ')
+    field.options_list(lookups:).map { |o| o.is_a?(String) ? o : o['display_text'] }.join(', ')
   end
 
   def lookup_country?(field)
@@ -234,12 +234,12 @@ class Exporters::FormExporter < ValueObject
   def field_options_subform(field)
     subform = field.subform_section
     export_form(subform)
-    options = I18n.t('exports.forms.options.subforms', subform_name: subform.name, locale: locale)
+    options = I18n.t('exports.forms.options.subforms', subform_name: subform.name, locale:)
     return options if subform.collapsed_fields.blank?
 
     options += '\n' + I18n.t('exports.forms.options.collapsed_fields',
                              fields: subform.collapsed_fields.map(&:name).join(', '),
-                             locale: locale)
+                             locale:)
     options
   end
 
@@ -271,7 +271,7 @@ class Exporters::FormExporter < ValueObject
 
   def lookup_header
     keys = %w[lookup_id lookup_name option_id option_name]
-    keys.map { |key| I18n.t("exports.forms.header.#{key}", locale: locale) }
+    keys.map { |key| I18n.t("exports.forms.header.#{key}", locale:) }
   end
 
   def lookup_row(lookup, lookup_value)

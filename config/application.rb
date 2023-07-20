@@ -18,6 +18,7 @@ Bundler.require(*Rails.groups)
 
 # Main Rails module for Primero
 module Primero; end
+
 # Main Rails application class for Primero
 class Primero::Application < Rails::Application
   config.load_defaults 6.1

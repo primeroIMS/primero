@@ -10,7 +10,7 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
     sunspot.instance_eval do
       if this.values.first.is_a?(Hash)
         any_of do
-          this.values.each do |v|
+          this.each_value do |v|
             with(this.field_name, v['from']...v['to'])
           end
         end
@@ -26,7 +26,7 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
 
     location_filters = values.map do |value|
       SearchFilters::Value.new(
-        field_name: location_field_name_solr(field_name, value), value: value
+        field_name: location_field_name_solr(field_name, value), value:
       )
     end
     SearchFilters::Or.new(filters: location_filters)
@@ -39,7 +39,7 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
   def as_id_filter(record_class)
     return self unless id_field_filter?(record_class)
 
-    id_filters = values.map { |value| SearchFilters::Value.new(field_name: "#{field_name}_filterable", value: value) }
+    id_filters = values.map { |value| SearchFilters::Value.new(field_name: "#{field_name}_filterable", value:) }
 
     SearchFilters::Or.new(filters: id_filters)
   end
@@ -47,7 +47,7 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
   def to_h
     {
       type: 'values',
-      field_name: field_name,
+      field_name:,
       value: values
     }
   end

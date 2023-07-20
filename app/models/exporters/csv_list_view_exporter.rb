@@ -54,7 +54,7 @@ class Exporters::CsvListViewExporter < Exporters::BaseExporter
 
   def headers(list_headers)
     list_headers.map do |header|
-      I18n.t("#{record_type.pluralize}.#{header.name}", default: '', locale: locale)
+      I18n.t("#{record_type.pluralize}.#{header.name}", default: '', locale:)
     end
   end
 

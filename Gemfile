@@ -8,14 +8,14 @@ gem 'aws-sdk-s3',          '~> 1.113', # Access and manage Amazon S3 storage (wi
     require: false
 gem 'azure-storage-blob',  '~> 1.1',   # Access and manage Microsoft Azure Storage Blob Services (with ActiveStorage).
     require: false
-gem 'cancancan',           '~> 3.5'     # Endpoint user authorization
+gem 'cancancan',           '~> 3.5' # Endpoint user authorization
 gem 'csv-safe',            '~> 3.0'    # Safely export data to CSV to avoid formula injection
 gem 'daemons',             '~> 1.4.0'  # Gem to run the delayed jobs
 gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for merging params to existing records.
     require: 'deep_merge/rails_compat'
 gem 'delayed_job_active_record', '~> 4.1.6'
 gem 'devise',              '~> 4.7'    # Authentication framework
-gem 'devise-jwt',          '~> 0.10'     # JWT authentication for native Primero users
+gem 'devise-jwt',          '~> 0.10' # JWT authentication for native Primero users
 gem 'faraday',             '~> 0.17'   # Ruby HTTP client
 gem 'file_validators',     '~> 3.0'    # ActiveRecord extension for validating attachment file sizes
 gem 'i18n-js',             '~> 3.9'    # Shares Rails i18n strings with the front end
@@ -53,7 +53,7 @@ gem 'will_paginate',       '~> 3.1'    # Paginates ActiveRecord models  TODO: Th
 gem 'write_xlsx',          '~> 1.09'   # Exports XLSX
 
 group :development, :test do
-#   gem 'binding_of_caller',          '~> 0.8'  # TODO: get rid of dependency if not necessary for debugging and testing
+  #   gem 'binding_of_caller',          '~> 0.8'  # TODO: get rid of dependency if not necessary for debugging and testing
   gem 'bundler-audit',              '~> 0.8'
   gem 'ci_reporter',                '~> 2.0'
   gem 'factory_bot',                '~> 5.0'

@@ -19,9 +19,9 @@ describe Api::V2::PasswordResetController, type: :request do
     )
     agency = Agency.create!(name: 'Agency test 1', agency_code: 'agencytest1')
     User.create!(
-      user_name: user_name, email: email, full_name: 'test',
-      password: password, password_confirmation: password,
-      role: role, agency: agency
+      user_name:, email:, full_name: 'test',
+      password:, password_confirmation: password,
+      role:, agency:
     )
   end
   let(:new_password) { 'new_passwordpassword' }
@@ -36,7 +36,7 @@ describe Api::V2::PasswordResetController, type: :request do
     it 'sends a password reset email if the provided email matches an existing user' do
       expect(Devise::Mailer).to receive(:reset_password_instructions).and_call_original
 
-      post '/api/v2/users/password-reset-request', params: { user: { email: email } }
+      post '/api/v2/users/password-reset-request', params: { user: { email: } }
       expect(response).to have_http_status(200)
     end
 
@@ -48,8 +48,8 @@ describe Api::V2::PasswordResetController, type: :request do
     end
 
     it 'throttles requests after 6 attempts per minute per user email' do
-      params = { user: { email: email } }
-      7.times { post '/api/v2/users/password-reset-request', params: params }
+      params = { user: { email: } }
+      7.times { post '/api/v2/users/password-reset-request', params: }
 
       expect(response).to have_http_status(429)
     end
@@ -91,14 +91,14 @@ describe Api::V2::PasswordResetController, type: :request do
     let(:json) { JSON.parse(response.body) }
 
     context 'with valid token' do
-      before(:each)   do
+      before(:each) do
         params = {
           user: {
             password: new_password, password_confirmation: new_password,
-            reset_password_token: reset_password_token
+            reset_password_token:
           }
         }
-        post '/api/v2/users/password-reset', params: params
+        post '/api/v2/users/password-reset', params:
       end
 
       it 'resets the password given the right token' do
@@ -123,7 +123,7 @@ describe Api::V2::PasswordResetController, type: :request do
             reset_password_token: 'faketoken'
           }
         }
-        post '/api/v2/users/password-reset', params: params
+        post('/api/v2/users/password-reset', params:)
 
         expect(response).to have_http_status(422)
         expect(user.reload.valid_password?(new_password)).to be_falsey
@@ -137,7 +137,7 @@ describe Api::V2::PasswordResetController, type: :request do
             reset_password_token: 'faketoken'
           }
         }
-        11.times { post '/api/v2/users/password-reset', params: params }
+        11.times { post '/api/v2/users/password-reset', params: }
 
         expect(response).to have_http_status(429)
         Rack::Attack.reset!
@@ -149,10 +149,10 @@ describe Api::V2::PasswordResetController, type: :request do
         params = {
           user: {
             password: new_password, password_confirmation: "#{new_password}**",
-            reset_password_token: reset_password_token
+            reset_password_token:
           }
         }
-        post '/api/v2/users/password-reset', params: params
+        post('/api/v2/users/password-reset', params:)
 
         expect(response).to have_http_status(422)
         expect(user.reload.valid_password?(new_password)).to be_falsey

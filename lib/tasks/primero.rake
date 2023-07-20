@@ -22,7 +22,7 @@ namespace :primero do
   task :remove_records, %i[record_models filters] => :environment do |_, args|
     filters = DestringifyService.destringify(JSON.parse(args[:filters] || '{}').with_indifferent_access)
     record_models = args[:record_models]&.split(' ')
-    DataRemovalService.remove_records(record_models: record_models, filters: filters)
+    DataRemovalService.remove_records(record_models:, filters:)
   end
 
   # If you are planning to load the JSON config, use the remove_config_data task instead
@@ -124,7 +124,7 @@ namespace :primero do
       return
     end
 
-    configuration = PrimeroConfiguration.find_by(version: version)
+    configuration = PrimeroConfiguration.find_by(version:)
     if configuration.blank?
       puts "ERROR: Configuration #{version} not found"
       return
@@ -246,7 +246,7 @@ namespace :primero do
 
     owned_by_user = args[:owned_by_user].presence || created_by_user
     puts "Importing Records from #{file_name}"
-    importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_path: file_path,
+    importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_path:,
                                                 created_by: created_by_user, owned_by: owned_by_user)
     importer.import
     puts "Batch Size: #{importer.batch_size}"
@@ -266,14 +266,14 @@ namespace :primero do
       affected_users.each { |u| puts "  #{u.user_name}" }
 
       puts "\nIs that OK? (y/n)"
-      ok = STDIN.gets.strip.downcase
+      ok = $stdin.gets.strip.downcase
       break if %w[y n].include?(ok)
 
       if ok == 'y'
         puts 'Please enter a new default password:'
-        password = STDIN.noecho(&:gets).chomp
+        password = $stdin.noecho(&:gets).chomp
         puts 'Enter again to confirm:'
-        password_confirmation = STDIN.noecho(&:gets).chomp
+        password_confirmation = $stdin.noecho(&:gets).chomp
         affected_users.each do |user|
           user.password = password
           user.password_confirmation = password_confirmation

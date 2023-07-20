@@ -253,7 +253,8 @@ describe Filter do
         expect(
           @filters_cp_gbv.dig(0, 'cases')
                         .find { |filter| filter.name == 'cases.filter_by.by_date' }
-                        .options[:en]).to eq(filter_by_date_cp)
+                        .options[:en]
+        ).to eq(filter_by_date_cp)
       end
     end
   end

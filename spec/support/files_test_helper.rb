@@ -2,7 +2,8 @@
 
 # Rspec helpers for file attachment
 module FilesTestHelper
-  extend self # TODO: Delete after agency
+  module_function # TODO: Delete after agency
+
   extend ActionDispatch::TestProcess
 
   def attachment_base64(file_name)

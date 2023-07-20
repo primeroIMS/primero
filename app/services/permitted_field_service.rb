@@ -7,7 +7,7 @@
 class PermittedFieldService
   attr_accessor :user, :model_class, :action_name, :id_search, :permitted_form_field_service
 
-  # Note: Not using Ruby safe regex \A\z because the expression is evaluated with ECMA-262
+  # NOTE: Not using Ruby safe regex \A\z because the expression is evaluated with ECMA-262
   UUID_REGEX = '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
 
   # case_status_reopened, record_state, incident_case_id, owned_by, module_id,

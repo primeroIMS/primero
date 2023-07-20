@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 care_arrangements_fields_subform = [
   Field.new('name' => 'child_caregiver_status',
             'type' => 'radio_button',
@@ -51,7 +53,7 @@ care_arrangements_fields_subform = [
             'option_strings_source' => 'lookup lookup-family-relationship'),
   Field.new('name' => 'care_arrangement_started_date',
             'type' => 'date_field',
-            'display_name_en' => 'When did this care arrangement start?'),
+            'display_name_en' => 'When did this care arrangement start?')
 ]
 
 care_arrangements_section = FormSection.create_or_update!(

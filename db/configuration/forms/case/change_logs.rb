@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FormSection.create_or_update!(
   unique_id: 'change_logs',
   parent_form: 'case',

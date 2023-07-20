@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 protection_concern_detail_subform_fields = [
   Field.new('name' => 'protection_concern_type',
             'type' => 'select_box',

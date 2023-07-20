@@ -15,7 +15,7 @@ describe Api::V2::DashboardsController, type: :request do
       },
       changes_field_to_form: {
         incident_details: 'incident_from_case'
-      },
+      }
     )
 
     SystemSettings.current(true)
@@ -186,8 +186,8 @@ describe Api::V2::DashboardsController, type: :request do
 
       cases_by_social_worker = json['data'].find { |d| d['name'] == 'dashboard.dash_cases_by_social_worker' }
       expect(cases_by_social_worker['indicators'].count).to eq(2)
-      expect(cases_by_social_worker['indicators'].keys).to match_array(['cases_by_social_worker_total',
-                                                                        'cases_by_social_worker_new_or_updated'])
+      expect(cases_by_social_worker['indicators'].keys).to match_array(%w[cases_by_social_worker_total
+                                                                          cases_by_social_worker_new_or_updated])
       expect(cases_by_social_worker['indicators']['cases_by_social_worker_total']['foo']['count']).to eq(2)
       expect(cases_by_social_worker['indicators']['cases_by_social_worker_new_or_updated']['foo']['count']).to eq(1)
 

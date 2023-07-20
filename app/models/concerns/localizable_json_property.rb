@@ -152,20 +152,20 @@ module LocalizableJsonProperty
 
   def find_option_in_store(current_store, id)
     current_store.find do |opt|
-      opt.dig('id') == id
+      opt['id'] == id
     end
   end
 
   def property_setter(current_store, current_option, current_value, locale)
     if current_option
-      current_option['display_text'][locale.to_s] = current_value.dig('display_text')
+      current_option['display_text'][locale.to_s] = current_value['display_text']
     else
       current_option = {}.with_indifferent_access
-      current_option['id'] = current_value.dig('id')
-      current_option['display_text'] = { "#{locale}": current_value.dig('display_text') }.with_indifferent_access
+      current_option['id'] = current_value['id']
+      current_option['display_text'] = { "#{locale}": current_value['display_text'] }.with_indifferent_access
       current_store << current_option
     end
 
-    current_option['tags'] = current_value.dig('tags') if current_value.dig('tags').present?
+    current_option['tags'] = current_value['tags'] if current_value['tags'].present?
   end
 end

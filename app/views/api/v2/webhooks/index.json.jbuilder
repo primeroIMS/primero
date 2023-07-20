@@ -2,6 +2,6 @@
 
 json.data do
   json.array! @webhooks do |webhook|
-    json.partial! 'api/v2/webhooks/webhook', webhook: webhook
+    json.partial! 'api/v2/webhooks/webhook', webhook:
   end
 end

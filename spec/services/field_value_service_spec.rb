@@ -322,7 +322,7 @@ describe FieldValueService do
       clean_data(Location)
       I18n.locale = :en
       Location.create!(location_code: 'CT01', type: 'country', admin_level: '0',
-        placename_i18n: { en: 'Country01_en', es: 'Country01_es' })
+                       placename_i18n: { en: 'Country01_en', es: 'Country01_es' })
     end
 
     let(:location_field) do
@@ -330,11 +330,12 @@ describe FieldValueService do
         'name' => 'my_location_field',
         'type' => Field::SELECT_BOX,
         'display_name_all' => 'My Location Field',
-        'option_strings_source' => 'Location',
+        'option_strings_source' => 'Location'
       )
     end
     it 'returns the translated location name' do
-      expect(FieldValueService.value(location_field, 'CT01', location_service: LocationService.instance)).to eq('Country01_en')
+      expect(FieldValueService.value(location_field, 'CT01',
+                                     location_service: LocationService.instance)).to eq('Country01_en')
     end
   end
 end

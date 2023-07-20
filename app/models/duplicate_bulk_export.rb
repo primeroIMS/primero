@@ -44,8 +44,8 @@ class DuplicateBulkExport < BulkExport
     sort = order || { national_id_no: :asc }
     loop do
       filters = filters_for_duplicates(duplicate_field_name, values)
-      results = SearchService.search(model_class, filters: filters, query: query,
-                                                  pagination: { page: page, per_page: batch_size }, sort: sort).results
+      results = SearchService.search(model_class, filters:, query:,
+                                                  pagination: { page:, per_page: batch_size }, sort:).results
       yield(results)
       # Set again the values of the pagination variable because the method modified the variable.
       page = results.next_page
@@ -54,7 +54,7 @@ class DuplicateBulkExport < BulkExport
   end
 
   def filters_for_duplicates(field_name, duplicates)
-    [SearchFilters::ValueList.new(field_name: field_name, values: duplicates)]
+    [SearchFilters::ValueList.new(field_name:, values: duplicates)]
   end
 
   def duplicate_field_name

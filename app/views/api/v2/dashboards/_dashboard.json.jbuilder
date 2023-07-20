@@ -6,7 +6,7 @@ json.type dashboard.type
 json.indicators do
   json.set!(
     dashboard.indicators.map do |indicator|
-      json.partial! "api/v2/dashboards/#{indicator.class.type}", indicator: indicator
+      json.partial! "api/v2/dashboards/#{indicator.class.type}", indicator:
     end
   )
 end
