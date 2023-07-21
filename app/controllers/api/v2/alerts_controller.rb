@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Class for Alert Controller
-class Api::V2::AlertsController < RecordResourceController
+class Api::V2::AlertsController < Api::V2::RecordResourceController
   def bulk_index
     @alerts = {
       case: Child.alert_count(current_user),
