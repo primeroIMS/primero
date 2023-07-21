@@ -39,3 +39,6 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Exclude:
     - bin/*
+
+Style/OptionalBooleanParameter:
+  Enabled: false
