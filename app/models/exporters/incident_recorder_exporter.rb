@@ -59,8 +59,9 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
 
     attr_accessor :exporter
 
+    # TODO: We need to refactor this class, rubocop wants to call super but this throw an exception
+    # rubocop:disable Lint/MissingSuper
     def initialize(exporter, locale = nil)
-      super
       # TODO: I am dubious that these values are correctly accumulated.
       #      Shouldn't we be trying to fetch all possible values,
       #      rather than all values for incidents getting exported?
@@ -68,7 +69,8 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       self.exporter = exporter
       initialize_location_types
       @caseworker_code = {}
-      @age_group_count, @age_type_count = -1
+      @age_group_count = -1
+      @age_type_count = -1
       @fields = initialize_fields
       initialize_workbook(exporter)
 
@@ -77,6 +79,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       self.locale = locale || I18n.locale
       self.field_value_service = FieldValueService.new
     end
+    # rubocop:enable Lint/MissingSuper
 
     def initialize_location_types
       @districts = {}

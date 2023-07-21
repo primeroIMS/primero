@@ -40,15 +40,18 @@ class MatchingService
     end
   end
 
+  # Disable cop, rubocop detect thresholded_search_result as hash but it is an array
+  # rubocop:disable Style/HashTransformValues
   def normalize_search_results(results)
     return {} unless results.present?
 
     normalized_search_result = results.map { |k, v| [k, v / results.values.max.to_f] }
     thresholded_search_result = normalized_search_result.select { |_, v| v > NORMALIZED_THRESHOLD }
-    thresholded_search_result.transform_values do |score|
-      { score:, likelihood: likelihood(score, average_score(results), thresholded_search_result.size) }
+    thresholded_search_result.to_h do |id, score|
+      [id, { score:, likelihood: likelihood(score, average_score(results), thresholded_search_result.size) }]
     end
   end
+  # rubocop:enable Style/HashTransformValues
 
   def average_score(results)
     scores = results.values
