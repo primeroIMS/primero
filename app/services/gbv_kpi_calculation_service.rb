@@ -144,7 +144,7 @@ class GBVKpiCalculationService
   end
 
   def access_migrated_forms(form_section_unique_id)
-    @record.respond_to?(form_section_unique_id) && @record.send(form_section_unique_id) || [@record.data]
+    (@record.respond_to?(form_section_unique_id) && @record.send(form_section_unique_id)) || [@record.data]
   end
 
   def percentage_goals_met(goals)

@@ -31,7 +31,7 @@ class Exporters::UNHCRCsvExporter < Exporters::ConfigurableExporter
 
   def write_case(record, index, rows)
     props_to_export = properties_to_export(PROPERTIES, opting_out?(record))
-    rows << [index + 1] + map_properties(record, props_to_export)
+    rows << ([index + 1] + map_properties(record, props_to_export))
   end
 
   def map_properties(record, props_to_export)

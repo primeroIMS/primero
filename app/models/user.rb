@@ -167,8 +167,8 @@ class User < ApplicationRecord
     end
   end
 
-  def initialize(attributes = nil, &block)
-    super(attributes&.except(*User.unique_id_parameters), &block)
+  def initialize(attributes = nil, &)
+    super(attributes&.except(*User.unique_id_parameters), &)
     associate_unique_id_properties(attributes.slice(*User.unique_id_parameters)) if attributes.present?
   end
 

@@ -140,7 +140,7 @@ class Exporters::SubreportExporter < ValueObject
         next acc.merge(key => LocationService.instance)
       end
 
-      lookup_obj = value.is_a?(Array) ? value.map { |l| [l, find_lookup(l)] }.to_h : find_lookup(value)
+      lookup_obj = value.is_a?(Array) ? value.to_h { |l| [l, find_lookup(l)] } : find_lookup(value)
 
       acc.merge(key => lookup_obj)
     end

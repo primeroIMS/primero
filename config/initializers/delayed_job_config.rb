@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 logfile = if ENV['RAILS_LOG_PATH'].present? && ENV['LOG_TO_STDOUT'].blank?
-            "#{ENV['RAILS_LOG_PATH']}/backburner.log"
+            "#{ENV.fetch('RAILS_LOG_PATH', nil)}/backburner.log"
           else
             $stdout
           end

@@ -64,7 +64,7 @@ class Primero::Application < Rails::Application
   ]
 
   ENV['RAILS_LOG_PATH'].present? &&
-    config.paths['log'] = "#{ENV['RAILS_LOG_PATH']}/#{ENV['RAILS_ENV']}.log"
+    config.paths['log'] = "#{ENV.fetch('RAILS_LOG_PATH', nil)}/#{ENV.fetch('RAILS_ENV', nil)}.log"
 
   config.beginning_of_week = :sunday
 

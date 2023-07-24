@@ -6,11 +6,11 @@ module Reports
   class Utils
     # rubocop:enable Style/ClassAndModuleChildren
     class << self
-      def group_values(values, group_pivot_index, &block)
+      def group_values(values, group_pivot_index, &)
         return values if group_pivot_index.blank?
 
         result = {}
-        group_buckets = group_buckets(values, group_pivot_index, &block)
+        group_buckets = group_buckets(values, group_pivot_index, &)
         # for every bucket, merge the contents
         group_buckets.each do |group, bucket|
           result.merge!(process_bucket_group(group, bucket, group_pivot_index))
@@ -56,7 +56,7 @@ module Reports
       end
 
       def date_range(date_string, type)
-        type = type.present? ? type : 'date'
+        type = 'date' unless type.present?
         range_clazz = Kernel.const_get("Reports::#{type.capitalize}Range")
         range_clazz.new(date_string)
       end
@@ -73,7 +73,7 @@ module Reports
       def calculate_pivots(values, number_of_pivots)
         (number_of_pivots - 1).downto(0).each do |i|
           values.group_by { |pivots, _value| pivots[0..i] }.each do |pivot_group, values_in_group|
-            pivots = pivot_group + [''] * (number_of_pivots - pivot_group.size)
+            pivots = pivot_group + ([''] * (number_of_pivots - pivot_group.size))
             values[pivots] = sum_pivot_values(values_in_group)
           end
         end

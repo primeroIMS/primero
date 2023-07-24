@@ -33,7 +33,7 @@ class FormSectionResponse < ValueObject
     # ------------------
     # ''    | false
     # ------------------
-    mandatory_fields.all? { |f| field(f.name).nil? || field(f.name) == '' ? false : true }
+    mandatory_fields.all? { |f| !(field(f.name).nil? || field(f.name) == '') }
   end
 
   def field(name)

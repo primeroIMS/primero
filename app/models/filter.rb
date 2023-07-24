@@ -435,7 +435,7 @@ class Filter < ValueObject
     end
 
     def field_based_filters(user)
-      filter_fields = Field.where(name: CASE_FILTER_FIELD_NAMES).map { |f| [f.name, f] }.to_h
+      filter_fields = Field.where(name: CASE_FILTER_FIELD_NAMES).to_h { |f| [f.name, f] }
       filters = []
       filters += protection_concern_filter(user)
       filters += gbv_displacement_filter(user, filter_fields)

@@ -81,7 +81,7 @@ class Exporters::RolePermissionsExporter
   def write_header
     @roles = Role.all.to_a.sort_by(&:name)
     @role_permissions_array = @roles.map do |r|
-      r.permissions.map { |p| [p.resource, p.to_h] }.to_h
+      r.permissions.to_h { |p| [p.resource, p.to_h] }
     end
     header = %w[Resource Action] + @roles.map(&:name)
     write_row(header, true)

@@ -8,7 +8,5 @@ namespace :git do
 end
 def write_file(name, content)
   puts "Writing #{name}..."
-  File.open(name, 'w') do |file|
-    file.write content
-  end
+  File.write(name, content)
 end

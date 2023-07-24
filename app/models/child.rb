@@ -308,9 +308,9 @@ class Child < ApplicationRecord
   def match_criteria
     match_criteria = data.slice(*Child.child_matching_field_names).compact
     match_criteria = match_criteria.merge(
-      Child.family_matching_field_names.map do |field_name|
+      Child.family_matching_field_names.to_h do |field_name|
         [field_name, values_from_subform('family_details_section', field_name)]
-      end.to_h
+      end
     )
     match_criteria = match_criteria.transform_values { |v| v.is_a?(Array) ? v.join(' ') : v }
     match_criteria.select { |_, v| v.present? }

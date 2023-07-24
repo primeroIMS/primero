@@ -67,9 +67,9 @@ class MatchingService
   def find_match_records(match_criteria, match_class, require_consent = true)
     return {} if match_criteria.blank?
 
-    search(match_criteria, match_class, require_consent).hits.map do |hit|
+    search(match_criteria, match_class, require_consent).hits.to_h do |hit|
       [hit.result.id, hit.score]
-    end.to_h
+    end
   end
 
   # Almost never disable Rubocop, but Sunspot queries are what they are.
@@ -106,7 +106,7 @@ class MatchingService
     boost_field = MATCH_FIELDS.find { |f| f[:fields].include?(field_name) }
     return unless boost_field.present?
 
-    boost_field[:fields].map { |f| ["#{f}_matchable", boost_field[:boost]] }.to_h
+    boost_field[:fields].to_h { |f| ["#{f}_matchable", boost_field[:boost]] }
   end
 
   def make_key(record)

@@ -214,9 +214,9 @@ class Field < ApplicationRecord
     subform_group_by_values = {}
     subform_group_by_field = self.subform_group_by_field
     if subform_group_by_field.present?
-      subform_group_by_values = subform_group_by_field.options_list(nil, nil, nil, true).map do |o|
+      subform_group_by_values = subform_group_by_field.options_list(nil, nil, nil, true).to_h do |o|
         [o['id'], o['display_text']]
-      end.to_h
+      end
     end
     subform_group_by_values
   end
@@ -347,7 +347,7 @@ class Field < ApplicationRecord
   end
 
   def valid_option?(option)
-    return unless option.is_a?(Hash)
+    return false unless option.is_a?(Hash)
 
     option = option.with_indifferent_access
     option[:id].present? && option[:display_text].is_a?(Hash) &&
