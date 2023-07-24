@@ -60,8 +60,8 @@ class AuditLog < ApplicationRecord
   end
 
   def statistic_message
-    "#{AUDIT_LOG_STATISTIC}[#{id}]: #{record_type},#{action},#{metadata['remote_ip']},#{user_id},"\
-    "#{metadata['role_id']},#{metadata['agency_id']}"
+    "#{AUDIT_LOG_STATISTIC}[#{id}]: #{record_type},#{action},#{metadata['remote_ip']},#{user_id}," \
+      "#{metadata['role_id']},#{metadata['agency_id']}"
   end
 
   private

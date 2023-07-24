@@ -19,9 +19,9 @@ class FormSectionResponseList < ValueObject
     end
   end
 
-  def select(&block)
+  def select(&)
     FormSectionResponseList.new(
-      responses: map.select(&block),
+      responses: map.select(&),
       form_sction: form_section
     )
   end

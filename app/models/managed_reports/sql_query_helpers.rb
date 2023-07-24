@@ -142,7 +142,7 @@ module ManagedReports::SqlQueryHelpers
         acc + ActiveRecord::Base.sanitize_sql_for_conditions(
           [
             %{ when int4range(:start, :end, '[]') @> cast(#{column} as integer)
-               then #{!last_range?(range) ? "':start - :end'" : "':start+' end"}
+               then #{last_range?(range) ? "':start+' end" : "':start - :end'"}
             }, { field_name:, start: range.first, end: range.last }
           ]
         )

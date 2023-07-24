@@ -5,14 +5,14 @@
 class DuplicateBulkExport < BulkExport
   FACET_BATCH_SIZE = 100
 
-  def process_records_in_batches(batch_size = 500, &block)
+  def process_records_in_batches(batch_size = 500, &)
     return yield([]) unless duplicate_field_name
 
     batched_duplicate_values = search_for_duplicate_values.in_groups_of(FACET_BATCH_SIZE, false)
     return yield([]) unless batched_duplicate_values.present?
 
     batched_duplicate_values.each do |values|
-      search_for_duplicate_records(values, batch_size, &block)
+      search_for_duplicate_records(values, batch_size, &)
     end
   end
 

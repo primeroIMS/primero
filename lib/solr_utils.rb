@@ -34,7 +34,7 @@ class SolrUtils
   def self.unescape(value)
     return value unless special_characters?(value)
 
-    value.gsub(/\\/, '')
+    value.gsub('\\', '')
   end
 
   def self.special_characters?(value)

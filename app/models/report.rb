@@ -303,9 +303,9 @@ class Report < ApplicationRecord
   end
 
   def pivots_map
-    @pivots_map ||= pivots.map do |pivot|
+    @pivots_map ||= pivots.to_h do |pivot|
       [pivot, pivot_fields[pivot] || pivot_fields[Field.remove_admin_level_from_name(pivot)]]
-    end.to_h
+    end
   end
 
   def select_fields(query)

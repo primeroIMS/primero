@@ -391,7 +391,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
 
     def perpetrator_former_props
       lambda do |model|
-        former_perpetrators = primary_alleged_perpetrator(model).map { |ap| ap['former_perpetrator'] }.reject(&:nil?)
+        former_perpetrators = primary_alleged_perpetrator(model).map { |ap| ap['former_perpetrator'] }.compact
         if former_perpetrators.include? 'true'
           I18n.t('exports.incident_recorder_xls.yes', **locale_hash)
         elsif former_perpetrators.all? { |is_fp| is_fp == 'false' }

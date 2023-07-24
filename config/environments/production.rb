@@ -15,7 +15,7 @@ Rails.application.configure do
 
   # When running on the UNICEF Azure SaaS, Rails needs to serve its assets.
   # When running in standalone mode, nginx will serve the assets.
-  config.public_file_server.enabled = ::ActiveRecord::Type::Boolean.new.cast(ENV['RAILS_PUBLIC_FILE_SERVER'])
+  config.public_file_server.enabled = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('RAILS_PUBLIC_FILE_SERVER', nil))
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify

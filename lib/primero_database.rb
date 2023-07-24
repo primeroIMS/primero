@@ -21,10 +21,10 @@ class PrimeroDatabase
     settings = YAML.safe_load(file)
     rails_env = ENV['RAILS_ENV'] || 'development'
     "host=#{settings[rails_env]['host']} " \
-    "dbname=#{settings[rails_env]['database']} " \
-    "user=#{settings[rails_env]['username']} " \
-    "password=#{settings[rails_env]['password']} " \
-    "sslmode=#{settings[rails_env]['sslmode'] || 'prefer'}"
+      "dbname=#{settings[rails_env]['database']} " \
+      "user=#{settings[rails_env]['username']} " \
+      "password=#{settings[rails_env]['password']} " \
+      "sslmode=#{settings[rails_env]['sslmode'] || 'prefer'}"
   end
 
   def seeded?

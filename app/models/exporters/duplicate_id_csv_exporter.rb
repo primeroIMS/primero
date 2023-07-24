@@ -58,7 +58,7 @@ class Exporters::DuplicateIdCsvExporter < Exporters::ConfigurableExporter
         generator.call(record)
       end
     end
-    rows << [index + 1] + values
+    rows << ([index + 1] + values)
   end
 
   def value_from_array(record, generator)

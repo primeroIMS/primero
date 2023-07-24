@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-user_hash = user.attributes.reject { |k, _| User.hidden_attributes.include?(k) }
+user_hash = user.attributes.except(*User.hidden_attributes)
 user_hash = user_hash.merge({
   agency_id: user.agency_id,
   module_unique_ids: user.module_unique_ids,
