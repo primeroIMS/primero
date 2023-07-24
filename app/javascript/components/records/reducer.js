@@ -61,7 +61,11 @@ import {
   MARK_FOR_OFFLINE_SUCCESS,
   MARK_FOR_OFFLINE_STARTED,
   MARK_FOR_OFFLINE_FINISHED,
-  MARK_FOR_OFFLINE_FAILURE
+  MARK_FOR_OFFLINE_FAILURE,
+  CREATE_CASE_FROM_FAMILY_MEMBER_STARTED,
+  CREATE_CASE_FROM_FAMILY_MEMBER_SUCCESS,
+  CREATE_CASE_FROM_FAMILY_MEMBER_FAILURE,
+  CREATE_CASE_FROM_FAMILY_MEMBER_FINISHED
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -346,6 +350,18 @@ export default namespace =>
         }
 
         return state;
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_STARTED}`: {
+        return state.setIn(["case", "loading"], true);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_SUCCESS}`: {
+        return state.setIn(["case", "data"], fromJS(payload.data));
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_FAILURE}`: {
+        return state.setIn(["case", "errors"], true);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_FINISHED}`: {
+        return state.setIn(["case", "loading"], false);
       }
       default:
         return state;

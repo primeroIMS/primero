@@ -115,3 +115,7 @@ export const getSelectedRecordData = (state, recordType) => {
 
   return selectRecord(state, { id: selectedRecordId, recordType, isEditOrShow: true });
 };
+
+export const getCaseFromFamilyMember = state => state.getIn(["records", "families", "case", "data"], fromJS({}));
+
+export const getCaseFormFamilyMemberLoading = state => state.getIn(["records", "families", "case", "loading"], false);

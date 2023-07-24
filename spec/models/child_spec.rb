@@ -109,6 +109,46 @@ describe Child do
     end
   end
 
+  describe 'family record' do
+    before do
+      clean_data(Child, Family)
+    end
+
+    let(:family1) do
+      Family.create!(
+        data: {
+          family_number: '40bf9109',
+          module_id: PrimeroModule::CP,
+          family_size: 1,
+          family_notes: 'Notes about the family',
+          family_members: [
+            {
+              unique_id: '001',
+              family_relationship: 'relationship1',
+              family_relationship_notes: 'Notes about the relationship 001',
+              family_relationship_notes_additional: 'Additional notes about the relationship 001',
+              relation_name: 'Member 1',
+              relation_sex: 'male',
+              relation_age: 10
+            }
+          ]
+        }
+      )
+    end
+
+    let(:case1) { Child.create!(family: family1, data: { age: 13, sex: 'female', family_member_id: '001' }) }
+
+    it 'links a family and a family_member to a case' do
+      expect(case1.family).to eq(family1)
+      expect(family1.cases).to include(case1)
+
+      family_member = family1.family_members.find { |member| member['unique_id'] == '001' }
+
+      expect(family_member['case_id']).to eq(case1.id)
+      expect(family_member['case_id_display']).to eq(case1.case_id_display)
+    end
+  end
+
   describe 'validation' do
     it 'should allow blank age' do
       child = Child.new(data: { age: '', another_field: 'blah' })

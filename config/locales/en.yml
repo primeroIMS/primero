@@ -3422,6 +3422,9 @@ en:
           reopen:
             explanation: Allows a user to open a family which is currently closed.
             label: Reopen
+          case_from_family:
+            explanation: Allows users to create a new case from a Family Members subform within the Family Record.
+            label: Create Case
         label: Family
       report:
         actions:
@@ -4032,12 +4035,17 @@ en:
       current_location: Family Location
   family:
     family_member:
-      update_and_return: 'Update and Return'
-      save_and_return: 'Add and Return'
+      case_id: Case ID
+      update_and_return: Update and Return
+      save_and_return: Add and Return
+      create_case: Create Case
+      back_to_family_members: Back to Family Members
+      create: Create
     messages:
       update_success: 'Family %{record_id} was successfully updated.'
       creation_success: 'Family successfully created.'
       disabled: Family is disabled
+      confirm_create_case: Do you want to create a Case for this individual?
   transfer:
     label: Transfer
     agency_label: Agency
