@@ -49,6 +49,7 @@ gem 'sunspot_solr',        '~> 2.6'    # Ruby bindings to Solr
 gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
 gem 'tzinfo-data',         '~> 1.2023' # Timezone Data for TZInfo
 gem 'uri',                 '>= 0.12.2' # CVE-2023-36617: ReDoS vulnerability in URI
+gem 'web-push',            '~> 3.0'
 gem 'will_paginate',       '~> 4.0'    # Paginates ActiveRecord models  TODO: This can be refactored away.
 gem 'write_xlsx',          '~> 1.11'   # Exports XLSX
 
