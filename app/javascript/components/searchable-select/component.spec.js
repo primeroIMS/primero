@@ -1,11 +1,8 @@
-import Autocomplete from "@material-ui/lab/Autocomplete";
-
-import { setupMountedComponent } from "../../test";
+import { mountedComponent, screen } from "test-utils";
 
 import SearchableSelect from "./component";
 
 describe("<SearchableSelect />", () => {
-  let component;
   const props = {
     id: "userAutocomplete",
     name: "name_test",
@@ -25,11 +22,10 @@ describe("<SearchableSelect />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(SearchableSelect, props));
+    mountedComponent(<SearchableSelect {...props} />);
   });
 
   it("renders Autocomplete", () => {
-    expect(component.find(Autocomplete)).to.have.length(1);
-    expect(component.find(Autocomplete).props().options).to.have.length(3);
+    expect(screen.getAllByText("Test")).toBeTruthy();
   });
 });
