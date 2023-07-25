@@ -1,15 +1,11 @@
 import { fromJS } from "immutable";
-import AddIcon from "@material-ui/icons/Add";
+import { mountedComponent, screen } from "test-utils";
 
-import { setupMountedComponent } from "../../test";
-import IndexTable from "../index-table";
 import { ACTIONS } from "../permissions";
 
 import Reports from "./container";
 
 describe("<Reports /> - Component", () => {
-  let component;
-
   const initialState = fromJS({
     user: {
       permissions: {
@@ -55,25 +51,19 @@ describe("<Reports /> - Component", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(Reports, {}, initialState));
+    mountedComponent(<Reports />, initialState);
   });
 
   it("should render <IndexTable>", () => {
-    expect(component.find(IndexTable)).to.have.lengthOf(1);
+    expect(screen.getAllByText("reports.label")).toBeTruthy();
   });
 
-  // TODO: Should test if we have a clickable button, but removing button temporarly till this feature is implemented
-  // it("should render <AddIcon>", () => {
-  //   expect(component.find(AddIcon)).to.have.lengthOf(1);
-  // });
-
   describe("When doesn't have permission to create report", () => {
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(Reports, {}, initialState.get("records")));
-    });
-
     it("should not render AddIcon", () => {
-      expect(component.find(AddIcon)).to.have.lengthOf(0);
+      mountedComponent(<Reports />, initialState.get("records"));
+      const addIconElement = screen.queryByTestId("add-icon");
+
+      expect(addIconElement).not.toBeInTheDocument();
     });
   });
 });
