@@ -96,9 +96,7 @@ describe("<ReportsForm /> - Container", () => {
 
   beforeEach(() => {
     const props = { mode: "new" };
-
     mountedComponent(<ReportsForm {...props} />, initialState);
-    // ({ component } = setupMountedComponent(ReportsForm, { mode: "new" }, initialState));
   });
 
   it("should render <PageHeading>", () => {
