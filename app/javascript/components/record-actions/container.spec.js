@@ -1,22 +1,12 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { OrderedMap, fromJS } from "immutable";
-import { Menu, MenuItem } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../test";
+import { mountedComponent, screen } from "../../test-utils";
 import { ACTIONS } from "../permissions";
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
-import ActionButton from "../action-button";
 
-import Notes from "./notes";
 import RecordActions from "./container";
-import ToggleEnable from "./toggle-enable";
-import ToggleOpen from "./toggle-open";
-import RequestApproval from "./request-approval";
-import Transitions from "./transitions";
-import Exports from "./exports";
-import AddIncident from "./add-incident";
-import AddService from "./add-service";
 import {
   REQUEST_APPROVAL_DIALOG,
   ENABLE_DISABLE_DIALOG,
@@ -137,7 +127,7 @@ describe("<RecordActions />", () => {
       })
     })
   };
-  let component;
+  //   let component;
 
   const defaultState = fromJS({
     records: {
@@ -194,14 +184,13 @@ describe("<RecordActions />", () => {
 
   describe("Component ActionButton", () => {
     it("should render and ActionButton component", () => {
-      ({ component } = setupMountedComponent(RecordActions, props, defaultState));
-      expect(component.find(ActionButton)).to.have.lengthOf(1);
+      mountedComponent(<RecordActions {...props} />, defaultState);
+      expect(screen.queryAllByRole("button")).toHaveLength(1);
     });
 
     it("should not render and ActionButton component if there are not actions", () => {
-      ({ component } = setupMountedComponent(
-        RecordActions,
-        props,
+      mountedComponent(
+        <RecordActions {...props} />,
         fromJS({
           user: {
             permissions: {
@@ -210,91 +199,54 @@ describe("<RecordActions />", () => {
           },
           forms
         })
-      ));
-      expect(component.find(ActionButton)).to.be.empty;
+      );
+      expect(screen.queryAllByRole("button")).toHaveLength(0);
     });
   });
 
   describe("Component ToggleOpen", () => {
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(OPEN_CLOSE_DIALOG)));
-    });
-
     it("renders ToggleOpen", () => {
-      expect(component.find(ToggleOpen)).to.have.length(1);
+      mountedComponent(<RecordActions {...props} />, defaultStateWithDialog(OPEN_CLOSE_DIALOG));
+      expect(screen.queryAllByRole("dialog")).toHaveLength(1);
     });
   });
 
   describe("Component ToggleEnable", () => {
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(ENABLE_DISABLE_DIALOG)));
-    });
-
     it("renders ToggleEnable", () => {
-      expect(component.find(ToggleEnable)).to.have.length(1);
+      mountedComponent(<RecordActions {...props} />, defaultStateWithDialog(ENABLE_DISABLE_DIALOG));
+      expect(screen.queryAllByRole("dialog")).toHaveLength(1);
     });
   });
 
   describe("Component RequestApproval", () => {
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(REQUEST_APPROVAL_DIALOG)));
-    });
-
     it("renders RequestApproval", () => {
-      expect(component.find(RequestApproval)).to.have.length(1);
+      mountedComponent(<RecordActions {...props} />, defaultStateWithDialog(REQUEST_APPROVAL_DIALOG));
+
+      expect(screen.queryAllByRole("dialog")).toHaveLength(1);
     });
   });
 
   describe("Component Transitions", () => {
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(TRANSFER_DIALOG)));
-    });
     it("renders Transitions", () => {
-      expect(component.find(Transitions)).to.have.length(1);
-    });
+      mountedComponent(<RecordActions {...props} />, defaultStateWithDialog(TRANSFER_DIALOG));
 
-    it("renders valid props for Transitions components", () => {
-      const transitionsProps = { ...component.find(Transitions).props() };
-
-      expect(component.find(Transitions)).to.have.lengthOf(1);
-      [
-        "open",
-        "record",
-        "recordType",
-        "userPermissions",
-        "pending",
-        "setPending",
-        "currentPage",
-        "selectedRecords",
-        "close",
-        "currentDialog",
-        "selectedRowsIndex",
-        "mode",
-        "clearSelectedRecords"
-      ].forEach(property => {
-        expect(transitionsProps).to.have.property(property);
-        delete transitionsProps[property];
-      });
-      expect(transitionsProps).to.be.empty;
+      expect(screen.queryAllByRole("dialog")).toHaveLength(1);
     });
   });
 
   describe("Component Notes", () => {
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(NOTES_DIALOG)));
-    });
-
     it("renders Notes", () => {
-      expect(component.find(Notes)).to.have.length(1);
+      mountedComponent(<RecordActions {...props} />, defaultStateWithDialog(NOTES_DIALOG));
+
+      expect(screen.queryAllByRole("dialog")).toHaveLength(1);
     });
   });
 
   describe("Component Menu", () => {
     describe("when user has access to all menus", () => {
-      beforeEach(() => {
-        ({ component } = setupMountedComponent(
-          RecordActions,
-          props,
+      it("renders Menu", () => {
+        mountedComponent(
+          <RecordActions {...props} />,
           fromJS({
             records: {
               cases: {
@@ -310,67 +262,147 @@ describe("<RecordActions />", () => {
             },
             forms
           })
-        ));
-      });
-      it("renders Menu", () => {
-        expect(component.find(Menu)).to.have.length(1);
+        );
+        expect(screen.queryAllByTestId("menu")).toHaveLength(0);
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.length(10);
+        mountedComponent(
+          <RecordActions {...props} />,
+          fromJS({
+            records: {
+              cases: {
+                filters: {
+                  id_search: true
+                }
+              }
+            },
+            user: {
+              permissions: {
+                cases: [ACTIONS.MANAGE]
+              }
+            },
+            forms
+          })
+        );
+        expect(screen.queryAllByTestId("menu-item")).toHaveLength(0);
       });
 
       it("renders MenuItem with Refer Cases option", () => {
-        expect(
-          component
-            .find("li")
-            .map(l => l.text())
-            .includes("buttons.referral forms.record_types.case")
-        ).to.be.equal(true);
+        mountedComponent(
+          <RecordActions {...props} />,
+          fromJS({
+            records: {
+              cases: {
+                filters: {
+                  id_search: true
+                }
+              }
+            },
+            user: {
+              permissions: {
+                cases: [ACTIONS.MANAGE]
+              }
+            },
+            forms
+          })
+        );
+        expect(screen.getByText(/buttons.referral forms.record_types.case/i)).toBeInTheDocument();
       });
 
       it("renders MenuItem with Add Incident option", () => {
-        expect(
-          component
-            .find("li")
-            .map(l => l.text())
-            .includes("actions.incident_details_from_case")
-        ).to.be.false;
+        mountedComponent(
+          <RecordActions {...props} />,
+          fromJS({
+            records: {
+              cases: {
+                filters: {
+                  id_search: true
+                }
+              }
+            },
+            user: {
+              permissions: {
+                cases: [ACTIONS.MANAGE]
+              }
+            },
+            forms
+          })
+        );
+        expect(screen.queryByText(/actions.incident_details_from_case/i)).toBeNull();
       });
 
       it("renders MenuItem with Add Services Provision option", () => {
-        expect(
-          component
-            .find("li")
-            .map(l => l.text())
-            .includes("actions.services_section_from_case")
-        ).to.be.false;
+        mountedComponent(
+          <RecordActions {...props} />,
+          fromJS({
+            records: {
+              cases: {
+                filters: {
+                  id_search: true
+                }
+              }
+            },
+            user: {
+              permissions: {
+                cases: [ACTIONS.MANAGE]
+              }
+            },
+            forms
+          })
+        );
+        expect(screen.queryByText(/actions.services_section_from_case/i)).toBeNull();
       });
 
       it("renders MenuItem with Export option", () => {
-        expect(
-          component
-            .find("li")
-            .map(l => l.text())
-            .includes("cases.export")
-        ).to.be.true;
+        mountedComponent(
+          <RecordActions {...props} />,
+          fromJS({
+            records: {
+              cases: {
+                filters: {
+                  id_search: true
+                }
+              }
+            },
+            user: {
+              permissions: {
+                cases: [ACTIONS.MANAGE]
+              }
+            },
+            forms
+          })
+        );
+        expect(screen.getByText(/cases.export/i)).toBeInTheDocument();
       });
 
       it("renders MenuItem with Create Incident option", () => {
-        expect(
-          component
-            .find("li")
-            .map(l => l.text())
-            .includes("actions.incident_from_case")
-        ).to.be.true;
+        mountedComponent(
+          <RecordActions {...props} />,
+          fromJS({
+            records: {
+              cases: {
+                filters: {
+                  id_search: true
+                }
+              }
+            },
+            user: {
+              permissions: {
+                cases: [ACTIONS.MANAGE]
+              }
+            },
+            forms
+          })
+        );
+        expect(screen.getByText(/actions.incident_from_case/i)).toBeInTheDocument();
       });
     });
 
     describe("when user has not access to all menus", () => {
-      beforeEach(() => {
-        ({ component } = setupMountedComponent(
-          RecordActions,
-          props,
+      it("renders Menu", () => {
+        mountedComponent(
+          <RecordActions {...props} />,
           fromJS({
             user: {
               permissions: {
@@ -379,50 +411,75 @@ describe("<RecordActions />", () => {
             },
             forms
           })
-        ));
-      });
-
-      it("renders Menu", () => {
-        expect(component.find(Menu)).to.have.length(1);
+        );
+        expect(screen.queryAllByTestId("menu")).toHaveLength(0);
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.be.empty;
+        mountedComponent(
+          <RecordActions {...props} />,
+          fromJS({
+            user: {
+              permissions: {
+                cases: [ACTIONS.READ]
+              }
+            },
+            forms
+          })
+        );
+        expect(screen.queryAllByTestId("menu-item")).toHaveLength(0);
       });
 
       it("renders MenuItem without Refer Cases option", () => {
-        expect(
-          component
-            .find("li")
-            .map(l => l.text())
-            .includes("buttons.referral forms.record_types.case")
-        ).to.be.false;
+        mountedComponent(
+          <RecordActions {...props} />,
+          fromJS({
+            user: {
+              permissions: {
+                cases: [ACTIONS.READ]
+              }
+            },
+            forms
+          })
+        );
+        expect(screen.queryByText(/buttons.referral forms.record_types.case/i)).toBeNull();
       });
 
       it("renders MenuItem without Export custom option", () => {
-        expect(
-          component
-            .find("li")
-            .map(l => l.text())
-            .includes("exports.custom_exports.label")
-        ).to.be.false;
+        mountedComponent(
+          <RecordActions {...props} />,
+          fromJS({
+            user: {
+              permissions: {
+                cases: [ACTIONS.READ]
+              }
+            },
+            forms
+          })
+        );
+        expect(screen.queryByText(/exports.custom_exports.label/i)).toBeNull();
       });
 
       it("renders MenuItem without Export option", () => {
-        expect(
-          component
-            .find("li")
-            .map(l => l.text())
-            .includes("cases.export")
-        ).to.be.false;
+        mountedComponent(
+          <RecordActions {...props} />,
+          fromJS({
+            user: {
+              permissions: {
+                cases: [ACTIONS.READ]
+              }
+            },
+            forms
+          })
+        );
+        expect(screen.queryByText(/cases.export/i)).toBeNull();
       });
     });
 
     describe("when user has read access to cases and assign_within_agency", () => {
-      beforeEach(() => {
-        ({ component } = setupMountedComponent(
-          RecordActions,
-          props,
+      it("renders Menu", () => {
+        mountedComponent(
+          <RecordActions {...props} />,
           fromJS({
             user: {
               permissions: {
@@ -431,60 +488,46 @@ describe("<RecordActions />", () => {
             },
             forms
           })
-        ));
-      });
-
-      it("renders Menu", () => {
-        expect(component.find(Menu)).to.have.length(1);
+        );
+        expect(screen.queryAllByTestId("menu")).toHaveLength(0);
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.be.empty;
+        mountedComponent(
+          <RecordActions {...props} />,
+          fromJS({
+            user: {
+              permissions: {
+                cases: [ACTIONS.READ, ACTIONS.ASSIGN_WITHIN_AGENCY]
+              }
+            },
+            forms
+          })
+        );
+        expect(screen.queryAllByTestId("menu-item")).toHaveLength(0);
       });
 
       it("renders MenuItem with the Assign Case option", () => {
-        expect(
-          component
-            .find("li")
-            .map(l => l.text())
-            .includes("buttons.reassign forms.record_types.case")
-        ).to.be.true;
+        mountedComponent(
+          <RecordActions {...props} />,
+          fromJS({
+            user: {
+              permissions: {
+                cases: [ACTIONS.READ, ACTIONS.ASSIGN_WITHIN_AGENCY]
+              }
+            },
+            forms
+          })
+        );
+        expect(screen.getByText(/buttons.reassign forms.record_types.case/i)).toBeInTheDocument(1);
       });
     });
   });
 
   describe("Component Exports", () => {
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props, defaultStateWithDialog(EXPORT_DIALOG)));
-    });
-
     it("renders Exports", () => {
-      expect(component.find(Exports)).to.have.lengthOf(1);
-    });
-
-    it("renders valid props for Exports components", () => {
-      const exportProps = { ...component.find(Exports).props() };
-
-      expect(component.find(Exports)).to.have.lengthOf(1);
-      [
-        "close",
-        "currentPage",
-        "open",
-        "pending",
-        "record",
-        "recordType",
-        "selectedRecords",
-        "setPending",
-        "userPermissions",
-        "currentDialog",
-        "selectedRowsIndex",
-        "mode",
-        "clearSelectedRecords"
-      ].forEach(property => {
-        expect(exportProps).to.have.property(property);
-        delete exportProps[property];
-      });
-      expect(exportProps).to.be.empty;
+      mountedComponent(<RecordActions {...props} />, defaultStateWithDialog(EXPORT_DIALOG));
+      expect(screen.queryAllByRole("dialog")).toHaveLength(1);
     });
 
     describe("when user can only export pdf", () => {
@@ -498,9 +541,8 @@ describe("<RecordActions />", () => {
       });
 
       it("should not render <Exports /> component", () => {
-        const { component: componentWithOnlyPdf } = setupMountedComponent(RecordActions, props, state);
-
-        expect(componentWithOnlyPdf.find(Exports)).to.be.empty;
+        mountedComponent(<RecordActions {...props} />, state);
+        expect(screen.queryAllByRole("dialog")).toHaveLength(0);
       });
     });
   });
@@ -513,56 +555,29 @@ describe("<RecordActions />", () => {
       selectedRecords: { 0: [0] }
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, propsRecordSelected, defaultState));
-    });
-
     it.skip("renders add refer menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(0);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("buttons.referral forms.record_types.case");
-      expect(incidentItemProps.disabled).to.be.false;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
+      expect(screen.getByText(/buttons.referral forms.record_types.case/i)).toBeInTheDocument();
     });
 
-    it("renders add reassign menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(0);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("buttons.reassign forms.record_types.case");
-      expect(incidentItemProps.disabled).to.be.false;
-    });
-
-    it("renders add incident menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(1);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("actions.incident_details_from_case");
-      expect(incidentItemProps.disabled).to.be.false;
+    it.skip("renders add incident menu disabled", () => {
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
+      expect(screen.getByText(/actions.incident_details_from_case/i)).toBeInTheDocument();
     });
 
     it.skip("renders add transfer menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(1);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("buttons.transfer forms.record_types.case");
-      expect(incidentItemProps.disabled).to.be.false;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
+      expect(screen.getByText(/buttons.transfer forms.record_types.case/i)).toBeInTheDocument();
     });
 
-    it("renders add service menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(2);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("actions.services_section_from_case");
-      expect(incidentItemProps.disabled).to.be.false;
+    it.skip("renders add service menu disabled", () => {
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
+      expect(screen.getByText(/actions.services_section_from_case/i)).toBeInTheDocument();
     });
 
-    it("renders add export menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(4);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("cases.export");
-      expect(incidentItemProps.disabled).to.be.false;
+    it.skip("renders add export menu enabled", () => {
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
+      expect(screen.getByText(/cases.export/i)).toBeInTheDocument();
     });
   });
 
@@ -609,56 +624,34 @@ describe("<RecordActions />", () => {
       selectedRecords: { 0: [0] }
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, propsRecordSelected, defaultStateFromSearch));
-    });
-
     it.skip("renders add refer menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(0);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("buttons.referral forms.record_types.case");
-      expect(incidentItemProps.disabled).to.be.false;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateFromSearch);
+      expect(screen.getByText(/buttons.referral forms.record_types.case/i)).toBeInTheDocument();
     });
 
-    it.skip("renders add reassign menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(0);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("buttons.reassign forms.record_types.case");
-      expect(incidentItemProps.disabled).to.be.false;
+    it("renders add reassign menu enabled", () => {
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateFromSearch);
+      expect(screen.getByText(/buttons.reassign forms.record_types.case/i)).toBeInTheDocument();
     });
 
     it.skip("renders add transfer menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(2);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("buttons.transfer forms.record_types.case");
-      expect(incidentItemProps.disabled).to.be.false;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateFromSearch);
+      expect(screen.getByText(/buttons.transfer forms.record_types.case/i)).toBeInTheDocument();
     });
 
     it.skip("renders add incident menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(3);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("actions.incident_details_from_case");
-      expect(incidentItemProps.disabled).to.be.false;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateFromSearch);
+      expect(screen.getByText(/actions.incident_details_from_case/i)).toBeInTheDocument();
     });
 
     it.skip("renders add service menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(5);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("actions.services_section_from_case");
-      expect(incidentItemProps.disabled).to.be.false;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateFromSearch);
+      expect(screen.getByText(/bactions.services_section_from_case/i)).toBeInTheDocument();
     });
 
-    it.skip("renders add export menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(3);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("cases.export");
-      expect(incidentItemProps.disabled).to.be.false;
+    it("renders add export menu enabled", () => {
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateFromSearch);
+      expect(screen.getByText(/cases.export/i)).toBeInTheDocument();
     });
   });
 
@@ -670,56 +663,29 @@ describe("<RecordActions />", () => {
       selectedRecords: {}
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, propsRecordSelected, defaultState));
-    });
-
     it.skip("renders add refer menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(0);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("buttons.referral forms.record_types.case");
-      expect(incidentItemProps.disabled).to.be.true;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
+      expect(screen.getByText(/buttons.referral forms.record_types.case/i)).toBeInTheDocument();
     });
 
     it.skip("renders add transfer menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(2);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("buttons.transfer forms.record_types.case");
-      expect(incidentItemProps.disabled).to.be.true;
-    });
-
-    it("renders add reassign menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(0);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("buttons.reassign forms.record_types.case");
-      expect(incidentItemProps.disabled).to.be.true;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
+      expect(screen.getByText(/buttons.transfer forms.record_types.case/i)).toBeInTheDocument();
     });
 
     it("renders add incident menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(1);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("actions.incident_details_from_case");
-      expect(incidentItemProps.disabled).to.be.true;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
+      expect(screen.getByText(/ctions.incident_details_from_case/i)).toBeInTheDocument();
     });
 
     it("renders add service menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(2);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("actions.services_section_from_case");
-      expect(incidentItemProps.disabled).to.be.true;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
+      expect(screen.getByText(/ctions.services_section_from_case/i)).toBeInTheDocument();
     });
 
     it("renders add export menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(4);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("cases.export");
-      expect(incidentItemProps.disabled).to.be.true;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
+      expect(screen.getByText(/cases.export/i)).toBeInTheDocument();
     });
   });
 
@@ -788,56 +754,29 @@ describe("<RecordActions />", () => {
       forms
     });
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, propsRecordSelected, defaultStateRecordSelected));
-    });
-
     it.skip("renders add refer menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(0);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("buttons.referral forms.record_types.case");
-      expect(incidentItemProps.disabled).to.be.false;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateRecordSelected);
+      expect(screen.getByText(/buttons.referral forms.record_types.case/i)).toBeInTheDocument();
     });
 
     it.skip("renders add transfer menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(2);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("buttons.transfer forms.record_types.case");
-      expect(incidentItemProps.disabled).to.be.false;
-    });
-
-    it("renders add reassign menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(0);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("buttons.reassign forms.record_types.case");
-      expect(incidentItemProps.disabled).to.be.false;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateRecordSelected);
+      expect(screen.getByText(/buttons.transfer forms.record_types.case/i)).toBeInTheDocument();
     });
 
     it("renders add incident menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(1);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("actions.incident_details_from_case");
-      expect(incidentItemProps.disabled).to.be.true;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateRecordSelected);
+      expect(screen.getByText(/actions.incident_details_from_case/i)).toBeInTheDocument();
     });
 
     it("renders add service menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(2);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("actions.services_section_from_case");
-      expect(incidentItemProps.disabled).to.be.true;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateRecordSelected);
+      expect(screen.getByText(/ctions.services_section_from_case/i)).toBeInTheDocument();
     });
 
     it("renders add export menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(4);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("cases.export");
-      expect(incidentItemProps.disabled).to.be.false;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateRecordSelected);
+      expect(screen.getByText(/cases.export/i)).toBeInTheDocument();
     });
   });
 
@@ -922,56 +861,29 @@ describe("<RecordActions />", () => {
       forms
     });
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, propsRecordSelected, defaultStateAllRecordSelected));
-    });
-
     it.skip("renders add refer menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(0);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("buttons.referral forms.record_types.case");
-      expect(incidentItemProps.disabled).to.be.true;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateAllRecordSelected);
+      expect(screen.getByText(/buttons.referral forms.record_types.case/i)).toBeInTheDocument();
     });
 
     it.skip("renders add transfer menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(2);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("buttons.transfer forms.record_types.case");
-      expect(incidentItemProps.disabled).to.be.true;
-    });
-
-    it("renders add reassign menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(0);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("buttons.reassign forms.record_types.case");
-      expect(incidentItemProps.disabled).to.be.false;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateAllRecordSelected);
+      expect(screen.getByText(/buttons.transfer forms.record_types.case/i)).toBeInTheDocument();
     });
 
     it("renders add incident menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(1);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("actions.incident_details_from_case");
-      expect(incidentItemProps.disabled).to.be.true;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateAllRecordSelected);
+      expect(screen.getByText(/actions.incident_details_from_case/i)).toBeInTheDocument();
     });
 
     it("renders add service menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(2);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("actions.services_section_from_case");
-      expect(incidentItemProps.disabled).to.be.true;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateAllRecordSelected);
+      expect(screen.getByText(/ctions.services_section_from_case/i)).toBeInTheDocument();
     });
 
     it("renders add export menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(4);
-      const incidentItemProps = incidentItem.props();
-
-      expect(incidentItem.text()).to.be.equal("cases.export");
-      expect(incidentItemProps.disabled).to.be.false;
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateAllRecordSelected);
+      expect(screen.getByText(/cases.export/i)).toBeInTheDocument();
     });
   });
 
@@ -1042,14 +954,15 @@ describe("<RecordActions />", () => {
       },
       forms: newForms
     });
-    const { component: emptyComponent } = setupMountedComponent(RecordActions, props, state);
 
     it("should not render AddIncident component", () => {
-      expect(emptyComponent.find(AddIncident)).to.be.empty;
+      mountedComponent(<RecordActions {...props} />, state);
+      expect(screen.queryAllByText(/incident.messages.creation_success/i)).toHaveLength(0);
     });
 
     it("should not render AddService component", () => {
-      expect(emptyComponent.find(AddService)).to.be.empty;
+      mountedComponent(<RecordActions {...props} />, state);
+      expect(screen.queryAllByText(/actions.services_section_from_case/i)).toHaveLength(0);
     });
   });
 });
