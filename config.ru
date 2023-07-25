@@ -5,5 +5,5 @@
 # We should only wait for for the database when we launch daemons or the app server.
 ENV['PRIMERO_WAIT_FOR_DB'] = 'true'
 ENV['PRIMERO_GENERATE_LOCATIONS'] ||= 'true'
-require ::File.expand_path('config/environment', __dir__)
+require File.expand_path('config/environment', __dir__)
 run Rails.application

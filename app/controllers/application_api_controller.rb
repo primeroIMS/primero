@@ -28,10 +28,6 @@ class ApplicationApiController < ActionController::API
     end
   end
 
-  # Devise Magic method, explicitly declared.
-
-  # Devise Magic method, explicitly declared.
-
   def check_config_update_lock!
     raise Errors::LockedForConfigurationUpdate if SystemSettings.locked_for_configuration_update?
   end
