@@ -8,14 +8,14 @@ gem 'aws-sdk-s3',          '~> 1.130', # Access and manage Amazon S3 storage (wi
     require: false
 gem 'azure-storage-blob',  '~> 1.1',   # Access and manage Microsoft Azure Storage Blob Services (with ActiveStorage).
     require: false
-gem 'cancancan',           '~> 3.5'     # Endpoint user authorization
+gem 'cancancan',           '~> 3.5'    # Endpoint user authorization
 gem 'csv-safe',            '~> 3.2'    # Safely export data to CSV to avoid formula injection
 gem 'daemons',             '~> 1.4.1'  # Gem to run the delayed jobs
 gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for merging params to existing records.
     require: 'deep_merge/rails_compat'
 gem 'delayed_job_active_record', '~> 4.1.7'
 gem 'devise',              '~> 4.9'    # Authentication framework
-gem 'devise-jwt',          '~> 0.10'     # JWT authentication for native Primero users
+gem 'devise-jwt',          '~> 0.10'   # JWT authentication for native Primero users
 gem 'faraday',             '~> 0.17'   # Ruby HTTP client
 gem 'file_validators',     '~> 3.0'    # ActiveRecord extension for validating attachment file sizes
 gem 'i18n-js',             '~> 3.9'    # Shares Rails i18n strings with the front end
@@ -35,7 +35,7 @@ gem 'prawn',               '~> 2.4'    # PDF generation
 gem 'prawn-table',         '~> 0.2'    # PDF generation
 gem 'puma',                '~> 6.3'    # Ruby Rack server
 gem 'rack',                '~> 2.2'
-gem 'rack-attack',         '>= 6.6'  # Rack middleware to rate limit sensetive routes, such as those used for auth
+gem 'rack-attack',         '>= 6.6'    # Rack middleware to rate limit sensetive routes, such as those used for auth
 gem 'rails',               '6.1.7.4'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
@@ -54,7 +54,6 @@ gem 'will_paginate',       '~> 4.0'    # Paginates ActiveRecord models  TODO: Th
 gem 'write_xlsx',          '~> 1.11'   # Exports XLSX
 
 group :development, :test do
-  #   gem 'binding_of_caller',          '~> 0.8'  # TODO: get rid of dependency if not necessary for debugging and testing
   gem 'bundler-audit',              '~> 0.8'
   gem 'ci_reporter',                '~> 2.0'
   gem 'factory_bot',                '~> 5.0'
