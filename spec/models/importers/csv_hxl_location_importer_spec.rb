@@ -7,7 +7,7 @@ module Importers
     before do
       clean_data(Location)
 
-      I18n.stub(:available_locales).and_return([:en, :"ar-LB"])
+      I18n.stub(:available_locales).and_return(%i[en ar-LB])
     end
 
     context 'when input file exists' do

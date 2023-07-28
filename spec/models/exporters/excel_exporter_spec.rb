@@ -34,7 +34,8 @@ module Exporters
       form_b.fields << Field.new(name: 'array_field', type: Field::SELECT_BOX, display_name: 'array_field',
                                  multi_select: true,
                                  option_strings_text: [{ id: 'option_1', display_text: 'Option 1' },
-                                                       { id: 'option_2', display_text: 'Option 2' }].map(&:with_indifferent_access))
+                                                       { id: 'option_2',
+                                                         display_text: 'Option 2' }].map(&:with_indifferent_access))
 
       form_b.save!
       #### Build Form Section with none subforms fields ######
@@ -68,13 +69,14 @@ module Exporters
       #### Build Form Section with subforms fields and others kind of fields ######
 
       #### Build Form Section with Arabic characters in the form name ######
-      form_d = FormSection.new(name: "Test Arabic فاكيا قد به،. بـ حتى", parent_form: 'case', visible: true,
+      form_d = FormSection.new(name: 'Test Arabic فاكيا قد به،. بـ حتى', parent_form: 'case', visible: true,
                                order_form_group: 3, order: 4, order_subform: 0, form_group_id: 'form_group_arabic')
       form_d.fields << Field.new(name: 'arabic_text', type: Field::TEXT_FIELD, display_name: 'arabic text')
       form_d.fields << Field.new(name: 'arabic_array', type: Field::SELECT_BOX, display_name: 'arabic array',
                                  multi_select: true,
-                                 option_strings_text: [{ id: 'option_1', display_text: "عقبت 1" },
-                                                       { id: 'option_2', display_text: "لدّفاع 2" }].map(&:with_indifferent_access))
+                                 option_strings_text: [{ id: 'option_1', display_text: 'عقبت 1' },
+                                                       { id: 'option_2',
+                                                         display_text: 'لدّفاع 2' }].map(&:with_indifferent_access))
       form_d.save!
 
       subform4 = FormSection.new(name: 'cases_test_subform_4', parent_form: 'case', visible: false, is_nested: true,
@@ -118,8 +120,8 @@ module Exporters
       @user = create(:user, user_name: 'fakeadmin', role: @role)
       @records = [create(:child, id: '1234', short_id: 'abc123', first_name: 'John', last_name: 'Doe',
                                  address: 'this is an address', relationship: 'Mother',
-                                 array_field: %w[option_1 option_2], arabic_text: "لدّفاع",
-                                 arabic_array: ["النفط", "المشتّتون"],
+                                 array_field: %w[option_1 option_2], arabic_text: 'لدّفاع',
+                                 arabic_array: %w[النفط المشتّتون],
                                  cases_test_subform_1: [
                                    { unique_id: '1', field_1: 'field_1 value', field_2: 'field_2 value' }
                                  ],

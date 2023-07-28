@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 services_subform = [
   Field.new(
     'name' => 'service_response_type',

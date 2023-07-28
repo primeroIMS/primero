@@ -18,6 +18,7 @@ Bundler.require(*Rails.groups)
 
 # Main Rails module for Primero
 module Primero; end
+
 # Main Rails application class for Primero
 class Primero::Application < Rails::Application
   config.load_defaults 6.1
@@ -63,7 +64,7 @@ class Primero::Application < Rails::Application
   ]
 
   ENV['RAILS_LOG_PATH'].present? &&
-    config.paths['log'] = "#{ENV['RAILS_LOG_PATH']}/#{ENV['RAILS_ENV']}.log"
+    config.paths['log'] = "#{ENV.fetch('RAILS_LOG_PATH', nil)}/#{ENV.fetch('RAILS_ENV', nil)}.log"
 
   config.beginning_of_week = :sunday
 

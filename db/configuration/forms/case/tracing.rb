@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #########################################
 # Tracing action subform
 
@@ -37,7 +39,7 @@ tracing_action_subform = [
             ].map(&:with_indifferent_access))
 ]
 
-tracing_actions_section = FormSection.create_or_update!(
+FormSection.create_or_update!(
   'visible' => false,
   'is_nested' => true,
   :order_form_group => 130,

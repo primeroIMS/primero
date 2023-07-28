@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 child_preferences_fields_subform = [
   Field.new('name' => 'wishes_name',
             'type' => 'text_field',

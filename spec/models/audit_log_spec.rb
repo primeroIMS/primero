@@ -29,7 +29,7 @@ describe AuditLog do
         password: 'b12345678',
         password_confirmation: 'b12345678',
         email: 'test_user_2@localhost.com',
-        role: role,
+        role:,
         agency_id: agency.id
       )
     end
@@ -70,8 +70,8 @@ describe AuditLog do
         metadata: {
           "role_id": 1,
           "agency_id": 1,
-          "remote_ip": "127.0.0.1",
-          "user_name": "random_user"
+          "remote_ip": '127.0.0.1',
+          "user_name": 'random_user'
         }
       )
     end
@@ -79,8 +79,8 @@ describe AuditLog do
     it 'return a metadata values' do
       expect(audit_log.metadata['role_id']).to eq(1)
       expect(audit_log.metadata['agency_id']).to eq(1)
-      expect(audit_log.metadata['remote_ip']).to eq("127.0.0.1")
-      expect(audit_log.metadata['user_name']).to eq("random_user")
+      expect(audit_log.metadata['remote_ip']).to eq('127.0.0.1')
+      expect(audit_log.metadata['user_name']).to eq('random_user')
     end
   end
 end

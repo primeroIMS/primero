@@ -102,7 +102,7 @@ describe Api::V2::FamiliesController, type: :request do
     it 'creates a new record with 200 and returns it as JSON' do
       login_for_test
       params = { data: { family_number: '91afb9a9' } }
-      post '/api/v2/families', params: params, as: :json
+      post '/api/v2/families', params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_empty
@@ -115,7 +115,7 @@ describe Api::V2::FamiliesController, type: :request do
     it 'updates an existing record with 200' do
       login_for_test
       params = { data: { family_number: 'c676db83' } }
-      patch "/api/v2/families/#{family1.id}", params: params, as: :json
+      patch "/api/v2/families/#{family1.id}", params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(family1.id)

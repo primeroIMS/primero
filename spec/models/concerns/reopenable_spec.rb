@@ -19,7 +19,7 @@ describe Reopenable do
       test.add_reopened_log('')
 
       expect(test.reopened_logs.count).to equal(1)
-      expect(test.reopened_logs.first['reopened_date']). to equal(date_time)
+      expect(test.reopened_logs.first['reopened_date']).to equal(date_time)
     end
   end
 

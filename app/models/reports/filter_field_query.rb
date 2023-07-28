@@ -46,13 +46,13 @@ class Reports::FilterFieldQuery < ValueObject
   def not_null_query
     self.query = query.where(
       ActiveRecord::Base.sanitize_sql_for_conditions(["#{data_column_name}->:attribute is not null",
-                                                      attribute: filter['attribute']])
+                                                      { attribute: filter['attribute'] }])
     )
     return query unless field.multi_select?
 
     query.where(
       ActiveRecord::Base.sanitize_sql_for_conditions(["jsonb_array_length(#{data_column_name}->:attribute) > 0",
-                                                      attribute: filter['attribute']])
+                                                      { attribute: filter['attribute'] }])
     )
   end
 

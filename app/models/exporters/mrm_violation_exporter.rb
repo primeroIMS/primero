@@ -177,12 +177,12 @@ module Exporters
       write_association_header(worksheet, id) if id != :violations
       write_field_headers(worksheet, fields)
       write_violation_headers_by_type(worksheet) if id == :violations
-      self.worksheets = { id => { worksheet: worksheet, row: id == :violations ? 3 : 2 } }
+      self.worksheets = { id => { worksheet:, row: id == :violations ? 3 : 2 } }
     end
 
     def write_association_header(worksheet, id)
-      worksheet.set_column_pixels(4, 4, INCIDENT_CODE_CELL_LENGTH)
-      worksheet.set_column_pixels(5, 5, ID_CELL_LENGTH)
+      worksheet.set_column_pixels(name_first_cell_by_column(4), name_first_cell_by_column(4), INCIDENT_CODE_CELL_LENGTH)
+      worksheet.set_column_pixels(name_first_cell_by_column(5), name_first_cell_by_column(5), ID_CELL_LENGTH)
       worksheet.write(@header_row, 4, I18n.t('incident.code'))
       worksheet.write(@header_row, 5, "#{ASSOCIATION_ID_NAME[id]} ID")
     end
@@ -197,7 +197,7 @@ module Exporters
     end
 
     def write_violation_id_headers(worksheet)
-      worksheet.set_column_pixels(0, 3, ID_CELL_LENGTH)
+      worksheet.set_column_pixels(name_first_cell_by_column(0), name_first_cell_by_column(3), ID_CELL_LENGTH)
       worksheet.merge_range(@header_row - 1, 0, @header_row - 1, 1, I18n.t('incidents.id'), @formats[:centered_black])
       worksheet.write(@header_row, 0, I18n.t('forms.record_types.incident'))
       worksheet.write(@header_row, 1, I18n.t('forms.record_types.violation'))
@@ -229,7 +229,11 @@ module Exporters
 
     def write_field_header(worksheet, field)
       display_name = field_display_name(field)
-      worksheet.set_column_pixels(@header_column, @header_column, display_name.length * 11)
+      worksheet.set_column_pixels(
+        name_first_cell_by_column(@header_column),
+        name_first_cell_by_column(@header_column),
+        display_name.length * 11
+      )
       worksheet.write(@header_row, @header_column, display_name)
       @header_column += 1
     end
@@ -250,7 +254,8 @@ module Exporters
     def write_tally_option_headers(worksheet, field)
       field.tally(locale).each do |option|
         display_text = option['display_text']
-        worksheet.set_column_pixels(@header_column, @header_column, display_text.length * 11)
+        worksheet.set_column_pixels(name_first_cell_by_column(@header_column),
+                                    name_first_cell_by_column(@header_column), display_text.length * 11)
         worksheet.write(@header_row, @header_column, display_text)
         @header_column += 1
       end
@@ -415,7 +420,7 @@ module Exporters
     end
 
     def build_worksheet_name(worksheet_name)
-      worksheet_name.truncate(31).gsub(%r{[\[\]\/:*?]}, ' ')
+      worksheet_name.truncate(31).gsub(%r{[\[\]/:*?]}, ' ')
     end
   end
   # rubocop:enable Metrics/ClassLength

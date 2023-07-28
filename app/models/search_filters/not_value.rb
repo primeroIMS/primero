@@ -26,7 +26,7 @@ class SearchFilters::NotValue < SearchFilters::SearchFilter
   def to_h
     {
       type: 'not',
-      field_name: field_name,
+      field_name:,
       value: values
     }
   end

@@ -195,7 +195,7 @@ describe Exporters::SelectedFieldsExcelExporter do
         ]
       ),
       create(:child, 'name_first' => 'Name2', 'name_last' => 'LastName2', 'id' => '00000000005'),
-      create(:child, 'name_first' => 'Name3', 'name_last' => 'LastName3', 'id' => '00000000006'),
+      create(:child, 'name_first' => 'Name3', 'name_last' => 'LastName3', 'id' => '00000000006')
     ]
 
     @record_with_special_id = [

@@ -3,7 +3,7 @@ Primero
 [![Build Status](https://api.travis-ci.org/primeroIMS/primero.svg?branch=master)](https://travis-ci.org/primeroIMS/primero/branches)
 
 
-> :warning: **Primero v2.5 adds support for PostgreSQL 14!** Support for PostgreSQL 10 is retained and remains the default when running using Ansible/Docker Compose. Please use this opportunity to upgrade! PostgreSQL 14 will be the default starting with Primero v2.6, and support for PostgreSQL 10 will be eventually dropped. See [here](doc/postgres_upgrade.md) for a recomended upgrade process.
+> :warning: **Primero v2.5 adds support for PostgreSQL 14!** Support for PostgreSQL 10 is retained and remains the default when running using Ansible/Docker Compose. Please use this opportunity to upgrade! PostgreSQL 14 will be the default starting with Primero v2.6, and support for PostgreSQL 10 will be eventually dropped. See [here](doc/postgres_upgrade.md) for a recommended upgrade process.
 
 ## Development
 
@@ -54,14 +54,14 @@ you will need to run the build and the compose scripts as `sudo`.
     Checking `rbenv install' support: /usr/local/bin/rbenv-install (ruby-build 20170523)
     Counting installed Ruby versions: none
     There aren't any Ruby versions installed under `~/.rbenv/versions'.
-    You can install Ruby versions like so: rbenv install 2.2.4
+    You can install Ruby versions like so: rbenv install 3.2.2
     Checking RubyGems settings: OK
     Auditing installed plugins: OK
     ```
 
 5. Install ruby version
 
-        $ rbenv install 2.7.8
+        $ rbenv install 3.2.2
 
 ### Install Node and NPM via NVM
 

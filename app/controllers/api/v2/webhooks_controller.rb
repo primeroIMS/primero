@@ -18,7 +18,7 @@ class Api::V2::WebhooksController < ApplicationApiController
     @webhook = Webhook.new(webhook_params.except(:id))
     @webhook.save!
     status = params[:data][:id].present? ? 204 : 200
-    render :create, status: status
+    render :create, status:
   end
 
   def update

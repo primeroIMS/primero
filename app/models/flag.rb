@@ -159,7 +159,7 @@ class Flag < ApplicationRecord
   def unflag_history
     return unless saved_change_to_attribute('removed')&.[](1)
 
-    saved_changes.map { |k, v| [k, v[1]] }.to_h
+    saved_changes.transform_values { |v| v[1] }
     update_flag_history(EVENT_UNFLAG, unflagged_by)
   end
 
@@ -171,9 +171,9 @@ class Flag < ApplicationRecord
 
   def update_flag_history(event, user_name)
     RecordHistory.create(
-      record_id: record_id,
-      record_type: record_type,
-      user_name: user_name,
+      record_id:,
+      record_type:,
+      user_name:,
       datetime: DateTime.now,
       action: event,
       record_changes: { flags: { from: nil, to: self } }

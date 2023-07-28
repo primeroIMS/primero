@@ -36,7 +36,7 @@ class ErrorService
       errors = error.record.errors.messages.map do |field_name, message|
         ApplicationError.new(
           code: 422,
-          message: message,
+          message:,
           resource: request.path,
           detail: field_name.to_s
         )
@@ -53,7 +53,7 @@ class ErrorService
     when JWT::DecodeError, JWT::IncorrectAlgorithm, JWT::InvalidAudError, JWT::ExpiredSignature, JWT::InvalidIatError,
       JWT::InvalidIssuerError, JWT::InvalidJtiError, JWT::ImmatureSignature, JWT::InvalidSubError
       code = 401
-      errors = [ApplicationError.new(code: code, message: error.message, resource: request.path)]
+      errors = [ApplicationError.new(code:, message: error.message, resource: request.path)]
     else
       code = 500
       errors = [
