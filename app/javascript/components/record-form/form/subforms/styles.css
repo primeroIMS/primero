@@ -1,3 +1,14 @@
+.verifiedSpan{
+  color: white;
+  height: 25px;
+  font-size: 13px;
+  font-weight: 600;
+  float: right;
+  top: 12px;
+  position: absolute;
+  left: 79%;
+  width: 115px;
+}
 .secondarySubformHeader {
   font-size: var(--fs-12);
   color: var(--c-dark-grey);
