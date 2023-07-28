@@ -22,7 +22,7 @@ class Api::V2::LookupsController < ApplicationApiController
     @lookup = Lookup.new_with_properties(lookup_params)
     @lookup.save!
     status = params[:data][:id].present? ? 204 : 200
-    render :create, status: status
+    render :create, status:
   end
 
   def update
@@ -41,6 +41,7 @@ class Api::V2::LookupsController < ApplicationApiController
 
   def lookup_params
     @lookup_params ||= params.require(:data)
-                             .permit(:id, :unique_id, name: {}, values: [:id, :disabled, :_delete, display_text: {}])
+                             .permit(:id, :unique_id, name: {}, values: [:id, :disabled, :_delete,
+                                                                         { display_text: {} }])
   end
 end

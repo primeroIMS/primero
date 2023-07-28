@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 incident_details_subform_fields = [
   Field.new('name' => 'cp_incident_identification_violence',
             'type' => 'select_box',
@@ -40,7 +42,7 @@ incident_details_subform_fields = [
             'display_name_en' => 'If yes please describe in brief'),
   Field.new('name' => 'cp_incident_abuser_header',
             'type' => 'separator',
-            'display_name_en' => 'Perpetrator information',),
+            'display_name_en' => 'Perpetrator information'),
   Field.new('name' => 'cp_incident_abuser_name',
             'type' => 'text_field',
             'display_name_en' => 'Name'),
@@ -76,7 +78,7 @@ incident_details_subform_fields = [
             'type' => 'text_field',
             'display_name_en' => 'Occupation'),
   Field.new('name' => 'cp_incident_perpetrator_relationship',
-            'type' => 'select_box' ,
+            'type' => 'select_box',
             'display_name_en' => 'Relationship with the victim',
             'option_strings_source' => 'lookup lookup-perpetrator-relationship')
 ]

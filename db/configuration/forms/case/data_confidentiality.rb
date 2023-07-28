@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 consent_fields = [
   Field.new('name' => 'interview_subject',
             'type' => 'select_box',

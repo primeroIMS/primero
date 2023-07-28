@@ -66,7 +66,7 @@ describe ManagedReports::Indicators::ReportingLocationDenials do
 
     @user = User.create!(
       full_name: 'Test User 1', user_name: 'test_user_a', email: 'test_user_a@localhost.com',
-      agency_id: agency_a.id, role: role, reporting_location_code: 1
+      agency_id: agency_a.id, role:, reporting_location_code: 1
     )
   end
 

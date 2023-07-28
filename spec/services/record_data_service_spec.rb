@@ -147,7 +147,7 @@ describe RecordDataService do
       source = Source.create!(data: { name: 'source name' })
       Violation.create!(
         data: { name: 'violation_name', type: 'recruitment' },
-        sources: [source], individual_victims: [victim], incident: incident
+        sources: [source], individual_victims: [victim], incident:
       )
       incident.reload
 

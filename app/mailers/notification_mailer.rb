@@ -81,7 +81,7 @@ class NotificationMailer < ApplicationMailer
   end
 
   def load_transition_for_email(class_transition, id)
-    @transition = class_transition.find_by(id: id)
+    @transition = class_transition.find_by(id:)
     @locale_email = @transition&.transitioned_to_user&.locale || I18n.locale
   end
 

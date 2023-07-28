@@ -31,7 +31,7 @@ class SystemSettings < ApplicationRecord
 
   def system_name
     system_name = system_options['system_name']
-    system_name = system_name.dig(I18n.locale) if system_name.is_a?(Hash)
+    system_name = system_name[I18n.locale] if system_name.is_a?(Hash)
     system_name || Rails.application.routes.default_url_options[:host]
   end
 

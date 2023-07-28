@@ -22,7 +22,7 @@ class Api::V2::UserGroupsController < ApplicationApiController
     @user_group = UserGroup.new_with_properties(user_group_params, current_user)
     @user_group.save!
     status = params[:data][:id].present? ? 204 : 200
-    render :create, status: status
+    render :create, status:
   end
 
   def update

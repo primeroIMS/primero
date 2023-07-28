@@ -43,4 +43,4 @@ I18n.fallbacks = {
   th: EN_FALLBACK,
   uk: EN_FALLBACK,
   tr: EN_FALLBACK
-}.map { |key, val| [key, key == :en ? val : [key.to_sym] + val] }.to_h.with_indifferent_access
+}.to_h { |key, val| [key, key == :en ? val : [key.to_sym] + val] }.with_indifferent_access

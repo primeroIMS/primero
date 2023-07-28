@@ -25,7 +25,7 @@ class Kpi::ReportingDelay < Kpi::BucketedSearch
                   .dig('facet_intervals', restricted_field.indexed_name)
                   .map do |delay, count|
       {
-        delay: delay,
+        delay:,
         total_incidents: count,
         percentage: count.to_f / search.total
       }
@@ -33,6 +33,6 @@ class Kpi::ReportingDelay < Kpi::BucketedSearch
   end
 
   def to_json(*_args)
-    { data: data }
+    { data: }
   end
 end

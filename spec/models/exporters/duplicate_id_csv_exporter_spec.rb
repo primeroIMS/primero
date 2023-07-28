@@ -61,7 +61,7 @@ module Exporters
         editable: true,
         name_all: 'Form Section Test',
         description_all: 'Form Section Test',
-        fields: fields
+        fields:
       )
       form.save!
 

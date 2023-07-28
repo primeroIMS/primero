@@ -45,7 +45,7 @@ class DestringifyService
       if has_numeric_keys
         value.sort_by { |k, _| k.to_i }.map { |_, v| destringify(v, lists_and_ranges) }
       else
-        value.map { |k, v| [k, destringify(v, lists_and_ranges)] }.to_h
+        value.transform_values { |v| destringify(v, lists_and_ranges) }
       end
     else
       if lists_and_ranges && value.is_a?(String)

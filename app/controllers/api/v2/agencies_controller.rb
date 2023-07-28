@@ -23,7 +23,7 @@ class Api::V2::AgenciesController < ApplicationApiController
     @agency = Agency.new_with_properties(agency_params)
     @agency.save!
     status = params[:data][:id].present? ? 204 : 200
-    render :create, status: status
+    render :create, status:
   end
 
   def update

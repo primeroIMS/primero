@@ -32,8 +32,7 @@ class RecordDataService
     data = embed_flag_metadata(data, record, selected_field_names)
     data = embed_alert_metadata(data, record, selected_field_names)
     data = embed_registry_record_info(data, record, selected_field_names)
-    data = embed_family_info(data, record, selected_field_names)
-    data
+    embed_family_info(data, record, selected_field_names)
   end
 
   def select_fields(data, selected_field_names)
@@ -114,7 +113,7 @@ class RecordDataService
   end
 
   def embed_case_data(data, record, selected_field_names)
-    return data unless record.class == Incident && record.incident_case_id.present?
+    return data unless record.instance_of?(Incident) && record.incident_case_id.present?
 
     data['incident_case_id'] = record.incident_case_id if selected_field_names.include?('incident_case_id')
     data['case_id_display'] = record.case_id_display if selected_field_names.include?('case_id_display')
@@ -122,7 +121,7 @@ class RecordDataService
   end
 
   def embed_incident_data(data, record, selected_field_names)
-    return data unless record.class == Incident
+    return data unless record.instance_of?(Incident)
 
     if selected_field_names.include?('incident_date_derived')
       data['incident_date_derived'] = record.incident_date_derived
@@ -136,7 +135,7 @@ class RecordDataService
     # TODO: Dynamically figuring out computed fields makes lots of unnecessary queries. Would be nice though.
     # computed_fields = (record.methods.map(&:to_s) - data.keys)
     computed_fields = COMPUTED_FIELDS & selected_field_names
-    # Note: For now we are choosing to discard computed nil values to avoid inserting nil data acccessor values.
+    # NOTE: For now we are choosing to discard computed nil values to avoid inserting nil data acccessor values.
     #       Revisit if we want to always display nils for certain computed fields.
     computed_data = record.slice(*computed_fields).compact
     data.merge(computed_data)

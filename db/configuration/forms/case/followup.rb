@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 followup_subform_fields = [
   Field.new('name' => 'followup_type',
             'type' => 'select_box',

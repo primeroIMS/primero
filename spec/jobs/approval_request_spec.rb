@@ -9,8 +9,8 @@ describe ApprovalRequestJob, type: :job do
     [User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency].each(&:destroy_all)
     @lookup = Lookup.create(id: 'lookup-approval-type', name: 'approval type')
     role = create :role, is_manager: true
-    @manager1 = create :user, role: role, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
-    @manager2 = create :user, role: role, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2'
+    @manager1 = create :user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
+    @manager2 = create :user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2'
     @owner = create :user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev'
     @child = child_with_created_by(
       @owner.user_name, name: 'child1', module_id: PrimeroModule::CP, case_id_display: '12345'

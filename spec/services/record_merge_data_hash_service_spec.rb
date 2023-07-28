@@ -133,7 +133,7 @@ describe RecordMergeDataHashService do
     end
 
     it 'when is array of hash' do
-      param = [{a: 1}, {b: 2}, {c:3}]
+      param = [{ a: 1 }, { b: 2 }, { c: 3 }]
       result = RecordMergeDataHashService.array_of_hashes?(param)
 
       expect(result).to be_truthy

@@ -25,7 +25,7 @@ module Ownable
     scope :associated_with, (lambda do |username|
       where(
         "(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)",
-        username: username
+        username:
       )
     end)
 

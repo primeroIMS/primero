@@ -36,7 +36,7 @@ class Reports::FieldQueries::NumericFieldQuery < Reports::FieldQueries::FieldQue
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
         "when int4range(:start, :end, '[]') @> cast(#{data_column_name}->> :field_name as integer) then :index",
-        field_name: field.name, start: range.first, end: range.last, index: index
+        { field_name: field.name, start: range.first, end: range.last, index: }
       ]
     )
   end
@@ -48,7 +48,7 @@ class Reports::FieldQueries::NumericFieldQuery < Reports::FieldQueries::FieldQue
           when int4range(:start, :end, '[]') @> cast(#{data_column_name}->> :field_name as integer)
           then #{is_last_range && abrreviate_range ? "':start+'" : "':start - :end'"}
         },
-        field_name: field.name, start: range.first, end: range.last
+        { field_name: field.name, start: range.first, end: range.last }
       ]
     )
   end

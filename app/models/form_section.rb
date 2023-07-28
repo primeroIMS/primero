@@ -40,6 +40,7 @@ class FormSection < ApplicationRecord
   has_and_belongs_to_many :primero_modules, inverse_of: :form_sections
 
   attr_accessor :module_name
+
   attribute :collapsed_field_names
   self.unique_id_from_attribute = 'name_en'
   alias_attribute :to_param, :unique_id # TODO: Something to do with audit logs?
@@ -146,7 +147,7 @@ class FormSection < ApplicationRecord
   end
 
   def field_exists?(name)
-    fields.exists?(name: name)
+    fields.exists?(name:)
   end
 
   def configuration_hash
@@ -285,7 +286,7 @@ class FormSection < ApplicationRecord
   end
 
   def collapsed_fields_to_unlink
-    return (fields[1..-1]&.pluck(:id) || []) unless subform_collapsed_field_names.present?
+    return (fields[1..]&.pluck(:id) || []) unless subform_collapsed_field_names.present?
 
     fields.where.not(name: subform_collapsed_field_names).pluck(:id)
   end
@@ -298,10 +299,11 @@ class FormSection < ApplicationRecord
     end
   end
 
+  # TODO: We should use a different strategy to validate json structure
   def validate_name_format
     special_characters = /[*!@#%$\^]/
     white_spaces = /^(\s+)$/
-    return unless name =~ special_characters || name =~ white_spaces
+    return unless name.to_s =~ special_characters || name.to_s =~ white_spaces
 
     errors.add(:name, 'errors.models.form_section.format_of_name')
   end

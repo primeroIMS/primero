@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-user_hash = user.attributes.reject { |k, _| User.hidden_attributes.include?(k) }
+user_hash = user.attributes.except(*User.hidden_attributes)
 user_hash = user_hash.merge({
   agency_id: user.agency_id,
   module_unique_ids: user.module_unique_ids,
@@ -18,7 +18,7 @@ if @extended
     permissions: {
       list: user.role.permissions.map do |p|
         resource = p.resource == Permission::CODE_OF_CONDUCT ? 'codes_of_conduct' : p.resource.pluralize
-        { resource: resource, actions: p.actions }
+        { resource:, actions: p.actions }
       end
     },
     permitted_form_unique_ids: user.role.form_section_unique_ids,

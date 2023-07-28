@@ -358,7 +358,7 @@ describe Child do
         :fields => fields,
         :parent_form => 'case',
         'name_all' => 'Form Section With Dates Fields',
-        'description_all' => 'Form Section With Dates Fields',
+        'description_all' => 'Form Section With Dates Fields'
       )
     end
 

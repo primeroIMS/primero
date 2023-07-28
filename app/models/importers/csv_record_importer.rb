@@ -33,7 +33,7 @@ class Importers::CsvRecordImporter < ValueObject
 
   def process_batch(file_batch, headers)
     self.batch_total += 1
-    rows = CSVSafe.parse(file_batch, headers: headers)
+    rows = CSVSafe.parse(file_batch, headers:)
     return log_errors(I18n.t('imports.csv_record.messages.csv_parse_error')) if rows.blank?
 
     records = process_rows(rows)
@@ -65,7 +65,7 @@ class Importers::CsvRecordImporter < ValueObject
     id = row_hash.delete(:id)
     record_hash[:id] = id if id.present?
     row_hash[:module_id] ||= PrimeroModule::CP
-    record_hash[:data] = row_hash.merge(owned_by: owned_by, created_by: created_by)
+    record_hash[:data] = row_hash.merge(owned_by:, created_by:)
     record = record_class.new(record_hash)
     record.run_callbacks(:create) { false }
     cleanse_record(record, id)
@@ -88,7 +88,7 @@ class Importers::CsvRecordImporter < ValueObject
 
   def reindex_records
     location_service = LocationService.new(true)
-    record_class.all.find_in_batches(batch_size: batch_size) do |records|
+    record_class.all.find_in_batches(batch_size:) do |records|
       records.each { |r| r.location_service = location_service } unless record_class == Trace
       Sunspot.index(records)
     end

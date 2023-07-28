@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 cp_offender_details_fields = [
   Field.new(
     'name' => 'cp_incident_abuser_name',

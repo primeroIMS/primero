@@ -11,8 +11,8 @@ class Duplicate < ValueObject
     matching_service = MatchingService.new
     match_result = matching_service.find_match_records(record.match_criteria, record.class)
     matching_service.normalize_search_results(match_result).map do |id, normalized|
-      duplicated_by = record.class.find_by(id: id)
-      Duplicate.new(record: record, duplicated_by: duplicated_by, likelihood: normalized[:likelihood])
+      duplicated_by = record.class.find_by(id:)
+      Duplicate.new(record:, duplicated_by:, likelihood: normalized[:likelihood])
     end
   end
 end

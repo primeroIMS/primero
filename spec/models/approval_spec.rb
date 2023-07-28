@@ -48,7 +48,7 @@ describe Approval do
       password_confirmation: '123456789abc',
       email: 'test_user@localhost.com',
       agency_id: agency.id,
-      role: role
+      role:
     )
     @user1 = User.create!(
       full_name: 'Test User 1',
@@ -57,7 +57,7 @@ describe Approval do
       password_confirmation: '123456789abc',
       email: 'test_user1@localhost.com',
       agency_id: agency.id,
-      role: role
+      role:
     )
     @case = Child.create(
       name: 'First Case',
@@ -269,8 +269,10 @@ describe Approval do
   describe '.approve!' do
     context 'and record has many alerts' do
       before do
-        Alert.create(type: Approval::ACTION_PLAN, alert_for: 'approval', date: Date.today, record_id: @case.id, record_type: @case.class )
-        Alert.create(type: Approval::GBV_CLOSURE, alert_for: 'approval', date: Date.today, record_id: @case.id, record_type: @case.class )
+        Alert.create(type: Approval::ACTION_PLAN, alert_for: 'approval', date: Date.today, record_id: @case.id,
+                     record_type: @case.class)
+        Alert.create(type: Approval::GBV_CLOSURE, alert_for: 'approval', date: Date.today, record_id: @case.id,
+                     record_type: @case.class)
         @approval = Approval.get!(
           Approval::ACTION_PLAN,
           @case,
