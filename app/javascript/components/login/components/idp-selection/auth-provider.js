@@ -97,5 +97,7 @@ export const signOut = () => {
     }
     msalApp = null;
     forceStandardOIDC = false;
+    localStorage.removeItem("cachedIdToken");
+    sessionStorage.clear();
   }
 };
