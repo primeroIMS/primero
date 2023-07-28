@@ -1395,6 +1395,7 @@ fr:
         military_use: Utilisation militaire d'école(s) et/ou d'hôpital(s)
         denial_humanitarian_access: Refus de l'accès humanitaire aux enfants
   incidents:
+    change_status: Change Status
     disable_dialog: En cliquant sur OK, le statut de cet incident passera à Désactivé.
     disable_dialog_title: 'Incident désactivé '
     disable_success: 'Incident désactivé avec succès '
@@ -2192,6 +2193,7 @@ fr:
       transfer: Peut être utilisé pour un transfert
       user: Utilisateurs
       user_group: Groupes d'utilisateurs
+      verify_mrm: Verify MRM
       view_approvals: Voir Approbations
       view_assessment: Voir Evaluation
       view_photo: Afficher les photos
@@ -2702,6 +2704,9 @@ fr:
           sync_mobile:
             explanation: Cette autorisation permet généralement à l'utilisateur d'utiliser l'application mobile. Tout d'abord, elle permet à l'utilisateur de voir les actions "Marquer pour mobile" et "Supprimer le marquage pour mobile", qui apparaissent sur la liste des incidents et les pages d'affichage des incidents. Marquer un incident pour mobile indique que les informations sur cet incident doivent être synchronisées entre l'appareil mobile de l'utilisateur et l'application web, tandis que le fait de supprimer le marquage pour mobile d'un incident empêche cette synchronisation de se produire. Les utilisateurs sans cette autorisation ne peuvent pas non plus synchroniser leur appareil mobile avec l'application web, ce qui signifie qu'ils ne peuvent pas utiliser l'application mobile pour superviser les incidents.
             label: Synchroniser avec appareil mobile
+          verify_mrm:
+            explanation: MRM user can change the status of violations.
+            label: Verify MRM
           write:
             explanation: Possibilité de cliquer sur le bouton "Modifier", de mettre à jour les informations relatives à l'incident et de cliquer sur "Enregistrer". Permet également à l'utilisateur de désactiver ou d'activer un incident.
             label: 'Editer '

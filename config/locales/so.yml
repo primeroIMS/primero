@@ -1327,6 +1327,7 @@ so:
         military_use: Askar xaramo ka dhagata dugsiga(yada) ama Cusbitaalka(ada)
         denial_humanitarian_access: In loo diido caruurta helida adeegayada binaadanimo
   incidents:
+    change_status: Change Status
     disable_dialog: Hadii aad taabato Ok waxaad xanibaysaa xaalada dhacdada/disable incident
     disable_dialog_title: xanibida dhacdada
     disable_success: waaad ku guulaysatey xanibida dhacdada
@@ -1970,6 +1971,7 @@ so:
       transfer: Waxa loo isticmaali karaa wareejinta
       user: Isticmaalayaasha
       user_group: Kooxaha Isticmaalayaasha
+      verify_mrm: Verify MRM
       view_approvals: Fiiri Ansixinta
       view_assessment: Fiiri Qiimaynta
       view_photo: Daawo Sawirka
@@ -2477,6 +2479,9 @@ so:
           sync_mobile:
             explanation: Ogolaanshahan guud ahaan wuxuu u ogolaanayaa isticmaalaha inuu isticmaalo arjiga mobaylka. Marka hore, waxa ay u ogolaataa isticmaaluhu in uu arko ficilada "Mark for Mobile" iyo "Un-mark for Mobile", kuwaas oo ka soo muuqda liiska dhacdada iyo boggaga dhacdada. Calaamadaynta shilka moobaylka waxay tusinaysaa in macluumaadka ku saabsan dhacdadaas la isku waafajiyay aalada mobaylka isticmaalaha iyo arjiga mareegta, halka calaamadaynta shilka mobaylka ay joojinayso in isku xidhkani dhaco. Isticmaalayaasha ogolaanshahan la'aanteed sidoo kale ma isku dhejin karaan qalabkooda moobaylka iyo codsiga shabakada guud ahaan, taasoo la macno ah inaanay isticmaali karin abka moobaylka si ay u maareeyaan shilalka.
             label: Ku xidh qalabka gacanta
+          verify_mrm:
+            explanation: MRM user can change the status of violations.
+            label: Verify MRM
           write:
             explanation: Awoodda lagu riixo badhanka "Wax ka bedel", cusboonaysii macluumaadka ku saabsan dhacdada, oo guji "Save". Sidoo kale waxay u ogolaataa isticmaalaha inuu joojiyo ama awood u yeesho dhacdo.
             label: Wax ka beddel

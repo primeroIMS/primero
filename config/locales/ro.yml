@@ -1323,6 +1323,7 @@ ro:
         military_use: Utilizarea școlilor și/ sau spitalelor în scopuri militare
         denial_humanitarian_access: Refuzarea accesului umanitar pentru copii
   incidents:
+    change_status: Change Status
     disable_dialog: Selectând OK vei modifica statusul incidentului în Dezactivat.
     disable_dialog_title: Dezactivare incident
     disable_success: Incident dezactivat cu succes
@@ -2114,6 +2115,7 @@ ro:
       transfer: Poate fi utilizat pentru transfer
       user: Utilizatori
       user_group: Grupuri utilizatori
+      verify_mrm: Verify MRM
       view_approvals: Vizualizează Aprobări
       view_assessment: Vizualizează Evaluare
       view_photo: Vizualizare fotografie
@@ -2611,6 +2613,9 @@ ro:
           sync_mobile:
             explanation: Această permisiune permite, în general, utilizatorului să utilizeze aplicația mobilă. În primul rând, permite utilizatorului să vadă acțiunile „Marcați pentru mobil” și „Anulați marcarea pentru mobil”, care apar pe lista de incidente și pe paginile de afișare a incidentelor. Marcarea unui incident pentru mobil indică faptul că informațiile despre acel incident ar trebui sincronizate între dispozitivul mobil al utilizatorului și aplicația web, în ​​timp ce anularea marcarii unui incident pentru mobil oprește această sincronizare. De asemenea, utilizatorii fără această permisiune nu își pot sincroniza dispozitivele mobile cu aplicația web în general, ceea ce înseamnă că nu pot folosi aplicația mobilă pentru a gestiona incidentele.
             label: Sincronizare cu un dispozitiv mobil
+          verify_mrm:
+            explanation: MRM user can change the status of violations.
+            label: Verify MRM
           write:
             explanation: Posibilitatea de a utiliza butonul „Editare”, de a actualiza informațiile despre incident și de a selecta „Salvare”. În plus, permite utilizatorului să dezactiveze sau să activeze un incident.
             label: Editare

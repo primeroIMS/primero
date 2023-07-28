@@ -1237,6 +1237,7 @@ es_ES:
     violation:
       pending: Pendiente de Verificación
   incidents:
+    change_status: Change Status
     disable_dialog: Al hacer clic en OK cambiará el estado de este incidente a Deshabilitado.
     disable_dialog_title: Deshabilitar Incidente
     disable_success: Incidente deshabilitado correctamente.
@@ -1790,6 +1791,7 @@ es_ES:
       transfer: Puede utilizarse para transferir
       user: Usuarios
       user_group: Grupos de usuario(a)s
+      verify_mrm: Verify MRM
       view_approvals: Ver Aprobaciones
       view_assessment: Ver Evaluación
       view_photo: Ver Fotografía
@@ -2238,6 +2240,9 @@ es_ES:
           sync_mobile:
             explanation: Este permiso generalmente le permite a el/la usuario(a) usar la aplicación móvil. En primer lugar, le permite ver las acciones "Marcar para Móvil" y "Desmarcar para Móvil", que aparecen en las páginas de listado de incidentes y presentación de incidentes. Marcar un incidente para móvil indica que la información de ese incidente debe estar sincronizada entre el dispositivo móvil de el/la usuario(a) y la aplicación web, mientras que desmarcar un caso del móvil, detiene esta sincronización. Lo(a)s usuario(a) sin este permiso tampoco pueden sincronizar sus dispositivos móviles con la aplicación web en general, lo que significa que no pueden usar la aplicación móvil para la gestión de incidentes.
             label: Sincronizar con dispositivo móvil
+          verify_mrm:
+            explanation: MRM user can change the status of violations.
+            label: Verify MRM
           write:
             explanation: Habilitado(a) para hacer clic en el botón "Editar", actualizar la información sobre el incidente, y hacer clic en "Guardar". También permite a el/la usuario(a) deshabilitar o habilitar un incidente.
             label: Editar
