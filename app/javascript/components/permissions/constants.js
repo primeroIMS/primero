@@ -110,7 +110,8 @@ export const ACTIONS = {
   VIEW_REGISTRY_RECORD: "view_registry_record",
   VIOLATIONS: "violations",
   WORKFLOW_REPORT: "workflow_report",
-  WRITE: "write"
+  WRITE: "write",
+  VIEW_FAMILY_RECORD: "view_family_record"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -125,6 +126,7 @@ export const RESOURCES = {
   configurations: "primero_configurations",
   contact_information: "contact_information",
   dashboards: "dashboards",
+  families: "families",
   forms: "forms",
   incidents: "incidents",
   kpis: "kpis",
@@ -163,6 +165,8 @@ export const SEARCH_OTHERS = [...MANAGE, ACTIONS.SEARCH_OWNED_BY_OTHERS];
 export const WRITE_REGISTRY_RECORD = [...MANAGE, ACTIONS.ADD_REGISTRY_RECORD];
 
 export const READ_REGISTRY_RECORD = [...MANAGE, ACTIONS.VIEW_REGISTRY_RECORD];
+
+export const READ_FAMILY = [...MANAGE, ACTIONS.VIEW_FAMILY_RECORD_FROM_CASE];
 
 export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
 
@@ -278,6 +282,12 @@ export const GROUP_PERMISSIONS = {
   ALL: "all",
   GROUP: "group",
   SELF: "self"
+};
+
+export const MANAGED_REPORT_SCOPE = {
+  AGENCY: "agency",
+  ALL: "all",
+  GROUP: "group"
 };
 
 export const ASSIGN = [

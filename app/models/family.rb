@@ -12,7 +12,13 @@ class Family < ApplicationRecord
   include EagerLoadable
   include LocationCacheable
 
-  store_accessor :data, :registration_date, :status, :family_id, :family_name, :family_number, :family_members
+  store_accessor(
+    :data,
+    :status, :family_id, :family_name, :family_number, :family_members, :family_registration_date,
+    :family_id_display, :family_location_current
+  )
+
+  has_many :cases, class_name: 'Child', foreign_key: :family_id
 
   alias family_details_section family_members
 
@@ -28,10 +34,16 @@ class Family < ApplicationRecord
     def sortable_text_fields
       %w[short_id]
     end
+
+    def summary_field_names
+      common_summary_fields + %w[
+        family_registration_date family_id_display family_name family_number module_id family_location_current
+      ]
+    end
   end
 
   searchable do
-    date :registration_date
+    date :family_registration_date
     %w[id status].each { |f| string(f, as: "#{f}_sci") }
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }
@@ -42,10 +54,12 @@ class Family < ApplicationRecord
   alias super_defaults defaults
   def defaults
     super_defaults
+    self.family_registration_date ||= Date.today
     self.family_members ||= []
   end
 
   def set_instance_id
     self.family_id ||= unique_identifier
+    self.family_id_display ||= short_id
   end
 end

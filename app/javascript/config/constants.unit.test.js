@@ -42,6 +42,9 @@ describe("Verifying config constant", () => {
       "DEFAULT_METADATA",
       "DISPLAY_TEXT_FIELD",
       "DONE",
+      "FAMILIES",
+      "FAMILY",
+      "FAMILY_MEMBERS_SUBFORM_ID",
       "FETCH_PARAM",
       "FETCH_TIMEOUT",
       "FILE_FORMAT",
@@ -50,6 +53,7 @@ describe("Verifying config constant", () => {
       "IDLE_LOGOUT_TIMEOUT",
       "IDLE_TIMEOUT",
       "ID_FIELD",
+      "FAMILY_FROM_CASE",
       "INCIDENT",
       "INCIDENTS",
       "INCIDENT_CASE_ID_DISPLAY_FIELD",
@@ -171,7 +175,8 @@ describe("Verifying config constant", () => {
           tracing_requests: "tracing_request",
           incidents: "incident",
           all: "all",
-          registry_records: "registry_record"
+          registry_records: "registry_record",
+          families: "family"
         });
         expect(constants.AGE_MAX).equal(999);
         expect(constants.PERMITTED_URL).to.be.an("array");

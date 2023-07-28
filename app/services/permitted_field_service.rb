@@ -108,6 +108,7 @@ class PermittedFieldService
     @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
     @permitted_field_names += permitted_reporting_location_field
     @permitted_field_names += permitted_registry_record_id
+    @permitted_field_names += permitted_family_id
     @permitted_field_names
   end
 
@@ -146,6 +147,14 @@ class PermittedFieldService
     if user.can?(:view_registry_record, model_class) || user.can?(:add_registry_record, model_class)
       return %w[registry_record_id registry_id_display registry_name registry_no]
     end
+
+    []
+  end
+
+  def permitted_family_id
+    return [] unless model_class == Child
+
+    return %w[family_id family_id_display family_name family_number] if user.can?(:view_family_record, model_class)
 
     []
   end

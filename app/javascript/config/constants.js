@@ -16,7 +16,8 @@ import {
   VIEW_KPIS,
   SHOW_SUMMARY,
   READ_MANAGED_REPORTS,
-  READ_REGISTRY_RECORD
+  READ_REGISTRY_RECORD,
+  READ_FAMILY
 } from "../components/permissions/constants";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
@@ -51,6 +52,8 @@ export const INCIDENT = "incident";
 export const INCIDENTS = "incidents";
 export const REGISTRY_RECORD = "registry_record";
 export const REGISTRY_RECORDS = "registry_records";
+export const FAMILIES = "families";
+export const FAMILY = "family";
 
 // Type of records available singular (key): plural (value)
 export const RECORD_TYPES = {
@@ -58,6 +61,7 @@ export const RECORD_TYPES = {
   [TRACING_REQUESTS]: TRACING_REQUEST,
   [INCIDENTS]: INCIDENT,
   [REGISTRY_RECORDS]: REGISTRY_RECORD,
+  [FAMILIES]: FAMILY,
   all: "all"
 };
 
@@ -65,7 +69,8 @@ export const RECORD_TYPES_PLURAL = {
   [CASE]: CASES,
   [TRACING_REQUEST]: TRACING_REQUESTS,
   [INCIDENT]: INCIDENTS,
-  [REGISTRY_RECORD]: REGISTRY_RECORDS
+  [REGISTRY_RECORD]: REGISTRY_RECORDS,
+  [FAMILY]: FAMILIES
 };
 
 // Max Age allowed in age ranges
@@ -111,6 +116,7 @@ export const RECORD_PATH = {
   contact_information: "contact_information",
   codes_of_conduct: "codes_of_conduct",
   dashboards: "dashboards",
+  families: "families",
   flags: "flags",
   forms: "forms",
   incidents: "incidents",
@@ -175,6 +181,7 @@ export const ROUTES = {
   contact_information: "/admin/contact_information",
   dashboard: "/dashboards",
   exports: "/exports",
+  families: "/families",
   forms: "/admin/forms",
   forms_new: "/admin/forms/new",
   incidents: "/incidents",
@@ -215,6 +222,7 @@ export const PERMITTED_URL = [
   ROUTES.tracing_requests,
   ROUTES.incidents,
   ROUTES.registry_records,
+  ROUTES.families,
   ROUTES.code_of_conduct,
   ROUTES.password_reset_request
 ];
@@ -403,6 +411,15 @@ export const APPLICATION_NAV = (permissions, userId) => {
       validateWithUserPermissions: true
     },
     {
+      name: "navigation.families",
+      to: ROUTES.families,
+      icon: "families",
+      jewelCount: "families",
+      resources: RESOURCES.families,
+      actions: READ_RECORDS,
+      validateWithUserPermissions: true
+    },
+    {
       name: "navigation.insights",
       to: ROUTES.insights,
       icon: "insights",
@@ -547,12 +564,16 @@ export const FILE_FORMAT = {
   pdf: "application/pdf"
 };
 
+export const FAMILY_MEMBERS_SUBFORM_ID = "family_members_section";
+export const FAMILY_FROM_CASE = "family_from_case";
+
 export const FORM_PERMISSION_ACTION = Object.freeze({
   [INCIDENT_FROM_CASE]: VIEW_INCIDENTS_FROM_CASE,
   [CHANGE_LOGS]: SHOW_CHANGE_LOG,
   [APPROVALS]: SHOW_APPROVALS,
   [SUMMARY]: SHOW_SUMMARY,
-  [REGISTRY_FROM_CASE]: READ_REGISTRY_RECORD
+  [REGISTRY_FROM_CASE]: READ_REGISTRY_RECORD,
+  [FAMILY_FROM_CASE]: READ_FAMILY
 });
 
 export const VIOLATIONS_FORM = [
