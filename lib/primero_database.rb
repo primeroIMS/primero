@@ -3,6 +3,7 @@
 require 'yaml'
 require 'pg'
 require 'singleton'
+require 'date'
 
 # Raw PG connection to the Primero database.
 # Call this class only in scripts
