@@ -77,6 +77,6 @@ class FamilyLinkageService
   end
 
   def self.global_member_data(family_member)
-    family_member.reject { |key, _val| LOCAL_FAMILY_MEMBER_FIELDS.include?(key) }
+    family_member.except(*LOCAL_FAMILY_MEMBER_FIELDS)
   end
 end
