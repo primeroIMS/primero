@@ -135,6 +135,7 @@ module FakeDeviseLogin
     else
       user.stub(:role).and_return(fake_role(opts))
     end
+    user.id = opts[:id]
     user
   end
 
