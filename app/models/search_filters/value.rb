@@ -34,8 +34,8 @@ class SearchFilters::Value < SearchFilters::SearchFilter
   def to_h
     {
       type: 'value',
-      field_name: field_name,
-      value: value
+      field_name:,
+      value:
     }
   end
 

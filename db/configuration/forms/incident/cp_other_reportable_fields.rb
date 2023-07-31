@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 fields = [
   Field.new(
     'name' => 'record_state',

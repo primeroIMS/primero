@@ -5,8 +5,7 @@
 # Respresents a filled out form and provides a domain aware api for
 # querying the forms state.
 class FormSectionResponse < ValueObject
-  attr_accessor :response
-  attr_accessor :form_section
+  attr_accessor :response, :form_section
 
   def fields
     form_section&.fields || []
@@ -34,7 +33,7 @@ class FormSectionResponse < ValueObject
     # ------------------
     # ''    | false
     # ------------------
-    mandatory_fields.all? { |f| field(f.name).nil? || field(f.name) == '' ? false : true }
+    mandatory_fields.all? { |f| !(field(f.name).nil? || field(f.name) == '') }
   end
 
   def field(name)

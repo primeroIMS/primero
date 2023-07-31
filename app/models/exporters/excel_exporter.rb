@@ -49,7 +49,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     worksheet = build_worksheet(form, subform_field)
     worksheet&.write(0, 0, 'ID')
     build_worksheet_fields(form, worksheet)
-    worksheets[worksheet_id(form, subform_field)] = { worksheet: worksheet, row: 1 }
+    worksheets[worksheet_id(form, subform_field)] = { worksheet:, row: 1 }
   end
 
   def build_worksheet_fields(form, worksheet)
@@ -103,7 +103,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def form_name(form)
-    form.name(locale.to_s).gsub(%r{[\[\]:*?\/\\]}, ' ')
+    form.name(locale.to_s).gsub(%r{[\[\]:*?/\\]}, ' ')
   end
 
   def format_form_name(name)
@@ -175,7 +175,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     value = super(value, field)
     # TODO: This will cause N+1 issue
     if field.name == 'created_organization' && value.present?
-      return Agency.get_field_using_unique_id(value, :name_i18n).dig(locale.to_s)
+      return Agency.get_field_using_unique_id(value, :name_i18n)[locale.to_s]
     end
 
     return value unless value.is_a?(Array)

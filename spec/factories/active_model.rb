@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   trait :active_model do
     transient do

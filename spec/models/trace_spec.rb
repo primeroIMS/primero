@@ -67,30 +67,50 @@ describe Trace, search: true do
 
     it 'returns the comparison data for the matched case' do
       expect(trace.matched_case_comparison).to eq({
-        case_to_trace: [
-          { case_value: "Ausama Al Rashid", field_name: "name", match: "match", trace_value: "Ausama Al Rashid"},
-          { case_value: nil, field_name: "name_nickname", match: "mismatch", trace_value: "Asman beg"},
-          { case_value: nil, field_name: "name_other", match: "blank", trace_value: nil},
-          { case_value: nil, field_name: "sex", match: "mismatch", trace_value: "male"},
-          { case_value: nil, field_name: "age", match: "mismatch", trace_value: 13},
-          { case_value: nil, field_name: "date_of_birth", match: "mismatch", trace_value: Date.new(2007, 1, 16) },
-          { case_value: nil, field_name: "nationality", match: "mismatch", trace_value: ["syria"]},
-          { case_value: nil, field_name: "ethnicity", match: "mismatch", trace_value: ["kurd"]},
-          { case_value: nil, field_name: "religion", match: "mismatch", trace_value: ["sunni"]},
-          { case_value: nil, field_name: "language", match: "mismatch", trace_value: ["arabic", "kurdish"]},
-          { case_value: nil, field_name: "location_last", match: "blank", trace_value: nil},
-          { case_value: nil, field_name: "telephone_last", match: "blank", trace_value: nil},
-          { case_value: nil, field_name: "location_birth", match: "blank", trace_value: nil},
-          { case_value: nil, field_name: "location_current", match: "blank", trace_value: nil},
-          { case_value: nil, field_name: "address_current", match: "blank", trace_value: nil},
-          { case_value: nil, field_name: "date_of_separation", match: "blank", trace_value: nil},
-          { case_value: nil, field_name: "separation_cause", match: "blank", trace_value: nil},
-          { case_value: nil, field_name: "separation_cause_other", match: "blank", trace_value: nil},
-          { case_value: nil, field_name: "location_before_separation", match: "blank", trace_value: nil},
-          { case_value: nil, field_name: "location_separation", match: "blank", trace_value: nil}
-        ],
-        family_to_inquirer: []
-      })
+                                                    case_to_trace: [
+                                                      { case_value: 'Ausama Al Rashid', field_name: 'name',
+                                                        match: 'match', trace_value: 'Ausama Al Rashid' },
+                                                      { case_value: nil, field_name: 'name_nickname',
+                                                        match: 'mismatch', trace_value: 'Asman beg' },
+                                                      { case_value: nil, field_name: 'name_other', match: 'blank',
+                                                        trace_value: nil },
+                                                      { case_value: nil, field_name: 'sex', match: 'mismatch',
+                                                        trace_value: 'male' },
+                                                      { case_value: nil, field_name: 'age', match: 'mismatch',
+                                                        trace_value: 13 },
+                                                      { case_value: nil, field_name: 'date_of_birth',
+                                                        match: 'mismatch', trace_value: Date.new(2007, 1, 16) },
+                                                      { case_value: nil, field_name: 'nationality', match: 'mismatch',
+                                                        trace_value: ['syria'] },
+                                                      { case_value: nil, field_name: 'ethnicity', match: 'mismatch',
+                                                        trace_value: ['kurd'] },
+                                                      { case_value: nil, field_name: 'religion', match: 'mismatch',
+                                                        trace_value: ['sunni'] },
+                                                      { case_value: nil, field_name: 'language', match: 'mismatch',
+                                                        trace_value: %w[arabic kurdish] },
+                                                      { case_value: nil, field_name: 'location_last', match: 'blank',
+                                                        trace_value: nil },
+                                                      { case_value: nil, field_name: 'telephone_last', match: 'blank',
+                                                        trace_value: nil },
+                                                      { case_value: nil, field_name: 'location_birth', match: 'blank',
+                                                        trace_value: nil },
+                                                      { case_value: nil, field_name: 'location_current',
+                                                        match: 'blank', trace_value: nil },
+                                                      { case_value: nil, field_name: 'address_current', match: 'blank',
+                                                        trace_value: nil },
+                                                      { case_value: nil, field_name: 'date_of_separation',
+                                                        match: 'blank', trace_value: nil },
+                                                      { case_value: nil, field_name: 'separation_cause',
+                                                        match: 'blank', trace_value: nil },
+                                                      { case_value: nil, field_name: 'separation_cause_other',
+                                                        match: 'blank', trace_value: nil },
+                                                      { case_value: nil, field_name: 'location_before_separation',
+                                                        match: 'blank', trace_value: nil },
+                                                      { case_value: nil, field_name: 'location_separation',
+                                                        match: 'blank', trace_value: nil }
+                                                    ],
+                                                    family_to_inquirer: []
+                                                  })
     end
   end
 

@@ -43,7 +43,7 @@ class Kpi::PivotedRangeSearch < Kpi::Search
 
       adjust_solr_params do |params|
         params.merge!(
-          'facet': true,
+          facet: true,
           'facet.range': "{!tag=range}#{range_field.indexed_name}",
           'facet.range.start': from,
           'facet.range.end': to,
@@ -89,12 +89,12 @@ class Kpi::PivotedRangeSearch < Kpi::Search
   def pivot_range_counts
     search.facet_response
           .dig('facet_pivot', pivot_field.indexed_name)
-          .map do |record|
+          .to_h do |record|
       [record['value'],
        record
          .dig('ranges', range_field.indexed_name, 'counts')
          .each_slice(2)
          .to_h]
-    end.to_h
+    end
   end
 end

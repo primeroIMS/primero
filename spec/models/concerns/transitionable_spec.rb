@@ -150,8 +150,10 @@ describe Transitionable do
       @referral5 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case2)
       @referral6 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user3', record: @case2)
       @referral7 = Referral.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case3)
-      @referral8 = Referral.create!(transitioned_by: 'user2', transitioned_to: 'user1', transitioned_to_agency: @agency.unique_id, record: @case3)
-      @referral9 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user4', transitioned_to_agency: @agency.unique_id, record: @case3)
+      @referral8 = Referral.create!(transitioned_by: 'user2', transitioned_to: 'user1',
+                                    transitioned_to_agency: @agency.unique_id, record: @case3)
+      @referral9 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user4',
+                                    transitioned_to_agency: @agency.unique_id, record: @case3)
     end
 
     describe 'when group permission for the user is "self"' do

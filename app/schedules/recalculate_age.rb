@@ -49,7 +49,7 @@ class RecalculateAge < PeriodicJob
       (data->>'date_of_birth')::date +
       ((DATE_PART('year', :end_date ::date) - DATE_PART('year', (data->>'date_of_birth')::date)) * interval '1 year')
       between :start_date ::date and :end_date ::date",
-      start_date: start_date, end_date: end_date
+      start_date:, end_date:
     )
   end
 

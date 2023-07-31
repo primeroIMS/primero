@@ -8,7 +8,7 @@ class Api::V2::PrimeroConfigurationsController < ApplicationApiController
   before_action { authorize! :manage, PrimeroConfiguration }
 
   def index
-    @configurations = PrimeroConfiguration.list(order_by: order_by, order: order).paginate(pagination)
+    @configurations = PrimeroConfiguration.list(order_by:, order:).paginate(pagination)
     @total = @configurations.total_entries
   end
 

@@ -18,7 +18,7 @@ describe Exporters::JsonExporter do
         ]
       )
     ]
-    form = create(:form_section, unique_id: 'form_section_exporter', fields: fields)
+    form = create(:form_section, unique_id: 'form_section_exporter', fields:)
     primero_module = PrimeroModule.new(name: 'CP')
     primero_module.save(validate: false)
     permissions = Permission.new(
@@ -29,7 +29,7 @@ describe Exporters::JsonExporter do
       permissions: [permissions], form_sections: [form]
     )
     role.save(validate: false)
-    @user = User.new(user_name: 'user1', role: role)
+    @user = User.new(user_name: 'user1', role:)
     @user.save(validate: false)
     @record = Child.new(
       data: {

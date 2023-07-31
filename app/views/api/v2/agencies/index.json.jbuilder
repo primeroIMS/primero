@@ -2,7 +2,7 @@
 
 json.data do
   json.array! @agencies do |agency|
-    json.partial! 'api/v2/agencies/agency', agency: agency
+    json.partial! 'api/v2/agencies/agency', agency:
   end
 end
 

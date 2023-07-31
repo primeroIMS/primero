@@ -14,7 +14,7 @@ class PropertyEvaluator
   end
 
   def self.calculate_particles(particle)
-    if particle.match(/^[\w\?]*\(.*\)$/)
+    if particle.match(/^[\w?]*\(.*\)$/)
       [particle.split('(').first] + particle[0..-2].split('(').last.split(',')
     else
       [particle]

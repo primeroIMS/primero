@@ -6,7 +6,7 @@ json.name primero_module.name
 json.description primero_module.description
 json.associated_record_types primero_module.associated_record_types
 json.form_section_unique_ids primero_module.form_section_unique_ids
-json.field_map IncidentCreationService.new(primero_module: primero_module).field_map
+json.field_map IncidentCreationService.new(primero_module:).field_map
 json.module_options primero_module.module_options
 json.options primero_module.module_options # TODO: Change the front end to use the 'module_options' key above
 # For now only CP case is supported, but the structure can be extended

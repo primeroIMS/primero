@@ -135,7 +135,7 @@ describe Export do
     context 'when no params are passed' do
       before do
         exporter = Exporters::FormExporter
-        @export = Export.new(exporter: exporter)
+        @export = Export.new(exporter:)
         @export.run
         data = @export.export_file_blob.download
         @book = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)

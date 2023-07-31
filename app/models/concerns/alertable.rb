@@ -65,7 +65,7 @@ module Alertable
     alert = Alert.new(type: args[:type], date: date_alert, form_sidebar_id: args[:form_sidebar_id],
                       alert_for: args[:alert_for], user_id: args[:user_id], agency_id: args[:agency_id])
 
-    alerts << alert && alert
+    (alerts << alert) && alert
   end
 
   def remove_alert(type = nil)

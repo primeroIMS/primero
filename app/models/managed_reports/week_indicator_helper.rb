@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Helper methods for tsfv indicators
-module ManagedReports::TsfvIndicatorHelper
+module ManagedReports::WeekIndicatorHelper
   extend ActiveSupport::Concern
   # ClassMethods
   module ClassMethods
@@ -41,7 +41,7 @@ module ManagedReports::TsfvIndicatorHelper
             || ' - ' ||
             to_char(date_trunc('week', to_timestamp(#{quoted_field}, :format)) + '5 days'::interval, 'yyyy-mm-dd')
           ),
-          date_field: date_param.field_name, format: Report::DATE_TIME_FORMAT
+          { date_field: date_param.field_name, format: Report::DATE_TIME_FORMAT }
         ]
       )
     end

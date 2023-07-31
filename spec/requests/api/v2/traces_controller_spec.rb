@@ -7,7 +7,7 @@ describe Api::V2::TracesController, type: :request do
   after(:each) { clean_data(Trace, TracingRequest) }
 
   let(:tracing_request) { TracingRequest.create!(inquiry_date: Date.new(2019, 3, 1), relation_name: 'Test 1') }
-  let(:trace) { Trace.create!(tracing_request: tracing_request, name: 'Test', age: 5) }
+  let(:trace) { Trace.create!(tracing_request:, name: 'Test', age: 5) }
 
   let(:json) { JSON.parse(response.body) }
 
@@ -50,7 +50,7 @@ describe Api::V2::TracesController, type: :request do
     it 'associates a case and a matched trace' do
       login_for_test
       params = { data: { matched_case_id: case1.id } }
-      patch "/api/v2/traces/#{trace.id}", params: params
+      patch("/api/v2/traces/#{trace.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['matched_case_id']).to eq(case1.id)

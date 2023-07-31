@@ -24,7 +24,7 @@ class Api::V2::ActivityLogController < ApplicationApiController
     @activity_log_params = {
       types: permitted_types(permitted_params),
       datetime_range: datetime_range(permitted_params),
-      order: order
+      order:
     }
   end
 

@@ -79,7 +79,7 @@ describe Api::V2::CodesOfConductController, type: :request do
         data: { title:  'Some Title', content: 'Some Content' }
       }
 
-      post '/api/v2/codes_of_conduct', params: params
+      post('/api/v2/codes_of_conduct', params:)
 
       code_of_conduct = CodeOfConduct.current
 
@@ -97,7 +97,7 @@ describe Api::V2::CodesOfConductController, type: :request do
         data: { title:  'Some Title', content: 'Some Content' }
       }
 
-      post '/api/v2/codes_of_conduct', params: params
+      post('/api/v2/codes_of_conduct', params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
@@ -128,7 +128,7 @@ describe Api::V2::CodesOfConductController, type: :request do
         date_time2 = DateTime.parse('2021/03/12 15:50:55')
         DateTime.stub(:now).and_return(date_time2)
 
-        post '/api/v2/codes_of_conduct', params: params
+        post('/api/v2/codes_of_conduct', params:)
 
         current_code_of_conduct = CodeOfConduct.current
 

@@ -6,40 +6,55 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
   before do
     clean_data(Incident, Violation, Perpetrator, IndividualVictim, UserGroup, User, Agency, Role)
 
-    permissions = [
-      Permission.new(
-        resource: Permission::MANAGED_REPORT,
-        actions: [
-          Permission::VIOLATION_REPORT
-        ]
-      )
-    ]
     self_role = Role.create!(
       name: 'Self Role 1',
       unique_id: 'self-role-1',
       group_permission: Permission::SELF,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          managed_report_scope: Permission::SELF,
+          actions: [Permission::VIOLATION_REPORT]
+        )
+      ]
     )
 
     group_role = Role.create!(
       name: 'Group Role 1',
       unique_id: 'group-role-1',
       group_permission: Permission::GROUP,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          managed_report_scope: Permission::GROUP,
+          actions: [Permission::VIOLATION_REPORT]
+        )
+      ]
     )
 
     agency_role = Role.create!(
       name: 'Agency Role 1',
       unique_id: 'agency-role-1',
       group_permission: Permission::AGENCY,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          managed_report_scope: Permission::AGENCY,
+          actions: [Permission::VIOLATION_REPORT]
+        )
+      ]
     )
 
     all_role = Role.create!(
       name: 'All Role 1',
       unique_id: 'all-role-1',
       group_permission: Permission::ALL,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          actions: [Permission::VIOLATION_REPORT]
+        )
+      ]
     )
 
     agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1', unique_id: 'agency1')
@@ -219,7 +234,8 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
           [
             { group_id: 2020, data: [{ id: 'armed_force_1', male: 2, unknown: 1, total: 3 }] },
             { group_id: 2021, data: [{ id: 'other_party_1', male: 1, total: 1 }] },
-            { group_id: 2022, data: [{ id: 'other_party_2', female: 1, total: 1 }, { id: 'unknown', female: 1, total: 1 }] }
+            { group_id: 2022,
+              data: [{ id: 'other_party_2', female: 1, total: 1 }, { id: 'unknown', female: 1, total: 1 }] }
           ]
         )
       end

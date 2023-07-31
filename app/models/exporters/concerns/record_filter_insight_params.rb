@@ -15,7 +15,7 @@ module Exporters::Concerns::RecordFilterInsightParams
     return [] unless status_filter.present?
 
     [
-      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.status', locale: locale)}: ",
+      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.status', locale:)}: ",
       formats[:black], "#{status_display_text} / "
     ]
   end
@@ -24,7 +24,7 @@ module Exporters::Concerns::RecordFilterInsightParams
     return [] unless record_field_filter.present? && USER_GROUP_FIELD_NAMES.include?(record_field_filter.field_name)
 
     [
-      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.user_group', locale: locale)}: ",
+      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.user_group', locale:)}: ",
       formats[:black], user_group_display_text
     ]
   end
@@ -33,7 +33,7 @@ module Exporters::Concerns::RecordFilterInsightParams
     return [] unless record_field_filter.present? && AGENCY_FIELD_NAMES.include?(record_field_filter.field_name)
 
     [
-      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.agency', locale: locale)}: ",
+      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.agency', locale:)}: ",
       formats[:black], agency_display_text
     ]
   end
@@ -43,9 +43,9 @@ module Exporters::Concerns::RecordFilterInsightParams
 
     [
       formats[:bold_blue],
-      "#{I18n.t('managed_reports.filter_by.by', locale: locale)}: ",
+      "#{I18n.t('managed_reports.filter_by.by', locale:)}: ",
       formats[:black],
-      "#{I18n.t("managed_reports.by_options.#{by_filter.value}", locale: locale)} / "
+      "#{I18n.t("managed_reports.by_options.#{by_filter.value}", locale:)} / "
     ]
   end
 
@@ -54,7 +54,7 @@ module Exporters::Concerns::RecordFilterInsightParams
     return unless filter.present?
 
     lookup_values = Lookup.values(
-      'lookup-case-status', nil, { locale: locale }
+      'lookup-case-status', nil, { locale: }
     ).each_with_object({}) { |elem, memo| memo[elem['id']] = elem }
 
     filter.values.map { |value| lookup_values.dig(value, 'display_text') || value }.join(',')

@@ -8,7 +8,7 @@ class ZipService
     end
 
     def zipper
-      case ENV['PRIMERO_ZIP_FORMAT']
+      case ENV.fetch('PRIMERO_ZIP_FORMAT', nil)
       when '7z' then Zippers::SevenZip7z
       when 'zip7z' then Zippers::SevenZipZip
       when 'zip' then Zippers::RubyZip
@@ -18,7 +18,7 @@ class ZipService
     end
 
     def require_password?
-      %w[7z zip7z zip].include? ENV['PRIMERO_ZIP_FORMAT']
+      %w[7z zip7z zip].include? ENV.fetch('PRIMERO_ZIP_FORMAT', nil)
     end
   end
 end

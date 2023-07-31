@@ -3,23 +3,18 @@
 require 'rails_helper'
 
 describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
-  let(:permissions) do
-    [
-      Permission.new(
-        resource: Permission::MANAGED_REPORT,
-        actions: [
-          Permission::GBV_STATISTICS_REPORT
-        ]
-      )
-    ]
-  end
-
   let(:self_role) do
     Role.create!(
       name: 'Self Role 1',
       unique_id: 'self-role-1',
       group_permission: Permission::SELF,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          managed_report_scope: Permission::SELF,
+          actions: [Permission::GBV_STATISTICS_REPORT]
+        )
+      ]
     )
   end
 
@@ -28,7 +23,13 @@ describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
       name: 'Group Role 1',
       unique_id: 'group-role-1',
       group_permission: Permission::GROUP,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          managed_report_scope: Permission::GROUP,
+          actions: [Permission::GBV_STATISTICS_REPORT]
+        )
+      ]
     )
   end
 
@@ -37,7 +38,13 @@ describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
       name: 'Agency Role 1',
       unique_id: 'agency-role-1',
       group_permission: Permission::AGENCY,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          managed_report_scope: Permission::AGENCY,
+          actions: [Permission::GBV_STATISTICS_REPORT]
+        )
+      ]
     )
   end
 
@@ -46,7 +53,12 @@ describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
       name: 'All Role 1',
       unique_id: 'all-role-1',
       group_permission: Permission::ALL,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          actions: [Permission::GBV_STATISTICS_REPORT]
+        )
+      ]
     )
   end
 
@@ -176,7 +188,8 @@ describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
     end
 
     it 'returns group records for a group scope' do
-      vulnerable_populations_data = ManagedReports::Indicators::SurvivorsVulnerablePopulations.build(group_user, {}).data
+      vulnerable_populations_data = ManagedReports::Indicators::SurvivorsVulnerablePopulations.build(group_user,
+                                                                                                     {}).data
 
       expect(vulnerable_populations_data).to match_array(
         [
@@ -189,7 +202,8 @@ describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
     end
 
     it 'returns agency records for an agency scope' do
-      vulnerable_populations_data = ManagedReports::Indicators::SurvivorsVulnerablePopulations.build(agency_user, {}).data
+      vulnerable_populations_data = ManagedReports::Indicators::SurvivorsVulnerablePopulations.build(agency_user,
+                                                                                                     {}).data
 
       expect(vulnerable_populations_data).to match_array(
         [

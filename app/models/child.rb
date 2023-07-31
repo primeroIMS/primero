@@ -43,6 +43,7 @@ class Child < ApplicationRecord
   include FollowUpable
   include LocationCacheable
 
+  # rubocop:disable Naming/VariableNumber
   store_accessor(
     :data,
     :case_id, :case_id_code, :case_id_display,
@@ -63,12 +64,14 @@ class Child < ApplicationRecord
     :urgent_protection_concern, :child_preferences_section, :family_details_section, :care_arrangements_section,
     :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan
   )
+  # rubocop:enable Naming/VariableNumber
 
   has_many :incidents, foreign_key: :incident_case_id
   has_many :matched_traces, class_name: 'Trace', foreign_key: 'matched_case_id'
   has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
   belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id', optional: true
   belongs_to :registry_record, foreign_key: :registry_record_id, optional: true
+  belongs_to :family, foreign_key: :family_id, optional: true
 
   scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
 
@@ -125,9 +128,9 @@ class Child < ApplicationRecord
   searchable do
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
-    Child.child_matching_field_names.each { |f| text_index(f, suffix: 'matchable') }
+    Child.child_matching_field_names.each { |f| text_index(f, 'matchable') }
     Child.family_matching_field_names.each do |f|
-      text_index(f, suffix: 'matchable', subform_field_name: 'family_details_section')
+      text_index(f, 'matchable', :itself, 'family_details_section')
     end
     quicksearch_fields.each { |f| text_index(f) }
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
@@ -158,10 +161,9 @@ class Child < ApplicationRecord
   class << self
     alias super_new_with_user new_with_user
     def new_with_user(user, data = {})
-      new_case = super_new_with_user(user, data).tap do |local_case|
+      super_new_with_user(user, data).tap do |local_case|
         local_case.registry_record_id ||= local_case.data.delete('registry_record_id')
       end
-      new_case
     end
   end
 
@@ -306,9 +308,9 @@ class Child < ApplicationRecord
   def match_criteria
     match_criteria = data.slice(*Child.child_matching_field_names).compact
     match_criteria = match_criteria.merge(
-      Child.family_matching_field_names.map do |field_name|
+      Child.family_matching_field_names.to_h do |field_name|
         [field_name, values_from_subform('family_details_section', field_name)]
-      end.to_h
+      end
     )
     match_criteria = match_criteria.transform_values { |v| v.is_a?(Array) ? v.join(' ') : v }
     match_criteria.select { |_, v| v.present? }

@@ -15,7 +15,7 @@ class ManagedReports::SqlReportIndicator < ValueObject
     def sql(current_user, params = {}); end
 
     def build(current_user = nil, params = {})
-      indicator = new(params: params)
+      indicator = new(params:)
       results = indicator.execute_query(current_user)
       indicator.data = block_given? ? yield(results) : build_results(results, params)
       indicator
@@ -66,11 +66,11 @@ class ManagedReports::SqlReportIndicator < ValueObject
     end
 
     def user_scope_query(current_user, table_name = nil)
-      return if current_user.blank? || current_user.group_permission?(Permission::ALL)
+      return if current_user.blank? || current_user.managed_report_scope_all?
 
-      if current_user.group_permission?(Permission::AGENCY)
+      if current_user.managed_report_scope == Permission::AGENCY
         agency_scope_query(current_user, table_name)
-      elsif current_user.group_permission?(Permission::GROUP)
+      elsif current_user.managed_report_scope == Permission::GROUP
         group_scope_query(current_user, table_name)
       else
         self_scope_query(current_user, table_name)

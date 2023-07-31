@@ -8,7 +8,7 @@ class Api::V2::FlagsController < Api::V2::RecordResourceController
     authorize! :flag_record, @record
     @flag = @record.add_flag(params['data']['message'], params['data']['date'], current_user.user_name)
     updates_for_record(@record)
-    render :create, status: status
+    render :create, status:
   end
 
   def update

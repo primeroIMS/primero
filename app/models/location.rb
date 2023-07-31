@@ -53,7 +53,7 @@ class Location < ApplicationRecord
       if @locations_by_code.present?
         @locations_by_code[location_code]
       elsif location_code.present?
-        Location.find_by(location_code: location_code)
+        Location.find_by(location_code:)
       end
     end
 
@@ -77,7 +77,7 @@ class Location < ApplicationRecord
       admin_level = SystemSettings.current&.reporting_location_config&.admin_level ||
                     ReportingLocation::DEFAULT_ADMIN_LEVEL
       Location.where('hierarchy_path @> ARRAY[:ltrees]::ltree[]', ltrees: hierarchies.compact.uniq)
-              .where(admin_level: admin_level)
+              .where(admin_level:)
     end
 
     def list(filters = {}, options = {})
@@ -108,7 +108,7 @@ class Location < ApplicationRecord
 
   def placename_from_params(params)
     FieldI18nService.merge_i18n_properties(
-      { placename_i18n: placename_i18n },
+      { placename_i18n: },
       placename_i18n: params[:placename]
     )[:placename_i18n]
   end
@@ -130,7 +130,7 @@ class Location < ApplicationRecord
 
   # TODO: Make into association
   def descendents
-    @descendents ||= Location.where('hierarchy_path <@ ?', hierarchy_path).order(:hierarchy_path)[1..-1] || []
+    @descendents ||= Location.where('hierarchy_path <@ ?', hierarchy_path).order(:hierarchy_path)[1..] || []
   end
 
   # TODO: Make into association
@@ -200,7 +200,7 @@ class Location < ApplicationRecord
   def update_name_from_ancestor_name(location, ancestor_name_i18n)
     I18n.available_locales.map(&:to_s).each do |locale|
       hierarchical_name = location.name(locale).split('::')
-      hierarchical_name = [ancestor_name_i18n[locale]] + hierarchical_name[(admin_level + 1)..-1]
+      hierarchical_name = [ancestor_name_i18n[locale]] + hierarchical_name[(admin_level + 1)..]
       location.name_i18n[locale] = hierarchical_name.join('::')
     end
   end

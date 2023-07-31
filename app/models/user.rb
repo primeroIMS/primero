@@ -12,7 +12,7 @@ class User < ApplicationRecord
   include ConfigurationRecord
   include LocationCacheable
 
-  USER_NAME_REGEX = /\A[^ ]+\z/.freeze
+  USER_NAME_REGEX = /\A[^ ]+\z/
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
   USER_FIELDS_SCHEMA = {
     'id' => { 'type' => 'integer' }, 'user_name' => { 'type' => 'string' },
@@ -57,7 +57,7 @@ class User < ApplicationRecord
     joins(:user_groups).where(user_groups: { id: ids })
   end)
   scope :by_agency, (lambda do |id|
-    joins(:agency).where(agencies: { id: id })
+    joins(:agency).where(agencies: { id: })
   end)
 
   alias_attribute :organization, :agency
@@ -139,7 +139,7 @@ class User < ApplicationRecord
     end
 
     def last_login_timestamp(user_name)
-      AuditLog.where(action_name: 'login', user_name: user_name).try(:last).try(:timestamp)
+      AuditLog.where(action_name: 'login', user_name:).try(:last).try(:timestamp)
     end
 
     def agencies_for_user_names(user_names)
@@ -167,8 +167,8 @@ class User < ApplicationRecord
     end
   end
 
-  def initialize(attributes = nil, &block)
-    super(attributes&.except(*User.unique_id_parameters), &block)
+  def initialize(attributes = nil, &)
+    super(attributes&.except(*User.unique_id_parameters), &)
     associate_unique_id_properties(attributes.slice(*User.unique_id_parameters)) if attributes.present?
   end
 
@@ -270,6 +270,18 @@ class User < ApplicationRecord
 
   def group_permission?(permission)
     role&.group_permission == permission
+  end
+
+  def managed_report_scope
+    managed_report_permission = role.permissions.find do |permission|
+      permission.resource == Permission::MANAGED_REPORT
+    end
+
+    managed_report_permission.managed_report_scope || Permission::ALL
+  end
+
+  def managed_report_scope_all?
+    managed_report_scope == Permission::ALL
   end
 
   def can_preview?(record_type)

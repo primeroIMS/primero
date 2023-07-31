@@ -2,7 +2,7 @@
 
 json.data do
   json.array! @user_groups do |user_group|
-    json.partial! 'api/v2/user_groups/user_group', user_group: user_group
+    json.partial! 'api/v2/user_groups/user_group', user_group:
   end
 end
 

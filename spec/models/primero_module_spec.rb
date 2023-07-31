@@ -55,7 +55,7 @@ describe PrimeroModule do
       @form_module_test = FormSection.new(unique_id: 'form_module_test', parent_form: 'case', visible: true,
                                           order_form_group: 1, order: 1, order_subform: 0, form_group_id: 'm',
                                           editable: true, name_all: 'Form Module Test',
-                                          description_all: 'Form Module Test', fields: fields)
+                                          description_all: 'Form Module Test', fields:)
       @form_module_test.save!
 
       @primero_program = PrimeroProgram.create!(unique_id: 'some_program', name_en: 'Some program')

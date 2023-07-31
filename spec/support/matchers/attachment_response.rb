@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module CustomMatchers
   class AttachmentResponse
-    def initialize(file, disposition = 'attachment', filename = nil )
+    def initialize(file, disposition = 'attachment', filename = nil)
       @data = file.data
       @content_type = file.content_type
       @disposition = disposition
@@ -9,29 +11,31 @@ module CustomMatchers
     end
 
     def matches?(response)
-      verify { [response.content_type == @content_type, "content type is #{response.content_type} instead of #{@content_type}"] } &&
-          verify { [response.body == @data, "data is different"] } &&
-          verify do
-            result = response_has_specified_disposition? response
-            [ result, "content disposition is #{response.headers['Content-Disposition']} instead of #{@disposition}"]
-          end &&
-          verify { @filename.nil? || has_filename?(@filename) }
+      verify do
+        [response.content_type == @content_type, "content type is #{response.content_type} instead of #{@content_type}"]
+      end &&
+        verify { [response.body == @data, 'data is different'] } &&
+        verify do
+          result = response_has_specified_disposition? response
+          [result, "content disposition is #{response.headers['Content-Disposition']} instead of #{@disposition}"]
+        end &&
+        verify { @filename.nil? || has_filename?(@filename) }
     end
 
     def failure_message
-      "does not match expected attachment\n" + @failure_reasons.join('\n')
+      "does not match expected attachment\n#{@failure_reasons.join('\n')}"
     end
 
     private
 
     def verify
       result, failure = yield
-      @failure_reasons << "#{failure}" if !result
+      @failure_reasons << failure.to_s unless result
       result
     end
 
     def response_has_specified_disposition?(response)
-      response.headers.has_key?('Content-Disposition') && response.headers['Content-Disposition'].index(@disposition)
+      response.headers.key?('Content-Disposition') && response.headers['Content-Disposition'].index(@disposition)
     end
 
     def has_filename?(filename)

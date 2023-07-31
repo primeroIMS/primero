@@ -10,7 +10,7 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
       parent_form: 'case',
       name_en: id.to_s.split('_').map(&:capitalize).join(' '),
       description_en: id.to_s.split('_').map(&:capitalize).join(' '),
-      fields: fields
+      fields:
     )
   end
 
