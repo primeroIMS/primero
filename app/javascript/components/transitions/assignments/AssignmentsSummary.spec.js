@@ -1,4 +1,4 @@
-import { setupMountedComponent } from "../../../test";
+import { mountedComponent, screen } from "../../../test-utils";
 
 import AssignmentsSummary from "./AssignmentsSummary";
 
@@ -25,13 +25,11 @@ describe("<AssignmentsSummary />", () => {
     }
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(AssignmentsSummary, props));
-  });
 
   it("renders divs with its corresponding class", () => {
-    expect(component.find("div.wrapperStyle")).to.have.lengthOf(1);
-    expect(component.find("div.titleHeaderStyle")).to.have.lengthOf(1);
-    expect(component.find("div.dateStyle")).to.have.lengthOf(1);
+    mountedComponent(<AssignmentsSummary {...props} />);
+    expect(screen.getByText(/ransition.type.assign/i)).toBeInTheDocument();
+    expect(screen.getByTestId('wrapper')).toBeInTheDocument();
+    expect(screen.getByTestId('date')).toBeInTheDocument();
   });
 });

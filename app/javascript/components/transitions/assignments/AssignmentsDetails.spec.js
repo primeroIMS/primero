@@ -1,4 +1,4 @@
-import { setupMountedComponent } from "../../../test";
+import { mountedComponent,screen } from "../../../test-utils";
 import DisplayData from "../../display-data";
 
 import AssignmentsDetails from "./AssignmentsDetails";
@@ -26,11 +26,9 @@ describe("<AssignmentsDetails />", () => {
     }
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(AssignmentsDetails, props));
-  });
-
   it("renders 2 <DisplayData />", () => {
-    expect(component.find(DisplayData)).to.have.length(2);
+    mountedComponent(<AssignmentsDetails {...props} />)
+    expect(screen.getByText(/transition.recipient/i)).toBeInTheDocument();
+    expect(screen.getByText(/transition.recipient/i)).toBeInTheDocument();
   });
 });
