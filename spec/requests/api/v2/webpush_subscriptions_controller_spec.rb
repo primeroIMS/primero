@@ -7,6 +7,8 @@ describe Api::V2::WebpushSubscriptionsController, type: :request do
     clean_data(WebpushSubscription, User, Agency, Role)
     Rails.configuration.x.webpush.enabled = true
     Rails.configuration.x.webpush.vapid_public = 'vapic_public_key_123!'
+    allow(ENV).to receive(:fetch)
+    allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return('aVnNTxSI1EZmiG1dW6Z_I9fbQCbZB3Po')
   end
   let(:agency) { Agency.create!(name: 'Agency 1', agency_code: 'agency1') }
   let(:role) do
@@ -261,5 +263,6 @@ describe Api::V2::WebpushSubscriptionsController, type: :request do
 
   after(:each) do
     clean_data(WebpushSubscription, User, Agency, Role)
+    EncryptionService.instance_variable_set(:@instance, nil)
   end
 end
