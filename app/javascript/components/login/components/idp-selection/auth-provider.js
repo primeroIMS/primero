@@ -71,6 +71,8 @@ export const refreshIdpToken = async (idp, successCallback, historyObj) => {
 };
 
 export const signIn = async (idp, callback, historyObj) => {
+  sessionStorage.clear();
+
   const { loginRequest } = setupMsal(idp, historyObj);
 
   try {
@@ -98,6 +100,5 @@ export const signOut = () => {
     msalApp = null;
     forceStandardOIDC = false;
     localStorage.removeItem("cachedIdToken");
-    sessionStorage.clear();
   }
 };
