@@ -2,6 +2,6 @@
 
 json.data do
   json.array! @traces do |trace|
-    json.partial! 'api/v2/traces/trace', trace: trace
+    json.partial! 'api/v2/traces/trace', trace:
   end
 end

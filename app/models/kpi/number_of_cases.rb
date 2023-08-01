@@ -10,6 +10,6 @@ class Kpi::NumberOfCases < Kpi::PivotedRangeSearch
   pivot_field :owned_by_location
 
   def to_json(*_args)
-    { dates: columns, data: data }
+    { dates: columns, data: }
   end
 end

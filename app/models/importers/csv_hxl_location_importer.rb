@@ -66,7 +66,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
         next
       end
 
-      column_map[value[1..-1]] = index
+      column_map[value[1..]] = index
     end
   end
 
@@ -96,7 +96,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
   end
 
   def map_admin_level_data(admin_level, row, names)
-    location_hash = { admin_level: admin_level, placename_i18n: {}, location_code: '',
+    location_hash = { admin_level:, placename_i18n: {}, location_code: '',
                       type: '' }.with_indifferent_access
     add_location_attributes(location_hash, admin_level, row, names)
     location_hash
@@ -116,7 +116,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
     admin_level_tag = admin_level.zero? ? 'country' : "adm#{admin_level}"
     column_map.each do |key, value|
       key_array = key.split('+')
-      attributes = key_array[1..-1]
+      attributes = key_array[1..]
       next unless key_array.first == admin_level_tag
 
       attribute_value = row[value]

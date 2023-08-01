@@ -39,7 +39,7 @@ jobs:
         displayName: 'Install dependencies'
       - bash: |
           . ~/.bash_env
-          rbenv global 2.7.8
+          rbenv global 3.2.2
           bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
         displayName: 'Bundle install'
         env:

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateRecordHistories < ActiveRecord::Migration[5.0]
   def change
     create_table :record_histories do |t|
@@ -8,6 +10,6 @@ class CreateRecordHistories < ActiveRecord::Migration[5.0]
       t.string 'action'
       t.jsonb 'record_changes', default: {}
     end
-    add_index :record_histories, [:record_type, :record_id]
+    add_index :record_histories, %i[record_type record_id]
   end
 end

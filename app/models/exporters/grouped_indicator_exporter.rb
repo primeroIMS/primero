@@ -85,7 +85,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
   def write_indicator_options
     display_texts = indicator_options.map { |option| option['display_text'] }
     display_texts.each_with_index do |display_text, index|
-      cell_format = display_text != display_texts.last ? formats[:bold_black] : formats[:bold_black_blue_bottom_border]
+      cell_format = display_text == display_texts.last ? formats[:bold_black_blue_bottom_border] : formats[:bold_black]
       worksheet.write(current_row + index, 0, display_text, cell_format)
     end
   end
@@ -93,7 +93,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
   def subitems_size
     return 1 unless subcolumn_options.is_a?(Array)
 
-    subcolumn_options.size > 1 ? subcolumn_options.size : 1
+    [subcolumn_options.size, 1].max
   end
 
   def write_grouped_headers
@@ -208,11 +208,11 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
 
   def write_columns_data(group_data, initial_index, group_index)
     indicator_options.each_with_index do |option, option_index|
-      cell_format = option != indicator_options.last ? formats[:black] : formats[:blue_bottom_border]
+      cell_format = option == indicator_options.last ? formats[:blue_bottom_border] : formats[:black]
       write_column_data(
         {
-          group_data: group_data, group_index: group_index, option: option, option_index: option_index,
-          initial_index: initial_index, cell_format: cell_format, indicator_key: key
+          group_data:, group_index:, option:, option_index:,
+          initial_index:, cell_format:, indicator_key: key
         }
       )
     end
@@ -252,7 +252,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
 
   def start_index_header(group, group_index)
     columns_size = groups[group].size * subitems_size
-    group_index * (prev_column_size(group_index) || columns_size) + 1
+    (group_index * (prev_column_size(group_index) || columns_size)) + 1
   end
 
   def prev_column_size(group_index)

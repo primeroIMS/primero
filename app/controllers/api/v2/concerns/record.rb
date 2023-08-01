@@ -18,8 +18,8 @@ module Api::V2::Concerns::Record
   def index
     authorize! :index, model_class
     search = SearchService.search(
-      model_class, filters: search_filters, query_scope: query_scope, query: params[:query],
-                   sort: sort_order, pagination: pagination
+      model_class, filters: search_filters, query_scope:, query: params[:query],
+                   sort: sort_order, pagination:
     )
     @records = search.results
     @total = search.total
@@ -39,7 +39,7 @@ module Api::V2::Concerns::Record
     @record.save!
     select_updated_fields
     status = params[:data][:id].present? ? 204 : 200
-    render 'api/v2/records/create', status: status
+    render 'api/v2/records/create', status:
   end
 
   def update

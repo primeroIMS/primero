@@ -130,7 +130,7 @@ describe Api::V2::LookupsController, type: :request do
         }
       }
 
-      post '/api/v2/lookups', params: params
+      post('/api/v2/lookups', params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_nil
@@ -149,7 +149,7 @@ describe Api::V2::LookupsController, type: :request do
 
       params = {
         data: {
-          unique_id: unique_id,
+          unique_id:,
           name: {
             en: 'Lookup API 2'
           },
@@ -159,12 +159,12 @@ describe Api::V2::LookupsController, type: :request do
         }
       }
 
-      post '/api/v2/lookups', params: params, as: :json
+      post '/api/v2/lookups', params:, as: :json
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/lookups')
-      expect(Lookup.find_by(unique_id: unique_id)).to be_nil
+      expect(Lookup.find_by(unique_id:)).to be_nil
     end
 
     it 'returns a 409 if record already exists' do
@@ -186,7 +186,7 @@ describe Api::V2::LookupsController, type: :request do
           ]
         }
       }
-      post '/api/v2/lookups', params: params, as: :json
+      post '/api/v2/lookups', params:, as: :json
 
       expect(response).to have_http_status(409)
       expect(json['errors'].size).to eq(1)
@@ -200,9 +200,9 @@ describe Api::V2::LookupsController, type: :request do
         ]
       )
 
-      params = { data: { name: { en: '' }, values: [{ id: 'test1', display_text: { en: 'Test 1'} }] } }
+      params = { data: { name: { en: '' }, values: [{ id: 'test1', display_text: { en: 'Test 1' } }] } }
 
-      post '/api/v2/lookups', params: params, as: :json
+      post '/api/v2/lookups', params:, as: :json
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
@@ -232,7 +232,7 @@ describe Api::V2::LookupsController, type: :request do
         }
       }
 
-      patch "/api/v2/lookups/#{@lookup_country.id}", params: params
+      patch("/api/v2/lookups/#{@lookup_country.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@lookup_country.id)
@@ -268,7 +268,7 @@ describe Api::V2::LookupsController, type: :request do
         }
       }
 
-      patch "/api/v2/lookups/#{@lookup_country.id}", params: params
+      patch("/api/v2/lookups/#{@lookup_country.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@lookup_country.id)
@@ -290,7 +290,7 @@ describe Api::V2::LookupsController, type: :request do
           ]
         }
       }
-      patch "/api/v2/lookups/#{@lookup_country.id}", params: params
+      patch("/api/v2/lookups/#{@lookup_country.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['values'].count).to eq(1)
@@ -309,7 +309,7 @@ describe Api::V2::LookupsController, type: :request do
           }
         }
       }
-      patch "/api/v2/lookups/#{@lookup_country.id}", params: params
+      patch("/api/v2/lookups/#{@lookup_country.id}", params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
@@ -330,7 +330,7 @@ describe Api::V2::LookupsController, type: :request do
           ]
         }
       }
-      patch '/api/v2/lookups/thisdoesntexist', params: params
+      patch('/api/v2/lookups/thisdoesntexist', params:)
 
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
@@ -346,7 +346,7 @@ describe Api::V2::LookupsController, type: :request do
         data: { name: { en: '' } }
       }
 
-      patch "/api/v2/lookups/#{@lookup_country.id}", params: params
+      patch("/api/v2/lookups/#{@lookup_country.id}", params:)
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)

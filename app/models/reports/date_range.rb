@@ -11,10 +11,10 @@ module Reports
 
     def initialize(date_string)
       self.date = begin
-                    Date.parse(date_string)
-                  rescue StandardError
-                    MIN
-                  end
+        Date.parse(date_string)
+      rescue StandardError
+        MIN
+      end
     end
 
     def core_value

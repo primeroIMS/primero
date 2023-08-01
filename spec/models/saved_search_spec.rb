@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe SavedSearch do
@@ -93,7 +95,7 @@ describe SavedSearch do
         )
         saved_search.add_filter({ 'filter2' => ['value2'] })
         saved_search.save!
-        search_filters = [{'filter1' => ['value1']}, {'filter2' => ['value2'] }]
+        search_filters = [{ 'filter1' => ['value1'] }, { 'filter2' => ['value2'] }]
         expect(SavedSearch.find_by_id(saved_search.id).filters).to eq(search_filters)
       end
     end

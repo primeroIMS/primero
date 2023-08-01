@@ -19,7 +19,7 @@ class Kpi::CaseClosureRate < Kpi::PivotedRangeSearch
   def to_json(*_args)
     {
       dates: columns,
-      data: data
+      data:
     }
   end
 end

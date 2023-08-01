@@ -415,7 +415,7 @@ describe Api::V2::ChildrenController, type: :request do
 
         it 'associates a registry record' do
           params = { data: { registry_record_id: @registry_record1.id } }
-          patch "/api/v2/cases/#{@case2.id}", params: params, as: :json
+          patch "/api/v2/cases/#{@case2.id}", params:, as: :json
 
           expect(response).to have_http_status(200)
           expect(json['data']['registry_record_id']).to eq(@registry_record1.id)
@@ -446,7 +446,8 @@ describe Api::V2::ChildrenController, type: :request do
               action: 'show',
               user_id: fake_user_id, # This is technically wrong, but an artifact of the way we do tests
               resource_url: request.url,
-              metadata: { user_name: fake_user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: nil, http_method: 'GET'})
+              metadata: { user_name: fake_user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: nil,
+                          http_method: 'GET' })
     end
 
     it 'obfuscates the case name when hidden' do
@@ -467,7 +468,7 @@ describe Api::V2::ChildrenController, type: :request do
     it 'creates a new record with 200 and returns it as JSON' do
       login_for_test
 
-      post '/api/v2/cases', params: params, as: :json
+      post '/api/v2/cases', params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_empty
@@ -482,7 +483,7 @@ describe Api::V2::ChildrenController, type: :request do
 
       login_for_test
 
-      post '/api/v2/cases', params: params, as: :json
+      post '/api/v2/cases', params:, as: :json
 
       %w[data].each do |fp|
         expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
@@ -496,12 +497,12 @@ describe Api::V2::ChildrenController, type: :request do
         login_for_test
         id = SecureRandom.uuid
         params = {
-          data: { id: id, name: 'Test', age: 12, sex: 'female' }
+          data: { id:, name: 'Test', age: 12, sex: 'female' }
         }
-        post '/api/v2/cases', params: params, as: :json
+        post '/api/v2/cases', params:, as: :json
 
         expect(response).to have_http_status(204)
-        expect(Child.find_by(id: id)).not_to be_nil
+        expect(Child.find_by(id:)).not_to be_nil
       end
     end
 
@@ -509,14 +510,14 @@ describe Api::V2::ChildrenController, type: :request do
       login_for_test(permissions: [])
       id = SecureRandom.uuid
       params = {
-        data: { id: id, name: 'Test', age: 12, sex: 'female' }
+        data: { id:, name: 'Test', age: 12, sex: 'female' }
       }
-      post '/api/v2/cases', params: params, as: :json
+      post '/api/v2/cases', params:, as: :json
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/cases')
-      expect(Child.find_by(id: id)).to be_nil
+      expect(Child.find_by(id:)).to be_nil
     end
 
     it 'returns a 409 if record already exists' do
@@ -524,7 +525,7 @@ describe Api::V2::ChildrenController, type: :request do
       params = {
         data: { id: @case1.id, name: 'Test', age: 12, sex: 'female' }
       }
-      post '/api/v2/cases', params: params, as: :json
+      post '/api/v2/cases', params:, as: :json
 
       expect(response).to have_http_status(409)
       expect(json['errors'].size).to eq(1)
@@ -536,7 +537,7 @@ describe Api::V2::ChildrenController, type: :request do
       params = {
         data: { name: 'Test', age: 12, sex: 'female', date_of_birth: 'is invalid' }
       }
-      post '/api/v2/cases', params: params, as: :json
+      post '/api/v2/cases', params:, as: :json
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
@@ -548,7 +549,7 @@ describe Api::V2::ChildrenController, type: :request do
     it 'updates an existing record with 200' do
       login_for_test
       params = { data: { name: 'Tester', age: 10, sex: 'female' } }
-      patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+      patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@case1.id)
@@ -564,7 +565,7 @@ describe Api::V2::ChildrenController, type: :request do
     it 'does not update the id of the record and returns 200' do
       login_for_test
       params = { data: { id: '47e3e51c-7049-4aff-bd3e-ded1b1c5477f' } }
-      patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+      patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@case1.id)
@@ -574,7 +575,7 @@ describe Api::V2::ChildrenController, type: :request do
       allow(Rails.logger).to receive(:debug).and_return(nil)
       login_for_test
       params = { data: { name: 'Tester', age: 10, sex: 'female' } }
-      patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+      patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
       %w[data].each do |fp|
         expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
@@ -584,7 +585,7 @@ describe Api::V2::ChildrenController, type: :request do
     it 'treats numerically formatted strings wih leading 0s as strings' do
       login_for_test
       params = { data: { national_id_no: '001' } }
-      patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+      patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
       expect(@case1.reload.data['national_id_no']).to eq('001')
     end
@@ -592,7 +593,7 @@ describe Api::V2::ChildrenController, type: :request do
     it 'treats numerically formatted strings as strings' do
       login_for_test
       params = { data: { national_id_no: '155' } }
-      patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+      patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
       expect(@case1.reload.data['national_id_no']).to eq('155')
     end
@@ -607,7 +608,7 @@ describe Api::V2::ChildrenController, type: :request do
           ]
         }
       }
-      patch "/api/v2/cases/#{@case3.id}", params: params, as: :json
+      patch "/api/v2/cases/#{@case3.id}", params:, as: :json
 
       expect(response).to have_http_status(200)
 
@@ -628,7 +629,7 @@ describe Api::V2::ChildrenController, type: :request do
           ]
         }
       }
-      patch "/api/v2/cases/#{@case3.id}", params: params, as: :json
+      patch "/api/v2/cases/#{@case3.id}", params:, as: :json
 
       expect(response).to have_http_status(200)
 
@@ -642,7 +643,7 @@ describe Api::V2::ChildrenController, type: :request do
     it "returns 403 if user isn't authorized to update records" do
       login_for_test(permissions: [])
       params = { data: { name: 'Tester', age: 10, sex: 'female' } }
-      patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+      patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
@@ -652,7 +653,7 @@ describe Api::V2::ChildrenController, type: :request do
     it 'returns a 404 when trying to update a record with a non-existant id' do
       login_for_test
       params = { data: { name: 'Tester', age: 10, sex: 'female' } }
-      patch '/api/v2/cases/thisdoesntexist', params: params, as: :json
+      patch '/api/v2/cases/thisdoesntexist', params:, as: :json
 
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
@@ -664,7 +665,7 @@ describe Api::V2::ChildrenController, type: :request do
       params = {
         data: { name: 'Test', age: 12, sex: 'female', date_of_birth: 'is invalid' }
       }
-      patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+      patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
@@ -674,7 +675,7 @@ describe Api::V2::ChildrenController, type: :request do
     it 'sets the case name to be hidden' do
       login_for_test
       params = { data: { hidden_name: true } }
-      patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+      patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
       expect(response).to have_http_status(200)
 
@@ -699,7 +700,7 @@ describe Api::V2::ChildrenController, type: :request do
           record_action: Permission::SERVICES_SECTION_FROM_CASE
         }
 
-        patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+        patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
         expect(response).to have_http_status(200)
         expect(json['data']['services_section'].first['service_type']).to eq('Test type')
@@ -726,7 +727,7 @@ describe Api::V2::ChildrenController, type: :request do
           record_action: Permission::SERVICES_SECTION_FROM_CASE
         }
 
-        patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+        patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
         expect(response).to have_http_status(200)
         expect(json['data']['services_section'].first['service_type']).to eq('Test type')
@@ -741,7 +742,7 @@ describe Api::V2::ChildrenController, type: :request do
           data: { services_section: [{ service_type: 'Test type' }] },
           record_action: Permission::SERVICES_SECTION_FROM_CASE
         }
-        patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+        patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
         expect(response).to have_http_status(403)
         expect(json['errors'].size).to eq(1)
@@ -763,7 +764,7 @@ describe Api::V2::ChildrenController, type: :request do
 
         params = { data: { status: 'closed' }, record_action: Permission::CLOSE }
 
-        patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+        patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
         expect(response).to have_http_status(200)
         expect(json['data']['status']).to eq(Record::STATUS_CLOSED)
@@ -774,7 +775,7 @@ describe Api::V2::ChildrenController, type: :request do
 
         params = { data: { status: 'closed' }, record_action: Permission::CLOSE }
 
-        patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+        patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
         expect(response).to have_http_status(403)
         expect(json['errors'].size).to eq(1)
@@ -802,7 +803,7 @@ describe Api::V2::ChildrenController, type: :request do
 
         params = { data: { status: 'open', case_status_reopened: true }, record_action: Permission::REOPEN }
 
-        patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+        patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
         expect(response).to have_http_status(200)
         expect(json['data']['status']).to eq(Record::STATUS_OPEN)
@@ -813,7 +814,7 @@ describe Api::V2::ChildrenController, type: :request do
 
         params = { data: { status: 'open', case_reopened: true }, record_action: Permission::REOPEN }
 
-        patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+        patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
         expect(response).to have_http_status(403)
         expect(json['errors'].size).to eq(1)
@@ -835,7 +836,7 @@ describe Api::V2::ChildrenController, type: :request do
 
         params = { data: { record_state: false }, record_action: Permission::ENABLE_DISABLE_RECORD }
 
-        patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+        patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
         expect(response).to have_http_status(200)
         expect(json['data']['record_state']).to eq(false)
@@ -846,7 +847,7 @@ describe Api::V2::ChildrenController, type: :request do
 
         params = { data: { record_state: false }, record_action: Permission::ENABLE_DISABLE_RECORD }
 
-        patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+        patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
         expect(response).to have_http_status(403)
         expect(json['errors'].size).to eq(1)

@@ -18,10 +18,10 @@ class SearchFilters::NumericRange < SearchFilters::SearchFilter
   def to_h
     {
       type: 'numeric_range',
-      field_name: field_name,
+      field_name:,
       value: {
-        from: from,
-        to: to
+        from:,
+        to:
       }
     }
   end

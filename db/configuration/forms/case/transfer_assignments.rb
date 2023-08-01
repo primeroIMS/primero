@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 FormSection.create_or_update!(
   unique_id: 'transfers_assignments',

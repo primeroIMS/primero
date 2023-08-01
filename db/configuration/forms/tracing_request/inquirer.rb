@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 tracing_request_inquirer_fields = [
   Field.new('name' => 'tracing_request_id',
             'type' => 'text_field',

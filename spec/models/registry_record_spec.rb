@@ -46,7 +46,7 @@ describe RegistryRecord do
 
       context 'and registry_types is present' do
         before do
-          @ss_registry_types = %w[teacher, girl, boy, dog]
+          @ss_registry_types = %w[teacher girl boy dog]
           SystemSettings.stub(:current).and_return(
             SystemSettings.new(primary_age_range: 'primero',
                                system_options: { show_alerts: true,

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :role, traits: [:active_model] do
     name { "test_role_#{counter}" }

@@ -46,8 +46,8 @@ class Api::V2::AssignsController < Api::V2::RecordResourceController
     notes = params[:data][:notes]
     transitioned_by = current_user.user_name
     Assign.create!(
-      record: record, transitioned_to: transitioned_to,
-      transitioned_by: transitioned_by, notes: notes
+      record:, transitioned_to:,
+      transitioned_by:, notes:
     )
   end
 
