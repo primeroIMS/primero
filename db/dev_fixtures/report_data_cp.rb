@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # r = Report.create!(
 #   name: 'Test 2x2',
 #   module_id: 'primeromodule-cp',
@@ -6,50 +8,50 @@
 #   disaggregate_by: ["age", "sex"],
 # )
 
-sexes = ['Male', 'Female']
+sexes = %w[Male Female]
 nationality = ['Kenya', 'Uganda', 'Somalia', 'Ethiopia', 'Rwanda', 'Burundi', 'South Sudan', 'Tanzania']
 locations = ['Kakuma', 'Dadaab', 'Dolo Ado', 'Nairobi']
 displacement_status = [
-  "Resident",
-  "IDP",
-  "Refugee",
-  "Stateless Person",
-  "Returnee",
-  "Foreign National",
-  "Asylum Seeker"
+  'Resident',
+  'IDP',
+  'Refugee',
+  'Stateless Person',
+  'Returnee',
+  'Foreign National',
+  'Asylum Seeker'
 ]
 
 protection_concerns = [
-  "Sexually Exploited",
-  "GBV survivor",
-  "Trafficked/smuggled",
-  "Statelessness",
-  "Arrested/Detained",
-  "Migrant",
-  "Disabled",
-  "Serious health issue",
-  "Refugee",
-  "CAAFAG",
-  "Street child",
-  "Child Mother",
-  "Physically or Mentally Abused",
-  "Living with vulnerable person",
-  "Word Forms of Child Labor",
-  "Child Headed Household",
-  "Mentally Distressed",
-  "Other"
+  'Sexually Exploited',
+  'GBV survivor',
+  'Trafficked/smuggled',
+  'Statelessness',
+  'Arrested/Detained',
+  'Migrant',
+  'Disabled',
+  'Serious health issue',
+  'Refugee',
+  'CAAFAG',
+  'Street child',
+  'Child Mother',
+  'Physically or Mentally Abused',
+  'Living with vulnerable person',
+  'Word Forms of Child Labor',
+  'Child Headed Household',
+  'Mentally Distressed',
+  'Other'
 ]
-status = ['open', 'closed']
-case_module_ids = ['primeromodule-cp', 'primeromodule-gbv']
+status = %w[open closed]
+case_module_ids = %w[primeromodule-cp primeromodule-gbv]
 
-(0..200).each do |i|
+201.times do |i|
   concerns = []
   (0..rand(4)).each do |j|
-    concerns << protection_concerns[rand(protection_concerns.size)] if j > 0
+    concerns << protection_concerns[rand(protection_concerns.size)] if j.positive?
   end
 
   Child.create!(
-    name: "Test Case #{i.to_s}",
+    name: "Test Case #{i}",
     age: rand(18),
     sex: sexes[rand(sexes.size)],
     location_current: locations[rand(locations.size)],

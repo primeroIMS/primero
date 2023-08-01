@@ -14,7 +14,7 @@ class ManagedReport < ValueObject
         name: 'managed_reports.gbv_statistics.name',
         description: 'managed_reports.gbv_statistics.description',
         subreports: %w[incidents perpetrators survivors referrals],
-        permitted_filters: [:grouped_by, date_of_first_report: {}, incident_date: {}],
+        permitted_filters: [:grouped_by, { date_of_first_report: {}, incident_date: {} }],
         module_id: PrimeroModule::GBV
       ),
       Permission::WORKFLOW_REPORT => ManagedReport.new(
@@ -24,7 +24,7 @@ class ManagedReport < ValueObject
         subreports: %w[cases_workflow incidents_workflow],
         permitted_filters: [
           :grouped_by, :by, :created_by_groups, :workflow, :owned_by_groups,
-          :created_organization, :owned_by_agency_id, status: {}, registration_date: {}
+          :created_organization, :owned_by_agency_id, { status: {}, registration_date: {} }
         ],
         module_id: PrimeroModule::CP
       ),
@@ -35,7 +35,7 @@ class ManagedReport < ValueObject
         subreports: %w[cases_violence_type incidents_violence_type],
         permitted_filters: [
           :grouped_by, :by, :created_by_groups, :cp_incident_violence_type, :owned_by_groups,
-          :created_organization, :owned_by_agency_id, status: {}, registration_date: {}
+          :created_organization, :owned_by_agency_id, { status: {}, registration_date: {} }
         ],
         module_id: PrimeroModule::CP
       ),
@@ -49,8 +49,8 @@ class ManagedReport < ValueObject
         ],
         permitted_filters: [
           :grouped_by, :ctfmr_verified, :verified_ctfmr_technical,
-          date_of_first_report: {},
-          incident_date: {}, ctfmr_verified_date: {}
+          { date_of_first_report: {},
+            incident_date: {}, ctfmr_verified_date: {} }
         ],
         module_id: PrimeroModule::MRM
       ),
@@ -60,7 +60,7 @@ class ManagedReport < ValueObject
         description: 'managed_reports.ghn_report.description',
         subreports: %w[ghn_report],
         permitted_filters: [
-          :grouped_by, ghn_date_filter: {}
+          :grouped_by, { ghn_date_filter: {} }
         ],
         module_id: PrimeroModule::MRM
       ),
@@ -71,9 +71,9 @@ class ManagedReport < ValueObject
         subreports: %w[individual_children],
         permitted_filters: [
           :grouped_by, :ctfmr_verified, :verified_ctfmr_technical,
-          violation_type: {},
-          date_of_first_report: {},
-          incident_date: {}, ctfmr_verified_date: {}
+          { violation_type: {},
+            date_of_first_report: {},
+            incident_date: {}, ctfmr_verified_date: {} }
         ],
         module_id: PrimeroModule::MRM
       )
@@ -84,7 +84,7 @@ class ManagedReport < ValueObject
   def build_report(user, filters = [], opts = {})
     self.user = user
     self.filters = filters
-    self.data = (filter_subreport(opts&.dig(:subreport_id))).reduce({}) do |acc, id|
+    self.data = filter_subreport(opts&.dig(:subreport_id)).reduce({}) do |acc, id|
       subreport = "ManagedReports::SubReports::#{id.camelize}".constantize.new
       subreport.build_report(user, subreport_params(filters))
       acc.merge(subreport.id => subreport.data)

@@ -13,10 +13,10 @@
 ActiveSupport::Messages::Metadata.class_eval do
   def self.extract_metadata(message)
     data = begin
-             ActiveSupport::JSON.decode(message)
-           rescue StandardError
-             nil
-           end
+      ActiveSupport::JSON.decode(message)
+    rescue StandardError
+      nil
+    end
     if data.is_a?(Hash) && data.key?('_rails')
       expiry = data['_rails']['exp']
       expiry = expiry.iso8601 if expiry.is_a?(ActiveSupport::TimeWithZone)

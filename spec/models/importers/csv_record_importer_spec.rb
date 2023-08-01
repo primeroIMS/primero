@@ -34,7 +34,7 @@ module Importers
         password_confirmation: 'a12345678',
         email: 'test_user_1@localhost.com',
         agency_id: @agency_a.id,
-        role: role
+        role:
       )
       @user_b = User.create!(
         full_name: 'Test User 2',
@@ -43,7 +43,7 @@ module Importers
         password_confirmation: 'a12345678',
         email: 'test_user_2@localhost.com',
         agency_id: @agency_a.id,
-        role: role
+        role:
       )
     end
 

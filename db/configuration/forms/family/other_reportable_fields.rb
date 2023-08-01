@@ -49,7 +49,7 @@ FormSection.create_or_update!(
   order_form_group: 1000,
   form_group_id: 'other_reportable_fields',
   editable: true,
-  fields: fields,
+  fields:,
   name_en: 'Other Reportable Fields',
   description_en: 'Other Reportable Fields'
 )

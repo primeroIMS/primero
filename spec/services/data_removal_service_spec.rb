@@ -143,7 +143,7 @@ describe DataRemovalService do
 
     let(:primero_module) do
       PrimeroModule.create!(
-        name: 'Primero Module', primero_program: primero_program, roles: [role], associated_record_types: ['case']
+        name: 'Primero Module', primero_program:, roles: [role], associated_record_types: ['case']
       )
     end
 

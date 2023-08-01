@@ -139,6 +139,10 @@ Rails.application.routes.draw do
         resources :alerts, only: [:index]
         get :record_history, to: 'record_histories#index'
       end
+
+      scope '/webpush' do
+        get 'config', action: :config, controller: 'webpush_config'
+      end
     end
   end
 end

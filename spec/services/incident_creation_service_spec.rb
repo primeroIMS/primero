@@ -34,11 +34,11 @@ describe IncidentCreationService do
     role.save(validate: false) && role
   end
   let(:user_cp) do
-    user = User.new(user_name: 'user_cp', full_name: 'Test User CP', role: role)
+    user = User.new(user_name: 'user_cp', full_name: 'Test User CP', role:)
     user.save(validate: false) && user
   end
   let(:user_gbv) do
-    user = User.new(user_name: 'user_gbv', full_name: 'Test User GBV', role: role)
+    user = User.new(user_name: 'user_gbv', full_name: 'Test User GBV', role:)
     user.save(validate: false) && user
   end
   let(:case_cp) do

@@ -3,7 +3,7 @@
 # Monkeypatch Hash to support deep compaction of nested hashes.
 Hash.class_eval do
   def compact_deep
-    map do |key, value|
+    to_h do |key, value|
       value = if value.nil?
                 nil
               elsif value.is_a? Hash
@@ -12,6 +12,6 @@ Hash.class_eval do
                 value
               end
       [key, value]
-    end.to_h.compact
+    end.compact
   end
 end

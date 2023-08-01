@@ -23,7 +23,7 @@ module ManagedReports::SqlQueryHelpers
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           "#{quoted_query(table_name, 'data')} #> '{#{field_name}}' ?| array[:values]",
-          values: param.respond_to?(:values) ? param.values : param.value
+          { values: param.respond_to?(:values) ? param.values : param.value }
         ]
       )
     end
@@ -52,7 +52,7 @@ module ManagedReports::SqlQueryHelpers
               #{quoted_query(table_name, 'data')} ->> 'created_organization' in (:agencies)
             )
           ),
-          agencies: [current_user.agency.unique_id]
+          { agencies: [current_user.agency.unique_id] }
         ]
       )
     end
@@ -67,7 +67,7 @@ module ManagedReports::SqlQueryHelpers
               #{quoted_query(table_name, 'data')} #> '{created_by_groups}' ?| array[:groups]
             )
           ),
-          groups: current_user.user_group_unique_ids
+          { groups: current_user.user_group_unique_ids }
         ]
       )
     end
@@ -76,7 +76,7 @@ module ManagedReports::SqlQueryHelpers
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           "#{quoted_query(table_name, 'data')} #> '{associated_user_names}' ?| array[:user_names]",
-          user_names: [current_user.user_name]
+          { user_names: [current_user.user_name] }
         ]
       )
     end
@@ -102,7 +102,7 @@ module ManagedReports::SqlQueryHelpers
             'year',
             to_timestamp(#{quoted_query(table_name, 'data')} ->> :date_field, :format)
           )::integer",
-          date_field: date_param.field_name, format: Report::DATE_TIME_FORMAT
+          { date_field: date_param.field_name, format: Report::DATE_TIME_FORMAT }
         ]
       )
     end
@@ -116,7 +116,7 @@ module ManagedReports::SqlQueryHelpers
         [
           "DATE_PART('year', to_timestamp(#{quoted_field}, :format))|| '-' ||
           'Q' || DATE_PART('quarter', to_timestamp(#{quoted_field}, :format)) ",
-          date_field: date_param.field_name, format: Report::DATE_TIME_FORMAT
+          { date_field: date_param.field_name, format: Report::DATE_TIME_FORMAT }
         ]
       )
     end
@@ -130,7 +130,7 @@ module ManagedReports::SqlQueryHelpers
         [
           "DATE_PART('year', to_timestamp(#{quoted_field}, :format)) || '-' ||
           to_char(to_timestamp(#{quoted_field}, 'YYYY-MM'),'mm')",
-          date_field: date_param.field_name, format: Report::DATE_TIME_FORMAT
+          { date_field: date_param.field_name, format: Report::DATE_TIME_FORMAT }
         ]
       )
     end
@@ -142,8 +142,8 @@ module ManagedReports::SqlQueryHelpers
         acc + ActiveRecord::Base.sanitize_sql_for_conditions(
           [
             %{ when int4range(:start, :end, '[]') @> cast(#{column} as integer)
-               then #{!last_range?(range) ? "':start - :end'" : "':start+' end"}
-            }, field_name: field_name, start: range.first, end: range.last
+               then #{last_range?(range) ? "':start+' end" : "':start - :end'"}
+            }, { field_name:, start: range.first, end: range.last }
           ]
         )
       end

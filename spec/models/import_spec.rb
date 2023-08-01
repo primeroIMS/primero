@@ -12,7 +12,7 @@ describe Import do
       before do
         importer = Importers::CsvHxlLocationImporter
         data_base64 = attachment_base64('hxl_location_sample.csv')
-        @import = Import.new(importer: importer, data_base64: data_base64, content_type: nil, file_name: nil)
+        @import = Import.new(importer:, data_base64:, content_type: nil, file_name: nil)
       end
 
       it 'imports locations' do

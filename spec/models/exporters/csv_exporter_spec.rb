@@ -12,7 +12,7 @@ module Exporters
         build(:field, name: 'age', type: Field::NUMERIC_FIELD),
         build(:field, name: 'sex', type: Field::SELECT_BOX)
       ]
-      form = create(:form_section, unique_id: 'form_section_exporter', fields: fields)
+      form = create(:form_section, unique_id: 'form_section_exporter', fields:)
       primero_module = PrimeroModule.new(name: 'CP')
       primero_module.save(validate: false)
       permissions = Permission.new(
@@ -20,9 +20,10 @@ module Exporters
       )
       role = Role.new(
         is_manager: false, modules: [primero_module],
-        permissions: [permissions], form_sections: [form])
+        permissions: [permissions], form_sections: [form]
+      )
       role.save(validate: false)
-      @user = User.new(user_name: 'user1', role: role)
+      @user = User.new(user_name: 'user1', role:)
       @user.save(validate: false)
 
       case1 = Child.new(data: { name: 'Joe', age: 12, sex: 'male' })

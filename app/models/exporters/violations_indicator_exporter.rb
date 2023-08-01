@@ -17,7 +17,7 @@ class Exporters::ViolationsIndicatorExporter < Exporters::IndicatorExporter
     worksheet.write(
       current_row,
       1,
-      I18n.t('managed_reports.ghn_report.sub_reports.associated_violations', locale: locale),
+      I18n.t('managed_reports.ghn_report.sub_reports.associated_violations', locale:),
       formats[:bold_blue]
     )
     self.current_row += 1
@@ -43,7 +43,7 @@ class Exporters::ViolationsIndicatorExporter < Exporters::IndicatorExporter
 
   def write_violations(elem)
     violations = elem[:data][:violations].map do |v|
-      I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{v}", locale: locale)
+      I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{v}", locale:)
     end.join(",\n")
     worksheet.write(current_row, 1, violations)
   end

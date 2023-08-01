@@ -88,7 +88,7 @@ describe Alertable do
         email: 'test_user_2@localhost.com',
         agency_id: agency_a.id,
         user_groups: [@group_a, @group_b],
-        role: role
+        role:
       )
       @user_c = User.create!(
         full_name: 'Test User 3',

@@ -15,7 +15,7 @@ class ManagedReports::SqlReportIndicator < ValueObject
     def sql(current_user, params = {}); end
 
     def build(current_user = nil, params = {})
-      indicator = new(params: params)
+      indicator = new(params:)
       results = indicator.execute_query(current_user)
       indicator.data = block_given? ? yield(results) : build_results(results, params)
       indicator

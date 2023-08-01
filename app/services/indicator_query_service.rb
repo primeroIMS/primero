@@ -20,7 +20,7 @@ class IndicatorQueryService
 
     def statistics_for_indicators(indicators, record_model, user, managed_user_names)
       search = record_query(record_model, indicators, user)
-      indicators.map { |i| [i.name, i.stats_from_search(search, user, managed_user_names)] }.to_h
+      indicators.to_h { |i| [i.name, i.stats_from_search(search, user, managed_user_names)] }
     end
 
     def record_query(record_model, indicators, user)

@@ -47,9 +47,9 @@ class ManagedReports::Indicators::IndividualPerpetrator < ManagedReports::SqlRep
         order by name
       }
     end
-   # rubocop:enable Metrics/PerceivedComplexity
-   # rubocop:enable Metrics/AbcSize
-   # rubocop:enable Metrics/MethodLength
-   # rubocop:enable Metrics/CyclomaticComplexity
- end
+    # rubocop:enable Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/CyclomaticComplexity
+  end
 end

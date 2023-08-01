@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 assessment_fields = [
   Field.new(
     name: 'assessment_approved',

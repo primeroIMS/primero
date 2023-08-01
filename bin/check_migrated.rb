@@ -1,6 +1,6 @@
 #! /usr/bin/env ruby
 
-require_relative('../lib/primero_database.rb')
+require_relative('../lib/primero_database')
 
 def check_migrated
   if PrimeroDatabase.instance.migrated?

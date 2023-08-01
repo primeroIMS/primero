@@ -17,7 +17,7 @@ module Exporters
         permissions: [permissions]
       )
       role.save(validate: false)
-      @user = User.new(user_name: 'user1', role: role)
+      @user = User.new(user_name: 'user1', role:)
       @user.save(validate: false)
       @child_a = Child.new_with_user(@user, name: 'Test_1')
       @child_a.save!
