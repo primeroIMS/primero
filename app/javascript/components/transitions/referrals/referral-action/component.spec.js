@@ -2,14 +2,12 @@
 
 import { fromJS } from "immutable";
 
-import TextInput from "../../../form/fields/text-input";
-import { setupMountedComponent } from "../../../../test";
+import { mountedComponent, screen } from "../../../../test-utils";
 import { DONE } from "../constants";
 
 import ReferralAction from "./component";
 
 describe("<ReferralAction /> - Component", () => {
-  let component;
   const initialState = fromJS({});
 
   const props = {
@@ -21,29 +19,22 @@ describe("<ReferralAction /> - Component", () => {
     referralType: DONE
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(ReferralAction, props, initialState));
-  });
-
   it("renders ReferralAction component", () => {
-    expect(component.find(ReferralAction)).to.have.lengthOf(1);
+    mountedComponent(<ReferralAction {...props} />, initialState);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
   it("renders a text field for note_on_referral_from_provider ", () => {
-    expect(component.find(TextInput)).to.have.lengthOf(1);
+    mountedComponent(<ReferralAction {...props} />, initialState);
+    expect(screen.getByRole("textbox")).toBeInTheDocument();
   });
 
   describe("with rejected status", () => {
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        ReferralAction,
-        { ...props, openReferralDialog: true, referralType: "rejected" },
-        initialState
-      ));
-    });
+    const rejectedProps = { ...props, openReferralDialog: true, referralType: "rejected" };
 
     it("should render the rejected reason text field", () => {
-      expect(component.find(TextInput)).to.have.lengthOf(1);
+      mountedComponent(<ReferralAction {...rejectedProps} />, initialState);
+      expect(screen.getByRole("textbox")).toBeInTheDocument();
     });
   });
 });
