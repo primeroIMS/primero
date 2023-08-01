@@ -1,7 +1,5 @@
 import { fromJS } from "immutable";
-
 import { mountedComponent, screen } from "test-utils";
-import SubformField from "../../../record-form/form/subforms";
 import { FieldRecord, FormSectionRecord } from "../../../record-form/records";
 
 import ChildrenMultipleViolations from "./component";
@@ -48,20 +46,10 @@ describe("<ChildrenMultipleViolations />", () => {
   };
 
   beforeEach(() => {
-    mountedComponent(<ChildrenMultipleViolations {...props} />,{ values: individualVictims });
+    mountedComponent(<ChildrenMultipleViolations {...props} />,{},{},[],{ values: individualVictims });
   });
 
-  it("should render <ChildrenMultipleViolations /> component", () => {
-    expect(screen.getByText("displayDataTestId")).to.have.lengthOf(1);
-  });
-
-  xit("should render 1 <SubformField /> component", () => {
-    expect(component.find(SubformField)).to.have.lengthOf(1);
-  });
-
-  xit("should render custom title", () => {
-    expect(component.find(SubformField).find("h3").text().trim()).to.equal(
-      "incidents.summary_mrm.fields.children_multiple_violation.label"
-    );
+  it("should render custom title", () => {
+    expect(screen.getByText("incidents.summary_mrm.fields.children_multiple_violation.label")).toBeInTheDocument();
   });
 });
