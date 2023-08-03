@@ -24,7 +24,7 @@ import {
   SELECT_FIELD,
   SUBFORM_SECTION,
   TALLY_FIELD
-} from "../../../../../form";
+} from "../../../../../form/constants";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { useI18n } from "../../../../../i18n";
 import { NEW_FIELD } from "../../constants";
