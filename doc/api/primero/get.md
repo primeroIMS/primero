@@ -21,6 +21,7 @@ Retrieve agency logos and other public bootstrap information as JSON without aut
   "data": {
     "sandbox_ui": true|false,
     "config_ui": "full"|"limited",
+    "webpush_enabled": true|false,
     "agencies": [
       {
         "unique_id": "agency-unique-id",
