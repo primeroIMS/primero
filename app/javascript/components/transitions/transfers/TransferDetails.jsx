@@ -76,7 +76,7 @@ const TransferDetails = ({ transition }) => {
       </Grid>
       {renderRejected}
       <Grid item md={12} xs={12}>
-        <Divider className={css.divider} />
+        <Divider data-testid="divider" className={css.divider} />
         <DisplayData label="transition.notes" value={transition.notes} />
       </Grid>
     </Grid>
