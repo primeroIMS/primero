@@ -11,7 +11,8 @@ class ErrorService
     when CanCan::AccessDenied, Errors::ForbiddenOperation
       code = 403
       errors = [ApplicationError.new(code: 403, message: 'Forbidden', resource: request.path)]
-    when ActiveRecord::RecordNotFound, Errors::UnknownPrimeroEntityType, ActionController::RoutingError
+    when ActiveRecord::RecordNotFound, Errors::UnknownPrimeroEntityType, ActionController::RoutingError,
+      Errors::WebpushNotEnabled
       code = 404
       errors = [ApplicationError.new(code: 404, message: 'Not Found', resource: request.path, detail: error&.message)]
     when ActiveRecord::RecordNotUnique
