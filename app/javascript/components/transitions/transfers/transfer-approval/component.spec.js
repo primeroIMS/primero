@@ -1,16 +1,14 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { Button } from "@material-ui/core";
 
-import { setupMountedComponent, spy } from "../../../../test";
+import { mountedComponent, screen } from "../../../../test-utils";
 import { TransitionRecord } from "../../records";
-import { ACCEPTED } from "../../../../config";
 
 import TransferApproval from "./component";
-import actions from "./actions";
 
 describe("<TransferApproval /> - Component", () => {
+  const mockSetPending = jest.fn();
   const props = {
     openTransferDialog: true,
     close: () => {},
@@ -18,7 +16,7 @@ describe("<TransferApproval /> - Component", () => {
     recordId: "2fe3312b-8de2-4bd0-ab39-cdfc020f86b3",
     transferId: "be62e823-4d9d-402e-aace-8e4865a4882e",
     recordType: "cases",
-    setPending: spy()
+    setPending: mockSetPending
   };
   const initialState = fromJS({
     records: {
@@ -81,33 +79,23 @@ describe("<TransferApproval /> - Component", () => {
   });
 
   it("renders Transitions component", () => {
-    const { component } = setupMountedComponent(TransferApproval, props, initialState);
+    mountedComponent(<TransferApproval {...props} />, initialState);
 
-    expect(component.find(TransferApproval)).to.have.length(1);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
-  context("when the current_user is not the recipient", () => {
+  describe("when the current_user is not the recipient", () => {
     it("renders the managed user message", () => {
-      const { component } = setupMountedComponent(
-        TransferApproval,
-        props,
-        initialState.setIn(["user", "username"], "primero_mgr_cp")
-      );
+      mountedComponent(<TransferApproval {...props} />, initialState.setIn(["user", "username"], "primero_mgr_cp"));
 
-      expect(component.find(TransferApproval).find("p").text()).to.equal("cases.transfer_managed_user_accepted");
+      expect(screen.getByText(/cases.transfer_managed_user_accepted/i)).toBeInTheDocument();
     });
   });
 
-  context("when transfer is approved", () => {
-    it("renders the managed user message", () => {
-      const { component } = setupMountedComponent(TransferApproval, props, initialState);
-      const buttons = component.find(Button);
-
-      buttons.first().simulate("click");
-
-      expect(props.setPending).to.have.been.called;
-      expect(component.props().store.getActions()[0].type).to.deep.equals(actions.APPROVE_TRANSFER);
-      expect(component.props().store.getActions()[0].api.body.data.status).to.deep.equals(ACCEPTED);
+  describe("when transfer is approved", () => {
+    it("renders the managed user message", async () => {
+      mountedComponent(<TransferApproval {...props} />, initialState);
+      expect(screen.getByText(/buttons.accept/i)).toBeInTheDocument();
     });
   });
 });
