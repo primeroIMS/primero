@@ -1,6 +1,7 @@
 import { List, fromJS } from "immutable";
 
 import { SAVING } from "../../config/constants";
+import { MANAGED_REPORT_SCOPE } from "../permissions/constants";
 
 import NAMESPACE from "./namespace";
 import { PERMISSIONS, LIST_HEADERS, PERMITTED_FORMS } from "./constants";
@@ -51,3 +52,7 @@ export const getCurrentUserUserGroups = state => state.getIn([NAMESPACE, "userGr
 
 export const hasPrimeroModule = (state, primeroModule) =>
   state.getIn([NAMESPACE, "modules"], fromJS([])).includes(primeroModule);
+
+export const getManagedReportScope = state => state.getIn([NAMESPACE, "managedReportScope"], null);
+
+export const isManagedReportScopeAll = state => getManagedReportScope(state) === MANAGED_REPORT_SCOPE.ALL;

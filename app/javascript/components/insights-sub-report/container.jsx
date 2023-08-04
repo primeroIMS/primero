@@ -14,6 +14,7 @@ import { clearSelectedReport } from "../reports-form/action-creators";
 import TableValues from "../charts/table-values";
 import useOptions from "../form/use-options";
 import transformOptions from "../form/utils/transform-options";
+import { OPTION_TYPES } from "../form/constants";
 
 import DefaultIndicator from "./components/default-indicator";
 import MultipleViolationsIndicator from "./components/multiple-violations-indicator";
@@ -64,13 +65,14 @@ const Component = () => {
       .reduce((acc, [key, elems]) => ({ ...acc, [key]: transformOptions(elems, i18n.locale) }), {});
   }, [indicatorsRows, i18n.locale]);
 
+  const optionValues = Object.values(OPTION_TYPES);
   const indicatorsSubcolumns = insightMetadata.get("indicators_subcolumns", fromJS({}));
   const indicatorSubcolumnLookups = useMemo(
     () =>
       indicatorsSubcolumns
         .entrySeq()
         .toArray()
-        .filter(([, value]) => isString(value) && value.startsWith("lookup")),
+        .filter(([, value]) => isString(value) && (value.startsWith("lookup") || optionValues.includes(value))),
     [indicatorsSubcolumns]
   );
 
