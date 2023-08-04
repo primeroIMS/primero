@@ -36,7 +36,7 @@ class PotentialMatch < ValueObject
         case_to_trace_values(field_name, family_member)
       end
     end
-    { case_to_trace: case_to_trace, family_to_inquirer: family_to_inquirer }
+    { case_to_trace:, family_to_inquirer: }
   end
 
   def compare_values(value1, value2)
@@ -57,7 +57,7 @@ class PotentialMatch < ValueObject
     case_value = case_value(field_name, family_member)
     trace_value = trace_value(field_name)
     match = compare_values(case_value, trace_value)
-    { field_name: field_name, match: match, case_value: case_value, trace_value: trace_value }
+    { field_name:, match:, case_value:, trace_value: }
   end
 
   # Try to fetch the value first from the trace then from the tracing request.

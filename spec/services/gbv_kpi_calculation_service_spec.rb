@@ -9,13 +9,13 @@ describe GBVKpiCalculationService do
     clean_data(FormSection)
 
     form(:action_plan_form, [
-      field(:test),
-      field(:action_plan_section, {
-        subform_section: form(:action_plan_section, [
-          field(:test, mandatory_for_completion: true)
-        ])
-      })
-    ])
+           field(:test),
+           field(:action_plan_section, {
+                   subform_section: form(:action_plan_section, [
+                                           field(:test, mandatory_for_completion: true)
+                                         ])
+                 })
+         ])
   end
 
   describe 'Performance' do

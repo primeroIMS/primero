@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe FieldI18nService do
@@ -18,17 +20,17 @@ describe FieldI18nService do
   describe 'merge_i18n_properties' do
     it 'merges the localized properties of the hashes of fields' do
       merged_hash = FieldI18nService.merge_i18n_properties(
-                      { name_i18n: { en: "Lastname" } },
-                      { name_i18n: { es: "Apellido" } }
-                    )
-      expect(merged_hash).to eq({ name_i18n: { en: "Lastname", es: "Apellido" } })
+        { name_i18n: { en: 'Lastname' } },
+        { name_i18n: { es: 'Apellido' } }
+      )
+      expect(merged_hash).to eq({ name_i18n: { en: 'Lastname', es: 'Apellido' } })
     end
 
     it 'returns an empty hash if no localized properties are found' do
       merged_hash = FieldI18nService.merge_i18n_properties(
-                      { name: "Lastname" },
-                      { name: "Apellido" }
-                    )
+        { name: 'Lastname' },
+        { name: 'Apellido' }
+      )
       expect(merged_hash).to eq({})
     end
 
@@ -51,12 +53,12 @@ describe FieldI18nService do
 
   describe 'strip_i18n_suffix' do
     it 'strips the i18n suffix from the hash' do
-      result = FieldI18nService.strip_i18n_suffix({name_i18n: { en: "Lastname" } })
-      expect(result).to eq({ name: { en: "Lastname" } })
+      result = FieldI18nService.strip_i18n_suffix({ name_i18n: { en: 'Lastname' } })
+      expect(result).to eq({ name: { en: 'Lastname' } })
     end
 
     it 'returns the same hash if there is no localized property ' do
-      source = {name: { en: "Lastname" } }
+      source = { name: { en: 'Lastname' } }
       result = FieldI18nService.strip_i18n_suffix(source)
       expect(result).to eq(source)
     end
@@ -65,8 +67,8 @@ describe FieldI18nService do
   describe 'fill_keys' do
     it 'fill the key with all the available locales' do
       I18n.stub(:available_locales).and_return(%i[en es fr])
-      filled = FieldI18nService.fill_keys([:name], { name: { en: "Lastname", es: "Apellido" } })
-      expect(filled).to eq({ name: { en: "Lastname", es: "Apellido", fr: ''} })
+      filled = FieldI18nService.fill_keys([:name], { name: { en: 'Lastname', es: 'Apellido' } })
+      expect(filled).to eq({ name: { en: 'Lastname', es: 'Apellido', fr: '' } })
     end
   end
 
@@ -82,7 +84,8 @@ describe FieldI18nService do
   describe 'fill_options' do
     it 'fill the options with all the available locales' do
       I18n.stub(:available_locales).and_return(%i[en es fr])
-      filled = FieldI18nService.fill_options([{"id"=>"true", "display_text"=>{"en"=>"True", "es": "Verdadero"}}])
+      filled = FieldI18nService.fill_options([{ 'id' => 'true',
+                                                'display_text' => { 'en' => 'True', "es": 'Verdadero' } }])
       expect(filled).to eq(
         'en' => [{ 'id' => 'true', 'display_text' => 'True' }],
         'es' => [{ 'id' => 'true', 'display_text' => 'Verdadero' }],
@@ -143,9 +146,9 @@ describe FieldI18nService do
       field = {
         'ar' => {
           'closure' => 'Closure-AR',
-          'case_plan'=>'Case Plan-AR',
-          'assessment'=>'SER-AR'
-          },
+          'case_plan' => 'Case Plan-AR',
+          'assessment' => 'SER-AR'
+        },
         'en' => {
           'closure' => 'Closure',
           'case_plan' => 'Case Plan',
@@ -153,20 +156,20 @@ describe FieldI18nService do
         }
       }
       expect_field = {
-        "assessment"=>{
-          "en"=>"SER",
-          "fr"=>"",
-          "ar"=>"SER-AR",
+        'assessment' => {
+          'en' => 'SER',
+          'fr' => '',
+          'ar' => 'SER-AR'
         },
-        "case_plan"=>{
-          "en"=>"Case Plan",
-          "fr"=>"",
-          "ar"=>"Case Plan-AR"
+        'case_plan' => {
+          'en' => 'Case Plan',
+          'fr' => '',
+          'ar' => 'Case Plan-AR'
         },
-        "closure"=>{
-          "en"=>"Closure",
-          "fr"=>"",
-          "ar"=>"Closure-AR"
+        'closure' => {
+          'en' => 'Closure',
+          'fr' => '',
+          'ar' => 'Closure-AR'
         }
       }
       expect(FieldI18nService.to_localized_values(field)).to eq(expect_field)

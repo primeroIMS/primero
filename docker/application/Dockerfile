@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------- BUILD STAGE
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}ruby:2.7.8-alpine3.16 AS build-env
+FROM ${BUILD_REGISTRY}ruby:3.2.2-alpine3.18 AS build-env
 
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git
 ENV PYTHON_PACKAGES python3 py3-pip
@@ -50,7 +50,7 @@ COPY [ "Gemfile", "Gemfile.lock", "$APP_ROOT/" ]
 RUN set -euox pipefail \
         ; if [ $RAILS_ENV == "production" ]; \
         then \
-        BUNDLE_WITHOUT="development:test" bundle install \
+        bundle install --without development test \
         ; else \
         bundle install \
         ; fi
@@ -92,7 +92,7 @@ RUN set -euox pipefail \
 
 # -------------------------------------------------------------------- FINAL
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}ruby:2.7.8-alpine3.16
+FROM ${BUILD_REGISTRY}ruby:3.2.2-alpine3.18
 
 ENV BUILD_PACKAGES bash
 ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip curl

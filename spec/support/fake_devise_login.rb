@@ -89,9 +89,9 @@ module FakeDeviseLogin
   def permission_flag_record
     actions = [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]
     @permission_flag_record = [
-      Permission.new(resource: Permission::CASE, actions: actions),
-      Permission.new(resource: Permission::TRACING_REQUEST, actions: actions),
-      Permission.new(resource: Permission::INCIDENT, actions: actions)
+      Permission.new(resource: Permission::CASE, actions:),
+      Permission.new(resource: Permission::TRACING_REQUEST, actions:),
+      Permission.new(resource: Permission::INCIDENT, actions:)
     ]
   end
 
@@ -110,7 +110,7 @@ module FakeDeviseLogin
     group_permission = opts[:group_permission] || Permission::ALL
     role = Role.new(
       permissions: role_permissions,
-      group_permission: group_permission,
+      group_permission:,
       form_sections: opts[:form_sections] || []
     )
     role.stub(:modules).and_return(opts[:modules] || [])
@@ -129,7 +129,7 @@ module FakeDeviseLogin
     user_name = opts[:user_name] || fake_user_name
     agency_id = opts[:agency_id]
     user_group_ids = opts[:user_group_ids] || []
-    user = User.new(user_name: user_name, user_group_ids: user_group_ids, agency_id: agency_id)
+    user = User.new(user_name:, user_group_ids:, agency_id:)
     if opts[:role].present?
       user.role = opts[:role]
     else

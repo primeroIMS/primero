@@ -320,7 +320,7 @@ class Permission < ValueObject
     end
 
     def self.load_permission(object_hash, resource, actions)
-      permission = Permission.new(resource: resource, actions: actions)
+      permission = Permission.new(resource:, actions:)
       return permission unless object_hash.present?
 
       load_role_unique_ids(permission, object_hash) if resource == Permission::ROLE

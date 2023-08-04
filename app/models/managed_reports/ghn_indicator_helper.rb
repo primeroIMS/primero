@@ -18,7 +18,7 @@ module ManagedReports::GhnIndicatorHelper
     end
 
     def groups
-      %w[boys girls unknown total].map { |group| [group, []] }.to_h
+      %w[boys girls unknown total].to_h { |group| [group, []] }
     end
 
     def build_groups(results, _params = {})

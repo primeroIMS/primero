@@ -10,7 +10,7 @@ class GenerateLocationFilesService
     end
 
     def options_parent_dir
-      use_app_share_dir? ? ENV['APP_SHARE_DIR'] : public_dir
+      use_app_share_dir? ? ENV.fetch('APP_SHARE_DIR', nil) : public_dir
     end
 
     private
@@ -20,7 +20,7 @@ class GenerateLocationFilesService
     end
 
     def app_share_dir
-      ENV['APP_SHARE_DIR']
+      ENV.fetch('APP_SHARE_DIR', nil)
     end
 
     def use_app_share_dir?

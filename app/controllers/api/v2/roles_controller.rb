@@ -22,7 +22,7 @@ class Api::V2::RolesController < ApplicationApiController
     @role = Role.new_with_properties(role_params)
     @role.save!
     status = params[:data][:id].present? ? 204 : 200
-    render :create, status: status
+    render :create, status:
   end
 
   def update

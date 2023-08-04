@@ -80,7 +80,7 @@ class ApiConnector::AzureActiveDirectoryConnector < ApiConnector::AbstractConnec
   end
 
   def log_response(user, status, response)
-    message_suffix = "with IDP #{user&.identity_provider&.name} (#{user&.identity_provider&.unique_id}): "\
+    message_suffix = "with IDP #{user&.identity_provider&.name} (#{user&.identity_provider&.unique_id}): " \
                      "(#{response['correlation_id']}) #{response['error_msg']}"
     case status
     when 200, 201

@@ -17,7 +17,7 @@ module Api::V2::Concerns::Pagination
   end
 
   def pagination
-    { page: page, per_page: per }
+    { page:, per_page: per }
   end
 
   def pagination?

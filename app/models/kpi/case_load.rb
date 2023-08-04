@@ -27,7 +27,7 @@ class Kpi::CaseLoad < Kpi::Search
   end
 
   def to_json(*_args)
-    { data: data }
+    { data: }
   end
 
   private

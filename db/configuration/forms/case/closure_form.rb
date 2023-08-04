@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 closure_fields = [
   Field.new('name' => 'closure_approved',
             'type' => 'tick_box',

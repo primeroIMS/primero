@@ -51,7 +51,7 @@ class ManagedReports::Indicators::FactorsOfRecruitment < ManagedReports::SqlRepo
 
     def build_data_values(values)
       values.map do |value|
-        JSON.parse(value['data']).merge({ 'id' => value['name'].gsub(/"/, '') })
+        JSON.parse(value['data']).merge({ 'id' => value['name'].gsub('"', '') })
       end
     end
   end

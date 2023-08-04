@@ -43,7 +43,7 @@ class Api::V2::PasswordResetController < Devise::PasswordsController
       token_to_cookie
       json = json.merge(id: user.id, user_name: user.user_name, token: current_token)
     end
-    render json: json
+    render json:
   end
 
   def errors(user)

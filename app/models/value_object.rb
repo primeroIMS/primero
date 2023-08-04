@@ -8,8 +8,8 @@ class ValueObject
   end
 
   def to_h
-    instance_variables.map do |var|
+    instance_variables.to_h do |var|
       [var.to_s.delete('@'), instance_variable_get(var)]
-    end.to_h
+    end
   end
 end

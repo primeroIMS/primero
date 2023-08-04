@@ -2,6 +2,6 @@
 
 json.errors do
   json.array! @errors do |error|
-    json.partial! 'api/v2/errors/error', error: error
+    json.partial! 'api/v2/errors/error', error:
   end
 end

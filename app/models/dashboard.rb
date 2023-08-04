@@ -20,7 +20,7 @@ class Dashboard < ValueObject
     dash_violations_category_region
   ].freeze
 
-  # Note: The constant name of each Dashboard needs to match the value of the corresponding Permission
+  # NOTE: The constant name of each Dashboard needs to match the value of the corresponding Permission
 
   CASE_OVERVIEW = Dashboard.new(
     name: 'case_overview',

@@ -77,6 +77,6 @@ class Exporters::YmlConfigExporter < ValueObject
 
   def localized_hash(hash, locale)
     hash.select { |key, value| key.ends_with?('_i18n') && value.present? && value.is_a?(Hash) }
-        .map { |key, value| [key.sub(/_i18n\z/, ''), value[locale]] }.to_h
+        .to_h { |key, value| [key.sub(/_i18n\z/, ''), value[locale]] }
   end
 end

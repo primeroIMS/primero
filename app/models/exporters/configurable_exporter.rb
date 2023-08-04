@@ -29,7 +29,7 @@ class Exporters::ConfigurableExporter < Exporters::BaseExporter
   def properties_to_export(props = {}, opting_out = false)
     return properties_from_config(props) unless opting_out
 
-    properties_from_config(props).map { |k, v| [k, opt_out_property_keys.include?(k) ? v : ''] }.to_h
+    properties_from_config(props).to_h { |k, v| [k, opt_out_property_keys.include?(k) ? v : ''] }
   end
 
   def config_property_keys

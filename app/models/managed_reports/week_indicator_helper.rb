@@ -41,7 +41,7 @@ module ManagedReports::WeekIndicatorHelper
             || ' - ' ||
             to_char(date_trunc('week', to_timestamp(#{quoted_field}, :format)) + '5 days'::interval, 'yyyy-mm-dd')
           ),
-          date_field: date_param.field_name, format: Report::DATE_TIME_FORMAT
+          { date_field: date_param.field_name, format: Report::DATE_TIME_FORMAT }
         ]
       )
     end
