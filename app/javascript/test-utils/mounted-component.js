@@ -52,7 +52,7 @@ function setupMountedComponent({ state, path, initialEntries, formProps } = {}) 
   return { store, history, AppProviders };
 }
 
-function mountedComponent(Component, state = {}, options = {}, initialEntries = {}, formProps = {}, path = "") {
+function mountedComponent(Component, state = {}, options = {}, initialEntries = [], formProps = {}, path = "") {
   const { store, history, AppProviders } = setupMountedComponent({ state, path, formProps, initialEntries });
 
   const component = render(Component, {
