@@ -196,7 +196,7 @@ FormSection.create_or_update!(
   order_form_group: 30,
   order: 20,
   order_subform: 0,
-  form_group_id: 'family_overview',
+  form_group_id: 'family_members',
   editable: true,
   fields: family_members_fields,
   name_en: 'Family Members',

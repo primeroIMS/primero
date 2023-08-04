@@ -146,7 +146,7 @@ consent_fields = [
 FormSection.create_or_update!(
   unique_id: 'family_consent',
   parent_form: 'family',
-  visible: true,
+  visible: false,
   order_form_group: 40,
   order: 10,
   order_subform: 0,
