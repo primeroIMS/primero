@@ -637,6 +637,7 @@ ActiveRecord::Schema.define(version: 2023_07_26_000000) do
     t.boolean "service_account", default: false, null: false
     t.datetime "code_of_conduct_accepted_on"
     t.bigint "code_of_conduct_id"
+    t.boolean "receive_webpush"
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["code_of_conduct_id"], name: "index_users_on_code_of_conduct_id"
     t.index ["email"], name: "index_users_on_email", unique: true

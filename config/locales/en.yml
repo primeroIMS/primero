@@ -4146,6 +4146,9 @@ en:
     provider_username_help: 'Example: my.username@%{domain}'
     role_id: Role
     send_mail: Receive email notifications?
+    receive_webpush: 
+      label: Receive push notifications?
+      help_text: Note that you will still need to allow push notifications on your device’s browser.”
     user_group_unique_ids: User Groups
     user_name: Username
     services: Services

@@ -47,7 +47,8 @@ describe("values", () => {
       "POSITION",
       "LOCATION",
       "DISABLED",
-      "SEND_MAIL"
+      "SEND_MAIL",
+      "RECEIVE_WEBPUSH"
     );
   });
 });
