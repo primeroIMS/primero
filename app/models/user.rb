@@ -50,6 +50,7 @@ class User < ApplicationRecord
                           after_add: :mark_user_groups_changed,
                           after_remove: :mark_user_groups_changed
   has_many :audit_logs
+  has_many :webpush_subscriptions
 
   scope :enabled, -> { where(disabled: false) }
   scope :disabled, -> { where(disabled: true) }

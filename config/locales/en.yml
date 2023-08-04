@@ -899,6 +899,11 @@ en:
         title_present: Title must not be blank
         content_present: Content must not be blank
         created_by_present: Created By must not be blank
+      webpush_subscription:
+        notification_url_present: notification_url must not be blank
+        notification_url_format: notification_url must have URL format
+        auth_present: Auth must not be blank
+        p256dh_present: p256dh must not be blank
     not_found: No Record(s) Found
     try_again: Try again
   exports:
@@ -1330,6 +1335,7 @@ en:
       registry_details: Registry Details
       registry_record: Registry Record
       family_record: Family Record
+      family: Family Record
     required_field: '%{field} is a required field'
     select_label: Select
     settings: Settings

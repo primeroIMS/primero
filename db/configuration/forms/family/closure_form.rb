@@ -40,7 +40,7 @@ FormSection.create_or_update!(
   order_form_group: 110,
   order: 21,
   order_subform: 0,
-  form_group_id: 'closure',
+  form_group_id: 'family_closure',
   editable: true,
   fields: closure_fields,
   name_en: 'Closure',
