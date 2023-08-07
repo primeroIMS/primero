@@ -24,7 +24,9 @@ Rails.application.routes.draw do
   end
 
   resources :health, only: %i[index show]
-  resources :login, only: [:show]
+  # rubocop:disable Style/FormatStringToken(RuboCop)
+  get 'login/:id', to: redirect(path: '/v2/login/%{id}')
+  # rubocop:enable Style/FormatStringToken(RuboCop)
 
   namespace :api do
     namespace :v2, defaults: { format: :json },
