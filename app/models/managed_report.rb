@@ -35,7 +35,7 @@ class ManagedReport < ValueObject
         subreports: %w[total_transfers total_referrals],
         permitted_filters: [
           :grouped_by, :by, :created_by_groups, :owned_by_groups, :created_organization, :owned_by_agency_id,
-          :referral_transfer_status, { status: {}, registration_date: {} }
+          { status: {}, registration_date: {}, referral_transfer_status: {} }
         ],
         module_id: PrimeroModule::CP
       ),
