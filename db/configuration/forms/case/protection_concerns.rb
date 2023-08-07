@@ -42,6 +42,20 @@ protection_concern_fields = [
               'type' => 'select_box',
               'display_name_en' => 'Disability Type',
               'option_strings_source' => 'lookup lookup-disability-type' })
+  Field.new({"name" => "disability_special_needs",
+              "display_name_en" => "Special needs",
+              "type" => "select_box",
+              "option_strings_source" => "lookup lookup-special-needs",
+              "multi_select" => true,
+              "visible" => false,
+              "mobile_visible" => false }),
+  Field.new({"name" => "disability_communications",
+               "display_name_en" => "If the child has communicative challenges, what is the best means of communication?",
+               "type" => "select_box",
+               "option_strings_source" => "lookup lookup-disability-communication-best-means",
+               "multi_select" => false,
+               "visible" => false,
+               "mobile_visible" => false })
 ]
 
 FormSection.create_or_update!({
