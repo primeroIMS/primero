@@ -19,10 +19,19 @@ class ManagedReports::Indicators::TotalReferralsByUserGroups < ManagedReports::S
           with referrals as (
             select
               unnest(record_owned_by_groups) as name,
-              unnest(transitioned_to_user_groups) as key,
+              transitions_to.key,
               #{grouped_date_query(params['grouped_by'], filter_date(params), 'cases')&.concat(' as group_id,')}
               count(*) as sum
             from transitions
+            inner join (
+              select
+                transitions.id,
+                unnest(transitioned_to_user_groups) as key
+              from transitions
+              where type = 'Referral'
+              and remote = false
+            ) as transitions_to
+            on transitions_to.id = transitions.id
             inner join cases on transitions.record_id = cases.id::varchar and transitions.record_type = 'Child'
             where type = 'Referral'
             and remote = false
