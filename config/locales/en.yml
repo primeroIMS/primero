@@ -2135,6 +2135,8 @@ en:
       sub_reports:
         total_transfers_by_user_groups: Total Transfers
         total_referrals_by_user_groups: Total Referrals
+      filter_options:
+        registration_date: Registration Date
     violence_type_report:
       name: Type of Violence
       description: ''
