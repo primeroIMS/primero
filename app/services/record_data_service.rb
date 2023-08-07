@@ -97,6 +97,7 @@ class RecordDataService
     return data unless selected_field_names.include?('family_id')
 
     data['family_id'] = record.family_id
+    data['family_number'] = record.family_number if record.is_a?(Child)
     data
   end
 
