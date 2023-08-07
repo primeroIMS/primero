@@ -24,7 +24,8 @@ import {
   buildInsightValues,
   buildReportData,
   getLookupValue,
-  formatAgeRange
+  formatAgeRange,
+  getIndicatorSubcolumnKeys
 } from "./utils";
 import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
 import namespace from "./namespace";
@@ -168,6 +169,7 @@ const Component = () => {
                   ? value.some(elem => elem.get("data", fromJS([])).some(row => !isNil(row.get("total"))))
                   : value.some(row => !isNil(row.get("total")));
 
+                const indicatorSubColumnKeys = getIndicatorSubcolumnKeys(value);
                 const Indicator = getIndicator(valueKey);
                 const subColumnItems = getSubcolumnItems({
                   hasTotalColumn,
@@ -175,7 +177,8 @@ const Component = () => {
                   valueKey,
                   ageRanges,
                   indicatorsSubcolumns,
-                  totalText
+                  totalText,
+                  indicatorSubColumnKeys
                 });
 
                 return (
