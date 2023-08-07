@@ -142,6 +142,8 @@ Rails.application.routes.draw do
 
       scope '/webpush' do
         get 'config', action: :config, controller: 'webpush_config'
+        patch 'subscriptions/current', action: :current, controller: 'webpush_subscriptions'
+        resources :webpush_subscriptions, path: :subscriptions, only: %i[index create]
       end
     end
   end

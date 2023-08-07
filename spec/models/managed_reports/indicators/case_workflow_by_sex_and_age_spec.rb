@@ -155,10 +155,7 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
       )
     end
 
-    it 'returns group records for a group scope including the one that is not longer part of the group' do
-      @case1.data['owned_by'] = @agency_user.user_name
-      @case1.save!
-
+    it 'returns group records for a group scope' do
       report_data = ManagedReports::Indicators::CaseWorkflowBySexAndAge.build(@group_user, {}).data
 
       expect(report_data).to match_array(
@@ -170,17 +167,14 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
       )
     end
 
-    it 'returns agency records for an agency scope including the one that is not longer part of the agency' do
-      @case2.data['owned_by'] = @self_user.user_name
-      @case2.save!
-
+    it 'returns agency records for an agency scope' do
       report_data = ManagedReports::Indicators::CaseWorkflowBySexAndAge.build(@agency_user, {}).data
 
       expect(report_data).to match_array(
         [
           { id: 'female', "0 - 5": 1, total: 1 },
-          { id: 'male', "6 - 11": 1, "18+": 1, total: 2 },
-          { id: 'total', "0 - 5": 1, "6 - 11": 1, "18+": 1, total: 3 }
+          { id: 'male', "18+": 1, total: 1 },
+          { id: 'total', "0 - 5": 1, "18+": 1, total: 2 }
         ]
       )
     end

@@ -63,7 +63,7 @@ describe("<UsersForm />", () => {
   });
 
   it("renders 18 fields", () => {
-    expect(getVisibleFields(component.find("FormSection").props().formSection.fields)).to.have.lengthOf(19);
+    expect(getVisibleFields(component.find("FormSection").props().formSection.fields)).to.have.lengthOf(20);
   });
 
   it("renders submit button with valid props", () => {
@@ -142,8 +142,8 @@ describe("<UsersForm />", () => {
       "/admin/users/1"
     ]);
 
-    it("should render 16 fields", () => {
-      expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(16);
+    it("should render 17 fields", () => {
+      expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(17);
     });
 
     it("should fetch user groups and roles", () => {

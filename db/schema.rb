@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_04_000000) do
+ActiveRecord::Schema.define(version: 2023_07_26_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -637,6 +637,7 @@ ActiveRecord::Schema.define(version: 2023_07_04_000000) do
     t.boolean "service_account", default: false, null: false
     t.datetime "code_of_conduct_accepted_on"
     t.bigint "code_of_conduct_id"
+    t.boolean "receive_webpush"
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["code_of_conduct_id"], name: "index_users_on_code_of_conduct_id"
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -666,6 +667,19 @@ ActiveRecord::Schema.define(version: 2023_07_04_000000) do
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["events"], name: "index_webhooks_on_events", using: :gin
     t.index ["url"], name: "index_webhooks_on_url", unique: true
+  end
+
+  create_table "webpush_subscriptions", force: :cascade do |t|
+    t.boolean "disabled", default: false, null: false
+    t.string "notification_url", null: false
+    t.string "auth", null: false
+    t.string "p256dh", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["notification_url", "user_id"], name: "index_webpush_subscriptions_on_notification_url_and_user_id", unique: true
+    t.index ["notification_url"], name: "index_webpush_subscriptions_on_notification_url"
+    t.index ["user_id"], name: "index_webpush_subscriptions_on_user_id"
   end
 
   create_table "whitelisted_jwts", force: :cascade do |t|
@@ -718,5 +732,6 @@ ActiveRecord::Schema.define(version: 2023_07_04_000000) do
   add_foreign_key "users", "identity_providers"
   add_foreign_key "users", "roles"
   add_foreign_key "violations", "incidents"
+  add_foreign_key "webpush_subscriptions", "users"
   add_foreign_key "whitelisted_jwts", "users", on_delete: :cascade
 end

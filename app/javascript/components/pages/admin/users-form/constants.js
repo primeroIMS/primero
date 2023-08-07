@@ -67,5 +67,6 @@ export const FIELD_NAMES = Object.freeze({
   POSITION: "position",
   LOCATION: "location",
   DISABLED: "disabled",
-  SEND_MAIL: "send_mail"
+  SEND_MAIL: "send_mail",
+  RECEIVE_WEBPUSH: "receive_webpush"
 });
