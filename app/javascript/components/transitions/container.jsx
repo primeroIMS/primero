@@ -44,7 +44,7 @@ const Transitions = ({
   }, []);
 
   return (
-    <div>
+    <div data-testid="transitions">
       <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={transitionTitle} />
       <div>{renderDataTransitions}</div>
     </div>
