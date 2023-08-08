@@ -3,9 +3,9 @@ import { format, parseISO } from "date-fns";
 
 import { ACTIONS } from "../permissions";
 import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../config/constants";
+import { MANAGED_REPORT_SCOPE } from "../permissions/constants";
 
 import * as selectors from "./selectors";
-import { MANAGED_REPORT_SCOPE } from "../permissions/constants";
 
 const userGroups = fromJS([
   {
