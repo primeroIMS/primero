@@ -94,15 +94,26 @@ class RecordDataService
   end
 
   def embed_family_info(data, record, selected_field_names)
-    return data unless selected_field_names.include?('family_id')
+    return data unless record.is_a?(Child) && record.family_id.present?
 
-    data['family_id'] = record.family_id
-    if record.is_a?(Child)
-      data['family_member_id'] = record.family_member_id
-      data['family_number'] = record.family_number
-      data = data.merge(FamilyLinkageService.family_details_for_child(record))
-      data['family_details_section'] = FamilyLinkageService.family_details_section_for_child(record)
-    end
+    data['family_id'] = record.family_id if selected_field_names.include?('family_id')
+    data['family_member_id'] = record.family_member_id if selected_field_names.include?('family_member_id')
+    data['family_number'] = record.family_number if selected_field_names.include?('family_number')
+    data = embed_family_details(data, record, selected_field_names)
+    embed_family_details_section(data, record, selected_field_names)
+  end
+
+  def embed_family_details(data, record, selected_field_names)
+    family_details = FamilyLinkageService.family_details_for_child(record)
+    field_names = selected_field_names & FamilyLinkageService::GLOBAL_FAMILY_FIELDS
+    field_names.each { |field_name| data[field_name] = family_details[field_name] }
+    data
+  end
+
+  def embed_family_details_section(data, record, selected_field_names)
+    return data unless selected_field_names.include?('family_details_section')
+
+    data['family_details_section'] = FamilyLinkageService.family_details_section_for_child(record)
     data
   end
 
