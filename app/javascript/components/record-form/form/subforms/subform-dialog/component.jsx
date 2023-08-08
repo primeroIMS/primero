@@ -82,8 +82,8 @@ const Component = ({
     return object().shape(Object.assign({}, ...subformSchema));
   };
 
-  const familyMemberCaseId = caseFromFamilyMember.get("case_id") || subformValues.case_id;
-  const familyMemberCaseIdDisplay = caseFromFamilyMember.get("case_id_display") || subformValues.case_id_display;
+  const familyMemberCaseId = caseFromFamilyMember.get("case_id", subformValues.case_id);
+  const familyMemberCaseIdDisplay = caseFromFamilyMember.get("case_id_display", subformValues.case_id_display);
 
   const handleClose = () => {
     const compactedValues = compactValues(childFormikRef.current.values, initialSubformValues);
