@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Describes ManagedReport in Primero.
+# rubocop:disable Metrics/ClassLength
 class ManagedReport < ValueObject
   DATE_RANGE_OPTIONS = %w[this_quarter last_quarter this_year last_year this_month last_month].freeze
 
@@ -148,3 +149,4 @@ class ManagedReport < ValueObject
     filters&.find { |filter| filter&.field_name == 'ctfmr_verified' }&.value
   end
 end
+# rubocop:enable Metrics/ClassLength

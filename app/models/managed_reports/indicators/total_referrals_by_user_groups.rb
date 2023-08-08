@@ -73,7 +73,7 @@ class ManagedReports::Indicators::TotalReferralsByUserGroups < ManagedReports::S
            cast(sum(sum) as integer) as sum
            #{params['grouped_by'].present? ? ', group_id' : ''}
           from referrals
-          #{params['grouped_by'].present? ? 'group by group_id' : ''}
+          group by 1, 2 #{params['grouped_by'].present? ? ', group_id' : ''}
       }
     end
     # rubocop:enable Metrics/MethodLength

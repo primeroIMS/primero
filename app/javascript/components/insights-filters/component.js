@@ -33,14 +33,14 @@ import { clearFilters, setFilters } from "../insights-list/action-creators";
 import { get } from "../form/utils";
 import useOptions from "../form/use-options";
 import { compactBlank } from "../record-form/utils";
-import { isManagedReportScopeAll } from "../user";
+import { getIsManagedReportScopeAll } from "../user";
 
 import css from "./styles.css";
 import { transformFilters } from "./utils";
 import validations from "./validations";
 
 const Component = ({ moduleID, id, subReport, toggleControls }) => {
-  const managedReportScopeAll = useMemoizedSelector(state => isManagedReportScopeAll(state));
+  const isManagedReportScopeAll = useMemoizedSelector(state => getIsManagedReportScopeAll(state));
   const canReadUserGroups = usePermissions(RESOURCES.user_groups, READ_RECORDS);
   const userGroups = useOptions({ source: OPTION_TYPES.USER_GROUP_PERMITTED });
   const insightsConfig = get(INSIGHTS_CONFIG, [moduleID, id], {});
@@ -92,7 +92,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
 
   useEffect(() => {
     if (isViolenceTypeSubreport || isWorkflowSubreport || isReferralsTransferSubreport) {
-      if (canReadUserGroups || managedReportScopeAll) {
+      if (canReadUserGroups || isManagedReportScopeAll) {
         dispatch(fetchUserGroups());
       }
 

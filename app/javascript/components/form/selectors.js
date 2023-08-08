@@ -20,7 +20,7 @@ import {
   getCurrentUserGroupPermission,
   getCurrentUserGroupsUniqueIds,
   getCurrentUserUserGroups,
-  getManagedReportScope,
+  getIsManagedReportScopeAll,
   getPermittedRoleUniqueIds
 } from "../user/selectors";
 import { getRecordForms } from "../record-form";
@@ -30,7 +30,6 @@ import { getSelectedRecordData } from "../records";
 import { getFieldByName } from "../record-form/selectors";
 import { CP_VIOLENCE_TYPE } from "../incidents-from-case/components/panel/constants";
 import { selectorEqualityFn } from "../../libs/use-memoized-selector";
-import { MANAGED_REPORT_SCOPE } from "../permissions/constants";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 import { buildLinkedIncidentOptions, buildRoleOptions } from "./utils";
@@ -361,9 +360,9 @@ const userGroupsPermitted = createCachedSelector(
   getCurrentUserUserGroups,
   getCurrentUserGroupsUniqueIds,
   getCurrentUserGroupPermission,
-  getManagedReportScope,
+  getIsManagedReportScopeAll,
   (_state, options) => options,
-  (data, currentUserGroups, currentUserGroupIds, currentRoleGroupPermission, managedReportScope, options) => {
+  (data, currentUserGroups, currentUserGroupIds, currentRoleGroupPermission, isManagedReportScopeAll, options) => {
     const allUserGroups = userGroupsParser(data, options);
     const currentUserGroupOptions = userGroupsParser(currentUserGroups, options);
 
@@ -371,7 +370,7 @@ const userGroupsPermitted = createCachedSelector(
       return currentUserGroupOptions;
     }
 
-    if (currentRoleGroupPermission === GROUP_PERMISSIONS.ALL || managedReportScope === MANAGED_REPORT_SCOPE.ALL) {
+    if (currentRoleGroupPermission === GROUP_PERMISSIONS.ALL || isManagedReportScopeAll) {
       return allUserGroups;
     }
 

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Class to export Subreports
+# rubocop:disable Metrics/ClassLength
 class Exporters::SubreportExporter < ValueObject
   include Exporters::Concerns::InsightParams
 
@@ -164,3 +165,4 @@ class Exporters::SubreportExporter < ValueObject
     managed_report.data.with_indifferent_access.dig(id, 'metadata', property)
   end
 end
+# rubocop:enable Metrics/ClassLength

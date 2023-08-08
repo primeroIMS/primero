@@ -55,4 +55,4 @@ export const hasPrimeroModule = (state, primeroModule) =>
 
 export const getManagedReportScope = state => state.getIn([NAMESPACE, "managedReportScope"], null);
 
-export const isManagedReportScopeAll = state => getManagedReportScope(state) === MANAGED_REPORT_SCOPE.ALL;
+export const getIsManagedReportScopeAll = state => getManagedReportScope(state) === MANAGED_REPORT_SCOPE.ALL;
