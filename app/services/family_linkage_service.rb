@@ -62,7 +62,7 @@ class FamilyLinkageService
   def self.family_details_for_child(child)
     return {} unless child.family.present?
 
-    GLOBAL_FAMILY_FIELDS.each_with_object({}) { |field, memo| memo[field] = child.family.send(field) }
+    GLOBAL_FAMILY_FIELDS.each_with_object({}) { |field, memo| memo[field] = child.family.data[field] }
   end
 
   def self.family_details_section_for_child(child)
