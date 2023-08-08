@@ -99,10 +99,10 @@ class RecordDataService
     data['family_id'] = record.family_id
     if record.is_a?(Child)
       data['family_member_id'] = record.family_member_id
+      data['family_number'] = record.family_number
       data = data.merge(FamilyLinkageService.family_details_for_child(record))
       data['family_details_section'] = FamilyLinkageService.family_details_section_for_child(record)
     end
-
     data
   end
 

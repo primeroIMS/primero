@@ -86,7 +86,7 @@ Set the node version by running
 
 On MacOS:
 
-    $ #If xcode-select is not installed yet, install it.
+    $ # If xcode-select is not installed yet, install it.
     $ xcode-select --install
     $ brew install libpq imagemagick postgresql libsodium p7zip
 
@@ -107,15 +107,19 @@ Install  gems, packages:
 
 Prepare development configuration. Review the created configurations files and alter as needed:
 
+```bash
     $ cp config/database.yml.development config/database.yml
     $ cp config/locales.yml.development config/locales.yml
     $ cp config/mailers.yml.development config/mailers.yml
     $ cp config/sunspot.yml.development config/sunspot.yml
+```
 
 Set development environment variables:
+```bash
     $ echo "export PRIMERO_SECRET_KEY_BASE=PRIMERO_SECRET_KEY_BASE" >> ~/.bashrc
     $ echo "export DEVISE_SECRET_KEY=DEVISE_SECRET_KEY" >> ~/.bashrc
     $ echo "export DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY" >> ~/.bashrc
+```
 
 If you use a different shell, add these environment variables to the rc file for that shell.
 
@@ -125,6 +129,7 @@ Optionally use the command below to generate a random secret:
     $ rails secret
 
 Set this enviroment variable with a 32 bytes secret value:
+
     $ echo "export PRIMERO_MESSAGE_SECRET=PRIMERO_MESSAGE_SECRET" >> ~/.bashrc
 
 Make sure that the secrets we set earlier are in your environment (replace .basharc with the rc file for your shell if you use a shell other than bash):
@@ -162,6 +167,17 @@ You can login with a preseeded admin account with credentials `primero`/`primer0
 
 For more on making code contributions, have a look at the file [CONTRIBUTING.md](CONTRIBUTING.md).
 
+### Using WebPush
+To send push messages to web browsers you can enable webpush. For this, is required set some environment variables: `PRIMERO_WEBPUSH`, `PRIMERO_WEBPUSH_VAPID_PRIVATE` and `PRIMERO_WEBPUSH_VAPID_PUBLIC`
+
+To generate a valid VAPID key, you can execute the follow script and use for each variable
+
+```ruby
+  vapid_key = WebPush.generate_key
+
+  puts "Public key: #{vapid_key.public_key}"
+  puts "Private key: #{vapid_key.private_key}"
+```
 ## Notes
 
 - It is known that a few npm packages will throw a `requires a peer of` warning. Examples: Mui-datatables is behind on updating dependecies. Jsdom requires canvas, but we are mocking canvas. Canvas also requires extra packages on alpine, which is the reason for mocking canvas.

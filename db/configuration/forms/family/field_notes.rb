@@ -4,6 +4,7 @@ field_notes_subform_fields = [
   Field.new(name: 'note_date',
             type: 'date_field',
             display_name_en: 'Date',
+            selected_value: 'today',
             date_include_time: true),
   Field.new(name: 'note_subject',
             type: 'text_field',
@@ -50,10 +51,10 @@ FormSection.create_or_update!(
   order_form_group: 1001,
   order: 20,
   order_subform: 0,
-  form_group_id: 'notes',
+  form_group_id: 'family_notes',
   editable: true,
   fields: notes_fields,
-  name_en: 'Notes',
-  description_en: 'Notes',
+  name_en: 'Family Notes',
+  description_en: 'Family Notes',
   mobile_form: true
 )

@@ -195,6 +195,12 @@ const sharedUserFields = (
     name: FIELD_NAMES.SEND_MAIL,
     type: TICK_FIELD,
     selected_value: formMode.get("isNew")
+  },
+  {
+    display_name: i18n.t("user.receive_webpush.label"),
+    name: FIELD_NAMES.RECEIVE_WEBPUSH,
+    type: TICK_FIELD,
+    help_text: i18n.t("user.receive_webpush.help_text")
   }
 ];
 

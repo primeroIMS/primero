@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
+import { useHistory } from "react-router-dom";
 
 import { attemptIDPLogin } from "../action-creators";
 import { useI18n } from "../../../../i18n";
@@ -12,6 +13,8 @@ import Form, { FormAction, FieldRecord, FormSectionRecord } from "../../../../fo
 const Component = ({ identityProviders, css }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const primeroIdp = identityProviders.find(idp => idp.get("unique_id") === PRIMERO_IDP);
 
   const tokenCallback = accessToken => {
@@ -21,7 +24,7 @@ const Component = ({ identityProviders, css }) => {
   const handleSubmit = data => {
     const idp = identityProviders.find(prov => prov.get("unique_id") === data.idp);
 
-    signIn(idp, tokenCallback);
+    signIn(idp, tokenCallback, history);
   };
 
   if (primeroIdp && identityProviders?.size === 1) {

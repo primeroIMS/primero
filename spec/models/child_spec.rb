@@ -5,6 +5,10 @@ require 'sunspot'
 
 describe Child do
   describe 'quicksearch', search: true do
+    before do
+      clean_data(Child, Family)
+    end
+
     it 'has a searchable case id, survivor number' do
       expect(Child.quicksearch_fields).to include('case_id_display', 'survivor_code_no')
     end
@@ -15,6 +19,23 @@ describe Child do
       search_result = SearchService.search(Child, query: 'ABC123XYZ').results
       expect(search_result).to have(1).child
       expect(search_result.first.survivor_code_no).to eq('ABC123XYZ')
+    end
+
+    it 'can find a child by family number' do
+      family = Family.create!(
+        family_number: '4225',
+        family_members: [
+          { unique_id: '123', relation_name: 'Family Name',relation_age: 5, relation_sex: "male" }
+        ]
+      )
+      child = Child.create!(data: { name: 'Lonnie', survivor_code_no: 'ABC123XYZ' })
+      child.family = family
+      child.save!
+      child.index!
+
+      search_result = SearchService.search(Child, query: '4225').results
+      expect(search_result).to have(1).child
+      expect(search_result.first.family_number).to eq('4225')
     end
   end
 

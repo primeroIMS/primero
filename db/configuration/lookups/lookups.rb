@@ -940,7 +940,13 @@ Lookup.create_or_update!(
   name_en: 'Form Groups - CP Family',
   lookup_values_en: [
     { id: 'record_information', display_text: 'Record Information' },
-    { id: 'family_overview', display_text: 'Family Overview' }
+    { id: 'family_overview', display_text: 'Family Overview' },
+    { id: 'family_closure', display_text: 'Family Closure' },
+    { id: 'family_consent', display_text: 'Family Consent' },
+    { id: 'family_members', display_text: 'Family Members' },
+    { id: 'family_notes', display_text: 'Family Notes' },
+    { id: 'family_documents', display_text: 'Documents' },
+    { id: 'other_reportable_fields', display_text: 'Other Reportable Fields' }
   ].map(&:with_indifferent_access)
 )
 
@@ -984,5 +990,56 @@ Lookup.create_or_update!(
     { id: 'family_type1', display_text: 'Family Type 1' },
     { id: 'family_type2', display_text: 'Family Type 2' },
     { id: 'family_type3', display_text: 'Family Type 3' }
+  ].map(&:with_indifferent_access)
+)
+  
+Lookup.create_or_update!(
+  unique_id: 'lookup-special-needs',
+  name_en: 'Special Needs',
+  lookup_values_en: [
+    { id: 'physical_muscular_dystrophy', display_text: 'Physical: Muscular dystrophy' },
+    { id: 'physical_multiple_sclerosis', display_text: 'Physical: Multiple sclerosis' },
+    { id: 'physical_chronic_asthma', display_text: 'Physical: Chronic asthma' },
+    { id: 'physical_epilepsy', display_text: 'Physical: Epilepsy' },
+    { id: 'physical_brain_or_spinal_cord_injuries', display_text: 'Physical: Brain or spinal cord injuries' },
+    { id: 'physical_cerebral_palsy', display_text: 'Physical: Cerebral palsy ' },
+    { id: 'developmental_down_syndrome', display_text: 'Developmental: Down syndrome' },
+    { id: 'developmental_autism', display_text: 'Developmental: Autism' },
+    { id: 'developmental_specific_learning_difficulty', display_text: 'Developmental: Specific learning difficulty' },
+    { id: 'developmental_intellectual_disability_id', display_text: 'Developmental: Intellectual disability (ID)' },
+    {
+      id: 'developmental_attention_deficit_hyperactivity_disorder_adhd',
+      display_text: 'Developmental: Attention deficit hyperactivity disorder (ADHD)'
+    },
+    {
+      id: 'behavioral_emotional_extremely_challenging_behavior',
+      display_text: 'Behavioral/Emotional: Extremely challenging behavior'
+    },
+    {
+      id: 'behavioral_emotional_aggression_or_self_injurious_behavior_acting_out_fighting',
+      display_text: 'Behavioral/Emotional: Aggression or self-injurious behavior (acting out, fighting)'
+    },
+    {
+      id: 'behavioral_emotional_withdrawal_not_interacting_socially_with_others_excessive_fear_or_anxiety_oppositional_behavior',
+      display_text: 'Behavioral/Emotional: Withdrawal (not interacting socially with others, excessive fear or anxiety), oppositional behavior'
+    },
+    { id: 'sensory_impaired_blind', display_text: 'Sensory Impaired: Blind' },
+    { id: 'sensory_impaired_visually_impaired', display_text: 'Sensory Impaired: Visually impaired' },
+    { id: 'sensory_impaired_deaf', display_text: 'Sensory Impaired: Deaf' },
+    { id: 'sensory_impaired_limited_hearing', display_text: 'Sensory Impaired: Limited hearing' }
+  ].map(&:with_indifferent_access)
+)
+
+Lookup.create_or_update!(
+  unique_id: 'lookup-disability-communication-best-means',
+  name_en: 'Disability Communication Best Means',
+  lookup_values_en: [
+    { id: 'through_parents', display_text: 'Through parents' },
+    { id: 'through_sibling', display_text: 'Through siblings' },
+    { id: 'through_family_members', display_text: 'Through family members' },
+    { id: 'through_teacher', display_text: 'Through teacher' },
+    { id: 'through_aid', display_text: 'Through aid' },
+    { id: 'through_specialized_center', display_text: 'Through Specialized Center' },
+    { id: 'other', display_text: 'Other' }
   ].map(&:with_indifferent_access)
 )

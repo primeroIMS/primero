@@ -285,3 +285,17 @@ Endpoint for querying all record history from a specific record
 Endpoints for querying and manipulating individual audit log and related resources in Primero.
 
 * [Query for audit logs](api/audit_logs/get.md) : `GET /api/v2/audit_logs`
+
+## Webpush configuration Endpoints
+
+Endpoints for querying webpush configuration.
+
+* [Query for webpush configuration](api/webpush_config/config.md) : `GET /api/v2/webpush/config`
+
+## Webpush subscriptions Endpoints
+
+Endpoints for querying and manipulating webpush subscriptions.
+
+* [Query for Webpush subscriptions](api/webpush_subscription/get.md) : `GET /api/v2/webpush/subscriptions`
+* [Create/Ping a new Webpush subscription](api/webpush_subscription/post.md) : `POST /api/v2/webpush/subscription`
+* [Ping | Enable  | Disable a Webpush subscription](api/webpush_subscription/current.md) : `POST /api/v2/webpush/subscriptions/current`

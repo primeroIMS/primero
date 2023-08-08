@@ -1,7 +1,5 @@
 const getToken = () => {
-  const msalInstance = window.msal;
-
-  return msalInstance?.getCachedIdToken(msalInstance, msalInstance?.account)?.rawIdToken;
+  return localStorage.getItem("cachedIdToken");
 };
 
 export default getToken;
