@@ -44,7 +44,6 @@ describe("<SubformDialog />", () => {
       it("renders the Family Actions to create a case", () => {
         mountedComponent(
           <SubformDialog {...props} field={familyDetailsField} mode={{ isShow: true }} isFamilyMember />,
-          {}
         );
 
         expect(screen.queryByText("family.family_member.back_to_family_members")).toBeTruthy();
@@ -65,8 +64,7 @@ describe("<SubformDialog />", () => {
     describe("when is edit mode", () => {
       it("renders the Family Actions for edit mode", () => {
         mountedComponent(
-          <SubformDialog {...props} field={familyDetailsField} mode={{ isEdit: true }} isFamilyMember />,
-          {}
+          <SubformDialog {...props} field={familyDetailsField} mode={{ isEdit: true }} isFamilyMember />
         );
 
         expect(screen.queryByText("family.family_member.save_and_return")).toBeTruthy();

@@ -1,4 +1,3 @@
-import { fromJS } from "immutable";
 import { mountedComponent, screen } from "test-utils";
 
 import DefaultEditActions from "./component";
@@ -11,8 +10,7 @@ describe("<RecordForm>/form/subforms/subform-fields/<DefaultEditActions>", () =>
           handleBackLabel="incident.violation.back_to_violations"
           handleBack={() => {}}
           handleCancel={() => {}}
-        />,
-        fromJS([])
+        />
       );
 
       expect(screen.queryByText("incident.violation.back_to_violations")).toBeTruthy();

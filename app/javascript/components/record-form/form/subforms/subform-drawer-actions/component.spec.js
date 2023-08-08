@@ -1,5 +1,4 @@
 import { mountedComponent, screen } from "test-utils";
-import { fromJS } from "immutable";
 
 import ActionButton from "../../../../action-button";
 
@@ -21,7 +20,7 @@ describe("<RecordForm>/form/subforms/subform-fields/<SubformDrawerActions>", () 
 
   describe("when mode is show", () => {
     it("renders the show actions", () => {
-      mountedComponent(<SubformDrawerActions {...props} isShow />, fromJS({}));
+      mountedComponent(<SubformDrawerActions {...props} isShow />);
 
       expect(screen.queryByText("Create Button")).toBeTruthy();
       expect(screen.queryByText("Save Button")).toBeFalsy();
@@ -30,7 +29,7 @@ describe("<RecordForm>/form/subforms/subform-fields/<SubformDrawerActions>", () 
 
   describe("when mode is not show", () => {
     it("renders the edit actions", () => {
-      mountedComponent(<SubformDrawerActions {...props} />, fromJS({}));
+      mountedComponent(<SubformDrawerActions {...props} />);
 
       expect(screen.queryByText("Save Button")).toBeTruthy();
       expect(screen.queryByText("Create Button")).toBeFalsy();
