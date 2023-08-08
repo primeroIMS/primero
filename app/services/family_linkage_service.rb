@@ -39,44 +39,48 @@ class FamilyLinkageService
     { source: 'relation_telephone', target: 'telephone_current' }
   ].map(&:with_indifferent_access).freeze
 
-  def self.new_child_for_family_member(user, family_id, family_member_id)
-    family = Family.find(family_id)
-    family_member = family.find_family_member(family_member_id)
-    child = Child.new_with_user(user, child_data_from_family_member(family_member))
-    child.family_id = family_id
-    child.family_member_id = family_member['unique_id']
-    child.module_id = family.module_id
-    child
-  end
+  class << self
+    def new_child_for_family_member(user, family_id, family_member_id)
+      family = Family.find(family_id)
+      family_member = family.find_family_member(family_member_id)
+      child = Child.new_with_user(user, child_data_from_family_member(family_member))
+      child.family_id = family_id
+      child.family_member_id = family_member['unique_id']
+      child.module_id = family.module_id
+      child
+    end
 
-  def self.child_data_from_family_member(family_member)
-    DEFAULT_MAPPING.each_with_object({}) do |elem, memo|
-      if elem['target'].is_a?(Array)
-        elem['target'].each { |target| memo[target] = family_member[elem['source']] }
-      else
-        memo[elem['target']] = family_member[elem['source']]
+    def child_data_from_family_member(family_member)
+      DEFAULT_MAPPING.each_with_object({}) do |elem, memo|
+        if elem['target'].is_a?(Array)
+          elem['target'].each { |target| memo[target] = family_member[elem['source']] }
+        else
+          memo[elem['target']] = family_member[elem['source']]
+        end
       end
     end
-  end
 
-  def self.family_details_for_child(child)
-    return {} unless child.family.present?
+    def family_details_for_child(child)
+      return {} unless child.family.present?
 
-    GLOBAL_FAMILY_FIELDS.each_with_object({}) { |field, memo| memo[field] = child.family.data[field] }
-  end
-
-  def self.family_details_section_for_child(child)
-    return child.family_details_section unless child.family&.family_members.present?
-
-    child.family.family_members.map do |family_member|
-      family_detail = child.family_details_section&.find { |detail| detail['unique_id'] == family_member['unique_id'] }
-      next(global_member_data(family_member)) unless family_detail.present?
-
-      family_detail.merge(global_member_data(family_member))
+      GLOBAL_FAMILY_FIELDS.each_with_object({}) { |field, memo| memo[field] = child.family.data[field] }
     end
-  end
 
-  def self.global_member_data(family_member)
-    family_member.except(*LOCAL_FAMILY_MEMBER_FIELDS)
+    def family_details_section_for_child(child)
+      return child.family_details_section unless child.family&.family_members.present?
+
+      child.family.family_members.map do |family_member|
+        family_detail = child.family_details_section&.find do |detail|
+          detail['unique_id'] == family_member['unique_id']
+        end
+        next(global_member_data(family_member)) unless family_detail.present?
+
+        family_detail.merge(global_member_data(family_member))
+      end
+    end
+
+    def global_member_data(family_member)
+      family_member.except(*LOCAL_FAMILY_MEMBER_FIELDS)
+    end
   end
 end
