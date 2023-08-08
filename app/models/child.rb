@@ -76,7 +76,7 @@ class Child < ApplicationRecord
   scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
 
   def self.sortable_text_fields
-    %w[name case_id_display national_id_no registry_no]
+    %w[name case_id_display national_id_no registry_no family_number]
   end
 
   def self.filterable_id_fields
@@ -85,7 +85,8 @@ class Child < ApplicationRecord
     %w[ unique_identifier short_id case_id_display case_id
         ration_card_no icrc_ref_no rc_id_no unhcr_id_no unhcr_individual_no un_no
         other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
-        family_count_no dss_id camp_id tent_number nfi_distribution_id oscar_number registry_no ]
+        family_count_no dss_id camp_id tent_number nfi_distribution_id oscar_number registry_no
+        family_number ]
   end
 
   def self.quicksearch_fields
@@ -331,6 +332,10 @@ class Child < ApplicationRecord
 
   def associations_as_data_keys
     %w[incident_details]
+  end
+
+  def family_number
+    family&.family_number
   end
 end
 # rubocop:enable Metrics/ClassLength
