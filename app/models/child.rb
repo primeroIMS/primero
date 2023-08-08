@@ -62,7 +62,8 @@ class Child < ApplicationRecord
     :location_current, :tracing_status, :name_caregiver,
     :registry_id_display, :registry_name, :registry_no, :registry_location_current,
     :urgent_protection_concern, :child_preferences_section, :family_details_section, :care_arrangements_section,
-    :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan, :family_member_id, :family_id_display
+    :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan,
+    :family_member_id, :family_id_display, :family_number
   )
   # rubocop:enable Naming/VariableNumber
 
@@ -313,6 +314,7 @@ class Child < ApplicationRecord
     return unless changes_to_save.key?('family_id')
 
     self.family_id_display = family&.family_id_display
+    self.family_number = family&.family_number
   end
 
   def associate_family_member
@@ -325,10 +327,6 @@ class Child < ApplicationRecord
     end
 
     family.save!
-  end
-
-  def family_number
-    family&.family_number
   end
 
   def match_criteria
