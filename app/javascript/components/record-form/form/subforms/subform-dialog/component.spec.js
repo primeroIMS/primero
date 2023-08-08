@@ -43,7 +43,7 @@ describe("<SubformDialog />", () => {
     describe("when is show mode", () => {
       it("renders the Family Actions to create a case", () => {
         mountedComponent(
-          <SubformDialog {...props} field={familyDetailsField} mode={{ isShow: true }} isFamilyMember />,
+          <SubformDialog {...props} field={familyDetailsField} mode={{ isShow: true }} isFamilyMember />
         );
 
         expect(screen.queryByText("family.family_member.back_to_family_members")).toBeTruthy();
