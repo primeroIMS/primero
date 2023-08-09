@@ -15,12 +15,17 @@ export default ({
   ageRanges,
   indicatorsSubcolumns,
   indicatorSubColumnKeys,
-  totalText
+  totalText,
+  includeAllSubColumns = true
 }) => {
   let lookupValues = subColumLookupValues(subColumnLookups, valueKey);
 
   if (lookupValues.length > 0) {
-    const missingSubColumns = indicatorSubColumnKeys.filter(
+    if (indicatorSubColumnKeys && !includeAllSubColumns) {
+      lookupValues = lookupValues.filter(value => indicatorSubColumnKeys.includes(value.id));
+    }
+
+    const missingSubColumns = (indicatorSubColumnKeys || []).filter(
       subcolumnKey => !lookupValues.some(value => subcolumnKey === value.id)
     );
 

@@ -15,6 +15,7 @@ import TableValues from "../charts/table-values";
 import useOptions from "../form/use-options";
 import transformOptions from "../form/utils/transform-options";
 import { OPTION_TYPES } from "../form/constants";
+import { REFERRAL_TRANSFERS_SUBREPORTS } from "../../config";
 
 import DefaultIndicator from "./components/default-indicator";
 import MultipleViolationsIndicator from "./components/multiple-violations-indicator";
@@ -76,6 +77,7 @@ const Component = () => {
         .filter(([, value]) => isString(value) && (value.startsWith("lookup") || optionValues.includes(value))),
     [indicatorsSubcolumns]
   );
+  const isReferralsTransferSubreport = REFERRAL_TRANSFERS_SUBREPORTS.includes(subReport);
 
   const lookups = useOptions({ source: insightLookups });
   const subColumnLookups = useOptions({ source: indicatorSubcolumnLookups });
@@ -178,7 +180,8 @@ const Component = () => {
                   ageRanges,
                   indicatorsSubcolumns,
                   totalText,
-                  indicatorSubColumnKeys
+                  indicatorSubColumnKeys,
+                  includeAllSubColumns: !isReferralsTransferSubreport
                 });
 
                 return (
