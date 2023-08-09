@@ -10,6 +10,8 @@ class TransitionNotificationService
 
   def transition
     @transition ||= Transition.find_by(id: transition_id)
+    Rails.logger.error("Transition #{transition_id} not found.") if @transition.blank?
+    @transition
   end
 
   def locale
@@ -23,6 +25,10 @@ class TransitionNotificationService
       id: record&.short_id,
       locale:
     )
+  end
+
+  def transitioned_to
+    @transitioned_to ||= transition&.transitioned_to_user
   end
 
   def record

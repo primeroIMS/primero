@@ -53,8 +53,8 @@ describe TransitionNotifyJob, type: :job do
     end
 
     context 'and user has enabled webpush notification' do
-      it 'should call NotificationService' do
-        expect(NotificationService).to receive(:notify_transition).with(assign1.id)
+      it 'should call RecordActionWebpushNotifier' do
+        expect(RecordActionWebpushNotifier).to receive(:transition_notify)
         expect(TransitionNotificationService).to receive(:new).with(assign1.id)
 
         perform_enqueued_jobs do

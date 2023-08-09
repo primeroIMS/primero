@@ -3,11 +3,12 @@
 require 'rails_helper'
 
 describe WebpushService do
-  before do
+  before(:each) do
     clean_data(
       FormSection, PrimeroModule, PrimeroProgram, UserGroup,
       WebpushSubscription, User, Agency, Role, Child, Transition
     )
+    allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return('aVnNTxSI1EZmiG1dW6Z_I9fbQCbZB3Po')
   end
   describe '#send_notifications' do
     let(:role) do

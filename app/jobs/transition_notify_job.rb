@@ -5,7 +5,8 @@ class TransitionNotifyJob < ApplicationJob
   queue_as :mailer
 
   def perform(transition_id)
-    NotificationMailer.transition_notify(transition_id).deliver_now
-    NotificationService.notify_transition(transition_id)
+    transition_notification = TransitionNotificationService.new(transition_id)
+    RecordActionMailer.transition_notify(transition_notification).deliver_now
+    RecordActionWebpushNotifier.transition_notify(transition_notification)
   end
 end

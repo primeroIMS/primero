@@ -131,28 +131,6 @@ describe NotificationMailer, type: :mailer do
           expect(mail.body).to be_empty
         end
       end
-
-      context 'when user permit is enabled' do
-        let(:role) do
-          create(:role, is_manager: true)
-        end
-
-        let(:user2) do
-          create(:user, user_name: 'user2', full_name: 'User random', email: 'user2@primero.dev', send_mail: true)
-        end
-        let(:assign1) do
-          Assign.create!(transitioned_by: 'jnelson', transitioned_to_user: user2, record: @child)
-        end
-
-        let(:mail) do
-          NotificationMailer.transition_notify(assign1.id)
-        end
-
-        it 'renders the headers' do
-          expect(mail.subject).to eq("Case: #{@child.short_id} - Assigned to you")
-          expect(mail.to).to eq(['user2@primero.dev'])
-        end
-      end
     end
   end
 

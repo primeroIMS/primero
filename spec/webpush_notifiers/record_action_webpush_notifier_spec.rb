@@ -2,12 +2,13 @@
 
 require 'rails_helper'
 
-describe NotificationService do
-  before do
+describe RecordActionWebpushNotifier do
+  before(:each) do
     clean_data(
       FormSection, PrimeroModule, PrimeroProgram, UserGroup,
       WebpushSubscription, User, Agency, Role, Child, Transition
     )
+    allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return('aVnNTxSI1EZmiG1dW6Z_I9fbQCbZB3Po')
   end
   let(:role) do
     create(:role, is_manager: true)
@@ -44,7 +45,7 @@ describe NotificationService do
     it 'should call TransitionNotificationService and WebpushService' do
       expect(WebpushService).to receive(:send_notifications)
 
-      NotificationService.notify_transition(assign1.id)
+      RecordActionWebpushNotifier.transition_notify(TransitionNotificationService.new(assign1.id))
     end
   end
 
@@ -55,7 +56,7 @@ describe NotificationService do
     end
 
     it 'should return a hash' do
-      expect(NotificationService.new.message_structure(assign1).keys).to match_array(
+      expect(RecordActionWebpushNotifier.new.message_structure(assign1).keys).to match_array(
         %i[title body action_label link]
       )
     end

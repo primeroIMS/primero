@@ -28,6 +28,7 @@ class NotificationMailer < ApplicationMailer
          subject: t('email_notification.approval_response_subject', id: @child.short_id, locale: @locale_email))
   end
 
+  # TODO: This method will be replaced by: RecordActionMailer.transition_notify
   def transition_notify(transition_id)
     transition_notification = TransitionNotificationService.new(transition_id)
     @transition = transition_notification.transition

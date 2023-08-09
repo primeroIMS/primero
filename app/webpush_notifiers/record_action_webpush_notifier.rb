@@ -1,18 +1,21 @@
 # frozen_string_literal: true
 
-# Service for Notifications
-class NotificationService
+# WebpushNotifier class for RecordActions
+class RecordActionWebpushNotifier
   include ApplicationHelper
 
-  def self.notify_transition(transition_id)
-    NotificationService.new.notify_transition(transition_id)
+  def self.transition_notify(transition_notification)
+    RecordActionWebpushNotifier.new.transition_notify(transition_notification)
   end
 
-  def notify_transition(transition_id)
-    transition = TransitionNotificationService.new(transition_id).transition
-    return unless webpush_notifications_enabled?(transition&.transitioned_to_user)
+  def transition_notify(transition_notification)
+    return if transition_notification.transition.nil?
+    return unless webpush_notifications_enabled?(transition_notification&.transitioned_to)
 
-    WebpushService.send_notifications(transition&.transitioned_to_user, message_structure(transition))
+    WebpushService.send_notifications(
+      transition_notification&.transitioned_to,
+      message_structure(transition_notification.transition)
+    )
   end
 
   def message_structure(transition)
