@@ -29,11 +29,14 @@ class NotificationMailer < ApplicationMailer
   end
 
   def transition_notify(transition_id)
-    load_transition_for_email(Transition, transition_id)
+    transition_notification = TransitionNotificationService.new(transition_id)
+    @transition = transition_notification.transition
+    @locale_email = transition_notification.locale
+
     return log_not_found('Transition', transition_id) unless @transition
     return unless assert_notifications_enabled(@transition&.transitioned_to_user)
 
-    mail(to: @transition&.transitioned_to_user&.email, subject: transition_subject(@transition&.record))
+    mail(to: @transition&.transitioned_to_user&.email, subject: transition_notification.subject)
   end
 
   def transfer_request(transfer_request_id)
@@ -59,7 +62,7 @@ class NotificationMailer < ApplicationMailer
   def assert_notifications_enabled(user)
     return true if user&.emailable?
 
-    Rails.logger.info("Mail not sent. Notifications disabled for #{user&.user_name || 'nil user'}")
+    Rails.logger.info("Mail not sent. Mail notifications disabled for #{user&.user_name || 'nil user'}")
 
     false
   end

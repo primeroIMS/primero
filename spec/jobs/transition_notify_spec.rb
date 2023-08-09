@@ -6,7 +6,9 @@ describe TransitionNotifyJob, type: :job do
   include ActiveJob::TestHelper
 
   before do
-    clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency)
+    clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Transition)
+    @primero_module = PrimeroModule.new(name: 'CP')
+    @primero_module.save(validate: false)
     role = create :role, is_manager: true
     @owner = create :user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev'
     @manager1 = create :user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
@@ -37,8 +39,33 @@ describe TransitionNotifyJob, type: :job do
     end
   end
 
+  describe 'when is Assign' do
+    let(:role) do
+      create(:role, is_manager: true)
+    end
+
+    let(:user2) do
+      create(:user, user_name: 'user2', full_name: 'Test User 1', email: 'user2@primero.dev', receive_webpush: true)
+    end
+
+    let(:assign1) do
+      Assign.create!(transitioned_by: 'jnelson', transitioned_to_user: user2, record: @child)
+    end
+
+    context 'and user has enabled webpush notification' do
+      it 'should call NotificationService' do
+        expect(NotificationService).to receive(:notify_transition).with(assign1.id)
+        expect(TransitionNotificationService).to receive(:new).with(assign1.id)
+
+        perform_enqueued_jobs do
+          TransitionNotifyJob.perform_later(assign1.id)
+        end
+      end
+    end
+  end
+
   after :each do
-    clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency)
+    clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Child, Transition)
   end
 
   private

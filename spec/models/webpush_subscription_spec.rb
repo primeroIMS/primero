@@ -178,6 +178,21 @@ describe WebpushSubscription do
     end
   end
 
+  describe '#metadata' do
+    before(:each) do
+      webpush_subscription1
+    end
+    it 'return a WebpushSubscription metadata' do
+      expect(webpush_subscription1.metadata).to be_an_instance_of(Hash)
+      expect(webpush_subscription1.metadata.keys).to match_array(
+        %i[endpoint p256dh auth]
+      )
+      expect(webpush_subscription1.metadata[:endpoint]).to eq(webpush_subscription1.notification_url)
+      expect(webpush_subscription1.metadata[:p256dh]).to eq(webpush_subscription1.p256dh)
+      expect(webpush_subscription1.metadata[:auth]).to eq(webpush_subscription1.auth)
+    end
+  end
+
   after(:each) do
     clean_data(WebpushSubscription, User, Agency, Role)
   end

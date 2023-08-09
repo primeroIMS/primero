@@ -30,6 +30,14 @@ class WebpushSubscription < ApplicationRecord
     super(EncryptionService.encrypt(p256dh_value))
   end
 
+  def metadata
+    {
+      endpoint: notification_url,
+      p256dh:,
+      auth:
+    }
+  end
+
   class << self
     def permitted_api_params
       %i[disabled notification_url auth p256dh]
