@@ -213,6 +213,7 @@ en:
     view: View
     view_flags_history: View History
     return_to_case: Return to Case
+    enable_webpush: Push notifications for this device
   resync_records:
     id: ID
     record_type: Record Type

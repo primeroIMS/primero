@@ -19,6 +19,10 @@ const METHODS = {
   DELETE: "DELETE"
 };
 
+const ACTIONS = {
+  GOTO: "goto"
+};
+
 const isNav = event => event.request.mode === "navigate";
 
 // TODO: This pr would allow passing strategies to workbox way of handling navigation routes
@@ -90,3 +94,29 @@ setCatchHandler(({ event }) => {
 
   return Response.error();
 });
+
+self.addEventListener("push", event => {
+  const message = event.data.json();
+  const image = `${window.location.origin}/primero-pictorial-144.png`;
+
+  event.waitUntil(
+    self.registration.showNotification(message.title, {
+      body: message.body,
+      image,
+      icon: image,
+      actions: [{ action: ACTIONS.GOTO, link: message.link, title: message.action_label }]
+    })
+  );
+});
+
+self.addEventListener(
+  "notificationclick",
+  async event => {
+    event.notification.close();
+
+    if (event.action === ACTIONS.GOTO) {
+      event.waitUntil(self.clients.openWindow(event.link));
+    }
+  },
+  false
+);

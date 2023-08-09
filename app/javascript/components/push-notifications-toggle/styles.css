@@ -1,0 +1,13 @@
+.root {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.on {
+  color: var(--c-blue)
+}
+
+.off {
+  color: var(--c-dark-grey)
+}

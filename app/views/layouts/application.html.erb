@@ -19,6 +19,7 @@
   <div id="root"></div>
   <%= javascript_tag nonce: true do %>
     window.locationManifest = <%= available_locations %>
+    window.vpubID = "<%= Rails.application.config.x.webpush.vapid_public %>"
   <% end %>
   <%= javascript_include_tag '/javascripts/i18n.js', nonce: true %>
 

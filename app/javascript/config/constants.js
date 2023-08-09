@@ -21,6 +21,8 @@ import {
 } from "../components/permissions/constants";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
+export const API_BASE_PATH = "/api/v2";
+
 export const PASSWORD_MIN_LENGTH = 8;
 
 // Max allowed image size for attachments
@@ -723,3 +725,14 @@ export const DATE_SORTABLE_FIELDS = Object.freeze([
   "date_of_first_report",
   "inquiry_date"
 ]);
+
+export const NOTIFICATION_PERMISSIONS = {
+  GRANTED: "granted",
+  DENIED: "denied",
+  DEFAULT: "default"
+};
+
+export const POST_MESSAGES = {
+  SUBSCRIBE_NOTIFICATIONS: "subscribe_notifications",
+  UNSUBSCRIBE_NOTIFICATIONS: "unsubscribe_notifications"
+};

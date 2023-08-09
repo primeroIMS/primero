@@ -1,4 +1,5 @@
 /* eslint-disable react/display-name */
+
 import { fromJS } from "immutable";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -23,6 +24,7 @@ import { form } from "../admin/users-form/form";
 import { getIdentityProviders } from "../admin/users-form/selectors";
 import validations from "../admin/users-form/validations";
 import { fetchRoles } from "../../application";
+import PushNotificationsToggle from "../../push-notifications-toggle";
 
 import { clearCurrentUser, fetchCurrentUser, updateUserAccount } from "./action-creators";
 import { FORM_ID, NAME } from "./constants";
@@ -86,7 +88,10 @@ const Container = ({ mode }) => {
   );
 
   const editButton = formMode.isShow && (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
+    <>
+      <PushNotificationsToggle />
+      <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
+    </>
   );
 
   const pageHeading = currentUser.get("full_name", "") || i18n.t("navigation.my_account");
