@@ -1944,6 +1944,7 @@ en:
       by: By
       workflow: Workflow Status
       cp_incident_violence_type: Type of Violence
+      referral_transfer_status: Referral / Transfer Status
     status_options:
       open: Open
       closed: Closed
@@ -1952,6 +1953,11 @@ en:
       owned_by_groups: User Groups of record owner
       created_organization: Agency of record creator
       owned_by_agency_id: Agency of record owner
+    referral_transfer_status_options:
+      in_progress: Pending
+      accepted: Accepted
+      rejected: Rejected
+      done: Done
     date_range:
       month: Month
       quarter: Quarter
@@ -2120,6 +2126,17 @@ en:
       sub_reports:
         case_workflow_by_sex_and_age: Total Number of Cases by Sex and Age
         incident_workflow_by_sex_and_age: Total Number of Incidents by Sex and Age
+    referrals_transfers_report:
+      name: Referrals and Transfers
+      description: ''
+      reports:
+        total_referrals: Referrals
+        total_transfers: Transfers
+      sub_reports:
+        total_transfers_by_user_groups: Total Transfers
+        total_referrals_by_user_groups: Total Referrals
+      filter_options:
+        registration_date: Registration Date
     violence_type_report:
       name: Type of Violence
       description: ''
@@ -3220,6 +3237,8 @@ en:
             label: Type of Violence
             explanation: Ability to view statistics on Type of Violence. This permission also allows
               the user to export data from an Insight.
+          referrals_transfers_report:
+            label: Referrals and Transfers
       matching_configuration:
         actions:
           manage:

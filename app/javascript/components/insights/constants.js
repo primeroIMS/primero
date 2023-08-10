@@ -6,7 +6,12 @@ import {
   GHN_REPORT_SUBREPORTS,
   INDIVIDUAL_CHILDREN,
   WORKFLOW_SUBREPORTS,
-  VIOLENCE_TYPE_SUBREPORTS
+  VIOLENCE_TYPE_SUBREPORTS,
+  REFERRAL_TRANSFERS_SUBREPORTS,
+  INPROGRESS,
+  ACCEPTED,
+  REJECTED,
+  DONE
 } from "../../config/constants";
 import { DATE_FIELD, SELECT_FIELD, HIDDEN_FIELD, OPTION_TYPES } from "../form/constants";
 import { FieldRecord } from "../form/records";
@@ -21,6 +26,7 @@ const FILTER_BY = "filter_by";
 const FILTER_OPTIONS = "filter_options";
 const DATE_OF_FIRST_REPORT = "date_of_first_report";
 const BY_OPTIONS = "by_options";
+const REFERRAL_TRANSFER_STATUS_OPTIONS = "referral_transfer_status_options";
 
 const CTFMR_VERIFIED_DATE = "ctfmr_verified_date";
 const VERIFIED_CTFMR_TECHNICAL = "ctfmr_verified";
@@ -60,6 +66,7 @@ export const AGENCY = "agency";
 export const BY = "by";
 export const WORKFLOW = "workflow";
 export const VIOLENCE_TYPE = "cp_incident_violence_type";
+export const REFERRAL_TRANSFER_STATUS = "referral_transfer_status";
 
 export const DATE_CONTROLS = [TO, FROM, GROUPED_BY, DATE_RANGE];
 export const DATE_CONTROLS_GROUP = DATE;
@@ -101,6 +108,7 @@ export const USER_GROUP_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, USER_GROUP];
 export const AGENCY_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, AGENCY];
 export const WORKFLOW_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, WORKFLOW];
 export const VIOLENCE_TYPE_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, VIOLENCE_TYPE];
+export const REFERRAL_TRANSFER_STATUS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, REFERRAL_TRANSFER_STATUS];
 
 export const SHARED_FILTERS = {
   [GROUPED_BY]: {
@@ -428,6 +436,42 @@ export const INSIGHTS_CONFIG = {
         RECORD_FILTERS[OWNED_BY_GROUPS],
         RECORD_FILTERS[CREATED_ORGANIZATION],
         RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+        RECORD_FILTERS[DATE]
+      ].map(filter => FieldRecord(filter))
+    },
+    referrals_transfers_report: {
+      ids: REFERRAL_TRANSFERS_SUBREPORTS,
+      defaultFilterValues: {
+        [GROUPED_BY]: WEEK,
+        [DATE_RANGE]: LAST_WEEK,
+        [STATUS]: [STATUS_OPEN],
+        [DATE]: REGISTRATION_DATE,
+        [BY]: OWNED_BY_GROUPS,
+        [REFERRAL_TRANSFER_STATUS]: [ACCEPTED]
+      },
+      filters: [
+        RECORD_FILTERS[GROUPED_BY],
+        RECORD_FILTERS[DATE_RANGE],
+        RECORD_FILTERS[FROM],
+        RECORD_FILTERS[TO],
+        RECORD_FILTERS[STATUS],
+        RECORD_FILTERS[BY],
+        RECORD_FILTERS[CREATED_BY_GROUPS],
+        RECORD_FILTERS[OWNED_BY_GROUPS],
+        RECORD_FILTERS[CREATED_ORGANIZATION],
+        RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+        {
+          name: REFERRAL_TRANSFER_STATUS,
+          type: SELECT_FIELD,
+          display_name: REFERRAL_TRANSFER_STATUS_DISPLAY_NAME,
+          multi_select: true,
+          option_strings_text: [
+            { id: INPROGRESS, display_name: [MANAGED_REPORTS, REFERRAL_TRANSFER_STATUS_OPTIONS, INPROGRESS] },
+            { id: ACCEPTED, display_name: [MANAGED_REPORTS, REFERRAL_TRANSFER_STATUS_OPTIONS, ACCEPTED] },
+            { id: REJECTED, display_name: [MANAGED_REPORTS, REFERRAL_TRANSFER_STATUS_OPTIONS, REJECTED] },
+            { id: DONE, display_name: [MANAGED_REPORTS, REFERRAL_TRANSFER_STATUS_OPTIONS, DONE] }
+          ]
+        },
         RECORD_FILTERS[DATE]
       ].map(filter => FieldRecord(filter))
     }
