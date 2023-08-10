@@ -17,6 +17,7 @@ describe("Verifying config constant", () => {
     });
 
     [
+      "API_BASE_PATH",
       "ACCEPT",
       "ACCEPTED",
       "ADMIN_NAV",
@@ -134,7 +135,9 @@ describe("Verifying config constant", () => {
       "SUMMARY_INCIDENT_MRM",
       "VIOLATION_FORMS_MAPPING",
       "VIOLATIONS_ASSOCIATIONS_RESPONSES",
-      "INDIVIDUAL_CHILDREN"
+      "INDIVIDUAL_CHILDREN",
+      "NOTIFICATION_PERMISSIONS",
+      "POST_MESSAGES"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);

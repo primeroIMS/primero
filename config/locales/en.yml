@@ -213,7 +213,8 @@ en:
     view: View
     view_flags_history: View History
     return_to_case: Return to Case
-    enable_webpush: Push notifications for this device
+    enable_webpush: Device notifications
+    dialog_yes: "Yes"
   resync_records:
     id: ID
     record_type: Record Type
@@ -4149,7 +4150,7 @@ en:
     send_mail: Receive email notifications?
     receive_webpush: 
       label: Receive push notifications?
-      help_text: Note that you will still need to allow push notifications on your device’s browser.”
+      help_text: Note that you will still need to allow push notifications on your device’s browser.
     user_group_unique_ids: User Groups
     user_name: Username
     services: Services
@@ -4221,3 +4222,7 @@ en:
       selected_records: '%{select_records} location(s) selected'
       selected_all_records: Select all %{total_records} cases that match this query.
       updated: '%{updated_records} location(s) updated'
+  push_notifications_dialog:
+    title: Device Notifications
+    body_blocked: Blocked copy
+    body: Do you want to allow Primero to send you notifications? Remember that you will continue to receive notifications on this device <variable> days after you log out. This is not recommended for shared devices.

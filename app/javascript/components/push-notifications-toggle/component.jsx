@@ -6,36 +6,67 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import { NOTIFICATION_PERMISSIONS, POST_MESSAGES } from "../../config";
 import { cleanupSubscriptions } from "../../libs/service-worker-utils";
 import { useI18n } from "../i18n";
+import ActionDialog, { useDialog } from "../action-dialog";
+import { useMemoizedSelector } from "../../libs";
+import { getWebpushConfig } from "../application/selectors";
 
 import css from "./styles.css";
 
+const DIALOG = "PUSH_NOTIFICATIONS";
+
 function Component() {
+  const webpushConfig = useMemoizedSelector(state => getWebpushConfig(state));
   const [value, setValue] = useState(Boolean(localStorage.getItem("pushEndpoint")));
+
+  const vapidID = webpushConfig.get("vapid_public");
+
   const i18n = useI18n();
+  const { dialogOpen, setDialog } = useDialog(DIALOG);
+
   const notificationsNotSupported = !("Notification" in window);
+  const notificationsDenied = () => Notification.permission === NOTIFICATION_PERMISSIONS.DENIED;
 
-  const handleSwitch = event => {
-    const isNotificationsGranted = event.target.checked;
+  const handleSwitch = opened => event => {
+    const checked = event?.target?.checked;
 
-    if (!value && isNotificationsGranted) {
-      Notification.requestPermission(permission => {
-        if (NOTIFICATION_PERMISSIONS.DENIED === permission) {
-          setValue(false);
-        }
-
-        if (permission === NOTIFICATION_PERMISSIONS.GRANTED) {
-          postMessage({
-            type: POST_MESSAGES.SUBSCRIBE_NOTIFICATIONS
-          });
-        }
-      });
-    } else if (value && !isNotificationsGranted) {
+    if (!checked && value) {
       postMessage({
         type: POST_MESSAGES.UNSUBSCRIBE_NOTIFICATIONS
       });
-    }
 
-    setValue(isNotificationsGranted);
+      setValue(false);
+      setDialog({ dialog: DIALOG, open: false });
+    } else {
+      if (opened) {
+        setValue(true);
+        setDialog({ dialog: DIALOG, open: opened });
+      }
+
+      if (
+        !opened &&
+        [NOTIFICATION_PERMISSIONS.DEFAULT, NOTIFICATION_PERMISSIONS.DENIED].includes(Notification.permission)
+      ) {
+        setDialog({ dialog: DIALOG, open: false });
+        setValue(false);
+      }
+    }
+  };
+
+  const handleSuccess = () => {
+    Notification.requestPermission(permission => {
+      if (NOTIFICATION_PERMISSIONS.DENIED === permission) {
+        setValue(false);
+      }
+
+      if (permission === NOTIFICATION_PERMISSIONS.GRANTED) {
+        postMessage({
+          type: POST_MESSAGES.SUBSCRIBE_NOTIFICATIONS
+        });
+        setValue(true);
+      }
+
+      setDialog({ dialog: DIALOG, open: false });
+    });
   };
 
   useEffect(() => {
@@ -44,9 +75,16 @@ function Component() {
     });
   }, []);
 
+  useEffect(() => {
+    window.vpubID = vapidID;
+  }, [vapidID]);
+
+  if (!webpushConfig.get("enabled", false)) {
+    return false;
+  }
+
   return (
     <>
-      {/* {value ? <NotificationsIcon /> : <NotificationsOffIcon />} */}
       <FormControlLabel
         disabled={notificationsNotSupported}
         value="top"
@@ -58,10 +96,21 @@ function Component() {
             <div>{i18n.t("buttons.enable_webpush")}</div>
           </div>
         }
-        onChange={handleSwitch}
+        onChange={handleSwitch(true)}
         labelPlacement="start"
         start
       />
+      <ActionDialog
+        open={dialogOpen}
+        onClose={handleSwitch(false)}
+        cancelHandler={handleSwitch(false)}
+        successHandler={handleSuccess}
+        showSuccessButton={!notificationsDenied()}
+        confirmButtonLabel={i18n.t("buttons.dialog_yes")}
+        dialogTitle={i18n.t("push_notifications_dialog.title")}
+      >
+        {i18n.t(`push_notifications_dialog.${notificationsDenied() ? "body_blocked" : "body"}`)}
+      </ActionDialog>
     </>
   );
 }

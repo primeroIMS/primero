@@ -132,7 +132,8 @@ export const RECORD_PATH = {
   user_groups: "user_groups",
   users: "users",
   activity_log: "activity_log",
-  registry_records: "registry_records"
+  registry_records: "registry_records",
+  webpush_config: "webpush/config"
 };
 
 export const RECORD_INFORMATION_GROUP = "record_information";
