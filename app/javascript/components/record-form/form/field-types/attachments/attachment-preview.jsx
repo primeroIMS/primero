@@ -26,7 +26,7 @@ const AttachmentPreview = ({ name, attachment, attachmentUrl }) => {
     );
   }
 
-  return <img src={attachmentUrl} data-testid="attachment" alt="" className={css.editImg} />;
+  return <img data-testid="attachment" src={attachmentUrl} alt="" className={css.editImg} />;
 };
 
 AttachmentPreview.displayName = "AttachmentPreview";
