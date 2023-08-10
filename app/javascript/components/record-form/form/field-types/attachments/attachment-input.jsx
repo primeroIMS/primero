@@ -93,6 +93,7 @@ const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
                 name={fields.attachment}
                 onChange={handleOnChange}
                 disabled={fieldDisabled()}
+                data-testid="input-file"
                 type="file"
                 accept={acceptedType}
               />
