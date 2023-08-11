@@ -1,9 +1,5 @@
-import { FastField } from "formik";
-
-import { mountedComponent, screen} from "../../../../../test-utils";
+import { mountedComponent, screen } from "../../../../../test-utils";
 import { FieldRecord } from "../../../records";
-import TickField from "../tick-field";
-import DateField from "../date-field";
 import { MODULES } from "../../../../../config";
 
 import DocumentField from "./document-field";
@@ -54,9 +50,9 @@ describe("<DocumentField />", () => {
   };
 
   it("should render a DocumentField", () => {
-    mountedComponent(<DocumentField {...props} />, {}, [],{}, formProps);
+    mountedComponent(<DocumentField {...props} />, {}, [], {}, formProps);
     expect(screen.getByText(/fields.document.is_current/i)).toBeInTheDocument();
-    expect(screen.getAllByRole('textbox')).toHaveLength(3);
+    expect(screen.getAllByRole("textbox")).toHaveLength(3);
     expect(screen.getByText(/yes_label/i)).toBeInTheDocument();
   });
 
@@ -71,8 +67,8 @@ describe("<DocumentField />", () => {
         }
       }
     };
-    mountedComponent(<DocumentField {...propsMRM} />, {}, [],{}, formProps);
 
+    mountedComponent(<DocumentField {...propsMRM} />, {}, [], {}, formProps);
     expect(screen.queryByText(/yes_label/i)).toBeNull();
   });
 });

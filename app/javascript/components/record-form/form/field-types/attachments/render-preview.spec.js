@@ -1,6 +1,5 @@
 import { screen, simpleMountedComponent } from "../../../../../test-utils";
 
-import AttachmentPreview from "./attachment-preview";
 import { ATTACHMENT_TYPES } from "./constants";
 import renderPreview from "./render-preview";
 
@@ -9,7 +8,7 @@ describe("renderPreview", () => {
   const deleteButton = null;
 
   it("should return false if there is no data", () => {
-    expect(renderPreview(ATTACHMENT_TYPES.photo, {}, css, deleteButton)).toBeFalsy()
+    expect(renderPreview(ATTACHMENT_TYPES.photo, {}, css, deleteButton)).toBeFalsy();
   });
 
   it("should return a span with the file name if attachment it's document", () => {
@@ -18,7 +17,8 @@ describe("renderPreview", () => {
       fileName: "test.txt"
     };
 
-    simpleMountedComponent(renderPreview(ATTACHMENT_TYPES.document, file, css, deleteButton));(renderPreview(ATTACHMENT_TYPES.document, file, css, deleteButton));
+    simpleMountedComponent(renderPreview(ATTACHMENT_TYPES.document, file, css, deleteButton));
+    renderPreview(ATTACHMENT_TYPES.document, file, css, deleteButton);
     expect(screen.getByText(/test.txt/i)).toBeInTheDocument();
   });
 
@@ -29,6 +29,6 @@ describe("renderPreview", () => {
     };
 
     simpleMountedComponent(renderPreview(ATTACHMENT_TYPES.photo, file, css, deleteButton));
-    expect(screen.getByTestId('attachment')).toBeInTheDocument();
+    expect(screen.getByTestId("attachment")).toBeInTheDocument();
   });
 });

@@ -32,7 +32,6 @@ describe("<AttachmentField />", () => {
   });
 
   describe("when value contains attachmentUrl", () => {
-
     it("should not render the AttachmentInput", () => {
       mountedComponent(<AttachmentField {...props} />, {}, [], {}, formProps);
       expect(screen.queryByRole("textbox")).toBeNull();
