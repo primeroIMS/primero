@@ -193,6 +193,27 @@ describe WebpushSubscription do
     end
   end
 
+  describe '#expired?' do
+    context 'when updated_at was updated more than 1440 minutes ago ' do
+      before(:each) do
+        Rails.configuration.x.webpush.pause_after = 1440
+        webpush_subscription1
+      end
+      it 'return false' do
+        expect(webpush_subscription1.expired?).to be false
+      end
+    end
+    context 'when updated_at was updated 1440 minutes or less ago ' do
+      before(:each) do
+        Rails.configuration.x.webpush.pause_after = 1440
+        webpush_subscription1.update_column(:updated_at, Time.now - 2.days)
+      end
+      it 'return false when updated_at is not 123 minutes before' do
+        expect(webpush_subscription1.expired?).to be true
+      end
+    end
+  end
+
   after(:each) do
     clean_data(WebpushSubscription, User, Agency, Role)
   end

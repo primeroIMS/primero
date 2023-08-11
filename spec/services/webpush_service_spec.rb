@@ -8,6 +8,8 @@ describe WebpushService do
       FormSection, PrimeroModule, PrimeroProgram, UserGroup,
       WebpushSubscription, User, Agency, Role, Child, Transition
     )
+    Rails.configuration.x.webpush.enabled = true
+    Rails.configuration.x.webpush.pause_after = 1440
     allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return('aVnNTxSI1EZmiG1dW6Z_I9fbQCbZB3Po')
   end
   describe '#send_notifications' do
@@ -40,6 +42,7 @@ describe WebpushService do
     end
   end
   after do
+    Rails.configuration.x.webpush.enabled = false
     clean_data(
       FormSection, PrimeroModule, PrimeroProgram, UserGroup,
       WebpushSubscription, User, Agency, Role, Child, Transition

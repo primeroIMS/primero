@@ -11,6 +11,11 @@ class WebpushService
     return if subscriptions.blank? || message.blank?
 
     subscriptions.each do |subscription|
+      if subscription.expired?
+        Rails.logger.info('Notification not sent. Subscription expired')
+        next
+      end
+
       send_push(subscription, message)
     end
   end
