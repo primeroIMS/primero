@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Describes ManagedReport in Primero.
+# rubocop:disable Metrics/ClassLength
 class ManagedReport < ValueObject
   DATE_RANGE_OPTIONS = %w[this_quarter last_quarter this_year last_year this_month last_month].freeze
 
@@ -25,6 +26,17 @@ class ManagedReport < ValueObject
         permitted_filters: [
           :grouped_by, :by, :created_by_groups, :workflow, :owned_by_groups,
           :created_organization, :owned_by_agency_id, { status: {}, registration_date: {} }
+        ],
+        module_id: PrimeroModule::CP
+      ),
+      Permission::REFERRALS_TRANSFERS_REPORT => ManagedReport.new(
+        id: 'referrals_transfers_report',
+        name: 'managed_reports.referrals_transfers_report.name',
+        description: 'managed_reports.referrals_transfers_report.description',
+        subreports: %w[total_transfers total_referrals],
+        permitted_filters: [
+          :grouped_by, :by, :created_by_groups, :owned_by_groups, :created_organization, :owned_by_agency_id,
+          { status: {}, registration_date: {}, referral_transfer_status: {} }
         ],
         module_id: PrimeroModule::CP
       ),
@@ -137,3 +149,4 @@ class ManagedReport < ValueObject
     filters&.find { |filter| filter&.field_name == 'ctfmr_verified' }&.value
   end
 end
+# rubocop:enable Metrics/ClassLength

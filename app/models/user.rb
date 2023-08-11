@@ -273,10 +273,13 @@ class User < ApplicationRecord
     role&.group_permission == permission
   end
 
+  def managed_report_permission?
+    role.permissions.find { |permission| permission.resource == Permission::MANAGED_REPORT }.present?
+  end
+
   def managed_report_scope
-    managed_report_permission = role.permissions.find do |permission|
-      permission.resource == Permission::MANAGED_REPORT
-    end
+    managed_report_permission = role.permissions.find { |permission| permission.resource == Permission::MANAGED_REPORT }
+    return unless managed_report_permission.present?
 
     managed_report_permission.managed_report_scope || Permission::ALL
   end

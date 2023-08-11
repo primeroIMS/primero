@@ -19,3 +19,4 @@ export { default as translateMonth } from "./translate-month";
 export { default as translateQuarter } from "./translate-quarter";
 export { default as formatAgeRange } from "./format-age-range";
 export { default as sortWithSortedArray } from "./sort-with-sorted-array";
+export { default as getIndicatorSubcolumnKeys } from "./get-indicator-subcolumn-keys";

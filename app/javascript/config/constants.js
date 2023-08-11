@@ -496,6 +496,7 @@ export const REVOKED = "revoked";
 export const DONE = "done";
 export const REJECT = "reject";
 export const SAVING = "saving";
+export const INPROGRESS = "in_progress";
 
 export const APPROVALS_TYPES = Object.freeze({
   assessment: "assessment",
@@ -639,6 +640,8 @@ export const GHN_REPORT_SUBREPORTS = ["ghn_report"];
 export const INDIVIDUAL_CHILDREN = ["individual_children"];
 
 export const WORKFLOW_SUBREPORTS = ["cases_workflow", "incidents_workflow"];
+
+export const REFERRAL_TRANSFERS_SUBREPORTS = ["total_transfers", "total_referrals"];
 
 export const VIOLENCE_TYPE_SUBREPORTS = ["cases_violence_type", "incidents_violence_type"];
 

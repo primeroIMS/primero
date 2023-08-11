@@ -100,6 +100,7 @@ describe("Verifying config constant", () => {
       "RECEIVE_TRANSFER",
       "REFERRAL_FROM_SERVICE",
       "REFERRAL",
+      "REFERRALS_TRANSFERS_REPORT",
       "REMOVE_ASSIGNED_USERS",
       "REOPEN",
       "REQUEST_APPROVAL_ACTION_PLAN",

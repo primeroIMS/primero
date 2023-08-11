@@ -104,7 +104,8 @@ describe("User - Reducers", () => {
       location: "XX",
       agencyLogo: undefined,
       codeOfConductAcceptedOn: "2021-17-03",
-      codeOfConductId: 1
+      codeOfConductId: 1,
+      managedReportScope: undefined
     });
 
     const payload = {

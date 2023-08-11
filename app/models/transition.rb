@@ -20,6 +20,8 @@ class Transition < ApplicationRecord
 
   after_initialize :defaults, unless: :persisted?
   before_create :perform
+  before_create :copy_record_ownership
+  before_create :copy_transitioned_user_groups_and_agency
   after_save_commit :notify_by_email
 
   after_save :index_record
@@ -121,5 +123,20 @@ class Transition < ApplicationRecord
     return if progress_or_accepted_transition?
 
     record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
+  end
+
+  def copy_record_ownership
+    self.record_owned_by = record.owned_by
+    self.record_owned_by_agency = record.owned_by_agency_id
+    self.record_owned_by_groups = record.owned_by_groups
+  end
+
+  def copy_transitioned_user_groups_and_agency
+    self.transitioned_by_user_agency = transitioned_by_user.agency&.unique_id
+    self.transitioned_by_user_groups = transitioned_by_user.user_group_unique_ids
+    return if remote
+
+    self.transitioned_to_user_agency = transitioned_to_user.agency&.unique_id
+    self.transitioned_to_user_groups = transitioned_to_user.user_group_unique_ids
   end
 end
