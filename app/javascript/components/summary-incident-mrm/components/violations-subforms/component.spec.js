@@ -1,11 +1,11 @@
 import { fromJS } from "immutable";
 import { mountedComponent, screen } from "test-utils";
+
 import { FieldRecord, FormSectionRecord } from "../../../record-form/records";
 
 import ViolationsSubforms from "./component";
 
 describe("<ViolationsSubforms />", () => {
- 
   const values = {
     age: 10,
     case_id_display: "1234abcd",
@@ -41,9 +41,8 @@ describe("<ViolationsSubforms />", () => {
     values
   };
 
- 
   beforeEach(() => {
-    mountedComponent(<ViolationsSubforms {...props} />,{},{},[],{ values });
+    mountedComponent(<ViolationsSubforms {...props} />, {}, {}, [], { values });
   });
 
   it("should render custom title", () => {

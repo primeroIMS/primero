@@ -1,11 +1,11 @@
 import { fromJS } from "immutable";
 import { mountedComponent, screen } from "test-utils";
+
 import { FieldRecord, FormSectionRecord } from "../../../record-form/records";
 
 import ChildrenMultipleViolations from "./component";
 
 describe("<ChildrenMultipleViolations />", () => {
-  let component;
   const individualVictims = [
     {
       unique_id: "1234abcd",
@@ -46,7 +46,7 @@ describe("<ChildrenMultipleViolations />", () => {
   };
 
   beforeEach(() => {
-    mountedComponent(<ChildrenMultipleViolations {...props} />,{},{},[],{ values: individualVictims });
+    mountedComponent(<ChildrenMultipleViolations {...props} />, {}, {}, [], { values: individualVictims });
   });
 
   it("should render custom title", () => {

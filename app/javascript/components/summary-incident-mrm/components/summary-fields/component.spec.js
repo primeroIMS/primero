@@ -1,10 +1,8 @@
-import { fromJS } from "immutable";
-import { FormSectionField } from "../../../record-form";
 import { mountedComponent, screen } from "test-utils";
+
 import SummaryFields from "./component";
 
 describe("<SummaryFields />", () => {
-  let component;
   const values = {
     age: 10,
     case_id_display: "1234abcd",
@@ -29,7 +27,7 @@ describe("<SummaryFields />", () => {
   };
 
   beforeEach(() => {
-    mountedComponent(<SummaryFields {...props} />,{},{},[],{ values });
+    mountedComponent(<SummaryFields {...props} />, {}, {}, [], { values });
   });
 
   it("should render custom title", () => {
