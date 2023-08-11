@@ -14,8 +14,9 @@ class Family < ApplicationRecord
 
   store_accessor(
     :data,
-    :status, :family_id, :family_name, :family_number, :family_members, :family_registration_date,
-    :family_id_display, :family_location_current
+    :status, :family_id, :family_name, :family_number, :family_size, :family_notes,
+    :family_registration_date, :family_id_display, :family_location_current,
+    :family_members
   )
 
   has_many :cases, class_name: 'Child', foreign_key: :family_id
@@ -61,5 +62,12 @@ class Family < ApplicationRecord
   def set_instance_id
     self.family_id ||= unique_identifier
     self.family_id_display ||= short_id
+  end
+
+  def find_family_member(family_member_id)
+    family_member = family_members.find { |member| member['unique_id'] == family_member_id }
+    return family_member if family_member.present?
+
+    raise(ActiveRecord::RecordNotFound, "Couldn't find Family Member with 'id'=#{family_member_id}")
   end
 end

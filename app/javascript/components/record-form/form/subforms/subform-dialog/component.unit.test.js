@@ -394,7 +394,7 @@ describe("<SubformDialog />", () => {
     it("renders ViolationActions with valid props", () => {
       const violationActionsProps = { ...component.find(SubformDrawerActions).props() };
 
-      ["handleBackLabel", "handleBack", "handleCancel", "isShow"].forEach(property => {
+      ["showActions", "editActions", "isShow"].forEach(property => {
         expect(violationActionsProps).to.have.property(property);
         delete violationActionsProps[property];
       });
