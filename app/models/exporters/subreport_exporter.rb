@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Class to export Subreports
+# rubocop:disable Metrics/ClassLength
 class Exporters::SubreportExporter < ValueObject
   include Exporters::Concerns::InsightParams
 
@@ -136,6 +137,8 @@ class Exporters::SubreportExporter < ValueObject
 
   def load_lookup_config(lookup_config)
     lookup_config.reduce({}) do |acc, (key, value)|
+      next acc.merge(key => user_group_as_lookup_values) if %w[UserGroupPermitted].include?(value)
+
       if %w[reporting_location reporting_location_detention reporting_location_denial].include?(key)
         next acc.merge(key => LocationService.instance)
       end
@@ -146,15 +149,20 @@ class Exporters::SubreportExporter < ValueObject
     end
   end
 
+  def user_group_as_lookup_values
+    UserGroup.all.map { |user_group| { 'id' => user_group.unique_id, 'display_text' => user_group.name } }
+  end
+
   def load_indicators_subcolumns
     self.indicators_subcolumns = metadata_property('indicators_subcolumns')
   end
 
   def indicator_subcolumn_lookups
-    (indicators_subcolumns || {}).select { |_key, value| value.is_a?(String) && value.starts_with?('lookup') }
+    (indicators_subcolumns || {}).select { |_key, value| value.is_a?(String) }
   end
 
   def metadata_property(property)
     managed_report.data.with_indifferent_access.dig(id, 'metadata', property)
   end
 end
+# rubocop:enable Metrics/ClassLength

@@ -14,6 +14,8 @@ import { clearSelectedReport } from "../reports-form/action-creators";
 import TableValues from "../charts/table-values";
 import useOptions from "../form/use-options";
 import transformOptions from "../form/utils/transform-options";
+import { OPTION_TYPES } from "../form/constants";
+import { REFERRAL_TRANSFERS_SUBREPORTS } from "../../config";
 
 import DefaultIndicator from "./components/default-indicator";
 import MultipleViolationsIndicator from "./components/multiple-violations-indicator";
@@ -23,7 +25,8 @@ import {
   buildInsightValues,
   buildReportData,
   getLookupValue,
-  formatAgeRange
+  formatAgeRange,
+  getIndicatorSubcolumnKeys
 } from "./utils";
 import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
 import namespace from "./namespace";
@@ -64,15 +67,17 @@ const Component = () => {
       .reduce((acc, [key, elems]) => ({ ...acc, [key]: transformOptions(elems, i18n.locale) }), {});
   }, [indicatorsRows, i18n.locale]);
 
+  const optionValues = Object.values(OPTION_TYPES);
   const indicatorsSubcolumns = insightMetadata.get("indicators_subcolumns", fromJS({}));
   const indicatorSubcolumnLookups = useMemo(
     () =>
       indicatorsSubcolumns
         .entrySeq()
         .toArray()
-        .filter(([, value]) => isString(value) && value.startsWith("lookup")),
+        .filter(([, value]) => isString(value) && (value.startsWith("lookup") || optionValues.includes(value))),
     [indicatorsSubcolumns]
   );
+  const isReferralsTransferSubreport = REFERRAL_TRANSFERS_SUBREPORTS.includes(subReport);
 
   const lookups = useOptions({ source: insightLookups });
   const subColumnLookups = useOptions({ source: indicatorSubcolumnLookups });
@@ -166,6 +171,7 @@ const Component = () => {
                   ? value.some(elem => elem.get("data", fromJS([])).some(row => !isNil(row.get("total"))))
                   : value.some(row => !isNil(row.get("total")));
 
+                const indicatorSubColumnKeys = getIndicatorSubcolumnKeys(value);
                 const Indicator = getIndicator(valueKey);
                 const subColumnItems = getSubcolumnItems({
                   hasTotalColumn,
@@ -173,7 +179,9 @@ const Component = () => {
                   valueKey,
                   ageRanges,
                   indicatorsSubcolumns,
-                  totalText
+                  totalText,
+                  indicatorSubColumnKeys,
+                  includeAllSubColumns: !isReferralsTransferSubreport
                 });
 
                 return (

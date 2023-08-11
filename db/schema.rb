@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_26_000000) do
+ActiveRecord::Schema.define(version: 2023_08_02_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -585,6 +585,13 @@ ActiveRecord::Schema.define(version: 2023_07_26_000000) do
     t.datetime "created_at"
     t.datetime "responded_at"
     t.text "rejection_note"
+    t.string "record_owned_by"
+    t.string "record_owned_by_agency"
+    t.string "record_owned_by_groups", array: true
+    t.string "transitioned_by_user_agency"
+    t.string "transitioned_by_user_groups", array: true
+    t.string "transitioned_to_user_agency"
+    t.string "transitioned_to_user_groups", array: true
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"
   end
