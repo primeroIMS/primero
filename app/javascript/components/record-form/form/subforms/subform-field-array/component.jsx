@@ -111,7 +111,7 @@ const Component = ({
   );
 
   return (
-    <div className={css.fieldArray}>
+    <div className={css.fieldArray} data-testid="subform-field-array">
       <div className={cssContainer}>
         {!renderAsAccordion && (
           <div>
