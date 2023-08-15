@@ -831,10 +831,13 @@ en:
     transfer_request_html: 'Primero user <strong>%{user}</strong> from %{agency} is requesting that you transfer ownership of this %{record_type} record <strong>%{record_id}</strong> so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer.'
     transfer_request_notes_html: 'Notes from the individual making the request: %{request_transfer_notes}'
   webpush_notification:
+    action_label: Go to Case
     assign:
       title: New Assignment
       body: You have received a new Case Assignment.
-    action_label: Go to Case
+    referral:
+      title: New Referral
+      body: You have received a new Case Referral.
   encrypt:
     export_type: Type of export
     file_name: Create your own file name (Optional)

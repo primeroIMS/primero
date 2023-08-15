@@ -21,8 +21,16 @@ describe RecordActionWebpushNotifier do
     create(:user, user_name: 'user2', full_name: 'Test User 2', email: 'user2@primero.dev', receive_webpush: true)
   end
 
+  let(:manager1) do
+    create(:user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1')
+  end
+
+  let(:manager2) do
+    create(:user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2')
+  end
+
   let(:child) do
-    create(:child, name: 'Test', owned_by: 'user-random')
+    create(:child, name: 'Test', owned_by: 'user-random', consent_for_services: true, disclosure_other_orgs: true)
   end
   let(:webpush_subscription1) do
     WebpushSubscription.create!(
@@ -36,7 +44,11 @@ describe RecordActionWebpushNotifier do
     Assign.create!(transitioned_by: user.user_name, transitioned_to_user: user2, record: child)
   end
 
-  describe '#send_notifications' do
+  let(:referral1) do
+    Referral.create!(transitioned_by: manager1.user_name, transitioned_to: manager2.user_name, record: child)
+  end
+
+  describe '#transition_notify' do
     before(:each) do
       webpush_subscription1
       assign1
@@ -50,15 +62,34 @@ describe RecordActionWebpushNotifier do
   end
 
   describe '.message_structure' do
-    before(:each) do
-      webpush_subscription1
-      assign1
+    context 'when is assign' do
+      before(:each) do
+        webpush_subscription1
+        assign1
+      end
+
+      subject do
+        RecordActionWebpushNotifier.new.message_structure(assign1)
+      end
+      it 'should return a hash' do
+        expect(subject.keys).to match_array(
+          %i[title body action_label link]
+        )
+      end
+
+      it 'should return title for assign' do
+        expect(subject[:title]).to eq('New Assignment')
+      end
     end
 
-    it 'should return a hash' do
-      expect(RecordActionWebpushNotifier.new.message_structure(assign1).keys).to match_array(
-        %i[title body action_label link]
-      )
+    context 'when is referral' do
+      subject do
+        RecordActionWebpushNotifier.new.message_structure(referral1)
+      end
+
+      it 'should return title for assign' do
+        expect(subject[:title]).to eq('New Referral')
+      end
     end
   end
   after do

@@ -21,16 +21,16 @@ describe TransitionNotifyJob, type: :job do
       consent_for_services: true,
       disclosure_other_orgs: true
     )
-    @referral = Referral.new(
-      type: 'Referral',
-      transitioned_to: @manager2.user_name,
-      transitioned_by: @manager1.user_name
-    )
-    @referral.record = @child
-    @referral.save!
   end
 
   describe 'perform_later' do
+    let(:referral1) do
+      Referral.new(transitioned_by: @manager1.user_name, transitioned_to: @manager2.user_name, record: @child)
+    end
+    before :each do
+      referral1.save!
+    end
+
     it 'sends a notification to manager' do
       ActiveJob::Base.queue_adapter = :test
 
@@ -60,6 +60,28 @@ describe TransitionNotifyJob, type: :job do
         perform_enqueued_jobs do
           TransitionNotifyJob.perform_later(assign1.id)
         end
+      end
+    end
+  end
+
+  describe 'when is Referral' do
+    let(:role) do
+      create(:role, is_manager: true)
+    end
+
+    let(:user2) do
+      create(:user, user_name: 'user2', full_name: 'Test User 1', email: 'user2@primero.dev', receive_webpush: true)
+    end
+
+    let(:referral1) do
+      Referral.create!(transitioned_by: @manager1.user_name, transitioned_to: @manager2.user_name, record: @child)
+    end
+    it 'should call RecordActionWebpushNotifier' do
+      expect(RecordActionWebpushNotifier).to receive(:transition_notify)
+      expect(TransitionNotificationService).to receive(:new).with(referral1.id)
+
+      perform_enqueued_jobs do
+        TransitionNotifyJob.perform_later(referral1.id)
       end
     end
   end

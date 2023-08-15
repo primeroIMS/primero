@@ -23,7 +23,7 @@ class WebpushService
   def send_push(subscription, message)
     return if subscription.blank?
 
-    puts 'Sending webpush notification'
+    Rails.logger.info('Sending webpush notification')
     WebPush.payload_send(
       **build_payload(message, subscription)
     )
