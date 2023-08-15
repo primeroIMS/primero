@@ -11,14 +11,15 @@ module FakeDeviseLogin
     Field.new(name: 'record_state', type: Field::TICK_BOX, display_name_en: 'State'),
     Field.new(name: 'status', type: Field::SELECT_BOX, display_name_en: 'Status'),
     Field.new(
-      name: 'family_details',
+      name: 'family_details_section',
       display_name_en: 'A',
       type: Field::SUBFORM,
       subform: FormSection.new(
         fields: [
           Field.new(name: 'relation_name', type: Field::TEXT_FIELD),
+          Field.new(name: 'relation', type: Field::SELECT_BOX),
           Field.new(name: 'relation_type', type: Field::SELECT_BOX),
-          Field.new(name: 'age', type: Field::NUMERIC_FIELD)
+          Field.new(name: 'relation_age', type: Field::NUMERIC_FIELD)
         ]
       )
     ),
