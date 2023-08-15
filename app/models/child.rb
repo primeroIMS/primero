@@ -381,9 +381,5 @@ class Child < ApplicationRecord
   def associations_as_data_keys
     %w[incident_details]
   end
-
-  def family_number
-    family&.family_number
-  end
 end
 # rubocop:enable Metrics/ClassLength
