@@ -37,6 +37,7 @@ const VERIFICATION_STATUS = "verification_status";
 const GHN_DATE_FILTER = "ghn_date_filter";
 const VIOLATION_TYPE = "violation_type";
 const REGISTRATION_DATE = "registration_date";
+const CREATED_AT = "created_at";
 
 const GBV_STATISTICS = "gbv_statistics";
 const VIOLATIONS = "violations";
@@ -445,7 +446,7 @@ export const INSIGHTS_CONFIG = {
         [GROUPED_BY]: WEEK,
         [DATE_RANGE]: LAST_WEEK,
         [STATUS]: [STATUS_OPEN],
-        [DATE]: REGISTRATION_DATE,
+        [DATE]: CREATED_AT,
         [BY]: OWNED_BY_GROUPS,
         [REFERRAL_TRANSFER_STATUS]: [ACCEPTED]
       },
