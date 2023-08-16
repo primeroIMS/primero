@@ -2,15 +2,13 @@
 
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../test";
-import ActionDialog from "../../action-dialog";
+import { mountedComponent, screen } from "../../../test-utils";
 import { APPROVAL_TYPE, APPROVAL_DIALOG } from "../constants";
 import { RECORD_TYPES, RECORD_PATH, APPROVALS_TYPES } from "../../../config";
 
 import RequestApproval from "./component";
 
 describe("<RequestApproval />", () => {
-  let component;
   const initialState = fromJS({
     application: {
       online: true,
@@ -33,6 +31,7 @@ describe("<RequestApproval />", () => {
     confirmButtonLabel: "buttons.submit",
     dialogName: APPROVAL_DIALOG,
     openRequestDialog: true,
+    open: true,
     pending: false,
     record: {},
     recordType: RECORD_PATH.cases,
@@ -47,36 +46,13 @@ describe("<RequestApproval />", () => {
     ]
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(RequestApproval, props, initialState));
-  });
-
   it("renders RequestApproval", () => {
-    expect(component.find(RequestApproval)).to.have.lengthOf(1);
+    mountedComponent(<RequestApproval {...props} />, initialState);
+    expect(screen.getByText(/buttons.submit/i)).toBeInTheDocument();
   });
 
   it("renders ActionDialog", () => {
-    expect(component.find(ActionDialog)).to.have.lengthOf(1);
-  });
-
-  it("renders component with valid props", () => {
-    const requestApproval = { ...component.find(RequestApproval).props() };
-
-    [
-      "approvalType",
-      "close",
-      "confirmButtonLabel",
-      "dialogName",
-      "openRequestDialog",
-      "pending",
-      "record",
-      "recordType",
-      "setPending",
-      "subMenuItems"
-    ].forEach(property => {
-      expect(requestApproval).to.have.property(property);
-      delete requestApproval[property];
-    });
-    expect(requestApproval).to.be.empty;
+    mountedComponent(<RequestApproval {...props} />, initialState);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 });
