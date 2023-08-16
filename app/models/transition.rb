@@ -22,7 +22,7 @@ class Transition < ApplicationRecord
   before_create :perform
   before_create :copy_record_ownership
   before_create :copy_transitioned_user_groups_and_agency
-  after_save_commit :notify_by_email
+  after_save_commit :notify
 
   after_save :index_record
 
@@ -89,7 +89,7 @@ class Transition < ApplicationRecord
     [Transition::STATUS_INPROGRESS]
   end
 
-  def notify_by_email
+  def notify
     return unless notified_statuses.include?(status)
 
     TransitionNotifyJob.perform_later(id)

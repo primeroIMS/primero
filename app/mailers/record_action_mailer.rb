@@ -3,7 +3,7 @@
 # Sends email notifications for Approval requests and responses,
 # Transition notification, and Transfer Requests.
 # TODO: Break up into separate mailers.
-class NotificationMailer < ApplicationMailer
+class RecordActionMailer < ApplicationMailer
   helper :application
 
   def manager_approval_request(record_id, approval_type, manager_user_name)
@@ -28,12 +28,13 @@ class NotificationMailer < ApplicationMailer
          subject: t('email_notification.approval_response_subject', id: @child.short_id, locale: @locale_email))
   end
 
-  def transition_notify(transition_id)
-    load_transition_for_email(Transition, transition_id)
-    return log_not_found('Transition', transition_id) unless @transition
-    return unless assert_notifications_enabled(@transition&.transitioned_to_user)
+  def transition_notify(transition_notification)
+    @transition_notification = transition_notification
 
-    mail(to: @transition&.transitioned_to_user&.email, subject: transition_subject(@transition&.record))
+    return if @transition_notification.transition.nil?
+    return unless assert_notifications_enabled(@transition_notification.transitioned_to)
+
+    mail(to: @transition_notification&.transitioned_to&.email, subject: transition_notification.subject)
   end
 
   def transfer_request(transfer_request_id)
@@ -59,7 +60,7 @@ class NotificationMailer < ApplicationMailer
   def assert_notifications_enabled(user)
     return true if user&.emailable?
 
-    Rails.logger.info("Mail not sent. Notifications disabled for #{user&.user_name || 'nil user'}")
+    Rails.logger.info("Mail not sent. Mail notifications disabled for #{user&.user_name || 'nil user'}")
 
     false
   end
