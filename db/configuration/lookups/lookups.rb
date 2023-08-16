@@ -899,7 +899,9 @@ Lookup.create_or_update!(
     { id: 'photos_audio', display_text: 'Photos and Audio' },
     { id: 'other_documents', display_text: 'Other Documents' },
     { id: 'referrals_transfers', display_text: 'Referrals and Transfers' },
-    { id: 'notes', display_text: 'Notes' }
+    { id: 'notes', display_text: 'Notes' },
+    { id: 'documents', display_text: 'Documents' },
+    { id: 'other_reportable_fields', display_text: 'Other Reportable Fields' }
   ].map(&:with_indifferent_access)
 )
 
