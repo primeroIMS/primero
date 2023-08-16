@@ -568,6 +568,8 @@ export const FILE_FORMAT = {
 export const FAMILY_MEMBERS_SUBFORM_ID = "family_members_section";
 export const FAMILY_FROM_CASE = "family_from_case";
 
+export const FAMILY_DETAILS_SUBFORM_ID = "family_details_section";
+
 export const FORM_PERMISSION_ACTION = Object.freeze({
   [INCIDENT_FROM_CASE]: VIEW_INCIDENTS_FROM_CASE,
   [CHANGE_LOGS]: SHOW_CHANGE_LOG,
