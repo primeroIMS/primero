@@ -11,3 +11,13 @@
 .off {
   color: var(--c-dark-grey)
 }
+
+.blocked_copy {
+  display: flex;
+  gap: var(--sp-2);
+  flex-direction: column;
+}
+
+.blocked_copy > div:first-child {
+  font-weight: var(--fwb);
+}

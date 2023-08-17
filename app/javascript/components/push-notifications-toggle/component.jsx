@@ -113,11 +113,11 @@ function Component() {
         dialogTitle={i18n.t("push_notifications_dialog.title")}
       >
         {notificationsDenied() ? (
-          <>
-            <div>{i18n.t("push_notifications_dialog.body.message")}</div>
-            <div>{i18n.t("push_notifications_dialog.body.android")}</div>
-            <div>{i18n.t("push_notifications_dialog.body.iOS")}</div>
-          </>
+          <div className={css.blocked_copy}>
+            <div>{i18n.t("push_notifications_dialog.body_blocked.message")}</div>
+            <div>{i18n.t("push_notifications_dialog.body_blocked.android")}</div>
+            <div>{i18n.t("push_notifications_dialog.body_blocked.ios")}</div>
+          </div>
         ) : (
           i18n.t("push_notifications_dialog.body")
         )}
