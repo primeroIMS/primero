@@ -9,6 +9,7 @@ import { useI18n } from "../i18n";
 import ActionDialog, { useDialog } from "../action-dialog";
 import { useMemoizedSelector } from "../../libs";
 import { getWebpushConfig } from "../application/selectors";
+import { getNotificationSubscription } from "../user";
 
 import css from "./styles.css";
 
@@ -16,7 +17,9 @@ const DIALOG = "PUSH_NOTIFICATIONS";
 
 function Component() {
   const webpushConfig = useMemoizedSelector(state => getWebpushConfig(state));
-  const [value, setValue] = useState(Boolean(localStorage.getItem("pushEndpoint")));
+  const notificationEndpoint = useMemoizedSelector(state => getNotificationSubscription(state));
+
+  const [value, setValue] = useState(Boolean(notificationEndpoint));
 
   const vapidID = webpushConfig.get("vapid_public");
 
@@ -109,7 +112,15 @@ function Component() {
         confirmButtonLabel={i18n.t("buttons.dialog_yes")}
         dialogTitle={i18n.t("push_notifications_dialog.title")}
       >
-        {i18n.t(`push_notifications_dialog.${notificationsDenied() ? "body_blocked" : "body"}`)}
+        {notificationsDenied() ? (
+          <>
+            <div>{i18n.t("push_notifications_dialog.body.message")}</div>
+            <div>{i18n.t("push_notifications_dialog.body.android")}</div>
+            <div>{i18n.t("push_notifications_dialog.body.iOS")}</div>
+          </>
+        ) : (
+          i18n.t("push_notifications_dialog.body")
+        )}
       </ActionDialog>
     </>
   );

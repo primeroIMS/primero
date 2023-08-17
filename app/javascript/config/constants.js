@@ -46,6 +46,8 @@ export const IDLE_LOGOUT_TIMEOUT = 5 * 1000 * 60;
 // Time (ms) how often the backend is pinged to refresh the user's token
 export const TOKEN_REFRESH_INTERVAL = 30 * 1000 * 60;
 
+export const PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL = 30 * 1000 * 60;
+
 export const CASE = "case";
 export const CASES = "cases";
 export const TRACING_REQUEST = "tracing_request";
@@ -208,7 +210,9 @@ export const ROUTES = {
   password_reset: "/password_reset",
   activity_log: "/activity_log",
   password_reset_request: "/password_reset_request",
-  registry_records: "/registry_records"
+  registry_records: "/registry_records",
+  subscriptions: "/webpush/subscriptions",
+  subscriptions_current: "/webpush/subscriptions/current"
 };
 
 export const PERMITTED_URL = [

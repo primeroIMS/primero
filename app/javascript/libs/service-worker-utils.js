@@ -1,11 +1,20 @@
-import { API_BASE_PATH, METHODS, NOTIFICATION_PERMISSIONS } from "../config";
+import { API_BASE_PATH, METHODS, NOTIFICATION_PERMISSIONS, ROUTES } from "../config";
 import { DEFAULT_FETCH_OPTIONS } from "../middleware/constants";
 import getToken from "../middleware/utils/get-token";
+import DB, { DB_STORES } from "../db";
+import { storeInstance } from "../store";
+import { removeNotificationSubscription, saveNotificationSubscription } from "../components/user";
 
 const SERVICE_WORKER_PATH = `${window.location.origin}/worker.js`;
 
 async function getServiceWorker() {
   return navigator.serviceWorker.ready;
+}
+
+async function getSubscriptionFromDb() {
+  const subscription = await DB.getRecord(DB_STORES.PUSH_NOTIFICATION_SUBSCRIPTION, 1);
+
+  return Promise.resolve(subscription?.endpoint);
 }
 
 function urlBase64ToUint8Array(base64String) {
@@ -22,16 +31,12 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
-async function sendSubscriptionStatusToServer(isSubscribing = true, data) {
+async function sendSubscriptionStatusToServer(isSubscribing = true, data = {}) {
   const token = await getToken();
   const subscriptionData = JSON.parse(JSON.stringify(data));
-  const baseUrl = [`${API_BASE_PATH}/webpush/subscriptions`];
+  const path = [API_BASE_PATH, isSubscribing ? ROUTES.subscription : ROUTES.subscriptions_current].join("");
 
-  if (!isSubscribing) {
-    baseUrl.push("/current");
-  }
-
-  const response = await fetch(baseUrl.join(""), {
+  const response = await fetch(path, {
     ...DEFAULT_FETCH_OPTIONS,
     method: isSubscribing ? METHODS.POST : METHODS.PATCH,
     headers: new Headers(
@@ -46,30 +51,36 @@ async function sendSubscriptionStatusToServer(isSubscribing = true, data) {
     ),
     body: JSON.stringify({
       data: {
-        notification_url: isSubscribing ? subscriptionData.endpoint : localStorage.getItem("pushEndpoint"),
+        notification_url: subscriptionData.endpoint,
         disabled: !isSubscribing,
         ...(isSubscribing && { auth: subscriptionData.keys.auth, p256dh: subscriptionData.keys.p256dh })
       }
     })
   });
 
-  if (!isSubscribing && response.status === 200) {
-    localStorage.removeItem("pushEndpoint");
+  if ((!isSubscribing && response.status === 200) || response.status === 404) {
+    DB.delete(DB_STORES.PUSH_NOTIFICATION_SUBSCRIPTION, 1);
+    storeInstance.cache.dispatch(removeNotificationSubscription());
   }
 }
 
 async function subscribe() {
   const serviceWorker = await getServiceWorker();
 
-  serviceWorker.pushManager
-    .subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(window.vpubID)
-    })
-    .then(subscription => {
-      sendSubscriptionStatusToServer(true, subscription);
-      localStorage.setItem("pushEndpoint", subscription.endpoint);
-    });
+  const subscription = await serviceWorker.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: urlBase64ToUint8Array(window.vpubID)
+  });
+
+  sendSubscriptionStatusToServer(true, subscription);
+
+  await DB.put({
+    store: DB_STORES.PUSH_NOTIFICATION_SUBSCRIPTION,
+    data: { endpoint: subscription.endpoint },
+    key: { id: 1 }
+  });
+
+  storeInstance.cache.dispatch(saveNotificationSubscription(subscription.endpoint));
 }
 
 async function subscribeToNotifications() {
@@ -80,6 +91,7 @@ async function subscribeToNotifications() {
 
 async function unsubscribeToNotifications() {
   const serviceWorker = await getServiceWorker();
+  const subscriptionFromDB = await getSubscriptionFromDb();
 
   serviceWorker.pushManager.getSubscription().then(subscription => {
     if (subscription) {
@@ -89,16 +101,19 @@ async function unsubscribeToNotifications() {
           sendSubscriptionStatusToServer(false, subscription);
         })
         .catch(() => {
+          // eslint-disable-next-line no-console
           console.info("No notification subscription");
         });
-    } else if (localStorage.getItem("pushEndpoint")) {
-      sendSubscriptionStatusToServer(false, subscription);
+    } else if (subscriptionFromDB) {
+      sendSubscriptionStatusToServer(false, { endpoint: subscriptionFromDB });
     }
   });
 }
 
 async function cleanupSubscriptions(callback) {
-  if (Notification.permission === NOTIFICATION_PERMISSIONS.DEFAULT && localStorage.getItem("pushEndpoint")) {
+  const subscriptionFromDB = await getSubscriptionFromDb();
+
+  if (Notification.permission === NOTIFICATION_PERMISSIONS.DEFAULT && subscriptionFromDB) {
     await unsubscribeToNotifications().then(() => {
       callback();
     });
@@ -111,5 +126,6 @@ export {
   urlBase64ToUint8Array,
   unsubscribeToNotifications,
   subscribeToNotifications,
-  cleanupSubscriptions
+  cleanupSubscriptions,
+  getSubscriptionFromDb
 };

@@ -1,16 +1,23 @@
 import { POST_MESSAGES } from "./config";
-import { SERVICE_WORKER_PATH, subscribeToNotifications, unsubscribeToNotifications } from "./libs/service-worker-utils";
+import {
+  SERVICE_WORKER_PATH,
+  getSubscriptionFromDb,
+  subscribeToNotifications,
+  unsubscribeToNotifications
+} from "./libs/service-worker-utils";
 
 export default () => {
   window.addEventListener("message", event => {
     if (event?.data?.type === POST_MESSAGES.SUBSCRIBE_NOTIFICATIONS) {
-      if (localStorage.getItem("pushEndpoint")) {
-        unsubscribeToNotifications().then(() => {
+      const subscription = getSubscriptionFromDb().then(() => {
+        if (subscription) {
+          unsubscribeToNotifications().then(() => {
+            subscribeToNotifications();
+          });
+        } else {
           subscribeToNotifications();
-        });
-      } else {
-        subscribeToNotifications();
-      }
+        }
+      });
     }
 
     if (event?.data?.type === POST_MESSAGES.UNSUBSCRIBE_NOTIFICATIONS) {

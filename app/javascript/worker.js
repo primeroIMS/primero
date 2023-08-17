@@ -97,7 +97,7 @@ setCatchHandler(({ event }) => {
 
 self.addEventListener("push", event => {
   const message = event.data.json();
-  const image = `${window.location.origin}/primero-pictorial-144.png`;
+  const image = `${self.location.origin}/primero-pictorial-144.png`;
 
   event.waitUntil(
     self.registration.showNotification(message.title, {
