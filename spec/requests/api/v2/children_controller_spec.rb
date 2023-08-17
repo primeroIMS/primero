@@ -6,7 +6,9 @@ describe Api::V2::ChildrenController, type: :request do
   include ActiveJob::TestHelper
 
   before :each do
-    clean_data(Alert, Flag, Attachment, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord)
+    clean_data(
+      Alert, Flag, Attachment, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord, Family
+    )
 
     @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
     @cp = PrimeroModule.create!(unique_id: PrimeroModule::CP, name: 'CP', description: 'Child Protection',
@@ -107,9 +109,9 @@ describe Api::V2::ChildrenController, type: :request do
     @case3 = Child.create!(
       data: {
         name: 'Test3', age: 6, sex: 'male',
-        family_details: [
-          { unique_id: @unique_id_mother, relation_type: 'mother', age: 33 },
-          { unique_id: @unique_id_father, relation_type: 'father', age: 32 }
+        family_details_section: [
+          { unique_id: @unique_id_mother, relation_type: 'mother', relation_age: 33 },
+          { unique_id: @unique_id_father, relation_type: 'father', relation_age: 32 }
         ]
       },
       alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request')]
@@ -141,8 +143,18 @@ describe Api::V2::ChildrenController, type: :request do
       case: @case1,
       data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' }
     )
+    @member_unique_id = SecureRandom.uuid
+    @family = Family.create!(
+      data: {
+        family_number: '001',
+        family_members: [
+          { unique_id: @member_unique_id, relation_name: 'Member 1', relation_sex: 'male', relation_age: 5 }
+        ]
+      }
+    )
+    @case6 = Child.create!(family: @family, data: { name: 'Member 1', age: 5, sex: 'male' })
     # This is legitimate. The cases are implicitly reloaded in the attachments & flagging api
-    reloaded_cases = [@case1, @case2, @case3, @case4, @case5].map(&:reload)
+    reloaded_cases = [@case1, @case2, @case3, @case4, @case5, @case6].map(&:reload)
     Sunspot.index(*reloaded_cases)
     Sunspot.commit
   end
@@ -155,9 +167,9 @@ describe Api::V2::ChildrenController, type: :request do
       get '/api/v2/cases'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(5)
+      expect(json['data'].size).to eq(6)
       expect(json['data'].map { |c| c['name'] }).to include(@case1.name, @case2.name)
-      expect(json['metadata']['total']).to eq(5)
+      expect(json['metadata']['total']).to eq(6)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
       case1_data = json['data'].find { |r| r['id'] == @case1.id }
@@ -254,8 +266,8 @@ describe Api::V2::ChildrenController, type: :request do
       login_for_test(permitted_field_names: ['urgent_protection_concern'])
       get '/api/v2/cases?urgent_protection_concern=false'
 
-      expect(json['data'].count).to eq(4)
-      expect(json['data'].map { |elem| elem['id'] }).to match_array([@case1.id, @case3.id, @case4.id, @case5.id])
+      expect(json['data'].count).to eq(5)
+      expect(json['data'].map { |elem| elem['id'] }).to match_array([@case1.id, @case3.id, @case4.id, @case5.id, @case6.id])
       expect(json['data'].map { |elem| elem['urgent_protection_concern'] }).to all(be_falsey)
       expect(response).to have_http_status(200)
     end
@@ -275,7 +287,7 @@ describe Api::V2::ChildrenController, type: :request do
 
         get '/api/v2/cases?id_search=true'
 
-        expect(json['data'].count).to eq(5)
+        expect(json['data'].count).to eq(6)
         expect(response).to have_http_status(200)
       end
     end
@@ -283,8 +295,8 @@ describe Api::V2::ChildrenController, type: :request do
     it 'return records sort by age' do
       login_for_test
       get '/api/v2/cases?fields=short&order=asc&order_by=age'
-      expect(json['data'].count).to eq(5)
-      expect(json['data'].map { |rr| rr['age'] }).to eq([2, 5, 6, 10, 16])
+      expect(json['data'].count).to eq(6)
+      expect(json['data'].map { |rr| rr['age'] }).to eq([2, 5, 5, 6, 10, 16])
     end
 
     context 'when a gbv case has in the associated_user_names a cp user' do
@@ -602,9 +614,9 @@ describe Api::V2::ChildrenController, type: :request do
       login_for_test
       params = {
         data: {
-          family_details: [
-            { unique_id: @unique_id_mother, relation_type: 'mother', age: 35 },
-            { unique_id: @unique_id_uncle, relation_type: 'uncle', age: 50 }
+          family_details_section: [
+            { unique_id: @unique_id_mother, relation_type: 'mother', relation_age: 35 },
+            { unique_id: @unique_id_uncle, relation_type: 'uncle', relation_age: 50 }
           ]
         }
       }
@@ -613,7 +625,7 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(200)
 
       case3 = Child.find_by(id: @case3.id)
-      family_details = case3.data['family_details']
+      family_details = case3.data['family_details_section']
       uncle = family_details.select { |f| f['unique_id'] == @unique_id_uncle && f['relation_type'] == 'uncle' }
       expect(family_details.size).to eq(3)
       expect(uncle.present?).to be true
@@ -623,9 +635,9 @@ describe Api::V2::ChildrenController, type: :request do
       login_for_test
       params = {
         data: {
-          family_details: [
+          family_details_section: [
             { unique_id: @unique_id_mother, _destroy: true },
-            { unique_id: @unique_id_uncle, relation_type: 'uncle', age: 50 }
+            { unique_id: @unique_id_uncle, relation_type: 'uncle', relation_age: 50 }
           ]
         }
       }
@@ -634,7 +646,7 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(200)
 
       case3 = Child.find_by(id: @case3.id)
-      family_details = case3.data['family_details']
+      family_details = case3.data['family_details_section']
       mother = family_details.select { |f| f['unique_id'] == @unique_id_mother && f['relation_type'] == 'mother' }
       expect(family_details.size).to eq(2)
       expect(mother.present?).to be false
@@ -852,6 +864,123 @@ describe Api::V2::ChildrenController, type: :request do
         expect(response).to have_http_status(403)
         expect(json['errors'].size).to eq(1)
         expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
+      end
+    end
+
+    describe 'when a user adds a family details subform' do
+      context 'when the case is linked to family record' do
+        it 'updates the family record global fields' do
+          login_for_test
+
+          member2_unique_id = SecureRandom.uuid
+
+          params = {
+            data: {
+              family_number: '002',
+              family_details_section: [
+                { unique_id: @member_unique_id, relation_age: 8, relation: 'relation1' },
+                { unique_id: member2_unique_id, relation_age: 5, relation: 'relation2', relation_name: 'Member 2' }
+              ]
+            }
+          }
+
+          patch "/api/v2/cases/#{@case6.id}", params:, as: :json
+
+          family = Family.find_by(id: @case6.family_id)
+          @case6.reload
+
+          expect(response).to have_http_status(200)
+          expect(json['data']['family_number']).to eq('002')
+          expect(json['data']['family_details_section']).to eq(
+            [
+              {
+                'unique_id' => @member_unique_id,
+                'relation' => 'relation1',
+                'relation_name' => 'Member 1',
+                'relation_sex' => 'male',
+                'relation_age' => 8
+              },
+              {
+                'unique_id' => member2_unique_id,
+                'relation' => 'relation2',
+                'relation_name' => 'Member 2',
+                'relation_age' => 5
+              }
+            ]
+          )
+          expect(@case6.family_number).to eq('002')
+          expect(@case6.family_details_section).to eq(
+            [
+              {
+                'unique_id' => @member_unique_id,
+                'relation' => 'relation1'
+              },
+              {
+                'unique_id' => member2_unique_id,
+                'relation' => 'relation2'
+              }
+            ]
+          )
+          expect(family.family_number).to eq('002')
+          expect(family.family_members).to eq(
+            [
+              {
+                'unique_id' => @member_unique_id,
+                'relation_name' => 'Member 1',
+                'relation_sex' => 'male',
+                'relation_age' => 8
+              },
+              {
+                'unique_id' => member2_unique_id,
+                'relation_name' => 'Member 2',
+                'relation_age' => 5
+              }
+            ]
+          )
+        end
+      end
+
+      context 'when the case is not linked to a family record' do
+        it 'updates the child record' do
+          login_for_test
+
+          member2_unique_id = SecureRandom.uuid
+
+          params = {
+            data: {
+              family_number: '002',
+              family_details_section: [
+                { unique_id: @member_unique_id, relation_name: 'Member 001' },
+                { unique_id: member2_unique_id, relation_age: 5, relation: 'relation2', relation_name: 'Member 2' }
+              ]
+            }
+          }
+
+          patch "/api/v2/cases/#{@case5.id}", params:, as: :json
+
+          @case5.reload
+
+          expect(response).to have_http_status(200)
+          expect(json['data']['family_number']).to eq('002')
+          expect(json['data']['family_details_section']).to eq(
+            [
+              { 'unique_id' => @member_unique_id, 'relation_name' => 'Member 001' },
+              {
+                'unique_id' => member2_unique_id,
+                'relation_name' => 'Member 2', 'relation_age' => 5, 'relation' => 'relation2'
+              }
+            ]
+          )
+          expect(@case5.family_details_section).to eq(
+            [
+              { 'unique_id' => @member_unique_id, 'relation_name' => 'Member 001' },
+              {
+                'unique_id' => member2_unique_id,
+                'relation_name' => 'Member 2', 'relation_age' => 5, 'relation' => 'relation2'
+              }
+            ]
+          )
+        end
       end
     end
   end

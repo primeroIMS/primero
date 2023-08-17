@@ -67,20 +67,57 @@ class FamilyLinkageService
     end
 
     def family_details_section_for_child(child)
-      return child.family_details_section unless child.family&.family_members.present?
+      family_details_section = child.family_details_section || []
+      return family_details_section unless child.family&.family_members.present?
 
       child.family.family_members.map do |family_member|
-        family_detail = child.family_details_section&.find do |detail|
-          detail['unique_id'] == family_member['unique_id']
-        end
-        next(global_member_data(family_member)) unless family_detail.present?
+        family_detail = family_details_section.find { |detail| detail['unique_id'] == family_member['unique_id'] }
+        next(global_family_member_data(family_member)) unless family_detail.present?
 
-        family_detail.merge(global_member_data(family_member))
+        family_detail.merge(global_family_member_data(family_member))
       end
     end
 
-    def global_member_data(family_member)
+    def global_family_member_data(family_member)
       family_member.except(*LOCAL_FAMILY_MEMBER_FIELDS)
+    end
+
+    def global_family_detail_data(family_detail)
+      family_detail.except(*LOCAL_FAMILY_DETAIL_FIELDS)
+    end
+
+    def local_family_detail_data(family_detail)
+      family_detail.slice('unique_id', *LOCAL_FAMILY_DETAIL_FIELDS)
+    end
+
+    def build_or_update_family_members(family_details_section, family_members)
+      added_family_members = build_family_members(family_details_section, family_members)
+      updated_family_members = update_family_members(family_details_section, family_members)
+
+      updated_family_members + added_family_members
+    end
+
+    def build_family_members(family_details_section, family_members)
+      family_member_ids = family_members.map { |member| member['unique_id'] }
+
+      family_details_section.each_with_object([]) do |detail, memo|
+        next unless family_member_ids.exclude?(detail['unique_id'])
+
+        memo << global_family_detail_data(detail)
+      end
+    end
+
+    def update_family_members(family_details_section, family_members)
+      family_members.map do |family_member|
+        family_detail = family_details_section.find { |detail| family_member['unique_id'] == detail['unique_id'] }
+        next(family_member) unless family_detail.present?
+
+        family_member.merge(global_family_detail_data(family_detail))
+      end
+    end
+
+    def family_details_section_local_data(family_details_section)
+      family_details_section.map { |family_detail| local_family_detail_data(family_detail) }
     end
   end
 end

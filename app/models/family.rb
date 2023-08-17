@@ -70,4 +70,8 @@ class Family < ApplicationRecord
 
     raise(ActiveRecord::RecordNotFound, "Couldn't find Family Member with 'id'=#{family_member_id}")
   end
+
+  def family_members_changed?
+    saved_changes_to_record.keys.include?('family_members')
+  end
 end
