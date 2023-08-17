@@ -30,6 +30,18 @@ class WebpushSubscription < ApplicationRecord
     super(EncryptionService.encrypt(p256dh_value))
   end
 
+  def metadata
+    {
+      endpoint: notification_url,
+      p256dh:,
+      auth:
+    }
+  end
+
+  def expired?
+    (Time.now - (Rails.application.config.x.webpush.pause_after || 0).minutes) >= updated_at
+  end
+
   class << self
     def permitted_api_params
       %i[disabled notification_url auth p256dh]

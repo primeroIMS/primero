@@ -51,6 +51,8 @@ describe("<Report /> - constants", () => {
       "QUARTER_OPTION_IDS",
       "QUARTER",
       "RECORD_FILTERS",
+      "REFERRAL_TRANSFER_STATUS",
+      "REFERRAL_TRANSFER_STATUS_DISPLAY_NAME",
       "REPORTS",
       "SHARED_FILTERS",
       "STATUS_CLOSED",

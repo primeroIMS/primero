@@ -713,4 +713,43 @@ describe("<RecordList /> - Reducers", () => {
 
     expect(newState).to.deep.equals(expected);
   });
+
+  it("should handle CREATE_CASE_FROM_FAMILY_MEMBER_STARTED", () => {
+    const expected = fromJS({ case: { loading: true } });
+    const action = { type: "TestRecordType/CREATE_CASE_FROM_FAMILY_MEMBER_STARTED" };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle CREATE_CASE_FROM_FAMILY_MEMBER_SUCCESS", () => {
+    const expected = fromJS({ case: { data: { family_id: "f001", family_member_id: "m002" } } });
+    const action = {
+      type: "TestRecordType/CREATE_CASE_FROM_FAMILY_MEMBER_SUCCESS",
+      payload: { data: { family_id: "f001", family_member_id: "m002" } }
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle CREATE_CASE_FROM_FAMILY_MEMBER_FAILURE", () => {
+    const expected = fromJS({ case: { errors: true } });
+    const action = { type: "TestRecordType/CREATE_CASE_FROM_FAMILY_MEMBER_FAILURE" };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle CREATE_CASE_FROM_FAMILY_MEMBER_FINISHED", () => {
+    const expected = fromJS({ case: { loading: false } });
+    const action = { type: "TestRecordType/CREATE_CASE_FROM_FAMILY_MEMBER_FINISHED" };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).to.deep.equals(expected);
+  });
 });

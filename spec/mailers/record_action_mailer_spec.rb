@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe NotificationMailer, type: :mailer do
+describe RecordActionMailer, type: :mailer do
   before do
     clean_data(SystemSettings)
     SystemSettings.create(default_locale: 'en', unhcr_needs_codes_mapping: {}, changes_field_to_form: {})
@@ -31,15 +31,19 @@ describe NotificationMailer, type: :mailer do
                                     locale: 'ar-LB')
       @child = child_with_created_by(@owner.user_name, name: 'child1', module_id: PrimeroModule::CP,
                                                        case_id_display: '12345')
-      @arabic_child = child_with_created_by(@arabic_owner.user_name, name: 'arabic_child1', module_id: PrimeroModule::CP,
-                                                                     case_id_display: '67890')
+      @arabic_child = child_with_created_by(
+        @arabic_owner.user_name,
+        name: 'arabic_child1',
+        module_id: PrimeroModule::CP,
+        ase_id_display: '67890'
+      )
       @referral = Referral.new(transitioned_by: 'manager1', transitioned_to: 'duser', record: @child)
       @referral.save(validate: false)
     end
 
     describe 'manager_approval_request' do
       let(:mail) do
-        NotificationMailer.manager_approval_request(@child.id, 'value1', @manager2.user_name)
+        RecordActionMailer.manager_approval_request(@child.id, 'value1', @manager2.user_name)
       end
 
       it 'renders the headers' do
@@ -55,7 +59,7 @@ describe NotificationMailer, type: :mailer do
 
     describe 'manager_approval_request with diferent locale' do
       let(:mail) do
-        NotificationMailer.manager_approval_request(@child.id, 'value1', @manager3.user_name)
+        RecordActionMailer.manager_approval_request(@child.id, 'value1', @manager3.user_name)
       end
 
       it 'renders the headers in arabic locale' do
@@ -70,7 +74,7 @@ describe NotificationMailer, type: :mailer do
     end
 
     describe 'manager_approval_response' do
-      let(:mail) { NotificationMailer.manager_approval_response(@child.id, false, 'value1', @manager1.user_name) }
+      let(:mail) { RecordActionMailer.manager_approval_response(@child.id, false, 'value1', @manager1.user_name) }
 
       it 'renders the headers' do
         expect(mail.subject).to eq("Case: #{@child.short_id} - Approval Response")
@@ -84,7 +88,7 @@ describe NotificationMailer, type: :mailer do
     end
 
     describe 'manager_approval_response with diferent locale' do
-      let(:mail) { NotificationMailer.manager_approval_response(@arabic_child, false, 'value1', @manager1.user_name) }
+      let(:mail) { RecordActionMailer.manager_approval_response(@arabic_child, false, 'value1', @manager1.user_name) }
 
       it 'renders the headers in arabic locale' do
         expect(mail.subject).to eq("الملفّ: #{@arabic_child.short_id} - إستجابة حول الموافقة")
@@ -99,7 +103,7 @@ describe NotificationMailer, type: :mailer do
 
     describe 'when a  manager is disabled' do
       let(:mail) do
-        NotificationMailer.manager_approval_request(@child.id, 'value1', @manager4.user_name)
+        RecordActionMailer.manager_approval_request(@child.id, 'value1', @manager4.user_name)
       end
 
       it 'does not render the headers' do
@@ -115,7 +119,7 @@ describe NotificationMailer, type: :mailer do
     describe 'transition_notify' do
       describe 'when a  user is disabled' do
         let(:mail) do
-          NotificationMailer.transition_notify(@referral.id)
+          RecordActionMailer.transition_notify(TransitionNotificationService.new(@referral.id))
         end
 
         it 'does not render the headers' do
@@ -125,6 +129,28 @@ describe NotificationMailer, type: :mailer do
 
         it 'does not render the body' do
           expect(mail.body).to be_empty
+        end
+      end
+
+      context 'when user permit is enabled' do
+        let(:role) do
+          create(:role, is_manager: true)
+        end
+
+        let(:user2) do
+          create(:user, user_name: 'user2', full_name: 'User random', email: 'user2@primero.dev', send_mail: true)
+        end
+        let(:assign1) do
+          Assign.create!(transitioned_by: 'jnelson', transitioned_to_user: user2, record: @child)
+        end
+
+        let(:mail) do
+          RecordActionMailer.transition_notify(TransitionNotificationService.new(assign1.id))
+        end
+
+        it 'renders the headers' do
+          expect(mail.subject).to eq("Case: #{@child.short_id} - Assigned to you")
+          expect(mail.to).to eq(['user2@primero.dev'])
         end
       end
     end
@@ -195,7 +221,7 @@ describe NotificationMailer, type: :mailer do
         @referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(@referral.id) }
+      let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@referral.id)) }
 
       it 'renders the headers' do
         expect(mail.subject).to eq("Case: #{@case.short_id} - Referral")
@@ -212,7 +238,7 @@ describe NotificationMailer, type: :mailer do
         @referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user4', record: @case)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(@referral.id) }
+      let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@referral.id)) }
       it 'mail should be nil' do
         expect(mail.parent.class.name).to eq('NilClass')
       end
@@ -223,7 +249,7 @@ describe NotificationMailer, type: :mailer do
         @referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user3', record: @case)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(@referral.id) }
+      let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@referral.id)) }
 
       it 'renders the headers' do
         expect(mail.subject).to eq("حالة/ملفّ: #{@case.short_id} - إحالة")
@@ -240,7 +266,7 @@ describe NotificationMailer, type: :mailer do
         @transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(@transfer.id) }
+      let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@transfer.id)) }
 
       it 'renders the headers' do
         expect(mail.subject).to eq("Case: #{@case.short_id} - Transfer")
@@ -257,7 +283,7 @@ describe NotificationMailer, type: :mailer do
         @transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user3', record: @case)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(@transfer.id) }
+      let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@transfer.id)) }
 
       it 'renders the headers' do
         expect(mail.subject).to eq("حالة/ملفّ: #{@case.short_id} - نقل/تحويل")
@@ -274,7 +300,7 @@ describe NotificationMailer, type: :mailer do
         @assign = Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(@assign.id) }
+      let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@assign.id)) }
 
       it 'renders the headers' do
         expect(mail.subject).to eq("Case: #{@case.short_id} - Assigned to you")
@@ -291,7 +317,7 @@ describe NotificationMailer, type: :mailer do
         @assign = Assign.create!(transitioned_by: 'user1', transitioned_to: 'user3', record: @case)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(@assign.id) }
+      let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@assign.id)) }
 
       it 'renders the headers' do
         expect(mail.subject).to eq("حالة/ملفّ: #{@case.short_id} - مُعيّن لك")
@@ -308,7 +334,7 @@ describe NotificationMailer, type: :mailer do
         @transfer_request = TransferRequest.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(@transfer_request.id) }
+      let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@transfer_request.id)) }
 
       it 'renders the headers' do
         expect(mail.subject).to eq('Transfer request for one of your cases')
@@ -328,7 +354,7 @@ describe NotificationMailer, type: :mailer do
         @transfer_request = TransferRequest.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(@transfer_request.id) }
+      let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@transfer_request.id)) }
 
       it 'renders the headers' do
         expect(mail.subject).to eq('طلب تحويل لحالة من حالاتك')
@@ -347,6 +373,10 @@ describe NotificationMailer, type: :mailer do
         Lookup, UserGroup, Incident, Child, Transition, Agency
       )
     end
+  end
+
+  after do
+    clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Transition)
   end
 
   private

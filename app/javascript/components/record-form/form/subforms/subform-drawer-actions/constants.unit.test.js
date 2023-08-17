@@ -1,8 +1,8 @@
-import * as violationActionsConstants from "./constants";
+import * as drawerConstants from "./constants";
 
 describe("Verifying violationActions constant", () => {
   it("should have known constant", () => {
-    const constants = { ...violationActionsConstants };
+    const constants = { ...drawerConstants };
 
     ["NAME"].forEach(property => {
       expect(constants).to.have.property(property);

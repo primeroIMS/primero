@@ -1,9 +1,11 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Formik, Form, getIn } from "formik";
 import { object } from "yup";
 import isEmpty from "lodash/isEmpty";
+import { useDispatch } from "react-redux";
 
 import { fieldValidations } from "../../validations";
 import { SUBFORM_DIALOG } from "../constants";
@@ -19,6 +21,16 @@ import SubformDrawerActions from "../subform-drawer-actions";
 import ViolationTitle from "../subform-fields/components/violation-title";
 import uuid from "../../../../../libs/uuid";
 import { useApp } from "../../../../application";
+import SubformLink from "../subform-link/component";
+import DefaultEditActions from "../subform-drawer-actions/components/default-edit-actions";
+import FamilyMemberActions from "../subform-drawer-actions/components/family-member-actions";
+import {
+  createCaseFromFamilyMember,
+  getCaseFormFamilyMemberLoading,
+  getCaseFromFamilyMember
+} from "../../../../records";
+import { useMemoizedSelector } from "../../../../../libs";
+import { RECORD_TYPES_PLURAL } from "../../../../../config";
 
 const Component = ({
   arrayHelpers,
@@ -45,8 +57,13 @@ const Component = ({
   violationOptions
 }) => {
   const { online } = useApp();
+  const params = useParams();
+  const dispatch = useDispatch();
   const [initialValues, setInitialValues] = useState({});
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
+  const [openCreateCaseConfirmationModal, setOpenCreateCaseConfirmationModal] = useState(false);
+  const caseFromFamilyMember = useMemoizedSelector(state => getCaseFromFamilyMember(state));
+  const caseFromFamilyMemberLoading = useMemoizedSelector(state => getCaseFormFamilyMemberLoading(state));
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
   const asDrawer = isViolation || isViolationAssociation || isFamilyMember;
@@ -64,6 +81,9 @@ const Component = ({
 
     return object().shape(Object.assign({}, ...subformSchema));
   };
+
+  const familyMemberCaseId = caseFromFamilyMember.get("case_id", subformValues.case_id);
+  const familyMemberCaseIdDisplay = caseFromFamilyMember.get("case_id_display", subformValues.case_id_display);
 
   const handleClose = () => {
     const compactedValues = compactValues(childFormikRef.current.values, initialSubformValues);
@@ -161,6 +181,19 @@ const Component = ({
     }
   };
 
+  const createCaseConfirmationProps = {
+    open: openCreateCaseConfirmationModal,
+    maxSize: "xs",
+    confirmButtonLabel: i18n.t("family.family_member.create"),
+    dialogTitle: title,
+    dialogText: i18n.t("family.messages.confirm_create_case"),
+    disableBackdropClick: true,
+    cancelHandler: () => setOpenCreateCaseConfirmationModal(false),
+    successHandler: () => {
+      dispatch(createCaseFromFamilyMember({ familyId: params.id, familyMemberId: subformValues.unique_id }));
+    }
+  };
+
   const ComponentToRender = asDrawer ? SubformDrawer : ActionDialog;
   const propsForComponent = asDrawer
     ? {
@@ -218,10 +251,36 @@ const Component = ({
                 />
                 {asDrawer && (
                   <SubformDrawerActions
-                    handleBackLabel={handleBackLabel}
-                    handleBack={event => submitForm(event)}
-                    handleCancel={handleClose}
+                    showActions={
+                      isFamilyMember && !familyMemberCaseId ? (
+                        <FamilyMemberActions
+                          handleBack={handleClose}
+                          pending={caseFromFamilyMemberLoading}
+                          handleCreate={() => {
+                            setOpenCreateCaseConfirmationModal(true);
+                          }}
+                        />
+                      ) : null
+                    }
+                    editActions={
+                      <DefaultEditActions
+                        handleSuccess={event => {
+                          event.stopPropagation();
+                          submitForm(event);
+                        }}
+                        handleBackLabel={handleBackLabel}
+                        handleBack={event => submitForm(event)}
+                        handleCancel={handleClose}
+                      />
+                    }
                     isShow={mode.isShow}
+                  />
+                )}
+                {isFamilyMember && mode.isShow && familyMemberCaseId && !caseFromFamilyMemberLoading && (
+                  <SubformLink
+                    href={`/${RECORD_TYPES_PLURAL.case}/${familyMemberCaseId}`}
+                    label={i18n.t("family.family_member.case_id")}
+                    text={familyMemberCaseIdDisplay}
                   />
                 )}
                 {renderSubform(field, index, values, setFieldValue)}
@@ -230,6 +289,7 @@ const Component = ({
           }}
         </Formik>
       </ComponentToRender>
+      {isFamilyMember && openCreateCaseConfirmationModal && <ActionDialog {...createCaseConfirmationProps} />}
       <ActionDialog {...modalConfirmationProps} />
     </>
   );

@@ -7,11 +7,19 @@ module ManagedReports::SqlQueryHelpers
   # ClassMethods
   # rubocop:disable Metrics/ModuleLength
   module ClassMethods
-    def equal_value_query(param, table_name = nil)
+    def equal_value_query(param, table_name = nil, hash_field = 'data', map_to = nil)
       return unless param.present?
 
+      field_name = map_to || param.field_name
+
+      if hash_field.present?
+        return ActiveRecord::Base.sanitize_sql_for_conditions(
+          ["#{quoted_query(table_name, hash_field)} ->> ? = ?", field_name, param.value]
+        )
+      end
+
       ActiveRecord::Base.sanitize_sql_for_conditions(
-        ["#{quoted_query(table_name, 'data')} ->> ? = ?", param.field_name, param.value]
+        ["#{quoted_query(table_name, field_name)} = ?", param.value]
       )
     end
 
@@ -25,6 +33,17 @@ module ManagedReports::SqlQueryHelpers
           "#{quoted_query(table_name, 'data')} #> '{#{field_name}}' ?| array[:values]",
           { values: param.respond_to?(:values) ? param.values : param.value }
         ]
+      )
+    end
+
+    def in_value_query(param, table_name = nil, _hash_field = 'data', map_to = nil)
+      return unless param.present?
+
+      field_name = map_to || param.field_name
+      param_value = param.respond_to?(:values) ? param.values : param.value
+
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        ["#{quoted_query(table_name, field_name)} in (?)", param_value]
       )
     end
 

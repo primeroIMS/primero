@@ -62,7 +62,8 @@ class Child < ApplicationRecord
     :location_current, :tracing_status, :name_caregiver,
     :registry_id_display, :registry_name, :registry_no, :registry_location_current,
     :urgent_protection_concern, :child_preferences_section, :family_details_section, :care_arrangements_section,
-    :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan
+    :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan,
+    :family_member_id, :family_id_display, :family_number
   )
   # rubocop:enable Naming/VariableNumber
 
@@ -155,15 +156,18 @@ class Child < ApplicationRecord
   before_save :sync_protection_concerns
   before_save :auto_populate_name
   before_save :stamp_registry_fields
+  before_save :stamp_family_fields
   before_save :calculate_has_case_plan
   before_create :hide_name
   after_save :save_incidents
+  after_save :associate_family_member
 
   class << self
     alias super_new_with_user new_with_user
     def new_with_user(user, data = {})
       super_new_with_user(user, data).tap do |local_case|
         local_case.registry_record_id ||= local_case.data.delete('registry_record_id')
+        local_case.family_id ||= local_case.data.delete('family_id')
       end
     end
   end
@@ -304,6 +308,25 @@ class Child < ApplicationRecord
     self.registry_name = registry_record&.name
     self.registry_no = registry_record&.registry_no
     self.registry_location_current = registry_record&.location_current
+  end
+
+  def stamp_family_fields
+    return unless changes_to_save.key?('family_id')
+
+    self.family_id_display = family&.family_id_display
+    self.family_number = family&.family_number
+  end
+
+  def associate_family_member
+    return unless saved_changes_to_record.keys.include?('family_member_id')
+
+    family.family_members = family.family_members.map do |member|
+      next(member) unless member['unique_id'] == family_member_id
+
+      member.merge('case_id' => id, 'case_id_display' => case_id_display)
+    end
+
+    family.save!
   end
 
   def match_criteria

@@ -20,6 +20,7 @@ import {
   getCurrentUserGroupPermission,
   getCurrentUserGroupsUniqueIds,
   getCurrentUserUserGroups,
+  getIsManagedReportScopeAll,
   getPermittedRoleUniqueIds
 } from "../user/selectors";
 import { getRecordForms } from "../record-form";
@@ -359,8 +360,9 @@ const userGroupsPermitted = createCachedSelector(
   getCurrentUserUserGroups,
   getCurrentUserGroupsUniqueIds,
   getCurrentUserGroupPermission,
+  getIsManagedReportScopeAll,
   (_state, options) => options,
-  (data, currentUserGroups, currentUserGroupIds, currentRoleGroupPermission, options) => {
+  (data, currentUserGroups, currentUserGroupIds, currentRoleGroupPermission, isManagedReportScopeAll, options) => {
     const allUserGroups = userGroupsParser(data, options);
     const currentUserGroupOptions = userGroupsParser(currentUserGroups, options);
 
@@ -368,7 +370,7 @@ const userGroupsPermitted = createCachedSelector(
       return currentUserGroupOptions;
     }
 
-    if (currentRoleGroupPermission === GROUP_PERMISSIONS.ALL) {
+    if (currentRoleGroupPermission === GROUP_PERMISSIONS.ALL || isManagedReportScopeAll) {
       return allUserGroups;
     }
 

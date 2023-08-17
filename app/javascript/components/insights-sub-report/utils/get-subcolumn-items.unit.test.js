@@ -7,6 +7,7 @@ describe("getSubcolumnItems", () => {
       const subcolumns = getSubColumnItems({
         hasTotalColumn: false,
         subColumnLookups: { indicator: lookupValues },
+        indicatorSubColumnKeys: [],
         valueKey: "indicator"
       });
 
@@ -21,4 +22,18 @@ describe("getSubcolumnItems", () => {
   describe("when indicatorSubcolumns is defined", () => {});
 
   describe("when hasTotalCoumn", () => {});
+
+  describe("when indicatorSubColumnKeys is defined", () => {
+    it("return all keys even if they don't have lookup values", () => {
+      const lookupValues = [{ id: "value1", display_text: "Value 1" }];
+      const subcolumns = getSubColumnItems({
+        hasTotalColumn: false,
+        subColumnLookups: { indicator: lookupValues },
+        indicatorSubColumnKeys: ["value1", "value2"],
+        valueKey: "indicator"
+      });
+
+      expect(subcolumns).to.deep.equals([...lookupValues, { id: "value2", display_text: "value2" }]);
+    });
+  });
 });

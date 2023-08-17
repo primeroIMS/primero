@@ -178,6 +178,42 @@ describe WebpushSubscription do
     end
   end
 
+  describe '#metadata' do
+    before(:each) do
+      webpush_subscription1
+    end
+    it 'return a WebpushSubscription metadata' do
+      expect(webpush_subscription1.metadata).to be_an_instance_of(Hash)
+      expect(webpush_subscription1.metadata.keys).to match_array(
+        %i[endpoint p256dh auth]
+      )
+      expect(webpush_subscription1.metadata[:endpoint]).to eq(webpush_subscription1.notification_url)
+      expect(webpush_subscription1.metadata[:p256dh]).to eq(webpush_subscription1.p256dh)
+      expect(webpush_subscription1.metadata[:auth]).to eq(webpush_subscription1.auth)
+    end
+  end
+
+  describe '#expired?' do
+    context 'when updated_at was updated more than 1440 minutes ago ' do
+      before(:each) do
+        Rails.configuration.x.webpush.pause_after = 1440
+        webpush_subscription1
+      end
+      it 'return false' do
+        expect(webpush_subscription1.expired?).to be false
+      end
+    end
+    context 'when updated_at was updated 1440 minutes or less ago ' do
+      before(:each) do
+        Rails.configuration.x.webpush.pause_after = 1440
+        webpush_subscription1.update_column(:updated_at, Time.now - 2.days)
+      end
+      it 'return false when updated_at is not 123 minutes before' do
+        expect(webpush_subscription1.expired?).to be true
+      end
+    end
+  end
+
   after(:each) do
     clean_data(WebpushSubscription, User, Agency, Role)
   end
