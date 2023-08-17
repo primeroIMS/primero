@@ -2,6 +2,7 @@ import { FormControlLabel, Switch } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import NotificationsOffIcon from "@material-ui/icons/NotificationsOff";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import { useDispatch } from "react-redux";
 
 import { NOTIFICATION_PERMISSIONS, POST_MESSAGES } from "../../config";
 import { cleanupSubscriptions } from "../../libs/service-worker-utils";
@@ -9,13 +10,15 @@ import { useI18n } from "../i18n";
 import ActionDialog, { useDialog } from "../action-dialog";
 import { useMemoizedSelector } from "../../libs";
 import { getWebpushConfig } from "../application/selectors";
-import { getNotificationSubscription } from "../user";
+import { getNotificationSubscription, removeNotificationSubscription, saveNotificationSubscription } from "../user";
 
 import css from "./styles.css";
 
 const DIALOG = "PUSH_NOTIFICATIONS";
 
 function Component() {
+  const dispatch = useDispatch();
+
   const webpushConfig = useMemoizedSelector(state => getWebpushConfig(state));
   const notificationEndpoint = useMemoizedSelector(state => getNotificationSubscription(state));
 
@@ -72,10 +75,22 @@ function Component() {
     });
   };
 
+  const handleMessage = event => {
+    if (event?.data?.type === POST_MESSAGES.DISPATCH_REMOVE_SUBSCRIPTION) {
+      dispatch(removeNotificationSubscription());
+    }
+
+    if (event?.data?.type === POST_MESSAGES.DISPATCH_SAVE_SUBSCRIPTION) {
+      dispatch(saveNotificationSubscription(event?.data?.endpoint));
+    }
+  };
+
   useEffect(() => {
     cleanupSubscriptions(() => {
       setValue(false);
     });
+
+    window.addEventListener("message", handleMessage);
   }, []);
 
   useEffect(() => {

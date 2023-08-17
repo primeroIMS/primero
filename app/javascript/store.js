@@ -9,8 +9,6 @@ import customMiddleware from "./middleware";
 import rootReducer from "./reducer";
 import { API_BASE_PATH } from "./config";
 
-const storeInstance = {};
-
 const history = createBrowserHistory({
   basename: "v2"
 });
@@ -48,9 +46,7 @@ export default () => {
     composeEnhancers(applyMiddleware(...middleware))
   );
 
-  storeInstance.cache = store;
-
   return store;
 };
 
-export { history, storeInstance };
+export { history };

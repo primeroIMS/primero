@@ -1,4 +1,4 @@
-import { getAppResources, saveNotificationSubscription } from "./components/user";
+import { getAppResources, saveNotificationSubscription } from "./components/user/action-creators";
 import { getSubscriptionFromDb } from "./libs/service-worker-utils";
 import configureStore from "./store";
 

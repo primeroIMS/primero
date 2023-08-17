@@ -1,4 +1,4 @@
-import { POST_MESSAGES } from "./config";
+import { POST_MESSAGES } from "./config/constants";
 import {
   SERVICE_WORKER_PATH,
   getSubscriptionFromDb,

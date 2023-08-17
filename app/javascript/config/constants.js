@@ -742,5 +742,7 @@ export const NOTIFICATION_PERMISSIONS = {
 
 export const POST_MESSAGES = {
   SUBSCRIBE_NOTIFICATIONS: "subscribe_notifications",
-  UNSUBSCRIBE_NOTIFICATIONS: "unsubscribe_notifications"
+  UNSUBSCRIBE_NOTIFICATIONS: "unsubscribe_notifications",
+  DISPATCH_REMOVE_SUBSCRIPTION: "dispatch_remove_subscription",
+  DISPATCH_SAVE_SUBSCRIPTION: "dispatch_save_subscription"
 };

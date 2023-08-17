@@ -1,9 +1,7 @@
-import { API_BASE_PATH, METHODS, NOTIFICATION_PERMISSIONS, ROUTES } from "../config";
+import { API_BASE_PATH, METHODS, NOTIFICATION_PERMISSIONS, POST_MESSAGES, ROUTES } from "../config/constants";
 import { DEFAULT_FETCH_OPTIONS } from "../middleware/constants";
 import getToken from "../middleware/utils/get-token";
 import DB, { DB_STORES } from "../db";
-import { storeInstance } from "../store";
-import { removeNotificationSubscription, saveNotificationSubscription } from "../components/user";
 
 const SERVICE_WORKER_PATH = `${window.location.origin}/worker.js`;
 
@@ -34,7 +32,7 @@ function urlBase64ToUint8Array(base64String) {
 async function sendSubscriptionStatusToServer(isSubscribing = true, data = {}) {
   const token = await getToken();
   const subscriptionData = JSON.parse(JSON.stringify(data));
-  const path = [API_BASE_PATH, isSubscribing ? ROUTES.subscription : ROUTES.subscriptions_current].join("");
+  const path = [API_BASE_PATH, isSubscribing ? ROUTES.subscriptions : ROUTES.subscriptions_current].join("");
 
   const response = await fetch(path, {
     ...DEFAULT_FETCH_OPTIONS,
@@ -60,7 +58,10 @@ async function sendSubscriptionStatusToServer(isSubscribing = true, data = {}) {
 
   if ((!isSubscribing && response.status === 200) || response.status === 404) {
     DB.delete(DB_STORES.PUSH_NOTIFICATION_SUBSCRIPTION, 1);
-    storeInstance.cache.dispatch(removeNotificationSubscription());
+
+    postMessage({
+      type: POST_MESSAGES.DISPATCH_REMOVE_SUBSCRIPTION
+    });
   }
 }
 
@@ -80,7 +81,10 @@ async function subscribe() {
     key: { id: 1 }
   });
 
-  storeInstance.cache.dispatch(saveNotificationSubscription(subscription.endpoint));
+  postMessage({
+    type: POST_MESSAGES.DISPATCH_SAVE_SUBSCRIPTION,
+    endpoint: subscription.endpoint
+  });
 }
 
 async function subscribeToNotifications() {

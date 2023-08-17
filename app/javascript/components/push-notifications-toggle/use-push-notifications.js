@@ -2,9 +2,9 @@ import { useCallback, useEffect, useRef } from "react";
 import { workerTimers } from "react-idle-timer";
 import { useDispatch } from "react-redux";
 
-import { PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL } from "../../config";
-import { useMemoizedSelector } from "../../libs";
-import { getNotificationSubscription } from "../user";
+import { PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL } from "../../config/constants";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
+import { getNotificationSubscription } from "../user/selectors";
 
 import { refreshNotificationSubscription } from "./action-creators";
 

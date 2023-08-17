@@ -1,4 +1,4 @@
-import { namespaceActions } from "../../libs";
+import { namespaceActions } from "../../libs/reducer-helpers";
 
 import { NAMESPACE } from "./constants";
 

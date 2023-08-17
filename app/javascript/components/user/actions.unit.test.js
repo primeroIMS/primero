@@ -18,7 +18,9 @@ describe("User - Actions", () => {
       "RESET_PASSWORD_FAILURE",
       "RESET_PASSWORD_STARTED",
       "RESET_PASSWORD_SUCCESS",
-      "SET_AUTHENTICATED_USER"
+      "SET_AUTHENTICATED_USER",
+      "SAVE_USER_NOTIFICATION_SUBSCRIPTION",
+      "REMOVE_USER_NOTIFICATION_SUBSCRIPTION"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("string");
