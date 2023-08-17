@@ -122,16 +122,17 @@ self.addEventListener(
             type: "window"
           })
           .then(clientList => {
+            const link = `${self.location.protocol}//${event.notification.data.url}`;
+
             for (let clientCounter = 0; clientCounter < clientList.length; clientCounter += 1) {
               const client = clientList[clientCounter];
 
-              // If so, just focus it.
-              if (client.url === event.notification.data.url && "focus" in client) {
+              if (client.url === link && "focus" in client) {
                 return client.focus();
               }
             }
 
-            return self.clients.openWindow(event.notification.data.url);
+            return self.clients.openWindow(link);
           })
       );
     }
