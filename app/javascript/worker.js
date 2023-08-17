@@ -104,7 +104,8 @@ self.addEventListener("push", event => {
       body: message.body,
       image,
       icon: image,
-      actions: [{ action: ACTIONS.GOTO, link: message.link, title: message.action_label }]
+      data: { url: message.link },
+      actions: [{ action: ACTIONS.GOTO, title: message.action_label }]
     })
   );
 });
@@ -115,7 +116,24 @@ self.addEventListener(
     event.notification.close();
 
     if (event.action === ACTIONS.GOTO) {
-      event.waitUntil(self.clients.openWindow(event.link));
+      event.waitUntil(
+        self.clients
+          .matchAll({
+            type: "window"
+          })
+          .then(clientList => {
+            for (let clientCounter = 0; clientCounter < clientList.length; clientCounter += 1) {
+              const client = clientList[clientCounter];
+
+              // If so, just focus it.
+              if (client.url === event.notification.data.url && "focus" in client) {
+                return client.focus();
+              }
+            }
+
+            return self.clients.openWindow(event.notification.data.url);
+          })
+      );
     }
   },
   false
