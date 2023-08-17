@@ -84,7 +84,7 @@ const Component = ({
   };
 
   return (
-    <div>
+    <div data-testid="subForm-add">
       <ActionButton
         id="fields.add"
         icon={<AddIcon />}
@@ -96,10 +96,11 @@ const Component = ({
         }}
       />
       {shouldRenderViolationAssociationMenu && (
-        <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+        <Menu data-testid="menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
           {associationOptions.map(option => {
             return (
               <MenuItem
+                data-testid="menu-item"
                 key={option.id}
                 component={Button}
                 value={option.id}

@@ -1,9 +1,7 @@
 import { fromJS } from "immutable";
-import { Menu, MenuItem } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../../records";
-import ActionButton from "../../../../action-button";
 
 import SubformAddEntry from "./component";
 
@@ -131,29 +129,27 @@ describe("<SubformAddEntry />", () => {
     }
   };
 
-  let component;
-
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(SubformAddEntry, props, {}, [], formProps));
-  });
-
   it("render the SubformAddEntry", () => {
-    expect(component.find(SubformAddEntry)).lengthOf(1);
+    mountedComponent(<SubformAddEntry {...props} />, {}, [], {}, formProps);
+    expect(screen.getByTestId("subForm-add")).toBeInTheDocument();
   });
 
   it("renders the ActionButton", () => {
-    expect(component.find(ActionButton)).lengthOf(1);
+    mountedComponent(<SubformAddEntry {...props} />, {}, [], {}, formProps);
+    expect(screen.getByRole("button")).toBeInTheDocument();
   });
 
   it("renders the Menu", () => {
-    expect(component.find(Menu)).lengthOf(1);
+    mountedComponent(<SubformAddEntry {...props} />, {}, [], {}, formProps);
+    expect(screen.getByTestId("menu")).toBeInTheDocument();
   });
 
   it("renders the MenuItem", () => {
-    expect(component.find(MenuItem)).lengthOf(1);
+    mountedComponent(<SubformAddEntry {...props} />, {}, [], {}, formProps);
+    expect(screen.getByTestId("menu-item")).toBeInTheDocument();
   });
 
-  context("when the field is a response", () => {
+  describe("when the field is a response", () => {
     const responseProps = {
       ...props,
 
@@ -173,12 +169,10 @@ describe("<SubformAddEntry />", () => {
       })
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(SubformAddEntry, responseProps, {}, [], formProps));
-    });
     it("should NOT renderd the Menu", () => {
-      expect(component.find(SubformAddEntry)).lengthOf(1);
-      expect(component.find(Menu)).lengthOf(0);
+      mountedComponent(<SubformAddEntry {...responseProps} />, {}, [], {}, formProps);
+      expect(screen.getByTestId("subForm-add")).toBeInTheDocument();
+      expect(screen.queryByTestId("menu")).toBeNull();
     });
   });
 });
