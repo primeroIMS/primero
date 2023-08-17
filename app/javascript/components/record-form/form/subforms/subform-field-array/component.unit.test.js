@@ -370,6 +370,7 @@ describe("<SubformFieldArray />", () => {
         "formSection",
         "index",
         "isDisabled",
+        "isFamilyDetail",
         "isFamilyMember",
         "isTraces",
         "isReadWriteForm",

@@ -51,6 +51,7 @@ const Component = ({
   recordType,
   recordModuleID,
   parentTitle,
+  isFamilyDetail,
   isFamilyMember,
   isViolation,
   isViolationAssociation,
@@ -66,7 +67,7 @@ const Component = ({
   const caseFromFamilyMemberLoading = useMemoizedSelector(state => getCaseFormFamilyMemberLoading(state));
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
-  const asDrawer = isViolation || isViolationAssociation || isFamilyMember;
+  const asDrawer = isViolation || isViolationAssociation || isFamilyMember || isFamilyDetail;
 
   const subformValues = getSubformValues(field, index, formik.values, orderedValues, isViolation);
 
@@ -306,6 +307,7 @@ Component.propTypes = {
   formSection: PropTypes.object,
   i18n: PropTypes.object.isRequired,
   index: PropTypes.number,
+  isFamilyDetail: PropTypes.bool,
   isFamilyMember: PropTypes.bool,
   isFormShow: PropTypes.bool,
   isReadWriteForm: PropTypes.bool,
