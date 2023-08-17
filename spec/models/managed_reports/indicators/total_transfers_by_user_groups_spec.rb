@@ -6,21 +6,24 @@ describe ManagedReports::Indicators::TotalTransfersByUserGroups do
   before do
     clean_data(Transition, Child, UserGroup, User, Agency, Role)
 
-    child1 = Child.new_with_user(self_user, registration_date: Date.new(2021, 8, 12))
+    child1 = Child.new_with_user(self_user, { sex: 'female', age: 2 })
     child1.save!
-    child2 = Child.new_with_user(group_user, registration_date: Date.new(2021, 9, 8))
+    child2 = Child.new_with_user(group_user, { sex: 'male', age: 10 })
     child2.save!
-    child3 = Child.new_with_user(all_user, registration_date: Date.new(2020, 10, 10))
+    child3 = Child.new_with_user(all_user, { sex: 'male', age: 4 })
     child3.save!
 
     Transfer.new(
-      transitioned_to_user: group_user, transitioned_by_user: self_user, record: child1, consent_overridden: true
+      transitioned_to_user: group_user, transitioned_by_user: self_user, record: child1, consent_overridden: true,
+      created_at: Date.new(2021, 8, 12)
     ).save(validate: false)
     Transfer.new(
-      transitioned_to_user: group_user, transitioned_by_user: agency_user, record: child2, consent_overridden: true
+      transitioned_to_user: group_user, transitioned_by_user: agency_user, record: child2, consent_overridden: true,
+      created_at: Date.new(2021, 9, 8)
     ).save(validate: false)
     Transfer.new(
-      transitioned_to_user: group_user, transitioned_by_user: all_user, record: child3, consent_overridden: true
+      transitioned_to_user: group_user, transitioned_by_user: all_user, record: child3, consent_overridden: true,
+      created_at: Date.new(2020, 10, 10)
     ).save(validate: false)
   end
 
@@ -199,8 +202,8 @@ describe ManagedReports::Indicators::TotalTransfersByUserGroups do
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
-            'registration_date' => SearchFilters::DateRange.new(
-              field_name: 'registration_date',
+            'created_at' => SearchFilters::DateRange.new(
+              field_name: 'created_at',
               from: '2020-01-01',
               to: '2021-12-10'
             )
@@ -236,8 +239,8 @@ describe ManagedReports::Indicators::TotalTransfersByUserGroups do
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
-            'registration_date' => SearchFilters::DateRange.new(
-              field_name: 'registration_date',
+            'created_at' => SearchFilters::DateRange.new(
+              field_name: 'created_at',
               from: '2021-08-01',
               to: '2021-09-30'
             )
@@ -271,8 +274,8 @@ describe ManagedReports::Indicators::TotalTransfersByUserGroups do
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
-            'registration_date' => SearchFilters::DateRange.new(
-              field_name: 'registration_date',
+            'created_at' => SearchFilters::DateRange.new(
+              field_name: 'created_at',
               from: '2021-08-01',
               to: '2021-09-30'
             )
@@ -300,8 +303,8 @@ describe ManagedReports::Indicators::TotalTransfersByUserGroups do
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'week'),
-            'registration_date' => SearchFilters::DateRange.new(
-              field_name: 'registration_date',
+            'created_at' => SearchFilters::DateRange.new(
+              field_name: 'created_at',
               from: '2021-08-08',
               to: '2021-08-13'
             )

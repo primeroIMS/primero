@@ -3247,6 +3247,8 @@ en:
               the user to export data from an Insight.
           referrals_transfers_report:
             label: Referrals and Transfers
+            explanation: Users see the number of cases referred and transferred from each User Group
+              to each other User Group.
       matching_configuration:
         actions:
           manage:
