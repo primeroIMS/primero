@@ -67,6 +67,10 @@ export const getCaseIdForIncident = state => {
   return state.getIn(["records", "cases", "incidentFromCase", "incident_case_id"], false);
 };
 
+export const getCaseIdDisplayForIncident = state => {
+  return state.getIn(["records", "cases", "incidentFromCase", "case_id_display"], false);
+};
+
 export const getFieldMap = (state, moduleID) => {
   const mapTo = fieldMapModule(state, moduleID).getIn(["field_map", "map_to"]);
 

@@ -39,7 +39,8 @@ import {
   CLEAR_POTENTIAL_MATCHES,
   EXTERNAL_SYNC,
   OFFLINE_INCIDENT_FROM_CASE,
-  CREATE_CASE_FROM_FAMILY_MEMBER
+  CREATE_CASE_FROM_FAMILY_MEMBER,
+  FETCH_LINK_INCIDENT_TO_CASE_DATA
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -401,3 +402,33 @@ export const createCaseFromFamilyMember = ({ familyId, familyMemberId }) => ({
     ]
   }
 });
+
+export const fetchLinkIncidentToCaseData = (payload) => {
+  return {
+    type: `cases/${FETCH_LINK_INCIDENT_TO_CASE_DATA}`,
+    api: {
+      path: `incidents/get_case_to_link?query=${payload.query}&id_search=${payload.id_search}`
+    }
+  };
+};
+
+export const linkIncidentToCase = ({ recordType, incident_ids = [], case_id }) => {
+  return {
+    type: `${recordType}/LINK_INCIDENT_TO_CASE`,
+    api: {
+      path: `incidents/link_incidents_to_case`,
+      method: "POST",
+      body: { data: { incident_case_id: case_id, incident_ids: incident_ids } },
+      successCallback: {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          message: "Linked incident to case",
+          options: {
+            variant: "success",
+            key: generate.messageKey()
+          }
+        }
+      }
+    }
+  }
+};
