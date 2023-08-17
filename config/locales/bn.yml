@@ -1286,6 +1286,7 @@ bn:
     zh: 中文
   incident:
     associated_case: "সংশ্লিষ্ট কেস"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: ঘটনার রেকর্ড সফলভাবে তৈরি হয়েছে।
       creation_success_queue: ব্যাকগ্রাউন্ডে ঘটনার রেকর্ড সফলভাবে তৈরি করা হয়েছে

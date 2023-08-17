@@ -1125,6 +1125,7 @@ ar-SD:
     zh: 中文
   incident:
     associated_case: "حالة مرتبطة"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: تم خلق سجل بالحادثة بنجاح
       creation_success_queue: تم بنجاح خلق سجل للحادثة في الخلفية
@@ -2012,6 +2013,9 @@ ar-SD:
           import:
             explanation: يسمح للمستخدم بخلق حادثةجديدة  أو أكثر عن طريق إحضارها من ملف CSV، إكسل أو JSON.  ويجب "فرمتة" الملف المحضر خصيصا لإحضار المعلومات بطريقة سليمة.  ويجب أن تكون هذه الوظيفة متوفرة فقط لمستخدمي الإدارة ذوي المهاراتىالفنية العالية والمعرفة العميقة ب"فرمتة" البيانات في بريميرو.  يتم ذلك فقط من صفحة قائمة الحادثة.
             label: إحضار
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: يسمح للمستخدم بالقيام بجمبع التدابير المتوفرة على الأحداث. والإذن ب"إدارة" تعني أساسا "كل شئ".
             label: إدارة (حميع الأذونات لهذا النوع من الموارد)

@@ -1363,6 +1363,7 @@ ku-IQ:
   incident:
     code: کودێ رویدانێ
     associated_case: "کەیسێن پێڤە گرێدای"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: تومارا رویدانا %{record_id} ب سەرکەفتیانە هاتە چێکرن.
       creation_success_queue: رویدان ب سەرکەفتیانە ل پاشخانێ هاتە دروستکرن
@@ -2653,6 +2654,9 @@ ku-IQ:
           import:
             explanation: رێکێ دەتە بکارهێنەرا بۆ دروستکرنا کەیسەک یان پتر ژ کەیسەکێ نی برێکا زێدەکرنا وان ژ فورما Excel، CS یان  فایلێ JSON. فایلێن هاتینه زێدەکرن دڤێت ب فۆرماتەکێ ‘گەلەک’ دەقیق بیت داکو درست زیده ببیت. ئەڤ کارە پێدڤیە بتنێ بۆ بکارهێنەرێ ئیداری بەردەست بیت کو  شیانێن تەکنیکی یێن ئاست بلند  هه بیت و زانینەکا باش هەبیت ل سەر چەوانیا داتا د پریمێرۆی دا دهێتە فۆرمارتکرن. بتنێ د لاپەرا لیستا رویدانادا دهێتە ئەنجام دان.
             label: هنارتن
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: رێکێ دەتە بکارهێنەری بۆ ئەنجامدانا هەمی کارێن بەردەست ل سەر کەیسا. دەستویریا 'رێڤه برن' رامانا 'هەمی تشتی' ددەت.
             label: رێڤەبەرن (هەمی دەستویریا بۆ ڤی جورێ ژێدەری)

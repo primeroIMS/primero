@@ -1327,6 +1327,7 @@ sk:
     zh: 中文
   incident:
     associated_case: "Súvisiaci prípad:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Záznam o incidente bol úspešne vytvorený.
       creation_success_queue: Záznam o incidente bol úspešne vytvorený na pozadí
@@ -2487,6 +2488,9 @@ sk:
           import:
             explanation: Umožňuje používateľovi vytvoriť jeden alebo viacero nových prípadov ich importovaním zo súboru CSV, Excel alebo JSON. Pre správny import informácii, musí byť importovaný súbor "veľmi" špeciálne naformátovaný. Táto funkcia by mala byť dostupná iba pre správcov s pokročilými technickými zručnosťami a hlbokými znalosťami o tom, ako sa v Primero formátujú údaje. Dá sa to urobiť iba zo stránky Zoznam prípadov.
             label: Import
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: Umožňuje používateľovi vykonávať všetky dostupné akcie pri incidentoch. Povolenie „Spravovať“ v podstate znamená „všetko“.
             label: Spravovať (všetky povolenia pre tento typ zdroja)

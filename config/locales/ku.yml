@@ -1443,6 +1443,7 @@ ku:
   incident:
     code: کۆدی ڕووداوەکان
     associated_case: "کەیسی پەیوەندیدار:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: تۆمارگەی رووداوەكە بە سەركەوتوویی دروستكرا
       creation_success_queue: 'تۆماری كەیسەكە بە سەركەوتویی دروستكرا لە نێو پاشخانەكەدا.
@@ -2911,6 +2912,9 @@ ku:
             label: 'گەڕاندنەوە 
 
                '
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: " رێگە بە بەكارهێنەر دەدا بۆ ئەنجامدانی سەرجەم كارە بەردەستەكان لەسەر  رووداوەكان . لە بنەڕەتدا رێگەپێدانی \"بەڕێوەببە\" بە مانای \"هەموو شتێك\" دێت \n "
             label: 'بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە) '

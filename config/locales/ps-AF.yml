@@ -973,6 +973,7 @@ ps-AF:
     welcome: .پرائمرو ته ښه راغلاست
     zh: 中文
   incident:
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: .د پیښی ریکارډ په بریالیتوب سره جوړ شو
       creation_success_queue: .د پیښی ریکارډ په بریالیتوب سره په خپل محور کی جوړ شو
@@ -1618,6 +1619,9 @@ ps-AF:
           import:
             explanation: کارونکي ته اجازه ورکوي د CSV ، ایکسل ، یا JSON فایل په واردولو سره یو یا ډیر نوي قضیې رامینځته کړي. وارد شوی فایل باید * خورا * په ځانګړي ډول د دې لپاره چې معلومات سم وارد شي فارمیټ شي. دا فنکشن باید یوازې د اداري کاروونکو لپاره شتون ولري چې پرمختللي تخنیکي مهارتونه ولري او د دې ژورې پوهې سره څنګه چې ډیټا په پریمرو کې فارمټ شوی کیږي. یوازې د قضیې لیست پاڼو څخه ترسره کیږي
             label: صادرول
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: کارونکی ته اجازه ورکوي چې د قضیو په هکله ټول شته کړنې ترسره کړي. به اصل کی د "تنظیم" معنی ده  "هرڅه".
             label: (اداره کول(ټول اختیارات د دغه ډول منبعی لپاره

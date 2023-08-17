@@ -1306,6 +1306,7 @@ om:
     zh: Kan Chaayinaa.
   incident:
     associated_case: "Dhimma walqbsiifama qaban."
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Galmeen taatee haala milkaa'aan uumameera.
       creation_success_queue: Galmeen taatee haala milkaa'aan duub duubee keessatti uumameera.
@@ -2425,6 +2426,9 @@ om:
           import:
             explanation: ""
             label: Fichisiisi.
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: ""
             label: Bulchi (hayyamoota gosa qabeenya kanaa hunda)

@@ -1425,6 +1425,7 @@ ar:
   incident:
     code: رمز الحادثة
     associated_case: "الحالة المرتبطة:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: تم إنشاء سجل الحادثة بنجاح.
       creation_success_queue: تمّ إنشاء سجل الحادثة بنجاح في الخلفية
@@ -2738,6 +2739,9 @@ ar:
           import:
             explanation: يسمح للمستخدم بإنشاء حادثة واحدة جديدة أو أكثر من خلال استيرادها من ملف CSV أو Excel أو JSON. يجب أن يكون الملف المستورد  مهيّأ *جدًّا* وخصوصًا حتى يتمّ استيراد المعلومات بشكل صحيح. يجب أن تكون هذه الوظيفة متاحة فقط للمستخدمين الإداريين ذوي المهارات التقنية المتقدّمة والمعرفة العميقة بكيفية تهيئة البيانات في Primero. يتمّ تنفيذها فقط من صفحة قائمة الحوادث.
             label: استيراد
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: يسمح للمستخدم بتنفيذ جميع الإجراءات المتاحة للحوادث. يعني إذْن "الإدارة" بشكل أساسي "كل شيء".
             label: إدارة (كافة الأذونات لهذا النوع من الموارد)

@@ -2602,6 +2602,9 @@ ro:
           import:
             explanation: Permite utilizatorului să creeze unul sau mai multe cazuri noi importându-le dintr-un fișier CSV, Excel sau JSON. Fișierul importat trebuie să fie formatat *foarte* specific pentru ca informațiile să fie importate corect. Această funcție ar trebui să fie disponibilă numai pentru utilizatorii cu rol de administrator, având abilități tehnice avansate și cunoștințe aprofundate despre modul în care datele sunt formatate în Primero. De efectuat numai din pagina cu lista de cazuri.
             label: Import
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: Permite unui utilizator să efectueze toate acțiunile disponibile asupra incidentelor. Permisiunea „Gestionează” înseamnă în esență „totul”.
             label: Gestionează (toate permisiunile pentru acest tip de resursă)

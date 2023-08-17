@@ -1271,6 +1271,7 @@ id:
     zh: 中文
   incident:
     associated_case: "Kasus yang Berkaitan:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Data insiden berhasil dibuat.
       creation_success_queue: Data insiden berhasil dibuat pada latar belakang.
@@ -2438,6 +2439,9 @@ id:
           import:
             explanation: Memungkinkan pengguna membuat satu atau beberapa insiden baru dengan mengimpornya dari file CSV, Excel, atau JSON. File yang diimpor harus diformat *sangat* khusus agar informasi dapat diimpor dengan benar. Fungsi ini seharusnya hanya tersedia untuk pengguna administratif dengan keterampilan teknis tingkat lanjut dan pengetahuan mendalam tentang bagaimana data diformat di Primero. Hanya dilakukan dari halaman daftar insiden.
             label: Impor
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: Memungkinkan pengguna untuk melakukan semua tindakan yang tersedia pada insiden. Izin "Kelola" pada dasarnya berarti "semuanya".
             label: Kelola (semua izin untuk jenis sumber daya ini)

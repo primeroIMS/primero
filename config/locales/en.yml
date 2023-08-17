@@ -1425,6 +1425,7 @@ en:
   incident:
     code: Incident Code
     associated_case: "Associated Case:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Incident record successfully created.
       creation_success_queue: Incident record successfully created in background
@@ -3178,6 +3179,9 @@ en:
               skills and an in-depth knowledge of how data is formatted in Primero.
               Only performed from incident list page.
             label: Import
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: Allows a user to perform all available actions on incidents.
               The "Manage" permission essentially means "everything".

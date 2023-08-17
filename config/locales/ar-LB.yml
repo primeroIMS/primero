@@ -484,6 +484,7 @@ ar-LB:
     welcome: أهلاً بك في بريميرو
     zh: 中文
   incident:
+    link_incident_to_case: Link Incident to Case
     messages:
       update_success: 'تم تحديث الوقائع/الحادث %{record_id} بنجاح.'
   incidents:

@@ -1188,6 +1188,7 @@ ar-JO:
     zh: 中文
   incident:
     associated_case: "الحالة المرتبطة:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: تم إنشاء سجل الحادث بنجاح.
       creation_success_queue: تم إنشاء سجل الحادث بنجاح في الخلفية
@@ -2186,6 +2187,9 @@ ar-JO:
           import:
             explanation: يسمح للمستخدم بإنشاء حدث جديد أو أكثر من خلال استيرادها من ملف CSV أو Excel أو JSON. يجب أن يكون الملف الذي تم استيراده بتنسيق * جدا * بشكل خاص حتى يتم استيراد المعلومات بشكل صحيح. يجب أن تكون هذه الوظيفة متاحة فقط للمستخدمين الإداريين ذوي المهارات التقنية المتقدمة والمعرفة المتعمقة بكيفية تنسيق البيانات في Primero. نفذت فقط من صفحة قائمة الحوادث.
             label: استيراد
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: يسمح للمستخدم بتنفيذ جميع الإجراءات المتاحة على الحوادث. إذن "الإدارة" يعني أساسًا "كل شيء".
             label: إدارة (كافة الأذونات لهذا النوع من الموارد)

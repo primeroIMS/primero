@@ -1208,6 +1208,7 @@ th:
     zh: ภาษาจีน
   incident:
     associated_case: "เคสที่เกี่ยวข้อง"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: สร้างบันทึกข้อมูลการแจ้งเหตุสำเร็จแล้ว
       creation_success_queue: สร้างบันทึกข้อมูลการแจ้งเหตุใน background สำเร็จแล้ว
@@ -2190,6 +2191,9 @@ th:
           import:
             explanation: อนุญาตให้ผู้ใช้งานสามารถเพิ่มการแจ้งเหตุโดยการนําเข้าข้อมูลจากไฟล์ CSV, Excel หรือ JSON และโครงสร้างของไฟล์ที่จะทำการนําเข้าต้องถูกจัดรูปแบบที่ระบุไว้อย่างถูกต้อง ฟังก์ชันนี้ควรจะมอบให้แก่ผู้ดูแลระบบที่มีทักษะทางเทคนิคขั้นสูงและมีความรู้เชิงลึกของการจัดรูปแบบข้อมูลใน Primero และจะสามารถนำเข้าไฟล์ได้จากหน้ารายการแจ้งเหตุเท่านั้น
             label: นำเข้าข้อมูล
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: ผู้ใช้งานสามารถดำเนินการทุกอย่างได้เกี่ยวกับการแจ้งเหตุ การให้สิทธิ์ "การจัดการ" หมายรวมถึงทุกอย่าง
             label: สิทธิ์ในการจัดการ (ได้รับสิทธิทั้งหมดในการจัดการทรัพยากรประเภทนี้)

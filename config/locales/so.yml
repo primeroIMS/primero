@@ -1306,6 +1306,7 @@ so:
     zh: 中文
   incident:
     associated_case: "Kiis La xidhiidha"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: 'waad ku guulaysatey samaynta diwaangalinta dhacdada '
       creation_success_queue: waad ku guulaysatey samayta samaynnta keydinta dhacdada si dahsoon
@@ -2468,6 +2469,9 @@ so:
           import:
             explanation: U oggolow isticmaaluhu inuu abuuro hal ama dhowr shil oo cusub isagoo ka soo dejinaya faylka CSV, Excel, ama JSON. Faylka la soo dejiyay waa in loo qaabeeyaa *aad* gaar ahaan si macluumaadka loogu soo dejiyo si sax ah. Shaqadani waa in ay ahaataa oo kaliya dadka isticmaala maamulka ee leh xirfado farsamo oo horumarsan iyo aqoon qoto dheer oo ku saabsan sida xogta loo qaabeeyey Primero. Kaliya laga sameeyay bogga liiska dhacdada.
             label: Soo dejinta
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: U oggolow isticmaaluhu inuu sameeyo dhammaan ficillada la heli karo ee shilalka. Oggolaanshaha "Maamul" asal ahaan macnaheedu waa "wax walba".
             label: Maamul (dhammaan oggolaanshaha nooca kheyraadkan)

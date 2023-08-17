@@ -1371,6 +1371,7 @@ fr:
   incident:
     code: Code de l'incident
     associated_case: "Cas associé "
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: 'Incident crée avec succès '
       creation_success_queue: Création réussie d'un incident en arrière-plan
@@ -2693,6 +2694,9 @@ fr:
           import:
             explanation: Permet à l'utilisateur de créer un ou plusieurs nouveaux incidents en les important à partir d'un fichier CSV, Excel ou JSON. Le fichier importé doit être formaté *très* spécifiquement pour que les informations soient importées correctement. Cette fonction ne doit être disponible que pour les utilisateurs administratifs ayant des compétences techniques avancées et une connaissance approfondie de la façon dont les données sont formatées dans Primero. Cette fonction ne peut être exécutée qu'à partir de la page de la liste des incidents.
             label: Importer
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: Permet à un utilisateur d'effectuer toutes les actions disponibles sur les incidents. La permission "Gérer" signifie essentiellement "tout".
             label: Gérer (toutes les autorisations pour ce type de ressources)
