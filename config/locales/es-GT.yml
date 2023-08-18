@@ -236,7 +236,7 @@ es-GT:
       legitimate_basis_required: Por favor seleccione al menos una opción de las clasificaciones base permitidas
     save: Guardar Caso
     save_text: Antes de continuar, por favor guarde los cambios hechos al Caso
-    skip_and_create: Omitir y Crear Nuevo Caso
+    skip_and_create: Crear Nuevo Caso
     search_existing: Buscar casos existentes
     search_helper_text: ¿Para qué? Para evitar la creación de casos duplicados.
     consent_agreements: Selecciones todos los acuerdos de consentimiento que apliquen
@@ -1288,7 +1288,6 @@ es-GT:
     select_label: Seleccionar
     settings: Configuraciones
     show_on: Mostrar en
-    subform_need_to_be_added: Deben agregarse
     subform_need_to_be_added_single: Debe agregarse.
     subform_not_found: No se encontró %{subform_name}.
     title: Título del Formulario
