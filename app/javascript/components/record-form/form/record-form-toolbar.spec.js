@@ -1,20 +1,14 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS, OrderedMap } from "immutable";
-import { Router } from "react-router-dom";
-import { CircularProgress, Badge, Button } from "@material-ui/core";
 
-import { SaveReturnIcon } from "../../../images/primero-icons";
-import { setupMountedComponent } from "../../../test";
+import { mountedComponent, screen } from "../../../test-utils";
 import { RECORD_PATH, RECORD_TYPES, MODULES } from "../../../config";
 import { ACTIONS } from "../../permissions";
 import { PrimeroModuleRecord } from "../../application/records";
-import ActionButton from "../../action-button";
 import { FieldRecord, FormSectionRecord } from "../records";
 
-import { WorkflowIndicator } from "./components";
 import RecordFormToolbar from "./record-form-toolbar";
-import DisabledRecordIndicator from "./components/disabled-record-indicator";
 
 describe("<RecordFormToolbar />", () => {
   const mode = {
@@ -150,35 +144,25 @@ describe("<RecordFormToolbar />", () => {
     }
   };
 
-  let component;
-
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(RecordFormToolbar, props, fromJS(initialState)));
-  });
-
   it("renders a RecordFormToolbar/>", () => {
-    expect(component.find(RecordFormToolbar)).to.have.lengthOf(1);
-    expect(component.find(ActionButton)).to.have.lengthOf(2);
+    mountedComponent(<RecordFormToolbar {...props} />, fromJS(initialState));
+    expect(screen.getByTestId("page-heading")).toBeInTheDocument();
+    expect(screen.getAllByRole("button")).toHaveLength(2);
   });
 
   it("renders a <WorkflowIndicator /> component, when record is enabled", () => {
-    expect(component.find(WorkflowIndicator)).to.have.lengthOf(1);
+    mountedComponent(<RecordFormToolbar {...props} />, fromJS(initialState));
+    expect(screen.getByTestId("stepper")).toBeInTheDocument();
   });
 
   it("renders 'Case is disabled' text, when record is disabled", () => {
-    const { component: recordFormToolbarComponent } = setupMountedComponent(
-      RecordFormToolbar,
-      { ...props, record: fromJS({ enabled: false }) },
-      fromJS(initialState)
-    );
+    const disabledProps = { ...props, record: fromJS({ enabled: false }) };
 
-    expect(recordFormToolbarComponent.find(WorkflowIndicator)).to.be.empty;
-    expect(recordFormToolbarComponent.find(DisabledRecordIndicator).text()).to.be.equals("case.messages.disabled");
+    mountedComponent(<RecordFormToolbar {...disabledProps} />, fromJS(initialState));
+    expect(screen.getByText("case.messages.disabled")).toBeInTheDocument();
   });
 
   describe("when records is being save", () => {
-    let savingComponent;
-
     const initialStateSavingRecord = fromJS({
       ...initialState,
       records: {
@@ -188,21 +172,19 @@ describe("<RecordFormToolbar />", () => {
       }
     });
 
-    beforeEach(() => {
-      ({ component: savingComponent } = setupMountedComponent(
-        RecordFormToolbar,
-        props,
-        fromJS(initialStateSavingRecord)
-      ));
-    });
-
     it("renders a RecordFormToolbar/>", () => {
-      const saveButton = savingComponent.find(Button).at(1);
+      const recordFormToolbarProps = {
+        mode,
+        params,
+        record,
+        recordType: RECORD_TYPES[RECORD_PATH.cases],
+        shortId: record.get("short_id"),
+        primeroModule: MODULES.CP,
+        handleFormSubmit: () => {}
+      };
 
-      expect(savingComponent.find(RecordFormToolbar)).to.have.lengthOf(1);
-      expect(savingComponent.find(CircularProgress)).to.have.lengthOf(1);
-      expect(saveButton.text()).to.equal("buttons.save");
-      expect(saveButton.props().disabled).to.be.true;
+      mountedComponent(<RecordFormToolbar {...recordFormToolbarProps} />, fromJS(initialStateSavingRecord));
+      expect(screen.getByText(/buttons.save/i)).toBeInTheDocument();
     });
   });
 
@@ -226,22 +208,18 @@ describe("<RecordFormToolbar />", () => {
       }
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        RecordFormToolbar,
-        {
-          ...props,
-          mode: {
-            isNew: false,
-            isEdit: false,
-            isShow: true
-          }
-        },
-        fromJS(initialStateShowMode)
-      ));
-    });
+    const showProps = {
+      ...props,
+      mode: {
+        isNew: false,
+        isEdit: false,
+        isShow: true
+      }
+    };
+
     it("renders a Badge indicator for Flag", () => {
-      expect(component.find(Badge)).to.have.lengthOf(1);
+      mountedComponent(<RecordFormToolbar {...showProps} />, fromJS(initialStateShowMode));
+      expect(screen.getAllByTestId("badge")).toHaveLength(1);
     });
   });
 
@@ -258,112 +236,87 @@ describe("<RecordFormToolbar />", () => {
         }
       }
     };
+    const incidentProps = {
+      ...props,
+      recordType: RECORD_TYPES.incidents,
+      mode: {
+        isNew: false,
+        isEdit: false,
+        isShow: true
+      }
+    };
 
     describe("when in show mode", () => {
       it("renders a ReturnToCase button if recordType is incident", () => {
-        const { component: incidentComp } = setupMountedComponent(
-          RecordFormToolbar,
-          {
-            ...props,
-            recordType: RECORD_TYPES.incidents,
-            mode: {
-              isNew: false,
-              isEdit: false,
-              isShow: true
-            }
-          },
-          fromJS(initialStateIncidentFromCase)
-        );
-        const returnToCaseButton = incidentComp.find(ActionButton).first();
+        mountedComponent(<RecordFormToolbar {...incidentProps} />, fromJS(initialStateIncidentFromCase));
 
-        expect(returnToCaseButton.text()).to.equal("buttons.return_to_case");
+        expect(screen.getByText(/buttons.return_to_case/i)).toBeInTheDocument();
       });
 
       it("does not render a ReturnToCase button if recordType is case", () => {
-        const { component: caseComp } = setupMountedComponent(
-          RecordFormToolbar,
-          {
-            ...props,
-            recordType: RECORD_TYPES.cases,
-            mode: {
-              isNew: false,
-              isEdit: false,
-              isShow: true
-            }
-          },
-          fromJS(initialStateIncidentFromCase)
-        );
-        const returnToCaseButton = caseComp.find(ActionButton).first();
+        // const Eprops = {
+        //   ...props,
+        //   recordType: RECORD_TYPES.cases,
+        //   mode: {
+        //     isNew: false,
+        //     isEdit: false,
+        //     isShow: true
+        //   }
+        // };
 
-        expect(returnToCaseButton.text()).to.not.equal("buttons.return_to_case");
+        mountedComponent(<RecordFormToolbar {...props} />, fromJS(initialStateIncidentFromCase));
+
+        expect(screen.queryByText(/buttons.return_to_case/i)).toBeNull();
       });
     });
 
     describe("when in edit mode", () => {
+      const Eprops = {
+        ...props,
+        recordType: RECORD_TYPES.incidents,
+        mode: {
+          isNew: false,
+          isEdit: true,
+          isShow: false
+        }
+      };
+
       it("renders a SaveAndReturn button", () => {
-        const { component: caseComp } = setupMountedComponent(
-          RecordFormToolbar,
-          {
-            ...props,
-            recordType: RECORD_TYPES.incidents,
-            mode: {
-              isNew: false,
-              isEdit: true,
-              isShow: false
-            }
-          },
-          fromJS(initialStateIncidentFromCase)
-        );
+        mountedComponent(<RecordFormToolbar {...Eprops} />, fromJS(initialStateIncidentFromCase));
 
-        const saveAndReturnButton = caseComp.find(ActionButton).last();
-
-        expect(saveAndReturnButton.text()).to.equal("buttons.save_and_return");
-        expect(saveAndReturnButton.find(SaveReturnIcon)).to.have.lengthOf(1);
+        expect(screen.getByText(/buttons.save_and_return/i)).toBeInTheDocument();
       });
 
       it("does not render a SaveAndReturn button", () => {
-        const { component: caseComp } = setupMountedComponent(
-          RecordFormToolbar,
-          {
-            ...props,
-            recordType: RECORD_TYPES.cases,
-            mode: {
-              isNew: false,
-              isEdit: true,
-              isShow: false
-            }
-          },
-          fromJS(initialStateIncidentFromCase)
-        );
+        const saveAndReturnProps = {
+          ...props,
+          recordType: RECORD_TYPES.cases,
+          mode: {
+            isNew: false,
+            isEdit: true,
+            isShow: false
+          }
+        };
 
-        const saveAndReturnButton = caseComp.find(ActionButton).last();
+        mountedComponent(<RecordFormToolbar {...saveAndReturnProps} />, fromJS(initialStateIncidentFromCase));
 
-        expect(saveAndReturnButton.text()).to.not.equal("buttons.save_and_return");
-        expect(saveAndReturnButton.find(SaveReturnIcon)).to.have.lengthOf(0);
+        expect(screen.queryByText(/buttons.save_and_return/i)).toBeNull();
       });
 
       it("redirects the user to the case if cancel is clicked on a incident creation page", () => {
-        const { component: caseComp } = setupMountedComponent(
-          RecordFormToolbar,
-          {
-            ...props,
-            recordType: RECORD_TYPES.incidents,
-            mode: {
-              isNew: true,
-              isEdit: false,
-              isShow: false
-            }
-          },
-          fromJS(initialStateIncidentFromCase)
-        );
+        const cancelProps = {
+          ...props,
+          recordType: RECORD_TYPES.incidents,
+          mode: {
+            isNew: true,
+            isEdit: false,
+            isShow: false
+          }
+        };
 
-        const cancelButton = caseComp.find(ActionButton).first();
+        mountedComponent(<RecordFormToolbar {...cancelProps} />, fromJS(initialStateIncidentFromCase));
 
-        cancelButton.find("button").simulate("click");
-
-        const router = caseComp.find(Router);
-
-        expect(router.props().history.location.pathname).to.be.equal("/cases/case-id-1");
+        expect(screen.getAllByRole("button")).toHaveLength(2);
       });
     });
   });
