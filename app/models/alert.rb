@@ -10,6 +10,7 @@ class Alert < ApplicationRecord
 
   before_create :generate_fields
   before_create :remove_duplicate_alert
+  after_create_commit :handle_send_email
 
   def generate_fields
     self.unique_id ||= SecureRandom.uuid
@@ -24,5 +25,10 @@ class Alert < ApplicationRecord
     return unless alert_for == DuplicateIdAlertable::DUPLICATE_FIELD
 
     DuplicatedFieldAlertService.duplicate_alert(record, type)&.destroy!
+  end
+
+  def handle_send_email
+    return unless send_email
+    AlertNotifyJob.perform_later(self.id)
   end
 end

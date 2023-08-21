@@ -50,9 +50,11 @@ class NotificationMailer < ApplicationMailer
 
   def alert_notify(alert_id)
     load_alert_for_email(alert_id)
-    return unless assert_notifications_enabled(@user)
-
-    mail(to: @user.email, subject: alert_subject(@alert))
+    for user in @users
+      return unless assert_notifications_enabled(user)
+      @user = user
+      mail(to: user.email, subject: alert_subject(@record, @user))
+    end
   end
 
   private
@@ -103,11 +105,12 @@ class NotificationMailer < ApplicationMailer
 
   def load_alert_for_email(alert_id)
     @alert = Alert.find_by(id: alert_id)
-    @user = @alert.user || (return log_not_found('User', @alert.user_id))
-    @locale_email = @user.locale || I18n.locale
+    @record = @alert.record || (return log_not_found('Record', @alert.record_id))
+    @users = @record.associated_users
   end
 
-  def alert_subject(_alert, record)
+  def alert_subject(record, user)
+    @locale_email = user.locale || I18n.locale
     t(
       'email_notification.alert_subject',
       record_type: t("forms.record_types.#{record.class.parent_form}", locale: @locale_email),
