@@ -9,7 +9,7 @@
         record_type: @record.class.parent_form,
         id: link_to(@record.short_id, url_for_v2(@record)),
         locale: @locale_email
-    )%>
+    ).html_safe%>
     </p>
   </body>
 
