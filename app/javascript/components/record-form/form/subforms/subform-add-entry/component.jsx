@@ -84,9 +84,10 @@ const Component = ({
   };
 
   return (
-    <div>
+    <div data-testid="subForm-add-entry">
       <ActionButton
         id="fields.add"
+        data-testid="fields-add"
         icon={<AddIcon />}
         text={renderAddText}
         type={ACTION_BUTTON_TYPES.default}
@@ -96,10 +97,11 @@ const Component = ({
         }}
       />
       {shouldRenderViolationAssociationMenu && (
-        <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+        <Menu data-testid="menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
           {associationOptions.map(option => {
             return (
               <MenuItem
+                data-testid="menu-item"
                 key={option.id}
                 component={Button}
                 value={option.id}
