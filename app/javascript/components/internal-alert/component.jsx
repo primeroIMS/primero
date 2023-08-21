@@ -64,7 +64,9 @@ const Component = ({ title, items, severity, customIcon }) => {
     return (
       <>
         <div className={css.icon}>{customIcon || renderIcon()}</div>
-        <span className={css.message}>{titleMessage}</span>
+        <span className={css.message} data-testid="internal-alert-message">
+          {titleMessage}
+        </span>
       </>
     );
   };
