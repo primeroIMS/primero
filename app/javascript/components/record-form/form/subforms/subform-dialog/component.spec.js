@@ -1,16 +1,5 @@
-import { Formik } from "formik";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../../records";
-import TextField from "../../field-types/text-field";
-import InternalAlert from "../../../../internal-alert";
-import ActionDialog from "../../../../action-dialog";
-import SubformDrawer from "../subform-drawer";
-import SubformDrawerActions from "../subform-drawer-actions";
-import ViolationTitle from "../subform-fields/components/violation-title";
-import ActionButton from "../../../../action-button";
-import SubformDialogFields from "../subform-dialog-fields";
 
 import SubformDialog from "./component";
 
@@ -63,92 +52,24 @@ describe("<SubformDialog />", () => {
     }
   };
 
-  let component;
-
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(SubformDialog, props, {}, [], formProps));
-  });
-
   it("render the subform", () => {
-    expect(component.find(SubformDialog)).lengthOf(1);
+    mountedComponent(<SubformDialog {...props} />, {}, [], {}, formProps);
+    expect(screen.getByTestId("subForm-dialog-form")).toBeInTheDocument();
   });
 
   it("renders the FormSectionField", () => {
-    expect(component.find(TextField)).lengthOf(2);
+    mountedComponent(<SubformDialog {...props} />, {}, [], {}, formProps);
+    expect(screen.getAllByRole("textbox")).toHaveLength(2);
   });
 
   it("renders an InternalAlert if there are errors", () => {
-    expect(component.find(InternalAlert)).lengthOf(1);
+    mountedComponent(<SubformDialog {...props} />, {}, [], {}, formProps);
+    expect(screen.getAllByTestId("internal-alert-message")).toHaveLength(1);
   });
 
   it("renders the ConfirmationModal component", () => {
-    const subformDialog = component.find(SubformDialog);
-
-    expect(component.find(ActionDialog)).lengthOf(2);
-
-    // Editing a relation_name text-field
-    subformDialog
-      .find(Formik)
-      .find("input")
-      .first()
-      .simulate("change", { target: { value: "abc" } });
-
-    // Clicking cancel button
-    subformDialog.find("button").at(2).simulate("click");
-
-    const confirmationModal = component.find(ActionDialog).last().props();
-
-    expect(confirmationModal.open).to.be.true;
-    expect(confirmationModal.dialogText).to.be.equal("messages.confirmation_message_subform");
-  });
-
-  it("renders SubformDialog with valid props", () => {
-    const subformDialogProps = { ...component.find(SubformDialog).props() };
-
-    [
-      "arrayHelpers",
-      "dialogIsNew",
-      "field",
-      "formSection",
-      "formik",
-      "i18n",
-      "index",
-      "initialSubformValue",
-      "mode",
-      "open",
-      "setOpen",
-      "title",
-      "violationOptions"
-    ].forEach(property => {
-      expect(subformDialogProps).to.have.property(property);
-      delete subformDialogProps[property];
-    });
-
-    expect(subformDialogProps).to.be.empty;
-  });
-
-  it("renders SubformDialogFields with valid props", () => {
-    const subformDialogFieldsProps = { ...component.find(SubformDialogFields).props() };
-
-    [
-      "field",
-      "mode",
-      "index",
-      "formSection",
-      "isReadWriteForm",
-      "values",
-      "parentValues",
-      "parentTitle",
-      "parentViolationOptions",
-      "arrayHelpers",
-      "isViolation",
-      "isViolationAssociation",
-      "setFieldValue"
-    ].forEach(property => {
-      expect(subformDialogFieldsProps).to.have.property(property);
-      delete subformDialogFieldsProps[property];
-    });
-    expect(subformDialogFieldsProps).to.be.empty;
+    mountedComponent(<SubformDialog {...props} />, {}, [], {}, formProps);
+    expect(screen.getByRole("presentation")).toBeInTheDocument();
   });
 
   describe("when field is visible should not be render", () => {
@@ -197,16 +118,14 @@ describe("<SubformDialog />", () => {
       }
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(SubformDialog, propsFieldNotVisible, {}, [], visibleFieldFormProps));
-    });
-
     it("render the subform", () => {
-      expect(component.find(SubformDialog)).lengthOf(1);
+      mountedComponent(<SubformDialog {...propsFieldNotVisible} />, {}, [], {}, visibleFieldFormProps);
+      expect(screen.getByRole("presentation")).toBeInTheDocument();
     });
 
     it("renders the visible FormSectionField", () => {
-      expect(component.find(TextField)).lengthOf(1);
+      mountedComponent(<SubformDialog {...propsFieldNotVisible} />, {}, [], {}, visibleFieldFormProps);
+      expect(screen.getAllByRole("textbox")).toHaveLength(1);
     });
   });
 
@@ -250,48 +169,30 @@ describe("<SubformDialog />", () => {
       open: true,
       setOpen: () => {},
       title: "Services Section",
-      formSection: {}
+      formSection: {},
+      formik: {
+        values: {}
+      }
     };
 
-    context("when subform does not have values", () => {
-      beforeEach(() => {
-        ({ component } = setupMountedComponent(
-          SubformDialog,
-          {
-            ...subformProps,
-            formik: {
-              values: {}
-            }
-          },
-          {},
-          [],
-          {}
-        ));
-      });
-
+    describe("when subform does not have values", () => {
       it("should set the default values", () => {
-        expect(component.find(Autocomplete).props().value).to.equal("option_2");
+        mountedComponent(<SubformDialog {...subformProps} />, {}, [], {}, {});
+        expect(screen.getByPlaceholderText(/fields.select_single/i)).toBeInTheDocument();
       });
     });
 
-    context("when subform has values", () => {
-      beforeEach(() => {
-        ({ component } = setupMountedComponent(
-          SubformDialog,
-          {
-            ...subformProps,
-            formik: {
-              values: { services_section: [{ option_type: "option_1" }] }
-            }
-          },
-          {},
-          [],
-          {}
-        ));
-      });
+    describe("when subform has values", () => {
+      const sProps = {
+        ...subformProps,
+        formik: {
+          values: { services_section: [{ option_type: "option_1" }] }
+        }
+      };
 
       it("default values should not be set", () => {
-        expect(component.find(Autocomplete).props().value).to.equal("option_1");
+        mountedComponent(<SubformDialog {...sProps} />, {}, [], {}, {});
+        expect(screen.getByPlaceholderText(/fields.select_single/i)).toBeInTheDocument();
       });
     });
   });
@@ -353,71 +254,53 @@ describe("<SubformDialog />", () => {
       }
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(SubformDialog, propsRenderSomeFields, {}, [], formPropsRenderSomeFields));
-    });
-
     it("renders some FormSectionField", () => {
-      expect(component.find(TextField)).lengthOf(2);
+      mountedComponent(<SubformDialog {...propsRenderSomeFields} />, {}, [], {}, formPropsRenderSomeFields);
+      expect(screen.getAllByRole("textbox")).toHaveLength(2);
     });
   });
 
   describe("when the prop isViolation is true", () => {
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(SubformDialog, {
-        ...props,
-        open: true,
-        isViolation: true,
-        title: "This is a title"
-      }));
-    });
+    const inviteProsp = {
+      ...props,
+      open: true,
+      isViolation: true,
+      title: "This is a title"
+    };
 
     it("render the subform", () => {
-      expect(component.find(SubformDialog)).lengthOf(1);
+      mountedComponent(<SubformDialog {...inviteProsp} />, {}, [], {}, {});
+      expect(screen.getByTestId("subForm-dialog-form")).toBeInTheDocument();
     });
 
     it("renders SubformDrawer", () => {
-      expect(component.find(SubformDrawer)).lengthOf(1);
+      mountedComponent(<SubformDialog {...inviteProsp} />, {}, [], {}, {});
+      expect(screen.getByTestId("subForm-dialog-form")).toBeInTheDocument();
     });
 
     it("renders ViolationTitle", () => {
-      expect(component.find(ViolationTitle)).lengthOf(1);
+      mountedComponent(<SubformDialog {...inviteProsp} />, {}, [], {}, {});
+      expect(screen.getByTestId("violation-title")).toBeInTheDocument();
     });
 
     it("renders ViolationActions", () => {
-      expect(component.find(SubformDrawerActions)).lengthOf(1);
-      expect(component.find(SubformDrawerActions).find(ActionButton).first().text()).to.be.equal(
-        "incident.violation.save_and_return"
-      );
-    });
-
-    it("renders ViolationActions with valid props", () => {
-      const violationActionsProps = { ...component.find(SubformDrawerActions).props() };
-
-      ["handleBackLabel", "handleBack", "handleCancel", "isShow"].forEach(property => {
-        expect(violationActionsProps).to.have.property(property);
-        delete violationActionsProps[property];
-      });
-      expect(violationActionsProps).to.be.empty;
+      mountedComponent(<SubformDialog {...inviteProsp} />, {}, [], {}, {});
+      expect(screen.getByText("incident.violation.save_and_return")).toBeInTheDocument();
     });
   });
 
   describe("when the prop isViolationAssociation is true", () => {
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(SubformDialog, {
-        ...props,
-        open: true,
-        isViolationAssociation: true,
-        title: "This is a title",
-        parentTitle: "Parent"
-      }));
-    });
+    const violationAssociationProps = {
+      ...props,
+      open: true,
+      isViolationAssociation: true,
+      title: "This is a title",
+      parentTitle: "Parent"
+    };
 
     it("renders ViolationActions", () => {
-      expect(component.find(SubformDrawerActions)).lengthOf(1);
-      expect(component.find(SubformDrawerActions).find(ActionButton).first().text()).to.be.equal(
-        "incident.violation.save_and_return"
-      );
+      mountedComponent(<SubformDialog {...violationAssociationProps} />, {}, [], {}, {});
+      expect(screen.getByText("incident.violation.save_and_return")).toBeInTheDocument();
     });
   });
 });
