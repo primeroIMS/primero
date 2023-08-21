@@ -5,6 +5,12 @@ class AlertNotifyJob < ApplicationJob
   queue_as :mailer
 
   def perform(alert_id)
-    NotificationMailer.alert_notify(alert_id).deliver_now
+    alert = Alert.find(alert_id)
+    record = alert.record
+    users = record.associated_users
+    users.each do |user|
+      next if record.last_updated_by == user
+      NotificationMailer.alert_notify(alert_id, user.id).deliver_later
+    end
   end
 end

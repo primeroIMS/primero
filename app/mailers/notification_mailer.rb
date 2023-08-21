@@ -48,18 +48,12 @@ class NotificationMailer < ApplicationMailer
     )
   end
 
-  def alert_notify(alert_id)
-    load_alert_for_email(alert_id)
-    for user in @users
-      begin
-        next unless assert_notifications_enabled(user)
-        next if user == @record.last_updated_by
-        @user = user
-        mail(to: user.email, subject: alert_subject(@record, @user)).deliver_later
-      rescue => exception
-        Rails.logger.error("Mail not sent. #{exception.message}")
-      end
-    end
+  def alert_notify(alert_id, user_id)
+    load_alert_for_email(alert_id, user_id)
+    return unless assert_notifications_enabled(@user)
+    return if @user == @record.last_updated_by
+    Rails.logger.info("Sending alert notification to #{@user.user_name}")
+    mail(to: @user.email, subject: alert_subject(@record, @user))
   end
 
   private
@@ -108,17 +102,18 @@ class NotificationMailer < ApplicationMailer
     )
   end
 
-  def load_alert_for_email(alert_id)
+  def load_alert_for_email(alert_id, user_id)
     @alert = Alert.find_by(id: alert_id)
     @record = @alert.record || (return log_not_found('Record', @alert.record_id))
-    @users = @record.associated_users
+    @user = User.find_by(id: user_id) || (return log_not_found('User', user_id))
+    @locale_email = @user.locale || I18n.locale
+    @record_type_translated = t("forms.record_types.#{@record.class.parent_form}", locale: @locale_email)
   end
 
   def alert_subject(record, user)
-    @locale_email = user.locale || I18n.locale
     t(
       'email_notification.alert_subject',
-      record_type: t("forms.record_types.#{record.class.parent_form}", locale: @locale_email),
+      record_type: @record_type_translated,
       id: record.short_id,
       locale: @locale_email
     )

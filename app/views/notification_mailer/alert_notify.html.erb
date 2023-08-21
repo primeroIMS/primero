@@ -6,7 +6,7 @@
   <body>
     <p>
     <%= t("email_notification.alert",
-        record_type: @record.class.parent_form,
+        record_type: @record_type_translated,
         id: link_to(@record.short_id, url_for_v2(@record)),
         locale: @locale_email
     ).html_safe%>
