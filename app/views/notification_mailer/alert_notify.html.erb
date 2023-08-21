@@ -4,13 +4,13 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
   <body>
+    <p>
+    <%= t("email_notification.alert",
+        record_type: @record.class.parent_form,
+        id: link_to(@record.short_id, url_for_v2(@record)),
+        locale: @locale_email
+    )%>
+    </p>
   </body>
+
 </html>
-
-===============================================
-
-<%= t("email_notification.alert",
-    record_type: @record.class.parent_form,
-    id: @record.short_id,
-    locale: @locale_email
-)%>
