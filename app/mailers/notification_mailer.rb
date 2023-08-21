@@ -51,9 +51,14 @@ class NotificationMailer < ApplicationMailer
   def alert_notify(alert_id)
     load_alert_for_email(alert_id)
     for user in @users
-      return unless assert_notifications_enabled(user)
-      @user = user
-      mail(to: user.email, subject: alert_subject(@record, @user))
+      begin
+        next unless assert_notifications_enabled(user)
+        next if user == @record.last_updated_by
+        @user = user
+        mail(to: user.email, subject: alert_subject(@record, @user)).deliver_later
+      rescue => exception
+        Rails.logger.error("Mail not sent. #{exception.message}")
+      end
     end
   end
 
