@@ -48,6 +48,13 @@ class NotificationMailer < ApplicationMailer
     )
   end
 
+  def alert_notify(alert_id)
+    load_alert_for_email(alert_id)
+    return unless assert_notifications_enabled(@user)
+
+    mail(to: @user.email, subject: alert_subject(@alert))
+  end
+
   private
 
   def log_not_found(type, id)
@@ -88,6 +95,21 @@ class NotificationMailer < ApplicationMailer
   def transition_subject(record)
     t(
       "email_notification.#{@transition.key}_subject",
+      record_type: t("forms.record_types.#{record.class.parent_form}", locale: @locale_email),
+      id: record.short_id,
+      locale: @locale_email
+    )
+  end
+
+  def load_alert_for_email(alert_id)
+    @alert = Alert.find_by(id: alert_id)
+    @user = @alert.user || (return log_not_found('User', @alert.user_id))
+    @locale_email = @user.locale || I18n.locale
+  end
+
+  def alert_subject(_alert, record)
+    t(
+      'email_notification.alert_subject',
       record_type: t("forms.record_types.#{record.class.parent_form}", locale: @locale_email),
       id: record.short_id,
       locale: @locale_email

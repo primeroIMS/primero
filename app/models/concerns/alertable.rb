@@ -51,7 +51,8 @@ module Alertable
     alerts_on_change.each do |field_name, form_name|
       next unless changed_field_names.include?(field_name)
 
-      add_alert(alert_for: FIELD_CHANGE, date: Date.today, type: form_name, form_sidebar_id: form_name)
+      add_alert(alert_for: FIELD_CHANGE, date: Date.today,
+                type: form_name, form_sidebar_id: form_name, send_email: true)
     end
   end
 
@@ -63,7 +64,8 @@ module Alertable
     date_alert = args[:date].presence || Date.today
 
     alert = Alert.new(type: args[:type], date: date_alert, form_sidebar_id: args[:form_sidebar_id],
-                      alert_for: args[:alert_for], user_id: args[:user_id], agency_id: args[:agency_id])
+                      alert_for: args[:alert_for], user_id: args[:user_id], agency_id: args[:agency_id],
+                      send_email: args[:send_email])
 
     alerts << alert && alert
   end

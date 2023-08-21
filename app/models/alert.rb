@@ -6,6 +6,7 @@ class Alert < ApplicationRecord
   belongs_to :agency, optional: true
   belongs_to :user, optional: true
   validates :alert_for, presence: { message: 'errors.models.alerts.alert_for' }
+  attribute :send_email, :boolean, default: false
 
   before_create :generate_fields
   before_create :remove_duplicate_alert
