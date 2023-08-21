@@ -86,9 +86,10 @@ const Component = ({
   };
 
   return (
-    <div data-testid="subForm-add">
+    <div data-testid="subForm-add-entry">
       <ActionButton
         id="fields.add"
+        data-testid="fields-add"
         icon={<AddIcon />}
         text={renderAddText}
         type={ACTION_BUTTON_TYPES.default}
