@@ -10,9 +10,11 @@ describe RecordActionWebpushNotifier do
     )
     allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return('aVnNTxSI1EZmiG1dW6Z_I9fbQCbZB3Po')
   end
+
   let(:role) do
     create(:role, is_manager: true)
   end
+
   let(:user) do
     create :user, user_name: 'user', full_name: 'Test User 1', email: 'owner@primero.dev'
   end
@@ -26,11 +28,11 @@ describe RecordActionWebpushNotifier do
   end
 
   let(:manager2) do
-    create(:user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2')
+    create(:user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2', receive_webpush: true)
   end
 
   let(:child) do
-    create(:child, name: 'Test', owned_by: 'user-random', consent_for_services: true, disclosure_other_orgs: true)
+    create(:child, name: 'Test', owned_by: user.user_name, consent_for_services: true, disclosure_other_orgs: true)
   end
   let(:webpush_subscription1) do
     WebpushSubscription.create!(
@@ -58,6 +60,22 @@ describe RecordActionWebpushNotifier do
       expect(WebpushService).to receive(:send_notifications)
 
       RecordActionWebpushNotifier.transition_notify(TransitionNotificationService.new(assign1.id))
+    end
+  end
+
+  describe '#manager_approval_request' do
+    before(:each) do
+      webpush_subscription1
+    end
+
+    let(:approval_notification_service) do
+      ApprovalNotificationService.new(child.id, 'value1', manager2.user_name)
+    end
+
+    it 'should call TransitionNotificationService and WebpushService' do
+      expect(WebpushService).to receive(:send_notifications)
+
+      RecordActionWebpushNotifier.manager_approval_request(approval_notification_service)
     end
   end
 
@@ -89,6 +107,24 @@ describe RecordActionWebpushNotifier do
 
       it 'should return title for assign' do
         expect(subject[:title]).to eq('New Referral')
+      end
+    end
+
+    context 'when is an approval request' do
+      let(:approval_notification_service) do
+        ApprovalNotificationService.new(child.id, 'value1', manager2.user_name)
+      end
+
+      subject do
+        RecordActionWebpushNotifier.new.message_structure(approval_notification_service)
+      end
+
+      it 'should return a title for approval request' do
+        expect(subject[:title]).to eq('Approval Request')
+      end
+
+      it 'should return a body for approval request' do
+        expect(subject[:body]).to eq('A Case on your team has a pending approval request for value1.')
       end
     end
   end

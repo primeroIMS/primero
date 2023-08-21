@@ -3,8 +3,9 @@
 <%=
   t(
     'email_notification.approval_request',
-    user: @user.user_name, approval_type: @approval_type,
-    case_id: link_to(@child.short_id, url_for_v2(@child)),
-    locale: @locale_email
+    user: @approval_notification.user.user_name,
+    approval_type: @approval_notification.approval_type,
+    case_id: link_to(@approval_notification.child.short_id, url_for_v2(@approval_notification.child)),
+    locale: @approval_notification.locale
   ).html_safe
 %>

@@ -47,7 +47,9 @@ module Approvable
       Rails.logger.info "Approval Request Mail not sent. No managers present with send_mail enabled. User [#{owner.id}]"
       return
     end
-    managers.each { |manager| ApprovalRequestJob.perform_later(id, approval['approval_for_type'], manager.user_name) }
+    managers.each do |manager|
+      ApprovalRequestJob.perform_later(id, approval['approval_requested_for'], manager.user_name)
+    end
   end
 
   def send_approval_response_mail(approval)
