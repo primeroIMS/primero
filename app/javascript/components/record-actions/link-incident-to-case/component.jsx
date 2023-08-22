@@ -141,7 +141,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
         enabledSuccessButton={selectedCaseId !== undefined && selectedCaseId !== null ? true : false}
         omitCloseAfterSuccess>
         <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(handleSubmit)}>
+          <form onSubmit={methods.handleSubmit(handleSubmit)} data-testid="search-form-for-link-to-case">
             <Search />
           </form>
         </FormProvider>
