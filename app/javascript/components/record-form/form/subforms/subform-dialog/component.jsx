@@ -23,14 +23,15 @@ import uuid from "../../../../../libs/uuid";
 import { useApp } from "../../../../application";
 import SubformLink from "../subform-link/component";
 import DefaultEditActions from "../subform-drawer-actions/components/default-edit-actions";
-import FamilyMemberActions from "../subform-drawer-actions/components/family-member-actions";
+import FamilySubformActions from "../subform-drawer-actions/components/family-subform-actions";
 import {
+  createCaseFromFamilyDetail,
   createCaseFromFamilyMember,
-  getCaseFormFamilyMemberLoading,
-  getCaseFromFamilyMember
+  getCaseFormFamilyMemberLoading
 } from "../../../../records";
 import { useMemoizedSelector } from "../../../../../libs";
-import { RECORD_TYPES_PLURAL } from "../../../../../config";
+import { RECORD_TYPES, RECORD_TYPES_PLURAL } from "../../../../../config";
+import { ENQUEUE_SNACKBAR, generate } from "../../../../notifier";
 
 const Component = ({
   arrayHelpers,
@@ -63,11 +64,15 @@ const Component = ({
   const [initialValues, setInitialValues] = useState({});
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const [openCreateCaseConfirmationModal, setOpenCreateCaseConfirmationModal] = useState(false);
-  const caseFromFamilyMember = useMemoizedSelector(state => getCaseFromFamilyMember(state));
   const caseFromFamilyMemberLoading = useMemoizedSelector(state => getCaseFormFamilyMemberLoading(state));
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
   const asDrawer = isViolation || isViolationAssociation || isFamilyMember || isFamilyDetail;
+  const isFamilySubform = isFamilyMember || isFamilyDetail;
+  const familyHandleBackLabel = isFamilyMember
+    ? "family.family_member.back_to_family_members"
+    : "case.back_to_family_details";
+  const familyCreateLabel = isFamilyMember ? "family.family_member.create_case" : "case.create_case";
 
   const subformValues = getSubformValues(field, index, formik.values, orderedValues, isViolation);
 
@@ -83,8 +88,7 @@ const Component = ({
     return object().shape(Object.assign({}, ...subformSchema));
   };
 
-  const familyMemberCaseId = caseFromFamilyMember.get("case_id", subformValues.case_id);
-  const familyMemberCaseIdDisplay = caseFromFamilyMember.get("case_id_display", subformValues.case_id_display);
+  const { case_id: caseId, case_id_display: caseIdDisplay, family_record_created: familyRecordCreated } = subformValues;
 
   const handleClose = () => {
     const compactedValues = compactValues(childFormikRef.current.values, initialSubformValues);
@@ -185,13 +189,21 @@ const Component = ({
   const createCaseConfirmationProps = {
     open: openCreateCaseConfirmationModal,
     maxSize: "xs",
-    confirmButtonLabel: i18n.t("family.family_member.create"),
+    confirmButtonLabel: isFamilyMember ? i18n.t("family.family_member.create") : i18n.t("case.create"),
     dialogTitle: title,
-    dialogText: i18n.t("family.messages.confirm_create_case"),
+    dialogText: isFamilyMember
+      ? i18n.t("family.messages.confirm_create_case")
+      : i18n.t("case.messages.confirm_create_case"),
     disableBackdropClick: true,
     cancelHandler: () => setOpenCreateCaseConfirmationModal(false),
     successHandler: () => {
-      dispatch(createCaseFromFamilyMember({ familyId: params.id, familyMemberId: subformValues.unique_id }));
+      if (isFamilyMember) {
+        dispatch(createCaseFromFamilyMember({ familyId: params.id, familyMemberId: subformValues.unique_id }));
+      }
+
+      if (isFamilyDetail) {
+        dispatch(createCaseFromFamilyDetail({ caseId: params.id, familyDetailId: subformValues.unique_id }));
+      }
     }
   };
 
@@ -227,6 +239,21 @@ const Component = ({
     }
   }, [open]);
 
+  useEffect(() => {
+    if (familyRecordCreated) {
+      dispatch({
+        type: ENQUEUE_SNACKBAR,
+        payload: {
+          messageKey: `${RECORD_TYPES.families}.messages.creation_success`,
+          options: {
+            variant: "success",
+            key: generate.messageKey(`${RECORD_TYPES.families}.messages.creation_success`)
+          }
+        }
+      });
+    }
+  }, [familyRecordCreated]);
+
   return (
     <>
       <ComponentToRender {...propsForComponent}>
@@ -253,10 +280,12 @@ const Component = ({
                 {asDrawer && (
                   <SubformDrawerActions
                     showActions={
-                      isFamilyMember && !familyMemberCaseId ? (
-                        <FamilyMemberActions
+                      isFamilySubform && !caseId ? (
+                        <FamilySubformActions
                           handleBack={handleClose}
+                          handleBackLabel={familyHandleBackLabel}
                           pending={caseFromFamilyMemberLoading}
+                          handleCreateLabel={familyCreateLabel}
                           handleCreate={() => {
                             setOpenCreateCaseConfirmationModal(true);
                           }}
@@ -277,11 +306,11 @@ const Component = ({
                     isShow={mode.isShow}
                   />
                 )}
-                {isFamilyMember && mode.isShow && familyMemberCaseId && !caseFromFamilyMemberLoading && (
+                {isFamilySubform && mode.isShow && caseId && !caseFromFamilyMemberLoading && (
                   <SubformLink
-                    href={`/${RECORD_TYPES_PLURAL.case}/${familyMemberCaseId}`}
+                    href={`/${RECORD_TYPES_PLURAL.case}/${caseId}`}
                     label={i18n.t("family.family_member.case_id")}
-                    text={familyMemberCaseIdDisplay}
+                    text={caseIdDisplay}
                   />
                 )}
                 {renderSubform(field, index, values, setFieldValue)}
@@ -290,7 +319,7 @@ const Component = ({
           }}
         </Formik>
       </ComponentToRender>
-      {isFamilyMember && openCreateCaseConfirmationModal && <ActionDialog {...createCaseConfirmationProps} />}
+      {isFamilySubform && openCreateCaseConfirmationModal && <ActionDialog {...createCaseConfirmationProps} />}
       <ActionDialog {...modalConfirmationProps} />
     </>
   );

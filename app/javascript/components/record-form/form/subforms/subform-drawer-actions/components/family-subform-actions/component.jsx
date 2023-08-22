@@ -7,12 +7,12 @@ import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
 
 import css from "./styles.css";
 
-function Component({ handleBack, handleCreate, pending }) {
+function Component({ handleBackLabel, handleBack, handleCreate, handleCreateLabel, pending }) {
   return (
     <div className={css.buttonsRow}>
       <ActionButton
         icon={<ArrowBackIosIcon />}
-        text="family.family_member.back_to_family_members"
+        text={handleBackLabel}
         type={ACTION_BUTTON_TYPES.default}
         outlined
         rest={{
@@ -21,7 +21,7 @@ function Component({ handleBack, handleCreate, pending }) {
       />
       <ActionButton
         icon={<AddIcon />}
-        text="family.family_member.create_case"
+        text={handleCreateLabel}
         type={ACTION_BUTTON_TYPES.default}
         outlined
         pending={pending}
@@ -35,7 +35,9 @@ function Component({ handleBack, handleCreate, pending }) {
 
 Component.propTypes = {
   handleBack: PropTypes.func,
+  handleBackLabel: PropTypes.string,
   handleCreate: PropTypes.func,
+  handleCreateLabel: PropTypes.string,
   pending: PropTypes.bool
 };
 

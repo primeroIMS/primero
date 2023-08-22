@@ -53,9 +53,9 @@ describe FamilyLinkageService do
     )
   end
 
-  describe 'new_child_for_family_member' do
+  describe 'new_child_from_family_member' do
     it 'creates a child record using the family member data' do
-      child = FamilyLinkageService.new_child_for_family_member(user, family1.id, '001')
+      child = family1.new_child_from_family_member(user, '001')
       child.save!
 
       target_fields = FamilyLinkageService::DEFAULT_MAPPING.map { |mapping| mapping[:target] }.flatten
@@ -70,7 +70,7 @@ describe FamilyLinkageService do
           'age' => 10,
           'date_of_birth' => Date.today - 10.years,
           'estimated' => true,
-          'national_id' => 'national_001',
+          'national_id_no' => 'national_001',
           'other_id_no' => 'other_001',
           'ethnicity' => 'ethnicity1',
           'sub_ethnicity_1' => 'ethnicity2',
@@ -87,12 +87,9 @@ describe FamilyLinkageService do
     end
   end
 
-  describe 'family_details_for_child' do
+  describe 'family_to_child' do
     it 'returns the family details for a child' do
-      child = FamilyLinkageService.new_child_for_family_member(user, family1.id, '002')
-      child.save!
-      child.reload
-      family_details = FamilyLinkageService.family_details_for_child(child)
+      family_details = FamilyLinkageService.family_to_child(family1)
 
       expect(family_details['family_number']).to eq('40bf9109')
       expect(family_details['family_size']).to eq(1)
@@ -102,7 +99,7 @@ describe FamilyLinkageService do
 
   describe 'family_details_section_for_child' do
     it 'returns the global fields for family member if exists' do
-      child = FamilyLinkageService.new_child_for_family_member(user, family1.id, '002')
+      child = family1.new_child_from_family_member(user, '002')
 
       expect(FamilyLinkageService.family_details_section_for_child(child)).to eq(
         [

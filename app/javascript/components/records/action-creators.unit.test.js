@@ -26,31 +26,32 @@ describe("records - Action Creators", () => {
 
     [
       "clearCaseFromIncident",
+      "clearMatchedTraces",
       "clearMetadata",
+      "clearPotentialMatches",
       "clearRecordAttachments",
+      "clearSelectedCasePotentialMatch",
       "clearSelectedRecord",
+      "createCaseFromFamilyDetail",
+      "createCaseFromFamilyMember",
+      "externalSync",
       "fetchCasesPotentialMatches",
       "fetchIncidentFromCase",
       "fetchIncidentwitCaseId",
+      "fetchMatchedTraces",
       "fetchRecord",
       "fetchRecordsAlerts",
       "fetchTracePotentialMatches",
       "fetchTracingRequestTraces",
+      "markForOffline",
+      "offlineIncidentFromCase",
       "saveRecord",
       "setCaseIdForIncident",
       "setMachedCaseForTrace",
+      "setSelectedCasePotentialMatch",
       "setSelectedPotentialMatch",
       "setSelectedRecord",
-      "setSelectedCasePotentialMatch",
-      "clearSelectedCasePotentialMatch",
-      "fetchMatchedTraces",
-      "clearMatchedTraces",
-      "unMatchCaseForTrace",
-      "clearPotentialMatches",
-      "externalSync",
-      "offlineIncidentFromCase",
-      "markForOffline",
-      "createCaseFromFamilyMember"
+      "unMatchCaseForTrace"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
