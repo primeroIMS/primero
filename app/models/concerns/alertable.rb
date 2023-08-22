@@ -44,6 +44,9 @@ module Alertable
   end
 
   def add_alert_on_field_change
+    # Email alerts
+    add_email_alert_on_field_change()
+    # Non-email alerts
     return unless owned_by != last_updated_by
     return unless alerts_on_change.present?
 
@@ -52,9 +55,23 @@ module Alertable
       next unless changed_field_names.include?(field_name)
 
       add_alert(alert_for: FIELD_CHANGE, date: Date.today,
-                type: form_name, form_sidebar_id: form_name, send_email: true)
+                type: form_name, form_sidebar_id: form_name)
     end
   end
+
+  def add_email_alert_on_field_change
+    email_field_names = email_alerts_on_change&.keys
+    return unless email_field_names.present?
+    changed_field_names = changes_to_save_for_record.keys
+    email_alerts_on_change.each do |field_name, form_name|
+      next unless changed_field_names.include?(field_name)
+
+      add_alert(alert_for: FIELD_CHANGE, date: Date.today,
+                type: form_name, form_sidebar_id: form_name,
+                send_email: true)
+    end
+  end
+
 
   def current_alert_types
     alerts.map(&:type).uniq
@@ -94,6 +111,11 @@ module Alertable
   def alerts_on_change
     @system_settings ||= SystemSettings.current
     @system_settings&.changes_field_to_form
+  end
+
+  def email_alerts_on_change
+    @system_settings || SystemSettings.current
+    @system_settings&.email_alert_on_change_field_to_form
   end
 
   # Class methods that indicate alerts for all permitted records for a user.
