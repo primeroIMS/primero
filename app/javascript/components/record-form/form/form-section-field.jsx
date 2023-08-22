@@ -156,7 +156,7 @@ const FormSectionField = ({
 
   return (
     <ConditionalWrapper condition={!mode.isShow && disabled} wrapper={Tooltip} title={i18n.t("messages.cannot_edit")}>
-      <div className={classes}>
+      <div className={classes} data-testid="form-section-field">
         <FieldComponent {...fieldProps} mode={mode} formSection={formSection} />
         {renderGuidingQuestions}
       </div>
