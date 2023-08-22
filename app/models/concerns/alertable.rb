@@ -60,6 +60,8 @@ module Alertable
   end
 
   def add_email_alert_on_field_change
+    # This creates an alert that also sends an email, but otherwise is similar to normal field alerts
+    # It differs in that it will still create an alert even if the user is the owner.
     email_field_names = email_alerts_on_change&.keys
     return unless email_field_names.present?
     changed_field_names = changes_to_save_for_record.keys
