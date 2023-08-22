@@ -9,7 +9,7 @@ class AlertNotifyJob < ApplicationJob
     record = alert.record
     users = record.associated_users
     users.each do |user|
-      next if record.last_updated_by == user
+      next if record.last_updated_by == user.user_name
       NotificationMailer.alert_notify(alert_id, user.id).deliver_later
     end
   end
