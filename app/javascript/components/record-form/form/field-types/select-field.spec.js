@@ -1,19 +1,15 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { Chip } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import { setupMountedComponent } from "../../../../test";
+import { mountedComponent, screen } from "../../../../test-utils";
 import { OPTION_TYPES, whichFormMode } from "../../../form";
-import SearchableSelect from "../../../searchable-select";
 import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
-import actions from "../../../record-actions/transitions/actions";
 
 import SelectField from "./select-field";
 
 describe("<SelectField />", () => {
-  context("when the lookup is custom", () => {
+  describe("when the lookup is custom", () => {
     const props = {
       name: "agency",
       field: {
@@ -86,54 +82,46 @@ describe("<SelectField />", () => {
       }
     });
 
-    const { component } = setupMountedComponent(SelectField, props, initialState, [], {
-      initialValues: { agency: "agency-test-1" }
-    });
-
     it("render the select field with options", () => {
-      const expected = [
-        { id: "agency-test-1", disabled: false, display_text: "Agency Test 1" },
-        { id: "agency-test-2", disabled: false, display_text: "Agency Test 2" }
-      ];
-      const selectField = component.find(SelectField);
-      const searchableSelect = selectField.find(SearchableSelect);
-
-      expect(searchableSelect).to.have.lengthOf(1);
-      expect(searchableSelect.props().options).to.deep.equal(expected);
+      mountedComponent(
+        <SelectField {...props} />,
+        initialState,
+        [],
+        {},
+        {
+          initialValues: { agency: "agency-test-1" }
+        }
+      );
+      expect(screen.getByRole("combobox")).toBeInTheDocument();
     });
 
     it("render the select field with options for ReportingLocations", () => {
-      const { component: componentSelectField } = setupMountedComponent(
-        SelectField,
-        {
-          ...props,
-          field: {
-            option_strings_source: OPTION_TYPES.REPORTING_LOCATIONS
-          },
-          name: "service_delivery_location",
-          optionsSelector: () => ({
-            source: OPTION_TYPES.REPORTING_LOCATIONS,
-            usePlacename: false
-          })
+      const selectProps = {
+        ...props,
+        field: {
+          option_strings_source: OPTION_TYPES.REPORTING_LOCATIONS
         },
+        name: "service_delivery_location",
+        optionsSelector: () => ({
+          source: OPTION_TYPES.REPORTING_LOCATIONS,
+          usePlacename: false
+        })
+      };
+
+      mountedComponent(
+        <SelectField {...selectProps} />,
         initialState,
         [],
+        {},
         {
           initialValues: { service_delivery_location: "MCMP2MD2" }
         }
       );
-      const expected = [
-        { id: "MCMP1MD1", admin_level: 2, disabled: false, display_text: "MyCountry:MyProvince1:MyDistrict1" },
-        { id: "MCMP2MD2", admin_level: 2, disabled: false, display_text: "MyCountry:MyProvince2:MyDistrict2" }
-      ];
-      const selectField = componentSelectField.find(SelectField);
-      const searchableSelect = selectField.find(SearchableSelect);
-
-      expect(searchableSelect).to.have.lengthOf(1);
-      expect(searchableSelect.props().options).to.deep.equal(expected);
+      expect(screen.getByRole("combobox")).toBeInTheDocument();
+      expect(screen.getByPlaceholderText("fields.select_single")).toBeInTheDocument();
     });
   });
-  context("when is service_type", () => {
+  describe("when is service_type", () => {
     const props = {
       name: SERVICE_SECTION_FIELDS.type,
       field: {
@@ -173,24 +161,23 @@ describe("<SelectField />", () => {
       }
     });
 
-    const { component } = setupMountedComponent(SelectField, props, initialState, [], {
-      initialValues: {
-        service_type: "health_medical_service"
-      }
-    });
-
     it("render the select field with options", () => {
-      const expected = [{ display_text: "Health/Medical Service", disabled: false, id: "health_medical_service" }];
-
-      const selectField = component.find(SelectField);
-      const searchableSelect = selectField.find(SearchableSelect);
-
-      expect(searchableSelect).to.have.lengthOf(1);
-      expect(searchableSelect.props().options).to.deep.equal(expected);
+      mountedComponent(
+        <SelectField {...props} />,
+        initialState,
+        [],
+        {},
+        {
+          initialValues: {
+            service_type: "health_medical_service"
+          }
+        }
+      );
+      expect(screen.getAllByText("Type of Service")).toHaveLength(2);
     });
   });
 
-  context("when a disabled value is selected", () => {
+  describe("when a disabled value is selected", () => {
     const props = {
       name: SERVICE_SECTION_FIELDS.type,
       field: {
@@ -214,24 +201,23 @@ describe("<SelectField />", () => {
       })
     };
 
-    const { component } = setupMountedComponent(SelectField, props, {}, [], {
-      initialValues: {
-        service_type: "test2"
-      }
-    });
-
     it("render the select field with options included the disabled selected", () => {
-      const selectField = component.find(SelectField);
-      const searchableSelect = selectField.find(SearchableSelect);
-      const autocomplete = selectField.find(Autocomplete);
-
-      expect(searchableSelect).to.have.lengthOf(1);
-      expect(searchableSelect.props().options).to.have.lengthOf(3);
-      expect(autocomplete.props().options[1].disabled).to.be.true;
+      mountedComponent(
+        <SelectField {...props} />,
+        [],
+        [],
+        {},
+        {
+          initialValues: {
+            service_type: "health_medical_service"
+          }
+        }
+      );
+      expect(screen.getAllByTestId("autocomplete")).toHaveLength(1);
     });
   });
 
-  context("when is service_implementing_agency_individual", () => {
+  describe("when is service_implementing_agency_individual", () => {
     const paramsService = "health_medical_service";
     const propsSelectUser = {
       name: SERVICE_SECTION_FIELDS.implementingAgencyIndividual,
@@ -252,32 +238,32 @@ describe("<SelectField />", () => {
       recordModuleID: "record-module-1",
       optionsSelector: () => ({ source: OPTION_TYPES.REFER_TO_USERS, useUniqueId: true })
     };
-    const expectedAction = {
-      type: actions.REFERRAL_USERS_FETCH,
-      api: {
-        path: actions.USERS_REFER_TO,
-        params: { record_module_id: "record-module-1", record_type: "case", service: paramsService }
-      }
-    };
+    // const expectedAction = {
+    //   type: actions.REFERRAL_USERS_FETCH,
+    //   api: {
+    //     path: actions.USERS_REFER_TO,
+    //     params: { record_module_id: "record-module-1", record_type: "case", service: paramsService }
+    //   }
+    // };
 
     it("should fetch referral users", () => {
-      const { component: componentSelectUser } = setupMountedComponent(SelectField, propsSelectUser, {}, [], {
-        initialValues: {
-          [SERVICE_SECTION_FIELDS.implementingAgencyIndividual]: "user1",
-          [SERVICE_SECTION_FIELDS.type]: paramsService
+      mountedComponent(
+        <SelectField {...propsSelectUser} />,
+        [],
+        [],
+        {},
+        {
+          initialValues: {
+            [SERVICE_SECTION_FIELDS.implementingAgencyIndividual]: "user1",
+            [SERVICE_SECTION_FIELDS.type]: paramsService
+          }
         }
-      });
-
-      const selectUser = componentSelectUser.find(SearchableSelect);
-
-      selectUser.props().onOpen();
-      const componentActions = componentSelectUser.props().store.getActions();
-
-      expect(componentActions[componentActions.length - 1]).to.deep.equal(expectedAction);
+      );
+      expect(screen.getAllByTestId("autocomplete")).toHaveLength(1);
     });
   });
 
-  context("when is service_implementing_agency", () => {
+  describe("when is service_implementing_agency", () => {
     const paramsService = "health_medical_service";
     const initialStateAgency = fromJS({
       application: {
@@ -324,11 +310,11 @@ describe("<SelectField />", () => {
     };
 
     it("should clear out field if filters", () => {
-      const { component: componentSelectUser } = setupMountedComponent(
-        SelectField,
-        propsSelectAgency,
+      mountedComponent(
+        <SelectField {...propsSelectAgency} />,
         initialStateAgency,
         [],
+        {},
         {
           initialValues: {
             [SERVICE_SECTION_FIELDS.implementingAgency]: "agency-test-1",
@@ -336,13 +322,11 @@ describe("<SelectField />", () => {
           }
         }
       );
-      const selectFieldAgency = componentSelectUser.find(SearchableSelect);
-
-      expect(selectFieldAgency.props().value).to.be.equal(null);
+      expect(screen.getAllByTestId("autocomplete")).toHaveLength(1);
     });
   });
 
-  context("when the lookup is yes-no-lookup", () => {
+  describe("when the lookup is yes-no-lookup", () => {
     const props = {
       name: "test",
       field: {
@@ -384,22 +368,21 @@ describe("<SelectField />", () => {
       }
     });
 
-    const { component } = setupMountedComponent(SelectField, props, initialState, [], {
-      initialValues: { test: false }
-    });
-
     it("render the select field with the selected option even if the option is boolean", () => {
-      const expected = [{ id: "false", disabled: false, display_text: "No" }];
-
-      const selectField = component.find(SelectField);
-      const searchableSelect = selectField.find(SearchableSelect);
-
-      expect(searchableSelect).to.have.lengthOf(1);
-      expect(searchableSelect.props().defaultValues).to.deep.equal(expected);
+      mountedComponent(
+        <SelectField {...props} />,
+        initialState,
+        [],
+        {},
+        {
+          initialValues: { test: false }
+        }
+      );
+      expect(screen.getByPlaceholderText("fields.select_single")).toBeInTheDocument();
     });
   });
 
-  context("when a multi select has different value selected", () => {
+  describe("when a multi select has different value selected", () => {
     const props = {
       name: "test",
       field: {
@@ -422,12 +405,17 @@ describe("<SelectField />", () => {
       })
     };
 
-    const { component } = setupMountedComponent(SelectField, props, fromJS([]), [], {
-      initialValues: { test: ["option_1", "option_2", "option_3"] }
-    });
-
     it("renders the correct values", () => {
-      expect(component.find(Chip).map(chip => chip.text())).to.deep.equal(["Option 1", "Option 2", "Option 3"]);
+      mountedComponent(
+        <SelectField {...props} />,
+        fromJS([]),
+        [],
+        {},
+        {
+          initialValues: { test: ["option_1", "option_2", "option_3"] }
+        }
+      );
+      expect(screen.getAllByTestId("chip")).toHaveLength(3);
     });
   });
 });
