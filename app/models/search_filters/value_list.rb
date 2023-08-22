@@ -5,12 +5,13 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
   attr_accessor :field_name, :values
 
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Style/HashEachMethods
   def query_scope(sunspot)
     this = self
     sunspot.instance_eval do
       if this.values.first.is_a?(Hash)
         any_of do
-          this.each_value do |v|
+          this.values.each do |v|
             with(this.field_name, v['from']...v['to'])
           end
         end
@@ -19,6 +20,7 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
       end
     end
   end
+  # rubocop:enable Style/HashEachMethods
   # rubocop:enable Metrics/MethodLength
 
   def as_location_filter(record_class)
