@@ -830,6 +830,9 @@ en:
     assign_html: '<strong>%{user}</strong> has assigned the following %{record_type} to you: <strong>%{record_id}</strong>.'
     transfer_request_html: 'Primero user <strong>%{user}</strong> from %{agency} is requesting that you transfer ownership of this %{record_type} record <strong>%{record_id}</strong> so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer.'
     transfer_request_notes_html: 'Notes from the individual making the request: %{request_transfer_notes}'
+    alert: '%{record_type} %{id} has been updated. Please log in to Primero to review the changes.'
+    alert_html: '<strong>%{record_type}</strong> <strong>%{id}</strong> has been updated. Please log in to Primero to review the changes.'
+    alert_subject: '%{record_type}: %{id} - Updated'
   webpush_notification:
     action_label: Go to Case
     assign:

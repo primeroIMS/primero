@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="<%= @user.locale || I18n.locale %>">
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <p>
+    <%= t("email_notification.alert",
+        record_type: @record_type_translated,
+        id: link_to(@record.short_id, url_for_v2(@record)),
+        locale: @locale_email
+    ).html_safe%>
+    </p>
+  </body>
+
+</html>

@@ -1,0 +1,7 @@
+<%= t("email_notification.alert",
+    record_type: @record_type_translated,
+    id: @record.short_id,
+    locale: @locale_email
+)%>
+
+<%= url_for_v2(@record) %>
