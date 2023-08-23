@@ -801,6 +801,8 @@ fr:
     assign_html: 'L''utilisateur <strong>%{user}</strong> vous a assigné le cas suivant %{record_type} <strong>%{record_id}</strong>.'
     transfer_request_html: 'L''utilisateur Primero %{user} de %{agency} vous demande de transférer la gestion du cas %{record_type}, %{record_id} afin qu''il puisse fournir des services de %{record_type} dans sa région. Si ce transfert vous convient, veuillez cliquer sur le lien %{record_type} dans cet e-mail pour ouvrir le fichier %{record_type}dans  Primero et effectuer le transfert.'
     transfer_request_notes_html: 'Notes de la personne qui fait la demande: %{request_transfer_notes}'
+    alert: '%{record_type} : %{id} - %{form_name} a été actualisé'
+    alert_subject: '%{record_type}: %{id} - %{form_name} actualisé'
   encrypt:
     export_type: 'Type d''exportation '
     file_name: Créer votre propre nom de fichier (facultatif)

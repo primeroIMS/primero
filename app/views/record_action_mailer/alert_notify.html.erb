@@ -8,6 +8,7 @@
     <%= t("email_notification.alert",
         record_type: @record_type_translated,
         id: link_to(@record.short_id, url_for_v2(@record)),
+        form_name: @form_section_name_translated,
         locale: @locale_email
     ).html_safe%>
     </p>

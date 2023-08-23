@@ -108,6 +108,8 @@ class RecordActionMailer < ApplicationMailer
     @record = @alert.record || (return log_not_found('Record', @alert.record_id))
     @user = User.find_by(id: user_id) || (return log_not_found('User', user_id))
     @locale_email = @user.locale || I18n.locale
+    @form_section = FormSection.find_by(unique_id: @alert.form_sidebar_id)
+    @form_section_name_translated = I18n.with_locale(@locale_email) do @form_section&.name end
     @record_type_translated = t("forms.record_types.#{@record.class.parent_form}", locale: @locale_email)
   end
 
@@ -116,6 +118,7 @@ class RecordActionMailer < ApplicationMailer
       'email_notification.alert_subject',
       record_type: @record_type_translated,
       id: record.short_id,
+      form_name: @form_section_name_translated,
       locale: @locale_email
     )
   end
