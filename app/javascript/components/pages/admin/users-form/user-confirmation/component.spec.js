@@ -1,14 +1,11 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
+import { mountedComponent, screen } from "test-utils";
 
-import ActionDialog from "../../../../action-dialog";
-import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../permissions";
 
 import UserConfirmation from "./component";
 
 describe("<UserConfirmation /> - Component", () => {
-  let component;
   const props = {
     close: () => {},
     dialogName: "dialog",
@@ -17,7 +14,8 @@ describe("<UserConfirmation /> - Component", () => {
     saveMethod: "new",
     setPending: () => {},
     userConfirmationOpen: false,
-    userData: {}
+    userData: {},
+    open: true
   };
   const initialState = fromJS({
     records: {
@@ -43,22 +41,10 @@ describe("<UserConfirmation /> - Component", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(UserConfirmation, props, initialState));
+    mountedComponent(<UserConfirmation {...props} />, initialState);
   });
 
   it("renders UserConfirmation component", () => {
-    expect(component.find(UserConfirmation)).to.have.length(1);
-  });
-
-  describe("when open ActionDialog", () => {
-    let testComponent;
-
-    before(() => {
-      ({ component: testComponent } = setupMountedComponent(UserConfirmation, { ...props, open: true }, initialState));
-    });
-
-    it("render dialogContent <p>", () => {
-      expect(testComponent.find(ActionDialog).find("p")).to.have.lengthOf(1);
-    });
+    expect(screen.getByText("user.messages.new_confirm_non_identity_html")).toBeInTheDocument();
   });
 });
