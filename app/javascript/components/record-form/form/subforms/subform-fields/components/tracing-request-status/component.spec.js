@@ -1,17 +1,16 @@
 import { fromJS, Map } from "immutable";
 
-import { setupMountedComponent } from "../../../../../../../test";
+import { mountedComponent, screen } from "../../../../../../../test-utils";
 import { TRACING_REQUEST_STATUS_FIELD_NAME } from "../../../../../../../config";
 
 import TracingRequestStatus from "./component";
 
 describe("<RecordForm>/form/subforms/<SubformFields>/components/<TracingRequestStatus />", () => {
-  let component;
+  const props = { values: { tracing_request_status: "status_1" } };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      TracingRequestStatus,
-      { values: { tracing_request_status: "status_1" } },
+  it("should render the tracing request status", () => {
+    mountedComponent(
+      <TracingRequestStatus {...props} />,
       Map({
         forms: Map({
           fields: [{ name: TRACING_REQUEST_STATUS_FIELD_NAME, option_strings_source: "lookup lookup-test" }],
@@ -22,10 +21,7 @@ describe("<RecordForm>/form/subforms/<SubformFields>/components/<TracingRequestS
           })
         })
       })
-    ));
-  });
-
-  it("should render the tracing request status", () => {
-    expect(component.find(TracingRequestStatus)).to.have.lengthOf(1);
+    );
+    expect(screen.getByText(/status_1/i)).toBeInTheDocument();
   });
 });
