@@ -1,4 +1,4 @@
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 
 import SubformFieldSubform from "./component";
 import { EXPANDED } from "./constants";
@@ -30,13 +30,8 @@ describe("<SubformErrors />", () => {
     violationOptions: []
   };
 
-  let component;
-
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(SubformFieldSubform, props, null, null, { initialValues: {} }));
-  });
-
   it("render the SubformFieldSubform", () => {
-    expect(component.find(SubformFieldSubform)).lengthOf(1);
+    mountedComponent(<SubformFieldSubform {...props} />, {}, [], [], { initialValues: {} });
+    expect(screen.getAllByTestId("dialog")).toHaveLength(2);
   });
 });
