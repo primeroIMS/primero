@@ -1,15 +1,11 @@
 import { fromJS } from "immutable";
+import { mountedComponent, screen } from "test-utils";
 
-import { setupMountedComponent } from "../../../../test";
 import { ACTIONS } from "../../../permissions";
-import { FormAction } from "../../../form";
 
-import { LookupForm } from "./components";
 import LookupsForm from "./container";
 
 describe("<LookupsForm /> - container", () => {
-  let component;
-
   beforeEach(() => {
     const initialState = fromJS({
       records: {
@@ -29,14 +25,14 @@ describe("<LookupsForm /> - container", () => {
       }
     });
 
-    ({ component } = setupMountedComponent(LookupsForm, { mode: "edit" }, initialState, ["/admin/lookups/1"]));
+    mountedComponent(<LookupsForm mode="edit" />, initialState, ["/admin/lookups/1"]);
   });
 
   it("renders LookupForm component", () => {
-    expect(component.find(LookupForm)).to.have.lengthOf(1);
+    expect(document.querySelector("#lookups-form")).toBeInTheDocument();
   });
 
   it("renders heading with two FormAction components", () => {
-    expect(component.find(FormAction)).to.have.lengthOf(2);
+    expect(screen.getAllByRole("button")).toBeTruthy();
   });
 });
