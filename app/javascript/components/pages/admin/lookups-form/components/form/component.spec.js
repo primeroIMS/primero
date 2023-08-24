@@ -25,7 +25,6 @@ describe("<Form /> - components/form/component", () => {
   });
 
   it("renders FormSectionField component", () => {
-    // expect(screen.getByText("dialog")).toBeInTheDocument();
     expect(screen.queryAllByTestId("FormSectionField")).toHaveLength(4);
   });
 
