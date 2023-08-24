@@ -133,7 +133,11 @@ const ActionDialog = ({
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
+<<<<<<< HEAD
     <div onClick={stopPropagation} data-testid="action-dialog">
+=======
+    <div onClick={stopPropagation} data-testid="dialog">
+>>>>>>> d964ac898a ([New] Added test cases for record form form subforms subform field subform)
       <Dialog
         open={open}
         onClose={onCloseDialog}
