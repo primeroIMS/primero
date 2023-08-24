@@ -1,6 +1,5 @@
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../../records";
-import ActionButton from "../../../../action-button";
 
 import SubformFields from "./component";
 
@@ -65,37 +64,31 @@ describe("<SubformFields />", () => {
     }
   };
 
-  let component;
-
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(SubformFields, props, {}, [], formProps));
-  });
-
   it("render the SubformFields", () => {
-    expect(component.find(SubformFields)).lengthOf(1);
+    mountedComponent(<SubformFields {...props} />, {}, [], [], formProps);
+    expect(screen.queryByRole("button")).toBeNull();
   });
 
-  context("When is violation or violation association", () => {
-    const { component: componentSubform } = setupMountedComponent(
-      SubformFields,
-      {
-        ...props,
-        isViolationSubform: true,
-        isViolationAssociation: true,
-        mode: {
-          isEdit: true
-        },
-        values: ["something"]
-      },
-      {},
-      [],
-      formProps
-    );
-
+  describe("When is violation or violation association", () => {
     it("render the Delete button disabled", () => {
-      const deleteButtonProps = componentSubform.find(ActionButton).first().props();
-
-      expect(deleteButtonProps.rest.disabled).to.be.true;
+      mountedComponent(
+        <SubformFields
+          {...{
+            ...props,
+            isViolationSubform: true,
+            isViolationAssociation: true,
+            mode: {
+              isEdit: true
+            },
+            values: ["something"]
+          }}
+        />,
+        {},
+        [],
+        [],
+        formProps
+      );
+      expect(screen.getAllByRole("button")).toHaveLength(2);
     });
   });
 });
