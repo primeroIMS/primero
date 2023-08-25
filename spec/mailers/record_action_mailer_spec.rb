@@ -41,9 +41,13 @@ describe RecordActionMailer, type: :mailer do
       @referral.save(validate: false)
     end
 
-    describe 'manager_approval_request' do
+    describe '.manager_approval_request' do
+      let(:approval_notification) do
+        ApprovalNotificationService.new(@child.id, 'value1', @manager2.user_name)
+      end
+
       let(:mail) do
-        RecordActionMailer.manager_approval_request(@child.id, 'value1', @manager2.user_name)
+        RecordActionMailer.manager_approval_request(approval_notification)
       end
 
       it 'renders the headers' do
@@ -58,8 +62,12 @@ describe RecordActionMailer, type: :mailer do
     end
 
     describe 'manager_approval_request with diferent locale' do
+      let(:approval_notification) do
+        ApprovalNotificationService.new(@child.id, 'value1', @manager3.user_name)
+      end
+
       let(:mail) do
-        RecordActionMailer.manager_approval_request(@child.id, 'value1', @manager3.user_name)
+        RecordActionMailer.manager_approval_request(approval_notification)
       end
 
       it 'renders the headers in arabic locale' do
@@ -116,7 +124,7 @@ describe RecordActionMailer, type: :mailer do
       end
     end
 
-    describe 'transition_notify' do
+    describe '.transition_notify' do
       describe 'when a  user is disabled' do
         let(:mail) do
           RecordActionMailer.transition_notify(TransitionNotificationService.new(@referral.id))

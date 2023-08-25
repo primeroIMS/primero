@@ -832,6 +832,9 @@ en:
     transfer_request_notes_html: 'Notes from the individual making the request: %{request_transfer_notes}'
   webpush_notification:
     action_label: Go to Case
+    approval_request:
+      title: Approval Request
+      body: A Case on your team has a pending approval request for %{type}.
     assign:
       title: New Assignment
       body: You have received a new Case Assignment.
