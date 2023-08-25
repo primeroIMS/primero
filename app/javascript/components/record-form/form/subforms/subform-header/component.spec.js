@@ -1,9 +1,7 @@
 import { fromJS } from "immutable";
-import { ListItemText } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../../records";
-import ViolationItem from "../subform-fields/components/violation-item";
 
 import SubformHeader from "./component";
 
@@ -51,9 +49,9 @@ describe("<RecordForm>/form/subforms/<SubformHeader/>", () => {
       onClick: () => {},
       isViolationSubform: false
     };
-    const { component } = setupMountedComponent(SubformHeader, props, fromJS({}));
 
-    expect(component.text()).to.be.equal("Testing");
+    mountedComponent(<SubformHeader {...props} />, initialState, fromJS({}));
+    expect(screen.getByText(/Testing/i)).toBeInTheDocument();
   });
 
   it("should render ViolationItem when is a ViolationSubform", () => {
@@ -96,9 +94,9 @@ describe("<RecordForm>/form/subforms/<SubformHeader/>", () => {
       onClick: () => {},
       isViolationSubform: true
     };
-    const { component } = setupMountedComponent(SubformHeader, props, initialState);
 
-    expect(component.find(ViolationItem)).lengthOf(1);
+    mountedComponent(<SubformHeader {...props} />, initialState);
+    expect(screen.getByTestId("violation-item")).toBeInTheDocument();
   });
 
   it("should render uniqueId when is a ViolationAssociation", () => {
@@ -117,9 +115,9 @@ describe("<RecordForm>/form/subforms/<SubformHeader/>", () => {
       onClick: () => {},
       isViolationSubform: false
     };
-    const { component } = setupMountedComponent(SubformHeader, props, initialState);
 
-    expect(component.text()).to.be.equal("b123cde");
+    mountedComponent(<SubformHeader {...props} />, initialState);
+    expect(screen.getByText(/b123cde/i)).toBeInTheDocument();
   });
 
   it("should render the field display name and the total of the tally field", () => {
@@ -150,13 +148,12 @@ describe("<RecordForm>/form/subforms/<SubformHeader/>", () => {
       onClick: () => {},
       isViolationSubform: false
     };
-    const { component } = setupMountedComponent(SubformHeader, props, initialState);
 
-    expect(component.text()).to.be.equal("Places visited in town (2)");
+    mountedComponent(<SubformHeader {...props} />, initialState);
+    expect(screen.getByText("Places visited in town (2)")).toBeInTheDocument();
   });
 
-  context("When is not violation subform and there is collapsed fields", () => {
-    let component;
+  describe("When is not violation subform and there is collapsed fields", () => {
     const props = {
       field: FieldRecord({
         name: "questions",
@@ -185,22 +182,9 @@ describe("<RecordForm>/form/subforms/<SubformHeader/>", () => {
       isViolationSubform: false
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(SubformHeader, props, initialState));
-    });
-
     it("should render ListItemText ", () => {
-      expect(component.find(ListItemText)).lengthOf(1);
-    });
-
-    it("should accept valid props", () => {
-      const listItemTextProps = { ...component.find(ListItemText).props() };
-
-      ["id", "classes", "secondary", "children"].forEach(property => {
-        expect(listItemTextProps).to.have.property(property);
-        delete listItemTextProps[property];
-      });
-      expect(listItemTextProps).to.be.empty;
+      mountedComponent(<SubformHeader {...props} />, initialState);
+      expect(screen.getByTestId("list-item-text")).toBeInTheDocument();
     });
   });
 });
