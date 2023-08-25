@@ -838,6 +838,9 @@ en:
     referral:
       title: New Referral
       body: You have received a new Case Referral.
+    transfer:
+      title: New Transfer
+      body: You have received a new Case Transfer.
   encrypt:
     export_type: Type of export
     file_name: Create your own file name (Optional)
