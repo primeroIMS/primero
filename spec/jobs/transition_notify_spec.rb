@@ -7,9 +7,8 @@ describe TransitionNotifyJob, type: :job do
 
   before do
     clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Transition)
-    @primero_module = PrimeroModule.new(name: 'CP')
-    @primero_module.save(validate: false)
-    role = create :role, is_manager: true
+    @primero_module = create(:primero_module, name: 'CP')
+    role = create(:role, is_manager: true, modules: [@primero_module])
     @owner = create :user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev'
     @manager1 = create :user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
     @manager2 = create :user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2'
@@ -40,10 +39,6 @@ describe TransitionNotifyJob, type: :job do
   end
 
   describe 'when is Assign' do
-    let(:role) do
-      create(:role, is_manager: true)
-    end
-
     let(:user2) do
       create(:user, user_name: 'user2', full_name: 'Test User 1', email: 'user2@primero.dev', receive_webpush: true)
     end
@@ -65,14 +60,6 @@ describe TransitionNotifyJob, type: :job do
   end
 
   describe 'when is Referral' do
-    let(:role) do
-      create(:role, is_manager: true)
-    end
-
-    let(:user2) do
-      create(:user, user_name: 'user2', full_name: 'Test User 1', email: 'user2@primero.dev', receive_webpush: true)
-    end
-
     let(:referral1) do
       Referral.create!(transitioned_by: @manager1.user_name, transitioned_to: @manager2.user_name, record: @child)
     end
@@ -82,6 +69,33 @@ describe TransitionNotifyJob, type: :job do
 
       perform_enqueued_jobs do
         TransitionNotifyJob.perform_later(referral1.id)
+      end
+    end
+  end
+
+  describe 'when is Transfer' do
+    let(:role) do
+      create(:role, is_manager: true, modules: [@primero_module], group_permission: Permission::ALL)
+    end
+
+    let(:user2) do
+      create(:user, user_name: 'user2', role:, full_name: 'User 1', email: 'user2@primero.dev', receive_webpush: true)
+    end
+
+    let(:transfer1) do
+      Transfer.create!(transitioned_by: @manager1.user_name, transitioned_to: user2.user_name, record: @child)
+    end
+
+    before(:each) do
+      transfer1
+    end
+
+    it 'should call RecordActionWebpushNotifier' do
+      expect(RecordActionWebpushNotifier).to receive(:transition_notify)
+      expect(TransitionNotificationService).to receive(:new).with(transfer1.id)
+
+      perform_enqueued_jobs do
+        TransitionNotifyJob.perform_later(transfer1.id)
       end
     end
   end

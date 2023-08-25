@@ -11,8 +11,16 @@ describe RecordActionWebpushNotifier do
     allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return('aVnNTxSI1EZmiG1dW6Z_I9fbQCbZB3Po')
   end
 
+  let(:primero_module) do
+    create(:primero_module, name: 'CP')
+  end
+
   let(:role) do
     create(:role, is_manager: true)
+  end
+
+  let(:role2) do
+    create(:role, is_manager: true, modules: [primero_module], group_permission: Permission::ALL)
   end
 
   let(:user) do
@@ -32,7 +40,8 @@ describe RecordActionWebpushNotifier do
   end
 
   let(:child) do
-    create(:child, name: 'Test', owned_by: user.user_name, consent_for_services: true, disclosure_other_orgs: true)
+    create(:child, name: 'Test', owned_by: user.user_name, consent_for_services: true,
+                   disclosure_other_orgs: true, module_id: PrimeroModule::CP)
   end
   let(:webpush_subscription1) do
     WebpushSubscription.create!(
@@ -42,12 +51,22 @@ describe RecordActionWebpushNotifier do
       user:
     )
   end
+
+  let(:user2) do
+    create(:user, user_name: 'user2', role: role2, full_name: 'User 1', email: 'user2@primero.dev',
+                  receive_webpush: true)
+  end
+
   let(:assign1) do
     Assign.create!(transitioned_by: user.user_name, transitioned_to_user: user2, record: child)
   end
 
   let(:referral1) do
     Referral.create!(transitioned_by: manager1.user_name, transitioned_to: manager2.user_name, record: child)
+  end
+
+  let(:transfer1) do
+    Transfer.create!(transitioned_by: manager1.user_name, transitioned_to: user2.user_name, record: child)
   end
 
   describe '#transition_notify' do
@@ -125,6 +144,16 @@ describe RecordActionWebpushNotifier do
 
       it 'should return a body for approval request' do
         expect(subject[:body]).to eq('A Case on your team has a pending approval request for value1.')
+      end
+    end
+
+    context 'when is transfer' do
+      subject do
+        RecordActionWebpushNotifier.new.message_structure(transfer1)
+      end
+
+      it 'should return title for transfer' do
+        expect(subject[:title]).to eq('New Transfer')
       end
     end
   end
