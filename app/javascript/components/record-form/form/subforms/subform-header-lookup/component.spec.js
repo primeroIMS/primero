@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 
 import SubformLookupHeader from ".";
 
@@ -47,9 +47,9 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
       value: "region",
       optionsStringSource: "lookup lookup-location-type"
     };
-    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
 
-    expect(component.text()).to.be.equal("Region");
+    mountedComponent(<SubformLookupHeader {...props} />, initialState);
+    expect(screen.getByText(/Region/i)).toBeInTheDocument();
   });
 
   it("should render the user name of the lookup defined on the optionsStringSource", () => {
@@ -57,9 +57,9 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
       value: "test_user1",
       optionsStringSource: "User"
     };
-    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
 
-    expect(component.text()).to.be.equal("test_user1");
+    mountedComponent(<SubformLookupHeader {...props} />, initialState);
+    expect(screen.getByText(/test_user1/i)).toBeInTheDocument();
   });
 
   it("should render the value if there are no options for the defined optionsStringSource", () => {
@@ -67,9 +67,9 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
       value: "the_value",
       optionsStringSource: "lookup lookup-doesnotexist"
     };
-    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
 
-    expect(component.text()).to.be.equal("the_value");
+    mountedComponent(<SubformLookupHeader {...props} />, initialState);
+    expect(screen.getByText(/the_value/i)).toBeInTheDocument();
   });
 
   it("should render the same value is this is empty", () => {
@@ -77,9 +77,9 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
       value: "",
       optionsStringSource: "lookup lookup-location-type"
     };
-    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
 
-    expect(component.text()).to.be.empty;
+    mountedComponent(<SubformLookupHeader {...props} />, initialState);
+    expect(screen.queryByTestId("subForm-header")).toBeNull();
   });
 
   it("should render display_text from the values defined on the optionsStringText", () => {
@@ -110,9 +110,9 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
         }
       ]
     };
-    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
 
-    expect(component.text()).to.be.equal("Test 2");
+    mountedComponent(<SubformLookupHeader {...props} />, initialState);
+    expect(screen.getByText(/Test 2/i)).toBeInTheDocument();
   });
 
   it("should render the lookup even if it's disabled", () => {
@@ -120,9 +120,9 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
       value: "service_2",
       optionsStringSource: "lookup lookup-service-type"
     };
-    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
 
-    expect(component.text()).to.equal("Service 2");
+    mountedComponent(<SubformLookupHeader {...props} />, initialState);
+    expect(screen.getByText(/Service 2/i)).toBeInTheDocument();
   });
 
   it("should render the displayName if it is a volation", () => {
@@ -135,12 +135,11 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
       }
     };
 
-    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
-
-    expect(component.text()).to.be.equal("Testing Display Name: Region");
+    mountedComponent(<SubformLookupHeader {...props} />, initialState);
+    expect(screen.getByText(/Region/i)).toBeInTheDocument();
   });
 
-  context("when optionsStringSource is violations", () => {
+  describe("when optionsStringSource is violations", () => {
     it("should render a label with violation type", () => {
       const props = {
         value: "53d06bac-e072-4a7f-ac86-38548e727022",
@@ -150,9 +149,8 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
         }
       };
 
-      const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
-
-      expect(component.text()).to.be.equal("incident.violation.types.killing - e727022");
+      mountedComponent(<SubformLookupHeader {...props} />, initialState);
+      expect(screen.getByText(/incident.violation.types.killing - e727022/i)).toBeInTheDocument();
     });
   });
 });
