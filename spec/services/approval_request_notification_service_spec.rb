@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ApprovalNotificationService do
+describe ApprovalRequestNotificationService do
   before do
     clean_data(
       FormSection, PrimeroModule, PrimeroProgram, UserGroup,
@@ -33,12 +33,12 @@ describe ApprovalNotificationService do
   end
 
   subject do
-    ApprovalNotificationService.new(child.id, 'value1', manager.user_name)
+    ApprovalRequestNotificationService.new(child.id, 'value1', manager.user_name)
   end
 
   describe '.locale' do
     it 'return manager locale' do
-      expect(subject.locale).to eq(I18n.locale)
+      expect(subject.locale).to eq(manager.locale)
     end
   end
 
@@ -63,6 +63,18 @@ describe ApprovalNotificationService do
   describe '.send_notification?' do
     it 'return true if notification can be send' do
       expect(subject.send_notification?).to be true
+    end
+  end
+
+  describe '.subject' do
+    it 'return child' do
+      expect(subject.subject).to eq("Caso: #{child.short_id} - Solicitud de Aprobación")
+    end
+  end
+
+  describe '.key' do
+    it 'return approval_request' do
+      expect(subject.key).to eq('approval_request')
     end
   end
 

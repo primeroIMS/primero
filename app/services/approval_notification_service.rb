@@ -2,16 +2,17 @@
 
 # Service for approval notification logic
 class ApprovalNotificationService
-  attr_accessor :record_id, :type, :manager_user_name
+  attr_accessor :record_id, :type, :manager_user_name, :approved
 
-  def initialize(record_id, type, manager_user_name)
+  def initialize(record_id, type, manager_user_name, approved = nil)
     self.record_id = record_id
     self.type = type
     self.manager_user_name = manager_user_name
+    self.approved = approved
   end
 
   def locale
-    @locale ||= manager&.locale || I18n.locale
+    @locale ||= I18n.locale
   end
 
   def manager
@@ -34,8 +35,16 @@ class ApprovalNotificationService
     @user
   end
 
+  alias owner user
+
+  def approval_lookup_unique_id
+    return 'lookup-gbv-approval-types' if manager.gbv?
+
+    'lookup-approval-type'
+  end
+
   def approval_type
-    @approval_type ||= Lookup.display_value('lookup-approval-type', type)
+    @approval_type ||= Lookup.display_value(approval_lookup_unique_id, type)
   end
 
   def send_notification?
@@ -43,14 +52,14 @@ class ApprovalNotificationService
   end
 
   def subject
-    I18n.t('email_notification.approval_request_subject',
+    I18n.t("email_notification.#{key}_subject",
            id: child.short_id,
            locale:)
   end
 
-  def key
-    'approval_request'
-  end
+  def key; end
+
+  def approval; end
 
   private
 

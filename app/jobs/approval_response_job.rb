@@ -5,6 +5,8 @@ class ApprovalResponseJob < ApplicationJob
   queue_as :mailer
 
   def perform(record_id, approved, approval_type, approved_by)
-    RecordActionMailer.manager_approval_response(record_id, approved, approval_type, approved_by).deliver_now
+    approval_notification = ApprovalResponseNotificationService.new(record_id, approval_type, approved_by, approved)
+    RecordActionMailer.manager_approval_response(approval_notification).deliver_now
+    RecordActionWebpushNotifier.manager_approval_request(approval_notification)
   end
 end

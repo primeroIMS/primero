@@ -835,6 +835,9 @@ en:
     approval_request:
       title: Approval Request
       body: A Case on your team has a pending approval request for %{type}.
+    approval_response:
+      title: Approval Response
+      body: A case has received an approval response for %{type}.
     assign:
       title: New Assignment
       body: You have received a new Case Assignment.

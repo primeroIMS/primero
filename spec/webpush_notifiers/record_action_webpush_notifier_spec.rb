@@ -8,6 +8,7 @@ describe RecordActionWebpushNotifier do
       FormSection, PrimeroModule, PrimeroProgram, UserGroup,
       WebpushSubscription, User, Agency, Role, Child, Transition
     )
+    Rails.configuration.x.webpush.enabled = true
     allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return('aVnNTxSI1EZmiG1dW6Z_I9fbQCbZB3Po')
   end
 
@@ -131,7 +132,7 @@ describe RecordActionWebpushNotifier do
 
     context 'when is an approval request' do
       let(:approval_notification_service) do
-        ApprovalNotificationService.new(child.id, 'value1', manager2.user_name)
+        ApprovalRequestNotificationService.new(child.id, 'value1', manager2.user_name)
       end
 
       subject do
@@ -147,6 +148,24 @@ describe RecordActionWebpushNotifier do
       end
     end
 
+    context 'when is an approval respose' do
+      let(:approval_notification_service) do
+        ApprovalResponseNotificationService.new(child.id, 'value1', manager2.user_name, true)
+      end
+
+      subject do
+        RecordActionWebpushNotifier.new.message_structure(approval_notification_service)
+      end
+
+      it 'should return a title for approval response' do
+        expect(subject[:title]).to eq('Approval Response')
+      end
+
+      it 'should return a body for approval response' do
+        expect(subject[:body]).to eq('A case has received an approval response for value1.')
+      end
+    end
+
     context 'when is transfer' do
       subject do
         RecordActionWebpushNotifier.new.message_structure(transfer1)
@@ -158,6 +177,7 @@ describe RecordActionWebpushNotifier do
     end
   end
   after do
+    Rails.configuration.x.webpush.enabled = false
     clean_data(
       FormSection, PrimeroModule, PrimeroProgram, UserGroup,
       WebpushSubscription, User, Agency, Role, Child, Transition

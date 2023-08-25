@@ -47,9 +47,21 @@ class RecordActionWebpushNotifier
   private
 
   def webpush_notifications_enabled?(user)
+    web_push_enabled? && user_web_push_enabled?(user)
+  end
+
+  def user_web_push_enabled?(user)
     return true if user&.receive_webpush?
 
     Rails.logger.info("Webpush not sent. Webpush notifications disabled for #{user&.user_name || 'nil user'}")
+
+    false
+  end
+
+  def web_push_enabled?
+    return true if Rails.configuration.x.webpush.enabled
+
+    Rails.logger.info('Webpush notification disabled!!!')
 
     false
   end
