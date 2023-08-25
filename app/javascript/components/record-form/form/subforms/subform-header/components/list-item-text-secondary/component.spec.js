@@ -1,4 +1,4 @@
-import { setupMountedComponent } from "../../../../../../../test";
+import { mountedComponent, screen } from "../../../../../../../test-utils";
 
 import ListItemTextSecondary from "./component";
 
@@ -14,10 +14,10 @@ describe("<RecordForm>/form/subforms/<SubformHeader/>/components/<ListItemTextSe
       renderSecondaryText: true
     };
 
-    const { component } = setupMountedComponent(ListItemTextSecondary, props);
+    mountedComponent(<ListItemTextSecondary {...props} />);
 
-    expect(component.find(ListItemTextSecondary)).lengthOf(1);
-    expect(component.find(ListItemTextSecondary).find("h4")).lengthOf(1);
-    expect(component.find(ListItemTextSecondary).find("div")).lengthOf(5);
+    expect(screen.getByTestId("list-item-text-secondary-violations")).toBeInTheDocument();
+    expect(screen.getByText(/incident.violation.associated_violations/i)).toBeInTheDocument();
+    expect(screen.getAllByTestId("volation-keys")).toHaveLength(2);
   });
 });
