@@ -24,8 +24,9 @@ describe Alert do
 
   describe 'email alerts' do
     before :each do
-      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Alert, SystemSettings, Child)
-      ss = SystemSettings.create!()
+      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Alert,
+                 SystemSettings, Child)
+      ss = SystemSettings.create!
       ss.email_alert_on_change_field_to_form = { 'email_alertable_field' => 'some_formsection_name' }
       ss.save!
       @owner = create :user, user_name: 'owner', full_name: 'Owner', email: 'owner@primero.dev'

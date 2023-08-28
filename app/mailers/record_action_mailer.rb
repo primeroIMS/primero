@@ -53,8 +53,9 @@ class RecordActionMailer < ApplicationMailer
     load_alert_for_email(alert_id, user_id)
     return unless assert_notifications_enabled(@user)
     return if @user == @record.last_updated_by
+
     Rails.logger.info("Sending alert notification to #{@user.user_name}")
-    mail(to: @user.email, subject: alert_subject(@record, @user))
+    mail(to: @user.email, subject: alert_subject(@record))
   end
 
   private
@@ -109,11 +110,11 @@ class RecordActionMailer < ApplicationMailer
     @user = User.find_by(id: user_id) || (return log_not_found('User', user_id))
     @locale_email = @user.locale || I18n.locale
     @form_section = FormSection.find_by(unique_id: @alert.form_sidebar_id)
-    @form_section_name_translated = I18n.with_locale(@locale_email) do @form_section&.name end
+    @form_section_name_translated = I18n.with_locale(@locale_email) { @form_section&.name }
     @record_type_translated = t("forms.record_types.#{@record.class.parent_form}", locale: @locale_email)
   end
 
-  def alert_subject(record, user)
+  def alert_subject(record)
     t(
       'email_notification.alert_subject',
       record_type: @record_type_translated,

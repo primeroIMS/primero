@@ -7,8 +7,7 @@ describe RecordActionMailer, type: :mailer do
     clean_data(SystemSettings)
     SystemSettings.create(default_locale: 'en', unhcr_needs_codes_mapping: {},
                           changes_field_to_form: {},
-                          email_alert_on_change_field_to_form: {"email_alertable_field"=>"some_formsection_name"}
-                         )
+                          email_alert_on_change_field_to_form: { 'email_alertable_field' => 'some_formsection_name' })
   end
 
   describe 'approvals' do
@@ -381,10 +380,11 @@ describe RecordActionMailer, type: :mailer do
   describe 'Emailable Alert' do
     before do
       clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Alert)
-      form_section = FormSection.create!(unique_id: 'some_formsection_name', name: 'some_formsection_name', name_en: "Form Section Name", name_fr: "Nom de la section du formulaire")
+      FormSection.create!(unique_id: 'some_formsection_name', name: 'some_formsection_name',
+                          name_en: 'Form Section Name', name_fr: 'Nom de la section du formulaire')
       @owner = create :user, user_name: 'owner', full_name: 'Owner', email: 'owner@primero.dev'
       @provider = create :user, user_name: 'provider', full_name: 'Provider', email: 'provider@primero.dev'
-      @child = Child.new_with_user(@owner, {name: 'child', module_id: PrimeroModule::CP, case_id_display: '12345'})
+      @child = Child.new_with_user(@owner, { name: 'child', module_id: PrimeroModule::CP, case_id_display: '12345' })
       @child.save!
       @child.assigned_user_names = [@provider.user_name]
       @child.save!
@@ -421,10 +421,10 @@ describe RecordActionMailer, type: :mailer do
       end
     end
 
-  after do
-    clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Transition)
+    after do
+      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Transition)
+    end
   end
-end
 
   private
 

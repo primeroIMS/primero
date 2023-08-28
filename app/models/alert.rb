@@ -29,6 +29,7 @@ class Alert < ApplicationRecord
 
   def handle_send_email
     return unless send_email
-    AlertNotifyJob.perform_later(self.id)
+
+    AlertNotifyJob.perform_later(id)
   end
 end
