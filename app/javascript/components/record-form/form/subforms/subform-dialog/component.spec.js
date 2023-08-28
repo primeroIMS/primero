@@ -1,6 +1,7 @@
 import { mountedComponent, screen } from "test-utils";
 
 import { FieldRecord, FormSectionRecord } from "../../../records";
+import { RECORD_TYPES_PLURAL } from "../../../../../config";
 
 import SubformDialog from "./component";
 
@@ -52,8 +53,14 @@ describe("<SubformDialog />", () => {
 
       it("renders the Family Actions with a link to a case", () => {
         mountedComponent(
-          <SubformDialog {...props} field={familyDetailsField} mode={{ isShow: true }} isFamilyMember />,
-          { records: { families: { case: { data: { case_id: "00-0000-01", case_id_display: "001" } } } } }
+          <SubformDialog
+            {...props}
+            formik={{ values: { family_details_section: [{ case_id: "001", case_id_display: "001" }] }, errors: {} }}
+            recordType={RECORD_TYPES_PLURAL.family}
+            field={familyDetailsField}
+            mode={{ isShow: true }}
+            isFamilyMember
+          />
         );
 
         expect(screen.queryByText("family.family_member.case_id")).toBeTruthy();
