@@ -5,7 +5,10 @@ require 'rails_helper'
 describe RecordActionMailer, type: :mailer do
   before do
     clean_data(SystemSettings)
-    SystemSettings.create(default_locale: 'en', unhcr_needs_codes_mapping: {}, changes_field_to_form: {})
+    SystemSettings.create(default_locale: 'en', unhcr_needs_codes_mapping: {},
+                          changes_field_to_form: {},
+                          email_alert_on_change_field_to_form: {"email_alertable_field"=>"some_formsection_name"}
+                         )
   end
 
   describe 'approvals' do
@@ -375,9 +378,53 @@ describe RecordActionMailer, type: :mailer do
     end
   end
 
+  describe 'Emailable Alert' do
+    before do
+      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Alert)
+      form_section = FormSection.create!(unique_id: 'some_formsection_name', name: 'some_formsection_name', name_en: "Form Section Name", name_fr: "Nom de la section du formulaire")
+      @owner = create :user, user_name: 'owner', full_name: 'Owner', email: 'owner@primero.dev'
+      @provider = create :user, user_name: 'provider', full_name: 'Provider', email: 'provider@primero.dev'
+      @child = Child.new_with_user(@owner, {name: 'child', module_id: PrimeroModule::CP, case_id_display: '12345'})
+      @child.save!
+      @child.assigned_user_names = [@provider.user_name]
+      @child.save!
+      @child.associated_users(true)
+      @child.data = { 'email_alertable_field' => 'some_value' }
+      @child.save!
+    end
+
+    let(:mail) { RecordActionMailer.alert_notify(@child.alerts.first.id, @owner.id) }
+    describe 'alert' do
+      it 'renders the headers' do
+        expect(mail.subject).to eq("Case: #{@child.short_id} - Form Section Name Updated")
+        expect(mail.to).to eq(['owner@primero.dev'])
+      end
+
+      it 'renders the body' do
+        expect(mail.text_part.body.encoded).to match("Case #{@child.short_id} - Form Section Name has been updated. Please log in to Primero to review the changes.")
+      end
+    end
+
+    describe 'alert with diferent locale' do
+      before do
+        @owner.locale = 'fr'
+        @owner.save(validate: false)
+      end
+
+      let(:mail) { RecordActionMailer.alert_notify(@child.alerts.first.id, @owner.id) }
+      it 'renders the headers' do
+        expect(mail.subject).to eq("Cas: #{@child.short_id} - Nom de la section du formulaire actualisé")
+        expect(mail.to).to eq(['owner@primero.dev'])
+      end
+      it 'renders the body' do
+        expect(mail.text_part.body.encoded).to match("Cas : #{@child.short_id} - Nom de la section du formulaire a été actualisé. Veuillez vous connecter à Primero pour consulter les modifications.")
+      end
+    end
+
   after do
     clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Transition)
   end
+end
 
   private
 

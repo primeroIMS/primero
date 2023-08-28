@@ -57,17 +57,6 @@ describe AlertNotifyJob, type: :job do
         perform_enqueued_jobs()
         expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
-    # We should consider if this is indeed the behaviour we want
-    # This needs to use systemsettings to make the test case work and I am not sure how to do that right now
-    xit 'does not send a notification if the owner is the one making the change' do
-        @child.last_updated_by = @owner.user_name
-        @child.update_history
-        @child.save!
-
-        alert.save!
-        jobs = enqueued_jobs.select { |j| j[:job] == AlertNotifyJob }
-        expect(jobs.size).to eq(0)
-    end
   end
 
   after :each do
