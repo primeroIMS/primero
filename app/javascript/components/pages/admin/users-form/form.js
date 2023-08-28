@@ -29,7 +29,7 @@ const sharedUserFields = (
   hideOnAccountPage,
   onClickChangePassword,
   useIdentity,
-  { agencyReadOnUsers, currentRoleGroupPermission, userGroups }
+  { agencyReadOnUsers, currentRoleGroupPermission, userGroups, webPushConfig }
 ) => [
   {
     display_name: i18n.t("user.full_name"),
@@ -200,7 +200,8 @@ const sharedUserFields = (
     display_name: i18n.t("user.receive_webpush.label"),
     name: FIELD_NAMES.RECEIVE_WEBPUSH,
     type: TICK_FIELD,
-    help_text: i18n.t("user.receive_webpush.help_text")
+    help_text: i18n.t("user.receive_webpush.help_text"),
+    visible: webPushConfig?.get("enabled", false)
   }
 ];
 
@@ -231,14 +232,16 @@ export const form = (
   identityOptions,
   onClickChangePassword,
   hideOnAccountPage = false,
-  { agencyReadOnUsers, currentRoleGroupPermission, userGroups } = {}
+  { agencyReadOnUsers, currentRoleGroupPermission, userGroups, webPushConfig } = {}
 ) => {
   const useIdentity = useIdentityProviders && providers;
   const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity, {
     agencyReadOnUsers,
     currentRoleGroupPermission,
-    userGroups
+    userGroups,
+    webPushConfig
   });
+
   const identityFields = identityUserFields(i18n, identityOptions);
 
   const providersDisable = (value, name, { error }) => {

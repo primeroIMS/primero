@@ -4263,4 +4263,6 @@ en:
       message: You have blocked notifications for Primero on this device. To fix this, you will need to turn on the Permissions notification.
       android: "Android: Go to Settings. Click on Apps. Find Primero in the list of apps and click on this. Click Notifications. Switch the toggle for notifications to the on position."
       ios: "iOS: Go to the Settings app. Click on Notifications. Scroll down to the list of Apps and find Primero. Switch the toggle for Primero to the on position." 
-    body: Do you want to allow Primero to send you notifications? Remember that you will continue to receive notifications on this device <variable> days after you log out. This is not recommended for shared devices.
+    body: 
+      one: Do you want to allow Primero to send you notifications? Remember that you will continue to receive notifications on this device %{count} day after you log out. This is not recommended for shared devices.
+      other: Do you want to allow Primero to send you notifications? Remember that you will continue to receive notifications on this device %{count} days after you log out. This is not recommended for shared devices.

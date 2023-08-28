@@ -23,7 +23,7 @@ import { PASSWORD_MODAL } from "../admin/users-form/constants";
 import { form } from "../admin/users-form/form";
 import { getIdentityProviders } from "../admin/users-form/selectors";
 import validations from "../admin/users-form/validations";
-import { fetchRoles } from "../../application";
+import { fetchRoles, getWebpushConfig } from "../../application";
 import PushNotificationsToggle from "../../push-notifications-toggle";
 
 import { clearCurrentUser, fetchCurrentUser, updateUserAccount } from "./action-creators";
@@ -43,6 +43,7 @@ const Container = ({ mode }) => {
   const saving = useMemoizedSelector(state => getUserSavingRecord(state));
   const formErrors = useMemoizedSelector(state => getServerErrors(state));
   const idp = useMemoizedSelector(state => getIdentityProviders(state));
+  const webPushConfig = useMemoizedSelector(state => getWebpushConfig(state));
 
   const setPasswordModal = () => {
     setDialog({ dialog: PASSWORD_MODAL, open: true });
@@ -120,7 +121,7 @@ const Container = ({ mode }) => {
     identityOptions,
     onClickChangePassword,
     true,
-    { userGroups: currentUser.get("userGroups", fromJS([])) }
+    { userGroups: currentUser.get("userGroups", fromJS([])), webPushConfig }
   );
 
   // eslint-disable-next-line react/no-multi-comp

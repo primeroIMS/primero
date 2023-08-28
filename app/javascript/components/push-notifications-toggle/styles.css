@@ -5,11 +5,11 @@
 }
 
 .on {
-  color: var(--c-blue)
+  color: var(--c-blue);
 }
 
 .off {
-  color: var(--c-dark-grey)
+  color: var(--c-dark-grey);
 }
 
 .blocked_copy {

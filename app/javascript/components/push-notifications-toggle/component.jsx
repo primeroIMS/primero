@@ -97,6 +97,8 @@ function Component() {
     window.vpubID = vapidID;
   }, [vapidID]);
 
+  const pauseAfterDays = Math.floor(webpushConfig.get("pause_after") / 1440);
+
   if (!webpushConfig.get("enabled", false)) {
     return false;
   }
@@ -134,7 +136,7 @@ function Component() {
             <div>{i18n.t("push_notifications_dialog.body_blocked.ios")}</div>
           </div>
         ) : (
-          i18n.t("push_notifications_dialog.body")
+          i18n.t("push_notifications_dialog.body", { count: pauseAfterDays })
         )}
       </ActionDialog>
     </>

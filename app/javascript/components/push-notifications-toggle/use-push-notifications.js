@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL } from "../../config/constants";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getNotificationSubscription } from "../user/selectors";
+import { toServerDateFormat } from "../../libs";
 
 import { refreshNotificationSubscription } from "./action-creators";
 
@@ -22,7 +23,12 @@ function usePushNotifications() {
   const startRefreshNotificationTimer = useCallback(() => {
     refreshTimer = workerTimers.setInterval(() => {
       dispatch(
-        refreshNotificationSubscription({ data: { updated_at: new Date(), notification_url: endpoint.current } })
+        refreshNotificationSubscription({
+          data: {
+            updated_at: toServerDateFormat(Date.now(), { includeTime: true }),
+            notification_url: endpoint.current
+          }
+        })
       );
     }, PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL);
   }, [notificationEndpoint]);
