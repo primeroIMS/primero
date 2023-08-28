@@ -189,7 +189,7 @@ export default ({
         disableOffline: true,
         enabledFor: ENABLED_FOR_ONE_MANY_ALL,
         id: LINK_INCIDENT_TO_CASE_DIALOG,
-        name: "Link Incident to case",
+        name: i18n.t("incident.link_incident_to_case"),
         recordListAction: true,
         recordType: RECORD_PATH.incidents
       }
