@@ -834,12 +834,18 @@ en:
     alert_subject: '%{record_type}: %{id} - %{form_name} Updated'
   webpush_notification:
     action_label: Go to Case
+    approval_request:
+      title: Approval Request
+      body: A Case on your team has a pending approval request for %{type}.
     assign:
       title: New Assignment
       body: You have received a new Case Assignment.
     referral:
       title: New Referral
       body: You have received a new Case Referral.
+    transfer:
+      title: New Transfer
+      body: You have received a new Case Transfer.
   encrypt:
     export_type: Type of export
     file_name: Create your own file name (Optional)
