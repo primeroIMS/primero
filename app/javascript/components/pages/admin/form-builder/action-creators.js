@@ -102,20 +102,6 @@ export const saveSubforms = (subforms, { id, body, saveMethod, message }) => {
     ];
   }, []);
 
-  console.log(
-    {
-      type: actions.SAVE_SUBFORMS,
-      api: [...subformsRequest],
-      ...(!isEmpty(body?.data?.fields)
-        ? { finishedCallbackSubforms: saveForm({ id, body, saveMethod, message }) }
-        : {
-            finishedCallback: isEmpty(body?.data)
-              ? [saveFormSuccessCallback(message, false), clearSubforms()]
-              : saveForm({ id, body, saveMethod, message })
-          })
-    }
-  )
-
   return {
     type: actions.SAVE_SUBFORMS,
     api: [...subformsRequest],
