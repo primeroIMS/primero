@@ -22,13 +22,9 @@ gem 'i18n-js',             '~> 3.9'    # Shares Rails i18n strings with the fron
 gem 'image_processing',    '~> 1.12'   # Ruby bindings for ImageMagick, resize attachments. Depenency of ActiveStorage
 gem 'jbuilder',            '~> 2.11'   # JSON templating for the API
 gem 'json_schemer',        '~> 1.0'    # Validation for submited JSON
-gem 'mail',                '~> 2.7.1'  # TODO: Remove once addressed bug with mail 2.8.0 https://github.com/mikel/mail/issues/1489
 gem 'matrix',              '~> 0.4'    # No longer part of Ruby 3.2 core. Must be included explicitly
 gem 'minipack',            '~> 0.3'    # An alternative to Webpacker. TODO: Is this still needed? In prod?
 gem 'net-http-persistent', '~> 4.0'    # Thread safe persistent HTTP connections, optional Faraday dependency
-gem 'net-imap', require: false         # TODO: Remove once mail gem issue resolved
-gem 'net-pop',  require: false         # TODO: Remove once mail gem issue resolved
-gem 'net-smtp', require: false         # TODO: Remove once mail gem issue resolved
 gem 'nokogiri',            '~> 1.15'   # Security assertion on implicit dependency.
 gem 'pg',                  '~> 1.5'    # Ruby PostgreSQL binding
 gem 'prawn',               '~> 2.4'    # PDF generation
