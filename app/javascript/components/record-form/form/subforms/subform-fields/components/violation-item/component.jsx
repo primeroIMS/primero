@@ -17,6 +17,7 @@ import { usePermissions } from "../../../../../../permissions";
 import { RECORD_ACTION_ABILITIES } from "../../../../../../record-actions/constants";
 import VerifySelect from "./select";
 import { useI18n } from "../../../../../../i18n";
+import { toServerDateFormat } from "../../../../../../../libs";
 
 const Component = ({ fields, values, locale, displayName, index, collapsedFieldValues, mode }) => {
   const currentValues = values[index];
@@ -50,7 +51,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
       saveRecord(
         verifyParams.recordType,
         "update",
-        {data: { [currentValues.type]: [ {  unique_id: currentValues.unique_id, ctfmr_verified: verificationValue } ]}}, // Save API Call
+        {data: { [currentValues.type]: [ {  unique_id: currentValues.unique_id, ctfmr_verified: verificationValue, ctfmr_verified_date: toServerDateFormat(current_date) } ]}}, // Save API Call
         verifyParams.id,
         "Updated successfully",
         "",
