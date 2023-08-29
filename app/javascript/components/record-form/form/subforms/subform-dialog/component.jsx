@@ -266,6 +266,7 @@ const Component = ({
                     showActions={
                       isFamilySubform && !caseId ? (
                         <FamilySubformActions
+                          recordType={recordType}
                           handleBack={handleClose}
                           handleBackLabel={familyHandleBackLabel}
                           pending={caseFromFamilyMemberLoading}

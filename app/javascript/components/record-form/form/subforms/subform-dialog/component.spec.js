@@ -42,13 +42,37 @@ describe("<SubformDialog />", () => {
     });
 
     describe("when is show mode", () => {
-      it("renders the Family Actions to create a case", () => {
+      it("renders the Family Actions to create a case if a user can create cases", () => {
         mountedComponent(
-          <SubformDialog {...props} field={familyDetailsField} mode={{ isShow: true }} isFamilyMember />
+          <SubformDialog
+            {...props}
+            recordType={RECORD_TYPES_PLURAL.case}
+            field={familyDetailsField}
+            mode={{ isShow: true }}
+            isFamilyMember
+          />,
+          {
+            user: { permissions: { cases: ["write"] } }
+          }
         );
 
         expect(screen.queryByText("family.family_member.back_to_family_members")).toBeTruthy();
         expect(screen.queryByText("family.family_member.create_case")).toBeTruthy();
+      });
+
+      it("renders the Family Actions without the create case action if the user does not have permission", () => {
+        mountedComponent(
+          <SubformDialog
+            {...props}
+            recordType={RECORD_TYPES_PLURAL.case}
+            field={familyDetailsField}
+            mode={{ isShow: true }}
+            isFamilyMember
+          />
+        );
+
+        expect(screen.queryByText("family.family_member.back_to_family_members")).toBeTruthy();
+        expect(screen.queryByText("family.family_member.create_case")).toBeFalsy();
       });
 
       it("renders the Family Actions with a link to a case", () => {
