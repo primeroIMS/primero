@@ -25,11 +25,12 @@ describe RecordActionWebpushNotifier do
   end
 
   let(:user) do
-    create :user, user_name: 'user', full_name: 'Test User 1', email: 'owner@primero.dev'
+    create(:user, user_name: 'user', full_name: 'Test User 1', email: 'owner@primero.dev', receive_webpush: true)
   end
 
   let(:user2) do
-    create(:user, user_name: 'user2', full_name: 'Test User 2', email: 'user2@primero.dev', receive_webpush: true)
+    create(:user, user_name: 'user2', role: role2, full_name: 'Test User 2',
+                  email: 'user2@primero.dev', receive_webpush: true)
   end
 
   let(:manager1) do
@@ -51,11 +52,6 @@ describe RecordActionWebpushNotifier do
       p256dh: 'BHeRXLGYqECdnfw9vTGrrPjBqNxpKIohEwHhUuxfkyBmTuN47ooeGV_iEcdrgJoa2m4Ro6QxKLBMyy43_JgxolA',
       user:
     )
-  end
-
-  let(:user2) do
-    create(:user, user_name: 'user2', role: role2, full_name: 'User 1', email: 'user2@primero.dev',
-                  receive_webpush: true)
   end
 
   let(:assign1) do
@@ -89,13 +85,29 @@ describe RecordActionWebpushNotifier do
     end
 
     let(:approval_notification_service) do
-      ApprovalNotificationService.new(child.id, 'value1', manager2.user_name)
+      ApprovalRequestNotificationService.new(child.id, 'value1', manager2.user_name)
     end
 
     it 'should call TransitionNotificationService and WebpushService' do
       expect(WebpushService).to receive(:send_notifications)
 
       RecordActionWebpushNotifier.manager_approval_request(approval_notification_service)
+    end
+  end
+
+  describe '#manager_approval_request' do
+    before(:each) do
+      webpush_subscription1
+    end
+
+    let(:approval_notification_service) do
+      ApprovalResponseNotificationService.new(child.id, 'value1', user2.user_name, true)
+    end
+
+    it 'should call TransitionNotificationService and WebpushService' do
+      expect(WebpushService).to receive(:send_notifications)
+
+      RecordActionWebpushNotifier.manager_approval_response(approval_notification_service)
     end
   end
 

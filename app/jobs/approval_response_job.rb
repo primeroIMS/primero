@@ -7,6 +7,6 @@ class ApprovalResponseJob < ApplicationJob
   def perform(record_id, approved, approval_type, approved_by)
     approval_notification = ApprovalResponseNotificationService.new(record_id, approval_type, approved_by, approved)
     RecordActionMailer.manager_approval_response(approval_notification).deliver_now
-    RecordActionWebpushNotifier.manager_approval_request(approval_notification)
+    RecordActionWebpushNotifier.manager_approval_response(approval_notification)
   end
 end
