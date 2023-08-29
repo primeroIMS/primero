@@ -146,6 +146,8 @@ describe Api::V2::ChildrenController, type: :request do
     @member_unique_id1 = SecureRandom.uuid
     @member_unique_id2 = SecureRandom.uuid
     @member_unique_id3 = SecureRandom.uuid
+    @member_unique_id4 = SecureRandom.uuid
+    @member_unique_id5 = SecureRandom.uuid
     @family1 = Family.create!(
       data: {
         family_number: '001',
@@ -158,7 +160,9 @@ describe Api::V2::ChildrenController, type: :request do
       data: {
         family_number: '001',
         family_members: [
-          { unique_id: @member_unique_id2, relation_name: 'Member 2', relation_sex: 'female', relation_age: 9 }
+          { unique_id: @member_unique_id2, relation_name: 'Test8 - Member1', relation_sex: 'female', relation_age: 9 },
+          { unique_id: @member_unique_id4, relation_name: 'Test8 - Member2', relation_sex: 'male', relation_age: 10 },
+          { unique_id: @member_unique_id5, relation_name: 'Test8 - Member3', relation_sex: 'male', relation_age: 4 }
         ]
       }
     )
@@ -172,13 +176,7 @@ describe Api::V2::ChildrenController, type: :request do
       }
     )
     @case8 = Child.create!(
-      family: @family2,
-      data: {
-        name: 'Test8',
-        age: 15,
-        sex: 'female',
-        family_details_section: [{ unique_id: @member_unique_id2, relation_sex: 'male', relation_age: 8 }]
-      }
+      family: @family2, data: { name: 'Test8', age: 9, sex: 'female', family_member_id: @member_unique_id2 }
     )
     # This is legitimate. The cases are implicitly reloaded in the attachments & flagging api
     reloaded_cases = [@case1, @case2, @case3, @case4, @case5, @case6, @case7, @case8].map(&:reload)
@@ -325,7 +323,7 @@ describe Api::V2::ChildrenController, type: :request do
       login_for_test
       get '/api/v2/cases?fields=short&order=asc&order_by=age'
       expect(json['data'].count).to eq(8)
-      expect(json['data'].map { |rr| rr['age'] }).to eq([2, 5, 5, 6, 10, 12, 15, 16])
+      expect(json['data'].map { |rr| rr['age'] }).to eq([2, 5, 5, 6, 9, 10, 12, 16])
     end
 
     context 'when a gbv case has in the associated_user_names a cp user' do
@@ -1081,35 +1079,64 @@ describe Api::V2::ChildrenController, type: :request do
     end
   end
 
-  describe 'POST /api/v2/cases/:id/create_for_family' do
+  describe 'POST /api/v2/cases/:id/family' do
     it 'creates a new child linked to a family when there is no family record' do
       login_for_test
 
       params = { data: { family_detail_id: @member_unique_id3 } }
 
-      post "/api/v2/cases/#{@case7.id}/create_for_family", params:, as: :json
+      post "/api/v2/cases/#{@case7.id}/family", params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@case7.id)
-      expect(json['data']['family_id']).not_to be_nil
       expect(json['data']['record']['id']).not_to be_nil
+      expect(json['data']).not_to have_key('family_id')
+      expect(json['data']['family_number']).to be_nil
+      expect(json['data']).not_to have_key('family_member_id')
       expect(json['data']['record']['sex']).to eq('male')
       expect(json['data']['record']['age']).to eq(5)
     end
 
     it 'creates a new child linked to a family when there is a family record' do
-      login_for_test
+      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::CREATE])])
 
-      params = { data: { family_detail_id: @member_unique_id2 } }
+      params = { data: { family_detail_id: @member_unique_id5 } }
 
-      post "/api/v2/cases/#{@case8.id}/create_for_family", params:, as: :json
+      post "/api/v2/cases/#{@case8.id}/family", params:, as: :json
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@case8.id)
+      expect(json['data']).not_to have_key('family_id')
+      expect(json['data']['family_number']).to eq(@family2.family_number)
+      expect(json['data']).not_to have_key('family_member_id')
+      expect(json['data']['record']['id']).not_to be_nil
+      expect(json['data']['record']['sex']).to eq('male')
+      expect(json['data']['record']['age']).to eq(4)
+    end
+
+    it 'creates a new child and returns the family data if a user has the view_family_record permission' do
+      login_for_test(
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::CREATE, Permission::VIEW_FAMILY_RECORD]
+          )
+        ]
+      )
+
+      params = { data: { family_detail_id: @member_unique_id4 } }
+
+      post "/api/v2/cases/#{@case8.id}/family", params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@case8.id)
       expect(json['data']['family_id']).to eq(@family2.id)
+      expect(json['data']['family_number']).to eq(@family2.family_number)
+      expect(json['data']['family_member_id']).to eq(@member_unique_id2)
       expect(json['data']['record']['id']).not_to be_nil
-      expect(json['data']['record']['sex']).to eq('female')
-      expect(json['data']['record']['age']).to eq(9)
+      expect(json['data']['record']['sex']).to eq('male')
+      expect(json['data']['record']['age']).to eq(10)
+      expect(json['data']['record']['family_member_id']).to eq(@member_unique_id4)
     end
   end
 

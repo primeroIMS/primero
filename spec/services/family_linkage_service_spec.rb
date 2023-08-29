@@ -171,10 +171,12 @@ describe FamilyLinkageService do
     end
   end
 
-  describe 'create_family_linked_child' do
+  describe 'new_family_linked_child' do
     context 'when the child is not linked to a family' do
       it 'returns a case linked to a family with the cases as members' do
-        linked_child = FamilyLinkageService.create_family_linked_child(user, child_without_family, '672f56fd')
+        linked_child = FamilyLinkageService.new_family_linked_child(user, child_without_family, '672f56fd')
+        child_without_family.save!
+        linked_child.save!
 
         expect(linked_child.family.id).not_to be_nil
         expect(linked_child.family_member_id).to eq('672f56fd')
@@ -193,7 +195,8 @@ describe FamilyLinkageService do
 
     context 'when the child is linked to a family' do
       it 'returns a case linked to a family with the cases as members' do
-        linked_child = FamilyLinkageService.create_family_linked_child(user, child_with_family, '14397418')
+        linked_child = FamilyLinkageService.new_family_linked_child(user, child_with_family, '14397418')
+        linked_child.save!
 
         expect(linked_child.family.id).to eq(family2.id)
         expect(linked_child.family_member_id).to eq('14397418')

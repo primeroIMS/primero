@@ -40,15 +40,9 @@ class FamilyLinkageService
   ].map(&:with_indifferent_access).freeze
 
   class << self
-    def create_family_linked_child(user, source_case, family_detail_id)
+    def new_family_linked_child(user, source_case, family_detail_id)
       link_child_to_new_family(user, source_case) if source_case.family.blank?
-      target_case = source_case.family.new_child_from_family_member(user, family_detail_id)
-      ActiveRecord::Base.transaction do
-        source_case.save! if source_case.has_changes_to_save?
-        target_case.save!
-      end
-
-      target_case
+      source_case.family.new_child_from_family_member(user, family_detail_id)
     end
 
     def link_child_to_new_family(user, child)

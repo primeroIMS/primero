@@ -20,19 +20,23 @@ class Api::V2::ChildrenController < ApplicationApiController
     @updated_field_names << 'family_details_section' if @record.family&.family_members_changed?
   end
 
-  def create_for_family
+  def family
     authorize! :create, Child
-    @current_record = Child.find(create_for_family_params[:case_id])
-    @record = FamilyLinkageService.create_family_linked_child(
-      current_user, @current_record, create_for_family_params[:family_detail_id]
+    @current_record = Child.find(family_params[:case_id])
+    @record = FamilyLinkageService.new_family_linked_child(
+      current_user, @current_record, family_params[:family_detail_id]
     )
+    @current_record.save! if @current_record.has_changes_to_save?
+    @record.save!
+
     select_updated_fields
+    select_fields_for_show
   end
 
-  def create_for_family_params
-    return @create_for_family_params if @create_for_family_params.present?
+  def family_params
+    return @family_params if @family_params.present?
 
     data = params.require(:data).permit(:family_detail_id).to_h
-    @create_for_family_params = data.merge(case_id: params.require(:case_id))
+    @family_params = data.merge(case_id: params.require(:case_id))
   end
 end
