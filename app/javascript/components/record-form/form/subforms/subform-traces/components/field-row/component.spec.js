@@ -1,9 +1,7 @@
 import { fromJS } from "immutable";
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
 
 import { TEXT_FIELD, DATE_FIELD } from "../../../../../../form";
-import { setupMountedComponent } from "../../../../../../../test";
+import { mountedComponent, screen } from "../../../../../../../test-utils";
 
 import FieldRow from "./component";
 
@@ -16,10 +14,10 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<FieldRow>", () 
       caseValue: dateValue,
       match: "match"
     };
-    const { component } = setupMountedComponent(FieldRow, props, fromJS([]));
 
-    expect(component.find(CheckIcon)).to.have.lengthOf(1);
-    expect(component.find(ClearIcon)).to.have.lengthOf(0);
+    mountedComponent(<FieldRow {...props} />, fromJS([]));
+    expect(screen.getByTestId("check-icon")).toBeInTheDocument();
+    expect(screen.queryByTestId("clear-icon")).toBeNull();
   });
 
   it("should render the not clear icon if the field does not match and is not text field", () => {
@@ -30,10 +28,10 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<FieldRow>", () 
       caseValue: dateValue,
       match: "mismatch"
     };
-    const { component } = setupMountedComponent(FieldRow, props, fromJS([]));
 
-    expect(component.find(CheckIcon)).to.have.lengthOf(0);
-    expect(component.find(ClearIcon)).to.have.lengthOf(1);
+    mountedComponent(<FieldRow {...props} />, fromJS([]));
+    expect(screen.getByTestId("clear-icon")).toBeInTheDocument();
+    expect(screen.queryByTestId("check-icon")).toBeNull();
   });
 
   it("should not render the icons if the field is a text field", () => {
@@ -44,9 +42,10 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<FieldRow>", () 
       caseValue: dateValue,
       match: "match"
     };
-    const { component } = setupMountedComponent(FieldRow, props, fromJS([]));
 
-    expect(component.find(CheckIcon)).to.have.lengthOf(0);
-    expect(component.find(ClearIcon)).to.have.lengthOf(0);
+    mountedComponent(<FieldRow {...props} />, fromJS([]));
+
+    expect(screen.queryByTestId("check-icon")).toBeNull();
+    expect(screen.queryByTestId("clear-icon")).toBeNull();
   });
 });
