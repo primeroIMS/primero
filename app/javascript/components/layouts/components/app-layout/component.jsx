@@ -2,6 +2,7 @@
 import clsx from "clsx";
 import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
+import { useEffect } from "react";
 
 import Nav from "../../../nav";
 import Notifier from "../../../notifier";
@@ -11,6 +12,7 @@ import DemoIndicator from "../../../demo-indicator";
 import { useApp } from "../../../application";
 import LoginDialog from "../../../login-dialog";
 import { useMemoizedSelector } from "../../../../libs";
+import usePushNotifications from "../../../push-notifications-toggle/use-push-notifications";
 
 import { NAME } from "./constants";
 import css from "./styles.css";
@@ -22,6 +24,12 @@ const Component = ({ children }) => {
   const contentClasses = clsx({ [css.content]: true, [css.demo]: demo });
 
   const hasPermissions = useMemoizedSelector(state => hasUserPermissions(state));
+
+  const { startRefreshNotificationTimer } = usePushNotifications();
+
+  useEffect(() => {
+    startRefreshNotificationTimer();
+  }, []);
 
   if (!hasPermissions) {
     return (

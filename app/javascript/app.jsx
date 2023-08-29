@@ -6,15 +6,13 @@ import DateFnsUtils from "@date-io/date-fns";
 import I18nProvider from "./components/i18n";
 import { ApplicationProvider } from "./components/application";
 import { routes } from "./config";
-import configureStore, { history } from "./store";
+import { history } from "./store";
 import ApplicationRoutes from "./components/application-routes";
 import ThemeProvider from "./theme-provider";
 import "mui-nepali-datepicker-reactjs/dist/index.css";
-import { getAppResources } from "./components/user/action-creators";
+import appInit from "./app-init";
 
-const store = configureStore();
-
-store.dispatch(getAppResources);
+const { store } = appInit();
 
 const App = () => {
   window.I18n.fallbacks = true;

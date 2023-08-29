@@ -114,3 +114,16 @@ export async function getAppResources(dispatch) {
   dispatch(checkUserAuthentication());
   dispatch(loginSystemSettings());
 }
+
+export function saveNotificationSubscription(payload) {
+  return {
+    type: actions.SAVE_USER_NOTIFICATION_SUBSCRIPTION,
+    payload
+  };
+}
+
+export function removeNotificationSubscription() {
+  return {
+    type: actions.REMOVE_USER_NOTIFICATION_SUBSCRIPTION
+  };
+}
