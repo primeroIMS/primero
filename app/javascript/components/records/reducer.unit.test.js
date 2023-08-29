@@ -769,6 +769,9 @@ describe("<RecordList /> - Reducers", () => {
         {
           id: "c001",
           sex: "male",
+          family_id: "f001",
+          family_number: "fn001",
+          family_member_id: "fd001",
           family_details_section: [
             { unique_id: "fd001", relation_sex: "female", case_id: "c002", case_id_display: "002" },
             { unique_id: "fd002", relation_sex: "male", case_id: "c001", case_id_display: "001" }
@@ -781,6 +784,9 @@ describe("<RecordList /> - Reducers", () => {
       payload: {
         data: {
           id: "c001",
+          family_id: "f001",
+          family_number: "fn001",
+          family_member_id: "fd001",
           record: {
             id: "c002",
             case_id_display: "002",

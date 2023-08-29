@@ -30,8 +30,7 @@ import {
   getCaseFormFamilyMemberLoading
 } from "../../../../records";
 import { useMemoizedSelector } from "../../../../../libs";
-import { RECORD_TYPES, RECORD_TYPES_PLURAL } from "../../../../../config";
-import { ENQUEUE_SNACKBAR, generate } from "../../../../notifier";
+import { RECORD_TYPES_PLURAL } from "../../../../../config";
 
 const Component = ({
   arrayHelpers,
@@ -88,7 +87,7 @@ const Component = ({
     return object().shape(Object.assign({}, ...subformSchema));
   };
 
-  const { case_id: caseId, case_id_display: caseIdDisplay, family_record_created: familyRecordCreated } = subformValues;
+  const { case_id: caseId, case_id_display: caseIdDisplay } = subformValues;
 
   const handleClose = () => {
     const compactedValues = compactValues(childFormikRef.current.values, initialSubformValues);
@@ -238,21 +237,6 @@ const Component = ({
       setInitialValues(constructInitialValues([field.subform_section_id]));
     }
   }, [open]);
-
-  useEffect(() => {
-    if (familyRecordCreated) {
-      dispatch({
-        type: ENQUEUE_SNACKBAR,
-        payload: {
-          messageKey: `${RECORD_TYPES.families}.messages.creation_success`,
-          options: {
-            variant: "success",
-            key: generate.messageKey(`${RECORD_TYPES.families}.messages.creation_success`)
-          }
-        }
-      });
-    }
-  }, [familyRecordCreated]);
 
   return (
     <>

@@ -406,7 +406,7 @@ export const createCaseFromFamilyMember = ({ familyId, familyMemberId }) => ({
 export const createCaseFromFamilyDetail = ({ caseId, familyDetailId }) => ({
   type: `${RECORD_PATH.cases}/${CREATE_CASE_FROM_FAMILY_DETAIL}`,
   api: {
-    path: `${RECORD_PATH.cases}/${caseId}/create_for_family`,
+    path: `${RECORD_PATH.cases}/${caseId}/family`,
     body: {
       data: { family_detail_id: familyDetailId }
     },

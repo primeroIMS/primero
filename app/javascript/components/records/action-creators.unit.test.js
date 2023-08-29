@@ -503,7 +503,7 @@ describe("records - Action Creators", () => {
     expect(actionCreators.externalSync(RECORD_PATH.cases, "12345")).be.deep.equals(expected);
   });
 
-  it("should check the 'markForOffline' action creator to return the correct object", () => {
+  it("should check the 'createCaseFromFamilyMember' action creator to return the correct object", () => {
     const expected = {
       type: "families/CREATE_CASE_FROM_FAMILY_MEMBER",
       api: {
@@ -528,7 +528,7 @@ describe("records - Action Creators", () => {
     );
   });
 
-  it("checks that 'createCaseFromFamilyMember' action creator to return the correct object", () => {
+  it("checks that 'clearPotentialMatches' action creator to return the correct object", () => {
     const expected = {
       type: `${RECORD_PATH.cases}/CLEAR_POTENTIAL_MATCHES`
     };

@@ -383,7 +383,7 @@ export default namespace =>
       case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_SUCCESS}`: {
         const recordIndex = state.get("data").findIndex(record => record.get("id") === payload.data.id);
 
-        return payload.data.record.family_details_section.reduce((acc, familyDetail) => {
+        const result = payload.data.record.family_details_section.reduce((acc, familyDetail) => {
           const subformIndex = acc
             .getIn(["data", recordIndex, "family_details_section"])
             .findIndex(member => member.get("unique_id") === familyDetail.unique_id);
@@ -399,6 +399,11 @@ export default namespace =>
             acc.getIn(["data", recordIndex, "family_details_section"]).push(fromJS(familyDetail))
           );
         }, state);
+
+        return result
+          .setIn(["data", recordIndex, "family_number"], payload.data.family_number)
+          .setIn(["data", recordIndex, "family_member_id"], payload.data.family_member_id)
+          .setIn(["data", recordIndex, "family_id"], payload.data.family_id);
       }
       case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_FAILURE}`: {
         return state.setIn(["case_from_family", "errors"], true);
