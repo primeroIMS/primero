@@ -147,8 +147,6 @@ describe("<Approvals> - pages/dashboard/components/reporting-location", () => {
       });
 
       expect(screen.getByRole("progressbar")).toBeInTheDocument();
-
-      // expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
     });
   });
 });
