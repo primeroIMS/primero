@@ -1,8 +1,7 @@
 import { fromJS } from "immutable";
-import { Button } from "@material-ui/core";
 
 import { ACTIONS } from "../../../../permissions";
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 
 import SubformMenu from "./component";
 
@@ -28,9 +27,10 @@ describe("<SubformMenu />", () => {
         }
       }
     };
-    const { component } = setupMountedComponent(SubformMenu, props, state);
 
-    expect(component.find(Button)).lengthOf(0);
+    mountedComponent(<SubformMenu {...props} />, state);
+
+    expect(screen.queryAllByRole("button")).toHaveLength(0);
   });
 
   describe("when the service is referrable", () => {
@@ -86,29 +86,24 @@ describe("<SubformMenu />", () => {
     });
 
     it("render the ReferAction if service is referrable and the user has the REFERRAL_FROM_SERVICE permission", () => {
-      const { component } = setupMountedComponent(SubformMenu, props, initialState);
+      mountedComponent(<SubformMenu {...props} />, initialState);
 
-      expect(component.find(Button)).lengthOf(1);
+      expect(screen.getAllByRole("button")).toHaveLength(1);
     });
 
     it("render the ReferAction if service is referrable and the user has the REFERRAL permission", () => {
-      const { component } = setupMountedComponent(
-        SubformMenu,
-        props,
+      mountedComponent(
+        <SubformMenu {...props} />,
         initialState.setIn(["user", "permissions", "cases"], fromJS([ACTIONS.REFERRAL]))
       );
 
-      expect(component.find(Button)).lengthOf(1);
+      expect(screen.getAllByRole("button")).toHaveLength(1);
     });
 
     it("does not render the ReferAction if service is referrable and the user has no permission", () => {
-      const { component } = setupMountedComponent(
-        SubformMenu,
-        props,
-        initialState.setIn(["user", "permissions", "cases"], fromJS([]))
-      );
+      mountedComponent(<SubformMenu {...props} />, initialState.setIn(["user", "permissions", "cases"], fromJS([])));
 
-      expect(component.find(Button)).to.be.empty;
+      expect(screen.queryAllByRole("button")).toHaveLength(0);
     });
   });
 });
