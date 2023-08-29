@@ -1,15 +1,11 @@
 import { fromJS } from "immutable";
+import { mountedComponent, screen } from "test-utils";
 
-import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS, DASH_APPROVALS_PENDING } from "../../../../permissions";
-import { OverviewBox, OptionsBox } from "../../../../dashboard";
-import LoadingIndicator from "../../../../loading-indicator";
 
 import Approvals from "./component";
 
 describe("<Approvals> - pages/dashboard/components/reporting-location", () => {
-  let component;
-
   const permissions = {
     dashboards: [
       ACTIONS.DASH_APPROVALS_ASSESSMENT,
@@ -112,24 +108,19 @@ describe("<Approvals> - pages/dashboard/components/reporting-location", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(Approvals, {}, state));
+    mountedComponent(<Approvals />, state);
   });
 
   it("should render 6 <OptionsBox /> component", () => {
-    expect(component.find(OptionsBox)).to.have.lengthOf(6);
-  });
-
-  it("should render 5 <OverviewBox /> component", () => {
-    expect(component.find(OverviewBox)).to.have.lengthOf(5);
-    expect(component.find("a")).to.have.lengthOf(10);
+    expect(screen.getAllByTestId("option-box")).toHaveLength(6);
   });
 
   it("should render the correct approvals label", () => {
-    expect(component.find(OverviewBox).at(0).text()).to.contain("1 Assessment");
-    expect(component.find(OverviewBox).at(1).text()).to.contain("2 Case Plan");
-    expect(component.find(OverviewBox).at(2).text()).to.contain("3 Closure");
-    expect(component.find(OverviewBox).at(3).text()).to.contain("4 Action Plan");
-    expect(component.find(OverviewBox).at(4).text()).to.contain("5 GBV Closure");
+    expect(screen.getByText("1 Assessment")).toBeInTheDocument();
+    expect(screen.getByText("2 Case Plan")).toBeInTheDocument();
+    expect(screen.getByText("3 Closure")).toBeInTheDocument();
+    expect(screen.getByText("4 Action Plan")).toBeInTheDocument();
+    expect(screen.getByText("5 GBV Closure")).toBeInTheDocument();
   });
 
   describe("when the data is loading", () => {
@@ -143,7 +134,7 @@ describe("<Approvals> - pages/dashboard/components/reporting-location", () => {
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(Approvals, props, {
+      mountedComponent(<Approvals {...props} />, {
         records: {
           dashboard: {
             data: [],
@@ -155,7 +146,7 @@ describe("<Approvals> - pages/dashboard/components/reporting-location", () => {
         }
       });
 
-      expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
 });
