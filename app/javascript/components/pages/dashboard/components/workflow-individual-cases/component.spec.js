@@ -1,16 +1,13 @@
 import { fromJS } from "immutable";
+import { mountedComponent, screen } from "test-utils";
 
-import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../permissions";
-import { OptionsBox } from "../../../../dashboard";
-import LoadingIndicator from "../../../../loading-indicator";
 import { PrimeroModuleRecord } from "../../../../application/records";
 import { MODULES } from "../../../../../config";
 
 import WorkflowIndividualCases from "./component";
 
 describe("<WorkflowIndividualCases> - pages/dashboard/components/workflow-individual-cases", () => {
-  let component;
   const permissions = {
     dashboards: [ACTIONS.DASH_WORKFLOW]
   };
@@ -67,11 +64,11 @@ describe("<WorkflowIndividualCases> - pages/dashboard/components/workflow-indivi
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(WorkflowIndividualCases, {}, state));
+    mountedComponent(<WorkflowIndividualCases />, state);
   });
 
   it("should render an <OptionsBox /> component", () => {
-    expect(component.find(OptionsBox)).to.have.lengthOf(1);
+    expect(screen.getByTestId("option-box")).toBeInTheDocument();
   });
 
   describe("when the data is loading", () => {
@@ -85,7 +82,7 @@ describe("<WorkflowIndividualCases> - pages/dashboard/components/workflow-indivi
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(WorkflowIndividualCases, props, {
+      mountedComponent(<WorkflowIndividualCases {...props} />, {
         records: {
           dashboard: {
             data: [],
@@ -97,7 +94,7 @@ describe("<WorkflowIndividualCases> - pages/dashboard/components/workflow-indivi
         }
       });
 
-      expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
 });
