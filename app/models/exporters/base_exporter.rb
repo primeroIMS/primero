@@ -31,8 +31,8 @@ class Exporters::BaseExporter
 
     # This is a class method that does a one-shot export to a String buffer.
     # Don't use this for large data sets.
-    def export(records, *args)
-      exporter_obj = new(*args)
+    def export(records, *)
+      exporter_obj = new(*)
       exporter_obj.export(records)
       exporter_obj.complete
       exporter_obj.buffer.string
