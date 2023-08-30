@@ -1,15 +1,11 @@
 import { fromJS } from "immutable";
+import { mountedComponent, screen } from "test-utils";
 
-import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../permissions";
-import { OptionsBox, OverviewBox } from "../../../../dashboard";
-import LoadingIndicator from "../../../../loading-indicator";
 
 import Overview from "./component";
 
 describe("<Overview> - pages/dashboard/components/overview", () => {
-  let component;
-
   const permissions = fromJS({
     dashboards: [
       ACTIONS.DASH_SHARED_WITH_ME,
@@ -101,39 +97,31 @@ describe("<Overview> - pages/dashboard/components/overview", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(Overview, props, state));
+    mountedComponent(<Overview {...props} />, state);
   });
 
   it("should render a <OptionsBox /> component", () => {
-    expect(component.find(OptionsBox)).to.have.lengthOf(5);
+    expect(screen.getAllByTestId("option-box")).toHaveLength(5);
   });
 
   it("should render a <OverviewBox /> component", () => {
-    expect(component.find(OverviewBox)).to.have.lengthOf(4);
+    expect(screen.getAllByTestId("overview-box")).toHaveLength(4);
   });
 
   it("renders the dash_group_overview dashboard", () => {
-    const groupOverview = component.find(OverviewBox).at(0);
-
-    expect(groupOverview.text()).to.contain("dashboard.dash_group_overview");
+    expect(screen.getByText("dashboard.dash_group_overview")).toBeInTheDocument();
   });
 
   it("renders the case_overview dashboard", () => {
-    const caseOverview = component.find(OverviewBox).at(1);
-
-    expect(caseOverview.text()).to.contain("dashboard.case_overview");
+    expect(screen.getByText("dashboard.case_overview")).toBeInTheDocument();
   });
 
   it("renders the shared_with_me dashboard", () => {
-    const sharedWithMe = component.find(OverviewBox).at(2);
-
-    expect(sharedWithMe.text()).to.contain("dashboard.dash_shared_with_me");
+    expect(screen.getByText("dashboard.dash_shared_with_me")).toBeInTheDocument();
   });
 
   it("renders the dash_shared_with_others dashboard", () => {
-    const sharedWithOthers = component.find(OverviewBox).at(3);
-
-    expect(sharedWithOthers.text()).to.contain("dashboard.dash_shared_with_others");
+    expect(screen.getByText("dashboard.dash_shared_with_others")).toBeInTheDocument();
   });
 
   describe("when the data is loading", () => {
@@ -148,7 +136,7 @@ describe("<Overview> - pages/dashboard/components/overview", () => {
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(Overview, loadingProps, {
+      mountedComponent(<Overview {...loadingProps} />, {
         records: {
           dashboard: {
             data: [],
@@ -160,7 +148,7 @@ describe("<Overview> - pages/dashboard/components/overview", () => {
         }
       });
 
-      expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
 });
