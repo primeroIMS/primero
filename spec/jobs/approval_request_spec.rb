@@ -29,7 +29,7 @@ describe ApprovalRequestJob, type: :job do
   context 'when user has enabled webpush notification' do
     it 'should call RecordActionWebpushNotifier' do
       expect(RecordActionWebpushNotifier).to receive(:manager_approval_request)
-      expect(ApprovalNotificationService).to receive(:new).with(@child.id, 'case_plan', @manager1.id)
+      expect(ApprovalRequestNotificationService).to receive(:new).with(@child.id, 'case_plan', @manager1.id)
 
       perform_enqueued_jobs do
         ApprovalRequestJob.perform_later(@child.id, 'case_plan', @manager1.id)

@@ -21,6 +21,8 @@ import {
 } from "../components/permissions/constants";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
+export const API_BASE_PATH = "/api/v2";
+
 export const PASSWORD_MIN_LENGTH = 8;
 
 // Max allowed image size for attachments
@@ -43,6 +45,8 @@ export const IDLE_LOGOUT_TIMEOUT = 5 * 1000 * 60;
 
 // Time (ms) how often the backend is pinged to refresh the user's token
 export const TOKEN_REFRESH_INTERVAL = 30 * 1000 * 60;
+
+export const PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL = 30 * 1000 * 60;
 
 export const CASE = "case";
 export const CASES = "cases";
@@ -130,7 +134,8 @@ export const RECORD_PATH = {
   user_groups: "user_groups",
   users: "users",
   activity_log: "activity_log",
-  registry_records: "registry_records"
+  registry_records: "registry_records",
+  webpush_config: "webpush/config"
 };
 
 export const RECORD_INFORMATION_GROUP = "record_information";
@@ -205,7 +210,9 @@ export const ROUTES = {
   password_reset: "/password_reset",
   activity_log: "/activity_log",
   password_reset_request: "/password_reset_request",
-  registry_records: "/registry_records"
+  registry_records: "/registry_records",
+  subscriptions: "/webpush/subscriptions",
+  subscriptions_current: "/webpush/subscriptions/current"
 };
 
 export const PERMITTED_URL = [
@@ -728,3 +735,16 @@ export const DATE_SORTABLE_FIELDS = Object.freeze([
   "date_of_first_report",
   "inquiry_date"
 ]);
+
+export const NOTIFICATION_PERMISSIONS = {
+  GRANTED: "granted",
+  DENIED: "denied",
+  DEFAULT: "default"
+};
+
+export const POST_MESSAGES = {
+  SUBSCRIBE_NOTIFICATIONS: "subscribe_notifications",
+  UNSUBSCRIBE_NOTIFICATIONS: "unsubscribe_notifications",
+  DISPATCH_REMOVE_SUBSCRIPTION: "dispatch_remove_subscription",
+  DISPATCH_SAVE_SUBSCRIPTION: "dispatch_save_subscription"
+};

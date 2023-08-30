@@ -11,10 +11,10 @@ class Api::V2::FamiliesController < ApplicationApiController
 
   def create_case
     authorize! :case_from_family, model_class
-    @child = FamilyLinkageService.new_child_for_family_member(
-      current_user, create_case_params['family_id'], create_case_params['family_member_id']
-    )
-    @child.save!
+    @current_record = Family.find(create_case_params[:family_id])
+    @record = @current_record.new_child_from_family_member(current_user, create_case_params['family_member_id'])
+    @record.save!
+    select_updated_fields
   end
 
   def create_case_params

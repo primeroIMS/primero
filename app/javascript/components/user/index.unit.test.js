@@ -37,7 +37,10 @@ describe("User - index", () => {
       "setAuthenticatedUser",
       "setUser",
       "showLoginDialog",
-      "useRefreshUserToken"
+      "useRefreshUserToken",
+      "saveNotificationSubscription",
+      "removeNotificationSubscription",
+      "getNotificationSubscription"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

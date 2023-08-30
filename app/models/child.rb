@@ -350,8 +350,13 @@ class Child < ApplicationRecord
 
       member.merge('case_id' => id, 'case_id_display' => case_id_display)
     end
+  end
 
-    family.save!
+  def find_family_detail(family_detail_id)
+    family_detail = family_details_section.find { |member| member['unique_id'] == family_detail_id }
+    return family_detail if family_detail.present?
+
+    raise(ActiveRecord::RecordNotFound, "Couldn't find Family Detail with 'id'=#{family_detail_id}")
   end
 
   def match_criteria

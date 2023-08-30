@@ -20,7 +20,12 @@ import SaveAndRedirectDialog from "../../../save-and-redirect-dialog";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import { SERVICES_SUBFORM } from "../../../record-actions/add-service/constants";
 import { getLoadingState, getErrors, getSelectedForm } from "../../selectors";
-import { clearDataProtectionInitialValues, clearValidationErrors, setPreviousRecord } from "../../action-creators";
+import {
+  clearDataProtectionInitialValues,
+  clearValidationErrors,
+  setPreviousRecord,
+  setSelectedForm
+} from "../../action-creators";
 import Nav from "../../nav";
 import { RecordForm, RecordFormToolbar } from "../../form";
 import css from "../../styles.css";
@@ -237,6 +242,12 @@ const Component = ({
       );
     }
   }, [selectedForm]);
+
+  useEffect(() => {
+    if (containerMode.isShow && firstTab && shouldFetchRecord) {
+      dispatch(setSelectedForm(firstTab.unique_id));
+    }
+  }, [shouldFetchRecord]);
 
   const transitionProps = {
     fetchable: isNotANewCase,

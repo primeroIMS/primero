@@ -41,7 +41,10 @@ describe("<UsersForm />", () => {
         }
       },
       application: {
-        agencies
+        agencies,
+        webpush: {
+          enabled: true
+        }
       },
       user: {
         username: users.carlos.user_name,
@@ -130,7 +133,10 @@ describe("<UsersForm />", () => {
         }
       },
       application: {
-        agencies
+        agencies,
+        webpush: {
+          enabled: true
+        }
       },
       user: {
         username: users.jose.user_name,

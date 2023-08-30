@@ -181,3 +181,5 @@ export const getAppData = memoize(state => {
     limitedProductionSite
   };
 });
+
+export const getWebpushConfig = state => state.getIn([NAMESPACE, "webpush"], fromJS({}));

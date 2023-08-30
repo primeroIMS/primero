@@ -26,6 +26,17 @@ describe ApprovalResponseJob, type: :job do
     end
   end
 
+  context 'when user has enabled webpush notification' do
+    it 'should call RecordActionWebpushNotifier' do
+      expect(RecordActionWebpushNotifier).to receive(:manager_approval_response)
+      expect(ApprovalResponseNotificationService).to receive(:new).with(@child.id, 'value1', @manager1.user_name, false)
+
+      perform_enqueued_jobs do
+        ApprovalResponseJob.perform_later(@child.id, false, 'value1', @manager1.user_name)
+      end
+    end
+  end
+
   after :each do
     clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup)
   end

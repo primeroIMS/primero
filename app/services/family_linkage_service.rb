@@ -25,7 +25,7 @@ class FamilyLinkageService
     { source: 'relation_age', target: 'age' },
     { source: 'relation_date_of_birth', target: 'date_of_birth' },
     { source: 'relation_age_estimated', target: 'estimated' },
-    { source: 'relation_national_id', target: 'national_id' },
+    { source: 'relation_national_id', target: 'national_id_no' },
     { source: 'relation_other_id', target: 'other_id_no' },
     { source: 'relation_ethnicity', target: 'ethnicity' },
     { source: 'relation_sub_ethnicity1', target: 'sub_ethnicity_1' },
@@ -40,30 +40,49 @@ class FamilyLinkageService
   ].map(&:with_indifferent_access).freeze
 
   class << self
-    def new_child_for_family_member(user, family_id, family_member_id)
-      family = Family.find(family_id)
-      family_member = family.find_family_member(family_member_id)
-      child = Child.new_with_user(user, child_data_from_family_member(family_member))
-      child.family_id = family_id
-      child.family_member_id = family_member['unique_id']
-      child.module_id = family.module_id
-      child
+    def new_family_linked_child(user, source_case, family_detail_id)
+      link_child_to_new_family(user, source_case) if source_case.family.blank?
+      source_case.family.new_child_from_family_member(user, family_detail_id)
     end
 
-    def child_data_from_family_member(family_member)
-      DEFAULT_MAPPING.each_with_object({}) do |elem, memo|
+    def link_child_to_new_family(user, child)
+      family = Family.new_with_user(user, FamilyLinkageService.child_to_family(child))
+      family.module_id = child.module_id
+      family.family_members = FamilyLinkageService.build_or_update_family_members(child.family_details_section, [])
+      family_member = child_to_family_member(child)
+      family.family_members << family_member
+
+      child.family = family
+      child.family_member_id = family_member['unique_id']
+    end
+
+    def family_member_to_child(user, family_member)
+      child_data = DEFAULT_MAPPING.each_with_object({}) do |elem, memo|
         if elem['target'].is_a?(Array)
           elem['target'].each { |target| memo[target] = family_member[elem['source']] }
         else
           memo[elem['target']] = family_member[elem['source']]
         end
       end
+
+      Child.new_with_user(user, child_data.merge('family_member_id' => family_member['unique_id']))
     end
 
-    def family_details_for_child(child)
-      return {} unless child.family.present?
+    def child_to_family_member(child)
+      DEFAULT_MAPPING.each_with_object({ 'unique_id' => SecureRandom.uuid }) do |elem, memo|
+        target = elem['target'].is_a?(Array) ? elem['target'].first : elem['target']
+        memo[elem['source']] = child.data[target]
+      end
+    end
 
-      GLOBAL_FAMILY_FIELDS.each_with_object({}) { |field, memo| memo[field] = child.family.data[field] }
+    def child_to_family(child)
+      GLOBAL_FAMILY_FIELDS.each_with_object({}) { |field, memo| memo[field] = child.data[field] }
+    end
+
+    def family_to_child(family)
+      return {} unless family.present?
+
+      GLOBAL_FAMILY_FIELDS.each_with_object({}) { |field, memo| memo[field] = family.data[field] }
     end
 
     def family_details_section_for_child(child)

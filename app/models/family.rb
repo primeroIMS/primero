@@ -64,6 +64,14 @@ class Family < ApplicationRecord
     self.family_id_display ||= short_id
   end
 
+  def new_child_from_family_member(user, family_member_id)
+    family_member = find_family_member(family_member_id)
+    child = FamilyLinkageService.family_member_to_child(user, family_member)
+    child.family = self
+    child.module_id = module_id
+    child
+  end
+
   def find_family_member(family_member_id)
     family_member = family_members.find { |member| member['unique_id'] == family_member_id }
     return family_member if family_member.present?
