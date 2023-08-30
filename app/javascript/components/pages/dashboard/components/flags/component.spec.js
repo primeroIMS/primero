@@ -1,15 +1,11 @@
 import { fromJS } from "immutable";
+import { mountedComponent, screen } from "test-utils";
 
-import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../permissions";
-import { FlagBox, OptionsBox } from "../../../../dashboard";
-import LoadingIndicator from "../../../../loading-indicator";
-import ActionButton from "../../../../action-button";
 
 import Flags from "./component";
 
 describe("<Flags> - pages/dashboard/components/flags", () => {
-  let component;
   const permissions = {
     cases: [ACTIONS.MANAGE],
     dashboards: [ACTIONS.DASH_FLAGS]
@@ -50,19 +46,19 @@ describe("<Flags> - pages/dashboard/components/flags", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(Flags, {}, state));
+    mountedComponent(<Flags />, state);
   });
 
   it("should render an <OptionsBox /> component", () => {
-    expect(component.find(OptionsBox)).to.have.lengthOf(1);
+    expect(screen.getByTestId("option-box")).toBeInTheDocument();
   });
 
   it("should render a <FlagBox /> component", () => {
-    expect(component.find(FlagBox)).to.have.lengthOf(1);
+    expect(screen.getByText("dashboard.flagged_cases")).toBeInTheDocument();
   });
 
   it("should render a <ActionButton /> component", () => {
-    expect(component.find(ActionButton)).to.have.lengthOf(1);
+    expect(screen.getByText("dashboard.link_see_all (1)")).toBeInTheDocument();
   });
 
   describe("when the data is loading", () => {
@@ -77,7 +73,7 @@ describe("<Flags> - pages/dashboard/components/flags", () => {
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(Flags, props, {
+      mountedComponent(<Flags {...props} />, {
         records: {
           dashboard: {
             flags: { data: [], loading: true }
@@ -88,7 +84,7 @@ describe("<Flags> - pages/dashboard/components/flags", () => {
         }
       });
 
-      expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
 });
