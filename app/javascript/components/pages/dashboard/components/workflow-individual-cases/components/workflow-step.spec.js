@@ -1,12 +1,9 @@
 import { fromJS } from "immutable";
-
-import { setupMountedComponent } from "../../../../../../test";
+import { mountedComponent, screen } from "test-utils";
 
 import WorkFlowStep from "./workflow-step";
 
 describe("<WorkFlowStep> - pages/dashboard/components/workflow-individual-cases/components/workflow-step.jsx", () => {
-  let component;
-
   const casesWorkflow = fromJS({
     name: "dashboard.workflow",
     type: "indicator",
@@ -30,17 +27,14 @@ describe("<WorkFlowStep> - pages/dashboard/components/workflow-individual-cases/
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(WorkFlowStep, props));
+    mountedComponent(<WorkFlowStep {...props} />);
   });
 
   it("should render a button component", () => {
-    expect(component.find("button")).to.have.lengthOf(1);
+    expect(screen.getByRole("button")).toBeInTheDocument();
   });
 
   it("should render a span component", () => {
-    const span = component.find("span");
-
-    expect(span.text()).to.be.equals("10");
-    expect(span).to.have.lengthOf(1);
+    expect(screen.getByText("10")).toBeInTheDocument();
   });
 });
