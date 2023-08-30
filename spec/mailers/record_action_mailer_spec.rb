@@ -43,7 +43,7 @@ describe RecordActionMailer, type: :mailer do
 
     describe '.manager_approval_request' do
       let(:approval_notification) do
-        ApprovalNotificationService.new(@child.id, 'value1', @manager2.user_name)
+        ApprovalRequestNotificationService.new(@child.id, 'value1', @manager2.user_name)
       end
 
       let(:mail) do
@@ -63,7 +63,7 @@ describe RecordActionMailer, type: :mailer do
 
     describe 'manager_approval_request with diferent locale' do
       let(:approval_notification) do
-        ApprovalNotificationService.new(@child.id, 'value1', @manager3.user_name)
+        ApprovalRequestNotificationService.new(@child.id, 'value1', @manager3.user_name)
       end
 
       let(:mail) do
@@ -82,7 +82,13 @@ describe RecordActionMailer, type: :mailer do
     end
 
     describe 'manager_approval_response' do
-      let(:mail) { RecordActionMailer.manager_approval_response(@child.id, false, 'value1', @manager1.user_name) }
+      let(:approval_notification) do
+        ApprovalResponseNotificationService.new(@child.id, 'value1', @manager1.user_name, false)
+      end
+
+      let(:mail) do
+        RecordActionMailer.manager_approval_response(approval_notification)
+      end
 
       it 'renders the headers' do
         expect(mail.subject).to eq("Case: #{@child.short_id} - Approval Response")
@@ -96,7 +102,13 @@ describe RecordActionMailer, type: :mailer do
     end
 
     describe 'manager_approval_response with diferent locale' do
-      let(:mail) { RecordActionMailer.manager_approval_response(@arabic_child, false, 'value1', @manager1.user_name) }
+      let(:approval_notification) do
+        ApprovalResponseNotificationService.new(@arabic_child.id, 'value1', @manager1.user_name, false)
+      end
+
+      let(:mail) do
+        RecordActionMailer.manager_approval_response(approval_notification)
+      end
 
       it 'renders the headers in arabic locale' do
         expect(mail.subject).to eq("الملفّ: #{@arabic_child.short_id} - إستجابة حول الموافقة")
