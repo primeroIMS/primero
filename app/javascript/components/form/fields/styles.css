@@ -123,10 +123,11 @@
 }
 
 .linkField {
-  color: var(--c-blue);;
+  color: var(--c-blue);
 }
 
 .linkFieldLabel {
+  font-weight: bold;
   font-size: var(--fs-12);
 }
 

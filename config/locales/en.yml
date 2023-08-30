@@ -4069,6 +4069,8 @@ en:
   families:
     id: ID
     label: Families
+    family_id: Family ID
+    family_number: Family Number
     family_name: Family Name
     family_registration_date: Registration Date
     family_location_current: Family Location
