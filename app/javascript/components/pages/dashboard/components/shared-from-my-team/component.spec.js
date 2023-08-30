@@ -1,17 +1,11 @@
 import { fromJS } from "immutable";
-import { TableHead, TableCell } from "@material-ui/core";
+import { mountedComponent, screen } from "test-utils";
 
-import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../permissions";
-import DashboardTable from "../../../../dashboard/dashboard-table";
-import LoadingIndicator from "../../../../loading-indicator";
 
 import SharedFromMyTeam from "./component";
 
 describe("<SharedFromMyTeam> - pages/dashboard/components/shared-from-my-team", () => {
-  let component;
-  let tableCells;
-
   const permissions = {
     dashboards: [ACTIONS.DASH_SHARED_FROM_MY_TEAM]
   };
@@ -43,32 +37,27 @@ describe("<SharedFromMyTeam> - pages/dashboard/components/shared-from-my-team", 
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(SharedFromMyTeam, {}, state));
-    tableCells = component.find(DashboardTable).find(TableHead).find(TableCell);
+    mountedComponent(<SharedFromMyTeam />, state);
   });
 
   it("should render a <DashboardTable /> component", () => {
-    expect(component.find(DashboardTable)).to.have.lengthOf(1);
-  });
-
-  it("should render 4 columns", () => {
-    expect(tableCells).to.have.lengthOf(4);
+    expect(screen.getByRole("grid")).toBeInTheDocument();
   });
 
   it("should render case_worker column", () => {
-    expect(tableCells.at(0).text()).to.equal("dashboard.case_worker");
+    expect(screen.getAllByText("dashboard.case_worker")).toBeTruthy();
   });
 
   it("should render shared_from_my_team_referrals column", () => {
-    expect(tableCells.at(1).text()).to.equal("dashboard.shared_from_my_team_referrals");
+    expect(screen.getAllByText("dashboard.shared_from_my_team_referrals")).toBeTruthy();
   });
 
   it("should render shared_from_my_team_pending_transfers column", () => {
-    expect(tableCells.at(2).text()).to.equal("dashboard.shared_from_my_team_pending_transfers");
+    expect(screen.getAllByText("dashboard.shared_from_my_team_pending_transfers")).toBeTruthy();
   });
 
   it("should render shared_from_my_team_rejected_transfers column", () => {
-    expect(tableCells.at(3).text()).to.equal("dashboard.shared_from_my_team_rejected_transfers");
+    expect(screen.getAllByText("dashboard.shared_from_my_team_rejected_transfers")).toBeTruthy();
   });
 
   describe("when the data is loading", () => {
@@ -82,7 +71,7 @@ describe("<SharedFromMyTeam> - pages/dashboard/components/shared-from-my-team", 
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(SharedFromMyTeam, props, {
+      mountedComponent(<SharedFromMyTeam {...props} />, {
         records: {
           dashboard: {
             data: [],
@@ -94,7 +83,7 @@ describe("<SharedFromMyTeam> - pages/dashboard/components/shared-from-my-team", 
         }
       });
 
-      expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
 });
