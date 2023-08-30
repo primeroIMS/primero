@@ -174,7 +174,7 @@ describe RecordActionWebpushNotifier do
       end
 
       it 'should return a body for approval response' do
-        expect(subject[:body]).to eq('A case has received an approval response for value1.')
+        expect(subject[:body]).to eq('One of your Cases has received an approval response.')
       end
     end
 
