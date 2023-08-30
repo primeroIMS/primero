@@ -11,6 +11,7 @@ export const ACTIONS = {
   ASSIGN_WITHIN_AGENCY: "assign_within_agency",
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
   ASSIGN: "assign",
+  CASE_FROM_FAMILY: "case_from_family",
   CHANGE_LOG: "change_log",
   CLOSE: "close",
   CONSENT_OVERRIDE: "consent_override",
@@ -333,3 +334,5 @@ export const VIEW_KPIS = [
 export const SHOW_SYNC_EXTERNAL = [...MANAGE, ACTIONS.SYNC_EXTERNAL];
 
 export const CONSENT_OVERRIDE = [...MANAGE, ACTIONS.CONSENT_OVERRIDE];
+
+export const CREATE_CASE_FROM_FAMILY = [...MANAGE, ACTIONS.CASE_FROM_FAMILY];
