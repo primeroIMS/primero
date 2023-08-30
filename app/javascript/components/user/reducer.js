@@ -71,6 +71,12 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case Actions.RESET_PASSWORD_FAILURE: {
       return state.setIn(["resetPassword", "saving"], false);
     }
+    case Actions.SAVE_USER_NOTIFICATION_SUBSCRIPTION: {
+      return state.set("notificationEndpoint", payload);
+    }
+    case Actions.REMOVE_USER_NOTIFICATION_SUBSCRIPTION: {
+      return state.remove("notificationEndpoint", payload);
+    }
     default:
       return state;
   }

@@ -16,7 +16,8 @@ export const DB_STORES = Object.freeze({
   MANIFESTS: "manifests",
   PERMISSIONS: "permissions",
   CONTACT_INFORMATION: "contact_information",
-  PRIMERO: "primero"
+  PRIMERO: "primero",
+  PUSH_NOTIFICATION_SUBSCRIPTION: "push_notification_subscription"
 });
 
 export const DB_COLLECTIONS_V1 = [
@@ -72,13 +73,16 @@ export const DB_COLLECTIONS_V6 = [
   ]
 ];
 
+export const DB_COLLECTIONS_V7 = [DB_STORES.PUSH_NOTIFICATION_SUBSCRIPTION];
+
 export const DB_COLLECTIONS = [
   ...DB_COLLECTIONS_V1,
   ...DB_COLLECTIONS_V2,
   ...DB_COLLECTIONS_V3,
   ...DB_COLLECTIONS_V4,
   ...DB_COLLECTIONS_V5,
-  ...DB_COLLECTIONS_V6
+  ...DB_COLLECTIONS_V6,
+  ...DB_COLLECTIONS_V7
 ];
 
 export const DB_COLLECTIONS_NAMES = DB_COLLECTIONS.reduce((prev, current) => {

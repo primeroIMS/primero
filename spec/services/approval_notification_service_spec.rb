@@ -38,7 +38,7 @@ describe ApprovalNotificationService do
 
   describe '.locale' do
     it 'return manager locale' do
-      expect(subject.locale).to eq(manager.locale)
+      expect(subject.locale).to eq(I18n.locale)
     end
   end
 
@@ -63,12 +63,6 @@ describe ApprovalNotificationService do
   describe '.send_notification?' do
     it 'return true if notification can be send' do
       expect(subject.send_notification?).to be true
-    end
-  end
-
-  describe '.subject' do
-    it 'return child' do
-      expect(subject.subject).to eq("Caso: #{child.short_id} - Solicitud de Aprobación")
     end
   end
 

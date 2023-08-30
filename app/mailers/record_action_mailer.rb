@@ -15,14 +15,13 @@ class RecordActionMailer < ApplicationMailer
     mail(to: @approval_notification.manager.email, subject: @approval_notification.subject)
   end
 
-  def manager_approval_response(record_id, approved, approval_type, manager_user_name)
-    @child = Child.find_by(id: record_id) || (return log_not_found('Case', record_id))
-    @owner = @child.owner || (return log_not_found('User', @child.owned_by))
-    return unless assert_notifications_enabled(@owner)
+  def manager_approval_response(approval_notification)
+    @approval_notification = approval_notification
 
-    load_manager_approval_request(approved, approval_type, manager_user_name)
-    mail(to: @owner.email,
-         subject: t('email_notification.approval_response_subject', id: @child.short_id, locale: @locale_email))
+    return unless @approval_notification.send_notification?
+    return unless assert_notifications_enabled(@approval_notification.owner)
+
+    mail(to: @approval_notification.owner.email, subject: @approval_notification.subject)
   end
 
   def transition_notify(transition_notification)
@@ -71,34 +70,9 @@ class RecordActionMailer < ApplicationMailer
     false
   end
 
-  def manager_approval_message
-    t('approvals.status.approved', locale: @locale_email)
-  end
-
-  def manager_rejected_message
-    t('approvals.status.rejected', locale: @locale_email)
-  end
-
-  def load_manager_approval_request(approved, approval_type, manager_user_name)
-    @manager = User.find_by(user_name: manager_user_name)
-    lookup_name = @manager.gbv? ? 'lookup-gbv-approval-types' : 'lookup-approval-type'
-    @approval_type = Lookup.display_value(lookup_name, approval_type)
-    @locale_email = @owner.locale || I18n.locale
-    @approval = approved ? manager_approval_message : manager_rejected_message
-  end
-
   def load_transition_for_email(class_transition, id)
     @transition = class_transition.find_by(id:)
     @locale_email = @transition&.transitioned_to_user&.locale || I18n.locale
-  end
-
-  def transition_subject(record)
-    t(
-      "email_notification.#{@transition.key}_subject",
-      record_type: t("forms.record_types.#{record.class.parent_form}", locale: @locale_email),
-      id: record.short_id,
-      locale: @locale_email
-    )
   end
 
   def load_alert_for_email(alert_id, user_id)

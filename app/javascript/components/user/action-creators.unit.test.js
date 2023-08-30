@@ -150,7 +150,9 @@ describe("User - Action Creators", () => {
       "setAuthenticatedUser",
       "setUser",
       "showLoginDialog",
-      "getAppResources"
+      "getAppResources",
+      "saveNotificationSubscription",
+      "removeNotificationSubscription"
     ].forEach(method => {
       expect(creators).to.have.property(method);
       expect(creators[method]).to.be.a("function");

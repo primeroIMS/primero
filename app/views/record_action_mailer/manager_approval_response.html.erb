@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= @owner.locale %>">
+<html lang="<%= @approval_notification.locale %>">
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
@@ -7,10 +7,10 @@
     <p><%=
       t(
         'email_notification.approval_response_html',
-        user: @manager.user_name, status: @approval.downcase,
-        approval_type: @approval_type&.downcase,
-        case_id: link_to(@child.short_id, url_for_v2(@child)),
-        locale: @locale_email
+        user: @approval_notification.manager.user_name, status: @approval_notification.approval.downcase,
+        approval_type: @approval_notification.approval_type&.downcase,
+        case_id: link_to(@approval_notification.child.short_id, url_for_v2(@approval_notification.child)),
+        locale: @approval_notification.locale
       ).html_safe
     %></p>
   </body>
