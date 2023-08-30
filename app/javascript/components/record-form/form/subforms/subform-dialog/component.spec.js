@@ -1,6 +1,7 @@
 import { mountedComponent, screen } from "test-utils";
 
 import { FieldRecord, FormSectionRecord } from "../../../records";
+import { RECORD_TYPES_PLURAL } from "../../../../../config";
 
 import SubformDialog from "./component";
 
@@ -41,19 +42,49 @@ describe("<SubformDialog />", () => {
     });
 
     describe("when is show mode", () => {
-      it("renders the Family Actions to create a case", () => {
+      it("renders the Family Actions to create a case if a user can create cases", () => {
         mountedComponent(
-          <SubformDialog {...props} field={familyDetailsField} mode={{ isShow: true }} isFamilyMember />
+          <SubformDialog
+            {...props}
+            recordType={RECORD_TYPES_PLURAL.case}
+            field={familyDetailsField}
+            mode={{ isShow: true }}
+            isFamilyMember
+          />,
+          {
+            user: { permissions: { cases: ["write"] } }
+          }
         );
 
         expect(screen.queryByText("family.family_member.back_to_family_members")).toBeTruthy();
         expect(screen.queryByText("family.family_member.create_case")).toBeTruthy();
       });
 
+      it("renders the Family Actions without the create case action if the user does not have permission", () => {
+        mountedComponent(
+          <SubformDialog
+            {...props}
+            recordType={RECORD_TYPES_PLURAL.case}
+            field={familyDetailsField}
+            mode={{ isShow: true }}
+            isFamilyMember
+          />
+        );
+
+        expect(screen.queryByText("family.family_member.back_to_family_members")).toBeTruthy();
+        expect(screen.queryByText("family.family_member.create_case")).toBeFalsy();
+      });
+
       it("renders the Family Actions with a link to a case", () => {
         mountedComponent(
-          <SubformDialog {...props} field={familyDetailsField} mode={{ isShow: true }} isFamilyMember />,
-          { records: { families: { case: { data: { case_id: "00-0000-01", case_id_display: "001" } } } } }
+          <SubformDialog
+            {...props}
+            formik={{ values: { family_details_section: [{ case_id: "001", case_id_display: "001" }] }, errors: {} }}
+            recordType={RECORD_TYPES_PLURAL.family}
+            field={familyDetailsField}
+            mode={{ isShow: true }}
+            isFamilyMember
+          />
         );
 
         expect(screen.queryByText("family.family_member.case_id")).toBeTruthy();

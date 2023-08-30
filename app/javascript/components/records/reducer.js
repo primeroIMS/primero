@@ -65,7 +65,11 @@ import {
   CREATE_CASE_FROM_FAMILY_MEMBER_STARTED,
   CREATE_CASE_FROM_FAMILY_MEMBER_SUCCESS,
   CREATE_CASE_FROM_FAMILY_MEMBER_FAILURE,
-  CREATE_CASE_FROM_FAMILY_MEMBER_FINISHED
+  CREATE_CASE_FROM_FAMILY_MEMBER_FINISHED,
+  CREATE_CASE_FROM_FAMILY_DETAIL_STARTED,
+  CREATE_CASE_FROM_FAMILY_DETAIL_SUCCESS,
+  CREATE_CASE_FROM_FAMILY_DETAIL_FAILURE,
+  CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -352,16 +356,60 @@ export default namespace =>
         return state;
       }
       case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_STARTED}`: {
-        return state.setIn(["case", "loading"], true);
+        return state.setIn(["case_from_family", "loading"], true);
       }
       case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_SUCCESS}`: {
-        return state.setIn(["case", "data"], fromJS(payload.data));
+        const recordIndex = state.get("data").findIndex(record => record.get("id") === payload.data.id);
+        const subformIndex = state
+          .getIn(["data", recordIndex, "family_members"])
+          .findIndex(member => member.get("unique_id") === payload.data.record.family_member_id);
+
+        return state.updateIn(["data", recordIndex, "family_members", subformIndex], existing =>
+          mergeRecord(
+            existing,
+            fromJS({ case_id: payload.data.record.id, case_id_display: payload.data.record.case_id_display })
+          )
+        );
       }
       case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_FAILURE}`: {
-        return state.setIn(["case", "errors"], true);
+        return state.setIn(["case_from_family", "errors"], true);
       }
       case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_FINISHED}`: {
-        return state.setIn(["case", "loading"], false);
+        return state.setIn(["case_from_family", "loading"], false);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_STARTED}`: {
+        return state.setIn(["case_from_family", "loading"], true);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_SUCCESS}`: {
+        const recordIndex = state.get("data").findIndex(record => record.get("id") === payload.data.id);
+
+        const result = payload.data.record.family_details_section.reduce((acc, familyDetail) => {
+          const subformIndex = acc
+            .getIn(["data", recordIndex, "family_details_section"])
+            .findIndex(member => member.get("unique_id") === familyDetail.unique_id);
+
+          if (subformIndex > -1) {
+            return acc.updateIn(["data", recordIndex, "family_details_section", subformIndex], existing =>
+              mergeRecord(existing, familyDetail)
+            );
+          }
+
+          return acc.setIn(
+            ["data", recordIndex, "family_details_section"],
+            acc.getIn(["data", recordIndex, "family_details_section"]).push(fromJS(familyDetail))
+          );
+        }, state);
+
+        return result
+          .setIn(["data", recordIndex, "family_number"], payload.data.family_number)
+          .setIn(["data", recordIndex, "family_member_id"], payload.data.family_member_id)
+          .setIn(["data", recordIndex, "family_id"], payload.data.family_id);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_FAILURE}`: {
+        return state.setIn(["case_from_family", "errors"], true);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED}`: {
+        return state.setIn(["case_from_family", "loading"], false);
       }
       default:
         return state;

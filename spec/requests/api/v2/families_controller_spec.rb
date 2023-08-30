@@ -192,7 +192,7 @@ describe Api::V2::FamiliesController, type: :request do
 
         params = { data: { family_member_id: '002' } }
 
-        post "/api/v2/families/#{family1.id}/create_case", params: params, as: :json
+        post "/api/v2/families/#{family1.id}/create_case", params:, as: :json
 
         expect(response).to have_http_status(404)
         expect(json['errors'].size).to eq(1)
@@ -214,13 +214,12 @@ describe Api::V2::FamiliesController, type: :request do
 
       params = { data: { family_member_id: '001' } }
 
-      post "/api/v2/families/#{family1.id}/create_case", params: params, as: :json
+      post "/api/v2/families/#{family1.id}/create_case", params:, as: :json
 
       expect(response).to have_http_status(200)
-      expect(json['data']['case_id']).not_to be_nil
-      expect(json['data']['case_id_display']).not_to be_nil
+      expect(json['data']['id']).to eq(family1.id)
 
-      child = Child.find_by(id: json['data']['case_id'])
+      child = Child.find_by(id: json['data']['record']['id'])
       expect(child.name_first).to eq('Member 1')
       expect(child.sex).to eq('male')
       expect(child.age).to eq(10)

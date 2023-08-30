@@ -104,7 +104,7 @@ class RecordDataService
   end
 
   def embed_family_details(data, record, selected_field_names)
-    family_details = FamilyLinkageService.family_details_for_child(record)
+    family_details = FamilyLinkageService.family_to_child(record.family)
     field_names = selected_field_names & FamilyLinkageService::GLOBAL_FAMILY_FIELDS
     field_names.each { |field_name| data[field_name] = family_details[field_name] }
     data
