@@ -50,7 +50,15 @@ class RecordActionWebpushNotifier
     )
   end
 
-  def alert_notify(alert_notification); end
+  def alert_notify(alert_notification)
+    return unless alert_notification.send_notification?
+    return unless webpush_notifications_enabled?(alert_notification.user)
+
+    WebpushService.send_notifications(
+      alert_notification.user,
+      message_structure(alert_notification)
+    )
+  end
 
   def message_structure(record_action_notification)
     {

@@ -8,9 +8,9 @@ describe AlertNotifyJob, type: :job do
   before do
     clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Alert)
     role = create :role
-    @owner = create :user, role: role, user_name: 'owner', full_name: 'Owner', email: 'owner@primero.dev'
-    @provider = create :user, role: role, user_name: 'provider', full_name: 'Provider', email: 'provider@primero.dev'
-    @other = create :user, role: role, user_name: 'other', full_name: 'Other', email: 'other@primero.dev'
+    @owner = create :user, role:, user_name: 'owner', full_name: 'Owner', email: 'owner@primero.dev'
+    @provider = create :user, role:, user_name: 'provider', full_name: 'Provider', email: 'provider@primero.dev'
+    @other = create :user, role:, user_name: 'other', full_name: 'Other', email: 'other@primero.dev'
     @child = Child.new(
       owned_by: @owner.user_name,
       name: 'child',
@@ -47,13 +47,13 @@ describe AlertNotifyJob, type: :job do
       expect(ActionMailer::Base.deliveries.size).to eq(2)
     end
     it 'does not send a notification to the person who made the change' do
-        @child.last_updated_by = @provider.user_name
-        @child.update_history
-        @child.save!
-        alert = Alert.new(send_email: true, alert_for: Alertable::FIELD_CHANGE, record: @child, type: 'some_type')
-        alert.save!
-        perform_enqueued_jobs(only: AlertNotifyJob)
-        expect(ActionMailer::Base.deliveries.size).to eq(1)
+      @child.last_updated_by = @provider.user_name
+      @child.update_history
+      @child.save!
+      alert = Alert.new(send_email: true, alert_for: Alertable::FIELD_CHANGE, record: @child, type: 'some_type')
+      alert.save!
+      perform_enqueued_jobs(only: AlertNotifyJob)
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
   end
 

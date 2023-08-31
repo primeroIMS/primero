@@ -855,6 +855,9 @@ en:
     transfer:
       title: New Transfer
       body: You have received a new Case Transfer.
+    alert_case:
+      title: Case Updated
+      body: "%{type} has been updated on one of your cases."
   encrypt:
     export_type: Type of export
     file_name: Create your own file name (Optional)

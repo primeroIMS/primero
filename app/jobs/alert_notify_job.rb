@@ -13,6 +13,7 @@ class AlertNotifyJob < ApplicationJob
 
       ans = AlertNotificationService.new(record.id, alert_id, user.user_name)
       RecordActionMailer.alert_notify(ans).deliver_now
+      RecordActionWebpushNotifier.alert_notify(ans)
     end
   end
 end
