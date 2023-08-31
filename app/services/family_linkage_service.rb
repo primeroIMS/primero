@@ -58,8 +58,9 @@ class FamilyLinkageService
 
     def family_member_to_child(user, family_member)
       child_data = DEFAULT_MAPPING.each_with_object({}) do |elem, memo|
-        if elem['target'].is_a?(Array)
-          elem['target'].each { |target| memo[target] = family_member[elem['source']] }
+        if elem['source'] == 'relation_name'
+          child_names = relation_name_to_child_names(family_member)
+          elem['target'].each { |target| memo[target] = child_names[target] }
         else
           memo[elem['target']] = family_member[elem['source']]
         end
@@ -73,6 +74,18 @@ class FamilyLinkageService
         target = elem['target'].is_a?(Array) ? elem['target'].first : elem['target']
         memo[elem['source']] = child.data[target]
       end
+    end
+
+    def relation_name_to_child_names(family_member)
+      relation_name = family_member['relation_name']
+      return {} unless relation_name.present?
+
+      names = relation_name.split
+      {
+        'name_first' => names.first,
+        'name_middle' => names.slice(1..-2).join(' ').presence,
+        'name_last' => names.size > 1 ? names.last : nil
+      }
     end
 
     def child_to_family(child)
