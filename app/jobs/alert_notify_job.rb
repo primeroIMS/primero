@@ -10,6 +10,7 @@ class AlertNotifyJob < ApplicationJob
     users = record.associated_users
     users.each do |user|
       next if record.last_updated_by == user.user_name
+
       ans = AlertNotificationService.new(record.id, alert_id, user.user_name)
       RecordActionMailer.alert_notify(ans).deliver_now
     end

@@ -78,6 +78,4 @@ class RecordActionMailer < ApplicationMailer
     @transition = class_transition.find_by(id:)
     @locale_email = @transition&.transitioned_to_user&.locale || I18n.locale
   end
-
-
 end

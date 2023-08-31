@@ -16,6 +16,10 @@ class RecordActionWebpushNotifier
     RecordActionWebpushNotifier.new.manager_approval_response(approval_notification)
   end
 
+  def self.alert_notify(alert_notification)
+    RecordActionWebpushNotifier.new.alert_notify(alert_notification)
+  end
+
   def transition_notify(transition_notification)
     return if transition_notification.transition.nil?
     return unless webpush_notifications_enabled?(transition_notification&.transitioned_to)
@@ -45,6 +49,8 @@ class RecordActionWebpushNotifier
       message_structure(approval_notification)
     )
   end
+
+  def alert_notify(alert_notification); end
 
   def message_structure(record_action_notification)
     {
