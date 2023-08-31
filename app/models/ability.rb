@@ -206,12 +206,12 @@ class Ability
     end
   end
 
-  def can(action = nil, subject = nil, *conditions, &)
-    add_rule(CanCan::CustomRule.new(true, action, subject, *conditions, &))
+  def can(action = nil, subject = nil, *, &)
+    add_rule(CanCan::CustomRule.new(true, action, subject, *, &))
   end
 
-  def cannot(action = nil, subject = nil, *conditions, &)
-    add_rule(CanCan::CustomRule.new(true, action, subject, *conditions, &))
+  def cannot(action = nil, subject = nil, *, &)
+    add_rule(CanCan::CustomRule.new(true, action, subject, *, &))
   end
 
   def alias_user_actions

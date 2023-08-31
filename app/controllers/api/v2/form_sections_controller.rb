@@ -51,6 +51,6 @@ class Api::V2::FormSectionsController < ApplicationApiController
   end
 
   def exporter
-    return Exporters::FormExporter if params[:export_type] == 'xlsx'
+    Exporters::FormExporter if params[:export_type] == 'xlsx'
   end
 end
