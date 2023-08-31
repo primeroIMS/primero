@@ -411,9 +411,9 @@ describe RecordActionMailer, type: :mailer do
       @child.associated_users(true)
       @child.data = { 'email_alertable_field' => 'some_value' }
       @child.save!
+      @alert_notification = AlertNotificationService.new(@child.id, @child.alerts.first.id, @owner.user_name)
     end
-
-    let(:mail) { RecordActionMailer.alert_notify(@child.alerts.first.id, @owner.id) }
+    let(:mail) { RecordActionMailer.alert_notify(@alert_notification)}
     describe 'alert' do
       it 'renders the headers' do
         expect(mail.subject).to eq("Case: #{@child.short_id} - Form Section Name Updated")
@@ -431,7 +431,7 @@ describe RecordActionMailer, type: :mailer do
         @owner.save(validate: false)
       end
 
-      let(:mail) { RecordActionMailer.alert_notify(@child.alerts.first.id, @owner.id) }
+      let(:mail) { RecordActionMailer.alert_notify(@alert_notification)}
       it 'renders the headers' do
         expect(mail.subject).to eq("Cas: #{@child.short_id} - Nom de la section du formulaire actualisé")
         expect(mail.to).to eq(['owner@primero.dev'])

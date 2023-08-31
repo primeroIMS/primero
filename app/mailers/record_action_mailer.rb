@@ -45,13 +45,17 @@ class RecordActionMailer < ApplicationMailer
     )
   end
 
-  def alert_notify(alert_id, user_id)
-    load_alert_for_email(alert_id, user_id)
-    return unless assert_notifications_enabled(@user)
-    return if @user == @record.last_updated_by
+  def alert_notify(alert_notification)
+    @alert_notification = alert_notification
+    @user = @alert_notification.user
+    @locale_email = @alert_notification.locale
+    @record = @alert_notification.record
+    return unless assert_notifications_enabled(@alert_notification.user)
+    return if @alert_notification.user == @alert_notification.record.last_updated_by
 
     Rails.logger.info("Sending alert notification to #{@user.user_name}")
-    mail(to: @user.email, subject: alert_subject(@record))
+
+    mail(to: @user.email, subject: @alert_notification.subject, locale: @locale_email)
   end
 
   private
@@ -75,23 +79,5 @@ class RecordActionMailer < ApplicationMailer
     @locale_email = @transition&.transitioned_to_user&.locale || I18n.locale
   end
 
-  def load_alert_for_email(alert_id, user_id)
-    @alert = Alert.find_by(id: alert_id)
-    @record = @alert.record || (return log_not_found('Record', @alert.record_id))
-    @user = User.find_by(id: user_id) || (return log_not_found('User', user_id))
-    @locale_email = @user.locale || I18n.locale
-    @form_section = FormSection.find_by(unique_id: @alert.form_sidebar_id)
-    @form_section_name_translated = I18n.with_locale(@locale_email) { @form_section&.name }
-    @record_type_translated = t("forms.record_types.#{@record.class.parent_form}", locale: @locale_email)
-  end
 
-  def alert_subject(record)
-    t(
-      'email_notification.alert_subject',
-      record_type: @record_type_translated,
-      id: record.short_id,
-      form_name: @form_section_name_translated,
-      locale: @locale_email
-    )
-  end
 end

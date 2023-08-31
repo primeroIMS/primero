@@ -44,7 +44,6 @@ describe AlertNotifyJob, type: :job do
       alert = Alert.new(send_email: true, alert_for: Alertable::FIELD_CHANGE, record: @child, type: 'some_type')
       alert.save!
       perform_enqueued_jobs(only: AlertNotifyJob)
-      perform_enqueued_jobs(only: ActionMailer::MailDeliveryJob)
       expect(ActionMailer::Base.deliveries.size).to eq(2)
     end
     it 'does not send a notification to the person who made the change' do
@@ -53,8 +52,7 @@ describe AlertNotifyJob, type: :job do
         @child.save!
         alert = Alert.new(send_email: true, alert_for: Alertable::FIELD_CHANGE, record: @child, type: 'some_type')
         alert.save!
-        perform_enqueued_jobs()
-        perform_enqueued_jobs()
+        perform_enqueued_jobs(only: AlertNotifyJob)
         expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
   end
