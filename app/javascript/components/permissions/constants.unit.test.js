@@ -17,6 +17,7 @@ describe("Verifying config constant", () => {
       "ASSIGN_WITHIN_AGENCY",
       "ASSIGN_WITHIN_USER_GROUP",
       "ASSIGN",
+      "CASE_FROM_FAMILY",
       "CHANGE_LOG",
       "CLOSE",
       "CONSENT_OVERRIDE",
