@@ -853,6 +853,9 @@ en:
     transfer:
       title: New Transfer
       body: You have received a new Case Transfer.
+    transfer_request:
+      title: Transfer Request
+      body: You have received a new Case Transfer Request
   encrypt:
     export_type: Type of export
     file_name: Create your own file name (Optional)
