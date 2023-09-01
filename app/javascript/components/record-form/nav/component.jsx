@@ -170,6 +170,7 @@ const Component = ({
   return (
     <>
       <ConditionalWrapper
+        data-testid="ConditionalWrapper"
         condition={mobileDisplay}
         wrapper={Drawer}
         anchor="left"
@@ -178,7 +179,7 @@ const Component = ({
         classes={drawerClasses}
       >
         <CloseButtonNavBar handleToggleNav={handleToggleNav} mobileDisplay={mobileDisplay} />
-        <List className={css.listRecordNav}>
+        <List data-testid="nav-list" className={css.listRecordNav}>
           <RecordInformation
             handleClick={handleClick}
             open={open}
@@ -187,7 +188,7 @@ const Component = ({
             formGroupLookup={formGroupLookup}
             primeroModule={primeroModule}
           />
-          <Divider />
+          <Divider data-testid="Divider" />
           {formGroups.map(formGroup => (
             <FormGroup
               formikValuesForNav={formikValuesForNav}
