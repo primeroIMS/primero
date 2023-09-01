@@ -2,20 +2,14 @@ import PropTypes from "prop-types";
 import AddIcon from "@material-ui/icons/Add";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
-import { RECORD_TYPES_PLURAL } from "../../../../../../../config";
 import ActionButton from "../../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
-import { CREATE_CASE_FROM_FAMILY, RESOURCES, CREATE_RECORDS, usePermissions } from "../../../../../../permissions";
+import { CREATE_CASE_FROM_FAMILY, usePermissions } from "../../../../../../permissions";
 
 import css from "./styles.css";
 
 function Component({ handleBackLabel, handleBack, handleCreate, handleCreateLabel, pending, recordType }) {
-  const canCreateCase = usePermissions(RESOURCES.cases, CREATE_RECORDS);
-  const canCreateCaseFromFamily = usePermissions(RESOURCES.families, CREATE_CASE_FROM_FAMILY);
-  const canCreateCaseForRecordType = {
-    [RECORD_TYPES_PLURAL.case]: canCreateCase,
-    [RECORD_TYPES_PLURAL.family]: canCreateCaseFromFamily
-  };
+  const canCreateCaseFromFamily = usePermissions(recordType, CREATE_CASE_FROM_FAMILY);
 
   return (
     <div className={css.buttonsRow}>
@@ -28,7 +22,7 @@ function Component({ handleBackLabel, handleBack, handleCreate, handleCreateLabe
           onClick: handleBack
         }}
       />
-      {canCreateCaseForRecordType[recordType] && (
+      {canCreateCaseFromFamily && (
         <ActionButton
           icon={<AddIcon />}
           text={handleCreateLabel}
