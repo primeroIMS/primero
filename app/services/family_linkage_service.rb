@@ -89,7 +89,7 @@ class FamilyLinkageService
       family_details_section = child.family_details_section || []
       return family_details_section unless child.family&.family_members.present?
 
-      child.family.family_members.map do |family_member|
+      child.family_members.map do |family_member|
         family_detail = family_details_section.find { |detail| detail['unique_id'] == family_member['unique_id'] }
         next(global_family_member_data(family_member)) unless family_detail.present?
 

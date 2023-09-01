@@ -159,12 +159,6 @@ describe FamilyLinkageService do
             'relation_location_current' => 'abc001',
             'relation_address_is_permanent' => false,
             'relation_telephone' => '22222222'
-          },
-          {
-            'unique_id' => '002',
-            'relation_name' => 'Member 2',
-            'relation_sex' => 'male',
-            'relation_age' => 12
           }
         ]
       )
