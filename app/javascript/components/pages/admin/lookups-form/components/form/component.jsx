@@ -101,7 +101,7 @@ const Component = ({ formMode, isLockedLookup, lookup }) => {
   }, [defaultValues.name[defaultLocale]]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} id={FORM_ID}>
+    <form onSubmit={handleSubmit(onSubmit)} id={FORM_ID} data-testid="switch-input">
       <FormSectionField
         field={FieldRecord({
           display_name: i18n.t("lookup.language_label"),
