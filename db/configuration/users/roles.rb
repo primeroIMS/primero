@@ -406,7 +406,8 @@ cp_caseworker_families_permissions = [
       Permission::EXPORT_JSON,
       Permission::EXPORT_PDF,
       Permission::CHANGE_LOG,
-      Permission::SYNC_MOBILE
+      Permission::SYNC_MOBILE,
+      Permission::CASE_FROM_FAMILY
     ]
   )
 ]
@@ -552,7 +553,8 @@ cp_manager_families_permissions = [
       Permission::REOPEN,
       Permission::CLOSE,
       Permission::CHANGE_LOG,
-      Permission::SYNC_MOBILE
+      Permission::SYNC_MOBILE,
+      Permission::CASE_FROM_FAMILY
     ]
   ),
   Permission.new(
