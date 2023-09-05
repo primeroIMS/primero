@@ -2853,6 +2853,10 @@ en:
             explanation: Users can view the 'Family Record' form on the case,
               which includes a link to the case's family record.
             label:  View family record from case
+          case_from_family:
+            explanation: Users can create a Case for one of the Case's family members in the Family Details subform.
+              Note that a Family Record will be automatically created to link these two cases.
+            label: Create Case from Family Details
         explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:
