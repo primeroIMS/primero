@@ -52,7 +52,25 @@ describe("<SubformDialog />", () => {
             isFamilyMember
           />,
           {
-            user: { permissions: { cases: ["write"] } }
+            user: { permissions: { cases: ["create"] } }
+          }
+        );
+
+        expect(screen.queryByText("family.family_member.back_to_family_members")).toBeTruthy();
+        expect(screen.queryByText("family.family_member.create_case")).toBeTruthy();
+      });
+
+      it("renders the Family Actions to create a case if a user can create cases from family", () => {
+        mountedComponent(
+          <SubformDialog
+            {...props}
+            recordType={RECORD_TYPES_PLURAL.family}
+            field={familyDetailsField}
+            mode={{ isShow: true }}
+            isFamilyMember
+          />,
+          {
+            user: { permissions: { families: ["case_from_family"] } }
           }
         );
 
