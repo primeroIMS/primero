@@ -165,6 +165,20 @@ describe FamilyLinkageService do
     end
   end
 
+  describe 'child_to_family_member' do
+    it 'sets the relation_name from the name fields' do
+      child = Child.create!(data: { name_first: 'FirstName', name_last: 'LastName', age: 10, sex: 'male' })
+      family_member = FamilyLinkageService.child_to_family_member(child)
+      expect(family_member['relation_name']).to eq('FirstName LastName')
+    end
+
+    it 'sets the relation_name from the name field' do
+      child = Child.create!(data: { name: 'FirstName LastName', age: 10, sex: 'male' })
+      family_member = FamilyLinkageService.child_to_family_member(child)
+      expect(family_member['relation_name']).to eq('FirstName LastName')
+    end
+  end
+
   describe 'family_to_child' do
     it 'returns the family details for a child' do
       family_details = FamilyLinkageService.family_to_child(family1)

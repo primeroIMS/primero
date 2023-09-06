@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Generates a case from the family
+# rubocop:disable Metrics/ClassLength
 class FamilyLinkageService
   LOCAL_FAMILY_MEMBER_FIELDS = %w[
     family_relationship family_relationship_notes family_relationship_notes_additional
@@ -71,9 +72,18 @@ class FamilyLinkageService
 
     def child_to_family_member(child)
       DEFAULT_MAPPING.each_with_object({ 'unique_id' => SecureRandom.uuid }) do |elem, memo|
-        target = elem['target'].is_a?(Array) ? elem['target'].first : elem['target']
+        target = elem['target']
+        if elem['source'] == 'relation_name'
+          memo[elem['source']] = generate_relation_name(child, target)
+          next
+        end
+
         memo[elem['source']] = child.data[target]
       end
+    end
+
+    def generate_relation_name(child, field_names)
+      child.data['name'].presence || field_names.map { |field_name| child.data[field_name] }.compact.join(' ')
     end
 
     def relation_name_to_child_names(family_member)
@@ -153,3 +163,4 @@ class FamilyLinkageService
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
