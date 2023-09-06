@@ -45,7 +45,7 @@ module Alertable
 
   def add_alert_on_field_change
     # Email alerts
-    add_email_alert_on_field_change()
+    add_email_alert_on_field_change
     # Non-email alerts
     return unless owned_by != last_updated_by
     return unless alerts_on_change.present?
@@ -64,6 +64,7 @@ module Alertable
     # It differs in that it will still create an alert even if the user is the owner.
     email_field_names = email_alerts_on_change&.keys
     return unless email_field_names.present?
+
     changed_field_names = changes_to_save_for_record.keys
     email_alerts_on_change.each do |field_name, form_name|
       next unless changed_field_names.include?(field_name)
@@ -73,7 +74,6 @@ module Alertable
                 send_email: true)
     end
   end
-
 
   def current_alert_types
     alerts.map(&:type).uniq
