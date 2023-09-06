@@ -421,7 +421,10 @@ describe RecordActionMailer, type: :mailer do
       end
 
       it 'renders the body' do
-        expect(mail.text_part.body.encoded).to match("Case #{@child.short_id} - Form Section Name has been updated. Please log in to Primero to review the changes.")
+        expect(mail.text_part.body.encoded).to match(
+          "Case #{@child.short_id} - Form Section Name has been updated. " \
+          'Please log in to Primero to review the changes.'
+        )
       end
     end
 
@@ -437,7 +440,10 @@ describe RecordActionMailer, type: :mailer do
         expect(mail.to).to eq(['owner@primero.dev'])
       end
       it 'renders the body' do
-        expect(mail.text_part.body.encoded).to match("Cas : #{@child.short_id} - Nom de la section du formulaire a été actualisé. Veuillez vous connecter à Primero pour consulter les modifications.")
+        expect(mail.text_part.body.encoded).to match(
+          "Cas : #{@child.short_id} - Nom de la section du formulaire a été actualisé. " \
+          'Veuillez vous connecter à Primero pour consulter les modifications.'
+        )
       end
     end
 
