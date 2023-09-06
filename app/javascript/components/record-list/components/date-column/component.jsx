@@ -17,7 +17,7 @@ const Component = ({ rowAvailable, wrapper, value, valueWithTime }) => {
 
   const children =
     i18n.locale === LOCALE_KEYS.ne ? (
-      <div className={css.readonly}>
+      <div className={css.readonly} data-testid="nepali-calendar">
         <NepaliCalendar
           dateProps={{
             value,
