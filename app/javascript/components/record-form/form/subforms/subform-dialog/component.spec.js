@@ -52,7 +52,7 @@ describe("<SubformDialog />", () => {
             isFamilyMember
           />,
           {
-            user: { permissions: { cases: ["create"] } }
+            user: { permissions: { cases: ["case_from_family"] } }
           }
         );
 
