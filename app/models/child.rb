@@ -171,6 +171,16 @@ class Child < ApplicationRecord
         local_case.family_id ||= local_case.data.delete('family_id')
       end
     end
+
+    def eager_loaded_class
+      includes(
+        :alerts,
+        :active_flags,
+        :family,
+        attachments: { file_attachment: :blob },
+        current_photos: { file_attachment: :blob }
+      )
+    end
   end
 
   alias super_defaults defaults
@@ -349,6 +359,18 @@ class Child < ApplicationRecord
       next(member) unless member['unique_id'] == family_member_id
 
       member.merge('case_id' => id, 'case_id_display' => case_id_display)
+    end
+  end
+
+  def family_members_details
+    family_details = family_details_section || []
+    return family_details unless family&.family_members.present?
+
+    family.family_members.map do |family_member|
+      family_detail = family_details.find { |detail| detail['unique_id'] == family_member['unique_id'] }
+      next(FamilyLinkageService.global_family_member_data(family_member)) unless family_detail.present?
+
+      family_detail.merge(FamilyLinkageService.global_family_member_data(family_member))
     end
   end
 
