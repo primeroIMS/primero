@@ -45,7 +45,7 @@ class TransferRequest < Transition
     super && (record.owned_by == transitioned_to)
   end
 
-  def notify_by_email
+  def notify
     RequestTransferJob.perform_later(id)
   end
 end

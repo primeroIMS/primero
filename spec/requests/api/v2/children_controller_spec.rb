@@ -148,11 +148,16 @@ describe Api::V2::ChildrenController, type: :request do
     @member_unique_id3 = SecureRandom.uuid
     @member_unique_id4 = SecureRandom.uuid
     @member_unique_id5 = SecureRandom.uuid
+    @member_unique_id6 = SecureRandom.uuid
+    @case6 = Child.new(
+      data: { name: 'Member 1', age: 5, sex: 'male', family_member_id: @member_unique_id1 }
+    )
     @family1 = Family.create!(
       data: {
         family_number: '001',
         family_members: [
-          { unique_id: @member_unique_id1, relation_name: 'Member 1', relation_sex: 'male', relation_age: 5 }
+          { unique_id: @member_unique_id1, relation_name: 'Member 1', relation_sex: 'male', relation_age: 5 },
+          { unique_id: @member_unique_id6, relation_name: 'Member 2', relation_sex: 'male', relation_age: 8 }
         ]
       }
     )
@@ -166,7 +171,8 @@ describe Api::V2::ChildrenController, type: :request do
         ]
       }
     )
-    @case6 = Child.create!(family: @family1, data: { name: 'Member 1', age: 5, sex: 'male' })
+    @case6.family = @family1
+    @case6.save!
     @case7 = Child.create!(
       data: {
         name: 'Test7',
@@ -498,6 +504,26 @@ describe Api::V2::ChildrenController, type: :request do
 
       expect(json['data']['name']).to eq('*******')
       expect(json['data']['hidden_name']).to be true
+    end
+
+    describe 'family' do
+      context 'when a record is linked to family' do
+        it 'returns the family members of the family not including itself' do
+          login_for_test(
+            permissions: [
+              Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::VIEW_FAMILY_RECORD])
+            ]
+          )
+
+          get "/api/v2/cases/#{@case6.id}"
+
+          expect(json['data']['family_details_section'].size).to eq(1)
+          expect(json['data']['family_details_section'][0]['unique_id']).to eq(@member_unique_id6)
+          expect(json['data']['family_details_section'][0]['relation_name']).to eq('Member 2')
+          expect(json['data']['family_details_section'][0]['relation_sex']).to eq('male')
+          expect(json['data']['family_details_section'][0]['relation_age']).to eq(8)
+        end
+      end
     end
   end
 
@@ -905,8 +931,7 @@ describe Api::V2::ChildrenController, type: :request do
             data: {
               family_number: '002',
               family_details_section: [
-                { unique_id: @member_unique_id1, relation_age: 8, relation: 'relation1' },
-                { unique_id: member2_unique_id, relation_age: 5, relation: 'relation2', relation_name: 'Member 2' }
+                { unique_id: member2_unique_id, relation_age: 2, relation: 'relation3', relation_name: 'Member 3' }
               ]
             }
           }
@@ -921,17 +946,16 @@ describe Api::V2::ChildrenController, type: :request do
           expect(json['data']['family_details_section']).to eq(
             [
               {
-                'unique_id' => @member_unique_id1,
-                'relation' => 'relation1',
-                'relation_name' => 'Member 1',
+                'unique_id' => @member_unique_id6,
                 'relation_sex' => 'male',
+                'relation_name' => 'Member 2',
                 'relation_age' => 8
               },
               {
                 'unique_id' => member2_unique_id,
-                'relation' => 'relation2',
-                'relation_name' => 'Member 2',
-                'relation_age' => 5
+                'relation' => 'relation3',
+                'relation_name' => 'Member 3',
+                'relation_age' => 2
               }
             ]
           )
@@ -939,12 +963,8 @@ describe Api::V2::ChildrenController, type: :request do
           expect(@case6.family_details_section).to eq(
             [
               {
-                'unique_id' => @member_unique_id1,
-                'relation' => 'relation1'
-              },
-              {
                 'unique_id' => member2_unique_id,
-                'relation' => 'relation2'
+                'relation' => 'relation3'
               }
             ]
           )
@@ -955,12 +975,20 @@ describe Api::V2::ChildrenController, type: :request do
                 'unique_id' => @member_unique_id1,
                 'relation_name' => 'Member 1',
                 'relation_sex' => 'male',
+                'relation_age' => 5,
+                'case_id' => @case6.id,
+                'case_id_display' => @case6.case_id_display
+              },
+              {
+                'unique_id' => @member_unique_id6,
+                'relation_sex' => 'male',
+                'relation_name' => 'Member 2',
                 'relation_age' => 8
               },
               {
                 'unique_id' => member2_unique_id,
-                'relation_name' => 'Member 2',
-                'relation_age' => 5
+                'relation_name' => 'Member 3',
+                'relation_age' => 2
               }
             ]
           )
