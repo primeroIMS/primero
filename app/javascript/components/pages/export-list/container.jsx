@@ -57,6 +57,7 @@ const ExportList = () => {
                       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                       <div
                         className={css.link}
+                        data-testid="offline"
                         onClick={handleClick(exportRecord)}
                         role="button"
                         tabIndex={tableMeta.rowIndex}
@@ -117,7 +118,7 @@ const ExportList = () => {
 
   return (
     <PageContainer>
-      <PageHeading title={i18n.t("navigation.bulk_exports")} />
+      <PageHeading data-testid="page-heading" title={i18n.t("navigation.bulk_exports")} />
       <PageContent>
         <IndexTable title={i18n.t("navigation.bulk_exports")} {...tableOptions} />
       </PageContent>

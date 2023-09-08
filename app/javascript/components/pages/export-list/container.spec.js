@@ -1,21 +1,16 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import MUIDataTable, { TableBodyRow } from "mui-datatables";
 
-import IndexTable from "../../index-table";
-import PageContainer, { PageHeading, PageContent } from "../../page";
 import { ListHeaderRecord } from "../../user/records";
-import { setupMountedComponent } from "../../../test";
+import { mountedComponent, screen } from "../../../test-utils";
 import { FieldRecord } from "../../record-form";
 import { mapEntriesToRecord } from "../../../libs";
-import DisableOffline from "../../disable-offline";
 
 import { ExportRecord } from "./records";
 import ExportList from "./container";
 
 describe("<ExportList />", () => {
-  let component;
 
   const initialState = fromJS({
     records: {
@@ -98,39 +93,37 @@ describe("<ExportList />", () => {
     }
   });
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(ExportList, {}, initialState));
-  });
-
   it("should render a table with three rows", () => {
-    expect(component.find(MUIDataTable).find(TableBodyRow)).to.have.lengthOf(3);
+    mountedComponent(<ExportList />, {}, initialState);
+    expect(screen.getAllByRole("row")).toHaveLength(3);
   });
 
   it("should render <PageContainer>", () => {
-    expect(component.find(PageContainer)).to.have.lengthOf(1);
+    mountedComponent(<ExportList />, {}, initialState);
+    expect(screen.getByTestId("page-container")).toBeInTheDocument(1);
   });
 
   it("should render <PageHeading>", () => {
-    expect(component.find(PageHeading)).to.have.lengthOf(1);
+    mountedComponent(<ExportList />, {}, initialState);
+    expect(screen.getByTestId("page-heading")).toBeInTheDocument();
   });
 
   it("should render <PageContent>", () => {
-    expect(component.find(PageContent)).to.have.lengthOf(1);
+    mountedComponent(<ExportList />, {}, initialState);
+    expect(screen.getByText(/messages.record_list.rows_per_page/i)).toBeInTheDocument();
   });
 
   it("should render <IndexTable>", () => {
-    expect(component.find(IndexTable)).to.have.lengthOf(1);
+    mountedComponent(<ExportList />, {}, initialState);
+    expect(screen.getByText(/messages.record_list.rows_per_page/i)).toBeInTheDocument();
   });
 
   describe("when offline", () => {
     const stateOffline = initialState.setIn(["application", "online"], false);
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(ExportList, {}, stateOffline));
-    });
-
     it("should render DisabledOffline components for each row", () => {
-      expect(component.find(DisableOffline)).to.have.lengthOf(9);
+      mountedComponent(<ExportList />, stateOffline);
+      expect(screen.getAllByTestId("offline")).toHaveLength(3);
     });
   });
 });
