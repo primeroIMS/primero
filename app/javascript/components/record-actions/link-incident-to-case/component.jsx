@@ -53,7 +53,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
 
   const handleOk = () => {
     dispatch(linkIncidentToCase({ recordType, incident_ids: incident_ids, case_id: selectedCaseId }));
-    dispatch(fetchLinkIncidentToCaseData({}));
+    //dispatch(fetchLinkIncidentToCaseData({}));
     dispatch(setCaseIdForIncident(selectedCaseId, selectedCaseDisplayId));
     dispatch(clearDialog());
   };
@@ -93,7 +93,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
     targetRecordType: recordTypeValue,
     bypassInitialFetch: true,
     options: {
-      selectableRows: "multiple",
+      selectableRows: "single",
       selectableRowsHeader: false,
       selectToolbarPlacement: "none",
       onCellClick: false,
