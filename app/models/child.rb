@@ -359,6 +359,10 @@ class Child < ApplicationRecord
     raise(ActiveRecord::RecordNotFound, "Couldn't find Family Detail with 'id'=#{family_detail_id}")
   end
 
+  def family_members
+    (family&.family_members || []).reject { |member| member['unique_id'] == family_member_id }
+  end
+
   def match_criteria
     match_criteria = data.slice(*Child.child_matching_field_names).compact
     match_criteria = match_criteria.merge(
