@@ -120,15 +120,11 @@ describe Exporters::JsonExporter do
   end
 
   it 'handles family linked data' do
-    expect(data_hash2[0]['data']['family_details_section'].size).to eq(2)
-    expect(data_hash2[0]['data']['family_details_section'][0]['relation_name']).to eq('FirstName1 LastName1')
-    expect(data_hash2[0]['data']['family_details_section'][0]['relation']).to be_nil
-    expect(data_hash2[0]['data']['family_details_section'][0]['relation_sex']).to eq('male')
-    expect(data_hash2[0]['data']['family_details_section'][0]['relation_age']).to eq(10)
-    expect(data_hash2[0]['data']['family_details_section'][1]['relation_name']).to eq('FirstName2 LastName2')
-    expect(data_hash2[0]['data']['family_details_section'][1]['relation']).to eq('relation2')
-    expect(data_hash2[0]['data']['family_details_section'][1]['relation_sex']).to eq('female')
-    expect(data_hash2[0]['data']['family_details_section'][1]['relation_age']).to eq(12)
+    expect(data_hash2[0]['data']['family_details_section'].size).to eq(1)
+    expect(data_hash2[0]['data']['family_details_section'][0]['relation_name']).to eq('FirstName2 LastName2')
+    expect(data_hash2[0]['data']['family_details_section'][0]['relation']).to eq('relation2')
+    expect(data_hash2[0]['data']['family_details_section'][0]['relation_sex']).to eq('female')
+    expect(data_hash2[0]['data']['family_details_section'][0]['relation_age']).to eq(12)
   end
 
   after :each do

@@ -114,9 +114,7 @@ module Exporters
         '[{"relation_name"=>"John", "relation"=>"father"}, {"relation_name"=>"Mary", "relation"=>"mother"}]'
       )
       expect(parsed[3][4]).to eq(
-        '[{"unique_id"=>"001", "relation_name"=>"George", "relation_age"=>10, "relation_sex"=>"male", ' \
-        "\"case_id\"=>\"#{@case3.id}\", \"case_id_display\"=>\"#{@case3.case_id_display}\"}, " \
-        '{"unique_id"=>"002", "relation"=>"relation2", "relation_name"=>"FirstName2 LastName2", ' \
+        '[{"unique_id"=>"002", "relation"=>"relation2", "relation_name"=>"FirstName2 LastName2", ' \
         '"relation_age"=>12, "relation_sex"=>"female"}]'
       )
     end

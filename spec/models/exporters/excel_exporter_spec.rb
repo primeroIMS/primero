@@ -265,11 +265,10 @@ module Exporters
       end
 
       it 'exports the family details section' do
-        expect(workbook.sheet(8).last_row).to eq(4)
+        expect(workbook.sheet(8).last_row).to eq(3)
         expect(workbook.sheet(8).row(1)).to eq(%w[ID Name Age Sex Relation])
         expect(workbook.sheet(8).row(2)).to eq([@records[0].short_id, 'Detail1', 5, 'male', 'relation1'])
-        expect(workbook.sheet(8).row(3)).to eq([@records[1].short_id, 'FirstName1 LastName1', 10, 'male', nil])
-        expect(workbook.sheet(8).row(4)).to eq(
+        expect(workbook.sheet(8).row(3)).to eq(
           [@records[1].short_id, 'FirstName2 LastName2', 12, 'female', 'relation2']
         )
       end
