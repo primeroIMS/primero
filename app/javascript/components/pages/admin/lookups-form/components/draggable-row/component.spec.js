@@ -1,13 +1,8 @@
-import { Draggable } from "react-beautiful-dnd";
-
-import FormSectionField from "../../../../../form/components/form-section-field";
-import { setupMountedComponent } from "../../../../../../test";
-import SwitchInput from "../../../../../form/fields/switch-input";
+import { mountedComponent, screen } from "../../../../../../test-utils";
 
 import DraggableRow from "./component";
 
 describe("<DraggableRow /> - components/draggable-row/component", () => {
-  let component;
   const props = {
     firstLocaleOption: false,
     index: 0,
@@ -18,20 +13,19 @@ describe("<DraggableRow /> - components/draggable-row/component", () => {
     uniqueId: "test"
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(DraggableRow, props));
-  });
-
   // TODO: Fill out once figure out Droppable context issue concerning testing
   it.skip("renders Draggable component", () => {
-    expect(component.find(Draggable)).to.have.lengthOf(1);
+    mountedComponent(<DraggableRow {...props} />)
+    expect(screen.getByTestId('draggable')).toBeInTheDocument()
   });
 
   it.skip("renders FormSectionField component", () => {
-    expect(component.find(FormSectionField)).to.have.lengthOf(1);
+    mountedComponent(<DraggableRow {...props} />)
+    expect(screen.getByTestId('form-section-field')).toBeInTheDocument()
   });
 
   it.skip("renders FormSectionField component", () => {
-    expect(component.find(SwitchInput)).to.have.lengthOf(1);
+    mountedComponent(<DraggableRow {...props} />)
+    expect(screen.getByRole('checkbox')).toBeInTheDocument()
   });
 });

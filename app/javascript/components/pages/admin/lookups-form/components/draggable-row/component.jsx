@@ -51,7 +51,7 @@ const Component = ({
   );
 
   return (
-    <Draggable key={uniqueId} draggableId={uniqueId} index={index} isDragDisabled={isDragDisabled}>
+    <Draggable data-testid="draggable" key={uniqueId} draggableId={uniqueId} index={index} isDragDisabled={isDragDisabled}>
       {provider => {
         return (
           <div ref={provider.innerRef} {...provider.draggableProps} {...provider.dragHandleProps} className={css.row}>
