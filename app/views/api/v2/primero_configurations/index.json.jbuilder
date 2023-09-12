@@ -2,7 +2,7 @@
 
 json.data do
   json.array! @configurations do |configuration|
-    json.partial! 'api/v2/primero_configurations/configuration', configuration: configuration
+    json.partial! 'api/v2/primero_configurations/configuration', configuration:
   end
 end
 

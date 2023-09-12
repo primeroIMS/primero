@@ -24,7 +24,9 @@ Rails.application.routes.draw do
   end
 
   resources :health, only: %i[index show]
-  resources :login, only: [:show]
+  # rubocop:disable Style/FormatStringToken(RuboCop)
+  get 'login/:id', to: redirect(path: '/v2/login/%{id}')
+  # rubocop:enable Style/FormatStringToken(RuboCop)
 
   namespace :api do
     namespace :v2, defaults: { format: :json },
@@ -47,6 +49,7 @@ Rails.application.routes.draw do
         resources :webhook_syncs, as: :sync, path: :sync, only: [:create]
         get :traces, to: 'children#traces'
         get :record_history, to: 'record_histories#index'
+        post :family, to: 'children#family'
         collection do
           post :flags, to: 'flags#create_bulk'
           post :assigns, to: 'assigns#create_bulk'
@@ -130,6 +133,19 @@ Rails.application.routes.draw do
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
         get :record_history, to: 'record_histories#index'
+      end
+
+      resources :families do
+        resources :flags, only: %i[index create update]
+        resources :alerts, only: [:index]
+        post :create_case, to: 'families#create_case'
+        get :record_history, to: 'record_histories#index'
+      end
+
+      scope '/webpush' do
+        get 'config', action: :config, controller: 'webpush_config'
+        patch 'subscriptions/current', action: :current, controller: 'webpush_subscriptions'
+        resources :webpush_subscriptions, path: :subscriptions, only: %i[index create]
       end
     end
   end

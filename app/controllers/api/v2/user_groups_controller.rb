@@ -7,7 +7,7 @@ class Api::V2::UserGroupsController < ApplicationApiController
   before_action :load_user_group, only: %i[show update destroy]
 
   def index
-    authorize! :index, UserGroup
+    authorize_index!
     @user_groups = UserGroup.list(current_user, user_group_filters)
     @total = @user_groups.size
     @user_groups = @user_groups.paginate(pagination) if pagination?
@@ -22,7 +22,7 @@ class Api::V2::UserGroupsController < ApplicationApiController
     @user_group = UserGroup.new_with_properties(user_group_params, current_user)
     @user_group.save!
     status = params[:data][:id].present? ? 204 : 200
-    render :create, status: status
+    render :create, status:
   end
 
   def update
@@ -52,5 +52,11 @@ class Api::V2::UserGroupsController < ApplicationApiController
 
   def load_user_group
     @user_group = UserGroup.find(record_id)
+  end
+
+  def authorize_index!
+    return if current_user.managed_report_scope_all?
+
+    authorize!(:index, UserGroup)
   end
 end

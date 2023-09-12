@@ -7,8 +7,9 @@ import thunkMiddleware from "redux-thunk";
 
 import customMiddleware from "./middleware";
 import rootReducer from "./reducer";
+import { API_BASE_PATH } from "./config";
 
-export const history = createBrowserHistory({
+const history = createBrowserHistory({
   basename: "v2"
 });
 
@@ -19,7 +20,7 @@ export default () => {
     routerMiddleware(history),
     thunkMiddleware,
     customMiddleware.restMiddleware({
-      baseUrl: "/api/v2"
+      baseUrl: API_BASE_PATH
     }),
     customMiddleware.authMiddleware,
     customMiddleware.offlineMiddleware
@@ -47,3 +48,5 @@ export default () => {
 
   return store;
 };
+
+export { history };

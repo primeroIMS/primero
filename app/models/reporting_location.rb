@@ -20,6 +20,6 @@ class ReportingLocation < ValueObject
   end
 
   def valid_admin_level?
-    levels.include?(admin_level) ? true : false
+    levels.include?(admin_level)
   end
 end

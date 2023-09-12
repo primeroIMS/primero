@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 basic_identity_fields = [
   Field.new('name' => 'case_id',
             'type' => 'text_field',
@@ -140,6 +142,10 @@ basic_identity_fields = [
   Field.new('name' => 'national_id_no',
             'type' => 'text_field',
             'display_name_en' => 'National ID Number'),
+  Field.new('name' => 'family_number',
+            'type' => 'text_field',
+            'display_name_en' => 'Family Number',
+            'visible' => false),
   Field.new('name' => 'other_id_type',
             'type' => 'text_field',
             'display_name_en' => 'Type of Other ID Document'),

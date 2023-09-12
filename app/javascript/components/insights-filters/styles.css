@@ -31,10 +31,6 @@
     margin: 0;
     width: calc(50% - var(--sp-1));
   }
-
-  & > div:nth-last-child(-n+2) {
-    margin-top: var(--sp-2);
-  }
 }
 
 @media (max-width:1279.95px) {

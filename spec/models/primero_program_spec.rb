@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe PrimeroProgram do
-  it'should not be valid if name is empty' do
+  it 'should not be valid if name is empty' do
     program = PrimeroProgram.new
     expect(program).to be_invalid
     expect(program.errors[:name]).to include('errors.models.primero_program.name_present')

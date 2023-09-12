@@ -45,13 +45,11 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUn
   );
 
   return (
-    <div className={classes}>
-      {handleVisibility() || (
-        <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
-          {renderField}
-        </ConditionalWrapper>
-      )}
-    </div>
+    handleVisibility() || (
+      <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
+        <div className={classes}>{renderField}</div>
+      </ConditionalWrapper>
+    )
   );
 };
 

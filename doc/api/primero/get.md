@@ -1,6 +1,6 @@
 # Query for public Primero information
 
-Retrieve agency logosd and other public bootstrap information as JSON without authentication
+Retrieve agency logos and other public bootstrap information as JSON without authentication
 
 **URL** : `/api/v2/primero`
 
@@ -21,6 +21,7 @@ Retrieve agency logosd and other public bootstrap information as JSON without au
   "data": {
     "sandbox_ui": true|false,
     "config_ui": "full"|"limited",
+    "webpush_enabled": true|false,
     "agencies": [
       {
         "unique_id": "agency-unique-id",

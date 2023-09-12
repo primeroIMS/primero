@@ -35,6 +35,13 @@ export const fetchRoles = () => ({
   }
 });
 
+export const fetchWebpushConfig = () => ({
+  type: actions.FETCH_WEBPUSH_CONFIG,
+  api: {
+    path: RECORD_PATH.webpush_config
+  }
+});
+
 export const fetchManagedRoles = () => ({
   type: actions.FETCH_MANAGED_ROLES,
   api: {
@@ -57,6 +64,7 @@ export const loadApplicationResources = () => async dispatch => {
     dispatch(fetchSystemPermissions());
     dispatch(fetchForms());
     dispatch(fetchOptions());
+    dispatch(fetchWebpushConfig());
   });
 };
 

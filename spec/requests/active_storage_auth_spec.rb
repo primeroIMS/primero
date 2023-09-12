@@ -15,10 +15,10 @@ describe ActiveStorageAuth do
       params = {
         blob: {
           filename: 'hello.txt', byte_size: 6,
-          checksum: checksum, content_type: 'text/plain'
+          checksum:, content_type: 'text/plain'
         }
       }
-      post rails_direct_uploads_url, params: params
+      post(rails_direct_uploads_url, params:)
       response
     end
 
@@ -42,7 +42,7 @@ describe ActiveStorageAuth do
       checksum = Digest::MD5.base64digest('Hello')
       blob = ActiveStorage::Blob.create_before_direct_upload!(
         filename: 'hello.txt', byte_size: 6,
-        checksum: checksum, content_type: 'text/plain'
+        checksum:, content_type: 'text/plain'
       )
       put blob.service_url_for_direct_upload,
           params: 'Hello', headers: { 'Content-Type' => 'text/plain' }
@@ -124,7 +124,7 @@ describe ActiveStorageAuth do
       role = Role.new(permissions: [permissions])
       role.save(validate: false)
 
-      FormPermission.create!(form_section: photo_form, role: role)
+      FormPermission.create!(form_section: photo_form, role:)
 
       role
     end
@@ -139,18 +139,18 @@ describe ActiveStorageAuth do
       role = Role.new(permissions: [permissions])
       role.save(validate: false)
 
-      FormPermission.create!(form_section: photo_form, role: role)
+      FormPermission.create!(form_section: photo_form, role:)
 
       role
     end
 
     let(:user1) do
-      user = User.new(user_name: 'user1', role: role)
+      user = User.new(user_name: 'user1', role:)
       user.save(validate: false) && user
     end
 
     let(:user2) do
-      user = User.new(user_name: 'user2', role: role)
+      user = User.new(user_name: 'user2', role:)
       user.save(validate: false) && user
     end
 
@@ -219,12 +219,12 @@ describe ActiveStorageAuth do
     end
 
     let(:user1) do
-      user = User.new(user_name: 'user1', role: role)
+      user = User.new(user_name: 'user1', role:)
       user.save(validate: false) && user
     end
 
     let(:user2) do
-      user = User.new(user_name: 'user2', role: role)
+      user = User.new(user_name: 'user2', role:)
       user.save(validate: false) && user
     end
 

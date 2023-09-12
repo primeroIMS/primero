@@ -103,7 +103,8 @@ describe UserTransitionService do
       role_receive_other_module = Role.new(permissions: [permission_receive], primero_modules: [@other])
       role_receive_other_module.save(validate: false)
 
-      role_receive_different_module = Role.new(permissions: [permission_receive_different_module], primero_modules: [@other])
+      role_receive_different_module = Role.new(permissions: [permission_receive_different_module],
+                                               primero_modules: [@other])
       role_receive_different_module.save(validate: false)
 
       permission_cannot = Permission.new(
@@ -140,17 +141,18 @@ describe UserTransitionService do
         SystemSettings.new(reporting_location_config: { admin_level: 1 })
       )
 
-      @user1 = User.new(user_name: 'user1', role: role_receive, agency: agency)
+      @user1 = User.new(user_name: 'user1', role: role_receive, agency:)
       @user1.save(validate: false)
-      @user2 = User.new(user_name: 'user2', role: role_receive, services: %w[safehouse_service], agency: agency,  location: 'CT')
+      @user2 = User.new(user_name: 'user2', role: role_receive, services: %w[safehouse_service], agency:,
+                        location: 'CT')
       @user2.save(validate: false)
-      @user3 = User.new(user_name: 'user3', role: role_receive, agency: agency, location: 'CT')
+      @user3 = User.new(user_name: 'user3', role: role_receive, agency:, location: 'CT')
       @user3.save(validate: false)
-      @user4 = User.new(user_name: 'user4', role: role_cannot, agency: agency)
+      @user4 = User.new(user_name: 'user4', role: role_cannot, agency:)
       @user4.save(validate: false)
-      @user5 = User.new(user_name: 'user5', role: role_receive_other_module, agency: agency)
+      @user5 = User.new(user_name: 'user5', role: role_receive_other_module, agency:)
       @user5.save(validate: false)
-      @user6 = User.new(user_name: 'user6', role: role_receive_different_module, agency: agency)
+      @user6 = User.new(user_name: 'user6', role: role_receive_different_module, agency:)
       @user6.save(validate: false)
       @user7 = User.new(user_name: 'user7', role: role_receive, agency: agency2)
       @user7.save(validate: false)

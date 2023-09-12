@@ -69,7 +69,7 @@ describe PotentialMatch do
   let(:potential_match) do
     PotentialMatch.new(
       child: case1,
-      trace: trace
+      trace:
     )
   end
 

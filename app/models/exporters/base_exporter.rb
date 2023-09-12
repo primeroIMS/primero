@@ -7,6 +7,8 @@ class Exporters::BaseExporter
     Field::DATE_FIELD, Field::DATE_RANGE, Field::TICK_BOX, Field::TALLY_FIELD, Field::SUBFORM
   ].freeze
 
+  FIRST_ROW_INDEX = 1
+
   attr_accessor :locale, :lookups, :fields, :field_names, :forms, :field_value_service,
                 :location_service, :record_type, :user, :options
 
@@ -29,8 +31,8 @@ class Exporters::BaseExporter
 
     # This is a class method that does a one-shot export to a String buffer.
     # Don't use this for large data sets.
-    def export(records, *args)
-      exporter_obj = new(*args)
+    def export(records, *)
+      exporter_obj = new(*)
       exporter_obj.export(records)
       exporter_obj.complete
       exporter_obj.buffer.string
@@ -47,13 +49,13 @@ class Exporters::BaseExporter
     establish_export_constraints
   end
 
-  def export(*_args)
+  def export(_records)
     raise NotImplementedError
   end
 
   def intialize_services
     self.location_service = LocationService.instance
-    self.field_value_service = FieldValueService.new(location_service: location_service)
+    self.field_value_service = FieldValueService.new(location_service:)
   end
 
   def establish_export_constraints
@@ -74,14 +76,14 @@ class Exporters::BaseExporter
     elsif value.is_a?(Array)
       value.map { |v| export_value(v, field) }
     elsif field
-      field_value_service.value(field, value, locale: locale)
+      field_value_service.value(field, value, locale:)
     else
       value
     end
   end
 
   def complete
-    (buffer.class == File) && !buffer.closed? && @io.close
+    buffer.instance_of?(File) && !buffer.closed? && @io.close
   end
 
   def buffer
@@ -145,5 +147,13 @@ class Exporters::BaseExporter
       field_dup.form_section = form_dup
       field_dup
     end
+  end
+
+  def locale_hash
+    { locale: }
+  end
+
+  def name_first_cell_by_column(column_index)
+    "#{ColName.instance.col_str(column_index)}#{FIRST_ROW_INDEX}"
   end
 end

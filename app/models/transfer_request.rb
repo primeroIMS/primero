@@ -27,8 +27,8 @@ class TransferRequest < Transition
     save!
     Transfer.create!(
       transitioned_to: transitioned_by, transitioned_by: transitioned_to,
-      notes: notes, transitioned_to_agency: transitioned_to_agency,
-      record: record, consent_overridden: consent_individual_transfer
+      notes:, transitioned_to_agency:,
+      record:, consent_overridden: consent_individual_transfer
     )
   end
 

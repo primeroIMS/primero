@@ -59,9 +59,7 @@ class Task
     case header_name
     when 'record_id_display'
       'case_id'
-    when 'status'
-      'due_date'
-    when 'created_at'
+    when 'status', 'created_at'
       'due_date'
     else
       header_name

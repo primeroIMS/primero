@@ -12,7 +12,7 @@ class User < ApplicationRecord
   include ConfigurationRecord
   include LocationCacheable
 
-  USER_NAME_REGEX = /\A[^ ]+\z/.freeze
+  USER_NAME_REGEX = /\A[^ ]+\z/
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
   USER_FIELDS_SCHEMA = {
     'id' => { 'type' => 'integer' }, 'user_name' => { 'type' => 'string' },
@@ -27,7 +27,7 @@ class User < ApplicationRecord
     'services' => { 'type' => 'array' }, 'module_unique_ids' => { 'type' => 'array' },
     'password_reset' => { 'type' => 'boolean' }, 'role_id' => { 'type' => 'string' },
     'agency_office' => { 'type' => 'string' }, 'code_of_conduct_id' => { 'type' => 'integer' },
-    'send_mail' => { 'type' => 'boolean' }
+    'send_mail' => { 'type' => 'boolean' }, 'receive_webpush' => { 'type' => 'boolean' }
   }.freeze
 
   attr_accessor :should_send_password_reset_instructions, :user_groups_changed
@@ -50,6 +50,7 @@ class User < ApplicationRecord
                           after_add: :mark_user_groups_changed,
                           after_remove: :mark_user_groups_changed
   has_many :audit_logs
+  has_many :webpush_subscriptions
 
   scope :enabled, -> { where(disabled: false) }
   scope :disabled, -> { where(disabled: true) }
@@ -57,7 +58,7 @@ class User < ApplicationRecord
     joins(:user_groups).where(user_groups: { id: ids })
   end)
   scope :by_agency, (lambda do |id|
-    joins(:agency).where(agencies: { id: id })
+    joins(:agency).where(agencies: { id: })
   end)
 
   alias_attribute :organization, :agency
@@ -139,7 +140,7 @@ class User < ApplicationRecord
     end
 
     def last_login_timestamp(user_name)
-      AuditLog.where(action_name: 'login', user_name: user_name).try(:last).try(:timestamp)
+      AuditLog.where(action_name: 'login', user_name:).try(:last).try(:timestamp)
     end
 
     def agencies_for_user_names(user_names)
@@ -167,8 +168,8 @@ class User < ApplicationRecord
     end
   end
 
-  def initialize(attributes = nil, &block)
-    super(attributes&.except(*User.unique_id_parameters), &block)
+  def initialize(attributes = nil, &)
+    super(attributes&.except(*User.unique_id_parameters), &)
     associate_unique_id_properties(attributes.slice(*User.unique_id_parameters)) if attributes.present?
   end
 
@@ -270,6 +271,21 @@ class User < ApplicationRecord
 
   def group_permission?(permission)
     role&.group_permission == permission
+  end
+
+  def managed_report_permission?
+    role.permissions.find { |permission| permission.resource == Permission::MANAGED_REPORT }.present?
+  end
+
+  def managed_report_scope
+    managed_report_permission = role.permissions.find { |permission| permission.resource == Permission::MANAGED_REPORT }
+    return unless managed_report_permission.present?
+
+    managed_report_permission.managed_report_scope || Permission::ALL
+  end
+
+  def managed_report_scope_all?
+    managed_report_scope == Permission::ALL
   end
 
   def can_preview?(record_type)
@@ -466,6 +482,10 @@ class User < ApplicationRecord
 
   def emailable?
     email.present? && send_mail == true && !disabled?
+  end
+
+  def receive_webpush?
+    receive_webpush == true && !disabled?
   end
 
   private

@@ -20,7 +20,9 @@ class Transition < ApplicationRecord
 
   after_initialize :defaults, unless: :persisted?
   before_create :perform
-  after_save_commit :notify_by_email
+  before_create :copy_record_ownership
+  before_create :copy_transitioned_user_groups_and_agency
+  after_save_commit :notify
 
   after_save :index_record
 
@@ -87,7 +89,7 @@ class Transition < ApplicationRecord
     [Transition::STATUS_INPROGRESS]
   end
 
-  def notify_by_email
+  def notify
     return unless notified_statuses.include?(status)
 
     TransitionNotifyJob.perform_later(id)
@@ -107,19 +109,34 @@ class Transition < ApplicationRecord
   end
 
   def progress_or_accepted_transition?
-    Transition.where(transitioned_to: transitioned_to, type: [Referral.name],
+    Transition.where(transitioned_to:, type: [Referral.name],
                      status: [STATUS_INPROGRESS, STATUS_ACCEPTED],
                      record_id: record.id)
               .or(
-                Transition.where(transitioned_to: transitioned_to, type: [Transfer.name],
+                Transition.where(transitioned_to:, type: [Transfer.name],
                                  status: [STATUS_INPROGRESS],
                                  record_id: record.id)
-              ).where.not(id: id).exists?
+              ).where.not(id:).exists?
   end
 
   def remove_assigned_user
     return if progress_or_accepted_transition?
 
     record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
+  end
+
+  def copy_record_ownership
+    self.record_owned_by = record.owned_by
+    self.record_owned_by_agency = record.owned_by_agency_id
+    self.record_owned_by_groups = record.owned_by_groups
+  end
+
+  def copy_transitioned_user_groups_and_agency
+    self.transitioned_by_user_agency = transitioned_by_user.agency&.unique_id
+    self.transitioned_by_user_groups = transitioned_by_user.user_group_unique_ids
+    return if remote
+
+    self.transitioned_to_user_agency = transitioned_to_user.agency&.unique_id
+    self.transitioned_to_user_groups = transitioned_to_user.user_group_unique_ids
   end
 end

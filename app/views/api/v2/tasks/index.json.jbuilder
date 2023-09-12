@@ -2,7 +2,7 @@
 
 json.data do
   json.array! @tasks do |task|
-    json.partial! 'api/v2/tasks/task', task: task
+    json.partial! 'api/v2/tasks/task', task:
   end
 end
 

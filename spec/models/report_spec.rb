@@ -374,7 +374,8 @@ describe Report do
 
     let(:service_provider) do
       user = User.new(
-        user_name: 'service_provider', agency_id: agency_with_space.id)
+        user_name: 'service_provider', agency_id: agency_with_space.id
+      )
       user.save(validate: false) && user
     end
 
@@ -783,7 +784,8 @@ describe Report do
 
       expect(report.build_report).to eq(
         'male' => { '_total' => 1, '06-Sep-2021 - 12-Sep-2021' => { '_total' => 1 } },
-        'female' => { '_total' => 2, '03-Oct-2022 - 09-Oct-2022' => { '_total' => 1 }, '10-Oct-2022 - 16-Oct-2022' => { '_total' => 1 } }
+        'female' => { '_total' => 2, '03-Oct-2022 - 09-Oct-2022' => { '_total' => 1 },
+                      '10-Oct-2022 - 16-Oct-2022' => { '_total' => 1 } }
       )
     end
 

@@ -116,7 +116,7 @@ describe Api::V2::RegistryRecordsController, type: :request do
     it 'creates a new record with 200 and returns it as JSON' do
       login_for_test
       params = { data: { registry_type: RegistryRecord::REGISTRY_TYPE_FOSTER_CARE } }
-      post '/api/v2/registry_records', params: params, as: :json
+      post '/api/v2/registry_records', params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_empty
@@ -129,7 +129,7 @@ describe Api::V2::RegistryRecordsController, type: :request do
     it 'updates an existing record with 200' do
       login_for_test
       params = { data: { registry_type: RegistryRecord::REGISTRY_TYPE_FOSTER_CARE } }
-      patch "/api/v2/registry_records/#{@registry1.id}", params: params, as: :json
+      patch "/api/v2/registry_records/#{@registry1.id}", params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@registry1.id)

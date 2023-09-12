@@ -12,7 +12,7 @@ class Exporters::JsonExporter < Exporters::BaseExporter
     end
 
     def supported_models
-      [Child, Incident, TracingRequest]
+      [Child, Incident, TracingRequest, Family]
     end
   end
 

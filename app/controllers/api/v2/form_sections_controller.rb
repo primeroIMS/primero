@@ -22,7 +22,7 @@ class Api::V2::FormSectionsController < ApplicationApiController
     @form_section = FormSection.new_with_properties(form_section_params, user: current_user)
     @form_section.save!
     status = params[:data][:id].present? ? 204 : 200
-    render :create, status: status
+    render :create, status:
   end
 
   def update
@@ -51,6 +51,6 @@ class Api::V2::FormSectionsController < ApplicationApiController
   end
 
   def exporter
-    return Exporters::FormExporter if params[:export_type] == 'xlsx'
+    Exporters::FormExporter if params[:export_type] == 'xlsx'
   end
 end

@@ -21,7 +21,7 @@ describe UserMailer, type: :mailer do
       instance_double(
         'User',
         email: 'user@test.org',
-        role: role, locale: 'en', using_idp?: false
+        role:, locale: 'en', using_idp?: false
       )
     end
     let(:mail) { UserMailer.welcome(1, 2) }
@@ -45,7 +45,7 @@ describe UserMailer, type: :mailer do
       instance_double(
         'User',
         email: 'user@test.org',
-        role: role, locale: 'en', using_idp?: true
+        role:, locale: 'en', using_idp?: true
       )
     end
     let(:mail) { UserMailer.welcome(1, 2, 'OTP123') }
@@ -80,8 +80,8 @@ describe UserMailer, type: :mailer do
     let(:user) do
       instance_double(
         'User',
-        email: 'user@test.org', agency: agency, user_name: 'user@test.org',
-        role: role, locale: 'en', using_idp?: true, identity_provider: identity_provider
+        email: 'user@test.org', agency:, user_name: 'user@test.org',
+        role:, locale: 'en', using_idp?: true, identity_provider:
       )
     end
     let(:mail) { UserMailer.welcome(1, 2) }

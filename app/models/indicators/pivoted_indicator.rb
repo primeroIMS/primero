@@ -51,13 +51,13 @@ module Indicators
       return {} unless rows.present?
 
       rows.each_with_object({}) do |row, stats|
-        stats[row['value']] = row['pivot'].map do |pivot|
+        stats[row['value']] = row['pivot'].to_h do |pivot|
           stat = {
             'count' => pivot['count'],
             'query' => stat_query_strings([row, pivot], owner, user, name_map)
           }
           [pivot['value'], stat]
-        end.to_h
+        end
       end
     end
 
@@ -74,9 +74,9 @@ module Indicators
     private
 
     def field_name_solr_map
-      pivots.map do |pivot|
+      pivots.to_h do |pivot|
         [SolrUtils.indexed_field_name(record_model, pivot), pivot]
-      end.to_h
+      end
     end
 
     def name_map_row_pivot(name_map, row, pivot)

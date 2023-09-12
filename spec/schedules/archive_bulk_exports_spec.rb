@@ -38,7 +38,7 @@ describe ArchiveBulkExports do
       password_confirmation: '123456789abc',
       email: 'test_user@localhost.com',
       agency_id: agency.id,
-      role: role
+      role:
     )
     BulkExport.create!(
       status: 'job.status.complete', owned_by: @user.user_name,

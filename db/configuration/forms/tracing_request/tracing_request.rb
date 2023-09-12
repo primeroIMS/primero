@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 tracing_request_subform_fields = [
   Field.new('name' => 'matched_case_id',
             'type' => 'text_field',

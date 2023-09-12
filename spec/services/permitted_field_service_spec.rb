@@ -70,7 +70,7 @@ describe PermittedFieldService, search: true do
       password_confirmation: 'a12345632',
       email: 'test_user_1@localhost.com',
       agency_id: agency.id,
-      role: role,
+      role:,
       services: ['Test type']
     )
   end

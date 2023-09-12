@@ -1,6 +1,4 @@
 import isObject from "lodash/isObject";
-import sinon from "sinon";
-import configureStore from "redux-mock-store";
 
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { METHODS, RECORD_PATH } from "../../config/constants";
@@ -28,30 +26,32 @@ describe("records - Action Creators", () => {
 
     [
       "clearCaseFromIncident",
+      "clearMatchedTraces",
       "clearMetadata",
+      "clearPotentialMatches",
       "clearRecordAttachments",
+      "clearSelectedCasePotentialMatch",
       "clearSelectedRecord",
+      "createCaseFromFamilyDetail",
+      "createCaseFromFamilyMember",
+      "externalSync",
       "fetchCasesPotentialMatches",
       "fetchIncidentFromCase",
       "fetchIncidentwitCaseId",
+      "fetchMatchedTraces",
       "fetchRecord",
       "fetchRecordsAlerts",
       "fetchTracePotentialMatches",
       "fetchTracingRequestTraces",
+      "markForOffline",
+      "offlineIncidentFromCase",
       "saveRecord",
       "setCaseIdForIncident",
       "setMachedCaseForTrace",
+      "setSelectedCasePotentialMatch",
       "setSelectedPotentialMatch",
       "setSelectedRecord",
-      "setSelectedCasePotentialMatch",
-      "clearSelectedCasePotentialMatch",
-      "fetchMatchedTraces",
-      "clearMatchedTraces",
-      "unMatchCaseForTrace",
-      "clearPotentialMatches",
-      "externalSync",
-      "offlineIncidentFromCase",
-      "markForOffline"
+      "unMatchCaseForTrace"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -503,68 +503,36 @@ describe("records - Action Creators", () => {
     expect(actionCreators.externalSync(RECORD_PATH.cases, "12345")).be.deep.equals(expected);
   });
 
-  it("should check the 'markForOffline' action creator to return the correct object", () => {
+  it("should check the 'createCaseFromFamilyMember' action creator to return the correct object", () => {
     const expected = {
-      type: `${RECORD_PATH.cases}/EXTERNAL_SYNC`,
+      type: "families/CREATE_CASE_FROM_FAMILY_MEMBER",
       api: {
-        path: `${RECORD_PATH.cases}/12345/sync`,
-        method: "POST"
+        path: "families/f001/create_case",
+        body: { data: { family_member_id: "m001" } },
+        method: "POST",
+        successCallback: [
+          { action: CLEAR_DIALOG },
+          {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              messageKey: "case.messages.creation_success",
+              options: { variant: "success", key: "case-messages-creation-success" }
+            }
+          }
+        ]
       }
     };
 
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    expect(actionCreators.createCaseFromFamilyMember({ familyId: "f001", familyMemberId: "m001" })).be.deep.equals(
+      expected
+    );
+  });
 
-    actionCreators.markForOffline({
-      recordType: RECORD_PATH.cases,
-      ids: ["12345", "67890"],
-      selectedRegistryIds: ["12345"]
-    })(dispatch);
+  it("checks that 'clearPotentialMatches' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.cases}/CLEAR_POTENTIAL_MATCHES`
+    };
 
-    expect(dispatch.getCall(1).args).be.deep.equals([
-      {
-        type: "cases/MARK_FOR_OFFLINE",
-        api: {
-          path: "/cases",
-          params: {
-            id: ["12345", "67890"]
-          },
-          db: {
-            collection: "records",
-            recordType: "cases"
-          },
-          successCallback: [
-            {
-              action: CLEAR_DIALOG
-            },
-            {
-              action: ENQUEUE_SNACKBAR,
-              payload: {
-                messageKey: "cases.mark_for_offline.success",
-                options: {
-                  variant: "success",
-                  key: "cases-mark-for-offline-success"
-                }
-              }
-            }
-          ]
-        }
-      }
-    ]);
-    expect(dispatch.getCall(0).args).be.deep.equals([
-      {
-        type: "registry_records/MARK_FOR_OFFLINE",
-        api: {
-          path: "/registry_records",
-          params: {
-            id: ["12345"]
-          },
-          db: {
-            collection: "records",
-            recordType: "registry_records"
-          }
-        }
-      }
-    ]);
+    expect(actionCreators.clearPotentialMatches()).be.deep.equals(expected);
   });
 });

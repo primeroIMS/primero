@@ -123,7 +123,7 @@ describe Api::V2::FormSectionsController, type: :request do
         login_for_test
 
         params = { exclude_subforms: true }
-        get '/api/v2/forms', params: params
+        get('/api/v2/forms', params:)
 
         expect(response).to have_http_status(200)
         expect(json['data'].size).to eq(4)
@@ -248,7 +248,7 @@ describe Api::V2::FormSectionsController, type: :request do
           ]
         }
       }
-      post '/api/v2/forms', params: params, as: :json
+      post '/api/v2/forms', params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_nil
@@ -278,7 +278,7 @@ describe Api::V2::FormSectionsController, type: :request do
           ]
         }
       }
-      post '/api/v2/forms', params: params, as: :json
+      post '/api/v2/forms', params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['fields'].map { |field| [field['name'], field['order']] }).to eq(
@@ -305,7 +305,7 @@ describe Api::V2::FormSectionsController, type: :request do
           ]
         }
       }
-      post '/api/v2/forms', params: params, as: :json
+      post '/api/v2/forms', params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['fields'].map { |field| [field['name'], field['order']] }).to eq(
@@ -334,7 +334,7 @@ describe Api::V2::FormSectionsController, type: :request do
           ]
         }
       }
-      post '/api/v2/forms', params: params, as: :json
+      post '/api/v2/forms', params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_nil
@@ -351,7 +351,7 @@ describe Api::V2::FormSectionsController, type: :request do
       unique_id = 'client_created_form_1'
       params = {
         data: {
-          unique_id: unique_id,
+          unique_id:,
           name: {
             en: 'Client Created Form 1',
             es: 'Formulario creado por el cliente 1'
@@ -359,12 +359,12 @@ describe Api::V2::FormSectionsController, type: :request do
         }
       }
 
-      post '/api/v2/forms', params: params
+      post('/api/v2/forms', params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/forms')
-      expect(FormSection.find_by(unique_id: unique_id)).to be_nil
+      expect(FormSection.find_by(unique_id:)).to be_nil
     end
 
     it 'returns a 409 if record already exists' do
@@ -377,7 +377,7 @@ describe Api::V2::FormSectionsController, type: :request do
           }
         }
       }
-      post '/api/v2/forms', params: params, as: :json
+      post '/api/v2/forms', params:, as: :json
 
       expect(response).to have_http_status(409)
       expect(json['errors'].size).to eq(1)
@@ -394,7 +394,7 @@ describe Api::V2::FormSectionsController, type: :request do
           }
         }
       }
-      post '/api/v2/forms', params: params
+      post('/api/v2/forms', params:)
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
@@ -419,7 +419,7 @@ describe Api::V2::FormSectionsController, type: :request do
           visible: false
         }
       }
-      patch "/api/v2/forms/#{@form1.id}", params: params, as: :json
+      patch "/api/v2/forms/#{@form1.id}", params:, as: :json
 
       @form1.reload
       expect(response).to have_http_status(200)
@@ -441,7 +441,7 @@ describe Api::V2::FormSectionsController, type: :request do
           collapsed_field_names: ['fs1_field_1']
         }
       }
-      patch "/api/v2/forms/#{@form1.id}", params: params, as: :json
+      patch "/api/v2/forms/#{@form1.id}", params:, as: :json
 
       @form1.reload
       expect(response).to have_http_status(200)
@@ -476,7 +476,7 @@ describe Api::V2::FormSectionsController, type: :request do
         }
       }
 
-      patch "/api/v2/forms/#{@form1.id}", params: params, as: :json
+      patch "/api/v2/forms/#{@form1.id}", params:, as: :json
 
       @form1.reload
       expect(response).to have_http_status(200)
@@ -519,7 +519,7 @@ describe Api::V2::FormSectionsController, type: :request do
         }
       }
 
-      patch "/api/v2/forms/#{@form1.id}", params: params, as: :json
+      patch "/api/v2/forms/#{@form1.id}", params:, as: :json
 
       @form1.reload
 
@@ -558,7 +558,7 @@ describe Api::V2::FormSectionsController, type: :request do
 
       expect(@form2.fields.last.name).to eq('fs2_field_1')
 
-      patch "/api/v2/forms/#{@form2.id}", params: params, as: :json
+      patch "/api/v2/forms/#{@form2.id}", params:, as: :json
 
       @form2.reload
 
@@ -595,7 +595,7 @@ describe Api::V2::FormSectionsController, type: :request do
 
       expect(@form5.fields.last.name).to eq('fs5_field_1')
 
-      patch "/api/v2/forms/#{@form5.id}", params: params, as: :json
+      patch "/api/v2/forms/#{@form5.id}", params:, as: :json
 
       @form5.reload
 
@@ -621,7 +621,7 @@ describe Api::V2::FormSectionsController, type: :request do
         }
       }
 
-      patch "/api/v2/forms/#{@form1.id}", params: params
+      patch("/api/v2/forms/#{@form1.id}", params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
@@ -638,7 +638,7 @@ describe Api::V2::FormSectionsController, type: :request do
 
       params = { data: { name: { en: 'Form Section Updated 1' } } }
 
-      patch '/api/v2/forms/thisdoesntexist', params: params
+      patch('/api/v2/forms/thisdoesntexist', params:)
 
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
@@ -662,7 +662,7 @@ describe Api::V2::FormSectionsController, type: :request do
         }
       }
 
-      patch "/api/v2/forms/#{@form1.id}", params: params
+      patch("/api/v2/forms/#{@form1.id}", params:)
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
@@ -834,7 +834,7 @@ describe Api::V2::FormSectionsController, type: :request do
       context 'and export type is passed' do
         it 'exports all visible CP forms' do
           params = { export_type: 'xlsx' }
-          get '/api/v2/forms/export', params: params
+          get('/api/v2/forms/export', params:)
 
           expect(response).to have_http_status(200)
           expect(json['data']['export_file_url']).to be

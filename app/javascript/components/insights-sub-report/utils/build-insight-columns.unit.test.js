@@ -24,7 +24,7 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
         groupedBy: "year",
         isGrouped: true,
         localizeDate: (_key, value) => value,
-        subColumnItems: fromJS([]),
+        subColumnItems: [],
         value: fromJS([
           {
             group_id: 2022,
@@ -64,7 +64,7 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
         groupedBy: "month",
         isGrouped: true,
         localizeDate: format,
-        subColumnItems: fromJS(["boys", "girls"]),
+        subColumnItems: ["boys", "girls"],
         value: fromJS([
           {
             group_id: "2022-01",

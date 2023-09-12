@@ -5,6 +5,10 @@ require 'sunspot'
 
 describe Child do
   describe 'quicksearch', search: true do
+    before do
+      clean_data(Child, Family)
+    end
+
     it 'has a searchable case id, survivor number' do
       expect(Child.quicksearch_fields).to include('case_id_display', 'survivor_code_no')
     end
@@ -15,6 +19,23 @@ describe Child do
       search_result = SearchService.search(Child, query: 'ABC123XYZ').results
       expect(search_result).to have(1).child
       expect(search_result.first.survivor_code_no).to eq('ABC123XYZ')
+    end
+
+    it 'can find a child by family number' do
+      family = Family.create!(
+        family_number: '4225',
+        family_members: [
+          { unique_id: '123', relation_name: 'Family Name',relation_age: 5, relation_sex: "male" }
+        ]
+      )
+      child = Child.create!(data: { name: 'Lonnie', survivor_code_no: 'ABC123XYZ' })
+      child.family = family
+      child.save!
+      child.index!
+
+      search_result = SearchService.search(Child, query: '4225').results
+      expect(search_result).to have(1).child
+      expect(search_result.first.family_number).to eq('4225')
     end
   end
 
@@ -106,6 +127,46 @@ describe Child do
 
     after do
       clean_data(Child, RegistryRecord)
+    end
+  end
+
+  describe 'family record' do
+    before do
+      clean_data(Child, Family)
+    end
+
+    let(:family1) do
+      Family.create!(
+        data: {
+          family_number: '40bf9109',
+          module_id: PrimeroModule::CP,
+          family_size: 1,
+          family_notes: 'Notes about the family',
+          family_members: [
+            {
+              unique_id: '001',
+              family_relationship: 'relationship1',
+              family_relationship_notes: 'Notes about the relationship 001',
+              family_relationship_notes_additional: 'Additional notes about the relationship 001',
+              relation_name: 'Member 1',
+              relation_sex: 'male',
+              relation_age: 10
+            }
+          ]
+        }
+      )
+    end
+
+    let(:case1) { Child.create!(family: family1, data: { age: 13, sex: 'female', family_member_id: '001' }) }
+
+    it 'links a family and a family_member to a case' do
+      expect(case1.family).to eq(family1)
+      expect(family1.cases).to include(case1)
+
+      family_member = family1.family_members.find { |member| member['unique_id'] == '001' }
+
+      expect(family_member['case_id']).to eq(case1.id)
+      expect(family_member['case_id_display']).to eq(case1.case_id_display)
     end
   end
 
@@ -318,7 +379,7 @@ describe Child do
         :fields => fields,
         :parent_form => 'case',
         'name_all' => 'Form Section With Dates Fields',
-        'description_all' => 'Form Section With Dates Fields',
+        'description_all' => 'Form Section With Dates Fields'
       )
     end
 

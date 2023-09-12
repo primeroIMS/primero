@@ -3,9 +3,22 @@ import { format, parseISO } from "date-fns";
 
 import { ACTIONS } from "../permissions";
 import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../config/constants";
+import { MANAGED_REPORT_SCOPE } from "../permissions/constants";
 
 import * as selectors from "./selectors";
 
+const userGroups = fromJS([
+  {
+    id: 1,
+    unique_id: "test-1",
+    name: "Test 1"
+  },
+  {
+    id: 2,
+    unique_id: "test-2",
+    name: "Test 2"
+  }
+]);
 const stateWithoutUser = fromJS({});
 const stateWithUser = fromJS({
   user: {
@@ -20,7 +33,9 @@ const stateWithUser = fromJS({
     },
     saving: false,
     serverErrors: ["Test error"],
-    resetPassword: { saving: true }
+    resetPassword: { saving: true },
+    userGroups,
+    managedReportScope: MANAGED_REPORT_SCOPE.ALL
   }
 });
 
@@ -197,6 +212,24 @@ describe("User - Selectors", () => {
 
     it("should return false if the user does not have the module", () => {
       expect(selectors.hasPrimeroModule(state, "primeromodule-gbv")).to.be.false;
+    });
+  });
+
+  describe("getCurrentUserUserGroups", () => {
+    it("returns the user groups of the current user", () => {
+      expect(selectors.getCurrentUserUserGroups(stateWithUser)).to.deep.equals(userGroups);
+    });
+  });
+
+  describe("getManagedReportScope", () => {
+    it("returns managed report scope for the current user", () => {
+      expect(selectors.getManagedReportScope(stateWithUser)).to.equal(MANAGED_REPORT_SCOPE.ALL);
+    });
+  });
+
+  describe("getIsManagedReportScopeAll", () => {
+    it("returns true if the current user managed scope is ALL", () => {
+      expect(selectors.getIsManagedReportScopeAll(stateWithUser)).to.be.true;
     });
   });
 });

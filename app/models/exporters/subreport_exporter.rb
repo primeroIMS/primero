@@ -3,38 +3,32 @@
 # Class to export Subreports
 # rubocop:disable Metrics/ClassLength
 class Exporters::SubreportExporter < ValueObject
-  INITIAL_CHART_WIDTH = 384
-  INITIAL_CHART_HEIGHT = 460
-  EXCEL_COLUMN_WIDTH = 64
-  EXCEL_ROW_HEIGHT = 20
-
-  include Exporters::GroupableExporter
+  include Exporters::Concerns::InsightParams
 
   attr_accessor :id, :data, :workbook, :tab_color, :formats, :current_row,
                 :worksheet, :managed_report, :locale, :lookups, :grouped_by,
-                :years, :groups, :indicators_subcolumns
+                :indicators_subcolumns, :subcolumn_lookups
 
   def export
     self.current_row = 0
     self.data = managed_report.data[id][:data]
-    self.worksheet = workbook.add_worksheet(build_worksheet_name)
-    setup_export
+    setup_worksheet
+    load_indicators_subcolumns
+    load_lookups
     write_export
   end
 
-  def setup_export
+  def setup_worksheet
+    self.worksheet = workbook.add_worksheet(build_worksheet_name)
     worksheet.tab_color = tab_color
-    load_lookups
-    load_indicators_subcolumns
-    build_groups
   end
 
   def build_worksheet_name
     # Truncating in 31 allowed characters
     # Replacing invalid character
-    I18n.t("managed_reports.#{managed_report.id}.reports.#{id}", locale: locale)
+    I18n.t("managed_reports.#{managed_report.id}.reports.#{id}", locale:)
         .truncate(31)
-        .gsub(%r{[\[\]\/:*?]}, ' ')
+        .gsub(%r{[\[\]/:*?]}, ' ')
   end
 
   def write_export
@@ -54,7 +48,7 @@ class Exporters::SubreportExporter < ValueObject
   def write_header_title
     worksheet.merge_range(
       current_row, 0, 0, 1,
-      I18n.t("managed_reports.#{managed_report.id}.reports.#{id}", locale: locale),
+      I18n.t("managed_reports.#{managed_report.id}.reports.#{id}", locale:),
       formats[:header]
     )
   end
@@ -66,123 +60,19 @@ class Exporters::SubreportExporter < ValueObject
     return unless params.present?
 
     params += [formats[:black]]
-    worksheet.merge_range_type('rich_string', current_row, 0, current_row, 3, *params)
+    worksheet.write_rich_string(current_row, 0, *params)
     self.current_row += 1
-  end
-
-  def params_list
-    view_by_param + date_range_param + date_range_values_param + filter_by_date_param + verification_status_param
-  end
-
-  def view_by_param
-    return [] unless grouped_by_param.present?
-
-    [
-      formats[:bold_blue], "#{I18n.t('fields.date_range.view_by', locale: locale)}: ",
-      formats[:black], "#{I18n.t("managed_reports.date_range.#{grouped_by_param.value}", locale: locale)} / "
-    ]
-  end
-
-  def date_range_param
-    return [] unless date_range_display_text.present?
-
-    [
-      formats[:bold_blue], "#{I18n.t('fields.date_range_field', locale: locale)}: ",
-      formats[:black], "#{date_range_display_text} / "
-    ]
-  end
-
-  def date_range_values_param
-    return [] unless managed_report.date_range_value.blank?
-
-    custom_date_value(:from) + custom_date_value(:to)
-  end
-
-  def custom_date_value(date_value)
-    value = managed_report.date_range_filter&.send(date_value)
-    return [] if value.blank?
-
-    [
-      formats[:bold_blue], "#{I18n.t("fields.date_range.#{date_value}", locale: locale)}: ",
-      formats[:black], "#{value} / "
-    ]
-  end
-
-  def filter_by_date_param
-    return [] unless date_display_text.present?
-
-    [
-      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.date', locale: locale)}: ",
-      formats[:black], "#{date_display_text} / "
-    ]
-  end
-
-  def verification_status_param
-    return [] unless verification_display_text.present?
-
-    [
-      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.verification_status', locale: locale)}: ",
-      formats[:black], verification_display_text
-    ]
   end
 
   def write_generated_on
     worksheet.merge_range_type(
       'rich_string',
       current_row, 0, current_row, 1,
-      formats[:bold_blue], "#{I18n.t('managed_reports.generated_on', locale: locale)}: ",
+      formats[:bold_blue], "#{I18n.t('managed_reports.generated_on', locale:)}: ",
       formats[:black], Time.now.strftime('%Y-%m-%d %H:%M:%S'),
       formats[:black]
     )
     self.current_row += 1
-  end
-
-  def write_table_header(indicator_key, total_i18n_key = 'managed_reports.total')
-    write_grey_row
-
-    worksheet.set_row(current_row, 30)
-    worksheet.merge_range(
-      current_row, 0, current_row, 1,
-      I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{indicator_key}", locale: locale),
-      formats[:blue_header]
-    )
-    self.current_row += 1
-
-    write_total_row(total_i18n_key)
-  end
-
-  def write_total_row(total_i18n_key)
-    worksheet.set_row(current_row, 40)
-    worksheet.write(current_row, 1, I18n.t(total_i18n_key, locale: locale), formats[:bold_blue])
-    self.current_row += 1
-  end
-
-  def write_graph(table_data_rows)
-    return unless table_data_rows.present?
-
-    chart = workbook.add_chart(type: 'column', embedded: 1, name: '')
-    chart.add_series(build_series(table_data_rows))
-    chart.set_size(height: INITIAL_CHART_HEIGHT, width: chart_width(table_data_rows))
-    chart.set_legend(none: true)
-    chart.set_y_axis(major_unit: 1)
-    worksheet.insert_chart(current_row, 0, chart, 0, 0)
-
-    self.current_row += (INITIAL_CHART_HEIGHT / EXCEL_ROW_HEIGHT)
-  end
-
-  def build_series(table_data_rows)
-    {
-      categories: [worksheet.name] + table_data_rows + [0, 0],
-      values: [worksheet.name] + table_data_rows + [1, 1],
-      points: Exporters::ManagedReportExporter::CHART_COLORS.values.map { |color| { fill: { color: color } } }
-    }
-  end
-
-  def chart_width(table_data_rows)
-    row_count = table_data_rows.last - table_data_rows.first
-    return INITIAL_CHART_WIDTH if row_count < 3
-
-    INITIAL_CHART_WIDTH + (row_count * EXCEL_COLUMN_WIDTH)
   end
 
   def transform_entries
@@ -195,66 +85,36 @@ class Exporters::SubreportExporter < ValueObject
     transform_entries.each do |(indicator_key, indicator_values)|
       next unless indicator_values.is_a?(Array)
 
-      if grouped_by.present?
-        write_grouped_indicator(indicator_key, indicator_values)
-      else
-        write_indicator(indicator_key, indicator_values)
-      end
+      indicator_exporter = build_indicator_exporter(indicator_key, indicator_values)
+      indicator_exporter.write
+      self.current_row = indicator_exporter.current_row
     end
   end
 
-  def write_indicator(indicator_key, indicator_values)
-    indicator_lookups = lookups[indicator_key]
-    write_table_header(indicator_key)
-    start_row = current_row
-    write_indicator_data(indicator_values, indicator_lookups)
-    last_row = current_row - 1
-    write_graph([start_row, last_row])
-    self.current_row += 1
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
+  def build_indicator_exporter(indicator_key, indicator_values)
+    indicator_exporter_class.new(
+      key: indicator_key,
+      values: indicator_values,
+      worksheet:,
+      lookups: lookups[indicator_key],
+      current_row:,
+      grouped_by:,
+      formats:,
+      managed_report:,
+      locale:,
+      workbook:,
+      subcolumn_lookups: subcolumn_lookups[indicator_key],
+      indicator_rows: metadata_property('indicators_rows')&.dig(indicator_key),
+      indicator_subcolumns: indicators_subcolumns[indicator_key]
+    )
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
-  def write_indicator_data(values, indicator_lookups)
-    values.each do |elem|
-      if elem == values.last
-        write_indicator_last_row(elem, indicator_lookups)
-      else
-        write_indicator_row(elem, indicator_lookups)
-      end
-      self.current_row += 1
-    end
-  end
-
-  def write_indicator_row(elem, indicator_lookups)
-    display_text = value_display_text(elem, indicator_lookups)
-    worksheet.write(current_row, 0, display_text, formats[:bold_black])
-    worksheet.write(current_row, 1, elem['total'])
-  end
-
-  def write_indicator_last_row(elem, indicator_lookups)
-    display_text = value_display_text(elem, indicator_lookups)
-    worksheet.write(current_row, 0, display_text, formats[:bold_black_blue_bottom_border])
-    worksheet.write(current_row, 1, elem['total'], formats[:blue_bottom_border])
-  end
-
-  def value_display_text(elem, indicator_lookups)
-    return I18n.t('managed_reports.incomplete_data') if elem.is_a?(Hash) && elem['id'].nil?
-
-    if indicator_lookups.blank?
-      return I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{elem['id']}", default: elem['id'])
-    end
-
-    display_text_from_lookup(elem, indicator_lookups) || elem['id']
-  end
-
-  def display_text_from_lookup(elem, indicator_lookups)
-    if indicator_lookups.is_a?(LocationService)
-      return indicator_lookups.find_by_code(elem['id'])&.name_i18n&.dig(I18n.locale.to_s)
-    end
-
-    indicator_lookups.find do |lookup_value|
-      value = elem.is_a?(Hash) ? elem['id'] : elem
-      lookup_value['id'] == value
-    end&.dig('display_text')
+  def indicator_exporter_class
+    grouped_by.present? ? Exporters::GroupedIndicatorExporter : Exporters::IndicatorExporter
   end
 
   def transform_indicator_values(values)
@@ -267,49 +127,38 @@ class Exporters::SubreportExporter < ValueObject
   end
 
   def find_lookup(value)
-    Lookup.values(value, nil, { locale: locale })
+    Lookup.values(value, nil, { locale: })
   end
 
   def load_lookups
-    subreport_lookups = metadata_property('lookups')
+    self.lookups = load_lookup_config(metadata_property('lookups') || {})
+    self.subcolumn_lookups = load_lookup_config(indicator_subcolumn_lookups)
+  end
 
-    self.lookups = (subreport_lookups || []).reduce({}) do |acc, (key, value)|
+  def load_lookup_config(lookup_config)
+    lookup_config.reduce({}) do |acc, (key, value)|
+      next acc.merge(key => user_group_as_lookup_values) if %w[UserGroupPermitted].include?(value)
+
       if %w[reporting_location reporting_location_detention reporting_location_denial].include?(key)
         next acc.merge(key => LocationService.instance)
       end
 
-      lookup_obj = value.is_a?(Array) ? value.map { |l| [l, find_lookup(l)] }.to_h : find_lookup(value)
+      lookup_obj = value.is_a?(Array) ? value.to_h { |l| [l, find_lookup(l)] } : find_lookup(value)
 
       acc.merge(key => lookup_obj)
     end
+  end
+
+  def user_group_as_lookup_values
+    UserGroup.all.map { |user_group| { 'id' => user_group.unique_id, 'display_text' => user_group.name } }
   end
 
   def load_indicators_subcolumns
     self.indicators_subcolumns = metadata_property('indicators_subcolumns')
   end
 
-  def date_display_text
-    date_field_name = managed_report.date_field_name
-
-    return unless date_field_name.present?
-
-    I18n.t("managed_reports.#{managed_report.id}.filter_options.#{date_field_name}", locale: locale)
-  end
-
-  def date_range_display_text
-    date_range_value = managed_report.date_range_value
-
-    return I18n.t('managed_reports.date_range_options.custom', locale: locale) unless date_range_value.present?
-
-    I18n.t("managed_reports.date_range_options.#{date_range_value}", locale: locale)
-  end
-
-  def verification_display_text
-    verified_value = managed_report.verified_value
-
-    return unless verified_value.present? && verified_value == 'verified'
-
-    I18n.t('managed_reports.violations.filter_options.verified', locale: locale)
+  def indicator_subcolumn_lookups
+    (indicators_subcolumns || {}).select { |_key, value| value.is_a?(String) }
   end
 
   def metadata_property(property)

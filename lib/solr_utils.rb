@@ -5,7 +5,7 @@ class SolrUtils
   # TODO: Any connection tests?
 
   # Taken from https://github.com/rsolr/rsolr/blob/v2.5.0/lib/rsolr.rb#L34
-  SPECIAL_CHARACTERS_REGEX = %r(([+\-&|!\(\)\{\}\[\]\^"~\*\?:\\\/])).freeze
+  SPECIAL_CHARACTERS_REGEX = %r(([+\-&|!\(\){}\[\]\^"~*?:\\/]))
 
   # Return the raw Rsolr connection used by Sunspot
   def self.sunspot_rsolr
@@ -34,7 +34,7 @@ class SolrUtils
   def self.unescape(value)
     return value unless special_characters?(value)
 
-    value.gsub(/\\/, '')
+    value.gsub('\\', '')
   end
 
   def self.special_characters?(value)

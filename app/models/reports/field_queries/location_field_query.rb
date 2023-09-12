@@ -16,8 +16,8 @@ class Reports::FieldQueries::LocationFieldQuery < Reports::FieldQueries::FieldQu
             from locations where location_code = #{data_column_name}->>:field_name
           ) as #{column_name}
         ),
-        field_name: field.name,
-        admin_level: admin_level
+        { field_name: field.name,
+          admin_level: }
       ]
     )
   end

@@ -43,6 +43,7 @@ class Child < ApplicationRecord
   include FollowUpable
   include LocationCacheable
 
+  # rubocop:disable Naming/VariableNumber
   store_accessor(
     :data,
     :case_id, :case_id_code, :case_id_display,
@@ -61,19 +62,22 @@ class Child < ApplicationRecord
     :location_current, :tracing_status, :name_caregiver,
     :registry_id_display, :registry_name, :registry_no, :registry_location_current,
     :urgent_protection_concern, :child_preferences_section, :family_details_section, :care_arrangements_section,
-    :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan
+    :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan,
+    :family_member_id, :family_id_display, :family_number
   )
+  # rubocop:enable Naming/VariableNumber
 
   has_many :incidents, foreign_key: :incident_case_id
   has_many :matched_traces, class_name: 'Trace', foreign_key: 'matched_case_id'
   has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
   belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id', optional: true
   belongs_to :registry_record, foreign_key: :registry_record_id, optional: true
+  belongs_to :family, foreign_key: :family_id, optional: true
 
   scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
 
   def self.sortable_text_fields
-    %w[name case_id_display national_id_no registry_no]
+    %w[name case_id_display national_id_no registry_no family_number]
   end
 
   def self.filterable_id_fields
@@ -82,7 +86,8 @@ class Child < ApplicationRecord
     %w[ unique_identifier short_id case_id_display case_id
         ration_card_no icrc_ref_no rc_id_no unhcr_id_no unhcr_individual_no un_no
         other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
-        family_count_no dss_id camp_id tent_number nfi_distribution_id oscar_number registry_no ]
+        family_count_no dss_id camp_id tent_number nfi_distribution_id oscar_number registry_no
+        family_number ]
   end
 
   def self.quicksearch_fields
@@ -125,9 +130,9 @@ class Child < ApplicationRecord
   searchable do
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
-    Child.child_matching_field_names.each { |f| text_index(f, suffix: 'matchable') }
+    Child.child_matching_field_names.each { |f| text_index(f, 'matchable') }
     Child.family_matching_field_names.each do |f|
-      text_index(f, suffix: 'matchable', subform_field_name: 'family_details_section')
+      text_index(f, 'matchable', :itself, 'family_details_section')
     end
     quicksearch_fields.each { |f| text_index(f) }
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
@@ -151,17 +156,20 @@ class Child < ApplicationRecord
   before_save :sync_protection_concerns
   before_save :auto_populate_name
   before_save :stamp_registry_fields
+  before_save :stamp_family_fields
   before_save :calculate_has_case_plan
   before_create :hide_name
   after_save :save_incidents
+  after_save :associate_family_member
+  after_save :save_family
 
   class << self
     alias super_new_with_user new_with_user
     def new_with_user(user, data = {})
-      new_case = super_new_with_user(user, data).tap do |local_case|
+      super_new_with_user(user, data).tap do |local_case|
         local_case.registry_record_id ||= local_case.data.delete('registry_record_id')
+        local_case.family_id ||= local_case.data.delete('family_id')
       end
-      new_case
     end
   end
 
@@ -208,6 +216,7 @@ class Child < ApplicationRecord
   alias super_update_properties update_properties
   def update_properties(user, data)
     build_or_update_incidents(user, (data.delete('incident_details') || []))
+    update_family(data) if family.present?
     self.registry_record_id = data.delete('registry_record_id') if data.key?('registry_record_id')
     self.mark_for_reopen = @incidents_to_save.present?
     super_update_properties(user, data)
@@ -233,6 +242,29 @@ class Child < ApplicationRecord
     Incident.transaction do
       @incidents_to_save.each(&:save!)
     end
+  end
+
+  def update_family(case_data)
+    family.family_number = case_data['family_number'] if case_data.key?('family_number')
+
+    update_family_members(case_data.delete('family_details_section') || [])
+  end
+
+  def update_family_members(family_details_section_data)
+    return unless family_details_section_data.present?
+
+    @family_members = FamilyLinkageService.build_or_update_family_members(
+      family_details_section_data,
+      family.family_members || []
+    )
+    self.family_details_section = FamilyLinkageService.family_details_section_local_data(family_details_section_data)
+  end
+
+  def save_family
+    return unless family.present?
+
+    family.family_members = @family_members if @family_members.present?
+    family.save! if family.has_changes_to_save?
   end
 
   def to_s
@@ -303,12 +335,36 @@ class Child < ApplicationRecord
     self.registry_location_current = registry_record&.location_current
   end
 
+  def stamp_family_fields
+    return unless changes_to_save.key?('family_id')
+
+    self.family_id_display = family&.family_id_display
+    self.family_number = family&.family_number
+  end
+
+  def associate_family_member
+    return unless saved_changes_to_record.keys.include?('family_member_id')
+
+    family.family_members = family.family_members.map do |member|
+      next(member) unless member['unique_id'] == family_member_id
+
+      member.merge('case_id' => id, 'case_id_display' => case_id_display)
+    end
+  end
+
+  def find_family_detail(family_detail_id)
+    family_detail = family_details_section.find { |member| member['unique_id'] == family_detail_id }
+    return family_detail if family_detail.present?
+
+    raise(ActiveRecord::RecordNotFound, "Couldn't find Family Detail with 'id'=#{family_detail_id}")
+  end
+
   def match_criteria
     match_criteria = data.slice(*Child.child_matching_field_names).compact
     match_criteria = match_criteria.merge(
-      Child.family_matching_field_names.map do |field_name|
+      Child.family_matching_field_names.to_h do |field_name|
         [field_name, values_from_subform('family_details_section', field_name)]
-      end.to_h
+      end
     )
     match_criteria = match_criteria.transform_values { |v| v.is_a?(Array) ? v.join(' ') : v }
     match_criteria.select { |_, v| v.present? }

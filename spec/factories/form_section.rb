@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :form_section, traits: [:active_model] do
     unique_id { "form_section_#{counter}" }

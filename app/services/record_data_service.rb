@@ -32,7 +32,7 @@ class RecordDataService
     data = embed_flag_metadata(data, record, selected_field_names)
     data = embed_alert_metadata(data, record, selected_field_names)
     data = embed_registry_record_info(data, record, selected_field_names)
-    data
+    embed_family_info(data, record, selected_field_names)
   end
 
   def select_fields(data, selected_field_names)
@@ -93,6 +93,30 @@ class RecordDataService
     data
   end
 
+  def embed_family_info(data, record, selected_field_names)
+    return data unless record.is_a?(Child) && record.family_id.present?
+
+    data['family_id'] = record.family_id if selected_field_names.include?('family_id')
+    data['family_member_id'] = record.family_member_id if selected_field_names.include?('family_member_id')
+    data['family_number'] = record.family_number if selected_field_names.include?('family_number')
+    data = embed_family_details(data, record, selected_field_names)
+    embed_family_details_section(data, record, selected_field_names)
+  end
+
+  def embed_family_details(data, record, selected_field_names)
+    family_details = FamilyLinkageService.family_to_child(record.family)
+    field_names = selected_field_names & FamilyLinkageService::GLOBAL_FAMILY_FIELDS
+    field_names.each { |field_name| data[field_name] = family_details[field_name] }
+    data
+  end
+
+  def embed_family_details_section(data, record, selected_field_names)
+    return data unless selected_field_names.include?('family_details_section')
+
+    data['family_details_section'] = FamilyLinkageService.family_details_section_for_child(record)
+    data
+  end
+
   def embed_associations_as_data(data, record, selected_field_names, current_user)
     return data unless (record.associations_as_data_keys & selected_field_names).present?
 
@@ -100,7 +124,7 @@ class RecordDataService
   end
 
   def embed_case_data(data, record, selected_field_names)
-    return data unless record.class == Incident && record.incident_case_id.present?
+    return data unless record.instance_of?(Incident) && record.incident_case_id.present?
 
     data['incident_case_id'] = record.incident_case_id if selected_field_names.include?('incident_case_id')
     data['case_id_display'] = record.case_id_display if selected_field_names.include?('case_id_display')
@@ -108,7 +132,7 @@ class RecordDataService
   end
 
   def embed_incident_data(data, record, selected_field_names)
-    return data unless record.class == Incident
+    return data unless record.instance_of?(Incident)
 
     if selected_field_names.include?('incident_date_derived')
       data['incident_date_derived'] = record.incident_date_derived
@@ -122,7 +146,7 @@ class RecordDataService
     # TODO: Dynamically figuring out computed fields makes lots of unnecessary queries. Would be nice though.
     # computed_fields = (record.methods.map(&:to_s) - data.keys)
     computed_fields = COMPUTED_FIELDS & selected_field_names
-    # Note: For now we are choosing to discard computed nil values to avoid inserting nil data acccessor values.
+    # NOTE: For now we are choosing to discard computed nil values to avoid inserting nil data acccessor values.
     #       Revisit if we want to always display nils for certain computed fields.
     computed_data = record.slice(*computed_fields).compact
     data.merge(computed_data)

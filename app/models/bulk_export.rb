@@ -57,7 +57,7 @@ class BulkExport < ApplicationRecord
 
     @exporter = exporter_type.new(
       stored_file_name,
-      { record_type: record_type, user: owner },
+      { record_type:, user: owner },
       custom_export_params&.with_indifferent_access || {}
     )
   end
@@ -122,7 +122,7 @@ class BulkExport < ApplicationRecord
     loop do
       results = SearchService.search(model_class,
                                      filters: search_filters, query_scope: record_query_scope,
-                                     query: query, sort: order, pagination: { page: page, per_page: batch }).results
+                                     query:, sort: order, pagination: { page:, per_page: batch }).results
       yield(results)
       # Set again the values of the pagination variable because the method modified the variable.
       page = results.next_page

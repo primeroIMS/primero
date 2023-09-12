@@ -26,7 +26,7 @@ describe Api::V2::SystemSettingsController, type: :request do
       editable: true,
       name_all: 'Form Section Test 2',
       description_all: 'Form Section Test 2',
-      fields: fields
+      fields:
     )
     form.save!
     @agency_a = Agency.create!(name: 'Agency test', agency_code: 'AAA')

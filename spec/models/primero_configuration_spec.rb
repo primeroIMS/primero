@@ -15,7 +15,7 @@ describe PrimeroConfiguration do
     @module1 = PrimeroModule.create!(
       unique_id: 'primeromodule-cp-a', name: 'CPA', associated_record_types: %w[case], form_sections: [@form1]
     )
-    @role1 = Role.create!(name: 'Role', permissions: permissions, primero_modules: [@module1])
+    @role1 = Role.create!(name: 'Role', permissions:, primero_modules: [@module1])
     @user_group1 = UserGroup.create!(name: 'Test Group')
     @report1 = Report.create!(
       record_type: 'case', name_en: 'Test', unique_id: 'report-test',
@@ -37,7 +37,7 @@ describe PrimeroConfiguration do
       expect(current_configuration_data.keys).to match_array(
         %w[FormSection Lookup Agency Role UserGroup Report ContactInformation]
       )
-      current_configuration_data.values.each do |config_records|
+      current_configuration_data.each_value do |config_records|
         expect(config_records).to be_a_kind_of(Array)
         expect(config_records.size.positive?).to be_truthy
       end
@@ -143,7 +143,7 @@ describe PrimeroConfiguration do
 
     it 'creates a new form' do
       unique_id = 'X'
-      new_form = FormSection.create!(unique_id: unique_id, name: 'X', parent_form: 'case', form_group_id: 'm')
+      new_form = FormSection.create!(unique_id:, name: 'X', parent_form: 'case', form_group_id: 'm')
       @module1.form_sections << new_form
       @module1.save!
       @role1.associate_all_forms

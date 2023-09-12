@@ -42,9 +42,9 @@ class Api::V2::TransferRequestsController < Api::V2::RecordResourceController
     consent_individual_transfer = params[:data][:consent_individual_transfer] || false
     TransferRequest.create!(
       transitioned_by: current_user.user_name,
-      consent_individual_transfer: consent_individual_transfer,
+      consent_individual_transfer:,
       transitioned_to: record.owned_by,
-      notes: notes, record: record
+      notes:, record:
     )
   end
 end

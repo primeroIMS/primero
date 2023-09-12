@@ -56,7 +56,7 @@ class Approval < ValueObject
     def get!(approval_id, record, user, params = {})
       raise Errors::UnknownPrimeroEntityType, 'approvals.error_invalid_approval' if types.exclude?(approval_id)
 
-      Approval.new(approval_id: approval_id, record: record, user: user,
+      Approval.new(approval_id:, record:, user:,
                    fields: "Approval::#{approval_id.upcase}_FIELDS".constantize, approval_type: params[:approval_type],
                    comments: params[:notes])
     end
@@ -127,11 +127,11 @@ class Approval < ValueObject
   end
 
   def approval_request_action(status, approval_id, requested_by)
-    approval_action(status, approval_requested_for: approval_id, requested_by: requested_by)
+    approval_action(status, approval_requested_for: approval_id, requested_by:)
   end
 
   def approval_response_action(status, approval_id, approved_by, comments = nil)
-    approval_action(status, approval_response_for: approval_id, approval_status: status, approved_by: approved_by,
+    approval_action(status, approval_response_for: approval_id, approval_status: status, approved_by:,
                             approval_manager_comments: comments)
   end
 
