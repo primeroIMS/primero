@@ -4,7 +4,16 @@ require 'rails_helper'
 
 describe Exporters::JsonExporter do
   before :each do
-    clean_data(User, Role, Field, FormSection, PrimeroModule)
+    clean_data(Child, Family, User, Role, Field, FormSection, PrimeroModule)
+
+    family = Family.create!(
+      data: {
+        family_members: [
+          { unique_id: '001', relation_name: 'FirstName1 LastName1', relation_age: 10, relation_sex: 'male' },
+          { unique_id: '002', relation_name: 'FirstName2 LastName2', relation_age: 12, relation_sex: 'female' }
+        ]
+      }
+    )
 
     fields = [
       build(:field, name: 'name_first'),
@@ -19,6 +28,40 @@ describe Exporters::JsonExporter do
       )
     ]
     form = create(:form_section, unique_id: 'form_section_exporter', fields:)
+    family_details_section = FormSection.new(
+      unique_id: 'family_details_section',
+      name: 'Nested Family Details',
+      parent_form: 'case',
+      visible: true,
+      is_nested: true,
+      fields: [
+        Field.new(name: 'relation_name', display_name: 'Name', type: 'text_field', visible: true),
+        Field.new(name: 'relation_age', display_name: 'Age', type: 'numeric_field', visible: true),
+        Field.new(name: 'relation_sex', display_name: 'Sex', type: 'text_field', visible: true),
+        Field.new(name: 'relation', display_name: 'Relation', type: 'text_field', visible: true)
+      ]
+    )
+    family_details_section.save!
+
+    form_family = FormSection.new(
+      unique_id: 'family_details',
+      name: 'Family Details',
+      parent_form: 'case',
+      visible: true,
+      form_group_id: 'case_form_1',
+      order: 7,
+      fields: [
+        Field.new(
+          name: 'family_details_section',
+          display_name_en: 'Family Details',
+          type: 'subform',
+          editable: true,
+          subform_section_id: family_details_section.id,
+          visible: true
+        )
+      ]
+    )
+    form_family.save!
     primero_module = PrimeroModule.new(name: 'CP')
     primero_module.save(validate: false)
     permissions = Permission.new(
@@ -26,7 +69,7 @@ describe Exporters::JsonExporter do
     )
     role = Role.new(
       is_manager: false, modules: [primero_module],
-      permissions: [permissions], form_sections: [form]
+      permissions: [permissions], form_sections: [form, form_family]
     )
     role.save(validate: false)
     @user = User.new(user_name: 'user1', role:)
@@ -42,9 +85,21 @@ describe Exporters::JsonExporter do
         ]
       }
     )
+    @record2 = Child.create!(
+      family:,
+      data: {
+        family_member_id: '001',
+        first_name: 'FirstName1',
+        last_name: 'LastName1',
+        age: 10,
+        sex: 'male',
+        family_details_section: [{ unique_id: '002', relation: 'relation2' }]
+      }
+    )
   end
 
   let(:data_hash) { JSON.parse(Exporters::JsonExporter.export([@record], nil, { user: @user })) }
+  let(:data_hash2) { JSON.parse(Exporters::JsonExporter.export([@record2], nil, { user: @user })) }
 
   it 'converts models to JSON format' do
     expect(data_hash.size).to eq(1)
@@ -55,10 +110,21 @@ describe Exporters::JsonExporter do
   it 'handles nested data' do
     expect(data_hash[0]['data']['family_details_section'].size).to eq(2)
     expect(data_hash[0]['data']['family_details_section'][0]['relation_name']).to eq('John')
+    expect(data_hash[0]['data']['family_details_section'][0]['relation']).to eq('father')
+    expect(data_hash[0]['data']['family_details_section'][1]['relation_name']).to eq('Mary')
+    expect(data_hash[0]['data']['family_details_section'][1]['relation']).to eq('mother')
   end
 
   it 'excludes un-permitted properties' do
     expect(data_hash[0]['data']['nickname']).to be_nil
+  end
+
+  it 'handles family linked data' do
+    expect(data_hash2[0]['data']['family_details_section'].size).to eq(1)
+    expect(data_hash2[0]['data']['family_details_section'][0]['relation_name']).to eq('FirstName2 LastName2')
+    expect(data_hash2[0]['data']['family_details_section'][0]['relation']).to eq('relation2')
+    expect(data_hash2[0]['data']['family_details_section'][0]['relation_sex']).to eq('female')
+    expect(data_hash2[0]['data']['family_details_section'][0]['relation_age']).to eq(12)
   end
 
   after :each do
