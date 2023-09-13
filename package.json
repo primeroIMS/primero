@@ -23,7 +23,7 @@
     "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test:all",
     "test:run": "NODE_ENV=test mocha --timeout 8000  --check-leaks --parallel --reporter=dot --exit",
     "test:all-bb": "NODE_ENV=test mocha --timeout 8000 --check-leaks --reporter=dot './app/javascript/**/*.unit.test.js'",
-    "test:new": "NODE_ENV=test jest --silent",
+    "test:new": "NODE_ENV=test jest",
     "jscpd": "npm run jscpd:run 'app/javascript/**'",
     "jscpd:run": "jscpd",
     "lint": "npm run lint:run -- --fix",
@@ -220,6 +220,7 @@
     "printWidth": 120
   },
   "dependencies": {
-    "@welldone-software/why-did-you-render": "^6.2.0"
+    "@welldone-software/why-did-you-render": "^6.2.0",
+    "react-16-node-hanging-test-fix": "^1.0.0"
   }
 }
