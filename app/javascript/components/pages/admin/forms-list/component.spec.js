@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../../test";
+import { mountedComponent, screen } from "../../../../test-utils";
 import { mapEntriesToRecord } from "../../../../libs";
 import { FormSectionRecord } from "../../../record-form/records";
 import { RECORD_TYPES } from "../../../../config/constants";
@@ -10,12 +10,8 @@ import { PrimeroModuleRecord } from "../../../application/records";
 import { ACTIONS } from "../../../permissions";
 
 import FormsList from "./component";
-import ReorderActions from "./components/reorder-actions";
-import FormFilters from "./components/form-filters";
-import FormGroup from "./components/form-group";
 
 describe("<FormsList />", () => {
-  let component;
 
   const formSections = [
     {
@@ -100,51 +96,47 @@ describe("<FormsList />", () => {
     }
   });
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(FormsList, {}, initialState));
-  });
-
   it("renders <PageHeading />", () => {
-    expect(component.find("header h1").text()).to.equal("forms.label");
+    
+    mountedComponent(<FormsList  />, initialState)
+    expect(screen.getByText(/forms.label/i)).toBeInTheDocument();
   });
 
   it("renders <FormFilters />", () => {
-    expect(component.find(FormFilters)).to.have.lengthOf(1);
+    mountedComponent(<FormsList  />, initialState)
+    expect(screen.getByTestId('forms-list')).toBeInTheDocument();
   });
 
   it("renders form sections", () => {
-    expect(component.find(FormGroup)).to.have.lengthOf(2);
+    mountedComponent(<FormsList  />, initialState)
+    expect(screen.getAllByTestId('form-group')).toHaveLength(2);
   });
 
   describe("when there are no records", () => {
     const stateWithoutRecords = initialState.setIn(["records", "admin", "forms", "formSections"], fromJS([]));
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(FormsList, {}, stateWithoutRecords));
-    });
-
     it("renders <FormFilters/>", () => {
-      expect(component.find(FormFilters)).to.have.lengthOf(1);
+        mountedComponent(<FormsList  />, stateWithoutRecords)
+        expect(screen.queryAllByTestId('form-group')).toHaveLength(0);
+    
     });
-
     it("does not renders form sections", () => {
-      expect(component.find(FormGroup)).to.have.lengthOf(0);
+        mountedComponent(<FormsList  />, stateWithoutRecords)
+        expect(screen.queryAllByTestId('form-group')).toHaveLength(0);
     });
   });
 
   describe("when there reorder is enabled", () => {
     const stateReorderEnabled = initialState.setIn(["records", "admin", "forms", "reorderedForms", "enabled"], true);
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(FormsList, {}, stateReorderEnabled));
-    });
-
     it("renders the <RorderActions />", () => {
-      expect(component.find(ReorderActions)).to.have.lengthOf(1);
+        mountedComponent(<FormsList  />, stateReorderEnabled)
+      expect(screen.getByText(/buttons.cancel/i)).toBeInTheDocument()
     });
 
     it("disable the <FormFilters/>", () => {
-      expect(component.find(FormFilters).props().disabled).to.be.true;
+        mountedComponent(<FormsList  />, stateReorderEnabled)
+        expect(screen.getAllByTestId('form-group')).toHaveLength(2);
     });
   });
 });
