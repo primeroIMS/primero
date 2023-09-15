@@ -8,7 +8,6 @@ import { fromJS } from "immutable";
 import omit from "lodash/omit";
 import { useI18n } from "../../i18n";
 import merge from "deepmerge";
-import ActionDialog from "../../action-dialog";
 import buildSelectedIds from "../utils/build-selected-ids";
 import { useMemoizedSelector, dataToJS } from "../../../libs";
 import { getMetadata } from "../../record-list/selectors";
@@ -20,6 +19,12 @@ import { NAME } from "./constants";
 import IndexTable from "../../index-table";
 import { clearDialog } from "../../action-dialog/action-creators";
 import { fetchCasePotentialMatches, fetchLinkIncidentToCaseData } from "../../records";
+import SubformDrawer from "../../record-form/form/subforms/subform-drawer";
+//import { setSelectedPotentialMatch, fetchTracePotentialMatches } from "../../../../../../records";
+import ActionButton from "../../action-button";
+import ClearIcon from "@material-ui/icons/Clear";
+import CheckIcon from "@material-ui/icons/Check";
+import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
 const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRecords, recordType }) => {
   const i18n = useI18n();
@@ -110,7 +115,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   const handleSelectedRecords = (index) => {
     if (index[0].length === 1) {
       setSelectedRecords(index);
-      const {id, case_id_display} = fetchIdFromPosition(index);
+      const { id, case_id_display } = fetchIdFromPosition(index);
       setSelectedCaseId(id);
       setSelectedCaseDisplayId(case_id_display)
       setDelayStateUpdate(false);
@@ -123,30 +128,44 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   const fetchIdFromPosition = (index) => {
     if (dataToJS(caseData) && dataToJS(caseData).length > index[0][0]) {
       const object = dataToJS(caseData)[index[0][0]];
-      return {id: object.id, case_id_display: object.case_id_display};
+      return { id: object.id, case_id_display: object.case_id_display };
     }
     return null;
   };
 
   return (
     <>
-      <ActionDialog
-        open={open}
-        successHandler={handleOk}
-        cancelHandler={onClose}
-        onClose={onClose}
-        dialogTitle={i18n.t("incident.link_incident_to_case")}
-        dialogText={""}
-        confirmButtonLabel={"Link"}
-        enabledSuccessButton={selectedCaseId !== undefined && selectedCaseId !== null ? true : false}
-        omitCloseAfterSuccess>
+      <SubformDrawer title={i18n.t("incident.link_incident_to_case")} open={open} cancelHandler={onClose} >
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(handleSubmit)} data-testid="search-form-for-link-to-case">
             <Search />
           </form>
         </FormProvider>
         <IndexTable {...tableOptions} selectedRecords={selectedRows} setSelectedRecords={(event) => { handleSelectedRecords(event) }} />
-      </ActionDialog>
+        {dataToJS(caseData) && dataToJS(caseData).length > 0 ? (
+          <>
+            <ActionButton
+              id="link-to-incident-link-button"
+              icon={<CheckIcon />}
+              text="buttons.ok"
+              type={ACTION_BUTTON_TYPES.default}
+              rest={{
+                onClick: handleOk,
+              }}
+            />
+            <ActionButton
+              id="link-to-incident-cancel-button"
+              icon={<ClearIcon />}
+              text="buttons.cancel"
+              type={ACTION_BUTTON_TYPES.default}
+              cancel
+              rest={{
+                onClick: onClose
+              }}
+            />
+          </>
+        ) : null}
+      </SubformDrawer>
     </>
   );
 };
