@@ -1,13 +1,10 @@
-import { setupMockFormComponent } from "../../../../../../../test";
-import FormSection from "../../../../../../form/components/form-section";
-import TraceActions from "../trace-actions";
+import { mountedFormComponent, screen } from "../../../../../../../test-utils";
 import { FormSectionRecord, FieldRecord } from "../../../../../records";
 import { TEXT_FIELD } from "../../../../../constants";
 
 import TracesForm from "./component";
 
 describe("<RecordForm>/form/subforms/<TracesForm>", () => {
-  let component;
   const props = {
     handleBack: () => {},
     traceValues: {},
@@ -19,15 +16,13 @@ describe("<RecordForm>/form/subforms/<TracesForm>", () => {
     mode: { isEdit: false }
   };
 
-  beforeEach(() => {
-    ({ component } = setupMockFormComponent(TracesForm, { props }));
-  });
-
   it("should render the TraceActions", () => {
-    expect(component.find(TraceActions)).to.have.lengthOf(1);
+    mountedFormComponent(<TracesForm { ...props }/>);
+    expect(screen.getByTestId("subForm-traces")).toBeInTheDocument();
   });
 
   it("should render a FormSection", () => {
-    expect(component.find(FormSection)).to.have.lengthOf(1);
+    mountedFormComponent(<TracesForm { ...props } />);
+    expect(screen.getByRole("textbox")).toBeInTheDocument();
   });
 });
