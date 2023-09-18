@@ -4210,6 +4210,7 @@ en:
     receive_webpush:
       label: Receive push notifications?
       help_text: Note that you will still need to allow push notifications on your device’s browser.
+      tooltip: You must first edit your account and enable push notifications for your user.
     user_group_unique_ids: User Groups
     user_name: Username
     services: Services

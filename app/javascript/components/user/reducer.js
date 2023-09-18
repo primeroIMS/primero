@@ -7,7 +7,8 @@ import Actions from "./actions";
 import { ListHeaderRecord, FilterRecord } from "./records";
 
 const DEFAULT_STATE = Map({
-  isAuthenticated: false
+  isAuthenticated: false,
+  loaded: false
 });
 
 export default (state = DEFAULT_STATE, { type, payload }) => {
@@ -58,7 +59,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           codeOfConductId,
           codeOfConductAcceptedOn,
           permittedRoleUniqueIds,
-          managedReportScope
+          managedReportScope,
+          loaded: true
         })
       );
     }
