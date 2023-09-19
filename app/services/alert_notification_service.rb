@@ -65,4 +65,12 @@ class AlertNotificationService
       locale:
     )
   end
+
+  private
+
+  def log_not_found(type, id)
+    Rails.logger.error(
+      "Notification not sent. #{type.capitalize} #{id} not found."
+    )
+  end
 end

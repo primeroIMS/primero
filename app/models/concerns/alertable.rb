@@ -12,6 +12,11 @@ module Alertable
   TRANSFER_REQUEST = 'transfer_request'
   INCIDENT_FROM_CASE = 'incident_from_case'
 
+  module AlertStrategy
+    ASSOCIATED_USERS = 'associated_users'
+    NOT_OWNER = 'not_owner' # this is the default
+  end
+
   included do
     searchable do
       string :current_alert_types, multiple: true
@@ -40,38 +45,36 @@ module Alertable
   end
 
   def remove_field_change_alerts
-    alerts_on_change.each { |_, form_name| remove_alert(form_name) }
-  end
+    alerts_on_change.each do |_, conf_record|
+      next if conf_record.alert_strategy == AlertStrategy::ASSOCIATED_USERS
 
-  def add_alert_on_field_change
-    # Email alerts
-    add_email_alert_on_field_change
-    # Non-email alerts
-    return unless owned_by != last_updated_by
-    return unless alerts_on_change.present?
-
-    changed_field_names = changes_to_save_for_record.keys
-    alerts_on_change.each do |field_name, form_name|
-      next unless changed_field_names.include?(field_name)
-
-      add_alert(alert_for: FIELD_CHANGE, date: Date.today,
-                type: form_name, form_sidebar_id: form_name)
+      remove_alert(conf_record.form_section_name)
     end
   end
 
-  def add_email_alert_on_field_change
-    # This creates an alert that also sends an email, but otherwise is similar to normal field alerts
-    # It differs in that it will still create an alert even if the user is the owner.
-    email_field_names = email_alerts_on_change&.keys
-    return unless email_field_names.present?
+  def add_alert_on_field_change
+    return unless alerts_on_change.present?
 
     changed_field_names = changes_to_save_for_record.keys
-    email_alerts_on_change.each do |field_name, form_name|
+    alerts_on_change.each do |field_name, conf_record|
       next unless changed_field_names.include?(field_name)
 
-      add_alert(alert_for: FIELD_CHANGE, date: Date.today,
-                type: form_name, form_sidebar_id: form_name,
-                send_email: true)
+      add_field_alert(conf_record)
+    end
+  end
+
+  def add_field_alert(conf_record)
+    case conf_record.alert_strategy
+    when AlertStrategy::ASSOCIATED_USERS
+      add_alert(alert_for: FIELD_CHANGE, date: Date.today, type: conf_record.form_section_name,
+                form_sidebar_id: conf_record.form_section_name, send_email: true)
+
+    when AlertStrategy::NOT_OWNER
+      return if owned_by == last_updated_by
+
+      add_alert(alert_for: FIELD_CHANGE, date: Date.today, type: conf_record.form_section_name,
+                form_sidebar_id: conf_record.form_section_name)
+    else raise "Unknown alert strategy #{conf_record.alert_strategy}"
     end
   end
 
@@ -112,58 +115,76 @@ module Alertable
 
   def alerts_on_change
     @system_settings ||= SystemSettings.current
-    @system_settings&.changes_field_to_form
+    # changes field to form needs to be backwards compatible, so each of the
+    # values in the hash is either a string or a hash. If it's a string, it's
+    # the form name.  If it's a hash, it's the form name and the alert strategy
+    (
+      @system_settings&.changes_field_to_form&.map do |field_name, form_name_or_hash|
+        [field_name, AlertConfigEntry.new(form_name_or_hash)]
+      end).to_h
+  end
+end
+
+# Class methods that indicate alerts for all permitted records for a user.
+# TODO: This deserves its own service
+module ClassMethods
+  def alert_count(current_user)
+    query_scope = current_user.record_query_scope(self.class)[:user]
+    if query_scope.blank?
+      open_enabled_records.distinct.count
+    elsif query_scope[Permission::AGENCY].present?
+      alert_count_agency(current_user)
+    elsif query_scope[Permission::GROUP].present?
+      alert_count_group(current_user)
+    else
+      alert_count_self(current_user)
+    end
   end
 
-  def email_alerts_on_change
-    @system_settings || SystemSettings.current
-    @system_settings&.email_alert_on_change_field_to_form
+  def remove_alert(type = nil)
+    alerts_to_delete = alerts.select do |alert|
+      type.present? && alert.type == type && [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST].include?(alert.alert_for)
+    end
+
+    alerts.destroy(*alerts_to_delete)
   end
 
-  # Class methods that indicate alerts for all permitted records for a user.
-  # TODO: This deserves its own service
-  module ClassMethods
-    def alert_count(current_user)
-      query_scope = current_user.record_query_scope(self.class)[:user]
-      if query_scope.blank?
-        open_enabled_records.distinct.count
-      elsif query_scope[Permission::AGENCY].present?
-        alert_count_agency(current_user)
-      elsif query_scope[Permission::GROUP].present?
-        alert_count_group(current_user)
-      else
-        alert_count_self(current_user)
-      end
-    end
+  def alert_count_agency(current_user)
+    agency_unique_id = current_user.agency.unique_id
+    open_enabled_records.where("data -> 'associated_user_agencies' ? :agency", agency: agency_unique_id)
+                        .distinct.count
+  end
 
-    def remove_alert(type = nil)
-      alerts_to_delete = alerts.select do |alert|
-        type.present? && alert.type == type && [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST].include?(alert.alert_for)
-      end
+  def alert_count_group(current_user)
+    user_groups_unique_id = current_user.user_groups.pluck(:unique_id)
+    open_enabled_records.where(
+      "data -> 'associated_user_groups' ?& array[:group]",
+      group: user_groups_unique_id
+    ).distinct.count
+  end
 
-      alerts.destroy(*alerts_to_delete)
-    end
+  def alert_count_self(current_user)
+    open_enabled_records.owned_by(current_user.user_name).distinct.count
+  end
 
-    def alert_count_agency(current_user)
-      agency_unique_id = current_user.agency.unique_id
-      open_enabled_records.where("data -> 'associated_user_agencies' ? :agency", agency: agency_unique_id)
-                          .distinct.count
-    end
+  def open_enabled_records
+    joins(:alerts).where('data @> ?', { record_state: true, status: Record::STATUS_OPEN }.to_json)
+  end
+end
 
-    def alert_count_group(current_user)
-      user_groups_unique_id = current_user.user_groups.pluck(:unique_id)
-      open_enabled_records.where(
-        "data -> 'associated_user_groups' ?& array[:group]",
-        group: user_groups_unique_id
-      ).distinct.count
-    end
+# This class is used for the members of changes_field_to_form in system_settings.
+# It is used to store the form name, and the alert strategy (associated_users, owner, nobody)
+class AlertConfigEntry
+  attr_accessor :form_section_name, :alert_strategy
 
-    def alert_count_self(current_user)
-      open_enabled_records.owned_by(current_user.user_name).distinct.count
-    end
+  def initialize(args)
+    if args.is_a?(Hash)
+      @form_section_name = args['form_section_name']
+      @alert_strategy = args['alert_strategy'] || Alertable::AlertStrategy::NOT_OWNER
 
-    def open_enabled_records
-      joins(:alerts).where('data @> ?', { record_state: true, status: Record::STATUS_OPEN }.to_json)
+    else
+      @form_section_name = args
+      @alert_strategy = Alertable::AlertStrategy::NOT_OWNER
     end
   end
 end

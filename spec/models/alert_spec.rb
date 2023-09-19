@@ -27,7 +27,12 @@ describe Alert do
       clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Alert,
                  SystemSettings, Child)
       ss = SystemSettings.create!
-      ss.email_alert_on_change_field_to_form = { 'email_alertable_field' => 'some_formsection_name' }
+      ss.changes_field_to_form = {
+        'email_alertable_field' => {
+          form_section_name: 'some_formsection_name1',
+          alert_strategy: Alertable::AlertStrategy::ASSOCIATED_USERS
+        }
+      }
       ss.save!
       @owner = create :user, user_name: 'owner', full_name: 'Owner', email: 'owner@primero.dev'
       @provider = create :user, user_name: 'provider', full_name: 'Provider', email: 'provider@primero.dev'

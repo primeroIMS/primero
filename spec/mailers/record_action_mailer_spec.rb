@@ -6,8 +6,12 @@ describe RecordActionMailer, type: :mailer do
   before do
     clean_data(SystemSettings)
     SystemSettings.create(default_locale: 'en', unhcr_needs_codes_mapping: {},
-                          changes_field_to_form: {},
-                          email_alert_on_change_field_to_form: { 'email_alertable_field' => 'some_formsection_name' })
+                          changes_field_to_form: {
+                            'email_alertable_field' => {
+                              form_section_name: 'some_formsection_name',
+                              alert_strategy: Alertable::AlertStrategy::ASSOCIATED_USERS
+                            }
+                          })
   end
 
   describe 'approvals' do
@@ -399,7 +403,7 @@ describe RecordActionMailer, type: :mailer do
 
   describe 'Emailable Alert' do
     before do
-      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Alert)
+      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency)
       FormSection.create!(unique_id: 'some_formsection_name', name: 'some_formsection_name',
                           name_en: 'Form Section Name', name_fr: 'Nom de la section du formulaire')
       @owner = create :user, user_name: 'owner', full_name: 'Owner', email: 'owner@primero.dev'
@@ -413,7 +417,9 @@ describe RecordActionMailer, type: :mailer do
       @child.save!
       @alert_notification = AlertNotificationService.new(@child.id, @child.alerts.first.id, @owner.user_name)
     end
+
     let(:mail) { RecordActionMailer.alert_notify(@alert_notification) }
+
     describe 'alert' do
       it 'renders the headers' do
         expect(mail.subject).to eq("Case: #{@child.short_id} - Form Section Name Updated")
@@ -448,7 +454,8 @@ describe RecordActionMailer, type: :mailer do
     end
 
     after do
-      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Transition)
+      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Transition,
+                 Alert, Child)
     end
   end
 
