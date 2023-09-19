@@ -113,7 +113,7 @@ class RecordDataService
   def embed_family_details_section(data, record, selected_field_names)
     return data unless selected_field_names.include?('family_details_section')
 
-    data['family_details_section'] = FamilyLinkageService.family_details_section_for_child(record)
+    data['family_details_section'] = record.family_members_details
     data
   end
 

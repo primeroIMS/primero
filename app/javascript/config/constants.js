@@ -17,7 +17,7 @@ import {
   SHOW_SUMMARY,
   READ_MANAGED_REPORTS,
   READ_REGISTRY_RECORD,
-  READ_FAMILY
+  READ_FAMILY_RECORD
 } from "../components/permissions/constants";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
@@ -583,7 +583,7 @@ export const FORM_PERMISSION_ACTION = Object.freeze({
   [APPROVALS]: SHOW_APPROVALS,
   [SUMMARY]: SHOW_SUMMARY,
   [REGISTRY_FROM_CASE]: READ_REGISTRY_RECORD,
-  [FAMILY_FROM_CASE]: READ_FAMILY
+  [FAMILY_FROM_CASE]: READ_FAMILY_RECORD
 });
 
 export const VIOLATIONS_FORM = [

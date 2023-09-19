@@ -858,6 +858,9 @@ en:
     alert_case:
       title: Case Updated
       body: "%{type} has been updated on one of your cases."
+    transfer_request:
+      title: Transfer Request
+      body: You have received a new Case Transfer Request
   encrypt:
     export_type: Type of export
     file_name: Create your own file name (Optional)
@@ -4078,6 +4081,8 @@ en:
   families:
     id: ID
     label: Families
+    family_id: Family ID
+    family_number: Family Number
     family_name: Family Name
     family_registration_date: Registration Date
     family_location_current: Family Location

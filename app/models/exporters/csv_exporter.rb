@@ -42,8 +42,8 @@ class Exporters::CsvExporter < Exporters::BaseExporter
   end
 
   def row(record, fields)
-    [record.id] + fields.map do |field|
-      record.data[field.name]
-    end
+    data = record.data
+    data['family_details_section'] = record.family_members_details if record.is_a?(Child)
+    [record.id] + fields.map { |field| data[field.name] }
   end
 end

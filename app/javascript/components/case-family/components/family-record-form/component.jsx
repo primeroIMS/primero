@@ -1,27 +1,22 @@
 import PropTypes from "prop-types";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
-import { FAMILY, MODULES } from "../../../../config";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../action-button";
-import Form, { FORM_MODE_SHOW, FormSectionRecord } from "../../../form";
+import Form, { FORM_MODE_SHOW } from "../../../form";
 import css from "../../../record-form/form/subforms/styles.css";
-import { FAMILY_ID_DISPLAY, FAMILY_NAME, FAMILY_NUMBER, FORM_ID } from "../../constants";
-import { useMemoizedSelector } from "../../../../libs";
-import { getFieldByName } from "../../../record-form/selectors";
+import { FORM_ID } from "../../constants";
+import { useI18n } from "../../../i18n";
+
+import form from "./form";
 
 function Component({ handleCancel, record }) {
-  const familyIdDisplayField = useMemoizedSelector(state =>
-    getFieldByName(state, FAMILY_ID_DISPLAY, MODULES.CP, FAMILY)
-  );
-  const familyNumberField = useMemoizedSelector(state => getFieldByName(state, FAMILY_NUMBER, MODULES.CP, FAMILY));
-  const familyNameField = useMemoizedSelector(state => getFieldByName(state, FAMILY_NAME, MODULES.CP, FAMILY));
-
-  const formFields = [
-    FormSectionRecord({
-      unique_id: FORM_ID,
-      fields: [familyIdDisplayField, familyNumberField, familyNameField]
-    })
-  ];
+  const i18n = useI18n();
+  const familyRecordForm = form(i18n, record.get("id"));
+  const initialValues = {
+    family_id_display: record.get("family_id_display"),
+    family_number: record.get("family_number"),
+    family_name: record.get("family_name")
+  };
 
   return (
     <>
@@ -33,7 +28,7 @@ function Component({ handleCancel, record }) {
           icon={<ArrowBackIosIcon />}
         />
       </div>
-      <Form formID={FORM_ID} formSections={formFields} mode={FORM_MODE_SHOW} initialValues={record.toJS()} />
+      <Form formID={FORM_ID} formSections={familyRecordForm} mode={FORM_MODE_SHOW} initialValues={initialValues} />
     </>
   );
 }

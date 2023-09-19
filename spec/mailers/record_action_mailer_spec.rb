@@ -356,7 +356,7 @@ describe RecordActionMailer, type: :mailer do
         @transfer_request = TransferRequest.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case)
       end
 
-      let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@transfer_request.id)) }
+      let(:mail) { RecordActionMailer.transfer_request(TransitionNotificationService.new(@transfer_request.id)) }
 
       it 'renders the headers' do
         expect(mail.subject).to eq('Transfer request for one of your cases')
@@ -376,7 +376,7 @@ describe RecordActionMailer, type: :mailer do
         @transfer_request = TransferRequest.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case)
       end
 
-      let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@transfer_request.id)) }
+      let(:mail) { RecordActionMailer.transfer_request(TransitionNotificationService.new(@transfer_request.id)) }
 
       it 'renders the headers' do
         expect(mail.subject).to eq('طلب تحويل لحالة من حالاتك')
