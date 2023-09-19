@@ -30,6 +30,12 @@ export const getUser = state => {
   return state.get(NAMESPACE, fromJS({}));
 };
 
+export const getUserProperty = (state, property, defaultValue = false) => {
+  const path = Array.isArray(property) ? [NAMESPACE, ...property] : [NAMESPACE, property];
+
+  return state.getIn(path, defaultValue);
+};
+
 export const getUserSavingRecord = state => state.getIn([NAMESPACE, SAVING], false);
 
 export const getServerErrors = state => {
