@@ -38,7 +38,9 @@ const Component = ({
   parentForm,
   isViolationAssociation,
   entryFilter = false,
-  parentTitle
+  parentTitle,
+  isFamilyMember,
+  isFamilyDetail
 }) => {
   const i18n = useI18n();
 
@@ -62,6 +64,18 @@ const Component = ({
   const { subform_prevent_item_removal: subformPreventItemRemoval } = subformField;
 
   const { isEdit, isNew } = mode;
+
+  const canDeleteFamilySubform = index => {
+    if (isFamilyDetail) {
+      return !formik?.values?.family_id;
+    }
+
+    if (isFamilyMember) {
+      return !values[index]?.case_id;
+    }
+
+    return true;
+  };
 
   const handleDelete = () => {
     const index = selectedIndex;
@@ -173,7 +187,7 @@ const Component = ({
                     rest={{
                       onClick: () => handleOpenModal(index),
                       // TODO: disable only when there is no violation or association
-                      disabled: isViolationSubform || isViolationAssociation
+                      disabled: isViolationSubform || isViolationAssociation || !canDeleteFamilySubform(index)
                     }}
                   />
                 ) : null}
@@ -215,6 +229,8 @@ Component.propTypes = {
   entryFilter: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
+  isFamilyDetail: PropTypes.bool,
+  isFamilyMember: PropTypes.bool,
   isTracesSubform: PropTypes.bool,
   isViolationAssociation: PropTypes.bool,
   isViolationSubform: PropTypes.bool,
