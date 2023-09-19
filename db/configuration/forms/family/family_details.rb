@@ -12,6 +12,10 @@ family_members_section_fields = [
             matchable: true,
             help_text_en: 'This field can be copied to/from the Case but is not s shared field and '\
                           'can be edited on the Family record.'),
+  Field.new(name: 'family_relation_is_caregiver',
+            type: 'tick_box',
+            display_name_en: 'Is this person the caregiver for one of the children in this family?',
+            tick_box_label_en: 'Yes'),
   Field.new(name: 'family_relationship_notes',
             type: 'textarea',
             display_name_en: 'Notes on their role in the family.',
