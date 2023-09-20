@@ -16,9 +16,30 @@ class WebpushService
         next
       end
 
-      send_push(subscription, message)
+      handle_send_push(subscription, message)
     end
   end
+
+  # rubocop:disable Metrics/MethodLength
+  def handle_send_push(subscription, message)
+    attempts = 0
+
+    while attempts < 3
+      begin
+        send_push(subscription, message)
+        return
+      rescue WebPush::Error, WebPush::ConfigurationError, WebPush::ResponseError, WebPush::InvalidSubscription,
+             WebPush::ExpiredSubscription, WebPush::Unauthorized, WebPush::PayloadTooLarge,
+             WebPush::TooManyRequests, WebPush::PushServiceError => e
+        attempts += 1
+        Rails.logger.info("Webpush not sent. Attempt ##{attempts}. Error: #{e.message}")
+      end
+    end
+
+    Rails.logger.info('Disabling subscription')
+    subscription.disabled!
+  end
+  # rubocop:enable Metrics/MethodLength
 
   def send_push(subscription, message)
     return if subscription.blank?
