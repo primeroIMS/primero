@@ -189,38 +189,6 @@ describe FamilyLinkageService do
     end
   end
 
-  describe 'family_details_section_for_child' do
-    it 'returns the global fields for family member if exists' do
-      child = family1.new_child_from_family_member(user, '002')
-
-      expect(FamilyLinkageService.family_details_section_for_child(child)).to eq(
-        [
-          {
-            'unique_id' => '001',
-            'relation_name' => 'MemberFirst MemberLast',
-            'relation_nickname' => 'Member 1 Nickname',
-            'relation_sex' => 'male',
-            'relation_age' => 10,
-            'relation_date_of_birth' => Date.today - 10.years,
-            'relation_age_estimated' => true,
-            'relation_national_id' => 'national_001',
-            'relation_other_id' => 'other_001',
-            'relation_ethnicity' => 'ethnicity1',
-            'relation_sub_ethnicity1' => 'ethnicity2',
-            'relation_sub_ethnicity2' => 'ethnicity3',
-            'relation_language' => 'language1',
-            'relation_religion' => 'religion1',
-            'relation_address_current' => 'Current Address',
-            'relation_landmark_current' => 'Current Landmark',
-            'relation_location_current' => 'abc001',
-            'relation_address_is_permanent' => false,
-            'relation_telephone' => '22222222'
-          }
-        ]
-      )
-    end
-  end
-
   describe 'new_family_linked_child' do
     context 'when the child is not linked to a family' do
       it 'returns a case linked to a family with the cases as members' do

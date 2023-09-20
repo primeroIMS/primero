@@ -10,7 +10,13 @@ import { useI18n } from "../i18n";
 import ActionDialog, { useDialog } from "../action-dialog";
 import { useMemoizedSelector } from "../../libs";
 import { getWebpushConfig } from "../application/selectors";
-import { getNotificationSubscription, removeNotificationSubscription, saveNotificationSubscription } from "../user";
+import {
+  getNotificationSubscription,
+  getUserProperty,
+  removeNotificationSubscription,
+  saveNotificationSubscription
+} from "../user";
+import ConditionalTooltip from "../conditional-tooltip";
 
 import css from "./styles.css";
 
@@ -21,16 +27,20 @@ function Component() {
 
   const webpushConfig = useMemoizedSelector(state => getWebpushConfig(state));
   const notificationEndpoint = useMemoizedSelector(state => getNotificationSubscription(state));
-
-  const [value, setValue] = useState(Boolean(notificationEndpoint));
+  const receiveWebpush = useMemoizedSelector(state => getUserProperty(state, "receive_webpush"));
+  const userLoaded = useMemoizedSelector(state => getUserProperty(state, "loaded"));
+  const [value, setValue] = useState(false);
 
   const vapidID = webpushConfig.get("vapid_public");
-
   const i18n = useI18n();
   const { dialogOpen, setDialog } = useDialog(DIALOG);
 
-  const notificationsNotSupported = !("Notification" in window);
+  const notificationsNotSupported = !("Notification" in window) || !receiveWebpush;
   const notificationsDenied = () => Notification.permission === NOTIFICATION_PERMISSIONS.DENIED;
+
+  useEffect(async () => {
+    setValue(await Boolean(notificationEndpoint));
+  }, []);
 
   const handleSwitch = opened => event => {
     const checked = event?.target?.checked;
@@ -97,6 +107,12 @@ function Component() {
     window.vpubID = vapidID;
   }, [vapidID]);
 
+  useEffect(() => {
+    if (!receiveWebpush && userLoaded) {
+      setValue(false);
+    }
+  }, [receiveWebpush]);
+
   const pauseAfterDays = Math.floor(webpushConfig.get("pause_after") / 1440);
 
   if (!webpushConfig.get("enabled", false)) {
@@ -104,7 +120,7 @@ function Component() {
   }
 
   return (
-    <>
+    <ConditionalTooltip condition={!receiveWebpush} title={i18n.t("user.receive_webpush.tooltip")}>
       <FormControlLabel
         disabled={notificationsNotSupported}
         value="top"
@@ -139,7 +155,7 @@ function Component() {
           i18n.t("push_notifications_dialog.body", { count: pauseAfterDays })
         )}
       </ActionDialog>
-    </>
+    </ConditionalTooltip>
   );
 }
 

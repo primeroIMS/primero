@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Generates a case from the family
-# rubocop:disable Metrics/ClassLength
 class FamilyLinkageService
   LOCAL_FAMILY_MEMBER_FIELDS = %w[
     family_relationship family_relationship_notes family_relationship_notes_additional
@@ -108,18 +107,6 @@ class FamilyLinkageService
       GLOBAL_FAMILY_FIELDS.each_with_object({}) { |field, memo| memo[field] = family.data[field] }
     end
 
-    def family_details_section_for_child(child)
-      family_details_section = child.family_details_section || []
-      return family_details_section unless child.family&.family_members.present?
-
-      child.family_members.map do |family_member|
-        family_detail = family_details_section.find { |detail| detail['unique_id'] == family_member['unique_id'] }
-        next(global_family_member_data(family_member)) unless family_detail.present?
-
-        family_detail.merge(global_family_member_data(family_member))
-      end
-    end
-
     def global_family_member_data(family_member)
       family_member.except(*LOCAL_FAMILY_MEMBER_FIELDS)
     end
@@ -163,4 +150,3 @@ class FamilyLinkageService
     end
   end
 end
-# rubocop:enable Metrics/ClassLength
