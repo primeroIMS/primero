@@ -11,7 +11,7 @@ const TabPanel = ({ tab, index, children }) => {
   });
 
   return (
-    <Paper elevation={0} className={className}>
+    <Paper elevation={0} className={className} data-testid="tab-panel">
       {children}
     </Paper>
   );
