@@ -2,6 +2,8 @@
 
 # Service to send a WebPush Notification
 class WebpushService
+  MAX_ATTEMPTS = 3
+
   def self.send_notifications(user, message)
     WebpushService.new.send_notifications(user, message)
   end
@@ -24,20 +26,20 @@ class WebpushService
   def handle_send_push(subscription, message)
     attempts = 0
 
-    while attempts < 3
+    while attempts < MAX_ATTEMPTS
       begin
         send_push(subscription, message)
         return
-      rescue WebPush::Error, WebPush::ConfigurationError, WebPush::ResponseError, WebPush::InvalidSubscription,
+      rescue WebPush::ConfigurationError, WebPush::ResponseError, WebPush::InvalidSubscription,
              WebPush::ExpiredSubscription, WebPush::Unauthorized, WebPush::PayloadTooLarge,
              WebPush::TooManyRequests, WebPush::PushServiceError => e
         attempts += 1
-        Rails.logger.info("Webpush not sent. Attempt ##{attempts}. Error: #{e.message}")
+        Rails.logger.debug("Webpush not sent. Attempt ##{attempts}. Error: #{e.message}")
       end
     end
 
-    Rails.logger.info('Disabling subscription')
-    subscription.disabled!
+    Rails.logger.info("Failure to send message. Disabling WebPush subscription #{subscription.id}.")
+    subscription.disable!
   end
   # rubocop:enable Metrics/MethodLength
 

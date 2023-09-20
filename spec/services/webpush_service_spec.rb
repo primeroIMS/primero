@@ -64,7 +64,7 @@ describe WebpushService do
       before(:each) do
         user
         webpush_subscription1
-        allow(WebPush).to receive(:payload_send).and_raise(WebPush::Error)
+        allow(WebPush).to receive(:payload_send).and_raise(WebPush::ConfigurationError)
       end
 
       it 'should disabled subscription' do

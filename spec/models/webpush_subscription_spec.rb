@@ -224,13 +224,13 @@ describe WebpushSubscription do
     end
   end
 
-  describe 'disabled!' do
+  describe 'disable!' do
     before(:each) do
       webpush_subscription1
     end
     it 'return a WebpushSubscription metadata' do
       expect(webpush_subscription1.disabled).to be false
-      webpush_subscription1.disabled!
+      webpush_subscription1.disable!
       expect(webpush_subscription1.disabled).to be true
     end
   end

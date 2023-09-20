@@ -42,7 +42,7 @@ class WebpushSubscription < ApplicationRecord
     (Time.now - (Rails.application.config.x.webpush.pause_after || 0).minutes) >= updated_at
   end
 
-  def disabled!
+  def disable!
     update(disabled: true)
   end
 
