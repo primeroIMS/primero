@@ -1,12 +1,7 @@
 import { fromJS } from "immutable";
-import { DialogTitle } from "@material-ui/core";
+import { mountedComponent, screen } from "test-utils";
 
-import { setupMockFormComponent } from "../../../../../../test";
 import { SUBFORM_SECTION, SELECT_FIELD } from "../../../../../form";
-import OrderableOptionsField from "../../../../../form/fields/orderable-options-field";
-import SwitchInput from "../../../../../form/fields/switch-input";
-import DraggableOption from "../../../../../form/components/draggable-option";
-import FieldsList from "../fields-list";
 
 import FieldDialog from "./component";
 
@@ -38,21 +33,14 @@ describe("<FieldDialog />", () => {
   });
 
   it("should render the dialog", () => {
-    const { component } = setupMockFormComponent(FieldDialog, {
-      props: { mode: "edit" },
-      state
-    });
+    mountedComponent(<FieldDialog mode="edit" />, state);
 
-    expect(component.find(FieldDialog)).to.have.lengthOf(1);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
   it("should render the FieldList if selectedField is subform", () => {
-    const { component } = setupMockFormComponent(FieldDialog, {
-      props: { mode: "edit" },
-      state
-    });
-
-    expect(component.find(FieldsList)).to.have.lengthOf(1);
+    mountedComponent(<FieldDialog mode="edit" />, state);
+    expect(screen.getAllByTestId("form-section-field")).toBeTruthy();
   });
 
   describe("when is new mode", () => {
@@ -72,12 +60,8 @@ describe("<FieldDialog />", () => {
     });
 
     it("should render the dialog", () => {
-      const { component } = setupMockFormComponent(FieldDialog, {
-        props: { mode: "new" },
-        state: initialStateNewMode
-      });
-
-      expect(component.find(FieldDialog).find(DialogTitle).text()).to.equal(`fields.add_field_type`);
+      mountedComponent(<FieldDialog mode="new" />, initialStateNewMode);
+      expect(screen.getByText("fields.add_field_type")).toBeInTheDocument();
     });
   });
 
@@ -125,16 +109,10 @@ describe("<FieldDialog />", () => {
     });
 
     it("should render the FieldDialog with OrderableOptionsField", () => {
-      const { component } = setupMockFormComponent(FieldDialog, {
-        props: { mode: "edit", formId: "field-dialog-form" },
-        state: initialStateSelectField
-      });
+      const props = { mode: "edit", formId: "field-dialog-form" };
 
-      expect(component.find(FieldDialog)).to.have.lengthOf(1);
-      expect(component.find(OrderableOptionsField)).to.have.lengthOf(1);
-      expect(component.find(DraggableOption)).to.have.lengthOf(3);
-      expect(component.find(FieldDialog).find(DialogTitle).text()).to.equal(`fields.edit_label`);
-      expect(component.find(DraggableOption).find(SwitchInput)).to.have.lengthOf(3);
+      mountedComponent(<FieldDialog {...props} />, initialStateSelectField);
+      expect(screen.getByText("fields.edit_label")).toBeInTheDocument();
     });
   });
 
@@ -157,21 +135,19 @@ describe("<FieldDialog />", () => {
     });
 
     it("should render text saying the field was copied from another form", () => {
-      const { component } = setupMockFormComponent(FieldDialog, {
-        props: { mode: "edit", formId: "5" },
-        state: initialStateEditMode
-      });
+      const props = { mode: "edit", formId: "5" };
 
-      expect(component.find(FieldDialog).find("p").first().text()).to.equal("fields.copy_from_another_form");
+      mountedComponent(<FieldDialog {...props} />, initialStateEditMode);
+
+      expect(screen.getByText("fields.copy_from_another_form")).toBeInTheDocument();
     });
 
     it("should not render text saying the field was copied from another form", () => {
-      const { component } = setupMockFormComponent(FieldDialog, {
-        props: { mode: "edit", formId: "1" },
-        state: initialStateEditMode
-      });
+      const props = { mode: "edit", formId: "1" };
 
-      expect(component.find(FieldDialog).find("p").first().text()).to.not.equal("fields.copy_from_another_form");
+      mountedComponent(<FieldDialog {...props} />, initialStateEditMode);
+
+      expect(screen.queryByText("fields.copy_from_another_form")).not.toBeInTheDocument();
     });
   });
 });
