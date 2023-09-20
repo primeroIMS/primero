@@ -153,7 +153,7 @@ class PermittedFieldService
   def permitted_family_id
     return [] unless model_class == Child
 
-    if user.can?(:view_family_record, model_class)
+    if user.can?(:view_family_record, model_class) || user.can?(:case_from_family, model_class)
       return %w[family_id family_id_display family_member_id family_name family_number]
     end
 
