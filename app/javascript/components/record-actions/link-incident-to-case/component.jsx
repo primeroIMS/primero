@@ -42,7 +42,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   const [selectedCaseDisplayId, setSelectedCaseDisplayId] = useState();
   const [delayStateUpdate, setDelayStateUpdate] = useState(true);
   const [recordTypeValue, setRecordTypeValue] = useState();
-  const caseData = useMemoizedSelector(state => getRecords(state, "cases").get("data"));
+  const caseData = useMemoizedSelector(state => getRecords(state, recordTypeValue).get("data"));
 
   useEffect(() => {
     if (delayStateUpdate) {
@@ -58,7 +58,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
 
   const handleOk = () => {
     dispatch(linkIncidentToCase({ recordType, incident_ids: incident_ids, case_id: selectedCaseId }));
-    //dispatch(fetchLinkIncidentToCaseData({}));
+    dispatch(fetchLinkIncidentToCaseData({}));
     dispatch(setCaseIdForIncident(selectedCaseId, selectedCaseDisplayId));
     dispatch(clearDialog());
   };
@@ -147,7 +147,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
             <ActionButton
               id="link-to-incident-link-button"
               icon={<CheckIcon />}
-              text="buttons.ok"
+              text="buttons.link"
               type={ACTION_BUTTON_TYPES.default}
               rest={{
                 onClick: handleOk,

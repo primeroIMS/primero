@@ -407,7 +407,7 @@ export const fetchLinkIncidentToCaseData = (payload) => {
   return {
     type: `cases/${FETCH_LINK_INCIDENT_TO_CASE_DATA}`,
     api: {
-      path: `incidents/get_case_to_link?query=${payload.query}&id_search=${payload.id_search}`
+      path: `${RECORD_PATH.cases}?query=${payload.query}&id_search=${payload.id_search}`
     }
   };
 };
