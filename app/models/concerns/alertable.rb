@@ -13,7 +13,11 @@ module Alertable
   INCIDENT_FROM_CASE = 'incident_from_case'
 
   module AlertStrategy
-    ASSOCIATED_USERS = 'associated_users'
+    # This sends email (and webpush) notifications to all
+    # users on the case other than the one making the change
+    ASSOCIATED_USERS = 'associated_users' 
+    # This doesn't send email notifications to anyone, and only creates a yellow
+    # dot alert if the user making the change is not the owner
     NOT_OWNER = 'not_owner' # this is the default
   end
 
@@ -117,10 +121,11 @@ module Alertable
     @system_settings ||= SystemSettings.current
     # changes field to form needs to be backwards compatible, so each of the
     # values in the hash is either a string or a hash. If it's a string, it's
-    # the form name.  If it's a hash, it's the form name and the alert strategy
+    # the form section unique id. If it's a hash, it's the form section unique
+    # id and the alert strategy
     (
-      @system_settings&.changes_field_to_form&.map do |field_name, form_name_or_hash|
-        [field_name, AlertConfigEntry.new(form_name_or_hash)]
+      @system_settings&.changes_field_to_form&.map do |field_name, form_section_uid_or_hash|
+        [field_name, AlertConfigEntry.new(form_section_uid_or_hash)]
       end).to_h
   end
 end
