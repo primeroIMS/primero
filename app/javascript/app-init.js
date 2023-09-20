@@ -1,13 +1,8 @@
-import { getAppResources, saveNotificationSubscription } from "./components/user/action-creators";
-import { getSubscriptionFromDb } from "./libs/service-worker-utils";
+import { getAppResources } from "./components/user/action-creators";
 import configureStore from "./store";
 
 function appInit() {
   const store = configureStore();
-
-  getSubscriptionFromDb().then(endpoint => {
-    store.dispatch(saveNotificationSubscription(endpoint));
-  });
 
   store.dispatch(getAppResources);
 
