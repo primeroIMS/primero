@@ -68,6 +68,7 @@ pt:
     flag_model: Marcar %{model}
     flag_records: Marcar
     import: Importar
+    link: Link
     login: Log in
     mark_for_mobile: 'Marcar para móvel  '
     ok: OK
