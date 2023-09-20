@@ -10,7 +10,7 @@ class Api::V2::FamiliesController < ApplicationApiController
   end
 
   def create_case
-    authorize! :case_from_family, model_class
+    authorize! :case_from_family, Family
     @current_record = Family.find(create_case_params[:family_id])
     @record = @current_record.new_child_from_family_member(current_user, create_case_params['family_member_id'])
     @record.save!
