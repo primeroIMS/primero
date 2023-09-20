@@ -48,7 +48,7 @@ module Alertable
     alerts_on_change.each do |_, conf_record|
       next if conf_record.alert_strategy == AlertStrategy::ASSOCIATED_USERS
 
-      remove_alert(conf_record.form_section_name)
+      remove_alert(conf_record.form_section_unique_id)
     end
   end
 
