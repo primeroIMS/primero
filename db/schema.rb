@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_22_150208) do
+ActiveRecord::Schema.define(version: 2023_08_21_124122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -549,7 +549,6 @@ ActiveRecord::Schema.define(version: 2023_08_22_150208) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "incident_reporting_location_config"
-    t.jsonb "email_alert_on_change_field_to_form"
   end
 
   create_table "traces", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
