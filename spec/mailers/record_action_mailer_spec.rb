@@ -8,7 +8,7 @@ describe RecordActionMailer, type: :mailer do
     SystemSettings.create(default_locale: 'en', unhcr_needs_codes_mapping: {},
                           changes_field_to_form: {
                             'email_alertable_field' => {
-                              form_section_name: 'some_formsection_name',
+                              form_section_unique_id: 'some_formsection_name',
                               alert_strategy: Alertable::AlertStrategy::ASSOCIATED_USERS
                             }
                           })

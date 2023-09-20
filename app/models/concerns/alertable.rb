@@ -66,14 +66,14 @@ module Alertable
   def add_field_alert(conf_record)
     case conf_record.alert_strategy
     when AlertStrategy::ASSOCIATED_USERS
-      add_alert(alert_for: FIELD_CHANGE, date: Date.today, type: conf_record.form_section_name,
-                form_sidebar_id: conf_record.form_section_name, send_email: true)
+      add_alert(alert_for: FIELD_CHANGE, date: Date.today, type: conf_record.form_section_unique_id,
+                form_sidebar_id: conf_record.form_section_unique_id, send_email: true)
 
     when AlertStrategy::NOT_OWNER
       return if owned_by == last_updated_by
 
-      add_alert(alert_for: FIELD_CHANGE, date: Date.today, type: conf_record.form_section_name,
-                form_sidebar_id: conf_record.form_section_name)
+      add_alert(alert_for: FIELD_CHANGE, date: Date.today, type: conf_record.form_section_unique_id,
+                form_sidebar_id: conf_record.form_section_unique_id)
     else raise "Unknown alert strategy #{conf_record.alert_strategy}"
     end
   end
@@ -175,15 +175,15 @@ end
 # This class is used for the members of changes_field_to_form in system_settings.
 # It is used to store the form name, and the alert strategy (associated_users, owner, nobody)
 class AlertConfigEntry
-  attr_accessor :form_section_name, :alert_strategy
+  attr_accessor :form_section_unique_id, :alert_strategy
 
   def initialize(args)
     if args.is_a?(Hash)
-      @form_section_name = args['form_section_name']
+      @form_section_unique_id = args['form_section_unique_id']
       @alert_strategy = args['alert_strategy'] || Alertable::AlertStrategy::NOT_OWNER
 
     else
-      @form_section_name = args
+      @form_section_unique_id = args
       @alert_strategy = Alertable::AlertStrategy::NOT_OWNER
     end
   end

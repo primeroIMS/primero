@@ -29,7 +29,7 @@ describe Alert do
       ss = SystemSettings.create!
       ss.changes_field_to_form = {
         'email_alertable_field' => {
-          form_section_name: 'some_formsection_name1',
+          form_section_unique_id: 'some_formsection_name1',
           alert_strategy: Alertable::AlertStrategy::ASSOCIATED_USERS
         }
       }
