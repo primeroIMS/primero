@@ -246,29 +246,6 @@ class Child < ApplicationRecord
     end
   end
 
-  def update_family(case_data)
-    family.family_number = case_data['family_number'] if case_data.key?('family_number')
-
-    update_family_members(case_data.delete('family_details_section') || [])
-  end
-
-  def update_family_members(family_details_section_data)
-    return unless family_details_section_data.present?
-
-    @family_members = FamilyLinkageService.build_or_update_family_members(
-      family_details_section_data,
-      family.family_members || []
-    )
-    self.family_details_section = FamilyLinkageService.family_details_section_local_data(family_details_section_data)
-  end
-
-  def save_family
-    return unless family.present?
-
-    family.family_members = @family_members if @family_members.present?
-    family.save! if family.has_changes_to_save?
-  end
-
   def to_s
     name.present? ? "#{name} (#{unique_identifier})" : unique_identifier
   end

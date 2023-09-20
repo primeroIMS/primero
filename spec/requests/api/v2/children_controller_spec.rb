@@ -931,7 +931,13 @@ describe Api::V2::ChildrenController, type: :request do
             data: {
               family_number: '002',
               family_details_section: [
-                { unique_id: member2_unique_id, relation_age: 2, relation: 'relation3', relation_name: 'Member 3' }
+                {
+                  unique_id: member2_unique_id,
+                  relation_age: 2,
+                  relation: 'relation3',
+                  relation_name: 'Member 3',
+                  relation_is_caregiver: true
+                }
               ]
             }
           }
@@ -955,7 +961,8 @@ describe Api::V2::ChildrenController, type: :request do
                 'unique_id' => member2_unique_id,
                 'relation' => 'relation3',
                 'relation_name' => 'Member 3',
-                'relation_age' => 2
+                'relation_age' => 2,
+                'relation_is_caregiver' => true
               }
             ]
           )
@@ -964,7 +971,8 @@ describe Api::V2::ChildrenController, type: :request do
             [
               {
                 'unique_id' => member2_unique_id,
-                'relation' => 'relation3'
+                'relation' => 'relation3',
+                'relation_is_caregiver' => true
               }
             ]
           )
@@ -988,7 +996,9 @@ describe Api::V2::ChildrenController, type: :request do
               {
                 'unique_id' => member2_unique_id,
                 'relation_name' => 'Member 3',
-                'relation_age' => 2
+                'relation_age' => 2,
+                'family_relationship' => 'relation3',
+                'family_relation_is_caregiver' => true
               }
             ]
           )
