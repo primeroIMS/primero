@@ -13,7 +13,7 @@ import PageContainer from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import { clearSelectedRecord, fetchRecord, saveRecord, setSelectedRecord } from "../../../records";
 import { RECORD_TYPES, RECORD_TYPES_PLURAL, REFERRAL } from "../../../../config";
-import { getIsProcessingSomeAttachment, getLoadingRecordState } from "../../../records/selectors";
+import { getIsProcessingSomeAttachment, getLoadingRecordState, getSelectedRecord } from "../../../records/selectors";
 import { clearRecordAttachments, fetchRecordsAlerts } from "../../../records/action-creators";
 import useIncidentFromCase from "../../../records/use-incident-form-case";
 import SaveAndRedirectDialog from "../../../save-and-redirect-dialog";
@@ -60,6 +60,7 @@ const Component = ({
 }) => {
   let submitForm = null;
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
+  const [selectedRecordChanged, setSelectedRecordChanged] = useState(false);
 
   const { state: locationState } = useLocation();
   const history = useHistory();
@@ -90,6 +91,7 @@ const Component = ({
   const loadingRecord = useMemoizedSelector(state => getLoadingRecordState(state, params.recordType));
   const errors = useMemoizedSelector(state => getErrors(state));
   const selectedForm = useMemoizedSelector(state => getSelectedForm(state));
+  const selectedRecord = useMemoizedSelector(state => getSelectedRecord(state, params.recordType));
   const isProcessingSomeAttachment = useMemoizedSelector(state =>
     getIsProcessingSomeAttachment(state, params.recordType)
   );
@@ -244,10 +246,17 @@ const Component = ({
   }, [selectedForm]);
 
   useEffect(() => {
-    if (containerMode.isShow && firstTab && shouldFetchRecord) {
-      dispatch(setSelectedForm(firstTab.unique_id));
+    if (params.id && selectedRecord && selectedRecord !== params.id && containerMode.isShow) {
+      setSelectedRecordChanged(true);
     }
-  }, [shouldFetchRecord]);
+  }, [selectedRecord, containerMode.isShow, params.id]);
+
+  useEffect(() => {
+    if (selectedRecordChanged && containerMode.isShow && firstTab) {
+      dispatch(setSelectedForm(firstTab.unique_id));
+      setSelectedRecordChanged(false);
+    }
+  }, [selectedRecordChanged, containerMode.isShow, firstTab]);
 
   const transitionProps = {
     fetchable: isNotANewCase,
