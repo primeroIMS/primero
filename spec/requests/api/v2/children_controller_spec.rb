@@ -1109,7 +1109,7 @@ describe Api::V2::ChildrenController, type: :request do
 
   describe 'POST /api/v2/cases/:id/family' do
     it 'creates a new child linked to a family when there is no family record' do
-      login_for_test
+      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::CASE_FROM_FAMILY])])
 
       params = { data: { family_detail_id: @member_unique_id3 } }
 
@@ -1118,15 +1118,21 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@case7.id)
       expect(json['data']['record']['id']).not_to be_nil
-      expect(json['data']).not_to have_key('family_id')
-      expect(json['data']['family_number']).to be_nil
-      expect(json['data']).not_to have_key('family_member_id')
-      expect(json['data']['record']['sex']).to eq('male')
-      expect(json['data']['record']['age']).to eq(5)
+      expect(json['data']).to have_key('family_id')
+      expect(json['data']).to have_key('family_number')
+      expect(json['data']).to have_key('family_member_id')
+      expect(json['data']['family_details_section'][0]['unique_id']).to eq(@member_unique_id3)
+      expect(json['data']['family_details_section'][0]['relation_sex']).to eq('male')
+      expect(json['data']['family_details_section'][0]['relation_age']).to eq(5)
+      expect(json['data']['family_details_section'][0]['case_id']).not_to be_nil
+      expect(json['data']['family_details_section'][0]['case_id_display']).not_to be_nil
+      expect(json['data']['record']['id']).not_to be_nil
+      expect(json['data']['record']['case_id_display']).not_to be_nil
+      expect(json['data']['record']['family_member_id']).to eq(@member_unique_id3)
     end
 
     it 'creates a new child linked to a family when there is a family record' do
-      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::CREATE])])
+      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::CASE_FROM_FAMILY])])
 
       params = { data: { family_detail_id: @member_unique_id5 } }
 
@@ -1134,12 +1140,19 @@ describe Api::V2::ChildrenController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@case8.id)
-      expect(json['data']).not_to have_key('family_id')
+      expect(json['data']['family_id']).to eq(@family2.id)
       expect(json['data']['family_number']).to eq(@family2.family_number)
-      expect(json['data']).not_to have_key('family_member_id')
+      expect(json['data']['family_member_id']).to eq(@member_unique_id2)
+      expect(json['data']['family_details_section'].size).to eq(2)
+      expect(json['data']['family_details_section'][1]['unique_id']).to eq(@member_unique_id5)
+      expect(json['data']['family_details_section'][1]['relation_name']).to eq('Test8 - Member3')
+      expect(json['data']['family_details_section'][1]['relation_sex']).to eq('male')
+      expect(json['data']['family_details_section'][1]['relation_age']).to eq(4)
+      expect(json['data']['family_details_section'][1]['case_id']).not_to be_nil
+      expect(json['data']['family_details_section'][1]['case_id_display']).not_to be_nil
       expect(json['data']['record']['id']).not_to be_nil
-      expect(json['data']['record']['sex']).to eq('male')
-      expect(json['data']['record']['age']).to eq(4)
+      expect(json['data']['record']['case_id_display']).not_to be_nil
+      expect(json['data']['record']['family_member_id']).to eq(@member_unique_id5)
     end
 
     it 'creates a new child and returns the family data if a user has the view_family_record permission' do
@@ -1147,7 +1160,7 @@ describe Api::V2::ChildrenController, type: :request do
         permissions: [
           Permission.new(
             resource: Permission::CASE,
-            actions: [Permission::CREATE, Permission::VIEW_FAMILY_RECORD]
+            actions: [Permission::CASE_FROM_FAMILY, Permission::VIEW_FAMILY_RECORD]
           )
         ]
       )
@@ -1162,8 +1175,7 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['data']['family_number']).to eq(@family2.family_number)
       expect(json['data']['family_member_id']).to eq(@member_unique_id2)
       expect(json['data']['record']['id']).not_to be_nil
-      expect(json['data']['record']['sex']).to eq('male')
-      expect(json['data']['record']['age']).to eq(10)
+      expect(json['data']['record']['case_id_display']).not_to be_nil
       expect(json['data']['record']['family_member_id']).to eq(@member_unique_id4)
     end
   end
