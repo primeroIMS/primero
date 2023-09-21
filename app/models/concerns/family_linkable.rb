@@ -12,6 +12,29 @@ module FamilyLinkable
     after_save :save_family
   end
 
+  def update_family(record_data)
+    family.family_number = record_data['family_number'] if record_data.key?('family_number')
+
+    update_family_members(record_data.delete('family_details_section') || [])
+  end
+
+  def update_family_members(family_details_section_data)
+    return unless family_details_section_data.present?
+
+    @family_members = FamilyLinkageService.build_or_update_family_members(
+      family_details_section_data,
+      family.family_members || []
+    )
+    self.family_details_section = FamilyLinkageService.family_details_section_local_data(family_details_section_data)
+  end
+
+  def save_family
+    return unless family.present?
+
+    family.family_members = @family_members if @family_members.present?
+    family.save! if family.has_changes_to_save?
+  end
+
   def stamp_family_fields
     return unless changes_to_save.key?('family_id')
 

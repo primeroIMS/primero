@@ -19,7 +19,8 @@ module FakeDeviseLogin
           Field.new(name: 'relation_name', type: Field::TEXT_FIELD),
           Field.new(name: 'relation', type: Field::SELECT_BOX),
           Field.new(name: 'relation_type', type: Field::SELECT_BOX),
-          Field.new(name: 'relation_age', type: Field::NUMERIC_FIELD)
+          Field.new(name: 'relation_age', type: Field::NUMERIC_FIELD),
+          Field.new(name: 'relation_is_caregiver', type: Field::TICK_BOX)
         ]
       )
     ),
