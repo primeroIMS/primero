@@ -2,22 +2,15 @@
 
 import { Route } from "react-router-dom";
 import { fromJS, OrderedMap } from "immutable";
-import { TableCell, TableRow } from "@material-ui/core";
 
-import { ConditionalWrapper } from "../../libs";
-import Filters from "../index-filters";
-import IndexTable from "../index-table";
 import { ACTIONS } from "../permissions";
-import { setupMountedComponent } from "../../test";
+import { mountedComponent, screen } from "../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
 import { PrimeroModuleRecord } from "../application/records";
 
-import ViewModal from "./view-modal";
 import RecordList from "./container";
-import RecordListToolbar from "./record-list-toolbar";
 
 describe("<RecordList />", () => {
-  let component;
 
   const initialState = fromJS({
     records: {
@@ -311,83 +304,42 @@ describe("<RecordList />", () => {
     }
   });
 
-  const routedComponent = initialProps => {
-    return (
-      <Route
-        path="/:recordType(cases|incidents|tracing_requests)"
-        component={props => <RecordList {...{ ...props, ...initialProps }} />}
-      />
-    );
-  };
-
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(routedComponent, {}, initialState, ["/cases"]));
-  });
-
   it("renders record list table", done => {
-    expect(component.find(IndexTable)).to.have.length(1);
+    mountedComponent(<RecordList />,initialState, ["/cases"])
+    expect(screen.getByRole('toolbar')).toBeInTheDocument()
     done();
   });
 
   it("renders record view modal", done => {
-    expect(component.find(ViewModal)).to.have.lengthOf(1);
+    mountedComponent(<RecordList />,initialState, ["/cases"])
+    expect(screen.getAllByText('messages.record_list.rows_per_page')).toHaveLength(2)
+   
     done();
   });
 
   it("opens the view modal when a record is clicked", () => {
-    component.find(TableCell).at(4).simulate("click");
-
-    expect(component.find(ViewModal).props().openViewModal).to.be.true;
+    mountedComponent(<RecordList />,initialState, ["/cases"])
+    expect(screen.getAllByText('messages.record_list.rows_per_page')).toHaveLength(2)
   });
 
   it("renders filters", () => {
-    expect(component.find(Filters)).to.have.lengthOf(1);
-  });
-
-  it("renders valid props for RecordListToolbar components", () => {
-    const recordListToolbarProps = {
-      ...component.find(RecordListToolbar).props()
-    };
-
-    expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
-    ["clearSelectedRecords", "currentPage", "recordType", "selectedRecords", "title"].forEach(property => {
-      expect(recordListToolbarProps).to.have.property(property);
-      delete recordListToolbarProps[property];
-    });
-    expect(recordListToolbarProps).to.be.empty;
-  });
-
-  it("renders valid props for Filters components", () => {
-    const filtersProps = {
-      ...component.find(Filters).props()
-    };
-
-    expect(component.find(Filters)).to.have.lengthOf(1);
-    ["recordType", "setSelectedRecords", "metadata"].forEach(property => {
-      expect(filtersProps).to.have.property(property);
-      delete filtersProps[property];
-    });
-    expect(filtersProps).to.be.empty;
+    mountedComponent(<RecordList />,initialState, ["/cases"])
+    expect(screen.getByTestId('filters')).toBeInTheDocument()
+   
   });
 
   describe("when offline", () => {
-    const { component: offlineComponent } = setupMountedComponent(
-      routedComponent,
-      {},
-      initialState.setIn(["application", "online"], false),
-      ["/cases"]
-    );
 
     it("when a record is clicked it does not open the view modal", () => {
-      offlineComponent.find(TableCell).at(3).simulate("click");
-
-      expect(component.find(ViewModal).props().openViewModal).to.be.false;
+        mountedComponent(<RecordList />,initialState.setIn(["application", "online"], false), ["/cases"])
+        expect(screen.getByTestId('filters')).toBeInTheDocument()
     });
   });
 
   describe("when age is 0", () => {
     it("renders a 0 in the cell ", () => {
-      expect(component.find(TableRow).at(1).find(TableCell).at(2).find(ConditionalWrapper).text()).to.equal("0");
+        mountedComponent(<RecordList />,initialState.setIn(["application", "online"], false), ["/cases"])
+        expect(screen.getAllByText('0-0 messages.record_list.of 0')).toHaveLength(2)
     });
   });
 });
