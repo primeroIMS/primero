@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This service is for sending notifications when an alert with send_email: true is created.
 class AlertNotificationService
   attr_accessor :record_id, :alert_id, :user_name
 

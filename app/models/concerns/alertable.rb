@@ -15,7 +15,7 @@ module Alertable
   module AlertStrategy
     # This sends email (and webpush) notifications to all
     # users on the case other than the one making the change
-    ASSOCIATED_USERS = 'associated_users' 
+    ASSOCIATED_USERS = 'associated_users'
     # This doesn't send email notifications to anyone, and only creates a yellow
     # dot alert if the user making the change is not the owner
     NOT_OWNER = 'not_owner' # this is the default
