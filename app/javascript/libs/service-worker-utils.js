@@ -4,8 +4,8 @@ import getToken from "../middleware/utils/get-token";
 import DB, { DB_STORES } from "../db";
 
 const SERVICE_WORKER_PATH = `${window.location.origin}/worker.js`;
-const MAX_ATTEMPS = 3;
-let attemps = 1;
+const MAX_ATTEMPTS = 3;
+let attempts = 1;
 
 async function getServiceWorker() {
   return navigator.serviceWorker.ready;
@@ -67,18 +67,18 @@ async function sendSubscriptionStatusToServer(isSubscribing = true, data = {}) {
   }
 
   if (isSubscribing && response.status === 404) {
-    if (attemps % MAX_ATTEMPS !== 0) {
+    if (attempts % MAX_ATTEMPTS !== 0) {
       postMessage({
         type: POST_MESSAGES.SUBSCRIBE_NOTIFICATIONS
       });
     }
 
-    if (attemps % MAX_ATTEMPS === 0) {
+    if (attempts % MAX_ATTEMPTS === 0) {
       postMessage({
         type: POST_MESSAGES.ATTEMPTS_SUBSCRIPTION_FAILED
       });
     }
-    attemps += 1;
+    attempts += 1;
   }
 }
 
