@@ -17,6 +17,7 @@ import {
   saveNotificationSubscription
 } from "../user";
 import ConditionalTooltip from "../conditional-tooltip";
+import { enqueueSnackbar } from "../notifier";
 
 import css from "./styles.css";
 
@@ -92,6 +93,11 @@ function Component() {
 
     if (event?.data?.type === POST_MESSAGES.DISPATCH_SAVE_SUBSCRIPTION) {
       dispatch(saveNotificationSubscription(event?.data?.endpoint));
+    }
+
+    if (event?.data?.type === POST_MESSAGES.ATTEMPTS_SUBSCRIPTION_FAILED) {
+      setValue(false);
+      dispatch(enqueueSnackbar("Attempts subscription failed"));
     }
   };
 

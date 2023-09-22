@@ -746,5 +746,6 @@ export const POST_MESSAGES = {
   SUBSCRIBE_NOTIFICATIONS: "subscribe_notifications",
   UNSUBSCRIBE_NOTIFICATIONS: "unsubscribe_notifications",
   DISPATCH_REMOVE_SUBSCRIPTION: "dispatch_remove_subscription",
-  DISPATCH_SAVE_SUBSCRIPTION: "dispatch_save_subscription"
+  DISPATCH_SAVE_SUBSCRIPTION: "dispatch_save_subscription",
+  ATTEMPTS_SUBSCRIPTION_FAILED: "attempts_subscription_failed"
 };
