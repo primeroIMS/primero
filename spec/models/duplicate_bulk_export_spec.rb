@@ -5,7 +5,7 @@ require 'sunspot'
 
 describe DuplicateBulkExport, search: true do
   before :each do
-    clean_data(BulkExport, Agency, Location, UserGroup, Role, User, Field,
+    clean_data(BulkExport, User, Agency, Role, Location, UserGroup, Field,
                FormSection, Child, PrimeroModule, PrimeroProgram, SystemSettings,
                FormPermission)
 
@@ -25,7 +25,7 @@ describe DuplicateBulkExport, search: true do
     )
     primero_module = create(:primero_module)
     role = create(:role, form_sections: [@form_section], modules: [primero_module], group_permission: Permission::ALL)
-    @user = create(:user, role: role)
+    @user = create(:user, role:)
 
     @expected_headers = [
       ' ', 'MOHA ID DEPRECATED', 'National ID No', 'Case ID', 'Progress ID',
@@ -83,7 +83,7 @@ describe DuplicateBulkExport, search: true do
       Sunspot.commit
       expect(export_csv.count).to eq(7)
       ids_orderes = %w[test1 test3 test5]
-      export_csv[1..-1].each_with_index do |row, index|
+      export_csv[1..].each_with_index do |row, index|
         expect(row[2]).to eq(ids_orderes.first)
         ids_orderes.shift if index.odd?
       end
@@ -148,7 +148,7 @@ describe DuplicateBulkExport, search: true do
   end
 
   after :each do
-    clean_data(BulkExport, Agency, Location, UserGroup, Role, User, Field,
+    clean_data(BulkExport, User, Agency, Role, Location, UserGroup, Field,
                FormSection, Child, PrimeroModule, PrimeroProgram, SystemSettings,
                FormPermission)
   end

@@ -22,7 +22,7 @@ class Exporters::ManagedReportExporter < ValueObject
   }.freeze
 
   def self.export(managed_report, opts = {})
-    exporter = new(managed_report: managed_report, opts: opts)
+    exporter = new(managed_report:, opts:)
     exporter.export
   end
 
@@ -50,8 +50,8 @@ class Exporters::ManagedReportExporter < ValueObject
     subreports_to_export(opts).each do |subreport|
       tab_color = tab_colors[color_index]
       subreport_exporter_class(subreport).new(
-        id: subreport, managed_report: managed_report, workbook: @workbook,
-        tab_color: tab_color, formats: @formats, locale: locale(opts)
+        id: subreport, managed_report:, workbook: @workbook,
+        tab_color:, formats: @formats, locale: locale(opts)
       ).export
       color_index > tab_colors.length ? color_index = 0 : color_index += 1
     end

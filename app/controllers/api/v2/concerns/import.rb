@@ -13,12 +13,12 @@ module Api::V2::Concerns::Import
 
     # The '::' is necessary so Import model does not conflict with current concern
     @import = ::Import.new(
-      importer: importer, data_base64: import_params[:data_base64],
+      importer:, data_base64: import_params[:data_base64],
       content_type: import_params[:content_type], file_name: import_params[:file_name]
     )
     @import.run
     status = @import.status == ::Import::SUCCESS ? 200 : 422
-    render 'api/v2/imports/import', status: status
+    render 'api/v2/imports/import', status:
   end
 
   def import_field_schema

@@ -21,7 +21,9 @@ describe JsonValidatorService do
     end
 
     it 'throws an exception when is not valid' do
-      expect { service.validate!('name' => 'Not valid') }.to raise_error(Errors::InvalidRecordJson, 'Invalid Record JSON')
+      expect do
+        service.validate!('name' => 'Not valid')
+      end.to raise_error(Errors::InvalidRecordJson, 'Invalid Record JSON')
     end
   end
 end

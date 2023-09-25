@@ -10,7 +10,7 @@ import { fromJS } from "immutable";
 import { useI18n } from "../i18n";
 import PageContainer, { PageContent, PageHeading } from "../page";
 import { ROUTES } from "../../config";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import PageNavigation from "../page-navigation";
 import ApplicationRoutes from "../application-routes";
 import { getInsight, getSubReport } from "../insights-sub-report/selectors";
@@ -70,7 +70,7 @@ const Component = ({ routes }) => {
     <PageContainer twoCol>
       <PageHeading
         title={name}
-        titleSecondary={<InsightFilterTags filters={insightType.filters} />}
+        titleSecondary={<InsightFilterTags moduleID={moduleID} filters={insightType.filters} />}
         controls={toggleControls => {
           return <InsightsFilters moduleID={moduleID} id={id} toggleControls={toggleControls} subReport={subReport} />;
         }}

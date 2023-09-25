@@ -85,7 +85,7 @@ describe Api::V2::FlagsController, type: :request do
     it 'creates a new flag to a case' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { date: Date.today.to_s, message: 'This is another flag' } }
-      post "/api/v2/cases/#{@case1.id}/flags", params: params
+      post("/api/v2/cases/#{@case1.id}/flags", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['record_id']).to eq(@case1.id.to_s)
@@ -100,7 +100,7 @@ describe Api::V2::FlagsController, type: :request do
     it 'creates a new flag to a tracing_request' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { date: Date.today.to_s, message: 'This is another flag TR' } }
-      post "/api/v2/tracing_requests/#{@tracing_request1.id}/flags", params: params
+      post("/api/v2/tracing_requests/#{@tracing_request1.id}/flags", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['record_id']).to eq(@tracing_request1.id.to_s)
@@ -113,7 +113,7 @@ describe Api::V2::FlagsController, type: :request do
     it 'creates a new flag to an incident' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { date: Date.today.to_s, message: 'This is another flag IN' } }
-      post "/api/v2/incidents/#{@incident1.id}/flags", params: params
+      post("/api/v2/incidents/#{@incident1.id}/flags", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['record_id']).to eq(@incident1.id.to_s)
@@ -126,7 +126,7 @@ describe Api::V2::FlagsController, type: :request do
     it "get a forbidden message if the user doesn't have flag permission" do
       login_for_test
       params = { data: { date: Date.today.to_s, message: 'This is another flag' } }
-      post "/api/v2/cases/#{@case1.id}/flags", params: params
+      post("/api/v2/cases/#{@case1.id}/flags", params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['status']).to eq(403)
@@ -137,7 +137,7 @@ describe Api::V2::FlagsController, type: :request do
     it 'enqueues an audit log job that records the flag attempt' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { date: Date.today.to_s, message: 'This is another flag' } }
-      post "/api/v2/cases/#{@case1.id}/flags", params: params
+      post("/api/v2/cases/#{@case1.id}/flags", params:)
 
       expect(AuditLogJob).to have_been_enqueued
         .with(record_type: 'Child',
@@ -145,7 +145,8 @@ describe Api::V2::FlagsController, type: :request do
               action: 'flag',
               user_id: fake_user_id, # This is technically wrong, but an artifact of the way we do tests
               resource_url: request.url,
-              metadata: { user_name: fake_user_name })
+              metadata: { user_name: fake_user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: nil,
+                          http_method: 'POST' })
     end
   end
 
@@ -153,7 +154,7 @@ describe Api::V2::FlagsController, type: :request do
     it 'unflags a case' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message' } }
-      patch "/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params: params
+      patch("/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['removed']).to be_truthy
@@ -168,7 +169,7 @@ describe Api::V2::FlagsController, type: :request do
     it 'unflags a tracing_request' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message TR' } }
-      patch "/api/v2/tracing_requests/#{@tracing_request1.id}/flags/#{@tracing_request1.flags.first.id}", params: params
+      patch("/api/v2/tracing_requests/#{@tracing_request1.id}/flags/#{@tracing_request1.flags.first.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['removed']).to be_truthy
@@ -181,7 +182,7 @@ describe Api::V2::FlagsController, type: :request do
     it 'unflags an incident' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message IN' } }
-      patch "/api/v2/incidents/#{@incident1.id}/flags/#{@incident1.flags.first.id}", params: params
+      patch("/api/v2/incidents/#{@incident1.id}/flags/#{@incident1.flags.first.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['removed']).to be_truthy
@@ -194,7 +195,7 @@ describe Api::V2::FlagsController, type: :request do
     it "get a forbidden message if the user doesn't have flag permission" do
       login_for_test
       params = { data: { unflag_message: 'This is unflag message' } }
-      patch "/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params: params
+      patch("/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['status']).to eq(403)
@@ -214,7 +215,7 @@ describe Api::V2::FlagsController, type: :request do
           ids: [@case1.id, @case2.id], record_type: 'case', date: Date.today.to_s, message: 'This is another flag'
         }
       }
-      post '/api/v2/cases/flags', params: params
+      post('/api/v2/cases/flags', params:)
 
       expect(response).to have_http_status(204)
       @case1.reload
@@ -236,7 +237,7 @@ describe Api::V2::FlagsController, type: :request do
           date: Date.today.to_s, message: 'This is another flag TR'
         }
       }
-      post '/api/v2/tracing_requests/flags', params: params
+      post('/api/v2/tracing_requests/flags', params:)
 
       expect(response).to have_http_status(204)
       @tracing_request1.reload
@@ -256,7 +257,7 @@ describe Api::V2::FlagsController, type: :request do
           date: Date.today.to_s, message: 'This is another flag TR'
         }
       }
-      post '/api/v2/incidents/flags', params: params
+      post('/api/v2/incidents/flags', params:)
 
       expect(response).to have_http_status(204)
       @incident1.reload
@@ -272,7 +273,7 @@ describe Api::V2::FlagsController, type: :request do
           ids: [@case1.id, @case2.id], record_type: 'case', date: Date.today.to_s, message: 'This is another flag'
         }
       }
-      post '/api/v2/cases/flags', params: params
+      post('/api/v2/cases/flags', params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['status']).to eq(403)
@@ -289,7 +290,7 @@ describe Api::V2::FlagsController, type: :request do
           date: Date.today.to_s, message: 'This is another flag TR'
         }
       }
-      post '/api/v2/incidents/flags', params: params
+      post('/api/v2/incidents/flags', params:)
 
       expect(response).to have_http_status(404)
       expect(json['errors'][0]['message']).to eq('Not Found')
@@ -309,7 +310,7 @@ describe Api::V2::FlagsController, type: :request do
     it 'verifying the id of the flags' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message' } }
-      patch "/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params: params
+      patch("/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params:)
 
       expect(response).to have_http_status(200)
       @case1.reload

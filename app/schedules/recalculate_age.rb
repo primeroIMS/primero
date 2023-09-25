@@ -23,13 +23,19 @@ class RecalculateAge < PeriodicJob
     cases_range.find_in_batches(batch_size: 20) do |records|
       Child.transaction do
         Rails.logger.info "========================#{records.count}========================"
-        records.each do |record|
-          if update_age_for_case(record)
-            Rails.logger.info "Case:[#{record.id}] Updating age to #{record.age}. Date of birth:[#{record.date_of_birth}]"
-          else
-            Rails.logger.warn "Case:[#{record.id}] Not changed. Age remains at #{record.age}. Date of birth:[#{record.date_of_birth}]"
-          end
-        end
+        update_records_batch(records)
+      end
+    end
+  end
+
+  def update_records_batch(records)
+    records.each do |record|
+      if update_age_for_case(record)
+        Rails.logger.info "Case:[#{record.id}] Updating age to #{record.age}. Date of birth:[#{record.date_of_birth}]"
+      else
+        Rails.logger.warn(
+          "Case:[#{record.id}] Not changed. Age remains at #{record.age}. Date of birth:[#{record.date_of_birth}]"
+        )
       end
     end
   end
@@ -43,7 +49,7 @@ class RecalculateAge < PeriodicJob
       (data->>'date_of_birth')::date +
       ((DATE_PART('year', :end_date ::date) - DATE_PART('year', (data->>'date_of_birth')::date)) * interval '1 year')
       between :start_date ::date and :end_date ::date",
-      start_date: start_date, end_date: end_date
+      start_date:, end_date:
     )
   end
 

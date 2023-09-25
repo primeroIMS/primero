@@ -5,9 +5,9 @@ import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
 import { createCachedSelector } from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import memoize from "proxy-memoize";
+import { memoize } from "proxy-memoize";
 
-import { RECORD_PATH } from "../../config";
+import { RECORD_PATH } from "../../config/constants";
 import {
   getIncidentReportingLocationConfig,
   getReportingLocationConfig,
@@ -19,6 +19,8 @@ import {
   getAssignedAgency,
   getCurrentUserGroupPermission,
   getCurrentUserGroupsUniqueIds,
+  getCurrentUserUserGroups,
+  getIsManagedReportScopeAll,
   getPermittedRoleUniqueIds
 } from "../user/selectors";
 import { getRecordForms } from "../record-form";
@@ -355,18 +357,25 @@ const userGroups = createCachedSelector(
 
 const userGroupsPermitted = createCachedSelector(
   getUserGroups,
+  getCurrentUserUserGroups,
   getCurrentUserGroupsUniqueIds,
   getCurrentUserGroupPermission,
+  getIsManagedReportScopeAll,
   (_state, options) => options,
-  (data, currentUserGroups, currentRoleGroupPermission, options) => {
+  (data, currentUserGroups, currentUserGroupIds, currentRoleGroupPermission, isManagedReportScopeAll, options) => {
     const allUserGroups = userGroupsParser(data, options);
+    const currentUserGroupOptions = userGroupsParser(currentUserGroups, options);
 
-    if (currentRoleGroupPermission === GROUP_PERMISSIONS.ALL) {
+    if (isEmpty(allUserGroups)) {
+      return currentUserGroupOptions;
+    }
+
+    if (currentRoleGroupPermission === GROUP_PERMISSIONS.ALL || isManagedReportScopeAll) {
       return allUserGroups;
     }
 
     return allUserGroups.map(userGroup => {
-      if (currentUserGroups.includes(userGroup.id)) {
+      if (currentUserGroupIds.includes(userGroup.id)) {
         return userGroup;
       }
 

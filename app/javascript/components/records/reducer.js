@@ -61,7 +61,15 @@ import {
   MARK_FOR_OFFLINE_SUCCESS,
   MARK_FOR_OFFLINE_STARTED,
   MARK_FOR_OFFLINE_FINISHED,
-  MARK_FOR_OFFLINE_FAILURE
+  MARK_FOR_OFFLINE_FAILURE,
+  CREATE_CASE_FROM_FAMILY_MEMBER_STARTED,
+  CREATE_CASE_FROM_FAMILY_MEMBER_SUCCESS,
+  CREATE_CASE_FROM_FAMILY_MEMBER_FAILURE,
+  CREATE_CASE_FROM_FAMILY_MEMBER_FINISHED,
+  CREATE_CASE_FROM_FAMILY_DETAIL_STARTED,
+  CREATE_CASE_FROM_FAMILY_DETAIL_SUCCESS,
+  CREATE_CASE_FROM_FAMILY_DETAIL_FAILURE,
+  CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -346,6 +354,38 @@ export default namespace =>
         }
 
         return state;
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_STARTED}`: {
+        return state.setIn(["case_from_family", "loading"], true);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_SUCCESS}`: {
+        const recordIndex = state.get("data").findIndex(record => record.get("id") === payload.data.id);
+
+        return state.setIn(["data", recordIndex, "family_members"], fromJS(payload.data.family_members));
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_FAILURE}`: {
+        return state.setIn(["case_from_family", "errors"], true);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_FINISHED}`: {
+        return state.setIn(["case_from_family", "loading"], false);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_STARTED}`: {
+        return state.setIn(["case_from_family", "loading"], true);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_SUCCESS}`: {
+        const recordIndex = state.get("data").findIndex(record => record.get("id") === payload.data.id);
+
+        return state
+          .setIn(["data", recordIndex, "family_details_section"], fromJS(payload.data.family_details_section))
+          .setIn(["data", recordIndex, "family_number"], payload.data.family_number)
+          .setIn(["data", recordIndex, "family_member_id"], payload.data.family_member_id)
+          .setIn(["data", recordIndex, "family_id"], payload.data.family_id);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_FAILURE}`: {
+        return state.setIn(["case_from_family", "errors"], true);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED}`: {
+        return state.setIn(["case_from_family", "loading"], false);
       }
       default:
         return state;

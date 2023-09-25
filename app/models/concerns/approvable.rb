@@ -27,7 +27,7 @@ module Approvable
       date :gbv_closure_approved_date
     end
 
-    after_commit :send_approval_mail
+    after_save_commit :send_approval_mail
   end
 
   def send_approval_mail
@@ -42,12 +42,14 @@ module Approvable
   end
 
   def send_approval_request_mail(approval)
-    managers = owner.managers.select { |manager| manager.email.present? && manager.send_mail }
+    managers = owner.managers.select(&:emailable?)
     if managers.blank?
       Rails.logger.info "Approval Request Mail not sent. No managers present with send_mail enabled. User [#{owner.id}]"
       return
     end
-    managers.each { |manager| ApprovalRequestJob.perform_later(id, approval['approval_for_type'], manager.user_name) }
+    managers.each do |manager|
+      ApprovalRequestJob.perform_later(id, approval['approval_requested_for'], manager.user_name)
+    end
   end
 
   def send_approval_response_mail(approval)

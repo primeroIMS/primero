@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
-  factory :primero_program, :traits => [:active_model] do
-    name { "test_program_#{counter}"}
-    description { "test description" }
+  factory :primero_program, traits: [:active_model] do
+    name { "test_program_#{counter}" }
+    description { 'test description' }
   end
 end

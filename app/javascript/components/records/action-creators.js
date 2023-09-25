@@ -38,7 +38,9 @@ import {
   UNMATCH_CASE_FOR_TRACE,
   CLEAR_POTENTIAL_MATCHES,
   EXTERNAL_SYNC,
-  OFFLINE_INCIDENT_FROM_CASE
+  OFFLINE_INCIDENT_FROM_CASE,
+  CREATE_CASE_FROM_FAMILY_MEMBER,
+  CREATE_CASE_FROM_FAMILY_DETAIL
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -374,3 +376,55 @@ export const markForOffline =
 
     dispatch(markForOfflineAction(recordType, ids));
   };
+
+export const createCaseFromFamilyMember = ({ familyId, familyMemberId }) => ({
+  type: `${RECORD_PATH.families}/${CREATE_CASE_FROM_FAMILY_MEMBER}`,
+  api: {
+    path: `${RECORD_PATH.families}/${familyId}/create_case`,
+    body: {
+      data: { family_member_id: familyMemberId }
+    },
+    method: "POST",
+    successCallback: [
+      {
+        action: CLEAR_DIALOG
+      },
+      {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          messageKey: `${RECORD_TYPES.cases}.messages.creation_success`,
+          options: {
+            variant: "success",
+            key: generate.messageKey(`${RECORD_TYPES.cases}.messages.creation_success`)
+          }
+        }
+      }
+    ]
+  }
+});
+
+export const createCaseFromFamilyDetail = ({ caseId, familyDetailId }) => ({
+  type: `${RECORD_PATH.cases}/${CREATE_CASE_FROM_FAMILY_DETAIL}`,
+  api: {
+    path: `${RECORD_PATH.cases}/${caseId}/family`,
+    body: {
+      data: { family_detail_id: familyDetailId }
+    },
+    method: "POST",
+    successCallback: [
+      {
+        action: CLEAR_DIALOG
+      },
+      {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          messageKey: `${RECORD_TYPES.cases}.messages.creation_success`,
+          options: {
+            variant: "success",
+            key: generate.messageKey(`${RECORD_TYPES.cases}.messages.creation_success`)
+          }
+        }
+      }
+    ]
+  }
+});

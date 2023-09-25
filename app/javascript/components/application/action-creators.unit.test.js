@@ -12,6 +12,7 @@ describe("Application - Action Creators", () => {
 
     [
       "disableNavigation",
+      "fetchAgencyLogoOptions",
       "fetchRoles",
       "fetchSystemPermissions",
       "fetchSystemSettings",
@@ -20,7 +21,8 @@ describe("Application - Action Creators", () => {
       "setReturnUrl",
       "setUserIdle",
       "fetchManagedRoles",
-      "fetchSandboxUI"
+      "fetchSandboxUI",
+      "fetchWebpushConfig"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];

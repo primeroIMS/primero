@@ -5,7 +5,7 @@ require 'rails_helper'
 module Importers
   describe CsvRecordImporter do
     before do
-      clean_data(RegistryRecord, Agency, Role, User)
+      clean_data(RegistryRecord, User, Agency, Role)
       role = Role.create!(
         name: 'Test Role 1',
         unique_id: 'test-role-1',
@@ -34,7 +34,7 @@ module Importers
         password_confirmation: 'a12345678',
         email: 'test_user_1@localhost.com',
         agency_id: @agency_a.id,
-        role: role
+        role:
       )
       @user_b = User.create!(
         full_name: 'Test User 2',
@@ -43,7 +43,7 @@ module Importers
         password_confirmation: 'a12345678',
         email: 'test_user_2@localhost.com',
         agency_id: @agency_a.id,
-        role: role
+        role:
       )
     end
 
@@ -132,7 +132,7 @@ module Importers
     end
 
     after do
-      clean_data(RegistryRecord, Agency, Role, User)
+      clean_data(RegistryRecord, User, Agency, Role)
     end
   end
 end

@@ -6,7 +6,7 @@ import createCachedSelector from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 
 import { denormalizeFormData } from "../../schemas";
-import { displayNameHelper } from "../../libs";
+import displayNameHelper from "../../libs/display-name-helper";
 import { checkPermissions, getPermissionsByRecord } from "../permissions";
 import { ALERTS_FOR, INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_PLURAL } from "../../config";
 import { FieldRecord } from "../form/records";

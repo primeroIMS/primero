@@ -2,10 +2,6 @@ const path = require("path");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const {
-  utils: { svgPrefix }
-} = require("./config");
-
 const rules = [
   {
     test: /\.(js|jsx)$/,
@@ -40,13 +36,7 @@ const rules = [
   },
   {
     test: /\.svg$/,
-    loader: "react-svg-loader",
-    options: {
-      jsx: true,
-      svgo: {
-        plugins: [{ cleanupIDs: { prefix: svgPrefix } }]
-      }
-    }
+    loader: "@svgr/webpack"
   },
   {
     test: /\.(png|svg|jpg|jpeg|gif)$/,

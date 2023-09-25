@@ -147,7 +147,7 @@ describe RecordDataService do
       source = Source.create!(data: { name: 'source name' })
       Violation.create!(
         data: { name: 'violation_name', type: 'recruitment' },
-        source: source, individual_victims: [victim], incident: incident
+        sources: [source], individual_victims: [victim], incident:
       )
       incident.reload
 
@@ -177,6 +177,6 @@ describe RecordDataService do
   end
 
   after :each do
-    clean_data(Role)
+    clean_data(User, Role)
   end
 end

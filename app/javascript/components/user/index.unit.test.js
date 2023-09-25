@@ -16,8 +16,11 @@ describe("User - index", () => {
       "getCodeOfConductId",
       "getCurrentUserGroupPermission",
       "getCurrentUserGroupsUniqueIds",
+      "getCurrentUserUserGroups",
       "getIsAuthenticated",
+      "getIsManagedReportScopeAll",
       "getListHeaders",
+      "getManagedReportScope",
       "getPermissions",
       "getPermittedFormsIds",
       "getPermittedRoleUniqueIds",
@@ -26,6 +29,7 @@ describe("User - index", () => {
       "getServerErrors",
       "getUser",
       "getUserSavingRecord",
+      "getUserProperty",
       "hasPrimeroModule",
       "hasUserPermissions",
       "reducer",
@@ -34,7 +38,10 @@ describe("User - index", () => {
       "setAuthenticatedUser",
       "setUser",
       "showLoginDialog",
-      "useRefreshUserToken"
+      "useRefreshUserToken",
+      "saveNotificationSubscription",
+      "removeNotificationSubscription",
+      "getNotificationSubscription"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

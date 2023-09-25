@@ -11,6 +11,7 @@ export const ACTIONS = {
   ASSIGN_WITHIN_AGENCY: "assign_within_agency",
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
   ASSIGN: "assign",
+  CASE_FROM_FAMILY: "case_from_family",
   CHANGE_LOG: "change_log",
   CLOSE: "close",
   CONSENT_OVERRIDE: "consent_override",
@@ -94,6 +95,7 @@ export const ACTIONS = {
   RECEIVE_TRANSFER: "receive_transfer",
   REFERRAL_FROM_SERVICE: "referral_from_service",
   REFERRAL: "referral",
+  REFERRALS_TRANSFERS_REPORT: "referrals_transfers_report",
   REMOVE_ASSIGNED_USERS: "remove_assigned_users",
   REOPEN: "reopen",
   REQUEST_APPROVAL_ACTION_PLAN: "request_approval_action_plan",
@@ -109,7 +111,9 @@ export const ACTIONS = {
   VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
   VIEW_REGISTRY_RECORD: "view_registry_record",
   VIOLATIONS: "violations",
-  WRITE: "write"
+  WORKFLOW_REPORT: "workflow_report",
+  WRITE: "write",
+  VIEW_FAMILY_RECORD: "view_family_record"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -124,6 +128,7 @@ export const RESOURCES = {
   configurations: "primero_configurations",
   contact_information: "contact_information",
   dashboards: "dashboards",
+  families: "families",
   forms: "forms",
   incidents: "incidents",
   kpis: "kpis",
@@ -163,11 +168,19 @@ export const WRITE_REGISTRY_RECORD = [...MANAGE, ACTIONS.ADD_REGISTRY_RECORD];
 
 export const READ_REGISTRY_RECORD = [...MANAGE, ACTIONS.VIEW_REGISTRY_RECORD];
 
+export const READ_FAMILY_RECORD = [...MANAGE, ACTIONS.VIEW_FAMILY_RECORD];
+
 export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
 
 export const READ_REPORTS = [...MANAGE, ACTIONS.READ, ACTIONS.GROUP_READ, ACTIONS.AGENCY_READ];
 
-export const READ_MANAGED_REPORTS = [...MANAGE, ACTIONS.GBV_STATISTICS, ACTIONS.VIOLATIONS];
+export const READ_MANAGED_REPORTS = [
+  ...MANAGE,
+  ACTIONS.GBV_STATISTICS,
+  ACTIONS.VIOLATIONS,
+  ACTIONS.WORKFLOW_REPORT,
+  ACTIONS.REFERRALS_TRANSFERS_REPORT
+];
 
 export const EXPORT_CUSTOM = [...MANAGE, ACTIONS.EXPORT_CUSTOM];
 
@@ -279,6 +292,12 @@ export const GROUP_PERMISSIONS = {
   SELF: "self"
 };
 
+export const MANAGED_REPORT_SCOPE = {
+  AGENCY: "agency",
+  ALL: "all",
+  GROUP: "group"
+};
+
 export const ASSIGN = [
   ACTIONS.MANAGE,
   ACTIONS.ASSIGN,
@@ -315,3 +334,5 @@ export const VIEW_KPIS = [
 export const SHOW_SYNC_EXTERNAL = [...MANAGE, ACTIONS.SYNC_EXTERNAL];
 
 export const CONSENT_OVERRIDE = [...MANAGE, ACTIONS.CONSENT_OVERRIDE];
+
+export const CREATE_CASE_FROM_FAMILY = [...MANAGE, ACTIONS.CASE_FROM_FAMILY];

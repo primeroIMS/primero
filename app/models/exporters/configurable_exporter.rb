@@ -16,15 +16,20 @@ class Exporters::ConfigurableExporter < Exporters::BaseExporter
     end
   end
 
-  def initialize(output_file_path = nil, export_config_id = nil)
-    super(output_file_path)
+  def initialize(output_file_path = nil, config = {}, options = {})
+    super(output_file_path, config, options)
+    export_config_id = config[:export_config_id]
     @export_configuration = ExportConfiguration.find_by(unique_id: export_config_id) if export_config_id.present?
+  end
+
+  def setup_export_constraints?
+    false
   end
 
   def properties_to_export(props = {}, opting_out = false)
     return properties_from_config(props) unless opting_out
 
-    properties_from_config(props).map { |k, v| [k, opt_out_property_keys.include?(k) ? v : ''] }.to_h
+    properties_from_config(props).to_h { |k, v| [k, opt_out_property_keys.include?(k) ? v : ''] }
   end
 
   def config_property_keys

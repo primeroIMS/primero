@@ -15,7 +15,7 @@ class ConfigYamlLoader
 
     def exclude_unsubstituted_envvars(value)
       if value.is_a?(Hash)
-        value.map { |k, v| [k, exclude_unsubstituted_envvars(v)] }.to_h.compact
+        value.transform_values { |v| exclude_unsubstituted_envvars(v) }.compact
       elsif value.is_a?(Array)
         value.map { |v| exclude_unsubstituted_envvars(v) }.compact
       elsif value.is_a?(String) && value =~ /^\$.+/

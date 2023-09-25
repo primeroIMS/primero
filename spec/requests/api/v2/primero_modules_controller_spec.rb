@@ -104,7 +104,7 @@ describe Api::V2::PrimeroModulesController, type: :request do
         }
       }
 
-      patch "/api/v2/primero_modules/#{@primero_module_a.id}", params: params
+      patch("/api/v2/primero_modules/#{@primero_module_a.id}", params:)
       expect(response).to have_http_status(200)
       expect(json['data']['description']).to eq(params[:data][:description])
       expect(json['data']['associated_record_types']).to eq(params[:data][:associated_record_types])
@@ -117,7 +117,7 @@ describe Api::V2::PrimeroModulesController, type: :request do
       )
       params = {}
 
-      patch '/api/v2/primero_modules/thisdoesntexist', params: params
+      patch('/api/v2/primero_modules/thisdoesntexist', params:)
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/primero_modules/thisdoesntexist')
@@ -129,7 +129,7 @@ describe Api::V2::PrimeroModulesController, type: :request do
       )
       params = {}
 
-      patch "/api/v2/primero_modules/#{@primero_module_a.id}", params: params
+      patch("/api/v2/primero_modules/#{@primero_module_a.id}", params:)
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['resource']).to eq("/api/v2/primero_modules/#{@primero_module_a.id}")
       expect(json['errors'][0]['message']).to eq('Forbidden')

@@ -15,19 +15,18 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     end
 
     def supported_models
-      [Child, TracingRequest]
+      [Child, TracingRequest, Family]
     end
   end
 
-  def initialize(output_file_path = nil)
-    super(output_file_path)
+  def initialize(output_file_path = nil, config = {}, options = {})
+    super(output_file_path, config, options)
     self.workbook = WriteXLSX.new(buffer)
     self.worksheets = {}
+    self.locale = user&.locale || I18n.locale
   end
 
-  def export(records, user, options = {})
-    self.locale = user&.locale || I18n.locale
-    establish_export_constraints(records, user, options)
+  def export(records)
     constraint_subforms
     build_worksheets_with_headers
 
@@ -50,7 +49,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     worksheet = build_worksheet(form, subform_field)
     worksheet&.write(0, 0, 'ID')
     build_worksheet_fields(form, worksheet)
-    worksheets[worksheet_id(form, subform_field)] = { worksheet: worksheet, row: 1 }
+    worksheets[worksheet_id(form, subform_field)] = { worksheet:, row: 1 }
   end
 
   def build_worksheet_fields(form, worksheet)
@@ -104,7 +103,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def form_name(form)
-    form.name(locale.to_s).gsub(%r{[\[\]:*?\/\\]}, ' ')
+    form.name(locale.to_s).gsub(%r{[\[\]:*?/\\]}, ' ')
   end
 
   def format_form_name(name)
@@ -112,8 +111,11 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def write_record(record)
+    data = record.data
+    data['family_details_section'] = record.family_members_details if record.is_a?(Child)
+
     forms.each do |form|
-      write_record_form(record.short_id, record.data, form, form&.subform_field&.name)
+      write_record_form(record.short_id, data, form, form&.subform_field&.name)
     end
   end
 
@@ -176,7 +178,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     value = super(value, field)
     # TODO: This will cause N+1 issue
     if field.name == 'created_organization' && value.present?
-      return Agency.get_field_using_unique_id(value, :name_i18n).dig(locale.to_s)
+      return Agency.get_field_using_unique_id(value, :name_i18n)[locale.to_s]
     end
 
     return value unless value.is_a?(Array)
@@ -212,7 +214,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
 
     return field.subform unless field_names.present?
 
-    subform = field.subform.dup
+    subform = field.subform
     subform.fields = field.subform.fields.to_a.select do |sf_field|
       field_names[sf_field.name] == true
     end

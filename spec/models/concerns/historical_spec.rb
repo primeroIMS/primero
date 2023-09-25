@@ -50,7 +50,7 @@ describe Historical do
 
     it 'should insert a creation history with correct record_changes' do
       # TODO: Not a very good test. What changes are expected?
-      expect(@inst.histories.first.record_changes.size).to eq(18)
+      expect(@inst.histories.first.record_changes.size).to eq(20)
     end
 
     # TODO: This is disabled for now. OK behavior, no?
@@ -140,7 +140,7 @@ describe Historical do
           'file.jpg'
         end
       end
-      @inst.create_attachment(file: file, name: 'file.jpg')
+      @inst.create_attachment(file:, name: 'file.jpg')
 
       @inst.save!
       @inst.histories[0].record_changes['_attachments']['to']['file.jpg']['stub'].should be_truthy

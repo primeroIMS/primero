@@ -3,7 +3,7 @@ import { DEFAULT_FETCH_OPTIONS } from "../constants";
 import buildPath from "./build-path";
 import getToken from "./get-token";
 
-const fetchParamsBuilder = (api, options, controller) => {
+const fetchParamsBuilder = async (api, options, controller) => {
   const { path, body, params, method, external } = api;
 
   const fetchOptions = {
@@ -13,7 +13,7 @@ const fetchParamsBuilder = (api, options, controller) => {
     body: JSON.stringify(body)
   };
 
-  const token = getToken();
+  const token = await getToken();
 
   const headers = {};
 

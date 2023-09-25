@@ -18,6 +18,7 @@ export const RESOURCES = [
   "incident",
   "tracing_request",
   "registry_record",
+  "family",
   "potential_match",
   "role",
   "user",

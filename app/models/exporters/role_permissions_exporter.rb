@@ -10,7 +10,7 @@ class Exporters::RolePermissionsExporter
   CASE = %w[
     referral transfer read create write enable_disable_record flag manage add_note reopen close
     change_log view_incident_from_case view_protection_concerns_filter list_case_names view_registry_record
-    add_registry_record
+    add_registry_record view_family_record case_from_family
   ].freeze
   CASE_EXPORTS = %w[
     export_list_view_csv export_csv export_xls export_photowall export_unhcr_csv export_pdf consent_override
@@ -62,7 +62,7 @@ class Exporters::RolePermissionsExporter
   def complete
     @workbook.close
     @io.close unless @io.closed?
-    puts 'Exported to ' + @export_file_name
+    puts "Exported to #{@export_file_name}"
     @io
   end
 
@@ -81,7 +81,7 @@ class Exporters::RolePermissionsExporter
   def write_header
     @roles = Role.all.to_a.sort_by(&:name)
     @role_permissions_array = @roles.map do |r|
-      r.permissions.map { |p| [p.resource, p.to_h] }.to_h
+      r.permissions.to_h { |p| [p.resource, p.to_h] }
     end
     header = %w[Resource Action] + @roles.map(&:name)
     write_row(header, true)
@@ -181,7 +181,7 @@ class Exporters::RolePermissionsExporter
     write_row resource_label
     @roles.each do |role|
       managed_roles_array =
-        @role_permissions_array.map { |p| '✔' if p.dig('role')&.dig('role_unique_ids')&.include? role.unique_id }
+        @role_permissions_array.map { |p| '✔' if p['role']&.dig('role_unique_ids')&.include? role.unique_id }
       role_row = ['', role.name] + managed_roles_array
       write_row role_row
     end
@@ -204,7 +204,7 @@ class Exporters::RolePermissionsExporter
 
   def write_out_permitted_form(form)
     forms_permitted_array = @roles.map do |r|
-      permitted = (r.permitted_form_id? form.unique_id) || r.form_sections.size.zero?
+      permitted = (r.permitted_form_id? form.unique_id) || r.form_sections.empty?
       get_check permitted
     end
     form_row = ['', form.send("name_#{@locale}")] + forms_permitted_array

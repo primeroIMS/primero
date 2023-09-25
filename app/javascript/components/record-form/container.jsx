@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getIncidentFromCase, selectRecord, getCaseIdForIncident, fetchRecord } from "../records";
 import { RECORD_PATH, RECORD_TYPES, SUMMARY, RECORD_TYPES_PLURAL } from "../../config";
 import {
@@ -16,6 +16,7 @@ import {
 } from "../permissions";
 import { getRecordAttachments, getLoadingRecordState } from "../records/selectors";
 import { getPermittedFormsIds } from "../user/selectors";
+import { READ_FAMILY_RECORD, READ_REGISTRY_RECORD, VIEW_INCIDENTS_FROM_CASE } from "../permissions/constants";
 import { useApp } from "../application";
 
 import {
@@ -47,6 +48,9 @@ const Container = ({ mode }) => {
 
   const canViewCases = usePermissions(params.recordType, READ_RECORDS);
   const canViewSummaryForm = usePermissions(RESOURCES.potential_matches, SHOW_FIND_MATCH);
+  const canViewRegistryRecord = usePermissions(RESOURCES.cases, READ_REGISTRY_RECORD);
+  const canViewFamilyRecord = usePermissions(RESOURCES.cases, READ_FAMILY_RECORD);
+  const canViewIncidentRecord = usePermissions(RESOURCES.cases, VIEW_INCIDENTS_FROM_CASE);
   const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
   const canSeeChangeLog = usePermissions(params.recordType, SHOW_CHANGE_LOG);
 
@@ -62,7 +66,8 @@ const Container = ({ mode }) => {
     recordType,
     primeroModule: record ? record.get("module_id") : params.module,
     checkPermittedForms: true,
-    renderCustomForms: canViewSummaryForm,
+    renderCustomForms:
+      canViewSummaryForm || canViewRegistryRecord || canViewFamilyRecord || canViewIncidentRecord || canSeeChangeLog,
     checkWritable: true
   };
 

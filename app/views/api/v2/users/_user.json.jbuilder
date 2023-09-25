@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-user_hash = user.attributes.reject { |k, _| User.hidden_attributes.include?(k) }
+user_hash = user.attributes.except(*User.hidden_attributes)
 user_hash = user_hash.merge({
   agency_id: user.agency_id,
   module_unique_ids: user.module_unique_ids,
@@ -10,7 +10,8 @@ user_hash = user_hash.merge({
   user_groups: user.user_groups,
   identity_provider_unique_id: user.identity_provider&.unique_id,
   agency_office: user.agency_office,
-  reporting_location_config: user.reporting_location_config
+  reporting_location_config: user.reporting_location_config,
+  managed_report_scope: user.managed_report_scope
 }.compact)
 
 if @extended
@@ -18,7 +19,7 @@ if @extended
     permissions: {
       list: user.role.permissions.map do |p|
         resource = p.resource == Permission::CODE_OF_CONDUCT ? 'codes_of_conduct' : p.resource.pluralize
-        { resource: resource, actions: p.actions }
+        { resource:, actions: p.actions }
       end
     },
     permitted_form_unique_ids: user.role.form_section_unique_ids,
@@ -28,14 +29,16 @@ if @extended
       Child.parent_form,
       Incident.parent_form,
       TracingRequest.parent_form,
-      RegistryRecord.parent_form
+      RegistryRecord.parent_form,
+      Family.parent_form
     ].map { |record_type| { record_type.pluralize => Filter.filters(user, record_type) } }
      .inject(&:merge),
     list_headers: ([
       Child.parent_form,
       Incident.parent_form,
       TracingRequest.parent_form,
-      RegistryRecord.parent_form
+      RegistryRecord.parent_form,
+      Family.parent_form
     ].map { |record_type| { record_type.pluralize => Header.get_headers(user, record_type) } } + [
       { reports: Header.report_headers },
       { tasks: Header.task_headers },

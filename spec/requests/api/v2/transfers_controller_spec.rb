@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Api::V2::TransfersController, type: :request do
   include ActiveJob::TestHelper
   before do
-    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition)
+    clean_data(User, Role, PrimeroModule, UserGroup, Child, Transition)
 
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
@@ -110,8 +110,8 @@ describe Api::V2::TransfersController, type: :request do
   describe 'POST /api/v2/case/:id/transfers' do
     it 'initiates a transfer of a the record to the target user' do
       sign_in(@user1)
-      params = {data: {transitioned_to: 'user2', notes: 'Test Notes'}}
-      post "/api/v2/cases/#{@case.id}/transfers", params: params
+      params = { data: { transitioned_to: 'user2', notes: 'Test Notes' } }
+      post("/api/v2/cases/#{@case.id}/transfers", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['record_id']).to eq(@case.id.to_s)
@@ -125,8 +125,8 @@ describe Api::V2::TransfersController, type: :request do
 
     it "get a forbidden message if the user doesn't have transfer permission" do
       login_for_test
-      params = {data: {transitioned_to: 'user2', notes: 'Test Notes'}}
-      post "/api/v2/cases/#{@case.id}/transfers", params: params
+      params = { data: { transitioned_to: 'user2', notes: 'Test Notes' } }
+      post("/api/v2/cases/#{@case.id}/transfers", params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['status']).to eq(403)
@@ -148,8 +148,8 @@ describe Api::V2::TransfersController, type: :request do
 
     it 'transfer multiple records to the target user' do
       sign_in(@user1)
-      params = {data: {ids: [@case.id, @case2.id], transitioned_to: 'user2', notes: 'Test Notes'}}
-      post '/api/v2/cases/transfers', params: params
+      params = { data: { ids: [@case.id, @case2.id], transitioned_to: 'user2', notes: 'Test Notes' } }
+      post('/api/v2/cases/transfers', params:)
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
@@ -180,7 +180,7 @@ describe Api::V2::TransfersController, type: :request do
           status: 'accepted'
         }
       }
-      patch "/api/v2/cases/#{@case.id}/transfers/#{@transfer1.id}", params: params
+      patch("/api/v2/cases/#{@case.id}/transfers/#{@transfer1.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['status']).to eq(Transition::STATUS_ACCEPTED)
@@ -202,7 +202,7 @@ describe Api::V2::TransfersController, type: :request do
           status: 'rejected'
         }
       }
-      patch "/api/v2/cases/#{@case.id}/transfers/#{@transfer1.id}", params: params
+      patch("/api/v2/cases/#{@case.id}/transfers/#{@transfer1.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['status']).to eq(Transition::STATUS_REJECTED)
@@ -225,7 +225,7 @@ describe Api::V2::TransfersController, type: :request do
           status: 'revoked'
         }
       }
-      patch "/api/v2/cases/#{@case.id}/transfers/#{@transfer1.id}", params: params
+      patch("/api/v2/cases/#{@case.id}/transfers/#{@transfer1.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['status']).to eq(Transition::STATUS_REVOKED)
@@ -243,6 +243,6 @@ describe Api::V2::TransfersController, type: :request do
 
   after do
     clear_enqueued_jobs
-    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition)
+    clean_data(User, Role, PrimeroModule, UserGroup, Child, Transition)
   end
 end

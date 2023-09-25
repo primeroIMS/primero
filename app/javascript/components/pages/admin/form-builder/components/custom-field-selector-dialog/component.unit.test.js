@@ -14,7 +14,7 @@ import {
   RADIO_FIELD,
   SELECT_FIELD,
   SUBFORM_SECTION
-} from "../../../../../form";
+} from "../../../../../form/constants";
 
 import CustomFieldSelectorDialog from "./component";
 import { DATE_TIME_FIELD, MULTI_SELECT_FIELD } from "./constants";

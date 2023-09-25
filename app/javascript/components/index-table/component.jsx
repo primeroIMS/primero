@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getLoadingState } from "../record-form/selectors";
 
 import { NAME } from "./config";
@@ -9,7 +9,10 @@ import Datatable from "./components/data-table";
 
 const Component = props => {
   const { recordType, targetRecordType, checkComplete } = props;
-  const data = useMemoizedSelector(state => getRecords(state, recordType, checkComplete));
+  const data = useMemoizedSelector(
+    state => getRecords(state, recordType, checkComplete),
+    (data1, data2) => data1.equals(data2)
+  );
   const loading = useMemoizedSelector(state => getLoading(state, recordType));
   const errors = useMemoizedSelector(state => getErrors(state, recordType));
   const formsAreLoading = useMemoizedSelector(state => getLoadingState(state));
@@ -47,6 +50,7 @@ Component.propTypes = {
   defaultFilters: PropTypes.object,
   isRowSelectable: PropTypes.func,
   localizedFields: PropTypes.arrayOf(PropTypes.string),
+  online: PropTypes.bool,
   onRowClick: PropTypes.func,
   onTableChange: PropTypes.func.isRequired,
   options: PropTypes.object,

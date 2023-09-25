@@ -40,6 +40,5 @@ class ManagedReports::Indicators::MilitaryUse < ManagedReports::SqlReportIndicat
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
-
   end
 end

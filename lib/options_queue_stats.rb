@@ -5,7 +5,7 @@ class OptionsQueueStats
   def self.options_not_generated?
     options_dir = "#{Rails.root}/public/options"
 
-    File.directory?(options_dir) && Dir.empty?(options_dir) ||
+    (File.directory?(options_dir) && Dir.empty?(options_dir)) ||
       !File.directory?(options_dir)
   end
 

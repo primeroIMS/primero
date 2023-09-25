@@ -15,7 +15,7 @@ class Exporters::CsvExporter < Exporters::BaseExporter
     end
 
     def supported_models
-      [Child, Incident, TracingRequest, RegistryRecord]
+      [Child, Incident, TracingRequest, RegistryRecord, Family]
     end
 
     def excluded_field_names
@@ -23,10 +23,9 @@ class Exporters::CsvExporter < Exporters::BaseExporter
     end
   end
 
-  def export(records, user, options = {})
-    establish_export_constraints(records, user, options)
+  def export(records)
     csv_export = CSVSafe.generate do |rows|
-      rows << headers(fields) if @called_first_time.nil?
+      rows << headers if @called_first_time.nil?
       @called_first_time ||= true
 
       records.each do |record|
@@ -38,13 +37,13 @@ class Exporters::CsvExporter < Exporters::BaseExporter
 
   private
 
-  def headers(fields)
-    ['id'] + fields.map(&:name)
+  def headers
+    ['id'] + field_names
   end
 
   def row(record, fields)
-    [record.id] + fields.map do |field|
-      record.data[field.name]
-    end
+    data = record.data
+    data['family_details_section'] = record.family_members_details if record.is_a?(Child)
+    [record.id] + fields.map { |field| data[field.name] }
   end
 end

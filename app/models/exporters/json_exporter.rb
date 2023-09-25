@@ -12,12 +12,11 @@ class Exporters::JsonExporter < Exporters::BaseExporter
     end
 
     def supported_models
-      [Child, Incident, TracingRequest]
+      [Child, Incident, TracingRequest, Family]
     end
   end
 
-  def export(records, user, options = {})
-    establish_export_constraints(records, user, options)
+  def export(records)
     hashes = records.map { |m| convert_model_to_hash(m) }
     buffer.write(JSON.pretty_generate(hashes))
   end
@@ -27,6 +26,7 @@ class Exporters::JsonExporter < Exporters::BaseExporter
     json_parse = JSON.parse(record.to_json)
     data_fields = json_parse['data'].select { |k, _| field_names.include?(k) }
     json_parse['data'] = data_fields
+    json_parse['data']['family_details_section'] = record.family_members_details if record.is_a?(Child)
     json_parse
   end
 end

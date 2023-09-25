@@ -213,6 +213,8 @@ en:
     view: View
     view_flags_history: View History
     return_to_case: Return to Case
+    enable_webpush: Device notifications
+    dialog_yes: "Yes"
   resync_records:
     id: ID
     record_type: Record Type
@@ -225,7 +227,10 @@ en:
   case:
     label: Case
     create_new_case: Create New Case
+    create_case: Create Case
+    create: Create
     add_new: Add New
+    back_to_family_details: Back to Family Details
     back_to_case: Back to Case
     back_to_results: Back to Results
     back_to_search: Back to Search
@@ -250,6 +255,7 @@ en:
       introductory_sentence: Please specify the individual’s consent to receive case management services and for their data to be stored in Primero.
       consent_agreements_required: Please select at least one option from consent agreements.
       legitimate_basis_required: Please select at least one option from legitimate basis classifications.
+      confirm_create_case: Do you want to create a Case for this individual?
     save: Save Case
     save_text: Before continuing, please save your changes to the Case.
     skip_and_create: Skip and Create New Case
@@ -830,6 +836,26 @@ en:
     assign_html: '<strong>%{user}</strong> has assigned the following %{record_type} to you: <strong>%{record_id}</strong>.'
     transfer_request_html: 'Primero user <strong>%{user}</strong> from %{agency} is requesting that you transfer ownership of this %{record_type} record <strong>%{record_id}</strong> so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer.'
     transfer_request_notes_html: 'Notes from the individual making the request: %{request_transfer_notes}'
+  webpush_notification:
+    action_label: Go to Case
+    approval_request:
+      title: Approval Request
+      body: A Case on your team has a pending approval request for %{type}.
+    approval_response:
+      title: Approval Response
+      body: One of your Cases has received an approval response.
+    assign:
+      title: New Assignment
+      body: You have received a new Case Assignment.
+    referral:
+      title: New Referral
+      body: You have received a new Case Referral.
+    transfer:
+      title: New Transfer
+      body: You have received a new Case Transfer.
+    transfer_request:
+      title: Transfer Request
+      body: You have received a new Case Transfer Request
   encrypt:
     export_type: Type of export
     file_name: Create your own file name (Optional)
@@ -899,6 +925,11 @@ en:
         title_present: Title must not be blank
         content_present: Content must not be blank
         created_by_present: Created By must not be blank
+      webpush_subscription:
+        notification_url_present: notification_url must not be blank
+        notification_url_format: notification_url must have URL format
+        auth_present: Auth must not be blank
+        p256dh_present: p256dh must not be blank
     not_found: No Record(s) Found
     try_again: Try again
   exports:
@@ -1329,6 +1360,8 @@ en:
       violation: Violation
       registry_details: Registry Details
       registry_record: Registry Record
+      family_record: Family Record
+      family: Family Record
     required_field: '%{field} is a required field'
     select_label: Select
     settings: Settings
@@ -1727,6 +1760,9 @@ en:
       township: Township
       municipality: Municipality
       autonomous_region: Autonomous Region
+      parish: Parish
+      cercle: Cercle
+      sub-county: Sub-county
     label: Location
     name: Name
     code: Code
@@ -1926,15 +1962,40 @@ en:
       date: Date
       verification_status: Verification Status
       violation_type: Violation Type
+      status: Status
+      status_open: Open
+      status_closed: Closed
+      user_group: User Group
+      agency: Agency
+      by: By
+      workflow: Workflow Status
+      cp_incident_violence_type: Type of Violence
+      referral_transfer_status: Referral / Transfer Status
+    status_options:
+      open: Open
+      closed: Closed
+    by_options:
+      created_by_groups: User Groups of record creator
+      owned_by_groups: User Groups of record owner
+      created_organization: Agency of record creator
+      owned_by_agency_id: Agency of record owner
+    referral_transfer_status_options:
+      in_progress: Pending
+      accepted: Accepted
+      rejected: Rejected
+      done: Done
     date_range:
       month: Month
       quarter: Quarter
       year: Year
+      week: Week
     date_range_options:
       this_quarter: This Quarter
       last_quarter: Last Quarter
       this_month: This Month
       last_month: Last Month
+      this_week: This Week
+      last_week: Last Week
       this_year: This Year
       last_year: Last Year
       custom: Custom
@@ -2081,6 +2142,39 @@ en:
         service_protection_referral: Child Protection Services
         vulnerable_populations: Survivor Statistics - 8. Vulnerable Populations
         survivors_disability_type: With Disabilities
+    workflow_report:
+      name: Workflow
+      description: ''
+      reports:
+        cases_workflow: Workflow - Cases
+        incidents_workflow: Workflow - Incidents
+      filter_options:
+        registration_date: Registration Date
+      sub_reports:
+        case_workflow_by_sex_and_age: Total Number of Cases by Sex and Age
+        incident_workflow_by_sex_and_age: Total Number of Incidents by Sex and Age
+    referrals_transfers_report:
+      name: Referrals and Transfers
+      description: ''
+      reports:
+        total_referrals: Referrals
+        total_transfers: Transfers
+      sub_reports:
+        total_transfers_by_user_groups: Total Transfers
+        total_referrals_by_user_groups: Total Referrals
+      filter_options:
+        registration_date: Registration Date
+    violence_type_report:
+      name: Type of Violence
+      description: ''
+      reports:
+        cases_violence_type: Type of Violence - Cases
+        incidents_violence_type: Type of Violence - Incidents
+      filter_options:
+        registration_date: Registration Date
+      sub_reports:
+        case_violence_type_by_sex_and_age: Total Number of Cases by Sex and Age
+        incident_violence_type_by_sex_and_age: Total Number of Incidents by Sex and Age
     success_message: Successfully generated the export file
   messages:
     alert_items: You have %{items} items of note.
@@ -2132,6 +2226,7 @@ en:
     tracing_request: Tracing Request
     activity_log: Activity Log
     registry_records: Registry
+    families: Families
   notes:
     note_success: Successfully added note
   permissions:
@@ -2215,6 +2310,7 @@ en:
       find_tracing_match: Find tracing match from case
       view_registry_record: View registry record
       add_registry_record: Add registry record
+      family: Family
       flag: Flag
       form: Forms
       group: Access all records or users in my group
@@ -2757,6 +2853,14 @@ en:
           mark_for_offline:
             explanation: Allows the user to cache a Case for usage offline.
             label: Mark for Offline
+          view_family_record:
+            explanation: Users can view the 'Family Record' form on the case,
+              which includes a link to the case's family record.
+            label:  View family record from case
+          case_from_family:
+            explanation: Users can create a Case for one of the Case's family members in the Family Details subform.
+              Note that a Family Record will be automatically created to link these two cases.
+            label: Create Case from Family Details
         explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:
@@ -2991,6 +3095,8 @@ en:
             they can configure. NOTE: If no forms are specified, it means the role
             has access to all the forms for registries.'
           label: Forms - Registry
+        family:
+          label: Forms - Family
       group:
         actions:
           admin_only:
@@ -3138,6 +3244,14 @@ en:
         label: Is Manager?
       managed_report:
         actions:
+          managed_report_scope:
+            label: What records should this role be able to see in Insights?
+          managed_report_scope_all:
+            label: All
+          managed_report_scope_group:
+            label: Group-based data only
+          managed_report_scope_agency:
+            label: Agency-based data only
           violations:
             label: Violations
           gbv_statistics:
@@ -3146,6 +3260,18 @@ en:
             label: Global Horizontal Note
           individual_children:
             label: Individual Children
+          workflow_report:
+            label: Workflow
+            explanation: Ability to view statistics on Workflow Status. This permission also allows the user to export
+              data from an Insight.
+          violence_type_report:
+            label: Type of Violence
+            explanation: Ability to view statistics on Type of Violence. This permission also allows
+              the user to export data from an Insight.
+          referrals_transfers_report:
+            label: Referrals and Transfers
+            explanation: Users see the number of cases referred and transferred from each User Group
+              to each other User Group.
       matching_configuration:
         actions:
           manage:
@@ -3276,6 +3402,88 @@ en:
           updated with new information. They are similar to lookups, but with a more complex
           set of information for each entry.
         label: Registry Record
+      family:
+        actions:
+          change_log:
+            explanation: User can see a history of all changes made to the record since it
+              was created. This includes values recorded for all fields.
+            label: Change Log
+          create:
+            explanation: Ability to create a Family.
+            label: Create
+          enable_disable_record:
+            explanation: Ability to disable or enable a Family. "Disabled" families
+              do not appear by default in the Family list. Users can see disabled Families
+              in the Family list by using a filter.
+            label: Enable / Disable
+          export_csv:
+            explanation: 'User can generate a CSV file export from the Family list or Family
+              show pages, which contains all fields to which the current user has access, for
+              one, multiple, or all Familiess to which the user has access. NOTE: The
+              CSV export does not render non-Latin characters (e.g. Arabic, Bangla)'
+            label: Export CSV
+          export_json:
+            explanation: User can generate a JSON file export from the Family list or Family
+              show pages, which contains all fields to which the current user has access. The
+              JSON format is machine-readable and not practical for most users.
+            label: Export JSON
+          export_xls:
+            explanation: 'User can generate a XLS file export from the Family list or Family
+              show pages, which contains all fields to which the current user has access. NOTE:
+              The XLS format renders non-Latin characters (e.g. Arabic, Bangla) in a readable
+              format, while the CSV export does not.'
+            label: Excel (XLS file) export
+          export_json:
+            explanation: User can generate a JSON file export from the Family list
+              or incident show pages, which contains all fields to which the current
+              user has access, for one, multiple, or all incidents to which the user
+              has access. This export is mainly used for those who want to export
+              incidents from the current Primero system and then import them into
+              a different Primero system, or into another information management system.
+              The JSON format is machine-readable and not practical for most users.
+            label: Export JSON
+          export_list_view_csv:
+            explanation: User can generate a CSV file export from the Family list
+              page which contains the same fields which appear for that user on the
+              family list. Only performed from the Family list page.
+            label: Export list view CSV
+          export_pdf:
+            explanation: User can generate a PDF file export from the Family list
+              or family show pages, which contains all fields to which the current
+              user has access, for one, multiple, or all records to which the user
+              has access. In the PDF export file, information is listed first by family,
+              and then further organized by the form on which information appears.
+            label: Export PDF
+          export_custom:
+            label: Export custom
+          flag:
+            explanation: Ability to add a flag to a Family. Users with this permission
+              can also remove the flags that they have added to a Family.
+            label: Flag
+          manage:
+            explanation: Allows a user to perform all available actions on Families. The
+              "Manage" permission essentially means "everything".
+            label: Manage (all permissions for this resource type)
+          read:
+            explanation: Ability to see Families
+            label: View
+          write:
+            explanation: Ability to click the "Edit" button, update information about the Family
+              and click "Save".
+            label: Edit
+          sync_mobile:
+            explanation: Allows the user to cache Families for usage offline.
+            label: Mark for Offline
+          close:
+            explanation: Allows a user to set the status of an open family to closed.
+            label: Close
+          reopen:
+            explanation: Allows a user to open a family which is currently closed.
+            label: Reopen
+          case_from_family:
+            explanation: Allows users to create a new case from a Family Members subform within the Family Record.
+            label: Create Case
+        label: Family
       report:
         actions:
           create:
@@ -3686,6 +3894,7 @@ en:
     record_type: Record type
     total: Total
     value: Value
+    incomplete_data: Incomplete Data
   reports:
     delete_report: Delete Report
     delete_report_message: Are you sure you want to delete this report? Deletion can
@@ -3865,6 +4074,38 @@ en:
       title: Mark for Offline
       text: Are you sure you want to mark these registry records for use when you are offline?
       success: Registry records successfully marked for offline use
+  families:
+    id: ID
+    label: Families
+    family_id: Family ID
+    family_number: Family Number
+    family_name: Family Name
+    family_registration_date: Registration Date
+    family_location_current: Family Location
+    export: Export
+    register_new_family: New Family
+    show_family: 'Family ID %{short_id}'
+    disable_dialog_title: Disable Family
+    disable_dialog: Clicking OK will change the status of this Family to Disabled.
+    selected_records: '%{select_records} family record(s) selected'
+    selected_all_records: 'Select all %{total_records} families that match this query.'
+    filter_by:
+      by_date: By Date
+      status: Status
+      current_location: Family Location
+  family:
+    family_member:
+      case_id: Case ID
+      update_and_return: Update and Return
+      save_and_return: Add and Return
+      create_case: Create Case
+      back_to_family_members: Back to Family Members
+      create: Create
+    messages:
+      update_success: 'Family %{record_id} was successfully updated.'
+      creation_success: 'Family successfully created.'
+      disabled: Family is disabled
+      confirm_create_case: Do you want to create a Case for this individual?
   transfer:
     label: Transfer
     agency_label: Agency
@@ -3932,6 +4173,8 @@ en:
     locale: Locale
     location: Location
     messages:
+      records_update: Primero is updating this user's records to reflect the changes you made.
+        It may take a little while for dashboards and reports to update.
       confirmation: Are you sure you want to delete this user? Deletion can not be
         undone. Click OK To Delete User.
       created: User was successfully created.
@@ -3965,6 +4208,10 @@ en:
     provider_username_help: 'Example: my.username@%{domain}'
     role_id: Role
     send_mail: Receive email notifications?
+    receive_webpush:
+      label: Receive push notifications?
+      help_text: Note that you will still need to allow push notifications on your device’s browser.
+      tooltip: You must first edit your account and enable push notifications for your user.
     user_group_unique_ids: User Groups
     user_name: Username
     services: Services
@@ -4036,3 +4283,12 @@ en:
       selected_records: '%{select_records} location(s) selected'
       selected_all_records: Select all %{total_records} cases that match this query.
       updated: '%{updated_records} location(s) updated'
+  push_notifications_dialog:
+    title: Device Notifications
+    body_blocked:
+      message: You have blocked notifications for Primero on this device. To fix this, you will need to turn on the Permissions notification.
+      android: "Android: Go to Settings. Click on Apps. Find Primero in the list of apps and click on this. Click Notifications. Switch the toggle for notifications to the on position."
+      ios: "iOS: Go to the Settings app. Click on Notifications. Scroll down to the list of Apps and find Primero. Switch the toggle for Primero to the on position."
+    body:
+      one: Do you want to allow Primero to send you notifications? Remember that you will continue to receive notifications on this device %{count} day after you log out. This is not recommended for shared devices.
+      other: Do you want to allow Primero to send you notifications? Remember that you will continue to receive notifications on this device %{count} days after you log out. This is not recommended for shared devices.

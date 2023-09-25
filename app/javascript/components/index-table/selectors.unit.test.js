@@ -6,7 +6,8 @@ const stateWithNoRecords = fromJS({
   records: {
     TestRecordType: {
       loading: false,
-      data: []
+      data: [],
+      metadata: {}
     }
   }
 });

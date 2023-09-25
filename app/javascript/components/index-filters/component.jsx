@@ -4,7 +4,6 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useDispatch, batch } from "react-redux";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
-import merge from "deepmerge";
 import omit from "lodash/omit";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
@@ -17,17 +16,17 @@ import { currentUser } from "../user";
 import { useI18n } from "../i18n";
 import { getReportingLocationConfig } from "../user/selectors";
 import { DEFAULT_FILTERS } from "../record-list/constants";
-import { overwriteMerge, useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { reduceMapToObject } from "../../libs/component-helpers";
 
-import { DEFAULT_SELECTED_RECORDS_VALUE, FILTER_CATEGORY, HIDDEN_FIELDS, ID_SEARCH } from "./constants";
+import { DEFAULT_SELECTED_RECORDS_VALUE, FILTER_CATEGORY, HIDDEN_FIELDS } from "./constants";
 import { compactFilters, transformFilters } from "./utils";
 import { Search } from "./components/filter-types";
 import { applyFilters, setFilters } from "./action-creators";
 import css from "./components/styles.css";
 import TabFilters from "./components/tab-filters";
 
-const Component = ({ recordType, defaultFilters, setSelectedRecords, metadata }) => {
+const Component = ({ recordType, setSelectedRecords, metadata }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -40,10 +39,8 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords, metadata })
   const [tabIndex, setTabIndex] = useState(0);
   const [more, setMore] = useState(false);
   const [reset, setReset] = useState(false);
-  const [filterToList, setFilterToList] = useState(DEFAULT_FILTERS);
   const [moreSectionFilters, setMoreSectionFilters] = useState({});
 
-  const defaultFiltersPlainObject = defaultFilters.toJS();
   const defaultFiltersForClear = reduceMapToObject(fromJS(DEFAULT_FILTERS).merge(metadata));
 
   const resetSelectedRecords = () => {
@@ -51,9 +48,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords, metadata })
   };
 
   const methods = useForm({
-    defaultValues: merge({ ...defaultFiltersPlainObject, filter_category: FILTER_CATEGORY.incidents }, filterToList, {
-      arrayMerge: overwriteMerge
-    }),
+    defaultValues: { ...DEFAULT_FILTERS, filter_category: FILTER_CATEGORY.incidents },
     shouldUnregister: false
   });
 
@@ -61,8 +56,6 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords, metadata })
   const userName = useMemoizedSelector(state => currentUser(state));
 
   const ownedByLocation = `${reportingLocationConfig.get("field_key")}${reportingLocationConfig.get("admin_level")}`;
-
-  const addFilterToList = useCallback(data => setFilterToList({ ...filterToList, ...data }), [filterToList]);
 
   useEffect(() => {
     [...HIDDEN_FIELDS, ownedByLocation].forEach(field => methods.register({ name: field }));
@@ -82,7 +75,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords, metadata })
 
   useEffect(() => {
     if (rerender) {
-      const filtersToApply = isEmpty(queryParams) ? defaultFiltersPlainObject : queryParams;
+      const filtersToApply = isEmpty(queryParams) ? DEFAULT_FILTERS : queryParams;
 
       Object.keys(methods.getValues()).forEach(value => {
         if (!Object.keys(filtersToApply).includes(value) && !isEmpty(value)) {
@@ -95,13 +88,14 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords, metadata })
       dispatch(applyFilters({ recordType, data: compactFilters(filtersToApply) }));
 
       setRerender(false);
-      setFilterToList(DEFAULT_FILTERS);
     }
   }, [rerender]);
 
   useEffect(() => {
-    methods.reset({ ...transformFilters.split(queryParams), filter_category: methods.getValues("filter_category") });
-  }, [queryString]);
+    if (methods.reset && queryString) {
+      methods.reset({ ...transformFilters.split(queryParams), filter_category: methods.getValues("filter_category") });
+    }
+  }, [methods.reset, queryString]);
 
   const tabs = [
     { name: i18n.t("saved_search.filters_tab"), selected: true },
@@ -119,28 +113,23 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords, metadata })
     setOpen(true);
   }, []);
 
-  const handleClear = useCallback(
-    setIdSearch => {
-      resetSelectedRecords();
-      methods.reset({
-        ...defaultFiltersForClear,
-        filter_category: methods.getValues("filter_category"),
-        ...(setIdSearch && { [ID_SEARCH]: true })
-      });
-      batch(() => {
-        dispatch(setFilters({ recordType, data: defaultFiltersForClear }));
-        dispatch(push({}));
-      });
+  const handleClear = useCallback(() => {
+    resetSelectedRecords();
+    methods.reset({
+      ...defaultFiltersForClear,
+      filter_category: methods.getValues("filter_category")
+    });
+    batch(() => {
+      dispatch(setFilters({ recordType, data: defaultFiltersForClear }));
+      dispatch(push({}));
+    });
 
-      setMoreSectionFilters({});
-      setReset(true);
-      setMore(false);
-      setFilterToList(DEFAULT_FILTERS);
-    },
-    [recordType, defaultFiltersForClear]
-  );
+    setMoreSectionFilters({});
+    setReset(true);
+    setMore(false);
+  }, [recordType, defaultFiltersForClear]);
 
-  const handleChangeTabs = (event, value) => setTabIndex(value);
+  const handleChangeTabs = (_event, value) => setTabIndex(value);
 
   return (
     <div className={css.root}>
@@ -162,9 +151,6 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords, metadata })
 
             {tabIndex === 0 && (
               <TabFilters
-                addFilterToList={addFilterToList}
-                defaultFilters={defaultFilters}
-                filterToList={filterToList}
                 handleClear={handleClear}
                 handleSave={handleSave}
                 more={more}
@@ -191,14 +177,9 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords, metadata })
   );
 };
 
-Component.defaultProps = {
-  defaultFilters: fromJS({})
-};
-
 Component.displayName = "IndexFilters";
 
 Component.propTypes = {
-  defaultFilters: PropTypes.object,
   metadata: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   setSelectedRecords: PropTypes.func

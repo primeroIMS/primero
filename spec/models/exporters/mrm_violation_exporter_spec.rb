@@ -45,7 +45,7 @@ module Exporters
         fields = generate_fields(unique_id)
 
         memo[unique_id] = FormSection.create!(
-          name: name, unique_id: name, visible: true, order_form_group: 0, order: 0, order_subform: 0, is_nested: true,
+          name:, unique_id: name, visible: true, order_form_group: 0, order: 0, order_subform: 0, is_nested: true,
           fields: violation?(unique_id) ? [fields.first, violation_tally_field] + verification_fields : fields
         )
       end
@@ -56,7 +56,7 @@ module Exporters
       form_unique_ids.map.with_index do |unique_id, index|
         name = violation?(unique_id) ? "#{unique_id}_violation_wrapper" : unique_id
         FormSection.create!(
-          name: name, parent_form: 'incident', visible: true, order_form_group: 0, order: index, order_subform: 0,
+          name:, parent_form: 'incident', visible: true, order_form_group: 0, order: index, order_subform: 0,
           form_group_id: 'violations', unique_id: name, fields: [Field.new(
             name: unique_id, display_name: unique_id.capitalize, type: 'subform', subform_section: subforms[unique_id]
           )]
@@ -112,13 +112,13 @@ module Exporters
     end
 
     let(:user) do
-      user = User.new(user_name: 'user_mrm', role: role)
+      user = User.new(user_name: 'user_mrm', role:)
       user.save(validate: false)
       user
     end
 
     before do
-      clean_data(Incident, Role, UserGroup, User, Agency, Field, FormSection, PrimeroProgram, PrimeroModule)
+      clean_data(Incident, User, Agency, Role, UserGroup, Field, FormSection, PrimeroModule, PrimeroProgram)
 
       @incident1 = Incident.create!(
         id: '20b60ced-b862-41db-ab17-2dc5048ea925',
@@ -158,7 +158,7 @@ module Exporters
             id: 'c4297ffe-c512-4414-abbb-aa5da0a0c05b',
             data: {
               type: 'maiming',
-              violation_tally: { tally1: 1, tally2: 0, tally3: 1, total: 2 },
+              violation_tally: { tally1: 1, tally2: 0, tally3: 1, total: 2 }
             },
             individual_victims: [
               IndividualVictim.new(data: { individual_victims_field_1: 'Incident 2 IV Value 1' })
@@ -185,7 +185,9 @@ module Exporters
                   }
               )
             ],
-            source: Source.new(data: { sources_field_1: 'Incident 3 Source Value 1' })
+            sources: [
+              Source.new(data: { sources_field_1: 'Incident 3 Source Value 1' })
+            ]
           ),
           Violation.new(
             id: 'd751788b-fabc-4609-bd5c-951b44df893f',
@@ -204,7 +206,7 @@ module Exporters
 
     describe 'Export' do
       let(:workbook) do
-        data = MRMViolationExporter.export([@incident1, @incident2, @incident3], user)
+        data = MRMViolationExporter.export([@incident1, @incident2, @incident3], nil, { user: })
         Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
       end
 
@@ -249,7 +251,7 @@ module Exporters
         expect(workbook.sheet(1).row(2)).to eq(
           [
             'Incident', 'Violation', 'Violation Type', 'Summary', 'Incident Code', 'Source ID',
-            'Sources - Field 1', 'Sources - Field 2' 
+            'Sources - Field 1', 'Sources - Field 2'
           ]
         )
         expect(workbook.sheet(2).row(2)).to eq(
@@ -337,7 +339,7 @@ module Exporters
           [
             @incident3.id, @incident3.violations.first.id, 'Attacks on hospital(s)',
             "Attacks on hospital(s) - #{@incident3.violations[0].id[0..4]}", @incident3.incident_code,
-            @incident3.violations[0].source.id, 'Incident 3 Source Value 1', nil
+            @incident3.violations[0].sources[0].id, 'Incident 3 Source Value 1', nil
           ]
         )
         expect(workbook.sheet(2).row(3)).to eq(

@@ -1,4 +1,4 @@
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import DisplayData from "../display-data";
 import { useI18n } from "../i18n";
 

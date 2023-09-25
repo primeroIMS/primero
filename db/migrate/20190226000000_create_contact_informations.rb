@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class CreateContactInformations < ActiveRecord::Migration[5.0]
   def change
-    #TODO: Should at least name be required?
+    # TODO: Should at least name be required?
     create_table :contact_informations do |t|
       t.string 'name'
       t.string 'organization'

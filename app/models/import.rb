@@ -44,7 +44,8 @@ class Import < ValueObject
   def calculate_status
     if success_total.zero? then FAILURE
     elsif success_total < total then SOME_FAILURE
-    else SUCCESS
+    else
+      SUCCESS
     end
   end
 end

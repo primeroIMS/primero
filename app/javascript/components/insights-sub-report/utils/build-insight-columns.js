@@ -1,25 +1,26 @@
-import { fromJS } from "immutable";
-
-import { YEAR } from "../../insights/constants";
+import { WEEK, YEAR } from "../../insights/constants";
 
 import getGroupComparator from "./get-group-comparator";
 import getDataGroups from "./get-data-groups";
-import translateGroups from "./translate-groups";
+import translateGroupId from "./translate-group-id";
+import getGroupTranslator from "./get-group-translator";
 
 const buildGroupedColumns = (value, groupedBy, localizeDate, subColumnItems) => {
   const groups = getDataGroups(value, groupedBy);
   const groupComparator = getGroupComparator(groupedBy);
-  const yearComparator = getGroupComparator(YEAR);
+  const groupTranslator = getGroupTranslator(groupedBy);
 
-  if (groupedBy === YEAR) {
-    return groups
-      .sort(yearComparator)
-      .map(year => ({ label: year, subItems: subColumnItems, colspan: subColumnItems?.length || 1 }));
+  if ([WEEK, YEAR].includes(groupedBy)) {
+    return groups.sort(groupComparator).map(week => ({
+      label: translateGroupId(week, groupedBy, localizeDate),
+      subItems: subColumnItems,
+      colspan: subColumnItems?.length || 1
+    }));
   }
 
   return Object.keys(groups).map(year => ({
     label: year,
-    items: translateGroups(groups[year].sort(groupComparator), groupedBy, localizeDate),
+    items: groups[year].sort(groupComparator).map(group => groupTranslator(group, localizeDate)),
     subItems: subColumnItems,
     colspan: groups[year].length * (subColumnItems?.length || 1)
   }));
@@ -35,11 +36,13 @@ export default {
 
     return [{ label: totalText }];
   },
-  default: ({ value, isGrouped, groupedBy, localizeDate, totalText, subColumnItems = fromJS([]) }) => {
+  default: ({ value, isGrouped, groupedBy, localizeDate, totalText, subColumnItems = [], hasTotalColumn }) => {
     if (isGrouped && groupedBy) {
-      return buildGroupedColumns(value, groupedBy, localizeDate, subColumnItems.toJS());
+      return buildGroupedColumns(value, groupedBy, localizeDate, subColumnItems);
     }
 
-    return [{ label: totalText }];
+    const columns = subColumnItems.map(elem => ({ label: elem.display_text }));
+
+    return hasTotalColumn ? columns : [...columns, { label: totalText }];
   }
 };

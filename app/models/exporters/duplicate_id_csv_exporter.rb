@@ -39,8 +39,8 @@ class Exporters::DuplicateIdCsvExporter < Exporters::ConfigurableExporter
     end
   end
 
-  def initialize(output_file_path = nil)
-    super(output_file_path, export_config_id)
+  def initialize(output_file_path = nil, config = {}, options = {})
+    super(output_file_path, config.merge(export_config_id:), options)
     @fields = Field.where(name: ID_FIELD_NAMES).to_a
     @properties = properties_to_export(PROPERTIES)
     @headers = [' '] +
@@ -58,7 +58,7 @@ class Exporters::DuplicateIdCsvExporter < Exporters::ConfigurableExporter
         generator.call(record)
       end
     end
-    rows << [index + 1] + values
+    rows << ([index + 1] + values)
   end
 
   def value_from_array(record, generator)

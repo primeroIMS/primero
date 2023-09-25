@@ -4,10 +4,7 @@ require 'rails_helper'
 
 describe Transitionable do
   before :each do
-    clean_data(
-      PrimeroModule, Role, UserGroup, User,
-      Child, Referral
-    )
+    clean_data(User, Role, PrimeroModule, UserGroup, Child, Referral)
     @module_cp = PrimeroModule.new(name: 'CP')
     @module_cp.save(validate: false)
 
@@ -107,7 +104,7 @@ describe Transitionable do
 
   describe 'referrals_for_user' do
     before :each do
-      clean_data(Role, User, Referral, Agency)
+      clean_data(User, Role, Referral, Agency)
       permissions = Permission.new(
         resource: Permission::CASE,
         actions: [
@@ -153,8 +150,10 @@ describe Transitionable do
       @referral5 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case2)
       @referral6 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user3', record: @case2)
       @referral7 = Referral.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case3)
-      @referral8 = Referral.create!(transitioned_by: 'user2', transitioned_to: 'user1', transitioned_to_agency: @agency.unique_id, record: @case3)
-      @referral9 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user4', transitioned_to_agency: @agency.unique_id, record: @case3)
+      @referral8 = Referral.create!(transitioned_by: 'user2', transitioned_to: 'user1',
+                                    transitioned_to_agency: @agency.unique_id, record: @case3)
+      @referral9 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user4',
+                                    transitioned_to_agency: @agency.unique_id, record: @case3)
     end
 
     describe 'when group permission for the user is "self"' do
@@ -209,6 +208,6 @@ describe Transitionable do
   end
 
   after :each do
-    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition, Agency)
+    clean_data(User, Role, PrimeroModule, UserGroup, Child, Transition, Agency)
   end
 end

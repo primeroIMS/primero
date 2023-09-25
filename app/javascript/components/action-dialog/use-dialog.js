@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { selectDialog } from "./selectors";
 import { clearDialog, setDialog, setPending } from "./action-creators";

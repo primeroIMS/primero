@@ -6,7 +6,7 @@ require 'will_paginate'
 
 describe TracingRequest do
   before do
-    clean_data(Trace, TracingRequest, Agency)
+    clean_data(SavedSearch, User, Trace, TracingRequest, Agency)
 
     create(:agency)
   end
@@ -47,8 +47,8 @@ describe TracingRequest do
   describe 'managing traces' do
     describe 'update_properties' do
       let(:tracing_request) { TracingRequest.create!(relation_name: 'William Jones') }
-      let(:trace1) { Trace.create!(tracing_request: tracing_request, relation: 'father', name: 'Ethel') }
-      let(:trace2) { Trace.create!(tracing_request: tracing_request, relation: 'father', name: 'Allister Jones') }
+      let(:trace1) { Trace.create!(tracing_request:, relation: 'father', name: 'Ethel') }
+      let(:trace2) { Trace.create!(tracing_request:, relation: 'father', name: 'Allister Jones') }
       let(:uuid) { SecureRandom.uuid }
 
       before do
@@ -195,6 +195,6 @@ describe TracingRequest do
   end
 
   after do
-    clean_data(Trace, TracingRequest, Agency)
+    clean_data(SavedSearch, User, Trace, TracingRequest, Agency)
   end
 end

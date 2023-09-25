@@ -2,7 +2,7 @@
 
 json.data do
   json.array! @audit_logs do |audit_log|
-    json.partial! 'api/v2/audit_logs/audit_log', audit_log: audit_log
+    json.partial! 'api/v2/audit_logs/audit_log', audit_log:
   end
 end
 

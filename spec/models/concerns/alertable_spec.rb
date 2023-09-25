@@ -6,8 +6,8 @@ describe Alertable do
   context 'when a transfer_request alert exists' do
     before do
       clean_data(
-        SystemSettings, Role, Agency, User, Child, Alert, UserGroup,
-        PrimeroProgram, PrimeroModule, Referral, FormSection
+        SystemSettings, Alert, User, Role, Agency, Child, UserGroup,
+        PrimeroModule, PrimeroProgram, Referral, FormSection
       )
       program = PrimeroProgram.create!(
         unique_id: 'primeroprogram-primero',
@@ -88,7 +88,7 @@ describe Alertable do
         email: 'test_user_2@localhost.com',
         agency_id: agency_a.id,
         user_groups: [@group_a, @group_b],
-        role: role
+        role:
       )
       @user_c = User.create!(
         full_name: 'Test User 3',
@@ -237,8 +237,8 @@ describe Alertable do
 
     after do
       clean_data(
-        SystemSettings, Role, Agency, User, Child, Alert, UserGroup,
-        PrimeroProgram, PrimeroModule, Referral, FormSection
+        SystemSettings, Alert, User, Role, Agency, Child, UserGroup,
+        PrimeroModule, PrimeroProgram, Referral, FormSection
       )
     end
   end
@@ -278,7 +278,7 @@ describe Alertable do
   context 'when a incident_from_case alert exists' do
     before do
       clean_data(
-        SystemSettings, Role, Agency, User, Child, Alert, UserGroup,
+        SystemSettings, Alert, User, Role, Agency, Child, UserGroup,
         PrimeroProgram, PrimeroModule, Referral, FormSection
       )
 
@@ -377,8 +377,8 @@ describe Alertable do
 
   after do
     clean_data(
-      SystemSettings, Role, Agency, User, Child, Alert, UserGroup,
-      PrimeroProgram, PrimeroModule, Referral, FormSection
+      SystemSettings, Alert, User, Role, Agency, Child, UserGroup,
+      PrimeroModule, PrimeroProgram, Referral, FormSection
     )
   end
 end

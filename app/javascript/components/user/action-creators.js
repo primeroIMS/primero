@@ -1,3 +1,5 @@
+import { push } from "connected-react-router";
+
 import { RECORD_PATH, METHODS, ROUTES } from "../../config";
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { fetchSandboxUI, loadApplicationResources } from "../application/action-creators";
@@ -38,10 +40,25 @@ export const fetchAuthenticatedUserData = user => ({
   }
 });
 
+export function saveNotificationSubscription() {
+  return {
+    type: actions.SAVE_USER_NOTIFICATION_SUBSCRIPTION
+  };
+}
+
 export const setAuthenticatedUser = user => async dispatch => {
   dispatch(setUser(user));
-  dispatch(fetchAuthenticatedUserData(user));
-  dispatch(loadApplicationResources());
+  dispatch(fetchAuthenticatedUserData(user)).then(
+    () => {
+      dispatch(loadApplicationResources());
+    },
+    error => {
+      dispatch(push(ROUTES.logout));
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  );
+  dispatch(saveNotificationSubscription());
 };
 
 export const attemptSignout = () => ({
@@ -103,4 +120,10 @@ export async function getAppResources(dispatch) {
   dispatch(fetchSandboxUI());
   dispatch(checkUserAuthentication());
   dispatch(loginSystemSettings());
+}
+
+export function removeNotificationSubscription() {
+  return {
+    type: actions.REMOVE_USER_NOTIFICATION_SUBSCRIPTION
+  };
 }

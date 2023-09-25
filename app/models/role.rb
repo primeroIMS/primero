@@ -105,11 +105,11 @@ class Role < ApplicationRecord
       { parent_form: record_type, visible: (visible_only || nil) }.compact.merge(is_nested: false)
     )
 
-    return forms unless include_subforms
+    return forms.order(:order) unless include_subforms
 
     FormSection.where(subform_field: forms.joins(:fields).where(fields: { type: Field::SUBFORM })).or(
       FormSection.where(id: forms)
-    )
+    ).order(:order, :order_subform)
   end
 
   def permitted_roles
@@ -164,8 +164,7 @@ class Role < ApplicationRecord
     ss_reporting_location = @system_settings&.reporting_location_config
     return nil if ss_reporting_location.blank?
 
-    reporting_location_config = secondary_reporting_location(ss_reporting_location)
-    reporting_location_config
+    secondary_reporting_location(ss_reporting_location)
   end
 
   def incident_reporting_location_config
@@ -185,11 +184,10 @@ class Role < ApplicationRecord
 
     return ss_reporting_location if reporting_location_level == ss_reporting_location.admin_level
 
-    reporting_location = ReportingLocation.new(field_key: ss_reporting_location.field_key,
-                                               admin_level: reporting_location_level,
-                                               hierarchy_filter: ss_reporting_location.hierarchy_filter,
-                                               admin_level_map: ss_reporting_location.admin_level_map)
-    reporting_location
+    ReportingLocation.new(field_key: ss_reporting_location.field_key,
+                          admin_level: reporting_location_level,
+                          hierarchy_filter: ss_reporting_location.hierarchy_filter,
+                          admin_level_map: ss_reporting_location.admin_level_map)
   end
 
   def super_user_role?

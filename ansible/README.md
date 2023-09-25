@@ -60,7 +60,7 @@
 
           (venv) $ ansible-playbook application-primero.yml --tags "build"
 
-    Configure Primero and apply the database schema using tag `configure`.
+    Configure Primero and apply the database schema using tag `configure`. Before running, if you would like to run primero with the default seeds remove and set `primero_configuration_path` to '' and `RUN_DEFAULT_PRIMERO_SEEDS` to 'true' in your inventory file under environment_variables.
 
           (venv) $ ansible-playbook application-primero.yml --tags "configure"
 
@@ -139,7 +139,7 @@ Below is example of what the file should look like. There is also a sample templ
                   certbot_domain:
                   - '{{ primero_host }}'
                   certbot_email: 'primero-example@example.com'
-                  primero_repo_branch: 'master'
+                  primero_repo_branch: 'main'
                   build_docker_tag: ''
                   build_docker_container_registry: ''
                   primero_tag: 'latest'
@@ -150,7 +150,7 @@ Below is example of what the file should look like. There is also a sample templ
                   nginx_ssl_key_path: '/etc/letsencrypt/live/primero/privkey.pem'
                   # If you want to seed from a private configuration repo
                   primero_configuration_repo: 'git@bitbucket.org:quoin/primero-x-configuration.git'
-                  primero_configuration_repo_branch: 'master'
+                  primero_configuration_repo_branch: 'main'
                   primero_configuration_path: 'directory/of/config/loader/script.rb'
 
 
@@ -198,6 +198,7 @@ LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"
 
 You also have the option of creating a variable for a private ssh key in order to clone configuration files from a private repo.  If you will not be including the private ssh
 key just leave the variable `ssh_private_key` out of the secrets.yml file.
+```
                 ---
                 primero_secret_key_base: 'generated_secret'
                 primero_message_secret: 'generated_secret'
@@ -207,6 +208,8 @@ key just leave the variable `ssh_private_key` out of the secrets.yml file.
                 secret_environment_variables:
                   SMTP_USER: 'secret'
                   SMTP_PASSWORD: 'secret'
+                  PRIMERO_WEBPUSH_VAPID_PRIVATE: 'secret'
+                  PRIMERO_WEBPUSH_VAPID_PUBLIC: 'secret'
                 ssh_private_key: |
                 -----BEGIN RSA PRIVATE KEY-----
                 klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
@@ -222,10 +225,10 @@ key just leave the variable `ssh_private_key` out of the secrets.yml file.
                 klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
                 afdnfdsnfjkndsfdsjkfjkdsjkfjdskljflajdfjdsl
                 -----END CERTIFICATE-----
-
+```
 The variables in the `inventory.yml` along with the `secrets.yml` will also be used to make the `local.env` file for the dokcer-compose files.
 
-The optional dictionary `secret_environment_variables` can contain key/value pairs of secret environment variables. It can be used in conjuunction with the optional `environment_variables` dictionary in the inventory file, and will override those values. A good use of this dictionary is to specify SMTP settings.
+The optional dictionary `secret_environment_variables` can contain key/value pairs of secret environment variables. It can be used in conjuunction with the optional `environment_variables` dictionary in the inventory file, and will override those values. A good use of this dictionary is to specify SMTP settings. Here we can add PRIMERO_WEBPUSH_VAPID_PRIVATE and PRIMERO_WEBPUSH_VAPID_PUBLIC, these keys together with PRIMERO_WEBPUSH allow us to enable webpush notifications. To generate VAPID keys follow the instruction in [README.md](../README.md) file. if we are enabling Webpush on an existing server, we must modify the `inventory.yml` and `secrets.yml` with the 3 variables, then re-execute the ansible command `local-env`
 
 ## Config promotion
 

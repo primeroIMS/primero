@@ -7,8 +7,9 @@ require 'roo'
 module Exporters
   describe IncidentRecorderExporter do
     before :each do
-      clean_data(Agency, Role, UserGroup, User, PrimeroProgram, Field, FormSection, PrimeroModule, Incident, Location,
-                 Lookup)
+      clean_data(
+        User, Agency, Role, UserGroup, PrimeroModule, PrimeroProgram, Field, FormSection, Incident, Location, Lookup
+      )
       subform = FormSection.new(
         name: 'cases_test_subform_2', parent_form: 'case', 'visible' => false, 'is_nested' => true,
         order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_subform_2',
@@ -255,7 +256,7 @@ module Exporters
 
     describe 'Export format' do
       let(:workbook) do
-        data = IncidentRecorderExporter.export(@records, @user, {})
+        data = IncidentRecorderExporter.export(@records, nil, { user: @user }, {})
         Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       end
 
@@ -298,7 +299,7 @@ module Exporters
     context 'when the locale is es' do
       it 'translate a metadata worksheet to spanish' do
         @user = create(:user, user_name: 'fakeadmin_es', role: @role, code: 'test01', locale: :es)
-        data = IncidentRecorderExporter.export(@records, @user, {})
+        data = IncidentRecorderExporter.export(@records, nil, { user: @user }, {})
         workbook_es = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
 
         sheet = workbook_es.sheet(workbook_es.sheets.last)
@@ -316,7 +317,12 @@ module Exporters
 
     context 'Selected fields' do
       let(:workbook) do
-        data = IncidentRecorderExporter.export(@records, @user, field_names: %w[first_name array_field])
+        data = IncidentRecorderExporter.export(
+          @records,
+          nil,
+          { user: @user },
+          { field_names: %w[first_name array_field] }
+        )
         Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       end
 
@@ -330,9 +336,13 @@ module Exporters
     context 'Selected forms and fields' do
       let(:workbook) do
         data = IncidentRecorderExporter.export(
-          @records, @user,
-          form_unique_ids: %w[cases_test_form_1],
-          field_names: %w[first_name]
+          @records,
+          nil,
+          { user: @user },
+          {
+            form_unique_ids: %w[cases_test_form_1],
+            field_names: %w[first_name]
+          }
         )
         Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       end
@@ -346,7 +356,7 @@ module Exporters
 
     context 'Test the data form the record' do
       it 'contains the correct data' do
-        data = IncidentRecorderExporter.export(@record_with_all_fields, @user, {})
+        data = IncidentRecorderExporter.export(@record_with_all_fields, nil, { user: @user }, {})
         workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
         expect(workbook.sheets.size).to eq(2)
         model = @record_with_all_fields.first
@@ -366,7 +376,7 @@ module Exporters
       end
 
       it 'translate the correct data' do
-        data = IncidentRecorderExporter.export(@record_with_all_fields, @user, {})
+        data = IncidentRecorderExporter.export(@record_with_all_fields, nil, { user: @user }, {})
         workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
         expect(workbook.sheets.size).to eq(2)
         expect(workbook.sheet(0).row(2)[7]).to eq('Ethnicity3')
@@ -381,7 +391,7 @@ module Exporters
         form_perpetrator.fields << Field.new(name: 'age_type', type: Field::TEXT_FIELD, display_name: 'age_type')
         form_perpetrator.save!
 
-        data = IncidentRecorderExporter.export(@records, @user, {})
+        data = IncidentRecorderExporter.export(@records, nil, { user: @user }, {})
         workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
         expect(workbook.sheet(0).last_row).to eq(3)
         expect(workbook.sheet(0).row(1)[28]).to eq('ALLEGED PERPETRATOR AGE TYPE')
@@ -403,7 +413,7 @@ module Exporters
         form_perpetrator.fields = fields
         form_perpetrator.save!
 
-        data = IncidentRecorderExporter.export(@records, @user, {})
+        data = IncidentRecorderExporter.export(@records, nil, { user: @user }, {})
         workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
         expect(workbook.sheet(0).last_row).to eq(3)
         expect(workbook.sheet(0).row(1)[30]).to eq('ALLEGED PERPETRATOR OCCUPATION')
@@ -412,7 +422,7 @@ module Exporters
     end
 
     after :each do
-      clean_data(Agency, Role, UserGroup, User, PrimeroProgram, Field, FormSection, PrimeroModule, Incident, Location)
+      clean_data(User, Agency, Role, UserGroup, PrimeroModule, PrimeroProgram, Field, FormSection, Incident, Location)
     end
   end
 end

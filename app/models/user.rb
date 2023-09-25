@@ -12,7 +12,7 @@ class User < ApplicationRecord
   include ConfigurationRecord
   include LocationCacheable
 
-  USER_NAME_REGEX = /\A[^ ]+\z/.freeze
+  USER_NAME_REGEX = /\A[^ ]+\z/
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
   USER_FIELDS_SCHEMA = {
     'id' => { 'type' => 'integer' }, 'user_name' => { 'type' => 'string' },
@@ -27,7 +27,7 @@ class User < ApplicationRecord
     'services' => { 'type' => 'array' }, 'module_unique_ids' => { 'type' => 'array' },
     'password_reset' => { 'type' => 'boolean' }, 'role_id' => { 'type' => 'string' },
     'agency_office' => { 'type' => 'string' }, 'code_of_conduct_id' => { 'type' => 'integer' },
-    'send_mail' => { 'type' => 'boolean' }
+    'send_mail' => { 'type' => 'boolean' }, 'receive_webpush' => { 'type' => 'boolean' }
   }.freeze
 
   attr_accessor :should_send_password_reset_instructions, :user_groups_changed
@@ -50,6 +50,7 @@ class User < ApplicationRecord
                           after_add: :mark_user_groups_changed,
                           after_remove: :mark_user_groups_changed
   has_many :audit_logs
+  has_many :webpush_subscriptions
 
   scope :enabled, -> { where(disabled: false) }
   scope :disabled, -> { where(disabled: true) }
@@ -57,7 +58,7 @@ class User < ApplicationRecord
     joins(:user_groups).where(user_groups: { id: ids })
   end)
   scope :by_agency, (lambda do |id|
-    joins(:agency).where(agencies: { id: id })
+    joins(:agency).where(agencies: { id: })
   end)
 
   alias_attribute :organization, :agency
@@ -139,7 +140,7 @@ class User < ApplicationRecord
     end
 
     def last_login_timestamp(user_name)
-      AuditLog.where(action_name: 'login', user_name: user_name).try(:last).try(:timestamp)
+      AuditLog.where(action_name: 'login', user_name:).try(:last).try(:timestamp)
     end
 
     def agencies_for_user_names(user_names)
@@ -167,8 +168,8 @@ class User < ApplicationRecord
     end
   end
 
-  def initialize(attributes = nil, &block)
-    super(attributes&.except(*User.unique_id_parameters), &block)
+  def initialize(attributes = nil, &)
+    super(attributes&.except(*User.unique_id_parameters), &)
     associate_unique_id_properties(attributes.slice(*User.unique_id_parameters)) if attributes.present?
   end
 
@@ -272,6 +273,21 @@ class User < ApplicationRecord
     role&.group_permission == permission
   end
 
+  def managed_report_permission?
+    role.permissions.find { |permission| permission.resource == Permission::MANAGED_REPORT }.present?
+  end
+
+  def managed_report_scope
+    managed_report_permission = role.permissions.find { |permission| permission.resource == Permission::MANAGED_REPORT }
+    return unless managed_report_permission.present?
+
+    managed_report_permission.managed_report_scope || Permission::ALL
+  end
+
+  def managed_report_scope_all?
+    managed_report_scope == Permission::ALL
+  end
+
   def can_preview?(record_type)
     permission_by_permission_type?(record_type.parent_form, Permission::DISPLAY_VIEW_PAGE)
   end
@@ -365,8 +381,7 @@ class User < ApplicationRecord
   end
 
   def send_welcome_email(admin_user)
-    return unless email
-    return if identity_provider&.sync_identity?
+    return if !emailable? || identity_provider&.sync_identity?
 
     UserMailJob.perform_later(id, admin_user.id)
   end
@@ -465,6 +480,14 @@ class User < ApplicationRecord
     permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
   end
 
+  def emailable?
+    email.present? && send_mail == true && !disabled?
+  end
+
+  def receive_webpush?
+    receive_webpush == true && !disabled?
+  end
+
   private
 
   def set_locale
@@ -506,38 +529,14 @@ class User < ApplicationRecord
     return if ENV['PRIMERO_BOOTSTRAP']
     return unless associated_attributes_changed?
 
-    records = []
-    associated_records_for_update.find_each(batch_size: 500) do |record|
-      update_record_ownership_fields(record)
-
-      record.update_associated_user_groups if user_groups_changed
-      record.update_associated_user_agencies if saved_change_to_attribute?('agency_id')
-
-      records << record if record.changed?
-    end
-
-    ActiveRecord::Base.transaction { records.each(&:save!) }
-  end
-
-  def associated_records_for_update
-    if user_groups_changed || saved_change_to_attribute?('agency_id')
-      Child.associated_with(user_name)
-    else
-      Child.owned_by(user_name)
-    end
-  end
-
-  def update_record_ownership_fields(record)
-    return unless record.owned_by == user_name
-
-    record.owned_by_location = location if saved_change_to_attribute?('location')
-    record.owned_by_groups = user_group_unique_ids if user_groups_changed
-    update_record_agency_ownership_fields(record)
-  end
-
-  def update_record_agency_ownership_fields(record)
-    record.owned_by_agency_id = agency&.unique_id if saved_change_to_attribute?('agency_id')
-    record.owned_by_agency_office = agency_office if saved_change_to_attribute('agency_office')&.last&.present?
+    AssociatedRecordsJob.perform_later(
+      user_id: id,
+      update_user_groups: user_groups_changed,
+      update_agencies: saved_change_to_attribute?('agency_id'),
+      update_locations: saved_change_to_attribute?('location'),
+      update_agency_offices: saved_change_to_attribute('agency_office')&.last&.present?,
+      model: 'Child'
+    )
   end
 
   def associated_attributes_changed?

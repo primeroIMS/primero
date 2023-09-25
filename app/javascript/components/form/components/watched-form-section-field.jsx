@@ -69,13 +69,11 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, di
   );
 
   return (
-    <div className={classes}>
-      {handleVisibility(watchedInputValues) || (
-        <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
-          {renderField}
-        </ConditionalWrapper>
-      )}
-    </div>
+    handleVisibility(watchedInputValues) || (
+      <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
+        <div className={classes}>{renderField}</div>
+      </ConditionalWrapper>
+    )
   );
 };
 

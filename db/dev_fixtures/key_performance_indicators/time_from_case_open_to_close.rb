@@ -1,11 +1,12 @@
-require_relative 'setup.rb'
+# frozen_string_literal: true
 
-# create 100 cases with the time between the case opening
+require_relative 'setup'
+
+#  create 100 cases with the time between the case opening
 # and the time the case closed ditributed around 1-3 months
-(0..100).each do |index|
+101.times do |_index|
   days = sample_box_muller(1, 365, 75, 30).round
   puts "Creating case #{days} days in the past that closes today"
-  created_at = 
   child = Child.new_with_user(TEST_USER, {})
   child.save!
   child.created_at = Date.today.prev_day(days).to_time

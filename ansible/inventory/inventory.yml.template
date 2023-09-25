@@ -11,15 +11,15 @@ all:
       # NOTE: YOU NEED TO PERFORM A DATA MIGRATION BEFORE CHANGING POSTGRES VERSIONS!!!!!!
       # primero_postgres_version: '14'
       locale_all: 'en,fr,ar'
-      always_pull: true,
+      always_pull: true
       # These 3 variables are used to drive the build task.
       # Can be omitted if pulling images from Dockerhub
-      primero_repo_branch: 'master'
+      primero_repo_branch: 'main'
       build_docker_tag: 'latest'
       build_docker_container_registry: ''
       # If you want to seed from a private configuration repo
       primero_configuration_repo: 'git@bitbucket.org:quoin/primero-x-configuration.git'
-      primero_configuration_repo_branch: 'master'
+      primero_configuration_repo_branch: 'main'
       primero_configuration_path: 'directory/of/config/loader/script'
       use_lets_encrypt: 'true'
       # The other certbot/lets_encrypt variables are optional. Include only if using Let's Encrypt
@@ -34,5 +34,8 @@ all:
       # Optionally parametrize Primero containers with other environment attributes.
       # Do not use this dictionary for secrets!!!
       environment_variables:
+        RUN_DEFAULT_PRIMERO_SEEDS: 'false' # Set to true if you want to run default seeds
         PRIMERO_DEFAULT_USERS: 'true' # Seed default users when using the managed Primero SaaS configs
         # LOCALE_DEFAULT: 'ar' # Optionally override English as the default locale.
+        PRIMERO_WEBPUSH: 'true'
+        PRIMERO_WEBPUSH_CONTACT: 'primero.dev@quoininc.com'

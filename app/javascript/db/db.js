@@ -2,6 +2,9 @@
 import merge from "deepmerge";
 import isEmpty from "lodash/isEmpty";
 import { openDB } from "idb";
+import fuzzysort from "fuzzysort";
+import sortBy from "lodash/sortBy";
+import uniq from "lodash/uniq";
 
 import { DATABASE_NAME } from "../config/constants";
 
@@ -13,6 +16,8 @@ import {
   DB_COLLECTIONS_V3,
   DB_COLLECTIONS_V4,
   DB_COLLECTIONS_V5,
+  DB_COLLECTIONS_V6,
+  DB_COLLECTIONS_V7,
   TRANSACTION_MODE
 } from "./constants";
 
@@ -21,8 +26,8 @@ class DB {
     if (!DB.instance) {
       const self = this;
 
-      this._db = openDB(DATABASE_NAME, 5, {
-        upgrade(db, oldVersion) {
+      this._db = openDB(DATABASE_NAME, 7, {
+        upgrade(db, oldVersion, _newVersion, transaction) {
           if (oldVersion < 1) {
             DB_COLLECTIONS_V1.forEach(collection => self.createCollections(collection, db));
           }
@@ -41,6 +46,14 @@ class DB {
           if (oldVersion < 5) {
             DB_COLLECTIONS_V5.forEach(collection => self.createCollections(collection, db));
           }
+
+          if (oldVersion < 6) {
+            DB_COLLECTIONS_V6.forEach(collection => self.createCollections(collection, db, transaction));
+          }
+
+          if (oldVersion < 7) {
+            DB_COLLECTIONS_V7.forEach(collection => self.createCollections(collection, db));
+          }
         }
       });
       DB.instance = this;
@@ -49,13 +62,23 @@ class DB {
     return DB.instance;
   }
 
-  createCollections(collection, db) {
+  createCollections(collection, db, transaction) {
     if (Array.isArray(collection)) {
       const [name, options, index] = collection;
 
-      const store = db.createObjectStore(name, options);
+      let store;
 
-      if (index) store.createIndex(...index);
+      if (db.objectStoreNames && db.objectStoreNames.contains(name)) {
+        store = transaction.objectStore(name);
+      } else {
+        store = db.createObjectStore(name, options);
+      }
+
+      if (index) {
+        index.forEach(current => {
+          store.createIndex(...current);
+        });
+      }
     } else {
       db.createObjectStore(collection, {
         keyPath: "id",
@@ -91,6 +114,65 @@ class DB {
 
   async delete(store, item) {
     return (await this._db).delete(store, item);
+  }
+
+  async searchIndex(store, term, recordType) {
+    const index = (await this._db).transaction(store).store.index("type");
+    const results = [];
+
+    let cursor = await index.openCursor(IDBKeyRange.only(recordType));
+
+    while (cursor) {
+      const data = cursor.value;
+
+      const fuzzyResults = fuzzysort.go(term, uniq(data.terms), { threshold: -100 });
+
+      if (fuzzyResults.length) {
+        // eslint-disable-next-line no-loop-func
+        results.push(...fuzzyResults.flatMap(result => [{ ...result, data }]));
+      }
+      cursor = await cursor.continue();
+    }
+
+    return sortBy(results, ["score"]).map(result => result.data);
+  }
+
+  async slice(store, { orderBy, orderDir, offset, limit, recordType }) {
+    const results = [];
+    let cursor = null;
+    const transaction = (await this._db).transaction(store);
+    const cursorType = orderDir === "desc" ? "prev" : "next";
+
+    if (orderBy) {
+      const index = transaction.store.index(`type+${orderBy}`);
+
+      cursor = await index.openCursor(IDBKeyRange.bound([recordType], [recordType, []]), cursorType);
+    } else {
+      cursor = await transaction.store.index("type").openCursor(IDBKeyRange.only(recordType), cursorType);
+    }
+
+    if (offset > 0) {
+      cursor = await cursor.advance(offset);
+    }
+
+    let resultCount = 0;
+
+    while (cursor && resultCount < limit) {
+      results.push(cursor.value);
+      cursor = await cursor.continue();
+      // eslint-disable-next-line no-plusplus
+      resultCount++;
+    }
+
+    return results;
+  }
+
+  async count(store, index, recordType) {
+    if (index) {
+      return (await this._db).countFromIndex(store, index, recordType);
+    }
+
+    return (await this._db).count(store);
   }
 
   async clear(store) {

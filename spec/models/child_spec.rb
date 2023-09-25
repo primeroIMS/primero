@@ -5,6 +5,10 @@ require 'sunspot'
 
 describe Child do
   describe 'quicksearch', search: true do
+    before do
+      clean_data(Child, Family)
+    end
+
     it 'has a searchable case id, survivor number' do
       expect(Child.quicksearch_fields).to include('case_id_display', 'survivor_code_no')
     end
@@ -15,6 +19,23 @@ describe Child do
       search_result = SearchService.search(Child, query: 'ABC123XYZ').results
       expect(search_result).to have(1).child
       expect(search_result.first.survivor_code_no).to eq('ABC123XYZ')
+    end
+
+    it 'can find a child by family number' do
+      family = Family.create!(
+        family_number: '4225',
+        family_members: [
+          { unique_id: '123', relation_name: 'Family Name',relation_age: 5, relation_sex: "male" }
+        ]
+      )
+      child = Child.create!(data: { name: 'Lonnie', survivor_code_no: 'ABC123XYZ' })
+      child.family = family
+      child.save!
+      child.index!
+
+      search_result = SearchService.search(Child, query: '4225').results
+      expect(search_result).to have(1).child
+      expect(search_result.first.family_number).to eq('4225')
     end
   end
 
@@ -109,6 +130,46 @@ describe Child do
     end
   end
 
+  describe 'family record' do
+    before do
+      clean_data(Child, Family)
+    end
+
+    let(:family1) do
+      Family.create!(
+        data: {
+          family_number: '40bf9109',
+          module_id: PrimeroModule::CP,
+          family_size: 1,
+          family_notes: 'Notes about the family',
+          family_members: [
+            {
+              unique_id: '001',
+              family_relationship: 'relationship1',
+              family_relationship_notes: 'Notes about the relationship 001',
+              family_relationship_notes_additional: 'Additional notes about the relationship 001',
+              relation_name: 'Member 1',
+              relation_sex: 'male',
+              relation_age: 10
+            }
+          ]
+        }
+      )
+    end
+
+    let(:case1) { Child.create!(family: family1, data: { age: 13, sex: 'female', family_member_id: '001' }) }
+
+    it 'links a family and a family_member to a case' do
+      expect(case1.family).to eq(family1)
+      expect(family1.cases).to include(case1)
+
+      family_member = family1.family_members.find { |member| member['unique_id'] == '001' }
+
+      expect(family_member['case_id']).to eq(case1.id)
+      expect(family_member['case_id_display']).to eq(case1.case_id_display)
+    end
+  end
+
   describe 'validation' do
     it 'should allow blank age' do
       child = Child.new(data: { age: '', another_field: 'blah' })
@@ -120,7 +181,7 @@ describe Child do
 
   describe 'save' do
     before(:each) do
-      Agency.destroy_all
+      clean_data(User, Agency)
       create(:agency, name: 'unicef')
     end
 
@@ -160,7 +221,7 @@ describe Child do
 
   describe 'new_with_user_name' do
     before(:each) do
-      Agency.destroy_all
+      clean_data(User, Agency)
       create(:agency, name: 'unicef')
     end
 
@@ -318,7 +379,7 @@ describe Child do
         :fields => fields,
         :parent_form => 'case',
         'name_all' => 'Form Section With Dates Fields',
-        'description_all' => 'Form Section With Dates Fields',
+        'description_all' => 'Form Section With Dates Fields'
       )
     end
 
@@ -378,7 +439,7 @@ describe Child do
 
   describe 'record ownership' do
     before do
-      clean_data(Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection)
+      clean_data(User, Agency, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection)
 
       @owner = create :user
       @previous_owner = create :user
@@ -393,7 +454,7 @@ describe Child do
     end
 
     after do
-      clean_data(Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection)
+      clean_data(User, Agency, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection)
     end
   end
 
@@ -948,8 +1009,124 @@ describe Child do
     end
   end
 
+  describe 'urgent_protection_concern', search: true do
+    it 'finds cases where the value is stored as string true' do
+      child = Child.create!(data: { name: 'Lonnie', urgent_protection_concern: 'true' })
+      child.index!
+      search_result = SearchService.search(
+        Child,
+        filters: [SearchFilters::Value.new(field_name: 'urgent_protection_concern', value: true)]
+      ).results
+      expect(search_result).to have(1).child
+      expect(search_result.first.id).to eq(child.id)
+    end
+
+    it 'finds cases where the value is stored as string false' do
+      child = Child.create!(data: { name: 'Lonnie', urgent_protection_concern: 'false' })
+      child.index!
+      search_result = SearchService.search(
+        Child,
+        filters: [SearchFilters::Value.new(field_name: 'urgent_protection_concern', value: false)]
+      ).results
+      expect(search_result).to have(1).child
+      expect(search_result.first.id).to eq(child.id)
+    end
+  end
+
+  describe 'calculate_has_case_plan' do
+    before do
+      clean_data(Child)
+    end
+
+    let(:child1) do
+      Child.create!(
+        data: {
+          name: 'Child 1',
+          age: 4,
+          cp_case_plan_subform_case_plan_interventions: [
+            { intervention_service_to_be_provided: ['service1'] }
+          ]
+        }
+      )
+    end
+
+    let(:child2) do
+      Child.create!(
+        data: {
+          name: 'Child 2',
+          age: 2,
+          cp_case_plan_subform_case_plan_interventions: [
+            { intervention_service_goal: 'some goal' }
+          ]
+        }
+      )
+    end
+
+    let(:child3) do
+      Child.create!(
+        data: {
+          name: 'Child 3',
+          age: 5
+        }
+      )
+    end
+
+    it 'calculates the has_case_plan field' do
+      expect(child1.has_case_plan).to eq(true)
+      expect(child2.has_case_plan).to eq(true)
+      expect(child3.has_case_plan).to eq(false)
+    end
+
+    after do
+      clean_data(Child)
+    end
+  end
+
+  describe 'family_members' do
+    before do
+      clean_data(Child)
+    end
+
+    let(:member_unique_id1) { SecureRandom.uuid }
+
+    let(:member_unique_id2) { SecureRandom.uuid }
+
+    let(:family1) do
+      Family.create!(
+        data: {
+          family_number: '001',
+          family_members: [
+            { unique_id: member_unique_id1, relation_name: 'Member 1', relation_sex: 'male', relation_age: 5 },
+            { unique_id: member_unique_id2, relation_name: 'Member 2', relation_sex: 'male', relation_age: 10 }
+          ]
+        }
+      )
+    end
+
+    let(:child1) do
+      Child.create!(family: family1, data: { name: 'Child 1', age: 4, family_member_id: member_unique_id1 })
+    end
+
+    it 'returns the family members of a child linked to a family not including itself' do
+      expect(child1.family_members).to eq(
+        [
+          {
+            'unique_id' => member_unique_id2,
+            'relation_name' => 'Member 2',
+            'relation_sex' => 'male',
+            'relation_age' => 10
+          }
+        ]
+      )
+    end
+
+    after do
+      clean_data(Child)
+    end
+  end
+
   after do
-    clean_data(Child, Field, FormSection, PrimeroModule)
+    clean_data(Incident, Child, Field, FormSection, PrimeroModule)
   end
 
   private

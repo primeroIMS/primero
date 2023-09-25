@@ -16,13 +16,13 @@ module Flaggable
 
   def add_flag(message, date, user_name)
     date_flag = date.presence || Date.today
-    flag = Flag.new(flagged_by: user_name, message: message, date: date_flag, created_at: DateTime.now)
+    flag = Flag.new(flagged_by: user_name, message:, date: date_flag, created_at: DateTime.now)
     flags << flag
     flag
   end
 
   def remove_flag(id, user_name, unflag_message)
-    flag = flags.find_by(id: id)
+    flag = flags.find_by(id:)
     return unless flag.present?
 
     flag.unflag_message = unflag_message

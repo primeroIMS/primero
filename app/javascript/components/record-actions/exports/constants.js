@@ -16,26 +16,32 @@ export const ALL_EXPORT_TYPES = Object.freeze([
     id: "pdf",
     permission: ACTIONS.EXPORT_PDF,
     format: EXPORT_FORMAT.PDF,
-    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents],
+    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.families],
     hideOnShowPage: true
   }),
   Object.freeze({
     id: "csv",
     permission: ACTIONS.EXPORT_CSV,
     format: EXPORT_FORMAT.CSV,
-    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests, RECORD_PATH.registry_records]
+    recordTypes: [
+      RECORD_PATH.cases,
+      RECORD_PATH.incidents,
+      RECORD_PATH.tracing_requests,
+      RECORD_PATH.registry_records,
+      RECORD_PATH.families
+    ]
   }),
   Object.freeze({
     id: "xlsx",
     permission: ACTIONS.EXPORT_EXCEL,
     format: EXPORT_FORMAT.EXCEL,
-    recordTypes: [RECORD_PATH.cases, RECORD_PATH.tracing_requests]
+    recordTypes: [RECORD_PATH.cases, RECORD_PATH.tracing_requests, RECORD_PATH.families]
   }),
   Object.freeze({
     id: "json",
     permission: ACTIONS.EXPORT_JSON,
     format: EXPORT_FORMAT.JSON,
-    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests]
+    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests, RECORD_PATH.families]
   }),
   Object.freeze({
     id: "photowall",
@@ -55,7 +61,7 @@ export const ALL_EXPORT_TYPES = Object.freeze([
     permission: ACTIONS.EXPORT_LIST_VIEW,
     format: EXPORT_FORMAT.CSV,
     showOnlyOnList: true,
-    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests]
+    recordTypes: [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests, RECORD_PATH.families]
   }),
   Object.freeze({
     id: "duplicate_id_csv",
@@ -68,7 +74,7 @@ export const ALL_EXPORT_TYPES = Object.freeze([
     id: "custom",
     permission: ACTIONS.EXPORT_CUSTOM,
     format: EXPORT_FORMAT.EXCEL,
-    recordTypes: [RECORD_PATH.cases, RECORD_PATH.tracing_requests]
+    recordTypes: [RECORD_PATH.cases, RECORD_PATH.tracing_requests, RECORD_PATH.families]
   }),
   Object.freeze({
     id: "incident_recorder_xls",

@@ -2,12 +2,15 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Link } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 import { PRIMERO_IDP } from "../constants";
 import { attemptIDPLogin } from "../action-creators";
 import { signIn } from "../auth-provider";
 
 const PrimeroIdpLink = ({ identityProviders, i18n, dispatch, css }) => {
+  const history = useHistory();
+
   const primeroIdp = identityProviders.find(idp => idp.get("unique_id") === PRIMERO_IDP);
   const onlyPrimeroIDP = primeroIdp && identityProviders?.size === 1;
   const classes = clsx(css.activityContainer, {
@@ -17,7 +20,7 @@ const PrimeroIdpLink = ({ identityProviders, i18n, dispatch, css }) => {
   const tokenCallback = accessToken => {
     dispatch(attemptIDPLogin(accessToken));
   };
-  const handleOnClick = () => signIn(primeroIdp, tokenCallback);
+  const handleOnClick = () => signIn(primeroIdp, tokenCallback, history);
 
   if (!primeroIdp) {
     return null;

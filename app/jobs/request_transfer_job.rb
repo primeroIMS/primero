@@ -5,6 +5,8 @@ class RequestTransferJob < ApplicationJob
   queue_as :mailer
 
   def perform(transfer_request_id)
-    NotificationMailer.transfer_request(transfer_request_id).deliver_now
+    transfer_request_notification = TransitionNotificationService.new(transfer_request_id)
+    RecordActionMailer.transfer_request(transfer_request_notification).deliver_now
+    RecordActionWebpushNotifier.transfer_request(transfer_request_notification)
   end
 end

@@ -20,7 +20,7 @@ module Exporters
         build(:field, name: 'age', type: Field::NUMERIC_FIELD),
         field
       ]
-      form = create(:form_section, unique_id: 'form_section_exporter', fields: fields)
+      form = create(:form_section, unique_id: 'form_section_exporter', fields:)
       primero_module = PrimeroModule.new(name: 'CP')
       primero_module.save(validate: false)
       permissions = Permission.new(
@@ -31,7 +31,7 @@ module Exporters
         permissions: [permissions], form_sections: [form]
       )
       role.save(validate: false)
-      @user = User.new(user_name: 'user1', role: role)
+      @user = User.new(user_name: 'user1', role:)
       @user.save(validate: false)
 
       # fields = [
@@ -63,7 +63,7 @@ module Exporters
     end
 
     it 'converts data to CSV format' do
-      data = CsvListViewExporter.export(@records, @user)
+      data = CsvListViewExporter.export(@records, nil, { user: @user, record_type: Child.parent_form })
 
       parsed = CSV.parse(data)
       expect(parsed[0][1..5]).to eq ['ID#', 'Name', 'Age', 'Sex', 'Registration Date']
@@ -73,7 +73,7 @@ module Exporters
 
     it 'sanitizes formula injections' do
       unsafe_record = Child.new(data: { name: '=10+10', age: 12, sex: 'male' })
-      data = CsvListViewExporter.export([unsafe_record], @user)
+      data = CsvListViewExporter.export([unsafe_record], nil, { user: @user, record_type: Child.parent_form })
       parsed = CSV.parse(data)
       expect(parsed[1][2..4]).to eq(%w['=10+10 12 Male])
     end

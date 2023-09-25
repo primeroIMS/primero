@@ -33,7 +33,12 @@ primero_migrate() {
     bin/rails db:create
   fi
   set -u
-  bin/rails db:migrate
+
+  status=`bin/check_migrated.rb`
+  if [[ $status == "DATABASE_MIGRATION_PENDING" ]]
+  then
+    bin/rails db:migrate
+  fi
 }
 
 # Apply a known configuration template
@@ -44,8 +49,11 @@ primero_configure() {
     printf "Applying configuration template\\n"
     bin/load_configuration.rb "${PRIMERO_CONFIGURATION_FILE}"
   else
-    printf "Applying seed configuration\\n"
-    bin/rails db:seed
+    if [[ -n "${RUN_DEFAULT_PRIMERO_SEEDS}" ]] && [[ "${RUN_DEFAULT_PRIMERO_SEEDS}" == 'true' ]]
+    then
+      printf "Applying seed configuration\\n"
+      bin/rails db:seed
+    fi
   fi
   set -u
 }

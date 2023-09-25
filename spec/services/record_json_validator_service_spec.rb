@@ -40,7 +40,7 @@ describe RecordJsonValidatorService do
     ]
   end
 
-  let(:service) { RecordJsonValidatorService.new(fields: fields) }
+  let(:service) { RecordJsonValidatorService.new(fields:) }
 
   describe '.valid?' do
     describe 'TEXT_FIELD' do

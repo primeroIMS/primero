@@ -17,7 +17,7 @@ describe ApiConnector::AzureActiveDirectoryConnector do
   describe '.create' do
     it 'executes and returns a valid user creation response' do
       expect(connection).to(
-        receive(:post).with('/users', user_name: 'testuser@test.org', full_name: 'Test user')
+        receive(:post).with('/users', { user_name: 'testuser@test.org', full_name: 'Test user' })
                       .and_return([200, { 'one_time_password' => 'OTP123', 'correlation_id' => 'CORR123' }])
       )
       response = connector.create(user)
@@ -28,7 +28,7 @@ describe ApiConnector::AzureActiveDirectoryConnector do
 
     it 'does not include synced attributes if response error' do
       expect(connection).to(
-        receive(:post).with('/users', user_name: 'testuser@test.org', full_name: 'Test user')
+        receive(:post).with('/users', { user_name: 'testuser@test.org', full_name: 'Test user' })
                       .and_return(
                         [
                           500,
@@ -50,7 +50,7 @@ describe ApiConnector::AzureActiveDirectoryConnector do
     it 'executes and returns a valid user update response' do
       expect(connection).to(
         receive(:patch).with('/users/testuser@test.org',
-                             user_name: 'testuser@test.org', full_name: 'Test user NEW', enabled: true)
+                             { user_name: 'testuser@test.org', full_name: 'Test user NEW', enabled: true })
           .and_return([200, { 'correlation_id' => 'CORR123' }])
       )
       user.full_name = 'Test user NEW'
@@ -63,7 +63,7 @@ describe ApiConnector::AzureActiveDirectoryConnector do
     it 'does not update synced attributes if response error' do
       expect(connection).to(
         receive(:patch).with('/users/testuser@test.org',
-                             user_name: 'testuser@test.org', full_name: 'Test user NEW', enabled: true)
+                             { user_name: 'testuser@test.org', full_name: 'Test user NEW', enabled: true })
           .and_return([500, { 'correlation_id' => 'CORR123', 'error_msg' => 'could not sync' }])
       )
       user.full_name = 'Test user NEW'

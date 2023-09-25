@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe RecordHistory do
   before :each do
-    clean_data(Agency, Role, User)
+    clean_data(User, Agency, Role)
     role = Role.create!(
       name: 'Test Role 1',
       unique_id: 'test-role-1',
@@ -33,7 +33,7 @@ describe RecordHistory do
       password_confirmation: 'a12345678',
       email: 'test_user_1@localhost.com',
       agency_id: @agency_a.id,
-      role: role
+      role:
     )
     @record_history = RecordHistory.new(datetime: DateTime.new(2010, 1, 1, 1, 1, 2), user_name: @user_a.user_name)
   end
@@ -49,6 +49,6 @@ describe RecordHistory do
   end
 
   after :each do
-    clean_data(Agency, Role, User)
+    clean_data(User, Agency, Role)
   end
 end

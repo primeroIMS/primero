@@ -4,19 +4,72 @@ require 'rails_helper'
 
 describe Api::V2::ReportsController, type: :request do
   before :each do
-    [PrimeroModule, PrimeroProgram, Report, User, Role, Agency, Child, Location, FormSection, Field].each(&:destroy_all)
+    [
+      User, Role, PrimeroModule, PrimeroProgram, Report, Agency, Lookup, Child, Location, Field, FormSection
+    ].each(&:destroy_all)
 
     @system_settings = SystemSettings.new(primary_age_range: 'primero',
                                           age_ranges: { 'primero' => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
                                                         'unhcr' => [0..4, 5..11, 12..17, 18..59, 60..AgeRange::MAX] })
     SystemSettings.stub(:current).and_return(@system_settings)
 
+    Lookup.create!(
+      unique_id: 'lookup-status',
+      name_en: 'status',
+      lookup_values_en: [
+        { id: 'open', display_text: 'Open' },
+        { id: 'closed', display_text: 'Closed' }
+      ].map(&:with_indifferent_access)
+    )
+
+    Lookup.create!(
+      unique_id: 'lookup-proctection-concerns',
+      name_en: 'Protection Concerns',
+      lookup_values_en: [
+        { id: 'trafficked_smuggled', display_text: 'Trafficked Smuggled' },
+        { id: 'sexually_exploited', display_text: 'Sexually Exploited' },
+        { id: 'migrant', display_text: 'Migrant' }
+      ].map(&:with_indifferent_access)
+    )
+
+    Lookup.create!(
+      unique_id: 'lookup-service-type',
+      name_en: 'status',
+      lookup_values_en: [
+        { id: 'education_formal', display_text: 'Education Formal' }
+      ].map(&:with_indifferent_access)
+    )
+
+    Field.create!(
+      name: 'status', display_name: 'status', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-status'
+    )
+
+    Field.create!(
+      name: 'protection_concerns',
+      display_name: 'Protection Concerns',
+      type: Field::SELECT_BOX,
+      multi_select: true,
+      option_strings_source: 'lookup lookup-proctection-concerns'
+    )
+
+    Field.create!(
+      name: 'service_type',
+      display_name: 'Service Type',
+      type: Field::SELECT_BOX,
+      option_strings_source: 'lookup lookup-service-type'
+    )
+
+    Field.create!(
+      name: 'service_implementing_agency',
+      display_name: 'Service Implementing Agency',
+      type: Field::SELECT_BOX,
+      option_strings_source: 'Agency'
+    )
+
+    Field.create!(name: 'record_state', display_name: 'record_state', type: Field::TICK_BOX)
+
     Field.create!(name: 'owned_by_location', type: Field::SELECT_BOX, display_name_i18n: { en: 'Owned by location' },
                   option_strings_source: 'Location')
-
-    Field.create!(name: 'protection_concerns', type: Field::SELECT_BOX,
-                  display_name_i18n: { en: 'Protection Concerns' },
-                  option_strings_source: 'lookup lookup-protection-concerns')
 
     @location0 = Location.create!(placename_en: 'Country 1', location_code: 'CN', type: 'country')
     @program = PrimeroProgram.create!(unique_id: 'primeroprogram-primero', name: 'Primero',
@@ -48,15 +101,6 @@ describe Api::V2::ReportsController, type: :request do
     @test_user2 = User.create!(full_name: 'Test User 2', user_name: 'test_user_2', password: 'a12345678',
                                password_confirmation: 'a12345678', email: 'test_user_2@localhost.com',
                                agency_id: @agency2.id, role: @role, location: @location0.location_code)
-
-    Sunspot.setup(Child) do
-      string 'protection_concerns', multiple: true
-    end
-
-    Sunspot.setup(ReportableService) do
-      string('service_type') { object_value('service_type') }
-      string('service_implementing_agency') { object_value('service_implementing_agency') }
-    end
 
     @child_concerns1 = Child.new_with_user(@test_user1,
                                            protection_concerns: %w[trafficked_smuggled sexually_exploited migrant],
@@ -121,11 +165,11 @@ describe Api::V2::ReportsController, type: :request do
       get "/api/v2/reports/#{@report1.id}"
 
       report_data = {
-        'cn' => {
+        'CN' => {
           'migrant' => { '_total' => 2 },
           'sexually_exploited' => { '_total' => 2 },
           'trafficked_smuggled' => { '_total' => 2 },
-          '_total' => 2
+          '_total' => 6
         }
       }
 
@@ -140,11 +184,11 @@ describe Api::V2::ReportsController, type: :request do
       get "/api/v2/reports/#{@report1.id}"
 
       report_data = {
-        'cn' => {
+        'CN' => {
           'migrant' => { '_total' => 1 },
           'sexually_exploited' => { '_total' => 1 },
           'trafficked_smuggled' => { '_total' => 1 },
-          '_total' => 1
+          '_total' => 3
         }
       }
 
@@ -158,7 +202,7 @@ describe Api::V2::ReportsController, type: :request do
 
       get "/api/v2/reports/#{@report2.id}"
 
-      report_data = { 'education_formal' => { '_total' => 1 } }
+      report_data = { 'education_formal' => { '_total' => 1, 'incomplete_data' => { '_total' => 1 } } }
 
       expect(response).to have_http_status(200)
       expect(json['data']['report_data']).to eq(report_data)
@@ -248,7 +292,7 @@ describe Api::V2::ReportsController, type: :request do
         }
       }
 
-      post '/api/v2/reports', params: params
+      post('/api/v2/reports', params:)
 
       report_data = {
         'name' => { 'en' => 'Test report', 'fr' => 'Test report in French', 'es' => '' },
@@ -266,7 +310,16 @@ describe Api::V2::ReportsController, type: :request do
           {
             'name' => 'protection_concerns',
             'display_name' => { 'en' => 'Protection Concerns', 'es' => '', 'fr' => '' },
-            'position' => { 'type' => 'horizontal', 'order' => 0 }
+            'position' => { 'type' => 'horizontal', 'order' => 0 },
+            'option_labels' => {
+              'en' => [
+                { 'id' => 'trafficked_smuggled', 'display_text' => 'Trafficked Smuggled' },
+                { 'id' => 'sexually_exploited', 'display_text' => 'Sexually Exploited' },
+                { 'id' => 'migrant', 'display_text' => 'Migrant' }
+              ],
+              'es' => [],
+              'fr' => []
+            }
           },
           {
             'name' => 'owned_by_location', 'display_name' => { 'en' => 'Owned by location', 'es' => '', 'fr' => '' },
@@ -343,7 +396,7 @@ describe Api::V2::ReportsController, type: :request do
         }
       }
 
-      post '/api/v2/reports', params: params
+      post('/api/v2/reports', params:)
       json = JSON.parse(response.body)
 
       expect(response).to have_http_status(200)
@@ -386,7 +439,7 @@ describe Api::V2::ReportsController, type: :request do
         }
       }
 
-      post '/api/v2/reports', params: params
+      post('/api/v2/reports', params:)
 
       expect(response).to have_http_status(422)
 
@@ -436,7 +489,7 @@ describe Api::V2::ReportsController, type: :request do
         }
       }
 
-      post '/api/v2/reports', params: params
+      post('/api/v2/reports', params:)
 
       expect(response).to have_http_status(422)
 
@@ -452,7 +505,7 @@ describe Api::V2::ReportsController, type: :request do
                      modules: [@cp])
       params = {}
 
-      patch '/api/v2/reports/thisdoesntexist', params: params
+      patch('/api/v2/reports/thisdoesntexist', params:)
 
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
@@ -463,7 +516,7 @@ describe Api::V2::ReportsController, type: :request do
       login_for_test
       params = {}
 
-      patch "/api/v2/reports/#{@report1.id}", params: params
+      patch("/api/v2/reports/#{@report1.id}", params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
@@ -512,7 +565,7 @@ describe Api::V2::ReportsController, type: :request do
       }
       Report.first.update(editable: true)
 
-      patch "/api/v2/reports/#{@report1.id}", params: params
+      patch("/api/v2/reports/#{@report1.id}", params:)
       json = JSON.parse(response.body)
 
       report_data = {
@@ -534,7 +587,16 @@ describe Api::V2::ReportsController, type: :request do
           {
             'name' => 'protection_concerns',
             'display_name' => { 'en' => 'Protection Concerns', 'es' => '', 'fr' => '' },
-            'position' => { 'type' => 'horizontal', 'order' => 0 }
+            'position' => { 'type' => 'horizontal', 'order' => 0 },
+            'option_labels' => {
+              'en' => [
+                { 'id' => 'trafficked_smuggled', 'display_text' => 'Trafficked Smuggled' },
+                { 'id' => 'sexually_exploited', 'display_text' => 'Sexually Exploited' },
+                { 'id' => 'migrant', 'display_text' => 'Migrant' }
+              ],
+              'es' => [],
+              'fr' => []
+            }
           },
           {
             'name' => 'owned_by_location', 'display_name' => { 'en' => 'Owned by location', 'es' => '', 'fr' => '' },
@@ -599,6 +661,8 @@ describe Api::V2::ReportsController, type: :request do
   end
 
   after :each do
-    [PrimeroModule, PrimeroProgram, Report, User, Role, Agency, Child, Location, FormSection, Field].each(&:destroy_all)
+    [
+      User, Role, PrimeroModule, PrimeroProgram, Report, Agency, Child, Location, Lookup, Field, FormSection
+    ].each(&:destroy_all)
   end
 end

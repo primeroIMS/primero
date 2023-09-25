@@ -11,7 +11,7 @@ services:
       - 'certbot_challenges:/usr/share/nginx/html/.well-known/acme-challenge'
       - public:/srv/primero/application/public
       - selfsigned_certs:/certs
-      - /srv/primero/external-certs:/external-certs
+      - /srv/external-certs:/external-certs
     env_file:
       - docker/defaults.env
       - docker/local.env

@@ -1,0 +1,14 @@
+
+.subformLink {
+  color: var(--c-blue);
+  font-size: var(--fs-16);
+}
+
+.subformLinkLabel {
+  font-weight: bold;
+  font-size: var(--fs-13);
+}
+
+.subformLinkWrapper {
+  margin: 10px 0;
+}

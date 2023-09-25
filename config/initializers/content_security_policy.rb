@@ -9,16 +9,16 @@ return unless Rails.env.production?
 self_sources = %i[self https]
 
 storage_sources =
-  case ENV['PRIMERO_STORAGE_TYPE']
+  case ENV.fetch('PRIMERO_STORAGE_TYPE', nil)
   when 'microsoft'
-    self_sources + ["https://#{ENV['PRIMERO_STORAGE_AZ_ACCOUNT']}.blob.core.windows.net"]
+    self_sources + ["https://#{ENV.fetch('PRIMERO_STORAGE_AZ_ACCOUNT', nil)}.blob.core.windows.net"]
   else
     self_sources
   end
 
 media_sources = storage_sources + %i[data blob]
 font_and_image_sources = self_sources + %i[data blob]
-style_sources = self_sources + [-> { "'nonce-#{request.content_security_policy_nonce}'" }]
+style_sources = self_sources
 child_sources = self_sources + %i[blob]
 
 Rails.application.config.content_security_policy do |policy|

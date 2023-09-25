@@ -12,6 +12,37 @@ import * as actionCreators from "./action-creators";
 
 describe("User - Action Creators", () => {
   const middlewares = [thunk];
+
+  const parentActions = [
+    {
+      type: "user/SET_AUTHENTICATED_USER",
+      payload: {
+        id: 1,
+        username: "primero"
+      }
+    },
+    {
+      type: "user/FETCH_USER_DATA",
+      api: {
+        path: "users/1",
+        params: {
+          extended: true
+        },
+        db: {
+          collection: "user",
+          user: "primero"
+        },
+        successCallback: [
+          {
+            action: "connectivity/QUEUE_STATUS",
+            payload: "ready"
+          },
+          "I18n/SET_USER_LOCALE"
+        ]
+      }
+    }
+  ];
+
   const expectedAsyncActions = [
     {
       type: "user/SET_AUTHENTICATED_USER",
@@ -119,7 +150,9 @@ describe("User - Action Creators", () => {
       "setAuthenticatedUser",
       "setUser",
       "showLoginDialog",
-      "getAppResources"
+      "getAppResources",
+      "saveNotificationSubscription",
+      "removeNotificationSubscription"
     ].forEach(method => {
       expect(creators).to.have.property(method);
       expect(creators[method]).to.be.a("function");
@@ -137,12 +170,12 @@ describe("User - Action Creators", () => {
       username: "primero"
     };
 
-    return store.dispatch(actionCreators.setAuthenticatedUser(user)).then(() => {
-      const actions = store.getActions();
+    store.dispatch(actionCreators.setAuthenticatedUser(user));
 
-      expect(actions).to.have.lengthOf(8);
-      expect(actions).to.be.deep.equal(expectedAsyncActions);
-    });
+    const actions = store.getActions();
+
+    expect(actions).to.have.lengthOf(2);
+    expect(actions).to.be.deep.equal(parentActions);
   });
 
   it("should check the 'setUser' action creator to return the correct object", () => {
@@ -230,8 +263,8 @@ describe("User - Action Creators", () => {
     return store.dispatch(actionCreators.checkUserAuthentication()).then(() => {
       const actions = store.getActions();
 
-      expect(actions).to.have.lengthOf(8);
-      expect(actions).to.be.deep.equal(expectedAsyncActions);
+      expect(actions).to.have.lengthOf(2);
+      expect(actions).to.be.deep.equal(parentActions);
     });
   });
 

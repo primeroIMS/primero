@@ -131,7 +131,7 @@ describe Api::V2::UserGroupsController, type: :request do
         }
       }
 
-      post '/api/v2/user_groups', params: params, as: :json
+      post '/api/v2/user_groups', params:, as: :json
       expect(response).to have_http_status(200)
       expect(json['data']['name']).to eq(params[:data][:name])
       expect(UserGroup.first.users.count).to eq(0)
@@ -157,11 +157,11 @@ describe Api::V2::UserGroupsController, type: :request do
             name: 'test_associated_agencies',
             disabled: false,
             description: 'test_associated_agencies',
-            agency_unique_ids: agency_unique_ids
+            agency_unique_ids:
           }
         }
 
-        post '/api/v2/user_groups', params: params, as: :json
+        post '/api/v2/user_groups', params:, as: :json
         expect(response).to have_http_status(200)
         expect(json['data']['name']).to eq(params[:data][:name])
         expect(UserGroup.first.users.count).to eq(0)
@@ -173,7 +173,7 @@ describe Api::V2::UserGroupsController, type: :request do
 
     describe 'POST user_group as a admin' do
       before :each do
-        clean_data(UserGroup, Agency, PrimeroModule, Role, User, FormSection, PrimeroProgram)
+        clean_data(User, UserGroup, Agency, Role, PrimeroModule, FormSection, PrimeroProgram)
         agency = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
         program = PrimeroProgram.create!(
           unique_id: 'primeroprogram-primero',
@@ -204,7 +204,7 @@ describe Api::V2::UserGroupsController, type: :request do
           password_confirmation: 'a12345678',
           email: 'test_user_1@localhost.com',
           agency_id: agency.id,
-          role: role
+          role:
         )
       end
 
@@ -219,7 +219,7 @@ describe Api::V2::UserGroupsController, type: :request do
           }
         }
 
-        post '/api/v2/user_groups', params: params, as: :json
+        post '/api/v2/user_groups', params:, as: :json
         expect(response).to have_http_status(200)
         expect(json['data']['name']).to eq(params[:data][:name])
         expect(UserGroup.first.users.count).to eq(1)
@@ -227,7 +227,7 @@ describe Api::V2::UserGroupsController, type: :request do
       end
 
       after :each do
-        clean_data(UserGroup, Agency, PrimeroModule, Role, User, FormSection, PrimeroProgram)
+        clean_data(User, UserGroup, Agency, Role, PrimeroModule, FormSection, PrimeroProgram)
       end
     end
 
@@ -246,7 +246,7 @@ describe Api::V2::UserGroupsController, type: :request do
         }
       }
 
-      post '/api/v2/user_groups', params: params, as: :json
+      post '/api/v2/user_groups', params:, as: :json
       expect(response).to have_http_status(409)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'].first['message']).to eq('Conflict: A record with this id already exists')
@@ -261,7 +261,7 @@ describe Api::V2::UserGroupsController, type: :request do
       )
       params = {}
 
-      post '/api/v2/user_groups', params: params, as: :json
+      post '/api/v2/user_groups', params:, as: :json
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['resource']).to eq('/api/v2/user_groups')
       expect(json['errors'][0]['message']).to eq('Forbidden')
@@ -285,7 +285,7 @@ describe Api::V2::UserGroupsController, type: :request do
         }
       }
 
-      patch "/api/v2/user_groups/#{@user_group_b.id}", params: params, as: :json
+      patch "/api/v2/user_groups/#{@user_group_b.id}", params:, as: :json
       expect(response).to have_http_status(200)
       expect(json['data'].except('core_resource', 'agency_unique_ids')).to eq(params[:data].deep_stringify_keys)
       expect(json['data']['core_resource']).to eq(false)
@@ -299,7 +299,7 @@ describe Api::V2::UserGroupsController, type: :request do
       )
       params = {}
 
-      patch '/api/v2/user_groups/thisdoesntexist', params: params
+      patch('/api/v2/user_groups/thisdoesntexist', params:)
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/user_groups/thisdoesntexist')
@@ -313,7 +313,7 @@ describe Api::V2::UserGroupsController, type: :request do
       )
       params = {}
 
-      patch "/api/v2/user_groups/#{@user_group_b.id}", params: params
+      patch("/api/v2/user_groups/#{@user_group_b.id}", params:)
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['resource']).to eq("/api/v2/user_groups/#{@user_group_b.id}")
       expect(json['errors'][0]['message']).to eq('Forbidden')
@@ -336,11 +336,11 @@ describe Api::V2::UserGroupsController, type: :request do
         params = {
           data: {
             id: @user_group_b.id,
-            agency_unique_ids: agency_unique_ids
+            agency_unique_ids:
           }
         }
 
-        patch "/api/v2/user_groups/#{@user_group_b.id}", params: params, as: :json
+        patch "/api/v2/user_groups/#{@user_group_b.id}", params:, as: :json
         expect(response).to have_http_status(200)
         expect(json['data']['agency_unique_ids']).to match_array(agency_unique_ids)
       end

@@ -4,6 +4,7 @@ import { FETCH_TIMEOUT, ROUTES } from "../../config";
 import { DEFAULT_FETCH_OPTIONS } from "../constants";
 import { disableNavigation } from "../../components/application/action-creators";
 import { applyingConfigMessage } from "../../components/pages/admin/configurations-form/action-creators";
+import userActions from "../../components/user/actions";
 
 import fetchStatus from "./fetch-status";
 import getToken from "./get-token";
@@ -19,7 +20,7 @@ import { deleteFromQueue, messageQueueFailed, messageQueueSkip, messageQueueSucc
 import handleSuccess from "./handle-success";
 import FetchError from "./fetch-error";
 
-const fetchSinglePayload = (action, store, options) => {
+const fetchSinglePayload = async (action, store, options) => {
   const controller = new AbortController();
 
   setTimeout(() => {
@@ -62,7 +63,7 @@ const fetchSinglePayload = (action, store, options) => {
     })
   };
 
-  const token = getToken();
+  const token = await getToken();
 
   const headers = {};
 
@@ -87,58 +88,63 @@ const fetchSinglePayload = (action, store, options) => {
 
       if (status === 503 || (status === 204 && `/${checkHealthUrl}` === ROUTES.check_health)) {
         handleConfiguration(status, store, options, response, { fetchStatus, fetchSinglePayload, type });
-      } else {
-        const json =
-          status === 204 ? { data: { id: body?.data?.id }, ...buildAttachmentData(action) } : await response.json();
+      }
+      const json =
+        status === 204 ? { data: { id: body?.data?.id }, ...buildAttachmentData(action) } : await response.json();
 
-        if (!response.ok) {
-          fetchStatus({ store, type }, "FAILURE", json);
+      if (!response.ok) {
+        fetchStatus({ store, type }, "FAILURE", json);
 
-          if (status === 401) {
-            startSignout(store);
+        if (status === 401) {
+          if (action.type === userActions.FETCH_USER_DATA) {
+            throw new Error("401 status from api, logging out.");
           }
 
-          if (status === 404) {
-            deleteFromQueue(fromQueue);
-            messageQueueSkip();
-          } else if (failureCallback) {
-            messageQueueFailed(fromQueue);
-            handleRestCallback(store, failureCallback, response, json, fromQueue);
-          } else {
-            messageQueueFailed(fromQueue);
-            throw new FetchError(response, json);
-          }
+          startSignout(store);
+        }
+
+        if (status === 404) {
+          deleteFromQueue(fromQueue);
+          messageQueueSkip();
+        } else if (failureCallback) {
+          messageQueueFailed(fromQueue);
+          handleRestCallback(store, failureCallback, response, json, fromQueue);
         } else {
-          await handleSuccess(store, {
-            type,
-            json,
-            normalizeFunc,
-            path,
-            db,
-            fromQueue,
-            fromAttachment,
-            params: urlParams
-          });
-
-          messageQueueSuccess(action);
-
-          handleRestCallback(store, successCallback, response, json, fromQueue);
-
-          if (attachments) {
-            processAttachments({
-              attachments,
-              id: id || json?.data?.id,
-              recordType
-            });
-          }
+          messageQueueFailed(fromQueue);
+          throw new FetchError(response, json);
         }
-        fetchStatus({ store, type }, "FINISHED", false);
 
-        if (configurationCallback && response.ok) {
-          store.dispatch(disableNavigation());
-          handleRestCallback(store, applyingConfigMessage(), response, {});
-          fetchSinglePayload(configurationCallback, store, options);
-        }
+        throw new Error("Something went wrong.");
+      }
+      await handleSuccess(store, {
+        type,
+        json,
+        normalizeFunc,
+        path,
+        db,
+        fromQueue,
+        fromAttachment,
+        params: urlParams
+      });
+
+      messageQueueSuccess(action);
+
+      handleRestCallback(store, successCallback, response, json, fromQueue);
+
+      if (attachments) {
+        processAttachments({
+          attachments,
+          id: id || json?.data?.id,
+          recordType
+        });
+      }
+
+      fetchStatus({ store, type }, "FINISHED", false);
+
+      if (configurationCallback && response.ok) {
+        store.dispatch(disableNavigation());
+        handleRestCallback(store, applyingConfigMessage(), response, {});
+        fetchSinglePayload(configurationCallback, store, options);
       }
     } catch (error) {
       const errorDataObject = { json: error?.json, recordType, fromQueue, id, error };
@@ -161,6 +167,8 @@ const fetchSinglePayload = (action, store, options) => {
         responseText: error?.response?.statusText,
         responseStatus: error?.response?.status
       });
+
+      throw new Error(error);
     }
   };
 

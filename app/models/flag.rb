@@ -12,24 +12,28 @@ class Flag < ApplicationRecord
 
   # The CAST is necessary because ActiveRecord assumes the id is an int.  It isn't.
   # TODO: Rewrite these queries when we start using record_uuid
+  scope :join_record, lambda { |record_type|
+    joins(
+      ActiveRecord::Base.sanitize_sql(
+        "INNER JOIN #{ActiveRecord::Base.connection.quote_column_name(record_type)} ON \
+        CAST (#{ActiveRecord::Base.connection.quote_column_name(record_type)}.id as varchar) = \
+        CAST (flags.record_id as varchar)"
+      )
+    )
+  }
+
   scope :by_record_associated_user, lambda { |params|
-    Flag.joins(
-      "INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)"
-    ).where(
+    join_record(params[:type]).where(
       "(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)", username: params[:owner]
     )
   }
 
   scope :by_record_associated_groups, lambda { |params|
-    Flag.joins(
-      "INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)"
-    ).where("(data -> 'associated_user_groups' ?| array[:group])", group: params[:group])
+    join_record(params[:type]).where("(data -> 'associated_user_groups' ?| array[:group])", group: params[:group])
   }
 
   scope :by_record_agency, lambda { |params|
-    Flag.joins(
-      "INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)"
-    ).where("(data -> 'owned_by_agency_id' ? :agency)", agency: params[:agency])
+    join_record(params[:type]).where("(data -> 'owned_by_agency_id' ? :agency)", agency: params[:agency])
   }
 
   validates :message, presence: { message: 'errors.models.flags.message' }
@@ -155,7 +159,7 @@ class Flag < ApplicationRecord
   def unflag_history
     return unless saved_change_to_attribute('removed')&.[](1)
 
-    saved_changes.map { |k, v| [k, v[1]] }.to_h
+    saved_changes.transform_values { |v| v[1] }
     update_flag_history(EVENT_UNFLAG, unflagged_by)
   end
 
@@ -167,9 +171,9 @@ class Flag < ApplicationRecord
 
   def update_flag_history(event, user_name)
     RecordHistory.create(
-      record_id: record_id,
-      record_type: record_type,
-      user_name: user_name,
+      record_id:,
+      record_type:,
+      user_name:,
       datetime: DateTime.now,
       action: event,
       record_changes: { flags: { from: nil, to: self } }

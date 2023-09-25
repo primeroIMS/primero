@@ -1,17 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
 import isNil from "lodash/isNil";
+import isString from "lodash/isString";
 
-import { getAgeRanges } from "../application/selectors";
+import { getPrimaryAgeRanges } from "../application/selectors";
 import { getLoading, getErrors } from "../index-table/selectors";
 import LoadingIndicator from "../loading-indicator";
 import { useI18n } from "../i18n";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { clearSelectedReport } from "../reports-form/action-creators";
 import TableValues from "../charts/table-values";
 import useOptions from "../form/use-options";
+import transformOptions from "../form/utils/transform-options";
+import { OPTION_TYPES } from "../form/constants";
+import { REFERRAL_TRANSFERS_SUBREPORTS } from "../../config";
 
 import DefaultIndicator from "./components/default-indicator";
 import MultipleViolationsIndicator from "./components/multiple-violations-indicator";
@@ -21,13 +25,15 @@ import {
   buildInsightValues,
   buildReportData,
   getLookupValue,
-  formatAgeRange
+  formatAgeRange,
+  getIndicatorSubcolumnKeys
 } from "./utils";
 import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
 import namespace from "./namespace";
 import { GROUPED_BY_FILTER, NAME, GHN_VIOLATIONS_INDICATORS_IDS } from "./constants";
 import css from "./styles.css";
 import { setSubReport } from "./action-creators";
+import getSubcolumnItems from "./utils/get-subcolumn-items";
 
 const Component = () => {
   const { id, subReport } = useParams();
@@ -49,14 +55,32 @@ const Component = () => {
   const insight = useMemoizedSelector(state => getInsight(state));
   const isGrouped = useMemoizedSelector(state => getIsGroupedInsight(state, subReport));
   const groupedBy = useMemoizedSelector(state => getInsightFilter(state, GROUPED_BY_FILTER));
-  const primeroAgeRanges = useMemoizedSelector(state => getAgeRanges(state));
+  const primaryAgeRanges = useMemoizedSelector(state => getPrimaryAgeRanges(state));
 
   const insightMetadata = insight.getIn(["report_data", subReport, "metadata"], fromJS({}));
   const insightLookups = insightMetadata.get("lookups", fromJS({})).entrySeq().toArray();
   const displayGraph = insightMetadata.get("display_graph", true);
+  const indicatorsRows = insightMetadata.get("indicators_rows", fromJS({}));
+  const indicatorsRowsAsOptions = useMemo(() => {
+    return indicatorsRows
+      .entrySeq()
+      .reduce((acc, [key, elems]) => ({ ...acc, [key]: transformOptions(elems, i18n.locale) }), {});
+  }, [indicatorsRows, i18n.locale]);
+
+  const optionValues = Object.values(OPTION_TYPES);
   const indicatorsSubcolumns = insightMetadata.get("indicators_subcolumns", fromJS({}));
+  const indicatorSubcolumnLookups = useMemo(
+    () =>
+      indicatorsSubcolumns
+        .entrySeq()
+        .toArray()
+        .filter(([, value]) => isString(value) && (value.startsWith("lookup") || optionValues.includes(value))),
+    [indicatorsSubcolumns]
+  );
+  const isReferralsTransferSubreport = REFERRAL_TRANSFERS_SUBREPORTS.includes(subReport);
 
   const lookups = useOptions({ source: insightLookups });
+  const subColumnLookups = useOptions({ source: indicatorSubcolumnLookups });
 
   const emptyMessage = i18n.t("managed_reports.no_data_table");
   const totalText = i18n.t("managed_reports.total");
@@ -76,11 +100,12 @@ const Component = () => {
 
   const subReportTitle = key => i18n.t(["managed_reports", id, "sub_reports", key].join("."));
 
-  const lookupValue = (data, key, property) => getLookupValue(lookups, translateId, data, key, property);
+  const lookupValue = (data, key, property) =>
+    getLookupValue(lookups, indicatorsRowsAsOptions, translateId, data, key, property, totalText);
 
   const singleInsightsTableData = buildSingleInsightsData(reportData, isGrouped).toList();
 
-  const ageRanges = (primeroAgeRanges || fromJS([])).reduce((acc, range) => acc.concat(formatAgeRange(range)), []);
+  const ageRanges = (primaryAgeRanges || fromJS([])).reduce((acc, range) => acc.concat(formatAgeRange(range)), []);
 
   const TableComponent = {
     ghn_report: TableValues,
@@ -126,6 +151,7 @@ const Component = () => {
                   values={buildInsightValues[insightMetadata.get("table_type")]({
                     getLookupValue: lookupValue,
                     data: singleInsightsTableData,
+                    totalText,
                     isGrouped,
                     groupedBy,
                     incompleteDataLabel
@@ -141,8 +167,22 @@ const Component = () => {
               .get("aggregate", fromJS({}))
               .entrySeq()
               .map(([valueKey, value]) => {
+                const hasTotalColumn = isGrouped
+                  ? value.some(elem => elem.get("data", fromJS([])).some(row => !isNil(row.get("total"))))
+                  : value.some(row => !isNil(row.get("total")));
+
+                const indicatorSubColumnKeys = getIndicatorSubcolumnKeys(value);
                 const Indicator = getIndicator(valueKey);
-                const subColumnItems = indicatorsSubcolumns.get(valueKey, fromJS([]));
+                const subColumnItems = getSubcolumnItems({
+                  hasTotalColumn,
+                  subColumnLookups,
+                  valueKey,
+                  ageRanges,
+                  indicatorsSubcolumns,
+                  totalText,
+                  indicatorSubColumnKeys,
+                  includeAllSubColumns: !isReferralsTransferSubreport
+                });
 
                 return (
                   <Indicator
@@ -157,12 +197,14 @@ const Component = () => {
                     insightMetadata={insightMetadata}
                     isGrouped={isGrouped}
                     lookups={lookups}
+                    indicatorsRows={indicatorsRowsAsOptions}
                     lookupValue={lookupValue}
                     namespace={namespace}
                     subReportTitle={subReportTitle}
                     TableComponent={TableComponent}
                     totalText={GHN_VIOLATIONS_INDICATORS_IDS.includes(valueKey) ? violationsText : totalText}
                     subColumnItems={subColumnItems}
+                    hasTotalColumn={hasTotalColumn}
                   />
                 );
               })}

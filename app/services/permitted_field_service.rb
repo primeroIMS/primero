@@ -7,8 +7,7 @@
 class PermittedFieldService
   attr_accessor :user, :model_class, :action_name, :id_search, :permitted_form_field_service
 
-  # Note: Not using Ruby safe regex \A\z because the expression is evaluated with ECMA-262
-  UUID_REGEX = '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+  UUID_REGEX = '\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z'
 
   # case_status_reopened, record_state, incident_case_id, owned_by, module_id,
   PERMITTED_CORE_FIELDS_SCHEMA = {
@@ -108,6 +107,7 @@ class PermittedFieldService
     @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
     @permitted_field_names += permitted_reporting_location_field
     @permitted_field_names += permitted_registry_record_id
+    @permitted_field_names += permitted_family_id
     @permitted_field_names
   end
 
@@ -145,6 +145,16 @@ class PermittedFieldService
 
     if user.can?(:view_registry_record, model_class) || user.can?(:add_registry_record, model_class)
       return %w[registry_record_id registry_id_display registry_name registry_no]
+    end
+
+    []
+  end
+
+  def permitted_family_id
+    return [] unless model_class == Child
+
+    if user.can?(:view_family_record, model_class) || user.can?(:case_from_family, model_class)
+      return %w[family_id family_id_display family_member_id family_name family_number]
     end
 
     []

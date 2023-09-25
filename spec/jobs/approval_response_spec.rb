@@ -6,11 +6,11 @@ describe ApprovalResponseJob, type: :job do
   include ActiveJob::TestHelper
 
   before do
-    [PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role, Agency].each(&:destroy_all)
+    [User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency].each(&:destroy_all)
     @lookup = Lookup.create(id: 'lookup-approval-type', name: 'approval type')
     role = create :role, is_manager: true
-    @manager1 = create :user, role: role, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
-    @manager2 = create :user, role: role, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2'
+    @manager1 = create :user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
+    @manager2 = create :user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2'
     @owner = create :user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev'
     @child = child_with_created_by(
       @owner.user_name, name: 'child1', module_id: PrimeroModule::CP, case_id_display: '12345'
@@ -26,8 +26,19 @@ describe ApprovalResponseJob, type: :job do
     end
   end
 
+  context 'when user has enabled webpush notification' do
+    it 'should call RecordActionWebpushNotifier' do
+      expect(RecordActionWebpushNotifier).to receive(:manager_approval_response)
+      expect(ApprovalResponseNotificationService).to receive(:new).with(@child.id, 'value1', @manager1.user_name, false)
+
+      perform_enqueued_jobs do
+        ApprovalResponseJob.perform_later(@child.id, false, 'value1', @manager1.user_name)
+      end
+    end
+  end
+
   after :each do
-    clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role)
+    clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup)
   end
 
   private

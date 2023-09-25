@@ -34,7 +34,7 @@ class Kpi::AverageFollowupMeetingsPerCase < Kpi::Search
         from
           my_cases,
           follow_ups
-      }, from: from, to: to, owned_by_groups: owned_by_groups, owned_by_agency_id: owned_by_agency_id])
+      }, { from:, to:, owned_by_groups:, owned_by_agency_id: }])
     )
   end
   # rubocop:enable Metrics/MethodLength

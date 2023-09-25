@@ -8,7 +8,7 @@ import { useI18n } from "../i18n";
 import { defaultTableOptions } from "../index-table/utils";
 import { PageHeading } from "../page";
 import ActionButton from "../action-button";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getQueueData } from "../connectivity/selectors";
 import DisableOffline from "../disable-offline";
 

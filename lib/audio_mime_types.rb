@@ -7,6 +7,6 @@ class AudioMimeTypes
   end
 
   def self.to_file_extension(mime_type)
-    '.' + mime_type.to_sym.to_s
+    ".#{mime_type.to_sym}"
   end
 end

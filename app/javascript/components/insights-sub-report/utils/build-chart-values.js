@@ -3,10 +3,11 @@ import take from "lodash/take";
 import sortBy from "lodash/sortBy";
 import first from "lodash/first";
 import last from "lodash/last";
+import isEmpty from "lodash/isEmpty";
 
 import { CHART_COLORS } from "../../../config/constants";
 
-import translateGroup from "./translate-group";
+import translateGroup from "./translate-group-id";
 import sortWithSortedArray from "./sort-with-sorted-array";
 import groupIdComparator from "./group-id-comparator";
 
@@ -104,10 +105,12 @@ export default ({
 }) => {
   if (!value) return {};
 
-  const lookupDisplayTexts = [
-    ...(lookupValues?.map(lookupValue => lookupValue.display_text) || []),
-    incompleteDataLabel
-  ];
+  const lookupDisplayTexts = lookupValues?.map(lookupValue => lookupValue.display_text) || [];
+
+  if (!isEmpty(lookupDisplayTexts)) {
+    lookupDisplayTexts.push(incompleteDataLabel);
+    lookupDisplayTexts.push(totalText);
+  }
 
   if (isGrouped && groupedBy) {
     return buildGroupedChartValues({

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :field, class: Field, traits: [:active_model] do
     type { Field::TEXT_FIELD }
@@ -36,7 +38,10 @@ FactoryBot.define do
     editable { true }
     disabled { false }
     multi_select { true }
-    option_strings_text_all { [{"id"=>"test1", "display_text"=>"test1,"}, {"id"=>"test2", "display_text"=>"test2,"}, {"id"=>"test3", "display_text"=>"test3"}] }
+    option_strings_text_all do
+      [{ 'id' => 'test1', 'display_text' => 'test1,' }, { 'id' => 'test2', 'display_text' => 'test2,' },
+       { 'id' => 'test3', 'display_text' => 'test3' }]
+    end
   end
 
   factory :subform_field, class: Field, traits: [:active_model] do
@@ -55,10 +60,10 @@ FactoryBot.define do
 
     after(:build) do |field, evaluator|
       fs = create :subform_section,
-        unique_id: evaluator.unique_id,
-        initial_subforms: evaluator.initial_subforms,
-        fields: evaluator.fields
-      #TODO: Why isn't this working?
+                  unique_id: evaluator.unique_id,
+                  initial_subforms: evaluator.initial_subforms,
+                  fields: evaluator.fields
+      # TODO: Why isn't this working?
       field.subform_section_id = fs.id
     end
   end

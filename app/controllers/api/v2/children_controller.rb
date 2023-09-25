@@ -17,5 +17,24 @@ class Api::V2::ChildrenController < ApplicationApiController
   def select_updated_fields
     changes = @record.saved_changes_to_record.keys
     @updated_field_names = select_updated_fields_super + @record.current_care_arrangements_changes(changes)
+    @updated_field_names << 'family_details_section' if @record.family&.family_members_changed?
+  end
+
+  def family
+    authorize! :case_from_family, Child
+    @current_record = Child.find(family_params[:case_id])
+    @record = FamilyLinkageService.new_family_linked_child(
+      current_user, @current_record, family_params[:family_detail_id]
+    )
+    @current_record.save! if @current_record.has_changes_to_save?
+    @record.save!
+    select_fields_for_show
+  end
+
+  def family_params
+    return @family_params if @family_params.present?
+
+    data = params.require(:data).permit(:family_detail_id).to_h
+    @family_params = data.merge(case_id: params.require(:case_id))
   end
 end

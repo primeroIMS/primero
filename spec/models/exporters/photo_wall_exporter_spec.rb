@@ -6,7 +6,7 @@ require 'rails_helper'
 module Exporters
   describe PhotoWallExporter do
     before :each do
-      clean_data(Child, PrimeroModule, Role, User)
+      clean_data(Child, User, Role, PrimeroModule)
       primero_module = PrimeroModule.new(name: 'CP')
       primero_module.save(validate: false)
       permissions = Permission.new(
@@ -17,7 +17,7 @@ module Exporters
         permissions: [permissions]
       )
       role.save(validate: false)
-      @user = User.new(user_name: 'user1', role: role)
+      @user = User.new(user_name: 'user1', role:)
       @user.save(validate: false)
       @child_a = Child.new_with_user(@user, name: 'Test_1')
       @child_a.save!
@@ -44,19 +44,19 @@ module Exporters
       expect(pdf_spy).to receive(:image) do |image, _|
         expect(compute_checksum_in_chunks(image)).to eq(@child_b.photo.file.blob.checksum)
       end
-      data = PhotoWallExporter.new(nil, pdf_spy).export(@records, @user)
+      data = PhotoWallExporter.new(nil, user: @user, pdf: pdf_spy).export(@records)
       expect(data.present?).to be true
     end
 
     it 'Getting the No photos available' do
       pdf_spy = spy('Prawn::Document')
       expect(pdf_spy).to receive(:text).with('No photos available', any_args)
-      data = PhotoWallExporter.new(nil, pdf_spy).export([@child_c], @user)
+      data = PhotoWallExporter.new(nil, user: @user, pdf: pdf_spy).export([@child_c])
       expect(data.present?).to be false
     end
 
     after :each do
-      clean_data(Child, PrimeroModule, Role, User)
+      clean_data(Child, User, Role, PrimeroModule)
     end
   end
 end

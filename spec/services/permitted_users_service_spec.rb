@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe PermittedUsersService do
   before :each do
-    clean_data(Agency, Role, UserGroup, User, PrimeroModule)
+    clean_data(User, Agency, Role, UserGroup, PrimeroModule)
 
     @super_user_permissions = [
       Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE]),
@@ -97,36 +97,36 @@ describe PermittedUsersService do
   it 'return all users' do
     users = PermittedUsersService.new(@super_user).find_permitted_users
 
-    expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user3 user4 user5 admin_user super_user])
+    expect(users[:users].map(&:user_name)).to match_array(%w[user1 user2 user3 user4 user5 admin_user super_user])
   end
 
   it 'returns all users who are not super users' do
     users = PermittedUsersService.new(@admin_user).find_permitted_users
 
-    expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user3 user4 user5 admin_user])
+    expect(users[:users].map(&:user_name)).to match_array(%w[user1 user2 user3 user4 user5 admin_user])
   end
 
   it 'return users with the same agency' do
     users = PermittedUsersService.new(@user).find_permitted_users
 
-    expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user5])
+    expect(users[:users].map(&:user_name)).to match_array(%w[user1 user2 user5])
   end
 
   it 'return users with the same user group' do
     users = PermittedUsersService.new(@user4).find_permitted_users
 
-    expect(users.dig(:users).map(&:user_name)).to match_array(%w[user3 user4])
+    expect(users[:users].map(&:user_name)).to match_array(%w[user3 user4])
   end
 
   it 'return users with the same agency for the specified user_group_id' do
     users = PermittedUsersService.new(@user).find_permitted_users('user_group_ids' => 'group-a')
 
-    expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user5])
+    expect(users[:users].map(&:user_name)).to match_array(%w[user1 user2 user5])
   end
 
   it 'sort users by agency' do
     users = PermittedUsersService.new(@super_user).find_permitted_users(nil, nil, { order_by: 'agency_id' })
 
-    expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user3 user5 admin_user super_user user4])
+    expect(users[:users].map(&:user_name)).to match_array(%w[user1 user2 user3 user5 admin_user super_user user4])
   end
 end

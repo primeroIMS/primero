@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe FormSectionResponse do
@@ -5,7 +7,7 @@ describe FormSectionResponse do
     let :response do FormSectionResponse.new(response: nil, form_section: nil) end
 
     describe '#complete?' do
-      it "should be false" do
+      it 'should be false' do
         expect(response.complete?).to be false
       end
     end

@@ -25,6 +25,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         code_of_conduct: codesOfConduct,
         system_options: systemOptions,
         export_require_password: exportRequirePassword,
+        primary_age_range: primaryAgeRange,
         incident_reporting_location_config: incidentReportingLocationConfig
       } = payload.data;
 
@@ -41,7 +42,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           approvalsLabels,
           codesOfConduct,
           systemOptions,
-          exportRequirePassword
+          exportRequirePassword,
+          primaryAgeRange
         })
       );
     }
@@ -76,12 +78,16 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("loading", true).set("errors", false);
     case actions.FETCH_ROLES_SUCCESS:
       return state.set("roles", fromJS(payload.data));
+    case actions.FETCH_WEBPUSH_CONFIG_SUCCESS:
+      return state.set("webpush", fromJS(payload.data));
     case actions.DISABLE_NAVIGATION:
       return state.set("disabledApplication", payload);
     case actions.FETCH_MANAGED_ROLES_SUCCESS:
       return state.set("managedRoles", fromJS(payload.data));
     case actions.FETCH_SANDBOX_UI_SUCCESS:
       return state.set("primero", fromJS(payload.data));
+    case actions.FETCH_AGENCY_LOGO_OPTIONS_SUCCESS:
+      return state.setIn(["primero", "agenciesLogoPdf"], fromJS(payload.data));
     case actions.SET_RETURN_URL:
       return state.set("returnUrl", fromJS(payload));
     default:

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe AuditLog do
-  before(:each) { clean_data(Agency, AuditLog, Role, User) }
+  before(:each) { clean_data(AuditLog, User, Role, Agency) }
 
   describe '.display_id' do
     let(:role) do
@@ -29,7 +29,7 @@ describe AuditLog do
         password: 'b12345678',
         password_confirmation: 'b12345678',
         email: 'test_user_2@localhost.com',
-        role: role,
+        role:,
         agency_id: agency.id
       )
     end
@@ -53,6 +53,34 @@ describe AuditLog do
 
     it 'return empty when record_type is ManagedReport' do
       expect(audit_log_managed_report.display_id).to be_empty
+    end
+  end
+
+  describe '.statistic_message' do
+    before(:each) do
+      clean_data(AuditLog)
+    end
+    let(:audit_log) do
+      AuditLog.create!(
+        record_type: Child,
+        record_id: '12345',
+        user_id: 1,
+        action: 'view',
+        resource_url: '',
+        metadata: {
+          "role_id": 1,
+          "agency_id": 1,
+          "remote_ip": '127.0.0.1',
+          "user_name": 'random_user'
+        }
+      )
+    end
+
+    it 'return a metadata values' do
+      expect(audit_log.metadata['role_id']).to eq(1)
+      expect(audit_log.metadata['agency_id']).to eq(1)
+      expect(audit_log.metadata['remote_ip']).to eq('127.0.0.1')
+      expect(audit_log.metadata['user_name']).to eq('random_user')
     end
   end
 end

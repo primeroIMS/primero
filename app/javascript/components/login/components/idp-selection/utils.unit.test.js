@@ -1,12 +1,10 @@
-import { fromJS } from "immutable";
-
 import { setMsalConfig, getLoginRequest, getTokenRequest } from "./utils";
 
 describe("auth-utils", () => {
   let idp;
 
   before(() => {
-    idp = fromJS({
+    idp = {
       name: "UNICEF",
       unique_id: "unicef",
       provider_type: "b2c",
@@ -15,7 +13,7 @@ describe("auth-utils", () => {
       identity_scope: ["123"],
       verification_url: "verification",
       domain_hint: "unicef"
-    });
+    };
   });
 
   it("returns provider details", () => {
@@ -24,11 +22,12 @@ describe("auth-utils", () => {
         clientId: "123",
         authority: "authorization",
         validateAuthority: false,
+        knownAuthorities: ["unicefpartners.b2clogin.com"],
         redirectUri: `${window.location.protocol}//${window.location.host}/login/b2c`
       },
       cache: {
-        cacheLocation: "localStorage",
-        storeAuthStateInCookie: true
+        cacheLocation: "sessionStorage",
+        storeAuthStateInCookie: false
       }
     };
 
