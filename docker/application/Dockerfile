@@ -95,7 +95,7 @@ ARG BUILD_REGISTRY
 FROM ${BUILD_REGISTRY}ruby:3.2.2-alpine3.18
 
 ENV BUILD_PACKAGES bash
-ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip curl
+ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip curl tini
 
 ARG APP_UID
 ARG APP_GID
@@ -135,6 +135,7 @@ RUN set -euox pipefail \
 # Switching to User primero to run the container.
 USER docker-primero
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT ["/sbin/tini", "--", "/entrypoint.sh"]
+# ENTRYPOINT ["/entrypoint.sh"]
 
 CMD [ "primero-start" ]

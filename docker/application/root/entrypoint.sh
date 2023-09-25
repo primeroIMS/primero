@@ -81,6 +81,15 @@ stage_assets() {
   return 0
 }
 
+primero_worker() {
+  if [[ "$WORKER_MULTIPROCESS" == "true" ]]
+  then
+    QUEUE=api_bigo_n rails jobs:work & QUEUES=mailer,export,logger,api,options,default rails jobs:work
+  else
+    QUEUES=mailer,export,logger,api,options,default,api_bigo_n rails jobs:work
+  fi
+}
+
 # apps 'entrypoint' start. handles passed arguments and checks if bootstrap is
 # neccesary.
 primero_entrypoint() {
@@ -106,6 +115,9 @@ primero_entrypoint() {
       ;;
     primero-configure)
       primero_configure
+      ;;
+    primero-worker)
+      primero_worker
       ;;
     *)
       exec "$@"

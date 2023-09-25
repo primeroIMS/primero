@@ -2,7 +2,7 @@
 
 # Primero ActiveJob superclass
 class PeriodicJob < ActiveJob::Base
-  queue_as :default
+  queue_as :api_bigo_n
   def perform
     return unless self.class.perform_job?
 

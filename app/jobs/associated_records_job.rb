@@ -2,7 +2,7 @@
 
 # Job that updates associated records for a user
 class AssociatedRecordsJob < ApplicationJob
-  queue_as :api
+  queue_as :api_bigo_n
 
   def perform(args = {})
     AssociatedRecordsService.new(
