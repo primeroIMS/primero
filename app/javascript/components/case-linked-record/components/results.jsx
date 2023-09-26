@@ -3,33 +3,37 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
-import { useMemoizedSelector } from "../../../../../../libs";
-import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../../action-button";
-import css from "../../../subforms/styles.css";
-import IndexTable, { getRecords, getLoading } from "../../../../../index-table";
-import LoadingIndicator from "../../../../../loading-indicator";
-import { REGISTRY_RECORDS } from "../../../../../../config";
-import { applyFilters } from "../../../../../index-filters";
-import { getMetadata } from "../../../../../record-list";
+import { useMemoizedSelector } from "../../../libs";
+import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
+import IndexTable, { getRecords, getLoading } from "../../index-table";
+import LoadingIndicator from "../../loading-indicator";
+import { RECORD_TYPES_PLURAL } from "../../../config";
+import { applyFilters } from "../../index-filters";
+import { getMetadata } from "../../record-list";
+import css from "../../record-form/form/subforms/styles.css";
 
 import ResultDetails from "./result-details";
 
-const Results = ({
-  redirectIfNotAllowed,
-  setComponent,
+function Component({
   fields,
-  searchParams = {},
-  recordType,
+  formName,
   handleCancel,
-  setDrawerTitle,
+  linkedRecordFormUniqueId,
+  linkedRecordType,
+  linkField,
+  locale,
   mode,
   online,
-  primeroModule,
   permissions,
-  locale,
+  primeroModule,
+  recordType,
+  redirectIfNotAllowed,
+  searchParams = {},
+  setComponent,
+  setDrawerTitle,
   setFieldValue,
-  formName
-}) => {
+  showSelectButton = false
+}) {
   setDrawerTitle("results");
   redirectIfNotAllowed(permissions.writeRegistryRecord);
 
@@ -37,9 +41,9 @@ const Results = ({
 
   const [detailsID, setDetailsID] = useState(null);
 
-  const metadata = useMemoizedSelector(state => getMetadata(state, REGISTRY_RECORDS));
+  const metadata = useMemoizedSelector(state => getMetadata(state, RECORD_TYPES_PLURAL[linkedRecordType]));
   const isLoading = useMemoizedSelector(state => getLoading(state));
-  const results = useMemoizedSelector(state => getRecords(state, REGISTRY_RECORDS, true));
+  const results = useMemoizedSelector(state => getRecords(state, RECORD_TYPES_PLURAL[linkedRecordType], true));
 
   const params = metadata?.merge({ ...searchParams, fields: "short" });
 
@@ -52,7 +56,7 @@ const Results = ({
   }, [setDetailsID]);
 
   useEffect(() => {
-    dispatch(applyFilters({ recordType: REGISTRY_RECORDS, data: params }));
+    dispatch(applyFilters({ recordType: RECORD_TYPES_PLURAL[linkedRecordType], data: params }));
   }, []);
 
   const tableOptions = {
@@ -66,7 +70,7 @@ const Results = ({
     title: "",
     defaultFilters: params,
     onTableChange: applyFilters,
-    recordType: REGISTRY_RECORDS,
+    recordType: RECORD_TYPES_PLURAL[linkedRecordType],
     bypassInitialFetch: true,
     onRowClick: handleRowClick,
     options: { selectableRows: "none", rowsPerPageOptions: [], elevation: 0 },
@@ -95,6 +99,10 @@ const Results = ({
         redirectIfNotAllowed={redirectIfNotAllowed}
         setFieldValue={setFieldValue}
         formName={formName}
+        linkedRecordType={linkedRecordType}
+        linkedRecordFormUniqueId={linkedRecordFormUniqueId}
+        showSelectButton={showSelectButton}
+        linkField={linkField}
       />
     );
   }
@@ -114,14 +122,17 @@ const Results = ({
       </LoadingIndicator>
     </>
   );
-};
+}
 
-Results.displayName = "Results";
+Component.displayName = "Results";
 
-Results.propTypes = {
+Component.propTypes = {
   fields: PropTypes.object.isRequired,
   formName: PropTypes.string,
   handleCancel: PropTypes.func.isRequired,
+  linkedRecordFormUniqueId: PropTypes.string,
+  linkedRecordType: PropTypes.string.isRequired,
+  linkField: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
   online: PropTypes.bool.isRequired,
@@ -133,7 +144,8 @@ Results.propTypes = {
   setComponent: PropTypes.func.isRequired,
   setDrawerTitle: PropTypes.func.isRequired,
   setFieldValue: PropTypes.func.isRequired,
-  setSearchParams: PropTypes.func.isRequired
+  setSearchParams: PropTypes.func.isRequired,
+  showSelectButton: PropTypes.func.isRequired
 };
 
-export default Results;
+export default Component;

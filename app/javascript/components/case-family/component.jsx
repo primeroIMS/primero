@@ -1,82 +1,50 @@
-import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
 
-import { CASE, FAMILIES, FAMILY_FROM_CASE } from "../../config";
-import { useMemoizedSelector } from "../../libs";
-import { useI18n } from "../i18n";
-import { fetchRecord, getLoadingRecordState, selectRecord } from "../records";
-import { getRecordFormsByUniqueId } from "../record-form";
-import SubformDrawer from "../record-form/form/subforms/subform-drawer";
-import RecordFormTitle from "../record-form/form/record-form-title";
-import { useApp } from "../application";
-import LoadingIndicator from "../loading-indicator/component";
-import SubformEmptyData from "../record-form/form/subforms/subform-empty-data";
+import { FAMILY_FROM_CASE, RECORD_TYPES } from "../../config";
+import { LINK_FAMILY_RECORD_FROM_CASE, RESOURCES, usePermissions } from "../permissions";
+import CaseLinkedRecord from "../case-linked-record";
 
-import FamilyRecordHeader from "./components/family-record-header";
-import FamilyRecordForm from "./components/family-record-form";
-import { FAMILY_ID } from "./constants";
+import { FAMILY_ID, FAMILY_ID_DISPLAY, FAMILY_NAME, FAMILY_NUMBER, FAMILY_OVERVIEW } from "./constants";
 
-function Component({ values, primeroModule, mobileDisplay, handleToggleNav }) {
-  const i18n = useI18n();
-  const dispatch = useDispatch();
-  const { online } = useApp();
-  const caseFamilyForm = useMemoizedSelector(state =>
-    getRecordFormsByUniqueId(state, {
-      checkVisible: false,
-      formName: FAMILY_FROM_CASE,
-      primeroModule,
-      recordType: CASE,
-      getFirst: true
-    })
-  );
-  const familyId = values[FAMILY_ID];
-  const record = useMemoizedSelector(state =>
-    selectRecord(state, { isEditOrShow: true, recordType: FAMILIES, id: familyId })
-  );
-  const isRecordLoading = useMemoizedSelector(state => getLoadingRecordState(state, FAMILIES));
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const title = caseFamilyForm.getIn(["name", i18n.locale], null);
-  const formName = caseFamilyForm.i18nName ? i18n.t(title) : title;
-
-  const handleOpenMatch = () => {
-    setDrawerOpen(true);
-  };
-
-  const handleCancel = () => {
-    setDrawerOpen(false);
-  };
-
-  useEffect(() => {
-    if (record.isEmpty() && familyId && online) {
-      dispatch(fetchRecord(FAMILIES, familyId));
-    }
-  }, [familyId, online, record.isEmpty()]);
+function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record, recordType, setFieldValue, values }) {
+  const { linkFamilyRecord } = usePermissions(RESOURCES.cases, { linkFamilyRecord: LINK_FAMILY_RECORD_FROM_CASE });
 
   return (
-    <>
-      <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={formName} />
-      {familyId ? (
-        <LoadingIndicator loading={isRecordLoading} hasData={!record.isEmpty()}>
-          <FamilyRecordHeader record={record} values={values} formName={formName} handleOpenMatch={handleOpenMatch} />
-          <SubformDrawer open={drawerOpen} cancelHandler={handleCancel} title={formName}>
-            <FamilyRecordForm record={record} handleCancel={handleCancel} />
-          </SubformDrawer>
-        </LoadingIndicator>
-      ) : (
-        <SubformEmptyData subformName={formName} single />
-      )}
-    </>
+    <CaseLinkedRecord
+      values={values}
+      record={record}
+      mode={mode}
+      mobileDisplay={mobileDisplay}
+      handleToggleNav={handleToggleNav}
+      primeroModule={primeroModule}
+      recordType={recordType}
+      linkedRecordType={RECORD_TYPES.families}
+      setFieldValue={setFieldValue}
+      linkField={FAMILY_ID}
+      caseFormUniqueId={FAMILY_FROM_CASE}
+      linkedRecordFormUniqueId={FAMILY_OVERVIEW}
+      headerFieldNames={[FAMILY_ID_DISPLAY, FAMILY_NUMBER, FAMILY_NAME]}
+      searchFieldNames={[FAMILY_NUMBER, FAMILY_NAME]}
+      validatedFieldNames={[FAMILY_NUMBER, FAMILY_NAME]}
+      showHeader={linkFamilyRecord}
+      showAddNew={linkFamilyRecord}
+      showSelectButton={linkFamilyRecord && !mode.isShow}
+      permissions={{ linkFamilyRecord }}
+      isPermitted={linkFamilyRecord}
+    />
   );
 }
 
-Component.displayName = "CaseFamily";
+Component.displayName = "CaseRegistry";
 
 Component.propTypes = {
   handleToggleNav: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
+  mode: PropTypes.object.isRequired,
   primeroModule: PropTypes.string.isRequired,
+  record: PropTypes.object.isRequired,
+  recordType: PropTypes.string.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired
 };
 

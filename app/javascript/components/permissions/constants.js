@@ -113,7 +113,8 @@ export const ACTIONS = {
   VIOLATIONS: "violations",
   WORKFLOW_REPORT: "workflow_report",
   WRITE: "write",
-  VIEW_FAMILY_RECORD: "view_family_record"
+  VIEW_FAMILY_RECORD: "view_family_record",
+  LINK_FAMILY_RECORD: "link_family_record"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -336,3 +337,5 @@ export const SHOW_SYNC_EXTERNAL = [...MANAGE, ACTIONS.SYNC_EXTERNAL];
 export const CONSENT_OVERRIDE = [...MANAGE, ACTIONS.CONSENT_OVERRIDE];
 
 export const CREATE_CASE_FROM_FAMILY = [...MANAGE, ACTIONS.CASE_FROM_FAMILY];
+
+export const LINK_FAMILY_RECORD_FROM_CASE = [...MANAGE, ACTIONS.LINK_FAMILY_RECORD];

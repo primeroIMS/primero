@@ -5,29 +5,31 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import CheckIcon from "@material-ui/icons/Check";
 import BlockIcon from "@material-ui/icons/Block";
 
-import { getRecordFormsByUniqueId } from "../../../..";
-import { useMemoizedSelector } from "../../../../../../libs";
-import { REGISTRY_RECORD, REGISTRY_RECORDS } from "../../../../../../config";
-import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../../action-button";
-import css from "../../../subforms/styles.css";
-import { LINK_FIELD, REGISTRY_DETAILS } from "../constants";
-import { fetchRecord, selectRecord } from "../../../../../records";
-import Form, { FORM_MODE_SHOW } from "../../../../../form";
-import DisabledRecordIndicator from "../../disabled-record-indicator";
+import { getRecordFormsByUniqueId } from "../../record-form/selectors";
+import DisabledRecordIndicator from "../../record-form/form/components/disabled-record-indicator";
+import { useMemoizedSelector } from "../../../libs";
+import { RECORD_TYPES_PLURAL } from "../../../config";
+import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
+import css from "../../record-form/form/subforms/styles.css";
+import { fetchRecord, selectRecord } from "../../records";
+import Form, { FORM_MODE_SHOW } from "../../form";
 
-const ResultDetails = ({
-  id,
+function Component({
+  formName,
   handleCancel,
-  shouldSelect = false,
   handleReturn,
-  setDrawerTitle,
-  mode,
-  primeroModule,
+  id,
+  linkedRecordFormUniqueId,
+  linkedRecordType,
+  linkField,
   permissions,
+  primeroModule,
   redirectIfNotAllowed,
+  setDrawerTitle,
   setFieldValue,
-  formName
-}) => {
+  shouldSelect = false,
+  showSelectButton = false
+}) {
   setDrawerTitle(formName, {}, false);
   redirectIfNotAllowed(permissions.writeReadRegistryRecord);
 
@@ -36,20 +38,22 @@ const ResultDetails = ({
   const formSection = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       checkVisible: false,
-      formName: REGISTRY_DETAILS,
+      formName: linkedRecordFormUniqueId,
       primeroModule,
-      recordType: REGISTRY_RECORD,
+      recordType: linkedRecordType,
       getFirst: true
     })
   );
 
   const record = useMemoizedSelector(state =>
-    selectRecord(state, { isEditOrShow: true, recordType: REGISTRY_RECORDS, id })
+    selectRecord(state, { isEditOrShow: true, recordType: RECORD_TYPES_PLURAL[linkedRecordType], id })
   );
 
   useEffect(() => {
-    dispatch(fetchRecord(REGISTRY_RECORDS, id));
-  }, []);
+    if (linkedRecordType) {
+      dispatch(fetchRecord(RECORD_TYPES_PLURAL[linkedRecordType], id));
+    }
+  }, [linkedRecordType]);
 
   const selectButtonText = shouldSelect ? "case.select" : "case.deselect";
   const selectButtonIcon = shouldSelect ? <CheckIcon /> : <BlockIcon />;
@@ -57,7 +61,7 @@ const ResultDetails = ({
   const backButtonFunc = shouldSelect ? handleReturn : handleCancel;
 
   const handleSelection = () => {
-    [[LINK_FIELD, shouldSelect ? id : null]].forEach(([key, value]) => {
+    [[linkField, shouldSelect ? id : null]].forEach(([key, value]) => {
       setFieldValue(key, value);
     });
 
@@ -66,7 +70,7 @@ const ResultDetails = ({
 
   return (
     <>
-      {!record.get("enabled") && <DisabledRecordIndicator recordType={REGISTRY_RECORD} />}
+      {!record.get("enabled") && <DisabledRecordIndicator recordType={linkedRecordType} />}
       <div className={css.subformFieldArrayContainer}>
         <ActionButton
           type={ACTION_BUTTON_TYPES.default}
@@ -74,7 +78,7 @@ const ResultDetails = ({
           rest={{ onClick: backButtonFunc }}
           icon={<ArrowBackIosIcon />}
         />
-        {permissions.writeRegistryRecord && !mode.isShow && (
+        {showSelectButton && (
           <ActionButton
             type={ACTION_BUTTON_TYPES.default}
             text={selectButtonText}
@@ -83,31 +87,36 @@ const ResultDetails = ({
           />
         )}
       </div>
-      <Form
-        useCancelPrompt={false}
-        mode={FORM_MODE_SHOW}
-        formSections={[formSection]}
-        initialValues={record.toJS()}
-        showTitle={false}
-      />
+      {formSection?.unique_id && (
+        <Form
+          useCancelPrompt={false}
+          mode={FORM_MODE_SHOW}
+          formSections={[formSection]}
+          initialValues={record.toJS()}
+          showTitle={false}
+        />
+      )}
     </>
   );
-};
+}
 
-ResultDetails.displayName = "ResultDetails";
+Component.displayName = "ResultDetails";
 
-ResultDetails.propTypes = {
+Component.propTypes = {
   formName: PropTypes.string,
   handleCancel: PropTypes.func.isRequired,
   handleReturn: PropTypes.func,
   id: PropTypes.string.isRequired,
-  mode: PropTypes.object.isRequired,
+  linkedRecordFormUniqueId: PropTypes.string.isRequired,
+  linkedRecordType: PropTypes.string.isRequired,
+  linkField: PropTypes.string.isRequired,
   permissions: PropTypes.object.isRequired,
   primeroModule: PropTypes.string.isRequired,
   redirectIfNotAllowed: PropTypes.func.isRequired,
   setDrawerTitle: PropTypes.func.isRequired,
   setFieldValue: PropTypes.func,
-  shouldSelect: PropTypes.bool
+  shouldSelect: PropTypes.bool,
+  showSelectButton: PropTypes.bool
 };
 
-export default ResultDetails;
+export default Component;
