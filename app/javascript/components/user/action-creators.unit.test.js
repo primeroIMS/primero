@@ -135,6 +135,10 @@ describe("User - Action Creators", () => {
           manifest: "/test-locations.json"
         }
       }
+    },
+    {
+      type: "application/FETCH_WEBPUSH_CONFIG",
+      api: { path: "webpush/config" }
     }
   ];
 
@@ -263,8 +267,8 @@ describe("User - Action Creators", () => {
     return store.dispatch(actionCreators.checkUserAuthentication()).then(() => {
       const actions = store.getActions();
 
-      expect(actions).to.have.lengthOf(2);
-      expect(actions).to.be.deep.equal(parentActions);
+      expect(actions).to.have.lengthOf(9);
+      expect(actions).to.be.deep.equal([...parentActions, ...expectedAsyncActions]);
     });
   });
 
