@@ -39,6 +39,11 @@
 
 }
 
+.linkDisabled {
+  cursor: not-allowed;
+  user-select: none;
+}
+
 .selectProvider {
   margin: 0;
 }
