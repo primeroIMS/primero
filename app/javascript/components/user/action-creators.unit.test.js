@@ -268,7 +268,7 @@ describe("User - Action Creators", () => {
       const actions = store.getActions();
 
       expect(actions).to.have.lengthOf(9);
-      expect(actions).to.be.deep.equal([...parentActions, ...expectedAsyncActions]);
+      expect(actions).to.be.deep.equal(expectedAsyncActions);
     });
   });
 
