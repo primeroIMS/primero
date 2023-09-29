@@ -263,6 +263,8 @@ en:
     search_helper_text: Why? To prevent creation of duplicate cases.
     consent_agreements: Select all consent agreements that apply
     legitimate_basis: Select all legitimate basis clasifications that apply
+    family_linked_subform_delete_disabled: This subform entry is linked to a Family Record. Please either
+      remove this family member from the family record, or unlink the family member's case from the Family Record.
     workflow:
       assessment: Assessment
       case_plan: Case Plan

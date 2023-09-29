@@ -184,6 +184,9 @@ const Component = ({
                     id={`delete-button-${name}-${index}`}
                     icon={<DeleteIcon />}
                     type={ACTION_BUTTON_TYPES.icon}
+                    tooltip={
+                      !canDeleteFamilySubform(index) ? i18n.t("case.family_linked_subform_delete_disabled") : null
+                    }
                     rest={{
                       onClick: () => handleOpenModal(index),
                       // TODO: disable only when there is no violation or association
