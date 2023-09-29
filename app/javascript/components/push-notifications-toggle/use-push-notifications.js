@@ -19,7 +19,6 @@ function usePushNotifications() {
   const notificationEndpoint = useMemoizedSelector(state => getNotificationSubscription(state));
   const receiveWebpush = useMemoizedSelector(state => getUserProperty(state, "receiveWebpush"));
   const userLoaded = useMemoizedSelector(state => getUserProperty(state, "loaded"));
-  const isAuthenticated = useMemoizedSelector(state => getUserProperty(state, "isAuthenticated"));
 
   const locationNotLogout = location.pathname !== ROUTES.logout;
   const shouldPingSubscription = notificationEndpoint && userLoaded && receiveWebpush && locationNotLogout;
