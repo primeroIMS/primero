@@ -2,7 +2,7 @@
 
 # Job to apply a saved Primero configuration sate
 class ApplyConfigurationJob < ApplicationJob
-  queue_as :api_bigo_n
+  queue_as :long_running_process
 
   def perform(configuration_id, user_id)
     configuration = PrimeroConfiguration.find_by(id: configuration_id)

@@ -18,4 +18,4 @@ Delayed::Worker.raise_signal_exceptions = :term
 # that queue will be emptied first. This means that AuditLog jobs could take a while
 # to run if other jobs are running.
 Delayed::Worker.queue_attributes = { logger: { priority: 6 } }
-Delayed::Worker.logger = Logger.new(logfile, 5, 50.megabytes).tap { |l| l.level = Logger::DEBUG }
+Delayed::Worker.logger = Logger.new(logfile, 5, 50.megabytes).tap { |l| l.level = Logger::INFO }

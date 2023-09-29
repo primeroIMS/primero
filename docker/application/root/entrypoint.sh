@@ -82,11 +82,11 @@ stage_assets() {
 }
 
 primero_worker() {
-  if [[ "$WORKER_MULTIPROCESS" == "true" ]]
+  if [[ "$PRIMERO_WORKER_MULTIPROCESS" == "true" ]]
   then
-    QUEUE=api_bigo_n rails jobs:work & QUEUES=mailer,export,logger,api,options,default rails jobs:work
+    QUEUE=long_running_process rails jobs:work & QUEUES=mailer,export,logger,api,options,default rails jobs:work
   else
-    QUEUES=mailer,export,logger,api,options,default,api_bigo_n rails jobs:work
+    QUEUES=mailer,export,logger,api,options,default,long_running_process rails jobs:work
   fi
 }
 
