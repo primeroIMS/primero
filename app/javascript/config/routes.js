@@ -95,10 +95,6 @@ export default [
         path: ROUTES.login,
         component: Login
       },
-      // {
-      //   path: ROUTES.logout,
-      //   component: Login
-      // },
       {
         path: ROUTES.password_reset,
         component: PasswordReset
