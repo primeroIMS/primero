@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Superclass for all Record exporters
+# rubocop:disable Metrics/ClassLength
 class Exporters::BaseExporter
   EXPORTABLE_FIELD_TYPES = [
     Field::TEXT_FIELD, Field::TEXT_AREA, Field::RADIO_BUTTON, Field::SELECT_BOX, Field::NUMERIC_FIELD,
@@ -94,6 +95,14 @@ class Exporters::BaseExporter
     user.role.permitted_forms(record_type, true, include_subforms)
   end
 
+  def embed_family_data(record, data)
+    return data unless record.is_a?(Child) && record.family.present?
+
+    FamilyLinkageService::GLOBAL_FAMILY_FIELDS.each { |field_name| data[field_name] = record.family.data[field_name] }
+    data['family_details_section'] = record.family_members_details
+    data
+  end
+
   private
 
   def forms_to_export(include_subforms = false)
@@ -157,3 +166,4 @@ class Exporters::BaseExporter
     "#{ColName.instance.col_str(column_index)}#{FIRST_ROW_INDEX}"
   end
 end
+# rubocop:enable Metrics/ClassLength

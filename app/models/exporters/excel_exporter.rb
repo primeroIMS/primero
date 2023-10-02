@@ -112,7 +112,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
 
   def write_record(record)
     data = record.data
-    data['family_details_section'] = record.family_members_details if record.is_a?(Child)
+    data = embed_family_data(record, data)
 
     forms.each do |form|
       write_record_form(record.short_id, data, form, form&.subform_field&.name)

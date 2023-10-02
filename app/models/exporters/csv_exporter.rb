@@ -43,7 +43,7 @@ class Exporters::CsvExporter < Exporters::BaseExporter
 
   def row(record, fields)
     data = record.data
-    data['family_details_section'] = record.family_members_details if record.is_a?(Child)
+    data = embed_family_data(record, data)
     [record.id] + fields.map { |field| data[field.name] }
   end
 end

@@ -138,6 +138,9 @@ module Exporters
         form_group_id: 'case_form_1',
         order: 7,
         fields: [
+          Field.new(name: 'family_number', display_name: 'Family Number', type: 'text_field', visible: true),
+          Field.new(name: 'family_size', display_name: 'Family Size', type: 'numeric_field', visible: true),
+          Field.new(name: 'family_notes', display_name: 'Family Notes', type: 'text_field', visible: true),
           Field.new(
             name: 'family_details_section',
             display_name_en: 'Family Details',
@@ -157,6 +160,9 @@ module Exporters
       @user = create(:user, user_name: 'fakeadmin', role: @role)
       @family = Family.create!(
         data: {
+          family_number: 'FA-001',
+          family_size: 5,
+          family_notes: 'FamilyNotes',
           family_members: [
             { unique_id: '001', relation_name: 'FirstName1 LastName1', relation_age: 10, relation_sex: 'male' },
             { unique_id: '002', relation_name: 'FirstName2 LastName2', relation_age: 12, relation_sex: 'female' }
@@ -192,6 +198,9 @@ module Exporters
           family: @family,
           data: {
             family_member_id: '001',
+            family_number: 'CA-001',
+            family_size: 0,
+            family_notes: 'CaseNotes',
             first_name: 'FirstName1',
             last_name: 'LastName1',
             age: 10,
@@ -210,13 +219,13 @@ module Exporters
       end
 
       it 'contains a worksheet for each form and subform' do
-        expect(workbook.sheets.size).to eq(9)
+        expect(workbook.sheets.size).to eq(10)
         expect(workbook.sheets).to match_array(
           [
             'cases_test_form_2', 'cases_test_form_1',
             'Test Arabic فاكيا قد به،. بـ...', 'cases_test_form-cases_test_s...', 'cases_test_form-cases_test_s.-1',
             'cases_test_form-cases_test_s.-2', 'cases_test_form-cases_test_s.-3',
-            'case_test_form_-cases_test_s...', 'Family Details-Nested Family...'
+            'case_test_form_-cases_test_s...', 'Family Details', 'Family Details-Nested Family...'
           ]
         )
       end
@@ -264,11 +273,18 @@ module Exporters
         expect(workbook.sheet(7).row(2)).to eq([@record_id, nil])
       end
 
-      it 'exports the family details section' do
+      it 'exports the family global fields' do
         expect(workbook.sheet(8).last_row).to eq(3)
-        expect(workbook.sheet(8).row(1)).to eq(%w[ID Name Age Sex Relation])
-        expect(workbook.sheet(8).row(2)).to eq([@records[0].short_id, 'Detail1', 5, 'male', 'relation1'])
-        expect(workbook.sheet(8).row(3)).to eq(
+        expect(workbook.sheet(8).row(1)).to eq(['ID', 'Family Number', 'Family Size', 'Family Notes'])
+        expect(workbook.sheet(8).row(2)).to eq([@record_id, nil, nil, nil])
+        expect(workbook.sheet(8).row(3)).to eq([@records[1].short_id, 'FA-001', 5, 'FamilyNotes'])
+      end
+
+      it 'exports the family details section' do
+        expect(workbook.sheet(9).last_row).to eq(3)
+        expect(workbook.sheet(9).row(1)).to eq(%w[ID Name Age Sex Relation])
+        expect(workbook.sheet(9).row(2)).to eq([@records[0].short_id, 'Detail1', 5, 'male', 'relation1'])
+        expect(workbook.sheet(9).row(3)).to eq(
           [@records[1].short_id, 'FirstName2 LastName2', 12, 'female', 'relation2']
         )
       end
