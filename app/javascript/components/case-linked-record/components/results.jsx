@@ -21,6 +21,7 @@ function Component({
   linkedRecordFormUniqueId,
   linkedRecordType,
   linkField,
+  linkFieldDisplay,
   locale,
   mode,
   online,
@@ -103,6 +104,7 @@ function Component({
         linkedRecordFormUniqueId={linkedRecordFormUniqueId}
         showSelectButton={showSelectButton}
         linkField={linkField}
+        linkFieldDisplay={linkFieldDisplay}
       />
     );
   }
@@ -133,6 +135,7 @@ Component.propTypes = {
   linkedRecordFormUniqueId: PropTypes.string,
   linkedRecordType: PropTypes.string.isRequired,
   linkField: PropTypes.string.isRequired,
+  linkFieldDisplay: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
   online: PropTypes.bool.isRequired,

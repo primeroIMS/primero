@@ -29,6 +29,7 @@ function Component({
   isPermitted,
   linkedRecordType,
   linkedRecordFormUniqueId,
+  linkFieldDisplay,
   linkField,
   mobileDisplay,
   mode,
@@ -130,7 +131,7 @@ function Component({
   }, [drawerOpen]);
 
   useEffect(() => {
-    if (record.isEmpty() && fieldValue && !online) {
+    if (record.isEmpty() && fieldValue && online) {
       dispatch(fetchRecord(RECORD_TYPES_PLURAL[linkedRecordType], fieldValue));
     }
   }, [fieldValue, online, record.isEmpty()]);
@@ -202,6 +203,7 @@ function Component({
             searchFieldNames={searchFieldNames}
             validatedFieldNames={validatedFieldNames}
             linkField={linkField}
+            linkFieldDisplay={linkFieldDisplay}
           />
         )}
       </SubformDrawer>
@@ -220,6 +222,7 @@ Component.propTypes = {
   linkedRecordFormUniqueId: PropTypes.string.isRequired,
   linkedRecordType: PropTypes.string.isRequired,
   linkField: PropTypes.string.isRequired,
+  linkFieldDisplay: PropTypes.string.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object.isRequired,
   permissions: PropTypes.object.isRequired,

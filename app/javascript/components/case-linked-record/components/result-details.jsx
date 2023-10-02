@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import CheckIcon from "@material-ui/icons/Check";
 import BlockIcon from "@material-ui/icons/Block";
@@ -12,7 +12,7 @@ import { RECORD_TYPES_PLURAL } from "../../../config";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
 import css from "../../record-form/form/subforms/styles.css";
 import { fetchRecord, selectRecord } from "../../records";
-import Form, { FORM_MODE_SHOW } from "../../form";
+import Form, { FORM_MODE_SHOW, LINK_FIELD } from "../../form";
 
 function Component({
   formName,
@@ -22,6 +22,7 @@ function Component({
   linkedRecordFormUniqueId,
   linkedRecordType,
   linkField,
+  linkFieldDisplay,
   permissions,
   primeroModule,
   redirectIfNotAllowed,
@@ -35,7 +36,7 @@ function Component({
 
   const dispatch = useDispatch();
 
-  const formSection = useMemoizedSelector(state =>
+  let formSection = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       checkVisible: false,
       formName: linkedRecordFormUniqueId,
@@ -44,6 +45,23 @@ function Component({
       getFirst: true
     })
   );
+
+  formSection = useMemo(() => {
+    if (linkFieldDisplay) {
+      formSection = formSection.set(
+        "fields",
+        formSection.fields.map(field => {
+          if (field.name === linkFieldDisplay) {
+            return field.set("type", LINK_FIELD).set("href", `/${RECORD_TYPES_PLURAL[linkedRecordType]}/${id}`);
+          }
+
+          return field;
+        })
+      );
+    }
+
+    return formSection;
+  }, [linkFieldDisplay]);
 
   const record = useMemoizedSelector(state =>
     selectRecord(state, { isEditOrShow: true, recordType: RECORD_TYPES_PLURAL[linkedRecordType], id })
@@ -110,6 +128,7 @@ Component.propTypes = {
   linkedRecordFormUniqueId: PropTypes.string.isRequired,
   linkedRecordType: PropTypes.string.isRequired,
   linkField: PropTypes.string.isRequired,
+  linkFieldDisplay: PropTypes.string.isRequired,
   permissions: PropTypes.object.isRequired,
   primeroModule: PropTypes.string.isRequired,
   redirectIfNotAllowed: PropTypes.func.isRequired,
