@@ -7,7 +7,7 @@ import { ROUTES } from "../../config";
 
 import { NAME } from "./constants";
 
-const Container = () => {
+function Container() {
   const { stopRefreshNotificationTimer } = usePushNotifications();
   const dispatch = useDispatch();
 
@@ -17,7 +17,7 @@ const Container = () => {
   }, []);
 
   return false;
-};
+}
 
 Container.displayName = NAME;
 
