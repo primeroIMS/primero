@@ -12,7 +12,8 @@ describe("auth-utils", () => {
       authorization_url: "authorization",
       identity_scope: ["123"],
       verification_url: "verification",
-      domain_hint: "unicef"
+      domain_hint: "unicef",
+      redirect_uri: "http://localhost/v2/login/b2c"
     };
   });
 
@@ -23,7 +24,7 @@ describe("auth-utils", () => {
         authority: "authorization",
         validateAuthority: false,
         knownAuthorities: ["unicefpartners.b2clogin.com"],
-        redirectUri: `${window.location.protocol}//${window.location.host}/login/b2c`
+        redirectUri: "http://localhost/v2/login/b2c"
       },
       cache: {
         cacheLocation: "sessionStorage",
