@@ -32,6 +32,12 @@ const authMiddleware = store => next => action => {
 
   if (routeChanged && location === ROUTES.logout) {
     startSignout(store, true);
+
+    if (!online) {
+      logoutSuccessHandler(true);
+
+      return next(action);
+    }
   }
 
   if ([ROUTES.login, ROOT_ROUTE].includes(location) && isAuthenticated) {
@@ -46,7 +52,7 @@ const authMiddleware = store => next => action => {
     [Actions.LOGOUT_FINISHED, Actions.LOGOUT_FAILURE].includes(action.type) ||
     (Actions.LOGOUT === action.type && !online)
   ) {
-    logoutSuccessHandler(store);
+    logoutSuccessHandler();
   }
 
   if (RESET_PATTERN.test(location) && useIdentityProvider) {
@@ -61,7 +67,7 @@ const authMiddleware = store => next => action => {
     });
   }
 
-  next(action);
+  return next(action);
 };
 
 export default authMiddleware;

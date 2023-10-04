@@ -57,7 +57,7 @@ export const fetchUserGroups = () => ({
   }
 });
 
-export const loadApplicationResources = () => async dispatch => {
+export const loadApplicationResources = () => dispatch => {
   batch(() => {
     dispatch(fetchContactInformation());
     dispatch(fetchSystemSettings());
