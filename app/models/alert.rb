@@ -30,6 +30,9 @@ class Alert < ApplicationRecord
   def handle_send_email
     return unless send_email
 
-    AlertNotifyJob.perform_later(id)
+    users = record.associated_users
+    users.each do |user|
+      AlertNotifyJob.perform_later(id, user.id)
+    end
   end
 end

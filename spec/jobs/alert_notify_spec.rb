@@ -35,7 +35,8 @@ describe AlertNotifyJob, type: :job do
       alert = Alert.new(send_email: true, alert_for: Alertable::FIELD_CHANGE, record: @child, type: 'some_type')
       alert.save!
       alert_notify_jobs = enqueued_jobs.select { |j| j[:job] == AlertNotifyJob }
-      expect(alert_notify_jobs.size).to eq(1)
+      # There should be two jobs, one for the owner and one for the provider
+      expect(alert_notify_jobs.size).to eq(2)
     end
     it 'sends two notifications' do
       @child.last_updated_by = @other.user_name
