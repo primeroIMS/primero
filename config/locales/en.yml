@@ -3471,7 +3471,7 @@ en:
               and click "Save".
             label: Edit
           sync_mobile:
-            explanation: Allows the user to cache Families for usage offline.
+            explanation: Allows the user to cache family records for usage offline.
             label: Mark for Offline
           close:
             explanation: Allows a user to set the status of an open family to closed.
@@ -4088,6 +4088,10 @@ en:
     disable_dialog: Clicking OK will change the status of this Family to Disabled.
     selected_records: '%{select_records} family record(s) selected'
     selected_all_records: 'Select all %{total_records} families that match this query.'
+    mark_for_offline:
+      title: Mark for Offline
+      text: Are you sure you want to mark these Family Records for use when you are offline?
+      success: Family Records successfully marked for offline use
     filter_by:
       by_date: By Date
       status: Status
