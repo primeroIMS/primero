@@ -50,7 +50,8 @@ class AlertNotificationService
   end
 
   def send_notification?
-    # We may want to add some checks here in the future.
+    # We may want to add some checks here if users can opt out of particular
+    # types of notifications in the future.
     true
   end
 

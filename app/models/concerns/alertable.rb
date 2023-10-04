@@ -125,7 +125,7 @@ module Alertable
     # id and the alert strategy
     (
       @system_settings&.changes_field_to_form&.map do |field_name, form_section_uid_or_hash|
-        [field_name, AlertConfigEntry.new(form_section_uid_or_hash)]
+        [field_name, AlertConfigEntryService.new(form_section_uid_or_hash)]
       end).to_h
   end
 end
@@ -174,22 +174,5 @@ module ClassMethods
 
   def open_enabled_records
     joins(:alerts).where('data @> ?', { record_state: true, status: Record::STATUS_OPEN }.to_json)
-  end
-end
-
-# This class is used for the members of changes_field_to_form in system_settings.
-# It is used to store the form name, and the alert strategy (associated_users, owner, nobody)
-class AlertConfigEntry
-  attr_accessor :form_section_unique_id, :alert_strategy
-
-  def initialize(args)
-    if args.is_a?(Hash)
-      @form_section_unique_id = args['form_section_unique_id']
-      @alert_strategy = args['alert_strategy'] || Alertable::AlertStrategy::NOT_OWNER
-
-    else
-      @form_section_unique_id = args
-      @alert_strategy = Alertable::AlertStrategy::NOT_OWNER
-    end
   end
 end
