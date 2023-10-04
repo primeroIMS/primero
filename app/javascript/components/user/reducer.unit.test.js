@@ -61,6 +61,7 @@ describe("User - Reducers", () => {
         "resource",
         "actions"
       ),
+      receiveWebpush: undefined,
       reportingLocationConfig: {
         field_key: "owned_by_location",
         admin_level: 2,

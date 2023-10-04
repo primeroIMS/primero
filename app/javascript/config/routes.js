@@ -57,6 +57,7 @@ import {
   READ_MANAGED_REPORTS
 } from "../components/permissions";
 import Login, { IdpLogin } from "../components/login";
+import Logout from "../components/logout";
 import PasswordResetRequest from "../components/login/components/password-reset-form";
 
 import { ROUTES, MODES, RECORD_PATH } from "./constants";
@@ -92,10 +93,6 @@ export default [
     routes: [
       {
         path: ROUTES.login,
-        component: Login
-      },
-      {
-        path: ROUTES.logout,
         component: Login
       },
       {
@@ -513,6 +510,10 @@ export default [
       {
         path: ROUTES.code_of_conduct,
         component: CodeOfConduct
+      },
+      {
+        path: ROUTES.logout,
+        component: Logout
       }
     ]
   },

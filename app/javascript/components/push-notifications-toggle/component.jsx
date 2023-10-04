@@ -17,6 +17,7 @@ import {
   saveNotificationSubscription
 } from "../user";
 import ConditionalTooltip from "../conditional-tooltip";
+import { enqueueSnackbar } from "../notifier";
 
 import css from "./styles.css";
 
@@ -27,7 +28,7 @@ function Component() {
 
   const webpushConfig = useMemoizedSelector(state => getWebpushConfig(state));
   const notificationEndpoint = useMemoizedSelector(state => getNotificationSubscription(state));
-  const receiveWebpush = useMemoizedSelector(state => getUserProperty(state, "receive_webpush"));
+  const receiveWebpush = useMemoizedSelector(state => getUserProperty(state, "receiveWebpush"));
   const userLoaded = useMemoizedSelector(state => getUserProperty(state, "loaded"));
   const [value, setValue] = useState(false);
 
@@ -46,9 +47,12 @@ function Component() {
     const checked = event?.target?.checked;
 
     if (!checked && value) {
-      postMessage({
-        type: POST_MESSAGES.UNSUBSCRIBE_NOTIFICATIONS
-      });
+      postMessage(
+        {
+          type: POST_MESSAGES.UNSUBSCRIBE_NOTIFICATIONS
+        },
+        window.origin
+      );
 
       setValue(false);
       setDialog({ dialog: DIALOG, open: false });
@@ -75,9 +79,12 @@ function Component() {
       }
 
       if (permission === NOTIFICATION_PERMISSIONS.GRANTED) {
-        postMessage({
-          type: POST_MESSAGES.SUBSCRIBE_NOTIFICATIONS
-        });
+        postMessage(
+          {
+            type: POST_MESSAGES.SUBSCRIBE_NOTIFICATIONS
+          },
+          window.origin
+        );
         setValue(true);
       }
 
@@ -92,6 +99,11 @@ function Component() {
 
     if (event?.data?.type === POST_MESSAGES.DISPATCH_SAVE_SUBSCRIPTION) {
       dispatch(saveNotificationSubscription(event?.data?.endpoint));
+    }
+
+    if (event?.data?.type === POST_MESSAGES.ATTEMPTS_SUBSCRIPTION_FAILED) {
+      setValue(false);
+      dispatch(enqueueSnackbar("Attempts subscription failed"));
     }
   };
 

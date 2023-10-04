@@ -189,6 +189,7 @@ const Component = ({
     open: dialogOpen,
     maxSize: "xs",
     confirmButtonLabel: isFamilyMember ? i18n.t("family.family_member.create") : i18n.t("case.create"),
+    pending: caseFromFamilyMemberLoading,
     omitCloseAfterSuccess: true,
     dialogTitle: title,
     dialogText: isFamilyMember

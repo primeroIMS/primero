@@ -1,5 +1,5 @@
 import { Drawer, List, useMediaQuery, Hidden, Divider, IconButton } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 import { push } from "connected-react-router";
@@ -60,9 +60,9 @@ const Nav = () => {
 
   const handleLogoutCancel = () => dialogClose();
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     dispatch(push(ROUTES.logout));
-  };
+  }, []);
 
   const permittedMenuEntries = menuEntries => {
     return menuEntries.map(menuEntry => {
@@ -163,7 +163,6 @@ const Nav = () => {
         successHandler={handleLogout}
         confirmButtonLabel={i18n.t("buttons.logout")}
         onClose={dialogClose}
-        omitCloseAfterSuccess
         open={dialogOpen}
       >
         {i18n.t("messages.logout_offline_warning")}

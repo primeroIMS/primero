@@ -173,7 +173,7 @@ describe("<Nav />", () => {
     it("should fetch alerts", () => {
       const storeActions = component.props().store.getActions();
 
-      expect(storeActions[7]).to.deep.equal(expectedAction);
+      expect(storeActions).to.deep.equal([expectedAction]);
     });
   });
 
