@@ -1,7 +1,6 @@
 import { PublicClientApplication } from "@azure/msal-browser";
 import { Authority } from "@azure/msal-common";
 
-import { DOMAIN, PROTOCOL } from "./config";
 import CustomNavigationClient from "./custom-navigation-client";
 
 export const setMsalConfig = (idp = {}) => {
@@ -11,7 +10,7 @@ export const setMsalConfig = (idp = {}) => {
       authority: idp.authorization_url,
       knownAuthorities: ["unicefpartners.b2clogin.com"],
       validateAuthority: false,
-      redirectUri: `${PROTOCOL}//${DOMAIN}/login/${idp.provider_type}`
+      redirectUri: idp.redirect_uri
     },
     cache: {
       cacheLocation: "sessionStorage",
