@@ -13,6 +13,7 @@ json.data do
     json.verification_url identity_provider.verification_url
     json.user_domain identity_provider.user_domain
     json.domain_hint identity_provider.domain_hint
+    json.redirect_uri identity_provider.redirect_uri
   end
 end
 json.metadata do

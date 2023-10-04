@@ -9,11 +9,15 @@ import { signIn } from "../auth-provider";
 import { PRIMERO_IDP, FORM_ID } from "../constants";
 import { SELECT_FIELD } from "../../../../form/constants";
 import Form, { FormAction, FieldRecord, FormSectionRecord } from "../../../../form";
+import { useApp } from "../../../../application";
+import { ConditionalWrapper } from "../../../../../libs";
+import disableOffline from "../../../../disable-offline";
 
 const Component = ({ identityProviders, css }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const history = useHistory();
+  const { online } = useApp();
 
   const primeroIdp = identityProviders.find(idp => idp.get("unique_id") === PRIMERO_IDP);
 
@@ -46,6 +50,7 @@ const Component = ({ identityProviders, css }) => {
         FieldRecord({
           name: "idp",
           type: SELECT_FIELD,
+          disabled: !online,
           option_strings_text: {
             [i18n.locale]: options
           }
@@ -65,7 +70,9 @@ const Component = ({ identityProviders, css }) => {
           submitAllFields
           errorMessage={i18n.t("select_idp_error")}
         />
-        <FormAction options={{ form: FORM_ID, type: "submit" }} text={i18n.t("go")} />
+        <ConditionalWrapper wrapper={disableOffline} condition={!online} offlineTextKey="unavailable_offline">
+          <FormAction options={{ form: FORM_ID, type: "submit" }} text={i18n.t("go")} />
+        </ConditionalWrapper>
       </div>
     </>
   );

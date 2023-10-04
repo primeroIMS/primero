@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
-import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
+import { ConditionalWrapper, useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import Form from "../../../form";
 import { useI18n } from "../../../i18n";
 import { enqueueSnackbar } from "../../../notifier";
@@ -15,6 +15,7 @@ import { NAME as PASSWORD_RESET_DIALOG_NAME } from "../password-reset-dialog/con
 import PasswordResetDialog from "../password-reset-dialog";
 import { getUseIdentityProvider } from "../../selectors";
 import utils from "../../utils";
+import DisableOffline, { OfflineAlert } from "../../../disable-offline";
 
 import { NAME, FORM_ID } from "./constants";
 import css from "./styles.css";
@@ -25,7 +26,7 @@ import { form, validationSchema } from "./form";
 const Container = ({ modal }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { demo } = useApp();
+  const { demo, online } = useApp();
   const { mobileDisplay } = useThemeHelper();
   const { setDialog, dialogOpen, dialogClose } = useDialog(PASSWORD_RESET_DIALOG_NAME);
 
@@ -50,35 +51,44 @@ const Container = ({ modal }) => {
   const { title, actionButton } = utils.loginComponentText(i18n, demo);
 
   const renderForgotPassword = !useIdentityProvider && (
-    <>
-      <ActionButton
-        className={css.forgotPaswordLink}
-        onClick={onClickForgotLink}
-        text="login.forgot_password"
-        type={ACTION_BUTTON_TYPES.link}
-      />
-      {dialogOpen && <PasswordResetDialog open={dialogOpen} handleCancel={dialogClose} />}
-    </>
+    <ConditionalWrapper condition={!online} wrapper={DisableOffline} offlineTextKey="unavailable_offline">
+      <>
+        <ActionButton
+          className={css.forgotPaswordLink}
+          onClick={onClickForgotLink}
+          text="login.forgot_password"
+          type={ACTION_BUTTON_TYPES.link}
+          disabled={!online}
+        />
+        {dialogOpen && <PasswordResetDialog open={dialogOpen} handleCancel={dialogClose} />}
+      </>
+    </ConditionalWrapper>
   );
 
   return (
     <>
       <div className={css.loginContainer}>
+        <OfflineAlert text={i18n.t("connection_lost")} noMargin />
         {modal || <PageHeading title={title} noPadding noElevation />}
-        <Form formSections={formSections} validations={validations} onSubmit={handleSubmit} formID={FORM_ID} />
+        <ConditionalWrapper condition={!online} wrapper={DisableOffline} offlineTextKey="unavailable_offline">
+          <Form formSections={formSections} validations={validations} onSubmit={handleSubmit} formID={FORM_ID} />
+        </ConditionalWrapper>
         {modal || (
-          <ActionButton
-            id={`${FORM_ID}-button`}
-            text={actionButton}
-            type={ACTION_BUTTON_TYPES.default}
-            size="large"
-            noTranslate
-            rest={{
-              fullWidth: mobileDisplay,
-              form: FORM_ID,
-              type: "submit"
-            }}
-          />
+          <ConditionalWrapper condition={!online} wrapper={DisableOffline} offlineTextKey="unavailable_offline">
+            <ActionButton
+              id={`${FORM_ID}-button`}
+              text={actionButton}
+              type={ACTION_BUTTON_TYPES.default}
+              size="large"
+              noTranslate
+              rest={{
+                fullWidth: mobileDisplay,
+                form: FORM_ID,
+                type: "submit"
+              }}
+              disabled={!online}
+            />
+          </ConditionalWrapper>
         )}
       </div>
       {renderForgotPassword}
