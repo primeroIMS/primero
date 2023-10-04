@@ -484,6 +484,20 @@ export const getRecordFields = createCachedSelector(
   }
 )(defaultCacheSelectorOptions);
 
+export const getRecordFieldsByName = createCachedSelector(
+  getRecordFields,
+  (_state, query) => query,
+  (fields, query) => {
+    const { name } = query;
+
+    if (Array.isArray(name)) {
+      return fields.filter(field => name.includes(field.name));
+    }
+
+    return fields.find(field => field.name === name);
+  }
+)(defaultCacheSelectorOptions);
+
 export const getMiniFormFields = (state, recordType, primeroModule, excludeFieldNames) => {
   const recordForms = getRecordForms(state, { recordType, primeroModule, includeNested: false, checkVisible: false });
 

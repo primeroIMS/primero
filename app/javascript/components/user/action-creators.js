@@ -57,8 +57,6 @@ export const setAuthenticatedUser = user => async dispatch => {
     // eslint-disable-next-line no-console
     console.error(error);
   }
-
-  dispatch(saveNotificationSubscription());
 };
 
 export const attemptSignout = () => ({

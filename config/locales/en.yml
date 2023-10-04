@@ -2862,6 +2862,10 @@ en:
             explanation: Users can create a Case for one of the Case's family members in the Family Details subform.
               Note that a Family Record will be automatically created to link these two cases.
             label: Create Case from Family Details
+          link_family_record:
+            explanation: Allows a user to search for and link an existing Family Record to their Case.
+              Also allows users to un-link a Family Record from a Case.
+            label: Link / Unlink Family Record from Case
         explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:
