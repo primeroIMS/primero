@@ -26,8 +26,6 @@ describe("<IconButton /> components/action-button/components", () => {
       className: "MuiSvgIcon-root"
     };
 
-    screen.debug();
-
     mountedComponent(<IconButton {...newProps} />);
     expect(screen.getByTitle("Tooltip Message")).toBeInTheDocument();
   });
