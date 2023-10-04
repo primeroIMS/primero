@@ -1,6 +1,4 @@
-import redirectTo from "./redirect-to";
-
-export default store => {
+export default () => {
   window.localStorage.clear();
-  redirectTo(store, "/login");
+  window.sessionStorage.clear();
 };
