@@ -44,15 +44,12 @@ class RecordActionMailer < ApplicationMailer
 
   def alert_notify(alert_notification)
     @alert_notification = alert_notification
-    @user = @alert_notification.user
-    @locale_email = @alert_notification.locale
-    @record = @alert_notification.record
     return unless assert_notifications_enabled(@alert_notification.user)
     return if @alert_notification.user == @alert_notification.record.last_updated_by
 
-    Rails.logger.info("Sending alert notification to #{@user.user_name}")
+    Rails.logger.info("Sending alert notification to #{@alert_notification.user.user_name}")
 
-    mail(to: @user.email, subject: @alert_notification.subject, locale: @locale_email)
+    mail(to: @alert_notification.user.email, subject: @alert_notification.subject, locale: @alert_notification.locale)
   end
 
   private
