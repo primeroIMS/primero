@@ -20,7 +20,7 @@ class Api::V2::ChildrenController < ApplicationApiController
     @updated_field_names << 'family_details_section' if @record.family&.family_members_changed?
   end
 
-  def family
+  def create_family
     authorize! :case_from_family, Child
     @current_record = Child.find(family_params[:case_id])
     @record = FamilyLinkageService.new_family_linked_child(
