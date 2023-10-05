@@ -50,8 +50,34 @@ class Exporters::BaseExporter
     establish_export_constraints
   end
 
-  def export(_records)
-    raise NotImplementedError
+  def export(records)
+    #  If we need to embed other associated data we can add methods from the RecordDataService in this class.
+    records.each { |record| embed_associated_data(record) }
+  end
+
+  def embed_associated_data(record)
+    embed_family_info(record)
+  end
+
+  def embed_family_info(record)
+    return unless record.is_a?(Child) && record.family_id.present?
+
+    record.data['family_id'] = record.family_id if field_names.include?('family_id')
+    record.data['family_member_id'] = record.family_member_id if field_names.include?('family_member_id')
+    embed_family_details(record)
+    embed_family_details_section(record)
+  end
+
+  def embed_family_details(record)
+    family_details = FamilyLinkageService.family_to_child(record.family)
+    global_field_names = field_names & FamilyLinkageService::GLOBAL_FAMILY_FIELDS
+    global_field_names.each { |field_name| record.data[field_name] = family_details[field_name] }
+  end
+
+  def embed_family_details_section(record)
+    return unless field_names.include?('family_details_section')
+
+    record.data['family_details_section'] = record.family_members_details
   end
 
   def intialize_services

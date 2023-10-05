@@ -17,6 +17,7 @@ class Exporters::JsonExporter < Exporters::BaseExporter
   end
 
   def export(records)
+    super(records)
     hashes = records.map { |m| convert_model_to_hash(m) }
     buffer.write(JSON.pretty_generate(hashes))
   end
@@ -26,7 +27,6 @@ class Exporters::JsonExporter < Exporters::BaseExporter
     json_parse = JSON.parse(record.to_json)
     data_fields = json_parse['data'].select { |k, _| field_names.include?(k) }
     json_parse['data'] = data_fields
-    embed_family_data(record, json_parse['data'])
     json_parse
   end
 end
