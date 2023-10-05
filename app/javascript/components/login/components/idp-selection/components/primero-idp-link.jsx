@@ -7,9 +7,12 @@ import { useHistory } from "react-router-dom";
 import { PRIMERO_IDP } from "../constants";
 import { attemptIDPLogin } from "../action-creators";
 import { signIn } from "../auth-provider";
+import { useApp } from "../../../../application";
+import DisableOffline from "../../../../disable-offline";
 
 const PrimeroIdpLink = ({ identityProviders, i18n, dispatch, css }) => {
   const history = useHistory();
+  const { online } = useApp();
 
   const primeroIdp = identityProviders.find(idp => idp.get("unique_id") === PRIMERO_IDP);
   const onlyPrimeroIDP = primeroIdp && identityProviders?.size === 1;
@@ -26,12 +29,20 @@ const PrimeroIdpLink = ({ identityProviders, i18n, dispatch, css }) => {
     return null;
   }
 
+  const linkText = i18n.t("log_in_primero_idp", { idp_name: primeroIdp.get("name") });
+
   return (
     <div className={classes}>
       {!onlyPrimeroIDP && <span>{i18n.t("or_label")}</span>}
-      <Link component="a" variant="body2" onClick={handleOnClick}>
-        {i18n.t("log_in_primero_idp", { idp_name: primeroIdp.get("name") })}
-      </Link>
+      {online ? (
+        <Link component="a" variant="body2" onClick={handleOnClick}>
+          {linkText}
+        </Link>
+      ) : (
+        <DisableOffline offlineTextKey="unavailable_offline">
+          <div className={css.linkDisabled}>{linkText}</div>
+        </DisableOffline>
+      )}
     </div>
   );
 };

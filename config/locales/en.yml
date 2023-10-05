@@ -263,6 +263,8 @@ en:
     search_helper_text: Why? To prevent creation of duplicate cases.
     consent_agreements: Select all consent agreements that apply
     legitimate_basis: Select all legitimate basis clasifications that apply
+    family_linked_subform_delete_disabled: This subform entry is linked to a Family Record. Please either
+      remove this family member from the family record, or unlink the family member's case from the Family Record.
     workflow:
       assessment: Assessment
       case_plan: Case Plan
@@ -2860,6 +2862,10 @@ en:
             explanation: Users can create a Case for one of the Case's family members in the Family Details subform.
               Note that a Family Record will be automatically created to link these two cases.
             label: Create Case from Family Details
+          link_family_record:
+            explanation: Allows a user to search for and link an existing Family Record to their Case.
+              Also allows users to un-link a Family Record from a Case.
+            label: Link / Unlink Family Record from Case
         explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:
@@ -3471,7 +3477,7 @@ en:
               and click "Save".
             label: Edit
           sync_mobile:
-            explanation: Allows the user to cache Families for usage offline.
+            explanation: Allows the user to cache family records for usage offline.
             label: Mark for Offline
           close:
             explanation: Allows a user to set the status of an open family to closed.
@@ -4088,6 +4094,10 @@ en:
     disable_dialog: Clicking OK will change the status of this Family to Disabled.
     selected_records: '%{select_records} family record(s) selected'
     selected_all_records: 'Select all %{total_records} families that match this query.'
+    mark_for_offline:
+      title: Mark for Offline
+      text: Are you sure you want to mark these Family Records for use when you are offline?
+      success: Family Records successfully marked for offline use
     filter_by:
       by_date: By Date
       status: Status

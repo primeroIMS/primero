@@ -49,7 +49,7 @@ Rails.application.routes.draw do
         resources :webhook_syncs, as: :sync, path: :sync, only: [:create]
         get :traces, to: 'children#traces'
         get :record_history, to: 'record_histories#index'
-        post :family, to: 'children#family'
+        post :family, to: 'children#create_family'
         collection do
           post :flags, to: 'flags#create_bulk'
           post :assigns, to: 'assigns#create_bulk'
@@ -138,7 +138,7 @@ Rails.application.routes.draw do
       resources :families do
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
-        post :create_case, to: 'families#create_case'
+        post :case, to: 'families#create_case'
         get :record_history, to: 'record_histories#index'
       end
 

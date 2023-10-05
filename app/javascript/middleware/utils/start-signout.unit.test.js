@@ -11,6 +11,9 @@ describe("middleware/utils/start-signout.js", () => {
   const store = (userProvider = true) =>
     configureStore()(
       fromJS({
+        connectivity: {
+          online: true
+        },
         idp: {
           use_identity_provider: userProvider
         }

@@ -61,22 +61,31 @@ async function sendSubscriptionStatusToServer(isSubscribing = true, data = {}) {
   if ((!isSubscribing && response.status === 200) || response.status === 404) {
     DB.delete(DB_STORES.PUSH_NOTIFICATION_SUBSCRIPTION, 1);
 
-    postMessage({
-      type: POST_MESSAGES.DISPATCH_REMOVE_SUBSCRIPTION
-    });
+    postMessage(
+      {
+        type: POST_MESSAGES.DISPATCH_REMOVE_SUBSCRIPTION
+      },
+      window.origin
+    );
   }
 
   if (isSubscribing && response.status === 404) {
     if (attempts % MAX_ATTEMPTS !== 0) {
-      postMessage({
-        type: POST_MESSAGES.SUBSCRIBE_NOTIFICATIONS
-      });
+      postMessage(
+        {
+          type: POST_MESSAGES.SUBSCRIBE_NOTIFICATIONS
+        },
+        window.origin
+      );
     }
 
     if (attempts % MAX_ATTEMPTS === 0) {
-      postMessage({
-        type: POST_MESSAGES.ATTEMPTS_SUBSCRIPTION_FAILED
-      });
+      postMessage(
+        {
+          type: POST_MESSAGES.ATTEMPTS_SUBSCRIPTION_FAILED
+        },
+        window.origin
+      );
     }
     attempts += 1;
   }
@@ -98,10 +107,13 @@ async function subscribe() {
     key: { id: 1 }
   });
 
-  postMessage({
-    type: POST_MESSAGES.DISPATCH_SAVE_SUBSCRIPTION,
-    endpoint: subscription.endpoint
-  });
+  postMessage(
+    {
+      type: POST_MESSAGES.DISPATCH_SAVE_SUBSCRIPTION,
+      endpoint: subscription.endpoint
+    },
+    window.origin
+  );
 }
 
 async function subscribeToNotifications() {

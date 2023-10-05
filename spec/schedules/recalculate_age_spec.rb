@@ -2,7 +2,9 @@
 
 require 'rails_helper'
 
-describe RecalculateAge, search: true do
+describe RecalculateAge, type: :job do
+  include ActiveJob::TestHelper
+
   before :each do
     clean_data(Child)
     @case1 = Child.create(data: { name: 'case1', date_of_birth: Date.new(2010, 10, 11) })
@@ -168,6 +170,29 @@ describe RecalculateAge, search: true do
         expect(RecalculateAge.new.cases_by_date_of_birth_range(Date.today, Date.today)).not_to include(
           @case31, @case32
         )
+      end
+    end
+  end
+
+  describe '.perform_job?' do
+    let(:today) { Date.new(2015, 10, 11) }
+    context 'when there are Records in delayed_job table' do
+      before do
+        10.times do |time|
+          Delayed::Job.create(
+            handler: "--- !ruby/object:ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper \n
+                        job_data:\n    job_class: RecalculateAge",
+            run_at: Time.now + time.hour
+          )
+        end
+      end
+
+      it 'should return false wheb' do
+        expect(RecalculateAge.perform_job?).to be_falsey
+      end
+
+      after do
+        clean_data(Delayed::Job)
       end
     end
   end

@@ -17,7 +17,7 @@ import Approvals from "../../../approvals";
 import IncidentFromCase from "../../../incidents-from-case";
 import ChangeLogs from "../../../change-logs";
 import Summary from "../../../summary";
-import CaseRegistry from "../../form/components/case-registry";
+import CaseRegistry from "../../../case-registry";
 import CaseFamily from "../../../case-family";
 import SummaryIncidentMRM from "../../../summary-incident-mrm";
 
