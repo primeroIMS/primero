@@ -1,12 +1,17 @@
+:global html, :global body {
+  height: var(--doc-height, 100vh);
+}
+
 .root {
   display: flex;
   overflow: hidden;
   background: var(--c-content-grey);
+  height: var(--doc-height, 100vh);
 }
 
 .content {
   flex-grow: 1;
-  height: 100vh;
+  height: var(--doc-height, 100vh);
   overflow: hidden;
   background: var(--c-content-grey);
   transition: var(--transition);
