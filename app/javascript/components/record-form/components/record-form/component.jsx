@@ -13,19 +13,14 @@ import PageContainer from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import { clearSelectedRecord, fetchRecord, saveRecord, setSelectedRecord } from "../../../records";
 import { RECORD_TYPES, RECORD_TYPES_PLURAL, REFERRAL } from "../../../../config";
-import { getIsProcessingSomeAttachment, getLoadingRecordState, getSelectedRecord } from "../../../records/selectors";
+import { getIsProcessingSomeAttachment, getLoadingRecordState } from "../../../records/selectors";
 import { clearRecordAttachments, fetchRecordsAlerts } from "../../../records/action-creators";
 import useIncidentFromCase from "../../../records/use-incident-form-case";
 import SaveAndRedirectDialog from "../../../save-and-redirect-dialog";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import { SERVICES_SUBFORM } from "../../../record-actions/add-service/constants";
 import { getLoadingState, getErrors, getSelectedForm } from "../../selectors";
-import {
-  clearDataProtectionInitialValues,
-  clearValidationErrors,
-  setPreviousRecord,
-  setSelectedForm
-} from "../../action-creators";
+import { clearDataProtectionInitialValues, clearValidationErrors, setPreviousRecord } from "../../action-creators";
 import Nav from "../../nav";
 import { RecordForm, RecordFormToolbar } from "../../form";
 import css from "../../styles.css";
@@ -60,7 +55,6 @@ const Component = ({
 }) => {
   let submitForm = null;
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
-  const [selectedRecordChanged, setSelectedRecordChanged] = useState(false);
 
   const { state: locationState } = useLocation();
   const history = useHistory();
@@ -91,7 +85,6 @@ const Component = ({
   const loadingRecord = useMemoizedSelector(state => getLoadingRecordState(state, params.recordType));
   const errors = useMemoizedSelector(state => getErrors(state));
   const selectedForm = useMemoizedSelector(state => getSelectedForm(state));
-  const selectedRecord = useMemoizedSelector(state => getSelectedRecord(state, params.recordType));
   const isProcessingSomeAttachment = useMemoizedSelector(state =>
     getIsProcessingSomeAttachment(state, params.recordType)
   );
@@ -245,19 +238,6 @@ const Component = ({
     }
   }, [selectedForm]);
 
-  useEffect(() => {
-    if (params.id && selectedRecord && selectedRecord !== params.id && containerMode.isShow) {
-      setSelectedRecordChanged(true);
-    }
-  }, [selectedRecord, containerMode.isShow, params.id]);
-
-  useEffect(() => {
-    if (selectedRecordChanged && containerMode.isShow && firstTab) {
-      dispatch(setSelectedForm(firstTab.unique_id));
-      setSelectedRecordChanged(false);
-    }
-  }, [selectedRecordChanged, containerMode.isShow, firstTab]);
-
   const transitionProps = {
     fetchable: isNotANewCase,
     isReferral: REFERRAL === selectedForm,
@@ -332,6 +312,7 @@ const Component = ({
               formNav={formNav}
               handleToggleNav={handleToggleNav}
               isNew={containerMode.isNew}
+              isShow={containerMode.isShow}
               mobileDisplay={mobileDisplay}
               recordType={params.recordType}
               selectedForm={selectedForm}
@@ -339,6 +320,7 @@ const Component = ({
               toggleNav={toggleNav}
               primeroModule={selectedModule.primeroModule}
               hasForms={hasForms}
+              recordId={params.id}
               formikValuesForNav={formikValuesForNav}
             />
           </div>
