@@ -530,6 +530,10 @@ export const getShouldFetchRecord = (state, { id, recordType }) => {
   return !state.getIn([NAMESPACE, "previousRecord"], fromJS({})).equals(fromJS({ id, recordType }));
 };
 
+export const getPreviousRecordType = state => {
+  return state.getIn([NAMESPACE, "previousRecord", "recordType"]);
+};
+
 export const getWritableFields = createCachedSelector(
   (state, query) => getRecordForms(state, { ...query, writable: true, checkPermittedForms: true }),
   formSections => formSections.flatMap(formSection => formSection.fields)
