@@ -4,7 +4,7 @@ import { TextField as MuiTextField } from "formik-material-ui";
 
 import { NUMERIC_FIELD } from "../constants";
 import { getRecordForms } from "../selectors";
-import { RECORD_TYPES } from "../../../config";
+import { RECORD_TYPES, CASES } from "../../../config";
 import { setupMountedComponent, stub } from "../../../test";
 import { FieldRecord, FormSectionRecord } from "../records";
 
@@ -302,6 +302,86 @@ describe("<RecordForm />", () => {
         field_1: "Value 1",
         field_2: "Value 2",
         field_age: "10"
+      });
+    });
+  });
+
+  describe("when an record exists", () => {
+    const initialStateRecordExists = Map({
+      forms: Map({
+        formSections: Map({
+          1: FormSectionRecord({
+            id: 1,
+            name: {
+              en: "Form Section 1"
+            },
+            unique_id: "form_section_1",
+            module_ids: ["some_module"],
+            visible: true,
+            is_nested: false,
+            parent_form: RECORD_TYPES.cases,
+            fields: [1, 2, 3]
+          })
+        }),
+        fields: Map({
+          1: FieldRecord({
+            id: 1,
+            name: "field_1",
+            display_name: {
+              en: "Field 1"
+            },
+            type: TEXT_FIELD_NAME,
+            required: true,
+            visible: true
+          }),
+          2: FieldRecord({
+            id: 2,
+            name: "field_2",
+            display_name: {
+              en: "Field 2"
+            },
+            type: TEXT_FIELD_NAME,
+            visible: true,
+            selected_value: "field_2_value"
+          }),
+          3: FieldRecord({
+            id: 3,
+            name: "field_age",
+            display_name: {
+              en: "Field Age"
+            },
+            type: NUMERIC_FIELD,
+            visible: true
+          })
+        })
+      })
+    });
+    const queryRecordExists = {
+      recordType: RECORD_TYPES.cases,
+      primeroModule: "some_module"
+    };
+    const formsRecordsEdit = getRecordForms(initialStateRecordExists, queryRecordExists);
+
+    const recordValues = { age: "4", name_first: "test" };
+
+    it("should set the values for the case selected", () => {
+      const { component: fromCaseComponent } = setupMountedComponent(RecordForm, {
+        bindSubmitForm: () => {},
+        forms: formsRecordsEdit,
+        handleToggleNav: () => {},
+        mobileDisplay: false,
+        mode: { isNew: false, isEdit: true, isShow: false },
+        onSubmit: () => {},
+        record: fromJS(recordValues),
+        recordType: CASES,
+        selectedForm: "form_section_1",
+        incidentFromCase: {},
+        externalComponents: () => {},
+        setFormikValuesForNav: () => {}
+      });
+
+      expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal({
+        ...recordValues
       });
     });
   });
