@@ -11,14 +11,13 @@ module FamilyLinkable
     before_save :associate_to_family
     before_save :update_family_members
     after_save :associate_family_member
-    after_save :update_family
+    after_save :save_family
   end
 
   def stamp_family_fields
     return unless changes_to_save.key?('family_id')
 
     self.family_id_display = family&.family_id_display
-    self.family_number = family&.family_number
   end
 
   def associate_to_family
@@ -39,11 +38,15 @@ module FamilyLinkable
     end
   end
 
-  def update_family
+  def update_family_data(child_data)
     return unless family.present?
 
-    family.family_number = family_number if saved_changes_to_record.keys.include?('family_number')
-    return unless family.has_changes_to_save?
+    changed_family_fields = FamilyLinkageService::GLOBAL_FAMILY_FIELDS & child_data.keys
+    changed_family_fields.each { |field| family.data[field] = child_data.delete(field) }
+  end
+
+  def save_family
+    return unless family.present? && family.has_changes_to_save?
 
     family.save!
   end
@@ -83,5 +86,19 @@ module FamilyLinkable
 
   def family_members
     (family&.family_members || []).reject { |member| member['unique_id'] == family_member_id }
+  end
+
+  def family_changes(changes)
+    return [] unless family.present?
+
+    changes ||= saved_changes_to_record.keys
+    if changes.include?('family_id_display')
+      return FamilyLinkageService::GLOBAL_FAMILY_FIELDS + ['family_details_section']
+    end
+
+    field_names = []
+    field_names << 'family_details_section' if family.family_members_changed?
+    field_names += FamilyLinkageService::GLOBAL_FAMILY_FIELDS & family.saved_changes_to_record.keys
+    field_names
   end
 end
