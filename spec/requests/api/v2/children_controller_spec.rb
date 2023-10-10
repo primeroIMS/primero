@@ -173,7 +173,9 @@ describe Api::V2::ChildrenController, type: :request do
       }
     )
     @family3 = Family.create!(data: { family_number: '003', family_name: 'FamilyTest' })
-    @family4 = Family.create!(data: { family_number: '004', family_name: 'FamilyTest2' })
+    @family4 = Family.create!(
+      data: { family_number: '004', family_size: 2, family_notes: 'NotesFamilyTest2', family_name: 'FamilyTest2' }
+    )
     @family5 = Family.create!(
       data: {
         family_number: '005',
@@ -973,6 +975,8 @@ describe Api::V2::ChildrenController, type: :request do
           params = {
             data: {
               family_number: '002',
+              family_size: 5,
+              family_notes: 'Family002Notes',
               family_details_section: [
                 {
                   unique_id: member2_unique_id,
@@ -992,6 +996,8 @@ describe Api::V2::ChildrenController, type: :request do
 
           expect(response).to have_http_status(200)
           expect(json['data']['family_number']).to eq('002')
+          expect(json['data']['family_size']).to eq(5)
+          expect(json['data']['family_notes']).to eq('Family002Notes')
           expect(json['data']['family_details_section']).to eq(
             [
               {
@@ -1020,6 +1026,8 @@ describe Api::V2::ChildrenController, type: :request do
             ]
           )
           expect(family.family_number).to eq('002')
+          expect(family.family_size).to eq(5)
+          expect(family.family_notes).to eq('Family002Notes')
           expect(family.family_members).to eq(
             [
               {
@@ -1092,7 +1100,7 @@ describe Api::V2::ChildrenController, type: :request do
       end
     end
 
-    it 'links an existing record to a family' do
+    it 'links an existing record to a family and returns global fields' do
       login_for_test(
         permissions: [
           Permission.new(resource: Permission::CASE, actions: [Permission::WRITE, Permission::LINK_FAMILY_RECORD])
@@ -1107,6 +1115,9 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_empty
       expect(json['data']['family_id']).to eq(@family4.id)
+      expect(json['data']['family_number']).to eq(@family4.family_number)
+      expect(json['data']['family_size']).to eq(@family4.family_size)
+      expect(json['data']['family_notes']).to eq(@family4.family_notes)
       expect(json['data']['family_member_id']).to eq(@family4.family_members[0]['unique_id'])
       expect(@family4.family_members[0]['unique_id']).not_to be_empty
       expect(@family4.family_members[0]['relation_name']).to eq(@case9.name)
