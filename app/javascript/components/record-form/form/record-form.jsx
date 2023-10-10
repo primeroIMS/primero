@@ -80,7 +80,11 @@ const RecordForm = ({
     const redirectToIncident = RECORD_TYPES.cases === recordType ? { redirectToIncident: false } : {};
 
     if (record) {
-      const recordFormValues = { ...initialValues, ...record.toJS(), ...redirectToIncident };
+      const recordFormValues = {
+        ...(mode.isNew ? constructInitialValues(forms.values()) : {}),
+        ...record.toJS(),
+        ...redirectToIncident
+      };
 
       const subformValues = sortSubformValues(recordFormValues, forms.values());
 
