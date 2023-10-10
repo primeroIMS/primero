@@ -221,6 +221,7 @@ class Child < ApplicationRecord
     self.family_id = data.delete('family_id') if data.key?('family_id')
     self.registry_record_id = data.delete('registry_record_id') if data.key?('registry_record_id')
     self.mark_for_reopen = @incidents_to_save.present?
+    update_family_data(data)
     super_update_properties(user, data)
   end
 
@@ -282,6 +283,12 @@ class Child < ApplicationRecord
 
   def display_id
     case_id_display
+  end
+
+  def family_number
+    return super unless family.present?
+
+    family.family_number
   end
 
   def day_of_birth
