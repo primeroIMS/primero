@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Superclass for all Record exporters
-# rubocop:disable Metrics/ClassLength
 class Exporters::BaseExporter
   EXPORTABLE_FIELD_TYPES = [
     Field::TEXT_FIELD, Field::TEXT_AREA, Field::RADIO_BUTTON, Field::SELECT_BOX, Field::NUMERIC_FIELD,
@@ -11,7 +10,7 @@ class Exporters::BaseExporter
   FIRST_ROW_INDEX = 1
 
   attr_accessor :locale, :lookups, :fields, :field_names, :forms, :field_value_service,
-                :location_service, :record_type, :user, :options
+                :location_service, :record_type, :user, :options, :record_data_service
 
   class << self
     def supported_models
@@ -51,38 +50,18 @@ class Exporters::BaseExporter
   end
 
   def export(records)
-    #  If we need to embed other associated data we can add methods from the RecordDataService in this class.
     records.each { |record| embed_associated_data(record) }
   end
 
   def embed_associated_data(record)
-    embed_family_info(record)
-  end
-
-  def embed_family_info(record)
-    return unless record.is_a?(Child) && record.family_id.present?
-
-    record.data['family_id'] = record.family_id if field_names.include?('family_id')
-    record.data['family_member_id'] = record.family_member_id if field_names.include?('family_member_id')
-    embed_family_details(record)
-    embed_family_details_section(record)
-  end
-
-  def embed_family_details(record)
-    family_details = FamilyLinkageService.family_to_child(record.family)
-    global_field_names = field_names & FamilyLinkageService::GLOBAL_FAMILY_FIELDS
-    global_field_names.each { |field_name| record.data[field_name] = family_details[field_name] }
-  end
-
-  def embed_family_details_section(record)
-    return unless field_names.include?('family_details_section')
-
-    record.data['family_details_section'] = record.family_members_details
+    #  If we need to embed other associated data we can add methods from the RecordDataService in this class.
+    record.data = record_data_service.embed_family_info(record.data, record, field_names)
   end
 
   def intialize_services
     self.location_service = LocationService.instance
     self.field_value_service = FieldValueService.new(location_service:)
+    self.record_data_service = RecordDataService.new
   end
 
   def establish_export_constraints
@@ -119,14 +98,6 @@ class Exporters::BaseExporter
 
   def user_permitted_forms(record_type, user, include_subforms = false)
     user.role.permitted_forms(record_type, true, include_subforms)
-  end
-
-  def embed_family_data(record, data)
-    return data unless record.is_a?(Child) && record.family.present?
-
-    FamilyLinkageService::GLOBAL_FAMILY_FIELDS.each { |field_name| data[field_name] = record.family.data[field_name] }
-    data['family_details_section'] = record.family_members_details
-    data
   end
 
   private
@@ -192,4 +163,3 @@ class Exporters::BaseExporter
     "#{ColName.instance.col_str(column_index)}#{FIRST_ROW_INDEX}"
   end
 end
-# rubocop:enable Metrics/ClassLength
