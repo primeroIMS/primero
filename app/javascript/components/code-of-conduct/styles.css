@@ -1,5 +1,5 @@
 .container {
-  height: 100vh;
+  height: var(--doc-height, 100vh);
   display: flex;
   flex-direction: column;
   background-color: var(--c-blue);
@@ -44,7 +44,7 @@
     border-radius: 0 0 10px 10px;
     display: flex;
     padding: 16px;
-    
+
     & span:first-child {
       flex: 1;
     }

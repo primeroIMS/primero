@@ -71,7 +71,7 @@ const overrides = {
       "#root": {
         display: "flex",
         flexDirection: "column",
-        height: "100vh"
+        height: `var(--doc-height, 100vh)`
       },
       legend: {
         display: "none"
