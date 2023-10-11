@@ -19,10 +19,6 @@ const METHODS = {
   DELETE: "DELETE"
 };
 
-const ACTIONS = {
-  GOTO: "goto"
-};
-
 const isNav = event => event.request.mode === "navigate";
 
 // TODO: This pr would allow passing strategies to workbox way of handling navigation routes
