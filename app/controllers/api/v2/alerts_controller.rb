@@ -15,6 +15,17 @@ class Api::V2::AlertsController < Api::V2::RecordResourceController
     @alerts = @record.alerts
   end
 
+  def destroy
+    authorize! :update, @record
+    alert_id = params[:id].to_i
+    alert = @record.alerts.find { |a| a.id == alert_id }
+    if alert.present?
+      alert.destroy!
+      return
+    end
+    raise ActiveRecord::RecordNotFound
+  end
+
   def index_action_message
     'show_alerts'
   end
