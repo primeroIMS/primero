@@ -19,10 +19,6 @@ const METHODS = {
   DELETE: "DELETE"
 };
 
-const ACTIONS = {
-  GOTO: "goto"
-};
-
 const isNav = event => event.request.mode === "navigate";
 
 // TODO: This pr would allow passing strategies to workbox way of handling navigation routes
@@ -104,24 +100,31 @@ self.addEventListener("push", event => {
       body: message.body,
       image,
       icon: image,
-      data: { url: message.link },
-      actions: [{ action: ACTIONS.GOTO, title: message.action_label }]
+      data: { url: message.link }
     })
   );
 });
 
 self.addEventListener(
   "notificationclick",
-  async event => {
+  event => {
     event.notification.close();
 
-    if (event.action === ACTIONS.GOTO) {
-      if (self.clients.openWindow && event?.notification?.data?.url) {
+    event.waitUntil(
+      self.clients.matchAll().then(clientList => {
         const link = `${self.location.protocol}//${event.notification.data.url}`;
 
-        event.waitUntil(self.clients.openWindow(link));
-      }
-    }
+        for (let clientCounter = 0; clientCounter < clientList.length; clientCounter += 1) {
+          const client = clientList[clientCounter];
+
+          if (client.url === link && "focus" in client) {
+            return client.focus();
+          }
+        }
+
+        return self.clients.openWindow(link);
+      })
+    );
   },
   false
 );
