@@ -162,7 +162,7 @@ export default ({
         name: i18n.t("actions.mark_for_offline"),
         enabledFor: ENABLED_FOR_ONE_MANY,
         recordListAction: true,
-        recordType: [RECORD_PATH.cases, RECORD_PATH.registry_records],
+        recordType: [RECORD_PATH.cases, RECORD_PATH.registry_records, RECORD_PATH.families],
         disableRecordShowPage: true,
         showOnSearchResultPage: true
       },

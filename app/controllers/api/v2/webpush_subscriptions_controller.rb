@@ -19,7 +19,7 @@ class Api::V2::WebpushSubscriptionsController < ApplicationApiController
     @webpush_subscription = WebpushSubscription.current(current_user, webpush_subscription_params)
     raise ActiveRecord::RecordNotFound if @webpush_subscription.blank?
 
-    if webpush_subscription_params[:disabled].present?
+    if webpush_subscription_params[:disabled] == true
       @webpush_subscription.disabled = webpush_subscription_params[:disabled]
     end
     @webpush_subscription.updated_at = DateTime.now

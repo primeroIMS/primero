@@ -98,7 +98,6 @@ class RecordDataService
 
     data['family_id'] = record.family_id if selected_field_names.include?('family_id')
     data['family_member_id'] = record.family_member_id if selected_field_names.include?('family_member_id')
-    data['family_number'] = record.family_number if selected_field_names.include?('family_number')
     data = embed_family_details(data, record, selected_field_names)
     embed_family_details_section(data, record, selected_field_names)
   end
@@ -113,7 +112,7 @@ class RecordDataService
   def embed_family_details_section(data, record, selected_field_names)
     return data unless selected_field_names.include?('family_details_section')
 
-    data['family_details_section'] = FamilyLinkageService.family_details_section_for_child(record)
+    data['family_details_section'] = record.family_members_details
     data
   end
 

@@ -8,11 +8,11 @@ import isEmpty from "lodash/isEmpty";
 import { useDispatch } from "react-redux";
 
 import { fieldValidations } from "../../validations";
-import { SUBFORM_DIALOG } from "../constants";
+import { SUBFORM_CREATE_CASE_DIALOG, SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
 import { getSubformValues, serviceHasReferFields, updateSubformEntries, addSubformEntries } from "../../utils";
-import ActionDialog from "../../../../action-dialog";
+import ActionDialog, { useDialog } from "../../../../action-dialog";
 import SubformDrawer from "../subform-drawer";
 import { compactValues, constructInitialValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
@@ -61,9 +61,9 @@ const Component = ({
   const params = useParams();
   const dispatch = useDispatch();
   const [initialValues, setInitialValues] = useState({});
+  const { dialogOpen, setDialog } = useDialog(SUBFORM_CREATE_CASE_DIALOG);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
-  const [openCreateCaseConfirmationModal, setOpenCreateCaseConfirmationModal] = useState(false);
-  const caseFromFamilyMemberLoading = useMemoizedSelector(state => getCaseFormFamilyMemberLoading(state));
+  const caseFromFamilyMemberLoading = useMemoizedSelector(state => getCaseFormFamilyMemberLoading(state, recordType));
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
   const asDrawer = isViolation || isViolationAssociation || isFamilyMember || isFamilyDetail;
@@ -186,15 +186,18 @@ const Component = ({
   };
 
   const createCaseConfirmationProps = {
-    open: openCreateCaseConfirmationModal,
+    open: dialogOpen,
     maxSize: "xs",
     confirmButtonLabel: isFamilyMember ? i18n.t("family.family_member.create") : i18n.t("case.create"),
+    pending: caseFromFamilyMemberLoading,
+    omitCloseAfterSuccess: true,
     dialogTitle: title,
     dialogText: isFamilyMember
       ? i18n.t("family.messages.confirm_create_case")
       : i18n.t("case.messages.confirm_create_case"),
-    disableBackdropClick: true,
-    cancelHandler: () => setOpenCreateCaseConfirmationModal(false),
+    cancelHandler: () => {
+      setDialog({ dialog: SUBFORM_CREATE_CASE_DIALOG, open: false });
+    },
     successHandler: () => {
       if (isFamilyMember) {
         dispatch(createCaseFromFamilyMember({ familyId: params.id, familyMemberId: subformValues.unique_id }));
@@ -272,7 +275,7 @@ const Component = ({
                           pending={caseFromFamilyMemberLoading}
                           handleCreateLabel={familyCreateLabel}
                           handleCreate={() => {
-                            setOpenCreateCaseConfirmationModal(true);
+                            setDialog({ dialog: SUBFORM_CREATE_CASE_DIALOG, open: true });
                           }}
                         />
                       ) : null
@@ -304,7 +307,7 @@ const Component = ({
           }}
         </Formik>
       </ComponentToRender>
-      {isFamilySubform && openCreateCaseConfirmationModal && <ActionDialog {...createCaseConfirmationProps} />}
+      {isFamilySubform && <ActionDialog {...createCaseConfirmationProps} />}
       <ActionDialog {...modalConfirmationProps} />
     </>
   );

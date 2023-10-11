@@ -95,6 +95,8 @@ const Component = ({
         parentForm={form}
         entryFilter={entryFilter}
         parentTitle={parentTitle}
+        isFamilyMember={isFamilyMember}
+        isFamilyDetail={isFamilyDetail}
       />
     </List>
   );

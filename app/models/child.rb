@@ -42,6 +42,7 @@ class Child < ApplicationRecord
   include DuplicateIdAlertable
   include FollowUpable
   include LocationCacheable
+  include FamilyLinkable
 
   # rubocop:disable Naming/VariableNumber
   store_accessor(
@@ -72,7 +73,6 @@ class Child < ApplicationRecord
   has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
   belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id', optional: true
   belongs_to :registry_record, foreign_key: :registry_record_id, optional: true
-  belongs_to :family, foreign_key: :family_id, optional: true
 
   scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
 
@@ -156,12 +156,9 @@ class Child < ApplicationRecord
   before_save :sync_protection_concerns
   before_save :auto_populate_name
   before_save :stamp_registry_fields
-  before_save :stamp_family_fields
   before_save :calculate_has_case_plan
   before_create :hide_name
   after_save :save_incidents
-  after_save :associate_family_member
-  after_save :save_family
 
   class << self
     alias super_new_with_user new_with_user
@@ -170,6 +167,11 @@ class Child < ApplicationRecord
         local_case.registry_record_id ||= local_case.data.delete('registry_record_id')
         local_case.family_id ||= local_case.data.delete('family_id')
       end
+    end
+
+    alias super_eager_loaded_class eager_loaded_class
+    def eager_loaded_class
+      super_eager_loaded_class.includes(:family)
     end
   end
 
@@ -216,9 +218,10 @@ class Child < ApplicationRecord
   alias super_update_properties update_properties
   def update_properties(user, data)
     build_or_update_incidents(user, (data.delete('incident_details') || []))
-    update_family(data) if family.present?
+    self.family_id = data.delete('family_id') if data.key?('family_id')
     self.registry_record_id = data.delete('registry_record_id') if data.key?('registry_record_id')
     self.mark_for_reopen = @incidents_to_save.present?
+    update_family_data(data)
     super_update_properties(user, data)
   end
 
@@ -242,29 +245,6 @@ class Child < ApplicationRecord
     Incident.transaction do
       @incidents_to_save.each(&:save!)
     end
-  end
-
-  def update_family(case_data)
-    family.family_number = case_data['family_number'] if case_data.key?('family_number')
-
-    update_family_members(case_data.delete('family_details_section') || [])
-  end
-
-  def update_family_members(family_details_section_data)
-    return unless family_details_section_data.present?
-
-    @family_members = FamilyLinkageService.build_or_update_family_members(
-      family_details_section_data,
-      family.family_members || []
-    )
-    self.family_details_section = FamilyLinkageService.family_details_section_local_data(family_details_section_data)
-  end
-
-  def save_family
-    return unless family.present?
-
-    family.family_members = @family_members if @family_members.present?
-    family.save! if family.has_changes_to_save?
   end
 
   def to_s
@@ -305,6 +285,12 @@ class Child < ApplicationRecord
     case_id_display
   end
 
+  def family_number
+    return super unless family.present?
+
+    family.family_number
+  end
+
   def day_of_birth
     return nil unless date_of_birth.is_a? Date
 
@@ -333,30 +319,6 @@ class Child < ApplicationRecord
     self.registry_name = registry_record&.name
     self.registry_no = registry_record&.registry_no
     self.registry_location_current = registry_record&.location_current
-  end
-
-  def stamp_family_fields
-    return unless changes_to_save.key?('family_id')
-
-    self.family_id_display = family&.family_id_display
-    self.family_number = family&.family_number
-  end
-
-  def associate_family_member
-    return unless saved_changes_to_record.keys.include?('family_member_id')
-
-    family.family_members = family.family_members.map do |member|
-      next(member) unless member['unique_id'] == family_member_id
-
-      member.merge('case_id' => id, 'case_id_display' => case_id_display)
-    end
-  end
-
-  def find_family_detail(family_detail_id)
-    family_detail = family_details_section.find { |member| member['unique_id'] == family_detail_id }
-    return family_detail if family_detail.present?
-
-    raise(ActiveRecord::RecordNotFound, "Couldn't find Family Detail with 'id'=#{family_detail_id}")
   end
 
   def match_criteria

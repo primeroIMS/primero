@@ -168,7 +168,8 @@ You can login with a preseeded admin account with credentials `primero`/`primer0
 For more on making code contributions, have a look at the file [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ### Using WebPush
-To send push messages to web browsers you can enable webpush. For this, is required set some environment variables: `PRIMERO_WEBPUSH`, `PRIMERO_WEBPUSH_VAPID_PRIVATE` and `PRIMERO_WEBPUSH_VAPID_PUBLIC`
+To send push messages to web browsers you can enable webpush. For this, is required set some environment variables: `PRIMERO_WEBPUSH`, `PRIMERO_WEBPUSH_VAPID_PRIVATE` and `PRIMERO_WEBPUSH_VAPID_PUBLIC`.
+PRIMERO_WEBPUSH must be placed in `inventory` file, the other two must be in `secret.yml` file.
 
 To generate a valid VAPID key, you can execute the follow script and use for each variable
 

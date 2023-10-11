@@ -19,7 +19,7 @@ describe Api::V2::FamiliesController, type: :request do
         family_members: [
           {
             unique_id: '001',
-            relation_name: 'Member 1',
+            relation_name: 'Member1',
             relation_sex: 'male',
             relation_age: 10,
             relation_date_of_birth: Date.today - 10.years
@@ -159,7 +159,7 @@ describe Api::V2::FamiliesController, type: :request do
     end
   end
 
-  describe 'POST /api/v2/families/:id/create_case' do
+  describe 'POST /api/v2/families/:id/case' do
     context 'when user is unauthorized' do
       it 'refuses unauthorized access' do
         login_for_test(
@@ -169,11 +169,11 @@ describe Api::V2::FamiliesController, type: :request do
         )
         params = { data: { family_member_id: '001' } }
 
-        post "/api/v2/families/#{family1.id}/create_case", params: params, as: :json
+        post "/api/v2/families/#{family1.id}/case", params:, as: :json
 
         expect(response).to have_http_status(403)
         expect(json['errors'].size).to eq(1)
-        expect(json['errors'][0]['resource']).to eq("/api/v2/families/#{family1.id}/create_case")
+        expect(json['errors'][0]['resource']).to eq("/api/v2/families/#{family1.id}/case")
       end
     end
 
@@ -192,11 +192,11 @@ describe Api::V2::FamiliesController, type: :request do
 
         params = { data: { family_member_id: '002' } }
 
-        post "/api/v2/families/#{family1.id}/create_case", params:, as: :json
+        post "/api/v2/families/#{family1.id}/case", params:, as: :json
 
         expect(response).to have_http_status(404)
         expect(json['errors'].size).to eq(1)
-        expect(json['errors'][0]['resource']).to eq("/api/v2/families/#{family1.id}/create_case")
+        expect(json['errors'][0]['resource']).to eq("/api/v2/families/#{family1.id}/case")
       end
     end
 
@@ -214,13 +214,13 @@ describe Api::V2::FamiliesController, type: :request do
 
       params = { data: { family_member_id: '001' } }
 
-      post "/api/v2/families/#{family1.id}/create_case", params:, as: :json
+      post "/api/v2/families/#{family1.id}/case", params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(family1.id)
 
       child = Child.find_by(id: json['data']['record']['id'])
-      expect(child.name_first).to eq('Member 1')
+      expect(child.name_first).to eq('Member1')
       expect(child.sex).to eq('male')
       expect(child.age).to eq(10)
       expect(child.date_of_birth).to eq(Date.today - 10.years)

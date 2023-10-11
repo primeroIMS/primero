@@ -22,8 +22,12 @@
   background: repeating-linear-gradient(45deg, var(--c-dark-blue), var(--c-dark-blue) 10px, var(--c-blue) 10px, var(--c-blue) 20px);
 }
 
+:global html, :global body {
+  height: var(--doc-height, 100vh);
+}
+
 .primeroBackground {
-  height: 100vh;
+  height: var(--doc-height, 100vh);
   overflow: auto;
   display: flex;
   flex-direction: column;

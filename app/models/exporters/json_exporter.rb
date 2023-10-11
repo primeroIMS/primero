@@ -26,6 +26,7 @@ class Exporters::JsonExporter < Exporters::BaseExporter
     json_parse = JSON.parse(record.to_json)
     data_fields = json_parse['data'].select { |k, _| field_names.include?(k) }
     json_parse['data'] = data_fields
+    json_parse['data']['family_details_section'] = record.family_members_details if record.is_a?(Child)
     json_parse
   end
 end

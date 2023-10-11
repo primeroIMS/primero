@@ -7,7 +7,8 @@ import Actions from "./actions";
 import { ListHeaderRecord, FilterRecord } from "./records";
 
 const DEFAULT_STATE = Map({
-  isAuthenticated: false
+  isAuthenticated: false,
+  loaded: false
 });
 
 export default (state = DEFAULT_STATE, { type, payload }) => {
@@ -35,7 +36,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         code_of_conduct_id: codeOfConductId,
         code_of_conduct_accepted_on: codeOfConductAcceptedOn,
         permitted_role_unique_ids: permittedRoleUniqueIds,
-        managed_report_scope: managedReportScope
+        managed_report_scope: managedReportScope,
+        receive_webpush: receiveWebpush
       } = payload;
       const cleanedPermissions = permissions.list.filter(listItem => !isEmpty(listItem.actions));
 
@@ -58,7 +60,9 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           codeOfConductId,
           codeOfConductAcceptedOn,
           permittedRoleUniqueIds,
-          managedReportScope
+          managedReportScope,
+          loaded: true,
+          receiveWebpush
         })
       );
     }

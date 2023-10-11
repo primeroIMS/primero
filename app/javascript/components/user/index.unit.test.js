@@ -29,6 +29,7 @@ describe("User - index", () => {
       "getServerErrors",
       "getUser",
       "getUserSavingRecord",
+      "getUserProperty",
       "hasPrimeroModule",
       "hasUserPermissions",
       "reducer",
