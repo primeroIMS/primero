@@ -32,6 +32,7 @@ class RecordDataService
     data = embed_flag_metadata(data, record, selected_field_names)
     data = embed_alert_metadata(data, record, selected_field_names)
     data = embed_registry_record_info(data, record, selected_field_names)
+    data = embed_family_members_user_access(data, record, selected_field_names, user)
     embed_family_info(data, record, selected_field_names)
   end
 
@@ -113,6 +114,15 @@ class RecordDataService
     return data unless selected_field_names.include?('family_details_section')
 
     data['family_details_section'] = record.family_members_details
+    data
+  end
+
+  def embed_family_members_user_access(data, record, selected_field_names, user)
+    return data unless record.is_a?(Family) && selected_field_names.include?('family_members')
+
+    data['family_members'] = data['family_members'].each do |family_member|
+      FamilyLinkageService.calculate_family_member_record_user_access(family_member, record, user)
+    end
     data
   end
 

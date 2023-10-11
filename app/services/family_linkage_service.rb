@@ -161,6 +161,16 @@ class FamilyLinkageService
     def family_details_section_local_data(family_details_section)
       family_details_section.map { |family_detail| local_family_detail_data(family_detail) }
     end
+
+    def calculate_family_member_record_user_access(family_member_data, family, user)
+      family_members_record = family.family_members_records_grouped[family_member_data['case_id']]&.first
+      return family_member_data if family_members_record.blank?
+
+      family_member_data['can_read_record'] = user.can_read_record?(
+        family_members_record
+      )
+      family_member_data
+    end
   end
 end
 # rubocop:enable Metrics/ClassLength

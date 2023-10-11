@@ -71,10 +71,16 @@ module FamilyLinkable
 
     family_members.map do |family_member|
       family_detail = family_details.find { |detail| detail['unique_id'] == family_member['unique_id'] }
-      next(FamilyLinkageService.global_family_member_data(family_member)) unless family_detail.present?
+      next(family_members_details_and_user_access(family_member)) unless family_detail.present?
 
-      family_detail.merge(FamilyLinkageService.global_family_member_data(family_member))
+      family_detail.merge(family_members_details_and_user_access(family_member))
     end
+  end
+
+  def family_members_details_and_user_access(family_member)
+    family_details = FamilyLinkageService.global_family_member_data(family_member)
+
+    FamilyLinkageService.calculate_family_member_record_user_access(family_details, family, owner)
   end
 
   def find_family_detail(family_detail_id)

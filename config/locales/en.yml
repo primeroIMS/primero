@@ -284,6 +284,7 @@ en:
     rejected_transfer: '%{to} rejected transfer of  %{record_type} %{record_id} from %{from}'
   cases:
     action_plan: Action Plan
+    access_denied: "You do not have access to this Case."
     age: Age
     age_estimated: Estimated Age?
     agency: Agency
