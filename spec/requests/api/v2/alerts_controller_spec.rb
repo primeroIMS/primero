@@ -197,6 +197,67 @@ describe Api::V2::AlertsController, type: :request do
     end
   end
 
+  describe 'DELETE /api/v2/<record_id>/alerts/<alert_id>' do
+    it 'deletes an alert from a child' do
+      alert = @test_child.alerts.first
+      login_for_test(
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::WRITE]
+          )
+        ]
+      )
+
+      delete "/api/v2/cases/#{@test_child.id}/alerts/#{alert.id}"
+      expect(response).to have_http_status(204)
+      expect(@test_child.alerts.count).to eq(2)
+    end
+
+    it 'deletes an alert from a incident' do
+      alert = @test_incident.alerts.first
+      login_for_test(
+        permissions: [
+          Permission.new(
+            resource: Permission::INCIDENT,
+            actions: [Permission::READ, Permission::WRITE]
+          )
+        ]
+      )
+      delete "/api/v2/incidents/#{@test_incident.id}/alerts/#{alert.id}"
+      expect(response).to have_http_status(204)
+      expect(@test_incident.alerts.count).to eq(2)
+    end
+    it 'does not delete an alert from a incident if the user does not have write permission' do
+      alert = @test_incident.alerts.first
+      login_for_test(
+        permissions: [
+          Permission.new(
+            resource: Permission::INCIDENT,
+            actions: [Permission::READ]
+          )
+        ]
+      )
+      delete "/api/v2/incidents/#{@test_incident.id}/alerts/#{alert.id}"
+      expect(response).to have_http_status(403)
+      expect(@test_incident.alerts.count).to eq(3)
+    end
+    it 'does not delete an alert if the alert id does not correspond to the record' do
+      alert = @test_incident.alerts.first
+      login_for_test(
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::WRITE]
+          )
+        ]
+      )
+      delete "/api/v2/cases/#{@test_child.id}/alerts/#{alert.id}"
+      expect(response).to have_http_status(404)
+      expect(@test_incident.alerts.count).to eq(3)
+    end
+  end
+
   after do
     clear_enqueued_jobs
     clean_data(Alert, User, Incident, TracingRequest, Child, Role, Agency)
