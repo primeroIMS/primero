@@ -487,7 +487,6 @@ ar-LB:
     messages:
       update_success: 'تم تحديث الوقائع/الحادث %{record_id} بنجاح.'
   incidents:
-    change_status: Change Status
     label: حوادث/وقائع
     filter_by:
       boys: فتيان
@@ -640,7 +639,6 @@ ar-LB:
       tracing_request: طلب التتبع
       user: مستخدمون
       user_group: مجموعات المستخدمين
-      verify: Verify
       view_approvals: عرض الموافقات
       view_assessment: عرض التقييم
       view_protection_concerns_filter: عرض الفلتر الخاصّ بالوقائع المثيرة للقلق

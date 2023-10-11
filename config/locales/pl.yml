@@ -1343,7 +1343,6 @@ pl:
         military_use: Użycie szkoły(ół) i/lub szpitala(i) do celów militarnych
         denial_humanitarian_access: Odmowa pomocy humanitarnej dla dzieci
   incidents:
-    change_status: Change Status
     disable_dialog: Kliknięcie OK zmieni status tego zdarzenia na wyłączony.
     disable_dialog_title: Wyłącz Zdarzenie
     disable_success: Zdarzenie pomyślnie wyłączone
@@ -1981,7 +1980,6 @@ pl:
       tracing_request: Prośba o Poszukiwanie
       user: Użytkownicy
       user_group: Grupy użytkowników
-      verify_mrm: Verify MRM
       view_approvals: Zobacz Zatwierdzenia
       view_assessment: Zobacz Ocenę
       view_photo: Zobacz Zdjęcie
@@ -2451,9 +2449,6 @@ pl:
           sync_mobile:
             explanation: 'To zezwolenie pozwala użytkownikowi na pracę w aplikacji mobilnej. Użytkownik widzi akcje "Oznacz do aplikacji mobilnej" oraz  "Odznacz do aplikacji mobilnej" na liście zdarzeń i stronach widoku zdarzeń. Oznaczenie zdarzenia do aplikacji mobilnej oznacza, że informacja o tym zdarzeniu powinna zostać zsynchronizowana pomiędzy aplikacją mobilną i aplikacją sieciową, natomiast odznaczenie zdarzenia do aplikacji mobilnej oznacza brak takiej synchronizacji. Użytkownicy bez tego zezwolenia nie mogą również zsynchronizować swoich urządzeń mobilnych z aplikacją sieciową i nie mogą używać aplikacji mobilnej do zarządzania zdarzeniami. '
             label: Zsynchronizuj z urządzeniem mobilnym
-          verify_mrm:
-            explanation: MRM user can change the status of violations.
-            label: Verify MRM
           write:
             explanation: Możliwość kliknięcia przycisku "Edytuj", aktualizacji informacji o zdarzeniu i kliknięcia "Zapisz". Pozwala użytkownikowi na włączenie lub wyłączenie zdarzenia.
             label: Edytuj

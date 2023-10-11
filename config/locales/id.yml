@@ -1292,7 +1292,6 @@ id:
         military_use: Penggunaan Sekolah dan/atau Rumahsakit oleh Militer
         denial_humanitarian_access: Penolakan akses bantuan kemanusiaan untuk anak
   incidents:
-    change_status: Change Status
     disable_dialog: Mengklik OK akan mengubah status insiden ini menjadi Dinonaktifkan
     disable_dialog_title: Insiden yang Dinonaktifkan
     disable_success: Insiden berhasil dinonaktifkan
@@ -1963,7 +1962,6 @@ id:
       transfer: Dapat digunakan untuk pemindahan
       user: Pengguna
       user_group: Grup Pengguna
-      verify_mrm: Verify MRM
       view_approvals: Lihat Persetujuan
       view_assessment: Lihat Penilaian
       view_photo: Lihat Foto
@@ -2449,9 +2447,6 @@ id:
           sync_mobile:
             explanation: Izin ini umumnya memungkinkan pengguna untuk menggunakan aplikasi seluler. Pertama, ini memungkinkan pengguna untuk melihat tindakan "Tandai untuk Seluler" dan "Hapus tanda untuk Seluler", yang muncul di daftar insiden dan halaman acara insiden. Menandai insiden untuk seluler menunjukkan bahwa informasi tentang insiden itu harus disinkronkan antara perangkat seluler pengguna dan aplikasi web, sementara menghapus tanda insiden untuk seluler menghentikan sinkronisasi ini terjadi. Pengguna tanpa izin ini juga tidak dapat menyinkronkan perangkat seluler mereka dengan aplikasi web secara umum, artinya mereka tidak dapat menggunakan aplikasi seluler untuk mengelola insiden.
             label: Sinkronisasi dengan perangkat seluler
-          verify_mrm:
-            explanation: MRM user can change the status of violations.
-            label: Verify MRM
           write:
             explanation: Kemampuan untuk mengklik tombol "Ubah", memperbarui informasi tentang insiden tersebut, dan mengklik "Simpan". Juga memungkinkan pengguna untuk menonaktifkan atau mengaktifkan insiden.
             label: Ubah

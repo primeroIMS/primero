@@ -1310,7 +1310,6 @@ sw_TZ:
         military_use: Matumizi ya Kijeshi ya Skuli na/au hospitali
         denial_humanitarian_access: Kunyimwa Ufikiaji wa kibiniaadamu kwa watoto
   incidents:
-    change_status: Change Status
     disable_dialog: Kubonyeza SAWA kutabadilisha hali ya tukio hili kuwa ya walemavu
     disable_dialog_title: Kuzima Tukio
     disable_success: Tukio limezimwa kwa mafanikio
@@ -1948,7 +1947,6 @@ sw_TZ:
       transfer: Inaweza klutumika kwa uhamisho
       user: Watumiaji
       user_group: Vikundi vya Watumiaji
-      verify_mrm: Verify MRM
       view_approvals: Tazama Vibali
       view_assessment: Tazama / Angalia Tathmini
       view_photo: Tazama / Anglia Picha
@@ -2434,9 +2432,6 @@ sw_TZ:
           sync_mobile:
             explanation: Ruhusa hii kwa kawaida inamruhusu mtumiaji kutumia kifaa chake cha mkononi. Kwa kuanzia inamruhusu mtumiaji kuziona shughuli zote za "Weka Alama kwenye Simu" na "Ondoa Alama kwenye Simu"ambazo huonekana kwenye orodha ya matukio na kurasa za kuonyesha matukio. Kuweka alama ya tukio kwenye simuinamaanisha kuwa taarifa kuhus tukio hilo itabidi isawazishwe kati ya kifaa cha mkononi cha mtumiaji na programu ya tovuti, wakati kuondoa alama kwenye tukio la kifaa cha mkononi kunazuiya uunganishaji usitokee.  Watumiaji ambao hawana ruhusa hii pia hawawezi kuunganisha vifaa vyao vya mkononi na tovuti, kwa hivyo hawataweza kutumia simu zao kusimamia matukio hayo.
             label: 'Sawazisha /Unganisha na vifaa vya / simu za mkononi. '
-          verify_mrm:
-            explanation: MRM user can change the status of violations.
-            label: Verify MRM
           write:
             explanation: 'Uwezo wa kubonyeza kitufe cha "Kuhariri", kinaingiza taarifa mpya kuhusu tukio na kubonyeza "Hifadhi" Pia kunamruhusu mtumiaji kuzima/ kulemaz au kuwezesha tukio. '
             label: Kuhariri

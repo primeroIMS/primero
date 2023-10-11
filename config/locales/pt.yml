@@ -523,7 +523,6 @@ pt:
     messages:
       update_success: 'Incidente %{record_id} foi atualizado com sucesso.'
   incidents:
-    change_status: Change Status
     label: Incidentes
     filter_by:
       boys: Meninos
@@ -700,7 +699,6 @@ pt:
       tracing_request: Solicitação de Rastreamento
       user: 'Usuários '
       user_group: 'Grupos de Usuário '
-      verify_mrm: Verify MRM
       view_approvals: 'Visualizar Aprovações '
       view_assessment: 'Visualizar Avaliação '
       view_photo: Visualizar Foto

@@ -1348,7 +1348,6 @@ sk:
         military_use: Vojenské využitie školy (škôl) a/alebo nemocnice (nemocníc)
         denial_humanitarian_access: Zamietnutie prístupu k humanitárnej pomoci deťom
   incidents:
-    change_status: Change Status
     disable_dialog: Kliknutím na OK sa stav tohto incidentu zmení na Zakázaný.
     disable_dialog_title: Zakázať Incident
     disable_success: Úspešne zakázaný incident
@@ -2012,7 +2011,6 @@ sk:
       transfer: Môže byť použitý na prevod
       user: Používatelia
       user_group: Používateľská skupina
-      verify_mrm: Verify MRM
       view_approvals: Zobraziť schválenia
       view_assessment: Zobraziť hodnotenie
       view_photo: Zobraziť fotku
@@ -2498,9 +2496,6 @@ sk:
           sync_mobile:
             explanation: Toto povolenie umožňuje používateľovi používať mobilnú aplikáciu. Po prvé, umožňuje používateľovi zobraziť akcie „Označiť pre mobil“ a „Zrušiť označenie pre mobil“, ktoré sa zobrazujú na stránkach zoznamu a zobrazenia incidentov. Označenie incidentu pre mobil znamená, že informácie o tomto incidente by sa mali synchronizovať medzi mobilným zariadením používateľa a webovou aplikáciou, zatiaľ čo zrušením označenia incidentu pre mobil sa táto synchronizácia zastaví. Používatelia bez tohto povolenia nemôžu synchronizovať svoje mobilné zariadenia s webovou aplikáciou, čo znamená, že nemôžu používať mobilnú aplikáciu na správu incidentov.
             label: Synchronizácia s mobilným zariadením
-          verify_mrm:
-            explanation: MRM user can change the status of violations.
-            label: Verify MRM
           write:
             explanation: Umožňuje kliknúť na tlačidlo „Upraviť“, aktualizovať informácie o incidente a kliknúť na „Uložiť“. Umožňuje tiež používateľovi zakázať alebo povoliť incident.
             label: Upraviť

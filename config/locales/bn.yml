@@ -1306,7 +1306,6 @@ bn:
         military_use: স্কুল (গুলি) এবং / অথবা হাসপাতাল (গুলি) এর সামরিক ব্যবহার
         denial_humanitarian_access: শিশুদের জন্য মানবিক প্রবেশাধিকার অস্বীকার করা
   incidents:
-    change_status: Change Status
     disable_dialog: ওকে ক্লিক করলে এই ঘটনার স্থিতি অক্ষম হয়ে যাবে।
     disable_dialog_title: ঘটনা অক্ষম করুন
     disable_success: ঘটনা সফলভাবে অক্ষম করা হয়েছে
@@ -1918,7 +1917,6 @@ bn:
       transfer: স্থানান্তরের জন্য ব্যবহার করা যেতে পারে
       user: ব্যবহারকারী
       user_group: 'ব্যবহারকারীর গ্রুপ '
-      verify_mrm: Verify MRM
       view_approvals: 'অনুমোদন দেখুন '
       view_assessment: 'মূল্যায়ন দেখুন '
       view_photo: ছবি প্রদর্শন

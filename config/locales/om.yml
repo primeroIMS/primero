@@ -1327,7 +1327,6 @@ om:
         military_use: Itti fayyadama loltummaa mana barumsaa(manneen barnootaa) fi ykn hospitaalaa(hospitaalootaa) keessattii.
         denial_humanitarian_access: Daa'imman dhiyeessii deggarsa namummaa dhorkachuu.
   incidents:
-    change_status: Change Status
     disable_dialog: Tolee tuquun haala taatee kanaa gara gufachiisutti jijjiira.
     disable_dialog_title: Taatee gufachiisi.
     disable_success: Taatee haala milkaa'aan bade.
@@ -1950,7 +1949,6 @@ om:
       transfer: Hojii dabarsaatiiff  fayyidaa irra ooluu danda'a.
       user: Fayyadamtoota.
       user_group: Gareewwan fayyadamaa.
-      verify_mrm: Verify MRM
       view_approvals: Mirkaneessawwan ilaalaa.
       view_assessment: Sakatta'insa ilaalaa.
       view_photo: Suuraa ilaalaa.
@@ -2436,9 +2434,6 @@ om:
           sync_mobile:
             explanation: ""
             label: Meeshaa sosocho'aa wajjiin walfakkeessuu.
-          verify_mrm:
-            explanation: MRM user can change the status of violations.
-            label: Verify MRM
           write:
             explanation: ""
             label: Gulaali.
