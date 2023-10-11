@@ -24,6 +24,7 @@ class Exporters::CsvExporter < Exporters::BaseExporter
   end
 
   def export(records)
+    super(records)
     csv_export = CSVSafe.generate do |rows|
       rows << headers if @called_first_time.nil?
       @called_first_time ||= true
@@ -42,8 +43,6 @@ class Exporters::CsvExporter < Exporters::BaseExporter
   end
 
   def row(record, fields)
-    data = record.data
-    data['family_details_section'] = record.family_members_details if record.is_a?(Child)
-    [record.id] + fields.map { |field| data[field.name] }
+    [record.id] + fields.map { |field| record.data[field.name] }
   end
 end

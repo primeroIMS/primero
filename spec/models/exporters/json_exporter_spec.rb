@@ -8,6 +8,9 @@ describe Exporters::JsonExporter do
 
     family = Family.create!(
       data: {
+        family_number: 'FA-001',
+        family_size: 5,
+        family_notes: 'FamilyNotes',
         family_members: [
           { unique_id: '001', relation_name: 'FirstName1 LastName1', relation_age: 10, relation_sex: 'male' },
           { unique_id: '002', relation_name: 'FirstName2 LastName2', relation_age: 12, relation_sex: 'female' }
@@ -51,6 +54,9 @@ describe Exporters::JsonExporter do
       form_group_id: 'case_form_1',
       order: 7,
       fields: [
+        Field.new(name: 'family_number', display_name: 'Family Number', type: 'text_field', visible: true),
+        Field.new(name: 'family_size', display_name: 'Family Size', type: 'numeric_field', visible: true),
+        Field.new(name: 'family_notes', display_name: 'Family Notes', type: 'text_field', visible: true),
         Field.new(
           name: 'family_details_section',
           display_name_en: 'Family Details',
@@ -89,6 +95,9 @@ describe Exporters::JsonExporter do
       family:,
       data: {
         family_member_id: '001',
+        family_number: 'CA-001',
+        family_size: 0,
+        family_notes: 'CaseNotes',
         first_name: 'FirstName1',
         last_name: 'LastName1',
         age: 10,
@@ -120,6 +129,10 @@ describe Exporters::JsonExporter do
   end
 
   it 'handles family linked data' do
+    expect(data_hash2[0]['data']['family_number']).to eq('FA-001')
+    expect(data_hash2[0]['data']['family_size']).to eq(5)
+    expect(data_hash2[0]['data']['family_notes']).to eq('FamilyNotes')
+    expect(data_hash2[0]['data']['family_details_section'].size).to eq(1)
     expect(data_hash2[0]['data']['family_details_section'].size).to eq(1)
     expect(data_hash2[0]['data']['family_details_section'][0]['relation_name']).to eq('FirstName2 LastName2')
     expect(data_hash2[0]['data']['family_details_section'][0]['relation']).to eq('relation2')
