@@ -2,11 +2,12 @@
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import clsx from "clsx";
-import { Accordion, AccordionSummary, AccordionDetails } from "@material-ui/core";
+import { Accordion, AccordionSummary, AccordionDetails, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Brightness1 as Circle } from "@material-ui/icons";
 import ErrorIcon from "@material-ui/icons/Error";
 import CheckIcon from "@material-ui/icons/Check";
+import CloseIcon from "@material-ui/icons/Close";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
 
@@ -19,7 +20,7 @@ import css from "./styles.css";
 
 const useStylesExpansionPanel = makeStyles(expansionPanelSummaryClasses);
 
-const Component = ({ title, items, severity, customIcon }) => {
+const Component = ({ title, items, severity, customIcon, onDismiss }) => {
   const i18n = useI18n();
 
   const classes = useStylesExpansionPanel();
@@ -36,7 +37,10 @@ const Component = ({ title, items, severity, customIcon }) => {
         <AccordionDetails>
           <ul className={accordionDetailsClasses}>
             {items.map(item => (
-              <li key={generate.messageKey()}>{item.get("message")}</li>
+              <li key={generate.messageKey()}>
+                <span>{item.get("message")}</span>
+                {(item.get("onDismiss") instanceof Function) && renderDismissButton(item.get("onDismiss"))}
+                </li>
             ))}
           </ul>
         </AccordionDetails>
@@ -56,6 +60,14 @@ const Component = ({ title, items, severity, customIcon }) => {
         return <Circle />;
     }
   };
+
+  const renderDismissButton = (handler) => {
+    return (
+        <IconButton onClick={handler}>
+        <CloseIcon />
+        </IconButton>
+    );
+  }
 
   const renderTitle = () => {
     const titleMessage =
@@ -89,14 +101,14 @@ Component.displayName = NAME;
 
 Component.defaultProps = {
   items: fromJS([]),
-  severity: "info"
+  severity: "info",
 };
 
 Component.propTypes = {
   customIcon: PropTypes.node,
   items: PropTypes.object,
   severity: PropTypes.string,
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 export default Component;

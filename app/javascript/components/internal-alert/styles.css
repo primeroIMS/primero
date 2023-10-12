@@ -67,6 +67,12 @@
     list-style: none;
     border-bottom: 1px solid var(--c-light-grey);
     padding: 5px 0px;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
 
     &:last-child {
       border-bottom: none;
