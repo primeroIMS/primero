@@ -181,7 +181,7 @@ export default namespace =>
       case `${namespace}/${DELETE_ALERT_FROM_RECORD_SUCCESS}`:
         state.set("alert_count", state.get("alert_count") - 1);
         let alerts = state.get("recordAlerts");
-        alerts = alerts.filter(alert => alert.get("id") !== payload.id);
+        alerts = alerts.filter(alert => alert.get("unique_id") !== payload.alertId);
         return state.set("recordAlerts", alerts);
       case `${namespace}/${FETCH_RECORD_ALERTS_SUCCESS}`:
         return state.set("recordAlerts", fromJS(payload.data));

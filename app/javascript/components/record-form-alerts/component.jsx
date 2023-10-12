@@ -50,7 +50,6 @@ const Component = ({ form, recordType, attachmentForms }) => {
       ),
       onDismiss: () => {
         dispatch(deleteAlertFromRecord(recordType, selectedRecord, alert.get("unique_id")))
-        window.alert(JSON.stringify(alert))
       }
     })
   );
