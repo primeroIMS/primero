@@ -19,6 +19,7 @@ import {
   RECORD_FINISHED,
   SERVICE_REFERRED_SAVE,
   FETCH_RECORD_ALERTS_SUCCESS,
+  DELETE_ALERT_FROM_RECORD_SUCCESS,
   FETCH_INCIDENT_FROM_CASE_SUCCESS,
   CLEAR_METADATA,
   CLEAR_CASE_FROM_INCIDENT,
@@ -69,7 +70,8 @@ import {
   CREATE_CASE_FROM_FAMILY_DETAIL_STARTED,
   CREATE_CASE_FROM_FAMILY_DETAIL_SUCCESS,
   CREATE_CASE_FROM_FAMILY_DETAIL_FAILURE,
-  CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED
+  CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED,
+  DELETE_ALERT_FROM_RECORD
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -176,6 +178,11 @@ export default namespace =>
         return state.set("errors", true);
       case `${namespace}/${RECORD_FINISHED}`:
         return state.set("loading", false);
+      case `${namespace}/${DELETE_ALERT_FROM_RECORD_SUCCESS}`:
+        state.set("alert_count", state.get("alert_count") - 1);
+        let alerts = state.get("recordAlerts");
+        alerts = alerts.filter(alert => alert.get("id") !== payload.id);
+        return state.set("recordAlerts", alerts);
       case `${namespace}/${FETCH_RECORD_ALERTS_SUCCESS}`:
         return state.set("recordAlerts", fromJS(payload.data));
       case "user/LOGOUT_SUCCESS":

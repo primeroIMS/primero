@@ -4,21 +4,26 @@ import { fromJS, List } from "immutable";
 import { useI18n } from "../i18n";
 import InternalAlert from "../internal-alert";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
-import { getRecordFormAlerts } from "../records";
+import { fetchRecordsAlerts, getRecordFormAlerts, getSelectedRecord } from "../records";
 import { getSubformsDisplayName, getValidationErrors } from "../record-form";
 import { getDuplicatedFields } from "../record-form/selectors";
+import { deleteAlertFromRecord } from "../records";
 
 import { getMessageData } from "./utils";
 import { NAME } from "./constants";
+import { useDispatch } from "react-redux";
 
 const Component = ({ form, recordType, attachmentForms }) => {
   const i18n = useI18n();
+
+  const dispatch = useDispatch();
 
   const recordAlerts = useMemoizedSelector(state => getRecordFormAlerts(state, recordType, form.unique_id));
   const validationErrors = useMemoizedSelector(state => getValidationErrors(state, form.unique_id));
   const subformDisplayNames = useMemoizedSelector(state => getSubformsDisplayName(state, i18n.locale));
   const duplicatedFields = useMemoizedSelector(state => getDuplicatedFields(state, recordType, form.unique_id));
-
+  const selectedRecord = useMemoizedSelector(state => getSelectedRecord(state, recordType));
+  
   const errors =
     validationErrors?.size &&
     validationErrors
@@ -42,7 +47,11 @@ const Component = ({ form, recordType, attachmentForms }) => {
       message: i18n.t(
         `messages.alerts_for.${alert.get("alert_for")}`,
         getMessageData({ alert, form, duplicatedFields, i18n })
-      )
+      ),
+      onDismiss: () => {
+        dispatch(deleteAlertFromRecord(recordType, selectedRecord, alert.get("unique_id")))
+        window.alert(JSON.stringify(alert))
+      }
     })
   );
 

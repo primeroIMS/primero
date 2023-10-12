@@ -4,10 +4,11 @@
   & svg {
     font-size: var(--fs-16);
   }
+  align-self: center;
 }
 
 .alertTitle {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   width: 100%;
 
@@ -67,15 +68,25 @@
     list-style: none;
     border-bottom: 1px solid var(--c-light-grey);
     padding: 5px 0px;
-    justify-content: space-between;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-between;
 
     &:last-child {
       border-bottom: none;
     }
   }
+}
+
+.alertItemElement {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.accordionTitle {
+  align-self: center;
+}
+
+.dismissButton {
+  pointer-events: auto;
 }

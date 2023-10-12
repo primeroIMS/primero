@@ -40,7 +40,9 @@ import {
   EXTERNAL_SYNC,
   OFFLINE_INCIDENT_FROM_CASE,
   CREATE_CASE_FROM_FAMILY_MEMBER,
-  CREATE_CASE_FROM_FAMILY_DETAIL
+  CREATE_CASE_FROM_FAMILY_DETAIL,
+  DELETE_ALERT_FROM_RECORD,
+  DELETE_ALERT_FROM_RECORD_SUCCESS,
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -166,6 +168,21 @@ export const fetchRecordsAlerts = (recordType, recordId, asCallback = false) => 
     skipDB: true,
     performFromQueue: true
   }
+});
+
+export const deleteAlertFromRecord = (recordType, recordId, alertId) => ({
+  // TODO this should be a const interpolated here not a literal
+  type: `${recordType}/${DELETE_ALERT_FROM_RECORD}`,
+  api: {
+    path: `${recordType}/${recordId}/alerts/${alertId}`,
+    method: METHODS.DELETE,
+    skipDB: true,
+    performFromQueue: true,
+    successCallback: {
+      action: `${recordType}/${DELETE_ALERT_FROM_RECORD_SUCCESS}`,
+      payload: { recordType, recordId, alertId }
+    }
+  },
 });
 
 export const saveRecord = (

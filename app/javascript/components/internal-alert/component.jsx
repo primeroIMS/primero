@@ -31,16 +31,22 @@ const Component = ({ title, items, severity, customIcon, onDismiss }) => {
     [css.disableCollapse]: items?.size <= 1
   });
 
+  const renderItem = item => {
+    return (
+      <div className={css.alertItemElement}>
+        <span>{item.get("message")}</span>
+        { item.get("onDismiss") && renderDismissButton(item.get("onDismiss"))}
+      </div>
+    );
+  };
+
   const renderItems = () => {
     return (
       items?.size > 1 && (
         <AccordionDetails>
           <ul className={accordionDetailsClasses}>
             {items.map(item => (
-              <li key={generate.messageKey()}>
-                <span>{item.get("message")}</span>
-                {(item.get("onDismiss") instanceof Function) && renderDismissButton(item.get("onDismiss"))}
-                </li>
+              <li key={generate.messageKey()}>{renderItem(item)}</li>
             ))}
           </ul>
         </AccordionDetails>
@@ -63,7 +69,7 @@ const Component = ({ title, items, severity, customIcon, onDismiss }) => {
 
   const renderDismissButton = (handler) => {
     return (
-        <IconButton onClick={handler}>
+        <IconButton className={css.dismissButton} onClick={handler}>
         <CloseIcon />
         </IconButton>
     );
@@ -71,12 +77,12 @@ const Component = ({ title, items, severity, customIcon, onDismiss }) => {
 
   const renderTitle = () => {
     const titleMessage =
-      items?.size > 1 ? title || i18n.t("messages.alert_items", { items: items.size }) : items?.first()?.get("message");
+      items?.size > 1 ? title || <div className={css.accordionTitle}>{i18n.t("messages.alert_items", { items: items.size })}</div> : renderItem(items?.first());
 
     return (
       <>
         <div className={css.icon}>{customIcon || renderIcon()}</div>
-        <span className={css.message}>{titleMessage}</span>
+        {titleMessage}
       </>
     );
   };
