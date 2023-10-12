@@ -299,6 +299,7 @@ const Component = ({
                     href={`/${RECORD_TYPES_PLURAL.case}/${caseId}`}
                     label={i18n.t("family.family_member.case_id")}
                     text={caseIdDisplay}
+                    disabled={!subformValues?.can_read_record}
                   />
                 )}
                 {renderSubform(field, index, values, setFieldValue)}
