@@ -187,18 +187,16 @@ describe Api::V2::ChildrenController, type: :request do
     )
     @case6.family = @family1
     @case6.save!
-    @case7 = Child.new_with_user(
-      @user_cp,
-      {
+    @case7 = Child.create!(
+      data: {
         name: 'Test7',
         age: 12,
         sex: 'male',
         family_details_section: [{ unique_id: @member_unique_id3, relation_sex: 'male', relation_age: 5 }]
       }
     )
-    @case7.save!
     @case8 = Child.create!(
-      family: @family2, data: { name: 'Test8', age: 9, sex: 'female', family_member_id: @member_unique_id2, owned_by: @user_cp.user_name }
+      family: @family2, data: { name: 'Test8', age: 9, sex: 'female', family_member_id: @member_unique_id2 }
     )
     @case9 = Child.create!(data: { name: 'Test9', age: 10, sex: 'male' })
     @case10 = Child.create!(data: { name: 'Test10', age: 18, sex: 'female' })
@@ -1232,12 +1230,7 @@ describe Api::V2::ChildrenController, type: :request do
 
   describe 'POST /api/v2/cases/:id/family' do
     it 'creates a new child linked to a family when there is no family record' do
-      login_for_test(
-        user_name: @user_cp.user_name,
-        permissions: [
-          Permission.new(resource: Permission::CASE, actions: [Permission::CASE_FROM_FAMILY])
-        ]
-      )
+      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::CASE_FROM_FAMILY])])
 
       params = { data: { family_detail_id: @member_unique_id3 } }
 
@@ -1254,7 +1247,6 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['data']['family_details_section'][0]['relation_age']).to eq(5)
       expect(json['data']['family_details_section'][0]['case_id']).not_to be_nil
       expect(json['data']['family_details_section'][0]['case_id_display']).not_to be_nil
-      expect(json['data']['family_details_section'][0]['can_read_record']).to be true
       expect(json['data']['record']['id']).not_to be_nil
       expect(json['data']['record']['case_id_display']).not_to be_nil
       expect(json['data']['record']['family_member_id']).to eq(@member_unique_id3)

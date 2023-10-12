@@ -83,7 +83,7 @@ class Family < ApplicationRecord
     saved_changes_to_record.keys.include?('family_members')
   end
 
-  def family_members_records_grouped
-    @family_members_records_grouped ||= cases&.group_by(&:id) || {}
+  def cases_grouped_by_id
+    cases&.group_by(&:id) || {}
   end
 end
