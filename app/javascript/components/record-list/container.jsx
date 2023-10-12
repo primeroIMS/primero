@@ -184,7 +184,6 @@ const Container = ({ match, location }) => {
                 selectedRecords={selectedRecords}
                 isRowSelectable={rowSelectable}
                 setSelectedRecords={handleSelectedRecords}
-                useReportingLocations={recordType !== RECORD_TYPES_PLURAL.family}
               />
             </div>
           </div>
