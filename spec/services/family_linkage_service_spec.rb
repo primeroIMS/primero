@@ -179,16 +179,6 @@ describe FamilyLinkageService do
     end
   end
 
-  describe 'family_to_child' do
-    it 'returns the family details for a child' do
-      family_details = FamilyLinkageService.family_to_child(family1)
-
-      expect(family_details['family_number']).to eq('40bf9109')
-      expect(family_details['family_size']).to eq(1)
-      expect(family_details['family_notes']).to eq('Notes about the family')
-    end
-  end
-
   describe 'new_family_linked_child' do
     context 'when the child is not linked to a family' do
       it 'returns a case linked to a family with the cases as members' do

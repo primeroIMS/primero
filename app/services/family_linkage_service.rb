@@ -106,12 +106,6 @@ class FamilyLinkageService
       GLOBAL_FAMILY_FIELDS.each_with_object({}) { |field, memo| memo[field] = child.data[field] }
     end
 
-    def family_to_child(family)
-      return {} unless family.present?
-
-      GLOBAL_FAMILY_FIELDS.each_with_object({}) { |field, memo| memo[field] = family.data[field] }
-    end
-
     def global_family_member_data(family_member)
       family_member.except(*LOCAL_FAMILY_MEMBER_FIELDS)
     end

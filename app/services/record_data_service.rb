@@ -94,7 +94,7 @@ class RecordDataService
   end
 
   def embed_family_info(data, record, selected_field_names)
-    return data unless record.is_a?(Child) && record.family_id.present?
+    return data unless record.is_a?(Child)
 
     data['family_id'] = record.family_id if selected_field_names.include?('family_id')
     data['family_member_id'] = record.family_member_id if selected_field_names.include?('family_member_id')
@@ -103,9 +103,10 @@ class RecordDataService
   end
 
   def embed_family_details(data, record, selected_field_names)
-    family_details = FamilyLinkageService.family_to_child(record.family)
     field_names = selected_field_names & FamilyLinkageService::GLOBAL_FAMILY_FIELDS
-    field_names.each { |field_name| data[field_name] = family_details[field_name] }
+    field_names.each do |field_name|
+      data[field_name] = record.family.present? ? record.family.data[field_name] : data[field_name]
+    end
     data
   end
 
