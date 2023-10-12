@@ -209,7 +209,7 @@ describe Api::V2::AlertsController, type: :request do
         ]
       )
 
-      delete "/api/v2/cases/#{@test_child.id}/alerts/#{alert.id}"
+      delete "/api/v2/cases/#{@test_child.id}/alerts/#{alert.unique_id}"
       expect(response).to have_http_status(204)
       expect(@test_child.alerts.count).to eq(2)
     end
@@ -224,7 +224,7 @@ describe Api::V2::AlertsController, type: :request do
           )
         ]
       )
-      delete "/api/v2/incidents/#{@test_incident.id}/alerts/#{alert.id}"
+      delete "/api/v2/incidents/#{@test_incident.id}/alerts/#{alert.unique_id}"
       expect(response).to have_http_status(204)
       expect(@test_incident.alerts.count).to eq(2)
     end
@@ -238,7 +238,7 @@ describe Api::V2::AlertsController, type: :request do
           )
         ]
       )
-      delete "/api/v2/incidents/#{@test_incident.id}/alerts/#{alert.id}"
+      delete "/api/v2/incidents/#{@test_incident.id}/alerts/#{alert.unique_id}"
       expect(response).to have_http_status(403)
       expect(@test_incident.alerts.count).to eq(3)
     end
@@ -252,7 +252,7 @@ describe Api::V2::AlertsController, type: :request do
           )
         ]
       )
-      delete "/api/v2/cases/#{@test_child.id}/alerts/#{alert.id}"
+      delete "/api/v2/cases/#{@test_child.id}/alerts/#{alert.unique_id}"
       expect(response).to have_http_status(404)
       expect(@test_incident.alerts.count).to eq(3)
     end

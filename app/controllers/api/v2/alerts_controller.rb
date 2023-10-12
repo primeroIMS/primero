@@ -17,8 +17,8 @@ class Api::V2::AlertsController < Api::V2::RecordResourceController
 
   def destroy
     authorize! :update, @record
-    alert_id = params[:id].to_i
-    alert = @record.alerts.find { |a| a.id == alert_id }
+    alert_id = params[:id]
+    alert = @record.alerts.find { |a| a.unique_id == alert_id }
     if alert.present?
       alert.destroy!
       return
