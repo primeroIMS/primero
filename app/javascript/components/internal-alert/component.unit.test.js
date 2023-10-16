@@ -74,7 +74,7 @@ describe("<InternalAlert />", () => {
     expect(component.find(IconButton)).to.have.lengthOf(1);
   });
 
-  it ("does not render a dismiss button if onDismiss is not on an item", () => {
+  it("does not render a dismiss button if onDismiss is not on an item", () => {
     const { component } = setupMountedComponent(
       InternalAlert,
       {

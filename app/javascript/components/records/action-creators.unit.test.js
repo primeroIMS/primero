@@ -545,8 +545,7 @@ describe("records - Action Creators", () => {
         method: METHODS.DELETE,
         skipDB: true,
         performFromQueue: true,
-        successCallback:
-        {
+        successCallback: {
           action: `${RECORD_PATH.cases}/DELETE_ALERT_FROM_RECORD_SUCCESS`,
           payload: { alertId: "12345-alert" }
         }
@@ -554,7 +553,5 @@ describe("records - Action Creators", () => {
     };
 
     expect(actionCreators.deleteAlertFromRecord(RECORD_PATH.cases, "12345", "12345-alert")).be.deep.equals(expected);
-
   });
-
 });
