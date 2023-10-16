@@ -12,13 +12,14 @@ module FamilyLinkable
     before_save :update_family_members
     after_save :associate_family_member
     after_save :save_family
-    after_save :disassociate_from_family
+    after_save :disassociate_family_member
   end
 
   def stamp_family_fields
     return unless changes_to_save.key?('family_id')
 
     self.family_id_display = family&.family_id_display
+    self.family_member_id = nil if family_id.nil?
   end
 
   def associate_to_family
@@ -39,29 +40,16 @@ module FamilyLinkable
     end
   end
 
-  def disassociate_from_family
-    return unless @family_to_disassociate.present?
+  def disassociate_family_member
+    return unless family_id.nil? && family_id_previous_change&.first.present?
 
-    @family_to_disassociate.family_members = @family_to_disassociate.family_members.map do |member|
+    family_to_disassociate = Family.find_by(id: family_id_previous_change.first)
+    family_to_disassociate.family_members = family_to_disassociate.family_members.map do |member|
       next(member) unless member['case_id'] == id
 
       member.merge('case_id' => nil, 'case_id_display' => nil)
     end
-    @family_to_disassociate.save!
-  end
-
-  def update_family(properties)
-    if dissasociate_family?(properties)
-      @family_to_disassociate = family
-      self.family_member_id = nil
-    end
-
-    self.family_id = properties.delete('family_id') if properties.key?('family_id')
-    update_family_fields(properties)
-  end
-
-  def dissasociate_family?(properties)
-    properties.key?('family_id') && properties['family_id'].blank?
+    family_to_disassociate.save!
   end
 
   def update_family_fields(properties)

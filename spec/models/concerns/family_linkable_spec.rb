@@ -44,4 +44,18 @@ describe FamilyLinkable do
       )
     end
   end
+
+  describe 'disassociate_from_family' do
+    it 'disassociates a case from a family record' do
+      child.family_id = nil
+      child.save!
+
+      family2.reload
+
+      expect(child.family).to be_nil
+      expect(child.family_member_id).to be_nil
+      expect(family2.cases).to be_empty
+      expect(family2.family_members.find { |member| member['case_id'] == child.id }).to be_nil
+    end
+  end
 end
