@@ -42,7 +42,7 @@ import {
   CREATE_CASE_FROM_FAMILY_MEMBER,
   CREATE_CASE_FROM_FAMILY_DETAIL,
   DELETE_ALERT_FROM_RECORD,
-  DELETE_ALERT_FROM_RECORD_SUCCESS,
+  DELETE_ALERT_FROM_RECORD_SUCCESS
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -182,7 +182,7 @@ export const deleteAlertFromRecord = (recordType, recordId, alertId) => ({
       action: `${recordType}/${DELETE_ALERT_FROM_RECORD_SUCCESS}`,
       payload: { recordType, recordId, alertId }
     }
-  },
+  }
 });
 
 export const saveRecord = (

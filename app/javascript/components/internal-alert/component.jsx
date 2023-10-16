@@ -20,7 +20,7 @@ import css from "./styles.css";
 
 const useStylesExpansionPanel = makeStyles(expansionPanelSummaryClasses);
 
-const Component = ({ title, items, severity, customIcon, onDismiss }) => {
+const Component = ({ title, items, severity, customIcon }) => {
   const i18n = useI18n();
 
   const classes = useStylesExpansionPanel();
@@ -31,11 +31,19 @@ const Component = ({ title, items, severity, customIcon, onDismiss }) => {
     [css.disableCollapse]: items?.size <= 1
   });
 
+  const renderDismissButton = handler => {
+    return (
+      <IconButton className={css.dismissButton} onClick={handler}>
+        <CloseIcon />
+      </IconButton>
+    );
+  };
+
   const renderItem = item => {
     return (
       <div className={css.alertItemElement}>
         <span>{item.get("message")}</span>
-        { item.get("onDismiss") && renderDismissButton(item.get("onDismiss"))}
+        {item.get("onDismiss") && renderDismissButton(item.get("onDismiss"))}
       </div>
     );
   };
@@ -67,17 +75,11 @@ const Component = ({ title, items, severity, customIcon, onDismiss }) => {
     }
   };
 
-  const renderDismissButton = (handler) => {
-    return (
-        <IconButton className={css.dismissButton} onClick={handler}>
-        <CloseIcon />
-        </IconButton>
-    );
-  }
-
   const renderTitle = () => {
     const titleMessage =
-      items?.size > 1 ? title || <div className={css.accordionTitle}>{i18n.t("messages.alert_items", { items: items.size })}</div> : renderItem(items?.first());
+      items?.size > 1
+        ? title || <div className={css.accordionTitle}>{i18n.t("messages.alert_items", { items: items.size })}</div>
+        : renderItem(items?.first());
 
     return (
       <>
@@ -107,14 +109,14 @@ Component.displayName = NAME;
 
 Component.defaultProps = {
   items: fromJS([]),
-  severity: "info",
+  severity: "info"
 };
 
 Component.propTypes = {
   customIcon: PropTypes.node,
   items: PropTypes.object,
   severity: PropTypes.string,
-  title: PropTypes.string,
+  title: PropTypes.string
 };
 
 export default Component;
