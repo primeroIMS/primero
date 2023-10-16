@@ -29,6 +29,7 @@ class Exporters::CsvListViewExporter < Exporters::BaseExporter
   end
 
   def export(records)
+    super(records)
     csv_export = build_csv_export(records, list_headers)
     buffer.write(csv_export)
   end

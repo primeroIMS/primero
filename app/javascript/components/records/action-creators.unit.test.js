@@ -508,7 +508,7 @@ describe("records - Action Creators", () => {
     const expected = {
       type: "families/CREATE_CASE_FROM_FAMILY_MEMBER",
       api: {
-        path: "families/f001/create_case",
+        path: "families/f001/case",
         body: { data: { family_member_id: "m001" } },
         method: "POST",
         successCallback: [

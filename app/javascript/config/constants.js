@@ -46,7 +46,7 @@ export const IDLE_LOGOUT_TIMEOUT = 5 * 1000 * 60;
 // Time (ms) how often the backend is pinged to refresh the user's token
 export const TOKEN_REFRESH_INTERVAL = 30 * 1000 * 60;
 
-export const PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL = 30 * 1000 * 60;
+export const PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL = 15 * 1000 * 60;
 
 export const CASE = "case";
 export const CASES = "cases";
@@ -746,5 +746,6 @@ export const POST_MESSAGES = {
   SUBSCRIBE_NOTIFICATIONS: "subscribe_notifications",
   UNSUBSCRIBE_NOTIFICATIONS: "unsubscribe_notifications",
   DISPATCH_REMOVE_SUBSCRIPTION: "dispatch_remove_subscription",
-  DISPATCH_SAVE_SUBSCRIPTION: "dispatch_save_subscription"
+  DISPATCH_SAVE_SUBSCRIPTION: "dispatch_save_subscription",
+  ATTEMPTS_SUBSCRIPTION_FAILED: "attempts_subscription_failed"
 };

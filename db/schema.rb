@@ -685,6 +685,7 @@ ActiveRecord::Schema.define(version: 2023_09_21_124122) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["notification_url", "user_id", "disabled"], name: "index_webpush_subscriptions_notification_url_user_id_disabled", unique: true
     t.index ["notification_url", "user_id"], name: "index_webpush_subscriptions_on_notification_url_and_user_id", unique: true
     t.index ["notification_url"], name: "index_webpush_subscriptions_on_notification_url"
     t.index ["user_id"], name: "index_webpush_subscriptions_on_user_id"

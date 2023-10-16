@@ -29,10 +29,6 @@ function Component() {
     localStorage.setItem("fieldMode", fieldModeStatus);
   }, [fieldModeStatus]);
 
-  useEffect(() => {
-    dispatch(setUserToggleOffline(fieldModeStatus));
-  }, []);
-
   if (!fieldMode) {
     return false;
   }

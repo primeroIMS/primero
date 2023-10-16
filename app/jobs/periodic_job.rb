@@ -2,7 +2,7 @@
 
 # Primero ActiveJob superclass
 class PeriodicJob < ActiveJob::Base
-  queue_as :default
+  queue_as :long_running_process
   def perform
     return unless self.class.perform_job?
 
@@ -15,7 +15,9 @@ class PeriodicJob < ActiveJob::Base
   end
 
   def self.perform_job?
-    true
+    Delayed::Job.where('handler LIKE :job_class', job_class: "%job_class: #{name}%")
+                .where(run_at: Time.now..)
+                .empty?
   end
 
   def self.reschedule_after

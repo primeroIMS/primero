@@ -218,9 +218,10 @@ class Child < ApplicationRecord
   alias super_update_properties update_properties
   def update_properties(user, data)
     build_or_update_incidents(user, (data.delete('incident_details') || []))
-    update_family(data) if family.present?
+    self.family_id = data.delete('family_id') if data.key?('family_id')
     self.registry_record_id = data.delete('registry_record_id') if data.key?('registry_record_id')
     self.mark_for_reopen = @incidents_to_save.present?
+    update_family_data(data)
     super_update_properties(user, data)
   end
 
@@ -244,29 +245,6 @@ class Child < ApplicationRecord
     Incident.transaction do
       @incidents_to_save.each(&:save!)
     end
-  end
-
-  def update_family(case_data)
-    family.family_number = case_data['family_number'] if case_data.key?('family_number')
-
-    update_family_members(case_data.delete('family_details_section') || [])
-  end
-
-  def update_family_members(family_details_section_data)
-    return unless family_details_section_data.present?
-
-    @family_members = FamilyLinkageService.build_or_update_family_members(
-      family_details_section_data,
-      family.family_members || []
-    )
-    self.family_details_section = FamilyLinkageService.family_details_section_local_data(family_details_section_data)
-  end
-
-  def save_family
-    return unless family.present?
-
-    family.family_members = @family_members if @family_members.present?
-    family.save! if family.has_changes_to_save?
   end
 
   def to_s
@@ -305,6 +283,12 @@ class Child < ApplicationRecord
 
   def display_id
     case_id_display
+  end
+
+  def family_number
+    return super unless family.present?
+
+    family.family_number
   end
 
   def day_of_birth

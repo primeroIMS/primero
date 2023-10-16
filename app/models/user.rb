@@ -476,6 +476,10 @@ class User < ApplicationRecord
     can?(:approve_gbv_closure, Child) || can?(:request_approval_gbv_closure, Child)
   end
 
+  def can_read_record?(record)
+    can?(:read, record)
+  end
+
   def agency_read?
     permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
   end

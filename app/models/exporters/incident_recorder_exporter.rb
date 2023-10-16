@@ -37,6 +37,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
 
   # @returns: a String with the Excel file data
   def export(models)
+    super(models)
     @builder.export(models)
   end
 

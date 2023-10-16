@@ -48,17 +48,15 @@ export function saveNotificationSubscription() {
 
 export const setAuthenticatedUser = user => async dispatch => {
   dispatch(setUser(user));
-  dispatch(fetchAuthenticatedUserData(user)).then(
-    () => {
-      dispatch(loadApplicationResources());
-    },
-    error => {
-      dispatch(push(ROUTES.logout));
-      // eslint-disable-next-line no-console
-      console.error(error);
-    }
-  );
-  dispatch(saveNotificationSubscription());
+
+  try {
+    await dispatch(fetchAuthenticatedUserData(user));
+    dispatch(loadApplicationResources());
+  } catch (error) {
+    dispatch(push(ROUTES.logout));
+    // eslint-disable-next-line no-console
+    console.error(error);
+  }
 };
 
 export const attemptSignout = () => ({

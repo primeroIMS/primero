@@ -156,7 +156,9 @@ cp_admin_families_permissions = [
       Permission::ENABLE_DISABLE_RECORD,
       Permission::REOPEN,
       Permission::CLOSE,
-      Permission::VIEW_PHOTO
+      Permission::VIEW_PHOTO,
+      Permission::VIEW_FAMILY_RECORD,
+      Permission::LINK_FAMILY_RECORD
     ]
   ),
   Permission.new(
@@ -367,7 +369,9 @@ cp_caseworker_families_permissions = [
       Permission::DISPLAY_VIEW_PAGE,
       Permission::INCIDENT_DETAILS_FROM_CASE,
       Permission::VIEW_PHOTO,
-      Permission::CASE_FROM_FAMILY
+      Permission::CASE_FROM_FAMILY,
+      Permission::VIEW_FAMILY_RECORD,
+      Permission::LINK_FAMILY_RECORD
     ]
   ),
   Permission.new(
@@ -537,7 +541,9 @@ cp_manager_families_permissions = [
       Permission::DISPLAY_VIEW_PAGE,
       Permission::RECEIVE_TRANSFER,
       Permission::VIEW_PHOTO,
-      Permission::CASE_FROM_FAMILY
+      Permission::CASE_FROM_FAMILY,
+      Permission::VIEW_FAMILY_RECORD,
+      Permission::LINK_FAMILY_RECORD
     ]
   ),
   Permission.new(

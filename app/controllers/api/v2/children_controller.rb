@@ -16,11 +16,11 @@ class Api::V2::ChildrenController < ApplicationApiController
   alias select_updated_fields_super select_updated_fields
   def select_updated_fields
     changes = @record.saved_changes_to_record.keys
-    @updated_field_names = select_updated_fields_super + @record.current_care_arrangements_changes(changes)
-    @updated_field_names << 'family_details_section' if @record.family&.family_members_changed?
+    @updated_field_names = select_updated_fields_super + @record.current_care_arrangements_changes(changes) +
+                           @record.family_changes(changes)
   end
 
-  def family
+  def create_family
     authorize! :case_from_family, Child
     @current_record = Child.find(family_params[:case_id])
     @record = FamilyLinkageService.new_family_linked_child(

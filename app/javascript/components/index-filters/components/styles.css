@@ -69,7 +69,7 @@
 
 .root {
   width: 300px;
-  min-height: 100vh;
+  min-height: var(--doc-height, 100vh);
   margin-left: 10px;
 }
 

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Pulls together the record data for presentation in the JSON API
+# rubocop:disable Metrics/ClassLength
 class RecordDataService
   COMPUTED_FIELDS = %w[sync_status synced_at current_care_arrangements_type current_name_caregiver
                        current_care_arrangement_started_date tracing_names].freeze
@@ -32,7 +33,8 @@ class RecordDataService
     data = embed_flag_metadata(data, record, selected_field_names)
     data = embed_alert_metadata(data, record, selected_field_names)
     data = embed_registry_record_info(data, record, selected_field_names)
-    embed_family_info(data, record, selected_field_names)
+    data = embed_family_members_user_access(data, record, selected_field_names, user)
+    embed_family_info(data, record, selected_field_names, user)
   end
 
   def select_fields(data, selected_field_names)
@@ -93,14 +95,13 @@ class RecordDataService
     data
   end
 
-  def embed_family_info(data, record, selected_field_names)
+  def embed_family_info(data, record, selected_field_names, user = nil)
     return data unless record.is_a?(Child) && record.family_id.present?
 
     data['family_id'] = record.family_id if selected_field_names.include?('family_id')
     data['family_member_id'] = record.family_member_id if selected_field_names.include?('family_member_id')
-    data['family_number'] = record.family_number if selected_field_names.include?('family_number')
     data = embed_family_details(data, record, selected_field_names)
-    embed_family_details_section(data, record, selected_field_names)
+    embed_family_details_section(data, record, selected_field_names, user)
   end
 
   def embed_family_details(data, record, selected_field_names)
@@ -110,10 +111,21 @@ class RecordDataService
     data
   end
 
-  def embed_family_details_section(data, record, selected_field_names)
+  def embed_family_details_section(data, record, selected_field_names, user)
     return data unless selected_field_names.include?('family_details_section')
 
-    data['family_details_section'] = record.family_members_details
+    data['family_details_section'] = calculate_family_member_record_user_access(
+      record.family_members_details, record.family.cases_grouped_by_id, user
+    )
+    data
+  end
+
+  def embed_family_members_user_access(data, record, selected_field_names, user)
+    return data unless record.is_a?(Family) && selected_field_names.include?('family_members')
+
+    data['family_members'] = calculate_family_member_record_user_access(
+      data['family_members'], record.cases_grouped_by_id, user
+    )
     data
   end
 
@@ -157,4 +169,18 @@ class RecordDataService
   def attachment_field_names
     @attachment_field_names ||= Field.binary.pluck(:name)
   end
+
+  def calculate_family_member_record_user_access(family_members, cases_grouped_by_id, user)
+    return family_members if family_members.blank? || user.blank?
+
+    family_members.each do |family_member|
+      family_member_record = cases_grouped_by_id[family_member['case_id']]&.first
+      next if family_member_record.blank?
+
+      family_member['can_read_record'] = user.can_read_record?(
+        family_member_record
+      )
+    end
+  end
 end
+# rubocop:enable Metrics/ClassLength

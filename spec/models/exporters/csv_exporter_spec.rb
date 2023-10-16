@@ -9,6 +9,9 @@ module Exporters
 
       family = Family.create!(
         data: {
+          family_number: 'FA-001',
+          family_size: 5,
+          family_notes: 'FamilyNotes',
           family_members: [
             { unique_id: '001', relation_name: 'George', relation_age: 10, relation_sex: 'male' },
             { unique_id: '002', relation_name: 'FirstName2 LastName2', relation_age: 12, relation_sex: 'female' }
@@ -46,6 +49,9 @@ module Exporters
         form_group_id: 'case_form_1',
         order: 7,
         fields: [
+          Field.new(name: 'family_number', display_name: 'Family Number', type: 'text_field', visible: true),
+          Field.new(name: 'family_size', display_name: 'Family Size', type: 'numeric_field', visible: true),
+          Field.new(name: 'family_notes', display_name: 'Family Notes', type: 'text_field', visible: true),
           Field.new(
             name: 'family_details_section',
             display_name_en: 'Family Details',
@@ -87,6 +93,7 @@ module Exporters
         family:,
         data: {
           family_member_id: '001',
+          family_number: 'CA-001',
           name: 'George',
           age: 10,
           sex: 'male',
@@ -100,23 +107,31 @@ module Exporters
       data = CsvExporter.export(@records, nil, { user: @user })
       parsed = CSV.parse(data)
 
-      expect(parsed[0]).to eq %w[id name age sex family_details_section]
+      expect(parsed[0]).to eq %w[id name age sex family_number family_size family_notes family_details_section]
       expect(parsed[1][1..3]).to eq(%w[Joe 12 male])
       expect(parsed[2][1..3]).to eq(%w[Mo 14 male])
       expect(parsed[3][1..3]).to eq(%w[George 10 male])
     end
 
-    it 'export the family_details_section' do
+    it 'exports the family_details_section' do
       data = CsvExporter.export(@records, nil, { user: @user })
       parsed = CSV.parse(data)
 
-      expect(parsed[1][4]).to eq(
+      expect(parsed[1][7]).to eq(
         '[{"relation_name"=>"John", "relation"=>"father"}, {"relation_name"=>"Mary", "relation"=>"mother"}]'
       )
-      expect(parsed[3][4]).to eq(
+      expect(parsed[3][7]).to eq(
         '[{"unique_id"=>"002", "relation"=>"relation2", "relation_name"=>"FirstName2 LastName2", ' \
         '"relation_age"=>12, "relation_sex"=>"female"}]'
       )
+    end
+
+    it 'exports the global family fields from the family record' do
+      data = CsvExporter.export(@records, nil, { user: @user })
+      parsed = CSV.parse(data)
+
+      expect(parsed[0]).to eq %w[id name age sex family_number family_size family_notes family_details_section]
+      expect(parsed[3][4..6]).to eq(%w[FA-001 5 FamilyNotes])
     end
 
     it 'sanitizes formula injections' do
