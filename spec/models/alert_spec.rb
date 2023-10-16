@@ -47,5 +47,15 @@ describe Alert do
       child.save!
       expect(Alert.count).to eq(0)
     end
+    it 'deletes the old alert when a duplicate alert is created' do
+      child = Child.new(data: { 'email_alertable_field' => 'some_value' })
+      child.save!
+      expect(Alert.count).to eq(1)
+      old_alert = Alert.first
+      child.data['email_alertable_field'] = 'some_other_value'
+      child.save!
+      expect(Alert.count).to eq(1)
+      expect(Alert.first.unique_id).not_to eq(old_alert.unique_id)
+    end
   end
 end

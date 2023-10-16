@@ -63,6 +63,8 @@ module Alertable
     alerts_on_change.each do |field_name, conf_record|
       next unless changed_field_names.include?(field_name)
 
+      # remove any existing alerts of the same type
+      remove_alert(conf_record.form_section_unique_id)
       add_field_alert(conf_record)
     end
   end
