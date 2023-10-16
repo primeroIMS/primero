@@ -4,6 +4,7 @@ import { push } from "connected-react-router";
 
 import usePushNotifications from "../push-notifications-toggle/use-push-notifications";
 import { ROUTES } from "../../config";
+import { setPendingUserLogin } from "../connectivity/action-creators";
 
 import { NAME } from "./constants";
 
@@ -12,6 +13,7 @@ function Container() {
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
+    dispatch(setPendingUserLogin(false));
     stopRefreshNotificationTimer();
     dispatch(push(ROUTES.login));
   }, []);
