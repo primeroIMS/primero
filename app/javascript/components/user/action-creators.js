@@ -40,6 +40,12 @@ export const fetchAuthenticatedUserData = user => ({
   }
 });
 
+export function saveNotificationSubscription() {
+  return {
+    type: actions.SAVE_USER_NOTIFICATION_SUBSCRIPTION
+  };
+}
+
 export const setAuthenticatedUser = user => async dispatch => {
   dispatch(setUser(user));
 
@@ -112,13 +118,6 @@ export async function getAppResources(dispatch) {
   dispatch(fetchSandboxUI());
   dispatch(checkUserAuthentication());
   dispatch(loginSystemSettings());
-}
-
-export function saveNotificationSubscription(payload) {
-  return {
-    type: actions.SAVE_USER_NOTIFICATION_SUBSCRIPTION,
-    payload
-  };
 }
 
 export function removeNotificationSubscription() {

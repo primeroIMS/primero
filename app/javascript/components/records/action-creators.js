@@ -380,7 +380,7 @@ export const markForOffline =
 export const createCaseFromFamilyMember = ({ familyId, familyMemberId }) => ({
   type: `${RECORD_PATH.families}/${CREATE_CASE_FROM_FAMILY_MEMBER}`,
   api: {
-    path: `${RECORD_PATH.families}/${familyId}/create_case`,
+    path: `${RECORD_PATH.families}/${familyId}/case`,
     body: {
       data: { family_member_id: familyMemberId }
     },

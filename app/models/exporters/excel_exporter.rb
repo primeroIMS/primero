@@ -27,6 +27,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def export(records)
+    super(records)
     constraint_subforms
     build_worksheets_with_headers
 
@@ -111,8 +112,10 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def write_record(record)
+    data = record.data
+
     forms.each do |form|
-      write_record_form(record.short_id, record.data, form, form&.subform_field&.name)
+      write_record_form(record.short_id, data, form, form&.subform_field&.name)
     end
   end
 

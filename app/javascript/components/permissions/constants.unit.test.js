@@ -94,6 +94,7 @@ describe("Verifying config constant", () => {
       "KPI_SERVICES_PROVIDED",
       "KPI_SUPERVISOR_TO_CASEWORKER_RATIO",
       "KPI_TIME_FROM_CASE_OPEN_TO_CLOSE",
+      "LINK_FAMILY_RECORD",
       "MANAGE",
       "MARK_FOR_OFFLINE",
       "READ",

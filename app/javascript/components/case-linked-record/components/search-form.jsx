@@ -2,26 +2,28 @@ import PropTypes from "prop-types";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import SearchIcon from "@material-ui/icons/Search";
 
-import { useMemoizedSelector } from "../../../../../../libs";
-import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../../action-button";
-import { getRegistryTypes } from "../../../../../application/selectors";
-import Form, { FieldRecord, FormSectionRecord, SELECT_FIELD } from "../../../../../form";
-import { useI18n } from "../../../../../i18n";
-import css from "../../../subforms/styles.css";
-import { FORM_ID, REGISTRY_LOCATION_CURRENT, SEARCH_BY, NAME, REGISTRY_NO } from "../constants";
+import { useMemoizedSelector } from "../../../libs";
+import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
+import { getRegistryTypes } from "../../application/selectors";
+import Form, { FieldRecord, FormSectionRecord, SELECT_FIELD } from "../../form";
+import { useI18n } from "../../i18n";
+import css from "../../record-form/form/subforms/styles.css";
+import { FORM_ID, REGISTRY_LOCATION_CURRENT, SEARCH_BY } from "../constants";
 import { buildValidation } from "../utils";
 
-const SearchForm = ({
+function Component({
+  fields,
+  formId,
+  handleCancel,
+  locale,
+  noForm = false,
+  permissions,
   redirectIfNotAllowed,
   setComponent,
-  setSearchParams,
-  handleCancel,
-  fields,
   setDrawerTitle,
-  locale,
-  permissions,
-  noForm = false
-}) => {
+  setSearchParams,
+  validatedFieldNames
+}) {
   const i18n = useI18n();
 
   const registryType = useMemoizedSelector(state => getRegistryTypes(state, "farmer"));
@@ -51,13 +53,13 @@ const SearchForm = ({
 
   const formFields = [
     FormSectionRecord({
-      unique_id: FORM_ID,
+      unique_id: formId,
       fields: [searchByField, ...fields.valueSeq()].map(field => {
-        if ([NAME, REGISTRY_NO].includes(field.name)) {
+        if (validatedFieldNames.includes(field.name)) {
           return field.merge({
             watchedInputs: SEARCH_BY,
             showIf: searchBy => {
-              if (field.name === NAME || field.name === REGISTRY_NO) {
+              if (validatedFieldNames.includes(field.name)) {
                 return searchBy === field.name;
               }
 
@@ -94,12 +96,13 @@ const SearchForm = ({
       <Form formID={FORM_ID} formSections={formFields} onSubmit={handleSearch} validations={validationSchema} />
     </>
   );
-};
+}
 
-SearchForm.displayName = "SearchForm";
+Component.displayName = "SearchForm";
 
-SearchForm.propTypes = {
+Component.propTypes = {
   fields: PropTypes.object.isRequired,
+  formId: PropTypes.string.isRequired,
   handleCancel: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   noForm: PropTypes.bool,
@@ -107,7 +110,8 @@ SearchForm.propTypes = {
   redirectIfNotAllowed: PropTypes.func.isRequired,
   setComponent: PropTypes.func.isRequired,
   setDrawerTitle: PropTypes.func.isRequired,
-  setSearchParams: PropTypes.func.isRequired
+  setSearchParams: PropTypes.func.isRequired,
+  validatedFieldNames: PropTypes.array.isRequired
 };
 
-export default SearchForm;
+export default Component;

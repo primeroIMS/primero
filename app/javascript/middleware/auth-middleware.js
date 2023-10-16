@@ -3,6 +3,7 @@ import get from "lodash/get";
 import { actions } from "../components/login/components/login-form";
 import { Actions } from "../components/user";
 import { ROUTES } from "../config";
+import { getSubscriptionFromDb } from "../libs/service-worker-utils";
 
 import {
   LOGIN_PATTERN,
@@ -58,6 +59,12 @@ const authMiddleware = store => next => action => {
     redirectTo(store, isAuthenticated ? ROUTES.dashboard : ROUTES.login);
   } else if (routeChanged && !LOGIN_PATTERN.test(location) && !RESET_PATTERN.test(location) && !isAuthenticated) {
     handleReturnUrl(store, location);
+  }
+
+  if (Actions.SAVE_USER_NOTIFICATION_SUBSCRIPTION === action.type) {
+    getSubscriptionFromDb().then(endpoint => {
+      next({ ...action, payload: endpoint });
+    });
   }
 
   return next(action);

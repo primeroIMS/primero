@@ -15,7 +15,10 @@ Rails.application.configure do
     config.x.webpush.vapid_public = ENV.fetch('PRIMERO_WEBPUSH_VAPID_PUBLIC', nil)
     config.x.webpush.contact =
       primero_webpush_contact =~ URI::MailTo::EMAIL_REGEXP ? primero_webpush_contact : DEFAULT_WEBPUSH_CONTACT
-    config.x.webpush.pause_after =
-      ENV['PRIMERO_WEBPUSH_PAUSE_AFTER'].to_i.positive? || DEFAULT_WEBPUSH_PAUSE_AFTER_MINUTES
+    config.x.webpush.pause_after = if ENV['PRIMERO_WEBPUSH_PAUSE_AFTER'].to_i.positive?
+                                     ENV['PRIMERO_WEBPUSH_PAUSE_AFTER'].to_i
+                                   else
+                                     DEFAULT_WEBPUSH_PAUSE_AFTER_MINUTES
+                                   end
   end
 end

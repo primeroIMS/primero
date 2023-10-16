@@ -40,6 +40,7 @@ describe Api::V2::WebpushSubscriptionsController, type: :request do
 
   let(:webpush_subscription2) { WebpushSubscription.create!(notification_url: 'https://notification2.url', auth: '2nd-auth', p256dh: '2nd-p256dh', user: user2) }
   let(:webpush_subscription3) { WebpushSubscription.create!(notification_url: 'https://notification3.url', auth: '3rd-auth', p256dh: '3rd-p256dh', user: user1) }
+  let(:webpush_subscription4) { WebpushSubscription.create!(notification_url: 'https://notification3.url', auth: '3rd-auth', p256dh: '3rd-p256dh', user: user1, disabled: true) }
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/webpush/subscriptions' do
@@ -221,6 +222,7 @@ describe Api::V2::WebpushSubscriptionsController, type: :request do
         expect(Time.zone.parse(json['data']['updated_at']).to_s).not_to eq(webpush_subscription1.updated_at.to_s)
       end
     end
+
     context 'disable params is present' do
       it 'update disable' do
         login_for_test(user_name: user1.user_name, id: user1.id)
@@ -232,12 +234,31 @@ describe Api::V2::WebpushSubscriptionsController, type: :request do
           }
         }
 
-        patch('/api/v2/webpush/subscriptions/current', params:)
+        patch('/api/v2/webpush/subscriptions/current', params:, as: :json)
         expect(response).to have_http_status(200)
         expect(json['data']['id']).to eq(webpush_subscription1.id)
         expect(json['data']['user_id']).to eq(user1.id)
         expect(json['data']['disabled']).not_to eq(webpush_subscription1.disabled)
         expect(Time.zone.parse(json['data']['updated_at']).to_s).not_to eq(webpush_subscription1.updated_at.to_s)
+      end
+
+      context 'when subscription is already disabled' do
+        it 'should return RecordNotFound' do
+          login_for_test(user_name: user1.user_name, id: user1.id)
+
+          params = {
+            data: {
+              notification_url: webpush_subscription4.notification_url,
+              disabled: false
+            }
+          }
+
+          patch('/api/v2/webpush/subscriptions/current', params:)
+          expect(response).to have_http_status(404)
+          expect(json['errors'][0]['resource']).to eq('/api/v2/webpush/subscriptions/current')
+          expect(json['errors'][0]['detail']).to eq('ActiveRecord::RecordNotFound')
+          expect(json['errors'][0]['message']).to eq('Not Found')
+        end
       end
     end
 

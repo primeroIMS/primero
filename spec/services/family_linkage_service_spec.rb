@@ -23,7 +23,7 @@ describe FamilyLinkageService do
             family_relationship: 'relationship1',
             family_relationship_notes: 'Notes about the relationship',
             family_relationship_notes_additional: 'Additional notes about the relationship',
-            relation_name: 'Member 1',
+            relation_name: 'MemberFirst MemberLast',
             relation_nickname: 'Member 1 Nickname',
             relation_sex: 'male',
             relation_age: 10,
@@ -98,9 +98,9 @@ describe FamilyLinkageService do
 
       expect(Child.find(child.id).data.select { |key, _value| target_fields.include?(key) }).to eq(
         {
-          'name_first' => 'Member 1',
-          'name_middle' => 'Member 1',
-          'name_last' => 'Member 1',
+          'name_first' => 'MemberFirst',
+          'name_middle' => nil,
+          'name_last' => 'MemberLast',
           'name_nickname' => 'Member 1 Nickname',
           'sex' => 'male',
           'age' => 10,
@@ -123,6 +123,62 @@ describe FamilyLinkageService do
     end
   end
 
+  describe 'family_member_to_child' do
+    it 'splits the relation name of the family member' do
+      child = FamilyLinkageService.family_member_to_child(
+        user, { 'unique_id' => '001', 'relation_name' => 'MemberFirst MemberLast' }
+      )
+
+      expect(child.name_first).to eq('MemberFirst')
+      expect(child.name_middle).to be_nil
+      expect(child.name_last).to eq('MemberLast')
+    end
+
+    it 'splits the relation name of the family member with middle name' do
+      child = FamilyLinkageService.family_member_to_child(
+        user, { 'unique_id' => '001', 'relation_name' => 'MemberFirst MemberMiddle MemberLast' }
+      )
+
+      expect(child.name_first).to eq('MemberFirst')
+      expect(child.name_middle).to eq('MemberMiddle')
+      expect(child.name_last).to eq('MemberLast')
+    end
+
+    it 'splits the relation name of the family member with a long middle name' do
+      child = FamilyLinkageService.family_member_to_child(
+        user, { 'unique_id' => '001', 'relation_name' => 'MemberFirst MemberMiddle1 MemberMiddle2 MemberMiddle3 MemberLast' }
+      )
+
+      expect(child.name_first).to eq('MemberFirst')
+      expect(child.name_middle).to eq('MemberMiddle1 MemberMiddle2 MemberMiddle3')
+      expect(child.name_last).to eq('MemberLast')
+    end
+
+    it 'splits the relation name of the family member but only sets the first name' do
+      child = FamilyLinkageService.family_member_to_child(
+        user, { 'unique_id' => '001', 'relation_name' => 'MemberFirst' }
+      )
+
+      expect(child.name_first).to eq('MemberFirst')
+      expect(child.name_middle).to be_nil
+      expect(child.name_last).to be_nil
+    end
+  end
+
+  describe 'child_to_family_member' do
+    it 'sets the relation_name from the name fields' do
+      child = Child.create!(data: { name_first: 'FirstName', name_last: 'LastName', age: 10, sex: 'male' })
+      family_member = FamilyLinkageService.child_to_family_member(child)
+      expect(family_member['relation_name']).to eq('FirstName LastName')
+    end
+
+    it 'sets the relation_name from the name field' do
+      child = Child.create!(data: { name: 'FirstName LastName', age: 10, sex: 'male' })
+      family_member = FamilyLinkageService.child_to_family_member(child)
+      expect(family_member['relation_name']).to eq('FirstName LastName')
+    end
+  end
+
   describe 'family_to_child' do
     it 'returns the family details for a child' do
       family_details = FamilyLinkageService.family_to_child(family1)
@@ -130,44 +186,6 @@ describe FamilyLinkageService do
       expect(family_details['family_number']).to eq('40bf9109')
       expect(family_details['family_size']).to eq(1)
       expect(family_details['family_notes']).to eq('Notes about the family')
-    end
-  end
-
-  describe 'family_details_section_for_child' do
-    it 'returns the global fields for family member if exists' do
-      child = family1.new_child_from_family_member(user, '002')
-
-      expect(FamilyLinkageService.family_details_section_for_child(child)).to eq(
-        [
-          {
-            'unique_id' => '001',
-            'relation_name' => 'Member 1',
-            'relation_nickname' => 'Member 1 Nickname',
-            'relation_sex' => 'male',
-            'relation_age' => 10,
-            'relation_date_of_birth' => Date.today - 10.years,
-            'relation_age_estimated' => true,
-            'relation_national_id' => 'national_001',
-            'relation_other_id' => 'other_001',
-            'relation_ethnicity' => 'ethnicity1',
-            'relation_sub_ethnicity1' => 'ethnicity2',
-            'relation_sub_ethnicity2' => 'ethnicity3',
-            'relation_language' => 'language1',
-            'relation_religion' => 'religion1',
-            'relation_address_current' => 'Current Address',
-            'relation_landmark_current' => 'Current Landmark',
-            'relation_location_current' => 'abc001',
-            'relation_address_is_permanent' => false,
-            'relation_telephone' => '22222222'
-          },
-          {
-            'unique_id' => '002',
-            'relation_name' => 'Member 2',
-            'relation_sex' => 'male',
-            'relation_age' => 12
-          }
-        ]
-      )
     end
   end
 
