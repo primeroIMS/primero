@@ -180,7 +180,7 @@ export const deleteAlertFromRecord = (recordType, recordId, alertId) => ({
     performFromQueue: true,
     successCallback: {
       action: `${recordType}/${DELETE_ALERT_FROM_RECORD_SUCCESS}`,
-      payload: { recordType, recordId, alertId }
+      payload: { alertId }
     }
   }
 });
