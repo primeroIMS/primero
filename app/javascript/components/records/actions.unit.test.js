@@ -98,7 +98,12 @@ describe("records - Actions", () => {
       "CREATE_CASE_FROM_FAMILY_DETAIL_SUCCESS",
       "CREATE_CASE_FROM_FAMILY_DETAIL_STARTED",
       "CREATE_CASE_FROM_FAMILY_DETAIL_FAILURE",
-      "CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED"
+      "CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED",
+      "DELETE_ALERT_FROM_RECORD",
+      "DELETE_ALERT_FROM_RECORD_FAILURE",
+      "DELETE_ALERT_FROM_RECORD_FINISHED",
+      "DELETE_ALERT_FROM_RECORD_STARTED",
+      "DELETE_ALERT_FROM_RECORD_SUCCESS",
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("string");
