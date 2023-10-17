@@ -47,7 +47,7 @@ describe FamilyLinkable do
 
   describe 'disassociate_from_family' do
     it 'disassociates a case from a family record' do
-      child.family_id = nil
+      child.update_properties(user, { 'family_id' => nil })
       child.save!
 
       family2.reload

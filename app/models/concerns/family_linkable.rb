@@ -41,18 +41,21 @@ module FamilyLinkable
   end
 
   def disassociate_family_member
-    return unless family_id.nil? && family_id_previous_change&.first.present?
+    return unless @family_to_disassociate.present?
 
-    family_to_disassociate = Family.find_by(id: family_id_previous_change.first)
-    family_to_disassociate.family_members = family_to_disassociate.family_members.map do |member|
+    @family_to_disassociate.family_members = @family_to_disassociate.family_members.map do |member|
       next(member) unless member['case_id'] == id
 
       member.merge('case_id' => nil, 'case_id_display' => nil)
     end
-    family_to_disassociate.save!
+    @family_to_disassociate.save!
   end
 
   def update_family_fields(properties)
+    if properties.key?('family_id')
+      @family_to_disassociate = family if properties['family_id'].nil?
+      self.family_id = properties.delete('family_id')
+    end
     return unless family.present?
 
     changed_family_fields = FamilyLinkageService::GLOBAL_FAMILY_FIELDS & properties.keys
