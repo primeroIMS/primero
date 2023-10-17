@@ -29,7 +29,7 @@ const FormikForm = ({ children }) => {
   );
 };
 
-function mountedComponent(Component, state = {}, options = {}, initialEntries = {}, formProps = {}, path = "") {
+function mountedComponent(Component, state = {}, options = {}, initialEntries = [], formProps = {}, path = "") {
   const { store, history } = createMockStore(DEFAULT_STATE, state);
 
   function FormProvider({ children }) {
