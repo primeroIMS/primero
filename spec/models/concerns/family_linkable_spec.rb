@@ -31,7 +31,7 @@ describe FamilyLinkable do
     child.family_member_id = 'f5775818'
     child.family_details_section = [
       { 'unique_id' => 'f5775818' },
-      { 'unique_id' => '14397418', 'relation' => 'mother' }
+      { 'unique_id' => '14397418', 'relation' => 'mother', 'relation_name' => 'Name1' }
     ]
     child.save!
     child
@@ -40,8 +40,50 @@ describe FamilyLinkable do
   describe 'family_members_details' do
     it 'returns fields from family members and family details not including itself' do
       expect(child.family_members_details).to eq(
-        [{ 'unique_id' => '14397418', 'relation' => 'mother', 'relation_sex' => 'female' }]
+        [{ 'unique_id' => '14397418', 'relation' => 'mother', 'relation_sex' => 'female', 'relation_name' => 'Name1' }]
       )
+    end
+
+    it 'updates the family_members and does not change the family_details_section' do
+      child.update_properties(
+        user,
+        {
+          'family_details_section' => [
+            { 'unique_id' => 'f5775818' },
+            { 'unique_id' => '14397418', 'relation_name' => 'Name2' }
+          ]
+        }
+      )
+      child.save!
+      child.reload
+
+      expect(
+        child.family_members_details.find { |member| member['unique_id'] == '14397418' }['relation_name']
+      ).to eq('Name2')
+      expect(
+        child.family_details_section.find { |member| member['unique_id'] == '14397418' }['relation_name']
+      ).to eq('Name1')
+    end
+
+    it 'updates the local family_details_section fields and does not change the family_members' do
+      child.update_properties(
+        user,
+        {
+          'family_details_section' => [
+            { 'unique_id' => 'f5775818' },
+            { 'unique_id' => '14397418', 'relation' => 'father' }
+          ]
+        }
+      )
+      child.save!
+      child.reload
+
+      expect(
+        child.family.family_members.find { |member| member['unique_id'] == '14397418' }['relation']
+      ).to be_nil
+      expect(
+        child.family_details_section.find { |member| member['unique_id'] == '14397418' }['relation']
+      ).to eq('father')
     end
   end
 
