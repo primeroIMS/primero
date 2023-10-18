@@ -12,12 +12,14 @@ module FamilyLinkable
     before_save :update_family_members
     after_save :associate_family_member
     after_save :save_family
+    after_save :disassociate_family_member
   end
 
   def stamp_family_fields
     return unless changes_to_save.key?('family_id')
 
     self.family_id_display = family&.family_id_display
+    self.family_member_id = nil if family_id.nil?
   end
 
   def associate_to_family
@@ -38,11 +40,26 @@ module FamilyLinkable
     end
   end
 
-  def update_family_data(child_data)
+  def disassociate_family_member
+    return unless @family_to_disassociate.present?
+
+    @family_to_disassociate.family_members = @family_to_disassociate.family_members.map do |member|
+      next(member) unless member['case_id'] == id
+
+      member.merge('case_id' => nil, 'case_id_display' => nil)
+    end
+    @family_to_disassociate.save!
+  end
+
+  def update_family_fields(properties)
+    if properties.key?('family_id')
+      @family_to_disassociate = family if properties['family_id'].nil?
+      self.family_id = properties.delete('family_id')
+    end
     return unless family.present?
 
-    changed_family_fields = FamilyLinkageService::GLOBAL_FAMILY_FIELDS & child_data.keys
-    changed_family_fields.each { |field| family.data[field] = child_data.delete(field) }
+    changed_family_fields = FamilyLinkageService::GLOBAL_FAMILY_FIELDS & properties.keys
+    changed_family_fields.each { |field| family.data[field] = properties.delete(field) }
   end
 
   def save_family
@@ -89,14 +106,14 @@ module FamilyLinkable
   end
 
   def family_changes(changes)
-    return [] unless family.present?
-
     changes ||= saved_changes_to_record.keys
     if changes.include?('family_id_display')
       return FamilyLinkageService::GLOBAL_FAMILY_FIELDS + ['family_details_section']
     end
 
     field_names = []
+    return field_names unless family.present?
+
     field_names << 'family_details_section' if family.family_members_changed?
     field_names += FamilyLinkageService::GLOBAL_FAMILY_FIELDS & family.saved_changes_to_record.keys
     field_names

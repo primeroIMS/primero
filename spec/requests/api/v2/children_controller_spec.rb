@@ -1159,6 +1159,27 @@ describe Api::V2::ChildrenController, type: :request do
       expect(@family5.family_members[1]['case_id']).to eq(@case10.id)
       expect(@family5.family_members[1]['case_id_display']).to eq(@case10.case_id_display)
     end
+
+    it 'unlinks a family record from a record' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::CASE, actions: [Permission::WRITE, Permission::LINK_FAMILY_RECORD])
+        ]
+      )
+      params = { data: { family_id: nil } }
+
+      patch "/api/v2/cases/#{@case8.id}", params:, as: :json
+
+      @family2.reload
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).not_to be_empty
+      expect(json['data']['family_id']).to be_nil
+      expect(json['data']['family_member_id']).to be_nil
+      expect(json['data']['family_details_section']).to be_empty
+      expect(@family2.cases).to be_empty
+      expect(@family2.family_members.find { |member| member['case_id'] == @case8.id }).to be_nil
+    end
   end
 
   describe 'DELETE /api/v2/cases/:id' do
