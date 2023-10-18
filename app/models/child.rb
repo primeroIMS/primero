@@ -220,7 +220,7 @@ class Child < ApplicationRecord
     build_or_update_incidents(user, (data.delete('incident_details') || []))
     self.registry_record_id = data.delete('registry_record_id') if data.key?('registry_record_id')
     self.mark_for_reopen = @incidents_to_save.present?
-    update_family_fields(data)
+    update_associated_family(data)
     super_update_properties(user, data)
   end
 
