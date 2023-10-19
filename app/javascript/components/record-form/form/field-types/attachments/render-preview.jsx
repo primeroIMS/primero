@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import AttachmentPreview from "./attachment-preview";
 import { ATTACHMENT_TYPES } from "./constants";
 
