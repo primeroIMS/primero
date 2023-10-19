@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 import { useDispatch } from "react-redux";
 import isNil from "lodash/isNil";
 import isString from "lodash/isString";
@@ -168,7 +168,11 @@ const Component = () => {
               .entrySeq()
               .map(([valueKey, value]) => {
                 const hasTotalColumn = isGrouped
-                  ? value.some(elem => elem.get("data", fromJS([])).some(row => !isNil(row.get("total"))))
+                  ? value.some(
+                      elem =>
+                        List.isList(elem.get("data")) &&
+                        elem.get("data", fromJS([])).some(row => !isNil(row.get("total")))
+                    )
                   : value.some(row => !isNil(row.get("total")));
 
                 const indicatorSubColumnKeys = getIndicatorSubcolumnKeys(value);
