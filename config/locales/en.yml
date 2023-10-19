@@ -2691,6 +2691,12 @@ en:
               that this permission also allows the user to see a link to the incident
               which was created.
             label: Create an incident from a case
+          remove_alert:
+            explanation: This permission allows the user to remove an alert from
+              a case. Alerts are typically generated when a particular field is
+              edited, such as when notes are updated. Alerts are usually shown
+              with a yellow dot next to the case.
+            label: Remove alert from a case
           manage:
             explanation: Allows a user to perform all available actions on cases.
               The "Manage" permission essentially means "everything".
@@ -3220,6 +3226,12 @@ en:
               skills and an in-depth knowledge of how data is formatted in Primero.
               Only performed from incident list page.
             label: Import
+          remove_alert:
+            explanation: This permission allows the user to remove an alert from
+              an incident. Alerts are typically generated when a particular field is
+              edited, such as when notes are updated. Alerts are usually shown
+              with a yellow dot next to the incident.
+            label: Remove alert from an incident
           manage:
             explanation: Allows a user to perform all available actions on incidents.
               The "Manage" permission essentially means "everything".
