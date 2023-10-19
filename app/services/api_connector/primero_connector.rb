@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Connector for sending data to another instance of Primero.
 # For now connection parameters for these endpoints is configured through environment variables.
 # TODO: This is an abstract connector, but it could be made pretty generic and functional.

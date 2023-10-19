@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Handles all exceptions for the API controllers so that they can be rendered.
 class ErrorService
   # We have a simple switch statement to instantiate the various errors thrown by Primero

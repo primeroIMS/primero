@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # API endpoints for adding and removing attachments on Primero resources (usually records)
 class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   before_action { authorize!(:update, @record) }

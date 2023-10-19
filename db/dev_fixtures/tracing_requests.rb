@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 {
   'ff837103-455b-4735-9e5c-4ed9atrac001' => lambda do |t|
     t.module_id = 'primeromodule-cp'

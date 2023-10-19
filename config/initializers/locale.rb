@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This specifies the locales the Primero currently supports
 #
 # ku-IQ: This locale represents the Kurdish Badini subdialect of Kurmanji, as spoken in Dohuk in

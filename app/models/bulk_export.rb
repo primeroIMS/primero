@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Represents the asynchronous run of a queued export job.
 # In Primero v2, all exports are asynchronous.
 # See app/models/exporters

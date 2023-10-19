@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Model describing a referral of a record from one user to another.
 class Referral < Transition
   def perform

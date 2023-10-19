@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 reopened_subform = [
   Field.new({ 'name' => 'reopened_date',
               'type' => 'date_field',

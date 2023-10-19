@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 def duplicate_user(user_hash, locale_string)
   puts("duplicate user with user_name #{user_hash['user_name']} and locale_string #{locale_string}")
 

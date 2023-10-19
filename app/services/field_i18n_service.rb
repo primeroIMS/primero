@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Methods to handle internationalization of the fields
 class FieldI18nService
   #  Converts the received parameters to localized properties

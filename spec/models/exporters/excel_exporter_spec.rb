@@ -1,3 +1,4 @@
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 # frozen_string_literal: true
 
 # TODO: There are some rubocop warnings related to double quotes around some of the Arabic text.  Leaving as-is for now

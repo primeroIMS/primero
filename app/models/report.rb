@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Configurable reports for aggregating data over Primero records.
 # rubocop:disable Metrics/ClassLength
 class Report < ApplicationRecord

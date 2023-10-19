@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This virtual model encapsulates a potential link between a trace on a TracingRequest
 # and a case (Child). It contains logic for comparing the two records and pass judgement
 # on how likely it is that they represent the same person.

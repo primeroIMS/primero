@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This service handles computing the permitted fields for a given role,
 # based on the forms associated with that role. The query is optionally cached.
 # The similarly named PermittedFieldService uses this service to compuyte the full list of permitted fields

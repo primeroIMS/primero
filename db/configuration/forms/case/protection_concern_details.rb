@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 protection_concern_detail_subform_fields = [
   Field.new('name' => 'protection_concern_type',
             'type' => 'select_box',

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the total of incidents grouped by elapsed_reporting_time
 # and where the gbv_sexual_violence_type is rape
 class ManagedReports::Indicators::ElapsedReportingTimeRape < ManagedReports::SqlReportIndicator

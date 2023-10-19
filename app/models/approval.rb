@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Represents actions to request approval for a record and to approve those requests
 class Approval < ValueObject
   attr_accessor :record, :fields, :user, :approval_type, :approval_id, :comments
