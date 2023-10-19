@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/display-name */
 import { ActivityItem } from "../components";
 import { COLUMN_NAMES } from "../constants";

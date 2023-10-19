@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { SELECT_FIELD, TALLY_FIELD, RADIO_FIELD } from "../../../../../form/constants";
 
 export const NAME = "FieldDialog";

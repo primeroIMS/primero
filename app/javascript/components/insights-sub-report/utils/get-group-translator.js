@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { MONTH, QUARTER, WEEK, YEAR } from "../../insights/constants";
 
 import translateMonth from "./translate-month";

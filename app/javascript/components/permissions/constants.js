@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const ACTIONS = {
   ADD_NOTE: "add_note",
   ADD_REGISTRY_RECORD: "add_registry_record",

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 const path = require("path");
 const fs = require("fs");
 const crypto = require("crypto");

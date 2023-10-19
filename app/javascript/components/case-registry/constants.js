@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const LINK_FIELD = "registry_record_id";
 export const FORM_ID = "registry-search";
 export const REGISTRY_DETAILS = "registry_details";

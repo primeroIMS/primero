@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const CASES_RECORDS = "cases/RECORDS";
 export const INCIDENTS_RECORDS = "incidents/RECORDS";
 export const TRACING_REQUESTS_RECORDS = "tracing_requests/RECORDS";

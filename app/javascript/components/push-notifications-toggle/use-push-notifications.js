@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useCallback, useEffect, useRef } from "react";
 import { workerTimers } from "react-idle-timer";
 import { useDispatch } from "react-redux";

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import first from "lodash/first";
 import isUndefined from "lodash/isUndefined";
 import last from "lodash/last";
