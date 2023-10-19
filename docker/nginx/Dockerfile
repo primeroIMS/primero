@@ -1,4 +1,6 @@
-ARG version=1.23.3
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+ ARG version=1.23.3
 ARG BUILD_REGISTRY
 
 FROM ${BUILD_REGISTRY}nginx:${version}-alpine AS builder

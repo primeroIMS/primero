@@ -1,4 +1,6 @@
-ARG BUILD_REGISTRY
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+ ARG BUILD_REGISTRY
 ARG PRIMERO_VERSION
 FROM ${BUILD_REGISTRY}primero/application:${PRIMERO_VERSION}
 
