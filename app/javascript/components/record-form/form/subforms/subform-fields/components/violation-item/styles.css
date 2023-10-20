@@ -14,5 +14,5 @@
 }
 
 .verifySelectComponent[aria-expanded="true"], .verifySelectComponent:focus {
-  outline: 4px solid rgba(31, 176, 214, 0.4);
+  outline: 4px solid var(--c-light-blue-rgba);
 }

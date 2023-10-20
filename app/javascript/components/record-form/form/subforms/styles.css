@@ -1,7 +1,7 @@
 .verifiedSpan{
-  color: white;
+  color: var(--c-white);
   height: 25px;
-  font-size: 13px;
+  font-size: var(--fs-13);
   font-weight: 600;
   float: right;
   top: 12px;
