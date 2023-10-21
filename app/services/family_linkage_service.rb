@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # Generates a case from the family
-# rubocop:disable Metrics/ClassLength
 class FamilyLinkageService
   LOCAL_FAMILY_MEMBER_FIELDS = %w[
     family_relationship family_relation_is_caregiver family_relationship_notes family_relationship_notes_additional
@@ -53,7 +52,7 @@ class FamilyLinkageService
     def link_child_to_new_family(user, child)
       family = Family.new_with_user(user, child_to_family(child))
       family.module_id = child.module_id
-      family.family_members = build_or_update_family_members(child.family_details_section, [])
+      family.family_members = build_family_members_for_details([], child.family_details_section)
       family_member = child_to_family_member(child)
       family.family_members << family_member
 
@@ -118,43 +117,31 @@ class FamilyLinkageService
       family_detail.slice('unique_id', *LOCAL_FAMILY_DETAIL_FIELDS)
     end
 
-    def build_or_update_family_members(family_details_section, family_members)
-      added_family_members = build_family_members(family_details_section, family_members)
-      updated_family_members = update_family_members(family_details_section, family_members)
-
-      updated_family_members + added_family_members
-    end
-
-    def build_family_members(family_details_section, family_members)
-      family_member_ids = family_members.map { |member| member['unique_id'] }
-
-      family_details_section.each_with_object([]) do |detail, memo|
-        next unless family_member_ids.exclude?(detail['unique_id'])
-
-        memo << family_detail_to_family_member(detail)
+    def build_family_members_for_details(old_family_details, new_family_details)
+      existing_unique_ids = old_family_details&.map { |detail| detail['unique_id'] }
+      new_family_details.map do |family_detail|
+        if existing_unique_ids&.any? { |id| id == family_detail['unique_id'] }
+          global_family_detail_data(family_detail)
+        else
+          family_detail_to_family_member(family_detail)
+        end
       end
     end
 
-    def update_family_members(family_details_section, family_members)
-      family_members.map do |family_member|
-        family_detail = family_details_section.find { |detail| family_member['unique_id'] == detail['unique_id'] }
-        next(family_member) unless family_detail.present?
+    def family_details_local_changes(family_details)
+      family_details.each_with_object([]) do |family_detail, memo|
+        next unless (family_detail.keys & LOCAL_FAMILY_DETAIL_FIELDS).present?
 
-        family_member.merge(global_family_detail_data(family_detail))
+        memo << local_family_detail_data(family_detail)
       end
     end
 
     def family_detail_to_family_member(family_detail)
       FAMILY_DETAIL_MAPPING.each_with_object(global_family_detail_data(family_detail)) do |elem, memo|
-        next unless family_detail[elem['source']].present?
+        next unless family_detail.key?(elem['source'])
 
         memo[elem['target']] = family_detail[elem['source']]
       end
     end
-
-    def family_details_section_local_data(family_details_section)
-      family_details_section.map { |family_detail| local_family_detail_data(family_detail) }
-    end
   end
 end
-# rubocop:enable Metrics/ClassLength
