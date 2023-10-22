@@ -2,18 +2,18 @@
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import clsx from "clsx";
-import { Accordion, AccordionSummary, AccordionDetails, IconButton } from "@material-ui/core";
+import { Accordion, AccordionSummary, AccordionDetails } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Brightness1 as Circle } from "@material-ui/icons";
 import ErrorIcon from "@material-ui/icons/Error";
 import CheckIcon from "@material-ui/icons/Check";
-import CloseIcon from "@material-ui/icons/Close";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
 
 import { generate } from "../notifier/utils";
 import { useI18n } from "../i18n";
 
+import InternalAlertItem from "./components/item";
 import { NAME, SEVERITY } from "./constants";
 import { expansionPanelSummaryClasses } from "./theme";
 import css from "./styles.css";
@@ -31,30 +31,15 @@ const Component = ({ title, items, severity, customIcon }) => {
     [css.disableCollapse]: items?.size <= 1
   });
 
-  const renderDismissButton = handler => {
-    return (
-      <IconButton className={css.dismissButton} onClick={handler}>
-        <CloseIcon />
-      </IconButton>
-    );
-  };
-
-  const renderItem = item => {
-    return (
-      <div className={css.alertItemElement}>
-        <span>{item.get("message")}</span>
-        {item.get("onDismiss") && renderDismissButton(item.get("onDismiss"))}
-      </div>
-    );
-  };
-
   const renderItems = () => {
     return (
       items?.size > 1 && (
         <AccordionDetails>
           <ul className={accordionDetailsClasses}>
             {items.map(item => (
-              <li key={generate.messageKey()}>{renderItem(item)}</li>
+              <li key={generate.messageKey()}>
+                <InternalAlertItem item={item} />
+              </li>
             ))}
           </ul>
         </AccordionDetails>
@@ -77,9 +62,11 @@ const Component = ({ title, items, severity, customIcon }) => {
 
   const renderTitle = () => {
     const titleMessage =
-      items?.size > 1
-        ? title || <div className={css.accordionTitle}>{i18n.t("messages.alert_items", { items: items.size })}</div>
-        : renderItem(items?.first());
+      items?.size > 1 ? (
+        title || <div className={css.accordionTitle}>{i18n.t("messages.alert_items", { items: items.size })}</div>
+      ) : (
+        <InternalAlertItem item={items.first()} />
+      );
 
     return (
       <>

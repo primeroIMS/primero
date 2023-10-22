@@ -8,6 +8,7 @@ import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getRecordFormAlerts, getSelectedRecord, deleteAlertFromRecord } from "../records";
 import { getSubformsDisplayName, getValidationErrors } from "../record-form";
 import { getDuplicatedFields } from "../record-form/selectors";
+import { usePermissions, REMOVE_ALERT } from "../permissions";
 
 import { getMessageData } from "./utils";
 import { NAME } from "./constants";
@@ -22,6 +23,7 @@ const Component = ({ form, recordType, attachmentForms }) => {
   const subformDisplayNames = useMemoizedSelector(state => getSubformsDisplayName(state, i18n.locale));
   const duplicatedFields = useMemoizedSelector(state => getDuplicatedFields(state, recordType, form.unique_id));
   const selectedRecord = useMemoizedSelector(state => getSelectedRecord(state, recordType));
+  const hasDismissPermission = usePermissions(recordType, REMOVE_ALERT);
 
   const errors =
     validationErrors?.size &&
@@ -47,9 +49,11 @@ const Component = ({ form, recordType, attachmentForms }) => {
         `messages.alerts_for.${alert.get("alert_for")}`,
         getMessageData({ alert, form, duplicatedFields, i18n })
       ),
-      onDismiss: () => {
-        dispatch(deleteAlertFromRecord(recordType, selectedRecord, alert.get("unique_id")));
-      }
+      onDismiss: hasDismissPermission
+        ? () => {
+            dispatch(deleteAlertFromRecord(recordType, selectedRecord, alert.get("unique_id")));
+          }
+        : null
     })
   );
 

@@ -75,18 +75,6 @@
   }
 }
 
-.alertItemElement {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-between;
-    flex-grow: 1;
-}
-
 .accordionTitle {
   align-self: center;
-}
-
-.dismissButton {
-  pointer-events: auto;
 }
