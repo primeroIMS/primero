@@ -118,12 +118,16 @@ const Nav = () => {
           <Divider />
         </Hidden>
       </div>
-      <NetworkIndicator />
+      <div className={css.navNetworkIndicator}>
+        <NetworkIndicator />
+      </div>
       <List className={css.navList}>{permittedMenuEntries(APPLICATION_NAV(permissions, userId))}</List>
       <div className={css.navAgencies}>
         <AgencyLogo />
       </div>
-      <TranslationsToggle />
+      <div className={css.navTranslationsToggle}>
+        <TranslationsToggle />
+      </div>
     </>
   );
 
