@@ -96,7 +96,7 @@ class RecordDataService
   end
 
   def embed_family_info(data, record, selected_field_names, user = nil)
-    return data unless record.is_a?(Child) && record.family_id.present?
+    return data unless record.is_a?(Child)
 
     data['family_id'] = record.family_id if selected_field_names.include?('family_id')
     data['family_member_id'] = record.family_member_id if selected_field_names.include?('family_member_id')
@@ -105,9 +105,10 @@ class RecordDataService
   end
 
   def embed_family_details(data, record, selected_field_names)
-    family_details = FamilyLinkageService.family_to_child(record.family)
     field_names = selected_field_names & FamilyLinkageService::GLOBAL_FAMILY_FIELDS
-    field_names.each { |field_name| data[field_name] = family_details[field_name] }
+    field_names.each do |field_name|
+      data[field_name] = record.family.present? ? record.family.data[field_name] : data[field_name]
+    end
     data
   end
 
@@ -115,7 +116,7 @@ class RecordDataService
     return data unless selected_field_names.include?('family_details_section')
 
     data['family_details_section'] = calculate_family_member_record_user_access(
-      record.family_members_details, record.family.cases_grouped_by_id, user
+      record.family_members_details, record.family&.cases_grouped_by_id, user
     )
     data
   end
@@ -174,7 +175,7 @@ class RecordDataService
     return family_members if family_members.blank? || user.blank?
 
     family_members.each do |family_member|
-      family_member_record = cases_grouped_by_id[family_member['case_id']]&.first
+      family_member_record = cases_grouped_by_id&.dig(family_member['case_id'])&.first
       next if family_member_record.blank?
 
       family_member['can_read_record'] = user.can_read_record?(
