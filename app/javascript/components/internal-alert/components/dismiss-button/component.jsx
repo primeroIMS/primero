@@ -5,8 +5,13 @@ import PropTypes from "prop-types";
 import css from "./styles.css";
 
 const Component = ({ handler }) => {
+  const handlerWrapper = event => {
+    event.stopPropagation();
+    handler();
+  };
+
   return (
-    <IconButton className={css.dismissButton} onClick={handler}>
+    <IconButton className={css.dismissButton} onClick={handlerWrapper}>
       <CloseIcon />
     </IconButton>
   );
