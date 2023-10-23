@@ -55,7 +55,7 @@ class Exporters::BaseExporter
 
   def embed_associated_data(record)
     #  If we need to embed other associated data we can add methods from the RecordDataService in this class.
-    record.data = record_data_service.embed_family_info(record.data, record, field_names)
+    record.data = record_data_service.embed_family_info(record.data, record, field_names || [])
   end
 
   def intialize_services

@@ -21,5 +21,5 @@
 .subformLinkDisabled {
   cursor: not-allowed;
   pointer-events: none;
-  color: var(--c-warm-grey-1);
+  color: var(--c-dark-grey);
 }
