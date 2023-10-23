@@ -13,7 +13,7 @@ import { usePermissions, REMOVE_ALERT } from "../permissions";
 import { getMessageData } from "./utils";
 import { NAME } from "./constants";
 
-const Component = ({ form, recordType, attachmentForms }) => {
+const Component = ({ form, recordType, attachmentForms, formMode }) => {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -24,6 +24,10 @@ const Component = ({ form, recordType, attachmentForms }) => {
   const duplicatedFields = useMemoizedSelector(state => getDuplicatedFields(state, recordType, form.unique_id));
   const selectedRecord = useMemoizedSelector(state => getSelectedRecord(state, recordType));
   const hasDismissPermission = usePermissions(recordType, REMOVE_ALERT);
+
+  const showDismissButton = () => {
+    return hasDismissPermission && formMode.isShow;
+  };
 
   const errors =
     validationErrors?.size &&
@@ -49,7 +53,7 @@ const Component = ({ form, recordType, attachmentForms }) => {
         `messages.alerts_for.${alert.get("alert_for")}`,
         getMessageData({ alert, form, duplicatedFields, i18n })
       ),
-      onDismiss: hasDismissPermission
+      onDismiss: showDismissButton()
         ? () => {
             dispatch(deleteAlertFromRecord(recordType, selectedRecord, alert.get("unique_id")));
           }
@@ -82,6 +86,7 @@ Component.defaultProps = {
 Component.propTypes = {
   attachmentForms: PropTypes.object,
   form: PropTypes.object.isRequired,
+  formMode: PropTypes.object,
   recordType: PropTypes.string.isRequired
 };
 
