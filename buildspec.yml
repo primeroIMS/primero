@@ -14,6 +14,7 @@ env:
     SECRET_VARS_release_2_4: 'PrimeroCicdSecretrelease-2-4'
     SECRET_VARS_release_2_5: 'PrimeroCicdSecretrelease-2-5'
     SECRET_VARS_release_2_6: 'PrimeroCicdSecretrelease-2-6'
+    SECRET_VARS_release_2_7: 'PrimeroCicdSecretrelease-2-7'
 
 phases:
   pre_build:
