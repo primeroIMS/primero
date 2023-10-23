@@ -171,7 +171,6 @@ export const fetchRecordsAlerts = (recordType, recordId, asCallback = false) => 
 });
 
 export const deleteAlertFromRecord = (recordType, recordId, alertId) => ({
-  // TODO this should be a const interpolated here not a literal
   type: `${recordType}/${DELETE_ALERT_FROM_RECORD}`,
   api: {
     path: `${recordType}/${recordId}/alerts/${alertId}`,
