@@ -10,7 +10,7 @@ export default (groupId, groupedBy, localizeDate) => {
     case MONTH: {
       const [year, groupKey] = groupId.split("-");
 
-      return `${year}-${groupTranslator(groupKey, localizeDate)}`;
+      return `${groupTranslator(groupKey, localizeDate)}-${year}`;
     }
     case WEEK: {
       const [start, end] = groupId.split(" - ");
