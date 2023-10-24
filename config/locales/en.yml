@@ -2378,6 +2378,7 @@ en:
       workflow_team: Workflow - Teams cases
       write: Write
       activity_log: Activity Log
+      remove_alert: Remove Alert
     resource:
       kpi:
         actions:
