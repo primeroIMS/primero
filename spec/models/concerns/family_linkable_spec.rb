@@ -16,8 +16,8 @@ describe FamilyLinkable do
       {
         family_number: '5fba4918',
         family_members: [
-          { 'unique_id' => 'f5775818', 'relation_sex' => 'male' },
-          { 'unique_id' => '14397418', 'relation_sex' => 'female' }
+          { 'unique_id' => '00001', 'relation_sex' => 'male' },
+          { 'unique_id' => '00002', 'relation_sex' => 'female' }
         ]
       }
     )
@@ -30,8 +30,8 @@ describe FamilyLinkable do
     child.family = family2
     child.family_member_id = 'f5775818'
     child.family_details_section = [
-      { 'unique_id' => 'f5775818' },
-      { 'unique_id' => '14397418', 'relation' => 'mother', 'relation_name' => 'Name1' }
+      { 'unique_id' => '00001' },
+      { 'unique_id' => '00002', 'relation' => 'mother', 'relation_name' => 'Name1' }
     ]
     child.save!
     child
@@ -40,50 +40,148 @@ describe FamilyLinkable do
   describe 'family_members_details' do
     it 'returns fields from family members and family details not including itself' do
       expect(child.family_members_details).to eq(
-        [{ 'unique_id' => '14397418', 'relation' => 'mother', 'relation_sex' => 'female', 'relation_name' => 'Name1' }]
+        [
+          { 'unique_id' => '00001', 'relation_sex' => 'male' },
+          { 'unique_id' => '00002', 'relation' => 'mother', 'relation_sex' => 'female', 'relation_name' => 'Name1' }
+        ]
       )
     end
+  end
 
+  describe 'update_family_members' do
     it 'updates the family_members and does not change the family_details_section' do
       child.update_properties(
-        user,
-        {
-          'family_details_section' => [
-            { 'unique_id' => 'f5775818' },
-            { 'unique_id' => '14397418', 'relation_name' => 'Name2' }
-          ]
-        }
+        user, { 'family_details_section' => [{ 'unique_id' => '00002', 'relation_name' => 'Name2' }] }
       )
       child.save!
       child.reload
 
       expect(
-        child.family_members_details.find { |member| member['unique_id'] == '14397418' }['relation_name']
+        child.family_members_details.find { |member| member['unique_id'] == '00002' }['relation_name']
       ).to eq('Name2')
       expect(
-        child.family_details_section.find { |member| member['unique_id'] == '14397418' }['relation_name']
+        child.family_details_section.find { |member| member['unique_id'] == '00002' }['relation_name']
       ).to eq('Name1')
     end
 
     it 'updates the local family_details_section fields and does not change the family_members' do
       child.update_properties(
-        user,
-        {
-          'family_details_section' => [
-            { 'unique_id' => 'f5775818' },
-            { 'unique_id' => '14397418', 'relation' => 'father' }
-          ]
-        }
+        user, { 'family_details_section' => [{ 'unique_id' => '00002', 'relation' => 'father' }] }
       )
       child.save!
       child.reload
 
       expect(
-        child.family.family_members.find { |member| member['unique_id'] == '14397418' }['relation']
+        child.family.family_members.find { |member| member['unique_id'] == '00002' }['relation']
       ).to be_nil
       expect(
-        child.family_details_section.find { |member| member['unique_id'] == '14397418' }['relation']
+        child.family_details_section.find { |member| member['unique_id'] == '00002' }['relation']
       ).to eq('father')
+    end
+
+    context 'when the family detail is new' do
+      it 'maps family details to family members and leaves the family details only with local fields' do
+        child.update_properties(
+          user,
+          {
+            'family_details_section' => [
+              {
+                'unique_id' => '00003',
+                'relation_name' => 'Name3',
+                'relation' => 'mother',
+                'relation_is_caregiver' => false
+              }
+            ]
+          }
+        )
+        child.save!
+        child.reload
+
+        expect(child.family.family_members.find { |member| member['unique_id'] == '00003' }).to eq(
+          {
+            'unique_id' => '00003',
+            'relation_name' => 'Name3',
+            'family_relationship' => 'mother',
+            'family_relation_is_caregiver' => false
+          }
+        )
+        expect(child.family_details_section.find { |member| member['unique_id'] == '00003' }).to eq(
+          {
+            'unique_id' => '00003',
+            'relation' => 'mother',
+            'relation_is_caregiver' => false
+          }
+        )
+      end
+
+      it 'updates global fields in the family member and leaves the family details unchanged' do
+        child.update_properties(
+          user, { 'family_details_section' => [{ 'unique_id' => '00003', 'relation_name' => 'Name3' }] }
+        )
+        child.save!
+        child.reload
+
+        expect(child.family.family_members.find { |member| member['unique_id'] == '00003' }).to eq(
+          { 'unique_id' => '00003', 'relation_name' => 'Name3' }
+        )
+        expect(child.family_details_section.size).to eq(2)
+        expect(child.family_details_section.find { |member| member['unique_id'] == '00003' }).to be_nil
+      end
+    end
+
+    context 'when is a existing family detail' do
+      it 'updates local and global fields in the family details and family members' do
+        child.update_properties(
+          user,
+          {
+            'family_details_section' => [
+              { 'unique_id' => '00002', 'relation_name' => 'OtherName2', 'relation' => 'aunt' }
+            ]
+          }
+        )
+        child.save!
+        child.reload
+
+        expect(child.family.family_members.find { |member| member['unique_id'] == '00002' }).to eq(
+          { 'unique_id' => '00002', 'relation_name' => 'OtherName2', 'relation_sex' => 'female' }
+        )
+        expect(child.family_details_section.size).to eq(2)
+        expect(child.family_details_section.find { |member| member['unique_id'] == '00002' }).to eq(
+          { 'unique_id' => '00002', 'relation_name' => 'Name1', 'relation' => 'aunt' }
+        )
+      end
+
+      it 'updates global fields in the family member and leaves the family detail unchanged' do
+        child.update_properties(
+          user, { 'family_details_section' => [{ 'unique_id' => '00002', 'relation_name' => 'OtherName2' }] }
+        )
+        child.save!
+        child.reload
+
+        expect(child.family.family_members.find { |member| member['unique_id'] == '00002' }).to eq(
+          { 'unique_id' => '00002', 'relation_name' => 'OtherName2', 'relation_sex' => 'female' }
+        )
+        expect(child.family_details_section.size).to eq(2)
+        expect(child.family_details_section.find { |member| member['unique_id'] == '00002' }).to eq(
+          { 'unique_id' => '00002', 'relation_name' => 'Name1', 'relation' => 'mother' }
+        )
+      end
+
+      it 'updates local fields in the family details and leaves the family member unchanged' do
+        child.update_properties(
+          user, { 'family_details_section' => [{ 'unique_id' => '00002', 'relation' => 'aunt' }] }
+        )
+        child.save!
+        child.reload
+
+        expect(child.family.family_members.find { |member| member['unique_id'] == '00002' }).to eq(
+          { 'unique_id' => '00002', 'relation_sex' => 'female' }
+        )
+        expect(child.family_details_section.size).to eq(2)
+        expect(child.family_details_section.find { |member| member['unique_id'] == '00002' }).to eq(
+          { 'unique_id' => '00002', 'relation_name' => 'Name1', 'relation' => 'aunt' }
+        )
+      end
     end
   end
 

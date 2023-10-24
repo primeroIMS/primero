@@ -76,24 +76,23 @@ module FamilyLinkable
   def update_family_members(properties)
     return unless family.present? && properties.key?('family_details_section')
 
-    family_details_section_data = properties.delete('family_details_section')
-    return unless family_details_section_data.present?
+    new_family_details_section = properties.delete('family_details_section')
+    return unless new_family_details_section.present?
 
-    family_members = FamilyLinkageService.build_or_update_family_members(
-      family_details_section_data,
-      family.family_members || []
+    family_members_changes = FamilyLinkageService.build_family_members_for_details(
+      family_details_section, new_family_details_section
     )
-    family.family_members = family_members if family_members.present?
-    update_local_family_details(family_details_section_data)
+    family.family_members = RecordMergeDataHashService.merge_data(family.family_members || [], family_members_changes)
+    update_local_family_details(new_family_details_section)
   end
 
-  def update_local_family_details(family_details_section_data)
-    self.family_details_section = family_details_section_data.map do |family_detail|
-      existing_detail = family_details_section&.find { |existing| existing['unique_id'] == family_detail['unique_id'] }
-      next(FamilyLinkageService.local_family_detail_data(family_detail)) unless existing_detail.present?
+  def update_local_family_details(new_family_details_section)
+    return unless new_family_details_section.present?
 
-      existing_detail.merge(FamilyLinkageService.local_family_detail_data(family_detail))
-    end
+    local_family_details_section = FamilyLinkageService.family_details_local_changes(new_family_details_section)
+    self.family_details_section = RecordMergeDataHashService.merge_data(
+      family_details_section || [], local_family_details_section
+    )
   end
 
   def family_members_details
@@ -125,11 +124,10 @@ module FamilyLinkable
       return FamilyLinkageService::GLOBAL_FAMILY_FIELDS + ['family_details_section']
     end
 
-    field_names = []
-    return field_names unless family.present?
+    return [] unless family.present?
 
+    field_names = FamilyLinkageService::GLOBAL_FAMILY_FIELDS & family.saved_changes_to_record.keys
     field_names << 'family_details_section' if family.family_members_changed?
-    field_names += FamilyLinkageService::GLOBAL_FAMILY_FIELDS & family.saved_changes_to_record.keys
     field_names
   end
 end
