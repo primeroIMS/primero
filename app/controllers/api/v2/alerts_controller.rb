@@ -16,8 +16,6 @@ class Api::V2::AlertsController < Api::V2::RecordResourceController
   end
 
   def destroy
-    authorize! :update, @record
-    authorize! :remove_alert, @record
     alert_id = params[:id]
     alert = @record.alerts.find { |a| a.unique_id == alert_id }
     if alert.present?
