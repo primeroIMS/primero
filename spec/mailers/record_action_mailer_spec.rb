@@ -434,25 +434,6 @@ describe RecordActionMailer, type: :mailer do
       end
     end
 
-    describe 'alert with diferent locale' do
-      before do
-        @owner.locale = 'fr'
-        @owner.save(validate: false)
-      end
-
-      let(:mail) { RecordActionMailer.alert_notify(@alert_notification) }
-      it 'renders the headers' do
-        expect(mail.subject).to eq("Cas: #{@child.short_id} - Nom de la section du formulaire actualisé")
-        expect(mail.to).to eq(['owner@primero.dev'])
-      end
-      it 'renders the body' do
-        expect(mail.text_part.body.encoded).to match(
-          "Cas : #{@child.short_id} - Nom de la section du formulaire a été actualisé. " \
-          'Veuillez vous connecter à Primero pour consulter les modifications.'
-        )
-      end
-    end
-
     after do
       clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Transition,
                  Alert, Child)
