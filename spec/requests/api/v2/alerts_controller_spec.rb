@@ -204,7 +204,7 @@ describe Api::V2::AlertsController, type: :request do
         permissions: [
           Permission.new(
             resource: Permission::CASE,
-            actions: [Permission::READ, Permission::WRITE]
+            actions: [Permission::REMOVE_ALERT]
           )
         ]
       )
@@ -220,7 +220,7 @@ describe Api::V2::AlertsController, type: :request do
         permissions: [
           Permission.new(
             resource: Permission::INCIDENT,
-            actions: [Permission::READ, Permission::WRITE]
+            actions: [Permission::REMOVE_ALERT]
           )
         ]
       )
@@ -228,7 +228,7 @@ describe Api::V2::AlertsController, type: :request do
       expect(response).to have_http_status(204)
       expect(@test_incident.alerts.count).to eq(2)
     end
-    it 'does not delete an alert from a incident if the user does not have write permission' do
+    it 'does not delete an alert from a incident if the user does not have remove_alert permission' do
       alert = @test_incident.alerts.first
       login_for_test(
         permissions: [
@@ -248,7 +248,7 @@ describe Api::V2::AlertsController, type: :request do
         permissions: [
           Permission.new(
             resource: Permission::CASE,
-            actions: [Permission::READ, Permission::WRITE]
+            actions: [Permission::REMOVE_ALERT]
           )
         ]
       )
