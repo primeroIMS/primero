@@ -4,10 +4,11 @@
   & svg {
     font-size: var(--fs-16);
   }
+  align-self: center;
 }
 
 .alertTitle {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   width: 100%;
 
@@ -72,4 +73,8 @@
       border-bottom: none;
     }
   }
+}
+
+.accordionTitle {
+  align-self: center;
 }

@@ -18,6 +18,10 @@ class RecordActionWebpushNotifier
     RecordActionWebpushNotifier.new.manager_approval_response(approval_notification)
   end
 
+  def self.alert_notify(alert_notification)
+    RecordActionWebpushNotifier.new.alert_notify(alert_notification)
+  end
+
   def self.transfer_request(transfer_request_notification)
     RecordActionWebpushNotifier.new.transfer_request(transfer_request_notification)
   end
@@ -59,6 +63,16 @@ class RecordActionWebpushNotifier
     WebpushService.send_notifications(
       transfer_request_notification&.transitioned_to,
       message_structure(transfer_request_notification.transition)
+    )
+  end
+
+  def alert_notify(alert_notification)
+    return unless alert_notification.send_notification?
+    return unless webpush_notifications_enabled?(alert_notification.user)
+
+    WebpushService.send_notifications(
+      alert_notification.user,
+      message_structure(alert_notification)
     )
   end
 

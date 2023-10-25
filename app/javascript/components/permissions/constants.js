@@ -116,7 +116,8 @@ export const ACTIONS = {
   WORKFLOW_REPORT: "workflow_report",
   WRITE: "write",
   VIEW_FAMILY_RECORD: "view_family_record",
-  LINK_FAMILY_RECORD: "link_family_record"
+  LINK_FAMILY_RECORD: "link_family_record",
+  REMOVE_ALERT: "remove_alert"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -343,3 +344,5 @@ export const CREATE_CASE_FROM_FAMILY = [...MANAGE, ACTIONS.CASE_FROM_FAMILY];
 export const LINK_FAMILY_RECORD_FROM_CASE = [...MANAGE, ACTIONS.LINK_FAMILY_RECORD];
 
 export const VIEW_FAMILY_RECORD_FROM_CASE = [...MANAGE, ACTIONS.VIEW_FAMILY_RECORD];
+
+export const REMOVE_ALERT = [...MANAGE, ACTIONS.REMOVE_ALERT];

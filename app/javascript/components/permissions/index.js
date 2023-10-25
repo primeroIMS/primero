@@ -50,7 +50,8 @@ export {
   VIEW_INCIDENTS_FROM_CASE,
   VIEW_KPIS,
   WRITE_RECORDS,
-  WRITE_REGISTRY_RECORD
+  WRITE_REGISTRY_RECORD,
+  REMOVE_ALERT
 } from "./constants";
 
 export { checkPermissions } from "./utils";

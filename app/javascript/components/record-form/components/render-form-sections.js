@@ -114,7 +114,7 @@ const renderFormSections =
               {...titleProps}
             />
 
-            <RecordFormAlerts recordType={recordType} form={form} attachmentForms={attachmentForms} />
+            <RecordFormAlerts recordType={recordType} form={form} attachmentForms={attachmentForms} formMode={mode} />
             {renderFormFields(
               fs,
               form,

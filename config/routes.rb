@@ -39,7 +39,7 @@ Rails.application.routes.draw do
       resources :children, as: :cases, path: :cases do
         resources :children_incidents, as: :incidents, path: :incidents, only: %i[index new]
         resources :flags, only: %i[index create update]
-        resources :alerts, only: [:index]
+        resources :alerts, only: %i[index destroy]
         resources :assigns, only: %i[index create]
         resources :referrals, only: %i[index create destroy update]
         resources :transfers, only: %i[index create update]
@@ -62,7 +62,7 @@ Rails.application.routes.draw do
 
       resources :incidents do
         resources :flags, only: %i[index create update]
-        resources :alerts, only: [:index]
+        resources :alerts, only: %i[index destroy]
         resources :approvals, only: [:update]
         resources :attachments, only: %i[create destroy]
         post :flags, to: 'flags#create_bulk', on: :collection
