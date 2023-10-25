@@ -54,12 +54,9 @@ class FamilyLinkageService
     def link_child_to_new_family(user, child)
       family = Family.new_with_user(user, child_to_family(child))
       family.module_id = child.module_id
-      family.family_members = build_family_members_for_details([], child.family_details_section)
-      family_member = child_to_family_member(child)
-      family.family_members << family_member
-
       child.family = family
-      child.family_member_id = family_member['unique_id']
+      child.push_family_details_to_family_members
+      child.push_to_family_members
     end
 
     def family_member_to_child(user, family_member)
@@ -83,7 +80,7 @@ class FamilyLinkageService
           next
         end
 
-        memo[elem['source']] = child.data[target]
+        memo[elem['source']] = child.data[target] if child.data.key?(target)
       end
     end
 

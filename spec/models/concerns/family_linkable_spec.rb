@@ -187,6 +187,47 @@ describe FamilyLinkable do
     end
   end
 
+  describe 'sync_family_members' do
+    it 'associates a family to a case and copies the family details as family members' do
+      child = Child.new_with_user(
+        user,
+        {
+          name_first: 'Name1',
+          age: 8,
+          sex: 'male',
+          family_details_section: [
+            { 'unique_id' => '10001', 'relation' => 'father', 'relation_name' => 'Name2' },
+            { 'unique_id' => '10002', 'relation' => 'mother', 'relation_name' => 'Name3' }
+          ]
+        }
+      )
+      child.save!
+      family = Family.new_with_user(user, { family_number: 'f-10001' })
+      family.save!
+
+      child.family = family
+      child.save!
+
+      expect(child.family_member_id).not_to be_nil
+      expect(child.family_id).to eq(family.id)
+      expect(family.family_members.size).to eq(3)
+      expect(family.family_members).to match_array(
+        [
+          { 'unique_id' => '10001', 'family_relationship' => 'father', 'relation_name' => 'Name2' },
+          { 'unique_id' => '10002', 'family_relationship' => 'mother', 'relation_name' => 'Name3' },
+          {
+            'unique_id' => child.family_member_id,
+            'relation_name' => 'Name1',
+            'relation_sex' => 'male',
+            'relation_age' => 8,
+            'case_id' => child.id,
+            'case_id_display' => child.case_id_display
+          }
+        ]
+      )
+    end
+  end
+
   describe 'disassociate_from_family' do
     it 'disassociates a case from a family record' do
       child.update_properties(user, { 'family_id' => nil })
