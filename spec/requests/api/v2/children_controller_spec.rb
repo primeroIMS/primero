@@ -1270,6 +1270,7 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['data']['family_details_section'][0]['relation_age']).to eq(5)
       expect(json['data']['family_details_section'][0]['case_id']).not_to be_nil
       expect(json['data']['family_details_section'][0]['case_id_display']).not_to be_nil
+      expect(json['data']['family_details_section'][0]['can_read_record']).not_to be_truthy
       expect(json['data']['record']['id']).not_to be_nil
       expect(json['data']['record']['case_id_display']).not_to be_nil
       expect(json['data']['record']['family_member_id']).to eq(@member_unique_id3)
