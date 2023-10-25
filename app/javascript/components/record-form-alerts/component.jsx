@@ -2,24 +2,34 @@
 
 import PropTypes from "prop-types";
 import { fromJS, List } from "immutable";
+import { useDispatch } from "react-redux";
 
 import { useI18n } from "../i18n";
 import InternalAlert from "../internal-alert";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
-import { getRecordFormAlerts } from "../records";
+import { getRecordFormAlerts, getSelectedRecord, deleteAlertFromRecord } from "../records";
 import { getSubformsDisplayName, getValidationErrors } from "../record-form";
 import { getDuplicatedFields } from "../record-form/selectors";
+import { usePermissions, REMOVE_ALERT } from "../permissions";
 
 import { getMessageData } from "./utils";
 import { NAME } from "./constants";
 
-const Component = ({ form, recordType, attachmentForms }) => {
+const Component = ({ form, recordType, attachmentForms, formMode }) => {
   const i18n = useI18n();
+
+  const dispatch = useDispatch();
 
   const recordAlerts = useMemoizedSelector(state => getRecordFormAlerts(state, recordType, form.unique_id));
   const validationErrors = useMemoizedSelector(state => getValidationErrors(state, form.unique_id));
   const subformDisplayNames = useMemoizedSelector(state => getSubformsDisplayName(state, i18n.locale));
   const duplicatedFields = useMemoizedSelector(state => getDuplicatedFields(state, recordType, form.unique_id));
+  const selectedRecord = useMemoizedSelector(state => getSelectedRecord(state, recordType));
+  const hasDismissPermission = usePermissions(recordType, REMOVE_ALERT);
+
+  const showDismissButton = () => {
+    return hasDismissPermission && formMode.isShow;
+  };
 
   const errors =
     validationErrors?.size &&
@@ -44,7 +54,12 @@ const Component = ({ form, recordType, attachmentForms }) => {
       message: i18n.t(
         `messages.alerts_for.${alert.get("alert_for")}`,
         getMessageData({ alert, form, duplicatedFields, i18n })
-      )
+      ),
+      onDismiss: showDismissButton()
+        ? () => {
+            dispatch(deleteAlertFromRecord(recordType, selectedRecord, alert.get("unique_id")));
+          }
+        : null
     })
   );
 
@@ -73,6 +88,7 @@ Component.defaultProps = {
 Component.propTypes = {
   attachmentForms: PropTypes.object,
   form: PropTypes.object.isRequired,
+  formMode: PropTypes.object,
   recordType: PropTypes.string.isRequired
 };
 

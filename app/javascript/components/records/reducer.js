@@ -21,6 +21,7 @@ import {
   RECORD_FINISHED,
   SERVICE_REFERRED_SAVE,
   FETCH_RECORD_ALERTS_SUCCESS,
+  DELETE_ALERT_FROM_RECORD_SUCCESS,
   FETCH_INCIDENT_FROM_CASE_SUCCESS,
   CLEAR_METADATA,
   CLEAR_CASE_FROM_INCIDENT,
@@ -178,6 +179,13 @@ export default namespace =>
         return state.set("errors", true);
       case `${namespace}/${RECORD_FINISHED}`:
         return state.set("loading", false);
+      case `${namespace}/${DELETE_ALERT_FROM_RECORD_SUCCESS}`:
+        state.set("alert_count", state.get("alert_count") - 1);
+
+        return state.set(
+          "recordAlerts",
+          state.get("recordAlerts").filter(alert => alert.get("unique_id") !== payload.alertId)
+        );
       case `${namespace}/${FETCH_RECORD_ALERTS_SUCCESS}`:
         return state.set("recordAlerts", fromJS(payload.data));
       case "user/LOGOUT_SUCCESS":

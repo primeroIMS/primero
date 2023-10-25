@@ -15,6 +15,7 @@ import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
 import { generate } from "../notifier/utils";
 import { useI18n } from "../i18n";
 
+import InternalAlertItem from "./components/item";
 import { NAME, SEVERITY } from "./constants";
 import { expansionPanelSummaryClasses } from "./theme";
 import css from "./styles.css";
@@ -38,7 +39,9 @@ const Component = ({ title, items, severity, customIcon }) => {
         <AccordionDetails>
           <ul className={accordionDetailsClasses}>
             {items.map(item => (
-              <li key={generate.messageKey()}>{item.get("message")}</li>
+              <li key={generate.messageKey()}>
+                <InternalAlertItem item={item} />
+              </li>
             ))}
           </ul>
         </AccordionDetails>
@@ -61,12 +64,16 @@ const Component = ({ title, items, severity, customIcon }) => {
 
   const renderTitle = () => {
     const titleMessage =
-      items?.size > 1 ? title || i18n.t("messages.alert_items", { items: items.size }) : items?.first()?.get("message");
+      items?.size > 1 ? (
+        title || <div className={css.accordionTitle}>{i18n.t("messages.alert_items", { items: items.size })}</div>
+      ) : (
+        <InternalAlertItem item={items.first()} />
+      );
 
     return (
       <>
         <div className={css.icon}>{customIcon || renderIcon()}</div>
-        <span className={css.message}>{titleMessage}</span>
+        {titleMessage}
       </>
     );
   };

@@ -841,6 +841,8 @@ en:
     assign_html: '<strong>%{user}</strong> has assigned the following %{record_type} to you: <strong>%{record_id}</strong>.'
     transfer_request_html: 'Primero user <strong>%{user}</strong> from %{agency} is requesting that you transfer ownership of this %{record_type} record <strong>%{record_id}</strong> so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer.'
     transfer_request_notes_html: 'Notes from the individual making the request: %{request_transfer_notes}'
+    alert: '%{record_type} %{id} - %{form_name} has been updated. Please log in to Primero to review the changes.'
+    alert_subject: '%{record_type}: %{id} - %{form_name} Updated'
   webpush_notification:
     action_label: Go to Case
     approval_request:
@@ -858,6 +860,9 @@ en:
     transfer:
       title: New Transfer
       body: You have received a new Case Transfer.
+    alert_case:
+      title: Case Updated
+      body: "%{type} has been updated on one of your cases."
     transfer_request:
       title: Transfer Request
       body: You have received a new Case Transfer Request
@@ -2375,6 +2380,7 @@ en:
       workflow_team: Workflow - Teams cases
       write: Write
       activity_log: Activity Log
+      remove_alert: Remove Alert
     resource:
       kpi:
         actions:
@@ -2688,6 +2694,12 @@ en:
               that this permission also allows the user to see a link to the incident
               which was created.
             label: Create an incident from a case
+          remove_alert:
+            explanation: This permission allows the user to remove an alert from
+              a case. Alerts are typically generated when a particular field is
+              edited, such as when notes are updated. Alerts are usually shown
+              with a yellow dot next to the case.
+            label: Remove alert from a case
           manage:
             explanation: Allows a user to perform all available actions on cases.
               The "Manage" permission essentially means "everything".
@@ -3217,6 +3229,12 @@ en:
               skills and an in-depth knowledge of how data is formatted in Primero.
               Only performed from incident list page.
             label: Import
+          remove_alert:
+            explanation: This permission allows the user to remove an alert from
+              an incident. Alerts are typically generated when a particular field is
+              edited, such as when notes are updated. Alerts are usually shown
+              with a yellow dot next to the incident.
+            label: Remove alert from an incident
           manage:
             explanation: Allows a user to perform all available actions on incidents.
               The "Manage" permission essentially means "everything".
