@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # A shared concern for all Records that can be linked to a Family Record
+# rubocop:disable Metrics/ModuleLength
 module FamilyLinkable
   extend ActiveSupport::Concern
 
@@ -8,7 +9,7 @@ module FamilyLinkable
     belongs_to :family, foreign_key: :family_id, optional: true
 
     before_save :stamp_family_fields
-    before_save :associate_to_family
+    before_save :sync_family_members
     after_save :associate_family_member
     after_save :save_family
     after_save :disassociate_family_member
@@ -21,9 +22,19 @@ module FamilyLinkable
     self.family_member_id = nil if family_id.nil?
   end
 
-  def associate_to_family
+  def sync_family_members
     return unless changes_to_save.key?('family_id') && family_member_id.blank? && family.present?
 
+    push_family_details_to_family_members
+    push_to_family_members
+  end
+
+  def push_family_details_to_family_members
+    family.family_members = [] if family.family_members.blank?
+    family.family_members += FamilyLinkageService.build_family_members_for_details([], family_details_section || [])
+  end
+
+  def push_to_family_members
     family_member = FamilyLinkageService.child_to_family_member(self)
     family.family_members << family_member
     self.family_member_id = family_member['unique_id']
@@ -131,3 +142,4 @@ module FamilyLinkable
     field_names
   end
 end
+# rubocop:enable Metrics/ModuleLength
