@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Description of PropertyEvaluator class
 class PropertyEvaluator
   # 'record' is any Ruby object instance that is to be evualuated

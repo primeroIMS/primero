@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Validate basic Primero health: in this case being able to access core dependencies
 class HealthCheckService
   BACKENDS = %w[database solr server api].freeze

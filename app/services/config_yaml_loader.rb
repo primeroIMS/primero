@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Loads a configuration from a YAML file and converts it into a deep hash with following these rules:
 #   - Every key is a symbol
 #   - Exclude and deep compact the k,v pairs where values that match the pattern /^\$.+/.

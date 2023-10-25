@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Query for record histories
 
 Shows a paginated list of all record histories that are accessible to this user.

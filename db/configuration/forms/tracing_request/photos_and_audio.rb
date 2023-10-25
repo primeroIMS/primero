@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 tracing_request_photo_audio_fields = [
   Field.new({ 'name' => 'photos',
               'type' => 'photo_upload_box',

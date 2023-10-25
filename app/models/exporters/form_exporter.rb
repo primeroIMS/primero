@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Export forms to an Excel file (.xlsx)
 # rubocop:disable Metrics/ClassLength
 class Exporters::FormExporter < ValueObject

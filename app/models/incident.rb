@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Model representing an event. Some events are correlated to a case, forming a historical record.
 # rubocop:disable Metrics/ClassLength
 class Incident < ApplicationRecord

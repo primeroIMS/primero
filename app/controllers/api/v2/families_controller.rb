@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Main API controller for Families
 class Api::V2::FamiliesController < ApplicationApiController
   include Api::V2::Concerns::Pagination

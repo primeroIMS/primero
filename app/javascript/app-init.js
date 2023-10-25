@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { setUserToggleOffline } from "./components/connectivity/action-creators";
 import { getAppResources, saveNotificationSubscription } from "./components/user/action-creators";
 import { getSubscriptionFromDb } from "./libs/service-worker-utils";

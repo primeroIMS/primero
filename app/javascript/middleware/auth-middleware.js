@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import get from "lodash/get";
 
 import { actions } from "../components/login/components/login-form";

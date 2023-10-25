@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'write_xlsx'
 
 # Exports selected forms and fields to a multi-tabbed Excel file.

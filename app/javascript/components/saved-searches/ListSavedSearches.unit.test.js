@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { List, Map } from "immutable";
 import { ListItem } from "@material-ui/core";
 

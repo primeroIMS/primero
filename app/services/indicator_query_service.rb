@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Build and execute a Solr Sunspot query based on a collection of desired indicators.
 # Indicators are used by the dashboards to compute aggregate statistics about records.
 class IndicatorQueryService

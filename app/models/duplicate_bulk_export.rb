@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Represents an asynchronous run of the query to retrieve all records
 # that may share a duplicate id field value with another record.
 class DuplicateBulkExport < BulkExport

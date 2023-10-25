@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This model encapsulates system-wide configuration settings.
 # These are selected at system bootstrap time,
 # and will not be configured by the system administrator.

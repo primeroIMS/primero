@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Pulls together the record data for presentation in the JSON API
 # rubocop:disable Metrics/ClassLength
 class RecordDataService

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import buildActionList from "./build-action-list";
 
 describe("record-actions/utils/build-action-list", () => {

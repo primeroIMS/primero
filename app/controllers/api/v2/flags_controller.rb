@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Endpoint for managing flags for a record
 class Api::V2::FlagsController < Api::V2::RecordResourceController
   before_action { authorize! :flag, model_class }

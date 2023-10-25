@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { API_BASE_PATH, METHODS, NOTIFICATION_PERMISSIONS, POST_MESSAGES, ROUTES } from "../config/constants";
 import { DEFAULT_FETCH_OPTIONS } from "../middleware/constants";
 import getToken from "../middleware/utils/get-token";

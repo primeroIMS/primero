@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { PublicClientApplication } from "@azure/msal-browser";
 import { Authority } from "@azure/msal-common";
 

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Map, List, OrderedMap, fromJS } from "immutable";
 import { expect } from "chai";
 

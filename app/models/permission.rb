@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This represents the authorizations a user is entitled to
 # Primero business objects by way of the role granted to the user.
 # A permission is usually a pairing of the business object (case, incident, etc.)
