@@ -3,14 +3,9 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 json.data do
-  json.id @current_record.id
-  json.family_id @current_record.family_id if @selected_field_names.include?('family_id')
-  json.family_number @current_record.family_number if @selected_field_names.include?('family_number')
-  json.family_member_id @current_record.family_member_id if @selected_field_names.include?('family_member_id')
-
-  if @selected_field_names.include?('family_details_section')
-    json.family_details_section @current_record.family_members_details
-  end
+  json.merge! @record_data_service.embed_family_info(
+    { id: @current_record.id }, @current_record, @selected_field_names, current_user
+  )
 
   json.record do
     json.id @record.id
