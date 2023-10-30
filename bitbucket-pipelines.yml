@@ -2,7 +2,7 @@ definitions:
   steps:
     - step: &server-test
         name: Server tests
-        image: ruby:3.2.2-buster
+        image: ruby:3.2.2-bookworm
         script:
           - ./bin/install_local_test_solr.sh
           - ./bin/run_server_tests.sh
