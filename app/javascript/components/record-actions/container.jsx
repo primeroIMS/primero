@@ -136,7 +136,8 @@ const Container = ({
     canRequestBia,
     canRequestCasePlan,
     canRequestClosure,
-    canRequestGbvClosure
+    canRequestGbvClosure,
+    record
   });
 
   const selectedRowsIndex =

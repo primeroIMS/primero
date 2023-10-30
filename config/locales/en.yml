@@ -101,6 +101,7 @@ en:
     terms_of_use_download_button: Download PDF
     terms_of_use_enabled: Display Terms of Use?
   approvals:
+    no_requests: There are no approval requests for this Case
     approved_by: Approved By
     case_plan_type_label: Case plan type
     manager_comments_label: Manager Comments

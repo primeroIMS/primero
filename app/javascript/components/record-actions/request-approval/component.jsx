@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { batch, useDispatch } from "react-redux";
 import { InputLabel, MenuItem, Select } from "@material-ui/core";
+import isEmpty from "lodash/isEmpty";
 
 import { MODULES } from "../../../config/constants";
 import { useI18n } from "../../i18n";
@@ -182,6 +183,8 @@ const Component = ({
     </>
   );
 
+  const approvalsDisabled = isEmpty(selectOptions);
+
   const approvalDialogContent = ApprovalForm({
     approval,
     close,
@@ -189,7 +192,8 @@ const Component = ({
     handleChangeComment,
     handleChangeType,
     requestType,
-    selectOptions
+    selectOptions,
+    disabled: approvalsDisabled
   });
 
   const dialogContent = approvalType === "approval" ? approvalDialogContent : requestDialogContent;
@@ -203,6 +207,7 @@ const Component = ({
       omitCloseAfterSuccess
       maxSize="xs"
       pending={pending}
+      enabledSuccessButton={approvalType === "approval" ? !approvalsDisabled : true}
       confirmButtonLabel={confirmButtonLabel}
     >
       {dialogContent}

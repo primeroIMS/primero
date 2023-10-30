@@ -2,6 +2,8 @@
 
 import { RECORD_TYPES, APPROVALS_TYPES } from "../../../config";
 
+import getRequestedApprovals from "./get-requested-approvals";
+
 export default ({
   approvalsLabels,
   canApproveActionPlan,
@@ -13,8 +15,11 @@ export default ({
   canRequestCasePlan,
   canRequestClosure,
   canRequestActionPlan,
-  canRequestGbvClosure
+  canRequestGbvClosure,
+  record
 }) => {
+  const requestedApprovals = getRequestedApprovals(record);
+
   const mapFunction = ([name, ability]) => ({
     name: approvalsLabels.get(name),
     condition: ability,
@@ -29,7 +34,9 @@ export default ({
       [APPROVALS_TYPES.closure, canApproveClosure],
       [APPROVALS_TYPES.action_plan, canApproveActionPlan],
       [APPROVALS_TYPES.gbv_closure, canApproveGbvClosure]
-    ].map(mapFunction),
+    ]
+      .filter(([approval]) => requestedApprovals.includes(approval))
+      .map(mapFunction),
     requestsApproval: [
       [APPROVALS_TYPES.assessment, canRequestBia],
       [APPROVALS_TYPES.case_plan, canRequestCasePlan],

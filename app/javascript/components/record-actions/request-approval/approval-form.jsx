@@ -1,7 +1,16 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { TextField, FormControlLabel, FormControl, FormLabel, RadioGroup, Radio, Select } from "@material-ui/core";
+import {
+  TextField,
+  FormControlLabel,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  Radio,
+  Select,
+  FormHelperText
+} from "@material-ui/core";
 
 import { useI18n } from "../../i18n";
 
@@ -10,6 +19,7 @@ import css from "./styles.css";
 
 const Component = ({
   approval,
+  disabled,
   handleChangeApproval,
   handleChangeComment,
   handleChangeType,
@@ -48,9 +58,11 @@ const Component = ({
             value={requestType}
             onChange={handleChangeType}
             label={i18n.t("cases.approval_select")}
+            disabled={disabled}
           >
             {selectOptions}
           </Select>
+          {disabled && <FormHelperText>{i18n.t("approvals.no_requests")}</FormHelperText>}
         </div>
         <div className={css.field}>
           <TextField
@@ -75,6 +87,7 @@ Component.displayName = APPROVAL_FORM;
 
 Component.propTypes = {
   approval: PropTypes.string,
+  disabled: PropTypes.bool,
   handleChangeApproval: PropTypes.func,
   handleChangeComment: PropTypes.func,
   handleChangeType: PropTypes.func,
