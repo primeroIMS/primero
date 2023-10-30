@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fromJS, List } from "immutable";
 import { useDispatch } from "react-redux";
@@ -52,6 +52,8 @@ const Component = () => {
     };
   }, []);
 
+  const [prevGroupedBy, setPrevGroupedBy] = useState(null);
+  const [prevGroupIdSample, setPrevGroupIdSample] = useState(null);
   const errors = useMemoizedSelector(state => getErrors(state, namespace));
   const loading = useMemoizedSelector(state => getLoading(state, namespace));
   const insight = useMemoizedSelector(state => getInsight(state));
@@ -88,7 +90,16 @@ const Component = () => {
   const totalText = i18n.t("managed_reports.total");
   const violationsText = i18n.t("managed_reports.violations_total");
 
-  const reportData = buildReportData(insight, subReport);
+  const reportData = useMemo(() => buildReportData(insight, subReport), [insight, subReport]);
+
+  const groupIdSample = useMemo(() => {
+    const dataGroup = reportData
+      .valueSeq()
+      .flatMap(value => value.valueSeq())
+      .find(elem => elem.find(group => group.get("group_id")));
+
+    return dataGroup?.first()?.get("group_id");
+  }, [reportData]);
 
   const incompleteDataLabel = i18n.t("managed_reports.incomplete_data");
 
@@ -123,6 +134,16 @@ const Component = () => {
 
     return DefaultIndicator;
   }
+
+  useEffect(() => {
+    if (prevGroupIdSample !== groupIdSample) {
+      setPrevGroupIdSample(groupIdSample);
+    }
+
+    if (groupedBy !== prevGroupedBy) {
+      setPrevGroupedBy(groupedBy);
+    }
+  }, [groupIdSample]);
 
   return (
     <div className={css.container}>
@@ -198,7 +219,7 @@ const Component = () => {
                     ageRanges={ageRanges}
                     displayGraph={displayGraph}
                     emptyMessage={emptyMessage}
-                    groupedBy={groupedBy}
+                    groupedBy={prevGroupIdSample !== groupIdSample ? groupedBy : prevGroupedBy}
                     incompleteDataLabel={incompleteDataLabel}
                     insightMetadata={insightMetadata}
                     isGrouped={isGrouped}
