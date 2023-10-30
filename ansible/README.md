@@ -291,7 +291,7 @@ Finally restart the docker containers:
 
 If nginx is already using external certs, to update the certs follow the next steps:
 
-1. Copy over target server in the `/srv/primero/external-certs/` folder, the new key and cert.
+1. Copy over target server in the `/srv/external-certs/` folder, the new key and cert.
 2. Replace the existing key an cert with the new files.
 3. Restart nginx docker container:
 
