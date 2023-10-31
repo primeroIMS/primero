@@ -1,6 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { RECORD_TYPES, APPROVALS_TYPES } from "../../../config";
+import { APPROVAL_STATUS } from "../request-approval/constants";
 
 import getRequestedApprovals from "./get-requested-approvals";
 
@@ -19,6 +20,8 @@ export default ({
   record
 }) => {
   const requestedApprovals = getRequestedApprovals(record);
+  const pendingApprovalsFilterFn = ([approval]) =>
+    requestedApprovals.includes(approval) && record.get(`approval_status_${approval}`) === APPROVAL_STATUS.pending;
 
   const mapFunction = ([name, ability]) => ({
     name: approvalsLabels.get(name),
@@ -35,7 +38,7 @@ export default ({
       [APPROVALS_TYPES.action_plan, canApproveActionPlan],
       [APPROVALS_TYPES.gbv_closure, canApproveGbvClosure]
     ]
-      .filter(([approval]) => requestedApprovals.includes(approval))
+      .filter(pendingApprovalsFilterFn)
       .map(mapFunction),
     requestsApproval: [
       [APPROVALS_TYPES.assessment, canRequestBia],
