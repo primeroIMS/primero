@@ -535,7 +535,7 @@ class User < ApplicationRecord
     return if ENV['PRIMERO_BOOTSTRAP']
     return unless associated_attributes_changed?
 
-    AssociatedRecordsJob.perform_later(
+    UpdateUserAssociatedRecordsJob.perform_later(
       user_id: id,
       update_user_groups: user_groups_changed,
       update_agencies: saved_change_to_attribute?('agency_id'),

@@ -6,6 +6,7 @@
 # The REST url is something like /api/v2/:records/:record-id/:resources
 class Api::V2::RecordResourceController < ApplicationApiController
   before_action :find_record, only: %i[index create update destroy new]
+  before_action :verify_bulk_records_size, only: [:create_bulk]
   before_action :find_records, only: [:create_bulk]
   before_action :initialize_errors, only: [:create_bulk]
   before_action :record_data_service
@@ -53,6 +54,10 @@ class Api::V2::RecordResourceController < ApplicationApiController
 
   def record_data_service
     @record_data_service = RecordDataService.new
+  end
+
+  def verify_bulk_records_size
+    raise Errors::ForbiddenOperation if params.dig('data', 'ids').length > Assign::MAX_BULK_RECORDS
   end
 
   private

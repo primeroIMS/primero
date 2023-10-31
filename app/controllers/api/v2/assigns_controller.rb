@@ -19,14 +19,12 @@ class Api::V2::AssignsController < Api::V2::RecordResourceController
 
   def create_bulk
     authorize_assign_all!(@records)
-    @transitions =
-      @records.map do |record|
-        assign(record)
-      rescue StandardError => e
-        handle_bulk_error(e, request) && nil
-      end.compact
-    updates_for_records(@records)
-    render 'api/v2/transitions/create_bulk'
+    BulkAssignRecordsJob.perform_later(
+      records: @records,
+      transitioned_to: params[:data][:transitioned_to],
+      transitioned_by: current_user.user_name,
+      notes: params[:data][:notes]
+    )
   end
 
   private
