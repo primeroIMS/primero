@@ -29,40 +29,14 @@ Assign cases in bulk to a single user.
 
 **Code** : `200 OK`. Note that the response code will still be 200 even if every assignment in the batch fails.
 
-**Content** : The created assignment records, and an error object per failed assignment.
+**Content** : List of records ids that will be processed in a bulk assign job.
 
 ```json
 {
-    "data": [
-        {
-            "id": "749e9c6e-60db-45ec-8f5a-69da7c223a79",
-            "type": "Assign",
-            "record_id": "437189fc-cd1c-46ee-8d56-2891fc73605f",
-            "record_type": "Child",
-            "transitioned_to": "primero_cp",
-            "transitioned_by": "primero",
-            "notes": "This is a bulk assignment",
-            "created_at": "2019-09-16T18:37:16.078Z"
-        },
-        {
-            "id": "dcea6052-07d9-4cfa-9abf-9a36987cdd25",
-            "type": "Assign",
-            "record_id": "437189fc-cd1c-46ee-8d56-2891fc73605a",
-            "record_type": "Child",
-            "transitioned_to": "primero_cp",
-            "transitioned_by": "primero",
-            "notes": "This is a bulk assignment",
-            "created_at": "2019-09-16T18:37:16.078Z"
-        }
-    ],
-    "errors": [
-        {
-            "status": 422,
-            "resource": "/api/v2/cases/assigns",
-            "detail": "transitioned_to",
-            "message": [ "transition.errors.to_user_can_receive" ]
-         }
-    ]
+    "data": {
+      "ids": ["749e9c6e-60db-45ec-8f5a-69da7c223a79", "dcea6052-07d9-4cfa-9abf-9a36987cdd25"],
+      "transitioned_to": "primero_cp",
+    }
 }
 
 ```

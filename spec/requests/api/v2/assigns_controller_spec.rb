@@ -104,13 +104,8 @@ describe Api::V2::AssignsController, type: :request do
         post('/api/v2/cases/assigns', params:)
 
         expect(response).to have_http_status(200)
-        expect(json['data'].size).to eq(2)
-        expect(json['data'][0]['record_id']).to eq(@case.id.to_s)
-        expect(json['data'][0]['transitioned_to']).to eq('user2')
-        expect(json['data'][0]['transitioned_by']).to eq('user1')
-        expect(json['data'][1]['record_id']).to eq(@case2.id.to_s)
-        expect(json['data'][1]['transitioned_to']).to eq('user2')
-        expect(json['data'][1]['transitioned_by']).to eq('user1')
+        expect(json['data']['ids']).to match_array([@case.id.to_s, @case2.id.to_s])
+        expect(json['data']['transitioned_to']).to eq('user2')
 
         expect(audit_params['action']).to eq('bulk_assign')
       end
@@ -126,17 +121,6 @@ describe Api::V2::AssignsController, type: :request do
         role.save(validate: false)
         @user1.role = role
         @user1.save(validate: false)
-      end
-
-      it 'reports errors if there was a problem assigning at least one of the record' do
-        sign_in(@user1)
-        params = { data: { ids: [@case.id, @case2.id], transitioned_to: 'user2', notes: 'Test Notes' } }
-        post('/api/v2/cases/assigns', params:)
-
-        expect(response).to have_http_status(200)
-        expect(json['data'].size).to eq(0)
-        expect(json['errors'].size).to eq(2)
-        expect(json['errors'][0]['detail']).to eq('transitioned_to')
       end
     end
   end
