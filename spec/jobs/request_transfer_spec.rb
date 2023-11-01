@@ -8,7 +8,7 @@ describe RequestTransferJob, type: :job do
   include ActiveJob::TestHelper
 
   before do
-    clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Transition)
+    clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Transition)
   end
 
   let(:primero_module) do
@@ -52,6 +52,6 @@ describe RequestTransferJob, type: :job do
   end
 
   after(:each) do
-    clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Child, Transition)
+    clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Child, Transition)
   end
 end

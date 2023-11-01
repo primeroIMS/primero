@@ -22,6 +22,8 @@ export const getMessageData = ({ alert, form, duplicatedFields, i18n }) => {
           .find(field => field.name === alert.get("type"))
           ?.getIn(["display_name", i18n.locale])
       };
+    case ALERTS_FOR.transition:
+      return i18n.t(`case.messages.case_${alert.get("type")}_pending`);
     default:
       return {};
   }

@@ -522,7 +522,8 @@ export const ALERTS_FOR = {
   approval: "approval",
   new_form: "new_form",
   transfer_request: "transfer_request",
-  duplicate_field: "duplicate_field"
+  duplicate_field: "duplicate_field",
+  transition: "transition"
 };
 
 export const MAX_OFFLINE_ROWS_PER_PAGE = 50;

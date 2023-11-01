@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { fromJS, List } from "immutable";
 import { useDispatch } from "react-redux";
 
+import { ALERTS_FOR } from "../../config";
 import { useI18n } from "../i18n";
 import InternalAlert from "../internal-alert";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
@@ -49,19 +50,21 @@ const Component = ({ form, recordType, attachmentForms, formMode }) => {
         return fromJS({ message: value });
       });
 
-  const items = recordAlerts.map(alert =>
-    fromJS({
-      message: i18n.t(
-        `messages.alerts_for.${alert.get("alert_for")}`,
-        getMessageData({ alert, form, duplicatedFields, i18n })
-      ),
+  const items = recordAlerts.map(alert => {
+    const messageData = getMessageData({ alert, form, duplicatedFields, i18n });
+
+    return fromJS({
+      message:
+        alert.get("alert_for") === ALERTS_FOR.transition
+          ? messageData
+          : i18n.t(`messages.alerts_for.${alert.get("alert_for")}`, messageData),
       onDismiss: showDismissButton()
         ? () => {
             dispatch(deleteAlertFromRecord(recordType, selectedRecord, alert.get("unique_id")));
           }
         : null
-    })
-  );
+    });
+  });
 
   return (
     <>

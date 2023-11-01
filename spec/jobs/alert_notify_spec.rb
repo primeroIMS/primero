@@ -6,7 +6,7 @@ describe AlertNotifyJob, type: :job do
   include ActiveJob::TestHelper
 
   before do
-    clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Alert)
+    clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Alert)
     role = create :role
     @owner = create :user, role:, user_name: 'owner', full_name: 'Owner', email: 'owner@primero.dev'
     @provider = create :user, role:, user_name: 'provider', full_name: 'Provider', email: 'provider@primero.dev'
@@ -59,7 +59,7 @@ describe AlertNotifyJob, type: :job do
   end
 
   after :each do
-    clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Alert)
+    clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Alert)
   end
 
   private
