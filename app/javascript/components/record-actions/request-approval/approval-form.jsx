@@ -62,7 +62,7 @@ const Component = ({
           >
             {selectOptions}
           </Select>
-          {disabled && <FormHelperText>{i18n.t("approvals.no_requests")}</FormHelperText>}
+          {disabled && <FormHelperText>{i18n.t("case.messages.case_no_approval_request")}</FormHelperText>}
         </div>
         <div className={css.field}>
           <TextField
