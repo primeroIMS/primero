@@ -878,6 +878,8 @@ en:
     address_fields: You need to address %{fields} fields on %{forms} forms
     address_form_fields: You need to address %{fields} fields on this form
     address_subform_fields: '%{subform} has %{fields} invalid fields'
+    error_401:  You have been logged out. Please log in again.
+    error_something_went_wrong: Something went wrong.
   error_page:
     not_authorized:
       code: 403

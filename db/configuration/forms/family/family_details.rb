@@ -12,7 +12,7 @@ family_members_section_fields = [
             display_name_en: 'What is their role in the family?',
             option_strings_source: 'lookup lookup-family-relationship',
             matchable: true,
-            help_text_en: 'This field can be copied to/from the Case but is not s shared field and '\
+            help_text_en: 'This field can be copied to/from the Case but is not a shared field and ' \
                           'can be edited on the Family record.'),
   Field.new(name: 'family_relation_is_caregiver',
             type: 'tick_box',
