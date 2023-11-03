@@ -258,6 +258,13 @@ en:
       consent_agreements_required: Please select at least one option from consent agreements.
       legitimate_basis_required: Please select at least one option from legitimate basis classifications.
       confirm_create_case: Do you want to create a Case for this individual?
+      case_referral_pending: A Case referral is pending.
+      case_transfer_pending: A Case transfer is pending.
+      case_no_approval_request: There are no approval requests for this Case.
+      bulk_assign_limit: You cannot assign more than 100 Cases at once.
+      bulk_assign_limit_try_again: You cannot assign more than 100 Cases at once. Please select 100 Cases or fewer and then try again.
+      referral_rejected: Referral has been rejected.
+      transfer_request_made: Transfer Request has been made for this Case.
     save: Save Case
     save_text: Before continuing, please save your changes to the Case.
     skip_and_create: Skip and Create New Case
