@@ -24,7 +24,7 @@ describe Api::V2::AssignsController, type: :request do
     @user2.save(validate: false)
     @case = Child.create(
       data: {
-        name: 'Test', owned_by: 'user1',
+        name: 'Test', owned_by: 'user1', age: 7,
         module_id: @primero_module.unique_id
       }
     )
@@ -91,20 +91,22 @@ describe Api::V2::AssignsController, type: :request do
     before :each do
       @case2 = Child.create(
         data: {
-          name: 'Test2', owned_by: 'user1',
+          name: 'Test2', owned_by: 'user1', age: 5,
           module_id: @primero_module.unique_id
         }
       )
     end
+    Sunspot.commit
 
     context 'bulk assign with valid permissions' do
       it 'assigns multiple records to the target user' do
         sign_in(@user1)
-        params = { data: { ids: [@case.id, @case2.id], transitioned_to: 'user2', notes: 'Test Notes' } }
+        filters = { status: ['open'], record_state: ['true'], age: ['6..11'] }
+        params = { data: { transitioned_to: 'user2', notes: 'Test Notes', filters: } }
         post('/api/v2/cases/assigns', params:)
 
         expect(response).to have_http_status(200)
-        expect(json['data']['ids']).to match_array([@case.id.to_s, @case2.id.to_s])
+        expect(json['data']['filters'].keys).to match_array(%w[status record_state age])
         expect(json['data']['transitioned_to']).to eq('user2')
 
         expect(audit_params['action']).to eq('bulk_assign')
@@ -121,6 +123,22 @@ describe Api::V2::AssignsController, type: :request do
         role.save(validate: false)
         @user1.role = role
         @user1.save(validate: false)
+      end
+    end
+
+    context 'when the total of records is more than 100' do
+      before do
+        stub_const('Assign::MAX_BULK_RECORDS', -1)
+      end
+
+      it 'raises Errors::ForbiddenOperation' do
+        sign_in(@user1)
+        filters = { status: ['open'], record_state: ['true'], age: ['6..11'] }
+        params = { data: { transitioned_to: 'user2', notes: 'Test Notes', filters: } }
+
+        post('/api/v2/cases/assigns', params:)
+
+        expect(response).to have_http_status(403)
       end
     end
   end

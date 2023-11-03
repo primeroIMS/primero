@@ -5,7 +5,7 @@
 # Represents a transition of record ownership  from one user to another
 # without any system workflows.
 class Assign < Transition
-  MAX_BULK_RECORDS = 3
+  MAX_BULK_RECORDS = 100
 
   def perform
     return if transitioned_to_user.nil?
