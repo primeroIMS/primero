@@ -525,8 +525,16 @@ describe("<RecordActions />", () => {
       expect(incidentItemProps.disabled).to.be.false;
     });
 
-    it("renders add incident menu disabled", () => {
+    it("renders add reassign menu enabled", () => {
       const incidentItem = component.find(MenuItem).at(0);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal("buttons.reassign forms.record_types.case");
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add incident menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(1);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("actions.incident_details_from_case");
@@ -542,7 +550,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add service menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("actions.services_section_from_case");
@@ -550,7 +558,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add export menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItem = component.find(MenuItem).at(4);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("cases.export");
@@ -682,8 +690,16 @@ describe("<RecordActions />", () => {
       expect(incidentItemProps.disabled).to.be.true;
     });
 
-    it("renders add incident menu disabled", () => {
+    it("renders add reassign menu disabled", () => {
       const incidentItem = component.find(MenuItem).at(0);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal("buttons.reassign forms.record_types.case");
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add incident menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(1);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("actions.incident_details_from_case");
@@ -691,7 +707,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add service menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("actions.services_section_from_case");
@@ -699,7 +715,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add export menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItem = component.find(MenuItem).at(4);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("cases.export");
@@ -792,8 +808,16 @@ describe("<RecordActions />", () => {
       expect(incidentItemProps.disabled).to.be.false;
     });
 
-    it("renders add incident menu disabled", () => {
+    it("renders add reassign menu enabled", () => {
       const incidentItem = component.find(MenuItem).at(0);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal("buttons.reassign forms.record_types.case");
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add incident menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(1);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("actions.incident_details_from_case");
@@ -801,7 +825,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add service menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("actions.services_section_from_case");
@@ -809,7 +833,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add export menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItem = component.find(MenuItem).at(4);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("cases.export");
@@ -918,8 +942,16 @@ describe("<RecordActions />", () => {
       expect(incidentItemProps.disabled).to.be.true;
     });
 
-    it("renders add incident menu disabled", () => {
+    it("renders add reassign menu enabled", () => {
       const incidentItem = component.find(MenuItem).at(0);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal("buttons.reassign forms.record_types.case");
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add incident menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(1);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("actions.incident_details_from_case");
@@ -927,7 +959,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add service menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("actions.services_section_from_case");
@@ -935,7 +967,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add export menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItem = component.find(MenuItem).at(4);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("cases.export");

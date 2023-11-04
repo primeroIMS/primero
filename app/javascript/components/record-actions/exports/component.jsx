@@ -28,6 +28,7 @@ import PdfExporter from "../../pdf-exporter";
 import { getUser } from "../../user/selectors";
 import { getRecordForms } from "../../record-form/selectors";
 import { getMetadata } from "../../record-list/selectors";
+import { buildAppliedFilters } from "../utils";
 
 import { saveExport } from "./action-creators";
 import {
@@ -47,15 +48,7 @@ import {
   PASSWORD_FIELD
 } from "./constants";
 import form from "./form";
-import {
-  buildFields,
-  exporterFilters,
-  exportFormsOptions,
-  formatFields,
-  formatFileName,
-  isCustomExport,
-  isPdfExport
-} from "./utils";
+import { buildFields, exportFormsOptions, formatFields, formatFileName, isCustomExport, isPdfExport } from "./utils";
 
 const FORM_ID = "exports-record-form";
 
@@ -194,7 +187,7 @@ const Component = ({
       .filter((_r, i) => selectedRecords?.[currentPage]?.includes(i))
       .map(r => r.short_id);
 
-    const filters = exporterFilters(
+    const filters = buildAppliedFilters(
       isShowPage,
       allCurrentRowsSelected,
       shortIds,

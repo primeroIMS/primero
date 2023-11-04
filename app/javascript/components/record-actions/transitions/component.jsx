@@ -44,14 +44,16 @@ const Transitions = ({
 
   const records = useMemoizedSelector(state => getRecordsData(state, recordType));
 
-  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage);
+  const selectedRecordsLength = Object.values(selectedRecords || {}).flat()?.length;
+  const keyToSelectId = isAssignDialogOpen ? "short_id" : "id";
+  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, keyToSelectId);
 
   const commonDialogProps = {
     omitCloseAfterSuccess: true,
     pending,
     record,
     recordType,
-    selectedIds
+    selectedRecordsLength
   };
 
   const commonTransitionProps = {
@@ -88,7 +90,13 @@ const Transitions = ({
       );
     }
     if (isAssignDialogOpen) {
-      return <ReassignForm {...commonTransitionProps} assignRef={assignFormikRef} />;
+      return (
+        <ReassignForm
+          {...commonTransitionProps}
+          assignRef={assignFormikRef}
+          selectedRecordsLength={selectedRecordsLength}
+        />
+      );
     }
 
     return null;
@@ -139,6 +147,7 @@ const Transitions = ({
         confirmButtonLabel: i18n.t("buttons.save"),
         open: isAssignDialogOpen,
         successHandler,
+        enabledSuccessButton: selectedRecordsLength <= 100,
         transitionType: TRANSITIONS_TYPES.reassign
       };
     }
