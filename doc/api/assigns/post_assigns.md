@@ -14,11 +14,15 @@ Assign cases in bulk to a single user.
 
 **Parameters** :
 
-* `data` A JSON representation of the assignment. Only the `transitioned_to` and `notes` are used.
+* `data` A JSON representation of the assignment. The `filters` parameter is used to filter records that will be reassigned to the `transitioned_to` user.
 ```json
 {
   "data": {
-      "ids": ["749e9c6e-60db-45ec-8f5a-69da7c223a79", "dcea6052-07d9-4cfa-9abf-9a36987cdd25"],
+      "filters": {
+        "short_id": [
+          "fbd6839","4c7084f", "2d4bc3d"
+        ]
+      },
       "transitioned_to": "primero_cp",
       "notes": "This is a bulk assignment"
     }
@@ -29,12 +33,16 @@ Assign cases in bulk to a single user.
 
 **Code** : `200 OK`. Note that the response code will still be 200 even if every assignment in the batch fails.
 
-**Content** : List of records ids that will be processed in a bulk assign job.
+**Content** : Filters and user that will be used in a bulk assign job.
 
 ```json
 {
     "data": {
-      "ids": ["749e9c6e-60db-45ec-8f5a-69da7c223a79", "dcea6052-07d9-4cfa-9abf-9a36987cdd25"],
+      "filters": {
+        "short_id": [
+          "fbd6839","4c7084f", "2d4bc3d"
+        ]
+      },
       "transitioned_to": "primero_cp",
     }
 }
@@ -56,6 +64,26 @@ Assign cases in bulk to a single user.
       "status": 403,
       "resource": "/api/v2/cases/assigns",
       "message": "Forbidden"
+    }
+  ]
+}
+```
+
+## Error Response
+
+**Condition** : User selected more than 100 cases
+
+**Code** : `403 Forbidden`
+
+**Content** :
+
+```json
+{
+  "errors": [
+    {
+      "status": 403,
+      "resource": "/api/v2/cases/assigns",
+      "message": "case.messages.bulk_assign_limit"
     }
   ]
 }
