@@ -5,6 +5,7 @@
 # API endpoints that handle record reassignment
 class Api::V2::AssignsController < Api::V2::RecordResourceController
   before_action :bulk_approval_params, only: [:create_bulk]
+  before_action :verify_bulk_records_size, only: [:create_bulk]
 
   def index
     authorize! :read, @record
@@ -20,13 +21,7 @@ class Api::V2::AssignsController < Api::V2::RecordResourceController
   end
 
   def create_bulk
-    authorize_assign_all!(@records)
-    BulkAssignRecordsJob.perform_later(
-      records: @records,
-      transitioned_to: bulk_approval_params[:transitioned_to],
-      transitioned_by: current_user.user_name,
-      notes: bulk_approval_params[:notes]
-    )
+    BulkAssignRecordsJob.perform_later(model_class, current_user, bulk_approval_params)
   end
 
   private
@@ -66,24 +61,18 @@ class Api::V2::AssignsController < Api::V2::RecordResourceController
   end
 
   def bulk_approval_params
-    @bulk_approval_params ||= params.require(:data).permit(:transitioned_to, :notes, { filters: {} }).to_h
+    @bulk_approval_params ||= params.require(:data).permit(:transitioned_to, :notes, :query, { filters: {} }).to_h
   end
 
   def find_records
-    return @records = [], @records_total = 0 if bulk_approval_params[:filters].blank?
-
-    service = SearchFilterService.new
-    search_filters = service.build_filters(DestringifyService.destringify(bulk_approval_params[:filters], true))
-    service_search = SearchService.search(
-      model_class, filters: search_filters, pagination: { page: 1, per_page: 100 }
-    )
-    @records = service_search.results
-
-    @records_total = service_search.total
+    @records = []
   end
 
   def verify_bulk_records_size
-    return unless @records_total.present? && @records_total > Assign::MAX_BULK_RECORDS
+    if @bulk_approval_params[:filters][:short_id].blank? ||
+       @bulk_approval_params[:filters][:short_id].length <= Assign::MAX_BULK_RECORDS
+      return
+    end
 
     raise(Errors::BulkAssignRecordsSizeError, 'case.messages.bulk_assign_limit')
   end

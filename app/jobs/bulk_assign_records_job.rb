@@ -6,14 +6,7 @@
 class BulkAssignRecordsJob < ApplicationJob
   queue_as :long_running_process
 
-  def perform(args = {})
-    args[:records].each do |record|
-      Assign.create!(
-        record:, transitioned_to: args[:transitioned_to], transitioned_by: args[:transitioned_by], notes: args[:notes]
-      )
-    rescue StandardError => e
-      Rails.logger.error e.message
-      next
-    end
+  def perform(model_class, transitioned_by, args = {})
+    BulkAssignService.new(model_class, transitioned_by, args).assign_records!
   end
 end

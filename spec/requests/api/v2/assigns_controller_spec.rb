@@ -126,14 +126,14 @@ describe Api::V2::AssignsController, type: :request do
       end
     end
 
-    context 'when the total of records is more than 100' do
+    context 'when the total of records is more than MAX_BULK_RECORDS' do
       before do
         stub_const('Assign::MAX_BULK_RECORDS', -1)
       end
 
       it 'raises Errors::ForbiddenOperation' do
         sign_in(@user1)
-        filters = { status: ['open'], record_state: ['true'], age: ['6..11'] }
+        filters = { short_id: %w[fbd6839 4c7084f 2d4bc3d] }
         params = { data: { transitioned_to: 'user2', notes: 'Test Notes', filters: } }
 
         post('/api/v2/cases/assigns', params:)

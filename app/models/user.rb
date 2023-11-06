@@ -482,6 +482,12 @@ class User < ApplicationRecord
     can?(:read, record)
   end
 
+  def can_assign?(record_model)
+    can?(Permission::ASSIGN.to_sym, record_model) ||
+      can?(Permission::ASSIGN_WITHIN_AGENCY.to_sym, record_model) ||
+      can?(Permission::ASSIGN_WITHIN_USER_GROUP.to_sym, record_model)
+  end
+
   def agency_read?
     permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
   end

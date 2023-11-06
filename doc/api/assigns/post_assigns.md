@@ -23,6 +23,7 @@ Assign cases in bulk to a single user.
           "fbd6839","4c7084f", "2d4bc3d"
         ]
       },
+      "query": "name",
       "transitioned_to": "primero_cp",
       "notes": "This is a bulk assignment"
     }
@@ -51,27 +52,7 @@ Assign cases in bulk to a single user.
 
 ## Error Response
 
-**Condition** : User isn't authorized to assign.
-
-**Code** : `403 Forbidden`
-
-**Content** :
-
-```json
-{
-  "errors": [
-    {
-      "status": 403,
-      "resource": "/api/v2/cases/assigns",
-      "message": "Forbidden"
-    }
-  ]
-}
-```
-
-## Error Response
-
-**Condition** : User selected more than 100 cases
+**Condition** : User selected more than 100 cases and send ids
 
 **Code** : `403 Forbidden`
 
