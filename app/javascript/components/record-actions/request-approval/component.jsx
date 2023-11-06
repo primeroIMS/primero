@@ -197,6 +197,7 @@ const Component = ({
   });
 
   const dialogContent = approvalType === "approval" ? approvalDialogContent : requestDialogContent;
+  const enabledSuccessButton = approvalType === "approval" ? !approvalsDisabled : true;
 
   return (
     <ActionDialog
@@ -207,7 +208,7 @@ const Component = ({
       omitCloseAfterSuccess
       maxSize="xs"
       pending={pending}
-      enabledSuccessButton={approvalType === "approval" ? !approvalsDisabled : true}
+      enabledSuccessButton={enabledSuccessButton}
       confirmButtonLabel={confirmButtonLabel}
     >
       {dialogContent}
