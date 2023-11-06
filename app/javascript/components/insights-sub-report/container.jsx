@@ -145,6 +145,8 @@ const Component = () => {
     }
   }, [groupIdSample]);
 
+  const currentGroupBy = prevGroupIdSample !== groupIdSample ? groupedBy : prevGroupedBy;
+
   return (
     <div className={css.container}>
       <LoadingIndicator
@@ -166,7 +168,7 @@ const Component = () => {
                   columns={buildInsightColumns[insightMetadata.get("table_type")]({
                     value: singleInsightsTableData,
                     isGrouped,
-                    groupedBy,
+                    groupedBy: currentGroupBy,
                     localizeDate: i18n.localizeDate,
                     totalText,
                     incompleteDataLabel
@@ -176,7 +178,7 @@ const Component = () => {
                     data: singleInsightsTableData,
                     totalText,
                     isGrouped,
-                    groupedBy,
+                    groupedBy: currentGroupBy,
                     incompleteDataLabel
                   })}
                   showPlaceholder
@@ -219,7 +221,7 @@ const Component = () => {
                     ageRanges={ageRanges}
                     displayGraph={displayGraph}
                     emptyMessage={emptyMessage}
-                    groupedBy={prevGroupIdSample !== groupIdSample ? groupedBy : prevGroupedBy}
+                    groupedBy={currentGroupBy}
                     incompleteDataLabel={incompleteDataLabel}
                     insightMetadata={insightMetadata}
                     isGrouped={isGrouped}
