@@ -437,10 +437,10 @@ describe Transfer do
       @record = Child.create!(
         data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id, disclosure_other_orgs: true }
       )
-      @transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
     end
 
     it 'creates a transfer alert on the record' do
+      Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
       transfer_alert = @record.alerts.find { |alert| alert.type == 'transfer' }
 
       expect(@record.alerts.size).to eq(1)
@@ -463,22 +463,31 @@ describe Transfer do
       expect(transfer_alert.form_sidebar_id).to eq('transfers_assignments')
     end
 
+    it 'does not creates a transfer alert if the trasnfer is remote' do
+      Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record, remote: true)
+
+      expect(@record.alerts).to be_empty
+    end
+
     it 'removes a transfer alert if accepted' do
-      @transfer.accept!(@user2)
+      transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      transfer.accept!(@user2)
       @record.reload
 
       expect(@record.alerts).to be_empty
     end
 
     it 'removes a transfer alert if rejected' do
-      @transfer.reject!(@user2)
+      transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      transfer.reject!(@user2)
       @record.reload
 
       expect(@record.alerts).to be_empty
     end
 
     it 'removes a transfer alert if revoked' do
-      @transfer.revoke!(@user2)
+      transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      transfer.revoke!(@user2)
       @record.reload
 
       expect(@record.alerts).to be_empty

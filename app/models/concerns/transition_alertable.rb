@@ -22,13 +22,13 @@ module TransitionAlertable
   end
 
   def remove_alert_on_record
-    return unless record.present? && was_resolved?
+    return unless record.present? && was_resolved? && !remote
 
     record.remove_alert(self.class.name.downcase)
   end
 
   def add_alert_on_record
-    return unless record.present? && in_progress?
+    return unless record.present? && in_progress? && !remote
 
     record.add_transition_alert(transitioned_to_user, self.class.name.downcase, alert_form_unique_id)
   end
