@@ -322,7 +322,9 @@ If you change your hostname and you want to update your letsencrypt certificate,
 
 ## Apply database migrations
 
-Database migrations are only present in major version updates (2.7, 2.8) never in minor versions (v2.7.1).
+Database migrations are only present in major and minor version updates (2.7, 2.8) never in patch versions (v2.7.1).
+
+Make sure to execute the migrations every time you upgrade Primero.
 
 To execute the migrations, run:
 
