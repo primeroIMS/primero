@@ -4,6 +4,12 @@
 
 # Model describing a referral of a record from one user to another.
 class Referral < Transition
+  include TransitionAlertable
+
+  def self.alert_form_unique_id
+    'referral'
+  end
+
   def perform
     self.status = Transition::STATUS_INPROGRESS
     mark_service_referred(service_record)

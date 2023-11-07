@@ -450,7 +450,7 @@ describe Transfer do
       expect(transfer_alert.form_sidebar_id).to eq('transfers_assignments')
     end
 
-    it 'creates a single transfer alert for multiple transfers on the same record' do
+    it 'does not create multiple alerts for multiple transfers on the same record' do
       Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
       Transfer.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @record)
 
@@ -463,7 +463,7 @@ describe Transfer do
       expect(transfer_alert.form_sidebar_id).to eq('transfers_assignments')
     end
 
-    it 'does not creates a transfer alert if the trasnfer is remote' do
+    it 'does not create a transfer alert if the transfer is remote' do
       Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record, remote: true)
 
       expect(@record.alerts).to be_empty

@@ -6,6 +6,10 @@
 class Transfer < Transition
   include TransitionAlertable
 
+  def self.alert_form_unique_id
+    'transfers_assignments'
+  end
+
   def perform
     self.status = Transition::STATUS_INPROGRESS
     if remote
@@ -63,8 +67,8 @@ class Transfer < Transition
     user.can?(:accept_or_reject_transfer, Child) && user.managed_user_names.include?(transitioned_to)
   end
 
-  def alert_form_unique_id
-    'transfers_assignments'
+  def generate_alert?
+    super && record.current_alert_types.exclude?(self.class.alert_type)
   end
 
   private
