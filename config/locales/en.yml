@@ -896,6 +896,8 @@ en:
       contact_admin: If you believe you are here by error, please contact your admin.
       something_went_wrong: Sorry, Something went wrong!
   errors:
+    api:
+      internal_server: Server Error
     error_loading: Error Loading Record(s)
     models:
       agency:
@@ -3841,7 +3843,7 @@ en:
     display: Displaying potential matches for %{type} %{id}
   reassign:
     multiple_error: An error occurred. %{select_records} case(s) not assigned.
-    multiple_successfully: '%{select_records} case(s) successfully assigned'
+    multiple_successfully: Primero is reassigning %{select_records} Case(s). It may take several minutes for all of these Cases to update
     notes_label: Notes
     successfully: Successfully reassigned
     user_mandatory_label: Recipient is required
