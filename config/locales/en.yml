@@ -896,6 +896,8 @@ en:
       contact_admin: If you believe you are here by error, please contact your admin.
       something_went_wrong: Sorry, Something went wrong!
   errors:
+    api:
+      internal_server: Server Error
     error_loading: Error Loading Record(s)
     models:
       agency:
