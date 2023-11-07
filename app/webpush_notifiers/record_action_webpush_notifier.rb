@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # WebpushNotifier class for RecordActions
 class RecordActionWebpushNotifier
   include ApplicationHelper
@@ -14,6 +16,14 @@ class RecordActionWebpushNotifier
 
   def self.manager_approval_response(approval_notification)
     RecordActionWebpushNotifier.new.manager_approval_response(approval_notification)
+  end
+
+  def self.alert_notify(alert_notification)
+    RecordActionWebpushNotifier.new.alert_notify(alert_notification)
+  end
+
+  def self.transfer_request(transfer_request_notification)
+    RecordActionWebpushNotifier.new.transfer_request(transfer_request_notification)
   end
 
   def transition_notify(transition_notification)
@@ -43,6 +53,26 @@ class RecordActionWebpushNotifier
     WebpushService.send_notifications(
       approval_notification.owner,
       message_structure(approval_notification)
+    )
+  end
+
+  def transfer_request(transfer_request_notification)
+    return if transfer_request_notification.transition.nil?
+    return unless webpush_notifications_enabled?(transfer_request_notification&.transitioned_to)
+
+    WebpushService.send_notifications(
+      transfer_request_notification&.transitioned_to,
+      message_structure(transfer_request_notification.transition)
+    )
+  end
+
+  def alert_notify(alert_notification)
+    return unless alert_notification.send_notification?
+    return unless webpush_notifications_enabled?(alert_notification.user)
+
+    WebpushService.send_notifications(
+      alert_notification.user,
+      message_structure(alert_notification)
     )
   end
 

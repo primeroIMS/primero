@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Shared code for all record-type controllers.
 # This will be a long module, by it's nature,
 # but we'll need to be careful to extract as much code as possible into services

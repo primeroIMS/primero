@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable import/no-namespace */
 import * as React from "react";
 import whyDidYouRender from "@welldone-software/why-did-you-render";

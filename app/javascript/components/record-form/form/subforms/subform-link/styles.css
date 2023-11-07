@@ -1,6 +1,9 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
 
 .subformLink {
   color: var(--c-blue);
+  font-size: var(--fs-16);
 }
 
 .subformLinkLabel {
@@ -10,4 +13,15 @@
 
 .subformLinkWrapper {
   margin: 10px 0;
+  cursor: not-allowed;
+}
+
+.subformLinkWrapperDisabled {
+  cursor: not-allowed;
+}
+
+.subformLinkDisabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  color: var(--c-dark-grey);
 }

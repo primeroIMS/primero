@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Drawer, List, useMediaQuery, Hidden, Divider, IconButton } from "@material-ui/core";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { isImmutable } from "immutable";
 
 import { FETCH_TIMEOUT, ROUTES } from "../../config";
@@ -97,7 +99,7 @@ const fetchSinglePayload = async (action, store, options) => {
 
         if (status === 401) {
           if (action.type === userActions.FETCH_USER_DATA) {
-            throw new Error("401 status from api, logging out.");
+            throw new Error(window.I18n.t("error_message.error_401"));
           }
 
           startSignout(store);
@@ -114,7 +116,7 @@ const fetchSinglePayload = async (action, store, options) => {
           throw new FetchError(response, json);
         }
 
-        throw new Error("Something went wrong.");
+        throw new Error(window.I18n.t("error_message.error_something_went_wrong"));
       }
       await handleSuccess(store, {
         type,

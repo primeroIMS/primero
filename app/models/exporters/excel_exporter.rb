@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'write_xlsx'
 
 # Export records to Excel. Every form is represented by a new tab.
@@ -27,6 +29,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def export(records)
+    super(records)
     constraint_subforms
     build_worksheets_with_headers
 
@@ -111,8 +114,10 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def write_record(record)
+    data = record.data
+
     forms.each do |form|
-      write_record_form(record.short_id, record.data, form, form&.subform_field&.name)
+      write_record_form(record.short_id, data, form, form&.subform_field&.name)
     end
   end
 

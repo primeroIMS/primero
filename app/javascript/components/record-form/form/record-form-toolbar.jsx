@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { Badge } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";

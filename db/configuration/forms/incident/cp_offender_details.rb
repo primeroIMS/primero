@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 cp_offender_details_fields = [
   Field.new(
     'name' => 'cp_incident_abuser_name',

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 json.id primero_module.id
 json.unique_id primero_module.unique_id
 json.name primero_module.name

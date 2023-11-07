@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # The value bag representing the list view filters, and the hardcoded set of these filters in Primero
 # rubocop:disable Metrics/ClassLength
 class Filter < ValueObject

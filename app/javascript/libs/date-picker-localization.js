@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import buildLocalizeFn from "date-fns/locale/_lib/buildLocalizeFn";
 import enLocale from "date-fns/locale/en-US";
 import compact from "lodash/compact";

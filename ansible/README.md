@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Primero Ansible
 
 [TOC]
@@ -198,6 +200,7 @@ LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"
 
 You also have the option of creating a variable for a private ssh key in order to clone configuration files from a private repo.  If you will not be including the private ssh
 key just leave the variable `ssh_private_key` out of the secrets.yml file.
+```
                 ---
                 primero_secret_key_base: 'generated_secret'
                 primero_message_secret: 'generated_secret'
@@ -207,6 +210,8 @@ key just leave the variable `ssh_private_key` out of the secrets.yml file.
                 secret_environment_variables:
                   SMTP_USER: 'secret'
                   SMTP_PASSWORD: 'secret'
+                  PRIMERO_WEBPUSH_VAPID_PRIVATE: 'secret'
+                  PRIMERO_WEBPUSH_VAPID_PUBLIC: 'secret'
                 ssh_private_key: |
                 -----BEGIN RSA PRIVATE KEY-----
                 klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
@@ -222,10 +227,10 @@ key just leave the variable `ssh_private_key` out of the secrets.yml file.
                 klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
                 afdnfdsnfjkndsfdsjkfjkdsjkfjdskljflajdfjdsl
                 -----END CERTIFICATE-----
-
+```
 The variables in the `inventory.yml` along with the `secrets.yml` will also be used to make the `local.env` file for the dokcer-compose files.
 
-The optional dictionary `secret_environment_variables` can contain key/value pairs of secret environment variables. It can be used in conjuunction with the optional `environment_variables` dictionary in the inventory file, and will override those values. A good use of this dictionary is to specify SMTP settings.
+The optional dictionary `secret_environment_variables` can contain key/value pairs of secret environment variables. It can be used in conjuunction with the optional `environment_variables` dictionary in the inventory file, and will override those values. A good use of this dictionary is to specify SMTP settings. Here we can add PRIMERO_WEBPUSH_VAPID_PRIVATE and PRIMERO_WEBPUSH_VAPID_PUBLIC, these keys together with PRIMERO_WEBPUSH allow us to enable webpush notifications. To generate VAPID keys follow the instruction in [README.md](../README.md) file. if we are enabling Webpush on an existing server, we must modify the `inventory.yml` and `secrets.yml` with the 3 variables, then re-execute the ansible command `local-env`
 
 ## Config promotion
 
@@ -319,3 +324,19 @@ If you change your hostname and you want to update your letsencrypt certificate,
 ```
   ​(venv) $ ansible-playbook application-primero.yml --tags "start"
 ```
+
+## Apply database migrations
+
+Database migrations are only present in major and minor version updates (2.7, 2.8) never in patch versions (v2.7.1).
+
+Make sure to execute the migrations every time you upgrade Primero.
+
+To execute the migrations, run:
+
+```
+​(venv) $ ansible-playbook application-primero.yml --tags "configure,start"
+```
+
+This command will execute migrations and also attempt to run the configuration indicated in `primero_configuration_repo_branch`.
+
+**Please be cautious as this could overwrite the current system configuration**. if you want to prevent a configuration from being applied, make sure to set the configuration version that is applied to the system.

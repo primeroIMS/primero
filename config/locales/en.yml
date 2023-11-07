@@ -1,4 +1,6 @@
 # encoding: utf-8
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 #
 # This is the English localization file for Primero.  It is based on the sample
 # English localization file found in the repository linked below[1].
@@ -256,6 +258,13 @@ en:
       consent_agreements_required: Please select at least one option from consent agreements.
       legitimate_basis_required: Please select at least one option from legitimate basis classifications.
       confirm_create_case: Do you want to create a Case for this individual?
+      case_referral_pending: A Case referral is pending.
+      case_transfer_pending: A Case transfer is pending.
+      case_no_approval_request: There are no approval requests for this Case.
+      bulk_assign_limit: You cannot assign more than 100 Cases at once.
+      bulk_assign_limit_try_again: You cannot assign more than 100 Cases at once. Please select 100 Cases or fewer and then try again.
+      referral_rejected: Referral has been rejected.
+      transfer_request_made: Transfer Request has been made for this Case.
     save: Save Case
     save_text: Before continuing, please save your changes to the Case.
     skip_and_create: Skip and Create New Case
@@ -263,6 +272,8 @@ en:
     search_helper_text: Why? To prevent creation of duplicate cases.
     consent_agreements: Select all consent agreements that apply
     legitimate_basis: Select all legitimate basis clasifications that apply
+    family_linked_subform_delete_disabled: This subform entry is linked to a Family Record. Please either
+      remove this family member from the family record, or unlink the family member's case from the Family Record.
     workflow:
       assessment: Assessment
       case_plan: Case Plan
@@ -282,6 +293,7 @@ en:
     rejected_transfer: '%{to} rejected transfer of  %{record_type} %{record_id} from %{from}'
   cases:
     action_plan: Action Plan
+    access_denied: "You do not have access to this Case."
     age: Age
     age_estimated: Estimated Age?
     agency: Agency
@@ -836,6 +848,8 @@ en:
     assign_html: '<strong>%{user}</strong> has assigned the following %{record_type} to you: <strong>%{record_id}</strong>.'
     transfer_request_html: 'Primero user <strong>%{user}</strong> from %{agency} is requesting that you transfer ownership of this %{record_type} record <strong>%{record_id}</strong> so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer.'
     transfer_request_notes_html: 'Notes from the individual making the request: %{request_transfer_notes}'
+    alert: '%{record_type} %{id} - %{form_name} has been updated. Please log in to Primero to review the changes.'
+    alert_subject: '%{record_type}: %{id} - %{form_name} Updated'
   webpush_notification:
     action_label: Go to Case
     approval_request:
@@ -853,6 +867,12 @@ en:
     transfer:
       title: New Transfer
       body: You have received a new Case Transfer.
+    alert_case:
+      title: Case Updated
+      body: "%{type} has been updated on one of your cases."
+    transfer_request:
+      title: Transfer Request
+      body: You have received a new Case Transfer Request
   encrypt:
     export_type: Type of export
     file_name: Create your own file name (Optional)
@@ -864,6 +884,8 @@ en:
     address_fields: You need to address %{fields} fields on %{forms} forms
     address_form_fields: You need to address %{fields} fields on this form
     address_subform_fields: '%{subform} has %{fields} invalid fields'
+    error_401:  You have been logged out. Please log in again.
+    error_something_went_wrong: Something went wrong.
   error_page:
     not_authorized:
       code: 403
@@ -874,6 +896,8 @@ en:
       contact_admin: If you believe you are here by error, please contact your admin.
       something_went_wrong: Sorry, Something went wrong!
   errors:
+    api:
+      internal_server: Server Error
     error_loading: Error Loading Record(s)
     models:
       agency:
@@ -2367,6 +2391,7 @@ en:
       workflow_team: Workflow - Teams cases
       write: Write
       activity_log: Activity Log
+      remove_alert: Remove Alert
     resource:
       kpi:
         actions:
@@ -2680,6 +2705,12 @@ en:
               that this permission also allows the user to see a link to the incident
               which was created.
             label: Create an incident from a case
+          remove_alert:
+            explanation: This permission allows the user to remove an alert from
+              a case. Alerts are typically generated when a particular field is
+              edited, such as when notes are updated. Alerts are usually shown
+              with a yellow dot next to the case.
+            label: Remove alert from a case
           manage:
             explanation: Allows a user to perform all available actions on cases.
               The "Manage" permission essentially means "everything".
@@ -2857,6 +2888,10 @@ en:
             explanation: Users can create a Case for one of the Case's family members in the Family Details subform.
               Note that a Family Record will be automatically created to link these two cases.
             label: Create Case from Family Details
+          link_family_record:
+            explanation: Allows a user to search for and link an existing Family Record to their Case.
+              Also allows users to un-link a Family Record from a Case.
+            label: Link / Unlink Family Record from Case
         explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:
@@ -3205,6 +3240,12 @@ en:
               skills and an in-depth knowledge of how data is formatted in Primero.
               Only performed from incident list page.
             label: Import
+          remove_alert:
+            explanation: This permission allows the user to remove an alert from
+              an incident. Alerts are typically generated when a particular field is
+              edited, such as when notes are updated. Alerts are usually shown
+              with a yellow dot next to the incident.
+            label: Remove alert from an incident
           manage:
             explanation: Allows a user to perform all available actions on incidents.
               The "Manage" permission essentially means "everything".
@@ -3468,7 +3509,7 @@ en:
               and click "Save".
             label: Edit
           sync_mobile:
-            explanation: Allows the user to cache Families for usage offline.
+            explanation: Allows the user to cache family records for usage offline.
             label: Mark for Offline
           close:
             explanation: Allows a user to set the status of an open family to closed.
@@ -3802,7 +3843,7 @@ en:
     display: Displaying potential matches for %{type} %{id}
   reassign:
     multiple_error: An error occurred. %{select_records} case(s) not assigned.
-    multiple_successfully: '%{select_records} case(s) successfully assigned'
+    multiple_successfully: Primero is reassigning %{select_records} Case(s). It may take several minutes for all of these Cases to update
     notes_label: Notes
     successfully: Successfully reassigned
     user_mandatory_label: Recipient is required
@@ -4073,6 +4114,8 @@ en:
   families:
     id: ID
     label: Families
+    family_id: Family ID
+    family_number: Family Number
     family_name: Family Name
     family_registration_date: Registration Date
     family_location_current: Family Location
@@ -4083,6 +4126,10 @@ en:
     disable_dialog: Clicking OK will change the status of this Family to Disabled.
     selected_records: '%{select_records} family record(s) selected'
     selected_all_records: 'Select all %{total_records} families that match this query.'
+    mark_for_offline:
+      title: Mark for Offline
+      text: Are you sure you want to mark these Family Records for use when you are offline?
+      success: Family Records successfully marked for offline use
     filter_by:
       by_date: By Date
       status: Status
@@ -4205,6 +4252,7 @@ en:
     receive_webpush:
       label: Receive push notifications?
       help_text: Note that you will still need to allow push notifications on your device’s browser.
+      tooltip: You must first edit your account and enable push notifications for your user.
     user_group_unique_ids: User Groups
     user_name: Username
     services: Services

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable class-methods-use-this, no-await-in-loop */
 import merge from "deepmerge";
 import isEmpty from "lodash/isEmpty";

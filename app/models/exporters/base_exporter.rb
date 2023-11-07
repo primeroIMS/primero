@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Superclass for all Record exporters
 class Exporters::BaseExporter
   EXPORTABLE_FIELD_TYPES = [
@@ -10,7 +12,7 @@ class Exporters::BaseExporter
   FIRST_ROW_INDEX = 1
 
   attr_accessor :locale, :lookups, :fields, :field_names, :forms, :field_value_service,
-                :location_service, :record_type, :user, :options
+                :location_service, :record_type, :user, :options, :record_data_service
 
   class << self
     def supported_models
@@ -49,13 +51,19 @@ class Exporters::BaseExporter
     establish_export_constraints
   end
 
-  def export(_records)
-    raise NotImplementedError
+  def export(records)
+    records.each { |record| embed_associated_data(record) }
+  end
+
+  def embed_associated_data(record)
+    #  If we need to embed other associated data we can add methods from the RecordDataService in this class.
+    record.data = record_data_service.embed_family_info(record.data, record, field_names || [])
   end
 
   def intialize_services
     self.location_service = LocationService.instance
     self.field_value_service = FieldValueService.new(location_service:)
+    self.record_data_service = RecordDataService.new
   end
 
   def establish_export_constraints

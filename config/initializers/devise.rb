@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 email_settings = ConfigYamlLoader.load(Rails.root.join('config', 'mailers.yml'))
 
 # Use this hook to configure devise mailer, warden hooks and so forth.

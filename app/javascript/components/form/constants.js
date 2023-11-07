@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const TEXT_FIELD = "text_field";
 export const TEXT_AREA = "textarea";
 export const FORM_MODE_SHOW = "show";

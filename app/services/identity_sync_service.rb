@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Publish creation or changes to Primero users to external systems.
 # This is used by the UNICEF SaaS Azure Active Directory, but can be used for MDM,
 # or other case management system integrations.

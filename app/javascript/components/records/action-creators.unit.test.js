@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import isObject from "lodash/isObject";
 
 import { DB_COLLECTIONS_NAMES } from "../../db";
@@ -51,7 +53,8 @@ describe("records - Action Creators", () => {
       "setSelectedCasePotentialMatch",
       "setSelectedPotentialMatch",
       "setSelectedRecord",
-      "unMatchCaseForTrace"
+      "unMatchCaseForTrace",
+      "deleteAlertFromRecord"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -507,7 +510,7 @@ describe("records - Action Creators", () => {
     const expected = {
       type: "families/CREATE_CASE_FROM_FAMILY_MEMBER",
       api: {
-        path: "families/f001/create_case",
+        path: "families/f001/case",
         body: { data: { family_member_id: "m001" } },
         method: "POST",
         successCallback: [
@@ -534,5 +537,23 @@ describe("records - Action Creators", () => {
     };
 
     expect(actionCreators.clearPotentialMatches()).be.deep.equals(expected);
+  });
+
+  it("checks that 'deleteAlertFromRecord' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.cases}/DELETE_ALERT_FROM_RECORD`,
+      api: {
+        path: `${RECORD_PATH.cases}/12345/alerts/12345-alert`,
+        method: METHODS.DELETE,
+        skipDB: true,
+        performFromQueue: true,
+        successCallback: {
+          action: `${RECORD_PATH.cases}/DELETE_ALERT_FROM_RECORD_SUCCESS`,
+          payload: { alertId: "12345-alert" }
+        }
+      }
+    };
+
+    expect(actionCreators.deleteAlertFromRecord(RECORD_PATH.cases, "12345", "12345-alert")).be.deep.equals(expected);
   });
 });

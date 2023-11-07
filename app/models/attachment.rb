@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Represents file attachments for Primero records: images, audio, documents
 class Attachment < ApplicationRecord
   IMAGE = 'image'

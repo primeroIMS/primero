@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Class for Transfer Request
 class TransferRequest < Transition
   def perform
@@ -45,7 +47,7 @@ class TransferRequest < Transition
     super && (record.owned_by == transitioned_to)
   end
 
-  def notify_by_email
+  def notify
     RequestTransferJob.perform_later(id)
   end
 end
