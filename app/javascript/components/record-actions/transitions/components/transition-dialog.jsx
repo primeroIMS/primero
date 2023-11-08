@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import ActionDialog from "../../../action-dialog";
 import { useI18n } from "../../../i18n";
 import { RECORD_TYPES } from "../../../../config";
+import { MAX_BULK_RECORDS } from "../constants";
 
 const TransitionDialog = ({
   onClose,
@@ -42,11 +43,11 @@ const TransitionDialog = ({
 
   let dialogSubHeader = null;
 
-  if (selectedRecordsLength > 0 && selectedRecordsLength <= 100) {
+  if (selectedRecordsLength > 0 && selectedRecordsLength <= MAX_BULK_RECORDS) {
     dialogSubHeader = i18n.t(`${recordType}.selected_records`, {
       select_records: selectedRecordsLength
     });
-  } else if (selectedRecordsLength > 100) {
+  } else if (selectedRecordsLength > MAX_BULK_RECORDS) {
     dialogSubHeader = i18n.t(`${RECORD_TYPES[recordType]}.messages.bulk_assign_limit_try_again`);
   }
 

@@ -12,7 +12,7 @@ import { useMemoizedSelector } from "../../../libs";
 import buildSelectedIds from "../utils/build-selected-ids";
 import { usePermissions, RESOURCES, CONSENT_OVERRIDE } from "../../permissions";
 
-import { NAME, REFERRAL_FORM_ID, TRANSFER_FORM_ID } from "./constants";
+import { NAME, REFERRAL_FORM_ID, TRANSFER_FORM_ID, MAX_BULK_RECORDS } from "./constants";
 import { hasProvidedConsent } from "./components/utils";
 import { ReassignForm, TransitionDialog, Transfers } from "./components";
 import Referrals from "./referrals/component";
@@ -147,7 +147,7 @@ const Transitions = ({
         confirmButtonLabel: i18n.t("buttons.save"),
         open: isAssignDialogOpen,
         successHandler,
-        enabledSuccessButton: selectedRecordsLength <= 100,
+        enabledSuccessButton: selectedRecordsLength <= MAX_BULK_RECORDS,
         transitionType: TRANSITIONS_TYPES.reassign
       };
     }

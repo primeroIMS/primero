@@ -44,12 +44,18 @@ describe("bulk-transitons - Action Creators", () => {
         successCallback: [
           {
             action: CLEAR_DIALOG
+          },
+          {
+            action: `${RECORD_PATH.cases}/${actions.BULK_ASSIGN_USER_SELECTED_RECORDS_LENGTH}`,
+            payload: {
+              selectedRecordsLength: 2
+            }
           }
         ]
       }
     };
 
-    expect(dispatch(actionCreators.saveBulkAssignedUser(RECORD_PATH.cases, [12345, 67890], body))).to.deep.equals(
+    expect(dispatch(actionCreators.saveBulkAssignedUser(RECORD_PATH.cases, [12345, 67890], 2, body))).to.deep.equals(
       expected
     );
   });

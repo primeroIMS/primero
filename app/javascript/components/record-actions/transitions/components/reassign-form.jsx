@@ -122,7 +122,7 @@ const ReassignForm = ({
     if (record) {
       dispatch(saveAssignedUser(record.get("id"), { data }, i18n.t("reassign.successfully")));
     } else {
-      dispatch(saveBulkAssignedUser(recordType, selectedIds, { data }));
+      dispatch(saveBulkAssignedUser(recordType, selectedIds, selectedRecordsLength, { data }));
     }
     setSubmitting(false);
     dispatch(
