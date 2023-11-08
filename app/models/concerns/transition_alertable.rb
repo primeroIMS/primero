@@ -24,13 +24,20 @@ module TransitionAlertable
   def remove_alert_on_record
     return unless remove_alert?
 
-    record.remove_alert(self.class.alert_type)
+    alerts_to_delete.each(&:destroy!)
   end
 
   def add_alert_on_record
     return unless generate_alert?
 
-    record.add_transition_alert(transitioned_to_user, self.class)
+    record.add_alert(
+      type: self.class.alert_type, date: DateTime.now.to_date, form_sidebar_id: self.class.alert_form_unique_id,
+      alert_for: Alertable::TRANSITION, user_id: transitioned_to_user.id
+    )
+  end
+
+  def alerts_to_delete
+    record.alerts.select { |alert| alert.type == self.class.alert_type && alert.alert_for == Alertable::TRANSITION }
   end
 
   def remove_alert?

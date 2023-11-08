@@ -104,7 +104,7 @@ module Alertable
   def remove_alert(type = nil)
     alerts.each do |alert|
       next unless (type.present? && alert.type == type) &&
-                  [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST, TRANSITION].include?(alert.alert_for)
+                  [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST].include?(alert.alert_for)
 
       alert.destroy
     end
@@ -120,13 +120,6 @@ module Alertable
 
     add_alert(type: approval_type, date: DateTime.now.to_date,
               form_sidebar_id: get_alert(approval_type, system_settings), alert_for: APPROVAL)
-  end
-
-  def add_transition_alert(user, transition_class)
-    add_alert(
-      type: transition_class.alert_type, date: DateTime.now.to_date,
-      form_sidebar_id: transition_class.alert_form_unique_id, alert_for: TRANSITION, user_id: user.id
-    )
   end
 
   def alerts_on_change

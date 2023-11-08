@@ -550,6 +550,45 @@ describe Referral do
 
       expect(@record.alerts).to be_empty
     end
+
+    it 'removes referral alerts for the transitioned_to user if accepted' do
+      Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      Referral.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @record)
+      referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      referral.accept!
+
+      @record.reload
+
+      alerts = @record.alerts.select { |alert| alert.type == Referral.alert_type }
+
+      expect(alerts.size).to eq(1)
+      expect(alerts.map { |alert| alert.user.user_name }).to match_array(%w[user1])
+      expect(alerts.map(&:type)).to match_array([Referral.alert_type])
+    end
+
+    it 'removes a referral alert if accepted' do
+      referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      referral.accept!
+      @record.reload
+
+      expect(@record.alerts).to be_empty
+    end
+
+    it 'removes a referral alert if rejected' do
+      referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      referral.reject!(@user2)
+      @record.reload
+
+      expect(@record.alerts).to be_empty
+    end
+
+    it 'removes a referral alert if revoked' do
+      referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      referral.revoke!(@user2)
+      @record.reload
+
+      expect(@record.alerts).to be_empty
+    end
   end
 
   after do
