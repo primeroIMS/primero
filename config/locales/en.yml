@@ -3470,15 +3470,6 @@ en:
               The XLS format renders non-Latin characters (e.g. Arabic, Bangla) in a readable
               format, while the CSV export does not.'
             label: Excel (XLS file) export
-          export_json:
-            explanation: User can generate a JSON file export from the Family list
-              or incident show pages, which contains all fields to which the current
-              user has access, for one, multiple, or all incidents to which the user
-              has access. This export is mainly used for those who want to export
-              incidents from the current Primero system and then import them into
-              a different Primero system, or into another information management system.
-              The JSON format is machine-readable and not practical for most users.
-            label: Export JSON
           export_list_view_csv:
             explanation: User can generate a CSV file export from the Family list
               page which contains the same fields which appear for that user on the
