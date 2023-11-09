@@ -54,7 +54,8 @@ const Container = () => {
     recordType,
     columns,
     options: {
-      selectableRows: "none"
+      selectableRows: "none",
+      rowsPerPageOptions: [5, 10, 20, 50]
     },
     defaultFilters,
     onTableChange: fetchConfigurations,
