@@ -11,7 +11,8 @@ export const FIELD_NAMES = {
   groupPermission: "group_permission",
   isManager: "is_manager",
   reportingLocationLevel: "reporting_location_level",
-  disabled: "disabled"
+  disabled: "disabled",
+  showOnTypeOfReferral: "show_on_type_of_referral"
 };
 export const ACTION_BUTTONS_NAME = "ActionButtons";
 

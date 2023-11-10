@@ -3076,6 +3076,14 @@ en:
         explanation: If you disable this Role, you will no longer be able to assign
           it to User accounts.
         label: Disabled
+      show_on_type_of_referral:
+        explanation: This means the role will appear as an option for the "Type of Referral"
+          dropdown when the user performs an internal referral. If the user chooses this role as the type of referral,
+          the referral recipient will only be able to access the forms which the selected role can access.
+          So, for instance, if the user chooses "Medical Service Provider" as the Type of Referral,
+          and the Medical Service Provider role only has access to the Basic Identity and Protection Concerns forms,
+          the recipient will only see these forms.
+        label: Can this role be used for the "Type of Referral" dropdown?
       duplicate:
         actions:
           read:
