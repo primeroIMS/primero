@@ -253,7 +253,7 @@ describe("Verifying config constant", () => {
           "services_section",
           "transfer_request",
           "duplicate_field",
-          "transition"
+          "transfer"
         );
 
         expect(constants.ROWS_PER_PAGE_OPTIONS).to.be.an("array");

@@ -55,7 +55,7 @@ const Component = ({ form, recordType, attachmentForms, formMode }) => {
 
     return fromJS({
       message:
-        alert.get("alert_for") === ALERTS_FOR.transition
+        alert.get("alert_for") === ALERTS_FOR.transfer
           ? messageData
           : i18n.t(`messages.alerts_for.${alert.get("alert_for")}`, messageData),
       onDismiss: showDismissButton()
