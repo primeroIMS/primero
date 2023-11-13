@@ -103,7 +103,7 @@ describe Transfer do
         expect(@case.alerts.size).to eq(1)
         expect(transfer_alert.user.user_name).to eq('user2')
         expect(transfer_alert.type).to eq('transfer')
-        expect(transfer_alert.alert_for).to eq('transition')
+        expect(transfer_alert.alert_for).to eq('transfer')
         expect(transfer_alert.form_sidebar_id).to eq('transfers_assignments')
       end
     end

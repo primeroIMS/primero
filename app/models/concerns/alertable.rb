@@ -13,7 +13,6 @@ module Alertable
   FIELD_CHANGE = 'field_change'
   TRANSFER_REQUEST = 'transfer_request'
   INCIDENT_FROM_CASE = 'incident_from_case'
-  TRANSITION = 'transition'
 
   module AlertStrategy
     # This sends email (and webpush) notifications to all
@@ -127,7 +126,7 @@ module Alertable
 
     add_alert(
       type: transition_type, date: DateTime.now.to_date,
-      form_sidebar_id: form_unique_id, alert_for: TRANSITION, user_id: user.id
+      form_sidebar_id: form_unique_id, alert_for: transition_type, user_id: user.id
     )
   end
 
