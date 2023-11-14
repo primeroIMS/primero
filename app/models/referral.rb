@@ -91,6 +91,10 @@ class Referral < Transition
     end
   end
 
+  def alerts_to_delete
+    super.select { |alert| alert.user.user_name == transitioned_to_user.user_name }
+  end
+
   private
 
   def mark_rejection(rejection_note, service_object = nil)
