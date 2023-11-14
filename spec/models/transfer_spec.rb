@@ -124,12 +124,6 @@ describe Transfer do
         expect(transfer.valid?).to be_falsey
         expect(case1.assigned_user_names.present?).to be_falsey
       end
-
-      it 'does not create a transfer alert' do
-        transfer_alert = @case.alerts.find { |alert| alert.type == 'transfer' }
-
-        expect(transfer_alert).to be_nil
-      end
     end
   end
 
@@ -445,6 +439,68 @@ describe Transfer do
         @rejected_transfer.reject!(@user1)
         expect(@case.ordered_histories.order(id: :desc).first.user_name).to eq(@user1.user_name)
       end
+    end
+  end
+
+  describe 'alerts' do
+    before :each do
+      @record = Child.create!(
+        data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id, disclosure_other_orgs: true }
+      )
+    end
+
+    it 'creates a transfer alert on the record' do
+      Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      transfer_alert = @record.alerts.find { |alert| alert.type == 'transfer' }
+
+      expect(@record.alerts.size).to eq(1)
+      expect(transfer_alert.user.user_name).to eq('user2')
+      expect(transfer_alert.type).to eq('transfer')
+      expect(transfer_alert.alert_for).to eq('transfer')
+      expect(transfer_alert.form_sidebar_id).to eq('transfers_assignments')
+    end
+
+    it 'creates a single transfer alert for multiple transfers on the same record' do
+      Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      Transfer.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @record)
+
+      transfer_alert = @record.alerts.find { |alert| alert.type == 'transfer' }
+
+      expect(@record.alerts.size).to eq(1)
+      expect(transfer_alert.user.user_name).to eq('user2')
+      expect(transfer_alert.type).to eq('transfer')
+      expect(transfer_alert.alert_for).to eq('transfer')
+      expect(transfer_alert.form_sidebar_id).to eq('transfers_assignments')
+    end
+
+    it 'does not creates a transfer alert if the trasnfer is remote' do
+      Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record, remote: true)
+
+      expect(@record.alerts).to be_empty
+    end
+
+    it 'removes a transfer alert if accepted' do
+      transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      transfer.accept!(@user2)
+      @record.reload
+
+      expect(@record.alerts).to be_empty
+    end
+
+    it 'removes a transfer alert if rejected' do
+      transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      transfer.reject!(@user2)
+      @record.reload
+
+      expect(@record.alerts).to be_empty
+    end
+
+    it 'removes a transfer alert if revoked' do
+      transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      transfer.revoke!(@user2)
+      @record.reload
+
+      expect(@record.alerts).to be_empty
     end
   end
 
