@@ -4,6 +4,21 @@
 
 # The business logic for performing the record transfer workflow.
 class Transfer < Transition
+  include TransitionAlertable
+
+  TRANSFER_FORM_UNIQUE_ID = 'transfers_assignments'
+  TRANSFER_ALERT_TYPE = 'transfer'
+
+  class << self
+    def alert_form_unique_id
+      TRANSFER_FORM_UNIQUE_ID
+    end
+
+    def alert_type
+      TRANSFER_ALERT_TYPE
+    end
+  end
+
   def perform
     self.status = Transition::STATUS_INPROGRESS
     if remote

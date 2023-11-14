@@ -6,7 +6,9 @@ require 'rails_helper'
 
 describe TransferActivityLog do
   before :each do
-    clean_data(User, Role, PrimeroModule, PrimeroProgram, FormSection, UserGroup, SavedSearch, Child, RecordHistory)
+    clean_data(
+      Alert, User, Role, PrimeroModule, PrimeroProgram, FormSection, UserGroup, SavedSearch, Child, RecordHistory
+    )
 
     @program = PrimeroProgram.create!(
       unique_id: 'primeroprogram-primero',
@@ -46,6 +48,12 @@ describe TransferActivityLog do
         assigned_user_names: { from: %w[foo other], to: ['foo'] }
       },
       datetime: '2021-10-14T13:10:05Z'
+    )
+  end
+
+  after :each do
+    clean_data(
+      Alert, User, Role, PrimeroModule, PrimeroProgram, FormSection, UserGroup, SavedSearch, Child, RecordHistory
     )
   end
 

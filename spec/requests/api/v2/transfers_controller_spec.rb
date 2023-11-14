@@ -7,7 +7,7 @@ require 'rails_helper'
 describe Api::V2::TransfersController, type: :request do
   include ActiveJob::TestHelper
   before do
-    clean_data(User, Role, PrimeroModule, UserGroup, Child, Transition)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Transition)
 
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
@@ -245,6 +245,6 @@ describe Api::V2::TransfersController, type: :request do
 
   after do
     clear_enqueued_jobs
-    clean_data(User, Role, PrimeroModule, UserGroup, Child, Transition)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Transition)
   end
 end
