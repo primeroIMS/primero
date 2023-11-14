@@ -6,8 +6,17 @@
 class Referral < Transition
   include TransitionAlertable
 
-  def self.alert_form_unique_id
-    'referral'
+  REFERRAL_FORM_UNIQUE_ID = 'referral'
+  REFERRAL_ALERT_TYPE = 'referral'
+
+  class << self
+    def alert_form_unique_id
+      REFERRAL_FORM_UNIQUE_ID
+    end
+
+    def alert_type
+      REFERRAL_ALERT_TYPE
+    end
   end
 
   def perform

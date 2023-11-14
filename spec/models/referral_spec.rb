@@ -530,7 +530,7 @@ describe Referral do
       expect(@record.alerts.size).to eq(1)
       expect(referral_alert.user.user_name).to eq('user2')
       expect(referral_alert.type).to eq(Referral.alert_type)
-      expect(referral_alert.alert_for).to eq(Alertable::TRANSITION)
+      expect(referral_alert.alert_for).to eq(Referral.alert_type)
       expect(referral_alert.form_sidebar_id).to eq(Referral.alert_form_unique_id)
     end
 

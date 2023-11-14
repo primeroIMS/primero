@@ -6,8 +6,17 @@
 class Transfer < Transition
   include TransitionAlertable
 
-  def self.alert_form_unique_id
-    'transfers_assignments'
+  TRANSFER_FORM_UNIQUE_ID = 'transfers_assignments'
+  TRANSFER_ALERT_TYPE = 'transfer'
+
+  class << self
+    def alert_form_unique_id
+      TRANSFER_FORM_UNIQUE_ID
+    end
+
+    def alert_type
+      TRANSFER_ALERT_TYPE
+    end
   end
 
   def perform

@@ -11,10 +11,6 @@ module TransitionAlertable
     after_update :remove_alert_on_record
   end
 
-  def alert_form_unique_id
-    raise NotImplementedError
-  end
-
   def was_resolved?
     saved_changes['status'].present? && [
       Transition::STATUS_ACCEPTED, Transition::STATUS_REJECTED, Transition::STATUS_DONE, Transition::STATUS_REVOKED
@@ -32,12 +28,12 @@ module TransitionAlertable
 
     record.add_alert(
       type: self.class.alert_type, date: DateTime.now.to_date, form_sidebar_id: self.class.alert_form_unique_id,
-      alert_for: Alertable::TRANSITION, user_id: transitioned_to_user.id
+      alert_for: self.class.alert_type, user_id: transitioned_to_user.id
     )
   end
 
   def alerts_to_delete
-    record.alerts.select { |alert| alert.type == self.class.alert_type && alert.alert_for == Alertable::TRANSITION }
+    record.alerts.select { |alert| alert.type == self.class.alert_type }
   end
 
   def remove_alert?
@@ -55,7 +51,7 @@ module TransitionAlertable
     end
 
     def alert_type
-      name.downcase
+      raise NotImplementedError
     end
   end
 end

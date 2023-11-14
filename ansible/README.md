@@ -324,3 +324,19 @@ If you change your hostname and you want to update your letsencrypt certificate,
 ```
   ​(venv) $ ansible-playbook application-primero.yml --tags "start"
 ```
+
+## Apply database migrations
+
+Database migrations are only present in major and minor version updates (2.7, 2.8) never in patch versions (v2.7.1).
+
+Make sure to execute the migrations every time you upgrade Primero.
+
+To execute the migrations, run:
+
+```
+​(venv) $ ansible-playbook application-primero.yml --tags "configure,start"
+```
+
+This command will execute migrations and also attempt to run the configuration indicated in `primero_configuration_repo_branch`.
+
+**Please be cautious as this could overwrite the current system configuration**. if you want to prevent a configuration from being applied, make sure to set the configuration version that is applied to the system.

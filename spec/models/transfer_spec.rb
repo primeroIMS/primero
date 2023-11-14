@@ -96,6 +96,16 @@ describe Transfer do
         expect(case1.owned_by_location).to eq('loc012345')
         expect(case1.owned_by_agency).to eq(@agency1.agency_code)
       end
+
+      it 'creates a transfer alert for the record' do
+        transfer_alert = @case.alerts.find { |alert| alert.type == 'transfer' }
+
+        expect(@case.alerts.size).to eq(1)
+        expect(transfer_alert.user.user_name).to eq('user2')
+        expect(transfer_alert.type).to eq('transfer')
+        expect(transfer_alert.alert_for).to eq('transfer')
+        expect(transfer_alert.form_sidebar_id).to eq('transfers_assignments')
+      end
     end
 
     context 'when receiving user does not have permission to receive transfers' do
@@ -446,7 +456,7 @@ describe Transfer do
       expect(@record.alerts.size).to eq(1)
       expect(transfer_alert.user.user_name).to eq('user2')
       expect(transfer_alert.type).to eq('transfer')
-      expect(transfer_alert.alert_for).to eq('transition')
+      expect(transfer_alert.alert_for).to eq('transfer')
       expect(transfer_alert.form_sidebar_id).to eq('transfers_assignments')
     end
 
@@ -459,7 +469,7 @@ describe Transfer do
       expect(@record.alerts.size).to eq(1)
       expect(transfer_alert.user.user_name).to eq('user2')
       expect(transfer_alert.type).to eq('transfer')
-      expect(transfer_alert.alert_for).to eq('transition')
+      expect(transfer_alert.alert_for).to eq('transfer')
       expect(transfer_alert.form_sidebar_id).to eq('transfers_assignments')
     end
 
