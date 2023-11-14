@@ -18,15 +18,23 @@ module TransitionAlertable
   end
 
   def remove_alert_on_record
-    return unless record.present? && was_resolved? && !remote
+    return unless remove_alert?
 
     record.remove_alert(self.class.alert_type)
   end
 
   def add_alert_on_record
-    return unless record.present? && in_progress? && !remote
+    return unless generate_alert?
 
-    record.add_transition_alert(transitioned_to_user, self.class.alert_type, self.class.alert_form_unique_id)
+    record.add_transition_alert(transitioned_to_user, self.class)
+  end
+
+  def remove_alert?
+    record.present? && was_resolved? && !remote
+  end
+
+  def generate_alert?
+    record.present? && in_progress? && !remote
   end
 
   # Class methods to indicate specific configuration for Transition Alerts

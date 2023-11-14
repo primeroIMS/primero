@@ -50,7 +50,7 @@ const Transitions = ({
     <div>
       <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={transitionTitle} />
       <RecordFormAlerts
-        form={{ unique_id: "transfers_assignments" }}
+        form={{ unique_id: isReferral ? "referral" : "transfers_assignments" }}
         recordType={recordType}
         formMode={{ isShow: showMode }}
       />

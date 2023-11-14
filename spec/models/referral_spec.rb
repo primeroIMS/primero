@@ -504,12 +504,54 @@ describe Referral do
         expect(@case.assigned_user_names).not_to include('user2')
       end
 
-      it 'it save a record history when referral is rejected' do
+      it 'saves a record history when referral is rejected' do
         @rejected_referral.reject!(@user1, @rejected_reason)
         expect(@case.ordered_histories.first.user_name).to eq(@user1.user_name)
       end
     end
   end
+
+  describe 'alerts' do
+    before :each do
+      @record = Child.create!(
+        data: {
+          name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id, disclosure_other_orgs: true,
+          consent_for_services: true
+        }
+      )
+    end
+
+    it 'creates a Referral alert on the record' do
+      Referral.create!(
+        transitioned_by: 'user1', transitioned_to: 'user2', record: @record
+      )
+      referral_alert = @record.alerts.find { |alert| alert.type == Referral.alert_type }
+
+      expect(@record.alerts.size).to eq(1)
+      expect(referral_alert.user.user_name).to eq('user2')
+      expect(referral_alert.type).to eq(Referral.alert_type)
+      expect(referral_alert.alert_for).to eq(Referral.alert_type)
+      expect(referral_alert.form_sidebar_id).to eq(Referral.alert_form_unique_id)
+    end
+
+    it 'creates multiple alerts for multiple referrals on the same record' do
+      Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      Referral.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @record)
+
+      alerts = @record.alerts.select { |alert| alert.type == Referral.alert_type }
+
+      expect(alerts.size).to eq(2)
+      expect(alerts.map { |alert| alert.user.user_name }).to match_array(%w[user2 user1])
+      expect(alerts.map(&:type)).to match_array([Referral.alert_type, Referral.alert_type])
+    end
+
+    it 'does not create a referral alert if the referral is remote' do
+      Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record, remote: true)
+
+      expect(@record.alerts).to be_empty
+    end
+  end
+
   after do
     clean_data(Alert, Child, User, Role, UserGroup, PrimeroModule, Transition, Transfer, Referral)
   end

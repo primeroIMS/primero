@@ -18,7 +18,7 @@ describe RecordActionMailer, type: :mailer do
 
   describe 'approvals' do
     before do
-      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Referral)
+      clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Referral)
 
       @lookup = Lookup.create!(id: 'lookup-approval-type', unique_id: 'lookup-approval-type', name: 'approval type',
                                lookup_values_en: [{ 'id' => 'value1', 'display_text' => 'value1' }])

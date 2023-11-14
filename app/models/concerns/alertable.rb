@@ -121,12 +121,10 @@ module Alertable
               form_sidebar_id: get_alert(approval_type, system_settings), alert_for: APPROVAL)
   end
 
-  def add_transition_alert(user, transition_type, form_unique_id)
-    return if alerts.any? { |alert| alert.type == transition_type }
-
+  def add_transition_alert(user, transition_class)
     add_alert(
-      type: transition_type, date: DateTime.now.to_date,
-      form_sidebar_id: form_unique_id, alert_for: transition_type, user_id: user.id
+      type: transition_class.alert_type, date: DateTime.now.to_date,
+      form_sidebar_id: transition_class.alert_form_unique_id, alert_for: transition_class.alert_type, user_id: user.id
     )
   end
 

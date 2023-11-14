@@ -24,6 +24,8 @@ export const getMessageData = ({ alert, form, duplicatedFields, i18n }) => {
       };
     case ALERTS_FOR.transfer:
       return i18n.t(`case.messages.case_transfer_pending`);
+    case ALERTS_FOR.referral:
+      return i18n.t(`case.messages.case_referral_pending`);
     default:
       return {};
   }
