@@ -187,7 +187,7 @@ describe RecordActionMailer, type: :mailer do
   describe 'Transitions' do
     before :each do
       clean_data(
-        User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Incident, Child
+        Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Incident, Child
       )
       @primero_module = PrimeroModule.new(name: 'CP')
       @primero_module.save(validate: false)
@@ -397,7 +397,7 @@ describe RecordActionMailer, type: :mailer do
 
     after :each do
       clean_data(
-        User, Role, PrimeroModule, PrimeroProgram, Field, FormSection,
+        Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection,
         Lookup, UserGroup, Incident, Child, Transition, Agency
       )
     end
@@ -405,7 +405,7 @@ describe RecordActionMailer, type: :mailer do
 
   describe 'Emailable Alert' do
     before do
-      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency)
+      clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency)
       FormSection.create!(unique_id: 'some_formsection_name', name: 'some_formsection_name',
                           name_en: 'Form Section Name', name_fr: 'Nom de la section du formulaire')
       @owner = create :user, user_name: 'owner', full_name: 'Owner', email: 'owner@primero.dev'
@@ -437,8 +437,10 @@ describe RecordActionMailer, type: :mailer do
     end
 
     after do
-      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Transition,
-                 Alert, Child)
+      clean_data(
+        Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection,
+        Lookup, UserGroup, Agency, Transition, Child
+      )
     end
   end
 

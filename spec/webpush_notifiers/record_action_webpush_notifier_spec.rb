@@ -7,7 +7,7 @@ require 'rails_helper'
 describe RecordActionWebpushNotifier do
   before(:each) do
     clean_data(
-      FormSection, PrimeroModule, PrimeroProgram, UserGroup,
+      Alert, FormSection, PrimeroModule, PrimeroProgram, UserGroup,
       WebpushSubscription, User, Agency, Role, Child, Transition
     )
     Rails.configuration.x.webpush.enabled = true
@@ -221,7 +221,7 @@ describe RecordActionWebpushNotifier do
   after do
     Rails.configuration.x.webpush.enabled = false
     clean_data(
-      FormSection, PrimeroModule, PrimeroProgram, UserGroup,
+      Alert, FormSection, PrimeroModule, PrimeroProgram, UserGroup,
       WebpushSubscription, User, Agency, Role, Child, Transition
     )
   end
