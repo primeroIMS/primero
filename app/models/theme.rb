@@ -15,6 +15,7 @@ class Theme < ApplicationRecord
   validate :valid_hex_values
 
   def valid_hex_values
+    return unless colors.present?
     invalid_color_keys = []
     colors_not_valid = colors.each{ |key, color| invalid_color_keys << key if !color.match(/#\h{6}/) }
 
