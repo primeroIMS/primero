@@ -23,6 +23,9 @@ module.exports = (name, entry) => {
   const { ext, path: entryPath, clean, outputDir } = entry;
 
   const entryConfig = {
+    experiments: {
+      topLevelAwait: true
+    },
     mode: "production",
     devtool: false,
     entry: {

@@ -20,4 +20,6 @@ Rails.application.configure do
   config.use_app_cache = Rails.env.production? || ActiveRecord::Type::Boolean.new.cast(ENV.fetch(
                                                                                          'PRIMERO_USE_APP_CACHE', nil
                                                                                        ))
+
+  config.use_theme = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_USE_THEME', nil)) || false                                                                                      
 end

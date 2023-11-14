@@ -11,7 +11,15 @@ import GBVPictorial from "../../images/gbv-pictorial.png";
 import CPIMSPictorial from "../../images/cpims-pictorial.png";
 import { MODULES } from "../../config";
 
-export const getLogo = (moduleLogo, white = false) => {
+export const getLogo = (moduleLogo, white = false, themeLogos, useModuleLogo = false) => {
+  if (themeLogos && !useModuleLogo) {
+    if (white) {
+      return [themeLogos.secondary, themeLogos.pictorial];
+    }
+
+    return [themeLogos.default, themeLogos.pictorial];
+  }
+
   switch (moduleLogo) {
     case MODULES.MRM:
       return [MRMLogo, PrimeroPictorial];

@@ -1,4 +1,3 @@
-import { Grid, Box } from "@material-ui/core";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
@@ -10,6 +9,7 @@ import DemoIndicator from "../../../demo-indicator";
 import { useMemoizedSelector } from "../../../../libs";
 import { useApp } from "../../../application";
 import { hasAgencyLogos } from "../../../application/selectors";
+import PoweredBy from "../../../powered-by";
 
 import { NAME } from "./constants";
 import css from "./styles.css";
@@ -29,7 +29,7 @@ const Component = ({ children }) => {
     <>
       <DemoIndicator isDemo={demo} />
       <Notifier />
-      <Box className={classes}>
+      <div className={classes}>
         <div className={css.content}>
           <div className={css.loginHeader}>
             <ModuleLogo white />
@@ -45,13 +45,15 @@ const Component = ({ children }) => {
             </div>
           </div>
         </div>
-        <Grid container className={css.footer}>
-          <Grid item xs={2}>
+        <div container className={css.footer}>
+          <div className={css.item}>
             <TranslationsToggle />
-          </Grid>
-          <Grid item xs={8} />
-        </Grid>
-      </Box>
+          </div>
+          <div className={css.item}>
+            <PoweredBy isLogin />
+          </div>
+        </div>
+      </div>
     </>
   );
 };

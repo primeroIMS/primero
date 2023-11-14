@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   get 'login/:id', to: redirect(path: '/v2/login/%{id}')
   # rubocop:enable Style/FormatStringToken(RuboCop)
 
+  get 'manifest', to: 'api/v2/themes#manifest', defaults: {format: :json}
+
   namespace :api do
     namespace :v2, defaults: { format: :json },
                    constraints: { format: :json },
@@ -147,6 +149,8 @@ Rails.application.routes.draw do
         patch 'subscriptions/current', action: :current, controller: 'webpush_subscriptions'
         resources :webpush_subscriptions, path: :subscriptions, only: %i[index create]
       end
+
+      get :theme, to: 'themes#index', defaults: { format: :js }
     end
   end
 end

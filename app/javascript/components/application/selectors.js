@@ -183,3 +183,9 @@ export const getAppData = memoize(state => {
 });
 
 export const getWebpushConfig = state => state.getIn([NAMESPACE, "webpush"], fromJS({}));
+
+export const getTheme = state => state.getIn([NAMESPACE, "theme"], fromJS({}));
+
+export const getShowPoweredByPrimero = state => state.getIn([NAMESPACE, "theme", "showPoweredByPrimero"], false);
+
+export const getThemeLogos = state => state.getIn([NAMESPACE, "theme", "images", "logos"], fromJS({}));

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_02_000000) do
+ActiveRecord::Schema.define(version: 2023_10_18_151051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 2023_08_02_000000) do
     t.integer "agency_id"
     t.string "record_type"
     t.uuid "record_id"
+    t.boolean "send_email", default: false
     t.index ["agency_id"], name: "index_alerts_on_agency_id"
     t.index ["record_type", "record_id"], name: "index_alerts_on_record_type_and_record_id"
     t.index ["user_id"], name: "index_alerts_on_user_id"
@@ -550,6 +551,14 @@ ActiveRecord::Schema.define(version: 2023_08_02_000000) do
     t.jsonb "incident_reporting_location_config"
   end
 
+  create_table "themes", force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.boolean "is_active", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["data"], name: "index_themes_on_data", using: :gin
+  end
+
   create_table "traces", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.uuid "tracing_request_id"
@@ -684,6 +693,7 @@ ActiveRecord::Schema.define(version: 2023_08_02_000000) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["notification_url", "user_id", "disabled"], name: "index_webpush_subscriptions_notification_url_user_id_disabled", unique: true
     t.index ["notification_url", "user_id"], name: "index_webpush_subscriptions_on_notification_url_and_user_id", unique: true
     t.index ["notification_url"], name: "index_webpush_subscriptions_on_notification_url"
     t.index ["user_id"], name: "index_webpush_subscriptions_on_user_id"

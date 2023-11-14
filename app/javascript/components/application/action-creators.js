@@ -102,3 +102,8 @@ export const setReturnUrl = payload => ({
   type: actions.SET_RETURN_URL,
   payload
 });
+
+export const setTheme = payload => ({
+  type: actions.SET_THEME,
+  payload
+});

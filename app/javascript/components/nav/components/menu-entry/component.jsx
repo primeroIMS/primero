@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import { isEqual } from "lodash";
+import clsx from "clsx";
 
 import { useI18n } from "../../../i18n";
 import ListIcon from "../../../list-icon";
@@ -17,7 +18,7 @@ import { LOGOUT_DIALOG, NAV_SETTINGS } from "../../constants";
 import { ROUTES } from "../../../../config";
 
 const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) => {
-  const { disabledApplication, online } = useApp();
+  const { disabledApplication, online, useContainedNavStyle } = useApp();
 
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
       !disabled && {
         component: NavLink,
         to,
-        activeClassName: css.navActive,
+        activeClassName: clsx(css.navActive, { [css.contained]: useContainedNavStyle }),
         onClick: closeDrawer,
         disabled: disabledApplication
       }),
@@ -57,12 +58,13 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
 
   const userRecordTypes = [...userPermissions.keys()];
   const navItemName = name === "username" ? username : i18n.t(name);
+  const navLinkClasses = clsx(css.navLink, { [css.contained]: useContainedNavStyle });
 
   const renderNavAction = (
     <li id={name}>
       {renderDivider}
       <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button>
-        <ListItem {...navlinkProps} className={css.navLink}>
+        <ListItem {...navlinkProps} className={navLinkClasses}>
           <ListItemIcon classes={{ root: css.listIcon }}>
             <ListIcon icon={icon} />
           </ListItemIcon>

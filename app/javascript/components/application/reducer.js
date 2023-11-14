@@ -90,6 +90,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.setIn(["primero", "agenciesLogoPdf"], fromJS(payload.data));
     case actions.SET_RETURN_URL:
       return state.set("returnUrl", fromJS(payload));
+    case actions.SET_THEME:
+      return state.set("theme", payload);
     default:
       return state;
   }

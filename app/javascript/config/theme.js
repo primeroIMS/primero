@@ -2,6 +2,11 @@ import { fade } from "@material-ui/core/styles";
 import mapKeys from "lodash/mapKeys";
 import kebabCase from "lodash/kebabCase";
 
+const { default: importedTheme } = window.useTheme
+  ? // eslint-disable-next-line prefer-template
+    await import(/* webpackIgnore: true */ window.location.origin + "/api/v2/theme")
+  : {};
+
 const generateCssVarKey = (prefix, key) => `--${prefix}-${kebabCase(key)}`;
 
 const valueWithUnit = (value, unit) => (unit ? `${value}${unit}` : value);
@@ -56,7 +61,22 @@ const colors = {
   wildSand: "#f5f5f5",
   greenLight: "#E6EED3", // u,
   redMedium: "#E7712D",
-  redLow: "#F7D0BA"
+  redLow: "#F7D0BA",
+  forgotPasswordLink: "#6D409E",
+  networkIndicatorBorder: "var(--c-solid-green)",
+  navListIcon: "var(--c-dark-grey))",
+  navListText: "var(--c-dark-grey)",
+  navListTextActive: "var(--c-dark-grey)",
+  navListIconActive: "var(--c-dark-grey)",
+  navListBgActive: "var(--c-content-grey)",
+  navListDivider: "var(--c-warm-grey-1)",
+  toolbarBackgroundColor: "linear-gradient(180deg, #A367D0 0%, #FAF2FF 0.01%, #F5EAFD 100%)",
+  toolbarBackgroundButton: "#6D409E",
+  loginBackgroundGradientStart: "var(--c-blue)",
+  loginBackgroundGradientEnd: "var(--c-blue)",
+  loginTranslationsButtonBackground: "transparent",
+  loginTranslationsButtonText: "var(--c-white)",
+  ...importedTheme.colors
 };
 
 const fontFamily = ["helvetica", "roboto", "arial", "sans-serif"].join(", ");

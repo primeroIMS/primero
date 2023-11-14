@@ -6,6 +6,7 @@
   font-size: var(--fs-12);
   display: flex;
   font-weight: bold;
+  border: 1px solid var(--c-network-indicator-border);
 
   &.online {
     color: var(--c-solid-green);

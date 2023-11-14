@@ -13,7 +13,7 @@ import css from "./styles.css";
 
 function Component({ mobile }) {
   const i18n = useI18n();
-  const { online, fieldMode } = useApp();
+  const { online, fieldMode, useContainedNavStyle } = useApp();
 
   const mode = {
     [FIELD_MODE_OFFLINE]: {
@@ -36,8 +36,8 @@ function Component({ mobile }) {
     }
   }[getConnectionStatus(online, fieldMode)];
 
-  const containerClasses = clsx(css.container, css[mode.color]);
-  const listItemClasses = clsx(css.navLink, css[mode.color]);
+  const containerClasses = clsx(css.container, css[mode.color], { [css.contained]: useContainedNavStyle });
+  const listItemClasses = clsx(css.navLink, css[mode.color], { [css.contained]: useContainedNavStyle });
 
   if (mobile) {
     return (
