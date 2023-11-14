@@ -23,6 +23,7 @@ describe("Application - Action Creators", () => {
       "setReturnUrl",
       "setUserIdle",
       "fetchManagedRoles",
+      "fetchTypeOfReferralRoles",
       "fetchSandboxUI",
       "fetchWebpushConfig"
     ].forEach(property => {

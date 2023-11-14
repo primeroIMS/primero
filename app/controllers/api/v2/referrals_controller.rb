@@ -62,9 +62,10 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
     permitted = params.require(:data).permit(
       :transitioned_to, :transitioned_to_remote, :transitioned_to_agency,
       :service, :service_record_id, :remote, :type_of_export, :notes,
-      :consent_overridden
+      :consent_overridden, :role_unique_id
     )
-    referral = Referral.new(permitted)
+    referral = Referral.new(permitted.except(:role_unique_id))
+    referral.role = Role.find_by(unique_id: permitted[:role_unique_id]) if permitted[:role_unique_id].present?
     referral.transitioned_by = current_user.user_name
     referral.record = record
     record.update_last_updated_by(current_user)

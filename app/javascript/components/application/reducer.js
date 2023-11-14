@@ -86,6 +86,14 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("disabledApplication", payload);
     case actions.FETCH_MANAGED_ROLES_SUCCESS:
       return state.set("managedRoles", fromJS(payload.data));
+    case actions.FETCH_TYPE_OF_REFERRAL_ROLES_STARTED:
+      return state.setIn(["typeOfReferralRoles", "loading"], true).setIn(["typeOfReferralRoles", "errors"], false);
+    case actions.FETCH_TYPE_OF_REFERRAL_ROLES_SUCCESS:
+      return state.setIn(["typeOfReferralRoles", "data"], fromJS(payload.data));
+    case actions.FETCH_TYPE_OF_REFERRAL_ROLES_FINISHED:
+      return state.setIn(["typeOfReferralRoles", "loading"], false);
+    case actions.FETCH_TYPE_OF_REFERRAL_ROLES_FAILURE:
+      return state.setIn(["typeOfReferralRoles", "errors"], true);
     case actions.FETCH_SANDBOX_UI_SUCCESS:
       return state.set("primero", fromJS(payload.data));
     case actions.FETCH_AGENCY_LOGO_OPTIONS_SUCCESS:

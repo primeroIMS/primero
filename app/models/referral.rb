@@ -4,6 +4,8 @@
 
 # Model describing a referral of a record from one user to another.
 class Referral < Transition
+  before_create :populate_form_unique_ids
+
   def perform
     self.status = Transition::STATUS_INPROGRESS
     mark_service_referred(service_record)
@@ -77,6 +79,12 @@ class Referral < Transition
   end
 
   private
+
+  def populate_form_unique_ids
+    return unless role.present?
+
+    self.form_unique_ids = role.form_section_unique_ids
+  end
 
   def mark_rejection(rejection_note, service_object = nil)
     return unless rejection_note.present?

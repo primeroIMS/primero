@@ -48,6 +48,7 @@ const formSectionList = state => state.getIn(["records", "admin", "forms", "form
 const referralUserList = state => state.getIn(["records", "transitions", "referral", "users"], fromJS([]));
 const transferUserList = state => state.getIn(["records", "transitions", "transfer", "users"], fromJS([]));
 const managedRoleList = state => state.getIn(["application", "managedRoles"], fromJS([]));
+const typeOfReferralRoleList = state => state.getIn(["application", "typeOfReferralRoles", "data"], fromJS([]));
 const agencyList = memoize(state => state.getIn(["application", "agencies"], fromJS([])));
 
 const formGroups = createCachedSelector(getLocale, formSectionList, (locale, data) => {
@@ -458,6 +459,13 @@ const buildManagedRoles = createCachedSelector(managedRoleList, data => {
   );
 })(defaultCacheSelectorOptions);
 
+const buildTypeOfReferralRoles = createCachedSelector(typeOfReferralRoleList, data => {
+  return data.reduce(
+    (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
+    []
+  );
+})(defaultCacheSelectorOptions);
+
 const buildPermittedRoles = createCachedSelector(
   getRoles,
   getPermittedRoleUniqueIds,
@@ -515,6 +523,8 @@ export const getOptions = source => {
       return roles;
     case OPTION_TYPES.ROLE_EXTERNAL_REFERRAL:
       return buildManagedRoles;
+    case OPTION_TYPES.ROLE_TYPE_OF_REFERRAL:
+      return buildTypeOfReferralRoles;
     case OPTION_TYPES.ROLE_PERMITTED:
       return buildPermittedRoles;
     case OPTION_TYPES.FORM_GROUP_LOOKUP:

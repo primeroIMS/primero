@@ -54,7 +54,12 @@ describe("Application - Actions", () => {
       "FETCH_MANAGED_ROLES_FAILURE",
       "FETCH_MANAGED_ROLES_SUCCESS",
       "FETCH_MANAGED_ROLES_STARTED",
-      "FETCH_MANAGED_ROLES_FINISHED"
+      "FETCH_MANAGED_ROLES_FINISHED",
+      "FETCH_TYPE_OF_REFERRAL_ROLES",
+      "FETCH_TYPE_OF_REFERRAL_ROLES_STARTED",
+      "FETCH_TYPE_OF_REFERRAL_ROLES_SUCCESS",
+      "FETCH_TYPE_OF_REFERRAL_ROLES_FAILURE",
+      "FETCH_TYPE_OF_REFERRAL_ROLES_FINISHED"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(actions).to.have.property(property);

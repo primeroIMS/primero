@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_21_124122) do
+ActiveRecord::Schema.define(version: 2023_11_13_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -501,6 +501,7 @@ ActiveRecord::Schema.define(version: 2023_09_21_124122) do
     t.boolean "disabled", default: false, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.boolean "show_on_type_of_referral", default: false, null: false
     t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
@@ -594,8 +595,11 @@ ActiveRecord::Schema.define(version: 2023_09_21_124122) do
     t.string "transitioned_by_user_groups", array: true
     t.string "transitioned_to_user_agency"
     t.string "transitioned_to_user_groups", array: true
+    t.integer "role_id"
+    t.string "form_unique_ids", array: true
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"
+    t.index ["role_id"], name: "index_transitions_on_role_id"
   end
 
   create_table "user_groups", id: :serial, force: :cascade do |t|
@@ -735,6 +739,7 @@ ActiveRecord::Schema.define(version: 2023_09_21_124122) do
   add_foreign_key "sources_violations", "violations"
   add_foreign_key "traces", "cases", column: "matched_case_id"
   add_foreign_key "traces", "tracing_requests"
+  add_foreign_key "transitions", "roles"
   add_foreign_key "user_groups_users", "user_groups"
   add_foreign_key "user_groups_users", "users"
   add_foreign_key "users", "agencies"

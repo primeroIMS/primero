@@ -70,6 +70,7 @@ describe("<Form /> - Constants", () => {
       "ROLE",
       "ROLE_EXTERNAL_REFERRAL",
       "ROLE_PERMITTED",
+      "ROLE_TYPE_OF_REFERRAL",
       "SERVICE_TYPE",
       "TRANSFER_TO_USERS",
       "USER",

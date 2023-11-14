@@ -17,6 +17,9 @@ import { setServiceToRefer } from "../../../record-form/action-creators";
 import { getServiceToRefer } from "../../../record-form";
 import PdfExporter from "../../../pdf-exporter";
 import { useMemoizedSelector } from "../../../../libs";
+import { fetchTypeOfReferralRoles } from "../../../application/action-creators";
+import { getTypeOfReferralRoles, getTypeOfReferralRolesLoading } from "../../../application/selectors";
+import LoadingIndicator from "../../../loading-indicator";
 
 import { getReferralSuccess } from "./selectors";
 import { mapServiceFields, customReferralFormProps } from "./utils";
@@ -45,6 +48,8 @@ const Referrals = ({
 
   const [formValues, setFormValues] = useState({});
 
+  const typeOfReferralRolesLoading = useMemoizedSelector(state => getTypeOfReferralRolesLoading(state));
+  const typeOfReferralRoles = useMemoizedSelector(state => getTypeOfReferralRoles(state));
   const submittedSuccessfully = useMemoizedSelector(state => getReferralSuccess(state));
   const serviceToRefer = useMemoizedSelector(state => getServiceToRefer(state));
   const formErrors = useMemoizedSelector(state => getErrorsByTransitionType(state, TRANSITION_TYPE));
@@ -66,7 +71,8 @@ const Referrals = ({
     recordType,
     recordModuleID: record?.get("module_id"),
     isReferralFromService,
-    isExternalReferralFromService
+    isExternalReferralFromService,
+    hasReferralRoles: !typeOfReferralRoles.isEmpty()
   });
 
   const handleSubmit = values => {
@@ -105,8 +111,14 @@ const Referrals = ({
     }
   }, [submittedSuccessfully]);
 
+  useEffect(() => {
+    if (dispatch) {
+      dispatch(fetchTypeOfReferralRoles());
+    }
+  }, [dispatch]);
+
   return (
-    <>
+    <LoadingIndicator loading={typeOfReferralRolesLoading} hasData={!typeOfReferralRolesLoading}>
       <Form
         formID={formID}
         submitAllFields
@@ -133,7 +145,7 @@ const Referrals = ({
           />
         )}
       />
-    </>
+    </LoadingIndicator>
   );
 };
 
