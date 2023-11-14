@@ -15,15 +15,18 @@ import { NAME } from "./constants";
 import css from "./styles.css";
 
 const Component = ({ children }) => {
-  const { demo } = useApp();
+  const { demo, hasLoginLogo } = useApp();
   const hasLogos = useMemoizedSelector(state => hasAgencyLogos(state));
 
   // TODO: Module hardcoded till we figure out when to switch modules
   const primeroModule = "cp";
   const moduleClass = `${primeroModule}${demo ? "-demo" : ""}`;
-  const classes = clsx({ [css.primeroBackground]: true, [css[moduleClass]]: true, [css.demo]: demo });
-  const classesLoginLogo = clsx({ [css.loginLogo]: true, [css.hideLoginLogo]: !hasLogos });
-  const classesAuthDiv = clsx({ [css.auth]: true, [css.noLogosWidth]: !hasLogos });
+  const classes = clsx(css.primeroBackground, css[moduleClass], {
+    [css.primeroBackgroundImage]: hasLoginLogo,
+    [css.demo]: demo
+  });
+  const classesLoginLogo = clsx(css.loginLogo, { [css.hideLoginLogo]: !hasLogos });
+  const classesAuthDiv = clsx(css.auth, { [css.noLogosWidth]: !hasLogos });
 
   return (
     <>

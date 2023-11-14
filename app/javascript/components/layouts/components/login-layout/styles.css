@@ -29,6 +29,9 @@
   flex-direction: column;
   background: var(--c-login-background-gradient-start);
   background: linear-gradient(108deg, var(--c-login-background-gradient-start) 0%, var(--c-login-background-gradient-end) 100%);
+}
+
+.primeroBackgroundImage {
   background: center/70% no-repeat var(--c-login-background-image), linear-gradient(108deg, var(--c-login-background-gradient-start) 0%, var(--c-login-background-gradient-end) 100%);
 }
 

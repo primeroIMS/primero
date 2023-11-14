@@ -17,6 +17,8 @@ const getAppModuleByUniqueId = (state, uniqueId) =>
     .getIn(["application", "modules"], fromJS([]))
     .find(module => module.get("unique_id") === uniqueId, null, fromJS([]));
 
+const getLoginBackground = state => state.hasIn([NAMESPACE, "theme", "colors", "loginBackgroundImage"], false);
+
 export const selectAgencies = state => state.getIn([NAMESPACE, "agencies"], fromJS([]));
 
 export const getAgenciesWithService = (state, service) => {
@@ -162,6 +164,14 @@ export const getRegistryTypes = (state, type) =>
 
 export const getFieldMode = state => state.getIn([NAMESPACE, "systemOptions", "field_mode"], false);
 
+export const getTheme = state => state.getIn([NAMESPACE, "theme"], fromJS({}));
+
+export const getShowPoweredByPrimero = state => state.getIn([NAMESPACE, "theme", "showPoweredByPrimero"], false);
+
+export const getUseContainedNavStyle = state => state.getIn([NAMESPACE, "theme", "useContainedNavStyle"], false);
+
+export const getThemeLogos = state => state.getIn([NAMESPACE, "theme", "images", "logos"], {});
+
 export const getAppData = memoize(state => {
   const modules = selectModules(state);
   const userModules = selectUserModules(state);
@@ -170,6 +180,9 @@ export const getAppData = memoize(state => {
   const demo = getDemo(state);
   const limitedProductionSite = getLimitedConfigUI(state);
   const currentUserName = currentUser(state);
+  const useContainedNavStyle = getUseContainedNavStyle(state);
+  const showPoweredByPrimero = getShowPoweredByPrimero(state);
+  const hasLoginLogo = getLoginBackground(state);
 
   return {
     modules,
@@ -178,14 +191,11 @@ export const getAppData = memoize(state => {
     disabledApplication,
     demo,
     currentUserName,
-    limitedProductionSite
+    limitedProductionSite,
+    useContainedNavStyle,
+    showPoweredByPrimero,
+    hasLoginLogo
   };
 });
 
 export const getWebpushConfig = state => state.getIn([NAMESPACE, "webpush"], fromJS({}));
-
-export const getTheme = state => state.getIn([NAMESPACE, "theme"], fromJS({}));
-
-export const getShowPoweredByPrimero = state => state.getIn([NAMESPACE, "theme", "showPoweredByPrimero"], false);
-
-export const getThemeLogos = state => state.getIn([NAMESPACE, "theme", "images", "logos"], fromJS({}));

@@ -1,4 +1,6 @@
 /* eslint-disable import/prefer-default-export */
+import isEmpty from "lodash/isEmpty";
+
 import PrimeroLogo from "../../images/primero-logo.png";
 import PrimeroLogoWhite from "../../images/primero-logo-white.png";
 import GBVLogo from "../../images/gbv-logo.png";
@@ -12,7 +14,7 @@ import CPIMSPictorial from "../../images/cpims-pictorial.png";
 import { MODULES } from "../../config";
 
 export const getLogo = (moduleLogo, white = false, themeLogos, useModuleLogo = false) => {
-  if (themeLogos && !useModuleLogo) {
+  if (!isEmpty(themeLogos) && !useModuleLogo) {
     if (white) {
       return [themeLogos.secondary, themeLogos.pictorial];
     }

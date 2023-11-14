@@ -2,10 +2,17 @@ import { fade } from "@material-ui/core/styles";
 import mapKeys from "lodash/mapKeys";
 import kebabCase from "lodash/kebabCase";
 
-const { default: importedTheme } = window.useTheme
-  ? // eslint-disable-next-line prefer-template
-    await import(/* webpackIgnore: true */ window.location.origin + "/api/v2/theme")
-  : {};
+async function getImportedTheme() {
+  if (!window.useTheme) {
+    return {};
+  }
+
+  const { default: theme } = await import(/* webpackIgnore: true */ `${window.location.origin}/api/v2/theme`);
+
+  return theme;
+}
+
+const importedTheme = await getImportedTheme();
 
 const generateCssVarKey = (prefix, key) => `--${prefix}-${kebabCase(key)}`;
 
@@ -70,7 +77,7 @@ const colors = {
   navListIconActive: "var(--c-dark-grey)",
   navListBgActive: "var(--c-content-grey)",
   navListDivider: "var(--c-warm-grey-1)",
-  toolbarBackgroundColor: "linear-gradient(180deg, #A367D0 0%, #FAF2FF 0.01%, #F5EAFD 100%)",
+  toolbarBackgroundColor: "linear-gradient(to top, var(--c-white), var(--c-light-grey))",
   toolbarBackgroundButton: "#6D409E",
   loginBackgroundGradientStart: "var(--c-blue)",
   loginBackgroundGradientEnd: "var(--c-blue)",
