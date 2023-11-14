@@ -36,6 +36,8 @@ export const ENABLED_FOR_ONE = [ONE];
 export const ENABLED_FOR_ONE_MANY = [ONE, MANY];
 export const ENABLED_FOR_ONE_MANY_ALL = [ONE, MANY, ALL];
 
+export const FILTERS_TO_SKIP = Object.freeze(["fields", "id_search", "per", "page", "total", "filter_category"]);
+
 export const RECORD_ACTION_ABILITIES = {
   canAddIncident: ADD_INCIDENT,
   canAddNotes: [ACTIONS.MANAGE, ACTIONS.ADD_NOTE],
