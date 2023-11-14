@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Represents a query against a numeric field
 class Reports::FieldQueries::NumericFieldQuery < Reports::FieldQueries::FieldQuery
   attr_accessor :range, :abrreviate_range
@@ -21,7 +23,7 @@ class Reports::FieldQueries::NumericFieldQuery < Reports::FieldQueries::FieldQue
 
   def sort_query
     %(
-      case #{range.map.with_index { |range, index| build_range_order(field, range, index) }.join}
+      case #{range.map.with_index { |range, index| build_range_order(field, range, index) }.join(' ')}
       end as #{sort_field}
     )
   end

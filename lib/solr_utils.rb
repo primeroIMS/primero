@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Contains all solr method utils
 class SolrUtils
   # TODO: Any connection tests?

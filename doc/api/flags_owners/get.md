@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Query for flag
 
 Show a list of all flags for a user. The user can filter the form list by record type. 

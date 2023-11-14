@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Calculate the permitted fields for a record based on the user's role.
 # TODO: Currently allows some permitted fields to be represented as a JSON schema,
 #       but this functionality should be extracted.
@@ -16,6 +18,7 @@ class PermittedFieldService
     'case_status_reopened' => { 'type' => %w[boolean null] }, 'record_state' => { 'type' => 'boolean' },
     'incident_case_id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => UUID_REGEX },
     'registry_record_id' => { 'type' => '%w[string null]', 'format' => 'regex', 'pattern' => UUID_REGEX },
+    'family_id' => { 'type' => '%w[string null]', 'format' => 'regex', 'pattern' => UUID_REGEX },
     'created_at' => { 'type' => 'date-time' },
     'owned_by' => { 'type' => 'string' },
     'module_id' => { 'type' => 'string', 'enum' => [PrimeroModule::CP, PrimeroModule::GBV, PrimeroModule::MRM] }
@@ -153,7 +156,9 @@ class PermittedFieldService
   def permitted_family_id
     return [] unless model_class == Child
 
-    if user.can?(:view_family_record, model_class)
+    if user.can?(:view_family_record, model_class) ||
+       user.can?(:case_from_family, model_class) ||
+       user.can?(:link_family_record, model_class)
       return %w[family_id family_id_display family_member_id family_name family_number]
     end
 

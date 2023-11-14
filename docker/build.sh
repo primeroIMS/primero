@@ -1,4 +1,5 @@
 #!/bin/bash
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 set -euxo pipefail
 
@@ -52,6 +53,7 @@ BUILD_MIGRATION="docker build -f migration/Dockerfile ../ -t primero/migration:$
 BUILD_POSTGRES10="docker build -f postgres/Dockerfile . -t primero/postgres:${tag}-pg10 -t ${repository}/primero/postgres:${tag}-pg10 --build-arg BUILD_REGISTRY=${build_registry} --build-arg POSTGRES_VERSION=10.22"
 BUILD_POSTGRES11="docker build -f postgres/Dockerfile . -t primero/postgres:${tag}-pg11 -t ${repository}/primero/postgres:${tag}-pg11 --build-arg BUILD_REGISTRY=${build_registry} --build-arg POSTGRES_VERSION=11.17"
 BUILD_POSTGRES14="docker build -f postgres/Dockerfile . -t primero/postgres:${tag}-pg14 -t ${repository}/primero/postgres:${tag}-pg14 --build-arg BUILD_REGISTRY=${build_registry} --build-arg POSTGRES_VERSION=14.5"
+BUILD_POSTGRES15="docker build -f postgres/Dockerfile . -t primero/postgres:${tag}-pg15 -t ${repository}/primero/postgres:${tag}-pg15 --build-arg BUILD_REGISTRY=${build_registry} --build-arg POSTGRES_VERSION=15.4"
 
 apply_tags () {
   local image=${1}
@@ -88,6 +90,7 @@ case ${image} in
     eval "${BUILD_POSTGRES10}" && apply_tags postgres pg10
     eval "${BUILD_POSTGRES11}" && apply_tags postgres pg11
     eval "${BUILD_POSTGRES14}" && apply_tags postgres pg14
+    eval "${BUILD_POSTGRES15}" && apply_tags postgres pg15
     ;;
   all)
     eval "${BUILD_APP}" && apply_tags application
@@ -97,6 +100,7 @@ case ${image} in
     eval "${BUILD_POSTGRES10}" && apply_tags postgres pg10
     eval "${BUILD_POSTGRES11}" && apply_tags postgres pg11
     eval "${BUILD_POSTGRES14}" && apply_tags postgres pg14
+    eval "${BUILD_POSTGRES15}" && apply_tags postgres pg15
     ;;
   *)
     echo "${USAGE}"

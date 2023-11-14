@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # List all transitions for this record
 
 Referrals for other users will be excluded from this list.

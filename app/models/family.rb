@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Describes the family linkages
 class Family < ApplicationRecord
   include Record
@@ -81,5 +83,9 @@ class Family < ApplicationRecord
 
   def family_members_changed?
     saved_changes_to_record.keys.include?('family_members')
+  end
+
+  def cases_grouped_by_id
+    cases&.group_by(&:id) || {}
   end
 end

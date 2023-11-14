@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Map, List, OrderedMap, fromJS } from "immutable";
 import { expect } from "chai";
 
@@ -1317,6 +1319,16 @@ describe("<RecordForm /> - Selectors", () => {
           })
           .map(field => field.name)
       ).to.deep.equals(fromJS(["name_first"]));
+    });
+  });
+
+  describe("getPreviousRecordType", () => {
+    it("returns the previousRecordType", () => {
+      const stateWithPreviousRecord = fromJS({
+        forms: { previousRecord: { id: "001", recordType: "cases" } }
+      });
+
+      expect(selectors.getPreviousRecordType(stateWithPreviousRecord)).to.equals("cases");
     });
   });
 });

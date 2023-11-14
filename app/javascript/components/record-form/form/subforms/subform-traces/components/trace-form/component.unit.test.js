@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { setupMockFormComponent } from "../../../../../../../test";
 import FormSection from "../../../../../../form/components/form-section";
 import TraceActions from "../trace-actions";

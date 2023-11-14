@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
@@ -20,12 +22,7 @@ import SaveAndRedirectDialog from "../../../save-and-redirect-dialog";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import { SERVICES_SUBFORM } from "../../../record-actions/add-service/constants";
 import { getLoadingState, getErrors, getSelectedForm } from "../../selectors";
-import {
-  clearDataProtectionInitialValues,
-  clearValidationErrors,
-  setPreviousRecord,
-  setSelectedForm
-} from "../../action-creators";
+import { clearDataProtectionInitialValues, clearValidationErrors, setPreviousRecord } from "../../action-creators";
 import Nav from "../../nav";
 import { RecordForm, RecordFormToolbar } from "../../form";
 import css from "../../styles.css";
@@ -243,12 +240,6 @@ const Component = ({
     }
   }, [selectedForm]);
 
-  useEffect(() => {
-    if (containerMode.isShow && firstTab && shouldFetchRecord) {
-      dispatch(setSelectedForm(firstTab.unique_id));
-    }
-  }, [shouldFetchRecord]);
-
   const transitionProps = {
     fetchable: isNotANewCase,
     isReferral: REFERRAL === selectedForm,
@@ -323,6 +314,7 @@ const Component = ({
               formNav={formNav}
               handleToggleNav={handleToggleNav}
               isNew={containerMode.isNew}
+              isShow={containerMode.isShow}
               mobileDisplay={mobileDisplay}
               recordType={params.recordType}
               selectedForm={selectedForm}
@@ -330,6 +322,7 @@ const Component = ({
               toggleNav={toggleNav}
               primeroModule={selectedModule.primeroModule}
               hasForms={hasForms}
+              recordId={params.id}
               formikValuesForNav={formikValuesForNav}
             />
           </div>

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Class for PrimeroModules Controller
 class Api::V2::PrimeroModulesController < ApplicationApiController
   before_action :load_primero_module, only: %i[show update]

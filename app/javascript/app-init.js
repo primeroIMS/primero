@@ -1,3 +1,4 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 import { setTheme } from "./components/application/action-creators";
 import { setUserToggleOffline } from "./components/connectivity/action-creators";
 import { getAppResources, saveNotificationSubscription } from "./components/user/action-creators";
@@ -35,5 +36,21 @@ function appInit() {
 
   return { store };
 }
+
+// This is a workaround for PWA incorrect Height
+// Get rid of when this is fixed
+// https://bugs.chromium.org/p/chromium/issues/detail?id=1457883
+// https://bugs.chromium.org/p/chromium/issues/detail?id=1464146
+const documentHeight = () => {
+  const doc = document.documentElement;
+
+  if (window.matchMedia("(display-mode: fullscreen)").matches) {
+    doc.style.setProperty("--doc-height", `${window.screen.availHeight}px`);
+  }
+};
+
+window.screen.orientation.addEventListener("change", documentHeight);
+
+documentHeight();
 
 export default appInit;

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { RECORD_PATH } from "../config/constants";
 
 export const DB_STORES = Object.freeze({
@@ -98,7 +100,8 @@ export const IDB_SAVEABLE_RECORD_TYPES = [
   RECORD_PATH.cases,
   RECORD_PATH.incidents,
   RECORD_PATH.tracing_requests,
-  RECORD_PATH.registry_records
+  RECORD_PATH.registry_records,
+  RECORD_PATH.families
 ];
 
 export const METHODS = Object.freeze({

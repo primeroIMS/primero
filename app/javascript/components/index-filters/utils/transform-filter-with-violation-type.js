@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { VIOLATION_TYPE } from "../../../config";
 
 export default ({ name, filters }) => ({

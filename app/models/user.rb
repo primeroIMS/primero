@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This model represents the Primero end user and the associated application permissions.
 # Primero can be configured to perform its own password-based authentication, in which case the
 # User model is responsible for storing the encrypted password and associated whitelisted JWT
@@ -474,6 +476,10 @@ class User < ApplicationRecord
 
   def can_approve_gbv_closure?
     can?(:approve_gbv_closure, Child) || can?(:request_approval_gbv_closure, Child)
+  end
+
+  def can_read_record?(record)
+    can?(:read, record)
   end
 
   def agency_read?

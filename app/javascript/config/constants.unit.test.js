@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import * as configConstants from "./constants";
 
 describe("Verifying config constant", () => {
@@ -250,7 +252,8 @@ describe("Verifying config constant", () => {
           "new_form",
           "services_section",
           "transfer_request",
-          "duplicate_field"
+          "duplicate_field",
+          "transfer"
         );
 
         expect(constants.ROWS_PER_PAGE_OPTIONS).to.be.an("array");

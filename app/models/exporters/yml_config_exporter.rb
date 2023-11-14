@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Export all forms and lookups as YAML for translation
 class Exporters::YmlConfigExporter < ValueObject
   attr_accessor :export_directory, :form_params, :locale, :visible

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import "mutationobserver-shim";
 
 import get from "lodash/get";

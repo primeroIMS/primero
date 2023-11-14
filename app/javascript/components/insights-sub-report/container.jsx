@@ -1,6 +1,8 @@
-import { useEffect, useMemo } from "react";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 import { useDispatch } from "react-redux";
 import isNil from "lodash/isNil";
 import isString from "lodash/isString";
@@ -50,6 +52,8 @@ const Component = () => {
     };
   }, []);
 
+  const [prevGroupedBy, setPrevGroupedBy] = useState(null);
+  const [prevGroupIdSample, setPrevGroupIdSample] = useState(null);
   const errors = useMemoizedSelector(state => getErrors(state, namespace));
   const loading = useMemoizedSelector(state => getLoading(state, namespace));
   const insight = useMemoizedSelector(state => getInsight(state));
@@ -86,7 +90,16 @@ const Component = () => {
   const totalText = i18n.t("managed_reports.total");
   const violationsText = i18n.t("managed_reports.violations_total");
 
-  const reportData = buildReportData(insight, subReport);
+  const reportData = useMemo(() => buildReportData(insight, subReport), [insight, subReport]);
+
+  const groupIdSample = useMemo(() => {
+    const dataGroup = reportData
+      .valueSeq()
+      .flatMap(value => value.valueSeq())
+      .find(elem => elem.find(group => group.get("group_id")));
+
+    return dataGroup?.first()?.get("group_id");
+  }, [reportData]);
 
   const incompleteDataLabel = i18n.t("managed_reports.incomplete_data");
 
@@ -122,6 +135,18 @@ const Component = () => {
     return DefaultIndicator;
   }
 
+  useEffect(() => {
+    if (prevGroupIdSample !== groupIdSample) {
+      setPrevGroupIdSample(groupIdSample);
+    }
+
+    if (groupedBy !== prevGroupedBy) {
+      setPrevGroupedBy(groupedBy);
+    }
+  }, [groupIdSample]);
+
+  const currentGroupBy = prevGroupIdSample !== groupIdSample ? groupedBy : prevGroupedBy;
+
   return (
     <div className={css.container}>
       <LoadingIndicator
@@ -143,7 +168,7 @@ const Component = () => {
                   columns={buildInsightColumns[insightMetadata.get("table_type")]({
                     value: singleInsightsTableData,
                     isGrouped,
-                    groupedBy,
+                    groupedBy: currentGroupBy,
                     localizeDate: i18n.localizeDate,
                     totalText,
                     incompleteDataLabel
@@ -153,7 +178,7 @@ const Component = () => {
                     data: singleInsightsTableData,
                     totalText,
                     isGrouped,
-                    groupedBy,
+                    groupedBy: currentGroupBy,
                     incompleteDataLabel
                   })}
                   showPlaceholder
@@ -168,7 +193,11 @@ const Component = () => {
               .entrySeq()
               .map(([valueKey, value]) => {
                 const hasTotalColumn = isGrouped
-                  ? value.some(elem => elem.get("data", fromJS([])).some(row => !isNil(row.get("total"))))
+                  ? value.some(
+                      elem =>
+                        List.isList(elem.get("data")) &&
+                        elem.get("data", fromJS([])).some(row => !isNil(row.get("total")))
+                    )
                   : value.some(row => !isNil(row.get("total")));
 
                 const indicatorSubColumnKeys = getIndicatorSubcolumnKeys(value);
@@ -192,7 +221,7 @@ const Component = () => {
                     ageRanges={ageRanges}
                     displayGraph={displayGraph}
                     emptyMessage={emptyMessage}
-                    groupedBy={groupedBy}
+                    groupedBy={currentGroupBy}
                     incompleteDataLabel={incompleteDataLabel}
                     insightMetadata={insightMetadata}
                     isGrouped={isGrouped}

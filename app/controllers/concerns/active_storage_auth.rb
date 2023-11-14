@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This concern is monkey patched into the public facing Rails
 # ActiveStorage controllers, to prevent the most egregious unauthorized access.
 module ActiveStorageAuth

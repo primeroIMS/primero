@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 FactoryBot.define do
   factory :form_section, traits: [:active_model] do
     unique_id { "form_section_#{counter}" }

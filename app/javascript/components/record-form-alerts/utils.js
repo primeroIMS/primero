@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable import/prefer-default-export */
 import { format, parseISO } from "date-fns";
 
@@ -20,6 +22,8 @@ export const getMessageData = ({ alert, form, duplicatedFields, i18n }) => {
           .find(field => field.name === alert.get("type"))
           ?.getIn(["display_name", i18n.locale])
       };
+    case ALERTS_FOR.transfer:
+      return i18n.t(`case.messages.case_transfer_pending`);
     default:
       return {};
   }

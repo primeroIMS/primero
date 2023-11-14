@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Class to export Ghn Subreports
 class Exporters::GhnReportSubreportExporter < Exporters::SubreportExporter
   # rubocop:disable Metrics/MethodLength

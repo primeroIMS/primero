@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { spy } from "../../../../test";
 
 import updateSubformEntries from "./update-subform-entries";

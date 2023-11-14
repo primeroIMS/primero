@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Simple check to return status code 204 if Primero is healthy
 class HealthController < ApplicationController
   RETRY_AFTER = 60

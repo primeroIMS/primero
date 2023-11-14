@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe RecordActionWebpushNotifier do
   before(:each) do
     clean_data(
-      FormSection, PrimeroModule, PrimeroProgram, UserGroup,
+      Alert, FormSection, PrimeroModule, PrimeroProgram, UserGroup,
       WebpushSubscription, User, Agency, Role, Child, Transition
     )
     Rails.configuration.x.webpush.enabled = true
@@ -17,7 +19,7 @@ describe RecordActionWebpushNotifier do
   end
 
   let(:role) do
-    create(:role, is_manager: true)
+    create(:role, is_manager: true, modules: [primero_module])
   end
 
   let(:role2) do
@@ -25,7 +27,7 @@ describe RecordActionWebpushNotifier do
   end
 
   let(:user) do
-    create(:user, user_name: 'user', full_name: 'Test User 1', email: 'owner@primero.dev', receive_webpush: true)
+    create(:user, user_name: 'user', full_name: 'Test User 1', email: 'owner@primero.dev', receive_webpush: true, role:)
   end
 
   let(:user2) do
@@ -64,6 +66,10 @@ describe RecordActionWebpushNotifier do
 
   let(:transfer1) do
     Transfer.create!(transitioned_by: manager1.user_name, transitioned_to: user2.user_name, record: child)
+  end
+
+  let(:transition_request1) do
+    TransferRequest.create!(transitioned_by: user2.user_name, transitioned_to: user.user_name, record: child)
   end
 
   describe '#transition_notify' do
@@ -108,6 +114,19 @@ describe RecordActionWebpushNotifier do
       expect(WebpushService).to receive(:send_notifications)
 
       RecordActionWebpushNotifier.manager_approval_response(approval_notification_service)
+    end
+  end
+
+  describe '#transfer_request' do
+    before(:each) do
+      webpush_subscription1
+      transition_request1
+    end
+
+    it 'should call TransitionNotificationService and WebpushService' do
+      expect(WebpushService).to receive(:send_notifications)
+
+      RecordActionWebpushNotifier.transfer_request(TransitionNotificationService.new(transition_request1.id))
     end
   end
 
@@ -187,11 +206,22 @@ describe RecordActionWebpushNotifier do
         expect(subject[:title]).to eq('New Transfer')
       end
     end
+
+    context 'when is transfer_request' do
+      subject do
+        RecordActionWebpushNotifier.new.message_structure(transition_request1)
+      end
+
+      it 'should return title for transfer' do
+        expect(subject[:title]).to eq('Transfer Request')
+      end
+    end
   end
+
   after do
     Rails.configuration.x.webpush.enabled = false
     clean_data(
-      FormSection, PrimeroModule, PrimeroProgram, UserGroup,
+      Alert, FormSection, PrimeroModule, PrimeroProgram, UserGroup,
       WebpushSubscription, User, Agency, Role, Child, Transition
     )
   end

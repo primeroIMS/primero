@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { push } from "connected-react-router";
 
 import { RECORD_PATH, METHODS, ROUTES } from "../../config";
@@ -39,6 +41,12 @@ export const fetchAuthenticatedUserData = user => ({
     successCallback: [queueReady, SET_USER_LOCALE]
   }
 });
+
+export function saveNotificationSubscription() {
+  return {
+    type: actions.SAVE_USER_NOTIFICATION_SUBSCRIPTION
+  };
+}
 
 export const setAuthenticatedUser = user => async dispatch => {
   dispatch(setUser(user));
@@ -112,13 +120,6 @@ export async function getAppResources(dispatch) {
   dispatch(fetchSandboxUI());
   dispatch(checkUserAuthentication());
   dispatch(loginSystemSettings());
-}
-
-export function saveNotificationSubscription(payload) {
-  return {
-    type: actions.SAVE_USER_NOTIFICATION_SUBSCRIPTION,
-    payload
-  };
 }
 
 export function removeNotificationSubscription() {

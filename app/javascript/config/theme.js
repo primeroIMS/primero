@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fade } from "@material-ui/core/styles";
 import mapKeys from "lodash/mapKeys";
 import kebabCase from "lodash/kebabCase";
@@ -98,7 +100,7 @@ const overrides = {
       "#root": {
         display: "flex",
         flexDirection: "column",
-        height: "100vh"
+        height: `var(--doc-height, 100vh)`
       },
       legend: {
         display: "none"

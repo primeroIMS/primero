@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import {
   ACTIVITY_LOGS,
   MANAGE,
@@ -17,7 +19,7 @@ import {
   SHOW_SUMMARY,
   READ_MANAGED_REPORTS,
   READ_REGISTRY_RECORD,
-  READ_FAMILY
+  READ_FAMILY_RECORD
 } from "../components/permissions/constants";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
@@ -46,7 +48,7 @@ export const IDLE_LOGOUT_TIMEOUT = 5 * 1000 * 60;
 // Time (ms) how often the backend is pinged to refresh the user's token
 export const TOKEN_REFRESH_INTERVAL = 30 * 1000 * 60;
 
-export const PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL = 30 * 1000 * 60;
+export const PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL = 15 * 1000 * 60;
 
 export const CASE = "case";
 export const CASES = "cases";
@@ -520,7 +522,8 @@ export const ALERTS_FOR = {
   approval: "approval",
   new_form: "new_form",
   transfer_request: "transfer_request",
-  duplicate_field: "duplicate_field"
+  duplicate_field: "duplicate_field",
+  transfer: "transfer"
 };
 
 export const MAX_OFFLINE_ROWS_PER_PAGE = 50;
@@ -583,7 +586,7 @@ export const FORM_PERMISSION_ACTION = Object.freeze({
   [APPROVALS]: SHOW_APPROVALS,
   [SUMMARY]: SHOW_SUMMARY,
   [REGISTRY_FROM_CASE]: READ_REGISTRY_RECORD,
-  [FAMILY_FROM_CASE]: READ_FAMILY
+  [FAMILY_FROM_CASE]: READ_FAMILY_RECORD
 });
 
 export const VIOLATIONS_FORM = [
@@ -746,5 +749,6 @@ export const POST_MESSAGES = {
   SUBSCRIBE_NOTIFICATIONS: "subscribe_notifications",
   UNSUBSCRIBE_NOTIFICATIONS: "unsubscribe_notifications",
   DISPATCH_REMOVE_SUBSCRIPTION: "dispatch_remove_subscription",
-  DISPATCH_SAVE_SUBSCRIPTION: "dispatch_save_subscription"
+  DISPATCH_SAVE_SUBSCRIPTION: "dispatch_save_subscription",
+  ATTEMPTS_SUBSCRIPTION_FAILED: "attempts_subscription_failed"
 };

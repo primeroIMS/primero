@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
+require 'cancan/matchers'
 
 describe Ability do
   CRUD = %i[index create view edit update destroy].freeze
@@ -165,6 +168,25 @@ describe Ability do
 
       expect(ability).to authorize(:read, case1)
       expect(ability).to authorize(:write, case1)
+    end
+
+    describe '#configure_flags' do
+      let(:flag_permissions) do
+        Permission.records.map do |resource|
+          Permission.new(resource:, actions: [Permission::READ, Permission::FLAG])
+        end
+      end
+
+      let(:flag_role) { create :role, permissions: flag_permissions }
+      let(:flag_user) { create :user, role: flag_role }
+      subject(:ability) { Ability.new(flag_user) }
+
+      it 'allows to flag records an user' do
+        [Child, TracingRequest, Incident, RegistryRecord, Family].each do |model|
+          instance = model.new_with_user(flag_user, {})
+          expect(ability).to be_able_to(:flag_record, instance)
+        end
+      end
     end
   end
 

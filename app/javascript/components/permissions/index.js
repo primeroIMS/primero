@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export { default } from "./component";
 
 export { default as usePermissions } from "./use-permissions";
@@ -26,6 +28,7 @@ export {
   EXPORTS_PERMISSIONS,
   FLAG_RECORDS,
   GROUP_PERMISSIONS,
+  LINK_FAMILY_RECORD_FROM_CASE,
   MANAGE,
   READ_MANAGED_REPORTS,
   READ_RECORDS,
@@ -43,10 +46,12 @@ export {
   SHOW_SUMMARY,
   SHOW_SYNC_EXTERNAL,
   SHOW_TASKS,
+  VIEW_FAMILY_RECORD_FROM_CASE,
   VIEW_INCIDENTS_FROM_CASE,
   VIEW_KPIS,
   WRITE_RECORDS,
-  WRITE_REGISTRY_RECORD
+  WRITE_REGISTRY_RECORD,
+  REMOVE_ALERT
 } from "./constants";
 
 export { checkPermissions } from "./utils";

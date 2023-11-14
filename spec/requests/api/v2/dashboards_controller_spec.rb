@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::DashboardsController, type: :request do
   before :each do
     clean_data(
-      User, UserGroup, Role, Incident, Child, Location, SystemSettings, Field, FormSection, Lookup, PrimeroModule
+      Alert, User, UserGroup, Role, Incident, Child, Location, SystemSettings, Field, FormSection, Lookup, PrimeroModule
     )
 
     SystemSettings.create!(
@@ -360,7 +362,7 @@ describe Api::V2::DashboardsController, type: :request do
       end
 
       after :each do
-        clean_data(User, UserGroup, Role, Incident, Child, Location, SystemSettings, Lookup)
+        clean_data(Alert, User, UserGroup, Role, Incident, Child, Location, SystemSettings, Lookup)
         Sunspot.commit
       end
     end
@@ -376,7 +378,7 @@ describe Api::V2::DashboardsController, type: :request do
 
   after :each do
     clean_data(
-      User, UserGroup, Role, Incident, Child, Location, SystemSettings, Field, FormSection, Lookup, PrimeroModule
+      Alert, User, UserGroup, Role, Incident, Child, Location, SystemSettings, Field, FormSection, Lookup, PrimeroModule
     )
     Sunspot.commit
   end
