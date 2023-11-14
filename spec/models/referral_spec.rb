@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe Referral do
   before do
-    clean_data(Child, User, Role, UserGroup, PrimeroModule, Transition, Transfer, Referral)
+    clean_data(Alert, Child, User, Role, UserGroup, PrimeroModule, Transition, Transfer, Referral)
     @module_cp = PrimeroModule.new(name: 'CP')
     @module_cp.save(validate: false)
     @module_gbv = PrimeroModule.new(name: 'GBV')
@@ -511,6 +511,6 @@ describe Referral do
     end
   end
   after do
-    clean_data(Child, User, Role, UserGroup, PrimeroModule, Transition, Transfer, Referral)
+    clean_data(Alert, Child, User, Role, UserGroup, PrimeroModule, Transition, Transfer, Referral)
   end
 end

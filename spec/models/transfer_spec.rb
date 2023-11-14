@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe Transfer do
   before do
-    clean_data(User, Agency, Role, PrimeroModule, UserGroup, Transition, Incident, Child)
+    clean_data(Alert, User, Agency, Role, PrimeroModule, UserGroup, Transition, Incident, Child)
 
     @module_cp = PrimeroModule.new(name: 'CP')
     @module_cp.save(validate: false)
@@ -96,6 +96,16 @@ describe Transfer do
         expect(case1.owned_by_location).to eq('loc012345')
         expect(case1.owned_by_agency).to eq(@agency1.agency_code)
       end
+
+      it 'creates a transfer alert for the record' do
+        transfer_alert = @case.alerts.find { |alert| alert.type == 'transfer' }
+
+        expect(@case.alerts.size).to eq(1)
+        expect(transfer_alert.user.user_name).to eq('user2')
+        expect(transfer_alert.type).to eq('transfer')
+        expect(transfer_alert.alert_for).to eq('transfer')
+        expect(transfer_alert.form_sidebar_id).to eq('transfers_assignments')
+      end
     end
 
     context 'when receiving user does not have permission to receive transfers' do
@@ -113,6 +123,12 @@ describe Transfer do
 
         expect(transfer.valid?).to be_falsey
         expect(case1.assigned_user_names.present?).to be_falsey
+      end
+
+      it 'does not create a transfer alert' do
+        transfer_alert = @case.alerts.find { |alert| alert.type == 'transfer' }
+
+        expect(transfer_alert).to be_nil
       end
     end
   end
@@ -433,6 +449,6 @@ describe Transfer do
   end
 
   after :each do
-    clean_data(User, Role, PrimeroModule, UserGroup, Incident, Child, Transition, Agency)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Incident, Child, Transition, Agency)
   end
 end

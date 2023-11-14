@@ -121,6 +121,15 @@ module Alertable
               form_sidebar_id: get_alert(approval_type, system_settings), alert_for: APPROVAL)
   end
 
+  def add_transition_alert(user, transition_type, form_unique_id)
+    return if alerts.any? { |alert| alert.type == transition_type }
+
+    add_alert(
+      type: transition_type, date: DateTime.now.to_date,
+      form_sidebar_id: form_unique_id, alert_for: transition_type, user_id: user.id
+    )
+  end
+
   def alerts_on_change
     @system_settings ||= SystemSettings.current
     # changes field to form needs to be backwards compatible, so each of the

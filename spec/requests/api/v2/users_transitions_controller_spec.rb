@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe Api::V2::UsersTransitionsController, type: :request do
   before do
-    clean_data(UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
+    clean_data(Alert, UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
 
     @program = PrimeroProgram.create!(
       unique_id: 'primeroprogram-primero',
@@ -225,6 +225,6 @@ describe Api::V2::UsersTransitionsController, type: :request do
   end
 
   after do
-    clean_data(UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
+    clean_data(Alert, UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
   end
 end
