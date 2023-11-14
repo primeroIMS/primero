@@ -21,7 +21,7 @@ class Api::V2::AssignsController < Api::V2::RecordResourceController
   end
 
   def create_bulk
-    authorize_assign!(Child)
+    authorize_assign!(model_class)
     BulkAssignRecordsJob.perform_later(model_class, current_user, bulk_approval_params)
   end
 
