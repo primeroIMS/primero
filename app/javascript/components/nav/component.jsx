@@ -109,6 +109,7 @@ const Nav = () => {
   const translationsToggleClass = clsx(css.translationToggle, css.navTranslationsToggle, {
     [css.contained]: useContainedNavStyle
   });
+  const drawerHeaderClasses = clsx(css.drawerHeader, { [css.drawerHeaderContained]: useContainedNavStyle });
 
   const drawerContent = (
     <>
@@ -117,7 +118,7 @@ const Nav = () => {
       </Hidden>
       <div className={css.drawerHeaderContainer}>
         <Hidden mdUp implementation="css">
-          <div className={css.drawerHeader}>
+          <div className={drawerHeaderClasses}>
             <IconButton onClick={handleToggleDrawer(false)}>
               <CloseIcon />
             </IconButton>

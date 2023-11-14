@@ -30,15 +30,17 @@
   justify-content: flex-end;
   align-items: center;
   padding: var(--spacing-0-1);
-  background: var(--c-light-grey);
-  /* background: #f9f1ff;
+  background: var(--c-toolbar-background-color-mobile-header, var(--c-light-grey));
 
   & button {
-    background: #6D409E;
-    color: var(--c-white);
     padding: 6px;
     margin: var(--sp-1);
-  } */
+  }
+}
+
+.drawerHeaderContained button {
+  background: var(--c-drawer-header-button);
+  color: var(--c-drawer-header-button-text);
 }
 
 .drawerPaper,
@@ -149,7 +151,7 @@
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 5%);
 
   & svg {
-    color: var(--c-list-icon-active);
+    color: var(--c-nav-list-icon-active);
   }
 }
 
