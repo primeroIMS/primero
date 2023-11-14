@@ -11,10 +11,6 @@ module TransitionAlertable
     after_update :remove_alert_on_record
   end
 
-  def alert_form_unique_id
-    raise NotImplementedError
-  end
-
   def was_resolved?
     saved_changes['status'].present? && [
       Transition::STATUS_ACCEPTED, Transition::STATUS_REJECTED, Transition::STATUS_DONE, Transition::STATUS_REVOKED
@@ -48,7 +44,7 @@ module TransitionAlertable
     end
 
     def alert_type
-      name.downcase
+      raise NotImplementedError
     end
   end
 end

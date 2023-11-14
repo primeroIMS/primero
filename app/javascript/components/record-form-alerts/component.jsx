@@ -54,10 +54,9 @@ const Component = ({ form, recordType, attachmentForms, formMode }) => {
     const messageData = getMessageData({ alert, form, duplicatedFields, i18n });
 
     return fromJS({
-      message:
-        alert.get("alert_for") === ALERTS_FOR.transition
-          ? messageData
-          : i18n.t(`messages.alerts_for.${alert.get("alert_for")}`, messageData),
+      message: [ALERTS_FOR.transfer, ALERTS_FOR.referral].includes(alert.get("alert_for"))
+        ? messageData
+        : i18n.t(`messages.alerts_for.${alert.get("alert_for")}`, messageData),
       onDismiss: showDismissButton()
         ? () => {
             dispatch(deleteAlertFromRecord(recordType, selectedRecord, alert.get("unique_id")));

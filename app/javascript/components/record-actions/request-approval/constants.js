@@ -5,5 +5,6 @@ export const APPROVAL_FORM = "ApprovalForm";
 export const APPROVAL_TYPE_LOOKUP = "lookup-approval-type";
 export const CASE_PLAN = "case_plan";
 export const APPROVAL_STATUS = {
-  pending: "pending"
+  pending: "pending",
+  requested: "requested"
 };

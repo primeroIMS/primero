@@ -13,7 +13,6 @@ module Alertable
   FIELD_CHANGE = 'field_change'
   TRANSFER_REQUEST = 'transfer_request'
   INCIDENT_FROM_CASE = 'incident_from_case'
-  TRANSITION = 'transition'
 
   module AlertStrategy
     # This sends email (and webpush) notifications to all
@@ -104,7 +103,7 @@ module Alertable
   def remove_alert(type = nil)
     alerts.each do |alert|
       next unless (type.present? && alert.type == type) &&
-                  [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST, TRANSITION].include?(alert.alert_for)
+                  [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST, Transfer.alert_type].include?(alert.alert_for)
 
       alert.destroy
     end
@@ -125,7 +124,7 @@ module Alertable
   def add_transition_alert(user, transition_class)
     add_alert(
       type: transition_class.alert_type, date: DateTime.now.to_date,
-      form_sidebar_id: transition_class.alert_form_unique_id, alert_for: TRANSITION, user_id: user.id
+      form_sidebar_id: transition_class.alert_form_unique_id, alert_for: transition_class.alert_type, user_id: user.id
     )
   end
 
