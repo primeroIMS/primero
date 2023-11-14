@@ -126,7 +126,11 @@ const stateWithRecords = fromJS({
     },
     userGroups,
     roles,
-    disabledApplication: true
+    disabledApplication: true,
+    systemOptions: {
+      maximum_users: 50,
+      maximum_users_warning: 45
+    }
   }
 });
 
@@ -556,6 +560,34 @@ describe("Application - Selectors", () => {
       );
 
       expect(result).to.deep.equal(ageRange);
+    });
+  });
+
+  describe("getMaximumUsers", () => {
+    it("should return maximum users", () => {
+      const result = selectors.getMaximumUsers(stateWithRecords);
+
+      expect(result).to.be.equal(50);
+    });
+
+    it("should return empty string if there is not any config_ui", () => {
+      const result = selectors.getMaximumUsers(stateWithNoRecords);
+
+      expect(result).to.be.undefined;
+    });
+  });
+
+  describe("getMaximumUsersWarning", () => {
+    it("should return maximum users warning", () => {
+      const result = selectors.getMaximumUsersWarning(stateWithRecords);
+
+      expect(result).to.be.equal(45);
+    });
+
+    it("should return empty string if there is not any config_ui", () => {
+      const result = selectors.getMaximumUsersWarning(stateWithNoRecords);
+
+      expect(result).to.be.undefined;
     });
   });
 });

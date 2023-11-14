@@ -96,6 +96,10 @@ class User < ApplicationRecord
   validates :locale,
             inclusion: { in: I18n.available_locales.map(&:to_s), message: 'errors.models.user.invalid_locale' },
             allow_nil: true
+  with_options if: :limit_maximum_users_enabled? do
+    validate :validate_limit_user_reached, on: :create
+    validate :validate_limit_user_reached_on_enabling, on: :update
+  end
 
   class << self
     def hidden_attributes
@@ -167,6 +171,14 @@ class User < ApplicationRecord
     # Override the devise method to eager load the user's dependencies
     def find_for_authentication(tainted_conditions)
       eager_load(role: :primero_modules).find_by(tainted_conditions)
+    end
+
+    def enabled_users_count
+      enabled.count
+    end
+
+    def limit_user_reached?
+      SystemSettings.first.maximum_users > User.enabled_users_count
     end
   end
 
@@ -548,6 +560,28 @@ class User < ApplicationRecord
   def associated_attributes_changed?
     user_groups_changed || saved_change_to_attribute?('agency_id') || saved_change_to_attribute?('location') ||
       saved_change_to_attribute('agency_office')&.last&.present?
+  end
+
+  def limit_maximum_users_enabled?
+    SystemSettings.first&.maximum_users&.present?
+  end
+
+  def enabling_user?
+    disabled_was == true && disabled == false
+  end
+
+  def validate_limit_user_reached
+    maximum_users = SystemSettings.first.maximum_users
+    return if maximum_users > User.enabled_users_count
+
+    errors.add(:base, I18n.t('users.alerts.limit_user_reached', maximum_users:))
+  end
+
+  def validate_limit_user_reached_on_enabling
+    maximum_users = SystemSettings.first.maximum_users
+    return if !enabling_user? || maximum_users > User.enabled_users_count
+
+    errors.add(:base, I18n.t('users.alerts.limit_user_reached_on_enable', maximum_users:))
   end
 end
 # rubocop:enable Metrics/ClassLength

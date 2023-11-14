@@ -45,6 +45,7 @@ const Datatable = ({
   showCustomToolbar,
   targetRecordType,
   title,
+  customToolbarSelect = null,
   useReportingLocations
 }) => {
   const dispatch = useDispatch();
@@ -160,26 +161,28 @@ const Datatable = ({
     selectedRecords && Object.keys(selectedRecords).length && selectedRecords[currentPage];
 
   // eslint-disable-next-line react/no-multi-comp, react/display-name
-  const customToolbarSelect = (selectedRows, displayData) => (
-    <CustomToolbarSelect
-      displayData={displayData}
-      recordType={recordType}
-      perPage={per}
-      selectedRecords={selectedRecords}
-      selectedRows={selectedRows}
-      setSelectedRecords={setSelectedRecords}
-      totalRecords={total}
-      page={page}
-      fetchRecords={onTableChange}
-      selectedFilters={defaultFilters.merge(filters)}
-      canSelectAll={canSelectAll}
-    />
-  );
+  const componentCustomToolbarSelect =
+    customToolbarSelect ||
+    ((selectedRows, displayData) => (
+      <CustomToolbarSelect
+        displayData={displayData}
+        recordType={recordType}
+        perPage={per}
+        selectedRecords={selectedRecords}
+        selectedRows={selectedRows}
+        setSelectedRecords={setSelectedRecords}
+        totalRecords={total}
+        page={page}
+        fetchRecords={onTableChange}
+        selectedFilters={defaultFilters.merge(filters)}
+        canSelectAll={canSelectAll}
+      />
+    ));
 
   const options = {
     ...defaultTableOptions({
       currentPage,
-      customToolbarSelect,
+      customToolbarSelect: componentCustomToolbarSelect,
       handleTableChange,
       i18n,
       per: !online && per > MAX_OFFLINE_ROWS_PER_PAGE ? MAX_OFFLINE_ROWS_PER_PAGE : per,
@@ -211,7 +214,7 @@ const Datatable = ({
         }
       }
     },
-    customToolbarSelect,
+    customToolbarSelect: componentCustomToolbarSelect,
     ...tableOptionsProps
   };
 
@@ -270,6 +273,7 @@ Datatable.propTypes = {
   canSelectAll: PropTypes.bool,
   checkOnline: PropTypes.bool,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.array]),
+  customToolbarSelect: PropTypes.func,
   data: PropTypes.instanceOf(List),
   defaultFilters: PropTypes.object,
   errors: PropTypes.array,

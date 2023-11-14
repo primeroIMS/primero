@@ -8,9 +8,11 @@ import IndexTable from "../../../index-table";
 import { ACTIONS } from "../../../permissions";
 import { SelectFilter, ToggleFilter } from "../../../index-filters/components/filter-types";
 import { FiltersForm } from "../../../form-filters/components";
+import InternalAlert from "../../../internal-alert";
 
 import actions from "./actions";
 import UsersList from "./container";
+import CustomToolbar from "./components/custom-toolbar";
 
 describe("<UsersList />", () => {
   let component;
@@ -29,12 +31,17 @@ describe("<UsersList />", () => {
               user_name: "Carlos"
             }
           ],
-          metadata: { total: 2, per: 20, page: 1 }
+          metadata: { total: 2, per: 20, page: 1, total_enabled: 38 }
         }
       },
       user: {
         permissions: {
           users: [ACTIONS.MANAGE]
+        }
+      },
+      application: {
+        systemOptions: {
+          maximum_users: 40
         }
       }
     });
@@ -68,5 +75,38 @@ describe("<UsersList />", () => {
 
   it("renders FormFilters", () => {
     expect(component.find(SelectFilter)).to.have.length(1);
+  });
+
+  it("renders CustomToolbar as label", () => {
+    expect(component.find(CustomToolbar)).to.have.length(1);
+  });
+
+  it("should NOT render warning to list user", () => {
+    expect(component.find(InternalAlert)).to.have.length(0);
+  });
+
+  context("When total_enabled User is at maximum permitted", () => {
+    let componentUserLimit;
+
+    const stateUserLimitSet = fromJS({
+      records: {
+        users: {
+          metadata: { total_enabled: 40 }
+        }
+      },
+      application: {
+        systemOptions: {
+          maximum_users: 40
+        }
+      }
+    });
+
+    beforeEach(() => {
+      ({ component: componentUserLimit } = setupMountedComponent(UsersList, {}, stateUserLimitSet, ["/admin/users"]));
+    });
+
+    it("renders warning to list user", () => {
+      expect(componentUserLimit.find(InternalAlert)).to.have.length(1);
+    });
   });
 });

@@ -4231,6 +4231,7 @@ en:
       passwords_do_not_match: does not match current password
       time_zone_updated: The change was successfully updated.
       updated: User was successfully updated.
+      created_warning: You have created %{total_enabled} of your %{maximum_users} permitted enabled users.
     organization: Organization
     agency: Agency
     services_help_text: If you do not specify services, this User will be given the same services its Agency has.
@@ -4313,6 +4314,10 @@ en:
       user_name: Username
       position: Position
       agency: Agency
+    alerts:
+      total_users_created: You have created %{total_enabled} out of your implementation's permitted %{maximum_users} enabled Users.
+      limit_user_reached: You have reached your limit of %{maximum_users} enabled Users. You must disable one or more Users before creating more.
+      limit_user_reached_on_enable: You have reached your limit of %{maximum_users} enabled Users. You must disable one or more Users before creating or enabling more.
   devise:
     failure:
       already_authenticated: "You are already signed in."

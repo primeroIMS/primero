@@ -35,5 +35,43 @@ describe SystemSettings do
         expect(@system_settings).to be_valid
       end
     end
+
+    describe 'with maximum_users' do
+      it 'is valid' do
+        @system_settings.maximum_users = 50
+        expect(@system_settings).to be_valid
+      end
+
+      context 'when maximum_users_warning is set' do
+        context 'and maximum_users_warning is greater than maximum_users' do
+          it 'is invalid' do
+            @system_settings.maximum_users = 50
+            @system_settings.maximum_users_warning = 55
+            expect(@system_settings).to be_invalid
+          end
+        end
+
+        context 'and maximum_users_warning is equal to maximum_users' do
+          it 'is valid' do
+            @system_settings.maximum_users = 57
+            @system_settings.maximum_users_warning = 55
+            expect(@system_settings).to be_valid
+          end
+        end
+
+        context 'when maximum_users is not a string' do
+          it 'is invalid' do
+            @system_settings.maximum_users = '57'
+            expect(@system_settings).to be_invalid
+          end
+        end
+      end
+    end
+
+    context 'without maximum_users' do
+      it 'is valid' do
+        expect(@system_settings).to be_valid
+      end
+    end
   end
 end

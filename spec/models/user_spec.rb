@@ -118,6 +118,44 @@ describe User do
         end
       end
     end
+
+    describe 'when limit_maximum_users_enabled' do
+      before do
+        clean_data(SystemSettings)
+        SystemSettings.create!(
+          maximum_users: 20,
+          maximum_users_warning: 15
+        )
+        SystemSettings.stub(:current).and_return(SystemSettings.first)
+        User.stub(:enabled_users_count).and_return(20)
+      end
+
+      it 'should validate limit_user_reached on create' do
+        user = build_user(user_name: 'random_user')
+        expect(user).to be_invalid
+
+        expect(user.errors.full_messages[0]).to eq(
+          'You have reached your limit of 20 enabled Users. You must disable one or more Users before creating more.'
+        )
+      end
+
+      it 'should validate limit_user_reached on enabling' do
+        user = build_user(disabled: true)
+        user.save(validate: false)
+
+        user.disabled = false
+        expect(user).to be_invalid
+        expect(user.errors.full_messages[0]).to eq(
+          'You have reached your limit of 20 enabled Users. ' \
+          'You must disable one or more Users before creating or enabling more.'
+        )
+      end
+
+      after do
+        clean_data(SystemSettings)
+      end
+    end
+
     after do
       clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, UserGroup)
     end

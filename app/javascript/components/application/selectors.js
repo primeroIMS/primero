@@ -164,6 +164,9 @@ export const getRegistryTypes = (state, type) =>
 
 export const getFieldMode = state => state.getIn([NAMESPACE, "systemOptions", "field_mode"], false);
 
+export const getMaximumUsers = state => state.getIn([NAMESPACE, "systemOptions", "maximum_users"]);
+export const getMaximumUsersWarning = state => state.getIn([NAMESPACE, "systemOptions", "maximum_users_warning"]);
+
 export const getAppData = memoize(state => {
   const modules = selectModules(state);
   const userModules = selectUserModules(state);
@@ -172,6 +175,8 @@ export const getAppData = memoize(state => {
   const demo = getDemo(state);
   const limitedProductionSite = getLimitedConfigUI(state);
   const currentUserName = currentUser(state);
+  const maximumUsers = getMaximumUsers(state);
+  const maximumUsersWarning = getMaximumUsersWarning(state);
 
   return {
     modules,
@@ -180,7 +185,9 @@ export const getAppData = memoize(state => {
     disabledApplication,
     demo,
     currentUserName,
-    limitedProductionSite
+    limitedProductionSite,
+    maximumUsers,
+    maximumUsersWarning
   };
 });
 
