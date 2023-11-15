@@ -46,10 +46,10 @@ export default (groupPermissions, i18n, adminLevelMap) => {
         tooltip: i18n.t("permissions.resource.referral.actions.refer.explanation")
       }),
       FieldRecord({
-        display_name: i18n.t("permissions.resource.show_on_type_of_referral.label"),
-        name: FIELD_NAMES.showOnTypeOfReferral,
+        display_name: i18n.t("permissions.resource.referral_authorization.label"),
+        name: FIELD_NAMES.referralAuthorization,
         type: TICK_FIELD,
-        tooltip: i18n.t("permissions.resource.show_on_type_of_referral.explanation")
+        tooltip: i18n.t("permissions.resource.referral_authorization.explanation")
       }),
       FieldRecord({
         display_name: i18n.t("permissions.resource.module.label"),

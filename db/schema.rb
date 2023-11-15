@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_21_124122) do
+ActiveRecord::Schema.define(version: 2023_11_10_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -501,6 +501,7 @@ ActiveRecord::Schema.define(version: 2023_09_21_124122) do
     t.boolean "disabled", default: false, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.boolean "referral_authorization", default: false, null: false
     t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
