@@ -14,7 +14,7 @@ export const STATE_REFERRAL_USERS_PATH = ["records", "transitions", "referral", 
 
 export const FIELDS = Object.freeze({
   ROLE: "role",
-  ROLE_UNIQUE_ID: "role_unique_id",
+  AUTHORIZED_ROLE_UNIQUE_ID: "authorized_role_unique_id",
   CONSENT_INDIVIDUAL_TRANSFER: "consent_overridden",
   REMOTE: "remote",
   SERVICE: "service",

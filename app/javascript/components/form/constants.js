@@ -44,7 +44,7 @@ export const OPTION_TYPES = {
   ROLE: "Role",
   ROLE_PERMITTED: "RolePermitted",
   ROLE_EXTERNAL_REFERRAL: "RoleExternalReferral",
-  ROLE_TYPE_OF_REFERRAL: "RoleTypeOfReferral",
+  ROLE_REFERRAL_AUTHORIZATION: "RoleReferralAuthorization",
   REFER_TO_USERS: "ReferToUsers",
   SERVICE_TYPE: "lookup-service-type",
   FORM_GROUP_LOOKUP: "FormGroupLookup",

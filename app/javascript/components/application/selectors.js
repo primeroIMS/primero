@@ -186,7 +186,8 @@ export const getAppData = memoize(state => {
 
 export const getWebpushConfig = state => state.getIn([NAMESPACE, "webpush"], fromJS({}));
 
-export const getTypeOfReferralRoles = state => state.getIn([NAMESPACE, "typeOfReferralRoles", "data"], fromJS({}));
+export const getReferralAuthorizationRoles = state =>
+  state.getIn([NAMESPACE, "referralAuthorizationRoles", "data"], fromJS({}));
 
-export const getTypeOfReferralRolesLoading = state =>
-  state.getIn([NAMESPACE, "typeOfReferralRoles", "loading"], fromJS({}));
+export const getReferralAuthorizationRolesLoading = state =>
+  state.getIn([NAMESPACE, "referralAuthorizationRoles", "loading"], fromJS({}));

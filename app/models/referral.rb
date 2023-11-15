@@ -4,7 +4,7 @@
 
 # Model describing a referral of a record from one user to another.
 class Referral < Transition
-  before_create :populate_form_unique_ids
+  before_create :populate_authorized_form_permissions
 
   def perform
     self.status = Transition::STATUS_INPROGRESS
@@ -80,10 +80,10 @@ class Referral < Transition
 
   private
 
-  def populate_form_unique_ids
+  def populate_authorized_form_permissions
     return unless role.present?
 
-    self.form_unique_ids = role.form_section_unique_ids
+    self.authorized_form_permissions = role.form_section_permission
   end
 
   def mark_rejection(rejection_note, service_object = nil)

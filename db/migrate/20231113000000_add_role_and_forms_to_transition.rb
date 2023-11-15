@@ -4,10 +4,9 @@
 
 class AddRoleAndFormsToTransition < ActiveRecord::Migration[5.2]
   def change
-    add_column :transitions, :role_id, :integer
-    add_foreign_key :transitions, :roles, column: 'role_id'
-    add_column :transitions, :form_unique_ids, :string, array: true
+    add_column :transitions, :authorized_role_unique_id, :string
+    add_column :transitions, :authorized_form_permissions, :jsonb
 
-    add_index :transitions, :role_id
+    add_index :transitions, :authorized_role_unique_id
   end
 end

@@ -108,16 +108,15 @@ const localReferralFields = ({
       order: 7
     },
     {
-      display_name: i18n.t("referral.type_of_referral_label"),
-      name: FIELDS.ROLE_UNIQUE_ID,
+      display_name: i18n.t("referral.referral_authorization_label"),
+      name: FIELDS.AUTHORIZED_ROLE_UNIQUE_ID,
       type: SELECT_FIELD,
       showIf: values => hasReferralRoles && !values[FIELDS.REMOTE],
-      option_strings_source: OPTION_TYPES.ROLE_TYPE_OF_REFERRAL,
+      option_strings_source: OPTION_TYPES.ROLE_REFERRAL_AUTHORIZATION,
       watchedInputs: [FIELDS.REMOTE],
       asyncOptionsLoadingPath: ["application", "loading"],
       asyncParamsFromWatched: [],
-      required: true,
-      help_text: i18n.t("referral.type_of_referral_help_text"),
+      help_text: i18n.t("referral.referral_authorization_help_text"),
       ...commonHandleWatched,
       order: 3
     }

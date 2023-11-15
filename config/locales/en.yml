@@ -3877,8 +3877,8 @@ en:
   referral:
     type_of_recipient: Type of Recipient
     type_of_referral_required: Type of Referral is required
-    type_of_referral_label:  Would you like to specify a Type of Referral?
-    type_of_referral_help_text: This will limit which forms the recipient can access.
+    referral_authorization_label:  Would you like to specify a Type of Referral?
+    referral_authorization_help_text: This will limit which forms the recipient can access.
     agency_label: Agency
     is_remote_label: Are you referring to a remote system?
     location_label: Location

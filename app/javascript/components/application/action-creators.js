@@ -52,11 +52,11 @@ export const fetchManagedRoles = () => ({
   }
 });
 
-export const fetchTypeOfReferralRoles = () => ({
-  type: actions.FETCH_TYPE_OF_REFERRAL_ROLES,
+export const fetchReferralAuthorizationRoles = () => ({
+  type: actions.FETCH_REFERRAL_AUTHORIZATION_ROLES,
   api: {
     path: RECORD_PATH.roles,
-    params: { type_of_referral: true }
+    params: { referral_authorization: true }
   }
 });
 

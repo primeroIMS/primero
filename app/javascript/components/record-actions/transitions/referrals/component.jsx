@@ -17,8 +17,8 @@ import { setServiceToRefer } from "../../../record-form/action-creators";
 import { getServiceToRefer } from "../../../record-form";
 import PdfExporter from "../../../pdf-exporter";
 import { useMemoizedSelector } from "../../../../libs";
-import { fetchTypeOfReferralRoles } from "../../../application/action-creators";
-import { getTypeOfReferralRoles, getTypeOfReferralRolesLoading } from "../../../application/selectors";
+import { fetchReferralAuthorizationRoles } from "../../../application/action-creators";
+import { getReferralAuthorizationRolesLoading, getReferralAuthorizationRoles } from "../../../application/selectors";
 import LoadingIndicator from "../../../loading-indicator";
 
 import { getReferralSuccess } from "./selectors";
@@ -48,8 +48,8 @@ const Referrals = ({
 
   const [formValues, setFormValues] = useState({});
 
-  const typeOfReferralRolesLoading = useMemoizedSelector(state => getTypeOfReferralRolesLoading(state));
-  const typeOfReferralRoles = useMemoizedSelector(state => getTypeOfReferralRoles(state));
+  const referralAuthorizationRolesLoading = useMemoizedSelector(state => getReferralAuthorizationRolesLoading(state));
+  const referralAuthorizationRoles = useMemoizedSelector(state => getReferralAuthorizationRoles(state));
   const submittedSuccessfully = useMemoizedSelector(state => getReferralSuccess(state));
   const serviceToRefer = useMemoizedSelector(state => getServiceToRefer(state));
   const formErrors = useMemoizedSelector(state => getErrorsByTransitionType(state, TRANSITION_TYPE));
@@ -72,7 +72,7 @@ const Referrals = ({
     recordModuleID: record?.get("module_id"),
     isReferralFromService,
     isExternalReferralFromService,
-    hasReferralRoles: !typeOfReferralRoles.isEmpty()
+    hasReferralRoles: !referralAuthorizationRoles.isEmpty()
   });
 
   const handleSubmit = values => {
@@ -113,12 +113,12 @@ const Referrals = ({
 
   useEffect(() => {
     if (dispatch) {
-      dispatch(fetchTypeOfReferralRoles());
+      dispatch(fetchReferralAuthorizationRoles());
     }
   }, [dispatch]);
 
   return (
-    <LoadingIndicator loading={typeOfReferralRolesLoading} hasData={!typeOfReferralRolesLoading}>
+    <LoadingIndicator loading={referralAuthorizationRolesLoading} hasData={!referralAuthorizationRolesLoading}>
       <Form
         formID={formID}
         submitAllFields

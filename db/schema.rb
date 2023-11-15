@@ -595,11 +595,11 @@ ActiveRecord::Schema.define(version: 2023_11_13_000000) do
     t.string "transitioned_by_user_groups", array: true
     t.string "transitioned_to_user_agency"
     t.string "transitioned_to_user_groups", array: true
-    t.integer "role_id"
-    t.string "form_unique_ids", array: true
+    t.uuid "authorized_role_unique_id"
+    t.jsonb "authorized_form_permissions"
+    t.index ["authorized_role_unique_id"], name: "index_transitions_on_authorized_role_unique_id"
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"
-    t.index ["role_id"], name: "index_transitions_on_role_id"
   end
 
   create_table "user_groups", id: :serial, force: :cascade do |t|
@@ -739,7 +739,6 @@ ActiveRecord::Schema.define(version: 2023_11_13_000000) do
   add_foreign_key "sources_violations", "violations"
   add_foreign_key "traces", "cases", column: "matched_case_id"
   add_foreign_key "traces", "tracing_requests"
-  add_foreign_key "transitions", "roles"
   add_foreign_key "user_groups_users", "user_groups"
   add_foreign_key "user_groups_users", "users"
   add_foreign_key "users", "agencies"

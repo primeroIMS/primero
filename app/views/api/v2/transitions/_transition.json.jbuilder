@@ -6,8 +6,6 @@ json.merge!(
   transition.attributes.to_h do |attr, value|
     if attr == 'record_type'
       [attr, Record.map_name(value)]
-    elsif attr == 'role_id'
-      ['role_unique_id', transition.role.unique_id]
     else
       [attr, value]
     end
