@@ -3076,7 +3076,7 @@ en:
         explanation: If you disable this Role, you will no longer be able to assign
           it to User accounts.
         label: Disabled
-      show_on_type_of_referral:
+      referral_authorization:
         explanation: This means the role will appear as an option for the "Type of Referral"
           dropdown when the user performs an internal referral. If the user chooses this role as the type of referral,
           the referral recipient will only be able to access the forms which the selected role can access.

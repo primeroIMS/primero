@@ -36,7 +36,7 @@ class Role < ApplicationRecord
     'disabled' => { 'type' => 'boolean' }, 'module_unique_ids' => { 'type' => 'array' },
     'permissions' => { 'type' => 'object' }, 'form_section_read_write' => { 'type' => 'object' },
     'reporting_location_level' => { 'type' => %w[integer null] },
-    'show_on_type_of_referral' => { 'type' => 'boolean' }
+    'referral_authorization' => { 'type' => 'boolean' }
   }.freeze
 
   has_many :form_permissions

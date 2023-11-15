@@ -501,7 +501,7 @@ ActiveRecord::Schema.define(version: 2023_11_13_000000) do
     t.boolean "disabled", default: false, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.boolean "show_on_type_of_referral", default: false, null: false
+    t.boolean "referral_authorization", default: false, null: false
     t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
