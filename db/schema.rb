@@ -595,8 +595,7 @@ ActiveRecord::Schema.define(version: 2023_11_13_000000) do
     t.string "transitioned_by_user_groups", array: true
     t.string "transitioned_to_user_agency"
     t.string "transitioned_to_user_groups", array: true
-    t.uuid "authorized_role_unique_id"
-    t.jsonb "authorized_form_permissions"
+    t.string "authorized_role_unique_id"
     t.index ["authorized_role_unique_id"], name: "index_transitions_on_authorized_role_unique_id"
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"
