@@ -114,7 +114,7 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy, subColumnItems
     .map(value => ({ colspan: 0, row: value }));
 };
 
-const buildSingleRows = ({ getLookupValue, data, key, subColumnItems, hasTotalColumn }) =>
+const buildSingleRows = ({ getLookupValue, data, key, subColumnItems = [], hasTotalColumn }) =>
   data
     .map(value => {
       const lookupValue = getLookupValue(key, value);
