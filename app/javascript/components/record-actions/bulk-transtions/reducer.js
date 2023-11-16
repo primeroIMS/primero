@@ -28,6 +28,8 @@ export default namespace =>
           .setIn([NAMESPACE, "loading"], false)
           .setIn([NAMESPACE, "data"], fromJS([]))
           .setIn([NAMESPACE, "errors"], fromJS([]));
+      case `${namespace}/${actions.BULK_ASSIGN_USER_SELECTED_RECORDS_LENGTH}`:
+        return state.setIn([NAMESPACE, "selectedRecordsLength"], fromJS(payload.selectedRecordsLength, 0));
       default:
         return state;
     }

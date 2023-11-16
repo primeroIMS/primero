@@ -23,7 +23,7 @@ class Reports::FieldQueries::NumericFieldQuery < Reports::FieldQueries::FieldQue
 
   def sort_query
     %(
-      case #{range.map.with_index { |range, index| build_range_order(field, range, index) }.join}
+      case #{range.map.with_index { |range, index| build_range_order(field, range, index) }.join(' ')}
       end as #{sort_field}
     )
   end

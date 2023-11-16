@@ -197,7 +197,8 @@ describe("<Transitions />", () => {
         "setPending",
         "selectedIds",
         "mode",
-        "assignRef"
+        "assignRef",
+        "selectedRecordsLength"
       ];
 
       expect(Object.keys(reassignForm.props())).to.deep.equal(validProps);
