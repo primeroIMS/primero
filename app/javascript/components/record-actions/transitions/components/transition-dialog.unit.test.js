@@ -90,7 +90,8 @@ describe("<TransitionDialog />", () => {
     const propsForBulk = {
       ...props,
       record: undefined,
-      selectedIds: [12345, 67890]
+      selectedIds: [12345, 67890],
+      selectedRecordsLength: 2
     };
 
     beforeEach(() => {
@@ -102,6 +103,20 @@ describe("<TransitionDialog />", () => {
 
     it("should render 'Assign Cases' as title", () => {
       expect(component.find(DialogTitle).text()).to.equals("transition.type.reassign cases.label ");
+    });
+
+    context("and user has selected more than 100 cases", () => {
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(TransitionDialog, {
+          ...propsForBulk,
+          selectedRecordsLength: 101,
+          transitionType
+        }));
+      });
+
+      it("should render message", () => {
+        expect(component.find("h6").text()).to.equals("case.messages.bulk_assign_limit_try_again");
+      });
     });
   });
 

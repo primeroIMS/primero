@@ -101,6 +101,7 @@ en:
     terms_of_use_download_button: Download PDF
     terms_of_use_enabled: Display Terms of Use?
   approvals:
+    no_requests: There are no approval requests for this Case
     approved_by: Approved By
     case_plan_type_label: Case plan type
     manager_comments_label: Manager Comments
@@ -2960,7 +2961,8 @@ en:
               tasks for each one of their case workers.
             label: Overdue Service tasks
           dash_case_incident_overview:
-            explanation: .
+            explanation: Shows a manager the number of cases managed by each user in their team,
+              which are being referred or transferred to other users.
             label: Overview - My Cases / Incidents
           dash_cases_by_social_worker:
             explanation: Table which shows how the total number of open cases and
@@ -3023,6 +3025,8 @@ en:
               to each one of the users in their team.
             label: Shared With My Team
           dash_shared_with_my_team_overview:
+            explanation: Shows a manager the number of cases referred or transferred
+              to each one of the users in their team.
             label: Shared with my Team (Overview)
           dash_shared_with_others:
             explanation: Shows how many of my cases have active referrals, pending
@@ -3188,6 +3192,7 @@ en:
               has access.
             label: Export CSV
           export_custom:
+            explanation: User can select specific forms or fields to export to an XLS file.
             label: Export custom
           export_incident_recorder_xls:
             explanation: User can generate a specialized XLS file export which allows
@@ -3290,12 +3295,16 @@ en:
           managed_report_scope_agency:
             label: Agency-based data only
           violations:
+            explanation: Ability to access the MRM Violations Insight.
             label: Violations
           gbv_statistics:
+            explanation: Ability to access to see the GBV Statisitcs Insight.
             label: GBV Statistics
           ghn_report:
+            explanation: Ability to access the MRM Global Horizontal Note Insight.
             label: Global Horizontal Note
           individual_children:
+            explanation: Ability to access the MRM Individual Children Insight.
             label: Individual Children
           workflow_report:
             label: Workflow
@@ -3470,15 +3479,6 @@ en:
               The XLS format renders non-Latin characters (e.g. Arabic, Bangla) in a readable
               format, while the CSV export does not.'
             label: Excel (XLS file) export
-          export_json:
-            explanation: User can generate a JSON file export from the Family list
-              or incident show pages, which contains all fields to which the current
-              user has access, for one, multiple, or all incidents to which the user
-              has access. This export is mainly used for those who want to export
-              incidents from the current Primero system and then import them into
-              a different Primero system, or into another information management system.
-              The JSON format is machine-readable and not practical for most users.
-            label: Export JSON
           export_list_view_csv:
             explanation: User can generate a CSV file export from the Family list
               page which contains the same fields which appear for that user on the
@@ -3812,7 +3812,8 @@ en:
             label: Delete
           manage:
             label: Manage (all permissions for this resource type)
-            explanation:
+            explanation: Used for system roles which access Primero Webhooks to other systems.
+              Not recommended for non-developer usage.
       activity_log:
         actions:
           transfer:
@@ -3821,7 +3822,7 @@ en:
             label: Transfers
           manage:
             label: Manage (all permissions for this resource type)
-            explanation:
+            explanation: Ability to access all.
         label: Activity Log
   potential_match:
     case_id: Case ID

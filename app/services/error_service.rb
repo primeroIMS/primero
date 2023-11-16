@@ -57,6 +57,9 @@ class ErrorService
       JWT::InvalidIssuerError, JWT::InvalidJtiError, JWT::ImmatureSignature, JWT::InvalidSubError
       code = 401
       errors = [ApplicationError.new(code:, message: error.message, resource: request.path)]
+    when Errors::BulkAssignRecordsSizeError
+      code = 403
+      errors = [ApplicationError.new(code:, message: error.message, resource: request.path)]
     else
       code = 500
       errors = [

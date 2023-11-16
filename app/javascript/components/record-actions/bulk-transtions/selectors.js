@@ -9,5 +9,5 @@ export const getNumberErrorsBulkAssign = (state, recordType) => {
 };
 
 export const getNumberBulkAssign = (state, recordType) => {
-  return state.getIn(["records", recordType, NAMESPACE, "data"], fromJS([])).size;
+  return state.getIn(["records", recordType, NAMESPACE, "selectedRecordsLength"], 0);
 };
