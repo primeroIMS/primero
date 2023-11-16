@@ -33,6 +33,13 @@ describe ManagedReports::Indicators::VerifiedInformationViolations do
     )
 
     Violation.create!(
+      data: { type: 'attack_on_schools', ctfmr_verified: 'verified',
+              ctfmr_verified_date: Date.new(2021, 7, 31),
+              violation_tally: { boys: 1, girls: 1, unknown: 1, total: 3 } },
+      incident_id: incident.id
+    )
+
+    Violation.create!(
       data: { type: 'killing',
               ctfmr_verified_date: Date.new(2021, 5, 23),
               violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 } },
