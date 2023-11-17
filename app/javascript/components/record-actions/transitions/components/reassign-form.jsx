@@ -17,7 +17,6 @@ import SearchableSelect from "../../../searchable-select";
 import { enqueueSnackbar } from "../../../notifier";
 import { useI18n } from "../../../i18n";
 import { applyFilters } from "../../../index-filters/action-creators";
-import { DEFAULT_FILTERS } from "../../../record-list/constants";
 import { filterUsers } from "../utils";
 import { useMemoizedSelector } from "../../../../libs";
 import { getFiltersValuesByRecordType } from "../../../index-filters/selectors";
@@ -128,7 +127,7 @@ const ReassignForm = ({
     dispatch(
       applyFilters({
         recordType,
-        data: DEFAULT_FILTERS
+        data: appliedFilters
       })
     );
   };
