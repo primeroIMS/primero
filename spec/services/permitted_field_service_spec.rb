@@ -284,5 +284,91 @@ describe PermittedFieldService, search: true do
       expect((Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS) - permitted_fields_schema.keys).to be_empty
     end
   end
+
+  describe 'Permitted Fields for Multiple Roles' do
+    before(:each) do
+      clean_data(PrimeroModule, User, Agency, Role, FormSection, Field, SystemSettings)
+      primero_module_cp
+      form_a
+      form_b
+      role_a.save!
+      role_b.save!
+      test_user
+    end
+
+    let(:form_a) do
+      FormSection.create!(
+        unique_id: 'a', name: 'A', parent_form: 'case', form_group_id: 'm', fields: [
+          Field.create!(name: 'field_a', display_name: 'A1', type: Field::TEXT_FIELD)
+        ]
+      )
+    end
+    let(:form_b) do
+      FormSection.create!(
+        unique_id: 'b', name: 'B', parent_form: 'case', form_group_id: 'm', fields: [
+          Field.create!(name: 'field_b', display_name: 'b1', type: Field::TEXT_FIELD)
+        ]
+      )
+    end
+    let(:primero_module_cp) do
+      PrimeroModule.create!(
+        primero_program: PrimeroProgram.first,
+        name: 'PrimeroModule',
+        unique_id: PrimeroModule::CP,
+        associated_record_types: ['case'],
+        form_sections: [form_a, form_b]
+      )
+    end
+    let(:role_a) do
+      Role.new_with_properties(
+        name: 'Test Role A',
+        unique_id: 'test-role-a',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::CREATE, Permission::WRITE]
+          )
+        ],
+        form_section_read_write: { form_a.unique_id => 'rw' }
+      )
+    end
+    let(:role_b) do
+      Role.new_with_properties(
+        name: 'Test Role B',
+        unique_id: 'test-role-b',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::CREATE, Permission::WRITE]
+          )
+        ],
+        form_section_read_write: { form_b.unique_id => 'r' }
+      )
+    end
+    let(:test_user) do
+      user = User.new(
+        full_name: 'Test User 2',
+        user_name: 'test_user_2',
+        password: 'a12345632',
+        password_confirmation: 'a12345632',
+        email: 'test_user_2@localhost.com',
+        role: role_a
+      )
+      user.save!(validate: false)
+      user
+    end
+
+    it 'returns the permitted fields for the roles' do
+      permitted_field_names = PermittedFieldService.new(test_user, Child).permitted_field_names(
+        false, false, [role_a, role_b]
+      )
+
+      expect(permitted_field_names).to include('field_a', 'field_b')
+    end
+  end
   after(:each) { clean_data(PrimeroProgram, User, Agency, Role, FormSection, Field, SystemSettings) }
 end

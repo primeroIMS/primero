@@ -30,6 +30,7 @@ class Api::V2::ChildrenController < ApplicationApiController
     )
     @current_record.save! if @current_record.has_changes_to_save?
     @record.save!
+    permit_fields
     select_fields_for_show
   end
 

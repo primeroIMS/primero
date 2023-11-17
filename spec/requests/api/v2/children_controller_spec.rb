@@ -9,12 +9,18 @@ describe Api::V2::ChildrenController, type: :request do
 
   before :each do
     clean_data(
-      Alert, Flag, Attachment, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord, Family
+      Alert, Flag, Attachment, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord, Family,
+      Field, FormSection
     )
 
     @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
     @cp = PrimeroModule.create!(unique_id: PrimeroModule::CP, name: 'CP', description: 'Child Protection',
                                 associated_record_types: %w[case tracing_request incident])
+    @form_a = FormSection.create!(
+      unique_id: 'form_a', name: 'A', parent_form: 'case', form_group_id: 'm', fields: [
+        Field.create!(name: 'field_a', display_name: 'Field A', type: Field::TEXT_FIELD)
+      ]
+    )
     role_self = Role.create!(
       name: 'Test Role 3',
       unique_id: 'test-role-3',
@@ -54,6 +60,26 @@ describe Api::V2::ChildrenController, type: :request do
         )
       ]
     )
+    @role_restricted = Role.new_with_properties(
+      name: 'Role restricted',
+      unique_id: 'role-restricted',
+      group_permission: Permission::SELF,
+      modules: [@cp],
+      permissions: [
+        Permission.new(
+          resource: Permission::CASE,
+          actions: [
+            Permission::READ,
+            Permission::WRITE,
+            Permission::CREATE,
+            Permission::REFERRAL,
+            Permission::RECEIVE_REFERRAL
+          ]
+        )
+      ],
+      form_section_read_write: { @form_a.unique_id => 'rw' }
+    )
+    @role_restricted.save!
     @role1 = Role.create!(name: 'Role self permission', unique_id: 'role_self_permission', modules: [@cp],
                           referral: true, transfer: true, group_permission: 'self',
                           permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
@@ -68,6 +94,16 @@ describe Api::V2::ChildrenController, type: :request do
       role: @role_owned_others
     )
 
+    @user_referral = User.create!(
+      full_name: 'User referral',
+      user_name: 'user_referral',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'user_referral@localhost.com',
+      agency_id: @agency.id,
+      role: @role_restricted
+    )
+
     @user_cp = User.create!(
       full_name: 'Test User with Owned by Others',
       user_name: 'user_cp',
@@ -76,7 +112,6 @@ describe Api::V2::ChildrenController, type: :request do
       email: 'user_cp@localhost.com',
       agency_id: @agency.id,
       user_group_ids: [@group1.id],
-
       role: @role1
     )
 
@@ -202,6 +237,16 @@ describe Api::V2::ChildrenController, type: :request do
     )
     @case9 = Child.create!(data: { name: 'Test9', age: 10, sex: 'male' })
     @case10 = Child.create!(data: { name: 'Test10', age: 18, sex: 'female' })
+    @case11 = Child.create!(
+      data: {
+        name: 'Test11', age: 17, sex: 'female', owned_by: 'user_cp', module_id: @cp.unique_id,
+        disclosure_other_orgs: true, consent_for_services: true, field_a: 'value for field_a'
+      }
+    )
+    @referral1 = Referral.create!(
+      transitioned_by: 'user_cp', transitioned_to: 'user_referral', record: @case11,
+      authorized_role_unique_id: 'role-restricted'
+    )
     # This is legitimate. The cases are implicitly reloaded in the attachments & flagging api
     reloaded_cases = [@case1, @case2, @case3, @case4, @case5, @case6, @case7, @case8].map(&:reload)
     Sunspot.index(*reloaded_cases)
@@ -216,9 +261,9 @@ describe Api::V2::ChildrenController, type: :request do
       get '/api/v2/cases'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(10)
+      expect(json['data'].size).to eq(11)
       expect(json['data'].map { |c| c['name'] }).to include(@case1.name, @case2.name)
-      expect(json['metadata']['total']).to eq(10)
+      expect(json['metadata']['total']).to eq(11)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
       case1_data = json['data'].find { |r| r['id'] == @case1.id }
@@ -315,9 +360,9 @@ describe Api::V2::ChildrenController, type: :request do
       login_for_test(permitted_field_names: ['urgent_protection_concern'])
       get '/api/v2/cases?urgent_protection_concern=false'
 
-      expect(json['data'].count).to eq(9)
+      expect(json['data'].count).to eq(10)
       expect(json['data'].map { |elem| elem['id'] }).to match_array(
-        [@case1.id, @case3.id, @case4.id, @case5.id, @case6.id, @case7.id, @case8.id, @case9.id, @case10.id]
+        [@case1.id, @case3.id, @case4.id, @case5.id, @case6.id, @case7.id, @case8.id, @case9.id, @case10.id, @case11.id]
       )
       expect(json['data'].map { |elem| elem['urgent_protection_concern'] }).to all(be_falsey)
       expect(response).to have_http_status(200)
@@ -338,7 +383,7 @@ describe Api::V2::ChildrenController, type: :request do
 
         get '/api/v2/cases?id_search=true'
 
-        expect(json['data'].count).to eq(10)
+        expect(json['data'].count).to eq(11)
         expect(response).to have_http_status(200)
       end
     end
@@ -346,8 +391,8 @@ describe Api::V2::ChildrenController, type: :request do
     it 'return records sort by age' do
       login_for_test
       get '/api/v2/cases?fields=short&order=asc&order_by=age'
-      expect(json['data'].count).to eq(10)
-      expect(json['data'].map { |rr| rr['age'] }).to eq([2, 5, 5, 6, 9, 10, 10, 12, 16, 18])
+      expect(json['data'].count).to eq(11)
+      expect(json['data'].map { |rr| rr['age'] }).to eq([2, 5, 5, 6, 9, 10, 10, 12, 16, 17, 18])
     end
 
     context 'when a gbv case has in the associated_user_names a cp user' do
@@ -540,6 +585,26 @@ describe Api::V2::ChildrenController, type: :request do
           expect(json['data']['family_details_section'][0]['relation_name']).to eq('Member 2')
           expect(json['data']['family_details_section'][0]['relation_sex']).to eq('male')
           expect(json['data']['family_details_section'][0]['relation_age']).to eq(8)
+        end
+      end
+    end
+
+    describe 'referral authorizations' do
+      context 'when a record was referred' do
+        it 'returns the permitted_form for the current_user' do
+          sign_in(@user_referral)
+
+          get "/api/v2/cases/#{@case11.id}"
+
+          expect(json['data']['permitted_form']).to eq({ 'form_a' => 'rw' })
+        end
+
+        it 'returns the fields of the authorized role' do
+          sign_in(@user_referral)
+
+          get "/api/v2/cases/#{@case11.id}"
+
+          expect(json['data']['field_a']).to eq('value for field_a')
         end
       end
     end
@@ -1182,6 +1247,37 @@ describe Api::V2::ChildrenController, type: :request do
       expect(@family2.cases).to be_empty
       expect(@family2.family_members.find { |member| member['case_id'] == @case8.id }).to be_nil
     end
+
+    describe 'referral authorizations' do
+      context 'when a record was referred' do
+        it 'updates permitted fields based on the authorized roles' do
+          sign_in(@user_referral)
+
+          params = { data: { field_a: 'new value for field_a' } }
+
+          patch "/api/v2/cases/#{@case11.id}", params:, as: :json
+
+          expect(response).to have_http_status(200)
+          expect(json['data']['id']).to eq(@case11.id)
+          expect(json['data']['field_a']).to eq('new value for field_a')
+          expect(json['data']['permitted_form']).to eq({ 'form_a' => 'rw' })
+        end
+
+        it 'returns 422 error if the updated field is not authorized' do
+          sign_in(@user_referral)
+
+          params = { data: { national_id_no: '0001' } }
+
+          patch "/api/v2/cases/#{@case11.id}", params:, as: :json
+
+          expect(response).to have_http_status(422)
+          expect(json['errors'][0]['status']).to eq(422)
+          expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case11.id}")
+          expect(json['errors'][0]['detail']).to match_array(['/national_id_no'])
+          expect(json['errors'][0]['message']).to eq('Invalid Record JSON')
+        end
+      end
+    end
   end
 
   describe 'DELETE /api/v2/cases/:id' do
@@ -1327,7 +1423,8 @@ describe Api::V2::ChildrenController, type: :request do
 
   after :each do
     clean_data(
-      Trace, Alert, Flag, Attachment, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord
+      Trace, Alert, Flag, Attachment, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord,
+      Field, FormSection
     )
     clear_performed_jobs
     clear_enqueued_jobs
