@@ -87,6 +87,7 @@ class Role < ApplicationRecord
 
     def list(user = nil, options = {})
       return list_external if options[:external]
+      return list_referral_authorization if options[:referral_authorization]
 
       roles_list = options[:managed] ? list_managed(user) : all
       roles_list = roles_list.where(disabled: options[:disabled].values) if options[:disabled]
@@ -100,6 +101,10 @@ class Role < ApplicationRecord
 
     def list_external
       where(disabled: false, referral: true).or(where(disabled: false, transfer: true))
+    end
+
+    def list_referral_authorization
+      where(disabled: false, referral_authorization: true)
     end
   end
 

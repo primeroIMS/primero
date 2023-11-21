@@ -52,6 +52,14 @@ export const fetchManagedRoles = () => ({
   }
 });
 
+export const fetchReferralAuthorizationRoles = () => ({
+  type: actions.FETCH_REFERRAL_AUTHORIZATION_ROLES,
+  api: {
+    path: RECORD_PATH.roles,
+    params: { referral_authorization: true }
+  }
+});
+
 export const fetchUserGroups = () => ({
   type: actions.FETCH_USER_GROUPS,
   api: {
