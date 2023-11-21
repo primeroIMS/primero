@@ -46,11 +46,6 @@
 .drawerPaper,
 .drawerPaper-demo {
   width: var(--drawer);
-  /* background: linear-gradient(
-      180deg,
-      #A367D0,
-      #F5EAFD
-    ); */
   background: var(--c-toolbar-background-color);
   position: relative;
   white-space: nowrap;
