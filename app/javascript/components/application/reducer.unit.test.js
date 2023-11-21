@@ -399,4 +399,64 @@ describe("Application - Reducers", () => {
 
     expect(newState).to.eql(expected);
   });
+
+  it("should handle FETCH_REFERRAL_AUTHORIZATION_ROLES_STARTED", () => {
+    const expected = fromJS({
+      referralAuthorizationRoles: {
+        loading: true,
+        errors: false
+      }
+    });
+
+    const action = {
+      type: actions.FETCH_REFERRAL_AUTHORIZATION_ROLES_STARTED
+    };
+
+    const newState = reducer.application(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
+
+  it("should handle FETCH_REFERRAL_AUTHORIZATION_ROLES_SUCCESS", () => {
+    const expected = fromJS({
+      referralAuthorizationRoles: {
+        data: [{ id: 1, unique_id: "role-authorized-1" }]
+      }
+    });
+
+    const action = {
+      type: actions.FETCH_REFERRAL_AUTHORIZATION_ROLES_SUCCESS,
+      payload: {
+        data: [{ id: 1, unique_id: "role-authorized-1" }]
+      }
+    };
+
+    const newState = reducer.application(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
+
+  it("should handle FETCH_REFERRAL_AUTHORIZATION_ROLES_FINISHED", () => {
+    const expected = fromJS({ referralAuthorizationRoles: { loading: false } });
+
+    const action = {
+      type: actions.FETCH_REFERRAL_AUTHORIZATION_ROLES_FINISHED
+    };
+
+    const newState = reducer.application(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
+
+  it("should handle FETCH_REFERRAL_AUTHORIZATION_ROLES_FAILURE", () => {
+    const expected = fromJS({ referralAuthorizationRoles: { errors: true } });
+
+    const action = {
+      type: actions.FETCH_REFERRAL_AUTHORIZATION_ROLES_FAILURE
+    };
+
+    const newState = reducer.application(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
 });

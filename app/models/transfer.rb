@@ -76,6 +76,10 @@ class Transfer < Transition
     user.can?(:accept_or_reject_transfer, Child) && user.managed_user_names.include?(transitioned_to)
   end
 
+  def generate_alert?
+    super && record.current_alert_types.exclude?(self.class.alert_type)
+  end
+
   private
 
   def perform_remote_transfer

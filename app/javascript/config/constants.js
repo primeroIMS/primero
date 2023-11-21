@@ -523,7 +523,8 @@ export const ALERTS_FOR = {
   new_form: "new_form",
   transfer_request: "transfer_request",
   duplicate_field: "duplicate_field",
-  transfer: "transfer"
+  transfer: "transfer",
+  referral: "referral"
 };
 
 export const MAX_OFFLINE_ROWS_PER_PAGE = 50;

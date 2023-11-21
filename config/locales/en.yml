@@ -3080,6 +3080,14 @@ en:
         explanation: If you disable this Role, you will no longer be able to assign
           it to User accounts.
         label: Disabled
+      referral_authorization:
+        explanation: This means the role will appear as an option for the "Type of Referral"
+          dropdown when the user performs an internal referral. If the user chooses this role as the type of referral,
+          the referral recipient will only be able to access the forms which the selected role can access.
+          So, for instance, if the user chooses "Medical Service Provider" as the Type of Referral,
+          and the Medical Service Provider role only has access to the Basic Identity and Protection Concerns forms,
+          the recipient will only see these forms.
+        label: Can this role be used for the "Type of Referral" dropdown?
       duplicate:
         actions:
           read:
@@ -3870,6 +3878,8 @@ en:
   referral:
     type_of_recipient: Type of Recipient
     type_of_referral_required: Type of Referral is required
+    referral_authorization_label:  Would you like to specify a Type of Referral?
+    referral_authorization_help_text: This will limit which forms the recipient can access.
     agency_label: Agency
     is_remote_label: Are you referring to a remote system?
     location_label: Location

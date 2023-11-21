@@ -16,6 +16,7 @@ describe("<Transition /> - utils", () => {
       "getUserFilters",
       "hasProvidedConsent",
       "internalFieldsDirty",
+      "buildDataAssign",
       "searchableValue"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);

@@ -9,7 +9,7 @@ describe("<Transitions /> - Constants - RecordActions", () => {
     expect(clonedConstants, "DEPRECATED TRANSFER_ACTIONS_NAME").to.not.have.property("TRANSFER_ACTIONS_NAME");
     expect(clonedConstants, "DEPRECATED REFERRAL_ACTIONS_NAME").to.not.have.property("REFERRAL_ACTIONS_NAME");
 
-    ["NAME", "REFERRAL_TYPE", "REFERRAL_FORM_ID", "TRANSFER_FORM_ID"].forEach(property => {
+    ["NAME", "REFERRAL_TYPE", "REFERRAL_FORM_ID", "TRANSFER_FORM_ID", "MAX_BULK_RECORDS"].forEach(property => {
       expect(clonedConstants).to.have.property(property);
       delete clonedConstants[property];
     });

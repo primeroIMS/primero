@@ -55,7 +55,12 @@ describe("Application - Actions", () => {
       "FETCH_MANAGED_ROLES_SUCCESS",
       "FETCH_MANAGED_ROLES_STARTED",
       "FETCH_MANAGED_ROLES_FINISHED",
-      "SET_THEME"
+      "SET_THEME",
+      "FETCH_REFERRAL_AUTHORIZATION_ROLES",
+      "FETCH_REFERRAL_AUTHORIZATION_ROLES_STARTED",
+      "FETCH_REFERRAL_AUTHORIZATION_ROLES_SUCCESS",
+      "FETCH_REFERRAL_AUTHORIZATION_ROLES_FAILURE",
+      "FETCH_REFERRAL_AUTHORIZATION_ROLES_FINISHED"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(actions).to.have.property(property);

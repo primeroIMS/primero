@@ -500,6 +500,7 @@ ActiveRecord::Schema.define(version: 2023_11_21_151051) do
     t.boolean "disabled", default: false, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.boolean "referral_authorization", default: false, null: false
     t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
@@ -601,6 +602,8 @@ ActiveRecord::Schema.define(version: 2023_11_21_151051) do
     t.string "transitioned_by_user_groups", array: true
     t.string "transitioned_to_user_agency"
     t.string "transitioned_to_user_groups", array: true
+    t.string "authorized_role_unique_id"
+    t.index ["authorized_role_unique_id"], name: "index_transitions_on_authorized_role_unique_id"
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"
   end

@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe ManagedReports::Indicators::TotalReferralsByUserGroups do
   before do
-    clean_data(Transition, Child, UserGroup, User, Agency, Role)
+    clean_data(Alert, Transition, Child, UserGroup, User, Agency, Role)
 
     child1 = Child.new_with_user(self_user, { sex: 'female', age: 2 })
     child1.save!

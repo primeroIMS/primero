@@ -5,4 +5,5 @@ export { default as buildActionList } from "./build-action-list";
 export { default as buildApprovalList } from "./build-approval-list";
 export { default as isDisabledAction } from "./is-disabled-action";
 export { default as subformExists } from "./subform-exists";
+export { default as buildAppliedFilters } from "./build-applied-filters";
 export { default as getRequestedApprovals } from "./get-requested-approvals";
