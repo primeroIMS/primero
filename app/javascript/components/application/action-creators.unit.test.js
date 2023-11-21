@@ -24,7 +24,8 @@ describe("Application - Action Creators", () => {
       "setUserIdle",
       "fetchManagedRoles",
       "fetchSandboxUI",
-      "fetchWebpushConfig"
+      "fetchWebpushConfig",
+      "setTheme"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];

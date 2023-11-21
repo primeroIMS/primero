@@ -3,18 +3,7 @@
 import { fade } from "@material-ui/core/styles";
 import mapKeys from "lodash/mapKeys";
 import kebabCase from "lodash/kebabCase";
-
-async function getImportedTheme() {
-  if (!window.useTheme) {
-    return {};
-  }
-
-  const { default: theme } = await import(/* webpackIgnore: true */ `${window.location.origin}/api/v2/theme`);
-
-  return theme;
-}
-
-const importedTheme = await getImportedTheme();
+import importedTheme from '../libs/load-external-theme'
 
 const generateCssVarKey = (prefix, key) => `--${prefix}-${kebabCase(key)}`;
 

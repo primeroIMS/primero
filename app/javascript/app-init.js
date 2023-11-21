@@ -4,14 +4,10 @@ import { setUserToggleOffline } from "./components/connectivity/action-creators"
 import { getAppResources, saveNotificationSubscription } from "./components/user/action-creators";
 import { getSubscriptionFromDb } from "./libs/service-worker-utils";
 import configureStore from "./store";
+import importedTheme from './libs/load-external-theme'
 
 async function importTheme(dispatch) {
-  if (window.useTheme) {
-    // eslint-disable-next-line prefer-template
-    const { default: importedTheme } = await import(/* webpackIgnore: true */ window.location.origin + "/api/v2/theme");
-
-    dispatch(setTheme(importedTheme));
-  }
+  dispatch(setTheme(importedTheme));
 }
 
 function setFieldModeIfSet(dispatch) {

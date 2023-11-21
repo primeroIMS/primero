@@ -18,7 +18,7 @@ function Component({ isLogin = false }) {
       <div className={isLogin ? css.poweredbyLogin : css.poweredby}>
         <div>Powered by</div>
         <div>
-          <ModuleLogo moduleLogo="primero" useModuleLogo />
+          <ModuleLogo moduleLogo="onlyLogo" useModuleLogo white={isLogin} />
         </div>
       </div>
     </div>

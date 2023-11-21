@@ -1,0 +1,21 @@
+export default {
+  <% if @theme.present? %>
+  showPoweredByPrimero: <%= @theme.show_powered_by_primero || false %>,
+  useContainedNavStyle: <%= @theme.use_contained_nav_style || false %>,
+  colors: {
+    <% Theme::COLOR_PROPERTIES.each do |prop| %>
+    <%= prop %>: "<%= @theme.colors[prop] || '' %>",
+    <% end %>
+    loginBackgroundImage: "url('<%= "https://#{Rails.application.routes.default_url_options[:host]}" %><%= rails_blob_path(@theme.login_background, only_path: true) %>')"
+  },
+  images: {
+    logos: {
+      default: "<%= rails_blob_path(@theme.logo, only_path: true) %>",
+      secondary: "<%= rails_blob_path(@theme.logo_white, only_path: true) %>",
+      pictorial: "<%= rails_blob_path(@theme.logo_pictorial_144, only_path: true) %>"
+    },
+    backgroundImage: "<%= rails_blob_path(@theme.login_background, only_path: true) %>"
+  }
+  <% end %>
+}
+

@@ -8,6 +8,6 @@ class HomeController < ApplicationController
 
   # TODO: This is temp action for v2 home page
   def v2
-    @theme = Theme.active
+    @theme = Rails.configuration.x.use_theme && Theme.current
   end
 end

@@ -54,7 +54,8 @@ describe("Application - Actions", () => {
       "FETCH_MANAGED_ROLES_FAILURE",
       "FETCH_MANAGED_ROLES_SUCCESS",
       "FETCH_MANAGED_ROLES_STARTED",
-      "FETCH_MANAGED_ROLES_FINISHED"
+      "FETCH_MANAGED_ROLES_FINISHED",
+      "SET_THEME"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(actions).to.have.property(property);

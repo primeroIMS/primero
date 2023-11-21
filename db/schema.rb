@@ -1,4 +1,3 @@
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_18_151051) do
+ActiveRecord::Schema.define(version: 2023_11_21_151051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -554,7 +553,7 @@ ActiveRecord::Schema.define(version: 2023_10_18_151051) do
 
   create_table "themes", force: :cascade do |t|
     t.jsonb "data", default: {}
-    t.boolean "is_active", default: false, null: false
+    t.boolean "disabled", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["data"], name: "index_themes_on_data", using: :gin
