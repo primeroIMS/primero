@@ -5,6 +5,8 @@
 require 'rails_helper'
 
 describe Assign do
+  include ActiveJob::TestHelper
+
   before do
     clean_data(User, Role, PrimeroModule, UserGroup, Agency, Transition, Incident, Child)
 
@@ -147,6 +149,28 @@ describe Assign do
               expect(@update_action.record_changes['owned_by']['from']).to eq('user1')
             end
           end
+        end
+      end
+    end
+
+    describe '.notify' do
+      context 'when should_notify? is true' do
+        it 'should enqueue a TransitionNotifyJob' do
+          expect(
+            ActiveJob::Base.queue_adapter.enqueued_jobs.select { |j| j[:job] == TransitionNotifyJob }.size
+          ).to eq(1)
+        end
+      end
+      context 'when should_notify? is false' do
+        before do
+          clear_enqueued_jobs
+          Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case, from_bulk_export: true)
+        end
+
+        it 'should enqueue a TransitionNotifyJob' do
+          expect(
+            ActiveJob::Base.queue_adapter.enqueued_jobs.select { |j| j[:job] == TransitionNotifyJob }.size
+          ).to eq(0)
         end
       end
     end

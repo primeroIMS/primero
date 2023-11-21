@@ -34,7 +34,8 @@ class BulkAssignService
       record:,
       transitioned_to: @args[:transitioned_to],
       transitioned_by: @transitioned_by.user_name,
-      notes: @args[:notes]
+      notes: @args[:notes],
+      from_bulk_export: true
     )
   end
 
