@@ -11,7 +11,15 @@ class BulkAssignService
   end
 
   def assign_records!
-    search_results.each do |record|
+    Child.where(id: search_results_ids).find_in_batches(batch_size: 10) do |records|
+      assign_records_batch(records)
+    end
+  end
+
+  private
+
+  def assign_records_batch(records)
+    records.each do |record|
       next unless @transitioned_by.can_assign?(record)
 
       create_assignment(record)
@@ -20,8 +28,6 @@ class BulkAssignService
       next
     end
   end
-
-  private
 
   def create_assignment(record)
     Assign.create!(
@@ -32,10 +38,10 @@ class BulkAssignService
     )
   end
 
-  def search_results
+  def search_results_ids
     SearchService.search(
       @model_class, query:, filters: search_filters, pagination: { page: 1, per_page: Assign::MAX_BULK_RECORDS }
-    ).results
+    ).hits.map(&:primary_key)
   end
 
   def query

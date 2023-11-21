@@ -56,7 +56,7 @@ describe BulkAssignService do
     end
 
     before :each do
-      BulkAssignService.any_instance.stub(:search_results).and_return([child, child2, child3])
+      BulkAssignService.any_instance.stub(:search_results_ids).and_return([child.id, child2.id, child3.id])
     end
 
     it 'creates an Transition record' do
