@@ -23,5 +23,5 @@ Rails.application.configure do
                                                                                          'PRIMERO_USE_APP_CACHE', nil
                                                                                        ))
 
-  config.use_theme = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_USE_THEME', nil)) || false                                                                                      
+  config.use_theme = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_USE_THEME', nil)) || false
 end

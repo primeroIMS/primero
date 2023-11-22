@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   get 'login/:id', to: redirect(path: '/v2/login/%{id}')
   # rubocop:enable Style/FormatStringToken(RuboCop)
 
-  get 'manifest', to: 'themes#manifest', defaults: {format: :json}
+  get 'manifest', to: 'themes#manifest', defaults: { format: :json }
   get :theme, to: 'themes#index', defaults: { format: :js }
 
   namespace :api do

@@ -5,7 +5,7 @@ class ThemesController < ApplicationController
   before_action :theme
 
   skip_before_action :verify_authenticity_token
-  
+
   def index; end
 
   def manifest; end
