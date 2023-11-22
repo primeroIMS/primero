@@ -4,7 +4,7 @@ import { setUserToggleOffline } from "./components/connectivity/action-creators"
 import { getAppResources, saveNotificationSubscription } from "./components/user/action-creators";
 import { getSubscriptionFromDb } from "./libs/service-worker-utils";
 import configureStore from "./store";
-import importedTheme from './libs/load-external-theme'
+import importedTheme from "./libs/load-external-theme";
 
 async function importTheme(dispatch) {
   dispatch(setTheme(importedTheme));

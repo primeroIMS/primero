@@ -31,9 +31,10 @@ export const getLogo = (moduleLogo, white = false, themeLogos, useModuleLogo = f
       return [white ? GBVLogoWhite : GBVLogo, GBVPictorial];
     case MODULES.CP:
       return [white ? CPIMSLogoWhite : CPIMSLogo, CPIMSPictorial];
-    case 'onlyLogo': {
-      const logo = white ? PrimeroLogoWhite : PrimeroLogo
-      return [logo, logo]
+    case "onlyLogo": {
+      const logo = white ? PrimeroLogoWhite : PrimeroLogo;
+
+      return [logo, logo];
     }
     default:
       return [white ? PrimeroLogoWhite : PrimeroLogo, PrimeroPictorial];

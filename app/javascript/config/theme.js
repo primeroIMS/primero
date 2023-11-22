@@ -3,7 +3,8 @@
 import { fade } from "@material-ui/core/styles";
 import mapKeys from "lodash/mapKeys";
 import kebabCase from "lodash/kebabCase";
-import importedTheme from '../libs/load-external-theme'
+
+import importedTheme from "../libs/load-external-theme";
 
 const generateCssVarKey = (prefix, key) => `--${prefix}-${kebabCase(key)}`;
 
