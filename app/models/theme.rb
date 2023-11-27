@@ -9,9 +9,21 @@ class Theme < ApplicationRecord
     manifestThemeColor forgotPasswordLink networkIndicatorButton navListIconColor navDivider
     toolbarBackgroundColor toolbarBackgroundButtonColor navListBgActive navListTextActive
     navListIconActive navListText navListIcon navListDivider loginBackgroundGradientStart
-    toolbarBackgroundColorMobileHeader drawerHeaderButton loginTranslationsButtonBackground
+    toolbarBackgroundColorMobileHeade r drawerHeaderButton loginTranslationsButtonBackground
     loginTranslationsButtonText mobileToolbarBackground mobileToolbarHamburgerButton
   ].freeze
+
+  DEFAULT_THEME = {
+    show_powered_by_primero: false,
+    use_contained_nav_style: false,
+    site_title: 'Primero',
+    site_description: 'Primero is an open source software platform that helps social services,
+    humanitarian and development workers manage protection-related data, with tools that facilitate case management,
+    incident monitoring and family tracing and reunification.',
+    colors: {
+      'manifestThemeColor' => '#0093ba'
+    }
+  }.freeze
 
   PICTORIAL_SIZES = %w[144 192 256].freeze
 
@@ -47,6 +59,10 @@ class Theme < ApplicationRecord
   end
 
   class << self
+    def default
+      @default ||= new(DEFAULT_THEME)
+    end
+
     def current
       where(disabled: false).order(created_at: :desc).first
     end
