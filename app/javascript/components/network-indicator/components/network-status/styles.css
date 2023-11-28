@@ -71,3 +71,25 @@
 .listTextRoot {
   cursor: default;
 }
+
+.containedMobile {
+  background: var(--c-white);
+  border: 1px solid var(--c-network-indicator-border);
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+.contained {
+  background: var(--c-white);
+  border: 1px solid var(--c-network-indicator-border);
+  margin: 0 8px;
+  padding: 0 !important;
+  width: 93%;
+  border-radius: 6px;
+}
+
+@media (min-width: 960px) and (max-width: 1279.95px) {
+  .navLink {
+    padding: 0 !important;
+  }
+}
