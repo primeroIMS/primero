@@ -596,7 +596,7 @@ describe Api::V2::ChildrenController, type: :request do
 
           get "/api/v2/cases/#{@case11.id}"
 
-          expect(json['data']['permitted_form']).to eq({ 'form_a' => 'rw' })
+          expect(json['data']['permitted_forms']).to eq({ 'form_a' => 'rw' })
         end
 
         it 'returns the fields of the authorized role' do
@@ -1260,7 +1260,7 @@ describe Api::V2::ChildrenController, type: :request do
           expect(response).to have_http_status(200)
           expect(json['data']['id']).to eq(@case11.id)
           expect(json['data']['field_a']).to eq('new value for field_a')
-          expect(json['data']['permitted_form']).to eq({ 'form_a' => 'rw' })
+          expect(json['data']['permitted_forms']).to eq({ 'form_a' => 'rw' })
         end
 
         it 'returns 422 error if the updated field is not authorized' do

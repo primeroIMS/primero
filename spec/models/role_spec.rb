@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe Role do
   before :each do
-    clean_data(Role, PrimeroModule, PrimeroProgram)
+    clean_data(Role, FormSection, Field, PrimeroModule, PrimeroProgram)
   end
 
   describe 'Validations' do
@@ -822,6 +822,49 @@ describe Role do
 
     it 'should return managed_reports' do
       expect(subject.managed_reports.first.id).to eq('gbv_statistics')
+    end
+  end
+
+  describe 'form_permissions' do
+    let(:form_a) { FormSection.create!(unique_id: 'a', name: 'A', parent_form: 'case', form_group_id: 'm') }
+    let(:form_b) { FormSection.create!(unique_id: 'b', name: 'B', parent_form: 'case', form_group_id: 'm') }
+    let(:primero_module_cp) do
+      PrimeroModule.create!(
+        primero_program: PrimeroProgram.first,
+        name: 'PrimeroModule',
+        unique_id: PrimeroModule::CP,
+        associated_record_types: ['case'],
+        form_sections: [form_a, form_b]
+      )
+    end
+    let(:role1) do
+      role1 = Role.new_with_properties(
+        name: 'permission_role_1',
+        unique_id: 'permission_role_1',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
+        form_section_read_write: { form_a.unique_id => 'rw' }
+      )
+      role1.save!
+      role1
+    end
+
+    let(:role2) do
+      role2 = Role.new_with_properties(
+        name: 'permission_role_2',
+        unique_id: 'permission_role_2',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
+        form_section_read_write: { form_a.unique_id => 'r', form_b.unique_id => 'r' }
+      )
+      role2.save!
+      role2
+    end
+
+    it 'returns combined form permissions for different roles' do
+      expect(Role.form_permissions([role1, role2])).to eq(form_a.unique_id => 'rw', form_b.unique_id => 'r')
     end
   end
 end

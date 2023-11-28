@@ -6,6 +6,7 @@
 class Api::V2::ChildrenController < ApplicationApiController
   include Api::V2::Concerns::Pagination
   include Api::V2::Concerns::Record
+  include Api::V2::Concerns::Referrable
 
   def traces
     authorize! :read, Child

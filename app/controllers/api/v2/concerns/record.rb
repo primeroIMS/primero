@@ -10,6 +10,7 @@ module Api::V2::Concerns::Record
   extend ActiveSupport::Concern
 
   included do
+    before_action :display_permitted_forms
     before_action :instantiate_app_services
     before_action :permit_params, only: %i[index create update]
     before_action :permit_fields, only: %i[index create]
@@ -70,25 +71,21 @@ module Api::V2::Concerns::Record
     params.permit!
   end
 
-  def referred_to_user
-    @referred_to_user ||= @record.try(:referred_to_user?, current_user)
-  end
-
-  def roles
-    return @roles if @roles.present?
-
-    @roles = referred_to_user ? @record.authorized_referral_roles(current_user) : [current_user.role]
-  end
-
   def validate_json!
-    permitted_fields = @permitted_form_fields_service.permitted_fields(roles, model_class.parent_form, write?)
+    permitted_fields = @permitted_form_fields_service.permitted_fields(
+      authorized_roles, model_class.parent_form, write?
+    )
     action_fields = @permitted_field_service.permitted_fields_schema
     service = RecordJsonValidatorService.new(fields: permitted_fields, schema_supplement: action_fields)
     service.validate!(params[:data].to_h)
   end
 
+  def authorized_roles
+    @authorized_roles ||= [current_user.role]
+  end
+
   def permit_fields
-    @permitted_field_names = @permitted_field_service.permitted_field_names(write?, update?, roles)
+    @permitted_field_names = @permitted_field_service.permitted_field_names(write?, update?, authorized_roles)
   end
 
   def select_fields_for_show
@@ -134,6 +131,10 @@ module Api::V2::Concerns::Record
 
   def search_filters
     SearchFilterService.build_filters(params, @permitted_field_names)
+  end
+
+  def display_permitted_forms
+    @display_permitted_forms = false
   end
 
   private
