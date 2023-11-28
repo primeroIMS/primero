@@ -87,14 +87,14 @@ class PermittedFieldService
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/PerceivedComplexity
-  def permitted_field_names(writeable = false, update = false)
+  def permitted_field_names(writeable = false, update = false, roles = [])
     return @permitted_field_names if @permitted_field_names.present?
     return permitted_field_names_from_action_name if action_name.present?
 
     @permitted_field_names = permitted_core_fields(update) + PERMITTED_FILTER_FIELD_NAMES
     @permitted_field_names += PERMITTED_MRM_FILTER_FIELD_NAMES if user.module?(PrimeroModule::MRM)
     @permitted_field_names += permitted_form_field_service.permitted_field_names(
-      user.role, model_class.parent_form, writeable
+      roles.presence || [user.role], model_class.parent_form, writeable
     )
     # TODO: Consider moving model specific permitted fields to the model class.
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
