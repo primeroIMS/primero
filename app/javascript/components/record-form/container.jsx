@@ -17,7 +17,6 @@ import {
   RESOURCES
 } from "../permissions";
 import { getRecordAttachments, getLoadingRecordState } from "../records/selectors";
-import { getPermittedFormsIds } from "../user/selectors";
 import { READ_FAMILY_RECORD, READ_REGISTRY_RECORD, VIEW_INCIDENTS_FROM_CASE } from "../permissions/constants";
 import { useApp } from "../application";
 
@@ -25,6 +24,7 @@ import {
   getAttachmentForms,
   getFirstTab,
   getFormNav,
+  getPermittedForms,
   getRecordForms,
   getRecordFormsByUniqueId,
   getShouldFetchRecord
@@ -62,7 +62,6 @@ const Container = ({ mode }) => {
     selectRecord(state, { isEditOrShow, recordType: params.recordType, id: params.id })
   );
   const loading = useMemoizedSelector(state => getLoadingRecordState(state, params.recordType));
-  const userPermittedFormsIds = useMemoizedSelector(state => getPermittedFormsIds(state));
 
   const selectedModule = {
     recordType,
@@ -70,9 +69,12 @@ const Container = ({ mode }) => {
     checkPermittedForms: true,
     renderCustomForms:
       canViewSummaryForm || canViewRegistryRecord || canViewFamilyRecord || canViewIncidentRecord || canSeeChangeLog,
-    checkWritable: true
+    checkWritable: true,
+    recordId: record?.get("id"),
+    isEditOrShow
   };
 
+  const permittedFormsIds = useMemoizedSelector(state => getPermittedForms(state, selectedModule));
   const formNav = useMemoizedSelector(state => getFormNav(state, selectedModule));
   const forms = useMemoizedSelector(state => getRecordForms(state, selectedModule));
   const attachmentForms = useMemoizedSelector(state => getAttachmentForms(state));
@@ -116,7 +118,7 @@ const Container = ({ mode }) => {
       canViewSummaryForm={canViewSummaryForm}
       formNav={formNav}
       fetchFromCaseId={fetchFromCaseId}
-      userPermittedFormsIds={userPermittedFormsIds}
+      userPermittedFormsIds={permittedFormsIds}
       demo={demo}
       canRefer={canRefer}
       canSeeChangeLog={canSeeChangeLog}
