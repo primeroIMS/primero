@@ -120,7 +120,7 @@ export const getPermittedForms = createCachedSelector(
       recordType: RECORD_TYPES_PLURAL[query.recordType],
       id: query.recordId,
       isEditOrShow: query.isEditOrShow
-    })?.get("permitted_form"),
+    })?.get("permitted_forms"),
   state => getPermittedFormsIds(state),
   (_state, query) => query,
   (recordForms, userForms, query) => {

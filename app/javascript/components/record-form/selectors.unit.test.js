@@ -1337,7 +1337,7 @@ describe("<RecordForm /> - Selectors", () => {
     const recordForms = fromJS({ form_1: "rw", form_4: "r" });
     const stateWithForms = fromJS({
       user: { permittedForms },
-      records: { cases: { data: [{ id: "0001", permitted_form: recordForms }] } }
+      records: { cases: { data: [{ id: "0001", permitted_forms: recordForms }] } }
     });
 
     it("returns the permitted forms for the user", () => {
