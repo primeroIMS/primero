@@ -2652,6 +2652,7 @@ en:
             label: Export Photowall
           export_unhcr_csv:
             label: Export UNHCR CSV
+            explanation: DEPRECATED - This feature is no longer in use.
           export_xls:
             explanation: 'User can generate a XLS file export from the case list or
               case show pages, which contains all fields to which the current user
@@ -3140,6 +3141,13 @@ en:
           label: Forms - Registry
         family:
           label: Forms - Family
+          explanation: 'Limiting a user''s access to forms for Families limits
+            which information the user can see on a family. For instance, if the
+            user only has access to the Record Owner form, they will also only be
+            able to see the information contained in the fields on that form. If the
+            current user has limited form access and has the ability to manage the
+            form configuration, limiting their form access also limits which forms
+            they can configure.'
       group:
         actions:
           admin_only:
@@ -3501,6 +3509,8 @@ en:
             label: Export PDF
           export_custom:
             label: Export custom
+            explanation: User can select specific forms or fields from the Family list or 
+              Family show pages to export to an XLS file.
           flag:
             explanation: Ability to add a flag to a Family. Users with this permission
               can also remove the flags that they have added to a Family.

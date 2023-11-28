@@ -110,7 +110,7 @@ class Child < ApplicationRecord
       "INNER JOIN transitions ON transitions.record_type = 'Child' AND (transitions.record_id)::uuid = cases.id"
     ).where(transitions:
       {
-        type: Referral.name,
+        type: [Referral.name, Transfer.name],
         status: [Transition::STATUS_INPROGRESS, Transition::STATUS_ACCEPTED],
         transitioned_to: current_user.user_name
       }).ids
