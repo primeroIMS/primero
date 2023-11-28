@@ -62,7 +62,10 @@ describe Alertable do
         permissions: [
           Permission.new(
             resource: Permission::CASE,
-            actions: [Permission::MANAGE, Permission::REFERRAL, Permission::RECEIVE_REFERRAL]
+            actions: [
+              Permission::MANAGE, Permission::REFERRAL, Permission::RECEIVE_REFERRAL,
+              Permission::TRANSFER, Permission::RECEIVE_TRANSFER
+            ]
           )
         ],
         modules: [cp]
@@ -220,6 +223,37 @@ describe Alertable do
       end
 
       it 'count alert from self permissions users that has owned and referred' do
+        expect(Child.alert_count(@user_a)).to eq(2)
+        expect(Child.alert_count_self(@user_a)).to eq(2)
+      end
+
+      it 'count alert from self permissions users' do
+        expect(Child.alert_count(@user_d)).to eq(1)
+      end
+
+      it 'count alert from user group' do
+        expect(Child.alert_count(@user_c)).to eq(3)
+      end
+
+      it 'count alert from user agency' do
+        expect(Child.alert_count(@user_b)).to eq(3)
+      end
+    end
+
+    context 'Count alert from transferred cases' do
+      before do
+        Transfer.create!(
+          transitioned_by: 'test_user_2', transitioned_to: 'test_user_4', record: @test_class,
+          type: Transfer.name, consent_overridden: true
+        )
+        child_tranferred = Child.create(name: 'bar', data: { owned_by: @user_c.user_name, module_id: 'primeromodule-cp' })
+        Transfer.create!(
+          transitioned_by: 'test_user_3', transitioned_to: 'test_user_1', record: child_tranferred,
+          type: Transfer.name, consent_overridden: true
+        )
+      end
+
+      it 'count alert from self permissions users that has owned and transferred' do
         expect(Child.alert_count(@user_a)).to eq(2)
         expect(Child.alert_count_self(@user_a)).to eq(2)
       end

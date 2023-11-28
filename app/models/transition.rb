@@ -94,9 +94,13 @@ class Transition < ApplicationRecord
   end
 
   def notify
-    return unless notified_statuses.include?(status)
+    return unless should_notify?
 
     TransitionNotifyJob.perform_later(id)
+  end
+
+  def should_notify?
+    notified_statuses.include?(status)
   end
 
   def index_record

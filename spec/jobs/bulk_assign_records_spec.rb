@@ -32,6 +32,10 @@ describe BulkAssignRecordsJob, type: :job do
                    disclosure_other_orgs: true, module_id: PrimeroModule::CP)
   end
 
+  before :each do
+    BulkAssignService.any_instance.stub(:search_results).and_return([child])
+  end
+
   describe 'perform_later' do
     before do
       ActiveJob::Base.queue_adapter = :test
@@ -50,6 +54,26 @@ describe BulkAssignRecordsJob, type: :job do
       expect do
         BulkAssignRecordsJob.perform_later(Child, user, **bulk_assign_params)
       end.to have_enqueued_job
+    end
+  end
+
+  describe 'when job is performed' do
+    let(:bulk_assign_params) do
+      {
+        transitioned_to: user2.user_name,
+        transitioned_by: user.user_name,
+        notes: 'this is a note',
+        filters: { short_id: [child.short_id] }
+      }
+    end
+
+    it 'should not enqueue a TransitionNotifyJob' do
+      ActiveJob::Base.queue_adapter = :test
+      BulkAssignRecordsJob.perform_now(Child, user, **bulk_assign_params)
+
+      expect(
+        ActiveJob::Base.queue_adapter.enqueued_jobs.select { |j| j[:job] == TransitionNotifyJob }.size
+      ).to eq(0)
     end
   end
 

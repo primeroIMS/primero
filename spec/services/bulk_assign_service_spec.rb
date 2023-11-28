@@ -45,7 +45,8 @@ describe BulkAssignService do
       {
         transitioned_to: user2.user_name,
         transitioned_by: user.user_name,
-        notes: 'this is a note'
+        notes: 'this is a note',
+        from_bulk_export: true
       }
     end
 
@@ -56,7 +57,7 @@ describe BulkAssignService do
     end
 
     before :each do
-      BulkAssignService.any_instance.stub(:search_results).and_return([child, child2, child3])
+      BulkAssignService.any_instance.stub(:search_results_ids).and_return([child.id, child2.id, child3.id])
     end
 
     it 'creates an Transition record' do
