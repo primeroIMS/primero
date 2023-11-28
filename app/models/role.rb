@@ -106,6 +106,16 @@ class Role < ApplicationRecord
     def list_referral_authorization
       where(disabled: false, referral_authorization: true)
     end
+
+    def form_permissions(roles)
+      roles.each_with_object({}) do |role, memo|
+        role.form_section_permission.each do |key, value|
+          next unless value.present?
+
+          memo[key] = value if memo[key].blank? || memo[key] == 'r'
+        end
+      end
+    end
   end
 
   def permitted_forms(record_type = nil, visible_only = false, include_subforms = false)

@@ -99,27 +99,10 @@ module Transitionable
     referrals.where(transitioned_to_agency: user.agency.unique_id)
   end
 
+  # Returns the referrals for a user in the record
   def referrals_to_user(user)
     referrals.where(
       transitioned_to: user.user_name, status: [Transition::STATUS_INPROGRESS, Transition::STATUS_ACCEPTED]
     )
-  end
-
-  def referred_to_user?(user)
-    !owner?(user) && referrals_to_user(user).exists?
-  end
-
-  def authorized_referral_roles(user)
-    Role.where(unique_id: referrals_to_user(user).pluck(:authorized_role_unique_id))
-  end
-
-  def authorized_forms(user)
-    authorized_referral_roles(user).each_with_object({}) do |role, memo|
-      role.form_section_permission.each do |key, value|
-        next unless value.present?
-
-        memo[key] = value if memo[key].blank? || memo[key] == 'r'
-      end
-    end
   end
 end
