@@ -503,7 +503,10 @@ class User < ApplicationRecord
   def authorized_referral_roles(record)
     return Role.none unless record.respond_to?(:referrals_to_user)
 
-    Role.where(unique_id: record.referrals_to_user(self).pluck(:authorized_role_unique_id))
+    role_unique_ids = record.referrals_to_user(self).pluck(:authorized_role_unique_id).uniq
+    role_unique_ids << role.unique_id if role_unique_ids.include?(nil)
+
+    Role.where(unique_id: role_unique_ids)
   end
 
   private
