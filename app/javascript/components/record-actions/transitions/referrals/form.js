@@ -118,7 +118,7 @@ const localReferralFields = ({
       asyncParamsFromWatched: [],
       help_text: i18n.t("referral.referral_authorization_help_text"),
       ...commonHandleWatched,
-      order: 3
+      order: 8
     }
   ].map(field => {
     field.watchedInputs.push(FIELDS.CONSENT_INDIVIDUAL_TRANSFER);
