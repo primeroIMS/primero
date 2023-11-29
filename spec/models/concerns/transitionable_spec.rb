@@ -32,6 +32,8 @@ describe Transitionable do
     @group4 = UserGroup.create!(name: 'Group4')
     @user4 = User.new(user_name: 'user4', role: @role, user_groups: [@group4])
     @user4.save(validate: false)
+    @user5 = User.new(user_name: 'user5', role: @role, user_groups: [@group4])
+    @user5.save(validate: false)
     @case = Child.create(data: {
                            name: 'Test', owned_by: 'user1',
                            module_id: @module_cp.unique_id,
@@ -206,6 +208,30 @@ describe Transitionable do
         expect(transitions.size).to eq(3)
         expect(transitions.ids).to include(@referral1.id, @referral2.id, @referral3.id)
       end
+    end
+  end
+
+  describe 'referrals_to_user' do
+    let(:referral1) { Referral.create!(transitioned_by: 'user1', transitioned_to: 'user5', record: @case) }
+    let(:referral2) { Referral.create!(transitioned_by: 'user1', transitioned_to: 'user5', record: @case) }
+    let(:referral3) { Referral.create!(transitioned_by: 'user1', transitioned_to: 'user5', record: @case) }
+    let(:referral4) { Referral.create!(transitioned_by: 'user1', transitioned_to: 'user5', record: @case) }
+    let(:referral5) { Referral.create!(transitioned_by: 'user1', transitioned_to: 'user5', record: @case) }
+
+    before do
+      referral1
+      referral2.accept!
+      referral3.accept!
+      referral3.done!(@user5)
+      referral4.revoke!(@user5)
+      referral5.reject!(@user5)
+    end
+
+    it 'returns the pending referrals where the user is the recipient' do
+      referrals = @case.referrals_to_user(@user5)
+
+      expect(referrals.length).to eq(2)
+      expect(referrals.map(&:id)).to match_array([referral1.id, referral2.id])
     end
   end
 
