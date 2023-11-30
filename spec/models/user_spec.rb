@@ -874,6 +874,18 @@ describe User do
       role3
     end
 
+    let(:role4) do
+      role4 = Role.new(
+        name: 'permission_role_4',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp]
+      )
+      role4.save(validate: false)
+      role4.unique_id = nil
+      role4.save(validate: false)
+      role4
+    end
+
     let(:child) do
       Child.create!(
         data: {
@@ -903,6 +915,7 @@ describe User do
       role1
       role2
       role3
+      role4
       user_creator
       user_referred
     end
