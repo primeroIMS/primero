@@ -74,3 +74,10 @@
     insertafter: EOF
     line: '{{ application_container_username }}:1100:65536'
   become: yes
+
+- name: Adding existing ansible user {{ ansible_user }} to application group
+  user:
+    name: '{{ ansible_user }}'
+    groups: '{{ application_container_username }}'
+    append: true
+  become: true
