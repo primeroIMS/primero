@@ -231,23 +231,23 @@ class DB {
     const records = [];
 
     this.asyncForEach(isDataArray ? data : Object.keys(data), async record => {
-      const r = record;
+      const _record = record;
 
       if (queryIndex) {
-        r.type = queryIndex.value;
+        _record.type = queryIndex.value;
       }
 
       try {
-        const prev = await collection.get(isDataArray ? r.id : data[r]?.id);
+        const prev = await collection.get(isDataArray ? _record.id : data[_record]?.id);
 
         if (prev) {
-          const item = isDataArray ? recordMerge(prev, r) : recordMerge(prev, data[r]);
+          const item = isDataArray ? recordMerge(prev, _record) : recordMerge(prev, data[_record]);
 
           records.push(item);
 
           await collection.put(item);
         } else {
-          const item = isDataArray ? r : data[r];
+          const item = isDataArray ? _record : data[_record];
 
           records.push(item);
           await collection.put(item);
