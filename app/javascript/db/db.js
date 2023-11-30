@@ -1,7 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable class-methods-use-this, no-await-in-loop */
-import merge from "deepmerge";
 import isEmpty from "lodash/isEmpty";
 import { openDB } from "idb";
 import fuzzysort from "fuzzysort";
@@ -10,7 +9,7 @@ import uniq from "lodash/uniq";
 
 import { DATABASE_NAME } from "../config/constants";
 
-import subformAwareMerge from "./utils/subform-aware-merge";
+import recordMerge from "./utils/record-merge";
 import {
   DB_COLLECTIONS_NAMES,
   DB_COLLECTIONS_V1,
@@ -199,7 +198,7 @@ class DB {
       const prev = await objectStore.get(isEmpty(key) ? item.id : key);
 
       if (prev) {
-        const record = merge(prev, { ...item, ...key }, { arrayMerge: subformAwareMerge });
+        const record = recordMerge(prev, item, key);
 
         await objectStore.put(record);
 
@@ -242,9 +241,7 @@ class DB {
         const prev = await collection.get(isDataArray ? r.id : data[r]?.id);
 
         if (prev) {
-          const item = isDataArray
-            ? merge(prev, r, { arrayMerge: subformAwareMerge })
-            : merge(prev, data[r], { arrayMerge: subformAwareMerge });
+          const item = isDataArray ? recordMerge(prev, r) : recordMerge(prev, data[r]);
 
           records.push(item);
 
