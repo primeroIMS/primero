@@ -28,7 +28,8 @@ describe("<RecordActions /> - Constants", () => {
       "MANY",
       "ALL",
       "RECORD_ACTION_ABILITIES",
-      "MARK_FOR_OFFLINE_DIALOG"
+      "MARK_FOR_OFFLINE_DIALOG",
+      "FILTERS_TO_SKIP"
     ].forEach(property => {
       expect(constants).to.have.property(property);
       delete constants[property];

@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Grid, Box } from "@material-ui/core";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
@@ -12,26 +11,30 @@ import DemoIndicator from "../../../demo-indicator";
 import { useMemoizedSelector } from "../../../../libs";
 import { useApp } from "../../../application";
 import { hasAgencyLogos } from "../../../application/selectors";
+import PoweredBy from "../../../powered-by";
 
 import { NAME } from "./constants";
 import css from "./styles.css";
 
 const Component = ({ children }) => {
-  const { demo } = useApp();
+  const { demo, hasLoginLogo } = useApp();
   const hasLogos = useMemoizedSelector(state => hasAgencyLogos(state));
 
   // TODO: Module hardcoded till we figure out when to switch modules
   const primeroModule = "cp";
   const moduleClass = `${primeroModule}${demo ? "-demo" : ""}`;
-  const classes = clsx({ [css.primeroBackground]: true, [css[moduleClass]]: true, [css.demo]: demo });
-  const classesLoginLogo = clsx({ [css.loginLogo]: true, [css.hideLoginLogo]: !hasLogos });
-  const classesAuthDiv = clsx({ [css.auth]: true, [css.noLogosWidth]: !hasLogos });
+  const classes = clsx(css.primeroBackground, css[moduleClass], {
+    [css.primeroBackgroundImage]: hasLoginLogo,
+    [css.demo]: demo
+  });
+  const classesLoginLogo = clsx(css.loginLogo, { [css.hideLoginLogo]: !hasLogos });
+  const classesAuthDiv = clsx(css.auth, { [css.noLogosWidth]: !hasLogos });
 
   return (
     <>
       <DemoIndicator isDemo={demo} />
       <Notifier />
-      <Box className={classes}>
+      <div className={classes}>
         <div className={css.content}>
           <div className={css.loginHeader}>
             <ModuleLogo white />
@@ -47,13 +50,15 @@ const Component = ({ children }) => {
             </div>
           </div>
         </div>
-        <Grid container className={css.footer}>
-          <Grid item xs={2}>
+        <div container className={css.footer}>
+          <div className={css.item}>
             <TranslationsToggle />
-          </Grid>
-          <Grid item xs={8} />
-        </Grid>
-      </Box>
+          </div>
+          <div className={css.item}>
+            <PoweredBy isLogin />
+          </div>
+        </div>
+      </div>
     </>
   );
 };

@@ -590,4 +590,25 @@ describe("Application - Selectors", () => {
       expect(result).to.be.undefined;
     });
   });
+
+  describe("getReferralAuthorizationRoles", () => {
+    it("returns the referralAuthorizationRoles", () => {
+      const referralAuthorizationRoles = fromJS([{ id: 1, unique_id: "role-authorized-1" }]);
+      const result = selectors.getReferralAuthorizationRoles(
+        fromJS({ application: { referralAuthorizationRoles: { data: referralAuthorizationRoles } } })
+      );
+
+      expect(result).to.deep.equal(referralAuthorizationRoles);
+    });
+  });
+
+  describe("getReferralAuthorizationRolesLoading", () => {
+    it("returns the loading state for ReferralAuthorizationRoles", () => {
+      const result = selectors.getReferralAuthorizationRolesLoading(
+        fromJS({ application: { referralAuthorizationRoles: { loading: true } } })
+      );
+
+      expect(result).to.be.true;
+    });
+  });
 });

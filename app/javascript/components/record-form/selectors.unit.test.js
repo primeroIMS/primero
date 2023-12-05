@@ -1331,4 +1331,29 @@ describe("<RecordForm /> - Selectors", () => {
       expect(selectors.getPreviousRecordType(stateWithPreviousRecord)).to.equals("cases");
     });
   });
+
+  describe("getPermittedForms", () => {
+    const permittedForms = fromJS({ form_1: "rw", form_2: "r", form_3: "rw" });
+    const recordForms = fromJS({ form_1: "rw", form_4: "r" });
+    const stateWithForms = fromJS({
+      user: { permittedForms },
+      records: { cases: { data: [{ id: "0001", permitted_forms: recordForms }] } }
+    });
+
+    it("returns the permitted forms for the user", () => {
+      expect(selectors.getPermittedForms(stateWithForms, {})).to.deep.equals(permittedForms);
+    });
+
+    it("returns the permitted forms for the record", () => {
+      expect(
+        selectors.getPermittedForms(stateWithForms, { recordType: "case", recordId: "0001", isEditOrShow: true })
+      ).to.deep.equals(recordForms);
+    });
+
+    it("returns the permitted forms for the user if the record is not found", () => {
+      expect(
+        selectors.getPermittedForms(stateWithForms, { recordType: "case", recordId: "0002", isEditOrShow: true })
+      ).to.deep.equals(permittedForms);
+    });
+  });
 });

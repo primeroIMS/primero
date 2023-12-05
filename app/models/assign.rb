@@ -5,6 +5,10 @@
 # Represents a transition of record ownership  from one user to another
 # without any system workflows.
 class Assign < Transition
+  MAX_BULK_RECORDS = 100
+
+  attr_accessor :from_bulk_export
+
   def perform
     return if transitioned_to_user.nil?
 
@@ -22,5 +26,9 @@ class Assign < Transition
 
   def notified_statuses
     [Transition::STATUS_DONE]
+  end
+
+  def should_notify?
+    !from_bulk_export && super
   end
 end

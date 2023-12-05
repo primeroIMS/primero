@@ -7,7 +7,7 @@ require 'rails_helper'
 describe Api::V2::ReferralsController, type: :request do
   include ActiveJob::TestHelper
   before do
-    clean_data(User, Role, PrimeroModule, UserGroup, Child, Referral)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Referral)
 
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
@@ -28,7 +28,8 @@ describe Api::V2::ReferralsController, type: :request do
     @role_receive.save(validate: false)
     @role_service = Role.new(
       permissions: [@permission_referral_from_service],
-      modules: [@primero_module]
+      modules: [@primero_module],
+      unique_id: 'role-receive-referral'
     )
     @role_service.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
@@ -188,6 +189,22 @@ describe Api::V2::ReferralsController, type: :request do
       expect(audit_params['action']).to eq('refer')
     end
 
+    it 'refers a the record to the target user with an authorized role' do
+      sign_in(@user1)
+      params = {
+        data: { transitioned_to: 'user2', notes: 'Test Notes', authorized_role_unique_id: 'role-receive-referral' }
+      }
+      post("/api/v2/cases/#{@case_a.id}/referrals", params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['record_id']).to eq(@case_a.id.to_s)
+      expect(json['data']['transitioned_to']).to eq('user2')
+      expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['notes']).to eq('Test Notes')
+      expect(json['data']['authorized_role_unique_id']).to eq('role-receive-referral')
+      expect(audit_params['action']).to eq('refer')
+    end
+
     it 'get a forbidden message if is not referred from a service and the user can only refer from service' do
       sign_in(@user3)
       params = { data: { transitioned_to: 'user2', notes: 'Test Notes' } }
@@ -344,6 +361,6 @@ describe Api::V2::ReferralsController, type: :request do
 
   after do
     clear_enqueued_jobs
-    clean_data(User, Role, PrimeroModule, UserGroup, Child, Referral)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Referral)
   end
 end

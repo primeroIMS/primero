@@ -14,6 +14,8 @@ class Transition < ApplicationRecord
   belongs_to :transitioned_to_user, class_name: 'User', foreign_key: 'transitioned_to',
                                     primary_key: 'user_name', optional: true
   belongs_to :transitioned_by_user, class_name: 'User', foreign_key: 'transitioned_by', primary_key: 'user_name'
+  belongs_to :role, class_name: 'Role', foreign_key: 'authorized_role_unique_id',
+                    primary_key: 'unique_id', optional: true
 
   validates :transitioned_to, presence: true, unless: :remote
   validates :transitioned_by, presence: true
@@ -92,9 +94,13 @@ class Transition < ApplicationRecord
   end
 
   def notify
-    return unless notified_statuses.include?(status)
+    return unless should_notify?
 
     TransitionNotifyJob.perform_later(id)
+  end
+
+  def should_notify?
+    notified_statuses.include?(status)
   end
 
   def index_record

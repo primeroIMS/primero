@@ -9,6 +9,7 @@ const stateWithNoRecords = fromJS({
     cases: {
       bulkTransitions: {
         loading: true,
+        selectedRecordsLength: 0,
         data: [],
         errors: []
       }
@@ -47,6 +48,7 @@ const stateWithRecords = fromJS({
             id: "68c34cd3-1ad2-48ce-a6ae-087d0a0a57fc"
           }
         ],
+        selectedRecordsLength: 1,
         errors: [
           {
             status: 500,

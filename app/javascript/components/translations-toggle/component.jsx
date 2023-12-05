@@ -8,6 +8,7 @@ import { DropdownDoubleIcon } from "../../images/primero-icons";
 import { useI18n } from "../i18n";
 import { selectLocales } from "../application/selectors";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
+import { useApp } from "../application";
 
 import css from "./styles.css";
 import { NAME } from "./constants";
@@ -15,6 +16,7 @@ import { NAME } from "./constants";
 const TranslationsToggle = () => {
   const { changeLocale, locale, ...i18n } = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
+  const { useContainedNavStyle } = useApp();
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -48,9 +50,12 @@ const TranslationsToggle = () => {
     );
   };
 
+  const buttonVariant = useContainedNavStyle ? "contained" : "text";
+
   return (
     <>
       <Button
+        variant={buttonVariant}
         id={`home.${locale}`}
         className={css.button}
         fullWidth

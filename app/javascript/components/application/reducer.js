@@ -86,12 +86,24 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("disabledApplication", payload);
     case actions.FETCH_MANAGED_ROLES_SUCCESS:
       return state.set("managedRoles", fromJS(payload.data));
+    case actions.FETCH_REFERRAL_AUTHORIZATION_ROLES_STARTED:
+      return state
+        .setIn(["referralAuthorizationRoles", "loading"], true)
+        .setIn(["referralAuthorizationRoles", "errors"], false);
+    case actions.FETCH_REFERRAL_AUTHORIZATION_ROLES_SUCCESS:
+      return state.setIn(["referralAuthorizationRoles", "data"], fromJS(payload.data));
+    case actions.FETCH_REFERRAL_AUTHORIZATION_ROLES_FINISHED:
+      return state.setIn(["referralAuthorizationRoles", "loading"], false);
+    case actions.FETCH_REFERRAL_AUTHORIZATION_ROLES_FAILURE:
+      return state.setIn(["referralAuthorizationRoles", "errors"], true);
     case actions.FETCH_SANDBOX_UI_SUCCESS:
       return state.set("primero", fromJS(payload.data));
     case actions.FETCH_AGENCY_LOGO_OPTIONS_SUCCESS:
       return state.setIn(["primero", "agenciesLogoPdf"], fromJS(payload.data));
     case actions.SET_RETURN_URL:
       return state.set("returnUrl", fromJS(payload));
+    case actions.SET_THEME:
+      return state.set("theme", payload);
     default:
       return state;
   }

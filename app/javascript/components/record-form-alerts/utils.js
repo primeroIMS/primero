@@ -22,6 +22,10 @@ export const getMessageData = ({ alert, form, duplicatedFields, i18n }) => {
           .find(field => field.name === alert.get("type"))
           ?.getIn(["display_name", i18n.locale])
       };
+    case ALERTS_FOR.transfer:
+      return i18n.t(`case.messages.case_transfer_pending`);
+    case ALERTS_FOR.referral:
+      return i18n.t(`case.messages.case_referral_pending`);
     default:
       return {};
   }

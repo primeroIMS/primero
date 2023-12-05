@@ -15,6 +15,7 @@ describe("bulk-transitons - Actions", () => {
       "BULK_ASSIGN_USER_SAVE_STARTED",
       "BULK_ASSIGN_USER_SAVE_FAILURE",
       "BULK_ASSIGN_USER_SAVE_FINISHED",
+      "BULK_ASSIGN_USER_SELECTED_RECORDS_LENGTH",
       "CLEAR_BULK_ASSIGN_MESSAGES"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);

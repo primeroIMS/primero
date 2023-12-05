@@ -494,6 +494,12 @@ class User < ApplicationRecord
     can?(:read, record)
   end
 
+  def can_assign?(record_model)
+    can?(Permission::ASSIGN.to_sym, record_model) ||
+      can?(Permission::ASSIGN_WITHIN_AGENCY.to_sym, record_model) ||
+      can?(Permission::ASSIGN_WITHIN_USER_GROUP.to_sym, record_model)
+  end
+
   def agency_read?
     permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
   end
@@ -504,6 +510,15 @@ class User < ApplicationRecord
 
   def receive_webpush?
     receive_webpush == true && !disabled?
+  end
+
+  def authorized_referral_roles(record)
+    return Role.none unless record.respond_to?(:referrals_to_user)
+
+    role_unique_ids = record.referrals_to_user(self).pluck(:authorized_role_unique_id).uniq
+    role_unique_ids << role.unique_id if role_unique_ids.include?(nil)
+
+    Role.where(unique_id: role_unique_ids.compact)
   end
 
   private
@@ -547,7 +562,7 @@ class User < ApplicationRecord
     return if ENV['PRIMERO_BOOTSTRAP']
     return unless associated_attributes_changed?
 
-    AssociatedRecordsJob.perform_later(
+    UpdateUserAssociatedRecordsJob.perform_later(
       user_id: id,
       update_user_groups: user_groups_changed,
       update_agencies: saved_change_to_attribute?('agency_id'),

@@ -5,8 +5,9 @@ import PropTypes from "prop-types";
 import { object, string } from "yup";
 import { Formik, Field, Form } from "formik";
 import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import qs from "qs";
 import { TextField } from "formik-material-ui";
-import isEmpty from "lodash/isEmpty";
 
 import { RECORD_TYPES } from "../../../../config";
 import { getUsersByTransitionType, getErrorsByTransitionType } from "../selectors";
@@ -16,19 +17,31 @@ import SearchableSelect from "../../../searchable-select";
 import { enqueueSnackbar } from "../../../notifier";
 import { useI18n } from "../../../i18n";
 import { applyFilters } from "../../../index-filters/action-creators";
-import { DEFAULT_FILTERS } from "../../../record-list/constants";
 import { filterUsers } from "../utils";
 import { useMemoizedSelector } from "../../../../libs";
+import { getFiltersValuesByRecordType } from "../../../index-filters/selectors";
+import { getMetadata } from "../../../record-list/selectors";
 
 import { REASSIGN_FORM_NAME } from "./constants";
-import { searchableValue } from "./utils";
+import { searchableValue, buildDataAssign } from "./utils";
 import css from "./styles.css";
 
 const initialValues = { transitioned_to: "", notes: "" };
 
-const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds, mode }) => {
+const ReassignForm = ({
+  record,
+  recordType,
+  setPending,
+  assignRef,
+  selectedIds,
+  mode,
+  selectedRecordsLength,
+  currentRecordsSize
+}) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const queryParams = qs.parse(location.search.replace("?", ""));
   const transitionType = "reassign";
 
   const firstUpdate = useRef(true);
@@ -39,6 +52,10 @@ const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds, 
 
   const users = useMemoizedSelector(state => getUsersByTransitionType(state, transitionType));
   const hasErrors = useMemoizedSelector(state => getErrorsByTransitionType(state, transitionType));
+  const appliedFilters = useMemoizedSelector(state => getFiltersValuesByRecordType(state, recordType));
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+
+  const totalRecords = metadata?.get("total", 0);
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -89,19 +106,28 @@ const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds, 
   };
 
   const handleAssign = (values, { setSubmitting }) => {
-    const data = isEmpty(selectedIds) ? values : { ...values, ids: selectedIds };
+    const data = buildDataAssign({
+      values,
+      selectedIds,
+      record,
+      selectedRecordsLength,
+      currentRecordsSize,
+      totalRecords,
+      appliedFilters,
+      queryParams
+    });
 
     setPending(true);
     if (record) {
       dispatch(saveAssignedUser(record.get("id"), { data }, i18n.t("reassign.successfully")));
     } else {
-      dispatch(saveBulkAssignedUser(recordType, selectedIds, { data }));
+      dispatch(saveBulkAssignedUser(recordType, selectedIds, selectedRecordsLength, { data }));
     }
     setSubmitting(false);
     dispatch(
       applyFilters({
         recordType,
-        data: DEFAULT_FILTERS
+        data: appliedFilters
       })
     );
   };
@@ -160,11 +186,13 @@ ReassignForm.displayName = REASSIGN_FORM_NAME;
 
 ReassignForm.propTypes = {
   assignRef: PropTypes.object,
+  currentRecordsSize: PropTypes.number,
   formik: PropTypes.object,
   mode: PropTypes.object,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   selectedIds: PropTypes.array,
+  selectedRecordsLength: PropTypes.number,
   setPending: PropTypes.func
 };
 

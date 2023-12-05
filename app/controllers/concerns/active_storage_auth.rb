@@ -28,7 +28,8 @@ module ActiveStorageAuth
 
   def public_attached_resource?
     @blob&.attachments&.all? do |att|
-      att.record_type == 'Agency' && %w[logo_full logo_icon terms_of_use].include?(att.name)
+      (att.record_type == 'Agency' && %w[logo_full logo_icon terms_of_use].include?(att.name)) ||
+        att.record_type == 'Theme'
     end
   end
 end

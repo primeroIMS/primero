@@ -19,6 +19,8 @@ const getAppModuleByUniqueId = (state, uniqueId) =>
     .getIn(["application", "modules"], fromJS([]))
     .find(module => module.get("unique_id") === uniqueId, null, fromJS([]));
 
+const getLoginBackground = state => state.hasIn([NAMESPACE, "theme", "colors", "loginBackgroundImage"], false);
+
 export const selectAgencies = state => state.getIn([NAMESPACE, "agencies"], fromJS([]));
 
 export const getAgenciesWithService = (state, service) => {
@@ -165,7 +167,16 @@ export const getRegistryTypes = (state, type) =>
 export const getFieldMode = state => state.getIn([NAMESPACE, "systemOptions", "field_mode"], false);
 
 export const getMaximumUsers = state => state.getIn([NAMESPACE, "systemOptions", "maximum_users"]);
+
 export const getMaximumUsersWarning = state => state.getIn([NAMESPACE, "systemOptions", "maximum_users_warning"]);
+
+export const getTheme = state => state.getIn([NAMESPACE, "theme"], fromJS({}));
+
+export const getShowPoweredByPrimero = state => state.getIn([NAMESPACE, "theme", "showPoweredByPrimero"], false);
+
+export const getUseContainedNavStyle = state => state.getIn([NAMESPACE, "theme", "useContainedNavStyle"], false);
+
+export const getThemeLogos = state => state.getIn([NAMESPACE, "theme", "images", "logos"], {});
 
 export const getAppData = memoize(state => {
   const modules = selectModules(state);
@@ -177,6 +188,9 @@ export const getAppData = memoize(state => {
   const currentUserName = currentUser(state);
   const maximumUsers = getMaximumUsers(state);
   const maximumUsersWarning = getMaximumUsersWarning(state);
+  const useContainedNavStyle = getUseContainedNavStyle(state);
+  const showPoweredByPrimero = getShowPoweredByPrimero(state);
+  const hasLoginLogo = getLoginBackground(state);
 
   return {
     modules,
@@ -187,8 +201,17 @@ export const getAppData = memoize(state => {
     currentUserName,
     limitedProductionSite,
     maximumUsers,
-    maximumUsersWarning
+    maximumUsersWarning,
+    useContainedNavStyle,
+    showPoweredByPrimero,
+    hasLoginLogo
   };
 });
 
 export const getWebpushConfig = state => state.getIn([NAMESPACE, "webpush"], fromJS({}));
+
+export const getReferralAuthorizationRoles = state =>
+  state.getIn([NAMESPACE, "referralAuthorizationRoles", "data"], fromJS({}));
+
+export const getReferralAuthorizationRolesLoading = state =>
+  state.getIn([NAMESPACE, "referralAuthorizationRoles", "loading"], fromJS({}));
