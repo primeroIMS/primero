@@ -11,6 +11,6 @@ class ThemesController < ApplicationController
   def manifest; end
 
   def theme
-    @theme = Rails.configuration.x.use_theme ? Theme.current : Theme.default
+    @theme = Rails.configuration.use_theme ? Theme.current : Theme.default
   end
 end
