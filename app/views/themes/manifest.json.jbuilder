@@ -8,7 +8,7 @@ json.description @theme&.site_description
 json.start_url 'v2/'
 json.background_color '#ffffff'
 json.display 'standalone'
-json.theme_color @theme.colors['manifestThemeColor']
+json.theme_color @theme&.colors&.[]('manifestThemeColor')
 json.icons do
   Theme::PICTORIAL_SIZES.each do |size|
     logo = @theme.send("logo_pictorial_#{size}".to_sym)
