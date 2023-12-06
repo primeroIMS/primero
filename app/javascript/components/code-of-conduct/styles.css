@@ -70,15 +70,6 @@
   color: var(--c-login-translations-button-text);
 }
 
-/* .translationToogle {
-  max-width: 16%;
-  margin-top: auto;
-
-  & button, & button > span > svg {
-    color: var(--c-white);
-  }
-} */
-
 .text {
   white-space: pre-wrap;
   font-size: var(--fs-13);
