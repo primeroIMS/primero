@@ -127,7 +127,9 @@ describe User do
           maximum_users_warning: 15
         )
         SystemSettings.stub(:current).and_return(SystemSettings.first)
-        User.stub(:enabled_users_count).and_return(20)
+        user_double = double('User')
+        allow(User).to receive(:enabled).and_return(user_double)
+        allow(user_double).to receive(:count).and_return(20)
       end
 
       it 'should validate limit_user_reached on create' do

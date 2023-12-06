@@ -173,12 +173,8 @@ class User < ApplicationRecord
       eager_load(role: :primero_modules).find_by(tainted_conditions)
     end
 
-    def enabled_users_count
-      enabled.count
-    end
-
     def limit_user_reached?
-      SystemSettings.first.maximum_users > User.enabled_users_count
+      SystemSettings.current.maximum_users > User.enabled.count
     end
   end
 
@@ -578,7 +574,7 @@ class User < ApplicationRecord
   end
 
   def limit_maximum_users_enabled?
-    SystemSettings.first&.maximum_users&.present?
+    SystemSettings.current&.maximum_users&.present?
   end
 
   def enabling_user?
@@ -586,15 +582,15 @@ class User < ApplicationRecord
   end
 
   def validate_limit_user_reached
-    maximum_users = SystemSettings.first.maximum_users
-    return if maximum_users > User.enabled_users_count
+    maximum_users = SystemSettings.current.maximum_users
+    return if maximum_users > User.enabled.count
 
     errors.add(:base, I18n.t('users.alerts.limit_user_reached', maximum_users:))
   end
 
   def validate_limit_user_reached_on_enabling
-    maximum_users = SystemSettings.first.maximum_users
-    return if !enabling_user? || maximum_users > User.enabled_users_count
+    maximum_users = SystemSettings.current.maximum_users
+    return if !enabling_user? || maximum_users > User.enabled.count
 
     errors.add(:base, I18n.t('users.alerts.limit_user_reached_on_enable', maximum_users:))
   end

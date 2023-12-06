@@ -27,8 +27,8 @@ class SystemSettings < ApplicationRecord
 
   after_initialize :set_version
   before_save :set_version
-  validate :validate_maximum_users, if: ->(system_setting) { system_setting.maximum_users.present? }
-  validate :validate_maximum_users_warning, if: ->(system_setting) { system_setting.maximum_users_warning.present? }
+  validate :validate_maximum_users
+  validate :validate_maximum_users_warning
   validate :validate_maximum_users_values, if: :maximum_users_fields_present?
 
   def name
@@ -122,13 +122,13 @@ class SystemSettings < ApplicationRecord
   end
 
   def validate_maximum_users
-    return if maximum_users.is_a?(Integer)
+    return if maximum_users.blank? || (maximum_users.is_a?(Integer) && maximum_users.positive?)
 
     errors.add(:maximum_users, 'errors.models.maximum_users.only_integer')
   end
 
   def validate_maximum_users_warning
-    return if maximum_users_warning.is_a?(Integer)
+    return if maximum_users_warning.blank? || (maximum_users_warning.is_a?(Integer) && maximum_users_warning.positive?)
 
     errors.add(:maximum_users_warning, 'errors.models.maximum_users_warning.only_integer')
   end

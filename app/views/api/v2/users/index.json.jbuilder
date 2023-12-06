@@ -12,5 +12,5 @@ json.metadata do
   json.total @total
   json.per @per
   json.page @page
-  json.total_enabled User.enabled_users_count
+  json.total_enabled User.enabled.count
 end
