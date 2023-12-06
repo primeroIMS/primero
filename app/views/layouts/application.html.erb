@@ -13,7 +13,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title><%= @theme&.site_title || 'Primero' %></title>
   <link rel="manifest" href="/manifest.json">
-  <link rel="icon" type="image/x-icon" href="<%= @theme&.favicon.present? ? rails_blob_path(@theme&.favicon, only_path: true) : './favicon.ico' %>" />
+  <link rel="icon" type="image/x-icon" href="<%= @theme&.favicon.present? ? rails_blob_path(@theme&.favicon, only_path: true) : '/favicon.ico' %>" />
   <!-- jss-insertion-point -->
   <%= stylesheet_bundle_tag 'application', skip_pipeline: true, manifest: :application, nonce: true %>
 </head>
