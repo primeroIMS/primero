@@ -166,6 +166,10 @@ export const getRegistryTypes = (state, type) =>
 
 export const getFieldMode = state => state.getIn([NAMESPACE, "systemOptions", "field_mode"], false);
 
+export const getMaximumUsers = state => state.getIn([NAMESPACE, "systemOptions", "maximum_users"]);
+
+export const getMaximumUsersWarning = state => state.getIn([NAMESPACE, "systemOptions", "maximum_users_warning"]);
+
 export const getTheme = state => state.getIn([NAMESPACE, "theme"], fromJS({}));
 
 export const getShowPoweredByPrimero = state => state.getIn([NAMESPACE, "theme", "showPoweredByPrimero"], false);
@@ -182,6 +186,8 @@ export const getAppData = memoize(state => {
   const demo = getDemo(state);
   const limitedProductionSite = getLimitedConfigUI(state);
   const currentUserName = currentUser(state);
+  const maximumUsers = getMaximumUsers(state);
+  const maximumUsersWarning = getMaximumUsersWarning(state);
   const useContainedNavStyle = getUseContainedNavStyle(state);
   const showPoweredByPrimero = getShowPoweredByPrimero(state);
   const hasLoginLogo = getLoginBackground(state);
@@ -194,6 +200,8 @@ export const getAppData = memoize(state => {
     demo,
     currentUserName,
     limitedProductionSite,
+    maximumUsers,
+    maximumUsersWarning,
     useContainedNavStyle,
     showPoweredByPrimero,
     hasLoginLogo

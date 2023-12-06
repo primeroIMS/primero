@@ -21,18 +21,27 @@ import NAMESPACE from "../namespace";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions, WRITE_RECORDS, ACTIONS } from "../../../permissions";
 import { useDialog } from "../../../action-dialog";
-import { fetchSystemSettings, fetchRoles, fetchUserGroups, getWebpushConfig } from "../../../application";
+import { fetchSystemSettings, fetchRoles, fetchUserGroups, getWebpushConfig, useApp } from "../../../application";
 import CancelPrompt from "../../../form/components/cancel-prompt";
 import { currentUser, getCurrentUserGroupPermission } from "../../../user/selectors";
 import UserActions from "../../../user-actions";
 import { useMemoizedSelector } from "../../../../libs";
 import InternalAlert from "../../../internal-alert";
+import { enqueueSnackbar } from "../../../notifier";
 
 import { form } from "./form";
 import validations from "./validations";
 import { fetchUser, clearSelectedUser, saveUser, clearRecordsUpdate } from "./action-creators";
 import { USER_CONFIRMATION_DIALOG, PASSWORD_MODAL, FORM_ID, FIELD_NAMES } from "./constants";
-import { getUser, getServerErrors, getIdentityProviders, getSavingRecord, getRecordsUpdate } from "./selectors";
+import {
+  getUser,
+  getUserSaved,
+  getServerErrors,
+  getIdentityProviders,
+  getSavingRecord,
+  getRecordsUpdate,
+  getTotalUsersEnabled
+} from "./selectors";
 import UserConfirmation from "./user-confirmation";
 import ChangePassword from "./change-password";
 
@@ -43,6 +52,7 @@ const Container = ({ mode }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
+  const { maximumUsers, maximumUsersWarning } = useApp();
   const { dialogOpen, dialogClose, pending, setDialogPending, setDialog } = useDialog([
     PASSWORD_MODAL,
     USER_CONFIRMATION_DIALOG
@@ -58,6 +68,9 @@ const Container = ({ mode }) => {
   const currentRoleGroupPermission = useMemoizedSelector(state => getCurrentUserGroupPermission(state));
   const recordsUpdate = useMemoizedSelector(state => getRecordsUpdate(state));
   const webPushConfig = useMemoizedSelector(state => getWebpushConfig(state));
+  const totalUsersEnabled = useMemoizedSelector(state => getTotalUsersEnabled(state));
+  const userSaved = useMemoizedSelector(state => getUserSaved(state));
+  const maximumUsersWarningEnabled = Number.isInteger(maximumUsersWarning);
 
   const setPasswordModal = () => {
     setDialog({ dialog: PASSWORD_MODAL, open: true });
@@ -77,6 +90,7 @@ const Container = ({ mode }) => {
   const validationSchema = validations(formMode, i18n, useIdentityProviders, providers, selectedUserIsLoggedIn);
 
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+  const isShow = formMode.get("isShow");
   const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
   const [userData, setUserData] = useState({});
 
@@ -220,6 +234,17 @@ const Container = ({ mode }) => {
       formMethods.setError(error.get("detail"), "", i18n.t(error.getIn(["message", 0])));
     });
   }, [formErrors]);
+
+  useEffect(() => {
+    if (maximumUsersWarningEnabled && Number.isInteger(totalUsersEnabled) && isShow && !saving && userSaved) {
+      const successMessages = i18n.t("user.messages.created_warning", {
+        total_enabled: totalUsersEnabled,
+        maximum_users: maximumUsers
+      });
+
+      dispatch(enqueueSnackbar(successMessages, { type: "success" }));
+    }
+  }, [userSaved, totalUsersEnabled]);
 
   return (
     <LoadingIndicator hasData={formMode.get("isNew") || user?.size > 0} loading={!user?.size} type={NAMESPACE}>
