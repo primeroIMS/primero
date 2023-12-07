@@ -474,6 +474,7 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data']['user_group_unique_ids']).to eq(params[:data][:user_group_unique_ids])
       expect(User.find_by(id: json['data']['id'])).not_to be_nil
       expect(json['data']['identity_provider_unique_id']).to eq(@identity_provider_a.unique_id)
+      expect(json['metadata']['total_enabled']).to eq(8)
     end
 
     it 'filters sensitive information from logs' do

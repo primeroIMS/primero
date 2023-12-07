@@ -10,10 +10,10 @@ import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 import { ROUTES } from "../../../../../../config";
 
-function Component({ canAddUsers, totalUsersEnabled, limitUsersReached }) {
+function Component({ canAddUsers, maximumUsers, limitUsersReached }) {
   const i18n = useI18n();
   const tooltipLabel = i18n.t("users.alerts.limit_user_reached", {
-    total_enabled: totalUsersEnabled
+    maximum_users: maximumUsers
   });
 
   if (!canAddUsers) {
@@ -42,7 +42,7 @@ Component.displayName = "NewUserBtn";
 Component.propTypes = {
   canAddUsers: PropTypes.bool,
   limitUsersReached: PropTypes.bool,
-  totalUsersEnabled: PropTypes.number
+  maximumUsers: PropTypes.number
 };
 
 export default Component;
