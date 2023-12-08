@@ -101,6 +101,8 @@ async function subscribe() {
     applicationServerKey: urlBase64ToUint8Array(window.vpubID)
   });
 
+  console.log(subscription)
+
   sendSubscriptionStatusToServer(true, subscription);
 
   await DB.put({
