@@ -67,7 +67,6 @@ const ADDITIONAL_PRECACHE_MANIFEST_FILES = [
   "primero-pictorial-144.png",
   "primero-pictorial-192.png",
   "primero-pictorial-512.png",
-  "manifest.json",
   "javascripts/i18n.js"
 ];
 

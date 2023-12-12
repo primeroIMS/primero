@@ -33,6 +33,12 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
+  background: var(--c-login-background-gradient-start);
+  background: linear-gradient(108deg, var(--c-login-background-gradient-start) 0%, var(--c-login-background-gradient-end) 100%);
+}
+
+.primeroBackgroundImage {
+  background: center/70% no-repeat var(--c-login-background-image), linear-gradient(108deg, var(--c-login-background-gradient-start) 0%, var(--c-login-background-gradient-end) 100%);
 }
 
 .content {
@@ -110,21 +116,30 @@
 .footer {
   font-size: var(--fs-12);
   flex-shrink: 0;
+  padding: var(--sp-1);
+  display: flex;
+  width: 100%;
+  align-items: center;
+  & > div:first-of-type {
+    flex: 1;
+  }
+}
+
+.footer button {
+  background: var(--c-login-translations-button-background);
+  color: var(--c-login-translations-button-text);
+  width: 260px;
 }
 
 .footer button,
 .footer a {
   font-size: var(--fs-13);
-  color: var(--c-white);
+  color: var(--c-login-translations-button-text);
 }
 
 .footer button,
 .footer button > span > svg {
-  color: var(--c-white);
-}
-
-.footer:last-child {
-  padding-right: 15px;
+  color: var(--c-login-translations-button-text);
 }
 
 .footer .navLink {

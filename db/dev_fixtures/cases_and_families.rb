@@ -27,7 +27,7 @@ def read_file(filename)
 end
 
 def lookup_values_ids(lookup_unique_id)
-  Lookup.find_by(unique_id: lookup_unique_id).lookup_values.map { |v| v['id'] }
+  Lookup.find_by(unique_id: lookup_unique_id).lookup_values.map { |v| v['id'] }.reject { |id| id == 'reopened' }
 end
 
 def random_boolean
@@ -64,6 +64,7 @@ FAMILY_RELATIONSHIP_BY_SEX = {
 
 LOCATION_LEVEL_2 = Location.where(admin_level: 2).pluck(:location_code)
 SS_USERS = Role.find_by(unique_id: 'role-cp-case-worker').users
+SP_USERS = Role.find_by(unique_id: 'role-cp-service-provider').users
 
 records = []
 
@@ -85,10 +86,10 @@ end
 def create_followup(registration_date, workflow)
   return [] unless workflow.in?(%w[service_provision closed])
 
-  (1...rand(1..2)).map do |_|
+  (1...rand(1..3)).map do |_|
     {
       followup_type: FOLLOWUP_TYPE.sample,
-      followup_needed_by_date: registration_date + rand(2...30).days
+      followup_needed_by_date: registration_date + rand(1...6).months
     }
   end
 end
@@ -128,13 +129,13 @@ end
 
 # rubocop:disable Metrics/AbcSize
 # rubocop:disable Metrics/MethodLength
-def create_service_provision(registration_date)
+def create_service_provision(registration_date, service_users)
   {
     services_section: (1...rand(1..4)).map do |_|
-      service_user = SS_USERS.sample
+      service_user = service_users.sample
       {
         service_response_type: RESPONSE_TYPE.sample,
-        service_type: SERVICE_TYPE.sample,
+        service_type: service_user.services.sample,
         service_response_day_time: registration_date + rand(4...7).days,
         service_appointment_date: registration_date + rand(7...10).days,
         service_implementing_agency: service_user.agency.agency_code,
@@ -200,14 +201,14 @@ def main_fields_values
 end
 # rubocop:enable Metrics/MethodLength
 
-def create_worklow(registration_date, workflow, owner)
+def create_worklow(registration_date, workflow, owner, service_users)
   case workflow
   when 'assessment'
     create_assessment(registration_date, owner.user_name)
   when 'case_plan'
     create_case_plan(registration_date, owner.user_name)
   when 'service_provision'
-    create_service_provision(registration_date)
+    create_service_provision(registration_date, service_users)
   when 'closed'
     create_closed(registration_date, owner.user_name)
   else {} end
@@ -226,6 +227,16 @@ def create_records
   record_main_fields_values = main_fields_values
   workflow_status = WORKFLOW_OPTS.sample
   owner = SS_USERS.sample
+  primero_module = 'primeromodule-cp'
+  service_users = UserTransitionService.referral(owner, Child, primero_module).transition_users.select do |user|
+    user.role.unique_id == 'role-cp-service-provider'
+  end
+
+  workflow_object = {}
+  if workflow_status == 'service_provision'
+    workflow_status = WORKFLOW_OPTS.first unless service_users.present?
+    workflow_object = create_worklow(registration_date.to_date, workflow_status, owner, service_users)
+  end
 
   family_members = create_family_details_section
   child = Child.new(
@@ -244,13 +255,13 @@ def create_records
         workflow: workflow_status,
         status: 'open',
         record_state: true,
-        module_id: 'primeromodule-cp',
+        module_id: primero_module,
         risk_level: RISK_LEVEL.sample,
         protection_concerns: PROTECTION_CONCERN.sample(rand(1..5)),
         care_arrangements_section: create_care_arrangement(registration_date),
         followup_subform_section: create_followup(registration_date.to_date, workflow_status),
         family_details_section: family_members
-      }.merge(create_worklow(registration_date.to_date, workflow_status, owner))
+      }.merge(workflow_object)
     }
   )
   FamilyLinkageService.link_child_to_new_family(owner, child)

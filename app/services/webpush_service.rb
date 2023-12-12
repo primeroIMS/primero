@@ -77,7 +77,7 @@ class WebpushService
   def vapid_metadata
     {
       vapid: {
-        subject: Rails.configuration.x.webpush.contact,
+        subject: "mailto:#{Rails.configuration.x.webpush.contact}",
         public_key: Rails.configuration.x.webpush.vapid_public,
         private_key: Rails.configuration.x.webpush.vapid_private
       }

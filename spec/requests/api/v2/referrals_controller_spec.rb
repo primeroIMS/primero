@@ -28,7 +28,8 @@ describe Api::V2::ReferralsController, type: :request do
     @role_receive.save(validate: false)
     @role_service = Role.new(
       permissions: [@permission_referral_from_service],
-      modules: [@primero_module]
+      modules: [@primero_module],
+      unique_id: 'role-receive-referral'
     )
     @role_service.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
@@ -185,6 +186,22 @@ describe Api::V2::ReferralsController, type: :request do
       expect(json['data']['transitioned_by']).to eq('user3')
       expect(json['data']['notes']).to eq('Test Notes')
 
+      expect(audit_params['action']).to eq('refer')
+    end
+
+    it 'refers a the record to the target user with an authorized role' do
+      sign_in(@user1)
+      params = {
+        data: { transitioned_to: 'user2', notes: 'Test Notes', authorized_role_unique_id: 'role-receive-referral' }
+      }
+      post("/api/v2/cases/#{@case_a.id}/referrals", params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['record_id']).to eq(@case_a.id.to_s)
+      expect(json['data']['transitioned_to']).to eq('user2')
+      expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['notes']).to eq('Test Notes')
+      expect(json['data']['authorized_role_unique_id']).to eq('role-receive-referral')
       expect(audit_params['action']).to eq('refer')
     end
 

@@ -4,6 +4,8 @@ import { fade } from "@material-ui/core/styles";
 import mapKeys from "lodash/mapKeys";
 import kebabCase from "lodash/kebabCase";
 
+import importedTheme from "../libs/load-external-theme";
+
 const generateCssVarKey = (prefix, key) => `--${prefix}-${kebabCase(key)}`;
 
 const valueWithUnit = (value, unit) => (unit ? `${value}${unit}` : value);
@@ -58,7 +60,28 @@ const colors = {
   wildSand: "#f5f5f5",
   greenLight: "#E6EED3", // u,
   redMedium: "#E7712D",
-  redLow: "#F7D0BA"
+  redLow: "#F7D0BA",
+  forgotPasswordLink: "var(--c-blue)",
+  networkIndicatorBorder: "var(--c-solid-green)",
+  navListIcon: "var(--c-dark-grey))",
+  navListText: "var(--c-dark-grey)",
+  navListTextActive: "var(--c-black)",
+  navListIconActive: "var(--c-black)",
+  navListBgActive: "var(--c-content-grey)",
+  navListDivider: "var(--c-warm-grey-1)",
+  drawerHeaderButton: "transparent",
+  drawerHeaderButtonText: "var(--c-white)",
+  toolbarBackgroundColor: "linear-gradient(to top, var(--c-white), var(--c-light-grey))",
+  toolbarBackgroundButton: "var(--c-blue)",
+  mobileToolbarBackground:
+    // eslint-disable-next-line max-len
+    "linear-gradient(to top, var(--c-white), var(--c-light-grey)), linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.14))",
+  mobileToolbarHamburgerButton: "rgba(0, 0, 0, 0.54)",
+  loginBackgroundGradientStart: "var(--c-blue)",
+  loginBackgroundGradientEnd: "var(--c-blue)",
+  loginTranslationsButtonBackground: "transparent",
+  loginTranslationsButtonText: "var(--c-white)",
+  ...importedTheme.colors
 };
 
 const fontFamily = ["helvetica", "roboto", "arial", "sans-serif"].join(", ");

@@ -60,7 +60,8 @@ describe("<UsersForm /> - Reducers", () => {
     const expected = fromJS({
       selectedUser: {},
       errors: false,
-      serverErrors: []
+      serverErrors: [],
+      userSaved: false
     });
     const action = {
       type: actions.CLEAR_SELECTED_USER,
@@ -106,10 +107,20 @@ describe("<UsersForm /> - Reducers", () => {
   });
 
   it("should handle SAVE_USER_SUCCESS", () => {
-    const expected = fromJS({ saving: false });
+    const expected = fromJS({
+      saving: false,
+      metadata: {
+        total_enabled: 50
+      },
+      userSaved: true
+    });
     const action = {
       type: actions.SAVE_USER_SUCCESS,
-      payload: false
+      payload: {
+        metadata: {
+          total_enabled: 50
+        }
+      }
     };
     const newState = reducer(fromJS({}), action);
 

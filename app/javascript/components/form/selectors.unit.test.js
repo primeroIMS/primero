@@ -491,4 +491,19 @@ describe("Forms - Selectors", () => {
       expect(result).to.deep.equal([{ id: "type1", display_text: "Type 1", disabled: false, tags: ["low"] }]);
     });
   });
+
+  describe("when optionStringsSource is ROLE_REFERRAL_AUTHORIZATION", () => {
+    const stateWithReferralAuthorizationRoles = fromJS({
+      application: {
+        referralAuthorizationRoles: { data: [{ id: 1, unique_id: "role-authorized-1", name: "Authorized Role 1" }] }
+      }
+    });
+
+    it("returns the referralAuthorizationRoles", () => {
+      const source = OPTION_TYPES.ROLE_REFERRAL_AUTHORIZATION;
+      const result = selectors.getOptions(source)(stateWithReferralAuthorizationRoles, { source });
+
+      expect(result).to.deep.equal([{ id: "role-authorized-1", display_text: "Authorized Role 1" }]);
+    });
+  });
 });
