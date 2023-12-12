@@ -6,7 +6,7 @@ import NewUserBtn from "./component";
 describe("<NewUserBtn /> components/pages/admin/users-list/components", () => {
   const props = {
     canAddUsers: true,
-    totalUsersEnabled: 15,
+    maximumUsers: 15,
     limitUsersReached: false
   };
 
