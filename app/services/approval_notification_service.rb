@@ -49,6 +49,10 @@ class ApprovalNotificationService
     @approval_type ||= Lookup.display_value(approval_lookup_unique_id, type)
   end
 
+  def system_approval_type
+    SystemSettings.current.approvals_labels_i18n&.dig(manager.locale, type)
+  end
+
   def send_notification?
     manager.present? && child.present? && user.present?
   end
