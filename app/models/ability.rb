@@ -179,7 +179,7 @@ class Ability
 
   def permitted_to_access_attachment?(user, attachment, write = false)
     @permitted_form_fields_service.permitted_field_names(
-      user.role,
+      [user.role],
       Record.map_name(attachment.record_type),
       write
     ).include?(attachment.field_name) && (
