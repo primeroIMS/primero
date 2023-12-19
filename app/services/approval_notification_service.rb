@@ -39,18 +39,8 @@ class ApprovalNotificationService
 
   alias owner user
 
-  def approval_lookup_unique_id
-    return 'lookup-gbv-approval-types' if manager.gbv?
-
-    'lookup-approval-type'
-  end
-
   def approval_type
-    @approval_type ||= Lookup.display_value(approval_lookup_unique_id, type)
-  end
-
-  def system_approval_type
-    SystemSettings.current.approvals_labels_i18n&.dig(manager.locale, type)
+    SystemSettings.current.approvals_labels(manager.locale)&.dig(type)
   end
 
   def send_notification?

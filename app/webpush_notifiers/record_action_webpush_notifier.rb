@@ -44,7 +44,7 @@ class RecordActionWebpushNotifier
       approval_notification.manager,
       message_structure(approval_notification).merge(
         body: I18n.t(
-          "webpush_notification.#{approval_notification.key}.body", type: approval_notification&.system_approval_type
+          "webpush_notification.#{approval_notification.key}.body", type: approval_notification&.approval_type
         )
       )
     )
