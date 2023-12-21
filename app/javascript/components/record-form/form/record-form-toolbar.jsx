@@ -14,7 +14,7 @@ import { useI18n } from "../../i18n";
 import Flagging from "../../flagging";
 import RecordActions from "../../record-actions";
 import Permission, { FLAG_RECORDS, WRITE_RECORDS } from "../../permissions";
-import { getSavingRecord, getLoadingRecordState, getCaseIdDisplayForIncident } from "../../records/selectors";
+import { getSavingRecord, getLoadingRecordState, getCaseIdDisplayForIncident, getCaseIdForIncident } from "../../records/selectors";
 import {
   RECORD_TYPES,
   RECORD_PATH,
@@ -54,6 +54,7 @@ const RecordFormToolbar = ({
   const loadingRecord = useMemoizedSelector(state => getLoadingRecordState(state, params.recordType));
   const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
   const incidentCaseIdDisplay = useMemoizedSelector(state => getCaseIdDisplayForIncident(state, recordType));
+  const incidentCaseId = useMemoizedSelector(state => getCaseIdForIncident(state, recordType));
   const isEnabledWebhookSyncFor = useMemoizedSelector(state =>
     getIsEnabledWebhookSyncFor(state, primeroModule, recordType)
   );
@@ -143,7 +144,7 @@ const RecordFormToolbar = ({
       params={params}
       recordType={recordType}
       shortId={shortId}
-      incidentCaseId={getIncidentFromCaseId()}
+      incidentCaseId={!!incidentCaseId ? incidentCaseId : getIncidentFromCaseId()}
       incidentCaseIdDisplay={!!incidentCaseIdDisplay ? incidentCaseIdDisplay : getIncidentFromCaseIdDisplay()}
       toolbarHeading={css.toolbarHeading}
       associatedLinkClass={css.associatedCaseLink}
