@@ -11,8 +11,9 @@ class Exporters::BaseExporter
 
   FIRST_ROW_INDEX = 1
 
-  attr_accessor :locale, :lookups, :fields, :field_names, :forms, :field_value_service,
-                :location_service, :record_type, :user, :options, :record_data_service
+  attr_accessor :locale, :lookups, :field_value_service,
+                :location_service, :record_type, :user, :options, :record_data_service,
+                :export_constraints, :record_constraints, :single_record_export
 
   class << self
     def supported_models
@@ -46,6 +47,7 @@ class Exporters::BaseExporter
     self.locale = config[:locale] || I18n.locale
     self.record_type = config[:record_type]
     self.user = config[:user]
+    self.single_record_export = config[:single_record_export]
     self.options = options
     intialize_services
     establish_export_constraints
@@ -69,9 +71,21 @@ class Exporters::BaseExporter
   def establish_export_constraints
     return unless setup_export_constraints? && user.present?
 
-    self.forms = forms_to_export
-    self.fields = fields_to_export
-    self.field_names = fields.map(&:name)
+    self.export_constraints = Exporters::ExporterConstraints.new(
+      record_type:, user:, excluded_field_names: self.class.excluded_field_names, options:
+    )
+    export_constraints.generate!
+  end
+
+  def establish_record_constraints(record)
+    if user.referred_to_record?(record)
+      self.record_constraints = Exporters::ExporterConstraints.new(
+        record:, record_type:, user:, excluded_field_names: self.class.excluded_field_names, options:
+      )
+      record_constraints.generate!
+    else
+      self.record_constraints = export_constraints
+    end
   end
 
   def setup_export_constraints?
@@ -98,70 +112,29 @@ class Exporters::BaseExporter
     @io
   end
 
-  def user_permitted_forms(record_type, user, include_subforms = false)
-    user.role.permitted_forms(record_type, true, include_subforms)
-  end
-
-  private
-
-  def forms_to_export(include_subforms = false)
-    forms = user_permitted_forms(record_type, user, include_subforms)
-    forms = forms.where(unique_id: options[:form_unique_ids]) if options[:form_unique_ids].present?
-    forms.map { |form| forms_without_hidden_fields(form) }
-  end
-
-  def fields_to_export
-    fields = forms.map(&:fields).flatten.reject(&:hide_on_view_page?).uniq(&:name)
-    fields -= (self.class.excluded_field_names&.to_a || [])
-    return fields if options[:field_names].blank?
-
-    map_fields(options, fields)
-  end
-
-  def map_fields(options, fields)
-    # TODO: Don't forget this:
-    # user.can?(:write, model_class) ? permitted_fields : permitted_fields.select(&:showable?)
-    options[:field_names].map { |field_name| find_field(fields, field_name) }.compact
-  end
-
-  def find_field(fields, field_name)
-    fields.find { |field| field.name == field_name }
-  end
-
-  def forms_without_hidden_fields(form)
-    form_dup = duplicate_form(form)
-    form_dup.fields = form_dup.fields.reject { |field| field.hide_on_view_page? || !field.visible }.map do |field|
-      # TODO: This cause N+1
-      if field.subform.present? && field.type == Field::SUBFORM
-        field.subform = forms_without_hidden_fields(field.subform)
-      end
-
-      field
-    end
-    form_dup
-  end
-
-  def duplicate_form(form)
-    form_dup = FormSection.new(form.as_json.except('id'))
-    form_dup.subform_field = Field.new(form.subform_field.as_json.except('id')) if form.subform_field.present?
-    form_dup.fields = duplicate_fields(form_dup, form.fields)
-    form_dup
-  end
-
-  def duplicate_fields(form_dup, fields)
-    fields.map do |field|
-      field_dup = Field.new(field.as_json.except('id'))
-      field_dup.subform = duplicate_form(field.subform) if field.subform.present?
-      field_dup.form_section = form_dup
-      field_dup
-    end
-  end
-
   def locale_hash
     { locale: }
   end
 
   def name_first_cell_by_column(column_index)
     "#{ColName.instance.col_str(column_index)}#{FIRST_ROW_INDEX}"
+  end
+
+  def forms
+    return [] unless setup_export_constraints?
+
+    record_constraints&.forms || export_constraints.forms
+  end
+
+  def fields
+    return [] unless setup_export_constraints?
+
+    record_constraints&.fields || export_constraints.fields
+  end
+
+  def field_names
+    return [] unless setup_export_constraints?
+
+    record_constraints&.field_names || export_constraints.field_names
   end
 end

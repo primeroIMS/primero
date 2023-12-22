@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe Exporters::JsonExporter do
   before :each do
-    clean_data(Child, Family, User, Role, Field, FormSection, PrimeroModule)
+    clean_data(Alert, Child, Family, User, Role, Field, FormSection, PrimeroModule, Referral)
 
     family = Family.create!(
       data: {
@@ -22,15 +22,7 @@ describe Exporters::JsonExporter do
 
     fields = [
       build(:field, name: 'name_first'),
-      build(:field, name: 'estimated', type: Field::TICK_BOX),
-      build(
-        :subform_field,
-        name: 'family_details_section',
-        fields: [
-          create(:field, name: 'relation_name'),
-          create(:field, name: 'relation')
-        ]
-      )
+      build(:field, name: 'estimated', type: Field::TICK_BOX)
     ]
     form = create(:form_section, unique_id: 'form_section_exporter', fields:)
     family_details_section = FormSection.new(
@@ -73,13 +65,21 @@ describe Exporters::JsonExporter do
     primero_module = PrimeroModule.new(name: 'CP')
     primero_module.save(validate: false)
     permissions = Permission.new(
-      resource: Permission::CASE, actions: [Permission::READ]
+      resource: Permission::CASE, actions: [Permission::READ, Permission::RECEIVE_REFERRAL]
     )
     role = Role.new(
       is_manager: false, modules: [primero_module],
       permissions: [permissions], form_sections: [form, form_family]
     )
     role.save(validate: false)
+    role_referral = Role.new(
+      unique_id: 'role-referral', is_manager: false, form_sections: [form], modules: [primero_module],
+      permissions: [permissions]
+    )
+    role_referral.save(validate: false)
+    @user_referral = User.new(user_name: 'fakerefer', role:)
+    @user_referral.save(validate: false)
+
     @user = User.new(user_name: 'user1', role:)
     @user.save(validate: false)
     @record = Child.new(
@@ -87,6 +87,7 @@ describe Exporters::JsonExporter do
         name_first: 'Test',
         estimated: false,
         nickname: 'Testy',
+        module_id: PrimeroModule::CP,
         family_details_section: [
           { relation_name: 'John', relation: 'father' },
           { relation_name: 'Mary', relation: 'mother' }
@@ -106,6 +107,10 @@ describe Exporters::JsonExporter do
         sex: 'male',
         family_details_section: [{ unique_id: '002', relation: 'relation2' }]
       }
+    )
+    Referral.create!(
+      transitioned_by: @user.user_name, transitioned_to: @user_referral.user_name, record: @record,
+      consent_overridden: true, authorized_role_unique_id: role_referral.unique_id
     )
   end
 
@@ -142,7 +147,20 @@ describe Exporters::JsonExporter do
     expect(data_hash2[0]['data']['family_details_section'][0]['relation_age']).to eq(12)
   end
 
+  context 'when the user was referred to a record' do
+    it 'does not export non permitted fields for a referred record' do
+      result = JSON.parse(Exporters::JsonExporter.export([@record], nil, { user: @user_referral }))
+
+      expect(result.size).to eq(1)
+      expect(result[0]['id']).to eq(@record.id)
+      expect(result[0]['data']).to have_key('name_first')
+      expect(result[0]['data']).to have_key('estimated')
+      expect(result[0]['data']).not_to have_key('nickname')
+      expect(result[0]['data']).not_to have_key('family_details_section')
+    end
+  end
+
   after :each do
-    clean_data(User, Role, Field, FormSection, PrimeroModule)
+    clean_data(Alert, User, Role, Field, FormSection, PrimeroModule, Referral)
   end
 end

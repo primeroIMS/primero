@@ -30,67 +30,38 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
   end
 
   def establish_export_constraints
-    if constraining_fields?
-      constrain_fields
-    elsif constraining_forms_and_fields?
-      constrain_forms_and_fields
+    self.export_constraints = Exporters::SelectedFieldsExcelExporterConstraints.new(
+      record_type:, user:, excluded_field_names: self.class.excluded_field_names, options:,
+      constraining_fields: constraining_fields?, constraining_forms_and_fields: constraining_forms_and_fields?,
+      locale:
+    )
+    export_constraints.generate!
+  end
+
+  def establish_record_constraints(record)
+    if user.referred_to_record?(record)
+      self.record_constraints = Exporters::SelectedFieldsExcelExporterConstraints.new(
+        record_type:, user:, excluded_field_names: self.class.excluded_field_names, options:,
+        constraining_fields: constraining_fields?, constraining_forms_and_fields: constraining_forms_and_fields?,
+        locale:, record:
+      )
+      record_constraints.generate!
     else
-      super
+      self.record_constraints = export_constraints
     end
-    self.forms = constrain_form_fields(forms.to_a + [metadata_form])
   end
 
   def constraining_fields?
-    options[:form_unique_ids].blank? && options[:field_names]
+    options[:form_unique_ids].blank? && options[:field_names].present?
   end
 
   def constraining_forms_and_fields?
-    options[:form_unique_ids] && options[:field_names]
+    options[:form_unique_ids].present? && options[:field_names].present?
   end
 
-  def constrain_fields
-    self.forms = forms_to_export(true)
-    self.fields = fields_to_export
-    self.forms = [selected_fields_form]
-  end
+  def non_permitted_field?(field)
+    return false if METADATA_FIELD_NAMES.include?(field.name)
 
-  def constrain_forms_and_fields
-    self.forms = forms_to_export(true)
-    field_names = fields_to_export.map(&:name)
-    self.forms = forms.map { |form| filter_fields(form, field_names) }
-    self.forms = forms.select { |f| f.fields.size.positive? }
-  end
-
-  def constrain_form_fields(forms)
-    forms.map do |form|
-      form_dup = duplicate_form(form)
-      form_dup.fields = form.fields.reject(&:hide_on_view_page?)
-      form_dup
-    end
-  end
-
-  private
-
-  def filter_fields(form, field_names)
-    form_dup = duplicate_form(form)
-    form_dup.fields = form.fields.select { |f| field_names.include?(f.name) }
-    form_dup
-  end
-
-  def selected_fields_form
-    form = FormSection.new(unique_id: 'selected_fields', fields:)
-    form.send(:name=, I18n.t('exports.selected_xls.selected_fields', locale:), locale)
-    form
-  end
-
-  def metadata_form
-    fields = METADATA_FIELD_NAMES.map do |name|
-      field = Field.new(name:, type: Field::TEXT_FIELD)
-      field.send(:display_name=, name, locale)
-      field
-    end
-    form = FormSection.new(unique_id: '__record__', fields:)
-    form.send(:name=, '__record__', locale)
-    form
+    super(field)
   end
 end
