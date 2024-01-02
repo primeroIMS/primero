@@ -1,0 +1,40 @@
+.recordId {
+    color: var(--c-red);
+  }
+  
+  .alreadyMatched {
+    background-color: var(--c-wild-sand);
+    padding: 10px;
+  
+    & span {
+      font-weight: bold;
+    }
+  }
+  
+  .fieldRow {
+    & audio {
+      width: 100%;
+    }
+  }
+
+  .fieldRow {
+    border-bottom: 1px solid var(--c-light-grey);
+  }
+  
+  .fieldTitle {
+    font-weight: bold;
+  }
+  
+  .matched {
+    color: var(--c-green);
+  }
+  
+  .notMatched {
+    color: var(--c-red);
+  }
+
+  #caseIdDetailLink{
+    position: relative !important;
+    left: 820% !important;
+  }
+  
