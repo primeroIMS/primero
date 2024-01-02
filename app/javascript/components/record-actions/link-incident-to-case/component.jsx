@@ -55,7 +55,6 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   const [showTablel, setShowTablel] = useState(true);
   const [caseInfo, setCaseInfo] = useState();
 
-
   useEffect(() => {
     if (delayStateUpdate) {
       const timeoutId = setTimeout(() => {
@@ -148,26 +147,26 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
     close();
   };
 
-  const handleSelectedRecords = (index) => {
-    if (index[0].length === 1) {
-      setSelectedRecords(index);
-      const { id, case_id_display } = fetchIdFromPosition(index);
-      setSelectedCaseId(id);
-      setSelectedCaseDisplayId(case_id_display)
-      setDelayStateUpdate(false);
-    } else {
-      setSelectedRecords(index);
-      setDelayStateUpdate(true);
-    }
-  };
+  // const handleSelectedRecords = (index) => {
+  //   if (index[0].length === 1) {
+  //     setSelectedRecords(index);
+  //     const { id, case_id_display } = fetchIdFromPosition(index);
+  //     setSelectedCaseId(id);
+  //     setSelectedCaseDisplayId(case_id_display)
+  //     setDelayStateUpdate(false);
+  //   } else {
+  //     setSelectedRecords(index);
+  //     setDelayStateUpdate(true);
+  //   }
+  // };
 
-  const fetchIdFromPosition = (index) => {
-    if (dataToJS(caseData) && dataToJS(caseData).length > index[0][0]) {
-      const object = dataToJS(caseData)[index[0][0]];
-      return { id: object.id, case_id_display: object.case_id_display };
-    }
-    return null;
-  };
+  // const fetchIdFromPosition = (index) => {
+  //   if (dataToJS(caseData) && dataToJS(caseData).length > index[0][0]) {
+  //     const object = dataToJS(caseData)[index[0][0]];
+  //     return { id: object.id, case_id_display: object.case_id_display };
+  //   }
+  //   return null;
+  // };
 
   const onBack = () => {
     setShowTablel(true);
@@ -189,7 +188,6 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
     }
   return (
     <>
-     {console.log("caseInfo", dataToJS(caseData))}
       <SubformDrawer title={i18n.t("incident.link_incident_to_case")} open={open} cancelHandler={onClose} >
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(handleSubmit)} data-testid="search-form-for-link-to-case">
@@ -200,7 +198,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
           <IndexTable
             {...tableOptions}
             selectedRecords={selectedRows}
-            setSelectedRecords={(event) => { handleSelectedRecords(event) }}
+            //setSelectedRecords={(event) => { handleSelectedRecords(event) }}
           />
           : (!showTablel && caseInfo !== undefined ?
             <Grid container spacing={4}>
