@@ -120,6 +120,9 @@
   display: flex;
   width: 100%;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1em;
+
   & > div:first-of-type {
     flex: 1;
   }
