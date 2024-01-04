@@ -111,7 +111,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
                 color="primary"
                 noTranslate
                 onClick={() => 
-                 handleRowClick(rowData[1])
+                 handleRowClick(rowData[1], rowData[3])
                 }
               />
             );
@@ -173,7 +173,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
     setCaseInfo(undefined);
   };
 
-  const handleRowClick =(selectedId)=> {
+  const handleRowClick =(selectedId, selectedDisplayId)=> {
       setShowTablel(false);
       const caseDetail = [];
       const caseDataInJs = dataToJS(caseData)
@@ -184,7 +184,8 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
         }
       })
       setCaseInfo(caseDetail); 
-      setSelectedCaseId(selectedId);  
+      setSelectedCaseId(selectedId);
+      setSelectedCaseDisplayId(selectedDisplayId);
     }
   return (
     <>
