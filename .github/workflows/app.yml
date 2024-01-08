@@ -14,7 +14,7 @@ on:
 
 jobs:
   server-test:
-    name: Backend-test
+    name: Backend Tests
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -47,8 +47,24 @@ jobs:
         shell: bash
   # Running front-end mocha test in batches. Running on single process causes test 
   # to run out of resources. This causes a few test to randomly timeout.
+  client-lint:
+    name: Client Linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+      - name: Run client linter
+        run: |
+          npm ci
+          npm run lint
+
   client-test:
-    name: Frontend Test
+    name: Frontend Tests
+    needs: client-lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -80,18 +96,4 @@ jobs:
       - name: Run client tests new
         run: |
           npm ci
-          npm run test:new -- --maxWorkers=2
-  client-lint:
-    name: Client Linter
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-      - name: Run client linter
-        run: |
-          npm ci
-          npm run lint
+          npm run test:new -- --maxWorkers=2   
