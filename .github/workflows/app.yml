@@ -14,7 +14,7 @@ on:
 
 jobs:
   server-test:
-    name: RSpec Test
+    name: Backend-test
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -47,8 +47,8 @@ jobs:
         shell: bash
   # Running front-end mocha test in batches. Running on single process causes test 
   # to run out of resources. This causes a few test to randomly timeout.
-  client-test-1:
-    name: Client Test (Batch 1)
+  client-test:
+    name: Frontend Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -57,77 +57,27 @@ jobs:
           node-version: '18'
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
-      - name: Run client tests
+      - name: Run client tests batch 1
         run: |
           npm ci
           npm run test:batch:1
-  client-test-2:
-    name: Client Test (Batch 2)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-      - name: Run client tests
+      - name: Run client tests batch 2
         run: |
           npm ci
           npm run test:batch:2
-  client-test-3:
-    name: Client Test (Batch 3)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-      - name: Run client tests
+      - name: Run client tests batch 3
         run: |
           npm ci
           npm run test:batch:3
-  client-test-4:
-    name: Client Test (Batch 4)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-      - name: Run client tests
+      - name: Run client tests 4
         run: |
           npm ci
           npm run test:batch:4
-  client-test-5:
-    name: Client Test (Batch 5)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-      - name: Run client tests
+      - name: Run client tests 5
         run: |
           npm ci
           npm run test:batch:5
-  client-test-new:
-    name: Client Test (New)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-      - name: Run client tests
+      - name: Run client tests new
         run: |
           npm ci
           npm run test:new -- --maxWorkers=2
