@@ -24,8 +24,7 @@ const Component = ({ children }) => {
   const primeroModule = "cp";
   const moduleClass = `${primeroModule}${demo ? "-demo" : ""}`;
   const classes = clsx(css.primeroBackground, css[moduleClass], {
-    [css.primeroBackgroundImage]: hasLoginLogo,
-    [css.demo]: demo
+    [css.primeroBackgroundImage]: hasLoginLogo
   });
   const classesLoginLogo = clsx(css.loginLogo, { [css.hideLoginLogo]: !hasLogos });
   const classesAuthDiv = clsx(css.auth, { [css.noLogosWidth]: !hasLogos });
