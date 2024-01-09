@@ -23,20 +23,27 @@ const METHODS = {
 
 const isNav = event => event.request.mode === "navigate";
 
+function registerNetworkFirstRoute(url, cacheName) {
+  registerRoute(
+    url,
+    new NetworkFirst({
+      cacheName,
+      networkTimeoutSeconds: 5,
+      plugins: [
+        new CacheableResponsePlugin({
+          statuses: [200]
+        })
+      ]
+    })
+  );
+}
+
 // TODO: This pr would allow passing strategies to workbox way of handling navigation routes
 // https://github.com/GoogleChrome/workbox/pull/2459
-registerRoute(
-  ({ event }) => isNav(event),
-  new NetworkFirst({
-    cacheName: cacheNames.precache,
-    networkTimeoutSeconds: 5,
-    plugins: [
-      new CacheableResponsePlugin({
-        statuses: [200]
-      })
-    ]
-  })
-);
+registerNetworkFirstRoute(({ event }) => isNav(event), cacheNames.precache);
+
+registerNetworkFirstRoute(`${self.location.origin}/manifest.json`, "manifest");
+registerNetworkFirstRoute(`${self.location.origin}/theme`, "theme");
 
 // Images
 registerRoute(
