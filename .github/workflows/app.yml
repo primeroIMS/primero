@@ -105,4 +105,4 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Image
         run: |
-          docker build -t primero_app:latest /primero/docker/application/Dockerfile
+          docker build -t primero_app:latest /primero/docker/application
