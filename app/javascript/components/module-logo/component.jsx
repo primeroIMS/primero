@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
 
 import useMemoizedSelector from "../../libs/use-memoized-selector";
-import { getThemeLogos } from "../application/selectors";
+import { getSiteTitle, getThemeLogos } from "../application/selectors";
 
 import css from "./styles.css";
 import { getLogo } from "./utils";
@@ -15,12 +15,13 @@ const ModuleLogo = ({ moduleLogo, white, useModuleLogo }) => {
 
   const moduleLogoID = useMemoizedSelector(state => getModuleLogoID(state));
   const themeLogos = useMemoizedSelector(state => getThemeLogos(state));
+  const siteTitle = useMemoizedSelector(state => getSiteTitle(state));
 
   const [fullLogo, smallLogo] = getLogo(moduleLogo || moduleLogoID, white, themeLogos, useModuleLogo);
 
   return (
     <div className={css.logoContainer}>
-      <img src={tabletDisplay ? smallLogo : fullLogo} alt="Primero" className={css.logo} />
+      <img src={tabletDisplay ? smallLogo : fullLogo} alt={siteTitle} className={css.logo} />
     </div>
   );
 };
