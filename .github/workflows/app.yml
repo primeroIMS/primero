@@ -105,6 +105,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Image
         run: |
-          echo "Current path: $(pwd)"
-#          docker build -t primero_app:latest /primero/docker/application
+          docker build -t primero_app:latest /home/runner/work/primero/docker/application
 
