@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { FormControlLabel, Switch } from "@material-ui/core";
+import { CircularProgress, FormControlLabel, Switch } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import NotificationsOffIcon from "@material-ui/icons/NotificationsOff";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -33,8 +33,9 @@ function Component() {
 
   const webpushConfig = useMemoizedSelector(state => getWebpushConfig(state));
   const notificationEndpoint = useMemoizedSelector(state => getNotificationSubscription(state));
-  const receiveWebpush = useMemoizedSelector(state => getUserProperty(state, "receiveWebpush"));
+  const receiveWebpush = useMemoizedSelector(state => getUserProperty(state, "receive_webpush"));
   const userLoaded = useMemoizedSelector(state => getUserProperty(state, "loaded"));
+  const userLoading = useMemoizedSelector(state => getUserProperty(state, "loading"));
   const [value, setValue] = useState(false);
 
   const vapidID = webpushConfig.get("vapid_public");
@@ -148,7 +149,7 @@ function Component() {
         disabled={notificationsNotSupported}
         value="top"
         checked={value}
-        control={<Switch color="primary" />}
+        control={userLoading ? <CircularProgress size={24} /> : <Switch color="primary" />}
         label={
           <div className={css.root}>
             {value ? <NotificationsIcon className={css.on} /> : <NotificationsOffIcon className={css.off} />}
