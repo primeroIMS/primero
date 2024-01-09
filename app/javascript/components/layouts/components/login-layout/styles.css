@@ -21,7 +21,7 @@
 }
 
 .cp-demo {
-  background: repeating-linear-gradient(45deg, var(--c-dark-blue), var(--c-dark-blue) 10px, var(--c-blue) 10px, var(--c-blue) 20px);
+  background: repeating-linear-gradient(45deg, var(--c-dark-blue), var(--c-dark-blue) 10px, var(--c-blue) 10px, var(--c-blue) 20px) !important;
 }
 
 :global html, :global body {
