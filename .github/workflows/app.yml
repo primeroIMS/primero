@@ -99,13 +99,10 @@ jobs:
           npm run test:new -- --maxWorkers=2
 
   build-image:
-    name: Build Image
-    build:
-      runs-on: ubuntu-latest
-
-      steps:
-        - uses: actions/checkout@v2
-
-        - name: Build Docker image
-          run: |
-            docker build -t primero_app:1.0 /primero/docker/application/Dockerfile
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Image
+        run: |
+          docker build -t primero_app:latest /primero/docker/application/Dockerfile
