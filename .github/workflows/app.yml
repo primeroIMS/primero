@@ -96,4 +96,17 @@ jobs:
       - name: Run client tests new
         run: |
           npm ci
-          npm run test:new -- --maxWorkers=2   
+          npm run test:new -- --maxWorkers=2
+
+  build-image:
+    name: Build Image
+    build:
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+
+        - name: Build Docker image
+          run: |
+            docker build -t primero_app:1.0 /primero/docker/application/Dockerfile
