@@ -42,8 +42,19 @@ function registerNetworkFirstRoute(url, cacheName) {
 // https://github.com/GoogleChrome/workbox/pull/2459
 registerNetworkFirstRoute(({ event }) => isNav(event), cacheNames.precache);
 
-registerNetworkFirstRoute(`${self.location.origin}/manifest.json`, "manifest");
-registerNetworkFirstRoute(`${self.location.origin}/theme`, "theme");
+const ADDITIONAL_PRECACHE_FILES = [
+  {
+    url: `${self.location.origin}/theme`,
+    revision: "287dc07e50a71051143046fb05416cfc23d214ca8de1070d2047d830fc2ed776"
+  },
+  {
+    url: `${self.location.origin}/manifest.json`,
+    revision: "287dc07e50a71051143046fb05416cfc23d214ca8de1070d2047d830fc2ed776"
+  }
+];
+
+// registerNetworkFirstRoute(`${self.location.origin}/manifest.json`, "manifest");
+// registerNetworkFirstRoute(`${self.location.origin}/theme`, "theme");
 
 // Images
 registerRoute(
@@ -92,7 +103,8 @@ const manifest = self.__WB_MANIFEST.map(entry => {
   return entry;
 });
 
-precacheAndRoute(manifest);
+console.log(manifest);
+precacheAndRoute([...manifest, ...ADDITIONAL_PRECACHE_FILES]);
 
 setCatchHandler(({ event }) => {
   if (isNav(event)) return caches.match(getCacheKeyForURL("/"));
