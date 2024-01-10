@@ -48,6 +48,8 @@
 }
 
 .authContainer {
+  flex-direction: column;
+  gap: var(--sp-2);
   display: flex;
   flex: 1;
   align-items: center;
@@ -156,6 +158,10 @@
 
 .footer .navLink span {
   padding-left: 10px;
+}
+
+.footerContained {
+  flex-direction: column;
 }
 
 @media (max-width:599.95px) {
