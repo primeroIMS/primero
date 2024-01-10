@@ -45,7 +45,7 @@ jobs:
       - name: Server tests
         run: ./bin/run_server_tests.sh github-actions
         shell: bash
-  # Running front-end mocha test in batches. Running on single process causes test 
+  # Running front-end mocha test in batches. Running on single process causes test
   # to run out of resources. This causes a few test to randomly timeout.
   client-lint:
     name: Client Linter
@@ -105,4 +105,4 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Image
         run: |
-          docker build --build-arg APP_ROOT=/srv/primero/application --build-arg RAILS_LOG_PATH=/srv/primero/application/log/primero -t primero_app:latest -f  /home/runner/work/primero/primero/docker/application/Dockerfile .
+          docker build --build-arg APP_ROOT=/srv/primero/application --build-arg RAILS_LOG_PATH=/srv/primero/application/log/primero --build-arg APP_UID=1000 --build-arg APP_GID=1000 -t primero_app:latest -f  /home/runner/work/primero/primero/docker/application/Dockerfile .
