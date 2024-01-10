@@ -29,7 +29,7 @@ const Component = ({ children }) => {
   });
   const classesLoginLogo = clsx(css.loginLogo, { [css.hideLoginLogo]: !hasLogos });
   const classesAuthDiv = clsx(css.auth, { [css.noLogosWidth]: !hasLogos });
-  const containedAndMobile = useContainedNavStyle && mobileDisplay;
+  const isContainedAndMobile = useContainedNavStyle && mobileDisplay;
 
   return (
     <>
@@ -49,10 +49,10 @@ const Component = ({ children }) => {
                 <AgencyLogo alwaysFullLogo />
               </div>
             </div>
-            {containedAndMobile && <LoginLayoutFooter useContainedNavStyle />}
+            {isContainedAndMobile && <LoginLayoutFooter useContainedNavStyle />}
           </div>
         </div>
-        {containedAndMobile || <LoginLayoutFooter />}
+        {isContainedAndMobile || <LoginLayoutFooter />}
       </div>
     </>
   );
