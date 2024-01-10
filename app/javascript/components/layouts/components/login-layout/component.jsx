@@ -2,6 +2,7 @@
 
 import PropTypes from "prop-types";
 import clsx from "clsx";
+import { useMediaQuery } from "@material-ui/core";
 
 import ModuleLogo from "../../../module-logo";
 import AgencyLogo from "../../../agency-logo";
@@ -16,6 +17,7 @@ import { NAME } from "./constants";
 import css from "./styles.css";
 
 const Component = ({ children }) => {
+  const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
   const { demo, hasLoginLogo, useContainedNavStyle } = useApp();
   const hasLogos = useMemoizedSelector(state => hasAgencyLogos(state));
 
@@ -27,6 +29,7 @@ const Component = ({ children }) => {
   });
   const classesLoginLogo = clsx(css.loginLogo, { [css.hideLoginLogo]: !hasLogos });
   const classesAuthDiv = clsx(css.auth, { [css.noLogosWidth]: !hasLogos });
+  const isContainedAndMobile = useContainedNavStyle && mobileDisplay;
 
   return (
     <>
@@ -46,10 +49,10 @@ const Component = ({ children }) => {
                 <AgencyLogo alwaysFullLogo />
               </div>
             </div>
-            {useContainedNavStyle && <LoginLayoutFooter useContainedNavStyle />}
+            {isContainedAndMobile && <LoginLayoutFooter useContainedNavStyle />}
           </div>
         </div>
-        {useContainedNavStyle || <LoginLayoutFooter />}
+        {isContainedAndMobile || <LoginLayoutFooter />}
       </div>
     </>
   );
