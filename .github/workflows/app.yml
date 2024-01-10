@@ -105,4 +105,4 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Image
         run: |
-          docker build -t primero:latest -f /docker/application/Dockerfile .
+          docker build --build-arg APP_ROOT=/srv/primero/application --build-arg RAILS_LOG_PATH=/srv/primero/application/log/primero -t primero_app:latest -f  /home/runner/work/primero/primero/docker/application/Dockerfile .
