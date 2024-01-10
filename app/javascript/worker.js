@@ -23,6 +23,8 @@ const METHODS = {
 
 const isNav = event => event.request.mode === "navigate";
 
+// TODO: This pr would allow passing strategies to workbox way of handling navigation routes
+// https://github.com/GoogleChrome/workbox/pull/2459
 function registerNetworkFirstRoute(url, cacheName) {
   registerRoute(
     url,
@@ -38,8 +40,6 @@ function registerNetworkFirstRoute(url, cacheName) {
   );
 }
 
-// TODO: This pr would allow passing strategies to workbox way of handling navigation routes
-// https://github.com/GoogleChrome/workbox/pull/2459
 registerNetworkFirstRoute(({ event }) => isNav(event), cacheNames.precache);
 
 // Images
