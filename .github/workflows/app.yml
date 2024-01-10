@@ -106,4 +106,4 @@ jobs:
       - name: Build Image
         run: |
           echo $(pwd)
-
+          ls
