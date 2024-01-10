@@ -175,11 +175,13 @@ PRIMERO_WEBPUSH must be placed in `inventory` file, the other two must be in `se
 
 To generate a valid VAPID key, you can execute the follow script and use for each variable
 
-```ruby
-  vapid_key = WebPush.generate_key
-
-  puts "Public key: #{vapid_key.public_key}"
-  puts "Private key: #{vapid_key.private_key}"
+```bash
+  openssl ecparam -genkey -name prime256v1 -out private_key.pem
+  # generating public_vapid_key
+  openssl ec -in private_key.pem -pubout -outform DER|tail -c 65|base64|tr -d '\n'|tr -d '=' |tr '/+' '_-'
+  # generating private_vapid_key
+  openssl ec -in private_key.pem -outform DER|tail -c +8|head -c 32|base64|tr -d '\n'|tr -d '=' |tr '/+' '_-'
+  rm private_key.pem
 ```
 ## Notes
 
