@@ -105,5 +105,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Image
         run: |
-          docker build -t primero_app:latest /docker/application
+          echo $(pwd)
 
