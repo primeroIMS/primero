@@ -21,7 +21,7 @@
 }
 
 .cp-demo {
-  background: repeating-linear-gradient(45deg, var(--c-dark-blue), var(--c-dark-blue) 10px, var(--c-blue) 10px, var(--c-blue) 20px);
+  background: repeating-linear-gradient(45deg, var(--c-dark-blue), var(--c-dark-blue) 10px, var(--c-blue) 10px, var(--c-blue) 20px) !important;
 }
 
 :global html, :global body {
@@ -48,6 +48,8 @@
 }
 
 .authContainer {
+  flex-direction: column;
+  gap: var(--sp-2);
   display: flex;
   flex: 1;
   align-items: center;
@@ -120,6 +122,9 @@
   display: flex;
   width: 100%;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1em;
+
   & > div:first-of-type {
     flex: 1;
   }
@@ -153,6 +158,10 @@
 
 .footer .navLink span {
   padding-left: 10px;
+}
+
+.footerContained {
+  flex-direction: column;
 }
 
 @media (max-width:599.95px) {

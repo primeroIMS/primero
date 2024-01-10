@@ -52,7 +52,7 @@ const Container = ({ mode }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
-  const { maximumUsers, maximumUsersWarning } = useApp();
+  const { maximumUsersWarning } = useApp();
   const { dialogOpen, dialogClose, pending, setDialogPending, setDialog } = useDialog([
     PASSWORD_MODAL,
     USER_CONFIRMATION_DIALOG
@@ -239,10 +239,10 @@ const Container = ({ mode }) => {
     if (maximumUsersWarningEnabled && Number.isInteger(totalUsersEnabled) && isShow && !saving && userSaved) {
       const successMessages = i18n.t("user.messages.created_warning", {
         total_enabled: totalUsersEnabled,
-        maximum_users: maximumUsers
+        maximum_users: maximumUsersWarning
       });
 
-      dispatch(enqueueSnackbar(successMessages, { type: "success" }));
+      dispatch(enqueueSnackbar(successMessages, { type: "info" }));
     }
   }, [userSaved, totalUsersEnabled]);
 

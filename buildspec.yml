@@ -39,6 +39,7 @@ phases:
     commands:
       - echo ${CONTAINER_REGISTRY}/primeroims/application:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/solr:${TAG}
+      - docker push ${CONTAINER_REGISTRY}/primeroims/migration:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/postgres:${TAG}-pg10
       - docker push ${CONTAINER_REGISTRY}/primeroims/postgres:${TAG}-pg11
       - docker push ${CONTAINER_REGISTRY}/primeroims/postgres:${TAG}-pg14
