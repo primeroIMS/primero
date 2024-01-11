@@ -102,6 +102,9 @@ jobs:
     name: Build Docker Image
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Setup AWS ECR Details
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -114,7 +117,6 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build Docker Image
-        uses: actions/checkout@v2
         env:
           ECR_REGISTRY: bahmni-msf/primero
           IMAGE_NAME: primero_app
