@@ -122,7 +122,8 @@ describe RecordActionWebpushNotifier do
           action_label: 'Go to Case',
           body: 'A Case on your team has a pending approval request for Case Plan.',
           link: "localhost/v2/cases/#{child.id}",
-          title: 'Approval Request'
+          title: 'Approval Request',
+          icon: ''
         }
       )
 
@@ -171,7 +172,7 @@ describe RecordActionWebpushNotifier do
       end
       it 'should return a hash' do
         expect(subject.keys).to match_array(
-          %i[title body action_label link]
+          %i[title body action_label link icon]
         )
       end
 
