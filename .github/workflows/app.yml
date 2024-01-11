@@ -102,13 +102,10 @@ jobs:
     name: Build Docker Image
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
       - uses: actions/checkout@v2
-
-      - name: Build and Push Docker Image
+      - name: Build Docker Image
         env:
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
           IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
         run: |
           docker build --build-arg APP_ROOT=/srv/primero/application --build-arg RAILS_LOG_PATH=/srv/primero/application/log/primero --build-arg APP_UID=1000 --build-arg APP_GID=1000 -t $ECR_REGISTRY/$IMAGE_NAME:latest -f  /home/runner/work/primero/primero/docker/application/Dockerfile .
-          docker push $ECR_REGISTRY/$IMAGE_NAME:latest
