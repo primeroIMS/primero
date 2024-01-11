@@ -95,13 +95,12 @@ setCatchHandler(({ event }) => {
 
 self.addEventListener("push", event => {
   const message = event.data.json();
-  const image = `${self.location.origin}/primero-pictorial-144.png`;
 
   event.waitUntil(
     self.registration.showNotification(message.title, {
       body: message.body,
-      image,
-      icon: image,
+      image: message.icon,
+      icon: message.icon,
       data: { url: message.link }
     })
   );

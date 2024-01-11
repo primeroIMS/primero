@@ -88,6 +88,7 @@ class RecordActionWebpushNotifier
         type: record_action_notification&.type
       ),
       action_label: I18n.t('webpush_notification.action_label'),
+      icon: Rails.application.routes.url_helpers.rails_blob_path(Theme.current.logo_pictorial_144, only_path: true),
       link: url_for_v2(record_action_notification.record)
     }
   end
