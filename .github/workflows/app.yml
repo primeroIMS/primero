@@ -104,11 +104,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: aws-actions/amazon-ecr-login@v2
-      - name: Build Docker Image
         id: login-ecr
         with:
           registry: bahmni-msf/primero
           aws-region: ap-south-1
+      - name: Build Docker Image
         env:
           ECR_REGISTRY: bahmni-msf/primero
           IMAGE_NAME: primero_app
