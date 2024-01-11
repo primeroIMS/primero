@@ -102,11 +102,23 @@ jobs:
     name: Build Docker Image
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Setup AWS ECR Details
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{secrets.AWS_REGION}}
+
+      - name: Login to Amazon ECR
+        id: login-pf-aws-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
       - name: Build Docker Image
+        uses: actions/checkout@v2
         env:
           ECR_REGISTRY: bahmni-msf/primero
           IMAGE_NAME: primero_app
         run: |
           echo "registry name is ${{secrets.ECR_REGISTRY}}"
           docker build --build-arg APP_ROOT=/srv/primero/application --build-arg RAILS_LOG_PATH=/srv/primero/application/log/primero --build-arg APP_UID=1000 --build-arg APP_GID=1000 -t $ECR_REGISTRY/$IMAGE_NAME:latest -f  /home/runner/work/primero/primero/docker/application/Dockerfile .
+          docker push $ECR_REGISTRY/$IMAGE_NAME:latest
