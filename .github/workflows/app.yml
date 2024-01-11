@@ -103,11 +103,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: aws-actions/amazon-ecr-login@v2
-        id: login-ecr
-        with:
-          registry: bahmni-msf/primero
-          aws-region: ap-south-1
       - name: Build Docker Image
         env:
           ECR_REGISTRY: bahmni-msf/primero
