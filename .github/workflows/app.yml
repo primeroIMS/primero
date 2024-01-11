@@ -105,13 +105,6 @@ jobs:
       - name: Checkout Repository
       - uses: actions/checkout@v2
 
-      - name: Login to ECR Registry
-      - id: login-ecr
-      - uses: aws-actions/amazon-ecr-login@v2
-        with:
-          registry: ${{ secrets.ECR_REGISTRY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
       - name: Build and Push Docker Image
         env:
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
