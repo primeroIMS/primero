@@ -152,7 +152,7 @@ jobs:
         REPOSITORY: bahmni-msf/primero
         IMAGE_TAG: latest
         run: |
-          docker tag primero:latest $REGISTRY/$REPOSITORY:latest
-          docker tag primero:latest $REGISTRY/$REPOSITORY:$IMAGE_TAG
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-          docker push $REGISTRY/$REPOSITORY:latest
+          docker tag primero:latest $ECR_REGISTRY/$REPOSITORY:latest
+          docker tag primero:latest $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$REPOSITORY:latest
