@@ -123,5 +123,4 @@ jobs:
           IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
 
         run: |
-          docker build --build-arg APP_ROOT=/srv/primero/application --build-arg RAILS_LOG_PATH=/srv/primero/application/log/primero --build-arg APP_UID=1000 --build-arg APP_GID=1000 -t $ECR_REGISTRY/$REPOSITORY/$IMAGE_NAME:latest -f  /home/runner/work/primero/primero/docker/application/Dockerfile .
-          docker push $ECR_REGISTRY/$REPOSITORY/$IMAGE_NAME:latest
+          docker build --build-arg APP_ROOT=/srv/primero/application --build-arg RAILS_LOG_PATH=/srv/primero/application/log/primero --build-arg APP_UID=1000 --build-arg APP_GID=1000 -t primero_app:latest -f  /home/runner/work/primero/primero/docker/application/Dockerfile .
