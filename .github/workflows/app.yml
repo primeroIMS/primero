@@ -127,6 +127,7 @@ jobs:
 
   push-image:
     name: Push Image
+    needs: build-image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -150,9 +151,9 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: bahmni-msf/primero
-          IMAGE_TAG: latest
+          IMAGE_TAG: $GITHUB_RUN_NUMBER
         run: |
-          docker tag primero:latest $ECR_REGISTRY/$REPOSITORY:latest
-          docker tag primero:latest $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker tag primero_app:latest $ECR_REGISTRY/$REPOSITORY:latest
+          docker tag primero_app:latest $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$REPOSITORY:latest
