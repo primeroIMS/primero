@@ -124,6 +124,7 @@ jobs:
 
         run: |
           docker build --build-arg APP_ROOT=/srv/primero/application --build-arg RAILS_LOG_PATH=/srv/primero/application/log/primero --build-arg APP_UID=1000 --build-arg APP_GID=1000 -t primero:latest -f  docker/application/Dockerfile .
+          docker images
 
       - name: Set Image tag variable
         run: echo "ARTIFACT_VERSION=1.0.0-$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
