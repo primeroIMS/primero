@@ -138,10 +138,9 @@ jobs:
           docker tag primero:latest $ECR_REGISTRY/$REPOSITORY:latest
           docker tag primero:latest $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
           docker images
-          docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
           echo "Registry log: $ECR_REGISTRY"
           echo "Repository log: $REPOSITORY"
           echo "Image tag log: $IMAGE_TAG"
+          echo "docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG"
+          docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$REPOSITORY:latest
-          echo "Registry log: $ECR_REGISTRY"
-          echo "Repository log: $REPOSITORY"
