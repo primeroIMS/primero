@@ -33,6 +33,5 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: bahmni-msf/primero
-          IMAGE_TAG: ${{ env.ARTIFACT_VERSION }}
         run: |
-          docker pull $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker pull $ECR_REGISTRY/$REPOSITORY:primero:latest
