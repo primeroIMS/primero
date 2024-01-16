@@ -4,5 +4,8 @@
 
 json.id record.id
 json.enabled record.record_state
-json.permitted_forms Role.form_permissions(@authorized_roles) if @display_permitted_forms
+if @display_permitted_forms
+  json.permitted_forms Role.form_permissions(@authorized_roles)
+  json.permissions Role.merge_permissions(@authorized_roles)
+end
 json.merge! @record_data_service.data(record, current_user, selected_field_names)

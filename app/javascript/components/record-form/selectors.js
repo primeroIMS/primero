@@ -14,7 +14,7 @@ import { ALERTS_FOR, INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_
 import { FieldRecord } from "../form/records";
 import { OPTION_TYPES } from "../form/constants";
 import { getLocale } from "../i18n/selectors";
-import { getRecordFormAlerts, selectRecord } from "../records";
+import { getRecordFormAlerts, getSelectedRecordData, selectRecord } from "../records";
 import { selectorEqualityFn } from "../../libs/use-memoized-selector";
 import { getPermittedFormsIds } from "../user";
 
@@ -174,6 +174,8 @@ export const getFormNav = createCachedSelector(
   allFormSections,
   (state, query) => getPermittedForms(state, query),
   (state, query) => getPermissionsByRecord([state, RECORD_TYPES_PLURAL[query?.recordType]]),
+  (state, query) =>
+    getSelectedRecordData(state, RECORD_TYPES_PLURAL[query?.recordType])?.getIn(["permissions", query?.recordType]),
   getLocale,
   (state, query) =>
     allPermittedForms(state, query)
@@ -181,7 +183,7 @@ export const getFormNav = createCachedSelector(
       .filter(form => form.form_group_id !== RECORD_INFORMATION_GROUP)
       .reduce((acc, form) => acc.merge(fromJS({ [form.unique_id]: form })), fromJS({})),
   (_state, query) => query,
-  (formSections, permittedFormIDs, userPermissions, appLocale, permittedForms, query) => {
+  (formSections, permittedFormIDs, userPermissions, recordPermissions, appLocale, permittedForms, query) => {
     const selectedForms = forms({ ...query, formSections, permittedFormIDs, appLocale }).filter(
       form => form.form_group_id !== RECORD_INFORMATION_GROUP
     );
@@ -210,7 +212,11 @@ export const getFormNav = createCachedSelector(
 
     return allSelectedForms
       .map(form => buildFormNav(form))
-      .filter(form => isEmpty(form.permission_actions) || checkPermissions(userPermissions, form.permission_actions))
+      .filter(
+        form =>
+          isEmpty(form.permission_actions) ||
+          checkPermissions(recordPermissions || userPermissions, form.permission_actions)
+      )
       .sortBy(form => form.order)
       .groupBy(form => form.group)
       .sortBy(form => form.first().get("groupOrder"));
@@ -253,10 +259,17 @@ export const getRecordInformationFormIds = createCachedSelector(
 export const getRecordInformationNav = createCachedSelector(
   (state, query) => getRecordInformationForms(state, query),
   (state, query) => getPermissionsByRecord([state, RECORD_TYPES_PLURAL[query?.recordType]]),
-  (formSections, userPermissions) => {
+  (state, query) =>
+    getSelectedRecordData(state, RECORD_TYPES_PLURAL[query?.recordType])?.getIn(["permissions", query?.recordType]),
+  (formSections, userPermissions, recordPermissions) => {
     return formSections
       .map(form => buildFormNav(form))
-      .filter(form => isEmpty(form.permission_actions) || checkPermissions(userPermissions, form.permission_actions))
+      .filter(form => {
+        return (
+          isEmpty(form.permission_actions) ||
+          checkPermissions(recordPermissions || userPermissions, form.permission_actions)
+        );
+      })
       .sortBy(form => form.order);
   }
 )(defaultCacheSelectorOptions);

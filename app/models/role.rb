@@ -116,6 +116,22 @@ class Role < ApplicationRecord
         end
       end
     end
+
+    def merge_permissions(roles)
+      roles.each_with_object({}) do |role, memo|
+        Permission::PermissionSerializer.dump(role.permissions).each do |key, value|
+          next unless value.present?
+
+          memo[key] = value.is_a?(Hash) ? merge_permission_object(memo[key], value) : (memo[key] || []) + value
+        end
+      end
+    end
+
+    def merge_permission_object(current_permissions, permissions)
+      permissions.each_with_object(current_permissions || {}) do |(key, value), memo|
+        memo[key] = (memo[key] || []) + value
+      end
+    end
   end
 
   def permitted_forms(record_type = nil, visible_only = false, include_subforms = false)

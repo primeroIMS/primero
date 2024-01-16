@@ -867,4 +867,53 @@ describe Role do
       expect(Role.form_permissions([role1, role2])).to eq(form_a.unique_id => 'rw', form_b.unique_id => 'r')
     end
   end
+
+  describe 'merge_permissions' do
+    let(:form_a) { FormSection.create!(unique_id: 'a', name: 'A', parent_form: 'case', form_group_id: 'm') }
+    let(:form_b) { FormSection.create!(unique_id: 'b', name: 'B', parent_form: 'case', form_group_id: 'm') }
+    let(:primero_module_cp) do
+      PrimeroModule.create!(
+        primero_program: PrimeroProgram.first,
+        name: 'PrimeroModule',
+        unique_id: PrimeroModule::CP,
+        associated_record_types: ['case'],
+        form_sections: [form_a, form_b]
+      )
+    end
+    let(:role1) do
+      role1 = Role.new_with_properties(
+        name: 'permission_role_1',
+        unique_id: 'permission_role_1',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [
+          Permission.new(resource: Permission::CASE, actions: [Permission::READ]),
+          Permission.new(resource: Permission::ROLE, role_unique_ids: %w[role1])
+        ]
+      )
+      role1.save!
+      role1
+    end
+
+    let(:role2) do
+      role2 = Role.new_with_properties(
+        name: 'permission_role_2',
+        unique_id: 'permission_role_2',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [
+          Permission.new(resource: Permission::CASE, actions: [Permission::WRITE]),
+          Permission.new(resource: Permission::ROLE, role_unique_ids: %w[role2 role3])
+        ]
+      )
+      role2.save!
+      role2
+    end
+
+    it 'returns merged permissions for different roles' do
+      expect(Role.merge_permissions([role1, role2])).to eq(
+        { 'case' => %w[read write], 'objects' => { 'role' => %w[role1 role2 role3] } }
+      )
+    end
+  end
 end
