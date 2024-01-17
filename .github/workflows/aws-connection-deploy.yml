@@ -12,6 +12,21 @@ on:
     types:
       - completed
 jobs:
+  client-lint:
+    name: Client Linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+      - name: Run client linter
+        run: |
+          npm ci
+          npm run lint
+
   deploy:
     name: Deploy to QA
     runs-on: ubuntu-latest
