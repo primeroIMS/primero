@@ -7,9 +7,10 @@ on:
     branches:
       - main
       - 'release-*'
-      - develop_react_upgrade
-  workflow_dispatch:
-
+  workflow_run:
+    workflows: [ build-publish ]
+    types:
+      - completed
 jobs:
   deploy:
     name: Deploy to QA
