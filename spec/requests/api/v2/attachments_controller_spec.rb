@@ -7,10 +7,7 @@ require 'rails_helper'
 describe Api::V2::AttachmentsController, type: :request do
   include ActiveJob::TestHelper
   before :each do
-    allow_any_instance_of(PermittedFieldService).to(
-      receive(:permitted_field_names).and_return(%w[photos])
-    )
-    @case = Child.create(data: { name: 'Test' })
+    @case = Child.create(data: { name: 'Test', owned_by: 'faketest' })
     Sunspot.commit
   end
 
@@ -20,10 +17,11 @@ describe Api::V2::AttachmentsController, type: :request do
 
   describe 'POST /api/v2/:record/:id/attachments', search: true do
     it 'attaches a file to an existing record' do
-      login_for_test
+      login_for_test({ permitted_field_names: [Attachable::PHOTOS_FIELD_NAME] })
+
       params = {
         data: {
-          field_name: 'photos', attachment_type: 'image',
+          field_name: Attachable::PHOTOS_FIELD_NAME, attachment_type: 'image',
           file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
         }
       }
@@ -73,7 +71,8 @@ describe Api::V2::AttachmentsController, type: :request do
     end
 
     it 'removes an attached record' do
-      login_for_test
+      login_for_test({ permitted_field_names: [Attachable::PHOTOS_FIELD_NAME] })
+
       delete "/api/v2/cases/#{@case.id}/attachments/#{attachment.id}"
 
       expect(response).to have_http_status(204)

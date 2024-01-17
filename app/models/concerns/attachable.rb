@@ -11,6 +11,7 @@ module Attachable
   MAX_ATTACHMENTS = 100
   PHOTOS_FIELD_NAME = 'photos'
   AUDIOS_FIELD_NAME = 'recorded_audio'
+  DOCUMENTS_FIELD_NAME = 'other_documents'
 
   included do
     has_many :attachments, -> { order('date DESC NULLS LAST') }, as: :record

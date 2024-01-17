@@ -168,30 +168,55 @@ class Ability
 
   def configure_record_attachments
     can(:read, Attachment) do |instance|
-      permitted_to_access_attachment?(user, instance) ||
-        permitted_to_view_attachment?(user, instance)
+      permitted_to_access_attachment?(user, instance) || permitted_to_view_attachment?(user, instance) ||
+        permitted_to_preview_attachment?(user, instance)
     end
 
-    can(%i[write destroy], Attachment) do |instance|
-      permitted_to_access_attachment?(user, instance, true)
-    end
+    can(%i[create destroy], Attachment) { |instance| permitted_to_access_attachment?(user, instance, true) }
   end
 
   def permitted_to_access_attachment?(user, attachment, write = false)
-    @permitted_form_fields_service.permitted_field_names(
-      [user.role],
-      Record.map_name(attachment.record_type),
-      write
-    ).include?(attachment.field_name) && (
-      permitted_to_access_record?(user, attachment.record) || user.can_preview?(attachment.record.class)
+    permitted_field_names(user, attachment, write).include?(attachment.field_name) && permitted_to_access_record?(
+      user, attachment.record
     )
   end
 
   def permitted_to_view_attachment?(user, attachment)
     permitted_to_access_record?(user, attachment.record) && (
-      (attachment.attachment_type == Attachment::IMAGE && user.can?(:view_photo, PotentialMatch)) || (
-        attachment.attachment_type == Attachment::AUDIO && user.can?(:view_audio, PotentialMatch)
-      )
+      permitted_to_view_potential_match_attachment?(user, attachment) ||
+      permitted_to_view_record_list_photo?(user, attachment)
+    )
+  end
+
+  def permitted_to_preview_attachment?(user, attachment)
+    # TODO: To preview an attachment a user needs to have Permission::DISPLAY_VIEW_PAGE
+    # the fields displayed in the preview are those where show_on_minify_form: true.
+    # Should we check the if the attachment field is permitted and if the field is show_on_minify_form: true?
+
+    [Attachment::IMAGE, Attachment::AUDIO].include?(attachment.attachment_type) &&
+      user.can_preview?(attachment.record.class) &&
+      permitted_field_names(user, attachment).include?(attachment.field_name)
+  end
+
+  def permitted_to_view_potential_match_attachment?(user, attachment)
+    (attachment.attachment_type == Attachment::IMAGE && user.can?(:view_photo, PotentialMatch)) ||
+      (attachment.attachment_type == Attachment::AUDIO && user.can?(:view_audio, PotentialMatch))
+  end
+
+  def permitted_to_view_record_list_photo?(user, attachment)
+    attachment.attachment_type == Attachment::IMAGE && user.can?(:view_photo, attachment.record.class) &&
+      permitted_to_access_photos?(user, attachment)
+  end
+
+  def permitted_to_access_photos?(user, attachment, write = false)
+    permitted_field_names(user, attachment, write).include?(Attachable::PHOTOS_FIELD_NAME)
+  end
+
+  def permitted_field_names(user, attachment, write = false)
+    @permitted_form_fields_service.permitted_field_names(
+      roles(user, attachment.record),
+      Record.map_name(attachment.record_type),
+      write
     )
   end
 
@@ -206,6 +231,10 @@ class Ability
     else
       record&.associated_user_names&.include?(user.user_name)
     end
+  end
+
+  def roles(user, record)
+    user.referred_to_record?(record) ? user.authorized_referral_roles(record) : [user.role]
   end
 
   def can(action = nil, subject = nil, *, &)

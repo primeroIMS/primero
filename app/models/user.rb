@@ -517,6 +517,10 @@ class User < ApplicationRecord
     Role.where(unique_id: role_unique_ids.compact)
   end
 
+  def referred_to_record?(record)
+    record.respond_to?(:referrals_to_user) && record.referrals_to_user(self).exists?
+  end
+
   private
 
   def set_locale
