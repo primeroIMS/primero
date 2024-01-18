@@ -753,7 +753,7 @@ describe("<RecordForm /> - Selectors", () => {
             "records",
             fromJS({
               cases: {
-                data: [{ id: "001", permissions: { case: [ACTIONS.FIND_TRACING_MATCH] } }],
+                data: [{ id: "001", permitted_form_actions: { case: [ACTIONS.FIND_TRACING_MATCH] } }],
                 selectedRecord: "001"
               }
             })
@@ -1140,7 +1140,7 @@ describe("<RecordForm /> - Selectors", () => {
           fromJS({
             records: {
               cases: {
-                data: [{ id: "001", permissions: { case: [ACTIONS.CHANGE_LOG] } }],
+                data: [{ id: "001", permitted_form_actions: { case: [ACTIONS.CHANGE_LOG] } }],
                 selectedRecord: "001"
               }
             }

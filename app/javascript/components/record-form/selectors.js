@@ -175,7 +175,10 @@ export const getFormNav = createCachedSelector(
   (state, query) => getPermittedForms(state, query),
   (state, query) => getPermissionsByRecord([state, RECORD_TYPES_PLURAL[query?.recordType]]),
   (state, query) =>
-    getSelectedRecordData(state, RECORD_TYPES_PLURAL[query?.recordType])?.getIn(["permissions", query?.recordType]),
+    getSelectedRecordData(state, RECORD_TYPES_PLURAL[query?.recordType])?.getIn([
+      "permitted_form_actions",
+      query?.recordType
+    ]),
   getLocale,
   (state, query) =>
     allPermittedForms(state, query)
@@ -260,7 +263,10 @@ export const getRecordInformationNav = createCachedSelector(
   (state, query) => getRecordInformationForms(state, query),
   (state, query) => getPermissionsByRecord([state, RECORD_TYPES_PLURAL[query?.recordType]]),
   (state, query) =>
-    getSelectedRecordData(state, RECORD_TYPES_PLURAL[query?.recordType])?.getIn(["permissions", query?.recordType]),
+    getSelectedRecordData(state, RECORD_TYPES_PLURAL[query?.recordType])?.getIn([
+      "permitted_form_actions",
+      query?.recordType
+    ]),
   (formSections, userPermissions, recordPermissions) => {
     return formSections
       .map(form => buildFormNav(form))

@@ -117,19 +117,14 @@ class Role < ApplicationRecord
       end
     end
 
-    def merge_permissions(roles)
+    def resource_form_actions(roles)
       roles.each_with_object({}) do |role, memo|
         Permission::PermissionSerializer.dump(role.permissions).each do |key, value|
           next unless value.present?
+          next unless Permission::RESOURCE_FORM_ACTIONS[key].present?
 
-          memo[key] = value.is_a?(Hash) ? merge_permission_object(memo[key], value) : (memo[key] || []) + value
+          memo[key] = (memo[key] || []) | (value & Permission::RESOURCE_FORM_ACTIONS[key])
         end
-      end
-    end
-
-    def merge_permission_object(current_permissions, permissions)
-      permissions.each_with_object(current_permissions || {}) do |(key, value), memo|
-        memo[key] = (memo[key] || []) + value
       end
     end
   end

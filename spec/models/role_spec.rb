@@ -868,7 +868,7 @@ describe Role do
     end
   end
 
-  describe 'merge_permissions' do
+  describe 'resource_form_actions' do
     let(:form_a) { FormSection.create!(unique_id: 'a', name: 'A', parent_form: 'case', form_group_id: 'm') }
     let(:form_b) { FormSection.create!(unique_id: 'b', name: 'B', parent_form: 'case', form_group_id: 'm') }
     let(:primero_module_cp) do
@@ -887,7 +887,10 @@ describe Role do
         group_permission: Permission::SELF,
         modules: [primero_module_cp],
         permissions: [
-          Permission.new(resource: Permission::CASE, actions: [Permission::READ]),
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::MANAGE, Permission::APPROVE_ASSESSMENT]
+          ),
           Permission.new(resource: Permission::ROLE, role_unique_ids: %w[role1])
         ]
       )
@@ -902,8 +905,8 @@ describe Role do
         group_permission: Permission::SELF,
         modules: [primero_module_cp],
         permissions: [
-          Permission.new(resource: Permission::CASE, actions: [Permission::WRITE]),
-          Permission.new(resource: Permission::ROLE, role_unique_ids: %w[role2 role3])
+          Permission.new(resource: Permission::CASE, actions: [Permission::CHANGE_LOG, Permission::INCIDENT_FROM_CASE]),
+          Permission.new(resource: Permission::INCIDENT, actions: [Permission::MANAGE])
         ]
       )
       role2.save!
@@ -911,8 +914,11 @@ describe Role do
     end
 
     it 'returns merged permissions for different roles' do
-      expect(Role.merge_permissions([role1, role2])).to eq(
-        { 'case' => %w[read write], 'objects' => { 'role' => %w[role1 role2 role3] } }
+      expect(Role.resource_form_actions([role1, role2])).to eq(
+        {
+          'case' => %w[manage approve_assessment change_log incident_from_case],
+          'incident' => %w[manage]
+        }
       )
     end
   end
