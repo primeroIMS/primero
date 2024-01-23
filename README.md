@@ -189,6 +189,7 @@ To generate a valid VAPID key, you can execute the follow script and use for eac
 
 ## Contributing
 - If contributing to the UI, make sure to read over the [UI/UX Development](doc/ui_ux.md) documents.
+- If you are contributing via the DAO, make sure to read the relevant documents [here](doc/dao/Index.md).
 
 ## Production
 
