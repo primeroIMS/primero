@@ -1471,6 +1471,7 @@ en:
     view_records: View Records
     welcome: Welcome to Primero
     zh: 中文
+    tet: Tetum
   incident:
     code: Incident Code
     associated_case: "Associated Case:"
