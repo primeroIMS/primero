@@ -521,6 +521,19 @@ class User < ApplicationRecord
     record.respond_to?(:referrals_to_user) && record.referrals_to_user(self).exists?
   end
 
+  def permitted_to_access_record?(record)
+    if group_permission? Permission::ALL
+      true
+    elsif group_permission? Permission::AGENCY
+      record.associated_user_agencies.include?(agency.unique_id)
+    elsif group_permission? Permission::GROUP
+      # TODO: This may need to be record&.owned_by_groups
+      (user_group_unique_ids & record&.associated_user_groups).present?
+    else
+      record&.associated_user_names&.include?(user_name)
+    end
+  end
+
   private
 
   def set_locale

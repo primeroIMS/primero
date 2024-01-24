@@ -134,7 +134,7 @@ class Ability
   def configure_resource(resource, actions, is_record = false)
     if is_record
       can actions, resource do |instance|
-        permitted_to_access_record?(user, instance)
+        user.permitted_to_access_record?(instance)
       end
       can(:index, Task) if (resource == Child) && user.permission?(Permission::DASH_TASKS)
       can(:index, Flag) if user.permission?(Permission::DASH_FLAGS)
@@ -145,10 +145,10 @@ class Ability
 
   def configure_tracing_request(actions)
     can(actions, TracingRequest) do |instance|
-      permitted_to_access_record?(user, instance)
+      user.permitted_to_access_record?(instance)
     end
     can(actions, Trace) do |instance|
-      permitted_to_access_record?(user, instance.tracing_request)
+      user.permitted_to_access_record?(instance.tracing_request)
     end
   end
 
@@ -168,73 +168,16 @@ class Ability
 
   def configure_record_attachments
     can(:read, Attachment) do |instance|
-      permitted_to_access_attachment?(user, instance) || permitted_to_view_attachment?(user, instance) ||
-        permitted_to_preview_attachment?(user, instance)
+      permitted_attachment_service = PermittedAttachmentService.new(user, instance, @permitted_form_fields_service)
+      permitted_attachment_service.permitted_to_access? || permitted_attachment_service.permitted_to_view? ||
+        permitted_attachment_service.permitted_to_preview?
     end
 
-    can(%i[create destroy], Attachment) { |instance| permitted_to_access_attachment?(user, instance, true) }
-  end
-
-  def permitted_to_access_attachment?(user, attachment, write = false)
-    permitted_field_names(user, attachment, write).include?(attachment.field_name) && permitted_to_access_record?(
-      user, attachment.record
-    )
-  end
-
-  def permitted_to_view_attachment?(user, attachment)
-    permitted_to_access_record?(user, attachment.record) && (
-      permitted_to_view_potential_match_attachment?(user, attachment) ||
-      permitted_to_view_record_list_photo?(user, attachment)
-    )
-  end
-
-  def permitted_to_preview_attachment?(user, attachment)
-    # TODO: To preview an attachment a user needs to have Permission::DISPLAY_VIEW_PAGE
-    # the fields displayed in the preview are those where show_on_minify_form: true.
-    # Should we check the if the attachment field is permitted and if the field is show_on_minify_form: true?
-
-    [Attachment::IMAGE, Attachment::AUDIO].include?(attachment.attachment_type) &&
-      user.can_preview?(attachment.record.class) &&
-      permitted_field_names(user, attachment).include?(attachment.field_name)
-  end
-
-  def permitted_to_view_potential_match_attachment?(user, attachment)
-    (attachment.attachment_type == Attachment::IMAGE && user.can?(:view_photo, PotentialMatch)) ||
-      (attachment.attachment_type == Attachment::AUDIO && user.can?(:view_audio, PotentialMatch))
-  end
-
-  def permitted_to_view_record_list_photo?(user, attachment)
-    attachment.attachment_type == Attachment::IMAGE && user.can?(:view_photo, attachment.record.class) &&
-      permitted_to_access_photos?(user, attachment)
-  end
-
-  def permitted_to_access_photos?(user, attachment, write = false)
-    permitted_field_names(user, attachment, write).include?(Attachable::PHOTOS_FIELD_NAME)
-  end
-
-  def permitted_field_names(user, attachment, write = false)
-    @permitted_form_fields_service.permitted_field_names(
-      roles(user, attachment.record),
-      Record.map_name(attachment.record_type),
-      write
-    )
-  end
-
-  def permitted_to_access_record?(user, record)
-    if user.group_permission? Permission::ALL
-      true
-    elsif user.group_permission? Permission::AGENCY
-      record.associated_user_agencies.include?(user.agency.unique_id)
-    elsif user.group_permission? Permission::GROUP
-      # TODO: This may need to be record&.owned_by_groups
-      (user.user_group_unique_ids & record&.associated_user_groups).present?
-    else
-      record&.associated_user_names&.include?(user.user_name)
+    can(%i[create destroy], Attachment) do |instance|
+      PermittedAttachmentService.new(
+        user, instance, @permitted_form_fields_service, true
+      ).permitted_to_access?
     end
-  end
-
-  def roles(user, record)
-    user.referred_to_record?(record) ? user.authorized_referral_roles(record) : [user.role]
   end
 
   def can(action = nil, subject = nil, *, &)
