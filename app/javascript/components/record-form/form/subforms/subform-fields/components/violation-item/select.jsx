@@ -13,11 +13,11 @@ const VerifySelect = ({ selectedValue, setSelectedValue }) => {
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box sx={{ minWidth: 150 }} >
       <FormControl fullWidth classes={{
           root: css.verifyFormControlRoot
       }}>
-        <Select
+        <Select           
             value={selectedValue}
             onChange={handleChange}
             onSel
@@ -36,6 +36,8 @@ const VerifySelect = ({ selectedValue, setSelectedValue }) => {
               root: css.verifySelectComponent,
               select: css.verifySelectComponentSelect
             }}
+            variant="outlined" 
+            fullWidth
         >
             {
               verificationStatus.map((option) => (
