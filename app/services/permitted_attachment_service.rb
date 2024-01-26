@@ -48,18 +48,14 @@ class PermittedAttachmentService
 
   def permitted_field_names
     @permitted_field_names ||= permitted_form_fields_service.permitted_field_names(
-      authorization_roles,
+      authorized_roles,
       Record.map_name(attachment.record_type),
       write
     )
   end
 
-  def authorization_roles
-    return @authorization_roles if @authorization_roles.present?
-
-    record = attachment.record
-    @authorization_roles = user.referred_to_record?(record) ? user.authorized_referral_roles(record) : [user.role]
-    @authorization_roles
+  def authorized_roles
+    @authorized_roles ||= user.authorized_roles_for_record(attachment.record)
   end
 
   def permitted_to_access_record?
