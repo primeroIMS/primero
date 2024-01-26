@@ -138,7 +138,10 @@ const Component = ({
     getRecordForms(state, {
       recordType: RECORD_TYPES[recordType],
       primeroModule: selectedModule || record?.get("module_id"),
-      checkPermittedForms: true
+      checkPermittedForms: true,
+      recordId: record?.get("id"),
+      isEditOrShow: true,
+      includeDefaultForms: false
     })
   );
 
