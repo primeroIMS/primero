@@ -30,7 +30,7 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
   end
 
   def establish_export_constraints
-    self.export_constraints = Exporters::SelectedFieldsExcelExporterConstraints.new(
+    self.export_constraints = Exporters::Constraints::SelectedFieldsExcelExporterConstraints.new(
       record_type:, user:, excluded_field_names: self.class.excluded_field_names, options:,
       constraining_fields: constraining_fields?, constraining_forms_and_fields: constraining_forms_and_fields?,
       locale:
@@ -40,7 +40,7 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
 
   def establish_record_constraints(record)
     if user.referred_to_record?(record)
-      self.record_constraints = Exporters::SelectedFieldsExcelExporterConstraints.new(
+      self.record_constraints = Exporters::Constraints::SelectedFieldsExcelExporterConstraints.new(
         record_type:, user:, excluded_field_names: self.class.excluded_field_names, options:,
         constraining_fields: constraining_fields?, constraining_forms_and_fields: constraining_forms_and_fields?,
         locale:, record:

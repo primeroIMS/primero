@@ -71,7 +71,7 @@ class Exporters::BaseExporter
   def establish_export_constraints
     return unless setup_export_constraints? && user.present?
 
-    self.export_constraints = Exporters::ExporterConstraints.new(
+    self.export_constraints = Exporters::Constraints::ExporterConstraints.new(
       record_type:, user:, excluded_field_names: self.class.excluded_field_names, options:
     )
     export_constraints.generate!
@@ -79,7 +79,7 @@ class Exporters::BaseExporter
 
   def establish_record_constraints(record)
     if user.referred_to_record?(record)
-      self.record_constraints = Exporters::ExporterConstraints.new(
+      self.record_constraints = Exporters::Constraints::ExporterConstraints.new(
         record:, record_type:, user:, excluded_field_names: self.class.excluded_field_names, options:
       )
       record_constraints.generate!

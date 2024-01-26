@@ -3,7 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Class to generate export constraints
-class Exporters::ExporterConstraints < ValueObject
+class Exporters::Constraints::ExporterConstraints < ValueObject
   attr_accessor :forms, :fields, :field_names, :record, :record_type, :user,
                 :include_subforms, :excluded_field_names, :options, :visible
 

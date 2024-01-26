@@ -10,7 +10,6 @@ module Api::V2::Concerns::Referrable
     return @authorized_roles if @authorized_roles.present?
 
     referral_roles = current_user.authorized_referral_roles(@record) unless @record&.owner?(current_user)
-    # TODO: This is a side effect and probably needs to be somewhere else.
     @display_permitted_forms = referral_roles.present?
     @authorized_roles = referral_roles.presence || [current_user.role]
   end

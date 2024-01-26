@@ -81,7 +81,7 @@ module Exporters
     def establish_export_constraints
       return unless setup_export_constraints? && user.present?
 
-      self.export_constraints = Exporters::ExporterConstraints.new(
+      self.export_constraints = Exporters::Constraints::ExporterConstraints.new(
         record_type:, user:, excluded_field_names: self.class.excluded_field_names, options:,
         include_subforms: true
       )

@@ -3,7 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Class to generate export constraints for the SelectedFieldExporter
-class Exporters::SelectedFieldsExcelExporterConstraints < Exporters::ExporterConstraints
+class Exporters::Constraints::SelectedFieldsExcelExporterConstraints < Exporters::Constraints::ExporterConstraints
   attr_accessor :constraining_forms_and_fields, :constraining_fields, :locale
 
   def generate!
