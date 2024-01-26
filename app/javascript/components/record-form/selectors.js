@@ -56,12 +56,13 @@ const forms = ({
   permittedFormIDs,
   includeNested,
   appLocale,
-  checkPermittedForms = false
+  checkPermittedForms = false,
+  includeDefaultForms = true
 }) => {
-  const formsPermitted = permittedFormIDs
-    ?.keySeq()
-    ?.toArray()
-    .concat(Object.keys(getDefaultForms(appLocale)));
+  const arrayOfPermittedFormIDs = permittedFormIDs?.keySeq()?.toArray() || [];
+  const formsPermitted = includeDefaultForms
+    ? arrayOfPermittedFormIDs.concat(Object.keys(getDefaultForms(appLocale)))
+    : arrayOfPermittedFormIDs;
 
   if (isEmpty(formSections)) return null;
 

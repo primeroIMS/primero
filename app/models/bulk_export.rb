@@ -122,9 +122,9 @@ class BulkExport < ApplicationRecord
     page = 1
     order = self.order || { created_at: :desc }
     loop do
-      results = SearchService.search(model_class,
-                                     filters: search_filters, query_scope: record_query_scope,
-                                     query:, sort: order, pagination: { page:, per_page: batch }).results
+      results = SearchService.search(model_class, { filters: search_filters, query_scope: record_query_scope, query:,
+                                                    sort: order, pagination: { page:, per_page: batch } }).results
+      exporter.single_record_export = results.total_count == 1
       yield(results)
       # Set again the values of the pagination variable because the method modified the variable.
       page = results.next_page

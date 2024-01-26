@@ -7,7 +7,7 @@ require 'rails_helper'
 module Exporters
   describe CsvExporter do
     before :each do
-      clean_data(Child, Family, User, Role, Field, FormSection, PrimeroModule)
+      clean_data(Alert, Child, Family, User, UserGroup, Agency, Role, Field, FormSection, PrimeroModule, Referral)
 
       family = Family.create!(
         data: {
@@ -66,10 +66,10 @@ module Exporters
       )
       form_family.save!
 
-      primero_module = PrimeroModule.new(name: 'CP')
+      primero_module = PrimeroModule.new(unique_id: PrimeroModule::CP, name: 'CP')
       primero_module.save(validate: false)
       permissions = Permission.new(
-        resource: Permission::CASE, actions: [Permission::READ]
+        resource: Permission::CASE, actions: [Permission::READ, Permission::RECEIVE_REFERRAL]
       )
       role = Role.new(
         is_manager: false, modules: [primero_module],
@@ -79,14 +79,23 @@ module Exporters
       @user = User.new(user_name: 'user1', role:)
       @user.save(validate: false)
 
+      role_referral = Role.new(
+        unique_id: 'role-referral', is_manager: false, form_sections: [form], modules: [primero_module],
+        permissions: [permissions]
+      )
+      role_referral.save(validate: false)
+      @user_referral = User.new(user_name: 'fakerefer', role:)
+      @user_referral.save(validate: false)
+
       case1 = Child.new(
         data: {
           name: 'Joe',
           age: 12,
           sex: 'male',
+          module_id: PrimeroModule::CP,
           family_details_section: [
-            { relation_name: 'John', relation: 'father' },
-            { relation_name: 'Mary', relation: 'mother' }
+            { unique_id: '004', relation_name: 'John', relation: 'father' },
+            { unique_id: '005', relation_name: 'Mary', relation: 'mother' }
           ]
         }
       )
@@ -102,6 +111,12 @@ module Exporters
           family_details_section: [{ unique_id: '002', relation: 'relation2' }]
         }
       )
+
+      Referral.create!(
+        transitioned_by: @user.user_name, transitioned_to: @user_referral.user_name, record: case1,
+        consent_overridden: true, authorized_role_unique_id: role_referral.unique_id
+      )
+
       @records = [case1, case2, @case3]
     end
 
@@ -120,7 +135,8 @@ module Exporters
       parsed = CSV.parse(data)
 
       expect(parsed[1][7]).to eq(
-        '[{"relation_name"=>"John", "relation"=>"father"}, {"relation_name"=>"Mary", "relation"=>"mother"}]'
+        '[{"unique_id"=>"004", "relation_name"=>"John", "relation"=>"father"}, ' \
+        '{"unique_id"=>"005", "relation_name"=>"Mary", "relation"=>"mother"}]'
       )
       expect(parsed[3][7]).to eq(
         '[{"unique_id"=>"002", "relation"=>"relation2", "relation_name"=>"FirstName2 LastName2", ' \
@@ -141,6 +157,34 @@ module Exporters
       data = CsvExporter.export([unsafe_record], nil, { user: @user })
       parsed = CSV.parse(data)
       expect(parsed[1][1..3]).to eq(%w[Joe 12 '=10+10])
+    end
+
+    context 'when the user was referred to a record' do
+      it 'does not export non permitted fields for a referred record' do
+        data = CsvExporter.export(@records, nil, { user: @user_referral })
+        parsed = CSV.parse(data)
+
+        expect(parsed[0]).to eq %w[id name age sex family_number family_size family_notes family_details_section]
+        expect(parsed[1][1..3]).to eq(%w[Joe 12 male])
+        expect(parsed[1][7]).to be_nil
+        expect(parsed[2][1..3]).to eq(%w[Mo 14 male])
+        expect(parsed[3][1..3]).to eq(%w[George 10 male])
+        expect(parsed[3][7]).to be_present
+      end
+
+      context 'when is a single record is exported' do
+        it 'exports the permitted fields for a referred record' do
+          data = CsvExporter.export([@records.first], nil, { user: @user_referral, single_record_export: true })
+          parsed = CSV.parse(data)
+
+          expect(parsed[0]).to eq %w[id name age sex]
+          expect(parsed[1][1..3]).to eq(%w[Joe 12 male])
+        end
+      end
+    end
+
+    after :each do
+      clean_data(Alert, Child, Family, User, UserGroup, Agency, Role, Field, FormSection, PrimeroModule, Referral)
     end
   end
 end
