@@ -41,4 +41,7 @@ You can see the guidelines for creating a proposal at the following thread: [lin
 
 Once you have crafted a proposal and it has been refined and approved, you should set up a development environment if you have not already done so. You can get started by following this guide: [Getting Started with Development Environment & Running Primero](Getting%20Started%20with%20Development%20Environment%20&%20Running%20Primero.md)
 
+> [!WARNING]
+> If you anticipate needing to include a new dependency in Primero, this should be brought up at the proposal stage so its merits can be discussed. In general, new  dependencies should be avoided, but there are some situations (more likely on the frontend than the backend) where an additional dependency might be accepted. It is very unlikely that a PR which introduces new dependencies without prior discussion will be merged.
+
 Once you have started work on your feature, you should open a PR by following the steps in: [Managing Git & Formatting PRs](Managing%20Git%20&%20Formatting%20PRs.md)

@@ -37,43 +37,34 @@ Click the *Open...* button in the middle of the window. Select the directory whe
 
 ### Installing VSCode Extensions
 
-
 > [!NOTE]
 > This step is entirely optional.
 > 
 > How you use your editor is up to you! There are a number of extensions that help with ruby support in VSCode.
 
-
 You will want to install a few VSCode extensions to have the best experience editing Primero's code.
 
-Shopify provides a bundle of Ruby extensions that will help with developing Primero.
+Shopify provides Ruby language support for VSCode. This extension is relatively new, and can occasionally be unstable (though this situation has improved recently). However, it is still the leading language support extension for Ruby, as the previous Ruby extension has been deprecated.
 
-VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=Shopify.ruby-extensions-pack
+VS Marketplace Link: [ruby-lsp](https://marketplace.visualstudio.com/items?itemName=Shopify.ruby-lsp)
 
-When installing that extension pack, it will ask you if you want to change your colour scheme. This is entirely optional, and it is not necessary to use any of the features in the extension pack.
-
-If you want to use the debugging features of VSCode, you can install rdbg and add the following configuration to your `.vscode/launch.json`.
+If you want to use the debugging features of VSCode for Ruby, you can add the following configuration to your `.vscode/launch.json`.
 
 ```json
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "rdbg",
+            "type": "ruby_lsp",
             "request": "launch",
-            "name": "Debug program",
-            "command": "rails",
-            "script": "server"
+            "name": "Run Rails Server with Debugger",
+            "program": "${workspaceRoot}/bin/rails server"
         },
         {
-            "type": "rdbg",
+            "type": "ruby_lsp",
             "request": "launch",
-            "name": "Debug Current Test",
-            "command": "rspec",
-            "script": "${file}"
+            "name": "Debug current spec",
+            "program": "rspec -I ${workspaceRoot} ${file}"
         }
 
     ]
@@ -200,17 +191,17 @@ npm ci
 You now need to create the two Postgres databases (the default database, and a database used for unit testing).
 
 ```shell
-bundle exec rails db:create
-bundle exec rails db:migrate
-bundle exec rails db:seed
+rails db:create
+rails db:migrate
+rails db:seed
 
-RAILS_ENV=test bundle exec rails db:migrate
+RAILS_ENV=test rails db:migrate
 ```
 
 You also need to generate the translation files.
 
 ```shell
-bundle exec rails primero:i18n_js
+rails primero:i18n_js
 ```
 
 Finally, you need to set a number of environment variables which contain necessary secrets.
@@ -233,7 +224,7 @@ done;
 To make sure that your system has been configured correctly, and to establish a baseline of the unit tests passing on your environment, it is a good idea to run the unit tests before making any changes to the Primero code. This may take a few minutes. On a VM with 4GB of RAM, it took approximately 5 minutes to run the tests.
 
 ```shell
-bundle exec rspec spec
+rspec spec
 ```
 
 There should be no failures in the unit tests on a clean clone from the `develop` branch or main branch.
@@ -248,7 +239,7 @@ npm run dev
 In the other window, run the following command, which will run the rails server that hosts the Primero backend.
 
 ```bash
-bundle exec rails s
+rails s
 ```
 
 Visit http://localhost:3000/ in your browser, and you should see the following page. Note that it can take a while to load for the very first time, as the frontend application bundle needs to be compiled. Because of this, it is easiest to leave the `npm` process running in the background if you are only making changes to the backend code.
@@ -269,19 +260,19 @@ Linting is enforced by the development team for all files in the `app` directory
 To invoke RuboCop on all files in the `app/` directory:
 
 ```shell
-bundle exec rubocop -c .rubocop.yml app
+rubocop -c .rubocop.yml app
 ```
 
 To invoke RuboCop on a specific file, and auto-fix where possible:
 
 ```shell
-bundle exec rubocop -c .rubocop.yml -A <PATH TO FILE.rb>
+rubocop -c .rubocop.yml -A <PATH TO FILE.rb>
 ```
 
 To invoke RuboCop on all relevant files changed on your local branch:
 
 ```bash
-git diff --cached origin/develop --name-only | grep -e "\.rb$" | grep -wv "db/*" | xargs bundle exec rubocop -c .rubocop.yml
+git diff --cached origin/develop --name-only | grep -e "\.rb$" | grep -wv "db/*" | xargs rubocop -c .rubocop.yml
 ```
 
 To run ESLint:

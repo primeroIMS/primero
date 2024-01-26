@@ -24,6 +24,8 @@ Once you are ready to have your contribution reviewed by the core development te
 
 If your contribution is not ready, but you need a place to discuss the changes you are making, you can make a pull request, and mark it as a draft.
 
+Over time, as code is merged into Primero whilst your PR is pending, your PR will become stale. You should periodically merge in the most recent changes on the develop branch to ensure that there are no conflicts and that your code remains up-to-date. **You must always merge upstream changes, do not rebase.**
+
 # Pull Request Checklist
 
 If all of the following are not true, it is unlikely that the proposed PR will be accepted. With prior agreement from the Primero development team, it is possible to waive some of these requirements, but this agreement should be sought before embarking on a new feature.
@@ -34,7 +36,7 @@ Even if all of the requirements in the checklist are met, the code is still subj
 - [ ] No new Ruby dependencies have been added to Gemfile
 - [ ] Solr is not used within any new code
 - [ ] Unit tests exist and pass for any new Ruby code
-- [ ] No changes result in N+1 calls to the database
+- [ ] Any new Ruby code has been checked for database queries. Excessive or complicated queries will result in performance issues for Primero. Especially be on the lookout for the [N + 1 queries problem](https://guides.rubyonrails.org/active_record_querying.html#n-1-queries-problem).
 - [ ] There are no outstanding performance issues with the backend code
 ## Frontend Checklist
 - [ ] ESLint is passing without any warnings on all changed JavaScript files
