@@ -11,7 +11,7 @@ Primero
 
 ## Development
 
-A guide to getting started with Primero development is available [here](doc/getting_started.md).
+A guide to getting started with Primero development is available [here](doc/getting_started_development.md).
 
 
 
