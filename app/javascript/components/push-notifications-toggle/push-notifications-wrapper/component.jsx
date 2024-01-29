@@ -1,7 +1,8 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PushNotificationsToggle from "../component";
 
 function Component() {
-  // Verificar si el API de notificaciones es compatible
   const isNotificationsSupported = "Notification" in window;
 
   if (!isNotificationsSupported) {
