@@ -1,7 +1,7 @@
 # Development Environment
 
 > [!NOTE]
-> If you are already an experienced Rails developer and are familiar with Docker, grab a copy of the code from [github](https://github.com/primeroIMS/primero) and skip to the section [Building the Containers](#Building%20the%20Containers).
+> If you are already an experienced Rails developer and are familiar with Docker, grab a copy of the code from [github](https://github.com/primeroIMS/primero) and skip to the section [Building the Containers](#building-the-containers).
 
 In order to contribute to Primero, you need a working development environment. It is recommended to use a Mac or Linux operating system. If you are developing on Windows, you should consider using WSL or a VM.
 
