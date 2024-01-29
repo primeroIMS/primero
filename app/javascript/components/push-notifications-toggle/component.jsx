@@ -1,6 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { CircularProgress, FormControlLabel, Switch } from "@material-ui/core";
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import NotificationsOffIcon from "@material-ui/icons/NotificationsOff";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -28,7 +29,7 @@ import css from "./styles.css";
 
 const DIALOG = "PUSH_NOTIFICATIONS";
 
-function Component() {
+function Component({ isNotificationsSupported }) {
   const dispatch = useDispatch();
 
   const webpushConfig = useMemoizedSelector(state => getWebpushConfig(state));
@@ -42,7 +43,7 @@ function Component() {
   const i18n = useI18n();
   const { dialogOpen, setDialog } = useDialog(DIALOG);
 
-  const notificationsNotSupported = !("Notification" in window) || !receiveWebpush;
+  const notificationsNotSupported = !isNotificationsSupported || !receiveWebpush;
   const notificationsDenied = () => Notification.permission === NOTIFICATION_PERMISSIONS.DENIED;
 
   useEffect(async () => {
@@ -184,5 +185,8 @@ function Component() {
 }
 
 Component.displayName = "PushNotificationsToggle";
+Component.propTypes = {
+  isNotificationsSupported: PropTypes.bool
+};
 
 export default Component;
