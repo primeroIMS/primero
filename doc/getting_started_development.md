@@ -5,7 +5,7 @@
 
 In order to contribute to Primero, you need a working development environment. It is recommended to use a Mac or Linux operating system. If you are developing on Windows, you should consider using WSL or a VM.
 
-The instructions in this guide assume that you are running Ubuntu Linux. Primero supports both x86_64 and arm64 architectures, so if you're using an M1 Mac or another arm64 machine like a Raspberry Pi, you don't need to do anything special.
+The instructions in this guide assume that you are running Ubuntu Linux. Primero supports both x86_64 and arm64 architectures, so if you're using an M1 Mac or another arm64 machine like a Raspberry Pi, you don't need to do anything special. If you are using a different Linux distribution or MacOS, you will need to adapt the instructions accordingly.
 
 ## Cloning the Primero Repository
 
@@ -22,6 +22,13 @@ Navigate to a directory in your shell where you would like to download Primero, 
 git clone https://github.com/primeroIMS/primero.git
 ```
 
+As most of the time you will be targeting the `develop` branch, you should switch to that branch now.
+
+```bash
+cd primero
+git checkout develop
+```
+
 ## Opening Primero in Visual Studio Code
 
 > [!NOTE]
@@ -33,7 +40,7 @@ If you do not already have Visual Studio Code, install it from <https://code.vis
 
 Click the *Open...* button in the middle of the window. Select the directory where you cloned Primero.
 
-![Opening Primero in VSCode](Attachments/open.webp)
+![Opening Primero in VSCode](dao/Attachments/open.webp)
 
 ### Installing VSCode Extensions
 
@@ -141,7 +148,7 @@ nvm install --lts
 > [!NOTE] 
 > If you already have docker and docker-compose, skip this step.
 > 
-> Docker can be installed in a number of different ways. As we are primarily using docker as a convienent way of running a database locally, it doesn't matter how it is installed.
+> Docker can be installed in a number of different ways. As we are primarily using docker as a convenient way of running a database locally, it doesn't matter how it is installed.
 
 Install docker using apt:
 ```bash
@@ -166,7 +173,7 @@ sudo ./compose.local.sh up -d solr
 
 Primero is partially configured with a number of yaml files. There are example versions of these files provided for local development. They need to be copied to the correct locations in order for Primero to function.
 
-Execute these from the root directory of the repository.
+Execute these from the root directory of the repository. You may want to review these files and potentially make changes to them once they have been copied.
 ```bash
 cp config/database.yml.development config/database.yml
 cp config/locales.yml.development config/locales.yml
@@ -219,9 +226,11 @@ do echo "export ${v}=$(openssl rand -hex 16)" >> ~/.bashrc;
 done;
 ```
 
+If you use a different shell, for example zsh, you will need to add these to the correct startup file.
+
 # Running Unit Tests
 
-To make sure that your system has been configured correctly, and to establish a baseline of the unit tests passing on your environment, it is a good idea to run the unit tests before making any changes to the Primero code. This may take a few minutes. On a VM with 4GB of RAM, it took approximately 5 minutes to run the tests.
+To make sure that your system has been configured correctly, and to establish a baseline of the unit tests passing on your environment, it is a good idea to run the unit tests before making any changes to the Primero code. This may take a few minutes. On a VM with 4GB of RAM, it will take approximately 5 minutes to run the tests.
 
 ```shell
 rspec spec
@@ -247,7 +256,7 @@ Visit http://localhost:3000/ in your browser, and you should see the following p
 Log in using the default credentials `primero/primer0!`.
 
 
-![Logging into Primero](Attachments/login.webp)
+![Logging into Primero](dao/Attachments/login.webp)
 
 The version of Primero you will have configured by default is largely the same as CPIMS+. If you need a different configuration of Primero, for example, GBVIMS+, you will need to contact UNICEF and request access to the official configurations repository. 
 
@@ -279,4 +288,29 @@ To run ESLint:
 
 ```bash
 npm run lint
+```
+
+
+# Using WebPush
+
+> [!NOTE]
+> WebPush is only required if you are working on the WebPush feature. If you are not, you can skip this section.
+
+To use the push notification features of Primero, you must set some environment variables: `PRIMERO_WEBPUSH`, `PRIMERO_WEBPUSH_CONTACT`, `PRIMERO_WEBPUSH_VAPID_PRIVATE` and `PRIMERO_WEBPUSH_VAPID_PUBLIC`.
+
+To generate a valid VAPID keypair, you can execute the following script to generate private and public keys for their respective environment variables. You will probably want to add the variables to your `~/.bashrc` file.
+
+```bash
+rails r '
+keypair = WebPush.generate_key
+puts "Private Key: #{keypair.private_key}"
+puts "Public Key: #{keypair.public_key}"
+'
+```
+
+```bash
+export PRIMERO_WEBPUSH="true"
+export PRIMERO_WEBPUSH_CONTACT="your_email_goes_here@example.com"
+export PRIMERO_WEBPUSH_VAPID_PRIVATE="private_key_generated_above_goes_here"
+export PRIMERO_WEBPUSH_VAPID_PUBLIC="public_key_generated_above_goes_here"
 ```
