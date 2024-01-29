@@ -35,6 +35,30 @@ describe Api::V2::AttachmentsController, type: :request do
       expect(audit_params['action']).to eq('attach')
     end
 
+    context 'when a user does not have access to a record' do
+      context 'and has the VIEW_PHOTO permission' do
+        it 'it refuses to attach a file to an existing record' do
+          login_for_test(
+            {
+              user_name: 'otheruser',
+              group_permission: Permission::SELF,
+              permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::VIEW_PHOTO])],
+              permitted_field_names: [Attachable::PHOTOS_FIELD_NAME]
+            }
+          )
+
+          params = {
+            data: {
+              field_name: Attachable::PHOTOS_FIELD_NAME, attachment_type: 'image',
+              file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
+            }
+          }
+          post("/api/v2/cases/#{@case.id}/attachments", params:)
+          expect(response).to have_http_status(403)
+        end
+      end
+    end
+
     context '`photos` is a forbidden field' do
       before :each do
         allow_any_instance_of(PermittedFieldService).to(
@@ -97,6 +121,24 @@ describe Api::V2::AttachmentsController, type: :request do
         expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/attachments/#{attachment.id}")
         expect(json['errors'][0]['message']).to eq('Forbidden')
         expect(@case.attachments.count).to eq(1)
+      end
+    end
+
+    context 'when a user does not have access to a record' do
+      context 'and has the VIEW_PHOTO permission' do
+        it 'it refuses to remove an attached record' do
+          login_for_test(
+            {
+              user_name: 'otheruser',
+              group_permission: Permission::SELF,
+              permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::VIEW_PHOTO])],
+              permitted_field_names: [Attachable::PHOTOS_FIELD_NAME]
+            }
+          )
+          delete "/api/v2/cases/#{@case.id}/attachments/#{attachment.id}"
+
+          expect(response).to have_http_status(403)
+        end
       end
     end
   end
