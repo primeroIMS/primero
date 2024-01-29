@@ -746,6 +746,27 @@ describe("<RecordForm /> - Selectors", () => {
 
         expect(record).to.not.have.property("tracing");
       });
+
+      it("should return summary if the record has the permission", () => {
+        const record = selectors.getFormNav(
+          stateWithUserPermission.set(
+            "records",
+            fromJS({
+              cases: {
+                data: [{ id: "001", permitted_form_actions: { case: [ACTIONS.FIND_TRACING_MATCH] } }],
+                selectedRecord: "001"
+              }
+            })
+          ),
+          {
+            primeroModule: "primeromodule-cp",
+            recordType: "case",
+            checkPermittedForms: true
+          }
+        );
+
+        expect(record).to.have.property("tracing");
+      });
     });
   });
 
@@ -1098,6 +1119,29 @@ describe("<RecordForm /> - Selectors", () => {
             user: {
               permissions: {
                 cases: [ACTIONS.CHANGE_LOG]
+              }
+            }
+          }),
+          {
+            recordType: "case",
+            primeroModule: "primeromodule-cp"
+          }
+        )
+        .map(form => form.formId)
+        .toList()
+        .sort();
+
+      expect(result).to.deep.equals(fromJS([CHANGE_LOGS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS]));
+    });
+
+    it("should return forms where the record has permissions", () => {
+      const result = selectors
+        .getRecordInformationNav(
+          fromJS({
+            records: {
+              cases: {
+                data: [{ id: "001", permitted_form_actions: { case: [ACTIONS.CHANGE_LOG] } }],
+                selectedRecord: "001"
               }
             }
           }),
