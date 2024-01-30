@@ -1,9 +1,7 @@
-import { InputLabel, FormHelperText } from "@material-ui/core";
+import { screen, setupMockFieldComponent } from "test-utils";
 
 import { FieldRecord } from "../records";
-import { setupMockFieldComponent } from "../../../test";
 import { FILE_FORMAT } from "../../../config";
-import ActionButton from "../../action-button";
 
 import AttachmentInput from "./attachment-input";
 
@@ -20,10 +18,8 @@ describe("<Form /> - fields/<AttachmentInput />", () => {
   };
 
   it("renders input label and form helper text", () => {
-    const { component } = setupMockFieldComponent(AttachmentInput, FieldRecord, {}, props);
-
-    expect(component.find(InputLabel)).to.have.lengthOf(1);
-    expect(component.find(FormHelperText)).to.have.lengthOf(1);
-    expect(component.find(ActionButton)).to.have.lengthOf(1);
+    setupMockFieldComponent(AttachmentInput, FieldRecord, {}, props);
+    expect(screen.getByText("fields.file_upload_box.select_file_button_text")).toBeInTheDocument();
+    expect(document.querySelector("#test")).toBeInTheDocument();
   });
 });
