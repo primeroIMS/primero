@@ -43,7 +43,7 @@ class Exporters::CsvExporter < Exporters::BaseExporter
 
     records.each do |record|
       establish_record_constraints(record)
-      rows << row(record, fields)
+      rows << row(record, export_constraints.fields)
     end
   end
 
@@ -62,6 +62,10 @@ class Exporters::CsvExporter < Exporters::BaseExporter
   end
 
   def row(record, fields)
-    [record.id] + fields.map { |field| record.data[field.name] }
+    [record.id] + fields.map do |field|
+      next if non_permitted_field?(field)
+
+      record.data[field.name]
+    end
   end
 end

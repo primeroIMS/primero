@@ -21,12 +21,27 @@ module Exporters
         }
       )
 
-      fields = [
-        build(:field, name: 'name', type: Field::TEXT_FIELD),
-        build(:field, name: 'age', type: Field::NUMERIC_FIELD),
-        build(:field, name: 'sex', type: Field::SELECT_BOX)
-      ]
-      form = create(:form_section, unique_id: 'form_section_exporter', fields:)
+      form_name = create(:form_section, unique_id: 'form_section_name', fields:
+        [
+          build(:field, name: 'name', type: Field::TEXT_FIELD)
+        ], order: 1)
+
+      form_age_sex = create(:form_section, unique_id: 'form_section_age_sex', fields:
+        [
+          build(:field, name: 'age', type: Field::NUMERIC_FIELD),
+          build(:field, name: 'sex', type: Field::SELECT_BOX)
+        ], order: 3)
+
+      form_basic = FormSection.new(
+        unique_id: 'form_basic',
+        name: 'Form Basic',
+        parent_form: 'case',
+        visible: true,
+        form_group_id: 'basic_1',
+        order: 2,
+        fields: [build(:field, name: 'address', type: Field::TEXT_FIELD)]
+      )
+      form_basic.save!
 
       family_details_section = FormSection.new(
         unique_id: 'family_details_section',
@@ -49,7 +64,7 @@ module Exporters
         parent_form: 'case',
         visible: true,
         form_group_id: 'case_form_1',
-        order: 7,
+        order: 4,
         fields: [
           Field.new(name: 'family_number', display_name: 'Family Number', type: 'text_field', visible: true),
           Field.new(name: 'family_size', display_name: 'Family Size', type: 'numeric_field', visible: true),
@@ -73,25 +88,26 @@ module Exporters
       )
       role = Role.new(
         is_manager: false, modules: [primero_module],
-        permissions: [permissions], form_sections: [form, form_family]
+        permissions: [permissions], form_sections: [form_basic, form_family, form_name, form_age_sex]
       )
       role.save(validate: false)
       @user = User.new(user_name: 'user1', role:)
       @user.save(validate: false)
 
       role_referral = Role.new(
-        unique_id: 'role-referral', is_manager: false, form_sections: [form], modules: [primero_module],
-        permissions: [permissions]
+        unique_id: 'role-referral', is_manager: false, form_sections: [form_name, form_age_sex],
+        modules: [primero_module], permissions: [permissions]
       )
       role_referral.save(validate: false)
       @user_referral = User.new(user_name: 'fakerefer', role:)
       @user_referral.save(validate: false)
 
-      case1 = Child.new(
+      case1 = Child.create!(
         data: {
           name: 'Joe',
           age: 12,
           sex: 'male',
+          address: 'case_1_address',
           module_id: PrimeroModule::CP,
           family_details_section: [
             { unique_id: '004', relation_name: 'John', relation: 'father' },
@@ -99,7 +115,7 @@ module Exporters
           ]
         }
       )
-      case2 = Child.new(data: { name: 'Mo', age: 14, sex: 'male' })
+      case2 = Child.create!(data: { name: 'Mo', age: 14, sex: 'male', address: 'case_2_address' })
       @case3 = Child.create!(
         family:,
         data: {
@@ -108,6 +124,7 @@ module Exporters
           name: 'George',
           age: 10,
           sex: 'male',
+          address: 'case_3_address',
           family_details_section: [{ unique_id: '002', relation: 'relation2' }]
         }
       )
@@ -124,21 +141,21 @@ module Exporters
       data = CsvExporter.export(@records, nil, { user: @user })
       parsed = CSV.parse(data)
 
-      expect(parsed[0]).to eq %w[id name age sex family_number family_size family_notes family_details_section]
-      expect(parsed[1][1..3]).to eq(%w[Joe 12 male])
-      expect(parsed[2][1..3]).to eq(%w[Mo 14 male])
-      expect(parsed[3][1..3]).to eq(%w[George 10 male])
+      expect(parsed[0]).to eq %w[id name address age sex family_number family_size family_notes family_details_section]
+      expect(parsed[1][1..4]).to eq(%w[Joe case_1_address 12 male])
+      expect(parsed[2][1..4]).to eq(%w[Mo case_2_address 14 male])
+      expect(parsed[3][1..4]).to eq(%w[George case_3_address 10 male])
     end
 
     it 'exports the family_details_section' do
       data = CsvExporter.export(@records, nil, { user: @user })
       parsed = CSV.parse(data)
 
-      expect(parsed[1][7]).to eq(
+      expect(parsed[1][8]).to eq(
         '[{"unique_id"=>"004", "relation_name"=>"John", "relation"=>"father"}, ' \
         '{"unique_id"=>"005", "relation_name"=>"Mary", "relation"=>"mother"}]'
       )
-      expect(parsed[3][7]).to eq(
+      expect(parsed[3][8]).to eq(
         '[{"unique_id"=>"002", "relation"=>"relation2", "relation_name"=>"FirstName2 LastName2", ' \
         '"relation_age"=>12, "relation_sex"=>"female"}]'
       )
@@ -148,15 +165,16 @@ module Exporters
       data = CsvExporter.export(@records, nil, { user: @user })
       parsed = CSV.parse(data)
 
-      expect(parsed[0]).to eq %w[id name age sex family_number family_size family_notes family_details_section]
-      expect(parsed[3][4..6]).to eq(%w[FA-001 5 FamilyNotes])
+      expect(parsed[0]).to eq %w[id name address age sex family_number family_size family_notes family_details_section]
+      expect(parsed[3][5..7]).to eq(%w[FA-001 5 FamilyNotes])
     end
 
     it 'sanitizes formula injections' do
       unsafe_record = Child.new(data: { name: 'Joe', age: 12, sex: '=10+10' })
       data = CsvExporter.export([unsafe_record], nil, { user: @user })
       parsed = CSV.parse(data)
-      expect(parsed[1][1..3]).to eq(%w[Joe 12 '=10+10])
+
+      expect(parsed[1][1..4]).to eq(['Joe', nil, '12', "'=10+10"])
     end
 
     context 'when the user was referred to a record' do
@@ -164,11 +182,11 @@ module Exporters
         data = CsvExporter.export(@records, nil, { user: @user_referral })
         parsed = CSV.parse(data)
 
-        expect(parsed[0]).to eq %w[id name age sex family_number family_size family_notes family_details_section]
-        expect(parsed[1][1..3]).to eq(%w[Joe 12 male])
+        expect(parsed[0]).to eq %w[id name address age sex family_number family_size family_notes family_details_section]
+        expect(parsed[1][1..4]).to eq(['Joe', nil, '12', 'male'])
         expect(parsed[1][7]).to be_nil
-        expect(parsed[2][1..3]).to eq(%w[Mo 14 male])
-        expect(parsed[3][1..3]).to eq(%w[George 10 male])
+        expect(parsed[2][1..4]).to eq(%w[Mo case_2_address 14 male])
+        expect(parsed[3][1..4]).to eq(%w[George case_3_address 10 male])
         expect(parsed[3][7]).to be_present
       end
 

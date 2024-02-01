@@ -175,10 +175,6 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     data_values(data, data_form_name, field)
   end
 
-  def non_permitted_field?(field)
-    !field.nested? && !single_record_export && !record_constraints.field_names.include?(field.name)
-  end
-
   def data_values(data, data_form_name, field)
     values = []
     data[data_form_name]&.each do |section|
