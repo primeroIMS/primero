@@ -11,7 +11,7 @@ class LanguageService
     to:   'AAAAAAÆCEEEEIIIINOOOOOOUUUUYaaaaaaæceeeeiiiinoooooouuuuyyΑΕΙΟιαεηιυιυουωoαααααααΑΑΑΑΑΑεεεεεεΕΕΕΕηηηηηηηηΗΗΗΗΗΗΗιιιιιιιιΙΙΙΙΙοοοοοοΟΟΟΟΟΟυυυυυυυΥΥωωωωωωωωΩΩΩΩΩΩΩαεηιουωηηηηηηηωωωωααααααΑΑηηηηηιιιιιΙΙυυυρυΥΥΡωωωωΟ'
   }.freeze
 
-  ARABIC_VOWELS = ' َ ً ُ ٌ ِ ٍ ْ ّ'.strip
+  ARABIC_VOWELS = 'ًٌٍَُِّْ'.strip
 
   CYRILLIC = {
     from: 'ҐЁЇЙґёїй',
