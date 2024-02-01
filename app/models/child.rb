@@ -23,6 +23,7 @@ class Child < ApplicationRecord
   # run before the before_save callback in Historical to make the history
   include Record
   include Searchable
+  include PhoneticSearchable
   include Historical
   include BIADerivedFields
   include CareArrangements

@@ -11,6 +11,8 @@ class LanguageService
     to:   'AAAAAAÆCEEEEIIIINOOOOOOUUUUYaaaaaaæceeeeiiiinoooooouuuuyyΑΕΙΟιαεηιυιυουωoαααααααΑΑΑΑΑΑεεεεεεΕΕΕΕηηηηηηηηΗΗΗΗΗΗΗιιιιιιιιΙΙΙΙΙοοοοοοΟΟΟΟΟΟυυυυυυυΥΥωωωωωωωωΩΩΩΩΩΩΩαεηιουωηηηηηηηωωωωααααααΑΑηηηηηιιιιιΙΙυυυρυΥΥΡωωωωΟ'
   }.freeze
 
+  ARABIC_VOWELS = ' َ ً ُ ٌ ِ ٍ ْ ّ'.strip
+
   CYRILLIC = {
     from: 'ҐЁЇЙґёїй',
     to:   'ГЕІИгеіи'
@@ -24,14 +26,14 @@ class LanguageService
   }.freeze
 
   def self.strip_diacritics(value)
-    value.unicode_normalize(:nfc).tr(DIACRITICS[:from], DIACRITICS[:to])
+    strip_arabic_vowels(value.unicode_normalize(:nfc).tr(DIACRITICS[:from], DIACRITICS[:to]))
   end
 
   def self.strip_arabic_vowels(value)
-    # TODO: implement
+    value.tr(ARABIC_VOWELS, '')
   end
 
   def self.latin?(value)
-    # TODO: implement
+    value.gsub(/[^a-zA-Z]/, '').present?
   end
 end
