@@ -1329,7 +1329,10 @@ describe Ability do
     context 'when a user can preview a record' do
       context 'and has access to attachment fields' do
         before do
-          permission = Permission.new(resource: Permission::CASE, actions: [Permission::DISPLAY_VIEW_PAGE])
+          permission = Permission.new(resource: Permission::CASE, actions:
+            [
+              Permission::DISPLAY_VIEW_PAGE, Permission::SEARCH_OWNED_BY_OTHERS
+            ])
           role = Role.new_with_properties(
             unique_id: 'preview_access_attachment', name: 'preview_access_attachment', permissions: [permission],
             form_section_read_write: { form1: 'rw' }
@@ -1341,6 +1344,7 @@ describe Ability do
 
         it 'allows viewing attached images/audios' do
           ability = Ability.new preview_user
+
           expect(ability).to authorize(:read, image_attachment)
           expect(ability).to authorize(:read, audio_attachment)
         end
@@ -1360,7 +1364,10 @@ describe Ability do
 
       context 'and does not have access to attachment fields' do
         before do
-          permission = Permission.new(resource: Permission::CASE, actions: [Permission::DISPLAY_VIEW_PAGE])
+          permission = Permission.new(resource: Permission::CASE, actions:
+            [
+              Permission::DISPLAY_VIEW_PAGE, Permission::SEARCH_OWNED_BY_OTHERS
+            ])
           role = Role.new_with_properties(
             unique_id: 'preview_record', name: 'preview_record', permissions: [permission]
           )
@@ -1381,6 +1388,40 @@ describe Ability do
           expect(ability).not_to authorize(:destroy, image_attachment)
           expect(ability).not_to authorize(:destroy, audio_attachment)
           expect(ability).not_to authorize(:destroy, document_attachment)
+        end
+
+        context 'and is permitted to view photo from the list view' do
+          before do
+            permission = Permission.new(resource: Permission::CASE, actions:
+              [
+                Permission::DISPLAY_VIEW_PAGE, Permission::SEARCH_OWNED_BY_OTHERS, Permission::VIEW_PHOTO
+              ])
+            role = Role.new_with_properties(
+              unique_id: 'preview_photo_record', name: 'preview_photo_record', permissions: [permission],
+              form_section_read_write: { form2: 'r' }
+            )
+            role.save!
+            preview_user.role = role
+            preview_user.save!
+          end
+
+          it 'allows viewing images' do
+            ability = Ability.new preview_user
+            expect(ability).to authorize(:read, image_attachment)
+          end
+
+          it 'does not allow viewing audios/documents' do
+            ability = Ability.new preview_user
+            expect(ability).not_to authorize(:read, audio_attachment)
+            expect(ability).not_to authorize(:read, document_attachment)
+          end
+
+          it 'does not allow deleting attachments' do
+            ability = Ability.new preview_user
+            expect(ability).not_to authorize(:destroy, image_attachment)
+            expect(ability).not_to authorize(:destroy, audio_attachment)
+            expect(ability).not_to authorize(:destroy, document_attachment)
+          end
         end
       end
     end
