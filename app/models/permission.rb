@@ -264,7 +264,7 @@ class Permission < ValueObject
       Permission::REQUEST_APPROVAL_CLOSURE,
       Permission::REQUEST_APPROVAL_GBV_CLOSURE,
       Permission::CHANGE_LOG,
-      Permission::INCIDENT_FROM_CASE,
+      Permission::VIEW_INCIDENT_FROM_CASE,
       Permission::FIND_TRACING_MATCH,
       Permission::VIEW_FAMILY_RECORD,
       Permission::VIEW_REGISTRY_RECORD
