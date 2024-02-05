@@ -148,7 +148,8 @@ describe ActiveStorageAuth do
       permissions = Permission.new(
         resource: Permission::CASE,
         actions: [
-          Permission::DISPLAY_VIEW_PAGE
+          Permission::DISPLAY_VIEW_PAGE,
+          Permission::SEARCH_OWNED_BY_OTHERS
         ]
       )
       role = Role.new(permissions: [permissions])

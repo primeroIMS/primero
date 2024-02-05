@@ -33,8 +33,15 @@ class PermittedAttachmentService
     # the fields displayed in the preview are those where show_on_minify_form: true.
     # Should we check the if the attachment field is permitted and if the field is show_on_minify_form: true?
 
-    [Attachment::IMAGE, Attachment::AUDIO].include?(attachment.attachment_type) &&
-      user.can_preview?(attachment.record.class) && permitted_field_names.include?(attachment.field_name)
+    user.can?(:search_owned_by_others, attachment.record.class) && (
+      permitted_to_preview_attachment? || permitted_to_view_record_list_photo?
+    )
+  end
+
+  def permitted_to_preview_attachment?
+    user.can_preview?(attachment.record.class) &&
+      [Attachment::IMAGE, Attachment::AUDIO].include?(attachment.attachment_type) &&
+      permitted_field_names.include?(attachment.field_name)
   end
 
   def permitted_to_view_record_list_photo?

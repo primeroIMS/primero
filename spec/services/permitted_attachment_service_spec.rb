@@ -212,9 +212,11 @@ describe PermittedAttachmentService, search: true do
 
   describe '#permitted_to_preview?' do
     context 'when a user can access the attachment field' do
-      it 'returns true if a user the attachment is an audio/image' do
+      it 'returns true if the attachment is an image' do
         role_with_permission.permissions = [
-          Permission.new(resource: Permission::CASE, actions: [Permission::DISPLAY_VIEW_PAGE])
+          Permission.new(
+            resource: Permission::CASE, actions: [Permission::DISPLAY_VIEW_PAGE, Permission::SEARCH_OWNED_BY_OTHERS]
+          )
         ]
         role_with_permission.save!
         user.role = role_with_permission
