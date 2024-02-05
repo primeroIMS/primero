@@ -29,21 +29,16 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
   const [verificationValue, setVeficationValue] = useState(currentValues?.ctfmr_verified || ""); // Dropdown selected state
   const violationTally = getViolationTallyLabel(fields, currentValues, locale);
   const verifyParams = useParams();
-
   const DATE_FORMAT = "dd-MMM-yyyy";
-
-
-  const [selectedFromDate, setSelectedFromDate] = useState(new Date());
-  const [selectedToDate, setSelectedToDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [validationError, setValidationError] = useState("");
 
-  const handleFromChange = (date) => {
-    if (selectedToDate && date > selectedToDate) {
-      setValidationError("From date should not be greater than To date");
-      setSelectedFromDate(null);
+  const handleDropdownDate = (date) => {
+    if (selectedDate) {
+      setSelectedDate(date);
     } else {
-      setValidationError("");
-      setSelectedFromDate(date);
+      setValidationError("date should not be null");
+      setSelectedDate(null);
     }
   };
 
@@ -83,7 +78,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
               {
                 unique_id: currentValues.unique_id,
                 ctfmr_verified: verificationValue,
-                ctfmr_verified_date: toServerDateFormat(selectedFromDate)
+                ctfmr_verified_date: toServerDateFormat(selectedDate)
               }
             ]
           }
@@ -135,8 +130,6 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
         maxSize="xs"
       >
         <VerifySelect selectedValue={verificationValue} setSelectedValue={setVeficationValue} />
-        {/* <p>divyanshu</p> */}
-        {console.log("verificationValue", verificationValue)}
         {verificationValue === "verified" ?
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -144,10 +137,9 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
                 variant="inline"
                 format={DATE_FORMAT}
                 margin="normal"
-                //label="Select Date"
                 id="date-picker-inline"
-                value={selectedFromDate}
-                onChange={handleFromChange}
+                value={selectedDate}
+                onChange={handleDropdownDate}
                 error={!!validationError}
                 maxDate={new Date()} // Disable future dates
                 InputProps={{
