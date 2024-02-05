@@ -8,6 +8,7 @@ module PhoneticSearchable
 
   included do
     store_accessor :data, :phonetic_search
+
     before_save :recalculate_phonetic_search_field
   end
 
@@ -15,18 +16,9 @@ module PhoneticSearchable
     return unless phonetic_fields_changed?
 
     self.phonetic_search = Searchable::PHONETIC_FIELD_NAMES.reduce([]) do |memo, field_name|
-      memo + phonetic_field_to_array(field_name)
-    end
-  end
+      next(memo) unless data[field_name].present?
 
-  def phonetic_field_to_array(field_name)
-    return [] unless data[field_name].present?
-
-    data[field_name]&.split&.map do |value|
-      diacriticless = LanguageService.strip_diacritics(value)
-      next(diacriticless) unless LanguageService.latin?(value)
-
-      Text::Metaphone.double_metaphone(diacriticless).first
+      memo + PhoneticSearchService.tokenize(data[field_name])
     end
   end
 

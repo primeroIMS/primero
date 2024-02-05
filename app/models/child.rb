@@ -23,13 +23,14 @@ class Child < ApplicationRecord
   # run before the before_save callback in Historical to make the history
   include Record
   include Searchable
-  include PhoneticSearchable
   include Historical
   include BIADerivedFields
   include CareArrangements
   include UNHCRMapping
   include Ownable
   include AutoPopulatable
+  include AutoNameable
+  include PhoneticSearchable
   include Serviceable
   include Reopenable
   include Workflow
@@ -51,7 +52,7 @@ class Child < ApplicationRecord
   store_accessor(
     :data,
     :case_id, :case_id_code, :case_id_display,
-    :nickname, :name, :protection_concerns, :consent_for_tracing, :hidden_name,
+    :nickname, :protection_concerns, :consent_for_tracing, :hidden_name,
     :name_first, :name_middle, :name_last, :name_nickname, :name_other,
     :registration_date, :age, :estimated, :date_of_birth, :sex, :address_last,
     :risk_level, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
@@ -157,7 +158,6 @@ class Child < ApplicationRecord
   validate :validate_date_of_birth
 
   before_save :sync_protection_concerns
-  before_save :auto_populate_name
   before_save :stamp_registry_fields
   before_save :calculate_has_case_plan
   before_create :hide_name
@@ -251,12 +251,6 @@ class Child < ApplicationRecord
 
   def to_s
     name.present? ? "#{name} (#{unique_identifier})" : unique_identifier
-  end
-
-  def auto_populate_name
-    # This 2 step process is necessary because you don't want to overwrite self.name if auto_populate is off
-    a_name = auto_populate('name')
-    self.name = a_name if a_name.present?
   end
 
   def hide_name
