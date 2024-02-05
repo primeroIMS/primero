@@ -17,6 +17,10 @@ import VerifySelect from "./select";
 import { getViolationTallyLabel } from "./utils";
 import { NAME } from "./constants";
 
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+
+
 const Component = ({ fields, values, locale, displayName, index, collapsedFieldValues, mode }) => {
   const currentValues = values[index];
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -25,6 +29,23 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
   const [verificationValue, setVeficationValue] = useState(currentValues?.ctfmr_verified || ""); // Dropdown selected state
   const violationTally = getViolationTallyLabel(fields, currentValues, locale);
   const verifyParams = useParams();
+
+  const DATE_FORMAT = "dd-MMM-yyyy";
+
+
+  const [selectedFromDate, setSelectedFromDate] = useState(new Date());
+  const [selectedToDate, setSelectedToDate] = useState(null);
+  const [validationError, setValidationError] = useState("");
+
+  const handleFromChange = (date) => {
+    if (selectedToDate && date > selectedToDate) {
+      setValidationError("From date should not be greater than To date");
+      setSelectedFromDate(null);
+    } else {
+      setValidationError("");
+      setSelectedFromDate(date);
+    }
+  };
 
   const handleOpenVerifyModal = (index, event) => {
     //  To open verify dialog confirmation popup
@@ -62,7 +83,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
               {
                 unique_id: currentValues.unique_id,
                 ctfmr_verified: verificationValue,
-                ctfmr_verified_date: toServerDateFormat(current_date)
+                ctfmr_verified_date: toServerDateFormat(selectedFromDate)
               }
             ]
           }
@@ -114,6 +135,35 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
         maxSize="xs"
       >
         <VerifySelect selectedValue={verificationValue} setSelectedValue={setVeficationValue} />
+        {/* <p>divyanshu</p> */}
+        {console.log("verificationValue", verificationValue)}
+        {verificationValue === "verified" ?
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <KeyboardDatePicker
+                variant="inline"
+                format={DATE_FORMAT}
+                margin="normal"
+                //label="Select Date"
+                id="date-picker-inline"
+                value={selectedFromDate}
+                onChange={handleFromChange}
+                error={!!validationError}
+                maxDate={new Date()} // Disable future dates
+                InputProps={{
+                  style: {
+                    borderColor: validationError ? "red" : undefined,
+                    marginLeft: "5px", // Add left margin here             
+                  },
+                }}
+                KeyboardButtonProps={{
+                  "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.from")
+                }}
+              />
+
+            </div>
+          </MuiPickersUtilsProvider>
+          : null}
       </ActionDialog>
     </ListItemText>
   );
