@@ -21,7 +21,7 @@ A guide to getting started with Primero development is available [here](doc/gett
 
 ## Contributing
 - If contributing to the UI, make sure to read over the [UI/UX Development](doc/ui_ux.md) documents.
-- If you are contributing via the DAO, make sure to read the relevant documents [here](doc/dao/Index.md).
+- If you are contributing via the DAO, make sure to read the relevant documents [here](doc/dao/README.md).
 
 ## Production
 
