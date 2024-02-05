@@ -8,7 +8,7 @@ describe Assign do
   include ActiveJob::TestHelper
 
   before do
-    clean_data(User, Role, PrimeroModule, UserGroup, Agency, Transition, Incident, Child)
+    clean_data(User, Role, PrimeroModule, UserGroup, Agency, Transition, Incident, Child, Incident)
 
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
@@ -320,7 +320,51 @@ describe Assign do
     end
   end
 
+  context 'and record is Incident' do
+    before do
+      permission_incident_assign = Permission.new(
+        resource: Permission::INCIDENT, actions: [Permission::ASSIGN]
+      )
+      permission_incident = Permission.new(
+        resource: Permission::INCIDENT,
+        actions: [
+          Permission::READ
+        ]
+      )
+      @role_case_incident = Role.new(
+        permissions: [permission_case, permission_incident_assign], modules: [@primero_module]
+      )
+      @role_case_incident.save(validate: false)
+      @role_incident = Role.new(permissions: [permission_incident], modules: [@primero_module])
+      @role_incident.save(validate: false)
+      @user4 = User.new(user_name: 'user4', role: @role_case_incident, user_groups: [@group1])
+      @user4.save(validate: false)
+      @user5 = User.new(user_name: 'user5', role: @role_incident, user_groups: [@group2])
+      @user5.save(validate: false)
+      @incident = Incident.create(
+        data: {
+          age: 3,
+          status: 'open',
+          owned_by: 'user4',
+          short_id: '6a7013f',
+          module_id: @primero_module.unique_id
+        }
+      )
+      Assign.create!(transitioned_by: 'user4', transitioned_to: 'user5', record: @incident)
+    end
+
+    it 'create assign for incident' do
+      assign = Assign.first
+      expect(assign.record_id).to eq(@incident.id)
+    end
+
+    it 'changes owned_by' do
+      expect(@incident.owned_by).to eq('user5')
+      expect(@incident.previously_owned_by).to eq('user4')
+    end
+  end
+
   after do
-    clean_data(User, Role, PrimeroModule, UserGroup, Agency, Transition, Incident, Child)
+    clean_data(User, Role, PrimeroModule, UserGroup, Agency, Transition, Incident, Child, Incident)
   end
 end

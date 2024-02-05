@@ -3182,6 +3182,12 @@ en:
         label: What records does this role affect?
       incident:
         actions:
+          assign:
+            explanation: Allows a user to send an Incident from its original record owner to
+              any other user in the system. Incidents which are already linked to a Case
+              cannot be assigned; you must instead reassign the linked Case, which will update
+              the Incident's record ownership.
+            label: Assign
           change_log:
             explanation: User can see a history of all changes made to the record
               since it was created. This includes values recorded for all fields.
@@ -3867,6 +3873,7 @@ en:
     successfully: Successfully reassigned
     user_mandatory_label: Recipient is required
     users_label: Recipient
+    incident_from_case_warning: You cannot assign this Incident, because it is already linked to a Case. When you assign the Case, the Incident is assigned as well.
   record_information:
     assigned_user_names: Other Assigned Users
     created_at: Record created at

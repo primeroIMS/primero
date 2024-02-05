@@ -20,6 +20,7 @@ describe("<Transitions /> - Actions", () => {
       "CASES_REFERRALS",
       "CASES_TRANSFERS",
       "CLEAR_ERRORS",
+      "INCIDENTS_ASSIGNS",
       "REFERRAL_USER",
       "REFERRAL_USERS_FETCH",
       "REFERRAL_USERS_FETCH_FINISHED",

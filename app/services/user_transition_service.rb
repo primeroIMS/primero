@@ -16,6 +16,9 @@ class UserTransitionService
     },
     Transfer.name => {
       receive: Permission::RECEIVE_TRANSFER
+    },
+    Assign.name => {
+      receive: [Permission::READ, Permission::MANAGE]
     }
   }.freeze
 
@@ -45,7 +48,7 @@ class UserTransitionService
 
     users = User.includes(:agency, :role).where(disabled: false).where.not(id: transitioned_by_user.id)
 
-    return with_assign_scope(users) if transition == Assign.name
+    return with_assign_scope(with_view_record_permission(users)) if transition == Assign.name
 
     apply_filters(with_receive_permission(users), filters)
   end
@@ -93,6 +96,12 @@ class UserTransitionService
     ).where(roles: { primero_modules: { unique_id: module_unique_id } })
 
     with_different_module_users(users)
+  end
+
+  def with_view_record_permission(users)
+    assing_permission = RECEIVE_PERMISSIONS[transition][:receive]
+
+    users.by_resource_and_permission(model&.parent_form, assing_permission)
   end
 
   def with_different_module_users(users)

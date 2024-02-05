@@ -189,7 +189,8 @@ describe("<TransitionDialog />", () => {
         "fetchArgs",
         "disableClose",
         "hideIcon",
-        "confirmButtonProps"
+        "confirmButtonProps",
+        "disableActions"
       ].forEach(property => {
         expect(actionDialogProps).to.have.property(property);
         delete actionDialogProps[property];
