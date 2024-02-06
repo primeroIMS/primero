@@ -34,7 +34,13 @@ const PageHeading = ({
   }, []);
 
   return (
-    <AppBar position="sticky" classes={{ root: appBarClasses }} elevation={noElevation ? 0 : 2} color="inherit">
+    <AppBar
+      data-testid="page-heading"
+      position="sticky"
+      classes={{ root: appBarClasses }}
+      elevation={noElevation ? 0 : 2}
+      color="inherit"
+    >
       <Toolbar classes={{ root: toolbarClasses }}>
         {prefixAction && (
           <div>

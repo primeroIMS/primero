@@ -40,7 +40,7 @@ const Component = ({ item }) => {
   const renderChange = item.change && renderMessage(item.change);
 
   return (
-    <TimelineItem>
+    <TimelineItem data-testid="timeline">
       <TimelineSeparator>
         <TimelineDot variant="outlined" color="primary" />
         <TimelineConnector />
