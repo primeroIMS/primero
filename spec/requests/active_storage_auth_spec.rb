@@ -131,11 +131,25 @@ describe ActiveStorageAuth do
       role
     end
 
+    let(:role_view_photo_case_list) do
+      permissions = Permission.new(
+        resource: Permission::CASE,
+        actions: [Permission::VIEW_PHOTO]
+      )
+      role = Role.new(permissions: [permissions])
+      role.save(validate: false)
+
+      FormPermission.create!(form_section: photo_form, role:)
+
+      role
+    end
+
     let(:role_preview_record) do
       permissions = Permission.new(
         resource: Permission::CASE,
         actions: [
-          Permission::DISPLAY_VIEW_PAGE
+          Permission::DISPLAY_VIEW_PAGE,
+          Permission::SEARCH_OWNED_BY_OTHERS
         ]
       )
       role = Role.new(permissions: [permissions])
@@ -161,6 +175,11 @@ describe ActiveStorageAuth do
       user.save(validate: false) && user
     end
 
+    let(:user4) do
+      user = User.new(user_name: 'user3', role: role_view_photo_case_list)
+      user.save(validate: false) && user
+    end
+
     let(:case_with_photo) do
       child = Child.create(
         data: { name: 'Test', owned_by: 'user1' }
@@ -169,6 +188,24 @@ describe ActiveStorageAuth do
         record: child, field_name: 'photos', attachment_type: Attachment::IMAGE,
         file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
       ).attach! && child
+    end
+
+    let(:case_with_document) do
+      child = Child.create(
+        data: { name: 'Test2', owned_by: 'user1' }
+      )
+      Attachment.new(
+        record: child, field_name: Attachable::DOCUMENTS_FIELD_NAME, file_name: 'dummy.pdf',
+        attachment_type: Attachment::DOCUMENT, attachment: attachment_base64('dummy.pdf')
+      ).attach!
+      child.reload
+      child
+    end
+
+    let(:document_url) do
+      Rails.application.routes.url_helpers.rails_blob_path(
+        case_with_document.attachments.first.file, only_path: true
+      )
     end
 
     it 'cannot be read by unauthenticated users' do
@@ -200,6 +237,20 @@ describe ActiveStorageAuth do
 
       expect(response).to have_http_status(200)
       expect(response.content_type).to eq('image/jpeg')
+    end
+
+    it 'documents cannot be read by authenticated users who can preview the record' do
+      sign_in(user3)
+      get document_url
+
+      expect(response).to have_http_status(403)
+    end
+
+    it 'documents cannot be read by authenticated users who can view photos from the case list' do
+      sign_in(user4)
+      get document_url
+
+      expect(response).to have_http_status(403)
     end
 
     after(:each) do

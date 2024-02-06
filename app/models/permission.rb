@@ -251,6 +251,42 @@ class Permission < ValueObject
     ACTIVITY_LOG => [MANAGE, TRANSFER]
   }.freeze
 
+  RESOURCE_FORM_ACTIONS = {
+    CASE => [
+      Permission::MANAGE,
+      Permission::APPROVE_ASSESSMENT,
+      Permission::APPROVE_CASE_PLAN,
+      Permission::APPROVE_CLOSURE,
+      Permission::APPROVE_GBV_CLOSURE,
+      Permission::REQUEST_APPROVAL_ACTION_PLAN,
+      Permission::REQUEST_APPROVAL_ASSESSMENT,
+      Permission::REQUEST_APPROVAL_CASE_PLAN,
+      Permission::REQUEST_APPROVAL_CLOSURE,
+      Permission::REQUEST_APPROVAL_GBV_CLOSURE,
+      Permission::CHANGE_LOG,
+      Permission::VIEW_INCIDENT_FROM_CASE,
+      Permission::FIND_TRACING_MATCH,
+      Permission::VIEW_FAMILY_RECORD,
+      Permission::VIEW_REGISTRY_RECORD
+    ],
+    INCIDENT => [
+      Permission::MANAGE,
+      Permission::CHANGE_LOG
+    ],
+    TRACING_REQUEST => [
+      Permission::MANAGE,
+      Permission::CHANGE_LOG
+    ],
+    REGISTRY_RECORD => [
+      Permission::MANAGE,
+      Permission::CHANGE_LOG
+    ],
+    FAMILY => [
+      Permission::MANAGE,
+      Permission::CHANGE_LOG
+    ]
+  }.freeze
+
   def initialize(args = {})
     super(args)
   end

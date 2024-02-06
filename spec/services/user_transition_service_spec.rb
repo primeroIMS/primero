@@ -63,8 +63,27 @@ describe UserTransitionService do
       @user3.save(validate: false)
       @user4 = User.new(user_name: 'user4', user_groups: [@group3], agency: @agency2, role: @role)
       @user4.save(validate: false)
-      @user5 = User.new(user_name: 'user5', user_groups: [@group3], agency: @agency2)
-      @user5.save(validate: false)
+      @user6 = User.new(user_name: 'user6', user_groups: [@group3], agency: @agency2)
+      @user6.save(validate: false)
+
+      role = create(
+        :role,
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE]
+          )
+        ]
+      )
+
+      create(
+        :user,
+        user_name: 'user5',
+        email: 'test_user_1@localhost.com',
+        agency: @agency1,
+        disabled: true,
+        role:
+      )
     end
 
     it 'returns all users for a user with the :assign permission' do

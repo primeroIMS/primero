@@ -42,7 +42,11 @@ class RecordActionWebpushNotifier
 
     WebpushService.send_notifications(
       approval_notification.manager,
-      message_structure(approval_notification)
+      message_structure(approval_notification).merge(
+        body: I18n.t(
+          "webpush_notification.#{approval_notification.key}.body", type: approval_notification&.approval_type
+        )
+      )
     )
   end
 
@@ -76,6 +80,12 @@ class RecordActionWebpushNotifier
     )
   end
 
+  def icon
+    return '' unless Theme.current.present?
+
+    Rails.application.routes.url_helpers.rails_blob_path(Theme.current.logo_pictorial_144, only_path: true).to_s
+  end
+
   def message_structure(record_action_notification)
     {
       title: I18n.t("webpush_notification.#{record_action_notification.key}.title"),
@@ -84,6 +94,7 @@ class RecordActionWebpushNotifier
         type: record_action_notification&.type
       ),
       action_label: I18n.t('webpush_notification.action_label'),
+      icon:,
       link: url_for_v2(record_action_notification.record)
     }
   end

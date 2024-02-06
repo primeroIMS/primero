@@ -296,7 +296,7 @@ class User < ApplicationRecord
 
   def managed_report_scope
     managed_report_permission = role.permissions.find { |permission| permission.resource == Permission::MANAGED_REPORT }
-    return unless managed_report_permission.present?
+    return if managed_report_permission&.actions.blank?
 
     managed_report_permission.managed_report_scope || Permission::ALL
   end
@@ -522,6 +522,29 @@ class User < ApplicationRecord
     role_unique_ids << role.unique_id if role_unique_ids.include?(nil)
 
     Role.where(unique_id: role_unique_ids.compact)
+  end
+
+  def authorized_roles_for_record(record)
+    return [role] if record&.owner?(self)
+
+    authorized_referral_roles(record).presence || [role]
+  end
+
+  def referred_to_record?(record)
+    record.respond_to?(:referrals_to_user) && record.referrals_to_user(self).exists?
+  end
+
+  def permitted_to_access_record?(record)
+    if group_permission? Permission::ALL
+      true
+    elsif group_permission? Permission::AGENCY
+      record.associated_user_agencies.include?(agency.unique_id)
+    elsif group_permission? Permission::GROUP
+      # TODO: This may need to be record&.owned_by_groups
+      (user_group_unique_ids & record&.associated_user_groups).present?
+    else
+      record&.associated_user_names&.include?(user_name)
+    end
   end
 
   private

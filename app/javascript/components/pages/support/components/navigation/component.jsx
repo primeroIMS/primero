@@ -35,7 +35,15 @@ const Component = ({ css, handleToggleNav, menuList, mobileDisplay, onClick, sel
     };
 
     return (
-      <ListItem button key={id} onClick={handleClick} selected={selected} disabled={disabled} classes={classes}>
+      <ListItem
+        data-testid="list-item"
+        button
+        key={id}
+        onClick={handleClick}
+        selected={selected}
+        disabled={disabled}
+        classes={classes}
+      >
         <ListItemText key={id} primary={text} />
         {hasUnsubmittedOfflineChanges && id === SUPPORT_FORMS.resync && <Jewel isForm />}
       </ListItem>
@@ -44,7 +52,9 @@ const Component = ({ css, handleToggleNav, menuList, mobileDisplay, onClick, sel
 
   return (
     <ConditionalWrapper condition={mobileDisplay} wrapper={Drawer} {...drawerProps}>
-      <List component="nav">{renderList}</List>
+      <List data-testid="list" component="nav">
+        {renderList}
+      </List>
     </ConditionalWrapper>
   );
 };

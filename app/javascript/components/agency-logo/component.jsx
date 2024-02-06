@@ -27,7 +27,13 @@ function AgencyLogo({ alwaysFullLogo = false }) {
 
       return (
         <>
-          <div id={`${uniqueId}-logo`} key={uniqueId} className={classesIcon} style={styleIcon} />
+          <div
+            id={`${uniqueId}-logo`}
+            key={uniqueId}
+            className={classesIcon}
+            style={styleIcon}
+            data-testid="background"
+          />
           {fullLogo}
         </>
       );

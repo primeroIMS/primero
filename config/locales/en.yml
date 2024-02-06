@@ -1432,6 +1432,7 @@ en:
     ar-LB: العربية (اللبنانية)
     ar-SD: العربية (السودانية)
     bn: বাংলা
+    cmn: 中文
     current_time_zone: Current time zone
     dashboard: Dashboard
     en: English
@@ -1470,6 +1471,7 @@ en:
     view_records: View Records
     welcome: Welcome to Primero
     zh: 中文
+    tet: Tetum
   incident:
     code: Incident Code
     associated_case: "Associated Case:"
@@ -3515,7 +3517,7 @@ en:
             label: Export PDF
           export_custom:
             label: Export custom
-            explanation: User can select specific forms or fields from the Family list or 
+            explanation: User can select specific forms or fields from the Family list or
               Family show pages to export to an XLS file.
           flag:
             explanation: Ability to add a flag to a Family. Users with this permission
