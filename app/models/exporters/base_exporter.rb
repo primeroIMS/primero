@@ -120,6 +120,10 @@ class Exporters::BaseExporter
     "#{ColName.instance.col_str(column_index)}#{FIRST_ROW_INDEX}"
   end
 
+  def non_permitted_field?(field)
+    !field.nested? && !single_record_export && !record_constraints.field_names.include?(field.name)
+  end
+
   def forms
     return [] unless setup_export_constraints?
 

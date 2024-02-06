@@ -905,7 +905,10 @@ describe Role do
         group_permission: Permission::SELF,
         modules: [primero_module_cp],
         permissions: [
-          Permission.new(resource: Permission::CASE, actions: [Permission::CHANGE_LOG, Permission::INCIDENT_FROM_CASE]),
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::CHANGE_LOG, Permission::VIEW_INCIDENT_FROM_CASE]
+          ),
           Permission.new(resource: Permission::INCIDENT, actions: [Permission::MANAGE])
         ]
       )
@@ -916,7 +919,7 @@ describe Role do
     it 'returns merged permissions for different roles' do
       expect(Role.resource_form_actions([role1, role2])).to eq(
         {
-          'case' => %w[manage approve_assessment change_log incident_from_case],
+          'case' => %w[manage approve_assessment change_log view_incident_from_case],
           'incident' => %w[manage]
         }
       )

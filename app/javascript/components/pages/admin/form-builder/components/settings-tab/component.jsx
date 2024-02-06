@@ -71,7 +71,7 @@ const Component = ({ index, mode, tab, formMethods, limitedProductionSite }) => 
 
   return (
     <TabPanel tab={tab} index={index}>
-      <div className={css.tabContent}>
+      <div className={css.tabContent} data-testid="settings-tab">
         <SettingsForm
           formMethods={formMethods}
           formMode={formMode}
