@@ -16,6 +16,20 @@ describe ApprovalRequestNotificationService do
       name: 'approval type',
       lookup_values_en: [{ 'id' => 'value1', 'display_text' => 'Value 1' }]
     )
+
+    SystemSettings.stub(:current).and_return(
+      SystemSettings.new(
+        approvals_labels_i18n: {
+          'en' => {
+            'closure' => 'Closure',
+            'case_plan' => 'Case Plan',
+            'assessment' => 'Assessment',
+            'action_plan' => 'Action Plan',
+            'gbv_closure' => 'Case Closure'
+          }
+        }
+      )
+    )
   end
 
   let(:role) do
@@ -35,7 +49,7 @@ describe ApprovalRequestNotificationService do
   end
 
   subject do
-    ApprovalRequestNotificationService.new(child.id, 'value1', manager.user_name)
+    ApprovalRequestNotificationService.new(child.id, 'action_plan', manager.user_name)
   end
 
   describe '.locale' do
@@ -58,7 +72,7 @@ describe ApprovalRequestNotificationService do
 
   describe '.approval_type' do
     it 'return approval_type' do
-      expect(subject.approval_type).to eq('Value 1')
+      expect(subject.approval_type).to eq('Action Plan')
     end
   end
 

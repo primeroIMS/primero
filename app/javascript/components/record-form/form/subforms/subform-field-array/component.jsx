@@ -99,6 +99,7 @@ const Component = ({
         parentTitle={parentTitle}
         isFamilyMember={isFamilyMember}
         isFamilyDetail={isFamilyDetail}
+        isReadWriteForm={isReadWriteForm}
       />
     </List>
   );

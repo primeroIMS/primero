@@ -176,6 +176,8 @@ export const getShowPoweredByPrimero = state => state.getIn([NAMESPACE, "theme",
 
 export const getUseContainedNavStyle = state => state.getIn([NAMESPACE, "theme", "useContainedNavStyle"], false);
 
+export const getSiteTitle = state => state.getIn([NAMESPACE, "theme", "siteTitle"], "Primero");
+
 export const getThemeLogos = state => state.getIn([NAMESPACE, "theme", "images", "logos"], {});
 
 export const getAppData = memoize(state => {

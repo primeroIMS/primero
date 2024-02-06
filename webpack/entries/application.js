@@ -11,14 +11,14 @@ const config = require("../config");
 
 const {
   ADDITIONAL_PRECACHE_MANIFEST_FILES,
-  ENTRIES,
+  ENTRY,
   ENTRY_NAMES,
   utils: { projectPath }
 } = config;
 
 const NAME = ENTRY_NAMES.APPLICATION;
 
-const entry = common(NAME, ENTRIES[NAME]);
+const entry = common(NAME, ENTRY);
 
 const additionalFiles = originalManifest => {
   const warnings = [];

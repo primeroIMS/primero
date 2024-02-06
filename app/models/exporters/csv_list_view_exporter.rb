@@ -43,9 +43,7 @@ class Exporters::CsvListViewExporter < Exporters::BaseExporter
       rows << headers(list_headers) if @called_first_time.nil?
       @called_first_time ||= true
 
-      records.each do |record|
-        rows << row(record)
-      end
+      records.each { |record| rows << row(record) }
     end
   end
 
@@ -62,19 +60,20 @@ class Exporters::CsvListViewExporter < Exporters::BaseExporter
   end
 
   def row(record)
-    field_names = list_headers.map(&:field_name)
     data = @record_data_service.data(record, user, field_names)
-    header_fields = header_fields(list_headers)
     list_headers.map do |header|
       field = header_fields.find { |f| f.name == header.field_name }
       export_value(data[header.field_name], field)
     end
   end
 
-  def header_fields(list_headers)
+  def header_fields
     return @header_fields if @header_fields
 
-    field_names = list_headers.map(&:field_name)
     @header_fields = Field.where(name: field_names).uniq(&:name)
+  end
+
+  def field_names
+    @field_names ||= list_headers.map(&:field_name)
   end
 end
