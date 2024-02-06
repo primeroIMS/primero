@@ -1,5 +1,6 @@
 export default {
   <% if @theme.present? %>
+  siteTitle: "<%= @theme.site_title || 'Primero' %>",
   showPoweredByPrimero: <%= @theme.show_powered_by_primero %>,
   useContainedNavStyle: <%= @theme.use_contained_nav_style %>,
   colors: {
@@ -15,7 +16,7 @@ export default {
   images: {
     logos: {
       <% if @theme&.logo.present? %>
-      default: "<% rails_blob_path(@theme.logo, only_path: true) %>",
+      default: "<%= rails_blob_path(@theme.logo, only_path: true) %>",
       <% end %>
       <% if @theme&.logo_white.present? %>
       secondary: "<%= rails_blob_path(@theme.logo_white, only_path: true) %>",

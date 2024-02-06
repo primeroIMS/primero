@@ -293,7 +293,7 @@ const Component = ({
                         handleCancel={handleClose}
                       />
                     }
-                    isShow={mode.isShow}
+                    isShow={mode.isShow || isReadWriteForm === false}
                   />
                 )}
                 {isFamilySubform && mode.isShow && caseId && !caseFromFamilyMemberLoading && (

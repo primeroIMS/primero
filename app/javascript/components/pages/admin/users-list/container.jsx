@@ -34,7 +34,7 @@ import NewUserBtn from "./components/new-user-button";
 const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { maximumUsers } = useApp();
+  const { maximumUsers, maximumUsersWarning } = useApp();
   const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
   const canListAgencies = usePermissions(RESOURCES.agencies, READ_RECORDS);
   const recordType = "users";
@@ -46,6 +46,8 @@ const Container = () => {
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const totalUsersEnabled = metadata?.get("total_enabled");
   const limitUsersReached = !Number.isNaN(maximumUsers) && totalUsersEnabled >= maximumUsers;
+  const maximumUsersWarningEnabled = Number.isInteger(maximumUsersWarning);
+  const maximumUsersLimit = maximumUsersWarningEnabled ? maximumUsersWarning : maximumUsers;
 
   const agenciesWithId = buildObjectWithIds(agencies);
 
@@ -92,7 +94,7 @@ const Container = () => {
       <CustomToolbar
         displayData={displayData}
         limitUsersReached={limitUsersReached}
-        maximumUsers={maximumUsers}
+        maximumUsers={maximumUsersLimit}
         totalUsersEnabled={totalUsersEnabled}
       />
     )
@@ -125,18 +127,14 @@ const Container = () => {
   return (
     <>
       <PageHeading title={i18n.t("users.label")}>
-        <NewUserBtn
-          canAddUsers={canAddUsers}
-          limitUsersReached={limitUsersReached}
-          totalUsersEnabled={totalUsersEnabled}
-        />
+        <NewUserBtn canAddUsers={canAddUsers} limitUsersReached={limitUsersReached} maximumUsers={maximumUsers} />
       </PageHeading>
       <PageContent>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={9}>
             <AlertMaxUser
               limitUsersReached={limitUsersReached}
-              maximumUsers={maximumUsers}
+              maximumUsers={maximumUsersLimit}
               totalUsersEnabled={totalUsersEnabled}
             />
             <IndexTable title={i18n.t("users.label")} {...tableOptions} showCustomToolbar renderTitleMessage />
