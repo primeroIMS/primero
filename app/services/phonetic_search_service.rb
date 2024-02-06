@@ -28,10 +28,11 @@ class PhoneticSearchService
   end
 
   def search
-    with_query
+    with_phonetic_query
     with_filters
     with_order
     paginate
+    query
   end
 
   def with_defaults(search_params)
@@ -42,11 +43,17 @@ class PhoneticSearchService
     }.merge(search_params || {})
   end
 
+  def with_phonetic_query
+    return unless search_params[:query].present?
+
+    self.query = query.where("data ->'phonetic_search' ?| array[:values]", values: query_tokens)
+                      .order(Arel.sql(phonetic_score_query(query_tokens)))
+  end
+
   def with_filters
     search_params[:filters]&.each do |elem|
       filter = { 'attribute' => elem.keys.first, 'value' => elem.values.first }
-      self.query = Reports::FilterFieldQuery.new(query:, field: filter_fields[elem.keys.first], filter:).apply
-      # self.query = query.where('data->>:field_name = :value', { field_name: key, value: })
+      self.query = query.where(Reports::FilterFieldQuery.build(field: filter_fields[elem.keys.first], filter:))
     end
   end
 
@@ -57,13 +64,6 @@ class PhoneticSearchService
     @filter_fields = Field.where(name: field_names).each_with_object({}) do |field, memo|
       memo[field.name] = field
     end.with_indifferent_access
-  end
-
-  def with_query
-    return unless search_params[:query].present?
-
-    self.query = query.where("data ->'phonetic_search' ?| array[:values]", values: query_tokens)
-                      .order(Arel.sql(phonetic_score_query(query_tokens)))
   end
 
   def query_tokens

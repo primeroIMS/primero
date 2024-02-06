@@ -244,9 +244,9 @@ class Report < ApplicationRecord
   def apply_filters(query)
     filter_query = filters.reduce(query) do |current_query, filter|
       field = filter_fields[filter['attribute']]
-      Reports::FilterFieldQuery.new(
-        query: current_query, field:, filter:, record_field_name: record_field_name(field)
-      ).apply
+      current_query.where(
+        Reports::FilterFieldQuery.build(field:, filter:, record_field_name: record_field_name(field))
+      )
     end
 
     apply_permission_filter(filter_query)
@@ -255,7 +255,7 @@ class Report < ApplicationRecord
   def apply_permission_filter(query)
     return query unless permission_filter.present?
 
-    Reports::FilterFieldQuery.new(permission_filter:, query:).apply
+    query.where(Reports::FilterFieldQuery.build(permission_filter:))
   end
 
   def age_field?(field)
