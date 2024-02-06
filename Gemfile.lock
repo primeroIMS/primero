@@ -400,6 +400,7 @@ GEM
       sunspot_solr
     terminal-table (3.0.2)
       unicode-display_width (>= 1.1.1, < 3)
+    text (1.3.1)
     thor (1.2.2)
     timeout (0.4.0)
     ttfunk (1.7.0)
@@ -498,6 +499,7 @@ DEPENDENCIES
   sunspot_rails (~> 2.6)
   sunspot_solr (~> 2.6)
   sunspot_test (~> 0.4)
+  text (~> 1.3.1)
   twitter_cldr (~> 4.4)
   tzinfo-data (~> 1.2023)
   uri (>= 0.12.2)

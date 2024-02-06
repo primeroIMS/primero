@@ -44,6 +44,7 @@ gem 'spreadsheet',         '~> 1.3'    # Read XLS spreadsheets for imports (not 
 # Current Solr version is 5.3.1
 gem 'sunspot_rails',       '~> 2.6'    # Rails ODM bindings to Solr
 gem 'sunspot_solr',        '~> 2.6'    # Ruby bindings to Solr
+gem 'text',                '~> 1.3.1'  # Phonetic Search Algorithms
 gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
 gem 'tzinfo-data',         '~> 1.2023' # Timezone Data for TZInfo
 gem 'uri',                 '>= 0.12.2' # CVE-2023-36617: ReDoS vulnerability in URI
