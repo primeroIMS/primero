@@ -1,15 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
+import { mountedComponent, screen } from "test-utils";
 
-import { setupMountedComponent } from "../../../../test";
-import SubformField from "../../../record-form/form/subforms";
 import { FieldRecord, FormSectionRecord } from "../../../record-form/records";
 
 import ViolationsSubforms from "./component";
 
 describe("<ViolationsSubforms />", () => {
-  let component;
   const values = {
     age: 10,
     case_id_display: "1234abcd",
@@ -46,18 +44,10 @@ describe("<ViolationsSubforms />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(ViolationsSubforms, props, {}, [], { values }));
-  });
-
-  it("should render <ViolationsSubforms /> component", () => {
-    expect(component.find(ViolationsSubforms)).to.have.lengthOf(1);
-  });
-
-  it("should render 1 <SubformField /> component", () => {
-    expect(component.find(SubformField)).to.have.lengthOf(1);
+    mountedComponent(<ViolationsSubforms {...props} />, {}, {}, [], { values });
   });
 
   it("should render custom title", () => {
-    expect(component.find(SubformField).find("h3").text().trim()).to.equal("Killing of Children");
+    expect(screen.getByText("Killing of Children")).toBeInTheDocument();
   });
 });

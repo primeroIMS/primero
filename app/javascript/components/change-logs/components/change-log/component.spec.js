@@ -1,18 +1,14 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
+import { mountedComponent, screen } from "test-utils";
 import { fromJS, OrderedMap } from "immutable";
-import Timeline from "@material-ui/lab/Timeline";
 
-import { setupMountedComponent } from "../../../../test";
 import { FieldRecord } from "../../../record-form";
-import ActionDialog from "../../../action-dialog";
-import ChangeLogItem from "../change-log-item";
+import { ChangeLogsRecord } from "../../records";
 
-import SubformDialog from "./component";
+import ChangeLog from "./component";
 
-describe("SubformDialog - Component", () => {
-  let component;
-
+describe("ChangeLog - Component", () => {
   const allFields = OrderedMap({
     0: FieldRecord({
       id: 1,
@@ -101,60 +97,45 @@ describe("SubformDialog - Component", () => {
     allFields,
     allLookups,
     locations: {},
-    recordChanges: {
-      value: {
-        to: [
+    recordChangeLogs: fromJS([
+      ChangeLogsRecord({
+        record_id: "38c82975-99aa-4798-9c3d-dabea104d992",
+        record_type: "cases",
+        datetime: "2020-08-11T10:27:33Z",
+        user_name: "primero",
+        action: "update",
+        record_changes: [
           {
-            relation: "mother",
-            unique_id: "57d99a69-acbc-4b7e-850b-9e873181a778",
-            relation_name: "AaAa",
-            relation_is_alive: "alive"
+            nationality: { to: ["country_1", "country_2"], from: ["country_1"] }
           },
-          {
-            relation: "father",
-            unique_id: "c29598ad-b920-4166-bb99-fe7a2443601b",
-            relation_name: "bbb",
-            relation_is_alive: "alive"
-          }
-        ],
-        from: [
-          {
-            relation: "mother",
-            unique_id: "57d99a69-acbc-4b7e-850b-9e873181a778",
-            relation_name: "AaAA",
-            relation_is_alive: "alive"
-          }
+          { name_nickname: { to: "Pat", from: null } },
+          { national_id_no: { to: "0050M", from: null } }
         ]
-      },
-      subformName: "Family Details",
-      commonProps: {
-        date: "2020-12-07T20:28:11Z",
-        user: "primero"
-      }
-    },
-    open: true,
-    calculatingChangeLog: false,
+      }),
+      ChangeLogsRecord({
+        record_id: "38c82975-99aa-4798-9c3d-dabea104d992",
+        record_type: "cases",
+        datetime: "2020-08-10T18:27:33Z",
+        user_name: "primero",
+        action: "create",
+        record_changes: []
+      })
+    ]),
     setCalculatingChangeLog: () => {},
-    setOpen: () => {}
+    setOpen: () => {},
+    setRecordChanges: () => {}
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(SubformDialog, props, {}));
+    mountedComponent(<ChangeLog {...props} />);
   });
+  it("renders ChangeLog", () => {
+    const element = screen.getByText("change_logs.create");
 
-  it("renders SubformDialog", () => {
-    expect(component.find(SubformDialog)).to.have.lengthOf(1);
-  });
-
-  it("renders ActionDialog", () => {
-    expect(component.find(ActionDialog)).to.have.lengthOf(1);
-  });
-
-  it("renders Timeline", () => {
-    expect(component.find(Timeline)).to.have.lengthOf(1);
+    expect(element).toBeInTheDocument();
   });
 
   it("renders ChangeLogItem", () => {
-    expect(component.find(ChangeLogItem)).to.have.lengthOf(2);
+    expect(screen.getAllByTestId("timeline")).toHaveLength(4);
   });
 });

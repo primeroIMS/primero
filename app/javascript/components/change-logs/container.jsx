@@ -67,7 +67,7 @@ const Container = ({
   };
 
   return (
-    <div className={css.container}>
+    <div className={css.container} data-testid="ChangeLogs">
       <RecordFormTitle
         mobileDisplay={mobileDisplay}
         handleToggleNav={handleToggleNav}
