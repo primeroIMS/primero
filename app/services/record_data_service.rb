@@ -20,7 +20,7 @@ class RecordDataService
   def data(record, user, selected_field_names)
     data = select_fields(record.data, selected_field_names)
     data = embebed_data(data, record, selected_field_names, user)
-    data = embed_photo_metadata(data, record, selected_field_names)
+    data = embed_photo_metadata(data, record, selected_field_names, user)
     data = embed_attachments(data, record, selected_field_names)
     data = embed_associations_as_data(data, record, selected_field_names, user)
     data['last_updated_at'] = record.last_updated_at
@@ -64,8 +64,8 @@ class RecordDataService
     data
   end
 
-  def embed_photo_metadata(data, record, selected_field_names)
-    return data unless selected_field_names.include?('photos')
+  def embed_photo_metadata(data, record, selected_field_names, user)
+    return data unless selected_field_names.include?('photos') || user.can?(:view_photo, record.class)
 
     data['photo'] = record.photo_url
     data

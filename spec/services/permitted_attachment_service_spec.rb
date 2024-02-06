@@ -79,6 +79,15 @@ describe PermittedAttachmentService, search: true do
     attachment
   end
 
+  let(:not_photo_image_without_access) do
+    attachment = Attachment.new(
+      record: record_without_access, field_name: 'profile_picture', attachment_type: Attachment::IMAGE,
+      file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg'), date: Date.new(2020, 2, 1)
+    )
+    attachment.attach!
+    attachment
+  end
+
   before do
     clean_data(
       User, Role, PrimeroModule, PrimeroProgram,
@@ -241,30 +250,28 @@ describe PermittedAttachmentService, search: true do
   end
 
   describe '#permitted_to_view_record_list_photo?' do
-    it 'returns true if the attachment is an audio/image and can access the photos field' do
-      role_with_permission.permissions = [
+    it 'returns true if the attachment is an image and the attachment field is photos' do
+      role_without_form_permissions.permissions = [
         Permission.new(resource: Permission::CASE, actions: [Permission::VIEW_PHOTO])
       ]
-      role_with_permission.save!
-      user.role = role_with_permission
+      role_without_form_permissions.save!
+      user.role = role_without_form_permissions
       user.save!
       permitted_attachment_service = PermittedAttachmentService.new(user, attachment_without_access, nil)
 
       expect(permitted_attachment_service.permitted_to_view_record_list_photo?).to be(true)
     end
-  end
 
-  describe '#permitted_to_access_photos?' do
-    it 'returns true if a user can access the photos field' do
-      role_with_permission.permissions = [
+    it 'returns false if the attachment is an image and the attachment field is not photos' do
+      role_without_form_permissions.permissions = [
         Permission.new(resource: Permission::CASE, actions: [Permission::VIEW_PHOTO])
       ]
-      role_with_permission.save!
-      user.role = role_with_permission
+      role_without_form_permissions.save!
+      user.role = role_without_form_permissions
       user.save!
-      permitted_attachment_service = PermittedAttachmentService.new(user, attachment_without_access, nil)
+      permitted_attachment_service = PermittedAttachmentService.new(user, not_photo_image_without_access, nil)
 
-      expect(permitted_attachment_service.permitted_to_access_photos?).to be(true)
+      expect(permitted_attachment_service.permitted_to_view_record_list_photo?).to be(false)
     end
   end
 

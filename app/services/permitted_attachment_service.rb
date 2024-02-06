@@ -46,11 +46,7 @@ class PermittedAttachmentService
 
   def permitted_to_view_record_list_photo?
     attachment.attachment_type == Attachment::IMAGE && user.can?(:view_photo, attachment.record.class) &&
-      permitted_to_access_photos?
-  end
-
-  def permitted_to_access_photos?
-    permitted_field_names.include?(Attachable::PHOTOS_FIELD_NAME)
+      attachment.field_name == Attachable::PHOTOS_FIELD_NAME
   end
 
   def permitted_field_names
