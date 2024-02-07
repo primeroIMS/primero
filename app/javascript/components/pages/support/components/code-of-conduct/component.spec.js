@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 
 import CodeOfConduct from "./component";
 
@@ -21,24 +21,14 @@ describe("<CodeOfConduct />", () => {
     }
   });
 
-  let component;
-
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(CodeOfConduct, {}, state));
-  });
-
   it("should render h2", () => {
-    const h2Tag = component.find("h2");
-
-    expect(h2Tag).to.have.lengthOf(1);
-    expect(h2Tag.text()).to.be.equal("Test code of conduct");
+    mountedComponent(<CodeOfConduct />, state);
+    expect(screen.getByText(/Test code of conduct/i)).toBeInTheDocument();
   });
 
   it("should render 2 h3", () => {
-    const h3Tag = component.find("h3");
-
-    expect(h3Tag).to.have.lengthOf(2);
-    expect(h3Tag.at(0).text()).to.be.equal("updated March 19, 2021");
-    expect(h3Tag.at(1).text()).to.be.equal("accepted March 23, 2021");
+    mountedComponent(<CodeOfConduct />, state);
+    expect(screen.getByText(/updated March 19, 2021/i)).toBeInTheDocument();
+    expect(screen.getByText(/accepted March 23, 2021/i)).toBeInTheDocument();
   });
 });
