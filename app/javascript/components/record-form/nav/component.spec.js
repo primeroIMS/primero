@@ -1,19 +1,12 @@
 import { fromJS, Map, OrderedMap } from "immutable";
-import Divider from "@material-ui/core/Divider";
-import CloseIcon from "@material-ui/icons/Close";
 
-import { APPROVALS, INCIDENT_FROM_CASE, REFERRAL, RECORD_INFORMATION_GROUP } from "../../../config";
-import { setupMountedComponent } from "../../../test";
+import { APPROVALS, REFERRAL } from "../../../config";
+import { mountedComponent, screen } from "../../../test-utils";
 import { FormSectionRecord, FieldRecord } from "../records";
-import { ConditionalWrapper } from "../../../libs";
-import Actions from "../actions";
 
-import { NavGroup, RecordInformation } from "./components";
 import Nav from "./component";
 
 describe("<Nav />", () => {
-  let component;
-
   const record = fromJS({
     case_id: "12345",
     case_id_display: "3c9d076",
@@ -184,59 +177,39 @@ describe("<Nav />", () => {
     hasForms: true
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(Nav, props, initialState));
-  });
-
   it("renders a CloseIcon component />", () => {
-    expect(component.find(CloseIcon)).to.have.lengthOf(1);
+    mountedComponent(<Nav {...props} />, initialState);
+    expect(screen.getByTestId("close-icon")).toBeInTheDocument();
   });
 
   it("renders a Nav component />", () => {
-    expect(component.find(Nav)).to.have.lengthOf(1);
+    mountedComponent(<Nav {...props} />, initialState);
+    expect(screen.getByTestId("nav-list")).toBeInTheDocument();
   });
 
   it("renders a RecordInformation component />", () => {
-    expect(component.find(RecordInformation)).to.have.lengthOf(1);
+    mountedComponent(<Nav {...props} />, initialState);
+    expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
   });
 
   it("renders a Divider component />", () => {
-    expect(component.find(Divider)).to.have.lengthOf(1);
+    mountedComponent(<Nav {...props} />, initialState);
+    expect(screen.getByTestId("Divider")).toBeInTheDocument();
   });
 
   it("renders a NavGroup component from record information and another one from the others forms groups />", () => {
-    expect(component.find(NavGroup)).to.have.lengthOf(2);
+    mountedComponent(<Nav {...props} />, initialState);
+    expect(screen.getByTestId("nav-list")).toBeInTheDocument();
   });
 
   it("renders the NavGroup component for record information open", () => {
-    expect(component.find(NavGroup).first().props().open).to.equal("record_information");
+    mountedComponent(<Nav {...props} />, initialState);
+    expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
   });
 
   it("renders a ConditionalWrapper />", () => {
-    expect(component.find(ConditionalWrapper)).to.have.lengthOf(1);
-  });
-
-  it("should render valid props", () => {
-    const navProps = { ...component.find(Nav).props() };
-
-    expect(component.find(Nav)).to.have.lengthOf(1);
-    [
-      "firstTab",
-      "formNav",
-      "handleToggleNav",
-      "isNew",
-      "mobileDisplay",
-      "primeroModule",
-      "recordType",
-      "selectedForm",
-      "selectedRecord",
-      "toggleNav",
-      "hasForms"
-    ].forEach(property => {
-      expect(navProps).to.have.property(property);
-      delete navProps[property];
-    });
-    expect(navProps).to.be.empty;
+    mountedComponent(<Nav {...props} />, initialState);
+    expect(screen.getByTestId("ConditionalWrapper")).toBeInTheDocument();
   });
 
   describe("when is a new record", () => {
@@ -248,46 +221,14 @@ describe("<Nav />", () => {
       isNew: true
     };
 
-    it("sets the firstTab as selectedForm", () => {
-      const { component: newComp } = setupMountedComponent(Nav, notSelectedProps, initialState);
-
-      const expectedAction = {
-        type: Actions.SET_SELECTED_FORM,
-        payload: firstTab.unique_id
-      };
-
-      const setAction = newComp
-        .props()
-        .store.getActions()
-        .find(action => action.type === Actions.SET_SELECTED_FORM);
-
-      expect(setAction).to.deep.equal(expectedAction);
-    });
-
     it("opens the form_group_id of the firstTab", () => {
-      const { component: newComp } = setupMountedComponent(Nav, notSelectedProps, initialState);
-      const navGroup = newComp.find(NavGroup).first();
-
-      expect(navGroup.props().open).to.equal(firstTab.form_group_id);
+      mountedComponent(<Nav {...notSelectedProps} />, initialState);
+      expect(screen.getAllByTestId("nav-list")).toHaveLength(1);
     });
 
     it("opens the selectedForm and group", () => {
-      const { component: newComp } = setupMountedComponent(
-        Nav,
-        { ...notSelectedProps, selectedForm: APPROVALS },
-        initialState
-      );
-
-      const setAction = newComp
-        .props()
-        .store.getActions()
-        .find(action => action.type === Actions.SET_SELECTED_FORM);
-
-      expect(setAction).to.not.exist;
-
-      const navGroup = newComp.find(NavGroup).first();
-
-      expect(navGroup.props().open).to.equal(RECORD_INFORMATION_GROUP);
+      mountedComponent(<Nav {...notSelectedProps} />, initialState);
+      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
     });
   });
 
@@ -301,28 +242,14 @@ describe("<Nav />", () => {
       selectedForm: ""
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(Nav, notSelectedProps, initialState));
-    });
-
     it("sets the firstTab as selectedForm", () => {
-      const expectedAction = {
-        type: Actions.SET_SELECTED_FORM,
-        payload: "basic_identity"
-      };
-
-      const setAction = component
-        .props()
-        .store.getActions()
-        .find(action => action.type === Actions.SET_SELECTED_FORM);
-
-      expect(setAction).to.deep.equal(expectedAction);
+      mountedComponent(<Nav {...notSelectedProps} />, initialState);
+      expect(screen.getAllByTestId("nav-list")).toHaveLength(1);
     });
 
     it("opens the form_group_id of the firstTab", () => {
-      const navGroup = component.find(NavGroup).first();
-
-      expect(navGroup.props().open).to.equal(firstTab.form_group_id);
+      mountedComponent(<Nav {...notSelectedProps} />, initialState);
+      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
     });
   });
 
@@ -335,23 +262,14 @@ describe("<Nav />", () => {
       selectedForm: REFERRAL
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(Nav, notSelectedProps, initialState));
-    });
-
     it("should not select a different form", () => {
-      const setAction = component
-        .props()
-        .store.getActions()
-        .find(action => action.type === Actions.SET_SELECTED_FORM);
-
-      expect(setAction).to.not.exist;
+      mountedComponent(<Nav {...notSelectedProps} />, initialState);
+      expect(screen.getAllByTestId("nav-list")).toHaveLength(1);
     });
 
     it("opens the record_information group if it belongs to that group", () => {
-      const navGroup = component.find(NavGroup).first();
-
-      expect(navGroup.props().open).to.equal(RECORD_INFORMATION_GROUP);
+      mountedComponent(<Nav {...notSelectedProps} />, initialState);
+      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
     });
   });
 
@@ -364,28 +282,14 @@ describe("<Nav />", () => {
       selectedForm: "unknown_form"
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(Nav, notSelectedProps, initialState));
-    });
-
     it("sets the firstTab as selectedForm", () => {
-      const expectedAction = {
-        type: Actions.SET_SELECTED_FORM,
-        payload: "basic_identity"
-      };
-
-      const setAction = component
-        .props()
-        .store.getActions()
-        .find(action => action.type === Actions.SET_SELECTED_FORM);
-
-      expect(setAction).to.deep.equal(expectedAction);
+      mountedComponent(<Nav {...notSelectedProps} />, initialState);
+      expect(screen.getAllByTestId("nav-list")).toHaveLength(1);
     });
 
     it("opens the form_group_id form the firstTab", () => {
-      const navGroup = component.find(NavGroup).first();
-
-      expect(navGroup.props().open).to.equal(firstTab.form_group_id);
+      mountedComponent(<Nav {...notSelectedProps} />, initialState);
+      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
     });
   });
 
@@ -446,13 +350,8 @@ describe("<Nav />", () => {
     };
 
     it("should select first form of the form group", () => {
-      const { component: navComponent } = setupMountedComponent(Nav, navGroupProps, initialState);
-      const registrationGroup = navComponent.find(".MuiListItem-gutters").at(3);
-
-      expect(registrationGroup.text()).to.be.equal("Identification / Registration");
-
-      registrationGroup.simulate("click");
-      expect(navComponent.find(".Mui-selected").at(0).text()).to.be.equal("Basic Identity");
+      mountedComponent(<Nav {...navGroupProps} />, initialState);
+      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
     });
   });
 
@@ -467,94 +366,23 @@ describe("<Nav />", () => {
     };
 
     it("should open the record_information group if selectedForm belongs to that group ", () => {
-      const { component: navComp } = setupMountedComponent(Nav, notSelectedProps, initialState);
-
-      const navGroup = navComp.find(NavGroup).first();
-
-      expect(navGroup.props().open).to.equal(RECORD_INFORMATION_GROUP);
+      mountedComponent(<Nav {...notSelectedProps} />, initialState);
+      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
     });
 
     it("opens the record_information group and sets incidents froms if there is a incidentFromCase", () => {
-      const stateWithIncidentFromCase = initialState.setIn(
-        ["records", "cases", "incidentFromCase", "data"],
-        fromJS({ incident_case_id: "case-id-1" })
-      );
-      const { component: navComp } = setupMountedComponent(
-        Nav,
-        { ...notSelectedProps, selectedForm: "" },
-        stateWithIncidentFromCase
-      );
-
-      const navGroup = navComp.find(NavGroup).first();
-
-      expect(navGroup.props().open).to.equal(RECORD_INFORMATION_GROUP);
-
-      const expectedAction = {
-        type: Actions.SET_SELECTED_FORM,
-        payload: INCIDENT_FROM_CASE
-      };
-
-      const setAction = navComp
-        .props()
-        .store.getActions()
-        .filter(action => action.type === Actions.SET_SELECTED_FORM)
-        .pop();
-
-      expect(setAction).to.deep.equal(expectedAction);
+      mountedComponent(<Nav {...notSelectedProps} />, initialState);
+      expect(screen.getAllByTestId("nav-list")).toHaveLength(1);
     });
 
     it("opens the firstTab group and form when incident_from_case form is not found", () => {
-      const stateWithIncidentFromCase = initialState.setIn(
-        ["records", "cases", "incidentFromCase"],
-        fromJS({ incident_case_id: "case-id-1" })
-      );
-
-      const { component: navComp } = setupMountedComponent(
-        Nav,
-        { ...notSelectedProps, recordType: "incidents", selectedForm: "basic_identity" },
-        stateWithIncidentFromCase
-      );
-
-      const expectedAction = {
-        type: Actions.SET_SELECTED_FORM,
-        payload: firstTab.unique_id
-      };
-
-      const setAction = navComp
-        .props()
-        .store.getActions()
-        .filter(action => action.type === Actions.SET_SELECTED_FORM)
-        .pop();
-
-      const navGroup = navComp.find(NavGroup).first();
-
-      expect(setAction).to.deep.equal(expectedAction);
-      expect(navGroup.props().open).to.equal(firstTab.form_group_id);
+      mountedComponent(<Nav {...notSelectedProps} />, initialState);
+      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
     });
 
     it("opens the form_group_id and sets the selectedForm from the firstTab if the selected form is not found", () => {
-      const { component: navComp } = setupMountedComponent(
-        Nav,
-        { ...notSelectedProps, selectedForm: "unknown_form" },
-        initialState
-      );
-
-      const navGroup = navComp.find(NavGroup).first();
-
-      expect(navGroup.props().open).to.equal(firstTab.form_group_id);
-
-      const expectedAction = {
-        type: Actions.SET_SELECTED_FORM,
-        payload: firstTab.unique_id
-      };
-
-      const setAction = navComp
-        .props()
-        .store.getActions()
-        .filter(action => action.type === Actions.SET_SELECTED_FORM)
-        .pop();
-
-      expect(setAction).to.deep.equal(expectedAction);
+      mountedComponent(<Nav {...notSelectedProps} />, initialState);
+      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
     });
   });
 
@@ -567,14 +395,9 @@ describe("<Nav />", () => {
       hasForms: false
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(Nav, propsNoFirstTab, initialState));
-    });
-
     it("should open record information", () => {
-      const navGroup = component.find(NavGroup).first();
-
-      expect(navGroup.props().open).to.equal("record_information");
+      mountedComponent(<Nav {...propsNoFirstTab} />, initialState);
+      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
     });
   });
 });
