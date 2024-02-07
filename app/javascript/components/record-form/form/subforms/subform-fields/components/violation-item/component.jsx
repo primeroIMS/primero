@@ -18,7 +18,6 @@ import { toServerDateFormat } from "../../../../../../../libs";
 import VerifySelect from "./select";
 import { getViolationTallyLabel } from "./utils";
 import { NAME } from "./constants";
-import { getViolationTallyLabel } from "./utils";
 
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
