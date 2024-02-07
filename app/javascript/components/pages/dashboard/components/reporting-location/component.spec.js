@@ -1,15 +1,11 @@
 import { fromJS } from "immutable";
-import { TableRow, TableBody } from "@material-ui/core";
+import { mountedComponent, screen } from "test-utils";
 
-import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../permissions";
-import { DashboardTable, OptionsBox } from "../../../../dashboard";
-import LoadingIndicator from "../../../../loading-indicator";
 
 import ReportingLocation from "./component";
 
 describe("<ReportingLocation> - pages/dashboard/components/reporting-location", () => {
-  let component;
   const permissions = {
     dashboards: [ACTIONS.DASH_REPORTING_LOCATION]
   };
@@ -89,17 +85,15 @@ describe("<ReportingLocation> - pages/dashboard/components/reporting-location", 
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(ReportingLocation, {}, state));
+    mountedComponent(<ReportingLocation />, state);
   });
 
   it("should render an <OptionsBoxOptionsBox /> component", () => {
-    expect(component.find(OptionsBox)).to.have.lengthOf(1);
+    expect(screen.getByTestId("option-box")).toBeInTheDocument();
   });
 
   it("should render a <DasboardTable /> component", () => {
-    expect(
-      component.find({ title: "cases.label" }).find(DashboardTable).find(TableBody).find(TableRow)
-    ).to.have.lengthOf(1);
+    expect(screen.getByRole("grid")).toBeInTheDocument();
   });
 
   describe("when the data is loading", () => {
@@ -113,7 +107,7 @@ describe("<ReportingLocation> - pages/dashboard/components/reporting-location", 
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(ReportingLocation, props, {
+      mountedComponent(<ReportingLocation {...props} />, {
         records: {
           dashboard: {
             data: [],
@@ -131,7 +125,7 @@ describe("<ReportingLocation> - pages/dashboard/components/reporting-location", 
         }
       });
 
-      expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
 });
