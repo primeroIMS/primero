@@ -57,7 +57,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
     setSelectedIndex(null);
   };
 
-  const { canVerify } = usePermissions("incidents", RECORD_ACTION_ABILITIES); //  To check permission to do verify violations
+  const canVerify = usePermissions("incidents", RECORD_ACTION_ABILITIES); //  To check permission to do verify violations
 
   useEffect(() => {
     // Changing dropdown select value when backend data updated
