@@ -4,7 +4,21 @@
 
 # A service to determine if an attachment is permitted for a user
 class PermittedAttachmentService
+  PREVIEW_TYPES = [Attachment::IMAGE, Attachment::AUDIO].freeze
+
   attr_accessor :user, :write, :attachment, :permitted_form_fields_service
+
+  class << self
+    def permitted_to_read?(user, attachment, permitted_form_fields_service)
+      instance = new(user, attachment, permitted_form_fields_service)
+      instance.permitted? || instance.permitted_to_view? || instance.permitted_to_preview?
+    end
+
+    def permitted_to_write?(user, attachment, permitted_form_fields_service)
+      instance = new(user, attachment, permitted_form_fields_service, true)
+      instance.permitted?
+    end
+  end
 
   def initialize(user, attachment, permitted_form_fields_service, write = false)
     self.user = user
@@ -13,8 +27,8 @@ class PermittedAttachmentService
     self.permitted_form_fields_service = permitted_form_fields_service || PermittedFormFieldsService.instance
   end
 
-  def permitted_to_access?
-    permitted_to_access_record? && permitted_field_names.include?(attachment.field_name)
+  def permitted?
+    permitted_field_names.include?(attachment.field_name) && permitted_to_access_record?
   end
 
   def permitted_to_view?
@@ -33,20 +47,17 @@ class PermittedAttachmentService
     # the fields displayed in the preview are those where show_on_minify_form: true.
     # Should we check the if the attachment field is permitted and if the field is show_on_minify_form: true?
 
-    user.can?(:search_owned_by_others, attachment.record.class) && (
-      permitted_to_preview_attachment? || permitted_to_view_record_list_photo?
+    previewable_type? && user.can?(:search_owned_by_others, attachment.record.class) && (
+      user.can_preview?(attachment.record.class) || permitted_to_view_record_list_photo?
     )
   end
 
-  def permitted_to_preview_attachment?
-    user.can_preview?(attachment.record.class) &&
-      [Attachment::IMAGE, Attachment::AUDIO].include?(attachment.attachment_type) &&
-      permitted_field_names.include?(attachment.field_name)
+  def permitted_to_view_record_list_photo?
+    attachment.photo? && user.can?(:view_photo, attachment.record.class)
   end
 
-  def permitted_to_view_record_list_photo?
-    attachment.attachment_type == Attachment::IMAGE && user.can?(:view_photo, attachment.record.class) &&
-      attachment.field_name == Attachable::PHOTOS_FIELD_NAME
+  def previewable_type?
+    PREVIEW_TYPES.include?(attachment.attachment_type)
   end
 
   def permitted_field_names
