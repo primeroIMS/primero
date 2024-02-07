@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::ReferralsController, type: :request do
   include ActiveJob::TestHelper
   before do
-    clean_data(User, Role, PrimeroModule, UserGroup, Child, Referral)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Referral)
 
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
@@ -104,7 +106,7 @@ describe Api::V2::ReferralsController, type: :request do
     it 'refers a the record to the target user' do
       sign_in(@user1)
       params = { data: { transitioned_to: 'user2', notes: 'Test Notes' } }
-      post "/api/v2/cases/#{@case_a.id}/referrals", params: params
+      post("/api/v2/cases/#{@case_a.id}/referrals", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['record_id']).to eq(@case_a.id.to_s)
@@ -127,7 +129,7 @@ describe Api::V2::ReferralsController, type: :request do
         }
       }
 
-      post "/api/v2/cases/#{@case_a.id}/referrals", params: params
+      post("/api/v2/cases/#{@case_a.id}/referrals", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['type']).to eq('Referral')
@@ -139,7 +141,7 @@ describe Api::V2::ReferralsController, type: :request do
     it "get a forbidden message if the user doesn't have referral permission" do
       login_for_test
       params = { data: { transitioned_to: 'user2', notes: 'Test Notes' } }
-      post "/api/v2/cases/#{@case_a.id}/referrals", params: params
+      post("/api/v2/cases/#{@case_a.id}/referrals", params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['status']).to eq(403)
@@ -155,7 +157,7 @@ describe Api::V2::ReferralsController, type: :request do
           service_record_id: @case_b.data['services_section'][0]['unique_id']
         }
       }
-      post "/api/v2/cases/#{@case_b.id}/referrals", params: params
+      post("/api/v2/cases/#{@case_b.id}/referrals", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['record']['services_section'][0]['service_status_referred']).to be_truthy
@@ -175,7 +177,7 @@ describe Api::V2::ReferralsController, type: :request do
           service_record_id: @case_c.data['services_section'][0]['unique_id']
         }
       }
-      post "/api/v2/cases/#{@case_c.id}/referrals", params: params
+      post("/api/v2/cases/#{@case_c.id}/referrals", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['record_id']).to eq(@case_c.id.to_s)
@@ -189,7 +191,7 @@ describe Api::V2::ReferralsController, type: :request do
     it 'get a forbidden message if is not referred from a service and the user can only refer from service' do
       sign_in(@user3)
       params = { data: { transitioned_to: 'user2', notes: 'Test Notes' } }
-      post "/api/v2/cases/#{@case_c.id}/referrals", params: params
+      post("/api/v2/cases/#{@case_c.id}/referrals", params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['status']).to eq(403)
@@ -212,7 +214,7 @@ describe Api::V2::ReferralsController, type: :request do
     it 'refers multiple records to the target user' do
       sign_in(@user1)
       params = { data: { ids: [@case_a.id, @case_a2.id], transitioned_to: 'user2', notes: 'Test Notes' } }
-      post '/api/v2/cases/referrals', params: params
+      post('/api/v2/cases/referrals', params:)
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
@@ -258,7 +260,7 @@ describe Api::V2::ReferralsController, type: :request do
       sign_in(@user2)
       params = { data: { status: Transition::STATUS_ACCEPTED } }
 
-      patch "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params: params
+      patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['status']).to eq(Transition::STATUS_ACCEPTED)
@@ -277,7 +279,7 @@ describe Api::V2::ReferralsController, type: :request do
       sign_in(@user2)
       params = { data: { status: Transition::STATUS_REJECTED } }
 
-      patch "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params: params
+      patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['status']).to eq(Transition::STATUS_REJECTED)
@@ -295,9 +297,9 @@ describe Api::V2::ReferralsController, type: :request do
     it 'rejects this referral and sets a rejected_reason' do
       sign_in(@user2)
       rejected_reason = 'Some reason to reject'
-      params = { data: { status: Transition::STATUS_REJECTED, rejected_reason: rejected_reason } }
+      params = { data: { status: Transition::STATUS_REJECTED, rejected_reason: } }
 
-      patch "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params: params
+      patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['status']).to eq(Transition::STATUS_REJECTED)
@@ -319,8 +321,8 @@ describe Api::V2::ReferralsController, type: :request do
       @referral1.save!
 
       rejection_note = 'Sample notes from provider'
-      params = { data: { status: Transition::STATUS_DONE, rejection_note: rejection_note } }
-      patch "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params: params
+      params = { data: { status: Transition::STATUS_DONE, rejection_note: } }
+      patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['status']).to eq(Transition::STATUS_DONE)
@@ -342,6 +344,6 @@ describe Api::V2::ReferralsController, type: :request do
 
   after do
     clear_enqueued_jobs
-    clean_data(User, Role, PrimeroModule, UserGroup, Child, Referral)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Referral)
   end
 end

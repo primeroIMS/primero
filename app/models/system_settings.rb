@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This model encapsulates system-wide configuration settings.
 # These are selected at system bootstrap time,
 # and will not be configured by the system administrator.
@@ -31,7 +33,7 @@ class SystemSettings < ApplicationRecord
 
   def system_name
     system_name = system_options['system_name']
-    system_name = system_name.dig(I18n.locale) if system_name.is_a?(Hash)
+    system_name = system_name[I18n.locale] if system_name.is_a?(Hash)
     system_name || Rails.application.routes.default_url_options[:host]
   end
 

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 
@@ -10,7 +12,7 @@ import { useMemoizedSelector } from "../../../libs";
 import buildSelectedIds from "../utils/build-selected-ids";
 import { usePermissions, RESOURCES, CONSENT_OVERRIDE } from "../../permissions";
 
-import { NAME, REFERRAL_FORM_ID, TRANSFER_FORM_ID } from "./constants";
+import { NAME, REFERRAL_FORM_ID, TRANSFER_FORM_ID, MAX_BULK_RECORDS } from "./constants";
 import { hasProvidedConsent } from "./components/utils";
 import { ReassignForm, TransitionDialog, Transfers } from "./components";
 import Referrals from "./referrals/component";
@@ -42,14 +44,16 @@ const Transitions = ({
 
   const records = useMemoizedSelector(state => getRecordsData(state, recordType));
 
-  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage);
+  const selectedRecordsLength = Object.values(selectedRecords || {}).flat()?.length;
+  const keyToSelectId = isAssignDialogOpen ? "short_id" : "id";
+  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, keyToSelectId);
 
   const commonDialogProps = {
     omitCloseAfterSuccess: true,
     pending,
     record,
     recordType,
-    selectedIds
+    selectedRecordsLength
   };
 
   const commonTransitionProps = {
@@ -86,7 +90,13 @@ const Transitions = ({
       );
     }
     if (isAssignDialogOpen) {
-      return <ReassignForm {...commonTransitionProps} assignRef={assignFormikRef} />;
+      return (
+        <ReassignForm
+          {...commonTransitionProps}
+          assignRef={assignFormikRef}
+          selectedRecordsLength={selectedRecordsLength}
+        />
+      );
     }
 
     return null;
@@ -137,6 +147,7 @@ const Transitions = ({
         confirmButtonLabel: i18n.t("buttons.save"),
         open: isAssignDialogOpen,
         successHandler,
+        enabledSuccessButton: selectedRecordsLength <= MAX_BULK_RECORDS,
         transitionType: TRANSITIONS_TYPES.reassign
       };
     }

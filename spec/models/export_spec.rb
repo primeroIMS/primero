@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 require 'roo'
 
@@ -135,7 +137,7 @@ describe Export do
     context 'when no params are passed' do
       before do
         exporter = Exporters::FormExporter
-        @export = Export.new(exporter: exporter)
+        @export = Export.new(exporter:)
         @export.run
         data = @export.export_file_blob.download
         @book = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)

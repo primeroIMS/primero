@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe PermittedFieldService, search: true do
@@ -70,7 +72,7 @@ describe PermittedFieldService, search: true do
       password_confirmation: 'a12345632',
       email: 'test_user_1@localhost.com',
       agency_id: agency.id,
-      role: role,
+      role:,
       services: ['Test type']
     )
   end

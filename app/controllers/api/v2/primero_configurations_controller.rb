@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Configuration API to create and apply Primero configuration states
 class Api::V2::PrimeroConfigurationsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
@@ -8,7 +10,7 @@ class Api::V2::PrimeroConfigurationsController < ApplicationApiController
   before_action { authorize! :manage, PrimeroConfiguration }
 
   def index
-    @configurations = PrimeroConfiguration.list(order_by: order_by, order: order).paginate(pagination)
+    @configurations = PrimeroConfiguration.list(order_by:, order:).paginate(pagination)
     @total = @configurations.total_entries
   end
 

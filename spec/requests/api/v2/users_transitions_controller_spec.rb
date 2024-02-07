@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::UsersTransitionsController, type: :request do
   before do
-    clean_data(UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
+    clean_data(Alert, UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
 
     @program = PrimeroProgram.create!(
       unique_id: 'primeroprogram-primero',
@@ -87,13 +89,14 @@ describe Api::V2::UsersTransitionsController, type: :request do
     SystemSettings.stub(:current).and_return(
       SystemSettings.new(reporting_location_config: { admin_level: 1 })
     )
-    @user1 = User.new(user_name: 'user1', role: role, agency: agency, user_groups: [group1, group3])
+    @user1 = User.new(user_name: 'user1', role:, agency:, user_groups: [group1, group3])
     @user1.save(validate: false)
-    @user2 = User.new(user_name: 'user2', role: role, agency: agency, user_groups: [group1])
+    @user2 = User.new(user_name: 'user2', role:, agency:, user_groups: [group1])
     @user2.save(validate: false)
-    @user3 = User.new(user_name: 'user3', role: role, agency: agency, user_groups: [group2])
+    @user3 = User.new(user_name: 'user3', role:, agency:, user_groups: [group2])
     @user3.save(validate: false)
-    @user4 = User.new(user_name: 'user4', role: role, agency: agency2, user_groups: [group3], services: %w[test_service])
+    @user4 = User.new(user_name: 'user4', role:, agency: agency2, user_groups: [group3],
+                      services: %w[test_service])
     @user4.save(validate: false)
     @user5 = User.new(user_name: 'user5', role: role2, agency: agency2, user_groups: [group4], location: 'CT')
     @user5.save(validate: false)
@@ -172,7 +175,8 @@ describe Api::V2::UsersTransitionsController, type: :request do
     end
     it 'lists the users that can be referred to, filter by services ' do
       sign_in(@user1)
-      get '/api/v2/users/refer-to', params: { record_type: 'case', record_module_id: @cp.unique_id, service: 'test_service' }
+      get '/api/v2/users/refer-to',
+          params: { record_type: 'case', record_module_id: @cp.unique_id, service: 'test_service' }
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
@@ -221,6 +225,6 @@ describe Api::V2::UsersTransitionsController, type: :request do
   end
 
   after do
-    clean_data(UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
+    clean_data(Alert, UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
   end
 end

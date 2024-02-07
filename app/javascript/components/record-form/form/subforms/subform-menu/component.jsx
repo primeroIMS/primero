@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { batch, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { CircularProgress } from "@material-ui/core";

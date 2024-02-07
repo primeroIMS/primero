@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { namespaceActions } from "../../libs";
 
 import NAMESPACE from "./namespace";
@@ -13,6 +15,11 @@ export default namespaceActions(NAMESPACE, [
   "FETCH_ROLES_FINISHED",
   "FETCH_ROLES_STARTED",
   "FETCH_ROLES_SUCCESS",
+  "FETCH_WEBPUSH_CONFIG",
+  "FETCH_WEBPUSH_CONFIG_FAILURE",
+  "FETCH_WEBPUSH_CONFIG_FINISHED",
+  "FETCH_WEBPUSH_CONFIG_STARTED",
+  "FETCH_WEBPUSH_CONFIG_SUCCESS",
   "FETCH_MANAGED_ROLES",
   "FETCH_MANAGED_ROLES_FAILURE",
   "FETCH_MANAGED_ROLES_FINISHED",

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe User do
@@ -9,7 +11,7 @@ describe User do
 
   def build_user(options = {})
     user_name = "user_name_#{rand(10_000)}"
-    options.reverse_merge!(user_name: user_name, full_name: 'full name', password: 'b00h00h00',
+    options.reverse_merge!(user_name:, full_name: 'full name', password: 'b00h00h00',
                            password_confirmation: options[:password] || 'b00h00h00', email: "#{user_name}@ddress.net",
                            agency_id: options[:agency_id] || Agency.try(:last).try(:id), disabled: 'false',
                            role_id: options[:role_id] || Role.try(:last).try(:id))
@@ -258,7 +260,7 @@ describe User do
 
     it 'does not generate a random password if a password is provided' do
       password = 'avalidpasswooo00rd'
-      user = build_user(password: password)
+      user = build_user(password:)
       user.save!
 
       expect(user.valid_password?(password)).to be_truthy

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Draggable } from "react-beautiful-dnd";
 
 import FormSectionField from "../../../../../form/components/form-section-field";

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Define an application-wide content security policy
 # For further information see the following documentation
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
@@ -9,9 +11,9 @@ return unless Rails.env.production?
 self_sources = %i[self https]
 
 storage_sources =
-  case ENV['PRIMERO_STORAGE_TYPE']
+  case ENV.fetch('PRIMERO_STORAGE_TYPE', nil)
   when 'microsoft'
-    self_sources + ["https://#{ENV['PRIMERO_STORAGE_AZ_ACCOUNT']}.blob.core.windows.net"]
+    self_sources + ["https://#{ENV.fetch('PRIMERO_STORAGE_AZ_ACCOUNT', nil)}.blob.core.windows.net"]
   else
     self_sources
   end

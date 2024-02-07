@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'csv'
 
 # Export as CSV the record list that the user sees.
@@ -29,6 +31,7 @@ class Exporters::CsvListViewExporter < Exporters::BaseExporter
   end
 
   def export(records)
+    super(records)
     csv_export = build_csv_export(records, list_headers)
     buffer.write(csv_export)
   end
@@ -54,7 +57,7 @@ class Exporters::CsvListViewExporter < Exporters::BaseExporter
 
   def headers(list_headers)
     list_headers.map do |header|
-      I18n.t("#{record_type.pluralize}.#{header.name}", default: '', locale: locale)
+      I18n.t("#{record_type.pluralize}.#{header.name}", default: '', locale:)
     end
   end
 

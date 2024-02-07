@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS, List } from "immutable";
 import MUIDataTable from "mui-datatables";
 import { CircularProgress, Typography, Checkbox, TablePagination } from "@material-ui/core";

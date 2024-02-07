@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 const path = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
@@ -9,7 +11,6 @@ const config = require("../config");
 
 const {
   ADDITIONAL_PRECACHE_MANIFEST_FILES,
-  TRANSLATION_MANIFEST_FILES,
   ENTRIES,
   ENTRY_NAMES,
   utils: { projectPath }
@@ -18,25 +19,6 @@ const {
 const NAME = ENTRY_NAMES.APPLICATION;
 
 const entry = common(NAME, ENTRIES[NAME]);
-
-const cacheFile = file => {
-  try {
-    const filePath = path.join(projectPath, "public");
-    const buildFiles = fs.readdirSync(filePath);
-
-    if (buildFiles) {
-      const fileSearch = buildFiles.filter(buildFile => new RegExp(file).test(buildFile));
-
-      if (fileSearch) {
-        return fileSearch[0];
-      }
-    }
-  } catch (e) {
-    throw new Error(e);
-  }
-
-  return false;
-};
 
 const additionalFiles = originalManifest => {
   const warnings = [];

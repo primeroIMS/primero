@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::AttachmentsController, type: :request do
@@ -25,7 +27,7 @@ describe Api::V2::AttachmentsController, type: :request do
           file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
         }
       }
-      post "/api/v2/cases/#{@case.id}/attachments", params: params
+      post("/api/v2/cases/#{@case.id}/attachments", params:)
       expect(response).to have_http_status(200)
       expect(json['data']['file_name']).to eq('jorge.jpg')
       expect(json['data']['record']['id']).to eq(@case.id)
@@ -50,7 +52,7 @@ describe Api::V2::AttachmentsController, type: :request do
             file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
           }
         }
-        post "/api/v2/cases/#{@case.id}/attachments", params: params
+        post("/api/v2/cases/#{@case.id}/attachments", params:)
 
         expect(response).to have_http_status(403)
         expect(json['errors'][0]['status']).to eq(403)

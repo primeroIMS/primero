@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import * as userConstants from "./constants";
 
 describe("Verifying user constant", () => {
@@ -47,7 +49,8 @@ describe("values", () => {
       "POSITION",
       "LOCATION",
       "DISABLED",
-      "SEND_MAIL"
+      "SEND_MAIL",
+      "RECEIVE_WEBPUSH"
     );
   });
 });

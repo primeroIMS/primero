@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Implements class methods for declaring attachments of type image, audio, and document
 # on Records. Has idiomatic methods for handing case photos
 module Attachable

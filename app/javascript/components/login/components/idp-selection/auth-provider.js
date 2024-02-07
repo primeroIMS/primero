@@ -1,4 +1,8 @@
-import { CryptoUtils, InteractionRequiredAuthError } from "msal";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+/* eslint-disable no-return-await */
+import { InteractionRequiredAuthError } from "@azure/msal-common";
+import { isImmutable } from "immutable";
 
 import { SELECTED_IDP } from "../../../user/constants";
 
@@ -7,31 +11,49 @@ import { setMsalApp, setMsalConfig, getLoginRequest, getTokenRequest } from "./u
 let msalApp;
 let forceStandardOIDC = false;
 
-const getToken = tokenRequest =>
-  msalApp.acquireTokenSilent(tokenRequest).catch(error => {
+function createNewGuid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+
+  return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
+}
+
+async function getToken(tokenRequest) {
+  try {
+    return await msalApp.acquireTokenSilent(tokenRequest);
+  } catch (error) {
     if (error instanceof InteractionRequiredAuthError) {
-      return msalApp.acquireTokenPopup(tokenRequest);
+      return await msalApp.acquireTokenPopup(tokenRequest).catch(popupError => {
+        // eslint-disable-next-line no-console
+        console.error(popupError);
+      });
     }
 
     // eslint-disable-next-line no-console
     console.warn("Failed to acquire token", error);
 
     return undefined;
-  });
+  }
+}
 
-const setupMsal = idp => {
-  const identityScope = idp.get("identity_scope")?.toJS() || [""];
-  const domainHint = idp.get("domain_hint");
-  const msalConfig = setMsalConfig(idp);
+const setupMsal = (idp, historyObj) => {
+  const idpObj = isImmutable(idp) ? idp.toJS() : idp;
+
+  const identityScope = idpObj.identity_scope || [""];
+  const domainHint = idpObj.domain_hint;
+  const msalConfig = setMsalConfig(idpObj);
   const loginRequest = getLoginRequest(identityScope, domainHint);
   const tokenRequest = getTokenRequest(identityScope);
 
   if (!msalApp) {
-    forceStandardOIDC = idp.get("force_standard_oidc") === true;
-    msalApp = setMsalApp(msalConfig, forceStandardOIDC);
+    forceStandardOIDC = idpObj.force_standard_oidc === true;
+    msalApp = setMsalApp(msalConfig, forceStandardOIDC, historyObj);
   }
 
-  localStorage.setItem(SELECTED_IDP, idp.get("unique_id"));
+  localStorage.setItem(SELECTED_IDP, idpObj.unique_id);
 
   return { loginRequest, tokenRequest };
 };
@@ -44,18 +66,24 @@ const handleResponse = async (tokenRequest, successCallback) => {
   }
 };
 
-export const refreshIdpToken = async (idp, successCallback) => {
-  const { tokenRequest } = setupMsal(idp);
+export const refreshIdpToken = async (idp, successCallback, historyObj) => {
+  const { tokenRequest } = setupMsal(idp, historyObj);
 
   handleResponse(tokenRequest, successCallback);
 };
 
-export const signIn = async (idp, successCallback) => {
-  const { loginRequest, tokenRequest } = setupMsal(idp);
-  const loginResponse = await msalApp.loginPopup(loginRequest);
+export const signIn = async (idp, callback, historyObj) => {
+  sessionStorage.clear();
 
-  if (loginResponse) {
-    handleResponse(tokenRequest, successCallback);
+  const { loginRequest } = setupMsal(idp, historyObj);
+
+  try {
+    const response = await msalApp.loginPopup(loginRequest);
+
+    localStorage.setItem("cachedIdToken", response.idToken);
+    callback(response.idToken);
+  } catch (error) {
+    throw new Error(error);
   }
 };
 
@@ -67,11 +95,12 @@ export const signOut = () => {
       // https://openid.net/specs/openid-connect-rpinitiated-1_0.html#RPLogout
       // Since MSAL does not offer any way to add parameters to logout, we piggyback on the correlationId argument
       // The GUID is what msal uses as the default when the argument is not specified
-      msalApp.logout(`${CryptoUtils.createNewGuid()}&client_id=${encodeURIComponent(msalApp.config.auth.clientId)}`);
+      msalApp.logout(`${createNewGuid()}&client_id=${encodeURIComponent(msalApp.config.auth.clientId)}`);
     } else {
       msalApp.logout();
     }
     msalApp = null;
     forceStandardOIDC = false;
+    localStorage.removeItem("cachedIdToken");
   }
 };

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # API for creating referrals for record types
 class Api::V2::ReferralsController < Api::V2::RecordResourceController
   def index

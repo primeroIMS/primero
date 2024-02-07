@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::PotentialMatchesController, type: :request do
@@ -14,8 +16,8 @@ describe Api::V2::PotentialMatchesController, type: :request do
   end
   let(:case2) { Child.create!(name: 'Test 2', age: 10, sex: 'female') }
   let(:tracing_request) { TracingRequest.create!(inquiry_date: Date.new(2019, 3, 1), relation_name: 'Test 1') }
-  let(:trace1) { Trace.create!(tracing_request: tracing_request, name: 'Test', age: 5, sex: 'male') }
-  let(:trace2) { Trace.create!(tracing_request: tracing_request, name: 'Test 3', age: 10, sex: 'female') }
+  let(:trace1) { Trace.create!(tracing_request:, name: 'Test', age: 5, sex: 'male') }
+  let(:trace2) { Trace.create!(tracing_request:, name: 'Test 3', age: 10, sex: 'female') }
   let(:potential_matches) do
     [
       PotentialMatch.new(child: case1, trace: trace1, score: 1.0, likelihood: MatchingService::LIKELY),
@@ -92,7 +94,7 @@ describe Api::V2::PotentialMatchesController, type: :request do
     end
 
     it 'fetches the correct record without attachments with code 200' do
-      login_for_test(permissions:[permission_tracing_request, permission_potential_match])
+      login_for_test(permissions: [permission_tracing_request, permission_potential_match])
       get "/api/v2/traces/#{trace1.id}/potential_matches"
 
       expect(response).to have_http_status(200)

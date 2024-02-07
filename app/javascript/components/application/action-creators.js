@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { batch } from "react-redux";
 
 import { DB_COLLECTIONS_NAMES } from "../../db";
@@ -35,6 +37,13 @@ export const fetchRoles = () => ({
   }
 });
 
+export const fetchWebpushConfig = () => ({
+  type: actions.FETCH_WEBPUSH_CONFIG,
+  api: {
+    path: RECORD_PATH.webpush_config
+  }
+});
+
 export const fetchManagedRoles = () => ({
   type: actions.FETCH_MANAGED_ROLES,
   api: {
@@ -50,13 +59,14 @@ export const fetchUserGroups = () => ({
   }
 });
 
-export const loadApplicationResources = () => async dispatch => {
+export const loadApplicationResources = () => dispatch => {
   batch(() => {
     dispatch(fetchContactInformation());
     dispatch(fetchSystemSettings());
     dispatch(fetchSystemPermissions());
     dispatch(fetchForms());
     dispatch(fetchOptions());
+    dispatch(fetchWebpushConfig());
   });
 };
 

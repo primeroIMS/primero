@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/no-multi-comp */
 import { useState, useEffect } from "react";
 import { fromJS } from "immutable";
@@ -19,7 +21,7 @@ import NAMESPACE from "../namespace";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions, WRITE_RECORDS, ACTIONS } from "../../../permissions";
 import { useDialog } from "../../../action-dialog";
-import { fetchSystemSettings, fetchRoles, fetchUserGroups } from "../../../application";
+import { fetchSystemSettings, fetchRoles, fetchUserGroups, getWebpushConfig } from "../../../application";
 import CancelPrompt from "../../../form/components/cancel-prompt";
 import { currentUser, getCurrentUserGroupPermission } from "../../../user/selectors";
 import UserActions from "../../../user-actions";
@@ -55,6 +57,7 @@ const Container = ({ mode }) => {
   const saving = useMemoizedSelector(state => getSavingRecord(state));
   const currentRoleGroupPermission = useMemoizedSelector(state => getCurrentUserGroupPermission(state));
   const recordsUpdate = useMemoizedSelector(state => getRecordsUpdate(state));
+  const webPushConfig = useMemoizedSelector(state => getWebpushConfig(state));
 
   const setPasswordModal = () => {
     setDialog({ dialog: PASSWORD_MODAL, open: true });
@@ -172,7 +175,8 @@ const Container = ({ mode }) => {
       selectedUserIsLoggedIn,
       {
         agencyReadOnUsers,
-        currentRoleGroupPermission
+        currentRoleGroupPermission,
+        webPushConfig
       }
     ).map(formSection => (
       <FormSection

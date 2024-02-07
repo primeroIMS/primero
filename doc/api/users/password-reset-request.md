@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Request that a password be reset for a given email
 
 Submit an email to receive a link with a token to reset the password.

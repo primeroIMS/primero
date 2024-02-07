@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'write_xlsx'
 
 # Exports selected forms and fields to a multi-tabbed Excel file.
@@ -76,18 +78,18 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
   end
 
   def selected_fields_form
-    form = FormSection.new(unique_id: 'selected_fields', fields: fields)
-    form.send(:name=, I18n.t('exports.selected_xls.selected_fields', locale: locale), locale)
+    form = FormSection.new(unique_id: 'selected_fields', fields:)
+    form.send(:name=, I18n.t('exports.selected_xls.selected_fields', locale:), locale)
     form
   end
 
   def metadata_form
     fields = METADATA_FIELD_NAMES.map do |name|
-      field = Field.new(name: name, type: Field::TEXT_FIELD)
+      field = Field.new(name:, type: Field::TEXT_FIELD)
       field.send(:display_name=, name, locale)
       field
     end
-    form = FormSection.new(unique_id: '__record__', fields: fields)
+    form = FormSection.new(unique_id: '__record__', fields:)
     form.send(:name=, '__record__', locale)
     form
   end

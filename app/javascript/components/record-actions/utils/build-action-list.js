@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import {
   ENABLED_FOR_ONE_MANY,
   ENABLED_FOR_ONE,
@@ -76,9 +78,9 @@ export default ({
         action: () => handleDialogClick(ASSIGN_DIALOG),
         condition: canAssign,
         disableOffline: true,
-        enabledFor: ENABLED_FOR_ONE_MANY,
+        enabledFor: ENABLED_FOR_ONE_MANY_ALL,
         name: `${i18n.t("buttons.reassign")} ${formRecordType}`,
-        recordListAction: false,
+        recordListAction: true,
         recordType: RECORD_PATH.cases
       },
       {
@@ -162,7 +164,7 @@ export default ({
         name: i18n.t("actions.mark_for_offline"),
         enabledFor: ENABLED_FOR_ONE_MANY,
         recordListAction: true,
-        recordType: [RECORD_PATH.cases, RECORD_PATH.registry_records],
+        recordType: [RECORD_PATH.cases, RECORD_PATH.registry_records, RECORD_PATH.families],
         disableRecordShowPage: true,
         showOnSearchResultPage: true
       },

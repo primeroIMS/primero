@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe RecordHistory do
@@ -33,7 +35,7 @@ describe RecordHistory do
       password_confirmation: 'a12345678',
       email: 'test_user_1@localhost.com',
       agency_id: @agency_a.id,
-      role: role
+      role:
     )
     @record_history = RecordHistory.new(datetime: DateTime.new(2010, 1, 1, 1, 1, 2), user_name: @user_a.user_name)
   end

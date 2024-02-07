@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Description of PropertyEvaluator class
 class PropertyEvaluator
   # 'record' is any Ruby object instance that is to be evualuated
@@ -14,7 +16,7 @@ class PropertyEvaluator
   end
 
   def self.calculate_particles(particle)
-    if particle.match(/^[\w\?]*\(.*\)$/)
+    if particle.match(/^[\w?]*\(.*\)$/)
       [particle.split('(').first] + particle[0..-2].split('(').last.split(',')
     else
       [particle]

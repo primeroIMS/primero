@@ -1,9 +1,12 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/display-name */
 import PropTypes from "prop-types";
 
 import ActionDialog from "../../../action-dialog";
 import { useI18n } from "../../../i18n";
 import { RECORD_TYPES } from "../../../../config";
+import { MAX_BULK_RECORDS } from "../constants";
 
 const TransitionDialog = ({
   onClose,
@@ -18,7 +21,7 @@ const TransitionDialog = ({
   successHandler,
   transitionType,
   enabledSuccessButton,
-  selectedIds
+  selectedRecordsLength = 0
 }) => {
   const i18n = useI18n();
 
@@ -28,7 +31,7 @@ const TransitionDialog = ({
     const recordId = caseId || incidentId || "";
 
     const recordTypeLabel =
-      selectedIds && selectedIds.length
+      selectedRecordsLength > 0
         ? i18n.t(`${recordType}.label`)
         : i18n.t(`forms.record_types.${RECORD_TYPES[recordType]}`);
     const recordWithId = `${recordTypeLabel} ${recordId}`;
@@ -38,12 +41,15 @@ const TransitionDialog = ({
     return `${typeLabel} ${recordWithId}`;
   })(transitionType);
 
-  const dialogSubHeader =
-    selectedIds && selectedIds.length
-      ? i18n.t(`${recordType}.selected_records`, {
-          select_records: selectedIds.length
-        })
-      : null;
+  let dialogSubHeader = null;
+
+  if (selectedRecordsLength > 0 && selectedRecordsLength <= MAX_BULK_RECORDS) {
+    dialogSubHeader = i18n.t(`${recordType}.selected_records`, {
+      select_records: selectedRecordsLength
+    });
+  } else if (selectedRecordsLength > MAX_BULK_RECORDS) {
+    dialogSubHeader = i18n.t(`${RECORD_TYPES[recordType]}.messages.bulk_assign_limit_try_again`);
+  }
 
   const dialogProps = {
     maxWidth: "sm",
@@ -74,7 +80,7 @@ TransitionDialog.propTypes = {
   pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  selectedIds: PropTypes.array,
+  selectedRecordsLength: PropTypes.number,
   successHandler: PropTypes.func,
   transitionType: PropTypes.string
 };

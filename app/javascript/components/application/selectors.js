@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Map, fromJS } from "immutable";
 import { isEqual, isNil, omitBy } from "lodash";
 import createCachedSelector from "re-reselect";
@@ -181,3 +183,5 @@ export const getAppData = memoize(state => {
     limitedProductionSite
   };
 });
+
+export const getWebpushConfig = state => state.getIn([NAMESPACE, "webpush"], fromJS({}));

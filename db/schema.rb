@@ -1,3 +1,4 @@
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_04_000000) do
+ActiveRecord::Schema.define(version: 2023_09_21_124122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -82,6 +83,7 @@ ActiveRecord::Schema.define(version: 2023_07_04_000000) do
     t.integer "agency_id"
     t.string "record_type"
     t.uuid "record_id"
+    t.boolean "send_email", default: false
     t.index ["agency_id"], name: "index_alerts_on_agency_id"
     t.index ["record_type", "record_id"], name: "index_alerts_on_record_type_and_record_id"
     t.index ["user_id"], name: "index_alerts_on_user_id"
@@ -585,6 +587,13 @@ ActiveRecord::Schema.define(version: 2023_07_04_000000) do
     t.datetime "created_at"
     t.datetime "responded_at"
     t.text "rejection_note"
+    t.string "record_owned_by"
+    t.string "record_owned_by_agency"
+    t.string "record_owned_by_groups", array: true
+    t.string "transitioned_by_user_agency"
+    t.string "transitioned_by_user_groups", array: true
+    t.string "transitioned_to_user_agency"
+    t.string "transitioned_to_user_groups", array: true
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"
   end
@@ -637,6 +646,7 @@ ActiveRecord::Schema.define(version: 2023_07_04_000000) do
     t.boolean "service_account", default: false, null: false
     t.datetime "code_of_conduct_accepted_on"
     t.bigint "code_of_conduct_id"
+    t.boolean "receive_webpush"
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["code_of_conduct_id"], name: "index_users_on_code_of_conduct_id"
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -666,6 +676,20 @@ ActiveRecord::Schema.define(version: 2023_07_04_000000) do
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["events"], name: "index_webhooks_on_events", using: :gin
     t.index ["url"], name: "index_webhooks_on_url", unique: true
+  end
+
+  create_table "webpush_subscriptions", force: :cascade do |t|
+    t.boolean "disabled", default: false, null: false
+    t.string "notification_url", null: false
+    t.string "auth", null: false
+    t.string "p256dh", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["notification_url", "user_id", "disabled"], name: "index_webpush_subscriptions_notification_url_user_id_disabled", unique: true
+    t.index ["notification_url", "user_id"], name: "index_webpush_subscriptions_on_notification_url_and_user_id", unique: true
+    t.index ["notification_url"], name: "index_webpush_subscriptions_on_notification_url"
+    t.index ["user_id"], name: "index_webpush_subscriptions_on_user_id"
   end
 
   create_table "whitelisted_jwts", force: :cascade do |t|
@@ -718,5 +742,6 @@ ActiveRecord::Schema.define(version: 2023_07_04_000000) do
   add_foreign_key "users", "identity_providers"
   add_foreign_key "users", "roles"
   add_foreign_key "violations", "incidents"
+  add_foreign_key "webpush_subscriptions", "users"
   add_foreign_key "whitelisted_jwts", "users", on_delete: :cascade
 end

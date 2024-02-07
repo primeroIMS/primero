@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Returns the users for a specified transition
 class UserTransitionService
   attr_accessor :transition, :transitioned_by_user, :model, :module_unique_id

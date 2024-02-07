@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import {
   ACTIVITY_LOGS,
   MANAGE,
@@ -17,9 +19,11 @@ import {
   SHOW_SUMMARY,
   READ_MANAGED_REPORTS,
   READ_REGISTRY_RECORD,
-  READ_FAMILY
+  READ_FAMILY_RECORD
 } from "../components/permissions/constants";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
+
+export const API_BASE_PATH = "/api/v2";
 
 export const PASSWORD_MIN_LENGTH = 8;
 
@@ -43,6 +47,8 @@ export const IDLE_LOGOUT_TIMEOUT = 5 * 1000 * 60;
 
 // Time (ms) how often the backend is pinged to refresh the user's token
 export const TOKEN_REFRESH_INTERVAL = 30 * 1000 * 60;
+
+export const PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL = 15 * 1000 * 60;
 
 export const CASE = "case";
 export const CASES = "cases";
@@ -130,7 +136,8 @@ export const RECORD_PATH = {
   user_groups: "user_groups",
   users: "users",
   activity_log: "activity_log",
-  registry_records: "registry_records"
+  registry_records: "registry_records",
+  webpush_config: "webpush/config"
 };
 
 export const RECORD_INFORMATION_GROUP = "record_information";
@@ -186,6 +193,7 @@ export const ROUTES = {
   forms_new: "/admin/forms/new",
   incidents: "/incidents",
   login: "/login",
+  login_idp_redirect: "/login/:id",
   logout: "/logout",
   lookups: "/admin/lookups",
   lookups_new: "/admin/lookups/new",
@@ -204,7 +212,9 @@ export const ROUTES = {
   password_reset: "/password_reset",
   activity_log: "/activity_log",
   password_reset_request: "/password_reset_request",
-  registry_records: "/registry_records"
+  registry_records: "/registry_records",
+  subscriptions: "/webpush/subscriptions",
+  subscriptions_current: "/webpush/subscriptions/current"
 };
 
 export const PERMITTED_URL = [
@@ -212,6 +222,7 @@ export const PERMITTED_URL = [
   ROUTES.dashboard,
   ROUTES.login,
   ROUTES.login_redirect,
+  ROUTES.login_idp_redirect,
   ROUTES.logout,
   ROUTES.not_authorized,
   ROUTES.password_reset,
@@ -494,6 +505,7 @@ export const REVOKED = "revoked";
 export const DONE = "done";
 export const REJECT = "reject";
 export const SAVING = "saving";
+export const INPROGRESS = "in_progress";
 
 export const APPROVALS_TYPES = Object.freeze({
   assessment: "assessment",
@@ -510,7 +522,9 @@ export const ALERTS_FOR = {
   approval: "approval",
   new_form: "new_form",
   transfer_request: "transfer_request",
-  duplicate_field: "duplicate_field"
+  duplicate_field: "duplicate_field",
+  transfer: "transfer",
+  referral: "referral"
 };
 
 export const MAX_OFFLINE_ROWS_PER_PAGE = 50;
@@ -565,13 +579,15 @@ export const FILE_FORMAT = {
 export const FAMILY_MEMBERS_SUBFORM_ID = "family_members_section";
 export const FAMILY_FROM_CASE = "family_from_case";
 
+export const FAMILY_DETAILS_SUBFORM_ID = "family_details_section";
+
 export const FORM_PERMISSION_ACTION = Object.freeze({
   [INCIDENT_FROM_CASE]: VIEW_INCIDENTS_FROM_CASE,
   [CHANGE_LOGS]: SHOW_CHANGE_LOG,
   [APPROVALS]: SHOW_APPROVALS,
   [SUMMARY]: SHOW_SUMMARY,
   [REGISTRY_FROM_CASE]: READ_REGISTRY_RECORD,
-  [FAMILY_FROM_CASE]: READ_FAMILY
+  [FAMILY_FROM_CASE]: READ_FAMILY_RECORD
 });
 
 export const VIOLATIONS_FORM = [
@@ -637,6 +653,8 @@ export const GHN_REPORT_SUBREPORTS = ["ghn_report"];
 export const INDIVIDUAL_CHILDREN = ["individual_children"];
 
 export const WORKFLOW_SUBREPORTS = ["cases_workflow", "incidents_workflow"];
+
+export const REFERRAL_TRANSFERS_SUBREPORTS = ["total_transfers", "total_referrals"];
 
 export const VIOLENCE_TYPE_SUBREPORTS = ["cases_violence_type", "incidents_violence_type"];
 
@@ -721,3 +739,17 @@ export const DATE_SORTABLE_FIELDS = Object.freeze([
   "date_of_first_report",
   "inquiry_date"
 ]);
+
+export const NOTIFICATION_PERMISSIONS = {
+  GRANTED: "granted",
+  DENIED: "denied",
+  DEFAULT: "default"
+};
+
+export const POST_MESSAGES = {
+  SUBSCRIBE_NOTIFICATIONS: "subscribe_notifications",
+  UNSUBSCRIBE_NOTIFICATIONS: "unsubscribe_notifications",
+  DISPATCH_REMOVE_SUBSCRIPTION: "dispatch_remove_subscription",
+  DISPATCH_SAVE_SUBSCRIPTION: "dispatch_save_subscription",
+  ATTEMPTS_SUBSCRIPTION_FAILED: "attempts_subscription_failed"
+};

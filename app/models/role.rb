@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # The model for Role
 # rubocop:disable Metrics/ClassLength
 class Role < ApplicationRecord
@@ -164,8 +166,7 @@ class Role < ApplicationRecord
     ss_reporting_location = @system_settings&.reporting_location_config
     return nil if ss_reporting_location.blank?
 
-    reporting_location_config = secondary_reporting_location(ss_reporting_location)
-    reporting_location_config
+    secondary_reporting_location(ss_reporting_location)
   end
 
   def incident_reporting_location_config
@@ -185,11 +186,10 @@ class Role < ApplicationRecord
 
     return ss_reporting_location if reporting_location_level == ss_reporting_location.admin_level
 
-    reporting_location = ReportingLocation.new(field_key: ss_reporting_location.field_key,
-                                               admin_level: reporting_location_level,
-                                               hierarchy_filter: ss_reporting_location.hierarchy_filter,
-                                               admin_level_map: ss_reporting_location.admin_level_map)
-    reporting_location
+    ReportingLocation.new(field_key: ss_reporting_location.field_key,
+                          admin_level: reporting_location_level,
+                          hierarchy_filter: ss_reporting_location.hierarchy_filter,
+                          admin_level_map: ss_reporting_location.admin_level_map)
   end
 
   def super_user_role?

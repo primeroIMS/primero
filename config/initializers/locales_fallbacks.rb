@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
 
 EN_FALLBACK = %i[en].freeze
@@ -43,4 +45,4 @@ I18n.fallbacks = {
   th: EN_FALLBACK,
   uk: EN_FALLBACK,
   tr: EN_FALLBACK
-}.map { |key, val| [key, key == :en ? val : [key.to_sym] + val] }.to_h.with_indifferent_access
+}.to_h { |key, val| [key, key == :en ? val : [key.to_sym] + val] }.with_indifferent_access

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # TODO: Refactor this!!! Write some tests!
 
 # Class for Ability
@@ -87,7 +89,7 @@ class Ability
   end
 
   def permitted_to_access_role?(instance, actions, permission)
-    return false if instance.super_user_role? || instance.user_admin_role? && !user.super_user?
+    return false if instance.super_user_role? || (instance.user_admin_role? && !user.super_user?)
 
     return check_role_id(instance, permission) if read_write_or_assign?(actions)
 
@@ -206,12 +208,12 @@ class Ability
     end
   end
 
-  def can(action = nil, subject = nil, *conditions, &block)
-    add_rule(CanCan::CustomRule.new(true, action, subject, *conditions, &block))
+  def can(action = nil, subject = nil, *, &)
+    add_rule(CanCan::CustomRule.new(true, action, subject, *, &))
   end
 
-  def cannot(action = nil, subject = nil, *conditions, &block)
-    add_rule(CanCan::CustomRule.new(true, action, subject, *conditions, &block))
+  def cannot(action = nil, subject = nil, *, &)
+    add_rule(CanCan::CustomRule.new(true, action, subject, *, &))
   end
 
   def alias_user_actions
@@ -293,7 +295,7 @@ class Ability
   # rubocop:enable Metrics/CyclomaticComplexity
 
   def configure_flags
-    [Child, TracingRequest, Incident, RegistryRecord].each do |model|
+    [Child, TracingRequest, Incident, RegistryRecord, Family].each do |model|
       configure_flag(model)
     end
   end

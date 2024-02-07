@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'write_xlsx'
 
 # Export records to Excel. Every form is represented by a new tab.
@@ -27,6 +29,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def export(records)
+    super(records)
     constraint_subforms
     build_worksheets_with_headers
 
@@ -49,7 +52,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     worksheet = build_worksheet(form, subform_field)
     worksheet&.write(0, 0, 'ID')
     build_worksheet_fields(form, worksheet)
-    worksheets[worksheet_id(form, subform_field)] = { worksheet: worksheet, row: 1 }
+    worksheets[worksheet_id(form, subform_field)] = { worksheet:, row: 1 }
   end
 
   def build_worksheet_fields(form, worksheet)
@@ -103,7 +106,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def form_name(form)
-    form.name(locale.to_s).gsub(%r{[\[\]:*?\/\\]}, ' ')
+    form.name(locale.to_s).gsub(%r{[\[\]:*?/\\]}, ' ')
   end
 
   def format_form_name(name)
@@ -111,8 +114,10 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def write_record(record)
+    data = record.data
+
     forms.each do |form|
-      write_record_form(record.short_id, record.data, form, form&.subform_field&.name)
+      write_record_form(record.short_id, data, form, form&.subform_field&.name)
     end
   end
 
@@ -175,7 +180,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     value = super(value, field)
     # TODO: This will cause N+1 issue
     if field.name == 'created_organization' && value.present?
-      return Agency.get_field_using_unique_id(value, :name_i18n).dig(locale.to_s)
+      return Agency.get_field_using_unique_id(value, :name_i18n)[locale.to_s]
     end
 
     return value unless value.is_a?(Array)

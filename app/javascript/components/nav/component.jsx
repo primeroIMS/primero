@@ -1,5 +1,7 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Drawer, List, useMediaQuery, Hidden, Divider, IconButton } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 import { push } from "connected-react-router";
@@ -60,9 +62,9 @@ const Nav = () => {
 
   const handleLogoutCancel = () => dialogClose();
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     dispatch(push(ROUTES.logout));
-  };
+  }, []);
 
   const permittedMenuEntries = menuEntries => {
     return menuEntries.map(menuEntry => {
@@ -116,12 +118,16 @@ const Nav = () => {
           <Divider />
         </Hidden>
       </div>
-      <NetworkIndicator />
+      <div className={css.navNetworkIndicator}>
+        <NetworkIndicator />
+      </div>
       <List className={css.navList}>{permittedMenuEntries(APPLICATION_NAV(permissions, userId))}</List>
       <div className={css.navAgencies}>
         <AgencyLogo />
       </div>
-      <TranslationsToggle />
+      <div className={css.navTranslationsToggle}>
+        <TranslationsToggle />
+      </div>
     </>
   );
 
@@ -163,7 +169,6 @@ const Nav = () => {
         successHandler={handleLogout}
         confirmButtonLabel={i18n.t("buttons.logout")}
         onClose={dialogClose}
-        omitCloseAfterSuccess
         open={dialogOpen}
       >
         {i18n.t("messages.logout_offline_warning")}

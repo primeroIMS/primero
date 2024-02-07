@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { object, number, string, ref, array, addMethod } from "yup";
 
 import { PASSWORD_MIN_LENGTH } from "../../../../config";

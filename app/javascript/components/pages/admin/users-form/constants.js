@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const USER_CONFIRMATION_DIALOG = "userConfirmationDialog";
 export const IDENTITY_PROVIDER_ID = "identity_provider_unique_id";
 export const USER_GROUP_UNIQUE_IDS = "user_group_unique_ids";
@@ -67,5 +69,6 @@ export const FIELD_NAMES = Object.freeze({
   POSITION: "position",
   LOCATION: "location",
   DISABLED: "disabled",
-  SEND_MAIL: "send_mail"
+  SEND_MAIL: "send_mail",
+  RECEIVE_WEBPUSH: "receive_webpush"
 });

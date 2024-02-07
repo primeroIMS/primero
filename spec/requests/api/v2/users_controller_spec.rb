@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::UsersController, type: :request do
@@ -383,7 +385,7 @@ describe Api::V2::UsersController, type: :request do
         agency: @agency_a.unique_id
       }
 
-      get '/api/v2/users/refer-to', params: params
+      get('/api/v2/users/refer-to', params:)
 
       expect(response).to have_http_status(200)
       expect(json['data'][0]['id']).to eq(@user_a.id)
@@ -460,7 +462,7 @@ describe Api::V2::UsersController, type: :request do
         ]
       )
 
-      post '/api/v2/users', params: params, as: :json
+      post '/api/v2/users', params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_nil
@@ -481,7 +483,7 @@ describe Api::V2::UsersController, type: :request do
         ]
       )
 
-      post '/api/v2/users', params: params, as: :json
+      post '/api/v2/users', params:, as: :json
 
       expect(Rails.logger).to have_received(:debug).with(/\["email", "\[FILTERED\]"\]/).twice
 
@@ -502,7 +504,7 @@ describe Api::V2::UsersController, type: :request do
         id = (rand * 1000).to_i
         params = {
           data: {
-            id: id,
+            id:,
             full_name: 'Test User API 2',
             user_name: 'test_user_api_2',
             code: 'test/code',
@@ -514,10 +516,10 @@ describe Api::V2::UsersController, type: :request do
           }
         }
 
-        post '/api/v2/users', params: params, as: :json
+        post '/api/v2/users', params:, as: :json
 
         expect(response).to have_http_status(204)
-        expect(User.find_by(id: id)).not_to be_nil
+        expect(User.find_by(id:)).not_to be_nil
       end
     end
 
@@ -537,7 +539,7 @@ describe Api::V2::UsersController, type: :request do
         }
       }
 
-      post '/api/v2/users', params: params
+      post('/api/v2/users', params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
@@ -564,7 +566,7 @@ describe Api::V2::UsersController, type: :request do
         }
       }
 
-      post '/api/v2/users', params: params, as: :json
+      post '/api/v2/users', params:, as: :json
 
       expect(response).to have_http_status(409)
       expect(json['errors'].size).to eq(1)
@@ -590,7 +592,7 @@ describe Api::V2::UsersController, type: :request do
           password_confirmation: 'pad pw confirmation'
         }
       }
-      post '/api/v2/users', params: params, as: :json
+      post '/api/v2/users', params:, as: :json
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(2)
@@ -616,7 +618,7 @@ describe Api::V2::UsersController, type: :request do
           send_mail: false
         }
       }
-      post '/api/v2/users', params: params, as: :json
+      post '/api/v2/users', params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['user_name']).to eq(params[:data][:user_name])
@@ -645,7 +647,7 @@ describe Api::V2::UsersController, type: :request do
         }
       }
 
-      patch "/api/v2/users/#{@user_a.id}", params: params
+      patch("/api/v2/users/#{@user_a.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@user_a.id)
@@ -663,7 +665,7 @@ describe Api::V2::UsersController, type: :request do
         }
       }
 
-      patch "/api/v2/users/#{@user_a.id}", params: params
+      patch("/api/v2/users/#{@user_a.id}", params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
@@ -679,7 +681,7 @@ describe Api::V2::UsersController, type: :request do
         }
       }
 
-      patch '/api/v2/users/thisdoesntexist', params: params
+      patch('/api/v2/users/thisdoesntexist', params:)
 
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
@@ -704,7 +706,7 @@ describe Api::V2::UsersController, type: :request do
         }
       }
 
-      patch "/api/v2/users/#{@user_a.id}", params: params
+      patch("/api/v2/users/#{@user_a.id}", params:)
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
@@ -721,11 +723,11 @@ describe Api::V2::UsersController, type: :request do
         data: {
           role_unique_id: 'test-role-1',
           identity_provider_unique_id: 'primeroims_2',
-          user_name: user_name
+          user_name:
         }
       }
 
-      patch "/api/v2/users/#{@user_d.id}", params: params
+      patch("/api/v2/users/#{@user_d.id}", params:)
 
       @user_d.reload
 
@@ -744,7 +746,7 @@ describe Api::V2::UsersController, type: :request do
         }
       }
 
-      patch "/api/v2/users/#{@user_c.id}", params: params, as: :json
+      patch "/api/v2/users/#{@user_c.id}", params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['user_name']).to eq(@user_c.user_name)

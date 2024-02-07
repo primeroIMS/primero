@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable no-restricted-globals */
 
 import { precacheAndRoute, getCacheKeyForURL, cleanupOutdatedCaches } from "workbox-precaching";
@@ -90,3 +92,41 @@ setCatchHandler(({ event }) => {
 
   return Response.error();
 });
+
+self.addEventListener("push", event => {
+  const message = event.data.json();
+  const image = `${self.location.origin}/primero-pictorial-144.png`;
+
+  event.waitUntil(
+    self.registration.showNotification(message.title, {
+      body: message.body,
+      image,
+      icon: image,
+      data: { url: message.link }
+    })
+  );
+});
+
+self.addEventListener(
+  "notificationclick",
+  event => {
+    event.notification.close();
+
+    event.waitUntil(
+      self.clients.matchAll().then(clientList => {
+        const link = `${self.location.protocol}//${event.notification.data.url}`;
+
+        for (let clientCounter = 0; clientCounter < clientList.length; clientCounter += 1) {
+          const client = clientList[clientCounter];
+
+          if (client.url === link && "focus" in client) {
+            return client.focus();
+          }
+        }
+
+        return self.clients.openWindow(link);
+      })
+    );
+  },
+  false
+);

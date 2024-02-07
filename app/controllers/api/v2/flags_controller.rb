@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Endpoint for managing flags for a record
 class Api::V2::FlagsController < Api::V2::RecordResourceController
   before_action { authorize! :flag, model_class }
@@ -8,7 +10,7 @@ class Api::V2::FlagsController < Api::V2::RecordResourceController
     authorize! :flag_record, @record
     @flag = @record.add_flag(params['data']['message'], params['data']['date'], current_user.user_name)
     updates_for_record(@record)
-    render :create, status: status
+    render :create, status:
   end
 
   def update

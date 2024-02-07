@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
@@ -16,6 +18,7 @@ import { toServerDateFormat } from "../../../../../../../libs";
 import VerifySelect from "./select";
 import { getViolationTallyLabel } from "./utils";
 import { NAME } from "./constants";
+import { getViolationTallyLabel } from "./utils";
 
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";

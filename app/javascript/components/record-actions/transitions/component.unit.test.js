@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
@@ -195,7 +197,8 @@ describe("<Transitions />", () => {
         "setPending",
         "selectedIds",
         "mode",
-        "assignRef"
+        "assignRef",
+        "selectedRecordsLength"
       ];
 
       expect(Object.keys(reassignForm.props())).to.deep.equal(validProps);

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This represents the authorizations a user is entitled to
 # Primero business objects by way of the role granted to the user.
 # A permission is usually a pairing of the business object (case, incident, etc.)
@@ -170,6 +172,10 @@ class Permission < ValueObject
   WORKFLOW_REPORT = 'workflow_report'
   VIOLENCE_TYPE_REPORT = 'violence_type_report'
   VIEW_FAMILY_RECORD = 'view_family_record'
+  CASE_FROM_FAMILY = 'case_from_family'
+  REFERRALS_TRANSFERS_REPORT = 'referrals_transfers_report'
+  LINK_FAMILY_RECORD = 'link_family_record'
+  REMOVE_ALERT = 'remove_alert'
 
   RESOURCE_ACTIONS = {
     CASE => [
@@ -184,12 +190,12 @@ class Permission < ValueObject
       FIND_TRACING_MATCH, ASSIGN, ASSIGN_WITHIN_AGENCY, ASSIGN_WITHIN_USER_GROUP, REMOVE_ASSIGNED_USERS, TRANSFER,
       RECEIVE_TRANSFER, ACCEPT_OR_REJECT_TRANSFER, REFERRAL, RECEIVE_REFERRAL, RECEIVE_REFERRAL_DIFFERENT_MODULE,
       REOPEN, CLOSE, VIEW_PROTECTION_CONCERNS_FILTER, CHANGE_LOG, LIST_CASE_NAMES, VIEW_REGISTRY_RECORD,
-      ADD_REGISTRY_RECORD, VIEW_FAMILY_RECORD, MANAGE
+      ADD_REGISTRY_RECORD, VIEW_FAMILY_RECORD, CASE_FROM_FAMILY, LINK_FAMILY_RECORD, REMOVE_ALERT, MANAGE
     ],
     INCIDENT => [
       READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF,
       EXPORT_INCIDENT_RECORDER, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, SYNC_MOBILE, CHANGE_LOG, EXPORT_MRM_VIOLATION_XLS,
-      MANAGE,VERIFY_MRM
+      REMOVE_ALERT,MANAGE,VERIFY_MRM
     ],
     TRACING_REQUEST => [
       READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF,
@@ -201,7 +207,7 @@ class Permission < ValueObject
     ],
     FAMILY => [
       READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, REOPEN, CLOSE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL,
-      EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, CHANGE_LOG, SYNC_MOBILE, MANAGE
+      EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, CHANGE_LOG, SYNC_MOBILE, CASE_FROM_FAMILY, MANAGE
     ],
     ROLE => [CREATE, READ, WRITE, ASSIGN, COPY, MANAGE, DELETE],
     USER => [CREATE, READ, AGENCY_READ, WRITE, MANAGE],
@@ -210,7 +216,8 @@ class Permission < ValueObject
     WEBHOOK => [CREATE, READ, WRITE, DELETE, MANAGE],
     REPORT => [READ, GROUP_READ, AGENCY_READ, CREATE, WRITE, MANAGE],
     MANAGED_REPORT => [
-      VIOLATION_REPORT, GBV_STATISTICS_REPORT, GHN_REPORT, INDIVIDUAL_CHILDREN, WORKFLOW_REPORT, VIOLENCE_TYPE_REPORT
+      VIOLATION_REPORT, GBV_STATISTICS_REPORT, GHN_REPORT, INDIVIDUAL_CHILDREN, WORKFLOW_REPORT, VIOLENCE_TYPE_REPORT,
+      REFERRALS_TRANSFERS_REPORT
     ],
     METADATA => [MANAGE],
     POTENTIAL_MATCH => [READ, VIEW_AUDIO, VIEW_PHOTO, MANAGE],
@@ -321,7 +328,7 @@ class Permission < ValueObject
     end
 
     def self.load_permission(object_hash, resource, actions)
-      permission = Permission.new(resource: resource, actions: actions)
+      permission = Permission.new(resource:, actions:)
       return permission unless object_hash.present?
 
       load_role_unique_ids(permission, object_hash) if resource == Permission::ROLE

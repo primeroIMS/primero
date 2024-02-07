@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This model represents the Primero end user and the associated application permissions.
 # Primero can be configured to perform its own password-based authentication, in which case the
 # User model is responsible for storing the encrypted password and associated whitelisted JWT
@@ -12,7 +14,7 @@ class User < ApplicationRecord
   include ConfigurationRecord
   include LocationCacheable
 
-  USER_NAME_REGEX = /\A[^ ]+\z/.freeze
+  USER_NAME_REGEX = /\A[^ ]+\z/
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
   USER_FIELDS_SCHEMA = {
     'id' => { 'type' => 'integer' }, 'user_name' => { 'type' => 'string' },
@@ -27,7 +29,7 @@ class User < ApplicationRecord
     'services' => { 'type' => 'array' }, 'module_unique_ids' => { 'type' => 'array' },
     'password_reset' => { 'type' => 'boolean' }, 'role_id' => { 'type' => 'string' },
     'agency_office' => { 'type' => 'string' }, 'code_of_conduct_id' => { 'type' => 'integer' },
-    'send_mail' => { 'type' => 'boolean' }
+    'send_mail' => { 'type' => 'boolean' }, 'receive_webpush' => { 'type' => 'boolean' }
   }.freeze
 
   attr_accessor :should_send_password_reset_instructions, :user_groups_changed
@@ -50,6 +52,7 @@ class User < ApplicationRecord
                           after_add: :mark_user_groups_changed,
                           after_remove: :mark_user_groups_changed
   has_many :audit_logs
+  has_many :webpush_subscriptions
 
   scope :enabled, -> { where(disabled: false) }
   scope :disabled, -> { where(disabled: true) }
@@ -57,7 +60,7 @@ class User < ApplicationRecord
     joins(:user_groups).where(user_groups: { id: ids })
   end)
   scope :by_agency, (lambda do |id|
-    joins(:agency).where(agencies: { id: id })
+    joins(:agency).where(agencies: { id: })
   end)
 
   alias_attribute :organization, :agency
@@ -139,7 +142,7 @@ class User < ApplicationRecord
     end
 
     def last_login_timestamp(user_name)
-      AuditLog.where(action_name: 'login', user_name: user_name).try(:last).try(:timestamp)
+      AuditLog.where(action_name: 'login', user_name:).try(:last).try(:timestamp)
     end
 
     def agencies_for_user_names(user_names)
@@ -167,8 +170,8 @@ class User < ApplicationRecord
     end
   end
 
-  def initialize(attributes = nil, &block)
-    super(attributes&.except(*User.unique_id_parameters), &block)
+  def initialize(attributes = nil, &)
+    super(attributes&.except(*User.unique_id_parameters), &)
     associate_unique_id_properties(attributes.slice(*User.unique_id_parameters)) if attributes.present?
   end
 
@@ -272,10 +275,13 @@ class User < ApplicationRecord
     role&.group_permission == permission
   end
 
+  def managed_report_permission?
+    role.permissions.find { |permission| permission.resource == Permission::MANAGED_REPORT }.present?
+  end
+
   def managed_report_scope
-    managed_report_permission = role.permissions.find do |permission|
-      permission.resource == Permission::MANAGED_REPORT
-    end
+    managed_report_permission = role.permissions.find { |permission| permission.resource == Permission::MANAGED_REPORT }
+    return unless managed_report_permission.present?
 
     managed_report_permission.managed_report_scope || Permission::ALL
   end
@@ -472,12 +478,26 @@ class User < ApplicationRecord
     can?(:approve_gbv_closure, Child) || can?(:request_approval_gbv_closure, Child)
   end
 
+  def can_read_record?(record)
+    can?(:read, record)
+  end
+
+  def can_assign?(record_model)
+    can?(Permission::ASSIGN.to_sym, record_model) ||
+      can?(Permission::ASSIGN_WITHIN_AGENCY.to_sym, record_model) ||
+      can?(Permission::ASSIGN_WITHIN_USER_GROUP.to_sym, record_model)
+  end
+
   def agency_read?
     permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
   end
 
   def emailable?
     email.present? && send_mail == true && !disabled?
+  end
+
+  def receive_webpush?
+    receive_webpush == true && !disabled?
   end
 
   private
@@ -521,7 +541,7 @@ class User < ApplicationRecord
     return if ENV['PRIMERO_BOOTSTRAP']
     return unless associated_attributes_changed?
 
-    AssociatedRecordsJob.perform_later(
+    UpdateUserAssociatedRecordsJob.perform_later(
       user_id: id,
       update_user_groups: user_groups_changed,
       update_agencies: saved_change_to_attribute?('agency_id'),

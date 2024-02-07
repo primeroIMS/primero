@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Create a new registry record
 
 Create a new registry record and optionally return the entire record, 

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import * as configConstants from "./constants";
 
 describe("Verifying config constant", () => {
@@ -17,6 +19,7 @@ describe("Verifying config constant", () => {
     });
 
     [
+      "API_BASE_PATH",
       "ACCEPT",
       "ACCEPTED",
       "ADMIN_NAV",
@@ -44,6 +47,7 @@ describe("Verifying config constant", () => {
       "DONE",
       "FAMILIES",
       "FAMILY",
+      "FAMILY_DETAILS_SUBFORM_ID",
       "FAMILY_MEMBERS_SUBFORM_ID",
       "FETCH_PARAM",
       "FETCH_TIMEOUT",
@@ -60,6 +64,7 @@ describe("Verifying config constant", () => {
       "INCIDENT_CASE_ID_FIELD",
       "INCIDENT_FROM_CASE",
       "INCIDENT_SHORT_ID_FIELD",
+      "INPROGRESS",
       "ISO_DATE_REGEX",
       "ISO_DATE_TIME_REGEX",
       "LOCALE_KEYS",
@@ -89,6 +94,7 @@ describe("Verifying config constant", () => {
       "RECORD_TYPES",
       "RECORD_TYPES_PLURAL",
       "REFERRAL",
+      "REFERRAL_TRANSFERS_SUBREPORTS",
       "REGISTRY_RECORD",
       "REGISTRY_RECORDS",
       "REJECT",
@@ -134,7 +140,10 @@ describe("Verifying config constant", () => {
       "SUMMARY_INCIDENT_MRM",
       "VIOLATION_FORMS_MAPPING",
       "VIOLATIONS_ASSOCIATIONS_RESPONSES",
-      "INDIVIDUAL_CHILDREN"
+      "INDIVIDUAL_CHILDREN",
+      "NOTIFICATION_PERMISSIONS",
+      "POST_MESSAGES",
+      "PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);
@@ -243,7 +252,9 @@ describe("Verifying config constant", () => {
           "new_form",
           "services_section",
           "transfer_request",
-          "duplicate_field"
+          "duplicate_field",
+          "transfer",
+          "referral"
         );
 
         expect(constants.ROWS_PER_PAGE_OPTIONS).to.be.an("array");

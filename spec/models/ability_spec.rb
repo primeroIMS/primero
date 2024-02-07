@@ -1,4 +1,9 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
+require 'cancan/matchers'
 
 describe Ability do
   CRUD = %i[index create view edit update destroy].freeze
@@ -163,6 +168,25 @@ describe Ability do
 
       expect(ability).to authorize(:read, case1)
       expect(ability).to authorize(:write, case1)
+    end
+
+    describe '#configure_flags' do
+      let(:flag_permissions) do
+        Permission.records.map do |resource|
+          Permission.new(resource:, actions: [Permission::READ, Permission::FLAG])
+        end
+      end
+
+      let(:flag_role) { create :role, permissions: flag_permissions }
+      let(:flag_user) { create :user, role: flag_role }
+      subject(:ability) { Ability.new(flag_user) }
+
+      it 'allows to flag records an user' do
+        [Child, TracingRequest, Incident, RegistryRecord, Family].each do |model|
+          instance = model.new_with_user(flag_user, {})
+          expect(ability).to be_able_to(:flag_record, instance)
+        end
+      end
     end
   end
 
@@ -329,8 +353,10 @@ describe Ability do
 
       context 'is set with read access' do
         before :each do
-          @permission_role_specific_read = Permission.new(resource: Permission::ROLE, actions: [Permission::READ], role_unique_ids: [@role_case_read.unique_id])
-          @role_role_specific_read = create :role, permissions: [@permission_role_specific_read], group_permission: Permission::GROUP
+          @permission_role_specific_read = Permission.new(resource: Permission::ROLE, actions: [Permission::READ],
+                                                          role_unique_ids: [@role_case_read.unique_id])
+          @role_role_specific_read = create :role, permissions: [@permission_role_specific_read],
+                                                   group_permission: Permission::GROUP
           @user1.role = @role_role_specific_read
           @user1.save
 
@@ -388,7 +414,10 @@ describe Ability do
 
       context 'is not set' do
         before :each do
-          @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+          @permission_role_read_write = Permission.new(resource: Permission::ROLE,
+                                                       actions: [
+                                                         Permission::READ, Permission::WRITE, Permission::CREATE
+                                                       ])
           @role_non_role_specific_read_write = create :role, permissions: [@permission_role_read_write]
           @user1.role = @role_non_role_specific_read_write
           @user1.save
@@ -423,7 +452,10 @@ describe Ability do
         @role_tracing_request_read = create :role, permissions: [@permission_tracing_request_read]
         @permission_incident_read = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ])
         @role_incident_read = create :role, permissions: [@permission_incident_read]
-        @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+        @permission_user_read_write = Permission.new(resource: Permission::USER,
+                                                     actions: [
+                                                       Permission::READ, Permission::WRITE, Permission::CREATE
+                                                     ])
       end
 
       context 'and specifies 2 roles' do
@@ -490,7 +522,10 @@ describe Ability do
 
       context 'and specifies no roles' do
         before :each do
-          @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+          @permission_role_read_write = Permission.new(resource: Permission::ROLE,
+                                                       actions: [
+                                                         Permission::READ, Permission::WRITE, Permission::CREATE
+                                                       ])
           @role_role_assign_none = create(
             :role,
             permissions: [@permission_user_read_write, @permission_role_read_write],
@@ -969,7 +1004,10 @@ describe Ability do
 
       context 'and specifies no roles' do
         before :each do
-          @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+          @permission_role_read_write = Permission.new(resource: Permission::ROLE,
+                                                       actions: [
+                                                         Permission::READ, Permission::WRITE, Permission::CREATE
+                                                       ])
           @role_role_assign_none = create(
             :role,
             permissions: [@permission_user_read_write, @permission_role_read_write],

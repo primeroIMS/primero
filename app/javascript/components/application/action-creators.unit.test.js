@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
@@ -21,7 +23,8 @@ describe("Application - Action Creators", () => {
       "setReturnUrl",
       "setUserIdle",
       "fetchManagedRoles",
-      "fetchSandboxUI"
+      "fetchSandboxUI",
+      "fetchWebpushConfig"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];

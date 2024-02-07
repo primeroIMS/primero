@@ -1,3 +1,5 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
 .nav {
   & > div {
     height: 100%;
@@ -158,8 +160,24 @@
 
 @media (min-width:960px) and (max-width:1279.95px) {
   .drawerPaper, .drawerPaper-demo {
-    width: 3.8em;
+    width: 4.1em;
     overflow-x: hidden;
+  }
+
+  .drawerPaper::-webkit-scrollbar,
+  .drawerPaper-demo::-webkit-scrollbar {
+    width: 0.4em
+  }
+
+  .drawerPaper::-webkit-scrollbar-track,
+  .drawerPaper-demo::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.00);
+  }
+
+  .drawerPaper::-webkit-scrollbar-thumb,
+  .drawerPaper-demo::-webkit-scrollbar-thumb {
+    background-color: grey;
+    outline: 1px solid grey;
   }
 
   .listIcon {
@@ -170,3 +188,42 @@
     display: none;
   }
 }
+
+@media (max-width:1279.95px),
+  only screen and (pointer: coarse) and (max-width:1279.95px) {
+  .navNetworkIndicator {
+    & div {
+      margin: 0 7px 0 8px;
+      padding: 4px 8px 4px 6px;
+    }
+  }
+  .navTranslationsToggle {
+    & button {
+      padding-left: 8px;
+    }
+  }
+}
+
+@media only screen and (pointer: fine) and (max-width:1279.95px) {
+  .navNetworkIndicator {
+    & div {
+      margin: 0 3px 0 5px;
+      padding: 4px 8px 4px 5px;
+    }
+  }
+}
+
+@media (pointer: fine) and (max-width:1279.95px) {
+  .navNetworkIndicator {
+    & div {
+      margin: 0 10px 0 10px;
+      padding: 4px 8px 4px 6px;
+    }
+  }
+  .navTranslationsToggle {
+    & button {
+      padding-left: 8px;
+    }
+  }
+}
+
