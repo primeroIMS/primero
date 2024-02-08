@@ -1,4 +1,4 @@
-import { setupMountedComponent } from "../../../../test";
+import { mountedComponent, screen } from "../../../../test-utils";
 
 import Logos from "./component";
 
@@ -21,14 +21,14 @@ describe("<Logos />", () => {
   };
 
   it("renders Logos", () => {
-    const { component } = setupMountedComponent(Logos, props);
+    mountedComponent(<Logos {...props} />);
 
-    expect(component.find(Logos)).to.have.lengthOf(1);
+    expect(screen.getByText(/exports.printed/i)).toBeInTheDocument();
   });
 
   it("renders img", () => {
-    const { component } = setupMountedComponent(Logos, props);
+    mountedComponent(<Logos {...props} />);
 
-    expect(component.find("img")).to.have.lengthOf(2);
+    expect(screen.getAllByText((content, element) => element.tagName.toLowerCase() === "img")).toHaveLength(2);
   });
 });
