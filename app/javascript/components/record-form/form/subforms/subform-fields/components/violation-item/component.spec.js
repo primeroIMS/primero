@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../../../../../test";
+import { mountedComponent, screen } from "../../../../../../../test-utils";
 import { FieldRecord } from "../../../../../records";
 
 import ViolationItem from "./component";
@@ -54,8 +54,8 @@ describe("<RecordForm>/form/subforms/<SubformFields>/components/<ViolationItem /
       index: 0
     };
 
-    const { component } = setupMountedComponent(ViolationItem, props, initialState);
+    mountedComponent(<ViolationItem {...props} />, initialState);
+    expect(screen.getByTestId("violation-item")).toBeInTheDocument();
 
-    expect(component.find(ViolationItem)).lengthOf(1);
   });
 });
