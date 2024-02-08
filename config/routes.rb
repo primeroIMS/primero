@@ -71,6 +71,9 @@ Rails.application.routes.draw do
         resources :assigns, only: %i[index create]
         post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'
+        collection do
+          post :assigns, to: 'assigns#create_bulk'
+        end
       end
 
       resources :tracing_requests do

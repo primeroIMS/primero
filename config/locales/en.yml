@@ -414,6 +414,8 @@ en:
       tracing_message: 'Note: There is a match in the system with an Inquirer looking
         for this child. Contact the social worker of this record for further action
         if the child wishes.'
+    reassign:
+      multiple_successfully: Primero is reassigning %{select_records} Case(s). It may take several minutes for all of these Cases to update.
     referral_done: Clicking 'Done' signifies that you have completed the referral
       work associated with this case. Once you click 'Done' you will no longer have
       access to this record.
@@ -463,6 +465,7 @@ en:
     save_filter: Save
     selected_all_records: Select all %{total_records} cases that match this query.
     selected_records: '%{select_records} case(s) selected'
+    selected_records_assign: '%{select_records} case(s) selected'
     sex: Sex
     show_case: 'Case ID: %{short_id}'
     social_worker: Social Worker
@@ -1481,6 +1484,7 @@ en:
       disabled: Incident is disabled
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
+      bulk_assign_limit_try_again: You cannot assign more than 100 Incidents at once. Please select 100 Incidents or fewer and then try again.
     violation:
       associated_violations: "Associated Violations:"
       update_and_return: 'Update and Return to %{association}'
@@ -1547,12 +1551,15 @@ en:
       perpetrator_category: Type of Perpetrator
       record_owner: Record Owner
     register_new_incident: New Incident
+    reassign:
+      multiple_successfully: Primero is reassigning %{select_records} Incident(s). It may take several minutes for all of these Incidents to update. Note that Incidents already linked to Cases will not be assigned.
     selectable_date_options:
       date_of_first_report: Interview Date
       mrm_date_of_first_report: Date of initial report to CTFMR member
       ctfmr_verified_date: Date of Verification decision by CTFMR
       incident_date_derived: Incident Date
     selected_records: '%{select_records} incident(s) selected'
+    selected_records_assign: '%{select_records} incident(s) selected. Note that Incidents already linked to Cases will not be assigned.'
     selected_all_records: 'Select all %{total_records} incidents that match this query.'
     summary_mrm:
       label: Summary of the Incident
