@@ -11,7 +11,7 @@ import css from "./styles.css";
 const Component = ({ open, cancelHandler, children, title }) => {
   return (
     <Drawer anchor="right" open={open} onClose={cancelHandler} classes={{ paper: css.subformDrawer }}>
-      <div className={css.subformDrawerContent}>
+      <div data-testid="subForm-drawer" className={css.subformDrawerContent}>
         <div className={css.title}>
           <h1>{title}</h1>
           <div>
