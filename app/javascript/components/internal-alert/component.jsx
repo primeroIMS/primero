@@ -72,6 +72,7 @@ const Component = ({ title, items, severity, customIcon }) => {
   return (
     <Accordion className={accordionClasses}>
       <AccordionSummary
+        data-testid="internal-alert"
         classes={classes}
         expandIcon={items?.size > 1 ? <ExpandMoreIcon /> : null}
         aria-controls="record-form-alerts-panel"
