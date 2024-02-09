@@ -1,4 +1,4 @@
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 
 import { ATTACHMENT_TYPES } from "./constants";
 import AttachmentPreview from "./attachment-preview";
@@ -15,14 +15,14 @@ describe("<AttachmentPreview />", () => {
   };
 
   it("should render an audio", () => {
-    const { component } = setupMountedComponent(AttachmentPreview, { ...props, attachment: ATTACHMENT_TYPES.audio });
+    const audioProps = { ...props, attachment: ATTACHMENT_TYPES.audio };
 
-    expect(component.find("audio")).to.have.lengthOf(1);
+    mountedComponent(<AttachmentPreview {...audioProps} />);
+    expect(screen.getByTestId("audio")).toBeInTheDocument();
   });
 
   it("should render an img", () => {
-    const { component } = setupMountedComponent(AttachmentPreview, props, {}, [], formProps);
-
-    expect(component.find("img")).to.have.lengthOf(1);
+    mountedComponent(<AttachmentPreview {...props} />, {}, [], {}, formProps);
+    expect(screen.getByTestId("attachment")).toBeInTheDocument();
   });
 });

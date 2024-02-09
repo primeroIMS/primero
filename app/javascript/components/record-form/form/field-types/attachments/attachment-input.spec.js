@@ -1,7 +1,4 @@
-import { FastField } from "formik";
-
-import { setupMountedComponent } from "../../../../../test";
-import ActionButton from "../../../../action-button";
+import { mountedComponent, screen } from "../../../../../test-utils";
 
 import { ATTACHMENT_TYPES } from "./constants";
 import AttachmentInput from "./attachment-input";
@@ -19,17 +16,13 @@ describe("<AttachmentInput />", () => {
     initialValues: {}
   };
 
-  let component;
-
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(AttachmentInput, props, {}, [], formProps));
-  });
-
   it("should render FastField", () => {
-    expect(component.find(FastField)).to.have.lengthOf(1);
+    mountedComponent(<AttachmentInput {...props} />, {}, [], {}, formProps);
+    expect(screen.getByTestId("input-file")).toBeInTheDocument();
   });
 
   it("should render ActionButton", () => {
-    expect(component.find(ActionButton)).to.have.lengthOf(1);
+    mountedComponent(<AttachmentInput {...props} />, {}, [], {}, formProps);
+    expect(screen.getByText("fields.file_upload_box.select_file_button_text")).toBeInTheDocument();
   });
 });
