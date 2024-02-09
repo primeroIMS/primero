@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import useOptions from "../../../../../../form/use-options";
 import { LOOKUPS } from "../../../../../../../config";
 import css from "./styles.css"
+import PropTypes from "prop-types";
 
 const Component = ({ selectedValue, setSelectedValue }) => {
 
@@ -56,4 +57,4 @@ Component.propTypes = {
 
 Component.displayName = "VerifySelect";
 
-export default VerifySelect
+export default Component;
