@@ -17,7 +17,15 @@ describe PermittedAttachmentService, search: true do
 
   let(:permission) { Permission.new(resource: Permission::CASE, actions: [Permission::READ]) }
 
-  let(:role_with_permission) do
+  let(:role_with_write_form_permission) do
+    role = Role.new_with_properties(
+      name: 'write_attachment', permissions: [permission], form_section_read_write: { form1: 'rw' }
+    )
+    role.save!
+    role
+  end
+
+  let(:role_with_read_form_permission) do
     role = Role.new_with_properties(
       name: 'read_attachment', permissions: [permission], form_section_read_write: { form1: 'r' }
     )
@@ -33,7 +41,7 @@ describe PermittedAttachmentService, search: true do
 
   let(:user) do
     user = create(:user)
-    user.role = role_with_permission
+    user.role = role_with_read_form_permission
     user
   end
 
@@ -96,25 +104,67 @@ describe PermittedAttachmentService, search: true do
     form_sections
   end
 
-  describe '#permitted_to_access?' do
+  describe '#permitted_to_read?' do
+    it 'returns true if a user has read access to an attachment record and field' do
+      expect(PermittedAttachmentService.permitted_to_read?(user, attachment_with_access, nil)).to be(true)
+    end
+
+    it 'returns true if a user can view an attachment' do
+      role_without_form_permissions.permissions = [
+        Permission.new(resource: Permission::POTENTIAL_MATCH, actions: [Permission::VIEW_PHOTO])
+      ]
+      role_without_form_permissions.save!
+      user.role = role_without_form_permissions
+      user.save!
+      expect(PermittedAttachmentService.permitted_to_read?(user, attachment_with_access, nil)).to be(true)
+    end
+
+    it 'returns true if a user can preview an attachment' do
+      role_with_read_form_permission.permissions = [
+        Permission.new(
+          resource: Permission::CASE, actions: [Permission::DISPLAY_VIEW_PAGE, Permission::SEARCH_OWNED_BY_OTHERS]
+        )
+      ]
+      role_with_read_form_permission.save!
+      user.role = role_with_read_form_permission
+      user.save!
+      expect(PermittedAttachmentService.permitted_to_read?(user, attachment_with_access, nil)).to be(true)
+    end
+  end
+
+  describe '#permitted_to_write?' do
+    it 'returns true if a user has write access to an attachment' do
+      user.role = role_with_write_form_permission
+      user.save!
+      expect(PermittedAttachmentService.permitted_to_write?(user, attachment_with_access, nil)).to be(true)
+    end
+
+    it 'returns false if a user does not have write access to an attachment' do
+      user.role = role_with_read_form_permission
+      user.save!
+      expect(PermittedAttachmentService.permitted_to_write?(user, attachment_with_access, nil)).to be(false)
+    end
+  end
+
+  describe '#permitted?' do
     context 'when a user has access to the record' do
       it 'returns true if a user has access to the field_name' do
         permitted_attachment_service = PermittedAttachmentService.new(user, attachment_with_access, nil)
-        expect(permitted_attachment_service.permitted_to_access?).to be(true)
+        expect(permitted_attachment_service.permitted?).to be(true)
       end
 
       it 'returns false if a user does not have access to the field_name' do
         user.role = role_without_form_permissions
         user.save!
         permitted_attachment_service = PermittedAttachmentService.new(user, attachment_with_access, nil)
-        expect(permitted_attachment_service.permitted_to_access?).to be(false)
+        expect(permitted_attachment_service.permitted?).to be(false)
       end
     end
 
     context 'when a user does not have access to the record' do
       it 'returns false' do
         permitted_attachment_service = PermittedAttachmentService.new(user, attachment_without_access, nil)
-        expect(permitted_attachment_service.permitted_to_access?).to be(false)
+        expect(permitted_attachment_service.permitted?).to be(false)
       end
     end
   end
@@ -135,11 +185,11 @@ describe PermittedAttachmentService, search: true do
         end
 
         it 'returns true if can view photos in the case list and have access to the photo field' do
-          role_with_permission.permissions = [
+          role_with_read_form_permission.permissions = [
             Permission.new(resource: Permission::CASE, actions: [Permission::VIEW_PHOTO])
           ]
-          role_with_permission.save!
-          user.role = role_with_permission
+          role_with_read_form_permission.save!
+          user.role = role_with_read_form_permission
           user.save!
           permitted_attachment_service = PermittedAttachmentService.new(user, attachment_with_access, nil)
 
@@ -222,13 +272,13 @@ describe PermittedAttachmentService, search: true do
   describe '#permitted_to_preview?' do
     context 'when a user can access the attachment field' do
       it 'returns true if the attachment is an image' do
-        role_with_permission.permissions = [
+        role_with_read_form_permission.permissions = [
           Permission.new(
             resource: Permission::CASE, actions: [Permission::DISPLAY_VIEW_PAGE, Permission::SEARCH_OWNED_BY_OTHERS]
           )
         ]
-        role_with_permission.save!
-        user.role = role_with_permission
+        role_with_read_form_permission.save!
+        user.role = role_with_read_form_permission
         user.save!
         permitted_attachment_service = PermittedAttachmentService.new(user, attachment_without_access, nil)
 
@@ -236,11 +286,11 @@ describe PermittedAttachmentService, search: true do
       end
 
       it 'returns false if the attachment is not an audio/image' do
-        role_with_permission.permissions = [
+        role_with_read_form_permission.permissions = [
           Permission.new(resource: Permission::CASE, actions: [Permission::DISPLAY_VIEW_PAGE])
         ]
-        role_with_permission.save!
-        user.role = role_with_permission
+        role_with_read_form_permission.save!
+        user.role = role_with_read_form_permission
         user.save!
         permitted_attachment_service = PermittedAttachmentService.new(user, document_attachment, nil)
 

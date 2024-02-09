@@ -74,8 +74,13 @@ describe RecordDataService do
       ).attach!
     end
 
-    it 'injects the paths to the photo' do
-      data = RecordDataService.new.embed_photo_metadata({}, @record, %w[photos], @user)
+    it 'injects the paths to the photo for the photos field' do
+      data = RecordDataService.new.embed_photo_metadata({}, @record, %w[photos])
+      expect(data['photo']).to match(/.+jorge\.jpg$/)
+    end
+
+    it 'injects the paths to the photo for the photo field' do
+      data = RecordDataService.new.embed_photo_metadata({}, @record, %w[photo])
       expect(data['photo']).to match(/.+jorge\.jpg$/)
     end
 

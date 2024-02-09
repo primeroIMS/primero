@@ -111,6 +111,7 @@ class PermittedFieldService
     @permitted_field_names += permitted_reporting_location_field
     @permitted_field_names += permitted_registry_record_id
     @permitted_field_names += permitted_family_id
+    @permitted_field_names += permitted_attachment_fields
     @permitted_field_names
   end
 
@@ -222,6 +223,18 @@ class PermittedFieldService
     (Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS).each_with_object({}) do |entry, schema|
       schema[entry] = { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
     end
+  end
+
+  def permitted_attachment_fields
+    attachment_field_names = []
+    if user.can?(:search_owned_by_others, model_class) && user.can_preview?(model_class)
+      attachment_field_names << Attachable::PHOTOS_FIELD_NAME
+      attachment_field_names << Attachable::AUDIOS_FIELD_NAME
+    end
+
+    attachment_field_names << 'photo' if user.can?(:view_photo, model_class)
+
+    attachment_field_names
   end
 end
 # rubocop:enable Metrics/ClassLength
