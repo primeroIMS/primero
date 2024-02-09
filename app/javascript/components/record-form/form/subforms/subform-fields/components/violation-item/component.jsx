@@ -30,7 +30,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
   // State variables
   const dispatch = useDispatch();
   const [verifyModal, setVerifyModal] = useState(false);
-  const [verificationValue, setVerificationValue] = useState(currentValues?.ctfmr_verified || ""); // Dropdown selected state
+  const [verificationValue, setVerificationValue] = useState(currentValues?.ctfmr_verified || ""); 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [validationError, setValidationError] = useState("");
 
@@ -59,7 +59,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
     setVerifyModal(false);
   };
 
-  const { canVerify } = usePermissions("incidents", RECORD_ACTION_ABILITIES); //  To check permission to do verify violations
+  const { canVerify } = usePermissions("incidents", RECORD_ACTION_ABILITIES); //check permission to verify violations
   const violationTally = getViolationTallyLabel(fields, currentValues, locale);
 
   const handleOk = () => {
@@ -87,7 +87,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
         false
       )
     );
-    close();
+    // close();
   };
 
   // Define VerifySelect component

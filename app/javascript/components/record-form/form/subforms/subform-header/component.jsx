@@ -142,10 +142,10 @@ Component.propTypes = {
   index: PropTypes.number.isRequired,
   isViolationSubform: PropTypes.bool,
   locale: PropTypes.string.isRequired,
+  mode: PropTypes.object.isRequired,
   parentTitle: PropTypes.string,
   renderSecondaryText: PropTypes.bool,
-  values: PropTypes.array.isRequired,
-  mode: PropTypes.object.isRequired
+  values: PropTypes.array.isRequired  
 };
 
 export default Component;
