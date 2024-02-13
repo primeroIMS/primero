@@ -1,17 +1,14 @@
 import { Map, List } from "immutable";
+import { mountedComponent, screen } from "test-utils";
 
-import { setupMountedComponent } from "../../test";
-
-import ListSavedSearches from "./ListSavedSearches";
 import SavedSearches from "./component";
 
 describe("<SavedSearches /> - Component", () => {
-  let component;
+  beforeEach(() => {
+    const props = { recordType: "incidents", resetFilters: () => {} };
 
-  before(() => {
-    component = setupMountedComponent(
-      SavedSearches,
-      { recordType: "incidents", resetFilters: () => {} },
+    mountedComponent(
+      <SavedSearches {...props} />,
       Map({
         records: Map({
           savedSearches: Map({
@@ -31,10 +28,10 @@ describe("<SavedSearches /> - Component", () => {
           })
         })
       })
-    ).component;
+    );
   });
 
   it("renders the ListSavedSearches", () => {
-    expect(component.find(ListSavedSearches)).to.have.length(1);
+    expect(screen.getByText("cases.my_filters")).toBeInTheDocument();
   });
 });

@@ -1,14 +1,10 @@
 import { List, Map } from "immutable";
-import { ListItem } from "@material-ui/core";
-
-import { setupMountedComponent } from "../../test";
+import { mountedComponent, screen } from "test-utils";
 
 import ListSavedSearches from "./ListSavedSearches";
 import { SavedSearchesRecord } from "./records";
 
 describe("<ListSavedSearches /> - Component", () => {
-  let component;
-
   beforeEach(() => {
     const savedSearches = List([
       SavedSearchesRecord({
@@ -37,15 +33,16 @@ describe("<ListSavedSearches /> - Component", () => {
       })
     ]);
 
-    ({ component } = setupMountedComponent(
-      ListSavedSearches,
-      {
-        recordType: "cases",
-        savedSearches: List(savedSearches),
-        resetFilters: () => {},
-        setTabIndex: () => {},
-        setRerender: () => {}
-      },
+    const props = {
+      recordType: "cases",
+      savedSearches: List(savedSearches),
+      resetFilters: () => {},
+      setTabIndex: () => {},
+      setRerender: () => {}
+    };
+
+    mountedComponent(
+      <ListSavedSearches {...props} />,
       Map({
         records: Map({
           savedSearches: Map({
@@ -53,10 +50,14 @@ describe("<ListSavedSearches /> - Component", () => {
           })
         })
       })
-    ));
+    );
   });
 
   it("renders 2 ListItem", () => {
-    expect(component.find(ListItem)).to.have.lengthOf(2);
+    const listItemText1 = screen.getByText("a new filter");
+    const listItemText2 = screen.getByText("another filter");
+
+    expect(listItemText1).toBeInTheDocument();
+    expect(listItemText2).toBeInTheDocument();
   });
 });
