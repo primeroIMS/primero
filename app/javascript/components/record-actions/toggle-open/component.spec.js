@@ -1,13 +1,11 @@
 import { fromJS } from "immutable";
 
-import ActionDialog from "../../action-dialog";
-import { setupMountedComponent } from "../../../test";
+import { mountedComponent, screen } from "../../../test-utils";
 import { RECORD_PATH } from "../../../config";
 
 import ToggleOpen from "./component";
 
 describe("<ToggleOpen />", () => {
-  let component;
 
   const record = fromJS({
     id: "03cdfdfe-a8fc-4147-b703-df976d200977",
@@ -22,28 +20,22 @@ describe("<ToggleOpen />", () => {
     close: () => {},
     openReopenDialog: true,
     recordType: RECORD_PATH.cases,
+    open: true,
     record
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(ToggleOpen, props, {}));
-  });
-
   it("renders ToggleOpen", () => {
-    expect(component.find(ToggleOpen)).to.have.length(1);
+    mountedComponent(<ToggleOpen {...props} />)
+    expect(screen.getByText(/cases.reopen_dialog_title/i)).toBeInTheDocument();
   });
 
   it("renders ActionDialog", () => {
-    expect(component.find(ActionDialog)).to.have.lengthOf(1);
+    mountedComponent(<ToggleOpen {...props} />)
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
   it("renders component with valid props", () => {
-    const toggleOpenProps = { ...component.find(ToggleOpen).props() };
-
-    ["close", "openReopenDialog", "record", "recordType"].forEach(property => {
-      expect(toggleOpenProps).to.have.property(property);
-      delete toggleOpenProps[property];
-    });
-    expect(toggleOpenProps).to.be.empty;
+    mountedComponent(<ToggleOpen {...props} />)
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 });
