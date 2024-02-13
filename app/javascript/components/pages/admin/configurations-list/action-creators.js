@@ -8,6 +8,7 @@ import actions from "./actions";
 
 export const fetchConfigurations = params => {
   const { data } = params || {};
+  data.per = 5;
 
   return {
     type: actions.FETCH_CONFIGURATIONS,
