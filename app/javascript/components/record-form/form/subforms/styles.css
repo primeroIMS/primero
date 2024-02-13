@@ -207,3 +207,8 @@
     padding-top: 0px;
   }
 }
+
+.keyboardDatePickerWrapper {
+  display: flex;
+  justify-content: space-between;
+}

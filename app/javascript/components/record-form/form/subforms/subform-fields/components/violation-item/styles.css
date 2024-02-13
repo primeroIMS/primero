@@ -16,3 +16,7 @@
 .verifySelectComponent[aria-expanded="true"], .verifySelectComponent:focus {
   outline: 4px solid var(--c-light-blue-rgba);
 }
+
+.selectWrapper {
+  min-width: 150px;
+}

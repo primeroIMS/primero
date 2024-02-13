@@ -1,9 +1,20 @@
 import { Box, FormControl, MenuItem, Select } from "@material-ui/core";
-import { useEffect, useState } from "react";
 import useOptions from "../../../../../../form/use-options";
 import { LOOKUPS } from "../../../../../../../config";
 import css from "./styles.css"
 import PropTypes from "prop-types";
+
+const MENU_PROPS = {
+  getContentAnchorEl: null,
+  anchorOrigin: {
+    vertical: "bottom",
+    horizontal: 'left'
+  },
+  transformOrigin: {
+    vertical: "top",
+    horizontal: 'left'
+  }
+}
 
 const Component = ({ selectedValue, setSelectedValue }) => {
 
@@ -13,26 +24,18 @@ const Component = ({ selectedValue, setSelectedValue }) => {
     setSelectedValue(event.target.value);
   };
 
+  const onSel = true;
+
   return (
-    <Box sx={{ minWidth: 150 }} >
+    <Box className={css.selectWrapper}>
       <FormControl fullWidth classes={{
         root: css.verifyFormControlRoot
       }}>
         <Select
           value={selectedValue}
           onChange={handleChange}
-          onSel
-          MenuProps={{
-            getContentAnchorEl: null,
-            anchorOrigin: {
-              vertical: "bottom",
-              horizontal: 'left'
-            },
-            transformOrigin: {
-              vertical: "top",
-              horizontal: 'left'
-            }
-          }}
+          onSel={onSel}
+          MenuProps={MENU_PROPS}
           classes={{
             root: css.verifySelectComponent,
             select: css.verifySelectComponentSelect
