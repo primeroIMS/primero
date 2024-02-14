@@ -99,6 +99,11 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
     />
   );
 
+  const keyboardDatePickerInputStyles = {
+    borderColor: validationError ? "red" : undefined,
+    marginLeft: "5px", // Add left margin here             
+  }
+
   // Define MuiPickersUtilsProvider component
   const MuiPickersUtilsProviderComponent = (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -113,10 +118,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
           error={!!validationError}
           maxDate={maxDate} // Disable future dates
           InputProps={{
-            style: {
-              borderColor: validationError ? "red" : undefined,
-              marginLeft: "5px", // Add left margin here             
-            },
+            style: keyboardDatePickerInputStyles,
           }}
           KeyboardButtonProps={{
             "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.from")
