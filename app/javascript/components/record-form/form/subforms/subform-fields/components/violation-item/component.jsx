@@ -60,7 +60,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
     setVerifyModal(false);
   };
 
-  const canVerify = usePermissions("incidents", RECORD_ACTION_ABILITIES); //check permission to verify violations
+  const {canVerify} = usePermissions("incidents", RECORD_ACTION_ABILITIES); //check permission to verify violations
   const violationTally = getViolationTallyLabel(fields, currentValues, locale);
 
   const handleOk = () => {

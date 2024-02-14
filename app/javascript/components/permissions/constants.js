@@ -110,7 +110,7 @@ export const ACTIONS = {
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   SYNC_EXTERNAL: "sync_external",
   TRANSFER: "transfer",
-  VERIFY: "verify",
+  VERIFY_MRM: "verify_mrm",
   VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
   VIEW_REGISTRY_RECORD: "view_registry_record",
   VIOLATIONS: "violations",
