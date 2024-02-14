@@ -2,7 +2,7 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# Transform API query parameter field_name=m..n into a Sunspot query
+# Transform API query parameter field_name=m..n into a sql query
 class SearchFilters::NumericRange < SearchFilters::SearchFilter
   attr_accessor :field_name, :from, :to
 

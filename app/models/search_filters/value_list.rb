@@ -25,6 +25,12 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
   # rubocop:enable Style/HashEachMethods
   # rubocop:enable Metrics/MethodLength
 
+  def query
+    ActiveRecord::Base.sanitize_sql_for_conditions(
+      ["#{@data_column_name} ->> :field_name IN (:values)", { field_name:, values: }]
+    )
+  end
+
   def as_location_filter(record_class)
     return self unless location_field_filter?(record_class)
 

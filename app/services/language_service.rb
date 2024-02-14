@@ -25,15 +25,27 @@ class LanguageService
     to: LATIN_GREEK[:to] + CYRILLIC[:to]
   }.freeze
 
-  def self.strip_diacritics(value)
-    strip_arabic_vowels(value.unicode_normalize(:nfc).tr(DIACRITICS[:from], DIACRITICS[:to]))
-  end
+  class << self
+    def strip_diacritics(value)
+      strip_arabic_vowels(value.unicode_normalize(:nfc).tr(DIACRITICS[:from], DIACRITICS[:to]))
+    end
 
-  def self.strip_arabic_vowels(value)
-    value.tr(ARABIC_VOWELS, '')
-  end
+    def strip_arabic_vowels(value)
+      value.tr(ARABIC_VOWELS, '')
+    end
 
-  def self.latin?(value)
-    value.gsub(/[^a-zA-Z]/, '').present?
+    def latin?(value)
+      value.gsub(/[^a-zA-Z]/, '').present?
+    end
+
+    def tokenize(value)
+      value&.split&.map do |elem|
+        diacriticless = strip_diacritics(elem)
+        # NOTE: Text::Metaphone produces upcase strings. Upcasing to keep consistent output.
+        next(diacriticless.upcase) unless latin?(elem)
+
+        Text::Metaphone.double_metaphone(diacriticless).first
+      end
+    end
   end
 end

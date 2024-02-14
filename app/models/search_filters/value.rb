@@ -13,6 +13,12 @@ class SearchFilters::Value < SearchFilters::SearchFilter
     end
   end
 
+  def query
+    ActiveRecord::Base.sanitize_sql_for_conditions(
+      ["#{@data_column_name} ->> :field_name #{@operator} :value", { field_name:, value: }]
+    )
+  end
+
   def as_location_filter(record_class)
     return self unless location_field_filter?(record_class)
 

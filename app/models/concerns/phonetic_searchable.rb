@@ -7,18 +7,18 @@ module PhoneticSearchable
   extend ActiveSupport::Concern
 
   included do
-    store_accessor :data, :phonetic_search
+    store_accessor :phonetic_data, :tokens
 
-    before_save :recalculate_phonetic_search_field
+    before_save :recalculate_phonetic_tokens
   end
 
-  def recalculate_phonetic_search_field
+  def recalculate_phonetic_tokens
     return unless phonetic_fields_changed?
 
-    self.phonetic_search = Searchable::PHONETIC_FIELD_NAMES.reduce([]) do |memo, field_name|
+    self.tokens = Searchable::PHONETIC_FIELD_NAMES.reduce([]) do |memo, field_name|
       next(memo) unless data[field_name].present?
 
-      memo + PhoneticSearchService.tokenize(data[field_name])
+      memo + LanguageService.tokenize(data[field_name])
     end
   end
 

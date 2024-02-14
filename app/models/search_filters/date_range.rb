@@ -17,6 +17,16 @@ class SearchFilters::DateRange < SearchFilters::SearchFilter
     end
   end
 
+  def query
+    %(
+      (
+        #{SearchFilters::DateValue.new({ field_name:, value: from, operator: '>' }).query}
+        AND
+        #{SearchFilters::DateValue.new({ field_name:, value: to, operator: '<' }).query}
+      )
+    )
+  end
+
   def this_quarter?
     return false unless from.present? && to.present?
 

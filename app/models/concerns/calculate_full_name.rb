@@ -2,13 +2,11 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# Auto populates the name of a record
-module AutoNameable
+# Calculates the full name of a record
+module CalculateFullName
   extend ActiveSupport::Concern
 
   included do
-    store_accessor :data, :name
-
     before_save :auto_populate_name
   end
 

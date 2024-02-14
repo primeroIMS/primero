@@ -29,8 +29,7 @@ class Child < ApplicationRecord
   include UNHCRMapping
   include Ownable
   include AutoPopulatable
-  include AutoNameable
-  include PhoneticSearchable
+  include CalculateFullName
   include Serviceable
   include Reopenable
   include Workflow
@@ -47,12 +46,13 @@ class Child < ApplicationRecord
   include FollowUpable
   include LocationCacheable
   include FamilyLinkable
+  include PhoneticSearchable
 
   # rubocop:disable Naming/VariableNumber
   store_accessor(
     :data,
     :case_id, :case_id_code, :case_id_display,
-    :nickname, :protection_concerns, :consent_for_tracing, :hidden_name,
+    :nickname, :name, :protection_concerns, :consent_for_tracing, :hidden_name,
     :name_first, :name_middle, :name_last, :name_nickname, :name_other,
     :registration_date, :age, :estimated, :date_of_birth, :sex, :address_last,
     :risk_level, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,

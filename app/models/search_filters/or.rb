@@ -19,6 +19,10 @@ class SearchFilters::Or < SearchFilters::SearchFilter
     end
   end
 
+  def query
+    filters.map(&:query).join(' OR ')
+  end
+
   def as_location_filter(record_class)
     return self unless location_field_filter?(record_class)
 
