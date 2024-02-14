@@ -1,11 +1,8 @@
-import { setupMountedComponent } from "../../../../../test";
-import Menu from "../../../../menu";
+import { mountedComponent } from "test-utils";
 
 import RolesActions from "./component";
 
 describe("<RolesActions />", () => {
-  let component;
-
   describe("when user can copy role", () => {
     const props = {
       canCopyRole: true,
@@ -13,11 +10,11 @@ describe("<RolesActions />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RolesActions, props));
+      mountedComponent(<RolesActions {...props} />);
     });
 
     it("should render Menu", () => {
-      expect(component.find(Menu)).to.have.lengthOf(1);
+      expect(document.querySelector("#long-menu")).toBeInTheDocument();
     });
   });
 
@@ -28,11 +25,11 @@ describe("<RolesActions />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RolesActions, props));
+      mountedComponent(<RolesActions {...props} />);
     });
 
     it("should not render Menu", () => {
-      expect(component.find(Menu)).to.be.empty;
+      expect(document.querySelector("#long-menu")).not.toBeInTheDocument();
     });
   });
 });
