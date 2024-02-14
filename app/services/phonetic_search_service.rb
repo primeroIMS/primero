@@ -67,7 +67,7 @@ class PhoneticSearchService
   end
 
   def paginate(pagination = {})
-    per = pagination&.dig(:per) || 10
+    per = pagination&.dig(:per_page) || 10
     page = pagination&.dig(:page) || 1
     offset = (page - 1) * per
 
