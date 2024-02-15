@@ -22,6 +22,10 @@ class PhoneticSearchService
 
   attr_accessor :record_class
 
+  def self.search(record_class, query, scope = {})
+    new(record_class).with_query(query).with_scope(scope)
+  end
+
   def initialize(record_class)
     self.record_class = record_class
     @query = record_class
@@ -33,6 +37,36 @@ class PhoneticSearchService
     tokens = LanguageService.tokenize(value)
     @query = @query.where("phonetic_data ->'tokens' ?| array[:values]", values: tokens)
                    .order(Arel.sql(phonetic_score_query(tokens)))
+    self
+  end
+
+  def with_scope(scope)
+    return self unless scope.present?
+
+    with_user_scope(scope[:user])
+    with_module_scope(scope[:module])
+
+    self
+  end
+
+  def with_user_scope(user_scope)
+    return self unless user_scope.present?
+
+    if user_scope['user'].present?
+      @query = @query.where("data->'associated_user_names' ? :user", user: user_scope['user'])
+    elsif user_scope['agency'].present?
+      @query = @query.where("data->'associated_user_agencies' ? :agency", agency: user_scope['agency'])
+    elsif user_scope['group'].present?
+      @query = @query.where("data->'associated_user_groups' ?| array[:groups]", groups: user_scope['group'])
+    end
+
+    self
+  end
+
+  def with_module_scope(module_scope)
+    return self unless module_scope.present?
+
+    @query = @query.where("data->'module_id' = :module_id", module_id: module_scope)
     self
   end
 
