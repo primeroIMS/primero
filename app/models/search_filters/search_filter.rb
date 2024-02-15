@@ -10,12 +10,16 @@ class SearchFilters::SearchFilter < ValueObject
 
   def initialize(args = {})
     super(args)
-    @operator = OPERATORS.include?(args[:operator]) ? args[:operator] : '='
-    @data_column_name = args[:data_column_name] || 'data'
+    @safe_operator = OPERATORS.include?(args[:operator]) ? args[:operator] : '='
+    @data_column_name = ActiveRecord::Base.connection.quote_column_name(args[:data_column_name] || 'data')
+  end
+
+  def query
+    raise NotImplementedError
   end
 
   def not_null_operator?
-    @operator == 'not_null'
+    @safe_operator == 'not_null'
   end
 
   def to_json(_obj)

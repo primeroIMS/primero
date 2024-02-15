@@ -26,15 +26,19 @@ class SearchFilterService
           SearchFilters::Or.new(filters: build_filters(value))
         end
       elsif key == 'not'
-        build_filter(value.keys.first, value.values.first, true)
+        SearchFilters::Value.new(field_name: key, value:, not_filter: true)
       elsif value.is_a?(Hash)
         if value['from'].is_a?(Numeric)
           SearchFilters::NumericRange.new(field_name: key, from: value['from'], to: value['to'])
         elsif value['from'].respond_to?(:strftime)
           SearchFilters::DateRange.new(field_name: key, from: value['from'], to: value['to'])
         end
+      elsif value.is_a?(Array)
+        SearchFilters::ValueList.new(field_name: key, values: value)
+      elsif value.is_a?(String)
+        SearchFilters::TextValue.new(field_name: key, value:)
       else
-        build_filter(key, value)
+        SearchFilters::Value.new(field_name: key, value:)
       end
     end
   end
@@ -42,19 +46,6 @@ class SearchFilterService
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/PerceivedComplexity
-
-  def build_filter(field_name, value, not_filter = false)
-    # TODO: Assumes everything is of the same type but we really need to either validate or cast types.
-    filter_value = value.is_a?(Array) ? value.first : value
-
-    if filter_value.is_a?(Numeric)
-      SearchFilters::NumericValue.new(field_name:, value:, not_filter:)
-    elsif [TrueClass, FalseClass].any? { |boolean_klass| filter_value.is_a?(boolean_klass) }
-      SearchFilters::BooleanValue.new(field_name:, value:, not_filter:)
-    else
-      SearchFilters::Value.new(field_name:, value:, not_filter:)
-    end
-  end
 
   def select_filter_params(params, permitted_field_names)
     filter_params = params.except(*EXCLUDED)

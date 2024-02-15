@@ -22,8 +22,8 @@ module Api::V2::Concerns::Record
     search = PhoneticSearchService.new(
       model_class
     ).with_filters(search_filters).with_query(params[:query]).with_sort(sort_order)
-    @total = search.query.count
-    @records = search.paginate(pagination).query
+    @total = search.count
+    @records = search.paginate(pagination).results
     render 'api/v2/records/index'
   end
 

@@ -11,7 +11,7 @@ class SearchFilters::DateValue < SearchFilters::Value
       [
         %(
           to_timestamp(#{@data_column_name} ->> :field_name, :date_format)
-          #{@operator}
+          #{@safe_operator}
           to_timestamp(:value, :date_format)
         ),
         { field_name:, value:, date_format: }

@@ -20,19 +20,19 @@ class PhoneticSearchService
 
   DEFAULT_SORT = { created_at: :desc }.freeze
 
-  attr_accessor :record_class, :query
+  attr_accessor :record_class
 
   def initialize(record_class)
     self.record_class = record_class
-    self.query = record_class
+    @query = record_class
   end
 
   def with_query(value)
     return self unless value.present?
 
     tokens = LanguageService.tokenize(value)
-    self.query = query.where("phonetic_data ->'tokens' ?| array[:values]", values: tokens)
-                      .order(Arel.sql(phonetic_score_query(tokens)))
+    @query = @query.where("phonetic_data ->'tokens' ?| array[:values]", values: tokens)
+                   .order(Arel.sql(phonetic_score_query(tokens)))
     self
   end
 
@@ -40,7 +40,7 @@ class PhoneticSearchService
     return self unless filters.present?
 
     filters&.each do |filter|
-      self.query = filter.not_filter ? query.where.not(filter.query) : query.where(filter.query)
+      @query = filter.not_filter ? @query.where.not(filter.query) : @query.where(filter.query)
     end
 
     self
@@ -48,7 +48,7 @@ class PhoneticSearchService
 
   def with_sort(sort = {})
     (sort || DEFAULT_SORT).each do |sort_field, direction|
-      self.query = query.order(
+      @query = @query.order(
         ActiveRecord::Base.sanitize_sql_for_order([Arel.sql("data->>? #{order_direction(direction)}"), [sort_field]])
       )
     end
@@ -71,8 +71,18 @@ class PhoneticSearchService
     page = pagination&.dig(:page) || 1
     offset = (page - 1) * per
 
-    self.query = query.limit(per).offset(offset)
+    @query = @query.limit(per).offset(offset)
 
     self
+  end
+
+  def count
+    @query.count
+  end
+
+  def results
+    return @query if @query.is_a?(ActiveRecord::Relation)
+
+    record_class.all
   end
 end
