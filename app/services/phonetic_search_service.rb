@@ -49,7 +49,7 @@ class PhoneticSearchService
   def with_sort(sort = {})
     (sort || DEFAULT_SORT).each do |sort_field, direction|
       @query = @query.order(
-        ActiveRecord::Base.sanitize_sql_for_order([Arel.sql("data->>? #{order_direction(direction)}"), [sort_field]])
+        ActiveRecord::Base.sanitize_sql_for_order([Arel.sql("data->? #{order_direction(direction)}"), [sort_field]])
       )
     end
 
