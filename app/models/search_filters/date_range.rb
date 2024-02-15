@@ -18,13 +18,19 @@ class SearchFilters::DateRange < SearchFilters::SearchFilter
   end
 
   def query
-    %(
-      (
-        #{SearchFilters::DateValue.new({ field_name:, value: from, operator: '>' }).query}
-        AND
-        #{SearchFilters::DateValue.new({ field_name:, value: to, operator: '<' }).query}
-      )
-    )
+    "(#{from_query} AND #{to_query})"
+  end
+
+  def from_query
+    SearchFilters::DateValue.new(field_name:, value: from, operator: '>', date_include_time: date_include_time?).query
+  end
+
+  def to_query
+    SearchFilters::DateValue.new(field_name:, value: to, operator: '<', date_include_time: date_include_time?).query
+  end
+
+  def date_include_time?
+    from.is_a?(Time) || to.is_a?(Time)
   end
 
   def this_quarter?

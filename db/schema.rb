@@ -13,13 +13,9 @@
 ActiveRecord::Schema.define(version: 2024_02_12_000000) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "fuzzystrmatch"
-  enable_extension "intarray"
   enable_extension "ltree"
-  enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
-  enable_extension "unaccent"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -145,11 +141,8 @@ ActiveRecord::Schema.define(version: 2024_02_12_000000) do
     t.uuid "registry_record_id"
     t.uuid "family_id"
     t.jsonb "phonetic_data"
-    t.index "((data -> 'phonetic_search'::text))", name: "phonetic_search_idx", using: :gin
     t.index "((data ->> 'case_id'::text))", name: "cases_case_id_unique_idx", unique: true
-    t.index "((data ->> 'name'::text))", name: "name_idx"
     t.index "((phonetic_data -> 'tokens'::text))", name: "cases_phonetic_tokens_idx", using: :gin
-    t.index "regexp_split_to_array((data ->> 'name'::text), ' '::text)", name: "name_array_idx", using: :gin
     t.index ["data"], name: "index_cases_on_data", using: :gin
     t.index ["duplicate_case_id"], name: "index_cases_on_duplicate_case_id"
     t.index ["family_id"], name: "index_cases_on_family_id"
