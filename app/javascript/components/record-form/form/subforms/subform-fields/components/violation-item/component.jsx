@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { ListItemText, Button } from "@material-ui/core";
 import { useParams } from "react-router-dom";
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 import ActionDialog from "../../../../../../action-dialog";
 import ViolationTitle from "../violation-title";
@@ -17,10 +19,6 @@ import VerifySelect from "./select";
 import { getViolationTallyLabel } from "./utils";
 import { NAME } from "./constants";
 
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
-
-
 const Component = ({ fields, values, locale, displayName, index, collapsedFieldValues, mode }) => {
   const currentValues = values[index];
   const verifyParams = useParams();
@@ -30,7 +28,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
   // State variables
   const dispatch = useDispatch();
   const [verifyModal, setVerifyModal] = useState(false);
-  const [verificationValue, setVerificationValue] = useState(currentValues?.ctfmr_verified || ""); 
+  const [verificationValue, setVerificationValue] = useState(currentValues?.ctfmr_verified || "");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [validationError, setValidationError] = useState("");
   const maxDate = new Date();
@@ -40,7 +38,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
     setVerificationValue(currentValues?.ctfmr_verified);
   }, [currentValues?.ctfmr_verified]);
 
-  const handleDropdownDate = (date) => {
+  const handleDropdownDate = date => {
     if (selectedDate) {
       setSelectedDate(date);
     } else {
@@ -49,7 +47,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
     }
   };
 
-  const handleOpenVerifyModal = (index, event) => {
+  const handleOpenVerifyModal = (idx, event) => {
     //  To open verify dialog confirmation popup
     event.stopPropagation();
     setVerifyModal(true);
@@ -60,7 +58,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
     setVerifyModal(false);
   };
 
-  const {canVerify} = usePermissions("incidents", RECORD_ACTION_ABILITIES); //check permission to verify violations
+  const { canVerify } = usePermissions("incidents", RECORD_ACTION_ABILITIES); // check permission to verify violations
   const violationTally = getViolationTallyLabel(fields, currentValues, locale);
 
   const handleOk = () => {
@@ -93,16 +91,13 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
 
   // Define VerifySelect component
   const VerifySelectComponent = (
-    <VerifySelect
-      selectedValue={verificationValue}
-      setSelectedValue={setVerificationValue}
-    />
+    <VerifySelect selectedValue={verificationValue} setSelectedValue={setVerificationValue} />
   );
 
   const keyboardDatePickerInputStyles = {
     borderColor: validationError ? "red" : undefined,
-    marginLeft: "5px", // Add left margin here             
-  }
+    marginLeft: "5px" // Add left margin here
+  };
 
   // Define MuiPickersUtilsProvider component
   const MuiPickersUtilsProviderComponent = (
@@ -118,7 +113,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
           error={!!validationError}
           maxDate={maxDate} // Disable future dates
           InputProps={{
-            style: keyboardDatePickerInputStyles,
+            style: keyboardDatePickerInputStyles
           }}
           KeyboardButtonProps={{
             "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.from")
@@ -142,8 +137,8 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
     >
       {canVerify && mode.isShow ? (
         <Button
-          onClick={(event) => handleOpenVerifyModal(index, event)}
-          id={`verify-button-${name}-${index}`}
+          onClick={event => handleOpenVerifyModal(index, event)}
+          id={`verify-button-${index}`}
           className={css.verifiedSpan}
           color="primary"
           variant="contained"
@@ -177,7 +172,7 @@ Component.propTypes = {
   index: PropTypes.number.isRequired,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
-  values: PropTypes.array.isRequired,
+  values: PropTypes.array.isRequired
 };
 
 Component.displayName = NAME;
