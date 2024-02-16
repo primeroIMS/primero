@@ -26,7 +26,7 @@ class SearchFilterService
           SearchFilters::Or.new(filters: build_filters(value))
         end
       elsif key == 'not'
-        SearchFilters::Value.new(field_name: key, value:, not_filter: true)
+        build_not_filter(value.keys.first, value.values.first)
       elsif value.is_a?(Hash)
         if value['from'].is_a?(Numeric)
           SearchFilters::NumericRange.new(field_name: key, from: value['from'], to: value['to'])
@@ -47,13 +47,23 @@ class SearchFilterService
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/PerceivedComplexity
 
-  def build_array_filter(field_name, value)
-    return SearchFilters::ValueList.new(field_name:, values: value) unless value.first.is_a?(Hash)
+  def build_not_filter(field_name, value)
+    if value.is_a?(Array)
+      build_array_filter(field_name, value, true)
+    elsif value.is_a?(String)
+      SearchFilters::TextValue.new(field_name:, value:, not_filter: true)
+    else
+      SearchFilters::Value.new(field_name:, value:, not_filter: true)
+    end
+  end
+
+  def build_array_filter(field_name, value, not_filter = false)
+    return SearchFilters::ValueList.new(field_name:, values: value, not_filter:) unless value.first.is_a?(Hash)
 
     if value.first['from'].is_a?(Numeric)
-      SearchFilters::RangeList.new(field_name:, values: value, range_type: SearchFilters::NumericRange)
+      SearchFilters::RangeList.new(field_name:, values: value, range_type: SearchFilters::NumericRange, not_filter:)
     elsif value.first['from'].respond_to?(:strftime)
-      SearchFilters::RangeList.new(field_name:, values: value, range_type: SearchFilters::DateRange)
+      SearchFilters::RangeList.new(field_name:, values: value, range_type: SearchFilters::DateRange, not_filter:)
     else
       raise(Errors::InvalidPrimeroEntityType, 'Filter is not valid')
     end
