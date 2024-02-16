@@ -103,7 +103,7 @@ class UserTransitionService
         'roles.permissions -> :resource ? :permission',
         resource: model&.parent_form,
         permission: RECEIVE_PERMISSIONS[transition][:receive_different_module]
-      )
+      ).where(disabled: false)
     )
   end
 end

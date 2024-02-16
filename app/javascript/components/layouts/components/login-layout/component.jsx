@@ -2,33 +2,34 @@
 
 import PropTypes from "prop-types";
 import clsx from "clsx";
+import { useMediaQuery } from "@material-ui/core";
 
 import ModuleLogo from "../../../module-logo";
 import AgencyLogo from "../../../agency-logo";
-import TranslationsToggle from "../../../translations-toggle";
 import Notifier from "../../../notifier";
 import DemoIndicator from "../../../demo-indicator";
 import { useMemoizedSelector } from "../../../../libs";
 import { useApp } from "../../../application";
 import { hasAgencyLogos } from "../../../application/selectors";
-import PoweredBy from "../../../powered-by";
+import LoginLayoutFooter from "../login-layout-footer";
 
 import { NAME } from "./constants";
 import css from "./styles.css";
 
 const Component = ({ children }) => {
-  const { demo, hasLoginLogo } = useApp();
+  const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
+  const { demo, hasLoginLogo, useContainedNavStyle } = useApp();
   const hasLogos = useMemoizedSelector(state => hasAgencyLogos(state));
 
   // TODO: Module hardcoded till we figure out when to switch modules
   const primeroModule = "cp";
   const moduleClass = `${primeroModule}${demo ? "-demo" : ""}`;
   const classes = clsx(css.primeroBackground, css[moduleClass], {
-    [css.primeroBackgroundImage]: hasLoginLogo,
-    [css.demo]: demo
+    [css.primeroBackgroundImage]: hasLoginLogo
   });
   const classesLoginLogo = clsx(css.loginLogo, { [css.hideLoginLogo]: !hasLogos });
   const classesAuthDiv = clsx(css.auth, { [css.noLogosWidth]: !hasLogos });
+  const isContainedAndMobile = useContainedNavStyle && mobileDisplay;
 
   return (
     <>
@@ -48,16 +49,10 @@ const Component = ({ children }) => {
                 <AgencyLogo alwaysFullLogo />
               </div>
             </div>
+            {isContainedAndMobile && <LoginLayoutFooter useContainedNavStyle />}
           </div>
         </div>
-        <div container className={css.footer}>
-          <div className={css.item}>
-            <TranslationsToggle />
-          </div>
-          <div className={css.item}>
-            <PoweredBy isLogin />
-          </div>
-        </div>
+        {isContainedAndMobile || <LoginLayoutFooter />}
       </div>
     </>
   );

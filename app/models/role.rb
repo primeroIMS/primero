@@ -116,6 +116,17 @@ class Role < ApplicationRecord
         end
       end
     end
+
+    def resource_form_actions(roles)
+      roles.each_with_object({}) do |role, memo|
+        Permission::PermissionSerializer.dump(role.permissions).each do |key, value|
+          next unless value.present?
+          next unless Permission::RESOURCE_FORM_ACTIONS[key].present?
+
+          memo[key] = (memo[key] || []) | (value & Permission::RESOURCE_FORM_ACTIONS[key])
+        end
+      end
+    end
   end
 
   def permitted_forms(record_type = nil, visible_only = false, include_subforms = false)
