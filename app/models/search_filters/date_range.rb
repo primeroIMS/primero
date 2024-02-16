@@ -22,15 +22,11 @@ class SearchFilters::DateRange < SearchFilters::SearchFilter
   end
 
   def from_query
-    SearchFilters::DateValue.new(field_name:, value: from, operator: '>', date_include_time: date_include_time?).query
+    SearchFilters::DateValue.new(field_name:, value: from, operator: '>').query
   end
 
   def to_query
-    SearchFilters::DateValue.new(field_name:, value: to, operator: '<', date_include_time: date_include_time?).query
-  end
-
-  def date_include_time?
-    from.is_a?(Time) || to.is_a?(Time)
+    SearchFilters::DateValue.new(field_name:, value: to, operator: '<').query
   end
 
   def this_quarter?
