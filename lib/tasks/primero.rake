@@ -421,4 +421,19 @@ namespace :primero do
       File.write(manifest_file, "#{translations_file_fingerprinted}\n", mode: 'a+')
     end
   end
+
+  desc 'Recalculate phonetic tokens on records'
+  task :recalculate_phonetic_tokens, %i[model] => :environment do |_, args|
+    puts 'Recalculating phonetic tokens...'
+    model_class = args['model'].constantize
+    model_class.find_in_batches(batch_size: 1000) do |records|
+      records.each do |record|
+        model_class.transaction do
+          Rails.logger.info "========================#{records.count}========================"
+          record.tokens = record.generate_tokens
+          record.save!
+        end
+      end
+    end
+  end
 end

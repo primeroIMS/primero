@@ -15,7 +15,11 @@ module PhoneticSearchable
   def recalculate_phonetic_tokens
     return unless phonetic_fields_changed?
 
-    self.tokens = Searchable::PHONETIC_FIELD_NAMES.reduce([]) do |memo, field_name|
+    self.tokens = generate_tokens
+  end
+
+  def generate_tokens
+    Searchable::PHONETIC_FIELD_NAMES.reduce([]) do |memo, field_name|
       next(memo) unless data[field_name].present?
 
       memo + LanguageService.tokenize(data[field_name])
