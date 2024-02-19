@@ -22,8 +22,11 @@ class PhoneticSearchService
 
   attr_accessor :record_class
 
-  def self.search(record_class, query, scope = {})
-    new(record_class).with_query(query).with_scope(scope)
+  def self.search(record_class, search_params = {})
+    new(record_class).with_query(search_params[:query], search_params[:phonetic])
+                     .with_scope(search_params[:query_scope])
+                     .with_filters(search_params[:filters])
+                     .with_sort(search_params[:sort])
   end
 
   def initialize(record_class)
@@ -31,12 +34,35 @@ class PhoneticSearchService
     @query = record_class
   end
 
-  def with_query(value)
+  def with_query(value, phonetic = false)
     return self unless value.present?
 
+    if phonetic == true
+      phonetic_query(value)
+    else
+      filterable_ids_query(value)
+    end
+
+    self
+  end
+
+  def phonetic_query(value)
     tokens = LanguageService.tokenize(value)
     @query = @query.where("phonetic_data ->'tokens' ?| array[:values]", values: tokens)
                    .order(Arel.sql(phonetic_score_query(tokens)))
+  end
+
+  def filterable_ids_query(value)
+    filterable_id_queries = record_class.filterable_id_fields.map do |id_field|
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          'data->>:id_field LIKE :value',
+          { id_field:, value: "#{ActiveRecord::Base.sanitize_sql_like(value)}%" }
+        ]
+      )
+    end
+    @query = @query.where("(#{filterable_id_queries.join(' OR ')})")
+
     self
   end
 
