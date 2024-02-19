@@ -4224,6 +4224,7 @@ en:
       inprogress: Pending
       rejected: Rejected
       revoked: Revoked
+    transferred_by: Transferred by
     type:
       assign: Assign
       reassign: Assign
