@@ -11,7 +11,6 @@ class SearchFilters::SearchFilter < ValueObject
   def initialize(args = {})
     super(args)
     @safe_operator = OPERATORS.include?(args[:operator]) ? args[:operator] : '='
-    @data_column_name = ActiveRecord::Base.connection.quote_column_name(args[:data_column_name] || 'data')
   end
 
   def query

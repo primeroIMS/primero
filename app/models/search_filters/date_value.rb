@@ -8,7 +8,7 @@ class SearchFilters::DateValue < SearchFilters::Value
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
         %(
-          to_timestamp(#{@data_column_name} ->> :field_name, :date_format)
+          to_timestamp(data->> :field_name, :date_format)
           #{@safe_operator}
           to_timestamp(:value, :date_format)
         ),
