@@ -28,7 +28,7 @@ class Child < ApplicationRecord
   include CareArrangements
   include UNHCRMapping
   include Ownable
-  include AutoPopulatable
+  include CalculateFullName
   include Serviceable
   include Reopenable
   include Workflow
@@ -45,6 +45,7 @@ class Child < ApplicationRecord
   include FollowUpable
   include LocationCacheable
   include FamilyLinkable
+  include PhoneticSearchable
 
   # rubocop:disable Naming/VariableNumber
   store_accessor(
@@ -156,7 +157,6 @@ class Child < ApplicationRecord
   validate :validate_date_of_birth
 
   before_save :sync_protection_concerns
-  before_save :auto_populate_name
   before_save :stamp_registry_fields
   before_save :calculate_has_case_plan
   before_create :hide_name
@@ -252,12 +252,6 @@ class Child < ApplicationRecord
     name.present? ? "#{name} (#{unique_identifier})" : unique_identifier
   end
 
-  def auto_populate_name
-    # This 2 step process is necessary because you don't want to overwrite self.name if auto_populate is off
-    a_name = auto_populate('name')
-    self.name = a_name if a_name.present?
-  end
-
   def hide_name
     self.hidden_name = true if module_id == PrimeroModule::GBV
   end
@@ -265,7 +259,7 @@ class Child < ApplicationRecord
   def set_instance_id
     system_settings = SystemSettings.current
     self.case_id ||= unique_identifier
-    self.case_id_code ||= auto_populate('case_id_code', system_settings)
+    self.case_id_code ||= AutoPopulateService.auto_populate(self, 'case_id_code', system_settings)
     self.case_id_display ||= create_case_id_display(system_settings)
   end
 
@@ -279,7 +273,9 @@ class Child < ApplicationRecord
   end
 
   def create_case_id_display(system_settings)
-    [case_id_code, short_id].compact.join(auto_populate_separator('case_id_code', system_settings))
+    [case_id_code, short_id].compact.join(
+      AutoPopulateService.auto_populate_separator('case_id_code', system_settings)
+    )
   end
 
   def display_id

@@ -4,6 +4,23 @@
 
 # Superclass for all SearchFilter objects that transform API query parameters into Sunspot queries
 class SearchFilters::SearchFilter < ValueObject
+  OPERATORS = %w[= > <].freeze
+
+  attr_accessor :not_filter
+
+  def initialize(args = {})
+    super(args)
+    @safe_operator = OPERATORS.include?(args[:operator]) ? args[:operator] : '='
+  end
+
+  def query
+    raise NotImplementedError
+  end
+
+  def not_null_operator?
+    @safe_operator == 'not_null'
+  end
+
   def to_json(_obj)
     to_h.to_json
   end
