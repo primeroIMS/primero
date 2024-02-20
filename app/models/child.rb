@@ -28,7 +28,6 @@ class Child < ApplicationRecord
   include CareArrangements
   include UNHCRMapping
   include Ownable
-  include AutoPopulatable
   include CalculateFullName
   include Serviceable
   include Reopenable
@@ -260,7 +259,7 @@ class Child < ApplicationRecord
   def set_instance_id
     system_settings = SystemSettings.current
     self.case_id ||= unique_identifier
-    self.case_id_code ||= auto_populate('case_id_code', system_settings)
+    self.case_id_code ||= AutoPopulateService.auto_populate(self, 'case_id_code', system_settings)
     self.case_id_display ||= create_case_id_display(system_settings)
   end
 
@@ -274,7 +273,9 @@ class Child < ApplicationRecord
   end
 
   def create_case_id_display(system_settings)
-    [case_id_code, short_id].compact.join(auto_populate_separator('case_id_code', system_settings))
+    [case_id_code, short_id].compact.join(
+      AutoPopulateService.auto_populate_separator('case_id_code', system_settings)
+    )
   end
 
   def display_id
