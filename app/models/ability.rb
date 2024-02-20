@@ -168,15 +168,11 @@ class Ability
 
   def configure_record_attachments
     can(:read, Attachment) do |instance|
-      permitted_attachment_service = PermittedAttachmentService.new(user, instance, @permitted_form_fields_service)
-      permitted_attachment_service.permitted_to_access? || permitted_attachment_service.permitted_to_view? ||
-        permitted_attachment_service.permitted_to_preview?
+      PermittedAttachmentService.permitted_to_read?(user, instance, @permitted_form_fields_service)
     end
 
     can(%i[create destroy], Attachment) do |instance|
-      PermittedAttachmentService.new(
-        user, instance, @permitted_form_fields_service, true
-      ).permitted_to_access?
+      PermittedAttachmentService.permitted_to_write?(user, instance, @permitted_form_fields_service)
     end
   end
 
