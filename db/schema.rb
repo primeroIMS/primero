@@ -146,7 +146,6 @@ ActiveRecord::Schema.define(version: 2024_02_12_000000) do
     t.index ["data"], name: "index_cases_on_data", using: :gin
     t.index ["duplicate_case_id"], name: "index_cases_on_duplicate_case_id"
     t.index ["family_id"], name: "index_cases_on_family_id"
-    t.index ["phonetic_data"], name: "index_cases_on_phonetic_data", using: :gin
     t.index ["registry_record_id"], name: "index_cases_on_registry_record_id"
   end
 
@@ -203,7 +202,6 @@ ActiveRecord::Schema.define(version: 2024_02_12_000000) do
     t.jsonb "phonetic_data"
     t.index "((phonetic_data -> 'tokens'::text))", name: "families_tokens_idx", using: :gin
     t.index ["data"], name: "index_families_on_data", using: :gin
-    t.index ["phonetic_data"], name: "index_families_on_phonetic_data", using: :gin
   end
 
   create_table "fields", id: :serial, force: :cascade do |t|
@@ -353,7 +351,6 @@ ActiveRecord::Schema.define(version: 2024_02_12_000000) do
     t.index "((phonetic_data -> 'tokens'::text))", name: "incidents_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_incidents_on_data", using: :gin
     t.index ["incident_case_id"], name: "index_incidents_on_incident_case_id"
-    t.index ["phonetic_data"], name: "index_incidents_on_phonetic_data", using: :gin
   end
 
   create_table "individual_victims", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -470,7 +467,6 @@ ActiveRecord::Schema.define(version: 2024_02_12_000000) do
     t.jsonb "phonetic_data"
     t.index "((phonetic_data -> 'tokens'::text))", name: "registry_records_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_registry_records_on_data", using: :gin
-    t.index ["phonetic_data"], name: "index_registry_records_on_phonetic_data", using: :gin
   end
 
   create_table "reports", id: :serial, force: :cascade do |t|
@@ -587,7 +583,6 @@ ActiveRecord::Schema.define(version: 2024_02_12_000000) do
     t.index "((data ->> 'tracing_request_id'::text))", name: "tracing_requests_tracing_request_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "tracing_requests_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_tracing_requests_on_data", using: :gin
-    t.index ["phonetic_data"], name: "index_tracing_requests_on_phonetic_data", using: :gin
   end
 
   create_table "transitions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
