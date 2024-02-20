@@ -1099,12 +1099,35 @@ describe Ability do
 
     let(:preview_user) { create :user }
 
+    let(:child_other) { create :child }
+
     let(:child_with_attachment) do
       child_with_attachment = Child.new_with_user(
         attachment_user,
         { name: 'Test', consent_for_services: true, disclosure_other_orgs: true, module_id: PrimeroModule::CP }
       )
       child_with_attachment.save! && child_with_attachment
+    end
+
+    let(:image_attachment_other) do
+      Attachment.new(
+        record: child_other, field_name: Attachable::PHOTOS_FIELD_NAME, attachment_type: Attachment::IMAGE,
+        file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
+      )
+    end
+
+    let(:audio_attachment_other) do
+      Attachment.new(
+        record: child_other, field_name: Attachable::AUDIOS_FIELD_NAME, attachment_type: Attachment::AUDIO,
+        file_name: 'sample.mp3', attachment: attachment_base64('sample.mp3')
+      )
+    end
+
+    let(:document_attachment_other) do
+      Attachment.new(
+        record: child_other, field_name: Attachable::DOCUMENTS_FIELD_NAME, file_name: 'dummy.pdf',
+        attachment_type: Attachment::DOCUMENT, attachment: attachment_base64('dummy.pdf')
+      )
     end
 
     let(:image_attachment) do
@@ -1326,134 +1349,109 @@ describe Ability do
       end
     end
 
-    context 'when a user can preview a record' do
-      context 'and has access to attachment fields' do
-        before do
-          permission = Permission.new(resource: Permission::CASE, actions:
-            [
-              Permission::DISPLAY_VIEW_PAGE, Permission::SEARCH_OWNED_BY_OTHERS
-            ])
-          role = Role.new_with_properties(
-            unique_id: 'preview_access_attachment', name: 'preview_access_attachment', permissions: [permission],
-            form_section_read_write: { form1: 'rw' }
-          )
-          role.save!
-          preview_user.role = role
-          preview_user.save!
+    context 'when a user does not have access to a record' do
+      context 'and a user can search records owned by others' do
+        context 'and can preview a record' do
+          context 'and has access to attachment fields' do
+            before do
+              permission = Permission.new(resource: Permission::CASE, actions:
+                [
+                  Permission::DISPLAY_VIEW_PAGE, Permission::SEARCH_OWNED_BY_OTHERS
+                ])
+              role = Role.new_with_properties(
+                unique_id: 'preview_access_attachment', name: 'preview_access_attachment', permissions: [permission],
+                form_section_read_write: { form1: 'rw' }
+              )
+              role.save!
+              preview_user.role = role
+              preview_user.save!
+            end
+
+            it 'allows viewing attached images/audios' do
+              ability = Ability.new preview_user
+
+              expect(ability).to authorize(:read, image_attachment_other)
+              expect(ability).to authorize(:read, audio_attachment_other)
+            end
+
+            it 'does not allow viewing attached documents' do
+              ability = Ability.new preview_user
+              expect(ability).not_to authorize(:read, document_attachment_other)
+            end
+
+            it 'does not allow deleting attachments' do
+              ability = Ability.new preview_user
+              expect(ability).not_to authorize(:destroy, image_attachment_other)
+              expect(ability).not_to authorize(:destroy, audio_attachment_other)
+              expect(ability).not_to authorize(:destroy, document_attachment_other)
+            end
+          end
+
+          context 'and does not have access to attachment fields' do
+            before do
+              permission = Permission.new(resource: Permission::CASE, actions:
+                [
+                  Permission::DISPLAY_VIEW_PAGE, Permission::SEARCH_OWNED_BY_OTHERS
+                ])
+              role = Role.new_with_properties(
+                unique_id: 'preview_record', name: 'preview_record', permissions: [permission]
+              )
+              role.save!
+              preview_user.role = role
+              preview_user.save!
+            end
+
+            it 'allows viewing image/audio attachments' do
+              ability = Ability.new preview_user
+              expect(ability).to authorize(:read, image_attachment_other)
+              expect(ability).to authorize(:read, audio_attachment_other)
+            end
+
+            it 'does not allow viewing document attachment' do
+              ability = Ability.new preview_user
+              expect(ability).not_to authorize(:read, document_attachment_other)
+            end
+
+            it 'does not allow deleting attachments' do
+              ability = Ability.new preview_user
+              expect(ability).not_to authorize(:destroy, image_attachment_other)
+              expect(ability).not_to authorize(:destroy, audio_attachment_other)
+              expect(ability).not_to authorize(:destroy, document_attachment_other)
+            end
+          end
         end
 
-        it 'allows viewing attached images/audios' do
-          ability = Ability.new preview_user
-
-          expect(ability).to authorize(:read, image_attachment)
-          expect(ability).to authorize(:read, audio_attachment)
-        end
-
-        it 'does not allow viewing attached documents' do
-          ability = Ability.new preview_user
-          expect(ability).not_to authorize(:read, document_attachment)
-        end
-
-        it 'does not allow deleting attachments' do
-          ability = Ability.new preview_user
-          expect(ability).not_to authorize(:destroy, image_attachment)
-          expect(ability).not_to authorize(:destroy, audio_attachment)
-          expect(ability).not_to authorize(:destroy, document_attachment)
-        end
-      end
-
-      context 'and does not have access to attachment fields' do
-        before do
-          permission = Permission.new(resource: Permission::CASE, actions:
-            [
-              Permission::DISPLAY_VIEW_PAGE, Permission::SEARCH_OWNED_BY_OTHERS
-            ])
-          role = Role.new_with_properties(
-            unique_id: 'preview_record', name: 'preview_record', permissions: [permission]
-          )
-          role.save!
-          preview_user.role = role
-          preview_user.save!
-        end
-
-        it 'does not allow viewing attachments' do
-          ability = Ability.new preview_user
-          expect(ability).not_to authorize(:read, image_attachment)
-          expect(ability).not_to authorize(:read, audio_attachment)
-          expect(ability).not_to authorize(:read, document_attachment)
-        end
-
-        it 'does not allow deleting attachments' do
-          ability = Ability.new preview_user
-          expect(ability).not_to authorize(:destroy, image_attachment)
-          expect(ability).not_to authorize(:destroy, audio_attachment)
-          expect(ability).not_to authorize(:destroy, document_attachment)
-        end
-
-        context 'and is permitted to view photo from the list view' do
+        context 'and can view a photo from the list view' do
           before do
-            permission = Permission.new(resource: Permission::CASE, actions:
-              [
-                Permission::DISPLAY_VIEW_PAGE, Permission::SEARCH_OWNED_BY_OTHERS, Permission::VIEW_PHOTO
-              ])
+            permission = Permission.new(
+              resource: Permission::CASE, actions: [Permission::SEARCH_OWNED_BY_OTHERS, Permission::VIEW_PHOTO]
+            )
             role = Role.new_with_properties(
-              unique_id: 'preview_photo_record', name: 'preview_photo_record', permissions: [permission],
-              form_section_read_write: { form2: 'r' }
+              unique_id: 'view_photo_attachment', name: 'view_photo_attachment', permissions: [permission]
             )
             role.save!
-            preview_user.role = role
-            preview_user.save!
+            attachment_user.role = role
+            attachment_user.save!
           end
 
-          it 'allows viewing images' do
-            ability = Ability.new preview_user
-            expect(ability).to authorize(:read, image_attachment)
+          it 'allows viewing attached images' do
+            ability = Ability.new attachment_user
+            expect(ability).to authorize(:read, image_attachment_other)
           end
 
-          it 'does not allow viewing audios/documents' do
-            ability = Ability.new preview_user
-            expect(ability).not_to authorize(:read, audio_attachment)
-            expect(ability).not_to authorize(:read, document_attachment)
+          it 'does not allow viewing attached audios/documents' do
+            ability = Ability.new attachment_user
+            expect(ability).not_to authorize(:read, audio_attachment_other)
+            expect(ability).not_to authorize(:read, document_attachment_other)
           end
 
           it 'does not allow deleting attachments' do
-            ability = Ability.new preview_user
-            expect(ability).not_to authorize(:destroy, image_attachment)
-            expect(ability).not_to authorize(:destroy, audio_attachment)
-            expect(ability).not_to authorize(:destroy, document_attachment)
+            ability = Ability.new attachment_user
+            expect(ability).not_to authorize(:destroy, image_attachment_other)
+            expect(ability).not_to authorize(:destroy, audio_attachment_other)
+            expect(ability).not_to authorize(:destroy, document_attachment_other)
           end
         end
-      end
-    end
-
-    context 'when a user can view a photo from the list view' do
-      before do
-        permission = Permission.new(resource: Permission::CASE, actions: [Permission::VIEW_PHOTO])
-        role = Role.new_with_properties(
-          unique_id: 'view_photo_attachment', name: 'view_photo_attachment', permissions: [permission],
-          form_section_read_write: { form2: 'r' }
-        )
-        role.save!
-        attachment_user.role = role
-        attachment_user.save!
-      end
-
-      it 'allows viewing attached images' do
-        ability = Ability.new attachment_user
-        expect(ability).to authorize(:read, image_attachment)
-      end
-
-      it 'does not allow viewing attached audios/documents' do
-        ability = Ability.new attachment_user
-        expect(ability).not_to authorize(:read, audio_attachment)
-        expect(ability).not_to authorize(:read, document_attachment)
-      end
-
-      it 'does not allow deleting attachments' do
-        ability = Ability.new attachment_user
-        expect(ability).not_to authorize(:destroy, image_attachment)
-        expect(ability).not_to authorize(:destroy, audio_attachment)
-        expect(ability).not_to authorize(:destroy, document_attachment)
       end
     end
 
