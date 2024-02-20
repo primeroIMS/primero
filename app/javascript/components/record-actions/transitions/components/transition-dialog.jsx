@@ -21,7 +21,8 @@ const TransitionDialog = ({
   successHandler,
   transitionType,
   enabledSuccessButton,
-  selectedRecordsLength = 0
+  selectedRecordsLength = 0,
+  disableActions = false
 }) => {
   const i18n = useI18n();
 
@@ -63,7 +64,8 @@ const TransitionDialog = ({
     cancelHandler: onClose,
     enabledSuccessButton,
     dialogSubHeader,
-    confirmButtonProps
+    confirmButtonProps,
+    disableActions
   };
 
   return <ActionDialog {...dialogProps}>{children}</ActionDialog>;
@@ -73,6 +75,7 @@ TransitionDialog.propTypes = {
   children: PropTypes.node.isRequired,
   confirmButtonLabel: PropTypes.string,
   confirmButtonProps: PropTypes.object,
+  disableActions: PropTypes.bool,
   enabledSuccessButton: PropTypes.bool,
   omitCloseAfterSuccess: PropTypes.bool,
   onClose: PropTypes.func.isRequired,

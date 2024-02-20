@@ -63,6 +63,13 @@ class User < ApplicationRecord
     joins(:agency).where(agencies: { id: })
   end)
 
+  scope :by_resource_and_permission, (lambda do |resource, permissions|
+    joins(:role).where(
+      'roles.permissions -> :resource @> ANY(select jsonb_array_elements(:permissions)) ',
+      resource:, permissions: permissions.to_json
+    )
+  end)
+
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
 

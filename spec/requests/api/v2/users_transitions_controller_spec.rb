@@ -39,14 +39,14 @@ describe Api::V2::UsersTransitionsController, type: :request do
       actions: [
         Permission::RECEIVE_REFERRAL, Permission::REFERRAL,
         Permission::RECEIVE_TRANSFER, Permission::TRANSFER,
-        Permission::ASSIGN
+        Permission::ASSIGN, Permission::READ
       ]
     )
 
     permissions_refer = Permission.new(
       resource: Permission::CASE,
       actions: [
-        Permission::RECEIVE_REFERRAL, Permission::REFERRAL
+        Permission::RECEIVE_REFERRAL, Permission::REFERRAL, Permission::READ
       ]
     )
 

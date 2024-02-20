@@ -10,6 +10,7 @@ class Incident < ApplicationRecord
   include Historical
   include Ownable
   include Flaggable
+  include Transitionable
   include Alertable
   include Attachable
   include EagerLoadable
