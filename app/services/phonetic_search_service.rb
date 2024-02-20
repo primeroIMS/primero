@@ -18,102 +18,124 @@ class PhoneticSearchService
     )
   )
 
-  DEFAULT_SORT = { created_at: :desc }.freeze
+  DEFAULT_PARAMS = {
+    filters: [],
+    scope: {},
+    sort: { created_at: :desc },
+    pagination: {},
+    phonetic: false
+  }.freeze
 
-  attr_accessor :record_class
+  attr_accessor :record_class, :search_params
 
   def self.search(record_class, search_params = {})
-    new(record_class).with_query(search_params[:query], search_params[:phonetic])
-                     .with_scope(search_params[:query_scope])
-                     .with_filters(search_params[:filters])
-                     .with_sort(search_params[:sort])
+    new(record_class, search_params).search
   end
 
-  def initialize(record_class)
+  def initialize(record_class, search_params)
     self.record_class = record_class
-    @query = record_class
+    self.search_params = DEFAULT_PARAMS.merge(search_params)
   end
 
-  def with_query(value, phonetic = false)
-    return self unless value.present?
+  def search
+    query = with_query
+    query = with_scope(query)
+    query = with_filters(query)
+    query = with_sort(query)
 
-    if phonetic == true
-      phonetic_query(value)
-    else
-      filterable_ids_query(value)
-    end
-
-    self
+    SearchResult.new(total: query.count, records: paginate(query))
   end
 
-  def phonetic_query(value)
-    tokens = LanguageService.tokenize(value)
-    @query = @query.where("phonetic_data ->'tokens' ?| array[:values]", values: tokens)
-                   .order(Arel.sql(phonetic_score_query(tokens)))
+  private
+
+  def with_query
+    return record_class.all unless search_params[:query].present?
+
+    phonetic? ? phonetic_query : filterable_ids_query
   end
 
-  def filterable_ids_query(value)
+  def phonetic?
+    search_params[:phonetic] == true
+  end
+
+  def phonetic_query
+    return unless search_params[:query].present?
+
+    tokens = LanguageService.tokenize(search_params[:query])
+    record_class.where("phonetic_data ->'tokens' ?| array[:values]", values: tokens)
+                .order(Arel.sql(phonetic_score_query(tokens)))
+  end
+
+  def filterable_ids_query
+    return unless search_params[:query].present?
+
     filterable_id_queries = record_class.filterable_id_fields.map do |id_field|
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           'data->>:id_field LIKE :value',
-          { id_field:, value: "#{ActiveRecord::Base.sanitize_sql_like(value)}%" }
+          { id_field:, value: "#{ActiveRecord::Base.sanitize_sql_like(search_params[:query])}%" }
         ]
       )
     end
-    @query = @query.where("(#{filterable_id_queries.join(' OR ')})")
 
-    self
+    record_class.where("(#{filterable_id_queries.join(' OR ')})")
   end
 
-  def with_scope(scope)
-    return self unless scope.present?
+  def with_scope(query)
+    return query unless search_params[:scope].present?
 
-    with_user_scope(scope[:user])
-    with_module_scope(scope[:module])
-
-    self
+    query = with_user_scope(query, search_params.dig(:scope, :user))
+    with_module_scope(query, search_params.dig(:scope, :module))
   end
 
-  def with_user_scope(user_scope)
-    return self unless user_scope.present?
+  def with_user_scope(query, user_scope)
+    return query unless user_scope.present?
 
     if user_scope['user'].present?
-      @query = @query.where("data->'associated_user_names' ? :user", user: user_scope['user'])
+      query.where("data->'associated_user_names' ? :user", user: user_scope['user'])
     elsif user_scope['agency'].present?
-      @query = @query.where("data->'associated_user_agencies' ? :agency", agency: user_scope['agency'])
+      query.where("data->'associated_user_agencies' ? :agency", agency: user_scope['agency'])
     elsif user_scope['group'].present?
-      @query = @query.where("data->'associated_user_groups' ?| array[:groups]", groups: user_scope['group'])
+      query.where("data->'associated_user_groups' ?| array[:groups]", groups: user_scope['group'])
+    end
+  end
+
+  def with_module_scope(query, module_scope)
+    return query unless module_scope.present?
+
+    query.where("data->'module_id' = :module_id", module_id: module_scope)
+  end
+
+  def with_filters(query)
+    return query unless search_params[:filters].present?
+
+    search_params[:filters].each do |filter|
+      query = filter.not_filter ? query.where.not(filter.query) : query.where(filter.query)
     end
 
-    self
+    query
   end
 
-  def with_module_scope(module_scope)
-    return self unless module_scope.present?
+  def with_sort(query)
+    return query unless search_params[:sort].present?
 
-    @query = @query.where("data->'module_id' = :module_id", module_id: module_scope)
-    self
-  end
-
-  def with_filters(filters = [])
-    return self unless filters.present?
-
-    filters&.each do |filter|
-      @query = filter.not_filter ? @query.where.not(filter.query) : @query.where(filter.query)
-    end
-
-    self
-  end
-
-  def with_sort(sort = {})
-    (sort || DEFAULT_SORT).each do |sort_field, direction|
-      @query = @query.order(
+    search_params[:sort].each do |sort_field, direction|
+      query = query.order(
         ActiveRecord::Base.sanitize_sql_for_order([Arel.sql("data->? #{order_direction(direction)}"), [sort_field]])
       )
     end
 
-    self
+    query
+  end
+
+  def paginate(query)
+    return query unless search_params[:pagination].present?
+
+    per = search_params.dig(:pagination, :per_page) || 10
+    page = search_params.dig(:pagination, :page) || 1
+    offset = (page - 1) * per
+
+    query.limit(per).offset(offset)
   end
 
   def phonetic_score_query(values)
@@ -126,23 +148,8 @@ class PhoneticSearchService
     ActiveRecord::QueryMethods::VALID_DIRECTIONS.include?(order_direction) ? order_direction : :asc
   end
 
-  def paginate(pagination = {})
-    per = pagination&.dig(:per_page) || 10
-    page = pagination&.dig(:page) || 1
-    offset = (page - 1) * per
-
-    @query = @query.limit(per).offset(offset)
-
-    self
-  end
-
-  def count
-    @query.count
-  end
-
-  def results
-    return @query if @query.is_a?(ActiveRecord::Relation)
-
-    record_class.all
+  # A class that stores the results of a phonetic search
+  class SearchResult < ValueObject
+    attr_accessor :total, :records
   end
 end
