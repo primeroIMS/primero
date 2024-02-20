@@ -19,6 +19,7 @@ module PhoneticSearchable
   end
 
   def generate_tokens
+    # TODO: Eventually, this constant will be moved over here.
     Searchable::PHONETIC_FIELD_NAMES.reduce([]) do |memo, field_name|
       next(memo) unless data[field_name].present?
 
