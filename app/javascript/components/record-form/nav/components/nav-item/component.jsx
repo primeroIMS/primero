@@ -60,6 +60,7 @@ const Component = ({
 
   return (
     <ListItem
+    data-testid="list-item"
       id={`${formId}-${group}`}
       selected={selectedForm === formId && !isNested}
       button
