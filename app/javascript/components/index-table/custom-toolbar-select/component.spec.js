@@ -1,13 +1,9 @@
 import { ButtonBase, Typography, TablePagination } from "@material-ui/core";
-
-import { setupMountedComponent } from "../../../test";
+import { mountedComponent, screen } from "test-utils";
 import { RECORD_PATH } from "../../../config";
-
 import CustomToolbarSelect from "./component";
 
 describe("<CustomToolbarSelect />", () => {
-  let component;
-
   const arrayIndex = [0, 1, 2, 3];
   const props = {
     displayData: arrayIndex,
@@ -22,26 +18,26 @@ describe("<CustomToolbarSelect />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(CustomToolbarSelect, props));
+    mountedComponent(<CustomToolbarSelect  {...props}/>);
   });
 
   it("renders Typography", () => {
-    const label = component.find(Typography).find("h6");
+    const label = screen.getByRole("heading", { level: 6 });
 
-    expect(label).to.have.lengthOf(1);
-    expect(label.text()).to.eql("cases.selected_records");
+    expect(label).toBeInTheDocument();
+    expect(label.textContent).toEqual("cases.selected_records");
   });
 
   it("renders TablePagination", () => {
-    expect(component.find(TablePagination)).to.have.lengthOf(1);
+    expect(screen.getByRole("table")).toBeInTheDocument();
   });
 
   describe("when all records of the page are selected", () => {
     it("renders ButtonBase with a label to select all records", () => {
-      const button = component.find(ButtonBase).first();
-
-      expect(button).to.have.lengthOf(1);
-      expect(button.text()).to.eql("cases.selected_all_records");
+        const button = screen.getByRole("button", { name: "cases.selected_all_records" });
+  
+        expect(button).toBeInTheDocument();
+        expect(button.textContent).toEqual("cases.selected_all_records");
     });
   });
 
@@ -52,14 +48,13 @@ describe("<CustomToolbarSelect />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(CustomToolbarSelect, propsAllRecordsSelected));
+    mountedComponent(<CustomToolbarSelect  {...propsAllRecordsSelected}/>);
     });
 
     it("renders ButtonBase with a label to clear selection", () => {
-      const button = component.find(ButtonBase).first();
-
-      expect(button).to.have.lengthOf(1);
-      expect(button.text()).to.eql("buttons.clear_selection");
+        const button = screen.getByRole("button", { name: "buttons.clear_selection" });
+        expect(button).toBeInTheDocument();
+        expect(button.textContent).toEqual("buttons.clear_selection");
     });
   });
 
@@ -71,15 +66,13 @@ describe("<CustomToolbarSelect />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(CustomToolbarSelect, propRecordsSelected));
+      mountedComponent(<CustomToolbarSelect {...propRecordsSelected}/>);
     });
 
     it("should not renders ButtonBase for select_all or clear_selection", () => {
-      const buttons = component.find(ButtonBase);
-
-      expect(buttons.at(0).props().title).to.equal("Previous page");
-      expect(buttons.at(1).props().title).to.equal("Next page");
-      expect(buttons).to.have.lengthOf(2);
+        const buttons = screen.getAllByRole("button");
+        expect(buttons.length).toEqual(7);
     });
   });
 });
+
