@@ -12,8 +12,12 @@ module Flaggable
       boolean :flagged
     end
 
+    store_accessor(:data, :flagged)
+
     has_many :flags, as: :record
     has_many :active_flags, -> { where(removed: false) }, as: :record, class_name: 'Flag'
+
+    before_save :calculate_flagged
   end
 
   def add_flag(message, date, user_name)
@@ -40,9 +44,12 @@ module Flaggable
   end
 
   def flagged?
-    flag_count.positive?
+    flagged
   end
-  alias flagged flagged?
+
+  def calculate_flagged
+    self.flagged = flag_count.positive?
+  end
 
   # ClassMethods
   module ClassMethods
