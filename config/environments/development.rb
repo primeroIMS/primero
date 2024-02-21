@@ -11,7 +11,7 @@ Rails.application.configure do
   config.consider_all_requests_local = true
   config.eager_load = ENV['PROFILE'] == 'true'
   config.action_mailer.raise_delivery_errors = false
-
+  ENV['PRIMERO_SANDBOX_UI'] = secrets.PRIMERO_SANDBOX_UI
   # Store uploaded files on the local file system (see config/storage.yml for options)
   storage_type = %w[test local microsoft amazon].find do |t|
     t == ENV['PRIMERO_STORAGE_TYPE']
