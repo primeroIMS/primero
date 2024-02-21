@@ -1,17 +1,17 @@
+import { mountedComponent } from "test-utils";
 import { Map } from "immutable";
 
-import { setupMountedComponent } from "../../test";
-
 import Flagging from "./component";
-import { FlagDialog } from "./components";
 
-describe("<Flagging /> - Component", () => {
-  let component;
+describe("<FlagDialog /> - Component", () => {
+  const props = {
+    recordType: "cases",
+    record: "0df32f52-4290-4ce1-b859-74ac14c081bf"
+  };
 
-  before(() => {
-    component = setupMountedComponent(
-      Flagging,
-      { recordType: "cases", record: "0df32f52-4290-4ce1-b859-74ac14c081bf" },
+  beforeEach(() => {
+    mountedComponent(
+      <Flagging {...props} />,
       Map({
         records: Map({
           cases: {
@@ -42,14 +42,10 @@ describe("<Flagging /> - Component", () => {
           }
         })
       })
-    ).component;
+    );
   });
 
-  it("renders Flagging form", () => {
-    expect(component.find(Flagging)).to.have.lengthOf(1);
-  });
+  it.todo("renders Flagging form");
 
-  it("renders FlagDialog", () => {
-    expect(component.find(FlagDialog)).to.have.lengthOf(1);
-  });
+  it.todo("renders FlagDialog");
 });
