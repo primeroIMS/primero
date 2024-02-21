@@ -359,34 +359,35 @@ const userGroups = createCachedSelector(
   }
 )(defaultCacheSelectorOptions);
 
-const userGroupsPermitted = createCachedSelector(
-  getUserGroups,
-  getCurrentUserUserGroups,
-  getCurrentUserGroupsUniqueIds,
-  getCurrentUserGroupPermission,
-  getIsManagedReportScopeAll,
-  (_state, options) => options,
-  (data, currentUserGroups, currentUserGroupIds, currentRoleGroupPermission, isManagedReportScopeAll, options) => {
-    const allUserGroups = userGroupsParser(data, options);
-    const currentUserGroupOptions = userGroupsParser(currentUserGroups, options);
+const userGroupsPermitted = (isInsights = false) =>
+  createCachedSelector(
+    getUserGroups,
+    getCurrentUserUserGroups,
+    getCurrentUserGroupsUniqueIds,
+    getCurrentUserGroupPermission,
+    isInsights ? getIsManagedReportScopeAll : () => false,
+    (_state, options) => options,
+    (data, currentUserGroups, currentUserGroupIds, currentRoleGroupPermission, isManagedReportScopeAll, options) => {
+      const allUserGroups = userGroupsParser(data, options);
+      const currentUserGroupOptions = userGroupsParser(currentUserGroups, options);
 
-    if (isEmpty(allUserGroups)) {
-      return currentUserGroupOptions;
-    }
-
-    if (currentRoleGroupPermission === GROUP_PERMISSIONS.ALL || isManagedReportScopeAll) {
-      return allUserGroups;
-    }
-
-    return allUserGroups.map(userGroup => {
-      if (currentUserGroupIds.includes(userGroup.id)) {
-        return userGroup;
+      if (isEmpty(allUserGroups)) {
+        return currentUserGroupOptions;
       }
 
-      return { ...userGroup, disabled: true };
-    });
-  }
-)(defaultCacheSelectorOptions);
+      if (currentRoleGroupPermission === GROUP_PERMISSIONS.ALL || (isInsights && isManagedReportScopeAll)) {
+        return allUserGroups;
+      }
+
+      return allUserGroups.map(userGroup => {
+        if (currentUserGroupIds.includes(userGroup.id)) {
+          return userGroup;
+        }
+
+        return { ...userGroup, disabled: true };
+      });
+    }
+  )(defaultCacheSelectorOptions);
 
 const formGroupLookup = createCachedSelector(
   getLocale,
@@ -519,7 +520,9 @@ export const getOptions = source => {
     case OPTION_TYPES.USER_GROUP:
       return userGroups;
     case OPTION_TYPES.USER_GROUP_PERMITTED:
-      return userGroupsPermitted;
+      return userGroupsPermitted();
+    case OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED:
+      return userGroupsPermitted(true);
     case OPTION_TYPES.ROLE:
       return roles;
     case OPTION_TYPES.ROLE_EXTERNAL_REFERRAL:

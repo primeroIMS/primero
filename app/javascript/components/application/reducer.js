@@ -52,7 +52,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
     case actions.SET_USER_IDLE:
       return state.set("userIdle", payload);
     case "user/LOGOUT_SUCCESS":
-      return DEFAULT_STATE.set("primero", state.get("primero"));
+      return DEFAULT_STATE.set("primero", state.get("primero")).set("theme", state.get("theme"));
     case actions.FETCH_SYSTEM_PERMISSIONS_FAILURE:
       return state.set("errors", true);
     case actions.FETCH_SYSTEM_PERMISSIONS_FINISHED:

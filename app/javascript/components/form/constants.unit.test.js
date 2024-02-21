@@ -75,7 +75,8 @@ describe("<Form /> - Constants", () => {
       "TRANSFER_TO_USERS",
       "USER",
       "USER_GROUP",
-      "USER_GROUP_PERMITTED"
+      "USER_GROUP_PERMITTED",
+      "INSIGHTS_USER_GROUP_PERMITTED"
     ].forEach(property => {
       expect(clonedOptionTypes).to.have.property(property);
       delete clonedOptionTypes[property];

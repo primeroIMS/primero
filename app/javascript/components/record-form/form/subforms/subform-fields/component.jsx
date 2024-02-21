@@ -42,7 +42,8 @@ const Component = ({
   entryFilter = false,
   parentTitle,
   isFamilyMember,
-  isFamilyDetail
+  isFamilyDetail,
+  isReadWriteForm
 }) => {
   const i18n = useI18n();
 
@@ -181,7 +182,7 @@ const Component = ({
               <ListItemSecondaryAction classes={{ root: css.listActions }}>
                 {isTracesSubform && <TracingRequestStatus values={values[index]} />}
                 {hasError(index) && <Jewel isError />}
-                {!subformPreventItemRemoval && !isDisabled && !mode.isShow ? (
+                {!subformPreventItemRemoval && !isDisabled && !mode.isShow && isReadWriteForm ? (
                   <ActionButton
                     id={`delete-button-${name}-${index}`}
                     icon={<DeleteIcon />}
@@ -236,6 +237,7 @@ Component.propTypes = {
   formik: PropTypes.object.isRequired,
   isFamilyDetail: PropTypes.bool,
   isFamilyMember: PropTypes.bool,
+  isReadWriteForm: PropTypes.bool,
   isTracesSubform: PropTypes.bool,
   isViolationAssociation: PropTypes.bool,
   isViolationSubform: PropTypes.bool,
