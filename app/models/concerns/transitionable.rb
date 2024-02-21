@@ -105,4 +105,8 @@ module Transitionable
       transitioned_to: user.user_name, status: [Transition::STATUS_INPROGRESS, Transition::STATUS_ACCEPTED]
     )
   end
+
+  def can_be_assigned?
+    true
+  end
 end

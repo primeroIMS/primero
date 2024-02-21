@@ -5,6 +5,7 @@ import { Map } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
 import ActionDialog from "../../../action-dialog";
+import { RECORD_TYPES_PLURAL } from "../../../../config";
 
 import TransitionDialog from "./transition-dialog";
 
@@ -116,6 +117,20 @@ describe("<TransitionDialog />", () => {
 
       it("should render message", () => {
         expect(component.find("h6").text()).to.equals("case.messages.bulk_assign_limit_try_again");
+      });
+    });
+
+    context("and user has selected incidents", () => {
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(TransitionDialog, {
+          ...propsForBulk,
+          transitionType,
+          recordType: RECORD_TYPES_PLURAL.incident
+        }));
+      });
+
+      it("should render message for incident", () => {
+        expect(component.find("h6").text()).to.equals("incidents.selected_records_assign");
       });
     });
   });

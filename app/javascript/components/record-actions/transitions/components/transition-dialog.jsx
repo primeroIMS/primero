@@ -45,7 +45,7 @@ const TransitionDialog = ({
   let dialogSubHeader = null;
 
   if (selectedRecordsLength > 0 && selectedRecordsLength <= MAX_BULK_RECORDS) {
-    dialogSubHeader = i18n.t(`${recordType}.selected_records`, {
+    dialogSubHeader = i18n.t(`${recordType}.selected_records_assign`, {
       select_records: selectedRecordsLength
     });
   } else if (selectedRecordsLength > MAX_BULK_RECORDS) {

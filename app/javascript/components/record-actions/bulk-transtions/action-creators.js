@@ -11,7 +11,7 @@ import actions from "./actions";
 export const saveBulkAssignedUser = (recordType, recordsIds, selectedRecordsLength, body) => ({
   type: `${recordType}/${actions.BULK_ASSIGN_USER_SAVE}`,
   api: {
-    path: generatePath(actions.BULK_ASSIGN, null, recordsIds),
+    path: generatePath(actions[`BULK_ASSIGN_${recordType.toUpperCase()}`], null, recordsIds),
     method: METHODS.POST,
     body,
     successCallback: [
