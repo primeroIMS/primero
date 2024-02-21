@@ -69,6 +69,7 @@ Rails.application.routes.draw do
         resources :approvals, only: [:update]
         resources :attachments, only: %i[create destroy]
         resources :assigns, only: %i[index create]
+        resources :transitions, only: [:index]
         post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'
         collection do
