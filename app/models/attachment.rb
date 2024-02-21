@@ -33,7 +33,7 @@ class Attachment < ApplicationRecord
             file_content_type: { allow: ->(a) { a.valid_content_types } },
             if: :attached?
   validates_associated :record
-  after_commit :index_record
+  after_commit :index_record, :recalculate_record_has_photo
 
   def attach
     return unless record.present?
@@ -93,6 +93,14 @@ class Attachment < ApplicationRecord
     hash = slice(:id, :field_name, :file_name, :date, :description, :is_current, :comments)
     hash[:attachment_url] = url
     hash
+  end
+
+  def recalculate_record_has_photo
+    record_to_recalculate = record || record_type.constantize.find_by(id: record_id)
+    return unless record_to_recalculate.present?
+
+    record_to_recalculate.recalculate_has_photo
+    record_to_recalculate.save!
   end
 
   def index_record

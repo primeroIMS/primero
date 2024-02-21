@@ -21,19 +21,14 @@ module Attachable
              as: :record, class_name: 'Attachment'
     validate :maximum_attachments_exceeded
 
-    searchable do
-      boolean :has_photo
-    end
+    store_accessor(:data, :has_photo)
   end
 
   def photo?
-    # Because Matz
-    # rubocop:disable Naming/MemoizedInstanceVariableName
-    @has_photo ||= current_photos.size.positive?
-    # rubocop:enable Naming/MemoizedInstanceVariableName
+    has_photo
   end
+
   alias has_photo? photo?
-  alias has_photo photo?
 
   def photo
     @photo ||= current_photos.first
@@ -43,6 +38,10 @@ module Attachable
     return unless photo&.file
 
     Rails.application.routes.url_helpers.rails_blob_path(photo.file, only_path: true)
+  end
+
+  def recalculate_has_photo
+    self.has_photo = current_photos.size.positive?
   end
 
   private
