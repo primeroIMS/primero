@@ -35,6 +35,8 @@ class SearchFilterService
         end
       elsif value.is_a?(Array)
         build_array_filter(key, value)
+      elsif [TrueClass, FalseClass].any? { |klass| value.is_a?(klass) }
+        SearchFilters::BooleanValue.new(field_name: key, value:)
       elsif value.is_a?(String)
         SearchFilters::TextValue.new(field_name: key, value:)
       else
@@ -50,6 +52,8 @@ class SearchFilterService
   def build_not_filter(field_name, value)
     if value.is_a?(Array)
       build_array_filter(field_name, value, true)
+    elsif [TrueClass, FalseClass].any? { |klass| value.is_a?(klass) }
+      SearchFilters::BooleanValue.new(field_name:, value:, not_filter: true)
     elsif value.is_a?(String)
       SearchFilters::TextValue.new(field_name:, value:, not_filter: true)
     else
