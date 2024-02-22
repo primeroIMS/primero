@@ -66,4 +66,41 @@ describe("<ListFlagsItemActions />", () => {
     });
     expect(listFlagsItemProps).to.be.empty;
   });
+
+  describe("when current user and flagged_by are diffent", () => {
+    context("when user has resolve_any_flag permission", () => {
+      const stateDiffentUser = fromJS({
+        user: {
+          username: "primero_cp",
+          permissions: {
+            cases: ["resolve_any_flag"]
+          }
+        }
+      });
+
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(ListFlagsItemActions, props, stateDiffentUser));
+      });
+
+      it("should render the ActionButton", () => {
+        expect(component.find(ActionButton)).to.have.lengthOf(1);
+      });
+    });
+
+    context("when user has NOT resolve_any_flag permission", () => {
+      const stateDiffentUser = fromJS({
+        user: {
+          username: "primero_cp"
+        }
+      });
+
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(ListFlagsItemActions, props, stateDiffentUser));
+      });
+
+      it("should render the ActionButton", () => {
+        expect(component.find(ActionButton)).to.have.lengthOf(0);
+      });
+    });
+  });
 });

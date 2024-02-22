@@ -158,6 +158,12 @@ class Ability
     end
   end
 
+  def resolve_flag(resource)
+    can [:flag_resolve], resource do |instance|
+      (can?(:read, instance) && can?(:flag, instance)) || (can?(:read, instance) && can?(:resolve_any_flag, instance))
+    end
+  end
+
   def configure_exports
     return unless user.role.permitted_to_export?
 
@@ -265,6 +271,7 @@ class Ability
   def configure_flags
     [Child, TracingRequest, Incident, RegistryRecord, Family].each do |model|
       configure_flag(model)
+      resolve_flag(model)
     end
   end
 end
