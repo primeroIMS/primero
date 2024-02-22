@@ -60,7 +60,7 @@ const Datatable = ({
   const orderBy = filters?.get("order_by");
   const componentColumns = useMemo(
     () => buildComponentColumns(typeof columns === "function" ? columns(data) : columns, order, orderBy),
-    [columns, data, order, orderBy]
+    [columns, data, order, orderBy, i18n]
   );
   const columnsName = useMemo(() => componentColumns.map(col => col.name), [componentColumns]);
 
@@ -88,7 +88,7 @@ const Datatable = ({
     useReportingLocations,
     recordType
   });
-
+  
   useEffect(() => {
     if (!bypassInitialFetch) {
       dispatch(
@@ -118,15 +118,15 @@ const Datatable = ({
     switch (action) {
       case "sort": {
         const { direction, name } = sortOrder;
-        const orderByParam = setOrderByParam(name);
+                const orderByParam = setOrderByParam(name);
         const defaultOptions = options.set("page", page === 0 ? 1 : page);
 
         setSortDir(sortOrder);
-
+        
         if (orderByParam) {
-          return defaultOptions.set("order", direction).set("order_by", orderByParam);
+                    return defaultOptions.set("order", direction).set("order_by", orderByParam);
         }
-
+        
         return defaultOptions;
       }
       case "changePage":
@@ -141,7 +141,7 @@ const Datatable = ({
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
     const { rowsPerPage } = tableState;
 
-    if (action === "changeRowsPerPage") {
+        if (action === "changeRowsPerPage") {
       tableState.page = page - 1;
     }
 
@@ -159,7 +159,7 @@ const Datatable = ({
 
   const selectedRecordsOnCurrentPage =
     selectedRecords && Object.keys(selectedRecords).length && selectedRecords[currentPage];
-
+    
   // eslint-disable-next-line react/no-multi-comp, react/display-name
   const componentCustomToolbarSelect =
     customToolbarSelect ||
