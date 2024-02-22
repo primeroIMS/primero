@@ -422,6 +422,7 @@ namespace :primero do
     end
   end
 
+  # TODO: This will not work for large batches, this will probably need the InsertAllService instead.
   desc 'Recalculate phonetic tokens on records'
   task :recalculate_phonetic_tokens, %i[model] => :environment do |_, args|
     puts 'Recalculating phonetic tokens...'

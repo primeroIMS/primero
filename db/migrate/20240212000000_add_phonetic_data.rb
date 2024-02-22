@@ -9,12 +9,6 @@ class AddPhoneticData < ActiveRecord::Migration[6.1]
     add_column :families, :phonetic_data, :jsonb
     add_column :registry_records, :phonetic_data, :jsonb
 
-    add_index :cases, :phonetic_data, using: :gin
-    add_index :incidents, :phonetic_data, using: :gin
-    add_index :tracing_requests, :phonetic_data, using: :gin
-    add_index :families, :phonetic_data, using: :gin
-    add_index :registry_records, :phonetic_data, using: :gin
-
     add_index :cases, "(phonetic_data->'tokens')", using: :gin, name: 'cases_phonetic_tokens_idx'
     add_index :incidents, "(phonetic_data->'tokens')", using: :gin, name: 'incidents_phonetic_tokens_idx'
     add_index :tracing_requests, "(phonetic_data->'tokens')", using: :gin, name: 'tracing_requests_phonetic_tokens_idx'

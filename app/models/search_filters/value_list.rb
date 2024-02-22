@@ -32,16 +32,16 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
         %(
           (
             (
-              JSONB_TYPEOF(#{@data_column_name}->:field_name) = 'array'
+              JSONB_TYPEOF(data->:field_name) = 'array'
               AND EXISTS (
                   SELECT
                     1
-                  FROM JSONB_ARRAY_ELEMENTS(#{@data_column_name}->:field_name) AS array_field
+                  FROM JSONB_ARRAY_ELEMENTS(data->:field_name) AS array_field
                   WHERE array_field <@ JSONB_BUILD_ARRAY(:values)
               )
             ) OR (
-              JSONB_TYPEOF(#{@data_column_name}->:field_name) != 'array'
-              AND #{@data_column_name}->:field_name <@ JSONB_BUILD_ARRAY(:values)
+              JSONB_TYPEOF(data->:field_name) != 'array'
+              AND data->:field_name <@ JSONB_BUILD_ARRAY(:values)
             )
           )
         ),
