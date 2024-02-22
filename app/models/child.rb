@@ -140,7 +140,7 @@ class Child < ApplicationRecord
     end
     quicksearch_fields.each { |f| text_index(f) }
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
-    %w[estimated urgent_protection_concern consent_for_tracing has_case_plan].each do |f|
+    %w[estimated urgent_protection_concern consent_for_tracing has_case_plan has_incidents].each do |f|
       boolean(f) { data[f] == true || data[f] == 'true' }
     end
     %w[day_of_birth age].each { |f| integer(f) }
@@ -152,7 +152,6 @@ class Child < ApplicationRecord
     date(:assessment_due_dates, multiple: true) { Tasks::AssessmentTask.from_case(self).map(&:due_date) }
     date(:case_plan_due_dates, multiple: true) { Tasks::CasePlanTask.from_case(self).map(&:due_date) }
     date(:followup_due_dates, multiple: true) { Tasks::FollowUpTask.from_case(self).map(&:due_date) }
-    boolean :has_incidents
   end
 
   validate :validate_date_of_birth
@@ -305,6 +304,8 @@ class Child < ApplicationRecord
 
   def calculate_has_incidents
     self.has_incidents = incidents.size.positive?
+
+    has_incidents
   end
 
   def sync_protection_concerns

@@ -22,6 +22,10 @@ module Attachable
     validate :maximum_attachments_exceeded
 
     store_accessor(:data, :has_photo)
+
+    searchable do
+      boolean :has_photo
+    end
   end
 
   def photo?

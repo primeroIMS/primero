@@ -81,6 +81,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
         user_name: 'faketest', action: 'create',
         record_changes: [
           { 'status' => { 'from' => nil, 'to' => 'open' } },
+          { 'flagged' => { 'from' => nil, 'to' => false } },
           { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'short_id' => { 'from' => nil, 'to' => TracingRequest.first.short_id } },
           { 'posted_at' => { 'from' => nil,
@@ -148,6 +149,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
         action: 'create',
         record_changes: [
           { 'status' => { 'from' => nil, 'to' => 'open' } },
+          { 'flagged' => { 'from' => nil, 'to' => false } },
           { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'short_id' => { 'from' => nil, 'to' => Incident.first.short_id } },
           { 'posted_at' => { 'from' => nil, 'to' => Incident.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
@@ -219,6 +221,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'name' => { 'from' => nil, 'to' => 'Test' } },
           { 'status' => { 'from' => nil, 'to' => 'open' } },
           { 'case_id' => { 'from' => nil, 'to' => Child.first.case_id } },
+          { 'flagged' => { 'from' => nil, 'to' => false } },
           { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'short_id' => { 'from' => nil, 'to' => Child.first.short_id } },
           { 'workflow' => { 'from' => nil, 'to' => 'new' } },
@@ -227,6 +230,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'created_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'record_state' => { 'from' => nil, 'to' => true } },
           { 'has_case_plan' => { 'from' => nil, 'to' => false } },
+          { 'has_incidents' => { 'from' => nil, 'to' => false } },
           { 'notes_section' => { 'from' => nil, 'to' => [] } },
           { 'reopened_logs' => { 'from' => nil, 'to' => [] } },
           { 'case_id_display' => { 'from' => nil, 'to' => Child.first.case_id_display } },
