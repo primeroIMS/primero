@@ -137,8 +137,3 @@ jobs:
           docker tag primero:latest $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$REPOSITORY:latest
-
-      - name: Deploy
-        run: |
-          # Set the environment variable in your Rails config using the GitHub secret
-          echo "ENV['PRIMERO_SANDBOX_UI'] = '${{ secrets.PRIMERO_SANDBOX_UI }}'" >> config/environments/development.rb
