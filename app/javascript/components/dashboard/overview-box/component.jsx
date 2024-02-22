@@ -95,7 +95,7 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
   // eslint-disable-next-line react/no-multi-comp, react/display-name
   const renderItems = () => (
     <LoadingIndicator {...loadingIndicatorProps}>
-      <div className={css.overviewBox}>
+      <div className={css.overviewBox} data-testid="overview-box">
         <div className={css.sectionTitle}>{renderSum()}</div>
         <div className={css.overviewList}>{statItems()}</div>
       </div>
@@ -104,7 +104,7 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
 
   // eslint-disable-next-line react/no-multi-comp, react/display-name
   const renderWithChart = () => (
-    <div className={css.root}>
+    <div className={css.root} data-testid="overview-box">
       <Grid container spacing={3}>
         {chartData && (
           <Grid item md={4} xs={12} className={css.dashboardChart}>
