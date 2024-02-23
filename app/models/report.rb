@@ -32,7 +32,7 @@ class Report < ApplicationRecord
   YEAR = 'year' # eg. 2015
   DATE_RANGES = [DAY, WEEK, MONTH, YEAR].freeze
   DATE_FORMAT = 'YYYY-MM-DD'
-  DATE_TIME_FORMAT = 'YYYY-MM-DD HH24:MI:SS'
+  DATE_TIME_FORMAT = 'YYYY-MM-DD"T"HH24:MI:SS'
 
   localize_properties :name, :description
 
