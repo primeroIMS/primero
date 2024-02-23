@@ -139,9 +139,9 @@ jobs:
           docker push $ECR_REGISTRY/$REPOSITORY:latest
 
     deploy-to-qa:
-      needs: docker-build-publish
-      name: Deploy to QA
+      name: Deploy
       runs-on: ubuntu-latest
+      needs: docker-build-publish
       steps:
         - name: Configure AWS Credentials
           uses: aws-actions/configure-aws-credentials@v4
