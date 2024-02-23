@@ -389,6 +389,7 @@ en:
       urgent_protection_concern: Urgent Protection Concern
       user_group: User Group
       workflow: Cases by Workflow
+      include_disabled_users: Include disabled users
     flag_summary: Flag summary
     full_name: Full Name
     gbv_closure: GBV Closure

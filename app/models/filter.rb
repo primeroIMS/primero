@@ -5,7 +5,8 @@
 # The value bag representing the list view filters, and the hardcoded set of these filters in Primero
 # rubocop:disable Metrics/ClassLength
 class Filter < ValueObject
-  attr_accessor :name, :field_name, :type, :options, :option_strings_source
+  attr_accessor :name, :field_name, :type, :options, :option_strings_source,
+                :toggle_include_disabled, :sort_options, :toggle_include_disabled_label
 
   FLAGGED_CASE = Filter.new(
     name: 'cases.filter_by.flag',
@@ -21,7 +22,14 @@ class Filter < ValueObject
       { locale => [{ id: 'true', display_name: I18n.t('cases.filter_by.mobile_label', locale:) }] }
     end.inject(&:merge)
   )
-  SOCIAL_WORKER = Filter.new(name: 'cases.filter_by.social_worker', field_name: 'owned_by')
+  SOCIAL_WORKER = Filter.new(
+    name: 'cases.filter_by.social_worker',
+    field_name: 'owned_by',
+    type: 'multi_select',
+    toggle_include_disabled: true,
+    toggle_include_disabled_label: 'cases.filter_by.include_disabled_users',
+    sort_options: true
+  )
   RECORD_OWNER = Filter.new(name: 'incidents.filter_by.record_owner', field_name: 'owned_by')
   MY_CASES = Filter.new(name: 'cases.filter_by.my_cases', field_name: 'my_cases')
   WORKFLOW = Filter.new(name: 'cases.filter_by.workflow', field_name: 'workflow')
@@ -632,8 +640,8 @@ class Filter < ValueObject
   end
 
   def owned_by_options(opts = {})
-    managed_user_names = opts[:user].managed_user_names
-    self.options = managed_user_names.map { |user_name| { id: user_name, display_name: user_name } }
+    managed_users = opts[:user].managed_users
+    self.options = managed_users.map { |usr| { id: usr.user_name, display_name: usr.user_name, enabled: !usr.disabled  } }
   end
 
   def workflow_options(opts = {})

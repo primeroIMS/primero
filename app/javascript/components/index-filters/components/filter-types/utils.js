@@ -49,12 +49,18 @@ export const registerInput = ({
   );
 };
 
-export const whichOptions = ({ optionStringsSource, options, i18n, lookups }) => {
+export const whichOptions = ({ optionStringsSource, options, i18n, lookups, transform }) => {
   if (optionStringsSource) {
     return lookups;
   }
 
-  return Array.isArray(options) ? options : options?.[i18n.locale];
+  const optionsObj = Array.isArray(options) ? options : options?.[i18n.locale];
+
+  if (transform) {
+    return transform(optionsObj);
+  }
+
+  return optionsObj;
 };
 
 export const optionText = (option, i18n) => {
