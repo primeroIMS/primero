@@ -141,6 +141,7 @@ jobs:
   deploy-to-qa:
     name: Deploy
     runs-on: ubuntu-latest
+    needs: [docker-build-publish]
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -151,3 +152,6 @@ jobs:
       - name: Get public IP
         id: ip
         uses: haythem/public-ip@v1.2
+      - name: Add Github Actions IP to Security group
+        run: |
+          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.BAHMNI_LITE_AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
