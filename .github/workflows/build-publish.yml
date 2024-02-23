@@ -137,3 +137,41 @@ jobs:
           docker tag primero:latest $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$REPOSITORY:latest
+
+    deploy-to-qa:
+      needs: docker-build-publish
+      name: Deploy to QA
+      runs-on: ubuntu-latest
+      steps:
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ secrets.AWS_REGION }}
+        - name: Get IP
+          id: ip
+          uses: haythem/public-ip@v1.2
+        - name: Add Github Actions IP to Security group
+          run: |
+            aws ec2 authorize-security-group-ingress --group-id ${{ secrets.BAHMNI_LITE_AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
+        - name: Deploy to QA
+          env:
+            PRIVATE_KEY: ${{ secrets.BAHMNI_LITE_AWS_SSH_PRIVATE_KEY }}
+            HOSTNAME: ${{secrets.BAHMNI_LITE_AWS_SSH_HOST}}
+            USER_NAME: ${{secrets.BAHMNI_LITE_AWS_SSH_USER_NAME}}
+            EC2_IP: ${{secrets.EC2_PRIMERO_IP}}
+          run: |
+            echo "$PRIVATE_KEY" > ~/private_key.pem && chmod 400 ~/private_key.pem
+            ssh -i ~/private_key.pem -o StrictHostKeyChecking=no ${USER_NAME}@${HOSTNAME} '
+            echo "${{secrets.BAHMNI_LITE_AWS_SSH_PRIVATE_KEY}}" > ~/private_key.pem && chmod 400 ~/private_key.pem
+            ssh -i ~/private_key.pem ubuntu@${{secrets.EC2_PRIMERO_IP}} "
+              sudo su
+              sudo aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin 485402728093.dkr.ecr.ap-south-1.amazonaws.com
+              cd bahmni-docker/bahmni-lite
+              sudo docker compose --env-file .env.dev pull
+              sudo docker compose --env-file .env.dev up -d
+            "
+            rm ~/private_key.pem
+            '
