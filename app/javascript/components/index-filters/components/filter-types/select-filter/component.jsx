@@ -35,8 +35,7 @@ const Component = ({ filter, mode, moreSectionFilters, multiple, reset, setMoreS
     option_strings_source: optionStringsSource,
     option_strings_source_id_key: optionStringsSourceIdKey,
     sort_options: sortOptions,
-    toggle_include_disabled: toggleIncludeDisabled,
-    toggle_include_disabled_label: toggleIncludeDisabledLabel
+    toggle_include_disabled: toggleIncludeDisabled
   } = filter;
 
   const lookups = useOptions({
@@ -186,7 +185,7 @@ const Component = ({ filter, mode, moreSectionFilters, multiple, reset, setMoreS
             <FormControlLabel
               labelPlacement="end"
               control={<Checkbox onChange={handleToggleDisabledChange} checked={includeDisabledValue} />}
-              label={i18n.t(toggleIncludeDisabledLabel)}
+              label={i18n.t("cases.filter_by.include_disabled")}
             />
           </FormGroup>
         </FormControl>

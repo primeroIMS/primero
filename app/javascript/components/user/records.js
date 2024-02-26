@@ -20,6 +20,5 @@ export const FilterRecord = Record({
   options: [],
   type: null,
   sort_options: false,
-  toggle_include_disabled: false,
-  toggle_include_disabled_label: ""
+  toggle_include_disabled: false
 });

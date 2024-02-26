@@ -6,7 +6,7 @@
 # rubocop:disable Metrics/ClassLength
 class Filter < ValueObject
   attr_accessor :name, :field_name, :type, :options, :option_strings_source,
-                :toggle_include_disabled, :sort_options, :toggle_include_disabled_label
+                :toggle_include_disabled, :sort_options
 
   FLAGGED_CASE = Filter.new(
     name: 'cases.filter_by.flag',
@@ -27,7 +27,6 @@ class Filter < ValueObject
     field_name: 'owned_by',
     type: 'multi_select',
     toggle_include_disabled: true,
-    toggle_include_disabled_label: 'cases.filter_by.include_disabled_users',
     sort_options: true
   )
   RECORD_OWNER = Filter.new(name: 'incidents.filter_by.record_owner', field_name: 'owned_by')
@@ -641,7 +640,7 @@ class Filter < ValueObject
 
   def owned_by_options(opts = {})
     managed_users = opts[:user].managed_users
-    self.options = managed_users.map { |usr| { id: usr.user_name, display_name: usr.user_name, enabled: !usr.disabled  } }
+    self.options = managed_users.map { |usr| { id: usr.user_name, display_name: usr.user_name, enabled: !usr.disabled }}
   end
 
   def workflow_options(opts = {})
