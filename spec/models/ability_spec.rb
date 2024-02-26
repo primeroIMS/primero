@@ -188,6 +188,25 @@ describe Ability do
         end
       end
     end
+
+    describe '#resolve_flag' do
+      let(:flag_permissions) do
+        Permission.records.map do |resource|
+          Permission.new(resource:, actions: [Permission::READ, Permission::FLAG_RESOLVE_ANY])
+        end
+      end
+
+      let(:flag_resolve_any_role) { create :role, permissions: flag_permissions }
+      let(:flag_resolve_any_user) { create :user, role: flag_resolve_any_role }
+      subject(:ability) { Ability.new(flag_resolve_any_user) }
+
+      it 'allows to resolve flag records an user' do
+        [Child, TracingRequest, Incident, RegistryRecord, Family].each do |model|
+          instance = model.new_with_user(flag_resolve_any_user, {})
+          expect(ability).to be_able_to(:flag_resolve, instance)
+        end
+      end
+    end
   end
 
   describe 'Roles' do

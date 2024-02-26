@@ -2368,6 +2368,7 @@ en:
       reopen: Reopen
       report: Report
       managed_report: Insights
+      resolve_any_flag: Resolve any Flag
       request_approval: Request for approval
       request_approval_action_plan: Request %{approval_label} approval
       request_approval_assessment: Request %{approval_label} approval
@@ -2681,6 +2682,9 @@ en:
             explanation: Ability to add a flag to a case. Users with this permission
               can also remove the flags that they have added to a case.
             label: Flag
+          resolve_any_flag:
+            explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
+            label: Resolve any Flag
           import:
             explanation: Allows the user to create one or more new cases by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted
@@ -3268,6 +3272,9 @@ en:
             explanation: Ability to add a flag to an incident. Users with this permission
               can also remove the flags that they have added to an incident.
             label: Flag
+          resolve_any_flag:
+            explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
+            label: Resolve any Flag
           import:
             explanation: Allows the user to create one or more new incidents by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted
@@ -3460,6 +3467,9 @@ en:
             explanation: Ability to add a flag to a Registry record. Users with this permission
               can also remove the flags that they have added to a Registry record.
             label: Flag
+          resolve_any_flag:
+            explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
+            label: Resolve any Flag
           manage:
             explanation: Allows a user to perform all available actions on Registry records. The
               "Manage" permission essentially means "everything".
@@ -3530,6 +3540,9 @@ en:
             explanation: Ability to add a flag to a Family. Users with this permission
               can also remove the flags that they have added to a Family.
             label: Flag
+          resolve_any_flag:
+            explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
+            label: Resolve any Flag
           manage:
             explanation: Allows a user to perform all available actions on Families. The
               "Manage" permission essentially means "everything".
@@ -3725,6 +3738,9 @@ en:
               permission can also remove the flags that they have added to a tracing
               request.
             label: Flag
+          resolve_any_flag:
+            explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
+            label: Resolve any Flag
           import:
             explanation: Allows the user to create one or more new cases by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted
