@@ -12,88 +12,88 @@ on:
   workflow_dispatch:
 
 jobs:
-#  server-test:
-#    name: Backend Tests
-#    runs-on: ubuntu-latest
-#    services:
-#      postgres:
-#        image: postgres:14.7
-#        env:
-#          POSTGRES_DB: primero_test
-#          POSTGRES_USER: postgres
-#          POSTGRES_PASSWORD: postgrespassword
-#        ports:
-#          - 5432:5432
-#        options: >-
-#          --health-cmd pg_isready
-#          --health-interval 10s
-#          --health-timeout 5s
-#          --health-retries 5
-#    steps:
-#      - uses: actions/checkout@v2
-#      - uses: ruby/setup-ruby@v1
-#        with:
-#          bundler-cache: true
-#      - name: Build/Run Solr
-#        run: |
-#          cd docker && ./build.sh solr
-#          docker run -v solr_cores:/var/solr primeroims/solr:latest make-primero-core.sh primero-test
-#          docker images
-#          docker run -d -p 8983:8983 -v solr_cores:/var/solr --name=primero_solr_1 primeroims/solr:latest
-#          docker ps
-#      - name: Server tests
-#        run: ./bin/run_server_tests.sh github-actions
-#        shell: bash
-#  client-lint:
-#    name: Client Linter
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - uses: actions/setup-node@v2
-#        with:
-#          node-version: '18'
-#          cache: 'npm'
-#          cache-dependency-path: '**/package-lock.json'
-#      - name: Run client linter
-#        run: |
-#          npm ci
-#          npm run lint
-#
-#  client-test:
-#    name: Frontend Tests
-#    needs: client-lint
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - uses: actions/setup-node@v2
-#        with:
-#          node-version: '18'
-#          cache: 'npm'
-#          cache-dependency-path: '**/package-lock.json'
-#      - name: Run client tests batch 1
-#        run: |
-#          npm ci
-#          npm run test:batch:1
-#      - name: Run client tests batch 2
-#        run: |
-#          npm ci
-#          npm run test:batch:2
-#      - name: Run client tests batch 3
-#        run: |
-#          npm ci
-#          npm run test:batch:3
-#      - name: Run client tests 4
-#        run: |
-#          npm ci
-#          npm run test:batch:4
-#      - name: Run client tests 5
-#        run: |
-#          npm ci
-#          npm run test:batch:5
-#      - name: Run client tests new
-#        run: |
-#          npm ci
-#          npm run test:new -- --maxWorkers=2
+  server-test:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14.7
+        env:
+          POSTGRES_DB: primero_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgrespassword
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Build/Run Solr
+        run: |
+          cd docker && ./build.sh solr
+          docker run -v solr_cores:/var/solr primeroims/solr:latest make-primero-core.sh primero-test
+          docker images
+          docker run -d -p 8983:8983 -v solr_cores:/var/solr --name=primero_solr_1 primeroims/solr:latest
+          docker ps
+      - name: Server tests
+        run: ./bin/run_server_tests.sh github-actions
+        shell: bash
+  client-lint:
+    name: Client Linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+      - name: Run client linter
+        run: |
+          npm ci
+          npm run lint
+
+  client-test:
+    name: Frontend Tests
+    needs: client-lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+      - name: Run client tests batch 1
+        run: |
+          npm ci
+          npm run test:batch:1
+      - name: Run client tests batch 2
+        run: |
+          npm ci
+          npm run test:batch:2
+      - name: Run client tests batch 3
+        run: |
+          npm ci
+          npm run test:batch:3
+      - name: Run client tests 4
+        run: |
+          npm ci
+          npm run test:batch:4
+      - name: Run client tests 5
+        run: |
+          npm ci
+          npm run test:batch:5
+      - name: Run client tests new
+        run: |
+          npm ci
+          npm run test:new -- --maxWorkers=2
 
   docker-build-publish:
     name: Docker Build & Publish
