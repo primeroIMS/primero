@@ -143,8 +143,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [docker-build-publish]
     steps:
-      - name: Pull Github code
-        uses: actions/checkout@v2
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -168,10 +166,11 @@ jobs:
           ssh -i ~/private_key.pem -o StrictHostKeyChecking=no ${USER_NAME}@${HOSTNAME} '
           echo "${{secrets.BAHMNI_LITE_AWS_SSH_PRIVATE_KEY}}" > ~/private_key.pem && chmod 400 ~/private_key.pem
           ssh -i ~/private_key.pem ubuntu@${{secrets.EC2_PRIMERO_IP}} "
-            sudo su
-            sudo aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin 485402728093.dkr.ecr.ap-south-1.amazonaws.com
-            sudo docker compose pull
-            sudo docker compose up -d
+               echo "test" > test.txt
+#            sudo su
+#            sudo aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin 485402728093.dkr.ecr.ap-south-1.amazonaws.com
+#            sudo docker compose pull
+#            sudo docker compose up -d
           "
           rm ~/private_key.pem
           '
