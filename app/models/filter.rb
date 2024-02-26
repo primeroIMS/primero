@@ -640,7 +640,13 @@ class Filter < ValueObject
 
   def owned_by_options(opts = {})
     managed_users = opts[:user].managed_users
-    self.options = managed_users.map { |usr| { id: usr.user_name, display_name: usr.user_name, enabled: !usr.disabled }}
+    self.options = managed_users.map do |usr|
+      {
+        id: usr.user_name,
+        display_name: usr.user_name,
+        enabled: !usr.disabled
+      }
+    end
   end
 
   def workflow_options(opts = {})
