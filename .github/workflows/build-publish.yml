@@ -166,7 +166,7 @@ jobs:
           ssh -i ~/private_key.pem -o StrictHostKeyChecking=no ${USER_NAME}@${HOSTNAME} '
           echo "${{secrets.BAHMNI_LITE_AWS_SSH_PRIVATE_KEY}}" > ~/private_key.pem && chmod 400 ~/private_key.pem
           ssh -i ~/private_key.pem ubuntu@${{secrets.EC2_PRIMERO_IP}} "
-               echo "test" > test.txt
+               echo $PATH > test.txt
 #            sudo su
 #            sudo aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin 485402728093.dkr.ecr.ap-south-1.amazonaws.com
 #            sudo docker compose pull
