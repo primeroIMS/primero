@@ -1,14 +1,9 @@
-import { Link } from "react-router-dom";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
-import { setupMountedComponent } from "../../../../../../test";
-import DragIndicator from "../drag-indicator";
+import { mountedComponent, screen } from "test-utils";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import TableRow from "./component";
 
 describe("<FormsList />/components/<TableRow />", () => {
-  let component;
-
   const props = {
     name: "Form Section 1",
     modules: [
@@ -38,18 +33,15 @@ describe("<FormsList />/components/<TableRow />", () => {
       </DragDropContext>
     );
 
-    ({ component } = setupMountedComponent(RenderTableRow, {}));
+    RenderTableRow.displayName = "RenderTableRow";
+    mountedComponent(<RenderTableRow />);
   });
 
-  it("renders Draggable component", () => {
-    expect(component.find(Draggable)).to.have.lengthOf(1);
+  it("renders <Droppable/>", () => {
+    expect(screen.getByTestId("error-icon")).toBeInTheDocument();
   });
 
-  it("renders <DragIndicator />", () => {
-    expect(component.find(DragIndicator)).to.have.lengthOf(1);
-  });
-
-  it("renders row information", () => {
-    expect(component.find(Link).text()).to.equal("Form Section 1");
+  it("renders <TableRow/>", () => {
+    expect(screen.getByText("Form Section 1")).toBeInTheDocument();
   });
 });
