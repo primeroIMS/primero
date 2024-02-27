@@ -30,6 +30,7 @@ class Theme < ApplicationRecord
 
   store_accessor :data, :site_description, :site_title, :colors, :use_contained_nav_style, :show_powered_by_primero
 
+  has_one_attached :login_background
   has_one_attached :logo
   has_one_attached :logo_white
   has_one_attached :logo_pictorial_144
@@ -38,7 +39,6 @@ class Theme < ApplicationRecord
   has_one_attached :favicon
 
   validate :valid_html_colors
-  validates :login_background, presence: true
   validates :logo, presence: true
   validates :logo_white, presence: true
   validates :logo_pictorial_144, presence: true
