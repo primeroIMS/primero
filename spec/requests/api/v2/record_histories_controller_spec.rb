@@ -96,6 +96,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'created_by_groups' => { 'from' => nil, 'to' => [] } },
           { 'unique_identifier' => { 'from' => nil, 'to' => TracingRequest.first.unique_identifier } },
           { 'tracing_request_id' => { 'from' => nil, 'to' => TracingRequest.first.tracing_request_id } },
+          { 'current_alert_types' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
           { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } }
@@ -164,6 +165,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'gbv_case_context' => { 'from' => nil, 'to' => [] } },
           { 'created_by_groups' => { 'from' => nil, 'to' => [] } },
           { 'unique_identifier' => { 'from' => nil, 'to' => Incident.first.incident_id } },
+          { 'current_alert_types' => { 'from' => nil, 'to' => [] } },
           { 'date_of_first_report' => { 'from' => nil, 'to' => Incident.first.date_of_first_report.iso8601 } },
           { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
           { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
@@ -239,6 +241,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'created_by_groups' => { 'from' => nil, 'to' => [] } },
           { 'registration_date' => { 'from' => nil, 'to' => Child.first.registration_date.iso8601 } },
           { 'unique_identifier' => { 'from' => nil, 'to' => Child.first.unique_identifier } },
+          { 'current_alert_types' => { 'from' => nil, 'to' => [] } },
           { 'protection_concerns' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
           { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },

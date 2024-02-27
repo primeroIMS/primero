@@ -94,6 +94,8 @@ describe Api::V2::DashboardsController, type: :request do
     incident.incident_case_id = child.id
     incident.save
 
+    child.save!
+
     Child.create!(data: { record_state: false, status: 'open', owned_by: 'foo', workflow: 'new' })
     Child.create!(data: {
                     record_state: true, status: 'closed', owned_by: 'foo',

@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe Approval do
   before :each do
-    clean_data(SystemSettings, User, Role, Agency, Incident, Child, Alert, PrimeroModule, PrimeroProgram, FormSection)
+    clean_data(SystemSettings, Alert, User, Role, Agency, Incident, Child, PrimeroModule, PrimeroProgram, FormSection)
     SystemSettings.create!(
       approval_forms_to_alert: {
         cp_bia_form: 'assessment',
@@ -271,10 +271,9 @@ describe Approval do
   describe '.approve!' do
     context 'and record has many alerts' do
       before do
-        Alert.create(type: Approval::ACTION_PLAN, alert_for: 'approval', date: Date.today, record_id: @case.id,
-                     record_type: @case.class)
-        Alert.create(type: Approval::GBV_CLOSURE, alert_for: 'approval', date: Date.today, record_id: @case.id,
-                     record_type: @case.class)
+        @case.add_alert(type: Approval::ACTION_PLAN, alert_for: 'approval', date: Date.today)
+        @case.add_alert(type: Approval::GBV_CLOSURE, alert_for: 'approval', date: Date.today)
+        @case.save!
         @approval = Approval.get!(
           Approval::ACTION_PLAN,
           @case,
@@ -286,6 +285,7 @@ describe Approval do
       it 'should delete one alert for the approval type' do
         expect(@case.alerts.count).to eq(2)
         @approval.approve!
+        @case.alerts.reload
         expect(@case.alerts.count).to eq(1)
       end
     end
@@ -294,13 +294,7 @@ describe Approval do
   describe '.perform!' do
     context 'and record has alerts' do
       before do
-        Alert.create(
-          type: Approval::ACTION_PLAN,
-          alert_for: 'approval',
-          date: Date.today,
-          record_id: @case.id,
-          record_type: @case.class
-        )
+        @case.add_alert(type: Approval::ACTION_PLAN, alert_for: 'approval', date: Date.today)
         @approval = Approval.get!(
           Approval::ACTION_PLAN,
           @case,
@@ -308,10 +302,12 @@ describe Approval do
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
         )
         @case.update_properties(@user, { consent_for_services: true })
+        @case.save!
         @approval.perform!(Approval::APPROVAL_STATUS_APPROVED)
       end
 
       it 'should delete one alert for the approval type' do
+        @case.alerts.reload
         expect(@case.alerts.count).to eq(0)
       end
 
