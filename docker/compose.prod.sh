@@ -6,7 +6,7 @@
 set -euox
 
 if [[ "${PRIMERO_DEPLOY_NODB}" == 'false' ]] ; then
-  exec "./compose.sh" -f "docker-compose.prod.yml" -f "docker-compose.db.yml" "${@}"
+  exec "./compose.sh" -f "docker-compose.prod.yml" "${@}"
 else
   exec "./compose.sh" -f "docker-compose.prod.yml" "${@}"
 fi
