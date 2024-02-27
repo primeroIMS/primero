@@ -175,9 +175,9 @@ describe Transfer do
         end
 
         it 'is updated' do
-          expect(@record_histories.size).to eq(4)
-          expect(@record_histories.map(&:action)).to match_array(%w[update update update create])
-          expect(@record_histories.map(&:record_type)).to match_array(%w[Child Child Child Child])
+          expect(@record_histories.size).to eq(3)
+          expect(@record_histories.map(&:action)).to match_array(%w[update update create])
+          expect(@record_histories.map(&:record_type)).to match_array(%w[Child Child Child])
         end
 
         describe 'owned_by' do

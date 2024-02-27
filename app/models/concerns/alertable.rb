@@ -91,7 +91,8 @@ module Alertable
   end
 
   def calculate_current_alert_types
-    self.current_alert_types = alerts.pluck(:type).uniq
+    self.current_alert_types = alerts.each_with_object([]) { |alert, memo| memo << alert.type unless alert.destroyed? }
+
     current_alert_types
   end
 
