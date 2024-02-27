@@ -9,8 +9,9 @@ class Theme < ApplicationRecord
     manifestThemeColor forgotPasswordLink networkIndicatorButton navListIconColor navDivider
     toolbarBackgroundColor toolbarBackgroundButtonColor navListBgActive navListTextActive
     navListIconActive navListText navListIcon navListDivider loginBackgroundGradientStart
-    toolbarBackgroundColorMobileHeade r drawerHeaderButton loginTranslationsButtonBackground
-    loginTranslationsButtonText mobileToolbarBackground mobileToolbarHamburgerButton
+    loginBackgroundGradientEnd toolbarBackgroundColorMobileHeader drawerHeaderButton
+    loginTranslationsButtonBackground loginTranslationsButtonText mobileToolbarBackground
+    mobileToolbarHamburgerButton
   ].freeze
 
   DEFAULT_THEME = {
@@ -29,7 +30,6 @@ class Theme < ApplicationRecord
 
   store_accessor :data, :site_description, :site_title, :colors, :use_contained_nav_style, :show_powered_by_primero
 
-  has_one_attached :login_background
   has_one_attached :logo
   has_one_attached :logo_white
   has_one_attached :logo_pictorial_144
