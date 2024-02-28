@@ -37,7 +37,7 @@ jobs:
         displayName: 'Install npm packages'
       - bash: |
           apt-get update
-          apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-14
+          apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-15
         displayName: 'Install dependencies'
       - bash: |
           . ~/.bash_env
@@ -190,4 +190,3 @@ jobs:
           tags: |
             $(tag)-pg15
             $(latestpg15)
-      
