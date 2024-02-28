@@ -23,6 +23,8 @@ import { useApp } from "../../application";
 
 import TableLoadingIndicator from "./table-loading-indicator";
 
+let lastProp;
+let lastOrder;
 const Datatable = ({
   arrayColumnsToString,
   bypassInitialFetch,
@@ -65,6 +67,7 @@ const Datatable = ({
   const columnsName = useMemo(() => componentColumns.map(col => col.name), [componentColumns]);
 
   const [sortDir, setSortDir] = useState(order);
+  const [offlineData, setOfflineData] = useState([]);
 
   const records = data.get("data");
   const per = data.getIn(["metadata", "per"], 20);
@@ -136,6 +139,51 @@ const Datatable = ({
     }
   };
 
+  function sortByProperty(arr, prop) {
+    if (lastProp === prop) {
+      lastOrder = lastOrder === "asc" ? "desc" : "asc";
+    } else {
+      lastOrder = "asc";
+    }
+    lastProp = prop;
+
+    return arr.slice().sort((a, b) => {
+      if (prop === "case_id_display" || prop === "name" || prop === "sex") {
+        if (lastOrder === "asc") {
+          return a[prop].localeCompare(b[prop]);
+        }
+
+        return b[prop].localeCompare(a[prop]);
+      }
+      if (prop === "registration_date") {
+        const dateA = new Date(a[prop]);
+        const dateB = new Date(b[prop]);
+
+        if (lastOrder === "asc") {
+          return dateA - dateB;
+        }
+
+        return dateB - dateA;
+      }
+      if (prop === "complete") {
+        const valueA = a[prop] !== undefined;
+        const valueB = b[prop] !== undefined;
+
+        if (lastOrder === "asc") {
+          return valueA - valueB;
+        }
+
+        return valueB - valueA;
+      }
+
+      if (lastOrder === "asc") {
+        return a[prop] - b[prop];
+      }
+
+      return b[prop] - a[prop];
+    });
+  }
+
   const handleTableChange = (action, tableState) => {
     const options = defaultFilters.merge(filters);
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
@@ -146,12 +194,20 @@ const Datatable = ({
     }
 
     if (validActions.includes(action)) {
-      dispatch(
-        onTableChange({
-          recordType,
-          data: selectedFilters(options.set("per", rowsPerPage), action, tableState)
-        })
-      );
+      if (navigator.onLine) {
+        dispatch(
+          onTableChange({
+            recordType,
+            data: selectedFilters(options.set("per", rowsPerPage), action, tableState)
+          })
+        );
+      } else {
+        const { sortOrder } = tableState;
+        const { name } = sortOrder;
+        const orderByParam = setOrderByParam(name);
+
+        setOfflineData(sortByProperty(dataWithAlertsColumn, orderByParam));
+      }
     }
   };
 
@@ -226,18 +282,25 @@ const Datatable = ({
   const rowKeys = useMemo(() => (typeof tableData?.[0] !== "undefined" ? Object.keys(tableData[0]) : []), [tableData]);
 
   const dataWithAlertsColumn = useMemo(() => {
-    return rowKeys && rowKeys.includes(ALERTS_COLUMNS.alert_count, ALERTS_COLUMNS.flag_count)
-      ? tableData.map(row => ({
-          ...row,
-          alerts: {
-            // eslint-disable-next-line camelcase
-            alert_count: row?.alert_count || 0,
-            // eslint-disable-next-line camelcase
-            flag_count: row?.flag_count || 0
-          }
-        }))
-      : tableData;
+    const rowsData =
+      rowKeys && rowKeys.includes(ALERTS_COLUMNS.alert_count, ALERTS_COLUMNS.flag_count)
+        ? tableData.map(row => ({
+            ...row,
+            alerts: {
+              // eslint-disable-next-line camelcase
+              alert_count: row?.alert_count || 0,
+              // eslint-disable-next-line camelcase
+              flag_count: row?.flag_count || 0
+            }
+          }))
+        : tableData;
+
+    return rowsData;
   }, [tableData, rowKeys]);
+
+  useEffect(() => {
+    setOfflineData(dataWithAlertsColumn);
+  }, [JSON.stringify(dataWithAlertsColumn)]);
 
   const components = {
     // eslint-disable-next-line react/display-name, react/no-multi-comp
@@ -258,7 +321,7 @@ const Datatable = ({
         title={title}
         columns={componentColumns}
         options={options}
-        data={dataWithAlertsColumn}
+        data={navigator.onLine ? dataWithAlertsColumn : offlineData}
         components={components}
       />
     </ConditionalWrapper>
