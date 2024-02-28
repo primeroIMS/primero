@@ -96,10 +96,10 @@ class Attachment < ApplicationRecord
   end
 
   def recalculate_record_has_photo
-    record_to_recalculate = record || record_type.constantize.find_by(id: record_id)
+    record_to_recalculate = record
     return unless record_to_recalculate.present?
 
-    record_to_recalculate.recalculate_has_photo
+    record_to_recalculate.calculate_has_photo
     record_to_recalculate.save!
   end
 

@@ -44,8 +44,9 @@ module Attachable
     Rails.application.routes.url_helpers.rails_blob_path(photo.file, only_path: true)
   end
 
-  def recalculate_has_photo
+  def calculate_has_photo
     self.has_photo = current_photos.size.positive?
+    has_photo
   end
 
   private
