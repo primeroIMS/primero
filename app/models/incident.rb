@@ -99,8 +99,7 @@ class Incident < ApplicationRecord
   # TODO: Reconsider whether this is necessary.
   # We will only be creating an incident from a case using a special business logic that
   # will certainly trigger a reindex on the case
-  after_save :index_record
-  after_save :recalculate_case_has_incidents
+  after_save :index_record, :recalculate_case_has_incidents
   after_create :add_alert_on_case, :add_case_history
 
   def index_record
@@ -311,7 +310,6 @@ class Incident < ApplicationRecord
     return unless self.case.present?
 
     self.case.calculate_has_incidents
-    self.case.save!
   end
 end
 # rubocop:enable Metrics/ClassLength

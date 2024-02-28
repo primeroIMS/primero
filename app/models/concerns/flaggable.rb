@@ -49,6 +49,7 @@ module Flaggable
 
   def calculate_flagged
     self.flagged = flag_count.positive?
+    flagged
   end
 
   # ClassMethods

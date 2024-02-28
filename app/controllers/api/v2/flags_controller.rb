@@ -9,6 +9,7 @@ class Api::V2::FlagsController < Api::V2::RecordResourceController
   def create
     authorize! :flag_record, @record
     @flag = @record.add_flag(params['data']['message'], params['data']['date'], current_user.user_name)
+    @record.save!
     updates_for_record(@record)
     render :create, status:
   end
@@ -16,6 +17,7 @@ class Api::V2::FlagsController < Api::V2::RecordResourceController
   def update
     authorize! :flag_record, @record
     @flag = @record.remove_flag(params['id'], current_user.user_name, params['data']['unflag_message'])
+    @record.save!
     updates_for_record(@record)
   end
 
