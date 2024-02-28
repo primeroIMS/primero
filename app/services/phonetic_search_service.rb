@@ -72,7 +72,7 @@ class PhoneticSearchService
     filterable_id_queries = record_class.filterable_id_fields.map do |id_field|
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          'data->>:id_field LIKE :value',
+          'data->>:id_field ILIKE :value',
           { id_field:, value: "#{ActiveRecord::Base.sanitize_sql_like(search_params[:query])}%" }
         ]
       )
