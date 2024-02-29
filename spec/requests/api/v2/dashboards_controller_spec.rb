@@ -88,12 +88,15 @@ describe Api::V2::DashboardsController, type: :request do
       }
     )
 
-    child.alerts = [Alert.new(record: child, type: Alertable::INCIDENT_FROM_CASE, alert_for: Alertable::FIELD_CHANGE)]
+    # TODO: This alert shouldn't be necessary once alerts on incidents get fixed.
+    child.add_alert(type: Alertable::INCIDENT_FROM_CASE, alert_for: Alertable::FIELD_CHANGE)
 
-    incident = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' })
-    incident.incident_case_id = child.id
-    incident.save
+    Incident.create!(
+      data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' }, incident_case_id: child.id
+    )
 
+    child.reload
+    child.update_properties(@bar, name_first: 'Updated Name')
     child.save!
 
     Child.create!(data: { record_state: false, status: 'open', owned_by: 'foo', workflow: 'new' })
