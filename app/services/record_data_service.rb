@@ -65,7 +65,7 @@ class RecordDataService
   end
 
   def embed_photo_metadata(data, record, selected_field_names)
-    return data unless selected_field_names.include?('photos')
+    return data unless (selected_field_names & %w[photos photo]).present?
 
     data['photo'] = record.photo_url
     data
