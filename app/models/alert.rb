@@ -12,7 +12,6 @@ class Alert < ApplicationRecord
 
   before_create :generate_fields
   before_create :remove_duplicate_alert
-  before_destroy :recalculate_record_alert_types
   after_create_commit :handle_send_email
 
   def generate_fields
@@ -37,12 +36,5 @@ class Alert < ApplicationRecord
     users.each do |user|
       AlertNotifyJob.perform_later(id, user.id)
     end
-  end
-
-  def recalculate_record_alert_types
-    record_to_update = record
-    return unless record_to_update.present?
-
-    record_to_update.calculate_current_alert_types
   end
 end

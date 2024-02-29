@@ -19,13 +19,7 @@ class Api::V2::AlertsController < Api::V2::RecordResourceController
 
   def destroy
     authorize! :remove_alert, @record
-    alert_id = params[:id]
-    alert = @record.alerts.find { |a| a.unique_id == alert_id }
-    if alert.present?
-      alert.destroy!
-      return
-    end
-    raise ActiveRecord::RecordNotFound
+    @record.remove_alert_by_unique_id!(params[:id])
   end
 
   def index_action_message

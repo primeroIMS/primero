@@ -116,6 +116,13 @@ module Alertable
     end
   end
 
+  def remove_alert_by_unique_id!(alert_unique_id)
+    alert = alerts.find { |elem| elem.unique_id == alert_unique_id }
+    raise ActiveRecord::RecordNotFound unless alert.present?
+
+    alert.destroy! && save!
+  end
+
   def get_alert(approval_type, system_settings)
     system_settings ||= SystemSettings.current
     system_settings.approval_forms_to_alert.key(approval_type)
