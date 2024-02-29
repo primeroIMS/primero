@@ -27,6 +27,11 @@ module Flaggable
     flag
   end
 
+  def add_flag!(message, date, user_name)
+    flag = add_flag(message, date, user_name)
+    save! && flag
+  end
+
   def remove_flag(id, user_name, unflag_message)
     flag = flags.find_by(id:)
     return unless flag.present?
@@ -37,6 +42,11 @@ module Flaggable
     flag.removed = true
     flag.save!
     flag
+  end
+
+  def remove_flag!(id, user_name, unflag_message)
+    flag = remove_flag(id, user_name, unflag_message)
+    save! && flag
   end
 
   def flag_count
