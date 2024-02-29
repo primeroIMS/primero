@@ -84,6 +84,10 @@ class Attachment < ApplicationRecord
     end
   end
 
+  def photo?
+    attachment_type == Attachment::IMAGE && field_name == Attachable::PHOTOS_FIELD_NAME
+  end
+
   def url
     Rails.application.routes.url_helpers.rails_blob_path(file, only_path: true, expires_in: EXPIRES,
                                                                disposition: :attachment)

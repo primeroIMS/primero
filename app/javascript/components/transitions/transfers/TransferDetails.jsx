@@ -27,7 +27,7 @@ const TransferDetails = ({ transition }) => {
         <DisplayData label="transition.recipient" value={transition.transitioned_to} />
       </Grid>
       <Grid item md={6} xs={12}>
-        <DisplayData label="transition.assigned_by" value={transition.transitioned_by} />
+        <DisplayData label="transition.transferred_by" value={transition.transitioned_by} />
       </Grid>
 
       <Grid item md={6} xs={12}>

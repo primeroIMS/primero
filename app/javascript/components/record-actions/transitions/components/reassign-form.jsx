@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import qs from "qs";
 import { TextField } from "formik-material-ui";
+import { fromJS } from "immutable";
 
 import { RECORD_TYPES } from "../../../../config";
 import { getUsersByTransitionType, getErrorsByTransitionType } from "../selectors";
@@ -21,6 +22,7 @@ import { filterUsers } from "../utils";
 import { useMemoizedSelector } from "../../../../libs";
 import { getFiltersValuesByRecordType } from "../../../index-filters/selectors";
 import { getMetadata } from "../../../record-list/selectors";
+import InternalAlert, { SEVERITY } from "../../../internal-alert";
 
 import { REASSIGN_FORM_NAME } from "./constants";
 import { searchableValue, buildDataAssign } from "./utils";
@@ -36,7 +38,8 @@ const ReassignForm = ({
   selectedIds,
   mode,
   selectedRecordsLength,
-  currentRecordsSize
+  currentRecordsSize,
+  formDisabled = false
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -84,6 +87,7 @@ const ReassignForm = ({
     InputLabelProps: {
       shrink: true
     },
+    disabled: formDisabled,
     autoComplete: "off",
     variant: "outlined",
     multiline: true,
@@ -102,6 +106,7 @@ const ReassignForm = ({
       }
     },
     excludeEmpty: true,
+    isDisabled: formDisabled,
     options: filterUsers(users, mode, record, true)
   };
 
@@ -119,7 +124,7 @@ const ReassignForm = ({
 
     setPending(true);
     if (record) {
-      dispatch(saveAssignedUser(record.get("id"), { data }, i18n.t("reassign.successfully")));
+      dispatch(saveAssignedUser(recordType, record.get("id"), { data }, i18n.t("reassign.successfully")));
     } else {
       dispatch(saveBulkAssignedUser(recordType, selectedIds, selectedRecordsLength, { data }));
     }
@@ -145,11 +150,23 @@ const ReassignForm = ({
     innerRef: assignRef
   };
 
+  const internalAlert = formDisabled && (
+    <InternalAlert
+      items={fromJS([
+        {
+          message: i18n.t("reassign.incident_from_case_warning")
+        }
+      ])}
+      severity={SEVERITY.info}
+    />
+  );
+
   return (
     <Formik {...formProps}>
       {({ handleSubmit }) => {
         return (
           <Form onSubmit={handleSubmit}>
+            {internalAlert}
             <div className={css.field}>
               <Field name="transitioned_to">
                 {({ field, form, ...other }) => {
@@ -187,6 +204,7 @@ ReassignForm.displayName = REASSIGN_FORM_NAME;
 ReassignForm.propTypes = {
   assignRef: PropTypes.object,
   currentRecordsSize: PropTypes.number,
+  formDisabled: PropTypes.bool,
   formik: PropTypes.object,
   mode: PropTypes.object,
   record: PropTypes.object,

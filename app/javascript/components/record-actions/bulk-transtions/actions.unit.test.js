@@ -9,7 +9,8 @@ describe("bulk-transitons - Actions", () => {
     const cloneActions = clone({ ...actions });
 
     [
-      "BULK_ASSIGN",
+      "BULK_ASSIGN_CASES",
+      "BULK_ASSIGN_INCIDENTS",
       "BULK_ASSIGN_USER_SAVE",
       "BULK_ASSIGN_USER_SAVE_SUCCESS",
       "BULK_ASSIGN_USER_SAVE_STARTED",

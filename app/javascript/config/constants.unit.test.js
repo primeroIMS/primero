@@ -64,6 +64,7 @@ describe("Verifying config constant", () => {
       "INCIDENT_CASE_ID_FIELD",
       "INCIDENT_FROM_CASE",
       "INCIDENT_SHORT_ID_FIELD",
+      "INCIDENT_TRANSFERS_ASSIGNMENTS",
       "INPROGRESS",
       "ISO_DATE_REGEX",
       "ISO_DATE_TIME_REGEX",

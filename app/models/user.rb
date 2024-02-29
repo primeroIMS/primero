@@ -63,6 +63,13 @@ class User < ApplicationRecord
     joins(:agency).where(agencies: { id: })
   end)
 
+  scope :by_resource_and_permission, (lambda do |resource, permissions|
+    joins(:role).where(
+      'roles.permissions -> :resource @> ANY(select jsonb_array_elements(:permissions)) ',
+      resource:, permissions: permissions.to_json
+    )
+  end)
+
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
 
@@ -587,7 +594,7 @@ class User < ApplicationRecord
       update_agencies: saved_change_to_attribute?('agency_id'),
       update_locations: saved_change_to_attribute?('location'),
       update_agency_offices: saved_change_to_attribute('agency_office')&.last&.present?,
-      model: 'Child'
+      models: [Child, Incident]
     )
   end
 
