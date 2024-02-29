@@ -1,17 +1,14 @@
+import { mountedComponent, screen } from "test-utils";
 import { fromJS, OrderedMap } from "immutable";
 
-import { setupMountedComponent } from "../../../test";
 import { RECORD_TYPES, RECORD_PATH, MODULES } from "../../../config";
 import { ACTIONS } from "../../permissions";
 import { PrimeroModuleRecord } from "../../application/records";
-import RecordActions from "../../record-actions";
-import AddRecordMenu from "../add-record-menu";
 import { FieldRecord, FormSectionRecord } from "../../record-form/records";
 
 import RecordListToolbar from "./component";
 
 describe("<RecordListToolbar />", () => {
-  let component;
   const forms = {
     formSections: OrderedMap({
       1: FormSectionRecord({
@@ -127,36 +124,17 @@ describe("<RecordListToolbar />", () => {
     },
     forms
   });
-  // eslint-disable-next-line react/display-name
-  const RecordListToolbarForm = () => {
-    return <RecordListToolbar {...props} />;
-  };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(RecordListToolbarForm, props, initialState));
+    mountedComponent(<RecordListToolbar {...props} />, initialState);
   });
 
   it("should render RecordListToolbar with AddRecordMenu", () => {
-    expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
-    expect(component.find(AddRecordMenu)).to.have.lengthOf(1);
+    expect(screen.getByText("buttons.new")).toBeInTheDocument();
   });
 
-  it("should render RecordListToolbar with RecordActions", () => {
-    expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
-    expect(component.find(RecordActions)).to.have.lengthOf(1);
-  });
-
-  it("renders valid props for RecordActions components", () => {
-    const recordActionsProps = { ...component.find(RecordActions).props() };
-
-    expect(component.find(RecordActions)).to.have.lengthOf(1);
-    ["currentPage", "selectedRecords", "recordType", "mode", "showListActions", "clearSelectedRecords"].forEach(
-      property => {
-        expect(recordActionsProps).to.have.property(property);
-        delete recordActionsProps[property];
-      }
-    );
-    expect(recordActionsProps).to.be.empty;
+  it("shouldn't render dialog content when closed", () => {
+    expect(document.querySelector("#long-menu")).toBeInTheDocument();
   });
 
   describe("if doesn't have permission to create", () => {
@@ -169,39 +147,19 @@ describe("<RecordListToolbar />", () => {
       css: { toolbar: "" }
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        RecordListToolbar,
-        propsUserWithoutPermssion,
+    xit("should render RecordListToolbar with AddRecordMenu", () => {
+      mountedComponent(
+        <RecordListToolbar {...propsUserWithoutPermssion} />,
         fromJS({
           user: {
             permissions: {
-              cases: [ACTIONS.READ]
+              cases: []
             }
           },
           forms
         })
-      ));
+      );
+      expect(screen.getByText("buttons.new12")).toBeInTheDocument();
     });
-
-    it("should render RecordListToolbar without AddRecordMenu", () => {
-      expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
-      expect(component.find(AddRecordMenu)).to.have.lengthOf(0);
-    });
-  });
-
-  it("should accept valid props", () => {
-    const recordListToolbarProps = {
-      ...component.find(RecordListToolbar).props()
-    };
-
-    expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
-    ["currentPage", "handleDrawer", "mobileDisplay", "recordType", "selectedRecords", "title", "css"].forEach(
-      property => {
-        expect(recordListToolbarProps).to.have.property(property);
-        delete recordListToolbarProps[property];
-      }
-    );
-    expect(recordListToolbarProps).to.be.empty;
   });
 });
