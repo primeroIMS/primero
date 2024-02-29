@@ -18,7 +18,7 @@ on:
 jobs:
   build-publish-solr:
     name: Build & Publish Solr
-    runs-on: Docker Build & Publish Solr
+    runs-on: ubuntu-latest
     steps:
       - name: Pull Github code
         uses: actions/checkout@v2
