@@ -325,8 +325,7 @@ describe Api::V2::ChildrenController, type: :request do
     end
 
     it 'Search flagged children' do
-      @case1.add_flag('This is a flag', Date.today, 'faketest')
-      @case1.save!
+      @case1.add_flag!('This is a flag', Date.today, 'faketest')
       Sunspot.index(@case1.reload)
       Sunspot.commit
 
