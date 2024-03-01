@@ -18,12 +18,11 @@ on:
         required: false
         default: 'false'
       image-names:
-        descriptiom: 'Names of the Docker images (comma-separated, e.g., "application,nginx,solr,migration,all" or single values "application")'
+        descriptiom: 'Names of the Docker images (comma-separated, e.g., "application,nginx,solr,all" or single values "application")'
         required: false
         default: 'application'
 
 env:
-  REPOSITORY: my-repository
   IMAGE_NAMES: ${{ github.event.inputs.image-names }}
 
 jobs:
