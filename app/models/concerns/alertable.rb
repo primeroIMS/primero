@@ -91,7 +91,11 @@ module Alertable
   end
 
   def calculate_current_alert_types
-    self.current_alert_types = alerts.each_with_object([]) { |alert, memo| memo << alert.type unless alert.destroyed? }
+    self.current_alert_types = alerts.each_with_object([]) do |alert, memo|
+      next if alert.destroyed? || memo.include?(alert.type)
+
+      memo << alert.type unless alert.destroyed?
+    end
 
     current_alert_types
   end
