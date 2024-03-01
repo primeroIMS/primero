@@ -26,6 +26,7 @@ class ManagedReports::Indicators::ElapsedReportingTimeRape < ManagedReports::Sql
         #{user_scope_query(current_user)&.prepend('and ')}
         group by data ->> 'elapsed_reporting_time'
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
+        order by id
       }
     end
     # rubocop:enable Metrics/MethodLength
