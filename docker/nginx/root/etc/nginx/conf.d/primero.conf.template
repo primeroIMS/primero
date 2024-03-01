@@ -24,6 +24,12 @@ server {
         root /usr/share/nginx/html;
     }
 
+    # Health check location block
+    location /health_check {
+        # Return a 200 OK response for ELB health checks
+        return 200 "OK";
+    }
+
     # @begin-ssl
     location / {
         return 301 https://$host:${NGINX_HTTPS_PORT}$1;

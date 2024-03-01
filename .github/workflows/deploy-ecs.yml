@@ -1,0 +1,61 @@
+# .github/workflows/deploy-ecs.yml
+
+name: Deploy to ECS
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to (e.g., qa, staging, production)'
+        required: true
+      branch:
+        description: 'Branch to deploy from (default: ecs-github-workflow)'
+        required: false
+        default: 'ecs-github-workflow'
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Environment to deploy to (e.g., qa, staging, production)'
+        required: true
+      branch:
+        description: 'Branch to deploy from (default: ecs-github-workflow)'
+        required: false
+        default: 'ecs-github-workflow'
+
+jobs:
+
+  deploy-qa:
+    name: Deploy to ECS (Staging)
+    runs-on: ubuntu-latest
+    if: github.event.inputs.environment == 'qa'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
+      # Add steps for deploying to the qa environment
+
+  deploy-staging:
+    name: Deploy to ECS (Production)
+    runs-on: ubuntu-latest
+    if: github.event.inputs.environment == 'staging'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
+      # Add steps for deploying to the staging environment
+
+  deploy-production:
+    name: Deploy to ECS (Production)
+    runs-on: ubuntu-latest
+    if: github.event.inputs.environment == 'production'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
+      # Add steps for deploying to the production environment

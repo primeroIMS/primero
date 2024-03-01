@@ -1,0 +1,131 @@
+# .github/workflows/deploy-ecs-qa.yml
+
+name: Deploy to ECS (QA)
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to (Example: qa, staging, production)'
+        required: true
+        default: 'qa'
+      branch:
+        description: 'Branch to deploy from (default: ecs-github-workflow)'
+        required: true
+        default: 'ecs-github-workflow'
+      deploy:
+        description: 'Whether to deploy or not'
+        required: false
+        default: 'false'
+      image-names:
+        descriptiom: 'Names of the Docker images (comma-separated, e.g., "application,nginx,solr,migration,all" or single values "application")'
+        required: false
+        default: 'application'
+
+env:
+  REPOSITORY: my-repository
+  IMAGE_NAMES: ${{ github.event.inputs.image-names }}
+
+jobs:
+
+  docker-build-publish:
+    name: Docker Build & Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull Github code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Configure AWS Credentials
+        if: ${{ github.event.inputs.environment == 'qa' }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.QA_AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.QA_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.QA_AWS_REGION }}
+
+      - name: Configure AWS Credentials
+        if: ${{ github.event.inputs.environment == 'staging' }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.STAGING_AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Configure AWS Credentials
+        if: ${{ github.event.inputs.environment == 'production' }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.PROD_AWS_REGION }}
+
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set Image tag variable
+        run: |
+          echo $GITHUB_RUN_NUMBER
+          echo "ARTIFACT_VERSION=$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+
+      - name: Build and Push Docker Image to ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ env.ARTIFACT_VERSION }}
+        run: |
+          IFS=',' read -ra IMAGE_ARRAY <<< "${IMAGE_NAMES}"
+          for IMAGE in "${IMAGE_ARRAY[@]}"; do
+            export IMAGE_NAME=$IMAGE
+            ./build.sh $IMAGE_NAME -t $IMAGE_TAG -r $ECR_REGISTRY
+          done
+
+      - name: Upload Image Names as Artifact
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: image-names
+          path: image-names.txt
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.deploy == 'true' }}
+
+    steps:
+      - name: Download Image Names Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: image-names
+          path: /tmp
+
+      - name: Read Image Names from Artifact
+        id: read-image-names
+        run: |
+          IMAGE_NAMES=$(cat /tmp/image-names.txt)
+          echo "::set-output name=IMAGE_NAMES::$IMAGE_NAMES"
+
+      - name: Trigger Deploy Workflow
+        uses: ./.github/workflows/deploy.yml
+        with:
+          environment: ${{ github.event.inputs.environment }}
+          branch: ${{ github.event.inputs.branch }}
+
+
+      - name: Deploy to Amazon ECS
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const response = await octokit.actions.createWorkflowDispatch({
+              owner: 'your-username',
+              repo: 'your-repository',
+              workflow_id: 'deploy.yml',
+              inputs: {
+                ecs-services: 'service1 service2', // Add your ECS services here
+                image-names: '{"service1": "image1", "service2": "image2"}', // Add your image names here
+                task-definitions: '{"service1": "task-def1.json", "service2": "task-def2.json"}' // Add your task definition files here
+              }
+            });
+            console.log(response);
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
