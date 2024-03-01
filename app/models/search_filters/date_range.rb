@@ -18,15 +18,17 @@ class SearchFilters::DateRange < SearchFilters::SearchFilter
   end
 
   def query
-    "(#{from_query} AND #{to_query})"
+    return "(#{from_query} AND #{to_query})" if to.present?
+
+    "(#{from_query})"
   end
 
   def from_query
-    SearchFilters::DateValue.new(field_name:, value: from, operator: '>').query
+    SearchFilters::DateValue.new(field_name:, value: from, operator: '>=').query
   end
 
   def to_query
-    SearchFilters::DateValue.new(field_name:, value: to, operator: '<').query
+    SearchFilters::DateValue.new(field_name:, value: to, operator: '<=').query
   end
 
   def this_quarter?

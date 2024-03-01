@@ -18,15 +18,17 @@ class SearchFilters::NumericRange < SearchFilters::SearchFilter
   end
 
   def query
-    "(#{from_query} AND #{to_query})"
+    return "(#{from_query} AND #{to_query})" if to.present?
+
+    "(#{from_query})"
   end
 
   def from_query
-    SearchFilters::Value.new(field_name:, value: from, operator: '>').query
+    SearchFilters::Value.new(field_name:, value: from, operator: '>=').query
   end
 
   def to_query
-    SearchFilters::Value.new(field_name:, value: to, operator: '<').query
+    SearchFilters::Value.new(field_name:, value: to, operator: '<=').query
   end
 
   def to_h

@@ -4,7 +4,7 @@
 
 # Superclass for all SearchFilter objects that transform API query parameters into Sunspot queries
 class SearchFilters::SearchFilter < ValueObject
-  OPERATORS = %w[= > <].freeze
+  OPERATORS = %w[= > < >= <=].freeze
 
   attr_accessor :not_filter
 
