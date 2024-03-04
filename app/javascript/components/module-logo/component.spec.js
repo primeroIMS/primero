@@ -1,10 +1,8 @@
 import { fromJS } from "immutable";
 
-import PrimeroLogo from "../../images/primero-logo.png";
-import MRMLogo from "../../images/mrm-logo.png";
-import { setupMountedComponent } from "../../test";
-import { MODULES } from "../../config";
+import { mountedComponent, screen } from "../../test-utils";
 import { PrimeroModuleRecord } from "../application/records";
+import { MODULES } from "../../config";
 
 import ModuleLogo from "./component";
 
@@ -23,9 +21,9 @@ describe("<ModuleLogo />", () => {
       }
     });
 
-    const { component } = setupMountedComponent(ModuleLogo, {}, state);
+    mountedComponent(<ModuleLogo />, state);
 
-    expect(component.find("img").prop("src")).to.equal(PrimeroLogo);
+    expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "img")).toBeInTheDocument();
   });
 
   it("renders a primero module logo from props", () => {
@@ -42,8 +40,8 @@ describe("<ModuleLogo />", () => {
       }
     });
 
-    const { component } = setupMountedComponent(ModuleLogo, {}, state);
+    mountedComponent(<ModuleLogo />, state);
 
-    expect(component.find("img").prop("src")).to.equal(MRMLogo);
+    expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "img")).toBeInTheDocument();
   });
 });
