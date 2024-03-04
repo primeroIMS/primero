@@ -6,11 +6,17 @@
 class SearchFilterService
   EXCLUDED = %w[format controller action page per order order_by fields id_search].freeze
 
-  def self.build_filters(params, permitted_field_names)
-    service = SearchFilterService.new
-    filter_params = service.select_filter_params(params, permitted_field_names)
-    filter_params = DestringifyService.destringify(filter_params.to_h, true)
-    service.build_filters(filter_params)
+  class << self
+    def build_filters(params, permitted_field_names)
+      service = SearchFilterService.new
+      filter_params = service.select_filter_params(params, permitted_field_names)
+      filter_params = DestringifyService.destringify(filter_params.to_h, true)
+      service.build_filters(filter_params)
+    end
+
+    def boolean?(value)
+      [TrueClass, FalseClass].any? { |klass| value.is_a?(klass) }
+    end
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -35,7 +41,7 @@ class SearchFilterService
         end
       elsif value.is_a?(Array)
         build_array_filter(key, value)
-      elsif [TrueClass, FalseClass].any? { |klass| value.is_a?(klass) }
+      elsif SearchFilterService.boolean?(value)
         SearchFilters::BooleanValue.new(field_name: key, value:)
       elsif value.is_a?(String)
         SearchFilters::TextValue.new(field_name: key, value:)
@@ -52,7 +58,7 @@ class SearchFilterService
   def build_not_filter(field_name, value)
     if value.is_a?(Array)
       build_array_filter(field_name, value, true)
-    elsif [TrueClass, FalseClass].any? { |klass| value.is_a?(klass) }
+    elsif SearchFilterService.boolean?(value)
       SearchFilters::BooleanValue.new(field_name:, value:, not_filter: true)
     elsif value.is_a?(String)
       SearchFilters::TextValue.new(field_name:, value:, not_filter: true)
@@ -62,8 +68,16 @@ class SearchFilterService
   end
 
   def build_array_filter(field_name, value, not_filter = false)
-    return SearchFilters::ValueList.new(field_name:, values: value, not_filter:) unless value.first.is_a?(Hash)
+    if value.first.is_a?(Hash)
+      build_range_list_filter(field_name, value, not_filter)
+    elsif SearchFilterService.boolean?(value.first)
+      SearchFilters::BooleanList.new(field_name:, values: value, not_filter:)
+    else
+      SearchFilters::ValueList.new(field_name:, values: value, not_filter:)
+    end
+  end
 
+  def build_range_list_filter(field_name, value, not_filter = false)
     if value.first['from'].is_a?(Numeric)
       SearchFilters::RangeList.new(field_name:, values: value, range_type: SearchFilters::NumericRange, not_filter:)
     elsif value.first['from'].respond_to?(:strftime)
