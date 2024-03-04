@@ -106,7 +106,7 @@ const Component = ({ filter, mode, moreSectionFilters, reset, setMoreSectionFilt
     });
 
   return (
-    <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
+    <Panel filter={filter} getValues={getValues} handleReset={handleReset} data-testid="toggle-filter">
       <ToggleButtonGroup
         color="primary"
         value={inputValue}
