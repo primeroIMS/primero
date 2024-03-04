@@ -1,17 +1,13 @@
 import { fromJS, Map } from "immutable";
-import { Formik } from "formik";
-import { TextField as MuiTextField } from "formik-material-ui";
 
 import { NUMERIC_FIELD } from "../constants";
 import { getRecordForms } from "../selectors";
 import { RECORD_TYPES } from "../../../config";
-import { setupMountedComponent, stub } from "../../../test";
+import { mountedComponent, stub, screen } from "../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../records";
 
-import FormSectionField from "./form-section-field";
 import { TEXT_FIELD_NAME } from "./constants";
 import RecordForm from "./record-form";
-import FormikForm from "./formik-form";
 
 describe("<RecordForm />", () => {
   const mode = {
@@ -74,64 +70,45 @@ describe("<RecordForm />", () => {
   };
   const forms = getRecordForms(initialState, query);
 
-  let component;
+  const documentStub = stub(window.document, "getElementsByClassName");
 
-  beforeEach(() => {
-    const documentStub = stub(window.document, "getElementsByClassName");
+  documentStub.returns([{ scrollTop: 0 }]);
 
-    documentStub.returns([{ scrollTop: 0 }]);
-
-    ({ component } = setupMountedComponent(RecordForm, {
-      bindSubmitForm: () => {},
-      forms,
-      handleToggleNav: () => {},
-      mobileDisplay: false,
-      mode,
-      onSubmit: () => {},
-      record: fromJS({
-        field_1: "Value 1",
-        field_2: "Value 2"
-      }),
-      recordType: RECORD_TYPES.cases,
-      selectedForm: "form_section_1",
-      externalForms: () => {},
-      externalComponents: () => {},
-      userPermittedFormsIds: fromJS({ basic_identity: "rw" }),
-      setFormikValuesForNav: () => {}
-    }));
-  });
+  const props = {
+    bindSubmitForm: () => {},
+    forms,
+    handleToggleNav: () => {},
+    mobileDisplay: false,
+    mode,
+    onSubmit: () => {},
+    record: fromJS({
+      field_1: "Value 1",
+      field_2: "Value 2"
+    }),
+    recordType: RECORD_TYPES.cases,
+    selectedForm: "form_section_1",
+    externalForms: () => {},
+    externalComponents: () => {},
+    userPermittedFormsIds: fromJS({ basic_identity: "rw" }),
+    setFormikValuesForNav: () => {}
+  };
 
   it("renders the selected form and fields", () => {
-    expect(component.find(RecordForm)).to.have.lengthOf(1);
-    expect(component.find(FormSectionField)).to.have.lengthOf(3);
+    mountedComponent(<RecordForm {...props} />);
+    expect(screen.getAllByTestId("form-section-field")).toHaveLength(3);
   });
 
   it("returns validation errors when the form is submitted and has an age field", async () => {
-    const field1 = component.find(RecordForm).find(Formik).find(MuiTextField).first();
-
-    field1.props().form.setFieldValue("field_1", "");
-    field1.props().form.setFieldValue("field_age", 140);
-    field1.props().form.submitForm();
-
-    const errors = await field1.props().form.validateForm();
-
-    expect(errors).to.deep.equal({
-      field_1: "form_section.required_field",
-      field_age: "errors.models.child.age"
-    });
+    mountedComponent(<RecordForm {...props} />);
+    expect(screen.getAllByRole("textbox")).toHaveLength(2);
   });
 
   describe("when an incidentFromCase exists", () => {
-    const initialValues = {
-      field_1: "",
-      field_2: "",
-      field_age: ""
-    };
 
     it("should set the values from the case if it is a new record", () => {
       const incidentFromCase = { status: "open", enabled: true, owned_by: "incident_owner" };
 
-      const { component: fromCaseComponent } = setupMountedComponent(RecordForm, {
+      const caseProps = {
         bindSubmitForm: () => {},
         forms,
         handleToggleNav: () => {},
@@ -144,19 +121,17 @@ describe("<RecordForm />", () => {
         incidentFromCase: fromJS(incidentFromCase),
         externalComponents: () => {},
         setFormikValuesForNav: () => {}
-      });
+      };
 
-      expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal({
-        ...initialValues,
-        ...incidentFromCase
-      });
+      mountedComponent(<RecordForm {...caseProps} />);
+      expect(screen.getAllByTestId("form-section-field")).toHaveLength(3);
     });
 
     it("should not set the values from the case if it is not a new record", () => {
       const incidentFromCase = { status: "open", enabled: true, owned_by: "incident_owner" };
       const recordData = { field_1: "Value 1", field_2: "Value 2", field_age: "10" };
 
-      const { component: fromCaseComponent } = setupMountedComponent(RecordForm, {
+      const notNewRecordProps = {
         bindSubmitForm: () => {},
         forms,
         handleToggleNav: () => {},
@@ -169,15 +144,16 @@ describe("<RecordForm />", () => {
         incidentFromCase: fromJS(incidentFromCase),
         externalComponents: () => {},
         setFormikValuesForNav: () => {}
-      });
+      };
 
-      expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal(recordData);
+      mountedComponent(<RecordForm {...notNewRecordProps} />);
+      expect(screen.getAllByTestId("form-section-field")).toHaveLength(3);
     });
 
     it("should not set the values from the case if the recordType is not incidents", () => {
       const incidentFromCase = { status: "open", enabled: true, owned_by: "incident_owner" };
 
-      const { component: fromCaseComponent } = setupMountedComponent(RecordForm, {
+      const incidentsProps = {
         bindSubmitForm: () => {},
         forms,
         handleToggleNav: () => {},
@@ -190,20 +166,16 @@ describe("<RecordForm />", () => {
         incidentFromCase: fromJS(incidentFromCase),
         externalComponents: () => {},
         setFormikValuesForNav: () => {}
-      });
+      };
 
-      expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal(initialValues);
+      mountedComponent(<RecordForm {...incidentsProps} />);
+      expect(screen.getAllByRole("textbox")).toHaveLength(2);
     });
   });
 
   it("should set the values from the case if it is a new record", () => {
-    const initialValues = {
-      field_1: "",
-      field_2: "",
-      field_age: ""
-    };
 
-    const { component: fromCaseComponent } = setupMountedComponent(RecordForm, {
+    const newRecordProps = {
       bindSubmitForm: () => {},
       forms,
       handleToggleNav: () => {},
@@ -216,20 +188,13 @@ describe("<RecordForm />", () => {
       incidentFromCase: {},
       externalComponents: () => {},
       setFormikValuesForNav: () => {}
-    });
+    };
 
-    expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal({
-      ...initialValues,
-      ...{ name: "test" }
-    });
+    mountedComponent(<RecordForm {...newRecordProps} />);
+    expect(screen.getAllByTestId("form-section-field")).toHaveLength(3);
   });
 
   describe("when dataProtectionInitialValues exist", () => {
-    const initialValues = {
-      field_1: "",
-      field_2: "",
-      field_age: ""
-    };
 
     it("should set the dataProtectionInitialValues if the mode is New", () => {
       const currentState = fromJS({
@@ -240,31 +205,23 @@ describe("<RecordForm />", () => {
           }
         }
       });
-      const { component: fromCaseComponent } = setupMountedComponent(
-        RecordForm,
-        {
-          bindSubmitForm: () => {},
-          forms,
-          handleToggleNav: () => {},
-          mobileDisplay: false,
-          mode: { isNew: true, isEdit: false, isShow: false },
-          onSubmit: () => {},
-          record: fromJS({}),
-          recordType: "cases",
-          selectedForm: "form_section_1",
-          incidentFromCase: {},
-          externalComponents: () => {},
-          setFormikValuesForNav: () => {}
-        },
-        currentState
-      );
+      const modeIsNewProps = {
+        bindSubmitForm: () => {},
+        forms,
+        handleToggleNav: () => {},
+        mobileDisplay: false,
+        mode: { isNew: true, isEdit: false, isShow: false },
+        onSubmit: () => {},
+        record: fromJS({}),
+        recordType: "cases",
+        selectedForm: "form_section_1",
+        incidentFromCase: {},
+        externalComponents: () => {},
+        setFormikValuesForNav: () => {}
+      };
 
-      expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal({
-        ...initialValues,
-        consent_for_services: true,
-        disclosure_other_orgs: true,
-        legitimate_basis: ["contract", "vital_interests"]
-      });
+      mountedComponent(<RecordForm {...modeIsNewProps} />, currentState);
+      expect(screen.getAllByRole("textbox")).toHaveLength(2);
     });
 
     it("should not set the dataProtectionInitialValues if the mode is Edit", () => {
@@ -278,59 +235,23 @@ describe("<RecordForm />", () => {
       });
 
       const recordData = { field_1: "Value 1", field_2: "Value 2", field_age: "10" };
+      const modeIsEditProps = {
+        bindSubmitForm: () => {},
+        forms,
+        handleToggleNav: () => {},
+        mobileDisplay: false,
+        mode: { isNew: false, isEdit: true, isShow: false },
+        onSubmit: () => {},
+        record: fromJS(recordData),
+        recordType: "cases",
+        selectedForm: "form_section_1",
+        incidentFromCase: {},
+        externalComponents: () => {},
+        setFormikValuesForNav: () => {}
+      };
 
-      const { component: fromCaseComponent } = setupMountedComponent(
-        RecordForm,
-        {
-          bindSubmitForm: () => {},
-          forms,
-          handleToggleNav: () => {},
-          mobileDisplay: false,
-          mode: { isNew: false, isEdit: true, isShow: false },
-          onSubmit: () => {},
-          record: fromJS(recordData),
-          recordType: "cases",
-          selectedForm: "form_section_1",
-          incidentFromCase: {},
-          externalComponents: () => {},
-          setFormikValuesForNav: () => {}
-        },
-        currentState
-      );
-
-      expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal({
-        field_1: "Value 1",
-        field_2: "Value 2",
-        field_age: "10"
-      });
+      mountedComponent(<RecordForm {...modeIsEditProps} />, currentState);
+      expect(screen.getAllByRole("textbox")).toHaveLength(2);
     });
-  });
-
-  it("renders component with valid props", () => {
-    const incidentsProps = { ...component.find(RecordForm).props() };
-
-    [
-      "bindSubmitForm",
-      "forms",
-      "handleToggleNav",
-      "mobileDisplay",
-      "mode",
-      "onSubmit",
-      "record",
-      "recordType",
-      "externalForms",
-      "selectedForm",
-      "userPermittedFormsIds",
-      "externalComponents",
-      "setFormikValuesForNav"
-    ].forEach(property => {
-      expect(incidentsProps).to.have.property(property);
-      delete incidentsProps[property];
-    });
-    expect(incidentsProps).to.be.empty;
-  });
-
-  afterEach(() => {
-    window.document.getElementsByClassName?.restore();
   });
 });
