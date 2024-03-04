@@ -19,6 +19,3 @@ services:
     depends_on:
       - solr
       - postgres
-  configure:
-    depends_on:
-      - postgres
