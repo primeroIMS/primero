@@ -101,20 +101,17 @@ module Alertable
   end
 
   def add_alert(args = {})
-    date_alert = args[:date].presence || Date.today
-
-    alert = Alert.new(type: args[:type], date: date_alert, form_sidebar_id: args[:form_sidebar_id],
-                      alert_for: args[:alert_for], user_id: args[:user_id], agency_id: args[:agency_id],
-                      send_email: args[:send_email])
+    alert = Alert.new(type: args[:type], date: args[:date].presence || Date.today,
+                      form_sidebar_id: args[:form_sidebar_id], alert_for: args[:alert_for], user_id: args[:user_id],
+                      agency_id: args[:agency_id], send_email: args[:send_email])
 
     (alerts << alert) && alert
   end
 
   def remove_alert(type = nil)
     alerts.each do |alert|
-      next unless (type.present? && alert.type == type) && [
-        NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST
-      ].include?(alert.alert_for)
+      next unless (type.present? && alert.type == type) &&
+                  [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST].include?(alert.alert_for)
 
       alert.destroy
     end
@@ -145,10 +142,9 @@ module Alertable
     # values in the hash is either a string or a hash. If it's a string, it's
     # the form section unique id. If it's a hash, it's the form section unique
     # id and the alert strategy
-    (
-      @system_settings&.changes_field_to_form&.map do |field_name, form_section_uid_or_hash|
-        [field_name, AlertConfigEntryService.new(form_section_uid_or_hash)]
-      end).to_h
+    (@system_settings&.changes_field_to_form&.map do |field_name, form_section_uid_or_hash|
+      [field_name, AlertConfigEntryService.new(form_section_uid_or_hash)]
+    end).to_h
   end
 end
 
