@@ -44,6 +44,7 @@ class ManagedReports::Indicators::FactorsOfRecruitment < ManagedReports::SqlRepo
         ) as factors_data
         group by name
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+        order by name
       }
     end
     # rubocop:enable Metrics/MethodLength
