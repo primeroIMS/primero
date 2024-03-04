@@ -36,7 +36,7 @@ describe SearchFilterService do
 
     it 'builds a value filter from boolean values' do
       filter = service.build_filters('valid' => true).first
-      expect(filter).to be_instance_of(SearchFilters::Value)
+      expect(filter).to be_instance_of(SearchFilters::BooleanValue)
       expect(filter.field_name).to eq('valid')
       expect(filter.value).to be true
     end
@@ -59,7 +59,7 @@ describe SearchFilterService do
 
     it 'builds a not filter from boolean values' do
       filter = service.build_filters('not' => { 'valid' => true }).first
-      expect(filter).to be_instance_of(SearchFilters::Value)
+      expect(filter).to be_instance_of(SearchFilters::BooleanValue)
       expect(filter.field_name).to eq('valid')
       expect(filter.value).to eq(true)
       expect(filter.not_filter).to eq(true)

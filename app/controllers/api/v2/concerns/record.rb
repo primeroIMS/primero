@@ -19,11 +19,14 @@ module Api::V2::Concerns::Record
 
   def index
     authorize! :index, model_class
-    search = PhoneticSearchService.search(model_class, params[:query], query_scope)
-                                  .with_filters(search_filters)
-                                  .with_sort(sort_order)
-    @total = search.count
-    @records = search.paginate(pagination).results
+    search = PhoneticSearchService.search(
+      model_class, {
+        query: params[:query], phonetic: params[:phonetic], filters: search_filters,
+        sort: sort_order, scope: query_scope, pagination:
+      }
+    )
+    @total = search.total
+    @records = search.records
     render 'api/v2/records/index'
   end
 

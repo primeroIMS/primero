@@ -46,7 +46,7 @@ class Attachment < ApplicationRecord
   end
 
   def attach!
-    attach && save!
+    attach && save! && record.save!
   end
 
   def detach
@@ -56,7 +56,7 @@ class Attachment < ApplicationRecord
   end
 
   def detach!
-    detach && destroy
+    detach && destroy && record.save!
   end
 
   def attached?

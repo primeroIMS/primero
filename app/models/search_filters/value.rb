@@ -19,18 +19,15 @@ class SearchFilters::Value < SearchFilters::SearchFilter
       [
         %(
           (
+            data ? :field_name AND
             (
-              JSONB_TYPEOF(data->:field_name) = 'array'
-              AND EXISTS (
-                  SELECT
-                    1
-                  FROM JSONB_ARRAY_ELEMENTS(data->:field_name) AS array_field
-                  WHERE array_field #{@safe_operator} TO_JSONB(:value)
+               JSONB_TYPEOF(data->:field_name) = 'array' AND EXISTS (
+                 SELECT 1 FROM JSONB_ARRAY_ELEMENTS(data->:field_name) AS array_field
+                 WHERE JSONB_TYPEOF(array_field) != 'null' AND array_field #{@safe_operator} to_jsonb(:value)
+              ) OR (
+               JSONB_TYPEOF(data->:field_name) != 'array' AND data->:field_name #{@safe_operator} to_jsonb(:value)
               )
-            ) OR (
-               JSONB_TYPEOF(data->:field_name) != 'array'
-               AND data->:field_name #{@safe_operator} TO_JSONB(:value)
-             )
+            )
           )
         ),
         { field_name:, value: }

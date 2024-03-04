@@ -32,7 +32,11 @@ describe Attachment, search: true do
     end
 
     it 'has_photo is true for the record' do
-      expect(Child.search { with(:has_photo, true) }.results.size).to eq(1)
+      expect(
+        PhoneticSearchService.search(
+          Child, { filters: [SearchFilters::Value.new(field_name: 'has_photo', value: true)] }
+        ).total
+      ).to eq(1)
     end
 
     xit 'updates the associated record' do
@@ -58,7 +62,11 @@ describe Attachment, search: true do
     end
 
     it 'has_photo is false for the record' do
-      expect(Child.search { with(:has_photo, true) }.results.size).to eq(0)
+      expect(
+        PhoneticSearchService.search(
+          Child, { filters: [SearchFilters::Value.new(field_name: 'has_photo', value: true)] }
+        ).total
+      ).to eq(0)
     end
 
     xit 'updates the associated record' do

@@ -24,14 +24,18 @@ module Alertable
   end
 
   included do
-    searchable do
-      string :current_alert_types, multiple: true
-    end
+    store_accessor(:data, :current_alert_types)
 
     has_many :alerts, as: :record
 
     before_save :add_alert_on_field_change
     before_update :remove_alert_on_save
+    before_create :calculate_current_alert_types
+    before_update :calculate_current_alert_types
+
+    searchable do
+      string :current_alert_types, multiple: true
+    end
   end
 
   def alert_count
@@ -86,8 +90,10 @@ module Alertable
     end
   end
 
-  def current_alert_types
-    alerts.map(&:type).uniq
+  def calculate_current_alert_types
+    self.current_alert_types = alerts.each_with_object([]) { |alert, memo| memo << alert.type unless alert.destroyed? }
+
+    current_alert_types
   end
 
   def add_alert(args = {})
@@ -108,6 +114,13 @@ module Alertable
 
       alert.destroy
     end
+  end
+
+  def remove_alert_by_unique_id!(alert_unique_id)
+    alert = alerts.find { |elem| elem.unique_id == alert_unique_id }
+    raise ActiveRecord::RecordNotFound unless alert.present?
+
+    alert.destroy! && save!
   end
 
   def get_alert(approval_type, system_settings)
