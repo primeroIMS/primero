@@ -149,6 +149,7 @@ export const VIOLATION_GROUP = "violations";
 export const RECORD_OWNER = "record_owner";
 
 export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
+export const INCIDENT_TRANSFERS_ASSIGNMENTS = "incident_transfers_assignments";
 
 export const REFERRAL = "referral";
 

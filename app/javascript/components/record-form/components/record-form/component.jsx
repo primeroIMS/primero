@@ -14,7 +14,7 @@ import { useI18n } from "../../../i18n";
 import PageContainer from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import { clearSelectedRecord, fetchRecord, saveRecord, setSelectedRecord } from "../../../records";
-import { RECORD_TYPES, RECORD_TYPES_PLURAL, REFERRAL } from "../../../../config";
+import { RECORD_TYPES, RECORD_TYPES_PLURAL, REFERRAL, RECORD_PATH } from "../../../../config";
 import { getIsProcessingSomeAttachment, getLoadingRecordState } from "../../../records/selectors";
 import { clearRecordAttachments, fetchRecordsAlerts } from "../../../records/action-creators";
 import useIncidentFromCase from "../../../records/use-incident-form-case";
@@ -240,8 +240,10 @@ const Component = ({
     }
   }, [selectedForm]);
 
+  const isNotANewIncident = !containerMode.isNew && params.recordType === RECORD_PATH.incidents;
+
   const transitionProps = {
-    fetchable: isNotANewCase,
+    fetchable: isNotANewCase || isNotANewIncident,
     isReferral: REFERRAL === selectedForm,
     recordType: params.recordType,
     recordID: params.id,

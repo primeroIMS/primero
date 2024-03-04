@@ -794,6 +794,30 @@ describe Incident do
     end
   end
 
+  describe '#can_be_assigned?' do
+    let(:child) do
+      Child.create!(
+        data: {
+          short_id: 'abc123', name: 'Test1', hidden_name: true, age: 5, sex: 'male', owned_by: 'user1'
+        }
+      )
+    end
+    let(:incident) do
+      Incident.create!(
+        unique_id: '1a2b3c', incident_code: '987654', description: 'this is a test', incident_case_id: child.id
+      )
+    end
+
+    it 'when incident_case_id is present?' do
+      expect(incident.can_be_assigned?).to be false
+    end
+
+    it 'when incident_case_id is blank?' do
+      incident.update(incident_case_id: nil)
+      expect(incident.can_be_assigned?).to be true
+    end
+  end
+
   private
 
   def create_incident_with_created_by(created_by, options = {})

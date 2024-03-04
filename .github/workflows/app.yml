@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:14.7
+        image: postgres:15.6
         env:
           POSTGRES_DB: primero_test
           POSTGRES_USER: postgres
@@ -23,9 +23,9 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd pg_isready 
-          --health-interval 10s 
-          --health-timeout 5s 
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
           --health-retries 5
     steps:
       - uses: actions/checkout@v2
@@ -42,7 +42,7 @@ jobs:
       - name: Server tests
         run: ./bin/run_server_tests.sh github-actions
         shell: bash
-  # Running front-end mocha test in batches. Running on single process causes test 
+  # Running front-end mocha test in batches. Running on single process causes test
   # to run out of resources. This causes a few test to randomly timeout.
   client-test-1:
     name: Client Test (Batch 1)

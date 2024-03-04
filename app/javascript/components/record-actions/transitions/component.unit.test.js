@@ -198,10 +198,15 @@ describe("<Transitions />", () => {
         "selectedIds",
         "mode",
         "assignRef",
-        "selectedRecordsLength"
+        "selectedRecordsLength",
+        "formDisabled"
       ];
 
       expect(Object.keys(reassignForm.props())).to.deep.equal(validProps);
+    });
+
+    it("should check the canConsentOverride prop", () => {
+      expect(component.find(ReassignForm).props().formDisabled).to.equal(false);
     });
   });
 

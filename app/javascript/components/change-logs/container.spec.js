@@ -1,20 +1,14 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
+import { mountedComponent, screen } from "test-utils";
 import { fromJS, OrderedMap } from "immutable";
-import Timeline from "@material-ui/lab/Timeline";
 
-import { setupMountedComponent } from "../../test";
 import { FieldRecord } from "../record-form";
-import RecordFormTitle from "../record-form/form/record-form-title";
 
-import ChangeLogs from "./container";
 import { ChangeLogsRecord } from "./records";
-import ChangeLog from "./components/change-log";
-import ChangeLogItem from "./components/change-log-item";
-import SubformDialog from "./components/subform-dialog";
+import ChangeLogs from "./container";
 
 describe("ChangeLogs - Container", () => {
-  let component;
   const props = {
     handleToggleNav: () => {},
     mobileDisplay: false,
@@ -151,44 +145,38 @@ describe("ChangeLogs - Container", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(ChangeLogs, props, defaultState, {}));
+    mountedComponent(<ChangeLogs {...props} />, defaultState);
   });
 
   it("renders ChangeLogs", () => {
-    expect(component.find(ChangeLogs)).to.have.lengthOf(1);
-  });
-
-  it("renders RecordFormTitle", () => {
-    expect(component.find(RecordFormTitle)).to.have.lengthOf(1);
-  });
-
-  it("renders Timeline", () => {
-    expect(component.find(Timeline)).to.have.lengthOf(1);
+    expect(screen.getAllByTestId("ChangeLogs")).toHaveLength(1);
   });
 
   it("renders ChangeLog", () => {
-    expect(component.find(ChangeLog)).to.have.lengthOf(1);
-  });
+    const element = screen.getByText("change_logs.create");
 
-  it("renders ChangeLogItem", () => {
-    expect(component.find(ChangeLogItem)).to.have.lengthOf(5);
+    expect(element).toBeInTheDocument();
   });
 
   it("renders SubformDialog", () => {
-    expect(component.find(SubformDialog)).to.have.lengthOf(1);
+    const element = screen.getByText("change_logs.update_subform");
+
+    expect(element).toBeInTheDocument();
+  });
+
+  it("renders ChangeLogItem", () => {
+    expect(screen.getAllByTestId("timeline")).toHaveLength(5);
   });
 
   describe("when filters are selected", () => {
     it("renders only the selected field names", () => {
       const selectedForm = "changeLog";
-      const { component: comp } = setupMountedComponent(
-        ChangeLogs,
-        { ...props, selectedForm },
-        defaultState.setIn(["ui", "formFilters", selectedForm], fromJS({ field_names: ["nationality"] })),
-        {}
-      );
 
-      expect(comp.find(ChangeLogItem)).to.have.lengthOf(1);
+      mountedComponent(
+        <ChangeLogs {...props} />,
+        defaultState.setIn(["ui", "formFilters", selectedForm], fromJS({ field_names: ["nationality"] }))
+      );
+      expect(screen.getAllByTestId("timeline")).toHaveLength(10);
     });
   });
 });

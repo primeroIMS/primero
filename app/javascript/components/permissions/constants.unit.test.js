@@ -77,6 +77,7 @@ describe("Verifying config constant", () => {
       "EXPORT_UNHCR",
       "FIND_TRACING_MATCH",
       "FLAG",
+      "FLAG_RESOLVE_ANY",
       "GBV_STATISTICS",
       "GROUP_READ",
       "INCIDENT_DETAILS_FROM_CASE",
