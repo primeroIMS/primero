@@ -124,6 +124,7 @@ const Container = ({ mode }) => {
   } = formMethods;
 
   const onSubmit = data => {
+    data.agency_office = data.agency_office === null ? "": data.agency_office; 
     submitHandler({
       data,
       dispatch,
