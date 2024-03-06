@@ -10,7 +10,7 @@ class SearchFilters::TextValue < SearchFilters::Value
       [
         %(
           (
-            data ? :field_name AND
+            data ? :field_name AND data->>:field_name IS NOT NULL AND
             (
               JSONB_TYPEOF(data->:field_name) = 'array' AND EXISTS (
                 SELECT 1 FROM JSONB_ARRAY_ELEMENTS_TEXT(data->:field_name) AS array_field
