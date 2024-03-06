@@ -180,7 +180,7 @@ class PhoneticSearchService
     def with_module_scope(module_scope)
       return @query unless module_scope.present?
 
-      @query.where("data->'module_id' = :module_id", module_id: module_scope)
+      @query.where("data->>'module_id' = :module_id", module_id: module_scope)
     end
 
     def phonetic_score_query(values)
