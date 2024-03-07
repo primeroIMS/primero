@@ -8,6 +8,7 @@ describe("Verifying user constant", () => {
 
     [
       "IDENTITY_PROVIDER_ID",
+      "NOTIFICATIONS_PREFERENCES",
       "PASSWORD_MODAL",
       "PASSWORD_SELF_OPTION",
       "PASSWORD_USER_OPTION",
@@ -50,7 +51,9 @@ describe("values", () => {
       "LOCATION",
       "DISABLED",
       "SEND_MAIL",
-      "RECEIVE_WEBPUSH"
+      "SEND_MAIL_PREFERENCES",
+      "RECEIVE_WEBPUSH",
+      "RECEIVE_WEBPUSH_PREFERENCES"
     );
   });
 });

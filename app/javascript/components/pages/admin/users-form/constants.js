@@ -70,5 +70,14 @@ export const FIELD_NAMES = Object.freeze({
   LOCATION: "location",
   DISABLED: "disabled",
   SEND_MAIL: "send_mail",
-  RECEIVE_WEBPUSH: "receive_webpush"
+  SEND_MAIL_PREFERENCES: "settings.notifications.send_mail",
+  RECEIVE_WEBPUSH: "receive_webpush",
+  RECEIVE_WEBPUSH_PREFERENCES: "settings.notifications.receive_webpush"
 });
+
+export const NOTIFICATIONS_PREFERENCES = [
+  "approval_request",
+  "approval_response",
+  "transition_notification",
+  "transfer_request"
+];

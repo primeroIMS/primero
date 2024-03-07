@@ -20,10 +20,17 @@ import {
   PASSWORD_USER_OPTION,
   USER_GROUP_UNIQUE_IDS,
   USERGROUP_PRIMERO_GBV,
-  FIELD_NAMES
+  FIELD_NAMES,
+  NOTIFICATIONS_PREFERENCES
 } from "./constants";
 
 const passwordPlaceholder = formMode => (formMode.get("isEdit") ? "•••••" : "");
+
+const notificationPreferences = i18n =>
+  NOTIFICATIONS_PREFERENCES.map(preferences => ({
+    id: preferences,
+    display_text: i18n.t(`user.notification_preferences.${preferences}`)
+  }));
 
 const sharedUserFields = (
   i18n,
@@ -199,11 +206,35 @@ const sharedUserFields = (
     selected_value: formMode.get("isNew")
   },
   {
+    display_name: i18n.t("user.send_mail_preferences.label"),
+    name: FIELD_NAMES.SEND_MAIL_PREFERENCES,
+    type: SELECT_FIELD,
+    multi_select: true,
+    help_text: i18n.t("user.send_mail_preferences.help_text"),
+    option_strings_text: notificationPreferences(i18n),
+    watchedInputs: FIELD_NAMES.SEND_MAIL,
+    handleWatchedInputs: value => ({
+      visible: Boolean(value)
+    })
+  },
+  {
     display_name: i18n.t("user.receive_webpush.label"),
     name: FIELD_NAMES.RECEIVE_WEBPUSH,
     type: TICK_FIELD,
     help_text: i18n.t("user.receive_webpush.help_text"),
     visible: webPushConfig?.get("enabled", false)
+  },
+  {
+    display_name: i18n.t("user.receive_webpush_preferences.label"),
+    name: FIELD_NAMES.RECEIVE_WEBPUSH_PREFERENCES,
+    type: SELECT_FIELD,
+    multi_select: true,
+    help_text: i18n.t("user.receive_webpush_preferences.help_text"),
+    option_strings_text: notificationPreferences(i18n),
+    watchedInputs: FIELD_NAMES.RECEIVE_WEBPUSH,
+    handleWatchedInputs: value => ({
+      visible: Boolean(value)
+    })
   }
 ];
 

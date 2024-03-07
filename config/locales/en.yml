@@ -4305,10 +4305,21 @@ en:
     provider_username_help: 'Example: my.username@%{domain}'
     role_id: Role
     send_mail: Receive email notifications?
+    send_mail_preferences:
+      label: Which types of email notifications would you like to receive?
+      help_text: If you leave this field blank, you will receive all email notifications.
     receive_webpush:
       label: Receive push notifications?
       help_text: Note that you will still need to allow push notifications on your device’s browser.
       tooltip: You must first edit your account and enable push notifications for your user.
+    receive_webpush_preferences:
+      label: Which types of push notifications would you like to receive?
+      help_text: If you leave this field blank, you will receive all push notifications.
+    notification_preferences:
+        approval_request: 'Approval Request (Managers)'
+        approval_response: 'Approval Response (Case Workers)'
+        transition_notification: 'Assignments, Transfers, and Referrals'
+        transfer_request: 'Transfer Requests'
     user_group_unique_ids: User Groups
     user_name: Username
     services: Services

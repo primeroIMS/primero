@@ -28,6 +28,17 @@ describe RecordActionMailer, type: :mailer do
     )
   end
 
+  let(:notification_settings) do
+    {
+      notifications: {
+        send_mail: [
+          Transition::NOTIFICATION_ACTION, Approval::NOTIFICATION_ACTIONS_REQUEST,
+          Approval::NOTIFICATION_ACTIONS_RESPONSE, Transfer::NOTIFICATION_ACTION
+        ]
+      }
+    }
+  end
+
   describe 'approvals' do
     before do
       clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Referral)
@@ -36,19 +47,19 @@ describe RecordActionMailer, type: :mailer do
                                lookup_values_en: [{ 'id' => 'value1', 'display_text' => 'value1' }])
       role = create(:role, is_manager: true)
       @manager1 = create(:user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1')
-      @manager2 = create(:user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2')
+      @manager2 = create(:user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2', settings: notification_settings)
       @manager3 = create(
-        :user, role:, email: 'manager3@primero.dev', send_mail: true, user_name: 'manager3', locale: 'ar-LB'
+        :user, role:, email: 'manager3@primero.dev', send_mail: true, user_name: 'manager3', locale: 'ar-LB', settings: notification_settings
       )
       @manager4 = create(
         :user, role:, email: 'manager4@primero.dev', send_mail: true, user_name: 'manager4', disabled: true
       )
-      @owner = create(:user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev')
+      @owner = create(:user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev', settings: notification_settings)
       @disabled_user = create(
         :user, user_name: 'duser', full_name: 'Disabled User', email: 'duser@primero.dev', disabled: true
       )
       @arabic_owner = create(:user, user_name: 'jdoe', full_name: 'Jhon Doe', email: 'arabic_owner@primero.dev',
-                                    locale: 'ar-LB')
+                                    locale: 'ar-LB', settings: notification_settings)
       @child = child_with_created_by(@owner.user_name, name: 'child1', module_id: PrimeroModule::CP,
                                                        case_id_display: '12345')
       @arabic_child = child_with_created_by(
@@ -178,7 +189,7 @@ describe RecordActionMailer, type: :mailer do
         end
 
         let(:user2) do
-          create(:user, user_name: 'user2', full_name: 'User random', email: 'user2@primero.dev', send_mail: true)
+          create(:user, user_name: 'user2', full_name: 'User random', email: 'user2@primero.dev', send_mail: true, settings: notification_settings)
         end
         let(:assign1) do
           Assign.create!(transitioned_by: 'jnelson', transitioned_to_user: user2, record: @child)
@@ -219,7 +230,8 @@ describe RecordActionMailer, type: :mailer do
       @user1 = User.new(
         user_name: 'user1', role: @role, user_groups: [@group1],
         email: 'uzer1@test.com', send_mail: true,
-        agency:
+        agency:,
+        settings: notification_settings
       )
       @user1.save(validate: false)
       @group2 = UserGroup.create!(name: 'Group2')
@@ -227,7 +239,8 @@ describe RecordActionMailer, type: :mailer do
         user_name: 'user2', role: @role,
         user_groups: [@group2],
         email: 'uzer_to@test.com', send_mail: true,
-        agency:
+        agency:,
+        settings: notification_settings
       )
       @user2.save(validate: false)
       @user3 = User.new(
@@ -235,7 +248,8 @@ describe RecordActionMailer, type: :mailer do
         user_groups: [@group2],
         email: 'ar_uzer_to@test.com', send_mail: true,
         agency:,
-        locale: 'ar-LB'
+        locale: 'ar-LB',
+        settings: notification_settings
       )
       @user3.save(validate: false)
       @user4 = User.new(
@@ -247,6 +261,21 @@ describe RecordActionMailer, type: :mailer do
         agency:
       )
       @user4.save(validate: false)
+      @user5 = User.new(
+        user_name: 'user5', role: @role,
+        user_groups: [@group2],
+        email: 'user5@test.com', send_mail: true,
+        agency:,
+        locale: 'ar-LB',
+        settings: {
+          notifications: {
+            send_mail: [
+              Approval::NOTIFICATION_ACTIONS_REQUEST
+            ]
+          }
+        }
+      )
+      @user5.save(validate: false)
       @case = Child.create(
         data: {
           name: 'Test', owned_by: 'user1',

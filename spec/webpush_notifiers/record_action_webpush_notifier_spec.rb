@@ -27,6 +27,17 @@ describe RecordActionWebpushNotifier do
     )
   end
 
+  let(:notification_settings) do
+    {
+      notifications: {
+        receive_webpush: [
+          Transition::NOTIFICATION_ACTION, Approval::NOTIFICATION_ACTIONS_REQUEST,
+          Approval::NOTIFICATION_ACTIONS_RESPONSE, Transfer::NOTIFICATION_ACTION
+        ]
+      }
+    }
+  end
+
   let(:primero_module) do
     create(:primero_module, name: 'CP')
   end
@@ -40,12 +51,15 @@ describe RecordActionWebpushNotifier do
   end
 
   let(:user) do
-    create(:user, user_name: 'user', full_name: 'Test User 1', email: 'owner@primero.dev', receive_webpush: true, role:)
+    create(
+      :user, user_name: 'user', full_name: 'Test User 1', email: 'owner@primero.dev',
+             receive_webpush: true, role:, settings: notification_settings
+    )
   end
 
   let(:user2) do
     create(:user, user_name: 'user2', role: role2, full_name: 'Test User 2',
-                  email: 'user2@primero.dev', receive_webpush: true)
+                  email: 'user2@primero.dev', receive_webpush: true, settings: notification_settings)
   end
 
   let(:manager1) do
@@ -60,7 +74,8 @@ describe RecordActionWebpushNotifier do
       send_mail: true,
       user_name: 'manager2',
       receive_webpush: true,
-      locale: 'en'
+      locale: 'en',
+      settings: notification_settings
     )
   end
 
