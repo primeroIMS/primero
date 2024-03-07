@@ -178,6 +178,7 @@ const Component = ({
                 renderSecondaryText={Boolean(entryFilter)}
                 associatedViolations={associatedViolations}
                 parentTitle={parentTitle}
+                mode={mode}
               />
               <ListItemSecondaryAction classes={{ root: css.listActions }}>
                 {isTracesSubform && <TracingRequestStatus values={values[index]} />}

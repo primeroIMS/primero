@@ -16,6 +16,7 @@ class Permission < ValueObject
   # If the role_unique_ids property is empty on a ROLE permission, then that allows this role to manage all other ROLES
   attr_accessor :resource, :actions, :role_unique_ids, :agency_unique_ids, :managed_report_scope
 
+  VERIFY_MRM = 'verify_mrm'
   READ = 'read'
   WRITE = 'write'
   ENABLE_DISABLE_RECORD = 'enable_disable_record'
@@ -195,7 +196,7 @@ class Permission < ValueObject
     INCIDENT => [
       READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, FLAG_RESOLVE_ANY, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL,
       EXPORT_PDF, EXPORT_INCIDENT_RECORDER, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, SYNC_MOBILE, CHANGE_LOG,
-      EXPORT_MRM_VIOLATION_XLS, REMOVE_ALERT, ASSIGN, MANAGE
+      EXPORT_MRM_VIOLATION_XLS, REMOVE_ALERT, VERIFY_MRM, ASSIGN, MANAGE
     ],
     TRACING_REQUEST => [
       READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, FLAG_RESOLVE_ANY, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL,

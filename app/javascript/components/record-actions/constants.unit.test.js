@@ -69,7 +69,8 @@ describe("<RecordActions /> - Constants", () => {
         "canRequestGbvClosure",
         "canShowExports",
         "canTransfer",
-        "canMarkForOffline"
+        "canMarkForOffline",
+        "canVerify"
       ].forEach(property => {
         expect(recordActionAbilities).to.have.property(property);
         delete recordActionAbilities[property];
