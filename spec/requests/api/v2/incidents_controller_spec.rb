@@ -75,7 +75,10 @@ describe Api::V2::IncidentsController, type: :request do
     ].freeze
   end
   before :each do
+    clean_data(Incident, Child, Alert)
+
     @case1 = Child.create!(data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false })
+    @case2 = Child.create!(data: { name: 'Test2', age: 6, sex: 'male' })
     @incident1 = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' })
     @incident2 = Incident.create!(data: { incident_date: Date.new(2018, 3, 1), description: 'Test 2' })
     @incident3 = Incident.create!(
@@ -250,6 +253,31 @@ describe Api::V2::IncidentsController, type: :request do
         expect(json['data']['abduction'].count).to eq(1)
         expect(json['data']['abduction'][0]['unique_id']).to eq(params[:data][:abduction][0][:unique_id])
         expect(Incident.find_by(id: json['data']['id'])).not_to be_nil
+      end
+    end
+
+    context 'when an incident is created for a case' do
+      it 'creates a new record and updates the has_incidents property on the case' do
+        login_for_test
+
+        params = {
+          data: {
+            incident_date: '2024-01-10',
+            age: 7,
+            cp_sex: @case2.sex,
+            case_id_display: @case2.case_id_display,
+            incident_case_id: @case2.id
+          }
+        }
+
+        post '/api/v2/incidents', params:, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['id']).not_to be_empty
+        expect(json['data']['case_id_display']).to eq(@case2.case_id_display)
+        expect(json['data']['age']).to eq(7)
+        @case2.reload
+        expect(@case2.has_incidents).to eq(true)
       end
     end
   end

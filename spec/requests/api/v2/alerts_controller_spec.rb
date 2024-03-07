@@ -200,7 +200,7 @@ describe Api::V2::AlertsController, type: :request do
   end
 
   describe 'DELETE /api/v2/<record_id>/alerts/<alert_id>' do
-    it 'deletes an alert from a child' do
+    it 'deletes an alert from a child and updates the current_alert_types' do
       alert = @test_child.alerts.first
       login_for_test(
         permissions: [
@@ -212,11 +212,14 @@ describe Api::V2::AlertsController, type: :request do
       )
 
       delete "/api/v2/cases/#{@test_child.id}/alerts/#{alert.unique_id}"
+
       expect(response).to have_http_status(204)
       expect(@test_child.alerts.count).to eq(2)
+      @test_child.reload
+      expect(@test_child.current_alert_types).to match_array(%w[new_form])
     end
 
-    it 'deletes an alert from a incident' do
+    it 'deletes an alert from a incident and updates the current_alert_types' do
       alert = @test_incident.alerts.first
       login_for_test(
         permissions: [
@@ -229,6 +232,8 @@ describe Api::V2::AlertsController, type: :request do
       delete "/api/v2/incidents/#{@test_incident.id}/alerts/#{alert.unique_id}"
       expect(response).to have_http_status(204)
       expect(@test_incident.alerts.count).to eq(2)
+      @test_child.reload
+      expect(@test_incident.current_alert_types).to match_array(%w[transfer_request])
     end
     it 'does not delete an alert from a incident if the user does not have remove_alert permission' do
       alert = @test_incident.alerts.first
