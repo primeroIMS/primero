@@ -125,7 +125,7 @@ const Container = ({ mode }) => {
 
   const onSubmit = data => {
     const newData = { ...data };
-    
+
     newData.agency_office = newData && newData.agency_office === null ? "" : newData.agency_office;
     submitHandler({
       data: newData,
@@ -176,9 +176,9 @@ const Container = ({ mode }) => {
 
   const identityOptions = providers
     ? providers.reduce(
-      (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
-      []
-    )
+        (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
+        []
+      )
     : [];
 
   const renderFormSections = () =>
