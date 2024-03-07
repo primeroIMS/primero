@@ -78,7 +78,7 @@ const Container = ({ match, location }) => {
       select_records: numberErrorsBulkAssign
     });
 
-    const successMessages = i18n.t("reassign.multiple_successfully", {
+    const successMessages = i18n.t(`${recordType}.reassign.multiple_successfully`, {
       select_records: numberRecordsBulkAssign
     });
 

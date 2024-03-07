@@ -158,6 +158,12 @@ class Ability
     end
   end
 
+  def resolve_flag(resource)
+    can [:flag_resolve], resource do |instance|
+      (can?(:read, instance) && can?(:flag, instance)) || (can?(:read, instance) && can?(:resolve_any_flag, instance))
+    end
+  end
+
   def configure_exports
     return unless user.role.permitted_to_export?
 
@@ -168,15 +174,11 @@ class Ability
 
   def configure_record_attachments
     can(:read, Attachment) do |instance|
-      permitted_attachment_service = PermittedAttachmentService.new(user, instance, @permitted_form_fields_service)
-      permitted_attachment_service.permitted_to_access? || permitted_attachment_service.permitted_to_view? ||
-        permitted_attachment_service.permitted_to_preview?
+      PermittedAttachmentService.permitted_to_read?(user, instance, @permitted_form_fields_service)
     end
 
     can(%i[create destroy], Attachment) do |instance|
-      PermittedAttachmentService.new(
-        user, instance, @permitted_form_fields_service, true
-      ).permitted_to_access?
+      PermittedAttachmentService.permitted_to_write?(user, instance, @permitted_form_fields_service)
     end
   end
 
@@ -269,6 +271,7 @@ class Ability
   def configure_flags
     [Child, TracingRequest, Incident, RegistryRecord, Family].each do |model|
       configure_flag(model)
+      resolve_flag(model)
     end
   end
 end

@@ -83,13 +83,20 @@
   background: var(--c-white);
   border: 1px solid var(--c-network-indicator-border);
   margin: 0 8px;
-  padding: 0 !important;
   width: 93%;
   border-radius: 6px;
 }
 
-@media (min-width: 960px) and (max-width: 1279.95px) {
+.containedMobileOffline {
+  border: 1px solid var(--c-solid-orange);
+}
+
+@media (max-width: 1279px) {
   .navLink {
+    padding: 0 !important;
+  }
+
+  .contained {
     padding: 0 !important;
   }
 }

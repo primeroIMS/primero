@@ -16,5 +16,6 @@ const actions = namespaceActions(NAMESPACE, [
 
 export default {
   ...actions,
-  BULK_ASSIGN: "cases/assigns"
+  BULK_ASSIGN_CASES: "cases/assigns",
+  BULK_ASSIGN_INCIDENTS: "incidents/assigns"
 };

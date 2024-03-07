@@ -109,4 +109,29 @@ describe("<UsersList />", () => {
       expect(componentUserLimit.find(InternalAlert)).to.have.length(1);
     });
   });
+
+  context("When maximumUsers User is null", () => {
+    let componentUserLimit;
+
+    const stateUserLimitSet = fromJS({
+      records: {
+        users: {
+          metadata: { total_enabled: 40 }
+        }
+      },
+      application: {
+        systemOptions: {
+          maximum_users: null
+        }
+      }
+    });
+
+    beforeEach(() => {
+      ({ component: componentUserLimit } = setupMountedComponent(UsersList, {}, stateUserLimitSet, ["/admin/users"]));
+    });
+
+    it("should NOT render warning to list user", () => {
+      expect(componentUserLimit.find(InternalAlert)).to.have.length(0);
+    });
+  });
 });
