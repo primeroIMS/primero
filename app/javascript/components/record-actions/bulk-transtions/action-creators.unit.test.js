@@ -40,7 +40,7 @@ describe("bulk-transitons - Action Creators", () => {
       api: {
         body,
         method: METHODS.POST,
-        path: actions.BULK_ASSIGN,
+        path: actions.BULK_ASSIGN_CASES,
         successCallback: [
           {
             action: CLEAR_DIALOG

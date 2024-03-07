@@ -1,12 +1,10 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { setupMountedComponent } from "../../../../test";
-import { FormSectionField } from "../../../record-form";
+import { mountedComponent, screen } from "test-utils";
 
 import SummaryFields from "./component";
 
 describe("<SummaryFields />", () => {
-  let component;
   const values = {
     age: 10,
     case_id_display: "1234abcd",
@@ -31,15 +29,10 @@ describe("<SummaryFields />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(SummaryFields, props, {}, [], { values }));
+    mountedComponent(<SummaryFields {...props} />, {}, {}, [], { values });
   });
 
-  // TODO: Skipping for now. Causing timeout issue in cancelIdleCallback, rewrite in rtl
-  it.skip("should render <SummaryFields /> component", () => {
-    expect(component.find(SummaryFields)).to.have.lengthOf(1);
-  });
-
-  it.skip("should render 6 <FormSectionField /> component", () => {
-    expect(component.find(FormSectionField)).to.have.lengthOf(6);
+  it("should render custom title", () => {
+    expect(screen.getByText("incidents.summary_mrm.fields.summary_of_incident.label")).toBeInTheDocument();
   });
 });

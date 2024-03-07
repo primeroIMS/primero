@@ -42,6 +42,7 @@ export default {
   USERS_TRANSFER_TO: "users/transfer-to",
   USERS_REFER_TO: "users/refer-to",
   CASES_ASSIGNS: "cases/assigns",
+  INCIDENTS_ASSIGNS: "incidents/assigns",
   CASES_TRANSFERS: "cases/transfers",
   CASES_REFERRALS: "cases/referrals"
 };

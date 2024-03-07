@@ -7,7 +7,7 @@ require 'rails_helper'
 describe AssociatedRecordsService do
   describe 'update user_groups if update_user_groups is true', search: true do
     before do
-      clean_data(User, Role, Agency, UserGroup, Child)
+      clean_data(User, Role, Agency, UserGroup, Child, Incident)
       @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
       @agency2 = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
       @group1 = UserGroup.create!(name: 'group 1')
@@ -27,7 +27,8 @@ describe AssociatedRecordsService do
       @child1 = Child.new_with_user(@current_user, name: 'Child 1', assigned_user_names: [@associated_user.user_name])
       @child2 = Child.new_with_user(@current_user, name: 'Child 2', assigned_user_names: [@associated_user.user_name])
       @child3 = Child.new_with_user(@current_user, name: 'Child 3')
-      [@child1, @child2, @child3].each(&:save!)
+      @incident1 = Incident.new_with_user(@current_user, short_id: 'a1b2c3', assigned_user_names: [@associated_user.user_name])
+      [@child1, @child2, @child3, @incident1].each(&:save!)
       Sunspot.commit
     end
 
@@ -36,22 +37,23 @@ describe AssociatedRecordsService do
       @associated_user.save(validate: false)
 
       AssociatedRecordsService.new(
-        user: @associated_user, update_user_groups: true, model: Child
+        user: @associated_user, update_user_groups: true, models: [Child, Incident]
       ).update_associated_records
 
       expect(@child1.reload.associated_user_groups).to include(@group1.unique_id, @group2.unique_id)
       expect(@child2.reload.associated_user_groups).to include(@group1.unique_id, @group2.unique_id)
       expect(@child3.reload.associated_user_groups).to include(@group1.unique_id)
+      expect(@incident1.reload.associated_user_groups).to include(@group1.unique_id, @group2.unique_id)
     end
 
     after do
-      clean_data(User, Role, Agency, UserGroup, Child)
+      clean_data(User, Role, Agency, UserGroup, Child, Incident)
     end
   end
 
   describe 'update agencies in the cases where the user is assigned', search: true do
     before do
-      clean_data(User, Role, Agency, UserGroup, Child)
+      clean_data(User, Role, Agency, UserGroup, Child, Incident)
       @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
       @agency2 = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
       @associated_user = User.new(
@@ -78,7 +80,7 @@ describe AssociatedRecordsService do
       @associated_user.save(validate: false)
 
       AssociatedRecordsService.new(
-        user: @associated_user, update_agencies: true, model: Child
+        user: @associated_user, update_agencies: true, models: [Child]
       ).update_associated_records
 
       expect(@child1.reload.associated_user_agencies).to include(@agency1.unique_id, @agency2.unique_id)
@@ -87,7 +89,7 @@ describe AssociatedRecordsService do
     end
 
     after do
-      clean_data(User, Role, Agency, UserGroup, Child)
+      clean_data(User, Role, Agency, UserGroup, Child, Incident)
     end
   end
 end

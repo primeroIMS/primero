@@ -10,6 +10,7 @@ class Incident < ApplicationRecord
   include Historical
   include Ownable
   include Flaggable
+  include Transitionable
   include Alertable
   include Attachable
   include EagerLoadable
@@ -304,6 +305,10 @@ class Incident < ApplicationRecord
 
   def reporting_location_property
     'incident_reporting_location_config'
+  end
+
+  def can_be_assigned?
+    self.case.blank?
   end
 end
 # rubocop:enable Metrics/ClassLength

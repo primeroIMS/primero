@@ -9,8 +9,9 @@ class Theme < ApplicationRecord
     manifestThemeColor forgotPasswordLink networkIndicatorButton navListIconColor navDivider
     toolbarBackgroundColor toolbarBackgroundButtonColor navListBgActive navListTextActive
     navListIconActive navListText navListIcon navListDivider loginBackgroundGradientStart
-    toolbarBackgroundColorMobileHeade r drawerHeaderButton loginTranslationsButtonBackground
-    loginTranslationsButtonText mobileToolbarBackground mobileToolbarHamburgerButton
+    loginBackgroundGradientEnd toolbarBackgroundColorMobileHeader drawerHeaderButton
+    loginTranslationsButtonBackground loginTranslationsButtonText mobileToolbarBackground
+    mobileToolbarHamburgerButton
   ].freeze
 
   DEFAULT_THEME = {
@@ -38,7 +39,6 @@ class Theme < ApplicationRecord
   has_one_attached :favicon
 
   validate :valid_html_colors
-  validates :login_background, presence: true
   validates :logo, presence: true
   validates :logo_white, presence: true
   validates :logo_pictorial_144, presence: true

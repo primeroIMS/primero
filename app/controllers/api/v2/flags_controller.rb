@@ -14,7 +14,7 @@ class Api::V2::FlagsController < Api::V2::RecordResourceController
   end
 
   def update
-    authorize! :flag_record, @record
+    authorize! :flag_resolve, @record
     @flag = @record.remove_flag(params['id'], current_user.user_name, params['data']['unflag_message'])
     updates_for_record(@record)
   end
