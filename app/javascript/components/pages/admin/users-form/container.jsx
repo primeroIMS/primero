@@ -124,9 +124,11 @@ const Container = ({ mode }) => {
   } = formMethods;
 
   const onSubmit = data => {
-    data.agency_office = data.agency_office === null ? "": data.agency_office; 
+    const newData = { ...data };
+    
+    newData.agency_office = newData && newData.agency_office === null ? "" : newData.agency_office;
     submitHandler({
-      data,
+      data: newData,
       dispatch,
       isEdit: formMode.isEdit,
       initialValues,
@@ -174,9 +176,9 @@ const Container = ({ mode }) => {
 
   const identityOptions = providers
     ? providers.reduce(
-        (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
-        []
-      )
+      (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
+      []
+    )
     : [];
 
   const renderFormSections = () =>
