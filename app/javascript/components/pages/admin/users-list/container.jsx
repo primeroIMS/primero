@@ -4,20 +4,21 @@ import { useEffect } from "react";
 import { batch, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import { Link } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
-import { ROUTES } from "../../../../config";
 import NAMESPACE from "../namespace";
 import { usePermissions, CREATE_RECORDS, READ_RECORDS, RESOURCES } from "../../../permissions";
-import ActionButton from "../../../action-button";
-import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { FiltersForm } from "../../../form-filters/components";
 import { fetchAgencies } from "../agencies-list/action-creators";
-import { fetchUserGroups, getEnabledAgencies, getEnabledUserGroups, selectAgencies } from "../../../application";
+import {
+  fetchUserGroups,
+  getEnabledAgencies,
+  getEnabledUserGroups,
+  selectAgencies,
+  useApp
+} from "../../../application";
 import { getAppliedFilters, getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
@@ -26,10 +27,14 @@ import { DEFAULT_FILTERS, DATA } from "../constants";
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP } from "./constants";
 import { agencyBodyRender, buildObjectWithIds, buildUsersQuery, getFilters } from "./utils";
+import AlertMaxUser from "./components/alert-max-user";
+import CustomToolbar from "./components/custom-toolbar";
+import NewUserBtn from "./components/new-user-button";
 
 const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const { maximumUsers, maximumUsersWarning } = useApp();
   const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
   const canListAgencies = usePermissions(RESOURCES.agencies, READ_RECORDS);
   const recordType = "users";
@@ -39,6 +44,10 @@ const Container = () => {
   const enabledAgencies = useMemoizedSelector(state => getEnabledAgencies(state));
   const filterUserGroups = useMemoizedSelector(state => getEnabledUserGroups(state));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+  const totalUsersEnabled = metadata?.get("total_enabled");
+  const limitUsersReached = !Number.isNaN(maximumUsers) && totalUsersEnabled >= maximumUsers;
+  const maximumUsersWarningEnabled = Number.isInteger(maximumUsersWarning);
+  const maximumUsersLimit = maximumUsersWarningEnabled ? maximumUsersWarning : maximumUsers;
 
   const agenciesWithId = buildObjectWithIds(agencies);
 
@@ -79,20 +88,17 @@ const Container = () => {
     },
     defaultFilters,
     onTableChange,
-    bypassInitialFetch: true
+    bypassInitialFetch: true,
+    // eslint-disable-next-line react/display-name, react/no-multi-comp
+    customToolbarSelect: ({ displayData }) => (
+      <CustomToolbar
+        displayData={displayData}
+        limitUsersReached={limitUsersReached}
+        maximumUsers={maximumUsersLimit}
+        totalUsersEnabled={totalUsersEnabled}
+      />
+    )
   };
-
-  const newUserBtn = canAddUsers && (
-    <ActionButton
-      icon={<AddIcon />}
-      text="buttons.new"
-      type={ACTION_BUTTON_TYPES.default}
-      rest={{
-        to: ROUTES.admin_users_new,
-        component: Link
-      }}
-    />
-  );
 
   const filterPermission = {
     agency: canListAgencies
@@ -120,11 +126,18 @@ const Container = () => {
 
   return (
     <>
-      <PageHeading title={i18n.t("users.label")}>{newUserBtn}</PageHeading>
+      <PageHeading title={i18n.t("users.label")}>
+        <NewUserBtn canAddUsers={canAddUsers} limitUsersReached={limitUsersReached} maximumUsers={maximumUsers} />
+      </PageHeading>
       <PageContent>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={9}>
-            <IndexTable title={i18n.t("users.label")} {...tableOptions} />
+            <AlertMaxUser
+              limitUsersReached={limitUsersReached}
+              maximumUsers={maximumUsersLimit}
+              totalUsersEnabled={totalUsersEnabled}
+            />
+            <IndexTable title={i18n.t("users.label")} {...tableOptions} showCustomToolbar renderTitleMessage />
           </Grid>
           <Grid item xs={12} sm={3}>
             <FiltersForm {...filterProps} />

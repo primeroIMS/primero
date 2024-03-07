@@ -96,6 +96,10 @@ class User < ApplicationRecord
   validates :locale,
             inclusion: { in: I18n.available_locales.map(&:to_s), message: 'errors.models.user.invalid_locale' },
             allow_nil: true
+  with_options if: :limit_maximum_users_enabled? do
+    validate :validate_limit_user_reached, on: :create
+    validate :validate_limit_user_reached_on_enabling, on: :update
+  end
 
   class << self
     def hidden_attributes
@@ -167,6 +171,10 @@ class User < ApplicationRecord
     # Override the devise method to eager load the user's dependencies
     def find_for_authentication(tainted_conditions)
       eager_load(role: :primero_modules).find_by(tainted_conditions)
+    end
+
+    def limit_user_reached?
+      SystemSettings.current.maximum_users > User.enabled.count
     end
   end
 
@@ -281,7 +289,7 @@ class User < ApplicationRecord
 
   def managed_report_scope
     managed_report_permission = role.permissions.find { |permission| permission.resource == Permission::MANAGED_REPORT }
-    return unless managed_report_permission.present?
+    return if managed_report_permission&.actions.blank?
 
     managed_report_permission.managed_report_scope || Permission::ALL
   end
@@ -500,6 +508,38 @@ class User < ApplicationRecord
     receive_webpush == true && !disabled?
   end
 
+  def authorized_referral_roles(record)
+    return Role.none unless record.respond_to?(:referrals_to_user)
+
+    role_unique_ids = record.referrals_to_user(self).pluck(:authorized_role_unique_id).uniq
+    role_unique_ids << role.unique_id if role_unique_ids.include?(nil)
+
+    Role.where(unique_id: role_unique_ids.compact)
+  end
+
+  def authorized_roles_for_record(record)
+    return [role] if record&.owner?(self)
+
+    authorized_referral_roles(record).presence || [role]
+  end
+
+  def referred_to_record?(record)
+    record.respond_to?(:referrals_to_user) && record.referrals_to_user(self).exists?
+  end
+
+  def permitted_to_access_record?(record)
+    if group_permission? Permission::ALL
+      true
+    elsif group_permission? Permission::AGENCY
+      record.associated_user_agencies.include?(agency.unique_id)
+    elsif group_permission? Permission::GROUP
+      # TODO: This may need to be record&.owned_by_groups
+      (user_group_unique_ids & record&.associated_user_groups).present?
+    else
+      record&.associated_user_names&.include?(user_name)
+    end
+  end
+
   private
 
   def set_locale
@@ -554,6 +594,28 @@ class User < ApplicationRecord
   def associated_attributes_changed?
     user_groups_changed || saved_change_to_attribute?('agency_id') || saved_change_to_attribute?('location') ||
       saved_change_to_attribute('agency_office')&.last&.present?
+  end
+
+  def limit_maximum_users_enabled?
+    SystemSettings.current&.maximum_users&.present?
+  end
+
+  def enabling_user?
+    disabled_was == true && disabled == false
+  end
+
+  def validate_limit_user_reached
+    maximum_users = SystemSettings.current.maximum_users
+    return if maximum_users > User.enabled.count
+
+    errors.add(:base, I18n.t('users.alerts.limit_user_reached', maximum_users:))
+  end
+
+  def validate_limit_user_reached_on_enabling
+    maximum_users = SystemSettings.current.maximum_users
+    return if !enabling_user? || maximum_users > User.enabled.count
+
+    errors.add(:base, I18n.t('users.alerts.limit_user_reached_on_enable', maximum_users:))
   end
 end
 # rubocop:enable Metrics/ClassLength

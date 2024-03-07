@@ -6,6 +6,7 @@
 class Api::V2::ChildrenController < ApplicationApiController
   include Api::V2::Concerns::Pagination
   include Api::V2::Concerns::Record
+  include Api::V2::Concerns::Referrable
 
   def traces
     authorize! :read, Child
@@ -30,6 +31,7 @@ class Api::V2::ChildrenController < ApplicationApiController
     )
     @current_record.save! if @current_record.has_changes_to_save?
     @record.save!
+    permit_fields
     select_fields_for_show
   end
 

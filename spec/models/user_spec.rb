@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe User do
   before :all do
-    clean_data(Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup)
+    clean_data(Alert, Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup)
   end
 
   def build_user(options = {})
@@ -118,6 +118,46 @@ describe User do
         end
       end
     end
+
+    describe 'when limit_maximum_users_enabled' do
+      before do
+        clean_data(SystemSettings)
+        SystemSettings.create!(
+          maximum_users: 20,
+          maximum_users_warning: 15
+        )
+        SystemSettings.stub(:current).and_return(SystemSettings.first)
+        user_double = double('User')
+        allow(User).to receive(:enabled).and_return(user_double)
+        allow(user_double).to receive(:count).and_return(20)
+      end
+
+      it 'should validate limit_user_reached on create' do
+        user = build_user(user_name: 'random_user')
+        expect(user).to be_invalid
+
+        expect(user.errors.full_messages[0]).to eq(
+          'You have reached your limit of 20 enabled Users. You must disable one or more Users before creating more.'
+        )
+      end
+
+      it 'should validate limit_user_reached on enabling' do
+        user = build_user(disabled: true)
+        user.save(validate: false)
+
+        user.disabled = false
+        expect(user).to be_invalid
+        expect(user.errors.full_messages[0]).to eq(
+          'You have reached your limit of 20 enabled Users. ' \
+          'You must disable one or more Users before creating or enabling more.'
+        )
+      end
+
+      after do
+        clean_data(SystemSettings)
+      end
+    end
+
     after do
       clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, UserGroup)
     end
@@ -821,7 +861,148 @@ describe User do
     end
   end
 
+  describe 'authorized_referral_roles' do
+    let(:primero_module_cp) do
+      PrimeroModule.create!(
+        primero_program: PrimeroProgram.first,
+        name: 'PrimeroModule',
+        unique_id: PrimeroModule::CP,
+        associated_record_types: ['case'],
+        form_sections: []
+      )
+    end
+    let(:role1) do
+      role1 = Role.new_with_properties(
+        name: 'permission_role_1',
+        unique_id: 'permission_role_1',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
+      )
+      role1.save!
+      role1
+    end
+
+    let(:role2) do
+      role2 = Role.new_with_properties(
+        name: 'permission_role_2',
+        unique_id: 'permission_role_2',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
+      )
+      role2.save!
+      role2
+    end
+
+    let(:role3) do
+      role3 = Role.new_with_properties(
+        name: 'permission_role_3',
+        unique_id: 'permission_role_3',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [
+              Permission::REFERRAL, Permission::RECEIVE_REFERRAL, Permission::MANAGE
+            ]
+          )
+        ]
+      )
+      role3.save!
+      role3
+    end
+
+    let(:role4) do
+      role4 = Role.new(
+        name: 'permission_role_4',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp]
+      )
+      role4.save(validate: false)
+      role4.unique_id = nil
+      role4.save(validate: false)
+      role4
+    end
+
+    let(:child) do
+      Child.create!(
+        data: {
+          name: 'Test',
+          owned_by: 'user_creator',
+          module_id: PrimeroModule::CP,
+          consent_for_services: true,
+          disclosure_other_orgs: true
+        }
+      )
+    end
+
+    let(:user_referred) do
+      user_referred = build_user(user_name: 'user_referred', role_id: role3.id)
+      user_referred.save(validate: false)
+      user_referred
+    end
+
+    let(:user_creator) do
+      user_creator = build_user(user_name: 'user_creator', role_id: role1.id)
+      user_creator.save(validate: false)
+      user_creator
+    end
+
+    before do
+      clean_data(Alert, Referral, User, Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, Child)
+      role1
+      role2
+      role3
+      role4
+      user_creator
+      user_referred
+    end
+
+    context 'when the all the referrals specify an authorized_role' do
+      it 'returns the roles specified in the referrals' do
+        Referral.create!(
+          transitioned_by: 'user_creator',
+          transitioned_to: 'user_referred',
+          record: child,
+          authorized_role_unique_id: role1.unique_id
+        )
+        Referral.create!(
+          transitioned_by: 'user_creator',
+          transitioned_to: 'user_referred',
+          record: child,
+          authorized_role_unique_id: role2.unique_id
+        )
+
+        expect(user_referred.authorized_referral_roles(child).ids).to match_array([role1.id, role2.id])
+      end
+    end
+
+    context 'when one referral does not specify an authorized_role' do
+      it 'returns the roles specified in the referrals including the user role' do
+        Referral.create!(
+          transitioned_by: 'user_creator',
+          transitioned_to: 'user_referred',
+          record: child,
+          authorized_role_unique_id: role1.unique_id
+        )
+        Referral.create!(
+          transitioned_by: 'user_creator',
+          transitioned_to: 'user_referred',
+          record: child
+        )
+
+        expect(user_referred.authorized_referral_roles(child).ids).to match_array([role1.id, role3.id])
+      end
+    end
+
+    after do
+      clean_data(Alert, Referral, User, Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, Child)
+    end
+  end
+
   after do
-    clean_data(User, Agency, Role, FormSection, Field)
+    clean_data(Alert, User, Agency, Role, FormSection, Field)
   end
 end

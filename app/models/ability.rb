@@ -134,7 +134,7 @@ class Ability
   def configure_resource(resource, actions, is_record = false)
     if is_record
       can actions, resource do |instance|
-        permitted_to_access_record?(user, instance)
+        user.permitted_to_access_record?(instance)
       end
       can(:index, Task) if (resource == Child) && user.permission?(Permission::DASH_TASKS)
       can(:index, Flag) if user.permission?(Permission::DASH_FLAGS)
@@ -145,10 +145,10 @@ class Ability
 
   def configure_tracing_request(actions)
     can(actions, TracingRequest) do |instance|
-      permitted_to_access_record?(user, instance)
+      user.permitted_to_access_record?(instance)
     end
     can(actions, Trace) do |instance|
-      permitted_to_access_record?(user, instance.tracing_request)
+      user.permitted_to_access_record?(instance.tracing_request)
     end
   end
 
@@ -168,43 +168,11 @@ class Ability
 
   def configure_record_attachments
     can(:read, Attachment) do |instance|
-      permitted_to_access_attachment?(user, instance) ||
-        permitted_to_view_attachment?(user, instance)
+      PermittedAttachmentService.permitted_to_read?(user, instance, @permitted_form_fields_service)
     end
 
-    can(%i[write destroy], Attachment) do |instance|
-      permitted_to_access_attachment?(user, instance, true)
-    end
-  end
-
-  def permitted_to_access_attachment?(user, attachment, write = false)
-    @permitted_form_fields_service.permitted_field_names(
-      user.role,
-      Record.map_name(attachment.record_type),
-      write
-    ).include?(attachment.field_name) && (
-      permitted_to_access_record?(user, attachment.record) || user.can_preview?(attachment.record.class)
-    )
-  end
-
-  def permitted_to_view_attachment?(user, attachment)
-    permitted_to_access_record?(user, attachment.record) && (
-      (attachment.attachment_type == Attachment::IMAGE && user.can?(:view_photo, PotentialMatch)) || (
-        attachment.attachment_type == Attachment::AUDIO && user.can?(:view_audio, PotentialMatch)
-      )
-    )
-  end
-
-  def permitted_to_access_record?(user, record)
-    if user.group_permission? Permission::ALL
-      true
-    elsif user.group_permission? Permission::AGENCY
-      record.associated_user_agencies.include?(user.agency.unique_id)
-    elsif user.group_permission? Permission::GROUP
-      # TODO: This may need to be record&.owned_by_groups
-      (user.user_group_unique_ids & record&.associated_user_groups).present?
-    else
-      record&.associated_user_names&.include?(user.user_name)
+    can(%i[create destroy], Attachment) do |instance|
+      PermittedAttachmentService.permitted_to_write?(user, instance, @permitted_form_fields_service)
     end
   end
 

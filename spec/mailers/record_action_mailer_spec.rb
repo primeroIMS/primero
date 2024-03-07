@@ -7,13 +7,25 @@ require 'rails_helper'
 describe RecordActionMailer, type: :mailer do
   before do
     clean_data(SystemSettings)
-    SystemSettings.create(default_locale: 'en', unhcr_needs_codes_mapping: {},
-                          changes_field_to_form: {
-                            'email_alertable_field' => {
-                              form_section_unique_id: 'some_formsection_name',
-                              alert_strategy: Alertable::AlertStrategy::ASSOCIATED_USERS
-                            }
-                          })
+    SystemSettings.create(
+      default_locale: 'en',
+      unhcr_needs_codes_mapping: {},
+      changes_field_to_form: {
+        'email_alertable_field' => {
+          form_section_unique_id: 'some_formsection_name',
+          alert_strategy: Alertable::AlertStrategy::ASSOCIATED_USERS
+        }
+      },
+      approvals_labels_i18n: {
+        'en' => {
+          'closure' => 'Closure',
+          'case_plan' => 'Case Plan',
+          'assessment' => 'Assessment',
+          'action_plan' => 'Action Plan',
+          'gbv_closure' => 'Case Closure'
+        }
+      }
+    )
   end
 
   describe 'approvals' do
@@ -51,7 +63,7 @@ describe RecordActionMailer, type: :mailer do
 
     describe '.manager_approval_request' do
       let(:approval_notification) do
-        ApprovalRequestNotificationService.new(@child.id, 'value1', @manager2.user_name)
+        ApprovalRequestNotificationService.new(@child.id, 'case_plan', @manager2.user_name)
       end
 
       let(:mail) do
@@ -65,13 +77,13 @@ describe RecordActionMailer, type: :mailer do
 
       it 'renders the body' do
         expect(mail.body.encoded)
-          .to match("The user jnelson is requesting approval for value1 on case .*#{@child.short_id}")
+          .to match("The user jnelson is requesting approval for Case Plan on case .*#{@child.short_id}")
       end
     end
 
     describe 'manager_approval_request with diferent locale' do
       let(:approval_notification) do
-        ApprovalRequestNotificationService.new(@child.id, 'value1', @manager3.user_name)
+        ApprovalRequestNotificationService.new(@child.id, 'closure', @manager3.user_name)
       end
 
       let(:mail) do
@@ -85,13 +97,13 @@ describe RecordActionMailer, type: :mailer do
 
       it 'renders the body in arabic locale' do
         expect(mail.text_part.body.encoded)
-          .to match("يطلب المستخدم jnelson الموافقة value1 للملفّ .*#{@child.short_id}")
+          .to match("يطلب المستخدم jnelson الموافقة Closure للملفّ .*#{@child.short_id}")
       end
     end
 
     describe 'manager_approval_response' do
       let(:approval_notification) do
-        ApprovalResponseNotificationService.new(@child.id, 'value1', @manager1.user_name, false)
+        ApprovalResponseNotificationService.new(@child.id, 'case_plan', @manager1.user_name, false)
       end
 
       let(:mail) do
@@ -105,13 +117,13 @@ describe RecordActionMailer, type: :mailer do
 
       it 'renders the body' do
         expect(mail.body.encoded)
-          .to match("manager1 has rejected the request for approval for value1 for case .*#{@child.short_id}")
+          .to match("manager1 has rejected the request for approval for case plan for case.*#{@child.short_id}")
       end
     end
 
     describe 'manager_approval_response with diferent locale' do
       let(:approval_notification) do
-        ApprovalResponseNotificationService.new(@arabic_child.id, 'value1', @manager1.user_name, false)
+        ApprovalResponseNotificationService.new(@arabic_child.id, 'case_plan', @manager1.user_name, false)
       end
 
       let(:mail) do
@@ -125,7 +137,7 @@ describe RecordActionMailer, type: :mailer do
 
       it 'renders the body in arabic locale' do
         expect(mail.text_part.body.encoded)
-          .to match("طلب manager1 تم رفضه الموافقة value1 للملفّ .*#{@arabic_child.short_id}")
+          .to match("طلب manager1 تم رفضه الموافقة case plan للملفّ .*#{@arabic_child.short_id}")
       end
     end
 

@@ -746,6 +746,27 @@ describe("<RecordForm /> - Selectors", () => {
 
         expect(record).to.not.have.property("tracing");
       });
+
+      it("should return summary if the record has the permission", () => {
+        const record = selectors.getFormNav(
+          stateWithUserPermission.set(
+            "records",
+            fromJS({
+              cases: {
+                data: [{ id: "001", permitted_form_actions: { case: [ACTIONS.FIND_TRACING_MATCH] } }],
+                selectedRecord: "001"
+              }
+            })
+          ),
+          {
+            primeroModule: "primeromodule-cp",
+            recordType: "case",
+            checkPermittedForms: true
+          }
+        );
+
+        expect(record).to.have.property("tracing");
+      });
     });
   });
 
@@ -1112,6 +1133,29 @@ describe("<RecordForm /> - Selectors", () => {
 
       expect(result).to.deep.equals(fromJS([CHANGE_LOGS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS]));
     });
+
+    it("should return forms where the record has permissions", () => {
+      const result = selectors
+        .getRecordInformationNav(
+          fromJS({
+            records: {
+              cases: {
+                data: [{ id: "001", permitted_form_actions: { case: [ACTIONS.CHANGE_LOG] } }],
+                selectedRecord: "001"
+              }
+            }
+          }),
+          {
+            recordType: "case",
+            primeroModule: "primeromodule-cp"
+          }
+        )
+        .map(form => form.formId)
+        .toList()
+        .sort();
+
+      expect(result).to.deep.equals(fromJS([CHANGE_LOGS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS]));
+    });
   });
 
   describe("getDuplicatedFieldAlerts", () => {
@@ -1329,6 +1373,31 @@ describe("<RecordForm /> - Selectors", () => {
       });
 
       expect(selectors.getPreviousRecordType(stateWithPreviousRecord)).to.equals("cases");
+    });
+  });
+
+  describe("getPermittedForms", () => {
+    const permittedForms = fromJS({ form_1: "rw", form_2: "r", form_3: "rw" });
+    const recordForms = fromJS({ form_1: "rw", form_4: "r" });
+    const stateWithForms = fromJS({
+      user: { permittedForms },
+      records: { cases: { data: [{ id: "0001", permitted_forms: recordForms }] } }
+    });
+
+    it("returns the permitted forms for the user", () => {
+      expect(selectors.getPermittedForms(stateWithForms, {})).to.deep.equals(permittedForms);
+    });
+
+    it("returns the permitted forms for the record", () => {
+      expect(
+        selectors.getPermittedForms(stateWithForms, { recordType: "case", recordId: "0001", isEditOrShow: true })
+      ).to.deep.equals(recordForms);
+    });
+
+    it("returns the permitted forms for the user if the record is not found", () => {
+      expect(
+        selectors.getPermittedForms(stateWithForms, { recordType: "case", recordId: "0002", isEditOrShow: true })
+      ).to.deep.equals(permittedForms);
     });
   });
 });

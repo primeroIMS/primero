@@ -5,6 +5,7 @@
   justify-content: initial;
   color: var(--c-dark-grey);
   padding: 0 16px;
+  background-color: white;
 
   & > span {
     & div {

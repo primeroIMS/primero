@@ -7,6 +7,6 @@ export default () => {
   window.sessionStorage.clear();
 
   if (returnUrl) {
-    localStorage.setItem("returnUrl");
+    localStorage.setItem("returnUrl", "");
   }
 };

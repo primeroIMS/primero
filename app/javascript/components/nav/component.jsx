@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 import { push } from "connected-react-router";
 import { isEqual } from "lodash";
+import clsx from "clsx";
 
 import { ROUTES, PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import AgencyLogo from "../agency-logo";
@@ -22,6 +23,7 @@ import ActionDialog, { useDialog } from "../action-dialog";
 import { useI18n } from "../i18n";
 import { hasQueueData } from "../connectivity/selectors";
 import FieldMode from "../network-indicator/components/field-mode";
+import PoweredBy from "../powered-by";
 
 import { NAME, LOGOUT_DIALOG } from "./constants";
 import css from "./styles.css";
@@ -41,7 +43,7 @@ const Nav = () => {
     dispatch(fetchAlerts());
   }, []);
 
-  const { demo } = useApp();
+  const { demo, useContainedNavStyle } = useApp();
 
   const username = useMemoizedSelector(state => selectUsername(state), isEqual);
   const userId = useMemoizedSelector(state => getUserId(state), isEqual);
@@ -103,6 +105,12 @@ const Nav = () => {
     });
   };
 
+  const navListClasses = clsx(css.navList, { [css.contained]: useContainedNavStyle });
+  const translationsToggleClass = clsx(css.translationToggle, css.navTranslationsToggle, {
+    [css.contained]: useContainedNavStyle
+  });
+  const drawerHeaderClasses = clsx(css.drawerHeader, { [css.drawerHeaderContained]: useContainedNavStyle });
+
   const drawerContent = (
     <>
       <Hidden smDown implementation="css">
@@ -110,7 +118,7 @@ const Nav = () => {
       </Hidden>
       <div className={css.drawerHeaderContainer}>
         <Hidden mdUp implementation="css">
-          <div className={css.drawerHeader}>
+          <div className={drawerHeaderClasses}>
             <IconButton onClick={handleToggleDrawer(false)}>
               <CloseIcon />
             </IconButton>
@@ -121,13 +129,14 @@ const Nav = () => {
       <div className={css.navNetworkIndicator}>
         <NetworkIndicator />
       </div>
-      <List className={css.navList}>{permittedMenuEntries(APPLICATION_NAV(permissions, userId))}</List>
+      <List className={navListClasses}>{permittedMenuEntries(APPLICATION_NAV(permissions, userId))}</List>
       <div className={css.navAgencies}>
         <AgencyLogo />
       </div>
-      <div className={css.navTranslationsToggle}>
+      <div className={translationsToggleClass}>
         <TranslationsToggle />
       </div>
+      <PoweredBy />
     </>
   );
 

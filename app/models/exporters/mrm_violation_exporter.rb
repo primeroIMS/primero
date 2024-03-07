@@ -78,8 +78,14 @@ module Exporters
       write_violation_associations(violations)
     end
 
-    def user_permitted_forms(record_type, user, _include_subforms)
-      super(record_type, user, true)
+    def establish_export_constraints
+      return unless setup_export_constraints? && user.present?
+
+      self.export_constraints = Exporters::Constraints::ExporterConstraints.new(
+        record_type:, user:, excluded_field_names: self.class.excluded_field_names, options:,
+        include_subforms: true
+      )
+      export_constraints.generate!
     end
 
     private

@@ -12,6 +12,19 @@ describe RecordActionWebpushNotifier do
     )
     Rails.configuration.x.webpush.enabled = true
     allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return('aVnNTxSI1EZmiG1dW6Z_I9fbQCbZB3Po')
+    SystemSettings.stub(:current).and_return(
+      SystemSettings.new(
+        approvals_labels_i18n: {
+          'en' => {
+            'closure' => 'Closure',
+            'case_plan' => 'Case Plan',
+            'assessment' => 'Assessment',
+            'action_plan' => 'Action Plan',
+            'gbv_closure' => 'Case Closure'
+          }
+        }
+      )
+    )
   end
 
   let(:primero_module) do
@@ -40,7 +53,15 @@ describe RecordActionWebpushNotifier do
   end
 
   let(:manager2) do
-    create(:user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2', receive_webpush: true)
+    create(
+      :user,
+      role:,
+      email: 'manager2@primero.dev',
+      send_mail: true,
+      user_name: 'manager2',
+      receive_webpush: true,
+      locale: 'en'
+    )
   end
 
   let(:child) do
@@ -91,11 +112,20 @@ describe RecordActionWebpushNotifier do
     end
 
     let(:approval_notification_service) do
-      ApprovalRequestNotificationService.new(child.id, 'value1', manager2.user_name)
+      ApprovalRequestNotificationService.new(child.id, 'case_plan', manager2.user_name)
     end
 
     it 'should call TransitionNotificationService and WebpushService' do
-      expect(WebpushService).to receive(:send_notifications)
+      expect(WebpushService).to receive(:send_notifications).with(
+        manager2,
+        {
+          action_label: 'Go to Case',
+          body: 'A Case on your team has a pending approval request for Case Plan.',
+          link: "localhost/v2/cases/#{child.id}",
+          title: 'Approval Request',
+          icon: ''
+        }
+      )
 
       RecordActionWebpushNotifier.manager_approval_request(approval_notification_service)
     end
@@ -142,7 +172,7 @@ describe RecordActionWebpushNotifier do
       end
       it 'should return a hash' do
         expect(subject.keys).to match_array(
-          %i[title body action_label link]
+          %i[title body action_label link icon]
         )
       end
 
@@ -179,7 +209,7 @@ describe RecordActionWebpushNotifier do
       end
     end
 
-    context 'when is an approval respose' do
+    context 'when is an approval response' do
       let(:approval_notification_service) do
         ApprovalResponseNotificationService.new(child.id, 'value1', manager2.user_name, true)
       end

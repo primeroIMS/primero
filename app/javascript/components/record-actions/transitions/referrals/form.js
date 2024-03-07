@@ -30,7 +30,14 @@ const commonHandleWatched = {
   handleWatchedInputs: ({ [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: consent }) => ({ disabled: !consent })
 };
 
-const localReferralFields = ({ i18n, recordType, recordModuleID, isReferralFromService, record = fromJS({}) }) =>
+const localReferralFields = ({
+  i18n,
+  recordType,
+  recordModuleID,
+  isReferralFromService,
+  record = fromJS({}),
+  hasReferralRoles
+}) =>
   [
     {
       display_name: i18n.t("transfer.agency_label"),
@@ -99,6 +106,19 @@ const localReferralFields = ({ i18n, recordType, recordModuleID, isReferralFromS
         }
       ],
       order: 7
+    },
+    {
+      display_name: i18n.t("referral.referral_authorization_label"),
+      name: FIELDS.AUTHORIZED_ROLE_UNIQUE_ID,
+      type: SELECT_FIELD,
+      showIf: values => hasReferralRoles && !values[FIELDS.REMOTE],
+      option_strings_source: OPTION_TYPES.ROLE_REFERRAL_AUTHORIZATION,
+      watchedInputs: [FIELDS.REMOTE],
+      asyncOptionsLoadingPath: ["application", "loading"],
+      asyncParamsFromWatched: [],
+      help_text: i18n.t("referral.referral_authorization_help_text"),
+      ...commonHandleWatched,
+      order: 8
     }
   ].map(field => {
     field.watchedInputs.push(FIELDS.CONSENT_INDIVIDUAL_TRANSFER);
@@ -220,7 +240,9 @@ const referralFields = args =>
 const validWhenRemote = (isRemote, i18n, i18nKey = "") =>
   string().when(FIELDS.REMOTE, {
     is: value => value === isRemote,
-    then: string().required(i18n.t(`referral.${i18nKey}`))
+    then: string()
+      .nullable()
+      .required(i18n.t(`referral.${i18nKey}`))
   });
 
 export const validations = i18n =>

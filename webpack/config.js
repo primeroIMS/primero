@@ -23,17 +23,10 @@ const ENTRY_NAMES = {
   IDENTITY: "identity"
 };
 
-const ENTRIES = {
-  [ENTRY_NAMES.IDENTITY]: {
-    ext: "jsx",
-    path: "/packs",
-    clean: ["identity*"]
-  },
-  [ENTRY_NAMES.APPLICATION]: {
-    ext: "jsx",
-    path: "/packs",
-    clean: ["application*", "vendor*", "precache-manifest*"]
-  }
+const ENTRY = {
+  ext: "jsx",
+  path: "/packs",
+  clean: ["application*", "vendor*", "precache-manifest*"]
 };
 
 const DEV_SERVER_CONFIG = {
@@ -67,7 +60,6 @@ const ADDITIONAL_PRECACHE_MANIFEST_FILES = [
   "primero-pictorial-144.png",
   "primero-pictorial-192.png",
   "primero-pictorial-512.png",
-  "manifest.json",
   "javascripts/i18n.js"
 ];
 
@@ -96,7 +88,7 @@ module.exports = {
   TRANSLATION_MANIFEST_FILES,
   APPLICATION_DIR,
   DEV_SERVER_CONFIG,
-  ENTRIES,
+  ENTRY,
   ENTRY_NAMES,
   MANIFEST_FILE_PATHS,
   MANIFEST_OUTPUT_PATH,

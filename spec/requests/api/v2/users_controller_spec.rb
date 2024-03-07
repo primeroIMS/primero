@@ -275,6 +275,7 @@ describe Api::V2::UsersController, type: :request do
         expect(json['data'][0]['agency_logo_icon']).not_to be_nil
         expect(json['data'][0]['agency_name']).to eq(@agency_a.name)
         expect(json['data'][0]['agency_unique_id']).to eq(@agency_a.unique_id)
+        expect(json['metadata']['total_enabled']).to eq(7)
       end
     end
 
@@ -312,6 +313,7 @@ describe Api::V2::UsersController, type: :request do
         expect(json['data'].map { |user| user['identity_provider_unique_id'] }.compact).to eq(
           [@identity_provider_a.unique_id, @identity_provider_a.unique_id]
         )
+        expect(json['metadata']['total_enabled']).to eq(7)
       end
     end
 
@@ -472,6 +474,7 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data']['user_group_unique_ids']).to eq(params[:data][:user_group_unique_ids])
       expect(User.find_by(id: json['data']['id'])).not_to be_nil
       expect(json['data']['identity_provider_unique_id']).to eq(@identity_provider_a.unique_id)
+      expect(json['metadata']['total_enabled']).to eq(8)
     end
 
     it 'filters sensitive information from logs' do
