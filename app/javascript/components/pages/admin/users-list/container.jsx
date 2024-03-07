@@ -45,7 +45,7 @@ const Container = () => {
   const filterUserGroups = useMemoizedSelector(state => getEnabledUserGroups(state));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const totalUsersEnabled = metadata?.get("total_enabled");
-  const limitUsersReached = !Number.isNaN(maximumUsers) && totalUsersEnabled >= maximumUsers;
+  const limitUsersReached = Number.isInteger(maximumUsers) && totalUsersEnabled >= maximumUsers;
   const maximumUsersWarningEnabled = Number.isInteger(maximumUsersWarning);
   const maximumUsersLimit = maximumUsersWarningEnabled ? maximumUsersWarning : maximumUsers;
 
