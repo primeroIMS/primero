@@ -184,6 +184,30 @@ const Datatable = ({
     });
   }
 
+  const tableData = useMemo(
+    () => (validRecordTypes || localizedFields ? dataToJS(translatedRecords) : dataToJS(records)),
+    [records, validRecordTypes, translatedRecords, localizedFields]
+  );
+
+  const rowKeys = useMemo(() => (typeof tableData?.[0] !== "undefined" ? Object.keys(tableData[0]) : []), [tableData]);
+
+  const dataWithAlertsColumn = useMemo(() => {
+    const rowsData =
+      rowKeys && rowKeys.includes(ALERTS_COLUMNS.alert_count, ALERTS_COLUMNS.flag_count)
+        ? tableData.map(row => ({
+            ...row,
+            alerts: {
+              // eslint-disable-next-line camelcase
+              alert_count: row?.alert_count || 0,
+              // eslint-disable-next-line camelcase
+              flag_count: row?.flag_count || 0
+            }
+          }))
+        : tableData;
+
+    return rowsData;
+  }, [tableData, rowKeys]);
+
   const handleTableChange = (action, tableState) => {
     const options = defaultFilters.merge(filters);
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
@@ -273,30 +297,6 @@ const Datatable = ({
     customToolbarSelect: componentCustomToolbarSelect,
     ...tableOptionsProps
   };
-
-  const tableData = useMemo(
-    () => (validRecordTypes || localizedFields ? dataToJS(translatedRecords) : dataToJS(records)),
-    [records, validRecordTypes, translatedRecords, localizedFields]
-  );
-
-  const rowKeys = useMemo(() => (typeof tableData?.[0] !== "undefined" ? Object.keys(tableData[0]) : []), [tableData]);
-
-  const dataWithAlertsColumn = useMemo(() => {
-    const rowsData =
-      rowKeys && rowKeys.includes(ALERTS_COLUMNS.alert_count, ALERTS_COLUMNS.flag_count)
-        ? tableData.map(row => ({
-            ...row,
-            alerts: {
-              // eslint-disable-next-line camelcase
-              alert_count: row?.alert_count || 0,
-              // eslint-disable-next-line camelcase
-              flag_count: row?.flag_count || 0
-            }
-          }))
-        : tableData;
-
-    return rowsData;
-  }, [tableData, rowKeys]);
 
   useEffect(() => {
     setOfflineData(dataWithAlertsColumn);
