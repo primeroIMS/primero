@@ -11,6 +11,8 @@ import { ASSIGN_DIALOG, TRANSFER_DIALOG, REFER_DIALOG } from "../constants";
 import { useMemoizedSelector } from "../../../libs";
 import buildSelectedIds from "../utils/build-selected-ids";
 import { usePermissions, RESOURCES, CONSENT_OVERRIDE } from "../../permissions";
+import { useIncidentFromCase } from "../../incidents-from-case";
+import { RECORD_TYPES } from "../../../config";
 
 import { NAME, REFERRAL_FORM_ID, TRANSFER_FORM_ID, MAX_BULK_RECORDS } from "./constants";
 import { hasProvidedConsent } from "./components/utils";
@@ -47,6 +49,7 @@ const Transitions = ({
   const selectedRecordsLength = Object.values(selectedRecords || {}).flat()?.length;
   const keyToSelectId = isAssignDialogOpen ? "short_id" : "id";
   const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, keyToSelectId);
+  const { present: incidentFromCasePresent } = useIncidentFromCase({ recordType: RECORD_TYPES[recordType], record });
 
   const commonDialogProps = {
     omitCloseAfterSuccess: true,
@@ -95,6 +98,7 @@ const Transitions = ({
           {...commonTransitionProps}
           assignRef={assignFormikRef}
           selectedRecordsLength={selectedRecordsLength}
+          formDisabled={incidentFromCasePresent}
         />
       );
     }
@@ -147,7 +151,7 @@ const Transitions = ({
         confirmButtonLabel: i18n.t("buttons.save"),
         open: isAssignDialogOpen,
         successHandler,
-        enabledSuccessButton: selectedRecordsLength <= MAX_BULK_RECORDS,
+        enabledSuccessButton: selectedRecordsLength <= MAX_BULK_RECORDS && !incidentFromCasePresent,
         transitionType: TRANSITIONS_TYPES.reassign
       };
     }

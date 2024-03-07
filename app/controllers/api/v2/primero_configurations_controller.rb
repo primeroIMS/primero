@@ -7,15 +7,19 @@ class Api::V2::PrimeroConfigurationsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
   include Api::V2::Concerns::JsonValidateParams
 
+  SHOW_ATTRIBUTES = %i[
+    id name description version created_on created_by applied_on applied_by primero_version
+  ].freeze
+
   before_action { authorize! :manage, PrimeroConfiguration }
 
   def index
-    @configurations = PrimeroConfiguration.list(order_by:, order:).paginate(pagination)
+    @configurations = PrimeroConfiguration.list(order_by:, order:).paginate(pagination).select(*SHOW_ATTRIBUTES)
     @total = @configurations.total_entries
   end
 
   def show
-    @configuration = PrimeroConfiguration.find(params[:id])
+    @configuration = PrimeroConfiguration.select(*SHOW_ATTRIBUTES).find(params[:id])
   end
 
   def create

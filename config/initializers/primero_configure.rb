@@ -24,4 +24,8 @@ Rails.application.configure do
                                                                                        ))
 
   config.use_theme = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_USE_THEME', nil)) || false
+
+  config.silence_logging = [
+    'GET /health', 'GET /health/database', 'GET /health/solr', 'GET /health/server'
+  ]
 end

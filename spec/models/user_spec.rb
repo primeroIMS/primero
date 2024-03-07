@@ -1002,6 +1002,61 @@ describe User do
     end
   end
 
+  describe '.by_resource_and_permission' do
+    before do
+      clean_data(User, Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, Child)
+      @module_cp = PrimeroModule.new(name: 'CP')
+      @module_cp.save(validate: false)
+
+      permission_case = Permission.new(
+        resource: Permission::CASE,
+        actions: [
+          Permission::READ, Permission::WRITE, Permission::CREATE,
+          Permission::REFERRAL, Permission::RECEIVE_REFERRAL,
+          Permission::ASSIGN, Permission::TRANSFER, Permission::RECEIVE_TRANSFER
+        ]
+      )
+      permission_incident_assign = Permission.new(
+        resource: Permission::INCIDENT, actions: [Permission::ASSIGN]
+      )
+      permission_incident = Permission.new(
+        resource: Permission::INCIDENT,
+        actions: [
+          Permission::READ
+        ]
+      )
+      @role = Role.new(permissions: [permission_case], modules: [@module_cp])
+      @role.save(validate: false)
+      @role_case_incident = Role.new(permissions: [permission_case, permission_incident_assign], modules: [@module_cp])
+      @role_case_incident.save(validate: false)
+      @role_incident = Role.new(permissions: [permission_incident], modules: [@module_cp])
+      @role_incident.save(validate: false)
+      @group1 = UserGroup.create!(name: 'Group1')
+      @user1 = User.new(user_name: 'user1', role: @role_case_incident, user_groups: [@group1])
+      @user1.save(validate: false)
+      @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group1])
+      @user2.save(validate: false)
+      @user3 = User.new(user_name: 'user3', role: @role_incident, user_groups: [@group1])
+      @user3.save(validate: false)
+      @user4 = User.new(user_name: 'user4', role: @role, user_groups: [@group1])
+      @user4.save(validate: false)
+      @user5 = User.new(user_name: 'user5', role: @role, user_groups: [@group1])
+      @user5.save(validate: false)
+      @user6 = User.new(user_name: 'user6', role: @role_incident, user_groups: [@group1])
+      @user6.save(validate: false)
+    end
+
+    it 'return the query scope of the user' do
+      expect(
+        User.by_resource_and_permission(Permission::CASE, [Permission::ASSIGN]).pluck(:user_name)
+      ).to match_array(%w[user1 user2 user4 user5])
+    end
+
+    after do
+      clean_data(User, Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, Child)
+    end
+  end
+
   after do
     clean_data(Alert, User, Agency, Role, FormSection, Field)
   end

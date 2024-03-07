@@ -38,8 +38,16 @@ function Component({ mobile, contained }) {
     }
   }[getConnectionStatus(online, fieldMode)];
 
-  const containerClasses = clsx(css.container, css[mode.color], { [css.containedMobile]: useContainedNavStyle });
-  const listItemClasses = clsx(css.navLink, css[mode.color], { [css.contained]: useContainedNavStyle });
+  const offlineClasses = { [css.containedMobileOffline]: !online };
+
+  const containerClasses = clsx(css.container, css[mode.color], {
+    [css.containedMobile]: useContainedNavStyle,
+    ...offlineClasses
+  });
+  const listItemClasses = clsx(css.navLink, css[mode.color], {
+    [css.contained]: useContainedNavStyle,
+    ...offlineClasses
+  });
 
   if (mobile) {
     return (

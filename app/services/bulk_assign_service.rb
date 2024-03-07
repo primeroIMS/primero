@@ -11,7 +11,7 @@ class BulkAssignService
   end
 
   def assign_records!
-    Child.where(id: search_results_ids).find_in_batches(batch_size: 10) do |records|
+    @model_class.where(id: search_results_ids).find_in_batches(batch_size: 10) do |records|
       assign_records_batch(records)
     end
   end
@@ -20,7 +20,7 @@ class BulkAssignService
 
   def assign_records_batch(records)
     records.each do |record|
-      next unless @transitioned_by.can_assign?(record)
+      next unless record.can_be_assigned? && @transitioned_by.can_assign?(record)
 
       create_assignment(record)
     rescue StandardError => e
