@@ -27,11 +27,11 @@ gem 'json_schemer',        '~> 1.0'    # Validation for submited JSON
 gem 'matrix',              '~> 0.4'    # No longer part of Ruby 3.2 core. Must be included explicitly
 gem 'minipack',            '~> 0.3'    # An alternative to Webpacker. TODO: Is this still needed? In prod?
 gem 'net-http-persistent', '~> 4.0'    # Thread safe persistent HTTP connections, optional Faraday dependency
-gem 'nokogiri',            '~> 1.15'   # Security assertion on implicit dependency.
+gem 'nokogiri',            '~> 1.16'   # Security assertion on implicit dependency.
 gem 'pg',                  '~> 1.5'    # Ruby PostgreSQL binding
 gem 'prawn',               '~> 2.4'    # PDF generation
 gem 'prawn-table',         '~> 0.2'    # PDF generation
-gem 'puma',                '~> 6.3'    # Ruby Rack server
+gem 'puma',                '~> 6.4'    # Ruby Rack server
 gem 'rack',                '~> 2.2'
 gem 'rack-attack',         '>= 6.6'    # Rack middleware to rate limit sensetive routes, such as those used for auth
 gem 'rails',               '6.1.7.6'

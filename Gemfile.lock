@@ -210,7 +210,7 @@ GEM
     mime-types-data (3.2023.0808)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.4)
+    mini_portile2 (2.8.5)
     minipack (0.3.6)
       actionview
       railties (>= 4.2)
@@ -229,7 +229,7 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
-    nokogiri (1.15.4)
+    nokogiri (1.16.2)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     openssl (3.1.0)
@@ -253,7 +253,7 @@ GEM
       byebug (~> 11.0)
       pry (>= 0.13, < 0.15)
     public_suffix (5.0.3)
-    puma (6.3.1)
+    puma (6.4.2)
       nio4r (~> 2.0)
     racc (1.7.1)
     rack (2.2.8)
@@ -468,13 +468,13 @@ DEPENDENCIES
   memory_profiler
   minipack (~> 0.3)
   net-http-persistent (~> 4.0)
-  nokogiri (~> 1.15)
+  nokogiri (~> 1.16)
   pg (~> 1.5)
   prawn (~> 2.4)
   prawn-table (~> 0.2)
   pry
   pry-byebug
-  puma (~> 6.3)
+  puma (~> 6.4)
   rack (~> 2.2)
   rack-attack (>= 6.6)
   rack-mini-profiler (>= 1.0.0)

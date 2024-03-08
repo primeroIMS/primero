@@ -389,6 +389,7 @@ en:
       urgent_protection_concern: Urgent Protection Concern
       user_group: User Group
       workflow: Cases by Workflow
+      include_disabled: Include disabled
     flag_summary: Flag summary
     full_name: Full Name
     gbv_closure: GBV Closure
@@ -414,6 +415,8 @@ en:
       tracing_message: 'Note: There is a match in the system with an Inquirer looking
         for this child. Contact the social worker of this record for further action
         if the child wishes.'
+    reassign:
+      multiple_successfully: Primero is reassigning %{select_records} Case(s). It may take several minutes for all of these Cases to update.
     referral_done: Clicking 'Done' signifies that you have completed the referral
       work associated with this case. Once you click 'Done' you will no longer have
       access to this record.
@@ -463,6 +466,7 @@ en:
     save_filter: Save
     selected_all_records: Select all %{total_records} cases that match this query.
     selected_records: '%{select_records} case(s) selected'
+    selected_records_assign: '%{select_records} case(s) selected'
     sex: Sex
     show_case: 'Case ID: %{short_id}'
     social_worker: Social Worker
@@ -1481,6 +1485,7 @@ en:
       disabled: Incident is disabled
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
+      bulk_assign_limit_try_again: You cannot assign more than 100 Incidents at once. Please select 100 Incidents or fewer and then try again.
     violation:
       associated_violations: "Associated Violations:"
       update_and_return: 'Update and Return to %{association}'
@@ -1499,6 +1504,7 @@ en:
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
   incidents:
+    change_status: Change Status
     disable_dialog: Clicking OK will change the status of this incident to Disabled.
     disable_dialog_title: Disable Incident
     disable_success: Successfully disabled incident
@@ -1547,12 +1553,15 @@ en:
       perpetrator_category: Type of Perpetrator
       record_owner: Record Owner
     register_new_incident: New Incident
+    reassign:
+      multiple_successfully: Primero is reassigning %{select_records} Incident(s). It may take several minutes for all of these Incidents to update. Note that Incidents already linked to Cases will not be assigned.
     selectable_date_options:
       date_of_first_report: Interview Date
       mrm_date_of_first_report: Date of initial report to CTFMR member
       ctfmr_verified_date: Date of Verification decision by CTFMR
       incident_date_derived: Incident Date
     selected_records: '%{select_records} incident(s) selected'
+    selected_records_assign: '%{select_records} incident(s) selected. Note that Incidents already linked to Cases will not be assigned.'
     selected_all_records: 'Select all %{total_records} incidents that match this query.'
     summary_mrm:
       label: Summary of the Incident
@@ -1577,6 +1586,7 @@ en:
     survivor_code: Survivor Code
     show_incident: 'Incident ID %{short_id}'
     social_worker: Social Worker
+    verify_mrm: Verify MRM
     violation_type: Violation Type
     violence_type: Violence Type
     type_violence: Type of Violence
@@ -2361,6 +2371,7 @@ en:
       reopen: Reopen
       report: Report
       managed_report: Insights
+      resolve_any_flag: Resolve any Flag
       request_approval: Request for approval
       request_approval_action_plan: Request %{approval_label} approval
       request_approval_assessment: Request %{approval_label} approval
@@ -2384,6 +2395,7 @@ en:
       transfer: Can be used for transfer
       user: Users
       user_group: User Groups
+      verify_mrm: Verify MRM
       view_approvals: View Approvals
       view_assessment: View Assessment
       view_photo: View Photo
@@ -2674,6 +2686,9 @@ en:
             explanation: Ability to add a flag to a case. Users with this permission
               can also remove the flags that they have added to a case.
             label: Flag
+          resolve_any_flag:
+            explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
+            label: Resolve any Flag
           import:
             explanation: Allows the user to create one or more new cases by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted
@@ -3184,6 +3199,12 @@ en:
         label: What records does this role affect?
       incident:
         actions:
+          assign:
+            explanation: Allows a user to send an Incident from its original record owner to
+              any other user in the system. Incidents which are already linked to a Case
+              cannot be assigned; you must instead reassign the linked Case, which will update
+              the Incident's record ownership.
+            label: Assign
           change_log:
             explanation: User can see a history of all changes made to the record
               since it was created. This includes values recorded for all fields.
@@ -3255,6 +3276,9 @@ en:
             explanation: Ability to add a flag to an incident. Users with this permission
               can also remove the flags that they have added to an incident.
             label: Flag
+          resolve_any_flag:
+            explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
+            label: Resolve any Flag
           import:
             explanation: Allows the user to create one or more new incidents by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted
@@ -3287,6 +3311,9 @@ en:
               also cannot sync their mobile devices with the web application in general,
               meaning that they cannot use the mobile app to manage incidents.
             label: Sync with mobile device
+          verify_mrm:
+            explanation: MRM user can change the status of violations.
+            label: Verify MRM
           write:
             explanation: Ability to click the "Edit" button, update information about
               the incident, and click "Save". Also allows the user to disable or enable
@@ -3447,6 +3474,9 @@ en:
             explanation: Ability to add a flag to a Registry record. Users with this permission
               can also remove the flags that they have added to a Registry record.
             label: Flag
+          resolve_any_flag:
+            explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
+            label: Resolve any Flag
           manage:
             explanation: Allows a user to perform all available actions on Registry records. The
               "Manage" permission essentially means "everything".
@@ -3517,6 +3547,9 @@ en:
             explanation: Ability to add a flag to a Family. Users with this permission
               can also remove the flags that they have added to a Family.
             label: Flag
+          resolve_any_flag:
+            explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
+            label: Resolve any Flag
           manage:
             explanation: Allows a user to perform all available actions on Families. The
               "Manage" permission essentially means "everything".
@@ -3712,6 +3745,9 @@ en:
               permission can also remove the flags that they have added to a tracing
               request.
             label: Flag
+          resolve_any_flag:
+            explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
+            label: Resolve any Flag
           import:
             explanation: Allows the user to create one or more new cases by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted
@@ -3869,6 +3905,7 @@ en:
     successfully: Successfully reassigned
     user_mandatory_label: Recipient is required
     users_label: Recipient
+    incident_from_case_warning: You cannot assign this Incident, because it is already linked to a Case. When you assign the Case, the Incident is assigned as well.
   record_information:
     assigned_user_names: Other Assigned Users
     created_at: Record created at
@@ -4217,6 +4254,7 @@ en:
       inprogress: Pending
       rejected: Rejected
       revoked: Revoked
+    transferred_by: Transferred by
     type:
       assign: Assign
       reassign: Assign

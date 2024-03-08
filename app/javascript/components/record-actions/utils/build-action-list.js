@@ -81,7 +81,7 @@ export default ({
         enabledFor: ENABLED_FOR_ONE_MANY_ALL,
         name: `${i18n.t("buttons.reassign")} ${formRecordType}`,
         recordListAction: true,
-        recordType: RECORD_PATH.cases
+        recordType: [RECORD_PATH.cases, RECORD_PATH.incidents]
       },
       {
         action: () => handleDialogClick(TRANSFER_DIALOG),

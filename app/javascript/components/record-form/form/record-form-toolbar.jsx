@@ -17,19 +17,14 @@ import Flagging from "../../flagging";
 import RecordActions from "../../record-actions";
 import Permission, { FLAG_RECORDS, WRITE_RECORDS } from "../../permissions";
 import { getSavingRecord, getLoadingRecordState } from "../../records/selectors";
-import {
-  RECORD_TYPES,
-  RECORD_PATH,
-  INCIDENT_CASE_ID_DISPLAY_FIELD,
-  INCIDENT_CASE_ID_FIELD,
-  INCIDENT_FROM_CASE
-} from "../../../config";
+import { RECORD_TYPES, RECORD_PATH, INCIDENT_CASE_ID_FIELD, INCIDENT_FROM_CASE } from "../../../config";
 import DisableOffline from "../../disable-offline";
 import { useMemoizedSelector, useThemeHelper } from "../../../libs";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { getIsEnabledWebhookSyncFor } from "../../application/selectors";
 import { PageHeading } from "../../page";
+import { useIncidentFromCase } from "../../incidents-from-case";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
@@ -58,6 +53,7 @@ const RecordFormToolbar = ({
   const isEnabledWebhookSyncFor = useMemoizedSelector(state =>
     getIsEnabledWebhookSyncFor(state, primeroModule, recordType)
   );
+  const { incidentFromCaseIdDisplay, incidentFromCaseId } = useIncidentFromCase({ recordType, record });
 
   const rtlClass = isRTL ? css.flipImage : "";
 
@@ -77,26 +73,6 @@ const RecordFormToolbar = ({
     } else {
       history.goBack();
     }
-  };
-
-  const getIncidentFromCaseIdDisplay = () => {
-    if (recordType === RECORD_TYPES.incidents) {
-      return incidentFromCase?.size
-        ? incidentFromCase.get(INCIDENT_CASE_ID_DISPLAY_FIELD)
-        : record?.get(INCIDENT_CASE_ID_DISPLAY_FIELD);
-    }
-
-    return null;
-  };
-
-  const getIncidentFromCaseId = () => {
-    if (recordType === RECORD_TYPES.incidents) {
-      return incidentFromCase?.size
-        ? incidentFromCase.get(INCIDENT_CASE_ID_FIELD)
-        : record?.get(INCIDENT_CASE_ID_FIELD);
-    }
-
-    return null;
   };
 
   const renderSaveButton = (
@@ -144,8 +120,8 @@ const RecordFormToolbar = ({
       params={params}
       recordType={recordType}
       shortId={shortId}
-      incidentCaseId={getIncidentFromCaseId()}
-      incidentCaseIdDisplay={getIncidentFromCaseIdDisplay()}
+      incidentCaseId={incidentFromCaseId}
+      incidentCaseIdDisplay={incidentFromCaseIdDisplay}
       toolbarHeading={css.toolbarHeading}
       associatedLinkClass={css.associatedCaseLink}
       isEnabledWebhookSyncFor={isEnabledWebhookSyncFor}

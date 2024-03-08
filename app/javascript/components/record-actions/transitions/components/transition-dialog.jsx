@@ -21,7 +21,8 @@ const TransitionDialog = ({
   successHandler,
   transitionType,
   enabledSuccessButton,
-  selectedRecordsLength = 0
+  selectedRecordsLength = 0,
+  disableActions = false
 }) => {
   const i18n = useI18n();
 
@@ -44,7 +45,7 @@ const TransitionDialog = ({
   let dialogSubHeader = null;
 
   if (selectedRecordsLength > 0 && selectedRecordsLength <= MAX_BULK_RECORDS) {
-    dialogSubHeader = i18n.t(`${recordType}.selected_records`, {
+    dialogSubHeader = i18n.t(`${recordType}.selected_records_assign`, {
       select_records: selectedRecordsLength
     });
   } else if (selectedRecordsLength > MAX_BULK_RECORDS) {
@@ -63,7 +64,8 @@ const TransitionDialog = ({
     cancelHandler: onClose,
     enabledSuccessButton,
     dialogSubHeader,
-    confirmButtonProps
+    confirmButtonProps,
+    disableActions
   };
 
   return <ActionDialog {...dialogProps}>{children}</ActionDialog>;
@@ -73,6 +75,7 @@ TransitionDialog.propTypes = {
   children: PropTypes.node.isRequired,
   confirmButtonLabel: PropTypes.string,
   confirmButtonProps: PropTypes.object,
+  disableActions: PropTypes.bool,
   enabledSuccessButton: PropTypes.bool,
   omitCloseAfterSuccess: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
