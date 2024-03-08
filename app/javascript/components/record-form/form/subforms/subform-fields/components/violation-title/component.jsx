@@ -22,8 +22,8 @@ const Component = ({ title, values, fields }) => {
   ) : null;
 
   return (
-    <div className={css.container} >
-      <div className={css.titleViolation} >
+    <div className={css.container}>
+      <div className={css.titleViolation}>
         {title} {renderShortUniqueId}
       </div>
       <div>{renderChipStatus}</div>
