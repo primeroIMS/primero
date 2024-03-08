@@ -20,6 +20,12 @@ const MENU_PROPS = {
 
 const Component = ({ selectedValue, setSelectedValue }) => {
   const verificationStatus = useOptions({ source: LOOKUPS.verification_status });
+  const classesFormCotnrol = { root: css.verifyFormControlRoot };
+  const classesSelect = {
+    root: css.verifySelectComponent,
+    select: css.verifySelectComponentSelect
+  };
+  const classesMenuItem = option => ({ display: option === selectedValue ? "none" : "block" });
 
   const handleChange = event => {
     // Change dropdown value
@@ -30,30 +36,18 @@ const Component = ({ selectedValue, setSelectedValue }) => {
 
   return (
     <Box className={css.selectWrapper}>
-      <FormControl
-        fullWidth
-        classes={{
-          root: css.verifyFormControlRoot
-        }}
-      >
+      <FormControl fullWidth classes={classesFormCotnrol}>
         <Select
           value={selectedValue}
           onChange={handleChange}
           onSel={onSel}
           MenuProps={MENU_PROPS}
-          classes={{
-            root: css.verifySelectComponent,
-            select: css.verifySelectComponentSelect
-          }}
+          classes={classesSelect}
           variant="outlined"
           fullWidth
         >
           {verificationStatus.map(option => (
-            <MenuItem
-              key={option.id}
-              value={option.id}
-              style={{ display: option.id === selectedValue ? "none" : "block" }}
-            >
+            <MenuItem key={option.id} value={option.id} style={classesMenuItem(option.id)}>
               {option.display_text}
             </MenuItem>
           ))}
