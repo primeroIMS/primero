@@ -33,7 +33,7 @@ git checkout develop
 
 > [!NOTE]
 > Visual Studio Code is not required.
-> 
+>
 > If you prefer another IDE or editor, such as RubyMine, Vim, or Emacs, these instructions don't apply to you, but you will still want to make sure that you have any Ruby and Rails language features enabled.
 
 If you do not already have Visual Studio Code, install it from <https://code.visualstudio.com>.
@@ -46,7 +46,7 @@ Click the *Open...* button in the middle of the window. Select the directory whe
 
 > [!NOTE]
 > This step is entirely optional.
-> 
+>
 > How you use your editor is up to you! There are a number of extensions that help with ruby support in VSCode.
 
 You will want to install a few VSCode extensions to have the best experience editing Primero's code.
@@ -80,10 +80,10 @@ If you want to use the debugging features of VSCode for Ruby, you can add the fo
 # Installing Dependencies
 ## Installing Ruby using `rbenv`
 
-> [!NOTE] 
+> [!NOTE]
 > If you already have a solution that you like, such as rvm, asdf, or RTX, there is no reason to switch. You will just need to use them to install the correct runtimes.
 
-> [!WARNING] 
+> [!WARNING]
 > The version of rbenv packaged with Ubuntu and Debian is out-of-date. You will need to install it according to the steps below, rather than use the version provided by apt.
 
 `rbenv` is a version manager and installer for ruby runtimes. It allows you to install the correct version of ruby for each project that you are working on.
@@ -113,7 +113,7 @@ In the Primero top-level directory, there is a file `.ruby-version`, which conta
 cat .ruby-version
 # This will print something like: ruby-3.2.2
 # rbenv needs the version number, but not the ruby- prefix.
-rbenv install 3.2.2 # replace 3.2.2 with whatever version is in .ruby-version
+rbenv install 3.2.3 # replace 3.2.3 with whatever version is in .ruby-version
 ```
 
 It will take several minutes to build and install ruby, depending on the speed of your machine.
@@ -121,7 +121,7 @@ Once you have succeeded in installing ruby, it is worth checking that you are no
 
 ```bash
 ruby --version
-# This should print something like: ruby 3.2.2 (or whatever the current version in the .ruby-version is)
+# This should print something like: ruby 3.2.3 (or whatever the current version in the .ruby-version is)
 ```
 
 ## Installing node using `nvm`
@@ -145,9 +145,9 @@ nvm install --lts
 ```
 ## Installing Docker and docker-compose
 
-> [!NOTE] 
+> [!NOTE]
 > If you already have docker and docker-compose, skip this step.
-> 
+>
 > Docker can be installed in a number of different ways. As we are primarily using docker as a convenient way of running a database locally, it doesn't matter how it is installed.
 
 Install docker using apt:
@@ -222,7 +222,7 @@ The following bash command will generate a secure secret for each of these and a
 
 ```bash
 for v in PRIMERO_SECRET_KEY_BASE DEVISE_SECRET_KEY DEVISE_JWT_SECRET_KEY;
-do echo "export ${v}=$(openssl rand -hex 16)" >> ~/.bashrc; 
+do echo "export ${v}=$(openssl rand -hex 16)" >> ~/.bashrc;
 done;
 ```
 
@@ -258,7 +258,7 @@ Log in using the default credentials `primero/primer0!`.
 
 ![Logging into Primero](dao/Attachments/login.webp)
 
-The version of Primero you will have configured by default is largely the same as CPIMS+. If you need a different configuration of Primero, for example, GBVIMS+, you will need to contact UNICEF and request access to the official configurations repository. 
+The version of Primero you will have configured by default is largely the same as CPIMS+. If you need a different configuration of Primero, for example, GBVIMS+, you will need to contact UNICEF and request access to the official configurations repository.
 
 # Running Linters - RuboCop & ESLint
 

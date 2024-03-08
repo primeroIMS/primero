@@ -3,7 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 source 'https://rubygems.org'
-ruby '3.2.2'
+ruby '3.2.3'
 
 gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
 gem 'aws-sdk-s3',          '~> 1.130', # Access and manage Amazon S3 storage (with ActiveStorage).
@@ -34,7 +34,7 @@ gem 'prawn-table',         '~> 0.2'    # PDF generation
 gem 'puma',                '~> 6.4'    # Ruby Rack server
 gem 'rack',                '~> 2.2'
 gem 'rack-attack',         '>= 6.6'    # Rack middleware to rate limit sensetive routes, such as those used for auth
-gem 'rails',               '6.1.7.6'
+gem 'rails',               '6.1.7.7'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files
@@ -46,7 +46,7 @@ gem 'sunspot_rails',       '~> 2.6'    # Rails ODM bindings to Solr
 gem 'sunspot_solr',        '~> 2.6'    # Ruby bindings to Solr
 gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
 gem 'tzinfo-data',         '~> 1.2023' # Timezone Data for TZInfo
-gem 'uri',                 '>= 0.12.2' # CVE-2023-36617: ReDoS vulnerability in URI
+gem 'uri',                 '~> 0.12'   # CVE-2023-36617: ReDoS vulnerability in URI
 gem 'web-push',            '~> 3.0'
 gem 'will_paginate',       '~> 4.0'    # Paginates ActiveRecord models  TODO: This can be refactored away.
 gem 'write_xlsx',          '~> 1.11'   # Exports XLSX
