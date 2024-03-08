@@ -7,6 +7,30 @@
 module MonitoringReportingMechanism
   extend ActiveSupport::Concern
 
+  ASSOCIATION_MAPPING = {
+    'armed_force_group_party_name' => 'armed_force_group_party_names',
+    'ctfmr_verified' => 'verification_status',
+    'facilty_victims_held' => 'victim_facilty_victims_held'
+  }.freeze
+
+  ASSOCIATION_FIELDS = {
+    'individual_victims' => %w[
+      individual_age individual_sex victim_deprived_liberty_security_reasons reasons_deprivation_liberty
+      facilty_victims_held torture_punishment_while_deprivated_liberty
+    ],
+    'perpetrators' => %w[armed_force_group_party_name perpetrator_category],
+    'violations' => %w[
+      verified_ghn_reported weapon_type facility_impact facility_attack_type child_role abduction_purpose_single
+      military_use_type types_of_aid_disrupted_denial ctfmr_verified_date ctfmr_verified
+    ]
+  }.freeze
+
+  VIOLATION_TYPED_FIELDS = {
+    'violation_with_verification_status' => 'ctfmr_verified',
+    'violation_with_weapon_type' => 'weapon_type',
+    'violation_with_facility_impact' => 'facility_impact'
+  }.freeze
+
   included do
     searchable do
       %i[
@@ -22,128 +46,102 @@ module MonitoringReportingMechanism
       date(:ctfmr_verified_date, multiple: true)
       boolean(:has_late_verified_violations) { late_verified_violations? }
     end
+
+    # TODO: For now we are storing the associations fields in the incident data, but at some point we should be able
+    # to extend our filters in order to query the association directly.
+    store_accessor(
+      :data, :individual_violations, :individual_age, :individual_sex, :victim_deprived_liberty_security_reasons,
+      :reasons_deprivation_liberty, :victim_facilty_victims_held, :torture_punishment_while_deprivated_liberty,
+      :violation_with_verification_status, :late_verified_violations, :has_late_verified_violations,
+      :verification_status, :armed_force_group_party_names, :perpetrator_category, :verified_ghn_reported,
+      :weapon_type, :facility_impact, :facility_attack_type, :violation_with_weapon_type, :child_role,
+      :abduction_purpose_single, :violation_with_facility_impact, :violation_with_facility_attack_type,
+      :military_use_type, :types_of_aid_disrupted_denial, :ctfmr_verified_date
+    )
   end
 
-  def individual_violations
-    individual_victims.map { |individual_victim| individual_victim.violations.map(&:type) }.flatten.uniq.compact
+  def recalculate_association_fields
+    stamp_association_fields
+    stamp_fields_with_violation_type
+    calculate_individual_violations
+    calculate_late_verified_violations
+    calculate_has_late_verified_violations
+    calculate_violation_with_facility_attack_type
   end
 
-  def individual_age
-    individual_victims.map(&:individual_age).uniq.compact
+  def stamp_association_fields
+    ASSOCIATION_FIELDS.each do |(association, field_names)|
+      send(association).each do |elem|
+        field_names.each { |field_name| add_association_value(field_name, elem.send(field_name)) }
+      end
+    end
   end
 
-  def individual_sex
-    individual_victims.map(&:individual_sex).uniq.compact
+  def stamp_fields_with_violation_type
+    violations.each do |violation|
+      next unless violation.type.present?
+
+      VIOLATION_TYPED_FIELDS.each do |(field_name, violation_field_name)|
+        add_association_value(field_name, violation.send(violation_field_name), violation.type)
+      end
+    end
   end
 
-  def victim_deprived_liberty_security_reasons
-    individual_victims.map(&:victim_deprived_liberty_security_reasons).uniq.compact
+  def add_association_value(field_name, value, type = nil)
+    return unless value.present?
+
+    field = ASSOCIATION_MAPPING[field_name] || field_name
+    data[field] = [] unless data[field].present?
+    field_value = type.present? ? "#{type}_#{value}" : value
+    add_field_value(field, field_value)
   end
 
-  def reasons_deprivation_liberty
-    individual_victims.map(&:reasons_deprivation_liberty).uniq.compact
+  def add_field_value(field, value)
+    if value.is_a?(Array)
+      value.each { |elem| data[field] << elem if data[field].exclude?(elem) }
+    elsif data[field].exclude?(value)
+      data[field] << value
+    end
   end
 
-  def victim_facilty_victims_held
-    individual_victims.map(&:facilty_victims_held).uniq.compact
+  def calculate_individual_violations
+    self.individual_violations = individual_victims.map do |individual_victim|
+      individual_victim.violations.map(&:type)
+    end.flatten.uniq.compact
+
+    individual_violations
   end
 
-  def torture_punishment_while_deprivated_liberty
-    individual_victims.map(&:torture_punishment_while_deprivated_liberty).uniq.compact
-  end
-
-  def violation_with_verification_status
-    violations.each_with_object([]) do |violation, memo|
-      next unless violation.type.present? && violation.ctfmr_verified.present?
-
-      memo << "#{violation.type}_#{violation.ctfmr_verified}"
-    end.uniq
-  end
-
-  def late_verified_violations
-    violations.each_with_object([]) do |violation, memo|
+  def calculate_late_verified_violations
+    self.late_verified_violations = violations.each_with_object([]) do |violation, memo|
       next unless violation.type.present? && violation.is_late_verification
 
       memo << violation.type
     end.uniq
+
+    late_verified_violations
+  end
+
+  def calculate_has_late_verified_violations
+    self.has_late_verified_violations = violations.any?(&:is_late_verification)
+
+    has_late_verified_violations
   end
 
   def late_verified_violations?
-    violations.any?(&:is_late_verification)
+    has_late_verified_violations
   end
 
-  def verification_status
-    violations.map(&:ctfmr_verified).uniq.compact
-  end
-
-  def armed_force_group_party_names
-    perpetrators.map(&:armed_force_group_party_name).uniq.compact
-  end
-
-  def perpetrator_category
-    perpetrators.map(&:perpetrator_category).uniq.compact
-  end
-
-  def verified_ghn_reported
-    violations.map(&:verified_ghn_reported).uniq.compact
-  end
-
-  def weapon_type
-    violations.map(&:weapon_type).uniq.compact
-  end
-
-  def facility_impact
-    violations.map(&:facility_impact).uniq.compact
-  end
-
-  def facility_attack_type
-    violations.map(&:facility_attack_type).uniq.compact
-  end
-
-  def violation_with_weapon_type
-    violations.each_with_object([]) do |violation, memo|
-      next unless violation.type.present? && violation.weapon_type.present?
-
-      memo << "#{violation.type}_#{violation.weapon_type}"
-    end.uniq
-  end
-
-  def violation_with_facility_impact
-    violations.each_with_object([]) do |violation, memo|
-      next unless violation.type.present? && violation.facility_impact.present?
-
-      memo << "#{violation.type}_#{violation.facility_impact}"
-    end.uniq
-  end
-
-  def child_role
-    violations.map(&:child_role).uniq.compact
-  end
-
-  def abduction_purpose_single
-    violations.map(&:abduction_purpose_single).uniq.compact
-  end
-
-  def violation_with_facility_attack_type
-    violations.each_with_object([]) do |violation, memo|
+  def calculate_violation_with_facility_attack_type
+    self.violation_with_facility_attack_type = violations.each_with_object([]) do |violation, memo|
       next unless violation.type.present? && violation.facility_attack_type.present?
 
       violation.facility_attack_type.each do |attack_type|
         memo << "#{violation.type}_#{attack_type}"
       end
     end.uniq
-  end
 
-  def military_use_type
-    violations.map(&:military_use_type).uniq.compact
-  end
-
-  def types_of_aid_disrupted_denial
-    violations.map(&:types_of_aid_disrupted_denial).uniq.compact
-  end
-
-  def ctfmr_verified_date
-    violations.map(&:ctfmr_verified_date).uniq.compact
+    violation_with_facility_attack_type
   end
 end
 # rubocop:enable Metrics/ModuleLength

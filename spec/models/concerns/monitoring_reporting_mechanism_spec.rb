@@ -5,7 +5,7 @@
 require 'rails_helper'
 
 describe MonitoringReportingMechanism, search: true do
-  let(:user_1) do
+  let(:user1) do
     primero_module = PrimeroModule.new(name: 'CP')
 
     role = Role.new(permissions: [], modules: [primero_module])
@@ -18,9 +18,9 @@ describe MonitoringReportingMechanism, search: true do
     user
   end
 
-  let(:incident_1) do
+  let(:incident1) do
     incident1 = Incident.new_with_user(
-      user_1,
+      user1,
       {
         'incident_date' => '2022-04-08',
         'killing' => [
@@ -28,7 +28,7 @@ describe MonitoringReportingMechanism, search: true do
             'unique_id' => 'b23b70de-9132-4c89-be8d-57e85a69ec68',
             'ctfmr_verified' => 'verified',
             'ctfmr_verified_date' => Date.today.beginning_of_quarter,
-            'verified_ghn_reported' => ['2022-q2'],
+            'verified_ghn_reported' => '2022-q2',
             'type' => 'killing'
           }
         ],
@@ -58,14 +58,14 @@ describe MonitoringReportingMechanism, search: true do
     incident1
   end
 
-  let(:incident_2) do
+  let(:incident2) do
     incident2 = Incident.new_with_user(
-      user_1,
+      user1,
       {
         'killing' => [
           {
             'unique_id' => 'f37ccb6e-9f85-473e-890e-7037e8ece397',
-            'verified_ghn_reported' => ['2022-q1'],
+            'verified_ghn_reported' => '2022-q1',
             'type' => 'killing',
             'ctfmr_verified_date' => Date.today.end_of_quarter,
             'weapon_type' => 'airstrike'
@@ -108,9 +108,9 @@ describe MonitoringReportingMechanism, search: true do
     incident2
   end
 
-  let(:incident_3) do
+  let(:incident3) do
     incident3 = Incident.new_with_user(
-      user_1,
+      user1,
       {
         'killing' => [
           { 'type' => 'killing', 'ctfmr_verified' => 'not_mrm', 'ctfmr_verified_date' => Date.today.end_of_quarter }
@@ -125,9 +125,9 @@ describe MonitoringReportingMechanism, search: true do
     incident3
   end
 
-  let(:incident_4) do
+  let(:incident4) do
     incident4 = Incident.new_with_user(
-      user_1,
+      user1,
       {
         'military_use' => [
           {
@@ -151,9 +151,9 @@ describe MonitoringReportingMechanism, search: true do
     incident4
   end
 
-  let(:incident_5) do
+  let(:incident5) do
     incident5 = Incident.new_with_user(
-      user_1,
+      user1,
       {
         'attack_on_hospitals' => [
           {
@@ -173,39 +173,39 @@ describe MonitoringReportingMechanism, search: true do
 
   before do
     clean_data(User, UserGroup, Role, PrimeroModule, Incident, Violation, IndividualVictim)
-    incident_1
-    incident_2
-    incident_3
-    incident_4
-    incident_5
+    incident1
+    incident2
+    incident3
+    incident4
+    incident5
     Incident.reindex
     Sunspot.commit
   end
 
   it 'can find incidents where individual victims are linked to a violation type' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'individual_violations', value: 'maiming')
+        SearchFilters::TextValue.new(field_name: 'individual_violations', value: 'maiming')
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_2.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident2.id)
   end
 
   it 'can find incidents where individual victims have an age' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'individual_age', value: '10')
+        SearchFilters::Value.new(field_name: 'individual_age', value: 10)
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_1.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident1.id)
   end
 
   it 'contains the violations with verification status' do
-    expect(incident_3.violation_with_verification_status).to match_array(
+    expect(incident3.violation_with_verification_status).to match_array(
       %w[
         killing_not_mrm maiming_report_pending_verification
       ]
@@ -213,276 +213,291 @@ describe MonitoringReportingMechanism, search: true do
   end
 
   it 'can find an incident with a violation of type killing and verified' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'violation_with_verification_status', value: 'killing_verified')
+        SearchFilters::TextValue.new(field_name: 'violation_with_verification_status', value: 'killing_verified')
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_1.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident1.id)
   end
 
   it 'can find incidents where individual victims have a sex' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'individual_sex', value: 'female')
+        SearchFilters::TextValue.new(field_name: 'individual_sex', value: 'female')
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_2.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident2.id)
   end
 
   it 'can find incidents where individual victims have a victim_deprived_liberty_security_reasons' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'victim_deprived_liberty_security_reasons', value: 'unknown')
+        SearchFilters::TextValue.new(field_name: 'victim_deprived_liberty_security_reasons', value: 'unknown')
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_2.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident2.id)
   end
 
   it 'can find incidents where individual victims have a reasons_deprivation_liberty' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'reasons_deprivation_liberty', value: 'reason_1')
+        SearchFilters::TextValue.new(field_name: 'reasons_deprivation_liberty', value: 'reason_1')
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_1.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident1.id)
   end
 
   it 'can find incidents where individual victims have a facilty_victims_held' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'victim_facilty_victims_held', value: 'facility_2')
+        SearchFilters::TextValue.new(field_name: 'victim_facilty_victims_held', value: 'facility_2')
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_2.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident2.id)
   end
 
   it 'can find incidents where individual victims have a torture_punishment_while_deprivated_liberty' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(
+        SearchFilters::TextValue.new(
           field_name: 'torture_punishment_while_deprivated_liberty', value: 'no'
         )
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_1.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident1.id)
   end
 
   it 'can find an incident with a violation of type maiming and report_pending_verification' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(
+        SearchFilters::TextValue.new(
           field_name: 'violation_with_verification_status', value: 'maiming_report_pending_verification'
         )
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_3.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident3.id)
   end
 
   it 'can find an incident by verification_status' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'verification_status', value: 'not_mrm')
+        SearchFilters::TextValue.new(field_name: 'verification_status', value: 'not_mrm')
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_3.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident3.id)
   end
 
   it 'can find an incident by armed_force_group_party_names' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'armed_force_group_party_names', value: 'other')
+        SearchFilters::TextValue.new(field_name: 'armed_force_group_party_names', value: 'other')
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_2.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident2.id)
   end
 
   it 'can find an incident by verified_ghn_reported' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
         SearchFilters::ValueList.new(field_name: 'verified_ghn_reported', values: %w[2022-q1 2022-q2])
       ],
-      sort: { 'short_id': 'asc' }
-    ).results
+      sort: { 'short_id' => 'asc' }
+    )
 
-    expect(search_result.size).to eq(2)
-    expect(search_result.map(&:id)).to match_array([incident_1.id, incident_2.id])
+    expect(search_result.total).to eq(2)
+    expect(search_result.records.map(&:id)).to match_array([incident1.id, incident2.id])
   end
 
   it 'can find an incident by violation_with_weapon_type' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'violation_with_weapon_type', value: 'killing_airstrike')
+        SearchFilters::TextValue.new(field_name: 'violation_with_weapon_type', value: 'killing_airstrike')
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_2.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident2.id)
   end
 
   it 'can find an incident by violation_with_facility_impact' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'violation_with_facility_impact', value: 'military_use_total_destruction')
+        SearchFilters::TextValue.new(field_name: 'violation_with_facility_impact', value: 'military_use_total_destruction')
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_4.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident4.id)
   end
 
   it 'can find an incident by child_role' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'child_role', value: 'combatant')
+        SearchFilters::TextValue.new(field_name: 'child_role', value: 'combatant')
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_4.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident4.id)
   end
 
   it 'can find an incident by abduction_purpose_single' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'abduction_purpose_single', value: 'extortion')
+        SearchFilters::TextValue.new(field_name: 'abduction_purpose_single', value: 'extortion')
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_4.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident4.id)
   end
 
   it 'can find an incident by violation_with_facility_attack_type' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(
+        SearchFilters::TextValue.new(
           field_name: 'violation_with_facility_attack_type',
           value: 'attack_on_hospitals_attack_on_medical_personnel'
         )
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_5.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident5.id)
   end
 
   it 'can find an incident by military_use_type' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'military_use_type', value: 'military_use_of_school')
+        SearchFilters::TextValue.new(field_name: 'military_use_type', value: 'military_use_of_school')
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_4.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident4.id)
   end
 
   it 'can find an incident by types_of_aid_disrupted_denial' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'types_of_aid_disrupted_denial', value: 'food')
+        SearchFilters::TextValue.new(field_name: 'types_of_aid_disrupted_denial', value: 'food')
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_5.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident5.id)
   end
 
   it 'can find an incident by facility_attack_type' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(
+        SearchFilters::TextValue.new(
           field_name: 'facility_attack_type',
           value: 'threat_of_attack_on_hospital_s'
         )
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_5.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident5.id)
   end
 
   it 'can find an incident by facility_impact' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(
+        SearchFilters::TextValue.new(
           field_name: 'facility_impact',
           value: 'serious_damage'
         )
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_5.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident5.id)
   end
 
   it 'can find an incident by weapon_type' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'weapon_type', value: 'baton')
+        SearchFilters::TextValue.new(field_name: 'weapon_type', value: 'baton')
       ]
-    ).results
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_4.id)
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident4.id)
   end
 
   it 'can find an incident with a late verified violation' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
         SearchFilters::ValueList.new(field_name: 'late_verified_violations', values: %w[killing])
       ],
-      sort: { 'short_id': 'asc' }
-    ).results
+      sort: { 'short_id' => 'asc' }
+    )
 
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_1.id)
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident1.id)
   end
 
   it 'can find an incident by type of perpetrator' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
         SearchFilters::ValueList.new(field_name: 'perpetrator_category', values: %w[crossfire])
       ],
-      sort: { 'short_id': 'asc' }
-    ).results
+      sort: { 'short_id' => 'asc' }
+    )
 
-    expect(search_result.size).to eq(1)
-    expect(search_result.first.id).to eq(incident_1.id)
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident1.id)
   end
 
   it 'can find an incident by ctfmr_verified_date' do
-    search_result = SearchService.search(
+    search_result = PhoneticSearchService.search(
       Incident,
       filters: [
         SearchFilters::ValueList.new(field_name: 'ctfmr_verified_date', values: [Date.today.end_of_quarter])
       ],
-      sort: { 'short_id': 'asc' }
-    ).results
+      sort: { 'short_id' => 'asc' }
+    )
 
-    expect(search_result.size).to eq(2)
-    expect(search_result.map(&:id)).to match_array([incident_2.id, incident_3.id])
+    expect(search_result.total).to eq(2)
+    expect(search_result.records.map(&:id)).to match_array([incident2.id, incident3.id])
+  end
+
+  it 'the records has been stamped with fields from violations' do
+    expect(incident1.individual_violations).to match_array(%w[killing])
+    expect(incident1.individual_sex).to match_array(%w[male])
+    expect(incident1.victim_deprived_liberty_security_reasons).to match_array(%w[yes])
+    expect(incident1.reasons_deprivation_liberty).to match_array(%w[reason_1])
+    expect(incident1.victim_facilty_victims_held).to match_array(%w[facility_1])
+    expect(incident1.torture_punishment_while_deprivated_liberty).to match_array(%w[no])
+    expect(incident1.armed_force_group_party_names).to match_array(%w[armed_force_1])
+    expect(incident1.perpetrator_category).to match_array(%w[crossfire])
+    expect(incident1.violation_with_verification_status).to match_array(%w[killing_verified])
+    expect(incident1.verified_ghn_reported).to match_array(%w[2022-q2])
+    expect(incident1.ctfmr_verified_date).to match_array([Date.today.beginning_of_quarter])
+    expect(incident5.facility_attack_type).to match_array(%w[attack_on_medical_personnel threat_of_attack_on_hospital_s])
   end
 end

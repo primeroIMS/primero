@@ -38,7 +38,7 @@ class Incident < ApplicationRecord
   has_many :individual_victims, through: :violations
   has_many :sources, through: :violations
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
-  after_save :save_violations_and_associations
+  before_save :save_violations_and_associations
 
   class << self
     alias super_new_with_user new_with_user
@@ -242,7 +242,12 @@ class Incident < ApplicationRecord
   def save_violations_and_associations
     save_violations
     save_violations_associations
-    reindex_violations_and_associations if @violations_to_save.present? || @associations_to_save.present?
+
+    return unless @violations_to_save.present? || @associations_to_save.present?
+
+    reindex_violations_and_associations
+    recalculate_association_fields
+    Sunspot.index(self)
   end
 
   # TODO: This method will trigger queries to reload the violations and associations in order to index the latest data
@@ -251,12 +256,10 @@ class Incident < ApplicationRecord
 
     violations.reload if @violations_to_save.present? || association_classes.include?(Source)
 
-    if association_classes.present?
-      individual_victims.reload if association_classes.include?(IndividualVictim)
-      perpetrators.reload if association_classes.include?(Perpetrator)
-    end
+    return unless association_classes.present?
 
-    Sunspot.index(self)
+    individual_victims.reload if association_classes.include?(IndividualVictim)
+    perpetrators.reload if association_classes.include?(Perpetrator)
   end
 
   def association_classes_to_save
