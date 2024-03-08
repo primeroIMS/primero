@@ -1,26 +1,28 @@
 import { Box, FormControl, MenuItem, Select } from "@material-ui/core";
+import PropTypes from "prop-types";
+
 import useOptions from "../../../../../../form/use-options";
 import { LOOKUPS } from "../../../../../../../config";
-import css from "./styles.css"
-import PropTypes from "prop-types";
+
+import css from "./styles.css";
 
 const MENU_PROPS = {
   getContentAnchorEl: null,
   anchorOrigin: {
     vertical: "bottom",
-    horizontal: 'left'
+    horizontal: "left"
   },
   transformOrigin: {
     vertical: "top",
-    horizontal: 'left'
+    horizontal: "left"
   }
-}
+};
 
 const Component = ({ selectedValue, setSelectedValue }) => {
-
   const verificationStatus = useOptions({ source: LOOKUPS.verification_status });
 
-  const handleChange = (event) => { // Change dropdown value
+  const handleChange = event => {
+    // Change dropdown value
     setSelectedValue(event.target.value);
   };
 
@@ -28,9 +30,12 @@ const Component = ({ selectedValue, setSelectedValue }) => {
 
   return (
     <Box className={css.selectWrapper}>
-      <FormControl fullWidth classes={{
-        root: css.verifyFormControlRoot
-      }}>
+      <FormControl
+        fullWidth
+        classes={{
+          root: css.verifyFormControlRoot
+        }}
+      >
         <Select
           value={selectedValue}
           onChange={handleChange}
@@ -43,16 +48,21 @@ const Component = ({ selectedValue, setSelectedValue }) => {
           variant="outlined"
           fullWidth
         >
-          {
-            verificationStatus.map((option) => (
-              <MenuItem key={option.id} value={option.id} style={{ display: option.id === (selectedValue) ? 'none' : 'block' }}>{option.display_text}</MenuItem>
-            ))
-          }
+          {verificationStatus.map(option => (
+            <MenuItem
+              key={option.id}
+              value={option.id}
+              style={{ display: option.id === selectedValue ? "none" : "block" }}
+            >
+              {option.display_text}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </Box>
   );
-}
+};
+
 Component.propTypes = {
   selectedValue: PropTypes.string,
   setSelectedValue: PropTypes.string
