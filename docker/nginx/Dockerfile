@@ -1,9 +1,9 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
- ARG version=1.23.3
 ARG BUILD_REGISTRY
 
-FROM ${BUILD_REGISTRY}nginx:${version}-alpine AS builder
+# TODO: Although the rest of Primero uses Alpine 3.19 base images, Nginx doesn't have one.
+FROM ${BUILD_REGISTRY}nginx:1.25.4-alpine3.18 AS builder
 
 ARG version
 
