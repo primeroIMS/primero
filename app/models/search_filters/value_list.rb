@@ -4,7 +4,7 @@
 
 # Transform API query parameter field_name=value1,value2,... into a Sunspot query
 class SearchFilters::ValueList < SearchFilters::SearchFilter
-  attr_accessor :field_name, :values
+  attr_accessor :values
 
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Style/HashEachMethods
@@ -25,8 +25,14 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
   # rubocop:enable Style/HashEachMethods
   # rubocop:enable Metrics/MethodLength
 
-  # rubocop:disable Metrics/MethodLength
   def query
+    return list_query unless location_filter
+
+    location_list_query
+  end
+
+  # rubocop:disable Metrics/MethodLength
+  def list_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
         %(
@@ -43,6 +49,34 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
               ) OR (
                 JSONB_TYPEOF(data->:field_name) != 'array'
                 AND data->:field_name <@ JSONB_BUILD_ARRAY(:values)
+              )
+            )
+          )
+        ),
+        { field_name:, values: }
+      ]
+    )
+  end
+  # rubocop:enable Metrics/MethodLength
+
+  # rubocop:disable Metrics/MethodLength
+  def location_list_query
+    ActiveRecord::Base.sanitize_sql_for_conditions(
+      [
+        %(
+          (
+            data ? :field_name AND data->>:field_name IS NOT NULL AND EXISTS
+            (
+              SELECT
+                1
+              FROM locations
+              INNER JOIN locations AS descendants
+              ON locations.admin_level <= descendants.admin_level
+                AND locations.hierarchy_path @> descendants.hierarchy_path
+              WHERE locations.location_code IN (:values) AND (
+                (JSONB_TYPEOF(data->:field_name) = 'array' AND data->'field_name' ? descendants.location_code) OR (
+                  JSONB_TYPEOF(data->:field_name) != 'array' AND descendants.location_code = data->>:field_name
+                )
               )
             )
           )

@@ -90,6 +90,10 @@ module Searchable
         %w[owned_by_location] + searchable_location_fields + Field.all_location_field_names(parent_form)
       ).uniq
     end
+
+    def searchable_location_field?(field_name)
+      searchable_location_fields.include?(field_name)
+    end
   end
 
   # Helpers to index text fields

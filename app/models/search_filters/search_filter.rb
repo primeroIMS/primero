@@ -6,7 +6,7 @@
 class SearchFilters::SearchFilter < ValueObject
   OPERATORS = %w[= > < >= <=].freeze
 
-  attr_accessor :not_filter
+  attr_accessor :field_name, :location_filter, :not_filter
 
   def initialize(args = {})
     super(args)
@@ -39,6 +39,10 @@ class SearchFilters::SearchFilter < ValueObject
 
   def id_field_filter?(record_class)
     record_class.filterable_id_fields.include?(field_name)
+  end
+
+  def reporting_location_filter?
+    field_name.match?(/[a-zA-Z]+\d{1}/)
   end
 
   def location_field_name_solr(field_name, location_code)
