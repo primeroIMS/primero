@@ -111,7 +111,7 @@ In the Primero top-level directory, there is a file `.ruby-version`, which conta
 
 ```bash
 cat .ruby-version
-# This will print something like: ruby-3.2.2
+# This will print something like: ruby-3.2.3
 # rbenv needs the version number, but not the ruby- prefix.
 rbenv install 3.2.3 # replace 3.2.3 with whatever version is in .ruby-version
 ```

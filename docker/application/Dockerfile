@@ -1,6 +1,6 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
- # -------------------------------------------------------------------- BUILD STAGE
+# -------------------------------------------------------------------- BUILD STAGE
 ARG BUILD_REGISTRY
 FROM ${BUILD_REGISTRY}ruby:3.2.3-alpine3.19 AS build-env
 
