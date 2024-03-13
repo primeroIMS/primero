@@ -121,7 +121,6 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
           onChange={handleDropdownDate}
           id="date-picker-inline"
           disableFuture
-          clearable
           format={DATE_FORMAT}
         />
       </div>
