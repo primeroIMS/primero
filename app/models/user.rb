@@ -35,8 +35,8 @@ class User < ApplicationRecord
         'notifications' => {
           'type' => 'object',
           'properties' => {
-            'send_mail' => { 'type' => 'array' },
-            'receive_webpush' => { 'type' => 'array' }
+            'send_mail' => { 'type' => 'object' },
+            'receive_webpush' => { 'type' => 'object' }
           }
         }
       }
@@ -155,7 +155,7 @@ class User < ApplicationRecord
         [
           { 'user_group_ids' => [] }, { 'user_group_unique_ids' => [] },
           { 'module_unique_ids' => [] }, 'role_unique_id', 'identity_provider_unique_id',
-          { 'settings' => { 'notifications' => { 'send_mail' => [], 'receive_webpush' => [] } } }
+          { 'settings' => { 'notifications' => { 'send_mail' => {}, 'receive_webpush' => {} } } }
         ]
       ) - User.hidden_attributes
     end
@@ -568,7 +568,7 @@ class User < ApplicationRecord
   def specific_notification?(notifier, action)
     return false if notifier.blank? || action.blank?
 
-    (notifications&.[](notifier) || []).include?(action)
+    (notifications&.[](notifier) || {}).select { |_key, value| value }.keys.include?(action)
   end
 
   private

@@ -21,15 +21,23 @@ import {
   USER_GROUP_UNIQUE_IDS,
   USERGROUP_PRIMERO_GBV,
   FIELD_NAMES,
+  NOTIFIERS,
   NOTIFICATIONS_PREFERENCES
 } from "./constants";
+import css from "./styles.css";
 
 const passwordPlaceholder = formMode => (formMode.get("isEdit") ? "•••••" : "");
 
-const notificationPreferences = i18n =>
+const notificationPreferences = (i18n, notifier) =>
   NOTIFICATIONS_PREFERENCES.map(preferences => ({
-    id: preferences,
-    display_text: i18n.t(`user.notification_preferences.${preferences}`)
+    display_name: i18n.t(`user.notification_preferences.${preferences}`),
+    name: FIELD_NAMES[`${notifier}_${preferences.toUpperCase()}`],
+    type: TICK_FIELD,
+    inputClassname: css.settingsChildField,
+    watchedInputs: FIELD_NAMES[notifier],
+    handleWatchedInputs: value => ({
+      visible: Boolean(value)
+    })
   }));
 
 const sharedUserFields = (
@@ -205,18 +213,7 @@ const sharedUserFields = (
     type: TICK_FIELD,
     selected_value: formMode.get("isNew")
   },
-  {
-    display_name: i18n.t("user.send_mail_preferences.label"),
-    name: FIELD_NAMES.SEND_MAIL_PREFERENCES,
-    type: SELECT_FIELD,
-    multi_select: true,
-    help_text: i18n.t("user.send_mail_preferences.help_text"),
-    option_strings_text: notificationPreferences(i18n),
-    watchedInputs: FIELD_NAMES.SEND_MAIL,
-    handleWatchedInputs: value => ({
-      visible: Boolean(value)
-    })
-  },
+  ...notificationPreferences(i18n, NOTIFIERS.send_mail),
   {
     display_name: i18n.t("user.receive_webpush.label"),
     name: FIELD_NAMES.RECEIVE_WEBPUSH,
@@ -224,18 +221,7 @@ const sharedUserFields = (
     help_text: i18n.t("user.receive_webpush.help_text"),
     visible: webPushConfig?.get("enabled", false)
   },
-  {
-    display_name: i18n.t("user.receive_webpush_preferences.label"),
-    name: FIELD_NAMES.RECEIVE_WEBPUSH_PREFERENCES,
-    type: SELECT_FIELD,
-    multi_select: true,
-    help_text: i18n.t("user.receive_webpush_preferences.help_text"),
-    option_strings_text: notificationPreferences(i18n),
-    watchedInputs: FIELD_NAMES.RECEIVE_WEBPUSH,
-    handleWatchedInputs: value => ({
-      visible: Boolean(value)
-    })
-  }
+  ...notificationPreferences(i18n, NOTIFIERS.receive_webpush)
 ];
 
 const identityUserFields = (i18n, identityOptions) => [

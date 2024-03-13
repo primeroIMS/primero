@@ -31,10 +31,10 @@ describe RecordActionMailer, type: :mailer do
   let(:notification_settings) do
     {
       notifications: {
-        send_mail: [
-          Transition::NOTIFICATION_ACTION, Approval::NOTIFICATION_ACTIONS_REQUEST,
-          Approval::NOTIFICATION_ACTIONS_RESPONSE, Transfer::NOTIFICATION_ACTION
-        ]
+        send_mail: {
+          Transition::NOTIFICATION_ACTION => true, Approval::NOTIFICATION_ACTIONS_REQUEST => true,
+          Approval::NOTIFICATION_ACTIONS_RESPONSE => true, Transfer::NOTIFICATION_ACTION => true
+        }
       }
     }
   end
@@ -269,9 +269,9 @@ describe RecordActionMailer, type: :mailer do
         locale: 'ar-LB',
         settings: {
           notifications: {
-            send_mail: [
-              Approval::NOTIFICATION_ACTIONS_REQUEST
-            ]
+            send_mail: {
+              Approval::NOTIFICATION_ACTIONS_REQUEST => true
+            }
           }
         }
       )

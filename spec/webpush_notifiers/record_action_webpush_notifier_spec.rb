@@ -30,10 +30,10 @@ describe RecordActionWebpushNotifier do
   let(:notification_settings) do
     {
       notifications: {
-        receive_webpush: [
-          Transition::NOTIFICATION_ACTION, Approval::NOTIFICATION_ACTIONS_REQUEST,
-          Approval::NOTIFICATION_ACTIONS_RESPONSE, Transfer::NOTIFICATION_ACTION
-        ]
+        receive_webpush: {
+          Transition::NOTIFICATION_ACTION => true, Approval::NOTIFICATION_ACTIONS_REQUEST => true,
+          Approval::NOTIFICATION_ACTIONS_RESPONSE => true, Transfer::NOTIFICATION_ACTION => true
+        }
       }
     }
   end
