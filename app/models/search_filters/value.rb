@@ -4,6 +4,8 @@
 
 # Transform API query parameter field_name=value into a Sunspot query
 class SearchFilters::Value < SearchFilters::SearchFilter
+  attr_accessor :value
+
   def query_scope(sunspot)
     this = self
     sunspot.instance_eval do
