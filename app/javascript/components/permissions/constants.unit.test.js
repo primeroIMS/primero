@@ -119,6 +119,7 @@ describe("Verifying config constant", () => {
       "WORKFLOW_REPORT",
       "SYNC_EXTERNAL",
       "TRANSFER",
+      "VERIFY_MRM",
       "VIEW_FAMILY_RECORD",
       "VIEW_INCIDENT_FROM_CASE",
       "VIEW_REGISTRY_RECORD",

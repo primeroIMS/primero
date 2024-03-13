@@ -1504,6 +1504,7 @@ en:
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
   incidents:
+    change_status: Change Status
     disable_dialog: Clicking OK will change the status of this incident to Disabled.
     disable_dialog_title: Disable Incident
     disable_success: Successfully disabled incident
@@ -1585,6 +1586,7 @@ en:
     survivor_code: Survivor Code
     show_incident: 'Incident ID %{short_id}'
     social_worker: Social Worker
+    verify_mrm: Verify MRM
     violation_type: Violation Type
     violence_type: Violence Type
     type_violence: Type of Violence
@@ -2393,6 +2395,7 @@ en:
       transfer: Can be used for transfer
       user: Users
       user_group: User Groups
+      verify_mrm: Verify MRM
       view_approvals: View Approvals
       view_assessment: View Assessment
       view_photo: View Photo
@@ -3308,6 +3311,9 @@ en:
               also cannot sync their mobile devices with the web application in general,
               meaning that they cannot use the mobile app to manage incidents.
             label: Sync with mobile device
+          verify_mrm:
+            explanation: MRM user can change the status of violations.
+            label: Verify MRM
           write:
             explanation: Ability to click the "Edit" button, update information about
               the incident, and click "Save". Also allows the user to disable or enable
