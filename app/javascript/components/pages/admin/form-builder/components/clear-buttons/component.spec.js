@@ -8,7 +8,7 @@ describe("<ClearButtons />", () => {
     ui: { dialogs: { admin_fields_dialog: true } }
   });
 
-  it("renders the clear group by button if subform_group_by is set", () => {
+  it("should not render the 'fields.clear_sort_by' text", () => {
     const props = {
       subformField: fromJS({ name: "field_1" }),
       subformGroupBy: "field_2"
@@ -19,10 +19,10 @@ describe("<ClearButtons />", () => {
 
     mountedComponent(<ClearButtons {...props} />, state, defaultValues);
 
-    expect(screen.getByText("fields.clear_group_by")).toBeInTheDocument();
+    expect(screen.queryByText("fields.clear_sort_by")).not.toBeInTheDocument();
   });
 
-  it("renders the clear sort by button if subform_sort_by is set", () => {
+  it("should not render the 'fields.clear_group_by' text", () => {
     const props = {
       subformField: fromJS({ name: "field_1" }),
       subformSortBy: "field_2"
@@ -32,7 +32,6 @@ describe("<ClearButtons />", () => {
     };
 
     mountedComponent(<ClearButtons {...props} />, state, defaultValues);
-
-    expect(screen.getByText("fields.clear_sort_by")).toBeInTheDocument();
+    expect(screen.queryByText("fields.clear_group_by")).not.toBeInTheDocument();
   });
 });
