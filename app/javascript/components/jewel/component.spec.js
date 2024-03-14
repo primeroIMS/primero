@@ -12,19 +12,19 @@ describe("<Jewel /> components/jewel", () => {
     };
 
     mountedComponent(<Jewel {...newProps} />);
-    expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "svg")).toBeInTheDocument();
-    expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "circle")).toBeInTheDocument();
+    expect(screen.getByTestId("Jewel-value")).toBeInTheDocument();
   });
 
   it("renders error and alert canvas", () => {
-    const newProps = {
+    const errorProps = {
       icon: <></>,
       isTransparent: false,
-      className: "MuiSvgIcon-root",
-      value: ["text"]
+      value: "Menu 1",
+      isForm: true,
+      isError: true
     };
 
-    mountedComponent(<Jewel {...newProps} />);
-    expect(screen.getByText("text")).toBeInTheDocument();
+    mountedComponent(<Jewel {...errorProps} />);
+    expect(screen.getByTestId("error-icon")).toBeInTheDocument();
   });
 });

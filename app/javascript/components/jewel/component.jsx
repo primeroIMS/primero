@@ -26,10 +26,10 @@ const Jewel = ({ value, isForm, isList, isError }) => {
         <>
           {value}
           {isError && <Circle className={classes} />}
-          <Circle className={css.circleForm} />
+          <Circle className={css.circleForm} data-testid="error-icon" />
         </>
       ) : (
-        <div className={css.root}>
+        <div className={css.root} data-testid="Jewel-value">
           <span>{value}</span>
           <Circle className={css.circle} />
         </div>
