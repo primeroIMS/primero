@@ -1,9 +1,8 @@
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "test-utils";
 
 import FlagBoxItem from "./component";
 
 describe("<FlagBoxItem />", () => {
-  let component;
   const props = {
     date: "2020-12-10",
     reason: "Reason 1",
@@ -13,22 +12,22 @@ describe("<FlagBoxItem />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(FlagBoxItem, props, {}));
+    mountedComponent(<FlagBoxItem {...props} />);
   });
 
   it("should render a h4 tag", () => {
-    expect(component.find("h4").text()).to.be.equal("User 1");
+    expect(screen.getByRole("heading")).toHaveTextContent("User 1");
   });
 
   it("should render a span tag", () => {
-    expect(component.find("span").at(0).text()).to.be.equal("2020-12-10");
+    expect(screen.getByText("2020-12-10")).toBeInTheDocument();
   });
 
   it("should render a p tag", () => {
-    expect(component.find("p").text()).to.be.equal("Reason 1");
+    expect(screen.getByText("Reason 1")).toBeInTheDocument();
   });
 
   it("should render a span tag", () => {
-    expect(component.find("span").at(1).text()).to.be.equal("primero_test");
+    expect(screen.getByText("primero_test")).toBeInTheDocument();
   });
 });

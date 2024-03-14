@@ -57,7 +57,7 @@ const PieChart = ({ data, labels, query }) => {
     };
   });
 
-  return <canvas ref={chartRef} />;
+  return <canvas ref={chartRef} data-testid="pie-chart" />;
 };
 
 PieChart.displayName = NAME;

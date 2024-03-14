@@ -1,12 +1,9 @@
+import { mountedComponent, screen } from "test-utils";
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../test";
-
-import FlagBoxItem from "./components/flag-box-item";
 import FlagBox from "./component";
 
 describe("<FlagBox />", () => {
-  let component;
   const props = {
     flags: fromJS([
       {
@@ -31,10 +28,10 @@ describe("<FlagBox />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(FlagBox, props, {}));
+    mountedComponent(<FlagBox {...props} />);
   });
 
   it("should render 2 FlagBoxItem", () => {
-    expect(component.find(FlagBoxItem)).to.have.lengthOf(2);
+    expect(screen.getAllByRole("button")).toHaveLength(2);
   });
 });
