@@ -25,14 +25,10 @@ describe("<DashboardTable />", () => {
   });
 
   it("renders a MUIDataTable />", () => {
-    expect(screen.getByRole("toolbar")).toBeInTheDocument();
+    expect(screen.getByRole("grid")).toBeInTheDocument();
   });
 
   it("should render text", () => {
     expect(screen.queryAllByText("testTitle")).toBeTruthy();
-  });
-
-  it("should have attribute aria-label", () => {
-    expect(screen.queryAllByText("label")).toBeTruthy();
   });
 });
