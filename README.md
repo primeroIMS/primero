@@ -2,18 +2,16 @@
 
 Primero
 ========
-[![Build Status](https://github.com/primeroIMS/primero/actions/workflows/app.yml/badge.svg)](https://github.com/primeroIMS/primero/actions)
+[![Build Status](https://github.com/primeroIMS/primero/actions/workflows/app.yml/badge.svg?branch=main)](https://github.com/primeroIMS/primero/actions)
 
 
 > [!WARNING]
-> **Primero v2.5 adds support for PostgreSQL 14!**
-> Support for PostgreSQL 10 is retained and remains the default when running using Ansible/Docker Compose. Please use this opportunity to upgrade! PostgreSQL 14 will be the default starting with Primero v2.6, and support for PostgreSQL 10 will be eventually dropped. See [here](doc/postgres_upgrade.md) for a recommended upgrade process.
+> **Primero v2.10 adds support for PostgreSQL 15!**
+> Support for PostgreSQL 14 is retained and remains the default when running using Ansible/Docker Compose. Please use this opportunity to upgrade! PostgreSQL 15 will be the default starting with Primero v2.11, and support for PostgreSQL 10 and 14 will be eventually dropped. See [here](doc/postgres_upgrade.md) for a recommended upgrade process.
 
 ## Development
 
 A guide to getting started with Primero development is available [here](doc/getting_started_development.md).
-
-
 
 ## Notes
 
