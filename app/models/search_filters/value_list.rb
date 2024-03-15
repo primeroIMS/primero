@@ -25,14 +25,8 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
   # rubocop:enable Style/HashEachMethods
   # rubocop:enable Metrics/MethodLength
 
-  def query
-    return list_query unless location_filter
-
-    location_list_query
-  end
-
   # rubocop:disable Metrics/MethodLength
-  def list_query
+  def query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
         %(
@@ -54,34 +48,6 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
           )
         ),
         { field_name:, values: }
-      ]
-    )
-  end
-  # rubocop:enable Metrics/MethodLength
-
-  # rubocop:disable Metrics/MethodLength
-  def location_list_query
-    ActiveRecord::Base.sanitize_sql_for_conditions(
-      [
-        %(
-          (
-            data ? :field_name AND data->>:field_name IS NOT NULL AND EXISTS
-            (
-              SELECT
-                1
-              FROM locations
-              INNER JOIN locations AS descendants
-              ON locations.admin_level <= descendants.admin_level
-                AND locations.hierarchy_path @> descendants.hierarchy_path
-              WHERE locations.location_code IN (:values) AND (
-                (JSONB_TYPEOF(data->:field_name) = 'array' AND data->:field_name ? descendants.location_code) OR (
-                  JSONB_TYPEOF(data->:field_name) != 'array' AND descendants.location_code = data->>:field_name
-                )
-              )
-            )
-          )
-        ),
-        { field_name:, values: values.map { |value| value.to_s.upcase } }
       ]
     )
   end

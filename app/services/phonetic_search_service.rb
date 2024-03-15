@@ -21,7 +21,6 @@ class PhoneticSearchService
   def initialize(record_class, search_params)
     self.record_class = record_class
     self.search_params = DEFAULT_SEARCH_PARAMS.merge(search_params)
-    handle_location_filters!
   end
 
   def search
@@ -34,21 +33,6 @@ class PhoneticSearchService
 
   def phonetic?
     search_params[:phonetic] == 'true'
-  end
-
-  private
-
-  def handle_location_filters!
-    search_params.tap do |param|
-      param[:filters] = param[:filters].map do |filter|
-        if filter.reporting_location_filter? || record_class.searchable_location_field?(filter.field_name)
-          filter.location_filter = true
-          filter.field_name = filter.field_name.gsub(/\d/, '') if filter.reporting_location_filter?
-        end
-
-        filter
-      end
-    end
   end
 
   def search_query

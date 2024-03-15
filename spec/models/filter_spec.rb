@@ -165,14 +165,14 @@ describe Filter do
 
       it 'has current location filter' do
         expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'cases.filter_by.current_location',
-                                                                   field_name: 'location_current',
+                                                                   field_name: 'loc:location_current',
                                                                    type: 'multi_select'))
       end
 
       # TODO: test with different reporting location levels
       it 'has reporting location filter' do
         expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'location.base_types.district',
-                                                                   field_name: 'owned_by_location2',
+                                                                   field_name: 'loc:owned_by_location',
                                                                    type: 'multi_select'))
       end
 

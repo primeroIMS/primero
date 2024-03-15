@@ -41,10 +41,6 @@ class SearchFilters::SearchFilter < ValueObject
     record_class.filterable_id_fields.include?(field_name)
   end
 
-  def reporting_location_filter?
-    field_name.match?(/[a-zA-Z]+\d{1}/)
-  end
-
   def location_field_name_solr(field_name, location_code)
     admin_level = LocationService.instance.find_by_code(location_code).admin_level
     "#{field_name}#{admin_level}"
