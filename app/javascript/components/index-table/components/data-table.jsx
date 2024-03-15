@@ -60,7 +60,7 @@ const Datatable = ({
   const orderBy = filters?.get("order_by");
   const componentColumns = useMemo(
     () => buildComponentColumns(typeof columns === "function" ? columns(data) : columns, order, orderBy),
-    [columns, data, order, orderBy]
+    [columns, data, order, orderBy, i18n]
   );
   const columnsName = useMemo(() => componentColumns.map(col => col.name), [componentColumns]);
 
