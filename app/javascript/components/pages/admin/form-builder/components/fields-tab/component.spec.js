@@ -17,7 +17,7 @@ describe("<FieldsTab />", () => {
   });
 
   it("should render <FieldsTab />", () => {
-    expect(screen.getByText("fields.add_field")).toBeInTheDocument();
+    expect(screen.getByText("forms.fields")).toBeInTheDocument();
   });
 
   xit("should render <FieldsList />", () => {
