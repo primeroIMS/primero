@@ -8,6 +8,7 @@ class Transfer < Transition
 
   TRANSFER_FORM_UNIQUE_ID = 'transfers_assignments'
   TRANSFER_ALERT_TYPE = 'transfer'
+  NOTIFICATION_ACTION = 'transfer_request'
 
   class << self
     def alert_form_unique_id

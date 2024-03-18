@@ -15,6 +15,7 @@ FactoryBot.define do
     association :role, factory: :role, strategy: :build
     user_group_ids { [FactoryBot.create(:user_group).id] }
     agency_office { 'Agency Office 1' }
+    settings { { notifications: {} } }
   end
 
   factory :user_group, traits: [:active_model] do
