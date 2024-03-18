@@ -40,7 +40,7 @@ describe("<FieldDialog />", () => {
 
   it("should render the FieldList if selectedField is subform", () => {
     mountedComponent(<FieldDialog mode="edit" />, state);
-    expect(screen.getAllByTestId("form-section-field")).toBeTruthy();
+    expect(screen.getAllByTestId("form-field")).toBeTruthy();
   });
 
   describe("when is new mode", () => {
@@ -113,6 +113,7 @@ describe("<FieldDialog />", () => {
 
       mountedComponent(<FieldDialog {...props} />, initialStateSelectField);
       expect(screen.getByText("fields.edit_label")).toBeInTheDocument();
+      expect(screen.getAllByTestId("orderable-options-field")).toBeTruthy();
     });
   });
 
