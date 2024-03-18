@@ -2,8 +2,10 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# Transform API query parameter loc:field_name=value into a sql query
-class SearchFilters::Location < SearchFilters::Value
+# Concern for location filters
+module SearchFilters::Location
+  extend ActiveSupport::Concern
+
   # rubocop:disable Metrics/MethodLength
   def query
     ActiveRecord::Base.sanitize_sql_for_conditions(
@@ -18,7 +20,7 @@ class SearchFilters::Location < SearchFilters::Value
               INNER JOIN locations AS descendants
               ON locations.admin_level <= descendants.admin_level
                 AND locations.hierarchy_path @> descendants.hierarchy_path
-              WHERE locations.location_code = :value AND (
+              WHERE locations.location_code #{value_query} AND (
                 (JSONB_TYPEOF(data->:field_name) = 'array' AND data->:field_name ? descendants.location_code) OR (
                   JSONB_TYPEOF(data->:field_name) != 'array' AND descendants.location_code = data->>:field_name
                 )
@@ -26,9 +28,21 @@ class SearchFilters::Location < SearchFilters::Value
             )
           )
         ),
-        { field_name: field_name.gsub('loc:', ''), value: value.upcase }
+        query_conditions
       ]
     )
   end
   # rubocop:enable Metrics/MethodLength
+
+  def value_query
+    '= :value'
+  end
+
+  def query_conditions
+    { field_name: record_field_name, value: value.to_s.upcase }
+  end
+
+  def record_field_name
+    field_name.gsub(/^loc:/, '')
+  end
 end

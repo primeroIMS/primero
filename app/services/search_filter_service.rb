@@ -96,7 +96,7 @@ class SearchFilterService
   def build_location_filter(field_name, value, not_filter = false)
     return SearchFilters::LocationList.new(field_name:, values: value, not_filter:) if value.is_a?(Array)
 
-    SearchFilters::Location.new(field_name:, value:, not_filter:)
+    SearchFilters::LocationValue.new(field_name:, value:, not_filter:)
   end
 
   def select_filter_params(params, permitted_field_names)

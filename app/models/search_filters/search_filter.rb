@@ -6,7 +6,7 @@
 class SearchFilters::SearchFilter < ValueObject
   OPERATORS = %w[= > < >= <=].freeze
 
-  attr_accessor :field_name, :location_filter, :not_filter
+  attr_accessor :field_name, :not_filter
 
   def initialize(args = {})
     super(args)

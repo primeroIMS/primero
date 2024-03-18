@@ -465,7 +465,7 @@ describe PhoneticSearchService, search: true do
     end
 
     it 'searches with location filter' do
-      filter = SearchFilters::Location.new(field_name: 'loc:location_current', value: 'PR02')
+      filter = SearchFilters::LocationValue.new(field_name: 'loc:location_current', value: 'PR02')
       search = PhoneticSearchService.search(Child, filters: [filter])
 
       expect(search.total).to eq(3)

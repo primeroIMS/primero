@@ -35,6 +35,8 @@ class PhoneticSearchService
     search_params[:phonetic] == 'true'
   end
 
+  private
+
   def search_query
     return Search::SearchQuery.phonetic(record_class, search_params[:query]) if phonetic?
 
