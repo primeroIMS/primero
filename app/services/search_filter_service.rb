@@ -33,6 +33,8 @@ class SearchFilterService
         end
       elsif key == 'not'
         build_not_filter(value.keys.first, value.values.first)
+      elsif key.starts_with?('loc:')
+        build_location_filter(key, value)
       elsif value.is_a?(Hash)
         if value['from'].is_a?(Numeric)
           SearchFilters::NumericRange.new(field_name: key, from: value['from'], to: value['to'])
@@ -55,8 +57,11 @@ class SearchFilterService
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/PerceivedComplexity
 
+  # rubocop:disable Metrics/MethodLength
   def build_not_filter(field_name, value)
-    if value.is_a?(Array)
+    if field_name.starts_with?('loc:')
+      build_location_filter(field_name, value, true)
+    elsif value.is_a?(Array)
       build_array_filter(field_name, value, true)
     elsif SearchFilterService.boolean?(value)
       SearchFilters::BooleanValue.new(field_name:, value:, not_filter: true)
@@ -66,6 +71,7 @@ class SearchFilterService
       SearchFilters::Value.new(field_name:, value:, not_filter: true)
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   def build_array_filter(field_name, value, not_filter = false)
     if value.first.is_a?(Hash)
@@ -85,6 +91,12 @@ class SearchFilterService
     else
       raise(Errors::InvalidPrimeroEntityType, 'Filter is not valid')
     end
+  end
+
+  def build_location_filter(field_name, value, not_filter = false)
+    return SearchFilters::LocationList.new(field_name:, values: value, not_filter:) if value.is_a?(Array)
+
+    SearchFilters::LocationValue.new(field_name:, value:, not_filter:)
   end
 
   def select_filter_params(params, permitted_field_names)

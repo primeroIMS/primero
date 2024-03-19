@@ -139,6 +139,20 @@ describe SearchFilterService do
       expect(filter.filters[2].value).to eq('female')
       expect(filter.filters[2].not_filter).to eq(true)
     end
+
+    it 'builds a location filter' do
+      filter = service.build_filters('loc:location_current' => 'city1').first
+      expect(filter).to be_instance_of(SearchFilters::LocationValue)
+      expect(filter.field_name).to eq('loc:location_current')
+      expect(filter.value).to eq('city1')
+    end
+
+    it 'builds a location list filter' do
+      filter = service.build_filters('loc:location_current' => ['city1']).first
+      expect(filter).to be_instance_of(SearchFilters::LocationList)
+      expect(filter.field_name).to eq('loc:location_current')
+      expect(filter.values).to eq(['city1'])
+    end
   end
 
   describe 'Service' do

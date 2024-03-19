@@ -4,7 +4,7 @@
 
 # Transform API query parameter field_name=value1,value2,... into a Sunspot query
 class SearchFilters::ValueList < SearchFilters::SearchFilter
-  attr_accessor :field_name, :values
+  attr_accessor :values
 
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Style/HashEachMethods

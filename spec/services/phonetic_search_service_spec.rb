@@ -389,6 +389,98 @@ describe PhoneticSearchService, search: true do
     end
   end
 
+  describe 'Filter search locations' do
+    let(:record1) { Child.create!(data: { name: 'Record 1', location_current: 'MC01' }) }
+    let(:record2) { Child.create!(data: { name: 'Record 2', location_current: 'TW01' }) }
+    let(:record3) { Child.create!(data: { name: 'Record 3', location_current: 'TW02' }) }
+    let(:record4) { Child.create!(data: { name: 'Record 4', location_current: 'PR02' }) }
+    let(:record5) { Child.create!(data: { name: 'Record 5', location_current: 'TW03' }) }
+    let(:record6) { Child.create!(data: { name: 'Record 6', location_current: '1234' }) }
+    let(:country) { create(:location, placename_all: 'MyCountry', type: 'country', location_code: 'MC01') }
+    let(:province1) do
+      create(:location, hierarchy_path: "#{country.location_code}.PR01", type: 'state', location_code: 'PR01')
+    end
+    let(:province2) do
+      create(:location, hierarchy_path: "#{country.location_code}.PR02", type: 'province', location_code: 'PR02')
+    end
+    let(:town1) do
+      create(
+        :location,
+        hierarchy_path: "#{country.location_code}.#{province1.location_code}.TW01",
+        type: 'city',
+        location_code: 'TW01'
+      )
+    end
+    let(:town2) do
+      create(
+        :location,
+        hierarchy_path: "#{country.location_code}.#{province1.location_code}.TW02",
+        type: 'city',
+        disabled: false,
+        location_code: 'TW02'
+      )
+    end
+    let(:town3) do
+      create(
+        :location,
+        hierarchy_path: "#{country.location_code}.#{province2.location_code}.TW03",
+        type: 'city',
+        disabled: false,
+        location_code: 'TW03'
+      )
+    end
+    let(:town4) do
+      create(
+        :location,
+        hierarchy_path: "#{country.location_code}.#{province2.location_code}.1234",
+        type: 'city',
+        disabled: false,
+        location_code: '1234'
+      )
+    end
+
+    before do
+      clean_data(Location, FormSection, Field, User, UserGroup, Agency, Child)
+
+      create(
+        :form_section,
+        unique_id: 'form_section_1',
+        fields: [
+          create(:field, name: 'location_current', type: Field::SELECT_BOX, option_strings_source: 'Location')
+        ]
+      )
+      country
+      province1
+      province2
+      town1
+      town2
+      town3
+      town4
+      record1
+      record2
+      record3
+      record4
+      record5
+      record6
+    end
+
+    it 'searches with location filter' do
+      filter = SearchFilters::LocationValue.new(field_name: 'loc:location_current', value: 'PR02')
+      search = PhoneticSearchService.search(Child, filters: [filter])
+
+      expect(search.total).to eq(3)
+      expect(search.records).to contain_exactly(record4, record5, record6)
+    end
+
+    it 'searches with location list filters' do
+      filter = SearchFilters::LocationList.new(field_name: 'loc:location_current', values: %w[PR01 TW03])
+      search = PhoneticSearchService.search(Child, filters: [filter])
+
+      expect(search.total).to eq(3)
+      expect(search.records).to contain_exactly(record2, record3, record5)
+    end
+  end
+
   describe 'Module scope' do
     let(:record1) { Child.create!(data: { name: 'Record 1', module_id: 'primeromodule-cp' }) }
     let(:record2) { Child.create!(data: { name: 'Record 2', module_id: 'primeromodule-gbv' }) }
