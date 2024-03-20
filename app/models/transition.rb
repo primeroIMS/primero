@@ -9,6 +9,7 @@ class Transition < ApplicationRecord
   STATUS_INPROGRESS = 'in_progress'
   STATUS_DONE = 'done'
   STATUS_REVOKED = 'revoked'
+  NOTIFICATION_ACTION = 'transition_notification'
 
   belongs_to :record, polymorphic: true
   belongs_to :transitioned_to_user, class_name: 'User', foreign_key: 'transitioned_to',
