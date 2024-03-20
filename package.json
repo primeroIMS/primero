@@ -15,7 +15,7 @@
     "test:all": "npm test",
     "test:batch": "npm run test:run \"./app/javascript/components/[$BATCH_RANGE]*/**/*.unit.test.js\"",
     "test:batch:1": "cross-env BATCH_RANGE=a-f npm run test:batch",
-    "test:batch:2": "cross-env BATCH_RANGE=f-p npm run test:batch",
+    "test:batch:2": "cross-env BATCH_RANGE=g-p npm run test:batch",
     "test:batch:3": "cross-env BATCH_RANGE=q-r npm run test:batch",
     "test:batch:4": "cross-env BATCH_RANGE=s-z npm run test:batch",
     "test:batch:5": "npm run test:run './app/javascript/!(components)/**/*.unit.test.js'",
