@@ -144,7 +144,8 @@ describe("Verifying config constant", () => {
       "INDIVIDUAL_CHILDREN",
       "NOTIFICATION_PERMISSIONS",
       "POST_MESSAGES",
-      "PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL"
+      "PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL",
+      "PROTECTION_CONCERNS_SUBREPORTS"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);

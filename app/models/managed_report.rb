@@ -20,6 +20,17 @@ class ManagedReport < ValueObject
         permitted_filters: [:grouped_by, { date_of_first_report: {}, incident_date: {} }],
         module_id: PrimeroModule::GBV
       ),
+      Permission::PROTECTION_CONCERNS_REPORT => ManagedReport.new(
+        id: 'protection_concerns_report',
+        name: 'managed_reports.protection_concerns.name',
+        description: 'managed_reports.protection_concerns.description',
+        subreports: %w[protection_concerns],
+        permitted_filters: [
+          :grouped_by, :by, :created_by_groups, :owned_by_groups,
+          :created_organization, :owned_by_agency_id, { status: {}, registration_date: {}, protection_concerns: {} }
+        ],
+        module_id: PrimeroModule::CP
+      ),
       Permission::WORKFLOW_REPORT => ManagedReport.new(
         id: 'workflow_report',
         name: 'managed_reports.workflow_report.name',

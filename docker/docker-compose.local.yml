@@ -25,6 +25,7 @@ services:
     ports:
       - "3000:3000"
   solr:
+    platform: linux/arm64
     env_file:
       - docker/defaults.env
       - docker/local.env
@@ -35,6 +36,7 @@ services:
       - docker/defaults.env
       - docker/local.env
   postgres:
+    platform: linux/arm64
     env_file:
       - docker/defaults.env
       - docker/local.env
