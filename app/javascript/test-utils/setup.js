@@ -8,6 +8,8 @@ import { MessageChannel } from "worker_threads";
 import { createMocks } from "react-idle-timer";
 import { cleanup } from "@testing-library/react";
 
+import db from "../db";
+
 global.IS_REACT_ACT_ENVIRONMENT = true;
 
 beforeAll(() => {
@@ -15,4 +17,7 @@ beforeAll(() => {
   global.MessageChannel = MessageChannel;
 });
 
-afterEach(cleanup);
+afterEach(() => {
+  db.closeDB();
+  cleanup();
+});

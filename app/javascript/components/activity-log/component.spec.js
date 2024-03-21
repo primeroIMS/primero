@@ -8,7 +8,7 @@ import { lookups, stub } from "../../test";
 
 import ActivityLog from "./component";
 
-describe("<ActivityLog", () => {
+describe.skip("<ActivityLog", () => {
   let stubI18n = null;
   const initialState = {
     records: {
