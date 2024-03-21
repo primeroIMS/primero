@@ -22,39 +22,40 @@ describe("<UsersForm />", () => {
       full_name: "Carlos"
     }
   };
-
-    const initialState = fromJS({
-      records: {
-        users: {
-          selectedUser: users.jose,
-          data: [Object.values(users)],
-          metadata: { total: 2, per: 20, page: 1 }
-        }
-      },
-      application: {
-        agencies
-      },
-      user: {
-        username: users.carlos.user_name,
-        permissions
+  const initialState = fromJS({
+    records: {
+      users: {
+        selectedUser: users.jose,
+        data: [Object.values(users)],
+        metadata: { total: 2, per: 20, page: 1 }
       }
-    });
+    },
+    application: {
+      agencies
+    },
+    user: {
+      username: users.carlos.user_name,
+      permissions
+    }
+  });
+
   it("renders record form", () => {
-    mountedComponent(<UsersForm mode="new" />, initialState,  ["/admin/users"])
+    mountedComponent(<UsersForm mode="new" />, initialState, ["/admin/users"])
     expect(screen.getByTestId('form')).toBeInTheDocument()
   });
 
   it("renders heading with action buttons", () => {
-    mountedComponent(<UsersForm mode="new" />, initialState,  ["/admin/users"])
+    mountedComponent(<UsersForm mode="new" />, initialState, ["/admin/users"])
     expect(screen.getByText(/users.label/i)).toBeInTheDocument()
     expect(screen.getByText('buttons.cancel')).toBeInTheDocument()
     expect(screen.getByText('buttons.save')).toBeInTheDocument()
   });
 
-  it("renders 14 fields", () => {
-    mountedComponent(<UsersForm mode="new" />, initialState,  ["/admin/users"])
+  it("check the textbox fields length", () => {
+    mountedComponent(<UsersForm mode="new" />, initialState, ["/admin/users"])
     expect(screen.getAllByRole('textbox')).toHaveLength(14)
   });
+
   describe("when a new user is created", () => {
     const state = fromJS({
       records: {
@@ -73,7 +74,7 @@ describe("<UsersForm />", () => {
     });
 
     it("should fetch user groups and roles", () => {
-      mountedComponent(<UsersForm mode="new" />, state,  ["/admin/users/new"])
+      mountedComponent(<UsersForm mode="new" />, state, ["/admin/users/new"])
       expect(screen.getByText('users.label')).toBeInTheDocument()
     });
   });
@@ -97,13 +98,13 @@ describe("<UsersForm />", () => {
     });
 
     it("should render 11 fields", () => {
-        mountedComponent(<UsersForm mode="edit" />, state,  ["/admin/users/1"])
-        expect(screen.getAllByRole('textbox')).toHaveLength(11)
+      mountedComponent(<UsersForm mode="edit" />, state, ["/admin/users/1"])
+      expect(screen.getAllByRole('textbox')).toHaveLength(11)
     });
 
     it("renders 'Change Password' link", () => {
-        mountedComponent(<UsersForm mode="edit" />, state,  ["/admin/users/1"])
-        expect(screen.getByText('buttons.change_password')).toBeInTheDocument();
+      mountedComponent(<UsersForm mode="edit" />, state, ["/admin/users/1"])
+      expect(screen.getByText('buttons.change_password')).toBeInTheDocument();
     });
   });
 
@@ -125,10 +126,10 @@ describe("<UsersForm />", () => {
           permissions
         }
       });
-      
 
-       mountedComponent(<UsersForm mode="show" />, initialState,  ["/admin/users/1"])
-       expect(screen.getByTestId('form')).toBeInTheDocument()
+
+      mountedComponent(<UsersForm mode="show" />, initialState, ["/admin/users/1"])
+      expect(screen.getByTestId('form')).toBeInTheDocument()
     });
   });
 
@@ -168,7 +169,7 @@ describe("<UsersForm />", () => {
     });
 
     it("should not render 'Change Password' link", () => {
-      mountedComponent(<UsersForm mode="edit" />, state,  ["/admin/users/edit/1"])
+      mountedComponent(<UsersForm mode="edit" />, state, ["/admin/users/edit/1"])
       expect(screen.queryByText('Change Password')).toBeNull()
     });
   });
