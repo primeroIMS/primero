@@ -9,17 +9,17 @@ module Indicators
   class Case
     # rubocop:enable Style/ClassAndModuleChildren
     OPEN_ENABLED = [
-      SearchFilters::Value.new(field_name: 'record_state', value: true),
-      SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
+      SearchFilters::BooleanValue.new(field_name: 'record_state', value: true),
+      SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_OPEN)
     ].freeze
 
     CLOSED_ENABLED = [
-      SearchFilters::Value.new(field_name: 'record_state', value: true),
-      SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED)
+      SearchFilters::BooleanValue.new(field_name: 'record_state', value: true),
+      SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_CLOSED)
     ].freeze
 
     OPEN_CLOSED_ENABLED = [
-      SearchFilters::Value.new(field_name: 'record_state', value: true),
+      SearchFilters::BooleanValue.new(field_name: 'record_state', value: true),
       SearchFilters::ValueList.new(field_name: 'status', values: [Record::STATUS_OPEN, Record::STATUS_CLOSED])
     ].freeze
 
@@ -35,7 +35,7 @@ module Indicators
       name: 'new_or_updated',
       record_model: Child,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'not_edited_by_owner', value: true)
+        SearchFilters::NotEditedByOwner.new(value: true)
       ]
     ).freeze
 
@@ -100,7 +100,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_PENDING)
+        SearchFilters::TextValue.new(field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_PENDING)
       ]
     ).freeze
 
@@ -108,7 +108,7 @@ module Indicators
       name: 'approval_assessment_pending_group',
       record_model: Child,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_PENDING)
+        SearchFilters::TextValue.new(field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_PENDING)
       ]
     ).freeze
 
@@ -117,7 +117,9 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_REJECTED)
+        SearchFilters::TextValue.new(
+          field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_REJECTED
+        )
       ]
     ).freeze
 
@@ -126,7 +128,9 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_APPROVED)
+        SearchFilters::TextValue.new(
+          field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_APPROVED
+        )
       ]
     ).freeze
 
@@ -135,7 +139,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_case_plan', value: Approval::APPROVAL_STATUS_PENDING)
+        SearchFilters::TextValue.new(field_name: 'approval_status_case_plan', value: Approval::APPROVAL_STATUS_PENDING)
       ]
     ).freeze
 
@@ -143,7 +147,7 @@ module Indicators
       name: 'approval_case_plan_pending_group',
       record_model: Child,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_case_plan', value: Approval::APPROVAL_STATUS_PENDING)
+        SearchFilters::TextValue.new(field_name: 'approval_status_case_plan', value: Approval::APPROVAL_STATUS_PENDING)
       ]
     ).freeze
 
@@ -152,7 +156,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_case_plan', value: Approval::APPROVAL_STATUS_REJECTED)
+        SearchFilters::TextValue.new(field_name: 'approval_status_case_plan', value: Approval::APPROVAL_STATUS_REJECTED)
       ]
     ).freeze
 
@@ -161,7 +165,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_case_plan', value: Approval::APPROVAL_STATUS_APPROVED)
+        SearchFilters::TextValue.new(field_name: 'approval_status_case_plan', value: Approval::APPROVAL_STATUS_APPROVED)
       ]
     ).freeze
 
@@ -170,7 +174,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_closure', value: Approval::APPROVAL_STATUS_PENDING)
+        SearchFilters::TextValue.new(field_name: 'approval_status_closure', value: Approval::APPROVAL_STATUS_PENDING)
       ]
     ).freeze
 
@@ -178,7 +182,7 @@ module Indicators
       name: 'approval_closure_pending_group',
       record_model: Child,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_closure', value: Approval::APPROVAL_STATUS_PENDING)
+        SearchFilters::TextValue.new(field_name: 'approval_status_closure', value: Approval::APPROVAL_STATUS_PENDING)
       ]
     ).freeze
 
@@ -187,7 +191,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_closure', value: Approval::APPROVAL_STATUS_REJECTED)
+        SearchFilters::TextValue.new(field_name: 'approval_status_closure', value: Approval::APPROVAL_STATUS_REJECTED)
       ]
     ).freeze
 
@@ -196,7 +200,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_closure', value: Approval::APPROVAL_STATUS_APPROVED)
+        SearchFilters::TextValue.new(field_name: 'approval_status_closure', value: Approval::APPROVAL_STATUS_APPROVED)
       ]
     ).freeze
 
@@ -205,7 +209,9 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_PENDING)
+        SearchFilters::TextValue.new(
+          field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_PENDING
+        )
       ]
     ).freeze
 
@@ -213,7 +219,9 @@ module Indicators
       name: 'approval_action_plan_pending_group',
       record_model: Child,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_PENDING)
+        SearchFilters::TextValue.new(
+          field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_PENDING
+        )
       ]
     ).freeze
 
@@ -222,7 +230,9 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_REJECTED)
+        SearchFilters::TextValue.new(
+          field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_REJECTED
+        )
       ]
     ).freeze
 
@@ -231,7 +241,9 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_APPROVED)
+        SearchFilters::TextValue.new(
+          field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_APPROVED
+        )
       ]
     ).freeze
 
@@ -240,7 +252,9 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_PENDING)
+        SearchFilters::TextValue.new(
+          field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_PENDING
+        )
       ]
     ).freeze
 
@@ -248,7 +262,9 @@ module Indicators
       name: 'approval_gbv_closure_pending_group',
       record_model: Child,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_PENDING)
+        SearchFilters::TextValue.new(
+          field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_PENDING
+        )
       ]
     ).freeze
 
@@ -257,7 +273,9 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_REJECTED)
+        SearchFilters::TextValue.new(
+          field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_REJECTED
+        )
       ]
     ).freeze
 
@@ -266,7 +284,9 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_APPROVED)
+        SearchFilters::TextValue.new(
+          field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_APPROVED
+        )
       ]
     ).freeze
 
@@ -384,7 +404,7 @@ module Indicators
       name: 'shared_with_others_referrals',
       record_model: Child,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'referred_users_present', value: true)
+        SearchFilters::ReferredUsersPresent.new(record_type: Child.name, value: true)
       ],
       scope_to_owner: true
     ).freeze
@@ -394,7 +414,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
+        SearchFilters::TextValue.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
       ]
     ).freeze
 
@@ -403,7 +423,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_REJECTED)
+        SearchFilters::TextValue.new(field_name: 'transfer_status', value: Transition::STATUS_REJECTED)
       ]
     ).freeze
 
@@ -480,8 +500,8 @@ module Indicators
       facet: 'referred_users',
       scope_to_user: true,
       exclude_zeros: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'referred_users_present', value: true)
+      scope: OPEN_ENABLED + [
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_present', value: true)
       ]
     ).freeze
 
@@ -491,8 +511,8 @@ module Indicators
       facet: 'transferred_to_users',
       scope_to_user: true,
       exclude_zeros: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
+      scope: OPEN_ENABLED + [
+        SearchFilters::TextValue.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
       ]
     ).freeze
 
@@ -500,7 +520,7 @@ module Indicators
       name: 'shared_with_my_team_pending_transfers_overview',
       record_model: Child,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
+        SearchFilters::TextValue.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
       ],
       scope_to_transferred_groups: true
     ).freeze
@@ -509,7 +529,7 @@ module Indicators
       name: 'with_incidents',
       record_model: Child,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'has_incidents', value: true)
+        SearchFilters::BooleanValue.new(field_name: 'has_incidents', value: true)
       ]
     ).freeze
 
@@ -518,7 +538,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'current_alert_types', value: Alertable::INCIDENT_FROM_CASE)
+        SearchFilters::TextValue.new(field_name: 'current_alert_types', value: Alertable::INCIDENT_FROM_CASE)
       ]
     ).freeze
 
@@ -526,7 +546,7 @@ module Indicators
       name: 'without_incidents',
       record_model: Child,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'has_incidents', value: false)
+        SearchFilters::BooleanValue.new(field_name: 'has_incidents', value: false)
       ]
     ).freeze
 
@@ -560,9 +580,7 @@ module Indicators
         name: 'reporting_location_open_last_week',
         facet: facet_name,
         record_model: Child,
-        scope: OPEN_ENABLED + [
-          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.last_week))
-        ]
+        scope: OPEN_ENABLED + [SearchFilters::DateRange.last_week('created_at')]
       )
     end
 
@@ -571,9 +589,7 @@ module Indicators
         name: 'reporting_location_open_this_week',
         facet: facet_name,
         record_model: Child,
-        scope: OPEN_ENABLED + [
-          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
-        ]
+        scope: OPEN_ENABLED + [SearchFilters::DateRange.this_week('created_at')]
       )
     end
 
@@ -582,9 +598,7 @@ module Indicators
         name: 'reporting_location_closed_last_week',
         facet: facet_name,
         record_model: Child,
-        scope: CLOSED_ENABLED + [
-          SearchFilters::DateRange.new({ field_name: 'date_closure' }.merge(FacetedIndicator.last_week))
-        ]
+        scope: CLOSED_ENABLED + [SearchFilters::DateRange.last_week('date_closure')]
       )
     end
 
@@ -593,9 +607,7 @@ module Indicators
         name: 'reporting_location_closed_this_week',
         facet: facet_name,
         record_model: Child,
-        scope: CLOSED_ENABLED + [
-          SearchFilters::DateRange.new({ field_name: 'date_closure' }.merge(FacetedIndicator.this_week))
-        ]
+        scope: CLOSED_ENABLED + [SearchFilters::DateRange.this_week('date_closure')]
       )
     end
 
@@ -674,9 +686,7 @@ module Indicators
       QueriedIndicator.new(
         name: 'new_this_week',
         record_model: Child,
-        queries: OPEN_ENABLED + [
-          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(QueriedIndicator.this_week))
-        ]
+        queries: OPEN_ENABLED + [SearchFilters::DateRange.this_week('created_at')]
       )
     end
 
@@ -684,9 +694,7 @@ module Indicators
       QueriedIndicator.new(
         name: 'new_last_week',
         record_model: Child,
-        queries: OPEN_ENABLED + [
-          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(QueriedIndicator.last_week))
-        ]
+        queries: OPEN_ENABLED + [SearchFilters::DateRange.last_week('created_at')]
       )
     end
 
@@ -694,9 +702,7 @@ module Indicators
       QueriedIndicator.new(
         name: 'closed_this_week',
         record_model: Child,
-        queries: CLOSED_ENABLED + [
-          SearchFilters::DateRange.new({ field_name: 'date_closure' }.merge(QueriedIndicator.this_week))
-        ].freeze
+        queries: CLOSED_ENABLED + [SearchFilters::DateRange.this_week('date_closure')].freeze
       )
     end
 
@@ -704,9 +710,7 @@ module Indicators
       QueriedIndicator.new(
         name: 'closed_last_week',
         record_model: Child,
-        queries: CLOSED_ENABLED + [
-          SearchFilters::DateRange.new({ field_name: 'date_closure' }.merge(QueriedIndicator.last_week))
-        ].freeze
+        queries: CLOSED_ENABLED + [SearchFilters::DateRange.last_week('date_closure')].freeze
       )
     end
   end

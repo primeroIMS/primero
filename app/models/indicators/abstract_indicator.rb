@@ -20,41 +20,15 @@ module Indicators
     # rubocop:enable Style/ClassAndModuleChildren
     attr_accessor :name, :record_model, :scope, :scope_to_owner, :scope_to_referred,
                   :scope_to_transferred, :scope_to_not_last_update, :scope_to_owned_by_groups,
-                  :scope_to_transferred_groups, :exclude_zeros, :scope_to_user
+                  :scope_to_transferred_groups, :exclude_zeros, :scope_to_user, :user
 
     class << self
-      def dawn_of_time
-        Time.zone.at(0)
-      end
-
-      def recent_past
-        Time.zone.now - 10.days
-      end
-
-      def last_week
-        {
-          from: 1.week.ago.beginning_of_week,
-          to: 1.week.ago.end_of_week
-        }
-      end
-
-      def this_week
-        {
-          from: present.beginning_of_week,
-          to: present.end_of_week
-        }
-      end
-
-      def present
-        Time.zone.now
-      end
-
       def type
         'indicator'
       end
     end
 
-    def query(_, _)
+    def query(_)
       raise NotImplementedError
     end
 
@@ -91,6 +65,55 @@ module Indicators
 
     protected
 
+    def query_scope(user)
+      with_scope_to_owner(user) +
+        with_scope_to_owned_by_groups(user) +
+        with_scope_to_not_last_update(user) +
+        with_scope_referred_to_users(user) +
+        with_scope_transferred_to_users(user) +
+        with_scope_transferred_to_user_groups(user)
+    end
+
+    def with_scope_to_owner(user)
+      return [] unless scope_to_owner
+
+      [SearchFilters::TextValue.new(field_name: 'owned_by', value: user.user_name)]
+    end
+
+    def with_scope_to_owned_by_groups(user)
+      return [] unless scope_to_owned_by_groups
+
+      [SearchFilters::ValueList.new(field_name: 'owned_by_groups', value: user.user_group_unique_ids)]
+    end
+
+    def with_scope_to_not_last_update(user)
+      return [] unless scope_to_not_last_update
+
+      [SearchFilters::TextValue.new(field_name: 'last_updated_by', value: user.user_name, not_filter: true)]
+    end
+
+    def with_scope_referred_to_users(user)
+      return [] unless scope_to_referred
+
+      [SearchFilters::ReferredUsers.new(value: user.user_name, record_type: record_model.name)]
+    end
+
+    def with_scope_transferred_to_users(user)
+      return [] unless scope_to_transferred
+
+      [SearchFilters::TransferredToUsers.new(value: user.user_name, record_type: record_model.name)]
+    end
+
+    def with_scope_transferred_to_user_groups(user)
+      return [] unless scope_to_transferred_groups
+
+      [
+        SearchFilters::TransferredToUserGroups.new(
+          values: user.user_group_unique_ids, type: Transfer.name, record_type: record_model.name
+        )
+      ]
+    end
+
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     def owner_from_search(sunspot_search)
@@ -106,54 +129,6 @@ module Indicators
 
     def scope_query_strings
       scope&.map(&:to_s) || []
-    end
-
-    def owner_query_string(owner)
-      if owner.present?
-        ["owned_by=#{owner}"]
-      else
-        []
-      end
-    end
-
-    def referred_query_string(user)
-      if user.present? && scope_to_referred
-        ["referred_users=#{user.user_name}"]
-      else
-        []
-      end
-    end
-
-    def transferred_query_string(user)
-      if user.present? && scope_to_transferred
-        ["transferred_to_users=#{user.user_name}"]
-      else
-        []
-      end
-    end
-
-    def transferred_groups_query_string(user)
-      if user.present? && scope_to_transferred_groups
-        ["transferred_to_user_groups=#{user.user_group_unique_ids.join(',')}"]
-      else
-        []
-      end
-    end
-
-    def owned_by_groups_query_string(user)
-      if user.present? && scope_to_owned_by_groups
-        ["owned_by_groups=#{user.user_group_unique_ids.join(',')}"]
-      else
-        []
-      end
-    end
-
-    def not_last_updated_query_string(user)
-      if user.present? && scope_to_not_last_update
-        ["not[last_updated_by]=#{user.user_name}"]
-      else
-        []
-      end
     end
   end
 end

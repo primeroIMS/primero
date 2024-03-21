@@ -65,6 +65,8 @@ class SearchFilters::Value < SearchFilters::SearchFilter
   end
 
   def to_s
-    "#{field_name}=#{value}"
+    return "#{field_name}=#{value}" unless not_filter
+
+    "not[#{field_name}]=#{value}"
   end
 end
