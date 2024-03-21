@@ -176,7 +176,7 @@ const Container = ({ mode }) => {
       }
     ).map(formSection => (
       <FormSection
-      data-testid="form-section"
+        data-testid="form-section"
         formSection={formSection}
         key={formSection.unique_id}
         formMethods={formMethods}
