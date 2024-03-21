@@ -41,7 +41,7 @@ function Component({
 
   return (
     <ButtonType
-    data-testid="action-button"
+      data-testid="action-button"
       id={buttonID}
       icon={icon}
       cancel={cancel}

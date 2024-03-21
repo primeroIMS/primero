@@ -49,11 +49,6 @@ describe("<RolesList />", () => {
     expect(screen.getByRole('grid')).toBeInTheDocument();
   });
 
-  it("should trigger a sort action when a header is clicked", () => {
-    mountedComponent(<RolesList />, initialState, ["/admin/roles"])
-    expect(screen.getByRole('grid')).toBeInTheDocument();
- });
-
   it("should trigger a valid action with next page when clicking next page", () => {
     mountedComponent(<RolesList />, initialState, ["/admin/roles"])
     expect(screen.getByText(`1-20 of ${dataLength}`)).toBeInTheDocument();
@@ -90,7 +85,7 @@ describe("<RolesList />", () => {
 
     it("should not render new button", () => {
         mountedComponent(<RolesList />, initialState, ["/admin/roles"])
-        expect(screen.getAllByTestId('action-button')).toHaveLength(2);
+        expect(screen.queryByText(/New/)).not.toBeInTheDocument();
     });
   });
 });
