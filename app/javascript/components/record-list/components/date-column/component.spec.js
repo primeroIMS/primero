@@ -5,7 +5,6 @@ import { mountedComponent, screen } from "../../../../test-utils";
 import DateColumn from "./component";
 
 describe("<DateColumn />", () => {
-
   const props = {
     value: "2020-04-150T14:04",
     rowAvailable: true,
