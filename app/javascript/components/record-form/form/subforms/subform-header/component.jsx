@@ -108,6 +108,7 @@ const Component = ({
 
     return (
       <ListItemText
+        data-testid="list-item-text"
         id="subform-header-button"
         classes={itemClasses}
         secondary={
