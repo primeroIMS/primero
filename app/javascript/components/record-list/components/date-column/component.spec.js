@@ -15,12 +15,7 @@ describe("<DateColumn />", () => {
 
   it("renders a <DateColumn />", () => {
     mountedComponent(<DateColumn {...props} />, fromJS({}));
-    expect(screen.queryByText(/2020-04-150T14:04/i)).toBeNull();
-  });
-
-  it("renders a <ConditionalWrapper />", () => {
-    mountedComponent(<DateColumn {...props} />, fromJS({}));
-    expect(screen.queryByText(/2020-04-150T14:04/i)).toBeNull();
+    expect(screen.queryByText(/2020-04-150T14:04/i)).not.toBeInTheDocument();
   });
 
   describe("when ne locale", () => {
