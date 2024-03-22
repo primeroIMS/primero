@@ -243,4 +243,34 @@ describe("<UsersForm />", () => {
       expect(IdpComponent.find("a")).to.be.empty;
     });
   });
+
+  describe("when WEBPUSH is disabled", () => {
+    const state = fromJS({
+      records: {
+        users: {
+          selectedUser: users.jose,
+          data: [Object.values(users)],
+          metadata: { total: 2, per: 20, page: 1 }
+        }
+      },
+      application: {
+        agencies,
+        webpush: {
+          enabled: false
+        }
+      },
+      user: {
+        username: users.carlos.user_name,
+        permissions
+      }
+    });
+
+    const { component: newComponent } = setupMountedComponent(UsersForm, { mode: MODES.edit }, state, [
+      "/admin/users/1"
+    ]);
+
+    it("renders 22 fields", () => {
+      expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(22);
+    });
+  });
 });
