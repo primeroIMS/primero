@@ -123,7 +123,10 @@ const Container = ({ mode }) => {
     identityOptions,
     onClickChangePassword,
     true,
-    { userGroups: currentUser.get("userGroups", fromJS([])), webPushConfig }
+    {
+      userGroups: currentUser.get("userGroups", fromJS([])),
+      webPushConfigEnabled: webPushConfig?.get("enabled", false)
+    }
   );
 
   // eslint-disable-next-line react/no-multi-comp
