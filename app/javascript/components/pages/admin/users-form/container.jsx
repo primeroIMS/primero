@@ -190,7 +190,7 @@ const Container = ({ mode }) => {
       {
         agencyReadOnUsers,
         currentRoleGroupPermission,
-        webPushConfig
+        webPushConfigEnabled: webPushConfig?.get("enabled", false)
       }
     ).map(formSection => (
       <FormSection

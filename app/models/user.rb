@@ -29,7 +29,18 @@ class User < ApplicationRecord
     'services' => { 'type' => 'array' }, 'module_unique_ids' => { 'type' => 'array' },
     'password_reset' => { 'type' => 'boolean' }, 'role_id' => { 'type' => 'string' },
     'agency_office' => { 'type' => 'string' }, 'code_of_conduct_id' => { 'type' => 'integer' },
-    'send_mail' => { 'type' => 'boolean' }, 'receive_webpush' => { 'type' => 'boolean' }
+    'send_mail' => { 'type' => 'boolean' }, 'receive_webpush' => { 'type' => 'boolean' },
+    'settings' => {
+      'type' => %w[object null], 'properties' => {
+        'notifications' => {
+          'type' => 'object',
+          'properties' => {
+            'send_mail' => { 'type' => 'object' },
+            'receive_webpush' => { 'type' => 'object' }
+          }
+        }
+      }
+    }
   }.freeze
 
   attr_accessor :should_send_password_reset_instructions, :user_groups_changed
@@ -41,6 +52,8 @@ class User < ApplicationRecord
          :jwt_authenticatable, jwt_revocation_strategy: self
 
   self.unique_id_attribute = 'user_name'
+
+  store_accessor :settings, :notifications
 
   belongs_to :role
   belongs_to :agency, optional: true
@@ -136,14 +149,19 @@ class User < ApplicationRecord
       %w[full_name user_name position]
     end
 
-    def permitted_api_params(current_user = nil, target_user = nil)
-      permitted_params = (
+    def default_permitted_params
+      (
         User.permitted_attribute_names + User.password_parameters +
         [
           { 'user_group_ids' => [] }, { 'user_group_unique_ids' => [] },
-          { 'module_unique_ids' => [] }, 'role_unique_id', 'identity_provider_unique_id'
+          { 'module_unique_ids' => [] }, 'role_unique_id', 'identity_provider_unique_id',
+          { 'settings' => { 'notifications' => { 'send_mail' => {}, 'receive_webpush' => {} } } }
         ]
       ) - User.hidden_attributes
+    end
+
+    def permitted_api_params(current_user = nil, target_user = nil)
+      permitted_params = User.default_permitted_params
 
       return permitted_params if current_user.nil? || target_user.nil?
 
@@ -545,6 +563,12 @@ class User < ApplicationRecord
     else
       record&.associated_user_names&.include?(user_name)
     end
+  end
+
+  def specific_notification?(notifier, action)
+    return false if notifier.blank? || action.blank?
+
+    (notifications&.[](notifier) || {}).select { |_key, value| value }.keys.include?(action)
   end
 
   private

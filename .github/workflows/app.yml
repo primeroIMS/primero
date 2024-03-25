@@ -2,12 +2,16 @@
 
 name: App
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
       - 'release-*'
       - develop_react_upgrade
   workflow_dispatch:
+
 
 jobs:
   server-test:
