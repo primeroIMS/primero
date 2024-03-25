@@ -77,7 +77,7 @@ const Container = ({
         <div>{newIncidentBtn}</div>
       </div>
       <div className={css.alerts}>
-        <RecordFormAlerts recordType={RECORD_TYPES_PLURAL[recordType]} form={incidentFromCaseForm} />
+        <RecordFormAlerts recordType={RECORD_TYPES_PLURAL[recordType]} form={incidentFromCaseForm} formMode={mode} />
       </div>
       {renderIncidents}
     </div>

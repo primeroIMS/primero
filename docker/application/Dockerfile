@@ -1,8 +1,8 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
- # -------------------------------------------------------------------- BUILD STAGE
+# -------------------------------------------------------------------- BUILD STAGE
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}ruby:3.2.2-alpine3.18 AS build-env
+FROM ${BUILD_REGISTRY}ruby:3.2.3-alpine3.19 AS build-env
 
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git
 ENV PYTHON_PACKAGES python3 py3-pip
@@ -57,6 +57,11 @@ RUN set -euox pipefail \
         bundle install \
         ; fi
 
+# Note: Deleting the Solr dev server is not strictly necessary since we don't run it
+# but its java packages are riddled with vulnerabilities that set off static security scans.
+# TODO: Get rid of this line when we get rid of Solr gems.
+RUN rm -r /usr/local/bundle/gems/sunspot_solr-2.6.0/solr/server
+
 # Run npm ci
 COPY [ "package.json", "package-lock.json", "$APP_ROOT/" ]
 
@@ -94,7 +99,7 @@ RUN set -euox pipefail \
 
 # -------------------------------------------------------------------- FINAL
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}ruby:3.2.2-alpine3.18
+FROM ${BUILD_REGISTRY}ruby:3.2.3-alpine3.19
 
 ENV BUILD_PACKAGES bash
 ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip curl tini

@@ -63,6 +63,10 @@ class DB {
     return DB.instance;
   }
 
+  async closeDB() {
+    (await this._db).close();
+  }
+
   createCollections(collection, db, transaction) {
     if (Array.isArray(collection)) {
       const [name, options, index] = collection;

@@ -145,7 +145,7 @@ Component.propTypes = {
   mode: PropTypes.object.isRequired,
   parentTitle: PropTypes.string,
   renderSecondaryText: PropTypes.bool,
-  values: PropTypes.array.isRequired  
+  values: PropTypes.array.isRequired
 };
 
 export default Component;
