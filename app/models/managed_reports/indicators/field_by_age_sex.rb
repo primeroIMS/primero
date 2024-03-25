@@ -11,8 +11,14 @@ class ManagedReports::Indicators::FieldByAgeSex < ManagedReports::SqlReportIndic
 
     def field_name; end
 
-    def field_query_method
-      equal_value_query
+    def multiple_field_values
+      false
+    end
+
+    def field_value(field_param)
+      return equal_value_query_multiple(field_param) if multiple_field_values
+
+      equal_value_query(field_param)
     end
 
     # rubocop:disable Metrics/MethodLength
@@ -37,7 +43,7 @@ class ManagedReports::Indicators::FieldByAgeSex < ManagedReports::SqlReportIndic
             #{equal_value_query_multiple(params['status'])&.prepend('and ')}
             #{date_range_query(date_param)&.prepend('and ')}
             #{equal_value_query(params['module_id'])&.prepend('and ')}
-            #{equal_value_query_multiple(params[field_name])&.prepend('and ')}
+            #{field_value(params[field_name])&.prepend('and ')}
             #{user_scope_query(current_user)&.prepend('and ')}
             group by name, key
               #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}

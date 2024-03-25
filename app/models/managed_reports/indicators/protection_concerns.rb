@@ -13,8 +13,8 @@ class ManagedReports::Indicators::ProtectionConcerns < ManagedReports::Indicator
       'protection_concerns'
     end
 
-    def field_query_method
-      equal_value_query_multiple
+    def multiple_field_values
+      true
     end
   end
 end
