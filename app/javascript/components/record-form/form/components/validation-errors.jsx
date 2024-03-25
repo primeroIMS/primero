@@ -45,7 +45,9 @@ const ValidationErrors = ({ formErrors, forms, submitCount }) => {
               .get("fields")
               .filter(field => fieldNames.includes(field.get("name")))
               .map(field => ({
-                [field.get("name")]: formErrors[field.get("name")]
+                [field.get("name")]: Array.isArray(formErrors[field.get("name")])
+                  ? formErrors[field.get("name")].join("")
+                  : formErrors[field.get("name")]
               }))
               .reduce((acc, subCurrent) => ({ ...acc, ...subCurrent }), {})
           }

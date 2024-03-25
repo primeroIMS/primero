@@ -903,6 +903,8 @@ en:
   errors:
     api:
       internal_server: Server Error
+    attachments:
+      maximum: You have reached your maximum attachments per record.
     error_loading: Error Loading Record(s)
     models:
       agency:
@@ -1167,6 +1169,8 @@ en:
     add_existing_field: Add Existing Field
     add_field: Add Field
     add_field_type: Add %{file_type}
+    attachments:
+      maximum_attached: Maximum attachments limit per record (%{maximumttachmentsPerRecord}) reached. This includes photos, audio, and documents. Please remove a file before adding another.
     audio:
       current: Current Audio
     audio_upload_box: Audio Upload
