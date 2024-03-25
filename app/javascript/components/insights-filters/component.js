@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useForm } from "react-hook-form";
 import { Button } from "@material-ui/core";
 import groupBy from "lodash/groupBy";
@@ -42,7 +44,7 @@ import validations from "./validations";
 const Component = ({ moduleID, id, subReport, toggleControls }) => {
   const isManagedReportScopeAll = useMemoizedSelector(state => getIsManagedReportScopeAll(state));
   const canReadUserGroups = usePermissions(RESOURCES.user_groups, READ_RECORDS);
-  const userGroups = useOptions({ source: OPTION_TYPES.USER_GROUP_PERMITTED });
+  const userGroups = useOptions({ source: OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED });
   const insightsConfig = get(INSIGHTS_CONFIG, [moduleID, id], {});
   const { defaultFilterValues } = insightsConfig;
 

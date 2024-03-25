@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { memo, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { object } from "yup";
@@ -80,7 +82,11 @@ const RecordForm = ({
     const redirectToIncident = RECORD_TYPES.cases === recordType ? { redirectToIncident: false } : {};
 
     if (record) {
-      const recordFormValues = { ...initialValues, ...record.toJS(), ...redirectToIncident };
+      const recordFormValues = {
+        ...(mode.isNew ? constructInitialValues(forms.values()) : {}),
+        ...record.toJS(),
+        ...redirectToIncident
+      };
 
       const subformValues = sortSubformValues(recordFormValues, forms.values());
 

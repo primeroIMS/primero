@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 code_of_conduct = CodeOfConduct.current
 
 # rubocop:disable Metrics/BlockLength

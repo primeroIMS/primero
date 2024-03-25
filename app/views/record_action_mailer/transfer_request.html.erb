@@ -1,25 +1,27 @@
+<%# Copyright (c) 2014 - 2023 UNICEF. All rights reserved. %>
+
 <!DOCTYPE html>
-<html lang="<%= @transition&.transitioned_to_user&.locale || I18n.locale %>">
+<html lang="<%= @transfer_request_notification.locale %>">
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
   <body>
     <p>
       <%= t('email_notification.transfer_request_html',
-             user: @transition.transitioned_by,
-             agency: @transition&.transitioned_by_user&.agency&.name,
-             locale: @locale_email,
-             record_type: t("forms.record_types.#{@transition&.record.class.parent_form}"),
+             user: @transfer_request_notification.transition.transitioned_by,
+             agency: @transfer_request_notification.transition&.transitioned_by_user&.agency&.name,
+             locale: @transfer_request_notification.locale,
+             record_type: t("forms.record_types.#{@transfer_request_notification&.record.class&.parent_form}"),
              record_id: link_to(
-                 @transition&.record&.short_id, url_for_v2(@transition&.record)
+                 @transfer_request_notification&.record&.short_id, url_for_v2(@transfer_request_notification&.record)
              )
            ).html_safe
        %>
     </p>
     <p>
       <%= t('email_notification.transfer_request_notes_html',
-             request_transfer_notes: @transition.notes,
-             locale: @locale_email
+             request_transfer_notes: @transfer_request_notification.transition&.notes,
+             locale: @transfer_request_notification.locale
            ).html_safe
        %>
     </p>

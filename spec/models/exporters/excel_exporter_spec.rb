@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # TODO: There are some rubocop warnings related to double quotes around some of the Arabic text.  Leaving as-is for now
 
 require 'rails_helper'
@@ -8,7 +10,9 @@ require 'roo'
 module Exporters
   describe ExcelExporter do
     before do
-      clean_data(Child, User, Agency, Role, UserGroup, Field, FormSection, PrimeroModule, PrimeroProgram)
+      clean_data(
+        Alert, Child, Family, User, Agency, Role, UserGroup, Field, FormSection, PrimeroModule, PrimeroProgram, Referral
+      )
       #### Build Form Section with subforms fields only ######
       subform = FormSection.new(name: 'cases_test_subform_2', parent_form: 'case', visible: false, is_nested: true,
                                 order_form_group: 2, order: 0, order_subform: 0, form_group_id: 'case_form_3',
@@ -115,32 +119,153 @@ module Exporters
                                  })
       form_f.save!
 
+      family_details_section = FormSection.new(
+        unique_id: 'family_details_section',
+        name: 'Nested Family Details',
+        parent_form: 'case',
+        visible: true,
+        is_nested: true,
+        fields: [
+          Field.new(name: 'relation_name', display_name: 'Name', type: 'text_field', visible: true),
+          Field.new(name: 'relation_age', display_name: 'Age', type: 'numeric_field', visible: true),
+          Field.new(name: 'relation_sex', display_name: 'Sex', type: 'text_field', visible: true),
+          Field.new(name: 'relation', display_name: 'Relation', type: 'text_field', visible: true)
+        ]
+      )
+      family_details_section.save!
+
+      form_h = FormSection.new(
+        unique_id: 'family_details',
+        name: 'Family Details',
+        parent_form: 'case',
+        visible: true,
+        form_group_id: 'case_form_1',
+        order: 7,
+        fields: [
+          Field.new(name: 'family_number', display_name: 'Family Number', type: 'text_field', visible: true),
+          Field.new(name: 'family_size', display_name: 'Family Size', type: 'numeric_field', visible: true),
+          Field.new(name: 'family_notes', display_name: 'Family Notes', type: 'text_field', visible: true),
+          Field.new(
+            name: 'family_details_section',
+            display_name_en: 'Family Details',
+            type: 'subform',
+            editable: true,
+            subform_section_id: family_details_section.id,
+            visible: true
+          )
+        ]
+      )
+      form_h.save!
+
+      subform_for_referral = FormSection.new(
+        unique_id: 'subform_for_referral',
+        name: 'Subform For Referral',
+        parent_form: 'case',
+        visible: true,
+        is_nested: true,
+        fields: [Field.new(name: 'subject', display_name: 'Subject', type: 'text_field', visible: true)]
+      )
+      subform_for_referral.save!
+
+      form_add = FormSection.new(
+        unique_id: 'additional_form_referral',
+        name: 'Additional Form For Referral',
+        parent_form: 'case',
+        visible: true,
+        form_group_id: 'case_form_1',
+        order: 7,
+        fields: [
+          Field.new(name: 'additional_notes', display_name: 'Additional Notes', type: 'text_field', visible: true),
+          Field.new(
+            name: 'subform_for_referral',
+            display_name_en: 'Subform For Referral',
+            type: 'subform',
+            editable: true,
+            subform_section_id: subform_for_referral.id,
+            visible: true
+          )
+        ]
+      )
+      form_add.save!
+
       @primero_module = create(:primero_module, unique_id: 'primeromodule-cp', name: 'CP')
-      @role = create(:role, form_sections: [form_a, form_b, form_c, form_d, form_e, form_f], modules: [@primero_module])
+      @role = create(
+        :role, form_sections: [form_a, form_b, form_c, form_d, form_e, form_f, form_h], modules: [@primero_module]
+      )
+      @role_referral = create(:role, form_sections: [form_h, form_add], modules: [@primero_module])
+      @user_referral = create(:user, user_name: 'fakerefer', role: @role)
       @user = create(:user, user_name: 'fakeadmin', role: @role)
-      @records = [create(:child, id: '1234', short_id: 'abc123', first_name: 'John', last_name: 'Doe',
-                                 address: 'this is an address', relationship: 'Mother',
-                                 array_field: %w[option_1 option_2], arabic_text: 'لدّفاع',
-                                 arabic_array: %w[النفط المشتّتون],
-                                 cases_test_subform_1: [
-                                   { unique_id: '1', field_1: 'field_1 value', field_2: 'field_2 value' }
-                                 ],
-                                 cases_test_subform_2: [
-                                   { unique_id: '2', field_3: 'field_3 value', field_4: 'field_4 value' },
-                                   { unique_id: '22', field_3: 'field_3 value2', field_4: 'field_4 value2' }
-                                 ],
-                                 cases_test_subform_3: [
-                                   { unique_id: '3', field_5: 'field_5 value', field_6: 'field_6 value' },
-                                   { unique_id: '33', field_5: 'field_5 value2', field_6: 'field_6 value2' },
-                                   { unique_id: '333', field_5: 'field_5 value3', field_6: 'field_6 value3' }
-                                 ],
-                                 cases_test_subform_4: [
-                                   { unique_id: '4', field_1: 'some_value', field_2: 'field_2 value' },
-                                   { unique_id: '44', field_1: 'field_1 value2', field_2: 'field_2 value2' },
-                                   { unique_id: '444', field_1: 'field_1 value3', field_2: 'field_2 value3' }
-                                 ],
-                                 cases_test_subform_5: nil)]
-      @record_id = Child.last.short_id
+      @family = Family.create!(
+        data: {
+          family_number: 'FA-001',
+          family_size: 5,
+          family_notes: 'FamilyNotes',
+          family_members: [
+            { unique_id: '001', relation_name: 'FirstName1 LastName1', relation_age: 10, relation_sex: 'male' },
+            { unique_id: '002', relation_name: 'FirstName2 LastName2', relation_age: 12, relation_sex: 'female' }
+          ]
+        }
+      )
+      @records = [
+        create(
+          :child,
+          id: '1234', short_id: 'abc123', first_name: 'John', last_name: 'Doe',
+          address: 'this is an address', relationship: 'Mother', array_field: %w[option_1 option_2],
+          arabic_text: 'لدّفاع', arabic_array: %w[النفط المشتّتون],
+          cases_test_subform_1: [
+            { unique_id: '1', field_1: 'field_1 value', field_2: 'field_2 value' }
+          ],
+          cases_test_subform_2: [
+            { unique_id: '2', field_3: 'field_3 value', field_4: 'field_4 value' },
+            { unique_id: '22', field_3: 'field_3 value2', field_4: 'field_4 value2' }
+          ],
+          cases_test_subform_3: [
+            { unique_id: '3', field_5: 'field_5 value', field_6: 'field_6 value' },
+            { unique_id: '33', field_5: 'field_5 value2', field_6: 'field_6 value2' },
+            { unique_id: '333', field_5: 'field_5 value3', field_6: 'field_6 value3' }
+          ],
+          cases_test_subform_4: [
+            { unique_id: '4', field_1: 'some_value', field_2: 'field_2 value' },
+            { unique_id: '44', field_1: 'field_1 value2', field_2: 'field_2 value2' },
+            { unique_id: '444', field_1: 'field_1 value3', field_2: 'field_2 value3' }
+          ],
+          cases_test_subform_5: nil,
+          family_details_section: [
+            { unique_id: '002', relation: 'relation1', relation_name: 'Detail1', relation_sex: 'male', relation_age: 5 }
+          ]
+        ),
+        Child.create!(
+          data: {
+            first_name: 'Referred First',
+            last_name: 'Referred Last',
+            age: 10,
+            sex: 'male',
+            family_number: 'AA-001',
+            family_size: 2,
+            family_notes: 'Family AA Notes',
+            owned_by: 'fakeadmin'
+          }
+        ),
+        Child.create!(
+          family: @family,
+          data: {
+            family_member_id: '001',
+            family_number: 'CA-001',
+            family_size: 0,
+            family_notes: 'CaseNotes',
+            first_name: 'FirstName1',
+            last_name: 'LastName1',
+            age: 10,
+            sex: 'male',
+            family_details_section: [{ unique_id: '002', relation: 'relation2' }]
+          }
+        )
+      ]
+      Referral.create!(
+        transitioned_by: @user.user_name, transitioned_to: @user_referral.user_name, record: @records[1],
+        consent_overridden: true, authorized_role_unique_id: @role_referral.unique_id
+      )
+      @record_id = @records.first.short_id
     end
 
     describe 'Export' do
@@ -150,13 +275,13 @@ module Exporters
       end
 
       it 'contains a worksheet for each form and subform' do
-        expect(workbook.sheets.size).to eq(8)
+        expect(workbook.sheets.size).to eq(10)
         expect(workbook.sheets).to match_array(
           [
             'cases_test_form_2', 'cases_test_form_1',
             'Test Arabic فاكيا قد به،. بـ...', 'cases_test_form-cases_test_s...', 'cases_test_form-cases_test_s.-1',
             'cases_test_form-cases_test_s.-2', 'cases_test_form-cases_test_s.-3',
-            'case_test_form_-cases_test_s...'
+            'case_test_form_-cases_test_s...', 'Family Details', 'Family Details-Nested Family...'
           ]
         )
       end
@@ -177,36 +302,56 @@ module Exporters
         expect(workbook.sheet(1).row(2)).to eq([@record_id, 'Mother', 'Option 1 ||| Option 2'])
         expect(workbook.sheets[2]).to eq('cases_test_form_1')
         expect(workbook.sheet(2).row(2)).to eq([@record_id, 'John', 'Doe', 'this is an address'])
+        expect(workbook.sheet(2).row(3)).to eq([@records[1].short_id, 'Referred First', 'Referred Last', nil])
+        expect(workbook.sheet(2).row(4)).to eq([@records[2].short_id, 'FirstName1', 'LastName1', nil])
       end
 
       it 'exports record values for each instance of subforms' do
-        expect(workbook.sheet(0).last_row).to eq(3)
+        expect(workbook.sheet(0).last_row).to eq(5)
         expect(workbook.sheet(0).row(2)).to eq([@records[0].short_id, 'field_3 value', 'field_4 value'])
         expect(workbook.sheet(0).row(3)).to eq([@records[0].short_id, 'field_3 value2', 'field_4 value2'])
 
-        expect(workbook.sheet(3).last_row).to eq(2)
+        expect(workbook.sheet(3).last_row).to eq(4)
         expect(workbook.sheet(3).row(2)).to eq([@record_id, 'field_1 value', 'field_2 value'])
 
-        expect(workbook.sheet(4).last_row).to eq(4)
+        expect(workbook.sheet(4).last_row).to eq(6)
         expect(workbook.sheet(4).row(2)).to eq([@record_id, 'field_5 value', 'field_6 value'])
         expect(workbook.sheet(4).row(3)).to eq([@record_id, 'field_5 value2', 'field_6 value2'])
         expect(workbook.sheet(4).row(4)).to eq([@record_id, 'field_5 value3', 'field_6 value3'])
       end
 
       it 'exports only the record values for each instance of subforms that meets the condition' do
-        expect(workbook.sheet(6).last_row).to eq(2)
+        expect(workbook.sheet(6).last_row).to eq(4)
         expect(workbook.sheet(6).row(2)).to eq([@record_id, 'field_2 value'])
       end
 
       it 'does not exports data if the conditional subform is empty' do
         expect(workbook.sheets[7]).to eq('case_test_form_-cases_test_s...')
-        expect(workbook.sheet(7).last_row).to eq(2)
+        expect(workbook.sheet(7).last_row).to eq(4)
         expect(workbook.sheet(7).row(2)).to eq([@record_id, nil])
+      end
+
+      it 'exports the family global fields' do
+        expect(workbook.sheet(8).last_row).to eq(4)
+        expect(workbook.sheet(8).row(1)).to eq(['ID', 'Family Number', 'Family Size', 'Family Notes'])
+        expect(workbook.sheet(8).row(2)).to eq([@record_id, nil, nil, nil])
+        expect(workbook.sheet(8).row(3)).to eq([@records[1].short_id, 'AA-001', 2, 'Family AA Notes'])
+        expect(workbook.sheet(8).row(4)).to eq([@records[2].short_id, 'FA-001', 5, 'FamilyNotes'])
+      end
+
+      it 'exports the family details section' do
+        expect(workbook.sheet(9).last_row).to eq(4)
+        expect(workbook.sheet(9).row(1)).to eq(%w[ID Name Age Sex Relation])
+        expect(workbook.sheet(9).row(2)).to eq([@records[0].short_id, 'Detail1', 5, 'male', 'relation1'])
+        expect(workbook.sheet(9).row(3)).to eq([@records[1].short_id, nil, nil, nil, nil])
+        expect(workbook.sheet(9).row(4)).to eq(
+          [@records[2].short_id, 'FirstName2 LastName2', 12, 'female', 'relation2']
+        )
       end
 
       context 'when forms name has special characters' do
         before do
-          clean_data(Field, FormSection, User, Role, PrimeroModule)
+          clean_data(Alert, Field, FormSection, User, Role, PrimeroModule)
           form1 = FormSection.new(
             name: "Child's Details / Identity / Another / Word", parent_form: 'case', visible: true,
             order_form_group: 2, order: 0, order_subform: 0, form_group_id: 'form_group1',
@@ -243,9 +388,85 @@ module Exporters
           expect(@book.sheets).to match_array(expected_sheets)
         end
       end
+
+      context 'when the user was referred to a record' do
+        let(:workbook_records) do
+          data = ExcelExporter.export(@records, nil, { user: @user_referral })
+          Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+        end
+
+        it 'does not export non permitted fields for a referred record' do
+          expect(workbook_records.sheets[2]).to eq('cases_test_form_1')
+          expect(workbook_records.sheet(2).row(2)).to eq([@records[0].short_id, 'John', 'Doe', 'this is an address'])
+          expect(workbook_records.sheet(2).row(3)).to eq([@records[2].short_id, 'FirstName1', 'LastName1', nil])
+          expect(workbook_records.sheet(2).row(4)).to eq([nil, nil, nil, nil])
+        end
+
+        it 'does not export non permitted forms for a referred record' do
+          expect(workbook_records.sheets).not_to include('Additional Form For Referral')
+          expect(workbook_records.sheets).not_to include('Additional Form-Subform For ...')
+        end
+
+        it 'exports the permitted fields for a referred record' do
+          expect(workbook_records.sheet(8).last_row).to eq(4)
+          expect(workbook_records.sheet(8).row(1)).to eq(['ID', 'Family Number', 'Family Size', 'Family Notes'])
+          expect(workbook_records.sheet(8).row(2)).to eq([@records[0].short_id, nil, nil, nil])
+          expect(workbook_records.sheet(8).row(3)).to eq([@records[1].short_id, 'AA-001', 2, 'Family AA Notes'])
+          expect(workbook_records.sheet(8).row(4)).to eq([@records[2].short_id, 'FA-001', 5, 'FamilyNotes'])
+        end
+
+        it 'exports all form and subform sheets for the user role' do
+          expect(workbook_records.sheets.size).to eq(10)
+          expect(workbook_records.sheets).to match_array(
+            [
+              'cases_test_form_2', 'cases_test_form_1',
+              'Test Arabic فاكيا قد به،. بـ...', 'cases_test_form-cases_test_s...', 'cases_test_form-cases_test_s.-1',
+              'cases_test_form-cases_test_s.-2', 'cases_test_form-cases_test_s.-3',
+              'case_test_form_-cases_test_s...', 'Family Details', 'Family Details-Nested Family...'
+            ]
+          )
+        end
+
+        context 'when is a single record is exported' do
+          let(:workbook_referred_record) do
+            data = ExcelExporter.export([@records[1]], nil, { user: @user_referral, single_record_export: true })
+            Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+          end
+
+          it 'exports only the permitted forms the authorized role' do
+            expect(workbook_referred_record.sheets.size).to eq(4)
+            expect(workbook_referred_record.sheets).to match_array(
+              [
+                'Additional Form For Referral', 'Additional Form-Subform For ...', 'Family Details',
+                'Family Details-Nested Family...'
+              ]
+            )
+          end
+
+          it 'exports the permitted fields for a referred record' do
+            expect(workbook_referred_record.sheet(0).last_row).to eq(2)
+            expect(workbook_referred_record.sheet(0).row(1)).to eq(
+              ['ID', 'Family Number', 'Family Size', 'Family Notes']
+            )
+            expect(workbook_referred_record.sheet(0).row(2)).to eq(
+              [@records[1].short_id, 'AA-001', 2, 'Family AA Notes']
+            )
+            expect(workbook_referred_record.sheet(1).last_row).to eq(2)
+            expect(workbook_referred_record.sheet(1).row(1)).to eq(
+              %w[ID Name Age Sex Relation]
+            )
+            expect(workbook_referred_record.sheet(1).row(2)).to eq(
+              [@records[1].short_id, nil, nil, nil, nil]
+            )
+          end
+        end
+      end
     end
-    after do
-      clean_data(Child, User, Agency, Role, UserGroup, Field, FormSection, PrimeroModule, PrimeroProgram)
+
+    after :each do
+      clean_data(
+        Alert, Child, User, Agency, Role, UserGroup, Field, FormSection, PrimeroModule, PrimeroProgram, Referral
+      )
     end
   end
 end

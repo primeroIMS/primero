@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe WebpushSubscription do
@@ -38,6 +40,7 @@ describe WebpushSubscription do
 
   let(:webpush_subscription2) { WebpushSubscription.create!(notification_url: 'https://notification2.url', auth: '2nd-auth', p256dh: '2nd-p256dh', user: user2) }
   let(:webpush_subscription3) { WebpushSubscription.create!(notification_url: 'https://notification3.url', auth: '3rd-auth', p256dh: '3rd-p256dh', user: user1) }
+  let(:webpush_subscription4) { WebpushSubscription.create!(notification_url: 'https://notification4.url', auth: '4rd-auth', p256dh: '4rd-p256dh', user: user1, disabled: true) }
 
   describe 'validations' do
     let(:webpush_subscription) do
@@ -156,6 +159,7 @@ describe WebpushSubscription do
       webpush_subscription1
       webpush_subscription2
       webpush_subscription3
+      webpush_subscription4
     end
     context 'when call method' do
       context 'when notification_url exist' do
@@ -168,11 +172,19 @@ describe WebpushSubscription do
         end
       end
       context 'when notification_url does not exist' do
-        it 'return a WebpushSubscription object' do
+        it 'return nil object' do
           webpush_subscription_obj =
             WebpushSubscription.current(user1, { notification_url: 'https://notification-random.url' })
 
           expect(webpush_subscription_obj).to be_nil
+        end
+      end
+
+      context 'when suscription exist but it is disabled' do
+        it 'raise ActiveRecord::RecordNotFound' do
+          expect do
+            WebpushSubscription.current(user1, { notification_url: 'https://notification4.url' })
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
     end
@@ -211,6 +223,17 @@ describe WebpushSubscription do
       it 'return false when updated_at is not 123 minutes before' do
         expect(webpush_subscription1.expired?).to be true
       end
+    end
+  end
+
+  describe 'disable!' do
+    before(:each) do
+      webpush_subscription1
+    end
+    it 'return a WebpushSubscription metadata' do
+      expect(webpush_subscription1.disabled).to be false
+      webpush_subscription1.disable!
+      expect(webpush_subscription1.disabled).to be true
     end
   end
 

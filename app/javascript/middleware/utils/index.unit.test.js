@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import * as modules from "./index";
 
 describe("middleware/utils/index.js", () => {

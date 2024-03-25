@@ -1,10 +1,9 @@
-import { mountedComponent,screen } from "../../../test-utils";
-import DisplayData from "../../display-data";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+import { mountedComponent, screen } from "../../../test-utils";
 
 import AssignmentsDetails from "./AssignmentsDetails";
 
 describe("<AssignmentsDetails />", () => {
-  let component;
   const props = {
     transition: {
       id: "4142488e-ccd9-4ac5-a3c1-c3c0fd063fc8",
@@ -27,7 +26,7 @@ describe("<AssignmentsDetails />", () => {
   };
 
   it("renders 2 <DisplayData />", () => {
-    mountedComponent(<AssignmentsDetails {...props} />)
+    mountedComponent(<AssignmentsDetails {...props} />);
     expect(screen.getByText(/transition.recipient/i)).toBeInTheDocument();
     expect(screen.getByText(/transition.recipient/i)).toBeInTheDocument();
   });

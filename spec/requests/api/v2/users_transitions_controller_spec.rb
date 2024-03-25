@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::UsersTransitionsController, type: :request do
   before do
-    clean_data(UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
+    clean_data(Alert, UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
 
     @program = PrimeroProgram.create!(
       unique_id: 'primeroprogram-primero',
@@ -37,14 +39,14 @@ describe Api::V2::UsersTransitionsController, type: :request do
       actions: [
         Permission::RECEIVE_REFERRAL, Permission::REFERRAL,
         Permission::RECEIVE_TRANSFER, Permission::TRANSFER,
-        Permission::ASSIGN
+        Permission::ASSIGN, Permission::READ
       ]
     )
 
     permissions_refer = Permission.new(
       resource: Permission::CASE,
       actions: [
-        Permission::RECEIVE_REFERRAL, Permission::REFERRAL
+        Permission::RECEIVE_REFERRAL, Permission::REFERRAL, Permission::READ
       ]
     )
 
@@ -223,6 +225,6 @@ describe Api::V2::UsersTransitionsController, type: :request do
   end
 
   after do
-    clean_data(UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
+    clean_data(Alert, UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
   end
 end

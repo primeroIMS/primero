@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_02_000000) do
+ActiveRecord::Schema.define(version: 2024_03_06_154915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 2023_08_02_000000) do
     t.integer "agency_id"
     t.string "record_type"
     t.uuid "record_id"
+    t.boolean "send_email", default: false
     t.index ["agency_id"], name: "index_alerts_on_agency_id"
     t.index ["record_type", "record_id"], name: "index_alerts_on_record_type_and_record_id"
     t.index ["user_id"], name: "index_alerts_on_user_id"
@@ -499,6 +500,7 @@ ActiveRecord::Schema.define(version: 2023_08_02_000000) do
     t.boolean "disabled", default: false, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.boolean "referral_authorization", default: false, null: false
     t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
@@ -550,6 +552,14 @@ ActiveRecord::Schema.define(version: 2023_08_02_000000) do
     t.jsonb "incident_reporting_location_config"
   end
 
+  create_table "themes", force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.boolean "disabled", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["data"], name: "index_themes_on_data", using: :gin
+  end
+
   create_table "traces", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.uuid "tracing_request_id"
@@ -592,6 +602,8 @@ ActiveRecord::Schema.define(version: 2023_08_02_000000) do
     t.string "transitioned_by_user_groups", array: true
     t.string "transitioned_to_user_agency"
     t.string "transitioned_to_user_groups", array: true
+    t.string "authorized_role_unique_id"
+    t.index ["authorized_role_unique_id"], name: "index_transitions_on_authorized_role_unique_id"
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"
   end
@@ -645,6 +657,7 @@ ActiveRecord::Schema.define(version: 2023_08_02_000000) do
     t.datetime "code_of_conduct_accepted_on"
     t.bigint "code_of_conduct_id"
     t.boolean "receive_webpush"
+    t.jsonb "settings"
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["code_of_conduct_id"], name: "index_users_on_code_of_conduct_id"
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -684,6 +697,7 @@ ActiveRecord::Schema.define(version: 2023_08_02_000000) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["notification_url", "user_id", "disabled"], name: "index_webpush_subscriptions_notification_url_user_id_disabled", unique: true
     t.index ["notification_url", "user_id"], name: "index_webpush_subscriptions_on_notification_url_and_user_id", unique: true
     t.index ["notification_url"], name: "index_webpush_subscriptions_on_notification_url"
     t.index ["user_id"], name: "index_webpush_subscriptions_on_user_id"

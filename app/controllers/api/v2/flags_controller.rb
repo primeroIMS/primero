@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Endpoint for managing flags for a record
 class Api::V2::FlagsController < Api::V2::RecordResourceController
   before_action { authorize! :flag, model_class }
@@ -12,7 +14,7 @@ class Api::V2::FlagsController < Api::V2::RecordResourceController
   end
 
   def update
-    authorize! :flag_record, @record
+    authorize! :flag_resolve, @record
     @flag = @record.remove_flag(params['id'], current_user.user_name, params['data']['unflag_message'])
     updates_for_record(@record)
   end

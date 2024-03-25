@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { batch } from "react-redux";
 
 import { DB_COLLECTIONS_NAMES } from "../../db";
@@ -47,6 +49,14 @@ export const fetchManagedRoles = () => ({
   api: {
     path: RECORD_PATH.roles,
     params: { external: true }
+  }
+});
+
+export const fetchReferralAuthorizationRoles = () => ({
+  type: actions.FETCH_REFERRAL_AUTHORIZATION_ROLES,
+  api: {
+    path: RECORD_PATH.roles,
+    params: { referral_authorization: true }
   }
 });
 
@@ -100,5 +110,10 @@ export const fetchAgencyLogoOptions = () => ({
 
 export const setReturnUrl = payload => ({
   type: actions.SET_RETURN_URL,
+  payload
+});
+
+export const setTheme = payload => ({
+  type: actions.SET_THEME,
   payload
 });

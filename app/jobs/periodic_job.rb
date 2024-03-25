@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Primero ActiveJob superclass
 class PeriodicJob < ActiveJob::Base
-  queue_as :default
+  queue_as :long_running_process
   def perform
     return unless self.class.perform_job?
 

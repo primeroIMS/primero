@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # API controller for Webpush
 class Api::V2::WebpushSubscriptionsController < ApplicationApiController
   before_action :webpush_subscription_params, only: %i[edit update current]
@@ -19,7 +21,7 @@ class Api::V2::WebpushSubscriptionsController < ApplicationApiController
     @webpush_subscription = WebpushSubscription.current(current_user, webpush_subscription_params)
     raise ActiveRecord::RecordNotFound if @webpush_subscription.blank?
 
-    if webpush_subscription_params[:disabled].present?
+    if webpush_subscription_params[:disabled] == true
       @webpush_subscription.disabled = webpush_subscription_params[:disabled]
     end
     @webpush_subscription.updated_at = DateTime.now

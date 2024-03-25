@@ -1,3 +1,4 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 import { mountedFormComponent, screen } from "../../../../../../../test-utils";
 import { FormSectionRecord, FieldRecord } from "../../../../../records";
 import { TEXT_FIELD } from "../../../../../constants";
@@ -17,12 +18,12 @@ describe("<RecordForm>/form/subforms/<TracesForm>", () => {
   };
 
   it("should render the TraceActions", () => {
-    mountedFormComponent(<TracesForm { ...props }/>);
+    mountedFormComponent(<TracesForm {...props} />);
     expect(screen.getByTestId("subForm-traces")).toBeInTheDocument();
   });
 
   it("should render a FormSection", () => {
-    mountedFormComponent(<TracesForm { ...props } />);
+    mountedFormComponent(<TracesForm {...props} />);
     expect(screen.getByRole("textbox")).toBeInTheDocument();
   });
 });

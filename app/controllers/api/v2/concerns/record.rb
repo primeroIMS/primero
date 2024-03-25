@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Shared code for all record-type controllers.
 # This will be a long module, by it's nature,
 # but we'll need to be careful to extract as much code as possible into services
@@ -8,11 +10,11 @@ module Api::V2::Concerns::Record
   extend ActiveSupport::Concern
 
   included do
+    before_action :display_permitted_forms
     before_action :instantiate_app_services
     before_action :permit_params, only: %i[index create update]
-    before_action :permit_fields
+    before_action :permit_fields, only: %i[index create]
     before_action :select_fields_for_index, only: [:index]
-    before_action :select_fields_for_show, only: [:show]
   end
 
   def index
@@ -29,7 +31,9 @@ module Api::V2::Concerns::Record
   def show
     authorize! :read, model_class
     @record = find_record
+    permit_fields
     authorize! :read, @record
+    select_fields_for_show
     render 'api/v2/records/show'
   end
 
@@ -44,6 +48,7 @@ module Api::V2::Concerns::Record
 
   def update
     @record = find_record
+    permit_fields
     authorize_update! && validate_json!
     @record.update_properties(current_user, record_params)
     @record.save!
@@ -68,15 +73,19 @@ module Api::V2::Concerns::Record
 
   def validate_json!
     permitted_fields = @permitted_form_fields_service.permitted_fields(
-      current_user.role, model_class.parent_form, write?
+      authorized_roles, model_class.parent_form, write?
     )
     action_fields = @permitted_field_service.permitted_fields_schema
     service = RecordJsonValidatorService.new(fields: permitted_fields, schema_supplement: action_fields)
     service.validate!(params[:data].to_h)
   end
 
+  def authorized_roles
+    @authorized_roles ||= [current_user.role]
+  end
+
   def permit_fields
-    @permitted_field_names = @permitted_field_service.permitted_field_names(write?, update?)
+    @permitted_field_names = @permitted_field_service.permitted_field_names(write?, update?, authorized_roles)
   end
 
   def select_fields_for_show
@@ -122,6 +131,10 @@ module Api::V2::Concerns::Record
 
   def search_filters
     SearchFilterService.build_filters(params, @permitted_field_names)
+  end
+
+  def display_permitted_forms
+    @display_permitted_forms = false
   end
 
   private

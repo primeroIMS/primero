@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Represents a query against a location field
 class Reports::FieldQueries::LocationFieldQuery < Reports::FieldQueries::FieldQuery
   attr_accessor :admin_level

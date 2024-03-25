@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 require 'sunspot'
 
@@ -1038,7 +1040,7 @@ describe Child do
       clean_data(Child)
     end
 
-    let(:child_1) do
+    let(:child1) do
       Child.create!(
         data: {
           name: 'Child 1',
@@ -1050,7 +1052,7 @@ describe Child do
       )
     end
 
-    let(:child_2) do
+    let(:child2) do
       Child.create!(
         data: {
           name: 'Child 2',
@@ -1062,7 +1064,7 @@ describe Child do
       )
     end
 
-    let(:child_3) do
+    let(:child3) do
       Child.create!(
         data: {
           name: 'Child 3',
@@ -1072,9 +1074,52 @@ describe Child do
     end
 
     it 'calculates the has_case_plan field' do
-      expect(child_1.has_case_plan).to eq(true)
-      expect(child_2.has_case_plan).to eq(true)
-      expect(child_3.has_case_plan).to eq(false)
+      expect(child1.has_case_plan).to eq(true)
+      expect(child2.has_case_plan).to eq(true)
+      expect(child3.has_case_plan).to eq(false)
+    end
+
+    after do
+      clean_data(Child)
+    end
+  end
+
+  describe 'family_members' do
+    before do
+      clean_data(Child)
+    end
+
+    let(:member_unique_id1) { SecureRandom.uuid }
+
+    let(:member_unique_id2) { SecureRandom.uuid }
+
+    let(:family1) do
+      Family.create!(
+        data: {
+          family_number: '001',
+          family_members: [
+            { unique_id: member_unique_id1, relation_name: 'Member 1', relation_sex: 'male', relation_age: 5 },
+            { unique_id: member_unique_id2, relation_name: 'Member 2', relation_sex: 'male', relation_age: 10 }
+          ]
+        }
+      )
+    end
+
+    let(:child1) do
+      Child.create!(family: family1, data: { name: 'Child 1', age: 4, family_member_id: member_unique_id1 })
+    end
+
+    it 'returns the family members of a child linked to a family not including itself' do
+      expect(child1.family_members).to eq(
+        [
+          {
+            'unique_id' => member_unique_id2,
+            'relation_name' => 'Member 2',
+            'relation_sex' => 'male',
+            'relation_age' => 10
+          }
+        ]
+      )
     end
 
     after do

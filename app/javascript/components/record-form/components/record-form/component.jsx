@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
@@ -12,7 +14,7 @@ import { useI18n } from "../../../i18n";
 import PageContainer from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import { clearSelectedRecord, fetchRecord, saveRecord, setSelectedRecord } from "../../../records";
-import { RECORD_TYPES, RECORD_TYPES_PLURAL, REFERRAL } from "../../../../config";
+import { RECORD_TYPES, RECORD_TYPES_PLURAL, REFERRAL, RECORD_PATH } from "../../../../config";
 import { getIsProcessingSomeAttachment, getLoadingRecordState } from "../../../records/selectors";
 import { clearRecordAttachments, fetchRecordsAlerts } from "../../../records/action-creators";
 import useIncidentFromCase from "../../../records/use-incident-form-case";
@@ -20,12 +22,7 @@ import SaveAndRedirectDialog from "../../../save-and-redirect-dialog";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import { SERVICES_SUBFORM } from "../../../record-actions/add-service/constants";
 import { getLoadingState, getErrors, getSelectedForm } from "../../selectors";
-import {
-  clearDataProtectionInitialValues,
-  clearValidationErrors,
-  setPreviousRecord,
-  setSelectedForm
-} from "../../action-creators";
+import { clearDataProtectionInitialValues, clearValidationErrors, setPreviousRecord } from "../../action-creators";
 import Nav from "../../nav";
 import { RecordForm, RecordFormToolbar } from "../../form";
 import css from "../../styles.css";
@@ -243,14 +240,10 @@ const Component = ({
     }
   }, [selectedForm]);
 
-  useEffect(() => {
-    if (containerMode.isShow && firstTab && shouldFetchRecord) {
-      dispatch(setSelectedForm(firstTab.unique_id));
-    }
-  }, [shouldFetchRecord]);
+  const isNotANewIncident = !containerMode.isNew && params.recordType === RECORD_PATH.incidents;
 
   const transitionProps = {
-    fetchable: isNotANewCase,
+    fetchable: isNotANewCase || isNotANewIncident,
     isReferral: REFERRAL === selectedForm,
     recordType: params.recordType,
     recordID: params.id,
@@ -323,6 +316,7 @@ const Component = ({
               formNav={formNav}
               handleToggleNav={handleToggleNav}
               isNew={containerMode.isNew}
+              isShow={containerMode.isShow}
               mobileDisplay={mobileDisplay}
               recordType={params.recordType}
               selectedForm={selectedForm}
@@ -330,6 +324,7 @@ const Component = ({
               toggleNav={toggleNav}
               primeroModule={selectedModule.primeroModule}
               hasForms={hasForms}
+              recordId={params.id}
               formikValuesForNav={formikValuesForNav}
             />
           </div>

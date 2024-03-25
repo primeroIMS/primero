@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 def create_or_update_system_setting(setting_hash)
   # There should only be 1 row in system settings
 

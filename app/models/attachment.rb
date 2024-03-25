@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Represents file attachments for Primero records: images, audio, documents
 class Attachment < ApplicationRecord
   IMAGE = 'image'
@@ -80,6 +82,10 @@ class Attachment < ApplicationRecord
     else
       []
     end
+  end
+
+  def photo?
+    attachment_type == Attachment::IMAGE && field_name == Attachable::PHOTOS_FIELD_NAME
   end
 
   def url

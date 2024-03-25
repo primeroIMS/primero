@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import isEqual from "lodash/isEqual";
 
 export const isFieldInList = (field, fieldList) => fieldList.some(fieldItem => isEqual(field, fieldItem));

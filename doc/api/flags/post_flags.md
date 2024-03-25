@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Create a bulk flags
 
 Create a multiple flag for a list of records, depends of the recordType and array of ids 

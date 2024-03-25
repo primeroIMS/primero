@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Transform API query parameter field_name=YYYYMMDD..YYYMMDD into a Sunspot query
 class SearchFilters::DateRange < SearchFilters::SearchFilter
   attr_accessor :field_name, :from, :to

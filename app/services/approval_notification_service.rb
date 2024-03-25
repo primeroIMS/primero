@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Service for approval notification logic
 class ApprovalNotificationService
   attr_accessor :record_id, :type, :manager_user_name, :approved
@@ -37,14 +39,8 @@ class ApprovalNotificationService
 
   alias owner user
 
-  def approval_lookup_unique_id
-    return 'lookup-gbv-approval-types' if manager.gbv?
-
-    'lookup-approval-type'
-  end
-
   def approval_type
-    @approval_type ||= Lookup.display_value(approval_lookup_unique_id, type)
+    SystemSettings.current.approvals_labels(manager.locale)&.dig(type)
   end
 
   def send_notification?

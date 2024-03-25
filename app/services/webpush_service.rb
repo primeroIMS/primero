@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Service to send a WebPush Notification
 class WebpushService
+  MAX_ATTEMPTS = 3
+
   def self.send_notifications(user, message)
     WebpushService.new.send_notifications(user, message)
   end
@@ -16,9 +20,30 @@ class WebpushService
         next
       end
 
-      send_push(subscription, message)
+      handle_send_push(subscription, message)
     end
   end
+
+  # rubocop:disable Metrics/MethodLength
+  def handle_send_push(subscription, message)
+    attempts = 0
+
+    while attempts < MAX_ATTEMPTS
+      begin
+        send_push(subscription, message)
+        return
+      rescue WebPush::ConfigurationError, WebPush::ResponseError, WebPush::InvalidSubscription,
+             WebPush::ExpiredSubscription, WebPush::Unauthorized, WebPush::PayloadTooLarge,
+             WebPush::TooManyRequests, WebPush::PushServiceError => e
+        attempts += 1
+        Rails.logger.debug("Webpush not sent. Attempt ##{attempts}. Error: #{e.message}")
+      end
+    end
+
+    Rails.logger.info("Failure to send message. Disabling WebPush subscription #{subscription.id}.")
+    subscription.disable!
+  end
+  # rubocop:enable Metrics/MethodLength
 
   def send_push(subscription, message)
     return if subscription.blank?
@@ -52,7 +77,7 @@ class WebpushService
   def vapid_metadata
     {
       vapid: {
-        subject: Rails.configuration.x.webpush.contact,
+        subject: "mailto:#{Rails.configuration.x.webpush.contact}",
         public_key: Rails.configuration.x.webpush.vapid_public,
         private_key: Rails.configuration.x.webpush.vapid_private
       }

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This model encapsulates system-wide configuration settings.
 # These are selected at system bootstrap time,
 # and will not be configured by the system administrator.
@@ -15,7 +17,8 @@ class SystemSettings < ApplicationRecord
 
   store_accessor(:system_options, :due_date_from_appointment_date,
                  :show_alerts, :code_of_conduct_enabled, :timeframe_hours_to_assign,
-                 :timeframe_hours_to_assign_high, :duplicate_field_to_form)
+                 :timeframe_hours_to_assign_high, :duplicate_field_to_form,
+                 :maximum_users, :maximum_users_warning)
 
   localize_properties %i[welcome_email_text approvals_labels]
 
@@ -24,6 +27,9 @@ class SystemSettings < ApplicationRecord
 
   after_initialize :set_version
   before_save :set_version
+  validate :validate_maximum_users
+  validate :validate_maximum_users_warning
+  validate :validate_maximum_users_values, if: :maximum_users_fields_present?
 
   def name
     I18n.t('system_settings.label')
@@ -113,6 +119,29 @@ class SystemSettings < ApplicationRecord
 
   def timeframe_hours_to_assign_high
     super || TIMEFRAME_HOURS_TO_ASSIGN_HIGH
+  end
+
+  def validate_maximum_users
+    return if maximum_users.blank? || (maximum_users.is_a?(Integer) && maximum_users.positive?)
+
+    errors.add(:maximum_users, 'errors.models.maximum_users.only_integer')
+  end
+
+  def validate_maximum_users_warning
+    return if maximum_users_warning.blank? || (maximum_users_warning.is_a?(Integer) && maximum_users_warning.positive?)
+
+    errors.add(:maximum_users_warning, 'errors.models.maximum_users_warning.only_integer')
+  end
+
+  def validate_maximum_users_values
+    return if maximum_users >= maximum_users_warning
+
+    errors.add(:base, 'errors.models.maximum_users.greater_than_warning')
+  end
+
+  def maximum_users_fields_present?
+    maximum_users.present? && maximum_users_warning.present? &&
+      maximum_users.is_a?(Integer) && maximum_users_warning.is_a?(Integer)
   end
 
   class << self

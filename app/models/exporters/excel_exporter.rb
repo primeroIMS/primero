@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'write_xlsx'
 
 # Export records to Excel. Every form is represented by a new tab.
@@ -27,12 +29,28 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def export(records)
+    super(records)
+    if single_record_export
+      export_single_record(records)
+    else
+      export_records(records)
+    end
+  end
+
+  def export_records(records)
     constraint_subforms
     build_worksheets_with_headers
-
     records.each do |record|
+      establish_record_constraints(record)
       write_record(record)
     end
+  end
+
+  def export_single_record(records)
+    establish_record_constraints(records.first)
+    constraint_subforms
+    build_worksheets_with_headers
+    write_record(records.first)
   end
 
   def worksheet_id(form, subform_field = nil)
@@ -111,12 +129,16 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def write_record(record)
+    data = record.data
+
     forms.each do |form|
-      write_record_form(record.short_id, record.data, form, form&.subform_field&.name)
+      write_record_form(record.short_id, data, form, form&.subform_field&.name)
     end
   end
 
   def write_record_form(id, data, form, form_name = '', subform_field = nil)
+    return unless worksheets[worksheet_id(form, subform_field)].present?
+
     rows_written = write_record_row(id, data, form, form_name, subform_field)
     worksheets[worksheet_id(form, subform_field)][:row] += rows_written
   end
@@ -146,6 +168,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def export_field_value(data, field, form_field_name)
+    return if non_permitted_field?(field)
     return export_value(field_data_value(data, field), field) unless field.nested?
 
     data_form_name = form_field_name.presence || field&.form_section&.subform_field&.name

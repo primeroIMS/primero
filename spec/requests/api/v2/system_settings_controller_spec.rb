@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::SystemSettingsController, type: :request do
@@ -65,7 +67,8 @@ describe Api::V2::SystemSettingsController, type: :request do
         assessment: 'Assessment',
         case_plan: 'Case Plan',
         closure: 'Closure'
-      }
+      },
+      maximum_users: 55
     )
   end
 
@@ -76,18 +79,19 @@ describe Api::V2::SystemSettingsController, type: :request do
       login_for_test
       get '/api/v2/system_settings'
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(18)
+      expect(json['data'].size).to eq(19)
       expect(json['data']['default_locale']).to eq('en')
       expect(json['data']['locale']).to eq('en')
       expect(json['data']['rtl_locales']).to contain_exactly('ar')
       expect(json['data']['primero_version']).to eq(@system_settings.primero_version)
+      expect(json['data']['system_options']['maximum_users']).to eq(@system_settings.maximum_users)
     end
 
     it 'lists system_settings and all agencies and all modules when the param *extended* is true on the request' do
       login_for_test
       get '/api/v2/system_settings?extended=true'
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(20)
+      expect(json['data'].size).to eq(21)
       expect(json['data']['agencies'][0]['name']['en']).to eq('Agency test')
       expect(json['data']['modules'].size).to eq(1)
       expect(json['data']['modules'][0]['name']).to eq('CP')

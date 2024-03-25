@@ -1,9 +1,9 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 import { mountedComponent, screen } from "../../../test-utils";
 
 import AssignmentsSummary from "./AssignmentsSummary";
 
 describe("<AssignmentsSummary />", () => {
-  let component;
   const props = {
     transition: {
       id: "4142488e-ccd9-4ac5-a3c1-c3c0fd063fc8",
@@ -25,11 +25,10 @@ describe("<AssignmentsSummary />", () => {
     }
   };
 
-
   it("renders divs with its corresponding class", () => {
     mountedComponent(<AssignmentsSummary {...props} />);
     expect(screen.getByText(/ransition.type.assign/i)).toBeInTheDocument();
-    expect(screen.getByTestId('wrapper')).toBeInTheDocument();
-    expect(screen.getByTestId('date')).toBeInTheDocument();
+    expect(screen.getByTestId("wrapper")).toBeInTheDocument();
+    expect(screen.getByTestId("date")).toBeInTheDocument();
   });
 });

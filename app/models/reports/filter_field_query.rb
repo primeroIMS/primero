@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Filters an active record query by field
 class Reports::FilterFieldQuery < ValueObject
   CONSTRAINTS = %w[= > <].freeze

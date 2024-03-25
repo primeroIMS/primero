@@ -1,4 +1,6 @@
 # encoding: utf-8
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 #
 # This is the English localization file for Primero.  It is based on the sample
 # English localization file found in the repository linked below[1].
@@ -99,6 +101,7 @@ en:
     terms_of_use_download_button: Download PDF
     terms_of_use_enabled: Display Terms of Use?
   approvals:
+    no_requests: There are no approval requests for this Case
     approved_by: Approved By
     case_plan_type_label: Case plan type
     manager_comments_label: Manager Comments
@@ -256,6 +259,13 @@ en:
       consent_agreements_required: Please select at least one option from consent agreements.
       legitimate_basis_required: Please select at least one option from legitimate basis classifications.
       confirm_create_case: Do you want to create a Case for this individual?
+      case_referral_pending: A Case referral is pending.
+      case_transfer_pending: A Case transfer is pending.
+      case_no_approval_request: There are no approval requests for this Case.
+      bulk_assign_limit: You cannot assign more than 100 Cases at once.
+      bulk_assign_limit_try_again: You cannot assign more than 100 Cases at once. Please select 100 Cases or fewer and then try again.
+      referral_rejected: Referral has been rejected.
+      transfer_request_made: Transfer Request has been made for this Case.
     save: Save Case
     save_text: Before continuing, please save your changes to the Case.
     skip_and_create: Skip and Create New Case
@@ -263,6 +273,8 @@ en:
     search_helper_text: Why? To prevent creation of duplicate cases.
     consent_agreements: Select all consent agreements that apply
     legitimate_basis: Select all legitimate basis clasifications that apply
+    family_linked_subform_delete_disabled: This subform entry is linked to a Family Record. Please either
+      remove this family member from the family record, or unlink the family member's case from the Family Record.
     workflow:
       assessment: Assessment
       case_plan: Case Plan
@@ -282,6 +294,7 @@ en:
     rejected_transfer: '%{to} rejected transfer of  %{record_type} %{record_id} from %{from}'
   cases:
     action_plan: Action Plan
+    access_denied: "You do not have access to this Case."
     age: Age
     age_estimated: Estimated Age?
     agency: Agency
@@ -376,6 +389,7 @@ en:
       urgent_protection_concern: Urgent Protection Concern
       user_group: User Group
       workflow: Cases by Workflow
+      include_disabled: Include disabled
     flag_summary: Flag summary
     full_name: Full Name
     gbv_closure: GBV Closure
@@ -401,6 +415,8 @@ en:
       tracing_message: 'Note: There is a match in the system with an Inquirer looking
         for this child. Contact the social worker of this record for further action
         if the child wishes.'
+    reassign:
+      multiple_successfully: Primero is reassigning %{select_records} Case(s). It may take several minutes for all of these Cases to update.
     referral_done: Clicking 'Done' signifies that you have completed the referral
       work associated with this case. Once you click 'Done' you will no longer have
       access to this record.
@@ -450,6 +466,7 @@ en:
     save_filter: Save
     selected_all_records: Select all %{total_records} cases that match this query.
     selected_records: '%{select_records} case(s) selected'
+    selected_records_assign: '%{select_records} case(s) selected'
     sex: Sex
     show_case: 'Case ID: %{short_id}'
     social_worker: Social Worker
@@ -836,6 +853,8 @@ en:
     assign_html: '<strong>%{user}</strong> has assigned the following %{record_type} to you: <strong>%{record_id}</strong>.'
     transfer_request_html: 'Primero user <strong>%{user}</strong> from %{agency} is requesting that you transfer ownership of this %{record_type} record <strong>%{record_id}</strong> so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer.'
     transfer_request_notes_html: 'Notes from the individual making the request: %{request_transfer_notes}'
+    alert: '%{record_type} %{id} - %{form_name} has been updated. Please log in to Primero to review the changes.'
+    alert_subject: '%{record_type}: %{id} - %{form_name} Updated'
   webpush_notification:
     action_label: Go to Case
     approval_request:
@@ -853,6 +872,12 @@ en:
     transfer:
       title: New Transfer
       body: You have received a new Case Transfer.
+    alert_case:
+      title: Case Updated
+      body: "%{type} has been updated on one of your cases."
+    transfer_request:
+      title: Transfer Request
+      body: You have received a new Case Transfer Request
   encrypt:
     export_type: Type of export
     file_name: Create your own file name (Optional)
@@ -864,6 +889,8 @@ en:
     address_fields: You need to address %{fields} fields on %{forms} forms
     address_form_fields: You need to address %{fields} fields on this form
     address_subform_fields: '%{subform} has %{fields} invalid fields'
+    error_401:  You have been logged out. Please log in again.
+    error_something_went_wrong: Something went wrong.
   error_page:
     not_authorized:
       code: 403
@@ -874,6 +901,8 @@ en:
       contact_admin: If you believe you are here by error, please contact your admin.
       something_went_wrong: Sorry, Something went wrong!
   errors:
+    api:
+      internal_server: Server Error
     error_loading: Error Loading Record(s)
     models:
       agency:
@@ -1407,6 +1436,7 @@ en:
     ar-LB: العربية (اللبنانية)
     ar-SD: العربية (السودانية)
     bn: বাংলা
+    cmn: 中文
     current_time_zone: Current time zone
     dashboard: Dashboard
     en: English
@@ -1445,6 +1475,7 @@ en:
     view_records: View Records
     welcome: Welcome to Primero
     zh: 中文
+    tet: Tetum
   incident:
     code: Incident Code
     associated_case: "Associated Case:"
@@ -1454,6 +1485,7 @@ en:
       disabled: Incident is disabled
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
+      bulk_assign_limit_try_again: You cannot assign more than 100 Incidents at once. Please select 100 Incidents or fewer and then try again.
     violation:
       associated_violations: "Associated Violations:"
       update_and_return: 'Update and Return to %{association}'
@@ -1472,6 +1504,7 @@ en:
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
   incidents:
+    change_status: Change Status
     disable_dialog: Clicking OK will change the status of this incident to Disabled.
     disable_dialog_title: Disable Incident
     disable_success: Successfully disabled incident
@@ -1520,12 +1553,15 @@ en:
       perpetrator_category: Type of Perpetrator
       record_owner: Record Owner
     register_new_incident: New Incident
+    reassign:
+      multiple_successfully: Primero is reassigning %{select_records} Incident(s). It may take several minutes for all of these Incidents to update. Note that Incidents already linked to Cases will not be assigned.
     selectable_date_options:
       date_of_first_report: Interview Date
       mrm_date_of_first_report: Date of initial report to CTFMR member
       ctfmr_verified_date: Date of Verification decision by CTFMR
       incident_date_derived: Incident Date
     selected_records: '%{select_records} incident(s) selected'
+    selected_records_assign: '%{select_records} incident(s) selected. Note that Incidents already linked to Cases will not be assigned.'
     selected_all_records: 'Select all %{total_records} incidents that match this query.'
     summary_mrm:
       label: Summary of the Incident
@@ -1550,6 +1586,7 @@ en:
     survivor_code: Survivor Code
     show_incident: 'Incident ID %{short_id}'
     social_worker: Social Worker
+    verify_mrm: Verify MRM
     violation_type: Violation Type
     violence_type: Violence Type
     type_violence: Type of Violence
@@ -2334,6 +2371,7 @@ en:
       reopen: Reopen
       report: Report
       managed_report: Insights
+      resolve_any_flag: Resolve any Flag
       request_approval: Request for approval
       request_approval_action_plan: Request %{approval_label} approval
       request_approval_assessment: Request %{approval_label} approval
@@ -2357,6 +2395,7 @@ en:
       transfer: Can be used for transfer
       user: Users
       user_group: User Groups
+      verify_mrm: Verify MRM
       view_approvals: View Approvals
       view_assessment: View Assessment
       view_photo: View Photo
@@ -2367,6 +2406,7 @@ en:
       workflow_team: Workflow - Teams cases
       write: Write
       activity_log: Activity Log
+      remove_alert: Remove Alert
     resource:
       kpi:
         actions:
@@ -2626,6 +2666,7 @@ en:
             label: Export Photowall
           export_unhcr_csv:
             label: Export UNHCR CSV
+            explanation: DEPRECATED - This feature is no longer in use.
           export_xls:
             explanation: 'User can generate a XLS file export from the case list or
               case show pages, which contains all fields to which the current user
@@ -2645,6 +2686,9 @@ en:
             explanation: Ability to add a flag to a case. Users with this permission
               can also remove the flags that they have added to a case.
             label: Flag
+          resolve_any_flag:
+            explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
+            label: Resolve any Flag
           import:
             explanation: Allows the user to create one or more new cases by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted
@@ -2680,6 +2724,12 @@ en:
               that this permission also allows the user to see a link to the incident
               which was created.
             label: Create an incident from a case
+          remove_alert:
+            explanation: This permission allows the user to remove an alert from
+              a case. Alerts are typically generated when a particular field is
+              edited, such as when notes are updated. Alerts are usually shown
+              with a yellow dot next to the case.
+            label: Remove alert from a case
           manage:
             explanation: Allows a user to perform all available actions on cases.
               The "Manage" permission essentially means "everything".
@@ -2857,6 +2907,10 @@ en:
             explanation: Users can create a Case for one of the Case's family members in the Family Details subform.
               Note that a Family Record will be automatically created to link these two cases.
             label: Create Case from Family Details
+          link_family_record:
+            explanation: Allows a user to search for and link an existing Family Record to their Case.
+              Also allows users to un-link a Family Record from a Case.
+            label: Link / Unlink Family Record from Case
         explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:
@@ -2925,7 +2979,8 @@ en:
               tasks for each one of their case workers.
             label: Overdue Service tasks
           dash_case_incident_overview:
-            explanation: .
+            explanation: Shows a manager the number of cases managed by each user in their team,
+              which are being referred or transferred to other users.
             label: Overview - My Cases / Incidents
           dash_cases_by_social_worker:
             explanation: Table which shows how the total number of open cases and
@@ -2988,6 +3043,8 @@ en:
               to each one of the users in their team.
             label: Shared With My Team
           dash_shared_with_my_team_overview:
+            explanation: Shows a manager the number of cases referred or transferred
+              to each one of the users in their team.
             label: Shared with my Team (Overview)
           dash_shared_with_others:
             explanation: Shows how many of my cases have active referrals, pending
@@ -3041,6 +3098,14 @@ en:
         explanation: If you disable this Role, you will no longer be able to assign
           it to User accounts.
         label: Disabled
+      referral_authorization:
+        explanation: This means the role will appear as an option for the "Type of Referral"
+          dropdown when the user performs an internal referral. If the user chooses this role as the type of referral,
+          the referral recipient will only be able to access the forms which the selected role can access.
+          So, for instance, if the user chooses "Medical Service Provider" as the Type of Referral,
+          and the Medical Service Provider role only has access to the Basic Identity and Protection Concerns forms,
+          the recipient will only see these forms.
+        label: Can this role be used for the "Type of Referral" dropdown?
       duplicate:
         actions:
           read:
@@ -3093,6 +3158,13 @@ en:
           label: Forms - Registry
         family:
           label: Forms - Family
+          explanation: 'Limiting a user''s access to forms for Families limits
+            which information the user can see on a family. For instance, if the
+            user only has access to the Record Owner form, they will also only be
+            able to see the information contained in the fields on that form. If the
+            current user has limited form access and has the ability to manage the
+            form configuration, limiting their form access also limits which forms
+            they can configure.'
       group:
         actions:
           admin_only:
@@ -3127,6 +3199,12 @@ en:
         label: What records does this role affect?
       incident:
         actions:
+          assign:
+            explanation: Allows a user to send an Incident from its original record owner to
+              any other user in the system. Incidents which are already linked to a Case
+              cannot be assigned; you must instead reassign the linked Case, which will update
+              the Incident's record ownership.
+            label: Assign
           change_log:
             explanation: User can see a history of all changes made to the record
               since it was created. This includes values recorded for all fields.
@@ -3153,6 +3231,7 @@ en:
               has access.
             label: Export CSV
           export_custom:
+            explanation: User can select specific forms or fields to export to an XLS file.
             label: Export custom
           export_incident_recorder_xls:
             explanation: User can generate a specialized XLS file export which allows
@@ -3197,6 +3276,9 @@ en:
             explanation: Ability to add a flag to an incident. Users with this permission
               can also remove the flags that they have added to an incident.
             label: Flag
+          resolve_any_flag:
+            explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
+            label: Resolve any Flag
           import:
             explanation: Allows the user to create one or more new incidents by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted
@@ -3205,6 +3287,12 @@ en:
               skills and an in-depth knowledge of how data is formatted in Primero.
               Only performed from incident list page.
             label: Import
+          remove_alert:
+            explanation: This permission allows the user to remove an alert from
+              an incident. Alerts are typically generated when a particular field is
+              edited, such as when notes are updated. Alerts are usually shown
+              with a yellow dot next to the incident.
+            label: Remove alert from an incident
           manage:
             explanation: Allows a user to perform all available actions on incidents.
               The "Manage" permission essentially means "everything".
@@ -3223,6 +3311,9 @@ en:
               also cannot sync their mobile devices with the web application in general,
               meaning that they cannot use the mobile app to manage incidents.
             label: Sync with mobile device
+          verify_mrm:
+            explanation: MRM user can change the status of violations.
+            label: Verify MRM
           write:
             explanation: Ability to click the "Edit" button, update information about
               the incident, and click "Save". Also allows the user to disable or enable
@@ -3249,12 +3340,16 @@ en:
           managed_report_scope_agency:
             label: Agency-based data only
           violations:
+            explanation: Ability to access the MRM Violations Insight.
             label: Violations
           gbv_statistics:
+            explanation: Ability to access to see the GBV Statisitcs Insight.
             label: GBV Statistics
           ghn_report:
+            explanation: Ability to access the MRM Global Horizontal Note Insight.
             label: Global Horizontal Note
           individual_children:
+            explanation: Ability to access the MRM Individual Children Insight.
             label: Individual Children
           workflow_report:
             label: Workflow
@@ -3379,6 +3474,9 @@ en:
             explanation: Ability to add a flag to a Registry record. Users with this permission
               can also remove the flags that they have added to a Registry record.
             label: Flag
+          resolve_any_flag:
+            explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
+            label: Resolve any Flag
           manage:
             explanation: Allows a user to perform all available actions on Registry records. The
               "Manage" permission essentially means "everything".
@@ -3429,15 +3527,6 @@ en:
               The XLS format renders non-Latin characters (e.g. Arabic, Bangla) in a readable
               format, while the CSV export does not.'
             label: Excel (XLS file) export
-          export_json:
-            explanation: User can generate a JSON file export from the Family list
-              or incident show pages, which contains all fields to which the current
-              user has access, for one, multiple, or all incidents to which the user
-              has access. This export is mainly used for those who want to export
-              incidents from the current Primero system and then import them into
-              a different Primero system, or into another information management system.
-              The JSON format is machine-readable and not practical for most users.
-            label: Export JSON
           export_list_view_csv:
             explanation: User can generate a CSV file export from the Family list
               page which contains the same fields which appear for that user on the
@@ -3452,10 +3541,15 @@ en:
             label: Export PDF
           export_custom:
             label: Export custom
+            explanation: User can select specific forms or fields from the Family list or
+              Family show pages to export to an XLS file.
           flag:
             explanation: Ability to add a flag to a Family. Users with this permission
               can also remove the flags that they have added to a Family.
             label: Flag
+          resolve_any_flag:
+            explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
+            label: Resolve any Flag
           manage:
             explanation: Allows a user to perform all available actions on Families. The
               "Manage" permission essentially means "everything".
@@ -3468,7 +3562,7 @@ en:
               and click "Save".
             label: Edit
           sync_mobile:
-            explanation: Allows the user to cache Families for usage offline.
+            explanation: Allows the user to cache family records for usage offline.
             label: Mark for Offline
           close:
             explanation: Allows a user to set the status of an open family to closed.
@@ -3651,6 +3745,9 @@ en:
               permission can also remove the flags that they have added to a tracing
               request.
             label: Flag
+          resolve_any_flag:
+            explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
+            label: Resolve any Flag
           import:
             explanation: Allows the user to create one or more new cases by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted
@@ -3771,7 +3868,8 @@ en:
             label: Delete
           manage:
             label: Manage (all permissions for this resource type)
-            explanation:
+            explanation: Used for system roles which access Primero Webhooks to other systems.
+              Not recommended for non-developer usage.
       activity_log:
         actions:
           transfer:
@@ -3780,7 +3878,7 @@ en:
             label: Transfers
           manage:
             label: Manage (all permissions for this resource type)
-            explanation:
+            explanation: Ability to access all.
         label: Activity Log
   potential_match:
     case_id: Case ID
@@ -3802,11 +3900,12 @@ en:
     display: Displaying potential matches for %{type} %{id}
   reassign:
     multiple_error: An error occurred. %{select_records} case(s) not assigned.
-    multiple_successfully: '%{select_records} case(s) successfully assigned'
+    multiple_successfully: Primero is reassigning %{select_records} Case(s). It may take several minutes for all of these Cases to update
     notes_label: Notes
     successfully: Successfully reassigned
     user_mandatory_label: Recipient is required
     users_label: Recipient
+    incident_from_case_warning: You cannot assign this Incident, because it is already linked to a Case. When you assign the Case, the Incident is assigned as well.
   record_information:
     assigned_user_names: Other Assigned Users
     created_at: Record created at
@@ -3828,6 +3927,8 @@ en:
   referral:
     type_of_recipient: Type of Recipient
     type_of_referral_required: Type of Referral is required
+    referral_authorization_label:  Would you like to specify a Type of Referral?
+    referral_authorization_help_text: This will limit which forms the recipient can access.
     agency_label: Agency
     is_remote_label: Are you referring to a remote system?
     location_label: Location
@@ -4073,6 +4174,8 @@ en:
   families:
     id: ID
     label: Families
+    family_id: Family ID
+    family_number: Family Number
     family_name: Family Name
     family_registration_date: Registration Date
     family_location_current: Family Location
@@ -4083,6 +4186,10 @@ en:
     disable_dialog: Clicking OK will change the status of this Family to Disabled.
     selected_records: '%{select_records} family record(s) selected'
     selected_all_records: 'Select all %{total_records} families that match this query.'
+    mark_for_offline:
+      title: Mark for Offline
+      text: Are you sure you want to mark these Family Records for use when you are offline?
+      success: Family Records successfully marked for offline use
     filter_by:
       by_date: By Date
       status: Status
@@ -4147,6 +4254,7 @@ en:
       inprogress: Pending
       rejected: Rejected
       revoked: Revoked
+    transferred_by: Transferred by
     type:
       assign: Assign
       reassign: Assign
@@ -4184,6 +4292,7 @@ en:
       passwords_do_not_match: does not match current password
       time_zone_updated: The change was successfully updated.
       updated: User was successfully updated.
+      created_warning: You have created %{total_enabled} of your %{maximum_users} permitted enabled users.
     organization: Organization
     agency: Agency
     services_help_text: If you do not specify services, this User will be given the same services its Agency has.
@@ -4202,9 +4311,21 @@ en:
     provider_username_help: 'Example: my.username@%{domain}'
     role_id: Role
     send_mail: Receive email notifications?
+    send_mail_preferences:
+      label: Which types of email notifications would you like to receive?
+      help_text: If you leave this field blank, you will receive all email notifications.
     receive_webpush:
       label: Receive push notifications?
       help_text: Note that you will still need to allow push notifications on your device’s browser.
+      tooltip: You must first edit your account and enable push notifications for your user.
+    receive_webpush_preferences:
+      label: Which types of push notifications would you like to receive?
+      help_text: If you leave this field blank, you will receive all push notifications.
+    notification_preferences:
+        approval_request: 'Approval Request (Managers)'
+        approval_response: 'Approval Response (Case Workers)'
+        transition_notification: 'Assignments, Transfers, and Referrals'
+        transfer_request: 'Transfer Requests'
     user_group_unique_ids: User Groups
     user_name: Username
     services: Services
@@ -4265,6 +4386,10 @@ en:
       user_name: Username
       position: Position
       agency: Agency
+    alerts:
+      total_users_created: You have created %{total_enabled} out of your implementation's permitted %{maximum_users} enabled Users.
+      limit_user_reached: You have reached your limit of %{maximum_users} enabled Users. You must disable one or more Users before creating more.
+      limit_user_reached_on_enable: You have reached your limit of %{maximum_users} enabled Users. You must disable one or more Users before creating or enabling more.
   devise:
     failure:
       already_authenticated: "You are already signed in."

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::RolesController, type: :request do
@@ -434,6 +436,7 @@ describe Api::V2::RolesController, type: :request do
           name: 'CP Administrator 00',
           description: 'Administrator_description',
           group_permission: 'all',
+          referral_authorization: true,
           referral: false,
           transfer: false,
           disabled: false,
@@ -482,6 +485,7 @@ describe Api::V2::RolesController, type: :request do
           name: 'CP Administrator 00',
           description: 'Administrator_description',
           group_permission: 'all',
+          referral_authorization: false,
           referral: false,
           transfer: false,
           disabled: false,

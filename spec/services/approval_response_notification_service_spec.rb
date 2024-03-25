@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe ApprovalResponseNotificationService do
@@ -13,6 +15,20 @@ describe ApprovalResponseNotificationService do
       unique_id: 'lookup-approval-type',
       name: 'approval type',
       lookup_values_en: [{ 'id' => 'value1', 'display_text' => 'Value 1' }]
+    )
+
+    SystemSettings.stub(:current).and_return(
+      SystemSettings.new(
+        approvals_labels_i18n: {
+          'en' => {
+            'closure' => 'Closure',
+            'case_plan' => 'Case Plan',
+            'assessment' => 'Assessment',
+            'action_plan' => 'Action Plan',
+            'gbv_closure' => 'Case Closure'
+          }
+        }
+      )
     )
   end
 
@@ -33,7 +49,7 @@ describe ApprovalResponseNotificationService do
   end
 
   subject do
-    ApprovalResponseNotificationService.new(child.id, 'value1', manager.user_name, true)
+    ApprovalResponseNotificationService.new(child.id, 'case_plan', manager.user_name, true)
   end
 
   describe '.locale' do
@@ -56,7 +72,7 @@ describe ApprovalResponseNotificationService do
 
   describe '.approval_type' do
     it 'return approval_type' do
-      expect(subject.approval_type).to eq('Value 1')
+      expect(subject.approval_type).to eq('Case Plan')
     end
   end
 

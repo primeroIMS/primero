@@ -1,3 +1,5 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
 .nav {
   & > div {
     height: 100%;
@@ -17,6 +19,10 @@
   position: sticky;
   top: 0;
   z-index: 9999;
+
+  & hr {
+    display: none;
+  }
 }
 
 .drawerHeader {
@@ -24,23 +30,31 @@
   justify-content: flex-end;
   align-items: center;
   padding: var(--spacing-0-1);
-  background: var(--c-light-grey);
+  background: var(--c-toolbar-background-color-mobile-header, var(--c-light-grey));
+
+  & button {
+    padding: 6px;
+    margin: var(--sp-1);
+  }
 }
 
-.drawerPaper, .drawerPaper-demo {
+.drawerHeaderContained button {
+  background: var(--c-drawer-header-button);
+  color: var(--c-drawer-header-button-text);
+}
+
+.drawerPaper,
+.drawerPaper-demo {
   width: var(--drawer);
-  background: linear-gradient(
-      to top,
-      var(--c-white),
-      var(--c-light-grey)
-    );
+  background: var(--c-toolbar-background-color);
   position: relative;
   white-space: nowrap;
   border: none;
   box-shadow: inset -2px 0 2px -1px rgb(0 0 0 / 5%);
 }
 
-[dir="rtl"] .drawerPaper, [dir="rtl"] .drawerPaper-demo {
+[dir="rtl"] .drawerPaper,
+[dir="rtl"] .drawerPaper-demo {
   box-shadow: inset 2px 0 2px -1px rgb(0 0 0 / 5%);
   text-align: right;
 }
@@ -59,16 +73,23 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  color: var(--c-nav-list-text)
 }
 
 .navList {
   & svg {
-    color: var(--c-dark-grey);
+    color: var(--c-nav-list-icon);
   }
 
   & li {
     padding: 0;
   }
+}
+
+.navList.contained {
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-1);
 }
 
 .navListAccount {
@@ -125,14 +146,29 @@
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 5%);
 
   & svg {
-    color: var(--c-black);
+    color: var(--c-nav-list-icon-active);
+  }
+}
+
+.navActive.contained {
+  background: var(--c-nav-list-bg-active);
+  box-shadow: none;
+  color: var(--c-nav-list-text-active) !important;
+  border-radius: 5px;
+
+  & svg {
+    color: var(--c-nav-list-icon-active);
+  }
+
+  & .listText {
+    color: var(--c-nav-list-text-active)
   }
 }
 
 .navSeparator {
   width: 219px;
   height: 1px;
-  background: var(--c-warm-grey-1);
+  background: var(--c-nav-list-divider);
   margin: 0 auto;
 }
 
@@ -141,6 +177,15 @@
 
   & div {
     height: 100%;
+  }
+}
+
+.translationToggle.contained {
+  padding: var(--sp-1);
+
+  & button {
+    background: var(--c-white);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.10);
   }
 }
 
@@ -157,6 +202,10 @@
 }
 
 @media (min-width:960px) and (max-width:1279.95px) {
+  .navLink.contained {
+    padding: 7px !important;
+  }
+
   .drawerPaper, .drawerPaper-demo {
     width: 4.1em;
     overflow-x: hidden;
@@ -184,6 +233,10 @@
 
   .accountListItem {
     display: none;
+  }
+
+  .translationToggle.contained button {
+    padding: 0 !important;
   }
 }
 
