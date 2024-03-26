@@ -10,7 +10,7 @@ describe("<SubformFieldList />", () => {
     mountedFormComponent(<SubformFieldList {...props} />);
   });
 
-  it("should render <SettingsTab />", () => {
+  it("should render <FieldList />", () => {
     expect(screen.getByText("forms.fields")).toBeInTheDocument();
   });
 });
