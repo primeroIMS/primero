@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { ListItemText, Button } from "@material-ui/core";
+import { ListItemText, Button, InputAdornment } from "@material-ui/core";
 import { useParams } from "react-router-dom";
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 
 import ActionDialog from "../../../../../../action-dialog";
 import ViolationTitle from "../violation-title";
@@ -31,7 +32,6 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
   const [verificationValue, setVerificationValue] = useState(currentValues?.ctfmr_verified || "");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [validationError, setValidationError] = useState("");
-  const maxDate = new Date();
 
   useEffect(() => {
     // Changing dropdown select value when backend data updated
@@ -96,28 +96,32 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
 
   const keyboardDatePickerInputStyles = {
     borderColor: validationError ? "red" : undefined,
-    marginLeft: "5px" // Add left margin here
+    marginLeft: "5px", // Add left margin here
+    marginTop: "1em" // Add left margin here
   };
 
   // Define MuiPickersUtilsProvider component
   const MuiPickersUtilsProviderComponent = (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <div className={css.keyboardDatePickerWrapper}>
-        <KeyboardDatePicker
-          variant="inline"
-          format={DATE_FORMAT}
-          margin="normal"
-          id="date-picker-inline"
+        <DatePicker
+          clearLabel={i18n.t("buttons.clear")}
+          cancelLabel={i18n.t("buttons.cancel")}
+          okLabel={i18n.t("buttons.ok")}
+          InputProps={{
+            style: keyboardDatePickerInputStyles,
+            endAdornment: (
+              <InputAdornment position="end">
+                <CalendarTodayIcon />
+              </InputAdornment>
+            )
+          }}
+          helperText={i18n.t("fields.date_help")}
           value={selectedDate}
           onChange={handleDropdownDate}
-          error={!!validationError}
-          maxDate={maxDate} // Disable future dates
-          InputProps={{
-            style: keyboardDatePickerInputStyles
-          }}
-          KeyboardButtonProps={{
-            "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.from")
-          }}
+          id="date-picker-inline"
+          disableFuture
+          format={DATE_FORMAT}
         />
       </div>
     </MuiPickersUtilsProvider>

@@ -33,6 +33,8 @@ class Incident < ApplicationRecord
     :incident_date_end, :is_incident_date_range
   )
 
+  DEFAULT_ALERT_FORM_UNIQUE_ID = 'incident_from_case'
+
   has_many :violations, dependent: :destroy, inverse_of: :incident
   has_many :perpetrators, through: :violations
   has_many :individual_victims, through: :violations
@@ -139,9 +141,7 @@ class Incident < ApplicationRecord
   end
 
   def add_alert_on_case
-    return unless alerts_on_change.present?
-
-    form_name = alerts_on_change[ALERT_INCIDENT]
+    form_name = alert_form_unique_id
 
     return unless form_name.present?
     return unless self.case.present? && created_by != self.case.owned_by
@@ -312,6 +312,14 @@ class Incident < ApplicationRecord
 
   def can_be_assigned?
     self.case.blank?
+  end
+
+  private
+
+  def alert_form_unique_id
+    return unless alerts_on_change.present?
+
+    alerts_on_change[ALERT_INCIDENT]&.form_section_unique_id || DEFAULT_ALERT_FORM_UNIQUE_ID
   end
 end
 # rubocop:enable Metrics/ClassLength

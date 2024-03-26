@@ -72,11 +72,11 @@
   font-size: var(--fs-12);
   border: 1px solid var(--c-warm-grey-2);
   background: var(--c-white);
-  
+
   &:hover {
     background: rgba(0, 0, 0, 0.04);
     cursor: pointer;
-  }  
+  }
 }
 
 .fieldArray .subformFields ~ .subformFields {
@@ -211,4 +211,7 @@
 .keyboardDatePickerWrapper {
   display: flex;
   justify-content: space-between;
+  & p {
+    margin-left: 6px;
+  }
 }
