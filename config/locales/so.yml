@@ -4,7 +4,9 @@ so:
   accepted: aqbalay
   cancel: Kanoqo
   connection_lost: Hawada ayuu ka maqanyahay
+  field_mode_offline: Hadda Nooca Fiildhiga
   connected: 'Xidhidhsan '
+  no_connection: 'malaha khadka Internetka '
   clear: Tirtir
   sandbox_ui: Tijaabo
   description: Tafaasiil
@@ -12,21 +14,26 @@ so:
   minimum_reportable_fields: "Goobaha ugu yaran qaybaha laga warbixin karo %{Nooca_Xogta}"
   name: magaca
   offline: ka maqan hawada
+  field_mode: "Habka Fiildhiga: %{mode}"
+  field_mode_on: "shid"
+  field_mode_off: "dhami"
   unavailable_offline: 'Aan khad internet la''aan ama offline laga heli karin
 
      '
   online: 'Hawada ku jira '
   yes_label: 'Haa'
-  or_label: Ama
+  or_label: ama
   select_provider: Xula Adeeg bixiyaha
   select_language: Xula Luuqada
   log_in_primero_idp: 'gal magaca %{idp_name}  isticmaalaha '
   offline_submitted_changes: Hadda waxaad tahay offline Isbedeladaada waxaa la soo gudbin doonaa markaad internetka ku soo noqoto.
   updated: Waa lacusbooneysiiyay
+  go: gal
+  select_idp_error: Fadlan dooro adeeg bixiyaha
   sync:
-    success: "Diiwaangalintan waa lagu guuleystay in laqaada"
+    success: "%{records} Diiwaanadda waa lagu guuleystay in la qaado "
     error:
-      create: Howshan waa lagu guuldareystay boqolkiiba hal in lasameyo. fadlan Taagero dalbo
+      create: Howshan waa lagu guuldareystay in lasameyo %{nooca_diwaanada}. Fadlan Taagero dalbo
       update: Cusbooneysii %{record_type} %{short_id} waa guuldareystay. Fadlan la xidhiidh taageerada
   actions:
     approvals: Ansiximaha
@@ -193,10 +200,24 @@ so:
     view: Aragti
     view_flags_history: Aaragtida Taariikhda
     return_to_case: Dib ugu laabo kiiska
+    enable_webpush: Ogeysiiska Aalada
+    dialog_yes: "Haa"
+  resync_records:
+    id: Sumad
+    record_type: 'Nooca Diwaanka '
+    action: 'Talaabada la qaadayo '
+    date: 'Taariikhda '
+    last_attempt: 'Iskudaygii ugu Dambeeyay '
+    create: Samee
+    update: Cusbooneysii
+    resync: gudbi
   case:
     label: Kiiska
     create_new_case: Samee Kiis cusub
+    create_case: Samee Kiis
+    create: Samee
     add_new: Kudar mid cusub
+    back_to_family_details: Dib ugu laabo Faahfaahinta Qoyska
     back_to_case: 'Kulaabo kiiska '
     back_to_results: Ku Laabo Natiijooyinka
     back_to_search: Ku Laabo raadinta
@@ -210,8 +231,8 @@ so:
     id_search_no_results: Ma jiro wax u dhigma nidaamka "%{raadi_weydiimaha}". Fadlan samee rikoor cusub
     messages:
       disabled: kiiska waa laxidhay
-      update_success: 'Kiiska %{Diiwaangali_Aqoonsiga} si guul leh ayaa loo cusboonaysiiyay'
-      update_success_queue: 'Kiiska %{Diiwaangalinta_Aqoonsi} si guul leh ayaa gadaal loogu cusboonaysiiyay'
+      update_success: 'Kiiska %{record_id} si guul leh ayaa loo cusboonaysiiyay'
+      update_success_queue: 'Kiiska %{record_id} si guul leh ayaa gadaal loogu cusboonaysiiyay'
       creation_success: 'Diiwaangalinta kiiska sameyntisa waa lagu guuleystay'
       creation_success_queue: 'diiwaangalinta kiiska waxaa loosameyay si daahson'
       already_matched: Weydiimahan ayaa mar horeba la mid ah kiiskaaga
@@ -230,6 +251,14 @@ so:
 
 
          '
+      confirm_create_case: Ma rabtaa in aad Kiis u samayso shaqsigan
+      case_referral_pending: ugudbinta kiiskqn ayaa la sugayaa
+      case_transfer_pending: Gudbinta kiiska ayaa la sugayaa
+      case_no_approval_request: Ma jiraan codsiyo ansixin ah kiiskan.
+      bulk_assign_limit: Ma amri kartid in ka badan 100 kiis hal mar
+      bulk_assign_limit_try_again: Ma amri kartid kartid in ka badan 100 kiis hal mar. Fadlan dooro 100 kiis ama in ka yar ka dibna isku day mar kale.
+      referral_rejected: gudbinta kiiska waa la diiday
+      transfer_request_made: 'Kiiskan in in adeeg kale loo wareejiyo ayaa la codsaday '
     save: Keydin kiis
     save_text: Kahor intaadan sii wadin, fadlan ku keydi isbedeladaada Kiiska.
     skip_and_create: Ka bood oo Samee Kiis Cusub
@@ -237,6 +266,7 @@ so:
     search_helper_text: Waa maxay sababtu? Si looga hortago abuurista kiisas nuqul ah
     consent_agreements: Dooro dhammaan heshiisyada oggolaanshaha ee khuseeya
     legitimate_basis: Dooro dhammaan kala soocida ku saleysan kala saarida ee khuseeya
+    family_linked_subform_delete_disabled: 'Foom hoosaadkani wuxuu ku xidhanyahay diiwaan qoys. Fadlan ama kasaar kamid ahaanshihiisa Diwaanka qoyska ama ha la xidhiidhin Diwaanka qoyska '
     workflow:
       assessment: Daraasad
       case_plan: Qorshaha kiiska
@@ -253,9 +283,10 @@ so:
   activity_log:
     label: Howlaha calamada
     accepted_transfer: '%{ku} wareejinta la aqbalay %{Nooca diiwaanka} %{aqoonsiga diiwaanka} ka %{ka}'
-    rejected_transfer: '%{ku} wareejinta la aqbalay %{Nooca diiwaanka} %{aqoonsiga diiwaanka} ka %{ka}'
+    rejected_transfer: '%{to} wareejinta la aqbalay %{record_type}%{record_id} ka %{from}'
   cases:
     action_plan: Qorshaha ficilka
+    access_denied: "laguma ogola inaad gasho kiiskan"
     age: Da'da
     age_estimated: Da'da lagu qiyaasay
     agency: Xafiis
@@ -265,12 +296,12 @@ so:
     approval_radio_accept: Ansixin
     approval_radio_reject: Lama ansixin
     approval_select: foomka loogu talagalay
-    approved_success_action_plan: '%{ansixinta_calamad} - Waa la ansixiyay'
-    approved_success_assessment: '%{ansixinta_calamada} - Waa la ansixiyay'
-    approved_success_bia: '%{ansixinta_calamada} - Waa la ansixiyay'
-    approved_success_case_plan: '%{ansixinta_calamada} - Waa la ansixiyay'
-    approved_success_closure: '%{ansixinta_calamada} - Waa la ansixiyay'
-    approved_success_gbv_closure: '%{ansixinta_calamada} - Waa la ansixiyay'
+    approved_success_action_plan: '%{approval_label} - Waa la ansixiyay'
+    approved_success_assessment: '%{approval_label} - Waa la ansixiyay'
+    approved_success_bia: '%{approval_label} - Waa la ansixiyay'
+    approved_success_case_plan: '%{approval_label} - Waa la ansixiyay'
+    approved_success_closure: '%{approval_label} - Waa la ansixiyay'
+    approved_success_gbv_closure: '%{approval_label} - Waa la ansixiyay'
     assessment: Daraasad
     case_opening_date: kiis taariikh furan
     case_plan: Qorshaha kiiska
@@ -280,6 +311,7 @@ so:
     close_dialog_title: Xidh kiiska
     close_success: Waxaad si sax uu xidhay kiiski
     closure: Xidhataan
+    complete: 'Khad la''aan ayaa lagu heli karaa '
     date_of_birth: 'Maalinta Dhalashada '
     disable_dialog: In aad haye tujisid waxay badleysa kiiska curyaan
     disable_dialog_title: 'Kiisaska laga guuray '
@@ -347,7 +379,7 @@ so:
       transferred: La wareejiyey
       type_of_risk: 'Nooca Khatarta '
       urgent_protection_concern: 'Wax ka qabasha Dag dag ah '
-      user_group: 'KOOXAD ISTCIMALYAAL AH '
+      user_group: Kooxda Isticmaalaha
       workflow: 'GEEDI SOCODKA KIISASKA '
     flag_summary: SO KOOBID CALMAAD CALAN
     full_name: Magaca Buuxa
@@ -381,22 +413,22 @@ so:
     referral_rejected_success: Gudbinta Waa ladiiday
     register_new_case: kiis cusub
     registration_date: Waqtiga ladiiwaangali
-    rejected_success_action_plan: '% {ansxinta calamada} - Lama ogola'
-    rejected_success_assessment: '% {ansxinta calamada} - Lama ogola'
-    rejected_success_bia: '% {ansxinta calamada} - Lama ogola'
-    rejected_success_case_plan: '% {ansxinta calamada} - Lama ogola'
-    rejected_success_closure: '% {ansxinta calamada} - Lama ogola'
-    rejected_success_gbv_closure: '% {ansxinta calamada} - Lama ogola'
+    rejected_success_action_plan: '%{approval_label} - Lama ogola'
+    rejected_success_assessment: '%{approval_label} - Lama ogola'
+    rejected_success_bia: '%{approval_label} - Lama ogola'
+    rejected_success_case_plan: '%{approval_label} - Lama ogola'
+    rejected_success_closure: '%{approval_label} - Lama ogola'
+    rejected_success_gbv_closure: '%{approval_label} - Lama ogola'
     reopen_dialog: Riix OK waxay bedeli doontaa xaalada kiiskan si aad u furi doonta
     reopen_dialog_title: Dib ufurida kiiska
     reopen_success: Waa lagu guuleystay in dib loofuro kiiska
     request_approval_failure: Khalad ayaa dhacay, ee fadlan la xidhiidh taageerida
     request_approval_select: Waa la ansixiyay codsigada
-    request_approval_success_action_plan: Oggolaanshaha ayaa la codsaday %{Ansixi_calamada}foomka
-    request_approval_success_assessment: Oggolaanshaha ayaa la codsaday hal%{Ansixi_calamada}foomka
-    request_approval_success_case_plan: Oggolaanshaha ayaa la codsaday hal %{Ansixi_calamada}foomka
-    request_approval_success_closure: Oggolaanshaha ayaa la codsaday hal %{Ansixi_calamada}foomka
-    request_approval_success_gbv_closure: Oggolaanshaha ayaa la codsaday hal %{Ansixi_calamada}foomka
+    request_approval_success_action_plan: Oggolaanshaha ayaa la codsaday %{approval_label} foomka
+    request_approval_success_assessment: Oggolaanshaha ayaa la codsaday hal%{approval_label} foomka
+    request_approval_success_case_plan: Oggolaanshaha ayaa la codsaday hal %{approval_label} foomka
+    request_approval_success_closure: Oggolaanshaha ayaa la codsaday hal %{approval_label} foomka
+    request_approval_success_gbv_closure: Oggolaanshaha ayaa la codsaday hal %{approval_label} foomka
     request_approval_type_of_case_plan: Nooca qorshaha kiiska ee la ansixi
     request_approve_action_plan: Ansixi qorshaha ficilka
     request_approve_bia: Ansixinta darasadka
@@ -445,6 +477,7 @@ so:
     transfer_reject_reason_label: Sababta loodiiday
     transfer_rejected: Marka aad taabato waan "Diiday" waxay tusinaysaa inaanad ka masuul ahayn kiiskan wakhti xaadirkan. Adigoo mahadsan gali sababtta aad u diiday kiiskan, isla markaad taabato " Diiday" uma yeelan doontid awood dambe diwaangalinta kiiskaa.
     view_name: Daawo Magaca
+    sort_by: u kala horeysii
   change_logs:
     filters:
       form: Foomka
@@ -587,7 +620,7 @@ so:
       other: waxaad haystaa %{stat} kiisas %{stat_type} aan wali la ansixin
     count_pending_transfers:
       one: 'waxaad haystaa kiisas ama kiisas aan wali la gudbin '
-      other: waxaad haysataa %{stat} kiisas aan wali lagudbin
+      other: Waxaad haysataa %{stat} kiisas ah oo aan wali lagudbin
     count_records_new:
       one: 'iyo %{stat} kiisas cusub '
       other: iyo %{stat} kiisas cusub
@@ -622,6 +655,9 @@ so:
     dash_shared_with_my_team_overview: La wadaagay kooxdayda (Aragtida guud)
     dash_shared_with_others: La wadaagay qaar kale
     dash_national_admin_summary: Gunaanadka gudoomiyaha
+    dash_violations_category_verification_status: 'Wadarta dhacdooyinka ee la cadeeyay '
+    dash_violations_category_region: wadarta dhacdooyinka la cadeeyay ee deegaan kasta
+    dash_perpetrator_armed_force_group_party_names: 'wadarta dhacdooyinka ee eedaysane kasta '
     date: Taariikh
     date_of_incident: Taariikhda dhacdada
     date_of_interview: Taariikhda Waraysiga
@@ -765,24 +801,51 @@ so:
     transfer: '%{user}Waxaa laguu soo wareejiyay %{record_type}kuwan adiga %{record_id}'
     transfer_request_subject: 'Codsi wareejin ah ayaa nooga yimi mid ka mid ah kiisaskaagii '
     transfer_subject: '%{record_type}:%{id}Wareejin'
-    referral_subject: 'Gudbis'
-    transfer_request: 'Laanta Birimeero waxay kaa codsanaysaa inaad u wareejiso diiwaankooda, sidaas darteed waxay adeeg ku siin karaan halka ay joogaan. Haddii ay wareejintu macquul kuu tahay adiga, fadlan taabo isku-xidhaha gaar ka u ah Birimeero si aad u bilowdo wareejinta.'
+    referral_subject: '%{record_type}: %{id} - u gdbinta adeeg kale'
+    transfer_request: 'isticmaalaha ama userka Primero %{user} ee ka socda %{agency} wuxuu codsanaysaa inaad ku wareejiso masuuliyada diiwaanka xogtan %{record_type}%{record_id}  sidaas darteed waxay adeeg ku siin karaan halka ay joogaan %{record_type}.  Haddii ay wareejintu macquul kuu tahay adiga, fadlan taabo  %{record_type} sumada linkiga  Emailkan si aad u furto %{record_type} ee Primero una bilowdo wareejinta.'
     approval_request_html: 'Laanta  <strong>%{user}</strong>waxay codsanaysaa <strong>%{approval_type}</strong>in loo ansixiyo kiiska<strong>%{case_id}</strong>'
     approval_response_html: '<strong>%{user}</strong>Waxaad haysaa<strong>%{status} codsi si loo ansixiyo <strong>%{approval_type}</strong>kiiska<strong>%{case_id}</strong>'
     referral_html: '<strong>%{user}</strong>Waxaa laguu soo%{agency} gudbiyay %{record_type}kuwan adiga%{record_id} ah<strong>%{service_type}'
     transfer_html: '<strong>%{user}</strong>Waxaa laguu soo wareejiyay kuwan%{record_type} adiga<strong>%{record_id}</strong>'
     assign_html: 'Waxaa laguugu tala galay kuwan adiga '
-    transfer_request_html: 'Laanta Birimeero waxay kaa codsanaysaa inaad u wareejiso diiwaankooda, sidaas darteed waxay adeeg ku siin karaan halka ay joogaan. Haddii ay wareejintu macquul kuu tahay adiga, fadlan taabo isku-xidhaha gaar(Fariin sidaha Iimaylka) ka u ah Birimeero si aad u bilowdo wareejinta.'
-    transfer_request_notes_html: 'Qoraalo kookooban ayay ash-khaasi codsi kuugu soo sameeyeen'
+    transfer_request_html: 'isticmaalaha Primwro <strong>%{user}</strong> ee ka socda %{agency} wuxuu codsanayaa inaad u wareejiso masuululiyada %{record_type} Diwaanka xogtan <strong>%{record_id}</strong> sidaas darteed waxay adeeg %{record_type} ku siin karaan halka ay joogaan. Haddii ay wareejintu macquul kuu tahay adiga, fadlan taabo %{record_type} ee linkiga emailkan si aad u furto %{record_type} ee Primero una bilowdo gudbinta. '
+    transfer_request_notes_html: 'Qoraalo kooban oo laga helay shaqsiyaadka codsiga sameeyey: %{request_transfer_notes}'
+    alert: '%{nooca_diwaanka} %{Summad}-%{magaca_foomka} waa la cusbooneysiiyay. Fadlan gal Primero si aad dib ugu eegto isbedelka.'
+    alert_subject: '%{record_type}: %{id} - %{form_name} waa la cusbooneysiiyay.'
+  webpush_notification:
+    action_label: u kac ama aad kiiska
+    approval_request:
+      title: Codso Ansixin
+      body: Kiiska kooxdaada ayaa wali sugaya codsiga Aqbalaada %{type}.
+    approval_response:
+      title: Jawaabta Aqbalaada
+      body: Mid kamid ah Kiisaskaaga ayaa la aqbalay
+    assign:
+      title: 'Shaqo cusub '
+      body: 'Waxaad laguu xilsaaray shaqada kiis cusub '
+    referral:
+      title: Gudbin cusub
+      body: Waxaad heshay gudbinta Kiis cusub
+    transfer:
+      title: 'Wareejin kiis oo cusub '
+      body: Waxaad heshay wareejinta Kiis cusub
+    alert_case:
+      title: 'Kiiska waa la cusboonaysiiyay '
+      body: "%{type} mid kamida kiisaskaaga ayaa la cusboonaysiiyay."
+    transfer_request:
+      title: Codsiga Wareejinta kiiska
+      body: Waxaad heshay Codsiga Wareejinta Kiis cusub
   encrypt:
     export_type: Nooca qaadista
     file_name: Magacaaga ku Samee diiwaan ( Ikhtiyaarkaaga)
-    password_extra_info: Nambarka sirta ahi waa inuu ugu yaraan ka koobnaado sideed astaamood. Nambarkan sirta ah waxaa wehelin doonna fayl kii aad soo qaaday waxaana loo baahan yahay inuu galiyo qof waliba markuu furayo faylka mustaqbalka
+    password_extra_info: Nambarka sirta ahi waa inuu ugu yaraan ka koobnaado 8 astaamood. Nambarkan sirta ah wuxuu la xidhiidhaa fayl kii aad soo qaaday waxaana loo baahan yahay inuu gali karo qof waliba oo doonaya inuu furo faylkan markasta
     password_label: Fadlan gali nambarka sirta ah si uu xadidnaado faylku
   error_message:
-    address_fields: 'Waxaad u baahan tahay inaad kala meelayso faylasha  goobaha '
+    address_fields: Waxaad u baahan tahay inaad kala cadayso qaybaha %{qaybaha} ka midka ah foormiga %{Foomka}
     address_form_fields: 'Waxaad u baahan tahay inaad kala meelayso faylasha goobaha '
-    address_subform_fields: 'Goobahani maaha kuwo sax ah'
+    address_subform_fields: '%{subform} Qaybahani %{fields} maaha kuwo sax ah'
+    error_401: Waad ka baxday, Fadlan dib usoo gal ciwaankaaga
+    error_something_went_wrong: Waxbaa ka khaldanay.
   error_page:
     not_authorized:
       server_error: Awood uuma lihid inaad isticmaashid shabakadan.
@@ -791,6 +854,8 @@ so:
       contact_admin: Haddii aad rumaysan tahay inaad halkan si khaldan ku timi, fadlan la xidhiidh Maamulaha.
       something_went_wrong: Waan ka xumahay, wax baa khaldamay!
   errors:
+    api:
+      internal_server: Khalad dhanka Sarfarka ah
     error_loading: Waxaa soo baxaya khaladka diiwaanka(nada)
     models:
       agency:
@@ -835,6 +900,11 @@ so:
         title_present: Mansabku waa in aanu banaanaan
         content_present: Dulucdu waa inaanay banaanaan
         created_by_present: Hebel baa sameeyay waa inaanay banaanaan
+      webpush_subscription:
+        notification_url_present: url_ogaysiisku waa ay noqon mid madhan
+        notification_url_format: url_ogaysiisku waa inuu lahaa qaab URL
+        auth_present: Ansixinta waa in aysan madhnaan ama banaanaan
+        p256dh_present: p256dh waa inaysan madhnaan ama banaanaan
     not_found: Wax diiwaan(no) ah lama helin
     try_again: Mar labaad isku day
   exports:
@@ -929,7 +999,7 @@ so:
       one: Diiwaangaliyaha dhacdada
       selected: Dooro diiwaangaliyaha dhacdada
     json:
-      all: 'JavaScript Object Notation '
+      all: JavaScript Object Notation JSON
       one: JavaScript Object Notation
       selected: Waxaa la doortay JavaScript Object Notation
     list_view_csv:
@@ -1090,7 +1160,7 @@ so:
     english_text: Qoraalka Ingiriisiga
     field_name: Magaca Goobta
     field_type: Nooca goobta
-    attachment_too_large: Faylku waa inuusan ka badnaan 10mb
+    attachment_too_large: faylku waa inuusan kawaynaan 20mb
     file_upload_box:
       add_document_label: Kudar Dukumeenti
       add_new_document_button_text: Ku dar dukumeenti kale
@@ -1150,6 +1220,18 @@ so:
     show: Muuji?
     show_on: Muuji
     show_on_minify_form: Qaab gaaban
+    skip_logic:
+      name: iska daa Sababata
+      record_section:
+        title: Qaybtani Waa inay muuqaataa haddii la kaydiyay
+        buttons:
+          add: 'Ku dar Xaaladda Diwaanka '
+      subform_section:
+        title: 'Qaybtan waa in la arki karo
+
+          Haddii ay Foom hosaad tahay '
+        buttons:
+          add: 'Ku dar Xaaladda Foom hoosaadka '
     subform: Hoos-u-dhigid
     subform_group_by: Koox by
     subform_remove_message: Xaqiiji inaad ka saarto Foom hoosaadka
@@ -1159,7 +1241,7 @@ so:
       starts_with_one_entry: Bilow Buuxinta Hal  Foom Hoosaad
       subform_append_only: u dooro inuu moobilke la waddaago
       subform_prevent_item_removal: Ka ilaali in Foom-hoosaadka laga laga saaro?
-    subform_sort_by: Iskugu Xiji
+    subform_sort_by: u kala horeysii
     successfully_added: Waad ku guulaysatey inaad ku darto qaybta
     tally_field: Tirada Qaybta
     tally_items: Tirada Shay'yada
@@ -1181,6 +1263,10 @@ so:
     less: Ka yar
     more: Ka badan
     save_filters: Kaydso
+    categories:
+      violations: Xadgudubyo
+      incidents: 'dhacdooyinka '
+      individual_victims: Shaqsiga Dhibanaha ah
   flags:
     add_flag_tab: Kudar Calaamad Calan Cusub
     date: 'Taariikhda'
@@ -1248,6 +1334,8 @@ so:
       violation: Waxyeelo
       registry_details: xogta diwaanka oo faah faahsan
       registry_record: Kaydinta Diwaanka
+      family_record: 'Diwaanka Qoyska '
+      family: 'Diwaanka Qoyska '
     required_field: '%{field} waa goob loo baahan yahay'
     select_label: Calaamee
     settings: Hagaajinta
@@ -1268,6 +1356,26 @@ so:
     type_label: Nooc
     visibility: La arki karayo
     web_app: Ablikeeshinka Shabakada
+    skip_logic:
+      name: iska daa Sababata
+      section:
+        title: Foomkani waa inuu muuqdaa haddii
+        buttons:
+          add: Kudar xaalad
+    conditions:
+      add: kudar xaalad
+      update: Cusboonaysii Xaalada
+      field_name: Magaca Qaybta
+      condition: Xaalad
+      empty: Majiro Xaalad lagu daray
+      type: Nooc
+      types:
+        and:
+          display_text: iyo kudar xaalad
+          name: iyo
+        or:
+          display_text: Ama Xaaladan
+          name: Ama
   home:
     ar: carabi
     ar-IQ: carabta iyo (ciraqda)
@@ -1279,8 +1387,10 @@ so:
     dashboard: Dashboard-ka
     en: English
     es: Español
-    es-GT: Spanish ka( Guatsmala)
+    es-GT: Español
+    es-ES: spañol (España)
     fr: Français
+    hu: Magyar
     id: Bahasa
     km: Khmer language
     ku: kurdish
@@ -1290,29 +1400,38 @@ so:
     sw-KE: Af Sawaaxiliga dalka (kenya)
     sw-TZ: Af Sawaaxiliga dalka ( Tansaaniya)
     ne: Nepali language
+    om: Oromo
+    am-ET: Amharic (Ethiopia)
+    tr: 'Turkiga '
     label: Sabo
     language: Luuqad
     manage_system_users: Maamul Isticmaalayaasha Isku-xidhka Server-ka
     my: Burmese
+    pl: Polski
     pt: Burtuqiis
     pt-BR: Burtuqiis( Baraasiil)
-    records_need_attention: Diiwaannadu waxay u baahan yihiin in laga  taxadiro
+    records_need_attention: 'Diiwaannadu waxay u baahan yihiin in laga  taxadaro '
+    ro: Romana
     ru: Русский
+    sk: Slovencina
     so: Af-Soomaali
     th: Thailand
+    uk: Українська
     users: Maamul Isticmaalayaasha
     view_records: Daawo Diiwaanada
     welcome: Ku soo dhawoow Primero
     zh: 中文
   incident:
+    code: Sumada Dhacdada
     associated_case: "Kiis La xidhiidha"
     messages:
       creation_success: 'waad ku guulaysatey samaynta diwaangalinta dhacdada '
       creation_success_queue: waad ku guulaysatey samayta samaynnta keydinta dhacdada si dahsoon
       disabled: Dhacdadan waa laga tanaasulay
-      update_success: 'waa lagu guulaystey cusboonaysiinta dhacdada %{Sumada xogta}'
-      update_success_queue: 'waa lagu guulaystey in la cusboonaysiiyo dhacdada si dahsoon %{diwaanka_aqoonsiga}'
+      update_success: 'waa lagu guulaystey cusboonaysiinta dhacdada %{record_id}'
+      update_success_queue: 'waa lagu guulaystey in la cusboonaysiiyo dhacdada si dahsoon %{record_id}'
     violation:
+      associated_violations: "Xadgudubyada Laxidhiidha"
       update_and_return: '%{association}cusboonaysii kana laabo '
       save_and_return: 'Ku dar kuna laabo halkii hore %{la xidhiidha}'
       pending: Sugaya In la Cadeeyo
@@ -1321,9 +1440,11 @@ so:
         killing: Dilidda Caruurta
         maiming: Dhaawicida caruureta
         recruitment: Shaqaalaysiinta ama isticmaalka caruurta
-        sexual_violence: Kufsi ama noocyo kale oo xadgudub galmo ah
+        sexual_violence: Kufsi iyo noocyada kale ee xadgudubka galmo
         abduction: Afduub
         attack_on: lagu weeraray dugsiga(yada) ama Cusbitaalka(ada)
+        attack_on_hospitals: Weerar Cusbitaalka(lada)ah
+        attack_on_schools: weerer Dugsiga (yada)
         military_use: Askar xaramo ka dhagata dugsiga(yada) ama Cusbitaalka(ada)
         denial_humanitarian_access: In loo diido caruurta helida adeegayada binaadanimo
   incidents:
@@ -1334,6 +1455,7 @@ so:
     enable_dialog_title: Fasax  ama ogolow Dhacdada
     enable_success: waad ku guulaysatey fasixida dhacdada
     id: Sumada#
+    complete: 'lagu heli karo khad la''aan ama offline '
     date_of_interview: Taariikhda Waraysiga
     date_of_incident: Taariikhda Dhacdada
     incident_location: Goobta dhacdada
@@ -1341,28 +1463,74 @@ so:
     export: u wareeji
     label: Dhacdooyinka
     filter_by:
+      filter_category: Shaandee Qaybaha
       boys: wiilal
       by_date: ' taariikh ahaan'
       children: caruur
       girls: Gabdho
       incident_location: goobta dhacdada
+      status: 'Heerka '
       unaccompanied_separated_status: Heerka daryeelka
       unknown: aan la garanayn
       verification_status: heerka xaqiijinta
       violence_type: Nooca Xadgudubka
-      armed_force_group_name: 'Magaca Kooxda Xooga Ciidamada '
+      armed_force_group_party_name: Kooxaha, ciidamada hubaysan
       armed_force_group_type: Nooca Xooga Ciidama
+      violations: Xadgudubyada
+      individual_violations: Xadgudubyo Shaqsiyeed
+      individual_age: Da'da Shaqsiga
+      individual_sex: Jinsiga Shaqsiga
+      victim_deprived_liberty_security_reasons: Xorriyadda laga qaaday
+      reasons_deprivation_liberty: Waa maxay sababaha Xorriyadda looga qaaday?
+      victim_facilty_victims_held: Fadlan door xarunta dhibbanaha(yaasha) lagu hayay
+      torture_punishment_while_deprivated_liberty: Ma ahaa ilmahu (carruurtu) kuwo loo geystay jirdil ama  ciqaab arxan darro ah, ama loola dhaqmay si bini'aadantinimada ka baxsan iyadoo xorriyadda laga qaaday?
+      verified_ghn_reported: Cadee GHN ku jirey dhacdadan
+      weapon_type: 'Nooca hub/xeelad ee loo isticmaalay '
+      facility_impact: 'Nooca iyo baaxadda saamaynta waxyeelada jireed'
+      facility_attack_type: 'Nooca caafimaadka- ama waxbarasho- ee la xidhiidha xadgudubka'
+      child_role: 'Doorkee ayay ilmahu (caruurtu) ka ciyaareen ciidanka qalabka sida?'
+      abduction_purpose_single: 'Ujeedada afduubka'
+      military_use_type: 'Nooca Militarigu u isticmaalo '
+      types_of_aid_disrupted_denial: 'Nooca Caawimo/adeeg ee loo diidday/laga joojiyay '
+      late_verified_violations: Xadgudubyada la xaqiijiyay xilli dambe
+      perpetrator_category: Nooca Dambiilaha
+      record_owner: diwaangaliyaha
     register_new_incident: Dhacdo Cusub
     selectable_date_options:
       date_of_first_report: Taariikhda Waraysiga
+      mrm_date_of_first_report: Taariikhda warbixinta bilowga ah ee xubnaha CTFMR
+      ctfmr_verified_date: Taariikhda go'aanka xaqiijinta ee CTFMR
       incident_date_derived: Taariikhda Dhacdada
-    selected_records: 'dhacdada (dhacdooyinka) la doortey %{Dooro_Diwaanada}'
-    selected_all_records: 'Calaamadee dhamaan dhacdooyinka la nooca dhacdadan % {Wadarta_diwaanada}'
+    selected_records: 'dhacdada (dhacdooyinka) la doortey %{select_records}'
+    selected_all_records: 'Calaamadee dhamaan dhacdooyinka la nooca dhacdadan %{total_records}'
+    summary_mrm:
+      label: Soo koobida dhacdada
+      fields:
+        children_multiple_violation:
+          label: 'Caruurta ay saamaysay xadgudubyo farabadan '
+        summary_of_incident:
+          label: 'Soo koobida dhacdada '
+        incident_total_tally:
+          label: Tirada Dhibanayaasha
+          boys: Wiilal
+          girls: Gabdho
+          unknown: 'Aan la garanayn '
+        incident_date:
+          label: Taariikhda dhacdada
+        incident_location:
+          label: Goobta dhacdada
+        incident_description:
+          label: xogta dhacdada
+        incident_update:
+          label: Cusbooneysii Dhacdada
     survivor_code: Sumada Badbaadaha
     show_incident: 'Aqoonsiga Dhacdada %{Sumada Aqoonsiga gaaban}'
     social_worker: u adeegaha bulshada
+    violation_type: Nooca Xadgudubka
     violence_type: Nooca Xadgudubka
     type_violence: Nooca Xadgudubka
+    violation_summary: Soo koobid
+    sort_by: u kala horeysii
   key_performance_indicators:
     label: "Garaaca/KPIs"
     case_assessment: "Baadhista Kiiska"
@@ -1534,6 +1702,12 @@ so:
       central_warehouse: 'Xarunta Dhexe ee Bakhaarka '
       warehouse: Bakhaar
       buyingstation: Goob wax laga iibsado
+      township: 'Magaalada '
+      municipality: 'Maamul magaalada '
+      autonomous_region: 'ismaamul Goboleed '
+      parish: Parish
+      cercle: Cercle
+      sub-county: Wadan-hoosaad
     label: Goobta
     name: Magaca
     code: Sumadda
@@ -1723,52 +1897,147 @@ so:
     no_options: Raadintan hadda ma laha wax ikhtiyaar ah.
     translation_label: Qoraalka Turjumaada
     values: Ikhtiyaarada
+    locked_alert_message: Raadintan way xidhantahay.
   managed_reports:
+    generated_on: La soo saaray
     label: Aragtida
     total: Wadarta
+    violations_total: Xadgudubyada
     filter_by:
       date: Taariikhda
       verification_status: Xaalada Xaqiijinta
+      violation_type: Nooca Xadgudubka
+      status: 'Heerka '
+      status_open: Fur
+      status_closed: Wa la xidhay
+      user_group: Kooxda Isticmaalaha
+      agency: Haayada
+      by: ee
+      workflow: 'Heerka Shaqada Socota '
+      cp_incident_violence_type: Nooca Xadgudubka
+      referral_transfer_status: Heerka Gudbinta/Wareejinta
+    status_options:
+      open: Fur
+      closed: 'xidhan '
+    by_options:
+      created_by_groups: 'Kooxaha isticmaalaha diiwaanka samaysay '
+      owned_by_groups: 'Kooxda Isticmaalaha ee diwaanka iskaleh '
+      created_organization: 'Haayada Diwaanka samaysay '
+      owned_by_agency_id: Haayada Diwaanka Leh
+    referral_transfer_status_options:
+      in_progress: 'La sugayo '
+      accepted: La aqbalay
+      rejected: La diiday
+      done: 'La qabtey ama la sameeyay '
     date_range:
       month: bisha
       quarter: Rubuc
       year: year
+      week: Todobaad
     date_range_options:
       this_quarter: Rubacan
       last_quarter: Rubucii u danbeyay
       this_month: bishan gudaheda
       last_month: bishii u danbaysay
+      this_week: Todobaadkan
+      last_week: 'Todobaadkii hore '
       this_year: sanadkan
       last_year: sanadki hore
       custom: caddada
     no_data: wax xog ah kuma jirto halkan
     no_data_table: wax xog ah kama hayno shaxdan
+    incomplete_data: Xog aan dhamaystirnayn
+    individual_children:
+      name: 'Caruur gaar ah '
+      reports:
+        individual_children: Caruur gaar ah
+      sub_reports:
+        individual_age: caruurta iyadoo lagu salaynayo da'dooda
+        individual_violation_type: Caruurta iyadoo lagu samaynayo nooca xadgudubka
+        individual_region: caruurta iyadoo lagu salaynayo deegaankooda
+        individual_perpetrator: caruurta iyadoo lagu salaynayo cida dhibka u gaysatey
+    ghn_report:
+      name: 'Xusuus Qorka Heer Caalami ah '
+      reports:
+        ghn_report: 'Xusuus Qorka Heer Caalami ah '
+      sub_reports:
+        verified_information: Xogta ay xaqiijiyeen - dhibaneyaasha
+        late_verification: xogta xili dambe ay xaqiijiyeen - dhivaneyaasha
+        unverified_information: Macluumaad Aan La Xaqiijin - Dhibanayaasha
+        verified_information_violations: Xogta La Xaqiijiyay - Xadgudubyada
+        late_verification_violations: Xaqiijinta goor dambe - Xadgudubyada
+        unverified_information_violations: Macluumaad Aan La Xaqiijin - Xadgudubyada
+        killing: 'dilista caruurta '
+        maiming: Dhaawicida Caruurta
+        recruitment: shaqaalaysiinta ama kushaqaysiga caruurta
+        sexual_violence: Kufsi iyo noocyada kale ee xadgudubka galmo
+        rape: Kufsiga iyo noocyada kale ee xadgudubyada galmada
+        abduction: Afduub
+        attack_on_hospitals: Weerarada isbitaalka(lada)
+        attack_on_schools: Weerarada dugsiga(yada)
+        military_use: Isticmaalka militariga ee iskuulka(lada) iyo/ama isbitaalka(lada)
+        denial_humanitarian_access: Caruurta loo diido helida adeega gargaarka bini'aadantinimo
+        multiple_violations: Carruurta ay saameeyeen xadgudubyo farabadan
+        detention: 'Xadhiga Booliska '
+        boys: 'Wiilasha '
+        girls: 'Gabdhaha '
+        total: Wadar
+        unknown: Aan lagaranayn
+        associated_violations: 'Xadgudubyada La Xidhiidha '
     violations:
       name: xad gudug
       filter_options:
         incident_date: xogta dhacdada
         date_of_report: wakhtiga xogta la gudbiyay
         ctfmr_verified_date: wakhtiga la xaqijyay
+        verified: 'La Xaqiijiyay '
       reports:
         killing: dilka caruurta
         maiming: dhicida caruurta
         recruitment: shaqalaysinta caaruurta
-        sexual_violence: kufsiga iyo tacadiyada kale
+        sexual_violence: Kufsiga iyo noocyada kale ee xadgudubyada galmada
+        rape: Kufsiga iyo noocyada kale ee xadgudubyada galmada
         abduction: afduub
-        attack_on: dorashada gobaha wax barasho(oyin) iyo xarunta(xarumaha) cafimadka
+        attack_on_hospitals: Weerarada Isbitaalka(lada)
+        attack_on_schools: Weerarada dugsiga(yada)
         military_use: Isticmaalka militariga ee iskuulada iyo/ama isbitaalada
         denial_humanitarian_access: Diidmada gargaarka bini'aadantinimo ee carruurta
+        detention: 'Xadhiga Booliska '
       sub_reports:
+        children: 'Caruurta '
         combined: Xadgudubyada
+        denial_humanitarian_access: 'Diidmada gargaarka biniadamnimo '
+        denial_type: Nooca Diidmada
         detention_detained: Ku sii xirnaan
         detention_released: La sii daayay
         perpetrators: Tirada carruurta ay dhaleen dembiilayaasha
+        perpetrators_denial: Tirada xad-gudubyada ay geystaan dambiilayaasha
+        perpetrator_detention: Tirada carruurta ay waxyeelo loogaysteen dembiilayaasha
+        perpetrators_incidents: 'Tirada dhacdooyinka ay gaysteen Dembiilayaasha '
+        reporting_location_incidents: Tirada dhacdada ee deegaan
         reporting_location: Tirada carruurta gobol ahaan
+        reporting_location_detention: Tirada Caruurta ee deegaan
+        reporting_location_denial: Tirada Xadgudubyada ee deegaan
         attack_type: Tirada Carruurta ee Nooca Weerarka
         boys: wilasha
         girls: hablaha
         unknown: an la garanayn
         total: guud ahan
+        violation: Xadgudubyada
+        sexual_violence_type: 'Nooca(yada) Xadgudubyada galmada '
+        detention_status: 'Xaaladda Caruurta Booliska ku xidhan '
+        type_of_use: 'Nooca isticmaalka '
+        factors_of_recruitment: Sababaha Shaqaalaysiinta
+        still_being_held: Wali xidhan
+        released: 'La sii daayay '
+        escaped: 'Baxsaday '
+        abduction_reasons: Sababaha Afduubka
+        abducted_status: Xaaladda Afduubka
+        facility_attack_type: Nooca Xadgudubka
+        received_response: Carruurtu Waxay Heleen Adeeg Jawaab celin
+        male: Lab
+        female: Dhadig
+        military_use_type_of_use: Tirada Xadgudubyada ee Nooca isticmaalka
     gbv_statistics:
       name: tacadiyada ka dhanka ah jinsiga
       filter_options:
@@ -1777,6 +2046,8 @@ so:
       reports:
         incidents: Dhacdada
         perpetrators: Dembiilayaasha
+        survivors: Badbaadeyaasha
+        referrals: 'Referaalada/adeeg gudbinta '
       sub_reports:
         combined: dhacdada
         total: Tirada Dhacdooyinka GBV ee la soo sheegay
@@ -1786,11 +2057,62 @@ so:
         incident_timeofday: dhacdo Time of Day
         elapsed_reporting_time: Waqtiga u dhexeeya Dhacdada iyo Taariikhda Warbixinta
         elapsed_reporting_time_rape: Dhacdooyinka Kufsiga, Wakhtiga Dhex maray Dhacdada iyo Taariikhda Warbixinta
+        elapsed_reporting_time_rape_health_referral: Dhacdooyinka Kufsiga, Wakhtiga u Dhaxeeya Dhacdada iyo Taariikhda Warbixinta (Adeegyada Caafimaadka ama Referral/Gudbinta)
         incident_location_type: dhacdo Location
-        number_of_perpetrators: Tirada dambiilayaasha aasaasiga ah
-        perpetrator_relationship: Xidhiidhka Dambiilaha Koowaad ee Lagu Eedeyay Badbaadiyaha
+        number_of_perpetrators: Tirada dembiileyaasha
+        perpetrator_relationship: Xadhiikha ka dhexeeya Dambiilaha iyo Kabadbaadaha
         perpetrator_age_group: Kooxda da'da dembiilayaasha aasaasiga ah ee lagu eedeeyay
         perpetrator_occupation: lagu eedeeyay Shaqadii Dambiilaha Koowaad
+        age: Tirada ka Badbaadiyeyaasha ee Da'da
+        sex: Tirada Kabadbaadiyeyaasha ee Jinsi
+        marital_status: Xaaladda guurka ee ka badbaadeyaasha
+        displacement_status: Xaaladda Barakaca ee Kabadbaadeyaasha
+        displacement_incident: Heerka Barakaca ee xilliga dhacdada
+        gbv_case_context: Dulucda kiiska
+        incidents_first_point_of_contact: Tirada dhacdooyinka kuwaas oo xafiiskaagu uu yahay midka koowaad ee lala xidhiidhayo
+        incidents_from_other_service_provider: Dhacdooyinka laga soo gudbiyay adeeg bixiyayaasha kale
+        number_of_services_provided: Tirada adeegyada la siiyay dhacdada
+        number_of_services_provided_other: Dhacdooyinka cusub ee laga soo gudbiyay adeeg bixiyayaasha kale
+        service_safehouse_referral: Gudbinta ama referral Hoy badbaado leh/Guri badbaado leh
+        service_medical_referral: 'Gudbinta ama Referral Adeegga Caafimaadka/daawaynta '
+        service_psycho_referral: 'Adeegyada Niyad dhiska/Latalinta '
+        service_legal_referral: Adeegyada Taageerada Sharci
+        service_police_referral: 'Booliska ama noocyada kale ee adeegga nabadgelyada '
+        service_livelihoods_referral: Adeegyada Nolol Maalmeedka
+        service_protection_referral: 'Adeegyada Daryeelka Carruurta '
+        vulnerable_populations: Dadka Nugul
+        survivors_disability_type: Naafada ah
+    workflow_report:
+      name: ' Shaqada Socoto'
+      reports:
+        cases_workflow: Kiisaska - Shaqadoodu Socoto
+        incidents_workflow: Dhacdooyinka - Shaqadoodu Socoto
+      filter_options:
+        registration_date: Taariikhda Diwaangalinta
+      sub_reports:
+        case_workflow_by_sex_and_age: Wadarta kiisaska oo u habaysan Jinsiga iyo da'da
+        incident_workflow_by_sex_and_age: Wadarta kiisaska oo u habaysan Jinsiga iyo da'da
+    referrals_transfers_report:
+      name: Gudbinta iyo Wareejinta
+      reports:
+        total_referrals: 'Gudbinta '
+        total_transfers: Wareejinta
+      sub_reports:
+        total_transfers_by_user_groups: Wadarta Wareejinta
+        total_referrals_by_user_groups: 'Wadarta Gudbinta '
+      filter_options:
+        registration_date: Taariikhda Diwaangalinta
+    violence_type_report:
+      name: Nooca Xadgudubka
+      reports:
+        cases_violence_type: Nooca Xadgudubka - Kiisaska
+        incidents_violence_type: 'Nooca Xadgudubka - Dhacdooyinka '
+      filter_options:
+        registration_date: 'Taariikhda Diwaangalinta '
+      sub_reports:
+        case_violence_type_by_sex_and_age: Wadarta kiisaska oo u habaysan Jinsiga iyo da'da
+        incident_violence_type_by_sex_and_age: Wadarta kiisaska oo u habaysan Jinsiga iyo da'da
+    success_message: Sooqaadida feylka waa lagu guuleystay
   messages:
     alert_items: waxa haysta %{items} qoraalo kookoobanoo dhawr ah.
     alerts_for:
@@ -1834,10 +2156,12 @@ so:
       code_of_conduct: Xeerka hosadka
       terms_of_use: Shuruudaha isticmaalka
       system_information: nidamka maclumadka
+      resync: 'Xogta khad la''aan lagu diyaariyay ee aan la gudbin '
     tasks: hawlaha
     tracing_request: Codsiga Baafinta
     activity_log: hawlaha diwanka
     registry_records: Diiwaanka
+    families: Qoysas
   notes:
     note_success: Si guul leh aya loogu daray qoraal
   permissions:
@@ -1912,7 +2236,7 @@ so:
       export_custom: kastamka dhoofinta
       export_duplicate_id_csv: Dhoofinta nuqullada
       export_json: Dhoofinta json
-      export_list_view_csv: Dhoofinta liiska aragtida csv
+      export_list_view_csv: U badal liiska CSV
       export_mrm_violation_xls: Dhoofinta mrm xadgudub xls
       export_pdf: Dhoofinta pdf
       export_photowall: Dhoofinta sawirka darbiga
@@ -1921,6 +2245,7 @@ so:
       find_tracing_match: Ka hel baafinta u dhiganta kiis
       view_registry_record: Eeg diiwaanka la dhigay
       add_registry_record: Ku dar diiwaanka diiwaanka
+      family: Qoys
       flag: Calamad Calan
       form: Foomamka
       group: Soo gal dhammaan diiwaanada ama isticmaalayaasha kooxdayda
@@ -1980,6 +2305,7 @@ so:
       workflow_team: Socodka shaqada - Kiisaska kooxaha
       write: Qor
       activity_log: Diiwaanka Hawlaha
+      remove_alert: Kasaar Alertiga ama feejignaanta
     resource:
       kpi:
         actions:
@@ -2136,7 +2462,7 @@ so:
             label: Dhoofinta JSON
           export_list_view_csv:
             explanation: Isticmaaluhu waxa uu ka soo saari karaa faylka CSV ka dhoofinta bogga liiska kiisaska kaas oo ka kooban qaybo isku mid ah kuwaas oo u muuqda isticmaalaha liiska kiisaska. Kaliya laga sameeyay bogga liiska kiisaska.
-            label: Gedinta liiska aragtida CSV
+            label: U badal liiska CSV
           export_pdf:
             explanation: Isticmaaluhu wuxuu ka soo saari karaa dhoofinta faylka PDF liiska kiisaska ama bogagga bandhiga kiiska, kaas oo ka kooban dhammaan goobaha uu isticmaaluhu hadda geli karo, hal, badan, ama dhammaan kiisaska uu isticmaaluhu geli karo. Faylka dhoofinta PDF, macluumaadka waxaa lagu taxay marka hore kiis, ka dibna waxaa lagu sii habeeyey foomka ay macluumaadka ku soo baxayaan.
             label: U badal kiiska PDF ahan
@@ -2165,6 +2491,9 @@ so:
 
                '
             label: Ka abuur dhacdo kiiska
+          remove_alert:
+            explanation: Fasaxani wuxuu u oggolaanayaa inuu isticmaaluhu uu Aletiga digniinta kasaaro. Alertiga digniinta ayaa soo baxa marka qayb kamid ah qoraalka la badalo sida marka xusuus qorka la cusboonaysiiyo. Alertiga digniinta waa calaamad huruud ah ee kuxigta kiiska
+            label: Kasaar Alertiga digniinta kiiska
           manage:
             explanation: U oggolow isticmaaluhu inuu sameeyo dhammaan ficillada la heli karo ee kiisaska. Oggolaanshaha "Maamul" asal ahaan macnaheedu waa "wax walba"
             label: Maamul (dhammaan oggolaanshaha noocyada kheyraadkan)
@@ -2255,6 +2584,15 @@ so:
           mark_for_offline:
             explanation: Waxay u ogolaataa isticmaalaha inuu kaydiyo Kiis si loogu isticmaalo offline.
             label: Ku calaamadee khadka offline
+          view_family_record:
+            explanation: Isticmaaleyaashu waxay arli karaan Foomka 'Diwaanka qoyska' ee kiiska
+            label: Arag diwaanka qoyska ee kiiska
+          case_from_family:
+            explanation: Isticmaalayaashu waxay ka dhex samayn karaan Kiis mid ka mid ah xubnaha qoyska xogta kujitta foom hoosaadka qoyska. Xusuusnoow in sib ootomaatik ah looga samayn karo si loo xidhiidhiyo labo kiis
+            label: ka samee kiis xogta qoyska
+          link_family_record:
+            explanation: Tani waxy u ogolaataa isticmaaluhu inuu raadiyo oo ku xidho kiis diiwaanka qoyska  kaasoo horey ugu jirey kayda. Sidoo kale waxay u ogolaadaa isticmaalayaasha in ay kiis ka dhex saaraan diiwaanka qoyska
+            label: Kiiskan ku xidh/haku xidhin diiwaan qoys
         explanation: Waxay matashaa ilmo gaar ah, badbaade, ama ka faa'iidayste kale.
         label: Kiis
       dashboard:
@@ -2308,7 +2646,6 @@ so:
             explanation: Waxay u ogolaataa maareeyaha inuu arko inta kiis ee leh hawlaha adeegga ee mid kasta oo ka mid ah shaqaalahooda.
             label: Hawlaha Adeegga ee wakhtigoodii
           dash_case_incident_overview:
-            explanation: .
             label: Dulmar - Kiisaskayga / Dhacdooyinkayga
           dash_cases_by_social_worker:
             explanation: Shaxda taas oo tuseysa sida wadarta tirada kiisaska furan iyo tirada kiisaska cusub ee uu maareeyo isticmaale kasta oo ka tirsan kooxaha isticmaalaha hadda. Saf kastaa waa isticmaale kooxaha isticmaale ee hadda jira, halka "Total" iyo "New" ay yihiin labada tiir.
@@ -2351,6 +2688,15 @@ so:
           dash_shared_with_others:
             explanation: Waxay tustaa inta kiiskeyga ka mid ah ee leh tixraac firfircoon, wareejinta sugaysa, ama wareejinta la diiday. Caadi ahaan maareeyayaasha, ilaa ay iyagu maareeyaan kiisaska.
             label: La wadaaga dadka kale
+          dash_violations_category_verification_status:
+            explanation: Waxay tusinaysaa inta xadgudubyada MRM ee Nooc kasta kuwaasoo lagu kala saaray heerka xaqiijintooda
+            label: 'MRM - Tirada xadgudubyad ee heerka xaqiijintooda '
+          dash_violations_category_region:
+            explanation: Waxay tusinaysaa inta xadgudubyada MRM ee ka dhacay Deegaan. kuwaas oo lagu kala saaray nooca xadgudubka
+            label: MRM - Tirada xadgudubyada ee Deegaan kasta
+          dash_perpetrator_armed_force_group_party_names:
+            explanation: Waxay tusinaysaa inta xadgudubyada MRM noocyadiisa kala duwan ee dhacay kuwaas oo lagu kala saaray Dambiilaha
+            label: MRM - Tirada xadgudubyada ee Dambiilaha
           dash_show_none_values:
             explanation: Waxay ku daraysaa qayb dheeraad ah "Heerka Khatarta" dhammaan dashboards-ka kaas oo u kala qaybiya kiisaska heerka khatarta. Tani waxay si gaar ah ugu socotaa habaynta kuwaas oo leh ikhtiyaarka afraad "Khatarta ma jirto" ee goobaha heerka khatarta.
             label: Ku arag kiisaska 'Heerka Halis malaha' ee ku jira Dashboardka Qiimaynta
@@ -2404,6 +2750,8 @@ so:
         registry_record:
           explanation: 'Xakamaynta gelitaanka isticmaalaha foomamka diiwaanka ayaa xaddidaya macluumaadka uu isticmaaluhu ku arki karo diiwaanka. Tusaale ahaan, haddii isticmaaluhu uu kaliya heli karo foomka Mulkiilaha Diiwaanka, waxay sidoo kale awoodi doonaan oo kaliya inay arkaan macluumaadka ku jira goobaha foomkaas. Haddii isticmaaleha hadda uu leeyahay qaab xaddidan oo uu awood u leeyahay inuu maareeyo qaabeynta foomka, xaddididda gelitaanka foomka waxay sidoo kale xaddideysaa foomamka ay habeyn karaan. FIIRO GAAR AH: Haddii aan foomam la cayimin, waxay la macno tahay doorku inuu galo dhammaan foomamka diiwaangelinta.'
           label: Foomamka - Diiwaangelinta
+        family:
+          label: Foomamka - Qoys
       group:
         actions:
           admin_only:
@@ -2450,6 +2798,9 @@ so:
           export_incident_recorder_xls:
             explanation: Isticmaaluhu waxa uu dhalin karaa dhoofinta faylalka XLS ee khaaska ah kaas oo u oggolaanaya in lagu beddelo xogta qalabka Diiwaangelinta Dhacdada GBV.
             label: U Badal duubaha dhacdada xls
+          export_mrm_violation_xls:
+            explanation: Isticmaaluhu wuxuu soo saari karaa fayl gaar ah oo Excel ah (faylka XLS) midkaas oo uu u badali karo xadgudubyada MRM.  Tallaabadan ayaa laga heli karaa bogga bandhigga Dhacdada iyo Liiska Dhacdada.
+            label: Faylka Xadgudubyada MRM Ubadal fayl Microsoft Excel ah (XLS fayl)
           export_json:
             explanation: Isticmaaluhu wuxuu ka soo saari karaa dhoofinta faylka JSON liiska dhacdada ama bogagga bandhiga dhacdada, oo ka kooban dhammaan goobaha uu isticmaaluhu galo, hal, badan, ama dhammaan shilalka uu isticmaaluhu geli karo. Dhoofintan waxaa inta badan loo isticmaalaa kuwa doonaya inay shilalka ka dhoofiyaan nidaamka Primero ee hadda jira ka dibna u soo dhoofiya nidaam Primero ka duwan, ama nidaam kale oo maareynta macluumaadka. Habka JSON waa mashiinka-akhrisan karo mana aha mid la taaban karo inta badan isticmaalayaasha.
             label: U Badal JSON
@@ -2468,6 +2819,9 @@ so:
           import:
             explanation: U oggolow isticmaaluhu inuu abuuro hal ama dhowr shil oo cusub isagoo ka soo dejinaya faylka CSV, Excel, ama JSON. Faylka la soo dejiyay waa in loo qaabeeyaa *aad* gaar ahaan si macluumaadka loogu soo dejiyo si sax ah. Shaqadani waa in ay ahaataa oo kaliya dadka isticmaala maamulka ee leh xirfado farsamo oo horumarsan iyo aqoon qoto dheer oo ku saabsan sida xogta loo qaabeeyey Primero. Kaliya laga sameeyay bogga liiska dhacdada.
             label: Soo dejinta
+          remove_alert:
+            explanation: Fasaxani wuxuu u oggolaanayaa inuu isticmaaluhu uu Aletiga digniinta kasaaro. Alertiga digniinta ayaa soo baxa marka qayb kamid ah qoraalka la badalo sida marka xusuus qorka la cusboonaysiiyo. Alertiga digniinta waa calaamad huruud ah ee kuxigta kiiska
+            label: Kasaar Alertiga digniinta kiiska
           manage:
             explanation: U oggolow isticmaaluhu inuu sameeyo dhammaan ficillada la heli karo ee shilalka. Oggolaanshaha "Maamul" asal ahaan macnaheedu waa "wax walba".
             label: Maamul (dhammaan oggolaanshaha nooca kheyraadkan)
@@ -2487,10 +2841,29 @@ so:
         label: Maareeye miyaa?
       managed_report:
         actions:
+          managed_report_scope:
+            label: Diwaanadee ayuu arki karaa isticmaalahan?
+          managed_report_scope_all:
+            label: 'Dhamaan '
+          managed_report_scope_group:
+            label: Xog ku salaysan koox kaliya
+          managed_report_scope_agency:
+            label: Xog kusalaysan haayad kaliya
           violations:
             label: Xadgudubyada
           gbv_statistics:
             label: Tirakoobka GBV
+          ghn_report:
+            label: 'Xusuus Qorka Heer Caalami ah '
+          individual_children:
+            label: Caruur gaar ah
+          workflow_report:
+            label: 'Shaqada Socota '
+            explanation: Isticmaalah awoodiisa uu ku arki karo tirakoobka heerka Shaqada socota. Oggolaanshahan ayaa sidoo kale u ogolaanaya isticmaalaha inuu xogta u badalo mid cid walba arki karto.
+          violence_type_report:
+            label: Nooca Xadgudubka
+          referrals_transfers_report:
+            label: Gudbinta iyo Wareejinta
       matching_configuration:
         actions:
           manage:
@@ -2520,6 +2893,15 @@ so:
           read:
             explanation: Waxay ka tarjumaysaa xidhiidhka ka dhexeeya Codsiga Baafinta iyo Kiis. Helitaanka Ciyaaraha suurtagalka ah ayaa lagama maarmaan u ah Baafinta Qoyska iyo Dib-u-midaynta (FTR). Waxay u ogolaataa isticmaalaha inuu arko foomka Soo koobida Baafinta ee Kiisaska.
             label: Fiiri
+          view_audio:
+            explanation: waxay kontoroolaysaa haddii isticmaale raadiniya Baafin lamid ah inuu arki karo faylka codka maqalka ah ee kiiska ama Codsi Baafin la xidhiidha ama leh tilmaamo isku ekaansho oo macquul ah.
+            label: Dhagayso Codka
+          view_photo:
+            explanation: waxay kontoroolaysaa haddii isticmaale raadiniya Baafin lamid ah inuu arki karo sawirada kiiska ama Codsi Baafin la xidhiidha ama leh tilmaamo isku ekaansho oo macquul ah.
+            label: 'Fiiri ama daawo Sawirada '
+          manage:
+            explanation: U oggolow isticmaaluhu inuu sameeyo dhammaan ficillada la heli karo ee ku saabsan tilmaamaha isku ekaanshaha macquulka ah.  Oggolaanshaha "Maamul" asal ahaan macnaheedu waa "wax walba".
+            label: Maaree
         label: Ciyaarta suurtagalka ah
       primero_configuration:
         actions:
@@ -2570,6 +2952,37 @@ so:
             label: Ku calaamadee khadka offline
         explanation: Tani waxay matali kartaa shakhsi ama hay'ad u baahan in lagu xidho diiwaanada kale sida kiisaska ama dhacdooyinka, aad u badan, oo marar badan lagu cusboonaysiiyo macluumaad cusub. Waxay la mid yihiin raadinta, laakiin leh xog aad u adag oo gelitaan kasta ah.
         label: Diiwaanka
+      family:
+        actions:
+          change_log:
+            label: Badal qaabka
+          create:
+            explanation: Awooda in la sameeyo diiwaan qoys
+          enable_disable_record:
+            label: Daar/Dami
+          export_json:
+            label: U badal JSON
+          export_list_view_csv:
+            label: U badal liistada CSV
+          flag:
+            label: Calaamad Calan
+          manage:
+            label: Maaree (dhamaan fasaxyada nooca xogtan)
+          read:
+            explanation: awooda inuu arko ama fiiriyo xogta qoyska
+            label: araga
+          write:
+            explanation: awooda inuu wax ka badalo, 'Edit gareeyo', cusboonaysiiyo xogta qoyska kadibna uu 'Kaydiyo ama save gareeyo
+            label: Wax kabadal
+          close:
+            label: Xidh
+          reopen:
+            explanation: Tani waxay isticmaalaha u ogolaanaysaa inuu furo xogta qoys kasoo wakhtigan lajoogo xidhan
+            label: Dib u fur
+          case_from_family:
+            explanation: 'u ogolaanaya in isticmaalayaashu sameeyaan kiis cusub iyagoo ka dhex samaynaya foom hoosaadka xubnaha qoyska ee diwaanka qoyska '
+            label: Samee Kiis
+        label: Qoyska
       report:
         actions:
           create:
@@ -2592,6 +3005,9 @@ so:
           write:
             explanation: Awoodda wax ka beddelka dhammaan warbixinnada (ay ku jiraan kuwa ay abuureen isticmaaleyaasha kale).
             label: Wax ka beddel
+          agency_read:
+            explanation: Awoodda lagu eego dhammaan warbixinnada  Tirooyinka ku jira warbixin kasta waxay ka turjumi doonaan oo keliya diiwaannada ay heli karaan isticmaalayaasha Wakaaladda isticmaalahan  Oggolaanshahan waxaa badanaa loo isticmaalaa maamulayaasha wakaalada.
+            label: 'Fiiri ama arag (xogta ku salaysan wakaalada) '
         explanation: Qalabka falanqaynta xogta wadarta Waxaa ku jira jaantusyada shaxda iyo garaafyada xogta.
         label: Warbixin
       reporting_location_level:
@@ -2777,7 +3193,6 @@ so:
     display: Ka muuqato aad isugu eekaansho %{type}%{id}
   reassign:
     multiple_error: Khalad baa dhacay. %{select_records} kiiska(kiisaska) lama meelayn.
-    multiple_successfully: '%{select_records} kiiska(kiisaska) waa lagu guulaystay in la meeleeyo'
     notes_label: Xusuusin
     successfully: Si guul leh ayaa dib loogu magacaabay
     user_mandatory_label: Qaataha ayaa loo baahan yahay
@@ -2864,6 +3279,7 @@ so:
     record_type: Nooca diiwaanka
     total: Wadarta
     value: Qiimaha
+    incomplete_data: Xog aan dhamaystirnayn
   reports:
     delete_report: Tirtir Warbixinta
     delete_report_message: Ma hubtaa inaad doonayso inaad tirtirto warbixintan? Tirtirka lama celin karo Guji OK si aad u tirtirto warbixinta
@@ -2964,6 +3380,10 @@ so:
     match: Isku beeg
     matches: Tartamada
     unmatch: Isku-dheelid la'aan
+    tracing_request_photos: Sawirada Codsigan Baafinta
+    case_photos: Sawirada Kiiskan
+    tracing_request_audios: Codka Codsigan Baafinta
+    case_audios: 'Maqalka kiiskan '
     messages:
       already_matched: Waxa horeba u jiray hab isku mid ah oo uu la socdo qof wax waydiinaya oo raadinaya ilmahan.
       disabled: Codsiga baafinta waa la joojiyay
@@ -2988,6 +3408,7 @@ so:
     enable_dialog_title: Ku Darida Codsiga Baafinta
     enable_success: Si guul leh ayaa u suurtageliyay codsiga raadinta
     id: aqoonsi
+    complete: 'lagu heli karo khad la''aan ama offline '
     filter_by:
       by_date: By Taariikhda
       location_separation: Goobta Kala Saarida
@@ -3005,6 +3426,7 @@ so:
     show_tracing_request: 'Baafinta Codsiga Aqoonsiga %{gaaban_id}'
     tracing_requests: Codsiga Radinta
     export: U badal
+    sort_by: u kala horeysii
   registry_records:
     id: aqoonsi
     label: Diiwaanka Diiwaangelinta
@@ -3020,6 +3442,7 @@ so:
     enable_dialog_title: Daar Diiwaanka Diiwaangelinta
     enable_dialog: Gujista OK waxay bedeli doontaa heerka diiwangelintan oo u beddeli doonta karti.
     enable_success: Si guul leh ayaa u suurtageliyay diiwaanka diiwaangelinta
+    complete: 'lagu heli karo khad la''aan ama offline '
     filter_by:
       by_date: By Taariikhda
       status: Xaalada
@@ -3032,6 +3455,41 @@ so:
       title: 'muji ka maqanaasho hawada '
       text: ma hubta in aad muujiso in la isticmaalo diwaankan adiga oo hawada ka maqan
       success: Adeegsiga diwaankan waxaa uu muujiisanyahay ka maqanasho hawo.
+  families:
+    id: Summad
+    label: 'Qoysaska '
+    family_id: 'Summada Qoyska '
+    family_number: 'Lambarka Qoyska '
+    family_name: 'Magaca Qoyska '
+    family_registration_date: Taariikhda Diwaangalinta
+    family_location_current: 'Goobta Qoyska '
+    export: U badal
+    register_new_family: 'Qoys Cusub '
+    show_family: 'Sumadda Qoyska %{short_id}'
+    disable_dialog_title: Dami ama qari Xogta qoyska
+    disable_dialog: Taabashada OK waxay badali doontaa xigta qoyska mid qarsoon
+    selected_records: '%{select_records}® Diwaanka(nada) qoyska la doortay '
+    selected_all_records: 'Dooro dhamaan %{total_records} qoysaska la mid ah xogtan'
+    mark_for_offline:
+      text: Ma hubtaa inaad doonayso inaad ka dhigto diwaanada qoyska kuwo aad isticmaasho markaad khad la'aan tahay ama offline.
+      success: 'Diwaanada qoyska waxaad ka dhigtey kuwo aad isticmaali karto marka aad khad la''aan tahay ama offline '
+    filter_by:
+      by_date: 'Ee Taariikh '
+      status: 'Heerka '
+      current_location: 'Goobta Qoyska '
+  family:
+    family_member:
+      case_id: Summada Kiiska
+      update_and_return: Cusbooneysii kadibna dib ooga noqo
+      save_and_return: Kudar kadibna dib ooga noqo
+      create_case: Samee Kiis
+      back_to_family_members: 'Dib ugu noqo Xubnaha Qoyska '
+      create: Samee
+    messages:
+      update_success: 'Xogta Qoyska %{record_id} ®Waa La Cusboonaysiiyay.'
+      creation_success: 'Waad ku guuleystay inaad Xog Qoys Samayso'
+      disabled: 'Xogta Qoyska Waa la qariyay '
+      confirm_create_case: Miyaad doonaysaa inaad Kiis u samayso shaqsigan
   transfer:
     label: wareeji
     agency_label: Xafiis
@@ -3125,13 +3583,15 @@ so:
     provider_username_help: 'Tusaale . magaca isticmaalaha@%{domain}'
     role_id: Doorka
     send_mail: Hel ogeysiis iimaylka?
+    receive_webpush:
+      label: 'Hell Ogaysiisyada '
     user_group_unique_ids: Kooxaha Isticmaalayaasha
     user_name: Magaca isticmaale
     services: Adeegyada
     welcome_email:
       subject: 'Ku soo dhawoow %{system}!'
       greeting: 'Ku soo dhawoow %{system}!'
-      body_native: 'Waxaa lagugu daray %{role_name} Fadlan la xidhiidh %{admin_full_name} (%{admin_email}) si aad ula socoto tilmaamaha si aad u bilowdo la shaqaynta%{host'
+      body_native: 'Waxaa lagugu daray %{role_name} Fadlan la xidhiidh %{admin_full_name} (%{admin_email}) si aad ula socoto tilmaamaha si aad u bilowdo la shaqaynta %{host}'
       sso:
         body: 'Waxaa lagugu daray %{role_name}'
         step1: 'Aad %{host} oo dhagsii %{identity_provider}.'
@@ -3151,7 +3611,7 @@ so:
       subject: 'Dib u deji tilmaamaha erayga sirta ah'
       email_greeting: "Gacaliye %{Magaca oo dhamaystiran}"
       email_body1: "Qof ayaa codsaday inuu dejiyo eraygaaga sirta ah %{host_href}. Guji url-ka hoose si aad u bilowdo:"
-      email_body2: "Xiriirintani waxa ay dhacaysaa %{saacado} saacadood oo waxa la isticmaali karaa hal mar oo kaliya. Fadlan iska ilow iimaylkan haddii aadan samayn codsi dib u dejin sirta ah ama isticmaale Primero cusub aan loo diwaan gashanayn magacaaga. Haddii xidhiidhka sare uu dhacay, fadlan dhagsii %{reset_request_href} si aad dib ugu soo gudbiso codsiga dib u dejinta erayga sirta ah."
+      email_body2: "Xiriirintani waxa ay dhacaysaa %{hours} saacadood oo waxa la isticmaali karaa hal mar oo kaliya. Fadlan iska ilow iimaylkan haddii aadan samayn codsi dib u dejin sirta ah ama isticmaale Primero cusub aan loo diwaan gashanayn magacaaga. Haddii xidhiidhka sare uu dhacay, fadlan dhagsii %{reset_request_href} si aad dib ugu soo gudbiso codsiga dib u dejinta erayga sirta ah."
       email_body_link: halkan
       request_submitted: "Codsiga dib u habeynta erayga sirta ah waa la gudbiyay"
       success: "Si guul leh ayaa loo beddelay erayga sirta ah"
@@ -3162,7 +3622,7 @@ so:
       subject: "U fuulida %{Nidaamka}"
       greeting: "Gacaliye%{magac oo dhamaystiran},"
       body1: "Ku soo dhawoow Primero!"
-      body2: "Waxaa laguu magacaabay maamulaha fulinta %{host_href}. %{reset_ogaysiis}"
+      body2: "Waxaa laguu magacaabay maamulaha fulinta %{host_href}. %{reset_notification}"
       body2_reset_notification: "Waxaad heli doontaa iimayl dheeraad ah oo kugu dhiirigelinaya inaad dib u dejiso eraygaaga sirta ah."
       body3: "Adiga ayaa mas'uul ka ah xaqiijinta amniga iyo hirgelinta waqtiga. Dib-u-dejin kasta, waa inaad ku dhammaystirtay Qorshaha Hirgelinta oo leh istaraatijiyadda maamulka isticmaale iyo borotokoolka wadaagga macluumaadka. Waxaad sidoo kale mas'uul ka tahay inaad hubiso in Shuruudaha Isticmaalka ee saxeexan uu ku jiro faylka dhammaan ururada isticmaala."
   user_group:
@@ -3192,6 +3652,8 @@ so:
       last_attempt: "waxaa ku hadhday hal mar in aad isku daydo"
   admin:
     locations:
-      selected_records: '%{Dooro diiwaangaliyaha} goobta(yada) la doortay'
+      selected_records: '%{select_records} goobta(yada) la doortay'
       selected_all_records: Dooro dhamaan %{total_records}kiisaska waafaqsan nidaamkan
       updated: '%{Dooro diiwaangaliyaha} goobta(yada) la doortay'
+  push_notifications_dialog:
+    title: Ogaysiiska Aalada
