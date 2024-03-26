@@ -2047,13 +2047,22 @@ en:
         individual_violation_type: Individual Children by Violation Type
         individual_region: Individual Children by Region
         individual_perpetrator: Individual Children by Perpetrator
+    followups:
+      name: Follow Ups
+      description: Cases with the selected Follow Up, broken down by age and sex.
+    followups_report:
+      reports:
+        followups: Follow Ups
+        description: Cases with the selected Follow Up, broken down by age and sex.
+      sub_reports:
+        followups: Follow Ups
     protection_concerns:
       name: Protection Concerns
-      description: 'Cases with the selected Protection Concern, broken down by age and sex.'
+      description: Cases with the selected Protection Concern, broken down by age and sex.
     protection_concerns_report:
       reports:
         protection_concerns: Protection Concerns
-        description: Desc
+        description: Cases with the selected Protection Concern, broken down by age and sex.
       sub_reports:
         protection_concerns: Protection Concerns
     ghn_report:
