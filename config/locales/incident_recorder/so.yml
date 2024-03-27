@@ -4,11 +4,11 @@ so:
       export_incident_recorder_xls: "U badal Diiwaangaliyaha dhacdooyinka file excel ah xls"
   exports:
     incident_recorder_xls:
-      all: 'Diwaangaliyaha Dhacdada '
-      one: Diwaangaliyaha Dhacdada
-      selected: u doortay diiwaangaliyaha dhacdada
-      'yes': "Haa"
-      'no': "Maya"
+      all:  "Diwaangaliyaha Dhacdada "
+      one:  Diwaangaliyaha Dhacdada
+      selected:  u doortay diiwaangaliyaha dhacdada
+      "yes": "Haa"
+      "no": "Maya"
       gender:
         male: "Lab"
         female: "Dhedig"

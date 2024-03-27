@@ -1,57 +1,60 @@
 so:
   date:
-    today: 'maanta'
+    today: 'maanta '
     clear: 'Cadee'
+    first_day: 0
     abbr_day_names_short:
-      - Axad
-      - Isniin
-      - Salaasa
-      - Arbaco
-      - Khamiis
-      - Jimce
-      - Sabti
+    - Axad
+    - Isniin
+    - Salaasa
+    - Arbaco
+    - Khamiis
+    - Jimce
+    - Sabti
     abbr_day_names:
-      - Axad
-      - Isniin
-      - Salaasa
-      - Arbaca
-      - Khamiis
-      - Jimce
-      - sabti
+    - Axad
+    - Isniin
+    - Salaasa
+    - Arbaca
+    - Khamiis
+    - Jimce
+    - sabti
     abbr_month_names:
-      - Janaayo
-      - Febraayo
-      - Marso
-      - Abril
-      - Meey
-      - Juun
-      - Luulyo
-      - Agoosta
-      - Sebtembar
-      - Oktoobar
-      - Nofembar
-      - Dhisenbar
+    - ~
+    - Janaayo
+    - Febraayo
+    - Marso
+    - Abril
+    - Meey
+    - Juun
+    - Luulyo
+    - Agoosta
+    - Sebtembar
+    - Oktoobar
+    - Nofembar
+    - Dhisenbar
     day_names:
-      - Axad
-      - Isniin
-      - Salaasa
-      - Arbaca
-      - Khamiis
-      - Jimco
-      - Sabti
+    - Axad
+    - Isniin
+    - Salaasa
+    - Arbaca
+    - Khamiis
+    - Jimco
+    - Sabti
     month_names:
-      - Jnaayo
-      - Febraayo
-      - Maarso
-      - Abril
-      - Meey
-      - Juun
-      - Luulyo
-      - Agoosto
-      - Sebtembar
-      - Octoobar
-      - Nofembar
-      - Dhiseenbar
+    - ~
+    - Jnaayo
+    - Febraayo
+    - Maarso
+    - Abril
+    - Meey
+    - Juun
+    - Luulyo
+    - Agoosto
+    - Sebtembar
+    - Octoobar
+    - Nofembar
+    - Dhiseenbar
     formats:
       default: "%d-b-%Y"
       with_time: "%d-5b-%Y%H:%M"
