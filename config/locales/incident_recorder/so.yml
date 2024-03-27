@@ -1,21 +1,21 @@
 so:
   permissions:
     permission:
-      export_incident_recorder_xls: "Diiwaangalinta dhacdooyinka waa lagudbin"
+      export_incident_recorder_xls: "U badal Diiwaangaliyaha dhacdooyinka file excel ah xls"
   exports:
     incident_recorder_xls:
-      all: Dhacddoyinka waa ladiiwaangali
-      one: Dhacddoyinka waa ladiiwaangali
-      selected: dhacddoyinka ladoortay waa ladiiwaangali
+      all: 'Diwaangaliyaha Dhacdada '
+      one: Diwaangaliyaha Dhacdada
+      selected: u doortay diiwaangaliyaha dhacdada
       'yes': "Haa"
       'no': "Maya"
       gender:
-        male: "M"
-        female: "F"
-        both: "M iyo F"
+        male: "Lab"
+        female: "Dhedig"
+        both: "Lab iyo Dhedig "
       age_group:
-        age: "Da'a"
-        61_older: "61 iyo wixi kaweyn"
+        age: "Da'da "
+        61_older: "61 jir & wixi kaweyn"
         unknown: "Aan lagaraneynin"
         header: "Kooxda da'da dembiilayaasha ee lagu eedeeyay"
       age_type:
@@ -23,9 +23,9 @@ so:
         minor: "Yar"
         both: "Qaangadh iyo Yar"
         unknown: "Aan lagaraneynin"
-        header: "Kooxda da'da dembiilayaasha ee  nooca lagu eedeeyay "
+        header: "da'da eedaysanaha dambiga "
       service_referral:
-        undecided: "Aan la goaamin"
+        undecided: "Aan la go'aamin"
       headers:
         incident_id: "Summadda Dhacdada"
         survivor_code: "Summadda Badbaadaha"
@@ -44,7 +44,7 @@ so:
         stage_of_displacement: "Heerka Barakaca ee Dhacdada"
         time_of_day: "Wakhtiga iyo Maalinta Dhacdada"
         location: "Goobta Dhacdada"
-        county: "waddanka Dhacdadan ka dhacday "
+        county: "Dagmada ay Dhacdadani ka dhacday "
         district: "Degmada Dhacdada "
         camp_town: "Goobta/Magaalada Dhacdada"
         camp: "Goobta Dhacdada"
