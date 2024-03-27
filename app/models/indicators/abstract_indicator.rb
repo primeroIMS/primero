@@ -36,29 +36,6 @@ module Indicators
       name
     end
 
-    def stats_from_search(sunspot_search, user, managed_user_names = [])
-      owner = owner_from_search(sunspot_search)
-      rows = user_scoped_rows(sunspot_search.facet(facet_name).rows, user, managed_user_names)
-      rows.to_h do |row|
-        stat = {
-          'count' => row.count,
-          'query' => stat_query_strings(row, owner, user)
-        }
-        [row.value, stat]
-      end
-    end
-
-    def user_scoped_rows(rows, user, managed_user_names)
-      return rows unless scope_to_user
-
-      user_query_scope = user.user_query_scope(record_model)
-      return rows if user_query_scope == Permission::ALL
-
-      rows.select do |row|
-        managed_user_names.include?(row.is_a?(Hash) ? row['value'] : row.value)
-      end
-    end
-
     def stat_query_strings(_, _, _)
       raise NotImplementedError
     end
@@ -113,19 +90,6 @@ module Indicators
         )
       ]
     end
-
-    # rubocop:disable Metrics/CyclomaticComplexity
-    # rubocop:disable Metrics/PerceivedComplexity
-    def owner_from_search(sunspot_search)
-      return unless scope_to_owner
-
-      owner_query = sunspot_search&.query&.scope&.to_params
-                      &.dig(:fq)&.find { |p| p.match(/owned_by/) }
-
-      owner_query && SolrUtils.unescape(owner_query.split(':')[1])
-    end
-    # rubocop:enable Metrics/CyclomaticComplexity
-    # rubocop:enable Metrics/PerceivedComplexity
 
     def scope_query_strings
       scope&.map(&:to_s) || []
