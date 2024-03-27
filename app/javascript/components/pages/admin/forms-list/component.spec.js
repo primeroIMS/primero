@@ -12,7 +12,6 @@ import { ACTIONS } from "../../../permissions";
 import FormsList from "./component";
 
 describe("<FormsList />", () => {
-
   const formSections = [
     {
       id: 1,
@@ -97,32 +96,30 @@ describe("<FormsList />", () => {
   });
 
   it("renders <PageHeading />", () => {
-    
-    mountedComponent(<FormsList  />, initialState)
+    mountedComponent(<FormsList />, initialState);
     expect(screen.getByText(/forms.label/i)).toBeInTheDocument();
   });
 
   it("renders <FormFilters />", () => {
-    mountedComponent(<FormsList  />, initialState)
-    expect(screen.getByTestId('forms-list')).toBeInTheDocument();
+    mountedComponent(<FormsList />, initialState);
+    expect(screen.getByTestId("forms-list")).toBeInTheDocument();
   });
 
   it("renders form sections", () => {
-    mountedComponent(<FormsList  />, initialState)
-    expect(screen.getAllByTestId('form-group')).toHaveLength(2);
+    mountedComponent(<FormsList />, initialState);
+    expect(screen.getAllByTestId("form-group")).toHaveLength(2);
   });
 
   describe("when there are no records", () => {
     const stateWithoutRecords = initialState.setIn(["records", "admin", "forms", "formSections"], fromJS([]));
 
     it("renders <FormFilters/>", () => {
-        mountedComponent(<FormsList  />, stateWithoutRecords)
-        expect(screen.getByTestId('form-list')).toBeInTheDocument()
-    
+      mountedComponent(<FormsList />, stateWithoutRecords);
+      expect(screen.getByTestId("form-list")).toBeInTheDocument();
     });
     it("does not renders form sections", () => {
-        mountedComponent(<FormsList  />, stateWithoutRecords)
-        expect(screen.queryAllByTestId('form-group')).toHaveLength(0);
+      mountedComponent(<FormsList />, stateWithoutRecords);
+      expect(screen.queryAllByTestId("form-group")).toHaveLength(0);
     });
   });
 
@@ -130,13 +127,13 @@ describe("<FormsList />", () => {
     const stateReorderEnabled = initialState.setIn(["records", "admin", "forms", "reorderedForms", "enabled"], true);
 
     it("renders the <RorderActions />", () => {
-        mountedComponent(<FormsList  />, stateReorderEnabled)
-      expect(screen.getByText(/buttons.cancel/i)).toBeInTheDocument()
+      mountedComponent(<FormsList />, stateReorderEnabled);
+      expect(screen.getByText(/buttons.cancel/i)).toBeInTheDocument();
     });
 
     it("disable the <FormFilters/>", () => {
-        mountedComponent(<FormsList  />, stateReorderEnabled)
-        expect(screen.getByTestId('forms-list')).toHaveClass('disabledFilters');
+      mountedComponent(<FormsList />, stateReorderEnabled);
+      expect(screen.getByTestId("forms-list")).toHaveClass("disabledFilters");
     });
   });
 });
