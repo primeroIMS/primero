@@ -58,20 +58,17 @@ describe("<RecordForm>/form/subforms/subform-fields/<ViolationTitle>", () => {
   });
 
   describe("when violation status is not present", () => {
-    it("renders a vioaltion title with chip", () => {
+    it("renders a vioaltion title without chip component", () => {
       mountedComponent(
         <ViolationTitle
-          {...{
-            ...props,
-            values: {
-              unique_id: "ab123cde"
-            }
-          }}
+          {...{title: "This is a title",
+          values: {},
+        fields: []}}
         />,
         initialState
       );
 
-      expect(screen.getByText("This is a title - b123cde")).toBeInTheDocument();
+      expect(screen.queryByText("status 1")).not.toBeInTheDocument();
       expect(screen.getByTestId("violation-title")).toBeInTheDocument();
     });
   });
