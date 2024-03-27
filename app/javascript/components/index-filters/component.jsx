@@ -23,7 +23,7 @@ import { reduceMapToObject } from "../../libs/component-helpers";
 
 import { DEFAULT_SELECTED_RECORDS_VALUE, FILTER_CATEGORY, HIDDEN_FIELDS } from "./constants";
 import { compactFilters, transformFilters } from "./utils";
-import { Search } from "./components/filter-types";
+import SearchBox from "./components/search-box";
 import { applyFilters, setFilters } from "./action-creators";
 import css from "./components/styles.css";
 import TabFilters from "./components/tab-filters";
@@ -137,7 +137,7 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
     <div className={css.root}>
       <FormProvider {...methods} user={userName}>
         <form onSubmit={methods.handleSubmit(handleSubmit)}>
-          <Search />
+          <SearchBox />
           <div className={css.tabContainer}>
             <Tabs value={tabIndex} onChange={handleChangeTabs} classes={{ root: css.tabs }} variant="fullWidth">
               {tabs.map(({ name, selected, ...rest }) => (

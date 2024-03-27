@@ -2247,6 +2247,12 @@ en:
     reports: Reports
     insights: Insights
     search: Search
+    phonetic_search:
+      title: Enter a name to search for an existing record.
+      label: Use Name Fields
+      help_text: Phonetic search is available for Name fields
+    id_search:
+      title: Enter the ID number to search for an existing record.
     settings: Settings
     support: Support
     support_menu:
