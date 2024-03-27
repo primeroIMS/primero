@@ -115,7 +115,7 @@ describe("<FormsList />", () => {
 
     it("renders <FormFilters/>", () => {
         mountedComponent(<FormsList  />, stateWithoutRecords)
-        expect(screen.queryAllByTestId('form-group')).toHaveLength(0);
+        expect(screen.getByTestId('form-list')).toBeInTheDocument()
     
     });
     it("does not renders form sections", () => {
@@ -134,7 +134,7 @@ describe("<FormsList />", () => {
 
     it("disable the <FormFilters/>", () => {
         mountedComponent(<FormsList  />, stateReorderEnabled)
-        expect(screen.getAllByTestId('form-group')).toHaveLength(2);
+        expect(screen.getByTestId('forms-list')).toHaveClass('disabledFilters');
     });
   });
 });
