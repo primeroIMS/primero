@@ -7,11 +7,11 @@ class SearchFilterService
   EXCLUDED = %w[format controller action page per order order_by fields id_search].freeze
 
   class << self
-    def build_filters(params, permitted_field_names)
+    def build_filters(params, permitted_field_names, model_class)
       service = SearchFilterService.new
       filter_params = service.select_filter_params(params, permitted_field_names)
       filter_params = DestringifyService.destringify(filter_params.to_h, true)
-      service.build_filters(filter_params)
+      service.build_filters(filter_params, model_class)
     end
 
     def boolean?(value)
@@ -23,16 +23,27 @@ class SearchFilterService
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/PerceivedComplexity
-  def build_filters(params)
+  # rubocop:disable Metrics/BlockLength
+  def build_filters(params, model_class)
     params.map do |key, value|
       if key == 'or'
         if value.is_a?(Array)
-          SearchFilters::Or.new(filters: value.map { |v| build_filters(v).first })
+          SearchFilters::Or.new(filters: value.map { |v| build_filters(v, model_class).first })
         elsif value.is_a?(Hash)
-          SearchFilters::Or.new(filters: build_filters(value))
+          SearchFilters::Or.new(filters: build_filters(value, model_class))
         end
       elsif key == 'not'
-        build_not_filter(value.keys.first, value.values.first)
+        build_not_filter(value.keys.first, value.values.first, model_class)
+      elsif key == 'not_edited_by_owner'
+        SearchFilters::NotEditedByOwner.new(value:)
+      elsif key == 'referred_users'
+        SearchFilters::ReferredUsers.new(value:, record_type: model_class.name)
+      elsif key == 'transferred_to_users'
+        SearchFilters::TransferredToUsers.new(value:, record_type: model_class.name)
+      elsif key == 'transferred_to_user_groups'
+        SearchFilters::TransferredToUserGroups.new(values: value, record_type: model_class.name)
+      elsif key == 'referred_users_present'
+        SearchFilters::ReferredUsersPresent.new(value:, record_type: model_class.name)
       elsif key.starts_with?('loc:')
         build_location_filter(key, value)
       elsif value.is_a?(Hash)
@@ -56,11 +67,25 @@ class SearchFilterService
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/BlockLength
 
   # rubocop:disable Metrics/MethodLength
-  def build_not_filter(field_name, value)
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/PerceivedComplexity
+  def build_not_filter(field_name, value, model_class)
     if field_name.starts_with?('loc:')
       build_location_filter(field_name, value, true)
+    elsif field_name == 'not_edited_by_owner'
+      SearchFilters::NotEditedByOwner.new(value:)
+    elsif field_name == 'referred_users'
+      SearchFilters::ReferredUsers.new(value:, record_type: model_class.name, not_filter: true)
+    elsif field_name == 'transferred_to_users'
+      SearchFilters::TransferredToUsers.new(value:, record_type: model_class.name, not_filter: true)
+    elsif field_name == 'transferred_to_user_groups'
+      SearchFilters::TransferredToUserGroups.new(values: value, record_type: model_class.name, not_filter: true)
+    elsif field_name == 'referred_users_present'
+      SearchFilters::ReferredUsersPresent.new(value:, record_type: model_class.name, not_filter: true)
     elsif value.is_a?(Array)
       build_array_filter(field_name, value, true)
     elsif SearchFilterService.boolean?(value)
@@ -71,7 +96,10 @@ class SearchFilterService
       SearchFilters::Value.new(field_name:, value:, not_filter: true)
     end
   end
+  # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
 
   def build_array_filter(field_name, value, not_filter = false)
     if value.first.is_a?(Hash)
