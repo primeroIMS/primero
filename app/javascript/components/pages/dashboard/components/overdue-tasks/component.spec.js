@@ -78,38 +78,37 @@ describe("<OverdueTasks> - pages/dashboard/components/overdue-tasks", () => {
 
   it("should render a <DashboardTable /> component", () => {
     mountedComponent(<OverdueTasks />, state);
-    expect(screen.getByTestId('dashboard-table')).toBeInTheDocument();
+    expect(screen.getByTestId("dashboard-table")).toBeInTheDocument();
   });
 
   it("should render 5 columns", () => {
     mountedComponent(<OverdueTasks />, state);
-    expect(screen.getAllByRole('row')).toHaveLength(2);
+    expect(screen.getAllByRole("cell")).toHaveLength(5);
   });
 
   it("should render case_worker column", () => {
     mountedComponent(<OverdueTasks />, state);
-    expect(screen.getAllByText('dashboard.case_worker')).toHaveLength(2)
-   
+    expect(screen.getAllByText("dashboard.case_worker")).toHaveLength(2);
   });
 
   it("should render assessment column", () => {
     mountedComponent(<OverdueTasks />, state);
-    expect(screen.getAllByText('dashboard.assessment')).toHaveLength(2)
+    expect(screen.getAllByText("dashboard.assessment")).toHaveLength(2);
   });
 
   it("should render case_plan column", () => {
     mountedComponent(<OverdueTasks />, state);
-    expect(screen.getAllByText('dashboard.case_plan')).toHaveLength(2)
+    expect(screen.getAllByText("dashboard.case_plan")).toHaveLength(2);
   });
 
   it("should render services column", () => {
     mountedComponent(<OverdueTasks />, state);
-    expect(screen.getAllByText('dashboard.services')).toHaveLength(2)
+    expect(screen.getAllByText("dashboard.services")).toHaveLength(2);
   });
 
   it("should render follow_up column", () => {
     mountedComponent(<OverdueTasks />, state);
-    expect(screen.getAllByText('dashboard.follow_up')).toHaveLength(2)
+    expect(screen.getAllByText("dashboard.follow_up")).toHaveLength(2);
   });
 
   describe("when the data is loading", () => {
@@ -134,7 +133,7 @@ describe("<OverdueTasks> - pages/dashboard/components/overdue-tasks", () => {
           permissions
         }
       });
-      expect(screen.getByTestId('option-box')).toBeInTheDocument();
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
 });
