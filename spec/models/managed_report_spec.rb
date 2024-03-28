@@ -14,7 +14,7 @@ describe ManagedReport do
 
     it 'return a Hash of ManagedReport' do
       expect(managed_reports).to be_an_instance_of(Hash)
-      expect(managed_reports.size).to eq(8)
+      expect(managed_reports.size).to eq(9)
     end
 
     it 'should have gbv_statistics and violation keys' do
@@ -22,6 +22,7 @@ describe ManagedReport do
                                                    Permission::VIOLATION_REPORT, Permission::GHN_REPORT,
                                                    Permission::INDIVIDUAL_CHILDREN,
                                                    Permission::PROTECTION_CONCERNS_REPORT, Permission::WORKFLOW_REPORT,
+                                                   Permission::REPORTING_LOCATIONS_REPORT,
                                                    Permission::VIOLENCE_TYPE_REPORT,
                                                    Permission::REFERRALS_TRANSFERS_REPORT])
     end

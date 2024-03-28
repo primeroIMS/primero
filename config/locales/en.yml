@@ -2006,6 +2006,7 @@ en:
       cp_incident_violence_type: Type of Violence
       referral_transfer_status: Referral / Transfer Status
       protection_concerns: Protection Concerns
+      location_current: Reporting Locations
     status_options:
       open: Open
       closed: Closed
@@ -2053,9 +2054,18 @@ en:
     protection_concerns_report:
       reports:
         protection_concerns: Protection Concerns
-        description: Desc
+        description: ''
       sub_reports:
         protection_concerns: Protection Concerns
+    reporting_locations:
+      name: Reporting Location
+      description: 'Cases with the selected Reporting Location, broken down by age and sex.'
+    reporting_locations_report:
+      reports:
+        protection_concerns: Reporting Location
+        description: ''
+      sub_reports:
+        protection_concerns: Reporting Location
     ghn_report:
       name: Global Horizontal Note
       description: ''
@@ -3341,9 +3351,12 @@ en:
         label: Is Manager?
       managed_report:
         actions:
-        protection_concerns_report:
-          label: Protection Concerns
-          explanation: Ability to view statistics on the Protection Concerns of Cases registered within a given date range. This permission also allows the user to export data from an Insight.
+          reporting_locations_report:
+            label: Reporting Location
+            explanation: Ability to view statistics on the number of Cases registered within a given date range, filtered by Reporting Location, and broken down by age and sex. This permission also allows the user to export data from an Insight.
+          protection_concerns_report:
+            label: Protection Concerns
+            explanation: Ability to view statistics on the Protection Concerns of Cases registered within a given date range. This permission also allows the user to export data from an Insight.
           managed_report_scope:
             label: What records should this role be able to see in Insights?
           managed_report_scope_all:

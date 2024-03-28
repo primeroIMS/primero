@@ -657,6 +657,8 @@ export const WORKFLOW_SUBREPORTS = ["cases_workflow", "incidents_workflow"];
 
 export const PROTECTION_CONCERNS_SUBREPORTS = ["protection_concerns"];
 
+export const REPORTING_LOCATIONS_SUBREPORTS = ["reporting_location_by_sex_and_age"];
+
 export const REFERRAL_TRANSFERS_SUBREPORTS = ["total_transfers", "total_referrals"];
 
 export const VIOLENCE_TYPE_SUBREPORTS = ["cases_violence_type", "incidents_violence_type"];

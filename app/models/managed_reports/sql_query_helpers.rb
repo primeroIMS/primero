@@ -38,6 +38,33 @@ module ManagedReports::SqlQueryHelpers
       )
     end
 
+    def reporting_location_query(param, _table_name = nil, _hash_field = 'data', map_to = nil)
+      return unless param.present?
+
+      field_name = map_to || param.field_name
+      param_value = param.respond_to?(:values) ? param.values : param.value
+
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          %(
+            (
+              data->>'#{field_name}' = ? AND data->>'#{field_name}' IS NOT NULL AND EXISTS
+              (
+                SELECT
+                  1
+                FROM locations
+                INNER JOIN locations AS descendants
+                ON locations.admin_level <= descendants.admin_level
+                  AND locations.hierarchy_path @> descendants.hierarchy_path
+                WHERE locations.location_code = data->>'#{field_name}' AND descendants.location_code = data->>'#{field_name}'
+              )
+            )
+          ),
+          param_value
+        ]
+      )
+    end
+
     def in_value_query(param, table_name = nil, _hash_field = 'data', map_to = nil)
       return unless param.present?
 

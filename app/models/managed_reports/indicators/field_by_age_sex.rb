@@ -15,7 +15,13 @@ class ManagedReports::Indicators::FieldByAgeSex < ManagedReports::SqlReportIndic
       false
     end
 
+    def reporting_location_field?
+      false
+    end
+
     def field_value(field_param)
+      return if reporting_location_field?
+
       return equal_value_query_multiple(field_param) if multiple_field_values
 
       equal_value_query(field_param)
@@ -45,6 +51,7 @@ class ManagedReports::Indicators::FieldByAgeSex < ManagedReports::SqlReportIndic
             #{equal_value_query(params['module_id'])&.prepend('and ')}
             #{field_value(params[field_name])&.prepend('and ')}
             #{user_scope_query(current_user)&.prepend('and ')}
+            #{reporting_location_query(params['location_current'])&.prepend('and ')}
             group by name, key
               #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
             order by name, key
