@@ -60,8 +60,7 @@ class Search::SearchQuery
   def with_scope(scope)
     return self unless scope.present?
 
-    @query = with_user_scope(scope[:user])
-    @query = with_module_scope(scope[:module])
+    @query = Search::SearchScope.apply(scope, @query)
     self
   end
 
@@ -92,26 +91,6 @@ class Search::SearchQuery
   end
 
   private
-
-  def with_user_scope(user_scope)
-    return @query unless user_scope.present?
-
-    if user_scope['user'].present?
-      @query.where("data->'associated_user_names' ? :user", user: user_scope['user'])
-    elsif user_scope['agency'].present?
-      @query.where("data->'associated_user_agencies' ? :agency", agency: user_scope['agency'])
-    elsif user_scope['group'].present?
-      @query.where("data->'associated_user_groups' ?| array[:groups]", groups: user_scope['group'])
-    else
-      @query
-    end
-  end
-
-  def with_module_scope(module_scope)
-    return @query unless module_scope.present?
-
-    @query.where("data->>'module_id' = :module_id", module_id: module_scope)
-  end
 
   def phonetic_score_query(values)
     ActiveRecord::Base.sanitize_sql_for_conditions(

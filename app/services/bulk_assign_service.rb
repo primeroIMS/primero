@@ -50,6 +50,6 @@ class BulkAssignService
   end
 
   def search_filters
-    SearchFilterService.new.build_filters(DestringifyService.destringify(@args[:filters], true))
+    SearchFilterService.new.build_filters(DestringifyService.destringify(@args[:filters], true), @model_class)
   end
 end

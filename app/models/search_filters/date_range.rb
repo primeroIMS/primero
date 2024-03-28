@@ -6,6 +6,36 @@
 class SearchFilters::DateRange < SearchFilters::SearchFilter
   attr_accessor :field_name, :from, :to
 
+  class << self
+    def dawn_of_time
+      Time.zone.at(0)
+    end
+
+    def recent_past
+      Time.zone.now - 10.days
+    end
+
+    def last_week(field_name)
+      new(
+        field_name:,
+        from: 1.week.ago.beginning_of_week,
+        to: 1.week.ago.end_of_week
+      )
+    end
+
+    def this_week(field_name)
+      new(
+        field_name:,
+        from: present.beginning_of_week,
+        to: present.end_of_week
+      )
+    end
+
+    def present
+      Time.zone.now
+    end
+  end
+
   def query_scope(sunspot)
     this = self
     sunspot.instance_eval do

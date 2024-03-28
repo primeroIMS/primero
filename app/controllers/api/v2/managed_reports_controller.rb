@@ -53,6 +53,6 @@ class Api::V2::ManagedReportsController < ApplicationApiController
   end
 
   def filters
-    SearchFilterService.build_filters(permit_params, @managed_report.permitted_filter_names)
+    SearchFilterService.build_filters(permit_params, @managed_report.permitted_filter_names, model_class)
   end
 end
