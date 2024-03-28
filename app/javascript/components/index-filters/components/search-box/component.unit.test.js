@@ -5,7 +5,7 @@ import SearchIcon from "@material-ui/icons/Search";
 
 import { setupMockFormComponent } from "../../../../test";
 
-import Search from "./search";
+import Search from "./component";
 
 describe("<Search /> index-filters/components/filter-types/search", () => {
   const props = {
