@@ -55,7 +55,6 @@ const ExportList = () => {
                       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                       <div
                         className={css.link}
-                        data-testid="offline"
                         onClick={handleClick(exportRecord)}
                         role="button"
                         tabIndex={tableMeta.rowIndex}
