@@ -107,6 +107,11 @@ describe("<ExportList />", () => {
     expect(screen.getByTestId("page-heading")).toBeInTheDocument();
   });
 
+  it("should render <PageContent>", () => {
+    mountedComponent(<ExportList />, {}, initialState);
+    expect(screen.getByTestId("page-content")).toBeInTheDocument();
+  });
+
   it("should render <IndexTable>", () => {
     mountedComponent(<ExportList />, {}, initialState);
     expect(screen.getByText(/messages.record_list.rows_per_page/i)).toBeInTheDocument();
