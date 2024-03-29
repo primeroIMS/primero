@@ -14,7 +14,8 @@ import {
   ACCEPTED,
   REJECTED,
   DONE,
-  PROTECTION_CONCERNS_SUBREPORTS
+  PROTECTION_CONCERNS_SUBREPORTS,
+  CASES_WORKFLOW_SUBREPORTS
 } from "../../config/constants";
 import { DATE_FIELD, SELECT_FIELD, HIDDEN_FIELD, OPTION_TYPES } from "../form/constants";
 import { FieldRecord } from "../form/records";
@@ -311,6 +312,35 @@ export const DEFAULT_VIOLATION_FILTERS = {
   [VERIFIED_CTFMR_TECHNICAL]: VERIFIED
 };
 
+export const SHARED_WORKFLOW_CONFIG = {
+  ids: WORKFLOW_SUBREPORTS,
+  defaultFilterValues: {
+    [GROUPED_BY]: WEEK,
+    [DATE_RANGE]: LAST_WEEK,
+    [STATUS]: [STATUS_OPEN],
+    [DATE]: REGISTRATION_DATE,
+    [BY]: OWNED_BY_GROUPS
+  },
+  filters: [
+    RECORD_FILTERS[GROUPED_BY],
+    RECORD_FILTERS[DATE_RANGE],
+    RECORD_FILTERS[FROM],
+    RECORD_FILTERS[TO],
+    RECORD_FILTERS[STATUS],
+    {
+      name: WORKFLOW,
+      type: SELECT_FIELD,
+      display_name: WORKFLOW_DISPLAY_NAME
+    },
+    RECORD_FILTERS[BY],
+    RECORD_FILTERS[CREATED_BY_GROUPS],
+    RECORD_FILTERS[OWNED_BY_GROUPS],
+    RECORD_FILTERS[CREATED_ORGANIZATION],
+    RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+    RECORD_FILTERS[DATE]
+  ].map(filter => FieldRecord(filter))
+};
+
 export const INSIGHTS_CONFIG = {
   [MODULES.MRM]: {
     violations: {
@@ -418,33 +448,10 @@ export const INSIGHTS_CONFIG = {
         RECORD_FILTERS[DATE]
       ].map(filter => FieldRecord(filter))
     },
-    workflow_report: {
-      ids: WORKFLOW_SUBREPORTS,
-      defaultFilterValues: {
-        [GROUPED_BY]: WEEK,
-        [DATE_RANGE]: LAST_WEEK,
-        [STATUS]: [STATUS_OPEN],
-        [DATE]: REGISTRATION_DATE,
-        [BY]: OWNED_BY_GROUPS
-      },
-      filters: [
-        RECORD_FILTERS[GROUPED_BY],
-        RECORD_FILTERS[DATE_RANGE],
-        RECORD_FILTERS[FROM],
-        RECORD_FILTERS[TO],
-        RECORD_FILTERS[STATUS],
-        {
-          name: WORKFLOW,
-          type: SELECT_FIELD,
-          display_name: WORKFLOW_DISPLAY_NAME
-        },
-        RECORD_FILTERS[BY],
-        RECORD_FILTERS[CREATED_BY_GROUPS],
-        RECORD_FILTERS[OWNED_BY_GROUPS],
-        RECORD_FILTERS[CREATED_ORGANIZATION],
-        RECORD_FILTERS[OWNED_BY_AGENCY_ID],
-        RECORD_FILTERS[DATE]
-      ].map(filter => FieldRecord(filter))
+    workflow_report: SHARED_WORKFLOW_CONFIG,
+    cases_workflow_report: {
+      ids: CASES_WORKFLOW_SUBREPORTS,
+      ...SHARED_WORKFLOW_CONFIG
     },
     violence_type_report: {
       ids: VIOLENCE_TYPE_SUBREPORTS,
