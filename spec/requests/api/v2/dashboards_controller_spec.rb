@@ -121,7 +121,7 @@ describe Api::V2::DashboardsController, type: :request do
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/dashboards', search: true do
-    xit 'lists all the permitted dashboards' do
+    it 'lists all the permitted dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -156,7 +156,7 @@ describe Api::V2::DashboardsController, type: :request do
       )
     end
 
-    xit 'lists statistics for the workflow dashboards' do
+    it 'lists statistics for the workflow dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -174,7 +174,7 @@ describe Api::V2::DashboardsController, type: :request do
       )
     end
 
-    xit 'lists statistics for the reporting location dashboards' do
+    it 'lists statistics for the reporting location dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -193,7 +193,7 @@ describe Api::V2::DashboardsController, type: :request do
       expect(reporting_location_dashboard['indicators']['reporting_location_closed_last_week']['cty']['count']).to eq(1)
     end
 
-    xit 'lists statistics for the protection concerns dashboards' do
+    it 'lists statistics for the protection concerns dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -227,7 +227,7 @@ describe Api::V2::DashboardsController, type: :request do
       expect(group_overview_dashboard['indicators']['group_overview_closed']['count']).to eq(3)
     end
 
-    xit 'lists statistics for the task overdue assessment plan dashboards' do
+    it 'lists statistics for the task overdue assessment plan dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -243,7 +243,7 @@ describe Api::V2::DashboardsController, type: :request do
       expect(tasks_overdue_assessment['indicators']['tasks_overdue_assessment'].count).to eq(1)
     end
 
-    xit 'lists statistics for the task overdue case plan dashboards' do
+    it 'lists statistics for the task overdue case plan dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -259,7 +259,7 @@ describe Api::V2::DashboardsController, type: :request do
       expect(tasks_overdue_case_plan['indicators']['tasks_overdue_case_plan'].count).to eq(1)
     end
 
-    xit 'lists statistics for the task overdue followups dashboards' do
+    it 'lists statistics for the task overdue followups dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -275,7 +275,7 @@ describe Api::V2::DashboardsController, type: :request do
       expect(tasks_overdue_followups['indicators']['tasks_overdue_followups'].count).to eq(1)
     end
 
-    xit 'lists statistics for the task overdue services dashboards' do
+    it 'lists statistics for the task overdue services dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -311,7 +311,7 @@ describe Api::V2::DashboardsController, type: :request do
       expect(case_incident_overview['indicators']['without_incidents']['count']).to eq(1)
     end
 
-    xit 'lists statistics for the cases by social worker dashboards' do
+    it 'lists statistics for the cases by social worker dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -471,7 +471,7 @@ describe Api::V2::DashboardsController, type: :request do
         expect(json['data'][0]['indicators']['shared_with_others_rejected_transfers']['count']).to eq(1)
       end
 
-      xit 'lists statistics for permitted shared from my team dashboard dashboards' do
+      it 'lists statistics for permitted shared from my team dashboard dashboards' do
         sign_in(@user1)
         get '/api/v2/dashboards'
 
@@ -486,7 +486,7 @@ describe Api::V2::DashboardsController, type: :request do
         expect(dash['shared_from_my_team_rejected_transfers'].count).to eq(1)
       end
 
-      xit 'lists statistics for permitted shared with my team dashboard dashboards' do
+      it 'lists statistics for permitted shared with my team dashboard dashboards' do
         login_for_test(
           user_name: 'user1',
           user_group_ids: [@group_a.id],

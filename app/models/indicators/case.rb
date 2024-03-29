@@ -45,22 +45,22 @@ module Indicators
         record_model: Child,
         queries: CLOSED_ENABLED + [
           SearchFilters::DateRange.new(
-            field_name: 'date_closure', from: QueriedIndicator.recent_past, to: QueriedIndicator.present
+            field_name: 'date_closure', from: DateRange.recent_past, to: DateRange.present
           )
         ],
         scope_to_owner: true
       )
     end
 
-    WORKFLOW = FacetedIndicator.new(
+    WORKFLOW = GroupedIndicator.new(
       name: 'workflow',
-      facet: 'workflow',
+      pivots: %w[workflow],
       record_model: Child,
       scope: OPEN_CLOSED_ENABLED,
       scope_to_owner: true
     ).freeze
 
-    WORKFLOW_TEAM = PivotedIndicator.new(
+    WORKFLOW_TEAM = GroupedIndicator.new(
       name: 'workflow_team',
       record_model: Child,
       pivots: %w[owned_by workflow],
@@ -70,27 +70,27 @@ module Indicators
     ).freeze
 
     CASES_BY_SOCIAL_WORKER = [
-      FacetedIndicator.new(
+      GroupedIndicator.new(
         name: 'cases_by_social_worker_total',
         record_model: Child,
-        facet: 'owned_by',
+        pivots: %w[owned_by],
         scope: OPEN_ENABLED,
         scope_to_owned_by_groups: true,
         exclude_zeros: true
       ),
-      FacetedIndicator.new(
+      GroupedIndicator.new(
         name: 'cases_by_social_worker_new_or_updated',
         record_model: Child,
-        facet: 'owned_by',
+        pivots: %w[owned_by],
         scope: OPEN_ENABLED + [
-          SearchFilters::Value.new(field_name: 'not_edited_by_owner', value: true)
+          SearchFilters::NotEditedByOwner.new(value: true)
         ]
       )
     ].freeze
 
-    RISK = FacetedIndicator.new(
+    RISK = GroupedIndicator.new(
       name: 'risk_level',
-      facet: 'risk_level',
+      pivots: %w[risk_level],
       record_model: Child,
       scope: OPEN_ENABLED
     ).freeze
@@ -291,9 +291,9 @@ module Indicators
     ).freeze
 
     def self.tasks_overdue_assessment
-      FacetedIndicator.new(
+      GroupedIndicator.new(
         name: 'tasks_overdue_assessment',
-        facet: 'owned_by',
+        pivots: %w[owned_by],
         scope_to_user: true,
         record_model: Child,
         scope: overdue_assesment_scope
@@ -303,15 +303,15 @@ module Indicators
     def self.overdue_assesment_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'assessment_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+          field_name: 'assessment_due_dates', from: DateRange.dawn_of_time, to: DateRange.present
         )
       ]
     end
 
     def self.tasks_overdue_case_plan
-      FacetedIndicator.new(
+      GroupedIndicator.new(
         name: 'tasks_overdue_case_plan',
-        facet: 'owned_by',
+        pivots: %w[owned_by],
         record_model: Child,
         scope_to_user: true,
         scope: overdue_case_plan_scope
@@ -321,15 +321,15 @@ module Indicators
     def self.overdue_case_plan_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'case_plan_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+          field_name: 'case_plan_due_dates', from: DateRange.dawn_of_time, to: DateRange.present
         )
       ]
     end
 
     def self.tasks_overdue_services
-      FacetedIndicator.new(
+      GroupedIndicator.new(
         name: 'tasks_overdue_services',
-        facet: 'owned_by',
+        pivots: %w[owned_by],
         record_model: Child,
         scope_to_user: true,
         scope: overdue_services_scope
@@ -339,15 +339,15 @@ module Indicators
     def self.overdue_services_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'service_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+          field_name: 'service_due_dates', from: DateRange.dawn_of_time, to: DateRange.present
         )
       ]
     end
 
     def self.tasks_overdue_followups
-      FacetedIndicator.new(
+      GroupedIndicator.new(
         name: 'tasks_overdue_followups',
-        facet: 'owned_by',
+        pivots: %w[owned_by],
         record_model: Child,
         scope_to_user: true,
         scope: overdue_followup_scope
@@ -357,45 +357,43 @@ module Indicators
     def self.overdue_followup_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'followup_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+          field_name: 'followup_due_dates', from: DateRange.dawn_of_time, to: DateRange.present
         )
       ]
     end
 
-    PROTECTION_CONCERNS_OPEN_CASES = FacetedIndicator.new(
+    PROTECTION_CONCERNS_OPEN_CASES = GroupedIndicator.new(
       name: 'protection_concerns_open_cases',
-      facet: 'protection_concerns',
+      pivots: %w[protection_concerns],
       record_model: Child,
       scope: OPEN_ENABLED
     ).freeze
 
     def self.protection_concerns_new_this_week
-      FacetedIndicator.new(
+      GroupedIndicator.new(
         name: 'protection_concerns_new_this_week',
-        facet: 'protection_concerns',
+        pivots: %w[protection_concerns],
         record_model: Child,
-        scope: OPEN_ENABLED + [
-          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
-        ]
+        scope: OPEN_ENABLED + [SearchFilters::DateRange.this_week('created_at')]
       )
     end
 
-    PROTECTION_CONCERNS_ALL_CASES = FacetedIndicator.new(
+    PROTECTION_CONCERNS_ALL_CASES = GroupedIndicator.new(
       name: 'protection_concerns_all_cases',
-      facet: 'protection_concerns',
+      pivots: %w[protection_concerns],
       record_model: Child,
       scope: [SearchFilters::Value.new(field_name: 'record_state', value: true)]
     ).freeze
 
     def self.protection_concerns_closed_this_week
-      FacetedIndicator.new(
+      GroupedIndicator.new(
         name: 'protection_concerns_closed_this_week',
-        facet: 'protection_concerns',
+        pivots: %w[protection_concerns],
         record_model: Child,
         scope: [
           SearchFilters::Value.new(field_name: 'record_state', value: true),
           SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
-          SearchFilters::DateRange.new({ field_name: 'date_closure' }.merge(FacetedIndicator.this_week))
+          SearchFilters::DateRange.this_week('date_closure')
         ]
       )
     end
@@ -461,9 +459,9 @@ module Indicators
       queries: CLOSED_ENABLED
     ).freeze
 
-    SHARED_FROM_MY_TEAM_REFERRALS = FacetedIndicator.new(
+    SHARED_FROM_MY_TEAM_REFERRALS = GroupedIndicator.new(
       name: 'shared_from_my_team_referrals',
-      facet: 'owned_by',
+      pivots: %w[owned_by],
       exclude_zeros: true,
       record_model: Child,
       scope: OPEN_ENABLED + [
@@ -472,9 +470,9 @@ module Indicators
       scope_to_owned_by_groups: true
     ).freeze
 
-    SHARED_FROM_MY_TEAM_PENDING_TRANSFERS = FacetedIndicator.new(
+    SHARED_FROM_MY_TEAM_PENDING_TRANSFERS = GroupedIndicator.new(
       name: 'shared_from_my_team_pending_transfers',
-      facet: 'owned_by',
+      pivots: %w[owned_by],
       exclude_zeros: true,
       record_model: Child,
       scope: OPEN_ENABLED + [
@@ -483,9 +481,9 @@ module Indicators
       scope_to_owned_by_groups: true
     ).freeze
 
-    SHARED_FROM_MY_TEAM_REJECTED_TRANSFERS = FacetedIndicator.new(
+    SHARED_FROM_MY_TEAM_REJECTED_TRANSFERS = GroupedIndicator.new(
       name: 'shared_from_my_team_rejected_transfers',
-      facet: 'owned_by',
+      pivots: %w[owned_by],
       exclude_zeros: true,
       record_model: Child,
       scope: OPEN_ENABLED + [
@@ -494,10 +492,10 @@ module Indicators
       scope_to_owned_by_groups: true
     ).freeze
 
-    SHARED_WITH_MY_TEAM_REFERRALS = FacetedIndicator.new(
+    SHARED_WITH_MY_TEAM_REFERRALS = GroupedIndicator.new(
       name: 'shared_with_my_team_referrals',
       record_model: Child,
-      facet: 'referred_users',
+      pivots: %w[referred_users],
       scope_to_user: true,
       exclude_zeros: true,
       scope: OPEN_ENABLED + [
@@ -505,10 +503,10 @@ module Indicators
       ]
     ).freeze
 
-    SHARED_WITH_MY_TEAM_PENDING_TRANSFERS = FacetedIndicator.new(
+    SHARED_WITH_MY_TEAM_PENDING_TRANSFERS = GroupedIndicator.new(
       name: 'shared_with_my_team_pending_transfers',
       record_model: Child,
-      facet: 'transferred_to_users',
+      pivots: %w[transferred_to_users],
       scope_to_user: true,
       exclude_zeros: true,
       scope: OPEN_ENABLED + [
@@ -567,45 +565,45 @@ module Indicators
     end
 
     def self.reporting_location_open(facet_name)
-      FacetedIndicator.new(
+      GroupedIndicator.new(
         name: 'reporting_location_open',
-        facet: facet_name,
+        pivots: [facet_name],
         record_model: Child,
         scope: OPEN_ENABLED
       )
     end
 
     def self.reporting_location_open_last_week(facet_name)
-      FacetedIndicator.new(
+      GroupedIndicator.new(
         name: 'reporting_location_open_last_week',
-        facet: facet_name,
+        pivots: [facet_name],
         record_model: Child,
         scope: OPEN_ENABLED + [SearchFilters::DateRange.last_week('created_at')]
       )
     end
 
     def self.reporting_location_open_this_week(facet_name)
-      FacetedIndicator.new(
+      GroupedIndicator.new(
         name: 'reporting_location_open_this_week',
-        facet: facet_name,
+        pivots: [facet_name],
         record_model: Child,
         scope: OPEN_ENABLED + [SearchFilters::DateRange.this_week('created_at')]
       )
     end
 
     def self.reporting_location_closed_last_week(facet_name)
-      FacetedIndicator.new(
+      GroupedIndicator.new(
         name: 'reporting_location_closed_last_week',
-        facet: facet_name,
+        pivots: [facet_name],
         record_model: Child,
         scope: CLOSED_ENABLED + [SearchFilters::DateRange.last_week('date_closure')]
       )
     end
 
     def self.reporting_location_closed_this_week(facet_name)
-      FacetedIndicator.new(
+      GroupedIndicator.new(
         name: 'reporting_location_closed_this_week',
-        facet: facet_name,
+        pivots: [facet_name],
         record_model: Child,
         scope: CLOSED_ENABLED + [SearchFilters::DateRange.this_week('date_closure')]
       )

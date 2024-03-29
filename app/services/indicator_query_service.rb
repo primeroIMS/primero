@@ -11,7 +11,7 @@ class IndicatorQueryService
         record_type = record_model.parent_form
         result[record_type] = {}
         stats = group_indicators_by_name(record_indicators).reduce({}) do |memo, (name, grouped_indicators)|
-          memo.merge(name => grouped_indicators.first.stats(user))
+          memo.merge(name => grouped_indicators.first.stats_for_indicator(user))
         end
         result[record_type] = result[record_type].merge(stats)
       end
