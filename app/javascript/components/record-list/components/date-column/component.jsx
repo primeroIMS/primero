@@ -28,7 +28,7 @@ const Component = ({ rowAvailable, wrapper, value, valueWithTime }) => {
         />
       </div>
     ) : (
-      <>{parsedValue || ""}</>
+      <span data-testid="parsed-date">{parsedValue || ""}</span>
     );
 
   return (

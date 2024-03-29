@@ -14,7 +14,7 @@ describe("<DateColumn />", () => {
 
   it("renders a <DateColumn />", () => {
     mountedComponent(<DateColumn {...props} />, fromJS({}));
-    expect(screen.queryByText(/2020-04-150T14:04/i)).not.toBeInTheDocument();
+    expect(screen.getByTestId('parsed-date')).toBeInTheDocument();
   });
 
   describe("when ne locale", () => {
