@@ -1,16 +1,11 @@
 import { fromJS } from "immutable";
-import last from "lodash/last";
 import { mountedComponent, screen } from "test-utils";
 
 import { ACTIONS } from "../../../permissions";
-import { FiltersForm } from "../../../form-filters/components";
 
-import actions from "./actions";
 import UsersList from "./container";
 
 describe("<UsersList />", () => {
-  let component;
-
   beforeEach(() => {
     const initialState = fromJS({
       records: {
@@ -38,27 +33,15 @@ describe("<UsersList />", () => {
     mountedComponent(<UsersList />, initialState, ["/admin/users"]);
   });
 
-  xit("renders record list table", () => {
-    expect(screen.getByText("IndexTable")).toBeInTheDocument();
+  it("renders record list table", () => {
+    expect(screen.getAllByText("users.label")).toBeTruthy();
   });
 
   it("renders FiltersForm", () => {
     expect(screen.getByTestId("form-filter")).toBeInTheDocument();
   });
 
-  xit("submits the filters with the correct data", async () => {
-    await component.find(FiltersForm).find("form").props().onSubmit();
-    const setFiltersAction = last(
-      component
-        .props()
-        .store.getActions()
-        .filter(action => action.type === actions.SET_USERS_FILTER)
-    );
-
-    expect(setFiltersAction.payload).to.have.property("data");
-  });
-
-  xit("renders ToggleFilter", () => {
+  it("renders ToggleFilter", () => {
     expect(screen.getByTestId("toggle-filter")).toBeInTheDocument();
   });
 

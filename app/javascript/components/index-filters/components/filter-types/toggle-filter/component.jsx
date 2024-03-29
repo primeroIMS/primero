@@ -106,13 +106,14 @@ const Component = ({ filter, mode, moreSectionFilters, reset, setMoreSectionFilt
     });
 
   return (
-    <Panel filter={filter} getValues={getValues} handleReset={handleReset} data-testid="toggle-filter">
+    <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
       <ToggleButtonGroup
         color="primary"
         value={inputValue}
         onChange={handleChange}
         size="small"
         classes={{ root: css.toggleContainer }}
+        data-testid="toggle-filter"
       >
         {renderOptions()}
       </ToggleButtonGroup>
