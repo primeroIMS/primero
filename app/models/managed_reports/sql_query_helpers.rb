@@ -38,6 +38,7 @@ module ManagedReports::SqlQueryHelpers
       )
     end
 
+    # rubocop:disable Metrics/MethodLength
     def reporting_location_query(param, _table_name = nil, _hash_field = 'data', map_to = nil)
       return unless param.present?
 
@@ -64,6 +65,7 @@ module ManagedReports::SqlQueryHelpers
         ]
       )
     end
+    # rubocop:enable Metrics/MethodLength
 
     def in_value_query(param, table_name = nil, _hash_field = 'data', map_to = nil)
       return unless param.present?
