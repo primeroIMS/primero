@@ -81,7 +81,7 @@ describe("<PdfExporter />", () => {
   it("renders Logos", () => {
     setupMockFormComponent(PdfExporter, { props });
 
-    expect(screen.getAllByText((content, element) => element.tagName.toLowerCase() === "svg")).toHaveLength(1);
+    expect(screen.getAllByText((_, element) => element.tagName.toLowerCase() === "svg")).toHaveLength(1);
   });
 
   it("renders RenderTable", () => {

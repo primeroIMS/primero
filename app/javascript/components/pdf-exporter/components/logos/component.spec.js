@@ -29,6 +29,6 @@ describe("<Logos />", () => {
   it("renders img", () => {
     mountedComponent(<Logos {...props} />);
 
-    expect(screen.getAllByText((content, element) => element.tagName.toLowerCase() === "img")).toHaveLength(2);
+    expect(screen.getAllByText((_, element) => element.tagName.toLowerCase() === "img")).toHaveLength(2);
   });
 });
