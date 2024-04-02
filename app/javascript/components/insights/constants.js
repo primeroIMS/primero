@@ -15,6 +15,7 @@ import {
   REJECTED,
   DONE,
   PROTECTION_CONCERNS_SUBREPORTS,
+  REPORTING_LOCATIONS_SUBREPORTS,
   FOLLOWUPS_SUBREPORTS,
   SERVICES_SUBREPORTS,
   CASES_WORKFLOW_SUBREPORTS
@@ -74,6 +75,7 @@ export const AGENCY = "agency";
 export const BY = "by";
 export const WORKFLOW = "workflow";
 export const PROTECTION_CONCERNS = "protection_concerns";
+export const REPORTING_LOCATIONS = "location_current";
 export const FOLLOWUPS = "followup_type";
 export const SERVICES = "service_type";
 export const VIOLENCE_TYPE = "cp_incident_violence_type";
@@ -119,6 +121,7 @@ export const USER_GROUP_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, USER_GROUP];
 export const AGENCY_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, AGENCY];
 export const WORKFLOW_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, WORKFLOW];
 export const PROTECTION_CONCERNS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, PROTECTION_CONCERNS];
+export const REPORTING_LOCATIONS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, REPORTING_LOCATIONS];
 export const FOLLOWUPS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, FOLLOWUPS];
 export const SERVICES_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, SERVICES];
 export const VIOLENCE_TYPE_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, VIOLENCE_TYPE];
@@ -446,6 +449,35 @@ export const INSIGHTS_CONFIG = {
           display_name: PROTECTION_CONCERNS_DISPLAY_NAME,
           multi_select: true,
           option_strings_source: LOOKUPS.protection_concerns
+        },
+        RECORD_FILTERS[BY],
+        RECORD_FILTERS[CREATED_BY_GROUPS],
+        RECORD_FILTERS[OWNED_BY_GROUPS],
+        RECORD_FILTERS[CREATED_ORGANIZATION],
+        RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+        RECORD_FILTERS[DATE]
+      ].map(filter => FieldRecord(filter))
+    },
+    reporting_locations_report: {
+      ids: REPORTING_LOCATIONS_SUBREPORTS,
+      defaultFilterValues: {
+        [GROUPED_BY]: WEEK,
+        [DATE_RANGE]: LAST_WEEK,
+        [STATUS]: [STATUS_OPEN],
+        [DATE]: REGISTRATION_DATE,
+        [BY]: OWNED_BY_GROUPS
+      },
+      filters: [
+        RECORD_FILTERS[GROUPED_BY],
+        RECORD_FILTERS[DATE_RANGE],
+        RECORD_FILTERS[FROM],
+        RECORD_FILTERS[TO],
+        RECORD_FILTERS[STATUS],
+        {
+          name: REPORTING_LOCATIONS,
+          type: SELECT_FIELD,
+          display_name: REPORTING_LOCATIONS_DISPLAY_NAME,
+          option_strings_source: LOOKUPS.reporting_locations
         },
         RECORD_FILTERS[BY],
         RECORD_FILTERS[CREATED_BY_GROUPS],

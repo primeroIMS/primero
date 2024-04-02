@@ -2006,6 +2006,7 @@ en:
       cp_incident_violence_type: Type of Violence
       referral_transfer_status: Referral / Transfer Status
       protection_concerns: Protection Concerns
+      location_current: Reporting Locations
     status_options:
       open: Open
       closed: Closed
@@ -2074,6 +2075,15 @@ en:
         description: Cases with the selected Protection Concern, broken down by age and sex.
       sub_reports:
         protection_concerns: Protection Concerns
+    reporting_locations:
+      name: Reporting Location
+      description: 'Cases with the selected Reporting Location, broken down by age and sex.'
+    reporting_locations_report:
+      reports:
+        protection_concerns: Reporting Location
+        description: ''
+      sub_reports:
+        protection_concerns: Reporting Location
     ghn_report:
       name: Global Horizontal Note
       description: ''
@@ -3368,6 +3378,9 @@ en:
         label: Is Manager?
       managed_report:
         actions:
+          reporting_locations_report:
+            label: Reporting Location
+            explanation: Ability to view statistics on the number of Cases registered within a given date range, filtered by Reporting Location, and broken down by age and sex. This permission also allows the user to export data from an Insight.
           followups_report:
             label: Followups
             explanation: Ability to view statistics on the number of Follow Ups performed within a given date range, filtered by Type of Follow Up, and broken down by age and sex. This permission also allows the user to export data from an Insight.

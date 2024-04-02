@@ -31,6 +31,17 @@ class ManagedReport < ValueObject
         ],
         module_id: PrimeroModule::CP
       ),
+      Permission::REPORTING_LOCATIONS_REPORT => ManagedReport.new(
+        id: 'reporting_locations_report',
+        name: 'managed_reports.reporting_locations.name',
+        description: 'managed_reports.reporting_locations.description',
+        subreports: %w[reporting_locations],
+        permitted_filters: [
+          :grouped_by, :by, :created_by_groups, :owned_by_groups,
+          :created_organization, :owned_by_agency_id, :location_current, { status: {}, registration_date: {} }
+        ],
+        module_id: PrimeroModule::CP
+      ),
       Permission::FOLLOWUPS_REPORT => ManagedReport.new(
         id: 'followups_report',
         name: 'managed_reports.followups.name',

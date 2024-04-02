@@ -81,6 +81,8 @@ describe("<Report /> - constants", () => {
       "YEAR",
       "PROTECTION_CONCERNS",
       "PROTECTION_CONCERNS_DISPLAY_NAME",
+      "REPORTING_LOCATIONS",
+      "REPORTING_LOCATIONS_DISPLAY_NAME",
       "FOLLOWUPS",
       "FOLLOWUPS_DISPLAY_NAME",
       "SERVICES",
