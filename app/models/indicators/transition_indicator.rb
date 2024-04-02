@@ -4,7 +4,7 @@
 
 # rubocop:disable Style/ClassAndModuleChildren
 module Indicators
-  # Class for TransitionToIndicator
+  # Class for TransitionIndicator
   class TransitionIndicator < GroupedIndicator
     attr_accessor :transition_model
 

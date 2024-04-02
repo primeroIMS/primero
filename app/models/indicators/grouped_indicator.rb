@@ -4,7 +4,7 @@
 
 # rubocop:disable Style/ClassAndModuleChildren
 module Indicators
-  # Class for Queried Indicator
+  # Class for Grouped Indicator
   class GroupedIndicator < AbstractIndicator
     # rubocop:enable Style/ClassAndModuleChildren
     attr_accessor :pivots, :pivots_to_query_params, :multivalue_pivots
