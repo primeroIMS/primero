@@ -465,7 +465,7 @@ module Indicators
       exclude_zeros: true,
       record_model: Child,
       scope: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'referred_users_present', value: true)
+        SearchFilters::ReferredUsersPresent.new(record_type: Child.name, value: true)
       ],
       scope_to_owned_by_groups: true
     ).freeze
@@ -476,7 +476,7 @@ module Indicators
       exclude_zeros: true,
       record_model: Child,
       scope: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
+        SearchFilters::TextValue.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
       ],
       scope_to_owned_by_groups: true
     ).freeze
@@ -487,32 +487,36 @@ module Indicators
       exclude_zeros: true,
       record_model: Child,
       scope: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_REJECTED)
+        SearchFilters::TextValue.new(field_name: 'transfer_status', value: Transition::STATUS_REJECTED)
       ],
       scope_to_owned_by_groups: true
     ).freeze
 
-    SHARED_WITH_MY_TEAM_REFERRALS = GroupedIndicator.new(
+    SHARED_WITH_MY_TEAM_REFERRALS = TransitionIndicator.new(
       name: 'shared_with_my_team_referrals',
       record_model: Child,
-      pivots: %w[referred_users],
+      transition_model: Referral,
+      pivots: %w[transitioned_to],
+      pivots_to_query_params: { 'transitioned_to' => 'referred_users' },
       scope_to_user: true,
       exclude_zeros: true,
       scope: OPEN_ENABLED + [
-        SearchFilters::BooleanValue.new(field_name: 'referred_users_present', value: true)
+        SearchFilters::ReferredUsersPresent.new(record_type: Child.name, value: true)
       ]
-    ).freeze
+    )
 
-    SHARED_WITH_MY_TEAM_PENDING_TRANSFERS = GroupedIndicator.new(
+    SHARED_WITH_MY_TEAM_PENDING_TRANSFERS = TransitionIndicator.new(
       name: 'shared_with_my_team_pending_transfers',
+      transition_model: Transfer,
+      pivots: %w[transitioned_to],
+      pivots_to_query_params: { 'transitioned_to' => 'transferred_to_users' },
       record_model: Child,
-      pivots: %w[transferred_to_users],
       scope_to_user: true,
       exclude_zeros: true,
       scope: OPEN_ENABLED + [
         SearchFilters::TextValue.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
       ]
-    ).freeze
+    )
 
     SHARED_WITH_MY_TEAM_PENDING_TRANSFERS_OVERVIEW = QueriedIndicator.new(
       name: 'shared_with_my_team_pending_transfers_overview',

@@ -7,14 +7,13 @@ module Indicators
   # Class for Queried Indicator
   class GroupedIndicator < AbstractIndicator
     # rubocop:enable Style/ClassAndModuleChildren
-    attr_accessor :pivots
+    attr_accessor :pivots, :pivots_to_query_params
 
     DEFAULT_STAT = { 'count' => 0, 'query' => [] }.freeze
 
     def query(indicator_filters, user_query_scope)
       indicator_query = super(indicator_filters, user_query_scope)
-      indicator_query = indicator_query.select(select_pivots).group(pivot_field_names.join(', '))
-      Child.connection.select_all(indicator_query.to_sql).to_a
+      indicator_query.select(select_pivots).group(pivot_field_names.join(', '))
     end
 
     def select_pivots
@@ -28,14 +27,15 @@ module Indicators
 
     def write_stats_for_indicator(indicator_filters, user_query_scope)
       indicator_query = query(indicator_filters, user_query_scope)
-      nested_pivots = nested_pivots_from_result(indicator_query)
-      write_stats_for_pivots(indicator_query, indicator_filters, nested_pivots)
+      result = Child.connection.select_all(indicator_query.to_sql).to_a
+      nested_pivots = nested_pivots_from_result(result)
+      write_stats_for_pivots(result, indicator_filters, nested_pivots)
     end
 
     private
 
-    def write_stats_for_pivots(indicator_query, indicator_filters, nested_pivots)
-      indicator_query.each_with_object({}) do |row, memo|
+    def write_stats_for_pivots(result, indicator_filters, nested_pivots)
+      result.each_with_object({}) do |row, memo|
         init_pivot_stats(memo, row, nested_pivots)
         if pivots.size > 1
           memo[row['pivot1']][row['pivot2']] = stats_for_pivots(row, indicator_filters)
@@ -82,7 +82,10 @@ module Indicators
 
     def row_pivot_to_query_string(pivot_row)
       values = pivot_values(pivot_row)
-      pivots.map.with_index { |pivot, index| "#{pivot}=#{values[index]}" }
+      pivots.map.with_index do |pivot, index|
+        pivot_param = pivots_to_query_params.present? ? pivots_to_query_params[pivot] : pivot
+        "#{pivot_param}=#{values[index]}"
+      end
     end
   end
 end
