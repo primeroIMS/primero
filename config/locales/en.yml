@@ -2005,6 +2005,7 @@ en:
       workflow: Workflow Status
       cp_incident_violence_type: Type of Violence
       referral_transfer_status: Referral / Transfer Status
+      protection_concerns: Protection Concerns
     status_options:
       open: Open
       closed: Closed
@@ -2046,6 +2047,15 @@ en:
         individual_violation_type: Individual Children by Violation Type
         individual_region: Individual Children by Region
         individual_perpetrator: Individual Children by Perpetrator
+    protection_concerns:
+      name: Protection Concerns
+      description: 'Cases with the selected Protection Concern, broken down by age and sex.'
+    protection_concerns_report:
+      reports:
+        protection_concerns: Protection Concerns
+        description: Desc
+      sub_reports:
+        protection_concerns: Protection Concerns
     ghn_report:
       name: Global Horizontal Note
       description: ''
@@ -3331,6 +3341,9 @@ en:
         label: Is Manager?
       managed_report:
         actions:
+        protection_concerns_report:
+          label: Protection Concerns
+          explanation: Ability to view statistics on the Protection Concerns of Cases registered within a given date range. This permission also allows the user to export data from an Insight.
           managed_report_scope:
             label: What records should this role be able to see in Insights?
           managed_report_scope_all:

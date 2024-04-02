@@ -78,7 +78,9 @@ describe("<Report /> - constants", () => {
       "WORKFLOW_DISPLAY_NAME",
       "WORKFLOW",
       "YEAR_OPTION_IDS",
-      "YEAR"
+      "YEAR",
+      "PROTECTION_CONCERNS",
+      "PROTECTION_CONCERNS_DISPLAY_NAME"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
