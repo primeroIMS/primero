@@ -22,10 +22,8 @@ tx --version
 Create a file `~/.transifexrc` and put the follow values
 ```text
 [https://www.transifex.com]
-api_hostname = https://api.transifex.com
-hostname = https://www.transifex.com
-password = <API-TOKEN/>
-username = api
+rest_hostname = https://rest.api.transifex.com
+token         = API_TOKEN_HERE
 ```
 Where <API-TOKEN/> is generate [here](https://www.transifex.com/user/settings/api/)
 
@@ -62,3 +60,12 @@ There are some languages that are being reviewed after being translated, and eve
 ```bash
 tx pull -f -l ar --mode=onlyreviewed
 ```
+
+## Verify translations:
+To check for any incorrect interpolations in Transifex files, you can execute:
+
+```bash
+./bin/check_transifex_interpolations.sh
+```
+
+If a list is displayed please fix it on Transifex and pull the translations again.
