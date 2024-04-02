@@ -42,11 +42,45 @@ class ManagedReport < ValueObject
         ],
         module_id: PrimeroModule::CP
       ),
+      Permission::FOLLOWUPS_REPORT => ManagedReport.new(
+        id: 'followups_report',
+        name: 'managed_reports.followups.name',
+        description: 'managed_reports.followups.description',
+        subreports: %w[followups],
+        permitted_filters: [
+          :grouped_by, :by, :created_by_groups, :owned_by_groups,
+          :created_organization, :owned_by_agency_id, { status: {}, registration_date: {}, followup_type: {} }
+        ],
+        module_id: PrimeroModule::CP
+      ),
+      Permission::SERVICES_REPORT => ManagedReport.new(
+        id: 'services_report',
+        name: 'managed_reports.services.name',
+        description: 'managed_reports.services.description',
+        subreports: %w[services],
+        permitted_filters: [
+          :grouped_by, :by, :created_by_groups, :owned_by_groups,
+          :created_organization, :owned_by_agency_id,
+          { status: {}, service_implemented_day_time: {}, service_type: {} }
+        ],
+        module_id: PrimeroModule::CP
+      ),
       Permission::WORKFLOW_REPORT => ManagedReport.new(
         id: 'workflow_report',
         name: 'managed_reports.workflow_report.name',
         description: 'managed_reports.workflow_report.description',
         subreports: %w[cases_workflow incidents_workflow],
+        permitted_filters: [
+          :grouped_by, :by, :created_by_groups, :workflow, :owned_by_groups,
+          :created_organization, :owned_by_agency_id, { status: {}, registration_date: {} }
+        ],
+        module_id: PrimeroModule::CP
+      ),
+      Permission::CASES_WORKFLOW_REPORT => ManagedReport.new(
+        id: 'cases_workflow_report',
+        name: 'managed_reports.cases_workflow_report.name',
+        description: 'managed_reports.cases_workflow_report.description',
+        subreports: %w[cases_workflow],
         permitted_filters: [
           :grouped_by, :by, :created_by_groups, :workflow, :owned_by_groups,
           :created_organization, :owned_by_agency_id, { status: {}, registration_date: {} }

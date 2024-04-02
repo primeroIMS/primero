@@ -655,9 +655,15 @@ export const INDIVIDUAL_CHILDREN = ["individual_children"];
 
 export const WORKFLOW_SUBREPORTS = ["cases_workflow", "incidents_workflow"];
 
+export const CASES_WORKFLOW_SUBREPORTS = ["cases_workflow"];
+
 export const PROTECTION_CONCERNS_SUBREPORTS = ["protection_concerns"];
 
 export const REPORTING_LOCATIONS_SUBREPORTS = ["reporting_location_by_sex_and_age"];
+
+export const FOLLOWUPS_SUBREPORTS = ["followups"];
+
+export const SERVICES_SUBREPORTS = ["services"];
 
 export const REFERRAL_TRANSFERS_SUBREPORTS = ["total_transfers", "total_referrals"];
 

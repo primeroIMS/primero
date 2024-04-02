@@ -109,6 +109,7 @@ describe("Verifying config constant", () => {
       "SUBFORM_READONLY_FIELD_NAMES",
       "SUMMARY",
       "WORKFLOW_SUBREPORTS",
+      "CASES_WORKFLOW_SUBREPORTS",
       "TOKEN_REFRESH_INTERVAL",
       "TRACES_SUBFORM_UNIQUE_ID",
       "TRACING_REQUEST",
@@ -146,7 +147,9 @@ describe("Verifying config constant", () => {
       "POST_MESSAGES",
       "PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL",
       "PROTECTION_CONCERNS_SUBREPORTS",
-      "REPORTING_LOCATIONS_SUBREPORTS"
+      "REPORTING_LOCATIONS_SUBREPORTS",
+      "SERVICES_SUBREPORTS",
+      "FOLLOWUPS_SUBREPORTS"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);

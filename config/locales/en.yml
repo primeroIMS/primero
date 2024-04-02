@@ -2048,13 +2048,31 @@ en:
         individual_violation_type: Individual Children by Violation Type
         individual_region: Individual Children by Region
         individual_perpetrator: Individual Children by Perpetrator
+    services:
+      name: Services
+      description: Cases with the selected Services, broken down by age and sex.
+    services_report:
+      reports:
+        services: Services
+        description: Cases with the selected Services, broken down by age and sex.
+      sub_reports:
+        services: Services
+    followups:
+      name: Follow Ups
+      description: Cases with the selected Follow Up, broken down by age and sex.
+    followups_report:
+      reports:
+        followups: Follow Ups
+        description: Cases with the selected Follow Up, broken down by age and sex.
+      sub_reports:
+        followups: Follow Ups
     protection_concerns:
       name: Protection Concerns
-      description: 'Cases with the selected Protection Concern, broken down by age and sex.'
+      description: Cases with the selected Protection Concern, broken down by age and sex.
     protection_concerns_report:
       reports:
         protection_concerns: Protection Concerns
-        description: ''
+        description: Cases with the selected Protection Concern, broken down by age and sex.
       sub_reports:
         protection_concerns: Protection Concerns
     reporting_locations:
@@ -2206,6 +2224,15 @@ en:
       sub_reports:
         case_workflow_by_sex_and_age: Total Number of Cases by Sex and Age
         incident_workflow_by_sex_and_age: Total Number of Incidents by Sex and Age
+    cases_workflow_report:
+      name: Workflow
+      description: ''
+      reports:
+        cases_workflow: Workflow - Cases
+      filter_options:
+        registration_date: Registration Date
+      sub_reports:
+        case_workflow_by_sex_and_age: Total Number of Cases by Sex and Age
     referrals_transfers_report:
       name: Referrals and Transfers
       description: ''
@@ -3354,6 +3381,12 @@ en:
           reporting_locations_report:
             label: Reporting Location
             explanation: Ability to view statistics on the number of Cases registered within a given date range, filtered by Reporting Location, and broken down by age and sex. This permission also allows the user to export data from an Insight.
+          followups_report:
+            label: Followups
+            explanation: Ability to view statistics on the number of Follow Ups performed within a given date range, filtered by Type of Follow Up, and broken down by age and sex. This permission also allows the user to export data from an Insight.
+          services_report:
+            label: Services
+            explanation: Ability to view statistics on the number of Services performed within a given date range, filtered by service type, and broken down by age and sex. This permission also allows the user to export data from an Insight.
           protection_concerns_report:
             label: Protection Concerns
             explanation: Ability to view statistics on the Protection Concerns of Cases registered within a given date range. This permission also allows the user to export data from an Insight.
@@ -3378,15 +3411,18 @@ en:
             explanation: Ability to access the MRM Individual Children Insight.
             label: Individual Children
           workflow_report:
-            label: Workflow
-            explanation: Ability to view statistics on Workflow Status. This permission also allows the user to export
+            label: Workflow (Cases and Incidents)
+            explanation: Ability to view statistics on Workflow Status for both Cases and the Incidents linked to them. This permission also allows the user to export data from an Insight.
               data from an Insight.
+          cases_workflow_report:
+            label: Workflow (Cases)
+            explanation: Ability to view statistics on Workflow Status Cases. This permission also allows the user to export data from an Insight.
           violence_type_report:
-            label: Type of Violence
+            label: Type of Violence (Cases and Incidents)
             explanation: Ability to view statistics on Type of Violence. This permission also allows
               the user to export data from an Insight.
           referrals_transfers_report:
-            label: Referrals and Transfers
+            label: Referrals and Transfers (Cases)
             explanation: Users see the number of cases referred and transferred from each User Group
               to each other User Group.
       matching_configuration:
