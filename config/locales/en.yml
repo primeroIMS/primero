@@ -2196,6 +2196,15 @@ en:
       sub_reports:
         case_workflow_by_sex_and_age: Total Number of Cases by Sex and Age
         incident_workflow_by_sex_and_age: Total Number of Incidents by Sex and Age
+    cases_workflow_report:
+      name: Workflow
+      description: ''
+      reports:
+        cases_workflow: Workflow - Cases
+      filter_options:
+        registration_date: Registration Date
+      sub_reports:
+        case_workflow_by_sex_and_age: Total Number of Cases by Sex and Age
     referrals_transfers_report:
       name: Referrals and Transfers
       description: ''
@@ -3365,9 +3374,12 @@ en:
             explanation: Ability to access the MRM Individual Children Insight.
             label: Individual Children
           workflow_report:
-            label: Workflow
-            explanation: Ability to view statistics on Workflow Status. This permission also allows the user to export
+            label: Workflow (Cases and Incidents)
+            explanation: Ability to view statistics on Workflow Status for both Cases and the Incidents linked to them. This permission also allows the user to export data from an Insight.
               data from an Insight.
+          cases_workflow_report:
+            label: Workflow (Cases)
+            explanation: Ability to view statistics on Workflow Status Cases. This permission also allows the user to export data from an Insight.
           violence_type_report:
             label: Type of Violence (Cases and Incidents)
             explanation: Ability to view statistics on Type of Violence. This permission also allows
