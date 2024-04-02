@@ -7,9 +7,13 @@ class ManagedReports::Indicators::SubformFieldByAgeSex < ManagedReports::SqlRepo
   include ManagedReports::WeekIndicatorHelper
 
   class << self
-    def id; end
+    def id
+      raise NotImplementedError
+    end
 
-    def field_name; end
+    def field_name
+      raise NotImplementedError
+    end
 
     def multiple_field_values
       false
