@@ -59,11 +59,11 @@ describe("<Fields />", () => {
 
   it("renders 1 FormSectionField", () => {
     mountedComponent(<Fields {...props} />, initialState, {}, {}, formProps);
-    expect(screen.getByRole("textbox")).toBeInTheDocument();
+    expect(screen.getByTestId("form-field")).toBeInTheDocument();
   });
 
   it("renders component with valid props", () => {
     mountedComponent(<Fields {...props} />, initialState, {}, {}, formProps);
-    expect(screen.getByRole("textbox")).toBeInTheDocument();
+    expect(screen.getByTestId("form-field")).toBeInTheDocument();
   });
 });
