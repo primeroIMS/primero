@@ -655,6 +655,8 @@ export const INDIVIDUAL_CHILDREN = ["individual_children"];
 
 export const WORKFLOW_SUBREPORTS = ["cases_workflow", "incidents_workflow"];
 
+export const CASES_WORKFLOW_SUBREPORTS = ["cases_workflow"];
+
 export const PROTECTION_CONCERNS_SUBREPORTS = ["protection_concerns"];
 
 export const FOLLOWUPS_SUBREPORTS = ["followups"];

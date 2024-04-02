@@ -109,6 +109,7 @@ describe("Verifying config constant", () => {
       "SUBFORM_READONLY_FIELD_NAMES",
       "SUMMARY",
       "WORKFLOW_SUBREPORTS",
+      "CASES_WORKFLOW_SUBREPORTS",
       "TOKEN_REFRESH_INTERVAL",
       "TRACES_SUBFORM_UNIQUE_ID",
       "TRACING_REQUEST",
