@@ -23,7 +23,6 @@ describe ManagedReport do
                                                    Permission::INDIVIDUAL_CHILDREN,
                                                    Permission::PROTECTION_CONCERNS_REPORT,
                                                    Permission::REPORTING_LOCATIONS_REPORT,
-                                                   Permission::PROTECTION_CONCERNS_REPORT,
                                                    Permission::FOLLOWUPS_REPORT,
                                                    Permission::SERVICES_REPORT,
                                                    Permission::CASES_WORKFLOW_REPORT,
