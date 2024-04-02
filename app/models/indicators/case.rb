@@ -365,6 +365,7 @@ module Indicators
     PROTECTION_CONCERNS_OPEN_CASES = GroupedIndicator.new(
       name: 'protection_concerns_open_cases',
       pivots: %w[protection_concerns],
+      multivalue_pivots: %w[protection_concerns],
       record_model: Child,
       scope: OPEN_ENABLED
     ).freeze
@@ -373,6 +374,7 @@ module Indicators
       GroupedIndicator.new(
         name: 'protection_concerns_new_this_week',
         pivots: %w[protection_concerns],
+        multivalue_pivots: %w[protection_concerns],
         record_model: Child,
         scope: OPEN_ENABLED + [SearchFilters::DateRange.this_week('created_at')]
       )
@@ -381,22 +383,26 @@ module Indicators
     PROTECTION_CONCERNS_ALL_CASES = GroupedIndicator.new(
       name: 'protection_concerns_all_cases',
       pivots: %w[protection_concerns],
+      multivalue_pivots: %w[protection_concerns],
       record_model: Child,
-      scope: [SearchFilters::Value.new(field_name: 'record_state', value: true)]
+      scope: [SearchFilters::BooleanValue.new(field_name: 'record_state', value: true)]
     ).freeze
 
+    # rubocop:disable Metrics/MethodLength
     def self.protection_concerns_closed_this_week
       GroupedIndicator.new(
         name: 'protection_concerns_closed_this_week',
         pivots: %w[protection_concerns],
+        multivalue_pivots: %w[protection_concerns],
         record_model: Child,
         scope: [
-          SearchFilters::Value.new(field_name: 'record_state', value: true),
-          SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
+          SearchFilters::BooleanValue.new(field_name: 'record_state', value: true),
+          SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_CLOSED),
           SearchFilters::DateRange.this_week('date_closure')
         ]
       )
     end
+    # rubocop:enable Metrics/MethodLength
 
     SHARED_WITH_OTHERS_REFERRALS = QueriedIndicator.new(
       name: 'shared_with_others_referrals',

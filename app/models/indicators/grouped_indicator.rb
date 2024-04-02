@@ -7,7 +7,7 @@ module Indicators
   # Class for Queried Indicator
   class GroupedIndicator < AbstractIndicator
     # rubocop:enable Style/ClassAndModuleChildren
-    attr_accessor :pivots, :pivots_to_query_params
+    attr_accessor :pivots, :pivots_to_query_params, :multivalue_pivots
 
     DEFAULT_STAT = { 'count' => 0, 'query' => [] }.freeze
 
@@ -17,7 +17,11 @@ module Indicators
     end
 
     def select_pivots
-      select = pivots.map.with_index { |_, index| "data->>? AS pivot#{index + 1}" }.join(', ')
+      select = pivots.map.with_index do |pivot, index|
+        next("JSONB_ARRAY_ELEMENTS_TEXT(data->?) as pivot#{index + 1}") if multivalue_pivots&.include?(pivot)
+
+        "data->>? AS pivot#{index + 1}"
+      end.join(', ')
       ActiveRecord::Base.sanitize_sql_array(["#{select}, COUNT(*) AS count"] + pivots)
     end
 
@@ -52,11 +56,9 @@ module Indicators
     end
 
     def default_pivot_stat(nested_pivots)
-      if nested_pivots.present?
-        nested_pivots.reduce({}) { |memo, nested_pivot| memo.merge(nested_pivot => DEFAULT_STAT) }
-      else
-        DEFAULT_STAT
-      end
+      return DEFAULT_STAT unless nested_pivots.present?
+
+      nested_pivots.reduce({}) { |memo, nested_pivot| memo.merge(nested_pivot => DEFAULT_STAT) }
     end
 
     def nested_pivots_from_result(result)

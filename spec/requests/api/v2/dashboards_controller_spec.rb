@@ -31,7 +31,7 @@ describe Api::V2::DashboardsController, type: :request do
         Permission::DASH_WORKFLOW,
         Permission::DASH_CASE_OVERVIEW,
         # Permission::DASH_REPORTING_LOCATION,
-        # Permission::DASH_PROTECTION_CONCERNS,
+        Permission::DASH_PROTECTION_CONCERNS,
         Permission::DASH_GROUP_OVERVIEW,
         # Permission::DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
         # Permission::DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
@@ -193,7 +193,7 @@ describe Api::V2::DashboardsController, type: :request do
       expect(reporting_location_dashboard['indicators']['reporting_location_closed_last_week']['cty']['count']).to eq(1)
     end
 
-    xit 'lists statistics for the protection concerns dashboards' do
+    it 'lists statistics for the protection concerns dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
