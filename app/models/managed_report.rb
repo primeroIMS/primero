@@ -65,6 +65,17 @@ class ManagedReport < ValueObject
         ],
         module_id: PrimeroModule::CP
       ),
+      Permission::CASES_WORKFLOW_REPORT => ManagedReport.new(
+        id: 'cases_workflow_report',
+        name: 'managed_reports.cases_workflow_report.name',
+        description: 'managed_reports.cases_workflow_report.description',
+        subreports: %w[cases_workflow],
+        permitted_filters: [
+          :grouped_by, :by, :created_by_groups, :workflow, :owned_by_groups,
+          :created_organization, :owned_by_agency_id, { status: {}, registration_date: {} }
+        ],
+        module_id: PrimeroModule::CP
+      ),
       Permission::REFERRALS_TRANSFERS_REPORT => ManagedReport.new(
         id: 'referrals_transfers_report',
         name: 'managed_reports.referrals_transfers_report.name',

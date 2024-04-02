@@ -84,7 +84,8 @@ describe("<Report /> - constants", () => {
       "FOLLOWUPS",
       "FOLLOWUPS_DISPLAY_NAME",
       "SERVICES",
-      "SERVICES_DISPLAY_NAME"
+      "SERVICES_DISPLAY_NAME",
+      "SHARED_WORKFLOW_CONFIG"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

@@ -24,6 +24,7 @@ describe ManagedReport do
                                                    Permission::PROTECTION_CONCERNS_REPORT,
                                                    Permission::FOLLOWUPS_REPORT,
                                                    Permission::SERVICES_REPORT,
+                                                   Permission::CASES_WORKFLOW_REPORT,
                                                    Permission::WORKFLOW_REPORT,
                                                    Permission::VIOLENCE_TYPE_REPORT,
                                                    Permission::REFERRALS_TRANSFERS_REPORT])
