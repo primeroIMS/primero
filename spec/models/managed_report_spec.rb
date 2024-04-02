@@ -22,6 +22,7 @@ describe ManagedReport do
                                                    Permission::VIOLATION_REPORT, Permission::GHN_REPORT,
                                                    Permission::INDIVIDUAL_CHILDREN,
                                                    Permission::PROTECTION_CONCERNS_REPORT,
+                                                   Permission::FOLLOWUPS_REPORT,
                                                    Permission::CASES_WORKFLOW_REPORT,
                                                    Permission::WORKFLOW_REPORT,
                                                    Permission::VIOLENCE_TYPE_REPORT,

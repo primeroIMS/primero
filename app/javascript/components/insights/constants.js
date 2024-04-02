@@ -15,6 +15,7 @@ import {
   REJECTED,
   DONE,
   PROTECTION_CONCERNS_SUBREPORTS,
+  FOLLOWUPS_SUBREPORTS,
   CASES_WORKFLOW_SUBREPORTS
 } from "../../config/constants";
 import { DATE_FIELD, SELECT_FIELD, HIDDEN_FIELD, OPTION_TYPES } from "../form/constants";
@@ -71,6 +72,7 @@ export const AGENCY = "agency";
 export const BY = "by";
 export const WORKFLOW = "workflow";
 export const PROTECTION_CONCERNS = "protection_concerns";
+export const FOLLOWUPS = "followup_type";
 export const VIOLENCE_TYPE = "cp_incident_violence_type";
 export const REFERRAL_TRANSFER_STATUS = "referral_transfer_status";
 
@@ -114,6 +116,7 @@ export const USER_GROUP_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, USER_GROUP];
 export const AGENCY_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, AGENCY];
 export const WORKFLOW_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, WORKFLOW];
 export const PROTECTION_CONCERNS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, PROTECTION_CONCERNS];
+export const FOLLOWUPS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, FOLLOWUPS];
 export const VIOLENCE_TYPE_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, VIOLENCE_TYPE];
 export const REFERRAL_TRANSFER_STATUS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, REFERRAL_TRANSFER_STATUS];
 
@@ -439,6 +442,36 @@ export const INSIGHTS_CONFIG = {
           display_name: PROTECTION_CONCERNS_DISPLAY_NAME,
           multi_select: true,
           option_strings_source: LOOKUPS.protection_concerns
+        },
+        RECORD_FILTERS[BY],
+        RECORD_FILTERS[CREATED_BY_GROUPS],
+        RECORD_FILTERS[OWNED_BY_GROUPS],
+        RECORD_FILTERS[CREATED_ORGANIZATION],
+        RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+        RECORD_FILTERS[DATE]
+      ].map(filter => FieldRecord(filter))
+    },
+    followups_report: {
+      ids: FOLLOWUPS_SUBREPORTS,
+      defaultFilterValues: {
+        [GROUPED_BY]: WEEK,
+        [DATE_RANGE]: LAST_WEEK,
+        [STATUS]: [STATUS_OPEN],
+        [DATE]: REGISTRATION_DATE,
+        [BY]: OWNED_BY_GROUPS
+      },
+      filters: [
+        RECORD_FILTERS[GROUPED_BY],
+        RECORD_FILTERS[DATE_RANGE],
+        RECORD_FILTERS[FROM],
+        RECORD_FILTERS[TO],
+        RECORD_FILTERS[STATUS],
+        {
+          name: FOLLOWUPS,
+          type: SELECT_FIELD,
+          display_name: FOLLOWUPS_DISPLAY_NAME,
+          multi_select: true,
+          option_strings_source: LOOKUPS.followup_type
         },
         RECORD_FILTERS[BY],
         RECORD_FILTERS[CREATED_BY_GROUPS],
