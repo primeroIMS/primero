@@ -661,6 +661,8 @@ export const PROTECTION_CONCERNS_SUBREPORTS = ["protection_concerns"];
 
 export const FOLLOWUPS_SUBREPORTS = ["followups"];
 
+export const SERVICES_SUBREPORTS = ["services"];
+
 export const REFERRAL_TRANSFERS_SUBREPORTS = ["total_transfers", "total_referrals"];
 
 export const VIOLENCE_TYPE_SUBREPORTS = ["cases_violence_type", "incidents_violence_type"];
