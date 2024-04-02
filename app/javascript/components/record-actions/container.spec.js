@@ -127,7 +127,6 @@ describe("<RecordActions />", () => {
       })
     })
   };
-  //   let component;
 
   const defaultState = fromJS({
     records: {
@@ -222,7 +221,7 @@ describe("<RecordActions />", () => {
     it("renders RequestApproval", () => {
       mountedComponent(<RecordActions {...props} />, defaultStateWithDialog(REQUEST_APPROVAL_DIALOG));
 
-      expect(screen.queryAllByRole("dialog")).toHaveLength(1);
+      expect(screen.queryAllByText(/actions.request_approval/i)).toHaveLength(1);
     });
   });
 
@@ -230,7 +229,7 @@ describe("<RecordActions />", () => {
     it("renders Transitions", () => {
       mountedComponent(<RecordActions {...props} />, defaultStateWithDialog(TRANSFER_DIALOG));
 
-      expect(screen.queryAllByRole("dialog")).toHaveLength(1);
+      expect(screen.queryAllByText(/transfer.agency_label/i)).toHaveLength(2);
     });
   });
 
