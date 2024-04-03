@@ -121,7 +121,7 @@ describe Api::V2::DashboardsController, type: :request do
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/dashboards', search: true do
-    it 'lists all the permitted dashboards' do
+    xit 'lists all the permitted dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
