@@ -22,10 +22,10 @@ const Component = ({ children }) => {
   const hasLogos = useMemoizedSelector(state => hasAgencyLogos(state));
 
   // TODO: Module hardcoded till we figure out when to switch modules
-  const primeroModule = "cp";
-  const moduleClass = `${primeroModule}${demo ? "-demo" : ""}`;
-  const classes = clsx(css.primeroBackground, css[moduleClass], {
-    [css.primeroBackgroundImage]: hasLoginLogo
+  const classes = clsx(css.primeroBackground, {
+    [css.primeroBackgroundImage]: hasLoginLogo,
+    [css.primeroBackgroundImageDemo]: hasLoginLogo && demo,
+    [css.demoBackground]: demo
   });
   const classesLoginLogo = clsx(css.loginLogo, { [css.hideLoginLogo]: !hasLogos });
   const classesAuthDiv = clsx(css.auth, { [css.noLogosWidth]: !hasLogos });
