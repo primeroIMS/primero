@@ -73,6 +73,19 @@ registerRoute(
   METHODS.GET
 );
 
+registerRoute(
+  /\/(?:theme|manifest).*$/,
+  new CacheFirst({
+    cacheName: "theme",
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 2
+      })
+    ]
+  }),
+  METHODS.GET
+);
+
 // Api Endpoints
 Object.values(METHODS).forEach(method => {
   registerRoute(/\/api\/.*/, new NetworkOnly(), method);
@@ -89,16 +102,7 @@ const manifest = self.__WB_MANIFEST.map(entry => {
   return entry;
 });
 
-const revision = manifest?.filter(({ url }) => url === "/")?.[0]?.revision;
-
-const themeFiles = ["theme", "manifest.json"].map(asset => {
-  return {
-    url: `${self.location.origin}/${asset}`,
-    revision
-  };
-});
-
-precacheAndRoute([...manifest, ...themeFiles]);
+precacheAndRoute(manifest);
 
 setCatchHandler(({ event }) => {
   if (isNav(event)) return caches.match(getCacheKeyForURL("/"));
