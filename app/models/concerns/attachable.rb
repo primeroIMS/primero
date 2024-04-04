@@ -8,7 +8,6 @@ module Attachable
   extend ActiveSupport::Concern
   include Sunspot::Rails::Searchable
 
-  MAX_ATTACHMENTS = 100
   PHOTOS_FIELD_NAME = 'photos'
   AUDIOS_FIELD_NAME = 'recorded_audio'
   DOCUMENTS_FIELD_NAME = 'other_documents'
@@ -19,7 +18,6 @@ module Attachable
              as: :record, class_name: 'Attachment'
     has_many :current_audios, -> { where(field_name: AUDIOS_FIELD_NAME).order('date DESC NULLS LAST') },
              as: :record, class_name: 'Attachment'
-    validate :maximum_attachments_exceeded
 
     searchable do
       boolean :has_photo
@@ -43,13 +41,5 @@ module Attachable
     return unless photo&.file
 
     Rails.application.routes.url_helpers.rails_blob_path(photo.file, only_path: true)
-  end
-
-  private
-
-  def maximum_attachments_exceeded
-    return unless attachments.size > (MAX_ATTACHMENTS - 1)
-
-    errors.add(:attachments, 'errors.attachments.maximum')
   end
 end

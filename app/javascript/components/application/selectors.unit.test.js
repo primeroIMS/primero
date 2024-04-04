@@ -129,7 +129,8 @@ const stateWithRecords = fromJS({
     disabledApplication: true,
     systemOptions: {
       maximum_users: 50,
-      maximum_users_warning: 45
+      maximum_users_warning: 45,
+      maximum_attachments_per_record: 55
     }
   }
 });
@@ -609,6 +610,14 @@ describe("Application - Selectors", () => {
       );
 
       expect(result).to.be.true;
+    });
+  });
+
+  describe("getMaximumAttachmentsPerRecord", () => {
+    it("should return maximum users warning", () => {
+      const result = selectors.getMaximumAttachmentsPerRecord(stateWithRecords);
+
+      expect(result).to.be.equal(55);
     });
   });
 });

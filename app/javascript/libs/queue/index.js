@@ -12,7 +12,13 @@ import transformOfflineRequest from "../transform-offline-request";
 import EventManager from "../messenger";
 import { queueIndexedDB } from "../../db";
 
-import { deleteFromQueue, messageQueueFailed, messageQueueSkip, messageQueueSuccess } from "./utils";
+import {
+  deleteFromQueue,
+  messageQueueFailed,
+  messageQueueSkip,
+  messageQueueSuccess,
+  sortQueueByDeleteFirst
+} from "./utils";
 import {
   QUEUE_PENDING,
   QUEUE_READY,
@@ -141,7 +147,7 @@ class Queue {
     if (this.ready) {
       this.working = true;
 
-      const item = head(this.queue);
+      const item = head(sortQueueByDeleteFirst(this.queue));
 
       if (item && !item?.processed && ((item.tries || 0) < QUEUE_ALLOWED_RETRIES || this.force)) {
         this.onAttachmentProcess(item);

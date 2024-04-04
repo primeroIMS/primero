@@ -18,7 +18,7 @@ class SystemSettings < ApplicationRecord
   store_accessor(:system_options, :due_date_from_appointment_date,
                  :show_alerts, :code_of_conduct_enabled, :timeframe_hours_to_assign,
                  :timeframe_hours_to_assign_high, :duplicate_field_to_form,
-                 :maximum_users, :maximum_users_warning)
+                 :maximum_users, :maximum_users_warning, :maximum_attachments_per_record)
 
   localize_properties %i[welcome_email_text approvals_labels]
 

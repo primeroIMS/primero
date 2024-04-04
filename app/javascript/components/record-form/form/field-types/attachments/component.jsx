@@ -23,7 +23,7 @@ import PhotoArray from "./photo-array";
 import { buildBase64URL } from "./utils";
 
 // TODO: No link to display / download upload
-const Component = ({ name, field, label, disabled, formik, mode, recordType }) => {
+const Component = ({ name, field, label, disabled, formik, mode, recordType, helperText }) => {
   const i18n = useI18n();
 
   const loading = useMemoizedSelector(state => getLoadingRecordState(state, recordType));
@@ -31,6 +31,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
   const recordAttachments = useMemoizedSelector(state => getRecordAttachments(state, recordType));
 
   const values = get(formik.values, name, []);
+  const error = get(formik.errors, name, "");
   const attachment = FIELD_ATTACHMENT_TYPES[field.type];
 
   const [openLastDialog, setOpenLastDialog] = useState(false);
@@ -109,7 +110,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
     if (field.type === PHOTO_FIELD && mode.isShow) {
       const images = values?.map(value => value.attachment_url || buildBase64URL(value.content_type, value.attachment));
 
-      return <PhotoArray images={images} />;
+      return <PhotoArray images={images} data-testid="photo-array" />;
     }
 
     if (field.type === AUDIO_FIELD && mode.isShow) {
@@ -122,11 +123,12 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
   return (
     <FieldArray name={name} validateOnChange={false}>
       {arrayHelpers => (
-        <div>
+        <div data-testid="field-array">
           <AttachmentLabel
             label={label}
             mode={mode}
-            helpText={field.help_text[i18n.locale]}
+            helpText={helperText}
+            error={error}
             handleAttachmentAddition={handleAttachmentAddition}
             arrayHelpers={arrayHelpers}
             disabled={disabled}
@@ -149,6 +151,7 @@ Component.propTypes = {
   disabled: PropTypes.bool,
   field: PropTypes.object,
   formik: PropTypes.object,
+  helperText: PropTypes.string,
   label: PropTypes.string,
   mode: PropTypes.object,
   name: PropTypes.string,
