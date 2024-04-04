@@ -170,6 +170,9 @@ export const getMaximumUsers = state => state.getIn([NAMESPACE, "systemOptions",
 
 export const getMaximumUsersWarning = state => state.getIn([NAMESPACE, "systemOptions", "maximum_users_warning"]);
 
+export const getMaximumAttachmentsPerRecord = state =>
+  state.getIn([NAMESPACE, "systemOptions", "maximum_attachments_per_record"]);
+
 export const getTheme = state => state.getIn([NAMESPACE, "theme"], fromJS({}));
 
 export const getShowPoweredByPrimero = state => state.getIn([NAMESPACE, "theme", "showPoweredByPrimero"], false);
@@ -193,6 +196,7 @@ export const getAppData = memoize(state => {
   const useContainedNavStyle = getUseContainedNavStyle(state);
   const showPoweredByPrimero = getShowPoweredByPrimero(state);
   const hasLoginLogo = getLoginBackground(state);
+  const maximumttachmentsPerRecord = getMaximumAttachmentsPerRecord(state);
 
   return {
     modules,
@@ -206,7 +210,8 @@ export const getAppData = memoize(state => {
     maximumUsersWarning,
     useContainedNavStyle,
     showPoweredByPrimero,
-    hasLoginLogo
+    hasLoginLogo,
+    maximumttachmentsPerRecord
   };
 });
 

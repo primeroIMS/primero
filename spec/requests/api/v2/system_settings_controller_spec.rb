@@ -68,7 +68,8 @@ describe Api::V2::SystemSettingsController, type: :request do
         case_plan: 'Case Plan',
         closure: 'Closure'
       },
-      maximum_users: 55
+      maximum_users: 55,
+      maximum_attachments_per_record: 23
     )
   end
 
@@ -85,6 +86,9 @@ describe Api::V2::SystemSettingsController, type: :request do
       expect(json['data']['rtl_locales']).to contain_exactly('ar')
       expect(json['data']['primero_version']).to eq(@system_settings.primero_version)
       expect(json['data']['system_options']['maximum_users']).to eq(@system_settings.maximum_users)
+      expect(
+        json['data']['system_options']['maximum_attachments_per_record']
+        ).to eq(@system_settings.maximum_attachments_per_record)
     end
 
     it 'lists system_settings and all agencies and all modules when the param *extended* is true on the request' do
