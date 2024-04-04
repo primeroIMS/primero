@@ -20,10 +20,6 @@
   background-color: var(--c-blue);
 }
 
-.cp-demo {
-  background: repeating-linear-gradient(45deg, var(--c-dark-blue), var(--c-dark-blue) 10px, var(--c-blue) 10px, var(--c-blue) 20px) !important;
-}
-
 :global html, :global body {
   height: var(--doc-height, 100vh);
 }
@@ -39,6 +35,14 @@
 
 .primeroBackgroundImage {
   background: center/70% no-repeat var(--c-login-background-image), linear-gradient(108deg, var(--c-login-background-gradient-start) 0%, var(--c-login-background-gradient-end) 100%);
+}
+
+.primeroBackgroundImageDemo {
+  background: center/70% no-repeat var(--c-login-background-image), repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0, .05) 10px, rgba(0,0,0,.05) 20px), linear-gradient(108deg, var(--c-login-background-gradient-start) 0%, var(--c-login-background-gradient-end) 100%);
+}
+
+.demoBackground {
+  background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0, .05) 10px, rgba(0,0,0,.05) 20px), linear-gradient(108deg, var(--c-login-background-gradient-start) 0%, var(--c-login-background-gradient-end) 100%);
 }
 
 .content {

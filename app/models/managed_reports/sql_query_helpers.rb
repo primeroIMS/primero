@@ -25,7 +25,20 @@ module ManagedReports::SqlQueryHelpers
       )
     end
 
-    def equal_value_query_multiple(param, table_name = nil, map_to = nil)
+    def equal_value_query_multiple(param, table_name = nil, hash_field = 'data', map_to = nil)
+      return unless param.present?
+
+      field_name = map_to || param.field_name
+
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          "#{quoted_query(table_name, hash_field)}->:field_name ?| array[:values]",
+          { values: param.respond_to?(:values) ? param.values : param.value, field_name: }
+        ]
+      )
+    end
+
+    def equal_value_nested_query(param, _nested_field, table_name = nil, map_to = nil)
       return unless param.present?
 
       field_name = map_to || param.field_name
@@ -37,6 +50,35 @@ module ManagedReports::SqlQueryHelpers
         ]
       )
     end
+
+    # rubocop:disable Metrics/MethodLength
+    def reporting_location_query(param, _table_name = nil, _hash_field = 'data', map_to = nil)
+      return unless param.present?
+
+      field_name = map_to || param.field_name
+      param_value = param.respond_to?(:values) ? param.values : param.value
+
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          %(
+            (
+              data->>:field_name = :param_value AND data->>:field_name IS NOT NULL AND EXISTS
+              (
+                SELECT
+                  1
+                FROM locations
+                INNER JOIN locations AS descendants
+                ON locations.admin_level <= descendants.admin_level
+                  AND locations.hierarchy_path @> descendants.hierarchy_path
+                WHERE locations.location_code = data->>:field_name AND descendants.location_code = data->>:field_name
+              )
+            )
+          ),
+          { param_value:, field_name: }
+        ]
+      )
+    end
+    # rubocop:enable Metrics/MethodLength
 
     def in_value_query(param, table_name = nil, _hash_field = 'data', map_to = nil)
       return unless param.present?
@@ -100,7 +142,8 @@ module ManagedReports::SqlQueryHelpers
     def quoted_query(table_name, column_name)
       return ActiveRecord::Base.connection.quote_column_name(column_name) if table_name.blank?
 
-      "#{quoted_table_name(table_name)}.#{ActiveRecord::Base.connection.quote_column_name(column_name)}"
+      quoted_column_name = column_name.present? ? ActiveRecord::Base.connection.quote_column_name(column_name) : nil
+      [quoted_table_name(table_name), quoted_column_name].compact.join('.')
     end
 
     def quoted_table_name(table_name)

@@ -12,7 +12,7 @@
   <meta name="google" value="notranslate" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title><%= @theme&.site_title || 'Primero' %></title>
-  <link rel="manifest" href="/manifest.json">
+  <link rel="manifest" href="/manifest.json?__WB_REVISION__=<%= @theme.revision %>">
   <link rel="icon" type="image/x-icon" href="<%= @theme&.favicon.present? ? rails_blob_path(@theme&.favicon, only_path: true) : '/favicon.ico' %>" />
   <!-- jss-insertion-point -->
   <%= stylesheet_bundle_tag 'application', skip_pipeline: true, manifest: :application, nonce: true %>
@@ -22,6 +22,7 @@
   <%= javascript_tag nonce: true do %>
     window.locationManifest = <%= available_locations %>
     window.useTheme = <%= @theme.present? %>
+    window.themeRevision = "<%= @theme.revision %>"
   <% end %>
   <%= javascript_include_tag '/javascripts/i18n.js', nonce: true %>
 
