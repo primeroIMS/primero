@@ -135,8 +135,42 @@ describe Attachment, search: true do
           file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg'), comments: 'not this one!'
         )
         expect { attachment.attach! }.to raise_error(ActiveRecord::RecordInvalid)
-        expect(child.valid?).to be_falsey
+        expect(attachment.errors.full_messages).to eq ['errors.attachments.maximum']
         expect(attachment.persisted?).to be_falsey
+      end
+    end
+
+    context 'when maximum_attachments_per_record is set in SystemSettings' do
+      before :each do
+        clean_data(SystemSettings)
+        SystemSettings.create!(
+          system_options: {
+            maximum_attachments_per_record: 2
+          }
+        )
+        SystemSettings.stub(:current).and_return(SystemSettings.first)
+        SystemSettings.current.maximum_attachments_per_record.times.each do |i|
+          Attachment.new(
+            record: child, field_name: 'photos', attachment_type: Attachment::IMAGE,
+            file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg'), comments: i.to_s
+          ).attach!
+        end
+        child.reload
+      end
+
+      it 'disallows attaching more than 3 documents to a single record' do
+        attachment = Attachment.new(
+          record: child, field_name: 'photos', attachment_type: Attachment::IMAGE,
+          file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg'), comments: 'not this one!'
+        )
+        expect(child.attachments.count).to eq SystemSettings.current.maximum_attachments_per_record
+        expect { attachment.attach! }.to raise_error(ActiveRecord::RecordInvalid)
+        expect(attachment.errors.full_messages).to eq ['errors.attachments.maximum']
+        expect(attachment.persisted?).to be_falsey
+      end
+
+      after :each do
+        clean_data(SystemSettings)
       end
     end
   end

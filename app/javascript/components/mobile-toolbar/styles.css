@@ -27,9 +27,19 @@
   height: 2.5rem;
   display: flex;
 
-  & div {
+  & > div {
     margin: 0;
     display: flex;
+    align-items: center;
+  }
+
+  & div {
+    display: flex;
+    align-items: center;
+  }
+
+  & > div div:first-of-type {
+    margin: 0;
   }
 
   & img {
@@ -70,6 +80,7 @@
   color: var(--c-dark-grey);
   font-weight: bold;
   text-transform: uppercase;
+  flex: 1;
 }
 
 @media (max-width: 959.95px) {

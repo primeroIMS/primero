@@ -4,7 +4,9 @@ const themePromise =
   process.env.NODE_ENV !== "test"
     ? await (async () => {
         if (window.useTheme) {
-          const { default: importedTheme } = await import(/* webpackIgnore: true */ `${window.location.origin}/theme`);
+          const { default: importedTheme } = await import(
+            /* webpackIgnore: true */ `${window.location.origin}/theme?__WB_REVISION__=${window.themeRevision}`
+          );
 
           return importedTheme;
         }

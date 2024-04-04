@@ -28,7 +28,8 @@ class Theme < ApplicationRecord
 
   PICTORIAL_SIZES = %w[144 192 256].freeze
 
-  store_accessor :data, :site_description, :site_title, :colors, :use_contained_nav_style, :show_powered_by_primero
+  store_accessor :data, :site_description, :site_title, :colors, :use_contained_nav_style, :show_powered_by_primero,
+                 :revision
 
   has_one_attached :login_background
   has_one_attached :logo
@@ -46,6 +47,12 @@ class Theme < ApplicationRecord
   validates :logo_pictorial_256, presence: true
   validates :favicon, presence: true
   # rubocop:enable Naming/VariableNumber
+
+  before_save :generate_new_revision
+
+  def generate_new_revision
+    self.revision = SecureRandom.uuid
+  end
 
   def valid_html_colors
     return unless colors.present?

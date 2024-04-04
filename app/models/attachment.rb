@@ -19,6 +19,7 @@ class Attachment < ApplicationRecord
 
   MAX_SIZE = 20.megabytes.freeze
   EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url
+  DEFAULT_MAX_ATTACHMENTS = 100
 
   belongs_to :record, polymorphic: true, optional: true
   has_one_attached :file
@@ -32,7 +33,7 @@ class Attachment < ApplicationRecord
             file_size: { less_than_or_equal_to: MAX_SIZE },
             file_content_type: { allow: ->(a) { a.valid_content_types } },
             if: :attached?
-  validates_associated :record
+  validate :maximum_attachments_exceeded
   after_commit :index_record
 
   def attach
@@ -101,5 +102,17 @@ class Attachment < ApplicationRecord
 
   def index_record
     Sunspot.index(record) if record
+  end
+
+  private
+
+  def system_max_attachmensts_per_record
+    SystemSettings.current&.maximum_attachments_per_record || DEFAULT_MAX_ATTACHMENTS
+  end
+
+  def maximum_attachments_exceeded
+    return if record.attachments.reload.size < system_max_attachmensts_per_record
+
+    errors.add(:base, 'errors.attachments.maximum')
   end
 end
