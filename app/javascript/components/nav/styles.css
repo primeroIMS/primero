@@ -30,7 +30,7 @@
   justify-content: flex-end;
   align-items: center;
   padding: var(--spacing-0-1);
-  background: var(--c-toolbar-background-color-mobile-header, var(--c-light-grey));
+  background: transparent;
 
   & button {
     padding: 6px;
@@ -60,7 +60,7 @@
 }
 
 .drawerPaper-demo {
-  background: repeating-linear-gradient(45deg, var(--c-light-grey), var(--c-light-grey) 10px, var(--c-white) 10px, var(--c-white) 20px);
+  background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0, .05) 10px, rgba(0,0,0,.05) 20px), var(--c-toolbar-background-color);
 }
 
 .listIcon {
@@ -277,4 +277,3 @@
     }
   }
 }
-
