@@ -3413,7 +3413,6 @@ en:
           workflow_report:
             label: Workflow (Cases and Incidents)
             explanation: Ability to view statistics on Workflow Status for both Cases and the Incidents linked to them. This permission also allows the user to export data from an Insight.
-              data from an Insight.
           cases_workflow_report:
             label: Workflow (Cases)
             explanation: Ability to view statistics on Workflow Status Cases. This permission also allows the user to export data from an Insight.
