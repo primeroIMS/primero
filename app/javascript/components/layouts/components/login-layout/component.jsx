@@ -21,7 +21,6 @@ const Component = ({ children }) => {
   const { demo, hasLoginLogo, useContainedNavStyle } = useApp();
   const hasLogos = useMemoizedSelector(state => hasAgencyLogos(state));
 
-  // TODO: Module hardcoded till we figure out when to switch modules
   const classes = clsx(css.primeroBackground, {
     [css.primeroBackgroundImage]: hasLoginLogo,
     [css.primeroBackgroundImageDemo]: hasLoginLogo && demo,
