@@ -65,7 +65,9 @@ describe("<AdminFilters /> - pages/admin/components/filters/component", () => {
     });
 
     it("should render only one <SelectFilter /> component", () => {
-      expect(screen.getAllByRole("region")).toHaveLength(2);
+      const selectFilterComponents = screen.getAllByTestId("select-filter");
+
+      expect(selectFilterComponents).toHaveLength(1);
     });
   });
 });

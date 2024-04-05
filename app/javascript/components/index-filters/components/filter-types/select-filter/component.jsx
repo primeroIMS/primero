@@ -171,6 +171,7 @@ const Component = ({
         renderInput={handleRenderInput}
         filterOptions={filterOptionsProp}
         filterSelectedOptions
+        data-testid="select-filter"
       />
     </Panel>
   );
