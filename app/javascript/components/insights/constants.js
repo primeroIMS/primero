@@ -46,6 +46,7 @@ const VIOLATION_TYPE = "violation_type";
 const REGISTRATION_DATE = "registration_date";
 const SERVICE_IMPLEMENTED_DAY_TIME = "service_implemented_day_time";
 const CREATED_AT = "created_at";
+const FOLLOWUP_DATE = "followup_date";
 
 const GBV_STATISTICS = "gbv_statistics";
 const VIOLATIONS = "violations";
@@ -493,7 +494,7 @@ export const INSIGHTS_CONFIG = {
         [GROUPED_BY]: WEEK,
         [DATE_RANGE]: LAST_WEEK,
         [STATUS]: [STATUS_OPEN],
-        [DATE]: REGISTRATION_DATE,
+        [DATE]: FOLLOWUP_DATE,
         [BY]: OWNED_BY_GROUPS
       },
       filters: [
