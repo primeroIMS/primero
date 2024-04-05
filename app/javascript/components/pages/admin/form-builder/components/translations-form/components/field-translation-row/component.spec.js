@@ -3,8 +3,11 @@
 import { fromJS } from "immutable";
 
 import { mountedFormComponent, screen } from "../../../../../../../../test-utils";
+import { localesToRender } from "../../../utils";
 
 import FieldTranslationRow from "./component";
+
+jest.mock("../../../utils");
 
 describe("<FieldTranslationRow />", () => {
   const field1 = {
@@ -28,16 +31,17 @@ describe("<FieldTranslationRow />", () => {
     }
   });
 
+  const props = { field: fromJS(field1), selectedLocaleId: "en" };
 
-  const props = { field: fromJS(field1), selectedLocaleId: "fr" }
   it("should render <FieldTranslationRow />", () => {
-    mountedFormComponent(<FieldTranslationRow {...props} />, state)
-    expect(screen.getByText('forms.manage')).toBeInTheDocument();
+    localesToRender.mockReturnValue([fromJS({ id: "en" })]);
+    mountedFormComponent(<FieldTranslationRow {...props} />, state);
+    expect(screen.getByText("forms.manage")).toBeInTheDocument();
   });
 
   it("should render the <FormSectionField /> for the available languages", () => {
-
-    mountedFormComponent(<FieldTranslationRow {...props} />, state)
-    expect(screen.getAllByRole('textbox')).toHaveLength(1);
+    localesToRender.mockReturnValue([fromJS({ id: "en" })]);
+    mountedFormComponent(<FieldTranslationRow {...props} />, state);
+    expect(screen.getAllByRole("textbox")).toHaveLength(2);
   });
 });
