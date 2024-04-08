@@ -55,7 +55,7 @@ class ManagedReports::Indicators::FieldByAgeSex < ManagedReports::SqlReportIndic
             #{equal_value_query(params['module_id'])&.prepend('and ')}
             #{field_value(params[field_name])&.prepend('and ')}
             #{user_scope_query(current_user)&.prepend('and ')}
-            #{reporting_location_query(params['location_current'])&.prepend('and ')}
+            #{reporting_location_query(params['owned_by_location'])&.prepend('and ')}
             group by name, key
               #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
             order by name, key
