@@ -62,7 +62,7 @@ module ManagedReports::SqlQueryHelpers
         [
           %(
             (
-              data->>:field_name = :param_value AND data->>:field_name IS NOT NULL AND EXISTS
+              data ? :field_name AND data->>:field_name IS NOT NULL AND EXISTS
               (
                 SELECT
                   1
@@ -70,7 +70,7 @@ module ManagedReports::SqlQueryHelpers
                 INNER JOIN locations AS descendants
                 ON locations.admin_level <= descendants.admin_level
                   AND locations.hierarchy_path @> descendants.hierarchy_path
-                WHERE locations.location_code = data->>:field_name AND descendants.location_code = data->>:field_name
+                WHERE locations.location_code = :param_value AND descendants.location_code = data->>:field_name
               )
             )
           ),
