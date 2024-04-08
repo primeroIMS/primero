@@ -11,12 +11,12 @@ to query for records.
 You can review the data that will updated with:
 
 ```bash
-rails r ./db/data_migration/v2.11/calculate_solr_fields.rb Child
+rails r ./db/data_migration/v2.11/calculate_solr_fields.rb Child file/path.txt
 ```
 
 ## Executing scripts
 Once you validate that the info is correct you can execute the script to modify the data using:
 
 ```bash
-rails r ./db/data_migration/v2.11/calculate_solr_fields.rb Child true
+rails r ./db/data_migration/v2.11/calculate_solr_fields.rb Child true file/path.txt
 ```
