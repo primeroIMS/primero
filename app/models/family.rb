@@ -13,6 +13,7 @@ class Family < ApplicationRecord
   include Attachable
   include EagerLoadable
   include LocationCacheable
+  include PhoneticSearchable
 
   store_accessor(
     :data,
@@ -42,6 +43,10 @@ class Family < ApplicationRecord
       common_summary_fields + %w[
         family_registration_date family_id_display family_name family_number module_id family_location_current
       ]
+    end
+
+    def phonetic_field_names
+      %w[family_name]
     end
   end
 

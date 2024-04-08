@@ -12,6 +12,13 @@ module PhoneticSearchable
     before_save :recalculate_phonetic_tokens
   end
 
+  # Class methods to indicate the phonetic_field_names of a record
+  module ClassMethods
+    def phonetic_field_names
+      []
+    end
+  end
+
   def recalculate_phonetic_tokens
     return unless phonetic_fields_changed?
 
@@ -19,8 +26,7 @@ module PhoneticSearchable
   end
 
   def generate_tokens
-    # TODO: Eventually, this constant will be moved over here.
-    Searchable::PHONETIC_FIELD_NAMES.reduce([]) do |memo, field_name|
+    self.class.phonetic_field_names.reduce([]) do |memo, field_name|
       next(memo) unless data[field_name].present?
 
       memo + LanguageService.tokenize(data[field_name])
@@ -28,6 +34,6 @@ module PhoneticSearchable
   end
 
   def phonetic_fields_changed?
-    (changes_to_save_for_record.keys & Searchable::PHONETIC_FIELD_NAMES).present?
+    (changes_to_save_for_record.keys & self.class.phonetic_field_names).present?
   end
 end

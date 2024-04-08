@@ -14,6 +14,7 @@ class TracingRequest < ApplicationRecord
   include EagerLoadable
   include Webhookable
   include LocationCacheable
+  include PhoneticSearchable
 
   has_many :traces
   store_accessor :data,
@@ -48,6 +49,10 @@ class TracingRequest < ApplicationRecord
         'multistring' => %w[associated_user_names owned_by_groups],
         'date' => ['inquiry_date']
       }
+    end
+
+    def phonetic_field_names
+      %w[relation_name relation_nickname relation_other_family tracing_names tracing_nicknames]
     end
 
     alias super_new_with_user new_with_user
