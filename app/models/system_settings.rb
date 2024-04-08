@@ -8,6 +8,7 @@
 # SystemSetting should be invoked using the singleton SystemSettings#current method.
 # Any update to the data will only take effect after the system is rebooted
 # and the singleton is reloaded.
+# rubocop:disable Metrics/ClassLength
 class SystemSettings < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -144,6 +145,10 @@ class SystemSettings < ApplicationRecord
       maximum_users.is_a?(Integer) && maximum_users_warning.is_a?(Integer)
   end
 
+  def maximum_attachments_per_record
+    super || Attachment::DEFAULT_MAX_ATTACHMENTS
+  end
+
   class << self
     def current(rebuild = false)
       return @current unless @current.nil? || rebuild
@@ -174,3 +179,4 @@ class SystemSettings < ApplicationRecord
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
