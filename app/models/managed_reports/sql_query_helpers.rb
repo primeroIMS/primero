@@ -52,7 +52,7 @@ module ManagedReports::SqlQueryHelpers
     end
 
     # rubocop:disable Metrics/MethodLength
-    def reporting_location_query(param, _table_name = nil, _hash_field = 'data', map_to = nil)
+    def reporting_location_query(param, map_to = nil)
       return unless param.present?
 
       field_name = map_to || param.field_name

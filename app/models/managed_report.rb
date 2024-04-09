@@ -38,7 +38,7 @@ class ManagedReport < ValueObject
         subreports: %w[reporting_locations],
         permitted_filters: [
           :grouped_by, :by, :created_by_groups, :owned_by_groups,
-          :created_organization, :owned_by_agency_id, :owned_by_location, { status: {}, registration_date: {} }
+          :created_organization, :owned_by_agency_id, :location, { status: {}, registration_date: {} }
         ],
         module_id: PrimeroModule::CP
       ),

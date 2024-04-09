@@ -2010,8 +2010,9 @@ en:
       cp_incident_violence_type: Type of Violence
       referral_transfer_status: Referral / Transfer Status
       protection_concerns: Protection Concerns
-      location_current: Reporting Locations
+      location: Reporting Location
       followup_type: Type of Follow Up
+      service_type: Type of Service
     status_options:
       open: Open
       closed: Closed
@@ -2062,10 +2063,14 @@ en:
         description: Cases with the selected Services, broken down by age and sex.
       sub_reports:
         services: Services
+      filter_options:
+        service_implemented_day_time: Service completed
     followups:
       name: Follow Ups
       description: Cases with the selected Follow Up, broken down by age and sex.
     followups_report:
+      filter_options:
+        followup_date: Date of follow-up
       reports:
         followups: Follow Ups
         description: Cases with the selected Follow Up, broken down by age and sex.
@@ -2080,6 +2085,8 @@ en:
         description: Cases with the selected Protection Concern, broken down by age and sex.
       sub_reports:
         protection_concerns: Protection Concerns
+      filter_options:
+        registration_date: Date of Registration
     reporting_locations:
       name: Reporting Location
       description: 'Cases with the selected Reporting Location, broken down by age and sex.'
@@ -2089,6 +2096,8 @@ en:
         description: ''
       sub_reports:
         reporting_location_by_sex_and_age: Reporting Location
+      filter_options:
+        registration_date: Date of Registration
     ghn_report:
       name: Global Horizontal Note
       description: ''
