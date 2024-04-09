@@ -101,9 +101,41 @@ if models.include?('TracingRequest')
     end
 
     if save_records
-      process_records(Incident, record_hashes, batch)
+      process_records(TracingRequest, record_hashes, batch)
     else
-      print_record_data(Incident, records, batch)
+      print_record_data(TracingRequest, records, batch)
+    end
+  end
+end
+
+if models.include?('Family')
+  print_log('Recalculating solr fields for Family...')
+
+  records_to_process(Family, file_path).find_in_batches(batch_size: 1000).with_index do |records, batch|
+    record_hashes = records.map do |record|
+      { 'id' => record.id, 'phonetic_data' => { 'tokens' => record.generate_tokens } }
+    end
+
+    if save_records
+      process_records(Family, record_hashes, batch)
+    else
+      print_record_data(Family, records, batch)
+    end
+  end
+end
+
+if models.include?('RegistryRecord')
+  print_log('Recalculating solr fields for RegistryRecord...')
+
+  records_to_process(RegistryRecord, file_path).find_in_batches(batch_size: 1000).with_index do |records, batch|
+    record_hashes = records.map do |record|
+      { 'id' => record.id, 'phonetic_data' => { 'tokens' => record.generate_tokens } }
+    end
+
+    if save_records
+      process_records(RegistryRecord, record_hashes, batch)
+    else
+      print_record_data(RegistryRecord, records, batch)
     end
   end
 end
