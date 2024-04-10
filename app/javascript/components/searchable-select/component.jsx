@@ -48,28 +48,31 @@ const SearchableSelect = ({
     return defaultValues || defaultEmptyValue;
   })();
 
-  const renderTags = (value, getTagProps) =>
-    value.map((option, index) => {
-      const { onDelete, ...rest } = { ...getTagProps({ index }) };
-      const chipProps = {
-        ...(isDisabled || { onDelete }),
-        ...rest,
-        classes: {
-          ...(mode.isShow && {
-            disabled: css.disabledChip
-          })
-        }
-      };
+  const renderTags = (value, getTagProps) => (
+    <div>
+      {value.map((option, index) => {
+        const { onDelete, ...rest } = { ...getTagProps({ index }) };
+        const chipProps = {
+          ...(isDisabled || { onDelete }),
+          ...rest,
+          classes: {
+            ...(mode.isShow && {
+              disabled: css.disabledChip
+            })
+          }
+        };
 
-      return (
-        <Chip
-          size="small"
-          label={optionLabel(option, options, optionIdKey, optionLabelKey)}
-          {...chipProps}
-          disabled={isDisabled}
-        />
-      );
-    });
+        return (
+          <Chip
+            size="small"
+            label={optionLabel(option, options, optionIdKey, optionLabelKey)}
+            {...chipProps}
+            disabled={isDisabled}
+          />
+        );
+      })}
+    </div>
+  );
 
   const getSelectedOptions = (option, selected) => optionEquality(option, selected, optionIdKey);
   const getOptionLabel = option => optionLabel(option, options, optionIdKey, optionLabelKey);

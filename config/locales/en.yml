@@ -2056,11 +2056,11 @@ en:
         individual_perpetrator: Individual Children by Perpetrator
     services:
       name: Services
-      description: Cases with the selected Services, broken down by age and sex.
+      description: Cases with the selected Service types, broken down by age and sex.
     services_report:
       reports:
         services: Services
-        description: Cases with the selected Services, broken down by age and sex.
+        description: Cases with the selected Service types, broken down by age and sex.
       sub_reports:
         services: Services
       filter_options:
@@ -2073,16 +2073,16 @@ en:
         followup_date: Date of follow-up
       reports:
         followups: Follow Ups
-        description: Cases with the selected Follow Up, broken down by age and sex.
+        description: Cases with the selected Follow Up types, broken down by age and sex.
       sub_reports:
         followups: Follow Ups
     protection_concerns:
       name: Protection Concerns
-      description: Cases with the selected Protection Concern, broken down by age and sex.
+      description: Cases with the selected Protection Concerns, broken down by age and sex.
     protection_concerns_report:
       reports:
         protection_concerns: Protection Concerns
-        description: Cases with the selected Protection Concern, broken down by age and sex.
+        description: Cases with the selected Protection Concerns, broken down by age and sex.
       sub_reports:
         protection_concerns: Protection Concerns
       filter_options:
@@ -2229,7 +2229,7 @@ en:
         survivors_disability_type: With Disabilities
     workflow_report:
       name: Workflow
-      description: ''
+      description: Cases and Incidents with the selected Workflow Status, broken down by age and sex.
       reports:
         cases_workflow: Workflow - Cases
         incidents_workflow: Workflow - Incidents
@@ -2240,7 +2240,7 @@ en:
         incident_workflow_by_sex_and_age: Total Number of Incidents by Sex and Age
     cases_workflow_report:
       name: Workflow
-      description: ''
+      description: Cases with the selected Workflow Status, broken down by age and sex.
       reports:
         cases_workflow: Workflow - Cases
       filter_options:
@@ -2249,7 +2249,7 @@ en:
         case_workflow_by_sex_and_age: Total Number of Cases by Sex and Age
     referrals_transfers_report:
       name: Referrals and Transfers
-      description: ''
+      description: Referrals and Transfers which have occurred within a given time span. Broken down by sending and receiving Agencies or User Groups.
       reports:
         total_referrals: Referrals
         total_transfers: Transfers
