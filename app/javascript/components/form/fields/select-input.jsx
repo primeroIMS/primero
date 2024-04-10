@@ -214,8 +214,13 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
     return <TextField {...inputParams} label={<InputLabel tooltip={tooltip} text={label} />} {...rest} />;
   };
 
-  const renderTags = (value, getTagProps) =>
-    value.map((option, index) => <Chip label={optionLabel(option)} {...getTagProps({ index })} disabled={disabled} />);
+  const renderTags = (value, getTagProps) => (
+    <div>
+      {value.map((option, index) => (
+        <Chip label={optionLabel(option)} {...getTagProps({ index })} disabled={disabled} />
+      ))}
+    </div>
+  );
 
   const getOptionDisabled = option => {
     if (option?.disabled) {
