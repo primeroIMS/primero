@@ -568,52 +568,60 @@ module Indicators
       reporting_location_config = role&.reporting_location_config
       admin_level = reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
       field_key = reporting_location_config&.field_key || ReportingLocation::DEFAULT_FIELD_KEY
-      facet_name = "#{field_key}#{admin_level}"
-      [reporting_location_open(facet_name),
-       reporting_location_open_last_week(facet_name), reporting_location_open_this_week(facet_name),
-       reporting_location_closed_last_week(facet_name), reporting_location_closed_this_week(facet_name)]
+      [
+        reporting_location_open(field_key, admin_level),
+        reporting_location_open_last_week(field_key, admin_level),
+        reporting_location_open_this_week(field_key, admin_level),
+        reporting_location_closed_last_week(field_key, admin_level),
+        reporting_location_closed_this_week(field_key, admin_level)
+      ]
     end
 
-    def self.reporting_location_open(facet_name)
-      GroupedIndicator.new(
+    def self.reporting_location_open(field_name, admin_level)
+      LocationIndicator.new(
         name: 'reporting_location_open',
-        pivots: [facet_name],
+        field_name:,
+        admin_level:,
         record_model: Child,
         scope: OPEN_ENABLED
       )
     end
 
-    def self.reporting_location_open_last_week(facet_name)
-      GroupedIndicator.new(
+    def self.reporting_location_open_last_week(field_name, admin_level)
+      LocationIndicator.new(
         name: 'reporting_location_open_last_week',
-        pivots: [facet_name],
+        field_name:,
+        admin_level:,
         record_model: Child,
         scope: OPEN_ENABLED + [SearchFilters::DateRange.last_week('created_at')]
       )
     end
 
-    def self.reporting_location_open_this_week(facet_name)
-      GroupedIndicator.new(
+    def self.reporting_location_open_this_week(field_name, admin_level)
+      LocationIndicator.new(
         name: 'reporting_location_open_this_week',
-        pivots: [facet_name],
+        field_name:,
+        admin_level:,
         record_model: Child,
         scope: OPEN_ENABLED + [SearchFilters::DateRange.this_week('created_at')]
       )
     end
 
-    def self.reporting_location_closed_last_week(facet_name)
-      GroupedIndicator.new(
+    def self.reporting_location_closed_last_week(field_name, admin_level)
+      LocationIndicator.new(
         name: 'reporting_location_closed_last_week',
-        pivots: [facet_name],
+        field_name:,
+        admin_level:,
         record_model: Child,
         scope: CLOSED_ENABLED + [SearchFilters::DateRange.last_week('date_closure')]
       )
     end
 
-    def self.reporting_location_closed_this_week(facet_name)
-      GroupedIndicator.new(
+    def self.reporting_location_closed_this_week(field_name, admin_level)
+      LocationIndicator.new(
         name: 'reporting_location_closed_this_week',
-        pivots: [facet_name],
+        field_name:,
+        admin_level:,
         record_model: Child,
         scope: CLOSED_ENABLED + [SearchFilters::DateRange.this_week('date_closure')]
       )

@@ -30,7 +30,7 @@ describe Api::V2::DashboardsController, type: :request do
       actions: [
         Permission::DASH_WORKFLOW,
         Permission::DASH_CASE_OVERVIEW,
-        # Permission::DASH_REPORTING_LOCATION,
+        Permission::DASH_REPORTING_LOCATION,
         Permission::DASH_PROTECTION_CONCERNS,
         Permission::DASH_GROUP_OVERVIEW,
         # Permission::DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
@@ -174,7 +174,7 @@ describe Api::V2::DashboardsController, type: :request do
       )
     end
 
-    xit 'lists statistics for the reporting location dashboards' do
+    it 'lists statistics for the reporting location dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -186,11 +186,11 @@ describe Api::V2::DashboardsController, type: :request do
       expect(response).to have_http_status(200)
 
       reporting_location_dashboard = json['data'].find { |d| d['name'] == 'dashboard.reporting_location' }
-      expect(reporting_location_dashboard['indicators']['reporting_location_open']['cty']['count']).to eq(2)
-      expect(reporting_location_dashboard['indicators']['reporting_location_open_this_week']['cty']['count']).to eq(1)
-      expect(reporting_location_dashboard['indicators']['reporting_location_open_last_week']['cty']['count']).to eq(1)
-      expect(reporting_location_dashboard['indicators']['reporting_location_closed_this_week']['cty']['count']).to eq(2)
-      expect(reporting_location_dashboard['indicators']['reporting_location_closed_last_week']['cty']['count']).to eq(1)
+      expect(reporting_location_dashboard['indicators']['reporting_location_open']['CTY']['count']).to eq(2)
+      expect(reporting_location_dashboard['indicators']['reporting_location_open_this_week']['CTY']['count']).to eq(1)
+      expect(reporting_location_dashboard['indicators']['reporting_location_open_last_week']['CTY']['count']).to eq(1)
+      expect(reporting_location_dashboard['indicators']['reporting_location_closed_this_week']['CTY']['count']).to eq(2)
+      expect(reporting_location_dashboard['indicators']['reporting_location_closed_last_week']['CTY']['count']).to eq(1)
     end
 
     it 'lists statistics for the protection concerns dashboards' do
