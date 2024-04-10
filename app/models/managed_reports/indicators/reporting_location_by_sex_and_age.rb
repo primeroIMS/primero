@@ -10,7 +10,7 @@ class ManagedReports::Indicators::ReportingLocationBySexAndAge < ManagedReports:
     end
 
     def field_name
-      'location_current'
+      SystemSettings.current.reporting_location_config&.field_key || ReportingLocation::DEFAULT_FIELD_KEY
     end
 
     def reporting_location_field?

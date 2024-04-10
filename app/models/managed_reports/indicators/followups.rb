@@ -17,6 +17,10 @@ class ManagedReports::Indicators::Followups < ManagedReports::Indicators::Subfor
       'followup_subform_section'
     end
 
+    def date_filter_nested?
+      true
+    end
+
     def multiple_field_values
       true
     end
