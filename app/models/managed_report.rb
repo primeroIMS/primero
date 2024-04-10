@@ -38,7 +38,7 @@ class ManagedReport < ValueObject
         subreports: %w[reporting_locations],
         permitted_filters: [
           :grouped_by, :by, :created_by_groups, :owned_by_groups,
-          :created_organization, :owned_by_agency_id, :location_current, { status: {}, registration_date: {} }
+          :created_organization, :owned_by_agency_id, :location, { status: {}, registration_date: {} }
         ],
         module_id: PrimeroModule::CP
       ),
@@ -49,7 +49,7 @@ class ManagedReport < ValueObject
         subreports: %w[followups],
         permitted_filters: [
           :grouped_by, :by, :created_by_groups, :owned_by_groups,
-          :created_organization, :owned_by_agency_id, { status: {}, registration_date: {}, followup_type: {} }
+          :created_organization, :owned_by_agency_id, { status: {}, followup_date: {}, followup_type: {} }
         ],
         module_id: PrimeroModule::CP
       ),
