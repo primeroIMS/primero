@@ -759,7 +759,7 @@ class Filter < ValueObject
     }
   end
 
-  def tracing_requests_by_date_options(opts = {})
+  def tracing_requests_by_date_options(_opts = {})
     self.options = I18n.available_locales.map do |locale|
       locale_options = [{
         id: 'inquiry_date',
