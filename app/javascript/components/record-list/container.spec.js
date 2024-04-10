@@ -1,6 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
-import { Route } from "react-router-dom";
 import { fromJS, OrderedMap } from "immutable";
 
 import { ACTIONS } from "../permissions";
@@ -11,7 +8,6 @@ import { PrimeroModuleRecord } from "../application/records";
 import RecordList from "./container";
 
 describe("<RecordList />", () => {
-
   const initialState = fromJS({
     records: {
       FiltersTabs: {
@@ -305,41 +301,39 @@ describe("<RecordList />", () => {
   });
 
   it("renders record list table", done => {
-    mountedComponent(<RecordList />,initialState, ["/cases"])
-    expect(screen.getByRole('toolbar')).toBeInTheDocument()
+    mountedComponent(<RecordList />, initialState, ["/cases"]);
+    expect(screen.getByRole("toolbar")).toBeInTheDocument();
     done();
   });
 
   it("renders record view modal", done => {
-    mountedComponent(<RecordList />,initialState, ["/cases"])
-    expect(screen.getAllByText('messages.record_list.rows_per_page')).toHaveLength(2)
-   
+    mountedComponent(<RecordList />, initialState, ["/cases"]);
+    expect(screen.getAllByText("messages.record_list.rows_per_page")).toHaveLength(2);
+
     done();
   });
 
   it("opens the view modal when a record is clicked", () => {
-    mountedComponent(<RecordList />,initialState, ["/cases"])
-    expect(screen.getAllByText('messages.record_list.rows_per_page')).toHaveLength(2)
+    mountedComponent(<RecordList />, initialState, ["/cases"]);
+    expect(screen.getAllByText("messages.record_list.rows_per_page")).toHaveLength(2);
   });
 
   it("renders filters", () => {
-    mountedComponent(<RecordList />,initialState, ["/cases"])
-    expect(screen.getByTestId('filters')).toBeInTheDocument()
-   
+    mountedComponent(<RecordList />, initialState, ["/cases"]);
+    expect(screen.getByTestId("filters")).toBeInTheDocument();
   });
 
   describe("when offline", () => {
-
     it("when a record is clicked it does not open the view modal", () => {
-        mountedComponent(<RecordList />,initialState.setIn(["application", "online"], false), ["/cases"])
-        expect(screen.getByTestId('filters')).toBeInTheDocument()
+      mountedComponent(<RecordList />, initialState.setIn(["application", "online"], false), ["/cases"]);
+      expect(screen.queryAllByRole("presentation")).toHaveLength(0);
     });
   });
 
   describe("when age is 0", () => {
     it("renders a 0 in the cell ", () => {
-        mountedComponent(<RecordList />,initialState.setIn(["application", "online"], false), ["/cases"])
-        expect(screen.getAllByText('0-0 messages.record_list.of 0')).toHaveLength(2)
+      mountedComponent(<RecordList />, initialState.setIn(["application", "online"], false), ["/cases"]);
+      expect(screen.getAllByText("0-0 messages.record_list.of 0")).toHaveLength(2);
     });
   });
 });
