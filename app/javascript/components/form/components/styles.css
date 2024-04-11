@@ -128,21 +128,10 @@
 
 :global [dir="rtl"] .MuiAutocomplete-endAdornment {
   right: initial !important;
-  margin-left: 9px !important;
-  left: 0;
+  left: 9px !important;
 }
 
 :global .MuiAutocomplete-endAdornment {
-  position: relative !important;
-  margin-right: 9px !important;
+  right: 9px !important;
   left: initial !important;
-  right: 0 !important;
-}
-
-:global .MuiAutocomplete-inputRoot {
-  display: flex;
-}
-
-:global .MuiAutocomplete-inputRoot input {
-  padding: 9.5px !important;
 }
