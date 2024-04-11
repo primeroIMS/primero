@@ -97,7 +97,14 @@ if models.include?('TracingRequest')
 
   records_to_process(TracingRequest, file_path).find_in_batches(batch_size: 1000).with_index do |records, batch|
     record_hashes = records.map do |record|
-      { 'id' => record.id, 'phonetic_data' => { 'tokens' => record.generate_tokens } }
+      {
+        'id' => record.id,
+        'data' => record.data.merge(
+          'tracing_names' => record.calculate_tracing_names(record.traces),
+          'tracing_nicknames' => record.calculate_tracing_nicknames(record.traces)
+        ),
+        'phonetic_data' => { 'tokens' => record.generate_tokens }
+      }
     end
 
     if save_records
