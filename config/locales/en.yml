@@ -2067,7 +2067,7 @@ en:
         service_implemented_day_time: Service completed
     followups:
       name: Follow Ups
-      description: Cases with the selected Follow Up, broken down by age and sex.
+      description: Cases with the selected Follow Up types, broken down by age and sex.
     followups_report:
       filter_options:
         followup_date: Date of follow-up
