@@ -27,9 +27,11 @@ module PhoneticSearchable
 
   def generate_tokens
     self.class.phonetic_field_names.reduce([]) do |memo, field_name|
-      next(memo) unless data[field_name].present?
+      value = data[field_name]
+      next(memo) unless value.present?
+      next((memo + LanguageService.tokenize(value)).uniq) unless value.is_a?(Array)
 
-      memo + LanguageService.tokenize(data[field_name])
+      (memo + value.flat_map { |elem| LanguageService.tokenize(elem) }).uniq
     end
   end
 

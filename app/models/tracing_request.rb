@@ -5,6 +5,7 @@
 # Describes a request by a single individual to trace one or more children (cases)
 class TracingRequest < ApplicationRecord
   include Record
+  include CalculateTracingNames
   include Searchable
   include Ownable
   include Historical
@@ -125,14 +126,6 @@ class TracingRequest < ApplicationRecord
 
   def associations_as_data_keys
     %w[tracing_request_subform_section]
-  end
-
-  def tracing_names
-    traces.map(&:name).compact
-  end
-
-  def tracing_nicknames
-    traces.map(&:name_nickname).compact
   end
 
   def set_instance_id

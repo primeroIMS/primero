@@ -182,6 +182,25 @@ describe TracingRequest do
     end
   end
 
+  describe 'phonetic tokens' do
+    before do
+      clean_data(TracingRequest)
+    end
+
+    it 'generates the phonetic tokens' do
+      child = TracingRequest.create!(
+        data: {
+          relation_name: 'George',
+          relation_nickname: 'Wolf',
+          relation_other_family: 'Miller',
+          tracing_names: %w[John Jean],
+          tracing_nicknames: %w[Fox Lion]
+        }
+      )
+      expect(child.tokens).to eq(%w[JRJ ALF MLR JN FKS LN])
+    end
+  end
+
   private
 
   def create_tracing_request(name, options = {})
