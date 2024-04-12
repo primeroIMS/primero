@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { TRACES_SUBFORM_UNIQUE_ID } from "../../../../../config";
 
 import * as helpers from "./utils";

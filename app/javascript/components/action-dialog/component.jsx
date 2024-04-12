@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Dialog, DialogActions, DialogContent, DialogContentText, Typography } from "@material-ui/core";
@@ -131,7 +133,7 @@ const ActionDialog = ({
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
-    <div onClick={stopPropagation}>
+    <div onClick={stopPropagation} data-testid="action-dialog">
       <Dialog
         open={open}
         onClose={onCloseDialog}

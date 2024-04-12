@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Non bulk export of Primero objects
 class Export < ValueObject
   SUCCESS = 'success'
@@ -14,8 +16,8 @@ class Export < ValueObject
   def run
     return no_exporter_error unless exporter
 
-    exporter_instance = exporter.new(record_type: record_type, module_id: module_id, file_name: file_name,
-                                     visible: visible, managed_report: managed_report, opts: opts)
+    exporter_instance = exporter.new(record_type:, module_id:, file_name:,
+                                     visible:, managed_report:, opts:)
     exporter_instance.export
     attach_export_file(exporter_instance.file_name)
     assign_status(exporter_instance)
@@ -43,15 +45,14 @@ class Export < ValueObject
   end
 
   def export_status(exporter_instance)
-    if exporter_instance.respond_to?(:total)
-      self.success_total = exporter_instance.success_total
-      self.total = exporter_instance.total
-      if success_total.zero? then FAILURE
-      elsif success_total < total then SOME_FAILURE
-      else SUCCESS
-      end
+    return error_messages.blank? ? SUCCESS : FAILURE unless exporter_instance.respond_to?(:total)
+
+    self.success_total = exporter_instance.success_total
+    self.total = exporter_instance.total
+    if success_total.zero? then FAILURE
+    elsif success_total < total then SOME_FAILURE
     else
-      error_messages.blank? ? SUCCESS : FAILURE
+      SUCCESS
     end
   end
 end
