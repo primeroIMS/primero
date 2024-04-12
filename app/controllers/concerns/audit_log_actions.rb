@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Set the audit log properties
 module AuditLogActions
   extend ActiveSupport::Concern
@@ -27,7 +29,7 @@ module AuditLogActions
   def default_audit_params
     {
       record_type: model_class.name,
-      record_id: record_id,
+      record_id:,
       action: friendly_action_message,
       user_id: current_user.try(:id),
       resource_url: request.url,
@@ -36,7 +38,7 @@ module AuditLogActions
   end
 
   def write_audit_log
-    AuditLogJob.perform_later(default_audit_params.merge(audit_params))
+    AuditLogJob.perform_later(**default_audit_params.merge(audit_params))
   end
 
   # Allow controllers to override / add related properties to

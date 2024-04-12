@@ -1,3 +1,5 @@
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 ---
 version: '3'
 services:
@@ -28,7 +30,7 @@ services:
       - storage:/srv/primero/application/storage
     env_file:
       - docker/defaults.env
-    command: ["rails", "jobs:work"]
+    command: ["primero-worker"]
     restart: always
 volumes:
   database:

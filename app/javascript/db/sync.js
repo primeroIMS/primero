@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import collections from "./collections";
 import { DB_COLLECTIONS_NAMES, METHODS } from "./constants";
 

@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Query for saved searches
 
 Show a paginated list of all saved searches that are accessible to this user.

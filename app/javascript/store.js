@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { connectRouter, routerMiddleware } from "connected-react-router/immutable";
 import { createBrowserHistory } from "history";
 import Immutable, { fromJS } from "immutable";
@@ -7,8 +9,9 @@ import thunkMiddleware from "redux-thunk";
 
 import customMiddleware from "./middleware";
 import rootReducer from "./reducer";
+import { API_BASE_PATH } from "./config";
 
-export const history = createBrowserHistory({
+const history = createBrowserHistory({
   basename: "v2"
 });
 
@@ -19,7 +22,7 @@ export default () => {
     routerMiddleware(history),
     thunkMiddleware,
     customMiddleware.restMiddleware({
-      baseUrl: "/api/v2"
+      baseUrl: API_BASE_PATH
     }),
     customMiddleware.authMiddleware,
     customMiddleware.offlineMiddleware
@@ -47,3 +50,5 @@ export default () => {
 
   return store;
 };
+
+export { history };

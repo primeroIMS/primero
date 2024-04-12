@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Map } from "immutable";
 
 import getFieldAndValuesTranslations from "./get-field-and-values-translations";

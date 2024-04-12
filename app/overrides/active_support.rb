@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Usage of parse_json_times and the retrevial of active storage attachments do
 # not work. This is potentially a bug in rails. ActiveSupport::Messages::Metadata.expired_at
 # is in the incorrect format. It should be a string date format, but is
@@ -13,10 +15,10 @@
 ActiveSupport::Messages::Metadata.class_eval do
   def self.extract_metadata(message)
     data = begin
-             ActiveSupport::JSON.decode(message)
-           rescue StandardError
-             nil
-           end
+      ActiveSupport::JSON.decode(message)
+    rescue StandardError
+      nil
+    end
     if data.is_a?(Hash) && data.key?('_rails')
       expiry = data['_rails']['exp']
       expiry = expiry.iso8601 if expiry.is_a?(ActiveSupport::TimeWithZone)

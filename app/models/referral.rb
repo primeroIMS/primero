@@ -1,7 +1,24 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Model describing a referral of a record from one user to another.
 class Referral < Transition
+  include TransitionAlertable
+
+  REFERRAL_FORM_UNIQUE_ID = 'referral'
+  REFERRAL_ALERT_TYPE = 'referral'
+
+  class << self
+    def alert_form_unique_id
+      REFERRAL_FORM_UNIQUE_ID
+    end
+
+    def alert_type
+      REFERRAL_ALERT_TYPE
+    end
+  end
+
   def perform
     self.status = Transition::STATUS_INPROGRESS
     mark_service_referred(service_record)
@@ -72,6 +89,10 @@ class Referral < Transition
     else
       false
     end
+  end
+
+  def alerts_to_delete
+    super.select { |alert| alert.user.user_name == transitioned_to_user.user_name }
   end
 
   private

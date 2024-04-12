@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { getUserGroupFilters } from "./utils";
 
 describe("<AgenciesList /> pages/admin/agencies-list/utils", () => {
