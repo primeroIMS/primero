@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Update an existing user
 
 **URL** : `/api/v2/users/:id`

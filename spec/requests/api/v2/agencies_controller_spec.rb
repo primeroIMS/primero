@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::AgenciesController, type: :request do
@@ -271,7 +273,7 @@ describe Api::V2::AgenciesController, type: :request do
         }
       }
 
-      post '/api/v2/agencies', params: params, as: :json
+      post '/api/v2/agencies', params:, as: :json
       expect(response).to have_http_status(409)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'].first['message']).to eq('Conflict: A record with this id already exists')
@@ -302,7 +304,7 @@ describe Api::V2::AgenciesController, type: :request do
         }
       }
 
-      post '/api/v2/agencies', params: params, as: :json
+      post '/api/v2/agencies', params:, as: :json
       expect(json['errors'].map { |error| error['status'] }).to eq([422])
       expect(json['errors'].size).to eq(1)
       expect(json['errors'].map { |error| error['detail'] }).to eq(%w[agency_code])
@@ -334,7 +336,7 @@ describe Api::V2::AgenciesController, type: :request do
         }
       }
 
-      post '/api/v2/agencies', params: params
+      post('/api/v2/agencies', params:)
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'].first['message']).to eq('Forbidden')
@@ -366,7 +368,7 @@ describe Api::V2::AgenciesController, type: :request do
         }
       }
 
-      post '/api/v2/agencies', params: params, as: :json
+      post '/api/v2/agencies', params:, as: :json
       expect(json['errors'][0]['status']).to eq(422)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['detail']).to eq('name')
@@ -404,7 +406,7 @@ describe Api::V2::AgenciesController, type: :request do
       name_i18n = FieldI18nService.fill_with_locales(params[:data][:name]).deep_stringify_keys
       description_i18n = FieldI18nService.fill_with_locales(params[:data][:description]).deep_stringify_keys
 
-      patch "/api/v2/agencies/#{@agency_a.id}", params: params, as: :json
+      patch "/api/v2/agencies/#{@agency_a.id}", params:, as: :json
       expect(response).to have_http_status(200)
       expect(json['data']['unique_id']).to eq(params[:data][:unique_id])
       expect(json['data']['agency_code']).to eq(params[:data][:agency_code])
@@ -420,7 +422,7 @@ describe Api::V2::AgenciesController, type: :request do
       )
       params = {}
 
-      patch '/api/v2/agencies/thisdoesntexist', params: params
+      patch('/api/v2/agencies/thisdoesntexist', params:)
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/agencies/thisdoesntexist')
@@ -438,7 +440,7 @@ describe Api::V2::AgenciesController, type: :request do
           logo_full_file_name: 'unicef.png'
         }
       }
-      patch "/api/v2/agencies/#{@agency_a.id}", params: params
+      patch("/api/v2/agencies/#{@agency_a.id}", params:)
 
       expect(response).to have_http_status(200)
       @agency_a.reload
@@ -460,7 +462,7 @@ describe Api::V2::AgenciesController, type: :request do
           logo_full_base64: ''
         }
       }
-      patch "/api/v2/agencies/#{@agency_a.id}", params: params
+      patch("/api/v2/agencies/#{@agency_a.id}", params:)
 
       expect(response).to have_http_status(200)
       @agency_a.reload
@@ -475,7 +477,7 @@ describe Api::V2::AgenciesController, type: :request do
       )
       params = {}
 
-      patch "/api/v2/agencies/#{@agency_a.id}", params: params
+      patch("/api/v2/agencies/#{@agency_a.id}", params:)
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['resource']).to eq("/api/v2/agencies/#{@agency_a.id}")
       expect(json['errors'][0]['message']).to eq('Forbidden')

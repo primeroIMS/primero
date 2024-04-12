@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import {
   Home,
   Assessment,
@@ -19,7 +21,14 @@ import PropTypes from "prop-types";
 import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
 import SignalWifi4BarIcon from "@material-ui/icons/SignalWifi4Bar";
 
-import { CasesIcon, IncidentsIcon, LogoutIcon, Insights, RegistryRecordIcon } from "../../images/primero-icons";
+import {
+  CasesIcon,
+  FamilyIcon,
+  IncidentsIcon,
+  Insights,
+  LogoutIcon,
+  RegistryRecordIcon
+} from "../../images/primero-icons";
 
 const ListIcon = ({ icon }) => {
   switch (icon) {
@@ -69,6 +78,8 @@ const ListIcon = ({ icon }) => {
       return <SignalWifiOffIcon />;
     case "connected":
       return <SignalWifi4BarIcon />;
+    case "families":
+      return <FamilyIcon />;
     default:
       return null;
   }

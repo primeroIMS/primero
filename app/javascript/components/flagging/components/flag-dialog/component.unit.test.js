@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { setupMountedComponent } from "../../../../test";
 import ActionDialog from "../../../action-dialog";
 import DialogTabs from "../dialog-tabs";

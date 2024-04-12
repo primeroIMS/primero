@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
@@ -45,13 +47,11 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUn
   );
 
   return (
-    <div className={classes}>
-      {handleVisibility() || (
-        <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
-          {renderField}
-        </ConditionalWrapper>
-      )}
-    </div>
+    handleVisibility() || (
+      <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
+        <div data-testid="form-section-field" className={classes}>{renderField}</div>
+      </ConditionalWrapper>
+    )
   );
 };
 

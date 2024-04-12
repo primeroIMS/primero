@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Superclass for nearly all Primero CRUD API calls
 class ApplicationApiController < ActionController::API
   include CanCan::ControllerAdditions
@@ -26,16 +28,6 @@ class ApplicationApiController < ActionController::API
     records.each do |record|
       authorize!(permission, record)
     end
-  end
-
-  # Devise Magic method, explicitly declared.
-  def current_user
-    super
-  end
-
-  # Devise Magic method, explicitly declared.
-  def authenticate_user!
-    super
   end
 
   def check_config_update_lock!

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe RecordJsonValidatorService do
@@ -40,7 +42,7 @@ describe RecordJsonValidatorService do
     ]
   end
 
-  let(:service) { RecordJsonValidatorService.new(fields: fields) }
+  let(:service) { RecordJsonValidatorService.new(fields:) }
 
   describe '.valid?' do
     describe 'TEXT_FIELD' do

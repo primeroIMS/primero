@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::WebhooksController, type: :request do
@@ -21,8 +23,8 @@ describe Api::V2::WebhooksController, type: :request do
       url: 'url_1',
       role_unique_id: 'role_unique_id_1',
       metadata: {
-        tag: 'tag_1',
-      },
+        tag: 'tag_1'
+      }
     )
     @webhook_b = Webhook.create!(
       id: 'webhook_2',
@@ -30,8 +32,8 @@ describe Api::V2::WebhooksController, type: :request do
       url: 'url_2',
       role_unique_id: 'role_unique_id_2',
       metadata: {
-        tag: 'tag_2',
-      },
+        tag: 'tag_2'
+      }
     )
     @webhook_c = Webhook.create!(
       id: 'webhook_3',
@@ -39,8 +41,8 @@ describe Api::V2::WebhooksController, type: :request do
       url: 'url_3',
       role_unique_id: 'role_unique_id_3',
       metadata: {
-        tag: 'tag_3',
-      },
+        tag: 'tag_3'
+      }
     )
   end
 
@@ -62,7 +64,7 @@ describe Api::V2::WebhooksController, type: :request do
       expect(json['data'][0]['events']).to eq(@webhook_a.events)
       expect(json['data'][0]['url']).to eq(@webhook_a.url)
       expect(json['data'][0]['role_unique_id']).to eq(@webhook_a.role_unique_id)
-      expect(json['data'][0]['metadata']).to eq('tag' => 'tag_1') 
+      expect(json['data'][0]['metadata']).to eq('tag' => 'tag_1')
     end
 
     it 'returns 403 if user is not authorized to access' do
@@ -103,7 +105,7 @@ describe Api::V2::WebhooksController, type: :request do
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['resource']).to eq("/api/v2/webhooks/#{@webhook_b.id}")
       expect(json['errors'][0]['message']).to eq('Forbidden')
-    end 
+    end
 
     it 'returns a 404 when trying to fetch a record with a non-existant id' do
       login_for_test(
@@ -137,10 +139,9 @@ describe Api::V2::WebhooksController, type: :request do
         }
       }
 
-      post '/api/v2/webhooks', params: params
+      post('/api/v2/webhooks', params:)
       expect(response).to have_http_status(200)
       expect(json['data']['unique_id']).to eq(params[:data][:unique_id])
-
     end
 
     it 'returns 403 if user is not authorized to access' do
@@ -161,7 +162,7 @@ describe Api::V2::WebhooksController, type: :request do
         }
       }
 
-      post '/api/v2/webhooks', params: params
+      post('/api/v2/webhooks', params:)
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'].first['message']).to eq('Forbidden')
@@ -186,7 +187,7 @@ describe Api::V2::WebhooksController, type: :request do
         }
       }
 
-      patch "/api/v2/webhooks/#{@webhook_a.id}", params: params
+      patch("/api/v2/webhooks/#{@webhook_a.id}", params:)
       expect(response).to have_http_status(200)
       expect(json['data']['url']).to eq(params[:data][:url])
       expect(json['data']['role_unique_id']).to eq(params[:data][:role_unique_id])
@@ -201,7 +202,7 @@ describe Api::V2::WebhooksController, type: :request do
       )
       params = {}
 
-      patch '/api/v2/webhooks/thisdoesntexist', params: params
+      patch('/api/v2/webhooks/thisdoesntexist', params:)
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/webhooks/thisdoesntexist')
@@ -215,7 +216,7 @@ describe Api::V2::WebhooksController, type: :request do
       )
       params = {}
 
-      patch "/api/v2/webhooks/#{@webhook_a.id}", params: params
+      patch("/api/v2/webhooks/#{@webhook_a.id}", params:)
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['resource']).to eq("/api/v2/webhooks/#{@webhook_a.id}")
       expect(json['errors'][0]['message']).to eq('Forbidden')
@@ -233,7 +234,7 @@ describe Api::V2::WebhooksController, type: :request do
       delete "/api/v2/webhooks/#{@webhook_a.id}"
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@webhook_a.id)
-      expect(Webhook.find_by(id: @webhook_a.id).nil?).to be true 
+      expect(Webhook.find_by(id: @webhook_a.id).nil?).to be true
     end
 
     it 'returns 403 if user is not authorized to access' do

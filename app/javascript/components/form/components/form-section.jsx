@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { useState } from "react";
 import PropTypes from "prop-types";

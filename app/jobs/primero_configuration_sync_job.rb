@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Send a Primero configuration to another instance of Primero
 class PrimeroConfigurationSyncJob < ApplicationJob
   queue_as :api

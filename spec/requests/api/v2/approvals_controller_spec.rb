@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::ApprovalsController, type: :request do
@@ -38,9 +40,9 @@ describe Api::V2::ApprovalsController, type: :request do
           Permission.new(resource: Permission::CASE, actions: [approval_permission])
         ])
 
-      params = { data: { approval_status: Approval::APPROVAL_STATUS_REQUESTED, approval_type: approval_type } }
+      params = { data: { approval_status: Approval::APPROVAL_STATUS_REQUESTED, approval_type: } }
 
-      patch "/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params: params
+      patch("/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['record']['id']).to eq(@case.id.to_s)
@@ -80,7 +82,7 @@ describe Api::V2::ApprovalsController, type: :request do
 
       params = { data: { approval_status: Approval::APPROVAL_STATUS_APPROVED, notes: 'some notes' } }
 
-      patch "/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params: params
+      patch("/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['record']['id']).to eq(@case.id.to_s)
@@ -107,7 +109,7 @@ describe Api::V2::ApprovalsController, type: :request do
           Permission.new(resource: Permission::CASE, actions: [approval_permission])
         ])
       params = { data: { approval_status: Approval::APPROVAL_STATUS_APPROVED, notes: 'some notes' } }
-      patch "/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params: params
+      patch("/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['record']['id']).to eq(@case.id.to_s)
@@ -140,7 +142,7 @@ describe Api::V2::ApprovalsController, type: :request do
           Permission.new(resource: Permission::CASE, actions: [approval_permission])
         ])
       params = { data: { approval_status: Approval::APPROVAL_STATUS_REJECTED, notes: 'some notes' } }
-      patch "/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params: params
+      patch("/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['record']['id']).to eq(@case.id.to_s)
@@ -160,7 +162,7 @@ describe Api::V2::ApprovalsController, type: :request do
 
       params = { data: { approval_status: Approval::APPROVAL_STATUS_REJECTED, notes: 'some notes' } }
 
-      patch "/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params: params
+      patch("/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['record']['id']).to eq(@case.id.to_s)
@@ -191,7 +193,7 @@ describe Api::V2::ApprovalsController, type: :request do
 
       params = { data: { approval_status: Approval::APPROVAL_STATUS_REQUESTED, notes: 'some notes' } }
 
-      patch "/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params: params
+      patch("/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['status']).to eq(403)
@@ -210,9 +212,9 @@ describe Api::V2::ApprovalsController, type: :request do
           )
         ])
 
-      params = { data: { approval_status: approval_status, notes: 'some notes' } }
+      params = { data: { approval_status:, notes: 'some notes' } }
 
-      patch "/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params: params
+      patch("/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['status']).to eq(403)
@@ -312,7 +314,7 @@ describe Api::V2::ApprovalsController, type: :request do
 
       params = { data: { approval_status: Approval::APPROVAL_STATUS_REQUESTED } }
 
-      patch '/api/v2/cases/77ad6b98-3c5e-11ea-b77f-2e728ce88125/approvals/assessment', params: params
+      patch('/api/v2/cases/77ad6b98-3c5e-11ea-b77f-2e728ce88125/approvals/assessment', params:)
 
       expect(response).to have_http_status(404)
       expect(json['errors'][0]['status']).to eq(404)
@@ -330,7 +332,7 @@ describe Api::V2::ApprovalsController, type: :request do
 
       params = { data: { approval_status: Approval::APPROVAL_STATUS_REQUESTED } }
 
-      patch "/api/v2/cases/#{@case.id}/approvals/unknown-approval-id", params: params
+      patch("/api/v2/cases/#{@case.id}/approvals/unknown-approval-id", params:)
 
       expect(response).to have_http_status(404)
       expect(json['errors'][0]['status']).to eq(404)
@@ -346,7 +348,7 @@ describe Api::V2::ApprovalsController, type: :request do
 
       params = { data: { approval_status: 'open' } }
 
-      patch "/api/v2/cases/#{@case.id}/approvals/assessment", params: params
+      patch("/api/v2/cases/#{@case.id}/approvals/assessment", params:)
 
       expect(response).to have_http_status(422)
       expect(json['errors'][0]['status']).to eq(422)

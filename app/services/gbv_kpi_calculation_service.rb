@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # GBVKpiCalculationService
 #
 # Provides methods for calulating the cached information required for the
@@ -128,7 +130,7 @@ class GBVKpiCalculationService
 
     return FormSectionResponseList.new(responses: [], form_section: nil) unless form_section
 
-    FormSectionResponseList.new(responses: form_section_results, form_section: form_section)
+    FormSectionResponseList.new(responses: form_section_results, form_section:)
   end
 
   # Cache data so that it can be shared across kpi calculations
@@ -144,7 +146,7 @@ class GBVKpiCalculationService
   end
 
   def access_migrated_forms(form_section_unique_id)
-    @record.respond_to?(form_section_unique_id) && @record.send(form_section_unique_id) || [@record.data]
+    (@record.respond_to?(form_section_unique_id) && @record.send(form_section_unique_id)) || [@record.data]
   end
 
   def percentage_goals_met(goals)

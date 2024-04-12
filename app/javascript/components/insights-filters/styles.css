@@ -1,3 +1,5 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
 .container {
   display: flex;
   width: 100%;
@@ -30,10 +32,6 @@
   & > div {
     margin: 0;
     width: calc(50% - var(--sp-1));
-  }
-
-  & > div:nth-last-child(-n+2) {
-    margin-top: var(--sp-2);
   }
 }
 

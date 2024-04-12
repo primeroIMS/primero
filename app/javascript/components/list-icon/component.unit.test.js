@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { shallow } from "enzyme";
 
 import { CasesIcon, IncidentsIcon } from "../../images/primero-icons";

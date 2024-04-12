@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { Accordion, AccordionSummary, AccordionDetails } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -6,7 +8,7 @@ import FilterInput from "../filter-input";
 
 const Component = ({ name, handleSetFilterValue, options, id, filterValues }) => {
   return (
-    <Accordion elevation={3} defaultExpanded>
+    <Accordion elevation={3} defaultExpanded data-testid="test">
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>{name}</AccordionSummary>
       <AccordionDetails>
         <FilterInput
