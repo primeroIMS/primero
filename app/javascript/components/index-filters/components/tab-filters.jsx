@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useMemo } from "react";
 import { useWatch } from "react-hook-form";
 import PropTypes from "prop-types";
@@ -15,8 +17,6 @@ import css from "./styles.css";
 import FilterCategory from "./filter-category";
 
 const TabFilters = ({
-  addFilterToList,
-  filterToList,
   formMethods,
   handleClear,
   handleSave,
@@ -43,12 +43,11 @@ const TabFilters = ({
 
   return (
     <div className={css.tabContent}>
-      <Actions handleSave={handleSave} handleClear={handleClear} />
+      <Actions handleSave={handleSave} handleClear={() => handleClear()} />
       {hasPrimeroModuleMRM && RECORD_TYPES_PLURAL.incident === recordType && (
         <FilterCategory formMethods={formMethods} />
       )}
       <RecordFilters
-        addFilterToList={addFilterToList}
         defaultFilters={allDefaultFilters}
         filters={filters}
         more={more}
@@ -61,10 +60,8 @@ const TabFilters = ({
         setReset={setReset}
       />
       <MoreSection
-        addFilterToList={addFilterToList}
         allAvailable={filters}
         defaultFilters={allDefaultFilters}
-        filterToList={filterToList}
         more={more}
         moreSectionFilters={moreSectionFilters}
         primaryFilters={allPrimaryFilters}
@@ -79,8 +76,6 @@ const TabFilters = ({
 TabFilters.displayName = "TabFilters";
 
 TabFilters.propTypes = {
-  addFilterToList: PropTypes.func,
-  filterToList: PropTypes.object,
   formMethods: PropTypes.object,
   handleClear: PropTypes.func,
   handleSave: PropTypes.func,

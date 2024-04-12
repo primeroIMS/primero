@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { Paper } from "@material-ui/core";
 import clsx from "clsx";
@@ -11,7 +13,7 @@ const TabPanel = ({ tab, index, children }) => {
   });
 
   return (
-    <Paper elevation={0} className={className}>
+    <Paper elevation={0} className={className} data-testid="tab-panel">
       {children}
     </Paper>
   );

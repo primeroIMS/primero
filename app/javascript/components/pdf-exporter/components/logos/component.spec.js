@@ -1,5 +1,4 @@
 import { mountedComponent, screen } from "../../../../test-utils";
-
 import Logos from "./component";
 
 describe("<Logos />", () => {

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
 import PropTypes from "prop-types";
@@ -38,7 +40,7 @@ const Component = ({ item }) => {
   const renderChange = item.change && renderMessage(item.change);
 
   return (
-    <TimelineItem>
+    <TimelineItem data-testid="timeline">
       <TimelineSeparator>
         <TimelineDot variant="outlined" color="primary" />
         <TimelineConnector />

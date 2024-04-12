@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export { submitHandler } from "./form-submission";
 export { touchedFormData } from "./touched-data";
 export { whichFormMode } from "./which-mode";

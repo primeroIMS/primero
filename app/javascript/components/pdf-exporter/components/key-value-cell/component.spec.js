@@ -1,5 +1,4 @@
 import { mountedComponent, screen } from "../../../../test-utils";
-
 import KeyValueCell from "./component";
 
 describe("components/record-actions/exports/components/pdf-exporter/components/key-value-cell", () => {

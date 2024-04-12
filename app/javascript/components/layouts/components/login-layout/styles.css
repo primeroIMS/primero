@@ -1,3 +1,5 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
 .gbv {
   border: 1px solid var(--c-purple);
   background-color: var(--c-purple);
@@ -19,14 +21,24 @@
 }
 
 .cp-demo {
-  background: repeating-linear-gradient(45deg, var(--c-dark-blue), var(--c-dark-blue) 10px, var(--c-blue) 10px, var(--c-blue) 20px);
+  background: repeating-linear-gradient(45deg, var(--c-dark-blue), var(--c-dark-blue) 10px, var(--c-blue) 10px, var(--c-blue) 20px) !important;
+}
+
+:global html, :global body {
+  height: var(--doc-height, 100vh);
 }
 
 .primeroBackground {
-  height: 100vh;
+  height: var(--doc-height, 100vh);
   overflow: auto;
   display: flex;
   flex-direction: column;
+  background: var(--c-login-background-gradient-start);
+  background: linear-gradient(108deg, var(--c-login-background-gradient-start) 0%, var(--c-login-background-gradient-end) 100%);
+}
+
+.primeroBackgroundImage {
+  background: center/70% no-repeat var(--c-login-background-image), linear-gradient(108deg, var(--c-login-background-gradient-start) 0%, var(--c-login-background-gradient-end) 100%);
 }
 
 .content {
@@ -36,6 +48,8 @@
 }
 
 .authContainer {
+  flex-direction: column;
+  gap: var(--sp-2);
   display: flex;
   flex: 1;
   align-items: center;
@@ -104,21 +118,33 @@
 .footer {
   font-size: var(--fs-12);
   flex-shrink: 0;
+  padding: var(--sp-1);
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1em;
+
+  & > div:first-of-type {
+    flex: 1;
+  }
+}
+
+.footer button {
+  background: var(--c-login-translations-button-background);
+  color: var(--c-login-translations-button-text);
+  width: 260px;
 }
 
 .footer button,
 .footer a {
   font-size: var(--fs-13);
-  color: var(--c-white);
+  color: var(--c-login-translations-button-text);
 }
 
 .footer button,
 .footer button > span > svg {
-  color: var(--c-white);
-}
-
-.footer:last-child {
-  padding-right: 15px;
+  color: var(--c-login-translations-button-text);
 }
 
 .footer .navLink {
@@ -132,6 +158,10 @@
 
 .footer .navLink span {
   padding-left: 10px;
+}
+
+.footerContained {
+  flex-direction: column;
 }
 
 @media (max-width:599.95px) {

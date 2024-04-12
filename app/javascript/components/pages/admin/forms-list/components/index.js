@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export { default as DragIndicator } from "./drag-indicator";
 export { default as FilterInput } from "./filter-input";
 export { default as FiltersExpansionPanel } from "./filters-expansion-panel";

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { mountedComponent, userEvent, screen } from "test-utils";
 
 import { ACCEPTED, REJECTED } from "../../config";

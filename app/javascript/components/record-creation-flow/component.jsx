@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Drawer } from "@material-ui/core";
@@ -10,7 +12,7 @@ import { useDispatch } from "react-redux";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import { useI18n } from "../i18n";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getOptionFromAppModule } from "../application/selectors";
 import { SEARCH_OR_CREATE_FILTERS } from "../record-list/constants";
 import { applyFilters } from "../index-filters";
