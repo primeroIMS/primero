@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 fields = [
   Field.new(name: 'record_state',
             type: 'tick_box',
@@ -49,7 +51,7 @@ FormSection.create_or_update!(
   order_form_group: 1000,
   form_group_id: 'other_reportable_fields',
   editable: true,
-  fields: fields,
+  fields:,
   name_en: 'Other Reportable Fields',
   description_en: 'Other Reportable Fields'
 )

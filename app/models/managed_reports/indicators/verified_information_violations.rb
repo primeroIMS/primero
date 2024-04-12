@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the type of use of violation type Recruitment
 class ManagedReports::Indicators::VerifiedInformationViolations < ManagedReports::SqlReportIndicator
   include ManagedReports::GhnIndicatorHelper
@@ -24,6 +26,7 @@ class ManagedReports::Indicators::VerifiedInformationViolations < ManagedReports
           OR violations.data ->> 'type' = 'attack_on_schools'
           OR violations.data ->> 'type' = 'denial_humanitarian_access')
           and violations.data->>'ctfmr_verified' = 'verified'
+          and violations.data ->> 'is_late_verification' != 'true'
           #{date_range_query(date_filter_param(params['ghn_date_filter']), 'violations')&.prepend('and ')}
         GROUP BY
         violations.data ->> 'type'

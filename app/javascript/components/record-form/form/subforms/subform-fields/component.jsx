@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable  react/no-array-index-key */
 import { useState } from "react";
 import PropTypes from "prop-types";
@@ -38,7 +40,10 @@ const Component = ({
   parentForm,
   isViolationAssociation,
   entryFilter = false,
-  parentTitle
+  parentTitle,
+  isFamilyMember,
+  isFamilyDetail,
+  isReadWriteForm
 }) => {
   const i18n = useI18n();
 
@@ -62,6 +67,18 @@ const Component = ({
   const { subform_prevent_item_removal: subformPreventItemRemoval } = subformField;
 
   const { isEdit, isNew } = mode;
+
+  const canDeleteFamilySubform = index => {
+    if (isFamilyDetail) {
+      return !formik?.values?.family_id;
+    }
+
+    if (isFamilyMember) {
+      return !values[index]?.case_id;
+    }
+
+    return true;
+  };
 
   const handleDelete = () => {
     const index = selectedIndex;
@@ -161,19 +178,23 @@ const Component = ({
                 renderSecondaryText={Boolean(entryFilter)}
                 associatedViolations={associatedViolations}
                 parentTitle={parentTitle}
+                mode={mode}
               />
               <ListItemSecondaryAction classes={{ root: css.listActions }}>
                 {isTracesSubform && <TracingRequestStatus values={values[index]} />}
                 {hasError(index) && <Jewel isError />}
-                {!subformPreventItemRemoval && !isDisabled && !mode.isShow ? (
+                {!subformPreventItemRemoval && !isDisabled && !mode.isShow && isReadWriteForm ? (
                   <ActionButton
                     id={`delete-button-${name}-${index}`}
                     icon={<DeleteIcon />}
                     type={ACTION_BUTTON_TYPES.icon}
+                    tooltip={
+                      !canDeleteFamilySubform(index) ? i18n.t("case.family_linked_subform_delete_disabled") : null
+                    }
                     rest={{
                       onClick: () => handleOpenModal(index),
                       // TODO: disable only when there is no violation or association
-                      disabled: isViolationSubform || isViolationAssociation
+                      disabled: isViolationSubform || isViolationAssociation || !canDeleteFamilySubform(index)
                     }}
                   />
                 ) : null}
@@ -215,6 +236,9 @@ Component.propTypes = {
   entryFilter: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
+  isFamilyDetail: PropTypes.bool,
+  isFamilyMember: PropTypes.bool,
+  isReadWriteForm: PropTypes.bool,
   isTracesSubform: PropTypes.bool,
   isViolationAssociation: PropTypes.bool,
   isViolationSubform: PropTypes.bool,

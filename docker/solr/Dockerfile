@@ -1,5 +1,7 @@
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}solr:8.11.2-slim
+FROM ${BUILD_REGISTRY}solr:8.11.3-slim
 
 ENV SOLR_PACKAGES gettext curl
 ENV SOLR_USER=solr

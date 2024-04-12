@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { RADIO_FIELD, SELECT_FIELD, TICK_FIELD } from "../../../form";
 import { NOT_NULL } from "../../constants";
 

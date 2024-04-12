@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe ManagedReports::Indicators::PerpetratorsDetention do
@@ -234,7 +236,8 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
           [
             { group_id: 2020, data: [{ id: 'armed_force_1', male: 2, unknown: 1, total: 3 }] },
             { group_id: 2021, data: [{ id: 'other_party_1', male: 1, total: 1 }] },
-            { group_id: 2022, data: [{ id: 'other_party_2', female: 1, total: 1 }, { id: 'unknown', female: 1, total: 1 }] }
+            { group_id: 2022,
+              data: [{ id: 'other_party_2', female: 1, total: 1 }, { id: 'unknown', female: 1, total: 1 }] }
           ]
         )
       end

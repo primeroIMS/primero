@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Concern for Record Violence Type Subreport Exporter
 class Exporters::RecordViolenceTypeSubreportExporter < Exporters::SubreportExporter
   include Exporters::Concerns::RecordFilterInsightParams
@@ -13,7 +15,7 @@ class Exporters::RecordViolenceTypeSubreportExporter < Exporters::SubreportExpor
     return [] unless violence_type_filter.present?
 
     [
-      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.cp_incident_violence_type', locale: locale)}: ",
+      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.cp_incident_violence_type', locale:)}: ",
       formats[:black], "#{violence_type_display_text} / "
     ]
   end
@@ -23,7 +25,7 @@ class Exporters::RecordViolenceTypeSubreportExporter < Exporters::SubreportExpor
     return unless filter.present?
 
     Lookup.values(
-      'lookup-gbv-sexual-violence-type', nil, { locale: locale }
+      'lookup-gbv-sexual-violence-type', nil, { locale: }
     ).find { |elem| elem['id'] == filter.value }&.dig('display_text')
   end
 

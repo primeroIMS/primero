@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState } from "react";
 import PropTypes from "prop-types";
 import AddIcon from "@material-ui/icons/Add";
@@ -84,7 +86,7 @@ const Component = ({
   };
 
   return (
-    <div>
+    <div data-testid="subForm-add">
       <ActionButton
         id="fields.add"
         icon={<AddIcon />}
@@ -96,10 +98,11 @@ const Component = ({
         }}
       />
       {shouldRenderViolationAssociationMenu && (
-        <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+        <Menu data-testid="menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
           {associationOptions.map(option => {
             return (
               <MenuItem
+                data-testid="menu-item"
                 key={option.id}
                 component={Button}
                 value={option.id}

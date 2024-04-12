@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Apply the Configuration
 
 Apply the saved Primero configuration state. This will replace the currently configured Forms, Fields, Lookups, and Reports with those in the configuration state, deleting the ones that are left over. Agencies, Roles, and UserGroups are updated according to this configuration state. If agencies, user groups, or roles were created after this configuration was generated, they will not be removed or modified.

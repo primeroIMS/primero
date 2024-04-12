@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { spy, createMockStore } from "../../test";
 
 import offlineDispatchSuccess from "./offline-dispatch-success";
