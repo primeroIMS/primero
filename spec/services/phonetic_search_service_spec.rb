@@ -29,7 +29,7 @@ describe PhoneticSearchService, search: true do
       end
 
       it 'matches the list filter' do
-        filter = SearchFilters::ValueList.new(field_name: 'sex', values: %w[male])
+        filter = SearchFilters::TextList.new(field_name: 'sex', values: %w[male])
         search = PhoneticSearchService.search(Child, filters: [filter])
 
         expect(search.total).to eq(1)
@@ -45,7 +45,7 @@ describe PhoneticSearchService, search: true do
       end
 
       it 'matches the not filter for a list' do
-        filter = SearchFilters::ValueList.new(field_name: 'sex', values: %w[male], not_filter: true)
+        filter = SearchFilters::TextList.new(field_name: 'sex', values: %w[male], not_filter: true)
         search = PhoneticSearchService.search(Child, filters: [filter])
 
         expect(search.total).to eq(3)
@@ -258,7 +258,7 @@ describe PhoneticSearchService, search: true do
       end
 
       it 'searches a list of id filters' do
-        filter = SearchFilters::ValueList.new(field_name: 'case_id', values: [record1.case_id, record2.case_id])
+        filter = SearchFilters::TextList.new(field_name: 'case_id', values: [record1.case_id, record2.case_id])
         search = PhoneticSearchService.search(Child, filters: [filter])
 
         expect(search.total).to eq(2)
@@ -552,7 +552,7 @@ describe PhoneticSearchService, search: true do
     end
 
     it 'search with filters' do
-      filter = SearchFilters::ValueList.new(field_name: 'violation_category', values: %w[killing maiming])
+      filter = SearchFilters::TextList.new(field_name: 'violation_category', values: %w[killing maiming])
       search = PhoneticSearchService.search(Incident, filters: [filter], sort: { 'created_at' => 'desc' })
 
       expect(search.total).to eq(2)

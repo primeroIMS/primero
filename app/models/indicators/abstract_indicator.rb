@@ -74,7 +74,7 @@ module Indicators
     def with_scope_to_owned_by_groups(user)
       return [] unless scope_to_owned_by_groups
 
-      [SearchFilters::ValueList.new(field_name: 'owned_by_groups', values: user.user_group_unique_ids)]
+      [SearchFilters::TextList.new(field_name: 'owned_by_groups', values: user.user_group_unique_ids)]
     end
 
     def with_scope_to_not_last_update(user)

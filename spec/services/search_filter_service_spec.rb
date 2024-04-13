@@ -132,7 +132,7 @@ describe SearchFilterService do
 
     it 'builds a value list filter from a value list' do
       filter = service.build_filters({ 'sex' => %w[male female] }, Child).first
-      expect(filter).to be_instance_of(SearchFilters::ValueList)
+      expect(filter).to be_instance_of(SearchFilters::TextList)
       expect(filter.field_name).to eq('sex')
       expect(filter.values).to eq(%w[male female])
     end
