@@ -20,6 +20,7 @@ class Incident < ApplicationRecord
   include GenderBasedViolence
   include MonitoringReportingMechanism
   include LocationCacheable
+  include PhoneticSearchable
 
   store_accessor(
     :data,
@@ -61,6 +62,10 @@ class Incident < ApplicationRecord
 
     def quicksearch_fields
       filterable_id_fields + %w[super_incident_name incident_description individual_ids]
+    end
+
+    def phonetic_field_names
+      %w[super_incident_name incident_description]
     end
 
     def summary_field_names

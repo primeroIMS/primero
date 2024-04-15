@@ -17,6 +17,7 @@ class RegistryRecord < ApplicationRecord
   include Attachable
   include EagerLoadable
   include LocationCacheable
+  include PhoneticSearchable
 
   store_accessor(
     :data,
@@ -47,6 +48,10 @@ class RegistryRecord < ApplicationRecord
 
     def sortable_text_fields
       %w[registry_type short_id name]
+    end
+
+    def phonetic_field_names
+      %w[name]
     end
   end
 

@@ -5,6 +5,7 @@
 # Concern that describes how fields on forms should be indexed in Sunspot.
 module Searchable
   extend ActiveSupport::Concern
+  # TODO: This is only used in this concern for text indexing.
   PHONETIC_FIELD_NAMES = %w[name name_nickname name_other relation_name relation_nickname relation_other_family
                             tracing_names tracing_nicknames].freeze
 

@@ -827,6 +827,17 @@ describe Incident do
     end
   end
 
+  describe 'phonetic tokens' do
+    before do
+      clean_data(Incident)
+    end
+
+    it 'generates the phonetic tokens' do
+      incident = Incident.create!(data: { super_incident_name: 'George', incident_description: 'New Incident' })
+      expect(incident.tokens).to eq(%w[JRJ N ANST])
+    end
+  end
+
   private
 
   def create_incident_with_created_by(created_by, options = {})

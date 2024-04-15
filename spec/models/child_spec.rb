@@ -1127,6 +1127,17 @@ describe Child do
     end
   end
 
+  describe 'phonetic tokens' do
+    before do
+      clean_data(Child)
+    end
+
+    it 'generates the phonetic tokens' do
+      child = Child.create!(data: { name: 'George', name_nickname: 'Wolf', name_other: 'Joe' })
+      expect(child.tokens).to eq(%w[JRJ ALF J])
+    end
+  end
+
   after do
     clean_data(Incident, Child, Field, FormSection, PrimeroModule)
   end

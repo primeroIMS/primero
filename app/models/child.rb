@@ -97,6 +97,10 @@ class Child < ApplicationRecord
     filterable_id_fields + NAME_FIELDS
   end
 
+  def self.phonetic_field_names
+    NAME_FIELDS
+  end
+
   def self.summary_field_names
     common_summary_fields + %w[
       case_id_display name survivor_code_no age sex registration_date

@@ -30,6 +30,17 @@ describe Family do
     end
   end
 
+  describe 'phonetic tokens' do
+    before do
+      clean_data(Family)
+    end
+
+    it 'generates the phonetic tokens' do
+      registry_record = Family.create!(data: { family_name: 'Miller' })
+      expect(registry_record.tokens).to eq(%w[MLR])
+    end
+  end
+
   after do
     clean_data(Family)
   end

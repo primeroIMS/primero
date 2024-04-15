@@ -79,6 +79,17 @@ describe RegistryRecord do
     end
   end
 
+  describe 'phonetic tokens' do
+    before do
+      clean_data(RegistryRecord)
+    end
+
+    it 'generates the phonetic tokens' do
+      registry_record = RegistryRecord.create!(data: { name: 'Miller' })
+      expect(registry_record.tokens).to eq(%w[MLR])
+    end
+  end
+
   after do
     clean_data(RegistryRecord)
   end
