@@ -106,6 +106,8 @@ class SearchFilterService
       build_range_list_filter(field_name, value, not_filter)
     elsif SearchFilterService.boolean?(value.first)
       SearchFilters::BooleanList.new(field_name:, values: value, not_filter:)
+    elsif value.first.is_a?(String)
+      SearchFilters::TextList.new(field_name:, values: value, not_filter:)
     else
       SearchFilters::ValueList.new(field_name:, values: value, not_filter:)
     end

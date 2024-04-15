@@ -10,18 +10,9 @@ class SearchFilters::BooleanValue < SearchFilters::Value
       [
         %(
           (
-            data ? :field_name AND
-            (
-               JSONB_TYPEOF(data->:field_name) = 'array' AND EXISTS (
-                 SELECT 1 FROM JSONB_ARRAY_ELEMENTS_TEXT(data->:field_name) AS array_field
-                 WHERE CAST(COALESCE(array_field, 'false') as boolean) = :value
-              ) OR (
-               JSONB_TYPEOF(data->:field_name) != 'array'
-                 AND CAST(COALESCE(data->>:field_name, 'false') AS BOOLEAN) = :value
-              )
-            )
+            data->>:field_name IS NOT NULL AND data->:field_name @> TO_JSONB(:value)
           ) OR (
-            NOT data ? :field_name AND FALSE = :value
+            data->>:field_name IS NULL AND FALSE = :value
           )
         ),
         { field_name:, value: }

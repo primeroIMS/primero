@@ -27,24 +27,13 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
 
   # rubocop:disable Metrics/MethodLength
   def query
+    return unless values.present?
+
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
         %(
           (
-            data ? :field_name  AND (
-              (
-                JSONB_TYPEOF(data->:field_name) = 'array'
-                AND EXISTS (
-                    SELECT
-                      1
-                    FROM JSONB_ARRAY_ELEMENTS(data->:field_name) AS array_field
-                    WHERE array_field <@ JSONB_BUILD_ARRAY(:values)
-                )
-              ) OR (
-                JSONB_TYPEOF(data->:field_name) != 'array'
-                AND data->:field_name <@ JSONB_BUILD_ARRAY(:values)
-              )
-            )
+            data->>:field_name IS NOT NULL AND (#{values_query})
           )
         ),
         { field_name:, values: }
@@ -52,6 +41,14 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
     )
   end
   # rubocop:enable Metrics/MethodLength
+
+  def values_query
+    values.map do |value|
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        ['data->:field_name @> TO_JSONB(:value)', { field_name:, value: }]
+      )
+    end.join(' OR ')
+  end
 
   def as_location_filter(record_class)
     return self unless location_field_filter?(record_class)

@@ -319,7 +319,7 @@ describe MonitoringReportingMechanism, search: true do
     search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::ValueList.new(field_name: 'verified_ghn_reported', values: %w[2022-q1 2022-q2])
+        SearchFilters::TextList.new(field_name: 'verified_ghn_reported', values: %w[2022-q1 2022-q2])
       ],
       sort: { 'short_id' => 'asc' }
     )
@@ -451,7 +451,7 @@ describe MonitoringReportingMechanism, search: true do
     search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::ValueList.new(field_name: 'late_verified_violations', values: %w[killing])
+        SearchFilters::TextList.new(field_name: 'late_verified_violations', values: %w[killing])
       ],
       sort: { 'short_id' => 'asc' }
     )
@@ -464,7 +464,7 @@ describe MonitoringReportingMechanism, search: true do
     search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::ValueList.new(field_name: 'perpetrator_category', values: %w[crossfire])
+        SearchFilters::TextList.new(field_name: 'perpetrator_category', values: %w[crossfire])
       ],
       sort: { 'short_id' => 'asc' }
     )
@@ -477,7 +477,7 @@ describe MonitoringReportingMechanism, search: true do
     search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::ValueList.new(field_name: 'ctfmr_verified_date', values: [Date.today.end_of_quarter])
+        SearchFilters::TextList.new(field_name: 'ctfmr_verified_date', values: [Date.today.end_of_quarter])
       ],
       sort: { 'short_id' => 'asc' }
     )

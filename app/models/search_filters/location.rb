@@ -20,11 +20,7 @@ module SearchFilters::Location
               INNER JOIN locations AS descendants
               ON locations.admin_level <= descendants.admin_level
                 AND locations.hierarchy_path @> descendants.hierarchy_path
-              WHERE locations.location_code #{value_query} AND (
-                (JSONB_TYPEOF(data->:field_name) = 'array' AND data->:field_name ? descendants.location_code) OR (
-                  JSONB_TYPEOF(data->:field_name) != 'array' AND descendants.location_code = data->>:field_name
-                )
-              )
+              WHERE locations.location_code #{value_query} AND data->:field_name ? descendants.location_code
             )
           )
         ),

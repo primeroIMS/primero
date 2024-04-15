@@ -20,7 +20,7 @@ module Indicators
 
     OPEN_CLOSED_ENABLED = [
       SearchFilters::BooleanValue.new(field_name: 'record_state', value: true),
-      SearchFilters::ValueList.new(field_name: 'status', values: [Record::STATUS_OPEN, Record::STATUS_CLOSED])
+      SearchFilters::TextList.new(field_name: 'status', values: [Record::STATUS_OPEN, Record::STATUS_CLOSED])
     ].freeze
 
     OPEN = QueriedIndicator.new(
