@@ -136,13 +136,24 @@ module FakeDeviseLogin
     agency_id = opts[:agency_id]
     user_group_ids = opts[:user_group_ids] || []
     user = User.new(user_name:, user_group_ids:, agency_id:)
+    stub_role(user, opts)
+    stub_user_group_unique_ids(user, opts)
+    user.id = opts[:id]
+    user
+  end
+
+  def stub_role(user, opts = {})
     if opts[:role].present?
       user.role = opts[:role]
     else
       user.stub(:role).and_return(fake_role(opts))
     end
-    user.id = opts[:id]
-    user
+  end
+
+  def stub_user_group_unique_ids(user, opts = {})
+    return unless opts[:user_group_unique_ids].present?
+
+    user.stub(:user_group_unique_ids).and_return(opts[:user_group_unique_ids])
   end
 
   def permit_fields(opts = {})

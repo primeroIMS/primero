@@ -28,16 +28,30 @@ module Indicators
       end
     end
 
-    def query(_)
-      raise NotImplementedError
-    end
-
     def facet_name
       name
     end
 
     def stat_query_strings(_, _, _)
       raise NotImplementedError
+    end
+
+    def stats_for_indicator(user)
+      indicator_filters = filters(user)
+      user_query_scope = user.record_query_scope(record_model, false)
+      write_stats_for_indicator(indicator_filters, user_query_scope)
+    end
+
+    def write_stats_for_indicator(_, _)
+      raise NotImplementedError
+    end
+
+    def query(indicator_filters, user_query_scope)
+      query = Search::SearchScope.apply(user_query_scope, record_model)
+      indicator_filters.each do |filter|
+        query = filter.not_filter ? query.where.not(filter.query) : query.where(filter.query)
+      end
+      query
     end
 
     protected
@@ -60,7 +74,7 @@ module Indicators
     def with_scope_to_owned_by_groups(user)
       return [] unless scope_to_owned_by_groups
 
-      [SearchFilters::ValueList.new(field_name: 'owned_by_groups', value: user.user_group_unique_ids)]
+      [SearchFilters::ValueList.new(field_name: 'owned_by_groups', values: user.user_group_unique_ids)]
     end
 
     def with_scope_to_not_last_update(user)
@@ -89,6 +103,10 @@ module Indicators
           values: user.user_group_unique_ids, type: Transfer.name, record_type: record_model.name
         )
       ]
+    end
+
+    def filters(user)
+      query_scope(user) + scope
     end
 
     def scope_query_strings

@@ -5,7 +5,7 @@
 require 'rails_helper'
 
 describe Api::V2::DashboardsController, type: :request do
-  before :each do
+  before do
     clean_data(
       Alert, User, UserGroup, Role, Incident, Child, Location, SystemSettings, Field, FormSection, Lookup, PrimeroModule
     )
@@ -28,18 +28,18 @@ describe Api::V2::DashboardsController, type: :request do
     @permission_dashboard = Permission.new(
       resource: Permission::DASHBOARD,
       actions: [
-        # Permission::DASH_WORKFLOW,
+        Permission::DASH_WORKFLOW,
         Permission::DASH_CASE_OVERVIEW,
         # Permission::DASH_REPORTING_LOCATION,
-        # Permission::DASH_PROTECTION_CONCERNS,
+        Permission::DASH_PROTECTION_CONCERNS,
         Permission::DASH_GROUP_OVERVIEW,
         # Permission::DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
         # Permission::DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
         # Permission::DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
         # Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES,
         Permission::DASH_CASE_INCIDENT_OVERVIEW,
-        # Permission::DASH_WORKFLOW_TEAM,
-        # Permission::DASH_CASES_BY_SOCIAL_WORKER,
+        Permission::DASH_WORKFLOW_TEAM,
+        Permission::DASH_CASES_BY_SOCIAL_WORKER,
         Permission::DASH_NATIONAL_ADMIN_SUMMARY
       ]
     )
@@ -156,7 +156,7 @@ describe Api::V2::DashboardsController, type: :request do
       )
     end
 
-    xit 'lists statistics for the workflow dashboards' do
+    it 'lists statistics for the workflow dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -193,7 +193,7 @@ describe Api::V2::DashboardsController, type: :request do
       expect(reporting_location_dashboard['indicators']['reporting_location_closed_last_week']['cty']['count']).to eq(1)
     end
 
-    xit 'lists statistics for the protection concerns dashboards' do
+    it 'lists statistics for the protection concerns dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -311,9 +311,10 @@ describe Api::V2::DashboardsController, type: :request do
       expect(case_incident_overview['indicators']['without_incidents']['count']).to eq(1)
     end
 
-    xit 'lists statistics for the cases by social worker dashboards' do
+    it 'lists statistics for the cases by social worker dashboards' do
       login_for_test(
         user_name: 'foo',
+        user_group_unique_ids: @foo.user_group_unique_ids,
         group_permission: Permission::SELF,
         permissions: [@permission_case, @permission_dashboard]
       )
@@ -471,7 +472,7 @@ describe Api::V2::DashboardsController, type: :request do
         expect(json['data'][0]['indicators']['shared_with_others_rejected_transfers']['count']).to eq(1)
       end
 
-      xit 'lists statistics for permitted shared from my team dashboard dashboards' do
+      it 'lists statistics for permitted shared from my team dashboard dashboards' do
         sign_in(@user1)
         get '/api/v2/dashboards'
 
@@ -486,10 +487,10 @@ describe Api::V2::DashboardsController, type: :request do
         expect(dash['shared_from_my_team_rejected_transfers'].count).to eq(1)
       end
 
-      xit 'lists statistics for permitted shared with my team dashboard dashboards' do
+      it 'lists statistics for permitted shared with my team dashboard dashboards' do
         login_for_test(
           user_name: 'user1',
-          user_group_ids: [@group_a.id],
+          user_group_unique_ids: [@group_a.unique_id],
           group_permission: Permission::GROUP,
           permissions: [@permission_case, @permission_dashboard_shared_with_me_team]
         )
@@ -498,7 +499,7 @@ describe Api::V2::DashboardsController, type: :request do
         expect(response).to have_http_status(200)
         indicators = json['data'][0]['indicators']
         expect(indicators['shared_with_my_team_referrals'][@user2.user_name]['count']).to eq(1)
-        expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(2)
+        expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(1)
       end
 
       it 'lists statistics for permitted shared with my team (overview) dashboards' do

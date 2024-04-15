@@ -13,25 +13,17 @@ module Indicators
       'queried_indicator'
     end
 
-    def query(user)
-      user_query_scope = user.record_query_scope(record_model, false)
-      query = Search::SearchScope.apply(user_query_scope, record_model)
-      filters(user).each do |filter|
-        query = filter.not_filter ? query.where.not(filter.query) : query.where(filter.query)
-      end
-      { 'count' => query.size }
+    def write_stats_for_indicator(indicator_filters, user_query_scope)
+      indicator_query = query(indicator_filters, user_query_scope)
+      { name => { 'count' => indicator_query.size, 'query' => stat_query_strings(name, indicator_filters) } }
     end
 
     def filters(user)
       query_scope(user) + queries
     end
 
-    def stats(user)
-      { name => query(user).merge('query' => stat_query_strings(name, user)) }
-    end
-
-    def stat_query_strings(_, user)
-      filters(user).map(&:to_s)
+    def stat_query_strings(_, indicator_filters)
+      indicator_filters.map(&:to_s)
     end
   end
 end
