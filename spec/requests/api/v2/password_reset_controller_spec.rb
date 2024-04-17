@@ -88,8 +88,6 @@ describe Api::V2::PasswordResetController, type: :request do
 
   describe 'POST /api/v2/users/password-reset' do
     let(:reset_password_token) { user.send(:set_reset_password_token) }
-    let(:authorization_token) { response.headers['Authorization'].split(' ')[1] }
-    let(:token_cookie) { response.cookies['primero_token'] }
     let(:json) { JSON.parse(response.body) }
 
     context 'with valid token' do
@@ -109,11 +107,8 @@ describe Api::V2::PasswordResetController, type: :request do
       end
 
       it 'logs the user in' do
-        expect(authorization_token).to be_present
-        expect(token_cookie).to be_present
         expect(json['id']).to eq(user.id)
         expect(json['user_name']).to eq(user.user_name)
-        expect(json['token']).to eq(token_cookie)
       end
     end
 

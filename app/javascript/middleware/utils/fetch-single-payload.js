@@ -22,6 +22,7 @@ import processAttachments from "./process-attachments";
 import { deleteFromQueue, messageQueueFailed, messageQueueSkip, messageQueueSuccess } from "./queue";
 import handleSuccess from "./handle-success";
 import FetchError from "./fetch-error";
+import getCSRFToken from "./get-csrf-token";
 
 const fetchSinglePayload = async (action, store, options) => {
   const controller = new AbortController();
@@ -68,7 +69,9 @@ const fetchSinglePayload = async (action, store, options) => {
 
   const token = await getToken();
 
-  const headers = {};
+  const headers = {
+    "X-CSRF-Token": getCSRFToken()
+  };
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;

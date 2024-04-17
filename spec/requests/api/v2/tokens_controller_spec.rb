@@ -17,29 +17,14 @@ describe Api::V2::TokensController, type: :request do
   end
 
   describe 'POST /api/v2/tokens' do
-    let(:authorization_token) { response.headers['Authorization'].split(' ')[1] }
     let(:json) { JSON.parse(response.body) }
-    let(:jwt_header) { decode_jwt(authorization_token) }
-    let(:token_cookie) { response.cookies['primero_token'] }
 
-    it 'generates a new JWT token for valid credentials' do
+    it 'returns users with valid credentials' do
       post '/api/v2/tokens', params: @params
 
       expect(response).to have_http_status(200)
-      expect(authorization_token).to be_present
       expect(json['id']).to be_present
       expect(json['user_name']).to be_present
-      expect(json['token']).to be_present
-      expect(json['token']).to eq(authorization_token)
-      expect(jwt_header['sub']).to be_present
-    end
-
-    it 'sets the JWT token as an HTTP-only, domain bound cookie' do
-      post '/api/v2/tokens', params: @params
-
-      expect(response).to have_http_status(200)
-      expect(token_cookie).to be_present
-      expect(token_cookie).to eq(json['token'])
     end
 
     it 'returns nothing for invalid credentials' do
@@ -93,9 +78,9 @@ describe Api::V2::TokensController, type: :request do
 
       it 'returns a 401 when got JWT exception' do
         headers = {
-          'HTTP_AUTHORIZATION' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'\
-          'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.'\
-          'SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+          'HTTP_AUTHORIZATION' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' \
+                                  'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.' \
+                                  'SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
         }
 
         post('/api/v2/tokens', headers:)
@@ -137,11 +122,8 @@ describe Api::V2::TokensController, type: :request do
   end
 
   describe 'DELETE /api/v2/tokens' do
-    it 'revokes the current token' do
-      headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
-      auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, @user)
-
-      delete '/api/v2/tokens', headers: auth_headers
+    it 'revokes the user session' do
+      delete '/api/v2/tokens'
 
       # delete url
       expect(response).to have_http_status(200)

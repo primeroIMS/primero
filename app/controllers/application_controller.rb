@@ -4,5 +4,15 @@
 
 # Superclass for all non-API controllers
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception, prepend: true, unless: -> { request.format.json? }
+  before_action :set_csrf_cookie
+
+  protect_from_forgery with: :exception
+
+  def set_csrf_cookie
+    cookies['CSRF-TOKEN'] = {
+      value: form_authenticity_token,
+      domain: :all,
+      same_site: :strict
+    }
+  end
 end

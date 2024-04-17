@@ -3,6 +3,7 @@
 import { DEFAULT_FETCH_OPTIONS } from "../constants";
 
 import buildPath from "./build-path";
+import getCSRFToken from "./get-csrf-token";
 import getToken from "./get-token";
 
 const fetchParamsBuilder = async (api, options, controller) => {
@@ -17,7 +18,9 @@ const fetchParamsBuilder = async (api, options, controller) => {
 
   const token = await getToken();
 
-  const headers = {};
+  const headers = {
+    "X-CSRF-Token": getCSRFToken()
+  };
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;

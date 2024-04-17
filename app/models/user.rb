@@ -48,8 +48,7 @@ class User < ApplicationRecord
 
   delegate :can?, :cannot?, to: :ability
 
-  devise :database_authenticatable, :timeoutable, :recoverable, :lockable,
-         :jwt_authenticatable, jwt_revocation_strategy: self
+  devise :database_authenticatable, :timeoutable, :recoverable, :lockable
 
   self.unique_id_attribute = 'user_name'
 

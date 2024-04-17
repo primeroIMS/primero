@@ -5,7 +5,6 @@
 # The endpoint used to authenticate a user when native authentication is enabled in Primero
 class Api::V2::TokensController < Devise::SessionsController
   include AuditLogActions
-  include Api::V2::Concerns::JwtTokens
   include ErrorHandling
   respond_to :json
 
@@ -16,13 +15,11 @@ class Api::V2::TokensController < Devise::SessionsController
   # that Devise unfortunately still uses. We are overriding it to return a JSON object
   # for the Devise session create method.
   def respond_with(user, _opts = {})
-    token_to_cookie
-    render json: { id: user.id, user_name: user.user_name, token: current_token }
+    render json: { id: user.id, user_name: user.user_name }
   end
 
   # Overriding method called by Devise session destroy.
   def respond_to_on_destroy
-    cookies.delete(:primero_token, domain: primero_host)
     render json: {}
   end
 
@@ -49,18 +46,16 @@ class Api::V2::TokensController < Devise::SessionsController
   end
 
   def create_idp
-    token_to_cookie
-    idp_token = IdpToken.build(current_token)
+    idp_token = IdpToken.build
     user = idp_token.valid? && idp_token.user
     if user
-      render json: { id: user.id, user_name: user.user_name, token: current_token }
+      render json: { id: user.id, user_name: user.user_name }
     else
       fail_to_authorize!(auth_options)
     end
   end
 
   def fail_to_authorize!(opts)
-    cookies.delete(:primero_token, domain: primero_host)
     throw(:warden, opts)
   end
 
