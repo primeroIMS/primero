@@ -58,7 +58,8 @@ if models.include?('Child')
           'has_photo' => record.calculate_has_photo,
           'has_incidents' => record.calculate_has_incidents,
           'flagged' => record.calculate_flagged,
-          'current_alert_types' => record.calculate_current_alert_types
+          'current_alert_types' => record.calculate_current_alert_types,
+          'not_edited_by_owner' => record.calculate_not_edited_by_owner
         ),
         'phonetic_data' => { 'tokens' => record.generate_tokens }
       }

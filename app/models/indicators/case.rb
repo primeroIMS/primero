@@ -35,7 +35,7 @@ module Indicators
       name: 'new_or_updated',
       record_model: Child,
       queries: OPEN_ENABLED + [
-        SearchFilters::NotEditedByOwner.new(value: true)
+        SearchFilters::BooleanValue.new(field_name: 'not_edited_by_owner', value: true)
       ]
     ).freeze
 
@@ -83,7 +83,7 @@ module Indicators
         record_model: Child,
         pivots: %w[owned_by],
         scope: OPEN_ENABLED + [
-          SearchFilters::NotEditedByOwner.new(value: true)
+          SearchFilters::BooleanValue.new(field_name: 'not_edited_by_owner', value: true)
         ]
       )
     ].freeze
