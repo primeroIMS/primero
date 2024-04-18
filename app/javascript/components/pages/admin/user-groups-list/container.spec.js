@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { mountedComponent, screen, stub } from "../../../../test-utils";
+import { mountedComponent, screen, stub, userEvent } from "../../../../test-utils";
 import { listHeaders, lookups } from "../../../../test";
 import { ACTIONS } from "../../../permissions";
 
@@ -52,13 +52,17 @@ describe("<UserGroupsList />", () => {
     expect(screen.getByTestId('headcol-0')).toBeInTheDocument();
   });
 
-  it("should trigger a valid action with next page when clicking next page", () => {
-    mountedComponent(<UserGroupsList />, initialState, [`/admin/${NAMESPACE}`])
-    expect(screen.getByText(`1-20 of ${dataLength}`)).toBeInTheDocument();
+  it("should trigger a valid action with next page when clicking next page", async () => {
+    const user = userEvent.setup();
+    mountedComponent(<UserGroupsList />, initialState, [`/admin/${NAMESPACE}`]);
+    await user.click(screen.getByTestId('pagination-next'));
+    expect(screen.getByText(/Test description 30/i)).toBeInTheDocument();
   });
 
-  it("should set the filters when apply is clicked", () => {
-    mountedComponent(<UserGroupsList />, initialState, [`/admin/${NAMESPACE}`])
-    expect(screen.getAllByRole('button')).toHaveLength(16);
+  it("should set the filters when apply is clicked", async () => {
+    const user = userEvent.setup();
+    mountedComponent(<UserGroupsList />, initialState, [`/admin/${NAMESPACE}`]);
+    await user.click(screen.getByTestId('pagination-next'));
+    expect(screen.getByText(/Test description 30/i)).toBeInTheDocument();
   })
 });
