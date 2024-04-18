@@ -34,8 +34,6 @@ class SearchFilterService
         end
       elsif key == 'not'
         build_not_filter(value.keys.first, value.values.first, model_class)
-      elsif key == 'not_edited_by_owner'
-        SearchFilters::NotEditedByOwner.new(value:)
       elsif key == 'referred_users'
         SearchFilters::ReferredUsers.new(value:, record_type: model_class.name)
       elsif key == 'transferred_to_users'
@@ -76,8 +74,6 @@ class SearchFilterService
   def build_not_filter(field_name, value, model_class)
     if field_name.starts_with?('loc:')
       build_location_filter(field_name, value, true)
-    elsif field_name == 'not_edited_by_owner'
-      SearchFilters::NotEditedByOwner.new(value:)
     elsif field_name == 'referred_users'
       SearchFilters::ReferredUsers.new(value:, record_type: model_class.name, not_filter: true)
     elsif field_name == 'transferred_to_users'
