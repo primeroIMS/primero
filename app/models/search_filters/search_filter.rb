@@ -17,6 +17,19 @@ class SearchFilters::SearchFilter < ValueObject
     raise NotImplementedError
   end
 
+  def json_path_query
+    "jsonb_path_exists(data, '#{json_field_query} ? (#{json_path_value})')"
+  end
+
+  def json_field_query
+    ActiveRecord::Base.sanitize_sql_for_conditions(['$.%s', field_name])
+  end
+
+  def json_path_value
+    operator = @safe_operator == '=' ? '==' : @safe_operator
+    ActiveRecord::Base.sanitize_sql_for_conditions(['@ %s %s', operator, value])
+  end
+
   def not_null_operator?
     @safe_operator == 'not_null'
   end

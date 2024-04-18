@@ -13,28 +13,9 @@ class SearchFilters::Value < SearchFilters::SearchFilter
     end
   end
 
-  # rubocop:disable Metrics/MethodLength
   def query
-    ActiveRecord::Base.sanitize_sql_for_conditions(
-      [
-        %(
-          (
-            data ? :field_name AND
-            (
-               JSONB_TYPEOF(data->:field_name) = 'array' AND EXISTS (
-                 SELECT 1 FROM JSONB_ARRAY_ELEMENTS(data->:field_name) AS array_field
-                 WHERE JSONB_TYPEOF(array_field) != 'null' AND array_field #{@safe_operator} to_jsonb(:value)
-              ) OR (
-               JSONB_TYPEOF(data->:field_name) != 'array' AND data->:field_name #{@safe_operator} to_jsonb(:value)
-              )
-            )
-          )
-        ),
-        { field_name:, value: }
-      ]
-    )
+    "(#{ActiveRecord::Base.sanitize_sql_for_conditions(['data->? IS NOT NULL', field_name])} AND #{json_path_query})"
   end
-  # rubocop:enable Metrics/MethodLength
 
   def as_location_filter(record_class)
     return self unless location_field_filter?(record_class)

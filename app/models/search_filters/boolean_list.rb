@@ -10,7 +10,7 @@ class SearchFilters::BooleanList < SearchFilters::ValueList
       [
         %(
           (
-            data->>:field_name IS NOT NULL AND (#{values_query})
+            data->>:field_name IS NOT NULL AND (#{json_path_query})
           ) OR (
             data->>:field_name IS NULL AND FALSE IN (:values)
           )
