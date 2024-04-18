@@ -64,14 +64,12 @@ module Ownable
     @record_agency ||= Agency.find_by(unique_id: owned_by_agency_id)&.agency_code if owned_by_agency_id
   end
 
-  def calculate_not_edited_by_owner
-    self.not_edited_by_owner = (data['last_updated_by'] != data['owned_by']) && data['last_updated_by'].present?
-
-    not_edited_by_owner
+  def not_edited_by_owner?
+    (data['last_updated_by'] != data['owned_by']) && data['last_updated_by'].present?
   end
 
-  def not_edited_by_owner?
-    not_edited_by_owner
+  def calculate_not_edited_by_owner
+    self.not_edited_by_owner = not_edited_by_owner?
   end
 
   # rubocop:disable Metrics/AbcSize

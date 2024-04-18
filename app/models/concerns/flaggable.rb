@@ -54,11 +54,11 @@ module Flaggable
   end
 
   def flagged?
-    flagged
+    flag_count.positive?
   end
 
   def calculate_flagged
-    self.flagged = flag_count.positive?
+    self.flagged = flagged?
     flagged
   end
 
