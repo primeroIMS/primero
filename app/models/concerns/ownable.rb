@@ -2,6 +2,7 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
+# rubocop:disable Metrics/ModuleLength
 # This describes all models that may be owned by a particular user
 module Ownable
   extend ActiveSupport::Concern
@@ -137,3 +138,4 @@ module Ownable
     owned_by == user&.user_name
   end
 end
+# rubocop:enable Metrics/ModuleLength
