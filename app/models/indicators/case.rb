@@ -639,7 +639,7 @@ module Indicators
         scope_to_owner: true,
         record_model: Child,
         queries: OPEN_ENABLED + [
-          SearchFilters::NotValue.new(field_name: 'risk_level', values: risk_levels)
+          SearchFilters::TextList.new(field_name: 'risk_level', values: risk_levels, not_filter: true)
         ]
       )] + risk_levels.map { |risk_level| risk_level_indicator(risk_level) }
     end
@@ -659,7 +659,7 @@ module Indicators
         scope_to_owner: true,
         record_model: Child,
         queries: OPEN_ENABLED + [
-          SearchFilters::Value.new(field_name: 'risk_level', value: risk_level)
+          SearchFilters::TextValue.new(field_name: 'risk_level', value: risk_level)
         ]
       )
     end
@@ -675,7 +675,7 @@ module Indicators
 
     def self.overdue_none_risk_level_queries(risk_levels)
       OPEN_ENABLED + [
-        SearchFilters::NotValue.new(field_name: 'risk_level', values: risk_levels),
+        SearchFilters::TextList.new(field_name: 'risk_level', values: risk_levels, not_filter: true),
         SearchFilters::DateRange.new(
           field_name: 'reassigned_transferred_on',
           from: Time.at(0),
@@ -694,7 +694,7 @@ module Indicators
           from: Time.at(0),
           to: Time.now - timeframe
         ),
-        SearchFilters::Value.new(field_name: 'risk_level', value: risk_level)
+        SearchFilters::TextValue.new(field_name: 'risk_level', value: risk_level)
       ]
     end
 
