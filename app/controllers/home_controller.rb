@@ -4,7 +4,7 @@
 
 # Default Rails route
 class HomeController < ApplicationController
-  skip_before_action :authenticate_user!, only: %w[v2], raise: false
+  # skip_before_action :authenticate_user!, only: %w[v2], raise: false
 
   def v2
     @theme = Rails.configuration.use_theme ? Theme.current : Theme.default

@@ -7,6 +7,7 @@ class ApplicationApiController < ActionController::API
   include CanCan::ControllerAdditions
   include AuditLogActions
   include ErrorHandling
+  include CsrfProtection
 
   # check_authorization #TODO: Uncomment after upgrading to CanCanCan v3
   before_action :authenticate_user!
