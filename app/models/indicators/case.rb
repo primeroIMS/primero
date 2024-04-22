@@ -408,7 +408,7 @@ module Indicators
       name: 'shared_with_others_referrals',
       record_model: Child,
       queries: OPEN_ENABLED + [
-        SearchFilters::ReferredUsersPresent.new(record_type: Child.name, value: true)
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_present', value: true)
       ],
       scope_to_owner: true
     ).freeze
@@ -471,7 +471,7 @@ module Indicators
       exclude_zeros: true,
       record_model: Child,
       scope: OPEN_ENABLED + [
-        SearchFilters::ReferredUsersPresent.new(record_type: Child.name, value: true)
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_present', value: true)
       ],
       scope_to_owned_by_groups: true
     ).freeze
@@ -498,24 +498,23 @@ module Indicators
       scope_to_owned_by_groups: true
     ).freeze
 
-    SHARED_WITH_MY_TEAM_REFERRALS = TransitionIndicator.new(
+    SHARED_WITH_MY_TEAM_REFERRALS = GroupedIndicator.new(
       name: 'shared_with_my_team_referrals',
       record_model: Child,
-      transition_model: Referral,
-      pivots: %w[transitioned_to],
-      pivots_to_query_params: { 'transitioned_to' => 'referred_users' },
+      pivots: %w[referred_users],
+      multivalue_pivots: %w[referred_users],
       scope_to_user: true,
       exclude_zeros: true,
       scope: OPEN_ENABLED + [
-        SearchFilters::ReferredUsersPresent.new(record_type: Child.name, value: true)
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_present', value: true)
       ]
     )
 
-    SHARED_WITH_MY_TEAM_PENDING_TRANSFERS = TransitionIndicator.new(
+    SHARED_WITH_MY_TEAM_PENDING_TRANSFERS = GroupedIndicator.new(
       name: 'shared_with_my_team_pending_transfers',
       transition_model: Transfer,
-      pivots: %w[transitioned_to],
-      pivots_to_query_params: { 'transitioned_to' => 'transferred_to_users' },
+      pivots: %w[transferred_to_users],
+      multivalue_pivots: %w[transferred_to_users],
       record_model: Child,
       scope_to_user: true,
       exclude_zeros: true,

@@ -164,6 +164,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'record_state' => { 'from' => nil, 'to' => true } },
           { 'incident_code' => { 'from' => nil, 'to' => Incident.first.incident_code } },
           { 'incident_date' => { 'from' => nil, 'to' => '2019-04-01' } },
+          { 'referred_users' => { 'from' => nil, 'to' => [] } },
           { 'owned_by_groups' => { 'from' => nil, 'to' => [] } },
           { 'gbv_case_context' => { 'from' => nil, 'to' => [] } },
           { 'created_by_groups' => { 'from' => nil, 'to' => [] } },
@@ -171,10 +172,13 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'current_alert_types' => { 'from' => nil, 'to' => [] } },
           { 'not_edited_by_owner' => { 'from' => nil, 'to' => false } },
           { 'date_of_first_report' => { 'from' => nil, 'to' => Incident.first.date_of_first_report.iso8601 } },
+          { 'transferred_to_users' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
           { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
           { 'elapsed_reporting_time' => { 'from' => nil, 'to' => 'over_1_month' } },
-          { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } }
+          { 'referred_users_present' => { 'from' => nil, 'to' => false } },
+          { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } },
+          { 'transferred_to_user_groups' => { 'from' => nil, 'to' => [] } }
         ]
       }
 
@@ -240,6 +244,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'has_incidents' => { 'from' => nil, 'to' => false } },
           { 'notes_section' => { 'from' => nil, 'to' => [] } },
           { 'reopened_logs' => { 'from' => nil, 'to' => [] } },
+          { 'referred_users' => { 'from' => nil, 'to' => [] } },
           { 'case_id_display' => { 'from' => nil, 'to' => Child.first.case_id_display } },
           { 'followup_status' => { 'from' => nil, 'to' => 'follow_ups_not_planned' } },
           { 'owned_by_groups' => { 'from' => nil, 'to' => [] } },
@@ -249,9 +254,12 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'current_alert_types' => { 'from' => nil, 'to' => [] } },
           { 'not_edited_by_owner' => { 'from' => nil, 'to' => false } },
           { 'protection_concerns' => { 'from' => nil, 'to' => [] } },
+          { 'transferred_to_users' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
           { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
-          { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } }
+          { 'referred_users_present' => { 'from' => nil, 'to' => false } },
+          { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } },
+          { 'transferred_to_user_groups' => { 'from' => nil, 'to' => [] } }
         ]
       }
 

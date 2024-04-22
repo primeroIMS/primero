@@ -27,6 +27,7 @@ class Transition < ApplicationRecord
   before_create :perform
   before_create :copy_record_ownership
   before_create :copy_transitioned_user_groups_and_agency
+  after_create :save_record
   after_save_commit :notify
 
   after_save :index_record
@@ -147,5 +148,9 @@ class Transition < ApplicationRecord
 
     self.transitioned_to_user_agency = transitioned_to_user.agency&.unique_id
     self.transitioned_to_user_groups = transitioned_to_user.user_group_unique_ids
+  end
+
+  def save_record
+    record.save! if record.has_changes_to_save?
   end
 end

@@ -132,7 +132,7 @@ module Api::V2::Concerns::Record
   end
 
   def search_filters
-    SearchFilterService.build_filters(params, @permitted_field_names, model_class)
+    SearchFilterService.build_filters(params, @permitted_field_names)
   end
 
   def display_permitted_forms
