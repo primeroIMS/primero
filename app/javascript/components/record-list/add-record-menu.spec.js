@@ -59,7 +59,7 @@ describe("<AddRecordMenu /> record-list/add-record-menu", () => {
       <AddRecordMenu {...{ ...props }} />,
       state.merge(fromJS({ user: { modules: ["primerotest-3"] } }))
     );
-    await user.click(screen.getByTestId("new-record"));
+    await user.click(screen.getByText(/buttons.new/));
     expect(screen.getAllByRole("presentation")).toHaveLength(1);
   });
 
