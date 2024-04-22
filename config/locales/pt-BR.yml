@@ -1225,7 +1225,6 @@ pt-BR:
     zh: Chinês
   incident:
     associated_case: "Caso Associado:"
-    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Registro de incidente criado com sucesso.
       creation_success_queue: Registro de incidente criado com sucesso em segundo plano
@@ -2256,9 +2255,6 @@ pt-BR:
           import:
             explanation: Permite que o usuário crie um ou mais novos incidentes importando-os de um arquivo CSV, Excel ou JSON. O arquivo importado deve ser formatado *muito* especificamente para que as informações sejam importadas corretamente. Esta função só deve estar disponível para usuários administrativos com habilidades técnicas avançadas e um conhecimento profundo de como os dados são formatados no Primero. Executado apenas na página da lista de incidentes.
             label: Importar
-          link_incident_to_case:
-            explanation: Allows the user to link the incident with selected case.
-            label: Link incident to Case
           manage:
             explanation: Permite que um usuário execute todas as ações disponíveis em incidentes. A permissão "Gerenciar" significa essencialmente "tudo".
             label: Gerenciar (todas as permissões para este tipo de recurso)

@@ -521,7 +521,6 @@ pt:
     welcome: Bem vindo ao Primero
     zh: Chinês
   incident:
-    link_incident_to_case: Link Incident to Case
     messages:
       update_success: 'Incidente %{record_id} foi atualizado com sucesso.'
   incidents:

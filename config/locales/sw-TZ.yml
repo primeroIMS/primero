@@ -1290,7 +1290,6 @@ sw_TZ:
     zh: 中文
   incident:
     associated_case: "Kesi inayohusiana"
-    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Rekodi ya tukio imetengenezwa kwa mafanikio
       creation_success_queue: Rekodi ya tukio imetengenezwa katika sehemu ya historia
@@ -2425,9 +2424,6 @@ sw_TZ:
           import:
             explanation: 'Inamruhusu mtumiaji kuweza kutengeneza tukio moja au zaidi mpya kwa kuyaagiza kutoka kwenye faili la CSV, Excel au JSON. Faili ambalo litaagizwa lazima liwe limetengenezwa mahsusi "kabisa" kwa taarifa kuweza kuingizwa ipasavyo. Kipengele hiki kiwe kinapatikana kwa watumiaji wa utawala / usimamizi ambao wenye ujuzi wa hali ya juu wa kiufundi na ufahamu wa kina kuhusu namna ambayo data/ taarifa inavyopangwa katika Primero. Inatekelezwa kutoka kwenye ukurasa wa orodha ya matukio tu. '
             label: Kuagiza
-          link_incident_to_case:
-            explanation: Allows the user to link the incident with selected case.
-            label: Link incident to Case
           manage:
             explanation: Inatoa ruhusa kwa mtumiaji kutekeleza shughuli zote zinazopatikana kuhusu matukio. Ruhusa ya "Kusimamia" ina maana ya "Kila kitu"
             label: Kusimamia (ruhusa zote kwa aina ya rasilimali)

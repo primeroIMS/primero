@@ -1323,7 +1323,6 @@ pl:
     zh: 中文
   incident:
     associated_case: "Sprawa Powiązana:"
-    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Rekord zdarzenia utworzony pomyślnie.
       creation_success_queue: Rekord zdarzenia został pomyślnie utworzony w tle.
@@ -2442,9 +2441,6 @@ pl:
             label: Oznaczenie
           import:
             label: Import
-          link_incident_to_case:
-            explanation: Allows the user to link the incident with selected case.
-            label: Link incident to Case
           manage:
             explanation: Pozwala użytkownikowi na wykonanie każdej akcji w zdarzeniach. Zezwolenie "Zarządzaj" oznacza "wszystko".
             label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)

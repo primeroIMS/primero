@@ -1341,7 +1341,6 @@ es-GT:
   incident:
     code: Código de Incidente
     associated_case: "Caso Asociado:"
-    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: El registro del incidente se generó correctamente.
       creation_success_queue: El Registro del Incidente se generó correctamente (en background)
@@ -2654,9 +2653,6 @@ es-GT:
           import:
             explanation: 'Permite a el/la usuario(a) crear uno o más incidentes importándolos desde un archivo CSV, Excel, o JSON. El archivo importado debe estar formateado "muy" específicamente para que la información se importe correctamente. Esta función sólo debe estar disponible para usuario(a)s administrativo(a)s con habilidades técnicas avanzadas y un conocimiento a fondo sobre cómo se formatean los datos en Primero. Sólo puede hacerse desde la página de listado de incidentes. '
             label: Importar
-          link_incident_to_case:
-            explanation: Allows the user to link the incident with selected case.
-            label: Link incident to Case
           manage:
             explanation: Permite a un(a) usuario(a) llevar a cabo todas las acciones disponibles en los Incidentes. El permiso "Administrar" significa en esencia "todo".
             label: Administrar (todos los permisos para este tipo de recurso)

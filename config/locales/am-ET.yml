@@ -1308,7 +1308,6 @@ am-ET:
     zh: 中文
   incident:
     associated_case: "ተያያዥነት ያለው ጉዳይ"
-    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: የክስተት መመዝገቢያ በትክክል ተፈጥሯል
       creation_success_queue: "የክስተት መመዝገቢያ በመግቢያዉ ላይ   በትክክል ተፈጥሯል\n\n "
@@ -2465,9 +2464,6 @@ am-ET:
           import:
             explanation: ተጠቃሚዎች ከሲ.ኤስ.ቪ፣ ከኤክስኤል ወይም ከጄ.ኤስ.ኦ.ኤን ፋይል አንድ ወይም ከዚያ በላይ አዲስ ጉዳዮችን ቀድቶ ማምጣት ያስችላል፡፡ በዚህ መልኩ ተቀድቶ የሚመጣ ፋይል መረጃ በጣም ግልጽ በሆነና በተገቢዉ መንገድ ሊደራጅ ይገባል፡፡ ይህ ስራ ሊፈቀድ የሚገባው በፕሪሜሮ ሲስተም መረጃዎች እንዴት መደራጀት እንዳለባቸው ከፍተኛ ሙያዊ ክህሎትና ጥልቅ እውቀት ባላቸው በመረጃ አስተዳደር ደረጃ ባሉ ተጠቃሚዎች ሊሆን ይገባል፡፡ ከጉዳየይ ዝርዝር ገጽ ላይ ብቻ የሚከናወን፡፡
             label: ከሌላ ማምጣት
-          link_incident_to_case:
-            explanation: Allows the user to link the incident with selected case.
-            label: Link incident to Case
           manage:
             explanation: "ተጠቃሚው ሁሉንም በቂ ሆኑ የተስተካከሉ እርምጃዎች እንዲወስድ ያስችለዋል። የ\"ማስተዳደር\" ፍቃድ ማለት በመሰረቱ \"ሁሉንም\"  ለመማለተት ነው። "
             label: ማስተዳደር( ለዚህ የመደበ ሁሉም አይነት ሀብት የማስተዳደር ፈቃድ)

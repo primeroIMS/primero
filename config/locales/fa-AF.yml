@@ -956,7 +956,6 @@ fa-AF:
     view_records: نمایش آمار
     welcome: به پرایمرو خوش آمدید
   incident:
-    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: ضبط رویداد موفقانه ایجاد گردید.
       creation_success_queue: ضبط رویداد موفقانه در پشت زمینه ایجاد گردید.
@@ -1601,9 +1600,6 @@ fa-AF:
           import:
             explanation: به کاربر اچازه میدهد که قضیه و یا قضایایی را با وارد کردن آنها از یک فایل CSV، Excel، و JSON ایجاد کند. فایل وارد شده باید با فورمت "very" باشد بخصوص برای اینکه اطلاعات درست وارد گردد. این عملکرد باید برای کاربرهای مدیریتی که مهارت های فنی و دانش عمیقی از چگونگی فورمت شدن داده ها در پریمیرو دارند قابل دسترس باشد. تنها قابل اجرا از صفحه لیست قضایا.
             label: صدور
-          link_incident_to_case:
-            explanation: Allows the user to link the incident with selected case.
-            label: Link incident to Case
           manage:
             explanation: به کاربر اجازه میدهد که تمام عملکردهای موجود روی قضیه را اجرا کند. دستور "مدیریت" الزاما "همه چیز" معنا میدهد.
             label: مدیریت (تمام اجازه ها برای این نوع منبع)
