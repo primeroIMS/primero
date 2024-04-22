@@ -64,7 +64,6 @@ ar-LB:
     flag_model: وضع علامة %{model}
     flag_records: وضع علامة
     import: استيراد وإدخال إلى النظام
-    link: Link
     login: تسجيل الدخول
     mark_for_mobile: وضع علامة للهاتف المحمول
     ok: موافق
