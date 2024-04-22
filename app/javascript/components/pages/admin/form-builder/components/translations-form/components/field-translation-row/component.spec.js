@@ -3,17 +3,17 @@
 import { fromJS } from "immutable";
 
 import { mountedFormComponent, screen } from "../../../../../../../../test-utils";
-import { localesToRender } from "../../../utils";
 
 import FieldTranslationRow from "./component";
 
-jest.mock("../../../utils");
-
 describe("<FieldTranslationRow />", () => {
+
   const field1 = {
     name: "field_1",
-    display_name: { en: "Field 1" }
+    display_name: { fr: "Field 1", ar: "Field 1", en: "Field 1" },
+    type: "text_field"
   };
+
   const state = fromJS({
     application: { primero: { locales: ["en", "fr", "ar"] } },
     records: {
@@ -31,17 +31,18 @@ describe("<FieldTranslationRow />", () => {
     }
   });
 
-  const props = { field: fromJS(field1), selectedLocaleId: "en" };
+  const props = { field: fromJS(field1), selectedLocaleId: "fr", formMode: {}, formMethods: {} };
 
-  it("should render <FieldTranslationRow />", () => {
-    localesToRender.mockReturnValue([fromJS({ id: "en" })]);
-    mountedFormComponent(<FieldTranslationRow {...props} />, state);
-    expect(screen.getByText("forms.manage")).toBeInTheDocument();
+  it("should render the <FormSectionField /> for the fr language", () => {
+    mountedFormComponent(<FieldTranslationRow {...props} />, { state });
+    expect(document.getElementById('fields.field_1.display_name.en')).toBeInTheDocument();
+    expect(document.getElementById('fields.field_1.display_name.fr')).toBeInTheDocument();
   });
-
-  it("should render the <FormSectionField /> for the available languages", () => {
-    localesToRender.mockReturnValue([fromJS({ id: "en" })]);
-    mountedFormComponent(<FieldTranslationRow {...props} />, state);
-    expect(screen.getAllByRole("textbox")).toHaveLength(2);
+  
+  it("should render the <FormSectionField /> for the ar language", () => {
+    const arProps = { field: fromJS(field1), selectedLocaleId: "ar", formMode: {}, formMethods: {} };
+    mountedFormComponent(<FieldTranslationRow {...arProps} />, { state });
+    expect(document.getElementById('fields.field_1.display_name.en')).toBeInTheDocument();
+    expect(document.getElementById('fields.field_1.display_name.ar')).toBeInTheDocument();
   });
 });
