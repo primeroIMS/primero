@@ -6,13 +6,6 @@
 class SearchFilters::Value < SearchFilters::SearchFilter
   attr_accessor :value
 
-  def query_scope(sunspot)
-    this = self
-    sunspot.instance_eval do
-      with(this.field_name, this.value)
-    end
-  end
-
   def query
     "(#{ActiveRecord::Base.sanitize_sql_for_conditions(['data->? IS NOT NULL', field_name])} AND #{json_path_query})"
   end

@@ -79,10 +79,6 @@ class Child < ApplicationRecord
 
   scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
 
-  def self.sortable_text_fields
-    %w[name case_id_display national_id_no registry_no family_number]
-  end
-
   def self.filterable_id_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
     # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
@@ -135,26 +131,18 @@ class Child < ApplicationRecord
   end
 
   searchable do
-    filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
-    sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
-    Child.child_matching_field_names.each { |f| text_index(f, 'matchable') }
-    Child.family_matching_field_names.each do |f|
-      text_index(f, 'matchable', :itself, 'family_details_section')
+    if Rails.configuration.solr_enabled
+      Child.child_matching_field_names.each { |f| text_index(f, 'matchable') }
+      Child.family_matching_field_names.each do |f|
+        text_index(f, 'matchable', :itself, 'family_details_section')
+      end
+
+      date(:date_closure)
+      # TODO: these must be deleted once task dashboard is migrated
+      date(:assessment_due_dates, multiple: true) { Tasks::AssessmentTask.from_case(self).map(&:due_date) }
+      date(:case_plan_due_dates, multiple: true) { Tasks::CasePlanTask.from_case(self).map(&:due_date) }
+      date(:followup_due_dates, multiple: true) { Tasks::FollowUpTask.from_case(self).map(&:due_date) }
     end
-    quicksearch_fields.each { |f| text_index(f) }
-    %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
-    %w[estimated urgent_protection_concern consent_for_tracing has_case_plan has_incidents].each do |f|
-      boolean(f) { data[f] == true || data[f] == 'true' }
-    end
-    %w[day_of_birth age].each { |f| integer(f) }
-    %w[id status sex current_care_arrangements_type].each { |f| string(f, as: "#{f}_sci") }
-    string :risk_level, as: 'risk_level_sci' do
-      risk_level.present? ? risk_level : RISK_LEVEL_NONE
-    end
-    string :protection_concerns, multiple: true
-    date(:assessment_due_dates, multiple: true) { Tasks::AssessmentTask.from_case(self).map(&:due_date) }
-    date(:case_plan_due_dates, multiple: true) { Tasks::CasePlanTask.from_case(self).map(&:due_date) }
-    date(:followup_due_dates, multiple: true) { Tasks::FollowUpTask.from_case(self).map(&:due_date) }
   end
 
   validate :validate_date_of_birth

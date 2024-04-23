@@ -11,13 +11,11 @@ module Transitionable
 
     store_accessor :data, :transfer_status, :reassigned_transferred_on
 
+    # TODO: Delete once incident dashboard is migrated
     searchable do
-      string :transfer_status, as: 'transfer_status_sci'
       string :referred_users, multiple: true
       string :transferred_to_users, multiple: true
       string :transferred_to_user_groups, multiple: true
-      time :reassigned_transferred_on
-      boolean :referred_users_present
     end
   end
 

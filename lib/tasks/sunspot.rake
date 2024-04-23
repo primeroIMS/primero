@@ -36,9 +36,7 @@ namespace :sunspot do
   desc 'Remove all records from Solr'
   task remove_all: :environment do
     indexed_types = [
-      Child, Incident, TracingRequest,
-      Flag, ReportableFollowUp, ReportableProtectionConcern,
-      ReportableService, Violation, Trace, RegistryRecord, Family
+      Child, Incident, TracingRequest, Trace, RegistryRecord, Family
     ]
 
     puts "Removing the following record types from the Solr index: #{indexed_types.join(', ')}"
@@ -51,30 +49,7 @@ namespace :sunspot do
     model.all.find_in_batches(batch_size:) do |records|
       records.each { |r| r.location_service = location_service } unless model == Trace
       Sunspot.index(records)
-      index_flags_for_records(model, records, batch_size)
-      index_nested_reportables_for_records(model, records, batch_size)
     end
   end
 
-  def index_flags_for_records(model, records, batch_size)
-    return unless model.instance_methods.include?(:flags)
-
-    flags = records.reduce([]) do |list, record|
-      list += record.flags if record.flags.present?
-      list
-    end
-    flags.each_slice(batch_size) { |batch| Sunspot.index(batch) }
-  end
-
-  def index_nested_reportables_for_records(model, records, batch_size)
-    return unless model.instance_methods.include?(:nested_reportables_hash)
-
-    nested_reportables = records.reduce([]) do |list, record|
-      record.nested_reportables_hash.each do |_, reportables|
-        list += reportables
-      end
-      list
-    end
-    nested_reportables.each_slice(batch_size) { |batch| Sunspot.index(batch) }
-  end
 end

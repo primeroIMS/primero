@@ -4,11 +4,7 @@
 
 # Model for MRM Violation
 class Violation < ApplicationRecord
-  # TODO: For now this will be used to only read and index violations.
-  #      Make similar (and test exhaustively!) to Flag model to perform reads and writes
   # TODO: There is some amount of duplication between this and the Incident container class. Refactor!
-  # include CouchRest::Model::Embeddable #TODO: This is just so that Sunspot doesn't complain.
-  # include Indexable
 
   TYPES = %w[killing maiming recruitment sexual_violence abduction attack_on_hospitals attack_on_schools military_use
              denial_humanitarian_access].freeze

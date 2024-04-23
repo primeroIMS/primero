@@ -6,13 +6,6 @@
 class SearchFilters::NotValue < SearchFilters::SearchFilter
   attr_accessor :field_name, :values
 
-  def query_scope(sunspot)
-    this = self
-    sunspot.instance_eval do
-      without(this.field_name, this.values)
-    end
-  end
-
   def as_location_filter(record_class)
     return self unless location_field_filter?(record_class)
 

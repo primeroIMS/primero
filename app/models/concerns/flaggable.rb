@@ -5,13 +5,8 @@
 # Describes records that can have flags applied to them.
 module Flaggable
   extend ActiveSupport::Concern
-  include Sunspot::Rails::Searchable
 
   included do
-    searchable do
-      boolean :flagged
-    end
-
     store_accessor(:data, :flagged)
 
     has_many :flags, as: :record

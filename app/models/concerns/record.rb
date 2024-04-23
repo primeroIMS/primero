@@ -19,8 +19,6 @@ module Record
     after_initialize :defaults, unless: :persisted?
     before_create :create_identification
     before_save :populate_subform_ids
-    after_save :index_nested_reportables
-    after_destroy :unindex_nested_reportables
   end
 
   def self.model_from_name(name)
@@ -120,6 +118,9 @@ module Record
     self.last_updated_by = user&.user_name
   end
 
+  # TODO: This is called on app/models/concerns/serviceable.rb#service_due_dates
+  # This can be deleted once task is migrated
+  # Then delete app/models/concerns/reportable_nested_record.rb
   def nested_reportables_hash
     self.class.nested_reportable_types.each_with_object({}) do |type, hash|
       hash[type] = type.from_record(self) if try(type.record_field_name).present?
@@ -136,18 +137,6 @@ module Record
         subform['unique_id'].present? ||
           (subform['unique_id'] = SecureRandom.uuid)
       end
-    end
-  end
-
-  def index_nested_reportables
-    nested_reportables_hash.each do |_, reportables|
-      Sunspot.index reportables if reportables.present?
-    end
-  end
-
-  def unindex_nested_reportables
-    nested_reportables_hash.each do |_, reportables|
-      Sunspot.remove! reportables if reportables.present?
     end
   end
 end

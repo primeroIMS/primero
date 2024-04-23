@@ -11,6 +11,7 @@ module Indicators
       SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
     ].freeze
 
+    # TODO: FacetedIndicator must be deleted once dashboard is migrated
     VIOLATIONS_CATEGORY_VERIFICATION_STATUS = FacetedIndicator.new(
       name: 'violations_category_verification_status',
       record_model: ::Incident,
@@ -18,6 +19,7 @@ module Indicators
       scope: OPEN_ENABLED
     ).freeze
 
+    # TODO: FacetedIndicator must be deleted once dashboard is migrated
     PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES = FacetedIndicator.new(
       name: 'perpetrator_armed_force_group_party_names',
       record_model: ::Incident,
@@ -28,6 +30,7 @@ module Indicators
     def self.violation_category_region(role)
       admin_level = role&.incident_reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
 
+      # TODO: PivotedIndicator must be deleted once dashboard is migrated
       PivotedIndicator.new(
         name: 'violations_category_region',
         record_model: ::Incident,

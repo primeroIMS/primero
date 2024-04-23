@@ -4,6 +4,8 @@
 
 # Class for Reportable Follow Up
 class ReportableFollowUp
+  include ReportableNestedRecord
+
   def self.parent_record_type
     Child
   end
@@ -14,17 +16,8 @@ class ReportableFollowUp
 
   def self.report_filters
     [
-      { 'attribute' => 'status', 'value' => [Record::STATUS_OPEN] },
-      { 'attribute' => 'record_state', 'value' => ['true'] },
-      { 'attribute' => 'followup_date', 'constraint' => 'not_null' }
+      { 'attribute' => 'status', 'value' => [Record::STATUS_OPEN] }
     ]
-  end
-
-  include ReportableNestedRecord
-
-  searchable do
-    extend ReportableNestedRecord::Searchable
-    configure_searchable(ReportableFollowUp)
   end
 
   def id

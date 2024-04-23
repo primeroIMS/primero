@@ -293,6 +293,7 @@ class Report < ApplicationRecord
 
     self.filters ||= []
     default_filters = Record.model_from_name(record_type).report_filters
+    binding.pry
     self.filters = (self.filters + default_filters).uniq
   end
 

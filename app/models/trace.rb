@@ -29,10 +29,12 @@ class Trace < ApplicationRecord
   end
 
   searchable do
-    extend Searchable::TextIndexing
-    Trace.trace_matching_field_names.each { |f| text_index(f, 'matchable') }
-    Trace.tracing_request_matching_field_names.each do |f|
-      text_index(f, 'matchable', :tracing_request)
+    if Rails.configuration.solr_enabled
+      extend Searchable::TextIndexing
+      Trace.trace_matching_field_names.each { |f| text_index(f, 'matchable') }
+      Trace.tracing_request_matching_field_names.each do |f|
+        text_index(f, 'matchable', :tracing_request)
+      end
     end
   end
 

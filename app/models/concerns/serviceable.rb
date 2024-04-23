@@ -17,11 +17,6 @@ module Serviceable
   included do
     store_accessor :data, :consent_for_services, :services_section # TODO: Do we need a services alias for this?
 
-    searchable do
-      boolean :consent_for_services
-      time :service_due_dates, multiple: true
-    end
-
     before_save :update_implement_field
 
     def update_implement_field

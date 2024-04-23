@@ -5,6 +5,7 @@
 # rubocop:disable Style/ClassAndModuleChildren
 module Indicators
   # Class for Faceted Indicator
+  # TODO: PivotedIndicator must be deleted once incident dashboard is migrated
   class FacetedIndicator < AbstractIndicator
     # rubocop:enable Style/ClassAndModuleChildren
     attr_accessor :facet
