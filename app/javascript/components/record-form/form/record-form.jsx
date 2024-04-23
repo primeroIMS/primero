@@ -1,6 +1,8 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { memo, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { object } from "yup";
+import { object, ValidationError } from "yup";
 import { Formik } from "formik";
 import isEmpty from "lodash/isEmpty";
 import { batch, useDispatch } from "react-redux";
@@ -12,6 +14,7 @@ import { constructInitialValues, sortSubformValues } from "../utils";
 import { useMemoizedSelector } from "../../../libs";
 import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
 import { getDataProtectionInitialValues } from "../selectors";
+import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD } from "../constants";
 import { LEGITIMATE_BASIS } from "../../record-creation-flow/components/consent-prompt/constants";
 import renderFormSections from "../components/render-form-sections";
 import { useApp } from "../../application";
@@ -41,7 +44,7 @@ const RecordForm = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { online } = useApp();
+  const { online, maximumttachmentsPerRecord } = useApp();
 
   const [initialValues, setInitialValues] = useState(mode.isNew ? constructInitialValues(forms.values()) : {});
   const [formTouched, setFormTouched] = useState({});
@@ -69,7 +72,46 @@ const RecordForm = ({
       );
     }, {});
 
-    return object().shape(schema);
+    const attachmentsFieldNames = [
+      ...formSections
+        .flatMap(obj =>
+          obj.fields.filter(field => [AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD].includes(field.type) && !field.disabled)
+        )
+        .map(field => field.name)
+    ];
+
+    return object()
+      .shape(schema)
+      .test({
+        name: "maxAttach",
+        // eslint-disable-next-line object-shorthand, func-names
+        test: function (values) {
+          const attachmentsKeys = Object.keys(values).filter(key => attachmentsFieldNames.includes(key));
+          const totalAttachments = attachmentsKeys.reduce(
+            (acc, arr) =>
+              acc +
+              values[arr].filter(
+                value => !(Object.prototype.hasOwnProperty.call(value, "_destroy") || value.field_name === undefined)
+              ).length,
+            0
+          );
+
+          if (totalAttachments <= maximumttachmentsPerRecord) return true;
+
+          const errors = attachmentsKeys.map(key => {
+            return new ValidationError(
+              i18n.t("fields.attachments.maximum_attached", { maximumttachmentsPerRecord }),
+              true,
+              key
+            );
+          });
+
+          // eslint-disable-next-line react/no-this-in-sfc
+          return this.createError({
+            message: () => errors
+          });
+        }
+      });
   };
 
   useEffect(() => {
@@ -80,7 +122,11 @@ const RecordForm = ({
     const redirectToIncident = RECORD_TYPES.cases === recordType ? { redirectToIncident: false } : {};
 
     if (record) {
-      const recordFormValues = { ...initialValues, ...record.toJS(), ...redirectToIncident };
+      const recordFormValues = {
+        ...(mode.isNew ? constructInitialValues(forms.values()) : {}),
+        ...record.toJS(),
+        ...redirectToIncident
+      };
 
       const subformValues = sortSubformValues(recordFormValues, forms.values());
 

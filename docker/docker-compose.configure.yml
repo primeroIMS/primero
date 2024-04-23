@@ -1,0 +1,12 @@
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+---
+services:
+  configure:
+    image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/application:${PRIMERO_TAG:-latest}'
+    volumes:
+      - public:/share/public
+      - storage:/srv/primero/application/storage
+    env_file:
+      - docker/defaults.env
+      - docker/local.env

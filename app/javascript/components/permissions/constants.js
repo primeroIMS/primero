@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const ACTIONS = {
   ADD_NOTE: "add_note",
   ADD_REGISTRY_RECORD: "add_registry_record",
@@ -11,6 +13,7 @@ export const ACTIONS = {
   ASSIGN_WITHIN_AGENCY: "assign_within_agency",
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
   ASSIGN: "assign",
+  CASE_FROM_FAMILY: "case_from_family",
   CHANGE_LOG: "change_log",
   CLOSE: "close",
   CONSENT_OVERRIDE: "consent_override",
@@ -40,7 +43,7 @@ export const ACTIONS = {
   DASH_NATIONAL_ADMIN_SUMMARY: "dash_national_admin_summary",
   DASH_PROTECTION_CONCERNS: "dash_protection_concerns",
   DASH_REPORTING_LOCATION: "dash_reporting_location",
-  DASH_SHARED_FROM_MY_TEAM: "dash_shared_with_my_team",
+  DASH_SHARED_FROM_MY_TEAM: "dash_shared_from_my_team",
   DASH_SHARED_WITH_ME: "dash_shared_with_me",
   DASH_SHARED_WITH_MY_TEAM_OVERVIEW: "dash_shared_with_my_team_overview",
   DASH_SHARED_WITH_MY_TEAM: "dash_shared_with_my_team",
@@ -68,6 +71,7 @@ export const ACTIONS = {
   EXPORT_UNHCR: "export_unhcr_csv",
   FIND_TRACING_MATCH: "find_tracing_match",
   FLAG: "flag",
+  FLAG_RESOLVE_ANY: "resolve_any_flag",
   GBV_STATISTICS: "gbv_statistics",
   GROUP_READ: "group_read",
   INCIDENT_DETAILS_FROM_CASE: "incident_details_from_case",
@@ -108,12 +112,15 @@ export const ACTIONS = {
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   SYNC_EXTERNAL: "sync_external",
   TRANSFER: "transfer",
+  VERIFY_MRM: "verify_mrm",
   VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
   VIEW_REGISTRY_RECORD: "view_registry_record",
   VIOLATIONS: "violations",
   WORKFLOW_REPORT: "workflow_report",
   WRITE: "write",
-  VIEW_FAMILY_RECORD: "view_family_record"
+  VIEW_FAMILY_RECORD: "view_family_record",
+  LINK_FAMILY_RECORD: "link_family_record",
+  REMOVE_ALERT: "remove_alert"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -168,7 +175,7 @@ export const WRITE_REGISTRY_RECORD = [...MANAGE, ACTIONS.ADD_REGISTRY_RECORD];
 
 export const READ_REGISTRY_RECORD = [...MANAGE, ACTIONS.VIEW_REGISTRY_RECORD];
 
-export const READ_FAMILY = [...MANAGE, ACTIONS.VIEW_FAMILY_RECORD_FROM_CASE];
+export const READ_FAMILY_RECORD = [...MANAGE, ACTIONS.VIEW_FAMILY_RECORD];
 
 export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
 
@@ -195,6 +202,8 @@ export const READ_RECORDS = [...MANAGE, ACTIONS.READ];
 export const ENABLE_DISABLE_RECORD = [...MANAGE, ACTIONS.ENABLE_DISABLE_RECORD];
 
 export const FLAG_RECORDS = [...MANAGE, ACTIONS.FLAG];
+
+export const FLAG_RESOLVE_ANY = [...MANAGE, ACTIONS.FLAG_RESOLVE_ANY];
 
 export const ADD_NOTE = [...MANAGE, ACTIONS.ADD_NOTE];
 
@@ -336,3 +345,11 @@ export const VIEW_KPIS = [
 export const SHOW_SYNC_EXTERNAL = [...MANAGE, ACTIONS.SYNC_EXTERNAL];
 
 export const CONSENT_OVERRIDE = [...MANAGE, ACTIONS.CONSENT_OVERRIDE];
+
+export const CREATE_CASE_FROM_FAMILY = [...MANAGE, ACTIONS.CASE_FROM_FAMILY];
+
+export const LINK_FAMILY_RECORD_FROM_CASE = [...MANAGE, ACTIONS.LINK_FAMILY_RECORD];
+
+export const VIEW_FAMILY_RECORD_FROM_CASE = [...MANAGE, ACTIONS.VIEW_FAMILY_RECORD];
+
+export const REMOVE_ALERT = [...MANAGE, ACTIONS.REMOVE_ALERT];

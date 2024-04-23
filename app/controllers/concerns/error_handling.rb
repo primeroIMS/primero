@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Return an error array JSON when errors are raised in the API
 module ErrorHandling
   extend ActiveSupport::Concern

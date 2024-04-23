@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Model for Webpush Subscription
 class WebpushSubscription < ApplicationRecord
   validates :notification_url, presence: { message: 'errors.models.webpush_subscription.notification_url_present' },
@@ -30,6 +32,22 @@ class WebpushSubscription < ApplicationRecord
     super(EncryptionService.encrypt(p256dh_value))
   end
 
+  def metadata
+    {
+      endpoint: notification_url,
+      p256dh:,
+      auth:
+    }
+  end
+
+  def expired?
+    (Time.now - (Rails.application.config.x.webpush.pause_after || 0).minutes) >= updated_at
+  end
+
+  def disable!
+    update(disabled: true)
+  end
+
   class << self
     def permitted_api_params
       %i[disabled notification_url auth p256dh]
@@ -43,8 +61,11 @@ class WebpushSubscription < ApplicationRecord
     end
 
     def current(user, params)
-      user&.webpush_subscriptions
-           &.find_by(notification_url: params[:notification_url])
+      subscription = user&.webpush_subscriptions
+          &.find_by(notification_url: params[:notification_url])
+      raise ActiveRecord::RecordNotFound if subscription&.disabled
+
+      subscription
     end
 
     def current_or_new_with_user(user, params)

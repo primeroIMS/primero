@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This file should contain all the record creation needed to seed the database
 # with its default values. The data can then be loaded with the rake db:seed.
 

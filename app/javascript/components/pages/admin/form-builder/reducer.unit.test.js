@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import { FormSectionRecord, RADIO_FIELD, SELECT_FIELD, SUBFORM_SECTION, TALLY_FIELD, TEXT_FIELD } from "../../../form";

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export { default as buildChartValues } from "./build-chart-values";
 export { default as buildGroupedSubItemColumns } from "./build-grouped-sub-item-columns";
 export { default as buildInsightColumns } from "./build-insight-columns";

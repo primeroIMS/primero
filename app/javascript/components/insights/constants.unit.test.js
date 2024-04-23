@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { expect } from "chai";
 
 import { MODULES } from "../../config/constants";
@@ -76,7 +78,16 @@ describe("<Report /> - constants", () => {
       "WORKFLOW_DISPLAY_NAME",
       "WORKFLOW",
       "YEAR_OPTION_IDS",
-      "YEAR"
+      "YEAR",
+      "PROTECTION_CONCERNS",
+      "PROTECTION_CONCERNS_DISPLAY_NAME",
+      "REPORTING_LOCATIONS",
+      "REPORTING_LOCATIONS_DISPLAY_NAME",
+      "FOLLOWUPS",
+      "FOLLOWUPS_DISPLAY_NAME",
+      "SERVICES",
+      "SERVICES_DISPLAY_NAME",
+      "SHARED_WORKFLOW_CONFIG"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

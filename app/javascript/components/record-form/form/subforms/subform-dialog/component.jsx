@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
@@ -8,11 +10,11 @@ import isEmpty from "lodash/isEmpty";
 import { useDispatch } from "react-redux";
 
 import { fieldValidations } from "../../validations";
-import { SUBFORM_DIALOG } from "../constants";
+import { SUBFORM_CREATE_CASE_DIALOG, SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
 import { getSubformValues, serviceHasReferFields, updateSubformEntries, addSubformEntries } from "../../utils";
-import ActionDialog from "../../../../action-dialog";
+import ActionDialog, { useDialog } from "../../../../action-dialog";
 import SubformDrawer from "../subform-drawer";
 import { compactValues, constructInitialValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
@@ -23,11 +25,11 @@ import uuid from "../../../../../libs/uuid";
 import { useApp } from "../../../../application";
 import SubformLink from "../subform-link/component";
 import DefaultEditActions from "../subform-drawer-actions/components/default-edit-actions";
-import FamilyMemberActions from "../subform-drawer-actions/components/family-member-actions";
+import FamilySubformActions from "../subform-drawer-actions/components/family-subform-actions";
 import {
+  createCaseFromFamilyDetail,
   createCaseFromFamilyMember,
-  getCaseFormFamilyMemberLoading,
-  getCaseFromFamilyMember
+  getCaseFormFamilyMemberLoading
 } from "../../../../records";
 import { useMemoizedSelector } from "../../../../../libs";
 import { RECORD_TYPES_PLURAL } from "../../../../../config";
@@ -51,6 +53,7 @@ const Component = ({
   recordType,
   recordModuleID,
   parentTitle,
+  isFamilyDetail,
   isFamilyMember,
   isViolation,
   isViolationAssociation,
@@ -60,13 +63,17 @@ const Component = ({
   const params = useParams();
   const dispatch = useDispatch();
   const [initialValues, setInitialValues] = useState({});
+  const { dialogOpen, setDialog } = useDialog(SUBFORM_CREATE_CASE_DIALOG);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
-  const [openCreateCaseConfirmationModal, setOpenCreateCaseConfirmationModal] = useState(false);
-  const caseFromFamilyMember = useMemoizedSelector(state => getCaseFromFamilyMember(state));
-  const caseFromFamilyMemberLoading = useMemoizedSelector(state => getCaseFormFamilyMemberLoading(state));
+  const caseFromFamilyMemberLoading = useMemoizedSelector(state => getCaseFormFamilyMemberLoading(state, recordType));
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
-  const asDrawer = isViolation || isViolationAssociation || isFamilyMember;
+  const asDrawer = isViolation || isViolationAssociation || isFamilyMember || isFamilyDetail;
+  const isFamilySubform = isFamilyMember || isFamilyDetail;
+  const familyHandleBackLabel = isFamilyMember
+    ? "family.family_member.back_to_family_members"
+    : "case.back_to_family_details";
+  const familyCreateLabel = isFamilyMember ? "family.family_member.create_case" : "case.create_case";
 
   const subformValues = getSubformValues(field, index, formik.values, orderedValues, isViolation);
 
@@ -82,8 +89,7 @@ const Component = ({
     return object().shape(Object.assign({}, ...subformSchema));
   };
 
-  const familyMemberCaseId = caseFromFamilyMember.get("case_id", subformValues.case_id);
-  const familyMemberCaseIdDisplay = caseFromFamilyMember.get("case_id_display", subformValues.case_id_display);
+  const { case_id: caseId, case_id_display: caseIdDisplay } = subformValues;
 
   const handleClose = () => {
     const compactedValues = compactValues(childFormikRef.current.values, initialSubformValues);
@@ -182,15 +188,26 @@ const Component = ({
   };
 
   const createCaseConfirmationProps = {
-    open: openCreateCaseConfirmationModal,
+    open: dialogOpen,
     maxSize: "xs",
-    confirmButtonLabel: i18n.t("family.family_member.create"),
+    confirmButtonLabel: isFamilyMember ? i18n.t("family.family_member.create") : i18n.t("case.create"),
+    pending: caseFromFamilyMemberLoading,
+    omitCloseAfterSuccess: true,
     dialogTitle: title,
-    dialogText: i18n.t("family.messages.confirm_create_case"),
-    disableBackdropClick: true,
-    cancelHandler: () => setOpenCreateCaseConfirmationModal(false),
+    dialogText: isFamilyMember
+      ? i18n.t("family.messages.confirm_create_case")
+      : i18n.t("case.messages.confirm_create_case"),
+    cancelHandler: () => {
+      setDialog({ dialog: SUBFORM_CREATE_CASE_DIALOG, open: false });
+    },
     successHandler: () => {
-      dispatch(createCaseFromFamilyMember({ familyId: params.id, familyMemberId: subformValues.unique_id }));
+      if (isFamilyMember) {
+        dispatch(createCaseFromFamilyMember({ familyId: params.id, familyMemberId: subformValues.unique_id }));
+      }
+
+      if (isFamilyDetail) {
+        dispatch(createCaseFromFamilyDetail({ caseId: params.id, familyDetailId: subformValues.unique_id }));
+      }
     }
   };
 
@@ -252,12 +269,15 @@ const Component = ({
                 {asDrawer && (
                   <SubformDrawerActions
                     showActions={
-                      isFamilyMember && !familyMemberCaseId ? (
-                        <FamilyMemberActions
+                      isFamilySubform && !caseId ? (
+                        <FamilySubformActions
+                          recordType={recordType}
                           handleBack={handleClose}
+                          handleBackLabel={familyHandleBackLabel}
                           pending={caseFromFamilyMemberLoading}
+                          handleCreateLabel={familyCreateLabel}
                           handleCreate={() => {
-                            setOpenCreateCaseConfirmationModal(true);
+                            setDialog({ dialog: SUBFORM_CREATE_CASE_DIALOG, open: true });
                           }}
                         />
                       ) : null
@@ -273,14 +293,15 @@ const Component = ({
                         handleCancel={handleClose}
                       />
                     }
-                    isShow={mode.isShow}
+                    isShow={mode.isShow || isReadWriteForm === false}
                   />
                 )}
-                {isFamilyMember && mode.isShow && familyMemberCaseId && !caseFromFamilyMemberLoading && (
+                {isFamilySubform && mode.isShow && caseId && !caseFromFamilyMemberLoading && (
                   <SubformLink
-                    href={`/${RECORD_TYPES_PLURAL.case}/${familyMemberCaseId}`}
+                    href={`/${RECORD_TYPES_PLURAL.case}/${caseId}`}
                     label={i18n.t("family.family_member.case_id")}
-                    text={familyMemberCaseIdDisplay}
+                    text={caseIdDisplay}
+                    disabled={!subformValues?.can_read_record}
                   />
                 )}
                 {renderSubform(field, index, values, setFieldValue)}
@@ -289,7 +310,7 @@ const Component = ({
           }}
         </Formik>
       </ComponentToRender>
-      {isFamilyMember && openCreateCaseConfirmationModal && <ActionDialog {...createCaseConfirmationProps} />}
+      {isFamilySubform && <ActionDialog {...createCaseConfirmationProps} />}
       <ActionDialog {...modalConfirmationProps} />
     </>
   );
@@ -306,6 +327,7 @@ Component.propTypes = {
   formSection: PropTypes.object,
   i18n: PropTypes.object.isRequired,
   index: PropTypes.number,
+  isFamilyDetail: PropTypes.bool,
   isFamilyMember: PropTypes.bool,
   isFormShow: PropTypes.bool,
   isReadWriteForm: PropTypes.bool,

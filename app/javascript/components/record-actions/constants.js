@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import {
   ACTIONS,
   ADD_INCIDENT,
@@ -6,8 +8,7 @@ import {
   SHOW_EXPORTS,
   ASSIGN,
   REQUEST_APPROVAL,
-  APPROVAL,
-  LINK_INCIDENT_TO_CASE
+  APPROVAL
 } from "../permissions";
 
 export const ID_SEARCH = "id_search";
@@ -36,6 +37,8 @@ export const ENABLED_FOR_ONE = [ONE];
 export const ENABLED_FOR_ONE_MANY = [ONE, MANY];
 export const ENABLED_FOR_ONE_MANY_ALL = [ONE, MANY, ALL];
 
+export const FILTERS_TO_SKIP = Object.freeze(["fields", "id_search", "per", "page", "total", "filter_category"]);
+
 export const RECORD_ACTION_ABILITIES = {
   canAddIncident: ADD_INCIDENT,
   canAddNotes: [ACTIONS.MANAGE, ACTIONS.ADD_NOTE],
@@ -62,5 +65,6 @@ export const RECORD_ACTION_ABILITIES = {
   canShowExports: SHOW_EXPORTS,
   canTransfer: [ACTIONS.MANAGE, ACTIONS.TRANSFER],
   canMarkForOffline: [ACTIONS.MANAGE, ACTIONS.MARK_FOR_OFFLINE],
-  canLinkIncidentToCase: [ACTIONS.MANAGE, ACTIONS.LINK_INCIDENT_TO_CASE]
+  canLinkIncidentToCase: [ACTIONS.MANAGE, ACTIONS.LINK_INCIDENT_TO_CASE],
+  canVerify: [ACTIONS.MANAGE, ACTIONS.VERIFY_MRM]
 };

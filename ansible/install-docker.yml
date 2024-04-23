@@ -1,9 +1,8 @@
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 ---
 - hosts: 'all'
   roles:
   - 'manage-users'
   - 'quoin.infrastructure.configure_journald'
-  - 'quoin.infrastructure.install_python3_virtualenv'
-  - 'quoin.infrastructure.install_python3_docker'
-  - 'quoin.infrastructure.install_python3_docker_compose'
   - 'quoin.infrastructure.install_docker'

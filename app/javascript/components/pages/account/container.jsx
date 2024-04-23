@@ -1,4 +1,7 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/display-name */
+
 import { fromJS } from "immutable";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -22,7 +25,8 @@ import { PASSWORD_MODAL } from "../admin/users-form/constants";
 import { form } from "../admin/users-form/form";
 import { getIdentityProviders } from "../admin/users-form/selectors";
 import validations from "../admin/users-form/validations";
-import { fetchRoles } from "../../application";
+import { fetchRoles, getWebpushConfig } from "../../application";
+import PushNotificationsWrapper from "../../push-notifications-toggle/push-notifications-wrapper";
 
 import { clearCurrentUser, fetchCurrentUser, updateUserAccount } from "./action-creators";
 import { FORM_ID, NAME } from "./constants";
@@ -41,6 +45,7 @@ const Container = ({ mode }) => {
   const saving = useMemoizedSelector(state => getUserSavingRecord(state));
   const formErrors = useMemoizedSelector(state => getServerErrors(state));
   const idp = useMemoizedSelector(state => getIdentityProviders(state));
+  const webPushConfig = useMemoizedSelector(state => getWebpushConfig(state));
 
   const setPasswordModal = () => {
     setDialog({ dialog: PASSWORD_MODAL, open: true });
@@ -86,7 +91,10 @@ const Container = ({ mode }) => {
   );
 
   const editButton = formMode.isShow && (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
+    <>
+      <PushNotificationsWrapper />
+      <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
+    </>
   );
 
   const pageHeading = currentUser.get("full_name", "") || i18n.t("navigation.my_account");
@@ -115,7 +123,10 @@ const Container = ({ mode }) => {
     identityOptions,
     onClickChangePassword,
     true,
-    { userGroups: currentUser.get("userGroups", fromJS([])) }
+    {
+      userGroups: currentUser.get("userGroups", fromJS([])),
+      webPushConfigEnabled: webPushConfig?.get("enabled", false)
+    }
   );
 
   // eslint-disable-next-line react/no-multi-comp

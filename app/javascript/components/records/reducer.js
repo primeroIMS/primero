@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS, Map, List } from "immutable";
 
 import { mergeRecord } from "../../libs";
@@ -19,6 +21,7 @@ import {
   RECORD_FINISHED,
   SERVICE_REFERRED_SAVE,
   FETCH_RECORD_ALERTS_SUCCESS,
+  DELETE_ALERT_FROM_RECORD_SUCCESS,
   FETCH_INCIDENT_FROM_CASE_SUCCESS,
   CLEAR_METADATA,
   CLEAR_CASE_FROM_INCIDENT,
@@ -68,7 +71,11 @@ import {
   CREATE_CASE_FROM_FAMILY_MEMBER_FINISHED,
   FETCH_LINK_INCIDENT_TO_CASE_DATA_SUCCESS,
   FETCH_LINK_INCIDENT_TO_CASE_DATA,
-  FETCH_LINK_INCIDENT_TO_CASE_DATA_FINISHED
+  FETCH_LINK_INCIDENT_TO_CASE_DATA_FINISHED,
+  CREATE_CASE_FROM_FAMILY_DETAIL_STARTED,
+  CREATE_CASE_FROM_FAMILY_DETAIL_SUCCESS,
+  CREATE_CASE_FROM_FAMILY_DETAIL_FAILURE,
+  CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -175,6 +182,13 @@ export default namespace =>
         return state.set("errors", true);
       case `${namespace}/${RECORD_FINISHED}`:
         return state.set("loading", false);
+      case `${namespace}/${DELETE_ALERT_FROM_RECORD_SUCCESS}`:
+        state.set("alert_count", state.get("alert_count") - 1);
+
+        return state.set(
+          "recordAlerts",
+          state.get("recordAlerts").filter(alert => alert.get("unique_id") !== payload.alertId)
+        );
       case `${namespace}/${FETCH_RECORD_ALERTS_SUCCESS}`:
         return state.set("recordAlerts", fromJS(payload.data));
       case "user/LOGOUT_SUCCESS":
@@ -355,23 +369,43 @@ export default namespace =>
         return state;
       }
       case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_STARTED}`: {
-        return state.setIn(["case", "loading"], true);
+        return state.setIn(["case_from_family", "loading"], true);
       }
       case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_SUCCESS}`: {
-        return state.setIn(["case", "data"], fromJS(payload.data));
+        const recordIndex = state.get("data").findIndex(record => record.get("id") === payload.data.id);
+
+        return state.setIn(["data", recordIndex, "family_members"], fromJS(payload.data.family_members));
       }
       case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_FAILURE}`: {
-        return state.setIn(["case", "errors"], true);
+        return state.setIn(["case_from_family", "errors"], true);
       }
       case `${namespace}/${CREATE_CASE_FROM_FAMILY_MEMBER_FINISHED}`: {
-        return state.setIn(["case", "loading"], false);
+        return state.setIn(["case_from_family", "loading"], false);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_STARTED}`: {
+        return state.setIn(["case_from_family", "loading"], true);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_SUCCESS}`: {
+        const recordIndex = state.get("data").findIndex(record => record.get("id") === payload.data.id);
+
+        return state
+          .setIn(["data", recordIndex, "family_details_section"], fromJS(payload.data.family_details_section))
+          .setIn(["data", recordIndex, "family_number"], payload.data.family_number)
+          .setIn(["data", recordIndex, "family_member_id"], payload.data.family_member_id)
+          .setIn(["data", recordIndex, "family_id"], payload.data.family_id);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_FAILURE}`: {
+        return state.setIn(["case_from_family", "errors"], true);
+      }
+      case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED}`: {
+        return state.setIn(["case_from_family", "loading"], false);
       }
       case `${namespace}/${FETCH_LINK_INCIDENT_TO_CASE_DATA}`:
         return state.set("loading", true);
-      case `${namespace}/${FETCH_LINK_INCIDENT_TO_CASE_DATA_SUCCESS}`:      
+      case `${namespace}/${FETCH_LINK_INCIDENT_TO_CASE_DATA_SUCCESS}`:
         return state.set("data", fromJS(payload.data));
       case `${namespace}/${FETCH_LINK_INCIDENT_TO_CASE_DATA_FINISHED}`:
-        return state.set("loading", false);  
+        return state.set("loading", false);
       default:
         return state;
     }

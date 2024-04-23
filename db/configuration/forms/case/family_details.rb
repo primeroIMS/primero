@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 family_details_section_fields = [
   Field.new('name' => 'relation_name',
             'type' => 'text_field',
@@ -36,6 +38,10 @@ family_details_section_fields = [
             'type' => 'date_field',
             'display_name_en' => 'Date of Birth',
             'date_validation' => 'not_future_date'),
+  Field.new('name' => 'relation_sex',
+            'type' => 'select_box',
+            'option_strings_source' => 'lookup lookup-gender',
+            'display_name_en' => 'Sex'),
   Field.new('name' => 'relation_language',
             'type' => 'select_box',
             'display_name_en' => 'Language',

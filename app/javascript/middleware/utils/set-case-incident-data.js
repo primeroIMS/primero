@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { get } from "../../components/form/utils";
 import { getFieldMap, offlineIncidentFromCase } from "../../components/records";
 import { ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD, MODULE_TYPE_FIELD } from "../../config";

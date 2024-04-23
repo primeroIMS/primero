@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Describes a request by a single individual to trace one or more children (cases)
 class TracingRequest < ApplicationRecord
   include Record
@@ -67,6 +69,7 @@ class TracingRequest < ApplicationRecord
   end
 
   searchable do
+    date :inquiry_date
     %w[id status].each { |f| string(f, as: "#{f}_sci") }
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }

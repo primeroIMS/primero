@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { List, fromJS } from "immutable";
 
 import { SAVING } from "../../config/constants";
@@ -30,6 +32,12 @@ export const getUser = state => {
   return state.get(NAMESPACE, fromJS({}));
 };
 
+export const getUserProperty = (state, property, defaultValue = false) => {
+  const path = Array.isArray(property) ? [NAMESPACE, ...property] : [NAMESPACE, property];
+
+  return state.getIn(path, defaultValue);
+};
+
 export const getUserSavingRecord = state => state.getIn([NAMESPACE, SAVING], false);
 
 export const getServerErrors = state => {
@@ -52,6 +60,8 @@ export const getCurrentUserUserGroups = state => state.getIn([NAMESPACE, "userGr
 
 export const hasPrimeroModule = (state, primeroModule) =>
   state.getIn([NAMESPACE, "modules"], fromJS([])).includes(primeroModule);
+
+export const getNotificationSubscription = state => state.getIn([NAMESPACE, "notificationEndpoint"]);
 
 export const getManagedReportScope = state => state.getIn([NAMESPACE, "managedReportScope"], null);
 

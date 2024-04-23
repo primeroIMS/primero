@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Map, fromJS } from "immutable";
 import isEmpty from "lodash/isEmpty";
 
@@ -7,7 +9,8 @@ import Actions from "./actions";
 import { ListHeaderRecord, FilterRecord } from "./records";
 
 const DEFAULT_STATE = Map({
-  isAuthenticated: false
+  isAuthenticated: false,
+  loaded: false
 });
 
 export default (state = DEFAULT_STATE, { type, payload }) => {
@@ -35,7 +38,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         code_of_conduct_id: codeOfConductId,
         code_of_conduct_accepted_on: codeOfConductAcceptedOn,
         permitted_role_unique_ids: permittedRoleUniqueIds,
-        managed_report_scope: managedReportScope
+        managed_report_scope: managedReportScope,
+        receive_webpush: receiveWebpush
       } = payload;
       const cleanedPermissions = permissions.list.filter(listItem => !isEmpty(listItem.actions));
 
@@ -58,7 +62,9 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           codeOfConductId,
           codeOfConductAcceptedOn,
           permittedRoleUniqueIds,
-          managedReportScope
+          managedReportScope,
+          loaded: true,
+          receiveWebpush
         })
       );
     }
@@ -70,6 +76,12 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     }
     case Actions.RESET_PASSWORD_FAILURE: {
       return state.setIn(["resetPassword", "saving"], false);
+    }
+    case Actions.SAVE_USER_NOTIFICATION_SUBSCRIPTION: {
+      return state.set("notificationEndpoint", payload);
+    }
+    case Actions.REMOVE_USER_NOTIFICATION_SUBSCRIPTION: {
+      return state.remove("notificationEndpoint", payload);
     }
     default:
       return state;

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Concern for Record Violence Type Subreport Exporter
 class Exporters::RecordViolenceTypeSubreportExporter < Exporters::SubreportExporter
   include Exporters::Concerns::RecordFilterInsightParams

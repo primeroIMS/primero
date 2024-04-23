@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Class to export the Incidents Subreport
 class Exporters::IncidentsSubreportExporter < Exporters::SubreportExporter
   MERGED_INDICATORS = %w[total gbv_sexual_violence gbv_previous_incidents].freeze

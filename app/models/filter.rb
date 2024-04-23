@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # The value bag representing the list view filters, and the hardcoded set of these filters in Primero
 # rubocop:disable Metrics/ClassLength
 class Filter < ValueObject
-  attr_accessor :name, :field_name, :type, :options, :option_strings_source
+  attr_accessor :name, :field_name, :type, :options, :option_strings_source,
+                :toggle_include_disabled, :sort_options
 
   FLAGGED_CASE = Filter.new(
     name: 'cases.filter_by.flag',
@@ -19,7 +22,13 @@ class Filter < ValueObject
       { locale => [{ id: 'true', display_name: I18n.t('cases.filter_by.mobile_label', locale:) }] }
     end.inject(&:merge)
   )
-  SOCIAL_WORKER = Filter.new(name: 'cases.filter_by.social_worker', field_name: 'owned_by')
+  SOCIAL_WORKER = Filter.new(
+    name: 'cases.filter_by.social_worker',
+    field_name: 'owned_by',
+    type: 'multi_select',
+    toggle_include_disabled: true,
+    sort_options: true
+  )
   RECORD_OWNER = Filter.new(name: 'incidents.filter_by.record_owner', field_name: 'owned_by')
   MY_CASES = Filter.new(name: 'cases.filter_by.my_cases', field_name: 'my_cases')
   WORKFLOW = Filter.new(name: 'cases.filter_by.workflow', field_name: 'workflow')
@@ -195,17 +204,8 @@ class Filter < ValueObject
   )
   INQUIRY_DATE = Filter.new(
     name: 'tracing_requests.filter_by.by_date',
-    field_name: 'inquiry_date',
-    options: I18n.available_locales.map do |locale|
-      {
-        locale => [
-          {
-            id: 'inquiry_date',
-            display_name: I18n.t('tracing_requests.selectable_date_options.inquiry_date', locale:)
-          }
-        ]
-      }
-    end.inject(&:merge)
+    field_name: 'tracing_requests_by_date',
+    type: 'dates'
   )
   DATE_REGISTRY = Filter.new(
     name: 'registry_records.filter_by.by_date',
@@ -630,8 +630,14 @@ class Filter < ValueObject
   end
 
   def owned_by_options(opts = {})
-    managed_user_names = opts[:user].managed_user_names
-    self.options = managed_user_names.map { |user_name| { id: user_name, display_name: user_name } }
+    managed_users = opts[:user].managed_users
+    self.options = managed_users.map do |usr|
+      {
+        id: usr.user_name,
+        display_name: usr.user_name,
+        enabled: !usr.disabled
+      }
+    end
   end
 
   def workflow_options(opts = {})
@@ -753,6 +759,16 @@ class Filter < ValueObject
     }
   end
 
+  def tracing_requests_by_date_options(_opts = {})
+    self.options = I18n.available_locales.map do |locale|
+      locale_options = [{
+        id: 'inquiry_date',
+        display_name: I18n.t('tracing_requests.selectable_date_options.inquiry_date', locale:)
+      }]
+      { locale => locale_options }
+    end.inject(&:merge)
+  end
+
   def registry_records_by_date_options(_opts = {})
     self.options = I18n.available_locales.map do |locale|
       locale_options = [{
@@ -792,7 +808,7 @@ class Filter < ValueObject
       approval_status_options
     elsif %w[
       owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date incidents_by_date
-      registry_records_by_date individual_age families_by_date
+      registry_records_by_date individual_age families_by_date tracing_requests_by_date
     ].include? field_name
       opts = { user:, record_type: }
       send("#{field_name}_options", opts)

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the total of incidents where the organization is not the first point of contact
 class ManagedReports::Indicators::IncidentsFromOtherServiceProvider < ManagedReports::SqlReportIndicator
   class << self

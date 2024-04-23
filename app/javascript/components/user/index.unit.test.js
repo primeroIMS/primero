@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import * as index from "./index";
 
 describe("User - index", () => {
@@ -29,6 +31,7 @@ describe("User - index", () => {
       "getServerErrors",
       "getUser",
       "getUserSavingRecord",
+      "getUserProperty",
       "hasPrimeroModule",
       "hasUserPermissions",
       "reducer",
@@ -37,7 +40,10 @@ describe("User - index", () => {
       "setAuthenticatedUser",
       "setUser",
       "showLoginDialog",
-      "useRefreshUserToken"
+      "useRefreshUserToken",
+      "saveNotificationSubscription",
+      "removeNotificationSubscription",
+      "getNotificationSubscription"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

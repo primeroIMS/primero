@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable no-restricted-globals */
 
 import { precacheAndRoute, getCacheKeyForURL, cleanupOutdatedCaches } from "workbox-precaching";
@@ -23,18 +25,22 @@ const isNav = event => event.request.mode === "navigate";
 
 // TODO: This pr would allow passing strategies to workbox way of handling navigation routes
 // https://github.com/GoogleChrome/workbox/pull/2459
-registerRoute(
-  ({ event }) => isNav(event),
-  new NetworkFirst({
-    cacheName: cacheNames.precache,
-    networkTimeoutSeconds: 5,
-    plugins: [
-      new CacheableResponsePlugin({
-        statuses: [200]
-      })
-    ]
-  })
-);
+function registerNetworkFirstRoute(url, cacheName) {
+  registerRoute(
+    url,
+    new NetworkFirst({
+      cacheName,
+      networkTimeoutSeconds: 5,
+      plugins: [
+        new CacheableResponsePlugin({
+          statuses: [200]
+        })
+      ]
+    })
+  );
+}
+
+registerNetworkFirstRoute(({ event }) => isNav(event), cacheNames.precache);
 
 // Images
 registerRoute(
@@ -67,6 +73,19 @@ registerRoute(
   METHODS.GET
 );
 
+registerRoute(
+  /\/(?:theme|manifest).*$/,
+  new CacheFirst({
+    cacheName: "theme",
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 2
+      })
+    ]
+  }),
+  METHODS.GET
+);
+
 // Api Endpoints
 Object.values(METHODS).forEach(method => {
   registerRoute(/\/api\/.*/, new NetworkOnly(), method);
@@ -90,3 +109,40 @@ setCatchHandler(({ event }) => {
 
   return Response.error();
 });
+
+self.addEventListener("push", event => {
+  const message = event.data.json();
+
+  event.waitUntil(
+    self.registration.showNotification(message.title, {
+      body: message.body,
+      image: message.icon,
+      icon: message.icon,
+      data: { url: message.link }
+    })
+  );
+});
+
+self.addEventListener(
+  "notificationclick",
+  event => {
+    event.notification.close();
+
+    event.waitUntil(
+      self.clients.matchAll().then(clientList => {
+        const link = `${self.location.protocol}//${event.notification.data.url}`;
+
+        for (let clientCounter = 0; clientCounter < clientList.length; clientCounter += 1) {
+          const client = clientList[clientCounter];
+
+          if (client.url === link && "focus" in client) {
+            return client.focus();
+          }
+        }
+
+        return self.clients.openWindow(link);
+      })
+    );
+  },
+  false
+);

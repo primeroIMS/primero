@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import { LOOKUPS } from "../../../../config";
@@ -18,10 +20,28 @@ import {
   PASSWORD_USER_OPTION,
   USER_GROUP_UNIQUE_IDS,
   USERGROUP_PRIMERO_GBV,
-  FIELD_NAMES
+  FIELD_NAMES,
+  NOTIFIERS,
+  NOTIFICATIONS_PREFERENCES
 } from "./constants";
+import css from "./styles.css";
 
 const passwordPlaceholder = formMode => (formMode.get("isEdit") ? "•••••" : "");
+
+const notificationPreferences = (i18n, notifier, shouldRender = true) => {
+  if (!shouldRender) return [];
+
+  return NOTIFICATIONS_PREFERENCES.map(preferences => ({
+    display_name: i18n.t(`user.notification_preferences.${preferences}`),
+    name: FIELD_NAMES[`${notifier}_${preferences.toUpperCase()}`],
+    type: TICK_FIELD,
+    inputClassname: css.settingsChildField,
+    watchedInputs: FIELD_NAMES[notifier],
+    handleWatchedInputs: value => ({
+      visible: Boolean(value) === true
+    })
+  }));
+};
 
 const sharedUserFields = (
   i18n,
@@ -29,7 +49,7 @@ const sharedUserFields = (
   hideOnAccountPage,
   onClickChangePassword,
   useIdentity,
-  { agencyReadOnUsers, currentRoleGroupPermission, userGroups }
+  { agencyReadOnUsers, currentRoleGroupPermission, userGroups, webPushConfigEnabled }
 ) => [
   {
     display_name: i18n.t("user.full_name"),
@@ -196,12 +216,15 @@ const sharedUserFields = (
     type: TICK_FIELD,
     selected_value: formMode.get("isNew")
   },
+  ...notificationPreferences(i18n, NOTIFIERS.send_mail),
   {
     display_name: i18n.t("user.receive_webpush.label"),
     name: FIELD_NAMES.RECEIVE_WEBPUSH,
     type: TICK_FIELD,
-    help_text: i18n.t("user.receive_webpush.help_text")
-  }
+    help_text: i18n.t("user.receive_webpush.help_text"),
+    visible: webPushConfigEnabled
+  },
+  ...notificationPreferences(i18n, NOTIFIERS.receive_webpush, webPushConfigEnabled)
 ];
 
 const identityUserFields = (i18n, identityOptions) => [
@@ -231,14 +254,16 @@ export const form = (
   identityOptions,
   onClickChangePassword,
   hideOnAccountPage = false,
-  { agencyReadOnUsers, currentRoleGroupPermission, userGroups } = {}
+  { agencyReadOnUsers, currentRoleGroupPermission, userGroups, webPushConfigEnabled } = {}
 ) => {
   const useIdentity = useIdentityProviders && providers;
   const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity, {
     agencyReadOnUsers,
     currentRoleGroupPermission,
-    userGroups
+    userGroups,
+    webPushConfigEnabled
   });
+
   const identityFields = identityUserFields(i18n, identityOptions);
 
   const providersDisable = (value, name, { error }) => {

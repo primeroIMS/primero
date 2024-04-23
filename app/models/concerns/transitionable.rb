@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Supporting logic and fields for transitions
 module Transitionable
   extend ActiveSupport::Concern
@@ -95,5 +97,16 @@ module Transitionable
     return referrals if owner?(user) || user.agency_id == owner.agency_id
 
     referrals.where(transitioned_to_agency: user.agency.unique_id)
+  end
+
+  # Returns the referrals for a user in the record
+  def referrals_to_user(user)
+    referrals.where(
+      transitioned_to: user.user_name, status: [Transition::STATUS_INPROGRESS, Transition::STATUS_ACCEPTED]
+    )
+  end
+
+  def can_be_assigned?
+    true
   end
 end

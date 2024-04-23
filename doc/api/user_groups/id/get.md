@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Fetch the individual user_group
 
 Show the JSON representation of a user_group.

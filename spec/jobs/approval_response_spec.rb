@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe ApprovalResponseJob, type: :job do
@@ -23,6 +25,17 @@ describe ApprovalResponseJob, type: :job do
       ApprovalResponseJob.perform_later(@manager2.id, @child.id, 'value1', true)
       approval_response_jobs = ActiveJob::Base.queue_adapter.enqueued_jobs.select { |j| j[:job] == ApprovalResponseJob }
       expect(approval_response_jobs.size).to eq(1)
+    end
+  end
+
+  context 'when user has enabled webpush notification' do
+    it 'should call RecordActionWebpushNotifier' do
+      expect(RecordActionWebpushNotifier).to receive(:manager_approval_response)
+      expect(ApprovalResponseNotificationService).to receive(:new).with(@child.id, 'value1', @manager1.user_name, false)
+
+      perform_enqueued_jobs do
+        ApprovalResponseJob.perform_later(@child.id, false, 'value1', @manager1.user_name)
+      end
     end
   end
 

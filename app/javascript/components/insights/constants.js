@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import {
   MODULES,
   MRM_INSIGHTS_SUBREPORTS,
@@ -11,7 +13,12 @@ import {
   INPROGRESS,
   ACCEPTED,
   REJECTED,
-  DONE
+  DONE,
+  PROTECTION_CONCERNS_SUBREPORTS,
+  REPORTING_LOCATIONS_SUBREPORTS,
+  FOLLOWUPS_SUBREPORTS,
+  SERVICES_SUBREPORTS,
+  CASES_WORKFLOW_SUBREPORTS
 } from "../../config/constants";
 import { DATE_FIELD, SELECT_FIELD, HIDDEN_FIELD, OPTION_TYPES } from "../form/constants";
 import { FieldRecord } from "../form/records";
@@ -37,6 +44,9 @@ const VERIFICATION_STATUS = "verification_status";
 const GHN_DATE_FILTER = "ghn_date_filter";
 const VIOLATION_TYPE = "violation_type";
 const REGISTRATION_DATE = "registration_date";
+const SERVICE_IMPLEMENTED_DAY_TIME = "service_implemented_day_time";
+const CREATED_AT = "created_at";
+const FOLLOWUP_DATE = "followup_date";
 
 const GBV_STATISTICS = "gbv_statistics";
 const VIOLATIONS = "violations";
@@ -65,6 +75,10 @@ export const USER_GROUP = "user_group";
 export const AGENCY = "agency";
 export const BY = "by";
 export const WORKFLOW = "workflow";
+export const PROTECTION_CONCERNS = "protection_concerns";
+export const REPORTING_LOCATIONS = "location";
+export const FOLLOWUPS = "followup_type";
+export const SERVICES = "service_type";
 export const VIOLENCE_TYPE = "cp_incident_violence_type";
 export const REFERRAL_TRANSFER_STATUS = "referral_transfer_status";
 
@@ -107,6 +121,10 @@ export const BY_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, BY];
 export const USER_GROUP_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, USER_GROUP];
 export const AGENCY_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, AGENCY];
 export const WORKFLOW_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, WORKFLOW];
+export const PROTECTION_CONCERNS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, PROTECTION_CONCERNS];
+export const REPORTING_LOCATIONS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, REPORTING_LOCATIONS];
+export const FOLLOWUPS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, FOLLOWUPS];
+export const SERVICES_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, SERVICES];
 export const VIOLENCE_TYPE_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, VIOLENCE_TYPE];
 export const REFERRAL_TRANSFER_STATUS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, REFERRAL_TRANSFER_STATUS];
 
@@ -236,7 +254,7 @@ export const RECORD_FILTERS = {
     name: CREATED_BY_GROUPS,
     type: SELECT_FIELD,
     display_name: USER_GROUP_DISPLAY_NAME,
-    option_strings_source: OPTION_TYPES.USER_GROUP_PERMITTED,
+    option_strings_source: OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED,
     watchedInputs: [BY],
     showIf: values => values[BY] === CREATED_BY_GROUPS
   },
@@ -244,7 +262,7 @@ export const RECORD_FILTERS = {
     name: OWNED_BY_GROUPS,
     type: SELECT_FIELD,
     display_name: USER_GROUP_DISPLAY_NAME,
-    option_strings_source: OPTION_TYPES.USER_GROUP_PERMITTED,
+    option_strings_source: OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED,
     watchedInputs: [BY],
     showIf: values => values[BY] === OWNED_BY_GROUPS
   },
@@ -303,6 +321,35 @@ export const DEFAULT_VIOLATION_FILTERS = {
   [DATE_RANGE]: THIS_QUARTER,
   [DATE]: INCIDENT_DATE,
   [VERIFIED_CTFMR_TECHNICAL]: VERIFIED
+};
+
+export const SHARED_WORKFLOW_CONFIG = {
+  ids: WORKFLOW_SUBREPORTS,
+  defaultFilterValues: {
+    [GROUPED_BY]: WEEK,
+    [DATE_RANGE]: LAST_WEEK,
+    [STATUS]: [STATUS_OPEN],
+    [DATE]: REGISTRATION_DATE,
+    [BY]: OWNED_BY_GROUPS
+  },
+  filters: [
+    RECORD_FILTERS[GROUPED_BY],
+    RECORD_FILTERS[DATE_RANGE],
+    RECORD_FILTERS[FROM],
+    RECORD_FILTERS[TO],
+    RECORD_FILTERS[STATUS],
+    {
+      name: WORKFLOW,
+      type: SELECT_FIELD,
+      display_name: WORKFLOW_DISPLAY_NAME
+    },
+    RECORD_FILTERS[BY],
+    RECORD_FILTERS[CREATED_BY_GROUPS],
+    RECORD_FILTERS[OWNED_BY_GROUPS],
+    RECORD_FILTERS[CREATED_ORGANIZATION],
+    RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+    RECORD_FILTERS[DATE]
+  ].map(filter => FieldRecord(filter))
 };
 
 export const INSIGHTS_CONFIG = {
@@ -382,8 +429,8 @@ export const INSIGHTS_CONFIG = {
     }
   },
   [MODULES.CP]: {
-    workflow_report: {
-      ids: WORKFLOW_SUBREPORTS,
+    protection_concerns_report: {
+      ids: PROTECTION_CONCERNS_SUBREPORTS,
       defaultFilterValues: {
         [GROUPED_BY]: WEEK,
         [DATE_RANGE]: LAST_WEEK,
@@ -398,9 +445,11 @@ export const INSIGHTS_CONFIG = {
         RECORD_FILTERS[TO],
         RECORD_FILTERS[STATUS],
         {
-          name: WORKFLOW,
+          name: PROTECTION_CONCERNS,
           type: SELECT_FIELD,
-          display_name: WORKFLOW_DISPLAY_NAME
+          display_name: PROTECTION_CONCERNS_DISPLAY_NAME,
+          multi_select: true,
+          option_strings_source: LOOKUPS.protection_concerns
         },
         RECORD_FILTERS[BY],
         RECORD_FILTERS[CREATED_BY_GROUPS],
@@ -409,6 +458,100 @@ export const INSIGHTS_CONFIG = {
         RECORD_FILTERS[OWNED_BY_AGENCY_ID],
         RECORD_FILTERS[DATE]
       ].map(filter => FieldRecord(filter))
+    },
+    reporting_locations_report: {
+      ids: REPORTING_LOCATIONS_SUBREPORTS,
+      defaultFilterValues: {
+        [GROUPED_BY]: WEEK,
+        [DATE_RANGE]: LAST_WEEK,
+        [STATUS]: [STATUS_OPEN],
+        [DATE]: REGISTRATION_DATE,
+        [BY]: OWNED_BY_GROUPS
+      },
+      filters: [
+        RECORD_FILTERS[GROUPED_BY],
+        RECORD_FILTERS[DATE_RANGE],
+        RECORD_FILTERS[FROM],
+        RECORD_FILTERS[TO],
+        RECORD_FILTERS[STATUS],
+        {
+          name: REPORTING_LOCATIONS,
+          type: SELECT_FIELD,
+          display_name: REPORTING_LOCATIONS_DISPLAY_NAME,
+          option_strings_source: LOOKUPS.reporting_locations
+        },
+        RECORD_FILTERS[BY],
+        RECORD_FILTERS[CREATED_BY_GROUPS],
+        RECORD_FILTERS[OWNED_BY_GROUPS],
+        RECORD_FILTERS[CREATED_ORGANIZATION],
+        RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+        RECORD_FILTERS[DATE]
+      ].map(filter => FieldRecord(filter))
+    },
+    followups_report: {
+      ids: FOLLOWUPS_SUBREPORTS,
+      defaultFilterValues: {
+        [GROUPED_BY]: WEEK,
+        [DATE_RANGE]: LAST_WEEK,
+        [STATUS]: [STATUS_OPEN],
+        [DATE]: FOLLOWUP_DATE,
+        [BY]: OWNED_BY_GROUPS
+      },
+      filters: [
+        RECORD_FILTERS[GROUPED_BY],
+        RECORD_FILTERS[DATE_RANGE],
+        RECORD_FILTERS[FROM],
+        RECORD_FILTERS[TO],
+        RECORD_FILTERS[STATUS],
+        {
+          name: FOLLOWUPS,
+          type: SELECT_FIELD,
+          display_name: FOLLOWUPS_DISPLAY_NAME,
+          multi_select: true,
+          option_strings_source: LOOKUPS.followup_type
+        },
+        RECORD_FILTERS[BY],
+        RECORD_FILTERS[CREATED_BY_GROUPS],
+        RECORD_FILTERS[OWNED_BY_GROUPS],
+        RECORD_FILTERS[CREATED_ORGANIZATION],
+        RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+        RECORD_FILTERS[DATE]
+      ].map(filter => FieldRecord(filter))
+    },
+    services_report: {
+      ids: SERVICES_SUBREPORTS,
+      defaultFilterValues: {
+        [GROUPED_BY]: WEEK,
+        [DATE_RANGE]: LAST_WEEK,
+        [STATUS]: [STATUS_OPEN],
+        [DATE]: SERVICE_IMPLEMENTED_DAY_TIME,
+        [BY]: OWNED_BY_GROUPS
+      },
+      filters: [
+        RECORD_FILTERS[GROUPED_BY],
+        RECORD_FILTERS[DATE_RANGE],
+        RECORD_FILTERS[FROM],
+        RECORD_FILTERS[TO],
+        RECORD_FILTERS[STATUS],
+        {
+          name: SERVICES,
+          type: SELECT_FIELD,
+          display_name: SERVICES_DISPLAY_NAME,
+          multi_select: true,
+          option_strings_source: LOOKUPS.service_type
+        },
+        RECORD_FILTERS[BY],
+        RECORD_FILTERS[CREATED_BY_GROUPS],
+        RECORD_FILTERS[OWNED_BY_GROUPS],
+        RECORD_FILTERS[CREATED_ORGANIZATION],
+        RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+        RECORD_FILTERS[DATE]
+      ].map(filter => FieldRecord(filter))
+    },
+    workflow_report: SHARED_WORKFLOW_CONFIG,
+    cases_workflow_report: {
+      ids: CASES_WORKFLOW_SUBREPORTS,
+      ...SHARED_WORKFLOW_CONFIG
     },
     violence_type_report: {
       ids: VIOLENCE_TYPE_SUBREPORTS,
@@ -445,7 +588,7 @@ export const INSIGHTS_CONFIG = {
         [GROUPED_BY]: WEEK,
         [DATE_RANGE]: LAST_WEEK,
         [STATUS]: [STATUS_OPEN],
-        [DATE]: REGISTRATION_DATE,
+        [DATE]: CREATED_AT,
         [BY]: OWNED_BY_GROUPS,
         [REFERRAL_TRANSFER_STATUS]: [ACCEPTED]
       },

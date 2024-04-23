@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 Rails.application.routes.draw do
   root to: 'home#v2'
 
@@ -28,6 +30,9 @@ Rails.application.routes.draw do
   get 'login/:id', to: redirect(path: '/v2/login/%{id}')
   # rubocop:enable Style/FormatStringToken(RuboCop)
 
+  get 'manifest', to: 'themes#manifest', defaults: { format: :json }
+  get :theme, to: 'themes#index', defaults: { format: :js }
+
   namespace :api do
     namespace :v2, defaults: { format: :json },
                    constraints: { format: :json },
@@ -37,7 +42,7 @@ Rails.application.routes.draw do
       resources :children, as: :cases, path: :cases do
         resources :children_incidents, as: :incidents, path: :incidents, only: %i[index new]
         resources :flags, only: %i[index create update]
-        resources :alerts, only: [:index]
+        resources :alerts, only: %i[index destroy]
         resources :assigns, only: %i[index create]
         resources :referrals, only: %i[index create destroy update]
         resources :transfers, only: %i[index create update]
@@ -49,6 +54,7 @@ Rails.application.routes.draw do
         resources :webhook_syncs, as: :sync, path: :sync, only: [:create]
         get :traces, to: 'children#traces'
         get :record_history, to: 'record_histories#index'
+        post :family, to: 'children#create_family'
         collection do
           post :flags, to: 'flags#create_bulk'
           post :assigns, to: 'assigns#create_bulk'
@@ -59,13 +65,18 @@ Rails.application.routes.draw do
 
       resources :incidents do
         resources :flags, only: %i[index create update]
-        resources :alerts, only: [:index]
+        resources :alerts, only: %i[index destroy]
         resources :approvals, only: [:update]
         resources :attachments, only: %i[create destroy]
+        resources :assigns, only: %i[index create]
+        resources :transitions, only: [:index]
         post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'
         get :get_case_to_link, to: 'incidents#get_case_to_link', on: :collection
         post :link_incidents_to_case, to: 'incidents#link_incidents_to_case', on: :collection
+        collection do
+          post :assigns, to: 'assigns#create_bulk'
+        end
       end
 
       resources :tracing_requests do
@@ -139,7 +150,7 @@ Rails.application.routes.draw do
       resources :families do
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
-        post :create_case, to: 'families#create_case'
+        post :case, to: 'families#create_case'
         get :record_history, to: 'record_histories#index'
       end
 

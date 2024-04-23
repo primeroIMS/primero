@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -65,7 +67,7 @@ const Container = ({
   };
 
   return (
-    <div className={css.container}>
+    <div className={css.container} data-testid="ChangeLogs">
       <RecordFormTitle
         mobileDisplay={mobileDisplay}
         handleToggleNav={handleToggleNav}

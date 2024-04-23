@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Custom miscellaneous Primero configurations, pulled from the environment
 Rails.application.configure do
   # The directory where bulk export files are placed.
@@ -20,4 +22,10 @@ Rails.application.configure do
   config.use_app_cache = Rails.env.production? || ActiveRecord::Type::Boolean.new.cast(ENV.fetch(
                                                                                          'PRIMERO_USE_APP_CACHE', nil
                                                                                        ))
+
+  config.use_theme = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_USE_THEME', nil)) || false
+
+  config.silence_logging = [
+    'GET /health', 'GET /health/database', 'GET /health/solr', 'GET /health/server'
+  ]
 end

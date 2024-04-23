@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # NumberOfCases Search
 #
 # Looks for all of the cases created in a given location over a range

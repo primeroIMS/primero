@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This model persists the user-modifiable state of the Primero configuration as JSON.
 # If desired, this configuration state can replace the current Primero configuration state.
 class PrimeroConfiguration < ApplicationRecord

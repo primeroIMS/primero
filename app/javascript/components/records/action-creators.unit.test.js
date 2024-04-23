@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import isObject from "lodash/isObject";
 
 import { DB_COLLECTIONS_NAMES } from "../../db";
@@ -26,31 +28,33 @@ describe("records - Action Creators", () => {
 
     [
       "clearCaseFromIncident",
+      "clearMatchedTraces",
       "clearMetadata",
+      "clearPotentialMatches",
       "clearRecordAttachments",
+      "clearSelectedCasePotentialMatch",
       "clearSelectedRecord",
+      "createCaseFromFamilyDetail",
+      "createCaseFromFamilyMember",
+      "externalSync",
       "fetchCasesPotentialMatches",
       "fetchIncidentFromCase",
       "fetchIncidentwitCaseId",
+      "fetchMatchedTraces",
       "fetchRecord",
       "fetchRecordsAlerts",
       "fetchTracePotentialMatches",
       "fetchTracingRequestTraces",
+      "markForOffline",
+      "offlineIncidentFromCase",
       "saveRecord",
       "setCaseIdForIncident",
       "setMachedCaseForTrace",
+      "setSelectedCasePotentialMatch",
       "setSelectedPotentialMatch",
       "setSelectedRecord",
-      "setSelectedCasePotentialMatch",
-      "clearSelectedCasePotentialMatch",
-      "fetchMatchedTraces",
-      "clearMatchedTraces",
       "unMatchCaseForTrace",
-      "clearPotentialMatches",
-      "externalSync",
-      "offlineIncidentFromCase",
-      "markForOffline",
-      "createCaseFromFamilyMember"
+      "deleteAlertFromRecord"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -502,11 +506,11 @@ describe("records - Action Creators", () => {
     expect(actionCreators.externalSync(RECORD_PATH.cases, "12345")).be.deep.equals(expected);
   });
 
-  it("should check the 'markForOffline' action creator to return the correct object", () => {
+  it("should check the 'createCaseFromFamilyMember' action creator to return the correct object", () => {
     const expected = {
       type: "families/CREATE_CASE_FROM_FAMILY_MEMBER",
       api: {
-        path: "families/f001/create_case",
+        path: "families/f001/case",
         body: { data: { family_member_id: "m001" } },
         method: "POST",
         successCallback: [
@@ -527,11 +531,29 @@ describe("records - Action Creators", () => {
     );
   });
 
-  it("checks that 'createCaseFromFamilyMember' action creator to return the correct object", () => {
+  it("checks that 'clearPotentialMatches' action creator to return the correct object", () => {
     const expected = {
       type: `${RECORD_PATH.cases}/CLEAR_POTENTIAL_MATCHES`
     };
 
     expect(actionCreators.clearPotentialMatches()).be.deep.equals(expected);
+  });
+
+  it("checks that 'deleteAlertFromRecord' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.cases}/DELETE_ALERT_FROM_RECORD`,
+      api: {
+        path: `${RECORD_PATH.cases}/12345/alerts/12345-alert`,
+        method: METHODS.DELETE,
+        skipDB: true,
+        performFromQueue: true,
+        successCallback: {
+          action: `${RECORD_PATH.cases}/DELETE_ALERT_FROM_RECORD_SUCCESS`,
+          payload: { alertId: "12345-alert" }
+        }
+      }
+    };
+
+    expect(actionCreators.deleteAlertFromRecord(RECORD_PATH.cases, "12345", "12345-alert")).be.deep.equals(expected);
   });
 });

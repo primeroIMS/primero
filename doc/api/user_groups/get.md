@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Query for user_groups
 
 Shows a paginated list of all user_groups that are accessible to this user.

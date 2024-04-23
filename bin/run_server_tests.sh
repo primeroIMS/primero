@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 set -ex
 
@@ -32,18 +33,22 @@ setup_dependencies() {
   # Install Rails pre-requisites
   apt-get update
   apt install -y --no-install-recommends libpq-dev libsodium-dev
-  
-  if [ $PIPELINE == $BITBUCKET ]; then 
+
+  if [ $PIPELINE == $BITBUCKET ]; then
     bundle install --without production
   fi
 }
 
-if [ $PIPELINE == $GITHUB_ACTIONS ]; then 
+if [ $PIPELINE == $GITHUB_ACTIONS ]; then
   DEPS=`declare -f setup_dependencies`
   sudo -E bash -c "$DEPS; setup_dependencies"
 else
   setup_dependencies
 fi
+
+# TODO: Enable this once all bad interpolations are fixed on transifex
+# Run check transifex interpolations
+# ./bin/check_transifex_interpolations.sh
 
 setup_test_env
 

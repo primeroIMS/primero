@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Handles all exceptions for the API controllers so that they can be rendered.
 class ErrorService
   # We have a simple switch statement to instantiate the various errors thrown by Primero
@@ -54,6 +56,9 @@ class ErrorService
     when JWT::DecodeError, JWT::IncorrectAlgorithm, JWT::InvalidAudError, JWT::ExpiredSignature, JWT::InvalidIatError,
       JWT::InvalidIssuerError, JWT::InvalidJtiError, JWT::ImmatureSignature, JWT::InvalidSubError
       code = 401
+      errors = [ApplicationError.new(code:, message: error.message, resource: request.path)]
+    when Errors::BulkAssignRecordsSizeError
+      code = 403
       errors = [ApplicationError.new(code:, message: error.message, resource: request.path)]
     else
       code = 500

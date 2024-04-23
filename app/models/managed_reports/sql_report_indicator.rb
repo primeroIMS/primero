@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Class to hold SQL results
 class ManagedReports::SqlReportIndicator < ValueObject
   include ManagedReports::SqlQueryHelpers
@@ -77,13 +79,13 @@ class ManagedReports::SqlReportIndicator < ValueObject
       end
     end
 
-    def grouped_date_query(grouped_by_param, date_param, table_name = nil)
+    def grouped_date_query(grouped_by_param, date_param, table_name = nil, hash_field = 'data', map_to = nil)
       return unless grouped_by_param.present? && date_param.present?
 
       case grouped_by_param.value
-      when QUARTER then grouped_quarter_query(date_param, table_name)
-      when MONTH then grouped_month_query(date_param, table_name)
-      else grouped_year_query(date_param, table_name)
+      when QUARTER then grouped_quarter_query(date_param, table_name, hash_field, map_to)
+      when MONTH then grouped_month_query(date_param, table_name, hash_field, map_to)
+      else grouped_year_query(date_param, table_name, hash_field, map_to)
       end
     end
 

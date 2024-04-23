@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the total of transfers by user groups
 class ManagedReports::Indicators::TotalTransfersByUserGroups < ManagedReports::SqlReportIndicator
   include ManagedReports::WeekIndicatorHelper
@@ -20,7 +22,9 @@ class ManagedReports::Indicators::TotalTransfersByUserGroups < ManagedReports::S
             select
               unnest(record_owned_by_groups) as name,
               transitions_to.key,
-              #{grouped_date_query(params['grouped_by'], filter_date(params), 'cases')&.concat(' as group_id,')}
+              #{grouped_date_query(
+                params['grouped_by'], filter_date(params), 'transitions', nil
+              )&.concat(' as group_id,')}
               count(*) as sum
             from transitions
             inner join (
@@ -41,11 +45,11 @@ class ManagedReports::Indicators::TotalTransfersByUserGroups < ManagedReports::S
             #{equal_value_query_multiple(params['owned_by_agency_id'], 'cases')&.prepend('and ')}
             #{equal_value_query_multiple(params['created_organization'], 'cases')&.prepend('and ')}
             #{equal_value_query_multiple(params['status'], 'cases')&.prepend('and ')}
-            #{date_range_query(date_param, 'cases')&.prepend('and ')}
+            #{date_range_query(date_param, 'transitions', nil)&.prepend('and ')}
             #{equal_value_query(params['module_id'], 'cases')&.prepend('and ')}
             #{user_scope_query(current_user, 'cases')&.prepend('and ')}
             group by name, key
-              #{grouped_date_query(params['grouped_by'], date_param, 'cases')&.prepend(', ')}
+              #{grouped_date_query(params['grouped_by'], date_param, 'transitions', nil)&.prepend(', ')}
             order by name, key
           )
           select name, key, sum #{params['grouped_by'].present? ? ', group_id' : ''}

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Helper methods for tsfv indicators
 module ManagedReports::WeekIndicatorHelper
   extend ActiveSupport::Concern
@@ -29,30 +31,31 @@ module ManagedReports::WeekIndicatorHelper
     end
 
     # rubocop:disable Metrics/MethodLength
-    def grouped_by_week_query(date_param, table_name)
+    def grouped_by_week_query(date_param, table_name, hash_field = 'data', map_to = nil)
       return unless date_param.present?
 
-      quoted_field = "#{quoted_query(table_name, 'data')} ->> :date_field"
+      field_name = map_to || date_param.field_name
+      quoted_field = grouped_date_field(field_name, table_name, hash_field)
 
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           %(
-            to_char(date_trunc('week', to_timestamp(#{quoted_field}, :format)) - '1 days'::interval, 'yyyy-mm-dd')
+            to_char(date_trunc('week', #{quoted_field}) - '1 days'::interval, 'yyyy-mm-dd')
             || ' - ' ||
-            to_char(date_trunc('week', to_timestamp(#{quoted_field}, :format)) + '5 days'::interval, 'yyyy-mm-dd')
+            to_char(date_trunc('week', #{quoted_field}) + '5 days'::interval, 'yyyy-mm-dd')
           ),
-          { date_field: date_param.field_name, format: Report::DATE_TIME_FORMAT }
+          grouped_date_params(field_name, hash_field)
         ]
       )
     end
     # rubocop:enable Metrics/MethodLength
 
-    def grouped_date_query(grouped_by_param, date_param, table_name = nil)
+    def grouped_date_query(grouped_by_param, date_param, table_name = nil, hash_field = 'data', map_to = nil)
       if grouped_by_param&.value == ManagedReports::SqlReportIndicator::WEEK && date_param.present?
-        return grouped_by_week_query(date_param, table_name)
+        return grouped_by_week_query(date_param, table_name, hash_field, map_to)
       end
 
-      super(grouped_by_param, date_param, table_name)
+      super(grouped_by_param, date_param, table_name, hash_field, map_to)
     end
   end
 end

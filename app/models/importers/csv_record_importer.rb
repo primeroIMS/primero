@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Import Record data into Primero from CSV.
 # WARNING!!!  Never expose this via an API.  Doing so would pose a security risk
 class Importers::CsvRecordImporter < ValueObject

@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 source 'https://rubygems.org'
-ruby '3.2.2'
+ruby '3.2.3'
 
 gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
 gem 'aws-sdk-s3',          '~> 1.130', # Access and manage Amazon S3 storage (with ActiveStorage).
@@ -22,21 +24,17 @@ gem 'i18n-js',             '~> 3.9'    # Shares Rails i18n strings with the fron
 gem 'image_processing',    '~> 1.12'   # Ruby bindings for ImageMagick, resize attachments. Depenency of ActiveStorage
 gem 'jbuilder',            '~> 2.11'   # JSON templating for the API
 gem 'json_schemer',        '~> 1.0'    # Validation for submited JSON
-gem 'mail',                '~> 2.7.1'  # TODO: Remove once addressed bug with mail 2.8.0 https://github.com/mikel/mail/issues/1489
 gem 'matrix',              '~> 0.4'    # No longer part of Ruby 3.2 core. Must be included explicitly
 gem 'minipack',            '~> 0.3'    # An alternative to Webpacker. TODO: Is this still needed? In prod?
 gem 'net-http-persistent', '~> 4.0'    # Thread safe persistent HTTP connections, optional Faraday dependency
-gem 'net-imap', require: false         # TODO: Remove once mail gem issue resolved
-gem 'net-pop',  require: false         # TODO: Remove once mail gem issue resolved
-gem 'net-smtp', require: false         # TODO: Remove once mail gem issue resolved
-gem 'nokogiri',            '~> 1.15'   # Security assertion on implicit dependency.
+gem 'nokogiri',            '~> 1.16'   # Security assertion on implicit dependency.
 gem 'pg',                  '~> 1.5'    # Ruby PostgreSQL binding
 gem 'prawn',               '~> 2.4'    # PDF generation
 gem 'prawn-table',         '~> 0.2'    # PDF generation
-gem 'puma',                '~> 6.3'    # Ruby Rack server
+gem 'puma',                '~> 6.4'    # Ruby Rack server
 gem 'rack',                '~> 2.2'
 gem 'rack-attack',         '>= 6.6'    # Rack middleware to rate limit sensetive routes, such as those used for auth
-gem 'rails',               '6.1.7.4'
+gem 'rails',               '6.1.7.7'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files
@@ -48,7 +46,7 @@ gem 'sunspot_rails',       '~> 2.6'    # Rails ODM bindings to Solr
 gem 'sunspot_solr',        '~> 2.6'    # Ruby bindings to Solr
 gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
 gem 'tzinfo-data',         '~> 1.2023' # Timezone Data for TZInfo
-gem 'uri',                 '>= 0.12.2' # CVE-2023-36617: ReDoS vulnerability in URI
+gem 'uri',                 '~> 0.12'   # CVE-2023-36617: ReDoS vulnerability in URI
 gem 'web-push',            '~> 3.0'
 gem 'will_paginate',       '~> 4.0'    # Paginates ActiveRecord models  TODO: This can be refactored away.
 gem 'write_xlsx',          '~> 1.11'   # Exports XLSX

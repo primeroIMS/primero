@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { memo } from "react";
 import clsx from "clsx";
@@ -25,7 +27,13 @@ function AgencyLogo({ alwaysFullLogo = false }) {
 
       return (
         <>
-          <div id={`${uniqueId}-logo`} key={uniqueId} className={classesIcon} style={styleIcon} />
+          <div
+            id={`${uniqueId}-logo`}
+            key={uniqueId}
+            className={classesIcon}
+            style={styleIcon}
+            data-testid="background"
+          />
           {fullLogo}
         </>
       );

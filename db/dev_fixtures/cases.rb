@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Create enough cases to make a second page in the index view
 filler_cases = (0..25).inject({}) do |acc, i|
   acc.merge({ ('ff928802-455b-4735-9e5c-4ed9acace1%.2d' % i) => lambda do |c|

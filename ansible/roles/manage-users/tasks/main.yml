@@ -1,9 +1,13 @@
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 ---
 - name: 'Ensure group {{ application_container_username }} exists'
   group:
     name: '{{ application_container_username }}'
     gid: 1100
   become: yes
+  tags:
+  - 'always'
 
 - name: 'create application container user'
   user:
@@ -12,12 +16,16 @@
     group: '{{ application_container_username }}'
     uid: 1100
   become: yes
+  tags:
+  - 'always'
 
 - name: 'Ensure group {{ nginx_container_username }} exists'
   group:
     name: '{{ nginx_container_username }}'
     gid: 1101
   become: yes
+  tags:
+  - 'always'
 
 - name: 'create nginx container user'
   user:
@@ -26,6 +34,8 @@
     group: '{{ nginx_container_username }}'
     uid: 1101
   become: yes
+  tags:
+  - 'always'
 
 - name: 'Remove {{ application_container_username }} from /etc/subuid'
   lineinfile:
@@ -33,6 +43,8 @@
     state: 'absent'
     regexp: 'primero'
   become: yes
+  tags:
+  - 'always'
 
 - name: 'Remove {{ application_container_username }} from /etc/subgid'
   lineinfile:
@@ -40,6 +52,8 @@
     state: 'absent'
     regexp: '{{ application_container_username }}'
   become: yes
+  tags:
+  - 'always'
 
 - name: 'edit /etc/subuid for {{ application_container_username }} user mapping for docker containers'
   lineinfile:
@@ -48,6 +62,8 @@
     insertafter: EOF
     line: '{{ application_container_username }}:0:1000'
   become: yes
+  tags:
+  - 'always'
 
 - name: 'edit /etc/subuid for {{ application_container_username }} user mapping for docker containers'
   lineinfile:
@@ -56,6 +72,8 @@
     insertafter: EOF
     line: '{{ application_container_username }}:1100:65536'
   become: yes
+  tags:
+  - 'always'
 
 - name: 'edit /etc/subgid for {{ application_container_username }} user mapping for docker containers'
   lineinfile:
@@ -64,6 +82,8 @@
     insertafter: EOF
     line: '{{ application_container_username }}:0:1000'
   become: yes
+  tags:
+  - 'always'
 
 - name: 'edit /etc/subgid for {{ application_container_username }} user mapping for docker containers'
   lineinfile:
@@ -72,3 +92,14 @@
     insertafter: EOF
     line: '{{ application_container_username }}:1100:65536'
   become: yes
+  tags:
+  - 'always'
+
+- name: Adding existing ansible user {{ ansible_user }} to application group
+  user:
+    name: '{{ ansible_user }}'
+    groups: '{{ application_container_username }}'
+    append: true
+  become: true
+  tags:
+  - 'always'
