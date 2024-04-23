@@ -4,7 +4,7 @@
 
 # Transform API query parameter field_name=m..n into a Sunspot query
 class SearchFilters::NumericRange < SearchFilters::SearchFilter
-  attr_accessor :field_name, :from, :to
+  attr_accessor :from, :to
 
   def query_scope(sunspot)
     this = self
@@ -18,17 +18,15 @@ class SearchFilters::NumericRange < SearchFilters::SearchFilter
   end
 
   def query
-    return "(#{from_query} AND #{to_query})" if to.present?
+    return if from.blank? && to.blank?
 
-    "(#{from_query})"
+    "(#{ActiveRecord::Base.sanitize_sql_for_conditions(['data->? IS NOT NULL', field_name])} AND #{json_path_query})"
   end
 
-  def from_query
-    SearchFilters::Value.new(field_name:, value: from, operator: '>=').query
-  end
+  def json_path_value
+    return ActiveRecord::Base.sanitize_sql_for_conditions(['@ >= %s && @ <= %s', from, to]) if to.present?
 
-  def to_query
-    SearchFilters::Value.new(field_name:, value: to, operator: '<=').query
+    ActiveRecord::Base.sanitize_sql_for_conditions(['@ >= %s', from])
   end
 
   def to_h
