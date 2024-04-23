@@ -25,29 +25,14 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
   # rubocop:enable Style/HashEachMethods
   # rubocop:enable Metrics/MethodLength
 
-  # rubocop:disable Metrics/MethodLength
   def query
     return unless values.present?
 
-    ActiveRecord::Base.sanitize_sql_for_conditions(
-      [
-        %(
-          (
-            data->>:field_name IS NOT NULL AND (#{values_query})
-          )
-        ),
-        { field_name:, values: }
-      ]
-    )
+    "(#{ActiveRecord::Base.sanitize_sql_for_conditions(['data->>? IS NOT NULL', field_name])} AND (#{json_path_query}))"
   end
-  # rubocop:enable Metrics/MethodLength
 
-  def values_query
-    values.map do |value|
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        ['data->:field_name @> TO_JSONB(:value)', { field_name:, value: }]
-      )
-    end.join(' OR ')
+  def json_path_value
+    values.map { |value| ActiveRecord::Base.sanitize_sql_for_conditions(['@ == %s', value]) }.join(' || ')
   end
 
   def as_location_filter(record_class)

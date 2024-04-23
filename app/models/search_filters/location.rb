@@ -12,7 +12,7 @@ module SearchFilters::Location
       [
         %(
           (
-            data ? :field_name AND data->>:field_name IS NOT NULL AND EXISTS
+            data->>:field_name IS NOT NULL AND EXISTS
             (
               SELECT
                 1
