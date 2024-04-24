@@ -96,7 +96,7 @@ describe("<NavItem />", () => {
   const props = {
     form: {},
     groupItem: false,
-    handleClick: () => {},
+    handleClick: () => { },
     isNested: false,
     isNew: false,
     itemsOfGroup: [],
