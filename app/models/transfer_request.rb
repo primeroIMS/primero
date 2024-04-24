@@ -6,9 +6,8 @@
 class TransferRequest < Transition
   def perform
     self.status = Transition::STATUS_INPROGRESS
-    record.update_last_updated_by(transitioned_by_user)
     # TODO: Add alert on referrals and transfers form for record
-    record.save!
+    record.update_last_updated_by(transitioned_by_user)
   end
 
   def respond!(params)

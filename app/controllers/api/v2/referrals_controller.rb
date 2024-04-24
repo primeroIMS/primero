@@ -67,7 +67,7 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
     referral.transitioned_by = current_user.user_name
     referral.record = record
     record.update_last_updated_by(current_user)
-    record.save! && referral.save! && referral
+    referral.save! && referral
   end
 
   def authorize_create!(record)

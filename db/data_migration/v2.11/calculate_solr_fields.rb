@@ -59,7 +59,11 @@ if models.include?('Child')
           'has_incidents' => record.calculate_has_incidents,
           'flagged' => record.calculate_flagged,
           'current_alert_types' => record.calculate_current_alert_types,
-          'not_edited_by_owner' => record.calculate_not_edited_by_owner
+          'not_edited_by_owner' => record.calculate_not_edited_by_owner,
+          'transferred_to_users' => record.calculate_transferred_to_users,
+          'transferred_to_user_groups' => record.calculate_transferred_to_user_groups,
+          'referred_users' => record.calculate_referred_users,
+          'referred_users_present' => record.calculate_referred_users_present
         ),
         'phonetic_data' => { 'tokens' => record.generate_tokens }
       }

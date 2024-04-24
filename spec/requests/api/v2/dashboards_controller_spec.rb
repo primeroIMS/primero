@@ -429,6 +429,7 @@ describe Api::V2::DashboardsController, type: :request do
         Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
         Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_b)
         @case_b.update(transfer_status: Transition::STATUS_REJECTED)
+        @case_a.save!
         Sunspot.commit
       end
 

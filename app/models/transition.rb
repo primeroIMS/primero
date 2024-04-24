@@ -29,6 +29,7 @@ class Transition < ApplicationRecord
   before_create :copy_transitioned_user_groups_and_agency
   after_save_commit :notify
 
+  after_save :save_record
   after_save :index_record
 
   def defaults
@@ -147,5 +148,9 @@ class Transition < ApplicationRecord
 
     self.transitioned_to_user_agency = transitioned_to_user.agency&.unique_id
     self.transitioned_to_user_groups = transitioned_to_user.user_group_unique_ids
+  end
+
+  def save_record
+    record.save!
   end
 end

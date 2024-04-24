@@ -86,23 +86,19 @@ module Indicators
     def with_scope_referred_to_users(user)
       return [] unless scope_to_referred
 
-      [SearchFilters::ReferredUsers.new(value: user.user_name, record_type: record_model.name)]
+      [SearchFilters::TextValue.new(field_name: 'referred_users', value: user.user_name)]
     end
 
     def with_scope_transferred_to_users(user)
       return [] unless scope_to_transferred
 
-      [SearchFilters::TransferredToUsers.new(value: user.user_name, record_type: record_model.name)]
+      [SearchFilters::TextValue.new(field_name: 'transferred_to_users', value: user.user_name)]
     end
 
     def with_scope_transferred_to_user_groups(user)
       return [] unless scope_to_transferred_groups
 
-      [
-        SearchFilters::TransferredToUserGroups.new(
-          values: user.user_group_unique_ids, type: Transfer.name, record_type: record_model.name
-        )
-      ]
+      [SearchFilters::TextList.new(field_name: 'transferred_to_user_groups', values: user.user_group_unique_ids)]
     end
 
     def filters(user)
