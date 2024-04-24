@@ -431,17 +431,17 @@ export const fetchLinkIncidentToCaseData = payload => {
   };
 };
 
-export const linkIncidentToCase = ({ recordType, incident_ids: incidentIDS = [], case_id: caseID }) => {
+export const linkIncidentToCase = ({ recordType, selectedIDs = [], caseID }) => {
   return {
     type: `${recordType}/LINK_INCIDENT_TO_CASE`,
     api: {
-      path: `incidents/link_incidents_to_case`,
-      method: "POST",
-      body: { data: { incident_case_id: caseID, incident_ids: incidentIDS } },
+      path: `cases/${caseID}/incidents`,
+      method: METHODS.POST,
+      body: { data: { incident_ids: selectedIDs } },
       successCallback: {
         action: ENQUEUE_SNACKBAR,
         payload: {
-          message: "Linked incident to case",
+          messageKey: "incident.link_incident_to_case_success",
           options: {
             variant: "success",
             key: generate.messageKey()

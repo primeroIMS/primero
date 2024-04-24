@@ -184,6 +184,7 @@ en:
     import: Import
     login: Log in
     logout: Log out
+    link: Link
     mark_for_mobile: Mark for mobile
     new: New
     ok: OK
@@ -1483,6 +1484,8 @@ en:
   incident:
     code: Incident Code
     associated_case: "Associated Case:"
+    link_incident_to_case: Link Incident to Case
+    link_incident_to_case_success: Linked incident(s) to case
     messages:
       creation_success: Incident record successfully created.
       creation_success_queue: Incident record successfully created in background

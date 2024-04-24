@@ -7,11 +7,6 @@ class Api::V2::IncidentsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
   include Api::V2::Concerns::Record
 
-  def link_incidents_to_case
-    incidents = Incident.where(id:params[:data][:incident_ids]).update_all(incident_case_id: params[:data][:incident_case_id])
-    render 'api/v2/incidents/index'
-  end
-
   private
 
   def authorize_create!

@@ -1,40 +1,49 @@
 .recordId {
-    color: var(--c-red);
-  }
-  
-  .alreadyMatched {
-    background-color: var(--c-wild-sand);
-    padding: 10px;
-  
-    & span {
-      font-weight: bold;
-    }
-  }
-  
-  .fieldRow {
-    & audio {
-      width: 100%;
-    }
-  }
+  color: var(--c-red);
+}
 
-  .fieldRow {
-    border-bottom: 1px solid var(--c-light-grey);
-  }
-  
-  .fieldTitle {
+.alreadyMatched {
+  background-color: var(--c-wild-sand);
+  padding: 10px;
+
+  & span {
     font-weight: bold;
   }
-  
-  .matched {
-    color: var(--c-green);
-  }
-  
-  .notMatched {
-    color: var(--c-red);
-  }
+}
 
-  #caseIdDetailLink{
-    position: relative !important;
-    left: 820% !important;
+.fieldRow {
+  & audio {
+    width: 100%;
   }
-  
+}
+
+.fieldRow:not(:last-of-type) {
+  border-bottom: 1px solid var(--c-light-grey);
+}
+
+.fieldTitle {
+  font-weight: bold;
+}
+
+.matched {
+  color: var(--c-green);
+}
+
+.notMatched {
+  color: var(--c-red);
+}
+
+.form {
+  margin-top: var(--sp-3);
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.caseID {
+  margin: var(--sp-3) 0 0 0;
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--c-light-grey);
+}
