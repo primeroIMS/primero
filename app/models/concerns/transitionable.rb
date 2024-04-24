@@ -9,7 +9,8 @@ module Transitionable
   included do
     has_many :transitions, as: :record
 
-    store_accessor :data, :transfer_status, :reassigned_transferred_on
+    store_accessor :data, :transfer_status, :reassigned_transferred_on, :referred_users, :transferred_to_users,
+                   :transferred_to_user_groups, :referred_users_present
 
     # TODO: Delete once incident dashboard is migrated
     searchable do
@@ -17,6 +18,11 @@ module Transitionable
       string :transferred_to_users, multiple: true
       string :transferred_to_user_groups, multiple: true
     end
+
+    before_save :calculate_transferred_to_users
+    before_save :calculate_transferred_to_user_groups
+    before_save :calculate_referred_users
+    before_save :calculate_referred_users_present
   end
 
   def assigns
@@ -59,24 +65,28 @@ module Transitionable
     transitions.where(type: types.reject { |type| type == Referral.name }).or(referrals)
   end
 
-  def transferred_to_users
-    transfers
-      .where(status: [Transition::STATUS_INPROGRESS])
-      .pluck(:transitioned_to).uniq
+  def calculate_transferred_to_users
+    self.transferred_to_users = transfers.where(status: [Transition::STATUS_INPROGRESS]).pluck(:transitioned_to).uniq
+    transferred_to_users
   end
 
-  def transferred_to_user_groups
-    UserGroup.joins(:users).where(users: { name: transferred_to_users }).pluck(:unique_id)
+  def calculate_transferred_to_user_groups
+    self.transferred_to_user_groups = UserGroup.joins(:users).where(
+      users: { name: transferred_to_users }
+    ).pluck(:unique_id)
+    transferred_to_user_groups
   end
 
-  def referred_users
-    referrals
-      .where(status: [Transition::STATUS_INPROGRESS, Transition::STATUS_ACCEPTED])
-      .pluck(:transitioned_to).uniq
+  def calculate_referred_users
+    self.referred_users = referrals.where(status: [Transition::STATUS_INPROGRESS, Transition::STATUS_ACCEPTED])
+                                   .pluck(:transitioned_to)
+                                   .uniq
+    referred_users
   end
 
-  def referred_users_present
-    referred_users.present?
+  def calculate_referred_users_present
+    self.referred_users_present = referred_users.present?
+    referred_users_present
   end
 
   def referrals_self_scope(user)

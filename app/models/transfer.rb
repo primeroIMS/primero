@@ -37,7 +37,7 @@ class Transfer < Transition
     remove_assigned_user
     record.owned_by = transitioned_to
     record.update_last_updated_by(user)
-    record.save! && save!
+    save!
     update_incident_ownership
   end
 
@@ -49,14 +49,14 @@ class Transfer < Transition
 
     remove_assigned_user
     record.update_last_updated_by(user)
-    record.save! && save!
+    save!
   end
 
   def revoke!(user)
     self.status = record.transfer_status = Transition::STATUS_REVOKED
     remove_assigned_user
     record.update_last_updated_by(user)
-    record.save! && save!
+    save!
   end
 
   def consent_given?
@@ -84,9 +84,8 @@ class Transfer < Transition
   private
 
   def perform_remote_transfer
-    record.status = Record::STATUS_TRANSFERRED
-    record.save!
     # TODO: Export record with the constraints of the external user role
+    record.status = Record::STATUS_TRANSFERRED
   end
 
   def perform_record_system_transfer
@@ -104,6 +103,5 @@ class Transfer < Transition
 
     perform_record_system_transfer
     record.last_updated_by = transitioned_by
-    record.save!
   end
 end

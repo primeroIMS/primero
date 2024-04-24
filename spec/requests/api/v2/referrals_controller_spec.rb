@@ -158,6 +158,7 @@ describe Api::V2::ReferralsController, type: :request do
           service_record_id: @case_b.data['services_section'][0]['unique_id']
         }
       }
+
       post("/api/v2/cases/#{@case_b.id}/referrals", params:)
 
       expect(response).to have_http_status(200)
