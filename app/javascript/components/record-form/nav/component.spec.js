@@ -168,7 +168,7 @@ describe("<Nav />", () => {
   const props = {
     firstTab: {},
     formNav,
-    handleToggleNav: () => {},
+    handleToggleNav: () => { },
     isNew: false,
     mobileDisplay: true,
     selectedForm: "record_owner",
@@ -341,7 +341,7 @@ describe("<Nav />", () => {
     const navGroupProps = {
       formNav: formNavWithGroups,
       firstTab: {},
-      handleToggleNav: () => {},
+      handleToggleNav: () => { },
       isNew: true,
       mobileDisplay: false,
       selectedForm: "basic_identity",
