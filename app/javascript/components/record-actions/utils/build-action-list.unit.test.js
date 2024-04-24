@@ -88,7 +88,8 @@ describe("record-actions/utils/build-action-list", () => {
       "requestApproval",
       "approve",
       "export",
-      "markForOffline"
+      "markForOffline",
+      "linkIncidentToCase"
     ]);
   });
 
@@ -121,7 +122,8 @@ describe("record-actions/utils/build-action-list", () => {
       expect(response.actions.map(action => action.name)).to.deep.equal([
         "buttons.reassign forms.record_types.incident",
         "actions.enable",
-        "incidents.export"
+        "incidents.export",
+        "incident.link_incident_to_case"
       ]);
     });
   });

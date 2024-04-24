@@ -105,7 +105,10 @@ describe("records - Actions", () => {
       "DELETE_ALERT_FROM_RECORD_FAILURE",
       "DELETE_ALERT_FROM_RECORD_FINISHED",
       "DELETE_ALERT_FROM_RECORD_STARTED",
-      "DELETE_ALERT_FROM_RECORD_SUCCESS"
+      "DELETE_ALERT_FROM_RECORD_SUCCESS",
+      "FETCH_LINK_INCIDENT_TO_CASE_DATA",
+      "FETCH_LINK_INCIDENT_TO_CASE_DATA_SUCCESS",
+      "FETCH_LINK_INCIDENT_TO_CASE_DATA_FINISHED"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("string");
