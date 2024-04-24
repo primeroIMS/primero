@@ -25,6 +25,11 @@ namespace :sunspot do
   Rake::Task['sunspot:reindex'].clear
   desc 'Reindex all indexeable models'
   task reindex: :wait do
+    unless Rails.configuration.solr_enabled
+      puts 'Reindex not performed. SolR not enabled'
+      next
+    end
+
     puts 'Reindexing Solr...'
     location_service = LocationService.new(true)
     [Child, Incident, TracingRequest, Trace, RegistryRecord, Family].each do |model|
@@ -35,6 +40,11 @@ namespace :sunspot do
 
   desc 'Remove all records from Solr'
   task remove_all: :environment do
+    unless Rails.configuration.solr_enabled
+      puts 'SolR not enabled'
+      next
+    end
+
     indexed_types = [
       Child, Incident, TracingRequest, Trace, RegistryRecord, Family
     ]
