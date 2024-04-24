@@ -34,7 +34,7 @@ class Referral < Transition
     self.responded_at = DateTime.now
     remove_assigned_user
     record.update_last_updated_by(user)
-    save! && record.save!
+    save!
   end
 
   def done!(user, rejection_note = nil)
@@ -46,14 +46,14 @@ class Referral < Transition
     mark_rejection(rejection_note, current_service_record)
     remove_assigned_user
     record.update_last_updated_by(user)
-    save! && record.save!
+    save!
   end
 
   def revoke!(user)
     self.status = Transition::STATUS_REVOKED
     remove_assigned_user
     record.update_last_updated_by(user)
-    save! && record.save!
+    save!
   end
 
   def accept!
@@ -61,7 +61,7 @@ class Referral < Transition
 
     self.status = Transition::STATUS_ACCEPTED
     self.responded_at = DateTime.now
-    save! && record.save!
+    save!
   end
 
   def process!(user, params)

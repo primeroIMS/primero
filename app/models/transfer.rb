@@ -37,7 +37,7 @@ class Transfer < Transition
     remove_assigned_user
     record.owned_by = transitioned_to
     record.update_last_updated_by(user)
-    save! && record.save!
+    save!
     update_incident_ownership
   end
 
@@ -49,14 +49,14 @@ class Transfer < Transition
 
     remove_assigned_user
     record.update_last_updated_by(user)
-    save! && record.save!
+    save!
   end
 
   def revoke!(user)
     self.status = record.transfer_status = Transition::STATUS_REVOKED
     remove_assigned_user
     record.update_last_updated_by(user)
-    save! && record.save!
+    save!
   end
 
   def consent_given?
