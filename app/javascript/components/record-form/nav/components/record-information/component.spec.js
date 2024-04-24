@@ -6,11 +6,10 @@ import { SHOW_APPROVALS, VIEW_INCIDENTS_FROM_CASE } from "../../../../permission
 import RecordInformation from "./component";
 
 describe("<RecordInformation />", () => {
-  let component;
 
   const props = {
     open: "record_information",
-    handleClick: () => {},
+    handleClick: () => { },
     selectedForm: "",
     formGroupLookup: []
   };
