@@ -8,35 +8,35 @@ import ReorderActions from "./component";
 
 describe("<FormsList />/components/<ReorderActions />", () => {
 
-    const initialState = fromJS({
-      records: {
-        admin: {
-          forms: {
-            reorderedForms: {
-              loading: false,
-              errors: [],
-              pending: []
-            }
+  const initialState = fromJS({
+    records: {
+      admin: {
+        forms: {
+          reorderedForms: {
+            loading: false,
+            errors: [],
+            pending: []
           }
         }
       }
-    });
+    }
+  });
 
   it("renders <Dialog/>", () => {
     mountedComponent(<ReorderActions {...{
-        handleCancel: () => {},
-        handleSuccess: () => {},
-        open: true
-      }} />, initialState)
+      handleCancel: () => { },
+      handleSuccess: () => { },
+      open: true
+    }} />, initialState)
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
   it("renders the dialog buttons", () => {
     mountedComponent(<ReorderActions {...{
-        handleCancel: () => {},
-        handleSuccess: () => {},
-        open: true
-      }} />, initialState)
+      handleCancel: () => { },
+      handleSuccess: () => { },
+      open: true
+    }} />, initialState)
     expect(screen.getAllByRole('button')).toHaveLength(2);
   });
 });
