@@ -1,7 +1,6 @@
 import { Grid } from "@material-ui/core";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import CheckIcon from "@material-ui/icons/Check";
-import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../action-button";
@@ -14,70 +13,12 @@ import useOptions from "../../../form/use-options";
 import { LOOKUPS } from "../../../../config";
 import { getOptionText } from "../../../record-form/form/subforms/subform-traces/components/field-row/utils";
 
+import { buildTableOptions } from "./utils";
+
 function Component({ showTable = false, caseInfo, handleBack, handleOk, handleRowClick, recordTypeValue }) {
   const i18n = useI18n();
   const genderLookups = useOptions({ source: LOOKUPS.gender_unknown });
-
-  const tableOptions = {
-    columns: [
-      {
-        name: "case.id",
-        options: {
-          display: false
-        }
-      },
-      {
-        name: "id",
-        options: {
-          display: false
-        }
-      },
-      {
-        label: i18n.t("potential_match.name"),
-        name: "name"
-      },
-      {
-        label: i18n.t("potential_match.case_id"),
-        name: "case_id_display",
-        options: {
-          customBodyRender: (value, tableMeta) => {
-            const { rowData } = tableMeta;
-
-            return (
-              <ActionButton
-                id="case.case_id_display-button"
-                text={value}
-                type={ACTION_BUTTON_TYPES.default}
-                variant="text"
-                color="primary"
-                noTranslate
-                onClick={() => handleRowClick(rowData[1], rowData[3])}
-              />
-            );
-          }
-        }
-      },
-      {
-        label: i18n.t("potential_match.child_age"),
-        name: "age"
-      },
-      {
-        label: i18n.t("potential_match.child_gender"),
-        name: "sex"
-      }
-    ],
-    defaultFilters: fromJS({}),
-    recordType: recordTypeValue,
-    targetRecordType: recordTypeValue,
-    bypassInitialFetch: true,
-
-    options: {
-      selectableRows: "none",
-      onCellClick: false,
-      elevation: 0,
-      pagination: true
-    }
-  };
+  const tableOptions = buildTableOptions({ i18n, handleRowClick, recordTypeValue });
 
   if (showTable) {
     return <IndexTable {...tableOptions} />;

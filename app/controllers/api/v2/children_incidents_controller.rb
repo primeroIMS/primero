@@ -24,7 +24,7 @@ class Api::V2::ChildrenIncidentsController < Api::V2::RecordResourceController
 
   def update_bulk
     authorize_all!(:link_incident_to_case, @incidents)
-    @incidents.map { |record| link_incident(record) } if @incidents.present?
+    link_incidents if @incidents.present?
     updates_for_record(@record)
   end
 
@@ -53,8 +53,11 @@ class Api::V2::ChildrenIncidentsController < Api::V2::RecordResourceController
     @incidents = Incident.find(params['data']['incident_ids'])
   end
 
-  def link_incident(record)
-    record.incident_case_id = @record.id
-    record.save!
+  def link_incidents
+    ActiveRecord::Base.transaction do
+      @incidents.each do |incident|
+        incident.update(incident_case_id: @record.id)
+      end
+    end
   end
 end

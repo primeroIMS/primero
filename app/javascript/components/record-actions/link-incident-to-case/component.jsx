@@ -12,6 +12,7 @@ import { linkIncidentToCase, setCaseIdForIncident, fetchLinkIncidentToCaseData }
 import { Search } from "../../index-filters/components/filter-types";
 import { clearDialog } from "../../action-dialog/action-creators";
 import SubformDrawer from "../../record-form/form/subforms/subform-drawer";
+import { RECORD_TYPES_PLURAL } from "../../../config";
 
 import { NAME } from "./constants";
 import css from "./styles.css";
@@ -33,7 +34,7 @@ const Component = ({ close, open, currentPage, selectedRecords, recordType, reco
 
   const selectedIDs = buildSelectedIds(selectedRecords, records, currentPage, "id");
 
-  const handleOk = () => {
+  const handleOk = useCallback(() => {
     dispatch(
       linkIncidentToCase({
         recordType,
@@ -41,32 +42,35 @@ const Component = ({ close, open, currentPage, selectedRecords, recordType, reco
         caseID: selectedCaseId
       })
     );
-    dispatch(fetchLinkIncidentToCaseData({}));
+
     dispatch(setCaseIdForIncident(selectedCaseId, selectedCaseDisplayId));
     dispatch(clearDialog());
-  };
+  }, [selectedCaseId, selectedCaseDisplayId, recordType, record, selectedIDs]);
 
   const handleSubmit = useCallback(data => {
-    setRecordTypeValue("cases");
+    setRecordTypeValue(RECORD_TYPES_PLURAL.case);
     dispatch(fetchLinkIncidentToCaseData(data));
   }, []);
 
-  const handleRowClick = async (selectedID, selectedDisplayID) => {
-    await setShowTable(false);
-    await setCaseInfo(caseData.get("data").find($record => $record.get("id") === selectedID));
-    await setSelectedCaseId(selectedID);
-    setSelectedCaseDisplayId(selectedDisplayID);
-  };
+  const handleRowClick = useCallback(
+    async (selectedID, selectedDisplayID) => {
+      await setShowTable(false);
+      await setCaseInfo(caseData.get("data").find($record => $record.get("id") === selectedID));
+      await setSelectedCaseId(selectedID);
+      setSelectedCaseDisplayId(selectedDisplayID);
+    },
+    [caseData]
+  );
 
   const handleClose = () => {
     dispatch(fetchLinkIncidentToCaseData({}));
     close();
   };
 
-  const handleBack = async () => {
+  const handleBack = useCallback(async () => {
     await setShowTable(true);
     setCaseInfo(fromJS({}));
-  };
+  }, []);
 
   return (
     <>
