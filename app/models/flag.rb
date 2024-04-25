@@ -40,7 +40,6 @@ class Flag < ApplicationRecord
 
   after_create :flag_history
   after_update :unflag_history
-  after_save :index_record
 
   class << self
     def by_owner(query_scope, active_only, record_types, flagged_by)
@@ -95,10 +94,6 @@ class Flag < ApplicationRecord
 
     saved_changes.transform_values { |v| v[1] }
     update_flag_history(EVENT_UNFLAG, unflagged_by)
-  end
-
-  def index_record
-    Sunspot.index(record) if record
   end
 
   private

@@ -17,12 +17,10 @@ module Historical
 
     has_many :record_histories, as: :record
 
-    searchable do
-      # rubocop:disable Style/IfUnlessModifier
-      if Rails.configuration.solr_enabled
+    if Rails.configuration.solr_enabled
+      searchable do
         time(:created_at)
       end
-      # rubocop:enable Style/IfUnlessModifier
     end
 
     validate :validate_created_at

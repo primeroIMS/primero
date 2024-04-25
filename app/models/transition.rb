@@ -30,7 +30,6 @@ class Transition < ApplicationRecord
   after_save_commit :notify
 
   after_save :save_record
-  after_save :index_record
 
   def defaults
     self.created_at ||= DateTime.now
@@ -103,10 +102,6 @@ class Transition < ApplicationRecord
 
   def should_notify?
     notified_statuses.include?(status)
-  end
-
-  def index_record
-    Sunspot.index(record) if record
   end
 
   def update_incident_ownership

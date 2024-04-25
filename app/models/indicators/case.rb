@@ -45,7 +45,7 @@ module Indicators
         record_model: Child,
         queries: CLOSED_ENABLED + [
           SearchFilters::DateRange.new(
-            field_name: 'date_closure', from: DateRange.recent_past, to: DateRange.present
+            field_name: 'date_closure', from: SearchFilters::DateRange.recent_past, to: SearchFilters::DateRange.present
           )
         ],
         scope_to_owner: true
@@ -303,7 +303,7 @@ module Indicators
     def self.overdue_assesment_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'assessment_due_dates', from: DateRange.dawn_of_time, to: DateRange.present
+          field_name: 'assessment_due_dates', from: SearchFilters::DateRange.dawn_of_time, to: SearchFilters::DateRange.present
         )
       ]
     end
@@ -321,7 +321,7 @@ module Indicators
     def self.overdue_case_plan_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'case_plan_due_dates', from: DateRange.dawn_of_time, to: DateRange.present
+          field_name: 'case_plan_due_dates', from: SearchFilters::DateRange.dawn_of_time, to: SearchFilters::DateRange.present
         )
       ]
     end
@@ -339,7 +339,7 @@ module Indicators
     def self.overdue_services_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'service_due_dates', from: DateRange.dawn_of_time, to: DateRange.present
+          field_name: 'service_due_dates', from: SearchFilters::DateRange.dawn_of_time, to: SearchFilters::DateRange.present
         )
       ]
     end
@@ -357,7 +357,7 @@ module Indicators
     def self.overdue_followup_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'followup_due_dates', from: DateRange.dawn_of_time, to: DateRange.present
+          field_name: 'followup_due_dates', from: SearchFilters::DateRange.dawn_of_time, to: SearchFilters::DateRange.present
         )
       ]
     end

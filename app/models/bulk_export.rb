@@ -122,6 +122,7 @@ class BulkExport < ApplicationRecord
     page = 1
     order = self.order || { created_at: :desc }
     loop do
+      # TODO: migrate to app/services/phonetic_search_service.rb
       results = SearchService.search(model_class, { filters: search_filters, query_scope: record_query_scope, query:,
                                                     sort: order, pagination: { page:, per_page: batch } }).results
       exporter.single_record_export = results.total_count == 1

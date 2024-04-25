@@ -130,8 +130,8 @@ class Child < ApplicationRecord
     '/api/v2/cases'
   end
 
-  searchable do
-    if Rails.configuration.solr_enabled
+  if Rails.configuration.solr_enabled
+    searchable do
       Child.child_matching_field_names.each { |f| text_index(f, 'matchable') }
       Child.family_matching_field_names.each do |f|
         text_index(f, 'matchable', :itself, 'family_details_section')
@@ -151,6 +151,7 @@ class Child < ApplicationRecord
   before_save :stamp_registry_fields
   before_save :calculate_has_case_plan
   before_save :calculate_has_incidents
+  before_save :stamp_family_number
   before_create :hide_name
   after_save :save_incidents
 
@@ -342,6 +343,12 @@ class Child < ApplicationRecord
 
   def associations_as_data_keys
     %w[incident_details]
+  end
+
+  def stamp_family_number
+    return unless family.present?
+
+    self.family_number = family.family_number
   end
 end
 # rubocop:enable Metrics/ClassLength

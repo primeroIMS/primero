@@ -7,8 +7,8 @@ module Kpi::GBVIncident
   extend ActiveSupport::Concern
 
   included do
-    searchable do
-      if Rails.configuration.solr_enabled
+    if Rails.configuration.solr_enabled
+      searchable do
         %w[id status].each { |f| string(f, as: "#{f}_sci") }
         integer :reporting_delay_days
         date :date_of_first_report

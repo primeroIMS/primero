@@ -9,16 +9,18 @@ module Searchable
   PHONETIC_FIELD_NAMES = %w[name name_nickname name_other relation_name relation_nickname relation_other_family
                             tracing_names tracing_nicknames].freeze
   included do
-    include Indexable
-    Sunspot::Adapters::DataAccessor.register RecordDataAccessor, self
-    # Note that the class will need to be reloaded when the fields change.
-    searchable do
-      extend TextIndexing
-      # TODO: Delete once app/models/indicators/incident.rb is migrated
-      all_searchable_location_fields.each do |field|
-        Location::ADMIN_LEVELS.each do |admin_level|
-          string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
-            location_service.ancestor_code(data[field], admin_level)
+    if Rails.configuration.solr_enabled
+      include Indexable
+      Sunspot::Adapters::DataAccessor.register RecordDataAccessor, self
+      # Note that the class will need to be reloaded when the fields change.
+      searchable do
+        extend TextIndexing
+        # TODO: Delete once app/models/indicators/incident.rb is migrated
+        all_searchable_location_fields.each do |field|
+          Location::ADMIN_LEVELS.each do |admin_level|
+            string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
+              location_service.ancestor_code(data[field], admin_level)
+            end
           end
         end
       end

@@ -94,7 +94,7 @@ class Incident < ApplicationRecord
   after_create :add_alert_on_case, :add_case_history
 
   def index_record
-    Sunspot.index(self.case) if self.case.present?
+    Sunspot.index(self.case) if Rails.configuration.solr_enabled && self.case.present?
   end
 
   alias super_defaults defaults
@@ -235,7 +235,6 @@ class Incident < ApplicationRecord
 
     reindex_violations_and_associations
     recalculate_association_fields
-    Sunspot.index(self)
   end
 
   # TODO: This method will trigger queries to reload the violations and associations in order to index the latest data

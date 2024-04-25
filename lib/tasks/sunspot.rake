@@ -54,6 +54,8 @@ namespace :sunspot do
   end
 
   def batch_reindex(model, batch_size = 500, location_service = nil)
+    return unless Rails.configuration.solr_enabled
+
     puts "Reindexing #{model.count} #{model.name} records in batches of #{batch_size}..."
 
     model.all.find_in_batches(batch_size:) do |records|

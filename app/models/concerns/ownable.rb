@@ -15,8 +15,8 @@ module Ownable
                    :assigned_user_names, :module_id, :associated_user_groups, :associated_user_agencies,
                    :associated_user_names, :not_edited_by_owner
 
-    searchable do
-      if Rails.configuration.solr_enabled
+    if Rails.configuration.solr_enabled
+      searchable do
         %i[
           associated_user_names associated_user_groups associated_user_agencies owned_by_groups assigned_user_names
         ].each { |field| string(field, multiple: true) }

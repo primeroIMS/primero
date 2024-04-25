@@ -46,6 +46,7 @@ class DuplicateBulkExport < BulkExport
     sort = order || { national_id_no: :asc }
     loop do
       filters = filters_for_duplicates(duplicate_field_name, values)
+      # TODO: migrate to app/services/phonetic_search_service.rb
       results = SearchService.search(model_class, filters:, query:,
                                                   pagination: { page:, per_page: batch_size }, sort:).results
       yield(results)
