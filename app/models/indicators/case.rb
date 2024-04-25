@@ -294,6 +294,7 @@ module Indicators
       GroupedIndicator.new(
         name: 'tasks_overdue_assessment',
         pivots: %w[owned_by],
+        # TODO: DEPRECATED. Use constrained_pivots instead of scope_to_user
         scope_to_user: true,
         record_model: Child,
         scope: overdue_assesment_scope
@@ -313,6 +314,7 @@ module Indicators
         name: 'tasks_overdue_case_plan',
         pivots: %w[owned_by],
         record_model: Child,
+        # TODO: DEPRECATED. Use constrained_pivots instead of scope_to_user
         scope_to_user: true,
         scope: overdue_case_plan_scope
       )
@@ -331,6 +333,7 @@ module Indicators
         name: 'tasks_overdue_services',
         pivots: %w[owned_by],
         record_model: Child,
+        # TODO: DEPRECATED. Use constrained_pivots instead of scope_to_user
         scope_to_user: true,
         scope: overdue_services_scope
       )
@@ -349,6 +352,7 @@ module Indicators
         name: 'tasks_overdue_followups',
         pivots: %w[owned_by],
         record_model: Child,
+        # TODO: DEPRECATED. Use constrained_pivots instead of scope_to_user
         scope_to_user: true,
         scope: overdue_followup_scope
       )
