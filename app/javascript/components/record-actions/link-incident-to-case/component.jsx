@@ -53,10 +53,7 @@ const Component = ({ close, open, currentPage, selectedRecords, recordType, reco
 
   const handleRowClick = async (selectedID, selectedDisplayID) => {
     await setShowTable(false);
-
-    const record = caseData.get("data").find($record => $record.get("id") === selectedID);
-
-    await setCaseInfo(record);
+    await setCaseInfo(caseData.get("data").find($record => $record.get("id") === selectedID));
     await setSelectedCaseId(selectedID);
     setSelectedCaseDisplayId(selectedDisplayID);
   };

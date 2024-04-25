@@ -1,4 +1,5 @@
 import { mountedComponent, screen } from "test-utils";
+
 import LinkIncidentToCase from "./component";
 
 describe("<LinkIncidentToCase />", () => {
