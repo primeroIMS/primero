@@ -499,7 +499,7 @@ describe Api::V2::DashboardsController, type: :request do
           expect(response).to have_http_status(200)
           indicators = json['data'][0]['indicators']
           expect(indicators['shared_with_my_team_referrals'][@user2.user_name]['count']).to eq(1)
-          expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(1)
+          expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(2)
         end
 
         it 'lists statistics for a user with group permissions' do
@@ -513,7 +513,7 @@ describe Api::V2::DashboardsController, type: :request do
           expect(response).to have_http_status(200)
           indicators = json['data'][0]['indicators']
           expect(indicators['shared_with_my_team_referrals'][@user2.user_name]['count']).to eq(1)
-          expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(1)
+          expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(2)
         end
 
         it 'do not list statistics if values are not in the scope of the user' do

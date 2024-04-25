@@ -518,9 +518,7 @@ module Indicators
       constrained_pivots: %w[transferred_to_users],
       record_model: Child,
       exclude_zeros: true,
-      scope: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
-      ]
+      scope: OPEN_ENABLED
     )
 
     SHARED_WITH_MY_TEAM_PENDING_TRANSFERS_OVERVIEW = QueriedIndicator.new(
