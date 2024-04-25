@@ -43,12 +43,10 @@ module Indicators
 
     def join_and_constraint_pivots(indicator_query, managed_user_names)
       pivots.each.with_index(1) do |pivot, index|
-        next unless multivalue_pivots&.include?(pivot)
-
-        indicator_query = join_multivalued_pivot(indicator_query, pivot, index)
+        indicator_query = join_multivalued_pivot(indicator_query, pivot, index) if multivalue_pivots&.include?(pivot)
         next unless constrained_pivots&.include?(pivot) && managed_user_names.present?
 
-        indicator_query = constraint_pivot_values(indicator_query, index, managed_user_names)
+        indicator_query = constraint_pivot_values(indicator_query, pivot, index, managed_user_names)
       end
 
       indicator_query
@@ -62,8 +60,14 @@ module Indicators
       )
     end
 
-    def constraint_pivot_values(indicator_query, index, managed_user_names)
-      indicator_query.where(ActiveRecord::Base.sanitize_sql_array(['pivot? IN (?)', index, managed_user_names]))
+    def constraint_pivot_values(indicator_query, pivot, index, managed_user_names)
+      if multivalue_pivots&.include?(pivot)
+        return indicator_query.where(
+          ActiveRecord::Base.sanitize_sql_array(['pivot? IN (?)', index, managed_user_names])
+        )
+      end
+
+      indicator_query.where(ActiveRecord::Base.sanitize_sql_array(['data->>? IN (?)', pivot, managed_user_names]))
     end
 
     def write_stats_for_pivots(result, indicator_filters, nested_pivots)
