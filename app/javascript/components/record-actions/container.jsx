@@ -62,7 +62,7 @@ const Container = ({
     SERVICE_DIALOG,
     TRANSFER_DIALOG,
     MARK_FOR_OFFLINE_DIALOG,
-    LINK_INCIDENT_TO_CASE_DIALOG 
+    LINK_INCIDENT_TO_CASE_DIALOG
   ]);
   const { handleCreateIncident } = useIncidentFromCase({ record, mode });
 
