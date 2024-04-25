@@ -33,6 +33,7 @@ module Indicators
     def write_stats_for_indicator(indicator_filters, user_query_scope, managed_user_names = [])
       indicator_query = query(indicator_filters, user_query_scope)
       indicator_query = join_and_constraint_pivots(indicator_query, managed_user_names)
+      indicator_query = indicator_query.order(pivot_field_names)
       result = Child.connection.select_all(indicator_query.to_sql).to_a
       nested_pivots = nested_pivots_from_result(result)
       write_stats_for_pivots(result, indicator_filters, nested_pivots)
