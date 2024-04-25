@@ -44,6 +44,7 @@ import {
 } from "./selectors";
 import UserConfirmation from "./user-confirmation";
 import ChangePassword from "./change-password";
+import { replaceNullWithBlank } from "./utils";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -122,27 +123,6 @@ const Container = ({ mode }) => {
   const {
     formState: { dirtyFields }
   } = formMethods;
-
-  function replaceNullWithBlank(obj) {
-    if (typeof obj !== "object" || obj === null) {
-      return obj;
-    }
-    const newObj = {};
-
-    Object.keys(obj).forEach(key => {
-      if (obj[key] === null) {
-        newObj[key] = "";
-      } else if (typeof obj[key] === "object") {
-        // If the property value is an object, recursively call replaceNullWithBlank
-        newObj[key] = replaceNullWithBlank(obj[key]);
-      } else {
-        // If the property value is not null or an object, copy it to the new object
-        newObj[key] = obj[key];
-      }
-    });
-
-    return newObj;
-  }
 
   const onSubmit = data => {
     const newDataWithoutNull = replaceNullWithBlank(data);
