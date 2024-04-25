@@ -65,7 +65,7 @@ module Indicators
       record_model: Child,
       pivots: %w[owned_by workflow],
       scope: OPEN_CLOSED_ENABLED,
-      scope_to_user: true,
+      constrained_pivots: %w[owned_by],
       scope_to_owned_by_groups: true
     ).freeze
 
@@ -503,7 +503,7 @@ module Indicators
       record_model: Child,
       pivots: %w[referred_users],
       multivalue_pivots: %w[referred_users],
-      scope_to_user: true,
+      constrained_pivots: %w[referred_users],
       exclude_zeros: true,
       scope: OPEN_ENABLED + [
         SearchFilters::BooleanValue.new(field_name: 'referred_users_present', value: true)
@@ -515,8 +515,8 @@ module Indicators
       transition_model: Transfer,
       pivots: %w[transferred_to_users],
       multivalue_pivots: %w[transferred_to_users],
+      constrained_pivots: %w[transferred_to_users],
       record_model: Child,
-      scope_to_user: true,
       exclude_zeros: true,
       scope: OPEN_ENABLED + [
         SearchFilters::TextValue.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)

@@ -378,7 +378,7 @@ describe Api::V2::DashboardsController, type: :request do
         @role = Role.new(permissions: [
                            @permission_refer_case,
                            @permission_dashboard_shared_from_my_team
-                         ], modules: [@primero_module])
+                         ], modules: [@primero_module], group_permission: Permission::GROUP)
         @role2 = Role.new(permissions: [
                             @permission_refer_case,
                             @permission_dashboard_shared_with_my_team_overview
@@ -488,19 +488,46 @@ describe Api::V2::DashboardsController, type: :request do
         expect(dash['shared_from_my_team_rejected_transfers'].count).to eq(1)
       end
 
-      it 'lists statistics for permitted shared with my team dashboard dashboards' do
-        login_for_test(
-          user_name: 'user1',
-          user_group_unique_ids: [@group_a.unique_id],
-          group_permission: Permission::GROUP,
-          permissions: [@permission_case, @permission_dashboard_shared_with_me_team]
-        )
-        get '/api/v2/dashboards'
+      describe 'shared with my team dashboard' do
+        it 'list statistics for a user with admin permissions' do
+          login_for_test(
+            group_permission: Permission::ALL,
+            permissions: [@permission_case, @permission_dashboard_shared_with_me_team]
+          )
+          get '/api/v2/dashboards'
 
-        expect(response).to have_http_status(200)
-        indicators = json['data'][0]['indicators']
-        expect(indicators['shared_with_my_team_referrals'][@user2.user_name]['count']).to eq(1)
-        expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(1)
+          expect(response).to have_http_status(200)
+          indicators = json['data'][0]['indicators']
+          expect(indicators['shared_with_my_team_referrals'][@user2.user_name]['count']).to eq(1)
+          expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(1)
+        end
+
+        it 'lists statistics for a user with group permissions' do
+          login_for_test(
+            user_name: 'user1',
+            user_group_unique_ids: [@group_a.unique_id],
+            permissions: [@permission_case, @permission_dashboard_shared_with_me_team]
+          )
+          get '/api/v2/dashboards'
+
+          expect(response).to have_http_status(200)
+          indicators = json['data'][0]['indicators']
+          expect(indicators['shared_with_my_team_referrals'][@user2.user_name]['count']).to eq(1)
+          expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(1)
+        end
+
+        it 'do not list statistics if values are not in the scope of the user' do
+          login_for_test(
+            group_permission: Permission::SELF,
+            permissions: [@permission_case, @permission_dashboard_shared_with_me_team]
+          )
+          get '/api/v2/dashboards'
+
+          expect(response).to have_http_status(200)
+          indicators = json['data'][0]['indicators']
+          expect(indicators['shared_with_my_team_referrals']).to be_empty
+          expect(indicators['shared_with_my_team_pending_transfers']).to be_empty
+        end
       end
 
       it 'lists statistics for permitted shared with my team (overview) dashboards' do

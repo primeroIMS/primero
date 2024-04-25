@@ -14,7 +14,7 @@ module Indicators
                                                 .select('ancestor_location_code, COUNT(*) AS count')
     end
 
-    def write_stats_for_indicator(indicator_filters, user_query_scope)
+    def write_stats_for_indicator(indicator_filters, user_query_scope, _managed_user_names = [])
       indicator_query = query(indicator_filters, user_query_scope)
       result = Child.connection.select_all(indicator_query.to_sql).to_a
       result.each_with_object({}) do |row, memo|
