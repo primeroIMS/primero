@@ -39,7 +39,7 @@ module Indicators
       write_stats_for_pivots(result, indicator_filters, nested_pivots)
     end
 
-    private
+    protected
 
     def join_and_constraint_pivots(indicator_query, managed_user_names)
       pivots.each.with_index(1) do |pivot, index|
@@ -113,10 +113,13 @@ module Indicators
 
     def row_pivot_to_query_string(pivot_row)
       values = pivot_values(pivot_row)
-      pivots.map.with_index do |pivot, index|
-        pivot_param = pivots_to_query_params.present? ? pivots_to_query_params[pivot] : pivot
-        "#{pivot_param}=#{values[index]}"
-      end
+      pivots.map.with_index { |pivot, index| "#{pivot_param(pivot)}=#{values[index]}" }
+    end
+
+    def pivot_param(pivot)
+      return pivots_to_query_params[pivot] if pivots_to_query_params.present?
+
+      pivot
     end
   end
 end
