@@ -3,6 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Transform API query parameter not[field_name]=value into a Sunspot query
+# TODO Delete once exporters are migrated to use SQL
 class SearchFilters::NotValue < SearchFilters::SearchFilter
   attr_accessor :field_name, :values
 

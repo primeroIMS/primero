@@ -63,7 +63,8 @@ if models.include?('Child')
           'transferred_to_users' => record.calculate_transferred_to_users,
           'transferred_to_user_groups' => record.calculate_transferred_to_user_groups,
           'referred_users' => record.calculate_referred_users,
-          'referred_users_present' => record.calculate_referred_users_present
+          'referred_users_present' => record.calculate_referred_users_present,
+          'family_number' => record.family_number
         ),
         'phonetic_data' => { 'tokens' => record.generate_tokens }
       }

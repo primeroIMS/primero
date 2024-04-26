@@ -348,7 +348,7 @@ class Child < ApplicationRecord
   def stamp_family_number
     return unless family.present?
 
-    self.family_number = family.family_number
+    self.family_number = family_number
   end
 end
 # rubocop:enable Metrics/ClassLength
