@@ -42,13 +42,13 @@ const Component = ({
 
   const associationOptions = shouldRenderViolationAssociationMenu
     ? buildViolationAssociationsOptions({
-        fieldName: field.name,
-        formikValues: formik.values,
-        parentValues,
-        collapsedFields: formSection.collapsed_field_names,
-        fields: formSection.fields,
-        i18n
-      })
+      fieldName: field.name,
+      formikValues: formik.values,
+      parentValues,
+      collapsedFields: formSection.collapsed_field_names,
+      fields: formSection.fields,
+      i18n
+    })
     : [];
 
   const handleAddSubform = event => {
@@ -86,7 +86,7 @@ const Component = ({
   };
 
   return (
-    <div data-testid="subForm-add-entry">
+    <div data-testid="subForm-add">
       <ActionButton
         id="fields.add"
         data-testid="fields-add"
