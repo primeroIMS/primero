@@ -15,7 +15,7 @@ const Component = ({ open, cancelHandler, children, title }) => {
     <Drawer anchor="right" open={open} onClose={cancelHandler} classes={{ paper: css.subformDrawer }}>
       <div className={css.subformDrawerContent}>
         <div className={css.title}>
-          <h1>{title}</h1>
+          <h2>{title}</h2>
           <div>
             <ActionButton
               icon={<CloseIcon />}

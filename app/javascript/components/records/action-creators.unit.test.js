@@ -54,7 +54,9 @@ describe("records - Action Creators", () => {
       "setSelectedPotentialMatch",
       "setSelectedRecord",
       "unMatchCaseForTrace",
-      "deleteAlertFromRecord"
+      "deleteAlertFromRecord",
+      "linkIncidentToCase",
+      "fetchLinkIncidentToCaseData"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
