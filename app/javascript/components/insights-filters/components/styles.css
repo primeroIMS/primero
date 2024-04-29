@@ -3,13 +3,17 @@
 .filter {
   display: flex;
 
+  & > div {
+    display: contents;
+  }
+
   & > div:first-of-type {
     font-weight: 600;
-    margin: 0 var(--sp-1) 0 0;
     flex: 0 0;
 
     &:after {
       content: ':';
+      margin: 0 var(--sp-1) 0 0;
     }
   }
 }
@@ -33,6 +37,8 @@
 
 .container {
   display: flex;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
 
   & > div {
     margin: 0 var(--sp-1) 0 0;
