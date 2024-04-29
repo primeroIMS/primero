@@ -14,23 +14,21 @@ module Indicators
     VIOLATIONS_CATEGORY_VERIFICATION_STATUS = GroupedIndicator.new(
       name: 'violations_category_verification_status',
       record_model: ::Incident,
-      pivots: %w[violation_with_verification_status],
-      multivalue_pivots: %w[violation_with_verification_status],
+      pivots: [{ field_name: 'violation_with_verification_status', multivalue: true }],
       scope: OPEN_ENABLED
     ).freeze
 
     PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES = GroupedIndicator.new(
       name: 'perpetrator_armed_force_group_party_names',
       record_model: ::Incident,
-      pivots: %w[armed_force_group_party_names],
-      multivalue_pivots: %w[armed_force_group_party_names],
+      pivots: [{ field_name: 'armed_force_group_party_names', multivalue: true }],
       scope: OPEN_ENABLED
     )
 
     def self.violation_category_region(role)
       admin_level = role&.incident_reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
 
-      CustomPivotIndicator.new(
+      GroupedIndicator.new(
         name: 'violations_category_region',
         record_model: ::Incident,
         pivots: [
