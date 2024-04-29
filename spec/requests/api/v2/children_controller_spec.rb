@@ -9,7 +9,7 @@ describe Api::V2::ChildrenController, type: :request do
 
   before :each do
     clean_data(
-      Alert, Flag, Attachment, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord, Family,
+      Alert, Flag, Attachment, Trace, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord, Family,
       Field, FormSection
     )
 
@@ -247,10 +247,6 @@ describe Api::V2::ChildrenController, type: :request do
       transitioned_by: 'user_cp', transitioned_to: 'user_referral', record: @case11,
       authorized_role_unique_id: 'role-restricted'
     )
-    # This is legitimate. The cases are implicitly reloaded in the attachments & flagging api
-    reloaded_cases = [@case1, @case2, @case3, @case4, @case5, @case6, @case7, @case8].map(&:reload)
-    Sunspot.index(*reloaded_cases)
-    Sunspot.commit
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -325,16 +321,15 @@ describe Api::V2::ChildrenController, type: :request do
     end
 
     it 'Search flagged children' do
-      @case1.add_flag!('This is a flag', Date.today, 'faketest')
-      Sunspot.index(@case1.reload)
-      Sunspot.commit
+      @case_flagged = Child.create!(data: { name: 'Case Flagged', age: 5, sex: 'male' })
+      @case_flagged.add_flag!('This is a flag', Date.today, 'faketest')
 
       login_for_test(permissions: permission_flag_record)
       get '/api/v2/cases?flagged=true'
 
       expect(response).to have_http_status(200)
       expect(json['data'][0]['flag_count']).to eq(1)
-      expect(json['data'][0]['id']).to eq(@case1.id)
+      expect(json['data'][0]['id']).to eq(@case_flagged.id)
     end
 
     it 'Search through photo' do

@@ -4,7 +4,7 @@
 
 require 'rails_helper'
 
-describe Kpi::ClientSatisfactionRate, search: true do
+describe Kpi::ClientSatisfactionRate, { search: true, skip_when_solr_disabled: true } do
   include FormAndFieldHelper
   include SunspotHelper
 

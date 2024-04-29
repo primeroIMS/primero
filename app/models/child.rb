@@ -138,10 +138,9 @@ class Child < ApplicationRecord
       end
 
       date(:date_closure)
-      # TODO: these must be deleted once task dashboard is migrated
-      date(:assessment_due_dates, multiple: true) { Tasks::AssessmentTask.from_case(self).map(&:due_date) }
-      date(:case_plan_due_dates, multiple: true) { Tasks::CasePlanTask.from_case(self).map(&:due_date) }
-      date(:followup_due_dates, multiple: true) { Tasks::FollowUpTask.from_case(self).map(&:due_date) }
+      %w[consent_for_tracing].each do |f|
+        boolean(f) { data[f] == true || data[f] == 'true' }
+      end
     end
   end
 

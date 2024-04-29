@@ -14,7 +14,7 @@ require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 require 'csv'
 require 'active_support/inflector'
-require 'sunspot_test/rspec'
+require 'sunspot_test/rspec' if Rails.configuration.solr_enabled
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -107,6 +107,8 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
+  config.filter_run_excluding skip_when_solr_disabled: true unless Rails.configuration.solr_enabled
+
   # Recreate db if needed.
   config.before(:suite) do
     FactoryBot.find_definitions
@@ -140,7 +142,7 @@ end
 def clean_data(*models)
   models.each(&:destroy_all)
   SystemSettings.reset if models.include?(SystemSettings)
-  Sunspot.commit if self.class.metadata&.dig(:search)
+  Sunspot.commit if Rails.configuration.solr_enabled && self.class.metadata&.dig(:search)
 end
 
 def reloaded_model(model)

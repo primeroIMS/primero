@@ -17,7 +17,6 @@ describe Api::V2::TracingRequestsController, type: :request do
       data: { name: 'Trace Test 2' },
       tracing_request: @tracing_request2
     )
-    Sunspot.commit
   end
 
   let(:json) { JSON.parse(response.body) }

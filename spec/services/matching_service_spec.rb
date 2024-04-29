@@ -4,7 +4,7 @@
 
 require 'rails_helper'
 
-describe MatchingService, search: true do
+describe MatchingService, { search: true, skip_when_solr_disabled: true } do
   before(:each) { clean_data(Trace, TracingRequest, Child) }
 
   let(:tracing_request1) do

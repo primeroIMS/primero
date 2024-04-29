@@ -178,8 +178,6 @@ describe MonitoringReportingMechanism, search: true do
     incident3
     incident4
     incident5
-    Incident.reindex
-    Sunspot.commit
   end
 
   it 'can find incidents where individual victims are linked to a violation type' do

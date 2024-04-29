@@ -5,36 +5,35 @@
 require 'rails_helper'
 
 describe SearchFilters::Or do
-  describe '.query_scope', search: true do
-    before :example do
-      @correct_match1 = Child.create!(data: { name: 'Correct Match1', sex: 'female',
-                                              protection_concerns: %w[trafficking] })
-      @correct_match2 = Child.create!(data: { name: 'Correct Match2', sex: 'male',
-                                              protection_concerns: %w[statelessness] })
-      @incorrect_match = Child.create!(data: { name: 'Incorrect Match', sex: 'male',
-                                               protection_concerns: %w[trafficking] })
-      Sunspot.commit
+  describe '.filter', search: true do
+    before(:each) do
+      clean_data(Incident, Child)
     end
+
+    let!(:correct_match1) {
+      Child.create!(data: { name: 'Correct Match1', sex: 'female', protection_concerns: %w[trafficking] })
+    }
+    let!(:correct_match2) {
+      Child.create!(data: { name: 'Correct Match2', sex: 'male', protection_concerns: %w[statelessness] })
+    }
+    let!(:incorrect_match) {
+      Child.create!(data: { name: 'Incorrect Match', sex: 'male', protection_concerns: %w[trafficking] })
+    }
 
     it 'matches on values for either or the given fields' do
       filter = SearchFilters::Or.new(filters: [
-                                       SearchFilters::Value.new(field_name: 'sex', value: 'female'),
-                                       SearchFilters::Value.new(field_name: 'protection_concerns',
-                                                                value: 'statelessness')
+                                       SearchFilters::TextValue.new(field_name: 'sex', value: 'female'),
+                                       SearchFilters::TextValue.new(field_name: 'protection_concerns',
+                                                                    value: 'statelessness')
                                      ])
-
-      search = Child.search do
-        filter.query_scope(self)
-      end
+      search = PhoneticSearchService.search(Child, filters: [filter])
 
       expect(search.total).to eq(2)
-      expect(search.results.map(&:name)).to include(@correct_match1.name, @correct_match2.name)
+      expect(search.records.map(&:name)).to include(correct_match1.name, correct_match2.name)
     end
 
-    after :example do
-      @correct_match1.destroy
-      @correct_match2.destroy
-      @incorrect_match.destroy
+    after(:each) do
+      clean_data(Incident, Child)
     end
   end
 end

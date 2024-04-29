@@ -21,7 +21,7 @@ describe HealthController, type: :request do
       expect(response).to have_http_status(204)
     end
 
-    it 'returns 204 when testing just solr' do
+    it 'returns 204 when testing just solr', skip_when_solr_disabled: true do
       get '/health/solr'
       expect(response).to have_http_status(204)
     end

@@ -5,8 +5,8 @@
 require 'rails_helper'
 
 describe Api::V2::PotentialMatchesController, type: :request do
-  before(:each) { clean_data(Attachment, Trace, Child) }
-  after(:each) { clean_data(Attachment, Trace, Child) }
+  before(:each) { clean_data(Attachment, Trace, Incident, Child) }
+  after(:each) { clean_data(Attachment, Trace, Incident, Child) }
 
   let(:case1) do
     Child.create!(

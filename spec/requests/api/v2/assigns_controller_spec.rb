@@ -96,7 +96,6 @@ describe Api::V2::AssignsController, type: :request do
         }
       )
     end
-    Sunspot.commit
 
     context 'bulk assign with valid permissions' do
       it 'assigns multiple records to the target user' do
