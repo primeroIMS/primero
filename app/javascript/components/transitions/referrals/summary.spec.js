@@ -1,12 +1,6 @@
-<<<<<<< HEAD:app/javascript/components/transitions/referrals/summary.unit.test.js
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { setupMountedComponent } from "../../../test";
-import DateTransitionsSummary from "../components/date-transitions-summary";
-=======
 import { mountedComponent, screen } from "../../../test-utils";
->>>>>>> e5ec5b3b64 ([New] Added test cases for transitions referrals):app/javascript/components/transitions/referrals/summary.spec.js
-
 import ReferralSummary from "./summary";
 
 describe("<ReferralSummary />", () => {
