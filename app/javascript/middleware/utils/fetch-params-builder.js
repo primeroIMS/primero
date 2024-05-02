@@ -1,10 +1,10 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
+import { getIDPToken } from "../../components/login/components/idp-selection/auth-provider";
 import { DEFAULT_FETCH_OPTIONS } from "../constants";
 
 import buildPath from "./build-path";
 import getCSRFToken from "./get-csrf-token";
-import getToken from "./get-token";
 
 const fetchParamsBuilder = async (api, options, controller) => {
   const { path, body, params, method, external } = api;
@@ -16,7 +16,7 @@ const fetchParamsBuilder = async (api, options, controller) => {
     body: JSON.stringify(body)
   };
 
-  const token = await getToken();
+  const token = await getIDPToken();
 
   const headers = {
     "X-CSRF-Token": getCSRFToken()

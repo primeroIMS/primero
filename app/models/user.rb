@@ -10,7 +10,6 @@
 # in external IDP (such as Azure Active Directory).
 # rubocop:disable Metrics/ClassLength
 class User < ApplicationRecord
-  include Devise::JWT::RevocationStrategies::Allowlist
   include ConfigurationRecord
   include LocationCacheable
 

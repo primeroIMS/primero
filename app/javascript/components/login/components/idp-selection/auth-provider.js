@@ -3,6 +3,7 @@
 /* eslint-disable no-return-await */
 import { InteractionRequiredAuthError } from "@azure/msal-common";
 import { isImmutable } from "immutable";
+import { get } from "lodash";
 
 import { SELECTED_IDP } from "../../../user/constants";
 
@@ -10,10 +11,31 @@ import { setMsalApp, setMsalConfig, getLoginRequest, getTokenRequest } from "./u
 
 let msalApp;
 let forceStandardOIDC = false;
+let tokenRequest;
+let selectedIDPCache;
 
-async function getToken(tokenRequest) {
+function selectedIDPFromSessionStore(key) {
+  const selectedIDP = selectedIDPCache || JSON.parse(sessionStorage.getItem(SELECTED_IDP));
+
+  selectedIDPCache = selectedIDP;
+
+  if (key) {
+    return get(selectedIDP, key);
+  }
+
+  return selectedIDP;
+}
+selectedIDPFromSessionStore();
+
+async function getIDPToken() {
   try {
-    return await msalApp.acquireTokenSilent(tokenRequest);
+    if (tokenRequest) {
+      const token = await msalApp.acquireTokenSilent(tokenRequest);
+
+      return token.idToken;
+    }
+
+    return undefined;
   } catch (error) {
     if (error instanceof InteractionRequiredAuthError) {
       return await msalApp.acquireTokenPopup(tokenRequest).catch(popupError => {
@@ -30,12 +52,13 @@ async function getToken(tokenRequest) {
 }
 
 const setupMsal = (idp, historyObj) => {
-  const idpObj = isImmutable(idp) ? idp.toJS() : idp;
+  const idpObj = (isImmutable(idp) ? idp.toJS() : idp) || selectedIDPFromSessionStore();
 
   const identityScope = idpObj.identity_scope || [""];
   const domainHint = idpObj.domain_hint;
   const loginRequest = getLoginRequest(identityScope, domainHint);
-  const tokenRequest = getTokenRequest(identityScope);
+
+  tokenRequest = getTokenRequest(identityScope);
 
   if (!msalApp) {
     forceStandardOIDC = idpObj.force_standard_oidc === true;
@@ -43,13 +66,18 @@ const setupMsal = (idp, historyObj) => {
 
     msalApp = setMsalApp(msalConfig, historyObj);
   }
-  localStorage.setItem(SELECTED_IDP, idpObj.unique_id);
 
-  return { loginRequest, tokenRequest };
+  sessionStorage.setItem(SELECTED_IDP, JSON.stringify(idpObj));
+
+  return { loginRequest };
 };
 
-const handleResponse = async (tokenRequest, successCallback) => {
-  const tokenResponse = await getToken(tokenRequest);
+if (selectedIDPCache && !msalApp) {
+  setupMsal();
+}
+
+const handleResponse = async successCallback => {
+  const tokenResponse = await getIDPToken(tokenRequest);
 
   if (tokenResponse) {
     successCallback();
@@ -57,9 +85,7 @@ const handleResponse = async (tokenRequest, successCallback) => {
 };
 
 export const refreshIdpToken = async (idp, successCallback, historyObj) => {
-  const { tokenRequest } = setupMsal(idp, historyObj);
-
-  handleResponse(tokenRequest, successCallback);
+  handleResponse(successCallback);
 };
 
 export const signIn = async (idp, callback, historyObj) => {
@@ -70,7 +96,7 @@ export const signIn = async (idp, callback, historyObj) => {
   try {
     const response = await msalApp.loginPopup(loginRequest);
 
-    localStorage.setItem("cachedIdToken", response.idToken);
+    msalApp.setActiveAccount(response.account);
     callback(response.idToken);
   } catch (error) {
     throw new Error(error);
@@ -95,6 +121,7 @@ export const signOut = () => {
     }
     msalApp = null;
     forceStandardOIDC = false;
-    localStorage.removeItem("cachedIdToken");
   }
 };
+
+export { getIDPToken };

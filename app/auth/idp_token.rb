@@ -10,7 +10,7 @@ class IdpToken
   attr_accessor :header, :payload, :identity_provider
 
   class << self
-    def build(token_string = '')
+    def build(token_string)
       idp_token = new
       return idp_token unless token_string.present?
 

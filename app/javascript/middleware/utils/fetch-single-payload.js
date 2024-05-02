@@ -8,9 +8,9 @@ import { disableNavigation } from "../../components/application/action-creators"
 import { applyingConfigMessage } from "../../components/pages/admin/configurations-form/action-creators";
 import userActions from "../../components/user/actions";
 import { SET_ATTACHMENT_STATUS } from "../../components/records/actions";
+import { getIDPToken } from "../../components/login/components/idp-selection/auth-provider";
 
 import fetchStatus from "./fetch-status";
-import getToken from "./get-token";
 import handleConfiguration from "./handle-configuration";
 import partitionObject from "./partition-object";
 import buildAttachmentData from "./build-attachment-data";
@@ -67,8 +67,7 @@ const fetchSinglePayload = async (action, store, options) => {
     })
   };
 
-  const token = await getToken();
-
+  const token = await getIDPToken();
   const headers = {
     "X-CSRF-Token": getCSRFToken()
   };

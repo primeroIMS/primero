@@ -46,10 +46,10 @@ class Api::V2::TokensController < Devise::SessionsController
   end
 
   def create_idp
-    idp_token = IdpToken.build
+    idp_token = IdpToken.build(current_token)
     user = idp_token.valid? && idp_token.user
     if user
-      render json: { id: user.id, user_name: user.user_name }
+      render json: { id: user.id, user_name: user.user_name, token: current_token }
     else
       fail_to_authorize!(auth_options)
     end
@@ -78,5 +78,9 @@ class Api::V2::TokensController < Devise::SessionsController
 
   def destroy_action_message
     'logout'
+  end
+
+  def current_token
+    request.headers['HTTP_AUTHORIZATION']&.split(' ')&.last
   end
 end
