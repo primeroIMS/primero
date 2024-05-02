@@ -7,7 +7,7 @@ module Indicators
   # Class for Grouped Indicator
   class GroupedIndicator < AbstractIndicator
     # rubocop:enable Style/ClassAndModuleChildren
-    attr_accessor :pivots, :pivots_to_query_params, :multivalue_pivots, :constrained_pivots
+    attr_accessor :pivots
 
     DEFAULT_STAT = { 'count' => 0, 'query' => [] }.freeze
 
