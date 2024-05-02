@@ -1,9 +1,5 @@
-<<<<<<< HEAD:app/javascript/components/transitions/transfer_requests/details.unit.test.js
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Divider } from "@material-ui/core";
-=======
->>>>>>> 83fc77d6e2 ([New] Added test cases for transfer requests details):app/javascript/components/transitions/transfer_requests/details.spec.js
 import { fromJS } from "immutable";
 
 import { mountedComponent, screen } from "../../../test-utils";
