@@ -79,15 +79,6 @@ describe("<Nav />", () => {
       expect(screen.queryAllByText(/navigation.tracing_request/i)).toHaveLength(2);
     });
 
-    // TODO: Temporary removed
-    // it("renders matches link", () => {
-    //   expect(
-    //     component
-    //       .find(NavLink)
-    //       .findWhere(link => link.prop("to") === ROUTES.matches)
-    //   ).to.have.lengthOf(1);
-    // });
-
     it("renders reports link", () => {
       mountedComponent(<ProvidedNav username="joshua" />, initialState);
       expect(screen.queryAllByText(/navigation.reports/i)).toHaveLength(2);
@@ -152,13 +143,6 @@ describe("<Nav />", () => {
       }
     });
 
-    // const expectedAction = {
-    //   type: FETCH_ALERTS,
-    //   api: {
-    //     path: RECORD_PATH.alerts
-    //   }
-    // };
-
     it("should fetch alerts", () => {
       mountedComponent(<ProvidedNav username="username" />, initialStateActions);
       expect(screen.queryAllByAltText("Primero")).toHaveLength(3);
@@ -194,7 +178,6 @@ describe("<Nav />", () => {
 
     it("renders a disabled my account link", () => {
       mountedComponent(<ProvidedNav username="username" />, offlineInitialState);
-      screen.debug();
       expect(screen.queryAllByRole("link")[2]).toHaveAttribute("disabled", "");
     });
   });
