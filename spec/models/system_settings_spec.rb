@@ -73,5 +73,11 @@ describe SystemSettings do
         expect(@system_settings).to be_valid
       end
     end
+
+    context '#maximum_attachments_per_record' do
+      it 'when is not defined return default value' do
+        expect(@system_settings.maximum_attachments_per_record).to eq(Attachment::DEFAULT_MAX_ATTACHMENTS)
+      end
+    end
   end
 end
