@@ -87,7 +87,7 @@ describe("<TransitionDialog />", () => {
 
     it("should render 'Assign Cases' as title", () => {
       mountedComponent(<TransitionDialog {...reassignBulkProps} />);
-      expect(screen.getByText(/transition.type.reassign cases.label/i)).toBeInTheDocument();
+      expect(screen.getByText(/transition.type.reassign forms.record_types.case/i)).toBeInTheDocument();
     });
   });
 
