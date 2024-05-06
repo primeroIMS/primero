@@ -1,11 +1,10 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { IconButton, InputBase, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import ActionButton from "../../../action-button";
@@ -13,7 +12,9 @@ import { useI18n } from "../../../i18n";
 import SearchNameToggle from "../search-name-toggle";
 import { registerInput } from "../filter-types/utils";
 import handleFilterChange from "../filter-types/value-handlers";
+import PhoneticHelpText from "../phonetic-help-text";
 
+import useSearchTitle from "./use-search-title";
 import css from "./styles.css";
 
 const FIELD_NAME_QUERY = "query";
@@ -25,6 +26,7 @@ function SearchBox() {
 
   const { register, unregister, setValue } = useFormContext();
   const watchPhonetic = useWatch({ name: FIELD_NAME_PHONETIC, defaultValue: false });
+  const searchTitle = useSearchTitle({ phonetic: watchPhonetic });
   const [inputValue, setInputValue] = useState();
   const [switchValue, setSwitchValue] = useState();
   const valueRef = useRef();
@@ -86,14 +88,6 @@ function SearchBox() {
     setValue(FIELD_NAME_QUERY, undefined);
   };
 
-  const searchTitle = useMemo(() => {
-    return watchPhonetic ? i18n.t("navigation.phonetic_search.title") : i18n.t("navigation.id_search.title");
-  }, [watchPhonetic]);
-
-  const searchHelpText = useMemo(() => {
-    return watchPhonetic ? i18n.t("navigation.phonetic_search.help_text") : null;
-  }, [watchPhonetic]);
-
   return (
     <div className={css.searchContainer}>
       <p className={css.searchTitle}>{searchTitle}</p>
@@ -124,12 +118,7 @@ function SearchBox() {
           rest={{ type: "submit" }}
         />
       </div>
-      {watchPhonetic && (
-        <p className={css.searchHelpText}>
-          <InfoOutlinedIcon />
-          {searchHelpText}
-        </p>
-      )}
+      {watchPhonetic && <PhoneticHelpText />}
     </div>
   );
 }

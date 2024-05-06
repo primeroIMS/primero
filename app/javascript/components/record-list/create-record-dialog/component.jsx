@@ -7,7 +7,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { push } from "connected-react-router";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
 import { useMemoizedSelector } from "../../../libs";
@@ -21,8 +21,11 @@ import { applyFilters } from "../../index-filters";
 import { getRecordsData } from "../../index-table";
 import { enqueueSnackbar } from "../../notifier";
 import { SEARCH_OR_CREATE_FILTERS } from "../constants";
+import SearchNameToggle from "../../index-filters/components/search-name-toggle";
+import PhoneticHelpText from "../../index-filters/components/phonetic-help-text";
+import useSearchTitle from "../../index-filters/components/search-box/use-search-title";
 
-import { FORM_ID, NAME } from "./constants";
+import { FORM_ID, NAME, FIELD_NAME_PHONETIC } from "./constants";
 import { searchForm } from "./forms";
 import css from "./styles.css";
 
@@ -36,10 +39,16 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
   const {
     formState: { dirtyFields, isSubmitted },
     getValues,
-    handleSubmit
+    handleSubmit,
+    control,
+    setValue,
+    register
   } = methods;
 
+  const phonetic = useWatch({ control, name: FIELD_NAME_PHONETIC, defaultValue: false });
   const record = useMemoizedSelector(state => getRecordsData(state, recordType));
+  const searchTitle = useSearchTitle({ phonetic });
+  const searchHelpText = i18n.t("case.enter_id_number_help_text");
 
   const onSubmit = data => {
     submitHandler({
@@ -68,6 +77,10 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
     dispatch(push(`/${recordType}/${moduleUniqueId}/new`));
   };
 
+  const handleSwitchChange = event => {
+    setValue(FIELD_NAME_PHONETIC, event.target.checked, { shouldDirty: true });
+  };
+
   useEffect(() => {
     const hasData = Boolean(record?.size);
 
@@ -84,6 +97,16 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
     }
   }, [record]);
 
+  useEffect(() => {
+    register(FIELD_NAME_PHONETIC);
+  }, [register]);
+
+  useEffect(() => {
+    if (open) {
+      setValue(FIELD_NAME_PHONETIC, false);
+    }
+  }, [open]);
+
   return (
     <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle disableTypography>
@@ -97,8 +120,8 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
         </div>
       </DialogTitle>
       <DialogContent>
-        <form id={FORM_ID} onSubmit={handleSubmit(onSubmit)}>
-          {searchForm(i18n).map(formSection => (
+        <form id={FORM_ID} onSubmit={handleSubmit(onSubmit)} className={css.searchForm}>
+          {searchForm(searchTitle, searchHelpText).map(formSection => (
             <FormSection
               formSection={formSection}
               key={formSection.unique_id}
@@ -106,6 +129,23 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
               formMethods={methods}
             />
           ))}
+          <div className={css.search}>
+            <div>
+              <SearchNameToggle handleChange={handleSwitchChange} value={phonetic} />
+            </div>
+            <div className={css.searchButton}>
+              <ActionButton
+                icon={<SearchIcon />}
+                text="navigation.search"
+                type={ACTION_BUTTON_TYPES.default}
+                rest={{
+                  form: FORM_ID,
+                  type: "submit"
+                }}
+              />
+            </div>
+          </div>
+          {phonetic && <PhoneticHelpText />}
         </form>
       </DialogContent>
       <DialogActions>
@@ -117,17 +157,6 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
               type={ACTION_BUTTON_TYPES.default}
               rest={{ onClick: handleCreateNewCase }}
               size="large"
-            />
-          </div>
-          <div className={css.search}>
-            <ActionButton
-              icon={<SearchIcon />}
-              text="navigation.search"
-              type={ACTION_BUTTON_TYPES.default}
-              rest={{
-                form: FORM_ID,
-                type: "submit"
-              }}
             />
           </div>
         </div>

@@ -33,7 +33,7 @@ describe("<CreateRecordDialog /> record-list/create-record-dialog", () => {
   it("redirects to new case if create new case is clicked", () => {
     const { component } = setupMountedComponent(CreateRecordDialog, props, state);
 
-    component.find(CreateRecordDialog).find(ActionButton).first().props().rest.onClick();
+    component.find(CreateRecordDialog).find(ActionButton).last().props().rest.onClick();
 
     const { history } = component.find(Router).props();
 

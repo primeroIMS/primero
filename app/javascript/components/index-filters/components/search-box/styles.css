@@ -38,13 +38,3 @@
   justify-content: space-between;
   margin-top: 10px;
 }
-
-.searchHelpText {
-  color: var(--c-mid-grey);
-  margin: 0;
-  font-size: var(--fs-12);
-  & svg {
-    color: var(--c-gold-yellow);
-    height: var(--fs-12);
-  }
-}
