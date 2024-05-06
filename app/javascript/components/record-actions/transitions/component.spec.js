@@ -72,7 +72,7 @@ describe("<Transitions />", () => {
 
         it("renders ReferralForm", () => {
             mountedComponent(<Transitions {...referralProps} />, initialState)
-            expect(screen.getByText((content, element) => element.tagName.toLowerCase() === 'form')).toBeInTheDocument();
+            expect(screen.getByText(/forms.record_types.case/)).toBeInTheDocument();
         });
     });
 
