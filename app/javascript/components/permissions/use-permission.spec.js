@@ -15,7 +15,7 @@ describe("Verifying config constant", () => {
       }
     });
 
-    expect(result.current).to(true);
+    expect(result.current).toBe(true);
   });
 
   it("handles multiple resources permission checks", () => {
@@ -49,6 +49,6 @@ describe("Verifying config constant", () => {
       }
     );
 
-    expect(result.current).to.eql(expected);
+    expect(result.current).toStrictEqual(expected);
   });
 });
