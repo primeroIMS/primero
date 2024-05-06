@@ -12,7 +12,7 @@ module CsrfProtection
 
     before_action :set_csrf_cookie
 
-    protect_from_forgery with: :exception, prepend: true
+    protect_from_forgery with: :exception, prepend: true, if: -> { Rails.configuration.use_csrf_protection }
   end
 
   private

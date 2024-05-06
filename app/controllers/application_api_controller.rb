@@ -4,10 +4,10 @@
 
 # Superclass for nearly all Primero CRUD API calls
 class ApplicationApiController < ActionController::API
+  include CsrfProtection
   include CanCan::ControllerAdditions
   include AuditLogActions
   include ErrorHandling
-  include CsrfProtection
 
   # check_authorization #TODO: Uncomment after upgrading to CanCanCan v3
   before_action :authenticate_user!
