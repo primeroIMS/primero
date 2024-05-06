@@ -109,7 +109,7 @@ describe("<SubformFieldArray />", () => {
 
   it("renders the SubformAddEntry", () => {
     mountedComponent(<SubformFieldArray {...props} />, {}, [], {}, formProps);
-    expect(screen.getAllByTestId("subForm-add-entry")).toHaveLength(1);
+    expect(screen.getAllByTestId("subForm-add")).toHaveLength(1);
   });
 
   it("renders the AddIcon", () => {
@@ -329,7 +329,7 @@ describe("<SubformFieldArray />", () => {
         [],
         {}
       );
-      expect(screen.getByTestId("subForm-add-entry")).toBeInTheDocument();
+      expect(screen.getByTestId("subForm-add")).toBeInTheDocument();
     });
 
     it("should render Menu", () => {
