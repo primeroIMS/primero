@@ -84,7 +84,7 @@ const handleResponse = async successCallback => {
   }
 };
 
-export const refreshIdpToken = async (idp, successCallback, historyObj) => {
+export const refreshIdpToken = async (idp, successCallback) => {
   handleResponse(successCallback);
 };
 
