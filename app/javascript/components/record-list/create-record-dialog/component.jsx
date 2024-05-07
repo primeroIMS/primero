@@ -48,7 +48,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
   const phonetic = useWatch({ control, name: FIELD_NAME_PHONETIC, defaultValue: false });
   const record = useMemoizedSelector(state => getRecordsData(state, recordType));
   const searchTitle = i18n.t(searchTitleI18nKey(phonetic));
-  const searchHelpText = i18n.t("case.enter_id_number_help_text");
+  const searchHelpText = i18n.t("case.search_helper_text");
 
   const onSubmit = data => {
     submitHandler({

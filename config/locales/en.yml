@@ -244,7 +244,6 @@ en:
     select: Select
     deselect: Deselect
     enter_id_number: Enter the ID number to search for an existing record
-    enter_id_number_help_text: Why? To prevent creation of duplicate cases.
     id_search_no_results: There is no match in the system for “%{search_query}”. Please
       create a new record.
     messages:
