@@ -2,7 +2,7 @@
 
 # Query for Exports
 
-Show a paginated list of all exports that are accessible to this user. 
+Show a paginated list of all exports that are accessible to this user.
 This method can be used to poll for the status of ongoing export jobs.
 
 **URL** : `/api/v2/exports`
@@ -14,13 +14,13 @@ This method can be used to poll for the status of ongoing export jobs.
 **Authorization** : The user must be authorized to perform at least one export action on a record.
 Only exports created by this user are viewable.
 
-**Parameters** : 
+**Parameters** :
 
-* `status` Optional. Query by status. Can be used to poll for ongoing jobs. 
+* `status` Optional. Query by status. Can be used to poll for ongoing jobs.
 * `record_type` Optional. The record for which the export is being performed.
 * `export_format` Optional. The type of export that is running.
 * `page` Optional. Pagination. Defaults to 1
-* `per` Optional. Records per page. Defaults to 20.
+* `per` Optional. Records per page. Defaults to 20. Maximum is 1000
 
 ## Success Response
 
@@ -53,7 +53,7 @@ Only exports created by this user are viewable.
 ```
 ## Error Response
 
-**Condition** : User isn't authorized to perform exports. 
+**Condition** : User isn't authorized to perform exports.
 
 **Code** : `403 Forbidden`
 

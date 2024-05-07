@@ -2,7 +2,7 @@
 
 # Query for cases
 
-Show a paginated list of all cases that are accessible to this user. The user can filter the case list based on search criteria. 
+Show a paginated list of all cases that are accessible to this user. The user can filter the case list based on search criteria.
 
 **URL** : `/api/v2/cases`
 
@@ -11,25 +11,25 @@ Show a paginated list of all cases that are accessible to this user. The user ca
 **Authentication** : YES
 
 **Authorization** : The user must be authorized to view cases in Primero. The full set of cases viewable by this user
-depends on the user's authorization scope: just cases the user is assigned to, cases that are associated with all 
-users in this user's user groups, or all cases in the system. The fields that are shown for each case 
-are only fields that this user is permitted to view. 
+depends on the user's authorization scope: just cases the user is assigned to, cases that are associated with all
+users in this user's user groups, or all cases in the system. The fields that are shown for each case
+are only fields that this user is permitted to view.
 
-**Parameters** : 
+**Parameters** :
 
 * `query` Optional. A text query over a special set of fields such as names and identifiers.
-* Filter query over case fields of type select, numeric, date, booleans. 
+* Filter query over case fields of type select, numeric, date, booleans.
 Query values can be comma-separated lists and date and numeric ranges. Optional
 Example `sex=male&age=10..15&protection_concerns=unaccompanied,separated`
-* `fields` Optional. A comma-separated list of fields that will be returned in the json data. 
+* `fields` Optional. A comma-separated list of fields that will be returned in the json data.
 If unspecified this displays all permitted fields. The special value `short` will return a condensed
 list of relevant permitted fields.
 * `page` Optional. Pagination. Defaults to 1
-* `per` Optional. Records per page. Defaults to 20. 
+* `per` Optional. Records per page. Defaults to 20. Maximum is 1000
 
 ## Success Response
 
-**Condition** : User can see one or more cases. 
+**Condition** : User can see one or more cases.
 
 **Code** : `200 OK`
 
@@ -74,7 +74,7 @@ list of relevant permitted fields.
 ```
 ## Error Response
 
-**Condition** : User isn't authorized to query for cases. 
+**Condition** : User isn't authorized to query for cases.
 
 **Code** : `403 Forbidden`
 
