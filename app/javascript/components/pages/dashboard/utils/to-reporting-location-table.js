@@ -6,6 +6,8 @@ import { LOCALE_KEYS } from "../../../../config";
 import { dataToJS } from "../../../../libs";
 import { INDICATOR_NAMES } from "../constants";
 
+import defaultBodyRender from "./default-body-render";
+
 const reportingLocationLabel = (reportingLocationConfig, i18n) => {
   const locationTypes = [];
 
@@ -38,27 +40,33 @@ export const dashboardTableData = (optionsByIndex, data, indicators, listKey) =>
 };
 
 export default (data, reportingLocationConfig, i18n, locations) => {
+  const options = { customBodyRender: defaultBodyRender };
   const columns = [
     { name: "", label: reportingLocationLabel(dataToJS(reportingLocationConfig), i18n) },
     {
       name: INDICATOR_NAMES.REPORTING_LOCATION_OPEN,
-      label: i18n.t("dashboard.open_cases")
+      label: i18n.t("dashboard.open_cases"),
+      options
     },
     {
       name: INDICATOR_NAMES.REPORTING_LOCATION_OPEN_LAST_WEEK,
-      label: i18n.t("dashboard.new_last_week")
+      label: i18n.t("dashboard.new_last_week"),
+      options
     },
     {
       name: INDICATOR_NAMES.REPORTING_LOCATION_OPEN_THIS_WEEK,
-      label: i18n.t("dashboard.new_this_week")
+      label: i18n.t("dashboard.new_this_week"),
+      options
     },
     {
       name: INDICATOR_NAMES.REPORTING_LOCATION_ClOSED_LAST_WEEK,
-      label: i18n.t("dashboard.closed_last_week")
+      label: i18n.t("dashboard.closed_last_week"),
+      options
     },
     {
       name: INDICATOR_NAMES.REPORTING_LOCATION_ClOSED_THIS_WEEK,
-      label: i18n.t("dashboard.closed_this_week")
+      label: i18n.t("dashboard.closed_this_week"),
+      options
     }
   ];
 
