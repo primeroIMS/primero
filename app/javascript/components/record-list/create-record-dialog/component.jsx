@@ -23,7 +23,7 @@ import { enqueueSnackbar } from "../../notifier";
 import { SEARCH_OR_CREATE_FILTERS } from "../constants";
 import SearchNameToggle from "../../index-filters/components/search-name-toggle";
 import PhoneticHelpText from "../../index-filters/components/phonetic-help-text";
-import useSearchTitle from "../../index-filters/components/search-box/use-search-title";
+import { searchTitleI18nKey } from "../../index-filters/components/search-box/utils";
 
 import { FORM_ID, NAME, FIELD_NAME_PHONETIC } from "./constants";
 import { searchForm } from "./forms";
@@ -47,7 +47,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
 
   const phonetic = useWatch({ control, name: FIELD_NAME_PHONETIC, defaultValue: false });
   const record = useMemoizedSelector(state => getRecordsData(state, recordType));
-  const searchTitle = useSearchTitle({ phonetic });
+  const searchTitle = i18n.t(searchTitleI18nKey(phonetic));
   const searchHelpText = i18n.t("case.enter_id_number_help_text");
 
   const onSubmit = data => {

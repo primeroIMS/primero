@@ -14,8 +14,8 @@ import { registerInput } from "../filter-types/utils";
 import handleFilterChange from "../filter-types/value-handlers";
 import PhoneticHelpText from "../phonetic-help-text";
 
-import useSearchTitle from "./use-search-title";
 import css from "./styles.css";
+import { searchTitleI18nKey } from "./utils";
 
 const FIELD_NAME_QUERY = "query";
 const FIELD_NAME_ID_SEARCH = "id_search";
@@ -26,7 +26,7 @@ function SearchBox() {
 
   const { register, unregister, setValue } = useFormContext();
   const watchPhonetic = useWatch({ name: FIELD_NAME_PHONETIC, defaultValue: false });
-  const searchTitle = useSearchTitle({ phonetic: watchPhonetic });
+  const searchTitle = i18n.t(searchTitleI18nKey(watchPhonetic));
   const [inputValue, setInputValue] = useState();
   const [switchValue, setSwitchValue] = useState();
   const valueRef = useRef();
