@@ -55,6 +55,10 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
       expect(json['metadata']['page']).to eq(1)
     end
 
+    it_behaves_like 'a paginated resource' do
+      let(:action) { { resource: 'configurations', login_params: { permissions: correct_permissions } } }
+    end
+
     it 'returns 403 if user is not authorized to access' do
       login_for_test
       get '/api/v2/configurations'
