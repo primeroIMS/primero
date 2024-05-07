@@ -56,13 +56,15 @@ describe("toProtectionConcernTable - pages/dashboard/utils/", () => {
       }
     });
 
+    const options = { customBodyRender: defaultBodyRender };
+
     const expected = {
       columns: [
         { name: "", label: {} },
-        { name: "protection_concerns_all_cases", label: {}, options: { customBodyRender: defaultBodyRender } },
-        { name: "protection_concerns_open_cases", label: {}, options: { customBodyRender: defaultBodyRender } },
-        { name: "protection_concerns_new_this_week", label: {}, options: { customBodyRender: defaultBodyRender } },
-        { name: "protection_concerns_closed_this_week", label: {}, options: { customBodyRender: defaultBodyRender } }
+        { name: "protection_concerns_all_cases", label: {}, options },
+        { name: "protection_concerns_open_cases", label: {}, options },
+        { name: "protection_concerns_new_this_week", label: {}, options },
+        { name: "protection_concerns_closed_this_week", label: {}, options }
       ],
       data: [
         {
@@ -99,9 +101,6 @@ describe("toProtectionConcernTable - pages/dashboard/utils/", () => {
     };
 
     const converted = toProtectionConcernTable(data, i18nMock, lookups);
-
-    console.log("converted===>", converted);
-    console.log("expected===>", expected);
 
     expect(converted).to.deep.equal(expected);
   });

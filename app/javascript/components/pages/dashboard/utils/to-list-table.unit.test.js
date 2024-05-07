@@ -50,11 +50,13 @@ describe("toListTable - pages/dashboard/utils/", () => {
       { id: "case_plan", display_text: { en: "Case Plan" } }
     ];
 
+    const options = { customBodyRender: defaultBodyRender };
+
     const expected = {
       columns: [
-        { name: "", label: "", options: { customBodyRender: defaultBodyRender } },
-        { name: "new", label: "New", options: { customBodyRender: defaultBodyRender } },
-        { name: "case_plan", label: "Case Plan", options: { customBodyRender: defaultBodyRender } }
+        { name: "", label: "", options },
+        { name: "new", label: "New", options },
+        { name: "case_plan", label: "Case Plan", options }
       ],
       data: [{ "": "primero", case_plan: 1, new: 3 }],
       query: [
@@ -160,11 +162,13 @@ describe("toListTable - pages/dashboard/utils/", () => {
       { id: "category_1", display_text: "Category 1" }
     ];
 
+    const options = { customBodyRender: defaultBodyRender };
+
     const expected = {
       columns: [
-        { name: "", label: "", options: { customBodyRender: defaultBodyRender } },
-        { name: "new", label: "New", options: { customBodyRender: defaultBodyRender } },
-        { name: "case_plan", label: "Case Plan", options: { customBodyRender: defaultBodyRender } }
+        { name: "", label: "", options },
+        { name: "new", label: "New", options },
+        { name: "case_plan", label: "Case Plan", options }
       ],
       data: [
         { "": "Category 2", case_plan: 1, new: 3 },
