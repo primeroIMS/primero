@@ -81,6 +81,8 @@ const colors = {
   loginBackgroundGradientEnd: "var(--c-blue)",
   loginTranslationsButtonBackground: "transparent",
   loginTranslationsButtonText: "var(--c-white)",
+  loginButtonBg: "var(--c-blue)",
+  loginButtonText: "var(--c-white)",
   ...importedTheme.colors
 };
 
