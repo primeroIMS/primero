@@ -3357,6 +3357,9 @@ en:
               edited, such as when notes are updated. Alerts are usually shown
               with a yellow dot next to the incident.
             label: Remove alert from an incident
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: Allows a user to perform all available actions on incidents.
               The "Manage" permission essentially means "everything".
