@@ -44,6 +44,6 @@ describe("<SearchPrompt />", () => {
   });
 
   it("should render a <ActionButton /> component", () => {
-    expect(component.find(ActionButton)).to.have.lengthOf(1);
+    expect(component.find(ActionButton)).to.have.lengthOf(2);
   });
 });

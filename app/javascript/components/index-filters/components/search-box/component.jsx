@@ -19,13 +19,13 @@ import { searchTitleI18nKey } from "./utils";
 
 const FIELD_NAME_QUERY = "query";
 const FIELD_NAME_ID_SEARCH = "id_search";
-const FIELD_NAME_PHONETIC = "phonetic";
+const PHONETIC_FIELD_NAME = "phonetic";
 
 function SearchBox() {
   const i18n = useI18n();
 
   const { register, unregister, setValue } = useFormContext();
-  const watchPhonetic = useWatch({ name: FIELD_NAME_PHONETIC, defaultValue: false });
+  const watchPhonetic = useWatch({ name: PHONETIC_FIELD_NAME, defaultValue: false });
   const searchTitle = i18n.t(searchTitleI18nKey(watchPhonetic));
   const [inputValue, setInputValue] = useState();
   const [switchValue, setSwitchValue] = useState();
@@ -43,7 +43,7 @@ function SearchBox() {
     register({ name: FIELD_NAME_ID_SEARCH });
     registerInput({
       register,
-      name: FIELD_NAME_PHONETIC,
+      name: PHONETIC_FIELD_NAME,
       defaultValue: false,
       ref: switchRef,
       setInputValue: setSwitchValue
@@ -52,7 +52,7 @@ function SearchBox() {
     return () => {
       unregister(FIELD_NAME_QUERY);
       unregister(FIELD_NAME_ID_SEARCH);
-      unregister(FIELD_NAME_PHONETIC);
+      unregister(PHONETIC_FIELD_NAME);
     };
   }, [register, unregister]);
 
@@ -80,7 +80,7 @@ function SearchBox() {
       setInputValue: setSwitchValue,
       inputValue: switchValue,
       setValue,
-      fieldName: FIELD_NAME_PHONETIC
+      fieldName: PHONETIC_FIELD_NAME
     });
   };
 
