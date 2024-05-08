@@ -11,7 +11,7 @@ class Theme < ApplicationRecord
     navListIconActive navListText navListIcon navListDivider loginBackgroundGradientStart
     loginBackgroundGradientEnd toolbarBackgroundColorMobileHeader drawerHeaderButton
     loginTranslationsButtonBackground loginTranslationsButtonText mobileToolbarBackground
-    mobileToolbarHamburgerButton
+    mobileToolbarHamburgerButton loginButtonBg loginButtonText
   ].freeze
 
   DEFAULT_THEME = {
