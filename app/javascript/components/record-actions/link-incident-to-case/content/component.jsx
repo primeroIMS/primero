@@ -1,7 +1,9 @@
 import { Grid } from "@material-ui/core";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import CheckIcon from "@material-ui/icons/Check";
 import PropTypes from "prop-types";
+import { fromJS } from "immutable";
 
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../action-button";
 import IndexTable from "../../../index-table";
@@ -12,6 +14,7 @@ import PhotoArray from "../../../record-form/form/field-types/attachments/photo-
 import useOptions from "../../../form/use-options";
 import { LOOKUPS } from "../../../../config";
 import { getOptionText } from "../../../record-form/form/subforms/subform-traces/components/field-row/utils";
+import { useThemeHelper } from "../../../../libs";
 
 import { buildTableOptions } from "./utils";
 
@@ -19,6 +22,12 @@ function Component({ showTable = false, caseInfo, handleBack, handleOk, handleRo
   const i18n = useI18n();
   const genderLookups = useOptions({ source: LOOKUPS.gender_unknown });
   const tableOptions = buildTableOptions({ i18n, handleRowClick, recordTypeValue });
+  const { isRTL } = useThemeHelper();
+
+  const images = caseInfo
+    .get("photos", fromJS([]))
+    ?.map(img => img.get("attachment_url"))
+    .toArray();
 
   if (showTable) {
     return <IndexTable {...tableOptions} />;
@@ -30,7 +39,7 @@ function Component({ showTable = false, caseInfo, handleBack, handleOk, handleRo
         <div className={css.toolbar}>
           <ActionButton
             id="back-button"
-            icon={<ArrowBackIosIcon />}
+            icon={isRTL ? <ArrowForwardIosIcon /> : <ArrowBackIosIcon />}
             text="buttons.back"
             type={ACTION_BUTTON_TYPES.default}
             rest={{
@@ -82,11 +91,7 @@ function Component({ showTable = false, caseInfo, handleBack, handleOk, handleRo
           <Grid container item className={css.fieldRow} spacing={4}>
             <Grid item xs={6}>
               <div className={css.fieldTitle}>{i18n.t("tracing_request.case_photos")}</div>
-              {caseInfo.get("photos", VALUE_PLACEHOLDER).isEmpty() ? (
-                <span className={css.nothingFound}>--</span>
-              ) : (
-                <PhotoArray isGallery images={caseInfo.get("photos", VALUE_PLACEHOLDER)} />
-              )}
+              {images.length ? <PhotoArray images={images} /> : <span className={css.nothingFound}>--</span>}
             </Grid>
           </Grid>
         </Grid>
