@@ -1,9 +1,6 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../test";
-import ActionDialog from "../../action-dialog";
+import { mountedComponent, screen } from "../../../test-utils";
 import { RECORD_PATH } from "../../../config";
 import { ACTIONS } from "../../permissions";
 import { mapEntriesToRecord } from "../../../libs";
@@ -86,40 +83,8 @@ describe("<RecordActions /> - <Exports />", () => {
   };
 
   it("renders ActionDialog", () => {
-    const { component } = setupMountedComponent(Exports, props, state);
-
-    expect(component.find(ActionDialog)).to.have.lengthOf(1);
+    mountedComponent(<Exports {...props} />, state);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
-  it("should accept valid props", () => {
-    const validProps = {
-      ...props,
-      currentPage: 0,
-      pending: true,
-      record: fromJS({}),
-      selectedRecords: { 0: [0] },
-      setPending: () => {}
-    };
-    const { component } = setupMountedComponent(Exports, validProps, state);
-    const exportProps = {
-      ...component.find(Exports).props()
-    };
-
-    expect(component.find(Exports)).to.have.lengthOf(1);
-    [
-      "close",
-      "currentPage",
-      "open",
-      "pending",
-      "record",
-      "recordType",
-      "selectedRecords",
-      "setPending",
-      "userPermissions"
-    ].forEach(property => {
-      expect(exportProps).to.have.property(property);
-      delete exportProps[property];
-    });
-    expect(exportProps).to.be.empty;
-  });
 });
