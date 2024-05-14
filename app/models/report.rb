@@ -49,7 +49,7 @@ class Report < ApplicationRecord
 
   validates :record_type, presence: true
   validates :aggregate_by, presence: true
-  validate :modules_present
+  validate :validate_modules_present
   validate :validate_name_in_base_language
 
   before_create :generate_unique_id
@@ -173,12 +173,7 @@ class Report < ApplicationRecord
   def join_nested_model
     model.parent_record_type.joins(
       ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          %(
-            CROSS JOIN jsonb_array_elements(data->:nested_field_name)
-            as #{ActiveRecord::Base.connection.quote_table_name(model.record_field_name)}
-          ), { nested_field_name: model.record_field_name }
-        ]
+        ["CROSS JOIN jsonb_array_elements(data->'%s') as %s", model.record_field_name, model.record_field_name]
       )
     )
   end
@@ -242,14 +237,24 @@ class Report < ApplicationRecord
   end
 
   def apply_filters(query)
-    filter_query = filters.reduce(query) do |current_query, filter|
+    filter_query = query
+    if model.try(:parent_record_type).present?
+      filter_query = apply_filters_for_nested_model(filter_query)
+    else
+      search_filters = Reports::ReportFilterService.build_filters(filters, filter_fields)
+      search_filters.each { |filter| filter_query = filter_query.where(filter.query) }
+    end
+
+    apply_permission_filter(filter_query)
+  end
+
+  def apply_filters_for_nested_model(query)
+    filters.reduce(query) do |current_query, filter|
       field = filter_fields[filter['attribute']]
       current_query.where(
         Reports::FilterFieldQuery.build(field:, filter:, record_field_name: record_field_name(field))
       )
     end
-
-    apply_permission_filter(filter_query)
   end
 
   def apply_permission_filter(query)
@@ -274,7 +279,7 @@ class Report < ApplicationRecord
     filters.map { |filter| filter['attribute'] }
   end
 
-  def modules_present
+  def validate_modules_present
     if module_id.present? && module_id.length >= 1
       if module_id.split('-').first != 'primeromodule'
         errors.add(:module_id, I18n.t('errors.models.report.module_syntax'))

@@ -4,6 +4,8 @@
 
 # Transform API query parameter field_name=value into a sql query
 class SearchFilters::DateValue < SearchFilters::Value
+  attr_accessor :date_include_time
+
   def query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
@@ -22,6 +24,6 @@ class SearchFilters::DateValue < SearchFilters::Value
   end
 
   def date_include_time?
-    value.is_a?(Time)
+    date_include_time || value.is_a?(Time)
   end
 end
