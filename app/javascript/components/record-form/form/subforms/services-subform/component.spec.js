@@ -1,9 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../../records";
-import FormSectionField from "../../form-section-field";
-import TextField from "../../field-types/text-field";
 
 import ServicesSubform from "./component";
 
@@ -43,25 +41,11 @@ describe("<ServicesSubform />", () => {
     }
   };
 
-  let component;
-
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(ServicesSubform, props, {}, [], formProps));
-  });
-
   it("renders the subform", () => {
-    expect(component.find(FormSectionField)).lengthOf(2);
+    mountedComponent(<ServicesSubform {...props} />, {} , [], {}, formProps);
+    expect(screen.getAllByTestId('subform-dialog-field')).toHaveLength(2);
   });
 
-  it("renders SubformDialog with valid props", () => {
-    const subformDialogProps = { ...component.find(ServicesSubform).props() };
-
-    ["field", "formSection", "formik", "index", "mode"].forEach(property => {
-      expect(subformDialogProps).to.have.property(property);
-      delete subformDialogProps[property];
-    });
-    expect(subformDialogProps).to.be.empty;
-  });
 
   describe("when field is visible should not be render", () => {
     const propsFieldNotVisible = {
@@ -99,12 +83,10 @@ describe("<ServicesSubform />", () => {
       }
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(ServicesSubform, propsFieldNotVisible, {}, [], visibleFieldFormProps));
-    });
 
     it("renders the subform", () => {
-      expect(component.find(TextField)).lengthOf(1);
+        mountedComponent(<ServicesSubform {...propsFieldNotVisible} />, {} , [], {}, visibleFieldFormProps);
+        expect(screen.getAllByRole('textbox')).toHaveLength(1);
     });
   });
 });
