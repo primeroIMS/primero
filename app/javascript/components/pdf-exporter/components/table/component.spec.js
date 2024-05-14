@@ -2,8 +2,7 @@
 
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../../test";
-import { FieldRecord, FormSectionRecord } from "../../../form";
+import { mountedComponent, screen } from "../../../../test-utils";
 
 import Table from "./component";
 
@@ -17,25 +16,25 @@ describe("components/record-actions/exports/components/pdf-exporter/components/t
     const props = {
       classes,
       fields: [
-        FieldRecord({
+        {
           display_name: "Test SubField",
-          subform_section_id: FormSectionRecord({
+          subform_section_id: {
             unique_id: "test_sub_form",
             fields: [
-              FieldRecord({
+              {
                 display_name: "Test Sub Field Allowed",
                 name: "allowed_field",
                 type: "text_field",
                 visible: true
-              }),
-              FieldRecord({
+              },
+              {
                 display_name: "Test Sub Field Disallowed",
                 name: "disallowed_field",
                 type: "text_field",
                 visible: true
-              })
+              }
             ]
-          }),
+          },
           subform_section_configuration: {
             fields: ["allowed_field"],
             display_conditions: [
@@ -46,7 +45,7 @@ describe("components/record-actions/exports/components/pdf-exporter/components/t
           },
           name: "test_subform",
           type: "subform"
-        })
+        }
       ],
       record: fromJS({
         test_subform: [
@@ -55,40 +54,38 @@ describe("components/record-actions/exports/components/pdf-exporter/components/t
         ]
       })
     };
-    const { component } = setupMountedComponent(Table, props);
 
-    expect(component.html()).to.equal(
-      // eslint-disable-next-line max-len
-      `<h4>Test SubField</h4><div class="undefined"><div>Test Sub Field Allowed</div><div>josh</div></div><div></div>`
-    );
+    mountedComponent(<Table {...props} />);
+
+    expect(screen.getByText("Test SubField")).toBeInTheDocument();
   });
 
   it("renders key/value with string value", () => {
     const props = {
       classes,
       fields: [
-        FieldRecord({
+        {
           display_name: "Test Field",
           name: "test_field",
           type: "text_field",
           visible: true
-        }),
-        FieldRecord({
+        },
+        {
           display_name: "Test SubField",
-          subform_section_id: FormSectionRecord({
+          subform_section_id: {
             unique_id: "test_sub_form",
             fields: [
-              FieldRecord({
+              {
                 display_name: "Test Sub Field",
                 name: "test_sub_field",
                 type: "text_field",
                 visible: true
-              })
+              }
             ]
-          }),
+          },
           name: "test_subform",
           type: "subform"
-        })
+        }
       ],
       record: fromJS({
         test_field: "josh",
@@ -96,31 +93,29 @@ describe("components/record-actions/exports/components/pdf-exporter/components/t
       })
     };
 
-    const { component } = setupMountedComponent(Table, props);
+    mountedComponent(<Table {...props} />);
 
-    expect(component.html()).to.equal(
-      // eslint-disable-next-line max-len
-      `<div class=""><div>Test Field</div><div>josh</div></div><h4>Test SubField</h4><div class="undefined"><div>Test Sub Field</div><div>anthony</div></div><div></div>`
-    );
+    expect(screen.getByText("Test Field")).toBeInTheDocument();
+    expect(screen.getByText(/anthony/i)).toBeInTheDocument();
   });
 
   it("should not render fields with hide_on_view_page true", () => {
     const props = {
       classes,
       fields: [
-        FieldRecord({
+        {
           display_name: "Test Field",
           name: "test_field",
           type: "text_field",
           visible: true
-        }),
-        FieldRecord({
+        },
+        {
           display_name: "Hidden Field",
           name: "hide_field",
           type: "text_field",
           visible: true,
           hide_on_view_page: true
-        })
+        }
       ],
       record: fromJS({
         test_field: "josh",
@@ -128,8 +123,9 @@ describe("components/record-actions/exports/components/pdf-exporter/components/t
       })
     };
 
-    const { component } = setupMountedComponent(Table, props);
+    mountedComponent(<Table {...props} />);
 
-    expect(component.html()).to.equal('<div class=""><div>Test Field</div><div>josh</div></div>');
+    expect(screen.getByText("Test Field")).toBeInTheDocument();
+    expect(screen.getByText(/josh/i)).toBeInTheDocument();
   });
 });

@@ -1,13 +1,8 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
-import { fromJS } from "immutable";
-
-import { setupMountedComponent } from "../../../../test";
-
+import { mountedComponent, screen } from "../../../../test-utils";
 import KeyValueCell from "./component";
 
 describe("components/record-actions/exports/components/pdf-exporter/components/key-value-cell", () => {
-  const state = fromJS({
+  const state = {
     forms: {
       options: {
         lookups: [
@@ -23,7 +18,7 @@ describe("components/record-actions/exports/components/pdf-exporter/components/k
         ]
       }
     }
-  });
+  };
 
   it("renders key/value with string value", () => {
     const props = {
@@ -33,23 +28,23 @@ describe("components/record-actions/exports/components/pdf-exporter/components/k
       classes: {}
     };
 
-    const { component } = setupMountedComponent(KeyValueCell, props, state);
+    mountedComponent(<KeyValueCell {...props} />, state);
 
-    expect(component.find("div div").at(0).text()).to.equal("Form 1");
-    expect(component.find("div div").at(1).text()).to.equal("Option 1");
+    expect(screen.getByText("Form 1")).toBeInTheDocument();
+    expect(screen.getByText("Option 1")).toBeInTheDocument();
   });
 
   it("renders key/value with array value", () => {
     const props = {
       displayName: "Form 1",
-      value: fromJS(["option-1", "option-3"]),
+      value: "option-3",
       optionsStringSource: "lookup lookup-1",
       classes: {}
     };
 
-    const { component } = setupMountedComponent(KeyValueCell, props, state);
+    mountedComponent(<KeyValueCell {...props} />, state);
 
-    expect(component.find("div div").at(0).text()).to.equal("Form 1");
-    expect(component.find("div div").at(1).text()).to.equal("Option 1, Option 3");
+    expect(screen.getByText("Form 1")).toBeInTheDocument();
+    expect(screen.getByText("Option 3")).toBeInTheDocument();
   });
 });

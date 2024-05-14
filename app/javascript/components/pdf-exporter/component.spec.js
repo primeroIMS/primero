@@ -3,11 +3,8 @@
 import { createRef } from "react";
 import { fromJS } from "immutable";
 
-import { setupMockFormComponent } from "../../test";
-
-import RenderTable from "./components/render-table";
-import Logos from "./components/logos";
 import PdfExporter from "./component";
+import { mountedFormComponent, screen } from "../../test-utils";
 
 describe("<PdfExporter />", () => {
   const formRef = createRef();
@@ -78,20 +75,19 @@ describe("<PdfExporter />", () => {
   };
 
   it("renders PdfExporter", () => {
-    const { component } = setupMockFormComponent(PdfExporter, { props });
-
-    expect(component.find(PdfExporter)).to.have.lengthOf(1);
+    mountedFormComponent(<PdfExporter {...props} />);
+    expect(screen.getAllByText(/exports.printed/i)).toHaveLength(2);
   });
 
   it("renders Logos", () => {
-    const { component } = setupMockFormComponent(PdfExporter, { props });
+    mountedFormComponent(<PdfExporter {...props} />);
 
-    expect(component.find(Logos)).to.have.lengthOf(2);
+    expect(screen.getAllByText((_, element) => element.tagName.toLowerCase() === "svg")).toHaveLength(1);
   });
 
   it("renders RenderTable", () => {
-    const { component } = setupMockFormComponent(PdfExporter, { props });
+    mountedFormComponent(<PdfExporter {...props} />);
 
-    expect(component.find(RenderTable)).to.have.lengthOf(1);
+    expect(screen.getByText(/Approved by Manager/i)).toBeInTheDocument();
   });
 });
