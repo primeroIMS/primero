@@ -43,6 +43,7 @@ class Child < ApplicationRecord
   include Kpi::GBVChild
   include DuplicateIdAlertable
   include FollowUpable
+  include Reunifiable
   include LocationCacheable
   include FamilyLinkable
   include PhoneticSearchable
