@@ -27,6 +27,7 @@ describe BulkExport, search: true do
     primero_module = create(:primero_module)
     role = create(:role, form_sections: [@form_section], modules: [primero_module])
     @user = create(:user, role:)
+    Child.create!(data: { age: 5 })
   end
 
   describe 'custom bulk export' do

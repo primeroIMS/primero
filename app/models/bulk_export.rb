@@ -122,14 +122,24 @@ class BulkExport < ApplicationRecord
     page = 1
     order = self.order || { created_at: :desc }
     loop do
-      results = SearchService.search(model_class, { filters: search_filters, query_scope: record_query_scope, query:,
-                                                    sort: order, pagination: { page:, per_page: batch } }).results
-      exporter.single_record_export = results.total_count == 1
-      yield(results)
-      # Set again the values of the pagination variable because the method modified the variable.
-      page = results.next_page
-      break if page.nil?
+      result = search_records(batch, page, order)
+      break if result.records.blank?
+
+      exporter.single_record_export = result.total == 1
+      yield(result.records)
+      page += 1
     end
+  end
+
+  def search_records(batch, page, order)
+    PhoneticSearchService.search(
+      model_class,
+      {
+        filters: search_filters,
+        query_scope: record_query_scope, query:,
+        sort: order, pagination: { page:, per_page: batch }
+      }
+    )
   end
 
   def attach_export_file(file)
