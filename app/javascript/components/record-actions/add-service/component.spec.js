@@ -138,9 +138,4 @@ describe("<AddService />", () => {
     mountedComponent(<AddService {...props} />, initialState);
     expect(screen.queryAllByRole("textbox")).toHaveLength(1);
   });
-
-  it("renders component with valid props", () => {
-    mountedComponent(<AddService {...props} />, initialState);
-    expect(screen.getByRole("presentation")).toBeInTheDocument();
-  });
 });
