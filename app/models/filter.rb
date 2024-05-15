@@ -685,7 +685,7 @@ class Filter < ValueObject
   def cases_by_date_options(opts = {})
     self.options = I18n.available_locales.map do |locale|
       locale_options = [registration_date_options(locale), assessment_requested_on_options(locale),
-                        date_case_plan_options(locale), date_closure_options(locale)]
+                        date_case_plan_options(locale), date_closure_options(locale), followup_date_options(locale)]
       date_label = opts[:user].module?(PrimeroModule::GBV) ? 'created_at' : 'date_of_creation'
       locale_options << created_at_options(locale, date_label)
       { locale => locale_options }
@@ -724,6 +724,13 @@ class Filter < ValueObject
     {
       id: 'created_at',
       display_name: I18n.t("children.selectable_date_options.#{date_label}", locale:)
+    }
+  end
+
+  def followup_date_options(locale)
+    {
+      id: 'followup_dates',
+      display_name: I18n.t('children.selectable_date_options.followup_date', locale:)
     }
   end
 
