@@ -11,9 +11,10 @@ module FollowUpable
   FOLLOW_UPS_IMPLEMENTED = 'follow_ups_implemented'
 
   included do
-    store_accessor :data, :followup_status
+    store_accessor :data, :followup_status, :followup_dates
 
     before_save :save_followup_status
+    before_save :calculate_followup_dates
 
     def save_followup_status
       self.followup_status = if all_followup_implemented?
@@ -23,6 +24,11 @@ module FollowUpable
                              else
                                FOLLOW_UPS_NOT_PLANNED
                              end
+    end
+
+    def calculate_followup_dates
+      self.followup_dates = followup_subform_section&.reduce([]) { |acc, elem| acc << elem['followup_date'] }&.compact
+      followup_dates
     end
 
     private
