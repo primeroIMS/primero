@@ -61,9 +61,4 @@ describe("<Fields />", () => {
     mountedComponent(<Fields {...props} />, initialState, {}, {}, formProps);
     expect(screen.getByTestId("form-field")).toBeInTheDocument();
   });
-
-  it("renders component with valid props", () => {
-    mountedComponent(<Fields {...props} />, initialState, {}, {}, formProps);
-    expect(screen.getByTestId("form-field")).toBeInTheDocument();
-  });
 });
