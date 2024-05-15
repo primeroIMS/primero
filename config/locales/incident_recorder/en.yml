@@ -76,3 +76,6 @@ en:
           protection_referral: "CHILD PROTECTION SERVICES / EDUCATION SERVICES"
         consent: "CONSENT GIVEN"
         agency_code: "REPORTING AGENCY CODE"
+      number_of_alleged_primary_perpetrators:
+          more_than_three: "More than 3"
+        

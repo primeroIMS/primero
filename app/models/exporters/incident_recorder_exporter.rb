@@ -381,7 +381,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
         if from_ir.present?
           calculated.present? && calculated > 1 ? calculated : from_ir
         else
-          calculated
+          calculated > 3 ? I18n.t('exports.incident_recorder_xls.number_of_alleged_primary_perpetrators.more_than_three') : calculated
         end
       end
     end
