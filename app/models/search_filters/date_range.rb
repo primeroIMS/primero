@@ -47,18 +47,35 @@ class SearchFilters::DateRange < SearchFilters::SearchFilter
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
   def query
-    return "(#{from_query} AND #{to_query})" if to.present?
+    return "(#{from_query})" unless to.present?
 
-    "(#{from_query})"
+    ActiveRecord::Base.sanitize_sql_for_conditions(
+      [
+        %(
+          data->>:field_name IS NOT NULL AND EXISTS (
+            SELECT 1 FROM JSONB_ARRAY_ELEMENTS_TEXT(data->:field_name || CAST('[]' AS JSONB)) AS date_field
+            WHERE TO_TIMESTAMP(date_field, :date_format) >= TO_TIMESTAMP(:from, :date_format)
+            AND TO_TIMESTAMP(date_field, :date_format) <= TO_TIMESTAMP(:to, :date_format)
+          )
+        ),
+        { field_name:, from: from.iso8601, to: to.iso8601, date_format: }
+      ]
+    )
+  end
+  # rubocop:enable Metrics/MethodLength
+
+  def date_format
+    date_include_time? ? Report::DATE_TIME_FORMAT : Report::DATE_FORMAT
+  end
+
+  def date_include_time?
+    from.is_a?(Time)
   end
 
   def from_query
     SearchFilters::DateValue.new(field_name:, value: from, operator: '>=').query
-  end
-
-  def to_query
-    SearchFilters::DateValue.new(field_name:, value: to, operator: '<=').query
   end
 
   def this_quarter?

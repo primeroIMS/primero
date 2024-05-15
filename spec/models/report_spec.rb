@@ -757,9 +757,7 @@ describe Report do
         aggregate_by: ['sex'],
         disaggregate_by: ['created_at'],
         group_dates_by: Report::DAY,
-        filters: [
-          { 'value' => '2022-10-10', 'attribute' => 'created_at', 'constraint' => '>' }
-        ]
+        filters: [{ 'value' => '2022-10-10', 'attribute' => 'created_at', 'constraint' => '>' }]
       )
     end
 

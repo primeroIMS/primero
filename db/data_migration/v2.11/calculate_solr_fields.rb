@@ -48,6 +48,7 @@ def records_to_process(model_class, ids_file_path)
   model_class.where(id: ids_to_update)
 end
 
+# rubocop:disable Metrics/BlockLength
 if models.include?('Child')
   print_log('Recalculating solr fields for Child...')
   records_to_process(Child, file_path).find_in_batches(batch_size: 1000).with_index do |records, batch|
@@ -63,7 +64,12 @@ if models.include?('Child')
           'transferred_to_users' => record.calculate_transferred_to_users,
           'transferred_to_user_groups' => record.calculate_transferred_to_user_groups,
           'referred_users' => record.calculate_referred_users,
-          'referred_users_present' => record.calculate_referred_users_present
+          'referred_users_present' => record.calculate_referred_users_present,
+          'assessment_due_dates' => record.calculate_assessment_due_dates,
+          'case_plan_due_dates' => record.calculate_case_plan_due_dates,
+          'followup_due_dates' => record.calculate_followup_due_dates,
+          'service_due_dates' => record.calculate_service_due_dates,
+          'followup_dates' => record.calculate_followup_dates
         ),
         'phonetic_data' => { 'tokens' => record.generate_tokens }
       }
@@ -76,6 +82,7 @@ if models.include?('Child')
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
 
 if models.include?('Incident')
   print_log('Recalculating solr fields for Incident...')

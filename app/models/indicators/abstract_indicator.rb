@@ -16,11 +16,10 @@ module Indicators
     # scope_to_not_last_update: Records where the user was not last to update.
     # scope_to_transferred_groups: Records transferred to the user's user group.
     # exclude_zeros: Do not include result with zeroes.
-    # scope_to_user: Constraints the resuls to the user_query_scope. Userful for Faceted and Pivoted indicators.
     # rubocop:enable Style/ClassAndModuleChildren
     attr_accessor :name, :record_model, :scope, :scope_to_owner, :scope_to_referred,
                   :scope_to_transferred, :scope_to_not_last_update, :scope_to_owned_by_groups,
-                  :scope_to_transferred_groups, :exclude_zeros, :scope_to_user
+                  :scope_to_transferred_groups
 
     class << self
       def type
@@ -39,10 +38,11 @@ module Indicators
     def stats_for_indicator(user)
       indicator_filters = filters(user)
       user_query_scope = user.record_query_scope(record_model, false)
-      write_stats_for_indicator(indicator_filters, user_query_scope)
+      managed_user_names = user.admin? ? [] : user.managed_user_names
+      write_stats_for_indicator(indicator_filters, user_query_scope, managed_user_names)
     end
 
-    def write_stats_for_indicator(_, _)
+    def write_stats_for_indicator(_, _, _)
       raise NotImplementedError
     end
 
