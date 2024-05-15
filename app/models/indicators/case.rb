@@ -65,7 +65,7 @@ module Indicators
       record_model: Child,
       pivots: %w[owned_by workflow],
       scope: OPEN_CLOSED_ENABLED,
-      scope_to_user: true,
+      constrained_pivots: %w[owned_by],
       scope_to_owned_by_groups: true
     ).freeze
 
@@ -294,6 +294,7 @@ module Indicators
       GroupedIndicator.new(
         name: 'tasks_overdue_assessment',
         pivots: %w[owned_by],
+        # TODO: DEPRECATED. Use constrained_pivots instead of scope_to_user
         scope_to_user: true,
         record_model: Child,
         scope: overdue_assesment_scope
@@ -313,6 +314,7 @@ module Indicators
         name: 'tasks_overdue_case_plan',
         pivots: %w[owned_by],
         record_model: Child,
+        # TODO: DEPRECATED. Use constrained_pivots instead of scope_to_user
         scope_to_user: true,
         scope: overdue_case_plan_scope
       )
@@ -331,6 +333,7 @@ module Indicators
         name: 'tasks_overdue_services',
         pivots: %w[owned_by],
         record_model: Child,
+        # TODO: DEPRECATED. Use constrained_pivots instead of scope_to_user
         scope_to_user: true,
         scope: overdue_services_scope
       )
@@ -349,6 +352,7 @@ module Indicators
         name: 'tasks_overdue_followups',
         pivots: %w[owned_by],
         record_model: Child,
+        # TODO: DEPRECATED. Use constrained_pivots instead of scope_to_user
         scope_to_user: true,
         scope: overdue_followup_scope
       )
@@ -503,7 +507,7 @@ module Indicators
       record_model: Child,
       pivots: %w[referred_users],
       multivalue_pivots: %w[referred_users],
-      scope_to_user: true,
+      constrained_pivots: %w[referred_users],
       exclude_zeros: true,
       scope: OPEN_ENABLED + [
         SearchFilters::BooleanValue.new(field_name: 'referred_users_present', value: true)
@@ -515,12 +519,10 @@ module Indicators
       transition_model: Transfer,
       pivots: %w[transferred_to_users],
       multivalue_pivots: %w[transferred_to_users],
+      constrained_pivots: %w[transferred_to_users],
       record_model: Child,
-      scope_to_user: true,
       exclude_zeros: true,
-      scope: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
-      ]
+      scope: OPEN_ENABLED
     )
 
     SHARED_WITH_MY_TEAM_PENDING_TRANSFERS_OVERVIEW = QueriedIndicator.new(

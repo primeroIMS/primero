@@ -39,10 +39,11 @@ module Indicators
     def stats_for_indicator(user)
       indicator_filters = filters(user)
       user_query_scope = user.record_query_scope(record_model, false)
-      write_stats_for_indicator(indicator_filters, user_query_scope)
+      managed_user_names = user.admin? ? [] : user.managed_user_names
+      write_stats_for_indicator(indicator_filters, user_query_scope, managed_user_names)
     end
 
-    def write_stats_for_indicator(_, _)
+    def write_stats_for_indicator(_, _, _)
       raise NotImplementedError
     end
 
