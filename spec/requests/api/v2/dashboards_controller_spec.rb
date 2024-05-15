@@ -33,10 +33,10 @@ describe Api::V2::DashboardsController, type: :request do
         Permission::DASH_REPORTING_LOCATION,
         Permission::DASH_PROTECTION_CONCERNS,
         Permission::DASH_GROUP_OVERVIEW,
-        # Permission::DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
-        # Permission::DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
-        # Permission::DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
-        # Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES,
+        Permission::DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
+        Permission::DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
+        Permission::DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
+        Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES,
         Permission::DASH_CASE_INCIDENT_OVERVIEW,
         Permission::DASH_WORKFLOW_TEAM,
         Permission::DASH_CASES_BY_SOCIAL_WORKER,
@@ -67,9 +67,8 @@ describe Api::V2::DashboardsController, type: :request do
     Child.create!(
       data: {
         record_state: true, status: 'open', owned_by: 'foo', workflow: 'new', created_at: last_week,
-        protection_concerns: ['refugee'], followup_subform_section: [
-          { followup_needed_by_date: [Time.zone.now] }
-        ], assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now, services_section: [
+        protection_concerns: ['refugee'], followup_subform_section: [{ followup_needed_by_date: Time.zone.now }],
+        assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now, services_section: [
           {
             service_type: 'health_medical_service', service_referral: 'referred',
             service_implemented: 'not_implemented', service_response_type: 'care_plan',
@@ -82,9 +81,8 @@ describe Api::V2::DashboardsController, type: :request do
     child = Child.create!(
       data: {
         record_state: true, status: 'open', owned_by: 'foo', last_updated_by: 'bar', workflow: 'assessment',
-        protection_concerns: ['refugee'], followup_subform_section: [
-          { followup_needed_by_date: [Time.zone.now] }
-        ], assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now
+        protection_concerns: ['refugee'], followup_subform_section: [{ followup_needed_by_date: Time.zone.now }],
+        assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now
       }
     )
 
@@ -121,7 +119,7 @@ describe Api::V2::DashboardsController, type: :request do
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/dashboards', search: true do
-    xit 'lists all the permitted dashboards' do
+    it 'lists all the permitted dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -227,7 +225,7 @@ describe Api::V2::DashboardsController, type: :request do
       expect(group_overview_dashboard['indicators']['group_overview_closed']['count']).to eq(3)
     end
 
-    xit 'lists statistics for the task overdue assessment plan dashboards' do
+    it 'lists statistics for the task overdue assessment plan dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -243,7 +241,7 @@ describe Api::V2::DashboardsController, type: :request do
       expect(tasks_overdue_assessment['indicators']['tasks_overdue_assessment'].count).to eq(1)
     end
 
-    xit 'lists statistics for the task overdue case plan dashboards' do
+    it 'lists statistics for the task overdue case plan dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -259,7 +257,7 @@ describe Api::V2::DashboardsController, type: :request do
       expect(tasks_overdue_case_plan['indicators']['tasks_overdue_case_plan'].count).to eq(1)
     end
 
-    xit 'lists statistics for the task overdue followups dashboards' do
+    it 'lists statistics for the task overdue followups dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -275,7 +273,7 @@ describe Api::V2::DashboardsController, type: :request do
       expect(tasks_overdue_followups['indicators']['tasks_overdue_followups'].count).to eq(1)
     end
 
-    xit 'lists statistics for the task overdue services dashboards' do
+    it 'lists statistics for the task overdue services dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,

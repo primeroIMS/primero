@@ -67,7 +67,8 @@ class Child < ApplicationRecord
     :registry_id_display, :registry_name, :registry_no, :registry_location_current,
     :urgent_protection_concern, :child_preferences_section, :family_details_section, :care_arrangements_section,
     :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan,
-    :family_member_id, :family_id_display, :family_number, :has_incidents
+    :family_member_id, :family_id_display, :family_number, :has_incidents, :assessment_due_dates,
+    :case_plan_due_dates, :followup_due_dates
   )
   # rubocop:enable Naming/VariableNumber
 
@@ -152,9 +153,9 @@ class Child < ApplicationRecord
       risk_level.present? ? risk_level : RISK_LEVEL_NONE
     end
     string :protection_concerns, multiple: true
-    date(:assessment_due_dates, multiple: true) { Tasks::AssessmentTask.from_case(self).map(&:due_date) }
-    date(:case_plan_due_dates, multiple: true) { Tasks::CasePlanTask.from_case(self).map(&:due_date) }
-    date(:followup_due_dates, multiple: true) { Tasks::FollowUpTask.from_case(self).map(&:due_date) }
+    date(:assessment_due_dates, multiple: true)
+    date(:case_plan_due_dates, multiple: true)
+    date(:followup_due_dates, multiple: true)
   end
 
   validate :validate_date_of_birth
@@ -163,6 +164,9 @@ class Child < ApplicationRecord
   before_save :stamp_registry_fields
   before_save :calculate_has_case_plan
   before_save :calculate_has_incidents
+  before_save :calculate_assessment_due_dates
+  before_save :calculate_case_plan_due_dates
+  before_save :calculate_followup_due_dates
   before_create :hide_name
   after_save :save_incidents
 
@@ -311,6 +315,25 @@ class Child < ApplicationRecord
     self.has_incidents = incidents.size.positive?
 
     has_incidents
+  end
+
+  def calculate_assessment_due_dates
+    # TODO: Tests fail if I don't have a flat_map here
+    self.assessment_due_dates = Tasks::AssessmentTask.from_case(self).map(&:due_date).compact
+
+    assessment_due_dates
+  end
+
+  def calculate_case_plan_due_dates
+    self.case_plan_due_dates = Tasks::CasePlanTask.from_case(self).map(&:due_date).compact
+
+    case_plan_due_dates
+  end
+
+  def calculate_followup_due_dates
+    self.followup_due_dates = Tasks::FollowUpTask.from_case(self).map(&:due_date).compact
+
+    followup_due_dates
   end
 
   def sync_protection_concerns

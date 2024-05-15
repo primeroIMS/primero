@@ -292,9 +292,7 @@ module Indicators
     def self.tasks_overdue_assessment
       GroupedIndicator.new(
         name: 'tasks_overdue_assessment',
-        pivots: %w[owned_by],
-        # TODO: DEPRECATED. Use a hash pivot with constrained: true
-        scope_to_user: true,
+        pivots: [{ field_name: 'owned_by', constrained: true }],
         record_model: Child,
         scope: overdue_assesment_scope
       )
@@ -303,7 +301,9 @@ module Indicators
     def self.overdue_assesment_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'assessment_due_dates', from: DateRange.dawn_of_time, to: DateRange.present
+          field_name: 'assessment_due_dates',
+          from: SearchFilters::DateRange.dawn_of_time,
+          to: SearchFilters::DateRange.present
         )
       ]
     end
@@ -311,10 +311,8 @@ module Indicators
     def self.tasks_overdue_case_plan
       GroupedIndicator.new(
         name: 'tasks_overdue_case_plan',
-        pivots: %w[owned_by],
+        pivots: [{ field_name: 'owned_by', constrained: true }],
         record_model: Child,
-        # TODO: DEPRECATED. Use a hash pivot with constrained: true
-        scope_to_user: true,
         scope: overdue_case_plan_scope
       )
     end
@@ -322,7 +320,9 @@ module Indicators
     def self.overdue_case_plan_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'case_plan_due_dates', from: DateRange.dawn_of_time, to: DateRange.present
+          field_name: 'case_plan_due_dates',
+          from: SearchFilters::DateRange.dawn_of_time,
+          to: SearchFilters::DateRange.present
         )
       ]
     end
@@ -330,10 +330,8 @@ module Indicators
     def self.tasks_overdue_services
       GroupedIndicator.new(
         name: 'tasks_overdue_services',
-        pivots: %w[owned_by],
+        pivots: [{ field_name: 'owned_by', constrained: true }],
         record_model: Child,
-        # TODO: DEPRECATED. Use a hash pivot with constrained: true
-        scope_to_user: true,
         scope: overdue_services_scope
       )
     end
@@ -341,7 +339,9 @@ module Indicators
     def self.overdue_services_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'service_due_dates', from: DateRange.dawn_of_time, to: DateRange.present
+          field_name: 'service_due_dates',
+          from: SearchFilters::DateRange.dawn_of_time,
+          to: SearchFilters::DateRange.present
         )
       ]
     end
@@ -349,10 +349,8 @@ module Indicators
     def self.tasks_overdue_followups
       GroupedIndicator.new(
         name: 'tasks_overdue_followups',
-        pivots: %w[owned_by],
+        pivots: [{ field_name: 'owned_by', constrained: true }],
         record_model: Child,
-        # TODO: DEPRECATED. Use a hash pivot with constrained: true
-        scope_to_user: true,
         scope: overdue_followup_scope
       )
     end
@@ -360,7 +358,9 @@ module Indicators
     def self.overdue_followup_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'followup_due_dates', from: DateRange.dawn_of_time, to: DateRange.present
+          field_name: 'followup_due_dates',
+          from: SearchFilters::DateRange.dawn_of_time,
+          to: SearchFilters::DateRange.present
         )
       ]
     end
