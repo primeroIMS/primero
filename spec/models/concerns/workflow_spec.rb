@@ -91,6 +91,40 @@ describe Workflow do
             include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
           )
         end
+        it 'return assesment from app strings' do
+          assessment_status_text = Child.workflow_statuses(@modules)[:en]
+                                        &.find { |lkp| lkp['id'] == Workflow::WORKFLOW_ASSESSMENT }
+                                        &.dig('display_text')
+          expect(assessment_status_text).to eq('Assessment')
+        end
+      end
+    end
+    context 'when assessment value is present on workflow lookup' do
+      before do
+        @modules = [@module_a, @module_b]
+        Lookup.create!(
+          unique_id: 'lookup-workflow',
+          name_i18n: { en: 'Workflow' },
+          lookup_values_i18n: [
+            { id: 'case_plan', display_text: { en: 'Case Plan LK' } },
+            { id: 'assessment', display_text: { en: 'Assessment LK' } }
+          ]
+        )
+      end
+      it 'return assesment from Lookup' do
+        assessment_status_text = Child.workflow_statuses(@modules)[:en]
+                                      &.find { |lkp| lkp['id'] == Workflow::WORKFLOW_ASSESSMENT }
+                                      &.dig('display_text')
+        expect(assessment_status_text).to eq('Assessment LK')
+      end
+
+      it 'return status that include text from workflow lookup' do
+        workflow_status = Child.workflow_statuses(@modules)[:en].map { |lk| lk['display_text'] }
+
+        expect(workflow_status).to match_array(['New', 'Reopened', 'Assessment LK', 'Case Plan LK', 'Closed'])
+      end
+      after do
+        clean_data(Lookup)
       end
     end
   end

@@ -17,6 +17,7 @@ module Workflow
   WORKFLOW_ASSESSMENT = 'assessment'
 
   LOOKUP_RESPONSE_TYPES = 'lookup-service-response-type'
+  LOOKUP_WORKFLOW = 'lookup-workflow'
 
   included do
     store_accessor :data, :workflow
@@ -112,13 +113,13 @@ module Workflow
     def workflow_assessment(status_list, locale, modules)
       return unless modules&.any?(&:use_workflow_assessment)
 
-      status_list << workflow_key_value(WORKFLOW_ASSESSMENT, locale)
+      status_list << workflow_entry(WORKFLOW_ASSESSMENT, locale)
     end
 
     def workflow_case_plan(status_list, locale, modules)
       return unless modules&.any?(&:use_workflow_case_plan)
 
-      status_list << workflow_key_value(WORKFLOW_CASE_PLAN, locale)
+      status_list << workflow_entry(WORKFLOW_CASE_PLAN, locale)
     end
 
     def workflow_service_implemented(status_list, locale, modules)
@@ -139,6 +140,14 @@ module Workflow
         'id' => status,
         'display_text' => I18n.t("case.workflow.#{status}", locale:)
       }
+    end
+
+    def value_from_lookup(status, locale = I18n.locale)
+      Lookup.values(LOOKUP_WORKFLOW, nil, locale:)&.find { |lkp| lkp['id'] == status }
+    end
+
+    def workflow_entry(status, locale)
+      value_from_lookup(status, locale) || workflow_key_value(status, locale)
     end
   end
 end
