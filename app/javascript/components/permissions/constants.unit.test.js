@@ -82,6 +82,7 @@ describe("Verifying config constant", () => {
       "GROUP_READ",
       "INCIDENT_DETAILS_FROM_CASE",
       "INCIDENT_FROM_CASE",
+      "LINK_INCIDENT_TO_CASE",
       "KPI_ASSESSMENT_STATUS",
       "KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE",
       "KPI_AVERAGE_REFERRALS",

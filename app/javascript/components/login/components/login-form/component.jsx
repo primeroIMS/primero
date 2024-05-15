@@ -86,7 +86,8 @@ const Container = ({ modal }) => {
               rest={{
                 fullWidth: mobileDisplay,
                 form: FORM_ID,
-                type: "submit"
+                type: "submit",
+                className: css.loginButton
               }}
               disabled={!online}
             />

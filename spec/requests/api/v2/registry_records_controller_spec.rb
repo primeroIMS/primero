@@ -31,6 +31,10 @@ describe Api::V2::RegistryRecordsController, type: :request do
       expect(json['metadata']['page']).to eq(1)
     end
 
+    it_behaves_like 'a paginated resource' do
+      let(:action) { { resource: 'registry_records' } }
+    end
+
     context 'when a registry_type is passed in' do
       it 'lists registries only for that registry_type' do
         expected_registry_types = [RegistryRecord::REGISTRY_TYPE_INDIVIDUAL, RegistryRecord::REGISTRY_TYPE_INDIVIDUAL]

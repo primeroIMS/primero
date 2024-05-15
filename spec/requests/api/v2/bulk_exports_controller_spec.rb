@@ -47,6 +47,10 @@ describe Api::V2::BulkExportsController, type: :request do
       expect(json['metadata']['page']).to eq(1)
     end
 
+    it_behaves_like 'a paginated resource' do
+      let(:action) { { resource: 'exports', login_params: { permissions: [@export_permission] } } }
+    end
+
     it 'lists only csv permitted exports and accompanying metadata' do
       login_for_test(permissions: [@export_permission])
 

@@ -17,7 +17,7 @@ export const applyFilters =
 
     const filteredData =
       isImmutable(data) && data.get("order_by") === "complete"
-        ? data.delete("order_by")
+        ? data
         : omitBy(data, (value, key) => key === "order_by" && value === "complete");
 
     dispatch({

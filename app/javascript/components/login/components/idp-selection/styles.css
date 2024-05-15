@@ -66,6 +66,16 @@
   }
 }
 
+.loginButton {
+  background: var(--c-login-button-bg);
+  color: var(--c-login-button-text);
+
+  &:hover {
+    filter: brightness(80%);
+    background-color: var(--c-login-button-bg) !important;
+  }
+}
+
 
 @media (max-width:599.95px) {
   .loginSelection,

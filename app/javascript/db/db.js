@@ -188,7 +188,7 @@ class DB {
     return isArray ? this.bulkAdd(args) : this.put(args);
   }
 
-  async put({ store, data, key = {}, queryIndex }) {
+  async put({ store, data, key = {}, queryIndex, callbacks = {} }) {
     const item = data;
 
     if (queryIndex) {
@@ -202,7 +202,11 @@ class DB {
       const prev = await objectStore.get(isEmpty(key) ? item.id : key);
 
       if (prev) {
-        const record = recordMerge(prev, item, key);
+        let record = recordMerge(prev, item, key);
+
+        if (callbacks.beforeSave) {
+          record = callbacks.beforeSave(record, prev);
+        }
 
         await objectStore.put(record);
 
@@ -212,7 +216,11 @@ class DB {
       }
       throw new Error("Record is new");
     } catch (e) {
-      const record = { ...item, ...key };
+      let record = { ...item, ...key };
+
+      if (callbacks.beforeSave) {
+        record = callbacks.beforeSave(record);
+      }
 
       await objectStore.put(record);
 
@@ -228,7 +236,7 @@ class DB {
     }
   }
 
-  async bulkAdd({ store, data, queryIndex }) {
+  async bulkAdd({ store, data, queryIndex, callbacks = {} }) {
     const isDataArray = Array.isArray(data);
     const tx = (await this._db).transaction(store, TRANSACTION_MODE.READ_WRITE);
     const collection = tx.objectStore(store);
@@ -245,13 +253,21 @@ class DB {
         const prev = await collection.get(isDataArray ? _record.id : data[_record]?.id);
 
         if (prev) {
-          const item = isDataArray ? recordMerge(prev, _record) : recordMerge(prev, data[_record]);
+          let item = isDataArray ? recordMerge(prev, _record) : recordMerge(prev, data[_record]);
 
           records.push(item);
 
+          if (callbacks.beforeSave) {
+            item = callbacks.beforeSave(item, prev);
+          }
+
           await collection.put(item);
         } else {
-          const item = isDataArray ? _record : data[_record];
+          let item = isDataArray ? _record : data[_record];
+
+          if (callbacks.beforeSave) {
+            item = callbacks.beforeSave(item, prev);
+          }
 
           records.push(item);
           await collection.put(item);
