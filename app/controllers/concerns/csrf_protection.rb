@@ -19,8 +19,9 @@ module CsrfProtection
 
   def set_csrf_cookie
     cookies['CSRF-TOKEN'] = {
+      path: '/',
+      secure: Rails.env.production?,
       value: form_authenticity_token,
-      domain: :all,
       same_site: :strict
     }
   end

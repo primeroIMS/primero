@@ -23,25 +23,11 @@ class Api::V2::TokensController < Devise::SessionsController
     render json: {}
   end
 
-  alias devise_create create
   def create
     if Rails.configuration.x.idp.use_identity_provider
       create_idp
     else
-      create_native
-    end
-  end
-
-  # HACK: Removing primero_token cookie when failing to authenticate with current token.
-  def create_native
-    creation = catch(:warden) do
-      devise_create
-    end
-    # warden throws user scope Hash on authentication failure.
-    if creation.is_a?(Hash)
-      fail_to_authorize!(creation)
-    else
-      creation
+      super
     end
   end
 
@@ -81,6 +67,7 @@ class Api::V2::TokensController < Devise::SessionsController
   end
 
   def current_token
-    request.headers['HTTP_AUTHORIZATION']&.split(' ')&.last
+    _, token = IdpTokenStrategy.token_from_header(request.headers['HTTP_AUTHORIZATION'])
+    token
   end
 end

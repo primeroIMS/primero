@@ -12,6 +12,7 @@ class IdpTokenStrategy < Warden::Strategies::Base
     !token.nil? && Rails.configuration.x.idp.use_identity_provider
   end
 
+  # This is an override for warden to skip storing session in a cookie
   def store?
     false
   end
@@ -29,6 +30,13 @@ class IdpTokenStrategy < Warden::Strategies::Base
     fail!(e.message)
   end
 
+  def self.token_from_header(header)
+    return nil unless header
+
+    method, token = header.split
+    [method, token]
+  end
+
   private
 
   def token
@@ -36,12 +44,7 @@ class IdpTokenStrategy < Warden::Strategies::Base
   end
 
   def auth_header(env)
-    auth = env['HTTP_AUTHORIZATION']
-    return nil unless auth
-
-    method, token = auth.split
+    method, token = token_from_header(env['HTTP_AUTHORIZATION'])
     method == METHOD ? token : nil
   end
 end
-
-Warden::Strategies.add(:jwt, IdpTokenStrategy)
