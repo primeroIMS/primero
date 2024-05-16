@@ -250,6 +250,7 @@ describe Filter do
           { id: 'assessment_requested_on', display_name: 'Date of Assessment' },
           { id: 'date_case_plan', display_name: 'Date of Case Plan' },
           { id: 'date_closure', display_name: 'Date of Case Closure ' },
+          { id: 'followup_dates', display_name: 'Date of Follow Up' },
           { id: 'created_at', display_name: 'Case Open Date' }
         ]
         expect(

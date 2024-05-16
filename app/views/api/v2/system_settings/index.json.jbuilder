@@ -15,6 +15,9 @@ json.data do
   json.reporting_location_config current_user.role.reporting_location_config
   json.approvals_labels FieldI18nService.to_localized_values(@system_setting.approvals_labels_i18n)
   json.export_require_password ZipService.require_password?
+  json.system_options @system_setting.system_options
+                                     .merge('maximum_attachments_per_record' =>
+                                            @system_setting.maximum_attachments_per_record)
   if code_of_conduct
     json.code_of_conduct do
       json.partial! 'api/v2/codes_of_conduct/code_of_conduct', code_of_conduct:

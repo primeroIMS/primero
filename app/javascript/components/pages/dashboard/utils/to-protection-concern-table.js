@@ -3,6 +3,7 @@
 import { dataToJS } from "../../../../libs";
 import { INDICATOR_NAMES, PROTECTION_CONCERNS_ORDER_NAMES } from "../constants";
 
+import defaultBodyRender from "./default-body-render";
 import { dashboardTableData } from "./to-reporting-location-table";
 
 const byProtectionConcernsNames = (a, b) => {
@@ -37,7 +38,7 @@ export default (data, i18n, lookups) => {
     const columns = Object.keys(result.indicators)
       .reduce(
         (acum, column) => {
-          return [...acum, { name: column, label: labels[column] }];
+          return [...acum, { name: column, label: labels[column], options: { customBodyRender: defaultBodyRender } }];
         },
         [{ ...firstColumn }]
       )

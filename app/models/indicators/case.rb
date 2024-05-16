@@ -54,7 +54,7 @@ module Indicators
 
     WORKFLOW = GroupedIndicator.new(
       name: 'workflow',
-      pivots: %w[workflow],
+      pivots: [{ field_name: 'workflow' }],
       record_model: Child,
       scope: OPEN_CLOSED_ENABLED,
       scope_to_owner: true
@@ -63,9 +63,8 @@ module Indicators
     WORKFLOW_TEAM = GroupedIndicator.new(
       name: 'workflow_team',
       record_model: Child,
-      pivots: %w[owned_by workflow],
+      pivots: [{ field_name: 'owned_by', constrained: true }, { field_name: 'workflow' }],
       scope: OPEN_CLOSED_ENABLED,
-      scope_to_user: true,
       scope_to_owned_by_groups: true
     ).freeze
 
@@ -73,7 +72,7 @@ module Indicators
       GroupedIndicator.new(
         name: 'cases_by_social_worker_total',
         record_model: Child,
-        pivots: %w[owned_by],
+        pivots: [{ field_name: 'owned_by' }],
         scope: OPEN_ENABLED,
         scope_to_owned_by_groups: true,
         exclude_zeros: true
@@ -81,7 +80,7 @@ module Indicators
       GroupedIndicator.new(
         name: 'cases_by_social_worker_new_or_updated',
         record_model: Child,
-        pivots: %w[owned_by],
+        pivots: [{ field_name: 'owned_by' }],
         scope: OPEN_ENABLED + [
           SearchFilters::BooleanValue.new(field_name: 'not_edited_by_owner', value: true)
         ]
@@ -90,7 +89,7 @@ module Indicators
 
     RISK = GroupedIndicator.new(
       name: 'risk_level',
-      pivots: %w[risk_level],
+      pivots: [{ field_name: 'risk_level' }],
       record_model: Child,
       scope: OPEN_ENABLED
     ).freeze
@@ -293,8 +292,7 @@ module Indicators
     def self.tasks_overdue_assessment
       GroupedIndicator.new(
         name: 'tasks_overdue_assessment',
-        pivots: %w[owned_by],
-        scope_to_user: true,
+        pivots: [{ field_name: 'owned_by', constrained: true }],
         record_model: Child,
         scope: overdue_assesment_scope
       )
@@ -303,7 +301,9 @@ module Indicators
     def self.overdue_assesment_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'assessment_due_dates', from: SearchFilters::DateRange.dawn_of_time, to: SearchFilters::DateRange.present
+          field_name: 'assessment_due_dates',
+          from: SearchFilters::DateRange.dawn_of_time,
+          to: SearchFilters::DateRange.present
         )
       ]
     end
@@ -311,9 +311,8 @@ module Indicators
     def self.tasks_overdue_case_plan
       GroupedIndicator.new(
         name: 'tasks_overdue_case_plan',
-        pivots: %w[owned_by],
+        pivots: [{ field_name: 'owned_by', constrained: true }],
         record_model: Child,
-        scope_to_user: true,
         scope: overdue_case_plan_scope
       )
     end
@@ -321,7 +320,9 @@ module Indicators
     def self.overdue_case_plan_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'case_plan_due_dates', from: SearchFilters::DateRange.dawn_of_time, to: SearchFilters::DateRange.present
+          field_name: 'case_plan_due_dates',
+          from: SearchFilters::DateRange.dawn_of_time,
+          to: SearchFilters::DateRange.present
         )
       ]
     end
@@ -329,9 +330,8 @@ module Indicators
     def self.tasks_overdue_services
       GroupedIndicator.new(
         name: 'tasks_overdue_services',
-        pivots: %w[owned_by],
+        pivots: [{ field_name: 'owned_by', constrained: true }],
         record_model: Child,
-        scope_to_user: true,
         scope: overdue_services_scope
       )
     end
@@ -339,7 +339,9 @@ module Indicators
     def self.overdue_services_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'service_due_dates', from: SearchFilters::DateRange.dawn_of_time, to: SearchFilters::DateRange.present
+          field_name: 'service_due_dates',
+          from: SearchFilters::DateRange.dawn_of_time,
+          to: SearchFilters::DateRange.present
         )
       ]
     end
@@ -347,9 +349,8 @@ module Indicators
     def self.tasks_overdue_followups
       GroupedIndicator.new(
         name: 'tasks_overdue_followups',
-        pivots: %w[owned_by],
+        pivots: [{ field_name: 'owned_by', constrained: true }],
         record_model: Child,
-        scope_to_user: true,
         scope: overdue_followup_scope
       )
     end
@@ -357,15 +358,16 @@ module Indicators
     def self.overdue_followup_scope
       OPEN_ENABLED + [
         SearchFilters::DateRange.new(
-          field_name: 'followup_due_dates', from: SearchFilters::DateRange.dawn_of_time, to: SearchFilters::DateRange.present
+          field_name: 'followup_due_dates',
+          from: SearchFilters::DateRange.dawn_of_time,
+          to: SearchFilters::DateRange.present
         )
       ]
     end
 
     PROTECTION_CONCERNS_OPEN_CASES = GroupedIndicator.new(
       name: 'protection_concerns_open_cases',
-      pivots: %w[protection_concerns],
-      multivalue_pivots: %w[protection_concerns],
+      pivots: [{ field_name: 'protection_concerns', multivalue: true }],
       record_model: Child,
       scope: OPEN_ENABLED
     ).freeze
@@ -373,8 +375,7 @@ module Indicators
     def self.protection_concerns_new_this_week
       GroupedIndicator.new(
         name: 'protection_concerns_new_this_week',
-        pivots: %w[protection_concerns],
-        multivalue_pivots: %w[protection_concerns],
+        pivots: [{ field_name: 'protection_concerns', multivalue: true }],
         record_model: Child,
         scope: OPEN_ENABLED + [SearchFilters::DateRange.this_week('created_at')]
       )
@@ -382,18 +383,15 @@ module Indicators
 
     PROTECTION_CONCERNS_ALL_CASES = GroupedIndicator.new(
       name: 'protection_concerns_all_cases',
-      pivots: %w[protection_concerns],
-      multivalue_pivots: %w[protection_concerns],
+      pivots: [{ field_name: 'protection_concerns', multivalue: true }],
       record_model: Child,
       scope: [SearchFilters::BooleanValue.new(field_name: 'record_state', value: true)]
     ).freeze
 
-    # rubocop:disable Metrics/MethodLength
     def self.protection_concerns_closed_this_week
       GroupedIndicator.new(
         name: 'protection_concerns_closed_this_week',
-        pivots: %w[protection_concerns],
-        multivalue_pivots: %w[protection_concerns],
+        pivots: [{ field_name: 'protection_concerns', multivalue: true }],
         record_model: Child,
         scope: [
           SearchFilters::BooleanValue.new(field_name: 'record_state', value: true),
@@ -402,7 +400,6 @@ module Indicators
         ]
       )
     end
-    # rubocop:enable Metrics/MethodLength
 
     SHARED_WITH_OTHERS_REFERRALS = QueriedIndicator.new(
       name: 'shared_with_others_referrals',
@@ -467,7 +464,7 @@ module Indicators
 
     SHARED_FROM_MY_TEAM_REFERRALS = GroupedIndicator.new(
       name: 'shared_from_my_team_referrals',
-      pivots: %w[owned_by],
+      pivots: [{ field_name: 'owned_by' }],
       exclude_zeros: true,
       record_model: Child,
       scope: OPEN_ENABLED + [
@@ -478,7 +475,7 @@ module Indicators
 
     SHARED_FROM_MY_TEAM_PENDING_TRANSFERS = GroupedIndicator.new(
       name: 'shared_from_my_team_pending_transfers',
-      pivots: %w[owned_by],
+      pivots: [{ field_name: 'owned_by' }],
       exclude_zeros: true,
       record_model: Child,
       scope: OPEN_ENABLED + [
@@ -489,7 +486,7 @@ module Indicators
 
     SHARED_FROM_MY_TEAM_REJECTED_TRANSFERS = GroupedIndicator.new(
       name: 'shared_from_my_team_rejected_transfers',
-      pivots: %w[owned_by],
+      pivots: [{ field_name: 'owned_by' }],
       exclude_zeros: true,
       record_model: Child,
       scope: OPEN_ENABLED + [
@@ -501,9 +498,7 @@ module Indicators
     SHARED_WITH_MY_TEAM_REFERRALS = GroupedIndicator.new(
       name: 'shared_with_my_team_referrals',
       record_model: Child,
-      pivots: %w[referred_users],
-      multivalue_pivots: %w[referred_users],
-      scope_to_user: true,
+      pivots: [{ field_name: 'referred_users', multivalue: true, constrained: true }],
       exclude_zeros: true,
       scope: OPEN_ENABLED + [
         SearchFilters::BooleanValue.new(field_name: 'referred_users_present', value: true)
@@ -513,14 +508,10 @@ module Indicators
     SHARED_WITH_MY_TEAM_PENDING_TRANSFERS = GroupedIndicator.new(
       name: 'shared_with_my_team_pending_transfers',
       transition_model: Transfer,
-      pivots: %w[transferred_to_users],
-      multivalue_pivots: %w[transferred_to_users],
+      pivots: [{ field_name: 'transferred_to_users', multivalue: true, constrained: true }],
       record_model: Child,
-      scope_to_user: true,
       exclude_zeros: true,
-      scope: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
-      ]
+      scope: OPEN_ENABLED
     )
 
     SHARED_WITH_MY_TEAM_PENDING_TRANSFERS_OVERVIEW = QueriedIndicator.new(
@@ -577,50 +568,45 @@ module Indicators
     end
 
     def self.reporting_location_open(field_name, admin_level)
-      LocationIndicator.new(
+      GroupedIndicator.new(
         name: 'reporting_location_open',
-        field_name:,
-        admin_level:,
+        pivots: [{ field_name:, admin_level:, type: 'location' }],
         record_model: Child,
         scope: OPEN_ENABLED
       )
     end
 
     def self.reporting_location_open_last_week(field_name, admin_level)
-      LocationIndicator.new(
+      GroupedIndicator.new(
         name: 'reporting_location_open_last_week',
-        field_name:,
-        admin_level:,
+        pivots: [{ field_name:, admin_level:, type: 'location' }],
         record_model: Child,
         scope: OPEN_ENABLED + [SearchFilters::DateRange.last_week('created_at')]
       )
     end
 
     def self.reporting_location_open_this_week(field_name, admin_level)
-      LocationIndicator.new(
+      GroupedIndicator.new(
         name: 'reporting_location_open_this_week',
-        field_name:,
-        admin_level:,
+        pivots: [{ field_name:, admin_level:, type: 'location' }],
         record_model: Child,
         scope: OPEN_ENABLED + [SearchFilters::DateRange.this_week('created_at')]
       )
     end
 
     def self.reporting_location_closed_last_week(field_name, admin_level)
-      LocationIndicator.new(
+      GroupedIndicator.new(
         name: 'reporting_location_closed_last_week',
-        field_name:,
-        admin_level:,
+        pivots: [{ field_name:, admin_level:, type: 'location' }],
         record_model: Child,
         scope: CLOSED_ENABLED + [SearchFilters::DateRange.last_week('date_closure')]
       )
     end
 
     def self.reporting_location_closed_this_week(field_name, admin_level)
-      LocationIndicator.new(
+      GroupedIndicator.new(
         name: 'reporting_location_closed_this_week',
-        field_name:,
-        admin_level:,
+        pivots: [{ field_name:, admin_level:, type: 'location' }],
         record_model: Child,
         scope: CLOSED_ENABLED + [SearchFilters::DateRange.this_week('date_closure')]
       )

@@ -5,16 +5,17 @@ import { fromJS } from "immutable";
 
 import { FieldRecord, FormSectionRecord, TEXT_FIELD } from "../../form";
 
-export const searchForm = i18n =>
+export const searchForm = (displayName, helpText) =>
   fromJS([
     FormSectionRecord({
       unique_id: "search_create",
       fields: [
         FieldRecord({
-          display_name: i18n.t("case.enter_id_number"),
+          display_name: displayName,
           name: "query",
           type: TEXT_FIELD,
-          required: true
+          required: true,
+          help_text: helpText
         })
       ]
     })

@@ -15,9 +15,11 @@ module Serviceable
 
   # rubocop:disable Metrics/BlockLength
   included do
-    store_accessor :data, :consent_for_services, :services_section # TODO: Do we need a services alias for this?
+    store_accessor :data, :consent_for_services, :services_section, # TODO: Do we need a services alias for this?
+                   :service_due_dates
 
     before_save :update_implement_field
+    before_save :calculate_service_due_dates
 
     def update_implement_field
       services_section&.each do |service|
@@ -92,10 +94,14 @@ module Serviceable
     end
 
     # TODO: Should this be moved to the Serviceable concern?
-    def service_due_dates
+    def calculate_service_due_dates
       # TODO: only use services that is of the type of the current workflow
       reportable_services = nested_reportables_hash[ReportableService]
-      reportable_services.reject(&:service_implemented?).map(&:service_due_date).compact if reportable_services.present?
+      if reportable_services.present?
+        self.service_due_dates = reportable_services.reject(&:service_implemented?).map(&:service_due_date).compact
+      end
+
+      service_due_dates
     end
 
     def service_implemented?(service)

@@ -534,6 +534,7 @@ en:
       date_case_plan_initiated: Date of Case Plan
       date_of_creation: Date of Creation
       registration_date: Date of Registration
+      followup_date: Date of Follow Up
   configurations:
     apply_label: Are you sure? If you apply, the settings in this configuration will be applied to the system.
       You will lose all your current settings and will not be able to get them back unless you have already saved
@@ -2010,7 +2011,9 @@ en:
       cp_incident_violence_type: Type of Violence
       referral_transfer_status: Referral / Transfer Status
       protection_concerns: Protection Concerns
-      location_current: Reporting Locations
+      location: Reporting Location
+      followup_type: Type of Follow Up
+      service_type: Type of Service
     status_options:
       open: Open
       closed: Closed
@@ -2061,10 +2064,14 @@ en:
         description: Cases with the selected Services, broken down by age and sex.
       sub_reports:
         services: Services
+      filter_options:
+        service_implemented_day_time: Service completed
     followups:
       name: Follow Ups
       description: Cases with the selected Follow Up, broken down by age and sex.
     followups_report:
+      filter_options:
+        followup_date: Date of follow-up
       reports:
         followups: Follow Ups
         description: Cases with the selected Follow Up, broken down by age and sex.
@@ -2079,15 +2086,19 @@ en:
         description: Cases with the selected Protection Concern, broken down by age and sex.
       sub_reports:
         protection_concerns: Protection Concerns
+      filter_options:
+        registration_date: Date of Registration
     reporting_locations:
       name: Reporting Location
       description: 'Cases with the selected Reporting Location, broken down by age and sex.'
     reporting_locations_report:
       reports:
-        protection_concerns: Reporting Location
+        reporting_locations: Reporting Location
         description: ''
       sub_reports:
-        protection_concerns: Reporting Location
+        reporting_location_by_sex_and_age: Reporting Location
+      filter_options:
+        registration_date: Date of Registration
     ghn_report:
       name: Global Horizontal Note
       description: ''
@@ -3389,16 +3400,16 @@ en:
       managed_report:
         actions:
           reporting_locations_report:
-            label: Reporting Location
+            label: Reporting Location (Cases)
             explanation: Ability to view statistics on the number of Cases registered within a given date range, filtered by Reporting Location, and broken down by age and sex. This permission also allows the user to export data from an Insight.
           followups_report:
-            label: Followups
+            label: Followups (Cases)
             explanation: Ability to view statistics on the number of Follow Ups performed within a given date range, filtered by Type of Follow Up, and broken down by age and sex. This permission also allows the user to export data from an Insight.
           services_report:
-            label: Services
+            label: Services (Cases)
             explanation: Ability to view statistics on the number of Services performed within a given date range, filtered by service type, and broken down by age and sex. This permission also allows the user to export data from an Insight.
           protection_concerns_report:
-            label: Protection Concerns
+            label: Protection Concerns (Cases)
             explanation: Ability to view statistics on the Protection Concerns of Cases registered within a given date range. This permission also allows the user to export data from an Insight.
           managed_report_scope:
             label: What records should this role be able to see in Insights?

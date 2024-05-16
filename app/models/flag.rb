@@ -71,7 +71,7 @@ class Flag < ApplicationRecord
       flags = []
       record_types.each do |record_type|
         params[:type] = record_type
-        f = send(scope_to_use, params).includes(:record).where(where_params(flagged_by, active_only))
+        f = send(scope_to_use, params).includes(:record).where(where_params(flagged_by, active_only)).order(date: :desc)
         flags << f
       end
       flags.flatten
