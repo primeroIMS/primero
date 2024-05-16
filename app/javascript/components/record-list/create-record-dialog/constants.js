@@ -3,4 +3,4 @@
 /* eslint-disable import/prefer-default-export */
 export const NAME = "CreateRecordDialog";
 export const FORM_ID = "create-record-form";
-export const FIELD_NAME_PHONETIC = "phonetic";
+export const PHONETIC_FIELD_NAME = "phonetic";

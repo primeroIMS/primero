@@ -72,6 +72,6 @@ describe("<RecordCreationFlow />", () => {
   });
 
   it("should render a <ActionButton /> component", () => {
-    expect(component.find(ActionButton)).to.have.lengthOf(3);
+    expect(component.find(ActionButton)).to.have.lengthOf(4);
   });
 });

@@ -7,7 +7,7 @@ describe("<CreateRecordDialog /> - constants", () => {
 
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
-    ["NAME", "FIELD_NAME_PHONETIC", "FORM_ID"].forEach(property => {
+    ["NAME", "PHONETIC_FIELD_NAME", "FORM_ID"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });

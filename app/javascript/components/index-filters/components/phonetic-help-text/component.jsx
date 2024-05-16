@@ -8,12 +8,12 @@ import css from "./styles.css";
 
 function Component() {
   const i18n = useI18n();
-  const searchHelpText = i18n.t("case.search_helper_text");
+  const searchHelpText = i18n.t("navigation.phonetic_search.help_text");
 
   return (
     <p className={css.searchHelpText}>
       <InfoOutlinedIcon />
-      {searchHelpText}
+      <span>{searchHelpText}</span>
     </p>
   );
 }
