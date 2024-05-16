@@ -44,7 +44,6 @@ import {
 } from "./selectors";
 import UserConfirmation from "./user-confirmation";
 import ChangePassword from "./change-password";
-import { replaceNullWithBlank } from "./utils";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -125,10 +124,10 @@ const Container = ({ mode }) => {
   } = formMethods;
 
   const onSubmit = data => {
-    const newDataWithoutNull = replaceNullWithBlank(data);
+    const newData = { ...data };
 
     submitHandler({
-      data: newDataWithoutNull,
+      data: newData,
       dispatch,
       isEdit: formMode.isEdit,
       initialValues,
