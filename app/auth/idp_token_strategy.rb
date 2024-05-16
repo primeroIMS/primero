@@ -33,8 +33,7 @@ class IdpTokenStrategy < Warden::Strategies::Base
   def self.token_from_header(header)
     return nil unless header
 
-    method, token = header.split
-    [method, token]
+    header.split
   end
 
   private
