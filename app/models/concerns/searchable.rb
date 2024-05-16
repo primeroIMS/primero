@@ -12,33 +12,6 @@ module Searchable
     if Rails.configuration.solr_enabled
       include Indexable
       Sunspot::Adapters::DataAccessor.register RecordDataAccessor, self
-      # Note that the class will need to be reloaded when the fields change.
-      searchable do
-        extend TextIndexing
-        # TODO: Delete once app/models/indicators/incident.rb is migrated
-        all_searchable_location_fields.each do |field|
-          Location::ADMIN_LEVELS.each do |admin_level|
-            string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
-              location_service.ancestor_code(data[field], admin_level)
-            end
-          end
-        end
-      end
-    end
-  end
-
-  # Class methods to derive the record data to index based on the configured forms
-  module ClassMethods
-    # TODO: Delete once app/models/indicators/incident.rb is migrated
-    def searchable_location_fields
-      %w[location_current incident_location registry_location_current]
-    end
-
-    # TODO: Delete once app/models/indicators/incident.rb is migrated
-    def all_searchable_location_fields
-      (
-        %w[owned_by_location] + searchable_location_fields + Field.all_location_field_names(parent_form)
-      ).uniq
     end
   end
 

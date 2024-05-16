@@ -12,15 +12,6 @@ module Transitionable
     store_accessor :data, :transfer_status, :reassigned_transferred_on, :referred_users, :transferred_to_users,
                    :transferred_to_user_groups, :referred_users_present
 
-    # TODO: Delete once incident dashboard is migrated
-    if Rails.configuration.solr_enabled
-      searchable do
-        string :referred_users, multiple: true
-        string :transferred_to_users, multiple: true
-        string :transferred_to_user_groups, multiple: true
-      end
-    end
-
     before_save :calculate_transferred_to_users
     before_save :calculate_transferred_to_user_groups
     before_save :calculate_referred_users
