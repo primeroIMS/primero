@@ -5,7 +5,7 @@
 # Represents a query against a field
 class Reports::FieldQueries::FieldQuery < ValueObject
   DATE_FORMAT = 'YYYY-MM-DD'
-  DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:MI:SS'
+  DATE_TIME_FORMAT = "YYYY-MM-DD'T'HH:MI:SS"
 
   attr_accessor :field, :record_field_name
 
@@ -16,20 +16,20 @@ class Reports::FieldQueries::FieldQuery < ValueObject
   end
 
   def default_query
-    ActiveRecord::Base.sanitize_sql_for_conditions(
-      [
-        "COALESCE(#{data_column_name} ->> :field_name, 'incomplete_data') AS #{column_name}", { field_name: field.name }
-      ]
+    ActiveRecord::Base.sanitize_sql_array(
+      ["COALESCE(%s ->> '%s', 'incomplete_data') AS %s", data_column_name, field.name, column_name]
     )
   end
 
   def data_column_name
-    ActiveRecord::Base.connection.quote_column_name(record_field_name || 'data')
+    record_field_name || 'data'
   end
 
   def column_name(suffix = '')
     name = suffix.present? ? "#{field.name}_#{suffix}" : field.name
-    ActiveRecord::Base.connection.quote_column_name(record_field_name.present? ? "#{record_field_name}_#{name}" : name)
+    return "#{record_field_name}_#{name}" if record_field_name.present?
+
+    name
   end
 
   def sort_field
@@ -37,10 +37,8 @@ class Reports::FieldQueries::FieldQuery < ValueObject
   end
 
   def multi_select_query
-    ActiveRecord::Base.sanitize_sql_for_conditions(
-      [
-        "jsonb_array_elements_text(#{data_column_name}-> :field_name) as #{column_name}", { field_name: field.name }
-      ]
+    ActiveRecord::Base.sanitize_sql_array(
+      ["jsonb_array_elements_text(%s-> '%s') as %s", data_column_name, field.name, column_name]
     )
   end
 end
