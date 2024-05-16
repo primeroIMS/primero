@@ -15,7 +15,6 @@ module Approvable
                    :assessment_approved_comments, :case_plan_approved_comments, :closure_approved_comments,
                    :action_plan_approved_comments, :gbv_closure_approved_comments, :approval_subforms
 
-
     after_save_commit :send_approval_mail
   end
 

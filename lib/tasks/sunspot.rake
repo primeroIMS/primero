@@ -63,5 +63,4 @@ namespace :sunspot do
       Sunspot.index(records)
     end
   end
-
 end
