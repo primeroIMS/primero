@@ -6,7 +6,8 @@ require 'rails_helper'
 
 describe Workflow do
   before do
-    lookup = Lookup.new(
+    clean_data(FormSection, Lookup, PrimeroModule)
+    lookup = Lookup.create!(
       unique_id: 'lookup-service-response-type',
       name: 'Service Response Type',
       locked: true,
@@ -101,6 +102,7 @@ describe Workflow do
     end
     context 'when assessment value is present on workflow lookup' do
       before do
+        clean_data(Lookup)
         @modules = [@module_a, @module_b]
         Lookup.create!(
           unique_id: 'lookup-workflow',

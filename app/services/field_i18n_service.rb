@@ -108,23 +108,22 @@ class FieldI18nService
   #    fr: []
   #  }
 
-  def self.fill_options_by_locale(locale, options, acc)
+  def self.fill_options_by_locale(locale, options, acc, include_disabled = true)
     options.map(&:with_indifferent_access).each do |option|
-      next if option.dig('display_text', locale).nil?
+      next if option.dig('display_text', locale).nil? || (!include_disabled && option['disabled'])
 
-      value = {}.with_indifferent_access
-      value['id'] = option['id']
-      value['display_text'] = option.dig('display_text', locale)
-
-      acc[locale.to_s] << value
+      acc[locale.to_s] << {
+        'id' => option['id'],
+        'display_text' => option.dig('display_text', locale)
+      }.with_indifferent_access
     end
     acc[locale.to_s]
   end
 
-  def self.fill_options(options)
+  def self.fill_options(options, include_disabled = true)
     I18n.available_locales.each_with_object({}) do |locale, acc|
       acc[locale.to_s] = []
-      acc[locale.to_s] = fill_options_by_locale(locale, options, acc)
+      acc[locale.to_s] = fill_options_by_locale(locale, options, acc, include_disabled)
     end
   end
 

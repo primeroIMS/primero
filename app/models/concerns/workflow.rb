@@ -91,46 +91,41 @@ module Workflow
 
   # Class methods
   module ClassMethods
-    def workflow_statuses(modules = [], lookups = nil)
-      lookup = lookup_response_types(lookups)
+    def workflow_statuses(modules = [], _lookups = nil)
+      lookups_grouped = Lookup.group_by_unique_id([LOOKUP_RESPONSE_TYPES, LOOKUP_WORKFLOW])
 
       I18n.available_locales.map do |locale|
-        { locale => status_list(locale, modules, lookup) }
+        { locale => status_list(locale, modules, lookups_grouped) }
       end.inject(&:merge)
     end
 
-    def status_list(locale, modules, lookup)
+    def status_list(locale, modules, lookups)
       status_list = []
       status_list << workflow_key_value(WORKFLOW_NEW, locale)
       status_list << workflow_key_value(WORKFLOW_REOPENED, locale)
-      workflow_assessment(status_list, locale, modules)
-      workflow_case_plan(status_list, locale, modules)
-      status_list += lookup&.enabled_values(locale) || []
+      workflow_assessment(status_list, locale, modules, lookups)
+      workflow_case_plan(status_list, locale, modules, lookups)
+      status_list += lookups&.[](Workflow::LOOKUP_RESPONSE_TYPES)&.[](locale.to_s) || []
       workflow_service_implemented(status_list, locale, modules)
       status_list << workflow_key_value(WORKFLOW_CLOSED, locale)
     end
 
-    def workflow_assessment(status_list, locale, modules)
+    def workflow_assessment(status_list, locale, modules, lookups)
       return unless modules&.any?(&:use_workflow_assessment)
 
-      status_list << workflow_entry(WORKFLOW_ASSESSMENT, locale)
+      status_list << workflow_entry(WORKFLOW_ASSESSMENT, locale, lookups)
     end
 
-    def workflow_case_plan(status_list, locale, modules)
+    def workflow_case_plan(status_list, locale, modules, lookups)
       return unless modules&.any?(&:use_workflow_case_plan)
 
-      status_list << workflow_entry(WORKFLOW_CASE_PLAN, locale)
+      status_list << workflow_entry(WORKFLOW_CASE_PLAN, locale, lookups)
     end
 
     def workflow_service_implemented(status_list, locale, modules)
       return unless modules&.any?(&:use_workflow_service_implemented)
 
       status_list << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED, locale)
-    end
-
-    def lookup_response_types(lookups = nil)
-      lookup = lookups&.find { |lkp| lkp.unique_id == LOOKUP_RESPONSE_TYPES }
-      lookup || Lookup.find_by(unique_id: LOOKUP_RESPONSE_TYPES)
     end
 
     private
@@ -142,12 +137,13 @@ module Workflow
       }
     end
 
-    def value_from_lookup(status, locale = I18n.locale)
-      Lookup.values(LOOKUP_WORKFLOW, nil, locale:)&.find { |lkp| lkp['id'] == status }
+    def value_from_lookup(status, lookups, locale = I18n.locale)
+      lookups&.[](Workflow::LOOKUP_WORKFLOW)&.[](locale.to_s)&.find { |lkp| lkp['id'] == status }
     end
 
-    def workflow_entry(status, locale)
-      value_from_lookup(status, locale) || workflow_key_value(status, locale)
+    # TODO: This can be use with the other workflow states (WORKFLOW_NEW, WORKFLOW_REOPENED, WORKFLOW_CLOSED)
+    def workflow_entry(status, locale, lookups)
+      value_from_lookup(status, lookups, locale) || workflow_key_value(status, locale)
     end
   end
 end
