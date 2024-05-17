@@ -12,7 +12,7 @@ describe("<Jewel /> components/jewel", () => {
     };
 
     mountedComponent(<Jewel {...newProps} />);
-    expect(screen.getByTestId("Jewel-value")).toBeInTheDocument();
+    expect(screen.getByTestId("jewel")).toBeInTheDocument();
   });
 
   it("renders error and alert canvas", () => {
@@ -25,6 +25,6 @@ describe("<Jewel /> components/jewel", () => {
     };
 
     mountedComponent(<Jewel {...errorProps} />);
-    expect(screen.getByTestId("error-icon")).toBeInTheDocument();
+    expect(screen.getByTestId("error")).toBeInTheDocument();
   });
 });
