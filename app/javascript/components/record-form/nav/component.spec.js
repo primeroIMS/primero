@@ -201,7 +201,7 @@ describe("<Nav />", () => {
 
   it("renders a NavGroup component from record information and another one from the others forms groups />", () => {
     mountedComponent(<Nav {...props} />, initialState);
-    expect(screen.getByTestId("nav-list")).toBeInTheDocument();
+    expect(screen.getByRole('list')).toBeInTheDocument();
   });
 
   it("renders the NavGroup component for record information open", () => {
