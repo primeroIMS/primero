@@ -119,6 +119,6 @@ describe("<NavItem />", () => {
 
   it("renders <Jewel/> for error", () => {
     mountedComponent(<NavItem {...props} />, initialState);
-    expect(screen.getAllByRole("button")).toHaveLength(1);
+    expect(screen.getAllByTestId("jewel-error")).toHaveLength(1);
   });
 });
