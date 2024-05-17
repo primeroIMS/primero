@@ -22,8 +22,7 @@ describe("<ModuleLogo />", () => {
     });
 
     mountedComponent(<ModuleLogo />, state);
-
-    expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "img")).toBeInTheDocument();
+    expect(screen.getByTestId("logo-primero")).toBeInTheDocument();
   });
 
   it("renders a primero module logo from props", () => {
@@ -41,7 +40,6 @@ describe("<ModuleLogo />", () => {
     });
 
     mountedComponent(<ModuleLogo />, state);
-
-    expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "img")).toBeInTheDocument();
+    expect(screen.getByTestId("logo-primeromodule-mrm")).toBeInTheDocument();
   });
 });
