@@ -1,12 +1,8 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 
-import PrimeroLogo from "../../images/primero-logo.png";
-import MRMLogo from "../../images/mrm-logo.png";
-import { setupMountedComponent } from "../../test";
-import { MODULES } from "../../config";
+import { mountedComponent, screen } from "../../test-utils";
 import { PrimeroModuleRecord } from "../application/records";
+import { MODULES } from "../../config";
 
 import ModuleLogo from "./component";
 
@@ -25,9 +21,8 @@ describe("<ModuleLogo />", () => {
       }
     });
 
-    const { component } = setupMountedComponent(ModuleLogo, {}, state);
-
-    expect(component.find("img").prop("src")).to.equal(PrimeroLogo);
+    mountedComponent(<ModuleLogo />, state);
+    expect(screen.getByTestId("logo-primero")).toBeInTheDocument();
   });
 
   it("renders a primero module logo from props", () => {
@@ -44,8 +39,7 @@ describe("<ModuleLogo />", () => {
       }
     });
 
-    const { component } = setupMountedComponent(ModuleLogo, {}, state);
-
-    expect(component.find("img").prop("src")).to.equal(MRMLogo);
+    mountedComponent(<ModuleLogo />, state);
+    expect(screen.getByTestId("logo-primeromodule-mrm")).toBeInTheDocument();
   });
 });
