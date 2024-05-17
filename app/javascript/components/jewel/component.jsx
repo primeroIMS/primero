@@ -15,10 +15,10 @@ const Jewel = ({ value, isForm, isList, isError }) => {
 
   if (isError && !isForm) {
     return (
-      <>
+      <div data-testid="jewel-error">
         {value}
         <Circle className={classes} />
-      </>
+      </div>
     );
   }
 

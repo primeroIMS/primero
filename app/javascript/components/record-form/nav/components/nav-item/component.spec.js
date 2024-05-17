@@ -1,17 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS, Map, OrderedMap } from "immutable";
-import { ListItem, ListItemText } from "@material-ui/core";
 
-import Jewel from "../../../../jewel";
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 import { FormSectionRecord, FieldRecord } from "../../../records";
 
 import NavItem from "./component";
 
 describe("<NavItem />", () => {
-  let component;
-
   const record = fromJS({
     case_id: "12345",
     case_id_display: "3c9d076",
@@ -100,7 +96,7 @@ describe("<NavItem />", () => {
   const props = {
     form: {},
     groupItem: false,
-    handleClick: () => {},
+    handleClick: () => { },
     isNested: false,
     isNew: false,
     itemsOfGroup: [],
@@ -111,46 +107,18 @@ describe("<NavItem />", () => {
     hasError: true
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(NavItem, props, initialState));
-  });
-
   it("renders a ListItem component />", () => {
-    expect(component.find(ListItem)).to.have.lengthOf(1);
+    mountedComponent(<NavItem {...props} />, initialState);
+    expect(screen.getAllByTestId("list-item")).toHaveLength(1);
   });
 
   it("renders a ListItemText component />", () => {
-    expect(component.find(ListItemText)).to.have.lengthOf(1);
-  });
-
-  it("should render valid props", () => {
-    const NavItemProps = { ...component.find(NavItem).props() };
-
-    expect(component.find(NavItem)).to.have.lengthOf(1);
-    [
-      "form",
-      "groupItem",
-      "handleClick",
-      "isNested",
-      "isNew",
-      "itemsOfGroup",
-      "name",
-      "open",
-      "recordAlerts",
-      "selectedForm",
-      "hasError"
-    ].forEach(property => {
-      expect(NavItemProps).to.have.property(property);
-      delete NavItemProps[property];
-    });
-    expect(NavItemProps).to.be.empty;
-  });
-
-  it("renders a ListItemText component />", () => {
-    expect(component.find(ListItemText)).to.have.lengthOf(1);
+    mountedComponent(<NavItem {...props} />, initialState);
+    expect(screen.getAllByTestId("list-item-text")).toHaveLength(1);
   });
 
   it("renders <Jewel/> for error", () => {
-    expect(component.find(Jewel)).to.have.lengthOf(1);
+    mountedComponent(<NavItem {...props} />, initialState);
+    expect(screen.getAllByTestId("jewel-error")).toHaveLength(1);
   });
 });
