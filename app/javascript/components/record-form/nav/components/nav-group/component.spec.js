@@ -1,16 +1,11 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS, Map, OrderedMap } from "immutable";
 
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 import { FormSectionRecord, FieldRecord, NavRecord } from "../../../records";
-import NavItem from "../nav-item";
 
 import NavGroup from "./component";
 
 describe("<NavGroup />", () => {
-  let component;
-
   const record = fromJS({
     case_id: "12345",
     case_id_display: "3c9d076",
@@ -134,23 +129,9 @@ describe("<NavGroup />", () => {
     ]
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(NavGroup, props, initialState));
-  });
-
   it("renders a NavItem component />", () => {
-    expect(component.find(NavItem)).to.have.lengthOf(1);
-    expect(component.find(NavItem).find("span").at(0).text()).to.equal("Identification / Registration");
-  });
-
-  it("should render valid props", () => {
-    const navGroupProps = { ...component.find(NavGroup).props() };
-
-    expect(component.find(NavGroup)).to.have.lengthOf(1);
-    ["group", "handleClick", "isNew", "open", "recordAlerts", "selectedForm", "formGroupLookup"].forEach(property => {
-      expect(navGroupProps).to.have.property(property);
-      delete navGroupProps[property];
-    });
-    expect(navGroupProps).to.be.empty;
+    mountedComponent(<NavGroup {...props} />, initialState);
+    expect(screen.getByText("Identification / Registration")).toBeInTheDocument();
+    expect(screen.getByRole("button")).toBeInTheDocument();
   });
 });
