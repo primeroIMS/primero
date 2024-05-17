@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Concern for UNHCR Mapping
 module UNHCRMapping
   extend ActiveSupport::Concern

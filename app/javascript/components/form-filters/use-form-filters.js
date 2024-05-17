@@ -1,7 +1,9 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
 
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { setFormFilters, clearFormFilters } from "./action-creators";
 import { getFormFilters } from "./selectors";

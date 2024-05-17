@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import formatRows from "./format-rows";
 import getColumnsTableData from "./get-columns-table-data";
 import getRowsTableData from "./get-rows-table-data";

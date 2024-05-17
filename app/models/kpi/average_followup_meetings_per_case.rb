@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # AverageFollowupMeetingsPerCase
 # A Kpi to count the average number of followup up meetings for all
 # accessible cases
@@ -34,7 +36,7 @@ class Kpi::AverageFollowupMeetingsPerCase < Kpi::Search
         from
           my_cases,
           follow_ups
-      }, from: from, to: to, owned_by_groups: owned_by_groups, owned_by_agency_id: owned_by_agency_id])
+      }, { from:, to:, owned_by_groups:, owned_by_agency_id: }])
     )
   end
   # rubocop:enable Metrics/MethodLength

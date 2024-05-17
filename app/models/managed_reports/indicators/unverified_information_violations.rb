@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the type of use of violation type Recruitment
 class ManagedReports::Indicators::UnverifiedInformationViolations < ManagedReports::SqlReportIndicator
   include ManagedReports::GhnIndicatorHelper

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe ApplicationApiController, type: :request do
@@ -80,7 +82,7 @@ describe ApplicationApiController, type: :request do
       role = Role.new(name: 'Test Role 1', unique_id: 'test-role-1',
                       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
       role.save(validate: false)
-      @user = User.new(user_name: user_name, password: password, password_confirmation: password, role: role)
+      @user = User.new(user_name:, password:, password_confirmation: password, role:)
       @user.save(validate: false)
     end
 

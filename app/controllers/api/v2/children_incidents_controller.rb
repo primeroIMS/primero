@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # API endpoint for listing the incidents associated with a case
 class Api::V2::ChildrenIncidentsController < Api::V2::RecordResourceController
   before_action :permit_fields

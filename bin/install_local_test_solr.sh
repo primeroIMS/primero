@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 set -ex
 
@@ -12,9 +13,9 @@ cp config/bitbucket/sunspot.yml config/
 if [ -d "$SOLR_SRC_DIR" ]; then
   echo "Solr already installed!"
 else
-  wget -c https://primero-cicd.s3.amazonaws.com/dependencies/solr-8.9.0.tgz && tar xvf solr-8.9.0.tgz -C /opt
-  ln -s /opt/solr-8.9.0 /opt/solr
-  rm solr-8.9.0.tgz
+  wget -c https://primero-cicd.s3.amazonaws.com/dependencies/solr-8.11.2.tgz && tar xvf solr-8.11.2.tgz -C /opt
+  ln -s /opt/solr-8.11.2 /opt/solr
+  rm solr-8.11.2.tgz
 fi
 
 if java -version > /dev/null 2>&1; then

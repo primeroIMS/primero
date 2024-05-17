@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { Radio } from "@material-ui/core";
 

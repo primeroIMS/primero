@@ -1,25 +1,22 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe ManagedReports::Indicators::SurvivorsAge do
-  let(:permissions) do
-    [
-      Permission.new(
-        resource: Permission::MANAGED_REPORT,
-        actions: [
-          Permission::VIOLATION_REPORT
-        ]
-      )
-    ]
-  end
-
   let(:self_role) do
     Role.create!(
       name: 'Self Role 1',
       unique_id: 'self-role-1',
       group_permission: Permission::SELF,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          managed_report_scope: Permission::SELF,
+          actions: [Permission::VIOLATION_REPORT]
+        )
+      ]
     )
   end
 
@@ -28,7 +25,13 @@ describe ManagedReports::Indicators::SurvivorsAge do
       name: 'Group Role 1',
       unique_id: 'group-role-1',
       group_permission: Permission::GROUP,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          managed_report_scope: Permission::GROUP,
+          actions: [Permission::VIOLATION_REPORT]
+        )
+      ]
     )
   end
 
@@ -37,7 +40,13 @@ describe ManagedReports::Indicators::SurvivorsAge do
       name: 'Agency Role 1',
       unique_id: 'agency-role-1',
       group_permission: Permission::AGENCY,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          managed_report_scope: Permission::AGENCY,
+          actions: [Permission::VIOLATION_REPORT]
+        )
+      ]
     )
   end
 
@@ -46,7 +55,12 @@ describe ManagedReports::Indicators::SurvivorsAge do
       name: 'All Role 1',
       unique_id: 'all-role-1',
       group_permission: Permission::ALL,
-      permissions: permissions
+      permissions: [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          actions: [Permission::VIOLATION_REPORT]
+        )
+      ]
     )
   end
 

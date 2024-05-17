@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 other_identity_details_fields = [
   Field.new('name' => 'nationality',
             'type' => 'select_box',
@@ -5,7 +9,7 @@ other_identity_details_fields = [
             'display_name_en' => 'Nationality',
             'option_strings_source' => 'lookup lookup-country'),
   Field.new('name' => 'country_of_origin',
-            'type' => 'select_box' ,
+            'type' => 'select_box',
             'display_name_en' => 'Country of Origin',
             'option_strings_source' => 'lookup lookup-country'),
   Field.new('name' => 'address_last',
@@ -13,7 +17,7 @@ other_identity_details_fields = [
             'display_name_en' => 'Last Address'),
   # TODO: location picker
   Field.new('name' => 'location_last',
-            'type' => 'select_box' ,
+            'type' => 'select_box',
             'display_name_en' => 'Last Location',
             'option_strings_source' => 'Location',
             'matchable' => true),

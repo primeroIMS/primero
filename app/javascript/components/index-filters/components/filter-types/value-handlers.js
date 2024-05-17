@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { subMonths } from "date-fns";
 import omit from "lodash/omit";
 
