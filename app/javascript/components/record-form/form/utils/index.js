@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export { default as addSubformEntries } from "./add-subform-entries";
 export { default as appendDisabledUser } from "./append-disabled-user";
 export { default as buildAssociatedViolations } from "./build-associated-violations";
@@ -19,6 +21,8 @@ export { default as getViolationAssociationsValues } from "./get-violation-assoc
 export { default as getViolationFieldForGuidance } from "./get-violation-field-for-guidance";
 export { default as getViolationIdsForAssociations } from "./get-violation-ids-for-associations";
 export { default as handleChangeOnServiceUser } from "./handle-change-service-user";
+export { default as isFamilyDetailSubform } from "./is-family-detail-subform";
+export { default as isFamilyMemberSubform } from "./is-family-member-subform";
 export { default as isFormDirty } from "./is-form-dirty";
 export { default as isViolationSubform } from "./is-violation-subform";
 export { default as serviceHasReferFields } from "./service-has-refer-fields";

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import partitionObject from "./partition-object";
 import isAuthenticated from "./is-authenticated";
 import isOnline from "./is-online";

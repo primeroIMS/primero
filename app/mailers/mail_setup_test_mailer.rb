@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Send an email to confirm that Primero is correctly set up
 class MailSetupTestMailer < ActionMailer::Base
   def mail_setup_test(to_email)

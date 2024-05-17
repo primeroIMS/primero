@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # API endpoint for Agency CRUD
 class Api::V2::WebhooksController < ApplicationApiController
   before_action :load_webhook, only: %i[show update destroy]
@@ -18,7 +20,7 @@ class Api::V2::WebhooksController < ApplicationApiController
     @webhook = Webhook.new(webhook_params.except(:id))
     @webhook.save!
     status = params[:data][:id].present? ? 204 : 200
-    render :create, status: status
+    render :create, status:
   end
 
   def update
