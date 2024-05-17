@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { push } from "connected-react-router";
 import { Map } from "immutable";
 import PropTypes from "prop-types";
@@ -6,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { INCIDENT_FROM_CASE, MODES } from "../../config/constants";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getPermissions } from "../user/selectors";
 
 import { RESOURCES } from "./constants";

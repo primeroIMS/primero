@@ -1,7 +1,7 @@
-const getToken = () => {
-  const msalInstance = window.msal;
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-  return msalInstance?.getCachedIdToken(msalInstance, msalInstance?.account)?.rawIdToken;
+const getToken = () => {
+  return localStorage.getItem("cachedIdToken");
 };
 
 export default getToken;

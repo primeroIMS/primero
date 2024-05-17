@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Rspec helpers for file attachment
 module FilesTestHelper
-  extend self # TODO: Delete after agency
+  module_function # TODO: Delete after agency
+
   extend ActionDispatch::TestProcess
 
   def attachment_base64(file_name)

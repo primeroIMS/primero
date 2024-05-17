@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 class CreateFormSections < ActiveRecord::Migration[5.0]
   def change
-
     create_table :form_sections do |t|
       t.string 'unique_id'
       t.jsonb 'name_i18n'
@@ -10,9 +13,9 @@ class CreateFormSections < ActiveRecord::Migration[5.0]
       t.boolean 'visible', null: false, default: true
       t.integer 'order'
       t.integer 'order_form_group'
-      t.integer 'order_subform' #TODO: Is this even used? Refactor with UIUX
+      t.integer 'order_subform' # TODO: Is this even used? Refactor with UIUX
       t.boolean 'form_group_keyed', null: false, default: false
-      t.string 'form_group_id' #TODO: this is probably not a string
+      t.string 'form_group_id' # TODO: this is probably not a string
       t.boolean 'editable', null: false, default: true
       t.boolean 'core_form', null: false, default: false
       t.boolean 'is_nested', null: false, default: false
@@ -20,7 +23,7 @@ class CreateFormSections < ActiveRecord::Migration[5.0]
       t.integer 'initial_subforms'
       t.boolean 'subform_prevent_item_removal', null: false, default: false
       t.boolean 'subform_append_only', null: false, default: false
-      t.string 'subform_header_links', array: true, default: [] #TODO: Refactor or utilize when revamiping UIUX
+      t.string 'subform_header_links', array: true, default: [] # TODO: Refactor or utilize when revamiping UIUX
       t.boolean 'display_help_text_view', null: false, default: false
       t.string 'shared_subform'
       t.string 'shared_subform_group'
@@ -30,6 +33,5 @@ class CreateFormSections < ActiveRecord::Migration[5.0]
       t.text 'header_message_link'
     end
     add_index :form_sections, :unique_id, unique: true
-
   end
 end

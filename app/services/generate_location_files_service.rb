@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Generates a JSON file of all Location objects.
 # Often, this will be too big to be served via the API.
 class GenerateLocationFilesService
@@ -10,7 +12,7 @@ class GenerateLocationFilesService
     end
 
     def options_parent_dir
-      use_app_share_dir? ? ENV['APP_SHARE_DIR'] : public_dir
+      use_app_share_dir? ? ENV.fetch('APP_SHARE_DIR', nil) : public_dir
     end
 
     private
@@ -20,7 +22,7 @@ class GenerateLocationFilesService
     end
 
     def app_share_dir
-      ENV['APP_SHARE_DIR']
+      ENV.fetch('APP_SHARE_DIR', nil)
     end
 
     def use_app_share_dir?

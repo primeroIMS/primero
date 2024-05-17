@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe SearchFilters::DateRange do
-
   describe '.query_scope', search: true do
-
     before :example do
       @correct_match = Child.create!(data: { name: 'Correct Match', registration_date: Date.new(2019, 1, 1) })
       @incorrect_match = Child.create!(data: { name: 'Incorrect Match', registration_date: Date.new(2018, 1, 1) })
@@ -26,7 +28,5 @@ describe SearchFilters::DateRange do
       @correct_match.destroy
       @incorrect_match.destroy
     end
-
   end
-
 end

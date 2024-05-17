@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
@@ -15,6 +17,7 @@ function Component({
   defaultLocale,
   formMethods,
   formMode,
+  isLockedLookup,
   items,
   localesKeys,
   reorderValues,
@@ -57,7 +60,7 @@ function Component({
     <Grid container spacing={1}>
       <div className={css.optionsContainer}>
         <span className={css.optionsLabel}>{optionsLabelText}</span>
-        {!formMode.get("isShow") && (
+        {!formMode.get("isShow") && !isLockedLookup && (
           <ActionButton
             icon={<AddIcon />}
             text="fields.add"
@@ -86,6 +89,7 @@ function Component({
                       uniqueId={item}
                       formMode={formMode}
                       formMethods={formMethods}
+                      isLockedLookup={isLockedLookup}
                     />
                   ))}
                   {provided.placeholder}
@@ -105,6 +109,7 @@ Component.propTypes = {
   defaultLocale: PropTypes.string,
   formMethods: PropTypes.object,
   formMode: PropTypes.object,
+  isLockedLookup: PropTypes.bool,
   items: PropTypes.array,
   localesKeys: PropTypes.array,
   reorderValues: PropTypes.func,

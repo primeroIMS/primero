@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import { SAVING } from "../../../../config";
@@ -18,11 +20,18 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.SAVE_USER_FAILURE:
       return state.set("errors", true).set("serverErrors", fromJS(payload.errors)).set(SAVING, false);
     case actions.CLEAR_SELECTED_USER:
-      return state.set("selectedUser", fromJS({})).set("errors", false).set("serverErrors", fromJS([]));
+      return state
+        .set("selectedUser", fromJS({}))
+        .set("errors", false)
+        .set("serverErrors", fromJS([]))
+        .set("userSaved", false);
     case actions.SAVE_USER_STARTED:
       return state.set(SAVING, true);
     case actions.SAVE_USER_SUCCESS:
-      return state.set(SAVING, false);
+      return state
+        .set(SAVING, false)
+        .set("userSaved", true)
+        .setIn(["metadata", "total_enabled"], payload.metadata?.total_enabled);
     case actions.NEW_PASSWORD_RESET_REQUEST_STARTED:
       return state.setIn(["newPasswordReset", "saving"], true);
     case actions.NEW_PASSWORD_RESET_REQUEST_SUCCESS:

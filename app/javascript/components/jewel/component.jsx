@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Brightness1 as Circle } from "@material-ui/icons";
@@ -13,10 +15,10 @@ const Jewel = ({ value, isForm, isList, isError }) => {
 
   if (isError && !isForm) {
     return (
-      <>
+      <div data-testid="jewel-error">
         {value}
         <Circle className={classes} />
-      </>
+      </div>
     );
   }
 

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 # TODO: add i18n tests
@@ -374,7 +376,8 @@ describe Report do
 
     let(:service_provider) do
       user = User.new(
-        user_name: 'service_provider', agency_id: agency_with_space.id)
+        user_name: 'service_provider', agency_id: agency_with_space.id
+      )
       user.save(validate: false) && user
     end
 
@@ -441,6 +444,7 @@ describe Report do
   describe 'user group report scope', search: true do
     let(:group_1) { UserGroup.create!(name: 'Test User Group 1') }
     let(:group_2) { UserGroup.create!(name: 'Test User Group 2') }
+    let(:group_3) { UserGroup.create!(name: 'Test User Group 3') }
 
     let(:case_worker_1) do
       user = User.new(user_name: 'case_worker_1', user_groups: [group_1])
@@ -453,7 +457,7 @@ describe Report do
     end
 
     let(:case_worker_3) do
-      user = User.new(user_name: 'case_worker_3', user_groups: [group_2])
+      user = User.new(user_name: 'case_worker_3', user_groups: [group_3])
       user.save(validate: false) && user
     end
 
@@ -478,7 +482,7 @@ describe Report do
     let(:child_3) do
       Child.create!(
         data: {
-          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          status: 'closed', worklow: 'closed', sex: 'female', module_id: @module.unique_id,
           owned_by: case_worker_3.user_name
         }
       )
@@ -532,7 +536,7 @@ describe Report do
         module_id: @module.unique_id,
         aggregate_by: ['status'],
         disaggregate_by: ['sex'],
-        permission_filter: { 'attribute' => 'owned_by_groups', 'value' => [group_1.unique_id] }
+        permission_filter: { 'attribute' => 'owned_by_groups', 'value' => [group_1.unique_id, group_3.unique_id] }
       )
     end
 
@@ -541,18 +545,29 @@ describe Report do
       expect(report.data).to eq(
         {
           'open' => { '_total' => 2, 'male' => { '_total' => 1 }, 'female' => { '_total' => 1 } },
-          'closed' => { '_total' => 0 }
+          'closed' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } }
+        }
+      )
+    end
+
+    it 'can be seen by the group scope when the permission filter only has a single group' do
+      report.permission_filter = { 'attribute' => 'owned_by_groups', 'value' => [group_3.unique_id] }
+      report.build_report
+      expect(report.data).to eq(
+        {
+          'closed' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } },
+          'open' => { '_total' => 0 }
         }
       )
     end
 
     it 'can be seen by group if they also meet the filter' do
-      report.filters = [{ 'attribute' => 'owned_by_groups', 'value' => [group_2.unique_id] }]
+      report.filters = [{ 'attribute' => 'owned_by_groups', 'value' => [group_3.unique_id] }]
       report.build_report
       expect(report.data).to eq(
         {
-          'open' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } },
-          'closed' => { '_total' => 0 }
+          'open' => { '_total' => 0 },
+          'closed' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } }
         }
       )
     end
@@ -631,7 +646,7 @@ describe Report do
       Child.create!(
         data: {
           status: 'open', worklow: 'open', sex: 'male', module_id: @module.unique_id,
-          created_at: '2021-09-12T06:32:10.000Z'
+          created_at: '2021-09-12T06:32:10.000Z', custom_ec4b5a0: 'green'
         }
       )
     end
@@ -640,7 +655,7 @@ describe Report do
       Child.create!(
         data: {
           status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
-          created_at: '2022-10-10T04:32:10.000Z'
+          created_at: '2022-10-10T04:32:10.000Z', custom_ec4b5a0: 'red'
         }
       )
     end
@@ -649,13 +664,25 @@ describe Report do
       Child.create!(
         data: {
           status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
-          created_at: '2022-10-05T04:32:10.000Z'
+          created_at: '2022-10-05T04:32:10.000Z', custom_ec4b5a0: 'blue', custom_abc4x5a1: 'PR01'
         }
       )
     end
 
+    let(:country) { Location.create!(placename_all: 'MyCountry', type: 'country', location_code: 'MC01') }
+
+    let(:province) do
+      Location.create!(
+        hierarchy_path: "#{country.location_code}.PR01", type: 'province', location_code: 'PR01',
+        placename_i18n: { en: 'Province 1' }
+      )
+    end
+
     before(:each) do
-      clean_data(User, UserGroup, Field, Lookup, Child, Report)
+      clean_data(User, UserGroup, Field, Lookup, Location, Child, Report)
+
+      country
+      province
 
       Lookup.create!(
         unique_id: 'lookup-sex',
@@ -668,6 +695,15 @@ describe Report do
 
       Field.create!(
         name: 'sex', display_name: 'sex', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-sex'
+      )
+
+      Field.create!(
+        name: 'custom_ec4b5a0', display_name: 'Custom', type: Field::TEXT_FIELD
+      )
+
+      Field.create!(
+        name: 'custom_abc4x5a1', display_name: 'Custom Location', type: Field::SELECT_BOX,
+        option_strings_source: 'Location'
       )
 
       Field.create!(
@@ -690,6 +726,26 @@ describe Report do
         aggregate_by: ['sex'],
         disaggregate_by: ['created_at'],
         group_dates_by: Report::DAY
+      )
+    end
+
+    let(:report_with_custom_field) do
+      Report.new(
+        name: 'Report by Sex and Custom Field',
+        record_type: 'case',
+        module_id: @module.unique_id,
+        aggregate_by: ['custom_ec4b5a0'],
+        disaggregate_by: ['sex']
+      )
+    end
+
+    let(:report_with_custom_location_field) do
+      Report.new(
+        name: 'Report by Custom Location and Sex',
+        record_type: 'case',
+        module_id: @module.unique_id,
+        aggregate_by: ['custom_abc4x5a11'],
+        disaggregate_by: ['sex']
       )
     end
 
@@ -730,7 +786,8 @@ describe Report do
 
       expect(report.build_report).to eq(
         'male' => { '_total' => 1, '06-Sep-2021 - 12-Sep-2021' => { '_total' => 1 } },
-        'female' => { '_total' => 2, '03-Oct-2022 - 09-Oct-2022' => { '_total' => 1 }, '10-Oct-2022 - 16-Oct-2022' => { '_total' => 1 } }
+        'female' => { '_total' => 2, '03-Oct-2022 - 09-Oct-2022' => { '_total' => 1 },
+                      '10-Oct-2022 - 16-Oct-2022' => { '_total' => 1 } }
       )
     end
 
@@ -749,6 +806,22 @@ describe Report do
       expect(report.build_report).to eq(
         'male' => { '_total' => 1, 2021 => { '_total' => 1 } },
         'female' => { '_total' => 2, 2022 => { '_total' => 2 } }
+      )
+    end
+
+    it 'returns data for the custom field' do
+      expect(report_with_custom_field.build_report).to eq(
+        {
+          'blue' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } },
+          'green' => { '_total' => 1, 'male' => { '_total' => 1 }, 'female' => { '_total' => 0 } },
+          'red' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } }
+        }
+      )
+    end
+
+    it 'returns data for the custom location field' do
+      expect(report_with_custom_location_field.build_report).to eq(
+        { 'PR01' => { '_total' => 1, 'female' => { '_total' => 1 }, 'male' => { '_total' => 0 } } }
       )
     end
   end

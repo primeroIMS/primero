@@ -1,4 +1,5 @@
 #!/bin/bash
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 set -euxo pipefail
 
@@ -33,7 +34,12 @@ primero_migrate() {
     bin/rails db:create
   fi
   set -u
-  bin/rails db:migrate
+
+  status=`bin/check_migrated.rb`
+  if [[ $status == "DATABASE_MIGRATION_PENDING" ]]
+  then
+    bin/rails db:migrate
+  fi
 }
 
 # Apply a known configuration template
@@ -76,6 +82,15 @@ stage_assets() {
   return 0
 }
 
+primero_worker() {
+  if [[ "$PRIMERO_WORKER_MULTIPROCESS" == "true" ]]
+  then
+    QUEUE=long_running_process rails jobs:work & QUEUES=mailer,export,logger,api,options,default rails jobs:work
+  else
+    QUEUES=mailer,export,logger,api,options,default,long_running_process rails jobs:work
+  fi
+}
+
 # apps 'entrypoint' start. handles passed arguments and checks if bootstrap is
 # neccesary.
 primero_entrypoint() {
@@ -101,6 +116,9 @@ primero_entrypoint() {
       ;;
     primero-configure)
       primero_configure
+      ;;
+    primero-worker)
+      primero_worker
       ;;
     *)
       exec "$@"
