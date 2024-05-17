@@ -45,7 +45,80 @@ describe("<UsersList />", () => {
     expect(screen.getByTestId("toggle-filter")).toBeInTheDocument();
   });
 
-  xit("renders FormFilters", () => {
+  it("renders FormFilters", () => {
     expect(screen.getByTestId("select-filter")).toBeInTheDocument();
+  });
+
+  it("renders CustomToolbar as label", () => {
+    expect(screen.getByTestId("select-filter")).toBeInTheDocument();
+  });
+
+  it("should NOT render warning to list user", () => {
+    expect(screen.queryByText("users.alerts.total_users_created")).toBeNull();
+  });
+
+  describe("when record access is denied", () => {
+    beforeEach(() => {
+      const initialState = fromJS({
+        records: {
+          users: {
+            data: [
+              {
+                id: "1",
+                user_name: "Jose"
+              },
+              {
+                id: "2",
+                user_name: "Carlos"
+              }
+            ],
+            metadata: { total: 2, per: 20, page: 1, total_enabled: 40 }
+          }
+        },
+        application: {
+          systemOptions: {
+            maximum_users: 40
+          }
+        }
+      });
+
+      mountedComponent(<UsersList />, initialState, ["/admin/users"]);
+    });
+    it("renders warning to list user", () => {
+      expect(screen.getByTestId("internal-alert")).toBeInTheDocument();
+    });
+  });
+
+  describe("When maximumUsers User is null", () => {
+    beforeEach(() => {
+      const initialState = fromJS({
+        records: {
+          users: {
+            data: [
+              {
+                id: "1",
+                user_name: "Jose"
+              },
+              {
+                id: "2",
+                user_name: "Carlos"
+              }
+            ],
+            metadata: { total: 2, per: 20, page: 1, total_enabled: 40 }
+          }
+        },
+        application: {
+          systemOptions: {
+            maximum_users: null
+          }
+        }
+      });
+
+      mountedComponent(<UsersList />, initialState, ["/admin/users"]);
+    });
+
+    it("should NOT render warning to list user", () => {
+      expect(screen.queryByText("users.alerts.total_users_created")).toBeNull();
+    });
   });
 });
