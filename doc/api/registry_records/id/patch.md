@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Update an existing registry record
 
 Merge the values submitted in this call into an existing registry record.

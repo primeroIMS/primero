@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Typography } from "@material-ui/core";
 import GetAppIcon from "@material-ui/icons/GetApp";
 

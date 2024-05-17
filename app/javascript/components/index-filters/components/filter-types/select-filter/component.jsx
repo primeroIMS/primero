@@ -1,8 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
-import { TextField } from "@material-ui/core";
+import { TextField, Checkbox, FormControl, FormGroup, FormControlLabel } from "@material-ui/core";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
+import { sortBy } from "lodash";
 
 import Panel from "../../panel";
 import { useI18n } from "../../../../i18n";
@@ -17,32 +20,22 @@ import {
 import handleFilterChange from "../value-handlers";
 import { listboxClasses, virtualize } from "../../../../searchable-select/components/listbox-component";
 import useOptions from "../../../../form/use-options";
-import { OPTION_TYPES } from "../../../../form";
+import { OPTION_TYPES } from "../../../../form/constants";
 
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
 
-const Component = ({
-  addFilterToList,
-  filter,
-  mode,
-  moreSectionFilters,
-  multiple,
-  reset,
-  setMoreSectionFilters,
-  setReset
-}) => {
+const Component = ({ filter, mode, moreSectionFilters, multiple, reset, setMoreSectionFilters, setReset }) => {
   const i18n = useI18n();
-
   const formMethods = useFormContext();
-  const { register, unregister, setValue, getValues } = formMethods;
-  const [inputValue, setInputValue] = useState([]);
   const valueRef = useRef();
   const {
     options,
     field_name: fieldName,
     option_strings_source: optionStringsSource,
-    option_strings_source_id_key: optionStringsSourceIdKey
+    option_strings_source_id_key: optionStringsSourceIdKey,
+    sort_options: sortOptions,
+    toggle_include_disabled: toggleIncludeDisabled
   } = filter;
 
   const lookups = useOptions({
@@ -52,12 +45,30 @@ const Component = ({
     includeChildren: optionStringsSource === "Location"
   });
 
+  const [inputValue, setInputValue] = useState([]);
+  const [includeDisabledValue, setincludeDisabledValue] = useState(false);
+
   const filterOptions = whichOptions({
     optionStringsSource,
     lookups,
     options,
-    i18n
+    i18n,
+    transform: opts => {
+      let transformedOptions = opts;
+
+      if (sortOptions) {
+        transformedOptions = sortBy(opts, "display_name");
+      }
+
+      if (toggleIncludeDisabled && !includeDisabledValue) {
+        transformedOptions = transformedOptions.filter(tOpts => tOpts.enabled);
+      }
+
+      return transformedOptions;
+    }
   });
+
+  const { register, unregister, setValue, getValues } = formMethods;
 
   const setSecondaryValues = (name, values) => {
     setValue(name, values);
@@ -67,10 +78,6 @@ const Component = ({
   const handleReset = () => {
     setValue(fieldName, []);
     resetSecondaryFilter(mode?.secondary, fieldName, getValues()[fieldName], moreSectionFilters, setMoreSectionFilters);
-
-    if (addFilterToList) {
-      addFilterToList({ [fieldName]: undefined });
-    }
   };
 
   useEffect(() => {
@@ -117,10 +124,6 @@ const Component = ({
       handleMoreFiltersChange(moreSectionFilters, setMoreSectionFilters, fieldName, getValues()[fieldName]);
     }
 
-    if (addFilterToList) {
-      addFilterToList({ [fieldName]: getValues()[fieldName] || undefined });
-    }
-
     if (filter.onChange) {
       filter.onChange(formMethods, value);
     }
@@ -148,6 +151,10 @@ const Component = ({
     return option.id === value.id;
   };
 
+  const handleToggleDisabledChange = () => {
+    setincludeDisabledValue(!includeDisabledValue);
+  };
+
   // eslint-disable-next-line react/no-multi-comp, react/display-name
   const handleRenderInput = params => <TextField {...params} fullWidth margin="normal" variant="outlined" />;
 
@@ -173,6 +180,17 @@ const Component = ({
         filterSelectedOptions
         data-testid="select-filter"
       />
+      {toggleIncludeDisabled && (
+        <FormControl>
+          <FormGroup>
+            <FormControlLabel
+              labelPlacement="end"
+              control={<Checkbox onChange={handleToggleDisabledChange} checked={includeDisabledValue} />}
+              label={i18n.t("cases.filter_by.include_disabled")}
+            />
+          </FormGroup>
+        </FormControl>
+      )}
     </Panel>
   );
 };

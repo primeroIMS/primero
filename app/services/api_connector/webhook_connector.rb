@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Connector that encapsulates webhook requests: Sending POST to external endpoints based on some system event.
 # For now connection parameters for these endpoints is configured through environment variables.
 class ApiConnector::WebhookConnector < ApiConnector::AbstractConnector
@@ -28,7 +30,7 @@ class ApiConnector::WebhookConnector < ApiConnector::AbstractConnector
     log = log_send(record)
     status, response = connection.post(webhook_url, post_params(record))
     log_response(log, status, response)
-    { status: status, response: response }
+    { status:, response: }
   end
 
   def syncable?(_record)
@@ -52,12 +54,12 @@ class ApiConnector::WebhookConnector < ApiConnector::AbstractConnector
       record_type: record.class.parent_form,
       hostname: Rails.application.routes.default_url_options[:host]
     }.merge(RecordDataService.data(record, user, field_names))
-    { data: data }
+    { data: }
   end
 
   def log_send(record)
     AuditLog.create(
-      action: AuditLog::WEBHOOK, record: record, resource_url: webhook_url,
+      action: AuditLog::WEBHOOK, record:, resource_url: webhook_url,
       webhook_status: AuditLog::SENDING, timestamp: DateTime.now
     )
   end

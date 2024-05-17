@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS, OrderedMap } from "immutable";
 import { Router } from "react-router-dom";
 import { CircularProgress, Badge, Button } from "@material-ui/core";

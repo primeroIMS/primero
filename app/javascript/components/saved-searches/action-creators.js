@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 
 import { FETCH_SAVED_SEARCHES, SAVE_SEARCH, REMOVE_SAVED_SEARCH } from "./actions";

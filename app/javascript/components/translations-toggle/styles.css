@@ -1,8 +1,11 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
 .button {
   display: flex;
   justify-content: initial;
   color: var(--c-dark-grey);
   padding: 0 16px;
+  background-color: white;
 
   & > span {
     & div {

@@ -1,8 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Dialog, DialogTitle, DialogContent, IconButton } from "@material-ui/core";
 import { Map } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
 import ActionDialog from "../../../action-dialog";
+import { RECORD_TYPES_PLURAL } from "../../../../config";
 
 import TransitionDialog from "./transition-dialog";
 
@@ -88,7 +91,8 @@ describe("<TransitionDialog />", () => {
     const propsForBulk = {
       ...props,
       record: undefined,
-      selectedIds: [12345, 67890]
+      selectedIds: [12345, 67890],
+      selectedRecordsLength: 2
     };
 
     beforeEach(() => {
@@ -100,6 +104,34 @@ describe("<TransitionDialog />", () => {
 
     it("should render 'Assign Cases' as title", () => {
       expect(component.find(DialogTitle).text()).to.equals("transition.type.reassign cases.label ");
+    });
+
+    context("and user has selected more than 100 cases", () => {
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(TransitionDialog, {
+          ...propsForBulk,
+          selectedRecordsLength: 101,
+          transitionType
+        }));
+      });
+
+      it("should render message", () => {
+        expect(component.find("h6").text()).to.equals("case.messages.bulk_assign_limit_try_again");
+      });
+    });
+
+    context("and user has selected incidents", () => {
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(TransitionDialog, {
+          ...propsForBulk,
+          transitionType,
+          recordType: RECORD_TYPES_PLURAL.incident
+        }));
+      });
+
+      it("should render message for incident", () => {
+        expect(component.find("h6").text()).to.equals("incidents.selected_records_assign");
+      });
     });
   });
 
@@ -172,7 +204,8 @@ describe("<TransitionDialog />", () => {
         "fetchArgs",
         "disableClose",
         "hideIcon",
-        "confirmButtonProps"
+        "confirmButtonProps",
+        "disableActions"
       ].forEach(property => {
         expect(actionDialogProps).to.have.property(property);
         delete actionDialogProps[property];
