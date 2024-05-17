@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Pagination helpers for parsing the controller params
 module Api::V2::Concerns::Pagination
   extend ActiveSupport::Concern
@@ -17,7 +19,7 @@ module Api::V2::Concerns::Pagination
   end
 
   def pagination
-    { page: page, per_page: per }
+    { page:, per_page: per }
   end
 
   def pagination?

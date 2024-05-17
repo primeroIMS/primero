@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 import { describe } from "mocha";
 
@@ -124,7 +126,11 @@ const stateWithRecords = fromJS({
     },
     userGroups,
     roles,
-    disabledApplication: true
+    disabledApplication: true,
+    systemOptions: {
+      maximum_users: 50,
+      maximum_users_warning: 45
+    }
   }
 });
 
@@ -524,6 +530,82 @@ describe("Application - Selectors", () => {
             }
           }
         })
+      );
+
+      expect(result).to.be.true;
+    });
+  });
+
+  describe("getPrimaryAgeRange", () => {
+    it("returns the primaryAgeRange", () => {
+      const result = selectors.getPrimaryAgeRange(fromJS({ application: { primaryAgeRange: "unhcr" } }));
+
+      expect(result).to.equal("unhcr");
+    });
+  });
+
+  describe("getPrimaryAgeRanges", () => {
+    it("returns the primaryAgeRanges", () => {
+      const ageRange = fromJS(["0..4", "5..11", "12..17", "18..999"]);
+      const result = selectors.getPrimaryAgeRanges(
+        fromJS({
+          application: {
+            primaryAgeRange: "unhcr",
+            ageRanges: {
+              unhcr: ageRange,
+              primero: []
+            }
+          }
+        })
+      );
+
+      expect(result).to.deep.equal(ageRange);
+    });
+  });
+
+  describe("getMaximumUsers", () => {
+    it("should return maximum users", () => {
+      const result = selectors.getMaximumUsers(stateWithRecords);
+
+      expect(result).to.be.equal(50);
+    });
+
+    it("should return empty string if there is not any config_ui", () => {
+      const result = selectors.getMaximumUsers(stateWithNoRecords);
+
+      expect(result).to.be.undefined;
+    });
+  });
+
+  describe("getMaximumUsersWarning", () => {
+    it("should return maximum users warning", () => {
+      const result = selectors.getMaximumUsersWarning(stateWithRecords);
+
+      expect(result).to.be.equal(45);
+    });
+
+    it("should return empty string if there is not any config_ui", () => {
+      const result = selectors.getMaximumUsersWarning(stateWithNoRecords);
+
+      expect(result).to.be.undefined;
+    });
+  });
+
+  describe("getReferralAuthorizationRoles", () => {
+    it("returns the referralAuthorizationRoles", () => {
+      const referralAuthorizationRoles = fromJS([{ id: 1, unique_id: "role-authorized-1" }]);
+      const result = selectors.getReferralAuthorizationRoles(
+        fromJS({ application: { referralAuthorizationRoles: { data: referralAuthorizationRoles } } })
+      );
+
+      expect(result).to.deep.equal(referralAuthorizationRoles);
+    });
+  });
+
+  describe("getReferralAuthorizationRolesLoading", () => {
+    it("returns the loading state for ReferralAuthorizationRoles", () => {
+      const result = selectors.getReferralAuthorizationRolesLoading(
+        fromJS({ application: { referralAuthorizationRoles: { loading: true } } })
       );
 
       expect(result).to.be.true;

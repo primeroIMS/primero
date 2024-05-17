@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Checkbox, Tooltip } from "@material-ui/core";
 
 import { FieldRecord } from "../records";

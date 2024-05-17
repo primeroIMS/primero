@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 begin
   require 'rubygems'
   require 'bundler'
@@ -9,7 +11,7 @@ end
 
 if Gem::Version.new(Bundler::VERSION) <= Gem::Version.new('0.9.24')
   raise 'Your bundler version is too old for Rails 2.3.' \
-                      'Run `gem install bundler` to upgrade.'
+        'Run `gem install bundler` to upgrade.'
 end
 
 begin
@@ -18,5 +20,5 @@ begin
   Bundler.setup
 rescue Bundler::GemNotFound
   raise "Bundler couldn't find some gems." \
-                      'Did you run `bundle install`?'
+        'Did you run `bundle install`?'
 end
