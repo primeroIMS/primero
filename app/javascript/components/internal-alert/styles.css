@@ -1,13 +1,16 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
 .icon {
   margin-right: 8px;
   padding: 10px 0;
   & svg {
     font-size: var(--fs-16);
   }
+  align-self: center;
 }
 
 .alertTitle {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   width: 100%;
 
@@ -72,4 +75,8 @@
       border-bottom: none;
     }
   }
+}
+
+.accordionTitle {
+  align-self: center;
 }

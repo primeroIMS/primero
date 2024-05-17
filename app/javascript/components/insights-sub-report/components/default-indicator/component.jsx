@@ -1,4 +1,7 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
+import { useMemo } from "react";
 
 import { useI18n } from "../../../i18n";
 import css from "../../styles.css";
@@ -10,7 +13,9 @@ function Component({
   displayGraph,
   emptyMessage,
   groupedBy,
+  hasTotalColumn,
   incompleteDataLabel,
+  indicatorsRows,
   insightMetadata,
   isGrouped,
   lookups,
@@ -24,6 +29,7 @@ function Component({
   valueKey
 }) {
   const i18n = useI18n();
+  const isRtl = useMemo(() => i18n.dir === "rtl", [i18n.dir]);
 
   return (
     <div className={css.section}>
@@ -44,6 +50,7 @@ function Component({
           })}
           showDetails
           hideLegend
+          reverse={isRtl}
         />
       )}
       <TableComponent
@@ -56,23 +63,27 @@ function Component({
           totalText,
           getLookupValue: lookupValue,
           incompleteDataLabel,
-          subColumnItems
+          subColumnItems,
+          hasTotalColumn
         })}
         values={buildInsightValues[insightMetadata.get("table_type")]({
           getLookupValue: lookupValue,
           data: value,
           key: valueKey,
+          totalText,
           isGrouped,
           groupedBy,
           ageRanges,
           lookupValues: lookups[valueKey],
+          indicatorRows: indicatorsRows[valueKey],
           incompleteDataLabel,
-          subColumnItems
+          subColumnItems,
+          hasTotalColumn
         })}
         showPlaceholder
         name={namespace}
         emptyMessage={emptyMessage}
-        subColumnItemsSize={subColumnItems?.size}
+        subColumnItemsSize={subColumnItems?.length}
       />
     </div>
   );
@@ -85,7 +96,9 @@ Component.propTypes = {
   displayGraph: PropTypes.bool,
   emptyMessage: PropTypes.string,
   groupedBy: PropTypes.string,
+  hasTotalColumn: PropTypes.bool,
   incompleteDataLabel: PropTypes.string,
+  indicatorsRows: PropTypes.object,
   insightMetadata: PropTypes.object,
   isGrouped: PropTypes.bool,
   lookups: PropTypes.object,

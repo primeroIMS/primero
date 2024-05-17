@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Configurable reports for aggregating data over Primero records.
 # rubocop:disable Metrics/ClassLength
 class Report < ApplicationRecord
@@ -39,10 +41,8 @@ class Report < ApplicationRecord
   #      a string. Not clear what benefit could be gained by storing the data but converting keys to strings on the fly
   #      when rendering the graph and table. So for now we will rebuild the data.
   attr_accessor :data
-  attr_accessor :add_default_filters
-  attr_accessor :aggregate_by_ordered
-  attr_accessor :disaggregate_by_ordered
-  attr_accessor :permission_filter
+  attr_accessor :add_default_filters, :aggregate_by_ordered, :disaggregate_by_ordered, :permission_filter
+
   self.unique_id_from_attribute = 'name_en'
 
   alias_attribute :graph, :is_graph
@@ -121,7 +121,7 @@ class Report < ApplicationRecord
   def write_result(result, data_hash)
     field_queries.reduce(data_hash) do |acc, field_query|
       fill_lookup_rows(acc, field_query.field) unless exclude_empty_rows?
-      value = result.dig(field_query.column_name.delete('"'))
+      value = result[field_query.column_name.delete('"')]
       break if value.blank?
 
       write_field_data(acc, value, result)
@@ -129,7 +129,7 @@ class Report < ApplicationRecord
   end
 
   def write_field_data(field_hash, value, result)
-    if field_hash.dig(value).present?
+    if field_hash[value].present?
       field_hash[value]['_total'] += result['total']
     else
       field_hash[value] = { '_total' => result['total'] }
@@ -139,11 +139,11 @@ class Report < ApplicationRecord
   end
 
   def fill_lookup_rows(field_acc, field)
-    lookup_values = field.options_list(locale: I18n.locale, lookups: lookups)
+    lookup_values = field.options_list(locale: I18n.locale, lookups:)
     return unless lookup_values.is_a?(Array)
 
     lookup_values&.each do |lookup_value|
-      next unless field_acc.dig(lookup_value['id']).blank?
+      next unless field_acc[lookup_value['id']].blank?
 
       field_acc[lookup_value['id']] = { '_total' => 0 }
     end
@@ -163,7 +163,7 @@ class Report < ApplicationRecord
 
   def build_query
     query = model.try(:parent_record_type).present? ? join_nested_model : model
-    query = query.select(Arel.sql("#{field_queries.map(&:to_sql).join(",\n")}, count(*) as total"))
+    query = select_fields(query)
     query = apply_filters(query)
     query = query.group(group_by_fields)
     query = query.order(sort_fields)
@@ -177,7 +177,7 @@ class Report < ApplicationRecord
           %(
             CROSS JOIN jsonb_array_elements(data->:nested_field_name)
             as #{ActiveRecord::Base.connection.quote_table_name(model.record_field_name)}
-          ), nested_field_name: model.record_field_name
+          ), { nested_field_name: model.record_field_name }
         ]
       )
     )
@@ -210,18 +210,18 @@ class Report < ApplicationRecord
 
   def build_location_field_query(field, pivot)
     Reports::FieldQueries::LocationFieldQuery.new(
-      field: field, record_field_name: record_field_name(field), admin_level: pivot&.last.to_i
+      field:, record_field_name: record_field_name(field), admin_level: pivot&.last.to_i
     )
   end
 
   def build_date_field_query(field)
     Reports::FieldQueries::DateFieldQuery.new(
-      record_field_name: record_field_name(field), field: field, group_by: group_dates_by
+      record_field_name: record_field_name(field), field:, group_by: group_dates_by
     )
   end
 
   def build_numeric_field_query(field)
-    args = { field: field, record_field_name: record_field_name(field) }
+    args = { field:, record_field_name: record_field_name(field) }
     if age_field?(field) && group_ages?
       args = args.merge(range: SystemSettings.primary_age_ranges, abrreviate_range: true)
     end
@@ -230,7 +230,7 @@ class Report < ApplicationRecord
   end
 
   def build_field_query(field)
-    Reports::FieldQueries::FieldQuery.new(field: field, record_field_name: record_field_name(field))
+    Reports::FieldQueries::FieldQuery.new(field:, record_field_name: record_field_name(field))
   end
 
   def record_field_name(field)
@@ -245,19 +245,17 @@ class Report < ApplicationRecord
     filter_query = filters.reduce(query) do |current_query, filter|
       field = filter_fields[filter['attribute']]
       Reports::FilterFieldQuery.new(
-        query: current_query, field: field, filter: filter, record_field_name: record_field_name(field)
+        query: current_query, field:, filter:, record_field_name: record_field_name(field)
       ).apply
     end
 
-    filter_query = apply_permission_filter(filter_query)
-
-    filter_query
+    apply_permission_filter(filter_query)
   end
 
   def apply_permission_filter(query)
     return query unless permission_filter.present?
 
-    Reports::FilterFieldQuery.new(permission_filter: permission_filter, query: query).apply
+    Reports::FilterFieldQuery.new(permission_filter:, query:).apply
   end
 
   def age_field?(field)
@@ -303,11 +301,21 @@ class Report < ApplicationRecord
   end
 
   def pivot_fields
-    @pivot_fields ||= Field.find_by_name(pivots).group_by(&:name).map { |k, v| [k, v.first] }.to_h
+    @pivot_fields ||= Field.find_by_name(pivots).group_by(&:name).transform_values(&:first)
   end
 
   def pivots_map
-    @pivots_map ||= pivots.map { |pivot| [pivot, pivot_fields[pivot.gsub(/\d+$/, '')]] }.to_h
+    @pivots_map ||= pivots.to_h do |pivot|
+      [pivot, pivot_fields[pivot] || pivot_fields[Field.remove_admin_level_from_name(pivot)]]
+    end
+  end
+
+  def select_fields(query)
+    query.select(
+      Arel.sql(
+        "#{ActiveRecord::Base.sanitize_sql(field_queries.map(&:to_sql).join(",\n"))}, count(*) as total"
+      )
+    )
   end
 end
 # rubocop:enable Metrics/ClassLength

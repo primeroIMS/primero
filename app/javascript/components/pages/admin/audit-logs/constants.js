@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const NAME = "AuditLogs";
 export const AUDIT_LOG = "audit_logs";
 export const USER_NAME = "user_name";

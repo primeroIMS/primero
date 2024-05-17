@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This is a placeholder class for future use of Primero as a multi-program application.
 # Currently multiple programs are modeled either through roles or by spinning
 # up a new instance of Primero.

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 require 'sunspot'
 require 'will_paginate'
@@ -47,8 +49,8 @@ describe TracingRequest do
   describe 'managing traces' do
     describe 'update_properties' do
       let(:tracing_request) { TracingRequest.create!(relation_name: 'William Jones') }
-      let(:trace1) { Trace.create!(tracing_request: tracing_request, relation: 'father', name: 'Ethel') }
-      let(:trace2) { Trace.create!(tracing_request: tracing_request, relation: 'father', name: 'Allister Jones') }
+      let(:trace1) { Trace.create!(tracing_request:, relation: 'father', name: 'Ethel') }
+      let(:trace2) { Trace.create!(tracing_request:, relation: 'father', name: 'Allister Jones') }
       let(:uuid) { SecureRandom.uuid }
 
       before do

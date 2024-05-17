@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Represents a query against a field
 class Reports::FieldQueries::FieldQuery < ValueObject
   DATE_FORMAT = 'YYYY-MM-DD'
@@ -16,7 +18,7 @@ class Reports::FieldQueries::FieldQuery < ValueObject
   def default_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
-        "COALESCE(#{data_column_name} ->> :field_name, 'incomplete_data') AS #{column_name}", field_name: field.name
+        "COALESCE(#{data_column_name} ->> :field_name, 'incomplete_data') AS #{column_name}", { field_name: field.name }
       ]
     )
   end
@@ -37,7 +39,7 @@ class Reports::FieldQueries::FieldQuery < ValueObject
   def multi_select_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
-        "jsonb_array_elements_text(#{data_column_name}-> :field_name) as #{column_name}", field_name: field.name
+        "jsonb_array_elements_text(#{data_column_name}-> :field_name) as #{column_name}", { field_name: field.name }
       ]
     )
   end
