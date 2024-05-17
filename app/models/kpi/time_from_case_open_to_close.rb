@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # TimeFromCaseOpenToClose Search
 #
 # For cases created between a given range of months, looks at the
@@ -36,6 +38,6 @@ class Kpi::TimeFromCaseOpenToClose < Kpi::BucketedSearch
   end
 
   def to_json(*_args)
-    { data: data }
+    { data: }
   end
 end

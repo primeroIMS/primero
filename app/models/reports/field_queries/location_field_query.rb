@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Represents a query against a location field
 class Reports::FieldQueries::LocationFieldQuery < Reports::FieldQueries::FieldQuery
   attr_accessor :admin_level
@@ -16,8 +18,8 @@ class Reports::FieldQueries::LocationFieldQuery < Reports::FieldQueries::FieldQu
             from locations where location_code = #{data_column_name}->>:field_name
           ) as #{column_name}
         ),
-        field_name: field.name,
-        admin_level: admin_level
+        { field_name: field.name,
+          admin_level: }
       ]
     )
   end

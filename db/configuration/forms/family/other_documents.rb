@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 document_fields = [
   Field.new(name: 'documents',
             type: 'document_upload_box',
@@ -18,6 +20,6 @@ FormSection.create_or_update!(
   editable: false,
   name_en: 'Documents',
   description_en: 'Documents',
-  form_group_id: 'documents',
+  form_group_id: 'family_documents',
   display_help_text_view: true
 )

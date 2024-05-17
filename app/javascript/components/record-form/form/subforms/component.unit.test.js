@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { setupMountedComponent } from "../../../../test";
 import { RECORD_TYPES } from "../../../../config";
 import { TEXT_FIELD_NAME } from "../constants";

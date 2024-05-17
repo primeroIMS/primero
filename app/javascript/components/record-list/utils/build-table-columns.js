@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
 import { fromJS } from "immutable";
@@ -92,7 +94,11 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online) 
               return {
                 sort: column.get("sort", true),
                 customBodyRender: (value, { rowIndex }) => (
-                  <DisableColumnOffline value={value} rowAvailable={rowAvailable(rowIndex, data)} />
+                  <DisableColumnOffline
+                    value={value}
+                    rowAvailable={rowAvailable(rowIndex, data)}
+                    type={name.includes("date") ? "date" : ""}
+                  />
                 )
               };
           }

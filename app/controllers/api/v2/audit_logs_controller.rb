@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Audit logs query API
 class Api::V2::AuditLogsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
 
   def index
     authorize! :read, AuditLog
-    @audit_logs = AuditLog.logs(audit_logs_params[:user_name], timestamp_param, order_by: order_by, order: order)
+    @audit_logs = AuditLog.logs(audit_logs_params[:user_name], timestamp_param, order_by:, order:)
     @total = @audit_logs.size
     @audit_logs = @audit_logs.paginate(pagination)
   end

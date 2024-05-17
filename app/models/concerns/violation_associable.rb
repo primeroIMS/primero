@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This describes all models that may be associable to a violation (MRM)
 module ViolationAssociable
   extend ActiveSupport::Concern

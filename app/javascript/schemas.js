@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { normalize, schema, denormalize } from "normalizr";
 
 const field = new schema.Entity(
