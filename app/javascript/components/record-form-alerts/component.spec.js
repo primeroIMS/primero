@@ -52,6 +52,6 @@ describe("<RecordFormAlerts />", () => {
     };
 
     mountedComponent(<RecordFormAlerts {...props} />, initialState);
-    expect(screen.getByText("error_message.address_form_fields.")).toBeInTheDocument();
+    expect(screen.getByText("error_message.address_form_fields")).toBeInTheDocument();
   });
 });
