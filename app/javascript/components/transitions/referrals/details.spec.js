@@ -57,6 +57,7 @@ describe("<ReferralDetail />", () => {
       it("should render rejected reason", () => {
         mountedComponent(<ReferralDetail {...rejectedProps} />, initialState);
         expect(screen.getAllByTestId("display-data")).toHaveLength(7);
+        expect(screen.queryByText("transition.rejected")).toBeInTheDocument();
       });
     });
     describe("when is pending, done, in_progress, accepted", () => {
