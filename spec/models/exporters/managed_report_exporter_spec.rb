@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Exporters::ManagedReportExporter do
@@ -520,7 +522,7 @@ describe Exporters::ManagedReportExporter do
           it 'prints report params' do
             result = '<html><b>View By: </b>Year / <b>Date Range: </b>Custom / '\
             "<b>From: </b>#{(Date.today - 1.year).strftime('%Y-%m-%d')} / "\
-            "<b>To: </b>#{(Date.today.end_of_year).strftime('%Y-%m-%d')} / <b>Date: </b>Date of Incident / </html>"
+            "<b>To: </b>#{Date.today.end_of_year.strftime('%Y-%m-%d')} / <b>Date: </b>Date of Incident / </html>"
 
             expect(workbook_grouped.sheet(0).row(2)).to match_array([result, nil, nil])
           end

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { stub } from "../../../test";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { RECORD_PATH, METHODS } from "../../../config";

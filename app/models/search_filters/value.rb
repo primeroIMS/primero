@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Transform API query parameter field_name=value into a Sunspot query
 class SearchFilters::Value < SearchFilters::SearchFilter
   attr_accessor :field_name, :value
@@ -34,8 +36,8 @@ class SearchFilters::Value < SearchFilters::SearchFilter
   def to_h
     {
       type: 'value',
-      field_name: field_name,
-      value: value
+      field_name:,
+      value:
     }
   end
 

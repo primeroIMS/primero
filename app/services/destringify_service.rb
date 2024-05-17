@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # A service to convert the boolean, date, integer, and time string values
 # of object with a ruby Hash interface (such as the Rails params) to
 # Date, Time, Integer, and Boolean ruby objects.
@@ -45,7 +47,7 @@ class DestringifyService
       if has_numeric_keys
         value.sort_by { |k, _| k.to_i }.map { |_, v| destringify(v, lists_and_ranges) }
       else
-        value.map { |k, v| [k, destringify(v, lists_and_ranges)] }.to_h
+        value.transform_values { |v| destringify(v, lists_and_ranges) }
       end
     else
       if lists_and_ranges && value.is_a?(String)

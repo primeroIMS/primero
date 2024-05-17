@@ -1,0 +1,23 @@
+{
+  // .swcrc should be treated as JSONC
+
+  "sourceMaps": true,
+
+  "jsc": {
+    "parser": {
+      "syntax": "ecmascript",
+      "jsx": true
+    },
+
+    "transform": {
+      "react": {
+        "runtime": "automatic"
+      }
+    },
+
+    "baseUrl": "./app/javascript",
+    "paths": {
+      "test-utils":[ "./test-utils/index.js"]
+    }
+  }
+}

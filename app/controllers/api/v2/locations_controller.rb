@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Locations CRUD API
 class Api::V2::LocationsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
@@ -8,7 +10,7 @@ class Api::V2::LocationsController < ApplicationApiController
   def index
     authorize! :index, Location
     filters = locations_filters(params.permit(disabled: {}))
-    filtered_locations = Location.list(filters, params.merge(order_by: order_by))
+    filtered_locations = Location.list(filters, params.merge(order_by:))
     @total = filtered_locations.size
     @locations = filtered_locations.paginate(pagination)
     @with_hierarchy = params[:hierarchy] == 'true'
@@ -19,7 +21,7 @@ class Api::V2::LocationsController < ApplicationApiController
     @location = Location.new_with_properties(location_params)
     @location.save!
     status = params[:data][:id].present? ? 204 : 200
-    render :create, status: status
+    render :create, status:
   end
 
   def show

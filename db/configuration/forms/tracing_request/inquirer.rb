@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 tracing_request_inquirer_fields = [
   Field.new('name' => 'tracing_request_id',
             'type' => 'text_field',
