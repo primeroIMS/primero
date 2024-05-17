@@ -69,7 +69,8 @@ if models.include?('Child')
           'case_plan_due_dates' => record.calculate_case_plan_due_dates,
           'followup_due_dates' => record.calculate_followup_due_dates,
           'service_due_dates' => record.calculate_service_due_dates,
-          'followup_dates' => record.calculate_followup_dates
+          'followup_dates' => record.calculate_followup_dates,
+          'tracing_dates' => record.calculate_tracing_dates
         ),
         'phonetic_data' => { 'tokens' => record.generate_tokens }
       }
