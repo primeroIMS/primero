@@ -43,7 +43,6 @@ class Child < ApplicationRecord
   include Kpi::GBVChild
   include DuplicateIdAlertable
   include FollowUpable
-  include Reunifiable
   include LocationCacheable
   include FamilyLinkable
   include PhoneticSearchable
@@ -69,7 +68,7 @@ class Child < ApplicationRecord
     :urgent_protection_concern, :child_preferences_section, :family_details_section, :care_arrangements_section,
     :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan,
     :family_member_id, :family_id_display, :family_number, :has_incidents, :assessment_due_dates,
-    :case_plan_due_dates, :followup_due_dates
+    :case_plan_due_dates, :followup_due_dates, :reunification_details_section, :reunification_dates
   )
   # rubocop:enable Naming/VariableNumber
 
@@ -168,6 +167,7 @@ class Child < ApplicationRecord
   before_save :calculate_assessment_due_dates
   before_save :calculate_case_plan_due_dates
   before_save :calculate_followup_due_dates
+  before_save :calculate_reunification_dates
   before_create :hide_name
   after_save :save_incidents
 
@@ -335,6 +335,14 @@ class Child < ApplicationRecord
     self.followup_due_dates = Tasks::FollowUpTask.from_case(self).map(&:due_date).compact
 
     followup_due_dates
+  end
+
+  def calculate_reunification_dates
+    self.reunification_dates = reunification_details_section&.reduce([]) do |acc, elem|
+      acc << elem['date_reunification']
+    end&.compact
+
+    reunification_dates
   end
 
   def sync_protection_concerns
