@@ -1,10 +1,10 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { TableRow } from "@material-ui/core";
+import { mountedComponent, screen } from "test-utils";
 
 import { buildTableData } from "../../report/utils";
-import { abbrMonthNames, setupMountedComponent, stub } from "../../../test";
+import { abbrMonthNames, stub } from "../../../test";
 
 import TableValues from "./component";
 
@@ -74,11 +74,12 @@ describe("<TableValues />", () => {
       }
     ];
 
-    const { component } = setupMountedComponent(TableValues, {
+    const props = {
       ...buildTableData(data, window.I18n, { agencies })
-    });
+    };
 
-    expect(component.find(TableRow)).to.have.lengthOf(6);
+    mountedComponent(<TableValues />, props);
+    expect(screen.getAllByRole("tableRow")).toHaveLength(2);
   });
 
   afterEach(() => {

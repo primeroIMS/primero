@@ -3,16 +3,14 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Brightness1 as Circle } from "@material-ui/icons";
-
 import css from "./styles.css";
 
 const Jewel = ({ value, isForm, isList, isError }) => {
   const classes = clsx(css.circleForm, css.error);
 
   if (isList) {
-    return <Circle className={css.circleList} />;
+    return <Circle className={css.circleList} data-testid="jewel"/>;
   }
-
   if (isError && !isForm) {
     return (
       <div data-testid="jewel-error">

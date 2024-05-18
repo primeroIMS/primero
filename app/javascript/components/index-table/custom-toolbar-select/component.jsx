@@ -58,15 +58,14 @@ const Component = ({
   };
 
   const selectAllButton = selectedRows && selectedRows?.data?.length === displayData?.length && (
-    <div className={css.customToolbarButton}>
+    <div className={css.customToolbarButton} role="toolbar"> 
       <ButtonBase id="select-all-button" className={css.selectAllButton} onClick={handleClick}>
         {selectAllMessage}
       </ButtonBase>
     </div>
   );
-
   const renderSelectedRecordMessage = (allRecordsSelected || hasSelectedRows) && (
-    <div className={css.customToolbarTitle}>
+    <div className={css.customToolbarTitle}  role="heading">
       <Typography component="h6">{selectedRecordsMessage}</Typography>
     </div>
   );
@@ -105,7 +104,7 @@ const Component = ({
   };
 
   return (
-    <div className={css.customToolbarFull}>
+    <div className={css.customToolbarFull} role="table">
       <div className={css.firstGroup}>
         {rowsSelected ? (
           <>

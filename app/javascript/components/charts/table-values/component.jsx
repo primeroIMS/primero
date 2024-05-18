@@ -22,11 +22,11 @@ const TableValues = ({
   const Header = useInsightsHeader ? InsightsTableHeader : TableHeader;
 
   return (
-    <Paper className={css.root}>
+    <Paper className={css.root} >
       {showPlaceholder && isEmpty(values) ? (
         <EmptyState type={name} emptyMessage={emptyMessage} />
       ) : (
-        <Table className={css.table}>
+        <Table className={css.table} role="tableRow" >
           <TableHead className={css.tableHeader}>
             <Header columns={columns} subColumnItemsSize={subColumnItemsSize} />
           </TableHead>

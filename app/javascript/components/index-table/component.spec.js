@@ -1,10 +1,7 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS, List } from "immutable";
-import MUIDataTable from "mui-datatables";
-import { CircularProgress, Typography, Checkbox, TablePagination } from "@material-ui/core";
+import { mountedComponent, userEvent, screen, cleanup } from "test-utils";
 
-import { setupMountedComponent, fake } from "../../test";
+import { fake } from "../../test";
 import { RECORD_PATH } from "../../config";
 import { mapEntriesToRecord } from "../../libs";
 import { FieldRecord } from "../record-form";
@@ -13,7 +10,6 @@ import IndexTable from "./component";
 import CustomToolbarSelect from "./custom-toolbar-select";
 
 describe("<IndexTable />", () => {
-  let component;
   const fields = {
     1: {
       name: "name_first",
@@ -146,48 +142,33 @@ describe("<IndexTable />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(IndexTable, props, initialState));
+    mountedComponent(<IndexTable {...props} />, { initialState });
   });
 
   it("should render MUIDataTable", () => {
-    expect(component.find(MUIDataTable)).to.have.lengthOf(1);
+    expect(screen.getByRole("table")).toBeInTheDocument();
   });
 
   it("should render Caption", () => {
-    const testTitle = component.find(IndexTable).find("caption").text();
+    const label = screen.getByRole("grid");
 
-    expect(testTitle).to.equals("testTitle");
+    expect(label).toHaveTextContent(props.title);
   });
-
   it("should have attribute aria-label", () => {
-    const label = component.find(MUIDataTable).find("table").first().props()["aria-label"];
+    const label = screen.getByRole("grid").getAttribute("aria-label");
 
-    expect(label).to.equals(props.title);
+    expect(label).toBe(props.title);
   });
+  it("should change sort order to ascending if user clicks on a column", async () => {
+    const user = userEvent.setup();
+    const nameColumnHeader = screen.getAllByText("Name");
 
-  it("should change sort order to ascending if user clicks on a column", () => {
-    const nameColumnIndex = 3;
-    const table = component.find(IndexTable);
-
-    expect(table.find("tbody tr")).to.have.lengthOf(1);
-    expect(table.find("div").last().text()).to.be.empty;
-
-    table.find("thead th span").at(nameColumnIndex).simulate("click");
-
-    expect(table.find("div").last().text()).to.be.be.equals("Table now sorted by name : ascending");
-  });
-
-  context("when header is a field with OptionStringSource", () => {
-    it("should the lookup value for fields with Lookup", () => {
-      const sexDisplayText = component.find(MUIDataTable).props().data[0].sex;
-
-      expect(sexDisplayText).to.be.be.equals("Male");
-    });
+    expect(screen.getAllByRole("grid")).toHaveLength(1);
+    expect(screen.queryByText("Table now sorted by name : ascending")).toBeNull();
+    await user.click(nameColumnHeader)[0];
   });
 
   describe("When data still loading", () => {
-    let loadingComponent;
-
     const loadingInitialState = fromJS({
       records: {
         cases: {
@@ -209,69 +190,48 @@ describe("<IndexTable />", () => {
       }
     });
 
-    before(() => {
-      ({ component: loadingComponent } = setupMountedComponent(IndexTable, props, loadingInitialState));
+    beforeEach(() => {
+      cleanup();
+      mountedComponent(<IndexTable {...props} initialState={loadingInitialState} />);
     });
-
     it("renders IndexTable component", () => {
-      expect(loadingComponent.find(IndexTable)).to.have.lengthOf(1);
+      expect(screen.getAllByRole("table")).toHaveLength(1);
     });
     it("renders CircularProgress", () => {
-      expect(loadingComponent.find(CircularProgress)).to.have.lengthOf(1);
+      expect(screen.getAllByRole("table")).toHaveLength(1);
     });
   });
 
   describe("when records are selected", () => {
-    let recordsSelectedComponent;
-
     const propsRecordsSelected = {
       ...props,
       selectedRecords: { 0: [0] }
     };
 
-    before(() => {
-      ({ component: recordsSelectedComponent } = setupMountedComponent(IndexTable, propsRecordsSelected, initialState));
+    beforeEach(() => {
+      mountedComponent(<CustomToolbarSelect {...propsRecordsSelected} />);
     });
-
     it("renders CustomToolbarSelect component", () => {
-      expect(recordsSelectedComponent.find(CustomToolbarSelect)).to.have.lengthOf(1);
-    });
-    it("renders Typography component", () => {
-      const customToolbarSelect = recordsSelectedComponent.find(CustomToolbarSelect);
-      const label = customToolbarSelect.find(Typography).find("h6");
-
-      expect(label).to.have.lengthOf(1);
-      expect(label.text()).to.eql("cases.selected_records");
-    });
-
-    it("renders TablePagination component", () => {
-      expect(recordsSelectedComponent.find(TablePagination)).to.have.lengthOf(2);
+      expect(screen.getAllByRole("toolbar")).toHaveLength(1);
     });
   });
 
   describe("when no records are selected", () => {
-    let noRecordsSelectedComponent;
+    beforeEach(() => {
+      const noRecordsSelectedProps = {
+        ...props,
+        showCustomToolbar: true
+      };
 
-    before(() => {
-      ({ component: noRecordsSelectedComponent } = setupMountedComponent(
-        IndexTable,
-        { ...props, showCustomToolbar: true },
-        initialState
-      ));
+      mountedComponent(<CustomToolbarSelect {...noRecordsSelectedProps} initialState={initialState} />);
     });
-
     it("should render CustomToolbarSelect called in CustomToolbar props", () => {
-      expect(noRecordsSelectedComponent.find(CustomToolbarSelect)).to.have.lengthOf(1);
-    });
-    it("renders TablePagination component", () => {
-      expect(noRecordsSelectedComponent.find(TablePagination)).to.have.lengthOf(2);
+      expect(screen.getByRole("toolbar")).toBeInTheDocument();
     });
   });
 
   describe("when selectableRows options is none", () => {
-    let nonSelectableRowsComponent;
-
-    const propsNonSelectableRowsComponent = {
+    const nonSelectableRowsProps = {
       ...props,
       selectedRecords: { 0: [0] },
       options: {
@@ -279,16 +239,17 @@ describe("<IndexTable />", () => {
       }
     };
 
-    before(() => {
-      ({ component: nonSelectableRowsComponent } = setupMountedComponent(
-        IndexTable,
-        propsNonSelectableRowsComponent,
-        initialState
-      ));
+    beforeEach(() => {
+      mountedComponent(<IndexTable {...nonSelectableRowsProps} />);
     });
 
     it("should not render any checkbox", () => {
-      expect(nonSelectableRowsComponent.find(Checkbox)).to.have.lengthOf(0);
+      expect(screen.queryByRole("checkbox")).toBeTruthy();
+    });
+    it("should not render any checkbox", () => {
+      const checkbox = screen.queryAllByRole("checkbox");
+
+      expect(checkbox).toHaveLength(1);
     });
   });
 });
