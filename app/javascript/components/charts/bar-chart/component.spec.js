@@ -36,6 +36,6 @@ describe("<BarChart />", () => {
 
     mountedComponent(<BarChart {...props} />);
     expect(screen.getByText("Number of cases broken down by nationality")).toBeInTheDocument();
-    expect(screen.getByRole("canvas")).toBeInTheDocument();
+    expect(screen.getAllByTestId("canva-report-graph")).toHaveLength(1);
   });
 });

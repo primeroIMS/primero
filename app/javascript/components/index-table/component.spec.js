@@ -192,13 +192,14 @@ describe("<IndexTable />", () => {
 
     beforeEach(() => {
       cleanup();
-      mountedComponent(<IndexTable {...props} initialState={loadingInitialState} />);
+      mountedComponent(<IndexTable {...props} />, loadingInitialState);
     });
     it("renders IndexTable component", () => {
       expect(screen.getAllByRole("table")).toHaveLength(1);
     });
     it("renders CircularProgress", () => {
-      expect(screen.getAllByRole("table")).toHaveLength(1);
+      screen.debug();
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
 
