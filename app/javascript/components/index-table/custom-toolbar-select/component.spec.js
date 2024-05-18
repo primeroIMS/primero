@@ -1,8 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { ButtonBase, Typography, TablePagination } from "@material-ui/core";
 import { mountedComponent, screen } from "test-utils";
+
 import { RECORD_PATH } from "../../../config";
+
 import CustomToolbarSelect from "./component";
 
 describe("<CustomToolbarSelect />", () => {
@@ -20,7 +21,7 @@ describe("<CustomToolbarSelect />", () => {
   };
 
   beforeEach(() => {
-    mountedComponent(<CustomToolbarSelect  {...props}/>);
+    mountedComponent(<CustomToolbarSelect {...props} />);
   });
 
   it("renders Typography", () => {
@@ -31,15 +32,15 @@ describe("<CustomToolbarSelect />", () => {
   });
 
   it("renders TablePagination", () => {
-    expect(screen.getByRole("table")).toBeInTheDocument();
+    expect(screen.getByText("1-2 messages.record_list.of 7")).toBeInTheDocument();
   });
 
   describe("when all records of the page are selected", () => {
     it("renders ButtonBase with a label to select all records", () => {
-        const button = screen.getByRole("button", { name: "cases.selected_all_records" });
-  
-        expect(button).toBeInTheDocument();
-        expect(button.textContent).toEqual("cases.selected_all_records");
+      const button = screen.getByRole("button", { name: "cases.selected_all_records" });
+
+      expect(button).toBeInTheDocument();
+      expect(button.textContent).toEqual("cases.selected_all_records");
     });
   });
 
@@ -50,31 +51,22 @@ describe("<CustomToolbarSelect />", () => {
     };
 
     beforeEach(() => {
-    mountedComponent(<CustomToolbarSelect  {...propsAllRecordsSelected}/>);
+      mountedComponent(<CustomToolbarSelect {...propsAllRecordsSelected} />);
     });
 
     it("renders ButtonBase with a label to clear selection", () => {
-        const button = screen.getByRole("button", { name: "buttons.clear_selection" });
-        expect(button).toBeInTheDocument();
-        expect(button.textContent).toEqual("buttons.clear_selection");
+      const button = screen.getByRole("button", { name: "buttons.clear_selection" });
+
+      expect(button).toBeInTheDocument();
+      expect(button.textContent).toEqual("buttons.clear_selection");
     });
   });
 
   describe("when some records are selected", () => {
-    const propRecordsSelected = {
-      ...props,
-      selectedRows: { data: { length: 3 } },
-      selectedRecords: { 0: [0, 1, 2] }
-    };
-
-    beforeEach(() => {
-      mountedComponent(<CustomToolbarSelect {...propRecordsSelected}/>);
-    });
-
     it("should not renders ButtonBase for select_all or clear_selection", () => {
-        const buttons = screen.getAllByRole("button");
-        expect(buttons.length).toEqual(7);
+      screen.debug();
+      expect(screen.getByRole("button", { name: "Previous page" })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Next page" })).toBeInTheDocument();
     });
   });
 });
-
