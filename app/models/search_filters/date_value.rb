@@ -4,6 +4,8 @@
 
 # Transform API query parameter field_name=value into a sql query
 class SearchFilters::DateValue < SearchFilters::Value
+  attr_accessor :date_include_time
+
   # rubocop:disable Metrics/MethodLength
   def query
     ActiveRecord::Base.sanitize_sql_for_conditions(
@@ -11,7 +13,7 @@ class SearchFilters::DateValue < SearchFilters::Value
         %(
           data->>:field_name IS NOT NULL AND EXISTS (
             SELECT 1 FROM JSONB_ARRAY_ELEMENTS_TEXT(data->:field_name || CAST('[]' AS JSONB)) AS date_field
-            WHERE TO_TIMESTAMP(:value, :date_format) #{@safe_operator} TO_TIMESTAMP(date_field, :date_format)
+            WHERE TO_TIMESTAMP(date_field, :date_format) #{@safe_operator} TO_TIMESTAMP(:value, :date_format)
           )
         ),
         { field_name:, value: value.iso8601, date_format: }
@@ -25,6 +27,6 @@ class SearchFilters::DateValue < SearchFilters::Value
   end
 
   def date_include_time?
-    value.is_a?(Time)
+    date_include_time || value.is_a?(Time)
   end
 end

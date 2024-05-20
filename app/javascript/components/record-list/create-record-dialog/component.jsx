@@ -3,7 +3,6 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
-import SearchIcon from "@material-ui/icons/Search";
 import { push } from "connected-react-router";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
@@ -24,8 +23,9 @@ import { SEARCH_OR_CREATE_FILTERS } from "../constants";
 import SearchNameToggle from "../../index-filters/components/search-name-toggle";
 import PhoneticHelpText from "../../index-filters/components/phonetic-help-text";
 import { searchTitleI18nKey } from "../../index-filters/components/search-box/utils";
+import SearchButton from "../../record-creation-flow/components/search-button";
 
-import { FORM_ID, NAME, FIELD_NAME_PHONETIC } from "./constants";
+import { FORM_ID, NAME, PHONETIC_FIELD_NAME } from "./constants";
 import { searchForm } from "./forms";
 import css from "./styles.css";
 
@@ -45,7 +45,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
     register
   } = methods;
 
-  const phonetic = useWatch({ control, name: FIELD_NAME_PHONETIC, defaultValue: false });
+  const phonetic = useWatch({ control, name: PHONETIC_FIELD_NAME, defaultValue: false });
   const record = useMemoizedSelector(state => getRecordsData(state, recordType));
   const searchTitle = i18n.t(searchTitleI18nKey(phonetic));
   const searchHelpText = i18n.t("case.search_helper_text");
@@ -78,7 +78,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
   };
 
   const handleSwitchChange = event => {
-    setValue(FIELD_NAME_PHONETIC, event.target.checked, { shouldDirty: true });
+    setValue(PHONETIC_FIELD_NAME, event.target.checked, { shouldDirty: true });
   };
 
   useEffect(() => {
@@ -98,12 +98,12 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
   }, [record]);
 
   useEffect(() => {
-    register(FIELD_NAME_PHONETIC);
+    register(PHONETIC_FIELD_NAME);
   }, [register]);
 
   useEffect(() => {
     if (open) {
-      setValue(FIELD_NAME_PHONETIC, false);
+      setValue(PHONETIC_FIELD_NAME, false);
     }
   }, [open]);
 
@@ -134,15 +134,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
               <SearchNameToggle handleChange={handleSwitchChange} value={phonetic} />
             </div>
             <div className={css.searchButton}>
-              <ActionButton
-                icon={<SearchIcon />}
-                text="navigation.search"
-                type={ACTION_BUTTON_TYPES.default}
-                rest={{
-                  form: FORM_ID,
-                  type: "submit"
-                }}
-              />
+              <SearchButton formId={FORM_ID} />
             </div>
           </div>
           {phonetic && <PhoneticHelpText />}

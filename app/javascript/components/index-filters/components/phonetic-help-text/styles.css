@@ -7,5 +7,10 @@
   & svg {
     color: var(--c-gold-yellow);
     height: var(--fs-12);
+    width: 0.5em;
+  }
+
+  & span {
+    padding-left: 5px;
   }
 }
