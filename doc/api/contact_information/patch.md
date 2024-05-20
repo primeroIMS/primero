@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Update the current contact information
 
 Merge the values submitted in this call into the current contact information.

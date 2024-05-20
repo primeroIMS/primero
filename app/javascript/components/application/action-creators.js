@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { batch } from "react-redux";
 
 import { DB_COLLECTIONS_NAMES } from "../../db";
@@ -35,11 +37,26 @@ export const fetchRoles = () => ({
   }
 });
 
+export const fetchWebpushConfig = () => ({
+  type: actions.FETCH_WEBPUSH_CONFIG,
+  api: {
+    path: RECORD_PATH.webpush_config
+  }
+});
+
 export const fetchManagedRoles = () => ({
   type: actions.FETCH_MANAGED_ROLES,
   api: {
     path: RECORD_PATH.roles,
     params: { external: true }
+  }
+});
+
+export const fetchReferralAuthorizationRoles = () => ({
+  type: actions.FETCH_REFERRAL_AUTHORIZATION_ROLES,
+  api: {
+    path: RECORD_PATH.roles,
+    params: { referral_authorization: true }
   }
 });
 
@@ -50,13 +67,14 @@ export const fetchUserGroups = () => ({
   }
 });
 
-export const loadApplicationResources = () => async dispatch => {
+export const loadApplicationResources = () => dispatch => {
   batch(() => {
     dispatch(fetchContactInformation());
     dispatch(fetchSystemSettings());
     dispatch(fetchSystemPermissions());
     dispatch(fetchForms());
     dispatch(fetchOptions());
+    dispatch(fetchWebpushConfig());
   });
 };
 
@@ -92,5 +110,10 @@ export const fetchAgencyLogoOptions = () => ({
 
 export const setReturnUrl = payload => ({
   type: actions.SET_RETURN_URL,
+  payload
+});
+
+export const setTheme = payload => ({
+  type: actions.SET_THEME,
   payload
 });

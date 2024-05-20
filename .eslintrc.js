@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 const developmentEnv = process.env.NODE_ENV === "development";
 
 module.exports = {

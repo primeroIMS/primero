@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Class for Saved Search
 class SavedSearch < ApplicationRecord
   belongs_to :user
@@ -11,7 +13,7 @@ class SavedSearch < ApplicationRecord
       record_type: data[:record_type],
       filters: data[:filters],
       primero_modules: PrimeroModule.where(unique_id: data[:module_ids]),
-      user: user
+      user:
     )
   end
 

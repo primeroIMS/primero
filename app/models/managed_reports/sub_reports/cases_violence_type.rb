@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Describes Cases based on violence type by gender/age subreport in Primero.
 class ManagedReports::SubReports::CasesViolenceType < ManagedReports::SubReport
   def id

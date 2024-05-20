@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { Draggable } from "react-beautiful-dnd";
 
@@ -51,7 +53,7 @@ const Component = ({
   );
 
   return (
-    <Draggable key={uniqueId} draggableId={uniqueId} index={index} isDragDisabled={isDragDisabled}>
+    <Draggable data-testid="draggable" key={uniqueId} draggableId={uniqueId} index={index} isDragDisabled={isDragDisabled}>
       {provider => {
         return (
           <div ref={provider.innerRef} {...provider.draggableProps} {...provider.dragHandleProps} className={css.row}>

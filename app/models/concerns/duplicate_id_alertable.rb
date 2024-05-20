@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Alerts for duplicate id fields
 module DuplicateIdAlertable
   extend ActiveSupport::Concern

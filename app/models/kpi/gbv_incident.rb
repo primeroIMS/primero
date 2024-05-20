@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Module for capturing all of the GBV Kpi related logic for the Child model
 module Kpi::GBVIncident
   extend ActiveSupport::Concern

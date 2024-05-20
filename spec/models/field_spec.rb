@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Field do
@@ -371,7 +373,7 @@ describe Field do
     # Try to create a FormSection with duplicate fields. That will make fails the save.
     fields = [Field.new(name: 'test_field2', display_name_en: 'test_field', type: Field::TEXT_FIELD),
               Field.new(name: 'test_field2', display_name_en: 'test_field', type: Field::TEXT_FIELD)]
-    form = FormSection.create name: 'test_form2', unique_id: 'test_form', fields: fields
+    form = FormSection.create(name: 'test_form2', unique_id: 'test_form', fields:)
     expect(fields.first.errors.count).to eq(0)
     expect(form.errors.count).to be > 0
     expect(form.errors[:fields]).to eq(['errors.models.form_section.unique_field_names'])
@@ -384,7 +386,7 @@ describe Field do
     # Create the FormSection with two valid fields.
     fields = [Field.new(name: 'test_field1', display_name_en: 'test_field1', type: Field::TEXT_FIELD),
               Field.new(name: 'test_field2', display_name_en: 'test_field2', type: Field::TEXT_FIELD)]
-    form = FormSection.create name: 'test_form2', unique_id: 'test_form', fields: fields
+    form = FormSection.create(name: 'test_form2', unique_id: 'test_form', fields:)
     expect(fields.first.errors.count).to be == 0
     expect(fields.first.new_record?).to be_falsey
     expect(fields.last.errors.count).to be == 0
@@ -918,7 +920,7 @@ describe Field do
       before do
         @field = Field.new(display_name: 'test 1', name: 'test1')
         FormSection.create!(name_en: 'Test Subform', parent_form: 'case', unique_id: 'form_section_subform',
-                            fields:[@field], is_nested: true)
+                            fields: [@field], is_nested: true)
       end
 
       it 'is true' do
@@ -930,7 +932,7 @@ describe Field do
       before do
         @field = Field.new(display_name: 'test 1', name: 'test1')
         FormSection.create!(name_en: 'Test Regular Form', parent_form: 'case', unique_id: 'form_section_not_nested',
-                            fields:[@field])
+                            fields: [@field])
       end
 
       it 'is false' do
@@ -942,8 +944,12 @@ describe Field do
   describe 'ConfigurationRecord' do
     describe '#configuration_hash' do
       let(:form1) { FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm') }
-      let(:field1) { Field.create!(name: 'test', display_name: 'test', type: Field::TEXT_FIELD, form_section_id: form1.id) }
-      let(:subform) { FormSection.create!(unique_id: 'B', name: 'B', parent_form: 'case', form_group_id: 'm', is_nested: true) }
+      let(:field1) do
+        Field.create!(name: 'test', display_name: 'test', type: Field::TEXT_FIELD, form_section_id: form1.id)
+      end
+      let(:subform) do
+        FormSection.create!(unique_id: 'B', name: 'B', parent_form: 'case', form_group_id: 'm', is_nested: true)
+      end
       let(:field_on_subform) do
         Field.create!(
           name: 'test2', type: Field::TEXT_FIELD, form_section_id: subform.id, display_name: 'test',
