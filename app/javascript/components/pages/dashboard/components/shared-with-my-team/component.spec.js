@@ -54,7 +54,7 @@ describe("<SharedWithMyTeam> - pages/dashboard/components/shared-with-my-team", 
   });
 
   it("should render shared_with_my_team_pending_transfers column", () => {
-    expect(screen.getAllByText("dashboard.shared_with_my_team_pending_transfers")[2]).toBeInTheDocument();
+    expect(screen.getAllByText("dashboard.shared_with_my_team_pending_transfers")[1]).toBeInTheDocument();
   });
 
   describe("when the data is loading", () => {
