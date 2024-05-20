@@ -14,3 +14,4 @@ export { default as mountedThemeComponent } from "./mounted-theme-component";
 export { default as simpleMountedComponent } from "./simple-mounted-component";
 export { mountedFieldComponent, mountedFormComponent } from "./mounted-form-component";
 export { default as setupHook } from "./setup-hook";
+export { abbrMonthNames, freezeTimeZone } from "./i18n";
