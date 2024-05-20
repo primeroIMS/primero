@@ -251,6 +251,7 @@ describe Filter do
           { id: 'date_case_plan', display_name: 'Date of Case Plan' },
           { id: 'date_closure', display_name: 'Date of Case Closure ' },
           { id: 'followup_dates', display_name: 'Date of Follow Up' },
+          { id: 'service_implemented_day_times', display_name: 'Date Service Completed' },
           { id: 'created_at', display_name: 'Case Open Date' }
         ]
         expect(
