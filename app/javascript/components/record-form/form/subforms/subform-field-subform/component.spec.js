@@ -1,6 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { mountedComponent, screen } from "../../../../../test-utils";
+import { mountedComponent, screen } from "test-utils";
+
 import SubformFieldSubform from "./component";
 import { EXPANDED } from "./constants";
 
@@ -33,6 +34,6 @@ describe("<SubformErrors />", () => {
 
   it("render the SubformFieldSubform", () => {
     mountedComponent(<SubformFieldSubform {...props} />, {}, [], [], { initialValues: {} });
-    expect(screen.getAllByTestId("dialog")).toHaveLength(2);
+    expect(screen.getAllByTestId("subform-field-subform")).toHaveLength(1);
   });
 });

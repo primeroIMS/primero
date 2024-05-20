@@ -132,10 +132,7 @@ const ActionDialog = ({
   }, [open, fetchAction]);
 
   return (
-
-
-    <div onClick={stopPropagation} data-testid="dialog">
-
+    <div onClick={stopPropagation}>
       <Dialog
         open={open}
         onClose={onCloseDialog}
