@@ -70,6 +70,7 @@ if models.include?('Child')
           'followup_due_dates' => record.calculate_followup_due_dates,
           'service_due_dates' => record.calculate_service_due_dates,
           'followup_dates' => record.calculate_followup_dates,
+          'reunification_dates' => record.calculate_reunification_dates,
           'tracing_dates' => record.calculate_tracing_dates
         ),
         'phonetic_data' => { 'tokens' => record.generate_tokens }
