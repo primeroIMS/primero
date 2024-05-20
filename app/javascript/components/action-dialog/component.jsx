@@ -132,8 +132,10 @@ const ActionDialog = ({
   }, [open, fetchAction]);
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
-    <div onClick={stopPropagation} data-testid="action-dialog">
+
+
+    <div onClick={stopPropagation} data-testid="dialog">
+
       <Dialog
         open={open}
         onClose={onCloseDialog}
