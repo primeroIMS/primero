@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::PrimeroConfigurationsController, type: :request do
@@ -17,7 +19,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
     module1 = PrimeroModule.create!(
       unique_id: 'primeromodule-cp-a', name: 'CPA', associated_record_types: %w[case], form_sections: [@form1]
     )
-    @role1 = Role.create!(name: 'Role', permissions: permissions)
+    @role1 = Role.create!(name: 'Role', permissions:)
     @user_group1 = UserGroup.create!(name: 'Test Group')
     @report1 = Report.create!(
       record_type: 'case', name_en: 'Test', unique_id: 'report-test',
@@ -82,7 +84,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
       context 'and config data is not passed in' do
         it 'creates a configuration record from the current configuration state' do
           params = { data: { name: 'Test' } }
-          post '/api/v2/configurations', params: params
+          post('/api/v2/configurations', params:)
 
           expect(response).to have_http_status(200)
           expect(json['data']['name']).to eq('Test')
@@ -101,7 +103,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
 
           it 'creates a configuration record from the data passed in' do
             params = { data: { id: '3483dc29-1b4d-402d-9ed1-aaa76b9391e0', name: 'Test', data: @config_data } }
-            post '/api/v2/configurations', params: params
+            post('/api/v2/configurations', params:)
 
             expect(response).to have_http_status(200)
             expect(json['data']['name']).to eq('Test')
@@ -119,7 +121,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
 
           it 'return a Invalid Record JSON' do
             params = { data: { id: '0123456', name: 'Test', description: nil, data: @config_data } }
-            post '/api/v2/configurations', params: params
+            post('/api/v2/configurations', params:)
 
             expect(response).to have_http_status(422)
             expect(json['errors'].size).to eq(1)
@@ -151,7 +153,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
 
           it 'returns 422' do
             params = { data: { name: 'Test', data: @config_data } }
-            post '/api/v2/configurations', params: params
+            post('/api/v2/configurations', params:)
 
             expect(response).to have_http_status(422)
             expect(json['errors'].size).to eq(1)
@@ -165,7 +167,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
       context 'and primero_version is passed in' do
         it 'creates a configuration record with the right primero version' do
           params = { data: { name: 'Test', primero_version: '2.5.5' } }
-          post '/api/v2/configurations', params: params
+          post('/api/v2/configurations', params:)
 
           expect(response).to have_http_status(200)
           expect(json['data']['name']).to eq('Test')
@@ -181,7 +183,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
 
       it 'returns 403' do
         params = { name: 'Test' }
-        post '/api/v2/configurations', params: params
+        post('/api/v2/configurations', params:)
 
         expect(response).to have_http_status(403)
       end
@@ -197,7 +199,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
     it 'launches the apply configuration job if the parameter apply_now is set' do
       params = { data: { apply_now: true } }
       login_for_test(permissions: correct_permissions)
-      patch "/api/v2/configurations/#{@configuration.id}", params: params, as: :json
+      patch "/api/v2/configurations/#{@configuration.id}", params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(ApplyConfigurationJob).to have_been_enqueued
@@ -207,7 +209,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
     it 'does not launch the apply configuration job if the parameter apply_now is not set' do
       params = { data: { name: 'Test' } }
       login_for_test(permissions: correct_permissions)
-      patch "/api/v2/configurations/#{@configuration.id}", params: params, as: :json
+      patch "/api/v2/configurations/#{@configuration.id}", params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(ApplyConfigurationJob).not_to have_been_enqueued
@@ -217,7 +219,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
     it 'launches the configuration promotion job if the parameter promote is set' do
       params = { data: { promote: true } }
       login_for_test(permissions: correct_permissions)
-      patch "/api/v2/configurations/#{@configuration.id}", params: params, as: :json
+      patch "/api/v2/configurations/#{@configuration.id}", params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(PrimeroConfigurationSyncJob).to have_been_enqueued
@@ -227,7 +229,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
     it 'returns 403 if user is not authorized to update' do
       params = { data: { apply_now: true } }
       login_for_test
-      patch "/api/v2/configurations/#{@configuration.id}", params: params, as: :json
+      patch "/api/v2/configurations/#{@configuration.id}", params:, as: :json
 
       expect(response).to have_http_status(403)
     end

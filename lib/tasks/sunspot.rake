@@ -48,7 +48,7 @@ namespace :sunspot do
   def batch_reindex(model, batch_size = 500, location_service = nil)
     puts "Reindexing #{model.count} #{model.name} records in batches of #{batch_size}..."
 
-    model.all.find_in_batches(batch_size: batch_size) do |records|
+    model.all.find_in_batches(batch_size:) do |records|
       records.each { |r| r.location_service = location_service } unless model == Trace
       Sunspot.index(records)
       index_flags_for_records(model, records, batch_size)

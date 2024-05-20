@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { visibilityFields, visibilityForm } from "./visibility";
 
 describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - visibility", () => {

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Import form and lookup YAML translations
 class Importers::YmlConfigImporter < ValueObject
   attr_accessor :file_name, :class_to_import, :locale, :errors, :failures
@@ -50,7 +52,7 @@ class Importers::YmlConfigImporter < ValueObject
   end
 
   def process_config_data(config_data)
-    config_data.values.each do |config|
+    config_data.each_value do |config|
       config = strip_hash_values!(config)
       send("import_#{class_to_import.underscore}", locale, config) if %w[FormSection Lookup].include?(class_to_import)
     end
@@ -61,7 +63,7 @@ class Importers::YmlConfigImporter < ValueObject
     unique_id = config.keys.first
     return log_errors('Error importing translations: Form ID not present') if unique_id.blank?
 
-    form = FormSection.find_by(unique_id: unique_id)
+    form = FormSection.find_by(unique_id:)
     return log_errors("Error importing translations: Form for ID [#{unique_id}] not found") if form.blank?
 
     form.update_translations(locale, config.values.first)

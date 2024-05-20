@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import TraceComparisonForm from "../../../record-form/form/subforms/subform-traces/components/trace-comparison-form";

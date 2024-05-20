@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Map, OrderedMap } from "immutable";
 
 import { COMBINED_INDICATORS } from "../constants";

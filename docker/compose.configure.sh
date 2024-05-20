@@ -1,4 +1,5 @@
 #! /bin/bash
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 set -eux
 
@@ -16,4 +17,4 @@ then
   ENV_PRIMERO_CONFIGURATION_FILE="-e PRIMERO_CONFIGURATION_FILE=/primero-configuration/${PRIMERO_CONFIGURATION_FILE}"
 fi
 
-./compose.prod.sh run ${CONFIGURATION_MOUNT} ${ENV_PRIMERO_CONFIGURATION_FILE} application primero-bootstrap
+./compose.prod.sh -f docker-compose.configure.yml run --rm ${CONFIGURATION_MOUNT} ${ENV_PRIMERO_CONFIGURATION_FILE} configure primero-bootstrap

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { fromJS } from "immutable";
@@ -6,7 +8,6 @@ import { batch, useDispatch } from "react-redux";
 import { push, replace } from "connected-react-router";
 import qs from "qs";
 
-import { RECORD_TYPES_PLURAL } from "../../config";
 import IndexTable from "../index-table";
 import { useI18n } from "../i18n";
 import Filters, { getFiltersValuesByRecordType } from "../index-filters";
@@ -77,7 +78,7 @@ const Container = ({ match, location }) => {
       select_records: numberErrorsBulkAssign
     });
 
-    const successMessages = i18n.t("reassign.multiple_successfully", {
+    const successMessages = i18n.t(`${recordType}.reassign.multiple_successfully`, {
       select_records: numberRecordsBulkAssign
     });
 
@@ -184,7 +185,6 @@ const Container = ({ match, location }) => {
                 selectedRecords={selectedRecords}
                 isRowSelectable={rowSelectable}
                 setSelectedRecords={handleSelectedRecords}
-                useReportingLocations={recordType !== RECORD_TYPES_PLURAL.family}
               />
             </div>
           </div>

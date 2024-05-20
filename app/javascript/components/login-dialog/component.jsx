@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import ActionDialog, { useDialog } from "../action-dialog";
 import { useApp } from "../application";
 import { useI18n } from "../i18n";

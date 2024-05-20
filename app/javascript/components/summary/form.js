@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable import/prefer-default-export */
 
 import { RADIO_FIELD, SELECT_FIELD, LINK_TO_FORM } from "../record-form/constants";

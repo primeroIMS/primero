@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Describes a request by a single individual to trace one or more children (cases)
 class TracingRequest < ApplicationRecord
   include Record
