@@ -4,7 +4,7 @@ definitions:
   steps:
     - step: &server-test
         name: Server tests
-        image: ruby:3.2.3-bookworm
+        image: ruby:3.3.1-bookworm
         script:
           - ./bin/install_local_test_solr.sh
           - ./bin/run_server_tests.sh
