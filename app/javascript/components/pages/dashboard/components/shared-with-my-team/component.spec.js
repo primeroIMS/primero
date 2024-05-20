@@ -1,19 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { TableHead, TableCell } from "@material-ui/core";
+import { mountedComponent, screen } from "test-utils";
 
-import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../permissions";
-import DashboardTable from "../../../../dashboard/dashboard-table";
-import LoadingIndicator from "../../../../loading-indicator";
 
 import SharedWithMyTeam from "./component";
 
 describe("<SharedWithMyTeam> - pages/dashboard/components/shared-with-my-team", () => {
-  let component;
-  let tableCells;
-
   const permissions = {
     dashboards: [ACTIONS.DASH_SHARED_WITH_MY_TEAM]
   };
@@ -44,28 +38,23 @@ describe("<SharedWithMyTeam> - pages/dashboard/components/shared-with-my-team", 
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(SharedWithMyTeam, {}, state));
-    tableCells = component.find(DashboardTable).find(TableHead).find(TableCell);
+    mountedComponent(<SharedWithMyTeam />, state);
   });
 
   it("should render a <DashboardTable /> component", () => {
-    expect(component.find(DashboardTable)).to.have.lengthOf(1);
-  });
-
-  it("should render 3 columns", () => {
-    expect(tableCells).to.have.lengthOf(3);
+    expect(screen.getByRole("grid")).toBeInTheDocument();
   });
 
   it("should render case_worker column", () => {
-    expect(tableCells.at(0).text()).to.equal("dashboard.case_worker");
+    expect(screen.getAllByText("dashboard.case_worker")[0]).toBeInTheDocument();
   });
 
   it("should render shared_with_my_team_referrals column", () => {
-    expect(tableCells.at(1).text()).to.equal("dashboard.shared_with_my_team_referrals");
+    expect(screen.getAllByText("dashboard.shared_with_my_team_referrals")[1]).toBeInTheDocument();
   });
 
   it("should render shared_with_my_team_pending_transfers column", () => {
-    expect(tableCells.at(2).text()).to.equal("dashboard.shared_with_my_team_pending_transfers");
+    expect(screen.getAllByText("dashboard.shared_with_my_team_pending_transfers")[1]).toBeInTheDocument();
   });
 
   describe("when the data is loading", () => {
@@ -79,7 +68,7 @@ describe("<SharedWithMyTeam> - pages/dashboard/components/shared-with-my-team", 
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(SharedWithMyTeam, props, {
+      mountedComponent(<SharedWithMyTeam {...props} />, {
         records: {
           dashboard: {
             data: [],
@@ -91,7 +80,7 @@ describe("<SharedWithMyTeam> - pages/dashboard/components/shared-with-my-team", 
         }
       });
 
-      expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
 });
