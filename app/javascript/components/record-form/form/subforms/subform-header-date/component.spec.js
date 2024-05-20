@@ -1,17 +1,13 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
-import { parseISO, format } from "date-fns";
-
-import { abbrMonthNames, setupMountedComponent, stub } from "../../../../../test";
-import { DATE_TIME_FORMAT } from "../../../../../config";
+import { mountedComponent, screen, stub, abbrMonthNames, freezeTimeZone } from "test-utils";
 
 import DateHeader from "./component";
 
 describe("<DateHeader /> - Form - Subforms", () => {
   let stubI18n = null;
 
-  beforeEach(() => {
+  beforeAll(() => {
     stubI18n = stub(window.I18n, "t").withArgs("date.abbr_month_names").returns(abbrMonthNames);
+    freezeTimeZone();
   });
 
   it("should render a date value formatted to DATE_FORMAT, when includeTime is false", () => {
@@ -19,9 +15,10 @@ describe("<DateHeader /> - Form - Subforms", () => {
       value: "2019-10-02T20:07:00.000Z",
       includeTime: false
     };
-    const { component } = setupMountedComponent(DateHeader, props);
 
-    expect(component.text()).to.be.equal("02-Oct-2019");
+    mountedComponent(<DateHeader {...props} />);
+    screen.debug();
+    expect(screen.getByText("02-Oct-2019")).toBeInTheDocument();
   });
 
   it("should render a date value formatted to DATE_TIME_FORMAT, when includeTime is true", () => {
@@ -29,10 +26,10 @@ describe("<DateHeader /> - Form - Subforms", () => {
       value: "2019-10-02T20:07:00.000Z",
       includeTime: true
     };
-    const expected = format(parseISO(props.value), DATE_TIME_FORMAT);
-    const { component } = setupMountedComponent(DateHeader, props);
 
-    expect(component.text()).to.be.equal(expected);
+    mountedComponent(<DateHeader {...props} />);
+
+    expect(screen.getByText(/02-Oct-2019 20:07/i)).toBeInTheDocument();
   });
 
   it("should render an empty string if any value is passed", () => {
@@ -40,12 +37,13 @@ describe("<DateHeader /> - Form - Subforms", () => {
       value: undefined,
       includeTime: true
     };
-    const { component } = setupMountedComponent(DateHeader, props);
 
-    expect(component.text()).to.be.empty;
+    mountedComponent(<DateHeader {...props} />);
+
+    expect(screen.queryByTestId("date-header")).toBeNull();
   });
 
-  afterEach(() => {
+  afterAll(() => {
     if (stubI18n) {
       window.I18n.t.restore();
     }
