@@ -1,16 +1,11 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../../test";
-import { FormSectionField } from "../../../record-form";
+import { mountedComponent, screen } from "../../../../test-utils";
 import { RECORD_PATH } from "../../../../config";
 
 import Fields from "./component";
 
 describe("<Fields />", () => {
-  let component;
-
   const props = {
     recordType: RECORD_PATH.cases,
     fields: [
@@ -62,21 +57,8 @@ describe("<Fields />", () => {
     }
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(Fields, props, initialState, [], formProps));
-  });
-
   it("renders 1 FormSectionField", () => {
-    expect(component.find(FormSectionField)).to.have.lengthOf(1);
-  });
-
-  it("renders component with valid props", () => {
-    const addIncidentProps = { ...component.find(Fields).props() };
-
-    ["recordType", "fields"].forEach(property => {
-      expect(addIncidentProps).to.have.property(property);
-      delete addIncidentProps[property];
-    });
-    expect(addIncidentProps).to.be.empty;
+    mountedComponent(<Fields {...props} />, initialState, {}, {}, formProps);
+    expect(screen.getByTestId("form-field")).toBeInTheDocument();
   });
 });
