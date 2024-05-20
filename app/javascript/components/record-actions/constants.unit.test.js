@@ -29,7 +29,8 @@ describe("<RecordActions /> - Constants", () => {
       "ALL",
       "RECORD_ACTION_ABILITIES",
       "MARK_FOR_OFFLINE_DIALOG",
-      "FILTERS_TO_SKIP"
+      "FILTERS_TO_SKIP",
+      "LINK_INCIDENT_TO_CASE_DIALOG"
     ].forEach(property => {
       expect(constants).to.have.property(property);
       delete constants[property];
@@ -70,7 +71,8 @@ describe("<RecordActions /> - Constants", () => {
         "canShowExports",
         "canTransfer",
         "canMarkForOffline",
-        "canVerify"
+        "canVerify",
+        "canLinkIncidentToCase"
       ].forEach(property => {
         expect(recordActionAbilities).to.have.property(property);
         delete recordActionAbilities[property];

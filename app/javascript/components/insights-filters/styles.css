@@ -12,6 +12,17 @@
   }
 }
 
+.filters {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+
+  & > div {
+    width: calc(50% - var(--sp-1));
+    margin: 0;
+  }
+}
+
 .actions {
   display: flex;
   width: 25em;
@@ -26,8 +37,9 @@
 .dateControlGroup {
   display: flex;
   flex-wrap: wrap;
-  flex: 2 !important;
+  gap: var(--sp-1);
   justify-content: space-between;
+  flex: 1;
 
   & > div {
     margin: 0;
