@@ -65,6 +65,7 @@ if models.include?('Child')
           'transferred_to_user_groups' => record.calculate_transferred_to_user_groups,
           'referred_users' => record.calculate_referred_users,
           'referred_users_present' => record.calculate_referred_users_present,
+          'family_number' => record.family_number,
           'assessment_due_dates' => record.calculate_assessment_due_dates,
           'case_plan_due_dates' => record.calculate_case_plan_due_dates,
           'followup_due_dates' => record.calculate_followup_due_dates,

@@ -16,15 +16,9 @@ describe Family do
   end
 
   describe 'quicksearch', search: true do
-    it 'has a searchable case id, survivor number' do
-      expected = %w[short_id family_id family_name family_number]
-      expect(Family.quicksearch_fields).to match_array(expected)
-    end
-
     it 'can find a Family by Family Number' do
-      family = Family.create!(data: { family_name: 'Family One', family_number: 'ABC123XYZ' })
-      family.index!
-      search_result = SearchService.search(Family, query: 'ABC123XYZ').results
+      Family.create!(data: { family_name: 'Family One', family_number: 'ABC123XYZ' })
+      search_result = PhoneticSearchService.search(Family, query: 'ABC123XYZ').records
       expect(search_result).to have(1).family
       expect(search_result.first.family_number).to eq('ABC123XYZ')
     end

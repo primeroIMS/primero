@@ -131,11 +131,11 @@ class BulkExport < ApplicationRecord
     end
   end
 
-  def search_records(search_filters, batch, page, order)
+  def search_records(filters, batch, page, order)
     PhoneticSearchService.search(
       model_class,
       {
-        filters: search_filters,
+        filters:,
         query_scope: record_query_scope, query:,
         sort: order, pagination: { page:, per_page: batch }
       }

@@ -11,7 +11,6 @@ describe Api::V2::RegistryRecordsController, type: :request do
     @registry2 = RegistryRecord.create!(registry_type: RegistryRecord::REGISTRY_TYPE_INDIVIDUAL)
     @registry3 = RegistryRecord.create!(registry_type: RegistryRecord::REGISTRY_TYPE_INDIVIDUAL)
     @registry4 = RegistryRecord.create!(registry_type: RegistryRecord::REGISTRY_TYPE_FOSTER_CARE)
-    Sunspot.commit
   end
 
   let(:json) { JSON.parse(response.body) }

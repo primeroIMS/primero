@@ -12,10 +12,6 @@ module UNHCRMapping
                    :unhcr_needs_codes, :unhcr_export_opt_out, :unhcr_export_opt_in
 
     before_save :map_protection_concerns_to_unhcr_codes
-
-    searchable do
-      boolean :unhcr_export_opt_in
-    end
   end
 
   def map_protection_concerns_to_unhcr_codes

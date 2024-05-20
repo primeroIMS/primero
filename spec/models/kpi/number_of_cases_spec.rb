@@ -4,7 +4,7 @@
 
 require 'rails_helper'
 
-describe Kpi::NumberOfCases, search: true do
+describe Kpi::NumberOfCases, { search: true, skip_when_solr_disabled: true } do
   include SunspotHelper
 
   let(:from) { indexed_field(DateTime.parse('2020/09/01')) }

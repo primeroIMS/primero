@@ -18,11 +18,6 @@ module Serviceable
     store_accessor :data, :consent_for_services, :services_section, # TODO: Do we need a services alias for this?
                    :service_due_dates
 
-    searchable do
-      boolean :consent_for_services
-      time :service_due_dates, multiple: true
-    end
-
     before_save :update_implement_field
     before_save :calculate_service_due_dates
 

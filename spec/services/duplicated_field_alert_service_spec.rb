@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe DuplicatedFieldAlertService do
   before :each do
-    clean_data(Alert, Child)
+    clean_data(Alert, Incident, Child)
 
     @child1 = Child.create!(data: { id_field: '0001' })
     @child2 = Child.create!(data: { id_field: '0001' })

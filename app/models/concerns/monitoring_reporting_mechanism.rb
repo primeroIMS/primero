@@ -3,7 +3,6 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # MRM-related model
-# rubocop:disable Metrics/ModuleLength
 module MonitoringReportingMechanism
   extend ActiveSupport::Concern
 
@@ -32,21 +31,6 @@ module MonitoringReportingMechanism
   }.freeze
 
   included do
-    searchable do
-      %i[
-        individual_violations individual_sex victim_deprived_liberty_security_reasons
-        reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
-        violation_with_verification_status verification_status armed_force_group_party_names verified_ghn_reported
-        violation_with_weapon_type violation_with_facility_impact violation_with_facility_attack_type
-        child_role abduction_purpose_single military_use_type types_of_aid_disrupted_denial weapon_type facility_impact
-        facility_attack_type late_verified_violations perpetrator_category
-      ].each { |field| string(field, multiple: true) }
-
-      integer(:individual_age, multiple: true)
-      date(:ctfmr_verified_date, multiple: true)
-      boolean(:has_late_verified_violations) { late_verified_violations? }
-    end
-
     # TODO: For now we are storing the associations fields in the incident data, but at some point we should be able
     # to extend our filters in order to query the association directly.
     store_accessor(
@@ -144,4 +128,3 @@ module MonitoringReportingMechanism
     violation_with_facility_attack_type
   end
 end
-# rubocop:enable Metrics/ModuleLength

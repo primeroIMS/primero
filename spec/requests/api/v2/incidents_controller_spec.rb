@@ -85,7 +85,6 @@ describe Api::V2::IncidentsController, type: :request do
       data: { incident_date: Date.new(2018, 3, 1), description: 'Test 3' },
       incident_case_id: @case1.id
     )
-    Sunspot.commit
   end
 
   let(:json) { JSON.parse(response.body) }

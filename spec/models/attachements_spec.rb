@@ -24,7 +24,6 @@ describe Attachment, search: true do
       @record_updated_on = child.last_updated_at
       child.reload
       attachment.attach!
-      Sunspot.commit
     end
 
     it 'attaches a base64 encoded file' do
@@ -53,7 +52,6 @@ describe Attachment, search: true do
       attachment.attach!
       child.reload
       attachment.detach!
-      Sunspot.commit
     end
 
     it 'detaches the file and removes the attachment record' do

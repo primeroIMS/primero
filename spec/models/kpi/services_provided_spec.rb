@@ -4,7 +4,7 @@
 
 require 'rails_helper'
 
-describe Kpi::ServicesProvided, search: true do
+describe Kpi::ServicesProvided, { search: true, skip_when_solr_disabled: true } do
   include FormAndFieldHelper
   include SunspotHelper
 

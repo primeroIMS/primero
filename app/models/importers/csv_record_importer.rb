@@ -92,7 +92,7 @@ class Importers::CsvRecordImporter < ValueObject
     location_service = LocationService.new(true)
     record_class.all.find_in_batches(batch_size:) do |records|
       records.each { |r| r.location_service = location_service } unless record_class == Trace
-      Sunspot.index(records)
+      Sunspot.index(records) if Rails.configuration.solr_enabled
     end
   end
 

@@ -7,6 +7,7 @@
 module Ownable
   extend ActiveSupport::Concern
 
+  # rubocop:disable Metrics/BlockLength
   included do
     store_accessor :data, :owned_by, :owned_by_full_name, :owned_by_agency_id, :owned_by_groups, :owned_by_location,
                    :owned_by_user_code, :owned_by_agency_office, :previously_owned_by, :previously_owned_by_full_name,
@@ -14,14 +15,15 @@ module Ownable
                    :assigned_user_names, :module_id, :associated_user_groups, :associated_user_agencies,
                    :associated_user_names, :not_edited_by_owner
 
-    searchable do
-      %i[
-        associated_user_names associated_user_groups associated_user_agencies owned_by_groups assigned_user_names
-      ].each { |field| string(field, multiple: true) }
-      %i[
-        owned_by_agency_id owned_by_location owned_by_agency_office module_id owned_by
-      ].each { |field| string(field, as: "#{field}_sci") }
-      boolean :not_edited_by_owner
+    if Rails.configuration.solr_enabled
+      searchable do
+        %i[
+          associated_user_names associated_user_groups associated_user_agencies owned_by_groups assigned_user_names
+        ].each { |field| string(field, multiple: true) }
+        %i[
+          owned_by_agency_id owned_by_location owned_by_agency_office module_id owned_by
+        ].each { |field| string(field, as: "#{field}_sci") }
+      end
     end
 
     scope :owned_by, ->(username) { where('data @> ?', { owned_by: username }.to_json) }
@@ -37,6 +39,7 @@ module Ownable
     before_save :calculate_not_edited_by_owner
     before_update :update_previously_owned_by
   end
+  # rubocop:enable Metrics/BlockLength
 
   def owner_fields_for(user)
     self.owned_by ||= user&.user_name

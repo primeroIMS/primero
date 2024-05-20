@@ -19,8 +19,6 @@ module Record
     after_initialize :defaults, unless: :persisted?
     before_create :create_identification
     before_save :populate_subform_ids
-    after_save :index_nested_reportables
-    after_destroy :unindex_nested_reportables
   end
 
   def self.model_from_name(name)
@@ -136,18 +134,6 @@ module Record
         subform['unique_id'].present? ||
           (subform['unique_id'] = SecureRandom.uuid)
       end
-    end
-  end
-
-  def index_nested_reportables
-    nested_reportables_hash.each do |_, reportables|
-      Sunspot.index reportables if reportables.present?
-    end
-  end
-
-  def unindex_nested_reportables
-    nested_reportables_hash.each do |_, reportables|
-      Sunspot.remove! reportables if reportables.present?
     end
   end
 end

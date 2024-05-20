@@ -9,10 +9,6 @@ module DuplicateIdAlertable
   DUPLICATE_FIELD = 'duplicate_field'
 
   included do
-    searchable do
-      string :current_alert_types, multiple: true
-    end
-
     after_save :perform_duplicate_field_alert
   end
 

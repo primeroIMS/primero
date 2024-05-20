@@ -45,7 +45,7 @@ module Indicators
         record_model: Child,
         queries: CLOSED_ENABLED + [
           SearchFilters::DateRange.new(
-            field_name: 'date_closure', from: DateRange.recent_past, to: DateRange.present
+            field_name: 'date_closure', from: SearchFilters::DateRange.recent_past, to: SearchFilters::DateRange.present
           )
         ],
         scope_to_owner: true

@@ -112,8 +112,6 @@ describe Api::V2::DashboardsController, type: :request do
                   })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar', workflow: 'new' })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar' })
-
-    Sunspot.commit
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -428,7 +426,6 @@ describe Api::V2::DashboardsController, type: :request do
         Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_b)
         @case_b.update(transfer_status: Transition::STATUS_REJECTED)
         @case_a.save!
-        Sunspot.commit
       end
 
       it 'lists statistics for permitted shared with me dashboards' do
@@ -539,7 +536,6 @@ describe Api::V2::DashboardsController, type: :request do
 
       after :each do
         clean_data(Alert, User, UserGroup, Role, Incident, Child, Location, SystemSettings, Lookup)
-        Sunspot.commit
       end
     end
   end
@@ -556,6 +552,5 @@ describe Api::V2::DashboardsController, type: :request do
     clean_data(
       Alert, User, UserGroup, Role, Incident, Child, Location, SystemSettings, Field, FormSection, Lookup, PrimeroModule
     )
-    Sunspot.commit
   end
 end

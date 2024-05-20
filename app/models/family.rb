@@ -31,14 +31,6 @@ class Family < ApplicationRecord
       %w[family_id short_id family_number]
     end
 
-    def quicksearch_fields
-      filterable_id_fields + %w[family_name]
-    end
-
-    def sortable_text_fields
-      %w[short_id]
-    end
-
     def summary_field_names
       common_summary_fields + %w[
         family_registration_date family_id_display family_name family_number module_id family_location_current
@@ -48,15 +40,6 @@ class Family < ApplicationRecord
     def phonetic_field_names
       %w[family_name]
     end
-  end
-
-  searchable do
-    date :family_registration_date
-    %w[id status].each { |f| string(f, as: "#{f}_sci") }
-    filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
-    quicksearch_fields.each { |f| text_index(f) }
-    sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
-    string :family_name, multiple: true
   end
 
   alias super_defaults defaults

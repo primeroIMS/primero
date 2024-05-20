@@ -33,10 +33,6 @@ class TracingRequest < ApplicationRecord
       %w[tracing_request_id short_id]
     end
 
-    def quicksearch_fields
-      filterable_id_fields + %w[relation_name relation_nickname tracing_names tracing_nicknames]
-    end
-
     def summary_field_names
       common_summary_fields + %w[
         relation_name inquiry_date tracing_names
@@ -67,23 +63,6 @@ class TracingRequest < ApplicationRecord
     alias super_eager_loaded_class eager_loaded_class
     def eager_loaded_class
       super_eager_loaded_class.includes(:traces)
-    end
-  end
-
-  def self.sortable_text_fields
-    %w[relation_name tracing_names short_id]
-  end
-
-  searchable do
-    date :inquiry_date
-    %w[id status].each { |f| string(f, as: "#{f}_sci") }
-    filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
-    quicksearch_fields.each { |f| text_index(f) }
-    sortable_text_fields.each do |f|
-      string("#{f}_sortable", as: "#{f}_sortable_sci") do
-        value = data[f] || send(f)
-        value.is_a?(Array) ? value.join(' ') : value
-      end
     end
   end
 
