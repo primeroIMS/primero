@@ -25,7 +25,8 @@ const Component = ({
   open,
   recordAlerts,
   selectedForm,
-  hasError
+  hasError,
+  testID
 }) => {
   const { disabledApplication } = useApp();
 
@@ -62,7 +63,7 @@ const Component = ({
 
   return (
     <ListItem
-      data-testid="list-item"
+      data-testid={testID || "list-item"}
       id={`${formId}-${group}`}
       selected={selectedForm === formId && !isNested}
       button
@@ -95,7 +96,8 @@ Component.propTypes = {
   name: PropTypes.string,
   open: PropTypes.bool,
   recordAlerts: PropTypes.object,
-  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  testID: PropTypes.string
 };
 
 export default Component;
