@@ -67,7 +67,6 @@ class Api::V2::TokensController < Devise::SessionsController
   end
 
   def current_token
-    _, token = IdpTokenStrategy.token_from_header(request.headers)
-    token
+    IdpTokenStrategy.token_from_header(request.headers)
   end
 end

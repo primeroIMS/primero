@@ -32,7 +32,8 @@ class IdpTokenStrategy < Warden::Strategies::Base
 
   def self.token_from_header(header)
     auth = header['HTTP_AUTHORIZATION']
-    auth&.split
+    method, token = auth&.split
+    method === METHOD ? token : nil
   end
 
   private
@@ -42,8 +43,6 @@ class IdpTokenStrategy < Warden::Strategies::Base
   end
 
   def auth_header(env)
-    method, token = IdpTokenStrategy.token_from_header(env)
-
-    method == METHOD ? token : nil
+    IdpTokenStrategy.token_from_header(env)
   end
 end
