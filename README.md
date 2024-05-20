@@ -7,7 +7,7 @@ Primero
 
 > [!WARNING]
 > **Primero v2.10 adds support for PostgreSQL 15!**
-> Support for PostgreSQL 14 is retained and remains the default when running using Ansible/Docker Compose. Please use this opportunity to upgrade! PostgreSQL 15 will be the default starting with Primero v2.11, and support for PostgreSQL 10 and 14 will be eventually dropped. See [here](doc/postgres_upgrade.md) for a recommended upgrade process.
+> Support for PostgreSQL 14 is retained and remains the default when running using Ansible/Docker Compose. Please use this opportunity to upgrade! PostgreSQL 15 will be the default starting with Primero v2.11. support for PostgreSQL 10, 11 has been dropped and 14 will all eventually dropped. See [here](doc/postgres_upgrade.md) for a recommended upgrade process.
 
 ## Development
 

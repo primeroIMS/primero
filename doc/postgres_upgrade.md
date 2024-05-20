@@ -3,7 +3,7 @@
 Upgrading a Major PostgreSQL Version
 ===========
 
-PostgreSQL data directories cannot be reused between major version upgrades. A data directory generated for PostgreSQL 10.x will not work with Postgres 11.x. When running Primero PostgreSQL with Docker, the data needs to be exported and reloaded, and the backing volume needs to be recreated.
+PostgreSQL data directories cannot be reused between major version upgrades. A data directory generated for PostgreSQL 14.x will not work with Postgres 15.x. When running Primero PostgreSQL with Docker, the data needs to be exported and reloaded, and the backing volume needs to be recreated.
 
 In the instructions below, the **Primero Server** refers to the machine that runs a Dockerized Primero and the **Ansible Server** refers to the machine that is used to provision it with Ansible.
 
