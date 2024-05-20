@@ -162,6 +162,7 @@ const Component = ({
 
           return (
             <ListItem
+              data-testid="list-item"
               onClick={handleEdit(index)}
               component="a"
               classes={{ divider: css.listDivider, root: css.listItem }}

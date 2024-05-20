@@ -62,7 +62,7 @@ const Component = ({
 
   return (
     <ListItem
-    data-testid="list-item"
+      data-testid="list-item"
       id={`${formId}-${group}`}
       selected={selectedForm === formId && !isNested}
       button
@@ -74,7 +74,9 @@ const Component = ({
       }}
       disabled={disabledApplication}
     >
-      <ListItemText className={groupItem ? css.nestedItem : css.item}>{formText()}</ListItemText>
+      <ListItemText data-testid="list-item-text" className={groupItem ? css.nestedItem : css.item}>
+        {formText()}
+      </ListItemText>
       {isNested && (open ? <ExpandMore /> : <ExpandLess />)}
     </ListItem>
   );
