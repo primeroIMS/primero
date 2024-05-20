@@ -8,8 +8,6 @@ import { ACTIONS } from "../../../../permissions";
 import SharedWithMyTeam from "./component";
 
 describe("<SharedWithMyTeam> - pages/dashboard/components/shared-with-my-team", () => {
-  let tableCells;
-
   const permissions = {
     dashboards: [ACTIONS.DASH_SHARED_WITH_MY_TEAM]
   };
@@ -47,20 +45,16 @@ describe("<SharedWithMyTeam> - pages/dashboard/components/shared-with-my-team", 
     expect(screen.getByRole("grid")).toBeInTheDocument();
   });
 
-  xit("should render 3 columns", () => {
-    expect(tableCells).to.have.lengthOf(3);
-  });
-
   it("should render case_worker column", () => {
-    expect(screen.getAllByText("dashboard.case_worker")).toBeTruthy();
+    expect(screen.getAllByText("dashboard.case_worker")[0]).toBeInTheDocument();
   });
 
   it("should render shared_with_my_team_referrals column", () => {
-    expect(screen.getAllByText("dashboard.shared_with_my_team_referrals")).toBeTruthy();
+    expect(screen.getAllByText("dashboard.shared_with_my_team_referrals")[1]).toBeInTheDocument();
   });
 
   it("should render shared_with_my_team_pending_transfers column", () => {
-    expect(screen.getAllByText("dashboard.shared_with_my_team_pending_transfers")).toBeTruthy();
+    expect(screen.getAllByText("dashboard.shared_with_my_team_pending_transfers")[2]).toBeInTheDocument();
   });
 
   describe("when the data is loading", () => {
