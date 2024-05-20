@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import { Route } from "react-router-dom";
 
 import { mountedComponent, screen } from "../../../../../test-utils";
 import { SHOW_APPROVALS, VIEW_INCIDENTS_FROM_CASE } from "../../../../permissions";
@@ -6,10 +7,9 @@ import { SHOW_APPROVALS, VIEW_INCIDENTS_FROM_CASE } from "../../../../permission
 import RecordInformation from "./component";
 
 describe("<RecordInformation />", () => {
-
   const props = {
     open: "record_information",
-    handleClick: () => { },
+    handleClick: () => {},
     selectedForm: "",
     formGroupLookup: []
   };
@@ -22,18 +22,25 @@ describe("<RecordInformation />", () => {
     }
   });
 
-  it("renders a RecordInformation component />", () => {
-    mountedComponent(<RecordInformation {...props} />, initialState, ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]);
-    expect(screen.getByTestId("list-item")).toBeInTheDocument();
+  beforeAll(() => {
+    // eslint-disable-next-line react/display-name
+    const RoutedComponent = initialProps => {
+      return (
+        <Route
+          path="/:recordType(cases|incidents|tracing_requests)/:id"
+          component={propsRoute => <RecordInformation {...{ ...propsRoute, ...initialProps }} />}
+        />
+      );
+    };
+
+    mountedComponent(<RoutedComponent {...props} />, initialState, {}, ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]);
   });
 
-  it("renders a NavGroup component />", () => {
-    mountedComponent(<RecordInformation {...props} />, initialState, ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]);
-    expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
+  it("renders a RecordInformation component />", () => {
+    expect(screen.getByTestId("record-information")).toBeInTheDocument();
   });
 
   it("renders a NavItem component />", () => {
-    mountedComponent(<RecordInformation {...props} />, initialState, ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]);
-    expect(screen.queryByTestId("nav-item")).toBeNull();
+    expect(screen.getAllByRole("button")).toHaveLength(7);
   });
 });
