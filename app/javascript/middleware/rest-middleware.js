@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { ROUTES } from "../config";
 
 import { isOnline, isServerOnline } from "./utils";

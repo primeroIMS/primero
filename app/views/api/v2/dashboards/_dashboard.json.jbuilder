@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 json.name dashboard.name_i18n_key
 json.type dashboard.type
 
 json.indicators do
   json.set!(
     dashboard.indicators.map do |indicator|
-      json.partial! "api/v2/dashboards/#{indicator.class.type}", indicator: indicator
+      json.partial! "api/v2/dashboards/#{indicator.class.type}", indicator:
     end
   )
 end

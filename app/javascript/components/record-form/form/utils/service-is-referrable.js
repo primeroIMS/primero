@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export default (service, services, agencies, users = []) => {
   const {
     service_external_referral: serviceExternalReferral,

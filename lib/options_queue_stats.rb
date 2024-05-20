@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Description of OptionsQueueStats class
 class OptionsQueueStats
   def self.options_not_generated?
     options_dir = "#{Rails.root}/public/options"
 
-    File.directory?(options_dir) && Dir.empty?(options_dir) ||
+    (File.directory?(options_dir) && Dir.empty?(options_dir)) ||
       !File.directory?(options_dir)
   end
 

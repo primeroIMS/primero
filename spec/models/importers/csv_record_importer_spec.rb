@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 module Importers
@@ -34,7 +36,7 @@ module Importers
         password_confirmation: 'a12345678',
         email: 'test_user_1@localhost.com',
         agency_id: @agency_a.id,
-        role: role
+        role:
       )
       @user_b = User.create!(
         full_name: 'Test User 2',
@@ -43,7 +45,7 @@ module Importers
         password_confirmation: 'a12345678',
         email: 'test_user_2@localhost.com',
         agency_id: @agency_a.id,
-        role: role
+        role:
       )
     end
 

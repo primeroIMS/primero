@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import "../wdyr";
 import "core-js/stable";
 import "regenerator-runtime/runtime";

@@ -1,13 +1,17 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
-# TODO - Structure of these tests need some refactoring
+# TODO: - Structure of these tests need some refactoring
 # TODO - The wording of these tests is poorly written
 # TODO - Especially, the wording of the contexts does not follow normal convention
 # TODO - Contexts should be a condition of the test (when something...), not a 'should/expect'
 
 describe UNHCRMapping do
   before do
-    SystemSettings.all.each &:destroy
+    SystemSettings.all.each(&:destroy)
 
     @system_settings = SystemSettings.create(
       default_locale: 'en',
@@ -30,21 +34,21 @@ describe UNHCRMapping do
 
   describe 'case with protection_concerns' do
     it 'should return valid unhcr_needs_codes' do
-      child = Child.create! protection_concerns: ['protection ab','protection cd'],
+      child = Child.create! protection_concerns: ['protection ab', 'protection cd'],
                             unhcr_needs_codes: nil
 
-      expect(child.unhcr_needs_codes).to eq(['AB','CD'])
+      expect(child.unhcr_needs_codes).to eq(%w[AB CD])
     end
 
     it 'should map one to many' do
-        @system_settings.unhcr_needs_codes_mapping.mapping =
-                            {'protection ab' => 'AB', 'protection cd' => 'CD', 'protection ef' => 'AB'}
-        @system_settings.save!
-        SystemSettings.current(true)
+      @system_settings.unhcr_needs_codes_mapping.mapping =
+        { 'protection ab' => 'AB', 'protection cd' => 'CD', 'protection ef' => 'AB' }
+      @system_settings.save!
+      SystemSettings.current(true)
 
-        child = Child.create!(protection_concerns: ['protection ab','protection ef'],
-                              unhcr_needs_codes: nil)
-        expect(child.unhcr_needs_codes).to eq(['AB'])
+      child = Child.create!(protection_concerns: ['protection ab', 'protection ef'],
+                            unhcr_needs_codes: nil)
+      expect(child.unhcr_needs_codes).to eq(['AB'])
     end
 
     context 'should not return unhcr_needs_codes' do
@@ -53,7 +57,7 @@ describe UNHCRMapping do
         @system_settings.save!
         SystemSettings.current(true)
 
-        child = Child.create!(protection_concerns: ['protection ab','protection cd'],
+        child = Child.create!(protection_concerns: ['protection ab', 'protection cd'],
                               unhcr_needs_codes: nil)
         expect(child.unhcr_needs_codes).to eq(nil)
       end
@@ -63,7 +67,7 @@ describe UNHCRMapping do
         @system_settings.save!
         SystemSettings.current(true)
 
-        child = Child.create!(protection_concerns: ['protection ab','protection cd'],
+        child = Child.create!(protection_concerns: ['protection ab', 'protection cd'],
                               unhcr_needs_codes: nil)
         expect(child.unhcr_needs_codes).to eq(nil)
       end
@@ -72,19 +76,19 @@ describe UNHCRMapping do
     context 'should update unhcr_needs_codes' do
       it 'after protection_concerns change' do
         child = Child.create!(protection_concerns: ['protection ab'],
-                                unhcr_needs_codes: ['AB','CD','EF'])
+                              unhcr_needs_codes: %w[AB CD EF])
         expect(child.unhcr_needs_codes).to eq(['AB'])
       end
 
       it 'after settings change' do
         child = Child.create!(protection_concerns: ['protection ab'],
-                                unhcr_needs_codes: ['AB','CD','EF'])
+                              unhcr_needs_codes: %w[AB CD EF])
 
         @system_settings.unhcr_needs_codes_mapping = { autocalculate: false }
         @system_settings.save!
         SystemSettings.current(true)
 
-        #Re-fetch child for this test to refresh the record's instance variables
+        # Re-fetch child for this test to refresh the record's instance variables
         child2 = Child.find(child.id)
         child2.name = 'Johnny Bravo'
         child2.save!

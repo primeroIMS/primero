@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # A variation on a Struct. Subclasses should define attr_accessors.
 # Initialize subclasses using a Hash to populate the accessors.
 class ValueObject
@@ -8,8 +10,8 @@ class ValueObject
   end
 
   def to_h
-    instance_variables.map do |var|
+    instance_variables.to_h do |var|
       [var.to_s.delete('@'), instance_variable_get(var)]
-    end.to_h
+    end
   end
 end

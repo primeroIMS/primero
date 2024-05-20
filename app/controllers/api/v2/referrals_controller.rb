@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # API for creating referrals for record types
 class Api::V2::ReferralsController < Api::V2::RecordResourceController
   def index
@@ -58,9 +60,8 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
 
   def refer(record)
     permitted = params.require(:data).permit(
-      :transitioned_to, :transitioned_to_remote, :transitioned_to_agency,
-      :service, :service_record_id, :remote, :type_of_export, :notes,
-      :consent_overridden
+      :transitioned_to, :transitioned_to_remote, :transitioned_to_agency, :service, :service_record_id,
+      :remote, :type_of_export, :notes, :consent_overridden, :authorized_role_unique_id
     )
     referral = Referral.new(permitted)
     referral.transitioned_by = current_user.user_name

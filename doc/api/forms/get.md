@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Query for forms
 
 Shows a list of all forms that are accessible to this user. The user can filter the form list by record type and module.

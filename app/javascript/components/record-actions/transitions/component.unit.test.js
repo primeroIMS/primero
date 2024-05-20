@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
@@ -195,10 +197,16 @@ describe("<Transitions />", () => {
         "setPending",
         "selectedIds",
         "mode",
-        "assignRef"
+        "assignRef",
+        "selectedRecordsLength",
+        "formDisabled"
       ];
 
       expect(Object.keys(reassignForm.props())).to.deep.equal(validProps);
+    });
+
+    it("should check the canConsentOverride prop", () => {
+      expect(component.find(ReassignForm).props().formDisabled).to.equal(false);
     });
   });
 

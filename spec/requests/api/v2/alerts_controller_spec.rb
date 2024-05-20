@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::AlertsController, type: :request do
@@ -25,7 +27,7 @@ describe Api::V2::AlertsController, type: :request do
       password_confirmation: 'a12345678',
       email: 'test_user_1@localhost.com',
       agency_id: agency.id,
-      role: role
+      role:
     )
     @user_b = User.create!(
       full_name: 'Test User 2',
@@ -34,7 +36,7 @@ describe Api::V2::AlertsController, type: :request do
       password_confirmation: 'a12342078',
       email: 'test_user_2@localhost.com',
       agency_id: agency.id,
-      role: role
+      role:
     )
     @user_c = User.create!(
       full_name: 'Test User 3',
@@ -43,7 +45,7 @@ describe Api::V2::AlertsController, type: :request do
       password_confirmation: 'a17845678',
       email: 'test_user_3@localhost.com',
       agency_id: agency.id,
-      role: role
+      role:
     )
     Child.create(
       name: 'bar',
@@ -194,6 +196,67 @@ describe Api::V2::AlertsController, type: :request do
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/tracing_requests/thisdoesntexist/alerts')
+    end
+  end
+
+  describe 'DELETE /api/v2/<record_id>/alerts/<alert_id>' do
+    it 'deletes an alert from a child' do
+      alert = @test_child.alerts.first
+      login_for_test(
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::REMOVE_ALERT]
+          )
+        ]
+      )
+
+      delete "/api/v2/cases/#{@test_child.id}/alerts/#{alert.unique_id}"
+      expect(response).to have_http_status(204)
+      expect(@test_child.alerts.count).to eq(2)
+    end
+
+    it 'deletes an alert from a incident' do
+      alert = @test_incident.alerts.first
+      login_for_test(
+        permissions: [
+          Permission.new(
+            resource: Permission::INCIDENT,
+            actions: [Permission::REMOVE_ALERT]
+          )
+        ]
+      )
+      delete "/api/v2/incidents/#{@test_incident.id}/alerts/#{alert.unique_id}"
+      expect(response).to have_http_status(204)
+      expect(@test_incident.alerts.count).to eq(2)
+    end
+    it 'does not delete an alert from a incident if the user does not have remove_alert permission' do
+      alert = @test_incident.alerts.first
+      login_for_test(
+        permissions: [
+          Permission.new(
+            resource: Permission::INCIDENT,
+            actions: [Permission::READ]
+          )
+        ]
+      )
+      delete "/api/v2/incidents/#{@test_incident.id}/alerts/#{alert.unique_id}"
+      expect(response).to have_http_status(403)
+      expect(@test_incident.alerts.count).to eq(3)
+    end
+    it 'does not delete an alert if the alert id does not correspond to the record' do
+      alert = @test_incident.alerts.first
+      login_for_test(
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::REMOVE_ALERT]
+          )
+        ]
+      )
+      delete "/api/v2/cases/#{@test_child.id}/alerts/#{alert.unique_id}"
+      expect(response).to have_http_status(404)
+      expect(@test_incident.alerts.count).to eq(3)
     end
   end
 

@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Accept or decline a transfer
 
 The user either completes the transfer operation or will lose access to this case.
