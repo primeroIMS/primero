@@ -89,7 +89,7 @@ describe("<SubformFieldArray />", () => {
 
   it("render the subform", () => {
     mountedComponent(<SubformFieldArray {...props} />, {}, [], {}, formProps);
-    expect(screen.getByTestId("subForm-field-array")).toBeInTheDocument();
+    expect(screen.getByTestId("subform-field-array")).toBeInTheDocument();
   });
 
   it("renders the SubformDialog", () => {
