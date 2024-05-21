@@ -32,7 +32,7 @@ const Component = ({ value }) => {
   }
 
   return (
-    <div className={css.date} data-testid="localize-date">
+    <div className={css.date} data-testid="date">
       {i18n.localizeDate(value)}
     </div>
   );

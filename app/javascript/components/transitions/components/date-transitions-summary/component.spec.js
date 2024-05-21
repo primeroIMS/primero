@@ -11,7 +11,7 @@ describe("<DateTransitionsSummary />", () => {
 
   it("renders a <DateTransitionsSummary />", () => {
     mountedComponent(<DateTransitionsSummary {...props} />);
-    expect(screen.getByTestId("localize-date")).toBeInTheDocument();
+    expect(screen.getByTestId("date")).toBeInTheDocument();
   });
 
   describe("when ne locale", () => {
