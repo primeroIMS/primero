@@ -19,7 +19,7 @@ const Component = ({ value }) => {
 
   if (i18n.locale === LOCALE_KEYS.ne) {
     return (
-      <div className={css.readonly}>
+      <div className={css.readonly} data-testid="nepali-calendar">
         <NepaliCalendar
           dateProps={{
             value,

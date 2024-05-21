@@ -1,5 +1,3 @@
-import { fromJS } from "immutable";
-
 import { mountedComponent, screen } from "../../../../test-utils";
 
 import DateTransitionsSummary from "./component";
@@ -12,19 +10,17 @@ describe("<DateTransitionsSummary />", () => {
   };
 
   it("renders a <DateTransitionsSummary />", () => {
-    mountedComponent(<DateTransitionsSummary {...props} />, fromJS({}));
+    mountedComponent(<DateTransitionsSummary {...props} />);
     expect(screen.getByTestId("localize-date")).toBeInTheDocument();
   });
 
   describe("when ne locale", () => {
     it.skip("renders NepaliCalendar", () => {
-      mountedComponent(
-        <DateTransitionsSummary {...props} />,
-        fromJS({
-          locale: "ne"
-        })
-      );
-      expect(screen.queryAllByTestId("nepali-container")).toHaveLength(1);
+      mountedComponent(<DateTransitionsSummary {...props} />, {
+        locale: "ne"
+      });
+
+      expect(screen.queryAllByTestId("nepali-calendar")).toHaveLength(1);
     });
   });
 });
