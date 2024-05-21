@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const ATTACHMENT_FIELD_NAME = "AttachmentField";
 export const DATE_FIELD_NAME = "DateField";
 export const DOCUMENT_FIELD_NAME = "DocumentField";

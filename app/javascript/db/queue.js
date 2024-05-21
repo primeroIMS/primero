@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import EventManager from "../libs/messenger";
 import { QUEUE_ADD, QUEUE_FINISHED } from "../libs/queue/constants";
 

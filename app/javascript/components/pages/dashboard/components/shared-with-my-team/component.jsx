@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { getSharedWithMyTeam } from "../../selectors";
@@ -5,7 +7,7 @@ import { useI18n } from "../../../../i18n";
 import { teamSharingTable } from "../../utils";
 import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
-import { ROUTES } from "../../../../../config";
+import { ROUTES } from "../../../../../config/constants";
 import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";

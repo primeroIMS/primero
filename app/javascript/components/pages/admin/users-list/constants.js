@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const LIST_HEADERS = [
   { label: "users.headers.full_name", name: "full_name" },
   { label: "users.headers.user_name", name: "user_name" },

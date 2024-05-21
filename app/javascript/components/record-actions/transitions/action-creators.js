@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { SERVICE_REFERRED_SAVE } from "../../records";
 import { CLEAR_DIALOG } from "../../action-dialog";
@@ -60,10 +62,10 @@ export const removeFormErrors = payload => {
   };
 };
 
-export const saveAssignedUser = (recordId, body, message) => ({
+export const saveAssignedUser = (recordType, recordId, body, message) => ({
   type: actions.ASSIGN_USER_SAVE,
   api: {
-    path: generatePath(actions.CASES_ASSIGNS, recordId),
+    path: generatePath(actions[`${recordType.toUpperCase()}_ASSIGNS`], recordId),
     method: "POST",
     body,
     successCallback: successCallbackActions(message)

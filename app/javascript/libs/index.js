@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export { default as useThemeHelper } from "./use-theme-helpers";
 export { ConditionalWrapper } from "./conditional-wrapper";
 export * from "./component-helpers";

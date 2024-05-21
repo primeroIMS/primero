@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe RecordMergeDataHashService do
@@ -133,7 +135,7 @@ describe RecordMergeDataHashService do
     end
 
     it 'when is array of hash' do
-      param = [{a: 1}, {b: 2}, {c:3}]
+      param = [{ a: 1 }, { b: 2 }, { c: 3 }]
       result = RecordMergeDataHashService.array_of_hashes?(param)
 
       expect(result).to be_truthy

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { ButtonBase, Typography, TablePagination } from "@material-ui/core";
@@ -62,7 +64,6 @@ const Component = ({
       </ButtonBase>
     </div>
   );
-
   const renderSelectedRecordMessage = (allRecordsSelected || hasSelectedRows) && (
     <div className={css.customToolbarTitle}>
       <Typography component="h6">{selectedRecordsMessage}</Typography>

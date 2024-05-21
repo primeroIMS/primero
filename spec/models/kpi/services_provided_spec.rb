@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Kpi::ServicesProvided, search: true do
@@ -21,9 +23,9 @@ describe Kpi::ServicesProvided, search: true do
     form(:action_plan_form, [
            field(:action_plan_section,
                  subform_section: form(:action_plan_section, [
-                   field(:service_referral),
-                   field(:service_type)
-           ]))
+                                         field(:service_referral),
+                                         field(:service_type)
+                                       ]))
          ])
 
     Child.create!(data: {

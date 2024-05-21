@@ -1,3 +1,16 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
+.verifiedSpan{
+  color: var(--c-white);
+  height: 25px;
+  font-size: var(--fs-13);
+  font-weight: 600;
+  float: right;
+  top: 12px;
+  position: absolute;
+  left: 79%;
+  width: 115px;
+}
 .secondarySubformHeader {
   font-size: var(--fs-12);
   color: var(--c-dark-grey);
@@ -59,11 +72,11 @@
   font-size: var(--fs-12);
   border: 1px solid var(--c-warm-grey-2);
   background: var(--c-white);
-  
+
   &:hover {
     background: rgba(0, 0, 0, 0.04);
     cursor: pointer;
-  }  
+  }
 }
 
 .fieldArray .subformFields ~ .subformFields {
@@ -192,5 +205,13 @@
     margin-right: 0.5em;
     max-width: 5.5em;
     padding-top: 0px;
+  }
+}
+
+.keyboardDatePickerWrapper {
+  display: flex;
+  justify-content: space-between;
+  & p {
+    margin-left: 6px;
   }
 }

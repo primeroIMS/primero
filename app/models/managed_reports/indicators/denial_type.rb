@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the denial type for denial subreport
 class ManagedReports::Indicators::DenialType < ManagedReports::SqlReportIndicator
   include ManagedReports::MRMIndicatorHelper

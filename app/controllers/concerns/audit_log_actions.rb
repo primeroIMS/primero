@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Set the audit log properties
 module AuditLogActions
   extend ActiveSupport::Concern
@@ -14,19 +16,29 @@ module AuditLogActions
     current_user.try(:user_name) || params[:user].try(:[], :user_name) || params[:user].try(:[], :email)
   end
 
-  def write_audit_log
-    default_audit_params = {
+  def default_metadata_audit_params
+    {
+      user_name: guessed_user_name,
+      remote_ip: LogUtils.remote_ip(request),
+      agency_id: current_user.try(:agency_id),
+      role_id: current_user.try(:role_id),
+      http_method: request.method
+    }
+  end
+
+  def default_audit_params
+    {
       record_type: model_class.name,
-      record_id: record_id,
+      record_id:,
       action: friendly_action_message,
       user_id: current_user.try(:id),
       resource_url: request.url,
-      metadata: { user_name: guessed_user_name }
+      metadata: default_metadata_audit_params
     }
+  end
 
-    audit_log_params = default_audit_params.merge(audit_params)
-
-    AuditLogJob.perform_later(audit_log_params)
+  def write_audit_log
+    AuditLogJob.perform_later(**default_audit_params.merge(audit_params))
   end
 
   # Allow controllers to override / add related properties to
