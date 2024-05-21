@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Children, forwardRef } from "react";
 import { VariableSizeList } from "react-window";
 import PropTypes from "prop-types";

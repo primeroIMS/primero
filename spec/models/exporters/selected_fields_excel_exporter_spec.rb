@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 require 'roo'
 
 describe Exporters::SelectedFieldsExcelExporter do
   before :each do
     clean_data(
-      User, Agency, Role, UserGroup, PrimeroModule, PrimeroProgram,
-      Field, FormSection, Child
+      Alert, User, Agency, Role, UserGroup, PrimeroModule, PrimeroProgram,
+      Field, FormSection, Child, Referral
     )
 
     @primero_module = create(
@@ -129,6 +131,14 @@ describe Exporters::SelectedFieldsExcelExporter do
     )
     form5.save!
 
+    form6 = FormSection.new(
+      name: 'cases_test_form_6', parent_form: 'case',
+      order_form_group: 0, order: 6, order_subform: 0, form_group_id: 'cases_test_form_6',
+      unique_id: 'cases_test_form_6'
+    )
+    form6.fields << Field.new(name: 'name_first', type: Field::TEXT_FIELD, display_name: 'name_first', order: 0)
+    form6.save!
+
     agency = Agency.create(
       name: 'agency one', agency_code: '1111',
       name_en: 'My English Agency', name_es: 'My Spanish Agency'
@@ -195,7 +205,7 @@ describe Exporters::SelectedFieldsExcelExporter do
         ]
       ),
       create(:child, 'name_first' => 'Name2', 'name_last' => 'LastName2', 'id' => '00000000005'),
-      create(:child, 'name_first' => 'Name3', 'name_last' => 'LastName3', 'id' => '00000000006'),
+      create(:child, 'name_first' => 'Name3', 'name_last' => 'LastName3', 'id' => '00000000006')
     ]
 
     @record_with_special_id = [
@@ -214,7 +224,18 @@ describe Exporters::SelectedFieldsExcelExporter do
     @user_es = create(:user, user_name: 'fakeadmin_es', role: @role, locale: :es)
     @role_subform = create(:role, modules: [@primero_module], form_sections: [subform2, form1, form2, form3])
     @user_subform = create(:user, user_name: 'fakeadmin_subform', role: @role_subform)
-    @total_of_fields = 17
+    @role_user_referral = create(
+      :role, modules: [@primero_module], form_sections: [form1, form2, form3, form_gbv, form4, form5, form6]
+    )
+    @role_referral = create(:role, form_sections: [form6], modules: [@primero_module])
+    @user_referral = create(:user, user_name: 'fakerefer', role: @role_user_referral)
+
+    Referral.create!(
+      transitioned_by: @user_en.user_name, transitioned_to: @user_referral.user_name, record: @records[1],
+      consent_overridden: true, authorized_role_unique_id: @role_referral.unique_id
+    )
+
+    @total_of_fields = 18
   end
 
   describe 'Export format' do
@@ -439,6 +460,61 @@ describe Exporters::SelectedFieldsExcelExporter do
     it 'render the id' do
       expect(workbook.sheet(0).row(1).first).to eq('ID')
       expect(workbook.sheet(0).row(2).first).to eq(@record_with_special_id[0].short_id)
+    end
+  end
+
+  context 'when the user was referred to a record' do
+    let(:workbook_records) do
+      data = Exporters::SelectedFieldsExcelExporter.export(
+        @records, nil, { user: @user_referral }, { field_names: %w[name_first cases_test_subform_2] }
+      )
+      Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+    end
+
+    it 'does not export non permitted fields for a referred record' do
+      expect(workbook_records.sheets.size).to eq(3)
+      expect(workbook_records.sheet(1).to_a.map(&:first)).not_to include(@records[1].short_id)
+    end
+
+    it 'exports the permitted fields for a referred record' do
+      expect(workbook_records.sheet(0).row(3)).to eq([@records[1].short_id, 'Jane'])
+    end
+
+    it 'exports all form and subform sheets for the user role' do
+      expect(workbook_records.sheets.size).to eq(3)
+      expect(workbook_records.sheets).to eq(['Selected Fields', 'cases_test_form-cases_test_s...', '__record__'])
+    end
+
+    context 'when is a single record is exported' do
+      let(:workbook_referred_record) do
+        data = Exporters::SelectedFieldsExcelExporter.export(
+          [@records[1]], nil, { user: @user_referral, single_record_export: true },
+          { field_names: %w[name_first cases_test_subform_2] }
+        )
+        Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+      end
+
+      it 'exports only the permitted forms the authorized role' do
+        expect(workbook_referred_record.sheets.size).to eq(2)
+        expect(workbook_referred_record.sheets).to match_array(
+          ['Selected Fields', '__record__']
+        )
+      end
+
+      it 'exports the permitted fields for a referred record' do
+        expect(workbook_referred_record.sheet(0).last_row).to eq(2)
+        expect(workbook_referred_record.sheet(0).row(1)).to eq(%w[ID name_first])
+        expect(workbook_referred_record.sheet(0).row(2)).to eq(
+          [@records[1].short_id, 'Jane']
+        )
+      end
+    end
+
+    after do
+      clean_data(
+        Alert, User, Agency, Role, UserGroup, PrimeroModule, PrimeroProgram,
+        Field, FormSection, Child, Referral
+      )
     end
   end
 end

@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Class to export Subreports
+# rubocop:disable Metrics/ClassLength
 class Exporters::SubreportExporter < ValueObject
   include Exporters::Concerns::InsightParams
 
@@ -25,9 +28,9 @@ class Exporters::SubreportExporter < ValueObject
   def build_worksheet_name
     # Truncating in 31 allowed characters
     # Replacing invalid character
-    I18n.t("managed_reports.#{managed_report.id}.reports.#{id}", locale: locale)
+    I18n.t("managed_reports.#{managed_report.id}.reports.#{id}", locale:)
         .truncate(31)
-        .gsub(%r{[\[\]\/:*?]}, ' ')
+        .gsub(%r{[\[\]/:*?]}, ' ')
   end
 
   def write_export
@@ -47,7 +50,7 @@ class Exporters::SubreportExporter < ValueObject
   def write_header_title
     worksheet.merge_range(
       current_row, 0, 0, 1,
-      I18n.t("managed_reports.#{managed_report.id}.reports.#{id}", locale: locale),
+      I18n.t("managed_reports.#{managed_report.id}.reports.#{id}", locale:),
       formats[:header]
     )
   end
@@ -67,7 +70,7 @@ class Exporters::SubreportExporter < ValueObject
     worksheet.merge_range_type(
       'rich_string',
       current_row, 0, current_row, 1,
-      formats[:bold_blue], "#{I18n.t('managed_reports.generated_on', locale: locale)}: ",
+      formats[:bold_blue], "#{I18n.t('managed_reports.generated_on', locale:)}: ",
       formats[:black], Time.now.strftime('%Y-%m-%d %H:%M:%S'),
       formats[:black]
     )
@@ -96,14 +99,14 @@ class Exporters::SubreportExporter < ValueObject
     indicator_exporter_class.new(
       key: indicator_key,
       values: indicator_values,
-      worksheet: worksheet,
+      worksheet:,
       lookups: lookups[indicator_key],
-      current_row: current_row,
-      grouped_by: grouped_by,
-      formats: formats,
-      managed_report: managed_report,
-      locale: locale,
-      workbook: workbook,
+      current_row:,
+      grouped_by:,
+      formats:,
+      managed_report:,
+      locale:,
+      workbook:,
       subcolumn_lookups: subcolumn_lookups[indicator_key],
       indicator_rows: metadata_property('indicators_rows')&.dig(indicator_key),
       indicator_subcolumns: indicators_subcolumns[indicator_key]
@@ -126,7 +129,7 @@ class Exporters::SubreportExporter < ValueObject
   end
 
   def find_lookup(value)
-    Lookup.values(value, nil, { locale: locale })
+    Lookup.values(value, nil, { locale: })
   end
 
   def load_lookups
@@ -136,14 +139,20 @@ class Exporters::SubreportExporter < ValueObject
 
   def load_lookup_config(lookup_config)
     lookup_config.reduce({}) do |acc, (key, value)|
+      next acc.merge(key => user_group_as_lookup_values) if %w[UserGroupPermitted].include?(value)
+
       if %w[reporting_location reporting_location_detention reporting_location_denial].include?(key)
         next acc.merge(key => LocationService.instance)
       end
 
-      lookup_obj = value.is_a?(Array) ? value.map { |l| [l, find_lookup(l)] }.to_h : find_lookup(value)
+      lookup_obj = value.is_a?(Array) ? value.to_h { |l| [l, find_lookup(l)] } : find_lookup(value)
 
       acc.merge(key => lookup_obj)
     end
+  end
+
+  def user_group_as_lookup_values
+    UserGroup.all.map { |user_group| { 'id' => user_group.unique_id, 'display_text' => user_group.name } }
   end
 
   def load_indicators_subcolumns
@@ -151,10 +160,11 @@ class Exporters::SubreportExporter < ValueObject
   end
 
   def indicator_subcolumn_lookups
-    (indicators_subcolumns || {}).select { |_key, value| value.is_a?(String) && value.starts_with?('lookup') }
+    (indicators_subcolumns || {}).select { |_key, value| value.is_a?(String) }
   end
 
   def metadata_property(property)
     managed_report.data.with_indifferent_access.dig(id, 'metadata', property)
   end
 end
+# rubocop:enable Metrics/ClassLength

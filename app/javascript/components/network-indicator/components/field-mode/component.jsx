@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
@@ -28,10 +30,6 @@ function Component() {
   useEffect(() => {
     localStorage.setItem("fieldMode", fieldModeStatus);
   }, [fieldModeStatus]);
-
-  useEffect(() => {
-    dispatch(setUserToggleOffline(fieldModeStatus));
-  }, []);
 
   if (!fieldMode) {
     return false;

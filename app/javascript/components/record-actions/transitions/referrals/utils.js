@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { SELECT_FIELD, OPTION_TYPES, TEXT_FIELD, DATE_FIELD } from "../../../form";
 
 import { FIELDS, SERVICE_SECTION_FIELDS_EXTERNAL, SERVICE_SECTION_FIELDS } from "./constants";

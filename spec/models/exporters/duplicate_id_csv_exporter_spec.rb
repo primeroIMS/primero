@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 module Exporters
@@ -61,7 +63,7 @@ module Exporters
         editable: true,
         name_all: 'Form Section Test',
         description_all: 'Form Section Test',
-        fields: fields
+        fields:
       )
       form.save!
 

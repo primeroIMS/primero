@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable camelcase */
 import { displayNameHelper, valueFromOptionSource } from "../../../libs";
 import { FIELDS } from "../../record-owner/constants";
