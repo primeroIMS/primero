@@ -42,7 +42,7 @@ describe("<FieldDialog />", () => {
 
   it("should render the FieldList if selectedField is subform", () => {
     mountedComponent(<FieldDialog mode="edit" />, state);
-    expect(screen.getAllByTestId("form-field")).toBeTruthy();
+    expect(screen.getAllByTestId("form-fields")).toHaveLength(1);
   });
 
   describe("when is new mode", () => {
