@@ -1,6 +1,8 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
-import { setupHook } from "../../test-utils/setup-hook";
+import { setupHook } from "../../test/utils";
 
 import * as PERMISSIONS from "./constants";
 import usePermissions from "./use-permissions";
@@ -15,7 +17,7 @@ describe("Verifying config constant", () => {
       }
     });
 
-    expect(result.current).toBe(true);
+    expect(result.current).to.eql(true);
   });
 
   it("handles multiple resources permission checks", () => {
@@ -49,6 +51,6 @@ describe("Verifying config constant", () => {
       }
     );
 
-    expect(result.current).toStrictEqual(expected);
+    expect(result.current).to.eql(expected);
   });
 });

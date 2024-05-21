@@ -1,14 +1,13 @@
 import { fromJS } from "immutable";
 
 import { mountedComponent, screen } from "../../test-utils";
+import { ROUTES } from "../../config";
 
 import Permission from "./component";
 
 import { ACTIONS, RESOURCES } from ".";
-import { ROUTES } from "../../config";
 
 describe("<Permission />", () => {
-
   const props = {
     resources: RESOURCES.cases,
     actions: ACTIONS.READ,
@@ -30,15 +29,9 @@ describe("<Permission />", () => {
   });
 
   describe("When User have permission", () => {
-
-    it("renders Permission", () => {
-        mountedComponent(<Permission {...props} />,initialState)
-      expect(screen.getByTestId('child-node')).toBeInTheDocument()
-    });
-
-    it("renders div", () => {
-        mountedComponent(<Permission {...props} />,initialState)
-        expect(screen.getByTestId('child-node')).toBeInTheDocument()
+    it("renders children", () => {
+      mountedComponent(<Permission {...props} />, initialState);
+      expect(screen.getByTestId("child-node")).toBeInTheDocument();
     });
   });
 
@@ -46,51 +39,44 @@ describe("<Permission />", () => {
     const actions = "write";
 
     const userProps = {
-        ...props,
-        actions
-    }
-
-    it("renders Permission", () => {
-        mountedComponent(<Permission {...userProps} />,initialState)
-        expect(screen.queryByTestId('child-node')).toBeNull()
-    });
+      ...props,
+      actions
+    };
 
     it("doesn't render children", () => {
-        mountedComponent(<Permission {...userProps} />,initialState)
-        expect(screen.queryByTestId('child-node')).toBeNull()
+      mountedComponent(<Permission {...userProps} />, initialState);
+      expect(screen.queryByTestId("child-node")).toBeNull();
     });
   });
 
   describe("When url is present", () => {
-    const urlProps ={
-        actions: ACTIONS.READ,
-        children: <div  />,
-        match: {
-          url: ROUTES.cases
-        }
-      };
+    const urlProps = {
+      actions: ACTIONS.READ,
+      children: <div />,
+      match: {
+        url: ROUTES.cases
+      }
+    };
 
     it("doesn't render children", () => {
-        mountedComponent(<Permission {...urlProps} />,initialState)
-        expect(screen.queryByTestId('child-node')).toBeNull()
+      mountedComponent(<Permission {...urlProps} />, initialState);
+      expect(screen.queryByTestId("child-node")).toBeNull();
     });
   });
 
   describe("When having multiple resources", () => {
-
     const multipleProps = {
-        resources: [RESOURCES.cases, RESOURCES.incidents],
-        actions: [ACTIONS.READ, ACTIONS.EXPORT_EXCEL],
-        children: <div data-testid="child-node" />,
-        match: {
-          url: "/cases"
-        }
+      resources: [RESOURCES.cases, RESOURCES.incidents],
+      actions: [ACTIONS.READ, ACTIONS.EXPORT_EXCEL],
+      children: <div data-testid="child-node" />,
+      match: {
+        url: "/cases"
       }
+    };
 
     it("renders children", () => {
-          mountedComponent(<Permission {...multipleProps} />,initialState)
-        expect(screen.getByTestId('child-node')).toBeInTheDocument()
-    
+      mountedComponent(<Permission {...multipleProps} />, initialState);
+      expect(screen.getByTestId("child-node")).toBeInTheDocument();
     });
   });
 
@@ -109,8 +95,8 @@ describe("<Permission />", () => {
     });
 
     it("doesn't render children", () => {
-        mountedComponent(<Permission {...wrongPermissionsProps} />, initialStateDashboad)
-        expect(screen.queryByTestId('child-node')).toBeNull()
+      mountedComponent(<Permission {...wrongPermissionsProps} />, initialStateDashboad);
+      expect(screen.queryByTestId("child-node")).toBeNull();
     });
   });
 });
