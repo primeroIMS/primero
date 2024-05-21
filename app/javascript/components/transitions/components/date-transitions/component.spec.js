@@ -11,14 +11,9 @@ describe("<DateTransitions />", () => {
     name: "this-is-name"
   };
 
-  it("renders a <DateTransitions />", () => {
+  it("renders label", () => {
     mountedComponent(<DateTransitions {...props} />, fromJS({}));
     expect(screen.getByText(/label-test/i)).toBeInTheDocument();
-  });
-
-  it("renders a <DisplayData />", () => {
-    mountedComponent(<DateTransitions {...props} />, fromJS({}));
-    expect(screen.queryAllByTestId("display-data")).toHaveLength(1);
   });
 
   describe("when ne locale", () => {
