@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Concern of Historical
 # rubocop:disable  Metrics/ModuleLength
 module Historical
@@ -36,7 +38,7 @@ module Historical
   # Module for ClassMethods
   module ClassMethods
     def all_by_creator(created_by)
-      where('data @> ?', { created_by: created_by }.to_json)
+      where('data @> ?', { created_by: }.to_json)
     end
   end
 
@@ -115,7 +117,7 @@ module Historical
   def update_saved_changes(diff, saved_changes_to_record, old_values)
     return saved_changes_to_record unless diff.present?
 
-    saved_changes_to_record = diff.map { |k, v| [k, { 'from' => old_values[k], 'to' => v }] }.to_h
+    saved_changes_to_record = diff.to_h { |k, v| [k, { 'from' => old_values[k], 'to' => v }] }
     # mark the 'name' attribute as dirty if `hidden name` changed
     if saved_changes_to_record.key?('hidden_name') && !saved_changes_to_record.key?('name')
       saved_changes_to_record['name'] = [name, name]
@@ -130,7 +132,7 @@ module Historical
     old_values = saved_change_to_attribute('data')[0] || {}
     new_values = saved_change_to_attribute('data')[1] || {}
     if new_values.present?
-      new_values = new_values.reject { |k, _| %w[last_updated_at last_updated_by].include?(k) }
+      new_values = new_values.except('last_updated_at', 'last_updated_by')
       diff = hash_diff(new_values, old_values)
       saved_changes_to_record = update_saved_changes(diff, saved_changes_to_record, old_values)
     end
@@ -146,7 +148,7 @@ module Historical
       old_values = changes_to_save['data'][0] || {}
       new_values = changes_to_save['data'][1] || {}
       diff = hash_diff(new_values, old_values)
-      changes_to_save_for_record = diff.map { |k, v| [k, [old_values[k], v]] }.to_h if diff.present?
+      changes_to_save_for_record = diff.to_h { |k, v| [k, [old_values[k], v]] } if diff.present?
     end
     changes_to_save_for_record
   end

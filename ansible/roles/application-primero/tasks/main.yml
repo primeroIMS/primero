@@ -1,3 +1,5 @@
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 ---
 - name: 'Copy Primero deployment private SSH key to remote host'
   copy:
@@ -11,7 +13,7 @@
 
 - name: 'Checking for external certs on remote machine'
   stat:
-    path: '/srv/primero{{ nginx_ssl_cert_path }}'
+    path: '/srv{{ nginx_ssl_cert_path }}'
   register: external_certs_crt
   when: use_external_certs == 'true'
   tags:
@@ -19,7 +21,7 @@
 
 - name: 'Checking for external certs (key) on remote machine'
   stat:
-    path: '/srv/primero{{ nginx_ssl_key_path }}'
+    path: '/srv{{ nginx_ssl_key_path }}'
   register: external_certs_key
   when: use_external_certs == 'true'
   tags:
@@ -28,6 +30,16 @@
 - name: 'Fail if no external certs on remote machine'
   fail: msg="Remote machine missing external certs"
   when: use_external_certs == 'true' and (not external_certs_crt.stat.exists or not external_certs_key.stat.exists)
+  tags:
+  - 'always'
+
+- name : 'Change primero folder owner'
+  file:
+    dest: '/srv/primero/'
+    owner: 'root'
+    group: 'root'
+    recurse: true
+  become: yes
   tags:
   - 'always'
 
@@ -46,7 +58,7 @@
   template:
     src: local.env.j2
     dest: '/srv/primero/docker/local.env'
-    mode: 'u=rw'
+    mode: '0640'
   become: yes
   tags:
   - 'never'
@@ -59,6 +71,7 @@
       cat /srv/primero/docker/local.env >> tmp0
 
       awk -F "=" '!a[$1]++' tmp0 > tmp1 && mv tmp1 /srv/primero/docker/local.env && rm tmp0
+      chmod 640 /srv/primero/docker/local.env
     else
       echo "No overrides file"
     fi
@@ -66,6 +79,16 @@
   tags:
   - 'never'
   - 'localized-env'
+
+- name : 'Change primero folder owner'
+  file:
+    dest: '/srv/primero/'
+    owner: '{{ application_container_username }}'
+    group: '{{ application_container_username }}'
+    recurse: true
+  become: yes
+  tags:
+  - 'always'
 
 - name: 'build the Docker containers'
   command: |
@@ -192,7 +215,7 @@
   become: yes
   tags:
   - 'never'
-  - 'start' 
+  - 'start'
 
 - name: 'create cron entry for pruning docker images'
   cron:
@@ -203,4 +226,4 @@
   become: yes
   tags:
   - 'never'
-  - 'start' 
+  - 'start'

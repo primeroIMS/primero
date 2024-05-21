@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Transifex
 
 Primero uses [transifex](https://www.transifex.com/) to translate over different languages.

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe IncidentCreationService do
@@ -34,11 +36,11 @@ describe IncidentCreationService do
     role.save(validate: false) && role
   end
   let(:user_cp) do
-    user = User.new(user_name: 'user_cp', full_name: 'Test User CP', role: role)
+    user = User.new(user_name: 'user_cp', full_name: 'Test User CP', role:)
     user.save(validate: false) && user
   end
   let(:user_gbv) do
-    user = User.new(user_name: 'user_gbv', full_name: 'Test User GBV', role: role)
+    user = User.new(user_name: 'user_gbv', full_name: 'Test User GBV', role:)
     user.save(validate: false) && user
   end
   let(:case_cp) do

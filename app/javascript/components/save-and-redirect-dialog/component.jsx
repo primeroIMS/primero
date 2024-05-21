@@ -1,10 +1,12 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 
 import { useI18n } from "../i18n";
 import ActionDialog from "../action-dialog";
 import { getSavingRecord } from "../records";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { setSelectedForm } from "../record-form";
 
 import { SAVE_AND_REDIRECT_DIALOG } from "./constants";

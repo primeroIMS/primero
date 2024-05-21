@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable import/prefer-default-export */
 
 import { CONNECTED, CONNECTION_LOST, FIELD_MODE_OFFLINE } from "./constants";

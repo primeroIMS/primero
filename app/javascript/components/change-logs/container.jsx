@@ -1,8 +1,10 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { OPTION_TYPES } from "../form/constants";
 import { useI18n } from "../i18n";
 import { getFields } from "../record-form";

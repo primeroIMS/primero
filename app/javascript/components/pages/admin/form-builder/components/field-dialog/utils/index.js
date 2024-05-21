@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export { default as addWithIndex } from "./add-with-index";
 export { default as appendSettingsAttributes } from "./append-settings-attributes";
 export { default as buildDataToSave } from "./build-data-to-save";

@@ -1,9 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getIncidentFromCase, selectRecord, getCaseIdForIncident, fetchRecord } from "../records";
 import { RECORD_PATH, RECORD_TYPES, SUMMARY, RECORD_TYPES_PLURAL } from "../../config";
 import {
@@ -15,13 +17,14 @@ import {
   RESOURCES
 } from "../permissions";
 import { getRecordAttachments, getLoadingRecordState } from "../records/selectors";
-import { getPermittedFormsIds } from "../user/selectors";
+import { READ_FAMILY_RECORD, READ_REGISTRY_RECORD, VIEW_INCIDENTS_FROM_CASE } from "../permissions/constants";
 import { useApp } from "../application";
 
 import {
   getAttachmentForms,
   getFirstTab,
   getFormNav,
+  getPermittedForms,
   getRecordForms,
   getRecordFormsByUniqueId,
   getShouldFetchRecord
@@ -47,6 +50,9 @@ const Container = ({ mode }) => {
 
   const canViewCases = usePermissions(params.recordType, READ_RECORDS);
   const canViewSummaryForm = usePermissions(RESOURCES.potential_matches, SHOW_FIND_MATCH);
+  const canViewRegistryRecord = usePermissions(RESOURCES.cases, READ_REGISTRY_RECORD);
+  const canViewFamilyRecord = usePermissions(RESOURCES.cases, READ_FAMILY_RECORD);
+  const canViewIncidentRecord = usePermissions(RESOURCES.cases, VIEW_INCIDENTS_FROM_CASE);
   const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
   const canSeeChangeLog = usePermissions(params.recordType, SHOW_CHANGE_LOG);
 
@@ -56,16 +62,19 @@ const Container = ({ mode }) => {
     selectRecord(state, { isEditOrShow, recordType: params.recordType, id: params.id })
   );
   const loading = useMemoizedSelector(state => getLoadingRecordState(state, params.recordType));
-  const userPermittedFormsIds = useMemoizedSelector(state => getPermittedFormsIds(state));
 
   const selectedModule = {
     recordType,
     primeroModule: record ? record.get("module_id") : params.module,
     checkPermittedForms: true,
-    renderCustomForms: canViewSummaryForm,
-    checkWritable: true
+    renderCustomForms:
+      canViewSummaryForm || canViewRegistryRecord || canViewFamilyRecord || canViewIncidentRecord || canSeeChangeLog,
+    checkWritable: true,
+    recordId: record?.get("id"),
+    isEditOrShow
   };
 
+  const permittedFormsIds = useMemoizedSelector(state => getPermittedForms(state, selectedModule));
   const formNav = useMemoizedSelector(state => getFormNav(state, selectedModule));
   const forms = useMemoizedSelector(state => getRecordForms(state, selectedModule));
   const attachmentForms = useMemoizedSelector(state => getAttachmentForms(state));
@@ -109,7 +118,7 @@ const Container = ({ mode }) => {
       canViewSummaryForm={canViewSummaryForm}
       formNav={formNav}
       fetchFromCaseId={fetchFromCaseId}
-      userPermittedFormsIds={userPermittedFormsIds}
+      userPermittedFormsIds={permittedFormsIds}
       demo={demo}
       canRefer={canRefer}
       canSeeChangeLog={canSeeChangeLog}

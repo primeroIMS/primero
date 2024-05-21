@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Query for flag
 
 Show a list of all flags from a records. depends of the recordType and the record id. 
