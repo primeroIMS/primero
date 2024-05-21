@@ -114,7 +114,7 @@ const Component = ({
     <div className={css.fieldArray} data-testid="subform-field-array">
       <div className={cssContainer}>
         {!renderAsAccordion && (
-          <div>
+          <div data-testid="subForm-header">
             <h3 className={css.subformTitle}>
               {renderAddFieldTitle} {title} {parentTitle}
             </h3>
