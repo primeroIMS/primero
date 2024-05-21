@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { SET_DIALOG, SET_DIALOG_PENDING } from "./actions";
 import * as actionCreators from "./action-creators";
 

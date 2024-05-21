@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 class CreateIncidents < ActiveRecord::Migration[5.0]
   def change
     create_table :incidents, id: :uuid, default: 'gen_random_uuid()' do |t|

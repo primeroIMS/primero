@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Generates an Arel order query for i18n JSON property and for case insensitive properties on a model
 # Or a hash for other properties
 class OrderByPropertyService

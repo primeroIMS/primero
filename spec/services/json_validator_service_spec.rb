@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe JsonValidatorService do
@@ -21,7 +23,9 @@ describe JsonValidatorService do
     end
 
     it 'throws an exception when is not valid' do
-      expect { service.validate!('name' => 'Not valid') }.to raise_error(Errors::InvalidRecordJson, 'Invalid Record JSON')
+      expect do
+        service.validate!('name' => 'Not valid')
+      end.to raise_error(Errors::InvalidRecordJson, 'Invalid Record JSON')
     end
   end
 end

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { parseISO } from "date-fns";
 
 import { useFakeTimers } from "../../test";

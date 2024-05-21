@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Delete an existing user_group
 
 Deletes a user_group with the specified id.
