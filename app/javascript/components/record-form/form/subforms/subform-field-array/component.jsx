@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { getIn } from "formik";
@@ -11,7 +13,7 @@ import SubformAddEntry from "../subform-add-entry";
 import { SUBFORM_FIELD_ARRAY } from "../constants";
 import { VIOLATIONS_ASSOCIATIONS_FORM } from "../../../../../config";
 import css from "../styles.css";
-import { isViolationSubform } from "../../utils";
+import { isFamilyDetailSubform, isFamilyMemberSubform, isViolationSubform } from "../../utils";
 import { GuidingQuestions } from "../../components";
 
 import { isEmptyOrAllDestroyed, isTracesSubform } from "./utils";
@@ -57,6 +59,8 @@ const Component = ({
 
   const isTraces = isTracesSubform(recordType, formSection);
 
+  const isFamilyDetail = isFamilyDetailSubform(recordType, formSection.unique_id);
+  const isFamilyMember = isFamilyMemberSubform(recordType, formSection.unique_id);
   const isViolation = isViolationSubform(recordType, formSection.unique_id, true);
   const isViolationAssociation = VIOLATIONS_ASSOCIATIONS_FORM.includes(formSection.unique_id);
   const renderAddFieldTitle = !isViolation && !mode.isShow && !displayConditions && i18n.t("fields.add");
@@ -93,6 +97,9 @@ const Component = ({
         parentForm={form}
         entryFilter={entryFilter}
         parentTitle={parentTitle}
+        isFamilyMember={isFamilyMember}
+        isFamilyDetail={isFamilyDetail}
+        isReadWriteForm={isReadWriteForm}
       />
     </List>
   );
@@ -104,10 +111,10 @@ const Component = ({
   );
 
   return (
-    <div className={css.fieldArray}>
+    <div className={css.fieldArray} data-testid="subForm-field-array">
       <div className={cssContainer}>
         {!renderAsAccordion && (
-          <div>
+          <div data-testid="subForm-header">
             <h3 className={css.subformTitle}>
               {renderAddFieldTitle} {title} {parentTitle}
             </h3>
@@ -143,6 +150,8 @@ const Component = ({
         isReadWriteForm={isReadWriteForm}
         isViolation={isViolation}
         isViolationAssociation={isViolationAssociation}
+        isFamilyMember={isFamilyMember}
+        isFamilyDetail={isFamilyDetail}
         mode={mode}
         selectedValue={selectedValue}
         open={open}

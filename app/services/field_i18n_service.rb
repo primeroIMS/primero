@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Methods to handle internationalization of the fields
-# rubocop:disable Metrics/ClassLength
 class FieldI18nService
   #  Converts the received parameters to localized properties
   #  of the class.
@@ -12,7 +13,7 @@ class FieldI18nService
   #  { 'name_i18n' => { 'en' => 'Lastname', 'es' => 'Apellido' } }
   def self.convert_i18n_properties(klass, params)
     localized_props = klass.localized_properties.map(&:to_s)
-    unlocalized_params = params.reject { |k, _v| localized_props.include?(k) }
+    unlocalized_params = params.except(*localized_props)
     localized_fields = localized_props.select { |prop| params[prop].present? }.map do |prop|
       { "#{prop}_i18n" => params[prop] }
     end.inject(&:merge)
@@ -52,7 +53,7 @@ class FieldI18nService
   #  { name: "Lastname" }
   def self.strip_i18n_suffix(source)
     source.map do |k, v|
-      key = k.to_s.gsub(/_i18n/, '')
+      key = k.to_s.gsub('_i18n', '')
       key = key.to_sym if k.is_a?(Symbol)
       { key => v }
     end.inject(&:merge)
@@ -112,7 +113,7 @@ class FieldI18nService
       next if option.dig('display_text', locale).nil?
 
       value = {}.with_indifferent_access
-      value['id'] = option.dig('id')
+      value['id'] = option['id']
       value['display_text'] = option.dig('display_text', locale)
 
       acc[locale.to_s] << value
@@ -289,14 +290,12 @@ class FieldI18nService
   def self.to_localized_values(field)
     return unless field
 
-    values_localized = field.each_with_object({}) do |(locale, values), acc|
+    field.each_with_object({}) do |(locale, values), acc|
       values.map do |key, value|
-        acc[key] ||= I18n.available_locales.collect { |l| [l.to_s, ''] }.to_h
+        acc[key] ||= I18n.available_locales.to_h { |l| [l.to_s, ''] }
         acc[key][locale] = value
       end
       acc
     end
-    values_localized
   end
 end
-# rubocop:enable Metrics/ClassLength

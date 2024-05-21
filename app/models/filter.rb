@@ -1,25 +1,34 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # The value bag representing the list view filters, and the hardcoded set of these filters in Primero
 # rubocop:disable Metrics/ClassLength
 class Filter < ValueObject
-  attr_accessor :name, :field_name, :type, :options, :option_strings_source
+  attr_accessor :name, :field_name, :type, :options, :option_strings_source,
+                :toggle_include_disabled, :sort_options
 
   FLAGGED_CASE = Filter.new(
     name: 'cases.filter_by.flag',
     field_name: 'flagged',
     options: I18n.available_locales.map do |locale|
-      { locale => [{ id: 'true', display_name: I18n.t('cases.filter_by.flag_label', locale: locale) }] }
+      { locale => [{ id: 'true', display_name: I18n.t('cases.filter_by.flag_label', locale:) }] }
     end.inject(&:merge)
   )
   MOBILE_CASE = Filter.new(
     name: 'cases.filter_by.mobile',
     field_name: 'marked_for_mobile',
     options: I18n.available_locales.map do |locale|
-      { locale => [{ id: 'true', display_name: I18n.t('cases.filter_by.mobile_label', locale: locale) }] }
+      { locale => [{ id: 'true', display_name: I18n.t('cases.filter_by.mobile_label', locale:) }] }
     end.inject(&:merge)
   )
-  SOCIAL_WORKER = Filter.new(name: 'cases.filter_by.social_worker', field_name: 'owned_by')
+  SOCIAL_WORKER = Filter.new(
+    name: 'cases.filter_by.social_worker',
+    field_name: 'owned_by',
+    type: 'multi_select',
+    toggle_include_disabled: true,
+    sort_options: true
+  )
   RECORD_OWNER = Filter.new(name: 'incidents.filter_by.record_owner', field_name: 'owned_by')
   MY_CASES = Filter.new(name: 'cases.filter_by.my_cases', field_name: 'my_cases')
   WORKFLOW = Filter.new(name: 'cases.filter_by.workflow', field_name: 'workflow')
@@ -110,8 +119,8 @@ class Filter < ValueObject
     options: I18n.available_locales.map do |locale|
       {
         locale => [
-          { id: 'true', display_name: I18n.t('disabled.status.enabled', locale: locale) },
-          { id: 'false', display_name: I18n.t('disabled.status.disabled', locale: locale) }
+          { id: 'true', display_name: I18n.t('disabled.status.enabled', locale:) },
+          { id: 'false', display_name: I18n.t('disabled.status.disabled', locale:) }
         ]
       }
     end.inject(&:merge)
@@ -122,7 +131,7 @@ class Filter < ValueObject
     options: I18n.available_locales.map do |locale|
       {
         locale => [
-          { id: 'photo', display_name: I18n.t('cases.filter_by.photo_label', locale: locale) }
+          { id: 'photo', display_name: I18n.t('cases.filter_by.photo_label', locale:) }
         ]
       }
     end.inject(&:merge)
@@ -138,9 +147,9 @@ class Filter < ValueObject
     options: I18n.available_locales.map do |locale|
       {
         locale => [
-          { id: 'boys', display_name: I18n.t('incidents.filter_by.boys', locale: locale) },
-          { id: 'girls', display_name: I18n.t('incidents.filter_by.girls', locale: locale) },
-          { id: 'unknown', display_name: I18n.t('incidents.filter_by.unknown', locale: locale) }
+          { id: 'boys', display_name: I18n.t('incidents.filter_by.boys', locale:) },
+          { id: 'girls', display_name: I18n.t('incidents.filter_by.girls', locale:) },
+          { id: 'unknown', display_name: I18n.t('incidents.filter_by.unknown', locale:) }
         ]
       }
     end.inject(&:merge)
@@ -201,7 +210,7 @@ class Filter < ValueObject
         locale => [
           {
             id: 'inquiry_date',
-            display_name: I18n.t('tracing_requests.selectable_date_options.inquiry_date', locale: locale)
+            display_name: I18n.t('tracing_requests.selectable_date_options.inquiry_date', locale:)
           }
         ]
       }
@@ -327,7 +336,7 @@ class Filter < ValueObject
     name: 'incidents.filter_by.late_verified_violations',
     field_name: 'has_late_verified_violations',
     options: I18n.available_locales.map do |locale|
-      { locale => [{ id: 'true', display_name: I18n.t('true', locale: locale) }] }
+      { locale => [{ id: 'true', display_name: I18n.t('true', locale:) }] }
     end.inject(&:merge)
   )
 
@@ -335,7 +344,26 @@ class Filter < ValueObject
     name: 'incidents.filter_by.perpetrator_category',
     field_name: 'perpetrator_category',
     type: 'multi_select',
-    option_strings_source: 'lookup-perpetrator-category-type',
+    option_strings_source: 'lookup-perpetrator-category-type'
+  )
+
+  FAMILY_REGISTRATION_DATE = Filter.new(
+    name: 'families.filter_by.by_date',
+    field_name: 'families_by_date',
+    type: 'dates'
+  )
+
+  FAMILY_STATUS = Filter.new(
+    name: 'families.filter_by.status',
+    field_name: 'status',
+    option_strings_source: 'lookup-case-status'
+  )
+
+  FAMILY_LOCATION_CURRENT = Filter.new(
+    name: 'families.filter_by.current_location',
+    field_name: 'family_location_current',
+    option_strings_source: 'Location',
+    type: 'multi_select'
   )
 
   class << self
@@ -345,6 +373,7 @@ class Filter < ValueObject
                 when 'incident' then incident_filters(user)
                 when 'tracing_request' then tracing_request_filter(user)
                 when 'registry_record' then registry_record_filter(user)
+                when 'family' then family_filter(user)
                 end
       filters.map do |filter|
         hydrate_filter(filter, user, record_type)
@@ -415,7 +444,7 @@ class Filter < ValueObject
     end
 
     def field_based_filters(user)
-      filter_fields = Field.where(name: CASE_FILTER_FIELD_NAMES).map { |f| [f.name, f] }.to_h
+      filter_fields = Field.where(name: CASE_FILTER_FIELD_NAMES).to_h { |f| [f.name, f] }
       filters = []
       filters += protection_concern_filter(user)
       filters += gbv_displacement_filter(user, filter_fields)
@@ -426,9 +455,7 @@ class Filter < ValueObject
     end
 
     def protection_concern_filter(user)
-      if user.can?(:view_protection_concerns_filter, Child)
-        return [PROTECTION_CONCERNS]
-      end
+      return [PROTECTION_CONCERNS] if user.can?(:view_protection_concerns_filter, Child)
 
       []
     end
@@ -589,6 +616,16 @@ class Filter < ValueObject
       filters
     end
 
+    def family_filter(_user)
+      filters = []
+      filters << FLAGGED_CASE
+      filters << FAMILY_STATUS
+      filters << ENABLED
+      filters << FAMILY_LOCATION_CURRENT
+      filters << FAMILY_REGISTRATION_DATE
+      filters
+    end
+
     private
 
     def visible?(field_name, filter_fields)
@@ -602,8 +639,14 @@ class Filter < ValueObject
   end
 
   def owned_by_options(opts = {})
-    managed_user_names = opts[:user].managed_user_names
-    self.options = managed_user_names.map { |user_name| { id: user_name, display_name: user_name } }
+    managed_users = opts[:user].managed_users
+    self.options = managed_users.map do |usr|
+      {
+        id: usr.user_name,
+        display_name: usr.user_name,
+        enabled: !usr.disabled
+      }
+    end
   end
 
   def workflow_options(opts = {})
@@ -652,35 +695,35 @@ class Filter < ValueObject
   def registration_date_options(locale)
     {
       id: 'registration_date',
-      display_name: I18n.t('children.selectable_date_options.registration_date', locale: locale)
+      display_name: I18n.t('children.selectable_date_options.registration_date', locale:)
     }
   end
 
   def assessment_requested_on_options(locale)
     {
       id: 'assessment_requested_on',
-      display_name: I18n.t('children.selectable_date_options.assessment_requested_on', locale: locale)
+      display_name: I18n.t('children.selectable_date_options.assessment_requested_on', locale:)
     }
   end
 
   def date_case_plan_options(locale)
     {
       id: 'date_case_plan',
-      display_name: I18n.t('children.selectable_date_options.date_case_plan_initiated', locale: locale)
+      display_name: I18n.t('children.selectable_date_options.date_case_plan_initiated', locale:)
     }
   end
 
   def date_closure_options(locale)
     {
       id: 'date_closure',
-      display_name: I18n.t('children.selectable_date_options.closure_approved_date', locale: locale)
+      display_name: I18n.t('children.selectable_date_options.closure_approved_date', locale:)
     }
   end
 
   def created_at_options(locale, date_label)
     {
       id: 'created_at',
-      display_name: I18n.t("children.selectable_date_options.#{date_label}", locale: locale)
+      display_name: I18n.t("children.selectable_date_options.#{date_label}", locale:)
     }
   end
 
@@ -700,28 +743,28 @@ class Filter < ValueObject
   def date_of_first_report_options(locale, label_key = 'date_of_first_report')
     {
       id: 'date_of_first_report',
-      display_name: I18n.t("incidents.selectable_date_options.#{label_key}", locale: locale)
+      display_name: I18n.t("incidents.selectable_date_options.#{label_key}", locale:)
     }
   end
 
   def mrm_date_of_first_report_options(locale)
     {
       id: 'date_of_first_report',
-      display_name: I18n.t('incidents.selectable_date_options.mrm_date_of_first_report', locale: locale)
+      display_name: I18n.t('incidents.selectable_date_options.mrm_date_of_first_report', locale:)
     }
   end
 
   def ctfmr_verified_date_options(locale)
     {
       id: 'ctfmr_verified_date',
-      display_name: I18n.t('incidents.selectable_date_options.ctfmr_verified_date', locale: locale)
+      display_name: I18n.t('incidents.selectable_date_options.ctfmr_verified_date', locale:)
     }
   end
 
   def incident_date_derived_options(locale)
     {
       id: 'incident_date_derived',
-      display_name: I18n.t('incidents.selectable_date_options.incident_date_derived', locale: locale)
+      display_name: I18n.t('incidents.selectable_date_options.incident_date_derived', locale:)
     }
   end
 
@@ -729,7 +772,17 @@ class Filter < ValueObject
     self.options = I18n.available_locales.map do |locale|
       locale_options = [{
         id: 'registration_date',
-        display_name: I18n.t('registry_records.selectable_date_options.registration_date', locale: locale)
+        display_name: I18n.t('registry_records.selectable_date_options.registration_date', locale:)
+      }]
+      { locale => locale_options }
+    end.inject(&:merge)
+  end
+
+  def families_by_date_options(_opts = {})
+    self.options = I18n.available_locales.map do |locale|
+      locale_options = [{
+        id: 'registration_date',
+        display_name: I18n.t('registry_records.selectable_date_options.registration_date', locale:)
       }]
       { locale => locale_options }
     end.inject(&:merge)
@@ -742,7 +795,7 @@ class Filter < ValueObject
           Approval::APPROVAL_STATUS_PENDING, Approval::APPROVAL_STATUS_APPROVED,
           Approval::APPROVAL_STATUS_REJECTED
         ].map do |status|
-          { id: status, display_name: I18n.t("cases.filter_by.approvals.#{status}", locale: locale) }
+          { id: status, display_name: I18n.t("cases.filter_by.approvals.#{status}", locale:) }
         end
       }
     end.inject(&:merge)
@@ -754,9 +807,9 @@ class Filter < ValueObject
       approval_status_options
     elsif %w[
       owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date incidents_by_date
-      registry_records_by_date individual_age
+      registry_records_by_date individual_age families_by_date
     ].include? field_name
-      opts = { user: user, record_type: record_type }
+      opts = { user:, record_type: }
       send("#{field_name}_options", opts)
     end
   end
@@ -774,14 +827,14 @@ class Filter < ValueObject
   end
 
   def options_length_to_type(options_length)
-    case options_length
-    when 1
-      self.type = 'toggle'
-    when 2, 3
-      self.type = 'multi_toggle'
-    else
-      self.type = 'checkbox'
-    end
+    self.type = case options_length
+                when 1
+                  'toggle'
+                when 2, 3
+                  'multi_toggle'
+                else
+                  'checkbox'
+                end
   end
 
   def inspect

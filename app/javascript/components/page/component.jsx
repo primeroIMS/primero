@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import clsx from "clsx";
 import PropTypes from "prop-types";
 
@@ -19,7 +21,7 @@ const Component = ({ children, twoCol, fullWidthMobile }) => {
   }
 
   return (
-    <div className={contentClasses}>
+    <div className={contentClasses} data-testid="page-container">
       <div className={contentContainer}>{children}</div>
     </div>
   );

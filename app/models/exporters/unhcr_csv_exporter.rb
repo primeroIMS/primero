@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'csv'
 
 # Export case data from Primero for consumption by downstream UNHCR systems
-# rubocop:disable Metrics/ClassLength
 class Exporters::UNHCRCsvExporter < Exporters::ConfigurableExporter
   ID_FIELD_NAMES = %w[
     case_id unhcr_individual_no cpims_id short_id identification_date protection_status
@@ -18,7 +19,7 @@ class Exporters::UNHCRCsvExporter < Exporters::ConfigurableExporter
   end
 
   def initialize(output_file_path = nil, config = {}, options = {})
-    super(output_file_path, config.merge(export_config_id: export_config_id), options)
+    super(output_file_path, config.merge(export_config_id:), options)
     @fields = Field.find_by_name(ID_FIELD_NAMES).inject({}) { |acc, field| acc.merge(field.name => field) }
     @headers = [' '] +
                properties_to_export(PROPERTIES).keys.map do |prop|
@@ -32,7 +33,7 @@ class Exporters::UNHCRCsvExporter < Exporters::ConfigurableExporter
 
   def write_case(record, index, rows)
     props_to_export = properties_to_export(PROPERTIES, opting_out?(record))
-    rows << [index + 1] + map_properties(record, props_to_export)
+    rows << ([index + 1] + map_properties(record, props_to_export))
   end
 
   def map_properties(record, props_to_export)
@@ -42,7 +43,7 @@ class Exporters::UNHCRCsvExporter < Exporters::ConfigurableExporter
         value_from_array(record, generator)
       when Proc
         unhcr_needs_codes_value = export_value(record.unhcr_needs_codes, @fields['unhcr_needs_codes'])
-        generator.call(record: record, codes_value: unhcr_needs_codes_value, location_service: location_service)
+        generator.call(record:, codes_value: unhcr_needs_codes_value, location_service:)
       end
     end
   end
@@ -127,4 +128,3 @@ class Exporters::UNHCRCsvExporter < Exporters::ConfigurableExporter
     @system_settings&.export_config_id&.[]('unhcr')
   end
 end
-# rubocop:enable Metrics/ClassLength

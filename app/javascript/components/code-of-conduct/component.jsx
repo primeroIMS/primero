@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -9,7 +11,7 @@ import { ROUTES } from "../../config";
 import TranslationsToggle from "../translations-toggle";
 import ModuleLogo from "../module-logo";
 import { useI18n } from "../i18n";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getCodeOfConductId, getUser } from "../user";
 import LoadingIndicator from "../loading-indicator";
 import { getCodesOfConduct } from "../application/selectors";

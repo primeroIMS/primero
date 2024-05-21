@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -11,7 +13,7 @@ import ActionDialog from "../action-dialog";
 import { ROUTES } from "../../config";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { removeSavedSearch } from "./action-creators";
 import { selectSavedSearchesById } from "./selectors";

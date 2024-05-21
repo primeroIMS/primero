@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # rubocop:disable Style/ClassAndModuleChildren
 module Indicators
   # Incident Class for Indicators
@@ -35,3 +37,4 @@ module Indicators
     end
   end
 end
+# rubocop:enable Style/ClassAndModuleChildren

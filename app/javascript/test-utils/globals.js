@@ -1,10 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import "mutationobserver-shim";
+
 import get from "lodash/get";
 import { parseISO, format as formatDate } from "date-fns";
 
 import { DATE_FORMATS } from "./constants";
-
-const storage = {};
 
 global.html2pdf = {};
 
@@ -22,18 +23,6 @@ global.window.I18n = {
 global.document.documentElement.lang = "en";
 
 global.MutationObserver = window.MutationObserver;
-
-global.localStorage = {
-  setItem: (key, value) => {
-    storage[key] = value || "";
-  },
-  getItem: key => {
-    return key in storage ? storage[key] : null;
-  },
-  removeItem: key => {
-    delete storage[key];
-  }
-};
 
 global.window.defaultMediaQueryList = (args = {}) => ({
   matches: false,
@@ -86,3 +75,19 @@ global.HTMLCanvasElement.prototype.getContext = () => {
 global.cancelAnimationFrame = () => {};
 
 global.window.locationManifest = "/test-locations.json";
+
+global.URL.createObjectURL = () => {};
+class Worker {
+  constructor(stringUrl) {
+    this.url = stringUrl;
+    this.onmessage = () => {};
+  }
+
+  postMessage(msg) {
+    this.onmessage(msg);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  addEventListener() {}
+}
+global.Worker = Worker;

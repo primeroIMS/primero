@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import chai from "chai";
 import sinonChai from "sinon-chai";
 import chaiImmutable from "chai-immutable";
@@ -38,3 +40,22 @@ global.IDBCursor = global.window.IDBCursor;
 
 global.window.IDBIndex = IDBIndex;
 global.IDBIndex = global.window.IDBIndex;
+
+let storage = {};
+
+global.localStorage = {
+  setItem: (key, value) => {
+    storage[key] = value || "";
+  },
+  getItem: key => {
+    return key in storage ? storage[key] : null;
+  },
+  removeItem: key => {
+    delete storage[key];
+  },
+  clear: () => {
+    storage = {}
+  }
+};
+
+global.sessionStorage = global.localStorage

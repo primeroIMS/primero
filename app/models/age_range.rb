@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Used to encapsulate an age range configuration.
 # Eg. [0..4, 5..11, 12..17, 18..59, 60..AgeRange::MAX]
 class AgeRange < Range

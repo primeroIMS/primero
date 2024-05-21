@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the reporting locations of violation type detention
 class ManagedReports::Indicators::MilitaryUse < ManagedReports::SqlReportIndicator
   include ManagedReports::MRMIndicatorHelper
@@ -40,6 +42,5 @@ class ManagedReports::Indicators::MilitaryUse < ManagedReports::SqlReportIndicat
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
-
   end
 end

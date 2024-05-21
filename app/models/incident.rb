@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Model representing an event. Some events are correlated to a case, forming a historical record.
 # rubocop:disable Metrics/ClassLength
 class Incident < ApplicationRecord
@@ -8,6 +10,7 @@ class Incident < ApplicationRecord
   include Historical
   include Ownable
   include Flaggable
+  include Transitionable
   include Alertable
   include Attachable
   include EagerLoadable
@@ -29,6 +32,8 @@ class Incident < ApplicationRecord
     :livelihoods_services_subform_section, :child_protection_services_subform_section, :violation_category,
     :incident_date_end, :is_incident_date_range
   )
+
+  DEFAULT_ALERT_FORM_UNIQUE_ID = 'incident_from_case'
 
   has_many :violations, dependent: :destroy, inverse_of: :incident
   has_many :perpetrators, through: :violations
@@ -136,9 +141,7 @@ class Incident < ApplicationRecord
   end
 
   def add_alert_on_case
-    return unless alerts_on_change.present?
-
-    form_name = alerts_on_change[ALERT_INCIDENT]
+    form_name = alert_form_unique_id
 
     return unless form_name.present?
     return unless self.case.present? && created_by != self.case.owned_by
@@ -159,6 +162,11 @@ class Incident < ApplicationRecord
         incidents: { from: old_incident_values, to: new_incident_values }
       }
     )
+
+    mark_case_updated!
+  end
+
+  def mark_case_updated!
     self.case.last_updated_by = created_by
     self.case.last_updated_at = DateTime.now
     self.case.save!
@@ -297,6 +305,18 @@ class Incident < ApplicationRecord
 
   def reporting_location_property
     'incident_reporting_location_config'
+  end
+
+  def can_be_assigned?
+    self.case.blank?
+  end
+
+  private
+
+  def alert_form_unique_id
+    return unless alerts_on_change.present?
+
+    alerts_on_change[ALERT_INCIDENT]&.form_section_unique_id || DEFAULT_ALERT_FORM_UNIQUE_ID
   end
 end
 # rubocop:enable Metrics/ClassLength

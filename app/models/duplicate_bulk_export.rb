@@ -1,18 +1,20 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Represents an asynchronous run of the query to retrieve all records
 # that may share a duplicate id field value with another record.
 class DuplicateBulkExport < BulkExport
   FACET_BATCH_SIZE = 100
 
-  def process_records_in_batches(batch_size = 500, &block)
+  def process_records_in_batches(batch_size = 500, &)
     return yield([]) unless duplicate_field_name
 
     batched_duplicate_values = search_for_duplicate_values.in_groups_of(FACET_BATCH_SIZE, false)
     return yield([]) unless batched_duplicate_values.present?
 
     batched_duplicate_values.each do |values|
-      search_for_duplicate_records(values, batch_size, &block)
+      search_for_duplicate_records(values, batch_size, &)
     end
   end
 
@@ -44,8 +46,8 @@ class DuplicateBulkExport < BulkExport
     sort = order || { national_id_no: :asc }
     loop do
       filters = filters_for_duplicates(duplicate_field_name, values)
-      results = SearchService.search(model_class, filters: filters, query: query,
-                                                  pagination: { page: page, per_page: batch_size }, sort: sort).results
+      results = SearchService.search(model_class, filters:, query:,
+                                                  pagination: { page:, per_page: batch_size }, sort:).results
       yield(results)
       # Set again the values of the pagination variable because the method modified the variable.
       page = results.next_page
@@ -54,7 +56,7 @@ class DuplicateBulkExport < BulkExport
   end
 
   def filters_for_duplicates(field_name, duplicates)
-    [SearchFilters::ValueList.new(field_name: field_name, values: duplicates)]
+    [SearchFilters::ValueList.new(field_name:, values: duplicates)]
   end
 
   def duplicate_field_name

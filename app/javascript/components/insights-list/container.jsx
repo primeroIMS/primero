@@ -1,10 +1,12 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
 import PageContainer, { PageHeading, PageContent } from "../page";
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getMetadata } from "../record-list";
 import { useMetadata } from "../records";
 import IndexTable from "../index-table";

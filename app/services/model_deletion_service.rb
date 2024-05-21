@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Service to handle deletion of data for a specific model and its associations
+# rubocop:disable Metrics/ClassLength
 class ModelDeletionService < ValueObject
   UUID_REFERENCED_MODELS = [Alert, Attachment, Trace, Violation].freeze
   attr_accessor :model_class
@@ -100,7 +103,11 @@ class ModelDeletionService < ValueObject
   end
 
   def delete_attachment_references(query, column_name)
-    attachments = Attachment.where("#{column_name} IN (#{query.select('id').to_sql})")
+    attachments = Attachment.where(
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        "#{column_name} IN (#{query.select('id').to_sql})"
+      )
+    )
 
     blob_ids = active_storage_blob_ids(attachments)
 
@@ -156,3 +163,4 @@ class ModelDeletionService < ValueObject
     model_class.reflect_on_all_associations(:has_and_belongs_to_many).reject(&:through_reflection?)
   end
 end
+# rubocop:enable Metrics/ClassLength

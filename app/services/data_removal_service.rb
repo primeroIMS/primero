@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Service that allow users to remove data and handling referential integrity
 class DataRemovalService
   RECORD_MODELS = [Child, Incident, TracingRequest].freeze
@@ -17,7 +19,8 @@ class DataRemovalService
       if args.present? && args[:filters].present?
         record_models = args[:record_models].present? ? record_models_to_delete(args[:record_models]) : RECORD_MODELS
         if record_models.present?
-          # TODO: We need to delete records in polymorphic models(RecordHistory, Flag, Transition, Alert, AuditLog) to avoid orphan records.
+          # TODO: We need to delete records in polymorphic models(RecordHistory, Flag, Transition, Alert, AuditLog)
+          # to avoid orphan records.
           ActiveRecord::Base.transaction { record_models.each { |model| remove_model_records(model, args[:filters]) } }
         else
           puts 'No valid record model was entered. Nothing was deleted.'
@@ -40,14 +43,15 @@ class DataRemovalService
         agency_blob_ids = ActiveStorage::Attachment.where(record_type: 'Agency').pluck(:blob_id).join(', ')
         blobs_conditional = agency_blob_ids.present? ? "WHERE id NOT IN (#{agency_blob_ids})" : ''
         ActiveRecord::Base.connection.execute("DELETE FROM active_storage_blobs #{blobs_conditional}")
+        ActiveRecord::Base.connection.execute('DELETE FROM form_sections_roles')
       end
 
       Sunspot.remove_all(RECORD_MODELS)
     end
 
     def remove_config(args = {})
-      metadata_models = args[:metadata].present? ? metadata_models_to_delete(args[:metadata]) : METADATA_MODELS
-      metadata_models += [User] if args[:include_users] == true
+      metadata_models = args[:include_users] == true ? [User] : []
+      metadata_models += args[:metadata].present? ? metadata_models_to_delete(args[:metadata]) : METADATA_MODELS
       metadata_models.each { |model| ModelDeletionService.new(model_class: model).delete_all! }
     end
 
