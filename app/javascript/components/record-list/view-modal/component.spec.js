@@ -109,7 +109,10 @@ describe("<ViewModal />", () => {
     });
 
     mountedComponent(<ViewModal {...props} />, initialState);
-    expect(screen.getAllByText("cases.case_worker_code")).toBeTruthy();
+    const inputs = Array.from(document.querySelectorAll("input")).map(input => input.getAttribute("name"));
+
+    expect(inputs).toContain("name_first");
+    expect(inputs).toContain("name_last");
   });
 
   it("should not render nested fields even if they are show_on_minify_form", () => {
