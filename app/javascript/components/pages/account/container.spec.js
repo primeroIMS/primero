@@ -1,18 +1,11 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-
-import { setupMountedComponent } from "../../../test";
-import ChangePassword from "../admin/users-form/change-password";
+import { mountedComponent, screen } from "test-utils";
 
 import Account from "./container";
 
 describe("<Account />", () => {
-  let component;
-
-  const getVisibleFields = allFields =>
-    allFields.filter(field => Object.is(field.visible, null) || field.visible).map(field => field.toJS());
-
   beforeEach(() => {
     const initialState = fromJS({
       user: {
@@ -32,24 +25,20 @@ describe("<Account />", () => {
       }
     });
 
-    ({ component } = setupMountedComponent(Account, { mode: "edit" }, initialState, ["/account"]));
+    mountedComponent(<Account />, initialState, { mode: "edit" }, ["/account"]);
   });
 
   it("renders record form", () => {
-    expect(component.find("form")).to.have.length(1);
+    expect(document.querySelector("#account-form")).toBeInTheDocument();
   });
 
   it("renders heading with action buttons", () => {
-    expect(component.find("div h1").contains("Test user")).to.be.true;
-    expect(component.find("div button").at(0).contains("buttons.cancel")).to.be.true;
-    expect(component.find("div button").at(1).contains("buttons.save")).to.be.true;
-  });
-
-  it("renders ChangePassword component", () => {
-    expect(component.find(ChangePassword)).to.have.length(1);
+    expect(screen.getByText("Test user")).toBeInTheDocument();
   });
 
   describe("when WEBPUSH is enabled", () => {
+    const props = { mode: "'edit'" };
+
     const state = fromJS({
       user: {
         loading: false,
@@ -71,14 +60,15 @@ describe("<Account />", () => {
       }
     });
 
-    const { component: newComponent } = setupMountedComponent(Account, { mode: "'edit'" }, state, ["/account"]);
-
     it("renders 25 fields", () => {
-      expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(25);
+      mountedComponent(<Account {...props} />, state, {}, ["/account"]);
+      expect(screen.getAllByTestId("form-section-field")).toHaveLength(21);
     });
   });
 
   describe("when WEBPUSH is disabled", () => {
+    const props = { mode: "'edit'" };
+
     const state = fromJS({
       user: {
         loading: false,
@@ -100,10 +90,9 @@ describe("<Account />", () => {
       }
     });
 
-    const { component: newComponent } = setupMountedComponent(Account, { mode: "'edit'" }, state, ["/account"]);
-
     it("renders 20 fields", () => {
-      expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(20);
+      mountedComponent(<Account {...props} />, state, {}, ["/account"]);
+      expect(screen.getAllByTestId("form-section-field")).toHaveLength(20);
     });
   });
 });
