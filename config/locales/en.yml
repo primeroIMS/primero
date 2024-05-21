@@ -602,6 +602,13 @@ en:
     all_cases: All Cases
     all_services_implemented: All Services Implemented
     and: 'and '
+    action_needed:
+      awaiting_acceptance: Awaiting Acceptance
+      header: Action Needed
+      new: New
+      new_this_week: New this Week
+      referrals: Referrals
+      transfers: Transfers
     approval_action_plan_approved: Approved
     approval_action_plan_pending: Pending
     approval_action_plan_pending_group: Action Plan
@@ -2988,6 +2995,20 @@ en:
         label: Case
       dashboard:
         actions:
+          action_needed_new_updated:
+            explanation: Displays the 'New and Updated' indicator in the 'Action Needed' dashboard.
+              This includes Cases which are newly assigned to the current user, or which another
+              user has updated since the last time the current user updated it.
+            label: 'Action Needed: New or Updated'
+          action_needed_new_referrals:
+            explanation: Displays the 'New Referrals' indicator in the 'Action Needed' dashboard.
+              This includes any Cases with a new Referral sent to the current user,
+              where the current user is not the last person to update the Case.
+            label: 'Action Needed: New Referrals'
+          action_needed_transfer_awaiting_acceptance:
+            explanation: Displays the 'Transfers Awaiting Acceptance' indicator in the 'Action Needed' dashboard.
+              This includes any Cases with a Transfer to the current user, which the current user has not accepted.
+            label: 'Action Needed: Transfers Awaiting Acceptance'
           approvals_action_plan:
             explanation: Shows the number of the current user's cases with Action
               Plan approval requests which are Pending, Approved, or Rejected.
