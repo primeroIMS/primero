@@ -12,12 +12,19 @@ describe("<ReportsForm />/components/<TranslationsDialog/> - Container", () => {
   });
 
   it("should render <TranslationsDialog /> with fields for the selected locale", async () => {
-   await mountedFormComponent(<ReportTranslationsDialog />, {
+    await mountedFormComponent(<ReportTranslationsDialog />, {
       props: { mode: "edit" },
       state,
       includeFormMethods: true
     });
-   expect(screen.getAllByRole('dialog')).toHaveLength(1);
-    expect(screen.getAllByRole("textbox")).toHaveLength(3);
+
+    expect(screen.getAllByRole("dialog")).toHaveLength(1);
+    expect(document.getElementById("locale_id")).toBeInTheDocument();
+    expect(
+      screen
+        .getAllByRole("textbox")
+        .map(input => input.getAttribute("name"))
+        .filter(input => input)
+    ).toStrictEqual(["name.fr", "description.fr"]);
   });
 });
