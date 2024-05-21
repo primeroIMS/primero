@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { Hidden, IconButton } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import * as PERMISSIONS from "./constants";
 
 describe("Verifying config constant", () => {
@@ -17,6 +19,7 @@ describe("Verifying config constant", () => {
       "ASSIGN_WITHIN_AGENCY",
       "ASSIGN_WITHIN_USER_GROUP",
       "ASSIGN",
+      "CASE_FROM_FAMILY",
       "CHANGE_LOG",
       "CLOSE",
       "CONSENT_OVERRIDE",
@@ -74,6 +77,7 @@ describe("Verifying config constant", () => {
       "EXPORT_UNHCR",
       "FIND_TRACING_MATCH",
       "FLAG",
+      "FLAG_RESOLVE_ANY",
       "GBV_STATISTICS",
       "GROUP_READ",
       "INCIDENT_DETAILS_FROM_CASE",
@@ -93,6 +97,7 @@ describe("Verifying config constant", () => {
       "KPI_SERVICES_PROVIDED",
       "KPI_SUPERVISOR_TO_CASEWORKER_RATIO",
       "KPI_TIME_FROM_CASE_OPEN_TO_CLOSE",
+      "LINK_FAMILY_RECORD",
       "MANAGE",
       "MARK_FOR_OFFLINE",
       "READ",
@@ -100,6 +105,7 @@ describe("Verifying config constant", () => {
       "RECEIVE_TRANSFER",
       "REFERRAL_FROM_SERVICE",
       "REFERRAL",
+      "REFERRALS_TRANSFERS_REPORT",
       "REMOVE_ASSIGNED_USERS",
       "REOPEN",
       "REQUEST_APPROVAL_ACTION_PLAN",
@@ -113,11 +119,13 @@ describe("Verifying config constant", () => {
       "WORKFLOW_REPORT",
       "SYNC_EXTERNAL",
       "TRANSFER",
+      "VERIFY_MRM",
       "VIEW_FAMILY_RECORD",
       "VIEW_INCIDENT_FROM_CASE",
       "VIEW_REGISTRY_RECORD",
       "VIOLATIONS",
-      "WRITE"
+      "WRITE",
+      "REMOVE_ALERT"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
       expect(permissions[property]).to.be.a("string");

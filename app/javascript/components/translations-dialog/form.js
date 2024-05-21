@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable no-undef */
 import { fromJS } from "immutable";
 import { object, string } from "yup";

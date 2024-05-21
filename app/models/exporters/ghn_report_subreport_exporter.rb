@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Class to export Ghn Subreports
 class Exporters::GhnReportSubreportExporter < Exporters::SubreportExporter
   # rubocop:disable Metrics/MethodLength
@@ -7,14 +9,14 @@ class Exporters::GhnReportSubreportExporter < Exporters::SubreportExporter
     indicator_exporter_class(indicator_key, indicator_values).new(
       key: indicator_key,
       values: indicator_values,
-      worksheet: worksheet,
+      worksheet:,
       lookups: lookups[indicator_key],
-      current_row: current_row,
-      grouped_by: grouped_by,
-      formats: formats,
-      managed_report: managed_report,
-      locale: locale,
-      workbook: workbook,
+      current_row:,
+      grouped_by:,
+      formats:,
+      managed_report:,
+      locale:,
+      workbook:,
       subcolumn_lookups: subcolumn_lookups[indicator_key],
       indicator_subcolumns: indicators_subcolumns[indicator_key],
       subreport_id: id

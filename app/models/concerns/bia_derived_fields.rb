@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Module for BIA Derived Fields
 module BIADerivedFields
   extend ActiveSupport::Concern
@@ -23,7 +25,7 @@ module BIADerivedFields
     family_details = data['family_details_section']
     if family_details.present?
       family_details.each do |detail|
-        explanation += (detail['not_family_explanation'] + "\n") if detail['not_family_explanation'].present?
+        explanation += "#{detail['not_family_explanation']}\n" if detail['not_family_explanation'].present?
       end
     end
     explanation

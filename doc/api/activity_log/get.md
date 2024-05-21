@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Query for activities
 
 Shows a paginated list of activities that are accessible to this user.

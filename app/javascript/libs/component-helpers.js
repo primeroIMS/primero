@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { isImmutable, List, Map, Record } from "immutable";
 import { addHours, format, parseISO } from "date-fns";
 import isString from "lodash/isString";
