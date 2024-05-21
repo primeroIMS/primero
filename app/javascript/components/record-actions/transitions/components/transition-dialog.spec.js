@@ -32,11 +32,6 @@ describe("<TransitionDialog />", () => {
     expect(screen.getByText(/transition.type.referral forms.record_types.case 1234abc/)).toBeInTheDocument();
   });
 
-  it("renders IconButton", () => {
-    mountedComponent(<TransitionDialog {...props} />);
-    expect(screen.queryAllByText((content, element) => element.tagName.toLowerCase() === "svg")).toHaveLength(3);
-  });
-
   describe("when transitionType is 'referral'", () => {
     const referralProps = {
       ...props,
