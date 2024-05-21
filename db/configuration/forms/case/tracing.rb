@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 #########################################
 # Tracing action subform
 
@@ -37,7 +41,7 @@ tracing_action_subform = [
             ].map(&:with_indifferent_access))
 ]
 
-tracing_actions_section = FormSection.create_or_update!(
+FormSection.create_or_update!(
   'visible' => false,
   'is_nested' => true,
   :order_form_group => 130,
@@ -93,7 +97,7 @@ tracing_fields = [
 FormSection.create_or_update!(
   :unique_id => 'tracing',
   :parent_form => 'case',
-  'visible' => true,
+  'visible' => false,
   :order_form_group => 130,
   :order => 20,
   :order_subform => 0,

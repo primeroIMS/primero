@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # API to fetch the list of activities
 class Api::V2::ActivityLogController < ApplicationApiController
   include Api::V2::Concerns::Pagination
@@ -24,7 +26,7 @@ class Api::V2::ActivityLogController < ApplicationApiController
     @activity_log_params = {
       types: permitted_types(permitted_params),
       datetime_range: datetime_range(permitted_params),
-      order: order
+      order:
     }
   end
 

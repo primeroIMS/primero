@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Users belong to user groups which may be used to limit the records that an individual user may have access to.
 class UserGroup < ApplicationRecord
   include ConfigurationRecord
@@ -29,7 +31,7 @@ class UserGroup < ApplicationRecord
     end
 
     def list(user, opts = {})
-      user_groups = !opts[:managed] ? UserGroup.all : user.permitted_user_groups
+      user_groups = opts[:managed] ? user.permitted_user_groups : UserGroup.all
       user_groups = user_groups.where(disabled: opts[:disabled]) if opts[:disabled].present?
       if opts[:agency_unique_ids].present?
         user_groups = user_groups.distinct.joins(:agencies).where(agencies: { unique_id: opts[:agency_unique_ids] })
@@ -45,8 +47,8 @@ class UserGroup < ApplicationRecord
     end
   end
 
-  def initialize(attributes = nil, &block)
-    super(attributes&.except(*UserGroup.unique_id_parameters), &block)
+  def initialize(attributes = nil, &)
+    super(attributes&.except(*UserGroup.unique_id_parameters), &)
     associate_unique_id_properties(attributes.slice(*UserGroup.unique_id_parameters)) if attributes.present?
   end
 

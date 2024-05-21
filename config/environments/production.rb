@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 Rails.application.configure do
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
@@ -15,7 +17,7 @@ Rails.application.configure do
 
   # When running on the UNICEF Azure SaaS, Rails needs to serve its assets.
   # When running in standalone mode, nginx will serve the assets.
-  config.public_file_server.enabled = ::ActiveRecord::Type::Boolean.new.cast(ENV['RAILS_PUBLIC_FILE_SERVER'])
+  config.public_file_server.enabled = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('RAILS_PUBLIC_FILE_SERVER', nil))
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
@@ -25,8 +27,8 @@ Rails.application.configure do
   config.filter_parameters += %i[child incident tracing_request]
 
   if ENV['LOG_TO_STDOUT'].present?
-    STDOUT.sync = true
-    logger = ActiveSupport::Logger.new(STDOUT)
+    $stdout.sync = true
+    logger = ActiveSupport::Logger.new($stdout)
     logger.formatter = Logger::Formatter.new
     config.logger = ActiveSupport::TaggedLogging.new(logger)
     config.log_tags = [

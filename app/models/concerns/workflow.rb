@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
-# Note: Currently this concern contains logic / fields specific to Child/Case.
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+# NOTE: Currently this concern contains logic / fields specific to Child/Case.
 # Note: This is dependent on the Serviceable concern.  Serviceable must be included before Workflow
+# Concern for Workflow
 module Workflow
   extend ActiveSupport::Concern
 
@@ -134,7 +137,7 @@ module Workflow
     def workflow_key_value(status, locale = I18n.locale)
       {
         'id' => status,
-        'display_text' => I18n.t("case.workflow.#{status}", locale: locale)
+        'display_text' => I18n.t("case.workflow.#{status}", locale:)
       }
     end
   end

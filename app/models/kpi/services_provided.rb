@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # ServicesProvided
 # A Kpi to count how many of each type of service has been provided by an
 # agency.
@@ -45,7 +47,7 @@ class Kpi::ServicesProvided < Kpi::Search
           internal_referrals
         group by
           service_type
-      }, from: from, to: to, owned_by_groups: owned_by_groups, owned_by_agency_id: owned_by_agency_id])
+      }, { from:, to:, owned_by_groups:, owned_by_agency_id: }])
     )
   end
 

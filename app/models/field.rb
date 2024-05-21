@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Model for Field
 # rubocop:disable Metrics/ClassLength
 class Field < ApplicationRecord
@@ -26,10 +28,13 @@ class Field < ApplicationRecord
   DATE_VALIDATION_DEFAULT = 'default_date_validation'
   DATE_VALIDATION_NOT_FUTURE = 'not_future_date'
 
+  ADMIN_LEVEL_REGEXP = Regexp.new("[#{Location::ADMIN_LEVELS.join}]$").freeze
+
   localize_properties :display_name, :help_text, :guiding_questions, :tick_box_label
   localize_properties :option_strings_text, :tally, options_list: true
 
   attr_reader :options
+
   store_accessor :subform_section_configuration, :subform_sort_by, :subform_group_by
 
   # Since Rails 5 belongs_to acts as a validate_presence_of.
@@ -64,12 +69,12 @@ class Field < ApplicationRecord
       'id', 'name', 'type', 'multi_select', 'form_section_id', 'visible', 'mobile_visible',
       'hide_on_view_page', 'show_on_minify_form', 'disabled', { 'display_name' => {} }, { 'help_text' => {} },
       { 'guiding_questions' => {} }, { 'tally' => {} }, { 'tick_box_label' => {} },
-      { 'option_strings_text' => [:id, :disabled, display_text: {}] },
+      { 'option_strings_text' => [:id, :disabled, { display_text: {} }] },
       'option_strings_source', 'order', 'hidden_text_field', 'subform_section_id',
       'collapsed_field_for_subform_section_id', 'autosum_total', 'autosum_group', 'selected_value', 'link_to_path',
       'link_to_path_external', 'field_tags', 'searchable_select', 'expose_unique_id', 'subform_sort_by',
       'subform_group_by', 'required', 'date_validation', 'date_include_time', 'matchable',
-      { 'subform_section_configuration' => {} }, { 'tally' => [:id, display_text: {}] }, { 'calculation' => {} },
+      { 'subform_section_configuration' => {} }, { 'tally' => [:id, { display_text: {} }] }, { 'calculation' => {} },
       'display_conditions_record', { 'display_conditions_record' => {} }, 'display_conditions_subform',
       { 'display_conditions_subform' => {} }
     ]
@@ -84,7 +89,7 @@ class Field < ApplicationRecord
     end
 
     def fields_for_record(parent_form, is_subform = false)
-      Field.joins(:form_section).where(form_sections: { parent_form: parent_form, is_nested: is_subform })
+      Field.joins(:form_section).where(form_sections: { parent_form:, is_nested: is_subform })
     end
 
     def all_searchable_date_field_names(parent_form = 'case')
@@ -127,15 +132,23 @@ class Field < ApplicationRecord
       field_names = [field_names] unless field_names.is_a?(Array)
       result = where(name: field_names)
       remainder = field_names - result.map(&:name)
-      remainder = remainder.select { |field_name| field_name =~ /\d+$/ }
+      remainder = remainder.select { |field_name| name_with_admin_level?(field_name) }
       return result unless remainder.present?
 
       result + find_as_location_fields(remainder)
     end
 
     def find_as_location_fields(field_names)
-      field_names = field_names.map { |field_name| field_name.gsub(/\d+$/, '') }
+      field_names = field_names.map { |field_name| remove_admin_level_from_name(field_name) }
       where(name: field_names, option_strings_source: %w[Location ReportingLocation])
+    end
+
+    def name_with_admin_level?(field_name)
+      ADMIN_LEVEL_REGEXP.match?(field_name)
+    end
+
+    def remove_admin_level_from_name(field_name)
+      field_name.gsub(ADMIN_LEVEL_REGEXP, '')
     end
   end
 
@@ -171,17 +184,17 @@ class Field < ApplicationRecord
     return option_strings_text(locale) if option_strings_text.present?
     return options_list_tickbox(locale) if type == Field::TICK_BOX
 
-    options_list_source_string(locale: locale, lookups: lookups)
+    options_list_source_string(locale:, lookups:)
   end
 
   def options_list_tickbox(locale = I18n.locale)
-    %w[true false].map { |x| { id: x, display_text: I18n.t(x, locale: locale) } }
+    %w[true false].map { |x| { id: x, display_text: I18n.t(x, locale:) } }
   end
 
   def options_list_source_string(locale: I18n.locale, lookups: nil)
     source_options = option_strings_source.split
     if source_options[0] == 'lookup'
-      lookups ? Lookup.values(source_options.last, lookups, locale: locale) : source_options
+      lookups ? Lookup.values(source_options.last, lookups, locale:) : source_options
     else
       source_options[0]
     end
@@ -190,13 +203,11 @@ class Field < ApplicationRecord
   # TODO: This is the TSFV service grouping. Is this still v2 functionality? Delete, after porting to front end?
   def subform_group_by_field
     # TODO: This is an extra DB query
-    if type == SUBFORM && subform_group_by.present?
-      unless @subform_group_by_field.present?
-        @subform_group_by_field =
-          subform_section.joins(:fields)
-                         .where(fields: { name: subform_group_by, type: [Field::RADIO_BUTTON, Field::SELECT_BOX] })
-                         .first
-      end
+    if type == SUBFORM && subform_group_by.present? && !@subform_group_by_field.present?
+      @subform_group_by_field =
+        subform_section.joins(:fields)
+                       .where(fields: { name: subform_group_by, type: [Field::RADIO_BUTTON, Field::SELECT_BOX] })
+                       .first
     end
     @subform_group_by_field
   end
@@ -205,9 +216,9 @@ class Field < ApplicationRecord
     subform_group_by_values = {}
     subform_group_by_field = self.subform_group_by_field
     if subform_group_by_field.present?
-      subform_group_by_values = subform_group_by_field.options_list(nil, nil, nil, true).map do |o|
+      subform_group_by_values = subform_group_by_field.options_list(nil, nil, nil, true).to_h do |o|
         [o['id'], o['display_text']]
-      end.to_h
+      end
     end
     subform_group_by_values
   end
@@ -314,7 +325,7 @@ class Field < ApplicationRecord
 
   def validate_unique_name_in_form
     return unless form_section_id
-    return unless Field.where(name: name, form_section_id: form_section_id).where.not(id: id).any?
+    return unless Field.where(name:, form_section_id:).where.not(id:).any?
 
     errors.add(:name, 'errors.models.field.unique_name_this')
   end
@@ -322,7 +333,7 @@ class Field < ApplicationRecord
   def validate_display_name_format
     special_characters = /[*!@#%$\^]/
     white_spaces = /^(\s+)$/
-    return unless display_name_en =~ special_characters || display_name_en =~ white_spaces
+    return unless display_name_en.to_s =~ special_characters || display_name_en.to_s =~ white_spaces
 
     errors.add(:display_name, 'errors.models.field.display_name_format')
   end
@@ -338,7 +349,7 @@ class Field < ApplicationRecord
   end
 
   def valid_option?(option)
-    return unless option.is_a?(Hash)
+    return false unless option.is_a?(Hash)
 
     option = option.with_indifferent_access
     option[:id].present? && option[:display_text].is_a?(Hash) &&

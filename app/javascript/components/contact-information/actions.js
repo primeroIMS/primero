@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { NAMESPACE } from "./constants";
 
 export const FETCH_DATA = `${NAMESPACE}/FETCH_DATA`;

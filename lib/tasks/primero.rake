@@ -22,7 +22,7 @@ namespace :primero do
   task :remove_records, %i[record_models filters] => :environment do |_, args|
     filters = DestringifyService.destringify(JSON.parse(args[:filters] || '{}').with_indifferent_access)
     record_models = args[:record_models]&.split(' ')
-    DataRemovalService.remove_records(record_models: record_models, filters: filters)
+    DataRemovalService.remove_records(record_models:, filters:)
   end
 
   # If you are planning to load the JSON config, use the remove_config_data task instead
@@ -73,7 +73,7 @@ namespace :primero do
     configuration.save!
     file_name = args[:file_name] || "tmp/config_data.#{configuration.version}.json"
     puts "Exporting JSON Config to #{file_name}"
-    File.open(file_name, 'w') { |file| file.write(configuration.to_json) }
+    File.write(file_name, configuration.to_json)
   end
 
   # Imports a JSON config file and creates a PrimeroConfiguration record.  It does not apply the config.
@@ -124,7 +124,7 @@ namespace :primero do
       return
     end
 
-    configuration = PrimeroConfiguration.find_by(version: version)
+    configuration = PrimeroConfiguration.find_by(version:)
     if configuration.blank?
       puts "ERROR: Configuration #{version} not found"
       return
@@ -207,7 +207,7 @@ namespace :primero do
     end
 
     puts "Importing locations from #{file_name}"
-    data = File.open(file_name, 'rb').read.force_encoding('UTF-8')
+    data = File.binread(file_name).force_encoding('UTF-8')
     data_io = StringIO.new(data)
     importer = Importers::CsvHxlLocationImporter.new
     importer.import(data_io)
@@ -246,7 +246,7 @@ namespace :primero do
 
     owned_by_user = args[:owned_by_user].presence || created_by_user
     puts "Importing Records from #{file_name}"
-    importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_path: file_path,
+    importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_path:,
                                                 created_by: created_by_user, owned_by: owned_by_user)
     importer.import
     puts "Batch Size: #{importer.batch_size}"
@@ -266,14 +266,14 @@ namespace :primero do
       affected_users.each { |u| puts "  #{u.user_name}" }
 
       puts "\nIs that OK? (y/n)"
-      ok = STDIN.gets.strip.downcase
+      ok = $stdin.gets.strip.downcase
       break if %w[y n].include?(ok)
 
       if ok == 'y'
         puts 'Please enter a new default password:'
-        password = STDIN.noecho(&:gets).chomp
+        password = $stdin.noecho(&:gets).chomp
         puts 'Enter again to confirm:'
-        password_confirmation = STDIN.noecho(&:gets).chomp
+        password_confirmation = $stdin.noecho(&:gets).chomp
         affected_users.each do |user|
           user.password = password
           user.password_confirmation = password_confirmation
@@ -344,7 +344,7 @@ namespace :primero do
 
     # The logic in the exporter has now been reversed. 'visible' option controls whether to only show visible
     # fields and forms or not... so it actually is the reverse of the old "show_hidden" logic
-    opts[:visible] = args[:show_hidden].present? && args[:show_hidden].start_with?(/[yYTt]/) ? false : true
+    opts[:visible] = !(args[:show_hidden].present? && args[:show_hidden].start_with?(/[yYTt]/))
 
     opts[:file_name] = args[:file_name] || ''
     exporter = Exporters::FormExporter.new(opts)
@@ -369,15 +369,15 @@ namespace :primero do
     puts 'Updating Case ID Display...'
     system_settings = SystemSettings.current
     Child.all.each do |record|
-      before = "BEFORE  short_id: #{record.short_id}  case_id_code: #{record.case_id_code}" \
-               "  case_id_display: #{record.case_id_display}"
+      before = "BEFORE  short_id: #{record.short_id}  case_id_code: #{record.case_id_code}  " \
+               "case_id_display: #{record.case_id_display}"
       puts before
 
       record.case_id_code = record.create_case_id_code(system_settings) if record.case_id_code.blank?
       record.case_id_display = record.create_case_id_display(system_settings) if record.case_id_display.blank?
 
-      after = "AFTER  short_id: #{record.short_id}  case_id_code: #{record.case_id_code}" \
-              "  case_id_display: #{record.case_id_display}"
+      after = "AFTER  short_id: #{record.short_id}  case_id_code: #{record.case_id_code}  " \
+              "case_id_display: #{record.case_id_display}"
       puys after
 
       if record.changed?

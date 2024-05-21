@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { FormControl, InputLabel } from "@material-ui/core";
 import clsx from "clsx";
@@ -64,7 +66,7 @@ const Component = ({ helpText, label, dateProps }) => {
   }, [inputDate, inputTime]);
 
   return (
-    <div className={containerClasses}>
+    <div className={containerClasses} data-testid="nepali-container">
       <FormControl fullWidth error={error}>
         <InputLabel htmlFor={name} shrink>
           {label}

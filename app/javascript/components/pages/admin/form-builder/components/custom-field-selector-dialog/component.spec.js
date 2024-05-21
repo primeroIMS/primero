@@ -19,9 +19,6 @@ describe("<CustomFieldSelectorDialog />", () => {
   it("should render list of fields types", () => {
     expect(screen.getByText("forms.type_label")).toBeInTheDocument();
     expect(screen.getByText("forms.select_label")).toBeInTheDocument();
-    const elements = screen.getAllByTestId("field");
-    const totalCount = elements.length;
-
-    expect(totalCount).toBe(12);
+    expect(screen.getAllByTestId("field").length).toBe(12);
   });
 });

@@ -1,4 +1,6 @@
-import { APPROVALS, APPROVALS_TYPES } from "../../../config";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { APPROVALS, APPROVALS_TYPES } from "../../../config/constants";
 
 export default (item, i18n, approvalsLabels) => {
   switch (item) {

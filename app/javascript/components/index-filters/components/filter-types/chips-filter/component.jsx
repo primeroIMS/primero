@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
@@ -20,7 +22,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
-const Component = ({ addFilterToList, filter, moreSectionFilters, setMoreSectionFilters, mode, reset, setReset }) => {
+const Component = ({ filter, moreSectionFilters, setMoreSectionFilters, mode, reset, setReset }) => {
   const i18n = useI18n();
 
   const { register, unregister, setValue, getValues } = useFormContext();
@@ -36,10 +38,6 @@ const Component = ({ addFilterToList, filter, moreSectionFilters, setMoreSection
   const handleReset = () => {
     setValue(fieldName, []);
     resetSecondaryFilter(mode?.secondary, fieldName, getValues()[fieldName], moreSectionFilters, setMoreSectionFilters);
-
-    if (addFilterToList) {
-      addFilterToList({ [fieldName]: undefined });
-    }
   };
 
   useEffect(() => {
@@ -100,10 +98,6 @@ const Component = ({ addFilterToList, filter, moreSectionFilters, setMoreSection
     if (mode?.secondary) {
       handleMoreFiltersChange(moreSectionFilters, setMoreSectionFilters, fieldName, getValues()[fieldName]);
     }
-
-    if (addFilterToList) {
-      addFilterToList({ [fieldName]: getValues()[fieldName] || undefined });
-    }
   };
 
   const renderOptions = () =>
@@ -140,7 +134,6 @@ Component.defaultProps = {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  addFilterToList: PropTypes.func,
   filter: PropTypes.object.isRequired,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,

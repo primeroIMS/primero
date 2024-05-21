@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Uses a cache to interact with Locations
 class LocationService
   attr_accessor :locations_by_code, :with_cache, :unique_id_attribute
@@ -26,7 +28,7 @@ class LocationService
     cache_key = "location_service/#{Location.maximum(:id)}"
     self.locations_by_code = Rails.cache.fetch(cache_key, expires_in: 48.hours) do
       # TODO: Depending on how many locations we have, this query can overrun the available memory
-      Location.all.map { |loc| [loc.location_code, loc] }.to_h
+      Location.all.to_h { |loc| [loc.location_code, loc] }
     end
   end
 

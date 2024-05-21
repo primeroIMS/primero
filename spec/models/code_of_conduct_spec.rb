@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe CodeOfConduct do
@@ -23,7 +27,7 @@ describe CodeOfConduct do
       current = CodeOfConduct.create!(
         created_by: 'test_user_1',
         title: 'Code of Conduct 1',
-        content: 'Content of the code of conduct 1',
+        content: 'Content of the code of conduct 1'
       )
 
       code_of_conduct = CodeOfConduct.current_or_new_with_user(
@@ -40,7 +44,7 @@ describe CodeOfConduct do
       CodeOfConduct.create!(
         created_by: 'primero_cp',
         title: 'Code of Conduct 1',
-        content: 'Content of the code of conduct 1',
+        content: 'Content of the code of conduct 1'
       )
 
       code_of_conduct = CodeOfConduct.current_or_new_with_user(
@@ -67,11 +71,11 @@ describe CodeOfConduct do
 
     let(:code_of_conduct_1) do
       DateTime.stub(:now).and_return(date_time_1)
-      CodeOfConduct.create(created_by: 'primero_cp', title: 'Code of Conduct 1', content: content)
+      CodeOfConduct.create(created_by: 'primero_cp', title: 'Code of Conduct 1', content:)
     end
     let(:code_of_conduct_2) do
       DateTime.stub(:now).and_return(date_time_2)
-      CodeOfConduct.create(created_by: 'primero', title: 'Code of Conduct 2', content: content)
+      CodeOfConduct.create(created_by: 'primero', title: 'Code of Conduct 2', content:)
     end
 
     it 'should return the latest code_of_conduct based on the created_on date' do
