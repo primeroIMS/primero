@@ -134,6 +134,7 @@ class Child < ApplicationRecord
 
   if Rails.configuration.solr_enabled
     searchable do
+      extend TextIndexing
       Child.child_matching_field_names.each { |f| text_index(f, 'matchable') }
       Child.family_matching_field_names.each do |f|
         text_index(f, 'matchable', :itself, 'family_details_section')

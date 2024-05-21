@@ -36,11 +36,13 @@ module Searchable
     end
   end
 
-  # Class for allowing Sunspot to eager load record associations
-  class RecordDataAccessor < Sunspot::Adapters::DataAccessor
-    def load_all(ids)
-      # NOTE: This triggers a query against Attachment and Alert for each loaded record
-      @clazz.eager_loaded_class.where(@clazz.primary_key => ids)
+  if Rails.configuration.solr_enabled
+    # Class for allowing Sunspot to eager load record associations
+    class RecordDataAccessor < Sunspot::Adapters::DataAccessor
+      def load_all(ids)
+        # NOTE: This triggers a query against Attachment and Alert for each loaded record
+        @clazz.eager_loaded_class.where(@clazz.primary_key => ids)
+      end
     end
   end
 end

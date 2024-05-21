@@ -3,17 +3,8 @@
 ---
 version: '3'
 services:
-  solr:
-    image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/solr:${PRIMERO_TAG:-latest}'
-    env_file:
-      - docker/defaults.env
-    volumes:
-      - solr_cores:/var/solr
-    restart: always
   application:
     image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/application:${PRIMERO_TAG:-latest}'
-    depends_on:
-      - solr
     volumes:
       - public:/share/public
       - storage:/srv/primero/application/storage
@@ -24,8 +15,6 @@ services:
     restart: always
   worker:
     image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/application:${PRIMERO_TAG:-latest}'
-    depends_on:
-      - solr
     volumes:
       - storage:/srv/primero/application/storage
     env_file:
@@ -35,7 +24,6 @@ services:
 volumes:
   database:
   public:
-  solr_cores:
   storage:
   certbot_certificates:
   certbot_challenges:

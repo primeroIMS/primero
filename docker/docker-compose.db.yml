@@ -13,9 +13,7 @@ services:
     restart: always
   application:
     depends_on:
-      - solr
       - postgres
   worker:
     depends_on:
-      - solr
       - postgres

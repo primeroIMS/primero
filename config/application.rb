@@ -15,6 +15,10 @@ require 'action_controller/railtie'
 require 'action_mailer/railtie'
 require 'action_view/railtie'
 require 'active_storage/engine'
+if ActiveRecord::Type::Boolean.new.cast(ENV.fetch('SOLR_ENABLED', false)) == true
+  require 'sunspot_rails'
+  require 'sunspot_solr'
+end
 
 Bundler.require(*Rails.groups)
 
@@ -32,6 +36,10 @@ class Primero::Application < Rails::Application
   Rails.autoloaders.main.ignore(overrides)
   config.to_prepare do
     Dir.glob("#{overrides}/**/*.rb").each do |override|
+      if ActiveRecord::Type::Boolean.new.cast(ENV.fetch('SOLR_ENABLED', false)) == false && override.include?('sunspot')
+        next
+      end
+
       load override
     end
   end

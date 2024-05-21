@@ -39,3 +39,4 @@ all:
         # LOCALE_DEFAULT: 'ar' # Optionally override English as the default locale.
         PRIMERO_WEBPUSH: 'true'
         PRIMERO_WEBPUSH_CONTACT: 'primero.dev@quoininc.com'
+        SOLR_ENABLED: 'false'

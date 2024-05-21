@@ -6,7 +6,6 @@
 # on Records. Has idiomatic methods for handing case photos
 module Attachable
   extend ActiveSupport::Concern
-  include Sunspot::Rails::Searchable
 
   PHOTOS_FIELD_NAME = 'photos'
   AUDIOS_FIELD_NAME = 'recorded_audio'
