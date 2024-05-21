@@ -1171,6 +1171,25 @@ describe Child do
     end
   end
 
+  describe 'tracing_dates' do
+    before do
+      clean_data(Child)
+    end
+
+    it 'stores the tracing_dates' do
+      child = Child.create!(
+        data: {
+          age: 2, sex: 'male', name: 'Random Name', tracing_actions_section: [
+            { 'unique_id' => '4b7c1011-a63e-422c-b6fb-a64cdcc2d472', 'date_tracing' => '2022-05-09' },
+            { 'unique_id' => 'f732a61c-cdae-435c-9c0c-55a893321fed', 'date_tracing' => '2023-07-08' }
+          ]
+        }
+      )
+
+      expect(child.tracing_dates).to eq([Date.new(2022, 5, 9), Date.new(2023, 7, 8)])
+    end
+  end
+
   after do
     clean_data(Incident, Child, Field, FormSection, PrimeroModule)
   end

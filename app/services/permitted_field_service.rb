@@ -30,7 +30,7 @@ class PermittedFieldService
     transferred_to_users transferred_to_user_groups has_photo survivor_code survivor_code_no case_id_display
     created_at has_incidents short_id record_state sex age registration_date date_closure
     reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy followup_dates
-    reunification_dates
+    reunification_dates tracing_dates
   ].freeze
 
   PERMITTED_MRM_FILTER_FIELD_NAMES = %w[
