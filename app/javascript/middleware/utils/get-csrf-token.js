@@ -1,5 +1,5 @@
 function getCSRFToken() {
-  return document.cookie.split("=")?.[1];
+  return decodeURIComponent(document.cookie.split("=")?.[1]);
 }
 
 export default getCSRFToken;
