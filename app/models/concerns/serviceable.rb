@@ -3,6 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Concern for services
+# rubocop:disable Metrics/ModuleLength
 module Serviceable
   extend ActiveSupport::Concern
 
@@ -16,10 +17,11 @@ module Serviceable
   # rubocop:disable Metrics/BlockLength
   included do
     store_accessor :data, :consent_for_services, :services_section, # TODO: Do we need a services alias for this?
-                   :service_due_dates
+                   :service_due_dates, :service_implemented_day_times
 
     before_save :update_implement_field
     before_save :calculate_service_due_dates
+    before_save :calculate_service_implemented_day_times
 
     def update_implement_field
       services_section&.each do |service|
@@ -104,6 +106,14 @@ module Serviceable
       service_due_dates
     end
 
+    def calculate_service_implemented_day_times
+      self.service_implemented_day_times = services_section&.map do |service|
+        service['service_implemented_day_time']
+      end&.compact
+
+      service_implemented_day_times
+    end
+
     def service_implemented?(service)
       service['service_implemented_day_time'].present? &&
         (service['service_implemented'] != SERVICE_IMPLEMENTED)
@@ -137,3 +147,4 @@ module Serviceable
   end
   # rubocop:enable Metrics/BlockLength
 end
+# rubocop:enable Metrics/ModuleLength

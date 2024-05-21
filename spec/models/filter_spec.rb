@@ -253,6 +253,7 @@ describe Filter do
           { id: 'followup_dates', display_name: 'Date of Follow Up' },
           { id: 'reunification_dates', display_name: 'Date of Reunification' },
           { id: 'tracing_dates', display_name: 'Date of Tracing' },
+          { id: 'service_implemented_day_times', display_name: 'Date Service Completed' },
           { id: 'created_at', display_name: 'Case Open Date' }
         ]
         expect(
