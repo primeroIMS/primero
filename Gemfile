@@ -17,13 +17,13 @@ gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for m
     require: 'deep_merge/rails_compat'
 gem 'delayed_job_active_record', '~> 4.1.7'
 gem 'devise',              '~> 4.9'    # Authentication framework
-gem 'devise-jwt',          '~> 0.10'   # JWT authentication for native Primero users
 gem 'faraday',             '~> 0.17'   # Ruby HTTP client
 gem 'file_validators',     '~> 3.0'    # ActiveRecord extension for validating attachment file sizes
 gem 'i18n-js',             '~> 3.9'    # Shares Rails i18n strings with the front end
 gem 'image_processing',    '~> 1.12'   # Ruby bindings for ImageMagick, resize attachments. Depenency of ActiveStorage
 gem 'jbuilder',            '~> 2.11'   # JSON templating for the API
 gem 'json_schemer',        '~> 1.0'    # Validation for submited JSON
+gem 'jwt',                 '~> 2.8'    # Ruby JWT library used to authenticate 3rd party identity provider tokens
 gem 'matrix',              '~> 0.4'    # No longer part of Ruby 3.2 core. Must be included explicitly
 gem 'minipack',            '~> 0.3'    # An alternative to Webpacker. TODO: Is this still needed? In prod?
 gem 'net-http-persistent', '~> 4.0'    # Thread safe persistent HTTP connections, optional Faraday dependency

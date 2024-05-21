@@ -23,7 +23,8 @@ class Theme < ApplicationRecord
     incident monitoring and family tracing and reunification.',
     colors: {
       'manifestThemeColor' => '#0093ba'
-    }
+    },
+    revision: SecureRandom.uuid
   }.freeze
 
   PICTORIAL_SIZES = %w[144 192 256].freeze

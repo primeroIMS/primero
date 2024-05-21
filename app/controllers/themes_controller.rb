@@ -2,9 +2,9 @@
 
 # API to fetch the active theme
 class ThemesController < ApplicationController
-  before_action :theme
-
   skip_before_action :verify_authenticity_token
+
+  before_action :theme
 
   def index; end
 

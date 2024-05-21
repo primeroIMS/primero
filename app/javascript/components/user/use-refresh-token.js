@@ -14,10 +14,10 @@ import { SELECTED_IDP } from "./constants";
 export default () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const selectedIDP = localStorage.getItem(SELECTED_IDP);
+  const selectedIDP = JSON.parse(sessionStorage.getItem(SELECTED_IDP));
   const isAuthenticated = useMemoizedSelector(state => getIsAuthenticated(state));
   const isIDP = useMemoizedSelector(state => getUseIdentityProvider(state));
-  const idp = useMemoizedSelector(state => getSelectedIDP(state, selectedIDP));
+  const idp = useMemoizedSelector(state => getSelectedIDP(state, selectedIDP?.unique_id));
 
   return {
     refreshUserToken: checkUserAuth => {
