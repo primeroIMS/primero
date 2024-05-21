@@ -272,6 +272,10 @@ describe Api::V2::ChildrenController, type: :request do
       expect(case4_data['alert_count']).to eq(0)
     end
 
+    it_behaves_like 'a paginated resource' do
+      let(:action) { { resource: 'cases' } }
+    end
+
     it 'shows relevant fields' do
       login_for_test(permitted_field_names: %w[age sex])
       get '/api/v2/cases'

@@ -139,7 +139,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
     <form noValidate onSubmit={formMethods.handleSubmit(submit)}>
       <div className={css.container}>
         <div className={css.dateControlGroup}>{filterInputs(DATE_CONTROLS_GROUP)}</div>
-        {filterInputs()}
+        <div className={css.filters}>{filterInputs()}</div>
       </div>
       <div className={css.actions}>
         <div>

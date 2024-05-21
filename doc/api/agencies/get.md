@@ -15,7 +15,7 @@ Shows a paginated list of all agencies that are accessible to this user.
 **Parameters** :
 
 * `page` Optional. Pagination. Defaults to 1
-* `per` Optional. Records per page. Defaults to 20.
+* `per` Optional. Records per page. Defaults to 20. Maximum is 1000
 * `disabled` Optional. Get all the disabled or enabled agencies. Defaults get all the agencies
 
 ## Success Response

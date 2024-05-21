@@ -4,6 +4,8 @@
 
 # Simple check to return status code 204 if Primero is healthy
 class HealthController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   RETRY_AFTER = 60
 
   def index

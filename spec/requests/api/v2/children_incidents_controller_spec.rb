@@ -64,4 +64,28 @@ describe Api::V2::ChildrenIncidentsController, type: :request do
       expect(json['data']['sex']).to eq('male')
     end
   end
+
+  describe 'POST /api/v2/cases/:id/incidents' do
+    it 'links a case to a incident' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::INCIDENT, actions: [Permission::LINK_INCIDENT_TO_CASE])
+        ]
+      )
+      params = { data: { incident_ids: [@incident1.id] } }
+      post("/api/v2/cases/#{@case1.id}/incidents", params:)
+
+      expect(response).to have_http_status(204)
+    end
+
+    it 'fetches the data of a new incident created from a case' do
+      login_for_test(permissions: [])
+      params = { data: { incident_ids: [@incident1.id] } }
+      post("/api/v2/cases/#{@case1.id}/incidents", params:)
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}/incidents")
+    end
+  end
 end

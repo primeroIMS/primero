@@ -5,9 +5,16 @@
 require 'warden'
 
 # This strategy is used when Primero needs to authorize a JWT token from an external identity provider.
-class IdpTokenStrategy < Warden::JWTAuth::Strategy
+class IdpTokenStrategy < Warden::Strategies::Base
+  METHOD = 'Bearer'
+
   def valid?
     !token.nil? && Rails.configuration.x.idp.use_identity_provider
+  end
+
+  # This is an override for warden to skip storing session in a cookie
+  def store?
+    false
   end
 
   def authenticate!
@@ -21,5 +28,21 @@ class IdpTokenStrategy < Warden::JWTAuth::Strategy
     success!(user)
   rescue StandardError => e
     fail!(e.message)
+  end
+
+  def self.token_from_header(header)
+    auth = header['HTTP_AUTHORIZATION']
+    method, token = auth&.split
+    method == METHOD ? token : nil
+  end
+
+  private
+
+  def token
+    @token ||= auth_header(env)
+  end
+
+  def auth_header(env)
+    IdpTokenStrategy.token_from_header(env)
   end
 end

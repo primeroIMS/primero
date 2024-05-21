@@ -11,7 +11,7 @@ class Theme < ApplicationRecord
     navListIconActive navListText navListIcon navListDivider loginBackgroundGradientStart
     loginBackgroundGradientEnd toolbarBackgroundColorMobileHeader drawerHeaderButton
     loginTranslationsButtonBackground loginTranslationsButtonText mobileToolbarBackground
-    mobileToolbarHamburgerButton
+    mobileToolbarHamburgerButton loginButtonBg loginButtonText
   ].freeze
 
   DEFAULT_THEME = {
@@ -23,7 +23,8 @@ class Theme < ApplicationRecord
     incident monitoring and family tracing and reunification.',
     colors: {
       'manifestThemeColor' => '#0093ba'
-    }
+    },
+    revision: SecureRandom.uuid
   }.freeze
 
   PICTORIAL_SIZES = %w[144 192 256].freeze

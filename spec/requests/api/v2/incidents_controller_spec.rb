@@ -104,6 +104,10 @@ describe Api::V2::IncidentsController, type: :request do
       expect(json['metadata']['page']).to eq(1)
     end
 
+    it_behaves_like 'a paginated resource' do
+      let(:action) { { resource: 'incidents' } }
+    end
+
     it 'returns flag_count for the short form ' do
       @incident1.add_flag('This is a flag IN', Date.today, 'faketest')
 
@@ -312,7 +316,7 @@ describe Api::V2::IncidentsController, type: :request do
         data['recruitment'] = [
           {
             'unique_id' => '8dccaf74-e9aa-452a-9b58-dc365b1062a2',
-            'violation_tally': { 'boys': 3, 'girls': 1, 'unknown': 0, 'total': 4 },
+            violation_tally: { boys: 3, girls: 1, unknown: 0, total: 4 },
             'name' => 'violation1'
           }
         ]

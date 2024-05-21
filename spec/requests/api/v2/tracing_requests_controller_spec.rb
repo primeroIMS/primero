@@ -37,6 +37,10 @@ describe Api::V2::TracingRequestsController, type: :request do
       expect(json['metadata']['page']).to eq(1)
     end
 
+    it_behaves_like 'a paginated resource' do
+      let(:action) { { resource: 'tracing_requests' } }
+    end
+
     it 'returns flag_count for the short form ' do
       @tracing_request1.add_flag('This is a flag IN', Date.today, 'faketest')
 

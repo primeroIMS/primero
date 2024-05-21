@@ -42,6 +42,7 @@ import {
   EXTERNAL_SYNC,
   OFFLINE_INCIDENT_FROM_CASE,
   CREATE_CASE_FROM_FAMILY_MEMBER,
+  FETCH_LINK_INCIDENT_TO_CASE_DATA,
   CREATE_CASE_FROM_FAMILY_DETAIL,
   DELETE_ALERT_FROM_RECORD,
   DELETE_ALERT_FROM_RECORD_SUCCESS
@@ -420,6 +421,36 @@ export const createCaseFromFamilyMember = ({ familyId, familyMemberId }) => ({
     ]
   }
 });
+
+export const fetchLinkIncidentToCaseData = payload => {
+  return {
+    type: `cases/${FETCH_LINK_INCIDENT_TO_CASE_DATA}`,
+    api: {
+      path: `${RECORD_PATH.cases}?query=${payload.query}&id_search=${payload.id_search}`
+    }
+  };
+};
+
+export const linkIncidentToCase = ({ recordType, selectedIDs = [], caseID }) => {
+  return {
+    type: `${recordType}/LINK_INCIDENT_TO_CASE`,
+    api: {
+      path: `cases/${caseID}/incidents`,
+      method: METHODS.POST,
+      body: { data: { incident_ids: selectedIDs } },
+      successCallback: {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          messageKey: "incident.link_incident_to_case_success",
+          options: {
+            variant: "success",
+            key: generate.messageKey()
+          }
+        }
+      }
+    }
+  };
+};
 
 export const createCaseFromFamilyDetail = ({ caseId, familyDetailId }) => ({
   type: `${RECORD_PATH.cases}/${CREATE_CASE_FROM_FAMILY_DETAIL}`,

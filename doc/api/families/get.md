@@ -2,7 +2,7 @@
 
 # Query for Families
 
-Show a paginated list of all families that are accessible to this user. The user can filter the family list based on search criteria. 
+Show a paginated list of all families that are accessible to this user. The user can filter the family list based on search criteria.
 
 **URL** : `/api/v2/families`
 
@@ -12,15 +12,15 @@ Show a paginated list of all families that are accessible to this user. The user
 
 **Authorization** : The user must be authorized to view families in Primero.
 
-**Parameters** : 
+**Parameters** :
 
 * `family_number` Optional.
 * `page` Optional. Pagination. Defaults to 1
-* `per` Optional. Records per page. Defaults to 20. 
+* `per` Optional. Records per page. Defaults to 20. Maximum is 1000
 
 ## Success Response
 
-**Condition** : User can see one or more families. 
+**Condition** : User can see one or more families.
 
 **Code** : `200 OK`
 
@@ -65,7 +65,7 @@ Show a paginated list of all families that are accessible to this user. The user
 ```
 ## Error Response
 
-**Condition** : User isn't authorized to query for families. 
+**Condition** : User isn't authorized to query for families.
 
 **Code** : `403 Forbidden`
 

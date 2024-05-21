@@ -2,8 +2,8 @@
 
 import { API_BASE_PATH, METHODS, NOTIFICATION_PERMISSIONS, POST_MESSAGES, ROUTES } from "../config/constants";
 import { DEFAULT_FETCH_OPTIONS } from "../middleware/constants";
-import getToken from "../middleware/utils/get-token";
 import DB, { DB_STORES } from "../db";
+import { getIDPToken } from "../components/login/components/idp-selection/auth-provider";
 
 const SERVICE_WORKER_PATH = `${window.location.origin}/worker.js`;
 const MAX_ATTEMPTS = 3;
@@ -34,7 +34,7 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 async function sendSubscriptionStatusToServer(isSubscribing = true, data = {}) {
-  const token = await getToken();
+  const token = await getIDPToken();
   const subscriptionData = JSON.parse(JSON.stringify(data));
   const path = [API_BASE_PATH, isSubscribing ? ROUTES.subscriptions : ROUTES.subscriptions_current].join("");
 

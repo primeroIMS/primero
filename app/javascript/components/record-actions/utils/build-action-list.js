@@ -17,7 +17,8 @@ import {
   ENABLE_DISABLE_DIALOG,
   APPROVAL_TYPE,
   REQUEST_TYPE,
-  MARK_FOR_OFFLINE_DIALOG
+  MARK_FOR_OFFLINE_DIALOG,
+  LINK_INCIDENT_TO_CASE_DIALOG
 } from "../constants";
 import { RECORD_TYPES, RECORD_PATH } from "../../../config";
 import Notes from "../notes";
@@ -29,6 +30,7 @@ import AddService from "../add-service";
 import RequestApproval from "../request-approval";
 import Exports from "../exports";
 import MarkForOffline from "../mark-for-offline";
+import LinkIncidentToCase from "../link-incident-to-case";
 
 import filterActions from "./filter-actions";
 
@@ -48,6 +50,7 @@ export default ({
   canShowExports,
   canTransfer,
   canMarkForOffline,
+  canLinkIncidentToCase,
   enableState,
   handleDialogClick,
   hasIncidentSubform,
@@ -179,6 +182,18 @@ export default ({
         name: i18n.t(`${recordType}.export`),
         recordListAction: true,
         recordType: RECORD_TYPES.all
+      },
+      {
+        action: id => {
+          handleDialogClick(id, true);
+        },
+        condition: canLinkIncidentToCase,
+        disableOffline: true,
+        enabledFor: ENABLED_FOR_ONE_MANY_ALL,
+        id: LINK_INCIDENT_TO_CASE_DIALOG,
+        name: i18n.t("incident.link_incident_to_case"),
+        recordListAction: true,
+        recordType: RECORD_PATH.incidents
       }
     ].filter(filterActions({ recordType, showListActions, isIdSearch, record })),
     dialogs: {
@@ -239,6 +254,10 @@ export default ({
       [MARK_FOR_OFFLINE_DIALOG]: {
         component: MarkForOffline,
         ability: canMarkForOffline
+      },
+      [LINK_INCIDENT_TO_CASE_DIALOG]: {
+        component: LinkIncidentToCase,
+        ability: canLinkIncidentToCase
       }
     }
   };

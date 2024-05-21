@@ -4,6 +4,7 @@
 
 # Superclass for nearly all Primero CRUD API calls
 class ApplicationApiController < ActionController::API
+  include CsrfProtection
   include CanCan::ControllerAdditions
   include AuditLogActions
   include ErrorHandling

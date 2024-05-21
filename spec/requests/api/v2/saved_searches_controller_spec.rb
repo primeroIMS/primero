@@ -73,6 +73,10 @@ describe Api::V2::SavedSearchesController, type: :request do
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
     end
+
+    it_behaves_like 'a paginated resource' do
+      let(:action) { { resource: 'saved_searches' } }
+    end
   end
 
   describe 'POST /api/v2/saved_searches' do

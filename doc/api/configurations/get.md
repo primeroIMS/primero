@@ -15,7 +15,7 @@ Shows a paginated list of all configurations.
 **Parameters** :
 
 * `page` Optional. Pagination. Defaults to 1
-* `per` Optional. Records per page. Defaults to 20.
+* `per` Optional. Records per page. Defaults to 20. Maximum is 1000
 
 ## Success Response
 

@@ -9,6 +9,8 @@ if ENV['COVERAGE'] == 'true'
   SimpleCov.coverage_dir 'coverage/rspec'
 end
 
+ENV['PRIMERO_USE_CSRF_PROTECTION'] = 'false'
+
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
