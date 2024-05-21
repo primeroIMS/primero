@@ -3,10 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Represents actions to flag a record
-# rubocop:disable Metrics/ClassLength
 class Flag < ApplicationRecord
-  include Indexable
-
   EVENT_FLAG = 'flag'
   EVENT_UNFLAG = 'unflag'
 
@@ -43,72 +40,6 @@ class Flag < ApplicationRecord
 
   after_create :flag_history
   after_update :unflag_history
-  after_save :index_record
-
-  # rubocop:disable Metrics/BlockLength
-  searchable do
-    date :flag_date, stored: true do
-      date.present? ? date : nil
-    end
-    time :flag_created_at, stored: true do
-      created_at.present? ? created_at : nil
-    end
-    string :flag_message, stored: true do
-      message
-    end
-    string :flag_unflag_message, stored: true do
-      unflag_message
-    end
-    string :flag_flagged_by, stored: true do
-      flagged_by
-    end
-    string :flag_flagged_by_module, stored: true do
-      record.module_id
-    end
-    boolean :flag_is_removed, stored: true do
-      removed ? true : false
-    end
-    boolean :flag_system_generated_followup, stored: true do
-      system_generated_followup
-    end
-    string :flag_record_id, stored: true do
-      record_id
-    end
-    string :flag_record_type, stored: true do
-      record_type.underscore.downcase
-    end
-    string :flag_record_short_id, stored: true do
-      record.short_id
-    end
-    string :flag_child_name, stored: true do
-      record.try(:name)
-    end
-    string :flag_hidden_name, stored: true do
-      record.try(:hidden_name)
-    end
-    string :flag_module_id, stored: true do
-      record.module_id
-    end
-    string :flag_incident_date_of_first_report, stored: true do
-      record.try(:date_of_first_report)
-    end
-    string :flag_record_owner, stored: true do
-      record.owned_by
-    end
-    string :flag_groups_owner, stored: true, multiple: true do
-      record.owned_by_groups
-    end
-    string :flag_associated_groups, stored: true, multiple: true do
-      record.associated_user_groups
-    end
-    string :flag_agency_id_owner, stored: true, multiple: true do
-      record.owned_by_agency_id
-    end
-    string :flag_associated_agencies, stored: true, multiple: true do
-      record.associated_user_agencies
-    end
-  end
-  # rubocop:enable Metrics/BlockLength
 
   class << self
     def by_owner(query_scope, active_only, record_types, flagged_by)
@@ -165,10 +96,6 @@ class Flag < ApplicationRecord
     update_flag_history(EVENT_UNFLAG, unflagged_by)
   end
 
-  def index_record
-    Sunspot.index(record) if record
-  end
-
   private
 
   def update_flag_history(event, user_name)
@@ -182,4 +109,3 @@ class Flag < ApplicationRecord
     )
   end
 end
-# rubocop:enable Metrics/ClassLength

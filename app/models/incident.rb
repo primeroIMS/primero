@@ -60,10 +60,6 @@ class Incident < ApplicationRecord
       %w[incident_id incident_code monitor_number survivor_code incidentid_ir short_id]
     end
 
-    def quicksearch_fields
-      filterable_id_fields + %w[super_incident_name incident_description individual_ids]
-    end
-
     def phonetic_field_names
       %w[super_incident_name incident_description]
     end
@@ -78,10 +74,6 @@ class Incident < ApplicationRecord
       ]
     end
 
-    def sortable_text_fields
-      %w[short_id]
-    end
-
     def minimum_reportable_fields
       {
         'boolean' => %w[record_state],
@@ -90,15 +82,6 @@ class Incident < ApplicationRecord
         'date' => %w[incident_date_derived]
       }
     end
-  end
-
-  searchable do
-    date :incident_date_derived
-    date :date_of_first_report
-    %w[id status].each { |f| string(f, as: "#{f}_sci") }
-    filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
-    quicksearch_fields.each { |f| text_index(f) }
-    sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
   end
 
   after_initialize :set_unique_id
@@ -111,7 +94,7 @@ class Incident < ApplicationRecord
   after_create :add_alert_on_case, :add_case_history
 
   def index_record
-    Sunspot.index(self.case) if self.case.present?
+    Sunspot.index(self.case) if Rails.configuration.solr_enabled && self.case.present?
   end
 
   alias super_defaults defaults
@@ -252,7 +235,6 @@ class Incident < ApplicationRecord
 
     reindex_violations_and_associations
     recalculate_association_fields
-    Sunspot.index(self)
   end
 
   # TODO: This method will trigger queries to reload the violations and associations in order to index the latest data

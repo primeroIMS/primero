@@ -22,11 +22,6 @@ module Workflow
     store_accessor :data, :workflow
     alias_method :workflow_status, :workflow
 
-    searchable do
-      string :workflow_status, as: 'workflow_status_sci'
-      string :workflow, as: 'workflow_sci'
-    end
-
     before_create :set_workflow_new
     before_save :calculate_workflow
   end

@@ -535,6 +535,8 @@ en:
       date_of_creation: Date of Creation
       registration_date: Date of Registration
       followup_date: Date of Follow Up
+      date_reunification: Date of Reunification
+      tracing_date: Date of Tracing
       service_implemented_day_time: Date Service Completed
   configurations:
     apply_label: Are you sure? If you apply, the settings in this configuration will be applied to the system.

@@ -65,11 +65,14 @@ if models.include?('Child')
           'transferred_to_user_groups' => record.calculate_transferred_to_user_groups,
           'referred_users' => record.calculate_referred_users,
           'referred_users_present' => record.calculate_referred_users_present,
+          'family_number' => record.family_number,
           'assessment_due_dates' => record.calculate_assessment_due_dates,
           'case_plan_due_dates' => record.calculate_case_plan_due_dates,
           'followup_due_dates' => record.calculate_followup_due_dates,
           'service_due_dates' => record.calculate_service_due_dates,
           'followup_dates' => record.calculate_followup_dates,
+          'reunification_dates' => record.calculate_reunification_dates,
+          'tracing_dates' => record.calculate_tracing_dates,
           'service_implemented_day_times' => record.calculate_service_implemented_day_times
         ),
         'phonetic_data' => { 'tokens' => record.generate_tokens }

@@ -46,7 +46,7 @@ class DataRemovalService
         ActiveRecord::Base.connection.execute('DELETE FROM form_sections_roles')
       end
 
-      Sunspot.remove_all(RECORD_MODELS)
+      remove_from_solr
     end
 
     def remove_config(args = {})
@@ -103,6 +103,12 @@ class DataRemovalService
       return [] unless models.present?
 
       models.map { |model| Kernel.const_get(model) }
+    end
+
+    def remove_from_solr
+      return unless Rails.configuration.solr_enabled
+
+      Sunspot.remove_all(RECORD_MODELS)
     end
   end
 end

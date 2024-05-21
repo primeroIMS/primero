@@ -3,10 +3,10 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 require 'rails_helper'
-require 'sunspot'
+require 'sunspot' if Rails.configuration.solr_enabled
 
 describe Child do
-  describe 'quicksearch', search: true do
+  describe 'quicksearch' do
     before do
       clean_data(Child, Family)
     end
@@ -16,9 +16,9 @@ describe Child do
     end
 
     it 'can find a child by survivor code' do
-      child = Child.create!(data: { name: 'Lonnie', survivor_code_no: 'ABC123XYZ' })
-      child.index!
-      search_result = SearchService.search(Child, query: 'ABC123XYZ').results
+      Child.create!(data: { name: 'Lonnie', survivor_code_no: 'ABC123XYZ' })
+
+      search_result = PhoneticSearchService.search(Child, query: 'ABC123XYZ').records
       expect(search_result).to have(1).child
       expect(search_result.first.survivor_code_no).to eq('ABC123XYZ')
     end
@@ -27,15 +27,15 @@ describe Child do
       family = Family.create!(
         family_number: '4225',
         family_members: [
-          { unique_id: '123', relation_name: 'Family Name',relation_age: 5, relation_sex: "male" }
+          { unique_id: '123', relation_name: 'Family Name', relation_age: 5, relation_sex: 'male' }
         ]
       )
       child = Child.create!(data: { name: 'Lonnie', survivor_code_no: 'ABC123XYZ' })
       child.family = family
       child.save!
-      child.index!
 
-      search_result = SearchService.search(Child, query: '4225').results
+      filter = SearchFilters::TextValue.new(field_name: 'family_number', value: '4225')
+      search_result = PhoneticSearchService.search(Child, filters: [filter]).records
       expect(search_result).to have(1).child
       expect(search_result.first.family_number).to eq('4225')
     end
@@ -1014,24 +1014,38 @@ describe Child do
   describe 'urgent_protection_concern', search: true do
     it 'finds cases where the value is stored as string true' do
       child = Child.create!(data: { name: 'Lonnie', urgent_protection_concern: 'true' })
-      child.index!
-      search_result = SearchService.search(
+      search_result = PhoneticSearchService.search(
         Child,
-        filters: [SearchFilters::Value.new(field_name: 'urgent_protection_concern', value: true)]
-      ).results
+        filters: [SearchFilters::BooleanValue.new(field_name: 'urgent_protection_concern', value: true)]
+      ).records
       expect(search_result).to have(1).child
       expect(search_result.first.id).to eq(child.id)
     end
 
     it 'finds cases where the value is stored as string false' do
       child = Child.create!(data: { name: 'Lonnie', urgent_protection_concern: 'false' })
-      child.index!
-      search_result = SearchService.search(
+      search_result = PhoneticSearchService.search(
         Child,
-        filters: [SearchFilters::Value.new(field_name: 'urgent_protection_concern', value: false)]
-      ).results
+        filters: [SearchFilters::BooleanValue.new(field_name: 'urgent_protection_concern', value: false)]
+      ).records
       expect(search_result).to have(1).child
       expect(search_result.first.id).to eq(child.id)
+    end
+
+    context 'when fields store values string or boolean' do
+      let!(:record1) { Child.create!(data: { name: 'Foo', urgent_protection_concern: 'true' }) }
+      let!(:record2) { Child.create!(data: { name: 'Bar', urgent_protection_concern: true }) }
+      let!(:record3) { Child.create!(data: { name: 'Random', age: 2 }) }
+
+      it 'finds cases where the value is stored as string or boolean' do
+        search_result = PhoneticSearchService.search(
+          Child,
+          filters: [SearchFilters::BooleanValue.new(field_name: 'urgent_protection_concern', value: true)]
+        ).records
+
+        expect(search_result).to have(2).child
+        expect(search_result.map(&:id)).to match_array([record1.id, record2.id])
+      end
     end
   end
 
@@ -1135,6 +1149,44 @@ describe Child do
     it 'generates the phonetic tokens' do
       child = Child.create!(data: { name: 'George', name_nickname: 'Wolf', name_other: 'Joe' })
       expect(child.tokens).to eq(%w[JRJ ALF J])
+    end
+  end
+
+  describe 'reunification_dates' do
+    before do
+      clean_data(Child)
+    end
+
+    it 'stores the reunification_dates' do
+      child = Child.create!(
+        data: {
+          age: 2, sex: 'male', name: 'Random Name', reunification_details_section: [
+            { 'unique_id' => '4b7c1011-a63e-422c-b6fb-a64cdcc2d472', 'date_reunification' => '2021-12-08' },
+            { 'unique_id' => 'f732a61c-cdae-435c-9c0c-55a893321fed', 'date_reunification' => '2022-02-12' }
+          ]
+        }
+      )
+
+      expect(child.reunification_dates).to eq([Date.new(2021, 12, 8), Date.new(2022, 2, 12)])
+    end
+  end
+
+  describe 'tracing_dates' do
+    before do
+      clean_data(Child)
+    end
+
+    it 'stores the tracing_dates' do
+      child = Child.create!(
+        data: {
+          age: 2, sex: 'male', name: 'Random Name', tracing_actions_section: [
+            { 'unique_id' => '4b7c1011-a63e-422c-b6fb-a64cdcc2d472', 'date_tracing' => '2022-05-09' },
+            { 'unique_id' => 'f732a61c-cdae-435c-9c0c-55a893321fed', 'date_tracing' => '2023-07-08' }
+          ]
+        }
+      )
+
+      expect(child.tracing_dates).to eq([Date.new(2022, 5, 9), Date.new(2023, 7, 8)])
     end
   end
 

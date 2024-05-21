@@ -122,7 +122,7 @@ class BulkExport < ApplicationRecord
     page = 1
     order = self.order || { created_at: :desc }
     loop do
-      result = search_records(batch, page, order)
+      result = search_records(search_filters, batch, page, order)
       break if result.records.blank?
 
       exporter.single_record_export = result.total == 1
@@ -131,11 +131,11 @@ class BulkExport < ApplicationRecord
     end
   end
 
-  def search_records(batch, page, order)
+  def search_records(filters, batch, page, order)
     PhoneticSearchService.search(
       model_class,
       {
-        filters: search_filters,
+        filters:,
         query_scope: record_query_scope, query:,
         sort: order, pagination: { page:, per_page: batch }
       }

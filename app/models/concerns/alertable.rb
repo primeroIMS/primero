@@ -32,10 +32,6 @@ module Alertable
     before_update :remove_alert_on_save
     before_create :calculate_current_alert_types
     before_update :calculate_current_alert_types
-
-    searchable do
-      string :current_alert_types, multiple: true
-    end
   end
 
   def alert_count

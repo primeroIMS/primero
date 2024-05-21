@@ -34,7 +34,6 @@ class Attachment < ApplicationRecord
             file_content_type: { allow: ->(a) { a.valid_content_types } },
             if: :attached?
   validate :maximum_attachments_exceeded
-  after_commit :index_record
 
   def attach
     return unless record.present?
@@ -98,10 +97,6 @@ class Attachment < ApplicationRecord
     hash = slice(:id, :field_name, :file_name, :date, :description, :is_current, :comments)
     hash[:attachment_url] = url
     hash
-  end
-
-  def index_record
-    Sunspot.index(record) if record
   end
 
   private

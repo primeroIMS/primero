@@ -8,12 +8,15 @@ describe Api::V2::AttachmentsController, type: :request do
   include ActiveJob::TestHelper
   before :each do
     @case = Child.create(data: { name: 'Test', owned_by: 'faketest' })
-    Sunspot.commit
   end
 
   let(:json) { JSON.parse(response.body) }
   let(:audit_params) { enqueued_jobs.find { |job| job[:job] == AuditLogJob }[:args].first }
-  let(:records_with_photo) { Child.search { with(:has_photo, true) }.results }
+  let(:records_with_photo) do
+    PhoneticSearchService.search(
+      Child, filters: [SearchFilters::BooleanValue.new(field_name: 'has_photo', value: true)]
+    ).records
+  end
 
   describe 'POST /api/v2/:record/:id/attachments', search: true do
     it 'attaches a file to an existing record and sets has_photo to true' do

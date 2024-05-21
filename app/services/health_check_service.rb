@@ -23,6 +23,8 @@ class HealthCheckService
     end
 
     def solr_accessible?
+      return true unless Rails.configuration.solr_enabled
+
       Sunspot.session.session.rsolr_connection.head('admin/ping').response[:status] == 200
     rescue RSolr::Error::ConnectionRefused
       false

@@ -22,10 +22,6 @@ module Attachable
     store_accessor(:data, :has_photo)
 
     before_save :calculate_has_photo
-
-    searchable do
-      boolean :has_photo
-    end
   end
 
   def photo?
