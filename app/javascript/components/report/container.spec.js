@@ -1,18 +1,11 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
+import { mountedComponent, screen } from "test-utils";
 
-import PageContainer, { PageContent, PageHeading } from "../page";
-import { setupMountedComponent } from "../../test";
-import { TableValues } from "../charts";
-import LoadingIndicator from "../loading-indicator";
-
-import Exporter from "./components/exporter";
 import Report from "./container";
 
 describe("<Report />", () => {
-  let component;
-
   const initialState = fromJS({
     records: {
       reports: {
@@ -52,34 +45,27 @@ describe("<Report />", () => {
     }
   });
 
-  before(() => {
-    ({ component } = setupMountedComponent(Report, {}, initialState));
-  });
-
   it("renders report component", () => {
-    expect(component.find(Report)).to.have.lengthOf(1);
-  });
-
-  it("renders PageContainer, PageHeading and PageContent", () => {
-    expect(component.find(PageContainer)).to.have.lengthOf(1);
-    expect(component.find(PageContent)).to.have.lengthOf(1);
-    expect(component.find(PageHeading)).to.have.lengthOf(1);
+    mountedComponent(<Report />, initialState);
+    expect(screen.getByText("Registration CP")).toBeInTheDocument();
   });
 
   it("renders TableValues", () => {
-    expect(component.find(TableValues)).to.have.lengthOf(1);
+    mountedComponent(<Report />, initialState);
+    expect(screen.getByText("a-2020")).toBeInTheDocument();
   });
 
   it("renders Exporter", () => {
-    expect(component.find(Exporter)).to.have.lengthOf(1);
+    mountedComponent(<Report />, initialState);
+    expect(document.querySelector("#graph-exporter-button")).toBeInTheDocument();
   });
 
   it("renders h4 with report's description", () => {
-    expect(component.find("h4").text()).to.be.equals("Case registrations over time");
+    mountedComponent(<Report />, initialState);
+    expect(screen.getByText("Case registrations over time")).toBeInTheDocument();
   });
 
   describe("When data still loading", () => {
-    let loadingComponent;
     const loadingInitialState = fromJS({
       records: {
         reports: {
@@ -90,16 +76,14 @@ describe("<Report />", () => {
       }
     });
 
-    before(() => {
-      loadingComponent = setupMountedComponent(Report, {}, loadingInitialState).component;
+    it("renders report component", () => {
+      mountedComponent(<Report />, loadingInitialState);
+      expect(screen.getByTestId("page-heading")).toBeInTheDocument();
     });
 
-    it("renders report component", () => {
-      expect(loadingComponent.find(Report)).to.have.lengthOf(1);
-    });
     it("renders LoadingIndicator", () => {
-      expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
-      expect(loadingComponent.find(TableValues)).to.have.lengthOf(0);
+      mountedComponent(<Report />, loadingInitialState);
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
 });
