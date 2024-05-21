@@ -142,7 +142,7 @@ class PermittedFieldService
 
     return [] if reporting_location_config.blank?
 
-    ["#{reporting_location_config.field_key}#{reporting_location_config.admin_level}"]
+    ["loc:#{reporting_location_config.field_key}"]
   end
 
   def permitted_registry_record_id
