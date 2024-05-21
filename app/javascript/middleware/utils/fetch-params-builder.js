@@ -19,7 +19,7 @@ const fetchParamsBuilder = async (api, options, controller) => {
   const token = await getIDPToken();
 
   const headers = {
-    "X-CSRF-Token": getCSRFToken()
+    X_CSRF_Token: getCSRFToken()
   };
 
   if (token) {

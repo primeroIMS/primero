@@ -69,7 +69,7 @@ const fetchSinglePayload = async (action, store, options) => {
 
   const token = await getIDPToken();
   const headers = {
-    "X-CSRF-Token": getCSRFToken()
+    X_CSRF_Token: getCSRFToken()
   };
 
   if (token) {
