@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import {
   ACTIVITY_LOGS,
   MANAGE,
@@ -16,9 +18,12 @@ import {
   VIEW_KPIS,
   SHOW_SUMMARY,
   READ_MANAGED_REPORTS,
-  READ_REGISTRY_RECORD
+  READ_REGISTRY_RECORD,
+  READ_FAMILY_RECORD
 } from "../components/permissions/constants";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
+
+export const API_BASE_PATH = "/api/v2";
 
 export const PASSWORD_MIN_LENGTH = 8;
 
@@ -43,6 +48,8 @@ export const IDLE_LOGOUT_TIMEOUT = 5 * 1000 * 60;
 // Time (ms) how often the backend is pinged to refresh the user's token
 export const TOKEN_REFRESH_INTERVAL = 30 * 1000 * 60;
 
+export const PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL = 15 * 1000 * 60;
+
 export const CASE = "case";
 export const CASES = "cases";
 export const TRACING_REQUEST = "tracing_request";
@@ -51,6 +58,8 @@ export const INCIDENT = "incident";
 export const INCIDENTS = "incidents";
 export const REGISTRY_RECORD = "registry_record";
 export const REGISTRY_RECORDS = "registry_records";
+export const FAMILIES = "families";
+export const FAMILY = "family";
 
 // Type of records available singular (key): plural (value)
 export const RECORD_TYPES = {
@@ -58,6 +67,7 @@ export const RECORD_TYPES = {
   [TRACING_REQUESTS]: TRACING_REQUEST,
   [INCIDENTS]: INCIDENT,
   [REGISTRY_RECORDS]: REGISTRY_RECORD,
+  [FAMILIES]: FAMILY,
   all: "all"
 };
 
@@ -65,7 +75,8 @@ export const RECORD_TYPES_PLURAL = {
   [CASE]: CASES,
   [TRACING_REQUEST]: TRACING_REQUESTS,
   [INCIDENT]: INCIDENTS,
-  [REGISTRY_RECORD]: REGISTRY_RECORDS
+  [REGISTRY_RECORD]: REGISTRY_RECORDS,
+  [FAMILY]: FAMILIES
 };
 
 // Max Age allowed in age ranges
@@ -111,6 +122,7 @@ export const RECORD_PATH = {
   contact_information: "contact_information",
   codes_of_conduct: "codes_of_conduct",
   dashboards: "dashboards",
+  families: "families",
   flags: "flags",
   forms: "forms",
   incidents: "incidents",
@@ -124,7 +136,8 @@ export const RECORD_PATH = {
   user_groups: "user_groups",
   users: "users",
   activity_log: "activity_log",
-  registry_records: "registry_records"
+  registry_records: "registry_records",
+  webpush_config: "webpush/config"
 };
 
 export const RECORD_INFORMATION_GROUP = "record_information";
@@ -136,6 +149,7 @@ export const VIOLATION_GROUP = "violations";
 export const RECORD_OWNER = "record_owner";
 
 export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
+export const INCIDENT_TRANSFERS_ASSIGNMENTS = "incident_transfers_assignments";
 
 export const REFERRAL = "referral";
 
@@ -175,10 +189,12 @@ export const ROUTES = {
   contact_information: "/admin/contact_information",
   dashboard: "/dashboards",
   exports: "/exports",
+  families: "/families",
   forms: "/admin/forms",
   forms_new: "/admin/forms/new",
   incidents: "/incidents",
   login: "/login",
+  login_idp_redirect: "/login/:id",
   logout: "/logout",
   lookups: "/admin/lookups",
   lookups_new: "/admin/lookups/new",
@@ -197,7 +213,9 @@ export const ROUTES = {
   password_reset: "/password_reset",
   activity_log: "/activity_log",
   password_reset_request: "/password_reset_request",
-  registry_records: "/registry_records"
+  registry_records: "/registry_records",
+  subscriptions: "/webpush/subscriptions",
+  subscriptions_current: "/webpush/subscriptions/current"
 };
 
 export const PERMITTED_URL = [
@@ -205,6 +223,7 @@ export const PERMITTED_URL = [
   ROUTES.dashboard,
   ROUTES.login,
   ROUTES.login_redirect,
+  ROUTES.login_idp_redirect,
   ROUTES.logout,
   ROUTES.not_authorized,
   ROUTES.password_reset,
@@ -213,6 +232,7 @@ export const PERMITTED_URL = [
   ROUTES.tracing_requests,
   ROUTES.incidents,
   ROUTES.registry_records,
+  ROUTES.families,
   ROUTES.code_of_conduct,
   ROUTES.password_reset_request
 ];
@@ -401,6 +421,15 @@ export const APPLICATION_NAV = (permissions, userId) => {
       validateWithUserPermissions: true
     },
     {
+      name: "navigation.families",
+      to: ROUTES.families,
+      icon: "families",
+      jewelCount: "families",
+      resources: RESOURCES.families,
+      actions: READ_RECORDS,
+      validateWithUserPermissions: true
+    },
+    {
       name: "navigation.insights",
       to: ROUTES.insights,
       icon: "insights",
@@ -477,6 +506,7 @@ export const REVOKED = "revoked";
 export const DONE = "done";
 export const REJECT = "reject";
 export const SAVING = "saving";
+export const INPROGRESS = "in_progress";
 
 export const APPROVALS_TYPES = Object.freeze({
   assessment: "assessment",
@@ -493,7 +523,9 @@ export const ALERTS_FOR = {
   approval: "approval",
   new_form: "new_form",
   transfer_request: "transfer_request",
-  duplicate_field: "duplicate_field"
+  duplicate_field: "duplicate_field",
+  transfer: "transfer",
+  referral: "referral"
 };
 
 export const MAX_OFFLINE_ROWS_PER_PAGE = 50;
@@ -545,12 +577,18 @@ export const FILE_FORMAT = {
   pdf: "application/pdf"
 };
 
+export const FAMILY_MEMBERS_SUBFORM_ID = "family_members_section";
+export const FAMILY_FROM_CASE = "family_from_case";
+
+export const FAMILY_DETAILS_SUBFORM_ID = "family_details_section";
+
 export const FORM_PERMISSION_ACTION = Object.freeze({
   [INCIDENT_FROM_CASE]: VIEW_INCIDENTS_FROM_CASE,
   [CHANGE_LOGS]: SHOW_CHANGE_LOG,
   [APPROVALS]: SHOW_APPROVALS,
   [SUMMARY]: SHOW_SUMMARY,
-  [REGISTRY_FROM_CASE]: READ_REGISTRY_RECORD
+  [REGISTRY_FROM_CASE]: READ_REGISTRY_RECORD,
+  [FAMILY_FROM_CASE]: READ_FAMILY_RECORD
 });
 
 export const VIOLATIONS_FORM = [
@@ -614,6 +652,12 @@ export const GBV_INSIGHTS_SUBREPORTS = ["incidents", "perpetrators", "survivors"
 export const GHN_REPORT_SUBREPORTS = ["ghn_report"];
 
 export const INDIVIDUAL_CHILDREN = ["individual_children"];
+
+export const WORKFLOW_SUBREPORTS = ["cases_workflow", "incidents_workflow"];
+
+export const REFERRAL_TRANSFERS_SUBREPORTS = ["total_transfers", "total_referrals"];
+
+export const VIOLENCE_TYPE_SUBREPORTS = ["cases_violence_type", "incidents_violence_type"];
 
 export const CHART_COLORS = Object.freeze({
   blue: "rgb(0, 147, 186)",
@@ -696,3 +740,17 @@ export const DATE_SORTABLE_FIELDS = Object.freeze([
   "date_of_first_report",
   "inquiry_date"
 ]);
+
+export const NOTIFICATION_PERMISSIONS = {
+  GRANTED: "granted",
+  DENIED: "denied",
+  DEFAULT: "default"
+};
+
+export const POST_MESSAGES = {
+  SUBSCRIBE_NOTIFICATIONS: "subscribe_notifications",
+  UNSUBSCRIBE_NOTIFICATIONS: "unsubscribe_notifications",
+  DISPATCH_REMOVE_SUBSCRIPTION: "dispatch_remove_subscription",
+  DISPATCH_SAVE_SUBSCRIPTION: "dispatch_save_subscription",
+  ATTEMPTS_SUBSCRIPTION_FAILED: "attempts_subscription_failed"
+};

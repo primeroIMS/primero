@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Gender Based Violence records
 module GenderBasedViolence
   extend ActiveSupport::Concern

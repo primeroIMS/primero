@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Superclass for all SearchFilter objects that transform API query parameters into Sunspot queries
 class SearchFilters::SearchFilter < ValueObject
   def to_json(_obj)

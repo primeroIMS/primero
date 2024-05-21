@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Class to hold SQL results
 class ManagedReports::SqlReportIndicator < ValueObject
   include ManagedReports::SqlQueryHelpers
@@ -9,12 +11,13 @@ class ManagedReports::SqlReportIndicator < ValueObject
   QUARTER = 'quarter'
   MONTH = 'month'
   YEAR = 'year'
+  WEEK = 'week'
 
   class << self
     def sql(current_user, params = {}); end
 
     def build(current_user = nil, params = {})
-      indicator = new(params: params)
+      indicator = new(params:)
       results = indicator.execute_query(current_user)
       indicator.data = block_given? ? yield(results) : build_results(results, params)
       indicator
@@ -65,24 +68,24 @@ class ManagedReports::SqlReportIndicator < ValueObject
     end
 
     def user_scope_query(current_user, table_name = nil)
-      return if current_user.blank? || current_user.group_permission?(Permission::ALL)
+      return if current_user.blank? || current_user.managed_report_scope_all?
 
-      if current_user.group_permission?(Permission::AGENCY)
+      if current_user.managed_report_scope == Permission::AGENCY
         agency_scope_query(current_user, table_name)
-      elsif current_user.group_permission?(Permission::GROUP)
+      elsif current_user.managed_report_scope == Permission::GROUP
         group_scope_query(current_user, table_name)
       else
         self_scope_query(current_user, table_name)
       end
     end
 
-    def grouped_date_query(grouped_by_param, date_param, table_name = nil)
+    def grouped_date_query(grouped_by_param, date_param, table_name = nil, hash_field = 'data', map_to = nil)
       return unless grouped_by_param.present? && date_param.present?
 
       case grouped_by_param.value
-      when QUARTER then grouped_quarter_query(date_param, table_name)
-      when MONTH then grouped_month_query(date_param, table_name)
-      else grouped_year_query(date_param, table_name)
+      when QUARTER then grouped_quarter_query(date_param, table_name, hash_field, map_to)
+      when MONTH then grouped_month_query(date_param, table_name, hash_field, map_to)
+      else grouped_year_query(date_param, table_name, hash_field, map_to)
       end
     end
 

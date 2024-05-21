@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This represents the authorizations a user is entitled to
 # Primero business objects by way of the role granted to the user.
 # A permission is usually a pairing of the business object (case, incident, etc.)
@@ -12,12 +14,14 @@ class Permission < ValueObject
   # It associates other roles with this ROLE permission
   # That restricts this role to only be able to manage those associated roles
   # If the role_unique_ids property is empty on a ROLE permission, then that allows this role to manage all other ROLES
-  attr_accessor :resource, :actions, :role_unique_ids, :agency_unique_ids
+  attr_accessor :resource, :actions, :role_unique_ids, :agency_unique_ids, :managed_report_scope
 
+  VERIFY_MRM = 'verify_mrm'
   READ = 'read'
   WRITE = 'write'
   ENABLE_DISABLE_RECORD = 'enable_disable_record'
   FLAG = 'flag'
+  FLAG_RESOLVE_ANY = 'resolve_any_flag'
   IMPORT = 'import'
   EXPORT_LIST_VIEW = 'export_list_view_csv'
   EXPORT_CSV = 'export_csv'
@@ -36,6 +40,7 @@ class Permission < ValueObject
   TRACING_REQUEST = 'tracing_request'
   POTENTIAL_MATCH = 'potential_match'
   REGISTRY_RECORD = 'registry_record'
+  FAMILY = 'family'
   DUPLICATE = 'duplicate'
   USER = 'user'
   USER_GROUP = 'user_group'
@@ -165,11 +170,18 @@ class Permission < ValueObject
   GHN_REPORT = 'ghn_report'
   INDIVIDUAL_CHILDREN = 'individual_children'
   VIOLATIONS_CATEGORY_VERIFICATION_STATUS = 'violations_category_verification_status'
+  WORKFLOW_REPORT = 'workflow_report'
+  VIOLENCE_TYPE_REPORT = 'violence_type_report'
+  VIEW_FAMILY_RECORD = 'view_family_record'
+  CASE_FROM_FAMILY = 'case_from_family'
+  REFERRALS_TRANSFERS_REPORT = 'referrals_transfers_report'
+  LINK_FAMILY_RECORD = 'link_family_record'
+  REMOVE_ALERT = 'remove_alert'
 
   RESOURCE_ACTIONS = {
     CASE => [
-      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, INCIDENT_FROM_CASE, INCIDENT_DETAILS_FROM_CASE,
-      VIEW_INCIDENT_FROM_CASE,
+      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, FLAG_RESOLVE_ANY, INCIDENT_FROM_CASE,
+      INCIDENT_DETAILS_FROM_CASE, VIEW_INCIDENT_FROM_CASE,
       SERVICE_PROVISION_INCIDENT_DETAILS, SERVICES_SECTION_FROM_CASE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL,
       EXPORT_PHOTO_WALL, EXPORT_UNHCR, EXPORT_PDF, EXPORT_DUPLICATE_ID, EXPORT_JSON, EXPORT_CUSTOM, IMPORT,
       CONSENT_OVERRIDE, SYNC_EXTERNAL, SYNC_MOBILE, REQUEST_APPROVAL_ASSESSMENT, REQUEST_APPROVAL_CASE_PLAN,
@@ -179,20 +191,24 @@ class Permission < ValueObject
       FIND_TRACING_MATCH, ASSIGN, ASSIGN_WITHIN_AGENCY, ASSIGN_WITHIN_USER_GROUP, REMOVE_ASSIGNED_USERS, TRANSFER,
       RECEIVE_TRANSFER, ACCEPT_OR_REJECT_TRANSFER, REFERRAL, RECEIVE_REFERRAL, RECEIVE_REFERRAL_DIFFERENT_MODULE,
       REOPEN, CLOSE, VIEW_PROTECTION_CONCERNS_FILTER, CHANGE_LOG, LIST_CASE_NAMES, VIEW_REGISTRY_RECORD,
-      ADD_REGISTRY_RECORD, MANAGE
+      ADD_REGISTRY_RECORD, VIEW_FAMILY_RECORD, CASE_FROM_FAMILY, LINK_FAMILY_RECORD, REMOVE_ALERT, MANAGE
     ],
     INCIDENT => [
-      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF,
-      EXPORT_INCIDENT_RECORDER, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, SYNC_MOBILE, CHANGE_LOG, EXPORT_MRM_VIOLATION_XLS,
-      MANAGE
+      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, FLAG_RESOLVE_ANY, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL,
+      EXPORT_PDF, EXPORT_INCIDENT_RECORDER, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, SYNC_MOBILE, CHANGE_LOG,
+      EXPORT_MRM_VIOLATION_XLS, REMOVE_ALERT, VERIFY_MRM, ASSIGN, MANAGE
     ],
     TRACING_REQUEST => [
-      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF,
-      EXPORT_JSON, EXPORT_CUSTOM, IMPORT, CHANGE_LOG, MANAGE
+      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, FLAG_RESOLVE_ANY, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL,
+      EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, CHANGE_LOG, MANAGE
     ],
     REGISTRY_RECORD => [
-      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, EXPORT_CSV, EXPORT_EXCEL, EXPORT_JSON,
+      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, FLAG_RESOLVE_ANY, EXPORT_CSV, EXPORT_EXCEL, EXPORT_JSON,
       CHANGE_LOG, SYNC_MOBILE, MANAGE
+    ],
+    FAMILY => [
+      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, FLAG_RESOLVE_ANY, REOPEN, CLOSE, EXPORT_LIST_VIEW, EXPORT_CSV,
+      EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, CHANGE_LOG, SYNC_MOBILE, CASE_FROM_FAMILY, MANAGE
     ],
     ROLE => [CREATE, READ, WRITE, ASSIGN, COPY, MANAGE, DELETE],
     USER => [CREATE, READ, AGENCY_READ, WRITE, MANAGE],
@@ -200,7 +216,10 @@ class Permission < ValueObject
     AGENCY => [READ, WRITE, ASSIGN, MANAGE],
     WEBHOOK => [CREATE, READ, WRITE, DELETE, MANAGE],
     REPORT => [READ, GROUP_READ, AGENCY_READ, CREATE, WRITE, MANAGE],
-    MANAGED_REPORT => [VIOLATION_REPORT, GBV_STATISTICS_REPORT, GHN_REPORT, INDIVIDUAL_CHILDREN],
+    MANAGED_REPORT => [
+      VIOLATION_REPORT, GBV_STATISTICS_REPORT, GHN_REPORT, INDIVIDUAL_CHILDREN, WORKFLOW_REPORT, VIOLENCE_TYPE_REPORT,
+      REFERRALS_TRANSFERS_REPORT
+    ],
     METADATA => [MANAGE],
     POTENTIAL_MATCH => [READ, VIEW_AUDIO, VIEW_PHOTO, MANAGE],
     DUPLICATE => [READ],
@@ -234,6 +253,42 @@ class Permission < ValueObject
     ACTIVITY_LOG => [MANAGE, TRANSFER]
   }.freeze
 
+  RESOURCE_FORM_ACTIONS = {
+    CASE => [
+      Permission::MANAGE,
+      Permission::APPROVE_ASSESSMENT,
+      Permission::APPROVE_CASE_PLAN,
+      Permission::APPROVE_CLOSURE,
+      Permission::APPROVE_GBV_CLOSURE,
+      Permission::REQUEST_APPROVAL_ACTION_PLAN,
+      Permission::REQUEST_APPROVAL_ASSESSMENT,
+      Permission::REQUEST_APPROVAL_CASE_PLAN,
+      Permission::REQUEST_APPROVAL_CLOSURE,
+      Permission::REQUEST_APPROVAL_GBV_CLOSURE,
+      Permission::CHANGE_LOG,
+      Permission::VIEW_INCIDENT_FROM_CASE,
+      Permission::FIND_TRACING_MATCH,
+      Permission::VIEW_FAMILY_RECORD,
+      Permission::VIEW_REGISTRY_RECORD
+    ],
+    INCIDENT => [
+      Permission::MANAGE,
+      Permission::CHANGE_LOG
+    ],
+    TRACING_REQUEST => [
+      Permission::MANAGE,
+      Permission::CHANGE_LOG
+    ],
+    REGISTRY_RECORD => [
+      Permission::MANAGE,
+      Permission::CHANGE_LOG
+    ],
+    FAMILY => [
+      Permission::MANAGE,
+      Permission::CHANGE_LOG
+    ]
+  }.freeze
+
   def initialize(args = {})
     super(args)
   end
@@ -259,7 +314,7 @@ class Permission < ValueObject
     end
 
     def records
-      [CASE, INCIDENT, TRACING_REQUEST, REGISTRY_RECORD]
+      [CASE, INCIDENT, TRACING_REQUEST, REGISTRY_RECORD, FAMILY]
     end
 
     def management
@@ -303,24 +358,43 @@ class Permission < ValueObject
         hash[permission.resource] = permission.actions
         object_hash[Permission::AGENCY] = permission.agency_unique_ids if permission.agency_unique_ids
         object_hash[Permission::ROLE] = permission.role_unique_ids if permission.role_unique_ids
+        dump_managed_report_scope(permission, object_hash) if permission.managed_report_scope
       end
       json_hash['objects'] = object_hash
       json_hash
     end
 
     def self.load_permission(object_hash, resource, actions)
-      permission = Permission.new(resource: resource, actions: actions)
+      permission = Permission.new(resource:, actions:)
       return permission unless object_hash.present?
 
-      if resource == Permission::ROLE && object_hash.key?(Permission::ROLE)
-        permission.role_unique_ids = object_hash[Permission::ROLE]
-      end
-
-      if resource == Permission::AGENCY && object_hash.key?(Permission::AGENCY)
-        permission.agency_unique_ids = object_hash[Permission::AGENCY]
-      end
+      load_role_unique_ids(permission, object_hash) if resource == Permission::ROLE
+      load_agency_unique_ids(permission, object_hash) if resource == Permission::AGENCY
+      load_managed_report_scope(permission, object_hash) if resource == Permission::MANAGED_REPORT
 
       permission
+    end
+
+    def self.dump_managed_report_scope(permission, object_hash)
+      object_hash[Permission::MANAGED_REPORT] = { 'scope' => permission.managed_report_scope }
+    end
+
+    def self.load_role_unique_ids(permission, object_hash)
+      return unless object_hash.key?(Permission::ROLE)
+
+      permission.role_unique_ids = object_hash[Permission::ROLE]
+    end
+
+    def self.load_agency_unique_ids(permission, object_hash)
+      return unless object_hash.key?(Permission::AGENCY)
+
+      permission.agency_unique_ids = object_hash[Permission::AGENCY]
+    end
+
+    def self.load_managed_report_scope(permission, object_hash)
+      return unless object_hash.key?(Permission::MANAGED_REPORT)
+
+      permission.managed_report_scope = object_hash[Permission::MANAGED_REPORT]['scope']
     end
 
     def self.load(json_hash)

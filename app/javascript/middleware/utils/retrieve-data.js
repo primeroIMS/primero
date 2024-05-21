@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { syncIndexedDB, METHODS } from "../../db";
 
 import offlineDispatchStart from "./offline-dispatch-start";

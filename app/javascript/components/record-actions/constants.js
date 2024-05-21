@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import {
   ACTIONS,
   ADD_INCIDENT,
@@ -34,6 +36,8 @@ export const ENABLED_FOR_ONE = [ONE];
 export const ENABLED_FOR_ONE_MANY = [ONE, MANY];
 export const ENABLED_FOR_ONE_MANY_ALL = [ONE, MANY, ALL];
 
+export const FILTERS_TO_SKIP = Object.freeze(["fields", "id_search", "per", "page", "total", "filter_category"]);
+
 export const RECORD_ACTION_ABILITIES = {
   canAddIncident: ADD_INCIDENT,
   canAddNotes: [ACTIONS.MANAGE, ACTIONS.ADD_NOTE],
@@ -59,5 +63,6 @@ export const RECORD_ACTION_ABILITIES = {
   canRequestGbvClosure: [ACTIONS.MANAGE, ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE],
   canShowExports: SHOW_EXPORTS,
   canTransfer: [ACTIONS.MANAGE, ACTIONS.TRANSFER],
-  canMarkForOffline: [ACTIONS.MANAGE, ACTIONS.MARK_FOR_OFFLINE]
+  canMarkForOffline: [ACTIONS.MANAGE, ACTIONS.MARK_FOR_OFFLINE],
+  canVerify: [ACTIONS.MANAGE, ACTIONS.VERIFY_MRM]
 };

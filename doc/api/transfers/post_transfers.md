@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Bulk transfer
 
 Initiate the transfer of cases in bulk to a single user.

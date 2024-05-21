@@ -1,0 +1,76 @@
+cmn:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "导出事件记录器 xls"
+  exports:
+    incident_recorder_xls:
+      all: 事件记录器
+      one: 事件记录器
+      selected: 已选入事件记录器
+      'yes': "是"
+      'no': "否"
+      gender:
+        male: "男"
+        female: "女"
+        both: "男和女"
+      age_group:
+        age: "年龄"
+        61_older: "61 及以上"
+        unknown: "未知"
+        header: "被指控的肇事者年龄组"
+      age_type:
+        adult: "成年人"
+        minor: "未成年人"
+        both: "成人和未成年人"
+        unknown: "未知"
+        header: "被指控的肇事者年龄类型"
+      service_referral:
+        undecided: "不确定"
+      headers:
+        incident_id: "事件 ID"
+        survivor_code: "幸存者代码"
+        case_manager_code: "个案管理员代码"
+        case_worker_code: "个案工作者代码"
+        date_of_interview: "面谈日期"
+        date_of_incident: "事件发生日期"
+        date_of_birth: "出生日期"
+        sex: "性别"
+        ethnicity: "种族"
+        country_of_origin: "出生国"
+        marital_status: "民事/婚姻状况"
+        displacement_status: "报告时的流离失所状况"
+        disability_type: "残障人士？"
+        unaccompanied_separated_status: "无人陪伴或失散儿童？"
+        stage_of_displacement: "事故发生时流离失所阶段"
+        time_of_day: "事件时间"
+        location: "事件位置"
+        county: "事件发生县"
+        district: "事件发生区"
+        camp_town: "事件营地/城镇"
+        camp: "事件营地"
+        gbv_type: "GBV类型"
+        harmful_traditional_practice: "有害的传统习俗"
+        goods_money_exchanged: "金钱、商品、利益和/或服务交换？"
+        abduction_type: "绑架类型"
+        previously_reported: "之前报告过此事件？"
+        gbv_previous_incidents: "以前的 GBV 事件？"
+        number_primary_perpetrators: "No.被指控的主要肇事者"
+        perpetrator:
+          sex: "被指控的肇事者性别"
+          former: "该肇事者之前发生的事件"
+          relationship: "被指控的肇事者 - 幸存者关系"
+          occupation: "被指控的肇事者职业"
+          age_group: "被指控的肇事者年龄组"
+          age_type: "被指控的肇事者年龄类型"
+        service:
+          referred_from: "由哪里转介至你处？"
+          safehouse_referral: "安全屋/避难所"
+          medical_referral: "健康/医疗服务"
+          psycho_referral: "心理社会服务"
+          wants_legal_action: "想要采取法律行动？"
+          legal_referral: "法律援助服务"
+          police_referral: "警察/其他安全人员"
+          livelihoods_referral: "生计计划"
+          protection_referral: "儿童保护服务/教育服务"
+        consent: "给予同意"
+        agency_code: "报告机构代码"

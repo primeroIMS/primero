@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Calculate the permitted users for a user if specified
 class PermittedUsersService
   attr_accessor :user
@@ -18,7 +20,7 @@ class PermittedUsersService
 
     users = apply_order(users, order_params)
 
-    { total: total, users: users }
+    { total:, users: }
   end
 
   private
@@ -44,8 +46,10 @@ class PermittedUsersService
     order = OrderByPropertyService.order_direction(order_params[:order])
     locale = OrderByPropertyService.order_locale(order_params[:locale])
 
-    # This query is safe because order and locale were sanitized.
-    users_query.joins(:agency).order(Arel.sql("LOWER(agencies.name_i18n ->> '#{locale}') #{order}"))
+    users_query.joins(:agency)
+               .order(Arel.sql(
+                        ActiveRecord::Base.sanitize_sql_for_order("LOWER(agencies.name_i18n ->> '#{locale}') #{order}")
+                      ))
   end
 
   def apply_filters(users_query, filters)

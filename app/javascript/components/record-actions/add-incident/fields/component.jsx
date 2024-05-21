@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "formik";
@@ -43,7 +45,9 @@ const Component = ({ recordModuleID, recordType, fields, formik }) => {
         }
       };
 
-      return <FormSectionField key={`${formattedField.name}-incident`} {...fieldProps} />;
+      return (
+        <FormSectionField data-testid="form-section-field" key={`${formattedField.name}-incident`} {...fieldProps} />
+      );
     });
 
   return <>{renderFields}</>;

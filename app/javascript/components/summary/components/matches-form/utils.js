@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/display-name, react/no-multi-comp, import/prefer-default-export */
 import clsx from "clsx";
 

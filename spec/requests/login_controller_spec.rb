@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 # TODO: Temporarily skipping this test until we sort out the b2c redirects
@@ -28,6 +30,25 @@ xdescribe LoginController, type: :request do
 
   describe 'Invalid identity page' do
     before { get '/login/foo' }
+
+    it 'returns a 404 for an unknown identity provider' do
+      expect(response).to have_http_status(404)
+    end
+
+    it 'renders a 404 Not Found' do
+      expect(response.body).to include('404 Not Found')
+    end
+  end
+
+  describe 'Valid identity IDP but invalid template' do
+    before do
+      @idp_foobar = IdentityProvider.create(
+        provider_type: 'foo',
+        client_id: 'bar',
+        authorization_url: 'https://foo.bar/authorization_url'
+      )
+      get '/login/foo_bar'
+    end
 
     it 'returns a 404 for an unknown identity provider' do
       expect(response).to have_http_status(404)

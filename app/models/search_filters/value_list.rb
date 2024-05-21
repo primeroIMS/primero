@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Transform API query parameter field_name=value1,value2,... into a Sunspot query
 class SearchFilters::ValueList < SearchFilters::SearchFilter
   attr_accessor :field_name, :values
 
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Style/HashEachMethods
   def query_scope(sunspot)
     this = self
     sunspot.instance_eval do
@@ -19,6 +22,7 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
       end
     end
   end
+  # rubocop:enable Style/HashEachMethods
   # rubocop:enable Metrics/MethodLength
 
   def as_location_filter(record_class)
@@ -26,7 +30,7 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
 
     location_filters = values.map do |value|
       SearchFilters::Value.new(
-        field_name: location_field_name_solr(field_name, value), value: value
+        field_name: location_field_name_solr(field_name, value), value:
       )
     end
     SearchFilters::Or.new(filters: location_filters)
@@ -39,7 +43,7 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
   def as_id_filter(record_class)
     return self unless id_field_filter?(record_class)
 
-    id_filters = values.map { |value| SearchFilters::Value.new(field_name: "#{field_name}_filterable", value: value) }
+    id_filters = values.map { |value| SearchFilters::Value.new(field_name: "#{field_name}_filterable", value:) }
 
     SearchFilters::Or.new(filters: id_filters)
   end
@@ -47,7 +51,7 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
   def to_h
     {
       type: 'values',
-      field_name: field_name,
+      field_name:,
       value: values
     }
   end
