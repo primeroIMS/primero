@@ -109,6 +109,7 @@ class PermittedFieldService
     @permitted_field_names += permitted_overdue_task_field_names
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
     @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
+    @permitted_field_names << 'risk_level' if user.can?(:case_risk, Dashboard)
     @permitted_field_names += permitted_reporting_location_field
     @permitted_field_names += permitted_registry_record_id
     @permitted_field_names += permitted_family_id
