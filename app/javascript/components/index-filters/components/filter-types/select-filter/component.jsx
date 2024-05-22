@@ -178,6 +178,7 @@ const Component = ({ filter, mode, moreSectionFilters, multiple, reset, setMoreS
         renderInput={handleRenderInput}
         filterOptions={filterOptionsProp}
         filterSelectedOptions
+        data-testid="select-filter"
       />
       {toggleIncludeDisabled && (
         <FormControl>
