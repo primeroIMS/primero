@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import {
   Admin,
   AgenciesForm,
@@ -56,7 +58,8 @@ import {
   ACTIVITY_LOGS,
   READ_MANAGED_REPORTS
 } from "../components/permissions";
-import Login from "../components/login";
+import Login, { IdpLogin } from "../components/login";
+import Logout from "../components/logout";
 import PasswordResetRequest from "../components/login/components/password-reset-form";
 
 import { ROUTES, MODES, RECORD_PATH } from "./constants";
@@ -95,16 +98,16 @@ export default [
         component: Login
       },
       {
-        path: ROUTES.logout,
-        component: Login
-      },
-      {
         path: ROUTES.password_reset,
         component: PasswordReset
       },
       {
         path: ROUTES.password_reset_request,
         component: PasswordResetRequest
+      },
+      {
+        path: ROUTES.login_idp_redirect,
+        component: IdpLogin
       }
     ]
   },
@@ -509,6 +512,10 @@ export default [
       {
         path: ROUTES.code_of_conduct,
         component: CodeOfConduct
+      },
+      {
+        path: ROUTES.logout,
+        component: Logout
       }
     ]
   },

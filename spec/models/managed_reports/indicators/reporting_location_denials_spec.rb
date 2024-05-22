@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe ManagedReports::Indicators::ReportingLocationDenials do
@@ -66,7 +68,7 @@ describe ManagedReports::Indicators::ReportingLocationDenials do
 
     @user = User.create!(
       full_name: 'Test User 1', user_name: 'test_user_a', email: 'test_user_a@localhost.com',
-      agency_id: agency_a.id, role: role, reporting_location_code: 1
+      agency_id: agency_a.id, role:, reporting_location_code: 1
     )
   end
 

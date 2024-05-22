@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Organizations that users who manage the the data in Primero belong to.
 # rubocop:disable Metrics/ClassLength
 class Agency < ApplicationRecord
@@ -91,7 +93,7 @@ class Agency < ApplicationRecord
     end
 
     def get_field_using_unique_id(unique_id, field)
-      where(unique_id: unique_id).pluck(field)&.first
+      where(unique_id:).pluck(field)&.first
     end
 
     def list_managed(user)
@@ -146,7 +148,7 @@ class Agency < ApplicationRecord
 
     decoded_attachment = Base64.decode64(file_base64)
     io = StringIO.new(decoded_attachment)
-    file.attach(io: io, filename: file_name)
+    file.attach(io:, filename: file_name)
   end
 
   def detach_logo(logo)
@@ -197,8 +199,8 @@ class Agency < ApplicationRecord
 
   def validate_image_dimensions(logo, valid_width, valid_height)
     metadata = ActiveStorage::Analyzer::ImageAnalyzer.new(logo).metadata
-    width = metadata.dig(:width)
-    height = metadata.dig(:height)
+    width = metadata[:width]
+    height = metadata[:height]
     return if width.blank? || height.blank?
     return unless width > valid_width || height > valid_height
 

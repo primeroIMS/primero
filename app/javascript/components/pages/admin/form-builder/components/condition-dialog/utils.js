@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { NUMERIC_FIELD, TICK_FIELD } from "../../../../../form";
 
 export const registerFields = ({ register, fieldsRef, index, fieldName }) => {

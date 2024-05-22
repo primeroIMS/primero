@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { TEXT_FIELD, TEXT_AREA, SEPARATOR, SUBFORM_SECTION, TALLY_FIELD } from "../../../../../form";
 
 export const NAME = "ConditionsDialog";

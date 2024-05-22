@@ -25,7 +25,7 @@ describe("<Form /> - components/form/component", () => {
   });
 
   it("renders FormSectionField component", () => {
-    expect(screen.queryAllByTestId("FormSectionField")).toHaveLength(4);
+    expect(screen.queryAllByTestId("form-section-field")).toHaveLength(4);
   });
 
   it("first value of the FormSectionField should be english", () => {

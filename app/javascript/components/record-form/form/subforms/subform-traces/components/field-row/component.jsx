@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
 import CheckIcon from "@material-ui/icons/Check";
@@ -39,7 +41,8 @@ const Component = ({ field, traceValue, caseValue, match }) => {
         {caseValueLabel}
       </Grid>
       <Grid item xs={2} className={className}>
-        {!isTextField(field) && (matched && traceValue ? <CheckIcon /> : <ClearIcon />)}
+        {!isTextField(field) &&
+          (matched && traceValue ? <CheckIcon data-testid="check-icon" /> : <ClearIcon data-testid="clear-icon" />)}
       </Grid>
     </Grid>
   );

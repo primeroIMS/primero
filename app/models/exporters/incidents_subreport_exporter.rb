@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Class to export the Incidents Subreport
 class Exporters::IncidentsSubreportExporter < Exporters::SubreportExporter
   MERGED_INDICATORS = %w[total gbv_sexual_violence gbv_previous_incidents].freeze
@@ -17,12 +19,12 @@ class Exporters::IncidentsSubreportExporter < Exporters::SubreportExporter
     merged_indicator = merged_indicator_class.new(
       key: 'combined',
       values: data,
-      worksheet: worksheet,
-      current_row: current_row,
-      grouped_by: grouped_by,
-      formats: formats,
-      managed_report: managed_report,
-      locale: locale,
+      worksheet:,
+      current_row:,
+      grouped_by:,
+      formats:,
+      managed_report:,
+      locale:,
       merged_indicators: MERGED_INDICATORS
     )
     merged_indicator.write

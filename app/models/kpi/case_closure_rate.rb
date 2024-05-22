@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # CaseClosureRate Search
 #
 # Looks at how many cases were closed in a given range of months for
@@ -19,7 +21,7 @@ class Kpi::CaseClosureRate < Kpi::PivotedRangeSearch
   def to_json(*_args)
     {
       dates: columns,
-      data: data
+      data:
     }
   end
 end
