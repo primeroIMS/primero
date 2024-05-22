@@ -48,6 +48,8 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
   end
 
   def to_s
-    "#{field_name}=#{values&.join(',')}"
+    return "#{field_name}=#{values&.join(',')}" unless not_filter
+
+    "not[#{field_name}]=#{values&.join(',')}"
   end
 end
