@@ -1,14 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Divider } from "@material-ui/core";
-
-import { setupMountedComponent } from "../../../test";
-import DisplayData from "../../display-data";
-
+import { mountedComponent, screen } from "../../../test-utils";
 import TransferDetails from "./TransferDetails";
 
 describe("<TransferDetails />", () => {
-  let component;
   const props = {
     transition: {
       id: "4142488e-ccd9-4ac5-a3c1-c3c0fd063fc8",
@@ -30,33 +25,32 @@ describe("<TransferDetails />", () => {
     }
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(TransferDetails, props));
-  });
-
   it("renders 2 <DisplayData />", () => {
-    expect(component.find(DisplayData)).to.have.length(5);
+    mountedComponent(<TransferDetails {...props} />);
+    expect(screen.getAllByTestId("display-data")).toHaveLength(5);
   });
 
   it("renders a <Divider />", () => {
-    expect(component.find(Divider)).to.have.length(1);
+    mountedComponent(<TransferDetails {...props} />);
+    expect(screen.getAllByTestId("divider")).toHaveLength(1);
   });
 
   describe("with status", () => {
     describe("when is rejected", () => {
-      beforeEach(() => {
-        ({ component } = setupMountedComponent(TransferDetails, {
-          ...props,
-          ...{ transition: { status: "rejected" } }
-        }));
-      });
+      const rejectedProps = {
+        ...props,
+        ...{ transition: { status: "rejected" } }
+      };
+
       it("should render rejected reason", () => {
-        expect(component.find(TransferDetails).find(DisplayData)).to.have.length(6);
+        mountedComponent(<TransferDetails {...rejectedProps} />);
+        expect(screen.getAllByTestId("display-data")).toHaveLength(6);
       });
     });
     describe("when is pending, done, in_progress, accepted", () => {
       it("should render rejected reason", () => {
-        expect(component.find(TransferDetails).find(DisplayData)).to.have.length(5);
+        mountedComponent(<TransferDetails {...props} />);
+        expect(screen.getAllByTestId("display-data")).toHaveLength(5);
       });
     });
   });

@@ -1,12 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
-import { setupMountedComponent } from "../../../test";
-import DateTransitionsSummary from "../components/date-transitions-summary";
-
+import { mountedComponent, screen } from "../../../test-utils";
 import TransferSummary from "./TransferSummary";
 
 describe("<TransferSummary />", () => {
-  let component;
   const props = {
     transition: {
       id: "4142488e-ccd9-4ac5-a3c1-c3c0fd063fc8",
@@ -29,13 +25,10 @@ describe("<TransferSummary />", () => {
     currentUser: "primero"
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(TransferSummary, props));
-  });
-
   it("renders divs with it correponds class", () => {
-    expect(component.find("div.wrapperStyle")).to.have.lengthOf(1);
-    expect(component.find("div.titleHeaderStyle")).to.have.lengthOf(1);
-    expect(component.find(DateTransitionsSummary)).to.have.lengthOf(1);
+    mountedComponent(<TransferSummary {...props} />);
+    expect(screen.getByText(/transition.status.done/i)).toBeInTheDocument();
+    expect(screen.getByText(/transition.type.transfer/i)).toBeInTheDocument();
+    expect(screen.queryByTestId("date")).toBeNull();
   });
 });
