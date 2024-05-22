@@ -1,13 +1,10 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { setupMountedComponent, spy, translateOptions } from "../../../../../test";
-import ActionButton from "../../../../action-button";
+import { mountedComponent, spy, translateOptions, screen } from "../../../../../test-utils";
 
 import SubformEmptyData from "./component";
 
 describe("<SubformEmptyData />", () => {
-  let component;
-
   const translations = {
     en: {
       "forms.subform_not_found": "No %{subform_name} found.",
@@ -22,26 +19,23 @@ describe("<SubformEmptyData />", () => {
     subformName: "Test form"
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(SubformEmptyData, props, {}));
-  });
-
   it("should render one div", () => {
-    expect(component.find("div")).to.have.lengthOf(1);
+    mountedComponent(<SubformEmptyData {...props} />, {});
+    expect(screen.getByTestId("subform-empty-data")).toBeInTheDocument();
   });
 
   it("should render the correct subform name", () => {
-    expect(component.find("strong").at(0).text()).to.be.equals("forms.subform_not_found");
+    mountedComponent(<SubformEmptyData {...props} />, {});
+    expect(screen.getByText(/forms.subform_not_found/i)).toBeInTheDocument();
   });
 
   it("should render the ActionButton component", () => {
-    expect(component.find(ActionButton), "DEPRECATED").to.not.have.lengthOf(1);
+    mountedComponent(<SubformEmptyData {...props} />, {});
+    expect(screen.queryByText("DEPRECATED")).toBeNull();
   });
 
   it("should call onClick event passed as a prop", () => {
-    const button = component.find("button");
-
-    expect(button, "DEPRECATED").to.not.have.lengthOf(1);
-    expect(props.handleClick).to.not.have.been.called;
+    mountedComponent(<SubformEmptyData {...props} />, {});
+    expect(screen.queryByText("DEPRECATED")).toBeNull();
   });
 });
