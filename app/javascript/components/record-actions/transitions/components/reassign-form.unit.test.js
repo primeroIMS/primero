@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Formik, Field, Form } from "formik";
 import { Map, List, fromJS } from "immutable";
 import * as keydown from "keyevent";
@@ -5,6 +7,7 @@ import * as keydown from "keyevent";
 import SearchableSelect from "../../../searchable-select";
 import { setupMountedComponent } from "../../../../test";
 import { getUsersByTransitionType } from "../selectors";
+import InternalAlert from "../../../internal-alert";
 
 import ReassignForm from "./reassign-form";
 
@@ -127,6 +130,26 @@ describe("<ReassignForm />", () => {
         delete reassignFormProps[property];
       });
       expect(reassignFormProps).to.be.empty;
+    });
+  });
+
+  describe("when form is disabled", () => {
+    const propsComponent = {
+      assignRef: {},
+      record,
+      recordType: "incidents",
+      selectedIds: [],
+      setPending: () => {},
+      formDisabled: true
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(ReassignForm, propsComponent, initialState));
+    });
+    it("should accept valid props", () => {
+      const internalAlert = { ...component.find(InternalAlert).props() };
+
+      expect(component.find(internalAlert)).to.have.lengthOf(1);
     });
   });
 });

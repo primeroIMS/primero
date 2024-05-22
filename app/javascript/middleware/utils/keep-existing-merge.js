@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable camelcase */
 export default (target, source, options) => {
   if (target.some(elem => options.isMergeableObject(elem)) || source.some(elem => options.isMergeableObject(elem))) {

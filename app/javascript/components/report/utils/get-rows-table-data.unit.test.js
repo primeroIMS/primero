@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import getRowsTableData from "./get-rows-table-data";
 
 describe("report/utils/get-rows-table-data", () => {

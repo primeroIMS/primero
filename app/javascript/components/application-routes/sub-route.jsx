@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { isEmpty } from "lodash";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
