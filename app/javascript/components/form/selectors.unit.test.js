@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
@@ -253,6 +255,30 @@ describe("Forms - Selectors", () => {
         }
       ];
 
+      describe("when there are no application user groups", () => {
+        it("returns the users groups of the user", () => {
+          const state = fromJS({
+            user: {
+              roleGroupPermission: "all",
+              userGroups: [
+                {
+                  id: 1,
+                  unique_id: "test-1",
+                  name: "Test 1",
+                  disabled: false
+                }
+              ]
+            }
+          });
+
+          expect(
+            selectors.getOptions(OPTION_TYPES.USER_GROUP_PERMITTED)(state, {
+              source: OPTION_TYPES.USER_GROUP_PERMITTED
+            })
+          ).to.deep.equals([{ disabled: false, display_text: "Test 1", id: "test-1" }]);
+        });
+      });
+
       describe("when user group permission is ALL", () => {
         const state = fromJS({
           application: {
@@ -325,6 +351,182 @@ describe("Forms - Selectors", () => {
               source: OPTION_TYPES.USER_GROUP_PERMITTED
             })
           ).to.deep.equals(expected);
+        });
+
+        context("and managedReportScope is all", () => {
+          const stateWithManagedReportScope = fromJS({
+            application: {
+              userGroups: allUserGroups
+            },
+            user: {
+              managedReportScope: "all",
+              roleGroupPermission: "group",
+              userGroupUniqueIds: ["test-1"]
+            }
+          });
+
+          it("should return from application user groups only the ones that are assigned to the user", () => {
+            const expected = [
+              {
+                id: "test-1",
+                display_text: "Test 1",
+                disabled: false
+              },
+              {
+                id: "test-2",
+                display_text: "Test 2",
+                disabled: true
+              },
+              {
+                id: "test-3",
+                display_text: "Test 3",
+                disabled: true
+              }
+            ];
+
+            expect(
+              selectors.getOptions(OPTION_TYPES.USER_GROUP_PERMITTED)(stateWithManagedReportScope, {
+                source: OPTION_TYPES.USER_GROUP_PERMITTED
+              })
+            ).to.deep.equals(expected);
+          });
+        });
+      });
+    });
+
+    describe("when optionStringsSource is INSIGHTS_USER_GROUP_PERMITTED", () => {
+      const allUserGroups = [
+        {
+          id: 1,
+          unique_id: "test-1",
+          name: "Test 1",
+          disabled: false
+        },
+        {
+          id: 2,
+          unique_id: "test-2",
+          name: "Test 2",
+          disabled: false
+        },
+        {
+          id: 3,
+          unique_id: "test-3",
+          name: "Test 3",
+          disabled: false
+        }
+      ];
+
+      describe("when user group permission is ALL", () => {
+        const state = fromJS({
+          application: {
+            userGroups: allUserGroups
+          },
+          user: {
+            roleGroupPermission: "all"
+          }
+        });
+
+        it("should return all user groups", () => {
+          const expected = [
+            {
+              id: "test-1",
+              display_text: "Test 1",
+              disabled: false
+            },
+            {
+              id: "test-2",
+              display_text: "Test 2",
+              disabled: false
+            },
+            {
+              id: "test-3",
+              display_text: "Test 3",
+              disabled: false
+            }
+          ];
+
+          expect(
+            selectors.getOptions(OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED)(state, {
+              source: OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED
+            })
+          ).to.deep.equals(expected);
+        });
+      });
+
+      describe("when user group permission is GROUP", () => {
+        const state = fromJS({
+          application: {
+            userGroups: allUserGroups
+          },
+          user: {
+            roleGroupPermission: "group",
+            userGroupUniqueIds: ["test-1"]
+          }
+        });
+
+        it("should return from application user groups only the ones that are assigned to the user", () => {
+          const expected = [
+            {
+              id: "test-1",
+              display_text: "Test 1",
+              disabled: false
+            },
+            {
+              id: "test-2",
+              display_text: "Test 2",
+              disabled: true
+            },
+            {
+              id: "test-3",
+              display_text: "Test 3",
+              disabled: true
+            }
+          ];
+
+          expect(
+            selectors.getOptions(OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED)(state, {
+              source: OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED
+            })
+          ).to.deep.equals(expected);
+        });
+
+        context("and managedReportScope is all", () => {
+          const stateWithManagedReportScope = fromJS({
+            application: {
+              userGroups: allUserGroups
+            },
+            user: {
+              managedReportScope: "all",
+              roleGroupPermission: "group",
+              userGroupUniqueIds: ["test-1"]
+            }
+          });
+
+          it("should return from application user groups only the ones that are assigned to the user", () => {
+            const expected = [
+              {
+                id: "test-1",
+                display_text: "Test 1",
+                disabled: false
+              },
+              {
+                id: "test-2",
+                display_text: "Test 2",
+                disabled: true
+              },
+              {
+                id: "test-3",
+                display_text: "Test 3",
+                disabled: true
+              }
+            ];
+
+            expect(
+              selectors.getOptions(OPTION_TYPES.USER_GROUP_PERMITTED)(stateWithManagedReportScope, {
+                source: OPTION_TYPES.USER_GROUP_PERMITTED
+              })
+            ).to.deep.equals(expected);
+          });
         });
       });
     });
@@ -463,6 +665,21 @@ describe("Forms - Selectors", () => {
       const result = selectors.getOptions(source)(stateWithLookups, { source });
 
       expect(result).to.deep.equal([{ id: "type1", display_text: "Type 1", disabled: false, tags: ["low"] }]);
+    });
+  });
+
+  describe("when optionStringsSource is ROLE_REFERRAL_AUTHORIZATION", () => {
+    const stateWithReferralAuthorizationRoles = fromJS({
+      application: {
+        referralAuthorizationRoles: { data: [{ id: 1, unique_id: "role-authorized-1", name: "Authorized Role 1" }] }
+      }
+    });
+
+    it("returns the referralAuthorizationRoles", () => {
+      const source = OPTION_TYPES.ROLE_REFERRAL_AUTHORIZATION;
+      const result = selectors.getOptions(source)(stateWithReferralAuthorizationRoles, { source });
+
+      expect(result).to.deep.equal([{ id: "role-authorized-1", display_text: "Authorized Role 1" }]);
     });
   });
 });

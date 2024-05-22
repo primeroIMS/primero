@@ -1,3 +1,5 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
 .loginForm {
   padding: 1em 0;
 
@@ -27,6 +29,7 @@
 
 .forgotPaswordLink {
   margin: 10px 0 0 0;
+  color: var(--c-forgot-password-link)
 }
 
 @media (max-width:599.95px) {
