@@ -7,15 +7,15 @@ describe("<HeadersValues /> - components/header-values/component", () => {
     mountedComponent(<HeadersValues />);
   });
 
-  it("should render 5 div", () => {
+  it("should render english text column", () => {
     expect(screen.getByText("lookup.english_label")).toBeInTheDocument();
   });
 
-  it("should render english text column", () => {
+  it("should render translation column", () => {
     expect(screen.getByText("lookup.translation_label")).toBeInTheDocument();
   });
 
-  it("should render english text column", () => {
+  it("should render tick/enable column", () => {
     expect(screen.getByText("lookup.enabled_label")).toBeInTheDocument();
   });
 });
