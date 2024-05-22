@@ -1,16 +1,12 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
+import { mountedComponent, screen } from "test-utils";
 import { fromJS } from "immutable";
-import { InputLabel, FormHelperText } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../../../test";
 import { RECORD_PATH } from "../../../../config";
-import ActionButton from "../../../action-button";
 
 import SearchPrompt from "./component";
 
 describe("<SearchPrompt />", () => {
-  let component;
   const props = {
     i18n: { t: value => value },
     onCloseDrawer: () => {},
@@ -25,25 +21,22 @@ describe("<SearchPrompt />", () => {
   const initialState = fromJS({});
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(SearchPrompt, props, initialState));
-  });
-
-  it("should render a <InputLabel /> component", () => {
-    expect(component.find(InputLabel)).to.have.lengthOf(1);
+    mountedComponent(<SearchPrompt {...props} />, initialState);
   });
 
   it("should render a <FormHelperText /> component", () => {
-    const searchHelperText = component.find(FormHelperText);
+    expect(screen.getByText("case.search_helper_text")).toBeInTheDocument();
+  });
 
-    expect(searchHelperText).to.have.lengthOf(1);
-    expect(searchHelperText.text()).to.be.equals("case.search_helper_text");
+  it("should render a <InputLabel /> component", () => {
+    expect(screen.getByPlaceholderText("case.search_existing")).toBeInTheDocument();
   });
 
   it("should render a form component", () => {
-    expect(component.find("form")).to.have.lengthOf(1);
+    expect(document.querySelector("#record-creation-form")).toBeInTheDocument();
   });
 
   it("should render a <ActionButton /> component", () => {
-    expect(component.find(ActionButton)).to.have.lengthOf(1);
+    expect(screen.getAllByRole("button")).toHaveLength(1);
   });
 });
