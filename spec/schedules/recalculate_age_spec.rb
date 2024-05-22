@@ -20,7 +20,6 @@ describe RecalculateAge, type: :job do
     @case9 = Child.create(data: { name: 'case9', date_of_birth: Date.new(2015, 3, 1) })
     @case10 = Child.create(data: { name: 'case10', date_of_birth: Date.new(2014, 10, 10) })
     @case11 = Child.create(data: { name: 'case11', date_of_birth: Date.new(2010, 2, 28) }) # leap year
-    Sunspot.commit
     allow(Date).to receive(:current).and_return(today)
   end
 
@@ -161,7 +160,7 @@ describe RecalculateAge, type: :job do
         end
         @case31 = Child.create(data: { name: "case21'", date_of_birth: Date.current - 5.days })
         @case32 = Child.create(data: { name: "case22'", date_of_birth: Date.current - 5.months })
-        Sunspot.commit
+        Sunspot.commit if Rails.configuration.solr_enabled
       end
 
       it 'should return total pages and total_count' do

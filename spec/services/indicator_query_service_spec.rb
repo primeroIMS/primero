@@ -67,8 +67,6 @@ describe IndicatorQueryService, search: true do
     )
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'baz', workflow: 'new' })
     Child.create!(data: { record_state: true, status: 'closed', owned_by: 'baz', workflow: 'closed' })
-
-    Sunspot.commit
   end
 
   describe 'individual user scope' do
@@ -172,6 +170,5 @@ describe IndicatorQueryService, search: true do
 
   after :each do
     clean_data(User, UserGroup, Role, Child, SystemSettings)
-    Sunspot.commit
   end
 end
