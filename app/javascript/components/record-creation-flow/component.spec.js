@@ -60,7 +60,7 @@ describe("<RecordCreationFlow />", () => {
   });
 
   it("should render a <FormSection /> component", () => {
-    expect(screen.getByText("case.create_new_case")).toBeInTheDocument();
+    expect(document.querySelector("form#record-creation-form")).toBeInTheDocument();
   });
 
   it("should render a <ActionButton /> component", () => {
