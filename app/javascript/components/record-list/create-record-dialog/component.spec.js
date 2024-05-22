@@ -1,42 +1,33 @@
-import { mountedComponent, screen, userEvent } from "test-utils";
-
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
+import { mountedComponent, screen, fireEvent } from "test-utils";
 import { fromJS } from "immutable";
-import ActionButton from '../../action-button';
 
 import CreateRecordDialog from "./component";
 
 describe("<CreateRecordDialog /> record-list/create-record-dialog", () => {
-    const props = {
-        open: true,
-        setOpen: () => { },
-        moduleUniqueId: "testmodule-1",
-        recordType: "cases"
-    };
+  const props = {
+    open: true,
+    setOpen: () => {},
+    moduleUniqueId: "testmodule-1",
+    recordType: "cases"
+  };
 
-    const state = fromJS({
-        records: {
-            cases: {
-                data: [{ unique_id: "testcase-1" }]
-            }
-        }
-    });
+  const state = fromJS({
+    records: {
+      cases: {
+        data: [{ unique_id: "testcase-1" }]
+      }
+    }
+  });
 
-    it("renders a <CreateRecordDialog />", () => {
+  it("renders a <CreateRecordDialog />", () => {
+    mountedComponent(<CreateRecordDialog {...props} />, state);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
 
-        mountedComponent(<CreateRecordDialog {...props} />, state);
-        expect(screen.getByRole("dialog")).toBeInTheDocument();
-    });
+  it("redirects to new case if create new case is clicked", () => {
+    const { history } = mountedComponent(<CreateRecordDialog {...props} />, state);
 
-    xit("redirects to new case if create new case is clicked", () => {
-        const onClose = jest.fn();
-
-        const user = userEvent.setup();
-
-        mountedComponent(<CreateRecordDialog {...props} />, state);
-        const button = screen.getByRole('button');
-        user.click(button);
-        expect(onClose).toHaveBeenCalledTimes(1);
-    });
+    fireEvent.click(screen.getByText(/case.create_new_case/i).closest("button"));
+    expect(history.location.pathname).toBe("/cases/testmodule-1/new");
+  });
 });
