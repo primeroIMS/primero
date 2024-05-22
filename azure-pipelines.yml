@@ -57,6 +57,7 @@ jobs:
           RAILS_ENV: test
           DEVISE_JWT_SECRET_KEY: $(DEVISE_JWT_SECRET_KEY)
           DEVISE_SECRET_KEY: $(DEVISE_SECRET_KEY)
+          SOLR_ENABLED: true
       - bash: |
           npm run test:batch:1
         displayName: 'Run Integration test Batch 1'
