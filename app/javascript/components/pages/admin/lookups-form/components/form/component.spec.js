@@ -33,6 +33,6 @@ describe("<Form /> - components/form/component", () => {
   });
 
   it("renders SwitchInput component", () => {
-    expect(screen.getAllByTestId("switch-input")).toBeTruthy();
+    expect(screen.getAllByTestId("switch-input")).toHaveLength(1);
   });
 });
