@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { CssBaseline } from "@material-ui/core";
 import { ThemeProvider as MuiThemeProvider, createMuiTheme, StylesProvider, jssPreset } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
@@ -6,7 +8,7 @@ import rtl from "jss-rtl";
 import { create } from "jss";
 
 import theme, { setCssVars, fontSizes, colors, spacing, drawerWidth, shadows, fontFamily } from "./config/theme";
-import { useMemoizedSelector } from "./libs";
+import useMemoizedSelector from "./libs/use-memoized-selector";
 import { getAppDirection } from "./components/i18n/selectors";
 
 const themeInitialOptions = {

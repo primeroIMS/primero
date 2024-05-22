@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This middleware ensures that the HTTP_AUTHORIZATION header is always set with a Bearer token
 # if a JWT token is specified in a cookie. This makes it compatible with the devise-jwt library that
 # only looks at the bearer token to verify authentication.

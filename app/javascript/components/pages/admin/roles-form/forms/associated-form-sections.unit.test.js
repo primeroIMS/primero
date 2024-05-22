@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import AssociatedFormSectionsForm from "./associated-form-sections";
@@ -8,6 +10,6 @@ describe("pages/admin/<RolesForm>/forms - AssociatedFormSectionsForm", () => {
   it("returns the AssociatedFormSectionsForm with fields", () => {
     const formSectionsForm = AssociatedFormSectionsForm(fromJS([]), i18n);
 
-    expect(formSectionsForm).to.have.lengthOf(4);
+    expect(formSectionsForm).to.have.lengthOf(5);
   });
 });

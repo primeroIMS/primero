@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { setPendingUserLogin } from "../../components/connectivity/action-creators";
 import { signOut } from "../../components/login/components/idp-selection";
 import { attemptSignout, showLoginDialog } from "../../components/user";

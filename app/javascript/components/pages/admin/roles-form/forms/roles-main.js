@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { FieldRecord, FormSectionRecord, TICK_FIELD, TEXT_FIELD, SELECT_FIELD } from "../../../../form";
 import { FIELD_NAMES } from "../constants";
 
@@ -42,6 +44,12 @@ export default (groupPermissions, i18n, adminLevelMap) => {
         name: FIELD_NAMES.referral,
         type: TICK_FIELD,
         tooltip: i18n.t("permissions.resource.referral.actions.refer.explanation")
+      }),
+      FieldRecord({
+        display_name: i18n.t("permissions.resource.referral_authorization.label"),
+        name: FIELD_NAMES.referralAuthorization,
+        type: TICK_FIELD,
+        tooltip: i18n.t("permissions.resource.referral_authorization.explanation")
       }),
       FieldRecord({
         display_name: i18n.t("permissions.resource.module.label"),

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe ExportService do
@@ -32,7 +34,7 @@ describe ExportService do
       @password_encrypted = 'password_encrypted'
       allow(EncryptionService).to receive(:encrypt).with(@password).and_return(@password_encrypted)
       allow(EncryptionService).to receive(:decrypt).with(@password_encrypted).and_return(@password)
-      allow(ENV).to receive(:[]).with('PRIMERO_ZIP_FORMAT').and_return('zip')
+      allow(ENV).to receive(:fetch).with('PRIMERO_ZIP_FORMAT', nil).and_return('zip')
     end
 
     let(:export) { instance_double('BulkExport', id: 1) }
