@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Sends out notifications to the email associated with this User.
 class UserMailer < ApplicationMailer
   def welcome(user_id, admin_user_id, one_time_password = nil)

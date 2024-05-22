@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This model represents the Primero end user and the associated application permissions.
 # Primero can be configured to perform its own password-based authentication, in which case the
 # User model is responsible for storing the encrypted password and associated whitelisted JWT
@@ -12,7 +14,7 @@ class User < ApplicationRecord
   include ConfigurationRecord
   include LocationCacheable
 
-  USER_NAME_REGEX = /\A[^ ]+\z/.freeze
+  USER_NAME_REGEX = /\A[^ ]+\z/
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
   USER_FIELDS_SCHEMA = {
     'id' => { 'type' => 'integer' }, 'user_name' => { 'type' => 'string' },
@@ -27,7 +29,18 @@ class User < ApplicationRecord
     'services' => { 'type' => 'array' }, 'module_unique_ids' => { 'type' => 'array' },
     'password_reset' => { 'type' => 'boolean' }, 'role_id' => { 'type' => 'string' },
     'agency_office' => { 'type' => 'string' }, 'code_of_conduct_id' => { 'type' => 'integer' },
-    'send_mail' => { 'type' => 'boolean' }
+    'send_mail' => { 'type' => 'boolean' }, 'receive_webpush' => { 'type' => 'boolean' },
+    'settings' => {
+      'type' => %w[object null], 'properties' => {
+        'notifications' => {
+          'type' => 'object',
+          'properties' => {
+            'send_mail' => { 'type' => 'object' },
+            'receive_webpush' => { 'type' => 'object' }
+          }
+        }
+      }
+    }
   }.freeze
 
   attr_accessor :should_send_password_reset_instructions, :user_groups_changed
@@ -40,6 +53,8 @@ class User < ApplicationRecord
 
   self.unique_id_attribute = 'user_name'
 
+  store_accessor :settings, :notifications
+
   belongs_to :role
   belongs_to :agency, optional: true
   belongs_to :identity_provider, optional: true
@@ -50,6 +65,7 @@ class User < ApplicationRecord
                           after_add: :mark_user_groups_changed,
                           after_remove: :mark_user_groups_changed
   has_many :audit_logs
+  has_many :webpush_subscriptions
 
   scope :enabled, -> { where(disabled: false) }
   scope :disabled, -> { where(disabled: true) }
@@ -57,7 +73,14 @@ class User < ApplicationRecord
     joins(:user_groups).where(user_groups: { id: ids })
   end)
   scope :by_agency, (lambda do |id|
-    joins(:agency).where(agencies: { id: id })
+    joins(:agency).where(agencies: { id: })
+  end)
+
+  scope :by_resource_and_permission, (lambda do |resource, permissions|
+    joins(:role).where(
+      'roles.permissions -> :resource @> ANY(select jsonb_array_elements(:permissions)) ',
+      resource:, permissions: permissions.to_json
+    )
   end)
 
   alias_attribute :organization, :agency
@@ -93,6 +116,10 @@ class User < ApplicationRecord
   validates :locale,
             inclusion: { in: I18n.available_locales.map(&:to_s), message: 'errors.models.user.invalid_locale' },
             allow_nil: true
+  with_options if: :limit_maximum_users_enabled? do
+    validate :validate_limit_user_reached, on: :create
+    validate :validate_limit_user_reached_on_enabling, on: :update
+  end
 
   class << self
     def hidden_attributes
@@ -122,14 +149,19 @@ class User < ApplicationRecord
       %w[full_name user_name position]
     end
 
-    def permitted_api_params(current_user = nil, target_user = nil)
-      permitted_params = (
+    def default_permitted_params
+      (
         User.permitted_attribute_names + User.password_parameters +
         [
           { 'user_group_ids' => [] }, { 'user_group_unique_ids' => [] },
-          { 'module_unique_ids' => [] }, 'role_unique_id', 'identity_provider_unique_id'
+          { 'module_unique_ids' => [] }, 'role_unique_id', 'identity_provider_unique_id',
+          { 'settings' => { 'notifications' => { 'send_mail' => {}, 'receive_webpush' => {} } } }
         ]
       ) - User.hidden_attributes
+    end
+
+    def permitted_api_params(current_user = nil, target_user = nil)
+      permitted_params = User.default_permitted_params
 
       return permitted_params if current_user.nil? || target_user.nil?
 
@@ -139,7 +171,7 @@ class User < ApplicationRecord
     end
 
     def last_login_timestamp(user_name)
-      AuditLog.where(action_name: 'login', user_name: user_name).try(:last).try(:timestamp)
+      AuditLog.where(action_name: 'login', user_name:).try(:last).try(:timestamp)
     end
 
     def agencies_for_user_names(user_names)
@@ -165,10 +197,14 @@ class User < ApplicationRecord
     def find_for_authentication(tainted_conditions)
       eager_load(role: :primero_modules).find_by(tainted_conditions)
     end
+
+    def limit_user_reached?
+      SystemSettings.current.maximum_users > User.enabled.count
+    end
   end
 
-  def initialize(attributes = nil, &block)
-    super(attributes&.except(*User.unique_id_parameters), &block)
+  def initialize(attributes = nil, &)
+    super(attributes&.except(*User.unique_id_parameters), &)
     associate_unique_id_properties(attributes.slice(*User.unique_id_parameters)) if attributes.present?
   end
 
@@ -272,10 +308,13 @@ class User < ApplicationRecord
     role&.group_permission == permission
   end
 
+  def managed_report_permission?
+    role.permissions.find { |permission| permission.resource == Permission::MANAGED_REPORT }.present?
+  end
+
   def managed_report_scope
-    managed_report_permission = role.permissions.find do |permission|
-      permission.resource == Permission::MANAGED_REPORT
-    end
+    managed_report_permission = role.permissions.find { |permission| permission.resource == Permission::MANAGED_REPORT }
+    return if managed_report_permission&.actions.blank?
 
     managed_report_permission.managed_report_scope || Permission::ALL
   end
@@ -472,12 +511,64 @@ class User < ApplicationRecord
     can?(:approve_gbv_closure, Child) || can?(:request_approval_gbv_closure, Child)
   end
 
+  def can_read_record?(record)
+    can?(:read, record)
+  end
+
+  def can_assign?(record_model)
+    can?(Permission::ASSIGN.to_sym, record_model) ||
+      can?(Permission::ASSIGN_WITHIN_AGENCY.to_sym, record_model) ||
+      can?(Permission::ASSIGN_WITHIN_USER_GROUP.to_sym, record_model)
+  end
+
   def agency_read?
     permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
   end
 
   def emailable?
     email.present? && send_mail == true && !disabled?
+  end
+
+  def receive_webpush?
+    receive_webpush == true && !disabled?
+  end
+
+  def authorized_referral_roles(record)
+    return Role.none unless record.respond_to?(:referrals_to_user)
+
+    role_unique_ids = record.referrals_to_user(self).pluck(:authorized_role_unique_id).uniq
+    role_unique_ids << role.unique_id if role_unique_ids.include?(nil)
+
+    Role.where(unique_id: role_unique_ids.compact)
+  end
+
+  def authorized_roles_for_record(record)
+    return [role] if record&.owner?(self)
+
+    authorized_referral_roles(record).presence || [role]
+  end
+
+  def referred_to_record?(record)
+    record.respond_to?(:referrals_to_user) && record.referrals_to_user(self).exists?
+  end
+
+  def permitted_to_access_record?(record)
+    if group_permission? Permission::ALL
+      true
+    elsif group_permission? Permission::AGENCY
+      record.associated_user_agencies.include?(agency.unique_id)
+    elsif group_permission? Permission::GROUP
+      # TODO: This may need to be record&.owned_by_groups
+      (user_group_unique_ids & record&.associated_user_groups).present?
+    else
+      record&.associated_user_names&.include?(user_name)
+    end
+  end
+
+  def specific_notification?(notifier, action)
+    return false if notifier.blank? || action.blank?
+
+    (notifications&.[](notifier) || {}).select { |_key, value| value }.keys.include?(action)
   end
 
   private
@@ -521,19 +612,41 @@ class User < ApplicationRecord
     return if ENV['PRIMERO_BOOTSTRAP']
     return unless associated_attributes_changed?
 
-    AssociatedRecordsJob.perform_later(
+    UpdateUserAssociatedRecordsJob.perform_later(
       user_id: id,
       update_user_groups: user_groups_changed,
       update_agencies: saved_change_to_attribute?('agency_id'),
       update_locations: saved_change_to_attribute?('location'),
       update_agency_offices: saved_change_to_attribute('agency_office')&.last&.present?,
-      model: 'Child'
+      models: [Child, Incident]
     )
   end
 
   def associated_attributes_changed?
     user_groups_changed || saved_change_to_attribute?('agency_id') || saved_change_to_attribute?('location') ||
       saved_change_to_attribute('agency_office')&.last&.present?
+  end
+
+  def limit_maximum_users_enabled?
+    SystemSettings.current&.maximum_users&.present?
+  end
+
+  def enabling_user?
+    disabled_was == true && disabled == false
+  end
+
+  def validate_limit_user_reached
+    maximum_users = SystemSettings.current.maximum_users
+    return if maximum_users > User.enabled.count
+
+    errors.add(:base, I18n.t('users.alerts.limit_user_reached', maximum_users:))
+  end
+
+  def validate_limit_user_reached_on_enabling
+    maximum_users = SystemSettings.current.maximum_users
+    return if !enabling_user? || maximum_users > User.enabled.count
+
+    errors.add(:base, I18n.t('users.alerts.limit_user_reached_on_enable', maximum_users:))
   end
 end
 # rubocop:enable Metrics/ClassLength

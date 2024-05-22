@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # rubocop:disable Metrics/ClassLength
 # The truth of it is, this is a long class.
 # Just the same, it shouldn't exceed 300 lines (250 lines of active code).
@@ -42,7 +44,9 @@ class Child < ApplicationRecord
   include DuplicateIdAlertable
   include FollowUpable
   include LocationCacheable
+  include FamilyLinkable
 
+  # rubocop:disable Naming/VariableNumber
   store_accessor(
     :data,
     :case_id, :case_id_code, :case_id_display,
@@ -61,20 +65,21 @@ class Child < ApplicationRecord
     :location_current, :tracing_status, :name_caregiver,
     :registry_id_display, :registry_name, :registry_no, :registry_location_current,
     :urgent_protection_concern, :child_preferences_section, :family_details_section, :care_arrangements_section,
-    :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan
+    :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan,
+    :family_member_id, :family_id_display, :family_number
   )
+  # rubocop:enable Naming/VariableNumber
 
   has_many :incidents, foreign_key: :incident_case_id
   has_many :matched_traces, class_name: 'Trace', foreign_key: 'matched_case_id'
   has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
   belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id', optional: true
   belongs_to :registry_record, foreign_key: :registry_record_id, optional: true
-  belongs_to :family, foreign_key: :family_id, optional: true
 
   scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
 
   def self.sortable_text_fields
-    %w[name case_id_display national_id_no registry_no]
+    %w[name case_id_display national_id_no registry_no family_number]
   end
 
   def self.filterable_id_fields
@@ -83,7 +88,8 @@ class Child < ApplicationRecord
     %w[ unique_identifier short_id case_id_display case_id
         ration_card_no icrc_ref_no rc_id_no unhcr_id_no unhcr_individual_no un_no
         other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
-        family_count_no dss_id camp_id tent_number nfi_distribution_id oscar_number registry_no ]
+        family_count_no dss_id camp_id tent_number nfi_distribution_id oscar_number registry_no
+        family_number ]
   end
 
   def self.quicksearch_fields
@@ -104,7 +110,7 @@ class Child < ApplicationRecord
       "INNER JOIN transitions ON transitions.record_type = 'Child' AND (transitions.record_id)::uuid = cases.id"
     ).where(transitions:
       {
-        type: Referral.name,
+        type: [Referral.name, Transfer.name],
         status: [Transition::STATUS_INPROGRESS, Transition::STATUS_ACCEPTED],
         transitioned_to: current_user.user_name
       }).ids
@@ -126,9 +132,9 @@ class Child < ApplicationRecord
   searchable do
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
-    Child.child_matching_field_names.each { |f| text_index(f, suffix: 'matchable') }
+    Child.child_matching_field_names.each { |f| text_index(f, 'matchable') }
     Child.family_matching_field_names.each do |f|
-      text_index(f, suffix: 'matchable', subform_field_name: 'family_details_section')
+      text_index(f, 'matchable', :itself, 'family_details_section')
     end
     quicksearch_fields.each { |f| text_index(f) }
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
@@ -159,10 +165,15 @@ class Child < ApplicationRecord
   class << self
     alias super_new_with_user new_with_user
     def new_with_user(user, data = {})
-      new_case = super_new_with_user(user, data).tap do |local_case|
+      super_new_with_user(user, data).tap do |local_case|
         local_case.registry_record_id ||= local_case.data.delete('registry_record_id')
+        local_case.family_id ||= local_case.data.delete('family_id')
       end
-      new_case
+    end
+
+    alias super_eager_loaded_class eager_loaded_class
+    def eager_loaded_class
+      super_eager_loaded_class.includes(:family)
     end
   end
 
@@ -211,6 +222,7 @@ class Child < ApplicationRecord
     build_or_update_incidents(user, (data.delete('incident_details') || []))
     self.registry_record_id = data.delete('registry_record_id') if data.key?('registry_record_id')
     self.mark_for_reopen = @incidents_to_save.present?
+    update_associated_family(data)
     super_update_properties(user, data)
   end
 
@@ -274,6 +286,12 @@ class Child < ApplicationRecord
     case_id_display
   end
 
+  def family_number
+    return super unless family.present?
+
+    family.family_number
+  end
+
   def day_of_birth
     return nil unless date_of_birth.is_a? Date
 
@@ -307,9 +325,9 @@ class Child < ApplicationRecord
   def match_criteria
     match_criteria = data.slice(*Child.child_matching_field_names).compact
     match_criteria = match_criteria.merge(
-      Child.family_matching_field_names.map do |field_name|
+      Child.family_matching_field_names.to_h do |field_name|
         [field_name, values_from_subform('family_details_section', field_name)]
-      end.to_h
+      end
     )
     match_criteria = match_criteria.transform_values { |v| v.is_a?(Array) ? v.join(' ') : v }
     match_criteria.select { |_, v| v.present? }

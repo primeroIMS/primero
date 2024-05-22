@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 json.id role.id
 json.unique_id role.unique_id
 json.name role.name
 json.description role.description
 json.group_permission role.group_permission
+json.referral_authorization role.referral_authorization
 json.referral role.referral
 json.transfer role.transfer
 json.disabled role.disabled

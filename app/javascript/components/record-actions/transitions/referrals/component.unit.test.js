@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import { OPTION_TYPES } from "../../../form";
@@ -66,7 +68,12 @@ describe("<RecordActions />/transitions/<Referrals />", () => {
         { id: 1, unique_id: "agency_1", name: { en: "Agency 1" }, services: ["service_1"] },
         { id: 2, unique_id: "agency_2", name: { en: "Agency 2" }, services: ["service_2"], disabled: true },
         { id: 3, unique_id: "agency_3", name: { en: "Agency 3" }, services: ["service_1"] }
-      ]
+      ],
+      referralAuthorizationRoles: {
+        data: [],
+        loading: false,
+        errors: false
+      }
     }
   });
 
