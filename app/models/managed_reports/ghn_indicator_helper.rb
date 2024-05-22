@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Helper methods for ghn indicators
 module ManagedReports::GhnIndicatorHelper
   extend ActiveSupport::Concern
@@ -18,7 +20,7 @@ module ManagedReports::GhnIndicatorHelper
     end
 
     def groups
-      %w[boys girls unknown total].map { |group| [group, []] }.to_h
+      %w[boys girls unknown total].to_h { |group| [group, []] }
     end
 
     def build_groups(results, _params = {})

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Historical do
@@ -140,7 +142,7 @@ describe Historical do
           'file.jpg'
         end
       end
-      @inst.create_attachment(file: file, name: 'file.jpg')
+      @inst.create_attachment(file:, name: 'file.jpg')
 
       @inst.save!
       @inst.histories[0].record_changes['_attachments']['to']['file.jpg']['stub'].should be_truthy

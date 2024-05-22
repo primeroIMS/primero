@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
-describe RecalculateAge, search: true do
+describe RecalculateAge, type: :job do
+  include ActiveJob::TestHelper
+
   before :each do
     clean_data(Child)
     @case1 = Child.create(data: { name: 'case1', date_of_birth: Date.new(2010, 10, 11) })
@@ -153,21 +157,44 @@ describe RecalculateAge, search: true do
       before do
         clean_data(Child)
         25.times do |index|
-          Child.create(data: { name: "case#{index}'", date_of_birth: Date.today - index.years })
+          Child.create(data: { name: "case#{index}'", date_of_birth: Date.current - index.years })
         end
-        @case31 = Child.create(data: { name: "case21'", date_of_birth: Date.today - 5.days })
-        @case32 = Child.create(data: { name: "case22'", date_of_birth: Date.today - 5.months })
+        @case31 = Child.create(data: { name: "case21'", date_of_birth: Date.current - 5.days })
+        @case32 = Child.create(data: { name: "case22'", date_of_birth: Date.current - 5.months })
         Sunspot.commit
       end
 
       it 'should return total pages and total_count' do
-        search = RecalculateAge.new.cases_by_date_of_birth_range(Date.today, Date.today)
+        search = RecalculateAge.new.cases_by_date_of_birth_range(Date.current, Date.current)
         expect(search.count).to eq(25)
       end
       it 'should not find cases with birthdays not today' do
-        expect(RecalculateAge.new.cases_by_date_of_birth_range(Date.today, Date.today)).not_to include(
+        expect(RecalculateAge.new.cases_by_date_of_birth_range(Date.current, Date.current)).not_to include(
           @case31, @case32
         )
+      end
+    end
+  end
+
+  describe '.perform_job?' do
+    let(:today) { Date.new(2015, 10, 11) }
+    context 'when there are Records in delayed_job table' do
+      before do
+        10.times do |time|
+          Delayed::Job.create(
+            handler: "--- !ruby/object:ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper \n
+                        job_data:\n    job_class: RecalculateAge",
+            run_at: Time.now + time.hour
+          )
+        end
+      end
+
+      it 'should return false wheb' do
+        expect(RecalculateAge.perform_job?).to be_falsey
+      end
+
+      after do
+        clean_data(Delayed::Job)
       end
     end
   end

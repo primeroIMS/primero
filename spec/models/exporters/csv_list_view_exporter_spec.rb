@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 module Exporters
@@ -20,7 +22,7 @@ module Exporters
         build(:field, name: 'age', type: Field::NUMERIC_FIELD),
         field
       ]
-      form = create(:form_section, unique_id: 'form_section_exporter', fields: fields)
+      form = create(:form_section, unique_id: 'form_section_exporter', fields:)
       primero_module = PrimeroModule.new(name: 'CP')
       primero_module.save(validate: false)
       permissions = Permission.new(
@@ -31,7 +33,7 @@ module Exporters
         permissions: [permissions], form_sections: [form]
       )
       role.save(validate: false)
-      @user = User.new(user_name: 'user1', role: role)
+      @user = User.new(user_name: 'user1', role:)
       @user.save(validate: false)
 
       # fields = [

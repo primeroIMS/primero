@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../../../i18n";
@@ -20,6 +22,7 @@ const Component = ({
   isReadWriteForm,
   isViolation,
   isViolationAssociation,
+  isFamilyDetail,
   isFamilyMember,
   mode,
   open,
@@ -71,6 +74,7 @@ const Component = ({
       orderedValues={orderedValues}
       recordType={recordType}
       recordModuleID={recordModuleID}
+      isFamilyDetail={isFamilyDetail}
       isFamilyMember={isFamilyMember}
       isViolation={isViolation}
       isViolationAssociation={isViolationAssociation}
@@ -91,6 +95,7 @@ Component.propTypes = {
   formSection: PropTypes.object,
   index: PropTypes.number,
   isDisabled: PropTypes.bool,
+  isFamilyDetail: PropTypes.bool,
   isFamilyMember: PropTypes.bool,
   isReadWriteForm: PropTypes.bool,
   isTraces: PropTypes.bool,

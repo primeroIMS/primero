@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import * as constants from "./constants";
 
 describe("<Transitions /> - record-actions/transitions/components/constants", () => {

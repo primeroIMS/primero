@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { isImmutable } from "immutable";
 
 import { FETCH_TIMEOUT, ROUTES } from "../../config";
@@ -20,7 +22,7 @@ import { deleteFromQueue, messageQueueFailed, messageQueueSkip, messageQueueSucc
 import handleSuccess from "./handle-success";
 import FetchError from "./fetch-error";
 
-const fetchSinglePayload = (action, store, options) => {
+const fetchSinglePayload = async (action, store, options) => {
   const controller = new AbortController();
 
   setTimeout(() => {
@@ -63,7 +65,7 @@ const fetchSinglePayload = (action, store, options) => {
     })
   };
 
-  const token = getToken();
+  const token = await getToken();
 
   const headers = {};
 
@@ -97,7 +99,7 @@ const fetchSinglePayload = (action, store, options) => {
 
         if (status === 401) {
           if (action.type === userActions.FETCH_USER_DATA) {
-            throw new Error("401 status from api, logging out.");
+            throw new Error(window.I18n.t("error_message.error_401"));
           }
 
           startSignout(store);
@@ -114,7 +116,7 @@ const fetchSinglePayload = (action, store, options) => {
           throw new FetchError(response, json);
         }
 
-        throw new Error("Something went wrong.");
+        throw new Error(window.I18n.t("error_message.error_something_went_wrong"));
       }
       await handleSuccess(store, {
         type,

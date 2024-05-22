@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/no-multi-comp, react/display-name, react/prop-types */
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -52,7 +54,7 @@ function setupMountedComponent({ state, path, initialEntries, formProps } = {}) 
   return { store, history, AppProviders };
 }
 
-function mountedComponent(Component, state = {}, options = {}, initialEntries = {}, formProps = {}, path = "") {
+function mountedComponent(Component, state = {}, options = {}, initialEntries = [], formProps = {}, path = "") {
   const { store, history, AppProviders } = setupMountedComponent({ state, path, formProps, initialEntries });
 
   const component = render(Component, {

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 closure_fields = [
   Field.new(name: 'status',
             type: 'select_box',
@@ -40,7 +42,7 @@ FormSection.create_or_update!(
   order_form_group: 110,
   order: 21,
   order_subform: 0,
-  form_group_id: 'closure',
+  form_group_id: 'family_closure',
   editable: true,
   fields: closure_fields,
   name_en: 'Closure',

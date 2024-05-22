@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable max-len */
 import { withStyles } from "@material-ui/core/styles";
 import { Switch } from "@material-ui/core";
