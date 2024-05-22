@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { subMonths, startOfMonth, endOfMonth } from "date-fns";
 
 import DateRange from "./date-range";

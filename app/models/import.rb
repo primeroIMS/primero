@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Encapsulate an import of Primero objects
 class Import < ValueObject
   SUCCESS = 'success'
@@ -44,7 +46,8 @@ class Import < ValueObject
   def calculate_status
     if success_total.zero? then FAILURE
     elsif success_total < total then SOME_FAILURE
-    else SUCCESS
+    else
+      SUCCESS
     end
   end
 end

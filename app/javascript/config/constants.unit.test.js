@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import * as configConstants from "./constants";
 
 describe("Verifying config constant", () => {
@@ -17,6 +19,7 @@ describe("Verifying config constant", () => {
     });
 
     [
+      "API_BASE_PATH",
       "ACCEPT",
       "ACCEPTED",
       "ADMIN_NAV",
@@ -42,6 +45,10 @@ describe("Verifying config constant", () => {
       "DEFAULT_METADATA",
       "DISPLAY_TEXT_FIELD",
       "DONE",
+      "FAMILIES",
+      "FAMILY",
+      "FAMILY_DETAILS_SUBFORM_ID",
+      "FAMILY_MEMBERS_SUBFORM_ID",
       "FETCH_PARAM",
       "FETCH_TIMEOUT",
       "FILE_FORMAT",
@@ -50,12 +57,15 @@ describe("Verifying config constant", () => {
       "IDLE_LOGOUT_TIMEOUT",
       "IDLE_TIMEOUT",
       "ID_FIELD",
+      "FAMILY_FROM_CASE",
       "INCIDENT",
       "INCIDENTS",
       "INCIDENT_CASE_ID_DISPLAY_FIELD",
       "INCIDENT_CASE_ID_FIELD",
       "INCIDENT_FROM_CASE",
       "INCIDENT_SHORT_ID_FIELD",
+      "INCIDENT_TRANSFERS_ASSIGNMENTS",
+      "INPROGRESS",
       "ISO_DATE_REGEX",
       "ISO_DATE_TIME_REGEX",
       "LOCALE_KEYS",
@@ -85,6 +95,7 @@ describe("Verifying config constant", () => {
       "RECORD_TYPES",
       "RECORD_TYPES_PLURAL",
       "REFERRAL",
+      "REFERRAL_TRANSFERS_SUBREPORTS",
       "REGISTRY_RECORD",
       "REGISTRY_RECORDS",
       "REJECT",
@@ -97,6 +108,7 @@ describe("Verifying config constant", () => {
       "STRING_SOURCES_TYPES",
       "SUBFORM_READONLY_FIELD_NAMES",
       "SUMMARY",
+      "WORKFLOW_SUBREPORTS",
       "TOKEN_REFRESH_INTERVAL",
       "TRACES_SUBFORM_UNIQUE_ID",
       "TRACING_REQUEST",
@@ -114,6 +126,7 @@ describe("Verifying config constant", () => {
       "VIOLATION_GROUP",
       "VIOLATION_VERIFICATION_STATUS",
       "VIOLATION_TYPE",
+      "VIOLENCE_TYPE_SUBREPORTS",
       "GBV_INSIGHTS_SUBREPORTS",
       "CHART_COLORS",
       "REGISTRY_FROM_CASE",
@@ -128,7 +141,10 @@ describe("Verifying config constant", () => {
       "SUMMARY_INCIDENT_MRM",
       "VIOLATION_FORMS_MAPPING",
       "VIOLATIONS_ASSOCIATIONS_RESPONSES",
-      "INDIVIDUAL_CHILDREN"
+      "INDIVIDUAL_CHILDREN",
+      "NOTIFICATION_PERMISSIONS",
+      "POST_MESSAGES",
+      "PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);
@@ -169,7 +185,8 @@ describe("Verifying config constant", () => {
           tracing_requests: "tracing_request",
           incidents: "incident",
           all: "all",
-          registry_records: "registry_record"
+          registry_records: "registry_record",
+          families: "family"
         });
         expect(constants.AGE_MAX).equal(999);
         expect(constants.PERMITTED_URL).to.be.an("array");
@@ -236,7 +253,9 @@ describe("Verifying config constant", () => {
           "new_form",
           "services_section",
           "transfer_request",
-          "duplicate_field"
+          "duplicate_field",
+          "transfer",
+          "referral"
         );
 
         expect(constants.ROWS_PER_PAGE_OPTIONS).to.be.an("array");

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Wraps an HTTP connection with an external service.
 class ApiConnector::Connection
   attr_accessor :options, :driver
@@ -16,20 +18,20 @@ class ApiConnector::Connection
     driver.basic_auth(username, password)
   end
 
-  def get(path, params = nil, headers = nil, &block)
-    wrap { driver.get(path, to_query(params), headers, &block) }
+  def get(path, params = nil, headers = nil, &)
+    wrap { driver.get(path, to_query(params), headers, &) }
   end
 
-  def patch(path, params = nil, headers = nil, &block)
-    wrap { driver.patch(path, to_json(params), headers, &block) }
+  def patch(path, params = nil, headers = nil, &)
+    wrap { driver.patch(path, to_json(params), headers, &) }
   end
 
-  def post(path, params = nil, headers = nil, &block)
-    wrap { driver.post(path, to_json(params), headers, &block) }
+  def post(path, params = nil, headers = nil, &)
+    wrap { driver.post(path, to_json(params), headers, &) }
   end
 
-  def put(path, params = nil, headers = nil, &block)
-    wrap { driver.put(path, to_json(params), headers, &block) }
+  def put(path, params = nil, headers = nil, &)
+    wrap { driver.put(path, to_json(params), headers, &) }
   end
 
   def url(options = {})

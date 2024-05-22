@@ -1,13 +1,16 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe FieldSelectionService do
-
   before :each do
     @user = User.new(user_name: 'user')
     @user.stub(:can_preview?) { true }
   end
 
-  let(:permitted_field_names) { %w(sex age protection_concerns) }
+  let(:permitted_field_names) { %w[sex age protection_concerns] }
 
   it 'selects all permitted fields' do
     field_names = FieldSelectionService.select_fields_to_show({}, Child, permitted_field_names, @user)
@@ -15,15 +18,15 @@ describe FieldSelectionService do
   end
 
   it 'selects only permitted requested fields' do
-    params = {fields: 'name,sex,age'}
+    params = { fields: 'name,sex,age' }
     field_names = FieldSelectionService.select_fields_to_show(params, Child, permitted_field_names, @user)
-    expect(field_names).to match_array(%w(sex age))
+    expect(field_names).to match_array(%w[sex age])
   end
 
   it 'selects only the permitted fields when a record summary is requested' do
-    params = {fields: 'short'}
+    params = { fields: 'short' }
     field_names = FieldSelectionService.select_fields_to_show(params, Child, permitted_field_names, @user)
-    expect(field_names).to match_array(%w(sex age))
+    expect(field_names).to match_array(%w[sex age])
   end
 
   describe 'preview' do
@@ -38,7 +41,6 @@ describe FieldSelectionService do
       fs.save(validate: false)
     end
 
-
     it 'selects preview fields when the id search parameter is included and the user is permitted to review' do
       params = { fields: 'short', id_search: true }
       field_names = FieldSelectionService.select_fields_to_show(
@@ -51,7 +53,5 @@ describe FieldSelectionService do
       FormSection.destroy_all
       Field.destroy_all
     end
-
   end
-
 end

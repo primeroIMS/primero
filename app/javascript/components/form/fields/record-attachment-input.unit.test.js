@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import FormSectionField from "../components/form-section-field";
 import { setupMockFormComponent } from "../../../test";
 import { AUDIO_RECORD_FIELD, PHOTO_RECORD_FIELD } from "../constants";

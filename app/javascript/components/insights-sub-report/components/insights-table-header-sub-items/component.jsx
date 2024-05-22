@@ -1,6 +1,9 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { TableCell, TableRow } from "@material-ui/core";
 import isEmpty from "lodash/isEmpty";
+import isObjectLike from "lodash/isObjectLike";
 import clsx from "clsx";
 
 import { useI18n } from "../../../i18n";
@@ -25,9 +28,13 @@ const InsightsTableHeaderSubItems = ({ addEmptyCell = true, groupedSubItemcolumn
             [css.tableCellCenterClass]: true
           });
 
+          const subItemTitle = isObjectLike(subItem)
+            ? subItem.display_text
+            : i18n.t(`managed_reports.violations.sub_reports.${subItem}`);
+
           return (
-            <TableCell key={`${parent}-${subItem}`} className={cellClass}>
-              {i18n.t(`managed_reports.violations.sub_reports.${subItem}`)}
+            <TableCell key={`${parent}-${subItem}-${subItemTitle}`} className={cellClass}>
+              {subItemTitle}
             </TableCell>
           );
         })

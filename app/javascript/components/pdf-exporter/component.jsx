@@ -1,9 +1,12 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { Typography } from "@material-ui/core";
 import { useWatch } from "react-hook-form";
 import html2pdf from "html2pdf-dom-to-image-more";
 import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import { fromJS, isImmutable } from "immutable";
 
 import { useI18n } from "../i18n";
@@ -17,6 +20,7 @@ import {
   INCLUDE_OTHER_LOGOS
 } from "../record-actions/exports/constants";
 import useOptions from "../form/use-options";
+import { RECORD_TYPES } from "../../config/constants";
 
 import Signatures from "./components/signatures";
 import { HTML_2_PDF_OPTIONS, PDF_HEADER_LOOKUP } from "./constants";
@@ -42,13 +46,14 @@ const Component = forwardRef(
     },
     ref
   ) => {
+    const params = useParams();
     const i18n = useI18n();
-
     const html = useRef();
     const mainHeaderRef = useRef();
     const secondaryHeaderRef = useRef();
     const dispatch = useDispatch();
 
+    const recordType = RECORD_TYPES[params.recordType];
     const { control, watch } = formMethods;
 
     const data = isImmutable(record) ? record : fromJS(record);
@@ -142,7 +147,7 @@ const Component = forwardRef(
     return (
       <>
         <div ref={mainHeaderRef} className={css.headerContainer}>
-          <Logos shortId={record.get("short_id")} logos={logos} css={css} />
+          <Logos shortId={record.get("short_id")} recordType={recordType} logos={logos} css={css} />
           {header && (
             <Typography variant="inherit" component="h2" align="center">
               {selectedHeader}
@@ -155,7 +160,7 @@ const Component = forwardRef(
           )}
         </div>
         <div ref={secondaryHeaderRef} className={css.secondaryHeaderContainer}>
-          <Logos shortId={record.get("short_id")} logos={logos} css={css} />
+          <Logos shortId={record.get("short_id")} recordType={recordType} logos={logos} css={css} />
         </div>
         <div ref={html} className={css.container}>
           {customFormProps && isRemote && (

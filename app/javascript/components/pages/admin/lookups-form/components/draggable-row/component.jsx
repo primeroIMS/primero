@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { Draggable } from "react-beautiful-dnd";
 
@@ -6,6 +8,7 @@ import { DragIndicator } from "../../../forms-list/components";
 import FormSectionField from "../../../../../form/components/form-section-field";
 import { FieldRecord, TEXT_FIELD } from "../../../../../form";
 import SwitchInput from "../../../../../form/fields/switch-input";
+import { LOCALE_KEYS } from "../../../../../../config";
 
 import { NAME } from "./constants";
 
@@ -13,6 +16,7 @@ const Component = ({
   firstLocaleOption,
   index,
   isDragDisabled,
+  isLockedLookup,
   localesKeys,
   selectedOption,
   uniqueId,
@@ -29,7 +33,7 @@ const Component = ({
       return (
         <div key={name}>
           <FormSectionField
-            field={FieldRecord({ name, type: TEXT_FIELD })}
+            field={FieldRecord({ name, type: TEXT_FIELD, disabled: localeKey === LOCALE_KEYS.en && isLockedLookup })}
             formMode={formMode}
             formMethods={formMethods}
           />
@@ -41,7 +45,7 @@ const Component = ({
   const renderDisabledCheckbox = (
     <div className={css.dragIndicatorContainer}>
       <SwitchInput
-        commonInputProps={{ name: `disabled.${uniqueId}`, disabled: isDragDisabled }}
+        commonInputProps={{ name: `disabled.${uniqueId}`, disabled: isDragDisabled || isLockedLookup }}
         metaInputProps={{ selectedValue: true }}
         formMethods={formMethods}
       />
@@ -49,7 +53,7 @@ const Component = ({
   );
 
   return (
-    <Draggable key={uniqueId} draggableId={uniqueId} index={index} isDragDisabled={isDragDisabled}>
+    <Draggable data-testid="draggable" key={uniqueId} draggableId={uniqueId} index={index} isDragDisabled={isDragDisabled}>
       {provider => {
         return (
           <div ref={provider.innerRef} {...provider.draggableProps} {...provider.dragHandleProps} className={css.row}>
@@ -73,6 +77,7 @@ Component.propTypes = {
   formMode: PropTypes.object.isRequired,
   index: PropTypes.number,
   isDragDisabled: PropTypes.bool,
+  isLockedLookup: PropTypes.bool,
   localesKeys: PropTypes.array,
   selectedOption: PropTypes.string,
   uniqueId: PropTypes.string

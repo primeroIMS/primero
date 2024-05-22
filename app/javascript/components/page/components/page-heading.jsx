@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { AppBar, Collapse, Divider, Toolbar } from "@material-ui/core";
 import isString from "lodash/isString";
@@ -32,7 +34,13 @@ const PageHeading = ({
   }, []);
 
   return (
-    <AppBar position="sticky" classes={{ root: appBarClasses }} elevation={noElevation ? 0 : 2} color="inherit">
+    <AppBar
+      data-testid="page-heading"
+      position="sticky"
+      classes={{ root: appBarClasses }}
+      elevation={noElevation ? 0 : 2}
+      color="inherit"
+    >
       <Toolbar classes={{ root: toolbarClasses }}>
         {prefixAction && (
           <div>

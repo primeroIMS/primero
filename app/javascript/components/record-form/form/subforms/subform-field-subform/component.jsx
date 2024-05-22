@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Accordion, AccordionSummary, AccordionDetails } from "@material-ui/core";
@@ -37,7 +39,11 @@ const Component = ({ isViolation, parentTitle, parentValues, fieldProps, violati
   );
 
   if (!subformSectionField.collapse) {
-    return <div className={css.subFormField}>{renderSubform}</div>;
+    return (
+      <div className={css.subFormField} data-testid="subform-field-subform">
+        {renderSubform}
+      </div>
+    );
   }
 
   return (

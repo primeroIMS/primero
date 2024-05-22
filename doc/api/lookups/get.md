@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Query for lookups
 
 Shows a paginated list of all lookups that are accessible to this user.

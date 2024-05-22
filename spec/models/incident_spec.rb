@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 require 'will_paginate'
 
@@ -461,24 +463,33 @@ describe Incident do
       case_cp
     end
 
-    it 'should add an alert for the case if the incident creator is not the case owner' do
-      incident = Incident.new_with_user(
-        User.new(user_name: 'incident_user', agency_id: Agency.last.id),
-        survivor_code: 'abc123', module_id: 'primeromodule-cp'
-      )
-      incident.case = case_cp
-      incident.save!
+    let(:incident_user) { User.new(user_name: 'incident_user', agency_id: Agency.last.id) }
 
-      case_cp.reload
+    context 'when incident creator is not the case owner' do
+      before do
+        incident = Incident.new_with_user(
+          incident_user,
+          survivor_code: 'abc123',
+          module_id: 'primeromodule-cp'
+        )
+        incident.case = case_cp
+        incident.save!
 
-      expect(case_cp.alerts.size).to eq(1)
+        case_cp.reload
+      end
+
+      it 'should add an alert for the case' do
+        expect(case_cp.alerts.size).to eq(1)
+        expect(case_cp.alerts.first.type).to eq('incident_from_case')
+        expect(case_cp.alerts.first.form_sidebar_id).to eq('incident_from_case')
+      end
     end
 
     it 'should add a record history in the case after incident is created' do
       last_updated_at = case_cp.last_updated_at
 
       incident = Incident.new_with_user(
-        User.new(user_name: 'incident_user', agency_id: Agency.last.id),
+        incident_user,
         survivor_code: 'abc123', module_id: 'primeromodule-cp'
       )
       incident.case = case_cp
@@ -789,6 +800,30 @@ describe Incident do
           %w[535d15f1-f01a-4884-86e8-7de9333b49b3]
         )
       end
+    end
+  end
+
+  describe '#can_be_assigned?' do
+    let(:child) do
+      Child.create!(
+        data: {
+          short_id: 'abc123', name: 'Test1', hidden_name: true, age: 5, sex: 'male', owned_by: 'user1'
+        }
+      )
+    end
+    let(:incident) do
+      Incident.create!(
+        unique_id: '1a2b3c', incident_code: '987654', description: 'this is a test', incident_case_id: child.id
+      )
+    end
+
+    it 'when incident_case_id is present?' do
+      expect(incident.can_be_assigned?).to be false
+    end
+
+    it 'when incident_case_id is blank?' do
+      incident.update(incident_case_id: nil)
+      expect(incident.can_be_assigned?).to be true
     end
   end
 

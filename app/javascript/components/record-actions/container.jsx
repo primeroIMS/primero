@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { createElement } from "react";
@@ -11,7 +13,7 @@ import { usePermissions } from "../permissions";
 import Menu from "../menu";
 import { getRecordFormsByUniqueId } from "../record-form";
 import { useDialog } from "../action-dialog";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import useIncidentFromCase from "../records/use-incident-form-case";
 
 import { INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./add-incident/constants";
@@ -134,7 +136,8 @@ const Container = ({
     canRequestBia,
     canRequestCasePlan,
     canRequestClosure,
-    canRequestGbvClosure
+    canRequestGbvClosure,
+    record
   });
 
   const selectedRowsIndex =
