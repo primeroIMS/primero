@@ -1,6 +1,5 @@
 import { Tooltip } from "@material-ui/core";
-
-import { simpleMountedComponent, screen } from "../test-utils";
+import { simpleMountedComponent, screen, fireEvent, waitFor } from "test-utils";
 
 import { ConditionalWrapper } from "./conditional-wrapper";
 
@@ -34,14 +33,16 @@ describe("libs/conditional-wrapper", () => {
     expect(screen.queryByText(/wrapper content/i)).toBeNull();
   });
 
-  it("renders react components", () => {
+  it("renders react components", async () => {
     simpleMountedComponent(
       <ConditionalWrapper condition wrapper={Tooltip} title="wrapper content">
         <div>wrapped children</div>
       </ConditionalWrapper>
     );
 
+    fireEvent.mouseOver(screen.getByText(/wrapped children/i));
+    await waitFor(() => expect(screen.queryByText(/wrapper content/i)).toBeInTheDocument());
+
     expect(screen.getByText(/wrapped children/i)).toBeInTheDocument();
-    expect(screen.queryByText(/wrapper content/i)).toBeNull();
   });
 });
