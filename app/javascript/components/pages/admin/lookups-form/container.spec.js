@@ -35,6 +35,7 @@ describe("<LookupsForm /> - container", () => {
   });
 
   it("renders heading with two FormAction components", () => {
-    expect(screen.getAllByRole("button")).toBeTruthy();
+    expect(screen.getByText("buttons.cancel")).toBeInTheDocument();
+    expect(screen.getByText("buttons.save")).toBeInTheDocument();
   });
 });
