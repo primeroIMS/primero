@@ -9,14 +9,13 @@ import NAMESPACE from "./namespace";
 import LocationsList from "./container";
 
 describe("<LocationsList />", () => {
-  let stubI18n = null;
   const dataLength = 30;
   const data = Array.from({ length: dataLength }, (_, i) => ({
     id: i + 1,
     name: { en: `Location ${i + 1}` }
   }));
 
-  stubI18n = stub(window.I18n, "t")
+  stub(window.I18n, "t")
     .withArgs("messages.record_list.of")
     .returns("of")
     .withArgs("location.no_location")
@@ -95,7 +94,7 @@ describe("<LocationsList />", () => {
   });
 
   describe("when no location loaded", () => {
-    const initialState = fromJS({
+    const stateWithoutLocations = fromJS({
       records: {
         admin: {
           locations: {
@@ -117,7 +116,7 @@ describe("<LocationsList />", () => {
     });
 
     it("renders InternalAlert alert", () => {
-      mountedComponent(<LocationsList />, initialState, ["/admin/locations"]);
+      mountedComponent(<LocationsList />, stateWithoutLocations, ["/admin/locations"]);
       expect(screen.getByText(/No Location/i)).toBeInTheDocument();
     });
   });
