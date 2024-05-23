@@ -22,7 +22,6 @@ module CsrfProtection
       path: '/',
       secure: Rails.env.production?,
       value: form_authenticity_token,
-      expires: 1.day.from_now,
       same_site: :strict
     }
   end
