@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { cloneElement } from "react";
 import PropTypes from "prop-types";
 import { Tooltip } from "@material-ui/core";
@@ -18,7 +20,7 @@ const Component = ({ overrideCondition, children, button, offlineTextKey }) => {
   if (overrideCondition || !online) {
     return (
       <Tooltip title={i18n.t(offlineTextKey || "offline")} enterTouchDelay={20}>
-        <div className={classes}>
+        <div className={classes} data-testid="disable-offline">
           {!button && <div className={css.disabledElement} />}
           {cloneElement(children, { disabled: true })}
         </div>

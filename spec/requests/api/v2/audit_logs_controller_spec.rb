@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::AuditLogsController, type: :request do
@@ -34,7 +36,7 @@ describe Api::V2::AuditLogsController, type: :request do
       password_confirmation: 'a12345678',
       email: 'test_user_a@localhost.com',
       agency_id: agency_a.id,
-      role: role
+      role:
     )
 
     @user_b = User.create(
@@ -44,14 +46,15 @@ describe Api::V2::AuditLogsController, type: :request do
       password_confirmation: 'b12345678',
       email: 'test_user_2@localhost.com',
       agency_id: agency_a.id,
-      role: role
+      role:
     )
 
     @audit_log_a = AuditLog.create!(user: @user_a, action: 'login', record_type: 'User', record_id: @user_a.id,
                                     timestamp: '2020-03-02T10:06:50-06:00', metadata: {
                                       mobile_id: 'IMEI1', mobile_number: '123-456-7890'
                                     })
-    @audit_log_b = AuditLog.create!(user: @user_b, record_type: 'User', record_id: @user_b.id, timestamp: '2020-03-03T10:07:26-06:00')
+    @audit_log_b = AuditLog.create!(user: @user_b, record_type: 'User', record_id: @user_b.id,
+                                    timestamp: '2020-03-03T10:07:26-06:00')
     @audit_log_c = AuditLog.create!(user: @user_b, action: 'login', record_type: 'User', record_id: @user_b.id,
                                     timestamp: '2020-03-02T10:06:50-06:00', metadata: {
                                       mobile_id: 'IMEI', mobile_number: '123-456-7890'
@@ -198,7 +201,7 @@ describe Api::V2::AuditLogsController, type: :request do
         'user': { 'user_name': @user_a.user_name, 'password': @user_a.password },
         'token': { 'user': { 'user_name': @user_a.user_name, 'password': @user_a.password } }
       }
-      post '/api/v2/tokens', params: params
+      post('/api/v2/tokens', params:)
       expect(audit_params['resource_url']).to eq('http://www.example.com/api/v2/tokens')
       expect(audit_params['action']).to eq('login')
     end

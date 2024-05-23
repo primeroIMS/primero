@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { List, ListItem, ListItemText, Drawer } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -29,6 +31,7 @@ const Component = ({ handleToggleNav, menuList = [], mobileDisplay = false, sele
 
     return (
       <ListItem
+        data-testid="list-item"
         button
         key={to}
         component={Link}
@@ -37,14 +40,14 @@ const Component = ({ handleToggleNav, menuList = [], mobileDisplay = false, sele
         disabled={disabled}
         classes={classes}
       >
-        <ListItemText primary={text} />
+        <ListItemText primary={text} data-testid="list-item-text" />
       </ListItem>
     );
   });
 
   return (
     <ConditionalWrapper condition={mobileDisplay} wrapper={Drawer} {...drawerProps}>
-      <List component="nav">{renderList}</List>
+      <List component="nav" data-testid="list">{renderList}</List>
     </ConditionalWrapper>
   );
 };

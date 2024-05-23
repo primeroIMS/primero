@@ -1,0 +1,40 @@
+.poweredby {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-1);
+  font-weight: 600;
+  margin: var(--sp-1) 0;
+
+  & img {
+    width: 90px !important;
+  }
+  
+  & div {
+    margin: 0;
+    line-height: 0;
+  }
+}
+
+.poweredbyLogin {
+  display: flex;
+  align-items: center;
+  height: 2em;
+  color: white;
+  font-weight: 600;
+  gap: 6px;
+
+  & div {
+    margin: 0;
+    line-height: 0;
+    width: fit-content;
+  }
+  
+  & > div:last-of-type {
+    width: 80px;
+  }
+  
+  & img {
+    width: 100%;
+  }
+}

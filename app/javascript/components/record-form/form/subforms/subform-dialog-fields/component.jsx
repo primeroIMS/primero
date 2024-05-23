@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "formik";
@@ -141,7 +143,7 @@ const Component = ({
     }
 
     return (
-      <div key={subformSectionField.name} data-testid="subForm-dialog">
+      <div key={subformSectionField.name} data-testid="subform-dialog-field">
         <FormSectionField {...fieldProps} />
       </div>
     );

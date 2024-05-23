@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Calculate the permitted users for a user if specified
 class PermittedUsersService
   attr_accessor :user
@@ -18,7 +20,7 @@ class PermittedUsersService
 
     users = apply_order(users, order_params)
 
-    { total: total, users: users }
+    { total:, users: }
   end
 
   private
