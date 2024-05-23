@@ -4,7 +4,7 @@ definitions:
   steps:
     - step: &server-test
         name: Server tests
-        image: ruby:3.2.2-bookworm
+        image: ruby:3.2.3-bookworm
         script:
           - ./bin/install_local_test_solr.sh
           - ./bin/run_server_tests.sh
@@ -33,7 +33,7 @@ definitions:
           - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_BRANCH
   services:
     postgres:
-      image: postgres:14.5
+      image: postgres:15.6
       variables:
         POSTGRES_DB: 'primero_test'
         POSTGRES_USER: 'postgres'

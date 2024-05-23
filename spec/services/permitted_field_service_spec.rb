@@ -284,5 +284,166 @@ describe PermittedFieldService, search: true do
       expect((Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS) - permitted_fields_schema.keys).to be_empty
     end
   end
+
+  describe 'Permitted Fields for Multiple Roles' do
+    before(:each) do
+      clean_data(PrimeroModule, User, Agency, Role, FormSection, Field, SystemSettings)
+      primero_module_cp
+      form_a
+      form_b
+      role_a.save!
+      role_b.save!
+      test_user
+    end
+
+    let(:form_a) do
+      FormSection.create!(
+        unique_id: 'a', name: 'A', parent_form: 'case', form_group_id: 'm', fields: [
+          Field.create!(name: 'field_a', display_name: 'A1', type: Field::TEXT_FIELD)
+        ]
+      )
+    end
+    let(:form_b) do
+      FormSection.create!(
+        unique_id: 'b', name: 'B', parent_form: 'case', form_group_id: 'm', fields: [
+          Field.create!(name: 'field_b', display_name: 'b1', type: Field::TEXT_FIELD)
+        ]
+      )
+    end
+    let(:primero_module_cp) do
+      PrimeroModule.create!(
+        primero_program: PrimeroProgram.first,
+        name: 'PrimeroModule',
+        unique_id: PrimeroModule::CP,
+        associated_record_types: ['case'],
+        form_sections: [form_a, form_b]
+      )
+    end
+    let(:role_a) do
+      Role.new_with_properties(
+        name: 'Test Role A',
+        unique_id: 'test-role-a',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::CREATE, Permission::WRITE]
+          )
+        ],
+        form_section_read_write: { form_a.unique_id => 'rw' }
+      )
+    end
+    let(:role_b) do
+      Role.new_with_properties(
+        name: 'Test Role B',
+        unique_id: 'test-role-b',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::CREATE, Permission::WRITE]
+          )
+        ],
+        form_section_read_write: { form_b.unique_id => 'r' }
+      )
+    end
+    let(:test_user) do
+      user = User.new(
+        full_name: 'Test User 2',
+        user_name: 'test_user_2',
+        password: 'a12345632',
+        password_confirmation: 'a12345632',
+        email: 'test_user_2@localhost.com',
+        role: role_a
+      )
+      user.save!(validate: false)
+      user
+    end
+
+    it 'returns the permitted fields for the roles' do
+      permitted_field_names = PermittedFieldService.new(test_user, Child).permitted_field_names(
+        false, false, [role_a, role_b]
+      )
+
+      expect(permitted_field_names).to include('field_a', 'field_b')
+    end
+  end
+
+  describe 'permitted_attachment_fields' do
+    before(:each) do
+      clean_data(PrimeroModule, User, Agency, Role, FormSection, Field, SystemSettings)
+    end
+
+    let(:primero_module_cp) do
+      PrimeroModule.create!(
+        primero_program: PrimeroProgram.first,
+        name: 'PrimeroModule',
+        unique_id: PrimeroModule::CP,
+        associated_record_types: ['case'],
+        form_sections: []
+      )
+    end
+
+    let(:permitted_preview_role) do
+      Role.new_with_properties(
+        name: 'Permitted Attachments',
+        unique_id: 'permitted_attachment_fields',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::SEARCH_OWNED_BY_OTHERS, Permission::DISPLAY_VIEW_PAGE]
+          )
+        ]
+      )
+    end
+
+    let(:permitted_view_photo_role) do
+      Role.new_with_properties(
+        name: 'Permitted View Photo',
+        unique_id: 'permitted_view_photo_role',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::VIEW_PHOTO]
+          )
+        ]
+      )
+    end
+
+    let(:preview_user) do
+      user = User.new(
+        full_name: 'Preview User',
+        user_name: 'preview_user',
+        password: 'a12345632',
+        password_confirmation: 'a12345632',
+        email: 'preview_user@localhost.com',
+        role: permitted_preview_role
+      )
+      user.save(validate: false)
+      user
+    end
+
+    it 'returns the audio/photos fields' do
+      permitted_field_names = PermittedFieldService.new(preview_user, Child).permitted_field_names
+
+      expect(permitted_field_names).to include('photos', 'recorded_audio')
+    end
+
+    it 'returns the photo field' do
+      preview_user.role = permitted_view_photo_role
+      preview_user.save(validate: false)
+
+      permitted_field_names = PermittedFieldService.new(preview_user, Child).permitted_field_names
+
+      expect(permitted_field_names).to include('photo')
+    end
+  end
+
   after(:each) { clean_data(PrimeroProgram, User, Agency, Role, FormSection, Field, SystemSettings) }
 end

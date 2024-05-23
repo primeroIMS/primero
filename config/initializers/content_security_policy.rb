@@ -22,6 +22,7 @@ media_sources = storage_sources + %i[data blob]
 font_and_image_sources = self_sources + %i[data blob]
 style_sources = self_sources
 child_sources = self_sources + %i[blob]
+script_sources = self_sources + %i[strict_dynamic]
 
 Rails.application.config.content_security_policy do |policy|
   policy.default_src(*self_sources)
@@ -29,10 +30,11 @@ Rails.application.config.content_security_policy do |policy|
   policy.img_src(*font_and_image_sources)
   policy.media_src(*media_sources)
   policy.object_src(:none)
-  policy.script_src(*self_sources)
+  policy.script_src(*script_sources)
   policy.style_src(*style_sources)
   policy.child_src(*child_sources)
   policy.frame_src(:none)
+  policy.base_uri(:self)
 
   # Specify URI for violation reports
   # policy.report_uri "/csp-violation-report-endpoint"

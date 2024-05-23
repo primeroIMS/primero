@@ -48,6 +48,8 @@ const formSectionList = state => state.getIn(["records", "admin", "forms", "form
 const referralUserList = state => state.getIn(["records", "transitions", "referral", "users"], fromJS([]));
 const transferUserList = state => state.getIn(["records", "transitions", "transfer", "users"], fromJS([]));
 const managedRoleList = state => state.getIn(["application", "managedRoles"], fromJS([]));
+const referralAuthorizationRoleList = state =>
+  state.getIn(["application", "referralAuthorizationRoles", "data"], fromJS([]));
 const agencyList = memoize(state => state.getIn(["application", "agencies"], fromJS([])));
 
 const formGroups = createCachedSelector(getLocale, formSectionList, (locale, data) => {
@@ -357,34 +359,35 @@ const userGroups = createCachedSelector(
   }
 )(defaultCacheSelectorOptions);
 
-const userGroupsPermitted = createCachedSelector(
-  getUserGroups,
-  getCurrentUserUserGroups,
-  getCurrentUserGroupsUniqueIds,
-  getCurrentUserGroupPermission,
-  getIsManagedReportScopeAll,
-  (_state, options) => options,
-  (data, currentUserGroups, currentUserGroupIds, currentRoleGroupPermission, isManagedReportScopeAll, options) => {
-    const allUserGroups = userGroupsParser(data, options);
-    const currentUserGroupOptions = userGroupsParser(currentUserGroups, options);
+const userGroupsPermitted = (isInsights = false) =>
+  createCachedSelector(
+    getUserGroups,
+    getCurrentUserUserGroups,
+    getCurrentUserGroupsUniqueIds,
+    getCurrentUserGroupPermission,
+    isInsights ? getIsManagedReportScopeAll : () => false,
+    (_state, options) => options,
+    (data, currentUserGroups, currentUserGroupIds, currentRoleGroupPermission, isManagedReportScopeAll, options) => {
+      const allUserGroups = userGroupsParser(data, options);
+      const currentUserGroupOptions = userGroupsParser(currentUserGroups, options);
 
-    if (isEmpty(allUserGroups)) {
-      return currentUserGroupOptions;
-    }
-
-    if (currentRoleGroupPermission === GROUP_PERMISSIONS.ALL || isManagedReportScopeAll) {
-      return allUserGroups;
-    }
-
-    return allUserGroups.map(userGroup => {
-      if (currentUserGroupIds.includes(userGroup.id)) {
-        return userGroup;
+      if (isEmpty(allUserGroups)) {
+        return currentUserGroupOptions;
       }
 
-      return { ...userGroup, disabled: true };
-    });
-  }
-)(defaultCacheSelectorOptions);
+      if (currentRoleGroupPermission === GROUP_PERMISSIONS.ALL || (isInsights && isManagedReportScopeAll)) {
+        return allUserGroups;
+      }
+
+      return allUserGroups.map(userGroup => {
+        if (currentUserGroupIds.includes(userGroup.id)) {
+          return userGroup;
+        }
+
+        return { ...userGroup, disabled: true };
+      });
+    }
+  )(defaultCacheSelectorOptions);
 
 const formGroupLookup = createCachedSelector(
   getLocale,
@@ -458,6 +461,13 @@ const buildManagedRoles = createCachedSelector(managedRoleList, data => {
   );
 })(defaultCacheSelectorOptions);
 
+const buildReferralAuthorizationRoles = createCachedSelector(referralAuthorizationRoleList, data => {
+  return data.reduce(
+    (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
+    []
+  );
+})(defaultCacheSelectorOptions);
+
 const buildPermittedRoles = createCachedSelector(
   getRoles,
   getPermittedRoleUniqueIds,
@@ -510,11 +520,15 @@ export const getOptions = source => {
     case OPTION_TYPES.USER_GROUP:
       return userGroups;
     case OPTION_TYPES.USER_GROUP_PERMITTED:
-      return userGroupsPermitted;
+      return userGroupsPermitted();
+    case OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED:
+      return userGroupsPermitted(true);
     case OPTION_TYPES.ROLE:
       return roles;
     case OPTION_TYPES.ROLE_EXTERNAL_REFERRAL:
       return buildManagedRoles;
+    case OPTION_TYPES.ROLE_REFERRAL_AUTHORIZATION:
+      return buildReferralAuthorizationRoles;
     case OPTION_TYPES.ROLE_PERMITTED:
       return buildPermittedRoles;
     case OPTION_TYPES.FORM_GROUP_LOOKUP:

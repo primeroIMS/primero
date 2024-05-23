@@ -11,8 +11,10 @@ import { ASSIGN_DIALOG, TRANSFER_DIALOG, REFER_DIALOG } from "../constants";
 import { useMemoizedSelector } from "../../../libs";
 import buildSelectedIds from "../utils/build-selected-ids";
 import { usePermissions, RESOURCES, CONSENT_OVERRIDE } from "../../permissions";
+import { useIncidentFromCase } from "../../incidents-from-case";
+import { RECORD_TYPES } from "../../../config";
 
-import { NAME, REFERRAL_FORM_ID, TRANSFER_FORM_ID } from "./constants";
+import { NAME, REFERRAL_FORM_ID, TRANSFER_FORM_ID, MAX_BULK_RECORDS } from "./constants";
 import { hasProvidedConsent } from "./components/utils";
 import { ReassignForm, TransitionDialog, Transfers } from "./components";
 import Referrals from "./referrals/component";
@@ -44,14 +46,17 @@ const Transitions = ({
 
   const records = useMemoizedSelector(state => getRecordsData(state, recordType));
 
-  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage);
+  const selectedRecordsLength = Object.values(selectedRecords || {}).flat()?.length;
+  const keyToSelectId = isAssignDialogOpen ? "short_id" : "id";
+  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, keyToSelectId);
+  const { present: incidentFromCasePresent } = useIncidentFromCase({ recordType: RECORD_TYPES[recordType], record });
 
   const commonDialogProps = {
     omitCloseAfterSuccess: true,
     pending,
     record,
     recordType,
-    selectedIds
+    selectedRecordsLength
   };
 
   const commonTransitionProps = {
@@ -88,7 +93,14 @@ const Transitions = ({
       );
     }
     if (isAssignDialogOpen) {
-      return <ReassignForm {...commonTransitionProps} assignRef={assignFormikRef} />;
+      return (
+        <ReassignForm
+          {...commonTransitionProps}
+          assignRef={assignFormikRef}
+          selectedRecordsLength={selectedRecordsLength}
+          formDisabled={incidentFromCasePresent}
+        />
+      );
     }
 
     return null;
@@ -139,6 +151,7 @@ const Transitions = ({
         confirmButtonLabel: i18n.t("buttons.save"),
         open: isAssignDialogOpen,
         successHandler,
+        enabledSuccessButton: selectedRecordsLength <= MAX_BULK_RECORDS && !incidentFromCasePresent,
         transitionType: TRANSITIONS_TYPES.reassign
       };
     }

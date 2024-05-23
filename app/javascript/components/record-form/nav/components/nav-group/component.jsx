@@ -17,7 +17,8 @@ const Component = ({
   recordAlerts,
   selectedForm,
   validationErrors,
-  formGroupLookup
+  formGroupLookup,
+  testID
 }) => {
   const [...forms] = group.values();
   const isNested = forms.length > 1;
@@ -51,7 +52,7 @@ const Component = ({
 
   return (
     <>
-      <NavItem {...parentFormProps} {...sharedProps} />
+      <NavItem {...parentFormProps} {...sharedProps} testID={testID} />
       {isNested && (
         <Collapse in={open === parentForm.group} timeout="auto" unmountOnExit>
           <List disablePadding dense>
@@ -84,6 +85,7 @@ Component.propTypes = {
   recordAlerts: PropTypes.object,
   recordOwner: PropTypes.string,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  testID: PropTypes.string,
   validationErrors: PropTypes.object
 };
 

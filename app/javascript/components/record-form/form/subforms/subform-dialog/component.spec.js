@@ -121,6 +121,23 @@ describe("<SubformDialog />", () => {
         expect(screen.queryByText("family.family_member.save_and_return")).toBeTruthy();
         expect(screen.queryByText("cancel")).toBeTruthy();
       });
+
+      describe("and isReadWriteForm is false", () => {
+        it("renders 'Back to Family Details' button", () => {
+          mountedComponent(
+            <SubformDialog
+              {...props}
+              field={familyDetailsField}
+              mode={{ isEdit: true }}
+              isFamilyDetail
+              isReadWriteForm={false}
+            />
+          );
+
+          expect(screen.queryByText("case.back_to_family_details")).toBeInTheDocument();
+          expect(screen.queryByText("cancel")).not.toBeInTheDocument();
+        });
+      });
     });
   });
 });

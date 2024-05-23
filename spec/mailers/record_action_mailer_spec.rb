@@ -7,36 +7,59 @@ require 'rails_helper'
 describe RecordActionMailer, type: :mailer do
   before do
     clean_data(SystemSettings)
-    SystemSettings.create(default_locale: 'en', unhcr_needs_codes_mapping: {},
-                          changes_field_to_form: {
-                            'email_alertable_field' => {
-                              form_section_unique_id: 'some_formsection_name',
-                              alert_strategy: Alertable::AlertStrategy::ASSOCIATED_USERS
-                            }
-                          })
+    SystemSettings.create(
+      default_locale: 'en',
+      unhcr_needs_codes_mapping: {},
+      changes_field_to_form: {
+        'email_alertable_field' => {
+          form_section_unique_id: 'some_formsection_name',
+          alert_strategy: Alertable::AlertStrategy::ASSOCIATED_USERS
+        }
+      },
+      approvals_labels_i18n: {
+        'en' => {
+          'closure' => 'Closure',
+          'case_plan' => 'Case Plan',
+          'assessment' => 'Assessment',
+          'action_plan' => 'Action Plan',
+          'gbv_closure' => 'Case Closure'
+        }
+      }
+    )
+  end
+
+  let(:notification_settings) do
+    {
+      notifications: {
+        send_mail: {
+          Transition::NOTIFICATION_ACTION => true, Approval::NOTIFICATION_ACTIONS_REQUEST => true,
+          Approval::NOTIFICATION_ACTIONS_RESPONSE => true, Transfer::NOTIFICATION_ACTION => true
+        }
+      }
+    }
   end
 
   describe 'approvals' do
     before do
-      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Referral)
+      clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Referral)
 
       @lookup = Lookup.create!(id: 'lookup-approval-type', unique_id: 'lookup-approval-type', name: 'approval type',
                                lookup_values_en: [{ 'id' => 'value1', 'display_text' => 'value1' }])
       role = create(:role, is_manager: true)
       @manager1 = create(:user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1')
-      @manager2 = create(:user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2')
+      @manager2 = create(:user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2', settings: notification_settings)
       @manager3 = create(
-        :user, role:, email: 'manager3@primero.dev', send_mail: true, user_name: 'manager3', locale: 'ar-LB'
+        :user, role:, email: 'manager3@primero.dev', send_mail: true, user_name: 'manager3', locale: 'ar-LB', settings: notification_settings
       )
       @manager4 = create(
         :user, role:, email: 'manager4@primero.dev', send_mail: true, user_name: 'manager4', disabled: true
       )
-      @owner = create(:user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev')
+      @owner = create(:user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev', settings: notification_settings)
       @disabled_user = create(
         :user, user_name: 'duser', full_name: 'Disabled User', email: 'duser@primero.dev', disabled: true
       )
       @arabic_owner = create(:user, user_name: 'jdoe', full_name: 'Jhon Doe', email: 'arabic_owner@primero.dev',
-                                    locale: 'ar-LB')
+                                    locale: 'ar-LB', settings: notification_settings)
       @child = child_with_created_by(@owner.user_name, name: 'child1', module_id: PrimeroModule::CP,
                                                        case_id_display: '12345')
       @arabic_child = child_with_created_by(
@@ -51,7 +74,7 @@ describe RecordActionMailer, type: :mailer do
 
     describe '.manager_approval_request' do
       let(:approval_notification) do
-        ApprovalRequestNotificationService.new(@child.id, 'value1', @manager2.user_name)
+        ApprovalRequestNotificationService.new(@child.id, 'case_plan', @manager2.user_name)
       end
 
       let(:mail) do
@@ -65,13 +88,13 @@ describe RecordActionMailer, type: :mailer do
 
       it 'renders the body' do
         expect(mail.body.encoded)
-          .to match("The user jnelson is requesting approval for value1 on case .*#{@child.short_id}")
+          .to match("The user jnelson is requesting approval for Case Plan on case .*#{@child.short_id}")
       end
     end
 
     describe 'manager_approval_request with diferent locale' do
       let(:approval_notification) do
-        ApprovalRequestNotificationService.new(@child.id, 'value1', @manager3.user_name)
+        ApprovalRequestNotificationService.new(@child.id, 'closure', @manager3.user_name)
       end
 
       let(:mail) do
@@ -85,13 +108,13 @@ describe RecordActionMailer, type: :mailer do
 
       it 'renders the body in arabic locale' do
         expect(mail.text_part.body.encoded)
-          .to match("يطلب المستخدم jnelson الموافقة value1 للملفّ .*#{@child.short_id}")
+          .to match("يطلب المستخدم jnelson الموافقة Closure للملفّ .*#{@child.short_id}")
       end
     end
 
     describe 'manager_approval_response' do
       let(:approval_notification) do
-        ApprovalResponseNotificationService.new(@child.id, 'value1', @manager1.user_name, false)
+        ApprovalResponseNotificationService.new(@child.id, 'case_plan', @manager1.user_name, false)
       end
 
       let(:mail) do
@@ -105,13 +128,13 @@ describe RecordActionMailer, type: :mailer do
 
       it 'renders the body' do
         expect(mail.body.encoded)
-          .to match("manager1 has rejected the request for approval for value1 for case .*#{@child.short_id}")
+          .to match("manager1 has rejected the request for approval for case plan for case.*#{@child.short_id}")
       end
     end
 
     describe 'manager_approval_response with diferent locale' do
       let(:approval_notification) do
-        ApprovalResponseNotificationService.new(@arabic_child.id, 'value1', @manager1.user_name, false)
+        ApprovalResponseNotificationService.new(@arabic_child.id, 'case_plan', @manager1.user_name, false)
       end
 
       let(:mail) do
@@ -125,7 +148,7 @@ describe RecordActionMailer, type: :mailer do
 
       it 'renders the body in arabic locale' do
         expect(mail.text_part.body.encoded)
-          .to match("طلب manager1 تم رفضه الموافقة value1 للملفّ .*#{@arabic_child.short_id}")
+          .to match("طلب manager1 تم رفضه الموافقة case plan للملفّ .*#{@arabic_child.short_id}")
       end
     end
 
@@ -166,7 +189,7 @@ describe RecordActionMailer, type: :mailer do
         end
 
         let(:user2) do
-          create(:user, user_name: 'user2', full_name: 'User random', email: 'user2@primero.dev', send_mail: true)
+          create(:user, user_name: 'user2', full_name: 'User random', email: 'user2@primero.dev', send_mail: true, settings: notification_settings)
         end
         let(:assign1) do
           Assign.create!(transitioned_by: 'jnelson', transitioned_to_user: user2, record: @child)
@@ -187,7 +210,7 @@ describe RecordActionMailer, type: :mailer do
   describe 'Transitions' do
     before :each do
       clean_data(
-        User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Incident, Child
+        Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Incident, Child
       )
       @primero_module = PrimeroModule.new(name: 'CP')
       @primero_module.save(validate: false)
@@ -207,7 +230,8 @@ describe RecordActionMailer, type: :mailer do
       @user1 = User.new(
         user_name: 'user1', role: @role, user_groups: [@group1],
         email: 'uzer1@test.com', send_mail: true,
-        agency:
+        agency:,
+        settings: notification_settings
       )
       @user1.save(validate: false)
       @group2 = UserGroup.create!(name: 'Group2')
@@ -215,7 +239,8 @@ describe RecordActionMailer, type: :mailer do
         user_name: 'user2', role: @role,
         user_groups: [@group2],
         email: 'uzer_to@test.com', send_mail: true,
-        agency:
+        agency:,
+        settings: notification_settings
       )
       @user2.save(validate: false)
       @user3 = User.new(
@@ -223,7 +248,8 @@ describe RecordActionMailer, type: :mailer do
         user_groups: [@group2],
         email: 'ar_uzer_to@test.com', send_mail: true,
         agency:,
-        locale: 'ar-LB'
+        locale: 'ar-LB',
+        settings: notification_settings
       )
       @user3.save(validate: false)
       @user4 = User.new(
@@ -235,6 +261,21 @@ describe RecordActionMailer, type: :mailer do
         agency:
       )
       @user4.save(validate: false)
+      @user5 = User.new(
+        user_name: 'user5', role: @role,
+        user_groups: [@group2],
+        email: 'user5@test.com', send_mail: true,
+        agency:,
+        locale: 'ar-LB',
+        settings: {
+          notifications: {
+            send_mail: {
+              Approval::NOTIFICATION_ACTIONS_REQUEST => true
+            }
+          }
+        }
+      )
+      @user5.save(validate: false)
       @case = Child.create(
         data: {
           name: 'Test', owned_by: 'user1',
@@ -397,7 +438,7 @@ describe RecordActionMailer, type: :mailer do
 
     after :each do
       clean_data(
-        User, Role, PrimeroModule, PrimeroProgram, Field, FormSection,
+        Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection,
         Lookup, UserGroup, Incident, Child, Transition, Agency
       )
     end
@@ -405,7 +446,7 @@ describe RecordActionMailer, type: :mailer do
 
   describe 'Emailable Alert' do
     before do
-      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency)
+      clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency)
       FormSection.create!(unique_id: 'some_formsection_name', name: 'some_formsection_name',
                           name_en: 'Form Section Name', name_fr: 'Nom de la section du formulaire')
       @owner = create :user, user_name: 'owner', full_name: 'Owner', email: 'owner@primero.dev'
@@ -437,8 +478,10 @@ describe RecordActionMailer, type: :mailer do
     end
 
     after do
-      clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Transition,
-                 Alert, Child)
+      clean_data(
+        Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection,
+        Lookup, UserGroup, Agency, Transition, Child
+      )
     end
   end
 

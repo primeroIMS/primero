@@ -99,6 +99,7 @@ const Component = ({
         parentTitle={parentTitle}
         isFamilyMember={isFamilyMember}
         isFamilyDetail={isFamilyDetail}
+        isReadWriteForm={isReadWriteForm}
       />
     </List>
   );
@@ -110,10 +111,10 @@ const Component = ({
   );
 
   return (
-    <div className={css.fieldArray}>
+    <div className={css.fieldArray} data-testid="subform-field-array">
       <div className={cssContainer}>
         {!renderAsAccordion && (
-          <div>
+          <div data-testid="subForm-header">
             <h3 className={css.subformTitle}>
               {renderAddFieldTitle} {title} {parentTitle}
             </h3>

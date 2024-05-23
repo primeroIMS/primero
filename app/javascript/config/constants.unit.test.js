@@ -64,6 +64,7 @@ describe("Verifying config constant", () => {
       "INCIDENT_CASE_ID_FIELD",
       "INCIDENT_FROM_CASE",
       "INCIDENT_SHORT_ID_FIELD",
+      "INCIDENT_TRANSFERS_ASSIGNMENTS",
       "INPROGRESS",
       "ISO_DATE_REGEX",
       "ISO_DATE_TIME_REGEX",
@@ -252,7 +253,9 @@ describe("Verifying config constant", () => {
           "new_form",
           "services_section",
           "transfer_request",
-          "duplicate_field"
+          "duplicate_field",
+          "transfer",
+          "referral"
         );
 
         expect(constants.ROWS_PER_PAGE_OPTIONS).to.be.an("array");

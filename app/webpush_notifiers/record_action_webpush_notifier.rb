@@ -28,7 +28,9 @@ class RecordActionWebpushNotifier
 
   def transition_notify(transition_notification)
     return if transition_notification.transition.nil?
-    return unless webpush_notifications_enabled?(transition_notification&.transitioned_to)
+    return unless webpush_notifications_enabled?(
+      transition_notification&.transitioned_to, Transition::NOTIFICATION_ACTION
+    )
 
     WebpushService.send_notifications(
       transition_notification&.transitioned_to,
@@ -38,17 +40,21 @@ class RecordActionWebpushNotifier
 
   def manager_approval_request(approval_notification)
     return unless approval_notification.send_notification?
-    return unless webpush_notifications_enabled?(approval_notification.manager)
+    return unless webpush_notifications_enabled?(approval_notification.manager, Approval::NOTIFICATION_ACTIONS_REQUEST)
 
     WebpushService.send_notifications(
       approval_notification.manager,
-      message_structure(approval_notification)
+      message_structure(approval_notification).merge(
+        body: I18n.t(
+          "webpush_notification.#{approval_notification.key}.body", type: approval_notification&.approval_type
+        )
+      )
     )
   end
 
   def manager_approval_response(approval_notification)
     return unless approval_notification.send_notification?
-    return unless webpush_notifications_enabled?(approval_notification.owner)
+    return unless webpush_notifications_enabled?(approval_notification.owner, Approval::NOTIFICATION_ACTIONS_RESPONSE)
 
     WebpushService.send_notifications(
       approval_notification.owner,
@@ -58,7 +64,9 @@ class RecordActionWebpushNotifier
 
   def transfer_request(transfer_request_notification)
     return if transfer_request_notification.transition.nil?
-    return unless webpush_notifications_enabled?(transfer_request_notification&.transitioned_to)
+    return unless webpush_notifications_enabled?(
+      transfer_request_notification&.transitioned_to, Transfer::NOTIFICATION_ACTION
+    )
 
     WebpushService.send_notifications(
       transfer_request_notification&.transitioned_to,
@@ -76,6 +84,12 @@ class RecordActionWebpushNotifier
     )
   end
 
+  def icon
+    return '' unless Theme.current.present?
+
+    Rails.application.routes.url_helpers.rails_blob_path(Theme.current.logo_pictorial_144, only_path: true).to_s
+  end
+
   def message_structure(record_action_notification)
     {
       title: I18n.t("webpush_notification.#{record_action_notification.key}.title"),
@@ -84,18 +98,19 @@ class RecordActionWebpushNotifier
         type: record_action_notification&.type
       ),
       action_label: I18n.t('webpush_notification.action_label'),
+      icon:,
       link: url_for_v2(record_action_notification.record)
     }
   end
 
   private
 
-  def webpush_notifications_enabled?(user)
-    web_push_enabled? && user_web_push_enabled?(user)
+  def webpush_notifications_enabled?(user, action = nil)
+    web_push_enabled? && user_web_push_enabled?(user, action)
   end
 
-  def user_web_push_enabled?(user)
-    return true if user&.receive_webpush?
+  def user_web_push_enabled?(user, action)
+    return true if user&.receive_webpush? && (action.nil? || user&.specific_notification?('receive_webpush', action))
 
     Rails.logger.info("Webpush not sent. Webpush notifications disabled for #{user&.user_name || 'nil user'}")
 

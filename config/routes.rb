@@ -30,6 +30,9 @@ Rails.application.routes.draw do
   get 'login/:id', to: redirect(path: '/v2/login/%{id}')
   # rubocop:enable Style/FormatStringToken(RuboCop)
 
+  get 'manifest', to: 'themes#manifest', defaults: { format: :json }
+  get :theme, to: 'themes#index', defaults: { format: :js }
+
   namespace :api do
     namespace :v2, defaults: { format: :json },
                    constraints: { format: :json },
@@ -65,8 +68,13 @@ Rails.application.routes.draw do
         resources :alerts, only: %i[index destroy]
         resources :approvals, only: [:update]
         resources :attachments, only: %i[create destroy]
+        resources :assigns, only: %i[index create]
+        resources :transitions, only: [:index]
         post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'
+        collection do
+          post :assigns, to: 'assigns#create_bulk'
+        end
       end
 
       resources :tracing_requests do

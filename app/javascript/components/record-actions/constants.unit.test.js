@@ -28,7 +28,8 @@ describe("<RecordActions /> - Constants", () => {
       "MANY",
       "ALL",
       "RECORD_ACTION_ABILITIES",
-      "MARK_FOR_OFFLINE_DIALOG"
+      "MARK_FOR_OFFLINE_DIALOG",
+      "FILTERS_TO_SKIP"
     ].forEach(property => {
       expect(constants).to.have.property(property);
       delete constants[property];
@@ -68,7 +69,8 @@ describe("<RecordActions /> - Constants", () => {
         "canRequestGbvClosure",
         "canShowExports",
         "canTransfer",
-        "canMarkForOffline"
+        "canMarkForOffline",
+        "canVerify"
       ].forEach(property => {
         expect(recordActionAbilities).to.have.property(property);
         delete recordActionAbilities[property];

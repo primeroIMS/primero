@@ -105,7 +105,9 @@ describe("<Transitions /> - Action Creators", () => {
       }
     };
 
-    expect(dispatch(actionCreators.saveAssignedUser("123abc", body, "Success Message"))).to.deep.equals(expected);
+    expect(dispatch(actionCreators.saveAssignedUser("cases", "123abc", body, "Success Message"))).to.deep.equals(
+      expected
+    );
   });
 
   it("should check the 'saveTransferUser' action creator to return the correct object", () => {

@@ -23,7 +23,7 @@ const Component = ({ title, values, fields }) => {
 
   return (
     <div className={css.container}>
-      <div className={css.title}>
+      <div className={css.titleViolation}>
         {title} {renderShortUniqueId}
       </div>
       <div>{renderChipStatus}</div>

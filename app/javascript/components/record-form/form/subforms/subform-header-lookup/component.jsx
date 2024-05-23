@@ -76,7 +76,7 @@ const Component = ({
   const { display_text: displayText } = optionsStringText.find(optionStringText => optionStringText.id === value);
 
   return (
-    <span>
+    <span data-testid="subForm-header">
       {renderDisplayName}
       {displayText[i18n.locale]}
     </span>

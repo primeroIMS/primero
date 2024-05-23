@@ -12,7 +12,7 @@ Shows a paginated list of all users that are accessible to this user. The user c
 
 **Authorization** :The user must be authorized to view users in Primero.
 
-**Parameters** : 
+**Parameters** :
 
 * `agency` Optional. Filters users by agency.
 * `location` Optional. Filters users by location(reporting location of the user).
@@ -20,11 +20,11 @@ Shows a paginated list of all users that are accessible to this user. The user c
 * `disabled` Optional. Filter users by disabled.
 * `extended` Optional. Shows an extended version of the user properties. Defaults to false.
 * `page` Optional. Pagination. Defaults to 1
-* `per` Optional. Users per page. Defaults to 20. 
+* `per` Optional. Users per page. Defaults to 20.
 
 ## Success Response
 
-**Condition** : User can see one or more users. 
+**Condition** : User can see one or more users.
 
 **Code** : `200 OK`
 
@@ -50,14 +50,15 @@ Shows a paginated list of all users that are accessible to this user. The user c
     "metadata": {
       "total": 1,
       "per": 20,
-      "page": 1
+      "page": 1,
+      "total_enabled": 5
     }
 
 }
 ```
 ## Error Response
 
-**Condition** : User isn't authorized to query for users. 
+**Condition** : User isn't authorized to query for users.
 
 **Code** : `403 Forbidden`
 

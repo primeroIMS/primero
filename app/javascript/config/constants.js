@@ -149,6 +149,7 @@ export const VIOLATION_GROUP = "violations";
 export const RECORD_OWNER = "record_owner";
 
 export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
+export const INCIDENT_TRANSFERS_ASSIGNMENTS = "incident_transfers_assignments";
 
 export const REFERRAL = "referral";
 
@@ -522,7 +523,9 @@ export const ALERTS_FOR = {
   approval: "approval",
   new_form: "new_form",
   transfer_request: "transfer_request",
-  duplicate_field: "duplicate_field"
+  duplicate_field: "duplicate_field",
+  transfer: "transfer",
+  referral: "referral"
 };
 
 export const MAX_OFFLINE_ROWS_PER_PAGE = 50;

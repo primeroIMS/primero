@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe Transitionable do
   before :each do
-    clean_data(User, Role, PrimeroModule, UserGroup, Child, Referral)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Referral)
     @module_cp = PrimeroModule.new(name: 'CP')
     @module_cp.save(validate: false)
 
@@ -18,10 +18,23 @@ describe Transitionable do
         Permission::ASSIGN, Permission::TRANSFER, Permission::RECEIVE_TRANSFER
       ]
     )
+    permission_incident_assign = Permission.new(
+      resource: Permission::INCIDENT, actions: [Permission::ASSIGN]
+    )
+    permission_incident = Permission.new(
+      resource: Permission::INCIDENT,
+      actions: [
+        Permission::READ
+      ]
+    )
     @role = Role.new(permissions: [permission_case], modules: [@module_cp])
     @role.save(validate: false)
+    @role_case_incident = Role.new(permissions: [permission_case, permission_incident_assign], modules: [@module_cp])
+    @role_case_incident.save(validate: false)
+    @role_incident = Role.new(permissions: [permission_incident], modules: [@module_cp])
+    @role_incident.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
-    @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
+    @user1 = User.new(user_name: 'user1', role: @role_case_incident, user_groups: [@group1])
     @user1.save(validate: false)
     @group2 = UserGroup.create!(name: 'Group2')
     @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2])
@@ -32,26 +45,46 @@ describe Transitionable do
     @group4 = UserGroup.create!(name: 'Group4')
     @user4 = User.new(user_name: 'user4', role: @role, user_groups: [@group4])
     @user4.save(validate: false)
+    @user5 = User.new(user_name: 'user5', role: @role, user_groups: [@group4])
+    @user5.save(validate: false)
+    @user6 = User.new(user_name: 'user6', role: @role_incident, user_groups: [@group4])
+    @user6.save(validate: false)
     @case = Child.create(data: {
                            name: 'Test', owned_by: 'user1',
                            module_id: @module_cp.unique_id,
                            consent_for_services: true, disclosure_other_orgs: true
                          })
+    @incident = Incident.create(
+      data: {
+        age: 3,
+        status: 'open',
+        owned_by: 'user2',
+        short_id: '6a7013f',
+        module_id: @module_cp.unique_id
+      }
+    )
   end
 
   describe 'transitions_for_user' do
     before :each do
       @assign1 = Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       @assign2 = Assign.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case)
+      @assign3 = Assign.create!(transitioned_by: 'user1', transitioned_to: 'user6', record: @incident)
       @transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       @referral1 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       @referral2 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user3', record: @case)
     end
 
-    it 'lists all transitions' do
+    it 'lists all cases transitions' do
       transitions = @case.transitions_for_user(@user1)
       expect(transitions.size).to eq(5)
       expect(transitions.map(&:id)).to include(@assign1.id, @assign2.id, @transfer.id, @referral1.id, @referral2.id)
+    end
+
+    it 'lists all incidents transitions' do
+      transitions = @incident.transitions_for_user(@user1)
+      expect(transitions.size).to eq(1)
+      expect(transitions.map(&:id)).to include(@assign3.id)
     end
 
     it 'lists select transitions' do
@@ -209,7 +242,31 @@ describe Transitionable do
     end
   end
 
+  describe 'referrals_to_user' do
+    let(:referral1) { Referral.create!(transitioned_by: 'user1', transitioned_to: 'user5', record: @case) }
+    let(:referral2) { Referral.create!(transitioned_by: 'user1', transitioned_to: 'user5', record: @case) }
+    let(:referral3) { Referral.create!(transitioned_by: 'user1', transitioned_to: 'user5', record: @case) }
+    let(:referral4) { Referral.create!(transitioned_by: 'user1', transitioned_to: 'user5', record: @case) }
+    let(:referral5) { Referral.create!(transitioned_by: 'user1', transitioned_to: 'user5', record: @case) }
+
+    before do
+      referral1
+      referral2.accept!
+      referral3.accept!
+      referral3.done!(@user5)
+      referral4.revoke!(@user5)
+      referral5.reject!(@user5)
+    end
+
+    it 'returns the pending referrals where the user is the recipient' do
+      referrals = @case.referrals_to_user(@user5)
+
+      expect(referrals.length).to eq(2)
+      expect(referrals.map(&:id)).to match_array([referral1.id, referral2.id])
+    end
+  end
+
   after :each do
-    clean_data(User, Role, PrimeroModule, UserGroup, Child, Transition, Agency)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Transition, Agency)
   end
 end

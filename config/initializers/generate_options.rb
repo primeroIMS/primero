@@ -18,7 +18,8 @@ Rails.application.config.after_initialize do
                                           .rows.flatten.first
       count_system_settings.positive? && count_locations.positive? && GenerateLocationFilesService.generate
     end
-  rescue ActiveRecord::NoDatabaseError => e
+  rescue StandardError => e
+    Rails.logger.error 'Locations options not generated'
     Rails.logger.error e.message
   end
 end

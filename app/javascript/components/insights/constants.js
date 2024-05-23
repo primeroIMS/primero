@@ -239,7 +239,7 @@ export const RECORD_FILTERS = {
     name: CREATED_BY_GROUPS,
     type: SELECT_FIELD,
     display_name: USER_GROUP_DISPLAY_NAME,
-    option_strings_source: OPTION_TYPES.USER_GROUP_PERMITTED,
+    option_strings_source: OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED,
     watchedInputs: [BY],
     showIf: values => values[BY] === CREATED_BY_GROUPS
   },
@@ -247,7 +247,7 @@ export const RECORD_FILTERS = {
     name: OWNED_BY_GROUPS,
     type: SELECT_FIELD,
     display_name: USER_GROUP_DISPLAY_NAME,
-    option_strings_source: OPTION_TYPES.USER_GROUP_PERMITTED,
+    option_strings_source: OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED,
     watchedInputs: [BY],
     showIf: values => values[BY] === OWNED_BY_GROUPS
   },

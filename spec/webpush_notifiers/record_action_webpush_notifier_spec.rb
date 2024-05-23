@@ -7,11 +7,35 @@ require 'rails_helper'
 describe RecordActionWebpushNotifier do
   before(:each) do
     clean_data(
-      FormSection, PrimeroModule, PrimeroProgram, UserGroup,
+      Alert, FormSection, PrimeroModule, PrimeroProgram, UserGroup,
       WebpushSubscription, User, Agency, Role, Child, Transition
     )
     Rails.configuration.x.webpush.enabled = true
     allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return('aVnNTxSI1EZmiG1dW6Z_I9fbQCbZB3Po')
+    SystemSettings.stub(:current).and_return(
+      SystemSettings.new(
+        approvals_labels_i18n: {
+          'en' => {
+            'closure' => 'Closure',
+            'case_plan' => 'Case Plan',
+            'assessment' => 'Assessment',
+            'action_plan' => 'Action Plan',
+            'gbv_closure' => 'Case Closure'
+          }
+        }
+      )
+    )
+  end
+
+  let(:notification_settings) do
+    {
+      notifications: {
+        receive_webpush: {
+          Transition::NOTIFICATION_ACTION => true, Approval::NOTIFICATION_ACTIONS_REQUEST => true,
+          Approval::NOTIFICATION_ACTIONS_RESPONSE => true, Transfer::NOTIFICATION_ACTION => true
+        }
+      }
+    }
   end
 
   let(:primero_module) do
@@ -27,12 +51,15 @@ describe RecordActionWebpushNotifier do
   end
 
   let(:user) do
-    create(:user, user_name: 'user', full_name: 'Test User 1', email: 'owner@primero.dev', receive_webpush: true, role:)
+    create(
+      :user, user_name: 'user', full_name: 'Test User 1', email: 'owner@primero.dev',
+             receive_webpush: true, role:, settings: notification_settings
+    )
   end
 
   let(:user2) do
     create(:user, user_name: 'user2', role: role2, full_name: 'Test User 2',
-                  email: 'user2@primero.dev', receive_webpush: true)
+                  email: 'user2@primero.dev', receive_webpush: true, settings: notification_settings)
   end
 
   let(:manager1) do
@@ -40,7 +67,16 @@ describe RecordActionWebpushNotifier do
   end
 
   let(:manager2) do
-    create(:user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2', receive_webpush: true)
+    create(
+      :user,
+      role:,
+      email: 'manager2@primero.dev',
+      send_mail: true,
+      user_name: 'manager2',
+      receive_webpush: true,
+      locale: 'en',
+      settings: notification_settings
+    )
   end
 
   let(:child) do
@@ -91,11 +127,20 @@ describe RecordActionWebpushNotifier do
     end
 
     let(:approval_notification_service) do
-      ApprovalRequestNotificationService.new(child.id, 'value1', manager2.user_name)
+      ApprovalRequestNotificationService.new(child.id, 'case_plan', manager2.user_name)
     end
 
     it 'should call TransitionNotificationService and WebpushService' do
-      expect(WebpushService).to receive(:send_notifications)
+      expect(WebpushService).to receive(:send_notifications).with(
+        manager2,
+        {
+          action_label: 'Go to Case',
+          body: 'A Case on your team has a pending approval request for Case Plan.',
+          link: "localhost/v2/cases/#{child.id}",
+          title: 'Approval Request',
+          icon: ''
+        }
+      )
 
       RecordActionWebpushNotifier.manager_approval_request(approval_notification_service)
     end
@@ -142,7 +187,7 @@ describe RecordActionWebpushNotifier do
       end
       it 'should return a hash' do
         expect(subject.keys).to match_array(
-          %i[title body action_label link]
+          %i[title body action_label link icon]
         )
       end
 
@@ -179,7 +224,7 @@ describe RecordActionWebpushNotifier do
       end
     end
 
-    context 'when is an approval respose' do
+    context 'when is an approval response' do
       let(:approval_notification_service) do
         ApprovalResponseNotificationService.new(child.id, 'value1', manager2.user_name, true)
       end
@@ -221,7 +266,7 @@ describe RecordActionWebpushNotifier do
   after do
     Rails.configuration.x.webpush.enabled = false
     clean_data(
-      FormSection, PrimeroModule, PrimeroProgram, UserGroup,
+      Alert, FormSection, PrimeroModule, PrimeroProgram, UserGroup,
       WebpushSubscription, User, Agency, Role, Child, Transition
     )
   end

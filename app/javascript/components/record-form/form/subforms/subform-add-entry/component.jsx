@@ -42,13 +42,13 @@ const Component = ({
 
   const associationOptions = shouldRenderViolationAssociationMenu
     ? buildViolationAssociationsOptions({
-        fieldName: field.name,
-        formikValues: formik.values,
-        parentValues,
-        collapsedFields: formSection.collapsed_field_names,
-        fields: formSection.fields,
-        i18n
-      })
+      fieldName: field.name,
+      formikValues: formik.values,
+      parentValues,
+      collapsedFields: formSection.collapsed_field_names,
+      fields: formSection.fields,
+      i18n
+    })
     : [];
 
   const handleAddSubform = event => {
@@ -86,9 +86,10 @@ const Component = ({
   };
 
   return (
-    <div>
+    <div data-testid="subForm-add">
       <ActionButton
         id="fields.add"
+        data-testid="fields-add"
         icon={<AddIcon />}
         text={renderAddText}
         type={ACTION_BUTTON_TYPES.default}
@@ -98,10 +99,11 @@ const Component = ({
         }}
       />
       {shouldRenderViolationAssociationMenu && (
-        <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+        <Menu data-testid="menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
           {associationOptions.map(option => {
             return (
               <MenuItem
+                data-testid="menu-item"
                 key={option.id}
                 component={Button}
                 value={option.id}

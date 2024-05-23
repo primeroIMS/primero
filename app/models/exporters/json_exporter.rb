@@ -25,7 +25,8 @@ class Exporters::JsonExporter < Exporters::BaseExporter
   end
 
   def convert_model_to_hash(record)
-    field_names = fields.map(&:name)
+    establish_record_constraints(record)
+    field_names = record_constraints.fields.map(&:name)
     json_parse = JSON.parse(record.to_json)
     data_fields = json_parse['data'].select { |k, _| field_names.include?(k) }
     json_parse['data'] = data_fields

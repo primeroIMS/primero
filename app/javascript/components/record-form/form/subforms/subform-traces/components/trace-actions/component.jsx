@@ -20,7 +20,7 @@ const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedFo
   const loading = useMemoizedSelector(state => getLoadingRecordState(state, recordType));
 
   return (
-    <div className={css.buttonsRow}>
+    <div className={css.buttonsRow} data-testid="subForm-traces">
       {handleBack && (
         <ActionButton
           icon={<ArrowBackIosIcon />}

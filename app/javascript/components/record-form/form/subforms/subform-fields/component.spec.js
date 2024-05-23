@@ -63,13 +63,32 @@ describe("<SubformFields />", () => {
     mode: {
       isShow: true
     },
-    recordType: "cases"
+    recordType: "cases",
+    isReadWriteForm: true
   };
 
   it("renders the subform fields", () => {
     mountedComponent(<SubformFields {...props} />);
 
     expect(screen.queryByText("Family1")).toBeTruthy();
+  });
+
+  describe("when is not a readWriteForm", () => {
+    it("does not render the Delete button", () => {
+      mountedComponent(
+        <SubformFields
+          {...props}
+          isViolationSubform
+          isViolationAssociation
+          mode={{ isEdit: true }}
+          values={["something"]}
+          isReadWriteForm={false}
+        />
+      );
+
+      expect(screen.queryAllByRole("button")).toHaveLength(1);
+      expect(screen.queryAllByRole("button")[0]).toHaveClass("subformShow");
+    });
   });
 
   describe("when is violation or violation association", () => {
@@ -81,6 +100,7 @@ describe("<SubformFields />", () => {
           isViolationAssociation
           mode={{ isEdit: true }}
           values={["something"]}
+          isReadWriteForm
         />
       );
 
