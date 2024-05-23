@@ -29,7 +29,11 @@ describe("<Form /> - components/form/component", () => {
   });
 
   it("first value of the FormSectionField should be english", () => {
-    expect(screen.getAllByText("lookup.english_label")).toBeTruthy();
+    expect(screen.queryAllByText(/lookup.language_label/)).toHaveLength(2);
+  });
+
+  it("renders DragDropContext component", () => {
+    expect(screen.getByText(/Press space bar to start a drag/i)).toBeInTheDocument();
   });
 
   it("renders SwitchInput component", () => {
