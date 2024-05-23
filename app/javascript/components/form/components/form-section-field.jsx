@@ -49,7 +49,7 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUn
   return (
     handleVisibility() || (
       <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
-        <div data-testid="form-section-field" className={classes}>
+        <div className={classes} data-testid="form-section-field">
           {renderField}
         </div>
       </ConditionalWrapper>
