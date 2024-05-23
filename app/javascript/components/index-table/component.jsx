@@ -24,6 +24,8 @@ const Component = props => {
 
   return (
     <Datatable
+      role="table"
+      data-testid="toolbar"
       data={data}
       {...props}
       errors={errors}
