@@ -4,8 +4,6 @@
 
 # Default Rails route
 class HomeController < ApplicationController
-  skip_before_action :verify_authenticity_token
-
   def v2
     @theme = Rails.configuration.use_theme ? Theme.current : Theme.default
   end

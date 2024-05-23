@@ -2,7 +2,7 @@
 
 # API to fetch the active theme
 class ThemesController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, unless: -> { Rails.env.production? }
 
   before_action :theme
 
