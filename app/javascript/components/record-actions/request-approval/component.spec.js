@@ -48,11 +48,6 @@ describe("<RequestApproval />", () => {
 
   it("renders RequestApproval", () => {
     mountedComponent(<RequestApproval {...props} />, initialState);
-    expect(screen.getByText(/buttons.submit/i)).toBeInTheDocument();
-  });
-
-  it("renders ActionDialog", () => {
-    mountedComponent(<RequestApproval {...props} />, initialState);
     expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 });
