@@ -147,8 +147,6 @@ const Container = ({ match, location }) => {
     [canViewModal, online]
   );
 
-  console.log("online==>", online);
-
   const rowSelectable = useCallback(record => recordAvailable(record) || online, [online]);
 
   const columns = useMemo(
