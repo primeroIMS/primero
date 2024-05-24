@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # rubocop:disable Style/ClassAndModuleChildren
 module Reports
   # Class for Date Range
@@ -11,10 +13,10 @@ module Reports
 
     def initialize(date_string)
       self.date = begin
-                    Date.parse(date_string)
-                  rescue StandardError
-                    MIN
-                  end
+        Date.parse(date_string)
+      rescue StandardError
+        MIN
+      end
     end
 
     def core_value

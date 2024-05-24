@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import MUIDataTable from "mui-datatables";
 import { fromJS } from "immutable";
 

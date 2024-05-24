@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import getFormName from "./get-form-name";
 
 describe("<ReportForm>/utils/getFormName()", () => {

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import startsWith from "lodash/startsWith";
 import compact from "lodash/compact";
 
@@ -38,7 +40,11 @@ import {
   UNMATCH_CASE_FOR_TRACE,
   CLEAR_POTENTIAL_MATCHES,
   EXTERNAL_SYNC,
-  OFFLINE_INCIDENT_FROM_CASE
+  OFFLINE_INCIDENT_FROM_CASE,
+  CREATE_CASE_FROM_FAMILY_MEMBER,
+  CREATE_CASE_FROM_FAMILY_DETAIL,
+  DELETE_ALERT_FROM_RECORD,
+  DELETE_ALERT_FROM_RECORD_SUCCESS
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -163,6 +169,20 @@ export const fetchRecordsAlerts = (recordType, recordId, asCallback = false) => 
     path: `${recordType}/${recordId}/alerts`,
     skipDB: true,
     performFromQueue: true
+  }
+});
+
+export const deleteAlertFromRecord = (recordType, recordId, alertId) => ({
+  type: `${recordType}/${DELETE_ALERT_FROM_RECORD}`,
+  api: {
+    path: `${recordType}/${recordId}/alerts/${alertId}`,
+    method: METHODS.DELETE,
+    skipDB: true,
+    performFromQueue: true,
+    successCallback: {
+      action: `${recordType}/${DELETE_ALERT_FROM_RECORD_SUCCESS}`,
+      payload: { alertId }
+    }
   }
 });
 
@@ -374,3 +394,55 @@ export const markForOffline =
 
     dispatch(markForOfflineAction(recordType, ids));
   };
+
+export const createCaseFromFamilyMember = ({ familyId, familyMemberId }) => ({
+  type: `${RECORD_PATH.families}/${CREATE_CASE_FROM_FAMILY_MEMBER}`,
+  api: {
+    path: `${RECORD_PATH.families}/${familyId}/case`,
+    body: {
+      data: { family_member_id: familyMemberId }
+    },
+    method: "POST",
+    successCallback: [
+      {
+        action: CLEAR_DIALOG
+      },
+      {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          messageKey: `${RECORD_TYPES.cases}.messages.creation_success`,
+          options: {
+            variant: "success",
+            key: generate.messageKey(`${RECORD_TYPES.cases}.messages.creation_success`)
+          }
+        }
+      }
+    ]
+  }
+});
+
+export const createCaseFromFamilyDetail = ({ caseId, familyDetailId }) => ({
+  type: `${RECORD_PATH.cases}/${CREATE_CASE_FROM_FAMILY_DETAIL}`,
+  api: {
+    path: `${RECORD_PATH.cases}/${caseId}/family`,
+    body: {
+      data: { family_detail_id: familyDetailId }
+    },
+    method: "POST",
+    successCallback: [
+      {
+        action: CLEAR_DIALOG
+      },
+      {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          messageKey: `${RECORD_TYPES.cases}.messages.creation_success`,
+          options: {
+            variant: "success",
+            key: generate.messageKey(`${RECORD_TYPES.cases}.messages.creation_success`)
+          }
+        }
+      }
+    ]
+  }
+});

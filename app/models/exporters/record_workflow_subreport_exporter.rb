@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Concern for Record Workflow Subreport Exporter
 class Exporters::RecordWorkflowSubreportExporter < Exporters::SubreportExporter
   include Exporters::Concerns::RecordFilterInsightParams
@@ -13,7 +15,7 @@ class Exporters::RecordWorkflowSubreportExporter < Exporters::SubreportExporter
     return [] unless workflow_filter.present?
 
     [
-      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.workflow', locale: locale)}: ",
+      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.workflow', locale:)}: ",
       formats[:black], "#{workflow_display_text} / "
     ]
   end

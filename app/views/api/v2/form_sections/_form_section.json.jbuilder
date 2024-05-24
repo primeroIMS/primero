@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 form_hash = FieldI18nService.strip_i18n_suffix(form.as_json.compact)
 fields = form.fields.map do |field|
   if field.option_strings_text_i18n.present?

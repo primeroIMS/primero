@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::RecordHistoriesController, type: :request do
@@ -35,7 +37,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
       password_confirmation: 'a12345678',
       email: 'test_user_1@localhost.com',
       agency_id: agency_a.id,
-      role: role
+      role:
     )
   end
 
@@ -46,13 +48,13 @@ describe Api::V2::RecordHistoriesController, type: :request do
       TracingRequest.any_instance.stub(:associated_users).and_return([User.new(user_name: 'faketest')])
       login_for_test
       params = { data: { inquiry_date: '2019-04-01', relation_name: 'Test' } }
-      post '/api/v2/tracing_requests', params: params
+      post('/api/v2/tracing_requests', params:)
 
       sleep(1)
 
       login_for_test
       params = { data: { inquiry_date: '2019-02-01', relation_name: 'Tester' } }
-      patch "/api/v2/tracing_requests/#{TracingRequest.first.id}", params: params
+      patch("/api/v2/tracing_requests/#{TracingRequest.first.id}", params:)
 
       login_for_test(
         permissions: [
@@ -81,8 +83,10 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'status' => { 'from' => nil, 'to' => 'open' } },
           { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'short_id' => { 'from' => nil, 'to' => TracingRequest.first.short_id } },
-          { 'posted_at' => { 'from' => nil, 'to' => TracingRequest.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
-          { 'created_at' => { 'from' => nil, 'to' => TracingRequest.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
+          { 'posted_at' => { 'from' => nil,
+                             'to' => TracingRequest.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
+          { 'created_at' => { 'from' => nil,
+                              'to' => TracingRequest.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'inquiry_date' => { 'from' => nil, 'to' => '2019-04-01' } },
           { 'record_state' => { 'from' => nil, 'to' => true } },
@@ -107,13 +111,13 @@ describe Api::V2::RecordHistoriesController, type: :request do
       Incident.any_instance.stub(:associated_users).and_return([User.new(user_name: 'faketest')])
       login_for_test
       params = { data: { incident_date: '2019-04-01', description: 'Test' } }
-      post '/api/v2/incidents', params: params
+      post('/api/v2/incidents', params:)
 
       sleep(1)
 
       login_for_test
       params = { data: { incident_date: '2019-02-01', description: 'Tester' } }
-      patch "/api/v2/incidents/#{Incident.first.id}", params: params
+      patch("/api/v2/incidents/#{Incident.first.id}", params:)
 
       login_for_test(
         permissions: [
@@ -174,13 +178,13 @@ describe Api::V2::RecordHistoriesController, type: :request do
       Child.any_instance.stub(:associated_users).and_return([User.new(user_name: 'faketest')])
       login_for_test
       params = { data: { name: 'Test', age: 12, sex: 'female' } }
-      post '/api/v2/cases', params: params, as: :json
+      post '/api/v2/cases', params:, as: :json
 
       sleep(1)
 
       login_for_test
       params = { data: { name: 'Tester', age: 10, sex: 'male' } }
-      patch "/api/v2/cases/#{Child.first.id}", params: params, as: :json
+      patch "/api/v2/cases/#{Child.first.id}", params:, as: :json
 
       login_for_test(
         permissions: [
@@ -245,7 +249,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
     it 'returns 403 if user only have read permission' do
       login_for_test
       params = { data: { name: 'Test', age: 12, sex: 'female' } }
-      post '/api/v2/cases', params: params, as: :json
+      post '/api/v2/cases', params:, as: :json
 
       login_for_test(
         permissions: [
@@ -262,7 +266,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
     it 'returns 403 if user only have audit_log permission' do
       login_for_test
       params = { data: { name: 'Test', age: 12, sex: 'female' } }
-      post '/api/v2/cases', params: params, as: :json
+      post '/api/v2/cases', params:, as: :json
 
       login_for_test(
         permissions: [

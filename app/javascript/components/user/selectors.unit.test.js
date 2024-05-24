@@ -1,8 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 import { format, parseISO } from "date-fns";
 
 import { ACTIONS } from "../permissions";
 import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../config/constants";
+import { MANAGED_REPORT_SCOPE } from "../permissions/constants";
 
 import * as selectors from "./selectors";
 
@@ -33,7 +36,8 @@ const stateWithUser = fromJS({
     saving: false,
     serverErrors: ["Test error"],
     resetPassword: { saving: true },
-    userGroups
+    userGroups,
+    managedReportScope: MANAGED_REPORT_SCOPE.ALL
   }
 });
 
@@ -216,6 +220,18 @@ describe("User - Selectors", () => {
   describe("getCurrentUserUserGroups", () => {
     it("returns the user groups of the current user", () => {
       expect(selectors.getCurrentUserUserGroups(stateWithUser)).to.deep.equals(userGroups);
+    });
+  });
+
+  describe("getManagedReportScope", () => {
+    it("returns managed report scope for the current user", () => {
+      expect(selectors.getManagedReportScope(stateWithUser)).to.equal(MANAGED_REPORT_SCOPE.ALL);
+    });
+  });
+
+  describe("getIsManagedReportScopeAll", () => {
+    it("returns true if the current user managed scope is ALL", () => {
+      expect(selectors.getIsManagedReportScopeAll(stateWithUser)).to.be.true;
     });
   });
 });

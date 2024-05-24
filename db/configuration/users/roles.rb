@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 def create_or_update_role(role_hash)
   role = Role.create_or_update!(role_hash)
   role.associate_all_forms unless role_hash[:form_sections].present?
@@ -156,7 +158,9 @@ cp_admin_families_permissions = [
       Permission::ENABLE_DISABLE_RECORD,
       Permission::REOPEN,
       Permission::CLOSE,
-      Permission::VIEW_PHOTO
+      Permission::VIEW_PHOTO,
+      Permission::VIEW_FAMILY_RECORD,
+      Permission::LINK_FAMILY_RECORD
     ]
   ),
   Permission.new(
@@ -366,7 +370,10 @@ cp_caseworker_families_permissions = [
       Permission::ENABLE_DISABLE_RECORD,
       Permission::DISPLAY_VIEW_PAGE,
       Permission::INCIDENT_DETAILS_FROM_CASE,
-      Permission::VIEW_PHOTO
+      Permission::VIEW_PHOTO,
+      Permission::CASE_FROM_FAMILY,
+      Permission::VIEW_FAMILY_RECORD,
+      Permission::LINK_FAMILY_RECORD
     ]
   ),
   Permission.new(
@@ -406,7 +413,8 @@ cp_caseworker_families_permissions = [
       Permission::EXPORT_JSON,
       Permission::EXPORT_PDF,
       Permission::CHANGE_LOG,
-      Permission::SYNC_MOBILE
+      Permission::SYNC_MOBILE,
+      Permission::CASE_FROM_FAMILY
     ]
   )
 ]
@@ -534,7 +542,10 @@ cp_manager_families_permissions = [
       Permission::CLOSE,
       Permission::DISPLAY_VIEW_PAGE,
       Permission::RECEIVE_TRANSFER,
-      Permission::VIEW_PHOTO
+      Permission::VIEW_PHOTO,
+      Permission::CASE_FROM_FAMILY,
+      Permission::VIEW_FAMILY_RECORD,
+      Permission::LINK_FAMILY_RECORD
     ]
   ),
   Permission.new(
@@ -552,7 +563,8 @@ cp_manager_families_permissions = [
       Permission::REOPEN,
       Permission::CLOSE,
       Permission::CHANGE_LOG,
-      Permission::SYNC_MOBILE
+      Permission::SYNC_MOBILE,
+      Permission::CASE_FROM_FAMILY
     ]
   ),
   Permission.new(

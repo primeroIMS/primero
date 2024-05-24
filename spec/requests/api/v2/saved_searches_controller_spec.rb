@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::SavedSearchesController, type: :request do
@@ -44,14 +48,14 @@ describe Api::V2::SavedSearchesController, type: :request do
       name: 'saved_search_1',
       record_type: 'case',
       primero_modules: [@cp],
-      filters: [{ name: 'flag', value: %w[single flag]}],
+      filters: [{ name: 'flag', value: %w[single flag] }],
       user: @user1
     )
     @saved_search2 = SavedSearch.create!(
       name: 'saved_search_2',
       record_type: 'case',
       primero_modules: [@cp],
-      filters: [{ name:  'mobile', value: %w[single true] }],
+      filters: [{ name: 'mobile', value: %w[single true] }],
       user: @user1
     )
   end
@@ -79,11 +83,11 @@ describe Api::V2::SavedSearchesController, type: :request do
           'name' => 'Search 1',
           'record_type' => 'case',
           'module_ids' => ['primeromodule-cp'],
-          'filters' => [{'name' => 'flag', 'value' => %w[single flag] }]
+          'filters' => [{ 'name' => 'flag', 'value' => %w[single flag] }]
         }
       }
 
-      post '/api/v2/saved_searches', params: params
+      post('/api/v2/saved_searches', params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_nil
