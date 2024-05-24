@@ -1,19 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { TableHead, TableCell } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 import { ACTIONS } from "../../../../permissions";
-import DashboardTable from "../../../../dashboard/dashboard-table";
-import LoadingIndicator from "../../../../loading-indicator";
 
 import OverdueTasks from "./component";
 
 describe("<OverdueTasks> - pages/dashboard/components/overdue-tasks", () => {
-  let component;
-  let tableCells;
-
   const permissions = {
     dashboards: [
       ACTIONS.DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
@@ -82,37 +76,39 @@ describe("<OverdueTasks> - pages/dashboard/components/overdue-tasks", () => {
     }
   });
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(OverdueTasks, {}, state));
-    tableCells = component.find(DashboardTable).find(TableHead).find(TableCell);
-  });
-
   it("should render a <DashboardTable /> component", () => {
-    expect(component.find(DashboardTable)).to.have.lengthOf(1);
+    mountedComponent(<OverdueTasks />, state);
+    expect(screen.getByTestId("dashboard-table")).toBeInTheDocument();
   });
 
   it("should render 5 columns", () => {
-    expect(tableCells).to.have.lengthOf(5);
+    mountedComponent(<OverdueTasks />, state);
+    expect(screen.getAllByRole("cell")).toHaveLength(5);
   });
 
   it("should render case_worker column", () => {
-    expect(tableCells.at(0).text()).to.equal("dashboard.case_worker");
+    mountedComponent(<OverdueTasks />, state);
+    expect(screen.getAllByText("dashboard.case_worker")).toHaveLength(2);
   });
 
   it("should render assessment column", () => {
-    expect(tableCells.at(1).text()).to.equal("dashboard.assessment");
+    mountedComponent(<OverdueTasks />, state);
+    expect(screen.getAllByText("dashboard.assessment")).toHaveLength(2);
   });
 
   it("should render case_plan column", () => {
-    expect(tableCells.at(2).text()).to.equal("dashboard.case_plan");
+    mountedComponent(<OverdueTasks />, state);
+    expect(screen.getAllByText("dashboard.case_plan")).toHaveLength(2);
   });
 
   it("should render services column", () => {
-    expect(tableCells.at(3).text()).to.equal("dashboard.services");
+    mountedComponent(<OverdueTasks />, state);
+    expect(screen.getAllByText("dashboard.services")).toHaveLength(2);
   });
 
   it("should render follow_up column", () => {
-    expect(tableCells.at(4).text()).to.equal("dashboard.follow_up");
+    mountedComponent(<OverdueTasks />, state);
+    expect(screen.getAllByText("dashboard.follow_up")).toHaveLength(2);
   });
 
   describe("when the data is loading", () => {
@@ -126,7 +122,7 @@ describe("<OverdueTasks> - pages/dashboard/components/overdue-tasks", () => {
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(OverdueTasks, props, {
+      mountedComponent(<OverdueTasks {...props} />, {
         records: {
           dashboard: {
             data: [],
@@ -137,8 +133,7 @@ describe("<OverdueTasks> - pages/dashboard/components/overdue-tasks", () => {
           permissions
         }
       });
-
-      expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
 });
