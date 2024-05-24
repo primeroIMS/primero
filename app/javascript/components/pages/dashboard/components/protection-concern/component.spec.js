@@ -1,17 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { TableRow, TableBody } from "@material-ui/core";
+import { mountedComponent, screen } from "test-utils";
 
-import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../permissions";
-import { DashboardTable, OptionsBox } from "../../../../dashboard";
-import LoadingIndicator from "../../../../loading-indicator";
 
 import ProtectionConcern from "./component";
 
 describe("<ProtectionConcern> - pages/dashboard/components/protection-concern", () => {
-  let component;
   const permissions = {
     dashboards: [ACTIONS.DASH_PROTECTION_CONCERNS]
   };
@@ -59,17 +55,15 @@ describe("<ProtectionConcern> - pages/dashboard/components/protection-concern", 
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(ProtectionConcern, {}, state));
+    mountedComponent(<ProtectionConcern />, state);
   });
 
   it("should render an <OptionsBoxOptionsBox /> component", () => {
-    expect(component.find(OptionsBox)).to.have.lengthOf(1);
+    expect(screen.getByTestId("option-box")).toBeInTheDocument();
   });
 
   it("should render a <DasboardTable /> component", () => {
-    expect(component.find(DashboardTable)).to.have.lengthOf(1);
-    expect(component.find(TableBody)).to.have.lengthOf(1);
-    expect(component.find(TableBody).find(TableRow)).to.have.lengthOf(1);
+    expect(screen.getByRole("grid")).toBeInTheDocument();
   });
 
   describe("when the data is loading", () => {
@@ -83,7 +77,7 @@ describe("<ProtectionConcern> - pages/dashboard/components/protection-concern", 
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(ProtectionConcern, props, {
+      mountedComponent(<ProtectionConcern {...props} />, {
         records: {
           dashboard: {
             data: [],
@@ -95,7 +89,7 @@ describe("<ProtectionConcern> - pages/dashboard/components/protection-concern", 
         }
       });
 
-      expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
 });
