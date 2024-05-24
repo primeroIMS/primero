@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Transform API query parameter not[field_name]=value into a Sunspot query
 class SearchFilters::NotValue < SearchFilters::SearchFilter
   attr_accessor :field_name, :values
@@ -26,7 +28,7 @@ class SearchFilters::NotValue < SearchFilters::SearchFilter
   def to_h
     {
       type: 'not',
-      field_name: field_name,
+      field_name:,
       value: values
     }
   end

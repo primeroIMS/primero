@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useCallback } from "react";
 import { Drawer } from "@material-ui/core";
 import { useDispatch } from "react-redux";

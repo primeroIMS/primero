@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Write to another instance of Primero.
 # Expect the following environment variables to be set:
 # PRIMERO_PROMOTE_CONFIG_PROD_HOST, PRIMERO_PROMOTE_CONFIG_PROD_PORT, PRIMERO_PROMOTE_CONFIG_PROD_BASIC_AUTH

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This will return HTTP 429 once the rate limit is exceeded
 
 # 6 login attempts per user name per minute

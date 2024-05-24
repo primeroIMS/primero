@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState, useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 import { IconButton, InputBase, InputAdornment } from "@material-ui/core";
