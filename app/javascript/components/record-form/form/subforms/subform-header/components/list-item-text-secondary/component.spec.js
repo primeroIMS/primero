@@ -1,4 +1,5 @@
-import { mountedComponent, screen } from "../../../../../../../test-utils";
+import { mountedComponent, screen } from "test-utils";
+
 import ListItemTextSecondary from "./component";
 
 describe("<RecordForm>/form/subforms/<SubformHeader/>/components/<ListItemTextSecondary />", () => {
