@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 class CreateReports < ActiveRecord::Migration[5.0]
   def change
     create_table :reports do |t|
@@ -14,6 +18,5 @@ class CreateReports < ActiveRecord::Migration[5.0]
       t.boolean 'is_graph', null: false, default: false
       t.boolean 'editable', null: true, default: true
     end
-
   end
 end

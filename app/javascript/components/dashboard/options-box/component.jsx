@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Card, CardHeader, CardContent } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -34,7 +36,7 @@ const OptionsBox = ({ title, action, children, to, flat, overlay, type, loading,
   );
 
   return (
-    <Card className={!flat && css.card} elevation={flat ? 0 : 3}>
+    <Card className={!flat && css.card} elevation={flat ? 0 : 3} data-testid="option-box">
       <ConditionalWrapper condition={!flat} wrapper={DisableOffline}>
         <>
           {cardTitle}

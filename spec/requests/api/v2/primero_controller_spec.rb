@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::PrimeroController, type: :request do
@@ -26,17 +28,24 @@ describe Api::V2::PrimeroController, type: :request do
     I18n.available_locales = %i[en ar fr es]
   end
 
-  after(:each) { clean_data(Agency) }
+  after(:each) do
+    clean_data(Agency)
+    Rails.configuration.x.webpush.enabled = false
+  end
 
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/primero' do
-    before { get '/api/v2/primero' }
+    before do
+      Rails.configuration.x.webpush.enabled = true
+      get '/api/v2/primero'
+    end
 
     it 'displays public information without authentication' do
       expect(response).to have_http_status(200)
       expect(json['data']['sandbox_ui']).to eq(false)
       expect(json['data']['config_ui']).to eq('full')
+      expect(json['data']['webpush_enabled']).to eq(true)
       expect(json['data']['locales']).to contain_exactly('en', 'ar', 'fr', 'es')
     end
 

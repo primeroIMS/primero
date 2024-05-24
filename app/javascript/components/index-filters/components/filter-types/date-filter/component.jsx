@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";

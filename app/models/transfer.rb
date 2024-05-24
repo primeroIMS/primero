@@ -1,7 +1,25 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # The business logic for performing the record transfer workflow.
 class Transfer < Transition
+  include TransitionAlertable
+
+  TRANSFER_FORM_UNIQUE_ID = 'transfers_assignments'
+  TRANSFER_ALERT_TYPE = 'transfer'
+  NOTIFICATION_ACTION = 'transfer_request'
+
+  class << self
+    def alert_form_unique_id
+      TRANSFER_FORM_UNIQUE_ID
+    end
+
+    def alert_type
+      TRANSFER_ALERT_TYPE
+    end
+  end
+
   def perform
     self.status = Transition::STATUS_INPROGRESS
     if remote
@@ -57,6 +75,10 @@ class Transfer < Transition
     return true if user.user_name == transitioned_to
 
     user.can?(:accept_or_reject_transfer, Child) && user.managed_user_names.include?(transitioned_to)
+  end
+
+  def generate_alert?
+    super && record.current_alert_types.exclude?(self.class.alert_type)
   end
 
   private

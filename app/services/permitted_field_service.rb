@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Calculate the permitted fields for a record based on the user's role.
 # TODO: Currently allows some permitted fields to be represented as a JSON schema,
 #       but this functionality should be extracted.
@@ -7,8 +9,7 @@
 class PermittedFieldService
   attr_accessor :user, :model_class, :action_name, :id_search, :permitted_form_field_service
 
-  # Note: Not using Ruby safe regex \A\z because the expression is evaluated with ECMA-262
-  UUID_REGEX = '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+  UUID_REGEX = '\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z'
 
   # case_status_reopened, record_state, incident_case_id, owned_by, module_id,
   PERMITTED_CORE_FIELDS_SCHEMA = {
@@ -17,6 +18,7 @@ class PermittedFieldService
     'case_status_reopened' => { 'type' => %w[boolean null] }, 'record_state' => { 'type' => 'boolean' },
     'incident_case_id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => UUID_REGEX },
     'registry_record_id' => { 'type' => '%w[string null]', 'format' => 'regex', 'pattern' => UUID_REGEX },
+    'family_id' => { 'type' => '%w[string null]', 'format' => 'regex', 'pattern' => UUID_REGEX },
     'created_at' => { 'type' => 'date-time' },
     'owned_by' => { 'type' => 'string' },
     'module_id' => { 'type' => 'string', 'enum' => [PrimeroModule::CP, PrimeroModule::GBV, PrimeroModule::MRM] }
@@ -85,14 +87,14 @@ class PermittedFieldService
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/PerceivedComplexity
-  def permitted_field_names(writeable = false, update = false)
+  def permitted_field_names(writeable = false, update = false, roles = [])
     return @permitted_field_names if @permitted_field_names.present?
     return permitted_field_names_from_action_name if action_name.present?
 
     @permitted_field_names = permitted_core_fields(update) + PERMITTED_FILTER_FIELD_NAMES
     @permitted_field_names += PERMITTED_MRM_FILTER_FIELD_NAMES if user.module?(PrimeroModule::MRM)
     @permitted_field_names += permitted_form_field_service.permitted_field_names(
-      user.role, model_class.parent_form, writeable
+      roles.presence || [user.role], model_class.parent_form, writeable
     )
     # TODO: Consider moving model specific permitted fields to the model class.
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
@@ -109,6 +111,7 @@ class PermittedFieldService
     @permitted_field_names += permitted_reporting_location_field
     @permitted_field_names += permitted_registry_record_id
     @permitted_field_names += permitted_family_id
+    @permitted_field_names += permitted_attachment_fields
     @permitted_field_names
   end
 
@@ -154,7 +157,11 @@ class PermittedFieldService
   def permitted_family_id
     return [] unless model_class == Child
 
-    return %w[family_id family_id_display family_name family_number] if user.can?(:view_family_record, model_class)
+    if user.can?(:view_family_record, model_class) ||
+       user.can?(:case_from_family, model_class) ||
+       user.can?(:link_family_record, model_class)
+      return %w[family_id family_id_display family_member_id family_name family_number]
+    end
 
     []
   end
@@ -216,6 +223,18 @@ class PermittedFieldService
     (Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS).each_with_object({}) do |entry, schema|
       schema[entry] = { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
     end
+  end
+
+  def permitted_attachment_fields
+    attachment_field_names = []
+    if user.can?(:search_owned_by_others, model_class) && user.can_preview?(model_class)
+      attachment_field_names << Attachable::PHOTOS_FIELD_NAME
+      attachment_field_names << Attachable::AUDIOS_FIELD_NAME
+    end
+
+    attachment_field_names << 'photo' if user.can?(:view_photo, model_class)
+
+    attachment_field_names
   end
 end
 # rubocop:enable Metrics/ClassLength

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Uses 7zip to create an AES256 encrypted, Zip-encoded archive.
 # Actually secure, but no one supports this.
 class Zippers::SevenZipZip < Zippers::SevenZip

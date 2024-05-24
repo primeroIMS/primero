@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe DuplicatedFieldAlertService do
@@ -54,7 +56,9 @@ describe DuplicatedFieldAlertService do
     it 'generate alerts for the duplicated fields in the record' do
       DuplicatedFieldAlertService.create_or_remove_alerts!(@child3, { 'id_field' => 'form_1' })
 
-      expect(Alert.includes(:record).where(type: 'id_field').map { |alert| alert.record.id }).to match_array([@child3.id])
+      expect(Alert.includes(:record).where(type: 'id_field').map do |alert|
+               alert.record.id
+             end).to match_array([@child3.id])
     end
 
     it 'removes the alert from the record if no longer duplicates the field' do

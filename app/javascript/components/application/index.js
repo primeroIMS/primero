@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export {
   fetchRoles,
   fetchSystemSettings,
@@ -22,6 +24,7 @@ export {
   getUserGroups,
   getEnabledUserGroups,
   getWorkflowLabels,
-  getAppData
+  getAppData,
+  getWebpushConfig
 } from "./selectors";
 export { PERMISSIONS, RESOURCES, RESOURCE_ACTIONS } from "./constants";

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An audit log record is created for every invocation of a Primero endpoint.
 class AuditLog < ApplicationRecord
   LOGIN = 'login'
@@ -28,7 +30,7 @@ class AuditLog < ApplicationRecord
     logs = AuditLog.where(timestamp: date_range)
     logs = AuditLog.unscoped.where(timestamp: date_range) if options[:order_by].present?
     logs = logs.joins(:user) if options[:order_by] == 'users.user_name' || user_name.present?
-    logs = logs.where(users: { user_name: user_name }) if user_name.present?
+    logs = logs.where(users: { user_name: }) if user_name.present?
 
     OrderByPropertyService.apply_order(logs, options)
   end
@@ -50,7 +52,7 @@ class AuditLog < ApplicationRecord
 
   def log_message
     log_message_hash = {}
-    log_message_hash[:prefix] = { key: "logger.#{action}", approval_type: approval_type }
+    log_message_hash[:prefix] = { key: "logger.#{action}", approval_type: }
     log_message_hash[:identifier] = display_id.present? ? "#{record_type} '#{display_id}'" : record_type
     log_message_hash[:suffix] = {
       key: 'logger.by_user',
@@ -60,8 +62,8 @@ class AuditLog < ApplicationRecord
   end
 
   def statistic_message
-    "#{AUDIT_LOG_STATISTIC}[#{id}]: #{record_type},#{action},#{metadata['remote_ip']},#{user_id},"\
-    "#{metadata['role_id']},#{metadata['agency_id']}"
+    "#{AUDIT_LOG_STATISTIC}[#{id}]: #{record_type},#{action},#{metadata['remote_ip']},#{user_id}," \
+      "#{metadata['role_id']},#{metadata['agency_id']}"
   end
 
   private

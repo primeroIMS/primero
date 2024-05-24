@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe ManagedReports::Indicators::MultipleViolations do
@@ -18,28 +20,28 @@ describe ManagedReports::Indicators::MultipleViolations do
       name: 'Self Role 1',
       unique_id: 'self-role-1',
       group_permission: Permission::SELF,
-      permissions: permissions
+      permissions:
     )
 
     group_role = Role.create!(
       name: 'Group Role 1',
       unique_id: 'group-role-1',
       group_permission: Permission::GROUP,
-      permissions: permissions
+      permissions:
     )
 
     agency_role = Role.create!(
       name: 'Agency Role 1',
       unique_id: 'agency-role-1',
       group_permission: Permission::AGENCY,
-      permissions: permissions
+      permissions:
     )
 
     all_role = Role.create!(
       name: 'All Role 1',
       unique_id: 'all-role-1',
       group_permission: Permission::ALL,
-      permissions: permissions
+      permissions:
     )
 
     agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1', unique_id: 'agency1')
