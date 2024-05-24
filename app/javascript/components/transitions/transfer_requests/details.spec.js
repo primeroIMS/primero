@@ -1,15 +1,12 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Divider } from "@material-ui/core";
 import { fromJS } from "immutable";
 
-import DisplayData from "../../display-data";
-import { setupMountedComponent } from "../../../test";
+import { mountedComponent, screen } from "../../../test-utils";
 
 import ReferralDetail from "./details";
 
 describe("<ReferralDetail />", () => {
-  let component;
   // TODO: fromJS() must be used in here once options been used with Immutable
   const initialState = fromJS({
     forms: {
@@ -42,38 +39,33 @@ describe("<ReferralDetail />", () => {
     }
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(ReferralDetail, props, initialState));
-  });
-
   it("renders 2 <DisplayData />", () => {
-    expect(component.find(DisplayData)).to.have.lengthOf(3);
+    mountedComponent(<ReferralDetail {...props} />, initialState);
+    expect(screen.getAllByTestId("display-data")).toHaveLength(3);
   });
 
   it("renders a <Divider />", () => {
-    expect(component.find(Divider)).to.have.lengthOf(1);
+    mountedComponent(<ReferralDetail {...props} />, initialState);
+    expect(screen.getAllByTestId("divider")).toHaveLength(1);
   });
 
   describe("with status", () => {
+    const rejectedProps = {
+      ...props,
+      ...{ transition: { status: "rejected" } }
+    };
+
     describe("when is rejected", () => {
-      beforeEach(() => {
-        ({ component } = setupMountedComponent(
-          ReferralDetail,
-          {
-            ...props,
-            ...{ transition: { status: "rejected" } }
-          },
-          initialState
-        ));
-      });
       it("should render rejected reason", () => {
-        expect(component.find(ReferralDetail).find(DisplayData)).to.have.lengthOf(3);
+        mountedComponent(<ReferralDetail {...rejectedProps} />, initialState);
+        expect(screen.getAllByTestId("display-data")).toHaveLength(3);
       });
     });
 
     describe("when is pending, done, in_progress, accepted", () => {
       it("should render rejected reason", () => {
-        expect(component.find(ReferralDetail).find(DisplayData)).to.have.lengthOf(3);
+        mountedComponent(<ReferralDetail {...rejectedProps} />, initialState);
+        expect(screen.getAllByTestId("display-data")).toHaveLength(3);
       });
     });
   });

@@ -1,11 +1,8 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
-import { setupMountedComponent } from "../../../test";
+import { mountedComponent, screen } from "../../../test-utils";
 
 import TransferRequestSummary from "./summary";
 
 describe("<TransferRequestSummary />", () => {
-  let component;
   const props = {
     transition: {
       id: "4142488e-ccd9-4ac5-a3c1-c3c0fd063fc8",
@@ -27,13 +24,10 @@ describe("<TransferRequestSummary />", () => {
     }
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(TransferRequestSummary, props));
-  });
-
   it("renders divs with its corresponding class", () => {
-    expect(component.find("div.wrapperStyle")).to.have.lengthOf(1);
-    expect(component.find("div.titleHeaderStyle")).to.have.lengthOf(1);
-    expect(component.find("div.dateStyle")).to.have.lengthOf(1);
+    mountedComponent(<TransferRequestSummary {...props} />);
+    expect(screen.getByTestId("wrapper")).toBeInTheDocument();
+    expect(screen.getByText("transition.type.transferRequest")).toBeInTheDocument();
+    expect(screen.getByTestId("date")).toBeInTheDocument();
   });
 });
