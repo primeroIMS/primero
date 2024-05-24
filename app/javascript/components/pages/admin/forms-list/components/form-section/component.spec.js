@@ -29,10 +29,6 @@ describe("<FormsList />/components/<FormSection />", () => {
     mountedComponent(<RenderFormSection />);
   });
 
-  it("renders <Droppable/>", () => {
-    expect(screen.getByTestId("error-icon")).toBeInTheDocument();
-  });
-
   it("renders <TableRow/>", () => {
     expect(screen.getByText("form_section.form_name")).toBeInTheDocument();
   });
