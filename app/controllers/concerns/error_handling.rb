@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Return an error array JSON when errors are raised in the API
 module ErrorHandling
   extend ActiveSupport::Concern
@@ -10,7 +12,7 @@ module ErrorHandling
       @errors.map(&:headers).compact.inject({}, &:merge).each do |name, value|
         response.set_header(name, value)
       end
-      render 'api/v2/errors/errors', status: status
+      render 'api/v2/errors/errors', status:
     end
   end
 end

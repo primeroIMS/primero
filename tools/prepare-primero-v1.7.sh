@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 echo "This script will prepare your system for changes associated with Primero v1.7."
 echo "You can run Chef with new v1.7.x tags after this script completes."

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Represents file attachments for Primero records: images, audio, documents
 class Attachment < ApplicationRecord
   IMAGE = 'image'
@@ -40,7 +42,7 @@ class Attachment < ApplicationRecord
 
     decoded_attachment = Base64.decode64(attachment)
     io = StringIO.new(decoded_attachment)
-    file.attach(io: io, filename: file_name, content_type: content_type) || true
+    file.attach(io:, filename: file_name, content_type:) || true
   end
 
   def attach!
@@ -80,6 +82,10 @@ class Attachment < ApplicationRecord
     else
       []
     end
+  end
+
+  def photo?
+    attachment_type == Attachment::IMAGE && field_name == Attachable::PHOTOS_FIELD_NAME
   end
 
   def url
