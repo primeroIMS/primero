@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 class CreateWebhooks < ActiveRecord::Migration[5.2]
   def change
     create_table :webhooks, id: :uuid, default: 'gen_random_uuid()' do |t|

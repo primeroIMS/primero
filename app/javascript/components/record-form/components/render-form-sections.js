@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Fragment } from "react";
 import isEmpty from "lodash/isEmpty";
 
@@ -112,7 +114,7 @@ const renderFormSections =
               {...titleProps}
             />
 
-            <RecordFormAlerts recordType={recordType} form={form} attachmentForms={attachmentForms} />
+            <RecordFormAlerts recordType={recordType} form={form} attachmentForms={attachmentForms} formMode={mode} />
             {renderFormFields(
               fs,
               form,

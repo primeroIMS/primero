@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { Divider } from "@material-ui/core";
 import { useDispatch } from "react-redux";
@@ -12,18 +14,20 @@ import { setSelectedFlag } from "../../action-creators";
 import { useDialog } from "../../../action-dialog";
 import { useMemoizedSelector } from "../../../../libs";
 import DateFlag from "../../../transitions/components/date-transitions-summary";
+import { usePermissions, FLAG_RESOLVE_ANY } from "../../../permissions";
 
 import { NAME } from "./constants";
 
 const Component = ({ flag }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const canResolveAnyFlag = usePermissions(flag?.record_type, FLAG_RESOLVE_ANY);
 
   const userName = useMemoizedSelector(state => currentUser(state));
 
   const showResolveButton =
     // eslint-disable-next-line camelcase
-    !flag?.removed && userName === flag?.flagged_by;
+    !flag?.removed && (userName === flag?.flagged_by || canResolveAnyFlag);
   const { setDialog } = useDialog(UNFLAG_DIALOG);
 
   if (!flag) {

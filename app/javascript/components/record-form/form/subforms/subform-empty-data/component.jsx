@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import ErrorIcon from "@material-ui/icons/Error";
 
@@ -10,7 +12,7 @@ const Component = ({ subformName, single = false }) => {
   const i18n = useI18n();
 
   return (
-    <div className={css.emptySubformContainer}>
+    <div className={css.emptySubformContainer} data-testid="subform-empty-data">
       <ErrorIcon />
       <span>
         <strong>{i18n.t("forms.subform_not_found", { subform_name: subformName })}</strong>
