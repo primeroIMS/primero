@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/no-multi-comp, react/display-name */
 import PropTypes from "prop-types";
 import DownloadIcon from "@material-ui/icons/GetApp";
@@ -115,7 +117,7 @@ const ExportList = () => {
 
   return (
     <PageContainer>
-      <PageHeading title={i18n.t("navigation.bulk_exports")} />
+      <PageHeading data-testid="page-heading" title={i18n.t("navigation.bulk_exports")} />
       <PageContent>
         <IndexTable title={i18n.t("navigation.bulk_exports")} {...tableOptions} />
       </PageContent>

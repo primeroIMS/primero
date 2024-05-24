@@ -1,4 +1,5 @@
 #!/bin/bash
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 set -euxo pipefail
 
@@ -81,6 +82,15 @@ stage_assets() {
   return 0
 }
 
+primero_worker() {
+  if [[ "$PRIMERO_WORKER_MULTIPROCESS" == "true" ]]
+  then
+    QUEUE=long_running_process rails jobs:work & QUEUES=mailer,export,logger,api,options,default rails jobs:work
+  else
+    QUEUES=mailer,export,logger,api,options,default,long_running_process rails jobs:work
+  fi
+}
+
 # apps 'entrypoint' start. handles passed arguments and checks if bootstrap is
 # neccesary.
 primero_entrypoint() {
@@ -106,6 +116,9 @@ primero_entrypoint() {
       ;;
     primero-configure)
       primero_configure
+      ;;
+    primero-worker)
+      primero_worker
       ;;
     *)
       exec "$@"

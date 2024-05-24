@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This migration comes from active_storage (originally 20190112182829)
 class AddServiceNameToActiveStorageBlobs < ActiveRecord::Migration[6.0]
   def up

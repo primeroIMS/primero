@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
 import SignalWifi4BarIcon from "@material-ui/icons/SignalWifi4Bar";
@@ -11,9 +13,9 @@ import { CONNECTED, CONNECTION_LOST, FIELD_MODE_OFFLINE } from "../../../connect
 
 import css from "./styles.css";
 
-function Component({ mobile }) {
+function Component({ mobile, contained }) {
   const i18n = useI18n();
-  const { online, fieldMode } = useApp();
+  const { online, fieldMode, useContainedNavStyle } = useApp();
 
   const mode = {
     [FIELD_MODE_OFFLINE]: {
@@ -36,8 +38,16 @@ function Component({ mobile }) {
     }
   }[getConnectionStatus(online, fieldMode)];
 
-  const containerClasses = clsx(css.container, css[mode.color]);
-  const listItemClasses = clsx(css.navLink, css[mode.color]);
+  const offlineClasses = { [css.containedMobileOffline]: !online };
+
+  const containerClasses = clsx(css.container, css[mode.color], {
+    [css.containedMobile]: useContainedNavStyle,
+    ...offlineClasses
+  });
+  const listItemClasses = clsx(css.navLink, css[mode.color], {
+    [css.contained]: useContainedNavStyle,
+    ...offlineClasses
+  });
 
   if (mobile) {
     return (
@@ -47,7 +57,7 @@ function Component({ mobile }) {
         </div>
         <div className={css.textContainer}>
           <div>{i18n.t(mode.text)}</div>
-          <div>{i18n.t(mode.textStatus)}</div>
+          {contained || <div>{i18n.t(mode.textStatus)}</div>}
         </div>
       </div>
     );
@@ -60,7 +70,7 @@ function Component({ mobile }) {
       </ListItemIcon>
       <ListItemText
         classes={{ root: css.listTextRoot, primary: css.listText, secondary: css.listTextSecondary }}
-        secondary={i18n.t(mode.textStatus)}
+        secondary={contained ? "" : i18n.t(mode.textStatus)}
       >
         {i18n.t(mode.text)}
       </ListItemText>
@@ -71,6 +81,7 @@ function Component({ mobile }) {
 Component.displayName = "NetworkStatus";
 
 Component.propTypes = {
+  contained: PropTypes.bool,
   mobile: PropTypes.bool
 };
 

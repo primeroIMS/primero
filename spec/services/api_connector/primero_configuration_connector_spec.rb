@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe ApiConnector::PrimeroConfigurationConnector do
@@ -27,7 +29,7 @@ describe ApiConnector::PrimeroConfigurationConnector do
 
       it 'creates a new config record' do
         expect(connection).to(
-          receive(:post).with('/api/v2/configurations', data: configuration_hash)
+          receive(:post).with('/api/v2/configurations', { data: configuration_hash })
                         .and_return([200, {}])
         )
         result = connector.sync(configuration)

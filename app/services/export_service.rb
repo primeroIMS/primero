@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # A factory for instantiating BulkExports from the API params and enqueueing bulk export jobs.
 class ExportService
   class << self

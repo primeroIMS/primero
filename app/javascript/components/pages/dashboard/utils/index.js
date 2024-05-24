@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export { default as dashboardType } from "./dashboard-type";
 export { default as toData1D } from "./to-data-1d";
 export { default as toListTable } from "./to-list-table";

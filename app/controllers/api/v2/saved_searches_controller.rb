@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Saved searches API for saving of record list filters
 class Api::V2::SavedSearchesController < ApplicationApiController
   include Api::V2::Concerns::Pagination
@@ -16,7 +18,7 @@ class Api::V2::SavedSearchesController < ApplicationApiController
     @saved_search = SavedSearch.new_with_user(current_user, saved_search_params)
     @saved_search.save!
     status = params[:data][:id].present? ? 204 : 200
-    render 'api/v2/saved_searches/create', status: status
+    render 'api/v2/saved_searches/create', status:
   end
 
   def destroy
@@ -32,7 +34,7 @@ class Api::V2::SavedSearchesController < ApplicationApiController
       params.require(:data).permit(
         [
           :id, :name, { module_ids: [] }, :record_type,
-          { filters: [[:name, value: []], [:name, value: {}]] }
+          { filters: [[:name, { value: [] }], [:name, { value: {} }]] }
         ]
       )
   end

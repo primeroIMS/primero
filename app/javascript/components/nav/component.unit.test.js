@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 import { NavLink } from "react-router-dom";
 
@@ -173,7 +175,7 @@ describe("<Nav />", () => {
     it("should fetch alerts", () => {
       const storeActions = component.props().store.getActions();
 
-      expect(storeActions[7]).to.deep.equal(expectedAction);
+      expect(storeActions).to.deep.equal([expectedAction]);
     });
   });
 

@@ -1,11 +1,15 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 bid_fields = [
-    Field.new(
-      name: 'upload_bid_document',
-      type: 'document_upload_box',
-      editable: false,
-      disabled: true,
-      display_name_en: 'BID Document'
-    )
+  Field.new(
+    name: 'upload_bid_document',
+    type: 'document_upload_box',
+    editable: false,
+    disabled: true,
+    display_name_en: 'BID Document'
+  )
 ]
 
 FormSection.create_or_update!(

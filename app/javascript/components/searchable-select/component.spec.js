@@ -1,3 +1,4 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 import { mountedComponent, screen } from "test-utils";
 
 import SearchableSelect from "./component";
@@ -26,6 +27,6 @@ describe("<SearchableSelect />", () => {
   });
 
   it("renders Autocomplete", () => {
-    expect(screen.getAllByText("Test")).toBeTruthy();
+    expect(screen.getByRole("combobox")).toBeInTheDocument();
   });
 });
