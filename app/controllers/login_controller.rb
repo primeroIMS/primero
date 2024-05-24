@@ -5,8 +5,6 @@
 # Controller used to handle OpenId Connect redirect urls.
 # The expected route is '/login/:id' where :id is actially the provider_type
 class LoginController < ApplicationController
-  skip_before_action :verify_authenticity_token
-
   PROVIDERS_TEMPLATES = {
     IdentityProvider::B2C => 'login/b2c'
   }.freeze
