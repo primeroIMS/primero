@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 class CreateActiveStorageTables < ActiveRecord::Migration[5.2]
   def change
     create_table :active_storage_blobs do |t|
@@ -9,7 +13,7 @@ class CreateActiveStorageTables < ActiveRecord::Migration[5.2]
       t.string   :checksum,   null: false
       t.datetime :created_at, null: false
 
-      t.index [ :key ], unique: true
+      t.index [:key], unique: true
     end
 
     create_table :active_storage_attachments do |t|

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { expect } from "chai";
 
 import { MODULES } from "../../config/constants";
@@ -51,6 +53,8 @@ describe("<Report /> - constants", () => {
       "QUARTER_OPTION_IDS",
       "QUARTER",
       "RECORD_FILTERS",
+      "REFERRAL_TRANSFER_STATUS",
+      "REFERRAL_TRANSFER_STATUS_DISPLAY_NAME",
       "REPORTS",
       "SHARED_FILTERS",
       "STATUS_CLOSED",

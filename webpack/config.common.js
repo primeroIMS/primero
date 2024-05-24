@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 const path = require("path");
 
 const {
@@ -23,6 +25,9 @@ module.exports = (name, entry) => {
   const { ext, path: entryPath, clean, outputDir } = entry;
 
   const entryConfig = {
+    experiments: {
+      topLevelAwait: true
+    },
     mode: "production",
     devtool: false,
     entry: {

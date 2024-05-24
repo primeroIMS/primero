@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { push } from "connected-react-router";
 
 import { RECORD_PATH, METHODS, ROUTES } from "../../config";
@@ -40,18 +42,23 @@ export const fetchAuthenticatedUserData = user => ({
   }
 });
 
+export function saveNotificationSubscription() {
+  return {
+    type: actions.SAVE_USER_NOTIFICATION_SUBSCRIPTION
+  };
+}
+
 export const setAuthenticatedUser = user => async dispatch => {
   dispatch(setUser(user));
-  dispatch(fetchAuthenticatedUserData(user)).then(
-    () => {
-      dispatch(loadApplicationResources());
-    },
-    error => {
-      dispatch(push(ROUTES.logout));
-      // eslint-disable-next-line no-console
-      console.error(error);
-    }
-  );
+
+  try {
+    await dispatch(fetchAuthenticatedUserData(user));
+    dispatch(loadApplicationResources());
+  } catch (error) {
+    dispatch(push(ROUTES.logout));
+    // eslint-disable-next-line no-console
+    console.error(error);
+  }
 };
 
 export const attemptSignout = () => ({
@@ -113,4 +120,10 @@ export async function getAppResources(dispatch) {
   dispatch(fetchSandboxUI());
   dispatch(checkUserAuthentication());
   dispatch(loginSystemSettings());
+}
+
+export function removeNotificationSubscription() {
+  return {
+    type: actions.REMOVE_USER_NOTIFICATION_SUBSCRIPTION
+  };
 }

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Helpers for request specs that require a logged in user.
 module FakeDeviseLogin
   COMMON_PERMITTED_FIELDS = [
@@ -11,14 +13,16 @@ module FakeDeviseLogin
     Field.new(name: 'record_state', type: Field::TICK_BOX, display_name_en: 'State'),
     Field.new(name: 'status', type: Field::SELECT_BOX, display_name_en: 'Status'),
     Field.new(
-      name: 'family_details',
+      name: 'family_details_section',
       display_name_en: 'A',
       type: Field::SUBFORM,
       subform: FormSection.new(
         fields: [
           Field.new(name: 'relation_name', type: Field::TEXT_FIELD),
+          Field.new(name: 'relation', type: Field::SELECT_BOX),
           Field.new(name: 'relation_type', type: Field::SELECT_BOX),
-          Field.new(name: 'age', type: Field::NUMERIC_FIELD)
+          Field.new(name: 'relation_age', type: Field::NUMERIC_FIELD),
+          Field.new(name: 'relation_is_caregiver', type: Field::TICK_BOX)
         ]
       )
     ),
@@ -40,8 +44,10 @@ module FakeDeviseLogin
         ]
       )
     ),
-    Field.new(name: 'registry_type', type: 'text_field', display_name_en: 'Registry Type'),
-    Field.new(name: 'family_number', type: 'text_field', display_name_en: 'Family Number')
+    Field.new(name: 'registry_type', type: Field::TEXT_FIELD, display_name_en: 'Registry Type'),
+    Field.new(name: 'family_number', type: Field::TEXT_FIELD, display_name_en: 'Family Number'),
+    Field.new(name: 'family_notes', type: Field::TEXT_FIELD, display_name_en: 'Family Notes'),
+    Field.new(name: 'family_size', type: Field::NUMERIC_FIELD, display_name_en: 'Family Size')
   ].freeze
 
   def permission_case
@@ -89,9 +95,9 @@ module FakeDeviseLogin
   def permission_flag_record
     actions = [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]
     @permission_flag_record = [
-      Permission.new(resource: Permission::CASE, actions: actions),
-      Permission.new(resource: Permission::TRACING_REQUEST, actions: actions),
-      Permission.new(resource: Permission::INCIDENT, actions: actions)
+      Permission.new(resource: Permission::CASE, actions:),
+      Permission.new(resource: Permission::TRACING_REQUEST, actions:),
+      Permission.new(resource: Permission::INCIDENT, actions:)
     ]
   end
 
@@ -110,7 +116,7 @@ module FakeDeviseLogin
     group_permission = opts[:group_permission] || Permission::ALL
     role = Role.new(
       permissions: role_permissions,
-      group_permission: group_permission,
+      group_permission:,
       form_sections: opts[:form_sections] || []
     )
     role.stub(:modules).and_return(opts[:modules] || [])
@@ -129,12 +135,13 @@ module FakeDeviseLogin
     user_name = opts[:user_name] || fake_user_name
     agency_id = opts[:agency_id]
     user_group_ids = opts[:user_group_ids] || []
-    user = User.new(user_name: user_name, user_group_ids: user_group_ids, agency_id: agency_id)
+    user = User.new(user_name:, user_group_ids:, agency_id:)
     if opts[:role].present?
       user.role = opts[:role]
     else
       user.stub(:role).and_return(fake_role(opts))
     end
+    user.id = opts[:id]
     user
   end
 

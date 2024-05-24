@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import {
   Home,
   Assessment,
@@ -35,9 +37,9 @@ const ListIcon = ({ icon }) => {
     case "activity_log":
       return <LibraryBooks />;
     case "cases":
-      return <CasesIcon />;
+      return <CasesIcon data-testid="cases-icon" />;
     case "incidents":
-      return <IncidentsIcon />;
+      return <IncidentsIcon data-testid="incidents-icon" />;
     case "tracing_request":
       return <ListAlt />;
     case "matches":

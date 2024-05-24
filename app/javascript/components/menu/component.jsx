@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Menu } from "@material-ui/core";
@@ -35,6 +37,7 @@ const Component = ({ actions, disabledCondition, showMenu }) => {
       )}
       <Menu
         id="long-menu"
+        data-testid="long-menu"
         variant="menu"
         anchorEl={anchorEl}
         keepMounted

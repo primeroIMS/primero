@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'fileutils'
 
 # Exports the current state of the Primero configuration as Ruby scripts.
@@ -63,9 +65,9 @@ class Exporters::RubyConfigExporter
   end
 
   def map_grouped_forms(grouped_forms)
-    grouped_forms.map do |unique_id, form_and_subforms|
-      [unique_id, form_and_subforms.sort_by { |form| form.is_nested? ? 0 : 1 }]
-    end.to_h
+    grouped_forms.transform_values do |form_and_subforms|
+      form_and_subforms.sort_by { |form| form.is_nested? ? 0 : 1 }
+    end
   end
 
   def export_config_objects(config_name, objects)
@@ -107,7 +109,7 @@ class Exporters::RubyConfigExporter
         i_
         ruby_string += "\n#{i}"
       end
-      ruby_string + ']'
+      "#{ruby_string}]"
     else
       value.to_json
     end

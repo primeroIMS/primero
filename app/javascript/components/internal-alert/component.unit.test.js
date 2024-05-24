@@ -1,5 +1,7 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
-import { AccordionDetails, AccordionSummary } from "@material-ui/core";
+import { AccordionDetails, AccordionSummary, IconButton } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
 
@@ -59,5 +61,31 @@ describe("<InternalAlert />", () => {
     );
 
     expect(component.find(AccordionSummary).text()).to.be.equal(title);
+  });
+
+  it("renders a dismiss button if onDismiss is on an item", () => {
+    const { component } = setupMountedComponent(
+      InternalAlert,
+      {
+        items: fromJS([{ message: "Alert Message 1", onDismiss: () => {} }]),
+        severity: "warning"
+      },
+      {}
+    );
+
+    expect(component.find(IconButton)).to.have.lengthOf(1);
+  });
+
+  it("does not render a dismiss button if onDismiss is not on an item", () => {
+    const { component } = setupMountedComponent(
+      InternalAlert,
+      {
+        items: fromJS([{ message: "Alert Message 1" }]),
+        severity: "warning"
+      },
+      {}
+    );
+
+    expect(component.find(IconButton)).to.have.lengthOf(0);
   });
 });

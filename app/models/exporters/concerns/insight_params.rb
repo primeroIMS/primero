@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Concern of Insight Params
 module Exporters::Concerns::InsightParams
   extend ActiveSupport::Concern
@@ -12,8 +14,8 @@ module Exporters::Concerns::InsightParams
     return [] unless grouped_by_param.present?
 
     [
-      formats[:bold_blue], "#{I18n.t('fields.date_range.view_by', locale: locale)}: ",
-      formats[:black], "#{I18n.t("managed_reports.date_range.#{grouped_by_param.value}", locale: locale)} / "
+      formats[:bold_blue], "#{I18n.t('fields.date_range.view_by', locale:)}: ",
+      formats[:black], "#{I18n.t("managed_reports.date_range.#{grouped_by_param.value}", locale:)} / "
     ]
   end
 
@@ -21,7 +23,7 @@ module Exporters::Concerns::InsightParams
     return [] unless date_range_display_text.present?
 
     [
-      formats[:bold_blue], "#{I18n.t('fields.date_range_field', locale: locale)}: ",
+      formats[:bold_blue], "#{I18n.t('fields.date_range_field', locale:)}: ",
       formats[:black], "#{date_range_display_text} / "
     ]
   end
@@ -37,7 +39,7 @@ module Exporters::Concerns::InsightParams
     return [] if value.blank?
 
     [
-      formats[:bold_blue], "#{I18n.t("fields.date_range.#{date_value}", locale: locale)}: ",
+      formats[:bold_blue], "#{I18n.t("fields.date_range.#{date_value}", locale:)}: ",
       formats[:black], "#{value} / "
     ]
   end
@@ -46,7 +48,7 @@ module Exporters::Concerns::InsightParams
     return [] unless date_display_text.present?
 
     [
-      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.date', locale: locale)}: ",
+      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.date', locale:)}: ",
       formats[:black], "#{date_display_text} / "
     ]
   end
@@ -55,7 +57,7 @@ module Exporters::Concerns::InsightParams
     return [] unless verification_display_text.present?
 
     [
-      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.verification_status', locale: locale)}: ",
+      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.verification_status', locale:)}: ",
       formats[:black], verification_display_text
     ]
   end
@@ -71,15 +73,15 @@ module Exporters::Concerns::InsightParams
 
     return unless date_field_name.present?
 
-    I18n.t("managed_reports.#{managed_report.id}.filter_options.#{date_field_name}", locale: locale)
+    I18n.t("managed_reports.#{managed_report.id}.filter_options.#{date_field_name}", locale:)
   end
 
   def date_range_display_text
     date_range_value = managed_report.date_range_value
 
-    return I18n.t('managed_reports.date_range_options.custom', locale: locale) unless date_range_value.present?
+    return I18n.t('managed_reports.date_range_options.custom', locale:) unless date_range_value.present?
 
-    I18n.t("managed_reports.date_range_options.#{date_range_value}", locale: locale)
+    I18n.t("managed_reports.date_range_options.#{date_range_value}", locale:)
   end
 
   def verification_display_text
@@ -87,6 +89,6 @@ module Exporters::Concerns::InsightParams
 
     return unless verified_value.present? && verified_value == 'verified'
 
-    I18n.t('managed_reports.violations.filter_options.verified', locale: locale)
+    I18n.t('managed_reports.violations.filter_options.verified', locale:)
   end
 end

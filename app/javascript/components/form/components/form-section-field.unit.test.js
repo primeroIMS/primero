@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import Alert from "@material-ui/lab/Alert";
 import { fromJS } from "immutable";
 

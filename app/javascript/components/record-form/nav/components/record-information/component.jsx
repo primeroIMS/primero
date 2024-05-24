@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
@@ -28,6 +30,7 @@ const Component = ({ open, handleClick, primeroModule, selectedForm, formGroupLo
       selectedForm={selectedForm}
       formGroupLookup={formGroupLookup}
       recordAlerts={recordAlerts}
+      testID="record-information"
     />
   );
 };

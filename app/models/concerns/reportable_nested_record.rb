@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Describes all record subforms that shoudl be indexed in Solr as individual entities
 module ReportableNestedRecord
   extend ActiveSupport::Concern

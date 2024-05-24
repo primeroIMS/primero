@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Model for MRM Violation
 class Violation < ApplicationRecord
   # TODO: For now this will be used to only read and index violations.

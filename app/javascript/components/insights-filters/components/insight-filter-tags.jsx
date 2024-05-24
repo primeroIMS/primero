@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { List } from "immutable";
 import PropTypes from "prop-types";
 import isNil from "lodash/isNil";
@@ -55,6 +57,20 @@ const InsightFilterTags = ({ filters = [], moduleID }) => {
     }
 
     const options = filterOptions(filter);
+
+    if (List.isList(value)) {
+      return options
+        .filter(opt => value.includes(get(opt, "id")))
+        .map(opt => {
+          if (filter.option_strings_text) {
+            return i18n.t(optionText(opt, false));
+          }
+
+          return get(opt, "display_text");
+        })
+        .join(", ");
+    }
+
     const option = optionText(
       options.find(opt => get(opt, "id") === value),
       false
@@ -62,13 +78,6 @@ const InsightFilterTags = ({ filters = [], moduleID }) => {
 
     if (filter.option_strings_text) {
       return option ? i18n.t(option) : null;
-    }
-
-    if (List.isList(value)) {
-      return options
-        .filter(opt => value.includes(get(opt, "id")))
-        .map(opt => get(opt, "display_text"))
-        .join(", ");
     }
 
     return option;
