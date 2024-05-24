@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { IconButton, Button } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
@@ -21,7 +23,14 @@ const Component = ({ action, actionLabel, actionUrl, closeSnackbar, snackKey, hi
   return (
     <>
       {actionLabel && actionUrl ? (
-        <Button id="snackbar-action" component={Link} to={actionUrl} color="inherit" size="small">
+        <Button
+          id="snackbar-action"
+          data-testid="snackbar-action"
+          component={Link}
+          to={actionUrl}
+          color="inherit"
+          size="small"
+        >
           {actionLabel}
         </Button>
       ) : null}

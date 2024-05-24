@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This describes all models that may be owned by a particular user
 module Ownable
   extend ActiveSupport::Concern
@@ -25,7 +27,7 @@ module Ownable
     scope :associated_with, (lambda do |username|
       where(
         "(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)",
-        username: username
+        username:
       )
     end)
 

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import requireHacker from "require-hacker";
 
 const extensions = ["css", "gif", "jpg", "svg", "png"];

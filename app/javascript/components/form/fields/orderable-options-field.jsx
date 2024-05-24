@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/no-multi-comp */
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
@@ -66,7 +68,12 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="droppable" type="option">
           {(provided, snapshot) => (
-            <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              data-testid="orderable-options-field"
+              style={getListStyle(snapshot.isDraggingOver)}
+            >
               <div className={css.fieldHeaderRow}>
                 <div className={fieldHeaderClasses}>{i18n.t("fields.english_text")}</div>
                 {showDefaultAction && <div className={fieldRowClasses}>{i18n.t("fields.default")}</div>}

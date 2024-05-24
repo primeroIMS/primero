@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { clearDialog } from "../../components/action-dialog";
 import { setPendingUserLogin } from "../../components/connectivity/action-creators";
 import DB from "../../db";

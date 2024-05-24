@@ -1,5 +1,6 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import "mutationobserver-shim";
-import { MessageChannel } from "worker_threads";
 
 import get from "lodash/get";
 import { parseISO, format as formatDate } from "date-fns";
@@ -90,4 +91,3 @@ class Worker {
   addEventListener() {}
 }
 global.Worker = Worker;
-global.MessageChannel = MessageChannel;

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 
@@ -18,8 +20,10 @@ const AssignmentsSummary = ({ transition, classes }) => {
   return (
     <Grid container spacing={2}>
       <Grid item md={6} xs={10}>
-        <div className={classes.wrapper}>
-          <div className={classes.date}>{i18n.localizeDate(transition.created_at)}</div>
+        <div className={classes.wrapper} data-testid="wrapper">
+          <div className={classes.date} data-testid="date">
+            {i18n.localizeDate(transition.created_at)}
+          </div>
           <div className={classes.titleHeader}>{i18n.t("transition.type.assign")}</div>
         </div>
       </Grid>

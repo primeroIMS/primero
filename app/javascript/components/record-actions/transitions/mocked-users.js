@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export default [
   { label: "primero" },
   { label: "primero_admin_cp" },

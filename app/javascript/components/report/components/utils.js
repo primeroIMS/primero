@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable no-restricted-syntax, no-plusplus */
 
 const hasMergedRows = () => [...document.querySelectorAll("tr td").entries()].some(([, row]) => row.colSpan > 1);
