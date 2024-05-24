@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This is the sync connector for the Keycloak identity provider.
 # rubocop:disable Metrics/ClassLength
 class ApiConnector::KeycloakConnector < ApiConnector::AbstractConnector
@@ -11,7 +13,7 @@ class ApiConnector::KeycloakConnector < ApiConnector::AbstractConnector
   end
 
   def realm
-    ENV['KEYCLOAK_SYNC_REALM']
+    ENV.fetch('KEYCLOAK_SYNC_REALM', nil)
   end
 
   def initialize(options = {})
@@ -116,10 +118,10 @@ class ApiConnector::KeycloakConnector < ApiConnector::AbstractConnector
 
   def fetch_admin_token_body
     token_body = {
-      client_id: ENV['KEYCLOAK_ADMIN_CLIENT_ID'],
+      client_id: ENV.fetch('KEYCLOAK_ADMIN_CLIENT_ID', nil),
       grant_type: 'password',
-      username: ENV['KEYCLOAK_ADMIN_USERNAME'],
-      password: ENV['KEYCLOAK_ADMIN_PASSWORD']
+      username: ENV.fetch('KEYCLOAK_ADMIN_USERNAME', nil),
+      password: ENV.fetch('KEYCLOAK_ADMIN_PASSWORD', nil)
     }
 
     URI.encode_www_form(token_body)
@@ -159,7 +161,7 @@ class ApiConnector::KeycloakConnector < ApiConnector::AbstractConnector
     {
       identity_provider_sync: {
         keycloak: {
-          full_name: full_name,
+          full_name:,
           email: response['email'],
           enabled: response['enabled'],
           locale: response['attributes']['locale'][0],

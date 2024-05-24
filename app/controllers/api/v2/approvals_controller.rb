@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Create, approve, or deny an approval request
 class Api::V2::ApprovalsController < Api::V2::RecordResourceController
   before_action :approval_params, only: [:update]

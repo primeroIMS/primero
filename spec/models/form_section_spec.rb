@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe FormSection do
@@ -127,7 +129,7 @@ describe FormSection do
         @form_module_test = FormSection.new(unique_id: 'form_module_test', parent_form: 'case', visible: true,
                                             order_form_group: 1, order: 1, order_subform: 0, form_group_id: 'm',
                                             editable: true, name_all: 'Form Module Test',
-                                            description_all: 'Form Module Test', fields: fields)
+                                            description_all: 'Form Module Test', fields:)
         @form_module_test.save!
       end
 
@@ -230,7 +232,7 @@ describe FormSection do
         @form_field_type_test = FormSection.create(unique_id: 'form_section_test_field_type', parent_form: 'case',
                                                    visible: true, order_form_group: 1, order: 1, order_subform: 0,
                                                    form_group_id: 'm', editable: true, name_all: 'Form Section Test 2',
-                                                   description_all: 'Form Section Test 2', fields: fields)
+                                                   description_all: 'Form Section Test 2', fields:)
       end
 
       context 'from text field' do
@@ -300,7 +302,7 @@ describe FormSection do
       ]
       form = FormSection.new(unique_id: 'form_section_test_1', parent_form: 'case', visible: true, order_form_group: 1,
                              order: 1, order_subform: 0, form_group_id: 'm', editable: true,
-                             name_all: 'Form Section Test 1', description_all: 'Form Section Test 1', fields: fields)
+                             name_all: 'Form Section Test 1', description_all: 'Form Section Test 1', fields:)
       form.save!
     end
 
@@ -341,7 +343,7 @@ describe FormSection do
         ]
         @form = FormSection.new(unique_id: 'form_section_test_2', parent_form: 'case', visible: true,
                                 order_form_group: 1, order: 1, order_subform: 0, form_group_id: 'm', editable: true,
-                                name_all: 'Form Section Test 2', description_all: 'Form Section Test 2', fields: fields)
+                                name_all: 'Form Section Test 2', description_all: 'Form Section Test 2', fields:)
         @form.save!
       end
 
@@ -929,7 +931,7 @@ describe FormSection do
       ]
       form_params = { unique_id: 'form_section_test_role', parent_form: 'case', visible: true,
                       order_form_group: 1, order: 99, order_subform: 0, form_group_id: 'm', editable: true,
-                      name_all: 'Form Section Test Role', description_all: 'Form Section Test Role', fields: fields }
+                      name_all: 'Form Section Test Role', description_all: 'Form Section Test Role', fields: }
       form = FormSection.new_with_properties(form_params, user: @user)
       expect(form.roles).to match_array([@user.role])
 
@@ -1005,14 +1007,14 @@ describe FormSection do
   describe '#insert_field!' do
     before(:each) do
       @form_section_a.fields = [
-        Field.new(name: 'foo', type: 'text_field',display_name_en: 'Foo', order: 1),
-        Field.new(name: 'bar', type: 'text_field',display_name_en: 'Foo', order: 2),
-        Field.new(name: 'test', type: 'text_field',display_name_en: 'Foo', order: 3)
+        Field.new(name: 'foo', type: 'text_field', display_name_en: 'Foo', order: 1),
+        Field.new(name: 'bar', type: 'text_field', display_name_en: 'Foo', order: 2),
+        Field.new(name: 'test', type: 'text_field', display_name_en: 'Foo', order: 3)
       ]
     end
 
     it 'insert at specified order when this one is specified' do
-      new_field = Field.new(name: 'second_test', type: 'text_field',display_name_en: 'Foo', order: 2)
+      new_field = Field.new(name: 'second_test', type: 'text_field', display_name_en: 'Foo', order: 2)
       @form_section_a.insert_field!(new_field)
       fields_new_order = FormSection.find_by(unique_id: 'A').fields
 
@@ -1022,7 +1024,7 @@ describe FormSection do
     end
 
     it 'insert at the end when order is not specified' do
-      new_field = Field.new(name: 'third_test', type: 'text_field',display_name_en: 'Foo')
+      new_field = Field.new(name: 'third_test', type: 'text_field', display_name_en: 'Foo')
       @form_section_a.insert_field!(new_field)
 
       expect(FormSection.find_by(unique_id: 'A').fields.last.name).to eq(new_field.name)
@@ -1031,7 +1033,7 @@ describe FormSection do
 
   describe '#field_exists?' do
     before(:each) do
-      @form_section_a.fields << Field.new(name: 'foo', type: 'text_field',display_name_en: 'Foo', order: 5)
+      @form_section_a.fields << Field.new(name: 'foo', type: 'text_field', display_name_en: 'Foo', order: 5)
     end
 
     it 'return true when field exist' do

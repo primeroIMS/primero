@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 import { Route } from "react-router-dom";
 
@@ -41,7 +43,10 @@ describe("<UsersForm />", () => {
         }
       },
       application: {
-        agencies
+        agencies,
+        webpush: {
+          enabled: true
+        }
       },
       user: {
         username: users.carlos.user_name,
@@ -62,8 +67,8 @@ describe("<UsersForm />", () => {
     expect(component.find("header button").at(1).contains("buttons.save")).to.be.true;
   });
 
-  it("renders 18 fields", () => {
-    expect(getVisibleFields(component.find("FormSection").props().formSection.fields)).to.have.lengthOf(19);
+  it("renders 28 fields", () => {
+    expect(getVisibleFields(component.find("FormSection").props().formSection.fields)).to.have.lengthOf(28);
   });
 
   it("renders submit button with valid props", () => {
@@ -130,7 +135,10 @@ describe("<UsersForm />", () => {
         }
       },
       application: {
-        agencies
+        agencies,
+        webpush: {
+          enabled: true
+        }
       },
       user: {
         username: users.jose.user_name,
@@ -142,8 +150,8 @@ describe("<UsersForm />", () => {
       "/admin/users/1"
     ]);
 
-    it("should render 16 fields", () => {
-      expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(16);
+    it("should render 25 fields", () => {
+      expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(25);
     });
 
     it("should fetch user groups and roles", () => {
@@ -233,6 +241,36 @@ describe("<UsersForm />", () => {
       ]);
 
       expect(IdpComponent.find("a")).to.be.empty;
+    });
+  });
+
+  describe("when WEBPUSH is disabled", () => {
+    const state = fromJS({
+      records: {
+        users: {
+          selectedUser: users.jose,
+          data: [Object.values(users)],
+          metadata: { total: 2, per: 20, page: 1 }
+        }
+      },
+      application: {
+        agencies,
+        webpush: {
+          enabled: false
+        }
+      },
+      user: {
+        username: users.carlos.user_name,
+        permissions
+      }
+    });
+
+    const { component: newComponent } = setupMountedComponent(UsersForm, { mode: MODES.edit }, state, [
+      "/admin/users/1"
+    ]);
+
+    it("renders 22 fields", () => {
+      expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(22);
     });
   });
 });

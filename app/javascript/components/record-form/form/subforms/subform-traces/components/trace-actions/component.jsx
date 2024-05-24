@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import SearchIcon from "@material-ui/icons/Search";
@@ -18,7 +20,7 @@ const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedFo
   const loading = useMemoizedSelector(state => getLoadingRecordState(state, recordType));
 
   return (
-    <div className={css.buttonsRow}>
+    <div className={css.buttonsRow} data-testid="subForm-traces">
       {handleBack && (
         <ActionButton
           icon={<ArrowBackIosIcon />}

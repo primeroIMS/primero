@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { ALL, MANY, ONE } from "../constants";
 
 export default (enabledFor, enabledOnSearch, isSearchFromList, selectedRecords, totaRecords) => {

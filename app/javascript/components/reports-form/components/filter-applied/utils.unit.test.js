@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { DATE_FIELD } from "../../../form";
 import { CONSTRAINTS, NOT_NULL } from "../../constants";
 
