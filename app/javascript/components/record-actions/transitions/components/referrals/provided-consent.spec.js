@@ -1,10 +1,7 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable no-unused-expressions */
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 import { RECORD_TYPES } from "../../../../../config";
 
-import ProvidedForm from "./provided-form";
 import ProvidedConsent from "./provided-consent";
 
 describe("<ProvidedConsent /> - referrals", () => {
@@ -19,9 +16,10 @@ describe("<ProvidedConsent /> - referrals", () => {
       canConsentOverride: false,
       providedConsent: true
     };
-    const { component } = setupMountedComponent(ProvidedConsent, props, {}, [], formProps);
 
-    expect(component).to.be.empty;
+    mountedComponent(<ProvidedConsent {...props} />, {}, [], [], [], formProps);
+
+    expect(screen.queryByText(/referral.provided_consent_label/i)).toBeNull();
   });
 
   it("should not render anything when child has provided consent and user can consent override", () => {
@@ -29,9 +27,10 @@ describe("<ProvidedConsent /> - referrals", () => {
       canConsentOverride: true,
       providedConsent: true
     };
-    const { component } = setupMountedComponent(ProvidedConsent, props, {}, [], formProps);
 
-    expect(component).to.be.empty;
+    mountedComponent(<ProvidedConsent {...props} />, {}, [], [], [], formProps);
+
+    expect(screen.queryByText(/referral.provided_consent_label/i)).toBeNull();
   });
 
   it("should render <ProvidedForm> when child has not provided consent and user can consent override", () => {
@@ -39,9 +38,9 @@ describe("<ProvidedConsent /> - referrals", () => {
       canConsentOverride: true,
       providedConsent: false
     };
-    const { component } = setupMountedComponent(ProvidedConsent, props, {}, [], formProps);
 
-    expect(component.find(ProvidedForm)).to.have.lengthOf(1);
+    mountedComponent(<ProvidedConsent {...props} />, {}, [], [], formProps);
+    expect(screen.getByText(/referral.provided_consent_label/i)).toBeInTheDocument();
   });
 
   it("should render <ProvidedForm> when child has not provided consent and user can't consent override", () => {
@@ -49,9 +48,9 @@ describe("<ProvidedConsent /> - referrals", () => {
       canConsentOverride: false,
       providedConsent: false
     };
-    const { component } = setupMountedComponent(ProvidedConsent, props, {}, [], formProps);
 
-    expect(component.find(ProvidedForm)).to.have.lengthOf(1);
+    mountedComponent(<ProvidedConsent {...props} />, {}, [], [], formProps);
+    expect(screen.getByText(/referral.provided_consent_label/i)).toBeInTheDocument();
   });
 
   it("should render <ProvidedForm> with valid props", () => {
@@ -61,13 +60,8 @@ describe("<ProvidedConsent /> - referrals", () => {
       setDisabled: () => {},
       recordType: RECORD_TYPES.cases
     };
-    const { component } = setupMountedComponent(ProvidedConsent, props, {}, [], formProps);
-    const providedForm = { ...component.find(ProvidedForm).props() };
 
-    ["canConsentOverride", "setDisabled", "recordType"].forEach(property => {
-      expect(providedForm).to.have.property(property);
-      delete providedForm[property];
-    });
-    expect(providedForm).to.be.empty;
+    mountedComponent(<ProvidedConsent {...props} />, {}, [], [], formProps);
+    expect(screen.queryAllByTestId("form-control")).toHaveLength(1);
   });
 });

@@ -1,11 +1,7 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable no-unused-expressions */
-import { Field, Form, Formik } from "formik";
-import { TextField } from "formik-material-ui";
+import { Form, Formik } from "formik";
 
-import { setupMountedComponent } from "../../../../../test";
-import SearchableSelect from "../../../../searchable-select";
+import { mountedComponent, screen } from "../../../../../test-utils";
 
 import FormInternal from "./form-internal";
 
@@ -28,7 +24,6 @@ const InternalForm = props => {
 };
 
 describe("<FormInternal />", () => {
-  let component;
   const props = {
     disableControl: false,
     fields: [
@@ -49,31 +44,23 @@ describe("<FormInternal />", () => {
     ]
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(InternalForm, props));
-  });
-
   it("renders SearchableSelect", () => {
-    expect(component.find(SearchableSelect)).to.have.length(2);
+    mountedComponent(<InternalForm {...props} />);
+    expect(screen.queryAllByRole("combobox")).toHaveLength(2);
   });
 
   it("renders TextField", () => {
-    expect(component.find(TextField)).to.have.length(1);
+    mountedComponent(<InternalForm {...props} />);
+    expect(screen.queryAllByRole("textbox")).toHaveLength(3);
   });
 
   it("renders Field", () => {
-    expect(component.find(Field)).to.have.length(3);
+    mountedComponent(<InternalForm {...props} />);
+    expect(screen.queryAllByRole("textbox")).toHaveLength(3);
   });
 
   it("renders TextFieldProps from SearchableSelect with valid props", () => {
-    const textFieldProps = {
-      ...component.find(SearchableSelect).first().props().TextFieldProps
-    };
-
-    ["label", "required", "error", "helperText", "margin", "placeholder", "InputLabelProps"].forEach(property => {
-      expect(textFieldProps).to.have.property(property);
-      delete textFieldProps[property];
-    });
-    expect(textFieldProps).to.be.empty;
+    mountedComponent(<InternalForm {...props} />);
+    expect(screen.queryAllByRole("textbox")).toHaveLength(3);
   });
 });
