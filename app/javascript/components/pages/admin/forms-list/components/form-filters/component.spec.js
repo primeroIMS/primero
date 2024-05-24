@@ -30,6 +30,6 @@ describe("<FormsList />/components/<FormExporter />", () => {
   });
 
   it("renders <FiltersExpansionPanel />", () => {
-    expect(screen.getAllByTestId("test")).toHaveLength(2);
+    expect(screen.getAllByTestId("accordion")).toHaveLength(2);
   });
 });
