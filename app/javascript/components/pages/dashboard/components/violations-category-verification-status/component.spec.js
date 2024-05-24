@@ -1,19 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { TableHead, TableCell } from "@material-ui/core";
+import { mountedComponent, screen } from "test-utils";
 
-import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../permissions";
-import DashboardTable from "../../../../dashboard/dashboard-table";
-import LoadingIndicator from "../../../../loading-indicator";
 
 import ViolationsCategoryVerificationStatus from "./component";
 
 describe("<WorkflowTeamCases> - pages/dashboard/components/violations-category-verification-status", () => {
-  let component;
-  let tableCells;
-
   const permissions = {
     dashboards: [ACTIONS.DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS]
   };
@@ -98,24 +92,23 @@ describe("<WorkflowTeamCases> - pages/dashboard/components/violations-category-v
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(ViolationsCategoryVerificationStatus, {}, state));
-    tableCells = component.find(DashboardTable).find(TableHead).find(TableCell);
+    mountedComponent(<ViolationsCategoryVerificationStatus />, state);
   });
 
   it("should render a <DashboardTable /> component", () => {
-    expect(component.find(DashboardTable)).to.have.lengthOf(1);
+    expect(screen.getByRole("grid")).toBeInTheDocument();
   });
 
   it("should render 3 columns", () => {
-    expect(tableCells).to.have.lengthOf(3);
+    expect(document.querySelectorAll("th")).toHaveLength(3);
   });
 
   it("should render Verified column", () => {
-    expect(tableCells.at(1).text()).to.equal("Verified");
+    expect(screen.getAllByText("Verified")).toBeTruthy();
   });
 
   it("should render Report Pending Verification column", () => {
-    expect(tableCells.at(2).text()).to.equal("Report Pending Verification");
+    expect(screen.getAllByText("Report Pending Verification")).toBeTruthy();
   });
 
   describe("when the data is loading", () => {
@@ -129,7 +122,7 @@ describe("<WorkflowTeamCases> - pages/dashboard/components/violations-category-v
     };
 
     it("renders a <LoadingIndicator />", () => {
-      const { component: loadingComponent } = setupMountedComponent(ViolationsCategoryVerificationStatus, props, {
+      mountedComponent(<ViolationsCategoryVerificationStatus {...props} />, {
         records: {
           dashboard: {
             data: [],
@@ -141,7 +134,7 @@ describe("<WorkflowTeamCases> - pages/dashboard/components/violations-category-v
         }
       });
 
-      expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
 });
