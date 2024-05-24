@@ -39,7 +39,7 @@ describe("<FormsList />/components/<TableRow />", () => {
   });
 
   it("renders <Droppable/>", () => {
-    expect(screen.getByTestId("error-icon")).toBeInTheDocument();
+    expect(screen.getByTestId("drag-indicator")).toBeInTheDocument();
   });
 
   it("renders <TableRow/>", () => {
