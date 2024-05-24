@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { withRouter } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import * as actions from "./actions";
 
 describe("records - Actions", () => {
@@ -88,7 +90,22 @@ describe("records - Actions", () => {
       "MARK_FOR_OFFLINE_FAILURE",
       "MARK_FOR_OFFLINE_SUCCESS",
       "MARK_FOR_OFFLINE_FINISHED",
-      "MARK_FOR_OFFLINE_STARTED"
+      "MARK_FOR_OFFLINE_STARTED",
+      "CREATE_CASE_FROM_FAMILY_MEMBER",
+      "CREATE_CASE_FROM_FAMILY_MEMBER_SUCCESS",
+      "CREATE_CASE_FROM_FAMILY_MEMBER_STARTED",
+      "CREATE_CASE_FROM_FAMILY_MEMBER_FAILURE",
+      "CREATE_CASE_FROM_FAMILY_MEMBER_FINISHED",
+      "CREATE_CASE_FROM_FAMILY_DETAIL",
+      "CREATE_CASE_FROM_FAMILY_DETAIL_SUCCESS",
+      "CREATE_CASE_FROM_FAMILY_DETAIL_STARTED",
+      "CREATE_CASE_FROM_FAMILY_DETAIL_FAILURE",
+      "CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED",
+      "DELETE_ALERT_FROM_RECORD",
+      "DELETE_ALERT_FROM_RECORD_FAILURE",
+      "DELETE_ALERT_FROM_RECORD_FINISHED",
+      "DELETE_ALERT_FROM_RECORD_STARTED",
+      "DELETE_ALERT_FROM_RECORD_SUCCESS"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("string");

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import startCase from "lodash/startCase";
 
 const buildLabel = (element, i18n, resource, approvalsLabel, type) => {

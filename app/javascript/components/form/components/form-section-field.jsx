@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
@@ -47,7 +49,9 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUn
   return (
     handleVisibility() || (
       <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
-        <div className={classes}>{renderField}</div>
+        <div className={classes} data-testid="form-section-field">
+          {renderField}
+        </div>
       </ConditionalWrapper>
     )
   );

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # rubocop:disable Style/ClassAndModuleChildren
 module Indicators
   # Abstract Class for Indicator
@@ -63,13 +65,13 @@ module Indicators
     def stats_from_search(sunspot_search, user, managed_user_names = [])
       owner = owner_from_search(sunspot_search)
       rows = user_scoped_rows(sunspot_search.facet(facet_name).rows, user, managed_user_names)
-      rows.map do |row|
+      rows.to_h do |row|
         stat = {
           'count' => row.count,
           'query' => stat_query_strings(row, owner, user)
         }
         [row.value, stat]
-      end.to_h
+      end
     end
 
     def user_scoped_rows(rows, user, managed_user_names)

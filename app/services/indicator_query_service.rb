@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Build and execute a Solr Sunspot query based on a collection of desired indicators.
 # Indicators are used by the dashboards to compute aggregate statistics about records.
 class IndicatorQueryService
@@ -20,7 +22,7 @@ class IndicatorQueryService
 
     def statistics_for_indicators(indicators, record_model, user, managed_user_names)
       search = record_query(record_model, indicators, user)
-      indicators.map { |i| [i.name, i.stats_from_search(search, user, managed_user_names)] }.to_h
+      indicators.to_h { |i| [i.name, i.stats_from_search(search, user, managed_user_names)] }
     end
 
     def record_query(record_model, indicators, user)
