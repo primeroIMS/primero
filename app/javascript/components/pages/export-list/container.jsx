@@ -117,7 +117,7 @@ const ExportList = () => {
 
   return (
     <PageContainer>
-      <PageHeading title={i18n.t("navigation.bulk_exports")} />
+      <PageHeading data-testid="page-heading" title={i18n.t("navigation.bulk_exports")} />
       <PageContent>
         <IndexTable title={i18n.t("navigation.bulk_exports")} {...tableOptions} />
       </PageContent>
