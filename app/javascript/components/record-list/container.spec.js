@@ -1,24 +1,13 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
-import { Route } from "react-router-dom";
 import { fromJS, OrderedMap } from "immutable";
-import { TableCell, TableRow } from "@material-ui/core";
 
-import { ConditionalWrapper } from "../../libs";
-import Filters from "../index-filters";
-import IndexTable from "../index-table";
 import { ACTIONS } from "../permissions";
-import { setupMountedComponent } from "../../test";
+import { mountedComponent, screen, userEvent } from "../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
 import { PrimeroModuleRecord } from "../application/records";
 
-import ViewModal from "./view-modal";
 import RecordList from "./container";
-import RecordListToolbar from "./record-list-toolbar";
 
 describe("<RecordList />", () => {
-  let component;
-
   const initialState = fromJS({
     records: {
       FiltersTabs: {
@@ -300,7 +289,6 @@ describe("<RecordList />", () => {
       errors: false
     },
     application: {
-      online: true,
       modules: [
         PrimeroModuleRecord({
           unique_id: "primeromodule-cp",
@@ -308,86 +296,62 @@ describe("<RecordList />", () => {
           associated_record_types: ["case"]
         })
       ]
+    },
+    connectivity: {
+      online: true,
+      serverOnline: true
     }
   });
 
-  const routedComponent = initialProps => {
-    return (
-      <Route
-        path="/:recordType(cases|incidents|tracing_requests)"
-        component={props => <RecordList {...{ ...props, ...initialProps }} />}
-      />
-    );
-  };
-
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(routedComponent, {}, initialState, ["/cases"]));
+  it("renders record list table", () => {
+    mountedComponent(<RecordList />, initialState, {}, ["/cases"], {}, "/cases");
+    expect(screen.getByRole("grid")).toBeInTheDocument();
   });
 
-  it("renders record list table", done => {
-    expect(component.find(IndexTable)).to.have.length(1);
-    done();
-  });
+  it("opens the view modal when a record is clicked", async () => {
+    const user = userEvent.setup();
 
-  it("renders record view modal", done => {
-    expect(component.find(ViewModal)).to.have.lengthOf(1);
-    done();
-  });
+    mountedComponent(<RecordList />, initialState, {}, ["/cases"], {}, "/cases");
 
-  it("opens the view modal when a record is clicked", () => {
-    component.find(TableCell).at(4).simulate("click");
+    await user.click(screen.getByText("Jose"));
 
-    expect(component.find(ViewModal).props().openViewModal).to.be.true;
+    expect(screen.getByText("buttons.request_transfer")).toBeInTheDocument();
   });
 
   it("renders filters", () => {
-    expect(component.find(Filters)).to.have.lengthOf(1);
+    mountedComponent(<RecordList />, initialState, {}, ["/cases"], {}, "/cases");
+    expect(screen.getByTestId("filters")).toBeInTheDocument();
   });
 
-  it("renders valid props for RecordListToolbar components", () => {
-    const recordListToolbarProps = {
-      ...component.find(RecordListToolbar).props()
-    };
-
-    expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
-    ["clearSelectedRecords", "currentPage", "recordType", "selectedRecords", "title"].forEach(property => {
-      expect(recordListToolbarProps).to.have.property(property);
-      delete recordListToolbarProps[property];
-    });
-    expect(recordListToolbarProps).to.be.empty;
-  });
-
-  it("renders valid props for Filters components", () => {
-    const filtersProps = {
-      ...component.find(Filters).props()
-    };
-
-    expect(component.find(Filters)).to.have.lengthOf(1);
-    ["recordType", "setSelectedRecords", "metadata"].forEach(property => {
-      expect(filtersProps).to.have.property(property);
-      delete filtersProps[property];
-    });
-    expect(filtersProps).to.be.empty;
+  it("renders RecordListToolbar", () => {
+    mountedComponent(<RecordList />, initialState, {}, ["/cases"], {}, "/cases");
+    expect(screen.getByRole("toolbar")).toBeInTheDocument();
   });
 
   describe("when offline", () => {
-    const { component: offlineComponent } = setupMountedComponent(
-      routedComponent,
-      {},
-      initialState.setIn(["application", "online"], false),
-      ["/cases"]
-    );
+    it("when a record is clicked it does not open the view modal", async () => {
+      const user = userEvent.setup();
 
-    it("when a record is clicked it does not open the view modal", () => {
-      offlineComponent.find(TableCell).at(3).simulate("click");
+      mountedComponent(
+        <RecordList />,
+        initialState.setIn(["connectivity", "online"], false),
+        {},
+        ["/cases"],
+        {},
+        "/cases"
+      );
 
-      expect(component.find(ViewModal).props().openViewModal).to.be.false;
+      await user.click(screen.getByText("Jose"));
+
+      expect(screen.queryByText("buttons.request_transfer")).toBeNull();
     });
   });
 
   describe("when age is 0", () => {
     it("renders a 0 in the cell ", () => {
-      expect(component.find(TableRow).at(1).find(TableCell).at(2).find(ConditionalWrapper).text()).to.equal("0");
+      mountedComponent(<RecordList />, initialState, {}, ["/cases"], {}, "/cases");
+
+      expect(screen.getByText("0")).toBeInTheDocument();
     });
   });
 });
