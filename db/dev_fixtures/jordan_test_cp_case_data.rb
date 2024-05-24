@@ -1,6 +1,9 @@
-TOTAL_COUNT_OF_RECORDS = 1000
-PATH = 'db/dev_fixtures/names/'.freeze
+# frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+TOTAL_COUNT_OF_RECORDS = 1000
+PATH = 'db/dev_fixtures/names/'
 
 @users = {
   cp: %w[primero_cp primero_cp_admin],
@@ -121,7 +124,6 @@ def random_date(from = nil, to = nil)
 end
 
 def get_location
-  location_set = nil
   chance_in_thousand = rand(1000)
   location_set = if chance_in_thousand < 283 # Amman
                    @amman_locations
@@ -205,6 +207,7 @@ create_users('gbv')
   selected_user = get_random_user(:cp)
 
   next unless selected_user.present?
+
   concerns = []
   concern_details = []
   unhcr_needs_codes = []
@@ -256,11 +259,11 @@ create_users('gbv')
                                    record_state: true,
                                    module_id: 'primeromodule-cp',
                                    protection_status: protection_statuses[rand(protection_statuses.size)],
-                                   registration_date: registration_date,
+                                   registration_date:,
                                    risk_level: risk_level[rand(risk_level.size)],
                                    protection_concerns: concerns,
                                    protection_concern_detail_subform_section: concern_details,
-                                   unhcr_needs_codes: unhcr_needs_codes,
+                                   unhcr_needs_codes:,
                                    urgent_protection_concern: [true, false].sample,
                                    displacement_status: displacement_status[rand(displacement_status.size)],
                                    created_at: timestamps,
@@ -275,12 +278,10 @@ create_users('gbv')
   end
 
   child.save!
-end
-
-(0..TOTAL_COUNT_OF_RECORDS).each do |_i|
   selected_user = get_random_user(:gbv)
 
   next unless selected_user.present?
+
   registration_date = random_date(rand(400).days.ago)
   timestamps = [(registration_date - rand(3).days), registration_date].sample
 
@@ -293,7 +294,8 @@ end
                                          last_updated_at: timestamps,
                                          status: %w[open closed].sample,
                                          date_of_first_report: date_of_first_report.strftime('%d-%b-%Y'),
-                                         incident_date: random_date(date_of_first_report - rand(400), date_of_first_report).strftime('%d-%b-%Y'),
+                                         incident_date: random_date(date_of_first_report - rand(400),
+                                                                    date_of_first_report).strftime('%d-%b-%Y'),
                                          incident_location: get_location,
                                          gbv_sexual_violence_type: type_of_violence.sample)
   incident.save!

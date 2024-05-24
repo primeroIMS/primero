@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const NAMESPACE = "connectivity";
 export const CONNECTED = "connected";
 export const CONNECTION_LOST = "connection_lost";

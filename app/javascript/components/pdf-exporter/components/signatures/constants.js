@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable import/prefer-default-export */
 import { CASE_WORKER, CLIENT, RECIPIENT } from "../../../record-actions/exports/constants";
 

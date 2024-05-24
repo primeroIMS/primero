@@ -1,32 +1,36 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe AutoPopulatable do
   context 'when auto_populate_list is present' do
     before do
-      SystemSettings.all.each &:destroy
+      SystemSettings.all.each(&:destroy)
 
       ap1 = AutoPopulateInformation.new(field_key: 'name',
-                                       format: ['name_first', 'name_middle', 'name_last'],
-                                       separator: ' ', auto_populated: true)
+                                        format: %w[name_first name_middle name_last],
+                                        separator: ' ', auto_populated: true)
       ap2 = AutoPopulateInformation.new(field_key: 'id_code',
-                                        format: ['name_last', 'code_1', 'code_2', 'code_3'],
+                                        format: %w[name_last code_1 code_2 code_3],
                                         separator: '-', auto_populated: true)
       ap3 = AutoPopulateInformation.new(field_key: 'no_separator',
-                                        format: ['name_first', 'name_middle', 'name_last', 'code_1'],
+                                        format: %w[name_first name_middle name_last code_1],
                                         auto_populated: true)
       ap4 = AutoPopulateInformation.new(field_key: 'no_code',
-                                        format: ['name_last', 'code_1'],
+                                        format: %w[name_last code_1],
                                         separator: '-', auto_populated: false)
 
-      @system_settings = SystemSettings.create(default_locale: "en", auto_populate_list: [ap1, ap2, ap3, ap4])
+      @system_settings = SystemSettings.create(default_locale: 'en', auto_populate_list: [ap1, ap2, ap3, ap4])
       SystemSettings.stub(:current).and_return(SystemSettings.first)
     end
 
     context 'and auto_populated is true' do
       context 'and all format fields are populated' do
         before :each do
-          @t1 = Child.new(data: {name_first: 'Jim', name_middle: 'Bob', name_last: 'Smith',
-                              code_1: 'Abc', code_2: 'Def', code_3: 'Ghi'})
+          @t1 = Child.new(data: { name_first: 'Jim', name_middle: 'Bob', name_last: 'Smith',
+                                  code_1: 'Abc', code_2: 'Def', code_3: 'Ghi' })
         end
 
         context 'and SystemSettings is passed in' do
@@ -68,13 +72,12 @@ describe AutoPopulatable do
             end
           end
         end
-
       end
 
       context 'and some format fields are populated' do
         before :each do
-          @t1 = Child.new(data: {name_first: 'Jim', name_last: 'Smith',
-                              code_1: 'Abc', code_3: 'Ghi'})
+          @t1 = Child.new(data: { name_first: 'Jim', name_last: 'Smith',
+                                  code_1: 'Abc', code_3: 'Ghi' })
         end
 
         context 'and SystemSettings is passed in' do
@@ -116,7 +119,6 @@ describe AutoPopulatable do
             end
           end
         end
-
       end
 
       context 'and only one format field is populated' do
@@ -167,7 +169,7 @@ describe AutoPopulatable do
 
       context 'and no format fields are populated' do
         before :each do
-          @t1 = Child.new()
+          @t1 = Child.new
         end
 
         context 'and SystemSettings is passed in' do
@@ -214,8 +216,8 @@ describe AutoPopulatable do
 
     context 'and auto_populated is false' do
       before :each do
-        @t1 = Child.new(data: {name_first: 'Jim', name_middle: 'Bob', name_last: 'Smith',
-                            code_1: 'Abc', code_2: 'Def', code_3: 'Ghi'})
+        @t1 = Child.new(data: { name_first: 'Jim', name_middle: 'Bob', name_last: 'Smith',
+                                code_1: 'Abc', code_2: 'Def', code_3: 'Ghi' })
       end
 
       context 'and SystemSettings is passed in' do
@@ -238,12 +240,12 @@ describe AutoPopulatable do
 
   context 'when auto_populate_list is nil' do
     before do
-      SystemSettings.all.each &:destroy
+      SystemSettings.all.each(&:destroy)
 
-      @system_settings = SystemSettings.create(default_locale: "en")
+      @system_settings = SystemSettings.create(default_locale: 'en')
 
-      @t1 = Child.new(data: {name_first: 'Jim', name_middle: 'Bob', name_last: 'Smith',
-                          code_1: 'Abc', code_2: 'Def', code_3: 'Ghi'})
+      @t1 = Child.new(data: { name_first: 'Jim', name_middle: 'Bob', name_last: 'Smith',
+                              code_1: 'Abc', code_2: 'Def', code_3: 'Ghi' })
     end
 
     context 'and SystemSettings is passed in' do

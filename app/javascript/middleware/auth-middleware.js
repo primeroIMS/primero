@@ -1,8 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import get from "lodash/get";
 
 import { actions } from "../components/login/components/login-form";
 import { Actions } from "../components/user";
 import { ROUTES } from "../config";
+import { getSubscriptionFromDb } from "../libs/service-worker-utils";
 
 import {
   LOGIN_PATTERN,
@@ -31,6 +34,12 @@ const authMiddleware = store => next => action => {
 
   if (routeChanged && location === ROUTES.logout) {
     startSignout(store, true);
+
+    if (!online) {
+      logoutSuccessHandler(true);
+
+      return next(action);
+    }
   }
 
   if ([ROUTES.login, ROOT_ROUTE].includes(location) && isAuthenticated) {
@@ -45,7 +54,7 @@ const authMiddleware = store => next => action => {
     [Actions.LOGOUT_FINISHED, Actions.LOGOUT_FAILURE].includes(action.type) ||
     (Actions.LOGOUT === action.type && !online)
   ) {
-    logoutSuccessHandler(store);
+    logoutSuccessHandler();
   }
 
   if (RESET_PATTERN.test(location) && useIdentityProvider) {
@@ -54,7 +63,13 @@ const authMiddleware = store => next => action => {
     handleReturnUrl(store, location);
   }
 
-  next(action);
+  if (Actions.SAVE_USER_NOTIFICATION_SUBSCRIPTION === action.type) {
+    getSubscriptionFromDb().then(endpoint => {
+      next({ ...action, payload: endpoint });
+    });
+  }
+
+  return next(action);
 };
 
 export default authMiddleware;

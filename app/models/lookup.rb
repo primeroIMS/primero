@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Model for Lookup
 # rubocop:disable Metrics/ClassLength
 class Lookup < ApplicationRecord
@@ -127,7 +129,7 @@ class Lookup < ApplicationRecord
   end
 
   def contains_option_id?(option_id)
-    lookup_values_i18n.any? { |value| value.dig('id') == option_id }
+    lookup_values_i18n.any? { |value| value['id'] == option_id }
   end
 
   def validate_options_have_default_locale
@@ -171,7 +173,7 @@ class Lookup < ApplicationRecord
   def update_properties(lookup_properties)
     lookup_properties = lookup_properties.with_indifferent_access if lookup_properties.is_a?(Hash)
     self.name_i18n = FieldI18nService.merge_i18n_properties(
-      { name_i18n: name_i18n },
+      { name_i18n: },
       name_i18n: lookup_properties[:name]
     )[:name_i18n]
     self.attributes = lookup_properties.except(:name, :values)

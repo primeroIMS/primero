@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 class CreateFields < ActiveRecord::Migration[5.0]
   def change
     create_table :fields do |t|
@@ -27,10 +29,10 @@ class CreateFields < ActiveRecord::Migration[5.0]
       t.boolean 'autosum_total', null: false, default: false
       t.string 'autosum_group'
       t.string 'selected_value'
-      t.text 'link_to_path'  #Used to handle a text field as a link on the show pages
-      t.boolean 'link_to_path_external', null: false, default: true #TODO: Delete after UIUX refactor
-      t.string 'field_tags', array: true, default: [] #TODO: Maybe not needed after UIUX refactor
-      t.string 'custom_template' #TODO: Maybe not needed after UIUX refactor
+      t.text 'link_to_path' # Used to handle a text field as a link on the show pages
+      t.boolean 'link_to_path_external', null: false, default: true # TODO: Delete after UIUX refactor
+      t.string 'field_tags', array: true, default: [] # TODO: Maybe not needed after UIUX refactor
+      t.string 'custom_template' # TODO: Maybe not needed after UIUX refactor
       t.boolean 'expose_unique_id', null: false, default: false
       t.boolean 'required', null: false, default: false
       t.string 'date_validation', default: 'default_date_validation'

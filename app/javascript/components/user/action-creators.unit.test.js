@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
@@ -135,6 +137,10 @@ describe("User - Action Creators", () => {
           manifest: "/test-locations.json"
         }
       }
+    },
+    {
+      type: "application/FETCH_WEBPUSH_CONFIG",
+      api: { path: "webpush/config" }
     }
   ];
 
@@ -150,7 +156,9 @@ describe("User - Action Creators", () => {
       "setAuthenticatedUser",
       "setUser",
       "showLoginDialog",
-      "getAppResources"
+      "getAppResources",
+      "saveNotificationSubscription",
+      "removeNotificationSubscription"
     ].forEach(method => {
       expect(creators).to.have.property(method);
       expect(creators[method]).to.be.a("function");
@@ -261,8 +269,8 @@ describe("User - Action Creators", () => {
     return store.dispatch(actionCreators.checkUserAuthentication()).then(() => {
       const actions = store.getActions();
 
-      expect(actions).to.have.lengthOf(2);
-      expect(actions).to.be.deep.equal(parentActions);
+      expect(actions).to.have.lengthOf(9);
+      expect(actions).to.be.deep.equal(expectedAsyncActions);
     });
   });
 

@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Create a new saved searches
 
 Create a new saved search and optionally return the entire the saved searches.

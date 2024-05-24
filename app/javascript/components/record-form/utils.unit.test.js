@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { parseISO } from "date-fns";
 import { fromJS } from "immutable";
 import { expect } from "chai";
@@ -8,6 +10,7 @@ import {
   CHANGE_LOGS,
   FAMILY_FROM_CASE,
   INCIDENT_FROM_CASE,
+  INCIDENT_TRANSFERS_ASSIGNMENTS,
   RECORD_OWNER,
   REFERRAL,
   REGISTRY_FROM_CASE,
@@ -542,6 +545,7 @@ describe("<RecordForms /> - utils", () => {
         INCIDENT_FROM_CASE,
         REFERRAL,
         TRANSFERS_ASSIGNMENTS,
+        INCIDENT_TRANSFERS_ASSIGNMENTS,
         CHANGE_LOGS,
         REGISTRY_FROM_CASE,
         FAMILY_FROM_CASE,

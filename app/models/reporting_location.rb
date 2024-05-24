@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Model for the Reporting Location configuration
 class ReportingLocation < ValueObject
   DEFAULT_FIELD_KEY = 'owned_by_location'
@@ -20,6 +22,6 @@ class ReportingLocation < ValueObject
   end
 
   def valid_admin_level?
-    levels.include?(admin_level) ? true : false
+    levels.include?(admin_level)
   end
 end

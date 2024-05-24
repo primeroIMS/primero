@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import CheckIcon from "@material-ui/icons/Check";
@@ -13,7 +15,7 @@ import { NAME } from "./constants";
 import css from "./styles.css";
 
 const Component = ({ mobile }) => {
-  const { online } = useApp();
+  const { online, useContainedNavStyle } = useApp();
   const i18n = useI18n();
 
   const fieldMode = useMemoizedSelector(state => getFieldMode(state));
@@ -22,11 +24,12 @@ const Component = ({ mobile }) => {
     [css.networkIndicator]: true,
     [css.offline]: !online,
     [css.online]: online,
-    [css.mobile]: mobile
+    [css.mobile]: mobile,
+    [css.contained]: useContainedNavStyle
   });
 
   if (fieldMode) {
-    return <NetworkStatus mobile={mobile} />;
+    return <NetworkStatus mobile={mobile} contained={useContainedNavStyle} />;
   }
 
   return (

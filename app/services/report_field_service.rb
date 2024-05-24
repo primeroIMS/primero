@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # ReportFieldService
 class ReportFieldService
   HORIZONTAL = 'horizontal'
@@ -21,7 +23,7 @@ class ReportFieldService
     report_field_hash = {
       name: field&.name,
       display_name: field&.display_name_i18n,
-      position: { type: type, order: order }
+      position: { type:, order: }
     }
     report_field_hash.merge(report_field_options(field, pivot_name, record_type) || {})
   end

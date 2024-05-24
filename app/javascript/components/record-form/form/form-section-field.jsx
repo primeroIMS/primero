@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
@@ -156,7 +158,7 @@ const FormSectionField = ({
 
   return (
     <ConditionalWrapper condition={!mode.isShow && disabled} wrapper={Tooltip} title={i18n.t("messages.cannot_edit")}>
-      <div className={classes}>
+      <div className={classes} data-testid="form-field">
         <FieldComponent {...fieldProps} mode={mode} formSection={formSection} />
         {renderGuidingQuestions}
       </div>

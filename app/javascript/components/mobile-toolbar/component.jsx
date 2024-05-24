@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import MenuIcon from "@material-ui/icons/Menu";
 import { AppBar, Toolbar, IconButton, Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";
@@ -23,16 +25,18 @@ const MobileToolbar = ({ openDrawer, hasUnsubmittedOfflineChanges = false }) => 
       <AppBar position="fixed">
         <Toolbar className={css[demo ? "toolbar-demo" : "toolbar"]}>
           <IconButton edge="start" color="default" aria-label="Menu" onClick={openDrawer}>
-            <MenuIcon />
+            <MenuIcon className={css.hamburger} />
             {hasUnsubmittedOfflineChanges && (
               <div className={css.menuAlert}>
                 <Jewel value mobileDisplay isForm />
               </div>
             )}
           </IconButton>
-          <ModuleLogo className={css.logo} />
-          {demoText}
-          <NetworkIndicator mobile />
+          <div className={css.appBarContent}>
+            <ModuleLogo className={css.logo} />
+            {demoText}
+            <NetworkIndicator mobile />
+          </div>
         </Toolbar>
       </AppBar>
     </Hidden>

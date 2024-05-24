@@ -1,3 +1,5 @@
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 ---
 ansible_python_interpreter: '/usr/bin/python3'
 qi_install_python3_docker_pip_names:
