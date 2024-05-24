@@ -10,6 +10,6 @@ json.data do
   end
   json.record do
     json.id @record.id
-    json.type Record.map_name(@record.class.name)
+    json.type PrimeroModelService.to_name(@record.class.name)
   end
 end

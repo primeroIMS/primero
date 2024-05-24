@@ -47,7 +47,7 @@ class Api::V2::UsersTransitionsController < ApplicationApiController
   end
 
   def record_model
-    @record_model = Record.model_from_name(params[:record_type])
+    @record_model = PrimeroModelService.to_model(params[:record_type])
   end
 
   def record_module_unique_id

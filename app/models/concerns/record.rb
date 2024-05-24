@@ -21,21 +21,6 @@ module Record
     before_save :populate_subform_ids
   end
 
-  def self.model_from_name(name)
-    case name
-    when 'case' then Child
-    when 'violation' then Incident
-    else Object.const_get(name.camelize)
-    end
-  rescue NameError
-    nil
-  end
-
-  def self.map_name(name)
-    name = name.underscore
-    name == 'child' ? 'case' : name
-  end
-
   # Class methods for all Record types
   module ClassMethods
     def new_with_user(user, data = {})

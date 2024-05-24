@@ -17,8 +17,9 @@ class ApplicationApiController < ActionController::API
     attr_accessor :model_class
   end
 
+  # NOTE: If request unit tests are breaking, make sure to update the list of permitted models in PrimeroModelService
   def model_class
-    @model_class ||= Record.model_from_name(request.path.split('/')[3].singularize)
+    @model_class ||= PrimeroModelService.to_model(request.path.split('/')[3].singularize)
   end
 
   def record_id

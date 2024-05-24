@@ -48,7 +48,7 @@ class Api::V2::BulkExportsController < ApplicationApiController
   def authorize_export!
     export_format = export_params[:export_format] == 'xlsx' ? 'xls' : export_params[:export_format]
     action = "export_#{export_format}".to_sym
-    record_model = export_params[:record_type] && Record.model_from_name(export_params[:record_type])
+    record_model = export_params[:record_type] && PrimeroModelService.to_model(export_params[:record_type])
     authorize! action, record_model
   end
 
