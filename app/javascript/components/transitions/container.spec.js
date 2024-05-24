@@ -1,21 +1,10 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { Map, List } from "immutable";
-import { AccordionDetails, AccordionSummary } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../test";
+import { mountedComponent, screen } from "../../test-utils";
 
 import Transitions from "./container";
-import TransitionPanel from "./TransitionPanel";
-import AssignmentsSummary from "./assignments/AssignmentsSummary";
-import AssignmentsDetails from "./assignments/AssignmentsDetails";
-import TransferSummary from "./transfers/TransferDetails";
-import TransferDetails from "./transfers/TransferSummary";
-import TransferRequestSummary from "./transfer_requests/summary";
-import TransferRequestDetails from "./transfer_requests/details";
 
 describe("<Transitions /> - Component", () => {
-  let component;
   const props = {
     fetchable: true,
     recordType: "cases",
@@ -71,32 +60,32 @@ describe("<Transitions /> - Component", () => {
     })
   });
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(Transitions, props, initialState));
-  });
-
   it("renders Transitions component", () => {
-    expect(component.find(Transitions)).to.have.length(1);
+    mountedComponent(<Transitions {...props} />, initialState);
+    expect(screen.getByTestId("transitions")).toBeInTheDocument();
   });
 
   it("renders 2 TransitionPanel", () => {
-    expect(component.find(TransitionPanel)).to.have.lengthOf(3);
-    expect(component.find(AccordionDetails)).to.have.lengthOf(3);
-    expect(component.find(AccordionSummary)).to.have.lengthOf(3);
+    mountedComponent(<Transitions {...props} />, initialState);
+    expect(screen.getAllByTestId("accordion")).toHaveLength(3);
   });
 
   it("renders a Assignments components", () => {
-    expect(component.find(AssignmentsSummary)).to.have.length(1);
-    expect(component.find(AssignmentsDetails)).to.have.length(1);
+    mountedComponent(<Transitions {...props} />, initialState);
+    expect(screen.getByText(/transition.type.assign/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/transition.notes/i)).toHaveLength(3);
   });
 
   it("renders a Transfers components", () => {
-    expect(component.find(TransferSummary)).to.have.length(1);
-    expect(component.find(TransferDetails)).to.have.length(1);
+    mountedComponent(<Transitions {...props} />, initialState);
+    expect(screen.getByText(/transition.no_consent_share/i)).toBeInTheDocument();
+    expect(screen.getByText(/transition.type.transferRequest/i)).toBeInTheDocument();
   });
 
   it("renders TransferRequests components", () => {
-    expect(component.find(TransferRequestSummary)).to.have.lengthOf(1);
-    expect(component.find(TransferRequestDetails)).to.have.lengthOf(1);
+    mountedComponent(<Transitions {...props} />, initialState);
+    expect(screen.getByText(/transition.type.transferRequest/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/transition.recipient/i)).toHaveLength(3);
   });
 });
+
