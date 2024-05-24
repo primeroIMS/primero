@@ -10,6 +10,6 @@ describe("<FormsList />/components/<DragIndicator />", () => {
   });
 
   it("renders icon", () => {
-    expect(screen.getByTestId("error-icon")).toBeInTheDocument();
+    expect(screen.getByTestId("drag-indicator")).toBeInTheDocument();
   });
 });
