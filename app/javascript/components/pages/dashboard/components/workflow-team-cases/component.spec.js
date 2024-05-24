@@ -103,8 +103,8 @@ describe("<WorkflowTeamCases> - pages/dashboard/components/workflow-team-cases",
     expect(screen.getByRole("grid")).toBeInTheDocument();
   });
 
-  xit("should render 4 columns", () => {
-    expect(tableCells).to.have.lengthOf(4);
+  it("should render 4 columns", () => {
+    expect(document.querySelectorAll("th")).toHaveLength(4);
   });
 
   it("should render New column", () => {
