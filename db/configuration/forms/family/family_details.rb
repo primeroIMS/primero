@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 family_members_section_fields = [
   Field.new(name: 'relation_name',
             type: 'text_field',
@@ -10,8 +12,12 @@ family_members_section_fields = [
             display_name_en: 'What is their role in the family?',
             option_strings_source: 'lookup lookup-family-relationship',
             matchable: true,
-            help_text_en: 'This field can be copied to/from the Case but is not s shared field and '\
+            help_text_en: 'This field can be copied to/from the Case but is not a shared field and ' \
                           'can be edited on the Family record.'),
+  Field.new(name: 'family_relation_is_caregiver',
+            type: 'tick_box',
+            display_name_en: 'Is this person the caregiver for one of the children in this family?',
+            tick_box_label_en: 'Yes'),
   Field.new(name: 'family_relationship_notes',
             type: 'textarea',
             display_name_en: 'Notes on their role in the family.',
@@ -196,7 +202,7 @@ FormSection.create_or_update!(
   order_form_group: 30,
   order: 20,
   order_subform: 0,
-  form_group_id: 'family_overview',
+  form_group_id: 'family_members',
   editable: true,
   fields: family_members_fields,
   name_en: 'Family Members',

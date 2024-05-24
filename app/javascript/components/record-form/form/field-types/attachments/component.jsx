@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable jsx-a11y/media-has-caption, jsx-a11y/label-has-for */
 
 import { useState } from "react";

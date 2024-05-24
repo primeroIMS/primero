@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 followup_subform_fields = [
   Field.new('name' => 'followup_type',
             'type' => 'select_box',

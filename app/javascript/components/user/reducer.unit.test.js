@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import { mapListToObject, mapObjectPropertiesToRecords } from "../../libs";
@@ -8,12 +10,14 @@ import { FilterRecord, ListHeaderRecord } from "./records";
 
 describe("User - Reducers", () => {
   const initialState = fromJS({
-    isAuthenticated: false
+    isAuthenticated: false,
+    loaded: false
   });
 
   it("should handle SET_AUTHENTICATED_USER", () => {
     const expected = fromJS({
       isAuthenticated: true,
+      loaded: false,
       id: 1,
       username: "primero"
     });
@@ -47,6 +51,7 @@ describe("User - Reducers", () => {
       modules: ["primeromodule-cp", "primeromodule-gbv"],
       permittedForms: { record_owner: "r", client_feedback: "rw" },
       permittedRoleUniqueIds: ["role_1", "role_2"],
+      loaded: true,
       locale: "en",
       permissions: mapListToObject(
         [
@@ -58,6 +63,7 @@ describe("User - Reducers", () => {
         "resource",
         "actions"
       ),
+      receiveWebpush: undefined,
       reportingLocationConfig: {
         field_key: "owned_by_location",
         admin_level: 2,
@@ -104,7 +110,8 @@ describe("User - Reducers", () => {
       location: "XX",
       agencyLogo: undefined,
       codeOfConductAcceptedOn: "2021-17-03",
-      codeOfConductId: 1
+      codeOfConductId: 1,
+      managedReportScope: undefined
     });
 
     const payload = {

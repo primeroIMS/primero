@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # UI/UX Development
 
 v2 ui can be found in the `app/javascript` directory.

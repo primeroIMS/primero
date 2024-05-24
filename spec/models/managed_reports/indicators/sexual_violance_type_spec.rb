@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe ManagedReports::Indicators::SexualViolenceType do
@@ -130,9 +132,9 @@ describe ManagedReports::Indicators::SexualViolenceType do
     Violation.create!(
       data: {
         type: 'sexual_violence', sexual_violence_type: %w[
-          forced_abortion
-          forced_marriage
-        ],
+                                   forced_abortion
+                                   forced_marriage
+                                 ],
         violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 }
       },
       incident_id: incident2.id
@@ -140,8 +142,8 @@ describe ManagedReports::Indicators::SexualViolenceType do
     Violation.create!(
       data: {
         type: 'sexual_violence', sexual_violence_type: [
-          'rape'
-        ],
+                                   'rape'
+                                 ],
         violation_tally: { 'boys': 2, 'girls': 1, 'unknown': 2, 'total': 5 }
       },
       incident_id: incident3.id
@@ -149,9 +151,9 @@ describe ManagedReports::Indicators::SexualViolenceType do
     Violation.create!(
       data: {
         type: 'sexual_violence', sexual_violence_type: %w[
-          forced_abortion
-          rape
-        ],
+                                   forced_abortion
+                                   rape
+                                 ],
         violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 }
       },
       incident_id: incident4.id
@@ -159,8 +161,8 @@ describe ManagedReports::Indicators::SexualViolenceType do
     Violation.create!(
       data: {
         type: 'killing', sexual_violence_type: [
-          'forced_abortion'
-        ],
+                           'forced_abortion'
+                         ],
         violation_tally: { 'boys': 2, 'girls': 4, 'unknown': 3, 'total': 9 }
       },
       incident_id: incident4.id

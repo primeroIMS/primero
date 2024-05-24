@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Map, List, fromJS } from "immutable";
 
 import { RECORD_PATH } from "../../config/constants";
@@ -115,3 +117,6 @@ export const getSelectedRecordData = (state, recordType) => {
 
   return selectRecord(state, { id: selectedRecordId, recordType, isEditOrShow: true });
 };
+
+export const getCaseFormFamilyMemberLoading = (state, recordType) =>
+  state.getIn(["records", recordType, "case_from_family", "loading"], false);

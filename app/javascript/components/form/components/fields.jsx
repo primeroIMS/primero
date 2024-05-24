@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import clsx from "clsx";
 
 import fieldKey from "../utils/field-key";
@@ -23,7 +25,7 @@ const Fields = ({ fields, checkErrors, disableUnderline, formSection, css, formM
       const formUniqueId = formSection?.unique_id || field?.unique_id;
 
       return (
-        <div key={`${formUniqueId}-row`} className={calculatedClasses(field)}>
+        <div key={`${formUniqueId}-row`} className={calculatedClasses(field)} data-testid="form-fields">
           <Fields
             fields={field.row}
             checkErrors={checkErrors}

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import getViolationAssociationsValues from "./get-violation-associations-values";
 
 describe("getViolationAssociationsValues", () => {
