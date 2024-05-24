@@ -1,16 +1,11 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
+import { mountedComponent, screen } from "test-utils";
 import { List } from "immutable";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
-
-import { setupMountedComponent } from "../../../../../../test";
-import TableRow from "../table-row";
+import { DragDropContext } from "react-beautiful-dnd";
 
 import FormSection from "./component";
 
 describe("<FormsList />/components/<FormSection />", () => {
-  let component;
-
   beforeEach(() => {
     const group = List([
       {
@@ -30,14 +25,11 @@ describe("<FormsList />/components/<FormSection />", () => {
       </DragDropContext>
     );
 
-    ({ component } = setupMountedComponent(RenderFormSection, {}));
-  });
-
-  it("renders <Droppable/>", () => {
-    expect(component.find(Droppable)).to.have.lengthOf(1);
+    RenderFormSection.displayName = "RenderFormSection";
+    mountedComponent(<RenderFormSection />);
   });
 
   it("renders <TableRow/>", () => {
-    expect(component.find(TableRow)).to.have.lengthOf(1);
+    expect(screen.getByText("form_section.form_name")).toBeInTheDocument();
   });
 });
