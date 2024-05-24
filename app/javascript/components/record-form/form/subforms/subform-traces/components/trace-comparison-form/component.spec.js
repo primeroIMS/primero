@@ -1,7 +1,4 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
-import { Grid } from "@material-ui/core";
 
 import {
   FormSectionRecord,
@@ -12,15 +9,12 @@ import {
   SELECT_FIELD
 } from "../../../../../../form";
 import { RECORD_PATH, RECORD_TYPES } from "../../../../../../../config";
-import { setupMountedComponent } from "../../../../../../../test";
+import { mountedComponent, screen } from "../../../../../../../test-utils";
 import { FORMS } from "../../constants";
-import FieldRow from "../field-row";
 
 import TraceComparisonForm from "./component";
 
 describe("<RecordForm>/form/subforms/<SubformTraces>/components/<TraceComparisonForm>", () => {
-  let component;
-
   const recordModule = "record-module";
   const initialProps = {
     recordType: RECORD_PATH.tracing_requests,
@@ -112,66 +106,36 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<TraceComparison
     }
   });
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      TraceComparisonForm,
-      initialProps,
-      initialState,
-      ["tr/trq-9876-5432"],
-      {},
-      "tr/:id"
-    ));
-  });
-
-  it("should render the top fields", () => {
-    expect(component.find(FieldRow).at(0).find(Grid).find("span").text()).to.equal("Name");
-    expect(component.find(FieldRow).at(1).find(Grid).find("span").text()).to.equal("Nickname");
-    expect(component.find(FieldRow).at(2).find(Grid).find("span").text()).to.equal("Sex");
-    expect(component.find(FieldRow).at(3).find(Grid).find("span").text()).to.equal("Age");
-    expect(component.find(FieldRow).at(4).find(Grid).find("span").text()).to.equal("Date of Birth");
-  });
-
   it("should render the fields of those forms with comparison data", () => {
-    expect(component.find(FieldRow).at(5).find(Grid).find("span").text()).to.equal("Name");
-    expect(component.find(FieldRow).at(6).find(Grid).find("span").text()).to.equal("Nickname");
-    expect(component.find(FieldRow).at(7).find(Grid).find("span").text()).to.equal("Sex");
-    expect(component.find(FieldRow).at(8).find(Grid).find("span").text()).to.equal("Age");
-    expect(component.find(FieldRow).at(9).find(Grid).find("span").text()).to.equal("Date of Birth");
-    expect(component.find(FieldRow).at(10).find(Grid).find("span").text()).to.equal("Field 1");
+    mountedComponent(<TraceComparisonForm {...initialProps} />, initialState, {}, ["tr/trq-9876-5432"], {}, "tr/:id");
+    expect(screen.getAllByText("Name")).toHaveLength(2);
+    expect(screen.getAllByText("Nickname")).toHaveLength(2);
+    expect(screen.getAllByText("Sex")).toHaveLength(2);
+    expect(screen.getAllByText("Age")).toHaveLength(2);
+    expect(screen.getAllByText("Date of Birth")).toHaveLength(2);
+    expect(screen.getByText("Field 1")).toBeInTheDocument();
   });
 
   it("should render not found for forms without comparison data", () => {
-    expect(component.find("h2").at(7).text()).to.equal("Second Form");
-    expect(component.find(Grid).find("span").at(17).text()).to.equal("tracing_request.messages.nothing_found");
+    mountedComponent(<TraceComparisonForm {...initialProps} />, initialState, {}, ["tr/trq-9876-5432"], {}, "tr/:id");
+    expect(screen.getByText("Second Form")).toBeInTheDocument();
+    expect(screen.getAllByText(/tracing_request.messages.nothing_found/i)).toHaveLength(5);
   });
 
   it("should not render already matched message", () => {
-    expect(
-      component
-        .find("div span")
-        .map(elem => elem.text())
-        .includes("tracing_request.messages.already_matched")
-    ).to.be.false;
+    mountedComponent(<TraceComparisonForm {...initialProps} />, initialState, {}, ["tr/trq-9876-5432"], {}, "tr/:id");
+    expect(screen.queryByText(/tracing_request.messages.already_matched/i)).toBeNull();
   });
 
-  context("when the case has matched traces", () => {
+  describe("when the case has matched traces", () => {
     const stateWithMatchedTraces = initialState.setIn(
       ["records", "cases", "matchedTraces", "data"],
       fromJS([{ id: "123" }])
     );
-    const { component: componentWithTraces } = setupMountedComponent(
-      TraceComparisonForm,
-      initialProps,
-      stateWithMatchedTraces
-    );
 
     it("should render already matched message", () => {
-      expect(
-        componentWithTraces
-          .find("div span")
-          .map(elem => elem.text())
-          .includes("tracing_request.messages.already_matched")
-      ).to.be.true;
+      mountedComponent(<TraceComparisonForm {...initialProps} />, stateWithMatchedTraces);
+      expect(screen.getByText(/tracing_request.messages.already_matched/i)).toBeInTheDocument();
     });
   });
 });
