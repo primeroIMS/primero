@@ -1,7 +1,7 @@
 import { fromJS, OrderedMap } from "immutable";
 
 import { ACTIONS } from "../permissions";
-import { mountedComponent, screen } from "../../test-utils";
+import { mountedComponent, screen, userEvent } from "../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
 import { PrimeroModuleRecord } from "../application/records";
 
@@ -289,7 +289,6 @@ describe("<RecordList />", () => {
       errors: false
     },
     application: {
-      online: true,
       modules: [
         PrimeroModuleRecord({
           unique_id: "primeromodule-cp",
@@ -297,43 +296,62 @@ describe("<RecordList />", () => {
           associated_record_types: ["case"]
         })
       ]
+    },
+    connectivity: {
+      online: true,
+      serverOnline: true
     }
   });
 
-  it("renders record list table", done => {
-    mountedComponent(<RecordList />, initialState, ["/cases"]);
-    expect(screen.getByRole("toolbar")).toBeInTheDocument();
-    done();
+  it("renders record list table", () => {
+    mountedComponent(<RecordList />, initialState, {}, ["/cases"], {}, "/cases");
+    expect(screen.getByRole("grid")).toBeInTheDocument();
   });
 
-  it("renders record view modal", done => {
-    mountedComponent(<RecordList />, initialState, ["/cases"]);
-    expect(screen.getAllByText("messages.record_list.rows_per_page")).toHaveLength(2);
+  it("opens the view modal when a record is clicked", async () => {
+    const user = userEvent.setup();
 
-    done();
-  });
+    mountedComponent(<RecordList />, initialState, {}, ["/cases"], {}, "/cases");
 
-  it("opens the view modal when a record is clicked", () => {
-    mountedComponent(<RecordList />, initialState, ["/cases"]);
-    expect(screen.getAllByText("messages.record_list.rows_per_page")).toHaveLength(2);
+    await user.click(screen.getByText("Jose"));
+
+    expect(screen.getByText("buttons.request_transfer")).toBeInTheDocument();
   });
 
   it("renders filters", () => {
-    mountedComponent(<RecordList />, initialState, ["/cases"]);
+    mountedComponent(<RecordList />, initialState, {}, ["/cases"], {}, "/cases");
     expect(screen.getByTestId("filters")).toBeInTheDocument();
   });
 
+  it("renders RecordListToolbar", () => {
+    mountedComponent(<RecordList />, initialState, {}, ["/cases"], {}, "/cases");
+    expect(screen.getByRole("toolbar")).toBeInTheDocument();
+  });
+
   describe("when offline", () => {
-    it("when a record is clicked it does not open the view modal", () => {
-      mountedComponent(<RecordList />, initialState.setIn(["application", "online"], false), ["/cases"]);
-      expect(screen.queryAllByRole("presentation")).toHaveLength(0);
+    it("when a record is clicked it does not open the view modal", async () => {
+      const user = userEvent.setup();
+
+      mountedComponent(
+        <RecordList />,
+        initialState.setIn(["connectivity", "online"], false),
+        {},
+        ["/cases"],
+        {},
+        "/cases"
+      );
+
+      await user.click(screen.getByText("Jose"));
+
+      expect(screen.queryByText("buttons.request_transfer")).toBeNull();
     });
   });
 
   describe("when age is 0", () => {
     it("renders a 0 in the cell ", () => {
-      mountedComponent(<RecordList />, initialState.setIn(["application", "online"], false), ["/cases"]);
-      expect(screen.getAllByText("0-0 messages.record_list.of 0")).toHaveLength(2);
+      mountedComponent(<RecordList />, initialState, {}, ["/cases"], {}, "/cases");
+
+      expect(screen.getByText("0")).toBeInTheDocument();
     });
   });
 });
