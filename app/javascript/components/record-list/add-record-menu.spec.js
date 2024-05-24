@@ -59,20 +59,31 @@ describe("<AddRecordMenu /> record-list/add-record-menu", () => {
       <AddRecordMenu {...{ ...props }} />,
       state.merge(fromJS({ user: { modules: ["primerotest-3"] } }))
     );
+
     await user.click(screen.getByText(/buttons.new/));
-    expect(screen.getAllByRole("presentation")).toHaveLength(1);
+
+    expect(screen.queryByTestId("CreateRecordDialog")).toBeInTheDocument();
   });
 
-  it("does not render <CreateRecordDialog /> if module does not allow_searchable_ids", () => {
+  it("does not render <CreateRecordDialog /> if module does not allow_searchable_ids", async () => {
+    const user = userEvent.setup();
+
     mountedComponent(<AddRecordMenu {...props} />, state.merge(fromJS({ user: { modules: ["primerotest-1"] } })));
+
+    await user.click(screen.getByText(/buttons.new/));
+
     expect(screen.queryByTestId("CreateRecordDialog")).toBeNull();
   });
 
-  it("does not render <CreateRecordDialog /> if recordType is not cases", () => {
+  it("does not render <CreateRecordDialog /> if recordType is not cases", async () => {
+    const user = userEvent.setup();
+
     mountedComponent(
       <AddRecordMenu {...{ recordType: RECORD_PATH.tracing_requests }} />,
       state.merge(fromJS({ user: { modules: ["primerotest-1"] } }))
     );
+
+    await user.click(screen.getByText(/buttons.new/));
 
     expect(screen.queryByTestId("CreateRecordDialog")).toBeNull();
   });

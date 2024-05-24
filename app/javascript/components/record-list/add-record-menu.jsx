@@ -78,15 +78,7 @@ const AddRecordMenu = ({ recordType }) => {
   };
 
   const renderDialog = uniqueId =>
-    uniqueId && (
-      <CreateRecordDialog
-        data-testid="CreateRecordDialog"
-        setOpen={setOpen}
-        open={open}
-        recordType={recordType}
-        moduleUniqueId={uniqueId}
-      />
-    );
+    uniqueId && <CreateRecordDialog setOpen={setOpen} open={open} recordType={recordType} moduleUniqueId={uniqueId} />;
 
   const renderCreateRecord =
     searchAndCreateWorkflow && recordType === RECORD_PATH.cases ? (
