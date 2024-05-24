@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -15,6 +17,9 @@ import { setServiceToRefer } from "../../../record-form/action-creators";
 import { getServiceToRefer } from "../../../record-form";
 import PdfExporter from "../../../pdf-exporter";
 import { useMemoizedSelector } from "../../../../libs";
+import { fetchReferralAuthorizationRoles } from "../../../application/action-creators";
+import { getReferralAuthorizationRolesLoading, getReferralAuthorizationRoles } from "../../../application/selectors";
+import LoadingIndicator from "../../../loading-indicator";
 
 import { getReferralSuccess } from "./selectors";
 import { mapServiceFields, customReferralFormProps } from "./utils";
@@ -43,6 +48,8 @@ const Referrals = ({
 
   const [formValues, setFormValues] = useState({});
 
+  const referralAuthorizationRolesLoading = useMemoizedSelector(state => getReferralAuthorizationRolesLoading(state));
+  const referralAuthorizationRoles = useMemoizedSelector(state => getReferralAuthorizationRoles(state));
   const submittedSuccessfully = useMemoizedSelector(state => getReferralSuccess(state));
   const serviceToRefer = useMemoizedSelector(state => getServiceToRefer(state));
   const formErrors = useMemoizedSelector(state => getErrorsByTransitionType(state, TRANSITION_TYPE));
@@ -64,7 +71,8 @@ const Referrals = ({
     recordType,
     recordModuleID: record?.get("module_id"),
     isReferralFromService,
-    isExternalReferralFromService
+    isExternalReferralFromService,
+    hasReferralRoles: !referralAuthorizationRoles.isEmpty()
   });
 
   const handleSubmit = values => {
@@ -103,8 +111,14 @@ const Referrals = ({
     }
   }, [submittedSuccessfully]);
 
+  useEffect(() => {
+    if (dispatch) {
+      dispatch(fetchReferralAuthorizationRoles());
+    }
+  }, [dispatch]);
+
   return (
-    <>
+    <LoadingIndicator loading={referralAuthorizationRolesLoading} hasData={!referralAuthorizationRolesLoading}>
       <Form
         formID={formID}
         submitAllFields
@@ -131,7 +145,7 @@ const Referrals = ({
           />
         )}
       />
-    </>
+    </LoadingIndicator>
   );
 };
 

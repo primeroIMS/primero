@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # TODO: Refactor this!!! Write some tests!
 
 # Class for Ability
@@ -87,7 +89,7 @@ class Ability
   end
 
   def permitted_to_access_role?(instance, actions, permission)
-    return false if instance.super_user_role? || instance.user_admin_role? && !user.super_user?
+    return false if instance.super_user_role? || (instance.user_admin_role? && !user.super_user?)
 
     return check_role_id(instance, permission) if read_write_or_assign?(actions)
 
@@ -132,7 +134,7 @@ class Ability
   def configure_resource(resource, actions, is_record = false)
     if is_record
       can actions, resource do |instance|
-        permitted_to_access_record?(user, instance)
+        user.permitted_to_access_record?(instance)
       end
       can(:index, Task) if (resource == Child) && user.permission?(Permission::DASH_TASKS)
       can(:index, Flag) if user.permission?(Permission::DASH_FLAGS)
@@ -143,16 +145,22 @@ class Ability
 
   def configure_tracing_request(actions)
     can(actions, TracingRequest) do |instance|
-      permitted_to_access_record?(user, instance)
+      user.permitted_to_access_record?(instance)
     end
     can(actions, Trace) do |instance|
-      permitted_to_access_record?(user, instance.tracing_request)
+      user.permitted_to_access_record?(instance.tracing_request)
     end
   end
 
   def configure_flag(resource)
     can [:flag_record], resource do |instance|
       can?(:read, instance) && can?(:flag, instance)
+    end
+  end
+
+  def resolve_flag(resource)
+    can [:flag_resolve], resource do |instance|
+      (can?(:read, instance) && can?(:flag, instance)) || (can?(:read, instance) && can?(:resolve_any_flag, instance))
     end
   end
 
@@ -166,52 +174,20 @@ class Ability
 
   def configure_record_attachments
     can(:read, Attachment) do |instance|
-      permitted_to_access_attachment?(user, instance) ||
-        permitted_to_view_attachment?(user, instance)
+      PermittedAttachmentService.permitted_to_read?(user, instance, @permitted_form_fields_service)
     end
 
-    can(%i[write destroy], Attachment) do |instance|
-      permitted_to_access_attachment?(user, instance, true)
-    end
-  end
-
-  def permitted_to_access_attachment?(user, attachment, write = false)
-    @permitted_form_fields_service.permitted_field_names(
-      user.role,
-      Record.map_name(attachment.record_type),
-      write
-    ).include?(attachment.field_name) && (
-      permitted_to_access_record?(user, attachment.record) || user.can_preview?(attachment.record.class)
-    )
-  end
-
-  def permitted_to_view_attachment?(user, attachment)
-    permitted_to_access_record?(user, attachment.record) && (
-      (attachment.attachment_type == Attachment::IMAGE && user.can?(:view_photo, PotentialMatch)) || (
-        attachment.attachment_type == Attachment::AUDIO && user.can?(:view_audio, PotentialMatch)
-      )
-    )
-  end
-
-  def permitted_to_access_record?(user, record)
-    if user.group_permission? Permission::ALL
-      true
-    elsif user.group_permission? Permission::AGENCY
-      record.associated_user_agencies.include?(user.agency.unique_id)
-    elsif user.group_permission? Permission::GROUP
-      # TODO: This may need to be record&.owned_by_groups
-      (user.user_group_unique_ids & record&.associated_user_groups).present?
-    else
-      record&.associated_user_names&.include?(user.user_name)
+    can(%i[create destroy], Attachment) do |instance|
+      PermittedAttachmentService.permitted_to_write?(user, instance, @permitted_form_fields_service)
     end
   end
 
-  def can(action = nil, subject = nil, *conditions, &block)
-    add_rule(CanCan::CustomRule.new(true, action, subject, *conditions, &block))
+  def can(action = nil, subject = nil, *, &)
+    add_rule(CanCan::CustomRule.new(true, action, subject, *, &))
   end
 
-  def cannot(action = nil, subject = nil, *conditions, &block)
-    add_rule(CanCan::CustomRule.new(true, action, subject, *conditions, &block))
+  def cannot(action = nil, subject = nil, *, &)
+    add_rule(CanCan::CustomRule.new(true, action, subject, *, &))
   end
 
   def alias_user_actions
@@ -293,8 +269,9 @@ class Ability
   # rubocop:enable Metrics/CyclomaticComplexity
 
   def configure_flags
-    [Child, TracingRequest, Incident, RegistryRecord].each do |model|
+    [Child, TracingRequest, Incident, RegistryRecord, Family].each do |model|
       configure_flag(model)
+      resolve_flag(model)
     end
   end
 end

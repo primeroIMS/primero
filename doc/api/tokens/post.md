@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Issue a new JWT token
 
 A new API token is issued in the Authorization header of the response. 

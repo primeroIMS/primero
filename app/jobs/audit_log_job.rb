@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Queues the creation of an audit log entry. Invoked for every API call.
 class AuditLogJob < ApplicationJob
   queue_as :logger
@@ -23,7 +25,7 @@ class AuditLogJob < ApplicationJob
     return I18n.t(log_message[:prefix][:key], locale: :en) if log_message[:prefix][:approval_type].blank?
 
     approval_label = SystemSettings.current.approvals_labels_en[log_message[:prefix][:approval_type]]
-    I18n.t(log_message[:prefix][:key], approval_label: approval_label, locale: :en)
+    I18n.t(log_message[:prefix][:key], approval_label:, locale: :en)
   end
 
   def message_suffix(log_message)

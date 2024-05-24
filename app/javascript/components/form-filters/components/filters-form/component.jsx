@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, FormProvider } from "react-hook-form";
@@ -83,7 +85,7 @@ const Component = ({
     <div className={css.recordFormFilters} data-testid="form-filter">
       {showFilterIcon}
       <FilterContainer drawer={drawerOpen} handleDrawer={toggleDrawer} mobileDisplay={mobileDisplay && showDrawer}>
-        <div className={css.filtersContainer}>
+        <div className={css.filtersContainer} role="form">
           <FormProvider {...methods} user={userName}>
             <form onSubmit={methods.handleSubmit(handleOnSubmit)}>
               <Actions handleClear={onClear} />

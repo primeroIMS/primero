@@ -1,3 +1,4 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 import { mountedComponent, screen } from "test-utils";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { Typography } from "@material-ui/core";
@@ -30,6 +31,6 @@ describe("<FormsList />/components/<FormGroup />", () => {
   });
 
   it("renders <DragIndicator />", () => {
-    expect(screen.getByTestId("error-icon")).toBeInTheDocument();
+    expect(screen.getByTestId("drag-indicator")).toBeInTheDocument();
   });
 });

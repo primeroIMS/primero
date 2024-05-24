@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 module Importers
@@ -7,7 +9,7 @@ module Importers
     before do
       clean_data(Location)
 
-      I18n.stub(:available_locales).and_return([:en, :"ar-LB"])
+      I18n.stub(:available_locales).and_return(%i[en ar-LB])
     end
 
     context 'when input file exists' do

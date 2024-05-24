@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This is the connector for the private MS-developed micro service:
 # Primero User Management API for Azure Active Directory.
 # It only makes sense to use within the context of the UNICEF-hosted Primero SaaS.
@@ -80,7 +82,7 @@ class ApiConnector::AzureActiveDirectoryConnector < ApiConnector::AbstractConnec
   end
 
   def log_response(user, status, response)
-    message_suffix = "with IDP #{user&.identity_provider&.name} (#{user&.identity_provider&.unique_id}): "\
+    message_suffix = "with IDP #{user&.identity_provider&.name} (#{user&.identity_provider&.unique_id}): " \
                      "(#{response['correlation_id']}) #{response['error_msg']}"
     case status
     when 200, 201

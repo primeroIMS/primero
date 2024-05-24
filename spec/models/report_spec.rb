@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 # TODO: add i18n tests
@@ -374,7 +376,8 @@ describe Report do
 
     let(:service_provider) do
       user = User.new(
-        user_name: 'service_provider', agency_id: agency_with_space.id)
+        user_name: 'service_provider', agency_id: agency_with_space.id
+      )
       user.save(validate: false) && user
     end
 
@@ -441,6 +444,7 @@ describe Report do
   describe 'user group report scope', search: true do
     let(:group_1) { UserGroup.create!(name: 'Test User Group 1') }
     let(:group_2) { UserGroup.create!(name: 'Test User Group 2') }
+    let(:group_3) { UserGroup.create!(name: 'Test User Group 3') }
 
     let(:case_worker_1) do
       user = User.new(user_name: 'case_worker_1', user_groups: [group_1])
@@ -453,7 +457,7 @@ describe Report do
     end
 
     let(:case_worker_3) do
-      user = User.new(user_name: 'case_worker_3', user_groups: [group_2])
+      user = User.new(user_name: 'case_worker_3', user_groups: [group_3])
       user.save(validate: false) && user
     end
 
@@ -478,7 +482,7 @@ describe Report do
     let(:child_3) do
       Child.create!(
         data: {
-          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          status: 'closed', worklow: 'closed', sex: 'female', module_id: @module.unique_id,
           owned_by: case_worker_3.user_name
         }
       )
@@ -532,7 +536,7 @@ describe Report do
         module_id: @module.unique_id,
         aggregate_by: ['status'],
         disaggregate_by: ['sex'],
-        permission_filter: { 'attribute' => 'owned_by_groups', 'value' => [group_1.unique_id] }
+        permission_filter: { 'attribute' => 'owned_by_groups', 'value' => [group_1.unique_id, group_3.unique_id] }
       )
     end
 
@@ -541,18 +545,29 @@ describe Report do
       expect(report.data).to eq(
         {
           'open' => { '_total' => 2, 'male' => { '_total' => 1 }, 'female' => { '_total' => 1 } },
-          'closed' => { '_total' => 0 }
+          'closed' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } }
+        }
+      )
+    end
+
+    it 'can be seen by the group scope when the permission filter only has a single group' do
+      report.permission_filter = { 'attribute' => 'owned_by_groups', 'value' => [group_3.unique_id] }
+      report.build_report
+      expect(report.data).to eq(
+        {
+          'closed' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } },
+          'open' => { '_total' => 0 }
         }
       )
     end
 
     it 'can be seen by group if they also meet the filter' do
-      report.filters = [{ 'attribute' => 'owned_by_groups', 'value' => [group_2.unique_id] }]
+      report.filters = [{ 'attribute' => 'owned_by_groups', 'value' => [group_3.unique_id] }]
       report.build_report
       expect(report.data).to eq(
         {
-          'open' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } },
-          'closed' => { '_total' => 0 }
+          'open' => { '_total' => 0 },
+          'closed' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } }
         }
       )
     end
@@ -771,7 +786,8 @@ describe Report do
 
       expect(report.build_report).to eq(
         'male' => { '_total' => 1, '06-Sep-2021 - 12-Sep-2021' => { '_total' => 1 } },
-        'female' => { '_total' => 2, '03-Oct-2022 - 09-Oct-2022' => { '_total' => 1 }, '10-Oct-2022 - 16-Oct-2022' => { '_total' => 1 } }
+        'female' => { '_total' => 2, '03-Oct-2022 - 09-Oct-2022' => { '_total' => 1 },
+                      '10-Oct-2022 - 16-Oct-2022' => { '_total' => 1 } }
       )
     end
 

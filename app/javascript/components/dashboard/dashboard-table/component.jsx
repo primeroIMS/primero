@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { push } from "connected-react-router";
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
@@ -64,7 +66,7 @@ const DashboardTable = ({ columns, data, query, title, pathname }) => {
   };
 
   return (
-    <div className={css.tableContainer}>
+    <div className={css.tableContainer} data-testid="dashboard-table">
       <MUIDataTable {...tableOptions} />
     </div>
   );

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect, useState } from "react";
 import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
@@ -149,7 +151,7 @@ const Component = () => {
           filters={filterValues}
           setPending={setDialogPending}
         />
-        <div className={css.indexContainer}>
+        <div className={css.indexContainer} data-testid="form-list">
           <div className={css.forms}>
             <LoadingIndicator hasData={hasFormSectionsByGroup} loading={isLoading} type={NAMESPACE}>
               <ActionButton

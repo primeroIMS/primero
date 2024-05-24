@@ -10,7 +10,7 @@
     </Console>
 
     <File name="FatalLogFile" fileName="/opt/logs/fatal.log">
-      <RegexFilter regex=".*(Resource temporarily unavailable).*" onMatch="ACCEPT" onMismatch="DENY"/>
+      <RegexFilter regex=".*(Resource temporarily unavailable|Server error writing document id|IndexWriter is closed).*" onMatch="ACCEPT" onMismatch="DENY"/>
       <PatternLayout>
         <Pattern>
           %maxLen{%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p (%t) [%X{collection} %X{shard} %X{replica} %X{core}] %c{1.} %m%notEmpty{ =>%ex{short}}}{10240}%n
@@ -55,7 +55,7 @@
     <AsyncLogger name="org.apache.hadoop" level="warn"/>
     <AsyncLogger name="org.apache.solr.update.LoggingInfoStream" level="off"/>
     <AsyncLogger name="org.apache.zookeeper" level="warn"/>
-    
+
     <AsyncLogger name="org.apache.solr.servlet.HttpSolrCall" level="info">
       <MarkerFilter marker="org.apache.solr.handler.admin.MetricsHandler" onMatch="DENY" onMismatch="ACCEPT"/>
     </AsyncLogger>

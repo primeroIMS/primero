@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Transform a params hash into SearchFilters::SearchFiklter objects
 class SearchFilterService
   EXCLUDED = %w[format controller action page per order order_by fields id_search].freeze
@@ -34,7 +36,7 @@ class SearchFilterService
       elsif value.is_a?(Array)
         SearchFilters::ValueList.new(field_name: key, values: value)
       else
-        SearchFilters::Value.new(field_name: key, value: value)
+        SearchFilters::Value.new(field_name: key, value:)
       end
     end
   end
@@ -44,7 +46,7 @@ class SearchFilterService
   # rubocop:enable Metrics/PerceivedComplexity
 
   def select_filter_params(params, permitted_field_names)
-    filter_params = params.reject { |key, _| EXCLUDED.include?(key) }
+    filter_params = params.except(*EXCLUDED)
     filter_params.select { |key, _| permitted_field_names.any? { |name| key.match?(/#{name}[0-5]?$/) } }
   end
 end
