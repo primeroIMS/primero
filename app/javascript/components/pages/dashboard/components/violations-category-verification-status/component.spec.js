@@ -8,8 +8,6 @@ import { ACTIONS } from "../../../../permissions";
 import ViolationsCategoryVerificationStatus from "./component";
 
 describe("<WorkflowTeamCases> - pages/dashboard/components/violations-category-verification-status", () => {
-  let tableCells;
-
   const permissions = {
     dashboards: [ACTIONS.DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS]
   };
@@ -101,8 +99,8 @@ describe("<WorkflowTeamCases> - pages/dashboard/components/violations-category-v
     expect(screen.getByRole("grid")).toBeInTheDocument();
   });
 
-  xit("should render 3 columns", () => {
-    expect(tableCells).to.have.lengthOf(3);
+  it("should render 3 columns", () => {
+    expect(document.querySelectorAll("th")).toHaveLength(3);
   });
 
   it("should render Verified column", () => {
