@@ -36,10 +36,11 @@ describe("<RecordForm>/form/subforms/subform-fields/<ViolationTitle>", () => {
 
     expect(screen.getByText("This is a title - b123cde")).toBeInTheDocument();
     expect(screen.getByTestId("violation-title")).toBeInTheDocument();
+    expect(screen.getByText("status 1")).toBeInTheDocument();
   });
 
   describe("when short id is not present", () => {
-    it("renders a vioaltion title with chip", () => {
+    it("renders a violation title with chip", () => {
       mountedComponent(
         <ViolationTitle
           {...{
@@ -52,7 +53,8 @@ describe("<RecordForm>/form/subforms/subform-fields/<ViolationTitle>", () => {
         initialState
       );
 
-      expect(screen.getByText(/status 1/i)).toBeInTheDocument();
+      expect(screen.getByText("status 1")).toBeInTheDocument();
+      expect(screen.getByText("This is a title")).toBeInTheDocument();
       expect(screen.getByTestId("violation-title")).toBeInTheDocument();
     });
   });
@@ -62,12 +64,13 @@ describe("<RecordForm>/form/subforms/subform-fields/<ViolationTitle>", () => {
       mountedComponent(<ViolationTitle {...{ title: "This is a title", values: {}, fields: [] }} />, initialState);
 
       expect(screen.queryByText("status 1")).not.toBeInTheDocument();
+      expect(screen.getByText("This is a title")).toBeInTheDocument();
       expect(screen.getByTestId("violation-title")).toBeInTheDocument();
     });
   });
 
   describe("when violation status and short_id is not present", () => {
-    it("renders a vioaltion title with chip", () => {
+    it("renders a violation title with chip", () => {
       mountedComponent(
         <ViolationTitle
           {...{
@@ -81,8 +84,9 @@ describe("<RecordForm>/form/subforms/subform-fields/<ViolationTitle>", () => {
         initialState
       );
 
-      expect(screen.getByText(/This is a title/i)).toBeInTheDocument();
+      expect(screen.getByText("This is a title")).toBeInTheDocument();
       expect(screen.getByTestId("violation-title")).toBeInTheDocument();
+      expect(screen.queryByText("status 1")).not.toBeInTheDocument();
     });
   });
 });
