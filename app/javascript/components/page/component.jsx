@@ -21,7 +21,7 @@ const Component = ({ children, twoCol, fullWidthMobile }) => {
   }
 
   return (
-    <div className={contentClasses}>
+    <div className={contentClasses} data-testid="page-container">
       <div className={contentContainer}>{children}</div>
     </div>
   );
