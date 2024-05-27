@@ -1,3 +1,5 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
 .appBar {
   z-index: 9999;
   transition: $(
@@ -11,9 +13,17 @@
   );
 }
 
+.appBarContent {
+  display: flex;
+  width: 100%;
+
+  & div:first-of-type {
+    flex: 1
+  }
+}
+
 .toolbar, .toolbar-demo {
-  background: linear-gradient(to top, var(--c-white), var(--c-light-grey)),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.14));
+  background: var(--c-mobile-toolbar-background);
   height: 2.5rem;
   display: flex;
 
@@ -32,6 +42,10 @@
     position: absolute;
     margin-left: 1em;
   }
+}
+
+.hamburger {
+  color: var(--c-mobile-toolbar-hamburger-button)
 }
 
 .toolbar-demo {

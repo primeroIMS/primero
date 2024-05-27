@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe UserTransitionService do
@@ -23,6 +25,21 @@ describe UserTransitionService do
       form_sections: [@form1]
     )
 
+    @role = Role.new(
+      primero_modules: [@cp],
+      permissions: [
+        Permission.new(
+          resource: Permission::CASE,
+          actions: [
+            Permission::RECEIVE_REFERRAL, Permission::REFERRAL,
+            Permission::RECEIVE_TRANSFER, Permission::TRANSFER,
+            Permission::ASSIGN, Permission::READ
+          ]
+        )
+      ]
+    )
+    @role.save(validate: false)
+
     @other = PrimeroModule.create!(
       unique_id: 'primeromodule-other',
       name: 'OTHER',
@@ -40,12 +57,33 @@ describe UserTransitionService do
       @agency1 = Agency.create!(name: 'Agency1', agency_code: 'A1')
       @agency2 = Agency.create!(name: 'Agency2', agency_code: 'A2')
       @user1 = User.new(user_name: 'user1', user_groups: [@group1, @group2], agency: @agency1)
-      @user2 = User.new(user_name: 'user2', user_groups: [@group1], agency: @agency1)
+      @user2 = User.new(user_name: 'user2', user_groups: [@group1], agency: @agency1, role: @role)
       @user2.save(validate: false)
-      @user3 = User.new(user_name: 'user3', user_groups: [@group2], agency: @agency1)
+      @user3 = User.new(user_name: 'user3', user_groups: [@group2], agency: @agency1, role: @role)
       @user3.save(validate: false)
-      @user4 = User.new(user_name: 'user4', user_groups: [@group3], agency: @agency2)
+      @user4 = User.new(user_name: 'user4', user_groups: [@group3], agency: @agency2, role: @role)
       @user4.save(validate: false)
+      @user6 = User.new(user_name: 'user6', user_groups: [@group3], agency: @agency2)
+      @user6.save(validate: false)
+
+      role = create(
+        :role,
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE]
+          )
+        ]
+      )
+
+      create(
+        :user,
+        user_name: 'user5',
+        email: 'test_user_1@localhost.com',
+        agency: @agency1,
+        disabled: true,
+        role:
+      )
     end
 
     it 'returns all users for a user with the :assign permission' do
@@ -103,7 +141,8 @@ describe UserTransitionService do
       role_receive_other_module = Role.new(permissions: [permission_receive], primero_modules: [@other])
       role_receive_other_module.save(validate: false)
 
-      role_receive_different_module = Role.new(permissions: [permission_receive_different_module], primero_modules: [@other])
+      role_receive_different_module = Role.new(permissions: [permission_receive_different_module],
+                                               primero_modules: [@other])
       role_receive_different_module.save(validate: false)
 
       permission_cannot = Permission.new(
@@ -140,17 +179,18 @@ describe UserTransitionService do
         SystemSettings.new(reporting_location_config: { admin_level: 1 })
       )
 
-      @user1 = User.new(user_name: 'user1', role: role_receive, agency: agency)
+      @user1 = User.new(user_name: 'user1', role: role_receive, agency:)
       @user1.save(validate: false)
-      @user2 = User.new(user_name: 'user2', role: role_receive, services: %w[safehouse_service], agency: agency,  location: 'CT')
+      @user2 = User.new(user_name: 'user2', role: role_receive, services: %w[safehouse_service], agency:,
+                        location: 'CT')
       @user2.save(validate: false)
-      @user3 = User.new(user_name: 'user3', role: role_receive, agency: agency, location: 'CT')
+      @user3 = User.new(user_name: 'user3', role: role_receive, agency:, location: 'CT')
       @user3.save(validate: false)
-      @user4 = User.new(user_name: 'user4', role: role_cannot, agency: agency)
+      @user4 = User.new(user_name: 'user4', role: role_cannot, agency:)
       @user4.save(validate: false)
-      @user5 = User.new(user_name: 'user5', role: role_receive_other_module, agency: agency)
+      @user5 = User.new(user_name: 'user5', role: role_receive_other_module, agency:)
       @user5.save(validate: false)
-      @user6 = User.new(user_name: 'user6', role: role_receive_different_module, agency: agency)
+      @user6 = User.new(user_name: 'user6', role: role_receive_different_module, agency:)
       @user6.save(validate: false)
       @user7 = User.new(user_name: 'user7', role: role_receive, agency: agency2)
       @user7.save(validate: false)

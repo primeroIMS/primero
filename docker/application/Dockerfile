@@ -1,6 +1,8 @@
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # -------------------------------------------------------------------- BUILD STAGE
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}ruby:2.7.8-alpine3.16 AS build-env
+FROM ${BUILD_REGISTRY}ruby:3.2.3-alpine3.19 AS build-env
 
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git
 ENV PYTHON_PACKAGES python3 py3-pip
@@ -50,10 +52,15 @@ COPY [ "Gemfile", "Gemfile.lock", "$APP_ROOT/" ]
 RUN set -euox pipefail \
         ; if [ $RAILS_ENV == "production" ]; \
         then \
-        BUNDLE_WITHOUT="development:test" bundle install \
+        bundle install --without development test \
         ; else \
         bundle install \
         ; fi
+
+# Note: Deleting the Solr dev server is not strictly necessary since we don't run it
+# but its java packages are riddled with vulnerabilities that set off static security scans.
+# TODO: Get rid of this line when we get rid of Solr gems.
+RUN rm -r /usr/local/bundle/gems/sunspot_solr-2.6.0/solr/server
 
 # Run npm ci
 COPY [ "package.json", "package-lock.json", "$APP_ROOT/" ]
@@ -92,10 +99,10 @@ RUN set -euox pipefail \
 
 # -------------------------------------------------------------------- FINAL
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}ruby:2.7.8-alpine3.16
+FROM ${BUILD_REGISTRY}ruby:3.2.3-alpine3.19
 
 ENV BUILD_PACKAGES bash
-ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip curl
+ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip curl tini
 
 ARG APP_UID
 ARG APP_GID
@@ -135,6 +142,7 @@ RUN set -euox pipefail \
 # Switching to User primero to run the container.
 USER docker-primero
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT ["/sbin/tini", "--", "/entrypoint.sh"]
+# ENTRYPOINT ["/entrypoint.sh"]
 
 CMD [ "primero-start" ]

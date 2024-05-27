@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 case_plan_fields_subform = [
   Field.new('name' => 'intervention_service_to_be_provided',
             'type' => 'text_field',

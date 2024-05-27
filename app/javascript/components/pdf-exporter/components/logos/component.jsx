@@ -1,8 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../../i18n";
+import { RECORD_TYPES_PLURAL } from "../../../../config/constants";
 
-const Component = ({ shortId, logos, css }) => {
+const Component = ({ shortId, recordType, logos, css }) => {
   const i18n = useI18n();
 
   if (!logos) return null;
@@ -10,7 +13,9 @@ const Component = ({ shortId, logos, css }) => {
   return (
     <div className={css.info}>
       <div>
-        <div className={css.caseID}>{i18n.t("cases.show_case", { short_id: shortId })}</div>
+        <div className={css.caseID}>
+          {i18n.t(`${RECORD_TYPES_PLURAL[recordType]}.show_${recordType}`, { short_id: shortId })}
+        </div>
         <div>{i18n.t("exports.printed", { date: i18n.localizeDate(new Date()) })}</div>
       </div>
       <div className={css.logos}>
@@ -29,6 +34,7 @@ Component.defaultProps = {
 Component.propTypes = {
   css: PropTypes.object,
   logos: PropTypes.array,
+  recordType: PropTypes.string,
   shortId: PropTypes.string
 };
 

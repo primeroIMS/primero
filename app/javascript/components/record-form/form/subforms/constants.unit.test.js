@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import {
   SUBFORM_LOOKUP_HEADER_NAME,
   SUBFORM_DATE_HEADER_NAME,

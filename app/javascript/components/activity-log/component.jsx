@@ -1,8 +1,10 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { RESOURCES } from "../permissions";
 import { useI18n } from "../i18n";
 import { getAppliedFilters } from "../record-list";

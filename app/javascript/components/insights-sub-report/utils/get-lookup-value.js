@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import isEmpty from "lodash/isEmpty";
 import last from "lodash/last";
 
@@ -11,11 +13,24 @@ const getReportingLocationValue = reportingLocationValue => {
   return last(reportingLocationValue.split(":"));
 };
 
-export default (lookups, translateId, key, value, property = "id") => {
+export default (lookups, indicatorsRows, translateId, key, value, property = "id", totalText) => {
   const valueKeyLookups = lookups[key];
+  const indicatorRows = indicatorsRows[key];
 
-  if (isEmpty(valueKeyLookups)) {
+  if (isEmpty(valueKeyLookups) && isEmpty(indicatorRows)) {
     return translateId(value.get(property));
+  }
+
+  if (!isEmpty(indicatorRows)) {
+    const row = indicatorRows.find(elem => elem.id === value.get(property));
+
+    if (row) {
+      return row.display_text;
+    }
+  }
+
+  if (value.get("id") === "total") {
+    return totalText;
   }
 
   const translatedValue =

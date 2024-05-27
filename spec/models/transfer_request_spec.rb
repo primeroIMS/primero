@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe TransferRequest do
   before :each do
-    clean_data(User, Role, PrimeroModule, UserGroup, Child, Transition)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Transition)
     @module_cp = PrimeroModule.new(name: 'CP')
     @module_cp.save(validate: false)
     @module_gbv = PrimeroModule.new(name: 'GBV')
@@ -46,6 +48,6 @@ describe TransferRequest do
   end
 
   after :each do
-    clean_data(User, Role, PrimeroModule, UserGroup, Child, Transition)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Transition)
   end
 end

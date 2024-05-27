@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable no-nested-ternary */
 import { Divider, Grid, FormControlLabel } from "@material-ui/core";
 import PropTypes from "prop-types";
@@ -77,7 +79,7 @@ const Details = ({ transition, classes }) => {
       </Grid>
       {renderRejected}
       <Grid item md={12} xs={12}>
-        <Divider className={classes.divider} />
+        <Divider data-testid="divider" className={classes.divider} />
         <DisplayData label="referral.notes_label" value={transition.notes} />
       </Grid>
       {transition.rejection_note && (

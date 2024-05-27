@@ -1,6 +1,8 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
 .root {
   flex-grow: 1;
-  height: 100vh;
+  height: var(--doc-height, 100vh);
   overflow: hidden;
   overflow-y: scroll;
 
@@ -17,7 +19,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: var(--doc-height, 100vh);
   overflow: hidden;
 
   &.demo {
@@ -94,8 +96,8 @@
   flex: 1;
   display: flex;
   padding: 0;
-  height: 100%;
-  
+  height: 65%;
+
   & > div:first-of-type {
     padding: 0 0.5em;
     overflow-y: scroll;
