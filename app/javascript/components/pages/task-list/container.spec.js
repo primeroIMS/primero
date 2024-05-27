@@ -7,9 +7,6 @@ import { FieldRecord, FormSectionRecord } from "../../record-form/records";
 import TaskList from "./container";
 
 describe("<TaskList />", () => {
-  let stubI18n = null;
-
-  stubI18n = stub(window.I18n, "t").withArgs("date.formats.default").returns("%d-%b-%Y");
   const state = fromJS({
     records: {
       tasks: {
@@ -181,7 +178,9 @@ describe("<TaskList />", () => {
 
   it("should render the task type", () => {
     mountedComponent(<TaskList />, state);
-    expect(screen.getAllByText(/record_id_display/i)).toHaveLength(4);
-    expect(screen.getAllByRole("row")).toHaveLength(5);
+
+    expect(screen.getByText("task.types.service")).toBeInTheDocument();
+    expect(screen.getByText("task.types.case_plan")).toBeInTheDocument();
+    expect(screen.getByText("task.types.follow_up")).toBeInTheDocument();
   });
 });
