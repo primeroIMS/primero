@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 child_preferences_fields_subform = [
   Field.new('name' => 'wishes_name',
             'type' => 'text_field',
@@ -48,7 +52,7 @@ child_wishes_fields = [
 FormSection.create_or_update!(
   :unique_id => 'child_wishes',
   :parent_form => 'case',
-  'visible' => true,
+  'visible' => false,
   :order_form_group => 130,
   :order => 10,
   :order_subform => 0,

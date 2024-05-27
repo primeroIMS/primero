@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Map } from "immutable";
 import { mountedComponent, screen } from "test-utils";
 
@@ -34,6 +36,6 @@ describe("<BarChart />", () => {
 
     mountedComponent(<BarChart {...props} />);
     expect(screen.getByText("Number of cases broken down by nationality")).toBeInTheDocument();
-    expect(screen.getByTestId("canvas")).toBeInTheDocument();
+    expect(screen.getAllByTestId("canva-report-graph")).toHaveLength(1);
   });
 });

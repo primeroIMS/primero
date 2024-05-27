@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Select permitted fields on the record, based on the role, given the query params
 class FieldSelectionService
   def self.select_fields_to_show(params, model_class, permitted_field_names, user)

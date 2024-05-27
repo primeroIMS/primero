@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Use Solr fuzzy search to find records similar to this record given some field citeria.
 # This is used for duplicate detection and matching of child tracing requests to child cases.
 class MatchingService
@@ -32,7 +34,7 @@ class MatchingService
   def matches_for(matchable)
     match_result = find_match_records(matchable.match_criteria, matchable.matches_to)
     normalize_search_results(match_result).map do |id, normalized|
-      match = matchable.matches_to.find_by(id: id)
+      match = matchable.matches_to.find_by(id:)
       params = normalized.clone
       params.store(make_key(matchable), matchable)
       params.store(make_key(match), match)
@@ -40,15 +42,18 @@ class MatchingService
     end
   end
 
+  # Disable cop, rubocop detect thresholded_search_result as hash but it is an array
+  # rubocop:disable Style/HashTransformValues
   def normalize_search_results(results)
     return {} unless results.present?
 
     normalized_search_result = results.map { |k, v| [k, v / results.values.max.to_f] }
     thresholded_search_result = normalized_search_result.select { |_, v| v > NORMALIZED_THRESHOLD }
-    thresholded_search_result.map do |id, score|
-      [id, { score: score, likelihood: likelihood(score, average_score(results), thresholded_search_result.size) }]
-    end.to_h
+    thresholded_search_result.to_h do |id, score|
+      [id, { score:, likelihood: likelihood(score, average_score(results), thresholded_search_result.size) }]
+    end
   end
+  # rubocop:enable Style/HashTransformValues
 
   def average_score(results)
     scores = results.values
@@ -64,9 +69,9 @@ class MatchingService
   def find_match_records(match_criteria, match_class, require_consent = true)
     return {} if match_criteria.blank?
 
-    search(match_criteria, match_class, require_consent).hits.map do |hit|
+    search(match_criteria, match_class, require_consent).hits.to_h do |hit|
       [hit.result.id, hit.score]
-    end.to_h
+    end
   end
 
   # Almost never disable Rubocop, but Sunspot queries are what they are.
@@ -103,7 +108,7 @@ class MatchingService
     boost_field = MATCH_FIELDS.find { |f| f[:fields].include?(field_name) }
     return unless boost_field.present?
 
-    boost_field[:fields].map { |f| ["#{f}_matchable", boost_field[:boost]] }.to_h
+    boost_field[:fields].to_h { |f| ["#{f}_matchable", boost_field[:boost]] }
   end
 
   def make_key(record)

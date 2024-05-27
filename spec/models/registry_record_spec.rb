@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe RegistryRecord do
@@ -46,7 +48,7 @@ describe RegistryRecord do
 
       context 'and registry_types is present' do
         before do
-          @ss_registry_types = %w[teacher, girl, boy, dog]
+          @ss_registry_types = %w[teacher girl boy dog]
           SystemSettings.stub(:current).and_return(
             SystemSettings.new(primary_age_range: 'primero',
                                system_options: { show_alerts: true,

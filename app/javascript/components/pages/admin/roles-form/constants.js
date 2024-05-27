@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const NAME = "RolesForm";
 export const FORM_CHECK_ERRORS = ["permissions"];
 export const FIELD_NAMES = {
@@ -9,7 +11,8 @@ export const FIELD_NAMES = {
   groupPermission: "group_permission",
   isManager: "is_manager",
   reportingLocationLevel: "reporting_location_level",
-  disabled: "disabled"
+  disabled: "disabled",
+  referralAuthorization: "referral_authorization"
 };
 export const ACTION_BUTTONS_NAME = "ActionButtons";
 
@@ -18,6 +21,7 @@ export const RESOURCES = [
   "incident",
   "tracing_request",
   "registry_record",
+  "family",
   "potential_match",
   "role",
   "user",

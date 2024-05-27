@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import * as userConstants from "./constants";
 
 describe("Verifying user constant", () => {
@@ -6,6 +8,8 @@ describe("Verifying user constant", () => {
 
     [
       "IDENTITY_PROVIDER_ID",
+      "NOTIFIERS",
+      "NOTIFICATIONS_PREFERENCES",
       "PASSWORD_MODAL",
       "PASSWORD_SELF_OPTION",
       "PASSWORD_USER_OPTION",
@@ -47,7 +51,16 @@ describe("values", () => {
       "POSITION",
       "LOCATION",
       "DISABLED",
-      "SEND_MAIL"
+      "SEND_MAIL",
+      "SEND_MAIL_APPROVAL_REQUEST",
+      "SEND_MAIL_APPROVAL_RESPONSE",
+      "SEND_MAIL_TRANSFER_REQUEST",
+      "SEND_MAIL_TRANSITION_NOTIFICATION",
+      "RECEIVE_WEBPUSH",
+      "RECEIVE_WEBPUSH_APPROVAL_REQUEST",
+      "RECEIVE_WEBPUSH_APPROVAL_RESPONSE",
+      "RECEIVE_WEBPUSH_TRANSFER_REQUEST",
+      "RECEIVE_WEBPUSH_TRANSITION_NOTIFICATION"
     );
   });
 });

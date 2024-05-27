@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export { default as affectedOrderRange } from "./affected-order-range";
 export { default as buildFormGroupUniqueId } from "./build-form-group-unique-id";
 export { default as buildOrderUpdater } from "./build-order-updater";

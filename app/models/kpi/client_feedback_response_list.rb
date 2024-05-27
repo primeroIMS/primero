@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # ClientFeedbackResponseList
 #
 # A repository for ClientFeedbackResponse object. It provides methods
@@ -10,7 +12,7 @@ class Kpi::ClientFeedbackResponseList < ValueObject
 
   def wrapped_responses
     @wrapped_responses ||= responses
-                           .map { |response| Kpi::ClientFeedbackResponse.new(response: response) }
+                           .map { |response| Kpi::ClientFeedbackResponse.new(response:) }
   end
 
   def valid_responses?

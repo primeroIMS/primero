@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
 
 import getConnectedFields from "./get-connected-fields";

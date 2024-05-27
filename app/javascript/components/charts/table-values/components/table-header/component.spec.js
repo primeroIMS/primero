@@ -18,7 +18,7 @@ describe("<TableValues />/components/<TableHeader/ >", () => {
     };
 
     mountedComponent(<TableHeader />, props);
-    expect(screen.getAllByTestId("tableRow")).toHaveLength(1);
-    expect(screen.getAllByTestId("tableCell")).toHaveLength(2);
+    expect(screen.getAllByRole("row")).toHaveLength(1);
+    expect(screen.getAllByRole("cell")).toHaveLength(2);
   });
 });

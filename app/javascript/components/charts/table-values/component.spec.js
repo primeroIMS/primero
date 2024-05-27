@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 import { mountedComponent, screen } from "test-utils";
 
@@ -77,7 +79,8 @@ describe("<TableValues />", () => {
     };
 
     mountedComponent(<TableValues />, props);
-    expect(screen.getAllByRole("row")).toHaveLength(2);
+    expect(screen.getAllByRole("table")).toHaveLength(1);
+    expect(screen.getAllByRole("columnheader")).toHaveLength(2);
   });
   afterEach(() => {
     if (stubI18n) {

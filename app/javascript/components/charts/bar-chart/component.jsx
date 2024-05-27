@@ -1,10 +1,13 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import Chart from "chart.js";
 import { createRef, useEffect } from "react";
 import PropTypes from "prop-types";
+import arrayReverse from "lodash/reverse";
 
 import css from "./styles.css";
 
-const BarChart = ({ data, description, showDetails = false, hideLegend = false }) => {
+const BarChart = ({ data, description, showDetails = false, hideLegend = false, reverse = false }) => {
   const chartRef = createRef();
 
   useEffect(() => {
@@ -13,7 +16,10 @@ const BarChart = ({ data, description, showDetails = false, hideLegend = false }
     /* eslint-disable no-new */
     const chartInstance = new Chart(chatCtx, {
       type: "bar",
-      data,
+      data: {
+        ...(data || {}),
+        datasets: reverse ? arrayReverse(data?.datasets || []) : data?.datasets
+      },
       options: {
         responsive: true,
         animation: {
@@ -56,6 +62,7 @@ const BarChart = ({ data, description, showDetails = false, hideLegend = false }
               suggestedMin: 0,
               ticks: {
                 precision: 0,
+                reverse,
                 callback: value => {
                   if (value?.length > 25) {
                     return value.substr(0, 25).concat("...");
@@ -82,7 +89,7 @@ const BarChart = ({ data, description, showDetails = false, hideLegend = false }
           {description}
         </p>
       ) : null}
-      <canvas id="reportGraph" data-testid="canvas" ref={chartRef} height={!showDetails ? null : 400} />
+      <canvas id="reportGraph" data-testid="canva-report-graph" ref={chartRef} height={!showDetails ? null : 400} />
     </div>
   );
 };
@@ -93,6 +100,7 @@ BarChart.propTypes = {
   data: PropTypes.object,
   description: PropTypes.string,
   hideLegend: PropTypes.bool,
+  reverse: PropTypes.bool,
   showDetails: PropTypes.bool
 };
 

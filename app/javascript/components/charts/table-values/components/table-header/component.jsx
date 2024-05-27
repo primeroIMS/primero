@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { TableCell, TableRow } from "@material-ui/core";
 import isEmpty from "lodash/isEmpty";
@@ -29,11 +31,9 @@ const TableHeader = ({ columns }) => {
         : emptyColumn(i18n, true).concat(newColumns);
 
     return (
-      <TableRow key={generateKey("column-row")} data-testid="tableRow">
+      <TableRow key={generateKey("column-row")}>
         {singleColumns.map(column => (
-          <TableCell key={generateKey("cell")} data-testid="tableCell">
-            {column}
-          </TableCell>
+          <TableCell key={generateKey("cell")}>{column}</TableCell>
         ))}
       </TableRow>
     );
@@ -52,21 +52,21 @@ const TableHeader = ({ columns }) => {
         const classes = clsx({ [css.tableRowHeader]: index === 0, [css.tableRowSubHeader]: index > 0 });
 
         return (
-          <TableRow className={classes} key={generateKey("column-row")} data-testid="tableRow">
+          <TableRow className={classes} key={generateKey("column-row")}>
             {allCells.map(cell => {
               if (isEmpty(cell)) {
-                return <TableCell className={css.borderHeadingRight} key={generateKey()} data-testid="tableCell" />;
+                return <TableCell className={css.borderHeadingRight} key={generateKey()} />;
               }
               if (cell === "Total") {
                 return (
-                  <TableCell className={css.borderHeadingRight} key={generateKey()} data-testid="tableCell">
+                  <TableCell className={css.borderHeadingRight} key={generateKey()}>
                     {cell}
                   </TableCell>
                 );
               }
 
               return (
-                <TableCell key={generateKey()} colSpan={colspan} data-testid="tableCell">
+                <TableCell key={generateKey()} colSpan={colspan}>
                   {cell}
                 </TableCell>
               );
