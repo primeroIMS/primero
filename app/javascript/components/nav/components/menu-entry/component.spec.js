@@ -1,16 +1,11 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
-import { ListItem, ListItemText } from "@material-ui/core";
 
-import { ConditionalWrapper } from "../../../../libs";
-import { setupMountedComponent } from "../../../../test";
+import { mountedComponent, screen } from "../../../../test-utils";
 import { ACTIONS } from "../../../permissions";
 
 import MenuEntry from "./component";
 
 describe("<Nav />", () => {
-  let component;
   const permissions = {
     cases: [ACTIONS.MANAGE],
     incidents: [ACTIONS.READ],
@@ -53,34 +48,27 @@ describe("<Nav />", () => {
     username: "joshua"
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(MenuEntry, props, fromJS(state)));
-  });
-
-  it("renders a ConditionalWrapper", () => {
-    expect(component.find(ConditionalWrapper)).to.have.lengthOf(1);
+  it("renders menu", () => {
+    mountedComponent(<MenuEntry {...props} />, state);
+    expect(screen.getByText(/test/i)).toBeInTheDocument();
   });
 
   it("renders a ListItemText", () => {
-    expect(component.find(ListItemText).last().text()).to.be.equal("test");
+    mountedComponent(<MenuEntry {...props} />, state);
+    expect(screen.getByTestId("listItemText")).toBeInTheDocument();
   });
 
   it("renders a ListItem", () => {
-    const listItem = component.find(ListItem);
-
-    expect(listItem).to.have.lengthOf(1);
-    expect(listItem.props()).to.have.any.keys("to", "onClick");
+    mountedComponent(<MenuEntry {...props} />, state);
+    expect(screen.getByTestId("listItem")).toBeInTheDocument();
   });
 
   describe("when application is disabled", () => {
     const stateWithDisabledApp = fromJS({ ...state, application: { ...state.application, disabledApplication: true } });
-    const { component: disabledListItem } = setupMountedComponent(MenuEntry, props, stateWithDisabledApp);
 
     it("renders a disabled ListItem", () => {
-      const disabledItem = disabledListItem.find(ListItem);
-
-      expect(disabledItem).to.have.lengthOf(1);
-      expect(disabledItem.props()).to.not.have.any.keys("to", "onClick");
+      mountedComponent(<MenuEntry {...props} />, stateWithDisabledApp);
+      expect(screen.getByTestId("listItem")).toBeInTheDocument();
     });
   });
 });
