@@ -32,6 +32,7 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
       value={jewelCount}
       mobileDisplay={mobileDisplay}
       isForm={[NAV_SETTINGS, "navigation.support"].includes(name)}
+      data-testid="jewel"
     />
   ) : null;
 
@@ -42,18 +43,18 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   const navlinkProps = {
     ...(!disabledApplication &&
       !disabled && {
-      component: NavLink,
-      to,
-      activeClassName: clsx(css.navActive, { [css.contained]: useContainedNavStyle }),
-      onClick: closeDrawer,
-      disabled: disabledApplication
-    }),
+        component: NavLink,
+        to,
+        activeClassName: clsx(css.navActive, { [css.contained]: useContainedNavStyle }),
+        onClick: closeDrawer,
+        disabled: disabledApplication
+      }),
     ...(!disabledApplication &&
       !online &&
       to === ROUTES.logout && {
-      to: false,
-      onClick
-    })
+        to: false,
+        onClick
+      })
   };
 
   const userPermissions = useMemoizedSelector(state => getPermissions(state), isEqual);
@@ -65,11 +66,8 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   const renderNavAction = (
     <li id={name}>
       {renderDivider}
-      <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button>
-
-        {/* <ListItem {...navlinkProps} className={navLinkClasses}> */}
-
-        <ListItem data-testid="listItem" {...navlinkProps} className={css.navLink}>
+      <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button data-testid="conditional-wrapper">
+        <ListItem data-testid="listItem" {...navlinkProps} className={navLinkClasses}>
           <ListItemIcon classes={{ root: css.listIcon }}>
             <ListIcon icon={icon} />
           </ListItemIcon>

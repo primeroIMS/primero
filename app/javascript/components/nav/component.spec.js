@@ -6,6 +6,7 @@ import { ACTIONS } from "../permissions";
 import Nav from "./component";
 
 describe("<Nav />", () => {
+  // eslint-disable-next-line react/display-name
   const ProvidedNav = () => <Nav />;
 
   const permissions = {
@@ -19,7 +20,7 @@ describe("<Nav />", () => {
     users: [ACTIONS.MANAGE]
   };
   const initialState = fromJS({
-    ui: { Nav: { drawerOpen: true } },
+    ui: { Nav: { drawerOpen: true, alerts: { data: { case: 1 } } } },
     application: {
       modules: {},
       online: true,
@@ -39,20 +40,30 @@ describe("<Nav />", () => {
 
   it("renders a module logo", () => {
     mountedComponent(<ProvidedNav username="joshua" />, initialState);
-    expect(screen.queryAllByAltText("Primero")).toHaveLength(3);
+    expect(screen.getAllByRole("img", { className: "logo" })).toHaveLength(2);
   });
 
   it("renders an agency logo", () => {
     mountedComponent(<ProvidedNav username="joshua" />, initialState);
-    expect(screen.queryAllByAltText("Primero")).toHaveLength(3);
+    expect(screen.getAllByRole("img", { className: "agencyLogoContainer" })).toHaveLength(2);
   });
 
   it("renders translation toggle", () => {
     mountedComponent(<ProvidedNav username="joshua" />, initialState);
-    expect(screen.queryAllByText(/home./)).toHaveLength(2);
+    expect(screen.queryAllByText(/home.en/)).toHaveLength(2);
+  });
+
+  it("renders NetworkIndicator", () => {
+    mountedComponent(<ProvidedNav username="joshua" />, initialState);
+    expect(screen.getAllByText("online", { selector: "span" })).toHaveLength(3);
   });
 
   describe("nav links", () => {
+    it("rendes listItems", () => {
+      mountedComponent(<ProvidedNav username="joshua" />, initialState);
+      expect(screen.getAllByRole("listitem")).toHaveLength(11);
+    });
+
     // TODO: These will change based on permissions
     it("renders home link", () => {
       mountedComponent(<ProvidedNav username="joshua" />, initialState);
@@ -91,7 +102,7 @@ describe("<Nav />", () => {
 
     it("renders seetings link with alert", () => {
       mountedComponent(<ProvidedNav username="joshua" />, initialState);
-      expect(screen.queryAllByText(/navigation.settings/i)).toHaveLength(2);
+      expect(screen.getAllByText("1", { selector: "span" })).toHaveLength(2);
     });
   });
 
@@ -140,12 +151,28 @@ describe("<Nav />", () => {
             }
           }
         }
+      },
+      application: {
+        modules: {},
+        online: true,
+        agencies: [
+          {
+            unique_id: "agency_1",
+            logo: { small: "/some/random.png" }
+          }
+        ]
+      },
+      user: {
+        modules: [],
+        agency: "agency_1",
+        permissions
       }
     });
 
     it("should fetch alerts", () => {
-      mountedComponent(<ProvidedNav username="username" />, initialStateActions);
-      expect(screen.queryAllByAltText("Primero")).toHaveLength(3);
+      mountedComponent(<ProvidedNav username="joshua" />, initialStateActions);
+      expect(screen.getAllByText("1", { selector: "span" })).toHaveLength(2);
+      expect(screen.getAllByText("2", { selector: "span" })).toHaveLength(2);
     });
   });
 

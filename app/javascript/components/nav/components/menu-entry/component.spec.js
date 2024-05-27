@@ -48,7 +48,7 @@ describe("<Nav />", () => {
     username: "joshua"
   };
 
-  it("renders a ConditionalWrapper", () => {
+  it("renders menu", () => {
     mountedComponent(<MenuEntry {...props} />, state);
     expect(screen.getByText(/test/i)).toBeInTheDocument();
   });
