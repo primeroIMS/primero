@@ -5,9 +5,13 @@ import { mountedComponent, screen, act, waitFor } from "test-utils";
 import SessionTimeoutDialog from "./component";
 
 describe("<SessionTimeoutDialog />", () => {
-  beforeEach(() => {
+  beforeAll(() => {
     jest.useFakeTimers();
     createMocks();
+  });
+
+  afterEach(() => {
+    jest.clearAllTimers();
   });
 
   it("should idle after 15 minutes", async () => {
@@ -16,14 +20,14 @@ describe("<SessionTimeoutDialog />", () => {
         userIdle: false
       }
     });
-    await act(() => jest.advanceTimersByTimeAsync(18 * 1000 * 60));
+    await act(() => jest.advanceTimersByTimeAsync(16 * 1000 * 60));
     await waitFor(() => {
       expect(screen.queryByRole("dialog")).toBeInTheDocument();
     });
   });
 
   describe("when user is offline", () => {
-    it("should not idle after 15 minutes", () => {
+    it("should not idle after 15 minutes", async () => {
       mountedComponent(
         <SessionTimeoutDialog />,
         fromJS({
@@ -35,8 +39,10 @@ describe("<SessionTimeoutDialog />", () => {
           }
         })
       );
-
-      expect(screen.queryByRole("dialog")).toBeNull();
+      await act(() => jest.advanceTimersByTimeAsync(16 * 1000 * 60));
+      await waitFor(() => {
+        expect(screen.queryByRole("dialog")).toBeNull();
+      });
     });
   });
 });
