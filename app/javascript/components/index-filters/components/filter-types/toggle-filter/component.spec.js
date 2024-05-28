@@ -1,4 +1,6 @@
-import { screen, setupMockFormComponent, userEvent } from "test-utils";
+// Copyright (c) 2014 - 2024 UNICEF. All rights reserved.
+
+import { screen, mountedFormComponent, userEvent } from "test-utils";
 
 import ToggleFilter from "./component";
 
@@ -19,12 +21,12 @@ describe("<ToggleFilter>", () => {
   };
 
   it("renders panel", () => {
-    setupMockFormComponent(ToggleFilter, { props, includeFormProvider: true });
+    mountedFormComponent(<ToggleFilter {...props} />, { includeFormProvider: true });
     expect(screen.getByText("Filter 1")).toBeInTheDocument();
   });
 
   it("renders toggle buttons", () => {
-    setupMockFormComponent(ToggleFilter, { props, includeFormProvider: true });
+    mountedFormComponent(<ToggleFilter {...props} />, { includeFormProvider: true });
     ["Option 1", "Option 2"].forEach(option => expect(screen.getByText(`${option}`)).toBeInTheDocument());
   });
 
@@ -43,7 +45,7 @@ describe("<ToggleFilter>", () => {
     };
     const user = userEvent.setup();
 
-    setupMockFormComponent(ToggleFilter, { props: newProps, includeFormProvider: true });
+    mountedFormComponent(<ToggleFilter {...newProps} />, { includeFormProvider: true });
     await user.click(screen.getAllByRole("button")[1]);
     expect(setMoreSectionFiltersSpy).toHaveBeenCalled();
   });

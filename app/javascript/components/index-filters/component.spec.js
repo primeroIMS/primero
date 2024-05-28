@@ -1,4 +1,6 @@
-import { screen, mountedComponent } from "test-utils";
+// Copyright (c) 2014 - 2024 UNICEF. All rights reserved.
+
+import { screen, mountedComponent, userEvent } from "test-utils";
 import { fromJS } from "immutable";
 
 import IndexFilters from "./component";
@@ -9,10 +11,13 @@ describe("<IndexFitlers>", () => {
       filters: {
         cases: [
           {
-            field_name: "filter1",
-            name: "filter1",
-            options: [{ id: "true", display_name: "Filter 1" }],
-            type: "checkbox"
+            name: "cases.filter_by.status",
+            field_name: "status",
+            option_strings_source: "lookup-case-status",
+            options: [],
+            type: "checkbox",
+            sort_options: false,
+            toggle_include_disabled: false
           }
         ]
       }
@@ -20,7 +25,7 @@ describe("<IndexFitlers>", () => {
   });
 
   const props = {
-    recordType: "cases"
+    recordType: "incidents"
   };
 
   it("renders search bar", () => {
@@ -36,30 +41,28 @@ describe("<IndexFitlers>", () => {
   it("renders FilterActions filters", () => {
     mountedComponent(<IndexFilters {...props} />, state);
     expect(screen.getByText("filters.apply_filters")).toBeInTheDocument();
+    expect(screen.getByText("filters.clear_filters")).toBeInTheDocument();
   });
 
-  // need to be work on this
-  // it("clear filters", async () => {
-  //     const propFilters = {
-  //         ...props,
-  //         defaultFilters: fromJS({
-  //             record_state: ["true"],
-  //             status: ["open"],
-  //             risk_level: ["medium"]
-  //         }),
-  //         setSelectedRecords: () => { },
-  //         metadata: {}
-  //     };
+  it("clear filters button is clicked", async () => {
+    const clearFiltersSpy = jest.fn();
+    const propFilters = {
+      ...props,
+      defaultFilters: fromJS({
+        record_state: ["true"],
+        status: ["open"],
+        risk_level: ["medium"]
+      }),
+      setSelectedRecords: clearFiltersSpy,
+      metadata: {}
+    };
+    const user = userEvent.setup();
 
-  //     const { store } = mountedComponent(<IndexFilters {...propFilters} />, state, [
-  //         "/cases?record_state[0]=true&status[0]=open&risk_level[0]=medium&page=1&per=20"
-  //     ]);
-  //     const user = userEvent.setup()
-  //     expect(store.getActions()).toEqual([]);
-  //     await user.click(screen.getAllByRole('button')[0]);
-  //     expect(store.getActions()[0]).toEqual({
-  //         type: "cases/SET_FILTERS",
-  //         payload: { fields: "short", status: ["open"], record_state: ["true"] }
-  //     });
-  // });
+    mountedComponent(<IndexFilters {...propFilters} />, state);
+    const clearFiltersButton = screen.getByText("filters.clear_filters");
+
+    await user.click(clearFiltersButton);
+
+    expect(clearFiltersSpy).toHaveBeenCalled();
+  });
 });

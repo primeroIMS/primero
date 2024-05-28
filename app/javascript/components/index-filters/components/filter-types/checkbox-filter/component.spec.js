@@ -1,4 +1,6 @@
-import { screen, setupMockFormComponent, userEvent } from "test-utils";
+// Copyright (c) 2014 - 2024 UNICEF. All rights reserved.
+
+import { screen, mountedFormComponent, userEvent } from "test-utils";
 
 import CheckboxFilter from "./component";
 
@@ -15,12 +17,12 @@ describe("<CheckboxFilter>", () => {
   const props = { addFilterToList: () => {}, filter };
 
   it("renders panel", () => {
-    setupMockFormComponent(CheckboxFilter, { props, includeFormProvider: true });
+    mountedFormComponent(<CheckboxFilter {...props} />, { includeFormProvider: true });
     expect(screen.getByText("Filter 1")).toBeInTheDocument();
   });
 
   it("renders checkbox inputs", () => {
-    setupMockFormComponent(CheckboxFilter, { props, includeFormProvider: true });
+    mountedFormComponent(<CheckboxFilter {...props} />, { includeFormProvider: true });
     ["Option 1", "Option 2"].forEach(option => expect(screen.getByText(`${option}`)).toBeInTheDocument());
   });
 
@@ -39,7 +41,7 @@ describe("<CheckboxFilter>", () => {
     };
     const user = userEvent.setup();
 
-    setupMockFormComponent(CheckboxFilter, { props: newProps, includeFormProvider: true });
+    mountedFormComponent(<CheckboxFilter {...newProps} />, { includeFormProvider: true });
     await user.click(screen.getByText("Option 1"));
     expect(setMoreSectionFiltersSpy).not.toHaveBeenCalled();
   });

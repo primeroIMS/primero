@@ -1,4 +1,4 @@
-import { screen, setupMockFormComponent } from "test-utils";
+import { screen, mountedFormComponent, userEvent } from "test-utils";
 
 import ChipsFilter from "./component";
 
@@ -18,12 +18,32 @@ describe("<ChipsFilter>", () => {
   };
 
   it("renders panel", () => {
-    setupMockFormComponent(ChipsFilter, { props, includeFormProvider: true });
+    mountedFormComponent(<ChipsFilter {...props} />, { includeFormProvider: true });
     expect(screen.getByText("Filter 1")).toBeInTheDocument();
   });
 
   it("renders chip inputs", () => {
-    setupMockFormComponent(ChipsFilter, { props, includeFormProvider: true });
+    mountedFormComponent(<ChipsFilter {...props} />, { includeFormProvider: true });
     ["Option 1", "Option 2"].forEach(option => expect(screen.getByText(`${option}`)).toBeInTheDocument());
+  });
+
+  it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", async () => {
+    const setMoreSectionFiltersSpy = jest.fn();
+    const newProps = {
+      addFilterToList: () => {},
+      filter,
+      mode: {
+        secondary: false
+      },
+      moreSectionFilters: {},
+      reset: false,
+      setMoreSectionFilters: setMoreSectionFiltersSpy,
+      setReset: () => {}
+    };
+    const user = userEvent.setup();
+
+    mountedFormComponent(<ChipsFilter {...newProps} />, { includeFormProvider: true });
+    await user.click(screen.getByText("Option 1"));
+    expect(setMoreSectionFiltersSpy).not.toHaveBeenCalled();
   });
 });
