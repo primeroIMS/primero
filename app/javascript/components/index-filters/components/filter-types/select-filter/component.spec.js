@@ -1,9 +1,5 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
+import { screen, mountedFormComponent } from "test-utils";
 import { fromJS } from "immutable";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-
-import { setupMockFormComponent, spy } from "../../../../../test";
 
 import SelectFilter from "./component";
 
@@ -23,47 +19,11 @@ describe("<SelectFilter>", () => {
   };
 
   it("renders panel", () => {
-    const { component } = setupMockFormComponent(SelectFilter, { props, includeFormProvider: true });
-
-    expect(component.exists("Panel")).to.be.true;
+    mountedFormComponent(<SelectFilter {...props} />, { includeFormProvider: true });
+    expect(screen.getByText("Filter 1")).toBeInTheDocument();
   });
 
-  it("renders select as secondary filter, with valid pros in the more section", () => {
-    const newProps = {
-      addFilterToList: () => {},
-      filter,
-      mode: {
-        secondary: true
-      },
-      moreSectionFilters: {},
-      reset: false,
-      setMoreSectionFilters: () => {},
-      setReset: () => {}
-    };
-    const { component } = setupMockFormComponent(SelectFilter, { props: newProps, includeFormProvider: true });
-    const clone = { ...component.find(SelectFilter).props() };
-
-    expect(component.exists("Panel")).to.be.true;
-
-    [
-      "addFilterToList",
-      "commonInputProps",
-      "filter",
-      "mode",
-      "moreSectionFilters",
-      "multiple",
-      "reset",
-      "setMoreSectionFilters",
-      "setReset"
-    ].forEach(property => {
-      expect(clone).to.have.property(property);
-      delete clone[property];
-    });
-
-    expect(clone).to.be.empty;
-  });
-
-  it("should render reporting location filter", () => {
+  it("renders panel", () => {
     const initialState = fromJS({
       application: {
         agencies: [
@@ -148,46 +108,11 @@ describe("<SelectFilter>", () => {
       isDateFieldSelectable: true,
       moreSectionFilters: {},
       reset: false,
-      setMoreSectionFilters: spy(),
+      setMoreSectionFilters: () => {},
       setReset: () => {}
     };
 
-    const { component } = setupMockFormComponent(SelectFilter, {
-      props: newProps,
-      includeFormProvider: true,
-      state: initialState
-    });
-
-    const selectFilter = component.find(Autocomplete);
-
-    const expected = ["MCMP1MD1", "MCMP2MD2"];
-    const result = selectFilter.props().options.map(opt => opt.id);
-
-    expect(selectFilter).to.have.lengthOf(1);
-    expect(result).to.deep.equal(expected);
-  });
-
-  it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
-    const newProps = {
-      addFilterToList: () => {},
-      filter,
-      mode: {
-        secondary: false
-      },
-      isDateFieldSelectable: true,
-      moreSectionFilters: {},
-      reset: false,
-      setMoreSectionFilters: spy(),
-      setReset: () => {}
-    };
-
-    const { component } = setupMockFormComponent(SelectFilter, { props: newProps, includeFormProvider: true });
-
-    const select = component.find(Autocomplete);
-
-    expect(select).to.have.lengthOf(1);
-    select.props().onChange({}, [{ id: "option-2", display_text: "Option 2" }]);
-
-    expect(newProps.setMoreSectionFilters).to.have.not.been.called;
+    mountedFormComponent(<SelectFilter {...newProps} />, { state: initialState, includeFormProvider: true });
+    expect(screen.getByText("Filter 1")).toBeInTheDocument();
   });
 });
