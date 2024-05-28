@@ -89,7 +89,7 @@ const BarChart = ({ data, description, showDetails = false, hideLegend = false, 
           {description}
         </p>
       ) : null}
-      <canvas id="reportGraph" data-testid="canva-report-graph" ref={chartRef} height={!showDetails ? null : 400} />
+      <canvas id="reportGraph" data-testid="canvas" ref={chartRef} height={!showDetails ? null : 400} />
     </div>
   );
 };
