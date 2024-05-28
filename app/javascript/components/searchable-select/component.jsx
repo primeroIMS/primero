@@ -101,6 +101,7 @@ const SearchableSelect = ({
         <AutoCompleteInput
           ref={params.InputProps.ref}
           mode={mode}
+          data-testid="autocomplete-input"
           params={params}
           value={initialValues}
           helperText={helperText}

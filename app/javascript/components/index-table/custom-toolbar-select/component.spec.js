@@ -64,7 +64,6 @@ describe("<CustomToolbarSelect />", () => {
 
   describe("when some records are selected", () => {
     it("should not renders ButtonBase for select_all or clear_selection", () => {
-      screen.debug();
       expect(screen.getByRole("button", { name: "Previous page" })).toBeInTheDocument();
       expect(screen.getByRole("button", { name: "Next page" })).toBeInTheDocument();
     });
