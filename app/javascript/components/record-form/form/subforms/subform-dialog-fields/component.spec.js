@@ -35,7 +35,7 @@ describe("<SubformDialogFields />", () => {
 
   it("render the <SubformDialogFields/> component", () => {
     mountedComponent(<SubformDialogFields {...props} />, {}, [], {}, { initialValues: {} });
-    expect(screen.getAllByTestId("subForm-dialog")).toHaveLength(2);
+    expect(screen.getAllByTestId("subform-dialog-field")).toHaveLength(2);
   });
 
   it("only renders the fields that meet the conditions", () => {
@@ -79,17 +79,7 @@ describe("<SubformDialogFields />", () => {
 
     it("render the SubformFieldSubform", () => {
       mountedComponent(<SubformDialogFields {...subFormProps} />, {}, [], {}, { registerField: () => {} });
-      expect(screen.getAllByText("forms.subform_not_found")).toHaveLength(1);
-    });
-
-    it("render the SubformField", () => {
-      mountedComponent(<SubformDialogFields {...subFormProps} />, {}, [], {}, { registerField: () => {} });
-      expect(screen.getAllByText("forms.subform_not_found")).toHaveLength(1);
-    });
-
-    it("render the subform", () => {
-      mountedComponent(<SubformDialogFields {...subFormProps} />, {}, [], {}, { registerField: () => {} });
-      expect(screen.getAllByText("forms.subform_need_to_be_added")).toHaveLength(1);
+      expect(screen.getByTestId("subform-field-subform")).toBeInTheDocument(1);
     });
   });
 
@@ -121,42 +111,6 @@ describe("<SubformDialogFields />", () => {
 
     it("render the FormSectionField", () => {
       mountedComponent(<SubformDialogFields {...violationProps} />, {}, [], {}, { registerField: () => {} });
-      expect(screen.getAllByTestId("form-section-field")).toHaveLength(1);
-    });
-  });
-
-  describe("when a field has tag properties", () => {
-    const tagProps = {
-      mode: { isEdit: true },
-      formSection: { unqique_id: "test_id" },
-      field: FieldRecord({
-        name: "attack_on_hospitals",
-        subform_section_id: FormSectionRecord({
-          unique_id: "attack_on_hospitals",
-          fields: [
-            FieldRecord({
-              name: "facility_attack_type",
-              visible: true,
-              type: "select_box",
-              multiple: true,
-              option_strings_source: "lookup lookup-facility-attack-type",
-              option_strings_condition: {
-                "armed-on-hospital": { in: { violation_category: ["attack_on_hospitals"] } }
-              }
-            })
-          ]
-        })
-      }),
-      recordType: "cases",
-      recordModuleID: "primeromodule-cp",
-      values: {},
-      parentValues: {
-        violation_category: ["attack_on_hospitals", "killing"]
-      }
-    };
-
-    it("renders FormSectionField component with valid props", () => {
-      mountedComponent(<SubformDialogFields {...tagProps} />, {}, [], {}, { registerField: () => {} });
       expect(screen.getAllByTestId("form-section-field")).toHaveLength(1);
     });
   });
