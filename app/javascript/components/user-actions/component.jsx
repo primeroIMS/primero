@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 
@@ -7,7 +9,7 @@ import Menu from "../menu";
 import PasswordResetConfirmation, { NAME as DIALOG_NAME } from "../password-reset-confirmation";
 import { passwordResetRequest } from "../pages/admin/users-form/action-creators";
 import { getUseIdentityProvider } from "../login/selectors";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { NAME } from "./constants";
 

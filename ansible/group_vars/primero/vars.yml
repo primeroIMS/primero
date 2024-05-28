@@ -1,3 +1,5 @@
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 ---
 nginx_container_username: 'nginx'
 application_container_username: 'primero'

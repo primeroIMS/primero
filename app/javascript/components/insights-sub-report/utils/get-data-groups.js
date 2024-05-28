@@ -1,7 +1,9 @@
-import { YEAR } from "../../insights/constants";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { WEEK, YEAR } from "../../insights/constants";
 
 export default (data, groupedBy) => {
-  if (groupedBy === YEAR) {
+  if ([YEAR, WEEK].includes(groupedBy)) {
     return data.reduce((acc, elem) => {
       const groupId = elem.get("group_id").toString();
 

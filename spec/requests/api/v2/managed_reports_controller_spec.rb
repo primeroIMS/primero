@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::ManagedReportsController, type: :request do
@@ -63,7 +65,7 @@ describe Api::V2::ManagedReportsController, type: :request do
         %w[children perpetrators reporting_location attack_type received_response]
       )
       expect(json['data']['report_data']['killing']['metadata'].keys).to match_array(
-        %w[lookups order table_type display_graph indicators_subcolumns]
+        %w[lookups order table_type display_graph indicators_subcolumns indicators_rows]
       )
     end
 

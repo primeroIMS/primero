@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This specifies the locales the Primero currently supports
 #
 # ku-IQ: This locale represents the Kurdish Badini subdialect of Kurmanji, as spoken in Dohuk in
@@ -11,7 +13,7 @@ class Primero::Application
   LOCALE_ARABIC = :ar
   LOCALES = %i[
     en ar ar-IQ ar-JO ar-LB ar-SD bn es es-GT fa-AF fr id km ku ku-IQ my ps-AF pt pt-BR so sw-KE sw-TZ th ne ro ru uk pl
-    sk hu es-ES om am-ET tr
+    sk hu es-ES om am-ET tr cmn tet
   ].freeze
   RTL_LOCALES = %i[ar ar-IQ ar-JO ar-LB ar-SD fa-AF ku ku-IQ ps-AF].freeze
 end

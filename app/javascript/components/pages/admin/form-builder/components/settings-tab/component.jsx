@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -69,7 +71,7 @@ const Component = ({ index, mode, tab, formMethods, limitedProductionSite }) => 
 
   return (
     <TabPanel tab={tab} index={index}>
-      <div className={css.tabContent}>
+      <div className={css.tabContent} data-testid="settings-tab">
         <SettingsForm
           formMethods={formMethods}
           formMode={formMode}

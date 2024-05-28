@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 class CreatePrimeroModules < ActiveRecord::Migration[5.0]
   def change
     create_table :primero_modules do |t|
@@ -13,7 +17,7 @@ class CreatePrimeroModules < ActiveRecord::Migration[5.0]
 
     add_index :primero_modules, :unique_id, unique: true
 
-    create_table :form_sections_primero_modules, :id => false do |t|
+    create_table :form_sections_primero_modules, id: false do |t|
       t.integer :primero_module_id
       t.integer :form_section_id
     end

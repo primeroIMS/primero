@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Select } from "@material-ui/core";
 import { DatePicker, DateTimePicker } from "@material-ui/pickers";
 

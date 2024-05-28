@@ -1,7 +1,10 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/display-name */
 import Transitions from "../../../transitions";
 import {
   APPROVALS,
+  FAMILY_FROM_CASE,
   RECORD_OWNER,
   TRANSITION_TYPE,
   INCIDENT_FROM_CASE,
@@ -16,7 +19,8 @@ import Approvals from "../../../approvals";
 import IncidentFromCase from "../../../incidents-from-case";
 import ChangeLogs from "../../../change-logs";
 import Summary from "../../../summary";
-import CaseRegistry from "../../form/components/case-registry";
+import CaseRegistry from "../../../case-registry";
+import CaseFamily from "../../../case-family";
 import SummaryIncidentMRM from "../../../summary-incident-mrm";
 
 const externalForms =
@@ -95,6 +99,18 @@ const externalForms =
       ),
       [REGISTRY_FROM_CASE]: (
         <CaseRegistry
+          values={values}
+          record={record}
+          mode={containerMode}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          primeroModule={primeroModule}
+          recordType={recordType}
+          setFieldValue={setFieldValue}
+        />
+      ),
+      [FAMILY_FROM_CASE]: (
+        <CaseFamily
           values={values}
           record={record}
           mode={containerMode}

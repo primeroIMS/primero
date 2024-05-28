@@ -1,13 +1,18 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import {
   endOfMonth,
   endOfQuarter,
+  endOfWeek,
   endOfYear,
   isDate,
   startOfMonth,
   startOfQuarter,
+  startOfWeek,
   startOfYear,
   subMonths,
   subQuarters,
+  subWeeks,
   subYears
 } from "date-fns";
 import isNil from "lodash/isNil";
@@ -18,11 +23,15 @@ import {
   CUSTOM,
   LAST_MONTH,
   LAST_QUARTER,
+  LAST_WEEK,
   LAST_YEAR,
   THIS_MONTH,
   THIS_QUARTER,
+  THIS_WEEK,
   THIS_YEAR
 } from "../insights/constants";
+
+const startOfWeekOptions = { options: { weekStartsOn: 0 } };
 
 const formatDate = date => (isDate(date) ? toServerDateFormat(date, { includeTime: true, normalize: false }) : date);
 
@@ -53,6 +62,14 @@ export const dateCalculations = (option, from, to) => {
       const lastMonth = subMonths(date, 1);
 
       return { from: startOfMonth(lastMonth), to: endOfMonth(lastMonth) };
+    },
+    [THIS_WEEK]: () => {
+      return { from: startOfWeek(date, startOfWeekOptions), to: endOfWeek(date, startOfWeekOptions) };
+    },
+    [LAST_WEEK]: () => {
+      const lastMonth = subWeeks(date, 1);
+
+      return { from: startOfWeek(lastMonth, startOfWeekOptions), to: endOfWeek(lastMonth, startOfWeekOptions) };
     },
     [CUSTOM]: () => {
       return { from, to };

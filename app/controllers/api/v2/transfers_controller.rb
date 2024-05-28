@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # API for managing transfers
 class Api::V2::TransfersController < Api::V2::RecordResourceController
   def index

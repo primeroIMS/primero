@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import actions from "./actions";
 
 describe("Application - Actions", () => {
@@ -28,6 +30,11 @@ describe("Application - Actions", () => {
       "FETCH_SYSTEM_PERMISSIONS_FINISHED",
       "FETCH_SYSTEM_PERMISSIONS_STARTED",
       "FETCH_SYSTEM_PERMISSIONS_SUCCESS",
+      "FETCH_WEBPUSH_CONFIG",
+      "FETCH_WEBPUSH_CONFIG_FAILURE",
+      "FETCH_WEBPUSH_CONFIG_FINISHED",
+      "FETCH_WEBPUSH_CONFIG_STARTED",
+      "FETCH_WEBPUSH_CONFIG_SUCCESS",
       "FETCH_SANDBOX_UI",
       "FETCH_SANDBOX_UI_FAILURE",
       "FETCH_SANDBOX_UI_FINISHED",
@@ -47,7 +54,13 @@ describe("Application - Actions", () => {
       "FETCH_MANAGED_ROLES_FAILURE",
       "FETCH_MANAGED_ROLES_SUCCESS",
       "FETCH_MANAGED_ROLES_STARTED",
-      "FETCH_MANAGED_ROLES_FINISHED"
+      "FETCH_MANAGED_ROLES_FINISHED",
+      "SET_THEME",
+      "FETCH_REFERRAL_AUTHORIZATION_ROLES",
+      "FETCH_REFERRAL_AUTHORIZATION_ROLES_STARTED",
+      "FETCH_REFERRAL_AUTHORIZATION_ROLES_SUCCESS",
+      "FETCH_REFERRAL_AUTHORIZATION_ROLES_FAILURE",
+      "FETCH_REFERRAL_AUTHORIZATION_ROLES_FINISHED"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(actions).to.have.property(property);

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Roles CRUD API
 class Api::V2::RolesController < ApplicationApiController
   include Api::V2::Concerns::Pagination
@@ -22,7 +24,7 @@ class Api::V2::RolesController < ApplicationApiController
     @role = Role.new_with_properties(role_params)
     @role.save!
     status = params[:data][:id].present? ? 204 : 200
-    render :create, status: status
+    render :create, status:
   end
 
   def update
@@ -40,7 +42,7 @@ class Api::V2::RolesController < ApplicationApiController
     @role_params ||= params.require(:data).permit(
       :id, :unique_id, :name, :description, :disabled,
       :group_permission, :referral, :transfer, :is_manager, :reporting_location_level,
-      permissions: {}, form_section_read_write: {}, module_unique_ids: []
+      :referral_authorization, permissions: {}, form_section_read_write: {}, module_unique_ids: []
     )
   end
 
