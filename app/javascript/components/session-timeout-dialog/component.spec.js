@@ -1,40 +1,42 @@
 import { fromJS } from "immutable";
-import sinon from "sinon";
 import { createMocks } from "react-idle-timer";
-
-import { mountedComponent, screen } from "../../test-utils";
+import { mountedComponent, screen, act, waitFor } from "test-utils";
 
 import SessionTimeoutDialog from "./component";
 
 describe("<SessionTimeoutDialog />", () => {
-  let clock;
+  beforeEach(() => {
+    jest.useFakeTimers();
+    createMocks();
+  });
 
-  clock = sinon.useFakeTimers();
-  createMocks();
-  it("should idle after 15 minutes", () => {
-    mountedComponent(<SessionTimeoutDialog />, fromJS({
+  it("should idle after 15 minutes", async () => {
+    mountedComponent(<SessionTimeoutDialog />, {
       application: {
         userIdle: false
       }
-    }))
-
-    expect(screen.queryByRole('dialog')).toBeNull()
-
+    });
+    await act(() => jest.advanceTimersByTimeAsync(18 * 1000 * 60));
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).toBeInTheDocument();
+    });
   });
 
   describe("when user is offline", () => {
     it("should not idle after 15 minutes", () => {
-      mountedComponent(<SessionTimeoutDialog />, fromJS({
-        application: {
-          userIdle: false
-        },
-        connectivity: {
-          online: false
-        }
-      }))
+      mountedComponent(
+        <SessionTimeoutDialog />,
+        fromJS({
+          application: {
+            userIdle: false
+          },
+          connectivity: {
+            online: false
+          }
+        })
+      );
 
-      expect(screen.queryByRole('dialog')).toBeNull()
-
+      expect(screen.queryByRole("dialog")).toBeNull();
     });
   });
 });
