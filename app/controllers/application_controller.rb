@@ -4,4 +4,5 @@
 
 # Superclass for all non-API controllers
 class ApplicationController < ActionController::Base
+  include CsrfProtection
 end
