@@ -15,7 +15,7 @@ module DuplicateIdAlertable
   def perform_duplicate_field_alert
     return unless alerts_on_duplicate.present?
 
-    record_alerts_on_duplicate = alerts_on_duplicate[Record.map_name(self.class.name)]
+    record_alerts_on_duplicate = alerts_on_duplicate[PrimeroModelService.to_name(self.class.name)]
 
     return unless record_alerts_on_duplicate.present?
 

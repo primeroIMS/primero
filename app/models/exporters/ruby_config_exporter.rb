@@ -44,9 +44,9 @@ class Exporters::RubyConfigExporter
 
   def export
     # TODO: Location, PrimeroModule, PrimeroProgram, SystemSettings, ExportConfiguration, IdentityProvider
-    %w[Agency Lookup Report UserGroup Role ContactInformation].each do |config_name|
-      config_objects = Object.const_get(config_name).all.map(&:configuration_hash)
-      export_config_objects(config_name, config_objects)
+    [Agency, Lookup, Report, UserGroup, Role, ContactInformation].each do |config|
+      config_objects = config.all.map(&:configuration_hash)
+      export_config_objects(config.name, config_objects)
     end
     export_forms
   end

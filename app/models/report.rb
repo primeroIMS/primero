@@ -55,47 +55,19 @@ class Report < ApplicationRecord
   before_create :generate_unique_id
   before_save :apply_default_filters
 
+  def self.new_with_properties(report_params)
+    report = Report.new(report_params.except(:name, :description, :fields))
+    report.name_i18n = report_params[:name]
+    report.description_i18n = report_params[:description]
+    report.aggregate_by = ReportFieldService.aggregate_by_from_params(report_params)
+    report.disaggregate_by = ReportFieldService.disaggregate_by_from_params(report_params)
+    report
+  end
+
   def validate_name_in_base_language
     return if name_en.present?
 
     errors.add(:name, I18n.t('errors.models.report.name_presence'))
-  end
-
-  class << self
-    def get_reportable_subform_record_field_name(model, record_type)
-      model = Record.model_from_name(model)
-      return unless model.try(:nested_reportable_types)
-
-      model.nested_reportable_types.select { |nrt| nrt.model_name.param_key == record_type }.first&.record_field_name
-    end
-
-    def get_reportable_subform_record_field_names(model)
-      model = Record.model_from_name(model)
-      return unless model.try(:nested_reportable_types)
-
-      model.nested_reportable_types.map { |nrt| nrt.model_name.param_key }
-    end
-
-    def record_type_is_nested_reportable_subform?(model, record_type)
-      get_reportable_subform_record_field_names(model).include?(record_type)
-    end
-
-    def all_nested_reportable_types
-      record_types = []
-      FormSection::RECORD_TYPES.each do |rt|
-        record_types += Record.model_from_name(rt).try(:nested_reportable_types)
-      end
-      record_types
-    end
-
-    def new_with_properties(report_params)
-      report = Report.new(report_params.except(:name, :description, :fields))
-      report.name_i18n = report_params[:name]
-      report.description_i18n = report_params[:description]
-      report.aggregate_by = ReportFieldService.aggregate_by_from_params(report_params)
-      report.disaggregate_by = ReportFieldService.disaggregate_by_from_params(report_params)
-      report
-    end
   end
 
   def update_properties(report_params)
@@ -158,7 +130,7 @@ class Report < ApplicationRecord
   end
 
   def model
-    @model ||= Record.model_from_name(record_type)
+    @model ||= PrimeroModelService.to_model(record_type)
   end
 
   def build_query
@@ -289,15 +261,11 @@ class Report < ApplicationRecord
     end
   end
 
-  def self.reportable_record_types
-    FormSection::RECORD_TYPES + ['violation'] + Report.all_nested_reportable_types.map { |nrt| nrt.name.underscore }
-  end
-
   def apply_default_filters
     return unless add_default_filters
 
     self.filters ||= []
-    default_filters = Record.model_from_name(record_type).report_filters
+    default_filters = model.report_filters
     self.filters = (self.filters + default_filters).uniq
   end
 
