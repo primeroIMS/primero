@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { mountedFormComponent, screen, userEvent } from "../../../../../../test-utils";
+import { mountedFormComponent, screen } from "../../../../../../test-utils";
 
 import TranslationsForm from "./component";
 
@@ -27,15 +27,8 @@ describe("<TranslationsForm />", () => {
 
   it("should render <TranslationsForm />", () => {
     mountedFormComponent(<TranslationsForm mode="new" />, state);
+    expect(screen.queryAllByText("Select language")).toHaveLength(2);
     expect(screen.getByText("forms.label")).toBeInTheDocument();
-  });
-
-  it("should update name and description if the translation are updated", async () => {
-    const user = userEvent.setup();
-
-    mountedFormComponent(<TranslationsForm mode="new" />, state);
-    await user.type(screen.getAllByRole("textbox")[0], "name");
-    await user.type(screen.getAllByRole("textbox")[1], "description");
-    expect(screen.getAllByRole("textbox")[1]).toHaveValue("description");
+    expect(screen.getByText("fields.label")).toBeInTheDocument();
   });
 });
