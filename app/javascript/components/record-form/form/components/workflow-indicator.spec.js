@@ -1,12 +1,14 @@
 import { fromJS, Map } from "immutable";
+import { mountedComponent, stub, screen, setScreenSizeToMobile } from "test-utils";
 
-import { mountedComponent, stub, screen } from "../../../../test-utils";
 import { PrimeroModuleRecord } from "../../../application/records";
 
 import WorkflowIndicator from "./workflow-indicator";
 
 describe("<WorkflowIndicator />", () => {
-  //   let state;
+  beforeAll(() => {
+    setScreenSizeToMobile(false);
+  });
 
   const defaultProps = {
     locale: "en",
@@ -46,16 +48,6 @@ describe("<WorkflowIndicator />", () => {
       ]
     })
   });
-  const props = {
-    ...defaultProps,
-    record: Map({ case_status_reopened: false, workflow: "services" })
-  };
-
-  it("renders the workflow indicator", () => {
-    mountedComponent(<WorkflowIndicator {...props} />, state);
-    expect(screen.getAllByTestId("badge")).toHaveLength(1);
-    expect(screen.getByText("Services")).toBeInTheDocument();
-  });
 
   it("renders status reopened if case has been reopened", () => {
     const reopendProps = {
@@ -65,7 +57,7 @@ describe("<WorkflowIndicator />", () => {
 
     mountedComponent(<WorkflowIndicator {...reopendProps} />, state);
 
-    expect(screen.getByText("0")).toBeInTheDocument();
+    expect(screen.getByText("Reopened")).toBeInTheDocument();
   });
 
   describe("when the mobile is displayed", () => {
@@ -76,9 +68,11 @@ describe("<WorkflowIndicator />", () => {
     };
 
     it("renders the smaller workflow indicator", () => {
+      setScreenSizeToMobile(true);
       mountedComponent(<WorkflowIndicator {...workflowProps} />, state);
-      expect(screen.getByText("2")).toBeInTheDocument();
-      expect(screen.queryAllByTestId("step")).toHaveLength(0);
+      expect(screen.getByText("Services")).toBeInTheDocument();
+      expect(screen.queryAllByTestId("badge")).toHaveLength(1);
+      setScreenSizeToMobile(false);
     });
 
     it("should not render the workflow indicator if the module does not support workflows", () => {
@@ -98,8 +92,8 @@ describe("<WorkflowIndicator />", () => {
           ])
         )
       );
-      expect(screen.queryAllByTestId("badge")).toHaveLength(0);
 
+      expect(screen.queryAllByTestId("badge")).toHaveLength(0);
       expect(screen.queryAllByTestId("step")).toHaveLength(0);
     });
   });
@@ -112,8 +106,8 @@ describe("<WorkflowIndicator />", () => {
       };
 
       mountedComponent(<WorkflowIndicator {...reopenedProps} />, state);
-      expect(screen.getAllByTestId("badge")).toHaveLength(1);
       expect(screen.getByText("Closed")).toBeInTheDocument();
+      expect(screen.getByText("Closed")).toHaveClass("styleLabelActive");
     });
   });
 });
