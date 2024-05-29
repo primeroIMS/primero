@@ -3,8 +3,9 @@
 import { createRef } from "react";
 import { fromJS } from "immutable";
 
+import { screen, mountedFormComponent } from "../../test-utils";
+
 import PdfExporter from "./component";
-import { mountedFormComponent, screen } from "../../test-utils";
 
 describe("<PdfExporter />", () => {
   const formRef = createRef();
