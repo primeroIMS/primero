@@ -1,20 +1,15 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core";
+import { mountedComponent, screen } from "test-utils";
 
-import LookupValue from "../../../record-form/form/subforms/subform-header-lookup";
-import { setupMountedComponent } from "../../../../test";
-import IncidentSummary from "../summary";
-import IncidentDetail from "../detail";
 import { RECORD_TYPES } from "../../../../config";
-import * as R from "../../../record-form/records";
+import { FieldRecord } from "../../../record-form/records";
 import { mapEntriesToRecord } from "../../../../libs";
 
 import IncidentPanel from "./component";
 
 describe("<IncidentPanel /> - Component", () => {
-  let component;
   const props = {
     incident: fromJS({
       created_by: "primero_gbv",
@@ -101,51 +96,27 @@ describe("<IncidentPanel /> - Component", () => {
           }
         ]
       },
-      fields: mapEntriesToRecord(fields, R.FieldRecord)
+      fields: mapEntriesToRecord(fields, FieldRecord)
     }
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(IncidentPanel, props, initialState));
+    mountedComponent(<IncidentPanel {...props} />, initialState);
   });
 
   it("render IncidentPanel component", () => {
-    expect(component.find(IncidentPanel)).to.have.length(1);
+    expect(screen.getByTestId("panel")).toBeInTheDocument();
   });
 
-  it("render a Accordions", () => {
-    expect(component.find(Accordion)).to.have.lengthOf(1);
-    expect(component.find(AccordionSummary)).to.have.lengthOf(1);
-    expect(component.find(AccordionDetails)).to.have.lengthOf(1);
+  it("render IncidentSummary component", () => {
+    expect(screen.getAllByTestId("incidentsummary")).toHaveLength(1);
   });
 
-  it("render a IncidentSummary", () => {
-    expect(component.find(IncidentSummary)).to.have.lengthOf(1);
+  it("render IncidentDetail component", () => {
+    expect(screen.getByText("incidents.date_of_incident")).toBeInTheDocument();
   });
 
-  it("render a IncidentDetail", () => {
-    expect(component.find(IncidentDetail)).to.have.lengthOf(1);
-  });
-
-  describe("with violence-type-lookup", () => {
-    it("should use the lookup defined in the option_strings_source", () => {
-      expect(component.find(IncidentDetail).find(LookupValue).props().optionsStringSource).to.equal(
-        "lookup-gbv-sexual-violence-type"
-      );
-    });
-
-    it("renders the translated value", () => {
-      expect(component.find(IncidentDetail).find(LookupValue).text()).to.equal("Test1");
-    });
-  });
-
-  it("renders component with valid props", () => {
-    const incidentsProps = { ...component.find(IncidentPanel).props() };
-
-    ["incident", "incidentCaseId", "css", "mode", "setFieldValue", "handleSubmit", "recordType"].forEach(property => {
-      expect(incidentsProps).to.have.property(property);
-      delete incidentsProps[property];
-    });
-    expect(incidentsProps).to.be.empty;
+  it("with violence-type-lookup-renders the translated value", () => {
+    expect(screen.getAllByText("Test1")).toHaveLength(2);
   });
 });
