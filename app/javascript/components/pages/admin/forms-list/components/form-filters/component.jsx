@@ -55,7 +55,7 @@ const Component = ({ filterValues, modules, handleSetFilterValue, handleClearVal
   const classes = clsx({ [css.disabledFilters]: disabled });
 
   return (
-    <div className={classes}>
+    <div className={classes} data-testid="forms-list">
       <ActionButton
         text="clear"
         type={ACTION_BUTTON_TYPES.default}

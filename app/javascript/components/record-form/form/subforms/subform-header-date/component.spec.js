@@ -17,7 +17,6 @@ describe("<DateHeader /> - Form - Subforms", () => {
     };
 
     mountedComponent(<DateHeader {...props} />);
-    screen.debug();
     expect(screen.getByText("02-Oct-2019")).toBeInTheDocument();
   });
 
