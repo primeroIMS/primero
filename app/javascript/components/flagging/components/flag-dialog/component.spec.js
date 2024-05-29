@@ -18,8 +18,13 @@ describe("<FlagDialog />", () => {
     expect(screen.getByText("flags.add_flag_tab")).toBeInTheDocument();
   });
 
+  it("should render the ActionDialog", () => {
+    mountedComponent(<FlagDialog {...props} />);
+    expect(screen.getByText("flags.title")).toBeInTheDocument();
+  });
+
   it("should render the DialogTabs", () => {
     mountedComponent(<DialogTabs {...props} />);
-    expect(screen.getAllByRole("tab")).toBeTruthy();
+    expect(screen.getAllByRole("tab")).toHaveLength(2);
   });
 });

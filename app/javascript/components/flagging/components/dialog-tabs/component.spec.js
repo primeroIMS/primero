@@ -15,6 +15,8 @@ describe("<DialogTabs /> - Component", () => {
   });
 
   it("should render the DialogTabs", () => {
+    screen.debug();
+    expect(screen.getByText("flags.flags_tab")).toBeInTheDocument();
     expect(screen.getByText("flags.add_flag_tab")).toBeInTheDocument();
   });
 });

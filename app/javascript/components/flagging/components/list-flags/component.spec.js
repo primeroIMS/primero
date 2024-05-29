@@ -22,7 +22,7 @@ describe("<ListFlags />", () => {
             date: "2019-08-01",
             message: "This is a flag 1",
             flagged_by: "primero",
-            removed: false
+            removed: true
           })
         ]
       }
@@ -37,5 +37,10 @@ describe("<ListFlags />", () => {
   it("should render the FlagForm", () => {
     mountedComponent(<ListFlags {...props} />, initialState);
     expect(screen.getByRole("listitem")).toBeInTheDocument();
+  });
+
+  it("should render the FlagForm", () => {
+    mountedComponent(<ListFlags {...props} />, initialState);
+    expect(screen.getByText("flags.resolved", { selector: "h3" })).toBeInTheDocument();
   });
 });

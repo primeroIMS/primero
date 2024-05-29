@@ -1,9 +1,9 @@
 import { mountedComponent, screen } from "test-utils";
 import { fromJS } from "immutable";
 
-import ListFlagsItemActions from "./component";
+import ListFlagsItem from "./component";
 
-describe("<ListFlagsItemActions />", () => {
+describe("<ListFlagsItem />", () => {
   const props = {
     flag: {
       id: 7,
@@ -23,7 +23,7 @@ describe("<ListFlagsItemActions />", () => {
   });
 
   beforeEach(() => {
-    mountedComponent(<ListFlagsItemActions {...props} />, initialState);
+    mountedComponent(<ListFlagsItem {...props} />, initialState);
   });
 
   it("should render the ListFlagsItem", () => {
@@ -31,6 +31,14 @@ describe("<ListFlagsItemActions />", () => {
   });
 
   it("should render the DateFlag", () => {
-    expect(screen.getByTestId("dateflag")).toBeInTheDocument();
+    expect(screen.getByTestId("date")).toBeInTheDocument();
+  });
+
+  it("should render the ListItemText", () => {
+    expect(screen.getByText("This is a flag 1")).toBeInTheDocument();
+  });
+
+  it("should render the ListFlagsItemActions", () => {
+    expect(screen.getByText("flags.resolve_button")).toBeInTheDocument();
   });
 });

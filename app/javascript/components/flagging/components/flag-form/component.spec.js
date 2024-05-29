@@ -13,7 +13,7 @@ describe("<FlagForm />", () => {
 
   it("renders Form", () => {
     mountedComponent(<FlagForm {...props} />);
-    expect(screen.getAllByText("flags.flag_date")).toBeTruthy();
+    expect(screen.getAllByText("flags.flag_date")).toHaveLength(2);
   });
 
   it("should render the FlagForm", () => {

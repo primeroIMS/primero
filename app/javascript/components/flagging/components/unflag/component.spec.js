@@ -26,7 +26,7 @@ describe("<Unflag />", () => {
   });
 
   it("should render the Unflag", () => {
-    expect(screen.getAllByText("flags.resolve_reason")).toBeTruthy();
+    expect(screen.getAllByText("flags.resolve_reason")).toHaveLength(2);
   });
 
   it("renders ActionButton", () => {
