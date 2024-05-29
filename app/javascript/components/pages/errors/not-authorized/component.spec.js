@@ -3,7 +3,6 @@ import { mountedComponent, screen } from "../../../../test-utils";
 import NotAuthorized from "./component";
 
 describe("<NotAuthorized />", () => {
-
   it("renders h1 tag", () => {
     mountedComponent(<NotAuthorized />, {});
     expect(screen.getByText(/error_page.not_authorized.code/i)).toBeInTheDocument();

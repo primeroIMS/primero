@@ -5,7 +5,7 @@ import { mountedComponent, screen } from "../../../../../test-utils";
 
 import FormInternal from "./form-internal";
 
-const InternalForm = props => {
+function InternalForm(props) {
   const formProps = {
     initialValues: {
       agency: "",
@@ -21,7 +21,8 @@ const InternalForm = props => {
       </Form>
     </Formik>
   );
-};
+}
+InternalForm.displayName = "InternalForm";
 
 describe("<FormInternal />", () => {
   const props = {
@@ -56,7 +57,6 @@ describe("<FormInternal />", () => {
 
   it("renders Field", () => {
     mountedComponent(<InternalForm {...props} />);
-    expect(screen.queryAllByRole("textbox")).toHaveLength(3);
+    expect(document.querySelectorAll("input")).toHaveLength(3);
   });
-  
 });

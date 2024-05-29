@@ -10,15 +10,15 @@ const Jewel = ({ value, isForm, isList, isError }) => {
   const classes = clsx(css.circleForm, css.error);
 
   if (isList) {
-    return <Circle className={css.circleList} />;
+    return <Circle className={css.circleList} data-testid="jewel"/>;
   }
 
   if (isError && !isForm) {
     return (
-      <>
+      <div data-testid="jewel-error">
         {value}
         <Circle className={classes} />
-      </>
+      </div>
     );
   }
 
@@ -28,10 +28,10 @@ const Jewel = ({ value, isForm, isList, isError }) => {
         <>
           {value}
           {isError && <Circle className={classes} />}
-          <Circle className={css.circleForm} />
+          <Circle className={css.circleForm} data-testid="error" />
         </>
       ) : (
-        <div className={css.root}>
+        <div className={css.root} data-testid="jewel">
           <span>{value}</span>
           <Circle className={css.circle} />
         </div>

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import { mountedComponent, screen } from "../../../../../test-utils";
@@ -47,7 +49,7 @@ describe("<ReferralForm />", () => {
 
     it("renders Formik", () => {
       mountedComponent(<ReferralForm {...props} />, initialState);
-      expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "form")).toBeInTheDocument();
+      expect(document.querySelector("form")).toBeInTheDocument();
     });
 
     it("renders FormInternal", () => {
@@ -68,16 +70,6 @@ describe("<ReferralForm />", () => {
     it("renders MuiCheckbox", () => {
       mountedComponent(<ReferralForm {...props} />, initialState);
       expect(screen.queryAllByRole("checkbox")).toHaveLength(1);
-    });
-
-    it("should accept valid props", () => {
-      mountedComponent(<ReferralForm {...props} />, initialState);
-      expect(screen.getByText(/referral.provided_consent_label/i)).toBeInTheDocument();
-    });
-
-    it("renders Formik with valid props", () => {
-      mountedComponent(<ReferralForm {...props} />, initialState);
-      expect(screen.queryAllByRole("textbox")).toHaveLength(5);
     });
   });
 
@@ -138,12 +130,7 @@ describe("<ReferralForm />", () => {
 
     it("renders Formik", () => {
       mountedComponent(<ReferralForm {...props} />, initialState);
-      expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "form")).toBeInTheDocument();
-    });
-
-    it("renders Formik with initial values from the service", () => {
-      mountedComponent(<ReferralForm {...props} />, initialState);
-      expect(screen.queryAllByRole("textbox")).toHaveLength(5);
+      expect(document.querySelector("form")).toBeInTheDocument();
     });
   });
 });

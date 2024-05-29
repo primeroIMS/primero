@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-expressions */
 import { mountedComponent, screen } from "../../../../../test-utils";
-import { RECORD_TYPES } from "../../../../../config";
 
 import ProvidedConsent from "./provided-consent";
 

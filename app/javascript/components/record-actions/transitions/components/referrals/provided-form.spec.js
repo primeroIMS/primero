@@ -13,11 +13,11 @@ describe("<ProvidedForm /> - referrals", () => {
   };
 
   it("should render properly when user can override consent", () => {
-    const overrideProps = {
+    const props = {
       canConsentOverride: true
     };
 
-    mountedComponent(<ProvidedForm {...overrideProps} />, {}, [], [], formProps);
+    mountedComponent(<ProvidedForm {...props} />, {}, [], [], formProps);
     expect(screen.queryAllByTestId("grid")).toHaveLength(3);
     expect(screen.getByTestId("form-control")).toBeInTheDocument();
     expect(screen.getByText(/referral.refer_anyway_label/i)).toBeInTheDocument();
