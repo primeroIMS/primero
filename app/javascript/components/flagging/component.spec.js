@@ -1,21 +1,23 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Map } from "immutable";
-
-import { setupMountedComponent } from "../../test";
+import { mountedComponent, screen } from "test-utils";
+import { fromJS } from "immutable";
 
 import Flagging from "./component";
-import { FlagDialog } from "./components";
+import { FLAG_DIALOG } from "./constants";
 
-describe("<Flagging /> - Component", () => {
-  let component;
+describe("<FlagDialog /> - Component", () => {
+  const props = {
+    recordType: "cases",
+    record: "0df32f52-4290-4ce1-b859-74ac14c081bf"
+  };
 
-  before(() => {
-    component = setupMountedComponent(
-      Flagging,
-      { recordType: "cases", record: "0df32f52-4290-4ce1-b859-74ac14c081bf" },
-      Map({
-        records: Map({
+  beforeEach(() => {
+    mountedComponent(
+      <Flagging {...props} />,
+      fromJS({
+        ui: { dialogs: { dialog: FLAG_DIALOG, open: true } },
+        records: {
           cases: {
             data: {
               0: {
@@ -42,16 +44,18 @@ describe("<Flagging /> - Component", () => {
               }
             ]
           }
-        })
+        }
       })
-    ).component;
+    );
   });
 
   it("renders Flagging form", () => {
-    expect(component.find(Flagging)).to.have.lengthOf(1);
+    expect(screen.getByText("buttons.flags")).toBeInTheDocument();
+    expect(screen.getByText("flags.add_flag_tab")).toBeInTheDocument();
+    expect(document.querySelector("#FlagForm")).toBeInTheDocument();
   });
 
   it("renders FlagDialog", () => {
-    expect(component.find(FlagDialog)).to.have.lengthOf(1);
+    expect(screen.getByText("flags.title")).toBeInTheDocument();
   });
 });
