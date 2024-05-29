@@ -109,7 +109,7 @@ describe("<IncidentPanel /> - Component", () => {
   });
 
   it("render IncidentSummary component", () => {
-    expect(screen.getByText("incidents.type_violence")).toBeInTheDocument();
+    expect(screen.getAllByTestId("incidentsummary")).toHaveLength(1);
   });
 
   it("render IncidentDetail component", () => {
@@ -117,6 +117,6 @@ describe("<IncidentPanel /> - Component", () => {
   });
 
   it("with violence-type-lookup-renders the translated value", () => {
-    expect(screen.getAllByText("Test1")).toBeTruthy();
+    expect(screen.getAllByText("Test1")).toHaveLength(2);
   });
 });

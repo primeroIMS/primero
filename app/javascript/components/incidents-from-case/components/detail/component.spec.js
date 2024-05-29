@@ -40,10 +40,10 @@ describe("<IncidentDetail /> - Component", () => {
   });
 
   it("render a DisplayData", () => {
-    expect(screen.getAllByTestId("display-data")).toBeTruthy();
+    expect(screen.getAllByTestId("display-data")).toHaveLength(3);
   });
 
   it("render a DisplayData with action button", () => {
-    expect(screen.getAllByRole("button")).toBeTruthy();
+    expect(screen.getAllByRole("button")).toHaveLength(2);
   });
 });

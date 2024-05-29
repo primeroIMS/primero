@@ -83,6 +83,7 @@ describe("<IncidentFromCase /> - Component", () => {
 
   it("render IncidentFromCase component", () => {
     expect(screen.getByText("incidents.label")).toBeInTheDocument();
+    expect(screen.getByTestId("panel")).toBeInTheDocument();
   });
 
   it("render IncidentPanel component", () => {
@@ -93,11 +94,19 @@ describe("<IncidentFromCase /> - Component", () => {
     expect(screen.getByText("incidents.date_of_incident")).toBeInTheDocument();
   });
 
+  it("render IncidentSummary component", () => {
+    expect(screen.getAllByTestId("incidentsummary")).toHaveLength(1);
+  });
+
   it("render a DisplayData with action button", () => {
     expect(screen.getAllByRole("button")).toBeTruthy();
   });
 
-  it("render RecordFormAlerts component", () => {
+  it("render a ActionButton", () => {
+    expect(screen.getByText("buttons.new")).toBeInTheDocument();
+  });
+
+  it("should render the alerts", () => {
     const stateWithAlerts = initialState.setIn(
       ["records", "cases", "recordAlerts"],
       fromJS([
