@@ -16,3 +16,4 @@ export { mountedFieldComponent, mountedFormComponent } from "./mounted-form-comp
 export { default as setupHook } from "./setup-hook";
 export { abbrMonthNames, freezeTimeZone } from "./i18n";
 export { expectNever } from "./utils";
+export { default as setScreenSizeToMobile } from "./set-screen-size-to-mobile";
