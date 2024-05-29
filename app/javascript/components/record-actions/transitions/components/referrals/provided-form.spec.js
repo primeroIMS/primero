@@ -24,14 +24,15 @@ describe("<ProvidedForm /> - referrals", () => {
   });
 
   it("should render some components when user can not override consent", () => {
-    const props = {
+    const canNotOverrideProps = {
       canConsentOverride: false
     };
 
-    mountedComponent(<ProvidedForm {...props} />, {}, [], [], formProps);
-
+    mountedComponent(<ProvidedForm {...canNotOverrideProps} />, {}, [], [], formProps);
     expect(screen.queryAllByTestId("grid")).toHaveLength(3);
     expect(screen.queryByTestId("form-control")).toBeNull();
+    expect(screen.queryAllByRole("checkbox")).toHaveLength(0);
     expect(screen.getByText(/referral.provided_consent_label/i)).toBeInTheDocument();
+
   });
 });

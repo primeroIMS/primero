@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable";
 
-import { mountedComponent, screen, cleanup } from "../../../../../test-utils";
+import { mountedComponent, screen } from "../../../../../test-utils";
 import users from "../../mocked-users";
 
 import ReferralForm from "./component";
