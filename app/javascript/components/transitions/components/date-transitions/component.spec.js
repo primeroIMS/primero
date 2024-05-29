@@ -6,7 +6,7 @@ import DateTransitions from "./component";
 
 describe("<DateTransitions />", () => {
   const props = {
-    value: "2020-04-150T14:04",
+    value: "2020-04-15T14:04",
     label: "label-test",
     name: "this-is-name"
   };
@@ -17,13 +17,9 @@ describe("<DateTransitions />", () => {
   });
 
   describe("when ne locale", () => {
-    it.skip("renders NepaliCalendar", () => {
-      mountedComponent(
-        <DateTransitions {...props} />,
-        fromJS({
-          locale: "ne"
-        })
-      );
+    it("renders NepaliCalendar", () => {
+      global.I18n.locale = "ne";
+      mountedComponent(<DateTransitions {...props} />);
       expect(screen.queryAllByTestId("nepali-container")).toHaveLength(1);
     });
   });

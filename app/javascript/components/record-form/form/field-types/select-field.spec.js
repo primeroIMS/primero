@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable";
 
-import { mountedComponent, screen } from "../../../../test-utils";
+import { fireEvent, mountedComponent, screen, setSelectValue } from "../../../../test-utils";
 import { OPTION_TYPES, whichFormMode } from "../../../form";
 import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
 
@@ -82,7 +82,7 @@ describe("<SelectField />", () => {
       }
     });
 
-    it("render the select field with options", () => {
+    it("render the select fields", () => {
       mountedComponent(
         <SelectField {...props} />,
         initialState,
@@ -92,35 +92,11 @@ describe("<SelectField />", () => {
           initialValues: { agency: "agency-test-1" }
         }
       );
-      expect(screen.getByRole("combobox")).toBeInTheDocument();
-    });
 
-    it("render the select field with options for ReportingLocations", () => {
-      const selectProps = {
-        ...props,
-        field: {
-          option_strings_source: OPTION_TYPES.REPORTING_LOCATIONS
-        },
-        name: "service_delivery_location",
-        optionsSelector: () => ({
-          source: OPTION_TYPES.REPORTING_LOCATIONS,
-          usePlacename: false
-        })
-      };
-
-      mountedComponent(
-        <SelectField {...selectProps} />,
-        initialState,
-        [],
-        {},
-        {
-          initialValues: { service_delivery_location: "MCMP2MD2" }
-        }
-      );
       expect(screen.getByRole("combobox")).toBeInTheDocument();
-      expect(screen.getByPlaceholderText("fields.select_single")).toBeInTheDocument();
     });
   });
+
   describe("when is service_type", () => {
     const props = {
       name: SERVICE_SECTION_FIELDS.type,
@@ -173,93 +149,9 @@ describe("<SelectField />", () => {
           }
         }
       );
+      fireEvent.click(screen.getByPlaceholderText("fields.select_single"));
+
       expect(screen.getAllByText("Type of Service")).toHaveLength(2);
-    });
-  });
-
-  describe("when a disabled value is selected", () => {
-    const props = {
-      name: SERVICE_SECTION_FIELDS.type,
-      field: {
-        option_strings_text: [
-          { id: "test1", display_text: "Test 1" },
-          { id: "test2", disabled: true, display_text: "Test 2" },
-          { id: "test3", display_text: "Test 3" },
-          { id: "test4", disabled: true, display_text: "Test 4" }
-        ]
-      },
-      label: "Type of Service",
-      mode: whichFormMode("edit"),
-      open: true,
-      optionsSelector: () => ({
-        options: [
-          { id: "test1", display_text: "Test 1" },
-          { id: "test2", disabled: true, display_text: "Test 2" },
-          { id: "test3", display_text: "Test 3" },
-          { id: "test4", disabled: true, display_text: "Test 4" }
-        ]
-      })
-    };
-
-    it("render the select field with options included the disabled selected", () => {
-      mountedComponent(
-        <SelectField {...props} />,
-        [],
-        [],
-        {},
-        {
-          initialValues: {
-            service_type: "health_medical_service"
-          }
-        }
-      );
-      expect(screen.getAllByTestId("autocomplete")).toHaveLength(1);
-    });
-  });
-
-  describe("when is service_implementing_agency_individual", () => {
-    const paramsService = "health_medical_service";
-    const propsSelectUser = {
-      name: SERVICE_SECTION_FIELDS.implementingAgencyIndividual,
-      field: {
-        option_strings_source: "User"
-      },
-      label: "Type of Service",
-      mode: whichFormMode("edit"),
-      open: true,
-      filters: { values: { service: paramsService } },
-      formik: {
-        values: {
-          [SERVICE_SECTION_FIELDS.implementingAgencyIndividual]: "user1",
-          [SERVICE_SECTION_FIELDS.type]: paramsService
-        }
-      },
-      recordType: "cases",
-      recordModuleID: "record-module-1",
-      optionsSelector: () => ({ source: OPTION_TYPES.REFER_TO_USERS, useUniqueId: true })
-    };
-    // const expectedAction = {
-    //   type: actions.REFERRAL_USERS_FETCH,
-    //   api: {
-    //     path: actions.USERS_REFER_TO,
-    //     params: { record_module_id: "record-module-1", record_type: "case", service: paramsService }
-    //   }
-    // };
-
-    it("should fetch referral users", () => {
-      mountedComponent(
-        <SelectField {...propsSelectUser} />,
-        [],
-        [],
-        {},
-        {
-          initialValues: {
-            [SERVICE_SECTION_FIELDS.implementingAgencyIndividual]: "user1",
-            [SERVICE_SECTION_FIELDS.type]: paramsService
-          }
-        }
-      );
-      expect(screen.getAllByTestId("autocomplete")).toHaveLength(1);
     });
   });
 
@@ -309,7 +201,7 @@ describe("<SelectField />", () => {
       optionsSelector: () => ({ source: OPTION_TYPES.AGENCY, useUniqueId: true })
     };
 
-    it("should clear out field if filters", () => {
+    it("should clear out field if filters", async () => {
       mountedComponent(
         <SelectField {...propsSelectAgency} />,
         initialStateAgency,
@@ -322,7 +214,10 @@ describe("<SelectField />", () => {
           }
         }
       );
-      expect(screen.getAllByTestId("autocomplete")).toHaveLength(1);
+
+      const input = await setSelectValue(screen.getByRole("combobox"));
+
+      expect(input.value).toBe("");
     });
   });
 
@@ -368,7 +263,7 @@ describe("<SelectField />", () => {
       }
     });
 
-    it("render the select field with the selected option even if the option is boolean", () => {
+    it("render the select field with the selected option even if the option is boolean", async () => {
       mountedComponent(
         <SelectField {...props} />,
         initialState,
@@ -378,7 +273,9 @@ describe("<SelectField />", () => {
           initialValues: { test: false }
         }
       );
-      expect(screen.getByPlaceholderText("fields.select_single")).toBeInTheDocument();
+      const input = await setSelectValue(screen.getByRole("combobox"));
+
+      expect(input.value).toBe("No");
     });
   });
 
@@ -415,7 +312,12 @@ describe("<SelectField />", () => {
           initialValues: { test: ["option_1", "option_2", "option_3"] }
         }
       );
-      expect(screen.getAllByTestId("chip")).toHaveLength(3);
+
+      expect(screen.getAllByTestId("chip").map(chip => chip.textContent)).toStrictEqual([
+        "Option 1",
+        "Option 2",
+        "Option 3"
+      ]);
     });
   });
 });

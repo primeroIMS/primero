@@ -66,7 +66,7 @@ describe("<FormSectionField />", () => {
 
     it("render Total as a disabled TextField", () => {
       mountedComponent(<TallyField {...newProps} />, {}, [], {}, formProps);
-      expect(screen.getAllByText("fields.total")).toHaveLength(2);
+      expect(screen.getByLabelText("fields.total")).toHaveClass("Mui-disabled");
     });
   });
 
@@ -82,7 +82,7 @@ describe("<FormSectionField />", () => {
           initialErrors: { Test: "field required" }
         }
       );
-      expect(screen.queryByText("fields.total")).toBeNull();
+      expect(screen.queryByText("field required")).not.toBeInTheDocument();
     });
 
     it("renders an error if the field was touched", () => {
@@ -97,7 +97,7 @@ describe("<FormSectionField />", () => {
           initialTouched: { Test: true }
         }
       );
-      expect(screen.queryByText("fields.total")).toBeNull();
+      expect(screen.getByText("field required")).toBeInTheDocument();
     });
   });
 });

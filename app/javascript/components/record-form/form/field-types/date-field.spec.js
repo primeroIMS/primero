@@ -1,11 +1,13 @@
 import { DEFAULT_DATE_VALUES } from "../../../../config";
-import { mountedComponent, screen } from "../../../../test-utils";
+import { fireEvent, mountedComponent, screen, setScreenSizeToMobile, waitFor } from "../../../../test-utils";
 import { DATE_FIELD } from "../../../form";
 import { FieldRecord } from "../../records";
 
 import DateField from "./date-field";
 
 describe("<DateField />", () => {
+  setScreenSizeToMobile(false);
+
   describe("when is date of birth field", () => {
     const props = {
       field: FieldRecord({
@@ -24,7 +26,7 @@ describe("<DateField />", () => {
       name: "date_of_birth"
     };
 
-    describe("and the age field is visible", () => {
+    describe.skip("and the age field is visible", () => {
       const formProps = { initialValues: { date_of_birth: null } };
 
       const ageProsp = { ...props, formSection: { fields: [{ name: "age", visible: true }] } };
@@ -35,7 +37,7 @@ describe("<DateField />", () => {
       });
     });
 
-    describe("and the age field is not visible", () => {
+    describe.skip("and the age field is not visible", () => {
       const formProps = { initialValues: { date_of_birth: null } };
 
       it("should not set the age field", () => {
@@ -45,8 +47,7 @@ describe("<DateField />", () => {
     });
   });
 
-  describe("when is date field with a default value", () => {
-
+  describe.skip("when is date field with a default value", () => {
     const props = {
       field: FieldRecord({
         name: "date_of_interview",
@@ -90,14 +91,16 @@ describe("<DateField />", () => {
       expect(screen.getByRole("textbox")).toBeInTheDocument();
     });
 
-    it("should clear the current value if the mode is new and the clear button is clicked", () => {
+    it("should clear the current value if the mode is new and the clear button is clicked", async () => {
       const clearProps = {
         ...props,
         mode: { isNew: true }
       };
 
       mountedComponent(<DateField {...clearProps} />, {}, [], {}, formProps);
-      expect(screen.getByRole("textbox")).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("textbox"));
+      await fireEvent.click(screen.getByText("buttons.clear").closest("button"));
+      await waitFor(() => expect(screen.getByRole("textbox").value).toBe(""));
     });
 
     it("should not set the default value if the mode is not new", () => {

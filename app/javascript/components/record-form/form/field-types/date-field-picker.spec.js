@@ -48,10 +48,10 @@ describe("<DateFieldPicker />", () => {
   });
 
   describe("when ne locale", () => {
-    it.skip("renders Nepali date picker if locale ne", () => {
-      window.I18n.locale = "ne";
+    it("renders Nepali date picker if locale ne", () => {
+      global.I18n.locale = "ne";
       mountedComponent(<DateFieldPicker {...props} />, {}, [], {}, formProps);
-      expect(screen.getByTestId("nepali-calendar")).toBeInTheDocument();
+      expect(screen.getByTestId("nepali-container")).toBeInTheDocument();
     });
   });
 });

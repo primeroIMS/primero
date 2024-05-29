@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-
 import { mountedComponent, screen } from "../../../../test-utils";
 import { RADIO_FIELD } from "../../constants";
 
@@ -41,6 +40,7 @@ describe("<RadioField />", () => {
     expect(screen.getByText("Test")).toBeInTheDocument();
     expect(screen.getAllByRole("radio")).toHaveLength(3);
   });
+
   it("render two Radio enabled and one disabled", () => {
     mountedComponent(<RadioField {...props} />, {}, [], {}, formProps);
     expect(screen.getAllByRole("radio").at(0)).not.toBeDisabled();
