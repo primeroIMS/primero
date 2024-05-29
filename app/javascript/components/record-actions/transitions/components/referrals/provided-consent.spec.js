@@ -51,5 +51,4 @@ describe("<ProvidedConsent /> - referrals", () => {
     mountedComponent(<ProvidedConsent {...props} />, {}, [], [], formProps);
     expect(screen.getByText(/referral.provided_consent_label/i)).toBeInTheDocument();
   });
-
 });

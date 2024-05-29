@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { mountedComponent, screen } from "../../../../../test-utils";
+import { mountedComponent, screen, fireEvent } from "../../../../../test-utils";
 
 import Transfers from "./component";
 
@@ -42,7 +42,11 @@ describe("<RecordActions />/transitions/components/<Transfers />", () => {
 
   it("should not disabled field if consent was provided", () => {
     mountedComponent(<Transfers {...initialProps} />, initialState);
-    expect(screen.queryAllByRole("combobox")).toHaveLength(3);
+    const textFields = document.querySelectorAll('input[type="text"]');
+
+    textFields.forEach(combobox => {
+      expect(combobox).not.toBeDisabled();
+    });
   });
 
   it("should render the Consent Not Provided Alert if consent was not provided", () => {
@@ -64,7 +68,11 @@ describe("<RecordActions />/transitions/components/<Transfers />", () => {
 
     mountedComponent(<Transfers {...props} />, initialState);
 
-    expect(screen.queryAllByRole("combobox")).toHaveLength(3);
+    const textFields = document.querySelectorAll('input[type="text"]');
+
+    textFields.forEach(field => {
+      expect(field).toBeDisabled();
+    });
   });
 
   describe("when consent was not provided ", () => {
@@ -102,8 +110,19 @@ describe("<RecordActions />/transitions/components/<Transfers />", () => {
 
       mountedComponent(<Transfers {...props} />, initialState);
 
-      expect(screen.getByRole("alert")).toBeInTheDocument();
-      expect(screen.queryAllByRole("checkbox")).toHaveLength(3);
+      document.querySelectorAll('input[type="text"]').forEach(field => {
+        expect(field).toBeDisabled();
+      });
+
+      const consentCheckbox = document.querySelectorAll('input[type="checkbox"]')[0];
+
+      expect(consentCheckbox).not.toBeChecked();
+      fireEvent.click(consentCheckbox);
+      expect(consentCheckbox).toBeChecked();
+
+      document.querySelectorAll('input[type="text"]').forEach(field => {
+        expect(field).not.toBeDisabled();
+      });
     });
   });
 
