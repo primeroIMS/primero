@@ -16,7 +16,7 @@ import css from "./styles.css";
 const MobileToolbar = ({ openDrawer, hasUnsubmittedOfflineChanges = false }) => {
   const { demo } = useApp();
   const i18n = useI18n();
-
+  console.log(demo)
   // eslint-disable-next-line react/no-multi-comp, react/display-name
   const demoText = demo ? <div className={css.demoText}>{i18n.t(DEMO)}</div> : null;
 

@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { mountedComponent, screen } from "../../test-utils";
+import { mountedComponent, screen, setScreenSizeToMobile } from "../../test-utils";
 
 import MobileToolbar from "./component";
 
@@ -8,47 +8,39 @@ describe("<MobileToolbar />", () => {
   const state = fromJS({ MobileToolbar: { module: "primero" } });
   const props = { openDrawer: () => {} };
 
-  it("should render Hidden component", () => {
-    mountedComponent(<MobileToolbar {...props} />, state);
-    expect(screen.getByTestId("appBar")).toBeInTheDocument();
-  });
-  it("should render AppBar component", () => {
-    mountedComponent(<MobileToolbar {...props} />, state);
-    expect(screen.getByTestId("appBar")).toBeInTheDocument();
+  beforeAll(() => {
+    setScreenSizeToMobile(false);
   });
 
-  it("should render Toolbar component", () => {
+  it("should render MobileToolbar component", () => {
     mountedComponent(<MobileToolbar {...props} />, state);
     expect(screen.getByTestId("appBar")).toBeInTheDocument();
   });
 
-  it("should render IconButton component", () => {
+  it("should render Logo component", () => {
     mountedComponent(<MobileToolbar {...props} />, state);
-    expect(screen.queryAllByText((content, element) => element.tagName.toLowerCase() === "svg")).toHaveLength(2);
-  });
-
-  it("should render ModuleLogo component", () => {
-    mountedComponent(<MobileToolbar {...props} />, state);
-    expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "img")).toBeInTheDocument();
+    expect(screen.getByTestId("logo-primero")).toBeInTheDocument();
   });
 
   describe("when is not demo site", () => {
     it("should not render a <div> tag with 'Demo' text", () => {
       mountedComponent(<MobileToolbar {...props} />, state);
-      expect(screen.getByText(/online/i)).toBeInTheDocument();
+      expect(screen.getByText(/sandbox_ui/i)).not.toBeInTheDocument();
     });
   });
 
   describe("when is demo site", () => {
     const stateWithDemo = fromJS({
       application: {
-        demo: true
+        primero: {
+          sandbox_ui: true
+        }
       }
     });
 
     it("should render a <div> tag with 'Demo' text", () => {
       mountedComponent(<MobileToolbar {...props} />, stateWithDemo);
-      expect(screen.getByText(/online/i)).toBeInTheDocument();
+      expect(screen.getByText(/sandbox_ui/i)).toBeInTheDocument();
     });
   });
 });
