@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import merge from "deepmerge";
 
 import subformAwareMerge from "../../../../db/utils/subform-aware-merge";

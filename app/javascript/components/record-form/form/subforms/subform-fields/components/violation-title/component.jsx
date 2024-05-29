@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable camelcase */
 import PropTypes from "prop-types";
 import Chip from "@material-ui/core/Chip";
@@ -20,7 +22,7 @@ const Component = ({ title, values, fields }) => {
   ) : null;
 
   return (
-    <div className={css.container}>
+    <div className={css.container} data-testid="violation-title">
       <div className={css.title}>
         {title} {renderShortUniqueId}
       </div>

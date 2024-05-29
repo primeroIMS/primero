@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 
@@ -17,7 +19,7 @@ const Component = ({ value }) => {
 
   if (i18n.locale === LOCALE_KEYS.ne) {
     return (
-      <div className={css.readonly}>
+      <div className={css.readonly} data-testid="nepali-calendar">
         <NepaliCalendar
           dateProps={{
             value,
@@ -30,7 +32,7 @@ const Component = ({ value }) => {
   }
 
   return (
-    <div className={css.date} data-testid="dateflag">
+    <div className={css.date} data-testid="date">
       {i18n.localizeDate(value)}
     </div>
   );

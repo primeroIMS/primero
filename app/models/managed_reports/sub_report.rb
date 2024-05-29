@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Describes a Sub Report for a Managed Report
 class ManagedReports::SubReport < ValueObject
   attr_accessor :data
@@ -9,17 +11,18 @@ class ManagedReports::SubReport < ValueObject
       data: indicators.reduce({}) do |acc, indicator|
         acc.merge(indicator.id => indicator.build(current_user, params).data)
       end,
-      metadata: metadata
+      metadata:
     }
   end
 
   def metadata
     {
-      display_graph: display_graph,
-      lookups: lookups,
-      table_type: table_type,
-      order: order,
-      indicators_subcolumns: indicators_subcolumns
+      display_graph:,
+      lookups:,
+      table_type:,
+      order:,
+      indicators_rows:,
+      indicators_subcolumns:
     }
   end
 
@@ -46,6 +49,10 @@ class ManagedReports::SubReport < ValueObject
   end
 
   def indicators_subcolumns
+    {}
+  end
+
+  def indicators_rows
     {}
   end
 

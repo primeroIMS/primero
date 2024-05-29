@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { AUDIO_FIELD, PHOTO_FIELD, DOCUMENT_FIELD } from "../../../form";
 
 // eslint-disable-next-line import/prefer-default-export

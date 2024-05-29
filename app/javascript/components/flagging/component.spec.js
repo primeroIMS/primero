@@ -1,7 +1,10 @@
-import { mountedComponent } from "test-utils";
-import { Map } from "immutable";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { mountedComponent, screen } from "test-utils";
+import { fromJS } from "immutable";
 
 import Flagging from "./component";
+import { FLAG_DIALOG } from "./constants";
 
 describe("<FlagDialog /> - Component", () => {
   const props = {
@@ -12,8 +15,9 @@ describe("<FlagDialog /> - Component", () => {
   beforeEach(() => {
     mountedComponent(
       <Flagging {...props} />,
-      Map({
-        records: Map({
+      fromJS({
+        ui: { dialogs: { dialog: FLAG_DIALOG, open: true } },
+        records: {
           cases: {
             data: {
               0: {
@@ -40,12 +44,18 @@ describe("<FlagDialog /> - Component", () => {
               }
             ]
           }
-        })
+        }
       })
     );
   });
 
-  it.todo("renders Flagging form");
+  it("renders Flagging form", () => {
+    expect(screen.getByText("buttons.flags")).toBeInTheDocument();
+    expect(screen.getByText("flags.add_flag_tab")).toBeInTheDocument();
+    expect(document.querySelector("#FlagForm")).toBeInTheDocument();
+  });
 
-  it.todo("renders FlagDialog");
+  it("renders FlagDialog", () => {
+    expect(screen.getByText("flags.title")).toBeInTheDocument();
+  });
 });

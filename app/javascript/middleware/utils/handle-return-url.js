@@ -1,4 +1,5 @@
-import { setReturnUrl } from "../../components/application/action-creators";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { ROUTES } from "../../config";
 
 import isAuthenticated from "./is-authenticated";
@@ -6,17 +7,17 @@ import redirectTo from "./redirect-to";
 
 const handleReturnUrl = (store, location) => {
   if (isAuthenticated(store)) {
-    const returnUrl = store.getState().getIn(["application", "returnUrl"]);
+    const returnUrl = localStorage.getItem("returnUrl");
 
     if (returnUrl) {
       redirectTo(store, returnUrl);
-      store.dispatch(setReturnUrl(""));
+      localStorage.removeItem("returnUrl");
     } else {
       redirectTo(store, ROUTES.dashboard);
     }
   } else {
     if (![ROUTES.login, "/"].includes(location)) {
-      store.dispatch(setReturnUrl(location));
+      localStorage.setItem("returnUrl", location);
     }
     redirectTo(store, ROUTES.login);
   }

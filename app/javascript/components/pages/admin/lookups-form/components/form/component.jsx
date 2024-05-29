@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/display-name, react/no-multi-comp */
 
 import { useEffect, useState } from "react";
@@ -31,7 +33,7 @@ import { LOCALE_KEYS, SAVE_METHODS } from "../../../../../../config";
 
 import { NAME, FORM_ID } from "./constants";
 
-const Component = ({ formMode, lookup }) => {
+const Component = ({ formMode, isLockedLookup, lookup }) => {
   const { id } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -101,7 +103,7 @@ const Component = ({ formMode, lookup }) => {
   }, [defaultValues.name[defaultLocale]]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} id={FORM_ID}>
+    <form onSubmit={handleSubmit(onSubmit)} id={FORM_ID} data-testid="switch-input">
       <FormSectionField
         field={FieldRecord({
           display_name: i18n.t("lookup.language_label"),
@@ -133,6 +135,7 @@ const Component = ({ formMode, lookup }) => {
         selectedOption={selectedOption}
         setItems={setItems}
         values={values}
+        isLockedLookup={isLockedLookup}
       />
     </form>
   );
@@ -142,6 +145,7 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   formMode: PropTypes.object,
+  isLockedLookup: PropTypes.bool,
   lookup: PropTypes.object
 };
 

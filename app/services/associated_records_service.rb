@@ -1,18 +1,22 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Synchronize the associated records for a user
 class AssociatedRecordsService < ValueObject
-  attr_accessor :user, :update_user_groups, :update_agencies, :update_locations, :update_agency_offices, :model
+  attr_accessor :user, :update_user_groups, :update_agencies, :update_locations, :update_agency_offices, :models
 
   def update_associated_records
     records = []
-    associated_records_for_update(model).find_each(batch_size: 500) do |record|
-      update_record_ownership_fields(record)
+    models.each do |model|
+      associated_records_for_update(model).find_each(batch_size: 500) do |record|
+        update_record_ownership_fields(record)
 
-      record.update_associated_user_groups if update_user_groups
-      record.update_associated_user_agencies if update_agencies
+        record.update_associated_user_groups if update_user_groups
+        record.update_associated_user_agencies if update_agencies
 
-      records << record if record.changed?
+        records << record if record.changed?
+      end
     end
 
     ActiveRecord::Base.transaction { records.each(&:save!) }
