@@ -33,6 +33,5 @@ describe("<ProvidedForm /> - referrals", () => {
     expect(screen.queryByTestId("form-control")).toBeNull();
     expect(screen.queryAllByRole("checkbox")).toHaveLength(0);
     expect(screen.getByText(/referral.provided_consent_label/i)).toBeInTheDocument();
-
   });
 });
