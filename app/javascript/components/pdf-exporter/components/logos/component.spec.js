@@ -29,6 +29,10 @@ describe("<Logos />", () => {
   it("renders img", () => {
     mountedComponent(<Logos {...props} />);
 
+<<<<<<< HEAD
     expect(screen.getAllByText((content, element) => element.tagName.toLowerCase() === "img")).toHaveLength(2);
+=======
+    expect(screen.getAllByText((_, element) => element.tagName.toLowerCase() === "img")).toHaveLength(2);
+>>>>>>> c940c3ba93b34ade32517501cdd1903bc8f32e33
   });
 });

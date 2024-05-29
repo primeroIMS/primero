@@ -22,7 +22,6 @@ describe("<UserActions>", () => {
   });
 
   describe("when idp is used", () => {
-
     const props = { id: "1" };
 
     it("should render the Menu", () => {

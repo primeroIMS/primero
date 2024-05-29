@@ -1,7 +1,7 @@
 import { createRef } from "react";
 import { fromJS } from "immutable";
 
-import { screen, setupMockFormComponent } from "../../test-utils";
+import { screen, mountedFormComponent } from "../../test-utils";
 
 import PdfExporter from "./component";
 
@@ -74,18 +74,18 @@ describe("<PdfExporter />", () => {
   };
 
   it("renders PdfExporter", () => {
-    setupMockFormComponent(PdfExporter, { props });
+    mountedFormComponent(<PdfExporter {...props} />);
     expect(screen.getAllByText(/exports.printed/i)).toHaveLength(2);
   });
 
   it("renders Logos", () => {
-    setupMockFormComponent(PdfExporter, { props });
+    mountedFormComponent(<PdfExporter {...props} />);
 
-    expect(screen.getAllByText((content, element) => element.tagName.toLowerCase() === "svg")).toHaveLength(1);
+    expect(screen.getAllByText((_, element) => element.tagName.toLowerCase() === "svg")).toHaveLength(1);
   });
 
   it("renders RenderTable", () => {
-    setupMockFormComponent(PdfExporter, { props });
+    mountedFormComponent(<PdfExporter {...props} />);
 
     expect(screen.getByText(/Approved by Manager/i)).toBeInTheDocument();
   });

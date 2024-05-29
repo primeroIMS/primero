@@ -115,6 +115,7 @@ const Component = ({ filter, mode, moreSectionFilters, reset, setMoreSectionFilt
         onChange={handleChange}
         size="small"
         classes={{ root: css.toggleContainer }}
+        data-testid="toggle-filter"
       >
         {renderOptions()}
       </ToggleButtonGroup>
