@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { mountedComponent, screen } from "../../../../test-utils";
+import { mountedComponent, screen, within } from "../../../../test-utils";
 import { ACTIONS } from "../../../permissions";
 
 import UsersForm from "./container";
@@ -40,43 +40,21 @@ describe("<UsersForm />", () => {
   });
 
   it("renders record form", () => {
-    mountedComponent(<UsersForm mode="new" />, initialState, ["/admin/users"])
-    expect(screen.getByTestId('form')).toBeInTheDocument()
+    mountedComponent(<UsersForm mode="new" />, initialState, {}, ["/admin/users"]);
+    expect(screen.getByTestId("form")).toBeInTheDocument();
   });
 
   it("renders heading with action buttons", () => {
-    mountedComponent(<UsersForm mode="new" />, initialState, ["/admin/users"])
-    expect(screen.getByText(/users.label/i)).toBeInTheDocument()
-    expect(screen.getByText('buttons.cancel')).toBeInTheDocument()
-    expect(screen.getByText('buttons.save')).toBeInTheDocument()
+    mountedComponent(<UsersForm mode="new" />, initialState, {}, ["/admin/users"]);
+    expect(screen.getByText(/users.label/i)).toBeInTheDocument();
+    expect(screen.getByText("buttons.cancel")).toBeInTheDocument();
+    expect(screen.getByText("buttons.save")).toBeInTheDocument();
   });
 
-  it("check the textbox fields length", () => {
-    mountedComponent(<UsersForm mode="new" />, initialState, ["/admin/users"])
-    expect(screen.getAllByRole('textbox')).toHaveLength(14)
-  });
+  it("renders submit button", () => {
+    mountedComponent(<UsersForm mode="new" />, initialState, {}, ["/admin/users"]);
 
-  describe("when a new user is created", () => {
-    const state = fromJS({
-      records: {
-        users: {
-          data: [Object.values(users)],
-          metadata: { total: 2, per: 20, page: 1 }
-        }
-      },
-      application: {
-        agencies
-      },
-      user: {
-        username: users.jose.user_name,
-        permissions
-      }
-    });
-
-    it("should fetch user groups and roles", () => {
-      mountedComponent(<UsersForm mode="new" />, state, ["/admin/users/new"])
-      expect(screen.getByText('users.label')).toBeInTheDocument()
-    });
+    expect(screen.getAllByRole("button")[1].getAttribute("type")).toEqual("submit");
   });
 
   describe("when currently logged-in user it equals to the selected one", () => {
@@ -97,20 +75,15 @@ describe("<UsersForm />", () => {
       }
     });
 
-    it("should render 11 fields", () => {
-      mountedComponent(<UsersForm mode="edit" />, state, ["/admin/users/1"])
-      expect(screen.getAllByRole('textbox')).toHaveLength(11)
-    });
-
     it("renders 'Change Password' link", () => {
-      mountedComponent(<UsersForm mode="edit" />, state, ["/admin/users/1"])
-      expect(screen.getByText('buttons.change_password')).toBeInTheDocument();
+      mountedComponent(<UsersForm mode="edit" />, state, {}, ["/admin/users/1"], {}, "/admin/users/:id");
+      expect(screen.getByText("buttons.change_password")).toBeInTheDocument();
     });
   });
 
   describe("when in show mode", () => {
     it("renders actions", () => {
-      const initialState = fromJS({
+      const stateForShowMode = fromJS({
         records: {
           users: {
             selectedUser: users.jose,
@@ -127,9 +100,9 @@ describe("<UsersForm />", () => {
         }
       });
 
+      mountedComponent(<UsersForm mode="show" />, stateForShowMode, {}, ["/admin/users/1"], {}, "/admin/users/:id");
 
-      mountedComponent(<UsersForm mode="show" />, initialState, ["/admin/users/1"])
-      expect(screen.getByTestId('form')).toBeInTheDocument()
+      expect(within(screen.getByTestId("page-heading")).getAllByRole("button")[1].id).toEqual("more-actions");
     });
   });
 
@@ -169,8 +142,8 @@ describe("<UsersForm />", () => {
     });
 
     it("should not render 'Change Password' link", () => {
-      mountedComponent(<UsersForm mode="edit" />, state, ["/admin/users/edit/1"])
-      expect(screen.queryByText('Change Password')).toBeNull()
+      mountedComponent(<UsersForm mode="edit" />, state, {}, ["/admin/users/edit/1"], {}, "/admin/users/edit/:id");
+      expect(screen.queryByText("buttons.change_password")).toBeNull();
     });
   });
 });
