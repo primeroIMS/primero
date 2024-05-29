@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe FormSectionResponse do
@@ -5,7 +9,7 @@ describe FormSectionResponse do
     let :response do FormSectionResponse.new(response: nil, form_section: nil) end
 
     describe '#complete?' do
-      it "should be false" do
+      it 'should be false' do
         expect(response.complete?).to be false
       end
     end

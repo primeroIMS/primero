@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { useWatch } from "react-hook-form";
 import clsx from "clsx";
@@ -69,13 +71,11 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, di
   );
 
   return (
-    <div className={classes}>
-      {handleVisibility(watchedInputValues) || (
-        <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
-          {renderField}
-        </ConditionalWrapper>
-      )}
-    </div>
+    handleVisibility(watchedInputValues) || (
+      <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
+        <div className={classes}>{renderField}</div>
+      </ConditionalWrapper>
+    )
   );
 };
 

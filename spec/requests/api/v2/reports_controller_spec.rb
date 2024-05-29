@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::ReportsController, type: :request do
@@ -292,7 +294,7 @@ describe Api::V2::ReportsController, type: :request do
         }
       }
 
-      post '/api/v2/reports', params: params
+      post('/api/v2/reports', params:)
 
       report_data = {
         'name' => { 'en' => 'Test report', 'fr' => 'Test report in French', 'es' => '' },
@@ -396,7 +398,7 @@ describe Api::V2::ReportsController, type: :request do
         }
       }
 
-      post '/api/v2/reports', params: params
+      post('/api/v2/reports', params:)
       json = JSON.parse(response.body)
 
       expect(response).to have_http_status(200)
@@ -439,7 +441,7 @@ describe Api::V2::ReportsController, type: :request do
         }
       }
 
-      post '/api/v2/reports', params: params
+      post('/api/v2/reports', params:)
 
       expect(response).to have_http_status(422)
 
@@ -489,7 +491,7 @@ describe Api::V2::ReportsController, type: :request do
         }
       }
 
-      post '/api/v2/reports', params: params
+      post('/api/v2/reports', params:)
 
       expect(response).to have_http_status(422)
 
@@ -505,7 +507,7 @@ describe Api::V2::ReportsController, type: :request do
                      modules: [@cp])
       params = {}
 
-      patch '/api/v2/reports/thisdoesntexist', params: params
+      patch('/api/v2/reports/thisdoesntexist', params:)
 
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
@@ -516,7 +518,7 @@ describe Api::V2::ReportsController, type: :request do
       login_for_test
       params = {}
 
-      patch "/api/v2/reports/#{@report1.id}", params: params
+      patch("/api/v2/reports/#{@report1.id}", params:)
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
@@ -565,7 +567,7 @@ describe Api::V2::ReportsController, type: :request do
       }
       Report.first.update(editable: true)
 
-      patch "/api/v2/reports/#{@report1.id}", params: params
+      patch("/api/v2/reports/#{@report1.id}", params:)
       json = JSON.parse(response.body)
 
       report_data = {

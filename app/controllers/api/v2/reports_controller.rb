@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Reports CRUD API
 class Api::V2::ReportsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
@@ -23,7 +25,7 @@ class Api::V2::ReportsController < ApplicationApiController
     @report = Report.new_with_properties(report_params)
     @report.save!
     status = params[:data][:id].present? ? 204 : 200
-    render :create, status: status
+    render :create, status:
   end
 
   def update
@@ -41,8 +43,8 @@ class Api::V2::ReportsController < ApplicationApiController
     params.require(:data).permit(
       :record_type, :module_id, :graph, :aggregate_counts_from, :group_ages,
       :group_dates_by, :add_default_filters, :disabled, :exclude_empty_rows,
-      name: {}, description: {}, fields: [:name, position: {}],
-      filters: [[:attribute, :constraint, value: []], %i[attribute constraint value]]
+      name: {}, description: {}, fields: [:name, { position: {} }],
+      filters: [[:attribute, :constraint, { value: [] }], %i[attribute constraint value]]
     )
   end
 

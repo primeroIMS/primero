@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable camelcase, no-param-reassign, no-shadow, func-names, no-use-before-define, no-lonely-if */
 import { isEmpty, transform, isObject, isEqual, find, pickBy, identity, pick } from "lodash";
 import { isDate, format } from "date-fns";
@@ -14,7 +16,8 @@ import {
   INCIDENT_FROM_CASE,
   REGISTRY_FROM_CASE,
   RECORD_PATH,
-  RECORD_TYPES
+  RECORD_TYPES,
+  FAMILY_FROM_CASE
 } from "../../config";
 import { displayNameHelper, toServerDateFormat } from "../../libs";
 
@@ -263,7 +266,9 @@ export const buildFormNav = form =>
     i18nName: form.i18nName,
     i18nDescription: form.i18nDescription,
     display_conditions: form.display_conditions,
-    ...([INCIDENT_FROM_CASE, REGISTRY_FROM_CASE].includes(form.unique_id) ? { recordTypes: [RECORD_TYPES.cases] } : {})
+    ...([INCIDENT_FROM_CASE, REGISTRY_FROM_CASE, FAMILY_FROM_CASE].includes(form.unique_id)
+      ? { recordTypes: [RECORD_TYPES.cases] }
+      : {})
   });
 
 export const pickFromDefaultForms = (forms, defaultForms) =>

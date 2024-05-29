@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Loads a configuration from a YAML file and converts it into a deep hash with following these rules:
 #   - Every key is a symbol
 #   - Exclude and deep compact the k,v pairs where values that match the pattern /^\$.+/.
@@ -15,7 +17,7 @@ class ConfigYamlLoader
 
     def exclude_unsubstituted_envvars(value)
       if value.is_a?(Hash)
-        value.map { |k, v| [k, exclude_unsubstituted_envvars(v)] }.to_h.compact
+        value.transform_values { |v| exclude_unsubstituted_envvars(v) }.compact
       elsif value.is_a?(Array)
         value.map { |v| exclude_unsubstituted_envvars(v) }.compact
       elsif value.is_a?(String) && value =~ /^\$.+/

@@ -1,4 +1,6 @@
-import { useMemoizedSelector } from "../../libs";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import DisplayData from "../display-data";
 import { useI18n } from "../i18n";
 
@@ -30,7 +32,9 @@ const Support = () => {
 
   return (
     <>
-      <h1 className={css.PageTitle}>{i18n.t("contact.info_label")}</h1>
+      <h1 className={css.PageTitle} data-testid="support">
+        {i18n.t("contact.info_label")}
+      </h1>
       {renderInformation}
     </>
   );

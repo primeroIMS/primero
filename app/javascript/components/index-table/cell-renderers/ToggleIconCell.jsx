@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { Icon, Badge } from "@material-ui/core";
 import Photo from "@material-ui/icons/Photo";
@@ -29,8 +31,13 @@ const ToggleIconCell = ({ value, icon }) => {
       badgeContent={value}
       color="secondary"
       classes={{ badge: css.badge }}
+      data-testid="flag-icon"
     >
-      <Icon color="primary" className={css[icon === "complete" ? "iconButtonOffline" : "iconButton"]}>
+      <Icon
+        color="primary"
+        className={css[icon === "complete" ? "iconButtonOffline" : "iconButton"]}
+        data-testid="toggle-icon-cell"
+      >
         {renderIconType}
       </Icon>
     </ConditionalWrapper>
@@ -38,7 +45,6 @@ const ToggleIconCell = ({ value, icon }) => {
 };
 
 ToggleIconCell.displayName = "ToggleIconCell";
-
 ToggleIconCell.propTypes = {
   icon: PropTypes.oneOf([ALERTS_COLUMNS.photo, ALERTS_COLUMNS.flag_count, ALERTS_COLUMNS.alert_count]),
   value: PropTypes.oneOfType([PropTypes.bool, PropTypes.array, PropTypes.number])

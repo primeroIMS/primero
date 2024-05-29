@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS, List } from "immutable";
 
 import { setupMockFormComponent } from "../../../test";
@@ -23,10 +25,8 @@ describe("<MoreSection>", () => {
   });
 
   const props = {
-    addFilterToList: () => {},
     allAvailable: List(checkboxFilter),
     defaultFilters: fromJS([]),
-    filterToList: {},
     more: true,
     moreSectionFilters: {},
     primaryFilters: fromJS([]),
@@ -50,11 +50,9 @@ describe("<MoreSection>", () => {
     const clone = { ...component.find(MoreSection).props() };
 
     [
-      "addFilterToList",
       "allAvailable",
       "commonInputProps",
       "defaultFilters",
-      "filterToList",
       "more",
       "moreSectionFilters",
       "primaryFilters",
@@ -74,12 +72,10 @@ describe("<MoreSection>", () => {
 
     const clone = { ...component.find(CheckboxFilter).props() };
 
-    ["addFilterToList", "filter", "filterToList", "mode", "moreSectionFilters", "setMoreSectionFilters"].forEach(
-      property => {
-        expect(clone).to.have.property(property);
-        delete clone[property];
-      }
-    );
+    ["filter", "mode", "moreSectionFilters", "setMoreSectionFilters"].forEach(property => {
+      expect(clone).to.have.property(property);
+      delete clone[property];
+    });
 
     expect(clone).to.be.empty;
   });

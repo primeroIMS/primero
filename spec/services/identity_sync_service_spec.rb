@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe IdentitySyncService do
@@ -13,7 +15,7 @@ describe IdentitySyncService do
     agency = Agency.create(name: 'Age', unique_id: 'age', agency_code: 'AGE')
     User.new(
       user_name: 'testuser@testdomain.org', full_name: 'Test User',
-      role: role, agency: agency, email: 'testuser@testdomain.org',
+      role:, agency:, email: 'testuser@testdomain.org',
       password: 'Abcde12345!', password_confirmation: 'Abcde12345!'
     )
   end

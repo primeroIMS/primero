@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Formik } from "formik";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
@@ -7,7 +9,7 @@ import TextField from "../../field-types/text-field";
 import InternalAlert from "../../../../internal-alert";
 import ActionDialog from "../../../../action-dialog";
 import SubformDrawer from "../subform-drawer";
-import ViolationActions from "../subform-fields/components/violation-actions";
+import SubformDrawerActions from "../subform-drawer-actions";
 import ViolationTitle from "../subform-fields/components/violation-title";
 import ActionButton from "../../../../action-button";
 import SubformDialogFields from "../subform-dialog-fields";
@@ -385,16 +387,16 @@ describe("<SubformDialog />", () => {
     });
 
     it("renders ViolationActions", () => {
-      expect(component.find(ViolationActions)).lengthOf(1);
-      expect(component.find(ViolationActions).find(ActionButton).first().text()).to.be.equal(
+      expect(component.find(SubformDrawerActions)).lengthOf(1);
+      expect(component.find(SubformDrawerActions).find(ActionButton).first().text()).to.be.equal(
         "incident.violation.save_and_return"
       );
     });
 
     it("renders ViolationActions with valid props", () => {
-      const violationActionsProps = { ...component.find(ViolationActions).props() };
+      const violationActionsProps = { ...component.find(SubformDrawerActions).props() };
 
-      ["handleBackLabel", "handleBack", "handleCancel", "isShow"].forEach(property => {
+      ["showActions", "editActions", "isShow"].forEach(property => {
         expect(violationActionsProps).to.have.property(property);
         delete violationActionsProps[property];
       });
@@ -414,8 +416,8 @@ describe("<SubformDialog />", () => {
     });
 
     it("renders ViolationActions", () => {
-      expect(component.find(ViolationActions)).lengthOf(1);
-      expect(component.find(ViolationActions).find(ActionButton).first().text()).to.be.equal(
+      expect(component.find(SubformDrawerActions)).lengthOf(1);
+      expect(component.find(SubformDrawerActions).find(ActionButton).first().text()).to.be.equal(
         "incident.violation.save_and_return"
       );
     });

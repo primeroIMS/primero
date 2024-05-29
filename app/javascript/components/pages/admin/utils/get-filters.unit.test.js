@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import getFilters from "./get-filters";
 
 describe("pages/admin/utils/getFilters", () => {
