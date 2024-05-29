@@ -8,7 +8,7 @@ import FilterInput from "../filter-input";
 
 const Component = ({ name, handleSetFilterValue, options, id, filterValues }) => {
   return (
-    <Accordion elevation={3} defaultExpanded data-testid="test">
+    <Accordion elevation={3} defaultExpanded data-testid="accordion">
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>{name}</AccordionSummary>
       <AccordionDetails>
         <FilterInput
