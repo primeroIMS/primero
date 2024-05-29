@@ -40,7 +40,7 @@ describe("<IncidentDetail /> - Component", () => {
   });
 
   it("render a DisplayData", () => {
-    expect(screen.getAllByTestId("section")).toBeTruthy();
+    expect(screen.getAllByTestId("display-data")).toBeTruthy();
   });
 
   it("render a DisplayData with action button", () => {

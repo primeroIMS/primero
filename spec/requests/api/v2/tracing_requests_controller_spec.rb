@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::TracingRequestsController, type: :request do
@@ -71,7 +73,7 @@ describe Api::V2::TracingRequestsController, type: :request do
     it 'creates a new record with 200 and returns it as JSON' do
       login_for_test
       params = { data: { inquiry_date: '2019-04-01', relation_name: 'Test' } }
-      post '/api/v2/tracing_requests', params: params, as: :json
+      post '/api/v2/tracing_requests', params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_empty
@@ -84,7 +86,7 @@ describe Api::V2::TracingRequestsController, type: :request do
       allow(Rails.logger).to receive(:debug).and_return(nil)
       login_for_test
       params = { data: { inquiry_date: '2019-04-01', relation_name: 'Test' } }
-      post '/api/v2/tracing_requests', params: params, as: :json
+      post '/api/v2/tracing_requests', params:, as: :json
 
       %w[data].each do |fp|
         expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
@@ -96,7 +98,7 @@ describe Api::V2::TracingRequestsController, type: :request do
     it 'updates an existing record with 200' do
       login_for_test
       params = { data: { inquiry_date: '2019-04-01', relation_name: 'Tester' } }
-      patch "/api/v2/tracing_requests/#{@tracing_request1.id}", params: params, as: :json
+      patch "/api/v2/tracing_requests/#{@tracing_request1.id}", params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@tracing_request1.id)
@@ -110,7 +112,7 @@ describe Api::V2::TracingRequestsController, type: :request do
       allow(Rails.logger).to receive(:debug).and_return(nil)
       login_for_test
       params = { data: { inquiry_date: '2019-04-01', relation_name: 'Tester' } }
-      patch "/api/v2/tracing_requests/#{@tracing_request1.id}", params: params, as: :json
+      patch "/api/v2/tracing_requests/#{@tracing_request1.id}", params:, as: :json
 
       %w[data].each do |fp|
         expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
@@ -120,7 +122,7 @@ describe Api::V2::TracingRequestsController, type: :request do
     it 'includes the updated tracing_request_subform_section if a trace is updated' do
       login_for_test
       params = { data: { tracing_request_subform_section: [{ unique_id: @trace1.id, relation_name: 'Person Name' }] } }
-      patch "/api/v2/tracing_requests/#{@tracing_request2.id}", params: params, as: :json
+      patch "/api/v2/tracing_requests/#{@tracing_request2.id}", params:, as: :json
 
       expect(response).to have_http_status(200)
       expect(

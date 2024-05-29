@@ -1,5 +1,7 @@
-import { mountedComponent, screen } from "test-utils";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
+import { mountedComponent, screen } from "test-utils";
 
 import { RECORD_TYPES } from "../../../../config";
 import { FieldRecord } from "../../../record-form/records";

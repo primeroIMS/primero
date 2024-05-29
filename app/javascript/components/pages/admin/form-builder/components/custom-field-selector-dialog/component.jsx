@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
@@ -24,7 +26,7 @@ import {
   SELECT_FIELD,
   SUBFORM_SECTION,
   TALLY_FIELD
-} from "../../../../../form";
+} from "../../../../../form/constants";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { useI18n } from "../../../../../i18n";
 import { NEW_FIELD } from "../../constants";
@@ -159,7 +161,7 @@ const Component = ({ isSubform }) => {
         <Fragment key={field}>
           <ListItem selected={isItemSelected(name)} onClick={handleClickListItem(name)}>
             <ListItemText className={css.label}>
-              <div>{i18n.t(`fields.${name}`)}</div>
+              <div data-testid="field">{i18n.t(`fields.${name}`)}</div>
               <div className={css.inputPreviewContainer}>
                 <Icon className={classes} />
               </div>

@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Permission do
   before do
-    # TODO add setup and teardown when we add instance method tests
+    # TODO: add setup and teardown when we add instance method tests
   end
 
   describe '.resources' do
@@ -21,7 +23,10 @@ describe Permission do
 
   describe '.records' do
     it 'returns all records' do
-      expected = [Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST, Permission::REGISTRY_RECORD]
+      expected = [
+        Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST, Permission::REGISTRY_RECORD,
+        Permission::FAMILY
+      ]
       expect(Permission.records).to match_array(expected)
     end
   end
@@ -35,6 +40,6 @@ describe Permission do
   end
 
   after do
-    # TODO add setup and teardown when we add instance method tests
+    # TODO: add setup and teardown when we add instance method tests
   end
 end

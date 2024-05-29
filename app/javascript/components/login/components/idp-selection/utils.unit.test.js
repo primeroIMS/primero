@@ -1,4 +1,4 @@
-import { fromJS } from "immutable";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { setMsalConfig, getLoginRequest, getTokenRequest } from "./utils";
 
@@ -6,7 +6,7 @@ describe("auth-utils", () => {
   let idp;
 
   before(() => {
-    idp = fromJS({
+    idp = {
       name: "UNICEF",
       unique_id: "unicef",
       provider_type: "b2c",
@@ -14,8 +14,9 @@ describe("auth-utils", () => {
       authorization_url: "authorization",
       identity_scope: ["123"],
       verification_url: "verification",
-      domain_hint: "unicef"
-    });
+      domain_hint: "unicef",
+      redirect_uri: "http://localhost/v2/login/b2c"
+    };
   });
 
   it("returns provider details", () => {
@@ -24,11 +25,12 @@ describe("auth-utils", () => {
         clientId: "123",
         authority: "authorization",
         validateAuthority: false,
-        redirectUri: `${window.location.protocol}//${window.location.host}/login/b2c`
+        knownAuthorities: ["unicefpartners.b2clogin.com"],
+        redirectUri: "http://localhost/v2/login/b2c"
       },
       cache: {
-        cacheLocation: "localStorage",
-        storeAuthStateInCookie: true
+        cacheLocation: "sessionStorage",
+        storeAuthStateInCookie: false
       }
     };
 

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
@@ -83,7 +85,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
   }, [record]);
 
   return (
-    <Dialog open={open} maxWidth="sm" fullWidth>
+    <Dialog open={open} maxWidth="sm" fullWidth data-testid="CreateRecordDialog">
       <DialogTitle disableTypography>
         <div className={css.title}>
           <div className={css.newCase}>{i18n.t("cases.register_new_case")}</div>

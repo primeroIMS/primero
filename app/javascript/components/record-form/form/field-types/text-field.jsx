@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable camelcase */
 
 import { useEffect } from "react";
@@ -75,6 +77,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
         return (
           <>
             <MuiTextField
+            data-testid="text-field"
               id={name}
               variant="outlined"
               form={renderProps.form}

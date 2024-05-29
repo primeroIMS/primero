@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { Icon } from "@material-ui/core";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
@@ -8,7 +10,7 @@ const Component = ({ isDragDisabled, ...props }) => {
   const classes = isDragDisabled ? { classes: { root: css.dragIndicator } } : {};
 
   return (
-    <Icon {...props} {...classes}>
+    <Icon {...props} {...classes} data-testid="drag-indicator">
       <DragIndicatorIcon />
     </Icon>
   );

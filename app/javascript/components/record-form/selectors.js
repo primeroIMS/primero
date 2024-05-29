@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
@@ -6,14 +8,15 @@ import createCachedSelector from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 
 import { denormalizeFormData } from "../../schemas";
-import { displayNameHelper } from "../../libs";
+import displayNameHelper from "../../libs/display-name-helper";
 import { checkPermissions, getPermissionsByRecord } from "../permissions";
 import { ALERTS_FOR, INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_PLURAL } from "../../config";
 import { FieldRecord } from "../form/records";
 import { OPTION_TYPES } from "../form/constants";
 import { getLocale } from "../i18n/selectors";
-import { getRecordFormAlerts } from "../records";
+import { getRecordFormAlerts, getSelectedRecordData, selectRecord } from "../records";
 import { selectorEqualityFn } from "../../libs/use-memoized-selector";
+import { getPermittedFormsIds } from "../user";
 
 import getDefaultForms from "./form/utils/get-default-forms";
 import NAMESPACE from "./namespace";
@@ -53,12 +56,13 @@ const forms = ({
   permittedFormIDs,
   includeNested,
   appLocale,
-  checkPermittedForms = false
+  checkPermittedForms = false,
+  includeDefaultForms = true
 }) => {
-  const formsPermitted = permittedFormIDs
-    ?.keySeq()
-    ?.toArray()
-    .concat(Object.keys(getDefaultForms(appLocale)));
+  const arrayOfPermittedFormIDs = permittedFormIDs?.keySeq()?.toArray() || [];
+  const formsPermitted = includeDefaultForms
+    ? arrayOfPermittedFormIDs.concat(Object.keys(getDefaultForms(appLocale)))
+    : arrayOfPermittedFormIDs;
 
   if (isEmpty(formSections)) return null;
 
@@ -111,9 +115,33 @@ const transformOptionSource = (options, locale, stickyOption) => {
   }));
 };
 
+export const getPermittedForms = createCachedSelector(
+  (state, query) =>
+    selectRecord(state, {
+      recordType: RECORD_TYPES_PLURAL[query.recordType],
+      id: query.recordId,
+      isEditOrShow: query.isEditOrShow
+    })?.get("permitted_forms"),
+  state => getPermittedFormsIds(state),
+  (_state, query) => query,
+  (recordForms, userForms, query) => {
+    const permittedForms = recordForms && !recordForms.isEmpty() ? recordForms : userForms;
+
+    if (query.writable || query.readOnly) {
+      return permittedForms.filter(
+        (key, value) =>
+          (query.readOnly && value === RECORD_FORM_PERMISSION.readWrite) ||
+          (query.writable && value === RECORD_FORM_PERMISSION.read)
+      );
+    }
+
+    return permittedForms;
+  }
+)(defaultCacheSelectorOptions);
+
 export const allPermittedForms = createCachedSelector(
   allFormSections,
-  state => state.getIn(["user", "permittedForms"], fromJS([])),
+  state => getPermittedFormsIds(state),
   getLocale,
   (_state, query) => query,
   (formSections, permittedFormIDs, appLocale, query) =>
@@ -122,7 +150,7 @@ export const allPermittedForms = createCachedSelector(
 
 export const getFirstTab = createCachedSelector(
   allFormSections,
-  state => state.getIn(["user", "permittedForms"], fromJS([])),
+  (state, query) => getPermittedForms(state, query),
   getLocale,
   (_state, query) => query,
   (formSections, permittedFormIDs, appLocale, query) => {
@@ -144,8 +172,13 @@ export const getFirstTab = createCachedSelector(
 
 export const getFormNav = createCachedSelector(
   allFormSections,
-  state => state.getIn(["user", "permittedForms"], fromJS([])),
+  (state, query) => getPermittedForms(state, query),
   (state, query) => getPermissionsByRecord([state, RECORD_TYPES_PLURAL[query?.recordType]]),
+  (state, query) =>
+    getSelectedRecordData(state, RECORD_TYPES_PLURAL[query?.recordType])?.getIn([
+      "permitted_form_actions",
+      query?.recordType
+    ]),
   getLocale,
   (state, query) =>
     allPermittedForms(state, query)
@@ -153,7 +186,7 @@ export const getFormNav = createCachedSelector(
       .filter(form => form.form_group_id !== RECORD_INFORMATION_GROUP)
       .reduce((acc, form) => acc.merge(fromJS({ [form.unique_id]: form })), fromJS({})),
   (_state, query) => query,
-  (formSections, permittedFormIDs, userPermissions, appLocale, permittedForms, query) => {
+  (formSections, permittedFormIDs, userPermissions, recordPermissions, appLocale, permittedForms, query) => {
     const selectedForms = forms({ ...query, formSections, permittedFormIDs, appLocale }).filter(
       form => form.form_group_id !== RECORD_INFORMATION_GROUP
     );
@@ -182,7 +215,11 @@ export const getFormNav = createCachedSelector(
 
     return allSelectedForms
       .map(form => buildFormNav(form))
-      .filter(form => isEmpty(form.permission_actions) || checkPermissions(userPermissions, form.permission_actions))
+      .filter(
+        form =>
+          isEmpty(form.permission_actions) ||
+          checkPermissions(recordPermissions || userPermissions, form.permission_actions)
+      )
       .sortBy(form => form.order)
       .groupBy(form => form.group)
       .sortBy(form => form.first().get("groupOrder"));
@@ -191,7 +228,7 @@ export const getFormNav = createCachedSelector(
 
 export const getRecordInformationForms = createCachedSelector(
   allFormSections,
-  state => state.getIn(["user", "permittedForms"], fromJS([])),
+  (state, query) => getPermittedForms(state, query),
   getLocale,
   (_state, query) => query,
   (formSections, permittedFormIDs, appLocale, query) => {
@@ -225,10 +262,20 @@ export const getRecordInformationFormIds = createCachedSelector(
 export const getRecordInformationNav = createCachedSelector(
   (state, query) => getRecordInformationForms(state, query),
   (state, query) => getPermissionsByRecord([state, RECORD_TYPES_PLURAL[query?.recordType]]),
-  (formSections, userPermissions) => {
+  (state, query) =>
+    getSelectedRecordData(state, RECORD_TYPES_PLURAL[query?.recordType])?.getIn([
+      "permitted_form_actions",
+      query?.recordType
+    ]),
+  (formSections, userPermissions, recordPermissions) => {
     return formSections
       .map(form => buildFormNav(form))
-      .filter(form => isEmpty(form.permission_actions) || checkPermissions(userPermissions, form.permission_actions))
+      .filter(form => {
+        return (
+          isEmpty(form.permission_actions) ||
+          checkPermissions(recordPermissions || userPermissions, form.permission_actions)
+        );
+      })
       .sortBy(form => form.order);
   }
 )(defaultCacheSelectorOptions);
@@ -236,19 +283,7 @@ export const getRecordInformationNav = createCachedSelector(
 export const getRecordForms = createCachedSelector(
   allFormSections,
   state => state.getIn(["forms"], fromJS({})),
-  (state, query) => {
-    const permittedFormIds = state.getIn(["user", "permittedForms"], fromJS([]));
-
-    if (query.writable || query.readOnly) {
-      return permittedFormIds.filter(
-        (key, value) =>
-          (query.readOnly && value === RECORD_FORM_PERMISSION.readWrite) ||
-          (query.writable && value === RECORD_FORM_PERMISSION.read)
-      );
-    }
-
-    return permittedFormIds;
-  },
+  (state, query) => getPermittedForms(state, query),
   getLocale,
   (_state, query) => query,
   (formSections, formObject, permittedFormIDs, appLocale, query) => {
@@ -484,6 +519,20 @@ export const getRecordFields = createCachedSelector(
   }
 )(defaultCacheSelectorOptions);
 
+export const getRecordFieldsByName = createCachedSelector(
+  getRecordFields,
+  (_state, query) => query,
+  (fields, query) => {
+    const { name } = query;
+
+    if (Array.isArray(name)) {
+      return fields.filter(field => name.includes(field.name));
+    }
+
+    return fields.find(field => field.name === name);
+  }
+)(defaultCacheSelectorOptions);
+
 export const getMiniFormFields = (state, recordType, primeroModule, excludeFieldNames) => {
   const recordForms = getRecordForms(state, { recordType, primeroModule, includeNested: false, checkVisible: false });
 
@@ -514,6 +563,10 @@ export const getDataProtectionInitialValues = state =>
 
 export const getShouldFetchRecord = (state, { id, recordType }) => {
   return !state.getIn([NAMESPACE, "previousRecord"], fromJS({})).equals(fromJS({ id, recordType }));
+};
+
+export const getPreviousRecordType = state => {
+  return state.getIn([NAMESPACE, "previousRecord", "recordType"]);
 };
 
 export const getWritableFields = createCachedSelector(

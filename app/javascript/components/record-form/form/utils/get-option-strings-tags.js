@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { parseExpression } from "../../../../libs/expressions";
 import { SELECT_FIELD } from "../../constants";
 

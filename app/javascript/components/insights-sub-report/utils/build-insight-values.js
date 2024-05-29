@@ -1,13 +1,18 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 import first from "lodash/first";
 import sortBy from "lodash/sortBy";
+import isObjectLike from "lodash/isObjectLike";
+import isEmpty from "lodash/isEmpty";
 
-import { YEAR } from "../../insights/constants";
+import { WEEK, YEAR } from "../../insights/constants";
 
 import getGroupComparator from "./get-group-comparator";
 import yearComparator from "./year-comparator";
 import getDataGroups from "./get-data-groups";
 import sortWithSortedArray from "./sort-with-sorted-array";
+import weekComparator from "./week-comparator";
 
 const buildRows = ({ tuples, rows, columnIndex, columnsNumber }) => {
   tuples.forEach(tuple => {
@@ -35,33 +40,31 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy, subColumnItems
 
   const groupedData = data.groupBy(value => value.get("group_id").toString());
 
-  if (groupedBy === YEAR) {
+  if ([YEAR, WEEK].includes(groupedBy)) {
     const columnsNumber = subColumnItems?.length ? subColumnItems.length * groups.length : groups.length;
+    const sortedGroups = groupedBy === WEEK ? groups.sort(weekComparator) : groups;
 
-    return (
-      groups
-        // .sort(yearComparator)
-        .reduce((acc, year, index) => {
-          const columnIndex = subColumnItems?.length ? index * subColumnItems?.length + 1 : index + 1;
-          const tuples = groupedData
-            .get(year, fromJS([]))
-            .flatMap(value => {
-              return value.get("data").map(dataElem => {
-                const values = subColumnItems?.length
-                  ? subColumnItems.map(lkOrder => dataElem.get(lkOrder) || 0)
-                  : [dataElem.get("total")];
+    return sortedGroups
+      .reduce((acc, year, index) => {
+        const columnIndex = subColumnItems?.length ? index * subColumnItems?.length + 1 : index + 1;
+        const tuples = groupedData
+          .get(year, fromJS([]))
+          .flatMap(value => {
+            return value.get("data").map(dataElem => {
+              const values = subColumnItems?.length
+                ? subColumnItems.map(lkOrder => dataElem.get(isObjectLike(lkOrder) ? lkOrder.id : lkOrder) || 0)
+                : [dataElem.get("total")];
 
-                return [getLookupValue(key, dataElem), ...values];
-              });
-            })
-            .toArray();
+              return [getLookupValue(key, dataElem), ...values];
+            });
+          })
+          .toArray();
 
-          buildRows({ tuples, rows: acc, columnsNumber, columnIndex });
+        buildRows({ tuples, rows: acc, columnsNumber, columnIndex });
 
-          return acc;
-        }, [])
-        .map(value => ({ colspan: 0, row: value }))
-    );
+        return acc;
+      }, [])
+      .map(value => ({ colspan: 0, row: value }));
   }
 
   const groupComparator = getGroupComparator(groupedBy);
@@ -88,7 +91,7 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy, subColumnItems
           .flatMap(value =>
             value.get("data").map(dataElem => {
               const values = subColumnItems.length
-                ? subColumnItems.map(lkOrder => dataElem.get(lkOrder) || 0)
+                ? subColumnItems.map(lkOrder => dataElem.get(isObjectLike(lkOrder) ? lkOrder.id : lkOrder) || 0)
                 : [dataElem.get("total")];
 
               return [getLookupValue(key, dataElem), ...values];
@@ -111,12 +114,14 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy, subColumnItems
     .map(value => ({ colspan: 0, row: value }));
 };
 
-const buildSingleRows = ({ getLookupValue, data, key }) =>
+const buildSingleRows = ({ getLookupValue, data, key, subColumnItems = [], hasTotalColumn }) =>
   data
     .map(value => {
       const lookupValue = getLookupValue(key, value);
+      const subcolumnValues = subColumnItems.map(subcolumn => value.get(subcolumn.id, 0));
+      const totalValue = hasTotalColumn ? [] : [value.get("total")];
 
-      return { colspan: 0, row: [lookupValue, value.get("total")] };
+      return { colspan: 0, row: [lookupValue, ...subcolumnValues, ...totalValue] };
     })
     .toArray();
 
@@ -141,28 +146,40 @@ export default {
     ageRanges,
     lookupValues,
     incompleteDataLabel,
-    subColumnItems = fromJS([])
+    totalText,
+    subColumnItems = [],
+    indicatorRows,
+    hasTotalColumn
   }) => {
     if (data === 0) return [];
 
-    const lookupDisplayTexts = [
-      ...(lookupValues?.map(lookupValue => lookupValue.display_text) || []),
-      incompleteDataLabel
-    ];
+    const lookupDisplayTexts = lookupValues?.map(lookupValue => lookupValue.display_text) || [];
 
     const sortByFn = elem => first(elem.row);
 
     const rows =
       isGrouped && groupedBy
-        ? buildGroupedRows({ data, key, getLookupValue, groupedBy, subColumnItems: subColumnItems.toJS() })
-        : buildSingleRows({ data, getLookupValue, key });
+        ? buildGroupedRows({ data, key, getLookupValue, groupedBy, subColumnItems, hasTotalColumn })
+        : buildSingleRows({ data, getLookupValue, key, subColumnItems, hasTotalColumn });
 
-    if (key === "age" || key?.includes("_age")) {
-      return sortWithSortedArray(rows, ageRanges, sortByFn, incompleteDataLabel);
+    if (!isEmpty(lookupDisplayTexts)) {
+      const sortArray = [...lookupDisplayTexts, incompleteDataLabel, totalText];
+
+      return sortWithSortedArray(rows, sortArray, sortByFn);
     }
 
-    if (lookupDisplayTexts.length > 1) {
-      return sortWithSortedArray(rows, lookupDisplayTexts, sortByFn);
+    const indicatorRowDisplaytexts = indicatorRows?.map(row => row.display_text);
+
+    if (!isEmpty(indicatorRowDisplaytexts)) {
+      const sortArray = [...indicatorRowDisplaytexts, incompleteDataLabel, totalText];
+
+      return sortWithSortedArray(rows, sortArray, sortByFn);
+    }
+
+    if (key === "age" || key?.includes("_age")) {
+      const sortArray = [...ageRanges, incompleteDataLabel, totalText];
+
+      return sortWithSortedArray(rows, sortArray, sortByFn);
     }
 
     return sortBy(rows, row => first(row.row));
