@@ -2,12 +2,11 @@
 
 import { fromJS } from "immutable";
 
-import { mountedFormComponent, screen } from "../../../../../../../../test-utils";
+import { mountedFormComponent } from "../../../../../../../../test-utils";
 
 import FieldTranslationRow from "./component";
 
 describe("<FieldTranslationRow />", () => {
-
   const field1 = {
     name: "field_1",
     display_name: { fr: "Field 1", ar: "Field 1", en: "Field 1" },
@@ -35,14 +34,15 @@ describe("<FieldTranslationRow />", () => {
 
   it("should render the <FormSectionField /> for the fr language", () => {
     mountedFormComponent(<FieldTranslationRow {...props} />, { state });
-    expect(document.getElementById('fields.field_1.display_name.en')).toBeInTheDocument();
-    expect(document.getElementById('fields.field_1.display_name.fr')).toBeInTheDocument();
+    expect(document.getElementById("fields.field_1.display_name.en")).toBeInTheDocument();
+    expect(document.getElementById("fields.field_1.display_name.fr")).toBeInTheDocument();
   });
-  
+
   it("should render the <FormSectionField /> for the ar language", () => {
     const arProps = { field: fromJS(field1), selectedLocaleId: "ar", formMode: {}, formMethods: {} };
+
     mountedFormComponent(<FieldTranslationRow {...arProps} />, { state });
-    expect(document.getElementById('fields.field_1.display_name.en')).toBeInTheDocument();
-    expect(document.getElementById('fields.field_1.display_name.ar')).toBeInTheDocument();
+    expect(document.getElementById("fields.field_1.display_name.en")).toBeInTheDocument();
+    expect(document.getElementById("fields.field_1.display_name.ar")).toBeInTheDocument();
   });
 });
