@@ -8,7 +8,6 @@ import { RECORD_PATH } from "../../../config";
 import ToggleOpen from "./component";
 
 describe("<ToggleOpen />", () => {
-
   const record = fromJS({
     id: "03cdfdfe-a8fc-4147-b703-df976d200977",
     case_id: "1799d556-652c-4ad9-9b4c-525d487b5e7b",
@@ -27,17 +26,17 @@ describe("<ToggleOpen />", () => {
   };
 
   it("renders ToggleOpen", () => {
-    mountedComponent(<ToggleOpen {...props} />)
+    mountedComponent(<ToggleOpen {...props} />);
     expect(screen.getByText(/cases.reopen_dialog_title/i)).toBeInTheDocument();
   });
 
   it("renders ActionDialog", () => {
-    mountedComponent(<ToggleOpen {...props} />)
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    mountedComponent(<ToggleOpen {...props} />);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
   it("renders component with valid props", () => {
-    mountedComponent(<ToggleOpen {...props} />)
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    mountedComponent(<ToggleOpen {...props} />);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 });

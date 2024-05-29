@@ -12,7 +12,7 @@ const Component = ({ subformName, single = false }) => {
   const i18n = useI18n();
 
   return (
-    <div className={css.emptySubformContainer}>
+    <div className={css.emptySubformContainer} data-testid="subform-empty-data">
       <ErrorIcon />
       <span>
         <strong>{i18n.t("forms.subform_not_found", { subform_name: subformName })}</strong>

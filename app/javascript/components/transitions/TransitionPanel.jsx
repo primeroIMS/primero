@@ -15,7 +15,7 @@ const TransitionPanel = ({ children }) => {
   };
 
   return (
-    <Accordion expanded={expanded} onChange={handleExpanded} className={css.panel}>
+    <Accordion data-testId="accordion" expanded={expanded} onChange={handleExpanded} className={css.panel}>
       {children}
     </Accordion>
   );
