@@ -1,8 +1,5 @@
 import { mountedComponent, screen } from "../../../../test-utils";
-<<<<<<< HEAD
 
-=======
->>>>>>> c940c3ba93b34ade32517501cdd1903bc8f32e33
 import KeyValueCell from "./component";
 
 describe("components/record-actions/exports/components/pdf-exporter/components/key-value-cell", () => {
