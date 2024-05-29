@@ -85,7 +85,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
   }, [record]);
 
   return (
-    <Dialog open={open} maxWidth="sm" fullWidth>
+    <Dialog open={open} maxWidth="sm" fullWidth data-testid="CreateRecordDialog">
       <DialogTitle disableTypography>
         <div className={css.title}>
           <div className={css.newCase}>{i18n.t("cases.register_new_case")}</div>

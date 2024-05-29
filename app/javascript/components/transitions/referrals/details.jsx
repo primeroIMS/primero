@@ -79,7 +79,7 @@ const Details = ({ transition, classes }) => {
       </Grid>
       {renderRejected}
       <Grid item md={12} xs={12}>
-        <Divider className={classes.divider} />
+        <Divider data-testid="divider" className={classes.divider} />
         <DisplayData label="referral.notes_label" value={transition.notes} />
       </Grid>
       {transition.rejection_note && (
