@@ -198,7 +198,6 @@ describe("<IndexTable />", () => {
       expect(screen.getAllByRole("table")).toHaveLength(1);
     });
     it("renders CircularProgress", () => {
-      screen.debug();
       expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });

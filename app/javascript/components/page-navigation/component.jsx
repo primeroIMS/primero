@@ -47,7 +47,9 @@ const Component = ({ handleToggleNav, menuList = [], mobileDisplay = false, sele
 
   return (
     <ConditionalWrapper condition={mobileDisplay} wrapper={Drawer} {...drawerProps}>
-      <List component="nav" data-testid="list">{renderList}</List>
+      <List component="nav" data-testid="list">
+        {renderList}
+      </List>
     </ConditionalWrapper>
   );
 };
