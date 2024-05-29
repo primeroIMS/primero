@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { mountedComponent, screen } from "../../../../test-utils";
+import { fireEvent, mountedComponent, screen } from "../../../../test-utils";
 import { ACTIONS } from "../../../permissions";
 import { TransitionRecord } from "../../records";
 
@@ -203,6 +203,7 @@ describe("<MenuActions /> - Component", () => {
             ...state,
             user: { permissions: { cases: [ACTIONS.READ] } }
           });
+
           expect(screen.queryByTestId(/long-menu/i)).toBeNull();
         });
       });
@@ -258,7 +259,9 @@ describe("<MenuActions /> - Component", () => {
 
     it("renders RevokeModal", () => {
       mountedComponent(<TransitionActions {...props} />, state);
-      expect(screen.getByRole("button")).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      fireEvent.click(screen.getByRole("menuitem"));
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
     });
   });
 
@@ -369,7 +372,8 @@ describe("<MenuActions /> - Component", () => {
 
     it("renders ReferralAction", () => {
       mountedComponent(<TransitionActions {...props} />, state);
-      expect(screen.getByRole("button")).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.getByRole("menuitem")).toBeInTheDocument();
     });
   });
 });
