@@ -18,11 +18,13 @@ const Summary = ({ transition, classes }) => {
   return (
     <Grid container spacing={2}>
       <Grid item md={10} xs={8}>
-        <div className={classes.wrapper}>
+        <div className={classes.wrapper} data-testid="wrapper">
           <div className={classes.titleHeader}>{i18n.t("transition.type.transferRequest")}</div>
 
           {/* TODO: The date should be localized */}
-          <div className={classes.date}>{i18n.localizeDate(transition.created_at)}</div>
+          <div className={classes.date} data-testid="date">
+            {i18n.localizeDate(transition.created_at)}
+          </div>
         </div>
       </Grid>
       {transitionStatus}
