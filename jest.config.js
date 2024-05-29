@@ -89,6 +89,8 @@ module.exports = {
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
+    "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+      "<rootDir>/__mocks__/fileMock.js",
     ".+\\.(css|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
   },
 
@@ -155,7 +157,9 @@ module.exports = {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  testMatch: ["<rootDir>/components/**/*.spec.js"],
+
+  // testMatch: ["<rootDir>/components/**/*.spec.js"],
+  testMatch: ["<rootDir>/components/**/*.spec.js", "<rootDir>/libs/**/*.spec.js"],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: ["/node_modules/"],

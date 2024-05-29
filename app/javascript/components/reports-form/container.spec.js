@@ -98,6 +98,7 @@ describe("<ReportsForm /> - Container", () => {
 
   beforeEach(() => {
     const props = { mode: "new" };
+
     mountedComponent(<ReportsForm {...props} />, initialState);
   });
 
