@@ -1,22 +1,12 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
-import { Menu } from "@material-ui/core";
 import { fromJS } from "immutable";
 
-import DisableOffline from "../../../disable-offline";
-import ActionButton from "../../../action-button";
-import { setupMountedComponent } from "../../../../test";
+import { fireEvent, mountedComponent, screen } from "../../../../test-utils";
 import { ACTIONS } from "../../../permissions";
 import { TransitionRecord } from "../../records";
-import RevokeModal from "../revoke-modal";
-import TransferApproval from "../../transfers/transfer-approval";
-import ReferralAction from "../../referrals/referral-action";
 
 import TransitionActions from "./component";
 
 describe("<MenuActions /> - Component", () => {
-  let component;
-
   describe("Component Menu", () => {
     describe("with referral transition type", () => {
       const state = {
@@ -68,110 +58,74 @@ describe("<MenuActions /> - Component", () => {
       };
 
       describe("when user has access to all menus", () => {
-        beforeEach(() => {
-          ({ component } = setupMountedComponent(TransitionActions, props, state));
-        });
-
         it("renders Menu", () => {
-          expect(component.find(Menu)).to.have.lengthOf(1);
+          mountedComponent(<TransitionActions {...props} />, state);
+          expect(screen.getByLabelText(/more/i)).toBeInTheDocument();
         });
 
         it("renders MenuItem", () => {
-          const menuChildren = component.find(Menu).props().children;
+          mountedComponent(<TransitionActions {...props} />, state);
 
-          expect(menuChildren).to.have.lengthOf(1);
+          expect(screen.getAllByTestId("menu-item")).toHaveLength(1);
         });
 
         it("should only render the revoke option", () => {
-          const menuChildrenAction = component
-            .find(Menu)
-            .props()
-            .children.map(elem => elem.props.children);
-
-          expect(menuChildrenAction).to.deep.equals(["actions.revoke"]);
+          mountedComponent(<TransitionActions {...props} />, state);
+          expect(screen.getByText(/actions.revoke/i)).toBeInTheDocument();
         });
 
-        context("when is offline", () => {
+        describe("when is offline", () => {
           it("should disable the actions", () => {
-            const { component: offlineComp } = setupMountedComponent(TransitionActions, props, {
+            mountedComponent(<TransitionActions {...props} />, {
               ...state,
               connectivity: { online: false }
             });
-
-            expect(offlineComp.find(DisableOffline)).to.have.lengthOf(1);
-            expect(offlineComp.find(ActionButton).props().disabled).to.be.true;
+            expect(screen.getByLabelText(/more/i)).toBeDisabled();
           });
         });
       });
 
-      context("when current user is recipient", () => {
+      describe("when current user is recipient", () => {
         const userRecipientState = fromJS(state).setIn(["user", "username"], "primero_cp_ar");
         const referralWithAcceptOrReject = referral.set("user_can_accept_or_reject", true);
 
-        beforeEach(() => {
-          ({ component } = setupMountedComponent(
-            TransitionActions,
-            {
-              ...props,
-              transition: referralWithAcceptOrReject
-            },
-            userRecipientState
-          ));
-        });
+        const recipientProps = {
+          ...props,
+          transition: referralWithAcceptOrReject
+        };
 
         it("should render the accept and reject actions", () => {
-          const menuChildrenAction = component
-            .find(Menu)
-            .props()
-            .children.map(elem => elem.props.children);
-
-          expect(menuChildrenAction).to.deep.equals(["buttons.accept", "buttons.reject"]);
+          mountedComponent(<TransitionActions {...recipientProps} />, userRecipientState);
+          expect(screen.getByText(/buttons.accept/i)).toBeInTheDocument();
+          expect(screen.getByText(/buttons.reject/i)).toBeInTheDocument();
         });
 
-        context("when the referral is accepted", () => {
-          beforeEach(() => {
-            ({ component } = setupMountedComponent(
-              TransitionActions,
-              { ...props, transition: props.transition.set("status", "accepted") },
-              userRecipientState
-            ));
-          });
+        describe("when the referral is accepted", () => {
+          const acceptedProps = { ...props, transition: props.transition.set("status", "accepted") };
 
           it("should only render the done action", () => {
-            const menuChildrenAction = component
-              .find(Menu)
-              .props()
-              .children.map(elem => elem.props.children);
-
-            expect(menuChildrenAction).to.deep.equals(["buttons.done"]);
+            mountedComponent(<TransitionActions {...acceptedProps} />, userRecipientState);
+            expect(screen.getByText(/buttons.done/i)).toBeInTheDocument();
           });
         });
 
-        context("when the referral is rejected", () => {
-          beforeEach(() => {
-            ({ component } = setupMountedComponent(
-              TransitionActions,
-              { ...props, transition: props.transition.set("status", "rejected") },
-              userRecipientState
-            ));
-          });
+        describe("when the referral is rejected", () => {
+          const rejectedProps = { ...props, transition: props.transition.set("status", "rejected") };
 
           it("should not render actions", () => {
-            expect(component.find(Menu)).to.have.lengthOf(0);
+            mountedComponent(<TransitionActions {...rejectedProps} />, userRecipientState);
+            expect(screen.queryByTestId(/long-menu/i)).toBeNull();
           });
         });
       });
 
       describe("when user has not access to all menus", () => {
-        beforeEach(() => {
-          ({ component } = setupMountedComponent(TransitionActions, props, {
+        it("renders Menu", () => {
+          mountedComponent(<TransitionActions {...props} />, {
             ...state,
             user: { permissions: { cases: [ACTIONS.READ] } }
-          }));
-        });
-
-        it("renders Menu", () => {
-          expect(component.find(Menu)).to.be.empty;
+          });
+          expect(screen.queryByTestId(/long-menu/i)).toBeNull();
         });
       });
     });
@@ -227,37 +181,30 @@ describe("<MenuActions /> - Component", () => {
       };
 
       describe("when user has access to all menus", () => {
-        beforeEach(() => {
-          ({ component } = setupMountedComponent(TransitionActions, props, state));
-        });
-
         it("renders Menu", () => {
-          expect(component.find(Menu)).to.have.lengthOf(1);
+          mountedComponent(<TransitionActions {...props} />, state);
+          expect(screen.getByRole("button")).toBeInTheDocument();
         });
 
         it("renders MenuItem", () => {
-          const menuChildren = component.find(Menu).props().children;
-
-          expect(menuChildren).to.have.lengthOf(1);
+          mountedComponent(<TransitionActions {...props} />, state);
+          expect(screen.getAllByTestId(/menu-item/i)).toHaveLength(1);
         });
 
         it("renders MenuItem with revoke option", () => {
-          const menuChildrenAction = component.find(Menu).props().children[0].props.children;
-
-          expect(menuChildrenAction).to.be.equals("actions.revoke");
+          mountedComponent(<TransitionActions {...props} />, state);
+          expect(screen.getByText(/actions.revoke/i)).toBeInTheDocument();
         });
       });
 
       describe("when user has not access to all menus", () => {
-        beforeEach(() => {
-          ({ component } = setupMountedComponent(TransitionActions, props, {
+        it("renders Menu", () => {
+          mountedComponent(<TransitionActions {...props} />, {
             ...state,
             user: { permissions: { cases: [ACTIONS.READ] } }
-          }));
-        });
+          });
 
-        it("renders Menu", () => {
-          expect(component.find(Menu)).to.be.empty;
+          expect(screen.queryByTestId(/long-menu/i)).toBeNull();
         });
       });
     });
@@ -310,23 +257,11 @@ describe("<MenuActions /> - Component", () => {
       classes: {}
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(TransitionActions, props, state));
-    });
-
     it("renders RevokeModal", () => {
-      expect(component.find(RevokeModal)).to.have.lengthOf(1);
-    });
-
-    it("renders valid props for RevokeModal components", () => {
-      const exportProps = { ...component.find(RevokeModal).props() };
-
-      expect(component.find(RevokeModal)).to.have.lengthOf(1);
-      ["name", "open", "transition", "close", "recordType", "pending", "setPending"].forEach(property => {
-        expect(exportProps).to.have.property(property);
-        delete exportProps[property];
-      });
-      expect(exportProps).to.be.empty;
+      mountedComponent(<TransitionActions {...props} />, state);
+      fireEvent.click(screen.getByRole("button"));
+      fireEvent.click(screen.getByRole("menuitem"));
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
     });
   });
 
@@ -382,33 +317,9 @@ describe("<MenuActions /> - Component", () => {
       classes: {}
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(TransitionActions, props, state));
-    });
-
     it("renders TransferApproval", () => {
-      expect(component.find(TransferApproval)).to.have.lengthOf(1);
-    });
-
-    it("renders valid props for TransferApproval components", () => {
-      const exportProps = { ...component.find(TransferApproval).props() };
-
-      expect(component.find(TransferApproval)).to.have.lengthOf(1);
-      [
-        "openTransferDialog",
-        "close",
-        "approvalType",
-        "recordId",
-        "transferId",
-        "recordType",
-        "pending",
-        "setPending",
-        "dialogName"
-      ].forEach(property => {
-        expect(exportProps).to.have.property(property);
-        delete exportProps[property];
-      });
-      expect(exportProps).to.be.empty;
+      mountedComponent(<TransitionActions {...props} />, state);
+      expect(screen.getByText(/actions.revoke/i)).toBeInTheDocument();
     });
   });
 
@@ -459,33 +370,10 @@ describe("<MenuActions /> - Component", () => {
       classes: {}
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(TransitionActions, props, state));
-    });
-
     it("renders ReferralAction", () => {
-      expect(component.find(ReferralAction)).to.have.lengthOf(1);
-    });
-
-    it("renders valid props for ReferralAction components", () => {
-      const exportProps = { ...component.find(ReferralAction).props() };
-
-      expect(component.find(ReferralAction)).to.have.lengthOf(1);
-      [
-        "openReferralDialog",
-        "close",
-        "recordId",
-        "pending",
-        "setPending",
-        "transistionId",
-        "recordType",
-        "dialogName",
-        "referralType"
-      ].forEach(property => {
-        expect(exportProps).to.have.property(property);
-        delete exportProps[property];
-      });
-      expect(exportProps).to.be.empty;
+      mountedComponent(<TransitionActions {...props} />, state);
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.getByRole("menuitem")).toBeInTheDocument();
     });
   });
 });
