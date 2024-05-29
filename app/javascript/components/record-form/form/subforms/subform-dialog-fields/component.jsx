@@ -143,7 +143,7 @@ const Component = ({
     }
 
     return (
-      <div key={subformSectionField.name} data-testid="subForm-dialog">
+      <div key={subformSectionField.name} data-testid="subform-dialog-field">
         <FormSectionField {...fieldProps} />
       </div>
     );
