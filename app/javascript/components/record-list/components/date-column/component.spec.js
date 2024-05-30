@@ -6,21 +6,21 @@ import DateColumn from "./component";
 
 describe("<DateColumn />", () => {
   const props = {
-    value: "2020-04-150T14:04",
+    value: "2020-04-15T14:04",
     rowAvailable: true,
     wrapper: null,
     valueWithTime: false
   };
 
   it("renders a <DateColumn />", () => {
-    mountedComponent(<DateColumn {...props} />, fromJS({}));
-    expect(screen.getByTestId('parsed-date')).toBeInTheDocument();
+    mountedComponent(<DateColumn {...props} />);
+    expect(screen.getByTestId("parsed-date")).toBeInTheDocument();
   });
 
   describe("when ne locale", () => {
-    it.skip("renders NepaliCalendar", () => {
-      window.I18n.locale = "ne";
-      mountedComponent(<DateColumn {...props} />, fromJS({}));
+    it("renders NepaliCalendar", () => {
+      global.I18n.locale = "ne";
+      mountedComponent(<DateColumn {...props} />));
       expect(screen.getByTestId("nepali-calendar")).toBeInTheDocument();
     });
   });

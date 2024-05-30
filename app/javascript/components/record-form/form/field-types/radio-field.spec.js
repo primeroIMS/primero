@@ -1,8 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { FormControlLabel, Radio } from "@material-ui/core";
-
-import { setupMountedComponent } from "../../../../test";
+import { mountedComponent, screen } from "../../../../test-utils";
 import { RADIO_FIELD } from "../../constants";
 
 import RadioField from "./radio-field";
@@ -37,25 +35,20 @@ describe("<RadioField />", () => {
     }
   };
 
-  let component;
-
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(RadioField, props, {}, [], formProps));
-  });
-
   it("render the RadioField", () => {
-    expect(component.find(RadioField)).lengthOf(1);
-    expect(component.find(Radio)).lengthOf(3);
+    mountedComponent(<RadioField {...props} />, {}, [], {}, formProps);
+    expect(screen.getByText("Test")).toBeInTheDocument();
+    expect(screen.getAllByRole("radio")).toHaveLength(3);
   });
+
   it("render two Radio enabled and one disabled", () => {
-    const radiosRendered = component.find(Radio);
-
-    expect(radiosRendered.at(0).props().disabled).to.be.false;
-    expect(radiosRendered.at(1).props().disabled).to.be.true;
-    expect(radiosRendered.at(2).props().disabled).to.be.false;
+    mountedComponent(<RadioField {...props} />, {}, [], {}, formProps);
+    expect(screen.getAllByRole("radio").at(0)).not.toBeDisabled();
+    expect(screen.getAllByRole("radio").at(1)).toBeDisabled();
+    expect(screen.getAllByRole("radio").at(2)).not.toBeDisabled();
   });
 
-  context("when a the field doesn't have value", () => {
+  describe("when a the field doesn't have value", () => {
     const newProps = {
       ...props,
       field: {
@@ -81,15 +74,11 @@ describe("<RadioField />", () => {
       }
     };
 
-    const radioComponent = setupMountedComponent(RadioField, newProps, {}, [], newFormProps).component;
-
     it("render the select field with options included the disabled selected", () => {
-      const radiosRendered = radioComponent.find(FormControlLabel);
-
-      expect(radiosRendered).lengthOf(2);
-      expect(radioComponent.find(Radio)).lengthOf(2);
-      expect(radiosRendered.at(0).text()).to.be.equal("Yes");
-      expect(radiosRendered.at(1).text()).to.be.equal("No");
+      mountedComponent(<RadioField {...newProps} />, {}, [], {}, newFormProps);
+      expect(screen.getAllByRole("radio")).toHaveLength(2);
+      expect(screen.getByText("Yes")).toBeInTheDocument();
+      expect(screen.getByText("No")).toBeInTheDocument();
     });
   });
 });
