@@ -21,6 +21,6 @@ export default expressions => ({
       return prev;
     }, 0);
 
-    return Math.floor(sum / (count === 0 ? 1 : count));
+    return sum / (count === 0 ? 1 : count);
   }
 });
