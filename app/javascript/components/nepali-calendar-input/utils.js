@@ -15,7 +15,7 @@ const getDateTimeObj = dateTime => {
 
 const convertToNeDate = date => {
   if (!date) return "";
-  console.log(date)
+
   const dateObj = getDateTimeObj(date);
   const formattedDate = format(dateObj, NE_DATE_CONVERSION_FORMAT);
 
