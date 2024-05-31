@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 require 'devise/jwt/test_helpers'
 
@@ -9,9 +11,9 @@ describe Api::V2::TokensController, type: :request do
   before :all do
     user_name = 'tokenstestuser'
     password = 'tokenstestuser0'
-    @user = User.new(user_name: user_name, password: password, password_confirmation: password)
+    @user = User.new(user_name:, password:, password_confirmation: password)
     @user.save(validate: false)
-    @params = { user: { user_name: user_name, password: password } }
+    @params = { user: { user_name:, password: } }
   end
 
   describe 'POST /api/v2/tokens' do
@@ -46,6 +48,9 @@ describe Api::V2::TokensController, type: :request do
     end
 
     it 'enqueues an audit log job that records the login attempt' do
+      metadata = {
+        user_name: @user.user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: nil, http_method: 'POST'
+      }
       post '/api/v2/tokens', params: @params
       expect(AuditLogJob).to have_been_enqueued
         .with(
@@ -54,7 +59,7 @@ describe Api::V2::TokensController, type: :request do
           action: 'login',
           user_id: @user.id,
           resource_url: request.url,
-          metadata: { user_name: @user.user_name }
+          metadata:
         )
     end
 
@@ -63,7 +68,7 @@ describe Api::V2::TokensController, type: :request do
         @use_identity_provider = Rails.configuration.x.idp.use_identity_provider
         @idp_user = User.new(user_name: idp_user_name)
         @idp_user.save(validate: false)
-        @non_idp_user = User.new(user_name: non_idp_user_name, password: password, password_confirmation: password)
+        @non_idp_user = User.new(user_name: non_idp_user_name, password:, password_confirmation: password)
         @non_idp_user.save(validate: false)
         Rails.configuration.x.idp.use_identity_provider = true
       end
@@ -82,7 +87,19 @@ describe Api::V2::TokensController, type: :request do
       end
 
       it 'returns a 401 when attempting to log in with a valid non-idp user and password' do
-        post '/api/v2/tokens', params: { user: { user_name: non_idp_user_name, password: password } }
+        post '/api/v2/tokens', params: { user: { user_name: non_idp_user_name, password: } }
+        expect(response).to have_http_status(401)
+      end
+
+      it 'returns a 401 when got JWT exception' do
+        headers = {
+          'HTTP_AUTHORIZATION' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'\
+          'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.'\
+          'SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+        }
+
+        post('/api/v2/tokens', headers:)
+
         expect(response).to have_http_status(401)
       end
 
@@ -103,7 +120,7 @@ describe Api::V2::TokensController, type: :request do
 
       it 'locks a user after 6 failed attempts' do
         params = { user: { user_name: @user_name2, password: 'wrong!' } }
-        6.times { post '/api/v2/tokens', params: params }
+        6.times { post '/api/v2/tokens', params: }
 
         expect(response).to have_http_status(401)
         expect(@user2.reload.access_locked?).to be_truthy
@@ -113,7 +130,7 @@ describe Api::V2::TokensController, type: :request do
 
     it 'throttles requests after 6 attempts per minute per user name' do
       params = { user: { user_name: @user.user_name, password: 'wrong!' } }
-      7.times { post '/api/v2/tokens', params: params }
+      7.times { post '/api/v2/tokens', params: }
 
       expect(response).to have_http_status(429)
     end

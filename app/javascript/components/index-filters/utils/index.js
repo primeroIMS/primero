@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export { default as buildNameFilter } from "./build-name-filter";
 export { default as calculateFilters } from "./calculate-filters";
 export { default as compactFilters } from "./compact-filters";

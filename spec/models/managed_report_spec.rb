@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe ManagedReport do
@@ -12,13 +14,15 @@ describe ManagedReport do
 
     it 'return a Hash of ManagedReport' do
       expect(managed_reports).to be_an_instance_of(Hash)
-      expect(managed_reports.size).to eq(4)
+      expect(managed_reports.size).to eq(7)
     end
 
     it 'should have gbv_statistics and violation keys' do
       expect(managed_reports.keys).to match_array([Permission::GBV_STATISTICS_REPORT,
                                                    Permission::VIOLATION_REPORT, Permission::GHN_REPORT,
-                                                   Permission::INDIVIDUAL_CHILDREN])
+                                                   Permission::INDIVIDUAL_CHILDREN, Permission::WORKFLOW_REPORT,
+                                                   Permission::VIOLENCE_TYPE_REPORT,
+                                                   Permission::REFERRALS_TRANSFERS_REPORT])
     end
 
     it 'should return subreports of gbv_statistics' do

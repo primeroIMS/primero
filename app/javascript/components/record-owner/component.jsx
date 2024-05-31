@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import { Formik, Form } from "formik";
@@ -6,7 +8,7 @@ import { FieldRecord, FormSectionField } from "../record-form";
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import { selectAgencies } from "../application";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { NAME, FIELDS } from "./constants";
 

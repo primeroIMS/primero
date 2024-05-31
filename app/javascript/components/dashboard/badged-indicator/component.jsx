@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
@@ -47,7 +49,7 @@ const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, error
 
   return (
     <>
-      <LoadingIndicator {...loadingIndicatorProps}>
+      <LoadingIndicator {...loadingIndicatorProps} data-testid="badged-indicator">
         <div className={css.sectionTitle}>{sectionTitle}</div>
         <div className={css.content}>{dashboardChips}</div>
       </LoadingIndicator>

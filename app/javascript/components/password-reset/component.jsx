@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import qs from "qs";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -7,7 +9,7 @@ import { PageHeading } from "../page";
 import Form, { FormAction } from "../form";
 import { useI18n } from "../i18n";
 import { getSavingPassword, resetPassword } from "../user";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { form, validationSchema } from "./form";
 import { NAME, RESET_PASSWORD_FORM } from "./constants";

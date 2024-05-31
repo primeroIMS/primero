@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import configureStore from "redux-mock-store";
 import { fromJS } from "immutable";
 
@@ -11,6 +13,9 @@ describe("middleware/utils/start-signout.js", () => {
   const store = (userProvider = true) =>
     configureStore()(
       fromJS({
+        connectivity: {
+          online: true
+        },
         idp: {
           use_identity_provider: userProvider
         }

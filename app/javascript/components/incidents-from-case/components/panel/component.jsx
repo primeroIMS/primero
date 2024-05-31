@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core";
@@ -67,7 +69,7 @@ const Component = ({
   };
 
   return (
-    <div key={incident.get("unique_id")}>
+    <div key={incident.get("unique_id")} data-testid="panel">
       <Accordion expanded={expanded} onChange={handleExpanded} className={css.panel}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}

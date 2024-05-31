@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::ContactInformationController, type: :request do
@@ -68,7 +70,7 @@ describe Api::V2::ContactInformationController, type: :request do
           Permission.new(resource: Permission::SYSTEM, actions: [Permission::MANAGE])
         ]
       )
-      patch '/api/v2/contact_information', params: params
+      patch('/api/v2/contact_information', params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@contact_info.id)

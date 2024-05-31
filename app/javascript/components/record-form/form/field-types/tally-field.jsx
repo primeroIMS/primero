@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { connect, getIn } from "formik";
 import { useEffect } from "react";
 import { FormHelperText, InputLabel } from "@material-ui/core";
@@ -32,7 +34,7 @@ const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, m
       <InputLabel htmlFor={name} {...InputLabelProps} error={hasError}>
         {label}
       </InputLabel>
-      <div className={css.inputTally}>
+      <div className={css.inputTally} data-testid="tally-field">
         {field.tally.map(option => (
           <TallyFieldContainer name={`${name}.${option.id}`} option={option} error={hasError} {...rest} />
         ))}
