@@ -96,6 +96,7 @@ const Container = () => {
         limitUsersReached={limitUsersReached}
         maximumUsers={maximumUsersLimit}
         totalUsersEnabled={totalUsersEnabled}
+        data-testid="custom-toolbar"
       />
     )
   };

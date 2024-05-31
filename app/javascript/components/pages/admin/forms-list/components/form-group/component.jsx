@@ -13,7 +13,7 @@ const Component = ({ name, id, index, children, isDragDisabled }) => {
   return (
     <Draggable draggableId={`${FORM_GROUP_PREFIX}-${id}`} index={index} isDragDisabled={isDragDisabled}>
       {provided => (
-        <div ref={provided.innerRef} {...provided.draggableProps}>
+        <div data-testid="form-group" ref={provided.innerRef} {...provided.draggableProps}>
           <Accordion elevation={3} className={css.summaryPanel}>
             <AccordionSummary
               classes={{ root: css.summary, content: css.summaryContent }}

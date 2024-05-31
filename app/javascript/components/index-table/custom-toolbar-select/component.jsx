@@ -64,7 +64,6 @@ const Component = ({
       </ButtonBase>
     </div>
   );
-
   const renderSelectedRecordMessage = (allRecordsSelected || hasSelectedRows) && (
     <div className={css.customToolbarTitle}>
       <Typography component="h6">{selectedRecordsMessage}</Typography>

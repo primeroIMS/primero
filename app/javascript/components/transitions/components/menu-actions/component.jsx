@@ -139,7 +139,12 @@ const Component = ({ transition, showMode, recordType, classes }) => {
   const filteredActions = options.filter(option => option.condition);
   const actions = filteredActions.map(option => {
     return (
-      <MenuItem key={option.name} selected={option === "Pyxis"} onClick={event => handleAction(event, option.action)}>
+      <MenuItem
+        data-testid="menu-item"
+        key={option.name}
+        selected={option === "Pyxis"}
+        onClick={event => handleAction(event, option.action)}
+      >
         {option.name}
       </MenuItem>
     );
@@ -164,7 +169,13 @@ const Component = ({ transition, showMode, recordType, classes }) => {
           }}
         />
       </DisableOffline>
-      <Menu id="long-menu" anchorEl={optionMenu} open={Boolean(optionMenu)} onClose={event => handleClose(event)}>
+      <Menu
+        keepMounted
+        id="long-menu"
+        anchorEl={optionMenu}
+        open={Boolean(optionMenu)}
+        onClose={event => handleClose(event)}
+      >
         {actions}
       </Menu>
 
