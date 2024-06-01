@@ -2,7 +2,7 @@
 
 import { OrderedMap, fromJS } from "immutable";
 
-import { mountedComponent, screen } from "../../test-utils";
+import { mountedComponent, screen, fireEvent } from "../../test-utils";
 import { ACTIONS } from "../permissions";
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
 
@@ -206,6 +206,7 @@ describe("<RecordActions />", () => {
   describe("Component ToggleOpen", () => {
     it("renders ToggleOpen", () => {
       mountedComponent(<RecordActions {...props} />, defaultStateWithDialog(OPEN_CLOSE_DIALOG));
+      expect(screen.queryByText(/cases.close_dialog_title/i)).toBeInTheDocument();
       expect(screen.queryAllByRole("dialog")).toHaveLength(1);
     });
   });
@@ -213,6 +214,7 @@ describe("<RecordActions />", () => {
   describe("Component ToggleEnable", () => {
     it("renders ToggleEnable", () => {
       mountedComponent(<RecordActions {...props} />, defaultStateWithDialog(ENABLE_DISABLE_DIALOG));
+      expect(screen.queryByText(/cases.enable_dialog_title/i)).toBeInTheDocument();
       expect(screen.queryAllByRole("dialog")).toHaveLength(1);
     });
   });
@@ -229,6 +231,7 @@ describe("<RecordActions />", () => {
     it("renders Transitions", () => {
       mountedComponent(<RecordActions {...props} />, defaultStateWithDialog(TRANSFER_DIALOG));
 
+      expect(screen.queryByText(/transition.type.transfer/i)).toBeInTheDocument();
       expect(screen.queryAllByText(/transfer.agency_label/i)).toHaveLength(2);
     });
   });
@@ -237,6 +240,7 @@ describe("<RecordActions />", () => {
     it("renders Notes", () => {
       mountedComponent(<RecordActions {...props} />, defaultStateWithDialog(NOTES_DIALOG));
 
+      expect(screen.queryByText(/notes_dialog_title/i)).toBeInTheDocument();
       expect(screen.queryAllByRole("dialog")).toHaveLength(1);
     });
   });
@@ -262,7 +266,8 @@ describe("<RecordActions />", () => {
             forms
           })
         );
-        expect(screen.queryAllByTestId("menu")).toHaveLength(0);
+        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getByRole("menu")).toBeInTheDocument();
       });
 
       it("renders MenuItem", () => {
@@ -284,7 +289,8 @@ describe("<RecordActions />", () => {
             forms
           })
         );
-        expect(screen.queryAllByTestId("menu-item")).toHaveLength(0);
+        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getAllByRole("menuitem")).toHaveLength(10);
       });
 
       it("renders MenuItem with Refer Cases option", () => {
@@ -306,12 +312,13 @@ describe("<RecordActions />", () => {
             forms
           })
         );
-        expect(screen.getByText(/buttons.referral forms.record_types.case/i)).toBeInTheDocument();
+        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getByRole("menuitem", { name: /buttons.referral forms.record_types.case/i })).toBeInTheDocument();
       });
 
       it("renders MenuItem with Add Incident option", () => {
         mountedComponent(
-          <RecordActions {...props} />,
+          <RecordActions recordType="cases" mode={{ isShow: true }} showListActions />,
           fromJS({
             records: {
               cases: {
@@ -328,12 +335,13 @@ describe("<RecordActions />", () => {
             forms
           })
         );
-        expect(screen.queryByText(/actions.incident_details_from_case/i)).toBeNull();
+        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getByRole("menuitem", { name: /actions.incident_details_from_case/i })).toBeInTheDocument();
       });
 
       it("renders MenuItem with Add Services Provision option", () => {
         mountedComponent(
-          <RecordActions {...props} />,
+          <RecordActions recordType="cases" mode={{ isShow: true }} showListActions />,
           fromJS({
             records: {
               cases: {
@@ -350,7 +358,8 @@ describe("<RecordActions />", () => {
             forms
           })
         );
-        expect(screen.queryByText(/actions.services_section_from_case/i)).toBeNull();
+        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getByRole("menuitem", { name: /actions.services_section_from_case/i })).toBeInTheDocument();
       });
 
       it("renders MenuItem with Export option", () => {
@@ -372,7 +381,8 @@ describe("<RecordActions />", () => {
             forms
           })
         );
-        expect(screen.getByText(/cases.export/i)).toBeInTheDocument();
+        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getByRole("menuitem", { name: /cases.export/i })).toBeInTheDocument();
       });
 
       it("renders MenuItem with Create Incident option", () => {
@@ -394,24 +404,26 @@ describe("<RecordActions />", () => {
             forms
           })
         );
-        expect(screen.getByText(/actions.incident_from_case/i)).toBeInTheDocument();
+        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getByRole("menuitem", { name: /actions.incident_from_case/i })).toBeInTheDocument();
       });
     });
 
     describe("when user has not access to all menus", () => {
       it("renders Menu", () => {
         mountedComponent(
-          <RecordActions {...props} />,
+          <RecordActions recordType="cases" mode={{ isShow: true }} record={fromJS({ status: "open" })} />,
           fromJS({
             user: {
               permissions: {
-                cases: [ACTIONS.READ]
+                cases: [ACTIONS.READ, ACTIONS.ADD_NOTE]
               }
             },
             forms
           })
         );
-        expect(screen.queryAllByTestId("menu")).toHaveLength(0);
+        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getByRole("menu")).toBeInTheDocument();
       });
 
       it("renders MenuItem", () => {
@@ -420,13 +432,14 @@ describe("<RecordActions />", () => {
           fromJS({
             user: {
               permissions: {
-                cases: [ACTIONS.READ]
+                cases: [ACTIONS.READ, ACTIONS.ADD_NOTE]
               }
             },
             forms
           })
         );
-        expect(screen.queryAllByTestId("menu-item")).toHaveLength(0);
+        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getAllByRole("menuitem")).toHaveLength(1);
       });
 
       it("renders MenuItem without Refer Cases option", () => {
@@ -488,7 +501,8 @@ describe("<RecordActions />", () => {
             forms
           })
         );
-        expect(screen.queryAllByTestId("menu")).toHaveLength(0);
+        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getByRole("menu")).toBeInTheDocument();
       });
 
       it("renders MenuItem", () => {
@@ -503,7 +517,8 @@ describe("<RecordActions />", () => {
             forms
           })
         );
-        expect(screen.queryAllByTestId("menu-item")).toHaveLength(0);
+        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getAllByRole("menuitem")).toHaveLength(1);
       });
 
       it("renders MenuItem with the Assign Case option", () => {
@@ -518,7 +533,8 @@ describe("<RecordActions />", () => {
             forms
           })
         );
-        expect(screen.getByText(/buttons.reassign forms.record_types.case/i)).toBeInTheDocument(1);
+        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getByRole("menuitem", { name: /buttons.reassign forms.record_types.case/i })).toBeInTheDocument();
       });
     });
   });
@@ -527,6 +543,7 @@ describe("<RecordActions />", () => {
     it("renders Exports", () => {
       mountedComponent(<RecordActions {...props} />, defaultStateWithDialog(EXPORT_DIALOG));
       expect(screen.queryAllByRole("dialog")).toHaveLength(1);
+      expect(screen.getAllByText(/cases.export/i, { selector: "div" })).toHaveLength(1);
     });
 
     describe("when user can only export pdf", () => {
@@ -548,35 +565,43 @@ describe("<RecordActions />", () => {
 
   describe("when record is selected", () => {
     const propsRecordSelected = {
-      ...props,
       showListActions: true,
       currentPage: 0,
-      selectedRecords: { 0: [0] }
+      selectedRecords: { 0: [0] },
+      recordType: "cases",
+      mode: {
+        isShow: true
+      }
     };
 
-    it.skip("renders add refer menu enabled", () => {
+    it("should not renders assign menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
-      expect(screen.getByText(/buttons.referral forms.record_types.case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.queryByText(/buttons.reassign forms.record_types.case/i)).toBeInTheDocument();
     });
 
-    it.skip("renders add incident menu disabled", () => {
+    it("renders add incident menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
-      expect(screen.getByText(/actions.incident_details_from_case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.getByRole("menuitem", { name: /actions.incident_details_from_case/i })).toBeInTheDocument();
     });
 
-    it.skip("renders add transfer menu enabled", () => {
+    it("should not renders transfer menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
-      expect(screen.getByText(/buttons.transfer forms.record_types.case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.queryByText(/buttons.transfer/i)).toBeNull();
     });
 
-    it.skip("renders add service menu disabled", () => {
+    it("renders add service menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
-      expect(screen.getByText(/actions.services_section_from_case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.getByRole("menuitem", { name: /actions.services_section_from_case/i })).toBeInTheDocument();
     });
 
-    it.skip("renders add export menu enabled", () => {
+    it("renders add export menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
-      expect(screen.getByText(/cases.export/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.getByRole("menuitem", { name: /cases.export/i })).toBeInTheDocument();
     });
   });
 
@@ -617,44 +642,53 @@ describe("<RecordActions />", () => {
       forms
     });
     const propsRecordSelected = {
-      ...props,
       showListActions: true,
       currentPage: 0,
-      selectedRecords: { 0: [0] }
+      selectedRecords: { 0: [0] },
+      recordType: "cases",
+      mode: {
+        isShow: true
+      }
     };
 
-    it.skip("renders add refer menu enabled", () => {
+    it("should not renders add refer menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateFromSearch);
-      expect(screen.getByText(/buttons.referral forms.record_types.case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.queryByText(/buttons.referral/i)).toBeNull();
     });
 
-    it("renders add reassign menu enabled", () => {
+    it("should not renders add reassign menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateFromSearch);
-      expect(screen.getByText(/buttons.reassign forms.record_types.case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.queryByText(/buttons.reassign/i)).toBeNull();
     });
 
-    it.skip("renders add transfer menu enabled", () => {
+    it("should not renders add transfer menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateFromSearch);
-      expect(screen.getByText(/buttons.transfer forms.record_types.case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.queryByText(/buttons.transfer/i)).toBeNull();
     });
 
-    it.skip("renders add incident menu enabled", () => {
+    it("renders add incident menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateFromSearch);
+      fireEvent.click(screen.getByRole("button"));
       expect(screen.getByText(/actions.incident_details_from_case/i)).toBeInTheDocument();
     });
 
-    it.skip("renders add service menu enabled", () => {
+    it("renders add service menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateFromSearch);
-      expect(screen.getByText(/bactions.services_section_from_case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.getByRole("menuitem", { name: /actions.services_section_from_case/i })).toBeInTheDocument();
     });
 
-    it("renders add export menu enabled", () => {
+    it("renders add export menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateFromSearch);
-      expect(screen.getByText(/cases.export/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.queryByText(/cases.export/i)).toBeNull();
     });
   });
 
-  describe("when no record is selected", () => {
+  describe("when no records are selected", () => {
     const propsRecordSelected = {
       ...props,
       showListActions: true,
@@ -662,29 +696,38 @@ describe("<RecordActions />", () => {
       selectedRecords: {}
     };
 
-    it.skip("renders add refer menu disabled", () => {
+    it("should not renders add refer menu enabled", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
-      expect(screen.getByText(/buttons.referral forms.record_types.case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.queryByText(/buttons.referral/i)).toBeNull();
     });
 
-    it.skip("renders add transfer menu disabled", () => {
+    it("should not renders add transfer menu disabled", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
-      expect(screen.getByText(/buttons.transfer forms.record_types.case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.queryByText(/buttons.transfer/i)).toBeNull();
     });
 
     it("renders add incident menu disabled", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
-      expect(screen.getByText(/ctions.incident_details_from_case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(
+        screen.getByRole("menuitem", { name: /actions.incident_details_from_case/i, class: "Mui-disabled" })
+      ).toBeInTheDocument();
     });
 
     it("renders add service menu disabled", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
-      expect(screen.getByText(/ctions.services_section_from_case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(
+        screen.getByRole("menuitem", { name: /actions.services_section_from_case/i, class: "Mui-disabled" })
+      ).toBeInTheDocument();
     });
 
     it("renders add export menu disabled", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
-      expect(screen.getByText(/cases.export/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.getByRole("menuitem", { name: /cases.export/i, class: "Mui-disabled" })).toBeInTheDocument();
     });
   });
 
@@ -753,28 +796,43 @@ describe("<RecordActions />", () => {
       forms
     });
 
-    it.skip("renders add refer menu enabled", () => {
-      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateRecordSelected);
-      expect(screen.getByText(/buttons.referral forms.record_types.case/i)).toBeInTheDocument();
+    it("renders assign menu", () => {
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultState);
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.queryByText(/buttons.reassign forms.record_types.case/i)).toBeInTheDocument();
     });
 
-    it.skip("renders add transfer menu enabled", () => {
+    it("should not renders add refer menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateRecordSelected);
-      expect(screen.getByText(/buttons.transfer forms.record_types.case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.queryByText(/buttons.referral/i)).toBeNull();
     });
 
-    it("renders add incident menu disabled", () => {
+    it("should not renders add transfer menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateRecordSelected);
-      expect(screen.getByText(/actions.incident_details_from_case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.queryByText(/buttons.transfer/i)).toBeNull();
     });
 
-    it("renders add service menu disabled", () => {
+    it("renders add incident menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateRecordSelected);
-      expect(screen.getByText(/ctions.services_section_from_case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(
+        screen.getByRole("menuitem", { name: /actions.incident_details_from_case/i, class: "Mui-disabled" })
+      ).toBeInTheDocument();
     });
 
-    it("renders add export menu enabled", () => {
+    it("renders add service menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateRecordSelected);
+      fireEvent.click(screen.getByRole("button"));
+      expect(
+        screen.getByRole("menuitem", { name: /actions.services_section_from_case/i, class: "Mui-disabled" })
+      ).toBeInTheDocument();
+    });
+
+    it("renders add export menu", () => {
+      mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateRecordSelected);
+      fireEvent.click(screen.getByRole("button"));
       expect(screen.getByText(/cases.export/i)).toBeInTheDocument();
     });
   });
@@ -860,29 +918,38 @@ describe("<RecordActions />", () => {
       forms
     });
 
-    it.skip("renders add refer menu disabled", () => {
+    it("should not renders add refer menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateAllRecordSelected);
-      expect(screen.getByText(/buttons.referral forms.record_types.case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.queryByText(/buttons.referral/i)).toBeNull();
     });
 
-    it.skip("renders add transfer menu disabled", () => {
+    it("should not renders add transfer menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateAllRecordSelected);
-      expect(screen.getByText(/buttons.transfer forms.record_types.case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.queryByText(/buttons.transfer/i)).toBeNull();
     });
 
     it("renders add incident menu disabled", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateAllRecordSelected);
-      expect(screen.getByText(/actions.incident_details_from_case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(
+        screen.getByRole("menuitem", { name: /actions.incident_details_from_case/i, class: "Mui-disabled" })
+      ).toBeInTheDocument();
     });
 
-    it("renders add service menu disabled", () => {
+    it("renders add service menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateAllRecordSelected);
-      expect(screen.getByText(/ctions.services_section_from_case/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(
+        screen.getByRole("menuitem", { name: /actions.services_section_from_case/i, class: "Mui-disabled" })
+      ).toBeInTheDocument();
     });
 
-    it("renders add export menu enabled", () => {
+    it("renders add export menu", () => {
       mountedComponent(<RecordActions {...propsRecordSelected} />, defaultStateAllRecordSelected);
-      expect(screen.getByText(/cases.export/i)).toBeInTheDocument();
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.getByRole("menuitem", { name: /cases.export/i })).toBeInTheDocument();
     });
   });
 
