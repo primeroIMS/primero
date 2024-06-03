@@ -38,11 +38,11 @@ const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
 
   return (
     <Controller
-      id="textinput"
       control={control}
       type={inputType}
       as={TextField}
       label={renderLabel}
+      aria-label={renderLabel}
       {...rest}
       {...(isEmpty(inputProps) ? {} : { inputProps })}
       helperText={

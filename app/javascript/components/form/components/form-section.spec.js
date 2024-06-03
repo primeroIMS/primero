@@ -1,4 +1,4 @@
-import { screen, setupMockFormComponent } from "test-utils";
+import { screen, mountedFormComponent } from "test-utils";
 
 import { FieldRecord, FormSectionRecord } from "../records";
 
@@ -18,7 +18,7 @@ describe("<Form /> - components/<FormSection />", () => {
       ]
     });
 
-    setupMockFormComponent(FormSection, { props: { formSection } });
+    mountedFormComponent(<FormSection formSection={formSection} />);
     expect(document.querySelector("#test_field")).toBeInTheDocument();
     expect(screen.getByText("Form Section")).toBeInTheDocument();
   });

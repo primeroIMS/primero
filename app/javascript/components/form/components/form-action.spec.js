@@ -1,4 +1,4 @@
-import { screen, setupMockFormComponent } from "test-utils";
+import { screen, mountedFormComponent } from "test-utils";
 
 import FormAction from "./form-action";
 
@@ -10,7 +10,7 @@ describe("<Form /> - components/<FormAction />", () => {
   };
 
   it("renders a Fab component", () => {
-    setupMockFormComponent(FormAction, { props });
+    mountedFormComponent(<FormAction {...props} />);
     expect(screen.getByRole("button")).toBeInTheDocument();
     expect(screen.getByText(buttonMessage)).toBeInTheDocument();
   });

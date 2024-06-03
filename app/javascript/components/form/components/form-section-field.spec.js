@@ -1,4 +1,4 @@
-import { screen, setupMockFormComponent } from "test-utils";
+import { screen, mountedFormComponent } from "test-utils";
 import { fromJS } from "immutable";
 
 import { FieldRecord } from "../records";
@@ -10,33 +10,26 @@ describe("<Form /> - components/<FormSectionField />", () => {
   it("renders a text field", () => {
     const field = FieldRecord({ name: "test_field", type: "text_field" });
 
-    setupMockFormComponent(FormSectionField, { props: { field } });
+    mountedFormComponent(<FormSectionField field={field} />);
     expect(document.querySelector("#test_field")).toBeInTheDocument();
   });
 
   it("renders an error field", () => {
     const field = FieldRecord({ name: "test_field", type: "error_field" });
 
-    setupMockFormComponent(
-      ({ formMethods }) => {
-        return (
-          <FormSectionField
-            field={field}
-            checkErrors={fromJS(["name"])}
-            formMode={fromJS({})}
-            formMethods={formMethods}
-          />
-        );
-      },
-      {
-        errors: [
-          {
-            name: "name",
-            message: "test-error"
-          }
-        ]
-      }
-    );
+    // eslint-disable-next-line react/display-name
+    const Component = props => {
+      return <FormSectionField {...props} field={field} checkErrors={fromJS(["name"])} formMode={fromJS({})} />;
+    };
+
+    mountedFormComponent(<Component />, {
+      errors: [
+        {
+          name: "name",
+          message: "test-error"
+        }
+      ]
+    });
     expect(screen.getByText("test-error")).toBeInTheDocument();
   });
 
@@ -59,21 +52,21 @@ describe("<Form /> - components/<FormSectionField />", () => {
       }
     });
 
-    setupMockFormComponent(FormSectionField, { props: { field } });
+    mountedFormComponent(<FormSectionField field={field} />);
     expect(document.querySelector("#radio_test_field")).toBeInTheDocument();
   });
 
   it("renders a buttons link", () => {
     const field = FieldRecord({ name: "test_field", type: DIALOG_TRIGGER, display_name: { en: "Test Field" } });
 
-    setupMockFormComponent(FormSectionField, { props: { field } });
+    mountedFormComponent(<FormSectionField field={field} />);
     expect(screen.getByText("Test Field")).toBeInTheDocument();
   });
 
   it("renders an attachement field", () => {
     const field = FieldRecord({ name: "test_document_field", type: DOCUMENT_FIELD });
 
-    setupMockFormComponent(FormSectionField, { props: { field } });
+    mountedFormComponent(<FormSectionField field={field} />);
     expect(document.querySelector("#test_document_field")).toBeInTheDocument();
   });
 });

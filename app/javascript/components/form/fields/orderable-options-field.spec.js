@@ -1,24 +1,28 @@
-import { screen, setupMockFormComponent } from "test-utils";
+import { screen, mountedFormComponent } from "test-utils";
 
 import OrderableOptionsField from "./orderable-options-field";
 
 describe("<Form /> - fields/<OrderableOptionsField />", () => {
   beforeEach(() => {
-    setupMockFormComponent(OrderableOptionsField, {
-      props: {
-        inputProps: {
-          commonInputProps: { name: "field_1" },
-          metaInputProps: { selectedValue: "option_2", showDefaultAction: true }
+    mountedFormComponent(
+      <OrderableOptionsField
+        {...{
+          inputProps: {
+            commonInputProps: { name: "field_1" },
+            metaInputProps: { selectedValue: "option_2", showDefaultAction: true }
+          }
+        }}
+      />,
+      {
+        defaultValues: {
+          field_1: [
+            { id: "option_1", display_text: { en: "Display text 1" } },
+            { id: "option_2", display_text: { en: "Display text 2" } },
+            { id: "option_3", display_text: { en: "Display text 3" } }
+          ]
         }
-      },
-      defaultValues: {
-        field_1: [
-          { id: "option_1", display_text: { en: "Display text 1" } },
-          { id: "option_2", display_text: { en: "Display text 2" } },
-          { id: "option_3", display_text: { en: "Display text 3" } }
-        ]
       }
-    });
+    );
   });
 
   it("renders the options", () => {

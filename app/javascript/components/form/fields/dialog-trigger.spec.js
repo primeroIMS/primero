@@ -1,11 +1,9 @@
-import { screen, setupMockFieldComponent } from "test-utils";
-
-import { FieldRecord } from "../records";
+import { screen, mountedFieldComponent } from "test-utils";
 
 import DialogTrigger from "./dialog-trigger";
 
 describe("form/fields/dialog-trigger.jsx", () => {
-  const props = {
+  const inputProps = {
     commonInputProps: {
       label: "Test label"
     },
@@ -15,7 +13,7 @@ describe("form/fields/dialog-trigger.jsx", () => {
   };
 
   it("renders button component with text", () => {
-    setupMockFieldComponent(DialogTrigger, FieldRecord, {}, props);
+    mountedFieldComponent(<DialogTrigger />, { inputProps });
     expect(screen.getByText("Test label")).toBeInTheDocument();
   });
 });
