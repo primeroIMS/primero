@@ -25,7 +25,8 @@ const Component = ({
   open,
   recordAlerts,
   selectedForm,
-  hasError
+  hasError,
+  testID
 }) => {
   const { disabledApplication } = useApp();
 
@@ -62,6 +63,8 @@ const Component = ({
 
   return (
     <ListItem
+      data-testid={testID || "list-item"}
+      aria-expanded={open}
       id={`${formId}-${group}`}
       selected={selectedForm === formId && !isNested}
       button
@@ -73,7 +76,9 @@ const Component = ({
       }}
       disabled={disabledApplication}
     >
-      <ListItemText className={groupItem ? css.nestedItem : css.item}>{formText()}</ListItemText>
+      <ListItemText data-testid="list-item-text" className={groupItem ? css.nestedItem : css.item}>
+        {formText()}
+      </ListItemText>
       {isNested && (open ? <ExpandMore /> : <ExpandLess />)}
     </ListItem>
   );
@@ -92,7 +97,8 @@ Component.propTypes = {
   name: PropTypes.string,
   open: PropTypes.bool,
   recordAlerts: PropTypes.object,
-  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  testID: PropTypes.string
 };
 
 export default Component;

@@ -43,7 +43,7 @@ const FormSection = ({ formSection, showTitle, disableUnderline, formMethods, fo
             </Typography>
           </Tooltip>
         </AccordionSummary>
-        <AccordionDetails classes={{ root: css.panelContent }}>
+        <AccordionDetails data-testid="form-section" classes={{ root: css.panelContent }}>
           <Fields
             fields={fields}
             checkErrors={checkErrors}

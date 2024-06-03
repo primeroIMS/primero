@@ -12,7 +12,7 @@ const CloseButtonNavBar = ({ handleToggleNav, mobileDisplay }) => {
   return (
     <div className={css.closeButtonRecordNav}>
       <IconButton onClick={handleToggleNav} className={css.closeIconButtonRecordNav}>
-        <CloseIcon />
+        <CloseIcon data-testid="close-icon" />
       </IconButton>
     </div>
   );

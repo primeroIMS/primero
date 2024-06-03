@@ -58,6 +58,5 @@ describe("<RecordForm>/form/subforms/<SubformFields>/components/<ViolationItem /
 
     mountedComponent(<ViolationItem {...props} />, initialState);
     expect(screen.getByTestId("violation-item")).toBeInTheDocument();
-
   });
 });
