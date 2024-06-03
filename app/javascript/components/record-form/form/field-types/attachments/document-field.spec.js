@@ -1,11 +1,5 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
-import { FastField } from "formik";
-
-import { setupMountedComponent } from "../../../../../test";
+import { mountedComponent, screen } from "../../../../../test-utils";
 import { FieldRecord } from "../../../records";
-import TickField from "../tick-field";
-import DateField from "../date-field";
 import { MODULES } from "../../../../../config";
 
 import DocumentField from "./document-field";
@@ -56,11 +50,10 @@ describe("<DocumentField />", () => {
   };
 
   it("should render a DocumentField", () => {
-    const { component } = setupMountedComponent(DocumentField, props, {}, [], formProps);
-
-    expect(component.find(DateField)).to.have.lengthOf(1);
-    expect(component.find(FastField)).to.have.lengthOf(4);
-    expect(component.find(TickField)).to.have.lengthOf(1);
+    mountedComponent(<DocumentField {...props} />, {}, [], {}, formProps);
+    expect(screen.getByText(/fields.document.is_current/i)).toBeInTheDocument();
+    expect(screen.getAllByRole("textbox")).toHaveLength(3);
+    expect(screen.getByText(/yes_label/i)).toBeInTheDocument();
   });
 
   it("should NOT render render a TickField", () => {
@@ -74,8 +67,8 @@ describe("<DocumentField />", () => {
         }
       }
     };
-    const { component } = setupMountedComponent(DocumentField, propsMRM, {}, [], formProps);
 
-    expect(component.find(TickField)).to.have.lengthOf(0);
+    mountedComponent(<DocumentField {...propsMRM} />, {}, [], {}, formProps);
+    expect(screen.queryByText(/yes_label/i)).toBeNull();
   });
 });
