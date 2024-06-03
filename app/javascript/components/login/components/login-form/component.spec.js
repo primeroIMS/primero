@@ -38,7 +38,8 @@ describe("<LoginForm />", () => {
         }
       })
     );
-    expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "h1")).toBeInTheDocument();
+
+    expect(screen.getByRole("heading", { name: "login.label" })).toBeInTheDocument();
   });
 
   it("renders username and password input fields", () => {
@@ -56,17 +57,8 @@ describe("<LoginForm />", () => {
       })
     );
     expect(screen.getByRole("textbox", { name: /login.username/i })).toBeInTheDocument();
+    expect(document.querySelector('input[name="password"]')).toBeInTheDocument();
   });
-
-  // TODO: Temp removal
-  // it("renders forgot password link", () => {
-  //   expect(
-  //     component
-  //       .find("a")
-  //       .first()
-  //       .prop("href")
-  //   ).to.have.equal("/forgot_password");
-  // });
 
   it("renders login button", () => {
     mountedComponent(

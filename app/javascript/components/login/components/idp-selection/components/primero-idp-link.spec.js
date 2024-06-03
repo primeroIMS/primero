@@ -44,6 +44,7 @@ describe("<PrimeroIdpLink />", () => {
 
     it("renders forms components", () => {
       mountedComponent(<PrimeroIdpLink {...propsOnlyPrimeroIDP} />);
+
       expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "span")).toBeInTheDocument();
       expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "a")).toBeInTheDocument();
     });
@@ -71,7 +72,7 @@ describe("<PrimeroIdpLink />", () => {
     it("renders forms components", () => {
       mountedComponent(<PrimeroIdpLink {...propsOnlyPrimeroIDP} />);
 
-      expect(screen.queryByText(/log_in_primero_idp/i)).toBeNull();
+      expect(document.querySelectorAll("a")).toHaveLength(1);
     });
   });
 });
