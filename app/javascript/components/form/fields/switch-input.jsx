@@ -13,7 +13,7 @@ const SwitchInput = ({ commonInputProps, metaInputProps, formMethods }) => {
   const checkBoxProps = { defaultValue: selectedValue || false };
 
   return (
-    <FormControl id={id} error={error}>
+    <FormControl id={id} error={error} data-testid="switch-input">
       <FormGroup>
         <Controller
           control={control}
