@@ -19,7 +19,7 @@ const Component = ({ value }) => {
 
   if (i18n.locale === LOCALE_KEYS.ne) {
     return (
-      <div className={css.readonly}>
+      <div className={css.readonly} data-testid="nepali-calendar">
         <NepaliCalendar
           dateProps={{
             value,
@@ -31,7 +31,11 @@ const Component = ({ value }) => {
     );
   }
 
-  return <div className={css.date}>{i18n.localizeDate(value)}</div>;
+  return (
+    <div className={css.date} data-testid="date">
+      {i18n.localizeDate(value)}
+    </div>
+  );
 };
 
 Component.displayName = NAME;
