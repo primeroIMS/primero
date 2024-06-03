@@ -197,7 +197,6 @@ const Component = ({
   return (
     <>
       <ConditionalWrapper
-        data-testid="ConditionalWrapper"
         condition={mobileDisplay}
         wrapper={Drawer}
         anchor="left"
