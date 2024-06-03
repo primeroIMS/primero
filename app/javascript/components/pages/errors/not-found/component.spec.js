@@ -3,7 +3,6 @@ import { mountedComponent, screen } from "../../../../test-utils";
 import NotFound from "./component";
 
 describe("<NotFound />", () => {
-
   it("renders h1 tag", () => {
     mountedComponent(<NotFound />, {});
     expect(screen.getByText(/error_page.not_found.code/i)).toBeInTheDocument();

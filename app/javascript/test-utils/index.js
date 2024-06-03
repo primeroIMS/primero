@@ -2,7 +2,7 @@
 
 /* eslint-disable react/no-multi-comp */
 
-export { render, fireEvent, screen, waitFor, cleanup } from "@testing-library/react";
+export { render, fireEvent, screen, waitFor, within, cleanup, act } from "@testing-library/react";
 export { default as userEvent } from "@testing-library/user-event";
 export { spy, useFakeTimers, stub, mock, fake, replace } from "sinon";
 export { createMockStore, DEFAULT_STATE } from "./create-mock-store";
@@ -16,3 +16,5 @@ export { mountedFieldComponent, mountedFormComponent } from "./mounted-form-comp
 export { default as setupHook } from "./setup-hook";
 export { abbrMonthNames, freezeTimeZone } from "./i18n";
 export { expectNever } from "./utils";
+export { default as setScreenSizeToMobile } from "./set-screen-size-to-mobile";
+export { default as setSelectValue } from "./set-select-value";

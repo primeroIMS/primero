@@ -34,7 +34,7 @@ const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, m
       <InputLabel htmlFor={name} {...InputLabelProps} error={hasError}>
         {label}
       </InputLabel>
-      <div className={css.inputTally}>
+      <div className={css.inputTally} data-testid="tally-field">
         {field.tally.map(option => (
           <TallyFieldContainer name={`${name}.${option.id}`} option={option} error={hasError} {...rest} />
         ))}

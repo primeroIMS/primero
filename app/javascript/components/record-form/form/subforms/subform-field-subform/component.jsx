@@ -23,7 +23,7 @@ const Component = ({ isViolation, parentTitle, parentValues, fieldProps, violati
     setExpanded(!expanded);
   };
   const renderSubform = (
-    <div className={css.subFormField}>
+    <div className={css.subFormField} data-testid="subform-field">
       <SubformField
         {...{
           ...fieldProps,

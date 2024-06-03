@@ -47,7 +47,7 @@ const Transitions = ({
   }, []);
 
   return (
-    <div>
+    <div data-testid="transitions">
       <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={transitionTitle} />
       <RecordFormAlerts
         form={{ unique_id: isReferral ? "referral" : "transfers_assignments" }}

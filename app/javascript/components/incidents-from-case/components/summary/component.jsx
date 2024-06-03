@@ -7,7 +7,7 @@ import { NAME_SUMMARY } from "../../constants";
 
 const Component = ({ css, incidentDate, incidentType }) => {
   return (
-    <Grid container spacing={2} alignItems="center">
+    <Grid container spacing={2} alignItems="center" data-testid="incidentsummary">
       <Grid item md={10} xs={8}>
         <div className={css.wrapper}>
           <div className={css.titleHeader}>{incidentDate}</div>

@@ -59,6 +59,6 @@ describe("<Fields />", () => {
 
   it("renders 1 FormSectionField", () => {
     mountedComponent(<Fields {...props} />, initialState, {}, {}, formProps);
-    expect(screen.getByTestId("form-field")).toBeInTheDocument();
+    expect(screen.getByTestId("form-section-field")).toBeInTheDocument();
   });
 });

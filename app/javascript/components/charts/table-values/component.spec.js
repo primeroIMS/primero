@@ -82,7 +82,6 @@ describe("<TableValues />", () => {
     expect(screen.getAllByRole("table")).toHaveLength(1);
     expect(screen.getAllByRole("columnheader")).toHaveLength(2);
   });
-
   afterEach(() => {
     if (stubI18n) {
       window.I18n.t.restore();
