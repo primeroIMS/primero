@@ -18,7 +18,6 @@ describe("renderPreview", () => {
     };
 
     simpleMountedComponent(renderPreview(ATTACHMENT_TYPES.document, file, css, deleteButton));
-    renderPreview(ATTACHMENT_TYPES.document, file, css, deleteButton);
     expect(screen.getByText(/test.txt/i)).toBeInTheDocument();
   });
 

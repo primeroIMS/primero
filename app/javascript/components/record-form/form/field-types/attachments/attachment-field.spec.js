@@ -1,4 +1,4 @@
-import { mountedComponent, screen } from "../../../../../test-utils";
+import { mountedComponent, screen, fireEvent } from "../../../../../test-utils";
 
 import { ATTACHMENT_TYPES } from "./constants";
 import AttachmentField from "./attachment-field";
@@ -21,8 +21,9 @@ describe("<AttachmentField />", () => {
     initialValues: {}
   };
 
-  it("should render ActionDialog", () => {
+  it("should render component", () => {
     mountedComponent(<AttachmentField {...props} />, {}, [], {}, formProps);
+    expect(document.querySelector(".uploadBox")).toBeInTheDocument();
     expect(screen.getByText("fields.file_upload_box.select_file_button_text")).toBeInTheDocument();
   });
 
@@ -32,14 +33,27 @@ describe("<AttachmentField />", () => {
   });
 
   describe("when value contains attachmentUrl", () => {
+    const newProps = {
+      ...props,
+      value: {
+        attachment_url: "random-string"
+      }
+    };
+
+    it("should render ActionDialog", () => {
+      mountedComponent(<AttachmentField {...newProps} />, {}, [], {}, formProps);
+      fireEvent.click(screen.getByRole("button"));
+      expect(screen.getByText("fields.remove attachment_field_test")).toBeInTheDocument();
+    });
+
     it("should not render the AttachmentInput", () => {
-      mountedComponent(<AttachmentField {...props} />, {}, [], {}, formProps);
+      mountedComponent(<AttachmentField {...newProps} />, {}, [], {}, formProps);
       expect(screen.queryByRole("textbox")).toBeNull();
     });
 
     it("should render the AttachmentPreview", () => {
-      mountedComponent(<AttachmentField {...props} />, {}, [], {}, formProps);
-      expect(screen.getByText("fields.file_upload_box.select_file_button_text")).toBeInTheDocument();
+      mountedComponent(<AttachmentField {...newProps} />, {}, [], {}, formProps);
+      expect(screen.getByRole("img")).toBeInTheDocument();
     });
   });
 
