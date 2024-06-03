@@ -1,8 +1,19 @@
-import { mountedComponent, screen } from "../../../../test-utils";
+import { createMocks } from "react-idle-timer";
+
+import { mountedComponent, screen, act, waitFor } from "../../../../test-utils";
 
 import EmptyLayout from "./component";
 
 describe("layouts/components/<EmptyLayout />", () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+    createMocks();
+  });
+
+  afterEach(() => {
+    jest.clearAllTimers();
+  });
+
   const state = {
     ui: {
       Nav: {
@@ -22,6 +33,10 @@ describe("layouts/components/<EmptyLayout />", () => {
     },
     application: {
       baseLanguage: "en",
+      userIdle: true,
+      primero: {
+        sandbox_ui: true
+      },
       modules: [
         {
           unique_id: "primeromodule-cp",
@@ -36,6 +51,10 @@ describe("layouts/components/<EmptyLayout />", () => {
           demo: true
         }
       }
+    },
+    connectivity: {
+      online: true,
+      serverOnline: true
     }
   };
 
@@ -47,15 +66,20 @@ describe("layouts/components/<EmptyLayout />", () => {
       state
     );
     expect(screen.getByTestId("test")).toBeInTheDocument();
+    expect(screen.getByText("sandbox_ui")).toBeInTheDocument();
   });
 
-  it("renders SessionTimeoutDialog component", () => {
+  it("renders SessionTimeoutDialog component", async () => {
     mountedComponent(
       <EmptyLayout>
         <div data-testid="test123" />
       </EmptyLayout>,
       state
     );
-    expect(screen.getByTestId("test123")).toBeInTheDocument();
+    expect(screen.getByText("sandbox_ui")).toBeInTheDocument();
+    await act(() => jest.advanceTimersByTimeAsync(16 * 1000 * 60));
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).toBeInTheDocument();
+    });
   });
 });
