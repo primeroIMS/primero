@@ -259,7 +259,7 @@ const Component = ({
             bindSubmitForm(submitForm);
 
             return (
-              <Form autoComplete="off" onSubmit={handleSubmit}>
+              <Form data-testid="subForm-dialog-form" autoComplete="off" onSubmit={handleSubmit}>
                 <SubformErrors
                   initialErrors={initialSubformErrors}
                   errors={errors}

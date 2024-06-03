@@ -42,6 +42,7 @@ const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
       type={inputType}
       as={TextField}
       label={renderLabel}
+      aria-label={renderLabel}
       {...rest}
       {...(isEmpty(inputProps) ? {} : { inputProps })}
       helperText={
