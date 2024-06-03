@@ -215,7 +215,7 @@ const Component = ({
             formGroupLookup={formGroupLookup}
             primeroModule={primeroModule}
           />
-          <Divider data-testid="Divider" />
+          <Divider />
           {formGroups.map(formGroup => (
             <FormGroup
               formikValuesForNav={formikValuesForNav}
