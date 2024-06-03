@@ -85,7 +85,7 @@ const Component = ({
     <div className={css.recordFormFilters} data-testid="form-filter">
       {showFilterIcon}
       <FilterContainer drawer={drawerOpen} handleDrawer={toggleDrawer} mobileDisplay={mobileDisplay && showDrawer}>
-        <div className={css.filtersContainer}>
+        <div className={css.filtersContainer} role="form">
           <FormProvider {...methods} user={userName}>
             <form onSubmit={methods.handleSubmit(handleOnSubmit)}>
               <Actions handleClear={onClear} />

@@ -66,7 +66,7 @@ const Component = ({ helpText, label, dateProps }) => {
   }, [inputDate, inputTime]);
 
   return (
-    <div className={containerClasses}>
+    <div className={containerClasses} data-testid="nepali-container">
       <FormControl fullWidth error={error}>
         <InputLabel htmlFor={name} shrink>
           {label}
