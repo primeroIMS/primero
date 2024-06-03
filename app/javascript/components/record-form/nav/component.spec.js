@@ -3,8 +3,9 @@
 import { fromJS, Map, OrderedMap } from "immutable";
 
 import { APPROVALS, REFERRAL } from "../../../config";
-import { mountedComponent, screen } from "../../../test-utils";
+import { fireEvent, mountedComponent, screen, setScreenSizeToMobile, waitFor } from "../../../test-utils";
 import { FormSectionRecord, FieldRecord } from "../records";
+import Actions from "../actions";
 
 import Nav from "./component";
 
@@ -168,7 +169,7 @@ describe("<Nav />", () => {
   const props = {
     firstTab: {},
     formNav,
-    handleToggleNav: () => { },
+    handleToggleNav: () => {},
     isNew: false,
     mobileDisplay: true,
     selectedForm: "record_owner",
@@ -178,6 +179,10 @@ describe("<Nav />", () => {
     primeroModule: "primeromodule-cp",
     hasForms: true
   };
+
+  beforeAll(() => {
+    setScreenSizeToMobile(false);
+  });
 
   it("renders a CloseIcon component />", () => {
     mountedComponent(<Nav {...props} />, initialState);
@@ -189,31 +194,6 @@ describe("<Nav />", () => {
     expect(screen.getByTestId("nav-list")).toBeInTheDocument();
   });
 
-  it("renders a RecordInformation component />", () => {
-    mountedComponent(<Nav {...props} />, initialState);
-    expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
-  });
-
-  it("renders a Divider component />", () => {
-    mountedComponent(<Nav {...props} />, initialState);
-    expect(screen.getByTestId("Divider")).toBeInTheDocument();
-  });
-
-  it("renders a NavGroup component from record information and another one from the others forms groups />", () => {
-    mountedComponent(<Nav {...props} />, initialState);
-    expect(screen.getByRole('list')).toBeInTheDocument();
-  });
-
-  it("renders the NavGroup component for record information open", () => {
-    mountedComponent(<Nav {...props} />, initialState);
-    expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
-  });
-
-  it("renders a ConditionalWrapper />", () => {
-    mountedComponent(<Nav {...props} />, initialState);
-    expect(screen.getByTestId("ConditionalWrapper")).toBeInTheDocument();
-  });
-
   describe("when is a new record", () => {
     const firstTab = { unique_id: "first_form", form_group_id: "first_group" };
     const notSelectedProps = {
@@ -223,14 +203,9 @@ describe("<Nav />", () => {
       isNew: true
     };
 
-    it("opens the form_group_id of the firstTab", () => {
-      mountedComponent(<Nav {...notSelectedProps} />, initialState);
-      expect(screen.getAllByTestId("nav-list")).toHaveLength(1);
-    });
-
     it("opens the selectedForm and group", () => {
-      mountedComponent(<Nav {...notSelectedProps} />, initialState);
-      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
+      mountedComponent(<Nav {...{ ...notSelectedProps, selectedForm: APPROVALS }} />, initialState);
+      expect(screen.getByText("forms.record_types.record_information", { expanded: true })).toBeInTheDocument();
     });
   });
 
@@ -244,14 +219,9 @@ describe("<Nav />", () => {
       selectedForm: ""
     };
 
-    it("sets the firstTab as selectedForm", () => {
-      mountedComponent(<Nav {...notSelectedProps} />, initialState);
-      expect(screen.getAllByTestId("nav-list")).toHaveLength(1);
-    });
-
     it("opens the form_group_id of the firstTab", () => {
       mountedComponent(<Nav {...notSelectedProps} />, initialState);
-      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
+      expect(screen.getByText("Basic Identity", { expanded: true })).toBeInTheDocument();
     });
   });
 
@@ -265,13 +235,14 @@ describe("<Nav />", () => {
     };
 
     it("should not select a different form", () => {
-      mountedComponent(<Nav {...notSelectedProps} />, initialState);
-      expect(screen.getAllByTestId("nav-list")).toHaveLength(1);
+      const { store } = mountedComponent(<Nav {...notSelectedProps} />, initialState);
+
+      expect(store.getActions().find(action => action.type === Actions.SET_SELECTED_FORM)).toBeUndefined();
     });
 
     it("opens the record_information group if it belongs to that group", () => {
       mountedComponent(<Nav {...notSelectedProps} />, initialState);
-      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
+      expect(screen.getByText("forms.record_types.record_information", { expanded: true })).toBeInTheDocument();
     });
   });
 
@@ -284,14 +255,9 @@ describe("<Nav />", () => {
       selectedForm: "unknown_form"
     };
 
-    it("sets the firstTab as selectedForm", () => {
-      mountedComponent(<Nav {...notSelectedProps} />, initialState);
-      expect(screen.getAllByTestId("nav-list")).toHaveLength(1);
-    });
-
     it("opens the form_group_id form the firstTab", () => {
       mountedComponent(<Nav {...notSelectedProps} />, initialState);
-      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
+      expect(screen.getByText("Basic Identity", { expanded: true })).toBeInTheDocument();
     });
   });
 
@@ -341,7 +307,7 @@ describe("<Nav />", () => {
     const navGroupProps = {
       formNav: formNavWithGroups,
       firstTab: {},
-      handleToggleNav: () => { },
+      handleToggleNav: () => {},
       isNew: true,
       mobileDisplay: false,
       selectedForm: "basic_identity",
@@ -351,9 +317,13 @@ describe("<Nav />", () => {
       primeroModule: "primeromodule-cp"
     };
 
-    it("should select first form of the form group", () => {
+    it("should select first form of the form group", async () => {
       mountedComponent(<Nav {...navGroupProps} />, initialState);
-      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
+      fireEvent.click(screen.getByText("Identification / Registration"));
+
+      await waitFor(() =>
+        expect(screen.getByText("Basic Identity").closest(".MuiButtonBase-root")).toHaveClass("navSelected")
+      );
     });
   });
 
@@ -369,22 +339,46 @@ describe("<Nav />", () => {
 
     it("should open the record_information group if selectedForm belongs to that group ", () => {
       mountedComponent(<Nav {...notSelectedProps} />, initialState);
-      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
+      expect(screen.getByText("forms.record_types.record_information", { expanded: true })).toBeInTheDocument();
     });
 
     it("opens the record_information group and sets incidents froms if there is a incidentFromCase", () => {
-      mountedComponent(<Nav {...notSelectedProps} />, initialState);
-      expect(screen.getAllByTestId("nav-list")).toHaveLength(1);
+      const stateWithIncidentFromCase = initialState.setIn(
+        ["records", "cases", "incidentFromCase", "data"],
+        fromJS({ incident_case_id: "case-id-1" })
+      );
+
+      const tProps = { ...notSelectedProps, selectedForm: "" };
+      const { store } = mountedComponent(<Nav {...tProps} />, stateWithIncidentFromCase);
+
+      expect(
+        store
+          .getActions()
+          .filter(action => action.type === Actions.SET_SELECTED_FORM)
+          .pop()
+      ).toStrictEqual({ type: "forms/SET_SELECTED_FORM", payload: "incident_from_case" });
+      expect(screen.getByText("forms.record_types.record_information", { expanded: true })).toBeInTheDocument();
     });
 
     it("opens the firstTab group and form when incident_from_case form is not found", () => {
-      mountedComponent(<Nav {...notSelectedProps} />, initialState);
-      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
+      const stateWithIncidentFromCase = initialState.setIn(
+        ["records", "cases", "incidentFromCase"],
+        fromJS({ incident_case_id: "case-id-1" })
+      );
+
+      const tProps = { ...notSelectedProps, recordType: "incidents", selectedForm: "basic_identity" };
+      const { store } = mountedComponent(<Nav {...tProps} />, stateWithIncidentFromCase);
+
+      expect(store.getActions()).toStrictEqual([{ type: "forms/SET_SELECTED_FORM", payload: "basic_identity" }]);
+      expect(screen.getByText("Basic Identity", { expanded: true })).toBeInTheDocument();
     });
 
     it("opens the form_group_id and sets the selectedForm from the firstTab if the selected form is not found", () => {
-      mountedComponent(<Nav {...notSelectedProps} />, initialState);
-      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
+      const tProps = { ...notSelectedProps, selectedForm: "unknown_form" };
+      const { store } = mountedComponent(<Nav {...tProps} />, initialState);
+
+      expect(store.getActions()).toStrictEqual([{ type: "forms/SET_SELECTED_FORM", payload: "basic_identity" }]);
+      expect(screen.getByText("Basic Identity", { expanded: true })).toBeInTheDocument();
     });
   });
 
@@ -399,7 +393,7 @@ describe("<Nav />", () => {
 
     it("should open record information", () => {
       mountedComponent(<Nav {...propsNoFirstTab} />, initialState);
-      expect(screen.getByText("forms.record_types.record_information")).toBeInTheDocument();
+      expect(screen.getByText("forms.record_types.record_information", { expanded: true })).toBeInTheDocument();
     });
   });
 });

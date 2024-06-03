@@ -64,6 +64,7 @@ const Component = ({
   return (
     <ListItem
       data-testid={testID || "list-item"}
+      aria-expanded={open}
       id={`${formId}-${group}`}
       selected={selectedForm === formId && !isNested}
       button
