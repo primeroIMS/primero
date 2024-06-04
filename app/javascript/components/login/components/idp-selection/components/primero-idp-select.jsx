@@ -73,7 +73,7 @@ const Component = ({ identityProviders, css }) => {
           errorMessage={i18n.t("select_idp_error")}
         />
         <ConditionalWrapper wrapper={disableOffline} condition={!online} offlineTextKey="unavailable_offline">
-          <FormAction options={{ form: FORM_ID, type: "submit" }} text={i18n.t("go")} />
+          <FormAction options={{ form: FORM_ID, type: "submit", className: css.loginButton }} text={i18n.t("go")} />
         </ConditionalWrapper>
       </div>
     </>

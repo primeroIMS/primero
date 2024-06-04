@@ -37,7 +37,6 @@
             primero_message_secret: 'generated_secret'
             postgres_password: 'generated_secret'
             devise_secret_key: 'generated_secret'
-            devise_jwt_secret_key: 'generated_secret'
             ssh_private_key: |
             -----BEGIN RSA PRIVATE KEY-----
             klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
@@ -206,7 +205,6 @@ key just leave the variable `ssh_private_key` out of the secrets.yml file.
                 primero_message_secret: 'generated_secret'
                 postgres_password: 'generated_secret'
                 devise_secret_key: 'generated_secret'
-                devise_jwt_secret_key: 'generated_secret'
                 secret_environment_variables:
                   SMTP_USER: 'secret'
                   SMTP_PASSWORD: 'secret'

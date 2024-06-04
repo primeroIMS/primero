@@ -124,8 +124,10 @@ const Container = ({ mode }) => {
   } = formMethods;
 
   const onSubmit = data => {
+    const newData = { ...data };
+
     submitHandler({
-      data,
+      data: newData,
       dispatch,
       isEdit: formMode.isEdit,
       initialValues,

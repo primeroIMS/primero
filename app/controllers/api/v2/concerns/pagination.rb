@@ -11,7 +11,11 @@ module Api::V2::Concerns::Pagination
   end
 
   def per
-    @per ||= (params[:per].try(:to_i) || 20)
+    return @per if @per.present?
+
+    @per = params[:per].try(:to_i)
+    @per = 20 unless @per.present?
+    @per = [@per, 1000].min
   end
 
   def offset

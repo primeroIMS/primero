@@ -11,6 +11,7 @@ import IDBDatabase from "fake-indexeddb/lib/FDBDatabase";
 import IDBObjectStore from "fake-indexeddb/lib/FDBObjectStore";
 import IDBIndex from "fake-indexeddb/lib/FDBIndex";
 import IDBCursor from "fake-indexeddb/lib/FDBCursor";
+import { l } from "i18n-js";
 
 chai.use(chaiImmutable);
 chai.use(sinonChai);
@@ -45,7 +46,7 @@ let storage = {};
 
 global.localStorage = {
   setItem: (key, value) => {
-    storage[key] = value || "";
+    storage[key] = value || null;
   },
   getItem: key => {
     return key in storage ? storage[key] : null;

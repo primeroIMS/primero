@@ -10,7 +10,6 @@
 # in external IDP (such as Azure Active Directory).
 # rubocop:disable Metrics/ClassLength
 class User < ApplicationRecord
-  include Devise::JWT::RevocationStrategies::Allowlist
   include ConfigurationRecord
   include LocationCacheable
 
@@ -20,7 +19,7 @@ class User < ApplicationRecord
     'id' => { 'type' => 'integer' }, 'user_name' => { 'type' => 'string' },
     'full_name' => { 'type' => 'string' }, 'code' => { 'type' => 'string' },
     'phone' => { 'type' => 'string' }, 'email' => { 'type' => 'string' },
-    'password_setting' => { 'type' => 'string' }, 'locale' => { 'type' => 'string' },
+    'password_setting' => { 'type' => 'string' }, 'locale' => { 'type' => %w[string null] },
     'agency_id' => { 'type' => 'integer' }, 'position' => { 'type' => 'string' },
     'location' => { 'type' => 'string' }, 'disabled' => { 'type' => 'boolean' },
     'password' => { 'type' => 'string' }, 'password_confirmation' => { 'type' => 'string' },
@@ -28,7 +27,7 @@ class User < ApplicationRecord
     'user_group_ids' => { 'type' => 'array' }, 'user_group_unique_ids' => { 'type' => 'array' },
     'services' => { 'type' => 'array' }, 'module_unique_ids' => { 'type' => 'array' },
     'password_reset' => { 'type' => 'boolean' }, 'role_id' => { 'type' => 'string' },
-    'agency_office' => { 'type' => 'string' }, 'code_of_conduct_id' => { 'type' => 'integer' },
+    'agency_office' => { 'type' => %w[string null] }, 'code_of_conduct_id' => { 'type' => 'integer' },
     'send_mail' => { 'type' => 'boolean' }, 'receive_webpush' => { 'type' => 'boolean' },
     'settings' => {
       'type' => %w[object null], 'properties' => {
@@ -48,8 +47,7 @@ class User < ApplicationRecord
 
   delegate :can?, :cannot?, to: :ability
 
-  devise :database_authenticatable, :timeoutable, :recoverable, :lockable,
-         :jwt_authenticatable, jwt_revocation_strategy: self
+  devise :database_authenticatable, :timeoutable, :recoverable, :lockable
 
   self.unique_id_attribute = 'user_name'
 

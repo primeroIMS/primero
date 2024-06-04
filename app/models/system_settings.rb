@@ -8,6 +8,7 @@
 # SystemSetting should be invoked using the singleton SystemSettings#current method.
 # Any update to the data will only take effect after the system is rebooted
 # and the singleton is reloaded.
+# rubocop:disable Metrics/ClassLength
 class SystemSettings < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -18,7 +19,7 @@ class SystemSettings < ApplicationRecord
   store_accessor(:system_options, :due_date_from_appointment_date,
                  :show_alerts, :code_of_conduct_enabled, :timeframe_hours_to_assign,
                  :timeframe_hours_to_assign_high, :duplicate_field_to_form,
-                 :maximum_users, :maximum_users_warning)
+                 :maximum_users, :maximum_users_warning, :maximum_attachments_per_record)
 
   localize_properties %i[welcome_email_text approvals_labels]
 
@@ -144,6 +145,10 @@ class SystemSettings < ApplicationRecord
       maximum_users.is_a?(Integer) && maximum_users_warning.is_a?(Integer)
   end
 
+  def maximum_attachments_per_record
+    super || Attachment::DEFAULT_MAX_ATTACHMENTS
+  end
+
   class << self
     def current(rebuild = false)
       return @current unless @current.nil? || rebuild
@@ -174,3 +179,4 @@ class SystemSettings < ApplicationRecord
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
