@@ -75,7 +75,7 @@ const RecordForm = ({
   };
 
   useEffect(() => {
-    if(document.getElementsByClassName("record-form-container")?.[0]?.scrollTop) {
+    if (document.getElementsByClassName("record-form-container")?.[0]?.scrollTop) {
       document.getElementsByClassName("record-form-container")[0].scrollTop = 0;
     }
   }, [selectedForm]);

@@ -1,4 +1,4 @@
-import { mountedComponent, screen } from "../../../test-utils";
+import { mountedComponent, screen, userEvent } from "../../../test-utils";
 import { SELECT_FIELD } from "../constants";
 
 import FormSectionField from "./form-section-field";
@@ -45,16 +45,31 @@ describe("<FormSectionField />", () => {
       const violationOptions = [{ id: 2, display_text: "test2" }];
       const violationProps = { ...selectFieldProps, violationOptions };
 
-      it("should pass it has options for select", () => {
+      it("should have violation options for select", async () => {
         mountedComponent(<FormSectionField {...violationProps} />, {}, [], {}, { registerField: () => {} });
-        expect(screen.getByRole("combobox")).toBeInTheDocument();
+
+        const user = userEvent.setup();
+
+        const autoCompleteDropdown = screen.getByRole("button", { name: "Open" });
+
+        await user.click(autoCompleteDropdown);
+
+        expect(screen.queryByText("test")).toBeNull();
+        expect(screen.getByText("test2")).toBeInTheDocument();
       });
     });
 
     describe("and violationOptions is NOT present ", () => {
-      it("should pass it has options for select", () => {
+      it("should not have violation options for select", async () => {
         mountedComponent(<FormSectionField {...selectFieldProps} />, {}, [], {}, { registerField: () => {} });
-        expect(screen.getByRole("combobox")).toBeInTheDocument();
+        const user = userEvent.setup();
+
+        const autoCompleteDropdown = screen.getByRole("button", { name: "Open" });
+
+        await user.click(autoCompleteDropdown);
+
+        expect(screen.getByText("test")).toBeInTheDocument();
+        expect(screen.queryByText("test2")).toBeNull();
       });
     });
   });

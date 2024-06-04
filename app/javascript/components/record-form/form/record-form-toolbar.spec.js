@@ -2,7 +2,7 @@
 
 import { fromJS, OrderedMap } from "immutable";
 
-import { mountedComponent, screen } from "../../../test-utils";
+import { mountedComponent, screen, userEvent } from "../../../test-utils";
 import { RECORD_PATH, RECORD_TYPES, MODULES } from "../../../config";
 import { ACTIONS } from "../../permissions";
 import { PrimeroModuleRecord } from "../../application/records";
@@ -146,7 +146,7 @@ describe("<RecordFormToolbar />", () => {
 
   it("renders a RecordFormToolbar/>", () => {
     mountedComponent(<RecordFormToolbar {...props} />, fromJS(initialState));
-    expect(screen.getByTestId("page-heading")).toBeInTheDocument();
+    expect(screen.getByText("cases.show_case")).toBeInTheDocument();
     expect(screen.getAllByRole("button")).toHaveLength(2);
   });
 
@@ -184,7 +184,13 @@ describe("<RecordFormToolbar />", () => {
       };
 
       mountedComponent(<RecordFormToolbar {...recordFormToolbarProps} />, fromJS(initialStateSavingRecord));
-      expect(screen.getByText(/buttons.save/i)).toBeInTheDocument();
+
+      const saveButton = screen.getByRole("button", { name: "buttons.save" });
+
+      expect(screen.getByText("cases.show_case")).toBeInTheDocument();
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
+      expect(saveButton).toBeInTheDocument();
+      expect(saveButton).toHaveAttribute("disabled");
     });
   });
 
@@ -254,16 +260,6 @@ describe("<RecordFormToolbar />", () => {
       });
 
       it("does not render a ReturnToCase button if recordType is case", () => {
-        // const Eprops = {
-        //   ...props,
-        //   recordType: RECORD_TYPES.cases,
-        //   mode: {
-        //     isNew: false,
-        //     isEdit: false,
-        //     isShow: true
-        //   }
-        // };
-
         mountedComponent(<RecordFormToolbar {...props} />, fromJS(initialStateIncidentFromCase));
 
         expect(screen.queryByText(/buttons.return_to_case/i)).toBeNull();
@@ -303,7 +299,7 @@ describe("<RecordFormToolbar />", () => {
         expect(screen.queryByText(/buttons.save_and_return/i)).toBeNull();
       });
 
-      it("redirects the user to the case if cancel is clicked on a incident creation page", () => {
+      it("redirects the user to the case if cancel is clicked on a incident creation page", async () => {
         const cancelProps = {
           ...props,
           recordType: RECORD_TYPES.incidents,
@@ -314,9 +310,16 @@ describe("<RecordFormToolbar />", () => {
           }
         };
 
-        mountedComponent(<RecordFormToolbar {...cancelProps} />, fromJS(initialStateIncidentFromCase));
+        const { history } = mountedComponent(
+          <RecordFormToolbar {...cancelProps} />,
+          fromJS(initialStateIncidentFromCase)
+        );
 
-        expect(screen.getAllByRole("button")).toHaveLength(2);
+        const user = userEvent.setup();
+
+        await user.click(screen.getByRole("button", { name: "buttons.cancel" }));
+
+        expect(history.location.pathname).toEqual("/cases/case-id-1");
       });
     });
   });
