@@ -44,7 +44,7 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
   }
 
   return (
-    <Stepper classes={{ root: css.stepper }} activeStep={activeStep || 0}>
+    <Stepper data-testid="stepper" classes={{ root: css.stepper }} activeStep={activeStep || 0}>
       {workflowSteps?.map((s, index) => {
         const label = displayNameHelper(s.display_text, locale) || "";
 

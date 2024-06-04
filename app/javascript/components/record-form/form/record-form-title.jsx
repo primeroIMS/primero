@@ -8,8 +8,8 @@ import css from "./styles.css";
 
 const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay }) => {
   const showMobileIcon = mobileDisplay ? (
-    <IconButton onClick={handleToggleNav}>
-      <MenuOpen />
+    <IconButton onClick={handleToggleNav} data-testid="icon-button">
+      <MenuOpen data-testid="menu-open" />
     </IconButton>
   ) : null;
 
