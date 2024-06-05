@@ -15,7 +15,7 @@ const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay }) => {
 
   return (
     <>
-      <div className={css.formTitle}>
+      <div className={css.formTitle} data-testid="record-form-title">
         {showMobileIcon}
         <span className={css.formHeading}>{displayText}</span>
       </div>

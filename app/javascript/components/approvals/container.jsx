@@ -23,7 +23,7 @@ const Container = ({ approvals, mobileDisplay, handleToggleNav }) => {
     ));
 
   return (
-    <div>
+    <div data-testid="approvals">
       <div key="approvals-div">
         <RecordFormTitle
           mobileDisplay={mobileDisplay}
