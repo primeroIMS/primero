@@ -4,7 +4,7 @@ import { NUMERIC_FIELD, SELECT_FIELD, TEXT_FIELD, TICK_FIELD } from "../constant
 import { getRecordForms } from "../selectors";
 import { RECORD_TYPES, RECORD_TYPES_PLURAL } from "../../../config";
 import { FieldRecord, FormSectionRecord } from "../records";
-import { fireEvent, mountedFormComponent, screen, waitFor, within } from "../../../test-utils";
+import { fireEvent, mountedFormComponent, screen, waitFor } from "../../../test-utils";
 
 import RecordForm from "./record-form";
 

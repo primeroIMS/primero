@@ -14,7 +14,7 @@ const Component = ({ children }) => {
     <>
       <DemoIndicator isDemo={demo} />
       {children}
-      <SessionTimeoutDialog data-testid="session-time-dialog"/>
+      <SessionTimeoutDialog data-testid="session-time-dialog" />
     </>
   );
 };

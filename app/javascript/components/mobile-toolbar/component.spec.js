@@ -25,7 +25,7 @@ describe("<MobileToolbar />", () => {
   describe("when is not demo site", () => {
     it("should not render a <div> tag with 'Demo' text", () => {
       mountedComponent(<MobileToolbar {...props} />, state);
-      expect(screen.getByText(/sandbox_ui/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/sandbox_ui/i)).not.toBeInTheDocument();
     });
   });
 

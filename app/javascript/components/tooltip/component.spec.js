@@ -4,6 +4,7 @@ import Tooltip from "./component";
 
 describe("components/tooltip", () => {
   it("renders tooltip", () => {
+    // eslint-disable-next-line react/display-name
     const TooltipComponent = () => (
       <Tooltip title="wrapper content" data-testid="wrapper-content">
         <div>wrapped children</div>
@@ -15,6 +16,7 @@ describe("components/tooltip", () => {
   });
 
   it("does not render tooltip without title", () => {
+    // eslint-disable-next-line react/display-name, react/no-multi-comp
     const TooltipComponent = () => (
       <Tooltip title="">
         <div>wrapped children</div>

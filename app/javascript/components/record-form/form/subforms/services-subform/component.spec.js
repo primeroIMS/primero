@@ -42,10 +42,9 @@ describe("<ServicesSubform />", () => {
   };
 
   it("renders the subform", () => {
-    mountedComponent(<ServicesSubform {...props} />, {} , [], {}, formProps);
-    expect(screen.getAllByTestId('subform-dialog-field')).toHaveLength(2);
+    mountedComponent(<ServicesSubform {...props} />, {}, [], {}, formProps);
+    expect(screen.getAllByTestId("subform-dialog-field")).toHaveLength(2);
   });
-
 
   describe("when field is visible should not be render", () => {
     const propsFieldNotVisible = {
@@ -83,10 +82,9 @@ describe("<ServicesSubform />", () => {
       }
     };
 
-
     it("renders the subform", () => {
-        mountedComponent(<ServicesSubform {...propsFieldNotVisible} />, {} , [], {}, visibleFieldFormProps);
-        expect(screen.getAllByRole('textbox')).toHaveLength(1);
+      mountedComponent(<ServicesSubform {...propsFieldNotVisible} />, {}, [], {}, visibleFieldFormProps);
+      expect(screen.getAllByRole("textbox")).toHaveLength(1);
     });
   });
 });

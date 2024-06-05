@@ -85,5 +85,4 @@ describe("<TransitionDialog />", () => {
       expect(screen.getByText(/transition.type.reassign forms.record_types.case/i)).toBeInTheDocument();
     });
   });
-
 });

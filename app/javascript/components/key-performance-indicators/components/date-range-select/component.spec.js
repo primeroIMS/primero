@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import CommonDateRanges from "../../utils/common-date-ranges";
-import { setupMountedComponent } from "../../../../test";
+import { mountedComponent } from "../../../../test-utils";
 
 import DateRangeSelect from "./component";
 
@@ -13,17 +13,19 @@ describe("<DateRangeSelect />", () => {
 
   const selectedRange = commonDateRanges.Last3Months;
 
-  it("should display the given set of ranges");
+  it.todo("should display the given set of ranges");
 
   it("should show the selected range", () => {
-    const { component } = setupMountedComponent(DateRangeSelect, {
+    const props = {
       ranges,
       selectedRange,
       i18n
-    });
+    };
 
-    expect(component.find(`input[value="${selectedRange.value}"]`).exists()).to.be.true;
+    mountedComponent(<DateRangeSelect {...props} />);
+
+    expect(document.querySelector(`input[value="${selectedRange.value}"]`)).toBeInTheDocument();
   });
 
-  it("should display a custom range when withCustomRange is set");
+  it.todo("should display a custom range when withCustomRange is set");
 });

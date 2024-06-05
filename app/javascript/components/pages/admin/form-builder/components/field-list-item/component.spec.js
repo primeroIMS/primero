@@ -1,22 +1,18 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { Button } from "@material-ui/core";
 
-import { setupMockFormComponent } from "../../../../../../test";
-import SwitchInput from "../../../../../form/fields/switch-input";
 import { TEXT_FIELD, SELECT_FIELD } from "../../../../../form";
+import { mountedFormComponent, screen } from "../../../../../../test-utils";
 
 import FieldListItem from "./component";
 
 describe("<FieldListItem />", () => {
   describe("when the field is editable", () => {
-    let component;
-
     beforeEach(() => {
-      ({ component } = setupMockFormComponent(({ formMethods }) => (
+      // eslint-disable-next-line react/display-name, react/prop-types
+      const Component = ({ formMethods }) => (
         <DragDropContext>
           <Droppable droppableId="droppable" type="field">
             {() => (
@@ -34,30 +30,32 @@ describe("<FieldListItem />", () => {
             )}
           </Droppable>
         </DragDropContext>
-      )));
+      );
+
+      mountedFormComponent(<Component />);
     });
 
     it("should render the field without a key icon", () => {
-      expect(component.find(VpnKeyIcon)).to.have.lengthOf(0);
+      expect(screen.queryByTestId("locked")).not.toBeInTheDocument();
     });
 
     it("should render a enabled show? checkbox ", () => {
-      expect(component.find(SwitchInput).props().commonInputProps.disabled).to.be.false;
+      expect(screen.getByRole("checkbox")).not.toBeChecked();
     });
+
     it("should render name", () => {
-      expect(component.find(Button).text()).to.equal("Field 1");
+      expect(screen.getByText("Field 1")).toBeInTheDocument();
     });
 
     it("should render type", () => {
-      expect(component.find("div").at(4).text()).to.equal(`fields.${TEXT_FIELD}`);
+      expect(screen.getByText("fields.text_field")).toBeInTheDocument();
     });
   });
 
   describe("when the field is not editable", () => {
-    let component;
-
     beforeEach(() => {
-      ({ component } = setupMockFormComponent(({ formMethods }) => (
+      // eslint-disable-next-line react/display-name, react/no-multi-comp, react/prop-types
+      const Component = ({ formMethods }) => (
         <DragDropContext>
           <Droppable droppableId="droppable" type="field">
             {() => (
@@ -76,19 +74,21 @@ describe("<FieldListItem />", () => {
             )}
           </Droppable>
         </DragDropContext>
-      )));
+      );
+
+      mountedFormComponent(<Component />);
     });
 
     it("should render the field with an key icon", () => {
-      expect(component.find(VpnKeyIcon)).to.have.lengthOf(1);
+      expect(screen.getByTestId("locked")).toBeInTheDocument();
     });
 
     it("should render a disabled show? checkbox", () => {
-      expect(component.find(SwitchInput).props().commonInputProps.disabled).to.be.true;
+      expect(screen.getByRole("checkbox")).toBeDisabled();
     });
 
     it("should render type", () => {
-      expect(component.find("div").at(4).text()).to.equal(`fields.multi_select_box`);
+      expect(screen.getByText("fields.multi_select_box")).toBeInTheDocument();
     });
   });
 });

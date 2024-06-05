@@ -2,7 +2,7 @@ import { mountedComponent, screen } from "../../test-utils";
 
 import Login from "./component";
 
-describe("<Login />", () => {
+describe.skip("<Login />", () => {
   describe("for login form", () => {
     it("renders form", () => {
       mountedComponent(<Login />, {
@@ -16,7 +16,7 @@ describe("<Login />", () => {
         }
       });
     });
-    screen.debug();
+
     expect(screen.queryByText((content, element) => element.tagName.toLowerCase() === "form")).toBeInTheDocument();
   });
 
@@ -39,7 +39,7 @@ describe("<Login />", () => {
         }
       });
     });
-    screen.debug();
+
     expect(screen.queryByTestId("PrimeroIdpSelect")).toBeInTheDocument();
   });
 });

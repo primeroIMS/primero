@@ -88,4 +88,3 @@ describe("<Transitions /> - Component", () => {
     expect(screen.getAllByText(/transition.recipient/i)).toHaveLength(3);
   });
 });
-

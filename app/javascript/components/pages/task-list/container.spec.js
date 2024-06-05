@@ -1,6 +1,6 @@
 import { fromJS, OrderedMap } from "immutable";
 
-import { mountedComponent, stub, screen } from "../../../test-utils";
+import { mountedComponent, screen } from "../../../test-utils";
 import { ListHeaderRecord } from "../../user/records";
 import { FieldRecord, FormSectionRecord } from "../../record-form/records";
 

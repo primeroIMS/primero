@@ -10,7 +10,7 @@ const Jewel = ({ value, isForm, isList, isError }) => {
   const classes = clsx(css.circleForm, css.error);
 
   if (isList) {
-    return <Circle className={css.circleList} data-testid="jewel"/>;
+    return <Circle className={css.circleList} data-testid="jewel" />;
   }
 
   if (isError && !isForm) {

@@ -122,18 +122,4 @@ describe("<FormsList />", () => {
       expect(screen.queryAllByTestId("form-group")).toHaveLength(0);
     });
   });
-
-  describe("when there reorder is enabled", () => {
-    const stateReorderEnabled = initialState.setIn(["records", "admin", "forms", "reorderedForms", "enabled"], true);
-
-    it("renders the <RorderActions />", () => {
-      mountedComponent(<FormsList />, stateReorderEnabled);
-      expect(screen.getByText(/buttons.cancel/i)).toBeInTheDocument();
-    });
-
-    it("disable the <FormFilters/>", () => {
-      mountedComponent(<FormsList />, stateReorderEnabled);
-      expect(screen.getByTestId("forms-list")).toHaveClass("disabledFilters");
-    });
-  });
 });

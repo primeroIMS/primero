@@ -86,5 +86,4 @@ describe("<RecordActions /> - <Exports />", () => {
     mountedComponent(<Exports {...props} />, state);
     expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
-
 });

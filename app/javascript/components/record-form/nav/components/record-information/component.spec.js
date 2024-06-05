@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import { Route } from "react-router-dom";
 
-import { mountedComponent, screen } from "../../../../../test-utils";
+import { mountedComponent, screen, setScreenSizeToMobile } from "../../../../../test-utils";
 import { SHOW_APPROVALS, VIEW_INCIDENTS_FROM_CASE } from "../../../../permissions";
 
 import RecordInformation from "./component";
@@ -22,7 +22,8 @@ describe("<RecordInformation />", () => {
     }
   });
 
-  beforeAll(() => {
+  beforeEach(() => {
+    setScreenSizeToMobile(false);
     // eslint-disable-next-line react/display-name
     const RoutedComponent = initialProps => {
       return (

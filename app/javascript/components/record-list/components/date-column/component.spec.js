@@ -1,5 +1,3 @@
-import { fromJS } from "immutable";
-
 import { mountedComponent, screen } from "../../../../test-utils";
 
 import DateColumn from "./component";
@@ -20,7 +18,7 @@ describe("<DateColumn />", () => {
   describe("when ne locale", () => {
     it("renders NepaliCalendar", () => {
       global.I18n.locale = "ne";
-      mountedComponent(<DateColumn {...props} />));
+      mountedComponent(<DateColumn {...props} />);
       expect(screen.getByTestId("nepali-calendar")).toBeInTheDocument();
     });
   });

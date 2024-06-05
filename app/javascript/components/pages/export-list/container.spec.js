@@ -114,7 +114,7 @@ describe("<ExportList />", () => {
 
   it("should render <IndexTable>", () => {
     mountedComponent(<ExportList />, {}, initialState);
-    expect(screen.getByRole('table')).toBeInTheDocument();
+    expect(screen.getByRole("table")).toBeInTheDocument();
   });
 
   describe("when offline", () => {

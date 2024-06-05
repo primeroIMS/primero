@@ -9,8 +9,6 @@ import { PrimeroModuleRecord } from "../../../../application/records";
 import WorkflowTeamCases from "./component";
 
 describe("<WorkflowTeamCases> - pages/dashboard/components/workflow-team-cases", () => {
-  let tableCells;
-
   const permissions = {
     dashboards: [ACTIONS.DASH_WORKFLOW_TEAM]
   };

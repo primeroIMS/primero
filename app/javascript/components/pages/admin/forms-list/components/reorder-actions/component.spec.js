@@ -7,7 +7,6 @@ import { mountedComponent, screen } from "../../../../../../test-utils";
 import ReorderActions from "./component";
 
 describe("<FormsList />/components/<ReorderActions />", () => {
-
   const initialState = fromJS({
     records: {
       admin: {
@@ -23,20 +22,30 @@ describe("<FormsList />/components/<ReorderActions />", () => {
   });
 
   it("renders <Dialog/>", () => {
-    mountedComponent(<ReorderActions {...{
-      handleCancel: () => { },
-      handleSuccess: () => { },
-      open: true
-    }} />, initialState)
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    mountedComponent(
+      <ReorderActions
+        {...{
+          handleCancel: () => {},
+          handleSuccess: () => {},
+          open: true
+        }}
+      />,
+      initialState
+    );
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
   it("renders the dialog buttons", () => {
-    mountedComponent(<ReorderActions {...{
-      handleCancel: () => { },
-      handleSuccess: () => { },
-      open: true
-    }} />, initialState)
-    expect(screen.getAllByRole('button')).toHaveLength(2);
+    mountedComponent(
+      <ReorderActions
+        {...{
+          handleCancel: () => {},
+          handleSuccess: () => {},
+          open: true
+        }}
+      />,
+      initialState
+    );
+    expect(screen.getAllByRole("button")).toHaveLength(2);
   });
 });

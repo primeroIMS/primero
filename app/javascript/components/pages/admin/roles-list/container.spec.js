@@ -38,7 +38,6 @@ describe("<RolesList />", () => {
     }
   });
 
-  
   stub(window.I18n, "t").withArgs("messages.record_list.of").returns("of").withArgs("buttons.new").returns("New");
 
   it("renders record list table", () => {

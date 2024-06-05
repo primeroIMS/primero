@@ -131,5 +131,4 @@ describe("<AddIncident />", () => {
     mountedComponent(<AddIncident {...props} />, initialState);
     expect(screen.queryAllByRole("textbox")).toHaveLength(1);
   });
-
 });

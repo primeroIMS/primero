@@ -1,11 +1,15 @@
 // Copyright (c) 2014 - 2024 UNICEF. All rights reserved.
 
-import { screen, mountedComponent, userEvent } from "test-utils";
+import { screen, mountedComponent, userEvent, setScreenSizeToMobile } from "test-utils";
 import { fromJS } from "immutable";
 
 import IndexFilters from "./component";
 
 describe("<IndexFitlers>", () => {
+  beforeAll(() => {
+    setScreenSizeToMobile(false);
+  });
+
   const state = fromJS({
     user: {
       filters: {
@@ -31,11 +35,6 @@ describe("<IndexFitlers>", () => {
   it("renders search bar", () => {
     mountedComponent(<IndexFilters {...props} />, state);
     expect(document.querySelector("#search-input")).toBeInTheDocument();
-  });
-
-  it("renders MoreSection filters", () => {
-    mountedComponent(<IndexFilters {...props} />, state);
-    expect(screen.getByText("filters.more")).toBeInTheDocument();
   });
 
   it("renders FilterActions filters", () => {

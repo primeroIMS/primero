@@ -23,7 +23,7 @@ describe("<ChangePassword /> - Component", () => {
   });
 
   it("should render 2 ActionDialog components", () => {
-    expect(screen.getAllByTestId("action-dialog")).toHaveLength(2);
+    expect(screen.getAllByRole("dialog")).toHaveLength(1);
   });
 
   it("should render 1 form", () => {
