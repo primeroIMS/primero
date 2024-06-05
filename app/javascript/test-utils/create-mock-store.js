@@ -8,6 +8,8 @@ import { combineReducers } from "redux-immutable";
 import thunk from "redux-thunk";
 
 import rootReducer from "../reducer";
+import restMiddleware from "../middleware/rest-middleware";
+import { API_BASE_PATH } from "../config";
 
 const DEFAULT_STATE = fromJS({
   connectivity: {
@@ -24,10 +26,18 @@ const loggerMiddleware = () => next => action => {
   return next(action);
 };
 
-function createMockStore(defaultState = fromJS({}), initialState) {
+function createMockStore(defaultState = fromJS({}), initialState, includeRestMiddleware = false) {
   actions = [];
   const history = createMemoryHistory();
   const middleware = [loggerMiddleware, routerMiddleware(history), thunk];
+
+  if (includeRestMiddleware) {
+    middleware.push(
+      restMiddleware({
+        baseUrl: API_BASE_PATH
+      })
+    );
+  }
 
   const store = createStore(
     combineReducers({
