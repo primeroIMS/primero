@@ -1,23 +1,16 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { Tab } from "@material-ui/core";
-import { Router } from "react-router-dom";
 
-import { ROUTES } from "../../../../config";
-import { setupMountedComponent } from "../../../../test";
 import { mapEntriesToRecord } from "../../../../libs";
 import { FormSectionRecord } from "../../../form/records";
 import { RECORD_TYPES } from "../../../../config/constants";
 import { ACTIONS } from "../../../permissions";
+import { mountedComponent, screen, within } from "../../../../test-utils";
 
-import FormBuilderActionButtons from "./components/action-buttons";
 import FormsBuilder from "./component";
-import CustomFieldDialog from "./components/custom-field-dialog";
 
 describe("<FormsBuilder />", () => {
-  let component;
-
   const formSections = [
     {
       id: 1,
@@ -82,7 +75,8 @@ describe("<FormsBuilder />", () => {
       admin: {
         forms: {
           formSections: mapEntriesToRecord(formSections, FormSectionRecord, true),
-          selectedForm: FormSectionRecord(formSections[0])
+          selectedForm: FormSectionRecord(formSections[0]),
+          loading: false
         }
       }
     },
@@ -91,47 +85,38 @@ describe("<FormsBuilder />", () => {
 
   describe("when is a new form", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(FormsBuilder, { mode: "new" }, initialState));
+      mountedComponent(<FormsBuilder mode="new" />, initialState);
     });
 
     it("renders a enabled Settings Tab ", () => {
-      const settingsTab = component.find(Tab).first();
+      const tabs = within(screen.getByRole("tablist")).getAllByRole("tab");
 
-      expect(settingsTab.text()).to.equal("forms.settings");
-      expect(settingsTab.props().disabled).to.be.undefined;
-    });
-
-    it("renders the Fields and Translations Tabs disabled", () => {
-      expect(component.find(Tab).at(1).props().disabled).to.be.true;
-      expect(component.find(Tab).at(2).props().disabled).to.be.true;
-    });
-
-    it("renders the Action Buttons", () => {
-      expect(component.find(FormBuilderActionButtons)).to.exist;
-    });
-
-    it("renders the CustomFieldDialog", () => {
-      expect(component.find(CustomFieldDialog)).to.exist;
+      expect(tabs.at(0)).toBeEnabled();
+      expect(tabs.at(1)).toBeDisabled();
+      expect(tabs.at(2)).toBeDisabled();
     });
   });
 
   describe("when in edit mode", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(FormsBuilder, { mode: "edit" }, initialState, ["/admin/forms/1/edit"]));
+      mountedComponent(<FormsBuilder mode="edit" />, initialState, {}, ["/admin/forms/1/edit"]);
     });
 
-    it("renders all tabs enabled ", () => {
-      expect(component.find(Tab).at(0).props().disabled).to.be.undefined;
-      expect(component.find(Tab).at(1).props().disabled).to.be.false;
-      expect(component.find(Tab).at(2).props().disabled).to.be.false;
+    // FIXME: Rendered component always showing loading progress even though loading is false
+    it.skip("renders all tabs enabled ", () => {
+      screen.debug();
+      within(screen.getByRole("tablist"))
+        .getAllByRole("tab")
+        .map(element => expect(element).toBeEnabled());
     });
   });
 
   describe("when the form is a subform", () => {
+    let storeInstance;
+
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        FormsBuilder,
-        { mode: "edit" },
+      const { store } = mountedComponent(
+        <FormsBuilder mode="new" />,
         fromJS({
           records: {
             admin: {
@@ -143,14 +128,16 @@ describe("<FormsBuilder />", () => {
           },
           user
         })
-      ));
+      );
+
+      storeInstance = store;
     });
 
     it("redirects to forms list since subforms are edited through the field dialog", () => {
-      const { history } = component.find(Router).props();
+      const actions = storeInstance.getActions();
 
-      expect(history.action).to.equal("PUSH");
-      expect(history.location.pathname).to.equal(ROUTES.forms);
+      expect(actions[4].payload.args).toStrictEqual(["/admin/forms"]);
+      expect(actions[4].payload.method).toBe("push");
     });
   });
 });

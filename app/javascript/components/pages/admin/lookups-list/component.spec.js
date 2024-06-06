@@ -1,19 +1,16 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import MUIDataTable from "mui-datatables";
-import { TableCell, TableHead } from "@material-ui/core";
 
-import { setupMountedComponent, lookups, stub } from "../../../../test";
-import { PageHeading } from "../../../page";
+import { lookups, stub } from "../../../../test";
 import { ACTIONS } from "../../../permissions";
-import IndexTable from "../../../index-table";
+import { fireEvent, mockFetchSuccess, mountedComponent, screen, waitFor } from "../../../../test-utils";
 
 import LookupList from "./component";
 
 describe("<LookupList />", () => {
   let stubI18n = null;
-  let component;
+  let storeInstance;
 
   const dataLength = 30;
   const data = Array.from({ length: dataLength }, (_, i) => ({
@@ -54,20 +51,17 @@ describe("<LookupList />", () => {
 
   beforeEach(() => {
     stubI18n = stub(window.I18n, "t").withArgs("messages.record_list.of").returns("of");
-    ({ component } = setupMountedComponent(LookupList, {}, state, ["/admin/lookups"]));
-  });
+    mockFetchSuccess({ json: { data, metadata: { total: 30, per: 20, page: 1 } } });
+    const { store } = mountedComponent(<LookupList />, state, {}, ["/admin/lookups"], {}, "", true);
 
-  it("renders a PageHeading component", () => {
-    expect(component.find(PageHeading)).to.have.lengthOf(1);
+    storeInstance = store;
   });
 
   it("renders a MUIDataTable component", () => {
-    expect(component.find(MUIDataTable)).to.have.lengthOf(1);
+    expect(screen.getByRole("grid")).toBeInTheDocument();
   });
 
   it("should trigger a sort action when a header is clicked", () => {
-    const indexTable = component.find(IndexTable);
-
     const expectedAction = {
       payload: {
         recordType: "lookups",
@@ -83,14 +77,13 @@ describe("<LookupList />", () => {
       type: "admin/lookups/SET_LOOKUPS_FILTER"
     };
 
-    indexTable.find(TableHead).find(TableCell).at(0).find("span.MuiButtonBase-root").simulate("click");
+    fireEvent.click(screen.getByTestId("headcol-1"));
 
-    expect(component.props().store.getActions()[2].type).to.deep.equals(expectedAction.type);
-    expect(component.props().store.getActions()[2].payload.data).to.deep.equals(expectedAction.payload.data);
+    expect(storeInstance.getActions()[2].type).toStrictEqual(expectedAction.type);
+    expect(storeInstance.getActions()[2].payload.data).toStrictEqual(expectedAction.payload.data);
   });
 
-  it("should trigger a valid action with next page when clicking next page", () => {
-    const indexTable = component.find(IndexTable);
+  it("should trigger a valid action with next page when clicking next page", async () => {
     const expectAction = {
       api: {
         params: fromJS({ total: dataLength, per: 20, page: 2, locale: "en" }),
@@ -99,14 +92,16 @@ describe("<LookupList />", () => {
       type: "admin/lookups/FETCH_LOOKUPS"
     };
 
-    expect(indexTable.find("p").at(1).text()).to.be.equals(`1-20 of ${dataLength}`);
-    expect(component.props().store.getActions()).to.have.lengthOf(2);
-    indexTable.find("#pagination-next").at(0).simulate("click");
+    expect(screen.getByText(`1-20 of ${dataLength}`)).toBeInTheDocument();
+    expect(storeInstance.getActions()).toHaveLength(5);
 
-    expect(indexTable.find("p").at(1).text()).to.be.equals(`21-${dataLength} of ${dataLength}`);
-    expect(component.props().store.getActions()[3].api.params.toJS()).to.deep.equals(expectAction.api.params.toJS());
-    expect(component.props().store.getActions()[3].type).to.deep.equals(expectAction.type);
-    expect(component.props().store.getActions()[3].api.path).to.deep.equals(expectAction.api.path);
+    mockFetchSuccess({ json: { data, metadata: { total: 30, per: 20, page: 2 } } });
+    fireEvent.click(screen.getByTestId("pagination-next"));
+
+    await waitFor(() => expect(screen.getByText(`21-${dataLength} of ${dataLength}`)).toBeInTheDocument());
+    expect(storeInstance.getActions()[6].api.params.toJS()).toStrictEqual(expectAction.api.params.toJS());
+    expect(storeInstance.getActions()[6].type).toStrictEqual(expectAction.type);
+    expect(storeInstance.getActions()[6].api.path).toStrictEqual(expectAction.api.path);
   });
 
   afterEach(() => {

@@ -2,14 +2,11 @@
 
 import { fromJS } from "immutable";
 
-import { setupMockFormComponent } from "../../../../../../test";
-import FieldListItem from "../field-list-item";
+import { mountedFormComponent, screen } from "../../../../../../test-utils";
 
 import FieldsList from "./component";
 
 describe("<FieldsList />", () => {
-  let component;
-
   const state = fromJS({
     records: {
       admin: {
@@ -24,10 +21,11 @@ describe("<FieldsList />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(FieldsList, { props: { formContextFields: {} }, state }));
+    mountedFormComponent(<FieldsList />, { props: { formContextFields: {} }, state });
   });
 
   it("should render the list items", () => {
-    expect(component.find(FieldListItem)).to.have.lengthOf(2);
+    expect(screen.getByText("Field 1")).toBeInTheDocument();
+    expect(screen.getByText("Field 2")).toBeInTheDocument();
   });
 });
