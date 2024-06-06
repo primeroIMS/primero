@@ -1,17 +1,11 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { AccordionDetails, AccordionSummary } from "@material-ui/core";
-
-import RecordFormTitle from "../record-form/form/record-form-title";
-import { setupMountedComponent } from "../../test";
+import { mountedComponent, screen } from "test-utils";
 
 import Approvals from "./container";
-import ApprovalPanel from "./components/panel";
 
 describe("<Approvals /> - Component", () => {
-  let component;
-
   const props = {
     approvals: fromJS([
       {
@@ -59,49 +53,35 @@ describe("<Approvals /> - Component", () => {
     mobileDisplay: false
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(Approvals, props, {}));
-  });
+  it("should render text", () => {
+    mountedComponent(<Approvals {...props} />);
 
-  it("renders Approvals component", () => {
-    expect(component.find(Approvals)).to.have.length(1);
+    expect(screen.getByTestId("approvals")).toBeInTheDocument();
   });
 
   it("renders 4 ApprovalsPanel", () => {
-    expect(component.find(ApprovalPanel)).to.have.lengthOf(4);
-    expect(component.find(AccordionDetails)).to.have.lengthOf(4);
-    expect(component.find(AccordionSummary)).to.have.lengthOf(4);
+    mountedComponent(<Approvals {...props} />);
+
+    expect(screen.getAllByTestId("approval-panel")).toHaveLength(4);
+    expect(screen.getAllByTestId("approval-detail")).toHaveLength(4);
+    expect(screen.getAllByTestId("approval-summary")).toHaveLength(4);
   });
 
-  it("renders component with valid props", () => {
-    const approvalsProps = { ...component.find(Approvals).props() };
-
-    ["approvals", "handleToggleNav", "mobileDisplay"].forEach(property => {
-      expect(approvalsProps).to.have.property(property);
-      delete approvalsProps[property];
-    });
-    expect(approvalsProps).to.be.empty;
-  });
-
-  describe("When we don't have data", () => {
-    let noDataComponent;
-
-    const emptyProps = {
-      mobileDisplay: true,
-      handleToggleNav: () => {}
-    };
-
-    beforeEach(() => {
-      ({ component: noDataComponent } = setupMountedComponent(Approvals, emptyProps, {}));
-    });
+  describe("when we don't have data", () => {
+    const emptyProps = { mobileDisplay: true, handleToggleNav: () => {} };
 
     it("renders Approvals component", () => {
-      expect(noDataComponent.find(Approvals)).to.have.length(1);
+      mountedComponent(<Approvals {...emptyProps} />);
+
+      expect(screen.getByTestId("approvals")).toBeInTheDocument();
     });
-    it("not renders ApprovalPanel only the title", () => {
-      expect(noDataComponent.find(ApprovalPanel)).to.have.lengthOf(0);
-      expect(noDataComponent.find(RecordFormTitle)).to.have.lengthOf(1);
-      expect(noDataComponent.find(RecordFormTitle).text()).to.equal("forms.record_types.approvals");
+
+    it("does not render ApprovalPanel only the title", () => {
+      mountedComponent(<Approvals {...emptyProps} />);
+
+      expect(screen.queryAllByTestId("approval-panel")).toHaveLength(0);
+      expect(screen.getByTestId("record-form-title")).toBeInTheDocument();
+      expect(screen.getByText("forms.record_types.approvals")).toBeInTheDocument();
     });
   });
 });
