@@ -19,7 +19,7 @@ describe("<RecordForm>/form/subforms/<TracesForm>", () => {
 
   it("should render the TraceActions", () => {
     mountedFormComponent(<TracesForm {...props} />);
-    expect(screen.getByTestId("subForm-traces")).toBeInTheDocument();
+    expect(screen.getByTestId("trace-actions")).toBeInTheDocument();
   });
 
   it("should render a FormSection", () => {
