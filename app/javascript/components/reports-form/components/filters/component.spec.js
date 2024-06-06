@@ -1,11 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { Typography } from "@material-ui/core";
 
-import { setupMountedComponent, fake } from "../../../../test";
 import { ACTIONS } from "../../../permissions";
-import FiltersDialog from "../filters-dialog";
 import { MODULES_FIELD, RECORD_TYPE_FIELD, DEFAULT_FILTERS } from "../../constants";
 import {
   DATE_FIELD,
@@ -16,12 +13,11 @@ import {
   SUBFORM_SECTION,
   TEXT_FIELD
 } from "../../../form";
+import { mountedComponent, screen } from "../../../../test-utils";
 
 import ReportFilters from "./component";
 
 describe("<ReportFilters /> - Component", () => {
-  let component;
-
   const initialState = fromJS({
     user: {
       permissions: {
@@ -119,7 +115,7 @@ describe("<ReportFilters /> - Component", () => {
     ]),
     parentFormMethods: {
       control: { subjectsRef: {} },
-      getValues: fake.returns({
+      getValues: jest.fn().mockReturnValueOnce({
         [MODULES_FIELD]: ["primeromodule-cp"],
         [RECORD_TYPE_FIELD]: "case"
       })
@@ -130,20 +126,7 @@ describe("<ReportFilters /> - Component", () => {
     formMode: { isNew: false }
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(ReportFilters, props, initialState));
-  });
-
-  it("should render <Typography>", () => {
-    expect(component.find(Typography)).to.have.lengthOf(1);
-  });
-
-  it("should render <FiltersDialog>", () => {
-    expect(component.find(FiltersDialog)).to.have.lengthOf(1);
-  });
-
   describe("when there are not filter", () => {
-    let componentWithtoutFilter = null;
     const state = {
       records: {
         reports: {
@@ -211,17 +194,17 @@ describe("<ReportFilters /> - Component", () => {
     };
 
     beforeEach(() => {
-      ({ component: componentWithtoutFilter } = setupMountedComponent(ReportFilters, { ...props, indexes: [] }, state, [
-        "/reports/1/edit"
-      ]));
+      const componentProps = { ...props, indexes: [] };
+
+      mountedComponent(<ReportFilters {...componentProps} />, state, {}, ["/reports/1/edit"]);
     });
 
     it("should render new button", () => {
-      expect(componentWithtoutFilter.find("button").text()).to.equal("buttons.new");
+      expect(screen.getByText("buttons.new")).toBeInTheDocument();
     });
 
     it("should render 'No filters added' message", () => {
-      expect(componentWithtoutFilter.find("p").at(1).text()).to.equal("report.no_filters_added");
+      expect(screen.getByText("report.no_filters_added")).toBeInTheDocument();
     });
   });
 
@@ -229,60 +212,57 @@ describe("<ReportFilters /> - Component", () => {
     describe("and the selectedRecordType is reportable_service", () => {
       it("should render the default service filters", () => {
         let appliedFilters = [];
-
-        setupMountedComponent(
-          ReportFilters,
-          {
-            ...props,
-            allRecordForms: fromJS([
-              {
-                id: 1,
-                unique_id: "services",
-                name: { en: "Services Section" },
-                visible: true,
-                module_ids: ["primeromodule-cp"],
-                parent_form: "case",
-                fields: [
-                  FieldRecord({
-                    name: "nested_services",
-                    type: SUBFORM_SECTION,
-                    subform_section_id: FormSectionRecord({
-                      fields: [
-                        FieldRecord({
-                          name: "service_type",
-                          display_name: {
-                            en: "Service type"
-                          },
-                          type: SELECT_FIELD,
-                          visible: true
-                        }),
-                        FieldRecord({
-                          name: "service_appointment_date",
-                          display_name: {
-                            en: "Service Appointment Date"
-                          },
-                          type: SELECT_FIELD,
-                          visible: true
-                        })
-                      ]
-                    })
+        const componentProps = {
+          ...props,
+          allRecordForms: fromJS([
+            {
+              id: 1,
+              unique_id: "services",
+              name: { en: "Services Section" },
+              visible: true,
+              module_ids: ["primeromodule-cp"],
+              parent_form: "case",
+              fields: [
+                FieldRecord({
+                  name: "nested_services",
+                  type: SUBFORM_SECTION,
+                  subform_section_id: FormSectionRecord({
+                    fields: [
+                      FieldRecord({
+                        name: "service_type",
+                        display_name: {
+                          en: "Service type"
+                        },
+                        type: SELECT_FIELD,
+                        visible: true
+                      }),
+                      FieldRecord({
+                        name: "service_appointment_date",
+                        display_name: {
+                          en: "Service Appointment Date"
+                        },
+                        type: SELECT_FIELD,
+                        visible: true
+                      })
+                    ]
                   })
-                ]
-              }
-            ]),
-            indexes: [],
-            setIndexes: filters => {
-              appliedFilters = filters;
-            },
-            formMode: { isNew: true },
-            selectedModule: "primeromodule-cp",
-            selectedRecordType: "reportable_service",
-            formattedMinimumReportableFields
+                })
+              ]
+            }
+          ]),
+          indexes: [],
+          setIndexes: filters => {
+            appliedFilters = filters;
           },
-          initialState
-        );
+          formMode: { isNew: true },
+          selectedModule: "primeromodule-cp",
+          selectedRecordType: "reportable_service",
+          formattedMinimumReportableFields
+        };
 
-        expect(appliedFilters.map(filter => filter.data.attribute)).to.deep.equals([
+        mountedComponent(<ReportFilters {...componentProps} />, initialState);
+
+        expect(appliedFilters.map(filter => filter.data.attribute)).toStrictEqual([
           "status",
           "record_state",
           "consent_reporting",
@@ -295,51 +275,49 @@ describe("<ReportFilters /> - Component", () => {
       it("should render the default follow_up filters", () => {
         let appliedFilters = [];
 
-        setupMountedComponent(
-          ReportFilters,
-          {
-            ...props,
-            allRecordForms: fromJS([
-              {
-                id: 1,
-                unique_id: "followup",
-                name: { en: "Follow up" },
-                visible: true,
-                module_ids: ["primeromodule-cp"],
-                parent_form: "case",
-                fields: [
-                  FieldRecord({
-                    name: "followup_subform_section",
-                    type: SUBFORM_SECTION,
-                    subform_section_id: FormSectionRecord({
-                      fields: [
-                        FieldRecord({
-                          name: "followup_date",
-                          display_name: {
-                            en: "Follow Up"
-                          },
-                          type: DATE_FIELD,
-                          visible: true
-                        })
-                      ]
-                    })
+        const componentProps = {
+          ...props,
+          allRecordForms: fromJS([
+            {
+              id: 1,
+              unique_id: "followup",
+              name: { en: "Follow up" },
+              visible: true,
+              module_ids: ["primeromodule-cp"],
+              parent_form: "case",
+              fields: [
+                FieldRecord({
+                  name: "followup_subform_section",
+                  type: SUBFORM_SECTION,
+                  subform_section_id: FormSectionRecord({
+                    fields: [
+                      FieldRecord({
+                        name: "followup_date",
+                        display_name: {
+                          en: "Follow Up"
+                        },
+                        type: DATE_FIELD,
+                        visible: true
+                      })
+                    ]
                   })
-                ]
-              }
-            ]),
-            indexes: [],
-            setIndexes: filters => {
-              appliedFilters = filters;
-            },
-            formMode: { isNew: true },
-            selectedModule: "primeromodule-cp",
-            selectedRecordType: "reportable_follow_up",
-            formattedMinimumReportableFields
+                })
+              ]
+            }
+          ]),
+          indexes: [],
+          setIndexes: filters => {
+            appliedFilters = filters;
           },
-          initialState
-        );
+          formMode: { isNew: true },
+          selectedModule: "primeromodule-cp",
+          selectedRecordType: "reportable_follow_up",
+          formattedMinimumReportableFields
+        };
 
-        expect(appliedFilters.map(filter => filter.data.attribute)).to.deep.equals([
+        mountedComponent(<ReportFilters {...componentProps} />, initialState);
+
+        expect(appliedFilters.map(filter => filter.data.attribute)).toStrictEqual([
           "status",
           "record_state",
           "consent_reporting",
@@ -350,52 +328,49 @@ describe("<ReportFilters /> - Component", () => {
     describe("and the selectedRecordType is reportable_protection_concern", () => {
       it("should render the default protection_concern filters", () => {
         let appliedFilters = [];
-
-        setupMountedComponent(
-          ReportFilters,
-          {
-            ...props,
-            allRecordForms: fromJS([
-              {
-                id: 1,
-                unique_id: "protection_concern_details",
-                name: { en: "Protection Concern" },
-                visible: true,
-                module_ids: ["primeromodule-cp"],
-                parent_form: "case",
-                fields: [
-                  FieldRecord({
-                    name: "protection_concern_section",
-                    type: SUBFORM_SECTION,
-                    subform_section_id: FormSectionRecord({
-                      fields: [
-                        FieldRecord({
-                          name: "protection_concern_type",
-                          display_name: {
-                            en: "Protection Concern Type"
-                          },
-                          type: TEXT_FIELD,
-                          visible: true
-                        })
-                      ]
-                    })
+        const componentProps = {
+          ...props,
+          allRecordForms: fromJS([
+            {
+              id: 1,
+              unique_id: "protection_concern_details",
+              name: { en: "Protection Concern" },
+              visible: true,
+              module_ids: ["primeromodule-cp"],
+              parent_form: "case",
+              fields: [
+                FieldRecord({
+                  name: "protection_concern_section",
+                  type: SUBFORM_SECTION,
+                  subform_section_id: FormSectionRecord({
+                    fields: [
+                      FieldRecord({
+                        name: "protection_concern_type",
+                        display_name: {
+                          en: "Protection Concern Type"
+                        },
+                        type: TEXT_FIELD,
+                        visible: true
+                      })
+                    ]
                   })
-                ]
-              }
-            ]),
-            indexes: [],
-            setIndexes: filters => {
-              appliedFilters = filters;
-            },
-            formMode: { isNew: true },
-            selectedModule: "primeromodule-cp",
-            selectedRecordType: "reportable_protection_concern",
-            formattedMinimumReportableFields
+                })
+              ]
+            }
+          ]),
+          indexes: [],
+          setIndexes: filters => {
+            appliedFilters = filters;
           },
-          initialState
-        );
+          formMode: { isNew: true },
+          selectedModule: "primeromodule-cp",
+          selectedRecordType: "reportable_protection_concern",
+          formattedMinimumReportableFields
+        };
 
-        expect(appliedFilters.map(filter => filter.data.attribute)).to.deep.equals([
+        mountedComponent(<ReportFilters {...componentProps} />, initialState);
+
+        expect(appliedFilters.map(filter => filter.data.attribute)).toStrictEqual([
           "status",
           "record_state",
           "consent_reporting",

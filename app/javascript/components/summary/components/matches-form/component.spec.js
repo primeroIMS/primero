@@ -1,15 +1,12 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { List, ListItemText } from "@material-ui/core";
 
-import IndexTable from "../../../index-table";
-import { setupMountedComponent } from "../../../../test";
+import { mountedComponent, screen } from "../../../../test-utils";
 
 import MatchesForm from "./component";
 
 describe("<MatchesForm />", () => {
-  let component;
   const props = {
     record: fromJS({ id: "12345678", case_id_display: "123abc" }),
     title: "Test Title",
@@ -63,18 +60,14 @@ describe("<MatchesForm />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(MatchesForm, props, state, [], formProps));
+    mountedComponent(<MatchesForm {...props} />, state, {}, [], formProps);
   });
 
-  it("should render 1 <List /> components", () => {
-    expect(component.find(List)).to.have.lengthOf(1);
-  });
-
-  it("should render 2 <ListItemText /> components", () => {
-    expect(component.find(ListItemText)).to.have.lengthOf(2);
+  it("should render tracing request id in the title", () => {
+    expect(screen.getByText("tracing_requests.id: #123abc")).toBeInTheDocument();
   });
 
   it("should render 1 <IndexTable /> components", () => {
-    expect(component.find(IndexTable)).to.have.lengthOf(1);
+    expect(screen.getByRole("grid")).toBeInTheDocument();
   });
 });

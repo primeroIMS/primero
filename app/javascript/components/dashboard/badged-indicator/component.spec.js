@@ -1,17 +1,14 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { CircularProgress } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../../test";
-import DashboardChip from "../dashboard-chip";
 import { DASHBOARD_NAMES } from "../../pages/dashboard";
 import { INDICATOR_NAMES } from "../../pages/dashboard/constants";
+import { mountedComponent, screen } from "../../../test-utils";
 
 import BadgedIndicator from "./component";
 
 describe("<BadgedIndicator />", () => {
-  let component;
   const props = {
     data: fromJS({
       name: DASHBOARD_NAMES.CASE_RISK,
@@ -55,31 +52,26 @@ describe("<BadgedIndicator />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(BadgedIndicator, props, {}));
+    mountedComponent(<BadgedIndicator {...props} />, props, {});
   });
 
   it("renders a BadgedIndicator with a DashboardChip />", () => {
-    expect(component.find(BadgedIndicator)).to.have.lengthOf(1);
-    expect(component.find(DashboardChip)).to.have.lengthOf(4);
+    expect(screen.getAllByTestId("chip-button")).toHaveLength(4);
   });
 
   describe("When data still loading", () => {
-    let loadingComponent;
     const propsDataLoading = {
       ...props,
       data: fromJS({}),
       loading: true
     };
 
-    before(() => {
-      ({ component: loadingComponent } = setupMountedComponent(BadgedIndicator, propsDataLoading, {}));
+    beforeEach(() => {
+      mountedComponent(<BadgedIndicator {...propsDataLoading} />);
     });
 
-    it("renders BadgedIndicator component", () => {
-      expect(loadingComponent.find(BadgedIndicator)).to.have.lengthOf(1);
-    });
     it("renders CircularProgress", () => {
-      expect(loadingComponent.find(CircularProgress)).to.have.lengthOf(1);
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
 });

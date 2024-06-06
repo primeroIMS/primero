@@ -1,11 +1,10 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { setupMountedComponent } from "../../../test";
+import { mountedComponent, screen } from "../../../test-utils";
 
 import PieChart from "./component";
 
 describe("<PieChart />", () => {
-  let component;
   const props = {
     data: [10, 12, 8],
     labels: ["Care plan", "New", "Service provision"],
@@ -13,10 +12,10 @@ describe("<PieChart />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(PieChart, props, {}));
+    mountedComponent(<PieChart {...props} />);
   });
 
   it("renders a PieChart />", () => {
-    expect(component.find(PieChart)).to.have.lengthOf(1);
+    expect(screen.getByTestId("pie-chart")).toBeInTheDocument();
   });
 });

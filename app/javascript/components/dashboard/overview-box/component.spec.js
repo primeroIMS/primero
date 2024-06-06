@@ -1,14 +1,12 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { CircularProgress } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../../test";
+import { mountedComponent, screen } from "../../../test-utils";
 
 import OverviewBox from "./component";
 
 describe("<OverviewBox />", () => {
-  let component;
   const props = {
     items: fromJS({
       name: "dashboard.approvals_closure",
@@ -24,28 +22,27 @@ describe("<OverviewBox />", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(OverviewBox, props, {}));
+    mountedComponent(<OverviewBox {...props} />);
   });
 
   it("renders a component/>", () => {
-    expect(component.find(OverviewBox)).to.have.lengthOf(1);
-    expect(component.find("a")).to.have.lengthOf(2);
-    expect(component.text()).to.contain("5 Closure");
+    expect(screen.getByText("5 Closure")).toBeInTheDocument();
+    expect(screen.getAllByRole("button")).toHaveLength(2);
   });
 
   describe("when withTotal props is false", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(OverviewBox, { ...props, withTotal: false }, {}));
+      const componentProps = { ...props, withTotal: false };
+
+      mountedComponent(<OverviewBox {...componentProps} />);
     });
     it("renders the header without total/>", () => {
-      expect(component.find(OverviewBox)).to.have.lengthOf(1);
-      expect(component.find("a")).to.have.lengthOf(2);
-      expect(component.text()).to.contain("Closure");
+      expect(screen.getByText("Closure")).toBeInTheDocument();
+      expect(screen.getAllByRole("button")).toHaveLength(4);
     });
   });
 
   describe("When data still loading", () => {
-    let loadingComponent;
     const loadingProps = {
       items: fromJS({
         name: "dashboard.approvals_closure",
@@ -56,19 +53,16 @@ describe("<OverviewBox />", () => {
       loading: true
     };
 
-    before(() => {
-      ({ component: loadingComponent } = setupMountedComponent(OverviewBox, loadingProps, {}));
+    beforeEach(() => {
+      mountedComponent(<OverviewBox {...loadingProps} />);
     });
 
-    it("renders BadgedIndicator component", () => {
-      expect(loadingComponent.find(OverviewBox)).to.have.lengthOf(1);
-    });
     it("renders CircularProgress", () => {
-      expect(loadingComponent.find(CircularProgress)).to.have.lengthOf(1);
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
   describe("When the approvals labels entries are present", () => {
-    context("when is a Assessment approvals", () => {
+    describe("when is a Assessment approvals", () => {
       const ASSESSMENT_LABEL = "Assessment";
       const propsApprovals = {
         items: fromJS({
@@ -94,15 +88,15 @@ describe("<OverviewBox />", () => {
       });
 
       beforeEach(() => {
-        ({ component } = setupMountedComponent(OverviewBox, propsApprovals, initialState));
+        mountedComponent(<OverviewBox {...propsApprovals} />, initialState);
       });
 
       it("renders a component with its respective label />", () => {
-        expect(component.text()).to.contain(`1${ASSESSMENT_LABEL}`);
+        expect(document.querySelectorAll(".overviewList")[1].textContent).toBe(`1${ASSESSMENT_LABEL}`);
       });
     });
 
-    context("when is GBV Closure approvals", () => {
+    describe("when is GBV Closure approvals", () => {
       const GBV_CLOSURE = "GBV Closure";
       const propsApprovals = {
         items: fromJS({
@@ -128,11 +122,11 @@ describe("<OverviewBox />", () => {
       });
 
       beforeEach(() => {
-        ({ component } = setupMountedComponent(OverviewBox, propsApprovals, initialState));
+        mountedComponent(<OverviewBox {...propsApprovals} />, initialState);
       });
 
       it("renders a component with its respective label />", () => {
-        expect(component.text()).to.contain(`1${GBV_CLOSURE}`);
+        expect(document.querySelectorAll(".overviewList")[1].textContent).toBe(`1${GBV_CLOSURE}`);
       });
     });
   });

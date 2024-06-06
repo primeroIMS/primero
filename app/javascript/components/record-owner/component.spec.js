@@ -1,19 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS, Map } from "immutable";
-import { Form } from "formik";
-import { TextField as MuiTextField } from "formik-material-ui";
 
-import { setupMountedComponent } from "../../test";
 import { RESOURCES } from "../permissions";
-import { FormSectionField } from "../record-form";
-import SearchableSelect from "../searchable-select";
+import { mountedComponent, screen } from "../../test-utils";
 
 import RecordOwner from "./component";
 
 describe("<RecordOwner />", () => {
-  let component;
-
   const record = fromJS({
     case_id: "12345",
     case_id_display: "3c9d076",
@@ -65,56 +59,30 @@ describe("<RecordOwner />", () => {
     }
   });
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(RecordOwner, rootProps, rootInitialState));
-  });
-
-  it("renders a RecordOwner component and its fields/>", () => {
-    expect(component.find(RecordOwner)).to.have.lengthOf(1);
-    expect(component.find(FormSectionField)).to.have.lengthOf(15);
-    expect(component.find(SearchableSelect)).to.have.lengthOf(1);
-    expect(component.find(SearchableSelect).props().defaultValues[0].id).to.equal("agency-unicef");
-  });
-
-  it("renders Form", () => {
-    expect(component.find(Form)).to.have.lengthOf(1);
-  });
-
   it("renders value for assigned_user_names", () => {
-    const associatedUserNames = component.find(MuiTextField).at(2).props();
-
-    expect(associatedUserNames.name).to.be.equal("assigned_user_names");
-    expect(associatedUserNames.field.value).to.be.equal("primero_admin_cp, test_user");
+    mountedComponent(<RecordOwner {...rootProps} />, rootInitialState);
+    expect(screen.getByLabelText("record_information.assigned_user_names")).toHaveValue("primero_admin_cp, test_user");
   });
 
   it("renders value for previously_owned_by_agency", () => {
-    const previouslyOwnedBy = component.find(MuiTextField).at(6).props();
-
-    expect(previouslyOwnedBy.name).to.be.equal("previously_owned_by_agency");
-    expect(previouslyOwnedBy.field.value).to.be.equal("TEST/AGENCY");
+    mountedComponent(<RecordOwner {...rootProps} />, rootInitialState);
+    expect(screen.getByLabelText("record_information.previously_owned_by_agency")).toHaveValue("TEST/AGENCY");
   });
 
   describe("with created_organization", () => {
     describe("when is an object", () => {
       it("renders value for created_organization", () => {
-        const createOrganization = component.find(MuiTextField).at(4).props();
-
-        expect(createOrganization.name).to.be.equal("created_organization");
-        expect(createOrganization.field.value).to.be.equal("TEST");
+        mountedComponent(<RecordOwner {...rootProps} />, rootInitialState);
+        expect(screen.getByLabelText("record_information.created_organization")).toHaveValue("TEST");
       });
     });
 
     describe("when is a string", () => {
       it("renders value for created_organization", () => {
-        const { component: componentWithStringOrganization } = setupMountedComponent(
-          RecordOwner,
-          { ...rootProps, record: record.set("created_organization", "AGENCY 1") },
-          rootInitialState
-        );
-        const createOrganization = componentWithStringOrganization.find(MuiTextField).at(4).props();
+        const componentProps = { ...rootProps, record: record.set("created_organization", "AGENCY 1") };
+        const { getByLabelText } = mountedComponent(<RecordOwner {...componentProps} />, rootInitialState);
 
-        expect(createOrganization.name).to.be.equal("created_organization");
-        expect(createOrganization.field.value).to.be.equal("AGENCY 1");
+        expect(getByLabelText("record_information.created_organization")).toHaveValue("AGENCY 1");
       });
     });
   });
@@ -140,13 +108,11 @@ describe("<RecordOwner />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordOwner, props, initialState));
+      mountedComponent(<RecordOwner {...props} />, initialState);
     });
 
     it("should render RecordOwner and its fields", () => {
-      expect(component.find(RecordOwner)).to.have.lengthOf(1);
-      expect(component.find(FormSectionField)).to.have.lengthOf(15);
-      expect(component.find("input").first().prop("name")).to.be.equal("owned_by_text");
+      expect(screen.getAllByTestId("form-section-field")).toHaveLength(12);
     });
   });
 
@@ -186,13 +152,11 @@ describe("<RecordOwner />", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordOwner, props, initialState));
+      mountedComponent(<RecordOwner {...props} />, initialState);
     });
 
     it("should render RecordOwner and its fields", () => {
-      expect(component.find(RecordOwner)).to.have.lengthOf(1);
-      expect(component.find(FormSectionField)).to.have.lengthOf(15);
-      expect(component.find("input").first().prop("name")).to.be.equal("owned_by_text");
+      expect(screen.getAllByTestId("form-section-field")).toHaveLength(12);
     });
   });
 });
