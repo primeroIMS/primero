@@ -2,13 +2,14 @@
 
 import { fromJS } from "immutable";
 
-import { setupMockFormComponent } from "../../../../../../test";
+import { mountedComponent, screen } from "../../../../../../test-utils";
 
 import ExistingFieldDialog from "./component";
 
 describe("<ExistingFieldDialog />", () => {
-  const state = fromJS({
-    ui: { dialogs: { admin_fields_dialog: true } },
+  const props = { parentForm: "parent", primeroModule: "module-1" };
+  const initialState = fromJS({
+    ui: { dialogs: { dialog: "ExistingFieldDialog", open: true } },
     records: {
       admin: {
         forms: {
@@ -30,11 +31,8 @@ describe("<ExistingFieldDialog />", () => {
   });
 
   it("should render the dialog", () => {
-    const { component } = setupMockFormComponent(ExistingFieldDialog, {
-      props: { parentForm: "parent", primeroModule: "module-1" },
-      state
-    });
+    mountedComponent(<ExistingFieldDialog {...props} />, initialState);
 
-    expect(component.find(ExistingFieldDialog)).to.have.lengthOf(1);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 });
