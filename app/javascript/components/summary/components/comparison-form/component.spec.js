@@ -2,16 +2,15 @@
 
 import { fromJS } from "immutable";
 
-import TraceComparisonForm from "../../../record-form/form/subforms/subform-traces/components/trace-comparison-form";
-import { setupMountedComponent } from "../../../../test";
+import { mountedComponent, screen } from "../../../../test-utils";
 import { FormSectionRecord, FieldRecord, TEXT_FIELD, DATE_FIELD, NUMERIC_FIELD, SELECT_FIELD } from "../../../form";
 import { RECORD_TYPES } from "../../../../config";
 
-import MatchesForm from "./component";
+import ComparisonForm from "./component";
 
-describe("<MatchesForm />", () => {
-  let component;
+describe("<ComparisonForm />", () => {
   const recordModule = "record-module";
+
   const props = {
     selectedForm: "test",
     recordType: "cases",
@@ -19,7 +18,7 @@ describe("<MatchesForm />", () => {
     handleBack: () => {}
   };
 
-  const state = fromJS({
+  const initialState = fromJS({
     forms: {
       formSections: {
         1: FormSectionRecord({
@@ -85,11 +84,10 @@ describe("<MatchesForm />", () => {
     }
   });
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(MatchesForm, props, state));
-  });
+  it("should render 1 <TraceComparisonForm /> component", () => {
+    mountedComponent(<ComparisonForm {...props} />, initialState);
 
-  it("should render 1 <TraceComparisonForm /> components", () => {
-    expect(component.find(TraceComparisonForm)).to.have.lengthOf(1);
+    expect(screen.getByTestId("trace-actions")).toBeInTheDocument();
+    expect(screen.getByTestId("trace-comparison-form")).toBeInTheDocument();
   });
 });

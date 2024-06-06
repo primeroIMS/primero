@@ -163,7 +163,7 @@ const Component = ({
   return (
     <>
       <TraceActions {...traceActionsProps} />
-      <Grid container spacing={4}>
+      <Grid container spacing={4} data-testid="trace-comparison-form">
         <Grid container item>
           {renderText && alreadyMatchedMessage && (
             <Grid item xs={12}>
