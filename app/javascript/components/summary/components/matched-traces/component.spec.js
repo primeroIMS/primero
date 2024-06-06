@@ -2,13 +2,11 @@
 
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../../test";
+import { mountedComponent, screen } from "../../../../test-utils";
 
-import { MatchedTracePanel } from "./components";
 import MatchedTraces from "./component";
 
 describe("<MatchedTraces />", () => {
-  let component;
   const props = {
     data: fromJS([{ id: "1234567" }]),
     setSelectedForm: () => {},
@@ -23,23 +21,17 @@ describe("<MatchedTraces />", () => {
     })
   };
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(MatchedTraces, props, {}));
-  });
-
   it("should render 1 <MatchedTracePanel /> component", () => {
-    expect(component.find(MatchedTracePanel)).to.have.lengthOf(1);
+    mountedComponent(<MatchedTraces {...props} />);
+
+    expect(screen.getByTestId("matched-trace-panel")).toBeInTheDocument();
   });
 
-  context("when is new record", () => {
-    let newRecordComponent;
-
-    beforeEach(() => {
-      ({ component: newRecordComponent } = setupMountedComponent(MatchedTraces, { ...props, record: {} }, {}));
-    });
-
+  describe("when is new record", () => {
     it("should not render <MatchedTracePanel /> component", () => {
-      expect(newRecordComponent.find(MatchedTracePanel)).to.have.lengthOf(0);
+      mountedComponent(<MatchedTraces {...{ ...props, record: {} }} />);
+
+      expect(screen.queryByTestId("matched-trace-panel")).toBeNull();
     });
   });
 });
