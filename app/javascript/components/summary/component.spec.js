@@ -63,7 +63,7 @@ describe("<Summary />", () => {
     it("should disable the find match button", () => {
       mountedComponent(<Summary {...props} />, initialState, {}, [], formProps);
 
-      expect(screen.getByRole("button", { name: "cases.summary.find_match" })).toHaveAttribute("disabled");
+      expect(screen.getByRole("button", { name: "cases.summary.find_match" })).toBeDisabled();
     });
   });
 
@@ -81,7 +81,7 @@ describe("<Summary />", () => {
     it("should enable the find match button", () => {
       mountedComponent(<Summary {...props} values={{ consent_for_tracing: true }} />, initialState, {}, [], formProps);
 
-      expect(screen.getByRole("button", { name: "cases.summary.find_match" })).not.toHaveAttribute("disabled");
+      expect(screen.getByRole("button", { name: "cases.summary.find_match" })).toBeEnabled();
     });
   });
 
