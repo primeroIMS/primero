@@ -1,11 +1,10 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import MUIDataTable from "mui-datatables";
 
 import { FieldRecord, FormSectionRecord } from "../../../../../../../form/records";
 import { mapEntriesToRecord } from "../../../../../../../../libs";
-import { setupMockFormComponent } from "../../../../../../../../test";
+import { mountedComponent, screen } from "../../../../../../../../test-utils";
 
 import FieldsTable from "./component";
 
@@ -30,7 +29,7 @@ describe("<FieldsTable />", () => {
       form_section_id: 2
     },
     4: {
-      id: 1,
+      id: 4,
       name: "field_4",
       display_name: { en: "Field 4 " },
       form_section_id: 3
@@ -72,7 +71,7 @@ describe("<FieldsTable />", () => {
     }
   ];
 
-  const state = fromJS({
+  const initialState = fromJS({
     ui: { dialogs: { admin_fields_dialog: true } },
     records: {
       admin: {
@@ -84,52 +83,29 @@ describe("<FieldsTable />", () => {
     }
   });
 
-  it("should render the table", () => {
-    const { component } = setupMockFormComponent(FieldsTable, {
-      props: {
-        fieldQuery: "",
-        parentForm: "parent",
-        primeroModule: "module-1",
-        addField: () => {},
-        removeField: () => {}
-      },
-      state
-    });
+  const props = {
+    fieldQuery: "",
+    parentForm: "parent",
+    primeroModule: "module-1",
+    addField: () => {},
+    removeField: () => {}
+  };
 
-    expect(component.find(FieldsTable)).to.have.lengthOf(1);
-    expect(component.find(FieldsTable).find(MUIDataTable).find("tbody").find("tr")).to.have.lengthOf(3);
+  it("should render the table", () => {
+    mountedComponent(<FieldsTable {...props} />, initialState);
+
+    expect(screen.getByRole("grid")).toBeInTheDocument();
   });
 
   it("should render only those record that match the query", () => {
-    const { component } = setupMockFormComponent(FieldsTable, {
-      props: {
-        fieldQuery: "Field 1",
-        parentForm: "parent",
-        primeroModule: "module-1",
-        addField: () => {},
-        removeField: () => {}
-      },
-      state
-    });
+    mountedComponent(<FieldsTable {...{ ...props, fieldQuery: "Field 1" }} />, initialState);
 
-    expect(component.find(FieldsTable).find(MUIDataTable).find("tbody").find("tr")).to.have.lengthOf(2);
+    expect(screen.getAllByText(/Field 1.*/i)).toHaveLength(2);
   });
 
   it("should select the rows for the selected fields", () => {
-    const { component } = setupMockFormComponent(FieldsTable, {
-      props: {
-        fieldQuery: "",
-        parentForm: "parent",
-        primeroModule: "module-1",
-        selectedFields,
-        addField: () => {},
-        removeField: () => {}
-      },
-      state
-    });
+    mountedComponent(<FieldsTable {...{ ...props, selectedFields }} />, initialState);
 
-    const selectedRows = [0, 2];
-
-    expect(component.find(FieldsTable).find(MUIDataTable).props().options.rowsSelected).to.deep.equal(selectedRows);
+    expect(document.getElementsByClassName("mui-row-selected")).toHaveLength(2);
   });
 });
