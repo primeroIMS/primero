@@ -1,7 +1,6 @@
 import { fromJS } from "immutable";
 
-import { mountedComponent, stub, screen } from "../../../../test-utils";
-import { listHeaders } from "../../../../test-utils";
+import { mountedComponent, stub, screen, listHeaders } from "../../../../test-utils";
 import { ListHeaderRecord } from "../../../user/records";
 import { ACTIONS } from "../../../permissions";
 

@@ -2,9 +2,8 @@
 
 import { fromJS } from "immutable";
 
-import { lookups } from "../../../../test-utils";
+import { lookups, fireEvent, mockFetchSuccess, mountedComponent, screen, waitFor } from "../../../../test-utils";
 import { ACTIONS } from "../../../permissions";
-import { fireEvent, mockFetchSuccess, mountedComponent, screen, waitFor } from "../../../../test-utils";
 
 import LookupList from "./component";
 

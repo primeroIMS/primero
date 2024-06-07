@@ -1,8 +1,7 @@
 import { fromJS } from "immutable";
 
-import { mountedComponent, screen, stub } from "../../../../test-utils";
+import { mountedComponent, screen, stub, lookups } from "../../../../test-utils";
 import { ACTIONS } from "../../../permissions";
-import { lookups } from "../../../../test-utils";
 
 import RolesList from "./container";
 

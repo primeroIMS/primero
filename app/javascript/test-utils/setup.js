@@ -12,7 +12,8 @@ import db from "../db";
 global.IS_REACT_ACT_ENVIRONMENT = true;
 
 beforeAll(() => {
-  console.warn = msg => "";
+  // eslint-disable-next-line no-console
+  console.warn = () => "";
   createMocks();
   global.MessageChannel = MessageChannel;
 });
