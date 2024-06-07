@@ -2,9 +2,9 @@ import { mountedComponent, screen } from "../../test-utils";
 
 import Login from "./component";
 
-describe.skip("<Login />", () => {
+describe("<Login />", () => {
   describe("for login form", () => {
-    it("renders form", () => {
+    it.skip("renders form", () => {
       mountedComponent(<Login />, {
         idp: {
           use_identity_provider: false
@@ -21,7 +21,7 @@ describe.skip("<Login />", () => {
   });
 
   describe("for provider selection", () => {
-    it("renders login selection", () => {
+    it.skip("renders login selection", () => {
       mountedComponent(<Login />, {
         idp: {
           use_identity_provider: true,

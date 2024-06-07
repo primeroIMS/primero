@@ -2,17 +2,24 @@
 
 import { fromJS } from "immutable";
 
-import { listHeaders, lookups, stub } from "../../../../test";
 import { ACTIONS } from "../../../permissions";
-import { fireEvent, mockFetchSuccess, mountedComponent, screen, waitFor } from "../../../../test-utils";
+import {
+  fireEvent,
+  mockFetchSuccess,
+  mountedComponent,
+  screen,
+  waitFor,
+  listHeaders,
+  lookups
+} from "../../../../test-utils";
 
 import NAMESPACE from "./namespace";
 import AgenciesList from "./container";
 
 describe("<AgenciesList />", () => {
-  let stubI18n = null;
   let actions;
   let storeInstance;
+  let spy;
 
   const dataLength = 30;
   const data = Array.from({ length: dataLength }, (_, i) => ({
@@ -22,7 +29,8 @@ describe("<AgenciesList />", () => {
   }));
 
   beforeEach(() => {
-    stubI18n = stub(window.I18n, "t").withArgs("messages.record_list.of").returns("of");
+    spy = jest.spyOn(window.I18n, "t").mockImplementation(() => "of");
+
     const initialState = fromJS({
       records: {
         agencies: {
@@ -55,6 +63,10 @@ describe("<AgenciesList />", () => {
     actions = store.getActions();
   });
 
+  afterEach(() => {
+    spy.mockClear();
+  });
+
   it("renders record list table", () => {
     expect(screen.getByRole("grid")).toBeInTheDocument();
   });
@@ -80,10 +92,12 @@ describe("<AgenciesList />", () => {
       type: "agencies/SET_AGENCIES_FILTER"
     };
 
+    mockFetchSuccess({ json: { data, metadata: { total: 30, per: 20, page: 1 } } });
     fireEvent.click(screen.getByTestId("headcol-0"));
+    const testAction = storeInstance.getActions().filter(action => action.type === "agencies/SET_AGENCIES_FILTER")[1];
 
-    expect(actions[2].type).toStrictEqual(expectedAction.type);
-    expect(actions[2].payload.data).toStrictEqual(expectedAction.payload.data);
+    expect(testAction.type).toStrictEqual(expectedAction.type);
+    expect(testAction.payload.data).toStrictEqual(expectedAction.payload.data);
   });
 
   it("should trigger a valid action with next page when clicking next page", async () => {
@@ -122,11 +136,5 @@ describe("<AgenciesList />", () => {
 
     expect(action.type).toStrictEqual(expectedAction.type);
     expect(action.payload.data).toStrictEqual(expectedAction.payload.data);
-  });
-
-  afterEach(() => {
-    if (stubI18n) {
-      window.I18n.t.restore();
-    }
   });
 });

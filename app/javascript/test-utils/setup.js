@@ -12,6 +12,7 @@ import db from "../db";
 global.IS_REACT_ACT_ENVIRONMENT = true;
 
 beforeAll(() => {
+  console.warn = msg => "";
   createMocks();
   global.MessageChannel = MessageChannel;
 });

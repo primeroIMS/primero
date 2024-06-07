@@ -6,18 +6,20 @@ import StackedPercentageBar from "./component";
 
 describe("<StackedPercentageBar />", () => {
   describe("with a single percentage", () => {
-    mountedComponent(
-      <StackedPercentageBar
-        {...{
-          percentages: [
-            {
-              percentage: 0.5,
-              label: "Tests"
-            }
-          ]
-        }}
-      />
-    );
+    beforeEach(() => {
+      mountedComponent(
+        <StackedPercentageBar
+          {...{
+            percentages: [
+              {
+                percentage: 0.5,
+                label: "Tests"
+              }
+            ]
+          }}
+        />
+      );
+    });
 
     it("should display the label", () => {
       expect(screen.getByText("Tests")).toBeInTheDocument();
@@ -34,40 +36,44 @@ describe("<StackedPercentageBar />", () => {
     const percentage2 = { percentage: 0.147, label: "Failed" };
 
     describe("where 1 percentage is 0%", () => {
-      mountedComponent(
-        <StackedPercentageBar
-          {...{
-            percentages: [percentage0, percentage1]
-          }}
-        />
-      );
+      beforeEach(() => {
+        mountedComponent(
+          <StackedPercentageBar
+            {...{
+              percentages: [percentage0, percentage1]
+            }}
+          />
+        );
+      });
 
       it("should display percentage bars when the percentage is > 0", () => {
-        expect(document.querySelectorAll(".StackedPercentageBarLabelContainer")[2]).toHaveStyle({ width: "35%" });
+        expect(document.querySelectorAll(".StackedPercentageBarLabelContainer")[1]).toHaveStyle({ width: "35%" });
       });
 
       it("should not display a percentage bar for percentages <= 0", () => {
-        expect(document.querySelectorAll(".StackedPercentageBarLabelContainer")[1]).toHaveStyle({ width: "auto" });
+        expect(document.querySelectorAll(".StackedPercentageBarLabelContainer")[0]).toHaveStyle({ width: "auto" });
       });
     });
 
     describe("where both percentages are > 0", () => {
-      mountedComponent(
-        <StackedPercentageBar
-          {...{
-            percentages: [percentage1, percentage2]
-          }}
-        />
-      );
+      beforeEach(() => {
+        mountedComponent(
+          <StackedPercentageBar
+            {...{
+              percentages: [percentage1, percentage2]
+            }}
+          />
+        );
+      });
 
       it("it shows percentage1", () => {
-        expect(screen.getAllByText(percentage1.label)).toHaveLength(2);
-        expect(document.querySelectorAll(".StackedPercentageBarLabelContainer")[3]).toHaveStyle({ width: "35%" });
+        expect(screen.getByText(percentage1.label)).toBeInTheDocument();
+        expect(document.querySelectorAll(".StackedPercentageBarLabelContainer")[0]).toHaveStyle({ width: "35%" });
       });
 
       it("should show percentage2", () => {
         expect(screen.getByText(percentage2.label)).toBeInTheDocument();
-        expect(document.querySelectorAll(".StackedPercentageBarLabelContainer")[4]).toHaveStyle({ width: "14.7%" });
+        expect(document.querySelectorAll(".StackedPercentageBarLabelContainer")[1]).toHaveStyle({ width: "14.7%" });
       });
     });
 

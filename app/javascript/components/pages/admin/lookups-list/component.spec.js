@@ -2,14 +2,14 @@
 
 import { fromJS } from "immutable";
 
-import { lookups, stub } from "../../../../test";
+import { lookups } from "../../../../test";
 import { ACTIONS } from "../../../permissions";
 import { fireEvent, mockFetchSuccess, mountedComponent, screen, waitFor } from "../../../../test-utils";
 
 import LookupList from "./component";
 
 describe("<LookupList />", () => {
-  let stubI18n = null;
+  let spy = null;
   let storeInstance;
 
   const dataLength = 30;
@@ -50,11 +50,16 @@ describe("<LookupList />", () => {
   });
 
   beforeEach(() => {
-    stubI18n = stub(window.I18n, "t").withArgs("messages.record_list.of").returns("of");
+    spy = jest.spyOn(window.I18n, "t").mockImplementation(() => "of");
+
     mockFetchSuccess({ json: { data, metadata: { total: 30, per: 20, page: 1 } } });
     const { store } = mountedComponent(<LookupList />, state, {}, ["/admin/lookups"], {}, "", true);
 
     storeInstance = store;
+  });
+
+  afterEach(() => {
+    spy.mockClear();
   });
 
   it("renders a MUIDataTable component", () => {
@@ -77,10 +82,14 @@ describe("<LookupList />", () => {
       type: "admin/lookups/SET_LOOKUPS_FILTER"
     };
 
+    mockFetchSuccess({ json: { data, metadata: { total: 30, per: 20, page: 1 } } });
     fireEvent.click(screen.getByTestId("headcol-1"));
+    const testAction = storeInstance
+      .getActions()
+      .filter(action => action.type === "admin/lookups/SET_LOOKUPS_FILTER")[1];
 
-    expect(storeInstance.getActions()[2].type).toStrictEqual(expectedAction.type);
-    expect(storeInstance.getActions()[2].payload.data).toStrictEqual(expectedAction.payload.data);
+    expect(testAction.type).toStrictEqual(expectedAction.type);
+    expect(testAction.payload.data).toStrictEqual(expectedAction.payload.data);
   });
 
   it("should trigger a valid action with next page when clicking next page", async () => {
@@ -102,11 +111,5 @@ describe("<LookupList />", () => {
     expect(storeInstance.getActions()[6].api.params.toJS()).toStrictEqual(expectAction.api.params.toJS());
     expect(storeInstance.getActions()[6].type).toStrictEqual(expectAction.type);
     expect(storeInstance.getActions()[6].api.path).toStrictEqual(expectAction.api.path);
-  });
-
-  afterEach(() => {
-    if (stubI18n) {
-      window.I18n.t.restore();
-    }
   });
 });

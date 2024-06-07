@@ -25,7 +25,6 @@ describe("<IndexFilters />/<Panel />", () => {
 
   it("renders children", () => {
     mountedFormComponent(<Panel {...props} />, { includeFormProvider: true });
-    screen.debug();
     expect(screen.getByText("Child Component")).toBeInTheDocument();
   });
 

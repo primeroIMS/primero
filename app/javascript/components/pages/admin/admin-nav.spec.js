@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable";
 
-import { fireEvent, mountedComponent, screen, within } from "../../../test-utils";
+import { mountedComponent, screen, within } from "../../../test-utils";
 
 import AdminNav from "./admin-nav";
 
@@ -32,10 +32,11 @@ describe("<AdminNav />", () => {
       }
     });
 
-    mountedComponent(<AdminNav routes={[]} />, state);
+    beforeEach(() => {
+      mountedComponent(<AdminNav routes={[]} />, state);
+    });
 
     it("should renders all AdminNavItem menus", () => {
-      screen.debug();
       expect(screen.getAllByRole("button")).toHaveLength(10);
     });
   });
@@ -49,10 +50,14 @@ describe("<AdminNav />", () => {
       }
     });
 
-    mountedComponent(<AdminNav routes={[]} />, state);
+    beforeEach(() => {
+      mountedComponent(<AdminNav routes={[]} />, state);
+    });
 
     it("should render 'forms' menu (expanded) and default menus", () => {
-      expect(screen.getAllByText("settings.navigation.forms").at(0)).toBeInTheDocument();
+      expect(
+        within(document.querySelector(".MuiCollapse-entered")).getByText("settings.navigation.forms")
+      ).toBeInTheDocument();
     });
   });
 });

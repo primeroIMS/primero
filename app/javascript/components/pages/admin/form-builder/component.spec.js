@@ -104,7 +104,6 @@ describe("<FormsBuilder />", () => {
 
     // FIXME: Rendered component always showing loading progress even though loading is false
     it.skip("renders all tabs enabled ", () => {
-      screen.debug();
       within(screen.getByRole("tablist"))
         .getAllByRole("tab")
         .map(element => expect(element).toBeEnabled());

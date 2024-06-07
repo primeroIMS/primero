@@ -8,8 +8,9 @@ import { parseISO, format as formatDate } from "date-fns";
 import { DATE_FORMATS } from "./constants";
 
 global.html2pdf = {};
-if (jest) {
-  global.fetch = jest.fn();
+
+if (typeof jest !== "undefined") {
+  global.window.fetch = jest.fn();
 }
 
 global.innerWidth = 2000;
