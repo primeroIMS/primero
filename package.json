@@ -5,7 +5,7 @@
   "license": "AGPL-3.0",
   "repository": "https://github.com/primeroIMS/primero",
   "engines": {
-    "node": ">=18.13.0"
+    "node": ">=21.3.0"
   },
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack/index.js",
@@ -156,16 +156,16 @@
     "proxy-memoize": "^2.0.3",
     "qs": "^6.9.3",
     "re-reselect": "^4.0.0",
-    "react": "^17.0.2",
+    "react": "^18.3.1",
     "react-beautiful-dnd": "^13.0.0",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.3.1",
     "react-hook-form": "6.15.1",
     "react-idle-timer": "^5.6.2",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.0.1",
     "react-router-navigation-prompt": "^1.8.11",
     "react-spaces": "^0.3.2",
-    "react-test-renderer": "^17.0.2",
+    "react-test-renderer": "^18.3.1",
     "react-window": "^1.8.6",
     "reduce-reducers": "^1.0.4",
     "redux": "^4.1.0",

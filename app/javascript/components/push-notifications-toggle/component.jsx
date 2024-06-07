@@ -46,7 +46,7 @@ function Component({ isNotificationsSupported }) {
   const notificationsNotSupported = !isNotificationsSupported || !receiveWebpush;
   const notificationsDenied = () => Notification.permission === NOTIFICATION_PERMISSIONS.DENIED;
 
-  useEffect(async () => {
+  async function setNotificationData() {
     if (isNil(notificationEndpoint)) {
       const dbEndpoint = await Common.find({ collection: DB_STORES.PUSH_NOTIFICATION_SUBSCRIPTION });
 
@@ -54,6 +54,10 @@ function Component({ isNotificationsSupported }) {
     } else {
       setValue(await Boolean(notificationEndpoint));
     }
+  }
+
+  useEffect(() => {
+    setNotificationData();
   }, []);
 
   const handleSwitch = opened => event => {
