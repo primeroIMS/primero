@@ -2,7 +2,7 @@
 /* eslint-disable react/display-name */
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { translateOptions } from "../../test";
+import { translateOptions } from "../../test-utils";
 import { fireEvent, mountedComponent, screen } from "../../test-utils";
 
 import useI18n from "./use-i18n";

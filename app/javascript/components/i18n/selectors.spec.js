@@ -27,14 +27,14 @@ describe("I18n - Selectors", () => {
 
       const records = getLocale(state);
 
-      expect(records).to.deep.equals(expected);
+      expect(records).toStrictEqual(expected);
     });
 
     it("should return default locale from window.I18n.locale", () => {
       const expected = "en";
       const records = getLocale(stateWithoutRecords);
 
-      expect(records).to.be.equals(expected);
+      expect(records).toStrictEqual(expected);
     });
   });
 
@@ -44,13 +44,13 @@ describe("I18n - Selectors", () => {
 
       const records = getLocales(state);
 
-      expect(records).to.deep.equals(expected);
+      expect(records).toStrictEqual(expected);
     });
 
     it("should return empty array", () => {
       const records = getLocales(stateWithoutRecords);
 
-      expect(records).to.be.empty;
+      expect(records).toStrictEqual(fromJS([]));
     });
   });
 
@@ -60,14 +60,14 @@ describe("I18n - Selectors", () => {
 
       const records = getAppDirection(state);
 
-      expect(records).to.be.equals(expected);
+      expect(records).toStrictEqual(expected);
     });
 
     it("should return default dir (ltr)", () => {
       const expected = "ltr";
       const records = getAppDirection(stateWithoutRecords);
 
-      expect(records).to.be.equals(expected);
+      expect(records).toStrictEqual(expected);
     });
   });
 });

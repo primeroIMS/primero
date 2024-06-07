@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { spy, useFakeTimers } from "../../../../test";
+import { spy, useFakeTimers } from "../../../../test-utils";
 
 import handleFilterChange, { valueParser, getFilterProps } from "./value-handlers";
 

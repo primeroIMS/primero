@@ -1,4 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+import "./globals";
 
 import chai from "chai";
 import sinonChai from "sinon-chai";
@@ -11,7 +12,6 @@ import IDBDatabase from "fake-indexeddb/lib/FDBDatabase";
 import IDBObjectStore from "fake-indexeddb/lib/FDBObjectStore";
 import IDBIndex from "fake-indexeddb/lib/FDBIndex";
 import IDBCursor from "fake-indexeddb/lib/FDBCursor";
-import { l } from "i18n-js";
 
 chai.use(chaiImmutable);
 chai.use(sinonChai);
@@ -55,8 +55,8 @@ global.localStorage = {
     delete storage[key];
   },
   clear: () => {
-    storage = {}
+    storage = {};
   }
 };
 
-global.sessionStorage = global.localStorage
+global.sessionStorage = global.localStorage;

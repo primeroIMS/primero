@@ -2,9 +2,6 @@
 
 # Frontend Unit Testing
 
-## Migration
-
-We are currently in the process of migrating React test from Enzyme. Going forward Enzyme is no longer supported with React 18+.
 
 ### Libraries
 
@@ -12,7 +9,7 @@ We are currently in the process of migrating React test from Enzyme. Going forwa
 - [Jest](https://jestjs.io/docs/getting-started)
 
 ### Contributing
-Temporarily pull request for migrated unit test should be made against 
+Temporarily pull request for migrated unit test should be made against
 the `develop_react_upgrade` branch in Github.
 
 #### Process for migrating a test file.
@@ -23,8 +20,8 @@ the `develop_react_upgrade` branch in Github.
 
 #### Thing to know
 - Running unit test
-  - `npm run test:new` - Runs full test suite
-  - `npm run test:new -- $FILE_PATH` - Run individual test files. Example: `npm run test:new -- app/javascript/components/menu/component.spec.js` 
+  - `npm run test:components` - Runs full test suite
+  - `npm run test:components -- $FILE_PATH` - Run individual test files. Example: `npm run test:components -- app/javascript/components/menu/component.spec.js`
 - There are some utility functions that we use to render test components in `/app/javascript/test-utils`. `mountedComponent` will be the most used for unit test. The function takes a component to test, desired store data, and other options. It will return a rendered component to use with your assertions. For an example see: `app/javascript/components/action-button/component.spec.js`
 - If there is a component without an unit test file please create one. In that file please place the following.
   ```
@@ -54,4 +51,3 @@ the `develop_react_upgrade` branch in Github.
 - RTL provides a few [queries](https://testing-library.com/docs/queries/about) to find elements in the rendered component. A require some kinda of attribute set on a component. For example: `byRole` requires a `data-role` WAI-ARIA attribute set on an element. You will need to make those small changes to the component file for finding elements for test assertions. `ByTestId` is to be only used if it is impossible to use the other provided queries.
 
   [List of WAI-ARIA Roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles)
-

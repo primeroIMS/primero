@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import { mountedComponent, screen } from "test-utils";
 
-import { lookups } from "../../../../../../test";
+import { lookups } from "../../../../../../test-utils";
 import { LOCALE_KEYS } from "../../../../../../config";
 
 import Form from "./component";

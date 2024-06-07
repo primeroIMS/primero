@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { spy, createMockStore } from "../../test";
+import { spy, createMockStore } from "../../test-utils";
 
 import offlineDispatchSuccess from "./offline-dispatch-success";
 import * as handleRestCallback from "./handle-rest-callback";

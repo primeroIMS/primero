@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable";
 
-import { stub } from "../../test";
+import { stub } from "../../test-utils";
 import * as syncIndexedDB from "../../db/sync";
 
 import { skipSyncedAttachments, buildDBPayload } from "./handle-offline-attachments";

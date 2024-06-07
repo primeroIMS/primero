@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 import { mountedComponent, screen } from "test-utils";
 
 import { buildTableData } from "../../report/utils";
-import { abbrMonthNames, stub } from "../../../test";
+import { abbrMonthNames, stub } from "../../../test-utils";
 
 import TableValues from "./component";
 

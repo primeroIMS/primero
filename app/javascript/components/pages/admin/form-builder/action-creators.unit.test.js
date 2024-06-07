@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable";
 
-import { stub } from "../../../../test";
+import { stub } from "../../../../test-utils";
 import { generate, ENQUEUE_SNACKBAR } from "../../../notifier";
 
 import * as actionCreators from "./action-creators";

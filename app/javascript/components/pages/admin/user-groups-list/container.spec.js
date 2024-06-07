@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 
 import { mountedComponent, screen, userEvent } from "../../../../test-utils";
-import { listHeaders, lookups } from "../../../../test";
+import { listHeaders, lookups } from "../../../../test-utils";
 import { ACTIONS } from "../../../permissions";
 
 import NAMESPACE from "./namespace";

@@ -1,9 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { setupHook } from "../../test/utils";
+import { setupHook } from "../../test-utils";
 
 import { OPTION_TYPES } from "./constants";
 import useOptions from "./use-options";
@@ -80,7 +79,7 @@ describe("Forms - useOptions", () => {
   it("should return all lookup types including customs", () => {
     const { result } = setupHook(() => useOptions({ source: OPTION_TYPES.LOOKUPS }), stateWithLookups);
 
-    expect(result.current).to.deep.equal([
+    expect(result.current).toStrictEqual([
       {
         id: "lookup lookup-1",
         display_text: "Lookup 1",
@@ -123,7 +122,7 @@ describe("Forms - useOptions", () => {
     const expected = optionStringsText;
     const { result } = setupHook(() => useOptions({ options: optionStringsText }), stateWithLookups);
 
-    expect(result.current).to.deep.equal(expected);
+    expect(result.current).toStrictEqual(expected);
   });
 
   it("should return the options, even if we includes other keys that are not id or display_text", () => {
@@ -135,7 +134,7 @@ describe("Forms - useOptions", () => {
     const expected = optionStringsText;
     const { result } = setupHook(() => useOptions({ options: optionStringsText }), stateWithLookups);
 
-    expect(result.current).to.deep.equal(expected);
+    expect(result.current).toStrictEqual(expected);
   });
 
   it("returns the options with tags if the tags are present", () => {
@@ -155,7 +154,7 @@ describe("Forms - useOptions", () => {
     });
     const { result } = setupHook(() => useOptions({ source: "lookup lookup-1" }), stateWithTags);
 
-    expect(result.current).to.deep.equal([{ id: "option1", display_text: "Option 1", disabled: false, tags: ["low"] }]);
+    expect(result.current).toStrictEqual([{ id: "option1", display_text: "Option 1", disabled: false, tags: ["low"] }]);
   });
 
   describe("getFormGroupLookups", () => {
@@ -188,7 +187,7 @@ describe("Forms - useOptions", () => {
       const source = "FormGroupLookup";
       const { result } = setupHook(() => useOptions({ source }), stateWithLookupsFormGroup);
 
-      expect(result.current).to.deep.equal(lookups);
+      expect(result.current).toStrictEqual(lookups);
     });
   });
 
@@ -201,7 +200,7 @@ describe("Forms - useOptions", () => {
       ];
       const { result } = setupHook(() => useOptions({ source, options }), fromJS({}));
 
-      expect(result.current).to.deep.equal(options);
+      expect(result.current).toStrictEqual(options);
     });
   });
 });

@@ -2,7 +2,7 @@
 
 import { fromJS, OrderedMap } from "immutable";
 
-import { setupHook } from "../../../test/utils";
+import { setupHook } from "../../../test-utils";
 import { FieldRecord } from "../../record-form";
 
 import { useTranslatedRecords } from "./use-translated-records";
@@ -161,6 +161,6 @@ describe("useTranslatedRecords", () => {
       initialState
     );
 
-    expect(result.current.toJS()).to.deep.equal(expected);
+    expect(result.current.toJS()).toStrictEqual(expected);
   });
 });

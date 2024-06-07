@@ -4,7 +4,7 @@ import Login from "./component";
 
 describe("<Login />", () => {
   describe("for login form", () => {
-    it.skip("renders form", () => {
+    it("renders form", () => {
       mountedComponent(<Login />, {
         idp: {
           use_identity_provider: false
@@ -15,13 +15,13 @@ describe("<Login />", () => {
           isAuthenticated: false
         }
       });
-    });
 
-    expect(screen.queryByText((content, element) => element.tagName.toLowerCase() === "form")).toBeInTheDocument();
+      expect(screen.queryByText((content, element) => element.tagName.toLowerCase() === "form")).toBeInTheDocument();
+    });
   });
 
   describe("for provider selection", () => {
-    it.skip("renders login selection", () => {
+    it("renders login selection", () => {
       mountedComponent(<Login />, {
         idp: {
           use_identity_provider: true,
@@ -38,8 +38,8 @@ describe("<Login />", () => {
           ]
         }
       });
-    });
 
-    expect(screen.queryByTestId("PrimeroIdpSelect")).toBeInTheDocument();
+      expect(document.querySelector(".idpSelectContainer")).toBeInTheDocument();
+    });
   });
 });

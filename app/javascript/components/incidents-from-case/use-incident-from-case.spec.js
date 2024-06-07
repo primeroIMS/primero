@@ -2,7 +2,7 @@
 import { fromJS } from "immutable";
 
 import { RECORD_TYPES, INCIDENT_CASE_ID_DISPLAY_FIELD, INCIDENT_CASE_ID_FIELD } from "../../config";
-import { setupHook } from "../../test/utils";
+import { setupHook } from "../../test-utils";
 
 import useIncidentFromCase from "./use-incident-from-case";
 
@@ -21,13 +21,13 @@ describe("IncidentFromCase - useIncidentFromCase", () => {
         })
       );
 
-      expect(result.current.incidentFromCaseIdDisplay).to.eql("6a7013f");
-      expect(result.current.incidentFromCaseId).to.eq("d92f8cc0-5350-4396-b852-d83476a7013f");
-      expect(result.current.present).to.be.true;
+      expect(result.current.incidentFromCaseIdDisplay).toBe("6a7013f");
+      expect(result.current.incidentFromCaseId).toBe("d92f8cc0-5350-4396-b852-d83476a7013f");
+      expect(result.current.present).toBeTruthy();
     });
   });
 
-  it("should return IncidentFromCase data", () => {
+  describe("should return IncidentFromCase data", () => {
     describe("when recordType is cases", () => {
       it("should return undefined data", () => {
         const { result } = setupHook(() =>
@@ -37,9 +37,9 @@ describe("IncidentFromCase - useIncidentFromCase", () => {
           })
         );
 
-        expect(result.current.incidentFromCaseIdDisplay).to.be.null;
-        expect(result.current.incidentFromCaseId).to.be.null;
-        expect(result.current.present).to.be.false;
+        expect(result.current.incidentFromCaseIdDisplay).toBeNull();
+        expect(result.current.incidentFromCaseId).toBeNull();
+        expect(result.current.present).toBeFalsy();
       });
     });
   });
