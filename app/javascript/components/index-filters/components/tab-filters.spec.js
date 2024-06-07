@@ -2,10 +2,9 @@
 
 import { fromJS } from "immutable";
 
-import { setupMockFormComponent } from "../../../test";
 import { MODULES } from "../../../config";
+import { mountedFormComponent, screen } from "../../../test-utils";
 
-import FilterCategory from "./filter-category";
 import TabFilters from "./tab-filters";
 
 describe("components/index-filters/<TabFilters>", () => {
@@ -27,25 +26,25 @@ describe("components/index-filters/<TabFilters>", () => {
 
   it("does not render a FilterCategory if the module is not MRM", () => {
     const state = fromJS({ user: { modules: [MODULES.CP] } });
-    const { component } = setupMockFormComponent(TabFilters, { props: defaultProps, state });
 
-    expect(component.find(FilterCategory)).to.be.empty;
+    mountedFormComponent(<TabFilters {...defaultProps} />, { state });
+
+    expect(screen.queryByTestId("filter-category")).not.toBeInTheDocument();
   });
 
   it("renders a FilterCategory if the module is MRM", () => {
     const state = fromJS({ user: { modules: [MODULES.MRM] } });
-    const { component } = setupMockFormComponent(TabFilters, { props: defaultProps, state });
 
-    expect(component.find(FilterCategory)).to.have.lengthOf(1);
+    mountedFormComponent(<TabFilters {...defaultProps} />, { state });
+
+    expect(screen.queryByTestId("filter-category")).toBeInTheDocument();
   });
 
   it("does not renders a FilterCategory if the recordType is not incident", () => {
     const state = fromJS({ user: { modules: [MODULES.MRM] } });
-    const { component } = setupMockFormComponent(TabFilters, {
-      props: { ...defaultProps, recordType: "cases" },
-      state
-    });
 
-    expect(component.find(FilterCategory)).to.be.empty;
+    mountedFormComponent(<TabFilters {...{ ...defaultProps, recordType: "cases" }} />, { state });
+
+    expect(screen.queryByTestId("filter-category")).not.toBeInTheDocument();
   });
 });

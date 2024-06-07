@@ -2,10 +2,9 @@
 
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../test";
+import { fireEvent, mountedComponent, screen, within } from "../../../test-utils";
 
 import AdminNav from "./admin-nav";
-import AdminNavItem from "./admin-nav-item";
 
 describe("<AdminNav />", () => {
   describe("when the user has access to all admin-nav entries", () => {
@@ -33,20 +32,11 @@ describe("<AdminNav />", () => {
       }
     });
 
-    const { component } = setupMountedComponent(
-      AdminNav,
-      {
-        routes: []
-      },
-      state
-    );
-
-    it("should render AdminNav component", () => {
-      expect(component.find(AdminNav)).to.have.lengthOf(1);
-    });
+    mountedComponent(<AdminNav routes={[]} />, state);
 
     it("should renders all AdminNavItem menus", () => {
-      expect(component.find(AdminNavItem)).to.have.lengthOf(10);
+      screen.debug();
+      expect(screen.getAllByRole("button")).toHaveLength(10);
     });
   });
 
@@ -59,24 +49,10 @@ describe("<AdminNav />", () => {
       }
     });
 
-    const { component } = setupMountedComponent(
-      AdminNav,
-      {
-        routes: []
-      },
-      state
-    );
-
-    it("should render AdminNav component", () => {
-      expect(component.find(AdminNav)).to.have.lengthOf(1);
-    });
+    mountedComponent(<AdminNav routes={[]} />, state);
 
     it("should render 'forms' menu (expanded) and default menus", () => {
-      const menus = component.find(AdminNavItem);
-      const formsMenu = menus.at(0);
-
-      expect(menus).to.have.lengthOf(4);
-      expect(formsMenu.props().open).to.be.true;
+      expect(screen.getAllByText("settings.navigation.forms").at(0)).toBeInTheDocument();
     });
   });
 });

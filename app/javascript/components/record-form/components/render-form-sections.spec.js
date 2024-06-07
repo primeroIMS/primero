@@ -2,10 +2,9 @@
 
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
-import TextField from "../form/field-types/text-field";
 import { TEXT_FIELD } from "../constants";
+import { mountedComponent, screen } from "../../../test-utils";
 
 import renderFormSections from "./render-form-sections";
 
@@ -66,10 +65,11 @@ describe("renderFormSections()", () => {
         false
       );
 
-    const renderedFormSections = () => <>{formSection()}</>;
+    // eslint-disable-next-line react/display-name
+    const RenderedFormSections = () => <>{formSection()}</>;
 
-    const { component } = setupMountedComponent(renderedFormSections, {}, {}, [], { initialValues: {} });
+    mountedComponent(<RenderedFormSections />, {}, {}, [], { initialValues: {} });
 
-    expect(component.find(TextField)).to.have.lengthOf(2);
+    expect(screen.getAllByRole("textbox")).toHaveLength(2);
   });
 });

@@ -1,9 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { TextField, RadioGroup, Select } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../../test";
+import { mountedComponent, screen } from "../../../test-utils";
 
 import ApprovalForm from "./approval-form";
 
@@ -20,20 +19,20 @@ describe("<ApprovalForm /> - components/record-actions/request-approval", () => 
   };
 
   it("renders RadioGroup", () => {
-    const { component } = setupMountedComponent(ApprovalForm, props, state);
+    mountedComponent(<ApprovalForm {...props} />, state);
 
-    expect(component.find(RadioGroup)).to.have.lengthOf(1);
+    expect(screen.getByRole("radiogroup")).toBeInTheDocument();
   });
 
   it("renders Select", () => {
-    const { component } = setupMountedComponent(ApprovalForm, props, state);
+    mountedComponent(<ApprovalForm {...props} />, state);
 
-    expect(component.find(Select)).to.have.lengthOf(1);
+    expect(document.querySelector("input.MuiSelect-nativeInput")).toBeInTheDocument();
   });
 
   it("renders TextField", () => {
-    const { component } = setupMountedComponent(ApprovalForm, props, state);
+    mountedComponent(<ApprovalForm {...props} />, state);
 
-    expect(component.find(TextField)).to.have.lengthOf(1);
+    expect(screen.getByRole("textbox")).toBeInTheDocument();
   });
 });

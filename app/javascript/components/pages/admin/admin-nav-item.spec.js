@@ -1,7 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { setupMountedComponent } from "../../../test";
-import Jewel from "../../jewel";
+import { mountedComponent, screen } from "../../../test-utils";
 
 import AdminNavItem from "./admin-nav-item";
 
@@ -15,14 +14,9 @@ describe("<AdminNavItem />", () => {
       renderJewel: true
     };
 
-    const { component } = setupMountedComponent(AdminNavItem, props);
-
-    it("should render AdminNavItem", () => {
-      expect(component.find(AdminNavItem)).to.have.lengthOf(1);
-    });
-
     it("should render a Jewel component", () => {
-      expect(component.find(Jewel)).to.have.lengthOf(1);
+      mountedComponent(<AdminNavItem {...props} />);
+      expect(screen.getByTestId("error")).toBeInTheDocument();
     });
   });
 });

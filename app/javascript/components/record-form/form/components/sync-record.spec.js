@@ -1,7 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { setupMountedComponent } from "../../../../test";
-import ActionButton from "../../../action-button";
+import { mountedComponent, screen } from "../../../../test-utils";
 
 import ImportData from "./sync-record";
 
@@ -13,17 +12,11 @@ describe("<ImportData />", () => {
     isEnabledWebhookSyncFor: true
   };
 
-  let component;
-
   beforeEach(() => {
-    ({ component } = setupMountedComponent(ImportData, props));
-  });
-
-  it("renders a <ImportData />", () => {
-    expect(component.find(ImportData)).to.have.lengthOf(1);
+    mountedComponent(<ImportData {...props} />);
   });
 
   it("renders a <ActionButton />", () => {
-    expect(component.find(ActionButton)).to.have.lengthOf(1);
+    expect(screen.getByRole("button")).toBeInTheDocument();
   });
 });
