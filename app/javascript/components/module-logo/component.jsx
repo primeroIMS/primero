@@ -16,12 +16,18 @@ const ModuleLogo = ({ moduleLogo, white, useModuleLogo }) => {
   const moduleLogoID = useMemoizedSelector(state => getModuleLogoID(state));
   const themeLogos = useMemoizedSelector(state => getThemeLogos(state));
   const siteTitle = useMemoizedSelector(state => getSiteTitle(state));
+  const selectedModuleLogo = moduleLogo || moduleLogoID;
 
-  const [fullLogo, smallLogo] = getLogo(moduleLogo || moduleLogoID, white, themeLogos, useModuleLogo);
+  const [fullLogo, smallLogo] = getLogo(selectedModuleLogo, white, themeLogos, useModuleLogo);
 
   return (
     <div className={css.logoContainer}>
-      <img src={tabletDisplay ? smallLogo : fullLogo} alt={siteTitle} className={css.logo} />
+      <img
+        src={tabletDisplay ? smallLogo : fullLogo}
+        alt={siteTitle}
+        className={css.logo}
+        data-testid={`logo-${selectedModuleLogo}`}
+      />
     </div>
   );
 };

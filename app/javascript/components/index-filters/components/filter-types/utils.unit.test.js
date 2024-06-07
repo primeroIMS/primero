@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { spy } from "../../../../test";
+import { spy } from "../../../../test-utils";
 import { AGE_MAX } from "../../../../config";
 
 import {

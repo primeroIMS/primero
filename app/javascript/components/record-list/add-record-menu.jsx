@@ -65,7 +65,7 @@ const AddRecordMenu = ({ recordType }) => {
     const handleOnClickMenuItem = primeroModule => () => handleModuleClick(primeroModule);
 
     return primeroModules?.size > 1 ? (
-      <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+      <Menu data-testid="menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         {primeroModules.map(primeroModule => {
           return (
             <MenuItem key={primeroModule.unique_id} component={Button} onClick={handleOnClickMenuItem(primeroModule)}>

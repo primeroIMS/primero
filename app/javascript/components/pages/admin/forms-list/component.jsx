@@ -151,7 +151,7 @@ const Component = () => {
           filters={filterValues}
           setPending={setDialogPending}
         />
-        <div className={css.indexContainer}>
+        <div className={css.indexContainer} data-testid="form-list">
           <div className={css.forms}>
             <LoadingIndicator hasData={hasFormSectionsByGroup} loading={isLoading} type={NAMESPACE}>
               <ActionButton

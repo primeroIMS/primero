@@ -63,6 +63,7 @@ const SearchableSelect = ({
 
       return (
         <Chip
+          data-testid="chip"
           size="small"
           label={optionLabel(option, options, optionIdKey, optionLabelKey)}
           {...chipProps}
@@ -79,6 +80,7 @@ const SearchableSelect = ({
 
   return (
     <Autocomplete
+      data-testid="autocomplete"
       id={name}
       onChange={handleOnChange}
       options={options}
@@ -101,6 +103,7 @@ const SearchableSelect = ({
         <AutoCompleteInput
           ref={params.InputProps.ref}
           mode={mode}
+          data-testid="autocomplete-input"
           params={params}
           value={initialValues}
           helperText={helperText}

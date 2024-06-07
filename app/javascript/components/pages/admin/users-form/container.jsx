@@ -196,6 +196,7 @@ const Container = ({ mode }) => {
       }
     ).map(formSection => (
       <FormSection
+        data-testid="form-section"
         formSection={formSection}
         key={formSection.unique_id}
         formMethods={formMethods}
@@ -261,7 +262,7 @@ const Container = ({ mode }) => {
             <InternalAlert items={fromJS([{ message: i18n.t("user.messages.records_update") }])} />
           )}
           <CancelPrompt useCancelPrompt isShow={formMode.get("isShow")} formState={formMethods.formState} />
-          <form noValidate id={FORM_ID} onSubmit={formMethods.handleSubmit(onSubmit)}>
+          <form data-testid="form" noValidate id={FORM_ID} onSubmit={formMethods.handleSubmit(onSubmit)}>
             {renderFormSections()}
           </form>
           <UserConfirmation

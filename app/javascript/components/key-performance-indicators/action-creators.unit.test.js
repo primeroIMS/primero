@@ -1,8 +1,15 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
+import { spy } from "../../test-utils";
+
 import forKPI from "./action-creators";
 
 describe("KeyPerformanceIndicators - Action Creators", () => {
+  before(() => {
+    // eslint-disable-next-line no-extend-native
+    Date.prototype.getTimezoneOffset = spy(() => 0);
+  });
+
   it("should return a function", () => {
     expect(forKPI("test")).to.be.a("function");
   });

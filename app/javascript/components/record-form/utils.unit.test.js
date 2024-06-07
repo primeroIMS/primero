@@ -4,7 +4,7 @@ import { parseISO } from "date-fns";
 import { fromJS } from "immutable";
 import { expect } from "chai";
 
-import { useFakeTimers } from "../../test";
+import { useFakeTimers } from "../../test-utils";
 import {
   APPROVALS,
   CHANGE_LOGS,

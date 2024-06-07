@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { mock, spy } from "../../../../test";
+import { mock, spy } from "../../../../test-utils";
 
 import getConnectedFields from "./get-connected-fields";
 import handleChangeOnServiceUser from "./handle-change-service-user";

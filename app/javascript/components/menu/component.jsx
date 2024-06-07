@@ -37,6 +37,7 @@ const Component = ({ actions, disabledCondition, showMenu }) => {
       )}
       <Menu
         id="long-menu"
+        data-testid="long-menu"
         variant="menu"
         anchorEl={anchorEl}
         keepMounted

@@ -34,6 +34,6 @@ describe("<ApprovalPanel /> - Component", () => {
   });
 
   it("render a ApprovalSummary", () => {
-    expect(screen.getAllByTestId("sectionheader")).toHaveLength(1);
+    expect(screen.getAllByTestId("approval-summary")).toHaveLength(1);
   });
 });

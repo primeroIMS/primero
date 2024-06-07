@@ -36,7 +36,7 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
     return (
       <>
         <div className={css.mobileStepper}>
-          <Badge color="primary" badgeContent={(activeStep + 1)?.toString()} />
+          <Badge data-testid="badge" color="primary" badgeContent={(activeStep + 1)?.toString()} />
           <div>{displayNameHelper(workflowSteps?.[activeStep]?.display_text, locale)}</div>
         </div>
       </>
@@ -44,12 +44,12 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
   }
 
   return (
-    <Stepper classes={{ root: css.stepper }} activeStep={activeStep || 0}>
+    <Stepper data-testid="stepper" classes={{ root: css.stepper }} activeStep={activeStep || 0}>
       {workflowSteps?.map((s, index) => {
         const label = displayNameHelper(s.display_text, locale) || "";
 
         return (
-          <Step key={s.id} complete={Boolean(index < activeStep)}>
+          <Step data-testid="step" key={s.id} complete={Boolean(index < activeStep)}>
             <StepLabel classes={{ label: css.stepLabel, active: css.styleLabelActive }}>{label}</StepLabel>
           </Step>
         );
