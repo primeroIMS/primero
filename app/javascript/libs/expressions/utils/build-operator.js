@@ -12,11 +12,10 @@ import {
   orOperator,
   notOperator,
   sumOperator,
-  avgOperator,
-  roundOperator
+  avgOperator
 } from "../operators";
 
-export default (operator, value) => {
+export default (operator, value, extra) => {
   switch (operator) {
     case COMPARISON_OPERATORS.EQ:
       return eqOperator(value);
@@ -39,9 +38,7 @@ export default (operator, value) => {
     case MATHEMATICAL_OPERATORS.SUM:
       return sumOperator(value);
     case MATHEMATICAL_OPERATORS.AVG:
-      return avgOperator(value);
-    case MATHEMATICAL_OPERATORS.ROUND:
-      return roundOperator(value);
+      return avgOperator(value, extra);
     default:
       throw Error(`Operator ${operator} is not valid.`);
   }

@@ -11,4 +11,3 @@ export { default as orOperator } from "./or";
 export { default as notOperator } from "./not";
 export { default as sumOperator } from "./sum";
 export { default as avgOperator } from "./avg";
-export { default as roundOperator } from "./round";

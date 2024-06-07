@@ -17,11 +17,13 @@ const parseExpression = expression => {
   }
 
   if (isMathematicalOperator(operator)) {
-    const mathExp = Array.isArray(value)
-      ? value.map(nested => (isObject(nested) ? parseExpression(nested) : nested))
-      : parseExpression(value);
+    const data = value?.data ?? value;
+    const extra = value?.extra;
+    const mathExp = Array.isArray(data)
+      ? data.map(nested => (isObject(nested) ? parseExpression(nested) : nested))
+      : parseExpression(data);
 
-    return buildOperator(operator, mathExp);
+    return buildOperator(operator, mathExp, extra);
   }
 
   return buildOperator(operator, value);
