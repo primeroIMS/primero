@@ -1,33 +1,16 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-/* eslint-disable prefer-destructuring */
-
-import { Route } from "react-router-dom";
 import { fromJS, Map, List, OrderedMap } from "immutable";
-import { CircularProgress } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../test";
-import PageContainer from "../page";
-import LoadingIndicator from "../loading-indicator";
-import RecordOwner from "../record-owner";
 import { PrimeroModuleRecord } from "../application/records";
-import Transitions from "../transitions";
-import { MODES } from "../../config";
-import Approvals from "../approvals";
-import ApprovalPanel from "../approvals/components/panel";
-import IncidentFromCase from "../incidents-from-case";
-import IncidentFromCasePanel from "../incidents-from-case/components/panel";
-import ChangeLogs from "../change-logs";
+import { mountedComponent, screen } from "../../test-utils";
 import { MANAGE } from "../permissions";
+import { MODES } from "../../config";
 
-import Nav from "./nav";
-import { RecordForm, RecordFormToolbar } from "./form";
-import RecordFormTitle from "./form/record-form-title";
-import RecordForms from "./container";
 import { FormSectionRecord, FieldRecord } from "./records";
+import RecordForms from "./container";
 
 describe("<RecordForms /> - Component", () => {
-  let component;
   const formSections = OrderedMap({
     1: FormSectionRecord({
       id: 1,
@@ -122,86 +105,6 @@ describe("<RecordForms /> - Component", () => {
     id: "2b8d6be1-1dc4-483a-8640-4cfe87c71610"
   };
 
-  const rootInitialState = fromJS({
-    records: Map({
-      cases: Map({
-        data: List([Map(record)]),
-        metadata: Map({ per: 20, page: 1, total: 1 }),
-        filters: Map({ status: "open" })
-      })
-    }),
-    forms: Map({
-      selectedForm: "record_owner",
-      selectedRecord: record,
-      formSections,
-      fields,
-      loading: false,
-      errors: false,
-      forms: {
-        options: {
-          lookups: [
-            {
-              id: 2,
-              unique_id: "lookup-cp-violence-type",
-              name: {
-                en: "CP Sexual Violence Type"
-              },
-              values: [
-                { id: "cp_test1", display_text: { en: "CP Test1" } },
-                { id: "cp_test2", display_text: { en: "CP Test2" } }
-              ]
-            }
-          ]
-        }
-      }
-    }),
-    user: fromJS({
-      permittedForms: { basic_identity: "rw" },
-      modules: ["primeromodule-cp"]
-    }),
-    application
-  });
-
-  before(() => {
-    const routedComponent = initialProps => {
-      return (
-        <Route
-          path="/:recordType(cases|incidents|tracing_requests)/:id"
-          component={props => <RecordForms {...{ ...props, ...initialProps }} />}
-        />
-      );
-    };
-
-    ({ component } = setupMountedComponent(
-      routedComponent,
-      {
-        mode: "show"
-      },
-      rootInitialState,
-      ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
-    ));
-  });
-
-  it("renders the PageContainer", () => {
-    expect(component.find(PageContainer)).to.have.length(1);
-  });
-
-  it("renders the LoadingIndicator", () => {
-    expect(component.find(LoadingIndicator)).to.have.length(1);
-  });
-
-  it("renders the RecordFormToolbar", () => {
-    expect(component.find(RecordFormToolbar)).to.have.length(1);
-  });
-
-  it("renders the Nav", () => {
-    expect(component.find(Nav)).to.have.length(1);
-  });
-
-  it("renders the RecordOwner", () => {
-    expect(component.find(RecordOwner)).to.have.length(1);
-  });
-
   describe("when basic_identity is the selectedForm ", () => {
     const initialState = fromJS({
       records: Map({
@@ -226,30 +129,19 @@ describe("<RecordForms /> - Component", () => {
       application
     });
 
-    beforeEach(() => {
-      const routedComponent = initialProps => {
-        return (
-          <Route
-            path="/:recordType(cases|incidents|tracing_requests)/:id"
-            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
-          />
-        );
-      };
-
-      ({ component } = setupMountedComponent(
-        routedComponent,
-        {
-          mode: "show"
-        },
-        initialState,
-        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
-      ));
-    });
-
     it("should render RecordForm and not RecordOwner and Transitions", () => {
-      expect(component.find(RecordOwner)).to.have.lengthOf(0);
-      expect(component.find(Transitions)).to.have.lengthOf(0);
-      expect(component.find(RecordForm)).to.have.lengthOf(1);
+      mountedComponent(
+        <RecordForms mode={MODES.show} />,
+        initialState,
+        {},
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"],
+        {},
+        "/:recordType(cases|incidents|tracing_requests)/:id"
+      );
+
+      expect(screen.queryByTestId("record-owner-form")).toBeNull();
+      expect(screen.queryByTestId("transitions")).toBeNull();
+      expect(screen.getByTestId("record-form-title", { name: "Basic Identity" })).toBeInTheDocument();
     });
   });
 
@@ -277,33 +169,20 @@ describe("<RecordForms /> - Component", () => {
       application
     });
 
-    beforeEach(() => {
-      const routedComponent = initialProps => {
-        return (
-          <Route
-            path="/:recordType(cases|incidents|tracing_requests)/:id"
-            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
-          />
-        );
-      };
-
-      ({ component } = setupMountedComponent(
-        routedComponent,
-        {
-          mode: MODES.show
-        },
-        initialState,
-        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
-      ));
-    });
-
     it("should render Approvals without ApprovalPanel", () => {
-      expect(component.find(RecordForm).find(Approvals)).to.have.lengthOf(1);
-      expect(component.find(ApprovalPanel)).to.have.lengthOf(0);
-      expect(component.find(Transitions)).to.have.lengthOf(0);
-      expect(component.find(RecordForm).find(Approvals).find(RecordFormTitle).text()).to.be.equal(
-        "forms.record_types.approvals"
+      mountedComponent(
+        <RecordForms mode={MODES.show} />,
+        initialState,
+        {},
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"],
+        {},
+        "/:recordType(cases|incidents|tracing_requests)/:id"
       );
+
+      expect(screen.getByTestId("approvals")).toBeInTheDocument();
+      expect(screen.queryByTestId("approval-panel")).toBeNull();
+      expect(screen.queryByTestId("transitions")).toBeNull();
+      expect(screen.getByText("forms.record_types.approvals")).toBeInTheDocument();
     });
   });
 
@@ -344,35 +223,20 @@ describe("<RecordForms /> - Component", () => {
       application
     });
 
-    beforeEach(() => {
-      const routedComponent = initialProps => {
-        return (
-          <Route
-            path="/:recordType(cases|incidents|tracing_requests)/:id"
-            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
-          />
-        );
-      };
-
-      ({ component } = setupMountedComponent(
-        routedComponent,
-        {
-          mode: MODES.show
-        },
-        initialState,
-        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
-      ));
-    });
-
     it("should render Approvals with ApprovalPanel", () => {
-      const componentRecordForm = component.find(RecordForm);
-
-      expect(componentRecordForm.find(Approvals)).to.have.lengthOf(1);
-      expect(componentRecordForm.find(ApprovalPanel)).to.have.lengthOf(1);
-      expect(componentRecordForm.find(Transitions)).to.be.empty;
-      expect(componentRecordForm.find(Approvals).find(RecordFormTitle).text()).to.be.equal(
-        "forms.record_types.approvals"
+      mountedComponent(
+        <RecordForms mode={MODES.show} />,
+        initialState,
+        {},
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"],
+        {},
+        "/:recordType(cases|incidents|tracing_requests)/:id"
       );
+
+      expect(screen.getByTestId("approvals")).toBeInTheDocument();
+      expect(screen.getByTestId("approval-panel")).toBeInTheDocument();
+      expect(screen.queryByTestId("transitions")).toBeNull();
+      expect(screen.getByText("forms.record_types.approvals")).toBeInTheDocument();
     });
   });
 
@@ -415,34 +279,20 @@ describe("<RecordForms /> - Component", () => {
       application
     });
 
-    beforeEach(() => {
-      const routedComponent = initialProps => {
-        return (
-          <Route
-            path="/:recordType(cases|incidents|tracing_requests)/:id"
-            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
-          />
-        );
-      };
-
-      ({ component } = setupMountedComponent(
-        routedComponent,
-        {
-          mode: MODES.show
-        },
-        initialState,
-        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
-      ));
-    });
-
     it("should render IncidentFromCase with IncidentFromCasePanel", () => {
-      const componentRecordForm = component.find(RecordForm);
+      mountedComponent(
+        <RecordForms mode={MODES.show} />,
+        initialState,
+        {},
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"],
+        {},
+        "/:recordType(cases|incidents|tracing_requests)/:id"
+      );
 
-      expect(componentRecordForm).to.have.lengthOf(1);
-      expect(componentRecordForm.find(IncidentFromCase)).to.have.lengthOf(1);
-      expect(componentRecordForm.find(IncidentFromCasePanel)).to.have.lengthOf(1);
-      expect(componentRecordForm.find(Transitions)).to.be.empty;
-      expect(componentRecordForm.find(Approvals)).to.be.empty;
+      expect(screen.getByTestId("incident-from-case")).toBeInTheDocument();
+      expect(screen.getByTestId("incident-panel")).toBeInTheDocument();
+      expect(screen.queryByTestId("approvals")).toBeNull();
+      expect(screen.queryByTestId("transitions")).toBeNull();
     });
   });
 
@@ -491,34 +341,20 @@ describe("<RecordForms /> - Component", () => {
       application
     });
 
-    beforeEach(() => {
-      const routedComponent = initialProps => {
-        return (
-          <Route
-            path="/:recordType(cases|incidents|tracing_requests)/:id"
-            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
-          />
-        );
-      };
-
-      ({ component } = setupMountedComponent(
-        routedComponent,
-        {
-          mode: MODES.show
-        },
-        initialState,
-        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
-      ));
-    });
-
     it("should render Transitions", () => {
-      const componentRecordForm = component.find(RecordForm);
+      mountedComponent(
+        <RecordForms mode={MODES.show} />,
+        initialState,
+        {},
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"],
+        {},
+        "/:recordType(cases|incidents|tracing_requests)/:id"
+      );
 
-      expect(componentRecordForm).to.have.lengthOf(1);
-      expect(componentRecordForm.find(Transitions)).to.have.lengthOf(1);
-      expect(componentRecordForm.find(Transitions).find(RecordFormTitle).text()).to.equal("transfer_assignment.title");
-      expect(componentRecordForm.find(IncidentFromCasePanel)).to.be.empty;
-      expect(componentRecordForm.find(Approvals)).to.be.empty;
+      expect(screen.getByTestId("transitions")).toBeInTheDocument();
+      expect(screen.getByTestId("record-form-title")).toHaveTextContent("transfer_assignment.title");
+      expect(screen.queryByTestId("incident-panel")).toBeNull();
+      expect(screen.queryByTestId("approvals")).toBeNull();
     });
   });
 
@@ -567,36 +403,20 @@ describe("<RecordForms /> - Component", () => {
       application
     });
 
-    beforeEach(() => {
-      const routedComponent = initialProps => {
-        return (
-          <Route
-            path="/:recordType(cases|incidents|tracing_requests)/:id"
-            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
-          />
-        );
-      };
-
-      ({ component } = setupMountedComponent(
-        routedComponent,
-        {
-          mode: MODES.show
-        },
-        initialState,
-        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
-      ));
-    });
-
     it("should render Transitions component for REFERRAL", () => {
-      const componentRecordForm = component.find(RecordForm);
-
-      expect(componentRecordForm).to.have.lengthOf(1);
-      expect(componentRecordForm.find(Transitions)).to.have.lengthOf(1);
-      expect(componentRecordForm.find(Transitions).find(RecordFormTitle).text()).to.equal(
-        "forms.record_types.referrals"
+      mountedComponent(
+        <RecordForms mode={MODES.show} />,
+        initialState,
+        {},
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"],
+        {},
+        "/:recordType(cases|incidents|tracing_requests)/:id"
       );
-      expect(componentRecordForm.find(IncidentFromCasePanel)).to.be.empty;
-      expect(componentRecordForm.find(Approvals)).to.be.empty;
+
+      expect(screen.getByTestId("transitions")).toBeInTheDocument();
+      expect(screen.getByTestId("record-form-title")).toHaveTextContent("forms.record_types.referrals");
+      expect(screen.queryByTestId("incident-panel")).toBeNull();
+      expect(screen.queryByTestId("approvals")).toBeNull();
     });
   });
 
@@ -674,35 +494,21 @@ describe("<RecordForms /> - Component", () => {
       application
     });
 
-    beforeEach(() => {
-      const routedComponent = initialProps => {
-        return (
-          <Route
-            path="/:recordType(cases|incidents|tracing_requests)/:id"
-            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
-          />
-        );
-      };
-
-      ({ component } = setupMountedComponent(
-        routedComponent,
-        {
-          mode: MODES.show
-        },
-        initialState,
-        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
-      ));
-    });
-
     it("should render ChangeLog component", () => {
-      const componentRecordForm = component.find(RecordForm);
+      mountedComponent(
+        <RecordForms mode={MODES.show} />,
+        initialState,
+        {},
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"],
+        {},
+        "/:recordType(cases|incidents|tracing_requests)/:id"
+      );
 
-      expect(componentRecordForm).to.have.lengthOf(1);
-      expect(componentRecordForm.find(ChangeLogs)).to.have.lengthOf(1);
-      expect(componentRecordForm.find(ChangeLogs).find(RecordFormTitle).text()).to.equal("change_logs.label");
-      expect(componentRecordForm.find(Transitions)).to.be.empty;
-      expect(componentRecordForm.find(IncidentFromCasePanel)).to.be.empty;
-      expect(componentRecordForm.find(Approvals)).to.be.empty;
+      expect(screen.getByTestId("change-logs")).toBeInTheDocument();
+      expect(screen.getByTestId("record-form-title")).toHaveTextContent("change_logs.label");
+      expect(screen.queryByTestId("transitions")).toBeNull();
+      expect(screen.queryByTestId("incident-panel")).toBeNull();
+      expect(screen.queryByTestId("approvals")).toBeNull();
     });
   });
 
@@ -730,33 +536,19 @@ describe("<RecordForms /> - Component", () => {
       application
     });
 
-    beforeEach(() => {
-      const routedComponent = initialProps => {
-        return (
-          <Route
-            path="/:recordType(cases|incidents|tracing_requests)/:module/new"
-            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
-          />
-        );
-      };
-
-      ({ component } = setupMountedComponent(
-        routedComponent,
-        {
-          mode: MODES.new
-        },
-        initialState,
-        ["/cases/primeromodule-cp/new"]
-      ));
-    });
-
     it("should render Approvals without ApprovalPanel", () => {
-      const componentRecordForm = component.find(RecordForm);
+      mountedComponent(
+        <RecordForms mode={MODES.new} />,
+        initialState,
+        {},
+        ["/cases/primeromodule-cp/new"],
+        {},
+        "/:recordType(cases|incidents|tracing_requests)/:module/new"
+      );
 
-      expect(componentRecordForm).to.have.lengthOf(1);
-      expect(componentRecordForm.find(Approvals)).to.have.lengthOf(1);
-      expect(componentRecordForm.find(ApprovalPanel)).to.be.empty;
-      expect(componentRecordForm.find(Transitions)).to.be.empty;
+      expect(screen.getByTestId("approvals")).toBeInTheDocument();
+      expect(screen.queryByTestId("approval-panel")).toBeNull();
+      expect(screen.queryByTestId("transitions")).toBeNull();
     });
   });
 
@@ -784,29 +576,17 @@ describe("<RecordForms /> - Component", () => {
       application
     });
 
-    beforeEach(() => {
-      const routedComponent = initialProps => {
-        return (
-          <Route
-            path="/:recordType(cases|incidents|tracing_requests)/:id"
-            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
-          />
-        );
-      };
-
-      ({ component } = setupMountedComponent(
-        routedComponent,
-        {
-          mode: "show"
-        },
-        initialState,
-        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
-      ));
-    });
-
     it("should render CircularProgress", () => {
-      expect(component.find(RecordForms)).to.have.lengthOf(1);
-      expect(component.find(CircularProgress)).to.have.lengthOf(1);
+      mountedComponent(
+        <RecordForms mode={MODES.show} />,
+        initialState,
+        {},
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"],
+        {},
+        "/:recordType(cases|incidents|tracing_requests)/:id"
+      );
+
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });
   });
 
@@ -882,28 +662,17 @@ describe("<RecordForms /> - Component", () => {
       application
     });
 
-    beforeEach(() => {
-      const routedComponent = initialProps => {
-        return (
-          <Route
-            path="/:recordType(cases|incidents|tracing_requests)/:id"
-            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
-          />
-        );
-      };
-
-      ({ component } = setupMountedComponent(
-        routedComponent,
-        {
-          mode: "show"
-        },
-        initialState,
-        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
-      ));
-    });
-
     it("should render just one RecordForm ", () => {
-      expect(component.find(RecordForm)).to.have.lengthOf(1);
+      mountedComponent(
+        <RecordForms mode={MODES.show} />,
+        initialState,
+        {},
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"],
+        {},
+        "/:recordType(cases|incidents|tracing_requests)/:id"
+      );
+
+      expect(screen.getAllByTestId("record-form-title")).toHaveLength(1);
     });
   });
 
@@ -952,52 +721,25 @@ describe("<RecordForms /> - Component", () => {
     };
 
     describe("and has permission to see cases", () => {
-      beforeEach(() => {
-        const routedComponent = initialProps => {
-          return (
-            <Route
-              path="/:recordType(cases|incidents|tracing_requests)/:id"
-              component={props => <RecordForms {...{ ...props, ...initialProps }} />}
-            />
-          );
-        };
-
-        ({ component } = setupMountedComponent(
-          routedComponent,
-          {
-            mode: "show"
-          },
-          fromJS(initialState),
-          ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
-        ));
-      });
-
       it("should render RecordOwner ", () => {
-        const componentRecordForm = component.find(RecordForm);
-
-        expect(componentRecordForm.find(RecordOwner)).to.have.lengthOf(1);
-        expect(componentRecordForm.find(RecordOwner).find(RecordFormTitle).text()).to.equal(
-          "forms.record_types.record_information"
+        mountedComponent(
+          <RecordForms mode={MODES.show} />,
+          initialState,
+          {},
+          ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"],
+          {},
+          "/:recordType(cases|incidents|tracing_requests)/:id"
         );
+
+        expect(screen.getByTestId("record-owner-form")).toBeInTheDocument();
+        expect(screen.getByTestId("record-form-title")).toHaveTextContent("forms.record_types.record_information");
       });
     });
 
     describe("and has permission to manage cases", () => {
-      beforeEach(() => {
-        const routedComponent = initialProps => {
-          return (
-            <Route
-              path="/:recordType(cases|incidents|tracing_requests)/:id"
-              component={props => <RecordForms {...{ ...props, ...initialProps }} />}
-            />
-          );
-        };
-
-        ({ component } = setupMountedComponent(
-          routedComponent,
-          {
-            mode: "show"
-          },
+      it("should render RecordOwner ", () => {
+        mountedComponent(
+          <RecordForms mode={MODES.show} />,
           fromJS({
             ...initialState,
             user: {
@@ -1007,17 +749,14 @@ describe("<RecordForms /> - Component", () => {
               modules: ["primeromodule-cp"]
             }
           }),
-          ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
-        ));
-      });
-
-      it("should render RecordOwner ", () => {
-        const componentRecordForm = component.find(RecordForm);
-
-        expect(componentRecordForm.find(RecordOwner)).to.have.lengthOf(1);
-        expect(componentRecordForm.find(RecordOwner).find(RecordFormTitle).text()).to.equal(
-          "forms.record_types.record_information"
+          {},
+          ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"],
+          {},
+          "/:recordType(cases|incidents|tracing_requests)/:id"
         );
+
+        expect(screen.getByTestId("record-owner-form")).toBeInTheDocument();
+        expect(screen.getByTestId("record-form-title")).toHaveTextContent("forms.record_types.record_information");
       });
     });
   });
