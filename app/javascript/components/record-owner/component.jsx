@@ -64,7 +64,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav }) => {
   });
 
   return (
-    <div key="record-owner-div">
+    <div key="record-owner-div" data-testid="record-owner-form">
       <RecordFormTitle
         mobileDisplay={mobileDisplay}
         handleToggleNav={handleToggleNav}

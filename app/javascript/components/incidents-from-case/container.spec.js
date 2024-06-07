@@ -83,11 +83,11 @@ describe("<IncidentFromCase /> - Component", () => {
 
   it("render IncidentFromCase component", () => {
     expect(screen.getByText("incidents.label")).toBeInTheDocument();
-    expect(screen.getByTestId("panel")).toBeInTheDocument();
+    expect(screen.getByTestId("incident-panel")).toBeInTheDocument();
   });
 
   it("render IncidentPanel component", () => {
-    expect(screen.getByTestId("panel")).toBeInTheDocument();
+    expect(screen.getByTestId("incident-panel")).toBeInTheDocument();
   });
 
   it("render IncidentDetail component", () => {

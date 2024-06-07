@@ -105,7 +105,7 @@ describe("<IncidentPanel /> - Component", () => {
   });
 
   it("render IncidentPanel component", () => {
-    expect(screen.getByTestId("panel")).toBeInTheDocument();
+    expect(screen.getByTestId("incident-panel")).toBeInTheDocument();
   });
 
   it("render IncidentSummary component", () => {
