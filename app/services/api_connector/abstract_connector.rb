@@ -4,6 +4,8 @@
 
 # Abstract superclass for user identity connectors
 class ApiConnector::AbstractConnector
+  RETRY_DELAY = 5 # Retry every 5 seconds
+  RETRY_LIMIT = 3 #  Attempt limit
   attr_accessor :connection
 
   def self.build_from_env(options = {})
@@ -68,5 +70,17 @@ class ApiConnector::AbstractConnector
 
   def relevant_updates?(_record)
     true
+  end
+
+  def with_retry(retry_limit = RETRY_LIMIT, retry_delay = RETRY_DELAY)
+    retry_limit.times do |attempt|
+      Rails.logger.info("Attempt connection. number #{attempt + 1}")
+      return yield
+    rescue StandardError => e
+      raise e if attempt == retry_limit - 1
+
+      sleep(retry_delay)
+      Rails.logger.info('Conenction Failed, Retrying.')
+    end
   end
 end

@@ -7,10 +7,8 @@
 # TODO: This can be refactored and merged with the PrimeroConnector.
 #       The params should really be methods on the model classes
 class ApiConnector::PrimeroConfigurationConnector < ApiConnector::PrimeroConnector
-  RETRY_LIMIT = 3
-
   def new?(configuration)
-    with_retry(RETRY_LIMIT) do
+    with_retry do
       status, _response = connection.get(configuration.api_path)
       status == 404
     end
