@@ -74,13 +74,14 @@ class ApiConnector::AbstractConnector
 
   def with_retry(retry_limit = RETRY_LIMIT, retry_delay = RETRY_DELAY)
     retry_limit.times do |attempt|
-      Rails.logger.info("Attempt connection. number #{attempt + 1}")
       return yield
-    rescue StandardError => e
+    rescue Faraday::ConnectionFailed,
+           Faraday::TimeoutError,
+           Faraday::SSLError => e
       raise e if attempt == retry_limit - 1
 
       sleep(retry_delay)
-      Rails.logger.info('Conenction Failed, Retrying.')
+      Rails.logger.warn('Conenction Failed, Retrying.')
     end
   end
 end
