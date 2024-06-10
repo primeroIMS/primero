@@ -10,12 +10,14 @@ class SearchFilters::BooleanList < SearchFilters::ValueList
       [
         %(
           (
-            data->>:field_name IS NOT NULL AND (#{json_path_query})
+            data->>:field_name IS NOT NULL AND (
+              (#{json_path_query}) OR data->:field_name ?| array[:text_values]
+            )
           ) OR (
-            data->>:field_name IS NULL AND FALSE IN (:values)
+            data->>:field_name IS NULL AND (array[FALSE, 'false'] @> array[:values])
           )
         ),
-        { field_name:, values: }
+        { field_name:, values:, text_values: values.map(&:to_s) }
       ]
     )
   end
