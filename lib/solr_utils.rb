@@ -15,12 +15,8 @@ class SolrUtils
   end
 
   # Retrieve the intenal Sunspot configuration for a model
-  def self.sunspot_setup(model)
-    clazz = model
-    unless clazz.is_a? Class
-      clazz = model == 'case' ? 'Child' : model.camelcase
-      clazz = Kernel.const_get(clazz)
-    end
+  def self.sunspot_setup(clazz)
+    clazz = PrimeroModelService.to_model(clazz.to_s) unless clazz.is_a? Class
     Sunspot::Setup.for(clazz)
   end
 

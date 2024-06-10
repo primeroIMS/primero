@@ -8,7 +8,6 @@ class Api::V2::TokensController < Devise::SessionsController
   include ErrorHandling
   respond_to :json
 
-  skip_before_action :verify_authenticity_token
   before_action :write_audit_log, only: [:respond_to_on_destroy]
 
   # This method overrides the deprecated ActionController::MimeResponds#respond_with

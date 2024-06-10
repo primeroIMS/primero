@@ -309,7 +309,7 @@ namespace :primero do
   task remove_config_data: :environment do
     # Adding in Field model because it is not included in CONFIGURABLE_MODELS but, you cannot delete FormSections
     # unless Fields are deleted first
-    config_data_models = [Field] + PrimeroConfiguration::CONFIGURABLE_MODELS.map { |m| Object.const_get(m) }
+    config_data_models = [Field] + PrimeroConfiguration::CONFIGURABLE_MODELS
 
     config_data_models.each do |m|
       puts "Deleting the database for #{m.name}"

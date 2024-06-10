@@ -47,7 +47,7 @@ class BulkExport < ApplicationRecord
   end
 
   def model_class
-    @model_class ||= Record.model_from_name(record_type)
+    @model_class ||= PrimeroModelService.to_model(record_type)
   end
 
   def exporter_type

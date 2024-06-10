@@ -5,7 +5,7 @@
 json.data do
   json.array! @record_histories do |record_history|
     json.record_id @record.id
-    json.record_type Record.map_name(record_history.record_type).pluralize
+    json.record_type PrimeroModelService.to_name(record_history.record_type).pluralize
     json.datetime record_history.datetime&.iso8601
     json.user_name record_history.user_name
     json.action record_history.action

@@ -99,10 +99,10 @@ class DataRemovalService
       )
     end
 
-    def model_classes(models)
-      return [] unless models.present?
+    def model_classes(model_names)
+      return [] unless model_names.present?
 
-      models.map { |model| Kernel.const_get(model) }
+      model_names.map { |name| PrimeroModelService.to_model(name) }
     end
 
     def remove_from_solr
