@@ -9,7 +9,7 @@ import isEmpty from "lodash/isEmpty";
 import omit from "lodash/omit";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
-import { Tabs, Tab } from "@material-ui/core";
+import { Tabs, Tab } from "@mui/material";
 import { fromJS } from "immutable";
 
 import SavedSearches, { fetchSavedSearches } from "../saved-searches";

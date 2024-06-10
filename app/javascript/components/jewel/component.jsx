@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { Brightness1 as Circle } from "@material-ui/icons";
+import { Brightness1 as Circle } from "@mui/icons-material";
 
 import css from "./styles.css";
 

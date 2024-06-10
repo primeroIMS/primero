@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import AddIcon from "@material-ui/icons/Add";
-import { Button, Menu, MenuItem } from "@material-ui/core";
+import AddIcon from "@mui/icons-material/Add";
+import { Button, Menu, MenuItem } from "@mui/material";
 
 import { useThemeHelper } from "../../../../../libs";
 import ActionButton from "../../../../action-button";

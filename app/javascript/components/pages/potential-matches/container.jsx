@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
-import { Card, CardContent } from "@material-ui/core";
+import { Card, CardContent } from "@mui/material";
 
 import { useI18n } from "../../i18n";
 import PageContainer, { PageHeading, PageContent } from "../../page";

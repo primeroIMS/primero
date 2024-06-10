@@ -1,9 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { useEffect } from "react";
-import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
 import { endOfDay, startOfDay } from "date-fns";
+import { DatePicker, DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 import { DATE_FORMAT, DATE_TIME_FORMAT, LOCALE_KEYS } from "../../../../../config";
 import { useI18n } from "../../../../i18n";
@@ -87,9 +87,9 @@ const Component = ({
 
     return (
       <div key={picker} className={css.dateInput}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localize(i18n)}>
           {dateIncludeTime ? <DateTimePicker {...inputProps} /> : <DatePicker {...inputProps} />}
-        </MuiPickersUtilsProvider>
+        </LocalizationProvider>
       </div>
     );
   });

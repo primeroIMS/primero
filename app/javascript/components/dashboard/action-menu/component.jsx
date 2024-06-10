@@ -2,8 +2,8 @@
 
 import { useRef } from "react";
 import PropTypes from "prop-types";
-import { IconButton, Menu, MenuItem } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { IconButton, Menu, MenuItem } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import css from "./styles.css";
 

@@ -2,9 +2,9 @@
 
 import PropTypes from "prop-types";
 import { useLocation, Link } from "react-router-dom";
-import CreateIcon from "@material-ui/icons/Create";
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
+import CreateIcon from "@mui/icons-material/Create";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 import { ACTION_BUTTONS_NAME } from "../constants";
 import { useI18n } from "../../../../i18n";

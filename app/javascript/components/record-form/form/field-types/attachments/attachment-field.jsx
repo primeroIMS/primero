@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Box } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { Box } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import css from "../../styles.css";
 import ActionButton from "../../../../action-button";

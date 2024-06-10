@@ -2,12 +2,12 @@
 
 import { memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
-import CheckIcon from "@material-ui/icons/Check";
+import { Grid } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
 import { useForm, useWatch } from "react-hook-form";
 import { useDispatch, batch } from "react-redux";
 import isEqual from "lodash/isEqual";
-import SearchIcon from "@material-ui/icons/Search";
+import SearchIcon from "@mui/icons-material/Search";
 
 import { enqueueSnackbar } from "../../../../../notifier";
 import ActionButton from "../../../../../action-button";

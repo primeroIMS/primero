@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
 
 import css from "./styles.css";
 

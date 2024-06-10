@@ -1,5 +1,5 @@
-import { IconButton } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import { IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 
 import css from "./styles.css";

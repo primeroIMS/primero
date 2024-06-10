@@ -3,9 +3,9 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { Dialog, DialogActions, CircularProgress } from "@material-ui/core";
-import CheckIcon from "@material-ui/icons/Check";
-import CloseIcon from "@material-ui/icons/Close";
+import { Dialog, DialogActions, CircularProgress } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { ENQUEUE_SNACKBAR, generate } from "../../../../../notifier";
 import { useI18n } from "../../../../../i18n";

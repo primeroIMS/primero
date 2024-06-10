@@ -2,7 +2,7 @@
 
 import { forwardRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { TextField, CircularProgress } from "@material-ui/core";
+import { TextField, CircularProgress } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";

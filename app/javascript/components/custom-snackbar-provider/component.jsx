@@ -2,11 +2,11 @@
 
 import PropTypes from "prop-types";
 import { SnackbarProvider } from "notistack";
-import { Brightness1 as Circle } from "@material-ui/icons";
-import ErrorIcon from "@material-ui/icons/Error";
-import CheckIcon from "@material-ui/icons/Check";
-import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
-import { makeStyles } from "@material-ui/core/styles";
+import { Brightness1 as Circle } from "@mui/icons-material";
+import ErrorIcon from "@mui/icons-material/Error";
+import CheckIcon from "@mui/icons-material/Check";
+import SignalWifiOffIcon from "@mui/icons-material/SignalWifiOff";
+import { makeStyles } from "@mui/styles";
 
 import useThemeHelpers from "../../libs/use-theme-helpers";
 

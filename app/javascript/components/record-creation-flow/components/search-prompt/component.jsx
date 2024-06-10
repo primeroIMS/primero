@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import SearchIcon from "@material-ui/icons/Search";
-import { InputLabel, FormHelperText } from "@material-ui/core";
+import SearchIcon from "@mui/icons-material/Search";
+import { InputLabel, FormHelperText } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
 import FormSection from "../../../form/components/form-section";

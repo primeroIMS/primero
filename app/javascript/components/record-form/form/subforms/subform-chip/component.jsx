@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { Chip } from "@material-ui/core";
+import { Chip } from "@mui/material";
 
 import { NAME } from "./constants";
 import css from "./styles.css";

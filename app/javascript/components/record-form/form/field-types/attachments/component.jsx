@@ -5,7 +5,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { FieldArray, connect } from "formik";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 
 import { useI18n } from "../../../../i18n";
 import { ATTACHMENT_FIELD_NAME } from "../../constants";

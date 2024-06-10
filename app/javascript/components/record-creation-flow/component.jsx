@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Drawer } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-import AddIcon from "@material-ui/icons/Add";
+import { Drawer } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from "@mui/icons-material/Add";
 import isEmpty from "lodash/isEmpty";
 import { push } from "connected-react-router";
 import { useDispatch } from "react-redux";

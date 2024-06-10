@@ -3,7 +3,7 @@
 import { Fragment } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { IconButton, Tooltip } from "@material-ui/core";
+import { IconButton, Tooltip } from "@mui/material";
 
 import css from "./styles.css";
 import { NAME } from "./constants";

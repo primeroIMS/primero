@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { CssBaseline } from "@material-ui/core";
-import { ThemeProvider as MuiThemeProvider, createMuiTheme, StylesProvider, jssPreset } from "@material-ui/core/styles";
+import { CssBaseline } from "@mui/material";
+import { ThemeProvider as MuiThemeProvider, createMuiTheme, StylesProvider, jssPreset } from "@mui/styles";
 import PropTypes from "prop-types";
 import { useMemo, useEffect, useLayoutEffect, createContext, useReducer, useContext, useCallback } from "react";
 import rtl from "jss-rtl";

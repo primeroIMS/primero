@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { Link } from "@material-ui/core";
+import { Link } from "@mui/material";
 import { useHistory } from "react-router-dom";
 
 import { PRIMERO_IDP } from "../constants";

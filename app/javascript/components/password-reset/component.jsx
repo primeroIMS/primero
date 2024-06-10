@@ -3,7 +3,7 @@
 import qs from "qs";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import CheckIcon from "@material-ui/icons/Check";
+import CheckIcon from "@mui/icons-material/Check";
 
 import { PageHeading } from "../page";
 import Form, { FormAction } from "../form";

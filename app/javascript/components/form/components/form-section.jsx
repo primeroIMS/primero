@@ -4,8 +4,8 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import get from "lodash/get";
 
 import Tooltip from "../../tooltip";

@@ -2,7 +2,7 @@
 
 import { batch, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress } from "@mui/material";
 
 import { getEnabledAgencies } from "../../../../application/selectors";
 import { getLoadingTransitionType, getUsersByTransitionType } from "../../../../record-actions/transitions/selectors";

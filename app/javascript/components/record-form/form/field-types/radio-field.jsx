@@ -5,7 +5,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import { FormControlLabel, FormHelperText, Radio, FormControl, InputLabel } from "@material-ui/core";
+import { FormControlLabel, FormHelperText, Radio, FormControl, InputLabel } from "@mui/material";
 import { Field, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
 import { RadioGroup } from "formik-material-ui";

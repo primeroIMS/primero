@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { FastField, connect, getIn } from "formik";
 import { Checkbox } from "formik-material-ui";
 import pickBy from "lodash/pickBy";
-import { FormControlLabel, FormHelperText, InputLabel, FormControl } from "@material-ui/core";
+import { FormControlLabel, FormHelperText, InputLabel, FormControl } from "@mui/material";
 import clsx from "clsx";
 
 import { TICK_FIELD_NAME } from "../constants";

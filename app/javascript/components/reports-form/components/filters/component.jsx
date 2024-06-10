@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { IconButton, Typography } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+import { IconButton, Typography } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 import { useI18n } from "../../../i18n";
 import FiltersDialog from "../filters-dialog";

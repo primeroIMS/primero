@@ -2,7 +2,7 @@
 
 /* eslint-disable react/display-name, react/prop-types */
 
-import { Checkbox } from "@material-ui/core";
+import { Checkbox } from "@mui/material";
 
 export default (props, setDisabled) => {
   const { field, form } = props;

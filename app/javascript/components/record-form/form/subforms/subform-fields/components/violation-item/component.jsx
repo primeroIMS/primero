@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { ListItemText, Button, InputAdornment } from "@material-ui/core";
+import { ListItemText, Button, InputAdornment } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 import ActionDialog from "../../../../../../action-dialog";
 import ViolationTitle from "../violation-title";
@@ -102,7 +102,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
 
   // Define MuiPickersUtilsProvider component
   const MuiPickersUtilsProviderComponent = (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
       <div className={css.keyboardDatePickerWrapper}>
         <DatePicker
           clearLabel={i18n.t("buttons.clear")}
@@ -124,7 +124,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
           format={DATE_FORMAT}
         />
       </div>
-    </MuiPickersUtilsProvider>
+    </LocalizationProvider>
   );
 
   return (

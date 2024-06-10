@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 import { useI18n } from "../../../../../../i18n";
 import FieldRow from "../field-row";

@@ -10,7 +10,7 @@ import {
   Radio,
   Select,
   FormHelperText
-} from "@material-ui/core";
+} from "@mui/material";
 
 import { useI18n } from "../../i18n";
 

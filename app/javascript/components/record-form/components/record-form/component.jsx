@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useMediaQuery } from "@material-ui/core";
+import { useMediaQuery } from "@mui/material";
 import { batch, useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import clsx from "clsx";

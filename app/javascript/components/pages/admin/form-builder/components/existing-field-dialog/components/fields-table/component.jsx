@@ -3,7 +3,7 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
-import { MuiThemeProvider } from "@material-ui/core/styles";
+import { MuiThemeProvider } from "@mui/styles";
 import isEqual from "lodash/isEqual";
 
 import { SUBFORM_SECTION } from "../../../../../../../form";

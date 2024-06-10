@@ -2,7 +2,7 @@
 
 /* eslint-disable react/no-multi-comp, react/display-name, react/prop-types */
 import DateFnsUtils from "@date-io/date-fns";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider } from "@mui/pickers";
 import { SnackbarProvider } from "notistack";
 import { Provider } from "react-redux";
 import { render } from "@testing-library/react";

@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
-import { FormGroup, FormControlLabel, FormLabel, FormControl, Checkbox } from "@material-ui/core";
+import { FormGroup, FormControlLabel, FormLabel, FormControl, Checkbox } from "@mui/material";
 
 import Panel from "../../panel";
 import { getOption } from "../../../../record-form";

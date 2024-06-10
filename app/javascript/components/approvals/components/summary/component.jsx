@@ -1,8 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
-import Chip from "@material-ui/core/Chip";
+import { Grid } from "@mui/material";
+import Chip from "@mui/material/Chip";
 import clsx from "clsx";
 
 import { useI18n } from "../../../i18n";

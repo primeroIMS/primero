@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { AppBar, Collapse, Divider, Toolbar } from "@material-ui/core";
+import { AppBar, Collapse, Divider, Toolbar } from "@mui/material";
 import isString from "lodash/isString";
 import clsx from "clsx";
 import { useCallback, useState } from "react";

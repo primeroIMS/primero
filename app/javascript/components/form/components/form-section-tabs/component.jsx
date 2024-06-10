@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Tab, Tabs } from "@material-ui/core";
+import { Tab, Tabs } from "@mui/material";
 
 import TabPanel from "../../../pages/admin/form-builder/components/tab-panel";
 import FormSectionField from "../form-section-field";

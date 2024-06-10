@@ -3,10 +3,10 @@
 import PropTypes from "prop-types";
 import { List } from "immutable";
 import { isEmpty } from "lodash";
-import CheckBox from "@material-ui/icons/CheckBox";
-import CheckBoxOutlineBlank from "@material-ui/icons/CheckBoxOutlineBlank";
-import RadioButtonChecked from "@material-ui/icons/RadioButtonChecked";
-import RadioButtonUnchecked from "@material-ui/icons/RadioButtonUnchecked";
+import CheckBox from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
+import RadioButtonChecked from "@mui/icons-material/RadioButtonChecked";
+import RadioButtonUnchecked from "@mui/icons-material/RadioButtonUnchecked";
 import clsx from "clsx";
 
 import { optionText } from "../../../form/utils";

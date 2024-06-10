@@ -1,4 +1,4 @@
-import { Box, FormControl, MenuItem, Select } from "@material-ui/core";
+import { Box, FormControl, MenuItem, Select } from "@mui/material";
 import PropTypes from "prop-types";
 
 import useOptions from "../../../../../../form/use-options";

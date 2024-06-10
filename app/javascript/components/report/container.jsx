@@ -3,11 +3,11 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { Paper, Typography } from "@material-ui/core";
+import { Paper, Typography } from "@mui/material";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
-import CreateIcon from "@material-ui/icons/Create";
-import DeleteIcon from "@material-ui/icons/Delete";
+import CreateIcon from "@mui/icons-material/Create";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { getAgeRanges } from "../application/selectors";
 import { BarChart as BarChartGraphic, TableValues } from "../charts";

@@ -6,10 +6,10 @@ import PropTypes from "prop-types";
 import sortBy from "lodash/sortBy";
 import isEmpty from "lodash/isEmpty";
 import omit from "lodash/omit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import { ListItem, ListItemSecondaryAction } from "@material-ui/core";
+import DeleteIcon from "@mui/icons-material/Delete";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import { ListItem, ListItemSecondaryAction } from "@mui/material";
 
 import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";

@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import Timeline from "@material-ui/lab/Timeline";
+import Timeline from "@mui/lab/Timeline";
 
 import ActionDialog from "../../../action-dialog";
 import LoadingIndicator from "../../../loading-indicator";

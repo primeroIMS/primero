@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { InputLabel, FormHelperText } from "@material-ui/core";
+import { InputLabel, FormHelperText } from "@mui/material";
 import clsx from "clsx";
-import GetAppIcon from "@material-ui/icons/GetApp";
+import GetAppIcon from "@mui/icons-material/GetApp";
 
 import { toBase64 } from "../../../libs";
 import { PHOTO_FIELD, DOCUMENT_FIELD, EMPTY_VALUE } from "../constants";

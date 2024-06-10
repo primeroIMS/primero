@@ -3,8 +3,8 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
 import { fromJS } from "immutable";
-import { Tooltip } from "@material-ui/core";
-import OfflinePin from "@material-ui/icons/OfflinePin";
+import { Tooltip } from "@mui/material";
+import OfflinePin from "@mui/icons/OfflinePin";
 
 import { ToggleIconCell } from "../../index-table";
 import { RECORD_PATH, RECORD_TYPES } from "../../../config";

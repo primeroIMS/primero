@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { batch, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";

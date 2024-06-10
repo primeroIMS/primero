@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useDispatch } from "react-redux";
 
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../action-button";

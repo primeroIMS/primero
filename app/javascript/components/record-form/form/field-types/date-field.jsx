@@ -2,9 +2,9 @@
 
 import PropTypes from "prop-types";
 import { differenceInYears, parseISO, isDate } from "date-fns";
-import { InputAdornment } from "@material-ui/core";
+import { InputAdornment } from "@mui/material";
 import { FastField, connect, getIn } from "formik";
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import omitBy from "lodash/omitBy";
 import isEmpty from "lodash/isEmpty";
 import { useCallback, useEffect, useRef } from "react";

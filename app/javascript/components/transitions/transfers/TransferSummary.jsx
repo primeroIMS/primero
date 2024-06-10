@@ -2,7 +2,7 @@
 
 /* eslint-disable react/display-name */
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 import { useI18n } from "../../i18n";
 import TransitionStatus from "../TransitionStatus";

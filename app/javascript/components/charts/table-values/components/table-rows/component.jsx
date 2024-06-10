@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { TableCell, TableRow } from "@material-ui/core";
+import { TableCell, TableRow } from "@mui/material";
 
 import { useI18n } from "../../../../i18n";
 import generateKey from "../../utils";

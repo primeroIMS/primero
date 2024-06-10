@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { useMediaQuery } from "@material-ui/core";
+import { useMediaQuery } from "@mui/material";
 
 import ModuleLogo from "../../../module-logo";
 import AgencyLogo from "../../../agency-logo";

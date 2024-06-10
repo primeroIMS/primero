@@ -2,8 +2,8 @@
 
 /* eslint-disable camelcase */
 
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 import { push } from "connected-react-router";
 import omit from "lodash/omit";
 import PropTypes from "prop-types";

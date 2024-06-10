@@ -2,7 +2,7 @@
 
 /* eslint-disable react/no-multi-comp, react/display-name */
 import PropTypes from "prop-types";
-import CloseIcon from "@material-ui/icons/Close";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 import ActionButton from "../../../../../action-button";

@@ -1,9 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import CreateIcon from "@material-ui/icons/Create";
+import { Grid } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import CreateIcon from "@mui/icons-material/Create";
 
 import { usePermissions, READ_RECORDS, RESOURCES, WRITE_RECORDS } from "../../../permissions";
 import { useI18n } from "../../../i18n";

@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useLocation, useParams } from "react-router-dom";
-import { Hidden, IconButton, useMediaQuery } from "@material-ui/core";
-import { MenuOpen } from "@material-ui/icons";
-import FilterListIcon from "@material-ui/icons/FilterList";
+import { Hidden, IconButton, useMediaQuery } from "@mui/material";
+import { MenuOpen } from "@mui/icons-material";
+import FilterListIcon from "@mui/icons-material/FilterList";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 

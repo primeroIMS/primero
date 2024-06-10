@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { Fragment } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";

@@ -3,8 +3,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { Link } from "@material-ui/core";
-import RefreshIcon from "@material-ui/icons/Refresh";
+import { Link } from "@mui/material";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";

@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable camelcase */
-import { Stepper, Step, StepLabel, useMediaQuery, Badge } from "@material-ui/core";
+import { Stepper, Step, StepLabel, useMediaQuery, Badge } from "@mui/material";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 

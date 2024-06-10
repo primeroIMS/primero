@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { fromJS } from "immutable";
-import { List, ListItemText } from "@material-ui/core";
+import { List, ListItemText } from "@mui/material";
 
 import ActionButton from "../../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";

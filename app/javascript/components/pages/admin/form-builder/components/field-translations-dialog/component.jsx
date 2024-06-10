@@ -4,7 +4,7 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, useWatch } from "react-hook-form";
-import CheckIcon from "@material-ui/icons/Check";
+import CheckIcon from "@mui/icons-material/Check";
 import { useDispatch } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 

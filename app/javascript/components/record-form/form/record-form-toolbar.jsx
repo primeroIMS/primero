@@ -1,14 +1,14 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Badge } from "@material-ui/core";
+import { Badge } from "@mui/material";
 import { withRouter, Link } from "react-router-dom";
-import CreateIcon from "@material-ui/icons/Create";
+import CreateIcon from "@mui/icons-material/Create";
 import { push } from "connected-react-router";
 import { batch, useDispatch } from "react-redux";
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
-import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 import { getIncidentFromCase } from "../../records";
 import { SaveReturnIcon } from "../../../images/primero-icons";

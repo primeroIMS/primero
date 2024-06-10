@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 

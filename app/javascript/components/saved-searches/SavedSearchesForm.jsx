@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { compact } from "lodash";
 import { useDispatch } from "react-redux";
-import { Dialog, DialogContent, DialogTitle, DialogActions, TextField } from "@material-ui/core";
+import { Dialog, DialogContent, DialogTitle, DialogActions, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { object, string } from "yup";
 import qs from "qs";
 import { push } from "connected-react-router";
-import CheckIcon from "@material-ui/icons/Check";
-import CloseIcon from "@material-ui/icons/Close";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { fromJS } from "immutable";
 

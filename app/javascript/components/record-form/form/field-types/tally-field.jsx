@@ -2,7 +2,7 @@
 
 import { connect, getIn } from "formik";
 import { useEffect } from "react";
-import { FormHelperText, InputLabel } from "@material-ui/core";
+import { FormHelperText, InputLabel } from "@mui/material";
 import PropTypes from "prop-types";
 import compact from "lodash/compact";
 

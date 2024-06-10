@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { FormControl, InputLabel } from "@material-ui/core";
+import { FormControl, InputLabel } from "@mui/material";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import isDate from "lodash/isDate";

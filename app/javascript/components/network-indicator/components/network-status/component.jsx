@@ -1,10 +1,10 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
-import SignalWifi4BarIcon from "@material-ui/icons/SignalWifi4Bar";
+import SignalWifiOffIcon from "@mui/icons-material/SignalWifiOff";
+import SignalWifi4BarIcon from "@mui/icons-material/SignalWifi4Bar";
 import clsx from "clsx";
-import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
 
 import { useI18n } from "../../../i18n";
 import { useApp } from "../../../application";

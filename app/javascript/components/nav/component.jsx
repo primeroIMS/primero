@@ -1,9 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Drawer, List, useMediaQuery, Hidden, Divider, IconButton } from "@material-ui/core";
+import { Drawer, List, useMediaQuery, Hidden, Divider, IconButton } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import CloseIcon from "@material-ui/icons/Close";
+import CloseIcon from "@mui/icons-material/Close";
 import { push } from "connected-react-router";
 import { isEqual } from "lodash";
 import clsx from "clsx";

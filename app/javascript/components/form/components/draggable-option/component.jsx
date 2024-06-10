@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Draggable } from "react-beautiful-dnd";
 import { Controller, useWatch } from "react-hook-form";
-import { makeStyles, Radio } from "@material-ui/core";
+import { makeStyles, Radio } from "@mui/material";
 import get from "lodash/get";
-import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
 
 import TextInput from "../../fields/text-input";
 import SwitchInput from "../../fields/switch-input";

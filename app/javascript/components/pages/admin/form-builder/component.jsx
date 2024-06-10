@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
-import { Tab, Tabs } from "@material-ui/core";
+import { Tab, Tabs } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";

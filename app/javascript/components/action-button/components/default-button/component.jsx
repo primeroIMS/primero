@@ -2,7 +2,7 @@
 
 import { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Button, CircularProgress, Tooltip } from "@material-ui/core";
+import { Button, CircularProgress, Tooltip } from "@mui/material";
 import clsx from "clsx";
 
 import ButtonText from "../../../button-text";

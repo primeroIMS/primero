@@ -2,7 +2,7 @@
 
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { Fragment } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 

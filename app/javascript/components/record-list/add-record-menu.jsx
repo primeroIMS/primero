@@ -3,8 +3,8 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Menu, MenuItem } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+import { Button, Menu, MenuItem } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 

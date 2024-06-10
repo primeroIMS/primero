@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { ButtonBase, Typography, TablePagination } from "@material-ui/core";
+import { ButtonBase, Typography, TablePagination } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";

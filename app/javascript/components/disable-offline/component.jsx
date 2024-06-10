@@ -2,7 +2,7 @@
 
 import { cloneElement } from "react";
 import PropTypes from "prop-types";
-import { Tooltip } from "@material-ui/core";
+import { Tooltip } from "@mui/material";
 import clsx from "clsx";
 
 import { useApp } from "../application";

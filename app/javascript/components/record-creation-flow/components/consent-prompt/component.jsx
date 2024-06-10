@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import Add from "@material-ui/icons/Add";
+import Add from "@mui/icons-material/Add";
 import isEmpty from "lodash/isEmpty";
 
 import { useMemoizedSelector } from "../../../../libs";

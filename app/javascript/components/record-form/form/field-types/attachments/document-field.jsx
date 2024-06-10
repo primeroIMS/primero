@@ -5,12 +5,12 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { TextField } from "formik-material-ui";
-import { Box, Dialog, Button, DialogContent, DialogActions, DialogTitle, IconButton } from "@material-ui/core";
+import { Box, Dialog, Button, DialogContent, DialogActions, DialogTitle, IconButton } from "@mui/material";
 import { FastField } from "formik";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import CloseIcon from "@material-ui/icons/Close";
-import DeleteIcon from "@material-ui/icons/Delete";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/Delete";
 import some from "lodash/some";
 
 import DisableOffline from "../../../../disable-offline";

@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { List, ListItem, ListItemText, ListItemSecondaryAction, Divider } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { List, ListItem, ListItemText, ListItemSecondaryAction, Divider } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { push } from "connected-react-router";
 import qs from "qs";
 

@@ -4,9 +4,9 @@
 
 import { useState, useEffect, useCallback, memo } from "react";
 import PropTypes from "prop-types";
-import { List, Drawer } from "@material-ui/core";
+import { List, Drawer } from "@mui/material";
 import { useDispatch } from "react-redux";
-import Divider from "@material-ui/core/Divider";
+import Divider from "@mui/material/Divider";
 import { useHistory } from "react-router-dom";
 
 import { useI18n } from "../../i18n";

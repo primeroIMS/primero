@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Tooltip as MuiToolTip } from "@material-ui/core";
+import { Tooltip as MuiToolTip } from "@mui/material";
 import PropTypes from "prop-types";
 
 import { ConditionalWrapper } from "../../libs";

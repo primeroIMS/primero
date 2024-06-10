@@ -2,7 +2,7 @@
 
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import AddIcon from "@material-ui/icons/Add";
+import AddIcon from "@mui/icons-material/Add";
 import { push } from "connected-react-router";
 
 import DisableOffline from "../disable-offline";

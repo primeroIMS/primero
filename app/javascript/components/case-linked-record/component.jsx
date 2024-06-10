@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import AddIcon from "@material-ui/icons/Add";
+import AddIcon from "@mui/icons-material/Add";
 
 import SubformDrawer from "../record-form/form/subforms/subform-drawer";
 import { useI18n } from "../i18n";

@@ -1,8 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Icon } from "@material-ui/core";
-import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
+import { Icon } from "@mui/material";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
 import css from "../../styles.css";
 

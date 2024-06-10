@@ -2,7 +2,7 @@
 
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import { useWatch } from "react-hook-form";
 import html2pdf from "html2pdf-dom-to-image-more";
 import { useDispatch } from "react-redux";

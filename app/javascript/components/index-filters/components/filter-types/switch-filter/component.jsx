@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
-import { Checkbox, FormControl, FormGroup, FormControlLabel } from "@material-ui/core";
+import { Checkbox, FormControl, FormGroup, FormControlLabel } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 
 import Panel from "../../panel";

@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 import { fromJS, List } from "immutable";
-import AddIcon from "@material-ui/icons/Add";
+import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../../i18n";

@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { useEffect, useRef, useCallback } from "react";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@material-ui/core";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
 import { useIdleTimer, workerTimers } from "react-idle-timer";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";

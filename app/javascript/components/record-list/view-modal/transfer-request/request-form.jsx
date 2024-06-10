@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Grid, Divider } from "@material-ui/core";
+import { Grid, Divider } from "@mui/material";
 import { Form, Field } from "formik";
 import { TextField as MuiTextField } from "formik-material-ui";
 

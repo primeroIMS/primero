@@ -1,9 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import CloseIcon from "@material-ui/icons/Close";
-import SearchIcon from "@material-ui/icons/Search";
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
+import SearchIcon from "@mui/icons-material/Search";
 import { push } from "connected-react-router";
 import PropTypes from "prop-types";
 import { useEffect } from "react";

@@ -10,7 +10,7 @@ import {
   List,
   ListSubheader,
   Divider
-} from "@material-ui/core";
+} from "@mui/material";
 import { useDispatch, batch } from "react-redux";
 import clsx from "clsx";
 

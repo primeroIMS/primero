@@ -3,7 +3,7 @@
 /* eslint-disable camelcase */
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import { fromJS } from "immutable";
 
 import { getAppliedFilters, getMetadata } from "../../../record-list";

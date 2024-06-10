@@ -4,13 +4,13 @@
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import clsx from "clsx";
-import { Accordion, AccordionSummary, AccordionDetails } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { Brightness1 as Circle } from "@material-ui/icons";
-import ErrorIcon from "@material-ui/icons/Error";
-import CheckIcon from "@material-ui/icons/Check";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
+import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { Brightness1 as Circle } from "@mui/icons-material";
+import ErrorIcon from "@mui/icons-material/Error";
+import CheckIcon from "@mui/icons-material/Check";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import SignalWifiOffIcon from "@mui/icons-material/SignalWifiOff";
 
 import { generate } from "../notifier/utils";
 import { useI18n } from "../i18n";

@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Divider, Grid, FormControlLabel } from "@material-ui/core";
+import { Divider, Grid, FormControlLabel } from "@mui/material";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../i18n";

@@ -1,8 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import Alert from "@material-ui/lab/Alert";
-import SignalWifiOff from "@material-ui/icons/SignalWifiOff";
+import Alert from "@mui/lab/Alert";
+import SignalWifiOff from "@mui/icons-material/SignalWifiOff";
 
 import { useApp } from "../../../application";
 

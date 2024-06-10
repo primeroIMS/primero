@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
 import { RECORD_TYPES, RECORD_PATH } from "../../../../../../../config";

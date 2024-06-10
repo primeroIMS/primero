@@ -16,10 +16,10 @@ import {
   People,
   SettingsApplications,
   LibraryBooks
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import PropTypes from "prop-types";
-import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
-import SignalWifi4BarIcon from "@material-ui/icons/SignalWifi4Bar";
+import SignalWifiOffIcon from "@mui/icons-material/SignalWifiOff";
+import SignalWifi4BarIcon from "@mui/icons-material/SignalWifi4Bar";
 
 import {
   CasesIcon,

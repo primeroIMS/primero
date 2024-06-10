@@ -2,8 +2,8 @@
 
 /* eslint-disable react/no-multi-comp, react/display-name */
 import PropTypes from "prop-types";
-import DownloadIcon from "@material-ui/icons/GetApp";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import DownloadIcon from "@mui/icons-material/GetApp";
+import CircularProgress from "@mui/material/CircularProgress";
 import startCase from "lodash/startCase";
 
 import DisableOffline from "../../disable-offline";

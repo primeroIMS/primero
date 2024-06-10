@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Backdrop, IconButton } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import { Backdrop, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 import css from "./styles.css";
 

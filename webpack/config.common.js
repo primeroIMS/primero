@@ -16,7 +16,7 @@ const plugins = require("./plugins");
 const resolve = {
   extensions: ["*", ".jsx", ".js"],
   alias: {
-    "@material-ui/styles": path.resolve("node_modules", "@material-ui/styles"),
+    "@mui/styles": path.resolve("node_modules", "@mui/styles"),
     window: "self"
   }
 };

@@ -1,8 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { List, ListItem, ListItemSecondaryAction, ListItemText } from "@material-ui/core";
-import { KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
+import { List, ListItem, ListItemSecondaryAction, ListItemText } from "@mui/material";
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
 import LoadingIndicator from "../../loading-indicator/component";
 import { ConditionalWrapper, useMemoizedSelector, useThemeHelper } from "../../../libs";

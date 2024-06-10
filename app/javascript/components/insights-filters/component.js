@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { useForm } from "react-hook-form";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import groupBy from "lodash/groupBy";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";

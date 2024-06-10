@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Select, MenuItem, FormControl } from "@material-ui/core";
+import { Select, MenuItem, FormControl } from "@mui/material";
 
 import DateRangeDialog from "../date-range-dialog";
 import DateRange from "../../utils/date-range";

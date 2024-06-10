@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { FormControlLabel } from "@material-ui/core";
+import { FormControlLabel } from "@mui/material";
 import { batch, useDispatch } from "react-redux";
 import { Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";

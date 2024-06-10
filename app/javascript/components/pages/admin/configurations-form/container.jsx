@@ -4,10 +4,10 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import DeleteIcon from "@material-ui/icons/Delete";
-import CheckIcon from "@material-ui/icons/Check";
-import PublishIcon from "@material-ui/icons/Publish";
-import { Typography } from "@material-ui/core";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from "@mui/icons-material/Check";
+import PublishIcon from "@mui/icons-material/Publish";
+import { Typography } from "@mui/material";
 
 import { useI18n } from "../../../i18n";
 import Form, { FormAction, whichFormMode } from "../../../form";

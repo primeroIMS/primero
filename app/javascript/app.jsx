@@ -2,10 +2,10 @@
 
 import { ConnectedRouter } from "connected-react-router/immutable";
 import { Provider } from "react-redux";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
 import isEmpty from "lodash/isEmpty";
 import { useLayoutEffect } from "react";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 
 import Translations from "./db/collections/translations";
 import I18nProvider from "./components/i18n";
@@ -40,13 +40,13 @@ const App = () => {
     <Provider store={store}>
       <ThemeProvider>
         <I18nProvider>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
             <ApplicationProvider>
               <ConnectedRouter history={history}>
                 <ApplicationRoutes routes={routes} />
               </ConnectedRouter>
             </ApplicationProvider>
-          </MuiPickersUtilsProvider>
+          </LocalizationProvider>
         </I18nProvider>
       </ThemeProvider>
     </Provider>

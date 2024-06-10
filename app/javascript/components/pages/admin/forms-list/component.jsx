@@ -5,7 +5,7 @@ import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { Add as AddIcon, List as ListIcon, SwapVert } from "@material-ui/icons";
+import { Add as AddIcon, List as ListIcon, SwapVert } from "@mui/icons-material";
 
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";

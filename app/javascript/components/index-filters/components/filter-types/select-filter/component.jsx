@@ -3,8 +3,8 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
-import { TextField, Checkbox, FormControl, FormGroup, FormControlLabel } from "@material-ui/core";
-import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
+import { TextField, Checkbox, FormControl, FormGroup, FormControlLabel } from "@mui/material";
+import Autocomplete, { createFilterOptions } from "@mui/lab/Autocomplete";
 import { sortBy } from "lodash";
 
 import Panel from "../../panel";

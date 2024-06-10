@@ -2,7 +2,7 @@
 
 /* eslint-disable react/no-multi-comp, react/display-name */
 import PropTypes from "prop-types";
-import { FormHelperText } from "@material-ui/core";
+import { FormHelperText } from "@mui/material";
 
 import { SEPERATOR_NAME } from "../constants";
 import css from "../styles.css";

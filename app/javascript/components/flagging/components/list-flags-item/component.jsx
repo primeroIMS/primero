@@ -1,8 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { ListItem, ListItemText, Divider } from "@material-ui/core";
-import FlagIcon from "@material-ui/icons/Flag";
+import { ListItem, ListItemText, Divider } from "@mui/material";
+import FlagIcon from "@mui/icons-material/Flag";
 
 import { UserArrowIcon } from "../../../../images/primero-icons";
 import css from "../styles.css";

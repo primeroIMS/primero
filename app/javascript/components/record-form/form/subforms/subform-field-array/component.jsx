@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { getIn } from "formik";
 import clsx from "clsx";
-import { List } from "@material-ui/core";
+import { List } from "@mui/material";
 
 import SubformFields from "../subform-fields";
 import SubformEmptyData from "../subform-empty-data";

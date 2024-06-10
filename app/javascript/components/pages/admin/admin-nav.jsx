@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { Fragment, useState } from "react";
-import { List, Collapse } from "@material-ui/core";
+import { List, Collapse } from "@mui/material";
 import { isEqual } from "lodash";
 
 import { getPermissions } from "../../user/selectors";

@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { format, parseISO } from "date-fns";
 import { isEmpty } from "lodash";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
 import { ROUTES } from "../../config";
 import TranslationsToggle from "../translations-toggle";

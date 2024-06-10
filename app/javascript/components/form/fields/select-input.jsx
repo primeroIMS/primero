@@ -3,11 +3,11 @@
 /* eslint-disable react/no-multi-comp */
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { TextField, Chip } from "@material-ui/core";
-import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
+import { TextField, Chip } from "@mui/material";
+import Autocomplete, { createFilterOptions } from "@mui/lab/Autocomplete";
 import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 import { isEmpty, isNil, isNumber } from "lodash";
 
 import InputLabel from "../components/input-label";

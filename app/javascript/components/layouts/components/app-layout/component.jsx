@@ -2,7 +2,7 @@
 
 /* eslint-disable react/no-multi-comp, react/display-name */
 import clsx from "clsx";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress } from "@mui/material";
 import PropTypes from "prop-types";
 
 import Nav from "../../../nav";

@@ -2,7 +2,7 @@
 
 /* eslint-disable camelcase */
 import PropTypes from "prop-types";
-import Chip from "@material-ui/core/Chip";
+import Chip from "@mui/material/Chip";
 
 import useOptions from "../../../../../../form/use-options";
 import { getShortIdFromUniqueId } from "../../../../../../records/utils";

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import { List, ListItemText } from "@material-ui/core";
+import { List, ListItemText } from "@mui/material";
 import { fromJS } from "immutable";
 
 import {

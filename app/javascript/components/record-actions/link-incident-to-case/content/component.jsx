@@ -1,7 +1,7 @@
-import { Grid } from "@material-ui/core";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import CheckIcon from "@material-ui/icons/Check";
+import { Grid } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import CheckIcon from "@mui/icons-material/Check";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 

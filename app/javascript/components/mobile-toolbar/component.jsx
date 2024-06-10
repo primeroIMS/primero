@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import MenuIcon from "@material-ui/icons/Menu";
-import { AppBar, Toolbar, IconButton, Hidden } from "@material-ui/core";
+import MenuIcon from "@mui/icons-material/Menu";
+import { AppBar, Toolbar, IconButton, Hidden } from "@mui/material";
 import PropTypes from "prop-types";
 
 import NetworkIndicator from "../network-indicator";

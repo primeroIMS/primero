@@ -3,14 +3,14 @@
 import { useState, useCallback, forwardRef } from "react";
 import { useSnackbar, SnackbarContent } from "notistack";
 import PropTypes from "prop-types";
-import Collapse from "@material-ui/core/Collapse";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Collapse from "@mui/material/Collapse";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const AppSnackbar = forwardRef(({ message, id }, ref) => {
   const { closeSnackbar } = useSnackbar();

@@ -10,9 +10,9 @@ import {
   FormControl,
   DialogActions,
   Button
-} from "@material-ui/core";
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
+} from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 import { useI18n } from "../../../i18n";
 import { DATE_FORMAT } from "../../../../config/constants";
@@ -35,8 +35,8 @@ const Component = ({ open, onClose, currentRange, setRange }) => {
       <DialogContent>
         <DialogContentText>{i18n.t("key_performance_indicators.date_range_dialog.description")}</DialogContentText>
         <FormControl>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
               variant="inline"
               format={DATE_FORMAT}
               margin="normal"
@@ -47,7 +47,7 @@ const Component = ({ open, onClose, currentRange, setRange }) => {
                 "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.from")
               }}
             />
-            <KeyboardDatePicker
+            <DatePicker
               variant="inline"
               format={DATE_FORMAT}
               margin="normal"
@@ -58,7 +58,7 @@ const Component = ({ open, onClose, currentRange, setRange }) => {
                 "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.to")
               }}
             />
-          </MuiPickersUtilsProvider>
+          </LocalizationProvider>
         </FormControl>
       </DialogContent>
       <DialogActions>

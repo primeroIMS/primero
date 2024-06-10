@@ -1,8 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { useState } from "react";
-import { IconButton } from "@material-ui/core";
-import MenuOpenIcon from "@material-ui/icons/MenuOpen";
+import { IconButton } from "@mui/material";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import isEmpty from "lodash/isEmpty";
 
 import PageContainer, { PageHeading } from "../../page";

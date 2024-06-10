@@ -3,8 +3,8 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, FormProvider } from "react-hook-form";
-import { IconButton } from "@material-ui/core";
-import FilterListIcon from "@material-ui/icons/FilterList";
+import { IconButton } from "@mui/material";
+import FilterListIcon from "@mui/icons-material/FilterList";
 
 import { useDrawer } from "../../../drawer";
 import { filterType } from "../../../index-filters/utils";

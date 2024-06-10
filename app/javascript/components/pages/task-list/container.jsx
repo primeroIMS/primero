@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable";
 import { useDispatch, batch } from "react-redux";
-import Tooltip from "@material-ui/core/Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 import clsx from "clsx";
 import { push } from "connected-react-router";
 

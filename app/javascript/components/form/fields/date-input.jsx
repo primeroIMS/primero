@@ -2,11 +2,11 @@
 
 /* eslint-disable react/display-name, react/no-multi-comp */
 import PropTypes from "prop-types";
-import DateFnsUtils from "@date-io/date-fns";
 import { Controller, useWatch } from "react-hook-form";
-import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import isEmpty from "lodash/isEmpty";
 import { parseISO } from "date-fns";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DatePicker, DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 
 import { toServerDateFormat } from "../../../libs";
 import { useI18n } from "../../i18n";
@@ -60,7 +60,7 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
   }
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localize(i18n)}>
       <Controller
         control={control}
         as={renderPicker}
@@ -68,7 +68,7 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
         helperText={<>{helperText}</>}
         defaultValue=""
       />
-    </MuiPickersUtilsProvider>
+    </LocalizationProvider>
   );
 };
 

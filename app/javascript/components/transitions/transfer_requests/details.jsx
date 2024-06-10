@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Divider, Grid } from "@material-ui/core";
+import { Divider, Grid } from "@mui/material";
 import PropTypes from "prop-types";
 
 import { TRANSFER_REQUEST_DETAILS_NAME } from "../constants";

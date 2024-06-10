@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Accordion, AccordionSummary, AccordionDetails, IconButton } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Accordion, AccordionSummary, AccordionDetails, IconButton } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import isEmpty from "lodash/isEmpty";
 
 import { RefreshIcon } from "../../../images/primero-icons";

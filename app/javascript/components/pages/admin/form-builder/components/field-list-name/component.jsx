@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 
 import { useI18n } from "../../../../../i18n";
 import { displayNameHelper } from "../../../../../../libs";

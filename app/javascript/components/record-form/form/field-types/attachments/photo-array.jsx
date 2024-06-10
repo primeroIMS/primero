@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Backdrop, IconButton } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import { Backdrop, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import clsx from "clsx";
 
 import css from "../../styles.css";

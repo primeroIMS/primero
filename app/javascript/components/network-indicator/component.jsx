@@ -2,8 +2,8 @@
 
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import CheckIcon from "@material-ui/icons/Check";
-import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
+import CheckIcon from "@mui/icons-material/Check";
+import SignalWifiOffIcon from "@mui/icons-material/SignalWifiOff";
 
 import { useApp } from "../application";
 import { useI18n } from "../i18n";
