@@ -87,7 +87,7 @@ const Component = ({
   const handleRemoveClick = () => onRemoveClick(index);
 
   const renderRemoveButton = formMode.get("isNew") && showDeleteAction && (
-    <IconButton aria-label="delete" className={css.removeIcon} onClick={handleRemoveClick}>
+    <IconButton size="large" aria-label="delete" className={css.removeIcon} onClick={handleRemoveClick}>
       <DeleteIcon />
     </IconButton>
   );

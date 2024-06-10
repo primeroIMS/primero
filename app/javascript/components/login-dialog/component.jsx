@@ -31,7 +31,6 @@ const Component = () => {
       }}
       disableClose
       omitCloseAfterSuccess
-      disableBackdropClick
     >
       <Login modal />
     </ActionDialog>

@@ -11,7 +11,7 @@ const Component = ({ handler }) => {
   };
 
   return (
-    <IconButton className={css.dismissButton} onClick={handlerWrapper}>
+    <IconButton size="large" className={css.dismissButton} onClick={handlerWrapper}>
       <CloseIcon />
     </IconButton>
   );

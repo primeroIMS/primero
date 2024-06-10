@@ -87,7 +87,7 @@ const SearchableSelect = ({
       disabled={isDisabled}
       getOptionLabel={getOptionLabel}
       getOptionDisabled={optionDisabled}
-      getOptionSelected={getSelectedOptions}
+      isOptionEqualToValue={getSelectedOptions}
       loading={isLoading}
       disableClearable={!isClearable}
       filterSelectedOptions

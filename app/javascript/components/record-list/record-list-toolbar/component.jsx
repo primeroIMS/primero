@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Hidden, IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 
@@ -23,14 +23,14 @@ const Component = ({ title, recordType, selectedRecords, currentPage, clearSelec
 
   return (
     <PageHeading title={title}>
-      <Hidden mdUp>
-        <IconButton onClick={toggleSortDrawer} color="primary">
+      <Box sx={{ display: { md: "none", xs: "block" } }}>
+        <IconButton size="large" onClick={toggleSortDrawer} color="primary">
           <ImportExportIcon />
         </IconButton>
-        <IconButton onClick={toggleFilterDrawer} color="primary">
+        <IconButton size="large" onClick={toggleFilterDrawer} color="primary">
           <FilterListIcon />
         </IconButton>
-      </Hidden>
+      </Box>
       <Permission resources={recordType} actions={CREATE_RECORDS}>
         <AddRecordMenu recordType={recordType} />
       </Permission>

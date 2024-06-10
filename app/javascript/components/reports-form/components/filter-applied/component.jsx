@@ -91,10 +91,12 @@ const Component = ({
           )}
         </div>
         <div className={css.filterActions}>
-          <IconButton onClick={handleClickOpen(index, filter)} disabled={deleteDisabled}>
+          <IconButton size="large" onClick={handleClickOpen(index, filter)} disabled={deleteDisabled}>
             <DeleteIcon />
           </IconButton>
-          <IconButton onClick={handleClickEdit(index, filter)}>{renderIcon}</IconButton>
+          <IconButton size="large" onClick={handleClickEdit(index, filter)}>
+            {renderIcon}
+          </IconButton>
         </div>
       </div>
       {conditionType === LOGICAL_OPERATORS.OR && <p>{conditionName}</p>}

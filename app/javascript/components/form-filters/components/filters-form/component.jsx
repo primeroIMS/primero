@@ -34,7 +34,7 @@ const Component = ({
   const { drawerOpen, toggleDrawer, setDrawer } = useDrawer(FILTERS_DRAWER);
 
   const showFilterIcon = mobileDisplay && showDrawer && (
-    <IconButton onClick={toggleDrawer} color="primary">
+    <IconButton size="large" onClick={toggleDrawer} color="primary">
       <FilterListIcon />
     </IconButton>
   );

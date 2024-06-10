@@ -23,7 +23,7 @@ const Component = ({ trigger, image }) => {
       </button>
       {image && (
         <Backdrop className={css.backdrop} open={open} onClick={handleClose}>
-          <IconButton className={css.backdropClose}>
+          <IconButton size="large" className={css.backdropClose}>
             <CloseIcon />
           </IconButton>
           {open && <img src={image} alt="" />}

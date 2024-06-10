@@ -48,7 +48,13 @@ const TransferActionMenu = ({ transition, recordType }) => {
 
   return (
     <>
-      <IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleTransferMenuClick}>
+      <IconButton
+        size="large"
+        aria-label="more"
+        aria-controls="long-menu"
+        aria-haspopup="true"
+        onClick={handleTransferMenuClick}
+      >
         <MoreVertIcon />
       </IconButton>
       <Menu

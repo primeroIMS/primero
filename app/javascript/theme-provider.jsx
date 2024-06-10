@@ -1,7 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { CssBaseline } from "@mui/material";
-import { ThemeProvider as MuiThemeProvider, createMuiTheme, StylesProvider, jssPreset } from "@mui/styles";
+import { adaptV4Theme, createTheme } from "@mui/material/styles";
+import { ThemeProvider, StylesProvider, jssPreset } from "@mui/styles";
 import PropTypes from "prop-types";
 import { useMemo, useEffect, useLayoutEffect, createContext, useReducer, useContext, useCallback } from "react";
 import rtl from "jss-rtl";
@@ -56,7 +57,7 @@ const ThemeProvider = ({ children }) => {
   }, [directionFromStore, direction]);
 
   const themeConfig = useMemo(() => {
-    const muiTheme = createMuiTheme({ ...theme, direction });
+    const muiTheme = createTheme(adaptV4Theme({ ...theme, direction }));
 
     muiTheme.overrides.MuiCssBaseline["@global"].html = { fontSize: `var(--fs-${direction === "rtl" ? 18 : 16})` };
 
@@ -81,12 +82,12 @@ const ThemeProvider = ({ children }) => {
 
   return (
     <StylesProvider jss={jss}>
-      <MuiThemeProvider theme={themeConfig}>
+      <ThemeProvider theme={themeConfig}>
         <DispatchContext.Provider value={dispatch}>
           <CssBaseline />
           {children}
         </DispatchContext.Provider>
-      </MuiThemeProvider>
+      </ThemeProvider>
     </StylesProvider>
   );
 };

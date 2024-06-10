@@ -15,7 +15,7 @@ const Component = ({ action, actionLabel, actionUrl, closeSnackbar, snackKey, hi
   }
 
   const showCloseIcon = !hideCloseIcon && (
-    <IconButton onClick={handleSnackClose}>
+    <IconButton size="large" onClick={handleSnackClose}>
       <CloseIcon />
     </IconButton>
   );

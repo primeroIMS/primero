@@ -3,7 +3,7 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
-import { MuiThemeProvider } from "@mui/styles";
+import { ThemeProvider } from "@mui/styles";
 import isEqual from "lodash/isEqual";
 
 import { SUBFORM_SECTION } from "../../../../../../../form";
@@ -92,9 +92,9 @@ const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeFiel
   };
 
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <MUIDataTable {...tableOptions} />
-    </MuiThemeProvider>
+    </ThemeProvider>
   );
 };
 

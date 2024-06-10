@@ -283,7 +283,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
           options={options}
           multiple={multiSelect || multipleLimitOne}
           getOptionLabel={optionLabel}
-          getOptionSelected={optionEquality}
+          isOptionEqualToValue={optionEquality}
           getOptionDisabled={handleGetOptionDisabled}
           disabled={disabled}
           filterSelectedOptions

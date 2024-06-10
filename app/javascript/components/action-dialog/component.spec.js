@@ -16,7 +16,6 @@ describe("<ActionDialog />", () => {
     dialogText: "",
     dialogTitle: "Test Title",
     disableActions: false,
-    disableBackdropClick: false,
     maxSize: "sm",
     omitCloseAfterSuccess: false,
     onClose: () => {},

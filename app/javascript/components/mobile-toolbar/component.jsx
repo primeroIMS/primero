@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import MenuIcon from "@mui/icons-material/Menu";
-import { AppBar, Toolbar, IconButton, Hidden } from "@mui/material";
+import { AppBar, Toolbar, IconButton, Box } from "@mui/material";
 import PropTypes from "prop-types";
 
 import NetworkIndicator from "../network-indicator";
@@ -21,10 +21,10 @@ const MobileToolbar = ({ openDrawer, hasUnsubmittedOfflineChanges = false }) => 
   const demoText = demo ? <div className={css.demoText}>{i18n.t(DEMO)}</div> : null;
 
   return (
-    <Hidden mdUp implementation="css">
+    <Box sx={{ display: { md: "none", xs: "block" } }}>
       <AppBar position="fixed" data-testid="appBar">
         <Toolbar data-testid="toolbar" className={css[demo ? "toolbar-demo" : "toolbar"]}>
-          <IconButton edge="start" color="default" aria-label="Menu" onClick={openDrawer}>
+          <IconButton size="large" edge="start" aria-label="Menu" onClick={openDrawer}>
             <MenuIcon className={css.hamburger} />
             {hasUnsubmittedOfflineChanges && (
               <div className={css.menuAlert}>
@@ -39,7 +39,7 @@ const MobileToolbar = ({ openDrawer, hasUnsubmittedOfflineChanges = false }) => 
           </div>
         </Toolbar>
       </AppBar>
-    </Hidden>
+    </Box>
   );
 };
 

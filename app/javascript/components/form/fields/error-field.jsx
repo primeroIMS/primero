@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
-import Alert from "@mui/lab/Alert";
+import Alert from "@mui/material/Alert";
 
 import { ERROR_FIELD_NAME } from "./constants";
 

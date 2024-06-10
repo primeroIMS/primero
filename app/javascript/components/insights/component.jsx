@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useLocation, useParams } from "react-router-dom";
-import { Hidden, IconButton, useMediaQuery } from "@mui/material";
+import { Box, IconButton, useMediaQuery } from "@mui/material";
 import { MenuOpen } from "@mui/icons-material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { useDispatch } from "react-redux";
@@ -89,7 +89,7 @@ const Component = ({ routes }) => {
         />
       </PageHeading>
       <PageContent hasNav>
-        <Hidden smDown implementation="css">
+        <Box sx={{ display: { xs: "none", sm: "block" } }}>
           <div>
             <PageNavigation
               menuList={menuList}
@@ -99,16 +99,16 @@ const Component = ({ routes }) => {
               toggleNav={toggleNav}
             />
           </div>
-        </Hidden>
+        </Box>
         <div>
           <div className={css.title}>
-            <Hidden mdUp implementation="css">
+            <Box sx={{ display: { xs: "none", md: "block" } }}>
               <div>
-                <IconButton onClick={handleToggleNav}>
+                <IconButton size="large" onClick={handleToggleNav}>
                   <MenuOpen />
                 </IconButton>
               </div>
-            </Hidden>
+            </Box>
             <h2>{subReportTitle}</h2>
           </div>
           <ApplicationRoutes routes={routes} />

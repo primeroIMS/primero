@@ -69,11 +69,10 @@ const Component = ({
             id="outlined-multiline-static"
             multiline
             fullWidth
-            rows="4"
+            minRows="4"
             defaultValue=""
             variant="outlined"
             onChange={handleChangeComment}
-            labelWidth={0}
             shrink
             label={i18n.t("cases.approval_comments")}
           />

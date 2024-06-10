@@ -30,7 +30,7 @@ const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
 
   return (
     <div className={css.alertTransferModal}>
-      <Grid data-testid="grid" container direction="row" justify="flex-start" alignItems="center">
+      <Grid data-testid="grid" container direction="row" justifyContent="flex-start" alignItems="center">
         <Grid data-testid="grid" item xs={2} className={css.alignCenter}>
           <CasesIcon className={css.alertTransferModalIcon} />
         </Grid>

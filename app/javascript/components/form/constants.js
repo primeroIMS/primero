@@ -63,11 +63,11 @@ export const CUSTOM_LOOKUPS = [
 ];
 
 export const SELECT_CHANGE_REASON = Object.freeze({
-  removeOption: "remove-option",
+  removeOption: "removeOption",
   clear: "clear",
   blur: "blur",
-  selectOption: "select-option",
-  createOption: "create-option"
+  selectOption: "selectOption",
+  createOption: "createOption"
 });
 
 export const EMPTY_VALUE = "--";

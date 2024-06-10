@@ -55,13 +55,13 @@ const PhotoArray = ({ images = [], isGallery = false }) => {
   };
 
   const prevButton = isGallery && (
-    <IconButton onClick={onPrevClick} disabled={selected.index === 0}>
+    <IconButton size="large" onClick={onPrevClick} disabled={selected.index === 0}>
       <NavigateBeforeIcon />
     </IconButton>
   );
 
   const nextButton = isGallery && (
-    <IconButton onClick={onNextClick} disabled={selected.index + 1 === images.length}>
+    <IconButton size="large" onClick={onNextClick} disabled={selected.index + 1 === images.length}>
       <NavigateNextIcon />
     </IconButton>
   );
@@ -81,7 +81,7 @@ const PhotoArray = ({ images = [], isGallery = false }) => {
         {nextButton}
       </div>
       <Backdrop className={css.backdrop} open={selected.open} onClick={() => handleClose(selected.index)}>
-        <IconButton className={css.backdropClose}>
+        <IconButton size="large" className={css.backdropClose}>
           <CloseIcon />
         </IconButton>
         <img src={images[selected.index]} alt="" />

@@ -40,7 +40,13 @@ const ReferralActionMenu = ({ transition, recordType }) => {
 
   return (
     <>
-      <IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleReferralMenuClick}>
+      <IconButton
+        size="large"
+        aria-label="more"
+        aria-controls="long-menu"
+        aria-haspopup="true"
+        onClick={handleReferralMenuClick}
+      >
         <MoreVertIcon />
       </IconButton>
       <Menu

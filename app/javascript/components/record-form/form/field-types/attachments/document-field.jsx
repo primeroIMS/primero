@@ -132,15 +132,15 @@ const DocumentField = ({
         </div>
         <div>
           {deleteButton}
-          <IconButton onClick={handleOpen}>{renderIcon}</IconButton>
+          <IconButton size="large" onClick={handleOpen}>{renderIcon}</IconButton>
         </div>
       </div>
 
       <Dialog open={open || dialog} onClose={handleClose} maxWidth="sm" fullWidth>
-        <DialogTitle disableTypography className={css.title}>
+        <DialogTitle className={css.title}>
           <div className={css.titleText}>{title}</div>
           <div>
-            <IconButton onClick={handleClose}>
+            <IconButton size="large" onClick={handleClose}>
               <CloseIcon />
             </IconButton>
           </div>
@@ -194,7 +194,7 @@ const DocumentField = ({
           <Box my={2}>
             <FastField
               component={TextField}
-              margin="dense"
+              size="small"
               {...supportingInputsProps}
               multiline
               label={i18n.t("fields.document.comments")}

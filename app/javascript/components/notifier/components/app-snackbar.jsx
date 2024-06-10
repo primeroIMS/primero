@@ -30,10 +30,10 @@ const AppSnackbar = forwardRef(({ message, id }, ref) => {
         <CardActions>
           <Typography variant="subtitle2">{message}</Typography>
           <div>
-            <IconButton aria-label="Show more" onClick={handleExpandClick}>
+            <IconButton size="large" aria-label="Show more" onClick={handleExpandClick}>
               <ExpandMoreIcon />
             </IconButton>
-            <IconButton onClick={handleDismiss}>
+            <IconButton size="large" onClick={handleDismiss}>
               <CloseIcon />
             </IconButton>
           </div>

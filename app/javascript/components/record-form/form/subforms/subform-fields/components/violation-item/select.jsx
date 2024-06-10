@@ -1,4 +1,4 @@
-import { Box, FormControl, MenuItem, Select } from "@mui/material";
+import { FormControl, MenuItem, Select } from "@mui/material";
 import PropTypes from "prop-types";
 
 import useOptions from "../../../../../../form/use-options";
@@ -35,7 +35,7 @@ const Component = ({ selectedValue, setSelectedValue }) => {
   const onSel = true;
 
   return (
-    <Box className={css.selectWrapper}>
+    <div className={css.selectWrapper}>
       <FormControl fullWidth classes={classesFormCotnrol}>
         <Select
           value={selectedValue}
@@ -53,7 +53,7 @@ const Component = ({ selectedValue, setSelectedValue }) => {
           ))}
         </Select>
       </FormControl>
-    </Box>
+    </div>
   );
 };
 

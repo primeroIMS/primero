@@ -29,7 +29,6 @@ const ActionDialog = ({
   dialogText,
   dialogTitle,
   disableActions,
-  disableBackdropClick,
   disableClose,
   enabledSuccessButton,
   hideIcon,
@@ -56,15 +55,16 @@ const ActionDialog = ({
 
   const isPending = asyncLoading || pending;
 
-  const handleClose = event => {
+  const handleClose = (event, reason) => {
     event.stopPropagation();
-
-    if (cancelHandler) {
-      cancelHandler();
-    } else if (onClose) {
-      onClose();
-    } else {
-      dispatch(clearDialog());
+    if (reason !== "backdropClick") {
+      if (cancelHandler) {
+        cancelHandler();
+      } else if (onClose) {
+        onClose();
+      } else {
+        dispatch(clearDialog());
+      }
     }
   };
 
@@ -141,7 +141,6 @@ const ActionDialog = ({
         maxWidth={maxSize || "sm"}
         aria-labelledby="action-dialog-title"
         aria-describedby="action-dialog-description"
-        disableBackdropClick={disableBackdropClick}
       >
         {dialogHeader}
         {subHeader}
@@ -174,7 +173,6 @@ ActionDialog.displayName = "ActionDialog";
 ActionDialog.defaultProps = {
   cancelButtonProps: {},
   dialogTitle: "",
-  disableBackdropClick: false,
   disableClose: false,
   enabledSuccessButton: true,
   fetchArgs: [],
@@ -194,7 +192,6 @@ ActionDialog.propTypes = {
   dialogText: PropTypes.string,
   dialogTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   disableActions: PropTypes.bool,
-  disableBackdropClick: PropTypes.bool,
   disableClose: PropTypes.bool,
   enabledSuccessButton: PropTypes.bool,
   fetchAction: PropTypes.func,

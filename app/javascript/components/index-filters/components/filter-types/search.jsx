@@ -60,7 +60,7 @@ const Search = () => {
   return (
     <div className={css.searchContainer}>
       <div className={css.searchInputContainer}>
-        <IconButton className={css.iconSearchButton} aria-label="menu" type="submit" color="primary">
+        <IconButton size="large" className={css.iconSearchButton} aria-label="menu" type="submit" color="primary">
           <SearchIcon />
         </IconButton>
         <InputBase
@@ -73,7 +73,7 @@ const Search = () => {
           inputProps={{ "aria-label": i18n.t("navigation.search") }}
           endAdornment={
             <InputAdornment position="end">
-              <IconButton className={css.iconSearchButton} onClick={handleClear}>
+              <IconButton size="large" className={css.iconSearchButton} onClick={handleClear}>
                 <ClearIcon />
               </IconButton>
             </InputAdornment>

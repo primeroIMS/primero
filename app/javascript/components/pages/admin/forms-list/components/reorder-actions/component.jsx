@@ -47,14 +47,7 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
   const icon = !reorderLoading ? <CheckIcon /> : <CircularProgress size={24} className={css.buttonProgress} />;
 
   return (
-    <Dialog
-      id="reorder-actions"
-      disableEnforceFocus
-      open={open}
-      className={css.dialog}
-      disableBackdropClick
-      hideBackdrop={!reorderLoading}
-    >
+    <Dialog id="reorder-actions" disableEnforceFocus open={open} className={css.dialog} hideBackdrop={!reorderLoading}>
       <DialogActions classes={{ root: css.reorderActions }}>
         <ActionButton
           icon={<CloseIcon />}

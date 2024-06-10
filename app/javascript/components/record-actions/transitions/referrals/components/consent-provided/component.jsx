@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import Alert from "@mui/lab/Alert";
+import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/lab/AlertTitle";
 
 import { CasesIcon } from "../../../../../../images/primero-icons";

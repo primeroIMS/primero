@@ -15,7 +15,6 @@ const Component = ({ dialogOpen, fetchAction, fetchArgs, children, isBulkFlags, 
   return (
     <ActionDialog
       open={dialogOpen}
-      disableBackdropClick
       dialogTitle={i18n.t("flags.title")}
       disableActions={tab === 0}
       fetchAction={fetchAction}

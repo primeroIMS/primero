@@ -174,7 +174,7 @@ const Component = ({ filter, mode, moreSectionFilters, multiple, reset, setMoreS
         onChange={handleChange}
         options={filterOptions}
         value={inputValue}
-        getOptionSelected={handleOptionSelected}
+        isOptionEqualToValue={handleOptionSelected}
         renderInput={handleRenderInput}
         filterOptions={filterOptionsProp}
         filterSelectedOptions

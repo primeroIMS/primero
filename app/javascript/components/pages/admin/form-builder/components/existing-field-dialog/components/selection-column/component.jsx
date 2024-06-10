@@ -17,11 +17,11 @@ const Component = ({ addField, field, removeField, selected }) => {
   };
 
   return selected ? (
-    <IconButton onClick={onRemove} data-testid="remove-button">
+    <IconButton size="large" onClick={onRemove} data-testid="remove-button">
       <RemoveIcon />
     </IconButton>
   ) : (
-    <IconButton onClick={onAdd} data-testid="add-button">
+    <IconButton size="large" onClick={onAdd} data-testid="add-button">
       <AddIcon />
     </IconButton>
   );

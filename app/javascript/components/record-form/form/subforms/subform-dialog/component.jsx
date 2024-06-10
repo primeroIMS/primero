@@ -178,7 +178,6 @@ const Component = ({
     confirmButtonLabel: i18n.t("buttons.ok"),
     dialogTitle: title,
     dialogText: i18n.t("messages.confirmation_message_subform"),
-    disableBackdropClick: true,
     cancelHandler: () => setOpenConfirmationModal(false),
     successHandler: () => {
       arrayHelpers.replace(index, oldValue);

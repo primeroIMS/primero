@@ -13,6 +13,7 @@ const ActionMenu = ({ open, onOpen, onClose, items }) => {
   return (
     <>
       <IconButton
+        size="large"
         aria-label="More"
         aria-controls="long-menu"
         aria-haspopup="true"

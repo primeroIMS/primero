@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { fade } from "@mui/styles";
+import { alpha } from "@mui/styles";
 import mapKeys from "lodash/mapKeys";
 import kebabCase from "lodash/kebabCase";
 
@@ -94,16 +94,16 @@ const spacing = [1, 2, 3, 4];
 
 const overrides = {
   MuiCssBaseline: {
-    "@global": {
+    stylesOverrides: `
       "#root": {
         display: "flex",
         flexDirection: "column",
-        height: `var(--doc-height, 100vh)`
+        height: "var(--doc-height, 100vh)"
       },
       legend: {
         display: "none"
       }
-    }
+    `
   },
   MuiPaper: {
     elevation3: {
@@ -125,10 +125,10 @@ const overrides = {
       fontWeight: 700,
       marginBottom: ".5em",
       color: colors.black,
-      "&$focused": {
+      "&.Mui-focused": {
         color: colors.black
       },
-      "&$disabled": {
+      "&.Mui-disabled": {
         color: colors.black
       }
     },
@@ -147,12 +147,12 @@ const overrides = {
   },
   MuiInputBase: {
     root: {
-      "&$disabled": {
+      "&.Mui-disabled": {
         cursor: "not-allowed !important"
       }
     },
     input: {
-      "&$disabled": {
+      "&.Mui-disabled": {
         color: "var(--c-black)",
         cursor: "not-allowed !important"
       }
@@ -184,7 +184,7 @@ const overrides = {
     root: {
       color: colors.black,
       padding: "0 var(--sp-1)",
-      "&$checked": {
+      "&.Mui-checked": {
         color: `${colors.black} !important`
       }
     }
@@ -192,20 +192,20 @@ const overrides = {
   MuiRadio: {
     root: {
       padding: "0 var(--sp-1)",
-      "&$checked": {
+      "&.Mui-checked": {
         color: `${colors.black} !important`
       }
     }
   },
   MuiFormControlLabel: {
     root: {
-      "&$disabled": {
+      "&.Mui-disabled": {
         cursor: "not-allowed"
       }
     },
     label: {
       fontSize: "var(--fs-13) !important",
-      "&$disabled": {
+      "&.Mui-disabled": {
         color: colors.black
       }
     }
@@ -344,7 +344,7 @@ const overrides = {
       fontSize: "var(--fs-14)",
       fontWeight: 600,
       borderRadius: "6px",
-      "&$disabled": {
+      "&.Mui-disabled": {
         color: "rgba(0, 0, 0, 0.26)",
         backgroundColor: `${colors.lightGrey} !important`
       }
@@ -353,7 +353,7 @@ const overrides = {
       "&:hover, &:active, &:focus": {
         // TODO: @media is overriding this style
         backgroundColor: "var(--c-blue-hover) !important",
-        "&$disabled": {
+        "&.Mui-disabled": {
           color: "rgba(0, 0, 0, 0.26)",
           backgroundColor: `${colors.lightGrey} !important`
         }
@@ -363,7 +363,7 @@ const overrides = {
       "&:hover, &:active, &focus": {
         borderColor: "var(--c-blue-hover)",
         color: "var(--c-blue-hover)",
-        "&$disabled": {
+        "&.Mui-disabled": {
           color: "rgba(0, 0, 0, 0.26)",
           backgroundColor: `${colors.lightGrey} !important`
         }
@@ -451,11 +451,11 @@ const overrides = {
       padding: 0,
       fontSize: "var(--fs-16)",
       background: "var(--c-white)",
-      "&$focused": {
+      "&.Mui-focused": {
         borderColor: colors.blue,
-        boxShadow: `${fade(colors.blue, 0.25)} 0 0 0 0.2rem`
+        boxShadow: `${alpha(colors.blue, 0.25)} 0 0 0 0.2rem`
       },
-      "&$disabled": {
+      "&.Mui-disabled": {
         "& .MuiChip-root": {
           opacity: 1
         },

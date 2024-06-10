@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Drawer, List, useMediaQuery, Hidden, Divider, IconButton } from "@mui/material";
+import { Drawer, List, useMediaQuery, Divider, IconButton, Box } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
@@ -113,18 +113,18 @@ const Nav = () => {
 
   const drawerContent = (
     <>
-      <Hidden smDown implementation="css">
+      <Box sx={{ display: { xs: "none", sm: "block" } }}>
         <ModuleLogo username={username} />
-      </Hidden>
+      </Box>
       <div className={css.drawerHeaderContainer}>
-        <Hidden mdUp implementation="css">
+        <Box sx={{ display: { md: "none", xs: "block" } }}>
           <div className={drawerHeaderClasses}>
-            <IconButton onClick={handleToggleDrawer(false)}>
+            <IconButton size="large" onClick={handleToggleDrawer(false)}>
               <CloseIcon />
             </IconButton>
           </div>
           <Divider />
-        </Hidden>
+        </Box>
       </div>
       <div className={css.navNetworkIndicator}>
         <NetworkIndicator />
@@ -156,7 +156,7 @@ const Nav = () => {
         openDrawer={handleToggleDrawer(true)}
         hasUnsubmittedOfflineChanges={hasUnsubmittedOfflineChanges}
       />
-      <Hidden mdUp implementation="css">
+      <Box sx={{ display: { md: "none", xs: "block" } }}>
         <Drawer
           variant="temporary"
           {...commonDrawerProps}
@@ -166,12 +166,12 @@ const Nav = () => {
         >
           {drawerContent}
         </Drawer>
-      </Hidden>
-      <Hidden smDown implementation="css">
+      </Box>
+      <Box sx={{ display: { xs: "none", sm: "block" } }}>
         <Drawer variant="permanent" {...commonDrawerProps}>
           {drawerContent}
         </Drawer>
-      </Hidden>
+      </Box>
       <ActionDialog
         dialogTitle={i18n.t("messages.logout_dialog_header")}
         cancelHandler={handleLogoutCancel}
