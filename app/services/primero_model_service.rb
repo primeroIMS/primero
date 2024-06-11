@@ -10,7 +10,7 @@ class PrimeroModelService
     ReportableFollowUp ReportableProtectionConcern ReportableService Dashboard
     Flag Alert Attachment AuditLog BulkExport RecordHistory SavedSearch Transition Task ActivityLog
     Agency ContactInformation Field FormSection Location Lookup PrimeroModule PrimeroProgram Report User Role
-    Permission SystemSettings UserGroup ExportConfiguration PrimeroConfiguration Webhook IdentityProvider
+    Permission SystemSettings UserGroup ExportConfiguration PrimeroConfiguration Webhook IdentityProvider Kpi
   ].freeze
 
   def self.to_model(name)

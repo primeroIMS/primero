@@ -24,7 +24,7 @@ describe Api::V2::KeyPerformanceIndicatorsController, { type: :request, skip_whe
   end
 
   before(:each) do
-    clean_data(Lookup, Location, Agency, Role, UserGroup, User, Incident, Child, FormSection)
+    clean_data(User, Lookup, Location, Agency, Role, UserGroup, Incident, Child, FormSection)
 
     @uk = Location.create!(
       location_code: 'GBR',
