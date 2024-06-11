@@ -19,15 +19,18 @@ class Reports::ReportFilterService
     self.destringify_service = DestringifyService.new
   end
 
+  # rubocop:disable Metrics/AbcSize
   def build_filters
     filters.map do |filter|
       field = fields_map[filter['attribute']]
       filter = filter.merge('value' => destringify_service.destringify(filter['value'], false))
+      next(SearchFilters::NotNull.new(field_name: filter['attribute'])) if filter['constraint'] == 'not_null'
       next(build_array_filter(filter, field)) if filter['value'].is_a?(Array) && filter['value'].size >= 1
 
       build_filter(filter, field)
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   # rubocop:disable Metrics/MethodLength
   def build_filter(filter, field)
