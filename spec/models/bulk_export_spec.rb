@@ -24,12 +24,13 @@ describe BulkExport, { search: true } do
       ]
     )
     primero_module = create(:primero_module)
-    role = create(:role, form_sections: [@form_section], modules: [primero_module])
+    role = create(:role, form_sections: [@form_section], modules: [primero_module], group_permission: Permission::SELF)
     @user = create(:user, role:)
-    Child.create!(data: { age: 5 })
   end
 
   describe 'custom bulk export' do
+    let(:child1) { Child.create!(data: { age: 5, owned_by: @user.user_name }) }
+    let(:child2) { Child.create!(data: { age: 10 }) }
     let(:bulk_export) do
       BulkExport.new(
         format: Exporters::SelectedFieldsExcelExporter.id,
@@ -46,8 +47,19 @@ describe BulkExport, { search: true } do
       book.sheet(book.sheets.first)
     end
 
+    before do
+      child1
+      child2
+    end
+
     it 'exports only the selected fields for cases' do
       expect(export_spreadsheet.row(1)).to eq %w[ID Age]
+    end
+
+    it 'exports only the record in the user scope' do
+      expect(export_spreadsheet.count).to eq(2)
+      expect(export_spreadsheet.row(1)).to eq %w[ID Age]
+      expect(export_spreadsheet.row(2)).to eq([child1.short_id, child1.age])
     end
   end
 
