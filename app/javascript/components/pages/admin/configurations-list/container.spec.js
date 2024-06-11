@@ -5,7 +5,7 @@ import { fromJS } from "immutable";
 import { parseISO, format } from "date-fns";
 
 import { DATE_TIME_FORMAT } from "../../../../config";
-import { lookups } from "../../../../test";
+import { lookups } from "../../../../test-utils";
 import { ACTIONS } from "../../../permissions";
 
 import NAMESPACE from "./namespace";

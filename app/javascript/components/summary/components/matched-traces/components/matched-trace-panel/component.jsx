@@ -19,8 +19,13 @@ const Component = ({ matchedTrace, setOpen, setSelectedTraceId }) => {
   const handleClickAccordion = () => handleOnClick(matchedTraceId);
 
   return (
-    <Accordion expanded={false} onChange={handleClickAccordion}>
-      <AccordionSummary expandIcon={<ChevronRightIcon />} aria-controls="filter-controls-content" id={1}>
+    <Accordion expanded={false} onChange={handleClickAccordion} data-testid="matched-trace-panel">
+      <AccordionSummary
+        expandIcon={<ChevronRightIcon />}
+        aria-controls="filter-controls-content"
+        id={1}
+        data-testid="matched-trace-panel-summary"
+      >
         <ActionButton
           id={`matched-trace-${matchedTraceId}`}
           text={getShortIdFromUniqueId(matchedTraceId)}

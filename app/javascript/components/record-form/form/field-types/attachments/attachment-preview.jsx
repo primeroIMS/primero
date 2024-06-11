@@ -20,13 +20,13 @@ const AttachmentPreview = ({ name, attachment, attachmentUrl }) => {
   if (isAudioAttachment) {
     return (
       // eslint-disable-next-line jsx-a11y/media-has-caption
-      <audio id={name} controls>
+      <audio id={name} controls data-testid="audio">
         <source src={attachmentUrl} />
       </audio>
     );
   }
 
-  return <img src={attachmentUrl} alt="" className={css.editImg} />;
+  return <img data-testid="attachment" src={attachmentUrl} alt="" className={css.editImg} />;
 };
 
 AttachmentPreview.displayName = "AttachmentPreview";

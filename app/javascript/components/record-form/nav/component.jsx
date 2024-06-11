@@ -205,7 +205,7 @@ const Component = ({
         classes={drawerClasses}
       >
         <CloseButtonNavBar handleToggleNav={handleToggleNav} mobileDisplay={mobileDisplay} />
-        <List className={css.listRecordNav}>
+        <List data-testid="nav-list" className={css.listRecordNav}>
           <RecordInformation
             handleClick={handleClick}
             open={open}

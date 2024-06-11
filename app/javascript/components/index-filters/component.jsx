@@ -134,7 +134,7 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
   const handleChangeTabs = (_event, value) => setTabIndex(value);
 
   return (
-    <div className={css.root}>
+    <div className={css.root} data-testid="filters">
       <FormProvider {...methods} user={userName}>
         <form onSubmit={methods.handleSubmit(handleSubmit)}>
           <SearchBox />

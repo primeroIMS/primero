@@ -55,7 +55,7 @@ const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, error
 
   return (
     <>
-      <LoadingIndicator {...loadingIndicatorProps}>
+      <LoadingIndicator {...loadingIndicatorProps} data-testid="badged-indicator">
         <div className={css.sectionTitle}>{sectionTitle}</div>
         <div className={css.content}>{dashboardChips}</div>
       </LoadingIndicator>

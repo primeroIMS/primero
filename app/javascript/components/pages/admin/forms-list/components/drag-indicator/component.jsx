@@ -10,7 +10,7 @@ const Component = ({ isDragDisabled, ...props }) => {
   const classes = isDragDisabled ? { classes: { root: css.dragIndicator } } : {};
 
   return (
-    <Icon {...props} {...classes} data-testid="error-icon">
+    <Icon {...props} {...classes} data-testid="drag-indicator">
       <DragIndicatorIcon />
     </Icon>
   );
