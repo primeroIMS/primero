@@ -8,7 +8,7 @@ import css from "./styles.css";
 
 const DashboardChip = ({ label, type, handleClick }) => {
   const handler = typeof handleClick === "function" ? handleClick : null;
-  const classes = clsx(css.chip, css[type]);
+  const classes = clsx({ [css.chip]: true, [css[type]]: true, [css.disabled]: handler === null });
 
   return (
     <Button id={`chip-${type}`} label={label} className={classes} onClick={handler} variant="text">
