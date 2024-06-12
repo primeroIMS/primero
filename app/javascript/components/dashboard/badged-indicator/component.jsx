@@ -24,15 +24,21 @@ const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, error
     errors
   };
 
-  const handleClick = queryValue => () => {
-    if (!isEmpty(queryValue)) {
-      dispatch(
-        push({
-          pathname: ROUTES.cases,
-          search: buildFilter(queryValue)
-        })
-      );
+  const handleClick = queryValue => {
+    if (isEmpty(queryValue)) {
+      return null;
     }
+
+    return () => {
+      if (!isEmpty(queryValue)) {
+        dispatch(
+          push({
+            pathname: ROUTES.cases,
+            search: buildFilter(queryValue)
+          })
+        );
+      }
+    };
   };
 
   const dashboardChips = lookup.map(lk => {
@@ -49,7 +55,7 @@ const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, error
 
   return (
     <>
-      <LoadingIndicator {...loadingIndicatorProps}>
+      <LoadingIndicator {...loadingIndicatorProps} data-testid="badged-indicator">
         <div className={css.sectionTitle}>{sectionTitle}</div>
         <div className={css.content}>{dashboardChips}</div>
       </LoadingIndicator>

@@ -31,6 +31,7 @@ const Component = ({ handleToggleNav, menuList = [], mobileDisplay = false, sele
 
     return (
       <ListItem
+        data-testid="list-item"
         button
         key={to}
         component={Link}
@@ -39,14 +40,16 @@ const Component = ({ handleToggleNav, menuList = [], mobileDisplay = false, sele
         disabled={disabled}
         classes={classes}
       >
-        <ListItemText primary={text} />
+        <ListItemText primary={text} data-testid="list-item-text" />
       </ListItem>
     );
   });
 
   return (
     <ConditionalWrapper condition={mobileDisplay} wrapper={Drawer} {...drawerProps}>
-      <List component="nav">{renderList}</List>
+      <List component="nav" data-testid="list">
+        {renderList}
+      </List>
     </ConditionalWrapper>
   );
 };

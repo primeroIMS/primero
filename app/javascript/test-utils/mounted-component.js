@@ -16,8 +16,8 @@ import ThemeProvider from "../theme-provider";
 import { createMockStore, DEFAULT_STATE } from "./create-mock-store";
 import { FormikProvider } from "./formik-utils";
 
-function setupMountedComponent({ state, path, initialEntries, formProps } = {}) {
-  const { store, history } = createMockStore(DEFAULT_STATE, state);
+function setupMountedComponent({ state, path, initialEntries, formProps, includeRestMiddleware } = {}) {
+  const { store, history } = createMockStore(DEFAULT_STATE, state, includeRestMiddleware);
 
   function RouteProvider({ children }) {
     if (isEmpty(initialEntries)) {
@@ -54,8 +54,22 @@ function setupMountedComponent({ state, path, initialEntries, formProps } = {}) 
   return { store, history, AppProviders };
 }
 
-function mountedComponent(Component, state = {}, options = {}, initialEntries = [], formProps = {}, path = "") {
-  const { store, history, AppProviders } = setupMountedComponent({ state, path, formProps, initialEntries });
+function mountedComponent(
+  Component,
+  state = {},
+  options = {},
+  initialEntries = [],
+  formProps = {},
+  path = "",
+  includeRestMiddleware = false
+) {
+  const { store, history, AppProviders } = setupMountedComponent({
+    state,
+    path,
+    formProps,
+    initialEntries,
+    includeRestMiddleware
+  });
 
   const component = render(Component, {
     wrapper: AppProviders,

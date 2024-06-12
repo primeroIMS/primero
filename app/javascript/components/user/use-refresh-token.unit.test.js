@@ -2,7 +2,7 @@
 
 import { expect } from "chai";
 
-import { setupHook, spy, stub } from "../../test";
+import { setupHook, spy, stub } from "../../test-utils";
 import * as authProvider from "../login/components/idp-selection/auth-provider";
 
 import useRefreshToken from "./use-refresh-token";

@@ -115,7 +115,9 @@ const RecordForm = ({
   };
 
   useEffect(() => {
-    document.getElementsByClassName("record-form-container")[0].scrollTop = 0;
+    if (document.getElementsByClassName("record-form-container")?.[0]?.scrollTop) {
+      document.getElementsByClassName("record-form-container")[0].scrollTop = 0;
+    }
   }, [selectedForm]);
 
   useEffect(() => {

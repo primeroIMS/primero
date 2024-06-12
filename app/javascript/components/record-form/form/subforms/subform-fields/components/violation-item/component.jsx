@@ -129,6 +129,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
 
   return (
     <ListItemText
+      data-testid="violation-item"
       id="subform-header-button"
       classes={{ primary: css.listText, secondary: css.listTextSecondary }}
       secondary={

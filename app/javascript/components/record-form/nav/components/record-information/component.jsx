@@ -30,6 +30,7 @@ const Component = ({ open, handleClick, primeroModule, selectedForm, formGroupLo
       selectedForm={selectedForm}
       formGroupLookup={formGroupLookup}
       recordAlerts={recordAlerts}
+      testID="record-information"
     />
   );
 };

@@ -27,7 +27,7 @@ const Component = ({ approvalSubform, css }) => {
   };
 
   return (
-    <div key={approvalSubform.get("unique_id")}>
+    <div key={approvalSubform.get("unique_id")} data-testid="approval-panel">
       <Accordion expanded={expanded} onChange={handleExpanded} className={css.panel}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
