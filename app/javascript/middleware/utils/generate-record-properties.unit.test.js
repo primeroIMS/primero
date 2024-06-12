@@ -3,7 +3,7 @@
 import configureStore from "redux-mock-store";
 import { fromJS } from "immutable";
 
-import { stub, useFakeTimers } from "../../test";
+import { stub, useFakeTimers } from "../../test-utils";
 import uuid from "../../libs/uuid";
 
 import generateRecordProperties from "./generate-record-properties";

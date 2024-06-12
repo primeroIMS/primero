@@ -57,6 +57,18 @@ describe PermittedFieldService, search: true do
       form_section_read_write: { form.unique_id => 'rw' }
     )
   end
+
+  let(:case_risk_dashboard_role) do
+    Role.new_with_properties(
+      name: 'Test Role 1',
+      unique_id: 'test-role-1',
+      group_permission: Permission::SELF,
+      permissions: [
+        Permission.new(resource: Permission::DASHBOARD, actions: [Permission::DASH_CASE_RISK])
+      ]
+    )
+  end
+
   let(:agency) do
     Agency.create!(
       name: 'Test Agency',
@@ -64,6 +76,7 @@ describe PermittedFieldService, search: true do
       services: ['Test type']
     )
   end
+
   let(:user) do
     User.create!(
       full_name: 'Test User 1',
@@ -99,6 +112,19 @@ describe PermittedFieldService, search: true do
       email: 'test_user_3@localhost.com',
       agency_id: agency.id,
       role: pending_dashboard_role,
+      services: ['Test type']
+    )
+  end
+
+  let(:user_with_risk_level) do
+    User.create!(
+      full_name: 'User With Risk Level',
+      user_name: 'user_with_risk_level',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'test_user_3@localhost.com',
+      agency_id: agency.id,
+      role: case_risk_dashboard_role,
       services: ['Test type']
     )
   end
@@ -208,6 +234,12 @@ describe PermittedFieldService, search: true do
     reporting_location_config = system_settings.reporting_location_config
 
     expect(permitted_reporting_location_field).to eq("loc:#{reporting_location_config.field_key}")
+  end
+
+  it 'return the risk_level field permitted for a role with a case_risk permission in dashboard' do
+    permitted_field_names = PermittedFieldService.new(user_with_risk_level, Child).permitted_field_names
+
+    expect(permitted_field_names).to include('risk_level')
   end
 
   describe 'MRM - Vioaltions forms and fields' do

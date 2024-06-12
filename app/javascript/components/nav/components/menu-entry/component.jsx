@@ -32,6 +32,7 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
       value={jewelCount}
       mobileDisplay={mobileDisplay}
       isForm={[NAV_SETTINGS, "navigation.support"].includes(name)}
+      data-testid="jewel"
     />
   ) : null;
 
@@ -65,12 +66,12 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   const renderNavAction = (
     <li id={name}>
       {renderDivider}
-      <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button>
-        <ListItem {...navlinkProps} className={navLinkClasses}>
+      <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button data-testid="conditional-wrapper">
+        <ListItem data-testid="listItem" {...navlinkProps} className={navLinkClasses}>
           <ListItemIcon classes={{ root: css.listIcon }}>
             <ListIcon icon={icon} />
           </ListItemIcon>
-          <ListItemText primary={navItemName} classes={{ primary: css.listText }} />
+          <ListItemText data-testid="listItemText" primary={navItemName} classes={{ primary: css.listText }} />
           {jewel}
         </ListItem>
       </ConditionalWrapper>

@@ -9,6 +9,12 @@ import { DATE_FORMATS } from "./constants";
 
 global.html2pdf = {};
 
+if (typeof jest !== "undefined") {
+  global.window.fetch = jest.fn();
+}
+
+global.innerWidth = 2000;
+
 document.head.insertBefore(document.createComment("jss-insertion-point"), document.head.firstChild);
 
 global.window.I18n = {

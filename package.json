@@ -23,9 +23,9 @@
     "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test:all",
     "test:run": "NODE_ENV=test mocha --timeout 8000  --check-leaks --parallel --reporter=dot --exit",
     "test:all-bb": "NODE_ENV=test mocha --timeout 8000 --check-leaks --reporter=dot './app/javascript/**/*.unit.test.js'",
-    "test:new": "NODE_ENV=test NODE_OPTIONS='--max-old-space-size=6144' jest --no-compilation-cache --clearMocks --forceExit",
-    "test:new:profile": "NODE_ENV=test NODE_OPTIONS='--max-old-space-size=6144' node --no-compilation-cache --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage --detectOpenHandles",
-    "test:new:debug": "npm run test:new:profile -- --inspect-brk",
+    "test:components": "NODE_ENV=test NODE_OPTIONS='--max-old-space-size=6144' jest --no-compilation-cache --clearMocks --forceExit",
+    "test:components:profile": "NODE_ENV=test NODE_OPTIONS='--max-old-space-size=6144' node --no-compilation-cache --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage --detectOpenHandles",
+    "test:components:debug": "npm run test:components:profile -- --inspect-brk",
     "jscpd": "npm run jscpd:run 'app/javascript/**'",
     "jscpd:run": "jscpd",
     "lint": "npm run lint:run -- --fix",
@@ -73,7 +73,6 @@
     "@testing-library/react": "^12.1.4",
     "@testing-library/react-hooks": "^7.0.0",
     "@testing-library/user-event": "^14.4.3",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
     "ad-bs-converter": "^0.5.0",
     "add": "^2.0.6",
     "babel-eslint": "^10.1.0",
@@ -102,7 +101,6 @@
     "deepmerge": "^4.0.0",
     "dom-to-image-more": "2.8.0",
     "dompurify": "^2.2.3",
-    "enzyme": "^3.11.0",
     "eslint": "^8.11.0",
     "eslint-config-airbnb": "~19.0.4",
     "eslint-config-prettier": "~8.5.0",
@@ -208,8 +206,8 @@
     "require": [
       "@babel/register",
       "./.mochaignore.js",
-      "./app/javascript/test/jsdom.setup.js",
-      "./app/javascript/test/test.setup.js"
+      "./app/javascript/test-utils/jsdom.setup.js",
+      "./app/javascript/test-utils/globals-mocha.js"
     ],
     "exclude": [
       "**/node_modules/**"

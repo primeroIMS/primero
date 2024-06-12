@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub } from "../../../../test";
+import { stub } from "../../../../test-utils";
 import { METHODS, RECORD_PATH } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate, SNACKBAR_VARIANTS } from "../../../notifier";
 import { CLEAR_DIALOG } from "../../../action-dialog";

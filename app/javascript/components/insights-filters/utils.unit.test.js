@@ -2,7 +2,7 @@
 
 import { parseISO } from "date-fns";
 
-import { useFakeTimers } from "../../test";
+import { useFakeTimers } from "../../test-utils";
 import { CUSTOM, LAST_WEEK, THIS_MONTH, THIS_WEEK } from "../insights/constants";
 
 import { dateCalculations } from "./utils";

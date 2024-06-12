@@ -8,14 +8,14 @@ import css from "./styles.css";
 
 const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay }) => {
   const showMobileIcon = mobileDisplay ? (
-    <IconButton onClick={handleToggleNav}>
-      <MenuOpen />
+    <IconButton onClick={handleToggleNav} data-testid="icon-button">
+      <MenuOpen data-testid="menu-open" />
     </IconButton>
   ) : null;
 
   return (
     <>
-      <div className={css.formTitle}>
+      <div className={css.formTitle} data-testid="record-form-title">
         {showMobileIcon}
         <span className={css.formHeading}>{displayText}</span>
       </div>

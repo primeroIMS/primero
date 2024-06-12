@@ -19,7 +19,7 @@ const FilterCategory = ({ formMethods }) => {
   );
 
   return (
-    <div className={css.filterCategory}>
+    <div className={css.filterCategory} data-testid="filter-category">
       <SelectInput
         options={options}
         commonInputProps={{

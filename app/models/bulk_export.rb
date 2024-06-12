@@ -136,7 +136,7 @@ class BulkExport < ApplicationRecord
       model_class,
       {
         filters:,
-        query_scope: record_query_scope, query:,
+        scope: record_query_scope, query:,
         sort: order, pagination: { page:, per_page: batch }
       }
     )

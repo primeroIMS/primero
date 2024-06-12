@@ -3,7 +3,7 @@
 import { fromJS } from "immutable";
 import { parseISO } from "date-fns";
 
-import { useFakeTimers } from "../test";
+import { useFakeTimers } from "../test-utils";
 
 import {
   compare,
