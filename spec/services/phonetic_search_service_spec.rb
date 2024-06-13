@@ -274,11 +274,15 @@ describe PhoneticSearchService, search: true do
     let(:record2) do
       Child.create!(data: { name: 'Ahmad MacPherson', sex: 'male', national_id_no: 'ER/054/8/56/test-2' })
     end
+    let(:record3) { Child.create!(data: { name: 'James Numeric', sex: 'male', short_id: '0001' }) }
+    let(:record4) { Child.create!(data: { name: 'James Numeric', sex: 'male', short_id: '1234' }) }
 
     before do
       clean_data(Child)
       record1
       record2
+      record3
+      record4
     end
 
     it 'searches with plain text when is a phonetic query' do
@@ -293,6 +297,30 @@ describe PhoneticSearchService, search: true do
 
       expect(search.total).to eq(1)
       expect(search.records.first.name).to eq(record1.name)
+    end
+
+    it 'finds a numeric short_id with leading zeros' do
+      search = PhoneticSearchService.search(Child, query: '0001')
+
+      expect(search.total).to eq(1)
+      expect(search.records.first.short_id).to eq('0001')
+      expect(search.records.first.name).to eq(record3.name)
+    end
+
+    it 'finds a numeric short_id using a few zeros in the query' do
+      search = PhoneticSearchService.search(Child, query: '00')
+
+      expect(search.total).to eq(1)
+      expect(search.records.first.short_id).to eq('0001')
+      expect(search.records.first.name).to eq(record3.name)
+    end
+
+    it 'finds a numeric short_id with different numbers' do
+      search = PhoneticSearchService.search(Child, query: '1234')
+
+      expect(search.total).to eq(1)
+      expect(search.records.first.short_id).to eq('1234')
+      expect(search.records.first.name).to eq(record4.name)
     end
   end
 
