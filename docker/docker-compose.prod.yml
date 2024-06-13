@@ -8,6 +8,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    profiles:
+      - app
     volumes:
       - 'certbot_certificates:/etc/letsencrypt'
       - 'certbot_challenges:/usr/share/nginx/html/.well-known/acme-challenge'
