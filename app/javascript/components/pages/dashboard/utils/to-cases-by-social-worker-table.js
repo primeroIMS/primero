@@ -20,7 +20,7 @@ export default (indicators, i18n) => {
 
   const data = sortBy(
     rows.map(row => {
-      const values = columnValues.map(column => newData.indicators[column][row]?.count);
+      const values = columnValues.map(column => newData.indicators[column][row]?.count || 0);
 
       return [row, ...values];
     }),
