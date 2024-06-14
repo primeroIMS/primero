@@ -3,7 +3,7 @@
 /* eslint-disable import/prefer-default-export */
 import isEmpty from "lodash/isEmpty";
 
-import { enqueueSnackbar } from "../../notifier";
+import { enqueueSnackbar } from "../../notifier/action-creators";
 
 import { touchedFormData } from "./touched-data";
 

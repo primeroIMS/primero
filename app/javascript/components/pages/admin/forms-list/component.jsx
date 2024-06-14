@@ -11,7 +11,7 @@ import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
 import { useApp } from "../../../application";
 import { PageHeading, PageContent } from "../../../page";
-import { MODULES, RECORD_TYPES } from "../../../../config/constants";
+import { MODULES, RECORD_TYPES } from "../../../../config";
 import Permission, { usePermissions, CREATE_RECORDS, RESOURCES, MANAGE } from "../../../permissions";
 import { FormAction, OPTION_TYPES } from "../../../form";
 import { useMemoizedSelector } from "../../../../libs";

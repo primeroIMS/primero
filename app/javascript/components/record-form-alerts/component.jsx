@@ -9,8 +9,7 @@ import { useI18n } from "../i18n";
 import InternalAlert from "../internal-alert";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getRecordFormAlerts, getSelectedRecord, deleteAlertFromRecord } from "../records";
-import { getSubformsDisplayName, getValidationErrors } from "../record-form";
-import { getDuplicatedFields } from "../record-form/selectors";
+import { getSubformsDisplayName, getValidationErrors, getDuplicatedFields } from "../record-form/selectors";
 import { usePermissions, REMOVE_ALERT } from "../permissions";
 
 import { getMessageData } from "./utils";

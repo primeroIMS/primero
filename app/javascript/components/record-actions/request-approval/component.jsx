@@ -6,7 +6,7 @@ import { batch, useDispatch } from "react-redux";
 import { InputLabel, MenuItem, Select } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
-import { MODULES } from "../../../config/constants";
+import { MODULES } from "../../../config";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { fetchAlerts } from "../../nav/action-creators";

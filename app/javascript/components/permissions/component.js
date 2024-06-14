@@ -7,7 +7,7 @@ import { useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { INCIDENT_FROM_CASE, MODES } from "../../config/constants";
+import { INCIDENT_FROM_CASE, MODES } from "../../config";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getPermissions } from "../user/selectors";
 

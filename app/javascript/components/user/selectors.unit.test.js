@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 import { format, parseISO } from "date-fns";
 
 import { ACTIONS } from "../permissions";
-import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../config/constants";
+import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../config";
 import { MANAGED_REPORT_SCOPE } from "../permissions/constants";
 
 import * as selectors from "./selectors";

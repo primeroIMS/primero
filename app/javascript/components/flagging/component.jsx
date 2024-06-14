@@ -64,7 +64,7 @@ const Component = ({ control, record, recordType }) => {
         />
       )}
       <FlagDialog {...flagDialogProps}>
-        <div hidetab={isBulkFlags.toString()}>
+        <div>
           <ListFlags {...listFlagsProps} />
         </div>
         <div>

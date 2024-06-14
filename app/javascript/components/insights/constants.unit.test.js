@@ -2,7 +2,7 @@
 
 import { expect } from "chai";
 
-import { MODULES } from "../../config/constants";
+import { MODULES } from "../../config";
 
 import * as constants from "./constants";
 

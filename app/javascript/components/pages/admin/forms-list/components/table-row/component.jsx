@@ -7,7 +7,7 @@ import findKey from "lodash/findKey";
 import clsx from "clsx";
 
 import { useI18n } from "../../../../../i18n";
-import { MODULES, RECORD_PATH } from "../../../../../../config/constants";
+import { MODULES, RECORD_PATH } from "../../../../../../config";
 import css from "../../styles.css";
 import DragIndicator from "../drag-indicator";
 import LockedIcon from "../../../../../locked-icon";

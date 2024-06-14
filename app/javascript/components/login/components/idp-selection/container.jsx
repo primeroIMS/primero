@@ -2,7 +2,7 @@
 
 import { useDispatch } from "react-redux";
 
-import { PageHeading } from "../../../page";
+import PageHeading from "../../../page/components/page-heading";
 import { useI18n } from "../../../i18n";
 import { useMemoizedSelector } from "../../../../libs";
 

@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { compact } from "lodash";
 import { useDispatch } from "react-redux";
@@ -14,7 +14,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { fromJS } from "immutable";
 
-import { enqueueSnackbar } from "../notifier";
 import { selectModules } from "../login/components/login-form/selectors";
 import { useI18n } from "../i18n";
 import { ROUTES } from "../../config";
@@ -24,17 +23,7 @@ import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { saveSearch } from "./action-creators";
 import { buildFiltersApi, buildFiltersState } from "./utils";
-
-const FormErrors = () => {
-  const dispatch = useDispatch();
-  const i18n = useI18n();
-
-  useEffect(() => {
-    dispatch(enqueueSnackbar(i18n.t("saved_search.no_filters"), { type: "error" }));
-  }, [dispatch, i18n]);
-
-  return null;
-};
+import FormErrors from "./components/form-errors";
 
 const validationSchema = object().shape({
   name: string().required()

@@ -5,7 +5,7 @@ import { workerTimers } from "react-idle-timer";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 
-import { POST_MESSAGES, PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL, ROUTES } from "../../config/constants";
+import { POST_MESSAGES, PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL, ROUTES } from "../../config";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getNotificationSubscription, getUserProperty } from "../user/selectors";
 import { toServerDateFormat } from "../../libs";

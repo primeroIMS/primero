@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable";
 
-import { STRING_SOURCES_TYPES } from "../config/constants";
+import { STRING_SOURCES_TYPES } from "../config";
 
 import valueFromOptionSource from "./value-from-option-source";
 

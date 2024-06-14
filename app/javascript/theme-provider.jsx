@@ -5,7 +5,7 @@ import { createTheme, ThemeProvider as MuiThemeProvider, StyledEngineProvider } 
 import PropTypes from "prop-types";
 import { useMemo, useEffect, useLayoutEffect, createContext, useReducer, useContext, useCallback } from "react";
 
-import theme, { colors, drawerWidth, fontFamily, fontSizes, setCssVars, shadows, spacing } from "./config/theme";
+import theme, { colors, drawerWidth, fontFamily, fontSizes, setCssVars, shadows, spacing } from "./theme";
 import useMemoizedSelector from "./libs/use-memoized-selector";
 import { getAppDirection } from "./components/i18n/selectors";
 

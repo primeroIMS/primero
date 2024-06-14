@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { RECORD_PATH } from "../config/constants";
+import { RECORD_PATH } from "../config";
 
 export const DB_STORES = Object.freeze({
   TRANSLATIONS: "translations",

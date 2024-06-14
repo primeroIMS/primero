@@ -13,7 +13,7 @@ import { RECORD_TYPES, LOOKUPS } from "../../../../../config";
 import { getUsersByTransitionType, getErrorsByTransitionType } from "../../selectors";
 import { fetchReferralUsers } from "../../action-creators";
 import { enqueueSnackbar } from "../../../../notifier";
-import { getOption, getServiceToRefer } from "../../../../record-form";
+import { getOption, getServiceToRefer } from "../../../../record-form/selectors";
 import { useMemoizedSelector } from "../../../../../libs";
 import { getLoading } from "../../../../index-table";
 import { getUserFilters } from "../utils";

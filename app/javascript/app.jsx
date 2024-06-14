@@ -10,7 +10,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import Translations from "./db/collections/translations";
 import I18nProvider from "./components/i18n";
 import { ApplicationProvider } from "./components/application";
-import routes from "./config/routes";
+import routes from "./routes";
 import { history } from "./store";
 import ApplicationRoutes from "./components/application-routes";
 import ThemeProvider from "./theme-provider";

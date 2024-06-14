@@ -20,7 +20,7 @@ import {
   INCLUDE_OTHER_LOGOS
 } from "../record-actions/exports/constants";
 import useOptions from "../form/use-options";
-import { RECORD_TYPES } from "../../config/constants";
+import { RECORD_TYPES } from "../../config";
 
 import Signatures from "./components/signatures";
 import { HTML_2_PDF_OPTIONS, PDF_HEADER_LOOKUP } from "./constants";

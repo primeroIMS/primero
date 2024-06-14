@@ -8,7 +8,7 @@ import isEmpty from "lodash/isEmpty";
 
 import { RefreshIcon } from "../../../images/primero-icons";
 import { useI18n } from "../../i18n";
-import { buildNameFilter } from "../utils";
+import buildNameFilter from "../utils/build-name-filter";
 import { useApp } from "../../application";
 import { useThemeHelper } from "../../../libs";
 

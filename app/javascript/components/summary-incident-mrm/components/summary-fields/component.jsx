@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 
 import { fields } from "../../form";
 import { useI18n } from "../../../i18n";
-import { FieldRecord, FormSectionField } from "../../../record-form";
+import { FieldRecord } from "../../../record-form";
+import FormSectionField from "../../../record-form/form/form-section-field";
 
 import { NAME } from "./constants";
 import css from "./styles.css";

@@ -19,11 +19,7 @@ const FilterContainer = ({ children, mobileDisplay }) => {
     );
   }
 
-  return (
-    <div className={css.filterContainer} mx={2}>
-      {children}
-    </div>
-  );
+  return <div className={css.filterContainer}>{children}</div>;
 };
 
 FilterContainer.displayName = NAME;

@@ -3,7 +3,7 @@
 /* eslint-disable camelcase */
 import { List } from "immutable";
 
-import { LOOKUPS, STRING_SOURCES_TYPES } from "../config/constants";
+import { LOOKUPS, STRING_SOURCES_TYPES } from "../config";
 
 import displayNameHelper from "./display-name-helper";
 

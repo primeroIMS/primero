@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { HTTP_STATUS } from "../../config/constants";
+import { HTTP_STATUS } from "../../config";
 import { useI18n } from "../i18n";
 
 import CancelPrompt from "./components/cancel-prompt";

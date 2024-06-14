@@ -2,7 +2,7 @@
 
 /* eslint-disable import/prefer-default-export */
 
-import { METHODS, ROUTES } from "../../config/constants";
+import { METHODS, ROUTES } from "../../config";
 
 import actions from "./actions";
 

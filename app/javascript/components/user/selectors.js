@@ -2,7 +2,7 @@
 
 import { List, fromJS } from "immutable";
 
-import { SAVING } from "../../config/constants";
+import { SAVING } from "../../config";
 import { MANAGED_REPORT_SCOPE } from "../permissions/constants";
 
 import NAMESPACE from "./namespace";

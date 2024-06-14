@@ -28,7 +28,7 @@ import PdfExporter from "../../pdf-exporter";
 import { getUser } from "../../user/selectors";
 import { getRecordForms } from "../../record-form/selectors";
 import { getMetadata } from "../../record-list/selectors";
-import { buildAppliedFilters } from "../utils";
+import buildAppliedFilters from "../utils/build-applied-filters";
 
 import { saveExport } from "./action-creators";
 import {

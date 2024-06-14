@@ -5,7 +5,7 @@ import { List, Collapse } from "@mui/material";
 import { isEqual } from "lodash";
 
 import { getPermissions } from "../../user/selectors";
-import { ADMIN_NAV, LOCATION_PATH } from "../../../config/constants";
+import { ADMIN_NAV, LOCATION_PATH } from "../../../config";
 import { usePermissions, checkPermissions, RESOURCES, MANAGE } from "../../permissions";
 import { useMemoizedSelector } from "../../../libs";
 import { getLocationsAvailable } from "../../application/selectors";

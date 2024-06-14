@@ -24,6 +24,6 @@ export {
   getSubformsDisplayName,
   getValidationErrors
 } from "./selectors";
-export { FormSectionField } from "./form";
+export { default as FormSectionField } from "./form/form-section-field";
 export { FieldRecord } from "./records";
 export { constructInitialValues } from "./utils";

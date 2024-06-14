@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
-import { RECORD_TYPES } from "../../../../../../config/constants";
+import { RECORD_TYPES } from "../../../../../../config";
 import css from "../../styles.css";
 import { useI18n } from "../../../../../i18n";
 import FiltersExpansionPanel from "../filters-expansion-panel";

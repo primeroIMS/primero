@@ -15,7 +15,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 import { useI18n } from "../../../i18n";
-import { DATE_FORMAT } from "../../../../config/constants";
+import { DATE_FORMAT } from "../../../../config";
 
 const Component = ({ open, onClose, currentRange, setRange }) => {
   const i18n = useI18n();

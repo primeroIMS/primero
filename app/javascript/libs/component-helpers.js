@@ -4,7 +4,7 @@ import { isImmutable, List, Map, Record } from "immutable";
 import { addHours, format, parseISO } from "date-fns";
 import isString from "lodash/isString";
 
-import { API_DATE_FORMAT, API_DATE_TIME_FORMAT, ISO_DATE_REGEX, ISO_DATE_TIME_REGEX } from "../config/constants";
+import { API_DATE_FORMAT, API_DATE_TIME_FORMAT, ISO_DATE_REGEX, ISO_DATE_TIME_REGEX } from "../config";
 
 import displayNameHelper from "./display-name-helper";
 

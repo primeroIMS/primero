@@ -5,7 +5,7 @@ import { fromJS, OrderedMap, Map } from "immutable";
 import { fake } from "../../../test-utils";
 import { ACTIONS } from "../../permissions";
 import { TEXT_FIELD, SUBFORM_SECTION } from "../../record-form/constants";
-import { RECORD_PATH } from "../../../config/constants";
+import { RECORD_PATH } from "../../../config";
 
 import { ALL_EXPORT_TYPES, EXPORT_FORMAT } from "./constants";
 import * as utils from "./utils";

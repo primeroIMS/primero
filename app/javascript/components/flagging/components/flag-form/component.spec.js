@@ -1,6 +1,6 @@
 import { mountedComponent, screen } from "test-utils";
 
-import { RECORD_TYPES } from "../../../../config/constants";
+import { RECORD_TYPES } from "../../../../config";
 
 import FlagForm from "./component";
 

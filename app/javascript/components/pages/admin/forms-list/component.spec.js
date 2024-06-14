@@ -5,7 +5,7 @@ import { fromJS } from "immutable";
 import { mountedComponent, screen } from "../../../../test-utils";
 import { mapEntriesToRecord } from "../../../../libs";
 import { FormSectionRecord } from "../../../record-form/records";
-import { RECORD_TYPES } from "../../../../config/constants";
+import { RECORD_TYPES } from "../../../../config";
 import { PrimeroModuleRecord } from "../../../application/records";
 import { ACTIONS } from "../../../permissions";
 

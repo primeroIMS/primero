@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 
 import { mapEntriesToRecord } from "../../../../libs";
 import { FormSectionRecord } from "../../../form/records";
-import { RECORD_TYPES } from "../../../../config/constants";
+import { RECORD_TYPES } from "../../../../config";
 import { ACTIONS } from "../../../permissions";
 import { mountedComponent, screen, within } from "../../../../test-utils";
 

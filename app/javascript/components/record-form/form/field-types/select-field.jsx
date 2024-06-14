@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { FastField, getIn } from "formik";
 
 import { SELECT_FIELD_NAME } from "../constants";
-import { shouldFieldUpdate } from "../utils";
+import shouldFieldUpdate from "../utils/should-field-update";
 import { useI18n } from "../../../i18n";
 
 import SelectFieldContainer from "./select-field-container";

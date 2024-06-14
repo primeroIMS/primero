@@ -20,7 +20,7 @@ import {
 } from "../constants";
 import Tooltip from "../../tooltip";
 import { ConditionalWrapper, displayNameHelper } from "../../../libs";
-import { OPTION_TYPES } from "../../form";
+import { OPTION_TYPES } from "../../form/constants";
 import { useApp } from "../../application";
 import { RECORD_TYPES } from "../../../config";
 

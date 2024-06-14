@@ -6,11 +6,7 @@ import { ButtonBase, Typography, TablePagination } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
-import {
-  MAX_OFFLINE_ROWS_PER_PAGE,
-  OFFLINE_ROWS_PER_PAGE_OPTIONS,
-  ROWS_PER_PAGE_OPTIONS
-} from "../../../config/constants";
+import { MAX_OFFLINE_ROWS_PER_PAGE, OFFLINE_ROWS_PER_PAGE_OPTIONS, ROWS_PER_PAGE_OPTIONS } from "../../../config";
 import { useApp } from "../../application";
 
 import css from "./styles.css";

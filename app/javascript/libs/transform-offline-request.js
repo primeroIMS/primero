@@ -8,7 +8,7 @@ import { compactBlank } from "../components/record-form/utils";
 import { DATE_FIELD, NUMERIC_FIELD } from "../components/record-form/constants";
 import DB from "../db/db";
 import { METHODS } from "../config";
-import { valueParser } from "../components/form/utils";
+import valueParser from "../components/form/utils/value-parser";
 
 const OFFLINE_OMITTED_FIELDS = Object.freeze(["record_in_scope", "type", "enabled", "workflow", "complete"]);
 
