@@ -27,7 +27,7 @@ const Container = ({
   handleSubmit,
   recordType,
   primeroModule,
-  dirty
+  dirty = false
 }) => {
   const i18n = useI18n();
 
@@ -85,10 +85,6 @@ const Container = ({
 };
 
 Container.displayName = NAME;
-
-Container.defaultProps = {
-  dirty: false
-};
 
 Container.propTypes = {
   dirty: PropTypes.bool,

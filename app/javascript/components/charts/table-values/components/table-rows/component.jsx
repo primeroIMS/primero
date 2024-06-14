@@ -10,7 +10,7 @@ import generateKey from "../../utils";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const Component = ({ values, subColumnItemsSize }) => {
+const Component = ({ values = [], subColumnItemsSize }) => {
   const i18n = useI18n();
   const totalText = i18n.t("managed_reports.total");
 
@@ -40,10 +40,6 @@ const Component = ({ values, subColumnItemsSize }) => {
 };
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  values: []
-};
 
 Component.propTypes = {
   subColumnItemsSize: PropTypes.number,

@@ -17,7 +17,7 @@ import { MatchedTracePanel } from "./components";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ data, loading, record, setSelectedForm }) => {
+const Component = ({ data = fromJS([]), loading, record, setSelectedForm }) => {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -91,10 +91,6 @@ const Component = ({ data, loading, record, setSelectedForm }) => {
 };
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  data: fromJS([])
-};
 
 Component.propTypes = {
   data: PropTypes.object,

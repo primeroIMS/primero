@@ -12,7 +12,7 @@ import Jewel from "../../jewel";
 
 import css from "./styles.css";
 
-const AdminNavItem = ({ item, isParent, open, handleClick, nestedClass, renderJewel }) => {
+const AdminNavItem = ({ item, isParent = false, open, handleClick, nestedClass, renderJewel }) => {
   const i18n = useI18n();
   const { disabledApplication } = useApp();
 
@@ -48,10 +48,6 @@ const AdminNavItem = ({ item, isParent, open, handleClick, nestedClass, renderJe
 };
 
 AdminNavItem.displayName = "AdminNavItem";
-
-AdminNavItem.defaultProps = {
-  isParent: false
-};
 
 AdminNavItem.propTypes = {
   handleClick: PropTypes.func,

@@ -155,10 +155,6 @@ const Component = ({
 
 Component.displayName = NAME;
 
-Component.defaultProps = {
-  isParentFieldDisabled: false
-};
-
 Component.propTypes = {
   components: PropTypes.objectOf({
     SubformFieldSubform: PropTypes.elementType.isRequired

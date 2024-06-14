@@ -22,7 +22,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
-const Component = ({ filter, mode, moreSectionFilters, reset, setMoreSectionFilters, setReset }) => {
+const Component = ({ filter, mode, moreSectionFilters = {}, reset, setMoreSectionFilters, setReset }) => {
   const i18n = useI18n();
 
   const { register, unregister, setValue, getValues } = useFormContext();
@@ -121,10 +121,6 @@ const Component = ({ filter, mode, moreSectionFilters, reset, setMoreSectionFilt
       </ToggleButtonGroup>
     </Panel>
   );
-};
-
-Component.defaultProps = {
-  moreSectionFilters: {}
 };
 
 Component.displayName = NAME;

@@ -25,7 +25,7 @@ import { attemptLogin } from "./action-creators";
 import { selectAuthErrors } from "./selectors";
 import { form, validationSchema } from "./form";
 
-const Container = ({ modal }) => {
+const Container = ({ modal = false }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { demo, online } = useApp();
@@ -100,10 +100,6 @@ const Container = ({ modal }) => {
 };
 
 Container.displayName = NAME;
-
-Container.defaultProps = {
-  modal: false
-};
 
 Container.propTypes = {
   modal: PropTypes.bool

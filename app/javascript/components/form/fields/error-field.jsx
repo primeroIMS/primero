@@ -6,7 +6,7 @@ import Alert from "@mui/material/Alert";
 
 import { ERROR_FIELD_NAME } from "./constants";
 
-const ErrorField = ({ errorsToCheck, formMethods }) => {
+const ErrorField = ({ errorsToCheck = fromJS([]), formMethods }) => {
   const { errors } = formMethods;
 
   if (!errorsToCheck?.size) {
@@ -24,10 +24,6 @@ const ErrorField = ({ errorsToCheck, formMethods }) => {
 };
 
 ErrorField.displayName = ERROR_FIELD_NAME;
-
-ErrorField.defaultProps = {
-  errorsToCheck: fromJS([])
-};
 
 ErrorField.propTypes = {
   errorsToCheck: PropTypes.object

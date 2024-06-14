@@ -14,7 +14,7 @@ import NetworkStatus from "./components/network-status";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ mobile }) => {
+const Component = ({ mobile = false }) => {
   const { online, useContainedNavStyle } = useApp();
   const i18n = useI18n();
 
@@ -41,10 +41,6 @@ const Component = ({ mobile }) => {
 };
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  mobile: false
-};
 
 Component.propTypes = {
   mobile: PropTypes.bool

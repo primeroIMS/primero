@@ -17,7 +17,7 @@ import { getReorderIsLoading, getReorderErrors, getReorderPendings } from "../..
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const Component = ({ handleCancel, handleSuccess, open }) => {
+const Component = ({ handleCancel, handleSuccess, open = false }) => {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -75,10 +75,6 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
 };
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  open: false
-};
 
 Component.propTypes = {
   handleCancel: PropTypes.func,

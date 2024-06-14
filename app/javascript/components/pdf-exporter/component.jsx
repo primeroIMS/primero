@@ -39,7 +39,7 @@ const Component = forwardRef(
       formsSelectedSelector,
       formsSelectedFieldDefault,
       customFilenameField,
-      customFormProps,
+      customFormProps = {},
       currentUser,
       agenciesWithLogosEnabled,
       agencyLogosPdf
@@ -182,10 +182,6 @@ const Component = forwardRef(
 );
 
 Component.displayName = "PdfExporter";
-
-Component.defaultProps = {
-  customFormProps: {}
-};
 
 Component.propTypes = {
   agenciesWithLogosEnabled: PropTypes.array,

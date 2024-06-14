@@ -7,7 +7,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 
 import { NAME } from "./constants";
 
-const Component = ({ addField, field, removeField, selected }) => {
+const Component = ({ addField, field, removeField, selected = false }) => {
   const onAdd = () => {
     addField(field);
   };
@@ -28,10 +28,6 @@ const Component = ({ addField, field, removeField, selected }) => {
 };
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  selected: false
-};
 
 Component.propTypes = {
   addField: PropTypes.func.isRequired,

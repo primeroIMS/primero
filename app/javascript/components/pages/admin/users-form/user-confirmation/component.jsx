@@ -20,7 +20,7 @@ const Component = ({
   pending,
   saveMethod,
   setPending,
-  open,
+  open = false,
   userData,
   userName,
   identityOptions
@@ -91,10 +91,6 @@ const Component = ({
 };
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  open: false
-};
 
 Component.propTypes = {
   close: PropTypes.func,

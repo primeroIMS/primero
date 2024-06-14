@@ -18,7 +18,7 @@ import useThemeHelpers from "../../../../../../../../libs/use-theme-helpers";
 import fieldsTableTheme from "./theme";
 import { COLUMN_HEADERS, NAME } from "./constants";
 
-const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeField, selectedFields }) => {
+const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeField, selectedFields = [] }) => {
   const i18n = useI18n();
   const { theme } = useThemeHelpers({ overrides: fieldsTableTheme });
 
@@ -99,10 +99,6 @@ const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeFiel
 };
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  selectedFields: []
-};
 
 Component.propTypes = {
   addField: PropTypes.func.isRequired,

@@ -10,7 +10,14 @@ import { displayNameHelper } from "../../../../libs";
 import { LOCALE_KEYS } from "../../../../config";
 import NepaliCalendar from "../../../nepali-calendar-input";
 
-const DateFieldPicker = ({ dateIncludeTime, dateProps, displayName, fieldTouched, fieldError, helperText }) => {
+const DateFieldPicker = ({
+  dateIncludeTime = false,
+  dateProps,
+  displayName,
+  fieldTouched = false,
+  fieldError,
+  helperText
+}) => {
   const i18n = useI18n();
   const helpText =
     (fieldTouched && fieldError) ||
@@ -62,11 +69,6 @@ const DateFieldPicker = ({ dateIncludeTime, dateProps, displayName, fieldTouched
 };
 
 DateFieldPicker.displayName = "DateFieldPicker";
-
-DateFieldPicker.defaultProps = {
-  dateIncludeTime: false,
-  fieldTouched: false
-};
 
 DateFieldPicker.propTypes = {
   dateIncludeTime: PropTypes.bool,

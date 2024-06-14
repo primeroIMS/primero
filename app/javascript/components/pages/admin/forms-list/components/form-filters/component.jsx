@@ -10,7 +10,7 @@ import FiltersExpansionPanel from "../filters-expansion-panel";
 import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
-const Component = ({ filterValues, modules, handleSetFilterValue, handleClearValue, disabled }) => {
+const Component = ({ filterValues = {}, modules, handleSetFilterValue, handleClearValue, disabled = false }) => {
   const i18n = useI18n();
 
   const filters = [
@@ -73,11 +73,6 @@ const Component = ({ filterValues, modules, handleSetFilterValue, handleClearVal
 };
 
 Component.displayName = "FormFilters";
-
-Component.defaultProps = {
-  disabled: false,
-  filterValues: {}
-};
 
 Component.propTypes = {
   disabled: PropTypes.bool,

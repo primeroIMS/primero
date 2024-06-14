@@ -10,7 +10,7 @@ import formComponent from "../utils/form-component";
 
 import css from "./styles.css";
 
-const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUnderline }) => {
+const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUnderline = false }) => {
   const { errors } = formMethods;
   const {
     Field,
@@ -58,10 +58,6 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUn
 };
 
 FormSectionField.displayName = "FormSectionField";
-
-FormSectionField.defaultProps = {
-  disableUnderline: false
-};
 
 FormSectionField.propTypes = {
   checkErrors: PropTypes.object,

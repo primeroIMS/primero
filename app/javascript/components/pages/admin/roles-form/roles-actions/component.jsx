@@ -11,7 +11,7 @@ import { ROUTES } from "../../../../../config";
 
 import { NAME } from "./constants";
 
-const Component = ({ canCopyRole, initialValues }) => {
+const Component = ({ canCopyRole = false, initialValues }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -39,10 +39,6 @@ const Component = ({ canCopyRole, initialValues }) => {
       <Menu showMenu actions={actions} />
     </>
   );
-};
-
-Component.defaultProps = {
-  canCopyRole: false
 };
 
 Component.displayName = NAME;

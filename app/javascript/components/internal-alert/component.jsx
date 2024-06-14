@@ -18,7 +18,7 @@ import InternalAlertItem from "./components/item";
 import { NAME, SEVERITY } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ title, items, severity, customIcon }) => {
+const Component = ({ title, items = fromJS([]), severity = "info", customIcon }) => {
   const i18n = useI18n();
 
   const accordionClasses = clsx(css.alert, css[severity]);
@@ -93,11 +93,6 @@ const Component = ({ title, items, severity, customIcon }) => {
 };
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  items: fromJS([]),
-  severity: "info"
-};
 
 Component.propTypes = {
   customIcon: PropTypes.node,

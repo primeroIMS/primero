@@ -18,7 +18,7 @@ const Component = ({
   mode,
   open,
   setFieldValue,
-  incidentPath,
+  incidentPath = "new",
   recordType
 }) => {
   const i18n = useI18n();
@@ -57,10 +57,6 @@ const Component = ({
 };
 
 Component.displayName = SAVE_AND_REDIRECT_DIALOG;
-
-Component.defaultProps = {
-  incidentPath: "new"
-};
 
 Component.propTypes = {
   closeRedirectDialog: PropTypes.func,

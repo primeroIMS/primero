@@ -18,7 +18,7 @@ import { referralAccepted, referralDone, referralRejected } from "./action-creat
 import { NAME, FORM_ID, FORM_NOTE_FIELD_ID } from "./constants";
 
 const Component = ({
-  openReferralDialog,
+  openReferralDialog = false,
   close,
   dialogName,
   pending,
@@ -197,10 +197,6 @@ const Component = ({
 };
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  openReferralDialog: false
-};
 
 Component.propTypes = {
   close: PropTypes.func,

@@ -8,7 +8,7 @@ import { useI18n } from "../../../../../i18n";
 import FormSectionList from "../form-section-list";
 import css from "../../styles.css";
 
-const Component = ({ group, collection, isDragDisabled }) => {
+const Component = ({ group, collection, isDragDisabled = false }) => {
   const i18n = useI18n();
 
   const classes = clsx(css.row, css.header);
@@ -32,10 +32,6 @@ const Component = ({ group, collection, isDragDisabled }) => {
 };
 
 Component.displayName = "FormSection";
-
-Component.defaultProps = {
-  isDragDisabled: false
-};
 
 Component.propTypes = {
   collection: PropTypes.string.isRequired,

@@ -17,7 +17,13 @@ import { generateIdForNewOption } from "../utils/handle-options";
 import { ORDERABLE_OPTIONS_FIELD_NAME } from "./constants";
 import css from "./styles.css";
 
-const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionButtons, formMethods, formMode }) => {
+const OrderableOptionsField = ({
+  commonInputProps,
+  metaInputProps,
+  showActionButtons = false,
+  formMethods,
+  formMode
+}) => {
   const i18n = useI18n();
   const [disabledAddAction, setDisabledAddAction] = useState(false);
 
@@ -109,10 +115,6 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
 };
 
 OrderableOptionsField.displayName = ORDERABLE_OPTIONS_FIELD_NAME;
-
-OrderableOptionsField.defaultProps = {
-  showActionButtons: true
-};
 
 OrderableOptionsField.propTypes = {
   commonInputProps: PropTypes.shape({

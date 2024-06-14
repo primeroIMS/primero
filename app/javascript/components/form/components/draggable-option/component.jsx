@@ -26,10 +26,10 @@ const Component = ({
   onRemoveClick,
   formMethods,
   formMode,
-  showDefaultAction,
-  showDeleteAction,
-  showDisableOption,
-  optionFieldName
+  showDefaultAction = true,
+  showDeleteAction = true,
+  showDisableOption = true,
+  optionFieldName = "option_strings_text"
 }) => {
   const {
     errors,
@@ -140,14 +140,6 @@ const Component = ({
       )}
     </Draggable>
   );
-};
-
-Component.defaultProps = {
-  disabled: false,
-  optionFieldName: "option_strings_text",
-  showDefaultAction: true,
-  showDeleteAction: true,
-  showDisableOption: true
 };
 
 Component.propTypes = {

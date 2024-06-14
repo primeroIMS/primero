@@ -17,7 +17,7 @@ import css from "./styles.css";
 import Fields from "./fields";
 import FormSectionActions from "./form-section-actions";
 
-const FormSection = ({ formSection, showTitle, disableUnderline, formMethods, formMode }) => {
+const FormSection = ({ formSection, showTitle = true, disableUnderline = false, formMethods, formMode }) => {
   const { fields, check_errors: checkErrors, expandable, tooltip } = formSection;
   const { errors } = formMethods;
   const [expanded, setExpanded] = useState(formSection.expanded);
@@ -76,11 +76,6 @@ const FormSection = ({ formSection, showTitle, disableUnderline, formMethods, fo
 };
 
 FormSection.displayName = FORM_SECTION_NAME;
-
-FormSection.defaultProps = {
-  disableUnderline: false,
-  showTitle: true
-};
 
 FormSection.propTypes = {
   disableUnderline: PropTypes.bool,

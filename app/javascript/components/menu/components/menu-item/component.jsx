@@ -7,7 +7,7 @@ import { forwardRef } from "react";
 import DisableOffline from "../../../disable-offline";
 import { ConditionalWrapper } from "../../../../libs";
 
-const Component = forwardRef(({ action, disabledCondition, handleClose }, ref) => {
+const Component = forwardRef(({ action = {}, disabledCondition, handleClose }, ref) => {
   const { id, disableOffline, name, action: handleAction } = action;
 
   const handleClick = () => {
@@ -25,10 +25,6 @@ const Component = forwardRef(({ action, disabledCondition, handleClose }, ref) =
 });
 
 Component.displayName = "MenuItem";
-
-Component.defaultProps = {
-  action: {}
-};
 
 Component.propTypes = {
   action: PropTypes.object,

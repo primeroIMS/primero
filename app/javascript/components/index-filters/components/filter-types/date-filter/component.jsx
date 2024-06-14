@@ -16,7 +16,7 @@ import DatePickers from "./date-pickers";
 import { getDatesValue } from "./utils";
 import { NAME } from "./constants";
 
-const Component = ({ filter, mode, moreSectionFilters, setMoreSectionFilters, reset, setReset }) => {
+const Component = ({ filter, mode, moreSectionFilters = {}, setMoreSectionFilters, reset, setReset }) => {
   const i18n = useI18n();
 
   const { register, setValue, getValues } = useFormContext();
@@ -118,10 +118,6 @@ const Component = ({ filter, mode, moreSectionFilters, setMoreSectionFilters, re
       </div>
     </Panel>
   );
-};
-
-Component.defaultProps = {
-  moreSectionFilters: {}
 };
 
 Component.propTypes = {

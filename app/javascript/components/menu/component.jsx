@@ -9,7 +9,7 @@ import ActionButton, { ACTION_BUTTON_TYPES } from "../action-button";
 
 import { MenuItems } from "./components";
 
-const Component = ({ actions, disabledCondition, showMenu }) => {
+const Component = ({ actions = [], disabledCondition = () => {}, showMenu = false }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -49,12 +49,6 @@ const Component = ({ actions, disabledCondition, showMenu }) => {
       </Menu>
     </>
   );
-};
-
-Component.defaultProps = {
-  actions: [],
-  disabledCondition: () => {},
-  showMenu: false
 };
 
 Component.displayName = "Menu";

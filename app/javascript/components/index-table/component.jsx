@@ -9,7 +9,9 @@ import { NAME } from "./config";
 import { getRecords, getLoading, getErrors } from "./selectors";
 import Datatable from "./components/data-table";
 
-const Component = props => {
+const Component = (
+  props = { bypassInitialFetch: false, canSelectAll: true, showCustomToolbar: false, useReportingLocations: true }
+) => {
   const { recordType, targetRecordType, checkComplete } = props;
   const data = useMemoizedSelector(
     state => getRecords(state, recordType, checkComplete),
@@ -36,13 +38,6 @@ const Component = props => {
 };
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  bypassInitialFetch: false,
-  canSelectAll: true,
-  showCustomToolbar: false,
-  useReportingLocations: true
-};
 
 Component.propTypes = {
   arrayColumnsToString: PropTypes.arrayOf(PropTypes.string),

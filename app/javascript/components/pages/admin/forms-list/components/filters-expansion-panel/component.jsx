@@ -6,7 +6,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import FilterInput from "../filter-input";
 
-const Component = ({ name, handleSetFilterValue, options, id, filterValues }) => {
+const Component = ({ name, handleSetFilterValue, options = [], id, filterValues = {} }) => {
   return (
     <Accordion elevation={3} defaultExpanded data-testid="accordion">
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>{name}</AccordionSummary>
@@ -24,11 +24,6 @@ const Component = ({ name, handleSetFilterValue, options, id, filterValues }) =>
 };
 
 Component.displayName = "FiltersExpansionPanel";
-
-Component.defaultProps = {
-  filterValues: {},
-  options: []
-};
 
 Component.propTypes = {
   filterValues: PropTypes.object,

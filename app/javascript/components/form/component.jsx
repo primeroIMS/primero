@@ -19,21 +19,21 @@ import notPropagatedOnSubmit from "./utils/not-propagated-on-submit";
 const Component = ({
   formID,
   formSections,
-  formOptions,
+  formOptions = {},
   formMode,
   onSubmit,
   validations,
-  mode,
-  initialValues,
-  useCancelPrompt,
-  formErrors,
-  submitAllFields,
+  mode = "new",
+  initialValues = {},
+  useCancelPrompt = false,
+  formErrors = fromJS([]),
+  submitAllFields = false,
   useFormMode,
   renderBottom,
   showTitle = true,
-  submitAlways,
+  submitAlways = false,
   formClassName,
-  registerFields,
+  registerFields = [],
   resetAfterSubmit = false,
   errorMessage = null
 }) => {
@@ -129,17 +129,6 @@ const Component = ({
 };
 
 Component.displayName = "Form";
-
-Component.defaultProps = {
-  formErrors: fromJS([]),
-  formOptions: {},
-  initialValues: {},
-  mode: "new",
-  registerFields: [],
-  submitAllFields: false,
-  submitAlways: false,
-  useCancelPrompt: false
-};
 
 Component.propTypes = {
   errorMessage: PropTypes.string,

@@ -22,7 +22,7 @@ import css from "./styles.css";
 
 const filter = createFilterOptions({ limit: 50 });
 
-const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, formMethods, isShow }) => {
+const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions = [], formMethods, isShow = false }) => {
   const { control, setValue, getValues } = formMethods;
   const {
     multiSelect,
@@ -302,11 +302,6 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
 };
 
 SelectInput.displayName = "SelectInput";
-
-SelectInput.defaultProps = {
-  isShow: false,
-  options: []
-};
 
 SelectInput.propTypes = {
   commonInputProps: PropTypes.shape({

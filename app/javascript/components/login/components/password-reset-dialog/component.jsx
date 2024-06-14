@@ -10,7 +10,7 @@ import PasswordResetForm from "../password-reset-form";
 
 import { NAME, FORM_ID } from "./constants";
 
-const Component = ({ open, handleCancel, handleSuccess }) => {
+const Component = ({ open = false, handleCancel, handleSuccess }) => {
   const i18n = useI18n();
   const saving = useMemoizedSelector(state => getSavingNewPasswordReset(state));
 
@@ -39,10 +39,6 @@ const Component = ({ open, handleCancel, handleSuccess }) => {
 };
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  open: false
-};
 
 Component.propTypes = {
   handleCancel: PropTypes.func,

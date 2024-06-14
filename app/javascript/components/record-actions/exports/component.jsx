@@ -56,7 +56,7 @@ const Component = ({
   close,
   currentPage,
   match,
-  open,
+  open = "false",
   pending,
   record,
   recordType,
@@ -354,10 +354,6 @@ const Component = ({
 };
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  open: false
-};
 
 Component.propTypes = {
   close: PropTypes.func,

@@ -17,13 +17,13 @@ import { FILTERS_DRAWER, NAME } from "./constants";
 import css from "./styles.css";
 
 const Component = ({
-  closeDrawerOnSubmit,
+  closeDrawerOnSubmit = false,
   filters,
   onSubmit,
   clearFields,
-  defaultFilters,
-  initialFilters,
-  showDrawer
+  defaultFilters = {},
+  initialFilters = {},
+  showDrawer = false
 }) => {
   const methods = useForm();
 
@@ -99,14 +99,6 @@ const Component = ({
 };
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  closeDrawerOnSubmit: false,
-  defaultFilters: {},
-  initialFilters: {},
-  mobileDisplay: false,
-  showDrawer: false
-};
 
 Component.propTypes = {
   clearFields: PropTypes.array.isRequired,

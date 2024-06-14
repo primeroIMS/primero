@@ -21,7 +21,7 @@ import Referrals from "./referrals/component";
 
 const Transitions = ({
   close,
-  open,
+  open = false,
   currentDialog,
   record,
   recordType,
@@ -173,10 +173,6 @@ const Transitions = ({
 };
 
 Transitions.displayName = NAME;
-
-Transitions.defaultProps = {
-  open: false
-};
 
 Transitions.propTypes = {
   close: PropTypes.func,

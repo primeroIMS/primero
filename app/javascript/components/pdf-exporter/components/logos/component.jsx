@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { useI18n } from "../../../i18n";
 import { RECORD_TYPES_PLURAL } from "../../../../config";
 
-const Component = ({ shortId, recordType, logos, css }) => {
+const Component = ({ shortId, recordType, logos = [], css }) => {
   const i18n = useI18n();
 
   if (!logos) return null;
@@ -25,10 +25,6 @@ const Component = ({ shortId, recordType, logos, css }) => {
       </div>
     </div>
   );
-};
-
-Component.defaultProps = {
-  logos: []
 };
 
 Component.propTypes = {

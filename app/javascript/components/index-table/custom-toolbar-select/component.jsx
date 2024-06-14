@@ -14,7 +14,7 @@ import { NAME } from "./constants";
 import { selectAllRecords } from "./utils";
 
 const Component = ({
-  canSelectAll,
+  canSelectAll = false,
   displayData,
   fetchRecords,
   page,
@@ -114,10 +114,6 @@ const Component = ({
       </div>
     </div>
   );
-};
-
-Component.defaultProps = {
-  canSelectAll: true
 };
 
 Component.propTypes = {

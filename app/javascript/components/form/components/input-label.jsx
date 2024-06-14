@@ -5,7 +5,7 @@ import isFunction from "lodash/isFunction";
 
 import Tooltip from "../../tooltip";
 
-const InputLabel = ({ tooltip, i18nTitle, text }) => {
+const InputLabel = ({ tooltip = "", i18nTitle = false, text = "" }) => {
   const renderText = isFunction(text) ? text() : text;
 
   return (
@@ -16,12 +16,6 @@ const InputLabel = ({ tooltip, i18nTitle, text }) => {
 };
 
 InputLabel.displayName = "InputLabel";
-
-InputLabel.defaultProps = {
-  i18nTitle: false,
-  text: "",
-  tooltip: ""
-};
 
 InputLabel.propTypes = {
   i18nTitle: PropTypes.bool,

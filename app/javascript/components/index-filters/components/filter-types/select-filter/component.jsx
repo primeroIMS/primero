@@ -25,7 +25,15 @@ import { OPTION_TYPES } from "../../../../form/constants";
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
 
-const Component = ({ filter, mode, moreSectionFilters, multiple, reset, setMoreSectionFilters, setReset }) => {
+const Component = ({
+  filter,
+  mode,
+  moreSectionFilters = {},
+  multiple = false,
+  reset,
+  setMoreSectionFilters,
+  setReset
+}) => {
   const i18n = useI18n();
   const formMethods = useFormContext();
   const valueRef = useRef();
@@ -193,11 +201,6 @@ const Component = ({ filter, mode, moreSectionFilters, multiple, reset, setMoreS
       )}
     </Panel>
   );
-};
-
-Component.defaultProps = {
-  moreSectionFilters: {},
-  multiple: true
 };
 
 Component.displayName = NAME;

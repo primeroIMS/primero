@@ -17,7 +17,7 @@ import { approvalTransfer } from "./action-creators";
 import { FORM_ID, NAME } from "./constants";
 
 const Component = ({
-  openTransferDialog,
+  openTransferDialog = false,
   close,
   approvalType,
   dialogName,
@@ -132,10 +132,6 @@ const Component = ({
 };
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  openTransferDialog: false
-};
 
 Component.propTypes = {
   approvalType: PropTypes.string,

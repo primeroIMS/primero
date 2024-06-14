@@ -13,21 +13,21 @@ import { listboxClasses, virtualize } from "./components/listbox-component";
 
 const SearchableSelect = ({
   error,
-  defaultValues,
-  helperText,
-  isClearable,
-  isDisabled,
-  isLoading,
-  multiple,
+  defaultValues = null,
+  helperText = "",
+  isClearable = true,
+  isDisabled = false,
+  isLoading = false,
+  multiple = false,
   onChange,
   onBlur,
   onOpen,
-  options,
-  TextFieldProps,
-  mode,
+  options = [],
+  TextFieldProps = {},
+  mode = {},
   InputLabelProps,
-  optionIdKey,
-  optionLabelKey,
+  optionIdKey = "value",
+  optionLabelKey = "label",
   name,
   value: fieldValue
 }) => {
@@ -125,20 +125,6 @@ const SearchableSelect = ({
 };
 
 SearchableSelect.displayName = NAME;
-
-SearchableSelect.defaultProps = {
-  defaultValues: null,
-  helperText: "",
-  isClearable: true,
-  isDisabled: false,
-  isLoading: false,
-  mode: {},
-  multiple: false,
-  optionIdKey: "value",
-  optionLabelKey: "label",
-  options: [],
-  TextFieldProps: {}
-};
 
 SearchableSelect.propTypes = {
   defaultValues: PropTypes.oneOfType([PropTypes.array, PropTypes.string, PropTypes.object]),

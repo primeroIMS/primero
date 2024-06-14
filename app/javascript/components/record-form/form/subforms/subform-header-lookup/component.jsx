@@ -13,7 +13,7 @@ import { getShortIdFromUniqueId } from "../../../../records/utils";
 import { getMultiSelectValues, buildAssociatedViolationsLabels } from "./utils";
 
 const Component = ({
-  value,
+  value = "",
   optionsStringSource,
   optionsStringText,
   isViolationSubform,
@@ -84,10 +84,6 @@ const Component = ({
 };
 
 Component.displayName = SUBFORM_LOOKUP_HEADER_NAME;
-
-Component.defaultProps = {
-  value: ""
-};
 
 Component.propTypes = {
   associatedViolations: PropTypes.object,

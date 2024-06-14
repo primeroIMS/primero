@@ -18,7 +18,7 @@ import { clearDialog } from "./action-creators";
 import { getAsyncLoading } from "./selectors";
 
 const ActionDialog = ({
-  cancelButtonProps,
+  cancelButtonProps = {},
   cancelHandler,
   children,
   confirmButtonLabel,
@@ -27,20 +27,20 @@ const ActionDialog = ({
   dialogSubHeader,
   dialogSubtitle,
   dialogText,
-  dialogTitle,
+  dialogTitle = "",
   disableActions,
-  disableClose,
-  enabledSuccessButton,
-  hideIcon,
+  disableClose = false,
+  enabledSuccessButton = true,
+  hideIcon = false,
   maxSize,
   omitCloseAfterSuccess,
   onClose,
   open,
   pending,
-  showSuccessButton,
+  showSuccessButton = true,
   successHandler,
   fetchAction,
-  fetchArgs,
+  fetchArgs = [],
   fetchLoadingPath
 }) => {
   const dispatch = useDispatch();
@@ -169,16 +169,6 @@ const ActionDialog = ({
 };
 
 ActionDialog.displayName = "ActionDialog";
-
-ActionDialog.defaultProps = {
-  cancelButtonProps: {},
-  dialogTitle: "",
-  disableClose: false,
-  enabledSuccessButton: true,
-  fetchArgs: [],
-  hideIcon: false,
-  showSuccessButton: true
-};
 
 ActionDialog.propTypes = {
   cancelButtonProps: PropTypes.object,

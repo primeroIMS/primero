@@ -21,12 +21,12 @@ const Component = ({
   classes,
   defaultValue,
   displayName,
-  isDateWithTime,
-  isSubform,
+  isDateWithTime = false,
+  isSubform = false,
   options,
-  optionsStringSource,
+  optionsStringSource = null,
   type,
-  value
+  value = ""
 }) => {
   const i18n = useI18n();
 
@@ -101,13 +101,6 @@ const Component = ({
 };
 
 Component.displayName = "KeyValueCell";
-
-Component.defaultProps = {
-  isDateWithTime: false,
-  isSubform: false,
-  optionsStringSource: null,
-  value: ""
-};
 
 Component.propTypes = {
   classes: PropTypes.object.isRequired,

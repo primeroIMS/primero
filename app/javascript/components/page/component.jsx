@@ -8,7 +8,7 @@ import { useApp } from "../application/use-app";
 
 import css from "./styles.css";
 
-const Component = ({ children, twoCol, fullWidthMobile }) => {
+const Component = ({ children, twoCol, fullWidthMobile = false }) => {
   const { demo } = useApp();
   const { mobileDisplay } = useThemeHelper();
   const contentClasses = clsx({ [css.root]: true, [css.demo]: demo });
@@ -28,10 +28,6 @@ const Component = ({ children, twoCol, fullWidthMobile }) => {
 };
 
 Component.displayName = "PageContainer";
-
-Component.defaultProps = {
-  fullWidthMobile: false
-};
 
 Component.propTypes = {
   children: PropTypes.node.isRequired,

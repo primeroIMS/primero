@@ -10,7 +10,7 @@ import InputLabel from "../components/input-label";
 
 import css from "./styles.css";
 
-const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
+const TextInput = ({ commonInputProps, metaInputProps = {}, formMethods }) => {
   const { control } = formMethods;
   const { type, password, hint, tooltip, numeric, onBlur, onKeyPress, maxlength } = metaInputProps;
   let inputType = "text";
@@ -57,10 +57,6 @@ const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
       defaultValue={defaultValue || ""}
     />
   );
-};
-
-TextInput.defaultProps = {
-  metaInputProps: {}
 };
 
 TextInput.displayName = "TextInput";

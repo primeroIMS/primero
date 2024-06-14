@@ -22,7 +22,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
-const Component = ({ filter, moreSectionFilters, setMoreSectionFilters, mode, reset, setReset }) => {
+const Component = ({ filter, moreSectionFilters = {}, setMoreSectionFilters, mode, reset, setReset }) => {
   const i18n = useI18n();
 
   const { register, unregister, setValue, getValues } = useFormContext();
@@ -125,10 +125,6 @@ const Component = ({ filter, moreSectionFilters, setMoreSectionFilters, mode, re
       <div className={css.chipsContainer}>{renderOptions()}</div>
     </Panel>
   );
-};
-
-Component.defaultProps = {
-  moreSectionFilters: {}
 };
 
 Component.displayName = NAME;

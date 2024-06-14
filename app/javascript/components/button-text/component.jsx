@@ -5,7 +5,7 @@ import { useMediaQuery } from "@mui/material";
 
 import { NAME } from "./constants";
 
-const Component = ({ text, keepTextOnMobile }) => {
+const Component = ({ text, keepTextOnMobile = false }) => {
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
 
   if (mobileDisplay && !keepTextOnMobile) {
@@ -16,10 +16,6 @@ const Component = ({ text, keepTextOnMobile }) => {
 };
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  keepTextOnMobile: false
-};
 
 Component.propTypes = {
   keepTextOnMobile: PropTypes.bool,

@@ -14,7 +14,7 @@ import css from "../styles.css";
 
 import { NAME } from "./constants";
 
-const WorkFlowStep = ({ step, casesWorkflow, i18n }) => {
+const WorkFlowStep = ({ step = {}, casesWorkflow = fromJS({}), i18n }) => {
   const dispatch = useDispatch();
 
   const workflowData = casesWorkflow.getIn(["indicators", "workflow", step.id], fromJS({}));
@@ -45,11 +45,6 @@ const WorkFlowStep = ({ step, casesWorkflow, i18n }) => {
 };
 
 WorkFlowStep.displayName = NAME;
-
-WorkFlowStep.defaultProps = {
-  casesWorkflow: fromJS({}),
-  step: {}
-};
 
 WorkFlowStep.propTypes = {
   casesWorkflow: PropTypes.object,

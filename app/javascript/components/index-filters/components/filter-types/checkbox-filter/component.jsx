@@ -21,7 +21,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
-const Component = ({ filter, moreSectionFilters, setMoreSectionFilters, mode, reset, setReset }) => {
+const Component = ({ filter, moreSectionFilters = {}, setMoreSectionFilters, mode, reset, setReset }) => {
   const i18n = useI18n();
   const { register, unregister, setValue, user, getValues } = useFormContext();
   const valueRef = useRef();
@@ -124,10 +124,6 @@ const Component = ({ filter, moreSectionFilters, setMoreSectionFilters, mode, re
       </FormControl>
     </Panel>
   );
-};
-
-Component.defaultProps = {
-  moreSectionFilters: {}
 };
 
 Component.displayName = NAME;

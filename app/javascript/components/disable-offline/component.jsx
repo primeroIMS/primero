@@ -10,7 +10,7 @@ import { useI18n } from "../i18n";
 
 import css from "./styles.css";
 
-const Component = ({ overrideCondition, children, button, offlineTextKey }) => {
+const Component = ({ overrideCondition = false, children, button = false, offlineTextKey = null }) => {
   const { online } = useApp();
   const i18n = useI18n();
   const classes = clsx(css.disabledLink, {
@@ -29,12 +29,6 @@ const Component = ({ overrideCondition, children, button, offlineTextKey }) => {
   }
 
   return children;
-};
-
-Component.defaultProps = {
-  button: false,
-  offlineTextKey: null,
-  overrideCondition: false
 };
 
 Component.propTypes = {
