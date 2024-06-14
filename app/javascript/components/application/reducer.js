@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable";
 
-import { mapEntriesToRecord } from "../../libs";
+import { mapEntriesToRecord } from "../../libs/reducer-helpers";
 
 import actions from "./actions";
 import NAMESPACE from "./namespace";

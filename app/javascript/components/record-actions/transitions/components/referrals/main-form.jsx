@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { FormControlLabel } from "@mui/material";
 import { batch, useDispatch } from "react-redux";
 import { Form, Field } from "formik";
-import { Checkbox as MuiCheckbox } from "formik-material-ui";
+import { Checkbox as MuiCheckbox } from "formik-mui";
 
 import { getEnabledAgencies } from "../../../../application/selectors";
 import { useI18n } from "../../../../i18n";

@@ -4,7 +4,7 @@
 /* eslint-disable react/no-multi-comp */
 import { fromJS } from "immutable";
 import { Tooltip } from "@mui/material";
-import OfflinePin from "@mui/icons/OfflinePin";
+import { OfflinePin } from "@mui/icons-material";
 
 import { ToggleIconCell } from "../../index-table";
 import { RECORD_PATH, RECORD_TYPES } from "../../../config";

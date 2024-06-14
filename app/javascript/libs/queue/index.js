@@ -3,7 +3,7 @@
 import head from "lodash/head";
 import uniqBy from "lodash/uniqBy";
 
-import { METHODS } from "../../config";
+import { METHODS } from "../../config/constants";
 import DB from "../../db/db";
 import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS } from "../../components/notifier";
 import { SET_ATTACHMENT_STATUS } from "../../components/records/actions";

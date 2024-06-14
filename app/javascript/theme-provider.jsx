@@ -1,14 +1,11 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { CssBaseline } from "@mui/material";
-import { adaptV4Theme, createTheme } from "@mui/material/styles";
-import { ThemeProvider, StylesProvider, jssPreset } from "@mui/styles";
+import { createTheme, ThemeProvider as MuiThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import { useMemo, useEffect, useLayoutEffect, createContext, useReducer, useContext, useCallback } from "react";
-import rtl from "jss-rtl";
-import { create } from "jss";
 
-import theme, { setCssVars, fontSizes, colors, spacing, drawerWidth, shadows, fontFamily } from "./config/theme";
+import theme, { colors, drawerWidth, fontFamily, fontSizes, setCssVars, shadows, spacing } from "./config/theme";
 import useMemoizedSelector from "./libs/use-memoized-selector";
 import { getAppDirection } from "./components/i18n/selectors";
 
@@ -22,11 +19,6 @@ const useEnhancedEffect = typeof window === "undefined" ? useEffect : useLayoutE
 export const DispatchContext = createContext(() => {});
 
 DispatchContext.displayName = "ThemeDispatchContext";
-
-const jss = create({
-  plugins: [...jssPreset().plugins, rtl()],
-  insertionPoint: "jss-insertion-point"
-});
 
 const ThemeProvider = ({ children }) => {
   const directionFromStore = useMemoizedSelector(state => getAppDirection(state));
@@ -57,14 +49,14 @@ const ThemeProvider = ({ children }) => {
   }, [directionFromStore, direction]);
 
   const themeConfig = useMemo(() => {
-    const muiTheme = createTheme(adaptV4Theme({ ...theme, direction }));
+    const muiTheme = createTheme({ ...theme, direction });
 
-    muiTheme.overrides.MuiCssBaseline["@global"].html = { fontSize: `var(--fs-${direction === "rtl" ? 18 : 16})` };
+    muiTheme.components.MuiCssBaseline.styleOverrides.html = { fontSize: `var(--fs-${direction === "rtl" ? 18 : 16})` };
 
-    muiTheme.overrides.MuiCssBaseline["@global"][":root"] = {
+    muiTheme.components.MuiCssBaseline.styleOverrides[":root"] = {
       ...setCssVars("fs", fontSizes, muiTheme.typography.pxToRem),
       ...setCssVars("c", colors),
-      ...setCssVars("sp", spacing, muiTheme.spacing, "px"),
+      ...setCssVars("sp", spacing, muiTheme.spacing),
       "--ff": fontFamily,
       "--fwb": muiTheme.typography.fontWeightBold,
       "--drawer": drawerWidth,
@@ -81,14 +73,14 @@ const ThemeProvider = ({ children }) => {
   }, [direction]);
 
   return (
-    <StylesProvider jss={jss}>
-      <ThemeProvider theme={themeConfig}>
+    <StyledEngineProvider injectFirst>
+      <MuiThemeProvider theme={themeConfig}>
         <DispatchContext.Provider value={dispatch}>
           <CssBaseline />
           {children}
         </DispatchContext.Provider>
-      </ThemeProvider>
-    </StylesProvider>
+      </MuiThemeProvider>
+    </StyledEngineProvider>
   );
 };
 

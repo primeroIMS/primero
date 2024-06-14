@@ -110,13 +110,13 @@
   padding: 5px 0;
 }
 
-@media (min-width:960px) {
+@media (min-width:900px) {
   .tab {
     min-width: 100px;
   }
 }
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .root {
     margin-left: 0;
     padding: 0.7em;

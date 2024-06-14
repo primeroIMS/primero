@@ -3,7 +3,8 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import Queue, { QUEUE_HALTED, QUEUE_READY } from "../../libs/queue";
+import { QUEUE_HALTED, QUEUE_READY } from "../../libs/queue/constants";
+import Queue from "../../libs/queue";
 import { getIsAuthenticated } from "../user/selectors";
 import { clearDialog } from "../action-dialog/action-creators";
 import { selectDialog } from "../action-dialog/selectors";

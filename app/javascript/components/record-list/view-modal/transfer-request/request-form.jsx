@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { Grid, Divider } from "@mui/material";
 import { Form, Field } from "formik";
-import { TextField as MuiTextField } from "formik-material-ui";
+import { TextField as MuiTextField } from "formik-mui";
 
 import { useI18n } from "../../../i18n";
 import DisplayData from "../../../display-data";

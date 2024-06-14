@@ -47,7 +47,7 @@
   justify-content: right;
 }
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
 
   .customToolbarTitle {
     padding-top: 0.5em;

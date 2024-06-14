@@ -61,7 +61,7 @@
   margin-bottom: var(--sp-1);
 }
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .dashboardChart {
     margin: 0;
     border-right: none;

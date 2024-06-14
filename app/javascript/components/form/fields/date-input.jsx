@@ -17,7 +17,7 @@ import NepaliCalendar from "../../nepali-calendar-input";
 const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
   const i18n = useI18n();
   const { setValue, control } = formMethods;
-  const { name, label, helperText, error, disabled, placeholder } = commonInputProps;
+  const { name, label, helperText, error, disabled, placeholder, fullWidth, required } = commonInputProps;
 
   const currentValue = useWatch({ name, control });
 
@@ -47,12 +47,26 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
 
   const fieldValue = isEmpty(currentValue) ? null : parseISO(currentValue);
 
+  const inputProps = {
+    slotProps: { textField: { InputLabelProps: { shrink: true }, fullWidth, required, helperText } }
+  };
+
   const renderPicker = () => {
     if (dateIncludeTime) {
-      return <DateTimePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} value={fieldValue} />;
+      return (
+        <DateTimePicker
+          {...dialogLabels}
+          {...commonInputProps}
+          {...inputProps}
+          onChange={handleChange}
+          value={fieldValue}
+        />
+      );
     }
 
-    return <DatePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} value={fieldValue} />;
+    return (
+      <DatePicker {...dialogLabels} {...commonInputProps} {...inputProps} onChange={handleChange} value={fieldValue} />
+    );
   };
 
   if (i18n.locale === LOCALE_KEYS.ne) {

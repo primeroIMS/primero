@@ -21,7 +21,7 @@
   align-items: center;
   text-align: center;
   padding: 11%;
-  
+
   & div {
     display: flex;
     justify-content: center;
@@ -39,13 +39,13 @@
   background-color: blue;
 }
 
-@media (max-width:599.95px) {
+@media (max-width:600px) {
   .agencyLogo, .line {
     display: none;
   }
 }
 
-@media (max-width:1279.95px) {
+@media (max-width:1200px) {
  .line {
     width: 100%;
   }
@@ -60,13 +60,13 @@
   }
 }
 
-@media (min-width:1279px) {
+@media (min-width:1200px) {
   .agencyLogoIcon {
     display: none !important;
   }
 }
 
-@media (max-width:1279px) {
+@media (max-width:1200px) {
   .agencyLogoFull {
     display: none !important;
   }

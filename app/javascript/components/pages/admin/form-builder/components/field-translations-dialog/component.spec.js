@@ -48,7 +48,6 @@ describe("<FieldTranslationsDialog />", () => {
     mountedFormComponent(<FieldTranslationsDialog {...props} />, { state });
 
     const expectedFieldNames = [
-      "locale_id",
       "field_1.display_name.fr",
       "field_1.display_name.ar",
       "field_1.help_text.fr",
@@ -57,6 +56,7 @@ describe("<FieldTranslationsDialog />", () => {
       "field_1.guiding_questions.ar"
     ];
 
+    expect(screen.getByRole("combobox")).toBeInTheDocument();
     expect(screen.getAllByRole("textbox").map(tb => tb.getAttribute("id"))).toStrictEqual(expectedFieldNames);
   });
 
@@ -90,13 +90,13 @@ describe("<FieldTranslationsDialog />", () => {
     });
 
     const expectedFieldNames = [
-      "locale_id",
       "subform_section.name.fr",
       "subform_section.name.ar",
       "subform_section.description.fr",
       "subform_section.description.ar"
     ];
 
+    expect(screen.getByRole("combobox")).toBeInTheDocument();
     expect(screen.getAllByRole("textbox").map(tb => tb.getAttribute("id"))).toStrictEqual(expectedFieldNames);
   });
 
@@ -116,7 +116,6 @@ describe("<FieldTranslationsDialog />", () => {
     });
 
     const expectedFieldNames = [
-      "locale_id",
       "field_1.display_name.fr",
       "field_1.display_name.ar",
       "field_1.help_text.fr",
@@ -127,6 +126,7 @@ describe("<FieldTranslationsDialog />", () => {
       "field_1.tick_box_label.ar"
     ];
 
+    expect(screen.getByRole("combobox")).toBeInTheDocument();
     expect(screen.getAllByRole("textbox").map(tb => tb.getAttribute("id"))).toStrictEqual(expectedFieldNames);
   });
 
@@ -147,7 +147,6 @@ describe("<FieldTranslationsDialog />", () => {
     });
 
     const expectedFieldNames = [
-      "locale_id",
       "field_1.display_name.fr",
       "field_1.display_name.ar",
       "field_1.help_text.fr",
@@ -162,6 +161,7 @@ describe("<FieldTranslationsDialog />", () => {
       "field_1.option_strings_text[0].display_text.ar"
     ];
 
+    expect(screen.getByRole("combobox")).toBeInTheDocument();
     expect(screen.getAllByRole("textbox").map(tb => tb.getAttribute("id"))).toStrictEqual(expectedFieldNames);
   });
 });

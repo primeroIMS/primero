@@ -52,7 +52,7 @@ describe("<FormInternal />", () => {
 
   it("renders TextField", () => {
     mountedComponent(<InternalForm {...props} />);
-    expect(screen.queryAllByRole("textbox")).toHaveLength(3);
+    expect(screen.queryAllByRole("textbox")).toHaveLength(1);
   });
 
   it("renders Field", () => {

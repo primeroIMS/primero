@@ -27,6 +27,16 @@ const DateFieldPicker = ({ dateIncludeTime, dateProps, displayName, fieldTouched
     return <NepaliCalendar helpText={helpText} label={label} dateProps={dateProps} />;
   }
 
+  const textFieldProps = {
+    textField: {
+      "data-testid": dateIncludeTime ? "date-time-picker" : "date-picker",
+      InputLabelProps: { shrink: true },
+      fullWidth: true,
+      helperText: helpText,
+      ...dateProps
+    }
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localize(i18n)}>
       {dateIncludeTime ? (
@@ -35,10 +45,17 @@ const DateFieldPicker = ({ dateIncludeTime, dateProps, displayName, fieldTouched
           {...dialogLabels}
           {...dateProps}
           helperText={helpText}
+          slotProps={textFieldProps}
           label={label}
         />
       ) : (
-        <DatePicker data-testid="date-picker" {...dialogLabels} {...dateProps} helperText={helpText} label={label} />
+        <DatePicker
+          data-testid="date-picker"
+          slotProps={textFieldProps}
+          {...dialogLabels}
+          {...dateProps}
+          label={label}
+        />
       )}
     </LocalizationProvider>
   );

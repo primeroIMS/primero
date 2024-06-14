@@ -2,7 +2,7 @@
 
 import reduce from "image-blob-reduce";
 
-import { MAX_IMAGE_SIZE } from "../config";
+import { MAX_IMAGE_SIZE } from "../config/constants";
 import { ATTACHMENT_TYPES } from "../components/record-form/form/field-types/attachments/constants";
 
 const readFileAsync = file =>

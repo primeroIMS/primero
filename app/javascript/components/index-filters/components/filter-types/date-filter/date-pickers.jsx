@@ -68,21 +68,23 @@ const Component = ({
   const onChange = picker => date => handleDatePicker(picker, date);
 
   return ["from", "to"].map(picker => {
+    const label = i18n.t(`fields.date_range.${picker}`);
     const inputProps = {
       fullWidth: true,
       margin: "normal",
       format: pickerFormat,
-      label: i18n.t(`fields.date_range.${picker}`),
+      label,
       value: getDateValue(picker, inputValue, dateIncludeTime),
       onChange: onChange(picker),
       disabled: !selectedField,
       clearLabel: i18n.t("buttons.clear"),
       cancelLabel: i18n.t("buttons.cancel"),
-      okLabel: i18n.t("buttons.ok")
+      okLabel: i18n.t("buttons.ok"),
+      slotProps: { textField: { InputLabelProps: { shrink: true }, fullWidth: true } }
     };
 
     if (i18n.locale === LOCALE_KEYS.ne) {
-      return <NepaliCalendar label={inputProps.label} dateProps={inputProps} />;
+      return <NepaliCalendar label={label} dateProps={inputProps} />;
     }
 
     return (

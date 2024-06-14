@@ -1,8 +1,8 @@
 import { screen, mountedFieldComponent } from "test-utils";
 
-import TextInput from "./select-input";
+import TextInput from "./text-input";
 
-describe("<Form /> - fields/<SelectInput />", () => {
+describe("<Form /> - fields/<TextInput />", () => {
   it("renders switch input", () => {
     mountedFieldComponent(<TextInput />);
     expect(screen.getAllByText("Test Field 2")).toBeTruthy();

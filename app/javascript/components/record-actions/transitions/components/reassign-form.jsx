@@ -7,7 +7,7 @@ import { Formik, Field, Form } from "formik";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import qs from "qs";
-import { TextField } from "formik-material-ui";
+import { TextField } from "formik-mui";
 import { fromJS } from "immutable";
 
 import { RECORD_TYPES } from "../../../../config";

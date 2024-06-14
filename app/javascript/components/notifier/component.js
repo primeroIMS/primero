@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
 
-import { useApp } from "../application";
+import { useApp } from "../application/use-app";
 import { useI18n } from "../i18n";
 import { RECORD_TYPES } from "../../config";
 import useMemoizedSelector from "../../libs/use-memoized-selector";

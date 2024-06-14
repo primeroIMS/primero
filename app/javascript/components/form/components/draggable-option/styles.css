@@ -1,0 +1,9 @@
+.disabled {
+  &&&:before {
+    border-bottom-style: solid;
+  }
+
+  &&:after {
+    border-bottom-style: solid;
+  }
+}

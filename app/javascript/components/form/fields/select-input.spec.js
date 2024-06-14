@@ -28,6 +28,6 @@ describe("<Form /> - fields/<SelectInput />", () => {
 
   it("should autoFocus when prop set", () => {
     mountedFieldComponent(<SelectInput />);
-    expect(screen.getByRole("textbox", { autoFocus: true })).toBeInTheDocument();
+    expect(screen.getByRole("combobox", { autoFocus: true })).toBeInTheDocument();
   });
 });

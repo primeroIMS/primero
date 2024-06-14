@@ -6,7 +6,7 @@ import createCachedSelector from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import { memoize } from "proxy-memoize";
 
-import { displayNameHelper } from "../../libs";
+import displayNameHelper from "../../libs/display-name-helper";
 import { getLocale } from "../i18n/selectors";
 import { DATA_PROTECTION_FIELDS } from "../record-creation-flow/constants";
 import { currentUser } from "../user/selectors";

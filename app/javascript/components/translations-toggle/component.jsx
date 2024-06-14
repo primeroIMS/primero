@@ -63,7 +63,7 @@ const TranslationsToggle = () => {
         aria-haspopup="true"
         aria-owns={anchorEl ? "simple-menu" : undefined}
       >
-        <LanguageIcon className={css.icon} />
+        <LanguageIcon />
         <div>{i18n.t(`home.${locale}`)}</div>
         <DropdownDoubleIcon />
       </Button>

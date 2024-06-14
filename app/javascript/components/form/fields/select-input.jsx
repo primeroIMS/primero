@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { TextField, Chip } from "@mui/material";
-import Autocomplete, { createFilterOptions } from "@mui/lab/Autocomplete";
+import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";

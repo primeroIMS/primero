@@ -6,21 +6,16 @@ import { Brightness1 as Circle } from "@mui/icons-material";
 import ErrorIcon from "@mui/icons-material/Error";
 import CheckIcon from "@mui/icons-material/Check";
 import SignalWifiOffIcon from "@mui/icons-material/SignalWifiOff";
-import { makeStyles } from "@mui/styles";
-
-import useThemeHelpers from "../../libs/use-theme-helpers";
 
 import { NAME } from "./constants";
-import { snackVariantClasses } from "./theme";
+import css from "./styles.css";
 
 const Component = ({ children }) => {
-  const { theme } = useThemeHelpers();
-  const classes = makeStyles(snackVariantClasses(theme))();
-
   return (
     <SnackbarProvider
       maxSnack={3}
       dense
+      preventDuplicate
       iconVariant={{
         success: <CheckIcon />,
         error: <ErrorIcon />,
@@ -28,11 +23,12 @@ const Component = ({ children }) => {
         info: <Circle />
       }}
       classes={{
-        lessPadding: classes.lessPadding,
-        variantSuccess: classes.success,
-        variantError: classes.error,
-        variantWarning: classes.warning,
-        variantInfo: classes.info
+        lessPadding: css.lessPadding,
+        variantSuccess: css.success,
+        variantError: css.error,
+        variantWarning: css.warning,
+        variantInfo: css.info,
+        message: css.message
       }}
     >
       {children}

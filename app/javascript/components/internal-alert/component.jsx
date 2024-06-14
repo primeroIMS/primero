@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import clsx from "clsx";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { Brightness1 as Circle } from "@mui/icons-material";
 import ErrorIcon from "@mui/icons-material/Error";
 import CheckIcon from "@mui/icons-material/Check";
@@ -17,15 +16,11 @@ import { useI18n } from "../i18n";
 
 import InternalAlertItem from "./components/item";
 import { NAME, SEVERITY } from "./constants";
-import { expansionPanelSummaryClasses } from "./theme";
 import css from "./styles.css";
-
-const useStylesExpansionPanel = makeStyles(expansionPanelSummaryClasses);
 
 const Component = ({ title, items, severity, customIcon }) => {
   const i18n = useI18n();
 
-  const classes = useStylesExpansionPanel();
   const accordionClasses = clsx(css.alert, css[severity]);
   const accordionDetailsClasses = clsx({ [css.alertItems]: true });
   const accordionSummaryClasses = clsx({
@@ -84,7 +79,7 @@ const Component = ({ title, items, severity, customIcon }) => {
     <Accordion className={accordionClasses}>
       <AccordionSummary
         data-testid="internal-alert"
-        classes={classes}
+        classes={{ expanded: css.expanded, content: css.content }}
         expandIcon={items?.size > 1 ? <ExpandMoreIcon /> : null}
         aria-controls="record-form-alerts-panel"
         id="record-form-alerts-panel-header"

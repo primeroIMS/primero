@@ -25,7 +25,7 @@
   color: var(--c-black) !important;
 }
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .subformDrawer {
     max-width: 100%;
     width: 90%;

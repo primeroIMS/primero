@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 
-import { useThemeHelper } from "../../libs";
+import useThemeHelper from "../../libs/use-theme-helpers";
 import { useApp } from "../application";
 
 import css from "./styles.css";

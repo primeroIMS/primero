@@ -2,7 +2,7 @@
 
 /* eslint-disable react/display-name */
 import PropTypes from "prop-types";
-import Autocomplete from "@mui/lab/Autocomplete";
+import Autocomplete from "@mui/material/Autocomplete";
 import { Chip } from "@mui/material";
 
 import AutoCompleteInput from "./components/auto-complete-input";

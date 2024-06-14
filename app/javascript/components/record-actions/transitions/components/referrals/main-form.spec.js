@@ -80,38 +80,7 @@ describe("<MainForm />", () => {
 
   it("renders FormControlLabel", () => {
     mountedComponent(<FormikStub {...props} />, initialState);
-    expect(screen.queryAllByRole("textbox")).toHaveLength(5);
-  });
-
-  it("renders FormInternal", () => {
-    mountedComponent(<FormikStub {...props} />, initialState);
-    expect(screen.queryAllByRole("textbox")).toHaveLength(5);
-  });
-
-  describe("when mounting fields for FormInternal ", () => {
-    it("renders valid props for SERVICE_FIELD field", () => {
-      mountedComponent(<FormikStub {...props} />, initialState);
-      expect(screen.queryAllByRole("textbox")).toHaveLength(5);
-    });
-
-    it("renders valid props for AGENCY_FIELD field", () => {
-      mountedComponent(<FormikStub {...props} />, initialState);
-      expect(screen.queryAllByRole("textbox")).toHaveLength(5);
-    });
-
-    it("renders valid props for LOCATION_FIELD field", () => {
-      mountedComponent(<FormikStub {...props} />, initialState);
-      expect(screen.queryAllByRole("textbox")).toHaveLength(5);
-    });
-
-    it("renders valid props for TRANSITIONED_TO_FIELD field", () => {
-      mountedComponent(<FormikStub {...props} />, initialState);
-      expect(screen.queryAllByRole("textbox")).toHaveLength(5);
-    });
-
-    it("renders valid props for NOTES_FIELD field", () => {
-      mountedComponent(<FormikStub {...props} />, initialState);
-      expect(screen.queryAllByRole("textbox")).toHaveLength(5);
-    });
+    expect(screen.queryAllByRole("combobox")).toHaveLength(4);
+    expect(screen.queryAllByRole("textbox")).toHaveLength(1);
   });
 });

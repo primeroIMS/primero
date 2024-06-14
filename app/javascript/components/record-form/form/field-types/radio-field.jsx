@@ -8,7 +8,7 @@ import isEmpty from "lodash/isEmpty";
 import { FormControlLabel, FormHelperText, Radio, FormControl, InputLabel } from "@mui/material";
 import { Field, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
-import { RadioGroup } from "formik-material-ui";
+import { RadioGroup } from "formik-mui";
 
 import { useI18n } from "../../../i18n";
 import { getOption } from "../../selectors";

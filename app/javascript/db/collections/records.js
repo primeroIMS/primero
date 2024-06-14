@@ -12,8 +12,8 @@ import { isDate, parseISO } from "date-fns";
 
 import DB from "../db";
 import subformAwareMerge from "../utils/subform-aware-merge";
-import { QUICK_SEARCH_FIELDS, DATE_SORTABLE_FIELDS } from "../../config";
-import { reduceMapToObject, hasApiDateFormat } from "../../libs";
+import { QUICK_SEARCH_FIELDS, DATE_SORTABLE_FIELDS } from "../../config/constants";
+import { hasApiDateFormat, reduceMapToObject } from "../../libs/component-helpers";
 
 const Records = {
   find: async ({ collection, recordType, db, json }) => {

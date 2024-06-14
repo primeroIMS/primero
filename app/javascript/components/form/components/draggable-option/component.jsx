@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Draggable } from "react-beautiful-dnd";
 import { Controller, useWatch } from "react-hook-form";
-import { makeStyles, Radio } from "@mui/material";
+import { Radio } from "@mui/material";
 import get from "lodash/get";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
@@ -15,6 +15,7 @@ import css from "../../fields/styles.css";
 import DragIndicator from "../../../pages/admin/forms-list/components/drag-indicator";
 import { generateIdFromDisplayText } from "../../utils/handle-options";
 
+import textInputCss from "./styles.css";
 import { NAME } from "./constants";
 
 const Component = ({
@@ -49,17 +50,6 @@ const Component = ({
   const selectedValue = useWatch({ control, name: `${name}.selected_value`, defaultValue: defaultOptionId });
 
   const error = errors ? get(errors, displayTextFieldName) : undefined;
-
-  const classes = makeStyles({
-    disabled: {
-      "&&&:before": {
-        borderBottomStyle: "solid"
-      },
-      "&&:after": {
-        borderBottomStyle: "solid"
-      }
-    }
-  })();
 
   const handleChange = event => {
     const { value } = event.currentTarget;
@@ -114,7 +104,7 @@ const Component = ({
                   // eslint-disable-next-line camelcase
                   defaultValue: option?.display_text?.en,
                   InputProps: {
-                    classes,
+                    classes: { disabled: textInputCss.disabled },
                     onBlur: handleOnBlur
                   }
                 }}

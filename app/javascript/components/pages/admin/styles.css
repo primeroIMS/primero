@@ -6,7 +6,6 @@
 
 .nav {
   width: 250px;
-  padding-right: 1em;
 }
 
 .content {
@@ -21,4 +20,3 @@
 .selectedItem {
   background-color: var(--c-light-blue-menu) !important;
 }
-

@@ -5,7 +5,7 @@
   width: 100%;
 }
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .recordFormFilters {
     text-align: center;
     flex: 0 1;

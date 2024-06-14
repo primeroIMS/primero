@@ -28,7 +28,7 @@
   border: 1px solid var(--c-network-indicator-border);
 }
 
-@media (max-width:1279.95px) {
+@media (max-width:1200px) {
   .networkIndicator {
     & .status {
       display: none;
@@ -36,7 +36,7 @@
   }
 }
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .networkIndicator {
     display: none;
 

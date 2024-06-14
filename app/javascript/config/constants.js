@@ -23,46 +23,46 @@ import {
 } from "../components/permissions/constants";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
-export const API_BASE_PATH = "/api/v2";
+const API_BASE_PATH = "/api/v2";
 
-export const PASSWORD_MIN_LENGTH = 8;
+const PASSWORD_MIN_LENGTH = 8;
 
 // Max allowed image size for attachments
-export const MAX_IMAGE_SIZE = 600;
+const MAX_IMAGE_SIZE = 600;
 
 // Max allowed size for attachments
-export const MAX_ATTACHMENT_SIZE = 20971520;
+const MAX_ATTACHMENT_SIZE = 20971520;
 
 // Time (ms) when fetch request will timeout
-export const FETCH_TIMEOUT = 90000;
+const FETCH_TIMEOUT = 90000;
 
 // IndexedDB database name
-export const DATABASE_NAME = "primero";
+const DATABASE_NAME = "primero";
 
 // Time (ms) when the idle dialog will activate when a user is inactive
-export const IDLE_TIMEOUT = 15 * 1000 * 60;
+const IDLE_TIMEOUT = 15 * 1000 * 60;
 
 // Time (ms) user has to respond to idle dialog before logged out
-export const IDLE_LOGOUT_TIMEOUT = 5 * 1000 * 60;
+const IDLE_LOGOUT_TIMEOUT = 5 * 1000 * 60;
 
 // Time (ms) how often the backend is pinged to refresh the user's token
-export const TOKEN_REFRESH_INTERVAL = 30 * 1000 * 60;
+const TOKEN_REFRESH_INTERVAL = 30 * 1000 * 60;
 
-export const PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL = 15 * 1000 * 60;
+const PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL = 15 * 1000 * 60;
 
-export const CASE = "case";
-export const CASES = "cases";
-export const TRACING_REQUEST = "tracing_request";
-export const TRACING_REQUESTS = "tracing_requests";
-export const INCIDENT = "incident";
-export const INCIDENTS = "incidents";
-export const REGISTRY_RECORD = "registry_record";
-export const REGISTRY_RECORDS = "registry_records";
-export const FAMILIES = "families";
-export const FAMILY = "family";
+const CASE = "case";
+const CASES = "cases";
+const TRACING_REQUEST = "tracing_request";
+const TRACING_REQUESTS = "tracing_requests";
+const INCIDENT = "incident";
+const INCIDENTS = "incidents";
+const REGISTRY_RECORD = "registry_record";
+const REGISTRY_RECORDS = "registry_records";
+const FAMILIES = "families";
+const FAMILY = "family";
 
 // Type of records available singular (key): plural (value)
-export const RECORD_TYPES = {
+const RECORD_TYPES = {
   [CASES]: CASE,
   [TRACING_REQUESTS]: TRACING_REQUEST,
   [INCIDENTS]: INCIDENT,
@@ -71,7 +71,7 @@ export const RECORD_TYPES = {
   all: "all"
 };
 
-export const RECORD_TYPES_PLURAL = {
+const RECORD_TYPES_PLURAL = {
   [CASE]: CASES,
   [TRACING_REQUEST]: TRACING_REQUESTS,
   [INCIDENT]: INCIDENTS,
@@ -80,39 +80,39 @@ export const RECORD_TYPES_PLURAL = {
 };
 
 // Max Age allowed in age ranges
-export const AGE_MAX = 999;
+const AGE_MAX = 999;
 
-export const MODULES = Object.freeze({
+const MODULES = Object.freeze({
   CP: "primeromodule-cp",
   GBV: "primeromodule-gbv",
   MRM: "primeromodule-mrm"
 });
 
-export const MODULE_TYPE_FIELD = "module_id";
+const MODULE_TYPE_FIELD = "module_id";
 
-export const USER_NAME_FIELD = "user_name";
+const USER_NAME_FIELD = "user_name";
 
-export const STRING_SOURCES_TYPES = Object.freeze({
+const STRING_SOURCES_TYPES = Object.freeze({
   LOCATION: "Location",
   AGENCY: "Agency",
   USER: "user"
 });
 
-export const ID_FIELD = "id";
-export const UNIQUE_ID_FIELD = "unique_id";
-export const DISPLAY_TEXT_FIELD = "display_text";
-export const NAME_FIELD = "name";
-export const CODE_FIELD = "code";
-export const INCIDENT_CASE_ID_FIELD = "incident_case_id";
-export const INCIDENT_CASE_ID_DISPLAY_FIELD = "case_id_display";
-export const INCIDENT_SHORT_ID_FIELD = "short_id";
+const ID_FIELD = "id";
+const UNIQUE_ID_FIELD = "unique_id";
+const DISPLAY_TEXT_FIELD = "display_text";
+const NAME_FIELD = "name";
+const CODE_FIELD = "code";
+const INCIDENT_CASE_ID_FIELD = "incident_case_id";
+const INCIDENT_CASE_ID_DISPLAY_FIELD = "case_id_display";
+const INCIDENT_SHORT_ID_FIELD = "short_id";
 
-export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
+const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
   [MODULES.CP]: ["consent_for_services", "disclosure_other_orgs"],
   [MODULES.GBV]: ["consent_for_services"]
 });
 
-export const RECORD_PATH = {
+const RECORD_PATH = {
   account: "account",
   agencies: "agencies",
   alerts: "alerts",
@@ -140,36 +140,36 @@ export const RECORD_PATH = {
   webpush_config: "webpush/config"
 };
 
-export const RECORD_INFORMATION_GROUP = "record_information";
+const RECORD_INFORMATION_GROUP = "record_information";
 
-export const IDENTIFICATION_REGISTRATION = "identification_registration";
+const IDENTIFICATION_REGISTRATION = "identification_registration";
 
-export const VIOLATION_GROUP = "violations";
+const VIOLATION_GROUP = "violations";
 
-export const RECORD_OWNER = "record_owner";
+const RECORD_OWNER = "record_owner";
 
-export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
-export const INCIDENT_TRANSFERS_ASSIGNMENTS = "incident_transfers_assignments";
+const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
+const INCIDENT_TRANSFERS_ASSIGNMENTS = "incident_transfers_assignments";
 
-export const REFERRAL = "referral";
+const REFERRAL = "referral";
 
-export const APPROVALS = "approvals";
+const APPROVALS = "approvals";
 
-export const INCIDENT_FROM_CASE = "incident_from_case";
+const INCIDENT_FROM_CASE = "incident_from_case";
 
-export const REGISTRY_FROM_CASE = "registry_from_case";
+const REGISTRY_FROM_CASE = "registry_from_case";
 
-export const CHANGE_LOGS = "change_logs";
+const CHANGE_LOGS = "change_logs";
 
-export const SUMMARY = "summary";
+const SUMMARY = "summary";
 
-export const SUMMARY_INCIDENT_MRM = "mrm_summary_page";
+const SUMMARY_INCIDENT_MRM = "mrm_summary_page";
 
-export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
+const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
-export const RECORD_INFORMATION = [APPROVALS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS];
+const RECORD_INFORMATION = [APPROVALS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS];
 
-export const ROUTES = {
+const ROUTES = {
   account: "/account",
   admin: "/admin",
   admin_agencies: "/admin/agencies",
@@ -218,7 +218,7 @@ export const ROUTES = {
   subscriptions_current: "/webpush/subscriptions/current"
 };
 
-export const PERMITTED_URL = [
+const PERMITTED_URL = [
   ROUTES.account,
   ROUTES.dashboard,
   ROUTES.login,
@@ -237,35 +237,35 @@ export const PERMITTED_URL = [
   ROUTES.password_reset_request
 ];
 
-export const DATE_FORMAT = "dd-MMM-yyyy";
+const DATE_FORMAT = "dd-MMM-yyyy";
 
-export const DATE_FORMAT_NE = "DD-MM-YYYY";
+const DATE_FORMAT_NE = "DD-MM-YYYY";
 
-export const MONTH_AND_YEAR_FORMAT = "MMM-yyyy";
+const MONTH_AND_YEAR_FORMAT = "MMM-yyyy";
 
-export const API_DATE_FORMAT = "yyyy-MM-dd";
+const API_DATE_FORMAT = "yyyy-MM-dd";
 
-export const API_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+const API_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
-export const TRANSITIONS_DATE_FORMAT = "MMM dd,yyyy";
+const TRANSITIONS_DATE_FORMAT = "MMM dd,yyyy";
 
-export const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";
+const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";
 
-export const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 
 // eslint-disable-next-line max-len
-export const ISO_DATE_TIME_REGEX =
+const ISO_DATE_TIME_REGEX =
   /^(?:\d{4}-\d{2}-\d{2}|\d{4}-\d{1,2}-\d{1,2}[T \t]+\d{1,2}:\d{2}:\d{2}(\.[0-9]*)?(([ \t]*)Z|[-+]\d{2}?(:\d{2})?)?)$/;
 
-export const CODE_OF_CONDUCT_DATE_FORMAT = "MMMM dd, yyyy";
+const CODE_OF_CONDUCT_DATE_FORMAT = "MMMM dd, yyyy";
 
-export const MODES = {
+const MODES = {
   edit: "edit",
   new: "new",
   show: "show"
 };
 
-export const LOOKUPS = {
+const LOOKUPS = {
   agency_office: "lookup-agency-office",
   risk_level: "lookup-risk-level",
   workflow: "lookup-workflow",
@@ -284,7 +284,7 @@ export const LOOKUPS = {
   armed_force_group_or_other_party: "lookup-armed-force-group-or-other-party"
 };
 
-export const ADMIN_NAV = [
+const ADMIN_NAV = [
   {
     to: "/users",
     label: "settings.navigation.users",
@@ -356,7 +356,7 @@ export const ADMIN_NAV = [
   }
 ];
 
-export const APPLICATION_NAV = (permissions, userId) => {
+const APPLICATION_NAV = (permissions, userId) => {
   const adminResources = getAdminResources(permissions);
   const adminForm = adminResources[0] || ADMIN_RESOURCES.contact_information;
   const adminSettingsOption = `/admin/${adminForm === RESOURCES.metadata ? RESOURCES.forms : adminForm}`;
@@ -484,9 +484,9 @@ export const APPLICATION_NAV = (permissions, userId) => {
   ];
 };
 
-export const LOCATION_PATH = "/locations";
+const LOCATION_PATH = "/locations";
 
-export const METHODS = Object.freeze({
+const METHODS = Object.freeze({
   DELETE: "DELETE",
   GET: "GET",
   PATCH: "PATCH",
@@ -494,21 +494,21 @@ export const METHODS = Object.freeze({
   PUT: "PUT"
 });
 
-export const SAVE_METHODS = Object.freeze({
+const SAVE_METHODS = Object.freeze({
   new: "new",
   update: "update"
 });
 
-export const ACCEPTED = "accepted";
-export const ACCEPT = "accept";
-export const REJECTED = "rejected";
-export const REVOKED = "revoked";
-export const DONE = "done";
-export const REJECT = "reject";
-export const SAVING = "saving";
-export const INPROGRESS = "in_progress";
+const ACCEPTED = "accepted";
+const ACCEPT = "accept";
+const REJECTED = "rejected";
+const REVOKED = "revoked";
+const DONE = "done";
+const REJECT = "reject";
+const SAVING = "saving";
+const INPROGRESS = "in_progress";
 
-export const APPROVALS_TYPES = Object.freeze({
+const APPROVALS_TYPES = Object.freeze({
   assessment: "assessment",
   case_plan: "case_plan",
   closure: "closure",
@@ -516,7 +516,7 @@ export const APPROVALS_TYPES = Object.freeze({
   gbv_closure: "gbv_closure"
 });
 
-export const ALERTS_FOR = {
+const ALERTS_FOR = {
   field_change: "field_change",
   incident_details: "incident_details",
   services_section: "services_section",
@@ -528,61 +528,61 @@ export const ALERTS_FOR = {
   referral: "referral"
 };
 
-export const MAX_OFFLINE_ROWS_PER_PAGE = 50;
+const MAX_OFFLINE_ROWS_PER_PAGE = 50;
 
-export const ROWS_PER_PAGE_OPTIONS = [20, 50, 75, 100];
+const ROWS_PER_PAGE_OPTIONS = [20, 50, 75, 100];
 
-export const OFFLINE_ROWS_PER_PAGE_OPTIONS = [20, 50];
+const OFFLINE_ROWS_PER_PAGE_OPTIONS = [20, 50];
 
-export const DEFAULT_METADATA = Object.freeze({
+const DEFAULT_METADATA = Object.freeze({
   page: 1,
   per: 20
 });
 
-export const LOCALE_KEYS = {
+const LOCALE_KEYS = {
   en: "en",
   ne: "ne"
 };
 
-export const HTTP_STATUS = {
+const HTTP_STATUS = {
   invalidRecord: 422
 };
 
-export const DEFAULT_DATE_VALUES = {
+const DEFAULT_DATE_VALUES = {
   TODAY: "TODAY",
   NOW: "NOW"
 };
 
-export const FETCH_PARAM = Object.freeze({
+const FETCH_PARAM = Object.freeze({
   DATA: "data",
   OPTIONS: "options"
 });
 
-export const TRACING_REQUEST_STATUS_FIELD_NAME = "tracing_request_status";
+const TRACING_REQUEST_STATUS_FIELD_NAME = "tracing_request_status";
 
-export const TRACES_SUBFORM_UNIQUE_ID = "tracing_request_subform_section";
+const TRACES_SUBFORM_UNIQUE_ID = "tracing_request_subform_section";
 
-export const POTENTIAL_MATCH_LIKELIHOOD = {
+const POTENTIAL_MATCH_LIKELIHOOD = {
   likely: "likely",
   possible: "possible"
 };
 
-export const MATCH_VALUES = {
+const MATCH_VALUES = {
   match: "match",
   mismatch: "mismatch",
   blank: "blank"
 };
 
-export const FILE_FORMAT = {
+const FILE_FORMAT = {
   pdf: "application/pdf"
 };
 
-export const FAMILY_MEMBERS_SUBFORM_ID = "family_members_section";
-export const FAMILY_FROM_CASE = "family_from_case";
+const FAMILY_MEMBERS_SUBFORM_ID = "family_members_section";
+const FAMILY_FROM_CASE = "family_from_case";
 
-export const FAMILY_DETAILS_SUBFORM_ID = "family_details_section";
+const FAMILY_DETAILS_SUBFORM_ID = "family_details_section";
 
-export const FORM_PERMISSION_ACTION = Object.freeze({
+const FORM_PERMISSION_ACTION = Object.freeze({
   [INCIDENT_FROM_CASE]: VIEW_INCIDENTS_FROM_CASE,
   [CHANGE_LOGS]: SHOW_CHANGE_LOG,
   [APPROVALS]: SHOW_APPROVALS,
@@ -591,7 +591,7 @@ export const FORM_PERMISSION_ACTION = Object.freeze({
   [FAMILY_FROM_CASE]: READ_FAMILY_RECORD
 });
 
-export const VIOLATIONS_FORM = [
+const VIOLATIONS_FORM = [
   "killing_violation_wrapper",
   "maiming_violation_wrapper",
   "recruitment_violation_wrapper",
@@ -603,7 +603,7 @@ export const VIOLATIONS_FORM = [
   "denial_humanitarian_access_violation_wrapper"
 ];
 
-export const VIOLATIONS_ASSOCIATIONS_FORM = [
+const VIOLATIONS_ASSOCIATIONS_FORM = [
   "individual_victims_subform_section",
   "group_victims_section",
   "source_subform_section",
@@ -611,7 +611,7 @@ export const VIOLATIONS_ASSOCIATIONS_FORM = [
   "response_subform_section"
 ];
 
-export const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
+const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
   "killing",
   "maiming",
   "recruitment",
@@ -623,7 +623,7 @@ export const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
   "denial_humanitarian_access"
 ];
 
-export const VIOLATION_FORMS_MAPPING = Object.freeze({
+const VIOLATION_FORMS_MAPPING = Object.freeze({
   killing: "killing_violation_wrapper",
   maiming: "maiming_violation_wrapper",
   recruitment: "recruitment_violation_wrapper",
@@ -635,7 +635,7 @@ export const VIOLATION_FORMS_MAPPING = Object.freeze({
   denial_humanitarian_access: "denial_humanitarian_access_violation_wrapper"
 });
 
-export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
+const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
   "individual_victims",
   "perpetrators",
   "group_victims",
@@ -643,33 +643,33 @@ export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
   "responses"
 ];
 
-export const VIOLATIONS_ASSOCIATIONS_RESPONSES = "responses";
+const VIOLATIONS_ASSOCIATIONS_RESPONSES = "responses";
 
-export const MRM_INSIGHTS_SUBREPORTS = [...VIOLATIONS_SUBFORM_UNIQUE_IDS, "detention"];
+const MRM_INSIGHTS_SUBREPORTS = [...VIOLATIONS_SUBFORM_UNIQUE_IDS, "detention"];
 
-export const GBV_INSIGHTS_SUBREPORTS = ["incidents", "perpetrators", "survivors", "referrals"];
+const GBV_INSIGHTS_SUBREPORTS = ["incidents", "perpetrators", "survivors", "referrals"];
 
-export const GHN_REPORT_SUBREPORTS = ["ghn_report"];
+const GHN_REPORT_SUBREPORTS = ["ghn_report"];
 
-export const INDIVIDUAL_CHILDREN = ["individual_children"];
+const INDIVIDUAL_CHILDREN = ["individual_children"];
 
-export const WORKFLOW_SUBREPORTS = ["cases_workflow", "incidents_workflow"];
+const WORKFLOW_SUBREPORTS = ["cases_workflow", "incidents_workflow"];
 
-export const CASES_WORKFLOW_SUBREPORTS = ["cases_workflow"];
+const CASES_WORKFLOW_SUBREPORTS = ["cases_workflow"];
 
-export const PROTECTION_CONCERNS_SUBREPORTS = ["protection_concerns"];
+const PROTECTION_CONCERNS_SUBREPORTS = ["protection_concerns"];
 
-export const REPORTING_LOCATIONS_SUBREPORTS = ["reporting_location_by_sex_and_age"];
+const REPORTING_LOCATIONS_SUBREPORTS = ["reporting_location_by_sex_and_age"];
 
-export const FOLLOWUPS_SUBREPORTS = ["followups"];
+const FOLLOWUPS_SUBREPORTS = ["followups"];
 
-export const SERVICES_SUBREPORTS = ["services"];
+const SERVICES_SUBREPORTS = ["services"];
 
-export const REFERRAL_TRANSFERS_SUBREPORTS = ["total_transfers", "total_referrals"];
+const REFERRAL_TRANSFERS_SUBREPORTS = ["total_transfers", "total_referrals"];
 
-export const VIOLENCE_TYPE_SUBREPORTS = ["cases_violence_type", "incidents_violence_type"];
+const VIOLENCE_TYPE_SUBREPORTS = ["cases_violence_type", "incidents_violence_type"];
 
-export const CHART_COLORS = Object.freeze({
+const CHART_COLORS = Object.freeze({
   blue: "rgb(0, 147, 186)",
   grey: "rgb(89, 89, 82)",
   purple: "rgb(124, 52, 123)",
@@ -678,23 +678,23 @@ export const CHART_COLORS = Object.freeze({
   orange: "rgb(231, 113, 45)",
   yellow: "rgb(242, 195, 23)"
 });
-export const SUBFORM_READONLY_FIELD_NAMES = ["matched_case_comparison"];
+const SUBFORM_READONLY_FIELD_NAMES = ["matched_case_comparison"];
 
-export const Q1 = "Q1";
-export const Q2 = "Q2";
-export const Q3 = "Q3";
-export const Q4 = "Q4";
+const Q1 = "Q1";
+const Q2 = "Q2";
+const Q3 = "Q3";
+const Q4 = "Q4";
 
-export const QUARTERS_TO_NUMBER = Object.freeze({
+const QUARTERS_TO_NUMBER = Object.freeze({
   [Q1]: 1,
   [Q2]: 2,
   [Q3]: 3,
   [Q4]: 4
 });
 
-export const QUARTERS = Object.freeze([Q1, Q2, Q3, Q4]);
+const QUARTERS = Object.freeze([Q1, Q2, Q3, Q4]);
 
-export const VIOLATION_TYPE = Object.freeze({
+const VIOLATION_TYPE = Object.freeze({
   killing: "killing",
   maiming: "maiming",
   recruitment: "recruitment",
@@ -706,16 +706,16 @@ export const VIOLATION_TYPE = Object.freeze({
   denial_humanitarian_access: "denial_humanitarian_access"
 });
 
-export const VIOLATION_VERIFICATION_STATUS = Object.freeze({
+const VIOLATION_VERIFICATION_STATUS = Object.freeze({
   verified: "verified",
   report_pending_verification: "report_pending_verification",
   not_mrm: "not_mrm",
   verification_found_that_incident_did_not_occur: "verification_found_that_incident_did_not_occur"
 });
 
-export const MAX_CONDITIONS = 4;
+const MAX_CONDITIONS = 4;
 
-export const QUICK_SEARCH_FIELDS = Object.freeze([
+const QUICK_SEARCH_FIELDS = Object.freeze([
   "biometrics_id",
   "camp_id",
   "case_id",
@@ -743,7 +743,7 @@ export const QUICK_SEARCH_FIELDS = Object.freeze([
   "unique_identifier"
 ]);
 
-export const DATE_SORTABLE_FIELDS = Object.freeze([
+const DATE_SORTABLE_FIELDS = Object.freeze([
   "created_at",
   "registration_date",
   "incident_date",
@@ -751,16 +751,150 @@ export const DATE_SORTABLE_FIELDS = Object.freeze([
   "inquiry_date"
 ]);
 
-export const NOTIFICATION_PERMISSIONS = {
+const NOTIFICATION_PERMISSIONS = {
   GRANTED: "granted",
   DENIED: "denied",
   DEFAULT: "default"
 };
 
-export const POST_MESSAGES = {
+const POST_MESSAGES = {
   SUBSCRIBE_NOTIFICATIONS: "subscribe_notifications",
   UNSUBSCRIBE_NOTIFICATIONS: "unsubscribe_notifications",
   DISPATCH_REMOVE_SUBSCRIPTION: "dispatch_remove_subscription",
   DISPATCH_SAVE_SUBSCRIPTION: "dispatch_save_subscription",
   ATTEMPTS_SUBSCRIPTION_FAILED: "attempts_subscription_failed"
+};
+
+export {
+  API_BASE_PATH,
+  PASSWORD_MIN_LENGTH,
+  MAX_IMAGE_SIZE,
+  MAX_ATTACHMENT_SIZE,
+  FETCH_TIMEOUT,
+  DATABASE_NAME,
+  IDLE_TIMEOUT,
+  IDLE_LOGOUT_TIMEOUT,
+  TOKEN_REFRESH_INTERVAL,
+  PUSH_NOTIFICATION_SUBSCRIPTION_REFRESH_INTERVAL,
+  CASE,
+  CASES,
+  TRACING_REQUEST,
+  TRACING_REQUESTS,
+  INCIDENT,
+  INCIDENTS,
+  REGISTRY_RECORD,
+  REGISTRY_RECORDS,
+  FAMILIES,
+  FAMILY,
+  RECORD_TYPES,
+  RECORD_TYPES_PLURAL,
+  AGE_MAX,
+  MODULES,
+  MODULE_TYPE_FIELD,
+  USER_NAME_FIELD,
+  STRING_SOURCES_TYPES,
+  ID_FIELD,
+  UNIQUE_ID_FIELD,
+  DISPLAY_TEXT_FIELD,
+  NAME_FIELD,
+  CODE_FIELD,
+  INCIDENT_CASE_ID_FIELD,
+  INCIDENT_CASE_ID_DISPLAY_FIELD,
+  INCIDENT_SHORT_ID_FIELD,
+  CONSENT_GIVEN_FIELD_BY_MODULE,
+  RECORD_PATH,
+  RECORD_INFORMATION_GROUP,
+  IDENTIFICATION_REGISTRATION,
+  VIOLATION_GROUP,
+  RECORD_OWNER,
+  TRANSFERS_ASSIGNMENTS,
+  INCIDENT_TRANSFERS_ASSIGNMENTS,
+  REFERRAL,
+  APPROVALS,
+  INCIDENT_FROM_CASE,
+  REGISTRY_FROM_CASE,
+  CHANGE_LOGS,
+  SUMMARY,
+  SUMMARY_INCIDENT_MRM,
+  TRANSITION_TYPE,
+  RECORD_INFORMATION,
+  ROUTES,
+  PERMITTED_URL,
+  DATE_FORMAT,
+  DATE_FORMAT_NE,
+  MONTH_AND_YEAR_FORMAT,
+  API_DATE_FORMAT,
+  API_DATE_TIME_FORMAT,
+  TRANSITIONS_DATE_FORMAT,
+  DATE_TIME_FORMAT,
+  ISO_DATE_REGEX,
+  ISO_DATE_TIME_REGEX,
+  CODE_OF_CONDUCT_DATE_FORMAT,
+  MODES,
+  LOOKUPS,
+  ADMIN_NAV,
+  APPLICATION_NAV,
+  LOCATION_PATH,
+  METHODS,
+  SAVE_METHODS,
+  ACCEPTED,
+  ACCEPT,
+  REJECTED,
+  REVOKED,
+  DONE,
+  REJECT,
+  SAVING,
+  INPROGRESS,
+  APPROVALS_TYPES,
+  ALERTS_FOR,
+  MAX_OFFLINE_ROWS_PER_PAGE,
+  ROWS_PER_PAGE_OPTIONS,
+  OFFLINE_ROWS_PER_PAGE_OPTIONS,
+  DEFAULT_METADATA,
+  LOCALE_KEYS,
+  HTTP_STATUS,
+  DEFAULT_DATE_VALUES,
+  FETCH_PARAM,
+  TRACING_REQUEST_STATUS_FIELD_NAME,
+  TRACES_SUBFORM_UNIQUE_ID,
+  POTENTIAL_MATCH_LIKELIHOOD,
+  MATCH_VALUES,
+  FILE_FORMAT,
+  FAMILY_MEMBERS_SUBFORM_ID,
+  FAMILY_FROM_CASE,
+  FAMILY_DETAILS_SUBFORM_ID,
+  FORM_PERMISSION_ACTION,
+  VIOLATIONS_FORM,
+  VIOLATIONS_ASSOCIATIONS_FORM,
+  VIOLATIONS_SUBFORM_UNIQUE_IDS,
+  VIOLATION_FORMS_MAPPING,
+  VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS,
+  VIOLATIONS_ASSOCIATIONS_RESPONSES,
+  MRM_INSIGHTS_SUBREPORTS,
+  GBV_INSIGHTS_SUBREPORTS,
+  GHN_REPORT_SUBREPORTS,
+  INDIVIDUAL_CHILDREN,
+  WORKFLOW_SUBREPORTS,
+  CASES_WORKFLOW_SUBREPORTS,
+  PROTECTION_CONCERNS_SUBREPORTS,
+  REPORTING_LOCATIONS_SUBREPORTS,
+  FOLLOWUPS_SUBREPORTS,
+  SERVICES_SUBREPORTS,
+  REFERRAL_TRANSFERS_SUBREPORTS,
+  VIOLENCE_TYPE_SUBREPORTS,
+  CHART_COLORS,
+  SUBFORM_READONLY_FIELD_NAMES,
+  Q1,
+  Q2,
+  Q3,
+  Q4,
+  QUARTERS_TO_NUMBER,
+  QUARTERS,
+  VIOLATION_TYPE,
+  VIOLATION_VERIFICATION_STATUS,
+  MAX_CONDITIONS,
+  QUICK_SEARCH_FIELDS,
+  DATE_SORTABLE_FIELDS,
+  NOTIFICATION_PERMISSIONS,
+  POST_MESSAGES
 };

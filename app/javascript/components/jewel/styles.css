@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   line-height: 0;
-  
+
   & span {
     color: var(--c-black);
     font-size: var(--fs-12);
@@ -18,7 +18,7 @@
   font-size: var(--fs-30);
   color: var(--c-yellow) !important;
 
-  &.error { 
+  &.error {
     color:  var(--c-red) !important;
   }
 }
@@ -35,11 +35,11 @@
   color: var(--c-yellow);
 }
 
-@media ((min-width:960px) and (max-width:1279.95px)) {
+@media ((min-width:900px) and (max-width:1200px)) {
   .root {
     position: absolute;
-    top: 47%;
-    left: 60%;
+    top: 13%;
+    left: 54%;
     & span {
       display: none;
     }

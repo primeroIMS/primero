@@ -2,15 +2,7 @@
 
 import { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import {
-  Radio,
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
-  List,
-  ListSubheader,
-  Divider
-} from "@mui/material";
+import { Radio, ListItem, ListItemSecondaryAction, ListItemText, List, ListSubheader, Divider } from "@mui/material";
 import { useDispatch, batch } from "react-redux";
 import clsx from "clsx";
 

@@ -85,7 +85,7 @@ describe("<DateRangeDialog />", () => {
       />
     );
 
-    fireEvent.click(screen.getAllByRole("button").at(2));
+    fireEvent.click(screen.getAllByRole("button").at(0));
 
     expect(setRange).toHaveBeenCalledTimes(1);
   });

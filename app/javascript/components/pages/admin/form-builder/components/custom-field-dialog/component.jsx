@@ -123,7 +123,6 @@ const Component = ({ getValues }) => {
             type={ACTION_BUTTON_TYPES.default}
             cancel
             variant="contained"
-            color="default"
             rest={{
               onClick: handleClose,
               fullWidth: true

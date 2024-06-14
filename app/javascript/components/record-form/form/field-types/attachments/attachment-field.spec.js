@@ -53,7 +53,7 @@ describe("<AttachmentField />", () => {
 
     it("should render the AttachmentPreview", () => {
       mountedComponent(<AttachmentField {...newProps} />, {}, [], {}, formProps);
-      expect(screen.getByRole("img")).toBeInTheDocument();
+      expect(screen.getByRole("presentation")).toBeInTheDocument();
     });
   });
 

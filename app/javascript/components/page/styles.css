@@ -2,9 +2,11 @@
 
 .root {
   flex-grow: 1;
-  height: var(--doc-height, 100vh);
+  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   overflow-y: scroll;
+  padding-bottom: var(--sp-4);
 
   &.demo {
     height: 96vh;
@@ -19,7 +21,8 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  height: var(--doc-height, 100vh);
+  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
 
   &.demo {
@@ -117,7 +120,7 @@
 }
 
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .root, .twoCol {
     padding-top: 4em;
   }
@@ -126,4 +129,3 @@
     padding-bottom: var(--sp-1);
   }
 }
-

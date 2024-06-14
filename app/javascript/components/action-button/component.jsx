@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import isString from "lodash/isString";
 
-import { useApp } from "../application";
+import { useApp } from "../application/use-app";
 import { useI18n } from "../i18n";
 
 import { buttonType } from "./utils";

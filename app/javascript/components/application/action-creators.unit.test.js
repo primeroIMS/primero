@@ -3,7 +3,7 @@
 import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
-import { ROUTES } from "../../config";
+import { ROUTES } from "../../config/constants";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";

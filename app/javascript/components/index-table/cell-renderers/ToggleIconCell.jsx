@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { Icon, Badge } from "@mui/material";
 import Photo from "@mui/icons-material/Photo";
-import OfflinePin from "@mui/icons-material/OfflinePin";
+import { OfflinePin } from "@mui/icons-material";
 
 import Jewel from "../../jewel";
 import { ALERTS_COLUMNS } from "../../record-list/constants";

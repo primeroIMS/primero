@@ -70,7 +70,7 @@ describe("<SubformDialog />", () => {
 
   it("renders the ConfirmationModal component", () => {
     mountedComponent(<SubformDialog {...props} />, {}, [], {}, formProps);
-    expect(screen.getByRole("presentation")).toBeInTheDocument();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
   describe("when field is visible should not be render", () => {
@@ -121,7 +121,7 @@ describe("<SubformDialog />", () => {
 
     it("render the subform", () => {
       mountedComponent(<SubformDialog {...propsFieldNotVisible} />, {}, [], {}, visibleFieldFormProps);
-      expect(screen.getByRole("presentation")).toBeInTheDocument();
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
     });
 
     it("renders the visible FormSectionField", () => {

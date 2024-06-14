@@ -1,4 +1,4 @@
-import { screen, mountedFieldComponent } from "test-utils";
+import { screen, mountedFieldComponent, fireEvent, waitFor } from "test-utils";
 
 import CheckboxGroup from "./checkbox-group";
 
@@ -15,8 +15,9 @@ describe("form/fields/checkbox-group.jsx", () => {
     expect(screen.getByText("option-1")).toBeInTheDocument();
   });
 
-  it("renders checkbox inputs with tooltips", () => {
+  it("renders checkbox inputs with tooltips", async () => {
     mountedFieldComponent(<CheckboxGroup {...props} />);
-    expect(screen.getByText("option-1")).toHaveAttribute("title", "option-1.tooltip");
+    fireEvent.mouseOver(screen.getByText("option-1"));
+    await waitFor(() => expect(screen.getByText("option-1.tooltip")).toBeInTheDocument());
   });
 });

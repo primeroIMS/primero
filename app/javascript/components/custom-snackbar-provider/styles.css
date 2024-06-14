@@ -1,0 +1,67 @@
+.lessPadding {
+  padding: 0 10px;
+}
+
+.root {
+  composes: lessPadding;
+  background: var(--c-white) !important;
+  color: var(--c-grey) !important;
+  font-weight: bold !important;
+  font-size: var(--fs-13) !important;
+
+  & svg {
+    color: var(--c-green);
+    margin-right: var(--sp-2);
+  }
+
+  & :global .SnackbarItem-action {
+    display: flex;
+
+    button {
+      width: 40px;
+      height: 40px;
+    }
+
+    & svg {
+      font-size: var(--fs-16);
+      color: var(--c-dark-grey);
+      margin-right: 0;
+    }
+  }
+}
+
+.success {
+  composes: root;
+  border: 1px solid var(--c-green);
+
+  & svg {
+    color: var(--c-green);
+  }
+}
+
+.error {
+  composes: root;
+  border: 1px solid var(--c-red);
+
+  & svg {
+    color: var(--c-red);
+  }
+}
+
+.warning {
+  composes: root;
+  border: 1px solid var(--c-orange);
+
+  & svg {
+    color: var(--c-orange);
+  }
+}
+
+.info {
+  composes: root;
+  border: 1px solid var(--c-yellow);
+
+  & svg {
+    color: var(--c-yellow);
+  }
+}

@@ -1,7 +1,7 @@
-import { fireEvent, waitFor, within } from "@testing-library/react";
+import { fireEvent, waitFor } from "@testing-library/react";
 
 async function setSelectValue(autocomplete, value) {
-  const input = within(autocomplete).getByRole("textbox");
+  const input = autocomplete;
 
   if (!value) {
     return input;

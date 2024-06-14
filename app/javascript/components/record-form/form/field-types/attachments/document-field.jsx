@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import { TextField } from "formik-material-ui";
+import { TextField } from "formik-mui";
 import { Box, Dialog, Button, DialogContent, DialogActions, DialogTitle, IconButton } from "@mui/material";
 import { FastField } from "formik";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -132,7 +132,9 @@ const DocumentField = ({
         </div>
         <div>
           {deleteButton}
-          <IconButton size="large" onClick={handleOpen}>{renderIcon}</IconButton>
+          <IconButton size="large" onClick={handleOpen}>
+            {renderIcon}
+          </IconButton>
         </div>
       </div>
 

@@ -77,7 +77,7 @@
 }
 
 
-@media (max-width:599.95px) {
+@media (max-width:600px) {
   .loginSelection,
   .logoutSelection {
     & button {

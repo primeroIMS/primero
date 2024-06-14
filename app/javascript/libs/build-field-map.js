@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { get } from "../components/form/utils";
+import { get } from "../components/form/utils/get";
 
 const OWNED_BY = "owned_by";
 const OWNED_BY_FULL_NAME = "owned_by_full_name";

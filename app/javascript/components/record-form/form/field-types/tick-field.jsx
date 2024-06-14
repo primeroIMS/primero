@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { FastField, connect, getIn } from "formik";
-import { Checkbox } from "formik-material-ui";
+import { Checkbox } from "formik-mui";
 import pickBy from "lodash/pickBy";
 import { FormControlLabel, FormHelperText, InputLabel, FormControl } from "@mui/material";
 import clsx from "clsx";

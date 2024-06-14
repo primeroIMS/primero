@@ -44,7 +44,6 @@ const Nav = () => {
   }, []);
 
   const { demo, useContainedNavStyle } = useApp();
-
   const username = useMemoizedSelector(state => selectUsername(state), isEqual);
   const userId = useMemoizedSelector(state => getUserId(state), isEqual);
   const dataAlerts = useMemoizedSelector(state => selectAlerts(state), isEqual);
@@ -113,7 +112,7 @@ const Nav = () => {
 
   const drawerContent = (
     <>
-      <Box sx={{ display: { xs: "none", sm: "block" } }}>
+      <Box sx={{ display: { xs: "none", md: "block" } }}>
         <ModuleLogo username={username} />
       </Box>
       <div className={css.drawerHeaderContainer}>

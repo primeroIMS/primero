@@ -1,13 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable react/no-multi-comp, react/display-name, react/prop-types */
-import DateFnsUtils from "@date-io/date-fns";
-import { MuiPickersUtilsProvider } from "@mui/pickers";
 import { SnackbarProvider } from "notistack";
 import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
 import isEmpty from "lodash/isEmpty";
 import { MemoryRouter, Route, Router } from "react-router-dom";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 
 import { ApplicationProvider } from "../components/application";
 import I18nProvider from "../components/i18n/provider";
@@ -35,7 +35,7 @@ function setupMountedComponent({ state, path, initialEntries, formProps, include
     return (
       <Provider store={store}>
         <I18nProvider>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
             <SnackbarProvider>
               <ApplicationProvider>
                 <ThemeProvider>
@@ -45,7 +45,7 @@ function setupMountedComponent({ state, path, initialEntries, formProps, include
                 </ThemeProvider>
               </ApplicationProvider>
             </SnackbarProvider>
-          </MuiPickersUtilsProvider>
+          </LocalizationProvider>
         </I18nProvider>
       </Provider>
     );
