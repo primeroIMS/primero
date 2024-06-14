@@ -7,12 +7,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { SUBFORM_FIELD_SUBFORM } from "../constants";
 import css from "../styles.css";
-import SubformField from "../component";
 import { useI18n } from "../../../../i18n";
 
 import { EXPANDED } from "./constants";
 
-const Component = ({ isViolation, parentTitle, parentValues, fieldProps, violationOptions }) => {
+const Component = ({ isViolation, parentTitle, parentValues, fieldProps, violationOptions, components }) => {
   const i18n = useI18n();
 
   const { field: subformSectionField } = fieldProps;
@@ -24,7 +23,7 @@ const Component = ({ isViolation, parentTitle, parentValues, fieldProps, violati
   };
   const renderSubform = (
     <div className={css.subFormField} data-testid="subform-field">
-      <SubformField
+      <components.SubformField
         {...{
           ...fieldProps,
           formSection: subformSectionField.subform_section_id,
@@ -68,6 +67,9 @@ const Component = ({ isViolation, parentTitle, parentValues, fieldProps, violati
 Component.displayName = SUBFORM_FIELD_SUBFORM;
 
 Component.propTypes = {
+  components: PropTypes.objectOf({
+    SubformField: PropTypes.elementType.isRequired
+  }),
   fieldProps: PropTypes.object,
   isViolation: PropTypes.bool,
   parentTitle: PropTypes.string,

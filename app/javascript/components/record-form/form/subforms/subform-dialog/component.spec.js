@@ -1,11 +1,22 @@
 import { RECORD_TYPES_PLURAL } from "../../../../../config";
 import { mountedComponent, screen } from "../../../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../../records";
+import SubformField from "../component";
+import SubformFieldSubform from "../subform-field-subform";
+import SubformDialogFields from "../subform-dialog-fields";
+import SubformItem from "../subform-item/component";
 
 import SubformDialog from "./component";
 
 describe("<SubformDialog />", () => {
   const props = {
+    components: {
+      SubformItem,
+      SubformDialog,
+      SubformDialogFields,
+      SubformFieldSubform,
+      SubformField
+    },
     arrayHelpers: {},
     dialogIsNew: true,
     field: FieldRecord({
@@ -75,6 +86,13 @@ describe("<SubformDialog />", () => {
 
   describe("when field is visible should not be render", () => {
     const propsFieldNotVisible = {
+      components: {
+        SubformItem,
+        SubformDialog,
+        SubformDialogFields,
+        SubformFieldSubform,
+        SubformField
+      },
       arrayHelpers: {},
       dialogIsNew: true,
       field: FieldRecord({
@@ -132,6 +150,13 @@ describe("<SubformDialog />", () => {
 
   describe("when the dialog is open", () => {
     const subformProps = {
+      components: {
+        SubformItem,
+        SubformDialog,
+        SubformDialogFields,
+        SubformFieldSubform,
+        SubformField
+      },
       arrayHelpers: {},
       dialogIsNew: true,
       field: FieldRecord({
@@ -200,6 +225,13 @@ describe("<SubformDialog />", () => {
 
   describe("when a list of field is present on subform_section_configuration", () => {
     const propsRenderSomeFields = {
+      components: {
+        SubformItem,
+        SubformDialog,
+        SubformDialogFields,
+        SubformFieldSubform,
+        SubformField
+      },
       arrayHelpers: {},
       dialogIsNew: true,
       field: FieldRecord({
@@ -302,6 +334,13 @@ describe("<SubformDialog />", () => {
 
   describe("when is a family member", () => {
     const familyProps = {
+      components: {
+        SubformItem,
+        SubformDialog,
+        SubformDialogFields,
+        SubformFieldSubform,
+        SubformField
+      },
       arrayHelpers: {},
       dialogIsNew: true,
       formik: { values: [], errors: {} },

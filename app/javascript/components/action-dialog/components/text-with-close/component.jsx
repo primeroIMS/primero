@@ -7,7 +7,7 @@ import { DialogTitle, IconButton } from "@mui/material";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ dialogTitle, dialogSubtitle, closeHandler, dialogActions, disableClose }) => {
+const Component = ({ dialogTitle, dialogSubtitle, closeHandler, dialogActions, disableClose = false }) => {
   const subtitle = dialogSubtitle ? <span className={css.dialogSubtitle}>{dialogSubtitle}</span> : null;
 
   return (
@@ -28,10 +28,6 @@ const Component = ({ dialogTitle, dialogSubtitle, closeHandler, dialogActions, d
       </div>
     </DialogTitle>
   );
-};
-
-Component.defaultProps = {
-  disableClose: false
 };
 
 Component.propTypes = {

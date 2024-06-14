@@ -2,11 +2,23 @@
 
 import { mountedComponent, screen } from "test-utils";
 
-import SubformFieldSubform from "./component";
+import SubformField from "../component";
+import SubformItem from "../subform-item/component";
+import SubformDialog from "../subform-dialog";
+import SubformDialogFields from "../subform-dialog-fields";
+
 import { EXPANDED } from "./constants";
+import SubformFieldSubform from "./component";
 
 describe("<SubformErrors />", () => {
   const props = {
+    components: {
+      SubformItem,
+      SubformDialog,
+      SubformDialogFields,
+      SubformFieldSubform,
+      SubformField
+    },
     fieldProps: {
       field: {
         name: "test",

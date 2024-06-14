@@ -8,7 +8,6 @@ import { List } from "@mui/material";
 
 import SubformFields from "../subform-fields";
 import SubformEmptyData from "../subform-empty-data";
-import SubformItem from "../subform-item";
 import SubformAddEntry from "../subform-add-entry";
 import { SUBFORM_FIELD_ARRAY } from "../constants";
 import { VIOLATIONS_ASSOCIATIONS_FORM } from "../../../../../config";
@@ -35,7 +34,8 @@ const Component = ({
   violationOptions,
   renderAsAccordion = false,
   entryFilter = false,
-  customTitle = false
+  customTitle = false,
+  components
 }) => {
   const {
     display_name: displayName,
@@ -137,7 +137,8 @@ const Component = ({
       </div>
       {renderGuidingQuestions}
       {renderEmptyData}
-      <SubformItem
+      <components.SubformItem
+        components={components}
         arrayHelpers={arrayHelpers}
         dialogIsNew={dialogIsNew}
         field={field}
@@ -171,6 +172,13 @@ Component.displayName = SUBFORM_FIELD_ARRAY;
 
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
+  components: PropTypes.objectOf({
+    SubformItem: PropTypes.elementType.isRequired,
+    SubformDialog: PropTypes.elementType.isRequired,
+    SubformDialogFields: PropTypes.elementType.isRequired,
+    SubformFieldSubform: PropTypes.elementType.isRequired,
+    SubformField: PropTypes.elementType.isRequired
+  }),
   customTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   entryFilter: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   field: PropTypes.object.isRequired,

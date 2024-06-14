@@ -3,9 +3,11 @@ import { RECORD_TYPES } from "../../../../config";
 import { TEXT_FIELD_NAME } from "../constants";
 
 import SubformField from "./component";
+import SubformItem from "./subform-item";
 
 describe("<SubformField />", () => {
   const props = {
+    SubformItem,
     form: { unique_id: "form_1" },
     field: {
       subform_section_id: {

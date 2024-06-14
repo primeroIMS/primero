@@ -11,7 +11,6 @@ import { fieldsToRender } from "../subform-field-array/utils";
 import { SUBFORM_SECTION } from "../../../constants";
 import { buildViolationOptions, getOptionStringsTags, getViolationIdsForAssociations } from "../../utils";
 import { useI18n } from "../../../../i18n";
-import SubformFieldSubform from "../subform-field-subform";
 import uuid from "../../../../../libs/uuid";
 import displayConditionsEnabled from "../../utils/display-conditions-enabled";
 import getDisplayConditions from "../../utils/get-display-conditions";
@@ -35,7 +34,8 @@ const Component = ({
   recordModuleID,
   recordType,
   setFieldValue,
-  values
+  values,
+  components
 }) => {
   const i18n = useI18n();
   const { subform_section_configuration: subformSectionConfiguration } = field;
@@ -132,7 +132,10 @@ const Component = ({
 
     if (SUBFORM_SECTION === subformSectionField.type) {
       return (
-        <SubformFieldSubform
+        <components.SubformFieldSubform
+          components={{
+            SubformField: components.SubformField
+          }}
           fieldProps={fieldProps}
           isViolation={isViolation}
           parentTitle={parentTitle}
@@ -157,6 +160,9 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
+  components: PropTypes.objectOf({
+    SubformFieldSubform: PropTypes.elementType.isRequired
+  }),
   field: PropTypes.object.isRequired,
   filterFunc: PropTypes.func,
   filterState: PropTypes.object,

@@ -11,7 +11,7 @@ import formComponent from "../utils/form-component";
 
 import css from "./styles.css";
 
-const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, disableUnderline }) => {
+const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, disableUnderline = false }) => {
   const { control, errors, getValues } = formMethods;
 
   const {
@@ -80,10 +80,6 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, di
 };
 
 WatchedFormSectionField.displayName = "WatchedFormSectionField";
-
-WatchedFormSectionField.defaultProps = {
-  disableUnderline: false
-};
 
 WatchedFormSectionField.propTypes = {
   checkErrors: PropTypes.object,

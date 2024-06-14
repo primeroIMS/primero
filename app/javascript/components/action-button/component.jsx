@@ -16,12 +16,12 @@ function Component({
   isTransparent,
   pending,
   text,
-  type,
-  outlined,
+  type = ACTION_BUTTON_TYPES.default,
+  outlined = false,
   keepTextOnMobile,
   tooltip,
   noTranslate = false,
-  rest,
+  rest = {},
   disabled,
   ...options
 }) {
@@ -59,12 +59,6 @@ function Component({
 }
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  outlined: false,
-  rest: {},
-  type: ACTION_BUTTON_TYPES.default
-};
 
 Component.propTypes = {
   cancel: PropTypes.bool,

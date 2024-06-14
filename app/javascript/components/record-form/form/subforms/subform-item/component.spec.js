@@ -2,11 +2,22 @@ import { fromJS } from "immutable";
 
 import { mountedComponent, screen } from "../../../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../../records";
+import SubformFieldSubform from "../subform-field-subform";
+import SubformDialog from "../subform-dialog";
+import SubformField from "../component";
+import SubformDialogFields from "../subform-dialog-fields";
 
 import SubformItem from "./component";
 
 describe("<SubformItem />", () => {
   const props = {
+    components: {
+      SubformItem,
+      SubformDialog,
+      SubformDialogFields,
+      SubformFieldSubform,
+      SubformField
+    },
     arrayHelpers: {},
     dialogIsNew: true,
     field: { subform_section_id: { unique_id: "perpetrators", fields: [] } },

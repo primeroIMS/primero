@@ -3,12 +3,23 @@ import { fromJS } from "immutable";
 import { mountedComponent, screen, userEvent } from "../../../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../../records";
 import { TEXT_FIELD } from "../../../constants";
+import SubformField from "../component";
+import SubformFieldSubform from "../subform-field-subform";
+import SubformItem from "../subform-item/component";
+import SubformDialog from "../subform-dialog";
 
-import SubformDialogFields from "./component";
 import { VIOLATION_IDS_NAME } from "./constants";
+import SubformDialogFields from "./component";
 
 describe("<SubformDialogFields />", () => {
   const props = {
+    components: {
+      SubformItem,
+      SubformDialog,
+      SubformDialogFields,
+      SubformFieldSubform,
+      SubformField
+    },
     field: {
       subform_section_id: {
         fields: [
@@ -47,6 +58,13 @@ describe("<SubformDialogFields />", () => {
 
   describe("when a field of a subform is also a subform", () => {
     const subFormProps = {
+      components: {
+        SubformItem,
+        SubformDialog,
+        SubformDialogFields,
+        SubformFieldSubform,
+        SubformField
+      },
       mode: { isShow: true },
       formSection: { unique_id: "test_id" },
       recordType: "cases",
@@ -100,6 +118,13 @@ describe("<SubformDialogFields />", () => {
     const parentViolationOptions = [{ id: 1, display_text: "test" }];
 
     const violationProps = {
+      components: {
+        SubformItem,
+        SubformDialog,
+        SubformDialogFields,
+        SubformFieldSubform,
+        SubformField
+      },
       mode: { isEdit: true },
       formSection: { unqique_id: "test_id" },
       field: FieldRecord({
@@ -130,6 +155,13 @@ describe("<SubformDialogFields />", () => {
 
   describe("when a field has tag properties", () => {
     const tagProps = {
+      components: {
+        SubformItem,
+        SubformDialog,
+        SubformDialogFields,
+        SubformFieldSubform,
+        SubformField
+      },
       mode: { isEdit: true },
       formSection: { unique_id: "test_id" },
       field: FieldRecord({
