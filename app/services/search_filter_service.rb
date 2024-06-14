@@ -25,12 +25,10 @@ class SearchFilterService
   # rubocop:disable Metrics/PerceivedComplexity
   def build_filters(params)
     params.map do |key, value|
-      if key == 'or'
-        if value.is_a?(Array)
-          SearchFilters::Or.new(filters: value.map { |v| build_filters(v).first })
-        elsif value.is_a?(Hash)
-          SearchFilters::Or.new(filters: build_filters(value))
-        end
+      if key == 'id'
+        build_id_filter(key, value)
+      elsif key == 'or'
+        build_or_filter(value)
       elsif key == 'not'
         build_not_filter(value.keys.first, value.values.first)
       elsif key.starts_with?('loc:')
@@ -59,7 +57,9 @@ class SearchFilterService
 
   # rubocop:disable Metrics/MethodLength
   def build_not_filter(field_name, value)
-    if field_name.starts_with?('loc:')
+    if field_name == 'id'
+      build_id_filter(field_name, value, true)
+    elsif field_name.starts_with?('loc:')
       build_location_filter(field_name, value, true)
     elsif value.is_a?(Array)
       build_array_filter(field_name, value, true)
@@ -99,6 +99,20 @@ class SearchFilterService
     return SearchFilters::LocationList.new(field_name:, values: value, not_filter:) if value.is_a?(Array)
 
     SearchFilters::LocationValue.new(field_name:, value:, not_filter:)
+  end
+
+  def build_id_filter(field_name, value, not_filter = false)
+    return SearchFilters::IdListFilter.new(field_name:, values: value, not_filter:) if value.is_a?(Array)
+
+    SearchFilters::IdFilter.new(field_name:, value:, not_filter:)
+  end
+
+  def build_or_filter(value)
+    if value.is_a?(Array)
+      SearchFilters::Or.new(filters: value.map { |v| build_filters(v).first })
+    elsif value.is_a?(Hash)
+      SearchFilters::Or.new(filters: build_filters(value))
+    end
   end
 
   def select_filter_params(params, permitted_field_names)
