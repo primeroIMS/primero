@@ -17,7 +17,7 @@ import css from "../../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({ item }) => {
+function Component({ item }) {
   const i18n = useI18n();
   const { onClick } = item;
   const renderMessage = change => (
@@ -62,7 +62,7 @@ const Component = ({ item }) => {
       </TimelineContent>
     </TimelineItem>
   );
-};
+}
 
 Component.displayName = NAME;
 

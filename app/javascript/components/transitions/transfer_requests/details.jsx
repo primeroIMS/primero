@@ -7,7 +7,7 @@ import { TRANSFER_REQUEST_DETAILS_NAME } from "../constants";
 import DisplayData from "../../display-data";
 import css from "../styles.css";
 
-const Details = ({ transition }) => {
+function Details({ transition }) {
   return (
     <Grid container spacing={2}>
       <Grid item md={6} xs={12}>
@@ -22,7 +22,7 @@ const Details = ({ transition }) => {
       </Grid>
     </Grid>
   );
-};
+}
 
 Details.displayName = TRANSFER_REQUEST_DETAILS_NAME;
 

@@ -9,7 +9,7 @@ import FieldRow from "../field-row";
 
 import css from "./styles.css";
 
-const FieldRows = ({ comparisons }) => {
+function FieldRows({ comparisons }) {
   const i18n = useI18n();
 
   if (isEmpty(comparisons)) {
@@ -31,7 +31,7 @@ const FieldRows = ({ comparisons }) => {
       key={comparison.field.name}
     />
   ));
-};
+}
 
 FieldRows.propTypes = {
   comparisons: PropTypes.array

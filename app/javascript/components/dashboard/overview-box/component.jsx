@@ -18,7 +18,7 @@ import ActionButton from "../../action-button";
 
 import css from "./styles.css";
 
-const OverviewBox = ({ items, chartData, sumTitle, withTotal = true, loading, errors }) => {
+function OverviewBox({ items, chartData, sumTitle, withTotal = true, loading, errors }) {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
@@ -123,7 +123,7 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal = true, loading, er
   const renderOverviewBox = chartData ? renderWithChart() : renderItems();
 
   return <>{renderOverviewBox}</>;
-};
+}
 
 OverviewBox.displayName = "OverviewBox";
 

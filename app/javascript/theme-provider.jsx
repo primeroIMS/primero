@@ -20,7 +20,7 @@ export const DispatchContext = createContext(() => {});
 
 DispatchContext.displayName = "ThemeDispatchContext";
 
-const ThemeProvider = ({ children }) => {
+function ThemeProvider({ children }) {
   const directionFromStore = useMemoizedSelector(state => getAppDirection(state));
 
   const [options, dispatch] = useReducer((state, action) => {
@@ -82,7 +82,7 @@ const ThemeProvider = ({ children }) => {
       </MuiThemeProvider>
     </StyledEngineProvider>
   );
-};
+}
 
 ThemeProvider.propTypes = {
   children: PropTypes.node

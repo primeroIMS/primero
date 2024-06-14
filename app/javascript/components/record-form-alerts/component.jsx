@@ -15,7 +15,7 @@ import { usePermissions, REMOVE_ALERT } from "../permissions";
 import { getMessageData } from "./utils";
 import { NAME } from "./constants";
 
-const Component = ({ form, recordType, attachmentForms = fromJS([]), formMode }) => {
+function Component({ form, recordType, attachmentForms = fromJS([]), formMode }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -78,7 +78,7 @@ const Component = ({ form, recordType, attachmentForms = fromJS([]), formMode })
       {items?.size ? <InternalAlert items={fromJS(items)} /> : null}
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

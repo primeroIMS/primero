@@ -17,7 +17,7 @@ import DateTransitions from "../components/date-transitions";
 import renderIconValue from "./render-icon-value";
 import { referralAgencyName } from "./utils";
 
-const Details = ({ transition, classes }) => {
+function Details({ transition, classes }) {
   const i18n = useI18n();
 
   const service = useMemoizedSelector(state => {
@@ -90,7 +90,7 @@ const Details = ({ transition, classes }) => {
       )}
     </Grid>
   );
-};
+}
 
 Details.displayName = REFERRAL_DETAILS_NAME;
 

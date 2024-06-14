@@ -12,13 +12,13 @@ import { createMockStore, DEFAULT_STATE } from "./create-mock-store";
 function mountedThemeComponent(Component, state = DEFAULT_STATE) {
   const { store, history } = createMockStore(state, fromJS({}));
 
-  const Providers = ({ children }) => {
+  function Providers({ children }) {
     return (
       <Provider store={store}>
         <ThemeProvider>{children}</ThemeProvider>
       </Provider>
     );
-  };
+  }
 
   const component = render(Component, {
     wrapper: Providers

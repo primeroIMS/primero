@@ -9,7 +9,7 @@ import SearchableSelect from "../../../../searchable-select";
 
 import { NOTES_FIELD } from "./constants";
 
-const FormInternal = ({ fields, disabled, isReferralFromService }) => {
+function FormInternal({ fields, disabled, isReferralFromService }) {
   const i18n = useI18n();
   const internalFields = fields.map(f => {
     if (!Object.keys(f).includes("options")) {
@@ -82,7 +82,7 @@ const FormInternal = ({ fields, disabled, isReferralFromService }) => {
   });
 
   return <>{internalFields}</>;
-};
+}
 
 FormInternal.displayName = "ReferralFormInternal";
 

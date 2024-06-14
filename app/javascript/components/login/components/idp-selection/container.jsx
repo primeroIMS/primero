@@ -12,7 +12,7 @@ import css from "./styles.css";
 import PrimeroIdpLink from "./components/primero-idp-link";
 import PrimeroIdpSelect from "./components/primero-idp-select";
 
-const Container = () => {
+function Container() {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const Container = () => {
       <PrimeroIdpLink identityProviders={identityProviders} i18n={i18n} dispatch={dispatch} css={css} />
     </>
   );
-};
+}
 
 Container.displayName = NAME;
 

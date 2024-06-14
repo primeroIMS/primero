@@ -1,4 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+/* eslint-disable react/function-component-definition */
 
 import { AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";

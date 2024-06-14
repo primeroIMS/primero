@@ -26,7 +26,7 @@ import css from "../styles.css";
 
 import { TracingRequestStatus } from "./components";
 
-const Component = ({
+function Component({
   arrayHelpers,
   field,
   isTracesSubform,
@@ -44,7 +44,7 @@ const Component = ({
   isFamilyMember,
   isFamilyDetail,
   isReadWriteForm
-}) => {
+}) {
   const i18n = useI18n();
 
   const { isRTL } = useThemeHelper();
@@ -228,7 +228,7 @@ const Component = ({
   }
 
   return null;
-};
+}
 
 Component.displayName = SUBFORM_FIELDS;
 

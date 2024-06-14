@@ -13,7 +13,7 @@ import { useApp } from "../../../../../application";
 import { FORM_ID, NAME } from "./constants";
 import { translationsForm, validationSchema } from "./forms";
 
-const Component = ({ getValues, mode, onClose, onSuccess }) => {
+function Component({ getValues, mode, onClose, onSuccess }) {
   const i18n = useI18n();
   const validations = validationSchema(i18n);
   const currentValues = getValues({ nest: true });
@@ -82,7 +82,7 @@ const Component = ({ getValues, mode, onClose, onSuccess }) => {
       />
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

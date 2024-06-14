@@ -16,7 +16,7 @@ import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import { FILTERS_DRAWER, NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   closeDrawerOnSubmit = false,
   filters,
   onSubmit,
@@ -24,7 +24,7 @@ const Component = ({
   defaultFilters = {},
   initialFilters = {},
   showDrawer = false
-}) => {
+}) {
   const methods = useForm();
 
   const { mobileDisplay } = useThemeHelper();
@@ -96,7 +96,7 @@ const Component = ({
       </FilterContainer>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

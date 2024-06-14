@@ -9,7 +9,7 @@ import { useI18n } from "../../../../i18n";
 import { NAME } from "./constants";
 import { getFormGroupName } from "./utils";
 
-const Component = ({
+function Component({
   group,
   handleClick,
   isNew,
@@ -19,7 +19,7 @@ const Component = ({
   validationErrors,
   formGroupLookup,
   testID
-}) => {
+}) {
   const [...forms] = group.values();
   const isNested = forms.length > 1;
   const parentForm = forms[0];
@@ -71,7 +71,7 @@ const Component = ({
       )}
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

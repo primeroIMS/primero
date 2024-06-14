@@ -11,7 +11,7 @@ import { BSToAD } from "bikram-sambat-js";
 import css from "./styles.css";
 import { convertToNeDate, parseDate } from "./utils";
 
-const Component = ({ helpText, label, dateProps }) => {
+function Component({ helpText, label, dateProps }) {
   const { name, onChange, value, error, disabled, placeholder, dateIncludeTime, InputProps } = dateProps;
   const inputValue = convertToNeDate(value);
 
@@ -90,7 +90,7 @@ const Component = ({ helpText, label, dateProps }) => {
       </FormControl>
     </div>
   );
-};
+}
 
 Component.propTypes = {
   dateProps: PropTypes.object,

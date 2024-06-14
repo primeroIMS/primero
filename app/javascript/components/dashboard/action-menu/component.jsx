@@ -7,7 +7,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import css from "./styles.css";
 
-const ActionMenu = ({ open, onOpen, onClose, items }) => {
+function ActionMenu({ open, onOpen, onClose, items }) {
   const moreButtonRef = useRef(null);
 
   return (
@@ -43,7 +43,7 @@ const ActionMenu = ({ open, onOpen, onClose, items }) => {
       </Menu>
     </>
   );
-};
+}
 
 ActionMenu.displayName = "ActionMenu";
 

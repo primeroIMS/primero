@@ -16,7 +16,7 @@ import { useMemoizedSelector } from "../../../../../../../libs";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedForm, mode }) => {
+function Component({ handleBack, handleConfirm, hasMatch, recordType, selectedForm, mode }) {
   const loading = useMemoizedSelector(state => getLoadingRecordState(state, recordType));
 
   return (
@@ -64,7 +64,7 @@ const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedFo
       )}
     </div>
   );
-};
+}
 
 Component.propTypes = {
   handleBack: PropTypes.func,

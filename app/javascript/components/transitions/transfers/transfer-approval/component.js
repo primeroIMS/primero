@@ -16,7 +16,7 @@ import { getTransitionById } from "../../selectors";
 import { approvalTransfer } from "./action-creators";
 import { FORM_ID, NAME } from "./constants";
 
-const Component = ({
+function Component({
   openTransferDialog = false,
   close,
   approvalType,
@@ -26,7 +26,7 @@ const Component = ({
   pending,
   setPending,
   transferId
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { currentUserName } = useApp();
@@ -129,7 +129,7 @@ const Component = ({
       {dialogContent}
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

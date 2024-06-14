@@ -8,7 +8,7 @@ import { useI18n } from "../../../../../i18n";
 import FormSectionList from "../form-section-list";
 import css from "../../styles.css";
 
-const Component = ({ group, collection, isDragDisabled = false }) => {
+function Component({ group, collection, isDragDisabled = false }) {
   const i18n = useI18n();
 
   const classes = clsx(css.row, css.header);
@@ -29,7 +29,7 @@ const Component = ({ group, collection, isDragDisabled = false }) => {
       )}
     </Droppable>
   );
-};
+}
 
 Component.displayName = "FormSection";
 

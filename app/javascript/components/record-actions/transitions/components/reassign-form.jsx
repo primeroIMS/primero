@@ -30,7 +30,7 @@ import css from "./styles.css";
 
 const initialValues = { transitioned_to: "", notes: "" };
 
-const ReassignForm = ({
+function ReassignForm({
   record,
   recordType,
   setPending,
@@ -40,7 +40,7 @@ const ReassignForm = ({
   selectedRecordsLength,
   currentRecordsSize,
   formDisabled = false
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -197,7 +197,7 @@ const ReassignForm = ({
       }}
     </Formik>
   );
-};
+}
 
 ReassignForm.displayName = REASSIGN_FORM_NAME;
 

@@ -9,7 +9,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import { NAME } from "./constants";
 
-const Component = ({ css, handleAccept, handleCancel, updatingCodeOfConduct, codeOfConductAccepted }) => {
+function Component({ css, handleAccept, handleCancel, updatingCodeOfConduct, codeOfConductAccepted }) {
   return (
     <div className={css.actions}>
       <ActionButton
@@ -36,7 +36,7 @@ const Component = ({ css, handleAccept, handleCancel, updatingCodeOfConduct, cod
       />
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

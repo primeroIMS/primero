@@ -14,7 +14,7 @@ import { FlagDialog, FlagForm, ListFlags, Unflag } from "./components";
 import { FLAG_DIALOG, NAME } from "./constants";
 import { getSelectedFlag } from "./selectors";
 
-const Component = ({ control, record, recordType }) => {
+function Component({ control, record, recordType }) {
   const [tab, setTab] = useState(0);
   const { dialogOpen, setDialog } = useDialog(FLAG_DIALOG);
 
@@ -74,7 +74,7 @@ const Component = ({ control, record, recordType }) => {
       <Unflag flag={selectedFlag} />
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

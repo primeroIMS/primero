@@ -21,7 +21,7 @@ import { NAME, CONSENT, FORM_ID, LEGITIMATE_BASIS } from "./constants";
 import css from "./styles.css";
 import { consentPromptForm } from "./forms";
 
-const Component = ({
+function Component({
   i18n,
   recordType,
   searchValue,
@@ -29,7 +29,7 @@ const Component = ({
   dataProtectionFields,
   goToNewCase,
   openConsentPrompt
-}) => {
+}) {
   const dispatch = useDispatch();
   const formMode = whichFormMode(FORM_MODE_NEW);
   const methods = useForm();
@@ -103,7 +103,7 @@ const Component = ({
       </form>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

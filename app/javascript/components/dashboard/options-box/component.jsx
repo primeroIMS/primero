@@ -10,7 +10,7 @@ import { ConditionalWrapper } from "../../../libs";
 
 import css from "./styles.css";
 
-const OptionsBox = ({ title, action, children, to, flat, overlay, type = "", loading, errors, hasData = true }) => {
+function OptionsBox({ title, action, children, to, flat, overlay, type = "", loading, errors, hasData = true }) {
   const loadingIndicatorProps = {
     overlay,
     type,
@@ -47,7 +47,7 @@ const OptionsBox = ({ title, action, children, to, flat, overlay, type = "", loa
       </ConditionalWrapper>
     </Card>
   );
-};
+}
 
 OptionsBox.displayName = "OptionsBox";
 

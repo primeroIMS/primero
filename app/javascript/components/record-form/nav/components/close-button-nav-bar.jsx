@@ -6,7 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import css from "../styles.css";
 
-const CloseButtonNavBar = ({ handleToggleNav, mobileDisplay }) => {
+function CloseButtonNavBar({ handleToggleNav, mobileDisplay }) {
   if (!mobileDisplay) return false;
 
   return (
@@ -16,7 +16,7 @@ const CloseButtonNavBar = ({ handleToggleNav, mobileDisplay }) => {
       </IconButton>
     </div>
   );
-};
+}
 
 CloseButtonNavBar.displayName = "CloseButtonNavBar";
 

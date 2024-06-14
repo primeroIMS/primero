@@ -11,7 +11,7 @@ import { getVerifiedValue } from "./utils";
 import { NAME, VIOLATION_STATUS } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ title, values, fields }) => {
+function Component({ title, values, fields }) {
   const shortUniqueId = getShortIdFromUniqueId(values?.unique_id);
   const violationVerifiedField = fields.find(field => field.name === VIOLATION_STATUS);
   const optionsStrings = useOptions({ source: violationVerifiedField?.option_strings_source });
@@ -29,7 +29,7 @@ const Component = ({ title, values, fields }) => {
       <div>{renderChipStatus}</div>
     </div>
   );
-};
+}
 
 Component.propTypes = {
   fields: PropTypes.array.isRequired,

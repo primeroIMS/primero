@@ -18,9 +18,9 @@ describe("<Form /> - components/<FormSectionField />", () => {
     const field = FieldRecord({ name: "test_field", type: "error_field" });
 
     // eslint-disable-next-line react/display-name
-    const Component = props => {
+    function Component(props) {
       return <FormSectionField {...props} field={field} checkErrors={fromJS(["name"])} formMode={fromJS({})} />;
-    };
+    }
 
     mountedFormComponent(<Component />, {
       errors: [

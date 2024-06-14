@@ -6,12 +6,12 @@ import { mountedComponent, screen } from "../../../../../test-utils";
 import MainForm from "./main-form";
 
 // eslint-disable-next-line react/display-name
-const FormikStub = props => {
+function FormikStub(props) {
   // eslint-disable-next-line react/prop-types
   const { formProps } = props;
 
   return <Formik {...formProps} />;
-};
+}
 
 describe("<MainForm />", () => {
   const initialState = fromJS({

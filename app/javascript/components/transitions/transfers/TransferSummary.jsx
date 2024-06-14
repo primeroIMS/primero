@@ -9,7 +9,7 @@ import TransitionStatus from "../TransitionStatus";
 import TransitionActions from "../components/menu-actions";
 import DateTransitionsSummary from "../components/date-transitions-summary";
 
-const TransferSummary = ({ transition, classes, showMode, recordType }) => {
+function TransferSummary({ transition, classes, showMode, recordType }) {
   const i18n = useI18n();
   const transitionStatus = transition.status ? (
     <Grid item md={3} xs={3} className={classes.status}>
@@ -29,7 +29,7 @@ const TransferSummary = ({ transition, classes, showMode, recordType }) => {
       {transitionStatus}
     </Grid>
   );
-};
+}
 
 TransferSummary.propTypes = {
   classes: PropTypes.object.isRequired,

@@ -5,7 +5,7 @@ import clsx from "clsx";
 
 import css from "../styles.css";
 
-const PageContent = ({ children, flex = false, hasNav = false }) => {
+function PageContent({ children, flex = false, hasNav = false }) {
   const contentClasses = clsx(css.content, { [css.contentFlex]: flex, [css.hasNav]: hasNav });
 
   return (
@@ -13,7 +13,7 @@ const PageContent = ({ children, flex = false, hasNav = false }) => {
       {children}
     </div>
   );
-};
+}
 
 PageContent.propTypes = {
   children: PropTypes.node,

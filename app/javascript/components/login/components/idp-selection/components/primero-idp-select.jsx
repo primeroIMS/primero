@@ -15,7 +15,7 @@ import { useApp } from "../../../../application";
 import { ConditionalWrapper } from "../../../../../libs";
 import disableOffline from "../../../../disable-offline";
 
-const Component = ({ identityProviders, css }) => {
+function Component({ identityProviders, css }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -78,7 +78,7 @@ const Component = ({ identityProviders, css }) => {
       </div>
     </>
   );
-};
+}
 
 Component.propTypes = {
   css: PropTypes.object,

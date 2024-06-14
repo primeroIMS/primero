@@ -13,7 +13,7 @@ import { useApp } from "../application";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const TranslationsToggle = () => {
+function TranslationsToggle() {
   const { changeLocale, locale, ...i18n } = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
   const { useContainedNavStyle } = useApp();
@@ -87,7 +87,7 @@ const TranslationsToggle = () => {
       </Menu>
     </>
   );
-};
+}
 
 TranslationsToggle.displayName = NAME;
 

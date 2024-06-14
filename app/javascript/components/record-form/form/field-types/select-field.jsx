@@ -9,7 +9,7 @@ import { useI18n } from "../../../i18n";
 
 import SelectFieldContainer from "./select-field-container";
 
-const SelectField = ({
+function SelectField({
   name,
   field,
   label,
@@ -23,7 +23,7 @@ const SelectField = ({
   recordModuleID,
   recordType,
   tags
-}) => {
+}) {
   const i18n = useI18n();
 
   return (
@@ -53,7 +53,7 @@ const SelectField = ({
       }}
     </FastField>
   );
-};
+}
 
 SelectField.displayName = SELECT_FIELD_NAME;
 

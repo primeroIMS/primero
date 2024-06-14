@@ -7,7 +7,7 @@ import DashboardChip from "../dashboard-chip";
 
 import css from "./styles.css";
 
-const PrioritySummary = ({ summary }) => {
+function PrioritySummary({ summary }) {
   const i18n = useI18n();
 
   const getTitle = status => {
@@ -51,7 +51,7 @@ const PrioritySummary = ({ summary }) => {
       </ul>
     </div>
   );
-};
+}
 
 PrioritySummary.displayName = "PrioritySummary";
 

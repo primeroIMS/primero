@@ -12,7 +12,7 @@ import css from "../../styles.css";
 import DragIndicator from "../drag-indicator";
 import LockedIcon from "../../../../../locked-icon";
 
-const Component = ({ name, modules, parentForm, uniqueID, id, index, editable, isDragDisabled = false }) => {
+function Component({ name, modules, parentForm, uniqueID, id, index, editable, isDragDisabled = false }) {
   const i18n = useI18n();
 
   const nameStyles = clsx({
@@ -41,7 +41,7 @@ const Component = ({ name, modules, parentForm, uniqueID, id, index, editable, i
       )}
     </Draggable>
   );
-};
+}
 
 Component.displayName = "TableRow";
 

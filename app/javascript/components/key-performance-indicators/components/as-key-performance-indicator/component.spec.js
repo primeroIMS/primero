@@ -10,8 +10,11 @@ import asKeyPerformanceIndicator from "./component";
 
 describe("asKeyPerformanceIndicator()", () => {
   const identifier = "test";
+
   // eslint-disable-next-line react/display-name
-  const Component = () => <h1>Component</h1>;
+  function Component() {
+    return <h1>Component</h1>;
+  }
   const permittedAction = "test";
   const KPI = asKeyPerformanceIndicator(identifier, {}, permittedAction)(Component);
 

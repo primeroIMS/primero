@@ -17,7 +17,7 @@ import { FieldTranslationRow } from "./components";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ mode, formMethods }) => {
+function Component({ mode, formMethods }) {
   const i18n = useI18n();
   const locales = localesToRender(i18n);
   const formMode = whichFormMode(mode);
@@ -183,7 +183,7 @@ const Component = ({ mode, formMethods }) => {
       </Grid>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

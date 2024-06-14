@@ -9,7 +9,7 @@ import { useI18n } from "../../../i18n";
 import { NAME_SUMMARY } from "../../constants";
 import { useApp } from "../../../application";
 
-const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
+function Component({ approvalSubform, css, isRequest, isResponse }) {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const status = approvalSubform.get("approval_status");
@@ -56,7 +56,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
       {renderStatus}
     </Grid>
   );
-};
+}
 
 Component.displayName = NAME_SUMMARY;
 

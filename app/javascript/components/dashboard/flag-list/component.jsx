@@ -8,7 +8,7 @@ import FlagBox from "../flag-box";
 
 import css from "./styles.css";
 
-const FlagList = ({ flags }) => {
+function FlagList({ flags }) {
   const i18n = useI18n();
 
   return (
@@ -21,7 +21,7 @@ const FlagList = ({ flags }) => {
       </NavLink>
     </div>
   );
-};
+}
 
 FlagList.displayName = "FlagList";
 

@@ -17,7 +17,7 @@ import { DONE } from "../constants";
 import { referralAccepted, referralDone, referralRejected } from "./action-creators";
 import { NAME, FORM_ID, FORM_NOTE_FIELD_ID } from "./constants";
 
-const Component = ({
+function Component({
   openReferralDialog = false,
   close,
   dialogName,
@@ -27,7 +27,7 @@ const Component = ({
   recordType,
   transistionId,
   referralType
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -194,7 +194,7 @@ const Component = ({
       {dialogContent}
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

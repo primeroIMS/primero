@@ -12,7 +12,7 @@ import css from "./styles.css";
 import { registerInput } from "./utils";
 import handleFilterChange from "./value-handlers";
 
-const Search = () => {
+function Search() {
   const i18n = useI18n();
 
   const { register, unregister, setValue } = useFormContext();
@@ -82,7 +82,7 @@ const Search = () => {
       </div>
     </div>
   );
-};
+}
 
 Search.displayName = "Search";
 

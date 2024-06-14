@@ -6,7 +6,7 @@ import Layouts from "../layouts";
 
 import SubRoutes from "./sub-routes";
 
-const AppRoute = ({ route }) => {
+function AppRoute({ route }) {
   const { layout, component: Component, extraProps, ...routeProps } = route;
 
   if (layout) {
@@ -18,7 +18,7 @@ const AppRoute = ({ route }) => {
   }
 
   return <Component {...routeProps} {...extraProps} />;
-};
+}
 
 AppRoute.displayName = "AppRoute";
 

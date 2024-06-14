@@ -28,7 +28,7 @@ import { MODULES } from "../../../../../config";
 import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
 
-const DocumentField = ({
+function DocumentField({
   attachment,
   title,
   name,
@@ -39,7 +39,7 @@ const DocumentField = ({
   value,
   arrayHelpers,
   field
-}) => {
+}) {
   const i18n = useI18n();
   const params = useParams();
 
@@ -222,7 +222,7 @@ const DocumentField = ({
       />
     </>
   );
-};
+}
 
 DocumentField.displayName = DOCUMENT_FIELD_NAME;
 

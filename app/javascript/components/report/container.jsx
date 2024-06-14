@@ -32,7 +32,7 @@ import { NAME, DELETE_MODAL } from "./constants";
 import Exporter from "./components/exporter";
 import css from "./styles.css";
 
-const Report = ({ mode }) => {
+function Report({ mode }) {
   const { id } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -142,7 +142,7 @@ const Report = ({ mode }) => {
       </PageContent>
     </PageContainer>
   );
-};
+}
 
 Report.displayName = NAME;
 

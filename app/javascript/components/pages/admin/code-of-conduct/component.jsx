@@ -22,7 +22,7 @@ import { form, validations } from "./form";
 import { getCodeOfConduct, getLoadingCodeOfConduct } from "./selectors";
 import { fetchCodeOfConduct, saveCodeOfConduct } from "./action-creators";
 
-const Component = ({ mode }) => {
+function Component({ mode }) {
   const formMode = whichFormMode(mode);
 
   const i18n = useI18n();
@@ -97,7 +97,7 @@ const Component = ({ mode }) => {
       </LoadingIndicator>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

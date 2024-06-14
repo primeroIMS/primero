@@ -52,7 +52,7 @@ import { buildFields, exportFormsOptions, formatFields, formatFileName, isCustom
 
 const FORM_ID = "exports-record-form";
 
-const Component = ({
+function Component({
   close,
   currentPage,
   match,
@@ -63,7 +63,7 @@ const Component = ({
   selectedRecords,
   setPending,
   userPermissions
-}) => {
+}) {
   const i18n = useI18n();
   const pdfExporterRef = useRef();
   const dispatch = useDispatch();
@@ -351,7 +351,7 @@ const Component = ({
       )}
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

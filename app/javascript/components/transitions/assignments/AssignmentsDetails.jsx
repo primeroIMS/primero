@@ -8,7 +8,7 @@ import DisplayData from "../../display-data";
 
 import { ASSIGNMENTS_DETAILS_NAME as NAME } from "./constants";
 
-const AssignmentsDetails = ({ transition, classes }) => {
+function AssignmentsDetails({ transition, classes }) {
   const i18n = useI18n();
 
   return (
@@ -28,7 +28,7 @@ const AssignmentsDetails = ({ transition, classes }) => {
       </Grid>
     </Grid>
   );
-};
+}
 
 AssignmentsDetails.displayName = NAME;
 

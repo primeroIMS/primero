@@ -41,7 +41,7 @@ const buildMessage = ({ online, messageFromQueue, message, messageKey, messagePa
   return snackMessage;
 };
 
-const Notifier = () => {
+function Notifier() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { online } = useApp();
@@ -127,7 +127,7 @@ const Notifier = () => {
   }, [notifications, closeSnackbar, enqueueSnackbar, dispatch]);
 
   return null;
-};
+}
 
 Notifier.displayName = "Notifier";
 

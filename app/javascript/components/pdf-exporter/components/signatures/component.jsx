@@ -7,7 +7,7 @@ import { useI18n } from "../../../i18n";
 import css from "./styles.css";
 import { SIGNATURE_LABELS } from "./constants";
 
-const Component = ({ types = [] }) => {
+function Component({ types = [] }) {
   const i18n = useI18n();
 
   if (!types.length) return null;
@@ -30,7 +30,7 @@ const Component = ({ types = [] }) => {
         ))}
     </div>
   );
-};
+}
 
 Component.propTypes = {
   types: PropTypes.array

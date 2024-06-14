@@ -18,7 +18,7 @@ import { useI18n } from "../../../../i18n";
 
 import { ListItemTextSecondary } from "./components";
 
-const Component = ({
+function Component({
   field,
   values,
   locale,
@@ -29,7 +29,7 @@ const Component = ({
   renderSecondaryText = false,
   parentTitle,
   mode
-}) => {
+}) {
   const i18n = useI18n();
   const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
   const itemClasses = { primary: css.listText };
@@ -132,7 +132,7 @@ const Component = ({
   }
 
   return <ListItemText classes={itemClasses}>{displayName?.[locale]}</ListItemText>;
-};
+}
 
 Component.displayName = SUBFORM_HEADER;
 

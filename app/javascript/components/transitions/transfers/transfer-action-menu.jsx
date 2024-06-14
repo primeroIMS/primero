@@ -12,7 +12,7 @@ import { useDialog } from "../../action-dialog";
 import { APPROVE, TRANSFER_APPROVAL_DIALOG, TRANSFER_ACTION_MENU_NAME as NAME } from "./constants";
 import TransferApproval from "./transfer-approval";
 
-const TransferActionMenu = ({ transition, recordType }) => {
+function TransferActionMenu({ transition, recordType }) {
   const i18n = useI18n();
   const [transferMenu, setTransferMenu] = useState(null);
   const [approvalType, setApprovalType] = useState(ACCEPTED);
@@ -85,7 +85,7 @@ const TransferActionMenu = ({ transition, recordType }) => {
       />
     </>
   );
-};
+}
 
 TransferActionMenu.displayName = NAME;
 

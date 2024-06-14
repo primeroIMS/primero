@@ -9,7 +9,7 @@ import InputLabel from "../components/input-label";
 
 import css from "./styles.css";
 
-const LinkField = ({ commonInputProps, metaInputProps, formMethods }) => {
+function LinkField({ commonInputProps, metaInputProps, formMethods }) {
   const { tooltip, href } = metaInputProps;
   const { name, label } = commonInputProps;
   const { control } = formMethods;
@@ -26,7 +26,7 @@ const LinkField = ({ commonInputProps, metaInputProps, formMethods }) => {
       </NavLink>
     </FormControl>
   );
-};
+}
 
 LinkField.displayName = "LinkField";
 

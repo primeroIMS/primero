@@ -20,7 +20,7 @@ import css from "./styles.css";
 import { selectListHeaders } from "./selectors";
 import { NAME, EXPORT_STATUS, EXPORT_COLUMNS } from "./constants";
 
-const ExportList = () => {
+function ExportList() {
   const i18n = useI18n();
 
   const recordType = "bulk_exports";
@@ -123,7 +123,7 @@ const ExportList = () => {
       </PageContent>
     </PageContainer>
   );
-};
+}
 
 ExportList.displayName = NAME;
 

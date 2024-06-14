@@ -16,7 +16,7 @@ import css from "./styles.css";
 import AdminNavItem from "./admin-nav-item";
 import { getAdminResources } from "./utils";
 
-const AdminNav = () => {
+function AdminNav() {
   const i18n = useI18n();
 
   const userPermissions = useMemoizedSelector(state => getPermissions(state), isEqual);
@@ -81,7 +81,7 @@ const AdminNav = () => {
       <List component="nav">{renderNavItems}</List>
     </>
   );
-};
+}
 
 AdminNav.displayName = "AdminNav";
 

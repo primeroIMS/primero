@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import css from "./styles.css";
 
-const Component = ({ handler }) => {
+function Component({ handler }) {
   const handlerWrapper = event => {
     event.stopPropagation();
     handler();
@@ -15,7 +15,7 @@ const Component = ({ handler }) => {
       <CloseIcon />
     </IconButton>
   );
-};
+}
 
 Component.displayName = "InternalAlertDismissButton";
 Component.propTypes = {

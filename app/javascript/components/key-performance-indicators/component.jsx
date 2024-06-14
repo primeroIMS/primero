@@ -25,7 +25,7 @@ import ClientSatisfactionRate from "./components/client-satisfaction-rate";
 import SupervisorToCaseworkerRatio from "./components/supervisor-to-caseworker-ratio";
 import CaseLoad from "./components/case-load";
 
-const KeyPerformanceIndicators = () => {
+function KeyPerformanceIndicators() {
   const i18n = useI18n();
 
   const commonDateRanges = CommonDateRanges.from(new Date(), i18n);
@@ -184,7 +184,7 @@ const KeyPerformanceIndicators = () => {
       </PageContainer>
     </div>
   );
-};
+}
 
 KeyPerformanceIndicators.displayName = "KeyPerformanceIndicators";
 

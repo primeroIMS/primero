@@ -11,7 +11,7 @@ import { buildGroupedSubItemColumns } from "../../utils";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const InsightsTableHeader = ({ addEmptyCell = true, columns, subColumnItemsSize }) => {
+function InsightsTableHeader({ addEmptyCell = true, columns, subColumnItemsSize }) {
   const groupedSubcolumns = columns.reduce((acc, column) => ({ ...acc, [column.label]: column.items }), {});
   const groupedSubItemcolumns = buildGroupedSubItemColumns(columns);
   const classesEmptyCell = clsx({ [css.emptyCell]: Boolean(subColumnItemsSize) });
@@ -47,7 +47,7 @@ const InsightsTableHeader = ({ addEmptyCell = true, columns, subColumnItemsSize 
       <InsightsTableHeaderSubItems groupedSubItemcolumns={groupedSubItemcolumns} />
     </>
   );
-};
+}
 
 InsightsTableHeader.displayName = NAME;
 

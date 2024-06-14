@@ -20,7 +20,7 @@ import useOptions from "../../../../../../form/use-options";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ tracingRequestValues, traceValues, recordType }) => {
+function Component({ tracingRequestValues, traceValues, recordType }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -117,7 +117,7 @@ const Component = ({ tracingRequestValues, traceValues, recordType }) => {
       <IndexTable {...tableOptions} />
     </>
   );
-};
+}
 
 Component.propTypes = {
   recordType: PropTypes.string.isRequired,

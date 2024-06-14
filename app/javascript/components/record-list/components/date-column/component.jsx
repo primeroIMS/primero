@@ -9,7 +9,7 @@ import NepaliCalendar from "../../../nepali-calendar-input";
 
 import css from "./styles.css";
 
-const Component = ({ rowAvailable, wrapper, value, valueWithTime }) => {
+function Component({ rowAvailable, wrapper, value, valueWithTime }) {
   const i18n = useI18n();
   const parsedValue = valueWithTime
     ? i18n.localizeDate(value, DATE_TIME_FORMAT)
@@ -41,7 +41,7 @@ const Component = ({ rowAvailable, wrapper, value, valueWithTime }) => {
       {children}
     </ConditionalWrapper>
   );
-};
+}
 
 Component.propTypes = {
   rowAvailable: PropTypes.bool,

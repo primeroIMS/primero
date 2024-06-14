@@ -23,7 +23,7 @@ import { useApp } from "../../application";
 
 import TableLoadingIndicator from "./table-loading-indicator";
 
-const Datatable = ({
+function Datatable({
   arrayColumnsToString,
   bypassInitialFetch,
   canSelectAll,
@@ -47,7 +47,7 @@ const Datatable = ({
   title,
   customToolbarSelect = null,
   useReportingLocations
-}) => {
+}) {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { online } = useApp();
@@ -263,7 +263,7 @@ const Datatable = ({
       />
     </ConditionalWrapper>
   );
-};
+}
 
 Datatable.displayName = NAME;
 

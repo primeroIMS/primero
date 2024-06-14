@@ -13,7 +13,7 @@ import Jewel from "../jewel";
 
 import css from "./styles.css";
 
-const MobileToolbar = ({ openDrawer, hasUnsubmittedOfflineChanges = false }) => {
+function MobileToolbar({ openDrawer, hasUnsubmittedOfflineChanges = false }) {
   const { demo } = useApp();
   const i18n = useI18n();
 
@@ -41,7 +41,7 @@ const MobileToolbar = ({ openDrawer, hasUnsubmittedOfflineChanges = false }) => 
       </AppBar>
     </Box>
   );
-};
+}
 
 MobileToolbar.displayName = "MobileToolbar";
 

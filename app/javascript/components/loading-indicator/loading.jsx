@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import { NAME } from "./constants";
 
-const Component = ({ loadingIndicator, loading, classes }) => {
+function Component({ loadingIndicator, loading, classes }) {
   const transitionDelayStyles = {
     transitionDelay: loading ? "800ms" : "0ms"
   };
@@ -19,7 +19,7 @@ const Component = ({ loadingIndicator, loading, classes }) => {
       </Fade>
     )
   );
-};
+}
 
 Component.displayName = NAME;
 

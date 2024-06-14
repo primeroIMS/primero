@@ -9,7 +9,7 @@ import { useI18n } from "../../i18n";
 import { REFERRAL_SUMMARY_NAME } from "../constants";
 import DateTransitionsSummary from "../components/date-transitions-summary";
 
-const Summary = ({ transition, classes, showMode, recordType }) => {
+function Summary({ transition, classes, showMode, recordType }) {
   const i18n = useI18n();
   const transitionStatus = transition.status ? (
     <Grid item md={3} xs={8} className={classes.status}>
@@ -31,7 +31,7 @@ const Summary = ({ transition, classes, showMode, recordType }) => {
       {transitionStatus}
     </Grid>
   );
-};
+}
 
 Summary.displayName = REFERRAL_SUMMARY_NAME;
 

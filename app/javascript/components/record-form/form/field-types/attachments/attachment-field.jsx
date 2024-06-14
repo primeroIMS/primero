@@ -16,7 +16,7 @@ import { buildAttachmentFieldsObject, buildBase64URL } from "./utils";
 import AttachmentInput from "./attachment-input";
 import AttachmentPreview from "./attachment-preview";
 
-const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers, value }) => {
+function AttachmentField({ name, index, attachment, disabled, mode, arrayHelpers, value }) {
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
 
@@ -97,7 +97,7 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
       </Box>
     </div>
   );
-};
+}
 
 AttachmentField.displayName = "AttachmentField";
 

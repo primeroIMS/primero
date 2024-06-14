@@ -10,7 +10,7 @@ import SignalWifiOffIcon from "@mui/icons-material/SignalWifiOff";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ children }) => {
+function Component({ children }) {
   return (
     <SnackbarProvider
       maxSnack={3}
@@ -34,7 +34,7 @@ const Component = ({ children }) => {
       {children}
     </SnackbarProvider>
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -23,7 +23,7 @@ import {
 } from "./constants";
 import { form, validations } from "./form";
 
-const TransferForm = ({
+function TransferForm({
   providedConsent,
   isBulkTransfer,
   canConsentOverride,
@@ -31,7 +31,7 @@ const TransferForm = ({
   recordType,
   setPending,
   setDisabled
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -87,7 +87,7 @@ const TransferForm = ({
       initialValues={initialValues}
     />
   );
-};
+}
 
 TransferForm.propTypes = {
   canConsentOverride: PropTypes.bool,

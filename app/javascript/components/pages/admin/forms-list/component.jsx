@@ -38,7 +38,7 @@ import { getFormGroups, getListStyle } from "./utils";
 import { NAME, FORM_GROUP_PREFIX, ORDER_TYPE } from "./constants";
 import css from "./styles.css";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
   const { pathname } = useLocation();
@@ -201,7 +201,7 @@ const Component = () => {
       </PageContent>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

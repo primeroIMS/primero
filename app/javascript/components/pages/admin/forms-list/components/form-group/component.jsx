@@ -9,7 +9,7 @@ import css from "../../styles.css";
 import DragIndicator from "../drag-indicator";
 import { FORM_GROUP_PREFIX } from "../../constants";
 
-const Component = ({ name, id, index, children, isDragDisabled = false }) => {
+function Component({ name, id, index, children, isDragDisabled = false }) {
   return (
     <Draggable draggableId={`${FORM_GROUP_PREFIX}-${id}`} index={index} isDragDisabled={isDragDisabled}>
       {provided => (
@@ -28,7 +28,7 @@ const Component = ({ name, id, index, children, isDragDisabled = false }) => {
       )}
     </Draggable>
   );
-};
+}
 
 Component.displayName = "FormGroup";
 

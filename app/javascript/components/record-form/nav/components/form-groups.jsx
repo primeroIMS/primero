@@ -6,7 +6,7 @@ import buildFormGroupData from "../utils";
 
 import NavGroup from "./nav-group";
 
-const FormGroup = ({
+function FormGroup({
   formGroup,
   formGroupLookup,
   formikValuesForNav,
@@ -16,7 +16,7 @@ const FormGroup = ({
   recordAlerts,
   selectedForm,
   validationErrors
-}) => {
+}) {
   const group = buildFormGroupData(formGroup, formikValuesForNav);
 
   if (!group.size) {
@@ -35,7 +35,7 @@ const FormGroup = ({
       formGroupLookup={formGroupLookup}
     />
   );
-};
+}
 
 FormGroup.displayName = "FormGroup";
 

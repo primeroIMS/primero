@@ -9,7 +9,7 @@ import { useCallback, useState } from "react";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
 import css from "../styles.css";
 
-const PageHeading = ({
+function PageHeading({
   title,
   prefixComponent,
   prefixAction,
@@ -19,7 +19,7 @@ const PageHeading = ({
   noPadding = false,
   controls,
   titleSecondary
-}) => {
+}) {
   const toolbarClasses = clsx(css.toolbar, { [css.noPadding]: noPadding });
   const appBarClasses = clsx(css.appBar, { [css.appBarBorder]: !noElevation });
   const titleClasses = clsx(css.title, { [css.titleWithSecondary]: titleSecondary });
@@ -77,7 +77,7 @@ const PageHeading = ({
       )}
     </AppBar>
   );
-};
+}
 
 PageHeading.displayName = "PageHeading";
 

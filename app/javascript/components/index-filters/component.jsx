@@ -28,7 +28,7 @@ import { applyFilters, setFilters } from "./action-creators";
 import css from "./components/styles.css";
 import TabFilters from "./components/tab-filters";
 
-const Component = ({ recordType, setSelectedRecords, metadata }) => {
+function Component({ recordType, setSelectedRecords, metadata }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -177,7 +177,7 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
       <SavedSearchesForm recordType={recordType} getValues={methods.getValues} open={open} setOpen={setOpen} />
     </div>
   );
-};
+}
 
 Component.displayName = "IndexFilters";
 

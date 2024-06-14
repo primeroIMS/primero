@@ -10,7 +10,7 @@ import css from "./styles.css";
 import { downloadFile, tableToCsv } from "./utils";
 import { DEFAULT_FILE_NAME, NAME } from "./constants";
 
-const Exporter = ({ includesGraph = false }) => {
+function Exporter({ includesGraph = false }) {
   const handleClickTableExporter = () => {
     const csvBlob = new Blob([tableToCsv("table tr")], { type: "text/csv" });
 
@@ -55,7 +55,7 @@ const Exporter = ({ includesGraph = false }) => {
       />
     </>
   );
-};
+}
 
 Exporter.displayName = NAME;
 

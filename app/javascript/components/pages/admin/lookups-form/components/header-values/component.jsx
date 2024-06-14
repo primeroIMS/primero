@@ -8,7 +8,7 @@ import { useI18n } from "../../../../../i18n";
 
 import { NAME } from "./constants";
 
-const Component = ({ hideTranslationColumn }) => {
+function Component({ hideTranslationColumn }) {
   const i18n = useI18n();
 
   const hide = hideTranslationColumn ? css.hideTranslationsFields : null;
@@ -22,7 +22,7 @@ const Component = ({ hideTranslationColumn }) => {
       <div className={css.dragIndicatorContainer}>{i18n.t("lookup.enabled_label")}</div>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

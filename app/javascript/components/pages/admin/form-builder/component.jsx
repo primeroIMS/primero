@@ -42,7 +42,7 @@ import {
 import { calculateFormParams, conditionsToFieldArray, convertToFieldsObject, getSubformErrorMessages } from "./utils";
 import css from "./styles.css";
 
-const Component = ({ mode }) => {
+function Component({ mode }) {
   const { id } = useParams();
   const formMode = whichFormMode(mode);
   const dispatch = useDispatch();
@@ -259,7 +259,7 @@ const Component = ({ mode }) => {
       </LoadingIndicator>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

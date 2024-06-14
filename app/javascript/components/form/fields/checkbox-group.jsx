@@ -13,7 +13,7 @@ import InputLabel from "../components/input-label";
 
 import Separator from "./seperator";
 
-const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
+function CheckboxGroup({ onChange, value, options, commonInputProps }) {
   const i18n = useI18n();
   const [checked, setChecked] = useState([]);
   const { name, disabled } = commonInputProps;
@@ -62,7 +62,7 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
     });
 
   return <>{renderCheckboxes()}</>;
-};
+}
 
 CheckboxGroup.displayName = "CheckboxGroup";
 

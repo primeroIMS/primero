@@ -10,7 +10,7 @@ import { getShortIdFromUniqueId } from "../../../../../records";
 
 import { NAME } from "./constants";
 
-const Component = ({ matchedTrace, setOpen, setSelectedTraceId }) => {
+function Component({ matchedTrace, setOpen, setSelectedTraceId }) {
   const matchedTraceId = matchedTrace.get("id");
   const handleOnClick = id => {
     setOpen(true);
@@ -38,7 +38,7 @@ const Component = ({ matchedTrace, setOpen, setSelectedTraceId }) => {
       </AccordionSummary>
     </Accordion>
   );
-};
+}
 
 Component.displayName = NAME;
 

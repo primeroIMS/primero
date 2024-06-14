@@ -11,7 +11,7 @@ import css from "./styles.css";
 import { optionLabel, optionEquality, optionDisabled, filterOptions } from "./utils";
 import { listboxClasses, virtualize } from "./components/listbox-component";
 
-const SearchableSelect = ({
+function SearchableSelect({
   error,
   defaultValues = null,
   helperText = "",
@@ -30,7 +30,7 @@ const SearchableSelect = ({
   optionLabelKey = "label",
   name,
   value: fieldValue
-}) => {
+}) {
   const defaultEmptyValue = multiple ? [] : null;
 
   const initialValues = (() => {
@@ -122,7 +122,7 @@ const SearchableSelect = ({
       renderTags={handleRenderTags}
     />
   );
-};
+}
 
 SearchableSelect.displayName = NAME;
 

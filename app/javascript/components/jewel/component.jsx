@@ -6,7 +6,7 @@ import { Brightness1 as Circle } from "@mui/icons-material";
 
 import css from "./styles.css";
 
-const Jewel = ({ value, isForm, isList, isError }) => {
+function Jewel({ value, isForm, isList, isError }) {
   const classes = clsx(css.circleForm, css.error);
 
   if (isList) {
@@ -38,7 +38,7 @@ const Jewel = ({ value, isForm, isList, isError }) => {
       )}
     </>
   );
-};
+}
 
 Jewel.displayName = "Jewel";
 

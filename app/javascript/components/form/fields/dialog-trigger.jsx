@@ -5,7 +5,7 @@ import { Button, Link } from "@mui/material";
 
 import css from "./styles.css";
 
-const DialogTrigger = ({ commonInputProps, metaInputProps }) => {
+function DialogTrigger({ commonInputProps, metaInputProps }) {
   const { label, id } = commonInputProps;
   const { onClick } = metaInputProps;
 
@@ -14,7 +14,7 @@ const DialogTrigger = ({ commonInputProps, metaInputProps }) => {
       {label}
     </Button>
   );
-};
+}
 
 DialogTrigger.displayName = "DialogTrigger";
 

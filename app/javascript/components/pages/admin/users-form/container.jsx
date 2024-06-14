@@ -45,7 +45,7 @@ import {
 import UserConfirmation from "./user-confirmation";
 import ChangePassword from "./change-password";
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const formMode = whichFormMode(mode);
 
   const i18n = useI18n();
@@ -290,7 +290,7 @@ const Container = ({ mode }) => {
       </PageContent>
     </LoadingIndicator>
   );
-};
+}
 
 Container.displayName = "UsersForm";
 

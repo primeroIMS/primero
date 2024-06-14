@@ -16,7 +16,7 @@ import { getSavingNewPasswordReset } from "../../../pages/admin/users-form/selec
 import { form, validationSchema } from "./form";
 import { FORM_ID } from "./constants";
 
-const Component = ({ modal = false, handleSubmit }) => {
+function Component({ modal = false, handleSubmit }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -59,7 +59,7 @@ const Component = ({ modal = false, handleSubmit }) => {
       )}
     </>
   );
-};
+}
 
 Component.displayName = "PasswordResetRequest";
 

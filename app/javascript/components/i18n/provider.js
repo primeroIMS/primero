@@ -18,7 +18,7 @@ import { getLocales, getLocale, getAppDirection } from "./selectors";
 import useI18n from "./use-i18n";
 import { getLocaleDir } from "./utils";
 
-const I18nProvider = ({ children }) => {
+function I18nProvider({ children }) {
   const locale = useMemoizedSelector(state => getLocale(state));
   const dir = useMemoizedSelector(state => getAppDirection(state));
   const locales = useMemoizedSelector(state => getLocales(state));
@@ -77,7 +77,7 @@ const I18nProvider = ({ children }) => {
       {children}
     </Context.Provider>
   );
-};
+}
 
 I18nProvider.displayName = "I18nProvider";
 

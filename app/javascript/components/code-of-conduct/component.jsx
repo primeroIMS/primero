@@ -22,7 +22,7 @@ import { acceptCodeOfConduct } from "./action-creators";
 import { selectUpdatingCodeOfConduct } from "./selectors";
 import { Actions, CancelDialog } from "./components";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -82,7 +82,7 @@ const Component = () => {
       </div>
     </LoadingIndicator>
   );
-};
+}
 
 Component.displayName = NAME;
 

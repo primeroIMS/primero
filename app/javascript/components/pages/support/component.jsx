@@ -15,7 +15,7 @@ import css from "./styles.css";
 import { menuList, renderSupportForm } from "./utils";
 import { Navigation } from "./components";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
 
   const codeOfConduct = useMemoizedSelector(state => getCodesOfConduct(state));
@@ -67,7 +67,7 @@ const Component = () => {
       </div>
     </PageContainer>
   );
-};
+}
 
 Component.displayName = NAME;
 

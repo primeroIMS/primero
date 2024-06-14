@@ -10,7 +10,7 @@ import clsx from "clsx";
 
 import css from "../../styles.css";
 
-const PhotoArray = ({ images = [], isGallery = false }) => {
+function PhotoArray({ images = [], isGallery = false }) {
   const [selected, setSelected] = useState({ index: 0, open: false });
 
   const handleToggle = index => {
@@ -88,7 +88,7 @@ const PhotoArray = ({ images = [], isGallery = false }) => {
       </Backdrop>
     </>
   );
-};
+}
 
 PhotoArray.displayName = "PhotoArray";
 

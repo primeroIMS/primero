@@ -26,7 +26,7 @@ import { filterOnTableChange, getFilters, onSubmitFilters } from "../utils";
 import { fetchRoles, setRolesFilter } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
 
-const Container = () => {
+function Container() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { limitedProductionSite } = useApp();
@@ -100,7 +100,7 @@ const Container = () => {
       </PageContent>
     </>
   );
-};
+}
 
 Container.displayName = NAME;
 

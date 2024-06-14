@@ -14,7 +14,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import { EDIT, VIEW } from "./constants";
 
-const Component = ({
+function Component({
   css,
   incidentDateInterview,
   incidentDate,
@@ -23,7 +23,7 @@ const Component = ({
   handleCreateIncident,
   incidentAvailable,
   dirty = false
-}) => {
+}) {
   const i18n = useI18n();
   const canViewIncidents = usePermissions(RESOURCES.incidents, READ_RECORDS);
   const canEditIncidents = usePermissions(RESOURCES.incidents, WRITE_RECORDS);
@@ -92,7 +92,7 @@ const Component = ({
       </Grid>
     </>
   );
-};
+}
 
 Component.displayName = NAME_DETAIL;
 

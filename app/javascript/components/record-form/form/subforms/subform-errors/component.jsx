@@ -8,7 +8,7 @@ import isEmpty from "lodash/isEmpty";
 import { useI18n } from "../../../../i18n";
 import InternalAlert from "../../../../internal-alert";
 
-const Component = ({ initialErrors, errors, setErrors, setTouched }) => {
+function Component({ initialErrors, errors, setErrors, setTouched }) {
   const i18n = useI18n();
 
   const errorMessages = Object.entries(isEmpty(errors) ? initialErrors || {} : errors).map(([, value]) => ({
@@ -35,7 +35,7 @@ const Component = ({ initialErrors, errors, setErrors, setTouched }) => {
       severity="error"
     />
   ) : null;
-};
+}
 
 Component.displayName = "SubformErrors";
 

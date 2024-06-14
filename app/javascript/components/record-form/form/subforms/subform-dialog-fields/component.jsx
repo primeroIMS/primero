@@ -17,7 +17,7 @@ import getDisplayConditions from "../../utils/get-display-conditions";
 
 import { NAME, VIOLATION_IDS_NAME } from "./constants";
 
-const Component = ({
+function Component({
   mode,
   index,
   filterFunc,
@@ -36,7 +36,7 @@ const Component = ({
   setFieldValue,
   values,
   components
-}) => {
+}) {
   const i18n = useI18n();
   const { subform_section_configuration: subformSectionConfiguration } = field;
 
@@ -151,7 +151,7 @@ const Component = ({
       </div>
     );
   });
-};
+}
 
 Component.displayName = NAME;
 

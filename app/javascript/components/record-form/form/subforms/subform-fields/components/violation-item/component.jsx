@@ -20,7 +20,7 @@ import VerifySelect from "./select";
 import { getViolationTallyLabel } from "./utils";
 import { NAME } from "./constants";
 
-const Component = ({ fields, values, locale, displayName, index, collapsedFieldValues, mode }) => {
+function Component({ fields, values, locale, displayName, index, collapsedFieldValues, mode }) {
   const currentValues = values[index];
   const verifyParams = useParams();
   const i18n = useI18n();
@@ -168,7 +168,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
       </ActionDialog>
     </ListItemText>
   );
-};
+}
 
 Component.propTypes = {
   collapsedFieldValues: PropTypes.node,

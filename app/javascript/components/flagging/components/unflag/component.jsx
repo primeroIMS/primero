@@ -17,7 +17,7 @@ const validationSchema = object().shape({
   unflag_message: string().required()
 });
 
-const Component = ({ flag }) => {
+function Component({ flag }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { dialogOpen, setDialog, setDialogPending, dialogPending } = useDialog(UNFLAG_DIALOG);
@@ -76,7 +76,7 @@ const Component = ({ flag }) => {
       />
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

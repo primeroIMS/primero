@@ -10,7 +10,7 @@ import { RECORD_TYPES } from "../../../../../config";
 
 import { NAME } from "./constants";
 
-const Component = ({ open, handleClick, primeroModule, selectedForm, formGroupLookup, match, recordAlerts }) => {
+function Component({ open, handleClick, primeroModule, selectedForm, formGroupLookup, match, recordAlerts }) {
   const { params } = match;
   const { recordType } = params;
 
@@ -33,7 +33,7 @@ const Component = ({ open, handleClick, primeroModule, selectedForm, formGroupLo
       testID="record-information"
     />
   );
-};
+}
 
 Component.displayName = NAME;
 

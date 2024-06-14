@@ -12,7 +12,7 @@ import { buildTallyErrors } from "../utils";
 import TallyFieldContainer from "./tally-field-container";
 import css from "./styles.css";
 
-const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, mode, ...rest }) => {
+function TallyField({ name, formik, field, helperText, InputLabelProps, label, mode, ...rest }) {
   const totalName = `${name}.total`;
   const tallyValues = compact(field.tally.map(option => getIn(formik.values, [name, option.id])));
   const errors = getIn(formik.errors, name);
@@ -43,7 +43,7 @@ const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, m
       <FormHelperText {...renderErrorOnHelperText}>{renderError || helperText}</FormHelperText>
     </div>
   );
-};
+}
 
 TallyField.displayName = TALLY_FIELD_NAME;
 

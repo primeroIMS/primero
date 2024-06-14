@@ -20,7 +20,7 @@ import { NAME, FORM_ID, QUERY } from "./constants";
 import { searchPromptForm } from "./forms";
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   i18n,
   onCloseDrawer,
   recordType,
@@ -30,7 +30,7 @@ const Component = ({
   dataProtectionFields,
   onSearchCases,
   openConsentPrompt
-}) => {
+}) {
   const formMode = whichFormMode(FORM_MODE_NEW);
   const dispatch = useDispatch();
   const methods = useForm();
@@ -106,7 +106,7 @@ const Component = ({
       <FormHelperText>{i18n.t("case.search_helper_text")}</FormHelperText>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

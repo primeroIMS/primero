@@ -14,7 +14,7 @@ import NetworkStatus from "./components/network-status";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ mobile = false }) => {
+function Component({ mobile = false }) {
   const { online, useContainedNavStyle } = useApp();
   const i18n = useI18n();
 
@@ -38,7 +38,7 @@ const Component = ({ mobile = false }) => {
       <span className={css.status}>{online ? i18n.t("online") : i18n.t("offline")}</span>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

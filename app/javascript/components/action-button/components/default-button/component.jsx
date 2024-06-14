@@ -10,7 +10,7 @@ import ButtonText from "../../../button-text";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   id,
   icon,
   cancel,
@@ -22,7 +22,7 @@ const Component = ({
   tooltip,
   rest,
   ...options
-}) => {
+}) {
   const renderIcon = icon || null;
   const isPending = Boolean(pending);
   const renderLoadingIndicator = isPending && <CircularProgress size={24} className={css.buttonProgress} />;
@@ -62,7 +62,7 @@ const Component = ({
       </span>
     </Parent>
   );
-};
+}
 
 Component.displayName = NAME;
 

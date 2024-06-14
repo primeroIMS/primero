@@ -31,7 +31,7 @@ import {
 } from "./constants";
 import { form, validations } from "./form";
 
-const Referrals = ({
+function Referrals({
   formID,
   providedConsent,
   canConsentOverride,
@@ -40,7 +40,7 @@ const Referrals = ({
   setDisabled,
   setPending,
   handleClose
-}) => {
+}) {
   const i18n = useI18n();
   const pdfExporterRef = useRef();
   const dispatch = useDispatch();
@@ -146,7 +146,7 @@ const Referrals = ({
       />
     </LoadingIndicator>
   );
-};
+}
 
 Referrals.displayName = "Referrals";
 

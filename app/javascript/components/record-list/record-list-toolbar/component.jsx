@@ -17,7 +17,7 @@ import { NAME } from "./constants";
 
 const mode = { isShow: true };
 
-const Component = ({ title, recordType, selectedRecords, currentPage, clearSelectedRecords }) => {
+function Component({ title, recordType, selectedRecords, currentPage, clearSelectedRecords }) {
   const { toggleDrawer: toggleFilterDrawer } = useDrawer(FILTER_DRAWER);
   const { toggleDrawer: toggleSortDrawer } = useDrawer(SORT_DRAWER);
 
@@ -44,7 +44,7 @@ const Component = ({ title, recordType, selectedRecords, currentPage, clearSelec
       />
     </PageHeading>
   );
-};
+}
 
 Component.propTypes = {
   clearSelectedRecords: PropTypes.func,

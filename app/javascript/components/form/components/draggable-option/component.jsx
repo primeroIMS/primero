@@ -18,7 +18,7 @@ import { generateIdFromDisplayText } from "../../utils/handle-options";
 import textInputCss from "./styles.css";
 import { NAME } from "./constants";
 
-const Component = ({
+function Component({
   defaultOptionId,
   index,
   name,
@@ -30,7 +30,7 @@ const Component = ({
   showDeleteAction = true,
   showDisableOption = true,
   optionFieldName = "option_strings_text"
-}) => {
+}) {
   const {
     errors,
     setValue,
@@ -140,7 +140,7 @@ const Component = ({
       )}
     </Draggable>
   );
-};
+}
 
 Component.propTypes = {
   defaultOptionId: PropTypes.string,

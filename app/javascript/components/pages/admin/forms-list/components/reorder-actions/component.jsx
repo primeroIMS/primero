@@ -17,7 +17,7 @@ import { getReorderIsLoading, getReorderErrors, getReorderPendings } from "../..
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const Component = ({ handleCancel, handleSuccess, open = false }) => {
+function Component({ handleCancel, handleSuccess, open = false }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -72,7 +72,7 @@ const Component = ({ handleCancel, handleSuccess, open = false }) => {
       </DialogActions>
     </Dialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

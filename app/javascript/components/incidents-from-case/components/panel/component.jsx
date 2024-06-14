@@ -17,7 +17,7 @@ import { getFieldByName } from "../../../record-form/selectors";
 
 import { CP_VIOLENCE_TYPE, GBV_VIOLENCE_TYPE } from "./constants";
 
-const Component = ({
+function Component({
   incident,
   incidentCaseId,
   incidentCaseIdDisplay,
@@ -28,7 +28,7 @@ const Component = ({
   recordType,
   handleCreateIncident,
   dirty = false
-}) => {
+}) {
   const i18n = useI18n();
   const [expanded, setExpanded] = useState(false);
   const handleExpanded = () => {
@@ -92,7 +92,7 @@ const Component = ({
       </Accordion>
     </div>
   );
-};
+}
 
 Component.displayName = NAME_PANEL;
 

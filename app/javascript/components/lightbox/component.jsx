@@ -7,7 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import css from "./styles.css";
 
-const Component = ({ trigger, image }) => {
+function Component({ trigger, image }) {
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
@@ -31,7 +31,7 @@ const Component = ({ trigger, image }) => {
       )}
     </>
   );
-};
+}
 
 Component.displayName = "Lightbox";
 

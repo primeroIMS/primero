@@ -10,7 +10,7 @@ import { DEMO } from "../application/constants";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ isDemo }) => {
+function Component({ isDemo }) {
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
   const i18n = useI18n();
   const classes = { standardInfo: css.standardInfo, message: css.standardInfoText };
@@ -24,7 +24,7 @@ const Component = ({ isDemo }) => {
       {i18n.t(DEMO)}
     </Alert>
   );
-};
+}
 
 Component.displayName = NAME;
 

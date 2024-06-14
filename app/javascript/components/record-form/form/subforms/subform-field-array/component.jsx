@@ -17,7 +17,7 @@ import { GuidingQuestions } from "../../components";
 
 import { isEmptyOrAllDestroyed, isTracesSubform } from "./utils";
 
-const Component = ({
+function Component({
   arrayHelpers,
   field,
   formik,
@@ -36,7 +36,7 @@ const Component = ({
   entryFilter = false,
   customTitle = false,
   components
-}) => {
+}) {
   const {
     display_name: displayName,
     name,
@@ -166,7 +166,7 @@ const Component = ({
       />
     </div>
   );
-};
+}
 
 Component.displayName = SUBFORM_FIELD_ARRAY;
 

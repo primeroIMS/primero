@@ -13,7 +13,7 @@ import parentCss from "../../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
 
   const codeOfConductAccepteOn = useMemoizedSelector(state => getCodeOfConductAccepteOn(state));
@@ -35,7 +35,7 @@ const Component = () => {
       <Typography className={css.text}>{applicationCodeOfConduct?.get("content")}</Typography>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

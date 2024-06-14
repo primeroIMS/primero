@@ -12,7 +12,7 @@ import { signIn } from "../auth-provider";
 import { useApp } from "../../../../application";
 import DisableOffline from "../../../../disable-offline";
 
-const PrimeroIdpLink = ({ identityProviders, i18n, dispatch, css }) => {
+function PrimeroIdpLink({ identityProviders, i18n, dispatch, css }) {
   const history = useHistory();
   const { online } = useApp();
 
@@ -47,7 +47,7 @@ const PrimeroIdpLink = ({ identityProviders, i18n, dispatch, css }) => {
       )}
     </div>
   );
-};
+}
 
 PrimeroIdpLink.displayName = "PrimeroIdpLink";
 

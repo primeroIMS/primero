@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 
-const Component = ({ realPercent, label, index, css }) => {
+function Component({ realPercent, label, index, css }) {
   const percentage = realPercent * 100;
   const style = { width: percentage > 0 ? `${percentage}%` : "auto" };
 
@@ -14,7 +14,7 @@ const Component = ({ realPercent, label, index, css }) => {
       <div className={css.StackedPercentageBarLabel}>{label}</div>
     </div>
   );
-};
+}
 
 Component.displayName = "StackedPercentageBarLabel";
 

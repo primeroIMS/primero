@@ -37,7 +37,7 @@ import css from "./styles.css";
 import { setSubReport } from "./action-creators";
 import getSubcolumnItems from "./utils/get-subcolumn-items";
 
-const Component = () => {
+function Component() {
   const { id, subReport } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -242,7 +242,7 @@ const Component = () => {
       </LoadingIndicator>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

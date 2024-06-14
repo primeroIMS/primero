@@ -10,7 +10,7 @@ import ListFlagsItemActions from "../list-flags-item-actions";
 
 import { NAME } from "./constants";
 
-const Component = ({ flag }) => {
+function Component({ flag }) {
   const itemClass = flag?.removed ? css.itemResolved : css.item;
 
   if (!flag) {
@@ -39,7 +39,7 @@ const Component = ({ flag }) => {
       <Divider component="li" />
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

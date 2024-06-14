@@ -8,7 +8,7 @@ import { useApp } from "../application/use-app";
 
 import css from "./styles.css";
 
-const Component = ({ children, twoCol, fullWidthMobile = false }) => {
+function Component({ children, twoCol, fullWidthMobile = false }) {
   const { demo } = useApp();
   const { mobileDisplay } = useThemeHelper();
   const contentClasses = clsx({ [css.root]: true, [css.demo]: demo });
@@ -25,7 +25,7 @@ const Component = ({ children, twoCol, fullWidthMobile = false }) => {
       <div className={contentContainer}>{children}</div>
     </div>
   );
-};
+}
 
 Component.displayName = "PageContainer";
 

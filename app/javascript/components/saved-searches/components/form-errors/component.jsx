@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useI18n } from "../../../i18n";
 import { enqueueSnackbar } from "../../../notifier";
 
-const FormErrors = () => {
+function FormErrors() {
   const dispatch = useDispatch();
   const i18n = useI18n();
 
@@ -13,7 +13,7 @@ const FormErrors = () => {
   }, [dispatch, i18n]);
 
   return null;
-};
+}
 
 FormErrors.displayName = "FormErrors";
 

@@ -10,7 +10,7 @@ import generateKey from "../../utils";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const Component = ({ values = [], subColumnItemsSize }) => {
+function Component({ values = [], subColumnItemsSize }) {
   const i18n = useI18n();
   const totalText = i18n.t("managed_reports.total");
 
@@ -37,7 +37,7 @@ const Component = ({ values = [], subColumnItemsSize }) => {
       </TableRow>
     );
   });
-};
+}
 
 Component.displayName = NAME;
 

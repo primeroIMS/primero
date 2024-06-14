@@ -11,7 +11,7 @@ import { useDialog } from "../../action-dialog";
 import { DONE, REFERRAL_DONE_DIALOG, REFERRAL_ACTION_MENU_NAME as NAME } from "./constants";
 import ReferralAction from "./referral-action";
 
-const ReferralActionMenu = ({ transition, recordType }) => {
+function ReferralActionMenu({ transition, recordType }) {
   const i18n = useI18n();
   const [referralMenu, setReferralMenu] = useState(null);
   const [referralType, setReferralType] = useState(DONE);
@@ -74,7 +74,7 @@ const ReferralActionMenu = ({ transition, recordType }) => {
       />
     </>
   );
-};
+}
 
 ReferralActionMenu.displayName = NAME;
 

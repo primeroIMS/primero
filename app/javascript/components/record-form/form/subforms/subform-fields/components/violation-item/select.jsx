@@ -18,7 +18,7 @@ const MENU_PROPS = {
   }
 };
 
-const Component = ({ selectedValue, setSelectedValue }) => {
+function Component({ selectedValue, setSelectedValue }) {
   const verificationStatus = useOptions({ source: LOOKUPS.verification_status });
   const classesFormCotnrol = { root: css.verifyFormControlRoot };
   const classesSelect = {
@@ -55,7 +55,7 @@ const Component = ({ selectedValue, setSelectedValue }) => {
       </FormControl>
     </div>
   );
-};
+}
 
 Component.propTypes = {
   selectedValue: PropTypes.string,

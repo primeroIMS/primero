@@ -18,7 +18,7 @@ import { usePermissions, FLAG_RESOLVE_ANY } from "../../../permissions";
 
 import { NAME } from "./constants";
 
-const Component = ({ flag }) => {
+function Component({ flag }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const canResolveAnyFlag = usePermissions(flag?.record_type, FLAG_RESOLVE_ANY);
@@ -71,7 +71,7 @@ const Component = ({ flag }) => {
   );
 
   return renderActions;
-};
+}
 
 Component.displayName = NAME;
 

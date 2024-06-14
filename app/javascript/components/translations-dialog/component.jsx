@@ -15,7 +15,7 @@ import { translationsForm, validationSchema } from "./form";
 import { localesToRender } from "./utils";
 import css from "./styles.css";
 
-const Component = ({ formMethods, mode, dialogTitle }) => {
+function Component({ formMethods, mode, dialogTitle }) {
   const i18n = useI18n();
   const validations = validationSchema(i18n);
   const currentValues = formMethods.getValues({ nest: true });
@@ -80,7 +80,7 @@ const Component = ({ formMethods, mode, dialogTitle }) => {
       />
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

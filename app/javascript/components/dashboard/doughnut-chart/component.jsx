@@ -48,7 +48,7 @@ Chart.pluginService.register({
   }
 });
 
-const DoughnutChart = ({ chartData, options }) => {
+function DoughnutChart({ chartData, options }) {
   const chartRef = createRef();
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const DoughnutChart = ({ chartData, options }) => {
   });
 
   return <canvas className="doughnutChart" ref={chartRef} />;
-};
+}
 
 DoughnutChart.displayName = "DoughnutChart";
 

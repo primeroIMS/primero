@@ -16,7 +16,7 @@ import { whichFormMode } from "./utils/which-mode";
 import { submitHandler } from "./utils/form-submission";
 import notPropagatedOnSubmit from "./utils/not-propagated-on-submit";
 
-const Component = ({
+function Component({
   formID,
   formSections,
   formOptions = {},
@@ -36,7 +36,7 @@ const Component = ({
   registerFields = [],
   resetAfterSubmit = false,
   errorMessage = null
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -126,7 +126,7 @@ const Component = ({
       {renderBottom && renderBottom(formMethods)}
     </>
   );
-};
+}
 
 Component.displayName = "Form";
 

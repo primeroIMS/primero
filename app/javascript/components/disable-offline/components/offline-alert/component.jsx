@@ -8,7 +8,7 @@ import { useApp } from "../../../application";
 
 import css from "./styles.css";
 
-const Component = ({ text, noMargin }) => {
+function Component({ text, noMargin }) {
   const { online } = useApp();
 
   if (online) return null;
@@ -20,7 +20,7 @@ const Component = ({ text, noMargin }) => {
       </Alert>
     </div>
   );
-};
+}
 
 Component.displayName = "OfflineAlert";
 

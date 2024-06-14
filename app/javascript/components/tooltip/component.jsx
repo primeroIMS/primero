@@ -8,7 +8,7 @@ import { useI18n } from "../i18n";
 
 import css from "./styles.css";
 
-const Tooltip = ({ children, title = "", i18nTitle = false }) => {
+function Tooltip({ children, title = "", i18nTitle = false }) {
   const i18n = useI18n();
 
   const commonTooltipProps = {
@@ -27,7 +27,7 @@ const Tooltip = ({ children, title = "", i18nTitle = false }) => {
       {children}
     </ConditionalWrapper>
   );
-};
+}
 
 Tooltip.displayName = "Tooltip";
 

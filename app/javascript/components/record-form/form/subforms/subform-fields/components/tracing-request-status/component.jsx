@@ -12,7 +12,7 @@ import useOptions from "../../../../../../form/use-options";
 
 import { NAME } from "./constants";
 
-const Component = ({ values }) => {
+function Component({ values }) {
   const i18n = useI18n();
 
   const tracingRequestStatus = useMemoizedSelector(state => getFieldByName(state, TRACING_REQUEST_STATUS_FIELD_NAME));
@@ -30,7 +30,7 @@ const Component = ({ values }) => {
       {values.tracing_request_status && <SubformChip label={status || values.tracing_request_status} />}
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

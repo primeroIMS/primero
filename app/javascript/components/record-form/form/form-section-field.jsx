@@ -38,7 +38,7 @@ import TallyField from "./field-types/tally-field";
 import css from "./styles.css";
 import { asyncFieldOffline } from "./utils";
 
-const FormSectionField = ({
+function FormSectionField({
   name,
   field,
   mode,
@@ -51,7 +51,7 @@ const FormSectionField = ({
   isReadWriteForm,
   violationOptions,
   tags
-}) => {
+}) {
   const i18n = useI18n();
   const { online } = useApp();
   const {
@@ -164,7 +164,7 @@ const FormSectionField = ({
       </div>
     </ConditionalWrapper>
   );
-};
+}
 
 FormSectionField.displayName = FORM_SECTION_FIELD_NAME;
 

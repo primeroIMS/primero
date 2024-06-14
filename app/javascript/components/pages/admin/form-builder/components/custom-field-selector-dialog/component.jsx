@@ -58,7 +58,7 @@ const fields = [
   [SUBFORM_SECTION, SubformField]
 ];
 
-const Component = ({ isSubform }) => {
+function Component({ isSubform }) {
   const [selectedItem, setSelectedItem] = useState("");
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -190,7 +190,7 @@ const Component = ({ isSubform }) => {
       </ActionDialog>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

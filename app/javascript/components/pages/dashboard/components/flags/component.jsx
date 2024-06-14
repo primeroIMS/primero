@@ -16,7 +16,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const Component = ({ loadingIndicator }) => {
+function Component({ loadingIndicator }) {
   const i18n = useI18n();
 
   const flags = useMemoizedSelector(state => getDashboardFlags(state));
@@ -47,7 +47,7 @@ const Component = ({ loadingIndicator }) => {
       </Permission>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -7,7 +7,9 @@ import Nav from "./component";
 
 describe("<Nav />", () => {
   // eslint-disable-next-line react/display-name
-  const ProvidedNav = () => <Nav />;
+  function ProvidedNav() {
+    return <Nav />;
+  }
 
   const permissions = {
     cases: [ACTIONS.MANAGE],

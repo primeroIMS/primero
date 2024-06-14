@@ -23,7 +23,7 @@ import { RECORD_FORM_NAME } from "./constants";
 import { fieldValidations } from "./validations";
 import FormikForm from "./formik-form";
 
-const RecordForm = ({
+function RecordForm({
   attachmentForms,
   bindSubmitForm,
   forms,
@@ -41,7 +41,7 @@ const RecordForm = ({
   externalComponents,
   primeroModule,
   setFormikValuesForNav
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { online, maximumttachmentsPerRecord } = useApp();
@@ -246,7 +246,7 @@ const RecordForm = ({
   }
 
   return null;
-};
+}
 
 RecordForm.displayName = RECORD_FORM_NAME;
 

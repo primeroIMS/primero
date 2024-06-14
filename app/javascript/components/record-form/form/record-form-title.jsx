@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 import css from "./styles.css";
 
-const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay }) => {
+function RecordFormTitle({ displayText, handleToggleNav, mobileDisplay }) {
   const showMobileIcon = mobileDisplay ? (
     <IconButton size="large" onClick={handleToggleNav} data-testid="icon-button">
       <MenuOpen data-testid="menu-open" />
@@ -21,7 +21,7 @@ const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay }) => {
       </div>
     </>
   );
-};
+}
 
 RecordFormTitle.displayName = "RecordFormTitle";
 

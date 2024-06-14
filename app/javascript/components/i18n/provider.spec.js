@@ -25,7 +25,7 @@ describe("I18nProvider - changeLocale", () => {
   it("should handle changeLocale method", () => {
     const newLocale = "fr";
 
-    const TestComponent = () => {
+    function TestComponent() {
       const { changeLocale } = useI18n();
 
       return (
@@ -39,7 +39,7 @@ describe("I18nProvider - changeLocale", () => {
           I18n Test Component
         </button>
       );
-    };
+    }
 
     mountedComponent(<TestComponent />);
 
@@ -69,11 +69,11 @@ describe("localizeDate", () => {
 });
 
 describe("I18nProvider - t", () => {
-  const TestComponent = () => {
+  function TestComponent() {
     const i18n = useI18n();
 
     return <p>{i18n.t("test")}</p>;
-  };
+  }
 
   const translations = {
     en: {

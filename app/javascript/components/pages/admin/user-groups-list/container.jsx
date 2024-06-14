@@ -27,7 +27,7 @@ import { getUserGroupFilters } from "./utils";
 import { AGENCY_UNIQUE_IDS, NAME } from "./constants";
 import { fetchUserGroups, setUserGroupsFilter } from "./action-creators";
 
-const Container = () => {
+function Container() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const canAddUserGroups = usePermissions(NAMESPACE, CREATE_RECORDS);
@@ -108,7 +108,7 @@ const Container = () => {
       </PageContent>
     </>
   );
-};
+}
 
 Container.displayName = NAME;
 

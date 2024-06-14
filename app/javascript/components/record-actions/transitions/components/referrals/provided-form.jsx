@@ -11,7 +11,7 @@ import css from "../../styles.css";
 import { PROVIDED_FORM_NAME as NAME } from "./constants";
 import onChangeReferAnyway from "./on-change-refer-anyway";
 
-const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
+function ProvidedForm({ setDisabled, canConsentOverride }) {
   const i18n = useI18n();
 
   const fieldReferAnyway = (
@@ -42,7 +42,7 @@ const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
       </Grid>
     </div>
   );
-};
+}
 
 ProvidedForm.displayName = NAME;
 

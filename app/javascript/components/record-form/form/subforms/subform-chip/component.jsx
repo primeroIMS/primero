@@ -7,11 +7,11 @@ import { Chip } from "@mui/material";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ label, type = "info", ...rest }) => {
+function Component({ label, type = "info", ...rest }) {
   const classes = clsx({ [css.subformChip]: true, [css[type]]: true });
 
   return <Chip data-testid="chip" className={classes} label={label} {...rest} />;
-};
+}
 
 Component.displayName = NAME;
 

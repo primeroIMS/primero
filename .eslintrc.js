@@ -51,7 +51,7 @@ module.exports = {
     "react/display-name": ["error", { ignoreTranspilerName: true }],
     "react/forbid-prop-types": "off",
     "react/jsx-props-no-spreading": "off",
-    "react/jsx-sort-default-props": [
+    "react/sort-default-props": [
       "error",
       {
         ignoreCase: true
@@ -65,7 +65,7 @@ module.exports = {
     "import/no-extraneous-dependencies": "off",
     "default-param-last": "off",
     "arrow-body-style": "off",
-    "react/function-component-definition": "off",
+    "react/function-component-definition": [2, { namedComponents: "function-declaration" }],
     "no-restricted-exports": "off",
     "no-import-assign": "off",
     "react/jsx-no-useless-fragment": "off",

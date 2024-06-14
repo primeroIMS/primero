@@ -27,7 +27,7 @@ import { NAME, TOP_FIELD_NAMES } from "./constants";
 import { getComparisons, toAttachmentArray } from "./utils";
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   selectedForm,
   recordType,
   potentialMatch,
@@ -36,7 +36,7 @@ const Component = ({
   hideFindMatch,
   hideBack,
   mode
-}) => {
+}) {
   const { id } = useParams();
   const dispatch = useDispatch();
   // eslint-disable-next-line camelcase
@@ -225,7 +225,7 @@ const Component = ({
       </Grid>
     </>
   );
-};
+}
 
 Component.propTypes = {
   hideBack: PropTypes.bool,

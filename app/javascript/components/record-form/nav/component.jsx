@@ -30,7 +30,7 @@ import css from "./styles.css";
 import CloseButtonNavBar from "./components/close-button-nav-bar";
 import FormGroup from "./components/form-groups";
 
-const Component = ({
+function Component({
   firstTab,
   formNav,
   hasForms,
@@ -45,7 +45,7 @@ const Component = ({
   primeroModule,
   selectedForm,
   formikValuesForNav
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -233,7 +233,7 @@ const Component = ({
       </ConditionalWrapper>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

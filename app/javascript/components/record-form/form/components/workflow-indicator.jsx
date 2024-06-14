@@ -12,7 +12,7 @@ import { displayNameHelper, useMemoizedSelector } from "../../../../libs";
 import css from "./styles.css";
 import { WORKFLOW_INDICATOR_NAME, CLOSED } from "./constants";
 
-const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
+function WorkflowIndicator({ locale, primeroModule, recordType, record }) {
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
 
   const workflowLabels = useMemoizedSelector(state =>
@@ -56,7 +56,7 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
       })}
     </Stepper>
   );
-};
+}
 
 WorkflowIndicator.displayName = WORKFLOW_INDICATOR_NAME;
 

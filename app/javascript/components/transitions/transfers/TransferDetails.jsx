@@ -11,7 +11,7 @@ import DateTransitions from "../components/date-transitions";
 import { NAME } from "./constants";
 import renderIconValue from "./render-icon-value";
 
-const TransferDetails = ({ transition }) => {
+function TransferDetails({ transition }) {
   const i18n = useI18n();
 
   const renderRejected =
@@ -81,7 +81,7 @@ const TransferDetails = ({ transition }) => {
       </Grid>
     </Grid>
   );
-};
+}
 
 TransferDetails.displayName = NAME;
 

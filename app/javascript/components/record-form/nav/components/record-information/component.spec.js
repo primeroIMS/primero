@@ -25,14 +25,14 @@ describe("<RecordInformation />", () => {
   beforeEach(() => {
     setScreenSizeToMobile(false);
     // eslint-disable-next-line react/display-name
-    const RoutedComponent = initialProps => {
+    function RoutedComponent(initialProps) {
       return (
         <Route
           path="/:recordType(cases|incidents|tracing_requests)/:id"
           component={propsRoute => <RecordInformation {...{ ...propsRoute, ...initialProps }} />}
         />
       );
-    };
+    }
 
     mountedComponent(<RoutedComponent {...props} />, initialState, {}, ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]);
   });

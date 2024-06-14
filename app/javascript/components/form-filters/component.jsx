@@ -8,7 +8,7 @@ import useFormFilters from "./use-form-filters";
 import { getFilters } from "./utils";
 import { NAME } from "./constants";
 
-const Component = ({ formMode, primeroModule, recordType, selectedForm, showDrawer }) => {
+function Component({ formMode, primeroModule, recordType, selectedForm, showDrawer }) {
   const Filters = getFilters(selectedForm);
 
   const { clearFilters } = useFormFilters(selectedForm);
@@ -30,7 +30,7 @@ const Component = ({ formMode, primeroModule, recordType, selectedForm, showDraw
       selectedForm={selectedForm}
     />
   );
-};
+}
 
 Component.displayName = NAME;
 

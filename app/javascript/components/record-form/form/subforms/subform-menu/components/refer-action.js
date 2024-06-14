@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 
 import { useI18n } from "../../../../../i18n";
 
-const ReferAction = ({ index, handleReferral, values }) => {
+function ReferAction({ index, handleReferral, values }) {
   const i18n = useI18n();
   const id = `refer-option-${index}`;
 
@@ -22,7 +22,7 @@ const ReferAction = ({ index, handleReferral, values }) => {
       {values[index].service_status_referred ? i18n.t("buttons.referral_again") : i18n.t("buttons.referral")}
     </Button>
   );
-};
+}
 
 ReferAction.displayName = "ReferAction";
 

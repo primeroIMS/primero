@@ -17,7 +17,7 @@ import { useApp } from "../../../../../../../application";
 
 import { NAME } from "./constants";
 
-const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
+function Component({ field, selectedLocaleId, formMethods, formMode }) {
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
   const locales = localesToRender(i18n);
@@ -85,7 +85,7 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
       </Grid>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

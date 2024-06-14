@@ -8,7 +8,7 @@ import SubformTraces from "../subform-traces";
 import { buildFormViolations } from "./utils";
 import { NAME } from "./constants";
 
-const Component = ({
+function Component({
   arrayHelpers,
   dialogIsNew,
   field,
@@ -34,7 +34,7 @@ const Component = ({
   title,
   violationOptions,
   components
-}) => {
+}) {
   const i18n = useI18n();
   const handleClose = () => setOpen(false);
 
@@ -83,7 +83,7 @@ const Component = ({
       violationOptions={violationOptions}
     />
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -25,7 +25,7 @@ import { OPTION_TYPES } from "../../../../form/constants";
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
 
-const Component = ({
+function Component({
   filter,
   mode,
   moreSectionFilters = {},
@@ -33,7 +33,7 @@ const Component = ({
   reset,
   setMoreSectionFilters,
   setReset
-}) => {
+}) {
   const i18n = useI18n();
   const formMethods = useFormContext();
   const valueRef = useRef();
@@ -201,7 +201,7 @@ const Component = ({
       )}
     </Panel>
   );
-};
+}
 
 Component.displayName = NAME;
 

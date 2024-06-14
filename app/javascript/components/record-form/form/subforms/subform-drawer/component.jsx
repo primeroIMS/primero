@@ -10,7 +10,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ open, cancelHandler, children, title }) => {
+function Component({ open, cancelHandler, children, title }) {
   return (
     <Drawer
       data-testid="drawer"
@@ -39,7 +39,7 @@ const Component = ({ open, cancelHandler, children, title }) => {
       </div>
     </Drawer>
   );
-};
+}
 
 Component.propTypes = {
   cancelHandler: PropTypes.func,

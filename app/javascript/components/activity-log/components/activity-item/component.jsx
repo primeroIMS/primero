@@ -9,7 +9,7 @@ import getActivityMessage from "../../utils/get-activity-message";
 
 import css from "./styles.css";
 
-const Component = ({ activityData }) => {
+function Component({ activityData }) {
   const i18n = useI18n();
   const classes = clsx(css.activityContainer, {
     [css.disabledItem]: activityData.recordAccessDenied
@@ -36,7 +36,7 @@ const Component = ({ activityData }) => {
       <div className={css.type}>{i18n.t(`${type}.label`)}</div>
     </div>
   );
-};
+}
 
 Component.displayName = "ActivityItem";
 

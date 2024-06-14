@@ -23,7 +23,7 @@ import css from "./styles.css";
 import { TASK_STATUS } from "./constants";
 import { getTranslatedValue } from "./utils";
 
-const TaskList = () => {
+function TaskList() {
   const i18n = useI18n();
 
   const recordType = "tasks";
@@ -197,7 +197,7 @@ const TaskList = () => {
       </PageContent>
     </PageContainer>
   );
-};
+}
 
 TaskList.displayName = "TaskList";
 

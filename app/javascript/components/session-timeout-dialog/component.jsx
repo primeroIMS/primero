@@ -14,7 +14,7 @@ import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { NAME } from "./constants";
 
-const SessionTimeoutDialog = () => {
+function SessionTimeoutDialog() {
   const { online } = useApp();
   const tokenRefreshTimer = useRef();
   const dispatch = useDispatch();
@@ -119,7 +119,7 @@ const SessionTimeoutDialog = () => {
       </Dialog>
     </>
   ) : null;
-};
+}
 
 SessionTimeoutDialog.displayName = NAME;
 

@@ -8,7 +8,7 @@ import { useDrawer } from "../../../drawer";
 import { FILTER_DRAWER, NAME } from "./constants";
 import css from "./styles.css";
 
-const FilterContainer = ({ children, mobileDisplay }) => {
+function FilterContainer({ children, mobileDisplay }) {
   const { drawerOpen, toggleDrawer } = useDrawer(FILTER_DRAWER);
 
   if (mobileDisplay) {
@@ -20,7 +20,7 @@ const FilterContainer = ({ children, mobileDisplay }) => {
   }
 
   return <div className={css.filterContainer}>{children}</div>;
-};
+}
 
 FilterContainer.displayName = NAME;
 

@@ -10,7 +10,7 @@ import InsightsTableHeader from "../../insights-sub-report/components/insights-t
 import { TableHeader, TableRows } from "./components";
 import css from "./styles.css";
 
-const TableValues = ({
+function TableValues({
   columns,
   values,
   showPlaceholder = false,
@@ -18,7 +18,7 @@ const TableValues = ({
   emptyMessage = "",
   useInsightsHeader = false,
   subColumnItemsSize
-}) => {
+}) {
   const Header = useInsightsHeader ? InsightsTableHeader : TableHeader;
 
   return (
@@ -37,7 +37,7 @@ const TableValues = ({
       )}
     </Paper>
   );
-};
+}
 
 TableValues.displayName = "TableValues";
 

@@ -19,7 +19,7 @@ import FieldListHeaders from "../field-list-headers";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy }) => {
+function Component({ formMethods, subformField, subformSortBy, subformGroupBy }) {
   const dispatch = useDispatch();
   const isNested = Boolean(subformField?.size || subformField?.toSeq()?.size);
 
@@ -128,7 +128,7 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
       </DragDropContext>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

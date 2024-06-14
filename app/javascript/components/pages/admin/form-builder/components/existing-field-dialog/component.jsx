@@ -30,7 +30,7 @@ import { FieldsTable } from "./components";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ parentForm, primeroModule }) => {
+function Component({ parentForm, primeroModule }) {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { control, register } = useForm();
@@ -141,7 +141,7 @@ const Component = ({ parentForm, primeroModule }) => {
       </form>
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

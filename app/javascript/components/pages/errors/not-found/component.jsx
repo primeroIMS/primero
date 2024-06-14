@@ -10,7 +10,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import css from "./styles.css";
 
-const NotFound = () => {
+function NotFound() {
   const i18n = useI18n();
 
   return (
@@ -33,7 +33,7 @@ const NotFound = () => {
       />
     </div>
   );
-};
+}
 
 NotFound.displayName = "NotFound";
 

@@ -11,7 +11,7 @@ import { setSelectedForm } from "../record-form";
 
 import { SAVE_AND_REDIRECT_DIALOG } from "./constants";
 
-const Component = ({
+function Component({
   setSaveCaseBeforeRedirect,
   closeRedirectDialog,
   handleSubmit,
@@ -20,7 +20,7 @@ const Component = ({
   setFieldValue,
   incidentPath = "new",
   recordType
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -54,7 +54,7 @@ const Component = ({
       pending={savingRecord}
     />
   );
-};
+}
 
 Component.displayName = SAVE_AND_REDIRECT_DIALOG;
 

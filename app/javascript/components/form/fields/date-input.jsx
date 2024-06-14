@@ -14,7 +14,7 @@ import localize from "../../../libs/date-picker-localization";
 import { LOCALE_KEYS } from "../../../config";
 import NepaliCalendar from "../../nepali-calendar-input";
 
-const DateInput = ({ commonInputProps, metaInputProps = {}, formMethods }) => {
+function DateInput({ commonInputProps, metaInputProps = {}, formMethods }) {
   const i18n = useI18n();
   const { setValue, control } = formMethods;
   const { name, label, helperText, error, disabled, placeholder, fullWidth, required } = commonInputProps;
@@ -84,7 +84,7 @@ const DateInput = ({ commonInputProps, metaInputProps = {}, formMethods }) => {
       />
     </LocalizationProvider>
   );
-};
+}
 
 DateInput.displayName = "DateInput";
 

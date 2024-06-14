@@ -23,7 +23,7 @@ import { fetchAdminLookups, setLookupsFilter } from "./action-creators";
 import css from "./styles.css";
 import { columns } from "./utils";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -76,7 +76,7 @@ const Component = () => {
       </PageContent>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

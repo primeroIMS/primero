@@ -32,7 +32,7 @@ import ViewModal from "./view-modal";
 import SortContainer from "./components/sort-container";
 import FilterContainer from "./components/filter-container";
 
-const Container = ({ match, location }) => {
+function Container({ match, location }) {
   const { mobileDisplay } = useThemeHelper();
   const i18n = useI18n();
   const currentQueryString = location.search.replace("?", "");
@@ -205,7 +205,7 @@ const Container = ({ match, location }) => {
       )}
     </>
   );
-};
+}
 
 Container.displayName = NAME;
 

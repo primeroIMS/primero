@@ -29,7 +29,7 @@ const validationSchema = object().shape({
   name: string().required()
 });
 
-const SavedSearchesForm = ({ recordType, open, setOpen, getValues }) => {
+function SavedSearchesForm({ recordType, open, setOpen, getValues }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState(false);
@@ -112,7 +112,7 @@ const SavedSearchesForm = ({ recordType, open, setOpen, getValues }) => {
       </form>
     </Dialog>
   );
-};
+}
 
 SavedSearchesForm.displayName = "SavedSearchesForm";
 

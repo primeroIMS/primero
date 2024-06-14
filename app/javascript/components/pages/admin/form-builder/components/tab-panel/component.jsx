@@ -7,7 +7,7 @@ import clsx from "clsx";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const TabPanel = ({ tab, index, children }) => {
+function TabPanel({ tab, index, children }) {
   const className = clsx(css.hideTab, css.tabContainer, {
     [css.showTab]: tab === index
   });
@@ -17,7 +17,7 @@ const TabPanel = ({ tab, index, children }) => {
       {children}
     </Paper>
   );
-};
+}
 
 TabPanel.displayName = NAME;
 

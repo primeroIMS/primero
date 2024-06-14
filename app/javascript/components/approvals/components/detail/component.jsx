@@ -9,7 +9,7 @@ import { useApp } from "../../../application";
 
 import { approvalLabel } from "./utils";
 
-const Component = ({ approvalSubform, isRequest, isResponse }) => {
+function Component({ approvalSubform, isRequest, isResponse }) {
   const { approvalsLabels } = useApp();
 
   const renderApprovalLabel =
@@ -53,7 +53,7 @@ const Component = ({ approvalSubform, isRequest, isResponse }) => {
       </Grid>
     </>
   );
-};
+}
 
 Component.displayName = NAME_DETAIL;
 

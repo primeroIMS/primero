@@ -21,7 +21,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 import ReferAction from "./components/refer-action";
 import { NAME } from "./constants";
 
-const Component = ({ index, values }) => {
+function Component({ index, values }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -58,7 +58,7 @@ const Component = ({ index, values }) => {
       </Permission>
     </DisableOffline>
   );
-};
+}
 
 Component.displayName = NAME;
 

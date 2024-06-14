@@ -6,7 +6,7 @@ import { createRef, useEffect } from "react";
 
 import css from "./styles.css";
 
-const LineChart = ({ chartData, options, title }) => {
+function LineChart({ chartData, options, title }) {
   const chartRef = createRef();
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const LineChart = ({ chartData, options, title }) => {
       <canvas className="lineChart" ref={chartRef} />
     </div>
   );
-};
+}
 
 LineChart.displayName = "LineChart";
 

@@ -19,7 +19,7 @@ import { NAME } from "./constants";
 import { getConstraintLabel } from "./utils";
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   filter,
   handleClickOpen,
   handleClickEdit,
@@ -27,7 +27,7 @@ const Component = ({
   constraints = CONSTRAINTS,
   deleteDisabled,
   showAndLabel = false
-}) => {
+}) {
   const i18n = useI18n();
   const { isRTL } = useThemeHelper();
   const [index, { data }] = filter;
@@ -102,7 +102,7 @@ const Component = ({
       {conditionType === LOGICAL_OPERATORS.OR && <p>{conditionName}</p>}
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

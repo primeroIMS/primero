@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 
 import CustomSnackbarProvider from "../custom-snackbar-provider";
 
-const Component = ({ layout: Layout, children }) => {
+function Component({ layout: Layout, children }) {
   return (
     <CustomSnackbarProvider>
       <Layout>{children}</Layout>
     </CustomSnackbarProvider>
   );
-};
+}
 
 Component.propTypes = {
   children: PropTypes.node,

@@ -29,7 +29,7 @@ import css from "../../styles.css";
 import { compactBlank, compactReadOnlyFields, compactValues, getRedirectPath } from "../../utils";
 import externalForms from "../external-forms";
 
-const Component = ({
+function Component({
   approvalSubforms,
   attachmentForms,
   canRefer,
@@ -54,7 +54,7 @@ const Component = ({
   shouldFetchRecord,
   summaryForm,
   userPermittedFormsIds
-}) => {
+}) {
   let submitForm = null;
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
 
@@ -350,7 +350,7 @@ const Component = ({
       </LoadingIndicator>
     </PageContainer>
   );
-};
+}
 
 Component.displayName = "RecordForm";
 

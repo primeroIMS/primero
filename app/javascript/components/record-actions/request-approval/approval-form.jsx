@@ -17,7 +17,7 @@ import { useI18n } from "../../i18n";
 import { APPROVAL_FORM } from "./constants";
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   approval,
   disabled,
   handleChangeApproval,
@@ -25,7 +25,7 @@ const Component = ({
   handleChangeType,
   requestType,
   selectOptions
-}) => {
+}) {
   const i18n = useI18n();
 
   return (
@@ -80,7 +80,7 @@ const Component = ({
       </form>
     </>
   );
-};
+}
 
 Component.displayName = APPROVAL_FORM;
 

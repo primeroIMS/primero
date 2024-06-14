@@ -60,7 +60,7 @@ import {
 } from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM, RESET_OPTIONS, SKIP_LOGIC_FIELD } from "./constants";
 
-const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule, recordType }) => {
+function Component({ formId, mode, onClose, onSuccess, parentForm, primeroModule, recordType }) {
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -412,7 +412,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm, primeroModule
       </ActionDialog>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

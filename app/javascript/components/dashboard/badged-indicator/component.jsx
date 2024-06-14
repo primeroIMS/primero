@@ -13,7 +13,7 @@ import NAMESPACE from "../../pages/dashboard/namespace";
 
 import css from "./styles.css";
 
-const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, errors }) => {
+function BadgedIndicator({ data, lookup, sectionTitle, indicator, loading, errors }) {
   const dispatch = useDispatch();
 
   const loadingIndicatorProps = {
@@ -55,7 +55,7 @@ const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, error
       </LoadingIndicator>
     </>
   );
-};
+}
 
 BadgedIndicator.displayName = "BadgedIndicator";
 

@@ -19,11 +19,13 @@ describe("<FormsList />/components/<FormSection />", () => {
       }
     ]);
 
-    const RenderFormSection = () => (
-      <DragDropContext>
-        <FormSection group={group} collection="form-1" />
-      </DragDropContext>
-    );
+    function RenderFormSection() {
+      return (
+        <DragDropContext>
+          <FormSection group={group} collection="form-1" />
+        </DragDropContext>
+      );
+    }
 
     RenderFormSection.displayName = "RenderFormSection";
     mountedComponent(<RenderFormSection />);

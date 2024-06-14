@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-/* eslint-disable react/display-name, react/prop-types */
+/* eslint-disable react/display-name, react/prop-types, react/function-component-definition */
 
 import { Checkbox } from "@mui/material";
 

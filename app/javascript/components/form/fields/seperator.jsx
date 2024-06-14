@@ -5,7 +5,7 @@ import { Typography } from "@mui/material";
 
 import css from "./styles.css";
 
-const Seperator = ({ commonInputProps }) => {
+function Seperator({ commonInputProps }) {
   const { label, id = "" } = commonInputProps;
 
   if (!label) {
@@ -17,7 +17,7 @@ const Seperator = ({ commonInputProps }) => {
       {label}
     </Typography>
   );
-};
+}
 
 Seperator.displayName = "Seperator";
 

@@ -16,7 +16,7 @@ import RecordFilters from "./record-filters";
 import css from "./styles.css";
 import FilterCategory from "./filter-category";
 
-const TabFilters = ({
+function TabFilters({
   formMethods,
   handleClear,
   handleSave,
@@ -28,7 +28,7 @@ const TabFilters = ({
   setMore,
   setMoreSectionFilters,
   setReset
-}) => {
+}) {
   const filterCategory = useWatch({ control: formMethods.control, name: "filter_category" });
   const filters = useMemoizedSelector(state => getFiltersByRecordType(state, recordType, filterCategory));
   const hasPrimeroModuleMRM = useMemoizedSelector(state => hasPrimeroModule(state, MODULES.MRM));
@@ -71,7 +71,7 @@ const TabFilters = ({
       />
     </div>
   );
-};
+}
 
 TabFilters.displayName = "TabFilters";
 

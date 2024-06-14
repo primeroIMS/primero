@@ -11,7 +11,7 @@ import { useMemoizedSelector } from "../../../../../../libs";
 
 import { NAME } from "./constants";
 
-const Component = ({ formMode, handleSubmit, handleCancel, limitedProductionSite }) => {
+function Component({ formMode, handleSubmit, handleCancel, limitedProductionSite }) {
   const i18n = useI18n();
 
   const saving = useMemoizedSelector(state => getSavingRecord(state));
@@ -36,7 +36,7 @@ const Component = ({ formMode, handleSubmit, handleCancel, limitedProductionSite
   );
 
   return saveButton;
-};
+}
 
 Component.displayName = NAME;
 

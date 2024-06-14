@@ -14,7 +14,7 @@ import { LOCALIZABLE_OPTIONS_FIELD_NAME } from "../../../field-dialog/constants"
 
 import { NAME } from "./constants";
 
-const Component = ({ field, selectedLocaleId, formMode, formMethods }) => {
+function Component({ field, selectedLocaleId, formMode, formMethods }) {
   const i18n = useI18n();
   const locales = i18n.applicationLocales.filter(locale => locale.id !== LOCALE_KEYS.en);
 
@@ -82,7 +82,7 @@ const Component = ({ field, selectedLocaleId, formMode, formMethods }) => {
       </Grid>
     </Grid>
   );
-};
+}
 
 Component.displayName = NAME;
 

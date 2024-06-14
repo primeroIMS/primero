@@ -9,7 +9,7 @@ import HelpIcon from "@mui/icons-material/Help";
 import css from "./styles.css";
 import { GUIDING_QUESTIONS_NAME } from "./constants";
 
-const GuidingQuestions = ({ label, text }) => {
+function GuidingQuestions({ label, text }) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -49,7 +49,7 @@ const GuidingQuestions = ({ label, text }) => {
       </Popover>
     </>
   );
-};
+}
 
 GuidingQuestions.displayName = GUIDING_QUESTIONS_NAME;
 

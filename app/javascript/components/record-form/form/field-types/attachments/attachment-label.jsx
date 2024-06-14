@@ -8,7 +8,7 @@ import css from "../../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
-const AttachmentLabel = ({ label, helpText, disabled, mode, arrayHelpers, handleAttachmentAddition, error }) => {
+function AttachmentLabel({ label, helpText, disabled, mode, arrayHelpers, handleAttachmentAddition, error }) {
   const isDisabled = !disabled && !mode.isShow;
   const onClick = () => handleAttachmentAddition(arrayHelpers);
 
@@ -35,7 +35,7 @@ const AttachmentLabel = ({ label, helpText, disabled, mode, arrayHelpers, handle
       )}
     </div>
   );
-};
+}
 
 AttachmentLabel.displayName = "AttachmentLabel";
 

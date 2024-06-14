@@ -18,7 +18,7 @@ import usePushNotifications from "../../../push-notifications-toggle/use-push-no
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ children }) => {
+function Component({ children }) {
   const { demo } = useApp();
 
   usePushNotifications();
@@ -48,7 +48,7 @@ const Component = ({ children }) => {
       </div>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -16,7 +16,7 @@ import { RADIO_FIELD_NAME } from "../constants";
 import css from "../styles.css";
 import { useMemoizedSelector } from "../../../../libs";
 
-const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ...rest }) => {
+function RadioField({ name, helperText, label, disabled, field, formik, mode, ...rest }) {
   const i18n = useI18n();
 
   const selectedValue = field.selected_value;
@@ -97,7 +97,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
       <FormHelperText>{fieldError && fieldTouched ? fieldError : helperText}</FormHelperText>
     </FormControl>
   );
-};
+}
 
 RadioField.displayName = RADIO_FIELD_NAME;
 

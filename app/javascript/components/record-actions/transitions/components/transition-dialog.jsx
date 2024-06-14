@@ -8,7 +8,7 @@ import { useI18n } from "../../../i18n";
 import { RECORD_TYPES } from "../../../../config";
 import { MAX_BULK_RECORDS } from "../constants";
 
-const TransitionDialog = ({
+function TransitionDialog({
   onClose,
   children,
   confirmButtonLabel,
@@ -23,7 +23,7 @@ const TransitionDialog = ({
   enabledSuccessButton,
   selectedRecordsLength = 0,
   disableActions = false
-}) => {
+}) {
   const i18n = useI18n();
 
   const title = (type => {
@@ -69,7 +69,7 @@ const TransitionDialog = ({
   };
 
   return <ActionDialog {...dialogProps}>{children}</ActionDialog>;
-};
+}
 
 TransitionDialog.propTypes = {
   children: PropTypes.node.isRequired,

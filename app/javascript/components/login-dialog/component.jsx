@@ -9,7 +9,7 @@ import utils from "../login/utils";
 
 import { LOGIN_DIALOG } from "./constants";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
   const { demo } = useApp();
 
@@ -35,7 +35,7 @@ const Component = () => {
       <Login modal />
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = "LoginDialog";
 

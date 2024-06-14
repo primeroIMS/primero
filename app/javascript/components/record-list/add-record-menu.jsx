@@ -19,7 +19,7 @@ import { getOptionFromAppModule } from "../application/selectors";
 import CreateRecordDialog from "./create-record-dialog";
 import { SEARCH_AND_CREATE_WORKFLOW } from "./constants";
 
-const AddRecordMenu = ({ recordType }) => {
+function AddRecordMenu({ recordType }) {
   const dispatch = useDispatch();
   const [moduleUniqueId, setModuleUniqueId] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -105,7 +105,7 @@ const AddRecordMenu = ({ recordType }) => {
       {renderCreateRecord}
     </>
   );
-};
+}
 
 AddRecordMenu.displayName = "AddRecordMenu";
 

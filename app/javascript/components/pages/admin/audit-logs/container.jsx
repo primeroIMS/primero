@@ -22,7 +22,7 @@ import { fetchAuditLogs, fetchPerformedBy, setAuditLogsFilters } from "./action-
 import { getFilterUsers } from "./selectors";
 import { buildAuditLogsQuery, getFilters } from "./utils";
 
-const Container = () => {
+function Container() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const recordType = ["admin", AUDIT_LOG];
@@ -136,7 +136,7 @@ const Container = () => {
       </PageContent>
     </Permission>
   );
-};
+}
 
 Container.displayName = NAME;
 

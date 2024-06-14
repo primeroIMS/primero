@@ -10,7 +10,7 @@ import FilterApplied from "../filter-applied";
 
 import { NAME } from "./constants";
 
-const Component = ({
+function Component({
   constraints,
   handleOpenModal,
   handleEdit,
@@ -18,7 +18,7 @@ const Component = ({
   indexes,
   isConditionsList = false,
   showEmptyMessage = true
-}) => {
+}) {
   const i18n = useI18n();
 
   const handleClickOpen = useCallback((index, filter) => () => handleOpenModal(index, filter), []);
@@ -42,7 +42,7 @@ const Component = ({
       showAndLabel={hasNestedConditions && index === indexes.length - 1}
     />
   ));
-};
+}
 
 Component.displayName = NAME;
 

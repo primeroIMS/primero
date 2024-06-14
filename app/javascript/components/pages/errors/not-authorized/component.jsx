@@ -10,7 +10,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import css from "./styles.css";
 
-const NotAuthorized = () => {
+function NotAuthorized() {
   const i18n = useI18n();
 
   return (
@@ -33,7 +33,7 @@ const NotAuthorized = () => {
       />
     </div>
   );
-};
+}
 
 NotAuthorized.displayName = "NotAuthorized";
 

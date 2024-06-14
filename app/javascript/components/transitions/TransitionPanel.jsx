@@ -7,7 +7,7 @@ import { Accordion } from "@mui/material";
 import { TRANSITION_PANEL_NAME as NAME } from "./constants";
 import css from "./styles.css";
 
-const TransitionPanel = ({ children }) => {
+function TransitionPanel({ children }) {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpanded = () => {
@@ -19,7 +19,7 @@ const TransitionPanel = ({ children }) => {
       {children}
     </Accordion>
   );
-};
+}
 
 TransitionPanel.displayName = NAME;
 

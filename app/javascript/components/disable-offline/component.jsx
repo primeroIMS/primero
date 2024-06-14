@@ -10,7 +10,7 @@ import { useI18n } from "../i18n";
 
 import css from "./styles.css";
 
-const Component = ({ overrideCondition = false, children, button = false, offlineTextKey = null }) => {
+function Component({ overrideCondition = false, children, button = false, offlineTextKey = null }) {
   const { online } = useApp();
   const i18n = useI18n();
   const classes = clsx(css.disabledLink, {
@@ -29,7 +29,7 @@ const Component = ({ overrideCondition = false, children, button = false, offlin
   }
 
   return children;
-};
+}
 
 Component.propTypes = {
   button: PropTypes.bool,

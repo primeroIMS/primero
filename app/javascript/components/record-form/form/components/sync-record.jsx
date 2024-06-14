@@ -14,7 +14,7 @@ import { SYNC_RECORD_NAME, SYNC_RECORD_STATUS } from "./constants";
 import { buildLabelSync } from "./utils";
 import css from "./styles.css";
 
-const SyncRecord = ({ i18n, isEnabledWebhookSyncFor, syncedAt, syncStatus, params }) => {
+function SyncRecord({ i18n, isEnabledWebhookSyncFor, syncedAt, syncStatus, params }) {
   const dispatch = useDispatch();
 
   if (!isEnabledWebhookSyncFor) {
@@ -64,7 +64,7 @@ const SyncRecord = ({ i18n, isEnabledWebhookSyncFor, syncedAt, syncStatus, param
       {renderCheckStatusBtn}
     </div>
   );
-};
+}
 
 SyncRecord.displayName = SYNC_RECORD_NAME;
 

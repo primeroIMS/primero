@@ -24,7 +24,7 @@ import { useApp } from "../../../../../application";
 import css from "./styles.css";
 import { NAME, CUSTOM_FIELD_DIALOG } from "./constants";
 
-const Component = ({ getValues }) => {
+function Component({ getValues }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -134,7 +134,7 @@ const Component = ({ getValues }) => {
       <CustomFieldSelectorDialog key="custom-field-selector-dialog" isSubform={isSelectedSubform} />
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

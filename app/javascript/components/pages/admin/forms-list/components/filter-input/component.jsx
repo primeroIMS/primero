@@ -6,7 +6,7 @@ import ToggleButtonGroup from "@mui/lab/ToggleButtonGroup";
 
 import css from "../../styles.css";
 
-const Component = ({ handleSetFilterValue, options = [], name, filterValues = {}, id: filterID }) => {
+function Component({ handleSetFilterValue, options = [], name, filterValues = {}, id: filterID }) {
   const renderOptions = () =>
     options.map(option => {
       const { displayName, id } = option;
@@ -40,7 +40,7 @@ const Component = ({ handleSetFilterValue, options = [], name, filterValues = {}
       {renderOptions()}
     </ToggleButtonGroup>
   );
-};
+}
 
 Component.displayName = "FilterInput";
 

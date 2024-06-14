@@ -17,7 +17,7 @@ import form, { validationSchema } from "./form";
 import { getFilterConstraint, getFilterValue, isNotNullConstraintOrTrue } from "./utils";
 import css from "./styles.css";
 
-const Component = ({ fields, open, setOpen, selectedIndex, setSelectedIndex, indexes, onSuccess }) => {
+function Component({ fields, open, setOpen, selectedIndex, setSelectedIndex, indexes, onSuccess }) {
   const formMode = whichFormMode("edit");
 
   const i18n = useI18n();
@@ -121,7 +121,7 @@ const Component = ({ fields, open, setOpen, selectedIndex, setSelectedIndex, ind
       </ActionDialog>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

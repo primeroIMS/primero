@@ -40,7 +40,7 @@ import {
 import { buildErrorMessages } from "./utils";
 import css from "./styles.css";
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const formMode = whichFormMode(mode);
 
   const isEditOrShow = formMode.isEdit || formMode.isShow;
@@ -226,7 +226,7 @@ const Container = ({ mode }) => {
       </PageContent>
     </LoadingIndicator>
   );
-};
+}
 
 Container.displayName = NAME;
 

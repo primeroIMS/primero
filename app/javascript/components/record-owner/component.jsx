@@ -12,7 +12,7 @@ import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { NAME, FIELDS } from "./constants";
 
-const Component = ({ record, recordType, mobileDisplay, handleToggleNav }) => {
+function Component({ record, recordType, mobileDisplay, handleToggleNav }) {
   const i18n = useI18n();
 
   const agencies = useMemoizedSelector(state => selectAgencies(state));
@@ -80,7 +80,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav }) => {
       </Formik>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

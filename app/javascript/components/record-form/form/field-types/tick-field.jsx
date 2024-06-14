@@ -12,7 +12,7 @@ import { TICK_FIELD_NAME } from "../constants";
 import { useI18n } from "../../../i18n";
 import css from "../styles.css";
 
-const TickField = ({ helperText, name, label, tickBoxlabel, formik, disabled = false, ...rest }) => {
+function TickField({ helperText, name, label, tickBoxlabel, formik, disabled = false, ...rest }) {
   const i18n = useI18n();
 
   const fieldProps = {
@@ -51,7 +51,7 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, disabled = f
       {displayHelperText}
     </FormControl>
   );
-};
+}
 
 TickField.displayName = TICK_FIELD_NAME;
 

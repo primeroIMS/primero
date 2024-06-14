@@ -23,7 +23,7 @@ import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME, REVOKE_MODAL } from "./constants";
 
-const Component = ({ transition, showMode, recordType, classes }) => {
+function Component({ transition, showMode, recordType, classes }) {
   const i18n = useI18n();
   const {
     id,
@@ -216,7 +216,7 @@ const Component = ({ transition, showMode, recordType, classes }) => {
       )}
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

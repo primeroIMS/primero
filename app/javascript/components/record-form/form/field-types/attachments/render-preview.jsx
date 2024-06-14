@@ -1,4 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+/* eslint-disable react/function-component-definition */
 
 import AttachmentPreview from "./attachment-preview";
 import { ATTACHMENT_TYPES } from "./constants";

@@ -11,7 +11,7 @@ import watchedFormSectionField from "../watched-form-section-field";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ tabs, formMethods, formMode, handleTabChange }) => {
+function Component({ tabs, formMethods, formMode, handleTabChange }) {
   const firstEnabled = tabs.findIndex(el => el.disabled === false);
   const [tab, setTab] = useState(firstEnabled);
 
@@ -48,7 +48,7 @@ const Component = ({ tabs, formMethods, formMode, handleTabChange }) => {
       {renderTabPanel()}
     </>
   );
-};
+}
 
 Component.propTypes = {
   formMethods: PropTypes.object.isRequired,

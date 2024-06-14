@@ -28,7 +28,7 @@ import { form, validations } from "./form";
 import { fetchAgency, clearSelectedAgency, saveAgency } from "./action-creators";
 import { getAgency, getServerErrors, getSavingRecord } from "./selectors";
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -149,7 +149,7 @@ const Container = ({ mode }) => {
       </PageContent>
     </LoadingIndicator>
   );
-};
+}
 
 Container.displayName = NAME;
 

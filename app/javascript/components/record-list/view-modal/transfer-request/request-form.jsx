@@ -16,7 +16,7 @@ const sharedTextFieldProps = {
   fullWidth: true
 };
 
-const RequestForm = ({ formProps, record }) => {
+function RequestForm({ formProps, record }) {
   const i18n = useI18n();
   const { handleSubmit } = formProps;
 
@@ -45,7 +45,7 @@ const RequestForm = ({ formProps, record }) => {
       </Form>
     </>
   );
-};
+}
 
 RequestForm.displayName = REQUEST_FORM_NAME;
 

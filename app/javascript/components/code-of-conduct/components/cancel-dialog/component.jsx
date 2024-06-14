@@ -9,7 +9,7 @@ import { ROUTES } from "../../../../config";
 
 import { NAME } from "./constants";
 
-const Component = ({ dispatch, open, setOpen, i18n }) => {
+function Component({ dispatch, open, setOpen, i18n }) {
   const onClose = () => setOpen(false);
   const handleLogout = () => {
     dispatch(push(ROUTES.logout));
@@ -29,7 +29,7 @@ const Component = ({ dispatch, open, setOpen, i18n }) => {
       }}
     />
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -30,7 +30,7 @@ import {
   RegistryRecordIcon
 } from "../../images/primero-icons";
 
-const ListIcon = ({ icon }) => {
+function ListIcon({ icon }) {
   switch (icon) {
     case "home":
       return <Home />;
@@ -83,7 +83,7 @@ const ListIcon = ({ icon }) => {
     default:
       return null;
   }
-};
+}
 
 ListIcon.displayName = "ListIcon";
 

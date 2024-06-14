@@ -66,7 +66,9 @@ describe("renderFormSections()", () => {
       );
 
     // eslint-disable-next-line react/display-name
-    const RenderedFormSections = () => <>{formSection()}</>;
+    function RenderedFormSections() {
+      return <>{formSection()}</>;
+    }
 
     mountedComponent(<RenderedFormSections />, {}, {}, [], { initialValues: {} });
 

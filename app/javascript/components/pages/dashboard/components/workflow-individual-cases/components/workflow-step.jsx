@@ -14,7 +14,7 @@ import css from "../styles.css";
 
 import { NAME } from "./constants";
 
-const WorkFlowStep = ({ step = {}, casesWorkflow = fromJS({}), i18n }) => {
+function WorkFlowStep({ step = {}, casesWorkflow = fromJS({}), i18n }) {
   const dispatch = useDispatch();
 
   const workflowData = casesWorkflow.getIn(["indicators", "workflow", step.id], fromJS({}));
@@ -42,7 +42,7 @@ const WorkFlowStep = ({ step = {}, casesWorkflow = fromJS({}), i18n }) => {
   const chipType = count === 0 ? "defaultNoCount" : "default";
 
   return <DashboardChip label={chipText} handleClick={handleClickButton} type={chipType} />;
-};
+}
 
 WorkFlowStep.displayName = NAME;
 

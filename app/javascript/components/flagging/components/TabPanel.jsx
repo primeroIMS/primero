@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
 
-const TabPanel = props => {
+function TabPanel(props) {
   const { children, value, index } = props;
 
   return (
@@ -16,7 +16,7 @@ const TabPanel = props => {
       {children}
     </Box>
   );
-};
+}
 
 TabPanel.displayName = "TabPanel";
 

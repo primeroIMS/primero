@@ -32,7 +32,7 @@ import {
   TRANSITIONED_TO_FIELD
 } from "./constants";
 
-const ReferralForm = ({
+function ReferralForm({
   canConsentOverride,
   providedConsent,
   recordType,
@@ -42,7 +42,7 @@ const ReferralForm = ({
   setPending,
   disabled,
   setDisabled
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -133,7 +133,7 @@ const ReferralForm = ({
   };
 
   return <Formik {...formProps} />;
-};
+}
 
 ReferralForm.displayName = NAME;
 

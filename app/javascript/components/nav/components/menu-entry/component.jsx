@@ -19,7 +19,7 @@ import { setDialog } from "../../../action-dialog";
 import { LOGOUT_DIALOG, NAV_SETTINGS } from "../../constants";
 import { ROUTES } from "../../../../config";
 
-const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) => {
+function Component({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) {
   const { disabledApplication, online, useContainedNavStyle } = useApp();
 
   const i18n = useI18n();
@@ -86,7 +86,7 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   }
 
   return renderNavAction;
-};
+}
 
 Component.propTypes = {
   closeDrawer: PropTypes.func.isRequired,

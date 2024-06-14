@@ -10,7 +10,7 @@ import formComponent from "../utils/form-component";
 
 import css from "./styles.css";
 
-const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUnderline = false }) => {
+function FormSectionField({ checkErrors, field, formMethods, formMode, disableUnderline = false }) {
   const { errors } = formMethods;
   const {
     Field,
@@ -55,7 +55,7 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUn
       </ConditionalWrapper>
     )
   );
-};
+}
 
 FormSectionField.displayName = "FormSectionField";
 

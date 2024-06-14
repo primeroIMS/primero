@@ -8,7 +8,7 @@ import { FILTER_CATEGORY } from "../constants";
 
 import css from "./styles.css";
 
-const FilterCategory = ({ formMethods }) => {
+function FilterCategory({ formMethods }) {
   const i18n = useI18n();
   const options = Object.values(FILTER_CATEGORY).map(
     elem => ({
@@ -33,7 +33,7 @@ const FilterCategory = ({ formMethods }) => {
       />
     </div>
   );
-};
+}
 
 FilterCategory.displayName = "FilterCategory";
 

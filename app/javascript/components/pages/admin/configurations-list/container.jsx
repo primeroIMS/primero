@@ -19,7 +19,7 @@ import { NAME } from "./constants";
 import { getColumns } from "./utils";
 import { fetchConfigurations } from "./action-creators";
 
-const Container = () => {
+function Container() {
   const i18n = useI18n();
   const recordType = ["admin", NAMESPACE];
 
@@ -82,7 +82,7 @@ const Container = () => {
       </PageContent>
     </Permission>
   );
-};
+}
 
 Container.displayName = NAME;
 

@@ -41,7 +41,7 @@ import css from "./styles.css";
 import { transformFilters } from "./utils";
 import validations from "./validations";
 
-const Component = ({ moduleID, id, subReport, toggleControls }) => {
+function Component({ moduleID, id, subReport, toggleControls }) {
   const isManagedReportScopeAll = useMemoizedSelector(state => getIsManagedReportScopeAll(state));
   const canReadUserGroups = usePermissions(RESOURCES.user_groups, READ_RECORDS);
   const userGroups = useOptions({ source: OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED });
@@ -155,7 +155,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
       </div>
     </form>
   );
-};
+}
 
 Component.displayName = "InsightsFilters";
 

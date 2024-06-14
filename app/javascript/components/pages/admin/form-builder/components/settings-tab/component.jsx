@@ -20,7 +20,7 @@ import { MODULES_FIELD, RECORD_TYPE_FIELD, SKIP_LOGIC_FIELD } from "../../consta
 
 import { NAME } from "./constants";
 
-const Component = ({ index, mode, tab, formMethods, limitedProductionSite }) => {
+function Component({ index, mode, tab, formMethods, limitedProductionSite }) {
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);
 
@@ -91,7 +91,7 @@ const Component = ({ index, mode, tab, formMethods, limitedProductionSite }) => 
       <FormTranslationsDialog mode={mode} getValues={getFormValues} onSuccess={onUpdateTranslation} reset={formReset} />
     </TabPanel>
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -13,7 +13,7 @@ import css from "./styles.css";
 import { NAME } from "./constants";
 import { selectAllRecords } from "./utils";
 
-const Component = ({
+function Component({
   canSelectAll = false,
   displayData,
   fetchRecords,
@@ -25,7 +25,7 @@ const Component = ({
   selectedRows,
   setSelectedRecords,
   totalRecords
-}) => {
+}) {
   const { online } = useApp();
   const rowsPerPage = perPage > MAX_OFFLINE_ROWS_PER_PAGE && !online ? MAX_OFFLINE_ROWS_PER_PAGE : perPage;
   const dispatch = useDispatch();
@@ -114,7 +114,7 @@ const Component = ({
       </div>
     </div>
   );
-};
+}
 
 Component.propTypes = {
   canSelectAll: PropTypes.bool,

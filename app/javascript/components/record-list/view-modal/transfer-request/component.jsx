@@ -16,7 +16,7 @@ import RequestForm from "./request-form";
 import { saveTransferRequest } from "./action-creators";
 import NAMESPACE from "./namespace";
 
-const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
+function TransferRequest({ open, setOpen, currentRecord, caseId }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formikRef = createRef();
@@ -82,7 +82,7 @@ const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
       </ActionDialog>
     </>
   );
-};
+}
 
 TransferRequest.displayName = NAME;
 

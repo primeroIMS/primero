@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../action-button";
 import { setSelectedForm } from "../../action-creators";
 
-const LinkToForm = ({ label, linkToForm }) => {
+function LinkToForm({ label, linkToForm }) {
   const dispatch = useDispatch();
   const onClick = () => dispatch(setSelectedForm(linkToForm));
 
@@ -26,7 +26,7 @@ const LinkToForm = ({ label, linkToForm }) => {
       }}
     />
   );
-};
+}
 
 LinkToForm.displayName = "LinkToForm";
 

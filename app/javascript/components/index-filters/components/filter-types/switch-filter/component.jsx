@@ -12,7 +12,7 @@ import handleFilterChange from "../value-handlers";
 
 import { NAME } from "./constants";
 
-const Component = ({ filter, moreSectionFilters = {}, setMoreSectionFilters, mode, reset, setReset }) => {
+function Component({ filter, moreSectionFilters = {}, setMoreSectionFilters, mode, reset, setReset }) {
   const i18n = useI18n();
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState();
@@ -82,7 +82,7 @@ const Component = ({ filter, moreSectionFilters = {}, setMoreSectionFilters, mod
       </FormControl>
     </Panel>
   );
-};
+}
 
 Component.displayName = NAME;
 

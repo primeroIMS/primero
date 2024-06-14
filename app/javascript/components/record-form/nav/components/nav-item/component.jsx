@@ -14,7 +14,7 @@ import { useApp } from "../../../../application";
 
 import { NAME } from "./constants";
 
-const Component = ({
+function Component({
   form,
   groupItem,
   handleClick,
@@ -27,7 +27,7 @@ const Component = ({
   selectedForm,
   hasError,
   testID
-}) => {
+}) {
   const { disabledApplication } = useApp();
 
   const { formId, group } = form;
@@ -82,7 +82,7 @@ const Component = ({
       {isNested && (open ? <ExpandMore /> : <ExpandLess />)}
     </ListItem>
   );
-};
+}
 
 Component.displayName = NAME;
 

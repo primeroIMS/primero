@@ -20,7 +20,7 @@ import { selectSavedSearchesById } from "./selectors";
 import { buildFiltersState } from "./utils";
 import css from "./styles.css";
 
-const ListSavedSearches = ({ recordType, savedSearches, setTabIndex, setRerender }) => {
+function ListSavedSearches({ recordType, savedSearches, setTabIndex, setRerender }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -104,7 +104,7 @@ const ListSavedSearches = ({ recordType, savedSearches, setTabIndex, setRerender
       <List component="nav">{renderSavedSearches()}</List>
     </div>
   );
-};
+}
 
 ListSavedSearches.displayName = "ListSavedSearches";
 

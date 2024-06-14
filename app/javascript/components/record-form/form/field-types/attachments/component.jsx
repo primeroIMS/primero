@@ -23,7 +23,7 @@ import PhotoArray from "./photo-array";
 import { buildBase64URL } from "./utils";
 
 // TODO: No link to display / download upload
-const Component = ({ name, field, label, disabled, formik, mode, recordType, helperText }) => {
+function Component({ name, field, label, disabled, formik, mode, recordType, helperText }) {
   const i18n = useI18n();
 
   const loading = useMemoizedSelector(state => getLoadingRecordState(state, recordType));
@@ -143,7 +143,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType, hel
       )}
     </FieldArray>
   );
-};
+}
 
 Component.displayName = ATTACHMENT_FIELD_NAME;
 

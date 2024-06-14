@@ -9,7 +9,7 @@ import ApprovalSummary from "../summary";
 import ApprovalDetail from "../detail";
 import { NAME_PANEL } from "../../constants";
 
-const Component = ({ approvalSubform, css }) => {
+function Component({ approvalSubform, css }) {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpanded = () => {
@@ -45,7 +45,7 @@ const Component = ({ approvalSubform, css }) => {
       </Accordion>
     </div>
   );
-};
+}
 
 Component.displayName = NAME_PANEL;
 

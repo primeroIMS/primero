@@ -26,7 +26,7 @@ import { FORM_ID, NAME } from "./constants";
 import { searchForm } from "./forms";
 import css from "./styles.css";
 
-const Component = ({ moduleUniqueId, open = false, recordType, setOpen }) => {
+function Component({ moduleUniqueId, open = false, recordType, setOpen }) {
   const formMode = whichFormMode(FORM_MODE_NEW);
 
   const dispatch = useDispatch();
@@ -134,7 +134,7 @@ const Component = ({ moduleUniqueId, open = false, recordType, setOpen }) => {
       </DialogActions>
     </Dialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

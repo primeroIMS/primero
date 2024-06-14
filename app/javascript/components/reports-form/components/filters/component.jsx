@@ -18,7 +18,7 @@ import { NAME } from "./constants";
 import css from "./styles.css";
 import { onFilterDialogSuccess } from "./utils";
 
-const Container = ({
+function Container({
   indexes,
   setIndexes,
   allRecordForms,
@@ -28,7 +28,7 @@ const Container = ({
   formMode,
   selectedRecordType,
   selectedModule
-}) => {
+}) {
   const i18n = useI18n();
 
   const matchableRecordType = MATCH_REPORTABLE_TYPES[selectedRecordType] || selectedRecordType;
@@ -135,7 +135,7 @@ const Container = ({
       />
     </>
   );
-};
+}
 
 Container.displayName = NAME;
 

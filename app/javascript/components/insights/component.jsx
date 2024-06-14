@@ -27,7 +27,7 @@ import { INSIGHTS_CONFIG, NAME, INSIGHTS_EXPORTER_DIALOG, MANAGED_REPORTS, REPOR
 import css from "./styles.css";
 import InsightsExporter from "./components/insights-exporter";
 
-const Component = ({ routes }) => {
+function Component({ routes }) {
   const { id, moduleID } = useParams();
   const i18n = useI18n();
   const { pathname } = useLocation();
@@ -116,7 +116,7 @@ const Component = ({ routes }) => {
       </PageContent>
     </PageContainer>
   );
-};
+}
 
 Component.displayName = NAME;
 

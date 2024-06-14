@@ -17,7 +17,7 @@ import css from "./styles.css";
 import { clearDialog } from "./action-creators";
 import { getAsyncLoading } from "./selectors";
 
-const ActionDialog = ({
+function ActionDialog({
   cancelButtonProps = {},
   cancelHandler,
   children,
@@ -42,7 +42,7 @@ const ActionDialog = ({
   fetchAction,
   fetchArgs = [],
   fetchLoadingPath
-}) => {
+}) {
   const dispatch = useDispatch();
 
   const { disabledApplication } = useApp();
@@ -166,7 +166,7 @@ const ActionDialog = ({
       </Dialog>
     </div>
   );
-};
+}
 
 ActionDialog.displayName = "ActionDialog";
 

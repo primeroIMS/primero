@@ -9,7 +9,7 @@ import { useI18n } from "../../../../../i18n";
 
 import css from "./styles.css";
 
-const Component = ({ children }) => {
+function Component({ children }) {
   const i18n = useI18n();
 
   return (
@@ -18,7 +18,7 @@ const Component = ({ children }) => {
       {children}
     </Alert>
   );
-};
+}
 
 Component.displayName = "ConsentProvided";
 

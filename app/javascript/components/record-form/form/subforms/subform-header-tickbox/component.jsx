@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { useI18n } from "../../../../i18n";
 import { SUBFORM_HEADER_TICKBOX } from "../constants";
 
-const Component = ({ value, tickBoxLabel }) => {
+function Component({ value, tickBoxLabel }) {
   const i18n = useI18n();
 
   if (!value) return value || "";
@@ -13,7 +13,7 @@ const Component = ({ value, tickBoxLabel }) => {
   const renderValue = tickBoxLabel[i18n.locale] || i18n.t("yes_label");
 
   return <span>{renderValue}</span>;
-};
+}
 
 Component.displayName = SUBFORM_HEADER_TICKBOX;
 

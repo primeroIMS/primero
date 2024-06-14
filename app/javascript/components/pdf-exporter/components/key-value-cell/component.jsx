@@ -17,7 +17,7 @@ import useOptions from "../../../form/use-options";
 
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   classes,
   defaultValue,
   displayName,
@@ -27,7 +27,7 @@ const Component = ({
   optionsStringSource = null,
   type,
   value = ""
-}) => {
+}) {
   const i18n = useI18n();
 
   const isDateField = type === DATE_FIELD;
@@ -98,7 +98,7 @@ const Component = ({
       <div>{renderValue(cellValue)}</div>
     </div>
   );
-};
+}
 
 Component.displayName = "KeyValueCell";
 

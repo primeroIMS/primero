@@ -22,7 +22,7 @@ import css from "./styles.css";
 
 const filter = createFilterOptions({ limit: 50 });
 
-const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions = [], formMethods, isShow = false }) => {
+function SelectInput({ commonInputProps, metaInputProps, options: allOptions = [], formMethods, isShow = false }) {
   const { control, setValue, getValues } = formMethods;
   const {
     multiSelect,
@@ -299,7 +299,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions = [
       )}
     />
   );
-};
+}
 
 SelectInput.displayName = "SelectInput";
 

@@ -16,7 +16,7 @@ import css from "./styles.css";
 import { NAME } from "./constants";
 import IncidentPanel from "./components/panel";
 
-const Container = ({
+function Container({
   handleCreateIncident,
   record,
   incidents,
@@ -28,7 +28,7 @@ const Container = ({
   recordType,
   primeroModule,
   dirty = false
-}) => {
+}) {
   const i18n = useI18n();
 
   const incidentFromCaseForm = useMemoizedSelector(state =>
@@ -82,7 +82,7 @@ const Container = ({
       {renderIncidents}
     </div>
   );
-};
+}
 
 Container.displayName = NAME;
 

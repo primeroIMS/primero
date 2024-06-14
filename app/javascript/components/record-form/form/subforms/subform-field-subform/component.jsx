@@ -11,7 +11,7 @@ import { useI18n } from "../../../../i18n";
 
 import { EXPANDED } from "./constants";
 
-const Component = ({ isViolation, parentTitle, parentValues, fieldProps, violationOptions, components }) => {
+function Component({ isViolation, parentTitle, parentValues, fieldProps, violationOptions, components }) {
   const i18n = useI18n();
 
   const { field: subformSectionField } = fieldProps;
@@ -62,7 +62,7 @@ const Component = ({ isViolation, parentTitle, parentValues, fieldProps, violati
       </Accordion>
     </div>
   );
-};
+}
 
 Component.displayName = SUBFORM_FIELD_SUBFORM;
 

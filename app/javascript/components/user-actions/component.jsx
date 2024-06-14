@@ -13,7 +13,7 @@ import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { NAME } from "./constants";
 
-const Component = ({ id }) => {
+function Component({ id }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { setDialog, dialogOpen, dialogClose } = useDialog(DIALOG_NAME);
@@ -44,7 +44,7 @@ const Component = ({ id }) => {
       )}
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

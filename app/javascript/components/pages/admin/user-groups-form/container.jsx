@@ -24,7 +24,7 @@ import { fetchUserGroup, clearSelectedUserGroup, saveUserGroup } from "./action-
 import { getUserGroup, getServerErrors, getSavingRecord } from "./selectors";
 import { NAME, FORM_ID } from "./constants";
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const formMode = whichFormMode(mode);
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
@@ -117,7 +117,7 @@ const Container = ({ mode }) => {
       </PageContent>
     </LoadingIndicator>
   );
-};
+}
 
 Container.displayName = NAME;
 

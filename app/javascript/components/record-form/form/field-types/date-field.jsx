@@ -16,7 +16,7 @@ import { NOT_FUTURE_DATE } from "../../constants";
 
 import DateFieldPicker from "./date-field-picker";
 
-const DateField = ({ displayName, name, helperText, mode, formik, InputProps, formSection, ...rest }) => {
+function DateField({ displayName, name, helperText, mode, formik, InputProps, formSection, ...rest }) {
   const fieldValue = useRef(null);
   const formInstance = useRef();
 
@@ -134,7 +134,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, fo
       }}
     </FastField>
   );
-};
+}
 
 DateField.displayName = DATE_FIELD_NAME;
 

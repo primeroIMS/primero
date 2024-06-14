@@ -32,7 +32,7 @@ import css from "./styles.css";
 import RecordPageHeading from "./page-heading";
 import DisabledRecordIndicator from "./components/disabled-record-indicator";
 
-const RecordFormToolbar = ({
+function RecordFormToolbar({
   handleFormSubmit,
   caseIdDisplay,
   history,
@@ -42,7 +42,7 @@ const RecordFormToolbar = ({
   record,
   recordType,
   shortId
-}) => {
+}) {
   const { isRTL } = useThemeHelper();
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -186,7 +186,7 @@ const RecordFormToolbar = ({
       </>
     </PageHeading>
   );
-};
+}
 
 RecordFormToolbar.displayName = RECORD_FORM_TOOLBAR_NAME;
 

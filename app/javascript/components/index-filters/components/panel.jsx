@@ -14,7 +14,7 @@ import { useThemeHelper } from "../../../libs";
 
 import css from "./styles.css";
 
-const Panel = ({ filter, getValues, selectedDefaultValueField, handleReset, moreSectionFilters = {}, children }) => {
+function Panel({ filter, getValues, selectedDefaultValueField, handleReset, moreSectionFilters = {}, children }) {
   const { isRTL } = useThemeHelper();
   const { name, field_name: fieldName } = filter;
 
@@ -55,7 +55,7 @@ const Panel = ({ filter, getValues, selectedDefaultValueField, handleReset, more
       <AccordionDetails className={css.panelDetails}>{children}</AccordionDetails>
     </Accordion>
   );
-};
+}
 
 Panel.displayName = "Panel";
 

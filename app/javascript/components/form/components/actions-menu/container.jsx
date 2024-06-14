@@ -10,7 +10,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import { NAME } from "./constants";
 
-const Container = ({ actionItems = [] }) => {
+function Container({ actionItems = [] }) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -59,7 +59,7 @@ const Container = ({ actionItems = [] }) => {
       </Menu>
     </>
   );
-};
+}
 
 Container.propTypes = {
   actionItems: PropTypes.array

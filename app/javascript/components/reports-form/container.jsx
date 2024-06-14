@@ -44,7 +44,7 @@ import { form, validations } from "./form";
 import NAMESPACE from "./namespace";
 import { buildMinimumReportableFields, buildReportFields, checkValue, formatAgeRange, formatReport } from "./utils";
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const formMode = whichFormMode(mode);
   const { dialogOpen, setDialog } = useDialog(TranslationsFormName);
 
@@ -213,7 +213,7 @@ const Container = ({ mode }) => {
       </PageContainer>
     </LoadingIndicator>
   );
-};
+}
 
 Container.displayName = NAME;
 

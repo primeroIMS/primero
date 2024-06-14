@@ -7,7 +7,7 @@ import { Grid } from "@mui/material";
 import { useI18n } from "../../../../../../i18n";
 import FieldRows from "../field-rows/component";
 
-const ComparedForms = ({ forms }) => {
+function ComparedForms({ forms }) {
   const i18n = useI18n();
 
   return forms.map(({ form, comparisons, index }) => (
@@ -20,7 +20,7 @@ const ComparedForms = ({ forms }) => {
       <FieldRows comparisons={comparisons} />
     </Fragment>
   ));
-};
+}
 
 ComparedForms.propTypes = {
   forms: PropTypes.object

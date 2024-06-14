@@ -10,7 +10,7 @@ import css from "../../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({
+function Component({
   recordChangeLogs,
   setOpen,
   setRecordChanges,
@@ -19,7 +19,7 @@ const Component = ({
   allLookups,
   locations,
   allAgencies
-}) => {
+}) {
   const i18n = useI18n();
 
   const handleSeeDetails = subformChanges => {
@@ -39,7 +39,7 @@ const Component = ({
   ).map(item => <ChangeLogItem item={item} key={item.key} />);
 
   return <Timeline classes={{ root: css.root }}>{renderItems}</Timeline>;
-};
+}
 
 Component.displayName = NAME;
 

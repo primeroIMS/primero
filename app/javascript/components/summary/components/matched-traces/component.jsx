@@ -17,7 +17,7 @@ import { MatchedTracePanel } from "./components";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ data = fromJS([]), loading, record, setSelectedForm }) => {
+function Component({ data = fromJS([]), loading, record, setSelectedForm }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -88,7 +88,7 @@ const Component = ({ data = fromJS([]), loading, record, setSelectedForm }) => {
       </SubformDrawer>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

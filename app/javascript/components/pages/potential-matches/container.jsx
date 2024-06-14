@@ -13,7 +13,7 @@ import css from "./styles.css";
 import { fetchPotentialMatches } from "./action-creators";
 import { selectPotentialMatches } from "./selectors";
 
-const PotentialMatches = ({ getPotentialMatches, potentialMatches }) => {
+function PotentialMatches({ getPotentialMatches, potentialMatches }) {
   useEffect(() => {
     getPotentialMatches();
   }, []);
@@ -90,7 +90,7 @@ const PotentialMatches = ({ getPotentialMatches, potentialMatches }) => {
       </PageContent>
     </PageContainer>
   );
-};
+}
 
 PotentialMatches.displayName = "PotentialMatches";
 

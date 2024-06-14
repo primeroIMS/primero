@@ -25,7 +25,7 @@ import FormInternal from "./form-internal";
 import { TRANSITIONED_TO_FIELD, MAIN_FORM, SERVICE_RECORD_FIELD } from "./constants";
 import { buildFields } from "./utils";
 
-const MainForm = ({ formProps, rest }) => {
+function MainForm({ formProps, rest }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const firstUpdate = useRef(true);
@@ -147,7 +147,7 @@ const MainForm = ({ formProps, rest }) => {
       />
     </Form>
   );
-};
+}
 
 MainForm.displayName = MAIN_FORM;
 

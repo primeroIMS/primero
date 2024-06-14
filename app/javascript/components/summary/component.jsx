@@ -29,7 +29,7 @@ import { NAME, FIELD_NAMES } from "./constants";
 import { fields } from "./form";
 import css from "./styles.css";
 
-const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, mode, values }) => {
+function Component({ record, recordType, mobileDisplay, handleToggleNav, form, mode, values }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -137,7 +137,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
       />
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

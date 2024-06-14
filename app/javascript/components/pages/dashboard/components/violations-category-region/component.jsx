@@ -15,7 +15,7 @@ import { OPTION_TYPES } from "../../../../form";
 import { NAME } from "./constants";
 import { getVerifiedData } from "./utils";
 
-const Component = ({ loadingIndicator }) => {
+function Component({ loadingIndicator }) {
   const i18n = useI18n();
 
   const { violationTypes, reportingLocations } = useOptions({
@@ -45,7 +45,7 @@ const Component = ({ loadingIndicator }) => {
       </OptionsBox>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

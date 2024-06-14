@@ -7,7 +7,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 
 import { NAME } from "./constants";
 
-const Component = ({ addField, field, removeField, selected = false }) => {
+function Component({ addField, field, removeField, selected = false }) {
   const onAdd = () => {
     addField(field);
   };
@@ -25,7 +25,7 @@ const Component = ({ addField, field, removeField, selected = false }) => {
       <AddIcon />
     </IconButton>
   );
-};
+}
 
 Component.displayName = NAME;
 

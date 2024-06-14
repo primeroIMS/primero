@@ -24,7 +24,7 @@ import { shouldFieldUpdate } from "../utils";
 
 import css from "./styles.css";
 
-const TextField = ({ name, field, formik, mode, recordType, recordID, formSection, ...rest }) => {
+function TextField({ name, field, formik, mode, recordType, recordID, formSection, ...rest }) {
   const { type } = field;
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -110,7 +110,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
       }}
     </FastField>
   );
-};
+}
 
 TextField.displayName = TEXT_FIELD_NAME;
 

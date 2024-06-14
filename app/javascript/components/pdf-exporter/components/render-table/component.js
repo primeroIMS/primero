@@ -6,14 +6,14 @@ import Table from "../table";
 
 import css from "./styles.css";
 
-const Component = ({ title, fields, data }) => {
+function Component({ title, fields, data }) {
   return (
     <div className={css.group}>
       <h2>{title}</h2>
       <Table fields={fields} record={data} />
     </div>
   );
-};
+}
 
 Component.displayName = "RenderTable";
 

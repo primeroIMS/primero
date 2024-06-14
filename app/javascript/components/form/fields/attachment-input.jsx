@@ -14,7 +14,7 @@ import { ATTACHMENT_TYPES } from "../../record-form/form/field-types/attachments
 
 import css from "./styles.css";
 
-const AttachmentInput = ({ commonInputProps, metaInputProps, formMode, formMethods }) => {
+function AttachmentInput({ commonInputProps, metaInputProps, formMode, formMethods }) {
   const { setValue, watch, register } = formMethods;
 
   const [file, setFile] = useState({
@@ -137,7 +137,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMode, formMetho
       <div className={css.downloadButton}>{downloadButton}</div>
     </div>
   );
-};
+}
 
 AttachmentInput.displayName = "AttachmentInput";
 

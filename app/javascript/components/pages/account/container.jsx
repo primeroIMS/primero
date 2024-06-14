@@ -32,7 +32,7 @@ import { clearCurrentUser, fetchCurrentUser, updateUserAccount } from "./action-
 import { FORM_ID, NAME } from "./constants";
 import NAMESPACE from "./namespace";
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const formMode = whichFormMode(mode);
 
   const i18n = useI18n();
@@ -164,7 +164,7 @@ const Container = ({ mode }) => {
       </PageContainer>
     </LoadingIndicator>
   );
-};
+}
 
 Container.displayName = NAME;
 

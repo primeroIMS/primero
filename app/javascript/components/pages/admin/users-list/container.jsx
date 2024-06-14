@@ -31,7 +31,7 @@ import AlertMaxUser from "./components/alert-max-user";
 import CustomToolbar from "./components/custom-toolbar";
 import NewUserBtn from "./components/new-user-button";
 
-const Container = () => {
+function Container() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { maximumUsers, maximumUsersWarning } = useApp();
@@ -147,7 +147,7 @@ const Container = () => {
       </PageContent>
     </>
   );
-};
+}
 
 Container.displayName = "UsersList";
 

@@ -22,7 +22,7 @@ import { useMemoizedSelector } from "../../../../libs";
 import { NAME } from "./constants";
 import { columns } from "./utils";
 
-const Component = ({ css, i18n, mode, open, record, setSelectedForm, matchedTracesData }) => {
+function Component({ css, i18n, mode, open, record, setSelectedForm, matchedTracesData }) {
   const dispatch = useDispatch();
 
   const data = useMemoizedSelector(state => getCasesPotentialMatches(state));
@@ -69,7 +69,7 @@ const Component = ({ css, i18n, mode, open, record, setSelectedForm, matchedTrac
       <IndexTable {...tableOptions} />
     </LoadingIndicator>
   );
-};
+}
 
 Component.displayName = NAME;
 

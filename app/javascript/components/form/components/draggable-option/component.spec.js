@@ -7,21 +7,23 @@ import DraggableOption from "./component";
 describe("<Form /> - components/<DraggableOption />", () => {
   beforeEach(() => {
     // eslint-disable-next-line react/display-name
-    const Component = props => (
-      <DragDropContext>
-        <Droppable droppableId="droppable" type="field">
-          {() => (
-            <DraggableOption
-              name="field_1"
-              index={0}
-              option={{ id: "option_1", display_text: "Display text 1", disabled: false }}
-              defaultOptionId="option_1"
-              {...props}
-            />
-          )}
-        </Droppable>
-      </DragDropContext>
-    );
+    function Component(props) {
+      return (
+        <DragDropContext>
+          <Droppable droppableId="droppable" type="field">
+            {() => (
+              <DraggableOption
+                name="field_1"
+                index={0}
+                option={{ id: "option_1", display_text: "Display text 1", disabled: false }}
+                defaultOptionId="option_1"
+                {...props}
+              />
+            )}
+          </Droppable>
+        </DragDropContext>
+      );
+    }
 
     mountedFormComponent(<Component mode="edit" />);
   });

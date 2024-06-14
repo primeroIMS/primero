@@ -10,7 +10,7 @@ import css from "../field-dialog/styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy }) => {
+function Component({ formMethods, subformField, subformSortBy, subformGroupBy }) {
   const i18n = useI18n();
   const { getValues } = formMethods;
 
@@ -30,7 +30,7 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
       />
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -16,7 +16,7 @@ import LoginLayoutFooter from "../login-layout-footer";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ children }) => {
+function Component({ children }) {
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
   const { demo, hasLoginLogo, useContainedNavStyle } = useApp();
   const hasLogos = useMemoizedSelector(state => hasAgencyLogos(state));
@@ -55,7 +55,7 @@ const Component = ({ children }) => {
       </div>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

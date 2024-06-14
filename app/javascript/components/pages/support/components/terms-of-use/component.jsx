@@ -13,7 +13,7 @@ import ActionButton from "../../../../action-button";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
 
   const agenciesWithTermsOfUse = useMemoizedSelector(state => getAgencyTermsOfUse(state));
@@ -47,7 +47,7 @@ const Component = () => {
       {renderAgencyWihTermsOfUse}
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

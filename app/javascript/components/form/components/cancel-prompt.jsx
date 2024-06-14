@@ -6,7 +6,7 @@ import NavigationPrompt from "react-router-navigation-prompt";
 import ActionDialog from "../../action-dialog";
 import { useI18n } from "../../i18n";
 
-const CancelPrompt = ({ useCancelPrompt = false, dirty = false, isSubmitted = false, isShow = false }) => {
+function CancelPrompt({ useCancelPrompt = false, dirty = false, isSubmitted = false, isShow = false }) {
   const i18n = useI18n();
 
   const promptCancelWhen = dirty && !isSubmitted && !isShow;
@@ -29,7 +29,7 @@ const CancelPrompt = ({ useCancelPrompt = false, dirty = false, isSubmitted = fa
   }
 
   return null;
-};
+}
 
 CancelPrompt.displayName = "CancelPrompt";
 

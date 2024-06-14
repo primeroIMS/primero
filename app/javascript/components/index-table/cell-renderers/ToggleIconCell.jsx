@@ -12,7 +12,7 @@ import { FlagIcon } from "../../../images/primero-icons";
 
 import css from "./styles.css";
 
-const ToggleIconCell = ({ value, icon }) => {
+function ToggleIconCell({ value, icon }) {
   if (!value) {
     return null;
   }
@@ -42,7 +42,7 @@ const ToggleIconCell = ({ value, icon }) => {
       </Icon>
     </ConditionalWrapper>
   );
-};
+}
 
 ToggleIconCell.displayName = "ToggleIconCell";
 ToggleIconCell.propTypes = {

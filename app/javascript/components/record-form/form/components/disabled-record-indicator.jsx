@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { useI18n } from "../../../i18n";
 import css from "../styles.css";
 
-const DisabledRecordIndicator = ({ recordType }) => {
+function DisabledRecordIndicator({ recordType }) {
   const i18n = useI18n();
 
   return (
@@ -19,7 +19,7 @@ const DisabledRecordIndicator = ({ recordType }) => {
       label={i18n.t(`${recordType}.messages.disabled`)}
     />
   );
-};
+}
 
 DisabledRecordIndicator.displayName = "DisabledRecordIndicator";
 

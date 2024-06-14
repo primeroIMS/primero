@@ -19,7 +19,7 @@ import appInit from "./app-init";
 
 const { store } = appInit();
 
-const App = () => {
+function App() {
   window.I18n.fallbacks = true;
 
   useLayoutEffect(() => {
@@ -51,7 +51,7 @@ const App = () => {
       </ThemeProvider>
     </Provider>
   );
-};
+}
 
 App.displayName = "App";
 

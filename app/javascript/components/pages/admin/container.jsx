@@ -8,7 +8,7 @@ import PageContainer from "../../page";
 import AdminNav from "./admin-nav";
 import css from "./styles.css";
 
-const Container = ({ routes }) => {
+function Container({ routes }) {
   return (
     <PageContainer>
       <div className={css.container}>
@@ -21,7 +21,7 @@ const Container = ({ routes }) => {
       </div>
     </PageContainer>
   );
-};
+}
 
 Container.displayName = "Admin";
 

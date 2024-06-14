@@ -28,7 +28,7 @@ import { clearSelectedLookup, fetchLookup } from "./action-creators";
 import { LookupForm } from "./components";
 import { FORM_ID } from "./components/form/constants";
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
   const dispatch = useDispatch();
@@ -118,7 +118,7 @@ const Container = ({ mode }) => {
       </LoadingIndicator>
     </Permission>
   );
-};
+}
 
 Container.displayName = NAME;
 

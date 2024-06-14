@@ -33,7 +33,7 @@ import {
 import { useMemoizedSelector } from "../../../../../libs";
 import { RECORD_TYPES_PLURAL } from "../../../../../config";
 
-const Component = ({
+function Component({
   arrayHelpers,
   dialogIsNew,
   field,
@@ -58,7 +58,7 @@ const Component = ({
   isViolationAssociation,
   violationOptions,
   components
-}) => {
+}) {
   const { online } = useApp();
   const params = useParams();
   const dispatch = useDispatch();
@@ -315,7 +315,7 @@ const Component = ({
       <ActionDialog {...modalConfirmationProps} />
     </>
   );
-};
+}
 
 Component.displayName = SUBFORM_DIALOG;
 

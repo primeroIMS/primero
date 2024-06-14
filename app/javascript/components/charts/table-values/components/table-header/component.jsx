@@ -12,7 +12,7 @@ import css from "./styles.css";
 import { emptyColumn } from "./utils";
 import { NAME } from "./constants";
 
-const TableHeader = ({ columns }) => {
+function TableHeader({ columns }) {
   const i18n = useI18n();
 
   let newColumns = columns;
@@ -76,7 +76,7 @@ const TableHeader = ({ columns }) => {
       })}
     </>
   );
-};
+}
 
 TableHeader.displayName = NAME;
 

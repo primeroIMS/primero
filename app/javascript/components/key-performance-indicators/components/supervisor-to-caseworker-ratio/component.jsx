@@ -7,7 +7,7 @@ import SingleAggregateMetric from "../single-aggregate-metric";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 import { ACTIONS } from "../../../permissions";
 
-const Component = ({ data, identifier }) => {
+function Component({ data, identifier }) {
   const i18n = useI18n();
   const supervisors = data.get("data").get("supervisors");
   const caseWorkers = data.get("data").get("case_workers");
@@ -18,7 +18,7 @@ const Component = ({ data, identifier }) => {
       label={i18n.t(`key_performance_indicators.${identifier}.label`)}
     />
   );
-};
+}
 
 Component.displayName = "SupervisorToCaseworkerRatio";
 

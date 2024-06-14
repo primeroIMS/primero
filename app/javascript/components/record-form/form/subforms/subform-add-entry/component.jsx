@@ -15,7 +15,7 @@ import css from "../styles.css";
 
 import { NAME, NEW } from "./constants";
 
-const Component = ({
+function Component({
   arrayHelpers,
   field,
   formik,
@@ -28,7 +28,7 @@ const Component = ({
   setDialogIsNew,
   parentTitle,
   parentValues
-}) => {
+}) {
   const i18n = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
   const { mobileDisplay } = useThemeHelper();
@@ -119,7 +119,7 @@ const Component = ({
       )}
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -17,7 +17,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useI18n } from "../../../i18n";
 import { DATE_FORMAT } from "../../../../config";
 
-const Component = ({ open, onClose, currentRange, setRange }) => {
+function Component({ open, onClose, currentRange, setRange }) {
   const i18n = useI18n();
   const [from, setFrom] = useState(currentRange.from);
   const [to, setTo] = useState(currentRange.to);
@@ -68,7 +68,7 @@ const Component = ({ open, onClose, currentRange, setRange }) => {
       </DialogActions>
     </Dialog>
   );
-};
+}
 
 Component.displayName = "DateRangeDialog";
 

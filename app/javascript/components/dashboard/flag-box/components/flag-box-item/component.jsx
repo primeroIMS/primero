@@ -12,7 +12,7 @@ import { UserArrowIcon } from "../../../../../images/primero-icons";
 
 import { NAME } from "./constants";
 
-const Component = ({ date, reason, recordId, title, user }) => {
+function Component({ date, reason, recordId, title, user }) {
   const dispatch = useDispatch();
   const handleFlagOpen = id => () => dispatch(push(`${RECORD_PATH.cases}/${id}`));
 
@@ -27,7 +27,7 @@ const Component = ({ date, reason, recordId, title, user }) => {
       </span>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

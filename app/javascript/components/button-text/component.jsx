@@ -5,7 +5,7 @@ import { useMediaQuery } from "@mui/material";
 
 import { NAME } from "./constants";
 
-const Component = ({ text, keepTextOnMobile = false }) => {
+function Component({ text, keepTextOnMobile = false }) {
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
 
   if (mobileDisplay && !keepTextOnMobile) {
@@ -13,7 +13,7 @@ const Component = ({ text, keepTextOnMobile = false }) => {
   }
 
   return <>{text}</>;
-};
+}
 
 Component.displayName = NAME;
 

@@ -5,7 +5,7 @@ import { IconButton, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 
-const Component = ({ action, actionLabel, actionUrl, closeSnackbar, snackKey, hideCloseIcon }) => {
+function Component({ action, actionLabel, actionUrl, closeSnackbar, snackKey, hideCloseIcon }) {
   const handleSnackClose = () => {
     closeSnackbar(snackKey);
   };
@@ -37,7 +37,7 @@ const Component = ({ action, actionLabel, actionUrl, closeSnackbar, snackKey, hi
       {showCloseIcon}
     </>
   );
-};
+}
 
 Component.displayName = "SnackbarAction";
 

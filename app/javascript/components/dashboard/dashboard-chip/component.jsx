@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 import css from "./styles.css";
 
-const DashboardChip = ({ label, type, handleClick }) => {
+function DashboardChip({ label, type, handleClick }) {
   const handler = typeof handleClick === "function" ? handleClick : null;
   const classes = clsx(css.chip, css[type]);
 
@@ -22,7 +22,7 @@ const DashboardChip = ({ label, type, handleClick }) => {
       {label}
     </Button>
   );
-};
+}
 
 DashboardChip.displayName = "DashboardChip";
 

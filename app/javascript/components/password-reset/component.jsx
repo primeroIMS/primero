@@ -14,7 +14,7 @@ import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { form, validationSchema } from "./form";
 import { NAME, RESET_PASSWORD_FORM } from "./constants";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ const Component = () => {
       />
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

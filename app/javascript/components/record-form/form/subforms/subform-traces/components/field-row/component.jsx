@@ -13,7 +13,7 @@ import { isTextField, getValueLabel } from "./utils";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ field, traceValue, caseValue, match }) => {
+function Component({ field, traceValue, caseValue, match }) {
   const i18n = useI18n();
   const {
     display_name: displayName,
@@ -46,7 +46,7 @@ const Component = ({ field, traceValue, caseValue, match }) => {
       </Grid>
     </Grid>
   );
-};
+}
 
 Component.displayName = NAME;
 

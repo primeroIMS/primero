@@ -15,7 +15,7 @@ import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { useMemoizedSelector } from "../../../../../libs";
 
-const Component = ({ formMode, formID, handleCancel, limitedProductionSite }) => {
+function Component({ formMode, formID, handleCancel, limitedProductionSite }) {
   const i18n = useI18n();
   const { pathname } = useLocation();
 
@@ -54,7 +54,7 @@ const Component = ({ formMode, formID, handleCancel, limitedProductionSite }) =>
       {saveButton}
     </>
   );
-};
+}
 
 Component.displayName = ACTION_BUTTONS_NAME;
 

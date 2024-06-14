@@ -6,7 +6,7 @@ import { getIn, connect } from "formik";
 
 import { NAME } from "./constants";
 
-const Component = ({
+function Component({
   formik,
   field,
   index,
@@ -18,7 +18,7 @@ const Component = ({
   recordType,
   values,
   SubformDialogFields
-}) => {
+}) {
   const [filterState, setFilterState] = useState({
     filtersChanged: false,
     userIsSelected: false
@@ -65,7 +65,7 @@ const Component = ({
       values={values}
     />
   );
-};
+}
 
 Component.displayName = NAME;
 

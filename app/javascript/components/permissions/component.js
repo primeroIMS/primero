@@ -13,7 +13,7 @@ import { getPermissions } from "../user/selectors";
 
 import { RESOURCES } from "./constants";
 
-const Component = ({ resources, actions = [], redirect = false, children }) => {
+function Component({ resources, actions = [], redirect = false, children }) {
   const { recordType } = useParams();
 
   const type = resources || recordType;
@@ -60,7 +60,7 @@ const Component = ({ resources, actions = [], redirect = false, children }) => {
   }
 
   return null;
-};
+}
 
 Component.displayName = "Permission";
 

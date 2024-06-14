@@ -11,7 +11,7 @@ import { useI18n } from "../../../i18n";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const InsightsTableHeaderSubItems = ({ addEmptyCell = true, groupedSubItemcolumns }) => {
+function InsightsTableHeaderSubItems({ addEmptyCell = true, groupedSubItemcolumns }) {
   const i18n = useI18n();
 
   if (isEmpty(groupedSubItemcolumns)) {
@@ -41,7 +41,7 @@ const InsightsTableHeaderSubItems = ({ addEmptyCell = true, groupedSubItemcolumn
       )}
     </TableRow>
   );
-};
+}
 
 InsightsTableHeaderSubItems.displayName = NAME;
 

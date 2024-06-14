@@ -5,7 +5,7 @@ import { Link } from "@mui/material";
 
 import { NAME } from "./constants";
 
-const Component = ({ text, id, ...options }) => {
+function Component({ text, id, ...options }) {
   const { rest, ...remainder } = options;
 
   if (rest.disabled) {
@@ -17,7 +17,7 @@ const Component = ({ text, id, ...options }) => {
       {text}
     </Link>
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -6,7 +6,7 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
 import css from "../../styles.css";
 
-const Component = ({ isDragDisabled = false, ...props }) => {
+function Component({ isDragDisabled = false, ...props }) {
   const classes = isDragDisabled ? { classes: { root: css.dragIndicator } } : {};
 
   return (
@@ -14,7 +14,7 @@ const Component = ({ isDragDisabled = false, ...props }) => {
       <DragIndicatorIcon />
     </Icon>
   );
-};
+}
 
 Component.displayName = "DragIndicator";
 

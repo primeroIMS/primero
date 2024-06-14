@@ -21,7 +21,7 @@ import ApprovalForm from "./approval-form";
 import { APPROVAL_TYPE_LOOKUP, CASE_PLAN, NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   close,
   open,
   subMenuItems,
@@ -31,7 +31,7 @@ const Component = ({
   setPending,
   approvalType,
   confirmButtonLabel
-}) => {
+}) {
   const i18n = useI18n();
   const { approvalsLabels, userModules } = useApp();
   const dispatch = useDispatch();
@@ -214,7 +214,7 @@ const Component = ({
       {dialogContent}
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

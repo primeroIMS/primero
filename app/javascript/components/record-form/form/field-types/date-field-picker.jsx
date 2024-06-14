@@ -10,14 +10,14 @@ import { displayNameHelper } from "../../../../libs";
 import { LOCALE_KEYS } from "../../../../config";
 import NepaliCalendar from "../../../nepali-calendar-input";
 
-const DateFieldPicker = ({
+function DateFieldPicker({
   dateIncludeTime = false,
   dateProps,
   displayName,
   fieldTouched = false,
   fieldError,
   helperText
-}) => {
+}) {
   const i18n = useI18n();
   const helpText =
     (fieldTouched && fieldError) ||
@@ -66,7 +66,7 @@ const DateFieldPicker = ({
       )}
     </LocalizationProvider>
   );
-};
+}
 
 DateFieldPicker.displayName = "DateFieldPicker";
 

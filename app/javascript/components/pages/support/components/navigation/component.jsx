@@ -10,7 +10,7 @@ import { SUPPORT_FORMS } from "../../constants";
 
 import { NAME } from "./constants";
 
-const Component = ({ css, handleToggleNav, menuList, mobileDisplay, onClick, selectedItem, toggleNav }) => {
+function Component({ css, handleToggleNav, menuList, mobileDisplay, onClick, selectedItem, toggleNav }) {
   const hasUnsubmittedOfflineChanges = useMemoizedSelector(state => hasQueueData(state));
 
   const drawerProps = {
@@ -57,7 +57,7 @@ const Component = ({ css, handleToggleNav, menuList, mobileDisplay, onClick, sel
       </List>
     </ConditionalWrapper>
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -10,7 +10,7 @@ import ListSavedSearches from "./ListSavedSearches";
 import { selectSavedSearches } from "./selectors";
 import css from "./styles.css";
 
-const SavedSearches = ({ recordType, setTabIndex, setRerender }) => {
+function SavedSearches({ recordType, setTabIndex, setRerender }) {
   const i18n = useI18n();
 
   const savedSearches = useMemoizedSelector(state => selectSavedSearches(state, recordType));
@@ -33,7 +33,7 @@ const SavedSearches = ({ recordType, setTabIndex, setRerender }) => {
       )}
     </>
   );
-};
+}
 
 SavedSearches.displayName = "SavedSearches";
 
