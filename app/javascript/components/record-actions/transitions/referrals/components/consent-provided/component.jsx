@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/lab/AlertTitle";
+import AlertTitle from "@mui/material/AlertTitle";
 
 import { CasesIcon } from "../../../../../../images/primero-icons";
 import { useI18n } from "../../../../../i18n";

@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { createFilterOptions } from "@mui/lab/useAutocomplete";
+import { createFilterOptions } from "@mui/material/useAutocomplete";
 
 export const optionLabel = (option, options, optionIdKey, optionLabelKey) => {
   if (typeof option === "string" && option === "") {

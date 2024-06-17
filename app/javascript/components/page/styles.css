@@ -42,6 +42,8 @@
 
 .appBar {
   background-color: var(--c-white);
+  position: sticky;
+  top: 0;
 }
 
 .appBarBorder {
