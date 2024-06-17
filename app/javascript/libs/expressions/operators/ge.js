@@ -1,7 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { isAfter, parseISO } from "date-fns";
-import isEqualDate from "date-fns/isEqual";
+import { isAfter, parseISO, isEqual } from "date-fns";
 import first from "lodash/first";
 
 import { hasApiDateFormat } from "../../component-helpers";
@@ -23,7 +22,7 @@ export default expression => ({
       const date1 = parseISO(dataValue);
       const date2 = parseISO(value);
 
-      return isAfter(date1, date2) || isEqualDate(date1, date2);
+      return isAfter(date1, date2) || isEqual(date1, date2);
     }
 
     return dataValue >= value;
