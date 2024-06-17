@@ -4,8 +4,8 @@ import { ConnectedRouter } from "connected-react-router/immutable";
 import { Provider } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 import { useLayoutEffect } from "react";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 import Translations from "./db/collections/translations";
 import I18nProvider from "./components/i18n";
