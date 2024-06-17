@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
+return if ActiveRecord::Type::Boolean.new.cast(ENV.fetch('SOLR_ENABLED', false)) == false
+
 require 'sunspot/rails/tasks'
 require 'rsolr'
-
 # Monekypatch: Use the same PID file for different rails envs
 # A single Solr instance has multiple cores (one each for every rails env)
 class Sunspot::Rails::Server
@@ -14,6 +15,10 @@ end
 namespace :sunspot do
   desc 'Wait for solr to be started'
   task :wait, [:timeout] => :environment do |_, args|
+    unless Rails.configuration.solr_enabled
+      puts 'SolR not enabled'
+      next
+    end
     seconds = args[:timeout] ? args[:timeout].to_i : 30
     puts "Waiting #{seconds} seconds for Solr to start..."
 
