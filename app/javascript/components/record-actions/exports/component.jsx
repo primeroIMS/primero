@@ -185,15 +185,15 @@ const Component = ({
     const { form_unique_ids: formUniqueIds, field_names: fieldNames } = values;
     const { id, format, message } = ALL_EXPORT_TYPES.find(e => e.id === values.export_type);
     const fileName = formatFileName(values.custom_export_file_name, format);
-    const shortIds = records
+    const recordIds = records
       .toJS()
-      .filter((_r, i) => selectedRecords?.[currentPage]?.includes(i))
-      .map(r => r.short_id);
+      .filter((_record, index) => selectedRecords?.[currentPage]?.includes(index))
+      .map(selected => selected.id);
 
     const filters = buildAppliedFilters(
       isShowPage,
       allCurrentRowsSelected,
-      shortIds,
+      recordIds,
       appliedFilters,
       queryParams,
       record,
