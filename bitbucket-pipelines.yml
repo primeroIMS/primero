@@ -17,6 +17,7 @@ definitions:
         image: node:18.13.0
         size: 2x
         script:
+          - npm config set legacy-peer-deps true
           - npm ci
           - npm run test:batch:1
           - npm run test:batch:2

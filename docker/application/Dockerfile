@@ -66,7 +66,7 @@ RUN rm -r /usr/local/bundle/gems/sunspot_solr-2.6.0/solr/server
 COPY [ "package.json", "package-lock.json", "$APP_ROOT/" ]
 
 RUN set -euox pipefail \
-        ; npm ci
+        ; npm config set legacy-peer-deps true; npm ci
 
 # Note: This has its build context set to the root dir so prepend 'docker' to
 # items that need to be copied from that directory

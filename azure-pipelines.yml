@@ -33,7 +33,7 @@ jobs:
         inputs:
           versionSpec: '18.13.0'
         displayName: 'Install node'
-      - bash: npm ci
+      - bash: npm config set legacy-peer-deps true && npm ci
         displayName: 'Install npm packages'
       - bash: |
           apt-get update
