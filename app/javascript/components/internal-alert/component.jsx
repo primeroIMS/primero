@@ -3,7 +3,7 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import { Brightness1 as Circle } from "@mui/icons-material";
 import ErrorIcon from "@mui/icons-material/Error";
@@ -21,9 +21,9 @@ import css from "./styles.css";
 function Component({ title, items = fromJS([]), severity = "info", customIcon }) {
   const i18n = useI18n();
 
-  const accordionClasses = clsx(css.alert, css[severity]);
-  const accordionDetailsClasses = clsx({ [css.alertItems]: true });
-  const accordionSummaryClasses = clsx({
+  const accordionClasses = cx(css.alert, css[severity]);
+  const accordionDetailsClasses = cx({ [css.alertItems]: true });
+  const accordionSummaryClasses = cx({
     [css.alertTitle]: true,
     [css.disableCollapse]: items?.size <= 1
   });

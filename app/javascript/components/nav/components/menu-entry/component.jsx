@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { ListItem, ListItemText, ListItemIcon } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { isEqual } from "lodash";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { useI18n } from "../../../i18n";
 import ListIcon from "../../../list-icon";
@@ -45,7 +45,7 @@ function Component({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
       !disabled && {
         component: NavLink,
         to,
-        activeClassName: clsx(css.navActive, { [css.contained]: useContainedNavStyle }),
+        activeClassName: cx(css.navActive, { [css.contained]: useContainedNavStyle }),
         onClick: closeDrawer,
         disabled: disabledApplication
       }),
@@ -61,7 +61,7 @@ function Component({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
 
   const userRecordTypes = [...userPermissions.keys()];
   const navItemName = name === "username" ? username : i18n.t(name);
-  const navLinkClasses = clsx(css.navLink, { [css.contained]: useContainedNavStyle });
+  const navLinkClasses = cx(css.navLink, { [css.contained]: useContainedNavStyle });
 
   const renderNavAction = (
     <li id={name}>

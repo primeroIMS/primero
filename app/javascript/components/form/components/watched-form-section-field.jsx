@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { useWatch } from "react-hook-form";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { ConditionalWrapper } from "../../../libs";
 import useFormField from "../use-form-field";
@@ -27,7 +27,7 @@ function WatchedFormSectionField({ checkErrors, field, formMethods, formMode, di
     error
   } = useFormField(field, { checkErrors, errors, formMode, disableUnderline });
 
-  const classes = clsx(css.field, {
+  const classes = cx(css.field, {
     [css.readonly]: formMode.isShow
   });
 

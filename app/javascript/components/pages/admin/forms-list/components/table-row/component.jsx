@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Draggable } from "react-beautiful-dnd";
 import findKey from "lodash/findKey";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { useI18n } from "../../../../../i18n";
 import { MODULES, RECORD_PATH } from "../../../../../../config";
@@ -15,7 +15,7 @@ import LockedIcon from "../../../../../locked-icon";
 function Component({ name, modules, parentForm, uniqueID, id, index, editable, isDragDisabled = false }) {
   const i18n = useI18n();
 
-  const nameStyles = clsx({
+  const nameStyles = cx({
     [css.formName]: true,
     [css.protected]: !editable
   });

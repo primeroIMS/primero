@@ -3,7 +3,7 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { useState } from "react";
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import get from "lodash/get";
@@ -28,7 +28,7 @@ function FormSection({ formSection, showTitle = true, disableUnderline = false, 
     setExpanded(!expanded);
   };
 
-  const classes = clsx({
+  const classes = cx({
     [css.heading]: true,
     [css.error]: renderError()
   });

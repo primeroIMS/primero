@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { FormControl, InputLabel } from "@mui/material";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import { useEffect, useState } from "react";
 import isDate from "lodash/isDate";
 import { NepaliDatePicker } from "mui-nepali-datepicker-reactjs";
@@ -18,7 +18,7 @@ function Component({ helpText, label, dateProps }) {
   const [inputDate, setInputDate] = useState(null);
   const [inputTime, setInputTime] = useState(null);
 
-  const containerClasses = clsx({ [css.includeTimeContainer]: dateIncludeTime });
+  const containerClasses = cx({ [css.includeTimeContainer]: dateIncludeTime });
 
   const dateTimeInputValue = () => {
     if (!isDate(inputDate) && isDate(inputTime)) {

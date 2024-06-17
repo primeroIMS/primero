@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import { Button } from "@mui/material";
 
 import { useI18n } from "../../../../../i18n";
@@ -14,7 +14,7 @@ import { NAME } from "./constants";
 function Component({ field, handleClick, isNotEditable }) {
   const i18n = useI18n();
   const icon = isNotEditable ? <LockedIcon /> : <span />;
-  const className = clsx({ [css.editable]: !isNotEditable });
+  const className = cx({ [css.editable]: !isNotEditable });
 
   return (
     <>

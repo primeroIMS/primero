@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import { Draggable } from "react-beautiful-dnd";
 import { Controller, useWatch } from "react-hook-form";
 import { Radio } from "@mui/material";
@@ -81,8 +81,8 @@ function Component({
       <DeleteIcon />
     </IconButton>
   );
-  const classesDragIndicator = clsx([css.fieldColumn, css.dragIndicatorColumn]);
-  const classesTextInput = clsx([css.fieldColumn, css.fieldInput]);
+  const classesDragIndicator = cx([css.fieldColumn, css.dragIndicatorColumn]);
+  const classesTextInput = cx([css.fieldColumn, css.fieldInput]);
   const handleOnBlur = event => handleChange(event, index);
 
   return (

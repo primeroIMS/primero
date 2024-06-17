@@ -3,7 +3,7 @@
 import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { useI18n } from "../../i18n";
 import {
@@ -71,7 +71,7 @@ function FormSectionField({
     options
   } = field;
 
-  const classes = clsx(css.field, { [css.readonly]: mode.isShow });
+  const classes = cx(css.field, { [css.readonly]: mode.isShow });
 
   const filterOptionStringSource =
     optionStringsSource === CUSTOM_STRINGS_SOURCE.user ? OPTION_TYPES.REFER_TO_USERS : optionStringsSource;

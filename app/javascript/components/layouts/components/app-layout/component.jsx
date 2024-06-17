@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable react/no-multi-comp, react/display-name */
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import { CircularProgress } from "@mui/material";
 import PropTypes from "prop-types";
 
@@ -23,8 +23,8 @@ function Component({ children }) {
 
   usePushNotifications();
 
-  const classes = clsx({ [css.root]: true, [css.demo]: demo });
-  const contentClasses = clsx({ [css.content]: true, [css.demo]: demo });
+  const classes = cx({ [css.root]: true, [css.demo]: demo });
+  const contentClasses = cx({ [css.content]: true, [css.demo]: demo });
 
   const hasPermissions = useMemoizedSelector(state => hasUserPermissions(state));
 

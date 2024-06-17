@@ -2,7 +2,7 @@
 
 import Chip from "@mui/material/Chip";
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { useI18n } from "../i18n";
 
@@ -12,7 +12,7 @@ import css from "./styles.css";
 function TransitionStatus({ status }) {
   const i18n = useI18n();
 
-  const classes = clsx(css.chip, css[status]);
+  const classes = cx(css.chip, css[status]);
 
   return (
     <div className={css.transtionStatus}>

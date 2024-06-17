@@ -2,7 +2,7 @@
 
 import { Fragment } from "react";
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import { IconButton, Tooltip } from "@mui/material";
 
 import css from "./styles.css";
@@ -11,7 +11,7 @@ import { NAME } from "./constants";
 function Component({ icon, id, rest, ...otherProps }) {
   const { tooltip } = otherProps;
   const Parent = tooltip ? Tooltip : Fragment;
-  const spanClasses = clsx({ [css.isDisabled]: rest.disabled });
+  const spanClasses = cx({ [css.isDisabled]: rest.disabled });
 
   return (
     <Parent {...(tooltip ? { title: tooltip } : {})}>

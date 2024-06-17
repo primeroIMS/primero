@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { DATE_TIME_FORMAT } from "../../../../config";
 import { useI18n } from "../../../i18n";
@@ -11,7 +11,7 @@ import css from "./styles.css";
 
 function Component({ activityData }) {
   const i18n = useI18n();
-  const classes = clsx(css.activityContainer, {
+  const classes = cx(css.activityContainer, {
     [css.disabledItem]: activityData.recordAccessDenied
   });
 

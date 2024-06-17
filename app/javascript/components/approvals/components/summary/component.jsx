@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 import Chip from "@mui/material/Chip";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { useI18n } from "../../../i18n";
 import { NAME_SUMMARY } from "../../constants";
@@ -22,7 +22,7 @@ function Component({ approvalSubform, css, isRequest, isResponse }) {
       ? approvalsLabels.get(approvalSubform.get("approval_requested_for"))
       : approvalsLabels.get(approvalSubform.get("approval_response_for"));
 
-  const classes = clsx(css.chip, css[status]);
+  const classes = cx(css.chip, css[status]);
 
   const renderStatus = isResponse ? (
     <Grid item md={2} xs={4}>

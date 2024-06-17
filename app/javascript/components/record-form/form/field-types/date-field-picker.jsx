@@ -1,11 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { DatePicker, DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
 
 import { useI18n } from "../../../i18n";
-import localize from "../../../../libs/date-picker-localization";
 import { displayNameHelper } from "../../../../libs";
 import { LOCALE_KEYS } from "../../../../config";
 import NepaliCalendar from "../../../nepali-calendar-input";
@@ -39,32 +37,21 @@ function DateFieldPicker({
       "data-testid": dateIncludeTime ? "date-time-picker" : "date-picker",
       InputLabelProps: { shrink: true },
       fullWidth: true,
-      helperText: helpText,
-      ...dateProps
+      helperText: helpText
     }
   };
 
-  return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localize(i18n)}>
-      {dateIncludeTime ? (
-        <DateTimePicker
-          data-testid="date-time-picker"
-          {...dialogLabels}
-          {...dateProps}
-          helperText={helpText}
-          slotProps={textFieldProps}
-          label={label}
-        />
-      ) : (
-        <DatePicker
-          data-testid="date-picker"
-          slotProps={textFieldProps}
-          {...dialogLabels}
-          {...dateProps}
-          label={label}
-        />
-      )}
-    </LocalizationProvider>
+  return dateIncludeTime ? (
+    <DateTimePicker
+      data-testid="date-time-picker"
+      {...dialogLabels}
+      {...dateProps}
+      helperText={helpText}
+      slotProps={textFieldProps}
+      label={label}
+    />
+  ) : (
+    <DatePicker data-testid="date-picker" slotProps={textFieldProps} {...dialogLabels} {...dateProps} label={label} />
   );
 }
 

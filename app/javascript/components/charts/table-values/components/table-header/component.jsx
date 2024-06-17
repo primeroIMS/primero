@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { TableCell, TableRow } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { useI18n } from "../../../../i18n";
 import generateKey from "../../utils";
@@ -49,7 +49,7 @@ function TableHeader({ columns }) {
         const cells = isFirstHeading ? items : Array.from({ length: repeat }, () => items).flat();
         const allCells =
           isFirstHeading || addEmptyCell === false ? emptyCells.concat(cells) : emptyCells.concat(cells).concat("");
-        const classes = clsx({ [css.tableRowHeader]: index === 0, [css.tableRowSubHeader]: index > 0 });
+        const classes = cx({ [css.tableRowHeader]: index === 0, [css.tableRowSubHeader]: index > 0 });
 
         return (
           <TableRow className={classes} key={generateKey("column-row")}>

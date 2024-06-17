@@ -7,7 +7,7 @@ import CheckBox from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
 import RadioButtonChecked from "@mui/icons-material/RadioButtonChecked";
 import RadioButtonUnchecked from "@mui/icons-material/RadioButtonUnchecked";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { optionText } from "../../../form/utils";
 import { useI18n } from "../../../i18n";
@@ -88,7 +88,7 @@ function Component({
 
     return fieldValue;
   };
-  const kevValueCellClasses = clsx(classes.cell, {
+  const kevValueCellClasses = cx(classes.cell, {
     [classes.subform]: isSubform
   });
 

@@ -4,7 +4,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import { fromJS } from "immutable";
 import { List, ListItemText } from "@mui/material";
 
@@ -80,7 +80,7 @@ function Component({ tracingRequestValues, traceValues, recordType }) {
         name: "likelihood",
         options: {
           customBodyRender: value => {
-            const classes = clsx({ [css.likely]: value === POTENTIAL_MATCH_LIKELIHOOD.likely });
+            const classes = cx({ [css.likely]: value === POTENTIAL_MATCH_LIKELIHOOD.likely });
 
             return <span className={classes}>{i18n.t(`potential_match.likelihood_${value}`)}</span>;
           }

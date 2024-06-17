@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { ListItemText } from "@mui/material";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { NAME_FIELD, DATE_FIELD, SELECT_FIELD, TICK_FIELD, RADIO_FIELD, TALLY_FIELD } from "../../../constants";
 import SubformLookupHeader from "../subform-header-lookup";
@@ -33,7 +33,7 @@ function Component({
   const i18n = useI18n();
   const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
   const itemClasses = { primary: css.listText };
-  const listItemTextClasses = clsx({
+  const listItemTextClasses = cx({
     [css.listItemText]: true,
     [css.listItemNepaliItem]: i18n.locale === LOCALE_KEYS.ne
   });

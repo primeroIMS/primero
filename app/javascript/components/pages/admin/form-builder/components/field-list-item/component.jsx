@@ -4,7 +4,7 @@
 import { memo } from "react";
 import { useDispatch, batch } from "react-redux";
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import { Draggable } from "react-beautiful-dnd";
 
 import { SUBFORM_SECTION } from "../../../../../form";
@@ -91,9 +91,9 @@ function Component({ field, formMethods, index, subformField, subformSortBy, sub
 
   const isNotEditable = field.get("editable") === false;
 
-  const indicatorColumnClasses = clsx([css.fieldColumn, css.dragIndicatorColumn]);
-  const fieldNameClasses = clsx([css.fieldColumn, css.fieldName]);
-  const fieldShowClasses = clsx([css.fieldColumn, css.fieldShow]);
+  const indicatorColumnClasses = cx([css.fieldColumn, css.dragIndicatorColumn]);
+  const fieldNameClasses = cx([css.fieldColumn, css.fieldName]);
+  const fieldShowClasses = cx([css.fieldColumn, css.fieldShow]);
 
   const visibleFieldNames = getValues()[visibleFieldName];
 

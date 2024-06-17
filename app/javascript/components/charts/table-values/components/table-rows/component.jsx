@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 import { TableCell, TableRow } from "@mui/material";
 
 import { useI18n } from "../../../../i18n";
@@ -16,14 +16,14 @@ function Component({ values = [], subColumnItemsSize }) {
 
   return values.map(value => {
     const { colspan, row } = value;
-    const classes = clsx({ [css.tableRow]: colspan !== 0, [css.tableRowValues]: true });
+    const classes = cx({ [css.tableRow]: colspan !== 0, [css.tableRowValues]: true });
 
     return (
       <TableRow className={classes} key={generateKey(JSON.stringify(value.row))}>
         {row.map((rowData, index) => {
           const cellClass =
             subColumnItemsSize &&
-            clsx({
+            cx({
               [css.tableCell]: (index % subColumnItemsSize === 0 && index !== 0) || row[0] === totalText,
               [css.tableCellSize]: Boolean(subColumnItemsSize) && index > 0
             });

@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import SignalWifiOffIcon from "@mui/icons-material/SignalWifiOff";
 import SignalWifi4BarIcon from "@mui/icons-material/SignalWifi4Bar";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
 
 import { useI18n } from "../../../i18n";
@@ -40,11 +40,11 @@ function Component({ mobile, contained }) {
 
   const offlineClasses = { [css.containedMobileOffline]: !online };
 
-  const containerClasses = clsx(css.container, css[mode.color], {
+  const containerClasses = cx(css.container, css[mode.color], {
     [css.containedMobile]: useContainedNavStyle,
     ...offlineClasses
   });
-  const listItemClasses = clsx(css.navLink, css[mode.color], {
+  const listItemClasses = cx(css.navLink, css[mode.color], {
     [css.contained]: useContainedNavStyle,
     ...offlineClasses
   });

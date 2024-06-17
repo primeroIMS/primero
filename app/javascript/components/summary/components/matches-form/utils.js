@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable react/display-name, react/no-multi-comp, import/prefer-default-export */
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
@@ -47,7 +47,7 @@ export const columns = (i18n, css, onTracingRequestClick, matchedTracesIds) => [
     name: "likelihood",
     options: {
       customBodyRender: value => {
-        const classes = clsx({ [css.likelyScore]: value });
+        const classes = cx({ [css.likelyScore]: value });
 
         return <span className={classes}>{SCORE_TYPES[value]}</span>;
       }

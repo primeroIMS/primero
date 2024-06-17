@@ -2,13 +2,13 @@
 
 import PropTypes from "prop-types";
 import { Paper } from "@mui/material";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import css from "./styles.css";
 import { NAME } from "./constants";
 
 function TabPanel({ tab, index, children }) {
-  const className = clsx(css.hideTab, css.tabContainer, {
+  const className = cx(css.hideTab, css.tabContainer, {
     [css.showTab]: tab === index
   });
 

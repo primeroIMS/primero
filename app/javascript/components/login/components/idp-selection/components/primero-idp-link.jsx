@@ -2,7 +2,7 @@
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import { Link } from "@mui/material";
 import { useHistory } from "react-router-dom";
 
@@ -18,7 +18,7 @@ function PrimeroIdpLink({ identityProviders, i18n, dispatch, css }) {
 
   const primeroIdp = identityProviders.find(idp => idp.get("unique_id") === PRIMERO_IDP);
   const onlyPrimeroIDP = primeroIdp && identityProviders?.size === 1;
-  const classes = clsx(css.activityContainer, {
+  const classes = cx(css.activityContainer, {
     [css.linkButtonContainer]: true,
     [css.onlyLink]: onlyPrimeroIDP
   });

@@ -44,7 +44,7 @@ export const setMsalConfig = (idp = {}, forceStandardOidc) => {
   };
 };
 
-export const setMsalApp = (msalConfig, historyObj) => {
+export const setMsalApp = async (msalConfig, historyObj) => {
   const app = new PublicClientApplication(msalConfig);
   const navigationClient = new CustomNavigationClient(historyObj);
 

@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import { push } from "connected-react-router";
 import { isEqual } from "lodash";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { ROUTES, PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import AgencyLogo from "../agency-logo";
@@ -104,11 +104,11 @@ function Nav() {
     });
   };
 
-  const navListClasses = clsx(css.navList, { [css.contained]: useContainedNavStyle });
-  const translationsToggleClass = clsx(css.translationToggle, css.navTranslationsToggle, {
+  const navListClasses = cx(css.navList, { [css.contained]: useContainedNavStyle });
+  const translationsToggleClass = cx(css.translationToggle, css.navTranslationsToggle, {
     [css.contained]: useContainedNavStyle
   });
-  const drawerHeaderClasses = clsx(css.drawerHeader, { [css.drawerHeaderContained]: useContainedNavStyle });
+  const drawerHeaderClasses = cx(css.drawerHeader, { [css.drawerHeaderContained]: useContainedNavStyle });
 
   const drawerContent = (
     <>

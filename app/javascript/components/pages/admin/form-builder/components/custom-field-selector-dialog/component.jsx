@@ -4,7 +4,7 @@ import { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Radio, ListItem, ListItemSecondaryAction, ListItemText, List, ListSubheader, Divider } from "@mui/material";
 import { useDispatch, batch } from "react-redux";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import {
@@ -141,7 +141,7 @@ function Component({ isSubform }) {
     return fields.map(field => {
       const [name, Icon] = field;
 
-      const classes = clsx(css.inputIcon, {
+      const classes = cx(css.inputIcon, {
         [css.inputIconTickBox]: [RADIO_FIELD, TICK_FIELD].includes(name)
       });
 

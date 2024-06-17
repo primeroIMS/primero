@@ -6,7 +6,7 @@ import { Backdrop, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import css from "../../styles.css";
 
@@ -21,12 +21,12 @@ function PhotoArray({ images = [], isGallery = false }) {
     setSelected({ index, open: false });
   };
 
-  const imageClasses = clsx({
+  const imageClasses = cx({
     [css.imgGallery]: isGallery,
     [css.imgContainer]: !isGallery
   });
 
-  const wrapperClasses = clsx({
+  const wrapperClasses = cx({
     [css.imgGalleryWrapper]: isGallery,
     [css.imgsContainer]: !isGallery
   });

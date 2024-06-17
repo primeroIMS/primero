@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import PropTypes from "prop-types";
 
 import useThemeHelper from "../../libs/use-theme-helpers";
@@ -11,8 +11,8 @@ import css from "./styles.css";
 function Component({ children, twoCol, fullWidthMobile = false }) {
   const { demo } = useApp();
   const { mobileDisplay } = useThemeHelper();
-  const contentClasses = clsx({ [css.root]: true, [css.demo]: demo });
-  const twoColClasses = clsx({ [css.twoCol]: true, [css.demo]: demo });
+  const contentClasses = cx({ [css.root]: true, [css.demo]: demo });
+  const twoColClasses = cx({ [css.twoCol]: true, [css.demo]: demo });
 
   const contentContainer = fullWidthMobile && mobileDisplay ? css.noWrap : css.wrap;
 

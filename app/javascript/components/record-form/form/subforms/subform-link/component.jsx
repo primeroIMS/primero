@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { useI18n } from "../../../../i18n";
 import ConditionalTooltip from "../../../../conditional-tooltip";
@@ -11,12 +11,12 @@ import css from "./styles.css";
 
 function Component({ href, label, text, disabled = false }) {
   const i18n = useI18n();
-  const classes = clsx({
+  const classes = cx({
     [css.subformLink]: true,
     [css.subformLinkDisabled]: disabled
   });
 
-  const classesWrapper = clsx({
+  const classesWrapper = cx({
     [css.subformLinkWrapper]: true,
     [css.subformLinkWrapperDisabled]: disabled
   });

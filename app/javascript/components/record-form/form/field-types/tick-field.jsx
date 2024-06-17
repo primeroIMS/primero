@@ -6,7 +6,7 @@ import { FastField, connect, getIn } from "formik";
 import { Checkbox } from "formik-mui";
 import pickBy from "lodash/pickBy";
 import { FormControlLabel, FormHelperText, InputLabel, FormControl } from "@mui/material";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { TICK_FIELD_NAME } from "../constants";
 import { useI18n } from "../../../i18n";
@@ -28,7 +28,7 @@ function TickField({ helperText, name, label, tickBoxlabel, formik, disabled = f
   ) : (
     <FormHelperText>{helperText}</FormHelperText>
   );
-  const classes = clsx({
+  const classes = cx({
     [css.error]: Boolean(fieldError)
   });
 

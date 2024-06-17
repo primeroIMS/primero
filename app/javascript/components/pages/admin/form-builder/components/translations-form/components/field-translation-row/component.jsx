@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 import { useDispatch, batch } from "react-redux";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { NAME as FieldTranslationsDialogName } from "../../../field-translations-dialog";
 import { setSelectedField, setSelectedSubform } from "../../../../action-creators";
@@ -58,7 +58,7 @@ function Component({ field, selectedLocaleId, formMethods, formMode }) {
     });
   };
 
-  const classes = clsx(css.fieldTitle, css.translationsRow);
+  const classes = cx(css.fieldTitle, css.translationsRow);
 
   return (
     <>

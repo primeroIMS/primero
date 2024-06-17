@@ -3,7 +3,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { InputLabel, FormHelperText } from "@mui/material";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import GetAppIcon from "@mui/icons-material/GetApp";
 
 import { toBase64 } from "../../../libs";
@@ -111,7 +111,7 @@ function AttachmentInput({ commonInputProps, metaInputProps, formMode, formMetho
 
   const downloadButton = renderDownloadButton && isShow && downloadFile;
 
-  const classes = clsx(css.attachment, { [css.document]: isDocument && (!renderDownloadButton || !isShow) });
+  const classes = cx(css.attachment, { [css.document]: isDocument && (!renderDownloadButton || !isShow) });
 
   return (
     <div className={classes}>

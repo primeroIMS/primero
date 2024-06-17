@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { ConditionalWrapper } from "../../../libs";
 import useFormField from "../use-form-field";
@@ -24,7 +24,7 @@ function FormSectionField({ checkErrors, field, formMethods, formMode, disableUn
     optionSelector
   } = useFormField(field, { checkErrors, errors, formMode, disableUnderline });
 
-  const classes = clsx(css.field, {
+  const classes = cx(css.field, {
     [css.readonly]: formMode.isShow
   });
 

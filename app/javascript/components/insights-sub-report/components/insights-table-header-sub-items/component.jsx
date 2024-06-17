@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { TableCell, TableRow } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 import isObjectLike from "lodash/isObjectLike";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import { useI18n } from "../../../i18n";
 
@@ -23,7 +23,7 @@ function InsightsTableHeaderSubItems({ addEmptyCell = true, groupedSubItemcolumn
       {addEmptyCell && <TableCell />}
       {Object.entries(groupedSubItemcolumns).flatMap(([parent, subItemsColumns]) =>
         subItemsColumns.map((subItem, index) => {
-          const cellClass = clsx({
+          const cellClass = cx({
             [css.tableCell]: (index + 1) % subItemsColumns?.length === 0,
             [css.tableCellCenterClass]: true
           });

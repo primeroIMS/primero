@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { TableCell, TableRow } from "@mui/material";
 import isNil from "lodash/isNil";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 
 import InsightsTableHeaderSubItems from "../insights-table-header-sub-items";
 import { buildGroupedSubItemColumns } from "../../utils";
@@ -14,7 +14,7 @@ import { NAME } from "./constants";
 function InsightsTableHeader({ addEmptyCell = true, columns, subColumnItemsSize }) {
   const groupedSubcolumns = columns.reduce((acc, column) => ({ ...acc, [column.label]: column.items }), {});
   const groupedSubItemcolumns = buildGroupedSubItemColumns(columns);
-  const classesEmptyCell = clsx({ [css.emptyCell]: Boolean(subColumnItemsSize) });
+  const classesEmptyCell = cx({ [css.emptyCell]: Boolean(subColumnItemsSize) });
   const subcolumnsNumber = Object.values(groupedSubcolumns)
     .flat()
     .some(subcolumn => !isNil(subcolumn));

@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { AppBar, Collapse, Divider, Toolbar } from "@mui/material";
 import isString from "lodash/isString";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import { useCallback, useState } from "react";
 
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
@@ -20,9 +20,9 @@ function PageHeading({
   controls,
   titleSecondary
 }) {
-  const toolbarClasses = clsx(css.toolbar, { [css.noPadding]: noPadding });
-  const appBarClasses = clsx(css.appBar, { [css.appBarBorder]: !noElevation });
-  const titleClasses = clsx(css.title, { [css.titleWithSecondary]: titleSecondary });
+  const toolbarClasses = cx(css.toolbar, { [css.noPadding]: noPadding });
+  const appBarClasses = cx(css.appBar, { [css.appBarBorder]: !noElevation });
+  const titleClasses = cx(css.title, { [css.titleWithSecondary]: titleSecondary });
   const [controlsToggle, setControlsToggle] = useState(false);
 
   const handleControlsToggle = useCallback(() => {

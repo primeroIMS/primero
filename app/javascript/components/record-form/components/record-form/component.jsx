@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { useMediaQuery } from "@mui/material";
 import { batch, useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import { fromJS } from "immutable";
 
 import FormFilters from "../../../form-filters";
@@ -279,11 +279,11 @@ function Component({
   const loading = Boolean(loadingForm || loadingRecord);
   const renderRecordFormToolbar = selectedModule.primeroModule && <RecordFormToolbar {...toolbarProps} />;
 
-  const containerClasses = clsx(css.recordContainer, {
+  const containerClasses = cx(css.recordContainer, {
     [css.formNavOpen]: toggleNav && mobileDisplay
   });
-  const navContainerClasses = clsx(css.recordNav, { [css.demo]: demo });
-  const demoClasses = clsx({ [css.demo]: demo });
+  const navContainerClasses = cx(css.recordNav, { [css.demo]: demo });
+  const demoClasses = cx({ [css.demo]: demo });
 
   const recordFormExternalForms = externalForms({
     approvalSubforms,

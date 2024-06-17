@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { getIn } from "formik";
-import clsx from "clsx";
+import { cx } from "@emotion/css"
 import { List } from "@mui/material";
 
 import SubformFields from "../subform-fields";
@@ -65,7 +65,7 @@ function Component({
   const isViolationAssociation = VIOLATIONS_ASSOCIATIONS_FORM.includes(formSection.unique_id);
   const renderAddFieldTitle = !isViolation && !mode.isShow && !displayConditions && i18n.t("fields.add");
 
-  const cssContainer = clsx(css.subformFieldArrayContainer, {
+  const cssContainer = cx(css.subformFieldArrayContainer, {
     [css.subformFieldArrayAccordion]: renderAsAccordion && mode.isShow,
     [css.subformFieldArrayShow]: renderAsAccordion && !mode.isShow
   });

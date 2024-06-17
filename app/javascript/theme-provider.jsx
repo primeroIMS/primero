@@ -1,9 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { CssBaseline } from "@mui/material";
-import { createTheme, ThemeProvider as MuiThemeProvider, StyledEngineProvider } from "@mui/material/styles";
+import { createTheme, ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import { useMemo, useEffect, useLayoutEffect, createContext, useReducer, useContext, useCallback } from "react";
+import createCache from "@emotion/cache";
+import { prefixer } from "stylis";
+import rtlPlugin from "stylis-plugin-rtl";
+import { CacheProvider } from "@emotion/react";
 
 import theme, { colors, drawerWidth, fontFamily, fontSizes, setCssVars, shadows, spacing } from "./theme";
 import useMemoizedSelector from "./libs/use-memoized-selector";
@@ -39,6 +43,7 @@ function ThemeProvider({ children }) {
   const { direction } = options;
 
   useEnhancedEffect(() => {
+    document.dir = direction;
     document.body.dir = direction;
   }, [direction]);
 
@@ -47,6 +52,22 @@ function ThemeProvider({ children }) {
       dispatch({ type: "CHANGE", payload: { direction: directionFromStore } });
     }
   }, [directionFromStore, direction]);
+
+  const emotionCacheCommon = {
+    prepend: true,
+    container: document.getElementsByName("emotion-insertion-point")[0]
+  };
+
+  const rtlCache = createCache({
+    key: "muirtl",
+    stylisPlugins: [prefixer, rtlPlugin],
+    ...emotionCacheCommon
+  });
+
+  const ltrCache = createCache({
+    key: "mui",
+    ...emotionCacheCommon
+  });
 
   const themeConfig = useMemo(() => {
     const muiTheme = createTheme({ ...theme, direction });
@@ -72,15 +93,17 @@ function ThemeProvider({ children }) {
     return muiTheme;
   }, [direction]);
 
+  const emotionCache = direction === "rtl" ? rtlCache : ltrCache;
+
   return (
-    <StyledEngineProvider injectFirst>
+    <CacheProvider value={emotionCache}>
       <MuiThemeProvider theme={themeConfig}>
         <DispatchContext.Provider value={dispatch}>
           <CssBaseline />
           {children}
         </DispatchContext.Provider>
       </MuiThemeProvider>
-    </StyledEngineProvider>
+    </CacheProvider>
   );
 }
 
