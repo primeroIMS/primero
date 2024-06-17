@@ -30,10 +30,6 @@ class SearchFilters::SearchFilter < ValueObject
     ActiveRecord::Base.sanitize_sql_for_conditions(['@ %s %s', operator, value])
   end
 
-  def not_null_operator?
-    @safe_operator == 'not_null'
-  end
-
   def to_json(_obj)
     to_h.to_json
   end
