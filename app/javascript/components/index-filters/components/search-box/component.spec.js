@@ -2,21 +2,21 @@
 
 import { mountedFormComponent, screen } from "../../../../test-utils";
 
-import Search from "./search";
+import SearchBox from "./component";
 
-describe("<Search /> index-filters/components/filter-types/search", () => {
+describe("<SearchBox /> index-filters/components/search-box", () => {
   const props = {
     recordType: "cases"
   };
 
   it("renders IconButton", () => {
-    mountedFormComponent(<Search {...props} />, { includeFormProvider: true });
+    mountedFormComponent(<SearchBox {...props} />, { includeFormProvider: true });
 
     expect(screen.getAllByRole("button")).toHaveLength(2);
   });
 
   it("renders InputBase", () => {
-    mountedFormComponent(<Search {...props} />, { includeFormProvider: true });
+    mountedFormComponent(<SearchBox {...props} />, { includeFormProvider: true });
 
     expect(screen.getByRole("textbox")).toBeInTheDocument();
   });
