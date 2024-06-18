@@ -7,7 +7,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import AddIcon from "@material-ui/icons/Add";
 import isEmpty from "lodash/isEmpty";
 import { push } from "connected-react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, batch } from "react-redux";
 
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
@@ -16,6 +16,7 @@ import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getOptionFromAppModule } from "../application/selectors";
 import { SEARCH_OR_CREATE_FILTERS } from "../record-list/constants";
 import { applyFilters } from "../index-filters";
+import { setRedirectedToCreateNewRecord } from "../record-form/action-creators";
 
 import { ConsentPrompt, SearchPrompt } from "./components";
 import { NAME, DATA_PROTECTION_FIELDS } from "./constants";
@@ -32,7 +33,16 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
     getOptionFromAppModule(state, primeroModule, DATA_PROTECTION_FIELDS)
   );
 
-  const goToNewCase = () => dispatch(push(`/${recordType}/${primeroModule}/new`));
+  const goToNewCase = () => {
+    dispatch(push(`/${recordType}/${primeroModule}/new`));
+  };
+
+  const redirectToNewCase = () => {
+    batch(() => {
+      dispatch(setRedirectedToCreateNewRecord(true));
+      dispatch(push(`/${recordType}/${primeroModule}/new`));
+    });
+  };
 
   const onSearchCases = data => {
     dispatch(
@@ -97,7 +107,7 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
           recordType={recordType}
           setOpenConsentPrompt={setOpenConsentPrompt}
           setSearchValue={setSearchValue}
-          goToNewCase={goToNewCase}
+          goToNewCase={redirectToNewCase}
           dataProtectionFields={dataProtectionFields}
           onSearchCases={onSearchCases}
           openConsentPrompt={openConsentPrompt}

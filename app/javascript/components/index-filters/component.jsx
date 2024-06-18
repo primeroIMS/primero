@@ -95,7 +95,12 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
 
   useEffect(() => {
     if (methods.reset && queryString) {
-      methods.reset({ ...transformFilters.split(queryParams), filter_category: methods.getValues("filter_category") });
+      methods.reset({
+        query: null,
+        phonetic: null,
+        ...transformFilters.split(queryParams),
+        filter_category: methods.getValues("filter_category")
+      });
     }
   }, [methods.reset, queryString]);
 
