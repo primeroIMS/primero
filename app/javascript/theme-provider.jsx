@@ -55,7 +55,8 @@ function ThemeProvider({ children }) {
 
   const emotionCacheCommon = {
     prepend: true,
-    container: document.getElementsByName("emotion-insertion-point")[0]
+    container: document.getElementsByName("emotion-insertion-point")[0],
+    nonce: document.querySelector('meta[property="csp-nonce"]')?.getAttribute("content")
   };
 
   const rtlCache = createCache({
