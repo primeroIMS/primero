@@ -3,7 +3,7 @@
 import { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Button, CircularProgress, Tooltip } from "@mui/material";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 
 import ButtonText from "../../../button-text";
 
@@ -28,8 +28,8 @@ function Component({
   const renderLoadingIndicator = isPending && <CircularProgress size={24} className={css.buttonProgress} />;
   const renderContent = !renderIcon ? <>{text}</> : <ButtonText text={text} keepTextOnMobile={keepTextOnMobile} />;
 
-  const spanClasses = clsx({ [css.isDisabled]: rest.disabled || isPending });
-  const classes = clsx({
+  const spanClasses = cx({ [css.isDisabled]: rest.disabled || isPending });
+  const classes = cx({
     [css.defaultActionButton]: renderIcon,
     [css.isTransparent]: isTransparent,
     [rest.className]: Boolean(rest.className)

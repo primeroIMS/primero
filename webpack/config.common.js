@@ -16,7 +16,9 @@ const plugins = require("./plugins");
 const resolve = {
   extensions: ["*", ".jsx", ".js"],
   alias: {
-    "@mui/styles": path.resolve("node_modules", "@mui/styles"),
+    "@mui/material/styles": path.resolve("node_modules", "@mui/material/styles"),
+    "@mui/cache": path.resolve("node_modules", "@mui/styled-engine/node_modules/@emotion/cache"),
+    "tss-react": path.resolve("node_modules", "tss-react"),
     window: "self"
   }
 };

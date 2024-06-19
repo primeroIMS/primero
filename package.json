@@ -42,6 +42,11 @@
     "immutable": "$immutable",
     "xml2js": "0.5.0"
   },
+  "resolutions": {
+    "tss-react": "4.9.10",
+    "@emotion/react": "11.11.4",
+    "@emotion/styled": "11.11.4"
+  },
   "devDependencies": {
     "@azure/msal-browser": "^2.37.0",
     "@babel/core": "~7.24.7",
@@ -125,9 +130,6 @@
     "jsdom": "^24.1.0",
     "jsdom-global": "^3.0.2",
     "jspdf": "^2.5.1",
-    "jss": "10.10.0",
-    "jss-plugin-extend": "10.10.0",
-    "jss-rtl": "^0.3.0",
     "keyevent": "^1.1.0",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "2.9.0",
@@ -223,7 +225,6 @@
     "@mui/icons-material": "^5.15.20",
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.20",
-    "@mui/styles": "^5.15.20",
     "@mui/x-date-pickers": "^7.7.0",
     "@welldone-software/why-did-you-render": "^6.2.0",
     "formik-mui": "^5.0.0-alpha.0",

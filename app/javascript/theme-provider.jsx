@@ -17,6 +17,23 @@ const themeInitialOptions = {
   direction: "ltr"
 };
 
+const emotionCacheCommon = {
+  prepend: true,
+  container: document.getElementsByName("emotion-insertion-point")[0],
+  nonce: document.querySelector('meta[property="csp-nonce"]')?.getAttribute("content")
+};
+
+const rtlCache = createCache({
+  key: "rtl",
+  stylisPlugins: [prefixer, rtlPlugin],
+  ...emotionCacheCommon
+});
+
+const ltrCache = createCache({
+  key: "css",
+  ...emotionCacheCommon
+});
+
 const useEnhancedEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 // eslint-disable-next-line import/exports-last
@@ -52,23 +69,6 @@ function ThemeProvider({ children }) {
       dispatch({ type: "CHANGE", payload: { direction: directionFromStore } });
     }
   }, [directionFromStore, direction]);
-
-  const emotionCacheCommon = {
-    prepend: true,
-    container: document.getElementsByName("emotion-insertion-point")[0],
-    nonce: document.querySelector('meta[property="csp-nonce"]')?.getAttribute("content")
-  };
-
-  const rtlCache = createCache({
-    key: "muirtl",
-    stylisPlugins: [prefixer, rtlPlugin],
-    ...emotionCacheCommon
-  });
-
-  const ltrCache = createCache({
-    key: "mui",
-    ...emotionCacheCommon
-  });
 
   const themeConfig = useMemo(() => {
     const muiTheme = createTheme({ ...theme, direction });
