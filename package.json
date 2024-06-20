@@ -5,7 +5,7 @@
   "license": "AGPL-3.0",
   "repository": "https://github.com/primeroIMS/primero",
   "engines": {
-    "node": ">=21.3.0"
+    "node": ">=20.14.0"
   },
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack/index.js",
@@ -13,12 +13,6 @@
     "dev:debug": "NODE_ENV=profile npm run dev",
     "test": "npm run test:run './app/javascript/**/*.unit.test.js'",
     "test:all": "npm test",
-    "test:batch": "npm run test:run \"./app/javascript/components/[$BATCH_RANGE]*/**/*.unit.test.js\"",
-    "test:batch:1": "cross-env BATCH_RANGE=a-f npm run test:batch",
-    "test:batch:2": "cross-env BATCH_RANGE=g-p npm run test:batch",
-    "test:batch:3": "cross-env BATCH_RANGE=q-r npm run test:batch",
-    "test:batch:4": "cross-env BATCH_RANGE=s-z npm run test:batch",
-    "test:batch:5": "npm run test:run './app/javascript/!(components)/**/*.unit.test.js'",
     "test:inspect": "NODE_ENV=test mocha -- --inspect-brk=0.0.0.0:9229",
     "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test:all",
     "test:run": "NODE_ENV=test mocha --timeout 8000  --check-leaks --parallel --reporter=dot --exit",

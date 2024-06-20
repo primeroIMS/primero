@@ -31,7 +31,7 @@ jobs:
         displayName: 'Make required directories and copy files'
       - task: NodeTool@0
         inputs:
-          versionSpec: '18.13.0'
+          versionSpec: '20.14.0'
         displayName: 'Install node'
       - bash: npm config set legacy-peer-deps true && npm ci
         displayName: 'Install npm packages'
@@ -58,23 +58,11 @@ jobs:
           DEVISE_JWT_SECRET_KEY: $(DEVISE_JWT_SECRET_KEY)
           DEVISE_SECRET_KEY: $(DEVISE_SECRET_KEY)
       - bash: |
-          npm run test:batch:1
-        displayName: 'Run Integration test Batch 1'
-      - bash: |
-          npm run test:batch:2
-        displayName: 'Run Integration test Batch 2'
-      - bash: |
-          npm run test:batch:3
-        displayName: 'Run Integration test Batch 3'
-      - bash: |
-          npm run test:batch:4
-        displayName: 'Run Integration test Batch 4'
-      - bash: |
-          npm run test:batch:5
-        displayName: 'Run Integration test Batch 5'
+          npm run test
+        displayName: 'Run Integration test'
       - bash: |
           npm run test:components -- --maxWorkers=2
-        displayName: 'Run Integration test (New)'
+        displayName: 'Run Integration test (Components)'
 
   - job: Build
     displayName: 'Build and push'

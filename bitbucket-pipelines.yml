@@ -14,16 +14,12 @@ definitions:
           - bundler
     - step: &client-test
         name: Client tests
-        image: node:18.13.0
+        image: node:20.14.0
         size: 2x
         script:
           - npm config set legacy-peer-deps true
           - npm ci
-          - npm run test:batch:1
-          - npm run test:batch:2
-          - npm run test:batch:3
-          - npm run test:batch:4
-          - npm run test:batch:5
+          - npm run test
           - npm run test:components -- --maxWorkers=2
           - npm run lint:run
         caches:
