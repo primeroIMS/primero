@@ -51,7 +51,7 @@ async function getIDPToken() {
   }
 }
 
-const setupMsal = (idp, historyObj) => {
+const setupMsal = async (idp, historyObj) => {
   const idpObj = (isImmutable(idp) ? idp.toJS() : idp) || selectedIDPFromSessionStore();
 
   const identityScope = idpObj.identity_scope || [""];
@@ -64,7 +64,7 @@ const setupMsal = (idp, historyObj) => {
     forceStandardOIDC = idpObj.force_standard_oidc === true;
     const msalConfig = setMsalConfig(idpObj, forceStandardOIDC);
 
-    msalApp = setMsalApp(msalConfig, historyObj);
+    msalApp = await setMsalApp(msalConfig, historyObj);
   }
 
   sessionStorage.setItem(SELECTED_IDP, JSON.stringify(idpObj));
@@ -91,7 +91,7 @@ export const refreshIdpToken = async (idp, successCallback) => {
 export const signIn = async (idp, callback, historyObj) => {
   sessionStorage.clear();
 
-  const { loginRequest } = setupMsal(idp, historyObj);
+  const { loginRequest } = await setupMsal(idp, historyObj);
 
   try {
     const response = await msalApp.loginPopup(loginRequest);
