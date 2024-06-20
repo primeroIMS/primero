@@ -3,6 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # MRM-related model
+# rubocop:disable Metrics/ModuleLength
 module MonitoringReportingMechanism
   extend ActiveSupport::Concern
 
@@ -54,38 +55,55 @@ module MonitoringReportingMechanism
   end
 
   def stamp_association_fields
-    ASSOCIATION_FIELDS.each do |(association, field_names)|
-      send(association).each do |elem|
-        field_names.each { |field_name| add_association_value(field_name, elem.send(field_name)) }
+    ASSOCIATION_FIELDS.each do |(association_field_name, field_names)|
+      associated_values = calculate_association_values(association_field_name, field_names)
+
+      associated_values.each do |(field_name, values)|
+        field = ASSOCIATION_MAPPING[field_name] || field_name
+        data[field] = values
       end
     end
   end
 
   def stamp_fields_with_violation_type
-    violations.each do |violation|
-      next unless violation.type.present?
+    field_names = VIOLATION_TYPED_FIELDS.values
+    values_with_violation_type = calculate_association_values('violations', field_names) do |association, field_name|
+      association_typed_field_value(association, field_name)
+    end
 
-      VIOLATION_TYPED_FIELDS.each do |(field_name, violation_field_name)|
-        add_association_value(field_name, violation.send(violation_field_name), violation.type)
+    values_with_violation_type.each do |(field_name, values)|
+      field = VIOLATION_TYPED_FIELDS.key(field_name)
+      data[field] = values
+    end
+  end
+
+  def calculate_association_values(association_field_name, field_names)
+    send(association_field_name).each_with_object({}) do |association, memo|
+      field_names.each do |field_name|
+        memo[field_name] = [] unless memo[field_name].present?
+        value = block_given? ? yield(association, field_name) : association.send(field_name)
+        next unless value.present?
+
+        add_associated_value(memo, field_name, value)
       end
     end
   end
 
-  def add_association_value(field_name, value, type = nil)
-    return unless value.present?
-
-    field = ASSOCIATION_MAPPING[field_name] || field_name
-    data[field] = [] unless data[field].present?
-    field_value = type.present? ? "#{type}_#{value}" : value
-    add_field_value(field, field_value)
+  def add_associated_value(memo, field_name, value)
+    if value.is_a?(Array)
+      value.each { |elem| memo[field_name] << elem if memo[field_name].exclude?(elem) }
+    elsif memo[field_name].exclude?(value)
+      memo[field_name] << value
+    end
   end
 
-  def add_field_value(field, value)
-    if value.is_a?(Array)
-      value.each { |elem| data[field] << elem if data[field].exclude?(elem) }
-    elsif data[field].exclude?(value)
-      data[field] << value
-    end
+  def association_typed_field_value(association, field_name)
+    return unless association.type.present?
+
+    field_value = association.send(field_name)
+    return "#{association.type}_#{field_value}" unless field_value.is_a?(Array)
+
+    field_value.map { |elem| "#{association.type}_#{elem}" }
   end
 
   def calculate_individual_violations
@@ -120,11 +138,10 @@ module MonitoringReportingMechanism
     self.violation_with_facility_attack_type = violations.each_with_object([]) do |violation, memo|
       next unless violation.type.present? && violation.facility_attack_type.present?
 
-      violation.facility_attack_type.each do |attack_type|
-        memo << "#{violation.type}_#{attack_type}"
-      end
+      violation.facility_attack_type.each { |attack_type| memo << "#{violation.type}_#{attack_type}" }
     end.uniq
 
     violation_with_facility_attack_type
   end
 end
+# rubocop:enable Metrics/ModuleLength

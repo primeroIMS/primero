@@ -158,7 +158,7 @@ describe MonitoringReportingMechanism, search: true do
         'attack_on_hospitals' => [
           {
             'type' => 'attack_on_hospitals',
-            'facility_attack_type' => %w[attack_on_medical_personnel threat_of_attack_on_hospital_s],
+            'facility_attack_type' => %w[attack_on_medical_personnel threat_of_attack_on_hospital],
             'facility_impact' => 'serious_damage'
           }
         ],
@@ -341,7 +341,9 @@ describe MonitoringReportingMechanism, search: true do
     search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::TextValue.new(field_name: 'violation_with_facility_impact', value: 'military_use_total_destruction')
+        SearchFilters::TextValue.new(
+          field_name: 'violation_with_facility_impact', value: 'military_use_total_destruction'
+        )
       ]
     )
     expect(search_result.total).to eq(1)
@@ -412,7 +414,7 @@ describe MonitoringReportingMechanism, search: true do
       filters: [
         SearchFilters::TextValue.new(
           field_name: 'facility_attack_type',
-          value: 'threat_of_attack_on_hospital_s'
+          value: 'threat_of_attack_on_hospital'
         )
       ]
     )
@@ -496,6 +498,27 @@ describe MonitoringReportingMechanism, search: true do
     expect(incident1.violation_with_verification_status).to match_array(%w[killing_verified])
     expect(incident1.verified_ghn_reported).to match_array(%w[2022-q2])
     expect(incident1.ctfmr_verified_date).to match_array([Date.today.beginning_of_quarter])
-    expect(incident5.facility_attack_type).to match_array(%w[attack_on_medical_personnel threat_of_attack_on_hospital_s])
+    expect(incident5.facility_attack_type).to match_array(%w[attack_on_medical_personnel threat_of_attack_on_hospital])
+  end
+
+  it 'recalculates the stamped fields' do
+    incident1.update_properties(
+      user1,
+      'perpetrators' => [
+        {
+          'unique_id' => 'a32b70de-9132-4c89-be8d-67e85a69ec68',
+          'perpetrator_category' => 'category2'
+        },
+        {
+          'unique_id' => '23e9b1ba-2f25-11ef-8c62-18c04db5c362',
+          'armed_force_group_party_name' => 'armed_force_2',
+          'violations_ids' => ['b23b70de-9132-4c89-be8d-57e85a69ec68']
+        }
+      ]
+    )
+    incident1.save!
+
+    expect(incident1.perpetrator_category).to match_array(%w[category2])
+    expect(incident1.armed_force_group_party_names).to match_array(%w[armed_force_1 armed_force_2])
   end
 end
