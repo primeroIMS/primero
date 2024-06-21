@@ -10,9 +10,9 @@ module CsrfProtection
     include ActionController::RequestForgeryProtection
     include ActionController::Cookies
 
-    before_action :set_csrf_cookie
+    before_action :set_csrf_cookie, unless: -> { request_from_basic_auth? }
 
-    protect_from_forgery with: :exception, prepend: true, if: -> { Rails.configuration.use_csrf_protection }
+    protect_from_forgery with: :exception, prepend: true, if: -> { use_csrf_protection? }
   end
 
   private
@@ -24,5 +24,13 @@ module CsrfProtection
       value: form_authenticity_token,
       same_site: :strict
     }
+  end
+
+  def use_csrf_protection?
+    Rails.configuration.use_csrf_protection && !request_from_basic_auth?
+  end
+
+  def request_from_basic_auth?
+    request.authorization.present? && request.authorization =~ /^Basic/
   end
 end
