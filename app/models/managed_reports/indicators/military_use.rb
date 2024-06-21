@@ -4,8 +4,6 @@
 
 # An indicator that returns the reporting locations of violation type detention
 class ManagedReports::Indicators::MilitaryUse < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'military_use_type_of_use'

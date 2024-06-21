@@ -4,8 +4,6 @@
 
 # An indicator that returns the individual age
 class ManagedReports::Indicators::IndividualAge < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'individual_age'

@@ -4,8 +4,6 @@
 
 # An indicator that returns the reporting locations for individual victioms -detention
 class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'reporting_location_detention'
@@ -61,15 +59,6 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
     def user_reporting_location_admin_level(current_user)
       # Adding one since admin level start from 0, but string on postgres start from 1
       current_user.role.incident_reporting_location_config&.admin_level.to_i + 1
-    end
-
-    def build_data_values(values)
-      values.each_with_object([]) do |curr, acc|
-        current_group = acc.find { |group| group[:id] == curr['name'] }
-        next current_group[curr['key'].to_sym] = curr['sum'] if current_group.present?
-
-        acc << { id: curr['name'], curr['key'].to_sym => curr['sum'], total: curr['total'] }
-      end
     end
   end
 end

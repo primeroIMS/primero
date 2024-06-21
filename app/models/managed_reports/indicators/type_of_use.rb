@@ -4,8 +4,6 @@
 
 # An indicator that returns the type of use of violation type Recruitment
 class ManagedReports::Indicators::TypeOfUse < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'type_of_use'

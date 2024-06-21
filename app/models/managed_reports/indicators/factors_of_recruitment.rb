@@ -4,8 +4,6 @@
 
 # An indicator that returns the factor of recruitment of violation type Recruitment
 class ManagedReports::Indicators::FactorsOfRecruitment < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'factors_of_recruitment'
@@ -51,11 +49,5 @@ class ManagedReports::Indicators::FactorsOfRecruitment < ManagedReports::SqlRepo
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
-
-    def build_data_values(values)
-      values.map do |value|
-        JSON.parse(value['data']).merge({ 'id' => value['name'].gsub('"', '') })
-      end
-    end
   end
 end

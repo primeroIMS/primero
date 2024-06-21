@@ -101,41 +101,26 @@ describe ManagedReports::Indicators::SexualViolenceType do
       role: all_role
     )
 
-    incident1 = Incident.new_with_user(
-      @self_user,
-      { incident_date: Date.new(2020, 8, 8), status: 'open' }
-    )
+    incident1 = Incident.new_with_user(@self_user, { incident_date: Date.new(2020, 8, 8), status: 'open' })
     incident1.save!
-    incident2 = Incident.new_with_user(
-      @group_user,
-      { incident_date: Date.new(2021, 5, 8), status: 'open' }
-    )
+    incident2 = Incident.new_with_user(@group_user, { incident_date: Date.new(2021, 5, 8), status: 'open' })
     incident2.save!
-    incident3 = Incident.new_with_user(
-      @agency_user,
-      { incident_date: Date.new(2022, 2, 18), status: 'open' }
-    )
+    incident3 = Incident.new_with_user(@agency_user, { incident_date: Date.new(2022, 2, 18), status: 'open' })
     incident3.save!
-    incident4 = Incident.new_with_user(
-      @all_user,
-      { incident_date: Date.new(2022, 3, 28), status: 'open' }
-    )
+    incident4 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident4.save!
 
     Violation.create!(
       data: {
         type: 'sexual_violence', sexual_violence_type: %w[rape],
-        violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 3, 'total': 6 }
+        violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 3, 'total' => 6 }
       },
       incident_id: incident1.id
     )
     Violation.create!(
       data: {
-        type: 'sexual_violence', sexual_violence_type: %w[
-                                   forced_abortion
-                                   forced_marriage
-                                 ],
-        violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 }
+        type: 'sexual_violence', sexual_violence_type: %w[forced_abortion forced_marriage],
+        violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 }
       },
       incident_id: incident2.id
     )
@@ -144,26 +129,21 @@ describe ManagedReports::Indicators::SexualViolenceType do
         type: 'sexual_violence', sexual_violence_type: [
                                    'rape'
                                  ],
-        violation_tally: { 'boys': 2, 'girls': 1, 'unknown': 2, 'total': 5 }
+        violation_tally: { 'boys' => 2, 'girls' => 1, 'unknown' => 2, 'total' => 5 }
       },
       incident_id: incident3.id
     )
     Violation.create!(
       data: {
-        type: 'sexual_violence', sexual_violence_type: %w[
-                                   forced_abortion
-                                   rape
-                                 ],
-        violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 }
+        type: 'sexual_violence', sexual_violence_type: %w[forced_abortion rape],
+        violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 }
       },
       incident_id: incident4.id
     )
     Violation.create!(
       data: {
-        type: 'killing', sexual_violence_type: [
-                           'forced_abortion'
-                         ],
-        violation_tally: { 'boys': 2, 'girls': 4, 'unknown': 3, 'total': 9 }
+        type: 'killing', sexual_violence_type: %w[forced_abortion],
+        violation_tally: { 'boys' => 2, 'girls' => 4, 'unknown' => 3, 'total' => 9 }
       },
       incident_id: incident4.id
     )
@@ -177,9 +157,9 @@ describe ManagedReports::Indicators::SexualViolenceType do
 
     expect(sexual_violence_type).to match_array(
       [
-        { 'total' => 18, 'unknown' => 7, 'boys' => 5, 'girls' => 6, :id => 'rape' },
-        { 'boys' => 3, 'girls' => 4, 'unknown' => 3, 'total' => 10, :id => 'forced_abortion' },
-        { 'total' => 3, 'girls' => 1, 'unknown' => 1, 'boys' => 1, :id => 'forced_marriage' }
+        { 'total' => 18, 'unknown' => 7, 'boys' => 5, 'girls' => 6, 'id' => 'rape' },
+        { 'boys' => 3, 'girls' => 4, 'unknown' => 3, 'total' => 10, 'id' => 'forced_abortion' },
+        { 'total' => 3, 'girls' => 1, 'unknown' => 1, 'boys' => 1, 'id' => 'forced_marriage' }
       ]
     )
   end
@@ -193,7 +173,7 @@ describe ManagedReports::Indicators::SexualViolenceType do
 
       expect(sexual_violence_type).to match_array(
         [
-          { 'total' => 6, 'unknown' => 3, 'boys' => 1, 'girls' => 2, :id => 'rape' }
+          { 'total' => 6, 'unknown' => 3, 'boys' => 1, 'girls' => 2, 'id' => 'rape' }
         ]
       )
     end
@@ -206,9 +186,9 @@ describe ManagedReports::Indicators::SexualViolenceType do
 
       expect(sexual_violence_type).to match_array(
         [
-          { 'boys' => 4, 'girls' => 4, 'unknown' => 4, 'total' => 12, :id => 'rape' },
-          { 'boys' => 3, 'girls' => 4, 'unknown' => 3, 'total' => 10, :id => 'forced_abortion' },
-          { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3, :id => 'forced_marriage' }
+          { 'boys' => 4, 'girls' => 4, 'unknown' => 4, 'total' => 12, 'id' => 'rape' },
+          { 'boys' => 3, 'girls' => 4, 'unknown' => 3, 'total' => 10, 'id' => 'forced_abortion' },
+          { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3, 'id' => 'forced_marriage' }
         ]
       )
     end
@@ -221,9 +201,9 @@ describe ManagedReports::Indicators::SexualViolenceType do
 
       expect(sexual_violence_type).to match_array(
         [
-          { 'total' => 5, 'boys' => 2, 'girls' => 1, 'unknown' => 2, :id => 'rape' },
-          { 'total' => 3, 'boys' => 1, 'girls' => 1, 'unknown' => 1, :id => 'forced_abortion' },
-          { 'total' => 3, 'boys' => 1, 'girls' => 1, 'unknown' => 1, :id => 'forced_marriage' }
+          { 'total' => 5, 'boys' => 2, 'girls' => 1, 'unknown' => 2, 'id' => 'rape' },
+          { 'total' => 3, 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'id' => 'forced_abortion' },
+          { 'total' => 3, 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'id' => 'forced_marriage' }
         ]
       )
     end
@@ -236,9 +216,9 @@ describe ManagedReports::Indicators::SexualViolenceType do
 
       expect(sexual_violence_type).to match_array(
         [
-          { 'total' => 18, 'unknown' => 7, 'boys' => 5, 'girls' => 6, :id => 'rape' },
-          { 'boys' => 3, 'girls' => 4, 'unknown' => 3, 'total' => 10, :id => 'forced_abortion' },
-          { 'total' => 3, 'girls' => 1, 'unknown' => 1, 'boys' => 1, :id => 'forced_marriage' }
+          { 'total' => 18, 'unknown' => 7, 'boys' => 5, 'girls' => 6, 'id' => 'rape' },
+          { 'boys' => 3, 'girls' => 4, 'unknown' => 3, 'total' => 10, 'id' => 'forced_abortion' },
+          { 'total' => 3, 'girls' => 1, 'unknown' => 1, 'boys' => 1, 'id' => 'forced_marriage' }
         ]
       )
     end
@@ -262,19 +242,19 @@ describe ManagedReports::Indicators::SexualViolenceType do
 
         expect(data).to match_array(
           [
-            { group_id: 2020, data: [{ 'unknown' => 3, 'girls' => 2, 'boys' => 1, 'total' => 6, :id => 'rape' }] },
+            { group_id: 2020, data: [{ 'unknown' => 3, 'girls' => 2, 'boys' => 1, 'total' => 6, 'id' => 'rape' }] },
             {
               group_id: 2021,
               data: [
-                { 'total' => 3, 'boys' => 1, 'girls' => 1, 'unknown' => 1, :id => 'forced_abortion' },
-                { 'total' => 3, 'girls' => 1, 'boys' => 1, 'unknown' => 1, :id => 'forced_marriage' }
+                { 'total' => 3, 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'id' => 'forced_abortion' },
+                { 'total' => 3, 'girls' => 1, 'boys' => 1, 'unknown' => 1, 'id' => 'forced_marriage' }
               ]
             },
             {
               group_id: 2022,
               data: [
-                { 'total' => 7, 'unknown' => 2, 'girls' => 3, 'boys' => 2, :id => 'forced_abortion' },
-                { 'boys' => 4, 'girls' => 4, 'total' => 12, 'unknown' => 4, :id => 'rape' }
+                { 'total' => 7, 'unknown' => 2, 'girls' => 3, 'boys' => 2, 'id' => 'forced_abortion' },
+                { 'boys' => 4, 'girls' => 4, 'total' => 12, 'unknown' => 4, 'id' => 'rape' }
               ]
             }
           ]
@@ -301,7 +281,7 @@ describe ManagedReports::Indicators::SexualViolenceType do
           [
             {
               group_id: '2020-08',
-              data: [{ 'boys' => 1, 'girls' => 2, 'unknown' => 3, 'total' => 6, :id => 'rape' }]
+              data: [{ 'boys' => 1, 'girls' => 2, 'unknown' => 3, 'total' => 6, 'id' => 'rape' }]
             },
             { group_id: '2020-09', data: [] }, { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] },
             { group_id: '2020-12', data: [] }, { group_id: '2021-01', data: [] }, { group_id: '2021-02', data: [] },
@@ -309,8 +289,8 @@ describe ManagedReports::Indicators::SexualViolenceType do
             {
               group_id: '2021-05',
               data: [
-                { 'unknown' => 1, 'total' => 3, 'girls' => 1, 'boys' => 1, :id => 'forced_abortion' },
-                { 'boys' => 1, 'girls' => 1, 'total' => 3, 'unknown' => 1, :id => 'forced_marriage' }
+                { 'unknown' => 1, 'total' => 3, 'girls' => 1, 'boys' => 1, 'id' => 'forced_abortion' },
+                { 'boys' => 1, 'girls' => 1, 'total' => 3, 'unknown' => 1, 'id' => 'forced_marriage' }
               ]
             },
             { group_id: '2021-06', data: [] }, { group_id: '2021-07', data: [] }, { group_id: '2021-08', data: [] },
@@ -318,13 +298,13 @@ describe ManagedReports::Indicators::SexualViolenceType do
             { group_id: '2021-12', data: [] }, { group_id: '2022-01', data: [] },
             { group_id: '2022-02',
               data: [
-                { 'unknown' => 2, 'girls' => 1, 'total' => 5, 'boys' => 2, :id => 'rape' }
+                { 'unknown' => 2, 'girls' => 1, 'total' => 5, 'boys' => 2, 'id' => 'rape' }
               ] },
             {
               group_id: '2022-03',
               data: [
-                { 'unknown' => 2, 'girls' => 3, 'boys' => 2, 'total' => 7, :id => 'forced_abortion' },
-                { 'boys' => 2, 'total' => 7, 'unknown' => 2, 'girls' => 3, :id => 'rape' }
+                { 'unknown' => 2, 'girls' => 3, 'boys' => 2, 'total' => 7, 'id' => 'forced_abortion' },
+                { 'boys' => 2, 'total' => 7, 'unknown' => 2, 'girls' => 3, 'id' => 'rape' }
               ]
             }
           ]
@@ -349,21 +329,21 @@ describe ManagedReports::Indicators::SexualViolenceType do
 
         expect(data).to match_array(
           [
-            { group_id: '2020-Q3', data: [{ 'boys' => 1, 'total' => 6, 'unknown' => 3, 'girls' => 2, :id => 'rape' }] },
+            { group_id: '2020-Q3', data: [{ 'boys' => 1, 'total' => 6, 'unknown' => 3, 'girls' => 2, 'id' => 'rape' }] },
             { group_id: '2020-Q4', data: [] }, { group_id: '2021-Q1', data: [] },
             {
               group_id: '2021-Q2',
               data: [
-                { 'boys' => 1, 'total' => 3, 'unknown' => 1, 'girls' => 1, :id => 'forced_abortion' },
-                { 'boys' => 1, 'total' => 3, 'girls' => 1, 'unknown' => 1, :id => 'forced_marriage' }
+                { 'boys' => 1, 'total' => 3, 'unknown' => 1, 'girls' => 1, 'id' => 'forced_abortion' },
+                { 'boys' => 1, 'total' => 3, 'girls' => 1, 'unknown' => 1, 'id' => 'forced_marriage' }
               ]
             },
             { group_id: '2021-Q3', data: [] }, { group_id: '2021-Q4', data: [] },
             {
               group_id: '2022-Q1',
               data: [
-                { 'boys' => 2, 'unknown' => 2, 'total' => 7, 'girls' => 3, :id => 'forced_abortion' },
-                { 'unknown' => 4, 'girls' => 4, 'boys' => 4, 'total' => 12, :id => 'rape' }
+                { 'boys' => 2, 'unknown' => 2, 'total' => 7, 'girls' => 3, 'id' => 'forced_abortion' },
+                { 'unknown' => 4, 'girls' => 4, 'boys' => 4, 'total' => 12, 'id' => 'rape' }
               ]
             }
           ]

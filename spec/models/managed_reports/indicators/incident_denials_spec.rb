@@ -56,7 +56,7 @@ describe ManagedReports::Indicators::IncidentDenials do
       { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access') }
     ).data
 
-    expect(denial_type_data[0][:total]).to eq(5)
+    expect(denial_type_data[0]['total']).to eq(5)
   end
 
   describe 'grouped by' do
@@ -77,22 +77,9 @@ describe ManagedReports::Indicators::IncidentDenials do
 
         expect(data).to match_array(
           [
-            {
-              group_id: 2020,
-              data: [
-                { id: 'denial_humanitarian_access', total: 1 }
-              ]
-            },
-            {
-              group_id: 2021,
-              data: [{ id: 'denial_humanitarian_access', total: 2 }]
-            },
-            {
-              group_id: 2022,
-              data: [
-                { id: 'denial_humanitarian_access', total: 2 }
-              ]
-            }
+            { group_id: 2020, data: [{ 'id' => 'denial_humanitarian_access', 'total' => 1 }] },
+            { group_id: 2021, data: [{ 'id' => 'denial_humanitarian_access', 'total' => 2 }] },
+            { group_id: 2022, data: [{ 'id' => 'denial_humanitarian_access', 'total' => 2 }] }
           ]
         )
       end
@@ -115,7 +102,7 @@ describe ManagedReports::Indicators::IncidentDenials do
 
         expect(data).to match_array(
           [
-            { group_id: '2020-08', data: [{ id: 'denial_humanitarian_access', total: 1 }] },
+            { group_id: '2020-08', data: [{ 'id' => 'denial_humanitarian_access', 'total' => 1 }] },
             { group_id: '2020-09', data: [] },
             { group_id: '2020-10', data: [] },
             { group_id: '2020-11', data: [] },
@@ -127,13 +114,13 @@ describe ManagedReports::Indicators::IncidentDenials do
             { group_id: '2021-05', data: [] },
             { group_id: '2021-06', data: [] },
             { group_id: '2021-07', data: [] },
-            { group_id: '2021-08', data: [{ id: 'denial_humanitarian_access', total: 2 }] },
+            { group_id: '2021-08', data: [{ 'id' => 'denial_humanitarian_access', 'total' => 2 }] },
             { group_id: '2021-09', data: [] },
             { group_id: '2021-10', data: [] },
             { group_id: '2021-11', data: [] },
             { group_id: '2021-12', data: [] },
-            { group_id: '2022-01', data: [{ id: 'denial_humanitarian_access', total: 1 }] },
-            { group_id: '2022-02', data: [{ id: 'denial_humanitarian_access', total: 1 }] }
+            { group_id: '2022-01', data: [{ 'id' => 'denial_humanitarian_access', 'total' => 1 }] },
+            { group_id: '2022-02', data: [{ 'id' => 'denial_humanitarian_access', 'total' => 1 }] }
           ]
         )
       end
@@ -156,13 +143,13 @@ describe ManagedReports::Indicators::IncidentDenials do
 
         expect(data).to match_array(
           [
-            { group_id: '2020-Q3', data: [{ id: 'denial_humanitarian_access', total: 1 }] },
+            { group_id: '2020-Q3', data: [{ 'id' => 'denial_humanitarian_access', 'total' => 1 }] },
             { group_id: '2020-Q4', data: [] },
             { group_id: '2021-Q1', data: [] },
             { group_id: '2021-Q2', data: [] },
-            { group_id: '2021-Q3', data: [{ id: 'denial_humanitarian_access', total: 2 }] },
+            { group_id: '2021-Q3', data: [{ 'id' => 'denial_humanitarian_access', 'total' => 2 }] },
             { group_id: '2021-Q4', data: [] },
-            { group_id: '2022-Q1', data: [{ id: 'denial_humanitarian_access', total: 2 }] }
+            { group_id: '2022-Q1', data: [{ 'id' => 'denial_humanitarian_access', 'total' => 2 }] }
           ]
         )
       end
