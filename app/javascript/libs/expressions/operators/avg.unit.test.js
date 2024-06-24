@@ -6,6 +6,7 @@ import avgOperator from "./avg";
 
 describe("avgOperator", () => {
   const operator = avgOperator(["a", "b", "c"]);
+  const decimalPlaceOperator = avgOperator(["a", "b", "c"], { decimalPlaces: 3 });
 
   it("should return avg", () => {
     expect(operator.evaluate({ a: 3, b: 4, c: 2 })).to.deep.equals(3);
@@ -21,5 +22,8 @@ describe("avgOperator", () => {
 
   it("returns 0 when no argument passed", () => {
     expect(operator.evaluate({})).to.deep.equals(0);
+  });
+  it("returns a float when decimal places are specified", () => {
+    expect(decimalPlaceOperator.evaluate({ a: 1, b: 4 })).to.deep.equals(2.5);
   });
 });
