@@ -406,7 +406,7 @@ class Filter < ValueObject
       filters += [MY_CASES, WORKFLOW]
       filters << AGENCY if user.admin?
       filters += [STATUS, AGE_RANGE, SEX] + user_based_filters(user) + [NO_ACTIVITY]
-      filters << DATE_CASE unless gbv_or_mrm?(user)
+      filters << DATE_CASE unless gbv_or_mrm_user?(user)
       filters << ENABLED
       filters += photo_filters(user)
       filters
@@ -416,8 +416,8 @@ class Filter < ValueObject
       filters = []
       filters += approvals_filters(user)
       filters += field_based_filters(user)
-      filters << RISK_LEVEL unless gbv_or_mrm?(user)
-      filters << CURRENT_LOCATION unless gbv_or_mrm?(user)
+      filters << RISK_LEVEL unless gbv_or_mrm_user?(user)
+      filters << CURRENT_LOCATION unless gbv_or_mrm_user?(user)
       filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
       filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
       filters += reporting_location_filters(user)
@@ -460,36 +460,37 @@ class Filter < ValueObject
     end
 
     def protection_status_filter(user, filter_fields)
-      return [PROTECTION_STATUS] if visible?('protection_status', filter_fields) && !gbv_or_mrm?(user)
+      return [PROTECTION_STATUS] if visible?('protection_status', filter_fields) && !gbv_or_mrm_user?(user)
 
       []
     end
 
     def urgent_protection_concern_filter(user, filter_fields)
-      return [URGENT_PROTECTION_CONCERN] if !gbv_or_mrm?(user) && visible?('urgent_protection_concern', filter_fields)
+      return [URGENT_PROTECTION_CONCERN] if !gbv_or_mrm_user?(user) && visible?('urgent_protection_concern',
+                                                                                filter_fields)
 
       []
     end
 
     def type_of_risk_filter(user, filter_fields)
-      return [TYPE_OF_RISK] if !gbv_or_mrm?(user) && visible?('type_of_risk', filter_fields)
+      return [TYPE_OF_RISK] if !gbv_or_mrm_user?(user) && visible?('type_of_risk', filter_fields)
 
       []
     end
 
     def reporting_location_filters(user)
-      return [] if gbv_or_mrm?(user)
+      return [] if gbv_or_mrm_user?(user)
 
       role = user&.role
       return [] unless role
 
       filters = []
-      filters << REPORTING_LOCATION.call(reporting_location_data(role, 'case')) unless gbv_or_mrm?(user)
+      filters << REPORTING_LOCATION.call(reporting_location_data(role, 'case')) unless gbv_or_mrm_user?(user)
       filters
     end
 
     def photo_filters(user)
-      return [] if gbv_or_mrm?(user)
+      return [] if gbv_or_mrm_user?(user)
 
       role = user&.role
       return [] unless role
@@ -622,7 +623,7 @@ class Filter < ValueObject
       field.present? && field.visible?
     end
 
-    def gbv_or_mrm?(user)
+    def gbv_or_mrm_user?(user)
       user.module?(PrimeroModule::MRM) || (user.module?(PrimeroModule::GBV) && user.modules.size <= 1)
     end
   end
