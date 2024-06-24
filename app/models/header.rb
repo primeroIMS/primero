@@ -85,14 +85,14 @@ class Header < ValueObject
       header_list << CASE_ID_DISPLAY
       header_list << SHORT_ID
       # TODO: There's an id_search logic I'm not sure about
-      header_list << CASE_NAME if user.module?(PrimeroModule::CP) && user.can_list_case_names?
+      header_list << CASE_NAME if !gbv_or_mrm?(user) && user.can_list_case_names?
       header_list << COMPLETE if user.can?(:sync_mobile, Child)
       header_list << SURVIVOR_CODE if user.module?(PrimeroModule::GBV) && !user.manager?
-      header_list << AGE if user.module?(PrimeroModule::CP)
-      header_list << SEX if user.module?(PrimeroModule::CP)
-      header_list << REGISTRATION_DATE if user.module?(PrimeroModule::CP)
+      header_list << AGE unless gbv_or_mrm?(user)
+      header_list << SEX unless gbv_or_mrm?(user)
+      header_list << REGISTRATION_DATE unless gbv_or_mrm?(user)
       header_list << CASE_OPENING_DATE if user.module?(PrimeroModule::GBV)
-      header_list << PHOTO if user.module?(PrimeroModule::CP) && user.can?(:view_photo, Child)
+      header_list << PHOTO if !gbv_or_mrm?(user) && user.can?(:view_photo, Child)
       header_list << SOCIAL_WORKER if user.manager?
       header_list << ALERT_COUNT
       header_list << FLAG_COUNT
@@ -106,11 +106,11 @@ class Header < ValueObject
       header_list << SHORT_ID
       header_list << DATE_OF_INCIDENT if user.module?(PrimeroModule::MRM)
       header_list << SURVIVOR_CODE_INCIDENT if !user.manager? && user.module?(PrimeroModule::GBV)
-      header_list << DATE_OF_INTERVIEW if user.module?(PrimeroModule::GBV) || user.module?(PrimeroModule::CP)
+      header_list << DATE_OF_INTERVIEW unless user.module?(PrimeroModule::MRM)
       header_list << GBV_DATE_OF_INCIDENT if user.module?(PrimeroModule::GBV)
       header_list << GBV_VIOLENCE_TYPE if user.module?(PrimeroModule::GBV)
-      header_list << CP_DATE_OF_INCIDENT if user.module?(PrimeroModule::CP)
-      header_list << CP_VIOLENCE_TYPE if user.module?(PrimeroModule::CP)
+      header_list << CP_DATE_OF_INCIDENT unless gbv_or_mrm?(user)
+      header_list << CP_VIOLENCE_TYPE unless gbv_or_mrm?(user)
       header_list << INCIDENT_LOCATION if user.module?(PrimeroModule::MRM)
       header_list << VIOLATIONS if user.module?(PrimeroModule::MRM)
       header_list << SOCIAL_WORKER if user.manager?
@@ -179,6 +179,10 @@ class Header < ValueObject
 
     def locations_headers
       [NAME, LOCATION_CODE, LOCATION_ADMIN_LEVEL, LOCATION_TYPE, LOCATION_HIERARCHY]
+    end
+
+    def gbv_or_mrm?(user)
+      user.module?(PrimeroModule::MRM) || user.module?(PrimeroModule::GBV)
     end
   end
 
