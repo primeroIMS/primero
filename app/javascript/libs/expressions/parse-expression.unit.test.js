@@ -199,6 +199,7 @@ describe("parseExpression", () => {
 
   context("avgOperator", () => {
     const operator = parseExpression({ avg: ["a", "b", "c"] });
+    const decimalOperator = parseExpression({ avg: { data: ["a", "b", "c"], extra: { decimalPlaces: 3 } } });
 
     it("should return avg", () => {
       expect(operator.evaluate({ a: 3, b: 4, c: 2 })).to.deep.equals(3);
@@ -214,6 +215,15 @@ describe("parseExpression", () => {
 
     it("returns 0 when no argument passed", () => {
       expect(operator.evaluate({})).to.deep.equals(0);
+    });
+    it("works with decimalPlaces specified", () => {
+      expect(decimalOperator.evaluate({ a: 3, b: 2 })).to.deep.equals(2.5);
+    });
+    it("Correctly rounds to the right number of decimal places", () => {
+      expect(decimalOperator.evaluate({ a: 2, b: 2, c: 1 })).to.deep.equals(1.667);
+    });
+    it("works with strings", () => {
+      expect(decimalOperator.evaluate({ a: "2", b: "3" })).to.deep.equals(2.5);
     });
   });
 });
