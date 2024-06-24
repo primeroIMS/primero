@@ -28,8 +28,9 @@ definitions:
         caches:
           - node
     - step: &push-branch
+        image: atlassian/default-image:4
         script:
-          - git push unicef@vs-ssh.visualstudio.com:v3/unicef/ICTD%20-%20Primero%20X%20DEV/primero $BITBUCKET_BRANCH
+          - git push https://$azdotoken@unicef.visualstudio.com/ICTD%20-%20Primero%20X%20DEV/_git/primero $BITBUCKET_BRANCH
           - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_BRANCH
   services:
     postgres:
@@ -53,8 +54,9 @@ pipelines:
     v*:
       - step:
           script:
-            - git push unicef@vs-ssh.visualstudio.com:v3/unicef/ICTD%20-%20Primero%20X%20DEV/primero $BITBUCKET_TAG
+            - git push https://$azdotoken@unicef.visualstudio.com/ICTD%20-%20Primero%20X%20DEV/_git/primero $BITBUCKET_TAG
             - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_TAG
+
   pull-requests:
     '**':
       - parallel:
