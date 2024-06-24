@@ -13,7 +13,7 @@ module Exporters
         User, Agency, Role, UserGroup, PrimeroModule, PrimeroProgram, Field, FormSection, Incident, Location, Lookup
       )
       subform = FormSection.new(
-        name: 'cases_test_subform_2', parent_form: 'case', 'visible' => false, 'is_nested' => true,
+        name: 'cases_test_subform_2', parent_form: 'incident', 'visible' => false, 'is_nested' => true,
         order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_subform_2',
         unique_id: 'cases_test_subform_2'
       )
@@ -21,7 +21,7 @@ module Exporters
       subform.fields << Field.new(name: 'field_4', type: Field::TEXT_FIELD, display_name: 'field_4')
       subform.save!
       form1 = FormSection.new(
-        name: 'cases_test_form_3', parent_form: 'case', 'visible' => true, order_form_group: 0,
+        name: 'cases_test_form_3', parent_form: 'incident', 'visible' => true, order_form_group: 0,
         order: 0, order_subform: 0, form_group_id: 'cases_test_form_3', unique_id: 'cases_test_form_3'
       )
       form1.fields << Field.new(
@@ -29,7 +29,7 @@ module Exporters
       )
       form1.save!
       form2 = FormSection.new(
-        :name => 'cases_test_form_2', parent_form: 'case', 'visible' => true, order_form_group: 0,
+        :name => 'cases_test_form_2', parent_form: 'incident', 'visible' => true, order_form_group: 0,
         order: 0, order_subform: 0, form_group_id: 'cases_test_form_2', unique_id: 'cases_test_form_2'
       )
       form2.fields << Field.new(name: 'relationship', type: Field::TEXT_FIELD, display_name: 'relationship')
@@ -41,14 +41,14 @@ module Exporters
       )
       form2.save!
       subform = FormSection.new(
-        name: 'cases_test_subform_1', parent_form: 'case', 'visible' => false, 'is_nested' => true, order_form_group: 0,
+        name: 'cases_test_subform_1', parent_form: 'incident', 'visible' => false, 'is_nested' => true, order_form_group: 0,
         order: 0, order_subform: 0, form_group_id: 'cases_test_subform_1', unique_id: 'cases_test_subform_1'
       )
       subform.fields << Field.new(name: 'field_1', type: Field::TEXT_FIELD, display_name: 'field_1')
       subform.fields << Field.new(name: 'field_2', type: Field::TEXT_FIELD, display_name: 'field_2')
       subform.save!
       form3 = FormSection.new(
-        name: 'cases_test_form_1', parent_form: 'case', 'visible' => true, order_form_group: 0,
+        name: 'cases_test_form_1', parent_form: 'incident', 'visible' => true, order_form_group: 0,
         order: 0, order_subform: 0, form_group_id: 'cases_test_form_1', unique_id: 'cases_test_form_1'
       )
       form3.fields << Field.new(name: 'first_name', type: Field::TEXT_FIELD, display_name: 'first_name')
@@ -56,27 +56,33 @@ module Exporters
       form3.fields << Field.new(
         name: 'subform_field_1', type: Field::SUBFORM, display_name: 'subform field', 'subform_section_id' => subform.id
       )
+      form3.fields << Field.new(name: 'ethnicity', display_name: 'ethnicity', type: Field::SELECT_BOX,
+                                option_strings_source: 'lookup lookup-ethnicity')
+      form3.fields << Field.new(name: 'displacement_incident', type: Field::SELECT_BOX,
+                                display_name: 'Stage of displacement at time of incident',
+                                option_strings_text_i18n: [
+                                  { 'id' => 'during_flight', 'display_text' => { 'en' => 'During Flight' } },
+                                  { 'id' => 'during_refuge', 'display_text' => { 'en' => 'During Refuge' } }
+                                ])
+      form3.fields << Field.new(name: 'perpetrator_occupation', type: Field::SELECT_BOX, display_name: 'perpetrator_occupation',
+                                multi_select: true, option_strings_text: [
+                                  { id: 'occupation_1', display_text: 'Occupation 1' },
+                                  { id: 'occupation_2', display_text: 'Occupation 2' }
+                                ].map(&:with_indifferent_access))
       form3.save!
       @primero_module = create(
-        :primero_module, name: 'CP', description: 'Child Protection', associated_record_types: %w[case]
+        :primero_module, unique_id: 'primeromodule-gbv', name: 'GBV', description: 'Child Protection',
+                         associated_record_types: %w[incident], form_sections: [form1, form2, form3]
       )
-      @role = create(:role, modules: [@primero_module], form_sections: [form1, form2, form3])
+      @role = create(:role, modules: [@primero_module])
       @user = create(:user, user_name: 'fakeadmin', role: @role, code: 'test01')
 
-      Field.create!(name: 'ethnicity', display_name: 'ethnicity', type: Field::SELECT_BOX,
-                    option_strings_source: 'lookup lookup-ethnicity')
-      Field.create!(name: 'displacement_incident', type: Field::SELECT_BOX,
-                    display_name: 'Stage of displacement at time of incident',
-                    option_strings_text_i18n: [
-                      { 'id': 'during_flight', 'display_text': { 'en': 'During Flight' } },
-                      { 'id': 'during_refuge', 'display_text': { 'en': 'During Refuge' } }
-                    ])
-      Lookup.create!(unique_id: 'lookup-ethnicity', name_i18n: { 'en': 'Ethnicity' },
+      Lookup.create!(unique_id: 'lookup-ethnicity', name_i18n: { 'en' => 'Ethnicity' },
                      lookup_values_i18n: [
-                       { 'id': 'ethnicity1', 'display_text': { 'en': 'Ethnicity1' } },
-                       { 'id': 'ethnicity2', 'display_text': { 'en': 'Ethnicity2' } },
-                       { 'id': 'ethnicity3', 'display_text': { 'en': 'Ethnicity3' } },
-                       { 'id': 'ethnicity4', 'display_text': { 'en': 'Ethnicity4' } }
+                       { 'id' => 'ethnicity1', 'display_text' => { 'en' => 'Ethnicity1' } },
+                       { 'id' => 'ethnicity2', 'display_text' => { 'en' => 'Ethnicity2' } },
+                       { 'id' => 'ethnicity3', 'display_text' => { 'en' => 'Ethnicity3' } },
+                       { 'id' => 'ethnicity4', 'display_text' => { 'en' => 'Ethnicity4' } }
                      ])
 
       incident_a = Incident.create!(
@@ -362,13 +368,14 @@ module Exporters
         workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
         expect(workbook.sheets.size).to eq(2)
         model = @record_with_all_fields.first
+
         expect(workbook.sheet(0).row(2)).to eq(
           [
             '111-22-ir', '111-222', 'test01', I18n.l(model.date_of_first_report), I18n.l(model.incident_date),
             I18n.l(model.data['date_of_birth']), 'F', 'Ethnicity3', 'andorra', 'divorced_separated', 'refugee',
             'mental_disability', 'separated_child', 'During Flight', 'afternoon', 'garden', 'Guinea', 'Kindia', 'town',
             'sexual_assault', 'type_of_practice_1', 'false', 'forced_conscription', 'non-gbvims-org', 'true', 2,
-            'M and F', 'Yes', 'Age 18 - 25', 'supervisor_employer', 'occupation_2', 'police_other_service',
+            'M and F', 'Yes', 'Age 18 - 25', 'supervisor_employer', 'Occupation 2', 'police_other_service',
             'services_already_received_from_another_agency', 'service_provided_by_your_agency',
             'service_not_applicable', 'No', 'service_not_applicable',
             'referral_declined_by_survivor', 'service_not_applicable', 'services_already_received_from_another_agency',
@@ -387,7 +394,7 @@ module Exporters
 
       it 'Get age_type form perpetrators' do
         form_perpetrator = FormSection.new(
-          name: 'alleged_perpetrator', parent_form: 'case', 'visible' => true, order_form_group: 0,
+          name: 'alleged_perpetrator', parent_form: 'incident', 'visible' => true, order_form_group: 0,
           order: 0, order_subform: 0, form_group_id: 'cases_test_subform_2', unique_id: 'alleged_perpetrator'
         )
         form_perpetrator.fields << Field.new(name: 'age_type', type: Field::TEXT_FIELD, display_name: 'age_type')
@@ -401,20 +408,6 @@ module Exporters
       end
 
       it 'Get select field value from primary perpetrators' do
-        form_perpetrator = FormSection.new(
-          name: 'alleged_perpetrator', parent_form: 'case', 'visible' => true, order_form_group: 0,
-          order: 0, order_subform: 0, form_group_id: 'cases_test_subform_2', unique_id: 'alleged_perpetrator'
-        )
-        fields = [
-          Field.new(name: 'perpetrator_occupation', type: Field::SELECT_BOX, display_name: 'perpetrator_occupation',
-                    multi_select: true, option_strings_text: [
-                      { id: 'occupation_1', display_text: 'Occupation 1' },
-                      { id: 'occupation_2', display_text: 'Occupation ' }
-                    ].map(&:with_indifferent_access))
-        ]
-        form_perpetrator.fields = fields
-        form_perpetrator.save!
-
         data = IncidentRecorderExporter.export(@records, nil, { user: @user }, {})
         workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
         expect(workbook.sheet(0).last_row).to eq(3)
