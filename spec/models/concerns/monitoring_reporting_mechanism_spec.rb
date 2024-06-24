@@ -23,6 +23,7 @@ describe MonitoringReportingMechanism, search: true do
       user1,
       {
         'incident_date' => '2022-04-08',
+        'module_id' => PrimeroModule::MRM,
         'killing' => [
           {
             'unique_id' => 'b23b70de-9132-4c89-be8d-57e85a69ec68',
@@ -62,6 +63,7 @@ describe MonitoringReportingMechanism, search: true do
     incident2 = Incident.new_with_user(
       user1,
       {
+        'module_id' => PrimeroModule::MRM,
         'killing' => [
           {
             'unique_id' => 'f37ccb6e-9f85-473e-890e-7037e8ece397',
@@ -112,6 +114,7 @@ describe MonitoringReportingMechanism, search: true do
     incident3 = Incident.new_with_user(
       user1,
       {
+        'module_id' => PrimeroModule::MRM,
         'killing' => [
           { 'type' => 'killing', 'ctfmr_verified' => 'not_mrm', 'ctfmr_verified_date' => Date.today.end_of_quarter }
         ],
@@ -129,6 +132,7 @@ describe MonitoringReportingMechanism, search: true do
     incident4 = Incident.new_with_user(
       user1,
       {
+        'module_id' => PrimeroModule::MRM,
         'military_use' => [
           {
             'type' => 'military_use',
@@ -155,6 +159,7 @@ describe MonitoringReportingMechanism, search: true do
     incident5 = Incident.new_with_user(
       user1,
       {
+        'module_id' => PrimeroModule::MRM,
         'attack_on_hospitals' => [
           {
             'type' => 'attack_on_hospitals',

@@ -36,23 +36,15 @@ class Incident < ApplicationRecord
 
   DEFAULT_ALERT_FORM_UNIQUE_ID = 'incident_from_case'
 
-  has_many :violations, dependent: :destroy, inverse_of: :incident
-  has_many :perpetrators, through: :violations
-  has_many :individual_victims, through: :violations
-  has_many :sources, through: :violations
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
-  before_save :save_violations_and_associations
 
   class << self
     alias super_new_with_user new_with_user
     def new_with_user(user, data = {})
-      violations_params = violations_data(Violation::TYPES, data)
-      associations_params = violations_data(Violation::MRM_ASSOCIATIONS_KEYS, data)
       new_incident = super_new_with_user(user, data).tap do |incident|
         incident.incident_case_id ||= incident.data.delete('incident_case_id')
       end
-      new_incident.build_or_update_violations(violations_params)
-      new_incident.build_violations_associations(associations_params)
+      new_incident.build_or_update_violations_and_associations(data)
       new_incident
     end
 
@@ -86,7 +78,6 @@ class Incident < ApplicationRecord
 
   after_initialize :set_unique_id
   before_save :copy_from_case
-  before_save :update_violations
   # TODO: Reconsider whether this is necessary.
   # We will only be creating an incident from a case using a special business logic that
   # will certainly trigger a reindex on the case
@@ -170,127 +161,8 @@ class Incident < ApplicationRecord
 
   alias super_update_properties update_properties
   def update_properties(user, data)
-    build_or_update_violations(Incident.violations_data(Violation::TYPES, data))
-    build_violations_associations(Incident.violations_data(Violation::MRM_ASSOCIATIONS_KEYS, data))
+    build_or_update_violations_and_associations(data)
     super_update_properties(user, data)
-  end
-
-  def self.violations_data(data_keys, data)
-    return {} unless data
-
-    data_keys.reduce({}) do |acc, elem|
-      next acc unless data[elem].present?
-
-      acc.merge(elem => data.delete(elem))
-    end
-  end
-
-  def build_or_update_violations(violation_objects_data)
-    return unless violation_objects_data.present?
-
-    @violations_to_save = violation_objects_data.each_with_object([]) do |(type, violations_by_type), acc|
-      violations_by_type.each do |violation_data|
-        acc << Violation.build_record(type, violation_data, self)
-      end
-      acc
-    end
-  end
-
-  def build_violations_associations(violation_associations_data)
-    return unless violation_associations_data.present?
-
-    @associations_to_save = violation_associations_data.each_with_object([]) do |(type, associations_data), acc|
-      association_object = type.classify.constantize
-      associations_data.each do |association_data|
-        acc << association_object.build_record(association_data)
-      end
-      acc
-    end
-  end
-
-  def save_violations
-    return unless @violations_to_save
-
-    @violations_to_save.each(&:save!)
-  end
-
-  def save_violations_associations
-    return unless @associations_to_save
-
-    @associations_to_save.each do |association|
-      if association.violations_ids.present?
-        association.violations = violations_for_associated(association.violations_ids)
-      end
-      next if association.violations.blank?
-
-      association.save!
-    end
-  end
-
-  def save_violations_and_associations
-    save_violations
-    save_violations_associations
-
-    return unless @violations_to_save.present? || @associations_to_save.present?
-
-    reindex_violations_and_associations
-    recalculate_association_fields
-  end
-
-  # TODO: This method will trigger queries to reload the violations and associations in order to index the latest data
-  def reindex_violations_and_associations
-    association_classes = association_classes_to_save
-
-    violations.reload if @violations_to_save.present? || association_classes.include?(Source)
-
-    return unless association_classes.present?
-
-    individual_victims.reload if association_classes.include?(IndividualVictim)
-    perpetrators.reload if association_classes.include?(Perpetrator)
-  end
-
-  def association_classes_to_save
-    return unless @associations_to_save
-
-    @associations_to_save.map(&:class).uniq.compact
-  end
-
-  def associations_as_data(_current_user)
-    mrm_associations = associations_as_data_keys.to_h { |value| [value, []] }
-
-    @associations_as_data ||= violations.reduce(mrm_associations) do |acc, violation|
-      acc[violation.type] << violation.data
-      acc.merge(violation.associations_as_data) do |_key, acc_value, violation_value|
-        (acc_value + violation_value).compact.uniq { |value| value['unique_id'] }
-      end
-    end
-  end
-
-  def associations_as_data_keys
-    (Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS)
-  end
-
-  # Returns a list of Violations to be associated with
-  # Violation::MRM_ASSOCIATIONS_KEYS (perpetrators, victims...) on API update
-  def violations_for_associated(violations_ids)
-    ids = (violations_ids.is_a?(Array) ? violations_ids : [violations_ids])
-    violations_result = []
-
-    if @violations_to_save.present?
-      violations_result += @violations_to_save.select { |violation| ids.include?(violation.id) }
-    end
-    violations_result += Violation.where(id: ids - violations_result.map(&:id))
-
-    violations_result
-  end
-
-  def update_violations
-    should_update_violations = !new_record? && module_id == PrimeroModule::MRM &&
-                               (incident_date_changed? || incident_date_end_changed?)
-
-    return unless should_update_violations
-
-    violations.each(&:calculate_late_verifications)
   end
 
   def reporting_location_property

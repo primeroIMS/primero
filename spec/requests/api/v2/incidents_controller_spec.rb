@@ -79,7 +79,9 @@ describe Api::V2::IncidentsController, type: :request do
 
     @case1 = Child.create!(data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false })
     @case2 = Child.create!(data: { name: 'Test2', age: 6, sex: 'male' })
-    @incident1 = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' })
+    @incident1 = Incident.create!(
+      data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1', module_id: PrimeroModule::MRM }
+    )
     @incident2 = Incident.create!(data: { incident_date: Date.new(2018, 3, 1), description: 'Test 2' })
     @incident3 = Incident.create!(
       data: { incident_date: Date.new(2018, 3, 1), description: 'Test 3' },

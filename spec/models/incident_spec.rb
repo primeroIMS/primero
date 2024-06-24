@@ -69,12 +69,13 @@ describe Incident do
       let(:incident_data) do
         {
           'unique_id' => '790f958d-ac8e-414b-af64-e75831e3353a',
+          'module_id' => PrimeroModule::MRM,
           'incident_code' => '0123456',
           'description' => 'this is a test',
           'recruitment' => [
             {
               'unique_id' => '8dccaf74-e9aa-452a-9b58-dc365b1062a2',
-              'violation_tally': { 'boys': 3, 'girls': 1, 'unknown': 0, 'total': 4 },
+              'violation_tally' => { 'boys' => 3, 'girls' => 1, 'unknown' => 0, 'total' => 4 },
               'name' => 'violation1'
             }
           ],
@@ -505,14 +506,18 @@ describe Incident do
   end
 
   describe '#update_properties' do
-    let(:incident) { Incident.create!(unique_id: '1a2b3c', incident_code: '0123456', description: 'this is a test') }
+    let(:incident) do
+      Incident.create!(
+        unique_id: '1a2b3c', incident_code: '0123456', description: 'this is a test', module_id: PrimeroModule::MRM
+      )
+    end
 
     before do
       data = incident.data.clone
       data['recruitment'] = [
         {
           'unique_id' => '8dccaf74-e9aa-452a-9b58-dc365b1062a2',
-          'violation_tally': { 'boys': 3, 'girls': 1, 'unknown': 0, 'total': 4 },
+          'violation_tally' => { 'boys' => 3, 'girls' => 1, 'unknown' => 0, 'total' => 4 },
           'name' => 'violation1'
         }
       ]
@@ -593,11 +598,18 @@ describe Incident do
   end
 
   describe '#associations_as_data' do
-    let(:incident) { Incident.create!(unique_id: '1a2b3c', incident_code: '987654', description: 'this is a test') }
+    let(:incident) do
+      Incident.create!(
+        unique_id: '1a2b3c', incident_code: '987654', description: 'this is a test', module_id: PrimeroModule::MRM
+      )
+    end
+
     let(:incident2) do
       Incident.create!(
         unique_id: '15e65cf1-6980-4c7c-a591-94f900f5d721',
-        incident_code: '6980', description: 'this is a second test'
+        incident_code: '6980',
+        description: 'this is a second test',
+        module_id: PrimeroModule::MRM
       )
     end
 
@@ -607,7 +619,7 @@ describe Incident do
       data['recruitment'] = [
         {
           'unique_id' => '8dccaf74-e9aa-452a-9b58-dc365b1062a2',
-          'violation_tally': { 'boys': 3, 'girls': 1, 'unknown': 0, 'total': 4 },
+          'violation_tally' => { 'boys' => 3, 'girls' => 1, 'unknown' => 0, 'total' => 4 },
           'name' => 'violation1'
         }
       ]
@@ -725,10 +737,10 @@ describe Incident do
           {
             'id_number' => '1',
             'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2'],
-            "source_interview_date": '2023-02-01',
-            "source_category": 'secondary',
-            "source_type": 'photograph',
-            "unique_id": 'ba604357-5dce-4861-b740-af5d40398ef7'
+            'source_interview_date' => '2023-02-01',
+            'source_category' => 'secondary',
+            'source_type' => 'photograph',
+            'unique_id' => 'ba604357-5dce-4861-b740-af5d40398ef7'
           }
         ]
       }
