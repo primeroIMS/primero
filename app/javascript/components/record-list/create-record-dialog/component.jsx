@@ -7,7 +7,7 @@ import { push } from "connected-react-router";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 
 import { useMemoizedSelector } from "../../../libs";
 import ActionButton from "../../action-button";
@@ -24,6 +24,7 @@ import SearchNameToggle from "../../index-filters/components/search-name-toggle"
 import PhoneticHelpText from "../../index-filters/components/phonetic-help-text";
 import { searchTitleI18nKey } from "../../index-filters/components/search-box/utils";
 import SearchButton from "../../record-creation-flow/components/search-button";
+import { setRedirectedToCreateNewRecord } from "../../record-form/action-creators";
 
 import { FORM_ID, NAME, PHONETIC_FIELD_NAME } from "./constants";
 import { searchForm } from "./forms";
@@ -77,6 +78,13 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
     dispatch(push(`/${recordType}/${moduleUniqueId}/new`));
   };
 
+  const redirectToNewCase = () => {
+    batch(() => {
+      dispatch(setRedirectedToCreateNewRecord(true));
+      dispatch(push(`/${recordType}/${moduleUniqueId}/new`));
+    });
+  };
+
   const handleSwitchChange = event => {
     setValue(PHONETIC_FIELD_NAME, event.target.checked, { shouldDirty: true });
   };
@@ -91,7 +99,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
         const { query } = getValues();
 
         setOpen(false);
-        handleCreateNewCase();
+        redirectToNewCase();
         dispatch(enqueueSnackbar(i18n.t("case.id_search_no_results", { search_query: query }), "error"));
       }
     }
