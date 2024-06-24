@@ -128,7 +128,6 @@ describe Filter do
   end
 
   shared_examples 'default filters' do
-    # binding.pry
     before do
       @filters_cp = %w[case incident tracing_request].map do |record_type|
         { record_type.pluralize => Filter.filters(user, record_type) }
