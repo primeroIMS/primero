@@ -4,8 +4,6 @@
 
 # An indicator that returns the attack type of violation type killing
 class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'attack_type'

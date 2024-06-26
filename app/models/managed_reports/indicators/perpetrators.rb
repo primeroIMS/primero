@@ -4,8 +4,6 @@
 
 # An indicator that returns the perpetators of violation type killing
 class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'perpetrators'

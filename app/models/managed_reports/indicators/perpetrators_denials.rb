@@ -4,8 +4,6 @@
 
 # An indicator that returns the perpetators of violation type Denials
 class ManagedReports::Indicators::PerpetratorsDenials < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'perpetrators_denial'
