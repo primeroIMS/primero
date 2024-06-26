@@ -77,9 +77,7 @@ module MonitoringReportingMechanism
     return unless violation_objects_data.present?
 
     @violations_to_save = violation_objects_data.each_with_object([]) do |(type, violations_by_type), acc|
-      violations_by_type.each do |violation_data|
-        acc << Violation.build_record(type, violation_data, self)
-      end
+      violations_by_type.each { |violation_data| acc << Violation.build_record(type, violation_data, self) }
       acc
     end
   end
@@ -104,7 +102,7 @@ module MonitoringReportingMechanism
 
     return unless @violations_to_save.present? || @associations_to_save.present?
 
-    reindex_violations_and_associations
+    reload_violations_and_associations
     recalculate_association_fields
   end
 
@@ -125,18 +123,6 @@ module MonitoringReportingMechanism
 
       association.save!
     end
-  end
-
-  # TODO: This method will trigger queries to reload the violations and associations in order to index the latest data
-  def reindex_violations_and_associations
-    association_classes = association_classes_to_save
-
-    violations.reload if @violations_to_save.present? || association_classes.include?(Source)
-
-    return unless association_classes.present?
-
-    individual_victims.reload if association_classes.include?(IndividualVictim)
-    perpetrators.reload if association_classes.include?(Perpetrator)
   end
 
   def association_classes_to_save
@@ -182,6 +168,16 @@ module MonitoringReportingMechanism
     violations.each(&:calculate_late_verifications)
   end
 
+  # TODO: This method will trigger queries to reload the violations and associations in order to store the latest data
+  def reload_violations_and_associations
+    association_classes = association_classes_to_save
+    violations.reload if @violations_to_save.present? || association_classes.include?(Source)
+    return unless association_classes.present?
+
+    individual_victims.reload if association_classes.include?(IndividualVictim)
+    perpetrators.reload if association_classes.include?(Perpetrator)
+  end
+
   def recalculate_association_fields
     stamp_association_fields
     stamp_fields_with_violation_type
@@ -192,10 +188,8 @@ module MonitoringReportingMechanism
   end
 
   def stamp_association_fields
-    ASSOCIATION_FIELDS.each do |(association_field_name, field_names)|
-      associated_values = calculate_association_values(association_field_name, field_names)
-
-      associated_values.each do |(field_name, values)|
+    ASSOCIATION_FIELDS.each do |(association, field_names)|
+      extract_values_from_associations(send(association), field_names).each do |(field_name, values)|
         field = ASSOCIATION_MAPPING[field_name] || field_name
         data[field] = values
       end
@@ -203,44 +197,40 @@ module MonitoringReportingMechanism
   end
 
   def stamp_fields_with_violation_type
-    field_names = VIOLATION_TYPED_FIELDS.values
-    values_with_violation_type = calculate_association_values('violations', field_names) do |association, field_name|
-      association_typed_field_value(association, field_name)
-    end
-
-    values_with_violation_type.each do |(field_name, values)|
+    extract_values_with_type_from_violations(violations, VIOLATION_TYPED_FIELDS.values).each do |(field_name, values)|
       field = VIOLATION_TYPED_FIELDS.key(field_name)
       data[field] = values
     end
   end
 
-  def calculate_association_values(association_field_name, field_names)
-    send(association_field_name).each_with_object({}) do |association, memo|
-      field_names.each do |field_name|
+  def extract_values_from_associations(associations_to_stamp, field_names)
+    associations_to_stamp.each_with_object({}) do |association, memo|
+      field_names&.each do |field_name|
         memo[field_name] = [] unless memo[field_name].present?
-        value = block_given? ? yield(association, field_name) : association.send(field_name)
+        value = association.send(field_name)
         next unless value.present?
 
-        add_associated_value(memo, field_name, value)
+        memo[field_name] += Array.wrap(value).reject { |elem| memo[field_name].include?(elem) }
       end
     end
   end
 
-  def add_associated_value(memo, field_name, value)
-    if value.is_a?(Array)
-      value.each { |elem| memo[field_name] << elem if memo[field_name].exclude?(elem) }
-    elsif memo[field_name].exclude?(value)
-      memo[field_name] << value
+  def extract_values_with_type_from_violations(violations_to_stamp, field_names)
+    violations_to_stamp.each_with_object({}) do |violation, memo|
+      next unless violation.type.present?
+
+      field_names.each do |field_name|
+        memo[field_name] = [] unless memo[field_name].present?
+        value = extract_value_from_violation(violation, field_name)
+        next unless value.present?
+
+        memo[field_name] += value.reject { |elem| memo[field_name].include?(elem) }
+      end
     end
   end
 
-  def association_typed_field_value(association, field_name)
-    return unless association.type.present?
-
-    field_value = association.send(field_name)
-    return "#{association.type}_#{field_value}" unless field_value.is_a?(Array)
-
-    field_value.map { |elem| "#{association.type}_#{elem}" }
+  def extract_value_from_violation(violation, field_name)
+    Array.wrap(violation.send(field_name)).map { |elem| "#{violation.type}_#{elem}" }
   end
 
   def calculate_individual_violations
