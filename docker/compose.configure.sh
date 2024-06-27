@@ -17,4 +17,4 @@ then
   ENV_PRIMERO_CONFIGURATION_FILE="-e PRIMERO_CONFIGURATION_FILE=/primero-configuration/${PRIMERO_CONFIGURATION_FILE}"
 fi
 
-./compose.prod.sh -f docker-compose.configure.yml run --rm ${CONFIGURATION_MOUNT} ${ENV_PRIMERO_CONFIGURATION_FILE} configure primero-bootstrap
+./compose.prod.sh --profile configure -f docker-compose.configure.yml run --rm ${CONFIGURATION_MOUNT} ${ENV_PRIMERO_CONFIGURATION_FILE} configure primero-bootstrap

@@ -9,6 +9,8 @@ services:
       - docker/defaults.env
     volumes:
       - solr_cores:/var/solr
+    profiles:
+      - app
     restart: always
   application:
     image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/application:${PRIMERO_TAG:-latest}'
@@ -19,6 +21,8 @@ services:
       - storage:/srv/primero/application/storage
     env_file:
       - docker/defaults.env
+    profiles:
+      - app
     stdin_open: true
     tty: true
     restart: always
@@ -31,6 +35,8 @@ services:
     env_file:
       - docker/defaults.env
     command: ["primero-worker"]
+    profiles:
+      - app
     restart: always
 volumes:
   database:
