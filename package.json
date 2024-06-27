@@ -43,7 +43,7 @@
     "xml2js": "0.5.0"
   },
   "devDependencies": {
-    "@azure/msal-browser": "^2.37.0",
+    "@azure/msal-browser": "^3.17.0",
     "@babel/core": "~7.17.8",
     "@babel/eslint-parser": "^7.17.0",
     "@babel/plugin-proposal-class-properties": "~7.16.7",
