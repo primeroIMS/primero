@@ -4,8 +4,6 @@
 
 # An indicator that returns the total cases by a specified field, age and sex
 class ManagedReports::Indicators::SubformFieldByAgeSex < ManagedReports::SqlReportIndicator
-  include ManagedReports::WeekIndicatorHelper
-
   class << self
     def id
       raise NotImplementedError

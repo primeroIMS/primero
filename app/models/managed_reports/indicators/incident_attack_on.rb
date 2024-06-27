@@ -4,8 +4,6 @@
 
 # An indicator that returns the IncidentAttackOn
 class ManagedReports::Indicators::IncidentAttackOn < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'violation'
@@ -14,13 +12,15 @@ class ManagedReports::Indicators::IncidentAttackOn < ManagedReports::SqlReportIn
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
       %{
         select
+        'violation' as id,
         #{grouped_date_query(params['grouped_by'],
                              filter_date(params),
                              table_name_for_query(params))&.concat(' as group_id,')}
-        count(violations.id) as sum
+        count(violations.id) as total
         from violations violations
         inner join incidents incidents
           on incidents.id = violations.incident_id
@@ -36,11 +36,6 @@ class ManagedReports::Indicators::IncidentAttackOn < ManagedReports::SqlReportIn
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
-
-    def build_data_values(values)
-      values.map do |value|
-        { id: 'violation', total: value['sum'] }
-      end
-    end
+    # rubocop:enable Metrics/MethodLength
   end
 end

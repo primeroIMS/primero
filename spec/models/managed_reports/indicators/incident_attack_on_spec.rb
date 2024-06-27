@@ -45,7 +45,7 @@ describe ManagedReports::Indicators::IncidentAttackOn do
     )
 
     Violation.create!(
-      data: { type: 'maiming', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
+      data: { type: 'maiming', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 } },
       incident_id: incident5.id
     )
   end
@@ -56,7 +56,7 @@ describe ManagedReports::Indicators::IncidentAttackOn do
       { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'attack_on_schools') }
     ).data
 
-    expect(denial_type_data[0][:total]).to eq(5)
+    expect(denial_type_data[0]['total']).to eq(5)
   end
 
   describe 'grouped by' do
@@ -79,19 +79,15 @@ describe ManagedReports::Indicators::IncidentAttackOn do
           [
             {
               group_id: 2020,
-              data: [
-                { id: 'violation', total: 1 }
-              ]
+              data: [{ 'id' => 'violation', 'total' => 1 }]
             },
             {
               group_id: 2021,
-              data: [{ id: 'violation', total: 2 }]
+              data: [{ 'id' => 'violation', 'total' => 2 }]
             },
             {
               group_id: 2022,
-              data: [
-                { id: 'violation', total: 2 }
-              ]
+              data: [{ 'id' => 'violation', 'total' => 2 }]
             }
           ]
         )
@@ -115,16 +111,16 @@ describe ManagedReports::Indicators::IncidentAttackOn do
 
         expect(data).to match_array(
           [
-            { group_id: '2020-08', data: [{ id: 'violation', total: 1 }] },
+            { group_id: '2020-08', data: [{ 'id' => 'violation', 'total' => 1 }] },
             { group_id: '2020-09', data: [] }, { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] },
             { group_id: '2020-12', data: [] }, { group_id: '2021-01', data: [] }, { group_id: '2021-02', data: [] },
             { group_id: '2021-03', data: [] }, { group_id: '2021-04', data: [] }, { group_id: '2021-05', data: [] },
             { group_id: '2021-06', data: [] }, { group_id: '2021-07', data: [] },
-            { group_id: '2021-08', data: [{ id: 'violation', total: 2 }] },
+            { group_id: '2021-08', data: [{ 'id' => 'violation', 'total' => 2 }] },
             { group_id: '2021-09', data: [] }, { group_id: '2021-10', data: [] }, { group_id: '2021-11', data: [] },
             { group_id: '2021-12', data: [] },
-            { group_id: '2022-01', data: [{ id: 'violation', total: 1 }] },
-            { group_id: '2022-02', data: [{ id: 'violation', total: 1 }] }
+            { group_id: '2022-01', data: [{ 'id' => 'violation', 'total' => 1 }] },
+            { group_id: '2022-02', data: [{ 'id' => 'violation', 'total' => 1 }] }
           ]
         )
       end
@@ -147,12 +143,12 @@ describe ManagedReports::Indicators::IncidentAttackOn do
 
         expect(data).to match_array(
           [
-            { group_id: '2020-Q3', data: [{ id: 'violation', total: 1 }] },
+            { group_id: '2020-Q3', data: [{ 'id' => 'violation', 'total' => 1 }] },
             { group_id: '2020-Q4', data: [] }, { group_id: '2021-Q1', data: [] },
             { group_id: '2021-Q2', data: [] },
-            { group_id: '2021-Q3', data: [{ id: 'violation', total: 2 }] },
+            { group_id: '2021-Q3', data: [{ 'id' => 'violation', 'total' => 2 }] },
             { group_id: '2021-Q4', data: [] },
-            { group_id: '2022-Q1', data: [{ id: 'violation', total: 2 }] }
+            { group_id: '2022-Q1', data: [{ 'id' => 'violation', 'total' => 2 }] }
           ]
         )
       end

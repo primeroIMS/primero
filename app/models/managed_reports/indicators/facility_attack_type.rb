@@ -4,8 +4,6 @@
 
 # An indicator that returns the facility attack type of violation type attack on schools/hospitals
 class ManagedReports::Indicators::FacilityAttackType < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'facility_attack_type'

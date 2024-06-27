@@ -4,13 +4,13 @@
 : "${PRIMERO_DEPLOY_NODB:=false}"
 : "${SOLR_ENABLED:=false}"
 
+DB_PROFILE=""
 set -euox
 
-DOCKER_COMPOSE_COMMAND="./compose.sh -f docker-compose.prod.yml"
+DOCKER_COMPOSE_COMMAND="./compose.sh -f docker-compose.prod.yml -f docker-compose.db.yml"
 
-# if PRIMERO_DEPLOY_NODB is false add compose.db file
 if [[ "${PRIMERO_DEPLOY_NODB}" == 'false' ]] ; then
-  DOCKER_COMPOSE_COMMAND="${DOCKER_COMPOSE_COMMAND} -f docker-compose.db.yml"
+  DB_PROFILE="--profile db"
 fi
 
 # if SOLR_ENABLED is true add compose.solr file
