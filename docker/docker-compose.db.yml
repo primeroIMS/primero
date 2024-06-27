@@ -11,11 +11,25 @@ services:
       - docker/defaults.env
       - docker/local.env
     restart: always
+    profiles:
+      - db
   application:
+    profiles:
+      - app
     depends_on:
-      - solr
-      - postgres
+      solr:
+        condition: 'service_started'
+        required: true
+      postgres:
+        condition: 'service_started'
+        required: false
   worker:
+    profiles:
+      - app
     depends_on:
-      - solr
-      - postgres
+      solr:
+        condition: 'service_started'
+        required: true
+      postgres:
+        condition: 'service_started'
+        required: false
