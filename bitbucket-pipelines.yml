@@ -29,6 +29,8 @@ definitions:
           - node
     - step: &push-branch
         image: atlassian/default-image:4
+        clone:
+          depth: full
         script:
           - git push https://$azdotoken@unicef.visualstudio.com/ICTD%20-%20Primero%20X%20DEV/_git/primero $BITBUCKET_BRANCH
           - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_BRANCH
