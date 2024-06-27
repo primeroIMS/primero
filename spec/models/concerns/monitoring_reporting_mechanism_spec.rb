@@ -23,6 +23,7 @@ describe MonitoringReportingMechanism, search: true do
       user1,
       {
         'incident_date' => '2022-04-08',
+        'module_id' => PrimeroModule::MRM,
         'killing' => [
           {
             'unique_id' => 'b23b70de-9132-4c89-be8d-57e85a69ec68',
@@ -62,6 +63,7 @@ describe MonitoringReportingMechanism, search: true do
     incident2 = Incident.new_with_user(
       user1,
       {
+        'module_id' => PrimeroModule::MRM,
         'killing' => [
           {
             'unique_id' => 'f37ccb6e-9f85-473e-890e-7037e8ece397',
@@ -112,6 +114,7 @@ describe MonitoringReportingMechanism, search: true do
     incident3 = Incident.new_with_user(
       user1,
       {
+        'module_id' => PrimeroModule::MRM,
         'killing' => [
           { 'type' => 'killing', 'ctfmr_verified' => 'not_mrm', 'ctfmr_verified_date' => Date.today.end_of_quarter }
         ],
@@ -129,6 +132,7 @@ describe MonitoringReportingMechanism, search: true do
     incident4 = Incident.new_with_user(
       user1,
       {
+        'module_id' => PrimeroModule::MRM,
         'military_use' => [
           {
             'type' => 'military_use',
@@ -155,10 +159,11 @@ describe MonitoringReportingMechanism, search: true do
     incident5 = Incident.new_with_user(
       user1,
       {
+        'module_id' => PrimeroModule::MRM,
         'attack_on_hospitals' => [
           {
             'type' => 'attack_on_hospitals',
-            'facility_attack_type' => %w[attack_on_medical_personnel threat_of_attack_on_hospital_s],
+            'facility_attack_type' => %w[attack_on_medical_personnel threat_of_attack_on_hospital],
             'facility_impact' => 'serious_damage'
           }
         ],
@@ -341,7 +346,9 @@ describe MonitoringReportingMechanism, search: true do
     search_result = PhoneticSearchService.search(
       Incident,
       filters: [
-        SearchFilters::TextValue.new(field_name: 'violation_with_facility_impact', value: 'military_use_total_destruction')
+        SearchFilters::TextValue.new(
+          field_name: 'violation_with_facility_impact', value: 'military_use_total_destruction'
+        )
       ]
     )
     expect(search_result.total).to eq(1)
@@ -412,7 +419,7 @@ describe MonitoringReportingMechanism, search: true do
       filters: [
         SearchFilters::TextValue.new(
           field_name: 'facility_attack_type',
-          value: 'threat_of_attack_on_hospital_s'
+          value: 'threat_of_attack_on_hospital'
         )
       ]
     )
@@ -496,6 +503,27 @@ describe MonitoringReportingMechanism, search: true do
     expect(incident1.violation_with_verification_status).to match_array(%w[killing_verified])
     expect(incident1.verified_ghn_reported).to match_array(%w[2022-q2])
     expect(incident1.ctfmr_verified_date).to match_array([Date.today.beginning_of_quarter])
-    expect(incident5.facility_attack_type).to match_array(%w[attack_on_medical_personnel threat_of_attack_on_hospital_s])
+    expect(incident5.facility_attack_type).to match_array(%w[attack_on_medical_personnel threat_of_attack_on_hospital])
+  end
+
+  it 'recalculates the stamped fields' do
+    incident1.update_properties(
+      user1,
+      'perpetrators' => [
+        {
+          'unique_id' => 'a32b70de-9132-4c89-be8d-67e85a69ec68',
+          'perpetrator_category' => 'category2'
+        },
+        {
+          'unique_id' => '23e9b1ba-2f25-11ef-8c62-18c04db5c362',
+          'armed_force_group_party_name' => 'armed_force_2',
+          'violations_ids' => ['b23b70de-9132-4c89-be8d-57e85a69ec68']
+        }
+      ]
+    )
+    incident1.save!
+
+    expect(incident1.perpetrator_category).to match_array(%w[category2])
+    expect(incident1.armed_force_group_party_names).to match_array(%w[armed_force_1 armed_force_2])
   end
 end
