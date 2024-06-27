@@ -5,7 +5,7 @@
 
 set -euox
 
-DOCKER_COMPOSE_COMMAND="./compose.sh -f docker-compose.db.yml -f docker-compose.local.yml"
+DOCKER_COMPOSE_COMMAND="./compose.sh --profile db -f docker-compose.db.yml -f docker-compose.local.yml"
 
 # if SOLR_ENABLED is true add compose.solr.local file
 if [[ "${SOLR_ENABLED}" == 'true' ]] ; then

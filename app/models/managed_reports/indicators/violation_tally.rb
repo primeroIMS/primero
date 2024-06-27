@@ -4,8 +4,6 @@
 
 # An indicator that returns the violation_tally of violation type killing
 class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'children'

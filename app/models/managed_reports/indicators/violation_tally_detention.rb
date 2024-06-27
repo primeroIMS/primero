@@ -4,8 +4,6 @@
 
 # An indicator that returns the violation_tally of individual victioms - detention
 class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'children'

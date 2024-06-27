@@ -18,6 +18,7 @@ import PasswordResetDialog from "../password-reset-dialog";
 import { getUseIdentityProvider } from "../../selectors";
 import utils from "../../utils";
 import DisableOffline, { OfflineAlert } from "../../../disable-offline";
+import { checkServerStatus } from "../../../connectivity/action-creators";
 
 import { NAME, FORM_ID } from "./constants";
 import css from "./styles.css";
@@ -38,8 +39,9 @@ const Container = ({ modal }) => {
   const validations = validationSchema(i18n);
   const formSections = form(i18n);
 
-  const handleSubmit = values => {
-    dispatch(attemptLogin(values));
+  const handleSubmit = async values => {
+    await dispatch(checkServerStatus(true));
+    setTimeout(() => dispatch(attemptLogin(values)), 1000);
   };
 
   const onClickForgotLink = () => {

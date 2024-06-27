@@ -4,8 +4,6 @@
 
 # An indicator that returns the total of referrals by user groups
 class ManagedReports::Indicators::TotalReferralsByUserGroups < ManagedReports::SqlReportIndicator
-  include ManagedReports::WeekIndicatorHelper
-
   class << self
     def id
       'total_referrals_by_user_groups'

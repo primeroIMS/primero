@@ -4,8 +4,6 @@
 
 # An indicator that returns the total incidents by workflow and sex
 class ManagedReports::Indicators::IncidentViolenceTypeBySexAndAge < ManagedReports::SqlReportIndicator
-  include ManagedReports::WeekIndicatorHelper
-
   class << self
     def id
       'incident_violence_type_by_sex_and_age'

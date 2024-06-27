@@ -4,8 +4,6 @@
 
 # An indicator that returns the reporting locations of violation type denial
 class ManagedReports::Indicators::ReportingLocationDenials < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'reporting_location_denial'

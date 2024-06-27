@@ -4,8 +4,6 @@
 
 # An indicator that returns status of violation type abduction
 class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'abducted_status'
