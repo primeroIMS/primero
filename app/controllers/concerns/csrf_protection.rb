@@ -27,6 +27,6 @@ module CsrfProtection
   end
 
   def request_from_basic_auth?
-    warden&.winning_strategy&.authentication_type == :http_auth
+    warden&.winning_strategy.try(:authentication_type) == :http_auth
   end
 end
