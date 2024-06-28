@@ -7,19 +7,22 @@ class AssociatedRecordsService < ValueObject
   attr_accessor :user, :update_user_groups, :update_agencies, :update_locations, :update_agency_offices, :models
 
   def update_associated_records
-    records = []
     models.each do |model|
-      associated_records_for_update(model).find_each(batch_size: 500) do |record|
-        update_record_ownership_fields(record)
-
-        record.update_associated_user_groups if update_user_groups
-        record.update_associated_user_agencies if update_agencies
-
-        records << record if record.changed?
+      associated_records_for_update(model).find_in_batches(batch_size: 500) do |records|
+        records_to_update = []
+        records.each do |record|
+          update_record_fields(record)
+          records_to_update << record if record.changed?
+        end
+        ActiveRecord::Base.transaction { records_to_update.each(&:save!) }
       end
     end
+  end
 
-    ActiveRecord::Base.transaction { records.each(&:save!) }
+  def update_record_fields(record)
+    update_record_ownership_fields(record)
+    record.update_associated_user_groups if update_user_groups
+    record.update_associated_user_agencies if update_agencies
   end
 
   def associated_records_for_update(model)
