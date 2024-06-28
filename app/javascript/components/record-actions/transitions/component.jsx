@@ -47,8 +47,7 @@ const Transitions = ({
   const records = useMemoizedSelector(state => getRecordsData(state, recordType));
 
   const selectedRecordsLength = Object.values(selectedRecords || {}).flat()?.length;
-  const keyToSelectId = isAssignDialogOpen ? "short_id" : "id";
-  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, keyToSelectId);
+  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, "id");
   const { present: incidentFromCasePresent } = useIncidentFromCase({ recordType: RECORD_TYPES[recordType], record });
 
   const commonDialogProps = {
