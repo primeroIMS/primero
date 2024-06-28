@@ -2,7 +2,7 @@
 
 # API to fetch the active theme
 class ThemesController < ApplicationController
-  skip_after_action :verify_same_origin_request, unless: -> { Rails.env.production? }
+  skip_after_action :verify_same_origin_request
 
   before_action :theme
 
