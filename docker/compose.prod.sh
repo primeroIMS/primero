@@ -5,17 +5,16 @@
 : "${SOLR_ENABLED:=false}"
 
 DB_PROFILE=""
-set -euox
+SOLR_PROFILE=""
 
-DOCKER_COMPOSE_COMMAND="./compose.sh -f docker-compose.prod.yml -f docker-compose.db.yml"
+set -euox
 
 if [[ "${PRIMERO_DEPLOY_NODB}" == 'false' ]] ; then
   DB_PROFILE="--profile db"
 fi
 
-# if SOLR_ENABLED is true add compose.solr file
 if [[ "${SOLR_ENABLED}" == 'true' ]] ; then
-  DOCKER_COMPOSE_COMMAND="${DOCKER_COMPOSE_COMMAND} -f docker-compose.solr.yml"
+  SOLR_PROFILE="--profile solr"
 fi
 
-exec ${DOCKER_COMPOSE_COMMAND} "${@}"
+exec "./compose.sh" ${DB_PROFILE} ${SOLR_PROFILE} -f "docker-compose.prod.yml" -f "docker-compose.db.yml" "${@}"
