@@ -4,7 +4,7 @@
 
 require 'rails_helper'
 
-describe AutoPopulatable do
+describe AutoPopulateService do
   context 'when auto_populate_list is present' do
     before do
       SystemSettings.all.each(&:destroy)
@@ -36,19 +36,19 @@ describe AutoPopulatable do
         context 'and SystemSettings is passed in' do
           context 'and separator is populated with a space' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('name', @system_settings)).to eq('Jim Bob Smith')
+              expect(AutoPopulateService.auto_populate(@t1, 'name', @system_settings)).to eq('Jim Bob Smith')
             end
           end
 
           context 'and separator is populated with a dash' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('id_code', @system_settings)).to eq('Smith-Abc-Def-Ghi')
+              expect(AutoPopulateService.auto_populate(@t1, 'id_code', @system_settings)).to eq('Smith-Abc-Def-Ghi')
             end
           end
 
           context 'and separator is not populated' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('no_separator', @system_settings)).to eq('JimBobSmithAbc')
+              expect(AutoPopulateService.auto_populate(@t1, 'no_separator', @system_settings)).to eq('JimBobSmithAbc')
             end
           end
         end
@@ -56,19 +56,19 @@ describe AutoPopulatable do
         context 'and SystemSettings is not passed in' do
           context 'and separator is populated with a space' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('name')).to eq('Jim Bob Smith')
+              expect(AutoPopulateService.auto_populate(@t1, 'name')).to eq('Jim Bob Smith')
             end
           end
 
           context 'and separator is populated with a dash' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('id_code')).to eq('Smith-Abc-Def-Ghi')
+              expect(AutoPopulateService.auto_populate(@t1, 'id_code')).to eq('Smith-Abc-Def-Ghi')
             end
           end
 
           context 'and separator is not populated' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('no_separator')).to eq('JimBobSmithAbc')
+              expect(AutoPopulateService.auto_populate(@t1, 'no_separator')).to eq('JimBobSmithAbc')
             end
           end
         end
@@ -83,19 +83,19 @@ describe AutoPopulatable do
         context 'and SystemSettings is passed in' do
           context 'and separator is populated with a space' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('name', @system_settings)).to eq('Jim Smith')
+              expect(AutoPopulateService.auto_populate(@t1, 'name', @system_settings)).to eq('Jim Smith')
             end
           end
 
           context 'and separator is populated with a dash' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('id_code', @system_settings)).to eq('Smith-Abc-Ghi')
+              expect(AutoPopulateService.auto_populate(@t1, 'id_code', @system_settings)).to eq('Smith-Abc-Ghi')
             end
           end
 
           context 'and separator is not populated' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('no_separator', @system_settings)).to eq('JimSmithAbc')
+              expect(AutoPopulateService.auto_populate(@t1, 'no_separator', @system_settings)).to eq('JimSmithAbc')
             end
           end
         end
@@ -103,19 +103,19 @@ describe AutoPopulatable do
         context 'and SystemSettings is not passed in' do
           context 'and separator is populated with a space' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('name')).to eq('Jim Smith')
+              expect(AutoPopulateService.auto_populate(@t1, 'name')).to eq('Jim Smith')
             end
           end
 
           context 'and separator is populated with a dash' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('id_code')).to eq('Smith-Abc-Ghi')
+              expect(AutoPopulateService.auto_populate(@t1, 'id_code')).to eq('Smith-Abc-Ghi')
             end
           end
 
           context 'and separator is not populated' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('no_separator')).to eq('JimSmithAbc')
+              expect(AutoPopulateService.auto_populate(@t1, 'no_separator')).to eq('JimSmithAbc')
             end
           end
         end
@@ -129,19 +129,19 @@ describe AutoPopulatable do
         context 'and SystemSettings is passed in' do
           context 'and separator is populated with a space' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('name', @system_settings)).to eq('Smith')
+              expect(AutoPopulateService.auto_populate(@t1, 'name', @system_settings)).to eq('Smith')
             end
           end
 
           context 'and separator is populated with a dash' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('id_code', @system_settings)).to eq('Smith')
+              expect(AutoPopulateService.auto_populate(@t1, 'id_code', @system_settings)).to eq('Smith')
             end
           end
 
           context 'and separator is not populated' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('no_separator', @system_settings)).to eq('Smith')
+              expect(AutoPopulateService.auto_populate(@t1, 'no_separator', @system_settings)).to eq('Smith')
             end
           end
         end
@@ -149,19 +149,19 @@ describe AutoPopulatable do
         context 'and SystemSettings is not passed in' do
           context 'and separator is populated with a space' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('name')).to eq('Smith')
+              expect(AutoPopulateService.auto_populate(@t1, 'name')).to eq('Smith')
             end
           end
 
           context 'and separator is populated with a dash' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('id_code')).to eq('Smith')
+              expect(AutoPopulateService.auto_populate(@t1, 'id_code')).to eq('Smith')
             end
           end
 
           context 'and separator is not populated' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('no_separator')).to eq('Smith')
+              expect(AutoPopulateService.auto_populate(@t1, 'no_separator')).to eq('Smith')
             end
           end
         end
@@ -175,19 +175,19 @@ describe AutoPopulatable do
         context 'and SystemSettings is passed in' do
           context 'and separator is populated with a space' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('name', @system_settings)).to eq('')
+              expect(AutoPopulateService.auto_populate(@t1, 'name', @system_settings)).to eq('')
             end
           end
 
           context 'and separator is populated with a dash' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('id_code', @system_settings)).to eq('')
+              expect(AutoPopulateService.auto_populate(@t1, 'id_code', @system_settings)).to eq('')
             end
           end
 
           context 'and separator is not populated' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('no_separator', @system_settings)).to eq('')
+              expect(AutoPopulateService.auto_populate(@t1, 'no_separator', @system_settings)).to eq('')
             end
           end
         end
@@ -195,19 +195,19 @@ describe AutoPopulatable do
         context 'and SystemSettings is not passed in' do
           context 'and separator is populated with a space' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('name')).to eq('')
+              expect(AutoPopulateService.auto_populate(@t1, 'name')).to eq('')
             end
           end
 
           context 'and separator is populated with a dash' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('id_code')).to eq('')
+              expect(AutoPopulateService.auto_populate(@t1, 'id_code')).to eq('')
             end
           end
 
           context 'and separator is not populated' do
             it 'generates the auto populate field' do
-              expect(@t1.auto_populate('no_separator')).to eq('')
+              expect(AutoPopulateService.auto_populate(@t1, 'no_separator')).to eq('')
             end
           end
         end
@@ -222,13 +222,13 @@ describe AutoPopulatable do
 
       context 'and SystemSettings is passed in' do
         it 'returns nil' do
-          expect(@t1.auto_populate('no_code', @system_settings)).to be_nil
+          expect(AutoPopulateService.auto_populate(@t1, 'no_code', @system_settings)).to be_nil
         end
       end
 
       context 'and SystemSettings is not passed in' do
         it 'returns nil' do
-          expect(@t1.auto_populate('no_code')).to be_nil
+          expect(AutoPopulateService.auto_populate(@t1, 'no_code')).to be_nil
         end
       end
     end
@@ -239,10 +239,10 @@ describe AutoPopulatable do
   end
 
   context 'when auto_populate_list is nil' do
-    before do
-      SystemSettings.all.each(&:destroy)
+    let(:empty_system_settings) { SystemSettings.create(default_locale: 'en') }
 
-      @system_settings = SystemSettings.create(default_locale: 'en')
+    before :each do
+      SystemSettings.destroy_all
 
       @t1 = Child.new(data: { name_first: 'Jim', name_middle: 'Bob', name_last: 'Smith',
                               code_1: 'Abc', code_2: 'Def', code_3: 'Ghi' })
@@ -250,13 +250,13 @@ describe AutoPopulatable do
 
     context 'and SystemSettings is passed in' do
       it 'returns nil' do
-        expect(@t1.auto_populate('name', @system_settings)).to be_nil
+        expect(AutoPopulateService.auto_populate(@t1, 'name', empty_system_settings)).to be_nil
       end
     end
 
     context 'and SystemSettings is not passed in' do
       it 'returns nil' do
-        expect(@t1.auto_populate('name')).to be_nil
+        expect(AutoPopulateService.auto_populate(@t1, 'name')).to be_nil
       end
     end
   end

@@ -5,15 +5,14 @@
 # Describes records that can have flags applied to them.
 module Flaggable
   extend ActiveSupport::Concern
-  include Sunspot::Rails::Searchable
 
   included do
-    searchable do
-      boolean :flagged
-    end
+    store_accessor(:data, :flagged)
 
     has_many :flags, as: :record
     has_many :active_flags, -> { where(removed: false) }, as: :record, class_name: 'Flag'
+
+    before_save :calculate_flagged
   end
 
   def add_flag(message, date, user_name)
@@ -21,6 +20,11 @@ module Flaggable
     flag = Flag.new(flagged_by: user_name, message:, date: date_flag, created_at: DateTime.now)
     flags << flag
     flag
+  end
+
+  def add_flag!(message, date, user_name)
+    flag = add_flag(message, date, user_name)
+    save! && flag
   end
 
   def remove_flag(id, user_name, unflag_message)
@@ -35,6 +39,11 @@ module Flaggable
     flag
   end
 
+  def remove_flag!(id, user_name, unflag_message)
+    flag = remove_flag(id, user_name, unflag_message)
+    save! && flag
+  end
+
   def flag_count
     active_flags.size
   end
@@ -42,7 +51,11 @@ module Flaggable
   def flagged?
     flag_count.positive?
   end
-  alias flagged flagged?
+
+  def calculate_flagged
+    self.flagged = flagged?
+    flagged
+  end
 
   # ClassMethods
   module ClassMethods

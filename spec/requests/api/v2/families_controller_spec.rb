@@ -11,7 +11,6 @@ describe Api::V2::FamiliesController, type: :request do
     family2
     family3
     family4
-    Sunspot.commit
   end
 
   let(:family1) do

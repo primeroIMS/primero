@@ -6,15 +6,65 @@
 class SearchFilters::DateRange < SearchFilters::SearchFilter
   attr_accessor :field_name, :from, :to
 
-  def query_scope(sunspot)
-    this = self
-    sunspot.instance_eval do
-      if this.to.blank?
-        with(this.field_name).greater_than_or_equal_to(this.from)
-      else
-        with(this.field_name).between(this.from..this.to)
-      end
+  class << self
+    def dawn_of_time
+      Time.zone.at(0)
     end
+
+    def recent_past
+      Time.zone.now - 10.days
+    end
+
+    def last_week(field_name)
+      new(
+        field_name:,
+        from: 1.week.ago.beginning_of_week,
+        to: 1.week.ago.end_of_week
+      )
+    end
+
+    def this_week(field_name)
+      new(
+        field_name:,
+        from: present.beginning_of_week,
+        to: present.end_of_week
+      )
+    end
+
+    def present
+      Time.zone.now
+    end
+  end
+
+  # rubocop:disable Metrics/MethodLength
+  def query
+    return "(#{from_query})" unless to.present?
+
+    ActiveRecord::Base.sanitize_sql_for_conditions(
+      [
+        %(
+          data->>:field_name IS NOT NULL AND EXISTS (
+            SELECT 1 FROM JSONB_ARRAY_ELEMENTS_TEXT(data->:field_name || CAST('[]' AS JSONB)) AS date_field
+            WHERE TO_TIMESTAMP(date_field, :date_format) >= TO_TIMESTAMP(:from, :date_format)
+            AND TO_TIMESTAMP(date_field, :date_format) <= TO_TIMESTAMP(:to, :date_format)
+          )
+        ),
+        { field_name:, from: from.iso8601, to: to.iso8601, date_format: }
+      ]
+    )
+  end
+  # rubocop:enable Metrics/MethodLength
+
+  def date_format
+    date_include_time? ? Report::DATE_TIME_FORMAT : Report::DATE_FORMAT
+  end
+
+  def date_include_time?
+    from.is_a?(Time)
+  end
+
+  def from_query
+    SearchFilters::DateValue.new(field_name:, value: from, operator: '>=').query
   end
 
   def this_quarter?

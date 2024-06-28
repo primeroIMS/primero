@@ -594,3 +594,5 @@ export const getDuplicatedFields = createCachedSelector(getDuplicatedFieldAlerts
 
   return fields.filter(field => duplicatedFieldNames.includes(field.name));
 })(defaultCacheSelectorOptions);
+
+export const getRedirectedToCreateNewRecord = state => state.getIn([NAMESPACE, "redirectedToCreateNewRecord"], false);

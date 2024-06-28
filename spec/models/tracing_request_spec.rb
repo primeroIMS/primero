@@ -3,7 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 require 'rails_helper'
-require 'sunspot'
+require 'sunspot' if Rails.configuration.solr_enabled
 require 'will_paginate'
 
 describe TracingRequest do
@@ -179,6 +179,25 @@ describe TracingRequest do
       tracing_request = TracingRequest.create 'relation_name' => 'Jaco', :created_by => 'mj'
 
       tracing_request.created_organization.should == 'UNICEF'
+    end
+  end
+
+  describe 'phonetic tokens' do
+    before do
+      clean_data(TracingRequest)
+    end
+
+    it 'generates the phonetic tokens' do
+      child = TracingRequest.create!(
+        data: {
+          relation_name: 'George',
+          relation_nickname: 'Wolf',
+          relation_other_family: 'Miller',
+          tracing_names: %w[John Jean],
+          tracing_nicknames: %w[Fox Lion]
+        }
+      )
+      expect(child.tokens).to eq(%w[JRJ ALF MLR JN FKS LN])
     end
   end
 

@@ -17,7 +17,13 @@ import Flagging from "../../flagging";
 import RecordActions from "../../record-actions";
 import Permission, { FLAG_RECORDS, WRITE_RECORDS } from "../../permissions";
 import { getSavingRecord, getLoadingRecordState } from "../../records/selectors";
-import { RECORD_TYPES, RECORD_PATH, INCIDENT_CASE_ID_FIELD, INCIDENT_FROM_CASE } from "../../../config";
+import {
+  RECORD_TYPES,
+  RECORD_PATH,
+  INCIDENT_CASE_ID_FIELD,
+  INCIDENT_FROM_CASE,
+  RECORD_TYPES_PLURAL
+} from "../../../config";
 import DisableOffline from "../../disable-offline";
 import { useMemoizedSelector, useThemeHelper } from "../../../libs";
 import ActionButton from "../../action-button";
@@ -25,6 +31,8 @@ import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { getIsEnabledWebhookSyncFor } from "../../application/selectors";
 import { PageHeading } from "../../page";
 import { useIncidentFromCase } from "../../incidents-from-case";
+import { getRedirectedToCreateNewRecord } from "../selectors";
+import { setRedirectedToCreateNewRecord } from "../action-creators";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
@@ -53,6 +61,7 @@ const RecordFormToolbar = ({
   const isEnabledWebhookSyncFor = useMemoizedSelector(state =>
     getIsEnabledWebhookSyncFor(state, primeroModule, recordType)
   );
+  const redirectedToCreateNewRecord = useMemoizedSelector(state => getRedirectedToCreateNewRecord(state));
   const { incidentFromCaseIdDisplay, incidentFromCaseId } = useIncidentFromCase({ recordType, record });
 
   const rtlClass = isRTL ? css.flipImage : "";
@@ -70,6 +79,11 @@ const RecordFormToolbar = ({
   const goBack = () => {
     if (incidentFromCase?.size && recordType === RECORD_TYPES.incidents) {
       handleReturnToCase();
+    } else if (mode.isNew && redirectedToCreateNewRecord) {
+      batch(() => {
+        dispatch(setRedirectedToCreateNewRecord(false));
+        dispatch(push(`/${RECORD_PATH[RECORD_TYPES_PLURAL[recordType]]}`));
+      });
     } else {
       history.goBack();
     }

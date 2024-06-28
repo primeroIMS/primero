@@ -17,9 +17,6 @@ services:
     profiles:
       - app
     depends_on:
-      solr:
-        condition: 'service_started'
-        required: true
       postgres:
         condition: 'service_started'
         required: false
@@ -27,9 +24,6 @@ services:
     profiles:
       - app
     depends_on:
-      solr:
-        condition: 'service_started'
-        required: true
       postgres:
         condition: 'service_started'
         required: false

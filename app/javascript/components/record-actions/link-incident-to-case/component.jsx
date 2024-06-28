@@ -9,7 +9,7 @@ import buildSelectedIds from "../utils/build-selected-ids";
 import { useMemoizedSelector } from "../../../libs";
 import { getRecordsData, getRecords } from "../../index-table";
 import { linkIncidentToCase, setCaseIdForIncident, fetchLinkIncidentToCaseData } from "../../records";
-import { Search } from "../../index-filters/components/filter-types";
+import SearchBox from "../../index-filters/components/search-box";
 import { clearDialog } from "../../action-dialog/action-creators";
 import SubformDrawer from "../../record-form/form/subforms/subform-drawer";
 import { RECORD_TYPES_PLURAL } from "../../../config";
@@ -78,7 +78,7 @@ const Component = ({ close, open, currentPage, selectedRecords, recordType, reco
         <div className={css.form}>
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(handleSubmit)} data-testid="search-form-for-link-to-case">
-              <Search />
+              <SearchBox />
             </form>
           </FormProvider>
         </div>

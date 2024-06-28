@@ -98,13 +98,14 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     end
 
     def initialize_fields
-      Field.where(
+      Field.joins(:form_section).where(
         name: %w[service_referred_from service_safehouse_referral perpetrator_relationship perpetrator_occupation
                  incidentid_ir survivor_code date_of_first_report incident_date date_of_birth ethnicity
                  country_of_origin maritial_status displacement_status disability_type unaccompanied_separated_status
                  displacement_incident incident_location_type incident_camp_town gbv_sexual_violence_type
                  harmful_traditional_practice goods_money_exchanged abduction_status_time_of_incident
-                 gbv_reported_elsewhere gbv_previous_incidents incident_timeofday consent_reporting]
+                 gbv_reported_elsewhere gbv_previous_incidents incident_timeofday consent_reporting],
+        form_section: PrimeroModule.gbv.form_sections
       ).inject({}) { |acc, field| acc.merge(field.name => field) }
     end
 

@@ -40,9 +40,9 @@ class BulkAssignService
   end
 
   def search_results_ids
-    SearchService.search(
+    PhoneticSearchService.search(
       @model_class, query:, filters: search_filters, pagination: { page: 1, per_page: Assign::MAX_BULK_RECORDS }
-    ).hits.map(&:primary_key)
+    ).records.map(&:id)
   end
 
   def query

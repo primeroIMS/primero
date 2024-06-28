@@ -6,6 +6,8 @@ set -ex
 export BITBUCKET=bitbucket
 export GITHUB_ACTIONS=github-actions
 export PIPELINE=${1:-bitbucket}
+# TODO: Remove this variable once Solr is migrated
+export SOLR_ENABLED=true
 
 # Set up test environment
 setup_test_env() {
