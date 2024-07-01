@@ -161,7 +161,9 @@ const components = {
       input: {
         "&.Mui-disabled": {
           color: "var(--c-black)",
-          cursor: "not-allowed !important"
+          cursor: "not-allowed !important",
+          opacity: 1,
+          "-webkitTextFillColor": "var(--c-black)"
         }
       }
     }
@@ -278,6 +280,9 @@ const components = {
   },
   MuiTableRow: {
     styleOverrides: {
+      root: {
+        cursor: "pointer"
+      },
       hover: {
         cursor: "pointer",
         "&:hover": {
