@@ -17,7 +17,7 @@ const skipFilters = data =>
 export default (
   isShowPage,
   allCurrentRowsSelected,
-  shortIds,
+  recordIds,
   appliedFilters,
   queryParams,
   record,
@@ -30,13 +30,13 @@ export default (
   };
 
   if (isShowPage) {
-    filters = { short_id: [record.get("short_id")] };
+    filters = { id: [record.get("id")] };
   } else {
     const applied = skipFilters(reduceMapToObject(appliedFilters) || {});
     const params = skipFilters(queryParams || {});
 
-    if (!allRecordsSelected && (allCurrentRowsSelected || shortIds.length)) {
-      filters = { short_id: shortIds };
+    if (!allRecordsSelected && (allCurrentRowsSelected || recordIds.length)) {
+      filters = { id: recordIds };
     } else if (Object.keys(params).length || Object.keys(applied).length) {
       filters = { ...params, ...applied };
     } else {
@@ -46,7 +46,7 @@ export default (
 
   const { query, ...restFilters } = filters;
 
-  const returnFilters = Object.keys(restFilters).length ? restFilters : { short_id: shortIds };
+  const returnFilters = Object.keys(restFilters).length ? restFilters : { id: recordIds };
 
   if (!isEmpty(query)) {
     return { filters: returnFilters, query };

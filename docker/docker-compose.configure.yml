@@ -10,3 +10,9 @@ services:
     env_file:
       - docker/defaults.env
       - docker/local.env
+    profiles:
+      - configure
+    depends_on:
+      postgres:
+        condition: 'service_started'
+        required: false

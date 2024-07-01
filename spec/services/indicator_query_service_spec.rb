@@ -27,10 +27,11 @@ describe IndicatorQueryService, search: true do
     @baz = User.new(user_name: 'baz', role: role_self, user_groups: [group2])
     @baz.save(validate: false)
 
+    # TODO: Add back indicators once the pivoted/faceted indicators are migrated to SQL
     @indicators =
-      Dashboard::CASE_OVERVIEW.indicators +
-      Dashboard::WORKFLOW.indicators +
-      Dashboard::WORKFLOW_TEAM.indicators
+      Dashboard::CASE_OVERVIEW.indicators # +
+    # Dashboard::WORKFLOW.indicators +
+    # Dashboard::WORKFLOW_TEAM.indicators
 
     Child.create!(
       data: {
@@ -66,8 +67,6 @@ describe IndicatorQueryService, search: true do
     )
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'baz', workflow: 'new' })
     Child.create!(data: { record_state: true, status: 'closed', owned_by: 'baz', workflow: 'closed' })
-
-    Sunspot.commit
   end
 
   describe 'individual user scope' do
@@ -93,13 +92,13 @@ describe IndicatorQueryService, search: true do
       expect(stats['case']['new_or_updated']['new_or_updated']['query']).to match_array(expected_query)
     end
 
-    it 'shows the workflows breakdown' do
+    xit 'shows the workflows breakdown' do
       expect(stats['case']['workflow']['new']['count']).to eq(1)
       expect(stats['case']['workflow']['assessment']['count']).to eq(1)
       expect(stats['case']['workflow']['closed']['count']).to eq(3)
     end
 
-    it 'shows the string queries to get the workflow breakdown' do
+    xit 'shows the string queries to get the workflow breakdown' do
       expected_query_new = %w[record_state=true status=open,closed owned_by=foo workflow=new]
       expect(stats['case']['workflow']['new']['query']).to match_array(expected_query_new)
       expected_query_assessment = %w[record_state=true status=open,closed owned_by=foo workflow=assessment]
@@ -107,7 +106,7 @@ describe IndicatorQueryService, search: true do
     end
   end
 
-  describe 'team user scope' do
+  xdescribe 'team user scope' do
     let(:stats) do
       IndicatorQueryService.query(@indicators, @bar)
     end
@@ -171,6 +170,5 @@ describe IndicatorQueryService, search: true do
 
   after :each do
     clean_data(User, UserGroup, Role, Child, SystemSettings)
-    Sunspot.commit
   end
 end

@@ -8,8 +8,8 @@
 }
 
 .search {
-  text-align: right;
-  flex: 1 1;
+  display: flex;
+  justify-content: space-between;
 }
 
 .title {
@@ -27,4 +27,14 @@
 
 .createNewCase {
   flex: 1 1;
+}
+
+.searchButton {
+  padding: 5px;
+}
+
+.searchForm {
+ & > div:first-of-type {
+    margin: 0 0 var(--sp-1);
+  }
 }

@@ -65,4 +65,60 @@ describe ApiConnector::PrimeroConfigurationConnector do
       end
     end
   end
+
+  describe 'When SystemSettings.primero_promote_config is present and ENV are set' do
+    before do
+      system_settings = instance_double(
+        'SystemSettings', primero_promote_config: [
+          { tls: 'true', host: 'foo.bar', port: '443',
+            basic_auth_secret: 'PRIMERO_PROMOTE_CONFIG_PROD_BASIC_AUTH' }.with_indifferent_access,
+          { tls: 'true', host: 'some.url', port: '443', basic_auth_secret: 'RANDOM_ENV' }.with_indifferent_access
+        ]
+      )
+      allow(SystemSettings).to receive(:current).and_return(system_settings)
+      stub_const('ENV',
+                 ENV.to_hash.merge(
+                   {
+                     'PRIMERO_PROMOTE_CONFIG_PROD_BASIC_AUTH' => 'random:passwd',
+                     'PRIMERO_PROMOTE_CONFIG_PROD_HOST' => 'local.net',
+                     'PRIMERO_PROMOTE_CONFIG_PROD_PORT' => '443',
+                     'PRIMERO_PROMOTE_CONFIG_PROD_TLS' => 'true'
+                   }
+                 ))
+    end
+
+    describe '.build_connectors' do
+      it 'return an array of PrimeroConfigurationConnector' do
+        result = ApiConnector::PrimeroConfigurationConnector.build_connectors(prefix: 'PRIMERO_PROMOTE_CONFIG_PROD_')
+        expect(result.map(&:class)).to match_array([ApiConnector::PrimeroConfigurationConnector,
+                                                    ApiConnector::PrimeroConfigurationConnector])
+      end
+    end
+
+    describe '.config_connectors' do
+      it 'array should include only valid config' do
+        result = ApiConnector::PrimeroConfigurationConnector.config_connectors(prefix: 'PRIMERO_PROMOTE_CONFIG_PROD_')
+        expect(result.map { |hash| hash['host'] }).not_to include('some.url')
+        expect(result.map { |hash| hash['basic_auth'] }).to match_array(['random:passwd', 'random:passwd'])
+      end
+    end
+
+    describe '.hosts_config' do
+      it 'return only host with basic_auth' do
+        result = ApiConnector::PrimeroConfigurationConnector.hosts_config(prefix: 'PRIMERO_PROMOTE_CONFIG_PROD_')
+        expect(result.map { |hash| hash['host'] }).to match_array(['foo.bar', 'local.net', 'some.url'])
+      end
+    end
+
+    describe '.config_connector_from_env' do
+      it 'return a hash from ENV' do
+        result = ApiConnector::PrimeroConfigurationConnector.config_connector_from_env(
+          prefix: 'PRIMERO_PROMOTE_CONFIG_PROD_'
+        )
+        expected_hash = { 'host' => 'local.net', 'tls' => 'true', 'basic_auth' => 'random:passwd', 'port' => '443' }
+
+        expect(result).to contain_exactly(expected_hash)
+      end
+    end
+  end
 end

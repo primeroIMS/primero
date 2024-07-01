@@ -92,30 +92,6 @@ class Field < ApplicationRecord
       Field.joins(:form_section).where(form_sections: { parent_form:, is_nested: is_subform })
     end
 
-    def all_searchable_date_field_names(parent_form = 'case')
-      fields_for_record(parent_form).where(type: [Field::DATE_FIELD, Field::DATE_RANGE], date_include_time: false)
-                                    .pluck(:name)
-    end
-
-    def all_searchable_date_time_field_names(parent_form = 'case')
-      fields_for_record(parent_form).where(type: [Field::DATE_FIELD, Field::DATE_RANGE], date_include_time: true)
-                                    .pluck(:name)
-    end
-
-    def all_searchable_boolean_field_names(parent_form = 'case')
-      fields_for_record(parent_form).where(type: Field::TICK_BOX).pluck(:name)
-    end
-
-    def all_filterable_option_field_names(parent_form = 'case')
-      # TODO: TEXT_FIELD is being indexed for exact search? Makes sense for docuemt identifiers, but not much else.
-      fields_for_record(parent_form).where(type: [RADIO_BUTTON, SELECT_BOX], multi_select: false)
-                                    .pluck(:name)
-    end
-
-    def all_filterable_multi_field_names(parent_form = 'case')
-      fields_for_record(parent_form).where(type: Field::SELECT_BOX, multi_select: true).pluck(:name)
-    end
-
     def all_filterable_numeric_field_names(parent_form = 'case')
       fields_for_record(parent_form).where(type: Field::NUMERIC_FIELD).pluck(:name)
     end

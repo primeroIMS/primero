@@ -64,6 +64,6 @@ describe("<RecordCreationFlow />", () => {
   });
 
   it("should render a <ActionButton /> component", () => {
-    expect(screen.getAllByRole("button")).toHaveLength(3);
+    expect(screen.getAllByRole("button")).toHaveLength(4);
   });
 });

@@ -4,8 +4,6 @@
 
 # An indicator that returns the individual perpetrators
 class ManagedReports::Indicators::IndividualPerpetrator < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'individual_perpetrator'

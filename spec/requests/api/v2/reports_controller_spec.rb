@@ -131,8 +131,6 @@ describe Api::V2::ReportsController, type: :request do
                                              }
                                            ])
     @child_concerns2.save!
-
-    Sunspot.commit
   end
 
   let(:json) { JSON.parse(response.body) }

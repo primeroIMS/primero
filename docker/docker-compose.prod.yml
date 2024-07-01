@@ -8,6 +8,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    profiles:
+      - app
     volumes:
       - 'certbot_certificates:/etc/letsencrypt'
       - 'certbot_challenges:/usr/share/nginx/html/.well-known/acme-challenge'
@@ -21,10 +23,6 @@ services:
       - application
     restart: always
   application:
-    env_file:
-      - docker/defaults.env
-      - docker/local.env
-  solr:
     env_file:
       - docker/defaults.env
       - docker/local.env

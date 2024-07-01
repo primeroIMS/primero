@@ -90,6 +90,11 @@ describe Transfer do
         expect(case1.assigned_user_names).to include(@transfer.transitioned_to)
       end
 
+      it 'updates the transferred_to fields' do
+        expect(case1.transferred_to_users).to include(@transfer.transitioned_to)
+        expect(case1.transferred_to_user_groups).to include(@group2.unique_id)
+      end
+
       it 'does not change ownership of the record' do
         expect(case1.owned_by).to eq('user1')
         expect(case1.owned_by_full_name).to eq('Test User One')
@@ -142,6 +147,8 @@ describe Transfer do
       expect(@transfer.responded_at).to eq(@now)
       expect(case1.transfer_status).to eq(Transition::STATUS_ACCEPTED)
       expect(case1.status).to eq(Record::STATUS_OPEN)
+      expect(case1.transferred_to_users).not_to include(@transfer.transitioned_to)
+      expect(case1.transferred_to_user_groups).not_to include(@group2.unique_id)
     end
 
     it 'should have a entry in record histories' do
@@ -286,6 +293,8 @@ describe Transfer do
       expect(@case.assigned_user_names.present?).to be_falsey
       expect(@case.transfer_status).to eq(Transition::STATUS_REJECTED)
       expect(@case.status).to eq(Record::STATUS_OPEN)
+      expect(@case.transferred_to_users).not_to include(@rejected_transfer.transitioned_to)
+      expect(@case.transferred_to_user_groups).not_to include(@group2.unique_id)
     end
 
     it 'does not change ownership of the record' do
@@ -395,6 +404,8 @@ describe Transfer do
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
         expect(@rejected_transfer.responded_at).to eq(@now)
         expect(@case.assigned_user_names).to include('user2')
+        expect(@case.transferred_to_users).to include(@rejected_transfer.transitioned_to)
+        expect(@case.transferred_to_user_groups).to include(@group2.unique_id)
       end
 
       it 'removes the transitioned_to from assigned_user_names if the transfer is accepted' do
@@ -407,6 +418,8 @@ describe Transfer do
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
         expect(@rejected_transfer.responded_at).to eq(@now)
         expect(@case.assigned_user_names).not_to include('user2')
+        expect(@case.transferred_to_users).not_to include(@rejected_transfer.transitioned_to)
+        expect(@case.transferred_to_user_groups).not_to include(@group2.unique_id)
       end
 
       it 'removes the transitioned_to from assigned_user_names if the transfer is rejected' do
@@ -419,6 +432,8 @@ describe Transfer do
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
         expect(@rejected_transfer.responded_at).to eq(@now)
         expect(@case.assigned_user_names).not_to include('user2')
+        expect(@case.transferred_to_users).not_to include(@rejected_transfer.transitioned_to)
+        expect(@case.transferred_to_user_groups).not_to include(@group2.unique_id)
       end
 
       it 'removes the transitioned_to from assigned_user_names if the transfer is done' do
@@ -431,6 +446,8 @@ describe Transfer do
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
         expect(@rejected_transfer.responded_at).to eq(@now)
         expect(@case.assigned_user_names).not_to include('user2')
+        expect(@case.transferred_to_users).not_to include(@rejected_transfer.transitioned_to)
+        expect(@case.transferred_to_user_groups).not_to include(@group2.unique_id)
       end
 
       it 'should have a entry in record histories' do

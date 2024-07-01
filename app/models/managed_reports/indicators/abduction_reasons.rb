@@ -4,8 +4,6 @@
 
 # An indicator that returns reasons of violation type abduction
 class ManagedReports::Indicators::AbductionReasons < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'abduction_reasons'

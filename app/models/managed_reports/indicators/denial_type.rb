@@ -4,8 +4,6 @@
 
 # An indicator that returns the denial type for denial subreport
 class ManagedReports::Indicators::DenialType < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'denial_type'

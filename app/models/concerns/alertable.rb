@@ -24,14 +24,14 @@ module Alertable
   end
 
   included do
-    searchable do
-      string :current_alert_types, multiple: true
-    end
+    store_accessor(:data, :current_alert_types)
 
     has_many :alerts, as: :record
 
     before_save :add_alert_on_field_change
     before_update :remove_alert_on_save
+    before_create :calculate_current_alert_types
+    before_update :calculate_current_alert_types
   end
 
   def alert_count
@@ -86,28 +86,38 @@ module Alertable
     end
   end
 
-  def current_alert_types
-    alerts.map(&:type).uniq
+  def calculate_current_alert_types
+    self.current_alert_types = alerts.each_with_object([]) do |alert, memo|
+      next if alert.destroyed? || memo.include?(alert.type)
+
+      memo << alert.type unless alert.destroyed?
+    end
+
+    current_alert_types
   end
 
   def add_alert(args = {})
-    date_alert = args[:date].presence || Date.today
-
-    alert = Alert.new(type: args[:type], date: date_alert, form_sidebar_id: args[:form_sidebar_id],
-                      alert_for: args[:alert_for], user_id: args[:user_id], agency_id: args[:agency_id],
-                      send_email: args[:send_email])
+    alert = Alert.new(type: args[:type], date: args[:date].presence || Date.today,
+                      form_sidebar_id: args[:form_sidebar_id], alert_for: args[:alert_for], user_id: args[:user_id],
+                      agency_id: args[:agency_id], send_email: args[:send_email])
 
     (alerts << alert) && alert
   end
 
   def remove_alert(type = nil)
     alerts.each do |alert|
-      next unless (type.present? && alert.type == type) && [
-        NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST
-      ].include?(alert.alert_for)
+      next unless (type.present? && alert.type == type) &&
+                  [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST].include?(alert.alert_for)
 
       alert.destroy
     end
+  end
+
+  def remove_alert_by_unique_id!(alert_unique_id)
+    alert = alerts.find { |elem| elem.unique_id == alert_unique_id }
+    raise ActiveRecord::RecordNotFound unless alert.present?
+
+    alert.destroy! && save!
   end
 
   def get_alert(approval_type, system_settings)
@@ -128,10 +138,9 @@ module Alertable
     # values in the hash is either a string or a hash. If it's a string, it's
     # the form section unique id. If it's a hash, it's the form section unique
     # id and the alert strategy
-    (
-      @system_settings&.changes_field_to_form&.map do |field_name, form_section_uid_or_hash|
-        [field_name, AlertConfigEntryService.new(form_section_uid_or_hash)]
-      end).to_h
+    (@system_settings&.changes_field_to_form&.map do |field_name, form_section_uid_or_hash|
+      [field_name, AlertConfigEntryService.new(form_section_uid_or_hash)]
+    end).to_h
   end
 end
 

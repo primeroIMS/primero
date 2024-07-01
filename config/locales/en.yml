@@ -535,6 +535,10 @@ en:
       date_case_plan_initiated: Date of Case Plan
       date_of_creation: Date of Creation
       registration_date: Date of Registration
+      followup_date: Date of Follow Up
+      date_reunification: Date of Reunification
+      tracing_date: Date of Tracing
+      service_implemented_day_time: Date Service Completed
   configurations:
     apply_label: Are you sure? If you apply, the settings in this configuration will be applied to the system.
       You will lose all your current settings and will not be able to get them back unless you have already saved
@@ -599,6 +603,13 @@ en:
     all_cases: All Cases
     all_services_implemented: All Services Implemented
     and: 'and '
+    action_needed:
+      awaiting_acceptance: Awaiting Acceptance
+      header: Action Needed
+      new: New
+      new_this_week: New this Week
+      referrals: Referrals
+      transfers: Transfers
     approval_action_plan_approved: Approved
     approval_action_plan_pending: Pending
     approval_action_plan_pending_group: Action Plan
@@ -2311,6 +2322,12 @@ en:
     reports: Reports
     insights: Insights
     search: Search
+    phonetic_search:
+      title: Enter a name to search for an existing record.
+      label: Use Name Fields
+      help_text: Phonetic search is available for Name fields
+    id_search:
+      title: Enter the ID number to search for an existing record.
     settings: Settings
     support: Support
     support_menu:
@@ -2979,6 +2996,20 @@ en:
         label: Case
       dashboard:
         actions:
+          action_needed_new_updated:
+            explanation: Displays the 'New and Updated' indicator in the 'Action Needed' dashboard.
+              This includes Cases which are newly assigned to the current user, or which another
+              user has updated since the last time the current user updated it.
+            label: 'Action Needed: New or Updated'
+          action_needed_new_referrals:
+            explanation: Displays the 'New Referrals' indicator in the 'Action Needed' dashboard.
+              This includes any Cases with a new Referral sent to the current user,
+              where the current user is not the last person to update the Case.
+            label: 'Action Needed: New Referrals'
+          action_needed_transfer_awaiting_acceptance:
+            explanation: Displays the 'Transfers Awaiting Acceptance' indicator in the 'Action Needed' dashboard.
+              This includes any Cases with a Transfer to the current user, which the current user has not accepted.
+            label: 'Action Needed: Transfers Awaiting Acceptance'
           approvals_action_plan:
             explanation: Shows the number of the current user's cases with Action
               Plan approval requests which are Pending, Approved, or Rejected.

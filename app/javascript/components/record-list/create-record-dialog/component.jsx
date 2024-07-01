@@ -3,12 +3,11 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
-import SearchIcon from "@mui/icons-material/Search";
 import { push } from "connected-react-router";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useForm, useWatch } from "react-hook-form";
+import { batch, useDispatch } from "react-redux";
 
 import { useMemoizedSelector } from "../../../libs";
 import ActionButton from "../../action-button";
@@ -21,8 +20,13 @@ import { applyFilters } from "../../index-filters";
 import { getRecordsData } from "../../index-table";
 import { enqueueSnackbar } from "../../notifier";
 import { SEARCH_OR_CREATE_FILTERS } from "../constants";
+import SearchNameToggle from "../../index-filters/components/search-name-toggle";
+import PhoneticHelpText from "../../index-filters/components/phonetic-help-text";
+import { searchTitleI18nKey } from "../../index-filters/components/search-box/utils";
+import SearchButton from "../../record-creation-flow/components/search-button";
+import { setRedirectedToCreateNewRecord } from "../../record-form/action-creators";
 
-import { FORM_ID, NAME } from "./constants";
+import { FORM_ID, NAME, PHONETIC_FIELD_NAME } from "./constants";
 import { searchForm } from "./forms";
 import css from "./styles.css";
 
@@ -36,10 +40,16 @@ function Component({ moduleUniqueId, open = false, recordType, setOpen }) {
   const {
     formState: { dirtyFields, isSubmitted },
     getValues,
-    handleSubmit
+    handleSubmit,
+    control,
+    setValue,
+    register
   } = methods;
 
+  const phonetic = useWatch({ control, name: PHONETIC_FIELD_NAME, defaultValue: false });
   const record = useMemoizedSelector(state => getRecordsData(state, recordType));
+  const searchTitle = i18n.t(searchTitleI18nKey(phonetic));
+  const searchHelpText = i18n.t("case.search_helper_text");
 
   const onSubmit = data => {
     submitHandler({
@@ -68,6 +78,17 @@ function Component({ moduleUniqueId, open = false, recordType, setOpen }) {
     dispatch(push(`/${recordType}/${moduleUniqueId}/new`));
   };
 
+  const redirectToNewCase = () => {
+    batch(() => {
+      dispatch(setRedirectedToCreateNewRecord(true));
+      dispatch(push(`/${recordType}/${moduleUniqueId}/new`));
+    });
+  };
+
+  const handleSwitchChange = event => {
+    setValue(PHONETIC_FIELD_NAME, event.target.checked, { shouldDirty: true });
+  };
+
   useEffect(() => {
     const hasData = Boolean(record?.size);
 
@@ -78,11 +99,21 @@ function Component({ moduleUniqueId, open = false, recordType, setOpen }) {
         const { query } = getValues();
 
         setOpen(false);
-        handleCreateNewCase();
+        redirectToNewCase();
         dispatch(enqueueSnackbar(i18n.t("case.id_search_no_results", { search_query: query }), "error"));
       }
     }
   }, [record]);
+
+  useEffect(() => {
+    register(PHONETIC_FIELD_NAME);
+  }, [register]);
+
+  useEffect(() => {
+    if (open) {
+      setValue(PHONETIC_FIELD_NAME, false);
+    }
+  }, [open]);
 
   return (
     <Dialog open={open} maxWidth="sm" fullWidth data-testid="CreateRecordDialog">
@@ -97,8 +128,8 @@ function Component({ moduleUniqueId, open = false, recordType, setOpen }) {
         </div>
       </DialogTitle>
       <DialogContent>
-        <form id={FORM_ID} onSubmit={handleSubmit(onSubmit)}>
-          {searchForm(i18n).map(formSection => (
+        <form id={FORM_ID} onSubmit={handleSubmit(onSubmit)} className={css.searchForm}>
+          {searchForm(searchTitle, searchHelpText).map(formSection => (
             <FormSection
               formSection={formSection}
               key={formSection.unique_id}
@@ -106,6 +137,15 @@ function Component({ moduleUniqueId, open = false, recordType, setOpen }) {
               formMethods={methods}
             />
           ))}
+          <div className={css.search}>
+            <div>
+              <SearchNameToggle handleChange={handleSwitchChange} value={phonetic} />
+            </div>
+            <div className={css.searchButton}>
+              <SearchButton formId={FORM_ID} />
+            </div>
+          </div>
+          {phonetic && <PhoneticHelpText />}
         </form>
       </DialogContent>
       <DialogActions>
@@ -117,17 +157,6 @@ function Component({ moduleUniqueId, open = false, recordType, setOpen }) {
               type={ACTION_BUTTON_TYPES.default}
               rest={{ onClick: handleCreateNewCase }}
               size="large"
-            />
-          </div>
-          <div className={css.search}>
-            <ActionButton
-              icon={<SearchIcon />}
-              text="navigation.search"
-              type={ACTION_BUTTON_TYPES.default}
-              rest={{
-                form: FORM_ID,
-                type: "submit"
-              }}
             />
           </div>
         </div>
