@@ -9,6 +9,7 @@ import { displayNameHelper } from "../../../../libs";
 import { LOCALE_KEYS } from "../../../../config";
 import NepaliCalendar from "../../../nepali-calendar-input";
 import localize from "../../../../libs/date-picker-localization";
+import { EMPTY_VALUE } from "../../../form";
 
 function DateFieldPicker({
   dateIncludeTime = false,
@@ -16,7 +17,8 @@ function DateFieldPicker({
   displayName,
   fieldTouched = false,
   fieldError,
-  helperText
+  helperText,
+  isShow = false
 }) {
   const i18n = useI18n();
   const helpText =
@@ -40,7 +42,8 @@ function DateFieldPicker({
       InputLabelProps: { shrink: true },
       fullWidth: true,
       helperText: helpText,
-      clearable: true
+      clearable: true,
+      placeholder: isShow ? EMPTY_VALUE : ""
     }
   };
 
@@ -76,7 +79,8 @@ DateFieldPicker.propTypes = {
   displayName: PropTypes.object,
   fieldError: PropTypes.string,
   fieldTouched: PropTypes.bool,
-  helperText: PropTypes.string
+  helperText: PropTypes.string,
+  isShow: PropTypes.bool
 };
 
 export default DateFieldPicker;

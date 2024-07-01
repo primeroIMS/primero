@@ -16,7 +16,7 @@ import { NOT_FUTURE_DATE } from "../../constants";
 
 import DateFieldPicker from "./date-field-picker";
 
-function DateField({ displayName, name, helperText, mode, formik, InputProps, formSection, ...rest }) {
+function DateField({ displayName, name, helperText, mode = {}, formik, InputProps, formSection, ...rest }) {
   const fieldValue = useRef(null);
   const formInstance = useRef();
 
@@ -129,6 +129,7 @@ function DateField({ displayName, name, helperText, mode, formik, InputProps, fo
             fieldError={fieldError}
             displayName={displayName}
             handleClearable={handleClearable}
+            isShow={mode.isShow}
           />
         );
       }}
