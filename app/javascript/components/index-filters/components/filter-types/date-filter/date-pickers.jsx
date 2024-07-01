@@ -80,7 +80,7 @@ const Component = ({
       clearLabel: i18n.t("buttons.clear"),
       cancelLabel: i18n.t("buttons.cancel"),
       okLabel: i18n.t("buttons.ok"),
-      slotProps: { textField: { InputLabelProps: { shrink: true }, fullWidth: true } }
+      slotProps: { textField: { InputLabelProps: { shrink: true }, fullWidth: true, clearable: true } }
     };
 
     if (i18n.locale === LOCALE_KEYS.ne) {

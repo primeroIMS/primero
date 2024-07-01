@@ -48,7 +48,7 @@ function DateInput({ commonInputProps, metaInputProps = {}, formMethods }) {
   const fieldValue = isEmpty(currentValue) ? null : parseISO(currentValue);
 
   const inputProps = {
-    slotProps: { textField: { InputLabelProps: { shrink: true }, fullWidth, required, helperText } }
+    slotProps: { textField: { InputLabelProps: { shrink: true }, fullWidth, required, helperText, clearable: true } }
   };
 
   const renderPicker = () => {

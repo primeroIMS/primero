@@ -39,7 +39,8 @@ function DateFieldPicker({
       "data-testid": dateIncludeTime ? "date-time-picker" : "date-picker",
       InputLabelProps: { shrink: true },
       fullWidth: true,
-      helperText: helpText
+      helperText: helpText,
+      clearable: true
     }
   };
 
