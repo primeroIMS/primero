@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
-import { IconButton, InputBase, InputAdornment } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
-import ClearIcon from "@material-ui/icons/Clear";
+import { IconButton, InputBase, InputAdornment } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import ActionButton from "../../../action-button";
