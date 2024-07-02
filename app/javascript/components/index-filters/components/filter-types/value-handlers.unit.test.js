@@ -14,6 +14,8 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
   const user = "josh";
 
   beforeEach(() => {
+    Date.prototype.getTimezoneOffset = () => 0
+
     methods = {
       event: spy(),
       setInputValue: spy(),
