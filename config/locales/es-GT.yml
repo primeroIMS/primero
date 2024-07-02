@@ -396,7 +396,7 @@ es-GT:
     quick_view:
       tracing_message: 'Nota: Hay una concordancia en el sistema en la que un(a) Investigador(a) busca a este niño, niña, o adolescente. Contacte a la trabajadora social de este registro para acciones futuras si el niño, niña, o adolescente así lo desea.'
     reassign:
-      multiple_successfully: Primero está reevaluando %{select_records}Caso(s). La actualización de todos los Casos puede tomar varios minutos.
+      multiple_successfully: Primero está reevaluando %{select_records} Caso(s). La actualización de todos los Casos puede tomar varios minutos.
     referral_done: Hacer clic en "Realizado" significa que usted ha completado el trabajo de referencia relacionado a este caso. Una vez usted hace clic en "Realizado" ya no tendrá acceso a este registro.
     referral_done_success: Referencia Realizada.
     referral_accepted_header: Aceptar Referencia
@@ -833,8 +833,8 @@ es-GT:
     assign_html: '<strong>%{user}</strong> le ha asignado el siguiente %{record_type}: <strong>%{record_id}</strong>.'
     transfer_request_html: 'El/la usuario(a) de Primero <strong>%{user}</strong> de %{agency} está solicitando que le transfiera la propiedad de este %{record_type} registro <strong>%{record_id}</strong> para que pueda prestarle servicios de gestión de %{record_type} a la persona en su área. Si esta transferencia le parece aceptable, por favor haga clic en el vínculo de ID %{record_type} en este correo para abrir el %{record_type} en Primero e iniciar la transferencia.'
     transfer_request_notes_html: 'Notas de la persona que hace la solicitud: %{request_transfer_notes}'
-    alert: '%{record_type}%{id}-%{form_name}ha sido actualizado. Por favor, ingrese a Primero para revisar los cambios.'
-    alert_subject: '%{record_type}:%{id} - %{form_name}Actualizado'
+    alert: '%{record_type}%{id}-%{form_name} ha sido actualizado. Por favor, ingrese a Primero para revisar los cambios.'
+    alert_subject: '%{record_type}:%{id} - %{form_name} Actualizado'
   webpush_notification:
     action_label: Ir al Caso
     approval_request:
