@@ -14,7 +14,7 @@ import css from "../styles.css";
 
 import { getDatesValue, getDateValue } from "./utils";
 
-const Component = ({
+function Component({
   dateIncludeTime,
   inputValue,
   mode,
@@ -24,7 +24,7 @@ const Component = ({
   setMoreSectionFilters,
   setValue,
   register
-}) => {
+}) {
   const i18n = useI18n();
   const pickerFormat = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
 
@@ -95,7 +95,7 @@ const Component = ({
       </div>
     );
   });
-};
+}
 
 Component.displayName = "DatePickers";
 
