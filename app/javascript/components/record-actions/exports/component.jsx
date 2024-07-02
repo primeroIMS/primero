@@ -28,7 +28,7 @@ import PdfExporter from "../../pdf-exporter";
 import { getUser } from "../../user/selectors";
 import { getRecordForms } from "../../record-form/selectors";
 import { getMetadata } from "../../record-list/selectors";
-import { buildAppliedFilters } from "../utils";
+import { buildAppliedFilters, buildSelectedIds } from "../utils";
 
 import { saveExport } from "./action-creators";
 import {
@@ -185,10 +185,7 @@ const Component = ({
     const { form_unique_ids: formUniqueIds, field_names: fieldNames } = values;
     const { id, format, message } = ALL_EXPORT_TYPES.find(e => e.id === values.export_type);
     const fileName = formatFileName(values.custom_export_file_name, format);
-    const recordIds = records
-      .toJS()
-      .filter((_record, index) => selectedRecords?.[currentPage]?.includes(index))
-      .map(selected => selected.id);
+    const recordIds = buildSelectedIds(selectedRecords, records, currentPage);
 
     const filters = buildAppliedFilters(
       isShowPage,
