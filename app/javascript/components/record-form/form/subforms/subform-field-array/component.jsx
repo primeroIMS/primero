@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { getIn } from "formik";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 import { List } from "@mui/material";
 
 import SubformFields from "../subform-fields";

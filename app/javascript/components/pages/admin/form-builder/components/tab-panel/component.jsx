@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { Paper } from "@mui/material";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 
 import css from "./styles.css";
 import { NAME } from "./constants";

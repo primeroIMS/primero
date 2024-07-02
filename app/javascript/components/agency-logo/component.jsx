@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { memo } from "react";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 
 import { getAgencyLogos } from "../application/selectors";
 import useMemoizedSelector from "../../libs/use-memoized-selector";

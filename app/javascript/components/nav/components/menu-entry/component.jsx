@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { ListItem, ListItemText, ListItemIcon } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { isEqual } from "lodash";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 
 import { useI18n } from "../../../i18n";
 import ListIcon from "../../../list-icon";

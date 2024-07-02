@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { TableCell, TableRow } from "@mui/material";
 import isNil from "lodash/isNil";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 
 import InsightsTableHeaderSubItems from "../insights-table-header-sub-items";
 import { buildGroupedSubItemColumns } from "../../utils";

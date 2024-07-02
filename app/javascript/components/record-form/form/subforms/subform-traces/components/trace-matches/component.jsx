@@ -4,7 +4,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 import { fromJS } from "immutable";
 import { List, ListItemText } from "@mui/material";
 

@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import SignalWifiOffIcon from "@mui/icons-material/SignalWifiOff";
 import SignalWifi4BarIcon from "@mui/icons-material/SignalWifi4Bar";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
 
 import { useI18n } from "../../../i18n";

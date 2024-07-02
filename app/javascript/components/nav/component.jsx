@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import { push } from "connected-react-router";
 import { isEqual } from "lodash";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 
 import { ROUTES, PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import AgencyLogo from "../agency-logo";

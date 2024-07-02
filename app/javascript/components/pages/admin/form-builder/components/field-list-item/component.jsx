@@ -4,7 +4,7 @@
 import { memo } from "react";
 import { useDispatch, batch } from "react-redux";
 import PropTypes from "prop-types";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 import { Draggable } from "react-beautiful-dnd";
 
 import { SUBFORM_SECTION } from "../../../../../form";

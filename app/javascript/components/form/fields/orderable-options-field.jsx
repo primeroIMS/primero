@@ -3,7 +3,7 @@
 /* eslint-disable react/no-multi-comp */
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 import { useFieldArray, useWatch } from "react-hook-form";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import isNil from "lodash/isNil";

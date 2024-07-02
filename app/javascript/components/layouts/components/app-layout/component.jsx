@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable react/no-multi-comp, react/display-name */
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 import { CircularProgress } from "@mui/material";
 import PropTypes from "prop-types";
 

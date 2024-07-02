@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Draggable } from "react-beautiful-dnd";
 import findKey from "lodash/findKey";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 
 import { useI18n } from "../../../../../i18n";
 import { MODULES, RECORD_PATH } from "../../../../../../config";

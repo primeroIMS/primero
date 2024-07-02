@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { AppBar, Collapse, Divider, Toolbar } from "@mui/material";
 import isString from "lodash/isString";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 import { useCallback, useState } from "react";
 
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";

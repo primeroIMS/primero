@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 import { useDispatch, batch } from "react-redux";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 
 import { NAME as FieldTranslationsDialogName } from "../../../field-translations-dialog";
 import { setSelectedField, setSelectedSubform } from "../../../../action-creators";

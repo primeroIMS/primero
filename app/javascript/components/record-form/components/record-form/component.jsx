@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { useMediaQuery } from "@mui/material";
 import { batch, useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 import { fromJS } from "immutable";
 
 import FormFilters from "../../../form-filters";

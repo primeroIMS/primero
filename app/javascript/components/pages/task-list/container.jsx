@@ -3,7 +3,7 @@
 import { fromJS } from "immutable";
 import { useDispatch, batch } from "react-redux";
 import Tooltip from "@mui/material/Tooltip";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 import { push } from "connected-react-router";
 
 import { useI18n } from "../../i18n";

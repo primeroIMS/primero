@@ -3,7 +3,7 @@
 import { cloneElement } from "react";
 import PropTypes from "prop-types";
 import { Tooltip } from "@mui/material";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 
 import { useApp } from "../application";
 import { useI18n } from "../i18n";

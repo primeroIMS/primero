@@ -3,7 +3,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { InputLabel, FormHelperText } from "@mui/material";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 import GetAppIcon from "@mui/icons-material/GetApp";
 
 import { toBase64 } from "../../../libs";

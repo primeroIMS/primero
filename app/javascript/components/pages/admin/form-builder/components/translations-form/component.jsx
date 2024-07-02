@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 
 import { FormSectionField, FieldRecord, TEXT_FIELD, SELECT_FIELD, whichFormMode } from "../../../../../form";
 import { useI18n } from "../../../../../i18n";

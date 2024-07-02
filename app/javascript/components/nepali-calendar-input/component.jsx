@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { FormControl, InputLabel } from "@mui/material";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 import { useEffect, useState } from "react";
 import isDate from "lodash/isDate";
 import { NepaliDatePicker } from "mui-nepali-datepicker-reactjs";

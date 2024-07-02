@@ -3,7 +3,7 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import get from "lodash/get";

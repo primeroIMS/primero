@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 
 import fieldKey from "../utils/field-key";
 import formComponent from "../utils/form-component";

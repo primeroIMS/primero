@@ -6,7 +6,7 @@ import { Backdrop, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 
 import css from "../../styles.css";
 

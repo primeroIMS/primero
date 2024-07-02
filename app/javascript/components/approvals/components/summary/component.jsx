@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 import Chip from "@mui/material/Chip";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 
 import { useI18n } from "../../../i18n";
 import { NAME_SUMMARY } from "../../constants";

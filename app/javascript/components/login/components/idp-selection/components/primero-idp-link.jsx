@@ -2,7 +2,7 @@
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from "prop-types";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 import { Link } from "@mui/material";
 import { useHistory } from "react-router-dom";
 

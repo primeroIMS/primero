@@ -3,7 +3,7 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import { Brightness1 as Circle } from "@mui/icons-material";
 import ErrorIcon from "@mui/icons-material/Error";

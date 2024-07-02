@@ -7,7 +7,7 @@ import CheckBox from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
 import RadioButtonChecked from "@mui/icons-material/RadioButtonChecked";
 import RadioButtonUnchecked from "@mui/icons-material/RadioButtonUnchecked";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 
 import { optionText } from "../../../form/utils";
 import { useI18n } from "../../../i18n";

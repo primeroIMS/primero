@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { ListItemText } from "@mui/material";
-import { cx } from "@emotion/css"
+import { cx } from "@emotion/css";
 
 import { NAME_FIELD, DATE_FIELD, SELECT_FIELD, TICK_FIELD, RADIO_FIELD, TALLY_FIELD } from "../../../constants";
 import SubformLookupHeader from "../subform-header-lookup";
