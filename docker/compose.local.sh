@@ -3,13 +3,12 @@
 
 : "${SOLR_ENABLED:=false}"
 
+SOLR_PROFILE=""
+
 set -euox
 
-DOCKER_COMPOSE_COMMAND="./compose.sh --profile db -f docker-compose.db.yml -f docker-compose.local.yml"
-
-# if SOLR_ENABLED is true add compose.solr.local file
 if [[ "${SOLR_ENABLED}" == 'true' ]] ; then
-  DOCKER_COMPOSE_COMMAND="${DOCKER_COMPOSE_COMMAND} -f docker-compose.solr.local.yml"
+  SOLR_PROFILE="--profile solr"
 fi
 
-exec ${DOCKER_COMPOSE_COMMAND} "${@}"
+exec "./compose.sh" --profile db ${SOLR_PROFILE} -f "docker-compose.db.yml" -f "docker-compose.local.yml" "${@}"
