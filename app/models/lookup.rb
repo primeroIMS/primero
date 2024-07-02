@@ -112,6 +112,14 @@ class Lookup < ApplicationRecord
       Lookup.values(lookup_id, lookups, opts).find { |l| l['id'] == option_id }&.[]('display_text')
     end
 
+    # TODOL: We must cache these lookups
+    def group_by_unique_id(lookup_ids)
+      where(unique_id: lookup_ids)
+        .each_with_object({}) do |lk, acc|
+          acc[lk.unique_id] = FieldI18nService.fill_options(lk.lookup_values_i18n, false)
+        end
+    end
+
     private
 
     def form_group_lookup_mapping(parent_form)
