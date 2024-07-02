@@ -41,6 +41,10 @@
 
 .searchBox {
   flex: 1 0 auto;
+
+  & :global(.MuiFormControl-root) {
+    margin-top: 0;
+  }
 }
 
 
