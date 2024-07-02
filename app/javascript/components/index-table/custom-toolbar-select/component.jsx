@@ -14,7 +14,7 @@ import { NAME } from "./constants";
 import { selectAllRecords } from "./utils";
 
 function Component({
-  canSelectAll = false,
+  canSelectAll = true,
   displayData,
   fetchRecords,
   page,
