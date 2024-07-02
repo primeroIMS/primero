@@ -9,7 +9,7 @@ import { NAME } from "./constants";
 import css from "./styles.css";
 import { buildAssociatedViolationsKeys } from "./utils";
 
-const Component = ({ associatedViolations, violationsIDs, renderSecondaryText = false }) => {
+function Component({ associatedViolations, violationsIDs, renderSecondaryText = false }) {
   const i18n = useI18n();
 
   if (!renderSecondaryText || isEmpty(associatedViolations) || isEmpty(violationsIDs)) return null;
@@ -34,7 +34,7 @@ const Component = ({ associatedViolations, violationsIDs, renderSecondaryText = 
       })}
     </div>
   );
-};
+}
 
 Component.propTypes = {
   associatedViolations: PropTypes.object,

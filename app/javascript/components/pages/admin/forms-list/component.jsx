@@ -5,13 +5,13 @@ import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { Add as AddIcon, List as ListIcon, SwapVert } from "@material-ui/icons";
+import { Add as AddIcon, List as ListIcon, SwapVert } from "@mui/icons-material";
 
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
 import { useApp } from "../../../application";
 import { PageHeading, PageContent } from "../../../page";
-import { MODULES, RECORD_TYPES } from "../../../../config/constants";
+import { MODULES, RECORD_TYPES } from "../../../../config";
 import Permission, { usePermissions, CREATE_RECORDS, RESOURCES, MANAGE } from "../../../permissions";
 import { FormAction, OPTION_TYPES } from "../../../form";
 import { useMemoizedSelector } from "../../../../libs";
@@ -38,7 +38,7 @@ import { getFormGroups, getListStyle } from "./utils";
 import { NAME, FORM_GROUP_PREFIX, ORDER_TYPE } from "./constants";
 import css from "./styles.css";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
   const { pathname } = useLocation();
@@ -201,7 +201,7 @@ const Component = () => {
       </PageContent>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

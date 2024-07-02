@@ -1,9 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Icon, Badge } from "@material-ui/core";
-import Photo from "@material-ui/icons/Photo";
-import OfflinePin from "@material-ui/icons/OfflinePin";
+import { Icon, Badge } from "@mui/material";
+import Photo from "@mui/icons-material/Photo";
+import { OfflinePin } from "@mui/icons-material";
 
 import Jewel from "../../jewel";
 import { ALERTS_COLUMNS } from "../../record-list/constants";
@@ -12,7 +12,7 @@ import { FlagIcon } from "../../../images/primero-icons";
 
 import css from "./styles.css";
 
-const ToggleIconCell = ({ value, icon }) => {
+function ToggleIconCell({ value, icon }) {
   if (!value) {
     return null;
   }
@@ -42,7 +42,7 @@ const ToggleIconCell = ({ value, icon }) => {
       </Icon>
     </ConditionalWrapper>
   );
-};
+}
 
 ToggleIconCell.displayName = "ToggleIconCell";
 ToggleIconCell.propTypes = {

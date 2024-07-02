@@ -18,7 +18,7 @@ import { NAME } from "./constants";
 import css from "./styles.css";
 import Content from "./content";
 
-const Component = ({ close, open, currentPage, selectedRecords, recordType, record }) => {
+function Component({ close, open, currentPage, selectedRecords, recordType, record }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { ...methods } = useForm();
@@ -93,7 +93,7 @@ const Component = ({ close, open, currentPage, selectedRecords, recordType, reco
       </SubformDrawer>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

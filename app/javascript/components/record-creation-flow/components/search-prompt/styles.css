@@ -35,12 +35,16 @@
 
 .inputLabel {
   width: 100%;
-  line-height: 1.5em;
+  line-height: 2em;
   position: relative;
 }
 
 .searchBox {
   flex: 1 0 auto;
+
+  & :global(.MuiFormControl-root) {
+    margin-top: 0;
+  }
 }
 
 

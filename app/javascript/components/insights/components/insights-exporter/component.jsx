@@ -18,7 +18,7 @@ import { transformFilters } from "../../../insights-filters/utils";
 import { NAME, FORM_ID, EXPORTED_URL, EXPORT_ALL_SUBREPORTS } from "./constants";
 import { form } from "./form";
 
-const Component = ({ close, i18n, open, pending, setPending }) => {
+function Component({ close, i18n, open, pending, setPending }) {
   const dispatch = useDispatch();
   const { id } = useParams();
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
@@ -68,7 +68,7 @@ const Component = ({ close, i18n, open, pending, setPending }) => {
       <Form useCancelPrompt formID={FORM_ID} mode="new" formSections={form(i18n)} onSubmit={onSubmit} submitAlways />
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -1,8 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS, isImmutable } from "immutable";
-import { parseISO } from "date-fns";
-import isEqualDate from "date-fns/isEqual";
+import { parseISO, isEqual as isEqualDate } from "date-fns";
 import first from "lodash/first";
 import isEqual from "lodash/isEqual";
 import isNil from "lodash/isNil";

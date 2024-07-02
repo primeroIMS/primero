@@ -12,15 +12,15 @@ import { getShortIdFromUniqueId } from "../../../../records/utils";
 
 import { getMultiSelectValues, buildAssociatedViolationsLabels } from "./utils";
 
-const Component = ({
-  value,
+function Component({
+  value = "",
   optionsStringSource,
   optionsStringText,
   isViolationSubform,
   displayName,
   associatedViolations,
   parentTitle
-}) => {
+}) {
   const i18n = useI18n();
   const optionSource =
     optionsStringSource === CUSTOM_STRINGS_SOURCE.user ? OPTION_TYPES.REFER_TO_USERS : optionsStringSource;
@@ -81,13 +81,9 @@ const Component = ({
       {displayText[i18n.locale]}
     </span>
   );
-};
+}
 
 Component.displayName = SUBFORM_LOOKUP_HEADER_NAME;
-
-Component.defaultProps = {
-  value: ""
-};
 
 Component.propTypes = {
   associatedViolations: PropTypes.object,

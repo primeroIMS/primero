@@ -19,9 +19,9 @@ import { hasProvidedConsent } from "./components/utils";
 import { ReassignForm, TransitionDialog, Transfers } from "./components";
 import Referrals from "./referrals/component";
 
-const Transitions = ({
+function Transitions({
   close,
-  open,
+  open = false,
   currentDialog,
   record,
   recordType,
@@ -30,7 +30,7 @@ const Transitions = ({
   currentPage,
   selectedRecords,
   mode
-}) => {
+}) {
   const i18n = useI18n();
   const providedConsent = (record && hasProvidedConsent(record)) || false;
   const assignFormikRef = useRef();
@@ -169,13 +169,9 @@ const Transitions = ({
       {transitionComponent()}
     </TransitionDialog>
   );
-};
+}
 
 Transitions.displayName = NAME;
-
-Transitions.defaultProps = {
-  open: false
-};
 
 Transitions.propTypes = {
   close: PropTypes.func,

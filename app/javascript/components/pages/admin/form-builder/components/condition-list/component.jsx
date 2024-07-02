@@ -3,7 +3,7 @@
 import isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
 import { useFieldArray } from "react-hook-form";
-import AddIcon from "@material-ui/icons/Add";
+import AddIcon from "@mui/icons-material/Add";
 
 import { useI18n } from "../../../../../i18n";
 import { useDialog } from "../../../../../action-dialog";

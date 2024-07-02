@@ -7,13 +7,13 @@ import { useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { INCIDENT_FROM_CASE, MODES } from "../../config/constants";
+import { INCIDENT_FROM_CASE, MODES } from "../../config";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getPermissions } from "../user/selectors";
 
 import { RESOURCES } from "./constants";
 
-const Component = ({ resources, actions = [], redirect = false, children }) => {
+function Component({ resources, actions = [], redirect = false, children }) {
   const { recordType } = useParams();
 
   const type = resources || recordType;
@@ -60,7 +60,7 @@ const Component = ({ resources, actions = [], redirect = false, children }) => {
   }
 
   return null;
-};
+}
 
 Component.displayName = "Permission";
 

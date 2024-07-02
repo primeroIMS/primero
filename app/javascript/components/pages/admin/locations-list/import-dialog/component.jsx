@@ -15,7 +15,7 @@ import { getImportErrors } from "./selectors";
 import { form } from "./form";
 import { NAME, FORM_ID } from "./constants";
 
-const Component = ({ close, i18n, open, pending }) => {
+function Component({ close, i18n, open, pending }) {
   const dispatch = useDispatch();
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
 
@@ -60,7 +60,7 @@ const Component = ({ close, i18n, open, pending }) => {
       <Form useCancelPrompt mode="new" formSections={form(i18n)} onSubmit={onSubmit} formID={FORM_ID} />
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

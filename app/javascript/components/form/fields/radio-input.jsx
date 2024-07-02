@@ -1,12 +1,12 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { FormControl, FormControlLabel, FormHelperText, FormLabel, Radio, RadioGroup } from "@material-ui/core";
+import { FormControl, FormControlLabel, FormHelperText, FormLabel, Radio, RadioGroup } from "@mui/material";
 import { Controller } from "react-hook-form";
 
 import css from "./styles.css";
 
-const RadioInput = ({ commonInputProps, options, formMethods }) => {
+function RadioInput({ commonInputProps, options, formMethods }) {
   const { helperText, error, name, label: radioGroupLabel, className, disabled } = commonInputProps;
   const { control } = formMethods;
 
@@ -36,7 +36,7 @@ const RadioInput = ({ commonInputProps, options, formMethods }) => {
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );
-};
+}
 
 RadioInput.displayName = "RadioInput";
 

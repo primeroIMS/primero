@@ -7,9 +7,9 @@ import PropTypes from "prop-types";
 import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
-import CreateIcon from "@material-ui/icons/Create";
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
+import CreateIcon from "@mui/icons-material/Create";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 
@@ -45,7 +45,7 @@ import {
 import UserConfirmation from "./user-confirmation";
 import ChangePassword from "./change-password";
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const formMode = whichFormMode(mode);
 
   const i18n = useI18n();
@@ -290,7 +290,7 @@ const Container = ({ mode }) => {
       </PageContent>
     </LoadingIndicator>
   );
-};
+}
 
 Container.displayName = "UsersForm";
 

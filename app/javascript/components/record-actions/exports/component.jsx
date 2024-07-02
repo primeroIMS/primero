@@ -28,7 +28,8 @@ import PdfExporter from "../../pdf-exporter";
 import { getUser } from "../../user/selectors";
 import { getRecordForms } from "../../record-form/selectors";
 import { getMetadata } from "../../record-list/selectors";
-import { buildAppliedFilters, buildSelectedIds } from "../utils";
+import buildAppliedFilters from "../utils/build-applied-filters";
+import buildSelectedIds from "../utils/build-selected-ids";
 
 import { saveExport } from "./action-creators";
 import {
@@ -52,18 +53,18 @@ import { buildFields, exportFormsOptions, formatFields, formatFileName, isCustom
 
 const FORM_ID = "exports-record-form";
 
-const Component = ({
+function Component({
   close,
   currentPage,
   match,
-  open,
+  open = "false",
   pending,
   record,
   recordType,
   selectedRecords,
   setPending,
   userPermissions
-}) => {
+}) {
   const i18n = useI18n();
   const pdfExporterRef = useRef();
   const dispatch = useDispatch();
@@ -348,13 +349,9 @@ const Component = ({
       )}
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  open: false
-};
 
 Component.propTypes = {
   close: PropTypes.func,

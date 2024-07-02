@@ -42,7 +42,7 @@
   }
 }
 
-@media (max-width:599.95px) {
+@media (max-width:600px) {
   .loginForm {
     & button {
       width: 100%;

@@ -8,7 +8,7 @@ import { BLACK_LISTED_FIELDS } from "./constants";
 import { selectSupportData } from "./selectors";
 import css from "./styles.css";
 
-const Support = () => {
+function Support() {
   const supportData = useMemoizedSelector(state => selectSupportData(state));
   const i18n = useI18n();
 
@@ -38,7 +38,7 @@ const Support = () => {
       {renderInformation}
     </>
   );
-};
+}
 
 Support.displayName = "Support";
 

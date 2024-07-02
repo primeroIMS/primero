@@ -7,12 +7,12 @@ import { useI18n } from "../../../../i18n";
 import { teamSharingTable } from "../../utils";
 import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
-import { ROUTES } from "../../../../../config/constants";
+import { ROUTES } from "../../../../../config";
 import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
-const Component = ({ loadingIndicator }) => {
+function Component({ loadingIndicator }) {
   const i18n = useI18n();
 
   const sharedWithMyTeam = useMemoizedSelector(state => getSharedWithMyTeam(state));
@@ -36,7 +36,7 @@ const Component = ({ loadingIndicator }) => {
       </OptionsBox>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

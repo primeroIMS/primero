@@ -3,11 +3,11 @@
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import AddIcon from "@material-ui/icons/Add";
+import AddIcon from "@mui/icons-material/Add";
 
 import SubformDrawer from "../record-form/form/subforms/subform-drawer";
 import { useI18n } from "../i18n";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getRecordFieldsByName, getRecordFormsByUniqueId } from "../record-form/selectors";
 import { CASE, RECORD_TYPES_PLURAL } from "../../config";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../action-button";

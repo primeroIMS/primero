@@ -27,21 +27,21 @@ import {
   ConfigurationsForm,
   CodeOfConduct as AdminCodeOfConduct,
   Support
-} from "../components/pages";
-import KeyPerformanceIndicators from "../components/key-performance-indicators";
-import Report from "../components/report";
-import Reports from "../components/reports-list";
-import ReportsForm from "../components/reports-form";
-import RecordForm from "../components/record-form/container";
-import RecordList from "../components/record-list";
-import InsightsList from "../components/insights-list";
-import Insights from "../components/insights";
-import InsightsSubReport from "../components/insights-sub-report";
-import Account from "../components/pages/account";
-import PasswordReset from "../components/password-reset";
-import CodeOfConduct from "../components/code-of-conduct";
-import ActivityLog from "../components/activity-log";
-import { AppLayout, LoginLayout, EmptyLayout } from "../components/layouts";
+} from "./components/pages";
+import KeyPerformanceIndicators from "./components/key-performance-indicators";
+import Report from "./components/report";
+import Reports from "./components/reports-list";
+import ReportsForm from "./components/reports-form";
+import RecordForm from "./components/record-form/container";
+import RecordList from "./components/record-list";
+import InsightsList from "./components/insights-list";
+import Insights from "./components/insights";
+import InsightsSubReport from "./components/insights-sub-report";
+import Account from "./components/pages/account";
+import PasswordReset from "./components/password-reset";
+import CodeOfConduct from "./components/code-of-conduct";
+import ActivityLog from "./components/activity-log";
+import { AppLayout, LoginLayout, EmptyLayout } from "./components/layouts";
 import {
   CREATE_RECORDS,
   CREATE_REPORTS,
@@ -57,12 +57,11 @@ import {
   VIEW_KPIS,
   ACTIVITY_LOGS,
   READ_MANAGED_REPORTS
-} from "../components/permissions";
-import Login, { IdpLogin } from "../components/login";
-import Logout from "../components/logout";
-import PasswordResetRequest from "../components/login/components/password-reset-form";
-
-import { ROUTES, MODES, RECORD_PATH } from "./constants";
+} from "./components/permissions";
+import Login, { IdpLogin } from "./components/login";
+import Logout from "./components/logout";
+import PasswordResetRequest from "./components/login/components/password-reset-form";
+import { ROUTES, MODES, RECORD_PATH } from "./config";
 
 const recordPaths = [
   RECORD_PATH.cases,

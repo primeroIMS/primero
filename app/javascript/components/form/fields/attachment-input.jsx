@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { InputLabel, FormHelperText } from "@material-ui/core";
-import clsx from "clsx";
-import GetAppIcon from "@material-ui/icons/GetApp";
+import { InputLabel, FormHelperText } from "@mui/material";
+import { cx } from "@emotion/css";
+import GetAppIcon from "@mui/icons-material/GetApp";
 
 import { toBase64 } from "../../../libs";
 import { PHOTO_FIELD, DOCUMENT_FIELD, EMPTY_VALUE } from "../constants";
@@ -14,7 +14,7 @@ import { ATTACHMENT_TYPES } from "../../record-form/form/field-types/attachments
 
 import css from "./styles.css";
 
-const AttachmentInput = ({ commonInputProps, metaInputProps, formMode, formMethods }) => {
+function AttachmentInput({ commonInputProps, metaInputProps, formMode, formMethods }) {
   const { setValue, watch, register } = formMethods;
 
   const [file, setFile] = useState({
@@ -111,7 +111,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMode, formMetho
 
   const downloadButton = renderDownloadButton && isShow && downloadFile;
 
-  const classes = clsx(css.attachment, { [css.document]: isDocument && (!renderDownloadButton || !isShow) });
+  const classes = cx(css.attachment, { [css.document]: isDocument && (!renderDownloadButton || !isShow) });
 
   return (
     <div className={classes}>
@@ -137,7 +137,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMode, formMetho
       <div className={css.downloadButton}>{downloadButton}</div>
     </div>
   );
-};
+}
 
 AttachmentInput.displayName = "AttachmentInput";
 

@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Drawer } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-import AddIcon from "@material-ui/icons/Add";
+import { Drawer } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from "@mui/icons-material/Add";
 import isEmpty from "lodash/isEmpty";
 import { push } from "connected-react-router";
 import { useDispatch, batch } from "react-redux";
@@ -22,7 +22,7 @@ import { ConsentPrompt, SearchPrompt } from "./components";
 import { NAME, DATA_PROTECTION_FIELDS } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ open, onClose, recordType, primeroModule }) => {
+function Component({ open, onClose, recordType, primeroModule }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -125,7 +125,7 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
       </div>
     </Drawer>
   );
-};
+}
 
 Component.displayName = NAME;
 

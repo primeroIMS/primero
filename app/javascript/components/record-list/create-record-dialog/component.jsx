@@ -1,8 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import CloseIcon from "@material-ui/icons/Close";
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
 import { push } from "connected-react-router";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
@@ -30,7 +30,7 @@ import { FORM_ID, NAME, PHONETIC_FIELD_NAME } from "./constants";
 import { searchForm } from "./forms";
 import css from "./styles.css";
 
-const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
+function Component({ moduleUniqueId, open = false, recordType, setOpen }) {
   const formMode = whichFormMode(FORM_MODE_NEW);
 
   const dispatch = useDispatch();
@@ -117,11 +117,11 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
 
   return (
     <Dialog open={open} maxWidth="sm" fullWidth data-testid="CreateRecordDialog">
-      <DialogTitle disableTypography>
+      <DialogTitle>
         <div className={css.title}>
           <div className={css.newCase}>{i18n.t("cases.register_new_case")}</div>
           <div className={css.close}>
-            <IconButton onClick={handleClose}>
+            <IconButton size="large" onClick={handleClose}>
               <CloseIcon />
             </IconButton>
           </div>
@@ -163,13 +163,9 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
       </DialogActions>
     </Dialog>
   );
-};
+}
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  open: false
-};
 
 Component.propTypes = {
   moduleUniqueId: PropTypes.string.isRequired,

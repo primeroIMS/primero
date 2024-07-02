@@ -2,14 +2,14 @@
 
 import PropTypes from "prop-types";
 import { push } from "connected-react-router";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 import ActionDialog from "../../../action-dialog";
 import { ROUTES } from "../../../../config";
 
 import { NAME } from "./constants";
 
-const Component = ({ dispatch, open, setOpen, i18n }) => {
+function Component({ dispatch, open, setOpen, i18n }) {
   const onClose = () => setOpen(false);
   const handleLogout = () => {
     dispatch(push(ROUTES.logout));
@@ -29,7 +29,7 @@ const Component = ({ dispatch, open, setOpen, i18n }) => {
       }}
     />
   );
-};
+}
 
 Component.displayName = NAME;
 

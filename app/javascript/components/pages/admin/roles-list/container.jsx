@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 import { fromJS, List } from "immutable";
-import AddIcon from "@material-ui/icons/Add";
+import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../../i18n";
@@ -26,7 +26,7 @@ import { filterOnTableChange, getFilters, onSubmitFilters } from "../utils";
 import { fetchRoles, setRolesFilter } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
 
-const Container = () => {
+function Container() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { limitedProductionSite } = useApp();
@@ -100,7 +100,7 @@ const Container = () => {
       </PageContent>
     </>
   );
-};
+}
 
 Container.displayName = NAME;
 

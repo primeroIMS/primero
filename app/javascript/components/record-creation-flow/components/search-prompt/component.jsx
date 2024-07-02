@@ -3,8 +3,8 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+import { InputLabel, FormHelperText } from "@mui/material";
 import { useForm, useWatch } from "react-hook-form";
-import { InputLabel, FormHelperText } from "@material-ui/core";
 import isEmpty from "lodash/isEmpty";
 
 import FormSection from "../../../form/components/form-section";
@@ -20,7 +20,7 @@ import { NAME, FORM_ID, QUERY, PHONETIC_FIELD_NAME } from "./constants";
 import { searchPromptForm } from "./forms";
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   i18n,
   onCloseDrawer,
   recordType,
@@ -30,7 +30,7 @@ const Component = ({
   dataProtectionFields,
   onSearchCases,
   openConsentPrompt
-}) => {
+}) {
   const formMode = whichFormMode(FORM_MODE_NEW);
   const dispatch = useDispatch();
   const methods = useForm();
@@ -130,7 +130,7 @@ const Component = ({
       )}
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

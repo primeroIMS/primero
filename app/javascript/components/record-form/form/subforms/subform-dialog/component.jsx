@@ -11,14 +11,13 @@ import { useDispatch } from "react-redux";
 
 import { fieldValidations } from "../../validations";
 import { SUBFORM_CREATE_CASE_DIALOG, SUBFORM_DIALOG } from "../constants";
-import ServicesSubform from "../services-subform";
+import ServicesSubform from "../services-subform/component";
 import SubformMenu from "../subform-menu";
 import { getSubformValues, serviceHasReferFields, updateSubformEntries, addSubformEntries } from "../../utils";
 import ActionDialog, { useDialog } from "../../../../action-dialog";
 import SubformDrawer from "../subform-drawer";
 import { compactValues, constructInitialValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
-import SubformDialogFields from "../subform-dialog-fields";
 import SubformDrawerActions from "../subform-drawer-actions";
 import ViolationTitle from "../subform-fields/components/violation-title";
 import uuid from "../../../../../libs/uuid";
@@ -34,7 +33,7 @@ import {
 import { useMemoizedSelector } from "../../../../../libs";
 import { RECORD_TYPES_PLURAL } from "../../../../../config";
 
-const Component = ({
+function Component({
   arrayHelpers,
   dialogIsNew,
   field,
@@ -57,8 +56,9 @@ const Component = ({
   isFamilyMember,
   isViolation,
   isViolationAssociation,
-  violationOptions
-}) => {
+  violationOptions,
+  components
+}) {
   const { online } = useApp();
   const params = useParams();
   const dispatch = useDispatch();
@@ -149,12 +149,14 @@ const Component = ({
           recordModuleID={recordModuleID}
           values={values}
           parentValues={formik.values}
+          SubformDialogFields={components.SubformDialogFields}
         />
       );
     }
 
     return (
-      <SubformDialogFields
+      <components.SubformDialogFields
+        components={components}
         field={subformField}
         mode={mode}
         index={subformIndex}
@@ -178,7 +180,6 @@ const Component = ({
     confirmButtonLabel: i18n.t("buttons.ok"),
     dialogTitle: title,
     dialogText: i18n.t("messages.confirmation_message_subform"),
-    disableBackdropClick: true,
     cancelHandler: () => setOpenConfirmationModal(false),
     successHandler: () => {
       arrayHelpers.replace(index, oldValue);
@@ -314,13 +315,20 @@ const Component = ({
       <ActionDialog {...modalConfirmationProps} />
     </>
   );
-};
+}
 
 Component.displayName = SUBFORM_DIALOG;
 
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
   asDrawer: PropTypes.bool.isRequired,
+  components: PropTypes.objectOf({
+    SubformItem: PropTypes.elementType.isRequired,
+    SubformDialog: PropTypes.elementType.isRequired,
+    SubformDialogFields: PropTypes.elementType.isRequired,
+    SubformFieldSubform: PropTypes.elementType.isRequired,
+    SubformField: PropTypes.elementType.isRequired
+  }),
   dialogIsNew: PropTypes.bool.isRequired,
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
@@ -341,6 +349,7 @@ Component.propTypes = {
   recordModuleID: PropTypes.string,
   recordType: PropTypes.string,
   setOpen: PropTypes.func.isRequired,
+  SubformDialogFields: PropTypes.elementType.isRequired,
   subformSectionConfiguration: PropTypes.object,
   title: PropTypes.string.isRequired,
   violationOptions: PropTypes.array

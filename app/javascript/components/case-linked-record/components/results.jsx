@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 import { useMemoizedSelector } from "../../../libs";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";

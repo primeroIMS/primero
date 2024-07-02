@@ -17,7 +17,7 @@ import viewModalForm from "./form";
 import TransferRequest from "./transfer-request";
 import { COMMON_FIELD_NAMES, FORM_ID, NAME } from "./constants";
 
-const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
+function ViewModal({ close, openViewModal, currentRecord, recordType }) {
   const i18n = useI18n();
   const [sendRequest, setSendRequest] = useState(false);
 
@@ -88,7 +88,7 @@ const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
       <TransferRequest {...sendRequestProps} />
     </>
   );
-};
+}
 
 ViewModal.displayName = NAME;
 

@@ -9,7 +9,7 @@ import isEmpty from "lodash/isEmpty";
 import omit from "lodash/omit";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
-import { Tabs, Tab } from "@material-ui/core";
+import { Tabs, Tab } from "@mui/material";
 import { fromJS } from "immutable";
 
 import SavedSearches, { fetchSavedSearches } from "../saved-searches";
@@ -28,7 +28,7 @@ import { applyFilters, setFilters } from "./action-creators";
 import css from "./components/styles.css";
 import TabFilters from "./components/tab-filters";
 
-const Component = ({ recordType, setSelectedRecords, metadata }) => {
+function Component({ recordType, setSelectedRecords, metadata }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -182,7 +182,7 @@ const Component = ({ recordType, setSelectedRecords, metadata }) => {
       <SavedSearchesForm recordType={recordType} getValues={methods.getValues} open={open} setOpen={setOpen} />
     </div>
   );
-};
+}
 
 Component.displayName = "IndexFilters";
 

@@ -3,11 +3,23 @@ import { Map, fromJS } from "immutable";
 import { mountedComponent, screen } from "../../../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../../records";
 import { TRACING_REQUEST_STATUS_FIELD_NAME, TRACES_SUBFORM_UNIQUE_ID } from "../../../../../config";
+import SubformField from "../component";
+import SubformFieldSubform from "../subform-field-subform";
+import SubformItem from "../subform-item/component";
+import SubformDialog from "../subform-dialog";
+import SubformDialogFields from "../subform-dialog-fields";
 
 import SubformFieldArray from "./component";
 
 describe("<SubformFieldArray />", () => {
   const props = {
+    components: {
+      SubformItem,
+      SubformDialog,
+      SubformDialogFields,
+      SubformFieldSubform,
+      SubformField
+    },
     arrayHelpers: {},
     formSection: {
       id: 33,

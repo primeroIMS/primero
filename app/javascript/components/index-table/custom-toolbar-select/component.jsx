@@ -2,23 +2,19 @@
 
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { ButtonBase, Typography, TablePagination } from "@material-ui/core";
+import { ButtonBase, Typography, TablePagination } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
-import {
-  MAX_OFFLINE_ROWS_PER_PAGE,
-  OFFLINE_ROWS_PER_PAGE_OPTIONS,
-  ROWS_PER_PAGE_OPTIONS
-} from "../../../config/constants";
+import { MAX_OFFLINE_ROWS_PER_PAGE, OFFLINE_ROWS_PER_PAGE_OPTIONS, ROWS_PER_PAGE_OPTIONS } from "../../../config";
 import { useApp } from "../../application";
 
 import css from "./styles.css";
 import { NAME } from "./constants";
 import { selectAllRecords } from "./utils";
 
-const Component = ({
-  canSelectAll,
+function Component({
+  canSelectAll = true,
   displayData,
   fetchRecords,
   page,
@@ -29,7 +25,7 @@ const Component = ({
   selectedRows,
   setSelectedRecords,
   totalRecords
-}) => {
+}) {
   const { online } = useApp();
   const rowsPerPage = perPage > MAX_OFFLINE_ROWS_PER_PAGE && !online ? MAX_OFFLINE_ROWS_PER_PAGE : perPage;
   const dispatch = useDispatch();
@@ -118,11 +114,7 @@ const Component = ({
       </div>
     </div>
   );
-};
-
-Component.defaultProps = {
-  canSelectAll: true
-};
+}
 
 Component.propTypes = {
   canSelectAll: PropTypes.bool,

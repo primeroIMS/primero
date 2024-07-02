@@ -3,9 +3,9 @@
 /* eslint-disable react/display-name */
 
 import { fromJS } from "immutable";
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
-import CreateIcon from "@material-ui/icons/Create";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
+import CreateIcon from "@mui/icons-material/Create";
 import { push } from "connected-react-router";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
@@ -32,7 +32,7 @@ import { clearCurrentUser, fetchCurrentUser, updateUserAccount } from "./action-
 import { FORM_ID, NAME } from "./constants";
 import NAMESPACE from "./namespace";
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const formMode = whichFormMode(mode);
 
   const i18n = useI18n();
@@ -164,7 +164,7 @@ const Container = ({ mode }) => {
       </PageContainer>
     </LoadingIndicator>
   );
-};
+}
 
 Container.displayName = NAME;
 

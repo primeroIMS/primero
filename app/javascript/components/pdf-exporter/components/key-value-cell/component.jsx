@@ -3,11 +3,11 @@
 import PropTypes from "prop-types";
 import { List } from "immutable";
 import { isEmpty } from "lodash";
-import CheckBox from "@material-ui/icons/CheckBox";
-import CheckBoxOutlineBlank from "@material-ui/icons/CheckBoxOutlineBlank";
-import RadioButtonChecked from "@material-ui/icons/RadioButtonChecked";
-import RadioButtonUnchecked from "@material-ui/icons/RadioButtonUnchecked";
-import clsx from "clsx";
+import CheckBox from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlank from "@mui/icons-material/CheckBoxOutlineBlank";
+import RadioButtonChecked from "@mui/icons-material/RadioButtonChecked";
+import RadioButtonUnchecked from "@mui/icons-material/RadioButtonUnchecked";
+import { cx } from "@emotion/css";
 
 import { optionText } from "../../../form/utils";
 import { useI18n } from "../../../i18n";
@@ -17,17 +17,17 @@ import useOptions from "../../../form/use-options";
 
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   classes,
   defaultValue,
   displayName,
-  isDateWithTime,
-  isSubform,
+  isDateWithTime = false,
+  isSubform = false,
   options,
-  optionsStringSource,
+  optionsStringSource = null,
   type,
-  value
-}) => {
+  value = ""
+}) {
   const i18n = useI18n();
 
   const isDateField = type === DATE_FIELD;
@@ -88,7 +88,7 @@ const Component = ({
 
     return fieldValue;
   };
-  const kevValueCellClasses = clsx(classes.cell, {
+  const kevValueCellClasses = cx(classes.cell, {
     [classes.subform]: isSubform
   });
 
@@ -98,16 +98,9 @@ const Component = ({
       <div>{renderValue(cellValue)}</div>
     </div>
   );
-};
+}
 
 Component.displayName = "KeyValueCell";
-
-Component.defaultProps = {
-  isDateWithTime: false,
-  isSubform: false,
-  optionsStringSource: null,
-  value: ""
-};
 
 Component.propTypes = {
   classes: PropTypes.object.isRequired,

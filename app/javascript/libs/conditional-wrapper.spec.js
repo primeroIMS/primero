@@ -1,4 +1,4 @@
-import { Tooltip } from "@material-ui/core";
+import { Tooltip } from "@mui/material";
 import { simpleMountedComponent, screen, fireEvent, waitFor } from "test-utils";
 
 import { ConditionalWrapper } from "./conditional-wrapper";

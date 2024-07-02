@@ -1,11 +1,11 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { useMediaQuery } from "@material-ui/core";
+import { useMediaQuery } from "@mui/material";
 
 import { NAME } from "./constants";
 
-const Component = ({ text, keepTextOnMobile }) => {
+function Component({ text, keepTextOnMobile = false }) {
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
 
   if (mobileDisplay && !keepTextOnMobile) {
@@ -13,13 +13,9 @@ const Component = ({ text, keepTextOnMobile }) => {
   }
 
   return <>{text}</>;
-};
+}
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  keepTextOnMobile: false
-};
 
 Component.propTypes = {
   keepTextOnMobile: PropTypes.bool,

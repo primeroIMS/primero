@@ -3,9 +3,9 @@
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { useEffect, useMemo } from "react";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import CheckIcon from "@material-ui/icons/Check";
-import BlockIcon from "@material-ui/icons/Block";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import CheckIcon from "@mui/icons-material/Check";
+import BlockIcon from "@mui/icons-material/Block";
 
 import { getRecordFormsByUniqueId } from "../../record-form/selectors";
 import DisabledRecordIndicator from "../../record-form/form/components/disabled-record-indicator";

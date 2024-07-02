@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import FlagIcon from "@material-ui/icons/Flag";
+import FlagIcon from "@mui/icons-material/Flag";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
@@ -14,7 +14,7 @@ import { FlagDialog, FlagForm, ListFlags, Unflag } from "./components";
 import { FLAG_DIALOG, NAME } from "./constants";
 import { getSelectedFlag } from "./selectors";
 
-const Component = ({ control, record, recordType }) => {
+function Component({ control, record, recordType }) {
   const [tab, setTab] = useState(0);
   const { dialogOpen, setDialog } = useDialog(FLAG_DIALOG);
 
@@ -64,7 +64,7 @@ const Component = ({ control, record, recordType }) => {
         />
       )}
       <FlagDialog {...flagDialogProps}>
-        <div hidetab={isBulkFlags.toString()}>
+        <div>
           <ListFlags {...listFlagsProps} />
         </div>
         <div>
@@ -74,7 +74,7 @@ const Component = ({ control, record, recordType }) => {
       <Unflag flag={selectedFlag} />
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

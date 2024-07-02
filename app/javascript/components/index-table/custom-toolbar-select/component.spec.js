@@ -3,6 +3,7 @@
 import { mountedComponent, screen } from "test-utils";
 
 import { RECORD_PATH } from "../../../config";
+import { setScreenSizeToMobile } from "../../../test-utils";
 
 import CustomToolbarSelect from "./component";
 
@@ -21,6 +22,7 @@ describe("<CustomToolbarSelect />", () => {
   };
 
   beforeEach(() => {
+    setScreenSizeToMobile(false);
     mountedComponent(<CustomToolbarSelect {...props} />);
   });
 
@@ -64,8 +66,8 @@ describe("<CustomToolbarSelect />", () => {
 
   describe("when some records are selected", () => {
     it("should not renders ButtonBase for select_all or clear_selection", () => {
-      expect(screen.getByRole("button", { name: "Previous page" })).toBeInTheDocument();
-      expect(screen.getByRole("button", { name: "Next page" })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Go to previous page" })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Go to next page" })).toBeInTheDocument();
     });
   });
 });

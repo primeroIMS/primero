@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import * as configConstants from "./constants";
+import * as configConstants from "./config";
 
 describe("Verifying config constant", () => {
   it("exports an object", () => {

@@ -8,7 +8,7 @@ import { format, isDate, parseISO } from "date-fns";
 import isString from "lodash/isString";
 
 import localize from "../../libs/date-picker-localization";
-import { DATE_FORMAT } from "../../config/constants";
+import { DATE_FORMAT } from "../../config";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { useChangeTheme } from "../../theme-provider";
 
@@ -18,7 +18,7 @@ import { getLocales, getLocale, getAppDirection } from "./selectors";
 import useI18n from "./use-i18n";
 import { getLocaleDir } from "./utils";
 
-const I18nProvider = ({ children }) => {
+function I18nProvider({ children }) {
   const locale = useMemoizedSelector(state => getLocale(state));
   const dir = useMemoizedSelector(state => getAppDirection(state));
   const locales = useMemoizedSelector(state => getLocales(state));
@@ -77,7 +77,7 @@ const I18nProvider = ({ children }) => {
       {children}
     </Context.Provider>
   );
-};
+}
 
 I18nProvider.displayName = "I18nProvider";
 

@@ -1,9 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { useEffect } from "react";
-import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
 import { endOfDay, startOfDay } from "date-fns";
+import { DatePicker, DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 import { DATE_FORMAT, DATE_TIME_FORMAT, LOCALE_KEYS } from "../../../../../config";
 import { useI18n } from "../../../../i18n";
@@ -14,7 +14,7 @@ import css from "../styles.css";
 
 import { getDatesValue, getDateValue } from "./utils";
 
-const Component = ({
+function Component({
   dateIncludeTime,
   inputValue,
   mode,
@@ -24,7 +24,7 @@ const Component = ({
   setMoreSectionFilters,
   setValue,
   register
-}) => {
+}) {
   const i18n = useI18n();
   const pickerFormat = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
 
@@ -68,32 +68,34 @@ const Component = ({
   const onChange = picker => date => handleDatePicker(picker, date);
 
   return ["from", "to"].map(picker => {
+    const label = i18n.t(`fields.date_range.${picker}`);
     const inputProps = {
       fullWidth: true,
       margin: "normal",
       format: pickerFormat,
-      label: i18n.t(`fields.date_range.${picker}`),
+      label,
       value: getDateValue(picker, inputValue, dateIncludeTime),
       onChange: onChange(picker),
       disabled: !selectedField,
       clearLabel: i18n.t("buttons.clear"),
       cancelLabel: i18n.t("buttons.cancel"),
-      okLabel: i18n.t("buttons.ok")
+      okLabel: i18n.t("buttons.ok"),
+      slotProps: { textField: { InputLabelProps: { shrink: true }, fullWidth: true, clearable: true } }
     };
 
     if (i18n.locale === LOCALE_KEYS.ne) {
-      return <NepaliCalendar label={inputProps.label} dateProps={inputProps} />;
+      return <NepaliCalendar label={label} dateProps={inputProps} />;
     }
 
     return (
       <div key={picker} className={css.dateInput}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localize(i18n)}>
           {dateIncludeTime ? <DateTimePicker {...inputProps} /> : <DatePicker {...inputProps} />}
-        </MuiPickersUtilsProvider>
+        </LocalizationProvider>
       </div>
     );
   });
-};
+}
 
 Component.displayName = "DatePickers";
 
