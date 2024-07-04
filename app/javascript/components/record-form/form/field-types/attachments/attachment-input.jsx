@@ -49,14 +49,14 @@ function AttachmentInput({ attachment, fields, name, value, deleteButton }) {
       if (data) {
         loadingFile(false, data);
 
-        form.setFieldValue(fields.attachment, data?.result, true);
-        form.setFieldValue(fields.contentType, data?.fileType, true);
-        form.setFieldValue(fields.fileName, data?.fileName, true);
-        form.setFieldValue(fields.attachmentType, attachment, true);
-        form.setFieldValue(fields.fieldName, name, true);
+        form.setFieldValue(fields.attachment, data?.result);
+        form.setFieldValue(fields.contentType, data?.fileType);
+        form.setFieldValue(fields.fileName, data?.fileName);
+        form.setFieldValue(fields.attachmentType, attachment);
+        form.setFieldValue(fields.fieldName, name);
 
         if ([ATTACHMENT_TYPES.photo, ATTACHMENT_TYPES.audio].includes(attachment)) {
-          form.setFieldValue(fields.date, new Date(), true);
+          form.setFieldValue(fields.date, new Date());
         }
       }
     }
