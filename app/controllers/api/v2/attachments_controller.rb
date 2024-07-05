@@ -13,7 +13,7 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
 
   def update
     @attachment = Attachment.find(attachment_update_params[:id])
-    @attachment.assign_attributes(attachment_update_params.except(:id))
+    @attachment.assign_attributes(attachment_update_params)
     @attachment.save!
     updates_for_record(@record)
   end
@@ -49,7 +49,7 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   def attachment_update_params
     return @attachment_update_params if @attachment_update_params
 
-    @attachment_update_params = params.require(:data).permit(:id, :description, :is_current, :comments).to_h
+    @attachment_update_params = params.require(:data).permit(:id, :description, :is_current, :date, :comments).to_h
     @attachment_update_params[:record] = @record
     @attachment_update_params
   end

@@ -48,7 +48,9 @@ function compareArray(value, base) {
       if (baseSubform) {
         const diff = difference(v, baseSubform, true);
 
-        if (!isEmpty(diff) && !("unique_id" in diff && Object.keys(diff).length === 1)) acc.push(diff);
+        if (!isEmpty(diff) && !(("unique_id" in diff || "id" in diff) && Object.keys(diff).length === 1)) {
+          acc.push(diff);
+        }
       } else {
         const newSubform = pickBy(v, identity);
 
@@ -72,7 +74,7 @@ function compareArray(value, base) {
 
 function difference(object, base, nested) {
   return transform(object, (result, value, key) => {
-    if (!isEqual(value, base[key]) || (nested && key === "unique_id")) {
+    if (!isEqual(value, base[key]) || (nested && ["unique_id", "id"].includes(key))) {
       let val = value;
 
       if (isDate(val)) {

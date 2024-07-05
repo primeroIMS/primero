@@ -56,10 +56,7 @@ function DocumentField({
 
   const removeFunc = () => {
     if (attachmentUrl) {
-      arrayHelpers.replace(index, {
-        _destroy: id,
-        attachment_type: attachment
-      });
+      arrayHelpers.replace(index, { _destroy: true, id, attachment_type: attachment });
     } else {
       arrayHelpers.remove(index);
     }
@@ -104,7 +101,7 @@ function DocumentField({
   );
 
   const supportingInputsProps = {
-    disabled: Boolean(attachmentUrl),
+    disabled: mode.isShow,
     fullWidth: true,
     autoComplete: "off",
     InputProps: {
@@ -120,7 +117,7 @@ function DocumentField({
     }
   };
 
-  const dialogActionText = `buttons.${attachmentUrl ? "close" : "save"}`;
+  const dialogActionText = `buttons.${mode.isShow ? "close" : "save"}`;
   const renderIcon = isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRightIcon />;
 
   return (
