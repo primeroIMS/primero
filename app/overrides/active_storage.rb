@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This is a civilized monkey patch to force user and record level authorization
 # for the out-of-the-box Rails Active Storage controllers.
 # We are not interested in re-writing active storage controllers: just locking them down

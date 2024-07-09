@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
@@ -15,7 +17,7 @@ import { MatchedTracePanel } from "./components";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ data, loading, record, setSelectedForm }) => {
+function Component({ data = fromJS([]), loading, record, setSelectedForm }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -86,13 +88,9 @@ const Component = ({ data, loading, record, setSelectedForm }) => {
       </SubformDrawer>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  data: fromJS([])
-};
 
 Component.propTypes = {
   data: PropTypes.object,

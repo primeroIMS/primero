@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # ClientSatisfactionRate
 #
 # A Kpi to track, of all client feedback forms filled out, what percentages

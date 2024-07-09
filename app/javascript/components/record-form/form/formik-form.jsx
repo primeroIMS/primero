@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Form } from "formik";
 import { useEffect } from "react";
 import NavigationPrompt from "react-router-navigation-prompt";
@@ -9,7 +11,7 @@ import { useI18n } from "../../i18n";
 import { ValidationErrors } from "./components";
 import css from "./styles.css";
 
-const FormikForm = ({
+function FormikForm({
   handleSubmit,
   errors,
   isSubmitting,
@@ -30,7 +32,7 @@ const FormikForm = ({
   handleConfirm,
   externalComponents,
   submitCount
-}) => {
+}) {
   const i18n = useI18n();
 
   useEffect(() => {
@@ -62,7 +64,7 @@ const FormikForm = ({
       <div className={css.spacer} />
     </Form>
   );
-};
+}
 
 FormikForm.displayName = "Form";
 

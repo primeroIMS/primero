@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Audit logs query API
 class Api::V2::AuditLogsController < ApplicationApiController
   include Api::V2::Concerns::Pagination

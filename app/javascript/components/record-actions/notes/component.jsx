@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { List } from "immutable";
 import { batch, useDispatch } from "react-redux";
@@ -19,7 +21,7 @@ const validationSchema = object().shape({
   note_text: string().required()
 });
 
-const Component = ({ close, open, pending, record, recordType, setPending }) => {
+function Component({ close, open, pending, record, recordType, setPending }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -92,7 +94,7 @@ const Component = ({ close, open, pending, record, recordType, setPending }) => 
       />
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

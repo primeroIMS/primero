@@ -1,16 +1,19 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable camelcase */
 
 import { useState, useEffect, useCallback, memo } from "react";
 import PropTypes from "prop-types";
-import { List, Drawer } from "@material-ui/core";
+import { List, Drawer } from "@mui/material";
 import { useDispatch } from "react-redux";
-import Divider from "@material-ui/core/Divider";
+import Divider from "@mui/material/Divider";
 import { useHistory } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
 import { INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES, RECORD_OWNER } from "../../../config";
 import {
   getIncidentFromCaseForm,
+  getPreviousRecordType,
   getRecordFormsByUniqueId,
   getRecordInformationFormIds,
   getValidationErrors
@@ -27,26 +30,29 @@ import css from "./styles.css";
 import CloseButtonNavBar from "./components/close-button-nav-bar";
 import FormGroup from "./components/form-groups";
 
-const Component = ({
+function Component({
   firstTab,
   formNav,
   hasForms,
   handleToggleNav,
   isNew,
+  isShow,
   mobileDisplay,
   recordType,
+  recordId,
   selectedRecord,
   toggleNav,
   primeroModule,
   selectedForm,
   formikValuesForNav
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const history = useHistory();
 
   const [open, setOpen] = useState("");
   const [previousGroup, setPreviousGroup] = useState("");
+  const [selectedRecordChanged, setSelectedRecordChanged] = useState(false);
 
   const incidentFromCaseForm = useMemoizedSelector(state =>
     getIncidentFromCaseForm(state, { recordType, i18n, primeroModule })
@@ -66,6 +72,8 @@ const Component = ({
   const recordInformationFormIds = useMemoizedSelector(state =>
     getRecordInformationFormIds(state, { recordType: RECORD_TYPES[recordType], primeroModule })
   );
+  const previousRecordType = useMemoizedSelector(state => getPreviousRecordType(state));
+  const selectedRecordId = useMemoizedSelector(state => getSelectedRecord(state, recordType));
 
   const formGroupLookup = useOptions({
     source: buildFormGroupUniqueId(primeroModule, RECORD_TYPES[recordType].replace("_", "-"))
@@ -161,6 +169,25 @@ const Component = ({
     }
   }, [history.action, firstSelectedForm?.form_group_id]);
 
+  useEffect(() => {
+    if (recordId && selectedRecordId && selectedRecordId !== recordId && isShow) {
+      setSelectedRecordChanged(true);
+    }
+  }, [selectedRecord, isShow, recordId]);
+
+  useEffect(() => {
+    if (selectedRecordChanged && isShow && firstTab) {
+      dispatch(setSelectedForm(firstTab.unique_id));
+      setSelectedRecordChanged(false);
+    }
+  }, [selectedRecordChanged, isShow, firstTab]);
+
+  useEffect(() => {
+    if (firstTab && recordType && previousRecordType && recordType !== previousRecordType) {
+      dispatch(setSelectedForm(firstTab.unique_id));
+    }
+  }, [recordType, previousRecordType, firstTab]);
+
   const drawerClasses = { paper: css.drawerPaper };
 
   if (!formNav) return null;
@@ -178,7 +205,7 @@ const Component = ({
         classes={drawerClasses}
       >
         <CloseButtonNavBar handleToggleNav={handleToggleNav} mobileDisplay={mobileDisplay} />
-        <List className={css.listRecordNav}>
+        <List data-testid="nav-list" className={css.listRecordNav}>
           <RecordInformation
             handleClick={handleClick}
             open={open}
@@ -206,7 +233,7 @@ const Component = ({
       </ConditionalWrapper>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 
@@ -217,8 +244,10 @@ Component.propTypes = {
   handleToggleNav: PropTypes.func.isRequired,
   hasForms: PropTypes.bool,
   isNew: PropTypes.bool,
+  isShow: PropTypes.bool,
   mobileDisplay: PropTypes.bool.isRequired,
   primeroModule: PropTypes.string,
+  recordId: PropTypes.string,
   recordType: PropTypes.string,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   selectedRecord: PropTypes.string,

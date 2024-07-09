@@ -1,11 +1,13 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 import { useI18n } from "../../../../../../i18n";
 import FieldRows from "../field-rows/component";
 
-const ComparedForms = ({ forms }) => {
+function ComparedForms({ forms }) {
   const i18n = useI18n();
 
   return forms.map(({ form, comparisons, index }) => (
@@ -18,7 +20,7 @@ const ComparedForms = ({ forms }) => {
       <FieldRows comparisons={comparisons} />
     </Fragment>
   ));
-};
+}
 
 ComparedForms.propTypes = {
   forms: PropTypes.object

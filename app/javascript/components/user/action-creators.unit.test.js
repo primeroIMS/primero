@@ -1,8 +1,10 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
 import { METHODS, RECORD_PATH, ROUTES } from "../../config";
-import { spy, stub } from "../../test";
+import { spy, stub } from "../../test-utils";
 import * as idpSelection from "../login/components/idp-selection";
 import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS, generate } from "../notifier";
 import { QUEUE_READY } from "../../libs/queue";
@@ -135,6 +137,10 @@ describe("User - Action Creators", () => {
           manifest: "/test-locations.json"
         }
       }
+    },
+    {
+      type: "application/FETCH_WEBPUSH_CONFIG",
+      api: { path: "webpush/config" }
     }
   ];
 
@@ -263,8 +269,8 @@ describe("User - Action Creators", () => {
     return store.dispatch(actionCreators.checkUserAuthentication()).then(() => {
       const actions = store.getActions();
 
-      expect(actions).to.have.lengthOf(2);
-      expect(actions).to.be.deep.equal(parentActions);
+      expect(actions).to.have.lengthOf(9);
+      expect(actions).to.be.deep.equal(expectedAsyncActions);
     });
   });
 

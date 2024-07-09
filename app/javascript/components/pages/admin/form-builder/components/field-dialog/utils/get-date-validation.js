@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { DATE_FIELD_CUSTOM_VALUES } from "../constants";
 
 export default (field, isSubmit) => {

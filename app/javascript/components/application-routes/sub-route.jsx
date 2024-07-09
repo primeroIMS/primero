@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { isEmpty } from "lodash";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
@@ -9,7 +11,7 @@ import Permission from "../permissions";
 import { getCodeOfConductEnabled, getCodesOfConduct } from "../application/selectors";
 import { getCodeOfConductId } from "../user";
 
-const SubRoute = ({ subRoute }) => {
+function SubRoute({ subRoute }) {
   const { path, resources, actions, component: Component, extraProps } = subRoute;
 
   const codeOfConductAccepted = useMemoizedSelector(state => getCodeOfConductId(state));
@@ -36,7 +38,7 @@ const SubRoute = ({ subRoute }) => {
       </Permission>
     </ErrorBoundary>
   );
-};
+}
 
 SubRoute.displayName = "SubRoute";
 

@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Reset a password for a user given a password reset token
 
 Reset the password and log the user if provided with a valid password reset token.

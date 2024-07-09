@@ -1,7 +1,9 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Grid } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+import { Grid } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { fromJS } from "immutable";
 
@@ -25,7 +27,7 @@ import { fetchAgencies, setAgenciesFilter } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
 import NAMESPACE from "./namespace";
 
-const Container = () => {
+function Container() {
   const recordType = RESOURCES.agencies;
 
   const i18n = useI18n();
@@ -107,7 +109,7 @@ const Container = () => {
       </PageContent>
     </>
   );
-};
+}
 
 Container.displayName = NAME;
 

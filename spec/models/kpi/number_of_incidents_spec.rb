@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
-describe Kpi::NumberOfIncidents, search: true do
+describe Kpi::NumberOfIncidents, { search: true, skip_when_solr_disabled: true } do
   include SunspotHelper
 
   let(:from) { indexed_field(DateTime.parse('2020/09/01')) }

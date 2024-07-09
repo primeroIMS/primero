@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::ReportsController, type: :request do
@@ -129,8 +131,6 @@ describe Api::V2::ReportsController, type: :request do
                                              }
                                            ])
     @child_concerns2.save!
-
-    Sunspot.commit
   end
 
   let(:json) { JSON.parse(response.body) }

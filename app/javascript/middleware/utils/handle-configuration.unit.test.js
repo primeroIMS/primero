@@ -1,4 +1,6 @@
-import { stub, createMockStore, spy } from "../../test";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { stub, createMockStore, spy } from "../../test-utils";
 import { generate } from "../../components/notifier";
 
 import handleConfiguration from "./handle-configuration";

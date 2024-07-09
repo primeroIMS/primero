@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 fields = ReportFieldService.horizontal_fields(report) + ReportFieldService.vertical_fields(report)
 
 report_hash = FieldI18nService.fill_keys(

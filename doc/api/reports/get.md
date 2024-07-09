@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Query for reports
 
 Shows a paginated list of all reports that are accessible to this user. The reports are not built,

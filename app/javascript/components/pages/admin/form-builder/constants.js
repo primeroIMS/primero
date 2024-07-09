@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const NAME = "FormBuilder";
 export const NEW_FIELD = "new_field";
 export const MODULES_FIELD = "module_ids";

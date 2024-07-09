@@ -1,4 +1,6 @@
-import { Tooltip as MuiToolTip } from "@material-ui/core";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { Tooltip as MuiToolTip } from "@mui/material";
 import PropTypes from "prop-types";
 
 import { ConditionalWrapper } from "../../libs";
@@ -6,7 +8,7 @@ import { useI18n } from "../i18n";
 
 import css from "./styles.css";
 
-const Tooltip = ({ children, title, i18nTitle }) => {
+function Tooltip({ children, title = "", i18nTitle = false }) {
   const i18n = useI18n();
 
   const commonTooltipProps = {
@@ -25,14 +27,9 @@ const Tooltip = ({ children, title, i18nTitle }) => {
       {children}
     </ConditionalWrapper>
   );
-};
+}
 
 Tooltip.displayName = "Tooltip";
-
-Tooltip.defaultProps = {
-  i18nTitle: false,
-  title: ""
-};
 
 Tooltip.propTypes = {
   children: PropTypes.node.isRequired,

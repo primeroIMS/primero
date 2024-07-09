@@ -1,13 +1,15 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 import { useI18n } from "../../../../../../i18n";
 import FieldRow from "../field-row";
 
 import css from "./styles.css";
 
-const FieldRows = ({ comparisons }) => {
+function FieldRows({ comparisons }) {
   const i18n = useI18n();
 
   if (isEmpty(comparisons)) {
@@ -29,7 +31,7 @@ const FieldRows = ({ comparisons }) => {
       key={comparison.field.name}
     />
   ));
-};
+}
 
 FieldRows.propTypes = {
   comparisons: PropTypes.array

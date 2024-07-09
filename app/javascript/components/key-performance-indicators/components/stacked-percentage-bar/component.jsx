@@ -1,10 +1,12 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import css from "./styles.css";
 import StackedPercentageBarMeter from "./components/stacked-percentage-bar-meter";
 import StackedPercentageBarLabel from "./components/stacked-percentage-bar-label";
 
-const Component = ({ percentages, className }) => {
+function Component({ percentages, className }) {
   if (percentages.length > 2) throw new Error("StackedPercentageBar components only support a max of 2 percentages");
 
   const percentagedToRender = percentages.filter(descriptor => descriptor.percentage > 0);
@@ -34,7 +36,7 @@ const Component = ({ percentages, className }) => {
       </div>
     </div>
   );
-};
+}
 
 Component.displayName = "StackedPercentageBar";
 

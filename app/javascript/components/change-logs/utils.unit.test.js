@@ -1,7 +1,9 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS, OrderedMap } from "immutable";
 
 import { FieldRecord } from "../record-form/records";
-import { stub } from "../../test";
+import { stub } from "../../test-utils";
 
 import { ChangeLogsRecord } from "./records";
 import { buildDataItems, buildSubformDataItems } from "./utils";

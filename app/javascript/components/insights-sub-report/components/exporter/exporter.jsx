@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { ExportReportGraphIcon, ExportReportDataIcon } from "../../../../images/primero-icons";
@@ -8,7 +10,7 @@ import css from "./styles.css";
 import { downloadFile, tableToCsv } from "./utils";
 import { DEFAULT_FILE_NAME, NAME } from "./constants";
 
-const Exporter = ({ includesGraph }) => {
+function Exporter({ includesGraph = false }) {
   const handleClickTableExporter = () => {
     const csvBlob = new Blob([tableToCsv("table tr")], { type: "text/csv" });
 
@@ -53,13 +55,9 @@ const Exporter = ({ includesGraph }) => {
       />
     </>
   );
-};
+}
 
 Exporter.displayName = NAME;
-
-Exporter.defaultProps = {
-  includesGraph: false
-};
 
 Exporter.propTypes = {
   includesGraph: PropTypes.bool

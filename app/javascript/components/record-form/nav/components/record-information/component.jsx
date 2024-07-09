@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
@@ -8,7 +10,7 @@ import { RECORD_TYPES } from "../../../../../config";
 
 import { NAME } from "./constants";
 
-const Component = ({ open, handleClick, primeroModule, selectedForm, formGroupLookup, match, recordAlerts }) => {
+function Component({ open, handleClick, primeroModule, selectedForm, formGroupLookup, match, recordAlerts }) {
   const { params } = match;
   const { recordType } = params;
 
@@ -28,9 +30,10 @@ const Component = ({ open, handleClick, primeroModule, selectedForm, formGroupLo
       selectedForm={selectedForm}
       formGroupLookup={formGroupLookup}
       recordAlerts={recordAlerts}
+      testID="record-information"
     />
   );
-};
+}
 
 Component.displayName = NAME;
 

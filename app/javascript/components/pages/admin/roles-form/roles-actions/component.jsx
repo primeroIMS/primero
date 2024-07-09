@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
@@ -9,7 +11,7 @@ import { ROUTES } from "../../../../../config";
 
 import { NAME } from "./constants";
 
-const Component = ({ canCopyRole, initialValues }) => {
+function Component({ canCopyRole = false, initialValues }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -37,11 +39,7 @@ const Component = ({ canCopyRole, initialValues }) => {
       <Menu showMenu actions={actions} />
     </>
   );
-};
-
-Component.defaultProps = {
-  canCopyRole: false
-};
+}
 
 Component.displayName = NAME;
 

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Map, OrderedMap, fromJS } from "immutable";
 
 import { FieldRecord, FormSectionRecord } from "../record-form/records";

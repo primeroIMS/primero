@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # TODO: This is a temporary fake location set.
 # Once we sort out a location management strategy, we will start using real locations.
 

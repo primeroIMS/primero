@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import buildInsightValues from "./build-insight-values";
@@ -285,6 +287,36 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
         { colspan: 0, row: ["option_1", 0, 0, 0, 0, 0, 0, 2, 0, 1, 2, 1, 3] },
         { colspan: 0, row: ["option_2", 2, 1, 3, 2, 2, 4, 2, 1, 2, 0, 1, 1] },
         { colspan: 0, row: ["option_3", 2, 3, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+      ]);
+    });
+  });
+
+  describe("when is ghn_report", () => {
+    it("returns one row for each option", () => {
+      const values = buildInsightValues.ghn_report({
+        data: fromJS([
+          {
+            id: "attack_on_schools",
+            total: 1
+          },
+          {
+            id: "denial_humanitarian_access",
+            total: 5
+          }
+        ]),
+        getLookupValue: (_key, value) => value.get("id"),
+        key: "verified_information_violations"
+      });
+
+      expect(values).to.deep.equals([
+        {
+          colspan: 0,
+          row: ["attack_on_schools", 1]
+        },
+        {
+          colspan: 0,
+          row: ["denial_humanitarian_access", 5]
+        }
       ]);
     });
   });

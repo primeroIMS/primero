@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -12,7 +14,7 @@ import IdpSelection from "./components/idp-selection";
 import LoginForm from "./components/login-form";
 import { getLoading, getUseIdentityProvider } from "./selectors";
 
-const Container = ({ modal }) => {
+function Component({ modal = false }) {
   const useIdentity = useMemoizedSelector(state => getUseIdentityProvider(state));
   const isLoading = useMemoizedSelector(state => getLoading(state));
   const location = useLocation();
@@ -37,16 +39,12 @@ const Container = ({ modal }) => {
       <LoginComponent modal={modal} />
     </LoadingIndicator>
   );
-};
+}
 
-Container.displayName = NAME;
+Component.displayName = NAME;
 
-Container.defaultProps = {
-  modal: false
-};
-
-Container.propTypes = {
+Component.propTypes = {
   modal: PropTypes.bool
 };
 
-export default Container;
+export default Component;

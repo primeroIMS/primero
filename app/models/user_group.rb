@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Users belong to user groups which may be used to limit the records that an individual user may have access to.
 class UserGroup < ApplicationRecord
   include ConfigurationRecord

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { syncIndexedDB, queueIndexedDB } from "../../db";
 import uuid from "../../libs/uuid";
 

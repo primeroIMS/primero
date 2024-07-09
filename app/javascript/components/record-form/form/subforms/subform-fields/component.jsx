@@ -1,13 +1,15 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable  react/no-array-index-key */
 import { useState } from "react";
 import PropTypes from "prop-types";
 import sortBy from "lodash/sortBy";
 import isEmpty from "lodash/isEmpty";
 import omit from "lodash/omit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import { ListItem, ListItemSecondaryAction } from "@material-ui/core";
+import DeleteIcon from "@mui/icons-material/Delete";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import { ListItem, ListItemSecondaryAction } from "@mui/material";
 
 import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
@@ -24,7 +26,7 @@ import css from "../styles.css";
 
 import { TracingRequestStatus } from "./components";
 
-const Component = ({
+function Component({
   arrayHelpers,
   field,
   isTracesSubform,
@@ -40,8 +42,9 @@ const Component = ({
   entryFilter = false,
   parentTitle,
   isFamilyMember,
-  isFamilyDetail
-}) => {
+  isFamilyDetail,
+  isReadWriteForm
+}) {
   const i18n = useI18n();
 
   const { isRTL } = useThemeHelper();
@@ -159,6 +162,7 @@ const Component = ({
 
           return (
             <ListItem
+              data-testid="list-item"
               onClick={handleEdit(index)}
               component="a"
               classes={{ divider: css.listDivider, root: css.listItem }}
@@ -175,15 +179,19 @@ const Component = ({
                 renderSecondaryText={Boolean(entryFilter)}
                 associatedViolations={associatedViolations}
                 parentTitle={parentTitle}
+                mode={mode}
               />
               <ListItemSecondaryAction classes={{ root: css.listActions }}>
                 {isTracesSubform && <TracingRequestStatus values={values[index]} />}
                 {hasError(index) && <Jewel isError />}
-                {!subformPreventItemRemoval && !isDisabled && !mode.isShow ? (
+                {!subformPreventItemRemoval && !isDisabled && !mode.isShow && isReadWriteForm ? (
                   <ActionButton
                     id={`delete-button-${name}-${index}`}
                     icon={<DeleteIcon />}
                     type={ACTION_BUTTON_TYPES.icon}
+                    tooltip={
+                      !canDeleteFamilySubform(index) ? i18n.t("case.family_linked_subform_delete_disabled") : null
+                    }
                     rest={{
                       onClick: () => handleOpenModal(index),
                       // TODO: disable only when there is no violation or association
@@ -220,7 +228,7 @@ const Component = ({
   }
 
   return null;
-};
+}
 
 Component.displayName = SUBFORM_FIELDS;
 
@@ -231,6 +239,7 @@ Component.propTypes = {
   formik: PropTypes.object.isRequired,
   isFamilyDetail: PropTypes.bool,
   isFamilyMember: PropTypes.bool,
+  isReadWriteForm: PropTypes.bool,
   isTracesSubform: PropTypes.bool,
   isViolationAssociation: PropTypes.bool,
   isViolationSubform: PropTypes.bool,

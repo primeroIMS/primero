@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import { CASES_BY_SOCIAL_WORKER_COLUMNS } from "../components/cases-by-social-worker/constants";
@@ -46,7 +48,7 @@ describe("toCasesBySocialWorkerTable - pages/dashboard/utils/", () => {
       data: [
         ["primero_admin_cp", 1, 0],
         ["primero_cp", 1, 0],
-        ["transfer_cp", 1, undefined]
+        ["transfer_cp", 1, 0]
       ],
       query: [
         {
@@ -120,5 +122,24 @@ describe("toCasesBySocialWorkerTable - pages/dashboard/utils/", () => {
 
     expect(tableData.data.map(elem => elem[0])).to.deep.equal(expected);
     expect(tableData.query.map(elem => elem.case_worker)).to.deep.equal(expected);
+  });
+
+  it("shows 0 for non-existent values", () => {
+    const dashboardData = fromJS({
+      name: "dashboard.dash_cases_by_social_worker",
+      type: "indicator",
+      indicators: {
+        cases_by_social_worker_total: {
+          primero_cp: {
+            count: 1,
+            query: ["record_state=true", "status=open", "owned_by=primero_cp"]
+          }
+        },
+        cases_by_social_worker_new_or_updated: {}
+      }
+    });
+    const tableData = toCasesBySocialWorkerTable(dashboardData, i18n);
+
+    expect(tableData.data).to.deep.equal([["primero_cp", 1, 0]]);
   });
 });

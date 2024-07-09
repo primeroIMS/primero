@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::WebpushConfigController, type: :request do
@@ -7,6 +9,11 @@ describe Api::V2::WebpushConfigController, type: :request do
 
   describe 'GET /api/v2/webpush/config' do
     context 'when webpush is not enabled' do
+      before(:each) do
+        Rails.configuration.x.webpush.enabled = false
+        Rails.configuration.x.webpush.vapid_public = nil
+      end
+
       it 'return enable false and vapid_public key nil' do
         login_for_test
         get '/api/v2/webpush/config'

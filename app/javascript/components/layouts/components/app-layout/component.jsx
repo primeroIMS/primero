@@ -1,8 +1,9 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/no-multi-comp, react/display-name */
-import clsx from "clsx";
-import { CircularProgress } from "@material-ui/core";
+import { cx } from "@emotion/css";
+import { CircularProgress } from "@mui/material";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
 
 import Nav from "../../../nav";
 import Notifier from "../../../notifier";
@@ -17,19 +18,15 @@ import usePushNotifications from "../../../push-notifications-toggle/use-push-no
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ children }) => {
+function Component({ children }) {
   const { demo } = useApp();
 
-  const classes = clsx({ [css.root]: true, [css.demo]: demo });
-  const contentClasses = clsx({ [css.content]: true, [css.demo]: demo });
+  usePushNotifications();
+
+  const classes = cx({ [css.root]: true, [css.demo]: demo });
+  const contentClasses = cx({ [css.content]: true, [css.demo]: demo });
 
   const hasPermissions = useMemoizedSelector(state => hasUserPermissions(state));
-
-  const { startRefreshNotificationTimer } = usePushNotifications();
-
-  useEffect(() => {
-    startRefreshNotificationTimer();
-  }, []);
 
   if (!hasPermissions) {
     return (
@@ -51,7 +48,7 @@ const Component = ({ children }) => {
       </div>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

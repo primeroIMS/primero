@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../../i18n";
@@ -5,7 +7,7 @@ import StackedPercentageBar from "../stacked-percentage-bar";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 import { ACTIONS } from "../../../permissions";
 
-const Component = ({ data, identifier }) => {
+function Component({ data, identifier }) {
   const i18n = useI18n();
 
   return (
@@ -18,7 +20,7 @@ const Component = ({ data, identifier }) => {
       ]}
     />
   );
-};
+}
 
 Component.displayName = "CompletedCaseSafetyPlan";
 

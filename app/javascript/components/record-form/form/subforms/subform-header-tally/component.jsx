@@ -1,8 +1,10 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { displayNameHelper } from "../../../../../libs";
 
-const Component = ({ value, displayName, locale }) => {
+function Component({ value, displayName, locale }) {
   if (!value) {
     return null;
   }
@@ -14,7 +16,7 @@ const Component = ({ value, displayName, locale }) => {
       </span>
     </>
   );
-};
+}
 
 Component.displayName = "SubformHeaderTally";
 

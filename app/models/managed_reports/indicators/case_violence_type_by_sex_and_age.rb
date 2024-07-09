@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the total cases by workflow and sex
 class ManagedReports::Indicators::CaseViolenceTypeBySexAndAge < ManagedReports::SqlReportIndicator
-  include ManagedReports::WeekIndicatorHelper
-
   class << self
     def id
       'case_violence_type_by_sex_and_age'

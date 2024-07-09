@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Revoke or relinquish a referral
 
 The user will lose access to this case.

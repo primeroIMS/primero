@@ -1,8 +1,12 @@
-import { FormControlLabel, Switch } from "@material-ui/core";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { CircularProgress, FormControlLabel, Switch } from "@mui/material";
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import NotificationsOffIcon from "@material-ui/icons/NotificationsOff";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import NotificationsOffIcon from "@mui/icons-material/NotificationsOff";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useDispatch } from "react-redux";
+import isNil from "lodash/isNil";
 
 import { NOTIFICATION_PERMISSIONS, POST_MESSAGES } from "../../config";
 import { cleanupSubscriptions } from "../../libs/service-worker-utils";
@@ -18,38 +22,54 @@ import {
 } from "../user";
 import ConditionalTooltip from "../conditional-tooltip";
 import { enqueueSnackbar } from "../notifier";
+import Common from "../../db/collections/common";
+import { DB_STORES } from "../../db";
 
 import css from "./styles.css";
 
 const DIALOG = "PUSH_NOTIFICATIONS";
 
-function Component() {
+function Component({ isNotificationsSupported }) {
   const dispatch = useDispatch();
 
   const webpushConfig = useMemoizedSelector(state => getWebpushConfig(state));
   const notificationEndpoint = useMemoizedSelector(state => getNotificationSubscription(state));
   const receiveWebpush = useMemoizedSelector(state => getUserProperty(state, "receive_webpush"));
   const userLoaded = useMemoizedSelector(state => getUserProperty(state, "loaded"));
+  const userLoading = useMemoizedSelector(state => getUserProperty(state, "loading"));
   const [value, setValue] = useState(false);
 
   const vapidID = webpushConfig.get("vapid_public");
   const i18n = useI18n();
   const { dialogOpen, setDialog } = useDialog(DIALOG);
 
-  const notificationsNotSupported = !("Notification" in window) || !receiveWebpush;
+  const notificationsNotSupported = !isNotificationsSupported || !receiveWebpush;
   const notificationsDenied = () => Notification.permission === NOTIFICATION_PERMISSIONS.DENIED;
 
-  useEffect(async () => {
-    setValue(await Boolean(notificationEndpoint));
+  async function setNotificationData() {
+    if (isNil(notificationEndpoint)) {
+      const dbEndpoint = await Common.find({ collection: DB_STORES.PUSH_NOTIFICATION_SUBSCRIPTION });
+
+      setValue(Boolean(dbEndpoint?.data));
+    } else {
+      setValue(await Boolean(notificationEndpoint));
+    }
+  }
+
+  useEffect(() => {
+    setNotificationData();
   }, []);
 
   const handleSwitch = opened => event => {
     const checked = event?.target?.checked;
 
     if (!checked && value) {
-      postMessage({
-        type: POST_MESSAGES.UNSUBSCRIBE_NOTIFICATIONS
-      });
+      postMessage(
+        {
+          type: POST_MESSAGES.UNSUBSCRIBE_NOTIFICATIONS
+        },
+        window.origin
+      );
 
       setValue(false);
       setDialog({ dialog: DIALOG, open: false });
@@ -76,9 +96,12 @@ function Component() {
       }
 
       if (permission === NOTIFICATION_PERMISSIONS.GRANTED) {
-        postMessage({
-          type: POST_MESSAGES.SUBSCRIBE_NOTIFICATIONS
-        });
+        postMessage(
+          {
+            type: POST_MESSAGES.SUBSCRIBE_NOTIFICATIONS
+          },
+          window.origin
+        );
         setValue(true);
       }
 
@@ -131,7 +154,7 @@ function Component() {
         disabled={notificationsNotSupported}
         value="top"
         checked={value}
-        control={<Switch color="primary" />}
+        control={userLoading ? <CircularProgress size={24} /> : <Switch color="primary" />}
         label={
           <div className={css.root}>
             {value ? <NotificationsIcon className={css.on} /> : <NotificationsOffIcon className={css.off} />}
@@ -166,5 +189,8 @@ function Component() {
 }
 
 Component.displayName = "PushNotificationsToggle";
+Component.propTypes = {
+  isNotificationsSupported: PropTypes.bool
+};
 
 export default Component;

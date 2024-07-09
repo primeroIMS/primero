@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
@@ -13,7 +15,7 @@ import { getColumns, getRecordPath } from "./utils";
 import { fetchActivityLog, setActivityLogsFilter } from "./action-creators";
 import css from "./styles.css";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const recordType = RESOURCES.activity_logs;
@@ -65,7 +67,7 @@ const Component = () => {
       </PageContent>
     </PageContainer>
   );
-};
+}
 
 Component.displayName = "ActivityLog";
 

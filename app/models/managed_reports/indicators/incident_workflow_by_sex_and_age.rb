@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the total of incidents by sex and age
 class ManagedReports::Indicators::IncidentWorkflowBySexAndAge < ManagedReports::SqlReportIndicator
-  include ManagedReports::WeekIndicatorHelper
-
   class << self
     def id
       'incident_workflow_by_sex_and_age'

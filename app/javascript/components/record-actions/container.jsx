@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { createElement } from "react";
@@ -30,20 +32,13 @@ import {
   ID_SEARCH,
   ENABLE_DISABLE_DIALOG,
   OPEN_CLOSE_DIALOG,
-  MARK_FOR_OFFLINE_DIALOG
+  MARK_FOR_OFFLINE_DIALOG,
+  LINK_INCIDENT_TO_CASE_DIALOG
 } from "./constants";
 import { NAME } from "./config";
 import { isDisabledAction, buildApprovalList, buildActionList, subformExists } from "./utils";
 
-const Container = ({
-  currentPage,
-  mode,
-  record,
-  recordType,
-  selectedRecords,
-  clearSelectedRecords,
-  showListActions
-}) => {
+function Container({ currentPage, mode, record, recordType, selectedRecords, clearSelectedRecords, showListActions }) {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const { currentDialog, dialogClose, dialogOpen, pending, setDialog, setDialogPending } = useDialog([
@@ -58,7 +53,8 @@ const Container = ({
     REQUEST_APPROVAL_DIALOG,
     SERVICE_DIALOG,
     TRANSFER_DIALOG,
-    MARK_FOR_OFFLINE_DIALOG
+    MARK_FOR_OFFLINE_DIALOG,
+    LINK_INCIDENT_TO_CASE_DIALOG
   ]);
   const { handleCreateIncident } = useIncidentFromCase({ record, mode });
 
@@ -118,7 +114,8 @@ const Container = ({
     canTransfer,
     canOnlyExportPdf,
     permittedAbilities,
-    canMarkForOffline
+    canMarkForOffline,
+    canLinkIncidentToCase
   } = usePermissions(recordType, RECORD_ACTION_ABILITIES);
 
   const canOpenOrClose = (canReopen && openState === "reopen") || (canClose && openState === "close");
@@ -134,7 +131,8 @@ const Container = ({
     canRequestBia,
     canRequestCasePlan,
     canRequestClosure,
-    canRequestGbvClosure
+    canRequestGbvClosure,
+    record
   });
 
   const selectedRowsIndex =
@@ -154,6 +152,7 @@ const Container = ({
     canRequest,
     canShowExports,
     canMarkForOffline,
+    canLinkIncidentToCase,
     canTransfer,
     canOnlyExportPdf,
     enableState,
@@ -199,7 +198,7 @@ const Container = ({
         })}
     </>
   );
-};
+}
 
 Container.displayName = NAME;
 

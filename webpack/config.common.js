@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 const path = require("path");
 
 const {
@@ -14,7 +16,9 @@ const plugins = require("./plugins");
 const resolve = {
   extensions: ["*", ".jsx", ".js"],
   alias: {
-    "@material-ui/styles": path.resolve("node_modules", "@material-ui/styles"),
+    "@mui/material/styles": path.resolve("node_modules", "@mui/material/styles"),
+    "@mui/cache": path.resolve("node_modules", "@mui/styled-engine/node_modules/@emotion/cache"),
+    "tss-react": path.resolve("node_modules", "tss-react"),
     window: "self"
   }
 };
@@ -23,6 +27,9 @@ module.exports = (name, entry) => {
   const { ext, path: entryPath, clean, outputDir } = entry;
 
   const entryConfig = {
+    experiments: {
+      topLevelAwait: true
+    },
     mode: "production",
     devtool: false,
     entry: {

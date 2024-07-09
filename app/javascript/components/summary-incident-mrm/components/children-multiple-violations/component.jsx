@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useCallback } from "react";
 import PropTypes from "prop-types";
 
@@ -7,7 +9,7 @@ import { useI18n } from "../../../i18n";
 
 import { NAME, INDIVIDUAL_VICTIMS, INDIVIDUAL_MULTIPLE_VIOLATIONS } from "./constants";
 
-const Component = ({ recordType, formSections, values }) => {
+function Component({ recordType, formSections, values }) {
   const i18n = useI18n();
   const subformMode = { isNew: false, isEdit: false, isShow: true };
   const recordTypePlural = RECORD_TYPES_PLURAL[recordType];
@@ -34,7 +36,7 @@ const Component = ({ recordType, formSections, values }) => {
       customTitle={i18n.t("incidents.summary_mrm.fields.children_multiple_violation.label")}
     />
   );
-};
+}
 
 Component.displayName = NAME;
 

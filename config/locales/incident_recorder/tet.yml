@@ -1,0 +1,76 @@
+tet:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "Esporta rejistrador insidente xls"
+  exports:
+    incident_recorder_xls:
+      all:  Rejistrador Insidente
+      one:  Rejistrador Insidente
+      selected:  Hili ona ba Rejistrador Insidente
+      "yes": "Loos"
+      "no": "Lae"
+      gender:
+        male: "M"
+        female: "F"
+        both: "M no F"
+      age_group:
+        age: "Tinan"
+        61_older: "61 & Katuas/Ferik"
+        unknown: "Deskoñesidu"
+        header: "ALEGADU PERPETRADOR TUIR GRUPU"
+      age_type:
+        adult: "Adultu"
+        minor: "Menór"
+        both: "Adultu & Menór"
+        unknown: "Deskoñesidu"
+        header: "TIPU TINAN ALEGADU PERPETRADOR "
+      service_referral:
+        undecided: "Seidauk deside"
+      headers:
+        incident_id: "ID INSIDENTE"
+        survivor_code: "KÓDIGU SOBREVIVENTE"
+        case_manager_code: "KÓDIGU JESTOR KAZU"
+        case_worker_code: "KÓDIGU SERVISU NAIN KAZU"
+        date_of_interview: "DATA ENTREVISTA"
+        date_of_incident: "DATA INSIDENTE"
+        date_of_birth: "DATA MORIS"
+        sex: "SEXU"
+        ethnicity: "ETNISIDADE"
+        country_of_origin: "NASAUN ORIJIN"
+        marital_status: "ESTADU SIVIL"
+        displacement_status: "STATUS DEZLOKAMENTU IHA RELATÓRIU"
+        disability_type: "EMA HO DEFISIENSIA?"
+        unaccompanied_separated_status: "LABARIK LAIHA AKOMPANAMENTU KA SEPARADU?"
+        stage_of_displacement: "NIVEL DEZLOKAMENTU IHA INSIDENTE"
+        time_of_day: "ORAS LORON INSIDENTE"
+        location: "FATIN INSIDENTE"
+        county: "NASAUN INSIDENTE"
+        district: "DISTRITU INSIDENTE"
+        camp_town: "SUKU /SIDADE INSIDENTE"
+        camp: "AKAMPAMENTU INSIDENTE"
+        gbv_type: "TIPU VBJ"
+        harmful_traditional_practice: "PRÁTIKA TRADISIONAL NE'EBÉ HALO AAT EMA"
+        goods_money_exchanged: "TROKA HO OSAN, SASAN, BENEFISIU NO / KA SERVISU?"
+        abduction_type: "TIPU HUSI NA'OK LORI HALAI"
+        previously_reported: "RELATA ONA INSIDENTE NE'E ANTERIORMENTE"
+        gbv_previous_incidents: "INSIDENTE VBJ ANTERIOR?"
+        number_primary_perpetrators: "LAIHA ALEGADU PERPETRADOR PRINSIPAL"
+        perpetrator:
+          sex: "SEXU ALEGADU PERPETRADOR"
+          former: "INSIDENTE ANTERIOR HO PREPETRADOR IDA NE'E"
+          relationship: "RELASAUN ALEGADU PERPETRADOR - SOBREVIVENTE"
+          occupation: "OKUPASAUN ALEGADU PERPETRADOR"
+          age_group: "GRUPU TINAN ALEGADU PERPETRADOR"
+          age_type: "TIPU TINAN ALEGADU PERPETRADOR"
+        service:
+          referred_from: "REFERE BA ITA HUSI?"
+          safehouse_referral: "UMA MAHON"
+          medical_referral: "SERVISU SAUDE / MEDIKAL"
+          psycho_referral: "SERVISU PSIKOSOSIAL SIRA"
+          wants_legal_action: "HAKARAK ASAUN LEGAL?"
+          legal_referral: "SERVISU ASISTENSIA LEGAL SIRA"
+          police_referral: "POLISIA / AUTOR SEGURANSA SIRA SELUK"
+          livelihoods_referral: "PROGRAM SUBSISTENSIA"
+          protection_referral: "SERVISU PROTESAUN LABARIK / SERVISU EDUKASAUN"
+        consent: "FO ONA KONSENTIMENTU"
+        agency_code: "KODIGU RELATORIU AJENSIA"

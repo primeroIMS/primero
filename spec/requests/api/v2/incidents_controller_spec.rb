@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::IncidentsController, type: :request do
@@ -73,14 +75,18 @@ describe Api::V2::IncidentsController, type: :request do
     ].freeze
   end
   before :each do
+    clean_data(Incident, Child, Alert)
+
     @case1 = Child.create!(data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false })
-    @incident1 = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' })
+    @case2 = Child.create!(data: { name: 'Test2', age: 6, sex: 'male' })
+    @incident1 = Incident.create!(
+      data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1', module_id: PrimeroModule::MRM }
+    )
     @incident2 = Incident.create!(data: { incident_date: Date.new(2018, 3, 1), description: 'Test 2' })
     @incident3 = Incident.create!(
       data: { incident_date: Date.new(2018, 3, 1), description: 'Test 3' },
       incident_case_id: @case1.id
     )
-    Sunspot.commit
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -98,6 +104,10 @@ describe Api::V2::IncidentsController, type: :request do
       expect(json['metadata']['total']).to eq(3)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
+    end
+
+    it_behaves_like 'a paginated resource' do
+      let(:action) { { resource: 'incidents' } }
     end
 
     it 'returns flag_count for the short form ' do
@@ -250,6 +260,31 @@ describe Api::V2::IncidentsController, type: :request do
         expect(Incident.find_by(id: json['data']['id'])).not_to be_nil
       end
     end
+
+    context 'when an incident is created for a case' do
+      it 'creates a new record and updates the has_incidents property on the case' do
+        login_for_test
+
+        params = {
+          data: {
+            incident_date: '2024-01-10',
+            age: 7,
+            cp_sex: @case2.sex,
+            case_id_display: @case2.case_id_display,
+            incident_case_id: @case2.id
+          }
+        }
+
+        post '/api/v2/incidents', params:, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['id']).not_to be_empty
+        expect(json['data']['case_id_display']).to eq(@case2.case_id_display)
+        expect(json['data']['age']).to eq(7)
+        @case2.reload
+        expect(@case2.has_incidents).to eq(true)
+      end
+    end
   end
 
   describe 'PATCH /api/v2/incidents/:id' do
@@ -283,7 +318,7 @@ describe Api::V2::IncidentsController, type: :request do
         data['recruitment'] = [
           {
             'unique_id' => '8dccaf74-e9aa-452a-9b58-dc365b1062a2',
-            'violation_tally': { 'boys': 3, 'girls': 1, 'unknown': 0, 'total': 4 },
+            violation_tally: { boys: 3, girls: 1, unknown: 0, total: 4 },
             'name' => 'violation1'
           }
         ]

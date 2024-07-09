@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import actions from "./actions";
 
 describe("Application - Actions", () => {
@@ -52,7 +54,13 @@ describe("Application - Actions", () => {
       "FETCH_MANAGED_ROLES_FAILURE",
       "FETCH_MANAGED_ROLES_SUCCESS",
       "FETCH_MANAGED_ROLES_STARTED",
-      "FETCH_MANAGED_ROLES_FINISHED"
+      "FETCH_MANAGED_ROLES_FINISHED",
+      "SET_THEME",
+      "FETCH_REFERRAL_AUTHORIZATION_ROLES",
+      "FETCH_REFERRAL_AUTHORIZATION_ROLES_STARTED",
+      "FETCH_REFERRAL_AUTHORIZATION_ROLES_SUCCESS",
+      "FETCH_REFERRAL_AUTHORIZATION_ROLES_FAILURE",
+      "FETCH_REFERRAL_AUTHORIZATION_ROLES_FINISHED"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(actions).to.have.property(property);

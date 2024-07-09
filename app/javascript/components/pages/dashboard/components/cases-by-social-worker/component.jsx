@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { getCasesBySocialWorker } from "../../selectors";
@@ -10,7 +12,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
-const Component = ({ loadingIndicator }) => {
+function Component({ loadingIndicator }) {
   const i18n = useI18n();
 
   const data = useMemoizedSelector(state => getCasesBySocialWorker(state));
@@ -30,7 +32,7 @@ const Component = ({ loadingIndicator }) => {
       </OptionsBox>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

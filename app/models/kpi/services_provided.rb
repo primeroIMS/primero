@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # ServicesProvided
 # A Kpi to count how many of each type of service has been provided by an
 # agency.

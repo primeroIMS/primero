@@ -1,13 +1,15 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { Field } from "formik";
-import { TextField } from "formik-material-ui";
+import { TextField } from "formik-mui";
 
 import { useI18n } from "../../../../i18n";
 import SearchableSelect from "../../../../searchable-select";
 
 import { NOTES_FIELD } from "./constants";
 
-const FormInternal = ({ fields, disabled, isReferralFromService }) => {
+function FormInternal({ fields, disabled, isReferralFromService }) {
   const i18n = useI18n();
   const internalFields = fields.map(f => {
     if (!Object.keys(f).includes("options")) {
@@ -43,7 +45,7 @@ const FormInternal = ({ fields, disabled, isReferralFromService }) => {
         required,
         error: errors?.[id],
         helperText: errors?.[id],
-        margin: "dense",
+        size: "small",
         placeholder: i18n.t("transfer.select_label"),
         InputLabelProps: {
           htmlFor: id,
@@ -80,7 +82,7 @@ const FormInternal = ({ fields, disabled, isReferralFromService }) => {
   });
 
   return <>{internalFields}</>;
-};
+}
 
 FormInternal.displayName = "ReferralFormInternal";
 

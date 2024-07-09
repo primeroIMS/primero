@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 // Do not propagate form onSubmit
 // Based on https://github.com/react-hook-form/react-hook-form/issues/1005#issuecomment-626050339
 export default (handleSubmit, onSubmit) => async event => {

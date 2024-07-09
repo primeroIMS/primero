@@ -1,4 +1,6 @@
-import { Drawer } from "@material-ui/core";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { Drawer } from "@mui/material";
 import PropTypes from "prop-types";
 
 import { useDrawer } from "../../../drawer";
@@ -6,7 +8,7 @@ import { useDrawer } from "../../../drawer";
 import { FILTER_DRAWER, NAME } from "./constants";
 import css from "./styles.css";
 
-const FilterContainer = ({ children, mobileDisplay }) => {
+function FilterContainer({ children, mobileDisplay }) {
   const { drawerOpen, toggleDrawer } = useDrawer(FILTER_DRAWER);
 
   if (mobileDisplay) {
@@ -17,12 +19,8 @@ const FilterContainer = ({ children, mobileDisplay }) => {
     );
   }
 
-  return (
-    <div className={css.filterContainer} mx={2}>
-      {children}
-    </div>
-  );
-};
+  return <div className={css.filterContainer}>{children}</div>;
+}
 
 FilterContainer.displayName = NAME;
 

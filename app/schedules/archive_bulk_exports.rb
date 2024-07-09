@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # PeriodicJob job to clean up exports older than 30 days
 class ArchiveBulkExports < PeriodicJob
   def perform_rescheduled

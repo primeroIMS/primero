@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Connector that encapsulates webhook requests: Sending POST to external endpoints based on some system event.
 # For now connection parameters for these endpoints is configured through environment variables.
 class ApiConnector::WebhookConnector < ApiConnector::AbstractConnector

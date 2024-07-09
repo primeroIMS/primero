@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS, OrderedMap } from "immutable";
 
 import * as userActions from "../user/actions";
@@ -480,6 +482,18 @@ describe("<RecordForm /> - Reducers", () => {
     const expected = fromJS({});
 
     const action = { type: actions.CLEAR_DATA_PROTECTION_INITIAL_VALUES };
+
+    const newState = reducer.forms(initialState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("handles forms/REDIRECTED_TO_CREATE_NEW_RECORD", () => {
+    const initialState = fromJS({});
+
+    const expected = fromJS({ redirectedToCreateNewRecord: true });
+
+    const action = { type: actions.REDIRECTED_TO_CREATE_NEW_RECORD, payload: true };
 
     const newState = reducer.forms(initialState, action);
 

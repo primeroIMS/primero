@@ -1,3 +1,5 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
 .divider {
   display: inline-block;
   width: 40px;
@@ -64,7 +66,7 @@
   }
 }
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .recordNav {
     width: auto;
     overflow-y: hidden;

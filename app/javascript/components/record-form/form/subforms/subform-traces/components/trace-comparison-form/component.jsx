@@ -1,10 +1,12 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
 import { RECORD_TYPES, RECORD_PATH } from "../../../../../../../config";
@@ -25,7 +27,7 @@ import { NAME, TOP_FIELD_NAMES } from "./constants";
 import { getComparisons, toAttachmentArray } from "./utils";
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   selectedForm,
   recordType,
   potentialMatch,
@@ -34,7 +36,7 @@ const Component = ({
   hideFindMatch,
   hideBack,
   mode
-}) => {
+}) {
   const { id } = useParams();
   const dispatch = useDispatch();
   // eslint-disable-next-line camelcase
@@ -161,7 +163,7 @@ const Component = ({
   return (
     <>
       <TraceActions {...traceActionsProps} />
-      <Grid container spacing={4}>
+      <Grid container spacing={4} data-testid="trace-comparison-form">
         <Grid container item>
           {renderText && alreadyMatchedMessage && (
             <Grid item xs={12}>
@@ -223,7 +225,7 @@ const Component = ({
       </Grid>
     </>
   );
-};
+}
 
 Component.propTypes = {
   hideBack: PropTypes.bool,

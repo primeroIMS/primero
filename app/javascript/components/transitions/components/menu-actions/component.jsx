@@ -1,7 +1,9 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Menu, MenuItem } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { Menu, MenuItem } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import DisableOffline from "../../../disable-offline";
 import { TRANSITION_STATUS, TRANSITIONS_TYPES } from "../../constants";
@@ -21,7 +23,7 @@ import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME, REVOKE_MODAL } from "./constants";
 
-const Component = ({ transition, showMode, recordType, classes }) => {
+function Component({ transition, showMode, recordType, classes }) {
   const i18n = useI18n();
   const {
     id,
@@ -137,7 +139,12 @@ const Component = ({ transition, showMode, recordType, classes }) => {
   const filteredActions = options.filter(option => option.condition);
   const actions = filteredActions.map(option => {
     return (
-      <MenuItem key={option.name} selected={option === "Pyxis"} onClick={event => handleAction(event, option.action)}>
+      <MenuItem
+        data-testid="menu-item"
+        key={option.name}
+        selected={option === "Pyxis"}
+        onClick={event => handleAction(event, option.action)}
+      >
         {option.name}
       </MenuItem>
     );
@@ -162,7 +169,13 @@ const Component = ({ transition, showMode, recordType, classes }) => {
           }}
         />
       </DisableOffline>
-      <Menu id="long-menu" anchorEl={optionMenu} open={Boolean(optionMenu)} onClose={event => handleClose(event)}>
+      <Menu
+        keepMounted
+        id="long-menu"
+        anchorEl={optionMenu}
+        open={Boolean(optionMenu)}
+        onClose={event => handleClose(event)}
+      >
         {actions}
       </Menu>
 
@@ -203,7 +216,7 @@ const Component = ({ transition, showMode, recordType, classes }) => {
       )}
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -1,6 +1,8 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Query for Registry Records
 
-Show a paginated list of all cases that are accessible to this user. The user can filter the case list based on search criteria. 
+Show a paginated list of all cases that are accessible to this user. The user can filter the case list based on search criteria.
 
 **URL** : `/api/v2/registry_records`
 
@@ -10,15 +12,15 @@ Show a paginated list of all cases that are accessible to this user. The user ca
 
 **Authorization** : The user must be authorized to view registry records in Primero.
 
-**Parameters** : 
+**Parameters** :
 
 * `registry_type` Optional.
 * `page` Optional. Pagination. Defaults to 1
-* `per` Optional. Records per page. Defaults to 20. 
+* `per` Optional. Records per page. Defaults to 20. Maximum is 1000
 
 ## Success Response
 
-**Condition** : User can see one or more registry records. 
+**Condition** : User can see one or more registry records.
 
 **Code** : `200 OK`
 
@@ -63,7 +65,7 @@ Show a paginated list of all cases that are accessible to this user. The user ca
 ```
 ## Error Response
 
-**Condition** : User isn't authorized to query for registry records. 
+**Condition** : User isn't authorized to query for registry records.
 
 **Code** : `403 Forbidden`
 

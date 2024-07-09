@@ -1,20 +1,22 @@
-import { IconButton } from "@material-ui/core";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { IconButton } from "@mui/material";
 import PropTypes from "prop-types";
-import CloseIcon from "@material-ui/icons/Close";
+import CloseIcon from "@mui/icons-material/Close";
 
 import css from "../styles.css";
 
-const CloseButtonNavBar = ({ handleToggleNav, mobileDisplay }) => {
+function CloseButtonNavBar({ handleToggleNav, mobileDisplay }) {
   if (!mobileDisplay) return false;
 
   return (
     <div className={css.closeButtonRecordNav}>
-      <IconButton onClick={handleToggleNav} className={css.closeIconButtonRecordNav}>
-        <CloseIcon />
+      <IconButton size="large" onClick={handleToggleNav} className={css.closeIconButtonRecordNav}>
+        <CloseIcon data-testid="close-icon" />
       </IconButton>
     </div>
   );
-};
+}
 
 CloseButtonNavBar.displayName = "CloseButtonNavBar";
 

@@ -1,19 +1,31 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
-import { TextField, FormControlLabel, FormControl, FormLabel, RadioGroup, Radio, Select } from "@material-ui/core";
+import {
+  TextField,
+  FormControlLabel,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  Radio,
+  Select,
+  FormHelperText
+} from "@mui/material";
 
 import { useI18n } from "../../i18n";
 
 import { APPROVAL_FORM } from "./constants";
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   approval,
+  disabled,
   handleChangeApproval,
   handleChangeComment,
   handleChangeType,
   requestType,
   selectOptions
-}) => {
+}) {
   const i18n = useI18n();
 
   return (
@@ -46,20 +58,21 @@ const Component = ({
             value={requestType}
             onChange={handleChangeType}
             label={i18n.t("cases.approval_select")}
+            disabled={disabled}
           >
             {selectOptions}
           </Select>
+          {disabled && <FormHelperText>{i18n.t("case.messages.case_no_approval_request")}</FormHelperText>}
         </div>
         <div className={css.field}>
           <TextField
             id="outlined-multiline-static"
             multiline
             fullWidth
-            rows="4"
+            minRows="4"
             defaultValue=""
             variant="outlined"
             onChange={handleChangeComment}
-            labelWidth={0}
             shrink
             label={i18n.t("cases.approval_comments")}
           />
@@ -67,12 +80,13 @@ const Component = ({
       </form>
     </>
   );
-};
+}
 
 Component.displayName = APPROVAL_FORM;
 
 Component.propTypes = {
   approval: PropTypes.string,
+  disabled: PropTypes.bool,
   handleChangeApproval: PropTypes.func,
   handleChangeComment: PropTypes.func,
   handleChangeType: PropTypes.func,

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe HealthController, type: :request do
@@ -19,7 +21,7 @@ describe HealthController, type: :request do
       expect(response).to have_http_status(204)
     end
 
-    it 'returns 204 when testing just solr' do
+    it 'returns 204 when testing just solr', skip_when_solr_disabled: true do
       get '/health/solr'
       expect(response).to have_http_status(204)
     end

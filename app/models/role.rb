@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # The model for Role
 # rubocop:disable Metrics/ClassLength
 class Role < ApplicationRecord
@@ -33,7 +35,8 @@ class Role < ApplicationRecord
     'is_manager' => { 'type' => 'boolean' }, 'transfer' => { 'type' => 'boolean' },
     'disabled' => { 'type' => 'boolean' }, 'module_unique_ids' => { 'type' => 'array' },
     'permissions' => { 'type' => 'object' }, 'form_section_read_write' => { 'type' => 'object' },
-    'reporting_location_level' => { 'type' => %w[integer null] }
+    'reporting_location_level' => { 'type' => %w[integer null] },
+    'referral_authorization' => { 'type' => 'boolean' }
   }.freeze
 
   has_many :form_permissions
@@ -84,6 +87,7 @@ class Role < ApplicationRecord
 
     def list(user = nil, options = {})
       return list_external if options[:external]
+      return list_referral_authorization if options[:referral_authorization]
 
       roles_list = options[:managed] ? list_managed(user) : all
       roles_list = roles_list.where(disabled: options[:disabled].values) if options[:disabled]
@@ -97,6 +101,31 @@ class Role < ApplicationRecord
 
     def list_external
       where(disabled: false, referral: true).or(where(disabled: false, transfer: true))
+    end
+
+    def list_referral_authorization
+      where(disabled: false, referral_authorization: true)
+    end
+
+    def form_permissions(roles)
+      roles.each_with_object({}) do |role, memo|
+        role.form_section_permission.each do |key, value|
+          next unless value.present?
+
+          memo[key] = value if memo[key].blank? || memo[key] == 'r'
+        end
+      end
+    end
+
+    def resource_form_actions(roles)
+      roles.each_with_object({}) do |role, memo|
+        Permission::PermissionSerializer.dump(role.permissions).each do |key, value|
+          next unless value.present?
+          next unless Permission::RESOURCE_FORM_ACTIONS[key].present?
+
+          memo[key] = (memo[key] || []) | (value & Permission::RESOURCE_FORM_ACTIONS[key])
+        end
+      end
     end
   end
 

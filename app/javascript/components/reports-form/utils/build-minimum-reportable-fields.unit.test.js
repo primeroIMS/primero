@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { List } from "immutable";
 
 import { FormSectionRecord, FieldRecord } from "../../record-form/records";

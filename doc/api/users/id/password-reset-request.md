@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Request that a password reset email be sent out for this user
 
 Trigger an email message to be sent out to the email associated with this user with a password resent token and link.

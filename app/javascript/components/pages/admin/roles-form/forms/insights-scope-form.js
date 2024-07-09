@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import { FieldRecord, FormSectionRecord, SELECT_FIELD, CHECK_BOX_FIELD } from "../../../../form";

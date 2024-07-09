@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Archive an existing export
 
 The export will be marked as "archived", and the associated file will be deleted.

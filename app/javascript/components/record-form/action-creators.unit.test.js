@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import clone from "lodash/clone";
 import sinon from "sinon";
 import configureStore from "redux-mock-store";
@@ -33,17 +35,18 @@ describe("<RecordForm /> - Action Creators", () => {
 
     [
       "clearDataProtectionInitialValues",
+      "clearPreviousRecord",
       "clearValidationErrors",
       "fetchAgencies",
       "fetchForms",
       "fetchLookups",
       "fetchOptions",
       "setDataProtectionInitialValues",
+      "setPreviousRecord",
+      "setRedirectedToCreateNewRecord",
       "setSelectedForm",
       "setServiceToRefer",
-      "setValidationErrors",
-      "setPreviousRecord",
-      "clearPreviousRecord"
+      "setValidationErrors"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -185,5 +188,11 @@ describe("<RecordForm /> - Action Creators", () => {
     const expected = { type: actions.CLEAR_DATA_PROTECTION_INITIAL_VALUES };
 
     expect(actionCreators.clearDataProtectionInitialValues()).to.deep.equals(expected);
+  });
+
+  it("checks the 'setRedirectedToCreateNewRecord' action creator return the correct object", () => {
+    const expected = { type: actions.REDIRECTED_TO_CREATE_NEW_RECORD, payload: true };
+
+    expect(actionCreators.setRedirectedToCreateNewRecord(true)).to.deep.equals(expected);
   });
 });

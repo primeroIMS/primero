@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Fetch the individual managed report
 
 Shows the JSON representation of a managed report. The managed report is built if `build_report` params is

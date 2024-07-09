@@ -131,7 +131,7 @@ def _main(argv):
     finally:
         shutil.rmtree(host_dir)
     if renewed:
-        nginx_container_name = ''.join([arguments.project_name, '_nginx_1'])
+        nginx_container_name = ''.join([arguments.project_name, '-nginx-1'])
         _check_call(['docker', 'exec', '--interactive', nginx_container_name, 'update-nginx-conf.sh'])
         _check_call(['docker', 'exec', '--interactive', nginx_container_name, 'nginx', '-s', 'reload'])
     return 0

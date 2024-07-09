@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Query for Webpush Subscriptions
 
 Show a list of Webpush Subscriptions for the logged user

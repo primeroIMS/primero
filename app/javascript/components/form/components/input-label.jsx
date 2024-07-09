@@ -1,9 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import isFunction from "lodash/isFunction";
 
 import Tooltip from "../../tooltip";
 
-const InputLabel = ({ tooltip, i18nTitle, text }) => {
+function InputLabel({ tooltip = "", i18nTitle = false, text = "" }) {
   const renderText = isFunction(text) ? text() : text;
 
   return (
@@ -11,15 +13,9 @@ const InputLabel = ({ tooltip, i18nTitle, text }) => {
       <span>{renderText}</span>
     </Tooltip>
   );
-};
+}
 
 InputLabel.displayName = "InputLabel";
-
-InputLabel.defaultProps = {
-  i18nTitle: false,
-  text: "",
-  tooltip: ""
-};
 
 InputLabel.propTypes = {
   i18nTitle: PropTypes.bool,

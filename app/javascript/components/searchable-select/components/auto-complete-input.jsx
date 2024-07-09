@@ -1,6 +1,8 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { forwardRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { TextField, CircularProgress } from "@material-ui/core";
+import { TextField, CircularProgress } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
@@ -8,15 +10,15 @@ import { useI18n } from "../../i18n";
 const Component = forwardRef(
   (
     {
-      params,
-      value,
-      mode,
-      helperText,
-      InputLabelProps,
-      isDisabled,
-      isLoading,
-      multiple,
-      TextFieldProps,
+      params = {},
+      value = "",
+      mode = {},
+      helperText = "",
+      InputLabelProps = {},
+      isDisabled = false,
+      isLoading = false,
+      multiple = false,
+      TextFieldProps = {},
       currentOptionLabel,
       error
     },
@@ -77,21 +79,6 @@ const Component = forwardRef(
 );
 
 Component.displayName = "AutoCompleteInput";
-
-Component.defaultProps = {
-  helperText: "",
-  InputLabelProps: {},
-  isDisabled: false,
-  isLoading: false,
-  mode: {},
-  multiple: false,
-  optionIdKey: "value",
-  optionLabelKey: "label",
-  options: [],
-  params: {},
-  TextFieldProps: {},
-  value: ""
-};
 
 Component.propTypes = {
   currentOptionLabel: PropTypes.string,

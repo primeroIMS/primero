@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the type of use of violation type Recruitment
 class ManagedReports::Indicators::TypeOfUse < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'type_of_use'

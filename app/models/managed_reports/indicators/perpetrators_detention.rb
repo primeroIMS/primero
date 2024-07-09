@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the perpetators of individual victioms - detention
 class ManagedReports::Indicators::PerpetratorsDetention < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'perpetrator_detention'
@@ -52,14 +52,5 @@ class ManagedReports::Indicators::PerpetratorsDetention < ManagedReports::SqlRep
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
-
-    def build_data_values(values)
-      values.each_with_object([]) do |curr, acc|
-        current_group = acc.find { |group| group[:id] == curr['name'] }
-        next current_group[curr['key'].to_sym] = curr['sum'] if current_group.present?
-
-        acc << { id: curr['name'], curr['key'].to_sym => curr['sum'], total: curr['total'] }
-      end
-    end
   end
 end

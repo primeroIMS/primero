@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # List dashboards
 
 Show a list of all the dashaboards available to this user. 

@@ -1,16 +1,24 @@
-import "react-16-node-hanging-test-fix"; // TODO: Remove when update to React 18
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import "./globals";
-import "@testing-library/jest-dom/extend-expect";
+import "@testing-library/jest-dom";
 import { MessageChannel } from "worker_threads";
 
 import { createMocks } from "react-idle-timer";
 import { cleanup } from "@testing-library/react";
 
+import db from "../db";
+
 global.IS_REACT_ACT_ENVIRONMENT = true;
 
 beforeAll(() => {
+  // eslint-disable-next-line no-console
+  console.warn = () => "";
   createMocks();
   global.MessageChannel = MessageChannel;
 });
 
-afterEach(cleanup);
+afterEach(() => {
+  db.closeDB();
+  cleanup();
+});

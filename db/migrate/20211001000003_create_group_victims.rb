@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 class CreateGroupVictims < ActiveRecord::Migration[6.1]
   def change
     create_table :group_victims, id: :uuid, default: 'gen_random_uuid()' do |t|

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 
@@ -11,7 +13,7 @@ import useFormFilters from "../../use-form-filters";
 import { FILTER_NAMES, NAME } from "./constants";
 import { getFilters } from "./utils";
 
-const Component = ({ selectedForm, formMode, primeroModule, recordType, showDrawer }) => {
+function Component({ selectedForm, formMode, primeroModule, recordType, showDrawer }) {
   const i18n = useI18n();
   const { setFormFilters, selectedFilters } = useFormFilters(selectedForm);
 
@@ -44,7 +46,7 @@ const Component = ({ selectedForm, formMode, primeroModule, recordType, showDraw
       />
     )
   );
-};
+}
 
 Component.displayName = NAME;
 

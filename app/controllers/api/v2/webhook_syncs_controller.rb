@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Trigger a webhook send on a record.
 class Api::V2::WebhookSyncsController < Api::V2::RecordResourceController
   def create

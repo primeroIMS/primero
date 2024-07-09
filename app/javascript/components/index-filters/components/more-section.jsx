@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { RECORD_PATH } from "../../../config";
@@ -9,7 +11,7 @@ import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const MoreSection = ({
+function MoreSection({
   allAvailable,
   defaultFilters,
   more,
@@ -18,7 +20,7 @@ const MoreSection = ({
   recordType,
   setMore,
   setMoreSectionFilters
-}) => {
+}) {
   const moreSectionKeys = Object.keys(moreSectionFilters);
   const mode = {
     secondary: true,
@@ -76,7 +78,7 @@ const MoreSection = ({
       />
     </>
   );
-};
+}
 
 MoreSection.displayName = NAME;
 

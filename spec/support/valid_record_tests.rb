@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 shared_examples 'a valid record' do
   it 'should allow date fields formatted as dd/mm/yyyy' do
     record['a_datefield'] = '27-Feb-2010'

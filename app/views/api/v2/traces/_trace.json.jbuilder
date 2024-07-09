@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 json.id trace.id
 json.matched_case_id trace.matched_case_id
 json.tracing_request_id trace.tracing_request.id

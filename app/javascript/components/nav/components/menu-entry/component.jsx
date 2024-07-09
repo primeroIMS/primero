@@ -1,8 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
+import { ListItem, ListItemText, ListItemIcon } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { isEqual } from "lodash";
+import { cx } from "@emotion/css";
 
 import { useI18n } from "../../../i18n";
 import ListIcon from "../../../list-icon";
@@ -16,8 +19,8 @@ import { setDialog } from "../../../action-dialog";
 import { LOGOUT_DIALOG, NAV_SETTINGS } from "../../constants";
 import { ROUTES } from "../../../../config";
 
-const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) => {
-  const { disabledApplication, online } = useApp();
+function Component({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) {
+  const { disabledApplication, online, useContainedNavStyle } = useApp();
 
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -29,6 +32,7 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
       value={jewelCount}
       mobileDisplay={mobileDisplay}
       isForm={[NAV_SETTINGS, "navigation.support"].includes(name)}
+      data-testid="jewel"
     />
   ) : null;
 
@@ -41,7 +45,7 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
       !disabled && {
         component: NavLink,
         to,
-        activeClassName: css.navActive,
+        activeClassName: cx(css.navActive, { [css.contained]: useContainedNavStyle }),
         onClick: closeDrawer,
         disabled: disabledApplication
       }),
@@ -57,16 +61,17 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
 
   const userRecordTypes = [...userPermissions.keys()];
   const navItemName = name === "username" ? username : i18n.t(name);
+  const navLinkClasses = cx(css.navLink, { [css.contained]: useContainedNavStyle });
 
   const renderNavAction = (
     <li id={name}>
       {renderDivider}
-      <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button>
-        <ListItem {...navlinkProps} className={css.navLink}>
+      <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button data-testid="conditional-wrapper">
+        <ListItem data-testid="listItem" {...navlinkProps} className={navLinkClasses}>
           <ListItemIcon classes={{ root: css.listIcon }}>
             <ListIcon icon={icon} />
           </ListItemIcon>
-          <ListItemText primary={navItemName} classes={{ primary: css.listText }} />
+          <ListItemText data-testid="listItemText" primary={navItemName} classes={{ primary: css.listText }} />
           {jewel}
         </ListItem>
       </ConditionalWrapper>
@@ -81,7 +86,7 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   }
 
   return renderNavAction;
-};
+}
 
 Component.propTypes = {
   closeDrawer: PropTypes.func.isRequired,

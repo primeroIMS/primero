@@ -1,4 +1,6 @@
-import { spy } from "../../../../test";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { spy } from "../../../../test-utils";
 import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
 
 import clearServiceFieldValue from "./clear-service-field-value";

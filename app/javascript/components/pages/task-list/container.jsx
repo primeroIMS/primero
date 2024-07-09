@@ -1,7 +1,9 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 import { useDispatch, batch } from "react-redux";
-import Tooltip from "@material-ui/core/Tooltip";
-import clsx from "clsx";
+import Tooltip from "@mui/material/Tooltip";
+import { cx } from "@emotion/css";
 import { push } from "connected-react-router";
 
 import { useI18n } from "../../i18n";
@@ -21,7 +23,7 @@ import css from "./styles.css";
 import { TASK_STATUS } from "./constants";
 import { getTranslatedValue } from "./utils";
 
-const TaskList = () => {
+function TaskList() {
   const i18n = useI18n();
 
   const recordType = "tasks";
@@ -80,7 +82,7 @@ const TaskList = () => {
                   const recordData = data.get("data").get(tableMeta.rowIndex);
                   const overdue = recordData.get(TASK_STATUS.overdue);
                   const upcomingSoon = recordData.get(TASK_STATUS.upcomingSoon);
-                  const cssNames = clsx([
+                  const cssNames = cx([
                     css.link,
                     {
                       [css[TASK_STATUS.overdue]]: overdue,
@@ -195,7 +197,7 @@ const TaskList = () => {
       </PageContent>
     </PageContainer>
   );
-};
+}
 
 TaskList.displayName = "TaskList";
 

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 # TODO: add i18n tests
@@ -43,17 +45,7 @@ describe Report do
     expect(r.valid?).to be_falsey
   end
 
-  it 'lists reportable record types' do
-    expect(Report.reportable_record_types).to include('case', 'incident', 'tracing_request', 'violation')
-  end
-
   describe 'nested reports' do
-    it 'lists reportsable nested record types' do
-      expect(Report.reportable_record_types).to include(
-        'reportable_follow_up', 'reportable_protection_concern', 'reportable_service'
-      )
-    end
-
     it 'has default follow up filters' do
       r = Report.new(record_type: 'reportable_follow_up', add_default_filters: true)
       r.apply_default_filters
@@ -83,7 +75,7 @@ describe Report do
     end
   end
 
-  describe 'modules_present' do
+  describe 'validate_modules_present' do
     it 'will reject the empty module_id list' do
       r = Report.new record_type: 'case', aggregate_by: %w[a b], module_id: ''
       expect(r.valid?).to be_falsey
@@ -98,7 +90,7 @@ describe Report do
 
     it 'will accept the valid module_id list' do
       r = Report.new record_type: 'case', aggregate_by: %w[a b], module_id: 'primeromodule-cp'
-      expect(r.modules_present).to be_nil
+      expect(r.validate_modules_present).to be_nil
     end
   end
 
@@ -755,9 +747,7 @@ describe Report do
         aggregate_by: ['sex'],
         disaggregate_by: ['created_at'],
         group_dates_by: Report::DAY,
-        filters: [
-          { 'value': '2022-10-10', 'attribute': 'created_at', 'constraint': '>' }
-        ]
+        filters: [{ 'value' => '2022-10-10', 'attribute' => 'created_at', 'constraint' => '>' }]
       )
     end
 

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
@@ -6,7 +8,7 @@ import isEmpty from "lodash/isEmpty";
 import { useI18n } from "../../../../i18n";
 import InternalAlert from "../../../../internal-alert";
 
-const Component = ({ initialErrors, errors, setErrors, setTouched }) => {
+function Component({ initialErrors, errors, setErrors, setTouched }) {
   const i18n = useI18n();
 
   const errorMessages = Object.entries(isEmpty(errors) ? initialErrors || {} : errors).map(([, value]) => ({
@@ -33,7 +35,7 @@ const Component = ({ initialErrors, errors, setErrors, setTouched }) => {
       severity="error"
     />
   ) : null;
-};
+}
 
 Component.displayName = "SubformErrors";
 

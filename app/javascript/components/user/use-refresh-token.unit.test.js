@@ -1,6 +1,8 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { expect } from "chai";
 
-import { setupHook, spy, stub } from "../../test";
+import { setupHook, spy, stub } from "../../test-utils";
 import * as authProvider from "../login/components/idp-selection/auth-provider";
 
 import useRefreshToken from "./use-refresh-token";
@@ -45,7 +47,7 @@ describe("user/use-refresh-token.js", () => {
   it("refreshes idp token", () => {
     const idpTokenSpy = spy(authProvider, "refreshIdpToken");
 
-    stub(global.localStorage, "getItem").returns("provider");
+    stub(global.sessionStorage, "getItem").returns(JSON.stringify({ unique_id: "provider" }));
 
     const { act, result } = setupHook(() => useRefreshToken(), {
       idp: {
@@ -63,8 +65,8 @@ describe("user/use-refresh-token.js", () => {
 
     expect(idpTokenSpy).to.have.been.called;
 
-    if (global.localStorage.getItem.restore) {
-      global.localStorage.getItem.restore();
+    if (global.sessionStorage.getItem.restore) {
+      global.sessionStorage.getItem.restore();
     }
   });
 });

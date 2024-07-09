@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require File.join(Rails.root, "#{File.dirname(__FILE__)}/migration_helper.rb")
 require File.join(Rails.root, "#{File.dirname(__FILE__)}/migrations/lookups.rb")
 require File.join(Rails.root, "#{File.dirname(__FILE__)}/migrations/forms.rb")

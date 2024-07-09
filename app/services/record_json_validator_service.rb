@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Validate if the submitted record data an be described by the Field definitions
 class RecordJsonValidatorService < JsonValidatorService
   NUMBER_VALIDATION = { 'type' => %w[integer null], 'minimum' => -2_147_483_648, 'maximum' => 2_147_483_647 }.freeze
@@ -52,7 +54,7 @@ class RecordJsonValidatorService < JsonValidatorService
       when Field::TALLY_FIELD
         properties[field.name] = { 'type' => %w[object null], 'properties' => tally_properties(field.tally_i18n) }
       when Field::CALCULATED
-        properties[field.name] = { 'type' => %w[integer string boolean array null],
+        properties[field.name] = { 'type' => %w[integer number string boolean array null],
                                    'minimum' => -2_147_483_648,
                                    'maximum' => 2_147_483_647 }
       end

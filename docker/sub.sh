@@ -1,4 +1,6 @@
 #!/bin/bash
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # PARAM: This script takes a dir path as the only input parameter.
 # It will search for every file in the specified dir and perform substitution
 # on any file that matches *.template. It replaces any bash style variables

@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Describes a request by a single individual to trace one or more children (cases)
 class TracingRequest < ApplicationRecord
   include Record
+  include CalculateTracingNames
   include Searchable
   include Ownable
   include Historical
@@ -12,6 +15,7 @@ class TracingRequest < ApplicationRecord
   include EagerLoadable
   include Webhookable
   include LocationCacheable
+  include PhoneticSearchable
 
   has_many :traces
   store_accessor :data,
@@ -29,10 +33,6 @@ class TracingRequest < ApplicationRecord
       %w[tracing_request_id short_id]
     end
 
-    def quicksearch_fields
-      filterable_id_fields + %w[relation_name relation_nickname tracing_names tracing_nicknames]
-    end
-
     def summary_field_names
       common_summary_fields + %w[
         relation_name inquiry_date tracing_names
@@ -48,6 +48,10 @@ class TracingRequest < ApplicationRecord
       }
     end
 
+    def phonetic_field_names
+      %w[relation_name relation_nickname relation_other_family tracing_names tracing_nicknames]
+    end
+
     alias super_new_with_user new_with_user
     def new_with_user(user, data)
       traces_data = data.delete('tracing_request_subform_section')
@@ -59,22 +63,6 @@ class TracingRequest < ApplicationRecord
     alias super_eager_loaded_class eager_loaded_class
     def eager_loaded_class
       super_eager_loaded_class.includes(:traces)
-    end
-  end
-
-  def self.sortable_text_fields
-    %w[relation_name tracing_names short_id]
-  end
-
-  searchable do
-    %w[id status].each { |f| string(f, as: "#{f}_sci") }
-    filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
-    quicksearch_fields.each { |f| text_index(f) }
-    sortable_text_fields.each do |f|
-      string("#{f}_sortable", as: "#{f}_sortable_sci") do
-        value = data[f] || send(f)
-        value.is_a?(Array) ? value.join(' ') : value
-      end
     end
   end
 
@@ -118,14 +106,6 @@ class TracingRequest < ApplicationRecord
 
   def associations_as_data_keys
     %w[tracing_request_subform_section]
-  end
-
-  def tracing_names
-    traces.map(&:name).compact
-  end
-
-  def tracing_nicknames
-    traces.map(&:name_nickname).compact
   end
 
   def set_instance_id

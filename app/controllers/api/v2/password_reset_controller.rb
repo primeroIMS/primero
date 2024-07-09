@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Custom Devise controller that handles requests for email-based password resets,
 # and adapts it to the Primero API scheme
 class Api::V2::PasswordResetController < Devise::PasswordsController
   respond_to :json
 
   include AuditLogActions
-  include Api::V2::Concerns::JwtTokens
   include ErrorHandling
 
   # Submit a request to reset a password over email.
@@ -39,10 +40,7 @@ class Api::V2::PasswordResetController < Devise::PasswordsController
     return errors(user) unless user.errors.empty?
 
     json = { message: 'user.password_reset.success' }
-    if warden.user(resource_name) == user
-      token_to_cookie
-      json = json.merge(id: user.id, user_name: user.user_name, token: current_token)
-    end
+    json = json.merge(id: user.id, user_name: user.user_name) if warden.user(resource_name) == user
     render json:
   end
 

@@ -1,3 +1,6 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+/* eslint-disable react/function-component-definition */
+
 import AssignmentsSummary from "./assignments/AssignmentsSummary";
 import ReferralSummary from "./referrals/summary";
 import TransferRequestSummary from "./transfer_requests/summary";

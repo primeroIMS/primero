@@ -1,6 +1,8 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { Fragment } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 
@@ -12,7 +14,7 @@ import { LOCALIZABLE_OPTIONS_FIELD_NAME } from "../../../field-dialog/constants"
 
 import { NAME } from "./constants";
 
-const Component = ({ field, selectedLocaleId, formMode, formMethods }) => {
+function Component({ field, selectedLocaleId, formMode, formMethods }) {
   const i18n = useI18n();
   const locales = i18n.applicationLocales.filter(locale => locale.id !== LOCALE_KEYS.en);
 
@@ -80,7 +82,7 @@ const Component = ({ field, selectedLocaleId, formMode, formMethods }) => {
       </Grid>
     </Grid>
   );
-};
+}
 
 Component.displayName = NAME;
 

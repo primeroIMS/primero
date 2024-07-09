@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the reporting locations of violation type killing
 class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'reporting_location'

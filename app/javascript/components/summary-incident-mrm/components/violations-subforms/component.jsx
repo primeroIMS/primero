@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 
@@ -7,7 +9,7 @@ import SubformField from "../../../record-form/form/subforms";
 
 import { NAME } from "./constants";
 
-const Component = ({ recordType, formSections, values }) => {
+function Component({ recordType, formSections, values }) {
   const subformMode = { isNew: false, isEdit: false, isShow: true };
   const recordTypePlural = RECORD_TYPES_PLURAL[recordType];
 
@@ -40,7 +42,7 @@ const Component = ({ recordType, formSections, values }) => {
       />
     );
   });
-};
+}
 
 Component.displayName = NAME;
 

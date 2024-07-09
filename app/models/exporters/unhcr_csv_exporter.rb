@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'csv'
 
 # Export case data from Primero for consumption by downstream UNHCR systems

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import SelectInput from "../../form/fields/select-input";
@@ -6,7 +8,7 @@ import { FILTER_CATEGORY } from "../constants";
 
 import css from "./styles.css";
 
-const FilterCategory = ({ formMethods }) => {
+function FilterCategory({ formMethods }) {
   const i18n = useI18n();
   const options = Object.values(FILTER_CATEGORY).map(
     elem => ({
@@ -17,7 +19,7 @@ const FilterCategory = ({ formMethods }) => {
   );
 
   return (
-    <div className={css.filterCategory}>
+    <div className={css.filterCategory} data-testid="filter-category">
       <SelectInput
         options={options}
         commonInputProps={{
@@ -31,7 +33,7 @@ const FilterCategory = ({ formMethods }) => {
       />
     </div>
   );
-};
+}
 
 FilterCategory.displayName = "FilterCategory";
 

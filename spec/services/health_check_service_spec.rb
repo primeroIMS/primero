@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe HealthCheckService do
@@ -15,7 +17,7 @@ describe HealthCheckService do
     end
   end
 
-  describe '.solr_accessible?', search: true do
+  describe '.solr_accessible?', { search: true, skip_when_solr_disabled: true } do
     it 'returns true if Solr is connected' do
       expect(HealthCheckService.solr_accessible?).to be_truthy
     end

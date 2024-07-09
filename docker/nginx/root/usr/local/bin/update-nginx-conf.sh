@@ -1,5 +1,6 @@
 #! /bin/sh
 # shellcheck disable=SC2039
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 #
 # NOTE: `local` is not (yet) in POSIX but is well supported, particularly by
 # dash.

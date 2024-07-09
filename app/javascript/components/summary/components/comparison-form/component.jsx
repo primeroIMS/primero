@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
@@ -8,7 +10,7 @@ import { RECORD_TYPES_PLURAL } from "../../../../config";
 
 import { NAME } from "./constants";
 
-const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm }) => {
+function Component({ selectedForm, recordType, potentialMatch, setSelectedForm }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,7 +30,7 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm }
       />
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

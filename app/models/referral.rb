@@ -1,13 +1,29 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Model describing a referral of a record from one user to another.
 class Referral < Transition
+  include TransitionAlertable
+
+  REFERRAL_FORM_UNIQUE_ID = 'referral'
+  REFERRAL_ALERT_TYPE = 'referral'
+
+  class << self
+    def alert_form_unique_id
+      REFERRAL_FORM_UNIQUE_ID
+    end
+
+    def alert_type
+      REFERRAL_ALERT_TYPE
+    end
+  end
+
   def perform
     self.status = Transition::STATUS_INPROGRESS
     mark_service_referred(service_record)
     perform_system_referral unless remote
     record.last_updated_by = transitioned_by
-    record.save! if record.has_changes_to_save?
   end
 
   def reject!(user, rejected_reason = nil)
@@ -18,7 +34,7 @@ class Referral < Transition
     self.responded_at = DateTime.now
     remove_assigned_user
     record.update_last_updated_by(user)
-    record.save! && save!
+    save!
   end
 
   def done!(user, rejection_note = nil)
@@ -30,14 +46,14 @@ class Referral < Transition
     mark_rejection(rejection_note, current_service_record)
     remove_assigned_user
     record.update_last_updated_by(user)
-    record.save! && save!
+    save!
   end
 
   def revoke!(user)
     self.status = Transition::STATUS_REVOKED
     remove_assigned_user
     record.update_last_updated_by(user)
-    record.save! && save!
+    save!
   end
 
   def accept!
@@ -72,6 +88,10 @@ class Referral < Transition
     else
       false
     end
+  end
+
+  def alerts_to_delete
+    super.select { |alert| alert.user.user_name == transitioned_to_user.user_name }
   end
 
   private

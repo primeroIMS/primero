@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 json.id primero_module.id
 json.unique_id primero_module.unique_id
 json.name primero_module.name
@@ -14,7 +16,7 @@ if primero_module.unique_id == PrimeroModule::CP
   json.workflows do
     if primero_module.workflow_status_indicator
       ['case'].each do |record_type|
-        record_class = Record.model_from_name(record_type)
+        record_class = PrimeroModelService.to_model(record_type)
         json.set! record_type do
           json.merge! FieldI18nService.convert_options(record_class.workflow_statuses([primero_module]))
         end

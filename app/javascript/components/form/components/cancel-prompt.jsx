@@ -1,10 +1,12 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import NavigationPrompt from "react-router-navigation-prompt";
 
 import ActionDialog from "../../action-dialog";
 import { useI18n } from "../../i18n";
 
-const CancelPrompt = ({ useCancelPrompt, dirty, isSubmitted, isShow }) => {
+function CancelPrompt({ useCancelPrompt = false, dirty = false, isSubmitted = false, isShow = false }) {
   const i18n = useI18n();
 
   const promptCancelWhen = dirty && !isSubmitted && !isShow;
@@ -27,16 +29,9 @@ const CancelPrompt = ({ useCancelPrompt, dirty, isSubmitted, isShow }) => {
   }
 
   return null;
-};
+}
 
 CancelPrompt.displayName = "CancelPrompt";
-
-CancelPrompt.defaultProps = {
-  dirty: false,
-  isShow: false,
-  isSubmitted: false,
-  useCancelPrompt: false
-};
 
 CancelPrompt.propTypes = {
   dirty: PropTypes.bool,

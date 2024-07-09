@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Update an existing trace to match it to case
 
 This API call will associate a matching case with this trace. All other trace data is maintained using

@@ -1,11 +1,13 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
-const Component = ({ realPercent, index, css }) => {
+function Component({ realPercent, index, css }) {
   const percentage = realPercent * 100;
   const style = { width: `${percentage}%` };
 
   return <div key={index} className={css[`StackedPercentageBar${index + 1}Complete`]} style={style} />;
-};
+}
 
 Component.displayName = "StackedPercentageBarMeter";
 

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -24,7 +26,7 @@ import { OPTION_TYPES } from "../../../form";
 import useOptions from "../../../form/use-options";
 import { RECORD_TYPES } from "../../../../config";
 
-const SelectFieldContainer = ({
+function SelectFieldContainer({
   field,
   value,
   disabled,
@@ -42,7 +44,7 @@ const SelectFieldContainer = ({
   helperText,
   recordType,
   recordModuleID
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { online } = useApp();
@@ -250,7 +252,7 @@ const SelectFieldContainer = ({
       options={filteredOptions}
     />
   );
-};
+}
 
 SelectFieldContainer.displayName = "SelectFieldContainer";
 

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { isEqual, parseISO } from "date-fns";
 
 import getCreatedAt from "./get-created-at";

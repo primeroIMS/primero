@@ -1,9 +1,12 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { batch, useDispatch } from "react-redux";
-import { InputLabel, MenuItem, Select } from "@material-ui/core";
+import { InputLabel, MenuItem, Select } from "@mui/material";
+import isEmpty from "lodash/isEmpty";
 
-import { MODULES } from "../../../config/constants";
+import { MODULES } from "../../../config";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { fetchAlerts } from "../../nav/action-creators";
@@ -18,7 +21,7 @@ import ApprovalForm from "./approval-form";
 import { APPROVAL_TYPE_LOOKUP, CASE_PLAN, NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   close,
   open,
   subMenuItems,
@@ -28,7 +31,7 @@ const Component = ({
   setPending,
   approvalType,
   confirmButtonLabel
-}) => {
+}) {
   const i18n = useI18n();
   const { approvalsLabels, userModules } = useApp();
   const dispatch = useDispatch();
@@ -180,6 +183,8 @@ const Component = ({
     </>
   );
 
+  const approvalsDisabled = isEmpty(selectOptions);
+
   const approvalDialogContent = ApprovalForm({
     approval,
     close,
@@ -187,10 +192,12 @@ const Component = ({
     handleChangeComment,
     handleChangeType,
     requestType,
-    selectOptions
+    selectOptions,
+    disabled: approvalsDisabled
   });
 
   const dialogContent = approvalType === "approval" ? approvalDialogContent : requestDialogContent;
+  const enabledSuccessButton = approvalType === "approval" ? !approvalsDisabled : true;
 
   return (
     <ActionDialog
@@ -201,12 +208,13 @@ const Component = ({
       omitCloseAfterSuccess
       maxSize="xs"
       pending={pending}
+      enabledSuccessButton={enabledSuccessButton}
       confirmButtonLabel={confirmButtonLabel}
     >
       {dialogContent}
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

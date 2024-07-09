@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import * as moduleToTest from "./index";
 
 describe("libs/index", () => {
@@ -19,7 +21,6 @@ describe("libs/index", () => {
       "compare",
       "dataToJS",
       "displayNameHelper",
-      "endOfDay",
       "getObjectPath",
       "hasApiDateFormat",
       "invalidCharRegexp",

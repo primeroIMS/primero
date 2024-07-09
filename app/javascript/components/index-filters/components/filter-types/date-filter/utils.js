@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { endOfDay, startOfDay, parseISO } from "date-fns";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";

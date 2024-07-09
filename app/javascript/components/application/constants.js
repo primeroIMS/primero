@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const PERMISSIONS = "permissions";
 export const RESOURCE_ACTIONS = "resource_actions";
 export const RESOURCES = {

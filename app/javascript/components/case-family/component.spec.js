@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { mountedComponent, screen } from "test-utils";
 
 import CaseFamily from "./component";
@@ -7,13 +9,20 @@ describe("<CaseFamily />", () => {
     values: {},
     primeroModule: "primeromodule-cp",
     mobileDisplay: true,
-    handleToggleNav: () => {}
+    handleToggleNav: () => {},
+    mode: { isEdit: false },
+    recordType: "case",
+    setFieldValue: () => {},
+    record: {}
   };
 
   it("renders an empty subform", async () => {
     const initialState = {
       forms: { formSections: {} },
-      records: { families: { data: [] } }
+      records: { families: { data: [] } },
+      user: {
+        permissions: { cases: ["link_family_record"] }
+      }
     };
 
     mountedComponent(<CaseFamily {...props} />, initialState);
@@ -37,6 +46,9 @@ describe("<CaseFamily />", () => {
           ],
           loading: false
         }
+      },
+      user: {
+        permissions: { cases: ["link_family_record"] }
       }
     };
 

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { NAME as transition } from "../../constants";
 
 export const NAME = `${transition}Referrals`;

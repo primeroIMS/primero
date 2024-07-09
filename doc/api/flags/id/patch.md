@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Update an existing flag
 
 The patch endpoint is used to unflag an existing flag, depends of the record type, the record id and the id of the flag.

@@ -1,7 +1,9 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { IconButton, Menu, MenuItem } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { IconButton, Menu, MenuItem } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { useI18n } from "../../i18n";
 import { useDialog } from "../../action-dialog";
@@ -9,7 +11,7 @@ import { useDialog } from "../../action-dialog";
 import { DONE, REFERRAL_DONE_DIALOG, REFERRAL_ACTION_MENU_NAME as NAME } from "./constants";
 import ReferralAction from "./referral-action";
 
-const ReferralActionMenu = ({ transition, recordType }) => {
+function ReferralActionMenu({ transition, recordType }) {
   const i18n = useI18n();
   const [referralMenu, setReferralMenu] = useState(null);
   const [referralType, setReferralType] = useState(DONE);
@@ -38,7 +40,13 @@ const ReferralActionMenu = ({ transition, recordType }) => {
 
   return (
     <>
-      <IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleReferralMenuClick}>
+      <IconButton
+        size="large"
+        aria-label="more"
+        aria-controls="long-menu"
+        aria-haspopup="true"
+        onClick={handleReferralMenuClick}
+      >
         <MoreVertIcon />
       </IconButton>
       <Menu
@@ -66,7 +74,7 @@ const ReferralActionMenu = ({ transition, recordType }) => {
       />
     </>
   );
-};
+}
 
 ReferralActionMenu.displayName = NAME;
 

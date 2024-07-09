@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { getViolationsCategoryVerificationStatus } from "../../selectors";
@@ -12,7 +14,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 import { NAME } from "./constants";
 import { transformToPivotedDashboard } from "./utils";
 
-const Component = ({ loadingIndicator }) => {
+function Component({ loadingIndicator }) {
   const i18n = useI18n();
 
   const { verificationStatus, violationType } = useOptions({
@@ -43,7 +45,7 @@ const Component = ({ loadingIndicator }) => {
       </OptionsBox>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

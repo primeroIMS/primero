@@ -1,9 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
-const FormAction = ({ actionHandler, cancel, savingRecord, startIcon, text, disabled, options, tooltip }) => {
+function FormAction({ actionHandler, cancel, savingRecord = false, startIcon, text, disabled, options = {}, tooltip }) {
   return (
     <ActionButton
       id="submit-form"
@@ -21,14 +23,9 @@ const FormAction = ({ actionHandler, cancel, savingRecord, startIcon, text, disa
       }}
     />
   );
-};
+}
 
 FormAction.displayName = "FormAction";
-
-FormAction.defaultProps = {
-  options: {},
-  savingRecord: false
-};
 
 FormAction.propTypes = {
   actionHandler: PropTypes.func,

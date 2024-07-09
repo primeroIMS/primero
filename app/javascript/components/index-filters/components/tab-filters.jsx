@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useMemo } from "react";
 import { useWatch } from "react-hook-form";
 import PropTypes from "prop-types";
@@ -14,7 +16,7 @@ import RecordFilters from "./record-filters";
 import css from "./styles.css";
 import FilterCategory from "./filter-category";
 
-const TabFilters = ({
+function TabFilters({
   formMethods,
   handleClear,
   handleSave,
@@ -26,7 +28,7 @@ const TabFilters = ({
   setMore,
   setMoreSectionFilters,
   setReset
-}) => {
+}) {
   const filterCategory = useWatch({ control: formMethods.control, name: "filter_category" });
   const filters = useMemoizedSelector(state => getFiltersByRecordType(state, recordType, filterCategory));
   const hasPrimeroModuleMRM = useMemoizedSelector(state => hasPrimeroModule(state, MODULES.MRM));
@@ -69,7 +71,7 @@ const TabFilters = ({
       />
     </div>
   );
-};
+}
 
 TabFilters.displayName = "TabFilters";
 

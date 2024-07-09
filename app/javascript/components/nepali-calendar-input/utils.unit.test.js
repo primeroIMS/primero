@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { convertToNeDate } from "./utils";
 
 describe("components/nepali-calendar-input/utils.js", () => {

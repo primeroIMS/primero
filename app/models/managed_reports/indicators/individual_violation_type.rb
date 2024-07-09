@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the individual violation types
 class ManagedReports::Indicators::IndividualViolationType < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'individual_violation_type'

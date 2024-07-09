@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 child_preferences_fields_subform = [
   Field.new('name' => 'wishes_name',
             'type' => 'text_field',

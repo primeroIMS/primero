@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../../i18n";
@@ -7,13 +9,12 @@ import { NAME as FORM_ID } from "../flag-form/constants";
 
 import { NAME } from "./constants";
 
-const Component = ({ dialogOpen, fetchAction, fetchArgs, children, isBulkFlags, tab, setTab }) => {
+function Component({ dialogOpen, fetchAction, fetchArgs, children, isBulkFlags, tab, setTab }) {
   const i18n = useI18n();
 
   return (
     <ActionDialog
       open={dialogOpen}
-      disableBackdropClick
       dialogTitle={i18n.t("flags.title")}
       disableActions={tab === 0}
       fetchAction={fetchAction}
@@ -30,7 +31,7 @@ const Component = ({ dialogOpen, fetchAction, fetchArgs, children, isBulkFlags, 
       </DialogTabs>
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

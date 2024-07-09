@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the IncidentDenials
 class ManagedReports::Indicators::IncidentDenials < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'violation'
@@ -12,13 +12,15 @@ class ManagedReports::Indicators::IncidentDenials < ManagedReports::SqlReportInd
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
       %{
         select
+        'denial_humanitarian_access' as id,
         #{grouped_date_query(params['grouped_by'],
                              filter_date(params),
                              table_name_for_query(params))&.concat(' as group_id,')}
-        count(violations.id) as sum
+        count(violations.id) as total
         from violations violations
         inner join incidents incidents
           on incidents.id = violations.incident_id
@@ -34,11 +36,6 @@ class ManagedReports::Indicators::IncidentDenials < ManagedReports::SqlReportInd
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
-
-    def build_data_values(values)
-      values.map do |value|
-        { id: 'denial_humanitarian_access', total: value['sum'] }
-      end
-    end
+    # rubocop:enable Metrics/MethodLength
   end
 end

@@ -1,4 +1,6 @@
-import { Button } from "@material-ui/core";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { Button } from "@mui/material";
 import PropTypes from "prop-types";
 
 import ListIcon from "../../../list-icon";
@@ -6,7 +8,7 @@ import { useI18n } from "../../../i18n";
 
 import css from "./styles.css";
 
-const ErrorState = ({ errorMessage, handleTryAgain, type }) => {
+function ErrorState({ errorMessage, handleTryAgain, type }) {
   const i18n = useI18n();
 
   return (
@@ -26,7 +28,7 @@ const ErrorState = ({ errorMessage, handleTryAgain, type }) => {
       </div>
     </div>
   );
-};
+}
 
 ErrorState.displayName = "ErrorState";
 

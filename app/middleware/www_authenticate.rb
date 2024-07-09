@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Set the WWW-Authenticate header for 401 responses
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/WWW-Authenticate
 class WwwAuthenticate

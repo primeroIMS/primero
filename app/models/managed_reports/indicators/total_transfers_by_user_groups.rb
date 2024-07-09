@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the total of transfers by user groups
 class ManagedReports::Indicators::TotalTransfersByUserGroups < ManagedReports::SqlReportIndicator
-  include ManagedReports::WeekIndicatorHelper
-
   class << self
     def id
       'total_transfers_by_user_groups'

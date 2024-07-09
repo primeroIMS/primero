@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { renderHook, act } from "@testing-library/react-hooks";
 import { Provider } from "react-redux";
 import isFunction from "lodash/isFunction";

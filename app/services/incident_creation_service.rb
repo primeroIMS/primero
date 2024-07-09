@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Instantiates incidents based on a case and some mapping rules
 class IncidentCreationService < ValueObject
   DEFAULT_MAPPING = [

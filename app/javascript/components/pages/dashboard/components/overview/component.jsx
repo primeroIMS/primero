@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
@@ -22,7 +24,7 @@ import css from "../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({ loadingIndicator, userPermissions }) => {
+function Component({ loadingIndicator, userPermissions }) {
   const i18n = useI18n();
 
   const casesByAssessmentLevel = useMemoizedSelector(state => getCasesByAssessmentLevel(state));
@@ -146,7 +148,7 @@ const Component = ({ loadingIndicator, userPermissions }) => {
       </OptionsBox>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

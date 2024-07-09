@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Example of usage:
 # rails r bin/recalculate_fields true field1
 # rails r bin/recalculate_fields true field1,field2

@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::TransferRequestsController, type: :request do
   include ActiveJob::TestHelper
   before :each do
-    clean_data(User, Role, PrimeroModule, UserGroup, Child, Transition)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Transition)
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
     @permission_transfer_case = Permission.new(
@@ -143,6 +145,6 @@ describe Api::V2::TransferRequestsController, type: :request do
 
   after :each do
     clear_enqueued_jobs
-    clean_data(User, Role, PrimeroModule, UserGroup, Child, Transition)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Transition)
   end
 end

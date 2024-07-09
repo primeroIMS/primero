@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Query for alert
 
 Show a list of all alerts from a records. depends of the recordType and the record id.

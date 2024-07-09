@@ -1,27 +1,30 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::AttachmentsController, type: :request do
   include ActiveJob::TestHelper
   before :each do
-    allow_any_instance_of(PermittedFieldService).to(
-      receive(:permitted_field_names).and_return(%w[photos])
-    )
-    @case = Child.create(data: { name: 'Test' })
-    Sunspot.commit
+    @case = Child.create(data: { name: 'Test', owned_by: 'faketest' })
   end
 
   let(:json) { JSON.parse(response.body) }
   let(:audit_params) { enqueued_jobs.find { |job| job[:job] == AuditLogJob }[:args].first }
-  let(:records_with_photo) { Child.search { with(:has_photo, true) }.results }
+  let(:records_with_photo) do
+    PhoneticSearchService.search(
+      Child, filters: [SearchFilters::BooleanValue.new(field_name: 'has_photo', value: true)]
+    ).records
+  end
 
   describe 'POST /api/v2/:record/:id/attachments', search: true do
-    it 'attaches a file to an existing record' do
-      login_for_test
+    it 'attaches a file to an existing record and sets has_photo to true' do
+      login_for_test({ permitted_field_names: [Attachable::PHOTOS_FIELD_NAME] })
+
       params = {
         data: {
-          field_name: 'photos', attachment_type: 'image',
+          field_name: Attachable::PHOTOS_FIELD_NAME, attachment_type: 'image',
           file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
         }
       }
@@ -31,8 +34,33 @@ describe Api::V2::AttachmentsController, type: :request do
       expect(json['data']['record']['id']).to eq(@case.id)
       expect(records_with_photo.size).to eq(1)
       expect(records_with_photo.first.id).to eq(@case.id)
-
+      @case.reload
+      expect(@case.has_photo).to eq(true)
       expect(audit_params['action']).to eq('attach')
+    end
+
+    context 'when a user does not have access to a record' do
+      context 'and has the VIEW_PHOTO permission' do
+        it 'it refuses to attach a file to an existing record' do
+          login_for_test(
+            {
+              user_name: 'otheruser',
+              group_permission: Permission::SELF,
+              permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::VIEW_PHOTO])],
+              permitted_field_names: [Attachable::PHOTOS_FIELD_NAME]
+            }
+          )
+
+          params = {
+            data: {
+              field_name: Attachable::PHOTOS_FIELD_NAME, attachment_type: 'image',
+              file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
+            }
+          }
+          post("/api/v2/cases/#{@case.id}/attachments", params:)
+          expect(response).to have_http_status(403)
+        end
+      end
     end
 
     context '`photos` is a forbidden field' do
@@ -70,13 +98,15 @@ describe Api::V2::AttachmentsController, type: :request do
       attachment
     end
 
-    it 'removes an attached record' do
-      login_for_test
+    it 'removes an attached record and updates the has_photo field' do
+      login_for_test({ permitted_field_names: [Attachable::PHOTOS_FIELD_NAME] })
+
       delete "/api/v2/cases/#{@case.id}/attachments/#{attachment.id}"
 
       expect(response).to have_http_status(204)
       expect(@case.attachments.count).to eq(0)
-
+      @case.reload
+      expect(@case.has_photo).to eq(false)
       expect(audit_params['action']).to eq('detach')
     end
 
@@ -96,6 +126,24 @@ describe Api::V2::AttachmentsController, type: :request do
         expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/attachments/#{attachment.id}")
         expect(json['errors'][0]['message']).to eq('Forbidden')
         expect(@case.attachments.count).to eq(1)
+      end
+    end
+
+    context 'when a user does not have access to a record' do
+      context 'and has the VIEW_PHOTO permission' do
+        it 'it refuses to remove an attached record' do
+          login_for_test(
+            {
+              user_name: 'otheruser',
+              group_permission: Permission::SELF,
+              permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::VIEW_PHOTO])],
+              permitted_field_names: [Attachable::PHOTOS_FIELD_NAME]
+            }
+          )
+          delete "/api/v2/cases/#{@case.id}/attachments/#{attachment.id}"
+
+          expect(response).to have_http_status(403)
+        end
       end
     end
   end

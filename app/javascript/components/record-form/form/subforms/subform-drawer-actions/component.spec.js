@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { mountedComponent, screen } from "test-utils";
 
 import ActionButton from "../../../../action-button";

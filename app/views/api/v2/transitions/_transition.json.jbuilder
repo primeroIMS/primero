@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 json.merge!(
   transition.attributes.to_h do |attr, value|
     if attr == 'record_type'
-      [attr, Record.map_name(value)]
+      [attr, PrimeroModelService.to_name(value)]
     else
       [attr, value]
     end

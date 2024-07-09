@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::RegistryRecordsController, type: :request do
@@ -9,7 +11,6 @@ describe Api::V2::RegistryRecordsController, type: :request do
     @registry2 = RegistryRecord.create!(registry_type: RegistryRecord::REGISTRY_TYPE_INDIVIDUAL)
     @registry3 = RegistryRecord.create!(registry_type: RegistryRecord::REGISTRY_TYPE_INDIVIDUAL)
     @registry4 = RegistryRecord.create!(registry_type: RegistryRecord::REGISTRY_TYPE_FOSTER_CARE)
-    Sunspot.commit
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -27,6 +28,10 @@ describe Api::V2::RegistryRecordsController, type: :request do
       expect(json['metadata']['total']).to eq(4)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
+    end
+
+    it_behaves_like 'a paginated resource' do
+      let(:action) { { resource: 'registry_records' } }
     end
 
     context 'when a registry_type is passed in' do

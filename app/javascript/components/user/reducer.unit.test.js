@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import { mapListToObject, mapObjectPropertiesToRecords } from "../../libs";
@@ -61,6 +63,7 @@ describe("User - Reducers", () => {
         "resource",
         "actions"
       ),
+      receiveWebpush: undefined,
       reportingLocationConfig: {
         field_key: "owned_by_location",
         admin_level: 2,

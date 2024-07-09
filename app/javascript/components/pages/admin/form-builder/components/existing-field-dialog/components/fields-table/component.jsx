@@ -1,7 +1,9 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/display-name, react/no-multi-comp */
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
-import { MuiThemeProvider } from "@material-ui/core/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import isEqual from "lodash/isEqual";
 
 import { SUBFORM_SECTION } from "../../../../../../../form";
@@ -16,7 +18,7 @@ import useThemeHelpers from "../../../../../../../../libs/use-theme-helpers";
 import fieldsTableTheme from "./theme";
 import { COLUMN_HEADERS, NAME } from "./constants";
 
-const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeField, selectedFields }) => {
+function Component({ addField, fieldQuery, parentForm, primeroModule, removeField, selectedFields = [] }) {
   const i18n = useI18n();
   const { theme } = useThemeHelpers({ overrides: fieldsTableTheme });
 
@@ -90,17 +92,13 @@ const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeFiel
   };
 
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <MUIDataTable {...tableOptions} />
-    </MuiThemeProvider>
+    </ThemeProvider>
   );
-};
+}
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  selectedFields: []
-};
 
 Component.propTypes = {
   addField: PropTypes.func.isRequired,

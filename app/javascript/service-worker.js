@@ -1,4 +1,6 @@
-import { POST_MESSAGES } from "./config/constants";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { POST_MESSAGES } from "./config";
 import {
   SERVICE_WORKER_PATH,
   getSubscriptionFromDb,
@@ -25,7 +27,7 @@ export default () => {
     }
   });
 
-  window.addEventListener("load", () => {
+  function callback() {
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
         .register(SERVICE_WORKER_PATH)
@@ -38,5 +40,11 @@ export default () => {
           console.error("Service worker registration failed, error:", error);
         });
     }
-  });
+  }
+
+  if (document.readyState === "complete") {
+    callback();
+  } else {
+    window.addEventListener("load", callback);
+  }
 };

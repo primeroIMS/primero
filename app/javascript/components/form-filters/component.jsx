@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 
@@ -6,7 +8,7 @@ import useFormFilters from "./use-form-filters";
 import { getFilters } from "./utils";
 import { NAME } from "./constants";
 
-const Component = ({ formMode, primeroModule, recordType, selectedForm, showDrawer }) => {
+function Component({ formMode, primeroModule, recordType, selectedForm, showDrawer }) {
   const Filters = getFilters(selectedForm);
 
   const { clearFilters } = useFormFilters(selectedForm);
@@ -28,7 +30,7 @@ const Component = ({ formMode, primeroModule, recordType, selectedForm, showDraw
       selectedForm={selectedForm}
     />
   );
-};
+}
 
 Component.displayName = NAME;
 

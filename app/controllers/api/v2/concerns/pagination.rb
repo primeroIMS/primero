@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Pagination helpers for parsing the controller params
 module Api::V2::Concerns::Pagination
   extend ActiveSupport::Concern
@@ -9,7 +11,11 @@ module Api::V2::Concerns::Pagination
   end
 
   def per
-    @per ||= (params[:per].try(:to_i) || 20)
+    return @per if @per.present?
+
+    @per = params[:per].try(:to_i)
+    @per = 20 unless @per.present?
+    @per = [@per, 1000].min
   end
 
   def offset

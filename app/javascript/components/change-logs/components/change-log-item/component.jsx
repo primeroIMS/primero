@@ -1,12 +1,14 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
 import PropTypes from "prop-types";
-import TimelineItem from "@material-ui/lab/TimelineItem";
-import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
-import TimelineConnector from "@material-ui/lab/TimelineConnector";
-import TimelineContent from "@material-ui/lab/TimelineContent";
-import TimelineDot from "@material-ui/lab/TimelineDot";
-import { ButtonBase } from "@material-ui/core";
+import TimelineItem from "@mui/lab/TimelineItem";
+import TimelineSeparator from "@mui/lab/TimelineSeparator";
+import TimelineConnector from "@mui/lab/TimelineConnector";
+import TimelineContent from "@mui/lab/TimelineContent";
+import TimelineDot from "@mui/lab/TimelineDot";
+import { ButtonBase } from "@mui/material";
 
 import generateKey from "../../../charts/table-values/utils";
 import { useI18n } from "../../../i18n";
@@ -15,7 +17,7 @@ import css from "../../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({ item }) => {
+function Component({ item }) {
   const i18n = useI18n();
   const { onClick } = item;
   const renderMessage = change => (
@@ -38,7 +40,7 @@ const Component = ({ item }) => {
   const renderChange = item.change && renderMessage(item.change);
 
   return (
-    <TimelineItem>
+    <TimelineItem data-testid="timeline">
       <TimelineSeparator>
         <TimelineDot variant="outlined" color="primary" />
         <TimelineConnector />
@@ -60,7 +62,7 @@ const Component = ({ item }) => {
       </TimelineContent>
     </TimelineItem>
   );
-};
+}
 
 Component.displayName = NAME;
 

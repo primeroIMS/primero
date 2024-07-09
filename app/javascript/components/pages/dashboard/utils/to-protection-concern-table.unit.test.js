@@ -1,6 +1,9 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import toProtectionConcernTable from "./to-protection-concern-table";
+import defaultBodyRender from "./default-body-render";
 
 describe("toProtectionConcernTable - pages/dashboard/utils/", () => {
   it("should convert the data for DashboardTable", () => {
@@ -53,13 +56,15 @@ describe("toProtectionConcernTable - pages/dashboard/utils/", () => {
       }
     });
 
+    const options = { customBodyRender: defaultBodyRender };
+
     const expected = {
       columns: [
         { name: "", label: {} },
-        { name: "protection_concerns_all_cases", label: {} },
-        { name: "protection_concerns_open_cases", label: {} },
-        { name: "protection_concerns_new_this_week", label: {} },
-        { name: "protection_concerns_closed_this_week", label: {} }
+        { name: "protection_concerns_all_cases", label: {}, options },
+        { name: "protection_concerns_open_cases", label: {}, options },
+        { name: "protection_concerns_new_this_week", label: {}, options },
+        { name: "protection_concerns_closed_this_week", label: {}, options }
       ],
       data: [
         {

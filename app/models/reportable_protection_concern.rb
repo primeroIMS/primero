@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Class for Reportable Protection Concern
 class ReportableProtectionConcern
+  include ReportableNestedRecord
+
   def self.parent_record_type
     Child
   end
@@ -16,13 +20,6 @@ class ReportableProtectionConcern
       { 'attribute' => 'record_state', 'value' => ['true'] },
       { 'attribute' => 'protection_concern_type', 'value' => 'not_null' }
     ]
-  end
-
-  include ReportableNestedRecord
-
-  searchable do
-    extend ReportableNestedRecord::Searchable
-    configure_searchable(ReportableProtectionConcern)
   end
 
   def id

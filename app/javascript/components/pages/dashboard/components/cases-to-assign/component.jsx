@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 
@@ -12,7 +14,7 @@ import useOptions from "../../../../form/use-options";
 
 import { NAME } from "./constants";
 
-const Component = ({ loadingIndicator }) => {
+function Component({ loadingIndicator }) {
   const i18n = useI18n();
   const casesToAssign = useMemoizedSelector(state => getCasesToAssign(state));
   const options = useOptions({ source: LOOKUPS.risk_level });
@@ -32,7 +34,7 @@ const Component = ({ loadingIndicator }) => {
       </OptionsBox>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

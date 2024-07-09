@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This is the sync connector for the Keycloak identity provider.
 # rubocop:disable Metrics/ClassLength
 class ApiConnector::KeycloakConnector < ApiConnector::AbstractConnector

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Uses a cache to interact with Locations
 class LocationService
   attr_accessor :locations_by_code, :with_cache, :unique_id_attribute

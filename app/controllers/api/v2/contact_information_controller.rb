@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Unprotected API endpoint for public system info
 class Api::V2::ContactInformationController < ApplicationApiController
   include Api::V2::Concerns::JsonValidateParams

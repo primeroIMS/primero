@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Referral do
   before do
-    clean_data(Child, User, Role, UserGroup, PrimeroModule, Transition, Transfer, Referral)
+    clean_data(Alert, Child, User, Role, UserGroup, PrimeroModule, Transition, Transfer, Referral)
     @module_cp = PrimeroModule.new(name: 'CP')
     @module_cp.save(validate: false)
     @module_gbv = PrimeroModule.new(name: 'GBV')
@@ -71,6 +73,8 @@ describe Referral do
         referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
         expect(referral.status).to eq(Referral::STATUS_INPROGRESS)
         expect(@case.assigned_user_names).to include(referral.transitioned_to)
+        expect(@case.referred_users).to include(referral.transitioned_to)
+        expect(@case.referred_users_present).to eq(true)
       end
 
       it 'does not perform the referral if the receiving user is not allowed to receive referrals' do
@@ -105,6 +109,8 @@ describe Referral do
       expect(@revoke_referral.status).to eq(Referral::STATUS_REVOKED)
       expect(@case.assigned_user_names).not_to include(@revoke_referral.transitioned_to)
       expect(service_object['service_implemented']).to be_nil
+      expect(@case.referred_users).not_to include(@revoke_referral.transitioned_to)
+      expect(@case.referred_users_present).to eq(false)
     end
 
     it 'it save a record history when referral is rejected' do
@@ -130,6 +136,8 @@ describe Referral do
 
       expect(@done_referral.status).to eq(Transition::STATUS_DONE)
       expect(@case.assigned_user_names).not_to include('user2')
+      expect(@case.referred_users).not_to include(@done_referral.transitioned_to)
+      expect(@case.referred_users_present).to eq(false)
     end
 
     it 'mark the service object as implemented' do
@@ -271,47 +279,50 @@ describe Referral do
       end
 
       it 'does not remove the transitioned_to from assigned_user_names if the referral is in progress' do
-        @referral.status = Transition::STATUS_INPROGRESS
-        @referral.save!
-
         @done_referral.done!(@user1)
         @done_referral.reload
 
         expect(@done_referral.status).to eq(Transition::STATUS_DONE)
         expect(@case.assigned_user_names).to include('user2')
+        expect(@case.referred_users).to include('user2')
+        expect(@case.referred_users_present).to eq(true)
       end
 
       it 'does not remove the transitioned_to from assigned_user_names if the referral is accepted' do
-        @referral.status = Transition::STATUS_ACCEPTED
-        @referral.save!
+        @referral.accept!
 
         @done_referral.done!(@user1)
         @done_referral.reload
 
         expect(@done_referral.status).to eq(Transition::STATUS_DONE)
         expect(@case.assigned_user_names).to include('user2')
+        expect(@case.referred_users).to include('user2')
+        expect(@case.referred_users_present).to eq(true)
       end
 
       it 'removes the transitioned_to from assigned_user_names if the referral is rejected' do
-        @referral.status = Transition::STATUS_REJECTED
-        @referral.save!
+        @referral.reject!(@user2)
 
         @done_referral.done!(@user1)
         @done_referral.reload
 
         expect(@done_referral.status).to eq(Transition::STATUS_DONE)
         expect(@case.assigned_user_names).not_to include('user2')
+        expect(@case.referred_users).not_to include('user2')
+        expect(@case.referred_users_present).to eq(false)
       end
 
       it 'removes the transitioned_to from assigned_user_names if the referral is done' do
-        @referral.status = Transition::STATUS_DONE
-        @referral.save!
+        @referral.accept!
+        @referral.done!(@user2)
 
         @done_referral.done!(@user1)
         @done_referral.reload
 
         expect(@done_referral.status).to eq(Transition::STATUS_DONE)
         expect(@case.assigned_user_names).not_to include('user2')
+        expect(@case.referred_users).not_to include('user2')
+        expect(@case.referred_users_present).to eq(false)
       end
     end
 
@@ -339,6 +350,8 @@ describe Referral do
       expect(referral.status).to eq(Transition::STATUS_ACCEPTED)
       expect(referral.responded_at).to eq(now)
       expect(@case.assigned_user_names).to include('user2')
+      expect(@case.referred_users).to include(referral.transitioned_to)
+      expect(@case.referred_users_present).to eq(true)
     end
   end
 
@@ -358,6 +371,8 @@ describe Referral do
       expect(@rejected_referral.rejected_reason).to eq(@rejected_reason)
       expect(@rejected_referral.responded_at).to eq(@now)
       expect(@case.assigned_user_names).not_to include('user2')
+      expect(@case.referred_users).not_to include(@rejected_referral.transitioned_to)
+      expect(@case.referred_users_present).to eq(false)
     end
 
     context 'when the user has a referral in progress for another case' do
@@ -371,6 +386,8 @@ describe Referral do
 
         expect(@rejected_referral.status).to eq(Transition::STATUS_REJECTED)
         expect(@case.assigned_user_names).not_to include('user2')
+        expect(@case.referred_users).not_to include(@rejected_referral.transitioned_to)
+        expect(@case.referred_users_present).to eq(false)
       end
     end
 
@@ -403,11 +420,12 @@ describe Referral do
         expect(@rejected_referral.rejected_reason).to eq(@rejected_reason)
         expect(@rejected_referral.responded_at).to eq(@now)
         expect(@case.assigned_user_names).to include('user2')
+        expect(@case.referred_users).not_to include(@rejected_referral.transitioned_to)
+        expect(@case.referred_users_present).to eq(false)
       end
 
       it 'removes the transitioned_to from assigned_user_names if the transfer is accepted' do
-        @transfer.status = Transition::STATUS_ACCEPTED
-        @transfer.save!
+        @transfer.accept!(@user2)
 
         @rejected_referral.reject!(@user1, @rejected_reason)
         @rejected_referral.reload
@@ -416,11 +434,12 @@ describe Referral do
         expect(@rejected_referral.rejected_reason).to eq(@rejected_reason)
         expect(@rejected_referral.responded_at).to eq(@now)
         expect(@case.assigned_user_names).not_to include('user2')
+        expect(@case.referred_users).not_to include(@rejected_referral.transitioned_to)
+        expect(@case.referred_users_present).to eq(false)
       end
 
       it 'removes the transitioned_to from assigned_user_names if the transfer is rejected' do
-        @transfer.status = Transition::STATUS_REJECTED
-        @transfer.save!
+        @transfer.reject!(@user2)
 
         @rejected_referral.reject!(@user1, @rejected_reason)
         @rejected_referral.reload
@@ -429,19 +448,8 @@ describe Referral do
         expect(@rejected_referral.rejected_reason).to eq(@rejected_reason)
         expect(@rejected_referral.responded_at).to eq(@now)
         expect(@case.assigned_user_names).not_to include('user2')
-      end
-
-      it 'removes the transitioned_to from assigned_user_names if the transfer is done' do
-        @transfer.status = Transition::STATUS_DONE
-        @transfer.save!
-
-        @rejected_referral.reject!(@user1, @rejected_reason)
-        @rejected_referral.reload
-
-        expect(@rejected_referral.status).to eq(Transition::STATUS_REJECTED)
-        expect(@rejected_referral.rejected_reason).to eq(@rejected_reason)
-        expect(@rejected_referral.responded_at).to eq(@now)
-        expect(@case.assigned_user_names).not_to include('user2')
+        expect(@case.referred_users).not_to include(@rejected_referral.transitioned_to)
+        expect(@case.referred_users_present).to eq(false)
       end
     end
 
@@ -461,11 +469,12 @@ describe Referral do
         expect(@rejected_referral.rejected_reason).to eq(@rejected_reason)
         expect(@rejected_referral.responded_at).to eq(@now)
         expect(@case.assigned_user_names).to include('user2')
+        expect(@case.referred_users).to include(@referral.transitioned_to)
+        expect(@case.referred_users_present).to eq(true)
       end
 
       it 'does not remove the transitioned_to from assigned_user_names if the referral is accepted' do
-        @referral.status = Transition::STATUS_ACCEPTED
-        @referral.save!
+        @referral.accept!
 
         @rejected_referral.reject!(@user1, @rejected_reason)
         @rejected_referral.reload
@@ -474,11 +483,12 @@ describe Referral do
         expect(@rejected_referral.rejected_reason).to eq(@rejected_reason)
         expect(@rejected_referral.responded_at).to eq(@now)
         expect(@case.assigned_user_names).to include('user2')
+        expect(@case.referred_users).to include(@referral.transitioned_to)
+        expect(@case.referred_users_present).to eq(true)
       end
 
       it 'removes the transitioned_to from assigned_user_names if the referral is rejected' do
-        @referral.status = Transition::STATUS_REJECTED
-        @referral.save!
+        @referral.reject!(@user2)
 
         @rejected_referral.reject!(@user1, @rejected_reason)
         @rejected_referral.reload
@@ -487,11 +497,13 @@ describe Referral do
         expect(@rejected_referral.rejected_reason).to eq(@rejected_reason)
         expect(@rejected_referral.responded_at).to eq(@now)
         expect(@case.assigned_user_names).not_to include('user2')
+        expect(@case.referred_users).not_to include(@referral.transitioned_to)
+        expect(@case.referred_users_present).to eq(false)
       end
 
       it 'removes the transitioned_to from assigned_user_names if the referral is done' do
-        @referral.status = Transition::STATUS_DONE
-        @referral.save!
+        @referral.accept!
+        @referral.done!(@user2)
 
         @rejected_referral.reject!(@user1, @rejected_reason)
         @rejected_referral.reload
@@ -500,15 +512,98 @@ describe Referral do
         expect(@rejected_referral.rejected_reason).to eq(@rejected_reason)
         expect(@rejected_referral.responded_at).to eq(@now)
         expect(@case.assigned_user_names).not_to include('user2')
+        expect(@case.referred_users).not_to include(@referral.transitioned_to)
+        expect(@case.referred_users_present).to eq(false)
       end
 
-      it 'it save a record history when referral is rejected' do
+      it 'saves a record history when referral is rejected' do
         @rejected_referral.reject!(@user1, @rejected_reason)
         expect(@case.ordered_histories.first.user_name).to eq(@user1.user_name)
       end
     end
   end
+
+  describe 'alerts' do
+    before :each do
+      @record = Child.create!(
+        data: {
+          name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id, disclosure_other_orgs: true,
+          consent_for_services: true
+        }
+      )
+    end
+
+    it 'creates a Referral alert on the record' do
+      Referral.create!(
+        transitioned_by: 'user1', transitioned_to: 'user2', record: @record
+      )
+      referral_alert = @record.alerts.find { |alert| alert.type == Referral.alert_type }
+
+      expect(@record.alerts.size).to eq(1)
+      expect(referral_alert.user.user_name).to eq('user2')
+      expect(referral_alert.type).to eq(Referral.alert_type)
+      expect(referral_alert.alert_for).to eq(Referral.alert_type)
+      expect(referral_alert.form_sidebar_id).to eq(Referral.alert_form_unique_id)
+    end
+
+    it 'creates multiple alerts for multiple referrals on the same record' do
+      Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      Referral.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @record)
+
+      alerts = @record.alerts.select { |alert| alert.type == Referral.alert_type }
+
+      expect(alerts.size).to eq(2)
+      expect(alerts.map { |alert| alert.user.user_name }).to match_array(%w[user2 user1])
+      expect(alerts.map(&:type)).to match_array([Referral.alert_type, Referral.alert_type])
+    end
+
+    it 'does not create a referral alert if the referral is remote' do
+      Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record, remote: true)
+
+      expect(@record.alerts).to be_empty
+    end
+
+    it 'removes referral alerts for the transitioned_to user if accepted' do
+      Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      Referral.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @record)
+      referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      referral.accept!
+
+      @record.reload
+
+      alerts = @record.alerts.select { |alert| alert.type == Referral.alert_type }
+
+      expect(alerts.size).to eq(1)
+      expect(alerts.map { |alert| alert.user.user_name }).to match_array(%w[user1])
+      expect(alerts.map(&:type)).to match_array([Referral.alert_type])
+    end
+
+    it 'removes a referral alert if accepted' do
+      referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      referral.accept!
+      @record.reload
+
+      expect(@record.alerts).to be_empty
+    end
+
+    it 'removes a referral alert if rejected' do
+      referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      referral.reject!(@user2)
+      @record.reload
+
+      expect(@record.alerts).to be_empty
+    end
+
+    it 'removes a referral alert if revoked' do
+      referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      referral.revoke!(@user2)
+      @record.reload
+
+      expect(@record.alerts).to be_empty
+    end
+  end
+
   after do
-    clean_data(Child, User, Role, UserGroup, PrimeroModule, Transition, Transfer, Referral)
+    clean_data(Alert, Child, User, Role, UserGroup, PrimeroModule, Transition, Transfer, Referral)
   end
 end

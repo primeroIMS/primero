@@ -1,0 +1,9 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
+.alertItemElement {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1;
+}

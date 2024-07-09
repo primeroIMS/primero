@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Abstract superclass for user identity connectors
 class ApiConnector::AbstractConnector
+  RETRY_DELAY = 5 # Retry every 5 seconds
+  RETRY_LIMIT = 3 #  Attempt limit
   attr_accessor :connection
 
   def self.build_from_env(options = {})
@@ -66,5 +70,18 @@ class ApiConnector::AbstractConnector
 
   def relevant_updates?(_record)
     true
+  end
+
+  def with_retry(retry_limit = RETRY_LIMIT, retry_delay = RETRY_DELAY)
+    retry_limit.times do |attempt|
+      return yield
+    rescue Faraday::ConnectionFailed,
+           Faraday::TimeoutError,
+           Faraday::SSLError => e
+      raise e if attempt == retry_limit - 1
+
+      sleep(retry_delay)
+      Rails.logger.warn('Conenction Failed, Retrying.')
+    end
   end
 end

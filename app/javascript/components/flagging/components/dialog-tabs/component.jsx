@@ -1,5 +1,7 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
-import { Tab, Tabs, Box } from "@material-ui/core";
+import { Tab, Tabs, Box } from "@mui/material";
 
 import { useI18n } from "../../../i18n";
 import TabPanel from "../TabPanel";
@@ -7,7 +9,7 @@ import css from "../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({ children, isBulkFlags, tab, setTab }) => {
+function Component({ children, isBulkFlags, tab, setTab }) {
   const i18n = useI18n();
 
   const tabs = [i18n.t("flags.flags_tab"), i18n.t("flags.add_flag_tab")];
@@ -51,7 +53,7 @@ const Component = ({ children, isBulkFlags, tab, setTab }) => {
   }
 
   return null;
-};
+}
 
 Component.displayName = NAME;
 

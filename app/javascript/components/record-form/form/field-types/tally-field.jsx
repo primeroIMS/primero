@@ -1,6 +1,8 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { connect, getIn } from "formik";
 import { useEffect } from "react";
-import { FormHelperText, InputLabel } from "@material-ui/core";
+import { FormHelperText, InputLabel } from "@mui/material";
 import PropTypes from "prop-types";
 import compact from "lodash/compact";
 
@@ -10,7 +12,7 @@ import { buildTallyErrors } from "../utils";
 import TallyFieldContainer from "./tally-field-container";
 import css from "./styles.css";
 
-const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, mode, ...rest }) => {
+function TallyField({ name, formik, field, helperText, InputLabelProps, label, mode, ...rest }) {
   const totalName = `${name}.total`;
   const tallyValues = compact(field.tally.map(option => getIn(formik.values, [name, option.id])));
   const errors = getIn(formik.errors, name);
@@ -32,7 +34,7 @@ const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, m
       <InputLabel htmlFor={name} {...InputLabelProps} error={hasError}>
         {label}
       </InputLabel>
-      <div className={css.inputTally}>
+      <div className={css.inputTally} data-testid="tally-field">
         {field.tally.map(option => (
           <TallyFieldContainer name={`${name}.${option.id}`} option={option} error={hasError} {...rest} />
         ))}
@@ -41,7 +43,7 @@ const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, m
       <FormHelperText {...renderErrorOnHelperText}>{renderError || helperText}</FormHelperText>
     </div>
   );
-};
+}
 
 TallyField.displayName = TALLY_FIELD_NAME;
 

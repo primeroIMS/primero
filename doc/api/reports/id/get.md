@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Fetch the individual report
 
 Shows the JSON representation of a report. The report is built so that the report data is

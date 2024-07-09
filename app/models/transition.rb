@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Class for transfers, referrals, and assign
 class Transition < ApplicationRecord
   STATUS_ACCEPTED = 'accepted'
@@ -7,11 +9,14 @@ class Transition < ApplicationRecord
   STATUS_INPROGRESS = 'in_progress'
   STATUS_DONE = 'done'
   STATUS_REVOKED = 'revoked'
+  NOTIFICATION_ACTION = 'transition_notification'
 
   belongs_to :record, polymorphic: true
   belongs_to :transitioned_to_user, class_name: 'User', foreign_key: 'transitioned_to',
                                     primary_key: 'user_name', optional: true
   belongs_to :transitioned_by_user, class_name: 'User', foreign_key: 'transitioned_by', primary_key: 'user_name'
+  belongs_to :role, class_name: 'Role', foreign_key: 'authorized_role_unique_id',
+                    primary_key: 'unique_id', optional: true
 
   validates :transitioned_to, presence: true, unless: :remote
   validates :transitioned_by, presence: true
@@ -24,7 +29,7 @@ class Transition < ApplicationRecord
   before_create :copy_transitioned_user_groups_and_agency
   after_save_commit :notify
 
-  after_save :index_record
+  after_save :save_record
 
   def defaults
     self.created_at ||= DateTime.now
@@ -90,13 +95,13 @@ class Transition < ApplicationRecord
   end
 
   def notify
-    return unless notified_statuses.include?(status)
+    return unless should_notify?
 
     TransitionNotifyJob.perform_later(id)
   end
 
-  def index_record
-    Sunspot.index(record) if record
+  def should_notify?
+    notified_statuses.include?(status)
   end
 
   def update_incident_ownership
@@ -138,5 +143,9 @@ class Transition < ApplicationRecord
 
     self.transitioned_to_user_agency = transitioned_to_user.agency&.unique_id
     self.transitioned_to_user_groups = transitioned_to_user.user_group_unique_ids
+  end
+
+  def save_record
+    record.save!
   end
 end

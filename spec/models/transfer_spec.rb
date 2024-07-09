@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Transfer do
   before do
-    clean_data(User, Agency, Role, PrimeroModule, UserGroup, Transition, Incident, Child)
+    clean_data(Alert, User, Agency, Role, PrimeroModule, UserGroup, Transition, Incident, Child)
 
     @module_cp = PrimeroModule.new(name: 'CP')
     @module_cp.save(validate: false)
@@ -88,11 +90,26 @@ describe Transfer do
         expect(case1.assigned_user_names).to include(@transfer.transitioned_to)
       end
 
+      it 'updates the transferred_to fields' do
+        expect(case1.transferred_to_users).to include(@transfer.transitioned_to)
+        expect(case1.transferred_to_user_groups).to include(@group2.unique_id)
+      end
+
       it 'does not change ownership of the record' do
         expect(case1.owned_by).to eq('user1')
         expect(case1.owned_by_full_name).to eq('Test User One')
         expect(case1.owned_by_location).to eq('loc012345')
         expect(case1.owned_by_agency).to eq(@agency1.agency_code)
+      end
+
+      it 'creates a transfer alert for the record' do
+        transfer_alert = @case.alerts.find { |alert| alert.type == 'transfer' }
+
+        expect(@case.alerts.size).to eq(1)
+        expect(transfer_alert.user.user_name).to eq('user2')
+        expect(transfer_alert.type).to eq('transfer')
+        expect(transfer_alert.alert_for).to eq('transfer')
+        expect(transfer_alert.form_sidebar_id).to eq('transfers_assignments')
       end
     end
 
@@ -130,6 +147,8 @@ describe Transfer do
       expect(@transfer.responded_at).to eq(@now)
       expect(case1.transfer_status).to eq(Transition::STATUS_ACCEPTED)
       expect(case1.status).to eq(Record::STATUS_OPEN)
+      expect(case1.transferred_to_users).not_to include(@transfer.transitioned_to)
+      expect(case1.transferred_to_user_groups).not_to include(@group2.unique_id)
     end
 
     it 'should have a entry in record histories' do
@@ -274,6 +293,8 @@ describe Transfer do
       expect(@case.assigned_user_names.present?).to be_falsey
       expect(@case.transfer_status).to eq(Transition::STATUS_REJECTED)
       expect(@case.status).to eq(Record::STATUS_OPEN)
+      expect(@case.transferred_to_users).not_to include(@rejected_transfer.transitioned_to)
+      expect(@case.transferred_to_user_groups).not_to include(@group2.unique_id)
     end
 
     it 'does not change ownership of the record' do
@@ -383,6 +404,8 @@ describe Transfer do
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
         expect(@rejected_transfer.responded_at).to eq(@now)
         expect(@case.assigned_user_names).to include('user2')
+        expect(@case.transferred_to_users).to include(@rejected_transfer.transitioned_to)
+        expect(@case.transferred_to_user_groups).to include(@group2.unique_id)
       end
 
       it 'removes the transitioned_to from assigned_user_names if the transfer is accepted' do
@@ -395,6 +418,8 @@ describe Transfer do
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
         expect(@rejected_transfer.responded_at).to eq(@now)
         expect(@case.assigned_user_names).not_to include('user2')
+        expect(@case.transferred_to_users).not_to include(@rejected_transfer.transitioned_to)
+        expect(@case.transferred_to_user_groups).not_to include(@group2.unique_id)
       end
 
       it 'removes the transitioned_to from assigned_user_names if the transfer is rejected' do
@@ -407,6 +432,8 @@ describe Transfer do
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
         expect(@rejected_transfer.responded_at).to eq(@now)
         expect(@case.assigned_user_names).not_to include('user2')
+        expect(@case.transferred_to_users).not_to include(@rejected_transfer.transitioned_to)
+        expect(@case.transferred_to_user_groups).not_to include(@group2.unique_id)
       end
 
       it 'removes the transitioned_to from assigned_user_names if the transfer is done' do
@@ -419,6 +446,8 @@ describe Transfer do
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
         expect(@rejected_transfer.responded_at).to eq(@now)
         expect(@case.assigned_user_names).not_to include('user2')
+        expect(@case.transferred_to_users).not_to include(@rejected_transfer.transitioned_to)
+        expect(@case.transferred_to_user_groups).not_to include(@group2.unique_id)
       end
 
       it 'should have a entry in record histories' do
@@ -430,7 +459,69 @@ describe Transfer do
     end
   end
 
+  describe 'alerts' do
+    before :each do
+      @record = Child.create!(
+        data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id, disclosure_other_orgs: true }
+      )
+    end
+
+    it 'creates a transfer alert on the record' do
+      Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      transfer_alert = @record.alerts.find { |alert| alert.type == 'transfer' }
+
+      expect(@record.alerts.size).to eq(1)
+      expect(transfer_alert.user.user_name).to eq('user2')
+      expect(transfer_alert.type).to eq('transfer')
+      expect(transfer_alert.alert_for).to eq('transfer')
+      expect(transfer_alert.form_sidebar_id).to eq('transfers_assignments')
+    end
+
+    it 'does not create multiple alerts for multiple transfers on the same record' do
+      Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      Transfer.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @record)
+
+      transfer_alert = @record.alerts.find { |alert| alert.type == 'transfer' }
+
+      expect(@record.alerts.size).to eq(1)
+      expect(transfer_alert.user.user_name).to eq('user2')
+      expect(transfer_alert.type).to eq('transfer')
+      expect(transfer_alert.alert_for).to eq('transfer')
+      expect(transfer_alert.form_sidebar_id).to eq('transfers_assignments')
+    end
+
+    it 'does not create a transfer alert if the transfer is remote' do
+      Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record, remote: true)
+
+      expect(@record.alerts).to be_empty
+    end
+
+    it 'removes a transfer alert if accepted' do
+      transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      transfer.accept!(@user2)
+      @record.reload
+
+      expect(@record.alerts).to be_empty
+    end
+
+    it 'removes a transfer alert if rejected' do
+      transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      transfer.reject!(@user2)
+      @record.reload
+
+      expect(@record.alerts).to be_empty
+    end
+
+    it 'removes a transfer alert if revoked' do
+      transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
+      transfer.revoke!(@user2)
+      @record.reload
+
+      expect(@record.alerts).to be_empty
+    end
+  end
+
   after :each do
-    clean_data(User, Role, PrimeroModule, UserGroup, Incident, Child, Transition, Agency)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Incident, Child, Transition, Agency)
   end
 end

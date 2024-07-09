@@ -1,16 +1,18 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { FastField, connect, getIn } from "formik";
-import { Checkbox } from "formik-material-ui";
+import { Checkbox } from "formik-mui";
 import pickBy from "lodash/pickBy";
-import { FormControlLabel, FormHelperText, InputLabel, FormControl } from "@material-ui/core";
-import clsx from "clsx";
+import { FormControlLabel, FormHelperText, InputLabel, FormControl } from "@mui/material";
+import { cx } from "@emotion/css";
 
 import { TICK_FIELD_NAME } from "../constants";
 import { useI18n } from "../../../i18n";
 import css from "../styles.css";
 
-const TickField = ({ helperText, name, label, tickBoxlabel, formik, disabled = false, ...rest }) => {
+function TickField({ helperText, name, label, tickBoxlabel, formik, disabled = false, ...rest }) {
   const i18n = useI18n();
 
   const fieldProps = {
@@ -26,7 +28,7 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, disabled = f
   ) : (
     <FormHelperText>{helperText}</FormHelperText>
   );
-  const classes = clsx({
+  const classes = cx({
     [css.error]: Boolean(fieldError)
   });
 
@@ -49,7 +51,7 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, disabled = f
       {displayHelperText}
     </FormControl>
   );
-};
+}
 
 TickField.displayName = TICK_FIELD_NAME;
 

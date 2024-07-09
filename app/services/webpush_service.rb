@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Service to send a WebPush Notification
 class WebpushService
   MAX_ATTEMPTS = 3
@@ -75,7 +77,7 @@ class WebpushService
   def vapid_metadata
     {
       vapid: {
-        subject: Rails.configuration.x.webpush.contact,
+        subject: "mailto:#{Rails.configuration.x.webpush.contact}",
         public_key: Rails.configuration.x.webpush.vapid_public,
         private_key: Rails.configuration.x.webpush.vapid_private
       }

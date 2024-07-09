@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { isEmpty } from "lodash";
 
 import { RECORD_TYPES, TRACES_SUBFORM_UNIQUE_ID } from "../../../../../config";

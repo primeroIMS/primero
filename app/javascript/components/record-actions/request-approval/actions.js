@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const APPROVE_RECORD = "APPROVE_RECORD";
 export const APPROVE_RECORD_STARTED = "APPROVE_RECORD_STARTED";
 export const APPROVE_RECORD_SUCCESS = "APPROVE_RECORD_SUCCESS";

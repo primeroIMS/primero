@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export { fetchAgencies, fetchForms, fetchLookups, fetchOptions, setSelectedForm } from "./action-creators";
 export { default as reducer } from "./reducer";
 export {
@@ -22,6 +24,6 @@ export {
   getSubformsDisplayName,
   getValidationErrors
 } from "./selectors";
-export { FormSectionField } from "./form";
+export { default as FormSectionField } from "./form/form-section-field";
 export { FieldRecord } from "./records";
 export { constructInitialValues } from "./utils";

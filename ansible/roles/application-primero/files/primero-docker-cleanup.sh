@@ -1,4 +1,5 @@
 #!/bin/bash
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
     
 version=$(</srv/primero/docker-app-version.txt)
 

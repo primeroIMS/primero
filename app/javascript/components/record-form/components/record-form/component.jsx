@@ -1,9 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useMediaQuery } from "@material-ui/core";
+import { useMediaQuery } from "@mui/material";
 import { batch, useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 import { fromJS } from "immutable";
 
 import FormFilters from "../../../form-filters";
@@ -12,27 +14,22 @@ import { useI18n } from "../../../i18n";
 import PageContainer from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import { clearSelectedRecord, fetchRecord, saveRecord, setSelectedRecord } from "../../../records";
-import { RECORD_TYPES, RECORD_TYPES_PLURAL, REFERRAL } from "../../../../config";
-import { getIsProcessingSomeAttachment, getLoadingRecordState, getSelectedRecord } from "../../../records/selectors";
+import { RECORD_TYPES, RECORD_TYPES_PLURAL, REFERRAL, RECORD_PATH } from "../../../../config";
+import { getIsProcessingSomeAttachment, getLoadingRecordState } from "../../../records/selectors";
 import { clearRecordAttachments, fetchRecordsAlerts } from "../../../records/action-creators";
 import useIncidentFromCase from "../../../records/use-incident-form-case";
 import SaveAndRedirectDialog from "../../../save-and-redirect-dialog";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import { SERVICES_SUBFORM } from "../../../record-actions/add-service/constants";
 import { getLoadingState, getErrors, getSelectedForm } from "../../selectors";
-import {
-  clearDataProtectionInitialValues,
-  clearValidationErrors,
-  setPreviousRecord,
-  setSelectedForm
-} from "../../action-creators";
+import { clearDataProtectionInitialValues, clearValidationErrors, setPreviousRecord } from "../../action-creators";
 import Nav from "../../nav";
 import { RecordForm, RecordFormToolbar } from "../../form";
 import css from "../../styles.css";
 import { compactBlank, compactReadOnlyFields, compactValues, getRedirectPath } from "../../utils";
 import externalForms from "../external-forms";
 
-const Component = ({
+function Component({
   approvalSubforms,
   attachmentForms,
   canRefer,
@@ -57,10 +54,9 @@ const Component = ({
   shouldFetchRecord,
   summaryForm,
   userPermittedFormsIds
-}) => {
+}) {
   let submitForm = null;
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
-  const [selectedRecordChanged, setSelectedRecordChanged] = useState(false);
 
   const { state: locationState } = useLocation();
   const history = useHistory();
@@ -91,7 +87,6 @@ const Component = ({
   const loadingRecord = useMemoizedSelector(state => getLoadingRecordState(state, params.recordType));
   const errors = useMemoizedSelector(state => getErrors(state));
   const selectedForm = useMemoizedSelector(state => getSelectedForm(state));
-  const selectedRecord = useMemoizedSelector(state => getSelectedRecord(state, params.recordType));
   const isProcessingSomeAttachment = useMemoizedSelector(state =>
     getIsProcessingSomeAttachment(state, params.recordType)
   );
@@ -245,21 +240,10 @@ const Component = ({
     }
   }, [selectedForm]);
 
-  useEffect(() => {
-    if (params.id && selectedRecord && selectedRecord !== params.id && containerMode.isShow) {
-      setSelectedRecordChanged(true);
-    }
-  }, [selectedRecord, containerMode.isShow, params.id]);
-
-  useEffect(() => {
-    if (selectedRecordChanged && containerMode.isShow && firstTab) {
-      dispatch(setSelectedForm(firstTab.unique_id));
-      setSelectedRecordChanged(false);
-    }
-  }, [selectedRecordChanged, containerMode.isShow, firstTab]);
+  const isNotANewIncident = !containerMode.isNew && params.recordType === RECORD_PATH.incidents;
 
   const transitionProps = {
-    fetchable: isNotANewCase,
+    fetchable: isNotANewCase || isNotANewIncident,
     isReferral: REFERRAL === selectedForm,
     recordType: params.recordType,
     recordID: params.id,
@@ -295,11 +279,11 @@ const Component = ({
   const loading = Boolean(loadingForm || loadingRecord);
   const renderRecordFormToolbar = selectedModule.primeroModule && <RecordFormToolbar {...toolbarProps} />;
 
-  const containerClasses = clsx(css.recordContainer, {
+  const containerClasses = cx(css.recordContainer, {
     [css.formNavOpen]: toggleNav && mobileDisplay
   });
-  const navContainerClasses = clsx(css.recordNav, { [css.demo]: demo });
-  const demoClasses = clsx({ [css.demo]: demo });
+  const navContainerClasses = cx(css.recordNav, { [css.demo]: demo });
+  const demoClasses = cx({ [css.demo]: demo });
 
   const recordFormExternalForms = externalForms({
     approvalSubforms,
@@ -332,6 +316,7 @@ const Component = ({
               formNav={formNav}
               handleToggleNav={handleToggleNav}
               isNew={containerMode.isNew}
+              isShow={containerMode.isShow}
               mobileDisplay={mobileDisplay}
               recordType={params.recordType}
               selectedForm={selectedForm}
@@ -339,6 +324,7 @@ const Component = ({
               toggleNav={toggleNav}
               primeroModule={selectedModule.primeroModule}
               hasForms={hasForms}
+              recordId={params.id}
               formikValuesForNav={formikValuesForNav}
             />
           </div>
@@ -364,7 +350,7 @@ const Component = ({
       </LoadingIndicator>
     </PageContainer>
   );
-};
+}
 
 Component.displayName = "RecordForm";
 

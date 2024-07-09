@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Describes codes of conduct
 class CodeOfConduct < ApplicationRecord
   self.table_name = 'codes_of_conduct'

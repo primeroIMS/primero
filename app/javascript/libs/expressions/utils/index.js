@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export { default as buildOperator } from "./build-operator";
 export { default as getDataValue } from "./get-data-value";
 export { default as isExpression } from "./is-expression";

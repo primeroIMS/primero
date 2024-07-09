@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Superclass for controllers that modify a dependent resource on a record
 # The REST url is something like /api/v2/:records/:record-id/:resources
 class Api::V2::RecordResourceController < ApplicationApiController

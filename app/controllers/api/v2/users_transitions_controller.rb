@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # API to list allowsed users to receive assignements, transfers, referrals
 class Api::V2::UsersTransitionsController < ApplicationApiController
   before_action :record_model, only: %i[assign_to transfer_to refer_to]
@@ -45,7 +47,7 @@ class Api::V2::UsersTransitionsController < ApplicationApiController
   end
 
   def record_model
-    @record_model = Record.model_from_name(params[:record_type])
+    @record_model = PrimeroModelService.to_model(params[:record_type])
   end
 
   def record_module_unique_id

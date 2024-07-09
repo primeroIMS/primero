@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Map, fromJS } from "immutable";
 import isEmpty from "lodash/isEmpty";
 
@@ -36,7 +38,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         code_of_conduct_id: codeOfConductId,
         code_of_conduct_accepted_on: codeOfConductAcceptedOn,
         permitted_role_unique_ids: permittedRoleUniqueIds,
-        managed_report_scope: managedReportScope
+        managed_report_scope: managedReportScope,
+        receive_webpush: receiveWebpush
       } = payload;
       const cleanedPermissions = permissions.list.filter(listItem => !isEmpty(listItem.actions));
 
@@ -60,7 +63,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           codeOfConductAcceptedOn,
           permittedRoleUniqueIds,
           managedReportScope,
-          loaded: true
+          loaded: true,
+          receiveWebpush
         })
       );
     }

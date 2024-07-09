@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 FactoryBot.define do
   factory :user, traits: [:active_model] do
     user_name { "user_name_#{counter}" }
@@ -13,6 +15,7 @@ FactoryBot.define do
     association :role, factory: :role, strategy: :build
     user_group_ids { [FactoryBot.create(:user_group).id] }
     agency_office { 'Agency Office 1' }
+    settings { { notifications: {} } }
   end
 
   factory :user_group, traits: [:active_model] do

@@ -1,13 +1,15 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
-import { FormControl } from "@material-ui/core";
+import { FormControl } from "@mui/material";
 import { useWatch } from "react-hook-form";
 
 import InputLabel from "../components/input-label";
 
 import css from "./styles.css";
 
-const LinkField = ({ commonInputProps, metaInputProps, formMethods }) => {
+function LinkField({ commonInputProps, metaInputProps, formMethods }) {
   const { tooltip, href } = metaInputProps;
   const { name, label } = commonInputProps;
   const { control } = formMethods;
@@ -24,7 +26,7 @@ const LinkField = ({ commonInputProps, metaInputProps, formMethods }) => {
       </NavLink>
     </FormControl>
   );
-};
+}
 
 LinkField.displayName = "LinkField";
 

@@ -1,17 +1,29 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
 .chipStatus {
   color: var(--c-white);
   border: solid 1px var(--c-blue);
   background-color: var(--c-blue);
+  width: 120px ;
+  word-wrap: normal;
 }
 
 .container {
   display: inline-flex;
   gap: var(--sp-2);
-  align-items: center;
+  align-items: flex-start;
 }
 
 .title {
   display: flex;
   align-items: center;
   margin-top: 0.1em;
+}
+
+.titleViolation {
+  display: flex;
+  align-items: center;
+  margin-top: 0.1em;
+  width: 300px !important;
+  word-wrap: normal !important;
 }

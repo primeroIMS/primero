@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { DASHBOARD_TYPES } from "../constants";
 import { BadgedIndicator, OverviewBox } from "../../../dashboard";
 

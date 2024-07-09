@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import generateKey from "../../charts/table-values/utils";
@@ -6,7 +8,7 @@ import FlagBoxItem from "./components/flag-box-item";
 import { showId } from "./utils";
 import css from "./styles.css";
 
-const FlagBox = ({ flags }) => {
+function FlagBox({ flags }) {
   return (
     <div className={css.flagContainer}>
       {flags
@@ -23,7 +25,7 @@ const FlagBox = ({ flags }) => {
         .slice(0, 10)}
     </div>
   );
-};
+}
 
 FlagBox.displayName = "FlagBox";
 

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::UsersController, type: :request do
@@ -156,6 +158,9 @@ describe Api::V2::UsersController, type: :request do
       agency_id: @agency_a.id,
       role: @role,
       identity_provider_id: @identity_provider_a.id,
+      agency_office: 'my office 1',
+      locale: 'en',
+      services: ['service1'],
       user_groups: [@user_group_a]
     )
 
@@ -273,6 +278,7 @@ describe Api::V2::UsersController, type: :request do
         expect(json['data'][0]['agency_logo_icon']).not_to be_nil
         expect(json['data'][0]['agency_name']).to eq(@agency_a.name)
         expect(json['data'][0]['agency_unique_id']).to eq(@agency_a.unique_id)
+        expect(json['metadata']['total_enabled']).to eq(7)
       end
     end
 
@@ -310,6 +316,7 @@ describe Api::V2::UsersController, type: :request do
         expect(json['data'].map { |user| user['identity_provider_unique_id'] }.compact).to eq(
           [@identity_provider_a.unique_id, @identity_provider_a.unique_id]
         )
+        expect(json['metadata']['total_enabled']).to eq(7)
       end
     end
 
@@ -470,6 +477,7 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data']['user_group_unique_ids']).to eq(params[:data][:user_group_unique_ids])
       expect(User.find_by(id: json['data']['id'])).not_to be_nil
       expect(json['data']['identity_provider_unique_id']).to eq(@identity_provider_a.unique_id)
+      expect(json['metadata']['total_enabled']).to eq(8)
     end
 
     it 'filters sensitive information from logs' do
@@ -641,7 +649,9 @@ describe Api::V2::UsersController, type: :request do
         data: {
           full_name: 'Updated User 1',
           user_group_unique_ids: ['user-group-1'],
-          identity_provider_unique_id: @identity_provider_b.unique_id
+          identity_provider_unique_id: @identity_provider_b.unique_id,
+          agency_office: nil,
+          services: %w[service1 service2]
         }
       }
 
@@ -652,6 +662,8 @@ describe Api::V2::UsersController, type: :request do
       user1 = User.find_by(id: @user_a.id)
       expect(user1.full_name).to eq('Updated User 1')
       expect(user1.user_groups.map(&:unique_id)).to eq(params[:data][:user_group_unique_ids])
+      expect(user1.agency_office).to be_nil
+      expect(user1.services).to eq(%w[service1 service2])
       expect(user1.identity_provider.unique_id).to eq(@identity_provider_b.unique_id)
     end
 

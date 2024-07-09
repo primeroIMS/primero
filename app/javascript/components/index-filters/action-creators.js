@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { isImmutable } from "immutable";
 import omitBy from "lodash/omitBy";
 
@@ -15,7 +17,7 @@ export const applyFilters =
 
     const filteredData =
       isImmutable(data) && data.get("order_by") === "complete"
-        ? data.delete("order_by")
+        ? data
         : omitBy(data, (value, key) => key === "order_by" && value === "complete");
 
     dispatch({

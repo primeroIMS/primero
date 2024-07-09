@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS, Map, List } from "immutable";
 
 import { mergeRecord } from "../../libs";
@@ -19,6 +21,7 @@ import {
   RECORD_FINISHED,
   SERVICE_REFERRED_SAVE,
   FETCH_RECORD_ALERTS_SUCCESS,
+  DELETE_ALERT_FROM_RECORD_SUCCESS,
   FETCH_INCIDENT_FROM_CASE_SUCCESS,
   CLEAR_METADATA,
   CLEAR_CASE_FROM_INCIDENT,
@@ -66,6 +69,9 @@ import {
   CREATE_CASE_FROM_FAMILY_MEMBER_SUCCESS,
   CREATE_CASE_FROM_FAMILY_MEMBER_FAILURE,
   CREATE_CASE_FROM_FAMILY_MEMBER_FINISHED,
+  FETCH_LINK_INCIDENT_TO_CASE_DATA_SUCCESS,
+  FETCH_LINK_INCIDENT_TO_CASE_DATA,
+  FETCH_LINK_INCIDENT_TO_CASE_DATA_FINISHED,
   CREATE_CASE_FROM_FAMILY_DETAIL_STARTED,
   CREATE_CASE_FROM_FAMILY_DETAIL_SUCCESS,
   CREATE_CASE_FROM_FAMILY_DETAIL_FAILURE,
@@ -176,6 +182,13 @@ export default namespace =>
         return state.set("errors", true);
       case `${namespace}/${RECORD_FINISHED}`:
         return state.set("loading", false);
+      case `${namespace}/${DELETE_ALERT_FROM_RECORD_SUCCESS}`:
+        state.set("alert_count", state.get("alert_count") - 1);
+
+        return state.set(
+          "recordAlerts",
+          state.get("recordAlerts").filter(alert => alert.get("unique_id") !== payload.alertId)
+        );
       case `${namespace}/${FETCH_RECORD_ALERTS_SUCCESS}`:
         return state.set("recordAlerts", fromJS(payload.data));
       case "user/LOGOUT_SUCCESS":
@@ -387,6 +400,12 @@ export default namespace =>
       case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED}`: {
         return state.setIn(["case_from_family", "loading"], false);
       }
+      case `${namespace}/${FETCH_LINK_INCIDENT_TO_CASE_DATA}`:
+        return state.set("loading", true);
+      case `${namespace}/${FETCH_LINK_INCIDENT_TO_CASE_DATA_SUCCESS}`:
+        return state.set("data", fromJS(payload.data));
+      case `${namespace}/${FETCH_LINK_INCIDENT_TO_CASE_DATA_FINISHED}`:
+        return state.set("loading", false);
       default:
         return state;
     }

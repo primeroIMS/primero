@@ -1,7 +1,25 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # The business logic for performing the record transfer workflow.
 class Transfer < Transition
+  include TransitionAlertable
+
+  TRANSFER_FORM_UNIQUE_ID = 'transfers_assignments'
+  TRANSFER_ALERT_TYPE = 'transfer'
+  NOTIFICATION_ACTION = 'transfer_request'
+
+  class << self
+    def alert_form_unique_id
+      TRANSFER_FORM_UNIQUE_ID
+    end
+
+    def alert_type
+      TRANSFER_ALERT_TYPE
+    end
+  end
+
   def perform
     self.status = Transition::STATUS_INPROGRESS
     if remote
@@ -19,7 +37,7 @@ class Transfer < Transition
     remove_assigned_user
     record.owned_by = transitioned_to
     record.update_last_updated_by(user)
-    record.save! && save!
+    save!
     update_incident_ownership
   end
 
@@ -31,14 +49,14 @@ class Transfer < Transition
 
     remove_assigned_user
     record.update_last_updated_by(user)
-    record.save! && save!
+    save!
   end
 
   def revoke!(user)
     self.status = record.transfer_status = Transition::STATUS_REVOKED
     remove_assigned_user
     record.update_last_updated_by(user)
-    record.save! && save!
+    save!
   end
 
   def consent_given?
@@ -59,12 +77,15 @@ class Transfer < Transition
     user.can?(:accept_or_reject_transfer, Child) && user.managed_user_names.include?(transitioned_to)
   end
 
+  def generate_alert?
+    super && record.current_alert_types.exclude?(self.class.alert_type)
+  end
+
   private
 
   def perform_remote_transfer
-    record.status = Record::STATUS_TRANSFERRED
-    record.save!
     # TODO: Export record with the constraints of the external user role
+    record.status = Record::STATUS_TRANSFERRED
   end
 
   def perform_record_system_transfer
@@ -82,6 +103,5 @@ class Transfer < Transition
 
     perform_record_system_transfer
     record.last_updated_by = transitioned_by
-    record.save!
   end
 end

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Map } from "immutable";
 
 import actions from "../actions";
@@ -14,6 +16,7 @@ describe("<Transition /> - utils", () => {
       "getUserFilters",
       "hasProvidedConsent",
       "internalFieldsDirty",
+      "buildDataAssign",
       "searchableValue"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);

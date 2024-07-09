@@ -1,6 +1,8 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { memo } from "react";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 
 import { getAgencyLogos } from "../application/selectors";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
@@ -15,8 +17,8 @@ function AgencyLogo({ alwaysFullLogo = false }) {
       const uniqueId = agency.get("unique_id");
       const styleIcon = { backgroundImage: `url(${agency.get("logo_icon")})` };
       const styleFull = { backgroundImage: `url(${agency.get("logo_full")})` };
-      const classesIcon = clsx([css.agencyLogo, css.agencyLogoIcon]);
-      const classesFull = clsx(css.agencyLogo, { [css.agencyLogoFull]: !alwaysFullLogo });
+      const classesIcon = cx([css.agencyLogo, css.agencyLogoIcon]);
+      const classesFull = cx(css.agencyLogo, { [css.agencyLogoFull]: !alwaysFullLogo });
       const fullLogo = <div id={`${uniqueId}-logo`} key={uniqueId} className={classesFull} style={styleFull} />;
 
       if (alwaysFullLogo) {
@@ -25,7 +27,13 @@ function AgencyLogo({ alwaysFullLogo = false }) {
 
       return (
         <>
-          <div id={`${uniqueId}-logo`} key={uniqueId} className={classesIcon} style={styleIcon} />
+          <div
+            id={`${uniqueId}-logo`}
+            key={uniqueId}
+            className={classesIcon}
+            style={styleIcon}
+            data-testid="background"
+          />
           {fullLogo}
         </>
       );

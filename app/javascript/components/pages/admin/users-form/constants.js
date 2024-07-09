@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const USER_CONFIRMATION_DIALOG = "userConfirmationDialog";
 export const IDENTITY_PROVIDER_ID = "identity_provider_unique_id";
 export const USER_GROUP_UNIQUE_IDS = "user_group_unique_ids";
@@ -68,5 +70,25 @@ export const FIELD_NAMES = Object.freeze({
   LOCATION: "location",
   DISABLED: "disabled",
   SEND_MAIL: "send_mail",
-  RECEIVE_WEBPUSH: "receive_webpush"
+  SEND_MAIL_APPROVAL_REQUEST: "settings.notifications.send_mail.approval_request",
+  SEND_MAIL_APPROVAL_RESPONSE: "settings.notifications.send_mail.approval_response",
+  SEND_MAIL_TRANSITION_NOTIFICATION: "settings.notifications.send_mail.transition_notification",
+  SEND_MAIL_TRANSFER_REQUEST: "settings.notifications.send_mail.transfer_request",
+  RECEIVE_WEBPUSH: "receive_webpush",
+  RECEIVE_WEBPUSH_APPROVAL_REQUEST: "settings.notifications.receive_webpush.approval_request",
+  RECEIVE_WEBPUSH_APPROVAL_RESPONSE: "settings.notifications.receive_webpush.approval_response",
+  RECEIVE_WEBPUSH_TRANSITION_NOTIFICATION: "settings.notifications.receive_webpush.transition_notification",
+  RECEIVE_WEBPUSH_TRANSFER_REQUEST: "settings.notifications.receive_webpush.transfer_request"
 });
+
+export const NOTIFICATIONS_PREFERENCES = [
+  "approval_request",
+  "approval_response",
+  "transition_notification",
+  "transfer_request"
+];
+
+export const NOTIFIERS = {
+  send_mail: "SEND_MAIL",
+  receive_webpush: "RECEIVE_WEBPUSH"
+};

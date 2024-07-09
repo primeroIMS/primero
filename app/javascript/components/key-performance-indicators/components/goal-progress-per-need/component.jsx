@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../../i18n";
@@ -6,7 +8,7 @@ import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 import PercentageCell from "../percentage-cell";
 import { ACTIONS } from "../../../permissions";
 
-const Component = ({ data, identifier }) => {
+function Component({ data, identifier }) {
   const i18n = useI18n();
   const columns = [
     {
@@ -25,7 +27,7 @@ const Component = ({ data, identifier }) => {
   const rows = data.get("data").map(row => columns.map(column => row.get(column.name)));
 
   return <KpiTable columns={columns} data={rows} />;
-};
+}
 
 Component.displayName = "GoalProgressPerNeed";
 

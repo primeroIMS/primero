@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { FastField } from "formik";
@@ -13,7 +15,7 @@ import { enqueueSnackbar, SNACKBAR_VARIANTS } from "../../../../notifier";
 import { ATTACHMENT_TYPES, ATTACHMENT_ACCEPTED_TYPES } from "./constants";
 import renderPreview from "./render-preview";
 
-const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
+function AttachmentInput({ attachment, fields, name, value, deleteButton }) {
   const dispatch = useDispatch();
 
   const [file, setFile] = useState({
@@ -93,6 +95,7 @@ const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
                 name={fields.attachment}
                 onChange={handleOnChange}
                 disabled={fieldDisabled()}
+                data-testid="input-file"
                 type="file"
                 accept={acceptedType}
               />
@@ -103,7 +106,7 @@ const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
       {file && renderPreview(attachment, file, css, deleteButton)}
     </div>
   );
-};
+}
 
 AttachmentInput.displayName = "AttachmentInput";
 

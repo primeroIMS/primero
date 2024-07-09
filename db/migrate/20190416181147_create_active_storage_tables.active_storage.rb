@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 class CreateActiveStorageTables < ActiveRecord::Migration[5.2]
   def change
     create_table :active_storage_blobs do |t|

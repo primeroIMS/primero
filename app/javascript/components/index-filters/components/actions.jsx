@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import DisableOffline from "../../disable-offline";
@@ -6,7 +8,7 @@ import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
 import css from "./styles.css";
 
-const Actions = ({ handleSave, handleClear }) => {
+function Actions({ handleSave, handleClear }) {
   const showSave = handleSave && (
     <DisableOffline button>
       <ActionButton
@@ -45,7 +47,7 @@ const Actions = ({ handleSave, handleClear }) => {
       </DisableOffline>
     </div>
   );
-};
+}
 
 Actions.propTypes = {
   handleClear: PropTypes.func.isRequired,

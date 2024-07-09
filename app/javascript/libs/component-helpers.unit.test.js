@@ -1,12 +1,13 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 import { parseISO } from "date-fns";
 
-import { useFakeTimers } from "../test";
+import { useFakeTimers } from "../test-utils";
 
 import {
   compare,
   dataToJS,
-  endOfDay,
   normalizeTimezone,
   toServerDateFormat,
   valuesToSearchableSelect,
@@ -160,12 +161,6 @@ describe("component-helpers", () => {
 
     afterEach(() => {
       clock.restore();
-    });
-  });
-
-  describe("endOfDay", () => {
-    it("should return the end of day for an input date", () => {
-      expect(endOfDay(new Date("2010-05-01")).toISOString()).to.equal("2010-05-01T23:59:59.000Z");
     });
   });
 });

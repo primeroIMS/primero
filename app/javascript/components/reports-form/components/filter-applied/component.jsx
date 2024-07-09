@@ -1,8 +1,10 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
-import { IconButton } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import { IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 
 import { useI18n } from "../../../i18n";
 import { getFieldByName, getOptions } from "../../../record-form/selectors";
@@ -17,7 +19,7 @@ import { NAME } from "./constants";
 import { getConstraintLabel } from "./utils";
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   filter,
   handleClickOpen,
   handleClickEdit,
@@ -25,7 +27,7 @@ const Component = ({
   constraints = CONSTRAINTS,
   deleteDisabled,
   showAndLabel = false
-}) => {
+}) {
   const i18n = useI18n();
   const { isRTL } = useThemeHelper();
   const [index, { data }] = filter;
@@ -89,16 +91,18 @@ const Component = ({
           )}
         </div>
         <div className={css.filterActions}>
-          <IconButton onClick={handleClickOpen(index, filter)} disabled={deleteDisabled}>
+          <IconButton size="large" onClick={handleClickOpen(index, filter)} disabled={deleteDisabled}>
             <DeleteIcon />
           </IconButton>
-          <IconButton onClick={handleClickEdit(index, filter)}>{renderIcon}</IconButton>
+          <IconButton size="large" onClick={handleClickEdit(index, filter)}>
+            {renderIcon}
+          </IconButton>
         </div>
       </div>
       {conditionType === LOGICAL_OPERATORS.OR && <p>{conditionName}</p>}
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

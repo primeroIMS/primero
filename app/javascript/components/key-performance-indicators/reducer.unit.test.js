@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import reducers from "./reducer";
 import NAMESPACE from "./namespace";
 import { KEY_PERFORMANCE_INDICATORS } from "./constants";

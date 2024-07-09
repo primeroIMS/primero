@@ -1,4 +1,6 @@
-import { CssBaseline, Typography } from "@material-ui/core";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { CssBaseline, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
@@ -8,7 +10,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import css from "./styles.css";
 
-const NotAuthorized = () => {
+function NotAuthorized() {
   const i18n = useI18n();
 
   return (
@@ -31,7 +33,7 @@ const NotAuthorized = () => {
       />
     </div>
   );
-};
+}
 
 NotAuthorized.displayName = "NotAuthorized";
 

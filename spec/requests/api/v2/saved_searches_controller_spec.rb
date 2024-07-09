@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::SavedSearchesController, type: :request do
@@ -70,6 +72,10 @@ describe Api::V2::SavedSearchesController, type: :request do
       expect(json['metadata']['total']).to eq(2)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
+    end
+
+    it_behaves_like 'a paginated resource' do
+      let(:action) { { resource: 'saved_searches' } }
     end
   end
 

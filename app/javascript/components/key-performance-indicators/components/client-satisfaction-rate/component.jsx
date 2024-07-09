@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../../i18n";
@@ -7,7 +9,7 @@ import { ACTIONS } from "../../../permissions";
 
 import css from "./styles.css";
 
-const Component = ({ data, identifier }) => {
+function Component({ data, identifier }) {
   const i18n = useI18n();
 
   const rate = data.get("data").get("satisfaction_rate");
@@ -25,7 +27,7 @@ const Component = ({ data, identifier }) => {
       ]}
     />
   );
-};
+}
 
 Component.displayName = "ClientSatisfactionRate";
 

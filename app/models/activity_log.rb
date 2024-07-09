@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Retrieves a list of record histories by type
 class ActivityLog
   attr_accessor :record_history, :data, :datetime, :performed_by, :record_access_denied,

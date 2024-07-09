@@ -1,7 +1,9 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import configureStore from "redux-mock-store";
 import { fromJS } from "immutable";
 
-import { stub, useFakeTimers } from "../../test";
+import { stub, useFakeTimers } from "../../test-utils";
 import uuid from "../../libs/uuid";
 
 import generateRecordProperties from "./generate-record-properties";

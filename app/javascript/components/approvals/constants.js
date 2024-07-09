@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const CASE_PLAN = "case_plan";
 export const NAME = "Approvals";
 export const NAME_DETAIL = "ApprovalDetail";

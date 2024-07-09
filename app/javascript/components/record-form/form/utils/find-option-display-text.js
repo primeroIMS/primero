@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import find from "lodash/find";
 
 import { CUSTOM_STRINGS_SOURCE } from "../constants";

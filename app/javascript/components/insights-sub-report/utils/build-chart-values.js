@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 import take from "lodash/take";
 import sortBy from "lodash/sortBy";
@@ -5,7 +7,7 @@ import first from "lodash/first";
 import last from "lodash/last";
 import isEmpty from "lodash/isEmpty";
 
-import { CHART_COLORS } from "../../../config/constants";
+import { CHART_COLORS } from "../../../config";
 
 import translateGroup from "./translate-group-id";
 import sortWithSortedArray from "./sort-with-sorted-array";

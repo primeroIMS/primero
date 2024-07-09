@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Remove a file from a record
 
 Remove a file from a record. The file will be irretrievably lost.

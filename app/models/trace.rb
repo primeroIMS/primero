@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Describes a trace for an individual child
 class Trace < ApplicationRecord
   include Indexable
@@ -26,11 +28,13 @@ class Trace < ApplicationRecord
     end
   end
 
-  searchable do
-    extend Searchable::TextIndexing
-    Trace.trace_matching_field_names.each { |f| text_index(f, 'matchable') }
-    Trace.tracing_request_matching_field_names.each do |f|
-      text_index(f, 'matchable', :tracing_request)
+  if Rails.configuration.solr_enabled
+    searchable do
+      extend Searchable::TextIndexing
+      Trace.trace_matching_field_names.each { |f| text_index(f, 'matchable') }
+      Trace.tracing_request_matching_field_names.each do |f|
+        text_index(f, 'matchable', :tracing_request)
+      end
     end
   end
 

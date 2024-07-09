@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { createRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -14,7 +16,7 @@ import RequestForm from "./request-form";
 import { saveTransferRequest } from "./action-creators";
 import NAMESPACE from "./namespace";
 
-const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
+function TransferRequest({ open, setOpen, currentRecord, caseId }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formikRef = createRef();
@@ -80,7 +82,7 @@ const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
       </ActionDialog>
     </>
   );
-};
+}
 
 TransferRequest.displayName = NAME;
 

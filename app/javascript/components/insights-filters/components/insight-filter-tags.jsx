@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { List } from "immutable";
 import PropTypes from "prop-types";
 import isNil from "lodash/isNil";
@@ -15,7 +17,7 @@ import { WORKFLOW } from "../../insights/constants";
 
 import css from "./styles.css";
 
-const InsightFilterTags = ({ filters = [], moduleID }) => {
+function InsightFilterTags({ filters = [], moduleID }) {
   const i18n = useI18n();
   const workflowLabels = useMemoizedSelector(state => getWorkflowLabels(state, moduleID, RECORD_TYPES.cases));
   const insightFilters = useMemoizedSelector(state => selectInsightsFilters(state));
@@ -99,7 +101,7 @@ const InsightFilterTags = ({ filters = [], moduleID }) => {
       })}
     </div>
   );
-};
+}
 
 InsightFilterTags.displayName = "InsightFilterTags";
 

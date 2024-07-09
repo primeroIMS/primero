@@ -1,9 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import { useForm, useFieldArray, useWatch } from "react-hook-form";
 import { fromJS } from "immutable";
 import { yupResolver } from "@hookform/resolvers/yup";
 import PropTypes from "prop-types";
-import CheckIcon from "@material-ui/icons/Check";
+import CheckIcon from "@mui/icons-material/Check";
 
 import {
   notPropagatedOnSubmit,

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD, TICK_FIELD } from "../form/constants";
 
 export const FORM_ID = "reports-form";

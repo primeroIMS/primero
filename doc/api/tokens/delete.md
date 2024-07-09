@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Invalidate a JWT token
 
 Invalidate the token currently passed in the Authorization header of this request

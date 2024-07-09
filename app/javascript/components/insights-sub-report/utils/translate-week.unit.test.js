@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { format, parseISO } from "date-fns";
 
 import translateWeek from "./translate-week";
@@ -7,6 +9,6 @@ describe("translateWeek", () => {
     const localizeDate = (value, dateFormat) => format(parseISO(value), dateFormat);
     const result = translateWeek("2020-06-07", "2020-06-13", localizeDate);
 
-    expect(result).to.equal("2020-Jun-07 - 2020-Jun-13");
+    expect(result).to.equal("07-Jun-2020 - 13-Jun-2020");
   });
 });

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { DB_COLLECTIONS_NAMES } from "../constants";
 import DB from "../db";
 

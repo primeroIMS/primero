@@ -1,6 +1,8 @@
-/* eslint-disable react/display-name, react/prop-types */
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Checkbox } from "@material-ui/core";
+/* eslint-disable react/display-name, react/prop-types, react/function-component-definition */
+
+import { Checkbox } from "@mui/material";
 
 export default (props, setDisabled) => {
   const { field, form } = props;

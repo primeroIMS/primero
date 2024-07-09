@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # The default zip. Insecure encryption, but mitigates casual snooping.
 class Zippers::RubyZip
   def zip(file, password)

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
@@ -16,7 +18,7 @@ import { MODULES_FIELD, RECORD_TYPE_FIELD } from "../../constants";
 
 import { NAME } from "./constants";
 
-const Component = ({ mode, index, tab, formMethods }) => {
+function Component({ mode, index, tab, formMethods }) {
   const { id } = useParams();
   const { limitedProductionSite } = useApp();
 
@@ -69,7 +71,7 @@ const Component = ({ mode, index, tab, formMethods }) => {
       />
     </TabPanel>
   );
-};
+}
 
 Component.displayName = NAME;
 

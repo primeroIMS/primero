@@ -1,4 +1,6 @@
-import { createTheme } from "@material-ui/core";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { createTheme } from "@mui/material";
 
 export default clickableCell =>
   createTheme({

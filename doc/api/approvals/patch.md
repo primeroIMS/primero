@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Approvals for a record
 
 Perform approvals on records. Currently there are five approvals: ASSESSMENT, CASE_PLAN, CLOSURE, ACTION_PLAN,

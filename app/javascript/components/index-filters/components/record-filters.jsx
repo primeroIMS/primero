@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { RECORD_PATH } from "../../../config";
 import { useI18n } from "../../i18n";
 import { MY_CASES_FILTER_NAME, OR_FILTER_NAME } from "../constants";

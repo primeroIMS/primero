@@ -1,9 +1,12 @@
-import { Drawer, List, useMediaQuery, Hidden, Divider, IconButton } from "@material-ui/core";
-import { useEffect, useState } from "react";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { Drawer, List, useMediaQuery, Divider, IconButton, Box } from "@mui/material";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import CloseIcon from "@material-ui/icons/Close";
+import CloseIcon from "@mui/icons-material/Close";
 import { push } from "connected-react-router";
 import { isEqual } from "lodash";
+import { cx } from "@emotion/css";
 
 import { ROUTES, PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import AgencyLogo from "../agency-logo";
@@ -20,6 +23,7 @@ import ActionDialog, { useDialog } from "../action-dialog";
 import { useI18n } from "../i18n";
 import { hasQueueData } from "../connectivity/selectors";
 import FieldMode from "../network-indicator/components/field-mode";
+import PoweredBy from "../powered-by";
 
 import { NAME, LOGOUT_DIALOG } from "./constants";
 import css from "./styles.css";
@@ -27,7 +31,7 @@ import { fetchAlerts } from "./action-creators";
 import { getUserId, selectUsername, selectAlerts } from "./selectors";
 import MenuEntry from "./components/menu-entry";
 
-const Nav = () => {
+function Nav() {
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -39,8 +43,7 @@ const Nav = () => {
     dispatch(fetchAlerts());
   }, []);
 
-  const { demo } = useApp();
-
+  const { demo, useContainedNavStyle } = useApp();
   const username = useMemoizedSelector(state => selectUsername(state), isEqual);
   const userId = useMemoizedSelector(state => getUserId(state), isEqual);
   const dataAlerts = useMemoizedSelector(state => selectAlerts(state), isEqual);
@@ -60,9 +63,9 @@ const Nav = () => {
 
   const handleLogoutCancel = () => dialogClose();
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     dispatch(push(ROUTES.logout));
-  };
+  }, []);
 
   const permittedMenuEntries = menuEntries => {
     return menuEntries.map(menuEntry => {
@@ -101,27 +104,38 @@ const Nav = () => {
     });
   };
 
+  const navListClasses = cx(css.navList, { [css.contained]: useContainedNavStyle });
+  const translationsToggleClass = cx(css.translationToggle, css.navTranslationsToggle, {
+    [css.contained]: useContainedNavStyle
+  });
+  const drawerHeaderClasses = cx(css.drawerHeader, { [css.drawerHeaderContained]: useContainedNavStyle });
+
   const drawerContent = (
     <>
-      <Hidden smDown implementation="css">
+      <Box sx={{ display: { xs: "none", md: "block" } }}>
         <ModuleLogo username={username} />
-      </Hidden>
+      </Box>
       <div className={css.drawerHeaderContainer}>
-        <Hidden mdUp implementation="css">
-          <div className={css.drawerHeader}>
-            <IconButton onClick={handleToggleDrawer(false)}>
+        <Box sx={{ display: { md: "none", xs: "block" } }}>
+          <div className={drawerHeaderClasses}>
+            <IconButton size="large" onClick={handleToggleDrawer(false)}>
               <CloseIcon />
             </IconButton>
           </div>
           <Divider />
-        </Hidden>
+        </Box>
       </div>
-      <NetworkIndicator />
-      <List className={css.navList}>{permittedMenuEntries(APPLICATION_NAV(permissions, userId))}</List>
+      <div className={css.navNetworkIndicator}>
+        <NetworkIndicator />
+      </div>
+      <List className={navListClasses}>{permittedMenuEntries(APPLICATION_NAV(permissions, userId))}</List>
       <div className={css.navAgencies}>
         <AgencyLogo />
       </div>
-      <TranslationsToggle />
+      <div className={translationsToggleClass}>
+        <TranslationsToggle />
+      </div>
+      <PoweredBy />
     </>
   );
 
@@ -141,7 +155,7 @@ const Nav = () => {
         openDrawer={handleToggleDrawer(true)}
         hasUnsubmittedOfflineChanges={hasUnsubmittedOfflineChanges}
       />
-      <Hidden mdUp implementation="css">
+      <Box sx={{ display: { md: "none", xs: "block" } }}>
         <Drawer
           variant="temporary"
           {...commonDrawerProps}
@@ -151,26 +165,25 @@ const Nav = () => {
         >
           {drawerContent}
         </Drawer>
-      </Hidden>
-      <Hidden smDown implementation="css">
+      </Box>
+      <Box sx={{ display: { xs: "none", sm: "block" } }}>
         <Drawer variant="permanent" {...commonDrawerProps}>
           {drawerContent}
         </Drawer>
-      </Hidden>
+      </Box>
       <ActionDialog
         dialogTitle={i18n.t("messages.logout_dialog_header")}
         cancelHandler={handleLogoutCancel}
         successHandler={handleLogout}
         confirmButtonLabel={i18n.t("buttons.logout")}
         onClose={dialogClose}
-        omitCloseAfterSuccess
         open={dialogOpen}
       >
         {i18n.t("messages.logout_offline_warning")}
       </ActionDialog>
     </nav>
   );
-};
+}
 
 Nav.displayName = NAME;
 

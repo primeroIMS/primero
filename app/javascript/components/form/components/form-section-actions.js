@@ -1,8 +1,10 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import ActionButton from "../../action-button";
 
-const FormSectionActions = ({ actions, css }) => {
+function FormSectionActions({ actions, css }) {
   if (!actions?.length) return null;
 
   return (
@@ -12,7 +14,7 @@ const FormSectionActions = ({ actions, css }) => {
       ))}
     </div>
   );
-};
+}
 
 FormSectionActions.propTypes = {
   actions: PropTypes.array,

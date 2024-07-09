@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Recursively Merge two hashes representing the JSON blob data of the record
 class RecordMergeDataHashService
   def self.merge_data(old_data, new_data)

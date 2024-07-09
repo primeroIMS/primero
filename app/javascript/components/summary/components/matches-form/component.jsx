@@ -1,8 +1,10 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import { List, ListItemText } from "@material-ui/core";
+import { List, ListItemText } from "@mui/material";
 import { fromJS } from "immutable";
 
 import {
@@ -20,7 +22,7 @@ import { useMemoizedSelector } from "../../../../libs";
 import { NAME } from "./constants";
 import { columns } from "./utils";
 
-const Component = ({ css, i18n, mode, open, record, setSelectedForm, matchedTracesData }) => {
+function Component({ css, i18n, mode, open, record, setSelectedForm, matchedTracesData }) {
   const dispatch = useDispatch();
 
   const data = useMemoizedSelector(state => getCasesPotentialMatches(state));
@@ -67,7 +69,7 @@ const Component = ({ css, i18n, mode, open, record, setSelectedForm, matchedTrac
       <IndexTable {...tableOptions} />
     </LoadingIndicator>
   );
-};
+}
 
 Component.displayName = NAME;
 

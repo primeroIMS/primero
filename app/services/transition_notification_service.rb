@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Service for transitions notification logic
 class TransitionNotificationService
   attr_accessor :transition_id

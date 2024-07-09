@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Accept or decline a transfer request
 
 The user accepts a transfer rewuest and initiates a transfer or declines the request.

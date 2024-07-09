@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
@@ -8,7 +10,7 @@ import useOptions from "../../../../../form/use-options";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ moduleId, parentForm }) => {
+function Component({ moduleId, parentForm }) {
   const i18n = useI18n();
 
   const formGroupLookup = useOptions({ source: buildFormGroupUniqueId(moduleId, parentForm), fullLookup: true });
@@ -21,7 +23,7 @@ const Component = ({ moduleId, parentForm }) => {
       </Link>
     </p>
   );
-};
+}
 
 Component.displayName = NAME;
 

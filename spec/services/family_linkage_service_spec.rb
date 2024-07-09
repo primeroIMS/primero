@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe FamilyLinkageService do
-  before(:each) { clean_data(User, Child, Family) }
+  before(:each) { clean_data(User, Incident, Child, Family) }
 
   let(:user) do
     user = User.new(user_name: 'user_cp', full_name: 'Test User CP')
@@ -176,16 +178,6 @@ describe FamilyLinkageService do
       child = Child.create!(data: { name: 'FirstName LastName', age: 10, sex: 'male' })
       family_member = FamilyLinkageService.child_to_family_member(child)
       expect(family_member['relation_name']).to eq('FirstName LastName')
-    end
-  end
-
-  describe 'family_to_child' do
-    it 'returns the family details for a child' do
-      family_details = FamilyLinkageService.family_to_child(family1)
-
-      expect(family_details['family_number']).to eq('40bf9109')
-      expect(family_details['family_size']).to eq(1)
-      expect(family_details['family_notes']).to eq('Notes about the family')
     end
   end
 

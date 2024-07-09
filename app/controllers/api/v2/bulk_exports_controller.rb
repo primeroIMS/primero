@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # API endpoint for generating exports, in bulk or for individual records
 class Api::V2::BulkExportsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
@@ -46,7 +48,7 @@ class Api::V2::BulkExportsController < ApplicationApiController
   def authorize_export!
     export_format = export_params[:export_format] == 'xlsx' ? 'xls' : export_params[:export_format]
     action = "export_#{export_format}".to_sym
-    record_model = export_params[:record_type] && Record.model_from_name(export_params[:record_type])
+    record_model = export_params[:record_type] && PrimeroModelService.to_model(export_params[:record_type])
     authorize! action, record_model
   end
 

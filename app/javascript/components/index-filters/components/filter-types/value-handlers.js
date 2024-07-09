@@ -1,7 +1,9 @@
-import { subMonths } from "date-fns";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { endOfDay, subMonths } from "date-fns";
 import omit from "lodash/omit";
 
-import { endOfDay, toServerDateFormat } from "../../../../libs";
+import { toServerDateFormat } from "../../../../libs";
 
 import { ageParser } from "./utils";
 
@@ -19,9 +21,10 @@ const customCheckBoxFilters = {
   [CUSTOM_FILTERS.LAST_UPDATED_AT]: ({ fieldName, i18n }) => ({
     options: [
       {
-        id: `0000-01-01T00:00:00Z..${toServerDateFormat(endOfDay(subMonths(new Date(), 3)), {
+        id: `0000-01-01T00:00:00Z..${toServerDateFormat(subMonths(new Date(), 3), {
           includeTime: true,
-          normalize: true
+          normalize: true,
+          callback: endOfDay
         })}`,
         display_name: i18n.t("cases.filter_by.3month_inactivity")
       }

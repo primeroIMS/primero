@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
 import isNil from "lodash/isNil";
@@ -36,17 +38,19 @@ export default (data, columns, ageRanges, i18n) => {
     if (qtyOfParentKeys >= 2) {
       accum.push([key, true, total]);
 
-      const result = sortTableData({
+      const sortedTable = sortTableData({
         field: last(rows),
         data: Object.keys(value),
         ageRanges,
         groupAges: data.group_ages,
         incompleteDataLabel,
         locale: i18n.locale
-      })
+      });
+
+      const result = sortedTable
         .filter(val => !["_total", i18n.t("report.total")].includes(val))
         .map(rowDisplayName => {
-          const values = columnPaths.map(child => get(value[rowDisplayName], child, 0));
+          const values = columnPaths.map(path => get(value[rowDisplayName], path, 0));
           const rowTotal = isNil(value[rowDisplayName]._total)
             ? value[rowDisplayName][i18n.t("report.total")]
             : value[rowDisplayName]._total;

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import generateKey from "../../charts/table-values/utils";
 import { APPROVALS, CREATE_ACTION, SUBFORM, EXCLUDED_LOG_ACTIONS } from "../constants";
 

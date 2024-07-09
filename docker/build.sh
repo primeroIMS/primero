@@ -1,4 +1,5 @@
 #!/bin/bash
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 set -euxo pipefail
 
@@ -49,9 +50,8 @@ BUILD_NGINX="docker build -f nginx/Dockerfile . -t primero/nginx:${tag} -t ${rep
 BUILD_SOLR="docker build -f solr/Dockerfile ../ -t primero/solr:${tag} -t ${repository}/primero/solr:${tag} --build-arg BUILD_REGISTRY=${build_registry}"
 BUILD_APP="docker build -f application/Dockerfile ../ -t primero/application:${tag} -t ${repository}/primero/application:${tag} --build-arg APP_ROOT=${APP_ROOT} --build-arg RAILS_LOG_PATH=${RAILS_LOG_PATH} --build-arg APP_UID=${APP_UID} --build-arg APP_GID=${APP_GID} --build-arg BUILD_REGISTRY=${build_registry}"
 BUILD_MIGRATION="docker build -f migration/Dockerfile ../ -t primero/migration:${tag} -t ${repository}/primero/migration:${tag} --build-arg BUILD_REGISTRY=${build_registry} --build-arg PRIMERO_VERSION=${tag}"
-BUILD_POSTGRES10="docker build -f postgres/Dockerfile . -t primero/postgres:${tag}-pg10 -t ${repository}/primero/postgres:${tag}-pg10 --build-arg BUILD_REGISTRY=${build_registry} --build-arg POSTGRES_VERSION=10.22"
-BUILD_POSTGRES11="docker build -f postgres/Dockerfile . -t primero/postgres:${tag}-pg11 -t ${repository}/primero/postgres:${tag}-pg11 --build-arg BUILD_REGISTRY=${build_registry} --build-arg POSTGRES_VERSION=11.17"
-BUILD_POSTGRES14="docker build -f postgres/Dockerfile . -t primero/postgres:${tag}-pg14 -t ${repository}/primero/postgres:${tag}-pg14 --build-arg BUILD_REGISTRY=${build_registry} --build-arg POSTGRES_VERSION=14.5"
+BUILD_POSTGRES14="docker build -f postgres/Dockerfile . -t primero/postgres:${tag}-pg14 -t ${repository}/primero/postgres:${tag}-pg14 --build-arg BUILD_REGISTRY=${build_registry} --build-arg POSTGRES_VERSION=14.11 --build-arg ALPINE_VERSION=3.19"
+BUILD_POSTGRES15="docker build -f postgres/Dockerfile . -t primero/postgres:${tag}-pg15 -t ${repository}/primero/postgres:${tag}-pg15 --build-arg BUILD_REGISTRY=${build_registry} --build-arg POSTGRES_VERSION=15.6 --build-arg ALPINE_VERSION=3.19"
 
 apply_tags () {
   local image=${1}
@@ -85,18 +85,16 @@ case ${image} in
     eval "${BUILD_MIGRATION}" && apply_tags migration
     ;;
   postgres)
-    eval "${BUILD_POSTGRES10}" && apply_tags postgres pg10
-    eval "${BUILD_POSTGRES11}" && apply_tags postgres pg11
     eval "${BUILD_POSTGRES14}" && apply_tags postgres pg14
+    eval "${BUILD_POSTGRES15}" && apply_tags postgres pg15
     ;;
   all)
     eval "${BUILD_APP}" && apply_tags application
     eval "${BUILD_MIGRATION}" && apply_tags migration
     eval "${BUILD_SOLR}" && apply_tags solr
     eval "${BUILD_NGINX}" && apply_tags nginx
-    eval "${BUILD_POSTGRES10}" && apply_tags postgres pg10
-    eval "${BUILD_POSTGRES11}" && apply_tags postgres pg11
     eval "${BUILD_POSTGRES14}" && apply_tags postgres pg14
+    eval "${BUILD_POSTGRES15}" && apply_tags postgres pg15
     ;;
   *)
     echo "${USAGE}"

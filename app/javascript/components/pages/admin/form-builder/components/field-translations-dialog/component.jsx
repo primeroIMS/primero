@@ -1,8 +1,10 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, useWatch } from "react-hook-form";
-import CheckIcon from "@material-ui/icons/Check";
+import CheckIcon from "@mui/icons-material/Check";
 import { useDispatch } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -20,7 +22,7 @@ import { TranslatableOptions } from "./components";
 import { translationsFieldForm, validationSchema } from "./forms";
 import { NAME, FIELD_TRANSLATIONS_FORM } from "./constants";
 
-const Component = ({ currentValues, field, isNested, mode, onClose, open, onSuccess }) => {
+function Component({ currentValues, field, isNested = false, mode, onClose, open = false, onSuccess }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);
@@ -179,14 +181,9 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
       </form>
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  isNested: false,
-  open: false
-};
 
 Component.propTypes = {
   currentValues: PropTypes.object.isRequired,

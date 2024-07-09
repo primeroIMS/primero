@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Transform API query parameter field_name=value into a Sunspot query
 class SearchFilters::Value < SearchFilters::SearchFilter
-  attr_accessor :field_name, :value
+  attr_accessor :value
 
-  def query_scope(sunspot)
-    this = self
-    sunspot.instance_eval do
-      with(this.field_name, this.value)
-    end
+  def query
+    "(#{ActiveRecord::Base.sanitize_sql_for_conditions(['data->>? IS NOT NULL', field_name])} AND #{json_path_query})"
   end
 
   def as_location_filter(record_class)
@@ -40,6 +39,8 @@ class SearchFilters::Value < SearchFilters::SearchFilter
   end
 
   def to_s
-    "#{field_name}=#{value}"
+    return "#{field_name}=#{value}" unless not_filter
+
+    "not[#{field_name}]=#{value}"
   end
 end

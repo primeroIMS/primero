@@ -1,16 +1,25 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import head from "lodash/head";
 import uniqBy from "lodash/uniqBy";
 
 import { METHODS } from "../../config";
 import DB from "../../db/db";
-import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS } from "../../components/notifier";
+import { SNACKBAR_VARIANTS } from "../../components/notifier/constants";
 import { SET_ATTACHMENT_STATUS } from "../../components/records/actions";
 import { setQueueData } from "../../components/connectivity/action-creators";
 import transformOfflineRequest from "../transform-offline-request";
 import EventManager from "../messenger";
 import { queueIndexedDB } from "../../db";
+import { ENQUEUE_SNACKBAR } from "../../components/notifier/actions";
 
-import { deleteFromQueue, messageQueueFailed, messageQueueSkip, messageQueueSuccess } from "./utils";
+import {
+  deleteFromQueue,
+  messageQueueFailed,
+  messageQueueSkip,
+  messageQueueSuccess,
+  sortQueueByDeleteFirst
+} from "./utils";
 import {
   QUEUE_PENDING,
   QUEUE_READY,
@@ -139,7 +148,7 @@ class Queue {
     if (this.ready) {
       this.working = true;
 
-      const item = head(this.queue);
+      const item = head(sortQueueByDeleteFirst(this.queue));
 
       if (item && !item?.processed && ((item.tries || 0) < QUEUE_ALLOWED_RETRIES || this.force)) {
         this.onAttachmentProcess(item);

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { push } from "connected-react-router";
 
 import { RECORD_PATH, METHODS, ROUTES } from "../../config";
@@ -5,11 +7,13 @@ import { DB_COLLECTIONS_NAMES } from "../../db";
 import { fetchSandboxUI, loadApplicationResources } from "../application/action-creators";
 import { SET_USER_LOCALE } from "../i18n";
 import { SET_DIALOG } from "../action-dialog/actions";
-import { LOGIN_DIALOG } from "../login-dialog";
+import { LOGIN_DIALOG } from "../login-dialog/constants";
 import { QUEUE_READY } from "../../libs/queue/constants";
 import connectivityActions from "../connectivity/actions";
-import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS, generate } from "../notifier";
-import { loginSystemSettings } from "../login";
+import { generate } from "../notifier/utils";
+import { SNACKBAR_VARIANTS } from "../notifier/constants";
+import { ENQUEUE_SNACKBAR } from "../notifier/actions";
+import { loginSystemSettings } from "../login/action-creators";
 
 import actions from "./actions";
 
@@ -48,17 +52,15 @@ export function saveNotificationSubscription() {
 
 export const setAuthenticatedUser = user => async dispatch => {
   dispatch(setUser(user));
-  dispatch(fetchAuthenticatedUserData(user)).then(
-    () => {
-      dispatch(loadApplicationResources());
-    },
-    error => {
-      dispatch(push(ROUTES.logout));
-      // eslint-disable-next-line no-console
-      console.error(error);
-    }
-  );
-  dispatch(saveNotificationSubscription());
+
+  try {
+    await dispatch(fetchAuthenticatedUserData(user));
+    dispatch(loadApplicationResources());
+  } catch (error) {
+    dispatch(push(ROUTES.logout));
+    // eslint-disable-next-line no-console
+    console.error(error);
+  }
 };
 
 export const attemptSignout = () => ({

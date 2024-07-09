@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../i18n";
@@ -5,7 +7,7 @@ import DashboardChip from "../dashboard-chip";
 
 import css from "./styles.css";
 
-const PrioritySummary = ({ summary }) => {
+function PrioritySummary({ summary }) {
   const i18n = useI18n();
 
   const getTitle = status => {
@@ -49,7 +51,7 @@ const PrioritySummary = ({ summary }) => {
       </ul>
     </div>
   );
-};
+}
 
 PrioritySummary.displayName = "PrioritySummary";
 

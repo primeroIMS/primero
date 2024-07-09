@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 other_documents_fields = [
   Field.new({ 'name' => 'other_documents',
               'type' => 'document_upload_box',

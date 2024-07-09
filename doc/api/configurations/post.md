@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Save Primero configuration state
 
 Saves off the current configuration state of Primero. This includes Forms, Fields, Lookups, Agencies, Roles, User Groups, and Reports.

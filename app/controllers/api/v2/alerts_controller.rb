@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Class for Alert Controller
 class Api::V2::AlertsController < Api::V2::RecordResourceController
   def bulk_index
@@ -13,6 +15,11 @@ class Api::V2::AlertsController < Api::V2::RecordResourceController
   def index
     authorize! :read, @record
     @alerts = @record.alerts
+  end
+
+  def destroy
+    authorize! :remove_alert, @record
+    @record.remove_alert_by_unique_id!(params[:id])
   end
 
   def index_action_message

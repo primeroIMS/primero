@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Attachment, search: true do
@@ -22,7 +24,6 @@ describe Attachment, search: true do
       @record_updated_on = child.last_updated_at
       child.reload
       attachment.attach!
-      Sunspot.commit
     end
 
     it 'attaches a base64 encoded file' do
@@ -30,7 +31,11 @@ describe Attachment, search: true do
     end
 
     it 'has_photo is true for the record' do
-      expect(Child.search { with(:has_photo, true) }.results.size).to eq(1)
+      expect(
+        PhoneticSearchService.search(
+          Child, { filters: [SearchFilters::Value.new(field_name: 'has_photo', value: true)] }
+        ).total
+      ).to eq(1)
     end
 
     xit 'updates the associated record' do
@@ -47,7 +52,6 @@ describe Attachment, search: true do
       attachment.attach!
       child.reload
       attachment.detach!
-      Sunspot.commit
     end
 
     it 'detaches the file and removes the attachment record' do
@@ -56,7 +60,11 @@ describe Attachment, search: true do
     end
 
     it 'has_photo is false for the record' do
-      expect(Child.search { with(:has_photo, true) }.results.size).to eq(0)
+      expect(
+        PhoneticSearchService.search(
+          Child, { filters: [SearchFilters::Value.new(field_name: 'has_photo', value: true)] }
+        ).total
+      ).to eq(0)
     end
 
     xit 'updates the associated record' do
@@ -125,8 +133,42 @@ describe Attachment, search: true do
           file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg'), comments: 'not this one!'
         )
         expect { attachment.attach! }.to raise_error(ActiveRecord::RecordInvalid)
-        expect(child.valid?).to be_falsey
+        expect(attachment.errors.full_messages).to eq ['errors.attachments.maximum']
         expect(attachment.persisted?).to be_falsey
+      end
+    end
+
+    context 'when maximum_attachments_per_record is set in SystemSettings' do
+      before :each do
+        clean_data(SystemSettings)
+        SystemSettings.create!(
+          system_options: {
+            maximum_attachments_per_record: 2
+          }
+        )
+        SystemSettings.stub(:current).and_return(SystemSettings.first)
+        SystemSettings.current.maximum_attachments_per_record.times.each do |i|
+          Attachment.new(
+            record: child, field_name: 'photos', attachment_type: Attachment::IMAGE,
+            file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg'), comments: i.to_s
+          ).attach!
+        end
+        child.reload
+      end
+
+      it 'disallows attaching more than 3 documents to a single record' do
+        attachment = Attachment.new(
+          record: child, field_name: 'photos', attachment_type: Attachment::IMAGE,
+          file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg'), comments: 'not this one!'
+        )
+        expect(child.attachments.count).to eq SystemSettings.current.maximum_attachments_per_record
+        expect { attachment.attach! }.to raise_error(ActiveRecord::RecordInvalid)
+        expect(attachment.errors.full_messages).to eq ['errors.attachments.maximum']
+        expect(attachment.persisted?).to be_falsey
+      end
+
+      after :each do
+        clean_data(SystemSettings)
       end
     end
   end

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
@@ -15,8 +17,8 @@ import { DONE } from "../constants";
 import { referralAccepted, referralDone, referralRejected } from "./action-creators";
 import { NAME, FORM_ID, FORM_NOTE_FIELD_ID } from "./constants";
 
-const Component = ({
-  openReferralDialog,
+function Component({
+  openReferralDialog = false,
   close,
   dialogName,
   pending,
@@ -25,7 +27,7 @@ const Component = ({
   recordType,
   transistionId,
   referralType
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -192,13 +194,9 @@ const Component = ({
       {dialogContent}
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  openReferralDialog: false
-};
 
 Component.propTypes = {
   close: PropTypes.func,

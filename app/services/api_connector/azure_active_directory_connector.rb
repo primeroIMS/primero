@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This is the connector for the private MS-developed micro service:
 # Primero User Management API for Azure Active Directory.
 # It only makes sense to use within the context of the UNICEF-hosted Primero SaaS.

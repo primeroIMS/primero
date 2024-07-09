@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export { default as BadgedIndicator } from "./badged-indicator";
 export { default as DashboardTable } from "./dashboard-table";
 export { default as DoughnutChart } from "./doughnut-chart";

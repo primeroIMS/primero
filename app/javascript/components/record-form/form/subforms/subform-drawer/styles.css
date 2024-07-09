@@ -1,3 +1,5 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
 .subformDrawer {
   width: 60%;
 }
@@ -10,6 +12,7 @@
   font-weight: bold;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   & h1 {
     flex: 1 0 auto;
@@ -22,7 +25,7 @@
   color: var(--c-black) !important;
 }
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .subformDrawer {
     max-width: 100%;
     width: 90%;

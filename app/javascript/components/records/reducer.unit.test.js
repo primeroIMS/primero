@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Map, List, fromJS, OrderedMap } from "immutable";
 
 import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD } from "../../config";
@@ -809,5 +811,33 @@ describe("<RecordList /> - Reducers", () => {
     const newState = nsReducer(initialState, action);
 
     expect(newState).to.deep.equals(expected);
+  });
+
+  it("should handle DELETE_ALERT_FROM_RECORD_SUCCESS", () => {
+    const initialState = fromJS({
+      alert_count: 1,
+      recordAlerts: [
+        {
+          alert_for: "field_change",
+          type: "formsection-stuff-with-subform-field-d6055c8",
+          date: "2023-10-16",
+          form_unique_id: "formsection-stuff-with-subform-field-d6055c8",
+          unique_id: "018a28dd-4af4-4521-91ed-636efed6228e"
+        }
+      ]
+    });
+    const expected = fromJS({
+      alert_count: 0,
+      recordAlerts: []
+    });
+    const action = {
+      type: "TestRecordType/DELETE_ALERT_FROM_RECORD_SUCCESS",
+      payload: {
+        alertId: "018a28dd-4af4-4521-91ed-636efed6228e"
+      }
+    };
+    const newState = nsReducer(initialState, action);
+
+    expect(newState).to.deep.equals(newState);
   });
 });

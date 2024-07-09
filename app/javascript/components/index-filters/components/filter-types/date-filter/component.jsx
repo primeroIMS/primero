@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
@@ -14,7 +16,7 @@ import DatePickers from "./date-pickers";
 import { getDatesValue } from "./utils";
 import { NAME } from "./constants";
 
-const Component = ({ filter, mode, moreSectionFilters, setMoreSectionFilters, reset, setReset }) => {
+function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilters, reset, setReset }) {
   const i18n = useI18n();
 
   const { register, setValue, getValues } = useFormContext();
@@ -116,11 +118,7 @@ const Component = ({ filter, mode, moreSectionFilters, setMoreSectionFilters, re
       </div>
     </Panel>
   );
-};
-
-Component.defaultProps = {
-  moreSectionFilters: {}
-};
+}
 
 Component.propTypes = {
   filter: PropTypes.object.isRequired,

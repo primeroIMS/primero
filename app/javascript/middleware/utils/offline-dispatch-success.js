@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import handleRestCallback from "./handle-rest-callback";
 
 export default (store, action, payload) => {

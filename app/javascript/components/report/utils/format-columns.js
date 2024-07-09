@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import max from "lodash/max";
 import uniq from "lodash/uniq";
 import isNil from "lodash/isNil";

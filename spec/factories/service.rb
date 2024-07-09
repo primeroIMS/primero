@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 class Service
   attr_accessor :_id, :unique_id, :service_response_type, :service_objective, :service_type,
                 :service_response_day_time, :service_appointment_date, :service_response_timeframe, :service_implementing_agency, :service_provider, :service_implementing_agency_individual, :service_status_referred, :service_referral_notes, :service_implemented, :service_implemented_day_time

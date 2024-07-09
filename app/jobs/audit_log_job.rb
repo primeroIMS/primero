@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Queues the creation of an audit log entry. Invoked for every API call.
 class AuditLogJob < ApplicationJob
   queue_as :logger

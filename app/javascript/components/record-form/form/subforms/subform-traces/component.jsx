@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/display-name, react/no-multi-comp */
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
@@ -12,7 +14,7 @@ import SubformDrawer from "../subform-drawer";
 import { TraceComparisonForm, TraceForm, TraceMatches } from "./components";
 import { FORMS, NAME } from "./constants";
 
-const Component = ({ openDrawer, field, formik, formSection, handleClose, index, recordType, mode }) => {
+function Component({ openDrawer, field, formik, formSection, handleClose, index, recordType, mode }) {
   const i18n = useI18n();
   const [open, setOpen] = useState(openDrawer);
   const [selectedForm, setSelectedForm] = useState(FORMS.trace);
@@ -71,7 +73,7 @@ const Component = ({ openDrawer, field, formik, formSection, handleClose, index,
       <Form {...props} />
     </SubformDrawer>
   );
-};
+}
 
 Component.propTypes = {
   field: PropTypes.object.isRequired,

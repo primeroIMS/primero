@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import * as utils from "./utils";
 
 describe("index-filters/components/filter-types/select-filter/utils.js", () => {

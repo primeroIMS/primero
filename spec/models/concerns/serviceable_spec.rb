@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Serviceable do
@@ -83,6 +85,32 @@ describe Serviceable do
           expect(@case1.service_due_date(@service)).to be_nil
         end
       end
+    end
+  end
+
+  describe 'service_implemented_day_times' do
+    before do
+      clean_data(Child)
+    end
+
+    it 'stores the service_implemented_day_times' do
+      child = Child.create!(data: { age: 2, sex: 'male', name: 'Random Name' })
+      child.stub(:module).and_return(PrimeroModule.new(module_options: { use_workflow_service_implemented: true }))
+      child.services_section = [
+        {
+          'unique_id' => '4b7c1011-a63e-422c-b6fb-a64cdcc2d472',
+          'service_implemented_day_time' => '2022-05-09T12:44:00.000Z'
+        },
+        {
+          'unique_id' => 'f732a61c-cdae-435c-9c0c-55a893321fed',
+          'service_implemented_day_time' => '2023-07-08T08:10:00.000Z'
+        }
+      ]
+      child.save!
+
+      expect(child.service_implemented_day_times).to eq(
+        [DateTime.new(2022, 5, 9, 12, 44, 0), DateTime.new(2023, 7, 8, 8, 10, 0)]
+      )
     end
   end
 end

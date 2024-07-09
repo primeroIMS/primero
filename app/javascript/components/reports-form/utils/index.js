@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export { default as buildFields } from "./build-fields";
 export { default as buildMinimumReportableFields } from "./build-minimum-reportable-fields";
 export { default as buildReportFields } from "./build-report-fields";

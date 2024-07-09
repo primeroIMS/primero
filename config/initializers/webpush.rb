@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 DEFAULT_WEBPUSH_CONTACT = 'support@primero.org'
 DEFAULT_WEBPUSH_PAUSE_AFTER_MINUTES = 1440
 

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable no-restricted-syntax */
 
 export const tableToCsv = tableSelector => {

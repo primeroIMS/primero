@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Model for Lookup
 # rubocop:disable Metrics/ClassLength
 class Lookup < ApplicationRecord
@@ -108,6 +110,14 @@ class Lookup < ApplicationRecord
     def display_value(lookup_id, option_id, lookups = nil, opts = {})
       opts[:locale] ||= I18n.locale
       Lookup.values(lookup_id, lookups, opts).find { |l| l['id'] == option_id }&.[]('display_text')
+    end
+
+    # TODOL: We must cache these lookups
+    def group_by_unique_id(lookup_ids)
+      where(unique_id: lookup_ids)
+        .each_with_object({}) do |lk, acc|
+          acc[lk.unique_id] = FieldI18nService.fill_options(lk.lookup_values_i18n, false)
+        end
     end
 
     private

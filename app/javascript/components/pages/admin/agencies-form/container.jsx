@@ -1,11 +1,13 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
-import CreateIcon from "@material-ui/icons/Create";
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
+import CreateIcon from "@mui/icons-material/Create";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 import { useDialog } from "../../../action-dialog";
 import { useI18n } from "../../../i18n";
@@ -26,7 +28,7 @@ import { form, validations } from "./form";
 import { fetchAgency, clearSelectedAgency, saveAgency } from "./action-creators";
 import { getAgency, getServerErrors, getSavingRecord } from "./selectors";
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -147,7 +149,7 @@ const Container = ({ mode }) => {
       </PageContent>
     </LoadingIndicator>
   );
-};
+}
 
 Container.displayName = NAME;
 

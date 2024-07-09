@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/display-name */
 import { ActivityItem } from "../components";
 import { COLUMN_NAMES } from "../constants";
@@ -15,18 +17,20 @@ export default () =>
           customBodyRender: (value, tableMeta) => {
             const { rowIndex, tableData } = tableMeta;
             const currentData = tableData[rowIndex];
-            const activityData = {
-              data: value,
-              datetime: currentData[5],
-              displayId: currentData[3],
-              performedBy: currentData[4],
-              recordAccessDenied: currentData[6],
-              recordId: currentData[2],
-              recordType: currentData[1],
-              type: currentData[0]
-            };
 
-            return <ActivityItem activityData={activityData} />;
+            return (
+              <ActivityItem
+                activityData={{
+                  data: currentData.data,
+                  displayId: currentData.display_id,
+                  recordType: currentData.record_type,
+                  recordId: currentData.record_id,
+                  recordAccessDenied: currentData.record_access_denied,
+                  performedBy: currentData.performed_by,
+                  type: currentData.type
+                }}
+              />
+            );
           }
         }
       };

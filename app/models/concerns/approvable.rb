@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Records that use this module have request approval and approval capabilities
 module Approvable
   extend ActiveSupport::Concern
@@ -12,20 +14,6 @@ module Approvable
                    :case_plan_approved_date, :action_plan_approved_date, :gbv_closure_approved_date,
                    :assessment_approved_comments, :case_plan_approved_comments, :closure_approved_comments,
                    :action_plan_approved_comments, :gbv_closure_approved_comments, :approval_subforms
-
-    searchable do
-      string :approval_status_assessment, as: 'approval_status_assessment_sci'
-      string :approval_status_case_plan, as: 'approval_status_case_plan_sci'
-      string :approval_status_closure, as: 'approval_status_closure_sci'
-      string :approval_status_action_plan, as: 'approval_status_action_plan_sci'
-      string :approval_status_gbv_closure, as: 'approval_status_gbv_closure_sci'
-      string :case_plan_approval_type, as: 'case_plan_approval_type_sci'
-      date :case_plan_approved_date
-      date :assessment_approved_date
-      date :closure_approved_date
-      date :action_plan_approved_date
-      date :gbv_closure_approved_date
-    end
 
     after_save_commit :send_approval_mail
   end

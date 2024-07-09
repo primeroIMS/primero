@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import * as recordConstants from "./constants";
 
 describe("<RecordActions /> - Constants", () => {
@@ -26,7 +28,9 @@ describe("<RecordActions /> - Constants", () => {
       "MANY",
       "ALL",
       "RECORD_ACTION_ABILITIES",
-      "MARK_FOR_OFFLINE_DIALOG"
+      "MARK_FOR_OFFLINE_DIALOG",
+      "FILTERS_TO_SKIP",
+      "LINK_INCIDENT_TO_CASE_DIALOG"
     ].forEach(property => {
       expect(constants).to.have.property(property);
       delete constants[property];
@@ -66,7 +70,9 @@ describe("<RecordActions /> - Constants", () => {
         "canRequestGbvClosure",
         "canShowExports",
         "canTransfer",
-        "canMarkForOffline"
+        "canMarkForOffline",
+        "canVerify",
+        "canLinkIncidentToCase"
       ].forEach(property => {
         expect(recordActionAbilities).to.have.property(property);
         delete recordActionAbilities[property];

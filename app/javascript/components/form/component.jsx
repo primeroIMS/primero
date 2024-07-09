@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
@@ -14,27 +16,27 @@ import { whichFormMode } from "./utils/which-mode";
 import { submitHandler } from "./utils/form-submission";
 import notPropagatedOnSubmit from "./utils/not-propagated-on-submit";
 
-const Component = ({
+function Component({
   formID,
   formSections,
-  formOptions,
+  formOptions = {},
   formMode,
   onSubmit,
   validations,
-  mode,
-  initialValues,
-  useCancelPrompt,
-  formErrors,
-  submitAllFields,
+  mode = "new",
+  initialValues = {},
+  useCancelPrompt = false,
+  formErrors = fromJS([]),
+  submitAllFields = false,
   useFormMode,
   renderBottom,
   showTitle = true,
-  submitAlways,
+  submitAlways = false,
   formClassName,
-  registerFields,
+  registerFields = [],
   resetAfterSubmit = false,
   errorMessage = null
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -124,20 +126,9 @@ const Component = ({
       {renderBottom && renderBottom(formMethods)}
     </>
   );
-};
+}
 
 Component.displayName = "Form";
-
-Component.defaultProps = {
-  formErrors: fromJS([]),
-  formOptions: {},
-  initialValues: {},
-  mode: "new",
-  registerFields: [],
-  submitAllFields: false,
-  submitAlways: false,
-  useCancelPrompt: false
-};
 
 Component.propTypes = {
   errorMessage: PropTypes.string,

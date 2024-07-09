@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 other_identity_details_fields = [
   Field.new('name' => 'nationality',
             'type' => 'select_box',

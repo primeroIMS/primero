@@ -1,7 +1,9 @@
-import { API_BASE_PATH, METHODS, NOTIFICATION_PERMISSIONS, POST_MESSAGES, ROUTES } from "../config/constants";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { API_BASE_PATH, METHODS, NOTIFICATION_PERMISSIONS, POST_MESSAGES, ROUTES } from "../config";
 import { DEFAULT_FETCH_OPTIONS } from "../middleware/constants";
-import getToken from "../middleware/utils/get-token";
 import DB, { DB_STORES } from "../db";
+import { getIDPToken } from "../components/login/components/idp-selection/auth-provider";
 
 const SERVICE_WORKER_PATH = `${window.location.origin}/worker.js`;
 const MAX_ATTEMPTS = 3;
@@ -32,7 +34,7 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 async function sendSubscriptionStatusToServer(isSubscribing = true, data = {}) {
-  const token = await getToken();
+  const token = await getIDPToken();
   const subscriptionData = JSON.parse(JSON.stringify(data));
   const path = [API_BASE_PATH, isSubscribing ? ROUTES.subscriptions : ROUTES.subscriptions_current].join("");
 
@@ -61,22 +63,31 @@ async function sendSubscriptionStatusToServer(isSubscribing = true, data = {}) {
   if ((!isSubscribing && response.status === 200) || response.status === 404) {
     DB.delete(DB_STORES.PUSH_NOTIFICATION_SUBSCRIPTION, 1);
 
-    postMessage({
-      type: POST_MESSAGES.DISPATCH_REMOVE_SUBSCRIPTION
-    });
+    postMessage(
+      {
+        type: POST_MESSAGES.DISPATCH_REMOVE_SUBSCRIPTION
+      },
+      window.origin
+    );
   }
 
   if (isSubscribing && response.status === 404) {
     if (attempts % MAX_ATTEMPTS !== 0) {
-      postMessage({
-        type: POST_MESSAGES.SUBSCRIBE_NOTIFICATIONS
-      });
+      postMessage(
+        {
+          type: POST_MESSAGES.SUBSCRIBE_NOTIFICATIONS
+        },
+        window.origin
+      );
     }
 
     if (attempts % MAX_ATTEMPTS === 0) {
-      postMessage({
-        type: POST_MESSAGES.ATTEMPTS_SUBSCRIPTION_FAILED
-      });
+      postMessage(
+        {
+          type: POST_MESSAGES.ATTEMPTS_SUBSCRIPTION_FAILED
+        },
+        window.origin
+      );
     }
     attempts += 1;
   }
@@ -98,10 +109,13 @@ async function subscribe() {
     key: { id: 1 }
   });
 
-  postMessage({
-    type: POST_MESSAGES.DISPATCH_SAVE_SUBSCRIPTION,
-    endpoint: subscription.endpoint
-  });
+  postMessage(
+    {
+      type: POST_MESSAGES.DISPATCH_SAVE_SUBSCRIPTION,
+      endpoint: subscription.endpoint
+    },
+    window.origin
+  );
 }
 
 async function subscribeToNotifications() {

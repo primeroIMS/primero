@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { DefaultButton, IconButton } from "./components";
 import * as helper from "./utils";
 import { ACTION_BUTTON_TYPES } from "./constants";

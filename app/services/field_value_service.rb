@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Returns a translated, rendered value given a Field object.
 # This logic is normally handled on the front end, but use this service
 # when generating server-side exports or sending emails.
@@ -52,7 +54,7 @@ class FieldValueService < ValueObject
     record_class = if class_name.in?(%w[Location ReportingLocation])
                      location_service
                    else
-                     Object.const_get(class_name)
+                     Agency
                    end
 
     return value unless record_class

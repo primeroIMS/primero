@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const NAME = "FormExporter";
 export const FORM_EXPORTER_DIALOG = "FormExporterDialog";
 export const EXPORT_TYPES = Object.freeze({ EXCEL: "xlsx" });

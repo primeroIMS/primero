@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Transfer record
 
 Initiate the transfer of an individual case to a single user.

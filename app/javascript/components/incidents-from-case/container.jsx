@@ -1,5 +1,7 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
-import AddIcon from "@material-ui/icons/Add";
+import AddIcon from "@mui/icons-material/Add";
 
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
@@ -14,7 +16,7 @@ import css from "./styles.css";
 import { NAME } from "./constants";
 import IncidentPanel from "./components/panel";
 
-const Container = ({
+function Container({
   handleCreateIncident,
   record,
   incidents,
@@ -25,8 +27,8 @@ const Container = ({
   handleSubmit,
   recordType,
   primeroModule,
-  dirty
-}) => {
+  dirty = false
+}) {
   const i18n = useI18n();
 
   const incidentFromCaseForm = useMemoizedSelector(state =>
@@ -65,7 +67,7 @@ const Container = ({
   );
 
   return (
-    <div>
+    <div data-testid="incident-from-case">
       <div className={css.container}>
         <RecordFormTitle
           mobileDisplay={mobileDisplay}
@@ -75,18 +77,14 @@ const Container = ({
         <div>{newIncidentBtn}</div>
       </div>
       <div className={css.alerts}>
-        <RecordFormAlerts recordType={RECORD_TYPES_PLURAL[recordType]} form={incidentFromCaseForm} />
+        <RecordFormAlerts recordType={RECORD_TYPES_PLURAL[recordType]} form={incidentFromCaseForm} formMode={mode} />
       </div>
       {renderIncidents}
     </div>
   );
-};
+}
 
 Container.displayName = NAME;
-
-Container.defaultProps = {
-  dirty: false
-};
 
 Container.propTypes = {
   dirty: PropTypes.bool,

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # To generate the UUID, run the following in the rails consle:
 #    SecureRandom.uuid.to_s.gsub('-','')
 # TODO module_id: It will be numeric after module model migration

@@ -1,6 +1,10 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable import/prefer-default-export */
 import { ROUTES } from "../../config";
-import { SNACKBAR_VARIANTS, closeSnackbar, ENQUEUE_SNACKBAR } from "../notifier";
+import { ENQUEUE_SNACKBAR } from "../notifier/actions";
+import { SNACKBAR_VARIANTS } from "../notifier/constants";
+import { closeSnackbar } from "../notifier/action-creators";
 
 import actions from "./actions";
 import { CONNECTION_LOST, CONNECTED, FIELD_MODE_OFFLINE } from "./constants";
@@ -104,14 +108,16 @@ export const setUserToggleOffline = payload => dispatch => {
   dispatch(closeSnackbar(FIELD_MODE_OFFLINE));
 
   dispatch({
-    type: ENQUEUE_SNACKBAR,
-    ...onlineSnackbar(false, { forMiddleware: true, message: FIELD_MODE_OFFLINE })
-  });
-
-  dispatch({
     type: actions.USER_TOGGLE_OFFLINE,
     payload
   });
 
-  dispatch(checkServerStatus(!payload, payload));
+  if (payload) {
+    dispatch({
+      type: ENQUEUE_SNACKBAR,
+      ...onlineSnackbar(false, { forMiddleware: true, message: FIELD_MODE_OFFLINE })
+    });
+  }
+
+  dispatch(checkServerStatus(!payload));
 };

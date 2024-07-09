@@ -1,13 +1,15 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import debounce from "lodash/debounce";
 
-import Queue, { QUEUE_HALTED, QUEUE_READY } from "../../libs/queue";
+import { QUEUE_HALTED, QUEUE_READY } from "../../libs/queue/constants";
+import Queue from "../../libs/queue";
 import { getIsAuthenticated } from "../user/selectors";
 import { clearDialog } from "../action-dialog/action-creators";
 import { selectDialog } from "../action-dialog/selectors";
-import { useRefreshUserToken } from "../user";
-import { LOGIN_DIALOG } from "../login-dialog";
+import useRefreshUserToken from "../user/use-refresh-token";
+import { LOGIN_DIALOG } from "../login-dialog/constants";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import DB, { DB_STORES } from "../../db";
 
@@ -43,31 +45,46 @@ const useConnectivityStatus = () => {
     const dispatchServerStatus = () => dispatch(checkServerStatus(isOnline, fieldMode));
 
     if (isOnline) {
-      return debounce(dispatchServerStatus, delay);
-    }
+      const timer = setTimeout(() => {
+        dispatchServerStatus();
+      }, delay);
 
-    return dispatchServerStatus;
+      clearTimeout(timer);
+    } else {
+      dispatchServerStatus();
+    }
+  };
+
+  const handleOnline = () => {
+    const timer = setTimeout(() => {
+      dispatch(checkServerStatus(true));
+      clearTimeout(timer);
+    }, CHECK_SERVER_INTERVAL);
+  };
+
+  const handleOffline = () => {
+    dispatch(checkServerStatus(false));
   };
 
   const removeConnectionListeners = () => {
-    window.removeEventListener("online", handleNetworkChange(true));
-    window.removeEventListener("offline", handleNetworkChange(false));
+    window.removeEventListener("online", handleOnline);
+    window.removeEventListener("offline", handleOffline);
   };
 
   const setConnectionListeners = () => {
     if (typeof window !== "undefined" && window.addEventListener) {
-      window.addEventListener("online", handleNetworkChange(true));
-      window.addEventListener("offline", handleNetworkChange(false));
+      window.addEventListener("online", handleOnline);
+      window.addEventListener("offline", handleOffline);
     }
   };
 
   useEffect(() => {
     if (!online && browserStatus && serverStatusRetries >= 1 && serverStatusRetries < 3) {
-      handleNetworkChange(true)();
+      handleNetworkChange(true);
     }
 
     if (!online && browserStatus && serverStatusRetries >= 3) {
-      handleNetworkChange(true, CHECK_SERVER_RETRY_INTERVAL)();
+      handleNetworkChange(true, CHECK_SERVER_RETRY_INTERVAL);
     }
   }, [browserStatus, online, serverStatusRetries, fieldMode]);
 

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the total of incidents grouped by incident_location_type
 class ManagedReports::Indicators::IncidentLocationType < ManagedReports::SqlReportIndicator
   class << self

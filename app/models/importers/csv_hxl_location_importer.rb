@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Import HXL Location data into Primero from CSV.
 # https://hxlstandard.org/standard/1-1final/dictionary/
 # rubocop:disable Metrics/ClassLength

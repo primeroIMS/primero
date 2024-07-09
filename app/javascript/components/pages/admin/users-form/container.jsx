@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/no-multi-comp */
 import { useState, useEffect } from "react";
 import { fromJS } from "immutable";
@@ -5,9 +7,9 @@ import PropTypes from "prop-types";
 import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
-import CreateIcon from "@material-ui/icons/Create";
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
+import CreateIcon from "@mui/icons-material/Create";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 
@@ -19,28 +21,38 @@ import NAMESPACE from "../namespace";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions, WRITE_RECORDS, ACTIONS } from "../../../permissions";
 import { useDialog } from "../../../action-dialog";
-import { fetchSystemSettings, fetchRoles, fetchUserGroups, getWebpushConfig } from "../../../application";
+import { fetchSystemSettings, fetchRoles, fetchUserGroups, getWebpushConfig, useApp } from "../../../application";
 import CancelPrompt from "../../../form/components/cancel-prompt";
 import { currentUser, getCurrentUserGroupPermission } from "../../../user/selectors";
 import UserActions from "../../../user-actions";
 import { useMemoizedSelector } from "../../../../libs";
 import InternalAlert from "../../../internal-alert";
+import { enqueueSnackbar } from "../../../notifier";
 
 import { form } from "./form";
 import validations from "./validations";
 import { fetchUser, clearSelectedUser, saveUser, clearRecordsUpdate } from "./action-creators";
 import { USER_CONFIRMATION_DIALOG, PASSWORD_MODAL, FORM_ID, FIELD_NAMES } from "./constants";
-import { getUser, getServerErrors, getIdentityProviders, getSavingRecord, getRecordsUpdate } from "./selectors";
+import {
+  getUser,
+  getUserSaved,
+  getServerErrors,
+  getIdentityProviders,
+  getSavingRecord,
+  getRecordsUpdate,
+  getTotalUsersEnabled
+} from "./selectors";
 import UserConfirmation from "./user-confirmation";
 import ChangePassword from "./change-password";
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const formMode = whichFormMode(mode);
 
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
+  const { maximumUsersWarning } = useApp();
   const { dialogOpen, dialogClose, pending, setDialogPending, setDialog } = useDialog([
     PASSWORD_MODAL,
     USER_CONFIRMATION_DIALOG
@@ -56,6 +68,9 @@ const Container = ({ mode }) => {
   const currentRoleGroupPermission = useMemoizedSelector(state => getCurrentUserGroupPermission(state));
   const recordsUpdate = useMemoizedSelector(state => getRecordsUpdate(state));
   const webPushConfig = useMemoizedSelector(state => getWebpushConfig(state));
+  const totalUsersEnabled = useMemoizedSelector(state => getTotalUsersEnabled(state));
+  const userSaved = useMemoizedSelector(state => getUserSaved(state));
+  const maximumUsersWarningEnabled = Number.isInteger(maximumUsersWarning);
 
   const setPasswordModal = () => {
     setDialog({ dialog: PASSWORD_MODAL, open: true });
@@ -75,6 +90,7 @@ const Container = ({ mode }) => {
   const validationSchema = validations(formMode, i18n, useIdentityProviders, providers, selectedUserIsLoggedIn);
 
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+  const isShow = formMode.get("isShow");
   const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
   const [userData, setUserData] = useState({});
 
@@ -108,8 +124,10 @@ const Container = ({ mode }) => {
   } = formMethods;
 
   const onSubmit = data => {
+    const newData = { ...data };
+
     submitHandler({
-      data,
+      data: newData,
       dispatch,
       isEdit: formMode.isEdit,
       initialValues,
@@ -174,10 +192,11 @@ const Container = ({ mode }) => {
       {
         agencyReadOnUsers,
         currentRoleGroupPermission,
-        webPushConfig
+        webPushConfigEnabled: webPushConfig?.get("enabled", false)
       }
     ).map(formSection => (
       <FormSection
+        data-testid="form-section"
         formSection={formSection}
         key={formSection.unique_id}
         formMethods={formMethods}
@@ -219,6 +238,17 @@ const Container = ({ mode }) => {
     });
   }, [formErrors]);
 
+  useEffect(() => {
+    if (maximumUsersWarningEnabled && Number.isInteger(totalUsersEnabled) && isShow && !saving && userSaved) {
+      const successMessages = i18n.t("user.messages.created_warning", {
+        total_enabled: totalUsersEnabled,
+        maximum_users: maximumUsersWarning
+      });
+
+      dispatch(enqueueSnackbar(successMessages, { type: "info" }));
+    }
+  }, [userSaved, totalUsersEnabled]);
+
   return (
     <LoadingIndicator hasData={formMode.get("isNew") || user?.size > 0} loading={!user?.size} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
@@ -232,7 +262,7 @@ const Container = ({ mode }) => {
             <InternalAlert items={fromJS([{ message: i18n.t("user.messages.records_update") }])} />
           )}
           <CancelPrompt useCancelPrompt isShow={formMode.get("isShow")} formState={formMethods.formState} />
-          <form noValidate id={FORM_ID} onSubmit={formMethods.handleSubmit(onSubmit)}>
+          <form data-testid="form" noValidate id={FORM_ID} onSubmit={formMethods.handleSubmit(onSubmit)}>
             {renderFormSections()}
           </form>
           <UserConfirmation
@@ -260,7 +290,7 @@ const Container = ({ mode }) => {
       </PageContent>
     </LoadingIndicator>
   );
-};
+}
 
 Container.displayName = "UsersForm";
 

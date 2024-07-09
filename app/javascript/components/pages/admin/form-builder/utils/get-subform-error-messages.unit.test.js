@@ -1,6 +1,8 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
-import { translateOptions } from "../../../../../test";
+import { translateOptions } from "../../../../../test-utils";
 
 import getSubformErrorMessages from "./get-subform-error-messages";
 

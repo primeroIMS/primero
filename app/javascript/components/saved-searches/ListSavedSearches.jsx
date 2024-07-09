@@ -1,8 +1,10 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { List, ListItem, ListItemText, ListItemSecondaryAction, Divider } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { List, ListItem, ListItemText, ListItemSecondaryAction, Divider } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { push } from "connected-react-router";
 import qs from "qs";
 
@@ -18,7 +20,7 @@ import { selectSavedSearchesById } from "./selectors";
 import { buildFiltersState } from "./utils";
 import css from "./styles.css";
 
-const ListSavedSearches = ({ recordType, savedSearches, setTabIndex, setRerender }) => {
+function ListSavedSearches({ recordType, savedSearches, setTabIndex, setRerender }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -102,7 +104,7 @@ const ListSavedSearches = ({ recordType, savedSearches, setTabIndex, setRerender
       <List component="nav">{renderSavedSearches()}</List>
     </div>
   );
-};
+}
 
 ListSavedSearches.displayName = "ListSavedSearches";
 

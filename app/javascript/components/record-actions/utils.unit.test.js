@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { isDisabledAction, subformExists } from "./utils";
 import { ENABLED_FOR_ONE, ENABLED_FOR_ONE_MANY_ALL } from "./constants";
 

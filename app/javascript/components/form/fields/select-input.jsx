@@ -1,11 +1,13 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/no-multi-comp */
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { TextField, Chip } from "@material-ui/core";
-import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
+import { TextField, Chip } from "@mui/material";
+import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 import { isEmpty, isNil, isNumber } from "lodash";
 
 import InputLabel from "../components/input-label";
@@ -20,7 +22,7 @@ import css from "./styles.css";
 
 const filter = createFilterOptions({ limit: 50 });
 
-const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, formMethods, isShow }) => {
+function SelectInput({ commonInputProps, metaInputProps, options: allOptions = [], formMethods, isShow = false }) {
   const { control, setValue, getValues } = formMethods;
   const {
     multiSelect,
@@ -281,7 +283,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
           options={options}
           multiple={multiSelect || multipleLimitOne}
           getOptionLabel={optionLabel}
-          getOptionSelected={optionEquality}
+          isOptionEqualToValue={optionEquality}
           getOptionDisabled={handleGetOptionDisabled}
           disabled={disabled}
           filterSelectedOptions
@@ -297,14 +299,9 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
       )}
     />
   );
-};
+}
 
 SelectInput.displayName = "SelectInput";
-
-SelectInput.defaultProps = {
-  isShow: false,
-  options: []
-};
 
 SelectInput.propTypes = {
   commonInputProps: PropTypes.shape({

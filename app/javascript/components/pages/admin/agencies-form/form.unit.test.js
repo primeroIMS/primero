@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { form } from "./form";
 
 describe("<AgencyForm /> - agencies-form/form", () => {

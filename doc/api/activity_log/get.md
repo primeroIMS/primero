@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Query for activities
 
 Shows a paginated list of activities that are accessible to this user.
@@ -13,7 +15,7 @@ Shows a paginated list of activities that are accessible to this user.
 **Parameters** :
 
 * `page` Optional. Pagination. Defaults to 1
-* `per` Optional. Records per page. Defaults to 20
+* `per` Optional. Records per page. Defaults to 20. Maximum is 1000
 * `order` Optional. Order activities. Defaults to desc
 * `types` Optional. An array of activities to be returned. Defaults to all available activities.
 Example: `types[]=transfer`

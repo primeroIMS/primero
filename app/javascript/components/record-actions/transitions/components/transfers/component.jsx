@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/display-name */
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
@@ -21,7 +23,7 @@ import {
 } from "./constants";
 import { form, validations } from "./form";
 
-const TransferForm = ({
+function TransferForm({
   providedConsent,
   isBulkTransfer,
   canConsentOverride,
@@ -29,7 +31,7 @@ const TransferForm = ({
   recordType,
   setPending,
   setDisabled
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -85,7 +87,7 @@ const TransferForm = ({
       initialValues={initialValues}
     />
   );
-};
+}
 
 TransferForm.propTypes = {
   canConsentOverride: PropTypes.bool,

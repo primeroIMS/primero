@@ -1,7 +1,9 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { fromJS } from "immutable";
 
 import uuid from "../../../../libs/uuid";
-import { stub } from "../../../../test";
+import { stub } from "../../../../test-utils";
 
 import * as utils from "./utils";
 

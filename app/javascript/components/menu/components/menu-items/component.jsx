@@ -1,9 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { forwardRef } from "react";
 
 import MenuItem from "../menu-item";
 
-const Component = forwardRef(({ actions, disabledCondition, handleClose }, ref) => (
+const Component = forwardRef(({ actions = [], disabledCondition = () => {}, handleClose }, ref) => (
   <div>
     {actions.map(action => (
       <MenuItem
@@ -18,11 +20,6 @@ const Component = forwardRef(({ actions, disabledCondition, handleClose }, ref) 
 ));
 
 Component.displayName = "MenuItems";
-
-Component.defaultProps = {
-  actions: [],
-  disabledCondition: () => {}
-};
 
 Component.propTypes = {
   actions: PropTypes.array,

@@ -1,4 +1,6 @@
-import AddIcon from "@material-ui/icons/Add";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
@@ -17,7 +19,7 @@ import { NAME } from "./constants";
 import { getColumns } from "./utils";
 import { fetchConfigurations } from "./action-creators";
 
-const Container = () => {
+function Container() {
   const i18n = useI18n();
   const recordType = ["admin", NAMESPACE];
 
@@ -80,7 +82,7 @@ const Container = () => {
       </PageContent>
     </Permission>
   );
-};
+}
 
 Container.displayName = NAME;
 

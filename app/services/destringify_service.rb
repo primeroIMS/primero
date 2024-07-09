@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # A service to convert the boolean, date, integer, and time string values
 # of object with a ruby Hash interface (such as the Rails params) to
 # Date, Time, Integer, and Boolean ruby objects.

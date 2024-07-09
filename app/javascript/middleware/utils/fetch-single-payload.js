@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { isImmutable } from "immutable";
 
 import { FETCH_TIMEOUT, ROUTES } from "../../config";
@@ -5,9 +7,10 @@ import { DEFAULT_FETCH_OPTIONS } from "../constants";
 import { disableNavigation } from "../../components/application/action-creators";
 import { applyingConfigMessage } from "../../components/pages/admin/configurations-form/action-creators";
 import userActions from "../../components/user/actions";
+import { SET_ATTACHMENT_STATUS } from "../../components/records/actions";
+import { getIDPToken } from "../../components/login/components/idp-selection/auth-provider";
 
 import fetchStatus from "./fetch-status";
-import getToken from "./get-token";
 import handleConfiguration from "./handle-configuration";
 import partitionObject from "./partition-object";
 import buildAttachmentData from "./build-attachment-data";
@@ -19,6 +22,7 @@ import processAttachments from "./process-attachments";
 import { deleteFromQueue, messageQueueFailed, messageQueueSkip, messageQueueSuccess } from "./queue";
 import handleSuccess from "./handle-success";
 import FetchError from "./fetch-error";
+import getCSRFToken from "./get-csrf-token";
 
 const fetchSinglePayload = async (action, store, options) => {
   const controller = new AbortController();
@@ -63,9 +67,10 @@ const fetchSinglePayload = async (action, store, options) => {
     })
   };
 
-  const token = await getToken();
-
-  const headers = {};
+  const token = await getIDPToken();
+  const headers = {
+    "X-CSRF-Token": getCSRFToken()
+  };
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;
@@ -97,7 +102,7 @@ const fetchSinglePayload = async (action, store, options) => {
 
         if (status === 401) {
           if (action.type === userActions.FETCH_USER_DATA) {
-            throw new Error("401 status from api, logging out.");
+            throw new Error(window.I18n.t("error_message.error_401"));
           }
 
           startSignout(store);
@@ -109,12 +114,16 @@ const fetchSinglePayload = async (action, store, options) => {
         } else if (failureCallback) {
           messageQueueFailed(fromQueue);
           handleRestCallback(store, failureCallback, response, json, fromQueue);
+        } else if (action.type.includes("SAVE_ATTACHMENT") && status === 422) {
+          throw new FetchError(response, json);
         } else {
           messageQueueFailed(fromQueue);
           throw new FetchError(response, json);
         }
 
-        throw new Error("Something went wrong.");
+        if (!action.type.includes("SAVE_ATTACHMENT") && status !== 422) {
+          throw new Error(window.I18n.t("error_message.error_something_went_wrong"));
+        }
       }
       await handleSuccess(store, {
         type,
@@ -149,7 +158,17 @@ const fetchSinglePayload = async (action, store, options) => {
     } catch (error) {
       const errorDataObject = { json: error?.json, recordType, fromQueue, id, error };
 
-      messageQueueFailed(fromQueue);
+      if (fromAttachment && error?.response?.status === 422) {
+        deleteFromQueue(fromQueue);
+        messageQueueSkip();
+        store.dispatch({
+          type: `${fromAttachment.record_type}/${SET_ATTACHMENT_STATUS}`,
+          payload: { processing: false, error: false, pending: false, fieldName: fromAttachment.field_name }
+        });
+        errorDataObject.fromQueue = false;
+      } else {
+        messageQueueFailed(fromQueue);
+      }
 
       fetchStatus({ store, type }, "FAILURE", false);
 

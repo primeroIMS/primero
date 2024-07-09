@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { DEMO } from "../application/constants";
 
 const loginComponentText = (i18n, demo = false) => {

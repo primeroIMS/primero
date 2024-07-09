@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Create a new form
 
 Create a new form
@@ -10,7 +12,7 @@ Create a new form
 
 **Authorization** : The user must be authorized to create users in Primero.
 
-**Parameters** : 
+**Parameters** :
 
 * `data` A JSON representation of the forms to be created.
 ```json
@@ -29,13 +31,17 @@ Create a new form
         "password": "a12345678",
         "identity_provider_unique_id": "primeroims_2",
         "agency_office": "Agency Office 1"
+    },
+    "metadata": {
+      "maximum_users": 20,
+      "total_enabled": 15
     }
 }
 ```
 
 ## Success Response
 
-**Condition** : User can create users. 
+**Condition** : User can create users.
 No `id` attribute is provided in the `data` hash.
 
 **Code** : `200 OK`
@@ -64,7 +70,7 @@ No `id` attribute is provided in the `data` hash.
 ---
 
 **Condition** : User can create users.
-A client generated `id` attribute is provided in the `data` hash. 
+A client generated `id` attribute is provided in the `data` hash.
 This can be used to minimize the amount of data exchanged for low bandwidth scenarios.
 
 **Code** : `204 No Content`
@@ -73,7 +79,7 @@ This can be used to minimize the amount of data exchanged for low bandwidth scen
 
 ## Error Response
 
-**Condition** : User isn't authorized to create users. 
+**Condition** : User isn't authorized to create users.
 
 **Code** : `403 Forbidden`
 

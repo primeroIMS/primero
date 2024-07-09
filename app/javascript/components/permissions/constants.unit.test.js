@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import * as PERMISSIONS from "./constants";
 
 describe("Verifying config constant", () => {
@@ -75,10 +77,12 @@ describe("Verifying config constant", () => {
       "EXPORT_UNHCR",
       "FIND_TRACING_MATCH",
       "FLAG",
+      "FLAG_RESOLVE_ANY",
       "GBV_STATISTICS",
       "GROUP_READ",
       "INCIDENT_DETAILS_FROM_CASE",
       "INCIDENT_FROM_CASE",
+      "LINK_INCIDENT_TO_CASE",
       "KPI_ASSESSMENT_STATUS",
       "KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE",
       "KPI_AVERAGE_REFERRALS",
@@ -94,6 +98,7 @@ describe("Verifying config constant", () => {
       "KPI_SERVICES_PROVIDED",
       "KPI_SUPERVISOR_TO_CASEWORKER_RATIO",
       "KPI_TIME_FROM_CASE_OPEN_TO_CLOSE",
+      "LINK_FAMILY_RECORD",
       "MANAGE",
       "MARK_FOR_OFFLINE",
       "READ",
@@ -115,11 +120,13 @@ describe("Verifying config constant", () => {
       "WORKFLOW_REPORT",
       "SYNC_EXTERNAL",
       "TRANSFER",
+      "VERIFY_MRM",
       "VIEW_FAMILY_RECORD",
       "VIEW_INCIDENT_FROM_CASE",
       "VIEW_REGISTRY_RECORD",
       "VIOLATIONS",
-      "WRITE"
+      "WRITE",
+      "REMOVE_ALERT"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
       expect(permissions[property]).to.be.a("string");

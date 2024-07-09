@@ -1,6 +1,7 @@
-import { useTheme } from "@material-ui/core/styles";
-import { useMediaQuery } from "@material-ui/core";
-import merge from "lodash/merge";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { createTheme, useTheme } from "@mui/material/styles";
+import { useMediaQuery } from "@mui/material";
 import isFunction from "lodash/isFunction";
 
 import { getAppDirection } from "../components/i18n/selectors";
@@ -13,7 +14,7 @@ export default ({ overrides = {} } = {}) => {
 
   const themeOverrides = isFunction(overrides) ? overrides(appTheme) : overrides;
   const mobileDisplay = useMediaQuery(appTheme.breakpoints.down("sm"));
-  const theme = merge(appTheme, themeOverrides);
+  const theme = createTheme(appTheme, themeOverrides);
 
   const direction = useMemoizedSelector(state => getAppDirection(state));
 

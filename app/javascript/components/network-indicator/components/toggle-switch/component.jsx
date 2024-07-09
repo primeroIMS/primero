@@ -1,8 +1,10 @@
-/* eslint-disable max-len */
-import { withStyles } from "@material-ui/core/styles";
-import { Switch } from "@material-ui/core";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-const ToggleSwitch = withStyles({
+/* eslint-disable max-len */
+import { withStyles } from "tss-react/mui";
+import { Switch } from "@mui/material";
+
+const ToggleSwitch = withStyles(Switch, () => ({
   switchBase: {
     "&.Mui-checked": {
       color: "#fff",
@@ -22,6 +24,6 @@ const ToggleSwitch = withStyles({
     opacity: 1,
     backgroundColor: "#aab4be"
   }
-})(Switch);
+}));
 
 export default ToggleSwitch;

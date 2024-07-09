@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { mountedComponent, screen } from "test-utils";
 import { fromJS } from "immutable";
 
@@ -32,6 +34,6 @@ describe("<ApprovalPanel /> - Component", () => {
   });
 
   it("render a ApprovalSummary", () => {
-    expect(screen.getAllByTestId("sectionheader")).toHaveLength(1);
+    expect(screen.getAllByTestId("approval-summary")).toHaveLength(1);
   });
 });

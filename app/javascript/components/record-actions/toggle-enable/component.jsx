@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 
@@ -8,7 +10,7 @@ import { RECORD_TYPES_PLURAL } from "../../../config";
 
 import { NAME } from "./constants";
 
-const Component = ({ close, open, record, recordType }) => {
+function Component({ close, open, record, recordType }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const enableState = record && !record.get("record_state") ? "enable" : "disable";
@@ -50,7 +52,7 @@ const Component = ({ close, open, record, recordType }) => {
       confirmButtonLabel={i18n.t("cases.ok")}
     />
   );
-};
+}
 
 Component.displayName = NAME;
 

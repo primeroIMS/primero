@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 POLYMORPHIC_MODELS = [RecordHistory, Flag, Transition, Alert, AuditLog].freeze
 RECORD_MODELS = [Child, Incident, TracingRequest, RegistryRecord].freeze
 DELETABLE_POLYMORPHIC_MODELS = [RecordHistory, Flag, Transition, Alert].freeze

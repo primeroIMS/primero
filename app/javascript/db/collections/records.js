@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import compact from "lodash/compact";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
@@ -11,7 +13,7 @@ import { isDate, parseISO } from "date-fns";
 import DB from "../db";
 import subformAwareMerge from "../utils/subform-aware-merge";
 import { QUICK_SEARCH_FIELDS, DATE_SORTABLE_FIELDS } from "../../config";
-import { reduceMapToObject, hasApiDateFormat } from "../../libs";
+import { hasApiDateFormat, reduceMapToObject } from "../../libs/component-helpers";
 
 const Records = {
   find: async ({ collection, recordType, db, json }) => {
@@ -115,8 +117,6 @@ const Records = {
     return {
       ...data,
       ...sortableDateFields,
-      complete_sortable: data.complete ? 1 : 0,
-      has_photo: data.photo ? 1 : 0,
       terms: QUICK_SEARCH_FIELDS.reduce((acc, quickField) => {
         const value = data[quickField];
 
@@ -135,8 +135,9 @@ const Records = {
     const dataKeys = Object.keys(data);
     const jsonData = dataKeys.length === 1 && dataKeys.includes("record") ? data.record : data;
     const dataIsArray = Array.isArray(jsonData);
+    const markComplete = !(fields === "short" || idSearch);
     const recordData = Records.dataSearchableFields(
-      Records.dataMarkedComplete(jsonData, !(fields === "short" || idSearch), online),
+      Records.dataMarkedComplete(jsonData, markComplete, online),
       recordType
     );
 
@@ -151,6 +152,23 @@ const Records = {
       queryIndex: {
         index: "type",
         value: recordType
+      },
+      callbacks: {
+        beforeSave(record, prev) {
+          if (prev) {
+            return {
+              ...record,
+              complete_sortable: prev.complete || record.complete ? 1 : 0,
+              has_photo: prev.photo || record.photo ? 1 : 0
+            };
+          }
+
+          return {
+            ...record,
+            complete_sortable: 0,
+            has_photo: 0
+          };
+        }
       }
     });
 

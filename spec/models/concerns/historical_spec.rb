@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Historical do
@@ -50,7 +52,7 @@ describe Historical do
 
     it 'should insert a creation history with correct record_changes' do
       # TODO: Not a very good test. What changes are expected?
-      expect(@inst.histories.first.record_changes.size).to eq(20)
+      expect(@inst.histories.first.record_changes.size).to eq(32)
     end
 
     # TODO: This is disabled for now. OK behavior, no?

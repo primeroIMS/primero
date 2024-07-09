@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import getColumnObjects from "./get-column-objects";
 
 describe("<Report /> - utils", () => {

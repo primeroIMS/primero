@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe PermittedFieldService, search: true do
@@ -55,6 +57,18 @@ describe PermittedFieldService, search: true do
       form_section_read_write: { form.unique_id => 'rw' }
     )
   end
+
+  let(:case_risk_dashboard_role) do
+    Role.new_with_properties(
+      name: 'Test Role 1',
+      unique_id: 'test-role-1',
+      group_permission: Permission::SELF,
+      permissions: [
+        Permission.new(resource: Permission::DASHBOARD, actions: [Permission::DASH_CASE_RISK])
+      ]
+    )
+  end
+
   let(:agency) do
     Agency.create!(
       name: 'Test Agency',
@@ -62,6 +76,7 @@ describe PermittedFieldService, search: true do
       services: ['Test type']
     )
   end
+
   let(:user) do
     User.create!(
       full_name: 'Test User 1',
@@ -97,6 +112,19 @@ describe PermittedFieldService, search: true do
       email: 'test_user_3@localhost.com',
       agency_id: agency.id,
       role: pending_dashboard_role,
+      services: ['Test type']
+    )
+  end
+
+  let(:user_with_risk_level) do
+    User.create!(
+      full_name: 'User With Risk Level',
+      user_name: 'user_with_risk_level',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'test_user_3@localhost.com',
+      agency_id: agency.id,
+      role: case_risk_dashboard_role,
       services: ['Test type']
     )
   end
@@ -176,9 +204,7 @@ describe PermittedFieldService, search: true do
     permitted_reporting_location_field = PermittedFieldService.new(user, Child).permitted_reporting_location_field.first
     reporting_location_config = system_settings.reporting_location_config
 
-    expect(permitted_reporting_location_field).to eq(
-      "#{reporting_location_config.field_key}#{reporting_location_config.admin_level}"
-    )
+    expect(permitted_reporting_location_field).to eq("loc:#{reporting_location_config.field_key}")
   end
 
   it 'returns the reporting_location field permitted for a role with a reporting_location_level set' do
@@ -207,9 +233,13 @@ describe PermittedFieldService, search: true do
                                                               .permitted_reporting_location_field.first
     reporting_location_config = system_settings.reporting_location_config
 
-    expect(permitted_reporting_location_field).to eq(
-      "#{reporting_location_config.field_key}#{role_with_reporting_location.reporting_location_level}"
-    )
+    expect(permitted_reporting_location_field).to eq("loc:#{reporting_location_config.field_key}")
+  end
+
+  it 'return the risk_level field permitted for a role with a case_risk permission in dashboard' do
+    permitted_field_names = PermittedFieldService.new(user_with_risk_level, Child).permitted_field_names
+
+    expect(permitted_field_names).to include('risk_level')
   end
 
   describe 'MRM - Vioaltions forms and fields' do
@@ -282,5 +312,166 @@ describe PermittedFieldService, search: true do
       expect((Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS) - permitted_fields_schema.keys).to be_empty
     end
   end
+
+  describe 'Permitted Fields for Multiple Roles' do
+    before(:each) do
+      clean_data(PrimeroModule, User, Agency, Role, FormSection, Field, SystemSettings)
+      primero_module_cp
+      form_a
+      form_b
+      role_a.save!
+      role_b.save!
+      test_user
+    end
+
+    let(:form_a) do
+      FormSection.create!(
+        unique_id: 'a', name: 'A', parent_form: 'case', form_group_id: 'm', fields: [
+          Field.create!(name: 'field_a', display_name: 'A1', type: Field::TEXT_FIELD)
+        ]
+      )
+    end
+    let(:form_b) do
+      FormSection.create!(
+        unique_id: 'b', name: 'B', parent_form: 'case', form_group_id: 'm', fields: [
+          Field.create!(name: 'field_b', display_name: 'b1', type: Field::TEXT_FIELD)
+        ]
+      )
+    end
+    let(:primero_module_cp) do
+      PrimeroModule.create!(
+        primero_program: PrimeroProgram.first,
+        name: 'PrimeroModule',
+        unique_id: PrimeroModule::CP,
+        associated_record_types: ['case'],
+        form_sections: [form_a, form_b]
+      )
+    end
+    let(:role_a) do
+      Role.new_with_properties(
+        name: 'Test Role A',
+        unique_id: 'test-role-a',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::CREATE, Permission::WRITE]
+          )
+        ],
+        form_section_read_write: { form_a.unique_id => 'rw' }
+      )
+    end
+    let(:role_b) do
+      Role.new_with_properties(
+        name: 'Test Role B',
+        unique_id: 'test-role-b',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::CREATE, Permission::WRITE]
+          )
+        ],
+        form_section_read_write: { form_b.unique_id => 'r' }
+      )
+    end
+    let(:test_user) do
+      user = User.new(
+        full_name: 'Test User 2',
+        user_name: 'test_user_2',
+        password: 'a12345632',
+        password_confirmation: 'a12345632',
+        email: 'test_user_2@localhost.com',
+        role: role_a
+      )
+      user.save!(validate: false)
+      user
+    end
+
+    it 'returns the permitted fields for the roles' do
+      permitted_field_names = PermittedFieldService.new(test_user, Child).permitted_field_names(
+        false, false, [role_a, role_b]
+      )
+
+      expect(permitted_field_names).to include('field_a', 'field_b')
+    end
+  end
+
+  describe 'permitted_attachment_fields' do
+    before(:each) do
+      clean_data(PrimeroModule, User, Agency, Role, FormSection, Field, SystemSettings)
+    end
+
+    let(:primero_module_cp) do
+      PrimeroModule.create!(
+        primero_program: PrimeroProgram.first,
+        name: 'PrimeroModule',
+        unique_id: PrimeroModule::CP,
+        associated_record_types: ['case'],
+        form_sections: []
+      )
+    end
+
+    let(:permitted_preview_role) do
+      Role.new_with_properties(
+        name: 'Permitted Attachments',
+        unique_id: 'permitted_attachment_fields',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::SEARCH_OWNED_BY_OTHERS, Permission::DISPLAY_VIEW_PAGE]
+          )
+        ]
+      )
+    end
+
+    let(:permitted_view_photo_role) do
+      Role.new_with_properties(
+        name: 'Permitted View Photo',
+        unique_id: 'permitted_view_photo_role',
+        group_permission: Permission::SELF,
+        modules: [primero_module_cp],
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::VIEW_PHOTO]
+          )
+        ]
+      )
+    end
+
+    let(:preview_user) do
+      user = User.new(
+        full_name: 'Preview User',
+        user_name: 'preview_user',
+        password: 'a12345632',
+        password_confirmation: 'a12345632',
+        email: 'preview_user@localhost.com',
+        role: permitted_preview_role
+      )
+      user.save(validate: false)
+      user
+    end
+
+    it 'returns the audio/photos fields' do
+      permitted_field_names = PermittedFieldService.new(preview_user, Child).permitted_field_names
+
+      expect(permitted_field_names).to include('photos', 'recorded_audio')
+    end
+
+    it 'returns the photo field' do
+      preview_user.role = permitted_view_photo_role
+      preview_user.save(validate: false)
+
+      permitted_field_names = PermittedFieldService.new(preview_user, Child).permitted_field_names
+
+      expect(permitted_field_names).to include('photo')
+    end
+  end
+
   after(:each) { clean_data(PrimeroProgram, User, Agency, Role, FormSection, Field, SystemSettings) }
 end

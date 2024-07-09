@@ -1,9 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { PROVIDED_CONSENT_NAME as NAME } from "./constants";
 import ProvidedForm from "./provided-form";
 
-const ProvidedConsent = ({ canConsentOverride, providedConsent, setDisabled, recordType }) => {
+function ProvidedConsent({ canConsentOverride, providedConsent, setDisabled, recordType }) {
   if (providedConsent) {
     return null;
   }
@@ -14,7 +16,7 @@ const ProvidedConsent = ({ canConsentOverride, providedConsent, setDisabled, rec
   };
 
   return <ProvidedForm {...providedConsentFormProps} />;
-};
+}
 
 ProvidedConsent.displayName = NAME;
 

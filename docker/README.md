@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 
 # Primero Docker
 
@@ -24,7 +26,7 @@ cd docker
 Build your container images and tag with `latest`:
 
 ```
-./build all
+./build.sh all
 ```
 
 Create a `local.env` environment configuration file by
@@ -114,9 +116,6 @@ PRIMERO_SECRET_KEY_BASE - Required. A secure random number.
 To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`
 
 DEVISE_SECRET_KEY - Required. A secure random number.
-To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`
-
-DEVISE_JWT_SECRET_KEY - Required. A secure random number.
 To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`
 
 PRIMERO_SECRET_KEY_BASE - Required. A secure random number.

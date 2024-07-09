@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Returns the users for a specified transition
 class UserTransitionService
   attr_accessor :transition, :transitioned_by_user, :model, :module_unique_id
@@ -14,6 +16,9 @@ class UserTransitionService
     },
     Transfer.name => {
       receive: Permission::RECEIVE_TRANSFER
+    },
+    Assign.name => {
+      receive: [Permission::READ, Permission::MANAGE]
     }
   }.freeze
 
@@ -43,7 +48,7 @@ class UserTransitionService
 
     users = User.includes(:agency, :role).where(disabled: false).where.not(id: transitioned_by_user.id)
 
-    return with_assign_scope(users) if transition == Assign.name
+    return with_assign_scope(with_view_record_permission(users)) if transition == Assign.name
 
     apply_filters(with_receive_permission(users), filters)
   end
@@ -93,6 +98,12 @@ class UserTransitionService
     with_different_module_users(users)
   end
 
+  def with_view_record_permission(users)
+    assing_permission = RECEIVE_PERMISSIONS[transition][:receive]
+
+    users.by_resource_and_permission(model&.parent_form, assing_permission)
+  end
+
   def with_different_module_users(users)
     return users unless RECEIVE_PERMISSIONS[transition][:receive_different_module].present?
 
@@ -101,7 +112,7 @@ class UserTransitionService
         'roles.permissions -> :resource ? :permission',
         resource: model&.parent_form,
         permission: RECEIVE_PERMISSIONS[transition][:receive_different_module]
-      )
+      ).where(disabled: false)
     )
   end
 end

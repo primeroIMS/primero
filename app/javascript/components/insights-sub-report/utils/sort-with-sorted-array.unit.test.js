@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import sortWithSortedArray from "./sort-with-sorted-array";
 
 describe("<InsightsSubReport/>/utils - sortWithSortedArray", () => {

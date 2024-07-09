@@ -1,5 +1,7 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
-import { List, ListItem, ListItemText, Drawer } from "@material-ui/core";
+import { List, ListItem, ListItemText, Drawer } from "@mui/material";
 
 import { ConditionalWrapper, useMemoizedSelector } from "../../../../../libs";
 import Jewel from "../../../../jewel";
@@ -8,7 +10,7 @@ import { SUPPORT_FORMS } from "../../constants";
 
 import { NAME } from "./constants";
 
-const Component = ({ css, handleToggleNav, menuList, mobileDisplay, onClick, selectedItem, toggleNav }) => {
+function Component({ css, handleToggleNav, menuList, mobileDisplay, onClick, selectedItem, toggleNav }) {
   const hasUnsubmittedOfflineChanges = useMemoizedSelector(state => hasQueueData(state));
 
   const drawerProps = {
@@ -33,7 +35,15 @@ const Component = ({ css, handleToggleNav, menuList, mobileDisplay, onClick, sel
     };
 
     return (
-      <ListItem button key={id} onClick={handleClick} selected={selected} disabled={disabled} classes={classes}>
+      <ListItem
+        data-testid="list-item"
+        button
+        key={id}
+        onClick={handleClick}
+        selected={selected}
+        disabled={disabled}
+        classes={classes}
+      >
         <ListItemText key={id} primary={text} />
         {hasUnsubmittedOfflineChanges && id === SUPPORT_FORMS.resync && <Jewel isForm />}
       </ListItem>
@@ -42,10 +52,12 @@ const Component = ({ css, handleToggleNav, menuList, mobileDisplay, onClick, sel
 
   return (
     <ConditionalWrapper condition={mobileDisplay} wrapper={Drawer} {...drawerProps}>
-      <List component="nav">{renderList}</List>
+      <List data-testid="list" component="nav">
+        {renderList}
+      </List>
     </ConditionalWrapper>
   );
-};
+}
 
 Component.displayName = NAME;
 

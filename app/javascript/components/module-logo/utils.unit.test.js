@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PrimeroLogo from "../../images/primero-logo.png";
 import PrimeroLogoWhite from "../../images/primero-logo-white.png";
 import GBVLogo from "../../images/gbv-logo.png";

@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Create|Ping a new subscription
 
 Create a new subscription for the currently signed in user

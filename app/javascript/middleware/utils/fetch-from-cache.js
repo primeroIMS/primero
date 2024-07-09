@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import DB, { METHODS, syncIndexedDB } from "../../db";
 
 import fetchPayload from "./fetch-payload";

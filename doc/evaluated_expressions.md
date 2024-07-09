@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Evaluated Expressions
 
 Primero supports expression evaluation for certain features like form skip logic and conditional select options. Currently only boolean expressions are supported, but the approach can be extended for other features such as computed fields.

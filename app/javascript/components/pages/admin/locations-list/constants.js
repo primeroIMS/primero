@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export const NAME = "LocationsList";
 export const DISABLED = "disabled";
 export const DEFAULT_LOCATION_METADATA = Object.freeze({

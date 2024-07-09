@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { useI18n } from "../i18n";
@@ -9,7 +11,7 @@ import ViolationsSubforms from "./components/violations-subforms";
 import SummaryFields from "./components/summary-fields";
 import ChildrenMultipleViolations from "./components/children-multiple-violations";
 
-const Component = ({ recordID, recordType, mobileDisplay, handleToggleNav, mode, formSections, values }) => {
+function Component({ recordID, recordType, mobileDisplay, handleToggleNav, mode, formSections, values }) {
   const i18n = useI18n();
 
   return (
@@ -26,7 +28,7 @@ const Component = ({ recordID, recordType, mobileDisplay, handleToggleNav, mode,
       <ChildrenMultipleViolations recordType={recordType} formSections={formSections} values={values} />
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

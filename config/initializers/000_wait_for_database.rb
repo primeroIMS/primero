@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This initializer gets executed early in the Rails boot sequence to check that
 # the database is accepting connections or to wait 1 minute until it does.
 Rails.application.config.before_initialize do

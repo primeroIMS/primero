@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Model for Webpush Subscription
 class WebpushSubscription < ApplicationRecord
   validates :notification_url, presence: { message: 'errors.models.webpush_subscription.notification_url_present' },

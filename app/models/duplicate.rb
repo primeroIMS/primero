@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Describes a case that may duplicate another case.
 # TODO: This class represents the v1.x approach for detecting duplicates for individual matchable records
 #       using Solr fuzzy searching. If we decide to continue this business logic, we will likely

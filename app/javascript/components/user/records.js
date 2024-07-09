@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Record } from "immutable";
 
 export const ListHeaderRecord = Record({
@@ -16,5 +18,7 @@ export const FilterRecord = Record({
   field_name: null,
   option_strings_source: null,
   options: [],
-  type: null
+  type: null,
+  sort_options: false,
+  toggle_include_disabled: false
 });

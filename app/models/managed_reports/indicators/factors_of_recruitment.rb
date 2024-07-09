@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the factor of recruitment of violation type Recruitment
 class ManagedReports::Indicators::FactorsOfRecruitment < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'factors_of_recruitment'
@@ -42,17 +42,12 @@ class ManagedReports::Indicators::FactorsOfRecruitment < ManagedReports::SqlRepo
         ) as factors_data
         group by name
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+        order by name
       }
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
-
-    def build_data_values(values)
-      values.map do |value|
-        JSON.parse(value['data']).merge({ 'id' => value['name'].gsub('"', '') })
-      end
-    end
   end
 end

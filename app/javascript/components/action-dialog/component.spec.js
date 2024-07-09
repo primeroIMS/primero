@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { mountedComponent, screen } from "test-utils";
 
 import ActionDialog from "./component";
@@ -14,7 +16,6 @@ describe("<ActionDialog />", () => {
     dialogText: "",
     dialogTitle: "Test Title",
     disableActions: false,
-    disableBackdropClick: false,
     maxSize: "sm",
     omitCloseAfterSuccess: false,
     onClose: () => {},

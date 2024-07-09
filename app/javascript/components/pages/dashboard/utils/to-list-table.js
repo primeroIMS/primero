@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import first from "lodash/first";
 import isUndefined from "lodash/isUndefined";
 import last from "lodash/last";
@@ -7,6 +9,8 @@ import isNil from "lodash/isNil";
 import sortBy from "lodash/sortBy";
 
 import { dataToJS, displayNameHelper } from "../../../../libs";
+
+import defaultBodyRender from "./default-body-render";
 
 const translateSingleLabel = (key, data, locale) => {
   if (key === "") return key;
@@ -39,7 +43,14 @@ export default (data, columnLabels, rowLabels, locale) => {
     const columns = [{ id: "", display_text: "" }, ...columnLabels]
       .reduce((acc, elem) => {
         if (columnKeys.includes(elem.id) || elem.id === "") {
-          return [...acc, { name: elem.id, label: translateSingleLabel(elem.id, columnLabels, locale) }];
+          return [
+            ...acc,
+            {
+              name: elem.id,
+              label: translateSingleLabel(elem.id, columnLabels, locale),
+              options: { customBodyRender: defaultBodyRender }
+            }
+          ];
         }
 
         return acc;

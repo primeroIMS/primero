@@ -1,9 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react/display-name */
 
 import { fromJS } from "immutable";
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
-import CreateIcon from "@material-ui/icons/Create";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
+import CreateIcon from "@mui/icons-material/Create";
 import { push } from "connected-react-router";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
@@ -24,13 +26,13 @@ import { form } from "../admin/users-form/form";
 import { getIdentityProviders } from "../admin/users-form/selectors";
 import validations from "../admin/users-form/validations";
 import { fetchRoles, getWebpushConfig } from "../../application";
-import PushNotificationsToggle from "../../push-notifications-toggle";
+import PushNotificationsWrapper from "../../push-notifications-toggle/push-notifications-wrapper";
 
 import { clearCurrentUser, fetchCurrentUser, updateUserAccount } from "./action-creators";
 import { FORM_ID, NAME } from "./constants";
 import NAMESPACE from "./namespace";
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const formMode = whichFormMode(mode);
 
   const i18n = useI18n();
@@ -90,7 +92,7 @@ const Container = ({ mode }) => {
 
   const editButton = formMode.isShow && (
     <>
-      <PushNotificationsToggle />
+      <PushNotificationsWrapper />
       <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
     </>
   );
@@ -121,7 +123,10 @@ const Container = ({ mode }) => {
     identityOptions,
     onClickChangePassword,
     true,
-    { userGroups: currentUser.get("userGroups", fromJS([])), webPushConfig }
+    {
+      userGroups: currentUser.get("userGroups", fromJS([])),
+      webPushConfigEnabled: webPushConfig?.get("enabled", false)
+    }
   );
 
   // eslint-disable-next-line react/no-multi-comp
@@ -159,7 +164,7 @@ const Container = ({ mode }) => {
       </PageContainer>
     </LoadingIndicator>
   );
-};
+}
 
 Container.displayName = NAME;
 

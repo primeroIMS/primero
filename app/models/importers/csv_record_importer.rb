@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Import Record data into Primero from CSV.
 # WARNING!!!  Never expose this via an API.  Doing so would pose a security risk
 class Importers::CsvRecordImporter < ValueObject
@@ -90,7 +92,7 @@ class Importers::CsvRecordImporter < ValueObject
     location_service = LocationService.new(true)
     record_class.all.find_in_batches(batch_size:) do |records|
       records.each { |r| r.location_service = location_service } unless record_class == Trace
-      Sunspot.index(records)
+      Sunspot.index(records) if Rails.configuration.solr_enabled
     end
   end
 

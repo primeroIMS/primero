@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Query for tasks
 
 Show a paginated list of all tasks that are accessible to this user.

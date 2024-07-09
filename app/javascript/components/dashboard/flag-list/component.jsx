@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -6,7 +8,7 @@ import FlagBox from "../flag-box";
 
 import css from "./styles.css";
 
-const FlagList = ({ flags }) => {
+function FlagList({ flags }) {
   const i18n = useI18n();
 
   return (
@@ -19,7 +21,7 @@ const FlagList = ({ flags }) => {
       </NavLink>
     </div>
   );
-};
+}
 
 FlagList.displayName = "FlagList";
 

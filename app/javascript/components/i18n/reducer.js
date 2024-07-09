@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Map } from "immutable";
 
 import { SET_LOCALE, SET_USER_LOCALE } from "./actions";

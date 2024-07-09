@@ -1,4 +1,6 @@
-import { stub } from "../../../../test";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { stub } from "../../../../test-utils";
 import { RECORD_PATH } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 

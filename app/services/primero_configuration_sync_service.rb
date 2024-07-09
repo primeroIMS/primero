@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Write to another instance of Primero.
 # Expect the following environment variables to be set:
 # PRIMERO_PROMOTE_CONFIG_PROD_HOST, PRIMERO_PROMOTE_CONFIG_PROD_PORT, PRIMERO_PROMOTE_CONFIG_PROD_BASIC_AUTH
@@ -7,7 +9,7 @@
 class PrimeroConfigurationSyncService
   ENV_PREFIX = 'PRIMERO_PROMOTE_CONFIG_PROD_'
 
-  attr_accessor :connector
+  attr_accessor :connector, :connectors
 
   class << self
     def instance
@@ -16,7 +18,7 @@ class PrimeroConfigurationSyncService
 
     def build
       new.tap do |s|
-        s.connector = ApiConnector::PrimeroConfigurationConnector.build_from_env(prefix: ENV_PREFIX)
+        s.connectors = ApiConnector::PrimeroConfigurationConnector.build_connectors(prefix: ENV_PREFIX)
       end
     end
 
@@ -26,6 +28,14 @@ class PrimeroConfigurationSyncService
   end
 
   def sync!(record)
-    connector.sync(record)
+    connectors.each do |connector|
+      Rails.logger.info("[sync][config]['host'] #{connector.connection.options['host']}")
+      sync_response = connector.sync(record)
+
+      Rails.logger.info("[sync][response][status] #{sync_response[:status]}")
+    rescue StandardError => e
+      puts e
+      next
+    end
   end
 end

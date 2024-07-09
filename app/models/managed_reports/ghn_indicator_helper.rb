@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Helper methods for ghn indicators
 module ManagedReports::GhnIndicatorHelper
   extend ActiveSupport::Concern
-
-  include ManagedReports::MRMIndicatorHelper
 
   # ClassMethods
   module ClassMethods
@@ -23,20 +23,15 @@ module ManagedReports::GhnIndicatorHelper
 
     def build_groups(results, _params = {})
       groups.merge(results.group_by { |group| group['name'] }).map do |group|
-        {
-          group_id: group[0],
-          data: build_data_values(group[1])
-        }
+        { group_id: group[0], data: build_data_values(group[1]) }
       end
     end
 
-    def build_data_values(values)
-      values.each_with_object([]) do |curr, acc|
-        current_group = acc.find { |group| group[:id] == curr['name'] }
-        next current_group[curr['key'].to_sym] = curr['sum'] if current_group.present?
+    def value_to_data_element(value)
+      element = { id: value['group_id'], value['key'].to_sym => value['sum'] }
+      return element unless value.key?('total')
 
-        acc << { id: curr['group_id'], curr['key'].to_sym => curr['sum'] }
-      end
+      element.merge(total: value['total'])
     end
   end
 end

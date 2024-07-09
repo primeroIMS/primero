@@ -1,3 +1,5 @@
+/* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
+
 .root {
   width: 80%;
 
@@ -71,7 +73,7 @@
   }
 }
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .importDataLabelClass {
     margin-top: 8px;
     margin-bottom: 8px;

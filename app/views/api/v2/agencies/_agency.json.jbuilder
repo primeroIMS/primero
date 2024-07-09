@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 json.id agency.id
 json.unique_id agency.unique_id
 json.agency_code agency.agency_code

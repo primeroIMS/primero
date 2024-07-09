@@ -1,0 +1,34 @@
+export default {
+  <% if @theme.present? %>
+  siteTitle: "<%= @theme.site_title || 'Primero' %>",
+  showPoweredByPrimero: <%= @theme.show_powered_by_primero %>,
+  useContainedNavStyle: <%= @theme.use_contained_nav_style %>,
+  colors: {
+    <% Theme::COLOR_PROPERTIES.each do |prop| %>
+      <% if @theme.colors[prop] %>
+        <%= prop %>: "<%= @theme.colors[prop] || '' %>",
+      <% end %>
+    <% end %>
+    <% if @theme.login_background.present? %>
+    loginBackgroundImage: "url('<%= "https://#{Rails.application.routes.default_url_options[:host]}" %><%= rails_blob_path(@theme.login_background, only_path: true) %>')"
+    <% end %>
+  },
+  images: {
+    logos: {
+      <% if @theme&.logo.present? %>
+      default: "<%= rails_blob_path(@theme.logo, only_path: true) %>",
+      <% end %>
+      <% if @theme&.logo_white.present? %>
+      secondary: "<%= rails_blob_path(@theme.logo_white, only_path: true) %>",
+      <% end %>
+      <% if @theme&.logo_pictorial_144.present? %>
+      pictorial: "<%= rails_blob_path(@theme.logo_pictorial_144, only_path: true) %>"
+      <% end %>
+    },
+    <% if @theme&.login_background.present? %>
+    backgroundImage: "<%= rails_blob_path(@theme.login_background, only_path: true) %>"
+    <% end %>
+  }
+  <% end %>
+}
+

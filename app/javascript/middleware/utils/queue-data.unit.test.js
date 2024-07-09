@@ -1,4 +1,6 @@
-import { stub, createMockStore } from "../../test";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { stub, createMockStore } from "../../test-utils";
 import * as syncIndexedDB from "../../db/sync";
 import queueIndexedDB from "../../db/queue";
 import { METHODS } from "../../config";

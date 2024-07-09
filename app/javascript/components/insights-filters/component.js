@@ -1,5 +1,7 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useForm } from "react-hook-form";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import groupBy from "lodash/groupBy";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
@@ -39,10 +41,10 @@ import css from "./styles.css";
 import { transformFilters } from "./utils";
 import validations from "./validations";
 
-const Component = ({ moduleID, id, subReport, toggleControls }) => {
+function Component({ moduleID, id, subReport, toggleControls }) {
   const isManagedReportScopeAll = useMemoizedSelector(state => getIsManagedReportScopeAll(state));
   const canReadUserGroups = usePermissions(RESOURCES.user_groups, READ_RECORDS);
-  const userGroups = useOptions({ source: OPTION_TYPES.USER_GROUP_PERMITTED });
+  const userGroups = useOptions({ source: OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED });
   const insightsConfig = get(INSIGHTS_CONFIG, [moduleID, id], {});
   const { defaultFilterValues } = insightsConfig;
 
@@ -137,7 +139,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
     <form noValidate onSubmit={formMethods.handleSubmit(submit)}>
       <div className={css.container}>
         <div className={css.dateControlGroup}>{filterInputs(DATE_CONTROLS_GROUP)}</div>
-        {filterInputs()}
+        <div className={css.filters}>{filterInputs()}</div>
       </div>
       <div className={css.actions}>
         <div>
@@ -153,7 +155,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
       </div>
     </form>
   );
-};
+}
 
 Component.displayName = "InsightsFilters";
 

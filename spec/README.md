@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Testing
 
 We use rspec for testing. Rspec test are located in the /spec directory.

@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Query for user_groups
 
 Shows a paginated list of all user_groups that are accessible to this user.
@@ -13,7 +15,7 @@ Shows a paginated list of all user_groups that are accessible to this user.
 **Parameters** :
 
 * `page` Optional. Pagination. Defaults to 1
-* `per` Optional. Records per page. Defaults to 20.
+* `per` Optional. Records per page. Defaults to 20. Maximum is 1000
 * `agency_unique_ids` Optional. Returns the users groups associated to the specified agencies.
 
 ## Success Response

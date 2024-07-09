@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe Api::V2::PotentialMatchesController, type: :request do
-  before(:each) { clean_data(Attachment, Trace, Child) }
-  after(:each) { clean_data(Attachment, Trace, Child) }
+  before(:each) { clean_data(Attachment, Trace, Incident, Child) }
+  after(:each) { clean_data(Attachment, Trace, Incident, Child) }
 
   let(:case1) do
     Child.create!(

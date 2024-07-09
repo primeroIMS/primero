@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { openDB } from "idb";
 import some from "lodash/some";
 import startsWith from "lodash/startsWith";

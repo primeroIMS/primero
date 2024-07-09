@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import DB from "../db/db";
 import { DB_STORES } from "../db/constants";
 import { DATE_FIELD, NUMERIC_FIELD } from "../components/record-form/constants";

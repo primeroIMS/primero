@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 module.exports = api => {
   const validEnv = ["development", "test", "production"];
   const currentEnv = api.env();

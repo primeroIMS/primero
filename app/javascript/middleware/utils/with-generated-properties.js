@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { DB_STORES } from "../../db/constants";
 
 import generateRecordProperties from "./generate-record-properties";

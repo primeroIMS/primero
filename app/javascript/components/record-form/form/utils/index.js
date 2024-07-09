@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 export { default as addSubformEntries } from "./add-subform-entries";
 export { default as appendDisabledUser } from "./append-disabled-user";
 export { default as buildAssociatedViolations } from "./build-associated-violations";

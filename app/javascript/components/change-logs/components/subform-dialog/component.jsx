@@ -1,6 +1,8 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import Timeline from "@material-ui/lab/Timeline";
+import Timeline from "@mui/lab/Timeline";
 
 import ActionDialog from "../../../action-dialog";
 import LoadingIndicator from "../../../loading-indicator";
@@ -11,7 +13,7 @@ import css from "../../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({
+function Component({
   recordChanges,
   open,
   setOpen,
@@ -21,7 +23,7 @@ const Component = ({
   locations,
   setCalculatingChangeLog,
   allAgencies
-}) => {
+}) {
   const i18n = useI18n();
 
   const subformTitle = i18n.t("change_logs.changes_subform", {
@@ -58,7 +60,7 @@ const Component = ({
       </ActionDialog>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

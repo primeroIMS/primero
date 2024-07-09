@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # A variation on a Struct. Subclasses should define attr_accessors.
 # Initialize subclasses using a Hash to populate the accessors.
 class ValueObject

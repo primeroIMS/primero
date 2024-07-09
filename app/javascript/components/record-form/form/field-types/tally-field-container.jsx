@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../../i18n";
@@ -8,7 +10,7 @@ import css from "../styles.css";
 
 import TextField from "./text-field";
 
-const TallyFieldContainer = ({ name, option, isTotal, ...rest }) => {
+function TallyFieldContainer({ name, option, isTotal, ...rest }) {
   const i18n = useI18n();
 
   if (!isTotal && !option) {
@@ -35,7 +37,7 @@ const TallyFieldContainer = ({ name, option, isTotal, ...rest }) => {
   };
 
   return <TextField {...fieldProps} />;
-};
+}
 
 TallyFieldContainer.displayName = TALLY_FIELD_CONTAINER_NAME;
 

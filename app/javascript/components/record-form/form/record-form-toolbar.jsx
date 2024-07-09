@@ -1,12 +1,14 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
-import { Badge } from "@material-ui/core";
+import { Badge } from "@mui/material";
 import { withRouter, Link } from "react-router-dom";
-import CreateIcon from "@material-ui/icons/Create";
+import CreateIcon from "@mui/icons-material/Create";
 import { push } from "connected-react-router";
 import { batch, useDispatch } from "react-redux";
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
-import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 import { getIncidentFromCase } from "../../records";
 import { SaveReturnIcon } from "../../../images/primero-icons";
@@ -18,9 +20,9 @@ import { getSavingRecord, getLoadingRecordState } from "../../records/selectors"
 import {
   RECORD_TYPES,
   RECORD_PATH,
-  INCIDENT_CASE_ID_DISPLAY_FIELD,
   INCIDENT_CASE_ID_FIELD,
-  INCIDENT_FROM_CASE
+  INCIDENT_FROM_CASE,
+  RECORD_TYPES_PLURAL
 } from "../../../config";
 import DisableOffline from "../../disable-offline";
 import { useMemoizedSelector, useThemeHelper } from "../../../libs";
@@ -28,6 +30,9 @@ import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { getIsEnabledWebhookSyncFor } from "../../application/selectors";
 import { PageHeading } from "../../page";
+import { useIncidentFromCase } from "../../incidents-from-case";
+import { getRedirectedToCreateNewRecord } from "../selectors";
+import { setRedirectedToCreateNewRecord } from "../action-creators";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
@@ -35,7 +40,7 @@ import css from "./styles.css";
 import RecordPageHeading from "./page-heading";
 import DisabledRecordIndicator from "./components/disabled-record-indicator";
 
-const RecordFormToolbar = ({
+function RecordFormToolbar({
   handleFormSubmit,
   caseIdDisplay,
   history,
@@ -45,7 +50,7 @@ const RecordFormToolbar = ({
   record,
   recordType,
   shortId
-}) => {
+}) {
   const { isRTL } = useThemeHelper();
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -56,6 +61,8 @@ const RecordFormToolbar = ({
   const isEnabledWebhookSyncFor = useMemoizedSelector(state =>
     getIsEnabledWebhookSyncFor(state, primeroModule, recordType)
   );
+  const redirectedToCreateNewRecord = useMemoizedSelector(state => getRedirectedToCreateNewRecord(state));
+  const { incidentFromCaseIdDisplay, incidentFromCaseId } = useIncidentFromCase({ recordType, record });
 
   const rtlClass = isRTL ? css.flipImage : "";
 
@@ -72,29 +79,14 @@ const RecordFormToolbar = ({
   const goBack = () => {
     if (incidentFromCase?.size && recordType === RECORD_TYPES.incidents) {
       handleReturnToCase();
+    } else if (mode.isNew && redirectedToCreateNewRecord) {
+      batch(() => {
+        dispatch(setRedirectedToCreateNewRecord(false));
+        dispatch(push(`/${RECORD_PATH[RECORD_TYPES_PLURAL[recordType]]}`));
+      });
     } else {
       history.goBack();
     }
-  };
-
-  const getIncidentFromCaseIdDisplay = () => {
-    if (recordType === RECORD_TYPES.incidents) {
-      return incidentFromCase?.size
-        ? incidentFromCase.get(INCIDENT_CASE_ID_DISPLAY_FIELD)
-        : record?.get(INCIDENT_CASE_ID_DISPLAY_FIELD);
-    }
-
-    return null;
-  };
-
-  const getIncidentFromCaseId = () => {
-    if (recordType === RECORD_TYPES.incidents) {
-      return incidentFromCase?.size
-        ? incidentFromCase.get(INCIDENT_CASE_ID_FIELD)
-        : record?.get(INCIDENT_CASE_ID_FIELD);
-    }
-
-    return null;
   };
 
   const renderSaveButton = (
@@ -142,8 +134,8 @@ const RecordFormToolbar = ({
       params={params}
       recordType={recordType}
       shortId={shortId}
-      incidentCaseId={getIncidentFromCaseId()}
-      incidentCaseIdDisplay={getIncidentFromCaseIdDisplay()}
+      incidentCaseId={incidentFromCaseId}
+      incidentCaseIdDisplay={incidentFromCaseIdDisplay}
       toolbarHeading={css.toolbarHeading}
       associatedLinkClass={css.associatedCaseLink}
       isEnabledWebhookSyncFor={isEnabledWebhookSyncFor}
@@ -167,7 +159,12 @@ const RecordFormToolbar = ({
         {mode.isShow && params && (
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
             <DisableOffline button>
-              <Badge color="error" badgeContent={record.get("flag_count")} className={css.badgeIndicator}>
+              <Badge
+                data-testid="badge"
+                color="error"
+                badgeContent={record.get("flag_count")}
+                className={css.badgeIndicator}
+              >
                 <Flagging record={params.id} recordType={params.recordType} />
               </Badge>
             </DisableOffline>
@@ -203,7 +200,7 @@ const RecordFormToolbar = ({
       </>
     </PageHeading>
   );
-};
+}
 
 RecordFormToolbar.displayName = RECORD_FORM_TOOLBAR_NAME;
 

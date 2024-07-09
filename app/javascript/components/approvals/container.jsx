@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 
 import { useI18n } from "../i18n";
@@ -7,7 +9,7 @@ import css from "./styles.css";
 import { NAME } from "./constants";
 import ApprovalPanel from "./components/panel";
 
-const Container = ({ approvals, mobileDisplay, handleToggleNav }) => {
+function Container({ approvals, mobileDisplay, handleToggleNav }) {
   const i18n = useI18n();
 
   const renderApprovals =
@@ -21,7 +23,7 @@ const Container = ({ approvals, mobileDisplay, handleToggleNav }) => {
     ));
 
   return (
-    <div>
+    <div data-testid="approvals">
       <div key="approvals-div">
         <RecordFormTitle
           mobileDisplay={mobileDisplay}
@@ -32,7 +34,7 @@ const Container = ({ approvals, mobileDisplay, handleToggleNav }) => {
       </div>
     </div>
   );
-};
+}
 
 Container.displayName = NAME;
 

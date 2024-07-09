@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Describes the family linkages
 class Family < ApplicationRecord
   include Record
@@ -11,6 +13,7 @@ class Family < ApplicationRecord
   include Attachable
   include EagerLoadable
   include LocationCacheable
+  include PhoneticSearchable
 
   store_accessor(
     :data,
@@ -28,28 +31,15 @@ class Family < ApplicationRecord
       %w[family_id short_id family_number]
     end
 
-    def quicksearch_fields
-      filterable_id_fields + %w[family_name]
-    end
-
-    def sortable_text_fields
-      %w[short_id]
-    end
-
     def summary_field_names
       common_summary_fields + %w[
         family_registration_date family_id_display family_name family_number module_id family_location_current
       ]
     end
-  end
 
-  searchable do
-    date :family_registration_date
-    %w[id status].each { |f| string(f, as: "#{f}_sci") }
-    filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
-    quicksearch_fields.each { |f| text_index(f) }
-    sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
-    string :family_name, multiple: true
+    def phonetic_field_names
+      %w[family_name]
+    end
   end
 
   alias super_defaults defaults
@@ -81,5 +71,9 @@ class Family < ApplicationRecord
 
   def family_members_changed?
     saved_changes_to_record.keys.include?('family_members')
+  end
+
+  def cases_grouped_by_id
+    cases&.group_by(&:id) || {}
   end
 end

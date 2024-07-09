@@ -1,4 +1,6 @@
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 ---
 collections:
 - name: 'git+https://github.com/Quoin/ansible-infrastructure.git#quoin/infrastructure'
-  version: 'release-1.1.0'
+  version: 'v1.1.1'

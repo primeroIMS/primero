@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import displayNameHelper from "./display-name-helper";
 
 describe("libs/display-name-helper.js", () => {

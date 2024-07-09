@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Represents a query against a date field
 class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
   attr_accessor :group_by

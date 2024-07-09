@@ -1,4 +1,6 @@
-import { Divider, Grid, FormControlLabel } from "@material-ui/core";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { Divider, Grid, FormControlLabel } from "@mui/material";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../i18n";
@@ -9,7 +11,7 @@ import DateTransitions from "../components/date-transitions";
 import { NAME } from "./constants";
 import renderIconValue from "./render-icon-value";
 
-const TransferDetails = ({ transition }) => {
+function TransferDetails({ transition }) {
   const i18n = useI18n();
 
   const renderRejected =
@@ -25,7 +27,7 @@ const TransferDetails = ({ transition }) => {
         <DisplayData label="transition.recipient" value={transition.transitioned_to} />
       </Grid>
       <Grid item md={6} xs={12}>
-        <DisplayData label="transition.assigned_by" value={transition.transitioned_by} />
+        <DisplayData label="transition.transferred_by" value={transition.transitioned_by} />
       </Grid>
 
       <Grid item md={6} xs={12}>
@@ -74,12 +76,12 @@ const TransferDetails = ({ transition }) => {
       </Grid>
       {renderRejected}
       <Grid item md={12} xs={12}>
-        <Divider className={css.divider} />
+        <Divider data-testid="divider" className={css.divider} />
         <DisplayData label="transition.notes" value={transition.notes} />
       </Grid>
     </Grid>
   );
-};
+}
 
 TransferDetails.displayName = NAME;
 

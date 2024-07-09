@@ -1,8 +1,10 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
 
-import { useApp } from "../application";
+import { useApp } from "../application/use-app";
 import { useI18n } from "../i18n";
 import { RECORD_TYPES } from "../../config";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
@@ -39,7 +41,7 @@ const buildMessage = ({ online, messageFromQueue, message, messageKey, messagePa
   return snackMessage;
 };
 
-const Notifier = () => {
+function Notifier() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { online } = useApp();
@@ -125,7 +127,7 @@ const Notifier = () => {
   }, [notifications, closeSnackbar, enqueueSnackbar, dispatch]);
 
   return null;
-};
+}
 
 Notifier.displayName = "Notifier";
 

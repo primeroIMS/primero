@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # An indicator that returns the sexual violence type of violation type rape
 class ManagedReports::Indicators::SexualViolenceType < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'sexual_violence_type'
@@ -49,11 +49,5 @@ class ManagedReports::Indicators::SexualViolenceType < ManagedReports::SqlReport
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
-
-    def build_data_values(values)
-      values.map do |value|
-        JSON.parse(value['data']).merge({ id: value['name'].gsub('"', '') })
-      end
-    end
   end
 end

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Controller used to handle OpenId Connect redirect urls.
 # The expected route is '/login/:id' where :id is actially the provider_type
 class LoginController < ApplicationController

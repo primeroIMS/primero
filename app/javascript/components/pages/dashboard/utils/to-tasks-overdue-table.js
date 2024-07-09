@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { DASHBOARD_NAMES } from "../constants";
 
 export default (overdueTasksDashboards, i18n) => {

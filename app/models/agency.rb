@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Organizations that users who manage the the data in Primero belong to.
 # rubocop:disable Metrics/ClassLength
 class Agency < ApplicationRecord

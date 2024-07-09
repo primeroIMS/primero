@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'rails_helper'
 
 describe DuplicatedFieldAlertService do
   before :each do
-    clean_data(Alert, Child)
+    clean_data(Alert, Incident, Child)
 
     @child1 = Child.create!(data: { id_field: '0001' })
     @child2 = Child.create!(data: { id_field: '0001' })

@@ -1,18 +1,22 @@
-import { Menu, MenuItem, Button } from "@material-ui/core";
-import LanguageIcon from "@material-ui/icons/Language";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import { Menu, MenuItem, Button } from "@mui/material";
+import LanguageIcon from "@mui/icons-material/Language";
 import { useState } from "react";
 
 import { DropdownDoubleIcon } from "../../images/primero-icons";
 import { useI18n } from "../i18n";
 import { selectLocales } from "../application/selectors";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
+import { useApp } from "../application";
 
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const TranslationsToggle = () => {
+function TranslationsToggle() {
   const { changeLocale, locale, ...i18n } = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
+  const { useContainedNavStyle } = useApp();
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -46,9 +50,12 @@ const TranslationsToggle = () => {
     );
   };
 
+  const buttonVariant = useContainedNavStyle ? "contained" : "text";
+
   return (
     <>
       <Button
+        variant={buttonVariant}
         id={`home.${locale}`}
         className={css.button}
         fullWidth
@@ -56,7 +63,7 @@ const TranslationsToggle = () => {
         aria-haspopup="true"
         aria-owns={anchorEl ? "simple-menu" : undefined}
       >
-        <LanguageIcon className={css.icon} />
+        <LanguageIcon />
         <div>{i18n.t(`home.${locale}`)}</div>
         <DropdownDoubleIcon />
       </Button>
@@ -80,7 +87,7 @@ const TranslationsToggle = () => {
       </Menu>
     </>
   );
-};
+}
 
 TranslationsToggle.displayName = NAME;
 

@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { createRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
@@ -9,7 +11,7 @@ import { buildFilter } from "../utils";
 
 import { NAME, COLORS } from "./constants";
 
-const PieChart = ({ data, labels, query }) => {
+function PieChart({ data, labels, query }) {
   const dispatch = useDispatch();
   const chartRef = createRef();
 
@@ -57,8 +59,8 @@ const PieChart = ({ data, labels, query }) => {
     };
   });
 
-  return <canvas ref={chartRef} />;
-};
+  return <canvas ref={chartRef} data-testid="pie-chart" />;
+}
 
 PieChart.displayName = NAME;
 

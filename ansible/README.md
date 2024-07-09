@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
+
 # Primero Ansible
 
 [TOC]
@@ -35,7 +37,6 @@
             primero_message_secret: 'generated_secret'
             postgres_password: 'generated_secret'
             devise_secret_key: 'generated_secret'
-            devise_jwt_secret_key: 'generated_secret'
             ssh_private_key: |
             -----BEGIN RSA PRIVATE KEY-----
             klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
@@ -204,7 +205,6 @@ key just leave the variable `ssh_private_key` out of the secrets.yml file.
                 primero_message_secret: 'generated_secret'
                 postgres_password: 'generated_secret'
                 devise_secret_key: 'generated_secret'
-                devise_jwt_secret_key: 'generated_secret'
                 secret_environment_variables:
                   SMTP_USER: 'secret'
                   SMTP_PASSWORD: 'secret'
@@ -294,7 +294,7 @@ Finally restart the docker containers:
 
 If nginx is already using external certs, to update the certs follow the next steps:
 
-1. Copy over target server in the `/srv/primero/external-certs/` folder, the new key and cert.
+1. Copy over target server in the `/srv/external-certs/` folder, the new key and cert.
 2. Replace the existing key an cert with the new files.
 3. Restart nginx docker container:
 
@@ -322,3 +322,19 @@ If you change your hostname and you want to update your letsencrypt certificate,
 ```
   ​(venv) $ ansible-playbook application-primero.yml --tags "start"
 ```
+
+## Apply database migrations
+
+Database migrations are only present in major and minor version updates (2.7, 2.8) never in patch versions (v2.7.1).
+
+Make sure to execute the migrations every time you upgrade Primero.
+
+To execute the migrations, run:
+
+```
+​(venv) $ ansible-playbook application-primero.yml --tags "configure,start"
+```
+
+This command will execute migrations and also attempt to run the configuration indicated in `primero_configuration_repo_branch`.
+
+**Please be cautious as this could overwrite the current system configuration**. if you want to prevent a configuration from being applied, make sure to set the configuration version that is applied to the system.

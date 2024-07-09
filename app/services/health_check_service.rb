@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Validate basic Primero health: in this case being able to access core dependencies
 class HealthCheckService
   BACKENDS = %w[database solr server api].freeze
@@ -16,11 +18,13 @@ class HealthCheckService
 
     def database_accessible?
       ActiveRecord::Base.connection.execute('SELECT 1;')
-    rescue ActiveRecord::StatementInvalid, PG::ConnectionBad
+    rescue ActiveRecord::StatementInvalid, PG::ConnectionBad, ActiveRecord::ConnectionNotEstablished
       false
     end
 
     def solr_accessible?
+      return true unless Rails.configuration.solr_enabled
+
       Sunspot.session.session.rsolr_connection.head('admin/ping').response[:status] == 200
     rescue RSolr::Error::ConnectionRefused
       false

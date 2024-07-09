@@ -1,10 +1,10 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable camelcase */
-import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 
 import { ACTIONS } from "../../permissions";
 import { displayNameHelper } from "../../../libs";
-import { reduceMapToObject } from "../../../libs/component-helpers";
 import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD, SEPERATOR, SUBFORM_SECTION } from "../../record-form/constants";
 
 import { ALL_EXPORT_TYPES, EXPORT_FORMAT, FILTERS_TO_SKIP } from "./constants";
@@ -61,49 +61,6 @@ export const skipFilters = data =>
 
     return acc;
   }, {});
-
-export const exporterFilters = (
-  isShowPage,
-  allCurrentRowsSelected,
-  shortIds,
-  appliedFilters,
-  queryParams,
-  record,
-  allRecordsSelected
-) => {
-  let filters = {};
-  const defaultFilters = {
-    status: ["open"],
-    record_state: ["true"]
-  };
-
-  if (isShowPage) {
-    filters = { short_id: [record.get("short_id")] };
-  } else {
-    const applied = skipFilters(reduceMapToObject(appliedFilters) || {});
-    const params = skipFilters(queryParams || {});
-
-    if (!allRecordsSelected && (allCurrentRowsSelected || shortIds.length)) {
-      filters = { short_id: shortIds };
-    } else if (Object.keys(params).length || Object.keys(applied).length) {
-      filters = { ...params, ...applied };
-    } else {
-      filters = defaultFilters;
-    }
-  }
-
-  const { query, ...restFilters } = filters;
-
-  const returnFilters = Object.keys(restFilters).length ? restFilters : { short_id: shortIds };
-
-  if (!isEmpty(query)) {
-    return { filters: returnFilters, query };
-  }
-
-  return {
-    filters: returnFilters
-  };
-};
 
 export const buildFields = (data, locale) => {
   const excludeFieldTypes = [AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD, SEPERATOR];

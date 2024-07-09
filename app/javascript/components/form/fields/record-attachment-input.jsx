@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { useFieldArray } from "react-hook-form";
 
@@ -8,7 +10,7 @@ import { PHOTO_RECORD_FIELD } from "../constants";
 
 import AudioArray from "./audio-array";
 
-const AttachmentInputArray = ({ commonInputProps, metaInputProps, formMode, formMethods }) => {
+function AttachmentInputArray({ commonInputProps, metaInputProps, formMode, formMethods }) {
   const arrayMethods = useFieldArray({
     control: formMethods.control,
     name: commonInputProps.name
@@ -36,7 +38,7 @@ const AttachmentInputArray = ({ commonInputProps, metaInputProps, formMode, form
       <AttachmentArray images={urls} attachments={arrayMethods.fields} />
     </div>
   );
-};
+}
 
 AttachmentInputArray.displayName = "AttachmentInputArray";
 

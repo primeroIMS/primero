@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -14,7 +16,7 @@ const initialValues = {
   message: ""
 };
 
-const Component = ({ recordType, record, handleActiveTab }) => {
+function Component({ recordType, record, handleActiveTab }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -37,7 +39,7 @@ const Component = ({ recordType, record, handleActiveTab }) => {
       resetAfterSubmit
     />
   );
-};
+}
 
 Component.displayName = NAME;
 

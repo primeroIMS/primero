@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import isNil from "lodash/isNil";
 
 import { DATE_FIELD, NUMERIC_FIELD } from "../constants";

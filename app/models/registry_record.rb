@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Model representing a registry
 class RegistryRecord < ApplicationRecord
   REGISTRY_TYPE_FARMER = 'farmer'
@@ -15,6 +17,7 @@ class RegistryRecord < ApplicationRecord
   include Attachable
   include EagerLoadable
   include LocationCacheable
+  include PhoneticSearchable
 
   store_accessor(
     :data,
@@ -34,26 +37,14 @@ class RegistryRecord < ApplicationRecord
       %w[registry_id short_id registry_no]
     end
 
-    def quicksearch_fields
-      filterable_id_fields + %w[registry_type name]
-    end
-
     def summary_field_names
       common_summary_fields + %w[registry_type registry_id_display name registration_date
                                  module_id name location_current registry_no]
     end
 
-    def sortable_text_fields
-      %w[registry_type short_id name]
+    def phonetic_field_names
+      %w[name]
     end
-  end
-
-  searchable do
-    %w[id status registry_type].each { |f| string(f, as: "#{f}_sci") }
-    %w[registration_date].each { |f| date(f) }
-    filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
-    quicksearch_fields.each { |f| text_index(f) }
-    sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
   end
 
   alias super_defaults defaults

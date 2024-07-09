@@ -1,5 +1,7 @@
-import MenuIcon from "@material-ui/icons/Menu";
-import { AppBar, Toolbar, IconButton, Hidden } from "@material-ui/core";
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+import MenuIcon from "@mui/icons-material/Menu";
+import { AppBar, Toolbar, IconButton, Box } from "@mui/material";
 import PropTypes from "prop-types";
 
 import NetworkIndicator from "../network-indicator";
@@ -11,7 +13,7 @@ import Jewel from "../jewel";
 
 import css from "./styles.css";
 
-const MobileToolbar = ({ openDrawer, hasUnsubmittedOfflineChanges = false }) => {
+function MobileToolbar({ openDrawer, hasUnsubmittedOfflineChanges = false }) {
   const { demo } = useApp();
   const i18n = useI18n();
 
@@ -19,25 +21,27 @@ const MobileToolbar = ({ openDrawer, hasUnsubmittedOfflineChanges = false }) => 
   const demoText = demo ? <div className={css.demoText}>{i18n.t(DEMO)}</div> : null;
 
   return (
-    <Hidden mdUp implementation="css">
-      <AppBar position="fixed">
-        <Toolbar className={css[demo ? "toolbar-demo" : "toolbar"]}>
-          <IconButton edge="start" color="default" aria-label="Menu" onClick={openDrawer}>
-            <MenuIcon />
+    <Box sx={{ display: { md: "none", xs: "block" } }}>
+      <AppBar position="fixed" data-testid="appBar">
+        <Toolbar data-testid="toolbar" className={css[demo ? "toolbar-demo" : "toolbar"]}>
+          <IconButton size="large" edge="start" aria-label="Menu" onClick={openDrawer}>
+            <MenuIcon className={css.hamburger} />
             {hasUnsubmittedOfflineChanges && (
               <div className={css.menuAlert}>
                 <Jewel value mobileDisplay isForm />
               </div>
             )}
           </IconButton>
-          <ModuleLogo className={css.logo} />
-          {demoText}
-          <NetworkIndicator mobile />
+          <div className={css.appBarContent}>
+            <ModuleLogo className={css.logo} />
+            {demoText}
+            <NetworkIndicator mobile />
+          </div>
         </Toolbar>
       </AppBar>
-    </Hidden>
+    </Box>
   );
-};
+}
 
 MobileToolbar.displayName = "MobileToolbar";
 

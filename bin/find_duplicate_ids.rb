@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 def print_log(message)
   message = "#{DateTime.now.strftime('%m/%d/%Y %H:%M')}|| #{message}"
   puts message

@@ -1,6 +1,8 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import { useWatch } from "react-hook-form";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 
 import { ConditionalWrapper } from "../../../libs";
 import useFormField from "../use-form-field";
@@ -9,7 +11,7 @@ import formComponent from "../utils/form-component";
 
 import css from "./styles.css";
 
-const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, disableUnderline }) => {
+function WatchedFormSectionField({ checkErrors, field, formMethods, formMode, disableUnderline = false }) {
   const { control, errors, getValues } = formMethods;
 
   const {
@@ -25,7 +27,7 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, di
     error
   } = useFormField(field, { checkErrors, errors, formMode, disableUnderline });
 
-  const classes = clsx(css.field, {
+  const classes = cx(css.field, {
     [css.readonly]: formMode.isShow
   });
 
@@ -75,13 +77,9 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, di
       </ConditionalWrapper>
     )
   );
-};
+}
 
 WatchedFormSectionField.displayName = "WatchedFormSectionField";
-
-WatchedFormSectionField.defaultProps = {
-  disableUnderline: false
-};
 
 WatchedFormSectionField.propTypes = {
   checkErrors: PropTypes.object,
