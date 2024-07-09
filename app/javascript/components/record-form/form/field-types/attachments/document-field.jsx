@@ -1,12 +1,12 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable jsx-a11y/label-has-for */
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { TextField } from "formik-mui";
 import { Box, Dialog, Button, DialogContent, DialogActions, DialogTitle, IconButton } from "@mui/material";
-import { FastField } from "formik";
+import { Formik, FastField, Form } from "formik";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import CloseIcon from "@mui/icons-material/Close";
@@ -24,9 +24,10 @@ import ActionDialog from "../../../../action-dialog";
 import { useThemeHelper } from "../../../../../libs";
 import TickField from "../tick-field";
 import { MODULES } from "../../../../../config";
+import { buildDocumentSchema } from "../../validations";
 
-import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
+import { ATTACHMENT_FIELDS, ATTACHMENT_FIELDS_INITIAL_VALUES } from "./constants";
 
 function DocumentField({
   attachment,
@@ -49,10 +50,16 @@ function DocumentField({
   const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
   const primeroModule = arrayHelpers?.form?.values?.module_id || params.module;
   const isMRM = primeroModule === MODULES.MRM;
-
-  const fields = buildAttachmentFieldsObject(name, index);
+  const initialDocumentValues = value || ATTACHMENT_FIELDS_INITIAL_VALUES;
+  const documentSchema = useMemo(() => buildDocumentSchema(i18n), [i18n]);
 
   if (destroyed) return null;
+
+  const onSubmit = values => {
+    arrayHelpers.replace(index, values);
+    resetOpenLastDialog();
+    setDialog(false);
+  };
 
   const removeFunc = () => {
     if (attachmentUrl) {
@@ -62,7 +69,7 @@ function DocumentField({
     }
   };
 
-  const handleClose = () => {
+  const handleClose = async () => {
     if (!some(value)) {
       removeFunc();
     }
@@ -70,9 +77,7 @@ function DocumentField({
     setDialog(false);
   };
 
-  const handleOpen = () => {
-    setDialog(true);
-  };
+  const handleOpen = () => setDialog(true);
 
   const handleRemove = () => {
     removeFunc();
@@ -136,79 +141,102 @@ function DocumentField({
       </div>
 
       <Dialog open={open || dialog} onClose={handleClose} maxWidth="sm" fullWidth>
-        <DialogTitle className={css.title}>
-          <div className={css.titleText}>{title}</div>
-          <div>
-            <IconButton size="large" onClick={handleClose}>
-              <CloseIcon />
-            </IconButton>
-          </div>
-        </DialogTitle>
-        <DialogContent>
-          <div className={css.attachmentUploadField}>
-            {attachmentUrl ? (
-              <ActionButton
-                text="buttons.download"
-                type={ACTION_BUTTON_TYPES.default}
-                isTransparent
-                rest={{
-                  variant: "outlined",
-                  component: "a",
-                  href: attachmentUrl
-                }}
-              />
-            ) : (
-              <AttachmentInput fields={fields} attachment={attachment} value={value.attachment} name={name} />
-            )}
-            {mode.isShow || deleteButton}
-          </div>
+        <Formik
+          initialValues={initialDocumentValues}
+          validationSchema={documentSchema}
+          validateOnBlur={false}
+          validateOnChange={false}
+          enableReinitialize
+          onSubmit={values => onSubmit(values)}
+        >
+          {({ handleSubmit }) => (
+            <Form data-testid="document-dialog-form" autoComplete="off" onSubmit={handleSubmit}>
+              <DialogTitle className={css.title}>
+                <div className={css.titleText}>{title}</div>
+                <div>
+                  <IconButton size="large" onClick={handleClose}>
+                    <CloseIcon />
+                  </IconButton>
+                </div>
+              </DialogTitle>
+              <DialogContent>
+                <div className={css.attachmentUploadField}>
+                  {attachmentUrl ? (
+                    <ActionButton
+                      text="buttons.download"
+                      type={ACTION_BUTTON_TYPES.default}
+                      isTransparent
+                      rest={{
+                        variant: "outlined",
+                        component: "a",
+                        href: attachmentUrl
+                      }}
+                    />
+                  ) : (
+                    <AttachmentInput
+                      fields={ATTACHMENT_FIELDS}
+                      attachment={attachment}
+                      value={value.attachment}
+                      name={name}
+                    />
+                  )}
+                  {mode.isShow || deleteButton}
+                </div>
 
-          {!isMRM && (
-            <Box my={2}>
-              <TickField
-                {...supportingInputsProps}
-                label={i18n.t("fields.document.is_current")}
-                name={fields.isCurrent}
-              />
-            </Box>
+                {!isMRM && (
+                  <Box my={2}>
+                    <TickField
+                      {...supportingInputsProps}
+                      label={i18n.t("fields.document.is_current")}
+                      name={ATTACHMENT_FIELDS.isCurrent}
+                    />
+                  </Box>
+                )}
+
+                <Box my={2}>
+                  <FastField
+                    component={TextField}
+                    {...supportingInputsProps}
+                    label={i18n.t("fields.document.name")}
+                    name={ATTACHMENT_FIELDS.description}
+                  />
+                </Box>
+                <Box my={2}>
+                  <DateField
+                    {...supportingInputsProps}
+                    field={field}
+                    name={ATTACHMENT_FIELDS.date}
+                    label={i18n.t("fields.document.date")}
+                    mode={mode}
+                  />
+                </Box>
+                <Box my={2}>
+                  <FastField
+                    component={TextField}
+                    size="small"
+                    {...supportingInputsProps}
+                    multiline
+                    label={i18n.t("fields.document.comments")}
+                    name={ATTACHMENT_FIELDS.comments}
+                  />
+                </Box>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  id={dialogActionText}
+                  onClick={handleSubmit}
+                  type="button"
+                  color="primary"
+                  variant="contained"
+                  disableElevation
+                >
+                  {i18n.t(dialogActionText)}
+                </Button>
+              </DialogActions>
+            </Form>
           )}
-
-          <Box my={2}>
-            <FastField
-              component={TextField}
-              {...supportingInputsProps}
-              label={i18n.t("fields.document.name")}
-              name={fields.description}
-            />
-          </Box>
-          <Box my={2}>
-            <DateField
-              {...supportingInputsProps}
-              field={field}
-              name={fields.date}
-              label={i18n.t("fields.document.date")}
-              mode={mode}
-            />
-          </Box>
-          <Box my={2}>
-            <FastField
-              component={TextField}
-              size="small"
-              {...supportingInputsProps}
-              multiline
-              label={i18n.t("fields.document.comments")}
-              name={fields.comments}
-            />
-          </Box>
-        </DialogContent>
-
-        <DialogActions>
-          <Button id={dialogActionText} onClick={handleClose} color="primary" variant="contained" disableElevation>
-            {i18n.t(dialogActionText)}
-          </Button>
-        </DialogActions>
+        </Formik>
       </Dialog>
-
       <ActionDialog
         open={deleteConfirmation}
         successHandler={handleRemove}
