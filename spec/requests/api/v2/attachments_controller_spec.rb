@@ -88,6 +88,53 @@ describe Api::V2::AttachmentsController, type: :request do
     end
   end
 
+  describe 'PATCH /api/v2/:record/:id/attachments', search: true do
+    it 'updates the metadata fields for a document' do
+      attachment = Attachment.new(
+        record: @case, field_name: Attachable::DOCUMENTS_FIELD_NAME, attachment_type: Attachment::DOCUMENT,
+        file_name: 'dummy.pdf', attachment: attachment_base64('dummy.pdf'), description: 'Document Description',
+        is_current: true, date: '2020-02-15', comments: 'Some comments'
+      )
+      attachment.attach!
+
+      login_for_test({ permitted_field_names: [Attachable::DOCUMENTS_FIELD_NAME] })
+
+      params = {
+        data: { description: 'New Description', is_current: false, date: '2020-02-16', comments: 'Other comments' }
+      }
+
+      patch("/api/v2/cases/#{@case.id}/attachments/#{attachment.id}", params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['description']).to eq('New Description')
+      expect(json['data']['is_current']).to eq(false)
+      expect(json['data']['date']).to eq('2020-02-16')
+      expect(json['data']['comments']).to eq('Other comments')
+    end
+
+    it 'does not update the attached document' do
+      attachment = Attachment.new(
+        record: @case, field_name: Attachable::DOCUMENTS_FIELD_NAME, attachment_type: Attachment::DOCUMENT,
+        file_name: 'dummy.pdf', attachment: attachment_base64('dummy.pdf'), description: 'Document Description',
+        is_current: true, date: '2020-02-15', comments: 'Some comments'
+      )
+      attachment.attach!
+      previous_checksum = attachment.file_blob.checksum
+
+      login_for_test({ permitted_field_names: [Attachable::DOCUMENTS_FIELD_NAME] })
+
+      params = {
+        data: { attachment: attachment_base64('hxl_location_sample.csv') }
+      }
+
+      patch("/api/v2/cases/#{@case.id}/attachments/#{attachment.id}", params:)
+
+      expect(response).to have_http_status(200)
+      attachment.reload
+      expect(previous_checksum).to eq(attachment.file_blob.checksum)
+    end
+  end
+
   describe 'DELETE /api/v2/:record/:id/attachment/:attachment-id' do
     let(:attachment) do
       attachment = Attachment.new(
@@ -97,6 +144,8 @@ describe Api::V2::AttachmentsController, type: :request do
       attachment.attach!
       attachment
     end
+
+    before { attachment }
 
     it 'removes an attached record and updates the has_photo field' do
       login_for_test({ permitted_field_names: [Attachable::PHOTOS_FIELD_NAME] })
