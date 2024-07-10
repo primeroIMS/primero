@@ -7,27 +7,24 @@ import PropTypes from "prop-types";
 import { TextField } from "formik-mui";
 import { Box, Dialog, Button, DialogContent, DialogActions, DialogTitle, IconButton } from "@mui/material";
 import { Formik, FastField, Form } from "formik";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import CloseIcon from "@mui/icons-material/Close";
-import DeleteIcon from "@mui/icons-material/Delete";
 import some from "lodash/some";
 
-import DisableOffline from "../../../../disable-offline";
-import { useI18n } from "../../../../i18n";
-import { DOCUMENT_FIELD_NAME } from "../../constants";
-import DateField from "../date-field";
-import css from "../../styles.css";
-import ActionButton from "../../../../action-button";
-import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
-import ActionDialog from "../../../../action-dialog";
-import { useThemeHelper } from "../../../../../libs";
-import TickField from "../tick-field";
-import { MODULES } from "../../../../../config";
-import { buildDocumentSchema } from "../../validations";
+import { useI18n } from "../../../../../i18n";
+import { DOCUMENT_FIELD_NAME } from "../../../constants";
+import DateField from "../../date-field";
+import css from "../../../styles.css";
+import ActionButton from "../../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
+import ActionDialog from "../../../../../action-dialog";
+import TickField from "../../tick-field";
+import { MODULES } from "../../../../../../config";
+import { buildDocumentSchema } from "../../../validations";
+import AttachmentInput from "../attachment-input";
+import { ATTACHMENT_FIELDS, ATTACHMENT_FIELDS_INITIAL_VALUES } from "../constants";
 
-import AttachmentInput from "./attachment-input";
-import { ATTACHMENT_FIELDS, ATTACHMENT_FIELDS_INITIAL_VALUES } from "./constants";
+import DocumentFieldRow from "./row";
+import DocumentDeleteButton from "./delete-button";
 
 function DocumentField({
   attachment,
@@ -44,7 +41,6 @@ function DocumentField({
   const i18n = useI18n();
   const params = useParams();
 
-  const { isRTL } = useThemeHelper();
   const [dialog, setDialog] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
@@ -81,6 +77,7 @@ function DocumentField({
 
   const handleRemove = () => {
     removeFunc();
+    resetOpenLastDialog();
 
     if (dialog) {
       handleClose();
@@ -90,20 +87,6 @@ function DocumentField({
   const openDeleteConfirmation = () => setDeleteConfirmation(true);
 
   const closeDeleteConfirmation = () => setDeleteConfirmation(false);
-
-  const deleteButton = mode.isEdit && (
-    <DisableOffline>
-      <ActionButton
-        id="delete-button"
-        icon={<DeleteIcon />}
-        type={ACTION_BUTTON_TYPES.icon}
-        cancel
-        rest={{
-          onClick: openDeleteConfirmation
-        }}
-      />
-    </DisableOffline>
-  );
 
   const supportingInputsProps = {
     disabled: mode.isShow,
@@ -123,23 +106,10 @@ function DocumentField({
   };
 
   const dialogActionText = `buttons.${mode.isShow ? "close" : "save"}`;
-  const renderIcon = isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRightIcon />;
 
   return (
     <>
-      <div className={css.attachment}>
-        <div className={css.attachmentMeta}>
-          <span>{value.date && i18n.l("date.formats.default", value.date)}</span>
-          {value.description}
-        </div>
-        <div>
-          {deleteButton}
-          <IconButton size="large" onClick={handleOpen}>
-            {renderIcon}
-          </IconButton>
-        </div>
-      </div>
-
+      <DocumentFieldRow handleOpen={handleOpen} document={value} handleDelete={openDeleteConfirmation} mode={mode} />
       <Dialog open={open || dialog} onClose={handleClose} maxWidth="sm" fullWidth>
         <Formik
           initialValues={initialDocumentValues}
@@ -149,7 +119,7 @@ function DocumentField({
           enableReinitialize
           onSubmit={values => onSubmit(values)}
         >
-          {({ handleSubmit }) => (
+          {({ handleSubmit, values }) => (
             <Form data-testid="document-dialog-form" autoComplete="off" onSubmit={handleSubmit}>
               <DialogTitle className={css.title}>
                 <div className={css.titleText}>{title}</div>
@@ -180,7 +150,9 @@ function DocumentField({
                       name={name}
                     />
                   )}
-                  {mode.isShow || deleteButton}
+                  {mode.isEdit && (values?.attachment || attachmentUrl) && (
+                    <DocumentDeleteButton onClick={openDeleteConfirmation} />
+                  )}
                 </div>
 
                 {!isMRM && (
