@@ -107,6 +107,15 @@
   }
 }
 
+.attachmentActions{ 
+  display: flex;
+
+  & button {
+    display: inline-flex !important;
+    padding: 5px;
+  }
+}
+
 .attachmentUploadField {
   margin-bottom: 1em;
   display: flex;

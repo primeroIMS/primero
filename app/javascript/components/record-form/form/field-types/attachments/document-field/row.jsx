@@ -21,7 +21,7 @@ function Component({ document, handleOpen, mode, handleDelete }) {
         <span>{document.date && i18n.l("date.formats.default", document.date)}</span>
         {document.description}
       </div>
-      <div>
+      <div className={css.attachmentActions}>
         {mode.isEdit && <DocumentDeleteButton onClick={handleDelete} />}
         <IconButton size="large" onClick={handleOpen}>
           {renderIcon}
