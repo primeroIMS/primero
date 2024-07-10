@@ -1042,6 +1042,7 @@ en:
         subforms: 'Subform: %{subform_name}'
         collapsed_fields: 'Collapsed Fields: %{fields}'
         country: Countries
+        linkedincidents: Linked Incidents
       summary_header:
         form_group: Primero Form Group
         form: Primero Forms
