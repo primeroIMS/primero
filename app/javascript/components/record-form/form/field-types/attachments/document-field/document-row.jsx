@@ -7,7 +7,7 @@ import { useI18n } from "../../../../../i18n";
 import { useThemeHelper } from "../../../../../../libs";
 import css from "../../../styles.css";
 
-import DocumentDeleteButton from "./delete-button";
+import DocumentDelete from "./document-delete";
 
 function Component({ document, handleOpen, mode, handleDelete }) {
   const { isRTL } = useThemeHelper();
@@ -22,7 +22,7 @@ function Component({ document, handleOpen, mode, handleDelete }) {
         {document.description}
       </div>
       <div className={css.attachmentActions}>
-        {mode.isEdit && <DocumentDeleteButton onClick={handleDelete} />}
+        {mode.isEdit && <DocumentDelete onClick={handleDelete} />}
         <IconButton size="large" onClick={handleOpen}>
           {renderIcon}
         </IconButton>

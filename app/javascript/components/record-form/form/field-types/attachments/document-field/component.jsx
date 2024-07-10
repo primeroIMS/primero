@@ -23,8 +23,8 @@ import { buildDocumentSchema } from "../../../validations";
 import AttachmentInput from "../attachment-input";
 import { ATTACHMENT_FIELDS, ATTACHMENT_FIELDS_INITIAL_VALUES } from "../constants";
 
-import DocumentFieldRow from "./row";
-import DocumentDeleteButton from "./delete-button";
+import DocumentRow from "./document-row";
+import DocumentDelete from "./document-delete";
 
 function DocumentField({
   attachment,
@@ -109,7 +109,7 @@ function DocumentField({
 
   return (
     <>
-      <DocumentFieldRow handleOpen={handleOpen} document={value} handleDelete={openDeleteConfirmation} mode={mode} />
+      <DocumentRow handleOpen={handleOpen} document={value} handleDelete={openDeleteConfirmation} mode={mode} />
       <Dialog open={open || dialog} onClose={handleClose} maxWidth="sm" fullWidth>
         <Formik
           initialValues={initialDocumentValues}
@@ -151,7 +151,7 @@ function DocumentField({
                     />
                   )}
                   {mode.isEdit && (values?.attachment || attachmentUrl) && (
-                    <DocumentDeleteButton onClick={openDeleteConfirmation} />
+                    <DocumentDelete onClick={openDeleteConfirmation} />
                   )}
                 </div>
 
