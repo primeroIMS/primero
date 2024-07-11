@@ -84,6 +84,7 @@ ar:
     terms_of_use_download_button: تحميل PDF
     terms_of_use_enabled: عرض شروط الاستخدام؟
   approvals:
+    no_requests: لا توجد طلبات موافقة لهذه الحالة
     approved_by: تمت الموافقة عليه من قبل
     case_plan_type_label: نوع خطة الحالة
     manager_comments_label: تعليقات المدير
@@ -166,6 +167,7 @@ ar:
     import: استيراد
     login: تسجيل الدخول
     logout: تسجيل خروج
+    link: رابط
     mark_for_mobile: وضع علامة للمحمول
     new: 'جديدة '
     ok: موافق
@@ -198,6 +200,8 @@ ar:
     view: عرض
     view_flags_history: عرض التاريخ
     return_to_case: العودة إلى الحالة
+    enable_webpush: إشعارات الجهاز
+    dialog_yes: "نعم"
   resync_records:
     id: رقم الحالة في النظام
     record_type: نوع السجل
@@ -210,7 +214,10 @@ ar:
   case:
     label: حالة
     create_new_case: انشاء حالة جديدة
+    create_case: إنشاء حالة
+    create: إنشاء
     add_new: أضف جديد
+    back_to_family_details: العودة إلى معلومات العائلة
     back_to_case: العودة إلى الحالة
     back_to_results: العودة إلى النتائج
     back_to_search: العودة الى البحث
@@ -414,6 +421,7 @@ ar:
     save_filter: حفّظ
     selected_all_records: اختيار كلّ %{total_records}الحالات التي تطابق هذا الاستعلام.
     selected_records: '%{select_records} حالة (حالات) مختارة'
+    selected_records_assign: ' %{select_records}  حالة (حالات) مختارة'
     sex: الجنس
     show_case: 'معرّف الحالة: %{short_id}'
     social_worker: الاخصائي الاجتماعي
@@ -855,6 +863,27 @@ ar:
     assign_html: '<strong>%{user}</strong> عيّن السجلّ التالي %{record_type} لك: <strong>%{record_id}</strong>.'
     transfer_request_html: 'مستخدم بريميرو <strong>%{user} </strong> من مؤسسة %{agency} يطلب أن تنقل ملكية هذا السجل من نوع %{record_type} ومعرّف <strong> %{record_id} </strong> بحيث يتمكنون من تقديم خدمات إدارة للشخص في منطقتهم. إذا كان التحويل مقبولا من طرفك، يرجى النقر على رابط معرف نوع السجل %{record_type} في هذا الايميل لفتح نوع السجل %{record_type} في بريميرو والبدء بعملية التحويل.'
     transfer_request_notes_html: 'ملاحظات من الشخص مقدم الطلب: %{request_transfer_notes}'
+  webpush_notification:
+    action_label: الذهاب الى الحالة
+    approval_request:
+      title: طلب الموافقة
+    approval_response:
+      title: الرد بالموافقة
+      body: لقد تلقت إحدى حالاتك ردًا بالموافقة.
+    assign:
+      title: تكليف جديد
+      body: لقد تلقيت تكليف بحالة جديدة
+    referral:
+      title: إحالة جديدة
+      body: لقد تلقيت إحالة لحالة جديدة
+    transfer:
+      title: تحويل جديد
+      body: لقد تلقيت طلب تحويل لحالة جديدة
+    alert_case:
+      title: الحالة محدثة
+    transfer_request:
+      title: طلب تحويل
+      body: لقد تلقيت طلب تحويل لحالة جديدة
   encrypt:
     export_type: نوع التصدير
     file_name: قم بإنشاء اسم الملف الخاص بك (اختياري)
@@ -864,6 +893,8 @@ ar:
     address_fields: يجب عليك معالجة الحقول %{fields} في النماذج %{forms}
     address_form_fields: يجب عليك معالجة الحقول %{fields} في هذا النموذج
     address_subform_fields: 'النموذج الفرعي %{subform} يحتوي على عدد %{fields} من الحقول غير الصالحة'
+    error_401: لقد قمت بتسجيل الخروج. الرجاء تسجيل الدخول مجددا
+    error_something_went_wrong: حدث خطأ ما
   error_page:
     not_authorized:
       server_error: أنت غير مخوّل لدخول هذه الصفحة.
@@ -872,6 +903,10 @@ ar:
       contact_admin: إذا كنت تعتقد إنك جئت إلى هنا بالخطأ يرجى الاتصال بالمشرف.
       something_went_wrong: نأسف, يوجد خطأ.
   errors:
+    api:
+      internal_server: خطأ في المخدم
+    attachments:
+      maximum: لقد تخطيت عدد الملفات المسموح به في السجل
     error_loading: خطأ في تحميل السجل (السجلات)
     models:
       agency:
@@ -1713,6 +1748,8 @@ ar:
       township: بلدة
       municipality: بلدية
       autonomous_region: منطقة الحكم الذاتي
+      wilaya: 'ولاية'
+      moughataa: 'مقطعة'
     label: الموقع
     name: الإسم
     code: 'الرمز '
@@ -2581,7 +2618,6 @@ ar:
             explanation: يسمح للمدير بمعرفة عدد الحالات التي تأخرت فيها مهام الخدمات لكلّ من الإختصاصيين الإجتماعيين.
             label: مهام الخدمات المتأخرة
           dash_case_incident_overview:
-            explanation: .
             label: لمحة عامّة - حالاتي/حوادثي
           dash_cases_by_social_worker:
             explanation: الجدول الذي يوضح كيفية إدارة العدد الإجمالي للحالات المفتوحة وعدد الحالات الجديدة التي يديرها كل مستخدم في مجموعات المستخدمين الحالية للمستخدم. يمثّل كل صف مستخدمًا من مجموعات المستخدمين الخاصة بالمستخدم الحالي ، بينما يمثل "الإجمالي" و "الجديد" عمودين.
@@ -3053,7 +3089,6 @@ ar:
     display: عرض النتائج المطابقة المحتملة لـ %{type} %{id}
   reassign:
     multiple_error: حدث خطأ. لم يتم تعيين الحالة (الحالات) %{select_records}.
-    multiple_successfully: 'تم تعيين الحالة (الحالات) %{select_records} بنجاح'
     notes_label: ملاحظات
     successfully: تمت إعادة التعيين بنجاح
     user_mandatory_label: يجب إدخال إسم المستلِم
