@@ -26,6 +26,12 @@ Lookup.create_or_update!(
     { id: 'sub-prefecture', display_text: 'Sub-Prefecture' },
     { id: 'commune', display_text: 'Commune' },
     { id: 'payam', display_text: 'Payam' },
+    { id: 'departement_fr', display_text: 'Département' },
+    { id: 'region_fr', display_text: 'Région' },
+    { id: 'wilaya', display_text: 'Wilaya' },
+    { id: 'division_fr', display_text: 'Division' },
+    { id: 'moughataa', display_text: 'Moughataa' },
+    { id: 'sub_division', display_text: 'Sub-division' },
     { id: 'other', display_text: 'Other' }
   ].map(&:with_indifferent_access)
 )
