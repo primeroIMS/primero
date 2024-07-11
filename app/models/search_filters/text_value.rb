@@ -9,6 +9,6 @@ class SearchFilters::TextValue < SearchFilters::Value
   end
 
   def json_path_value
-    ActiveRecord::Base.sanitize_sql_for_conditions(['@ == "%s"', value, value])
+    ActiveRecord::Base.sanitize_sql_for_conditions(['@ == "%s"', value])
   end
 end
