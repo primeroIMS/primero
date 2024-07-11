@@ -89,14 +89,17 @@ describe Api::V2::AttachmentsController, type: :request do
   end
 
   describe 'PATCH /api/v2/:record/:id/attachments', search: true do
-    it 'updates the metadata fields for a document' do
-      attachment = Attachment.new(
+    let(:attachment) do
+      Attachment.new(
         record: @case, field_name: Attachable::DOCUMENTS_FIELD_NAME, attachment_type: Attachment::DOCUMENT,
         file_name: 'dummy.pdf', attachment: attachment_base64('dummy.pdf'), description: 'Document Description',
         is_current: true, date: '2020-02-15', comments: 'Some comments'
       )
-      attachment.attach!
+    end
 
+    before { attachment.attach! }
+
+    it 'updates the metadata fields for a document' do
       login_for_test({ permitted_field_names: [Attachable::DOCUMENTS_FIELD_NAME] })
 
       params = {
@@ -112,15 +115,7 @@ describe Api::V2::AttachmentsController, type: :request do
       expect(json['data']['comments']).to eq('Other comments')
     end
 
-    it 'does not update the attached document' do
-      attachment = Attachment.new(
-        record: @case, field_name: Attachable::DOCUMENTS_FIELD_NAME, attachment_type: Attachment::DOCUMENT,
-        file_name: 'dummy.pdf', attachment: attachment_base64('dummy.pdf'), description: 'Document Description',
-        is_current: true, date: '2020-02-15', comments: 'Some comments'
-      )
-      attachment.attach!
-      previous_checksum = attachment.file_blob.checksum
-
+    it 'refuses to update the attached document' do
       login_for_test({ permitted_field_names: [Attachable::DOCUMENTS_FIELD_NAME] })
 
       params = {
@@ -129,9 +124,11 @@ describe Api::V2::AttachmentsController, type: :request do
 
       patch("/api/v2/cases/#{@case.id}/attachments/#{attachment.id}", params:)
 
-      expect(response).to have_http_status(200)
-      attachment.reload
-      expect(previous_checksum).to eq(attachment.file_blob.checksum)
+      expect(response).to have_http_status(422)
+      expect(json['errors'][0]['status']).to eq(422)
+      expect(json['errors'][0]['detail']).to eq(%w[attachment])
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/attachments/#{attachment.id}")
+      expect(json['errors'][0]['message']).to eq('Invalid Attachment JSON')
     end
   end
 
