@@ -18,7 +18,7 @@ class SearchFilters::SearchFilter < ValueObject
   end
 
   def json_path_query
-    "jsonb_path_exists(data, '#{json_field_query} ? (#{json_path_value})')"
+    "data @? '#{json_field_query} ? (#{json_path_value})'"
   end
 
   def json_field_query

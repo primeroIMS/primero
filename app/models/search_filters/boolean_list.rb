@@ -4,22 +4,22 @@
 
 # Transform API query parameter field_name=false,true,... into a SQL query
 class SearchFilters::BooleanList < SearchFilters::ValueList
-  # rubocop:disable Metrics/MethodLength
   def query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
         %(
-          (
-            data->>:field_name IS NOT NULL AND (
-              (#{json_path_query}) OR data->:field_name ?| array[:text_values]
-            )
-          ) OR (
-            data->>:field_name IS NULL AND (array[FALSE, 'false'] @> array[:values])
+          (#{json_path_query}) OR (
+            data->>:field_name IS NULL AND (array[false, 'false'] @> array[:values])
           )
         ),
-        { field_name:, values:, text_values: values.map(&:to_s) }
+        { field_name:, values: }
       ]
     )
   end
-  # rubocop:enable Metrics/MethodLength
+
+  def json_path_value
+    values.map do |value|
+      ActiveRecord::Base.sanitize_sql_for_conditions(['@ == %s || @ == "%s"', value, value])
+    end.join(' || ')
+  end
 end
