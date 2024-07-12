@@ -163,7 +163,7 @@ const components = {
           color: "var(--c-black)",
           cursor: "not-allowed !important",
           opacity: 1,
-          "-webkitTextFillColor": "var(--c-black)"
+          WebkitTextFillColor: "var(--c-black)"
         }
       }
     }

@@ -1,9 +1,10 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { useEffect } from "react";
-import { endOfDay, startOfDay } from "date-fns";
+import { endOfDay, parseISO, startOfDay } from "date-fns";
 import { DatePicker, DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { isString } from "formik";
 
 import { DATE_FORMAT, DATE_TIME_FORMAT, LOCALE_KEYS } from "../../../../../config";
 import { useI18n } from "../../../../i18n";
@@ -69,18 +70,26 @@ function Component({
 
   return ["from", "to"].map(picker => {
     const label = i18n.t(`fields.date_range.${picker}`);
+    const dateValue = getDateValue(picker, inputValue, dateIncludeTime);
+    const parsedDateValue = isString(dateValue) ? parseISO(dateValue) : dateValue;
+
     const inputProps = {
       fullWidth: true,
       margin: "normal",
       format: pickerFormat,
       label,
-      value: getDateValue(picker, inputValue, dateIncludeTime),
+      value: parsedDateValue,
       onChange: onChange(picker),
       disabled: !selectedField,
       clearLabel: i18n.t("buttons.clear"),
       cancelLabel: i18n.t("buttons.cancel"),
       okLabel: i18n.t("buttons.ok"),
-      slotProps: { textField: { InputLabelProps: { shrink: true }, fullWidth: true, clearable: true } }
+      slotProps: {
+        actionBar: {
+          actions: ["clear", "accept"]
+        },
+        textField: { InputLabelProps: { shrink: true }, fullWidth: true, clearable: true }
+      }
     };
 
     if (i18n.locale === LOCALE_KEYS.ne) {

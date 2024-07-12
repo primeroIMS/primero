@@ -1,6 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
+import { ThemeProvider, createTheme, useTheme } from "@mui/material";
 
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getLoadingState } from "../record-form/selectors";
@@ -8,6 +9,7 @@ import { getLoadingState } from "../record-form/selectors";
 import { NAME } from "./config";
 import { getRecords, getLoading, getErrors } from "./selectors";
 import Datatable from "./components/data-table";
+import theme from "./theme";
 
 function Component(
   props = { bypassInitialFetch: false, canSelectAll: true, showCustomToolbar: false, useReportingLocations: true }
@@ -20,20 +22,24 @@ function Component(
   const loading = useMemoizedSelector(state => getLoading(state, recordType));
   const errors = useMemoizedSelector(state => getErrors(state, recordType));
   const formsAreLoading = useMemoizedSelector(state => getLoadingState(state));
+  const appTheme = useTheme();
+  const tableTheme = createTheme(appTheme, theme);
 
   const dataIsLoading = loading || formsAreLoading;
   const loadingIndicatorType = targetRecordType || recordType;
 
   return (
-    <Datatable
-      role="table"
-      data-testid="toolbar"
-      data={data}
-      {...props}
-      errors={errors}
-      loading={dataIsLoading}
-      loadingIndicatorType={loadingIndicatorType}
-    />
+    <ThemeProvider theme={tableTheme}>
+      <Datatable
+        role="table"
+        data-testid="toolbar"
+        data={data}
+        {...props}
+        errors={errors}
+        loading={dataIsLoading}
+        loadingIndicatorType={loadingIndicatorType}
+      />
+    </ThemeProvider>
   );
 }
 

@@ -278,7 +278,7 @@ function SelectInput({ commonInputProps, metaInputProps, options: allOptions = [
           onChange={handleAutocompleteOnChange(fieldOnChange)}
           groupBy={handleGroupBy}
           ListboxComponent={virtualize(options.length)}
-          classes={listboxClasses}
+          classes={{ listbox: listboxClasses }}
           disableListWrap
           options={options}
           multiple={multiSelect || multipleLimitOne}

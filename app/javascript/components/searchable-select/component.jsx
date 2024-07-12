@@ -97,7 +97,7 @@ function SearchableSelect({
       multiple={multiple}
       onBlur={onBlur}
       ListboxComponent={virtualize(options.length)}
-      classes={listboxClasses}
+      classes={{ listbox: listboxClasses }}
       disableListWrap
       renderInput={params => (
         <AutoCompleteInput

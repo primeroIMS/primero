@@ -34,7 +34,6 @@ function Component({ handleSetFilterValue, options = [], name, filterValues = {}
       onChange={handleChange}
       size="small"
       exclusive
-      disabled
       classes={{ root: css.toggleContainer }}
     >
       {renderOptions()}

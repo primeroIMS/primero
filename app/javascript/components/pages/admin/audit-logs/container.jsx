@@ -3,7 +3,7 @@
 /* eslint-disable camelcase */
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Grid } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
 import { fromJS } from "immutable";
 
 import { getAppliedFilters, getMetadata } from "../../../record-list";
@@ -126,10 +126,10 @@ function Container() {
       <PageHeading title={i18n.t("settings.navigation.audit_logs")} />
       <PageContent>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={9}>
+          <Grid item xs={12} sm={8}>
             <IndexTable title={i18n.t("settings.navigation.audit_logs")} {...tableOptions} />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={4}>
             <FiltersForm {...filterProps} />
           </Grid>
         </Grid>
