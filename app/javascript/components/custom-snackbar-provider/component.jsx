@@ -23,6 +23,7 @@ function Component({ children }) {
         info: <Circle />
       }}
       classes={{
+        root: css.root,
         lessPadding: css.lessPadding,
         variantSuccess: css.success,
         variantError: css.error,

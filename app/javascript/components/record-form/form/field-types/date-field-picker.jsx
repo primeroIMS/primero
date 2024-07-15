@@ -3,13 +3,14 @@
 import PropTypes from "prop-types";
 import { DatePicker, DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { isString } from "formik";
+import { parseISO } from "date-fns";
 
 import { useI18n } from "../../../i18n";
 import { displayNameHelper } from "../../../../libs";
 import { LOCALE_KEYS } from "../../../../config";
 import NepaliCalendar from "../../../nepali-calendar-input";
 import localize from "../../../../libs/date-picker-localization";
-import { EMPTY_VALUE } from "../../../form";
 
 function DateFieldPicker({
   dateIncludeTime = false,
@@ -17,8 +18,7 @@ function DateFieldPicker({
   displayName,
   fieldTouched = false,
   fieldError,
-  helperText,
-  isShow = false
+  helperText
 }) {
   const i18n = useI18n();
   const helpText =
@@ -31,42 +31,56 @@ function DateFieldPicker({
     cancelLabel: i18n.t("buttons.cancel"),
     okLabel: i18n.t("buttons.ok")
   };
+  const {
+    id,
+    name,
+    value,
+    format,
+    disabled,
+    disableFuture,
+    dateIncludeTime: _dateIncludeTime,
+    placeholder,
+    ...textInputProps
+  } = dateProps;
+  const datePickerProps = {
+    id,
+    name,
+    value: isString(value) ? parseISO(value) : value,
+    format,
+    disabled,
+    disableFuture
+  };
 
   if (i18n.locale === LOCALE_KEYS.ne) {
     return <NepaliCalendar helpText={helpText} label={label} dateProps={dateProps} />;
   }
 
   const textFieldProps = {
+    actionBar: {
+      actions: ["clear", "accept"]
+    },
     textField: {
+      ...textInputProps,
       "data-testid": dateIncludeTime ? "date-time-picker" : "date-picker",
-      InputLabelProps: { shrink: true },
-      fullWidth: true,
       helperText: helpText,
-      clearable: true,
-      placeholder: isShow ? EMPTY_VALUE : ""
+      InputProps: {
+        readOnly: textInputProps?.readOnly
+      },
+      placeholder: placeholder || ""
     }
   };
 
+  const DateComponent = dateIncludeTime ? DateTimePicker : DatePicker;
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localize(i18n)}>
-      {dateIncludeTime ? (
-        <DateTimePicker
-          data-testid="date-time-picker"
-          {...dialogLabels}
-          {...dateProps}
-          helperText={helpText}
-          slotProps={textFieldProps}
-          label={label}
-        />
-      ) : (
-        <DatePicker
-          data-testid="date-picker"
-          slotProps={textFieldProps}
-          {...dialogLabels}
-          {...dateProps}
-          label={label}
-        />
-      )}
+      <DateComponent
+        data-testid="date-time-picker"
+        {...dialogLabels}
+        {...datePickerProps}
+        slotProps={textFieldProps}
+        label={label}
+      />
     </LocalizationProvider>
   );
 }
@@ -79,8 +93,7 @@ DateFieldPicker.propTypes = {
   displayName: PropTypes.object,
   fieldError: PropTypes.string,
   fieldTouched: PropTypes.bool,
-  helperText: PropTypes.string,
-  isShow: PropTypes.bool
+  helperText: PropTypes.string
 };
 
 export default DateFieldPicker;

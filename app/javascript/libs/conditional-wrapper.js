@@ -14,7 +14,7 @@ function ConditionalWrapper({ condition, wrapper: Wrapper, children, ...rest }) 
 ConditionalWrapper.displayName = "ConditionalWrapper";
 
 ConditionalWrapper.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.element,
   condition: PropTypes.bool,
   wrapper: PropTypes.node
 };

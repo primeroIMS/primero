@@ -219,10 +219,11 @@ function Container({ mode }) {
 
     return () => {
       if (isEditOrShow) {
-        batch(() => {
-          dispatch(clearSelectedUser());
-          dispatch(clearRecordsUpdate());
-        });
+        dispatch(clearSelectedUser());
+      }
+
+      if (isShow) {
+        dispatch(clearRecordsUpdate());
       }
     };
   }, [id]);

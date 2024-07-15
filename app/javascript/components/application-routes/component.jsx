@@ -10,13 +10,12 @@ function ApplicationRoutes({ routes }) {
     const { routes: subRoutes, exact, path } = route;
 
     const routeProps = {
-      key: path || index,
       path: subRoutes ? subRoutes.map(r => r.path) : path,
       exact: subRoutes ? routes.some(r => r.exact) : exact
     };
 
     return (
-      <Route {...routeProps}>
+      <Route key={path || index} {...routeProps}>
         <AppRoute route={route} />
       </Route>
     );

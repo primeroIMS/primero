@@ -74,7 +74,7 @@ function Nav() {
           fieldMode: FieldMode
         }[menuEntry.component];
 
-        return <CustomComponent />;
+        return <CustomComponent key={menuEntry.to} />;
       }
 
       const jewel = dataAlerts.get(menuEntry?.jewelCount, null);
@@ -166,7 +166,7 @@ function Nav() {
           {drawerContent}
         </Drawer>
       </Box>
-      <Box sx={{ display: { xs: "none", sm: "block" } }}>
+      <Box sx={{ display: { xs: "none", md: "block" } }}>
         <Drawer variant="permanent" {...commonDrawerProps}>
           {drawerContent}
         </Drawer>

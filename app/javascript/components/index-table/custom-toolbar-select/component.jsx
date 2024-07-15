@@ -66,7 +66,7 @@ function Component({
     </div>
   );
 
-  const onChangePage = (e, currentPage) => {
+  const onPageChange = (e, currentPage) => {
     dispatch(
       fetchRecords({
         recordType,
@@ -92,7 +92,7 @@ function Component({
     rowsPerPage,
     rowsPerPageOptions: online ? ROWS_PER_PAGE_OPTIONS : OFFLINE_ROWS_PER_PAGE_OPTIONS,
     component: "div",
-    onChangePage,
+    onPageChange,
     className: css.customToolbarPagination,
     onChangeRowsPerPage,
     labelRowsPerPage: i18n.t("messages.record_list.rows_per_page"),
