@@ -4,7 +4,7 @@
 
 # API endpoints for adding and removing attachments on Primero resources (usually records)
 class Api::V2::AttachmentsController < Api::V2::RecordResourceController
-  before_action :validate_update_params, only: [:update]
+  before_action :validate_update_params!, only: [:update]
 
   def create
     @attachment = Attachment.new(attachment_params)
@@ -56,7 +56,7 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
     @attachment_update_params
   end
 
-  def validate_update_params
+  def validate_update_params!
     invalid_props = %i[attachment_type field_name file_name attachment].select { |key| params[:data].key?(key) }
     return unless invalid_props.present?
 
