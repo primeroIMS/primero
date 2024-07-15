@@ -177,6 +177,22 @@ describe("<RecordForms /> - utils", () => {
 
       expect(utils.compactValues(values, initialValues)).to.deep.equal(expected);
     });
+
+    it("returns object of values that changed for documents with id", () => {
+      const initialValues = {
+        other_documents: [{ id: 1, date: "2020-05-12" }]
+      };
+
+      const values = {
+        other_documents: [{ id: 1, date: "2020-06-08" }]
+      };
+
+      const expected = {
+        other_documents: [{ id: 1, date: "2020-06-08" }]
+      };
+
+      expect(utils.compactValues(values, initialValues)).to.deep.equal(expected);
+    });
   });
 
   describe("emptyValues", () => {

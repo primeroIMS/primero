@@ -11,7 +11,6 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 function AttachmentLabel({ label, helpText, disabled, mode, arrayHelpers, handleAttachmentAddition, error }) {
   const isDisabled = !disabled && !mode.isShow;
   const onClick = () => handleAttachmentAddition(arrayHelpers);
-  // TODO: When errors are validations this code will not work.
   const errorMessage = Array.isArray(error) ? error.join("\n") : error;
 
   return (
