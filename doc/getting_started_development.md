@@ -160,6 +160,13 @@ sudo apt install docker.io docker-compose-plugin
 cd ./docker
 sudo ./build.sh postgres solr
 ```
+## Configuration file
+
+Before running the containers, make sure to copy the sample environment file to create the necessary `local.env` file. This file is required when using `compose.local.sh up`.
+
+```bash
+cp local.env.sample.development local.env
+```
 ## Running the Containers
 
 You should run this from inside the docker directory.
