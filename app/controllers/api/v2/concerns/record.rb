@@ -12,7 +12,6 @@ module Api::V2::Concerns::Record
   included do
     before_action :display_permitted_forms
     before_action :instantiate_app_services
-    before_action :permit_params, only: %i[index create update]
     before_action :permit_fields, only: %i[index create]
     before_action :select_fields_for_index, only: [:index]
   end
@@ -20,7 +19,7 @@ module Api::V2::Concerns::Record
   def index
     authorize! :index, model_class
     search = SearchService.search(
-      model_class, filters: search_filters, query_scope:, query: params[:query],
+      model_class, filters: search_filters, query_scope:, query: index_params[:query],
                    sort: sort_order, pagination:
     )
     @records = search.results
@@ -64,20 +63,24 @@ module Api::V2::Concerns::Record
     render 'api/v2/records/destroy'
   end
 
-  def permit_params
-    # We do not use strong params for record updates but rely on:
-    # 1. Validation against a generated JSON schema
-    # 2. Intersection with a generated @permitted_field_name list
-    params.permit!
+  def index_params
+    @index_params ||= params.permit(
+      :fields, :order, :order_by, :page, :per, :id_search, :query, :query_scope, *@selected_field_names
+    )
   end
 
-  def validate_json!
+  def json_validation_service
+    return @json_validation_service if @json_validation_service
+
     permitted_fields = @permitted_form_fields_service.permitted_fields(
       authorized_roles, model_class.parent_form, write?
     )
     action_fields = @permitted_field_service.permitted_fields_schema
-    service = RecordJsonValidatorService.new(fields: permitted_fields, schema_supplement: action_fields)
-    service.validate!(params[:data].to_h)
+    @json_validation_service = RecordJsonValidatorService.new(fields: permitted_fields, schema_supplement: action_fields)
+  end
+
+  def validate_json!
+    json_validation_service.validate!(record_params)
   end
 
   def authorized_roles
@@ -107,8 +110,11 @@ module Api::V2::Concerns::Record
   end
 
   def record_params
-    record_params = params['data'].try(:to_h) || {}
-    record_params.select { |k, _| @permitted_field_names.include?(k) }
+    return @record_params.to_h if @record_params.present?
+
+    strong_params = json_validation_service.strong_params
+    @record_params = params.require(:data).permit(strong_params).to_h
+    @record_params.to_h
   end
 
   def find_record
@@ -130,7 +136,7 @@ module Api::V2::Concerns::Record
   end
 
   def search_filters
-    SearchFilterService.build_filters(params, @permitted_field_names)
+    SearchFilterService.build_filters(index_params, @permitted_field_names)
   end
 
   def display_permitted_forms

@@ -47,13 +47,6 @@ class PermittedFieldService
   ].freeze
 
   PERMITTED_FIELDS_FOR_ACTION_SCHEMA = {
-    Permission::ADD_NOTE => { 'notes_section' => { 'type' => %w[array null], 'items' => { 'type' => 'object' } } },
-    Permission::INCIDENT_DETAILS_FROM_CASE => {
-      'incident_details' => { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
-    },
-    Permission::SERVICES_SECTION_FROM_CASE => {
-      'services_section' => { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
-    },
     Permission::CLOSE => { 'status' => { 'type' => 'string' }, 'date_closure' => { 'type' => 'date' } },
     Permission::REOPEN => {
       'status' => { 'type' => 'string' }, 'workflow' => { 'type' => 'string' },
@@ -89,7 +82,7 @@ class PermittedFieldService
   # rubocop:disable Metrics/PerceivedComplexity
   def permitted_field_names(writeable = false, update = false, roles = [])
     return @permitted_field_names if @permitted_field_names.present?
-    return permitted_field_names_from_action_name if action_name.present?
+    return permitted_field_names_from_action_name if permitted_field_names_from_action_name.present?
 
     @permitted_field_names = permitted_core_fields(update) + PERMITTED_FILTER_FIELD_NAMES
     @permitted_field_names += PERMITTED_MRM_FILTER_FIELD_NAMES if user.module?(PrimeroModule::MRM)
@@ -128,6 +121,7 @@ class PermittedFieldService
     schema['hidden_name'] = { 'type' => 'boolean' } if user.can?(:update, model_class)
     schema['reporting_location_hierarchy'] = { 'type' => 'string' } if user.can?(:update, model_class)
     schema = schema.merge(SYNC_FIELDS_SCHEMA) if external_sync?
+    # TODO: This seems wrong. Shouldn't we be getting this from the field definitions?
     schema = schema.merge(permitted_mrm_entities_schema) if user.module?(PrimeroModule::MRM)
     schema.merge(permitted_approval_schema)
   end

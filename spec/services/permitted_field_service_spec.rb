@@ -119,7 +119,7 @@ describe PermittedFieldService, search: true do
   end
 
   before(:each) do
-    clean_data(PrimeroProgram, User, Agency, Role, FormSection, Field, SystemSettings)
+    clean_data(PrimeroModule, PrimeroProgram, User, Agency, Role, FormSection, Field, SystemSettings)
     system_settings
     form
     field

@@ -26,7 +26,27 @@ class JsonValidatorService < ValueObject
     raise error
   end
 
+  def strong_params
+    as_strong_params(:strong_params, schema)
+  end
+
   private
+
+  def as_strong_params(name, object)
+    type = [object['type']].flatten
+    if type.include?('object')
+      object['properties'].map { |k, v| as_strong_params(k, v) }
+    elsif type.include?('array')
+      items_type = [object['items']['type']].flatten
+      if items_type.include?('object')
+        { name.to_sym => object['items']['properties'].map { |k, v| as_strong_params(k, v) } }
+      else
+        { name.to_sym => [] }
+      end
+    else
+      name.to_sym
+    end
+  end
 
   def build_schema(_fields)
     { 'type' => 'object', 'properties' => {}, 'additionalProperties' => false }

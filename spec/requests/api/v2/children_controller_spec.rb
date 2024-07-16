@@ -21,6 +21,7 @@ describe Api::V2::ChildrenController, type: :request do
         Field.create!(name: 'field_a', display_name: 'Field A', type: Field::TEXT_FIELD)
       ]
     )
+
     role_self = Role.create!(
       name: 'Test Role 3',
       unique_id: 'test-role-3',
@@ -752,6 +753,19 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['data']['id']).to eq(@case1.id)
     end
 
+    it 'ignores unauthorized attributes' do
+      login_for_test
+      params = { data: {  name: 'TesterTester', unauthorized_field: '0001' } }
+
+      patch "/api/v2/cases/#{@case1.id}", params:, as: :json
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['name']).to eq('TesterTester')
+
+      case1 = Child.find_by(id: @case1.id)
+      expect(case1.data['unauthorized_field']).to be_nil
+    end
+
     it 'filters sensitive information from logs' do
       allow(Rails.logger).to receive(:debug).and_return(nil)
       login_for_test
@@ -867,6 +881,7 @@ describe Api::V2::ChildrenController, type: :request do
     describe 'when a user adds a service subform' do
       it 'updates the subforms if cannot update the record' do
         login_for_test(
+          permitted_fields: [],
           group_permission: Permission::SELF,
           permissions: [
             Permission.new(
@@ -892,6 +907,7 @@ describe Api::V2::ChildrenController, type: :request do
 
       it 'updates the subforms if cannot read/write cases' do
         login_for_test(
+          permitted_fields: [],
           group_permission: Permission::SELF,
           permissions: [
             Permission.new(
@@ -1255,6 +1271,7 @@ describe Api::V2::ChildrenController, type: :request do
     describe 'referral authorizations' do
       context 'when a record was referred' do
         it 'updates permitted fields based on the authorized roles' do
+
           sign_in(@user_referral)
 
           params = { data: { field_a: 'new value for field_a' } }
@@ -1265,20 +1282,6 @@ describe Api::V2::ChildrenController, type: :request do
           expect(json['data']['id']).to eq(@case11.id)
           expect(json['data']['field_a']).to eq('new value for field_a')
           expect(json['data']['permitted_forms']).to eq({ 'form_a' => 'rw' })
-        end
-
-        it 'returns 422 error if the updated field is not authorized' do
-          sign_in(@user_referral)
-
-          params = { data: { national_id_no: '0001' } }
-
-          patch "/api/v2/cases/#{@case11.id}", params:, as: :json
-
-          expect(response).to have_http_status(422)
-          expect(json['errors'][0]['status']).to eq(422)
-          expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case11.id}")
-          expect(json['errors'][0]['detail']).to match_array(['/national_id_no'])
-          expect(json['errors'][0]['message']).to eq('Invalid Record JSON')
         end
       end
     end

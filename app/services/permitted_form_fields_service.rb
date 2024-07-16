@@ -8,6 +8,19 @@
 class PermittedFormFieldsService
   attr_accessor :fields, :field_names, :with_cache
 
+  PERMITTED_WRITEABLE_FIELD_TYPES = [
+    Field::TEXT_FIELD, Field::TEXT_AREA, Field::RADIO_BUTTON, Field::TICK_BOX,
+    Field::SELECT_BOX, Field::NUMERIC_FIELD, Field::DATE_FIELD,
+    Field::SUBFORM
+  ].freeze
+
+  # TODO: Primero is assuming that these forms exist in the configuration. If they
+  PERMITTED_SUBFORMS_FOR_ACTION = {
+    Permission::ADD_NOTE => 'notes_section',
+    Permission::INCIDENT_DETAILS_FROM_CASE => 'incident_details',
+    Permission::SERVICES_SECTION_FROM_CASE => 'services_section'
+  }.freeze
+
   def self.instance
     new(Rails.configuration.use_app_cache)
   end
@@ -29,17 +42,28 @@ class PermittedFormFieldsService
     self.field_names = fields.map(&:name).uniq
   end
 
-  # TODO: Constrain to only allow API data updates on the following types:
-  #       TEXT_FIELD, TEXT_AREA, RADIO_BUTTON, SELECT_BOX, NUMERIC_FIELD, DATE_FIELD, SUBFORM, TICK_BOX
   def permitted_fields_from_forms(roles, record_type, writeable, visible_only = false)
     permission_level = writeable ? FormPermission::PERMISSIONS[:read_write] : writeable
-    fields = Field.includes(subform: :fields).joins(form_section: :roles).where(
+    eagerloaded_fields = Field.includes(subform: :fields).left_outer_joins(form_section: :roles)
+    fields = eagerloaded_fields.where(
       fields: {
-        form_sections: { roles: { id: roles }, parent_form: record_type, visible: (visible_only || nil) }.compact
+        form_sections: { roles: { id: roles }, parent_form: record_type, visible: (visible_only || nil) }.compact,
       }
     )
     if writeable
-      fields = fields.where(fields: { form_sections: { form_sections_roles: { permission: permission_level } } })
+      fields = fields.where(
+        fields: {
+          form_sections: { form_sections_roles: { permission: permission_level } },
+          type: PERMITTED_WRITEABLE_FIELD_TYPES
+        }
+      )
+      action_subform_fields = permitted_subforms_from_actions(roles, record_type)
+      if action_subform_fields.present?
+        fields = fields.or(eagerloaded_fields.where(
+          name: action_subform_fields,
+          type: Field::SUBFORM
+        ))
+      end
     end
     fields
   end
@@ -62,5 +86,12 @@ class PermittedFormFieldsService
     else
       permitted_fields_from_forms(roles, record_type, writeable).map(&:name).uniq
     end
+  end
+
+  def permitted_subforms_from_actions(roles, record_type)
+    roles = [roles].flatten
+    roles.map do |role|
+      PERMITTED_SUBFORMS_FOR_ACTION.select { |k, v| role.permits?(record_type, k) }.values
+    end.flatten.uniq
   end
 end

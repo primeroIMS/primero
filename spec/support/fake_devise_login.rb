@@ -50,6 +50,21 @@ module FakeDeviseLogin
     Field.new(name: 'family_size', type: Field::NUMERIC_FIELD, display_name_en: 'Family Size')
   ].freeze
 
+  SERVICE_FIELDS = [
+    Field.new(
+      name: 'services_section',
+      display_name_en: 'A',
+      type: Field::SUBFORM,
+      subform: FormSection.new(
+        unique_id: 'services_section', parent_form: 'case', name_en: 'services_section', is_nested: true,
+        fields: [
+          Field.new(name: 'service_type', type: Field::TEXT_FIELD, display_name_en: 'A'),
+          Field.new(name: 'separator3', type: Field::SEPARATOR, display_name_en: 'A'),
+        ]
+      )
+    )
+  ].freeze
+
   def permission_case
     @permission_case ||= Permission.new(
       resource: Permission::CASE,
@@ -145,9 +160,10 @@ module FakeDeviseLogin
     user
   end
 
-  def permit_fields(opts = {})
+  def permit_fields(user, opts = {})
     permitted_fields = opts[:permitted_fields] || COMMON_PERMITTED_FIELDS
-    permitted_field_names = opts[:permitted_field_names] || common_permitted_field_names
+    permitted_fields += SERVICE_FIELDS if user&.role&.permits?('case', Permission::SERVICES_SECTION_FROM_CASE)
+    permitted_field_names = opts[:permitted_field_names] || permitted_fields.map(&:name)
     allow_any_instance_of(PermittedFormFieldsService).to(
       receive(:permitted_field_names).and_return(permitted_field_names)
     )
@@ -157,7 +173,8 @@ module FakeDeviseLogin
   end
 
   def login_for_test(opts = {})
-    permit_fields(opts)
-    sign_in(fake_user(opts))
+    user = fake_user(opts)
+    permit_fields(user, opts)
+    sign_in(user)
   end
 end
