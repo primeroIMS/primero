@@ -4,13 +4,13 @@
   display: flex;
   padding: var(--sp-2);
   gap: var(--sp-2);
-  
+
   & > div:not(.divider) {
     flex: 1;
   }
 }
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .container {
     display: grid;
   }

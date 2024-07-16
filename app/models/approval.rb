@@ -3,7 +3,6 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Represents actions to request approval for a record and to approve those requests
-# rubocop:disable  Metrics/ClassLength
 class Approval < ValueObject
   attr_accessor :record, :fields, :user, :approval_type, :approval_id, :comments
 
@@ -154,9 +153,6 @@ class Approval < ValueObject
   end
 
   def delete_approval_alerts
-    return if record.alerts.blank?
-
     record.alerts.where(type: approval_id, alert_for: Alertable::APPROVAL).destroy_all
   end
 end
-# rubocop:enable  Metrics/ClassLength

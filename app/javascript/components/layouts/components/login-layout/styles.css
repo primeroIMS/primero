@@ -22,6 +22,7 @@
 
 :global html, :global body {
   height: var(--doc-height, 100vh);
+  height: 100dvh;
 }
 
 .primeroBackground {
@@ -147,7 +148,7 @@
 }
 
 .footer button,
-.footer button > span > svg {
+.footer button > svg {
   color: var(--c-login-translations-button-text);
 }
 
@@ -168,7 +169,7 @@
   flex-direction: column;
 }
 
-@media (max-width:599.95px) {
+@media (max-width:600px) {
   .loginLogo {
     display: none;
   }
@@ -181,7 +182,7 @@
   }
 }
 
-@media (min-width:600px) and (max-width:959.95px) {
+@media (min-width:600px) and (max-width:900px) {
   .auth {
     width: 90%;
   }

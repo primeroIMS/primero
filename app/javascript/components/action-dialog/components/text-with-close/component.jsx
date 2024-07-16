@@ -1,13 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import CloseIcon from "@material-ui/icons/Close";
-import { DialogTitle, IconButton } from "@material-ui/core";
+import CloseIcon from "@mui/icons-material/Close";
+import { DialogTitle, IconButton } from "@mui/material";
 
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ dialogTitle, dialogSubtitle, closeHandler, dialogActions, disableClose }) => {
+function Component({ dialogTitle, dialogSubtitle, closeHandler, dialogActions, disableClose = false }) {
   const subtitle = dialogSubtitle ? <span className={css.dialogSubtitle}>{dialogSubtitle}</span> : null;
 
   return (
@@ -28,11 +28,7 @@ const Component = ({ dialogTitle, dialogSubtitle, closeHandler, dialogActions, d
       </div>
     </DialogTitle>
   );
-};
-
-Component.defaultProps = {
-  disableClose: false
-};
+}
 
 Component.propTypes = {
   closeHandler: PropTypes.func.isRequired,

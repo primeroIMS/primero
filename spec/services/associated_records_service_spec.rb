@@ -29,7 +29,6 @@ describe AssociatedRecordsService do
       @child3 = Child.new_with_user(@current_user, name: 'Child 3')
       @incident1 = Incident.new_with_user(@current_user, short_id: 'a1b2c3', assigned_user_names: [@associated_user.user_name])
       [@child1, @child2, @child3, @incident1].each(&:save!)
-      Sunspot.commit
     end
 
     it 'should update the associated_user_groups of the records' do
@@ -72,7 +71,6 @@ describe AssociatedRecordsService do
       @child2 = Child.new_with_user(@current_user, name: 'Child 2', assigned_user_names: [@associated_user.user_name])
       @child3 = Child.new_with_user(@current_user, name: 'Child 3')
       [@child1, @child2, @child3].each(&:save!)
-      Sunspot.commit
     end
 
     it 'should update the associated_user_agencies of the records' do

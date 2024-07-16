@@ -45,7 +45,7 @@ class Exporters::ConfigurableExporter < Exporters::BaseExporter
   def opting_out?(record)
     return false if @export_configuration.blank? || @export_configuration.opt_out_field.blank?
 
-    record.try(:send, @export_configuration.opt_out_field) == true
+    record&.data&.[](@export_configuration.opt_out_field) == true
   end
 
   def write_header(rows)

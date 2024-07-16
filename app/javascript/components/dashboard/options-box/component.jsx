@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Card, CardHeader, CardContent } from "@material-ui/core";
+import { Card, CardHeader, CardContent } from "@mui/material";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -10,7 +10,7 @@ import { ConditionalWrapper } from "../../../libs";
 
 import css from "./styles.css";
 
-const OptionsBox = ({ title, action, children, to, flat, overlay, type, loading, errors, hasData }) => {
+function OptionsBox({ title, action, children, to, flat, overlay, type = "", loading, errors, hasData = true }) {
   const loadingIndicatorProps = {
     overlay,
     type,
@@ -47,14 +47,9 @@ const OptionsBox = ({ title, action, children, to, flat, overlay, type, loading,
       </ConditionalWrapper>
     </Card>
   );
-};
+}
 
 OptionsBox.displayName = "OptionsBox";
-
-OptionsBox.defaultProps = {
-  hasData: true,
-  type: ""
-};
 
 OptionsBox.propTypes = {
   action: PropTypes.node,

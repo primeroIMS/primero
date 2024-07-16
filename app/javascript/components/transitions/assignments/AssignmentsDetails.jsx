@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Divider, Grid } from "@material-ui/core";
+import { Divider, Grid } from "@mui/material";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../i18n";
@@ -8,7 +8,7 @@ import DisplayData from "../../display-data";
 
 import { ASSIGNMENTS_DETAILS_NAME as NAME } from "./constants";
 
-const AssignmentsDetails = ({ transition, classes }) => {
+function AssignmentsDetails({ transition, classes }) {
   const i18n = useI18n();
 
   return (
@@ -28,7 +28,7 @@ const AssignmentsDetails = ({ transition, classes }) => {
       </Grid>
     </Grid>
   );
-};
+}
 
 AssignmentsDetails.displayName = NAME;
 

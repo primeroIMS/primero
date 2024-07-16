@@ -5,10 +5,14 @@ import { FieldArray, connect } from "formik";
 
 import { useI18n } from "../../../i18n";
 
-import SubformFieldArray from "./subform-field-array";
+import SubformDialog from "./subform-dialog/component";
+import SubformDialogFields from "./subform-dialog-fields/component";
+import SubformFieldArray from "./subform-field-array/component";
+import SubformFieldSubform from "./subform-field-subform";
 import { SUBFORM_FIELD } from "./constants";
+import SubformItem from "./subform-item/component";
 
-const Component = ({
+function Component({
   forms,
   field,
   form,
@@ -24,7 +28,7 @@ const Component = ({
   renderAsAccordion,
   entryFilter = false,
   customTitle = false
-}) => {
+}) {
   const { name } = field;
 
   const i18n = useI18n();
@@ -34,6 +38,13 @@ const Component = ({
       <FieldArray name={name} validateOnChange={false}>
         {arrayHelpers => (
           <SubformFieldArray
+            components={{
+              SubformItem,
+              SubformDialog,
+              SubformDialogFields,
+              SubformFieldSubform,
+              SubformField: Component
+            }}
             arrayHelpers={arrayHelpers}
             field={field}
             form={form}
@@ -56,7 +67,7 @@ const Component = ({
       </FieldArray>
     </>
   );
-};
+}
 
 Component.displayName = SUBFORM_FIELD;
 

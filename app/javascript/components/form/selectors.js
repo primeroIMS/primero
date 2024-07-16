@@ -9,7 +9,7 @@ import { createCachedSelector } from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import { memoize } from "proxy-memoize";
 
-import { RECORD_PATH } from "../../config/constants";
+import { RECORD_PATH } from "../../config";
 import {
   getIncidentReportingLocationConfig,
   getReportingLocationConfig,
@@ -25,11 +25,10 @@ import {
   getIsManagedReportScopeAll,
   getPermittedRoleUniqueIds
 } from "../user/selectors";
-import { getRecordForms } from "../record-form";
+import { getRecordForms, getFieldByName } from "../record-form/selectors";
 import { GROUP_PERMISSIONS } from "../permissions";
 import { getLocale } from "../i18n/selectors";
 import { getSelectedRecordData } from "../records";
-import { getFieldByName } from "../record-form/selectors";
 import { CP_VIOLENCE_TYPE } from "../incidents-from-case/components/panel/constants";
 import { selectorEqualityFn } from "../../libs/use-memoized-selector";
 

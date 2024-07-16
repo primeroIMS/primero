@@ -1,13 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import clsx from "clsx";
-import { Brightness1 as Circle } from "@material-ui/icons";
+import { cx } from "@emotion/css";
+import { Brightness1 as Circle } from "@mui/icons-material";
 
 import css from "./styles.css";
 
-const Jewel = ({ value, isForm, isList, isError }) => {
-  const classes = clsx(css.circleForm, css.error);
+function Jewel({ value, isForm, isList, isError }) {
+  const classes = cx(css.circleForm, css.error);
 
   if (isList) {
     return <Circle className={css.circleList} data-testid="jewel" />;
@@ -38,7 +38,7 @@ const Jewel = ({ value, isForm, isList, isError }) => {
       )}
     </>
   );
-};
+}
 
 Jewel.displayName = "Jewel";
 

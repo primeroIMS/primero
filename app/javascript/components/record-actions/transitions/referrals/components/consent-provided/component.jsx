@@ -1,15 +1,15 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import Alert from "@material-ui/lab/Alert";
-import AlertTitle from "@material-ui/lab/AlertTitle";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 import { CasesIcon } from "../../../../../../images/primero-icons";
 import { useI18n } from "../../../../../i18n";
 
 import css from "./styles.css";
 
-const Component = ({ children }) => {
+function Component({ children }) {
   const i18n = useI18n();
 
   return (
@@ -18,7 +18,7 @@ const Component = ({ children }) => {
       {children}
     </Alert>
   );
-};
+}
 
 Component.displayName = "ConsentProvided";
 

@@ -1,15 +1,15 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { AppBar, Collapse, Divider, Toolbar } from "@material-ui/core";
+import { AppBar, Collapse, Divider, Toolbar } from "@mui/material";
 import isString from "lodash/isString";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 import { useCallback, useState } from "react";
 
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
 import css from "../styles.css";
 
-const PageHeading = ({
+function PageHeading({
   title,
   prefixComponent,
   prefixAction,
@@ -19,10 +19,10 @@ const PageHeading = ({
   noPadding = false,
   controls,
   titleSecondary
-}) => {
-  const toolbarClasses = clsx(css.toolbar, { [css.noPadding]: noPadding });
-  const appBarClasses = clsx(css.appBar, { [css.appBarBorder]: !noElevation });
-  const titleClasses = clsx(css.title, { [css.titleWithSecondary]: titleSecondary });
+}) {
+  const toolbarClasses = cx(css.toolbar, { [css.noPadding]: noPadding });
+  const appBarClasses = cx(css.appBar, { [css.appBarBorder]: !noElevation });
+  const titleClasses = cx(css.title, { [css.titleWithSecondary]: titleSecondary });
   const [controlsToggle, setControlsToggle] = useState(false);
 
   const handleControlsToggle = useCallback(() => {
@@ -77,7 +77,7 @@ const PageHeading = ({
       )}
     </AppBar>
   );
-};
+}
 
 PageHeading.displayName = "PageHeading";
 

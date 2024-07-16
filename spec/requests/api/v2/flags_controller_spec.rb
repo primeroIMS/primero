@@ -84,7 +84,7 @@ describe Api::V2::FlagsController, type: :request do
   end
 
   describe 'POST /api/v2/:recordType/:recordId/flags' do
-    it 'creates a new flag to a case' do
+    it 'creates a new flag to a case and sets the flagged property to true' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { date: Date.today.to_s, message: 'This is another flag' } }
       post("/api/v2/cases/#{@case1.id}/flags", params:)
@@ -95,11 +95,12 @@ describe Api::V2::FlagsController, type: :request do
       expect(json['data']['message']).to eq('This is another flag')
       expect(json['data']['removed']).to be_falsey
       expect(json['data']['record_id']).to eq(json['data']['record']['id'])
-
+      @case1.reload
+      expect(@case1.flagged).to eq(true)
       expect(audit_params['action']).to eq('flag')
     end
 
-    it 'creates a new flag to a tracing_request' do
+    it 'creates a new flag to a tracing_request and sets the flagged property to true' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { date: Date.today.to_s, message: 'This is another flag TR' } }
       post("/api/v2/tracing_requests/#{@tracing_request1.id}/flags", params:)
@@ -110,9 +111,11 @@ describe Api::V2::FlagsController, type: :request do
       expect(json['data']['message']).to eq('This is another flag TR')
       expect(json['data']['removed']).to be_falsey
       expect(json['data']['record_id']).to eq(json['data']['record']['id'])
+      @tracing_request1.reload
+      expect(@tracing_request1.flagged).to eq(true)
     end
 
-    it 'creates a new flag to an incident' do
+    it 'creates a new flag to an incident and sets the flagged property to true' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { date: Date.today.to_s, message: 'This is another flag IN' } }
       post("/api/v2/incidents/#{@incident1.id}/flags", params:)
@@ -123,6 +126,8 @@ describe Api::V2::FlagsController, type: :request do
       expect(json['data']['message']).to eq('This is another flag IN')
       expect(json['data']['removed']).to be_falsey
       expect(json['data']['record_id']).to eq(json['data']['record']['id'])
+      @incident1.reload
+      expect(@incident1.flagged).to eq(true)
     end
 
     it "get a forbidden message if the user doesn't have flag permission" do
@@ -153,7 +158,7 @@ describe Api::V2::FlagsController, type: :request do
   end
 
   describe 'PATCH /api/v2/:recordType/:recordId/flags/:id' do
-    it 'unflags a case' do
+    it 'unflags a case and sets the flagged property to false' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message' } }
       patch("/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params:)
@@ -164,11 +169,12 @@ describe Api::V2::FlagsController, type: :request do
       expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
       expect(json['data']['unflagged_by']).to eq('faketest')
       expect(json['data']['record_id']).to eq(json['data']['record']['id'])
-
+      @case1.reload
+      expect(@case1.flagged).to eq(false)
       expect(audit_params['action']).to eq('unflag')
     end
 
-    it 'unflags a tracing_request' do
+    it 'unflags a tracing_request and sets the flagged property to false' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message TR' } }
       patch("/api/v2/tracing_requests/#{@tracing_request1.id}/flags/#{@tracing_request1.flags.first.id}", params:)
@@ -179,9 +185,11 @@ describe Api::V2::FlagsController, type: :request do
       expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
       expect(json['data']['unflagged_by']).to eq('faketest')
       expect(json['data']['record_id']).to eq(json['data']['record']['id'])
+      @tracing_request1.reload
+      expect(@tracing_request1.flagged).to eq(false)
     end
 
-    it 'unflags an incident' do
+    it 'unflags an incident and sets the flagged property to false' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message IN' } }
       patch("/api/v2/incidents/#{@incident1.id}/flags/#{@incident1.flags.first.id}", params:)
@@ -192,6 +200,8 @@ describe Api::V2::FlagsController, type: :request do
       expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
       expect(json['data']['unflagged_by']).to eq('faketest')
       expect(json['data']['record_id']).to eq(json['data']['record']['id'])
+      @incident1.reload
+      expect(@incident1.flagged).to eq(false)
     end
 
     it "get a forbidden message if the user doesn't have flag permission" do

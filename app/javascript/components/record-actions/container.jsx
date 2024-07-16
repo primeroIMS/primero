@@ -38,15 +38,7 @@ import {
 import { NAME } from "./config";
 import { isDisabledAction, buildApprovalList, buildActionList, subformExists } from "./utils";
 
-const Container = ({
-  currentPage,
-  mode,
-  record,
-  recordType,
-  selectedRecords,
-  clearSelectedRecords,
-  showListActions
-}) => {
+function Container({ currentPage, mode, record, recordType, selectedRecords, clearSelectedRecords, showListActions }) {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const { currentDialog, dialogClose, dialogOpen, pending, setDialog, setDialogPending } = useDialog([
@@ -206,7 +198,7 @@ const Container = ({
         })}
     </>
   );
-};
+}
 
 Container.displayName = NAME;
 

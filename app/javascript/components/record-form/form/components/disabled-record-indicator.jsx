@@ -1,13 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Chip } from "@material-ui/core";
-import BlockIcon from "@material-ui/icons/Block";
+import { Chip } from "@mui/material";
+import BlockIcon from "@mui/icons-material/Block";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../../i18n";
 import css from "../styles.css";
 
-const DisabledRecordIndicator = ({ recordType }) => {
+function DisabledRecordIndicator({ recordType }) {
   const i18n = useI18n();
 
   return (
@@ -19,7 +19,7 @@ const DisabledRecordIndicator = ({ recordType }) => {
       label={i18n.t(`${recordType}.messages.disabled`)}
     />
   );
-};
+}
 
 DisabledRecordIndicator.displayName = "DisabledRecordIndicator";
 

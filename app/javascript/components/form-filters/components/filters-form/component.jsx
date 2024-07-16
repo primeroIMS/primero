@@ -3,8 +3,8 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, FormProvider } from "react-hook-form";
-import { IconButton } from "@material-ui/core";
-import FilterListIcon from "@material-ui/icons/FilterList";
+import { IconButton } from "@mui/material";
+import FilterListIcon from "@mui/icons-material/FilterList";
 
 import { useDrawer } from "../../../drawer";
 import { filterType } from "../../../index-filters/utils";
@@ -16,15 +16,15 @@ import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import { FILTERS_DRAWER, NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({
-  closeDrawerOnSubmit,
+function Component({
+  closeDrawerOnSubmit = false,
   filters,
   onSubmit,
   clearFields,
-  defaultFilters,
-  initialFilters,
-  showDrawer
-}) => {
+  defaultFilters = {},
+  initialFilters = {},
+  showDrawer = false
+}) {
   const methods = useForm();
 
   const { mobileDisplay } = useThemeHelper();
@@ -34,7 +34,7 @@ const Component = ({
   const { drawerOpen, toggleDrawer, setDrawer } = useDrawer(FILTERS_DRAWER);
 
   const showFilterIcon = mobileDisplay && showDrawer && (
-    <IconButton onClick={toggleDrawer} color="primary">
+    <IconButton size="large" onClick={toggleDrawer} color="primary">
       <FilterListIcon />
     </IconButton>
   );
@@ -96,17 +96,9 @@ const Component = ({
       </FilterContainer>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  closeDrawerOnSubmit: false,
-  defaultFilters: {},
-  initialFilters: {},
-  mobileDisplay: false,
-  showDrawer: false
-};
 
 Component.propTypes = {
   clearFields: PropTypes.array.isRequired,

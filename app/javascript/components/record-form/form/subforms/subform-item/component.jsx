@@ -4,12 +4,11 @@ import PropTypes from "prop-types";
 
 import { useI18n } from "../../../../i18n";
 import SubformTraces from "../subform-traces";
-import SubformDialog from "../subform-dialog";
 
 import { buildFormViolations } from "./utils";
 import { NAME } from "./constants";
 
-const Component = ({
+function Component({
   arrayHelpers,
   dialogIsNew,
   field,
@@ -33,8 +32,9 @@ const Component = ({
   selectedValue,
   setOpen,
   title,
-  violationOptions
-}) => {
+  violationOptions,
+  components
+}) {
   const i18n = useI18n();
   const handleClose = () => setOpen(false);
 
@@ -56,7 +56,8 @@ const Component = ({
   }
 
   return (
-    <SubformDialog
+    <components.SubformDialog
+      components={components}
       arrayHelpers={arrayHelpers}
       dialogIsNew={dialogIsNew}
       field={fieldToRender}
@@ -82,12 +83,19 @@ const Component = ({
       violationOptions={violationOptions}
     />
   );
-};
+}
 
 Component.displayName = NAME;
 
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
+  components: PropTypes.objectOf({
+    SubformItem: PropTypes.elementType.isRequired,
+    SubformDialog: PropTypes.elementType.isRequired,
+    SubformDialogFields: PropTypes.elementType.isRequired,
+    SubformFieldSubform: PropTypes.elementType.isRequired,
+    SubformField: PropTypes.elementType.isRequired
+  }),
   dialogIsNew: PropTypes.bool.isRequired,
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,

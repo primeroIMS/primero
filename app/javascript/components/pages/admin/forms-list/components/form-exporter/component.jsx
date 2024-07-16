@@ -16,7 +16,7 @@ import validations from "./validations";
 import { NAME, EXPORT_TYPES, EXPORTED_URL, FORM_ID } from "./constants";
 import { form } from "./form";
 
-const Component = ({ close, filters, i18n, open, pending, setPending }) => {
+function Component({ close, filters, i18n, open, pending, setPending }) {
   const dispatch = useDispatch();
   const { recordType, primeroModule } = filters;
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
@@ -68,7 +68,7 @@ const Component = ({ close, filters, i18n, open, pending, setPending }) => {
       />
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

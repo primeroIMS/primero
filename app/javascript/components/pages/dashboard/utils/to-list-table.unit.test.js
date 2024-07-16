@@ -3,6 +3,7 @@
 import { fromJS } from "immutable";
 
 import toListTable from "./to-list-table";
+import defaultBodyRender from "./default-body-render";
 
 describe("toListTable - pages/dashboard/utils/", () => {
   it("should convert data to plain JS", () => {
@@ -49,11 +50,13 @@ describe("toListTable - pages/dashboard/utils/", () => {
       { id: "case_plan", display_text: { en: "Case Plan" } }
     ];
 
+    const options = { customBodyRender: defaultBodyRender };
+
     const expected = {
       columns: [
-        { name: "", label: "" },
-        { name: "new", label: "New" },
-        { name: "case_plan", label: "Case Plan" }
+        { name: "", label: "", options },
+        { name: "new", label: "New", options },
+        { name: "case_plan", label: "Case Plan", options }
       ],
       data: [{ "": "primero", case_plan: 1, new: 3 }],
       query: [
@@ -85,7 +88,8 @@ describe("toListTable - pages/dashboard/utils/", () => {
       columns: [
         {
           label: "",
-          name: ""
+          name: "",
+          options: { customBodyRender: defaultBodyRender }
         }
       ],
       data: [],
@@ -158,11 +162,13 @@ describe("toListTable - pages/dashboard/utils/", () => {
       { id: "category_1", display_text: "Category 1" }
     ];
 
+    const options = { customBodyRender: defaultBodyRender };
+
     const expected = {
       columns: [
-        { name: "", label: "" },
-        { name: "new", label: "New" },
-        { name: "case_plan", label: "Case Plan" }
+        { name: "", label: "", options },
+        { name: "new", label: "New", options },
+        { name: "case_plan", label: "Case Plan", options }
       ],
       data: [
         { "": "Category 2", case_plan: 1, new: 3 },

@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { API_BASE_PATH, METHODS, NOTIFICATION_PERMISSIONS, POST_MESSAGES, ROUTES } from "../config/constants";
+import { API_BASE_PATH, METHODS, NOTIFICATION_PERMISSIONS, POST_MESSAGES, ROUTES } from "../config";
 import { DEFAULT_FETCH_OPTIONS } from "../middleware/constants";
 import DB, { DB_STORES } from "../db";
 import { getIDPToken } from "../components/login/components/idp-selection/auth-provider";

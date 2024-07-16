@@ -2,7 +2,7 @@
 
 .inputLabel {
   width: 100%;
-  line-height: 1.5em;
+  line-height: 2em;
   position: relative;
 }
 
@@ -105,10 +105,6 @@
     font-size: var(--fs-12);
     color: var(--c-dark-grey);
   }
-}
-
-.field {
-  margin: 0 0 var(--sp-3)
 }
 
 .attachmentUploadField {
@@ -295,13 +291,17 @@
     border: none;
   }
 
-  & input {
+  & input, & textarea {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
 
-  & input::placeholder {
+  & input::placeholder, & textarea::placeholder {
     color: var(--c-black) !important;
+  }
+
+  button {
+    display: none;
   }
 }
 
@@ -324,7 +324,7 @@
 }
 
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .imgCurrent {
     height: 80px;
   }

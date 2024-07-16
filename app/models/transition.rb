@@ -29,7 +29,7 @@ class Transition < ApplicationRecord
   before_create :copy_transitioned_user_groups_and_agency
   after_save_commit :notify
 
-  after_save :index_record
+  after_save :save_record
 
   def defaults
     self.created_at ||= DateTime.now
@@ -104,10 +104,6 @@ class Transition < ApplicationRecord
     notified_statuses.include?(status)
   end
 
-  def index_record
-    Sunspot.index(record) if record
-  end
-
   def update_incident_ownership
     return unless record.respond_to?(:incidents)
 
@@ -147,5 +143,9 @@ class Transition < ApplicationRecord
 
     self.transitioned_to_user_agency = transitioned_to_user.agency&.unique_id
     self.transitioned_to_user_groups = transitioned_to_user.user_group_unique_ids
+  end
+
+  def save_record
+    record.save!
   end
 end

@@ -16,8 +16,8 @@ import { getTransitionById } from "../../selectors";
 import { approvalTransfer } from "./action-creators";
 import { FORM_ID, NAME } from "./constants";
 
-const Component = ({
-  openTransferDialog,
+function Component({
+  openTransferDialog = false,
   close,
   approvalType,
   dialogName,
@@ -26,7 +26,7 @@ const Component = ({
   pending,
   setPending,
   transferId
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { currentUserName } = useApp();
@@ -129,13 +129,9 @@ const Component = ({
       {dialogContent}
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  openTransferDialog: false
-};
 
 Component.propTypes = {
   approvalType: PropTypes.string,

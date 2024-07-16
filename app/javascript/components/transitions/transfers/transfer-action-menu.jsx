@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { IconButton, Menu, MenuItem } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { IconButton, Menu, MenuItem } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { useI18n } from "../../i18n";
 import { ACCEPTED, REJECTED, REJECT } from "../../../config";
@@ -12,7 +12,7 @@ import { useDialog } from "../../action-dialog";
 import { APPROVE, TRANSFER_APPROVAL_DIALOG, TRANSFER_ACTION_MENU_NAME as NAME } from "./constants";
 import TransferApproval from "./transfer-approval";
 
-const TransferActionMenu = ({ transition, recordType }) => {
+function TransferActionMenu({ transition, recordType }) {
   const i18n = useI18n();
   const [transferMenu, setTransferMenu] = useState(null);
   const [approvalType, setApprovalType] = useState(ACCEPTED);
@@ -48,7 +48,13 @@ const TransferActionMenu = ({ transition, recordType }) => {
 
   return (
     <>
-      <IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleTransferMenuClick}>
+      <IconButton
+        size="large"
+        aria-label="more"
+        aria-controls="long-menu"
+        aria-haspopup="true"
+        onClick={handleTransferMenuClick}
+      >
         <MoreVertIcon />
       </IconButton>
       <Menu
@@ -79,7 +85,7 @@ const TransferActionMenu = ({ transition, recordType }) => {
       />
     </>
   );
-};
+}
 
 TransferActionMenu.displayName = NAME;
 

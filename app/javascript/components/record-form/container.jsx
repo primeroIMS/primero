@@ -34,7 +34,7 @@ import { RecordForm } from "./components/record-form";
 
 let caseRegistryLoaded = false;
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const params = useParams();
   const { demo } = useApp();
   const dispatch = useDispatch();
@@ -132,7 +132,7 @@ const Container = ({ mode }) => {
       incidentsSubforms={incidentsSubforms}
     />
   );
-};
+}
 
 Container.displayName = NAME;
 

@@ -7,7 +7,7 @@ import css from "../../styles.css";
 
 import { ATTACHMENT_TYPES } from "./constants";
 
-const AttachmentPreview = ({ name, attachment, attachmentUrl }) => {
+function AttachmentPreview({ name, attachment, attachmentUrl }) {
   const isAudioAttachment = attachment === ATTACHMENT_TYPES.audio;
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const AttachmentPreview = ({ name, attachment, attachmentUrl }) => {
   }
 
   return <img data-testid="attachment" src={attachmentUrl} alt="" className={css.editImg} />;
-};
+}
 
 AttachmentPreview.displayName = "AttachmentPreview";
 

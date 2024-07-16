@@ -5,7 +5,7 @@ import { forwardRef } from "react";
 
 import MenuItem from "../menu-item";
 
-const Component = forwardRef(({ actions, disabledCondition, handleClose }, ref) => (
+const Component = forwardRef(({ actions = [], disabledCondition = () => {}, handleClose }, ref) => (
   <div>
     {actions.map(action => (
       <MenuItem
@@ -20,11 +20,6 @@ const Component = forwardRef(({ actions, disabledCondition, handleClose }, ref) 
 ));
 
 Component.displayName = "MenuItems";
-
-Component.defaultProps = {
-  actions: [],
-  disabledCondition: () => {}
-};
 
 Component.propTypes = {
   actions: PropTypes.array,

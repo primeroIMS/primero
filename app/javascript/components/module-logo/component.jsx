@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { useMediaQuery } from "@material-ui/core";
+import { useMediaQuery } from "@mui/material";
 
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getSiteTitle, getThemeLogos } from "../application/selectors";
@@ -10,7 +10,7 @@ import css from "./styles.css";
 import { getLogo } from "./utils";
 import { getModuleLogoID } from "./selectors";
 
-const ModuleLogo = ({ moduleLogo, white, useModuleLogo }) => {
+function ModuleLogo({ moduleLogo, white, useModuleLogo }) {
   const tabletDisplay = useMediaQuery(theme => theme.breakpoints.only("md"));
 
   const moduleLogoID = useMemoizedSelector(state => getModuleLogoID(state));
@@ -30,7 +30,7 @@ const ModuleLogo = ({ moduleLogo, white, useModuleLogo }) => {
       />
     </div>
   );
-};
+}
 
 ModuleLogo.displayName = "ModuleLogo";
 

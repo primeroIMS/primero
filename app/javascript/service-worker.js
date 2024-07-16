@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { POST_MESSAGES } from "./config/constants";
+import { POST_MESSAGES } from "./config";
 import {
   SERVICE_WORKER_PATH,
   getSubscriptionFromDb,

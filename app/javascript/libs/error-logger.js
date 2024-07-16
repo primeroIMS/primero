@@ -9,8 +9,11 @@ const ERROR_STORE_LIMIT = 50;
 let handlersRegistered = false;
 
 const store = "errors";
+const isProd = process.env.NODE_ENV !== "development";
 
-window.console.defaultError = window.console.error.bind(console);
+if (isProd) {
+  window.console.defaultError = window.console.error.bind(console);
+}
 
 const _db = openDB("error-logger", 1, {
   upgrade(db) {
@@ -69,7 +72,7 @@ function consoleErrorLogger(args) {
 }
 
 async function startErrorListeners() {
-  if (!handlersRegistered) {
+  if (!handlersRegistered && isProd) {
     cleanDB();
     window.onerror = errorHandler;
     window.addEventListener("unhandledrejection", rejectionHandler);

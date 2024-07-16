@@ -2,7 +2,9 @@
 
 # API to fetch the active theme
 class ThemesController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  # NOTE: Primero front-end dynamically loads /themes.js using es6 dynamic imports. Rails is throwing
+  # ActionController::InvalidCrossOriginRequest error if we do not skip verify_same_origin_request
+  skip_after_action :verify_same_origin_request, unless: -> { request_not_from_app_host? }
 
   before_action :theme
 
@@ -12,5 +14,9 @@ class ThemesController < ApplicationController
 
   def theme
     @theme = Rails.configuration.use_theme ? Theme.current : Theme.default
+  end
+
+  def request_not_from_app_host?
+    request.host != Rails.application.routes.default_url_options[:host]
   end
 end

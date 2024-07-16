@@ -1,11 +1,11 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { IconButton, Button } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import { IconButton, Button } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 
-const Component = ({ action, actionLabel, actionUrl, closeSnackbar, snackKey, hideCloseIcon }) => {
+function Component({ action, actionLabel, actionUrl, closeSnackbar, snackKey, hideCloseIcon }) {
   const handleSnackClose = () => {
     closeSnackbar(snackKey);
   };
@@ -15,7 +15,7 @@ const Component = ({ action, actionLabel, actionUrl, closeSnackbar, snackKey, hi
   }
 
   const showCloseIcon = !hideCloseIcon && (
-    <IconButton onClick={handleSnackClose}>
+    <IconButton size="large" onClick={handleSnackClose}>
       <CloseIcon />
     </IconButton>
   );
@@ -37,7 +37,7 @@ const Component = ({ action, actionLabel, actionUrl, closeSnackbar, snackKey, hi
       {showCloseIcon}
     </>
   );
-};
+}
 
 Component.displayName = "SnackbarAction";
 

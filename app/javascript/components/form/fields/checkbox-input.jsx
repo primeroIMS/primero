@@ -1,13 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { FormGroup, FormControl, FormLabel, FormHelperText } from "@material-ui/core";
+import { FormGroup, FormControl, FormLabel, FormHelperText } from "@mui/material";
 import { Controller } from "react-hook-form";
 
 import CheckboxGroup from "./checkbox-group";
 import css from "./styles.css";
 
-const CheckboxInput = ({ commonInputProps, options, metaInputProps, formMethods }) => {
+function CheckboxInput({ commonInputProps, options, metaInputProps, formMethods }) {
   const { control } = formMethods;
   const { name, error, required, label, helperText, disabled } = commonInputProps;
   const { inlineCheckboxes } = metaInputProps;
@@ -31,7 +31,7 @@ const CheckboxInput = ({ commonInputProps, options, metaInputProps, formMethods 
       <FormHelperText>{helperText}</FormHelperText>
     </FormControl>
   );
-};
+}
 
 CheckboxInput.displayName = "CheckboxInput";
 

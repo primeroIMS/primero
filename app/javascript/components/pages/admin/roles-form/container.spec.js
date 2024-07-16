@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 import { mountedComponent, screen } from "test-utils";
 
 import { ACTIONS } from "../../../permissions";
-import { ROUTES } from "../../../../config/constants";
+import { ROUTES } from "../../../../config";
 import { FormSectionRecord } from "../../../form/records";
 
 import RolesForm from "./container";

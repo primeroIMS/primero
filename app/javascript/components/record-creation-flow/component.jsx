@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Drawer } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-import AddIcon from "@material-ui/icons/Add";
+import { Drawer } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from "@mui/icons-material/Add";
 import isEmpty from "lodash/isEmpty";
 import { push } from "connected-react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, batch } from "react-redux";
 
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
@@ -16,12 +16,13 @@ import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getOptionFromAppModule } from "../application/selectors";
 import { SEARCH_OR_CREATE_FILTERS } from "../record-list/constants";
 import { applyFilters } from "../index-filters";
+import { setRedirectedToCreateNewRecord } from "../record-form/action-creators";
 
 import { ConsentPrompt, SearchPrompt } from "./components";
 import { NAME, DATA_PROTECTION_FIELDS } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ open, onClose, recordType, primeroModule }) => {
+function Component({ open, onClose, recordType, primeroModule }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -32,7 +33,16 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
     getOptionFromAppModule(state, primeroModule, DATA_PROTECTION_FIELDS)
   );
 
-  const goToNewCase = () => dispatch(push(`/${recordType}/${primeroModule}/new`));
+  const goToNewCase = () => {
+    dispatch(push(`/${recordType}/${primeroModule}/new`));
+  };
+
+  const redirectToNewCase = () => {
+    batch(() => {
+      dispatch(setRedirectedToCreateNewRecord(true));
+      dispatch(push(`/${recordType}/${primeroModule}/new`));
+    });
+  };
 
   const onSearchCases = data => {
     dispatch(
@@ -97,7 +107,7 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
           recordType={recordType}
           setOpenConsentPrompt={setOpenConsentPrompt}
           setSearchValue={setSearchValue}
-          goToNewCase={goToNewCase}
+          goToNewCase={redirectToNewCase}
           dataProtectionFields={dataProtectionFields}
           onSearchCases={onSearchCases}
           openConsentPrompt={openConsentPrompt}
@@ -115,7 +125,7 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
       </div>
     </Drawer>
   );
-};
+}
 
 Component.displayName = NAME;
 

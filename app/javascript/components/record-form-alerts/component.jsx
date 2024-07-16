@@ -9,14 +9,13 @@ import { useI18n } from "../i18n";
 import InternalAlert from "../internal-alert";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getRecordFormAlerts, getSelectedRecord, deleteAlertFromRecord } from "../records";
-import { getSubformsDisplayName, getValidationErrors } from "../record-form";
-import { getDuplicatedFields } from "../record-form/selectors";
+import { getSubformsDisplayName, getValidationErrors, getDuplicatedFields } from "../record-form/selectors";
 import { usePermissions, REMOVE_ALERT } from "../permissions";
 
 import { getMessageData } from "./utils";
 import { NAME } from "./constants";
 
-const Component = ({ form, recordType, attachmentForms, formMode }) => {
+function Component({ form, recordType, attachmentForms = fromJS([]), formMode }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -79,13 +78,9 @@ const Component = ({ form, recordType, attachmentForms, formMode }) => {
       {items?.size ? <InternalAlert items={fromJS(items)} /> : null}
     </>
   );
-};
+}
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  attachmentForms: fromJS([])
-};
 
 Component.propTypes = {
   attachmentForms: PropTypes.object,

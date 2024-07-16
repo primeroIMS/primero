@@ -8,7 +8,7 @@ import { FieldRecord, FormSectionField } from "../../../record-form";
 
 import { NAME } from "./constants";
 
-const Component = ({ recordModuleID, recordType, fields, formik }) => {
+function Component({ recordModuleID, recordType, fields, formik }) {
   const [filterState, setFilterState] = useState({
     filtersChanged: false,
     userIsSelected: false
@@ -51,7 +51,7 @@ const Component = ({ recordModuleID, recordType, fields, formik }) => {
     });
 
   return <>{renderFields}</>;
-};
+}
 
 Component.propTypes = {
   fields: PropTypes.array,

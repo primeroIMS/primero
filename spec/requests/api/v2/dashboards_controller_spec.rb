@@ -5,7 +5,7 @@
 require 'rails_helper'
 
 describe Api::V2::DashboardsController, type: :request do
-  before :each do
+  before do
     clean_data(
       Alert, User, UserGroup, Role, Incident, Child, Location, SystemSettings, Field, FormSection, Lookup, PrimeroModule
     )
@@ -67,9 +67,8 @@ describe Api::V2::DashboardsController, type: :request do
     Child.create!(
       data: {
         record_state: true, status: 'open', owned_by: 'foo', workflow: 'new', created_at: last_week,
-        protection_concerns: ['refugee'], followup_subform_section: [
-          { followup_needed_by_date: [Time.zone.now] }
-        ], assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now, services_section: [
+        protection_concerns: ['refugee'], followup_subform_section: [{ followup_needed_by_date: Time.zone.now }],
+        assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now, services_section: [
           {
             service_type: 'health_medical_service', service_referral: 'referred',
             service_implemented: 'not_implemented', service_response_type: 'care_plan',
@@ -82,17 +81,21 @@ describe Api::V2::DashboardsController, type: :request do
     child = Child.create!(
       data: {
         record_state: true, status: 'open', owned_by: 'foo', last_updated_by: 'bar', workflow: 'assessment',
-        protection_concerns: ['refugee'], followup_subform_section: [
-          { followup_needed_by_date: [Time.zone.now] }
-        ], assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now
+        protection_concerns: ['refugee'], followup_subform_section: [{ followup_needed_by_date: Time.zone.now }],
+        assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now
       }
     )
 
-    child.alerts = [Alert.new(record: child, type: Alertable::INCIDENT_FROM_CASE, alert_for: Alertable::FIELD_CHANGE)]
+    # TODO: This alert shouldn't be necessary once alerts on incidents get fixed.
+    child.add_alert(type: Alertable::INCIDENT_FROM_CASE, alert_for: Alertable::FIELD_CHANGE)
 
-    incident = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' })
-    incident.incident_case_id = child.id
-    incident.save
+    Incident.create!(
+      data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' }, incident_case_id: child.id
+    )
+
+    child.reload
+    child.update_properties(@bar, name_first: 'Updated Name')
+    child.save!
 
     Child.create!(data: { record_state: false, status: 'open', owned_by: 'foo', workflow: 'new' })
     Child.create!(data: {
@@ -109,14 +112,12 @@ describe Api::V2::DashboardsController, type: :request do
                   })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar', workflow: 'new' })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar' })
-
-    Sunspot.commit
   end
 
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/dashboards', search: true do
-    it 'lists statistics for permitted dashboards' do
+    it 'lists all the permitted dashboards' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
@@ -127,6 +128,18 @@ describe Api::V2::DashboardsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(13)
+    end
+
+    it 'lists statistics for the case overview dashboard' do
+      login_for_test(
+        user_name: 'foo',
+        group_permission: Permission::SELF,
+        permissions: [@permission_case, @permission_dashboard]
+      )
+
+      get '/api/v2/dashboards'
+
+      expect(response).to have_http_status(200)
 
       case_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.case_overview' }
       expect(case_overview_dashboard['indicators']['total']['count']).to eq(2)
@@ -137,46 +150,153 @@ describe Api::V2::DashboardsController, type: :request do
       expect(case_overview_dashboard['indicators']['new_or_updated']['query']).to match_array(
         %w[record_state=true status=open not_edited_by_owner=true]
       )
+    end
+
+    it 'lists statistics for the workflow dashboards' do
+      login_for_test(
+        user_name: 'foo',
+        group_permission: Permission::SELF,
+        permissions: [@permission_case, @permission_dashboard]
+      )
+
+      get '/api/v2/dashboards'
+
+      expect(response).to have_http_status(200)
 
       workflow_dashboard = json['data'].find { |d| d['name'] == 'dashboard.workflow' }
       expect(workflow_dashboard['indicators']['workflow']['assessment']['count']).to eq(1)
       expect(workflow_dashboard['indicators']['workflow']['assessment']['query']).to match_array(
         %w[owned_by=foo record_state=true status=open,closed workflow=assessment]
       )
+    end
+
+    it 'lists statistics for the reporting location dashboards' do
+      login_for_test(
+        user_name: 'foo',
+        group_permission: Permission::SELF,
+        permissions: [@permission_case, @permission_dashboard]
+      )
+
+      get '/api/v2/dashboards'
+
+      expect(response).to have_http_status(200)
 
       reporting_location_dashboard = json['data'].find { |d| d['name'] == 'dashboard.reporting_location' }
-
       expect(reporting_location_dashboard['indicators']['reporting_location_open']['cty']['count']).to eq(2)
       expect(reporting_location_dashboard['indicators']['reporting_location_open_this_week']['cty']['count']).to eq(1)
       expect(reporting_location_dashboard['indicators']['reporting_location_open_last_week']['cty']['count']).to eq(1)
       expect(reporting_location_dashboard['indicators']['reporting_location_closed_this_week']['cty']['count']).to eq(2)
       expect(reporting_location_dashboard['indicators']['reporting_location_closed_last_week']['cty']['count']).to eq(1)
+    end
+
+    it 'lists statistics for the protection concerns dashboards' do
+      login_for_test(
+        user_name: 'foo',
+        group_permission: Permission::SELF,
+        permissions: [@permission_case, @permission_dashboard]
+      )
+
+      get '/api/v2/dashboards'
+
+      expect(response).to have_http_status(200)
 
       protection_concerns = json['data'].find { |d| d['name'] == 'dashboard.dash_protection_concerns' }['indicators']
       expect(protection_concerns['protection_concerns_open_cases']['refugee']['count']).to eq(2)
       expect(protection_concerns['protection_concerns_new_this_week']['refugee']['count']).to eq(1)
       expect(protection_concerns['protection_concerns_all_cases']['refugee']['count']).to eq(4)
       expect(protection_concerns['protection_concerns_closed_this_week']['refugee']['count']).to eq(1)
+    end
+
+    it 'lists statistics for the group overview dashboards' do
+      login_for_test(
+        user_name: 'foo',
+        group_permission: Permission::SELF,
+        permissions: [@permission_case, @permission_dashboard]
+      )
+
+      get '/api/v2/dashboards'
+
+      expect(response).to have_http_status(200)
 
       group_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.dash_group_overview' }
       expect(group_overview_dashboard['indicators']['group_overview_open']['count']).to eq(2)
       expect(group_overview_dashboard['indicators']['group_overview_closed']['count']).to eq(3)
+    end
+
+    it 'lists statistics for the task overdue assessment plan dashboards' do
+      login_for_test(
+        user_name: 'foo',
+        group_permission: Permission::SELF,
+        permissions: [@permission_case, @permission_dashboard]
+      )
+
+      get '/api/v2/dashboards'
+
+      expect(response).to have_http_status(200)
 
       tasks_overdue_assessment = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_assessment' }
       expect(tasks_overdue_assessment['indicators']['tasks_overdue_assessment']['foo']['count']).to eq(2)
       expect(tasks_overdue_assessment['indicators']['tasks_overdue_assessment'].count).to eq(1)
+    end
+
+    it 'lists statistics for the task overdue case plan dashboards' do
+      login_for_test(
+        user_name: 'foo',
+        group_permission: Permission::SELF,
+        permissions: [@permission_case, @permission_dashboard]
+      )
+
+      get '/api/v2/dashboards'
+
+      expect(response).to have_http_status(200)
 
       tasks_overdue_case_plan = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_case_plan' }
       expect(tasks_overdue_case_plan['indicators']['tasks_overdue_case_plan']['foo']['count']).to eq(2)
       expect(tasks_overdue_case_plan['indicators']['tasks_overdue_case_plan'].count).to eq(1)
+    end
+
+    it 'lists statistics for the task overdue followups dashboards' do
+      login_for_test(
+        user_name: 'foo',
+        group_permission: Permission::SELF,
+        permissions: [@permission_case, @permission_dashboard]
+      )
+
+      get '/api/v2/dashboards'
+
+      expect(response).to have_http_status(200)
 
       tasks_overdue_followups = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_followups' }
       expect(tasks_overdue_followups['indicators']['tasks_overdue_followups']['foo']['count']).to eq(2)
       expect(tasks_overdue_followups['indicators']['tasks_overdue_followups'].count).to eq(1)
+    end
+
+    it 'lists statistics for the task overdue services dashboards' do
+      login_for_test(
+        user_name: 'foo',
+        group_permission: Permission::SELF,
+        permissions: [@permission_case, @permission_dashboard]
+      )
+
+      get '/api/v2/dashboards'
+
+      expect(response).to have_http_status(200)
 
       tasks_overdue_services = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_services' }
       expect(tasks_overdue_services['indicators']['tasks_overdue_services']['foo']['count']).to eq(1)
       expect(tasks_overdue_services['indicators']['tasks_overdue_services'].count).to eq(1)
+    end
+
+    it 'lists statistics for the case incident overview dashboards' do
+      login_for_test(
+        user_name: 'foo',
+        group_permission: Permission::SELF,
+        permissions: [@permission_case, @permission_dashboard]
+      )
+
+      get '/api/v2/dashboards'
+
+      expect(response).to have_http_status(200)
 
       case_incident_overview = json['data'].find { |d| d['name'] == 'dashboard.dash_case_incident_overview' }
       expect(case_incident_overview['indicators'].count).to eq(5)
@@ -185,6 +305,19 @@ describe Api::V2::DashboardsController, type: :request do
       expect(case_incident_overview['indicators']['with_incidents']['count']).to eq(1)
       expect(case_incident_overview['indicators']['with_new_incidents']['count']).to eq(1)
       expect(case_incident_overview['indicators']['without_incidents']['count']).to eq(1)
+    end
+
+    it 'lists statistics for the cases by social worker dashboards' do
+      login_for_test(
+        user_name: 'foo',
+        user_group_unique_ids: @foo.user_group_unique_ids,
+        group_permission: Permission::SELF,
+        permissions: [@permission_case, @permission_dashboard]
+      )
+
+      get '/api/v2/dashboards'
+
+      expect(response).to have_http_status(200)
 
       cases_by_social_worker = json['data'].find { |d| d['name'] == 'dashboard.dash_cases_by_social_worker' }
       expect(cases_by_social_worker['indicators'].count).to eq(2)
@@ -192,6 +325,18 @@ describe Api::V2::DashboardsController, type: :request do
                                                                           cases_by_social_worker_new_or_updated])
       expect(cases_by_social_worker['indicators']['cases_by_social_worker_total']['foo']['count']).to eq(2)
       expect(cases_by_social_worker['indicators']['cases_by_social_worker_new_or_updated']['foo']['count']).to eq(1)
+    end
+
+    it 'lists statistics for the national admin summary dashboards' do
+      login_for_test(
+        user_name: 'foo',
+        group_permission: Permission::SELF,
+        permissions: [@permission_case, @permission_dashboard]
+      )
+
+      get '/api/v2/dashboards'
+
+      expect(response).to have_http_status(200)
 
       national_admin_summary = json['data'].find { |d| d['name'] == 'dashboard.dash_national_admin_summary' }
       expect(national_admin_summary['indicators'].count).to eq(5)
@@ -229,7 +374,7 @@ describe Api::V2::DashboardsController, type: :request do
         @role = Role.new(permissions: [
                            @permission_refer_case,
                            @permission_dashboard_shared_from_my_team
-                         ], modules: [@primero_module])
+                         ], modules: [@primero_module], group_permission: Permission::GROUP)
         @role2 = Role.new(permissions: [
                             @permission_refer_case,
                             @permission_dashboard_shared_with_my_team_overview
@@ -280,7 +425,7 @@ describe Api::V2::DashboardsController, type: :request do
         Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
         Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_b)
         @case_b.update(transfer_status: Transition::STATUS_REJECTED)
-        Sunspot.commit
+        @case_a.save!
       end
 
       it 'lists statistics for permitted shared with me dashboards' do
@@ -290,6 +435,7 @@ describe Api::V2::DashboardsController, type: :request do
           permissions: [@permission_case, @permission_dashboard_shared_with_me]
         )
         get '/api/v2/dashboards'
+
         expect(response).to have_http_status(200)
 
         shared_with_me_dashboard = json['data'][0]['indicators']
@@ -337,19 +483,46 @@ describe Api::V2::DashboardsController, type: :request do
         expect(dash['shared_from_my_team_rejected_transfers'].count).to eq(1)
       end
 
-      it 'lists statistics for permitted shared with my team dashboard dashboards' do
-        login_for_test(
-          user_name: 'user1',
-          user_group_ids: [@group_a.id],
-          group_permission: Permission::GROUP,
-          permissions: [@permission_case, @permission_dashboard_shared_with_me_team]
-        )
-        get '/api/v2/dashboards'
+      describe 'shared with my team dashboard' do
+        it 'list statistics for a user with admin permissions' do
+          login_for_test(
+            group_permission: Permission::ALL,
+            permissions: [@permission_case, @permission_dashboard_shared_with_me_team]
+          )
+          get '/api/v2/dashboards'
 
-        expect(response).to have_http_status(200)
-        indicators = json['data'][0]['indicators']
-        expect(indicators['shared_with_my_team_referrals'][@user2.user_name]['count']).to eq(1)
-        expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(2)
+          expect(response).to have_http_status(200)
+          indicators = json['data'][0]['indicators']
+          expect(indicators['shared_with_my_team_referrals'][@user2.user_name]['count']).to eq(1)
+          expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(2)
+        end
+
+        it 'lists statistics for a user with group permissions' do
+          login_for_test(
+            user_name: 'user1',
+            user_group_unique_ids: [@group_a.unique_id],
+            permissions: [@permission_case, @permission_dashboard_shared_with_me_team]
+          )
+          get '/api/v2/dashboards'
+
+          expect(response).to have_http_status(200)
+          indicators = json['data'][0]['indicators']
+          expect(indicators['shared_with_my_team_referrals'][@user2.user_name]['count']).to eq(1)
+          expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(2)
+        end
+
+        it 'do not list statistics if values are not in the scope of the user' do
+          login_for_test(
+            group_permission: Permission::SELF,
+            permissions: [@permission_case, @permission_dashboard_shared_with_me_team]
+          )
+          get '/api/v2/dashboards'
+
+          expect(response).to have_http_status(200)
+          indicators = json['data'][0]['indicators']
+          expect(indicators['shared_with_my_team_referrals']).to be_empty
+          expect(indicators['shared_with_my_team_pending_transfers']).to be_empty
+        end
       end
 
       it 'lists statistics for permitted shared with my team (overview) dashboards' do
@@ -363,7 +536,6 @@ describe Api::V2::DashboardsController, type: :request do
 
       after :each do
         clean_data(Alert, User, UserGroup, Role, Incident, Child, Location, SystemSettings, Lookup)
-        Sunspot.commit
       end
     end
   end
@@ -380,6 +552,5 @@ describe Api::V2::DashboardsController, type: :request do
     clean_data(
       Alert, User, UserGroup, Role, Incident, Child, Location, SystemSettings, Field, FormSection, Lookup, PrimeroModule
     )
-    Sunspot.commit
   end
 end

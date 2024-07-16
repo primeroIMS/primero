@@ -1,13 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { MenuItem } from "@material-ui/core";
+import { MenuItem } from "@mui/material";
 import { forwardRef } from "react";
 
 import DisableOffline from "../../../disable-offline";
 import { ConditionalWrapper } from "../../../../libs";
 
-const Component = forwardRef(({ action, disabledCondition, handleClose }, ref) => {
+const Component = forwardRef(({ action = {}, disabledCondition, handleClose }, ref) => {
   const { id, disableOffline, name, action: handleAction } = action;
 
   const handleClick = () => {
@@ -25,10 +25,6 @@ const Component = forwardRef(({ action, disabledCondition, handleClose }, ref) =
 });
 
 Component.displayName = "MenuItem";
-
-Component.defaultProps = {
-  action: {}
-};
 
 Component.propTypes = {
   action: PropTypes.object,

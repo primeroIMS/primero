@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { FormControlLabel, Checkbox } from "@material-ui/core";
+import { FormControlLabel, Checkbox } from "@mui/material";
 import isFunction from "lodash/isFunction";
 
 import { useI18n } from "../../i18n";
@@ -13,7 +13,7 @@ import InputLabel from "../components/input-label";
 
 import Separator from "./seperator";
 
-const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
+function CheckboxGroup({ onChange, value, options, commonInputProps }) {
   const i18n = useI18n();
   const [checked, setChecked] = useState([]);
   const { name, disabled } = commonInputProps;
@@ -62,7 +62,7 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
     });
 
   return <>{renderCheckboxes()}</>;
-};
+}
 
 CheckboxGroup.displayName = "CheckboxGroup";
 

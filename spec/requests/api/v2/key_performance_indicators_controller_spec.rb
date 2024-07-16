@@ -5,7 +5,7 @@
 require 'rails_helper'
 
 # Most of the tests after the HTTP status should be moved into unit tests.
-describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
+describe Api::V2::KeyPerformanceIndicatorsController, { type: :request, skip_when_solr_disabled: true } do
   def form(id, fields)
     FormSection.create_or_update!(
       unique_id: id,
@@ -24,7 +24,7 @@ describe Api::V2::KeyPerformanceIndicatorsController, type: :request do
   end
 
   before(:each) do
-    clean_data(Lookup, Location, Agency, Role, UserGroup, User, Incident, Child, FormSection)
+    clean_data(User, Lookup, Location, Agency, Role, UserGroup, Incident, Child, FormSection)
 
     @uk = Location.create!(
       location_code: 'GBR',

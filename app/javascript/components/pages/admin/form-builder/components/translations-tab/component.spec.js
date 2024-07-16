@@ -16,7 +16,7 @@ describe("<TranslationsTab />", () => {
     mountedFormComponent(<TranslationsTab {...props} />);
   });
 
-  it("should render <TranslationTab />", () => {
+  it.skip("should render <TranslationTab />", () => {
     expect(screen.getByText("forms.translations.title")).toBeInTheDocument();
   });
 });

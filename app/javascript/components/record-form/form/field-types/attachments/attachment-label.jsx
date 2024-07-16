@@ -1,14 +1,14 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import AddIcon from "@material-ui/icons/Add";
-import { FormHelperText } from "@material-ui/core/";
+import AddIcon from "@mui/icons-material/Add";
+import { FormHelperText } from "@mui/material/";
 
 import css from "../../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
-const AttachmentLabel = ({ label, helpText, disabled, mode, arrayHelpers, handleAttachmentAddition, error }) => {
+function AttachmentLabel({ label, helpText, disabled, mode, arrayHelpers, handleAttachmentAddition, error }) {
   const isDisabled = !disabled && !mode.isShow;
   const onClick = () => handleAttachmentAddition(arrayHelpers);
 
@@ -35,7 +35,7 @@ const AttachmentLabel = ({ label, helpText, disabled, mode, arrayHelpers, handle
       )}
     </div>
   );
-};
+}
 
 AttachmentLabel.displayName = "AttachmentLabel";
 

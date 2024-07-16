@@ -1,16 +1,25 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import DateFnsUtils from "@date-io/date-fns";
-import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { DatePicker, DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { isString } from "formik";
+import { parseISO } from "date-fns";
 
 import { useI18n } from "../../../i18n";
-import localize from "../../../../libs/date-picker-localization";
 import { displayNameHelper } from "../../../../libs";
 import { LOCALE_KEYS } from "../../../../config";
 import NepaliCalendar from "../../../nepali-calendar-input";
+import localize from "../../../../libs/date-picker-localization";
 
-const DateFieldPicker = ({ dateIncludeTime, dateProps, displayName, fieldTouched, fieldError, helperText }) => {
+function DateFieldPicker({
+  dateIncludeTime = false,
+  dateProps,
+  displayName,
+  fieldTouched = false,
+  fieldError,
+  helperText
+}) {
   const i18n = useI18n();
   const helpText =
     (fieldTouched && fieldError) ||
@@ -22,34 +31,61 @@ const DateFieldPicker = ({ dateIncludeTime, dateProps, displayName, fieldTouched
     cancelLabel: i18n.t("buttons.cancel"),
     okLabel: i18n.t("buttons.ok")
   };
+  const {
+    id,
+    name,
+    value,
+    format,
+    disabled,
+    disableFuture,
+    dateIncludeTime: _dateIncludeTime,
+    placeholder,
+    ...textInputProps
+  } = dateProps;
+  const datePickerProps = {
+    id,
+    name,
+    value: isString(value) ? parseISO(value) : value,
+    format,
+    disabled,
+    disableFuture
+  };
 
   if (i18n.locale === LOCALE_KEYS.ne) {
     return <NepaliCalendar helpText={helpText} label={label} dateProps={dateProps} />;
   }
 
+  const textFieldProps = {
+    actionBar: {
+      actions: ["clear", "accept"]
+    },
+    textField: {
+      ...textInputProps,
+      "data-testid": dateIncludeTime ? "date-time-picker" : "date-picker",
+      helperText: helpText,
+      InputProps: {
+        readOnly: textInputProps?.readOnly
+      },
+      placeholder: placeholder || ""
+    }
+  };
+
+  const DateComponent = dateIncludeTime ? DateTimePicker : DatePicker;
+
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
-      {dateIncludeTime ? (
-        <DateTimePicker
-          data-testid="date-time-picker"
-          {...dialogLabels}
-          {...dateProps}
-          helperText={helpText}
-          label={label}
-        />
-      ) : (
-        <DatePicker data-testid="date-picker" {...dialogLabels} {...dateProps} helperText={helpText} label={label} />
-      )}
-    </MuiPickersUtilsProvider>
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localize(i18n)}>
+      <DateComponent
+        data-testid="date-time-picker"
+        {...dialogLabels}
+        {...datePickerProps}
+        slotProps={textFieldProps}
+        label={label}
+      />
+    </LocalizationProvider>
   );
-};
+}
 
 DateFieldPicker.displayName = "DateFieldPicker";
-
-DateFieldPicker.defaultProps = {
-  dateIncludeTime: false,
-  fieldTouched: false
-};
 
 DateFieldPicker.propTypes = {
   dateIncludeTime: PropTypes.bool,

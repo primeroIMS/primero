@@ -10,7 +10,7 @@ import css from "../../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({ value }) => {
+function Component({ value }) {
   const i18n = useI18n();
 
   if (isEmpty(value)) {
@@ -36,7 +36,7 @@ const Component = ({ value }) => {
       {i18n.localizeDate(value)}
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

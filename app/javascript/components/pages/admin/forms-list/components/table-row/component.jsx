@@ -4,18 +4,18 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Draggable } from "react-beautiful-dnd";
 import findKey from "lodash/findKey";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 
 import { useI18n } from "../../../../../i18n";
-import { MODULES, RECORD_PATH } from "../../../../../../config/constants";
+import { MODULES, RECORD_PATH } from "../../../../../../config";
 import css from "../../styles.css";
 import DragIndicator from "../drag-indicator";
 import LockedIcon from "../../../../../locked-icon";
 
-const Component = ({ name, modules, parentForm, uniqueID, id, index, editable, isDragDisabled }) => {
+function Component({ name, modules, parentForm, uniqueID, id, index, editable, isDragDisabled = false }) {
   const i18n = useI18n();
 
-  const nameStyles = clsx({
+  const nameStyles = cx({
     [css.formName]: true,
     [css.protected]: !editable
   });
@@ -41,13 +41,9 @@ const Component = ({ name, modules, parentForm, uniqueID, id, index, editable, i
       )}
     </Draggable>
   );
-};
+}
 
 Component.displayName = "TableRow";
-
-Component.defaultProps = {
-  isDragDisabled: false
-};
 
 Component.propTypes = {
   editable: PropTypes.bool.isRequired,

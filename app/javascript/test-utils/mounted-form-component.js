@@ -53,7 +53,7 @@ function setupMockFormComponent({
   state,
   additionalProps
 }) {
-  const MockFormComponent = ({ children, inputProps, field, mode }) => {
+  function MockFormComponent({ children, inputProps, field, mode }) {
     const formMethods = useForm({ defaultValues });
     const formMode = whichFormMode(mode || "new");
 
@@ -85,7 +85,7 @@ function setupMockFormComponent({
     }
 
     return cloneElement(children, { formMode, formMethods, ...componentProps });
-  };
+  }
 
   const { AppProviders, history, store } = setupMountedComponent({ state });
 

@@ -2,17 +2,18 @@
 
 import { useRef } from "react";
 import PropTypes from "prop-types";
-import { IconButton, Menu, MenuItem } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { IconButton, Menu, MenuItem } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import css from "./styles.css";
 
-const ActionMenu = ({ open, onOpen, onClose, items }) => {
+function ActionMenu({ open, onOpen, onClose, items }) {
   const moreButtonRef = useRef(null);
 
   return (
     <>
       <IconButton
+        size="large"
         aria-label="More"
         aria-controls="long-menu"
         aria-haspopup="true"
@@ -42,7 +43,7 @@ const ActionMenu = ({ open, onOpen, onClose, items }) => {
       </Menu>
     </>
   );
-};
+}
 
 ActionMenu.displayName = "ActionMenu";
 

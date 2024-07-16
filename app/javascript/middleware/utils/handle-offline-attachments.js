@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import isEqual from "date-fns/isEqual";
 import merge from "deepmerge";
+import { isEqual } from "date-fns";
 
 import { syncIndexedDB } from "../../db";
 import { getAttachmentFields } from "../../components/record-form";

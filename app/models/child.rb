@@ -28,7 +28,7 @@ class Child < ApplicationRecord
   include CareArrangements
   include UNHCRMapping
   include Ownable
-  include AutoPopulatable
+  include CalculateFullName
   include Serviceable
   include Reopenable
   include Workflow
@@ -45,6 +45,7 @@ class Child < ApplicationRecord
   include FollowUpable
   include LocationCacheable
   include FamilyLinkable
+  include PhoneticSearchable
 
   # rubocop:disable Naming/VariableNumber
   store_accessor(
@@ -66,7 +67,9 @@ class Child < ApplicationRecord
     :registry_id_display, :registry_name, :registry_no, :registry_location_current,
     :urgent_protection_concern, :child_preferences_section, :family_details_section, :care_arrangements_section,
     :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan,
-    :family_member_id, :family_id_display, :family_number
+    :family_member_id, :family_id_display, :family_number, :has_incidents, :assessment_due_dates,
+    :case_plan_due_dates, :followup_due_dates, :reunification_details_section, :reunification_dates,
+    :tracing_actions_section, :tracing_dates
   )
   # rubocop:enable Naming/VariableNumber
 
@@ -77,10 +80,6 @@ class Child < ApplicationRecord
   belongs_to :registry_record, foreign_key: :registry_record_id, optional: true
 
   scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
-
-  def self.sortable_text_fields
-    %w[name case_id_display national_id_no registry_no family_number]
-  end
 
   def self.filterable_id_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
@@ -94,6 +93,10 @@ class Child < ApplicationRecord
 
   def self.quicksearch_fields
     filterable_id_fields + NAME_FIELDS
+  end
+
+  def self.phonetic_field_names
+    NAME_FIELDS
   end
 
   def self.summary_field_names
@@ -129,36 +132,33 @@ class Child < ApplicationRecord
     '/api/v2/cases'
   end
 
-  searchable do
-    filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
-    sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
-    Child.child_matching_field_names.each { |f| text_index(f, 'matchable') }
-    Child.family_matching_field_names.each do |f|
-      text_index(f, 'matchable', :itself, 'family_details_section')
+  if Rails.configuration.solr_enabled
+    searchable do
+      extend Searchable::TextIndexing
+      Child.child_matching_field_names.each { |f| text_index(f, 'matchable') }
+      Child.family_matching_field_names.each do |f|
+        text_index(f, 'matchable', :itself, 'family_details_section')
+      end
+
+      date(:date_closure)
+      %w[consent_for_tracing].each do |f|
+        boolean(f) { data[f] == true || data[f] == 'true' }
+      end
     end
-    quicksearch_fields.each { |f| text_index(f) }
-    %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
-    %w[estimated urgent_protection_concern consent_for_tracing has_case_plan].each do |f|
-      boolean(f) { data[f] == true || data[f] == 'true' }
-    end
-    %w[day_of_birth age].each { |f| integer(f) }
-    %w[id status sex current_care_arrangements_type].each { |f| string(f, as: "#{f}_sci") }
-    string :risk_level, as: 'risk_level_sci' do
-      risk_level.present? ? risk_level : RISK_LEVEL_NONE
-    end
-    string :protection_concerns, multiple: true
-    date(:assessment_due_dates, multiple: true) { Tasks::AssessmentTask.from_case(self).map(&:due_date) }
-    date(:case_plan_due_dates, multiple: true) { Tasks::CasePlanTask.from_case(self).map(&:due_date) }
-    date(:followup_due_dates, multiple: true) { Tasks::FollowUpTask.from_case(self).map(&:due_date) }
-    boolean(:has_incidents) { incidents.size.positive? }
   end
 
   validate :validate_date_of_birth
 
   before_save :sync_protection_concerns
-  before_save :auto_populate_name
   before_save :stamp_registry_fields
   before_save :calculate_has_case_plan
+  before_save :calculate_has_incidents
+  before_save :stamp_family_number
+  before_save :calculate_assessment_due_dates
+  before_save :calculate_case_plan_due_dates
+  before_save :calculate_followup_due_dates
+  before_save :calculate_tracing_dates
+  before_save :calculate_reunification_dates
   before_create :hide_name
   after_save :save_incidents
 
@@ -252,12 +252,6 @@ class Child < ApplicationRecord
     name.present? ? "#{name} (#{unique_identifier})" : unique_identifier
   end
 
-  def auto_populate_name
-    # This 2 step process is necessary because you don't want to overwrite self.name if auto_populate is off
-    a_name = auto_populate('name')
-    self.name = a_name if a_name.present?
-  end
-
   def hide_name
     self.hidden_name = true if module_id == PrimeroModule::GBV
   end
@@ -265,7 +259,7 @@ class Child < ApplicationRecord
   def set_instance_id
     system_settings = SystemSettings.current
     self.case_id ||= unique_identifier
-    self.case_id_code ||= auto_populate('case_id_code', system_settings)
+    self.case_id_code ||= AutoPopulateService.auto_populate(self, 'case_id_code', system_settings)
     self.case_id_display ||= create_case_id_display(system_settings)
   end
 
@@ -279,7 +273,9 @@ class Child < ApplicationRecord
   end
 
   def create_case_id_display(system_settings)
-    [case_id_code, short_id].compact.join(auto_populate_separator('case_id_code', system_settings))
+    [case_id_code, short_id].compact.join(
+      AutoPopulateService.auto_populate_separator('case_id_code', system_settings)
+    )
   end
 
   def display_id
@@ -305,6 +301,44 @@ class Child < ApplicationRecord
     end
 
     has_case_plan
+  end
+
+  def calculate_has_incidents
+    self.has_incidents = incidents.size.positive?
+
+    has_incidents
+  end
+
+  def calculate_assessment_due_dates
+    # TODO: Tests fail if I don't have a flat_map here
+    self.assessment_due_dates = Tasks::AssessmentTask.from_case(self).map(&:due_date).compact
+
+    assessment_due_dates
+  end
+
+  def calculate_case_plan_due_dates
+    self.case_plan_due_dates = Tasks::CasePlanTask.from_case(self).map(&:due_date).compact
+
+    case_plan_due_dates
+  end
+
+  def calculate_followup_due_dates
+    self.followup_due_dates = Tasks::FollowUpTask.from_case(self).map(&:due_date).compact
+
+    followup_due_dates
+  end
+
+  def calculate_tracing_dates
+    self.tracing_dates = tracing_actions_section&.reduce([]) { |acc, elem| acc << elem['date_tracing'] }&.compact
+    tracing_dates
+  end
+
+  def calculate_reunification_dates
+    self.reunification_dates = reunification_details_section&.reduce([]) do |acc, elem|
+      acc << elem['date_reunification']
+    end&.compact
+
+    reunification_dates
   end
 
   def sync_protection_concerns
@@ -348,6 +382,12 @@ class Child < ApplicationRecord
 
   def associations_as_data_keys
     %w[incident_details]
+  end
+
+  def stamp_family_number
+    return unless family.present?
+
+    self.family_number = family_number
   end
 end
 # rubocop:enable Metrics/ClassLength

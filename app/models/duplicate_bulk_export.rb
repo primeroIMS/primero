@@ -10,7 +10,7 @@ class DuplicateBulkExport < BulkExport
   def process_records_in_batches(batch_size = 500, &)
     return yield([]) unless duplicate_field_name
 
-    batched_duplicate_values = search_for_duplicate_values.in_groups_of(FACET_BATCH_SIZE, false)
+    batched_duplicate_values = duplicate_values.in_groups_of(FACET_BATCH_SIZE, false)
     return yield([]) unless batched_duplicate_values.present?
 
     batched_duplicate_values.each do |values|
@@ -18,68 +18,40 @@ class DuplicateBulkExport < BulkExport
     end
   end
 
-  # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
-  # Custom Solr queries are long
-  def search_for_duplicate_values
-    result = model_class.search do
-      with(:status, Record::STATUS_OPEN)
-      with(:record_state, true)
-
-      adjust_solr_params do |params|
-        params['facet'] = 'true'
-        params['facet.field'] = [solr_duplicate_field_name]
-        params['facet.limit'] = '-1'
-        params['facet.method'] = 'fcs'
-        params['facet.threads'] = '-1'
-        params["f.#{solr_duplicate_field_name}.facet.mincount"] = '2'
-      end
-    end.facet_response['facet_fields'][solr_duplicate_field_name]
-
-    result.select { |value| value.is_a?(String) }
+  def duplicate_values
+    model_class.connection.select_all(duplicate_field_query.to_sql).rows.flatten
   end
-  # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/AbcSize
+
+  def duplicate_field_query
+    status_filter = SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_OPEN)
+    state_filter = SearchFilters::BooleanValue.new(field_name: 'record_state', value: true)
+    sanitized_field_name = ActiveRecord::Base.sanitize_sql_array(['data->>?', duplicate_field_name])
+
+    model_class.select(sanitized_field_name).where(status_filter.query).where(state_filter.query)
+               .group(sanitized_field_name)
+               .having(ActiveRecord::Base.sanitize_sql_array(['COUNT(data->>?) > 1', duplicate_field_name]))
+  end
 
   def search_for_duplicate_records(values, batch_size)
     page = 1
     sort = order || { national_id_no: :asc }
+    search_filters = filters_for_duplicates(duplicate_field_name, values)
     loop do
-      filters = filters_for_duplicates(duplicate_field_name, values)
-      results = SearchService.search(model_class, filters:, query:,
-                                                  pagination: { page:, per_page: batch_size }, sort:).results
-      yield(results)
-      # Set again the values of the pagination variable because the method modified the variable.
-      page = results.next_page
-      break if page.nil?
+      result = search_records(search_filters, batch_size, page, sort)
+      break if result.records.blank?
+
+      exporter.single_record_export = result.total == 1
+      yield(result.records)
+      page += 1
     end
   end
 
   def filters_for_duplicates(field_name, duplicates)
-    [SearchFilters::ValueList.new(field_name:, values: duplicates)]
+    [SearchFilters::TextList.new(field_name:, values: duplicates)]
   end
 
   def duplicate_field_name
-    return @duplicate_field_name if @duplicate_field_name
-
-    @duplicate_field_name = SystemSettings.current&.duplicate_export_field
-    if @duplicate_field_name.blank?
-
-      # NOTE: national_id_no is indexed as: national_id_no_text, national_id_no_filterable and national_id_no_sortable
-      # When a duplicate export is performed by default the national_id_no_text is used to get the duplicates,
-      # that field breaks dashes in separate parts, for example: abc-123 is searched as [abc, 123].
-      # Here we use _filterable fields to avoid that behavior.
-      @duplicate_field_name = 'national_id_no_filterable'
-    elsif model_class.filterable_id_fields.include?(@duplicate_field_name)
-      @duplicate_field_name = "#{@duplicate_field_name}_filterable"
-    end
-
-    @duplicate_field_name
-  end
-
-  def solr_duplicate_field_name
-    @solr_duplicate_field_name ||=
-      SolrUtils.indexed_field_name(record_type, duplicate_field_name)
+    @duplicate_field_name ||= SystemSettings.current&.duplicate_export_field
   end
 
   def exporter_type
