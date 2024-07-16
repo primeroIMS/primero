@@ -54,10 +54,9 @@ function ViewModal({ close, openViewModal, currentRecord, recordType }) {
   };
 
   const recordObject = reduceMapToObject(currentRecord || fromJS({}));
-
   const initialValues = miniFormFields.reduce((acc, field) => {
     if ([AUDIO_RECORD_FIELD, PHOTO_RECORD_FIELD].includes(field.get("type"))) {
-      return { ...acc, [field.name]: acc[field.name] || [] };
+      return { ...acc, [field.name]: acc?.[field.name] || [] };
     }
 
     return acc;
