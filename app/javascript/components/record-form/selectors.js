@@ -318,7 +318,7 @@ export const getOrderedRecordForms = createCachedSelector(
 
 export const getRecordFormsByUniqueId = createCachedSelector(
   (state, query) => {
-    const { recordType, primeroModule, checkVisible, includeNested } = query;
+    const { recordType, primeroModule, checkVisible, includeNested, fallbackModule } = query;
 
     return getRecordForms(state, {
       recordType,
@@ -347,6 +347,16 @@ export const getRecordFormsByUniqueId = createCachedSelector(
     return allRecordForms;
   }
 )(defaultCacheSelectorOptions);
+
+export const getRecordFormsByUniqueIdWithFallback = (state, query) => {
+  const form = getRecordFormsByUniqueId(state, query);
+
+  if (form.isEmpty()) {
+    return getRecordFormsByUniqueId(state, { ...query, primeroModule: query.fallbackModule });
+  }
+
+  return form;
+};
 
 export const getIncidentFromCaseForm = (state, query) =>
   getRecordFormsByUniqueId(state, { ...query, formName: INCIDENT_FROM_CASE, getFirst: true });
