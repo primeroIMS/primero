@@ -858,7 +858,7 @@ describe Field do
     end
   end
 
-  describe 'aggregate or disaggregate with number at the end should be able to match with a field' do
+  describe 'aggregate or disaggregate with number at the end should be able to match with a location field' do
     before do
       clean_data(FormSection)
 
@@ -886,7 +886,7 @@ describe Field do
     end
 
     it 'should return a field' do
-      expect(Field.find_by_name('field_name1')[0]['name']).to eq('field_name')
+      expect(Field.find_by_name('loc:field_name')[0]['name']).to eq('field_name')
     end
   end
 

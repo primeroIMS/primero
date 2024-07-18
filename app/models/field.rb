@@ -108,23 +108,23 @@ class Field < ApplicationRecord
       field_names = [field_names] unless field_names.is_a?(Array)
       result = where(name: field_names)
       remainder = field_names - result.map(&:name)
-      remainder = remainder.select { |field_name| name_with_admin_level?(field_name) }
+      remainder = remainder.select { |field_name| location_prefix?(field_name) }
       return result unless remainder.present?
 
       result + find_as_location_fields(remainder)
     end
 
     def find_as_location_fields(field_names)
-      field_names = field_names.map { |field_name| remove_admin_level_from_name(field_name) }
+      field_names = field_names.map { |field_name| remove_location_parts(field_name) }
       where(name: field_names, option_strings_source: %w[Location ReportingLocation])
     end
 
-    def name_with_admin_level?(field_name)
-      ADMIN_LEVEL_REGEXP.match?(field_name)
+    def location_prefix?(field_name)
+      field_name.starts_with?('loc:')
     end
 
-    def remove_admin_level_from_name(field_name)
-      field_name.gsub(ADMIN_LEVEL_REGEXP, '')
+    def remove_location_parts(field_name)
+      field_name.gsub('loc:', '').gsub(/[0-#{Location::ADMIN_LEVELS.last}]$/, '')
     end
   end
 
