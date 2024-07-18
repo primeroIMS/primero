@@ -148,6 +148,12 @@ describe SearchFilterService do
       expect(filter.filters[2].not_filter).to eq(true)
     end
 
+    it 'does not build a filter for an invalid hash' do
+      params = { 'age' => { 'display_name' => 'Age' } }
+
+      expect(service.build_filters(params)).to be_empty
+    end
+
     it 'builds a location filter' do
       filter = service.build_filters({ 'loc:location_current' => 'city1' }).first
       expect(filter).to be_instance_of(SearchFilters::LocationValue)
