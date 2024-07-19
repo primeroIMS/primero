@@ -14,6 +14,7 @@ import NepaliCalendar from "../../../../nepali-calendar-input";
 import css from "../styles.css";
 
 import { getDatesValue, getDateValue } from "./utils";
+import DateProvider from "../../../../../date-provider";
 
 function Component({
   dateIncludeTime,
@@ -98,9 +99,9 @@ function Component({
 
     return (
       <div key={picker} className={css.dateInput}>
-        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localize(i18n)}>
+        <DateProvider>
           {dateIncludeTime ? <DateTimePicker {...inputProps} /> : <DatePicker {...inputProps} />}
-        </LocalizationProvider>
+        </DateProvider>
       </div>
     );
   });

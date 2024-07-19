@@ -3,9 +3,8 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { FastField, connect, getIn } from "formik";
-import { Checkbox } from "formik-mui";
 import pickBy from "lodash/pickBy";
-import { FormControlLabel, FormHelperText, InputLabel, FormControl } from "@mui/material";
+import { FormControlLabel, FormHelperText, InputLabel, FormControl, Checkbox } from "@mui/material";
 import { cx } from "@emotion/css";
 
 import { TICK_FIELD_NAME } from "../constants";
@@ -14,7 +13,6 @@ import css from "../styles.css";
 
 function TickField({ helperText, name, label, tickBoxlabel, formik, disabled = false, ...rest }) {
   const i18n = useI18n();
-
   const fieldProps = {
     name,
     inputProps: { required: true },
@@ -22,6 +20,7 @@ function TickField({ helperText, name, label, tickBoxlabel, formik, disabled = f
     ...pickBy(rest, (v, k) => ["disabled"].includes(k))
   };
   const { InputLabelProps: inputLabelProps } = rest;
+  const value = getIn(formik.values, name);
   const fieldError = getIn(formik.errors, name);
   const displayHelperText = fieldError ? (
     <FormHelperText error>{fieldError}</FormHelperText>
@@ -38,6 +37,10 @@ function TickField({ helperText, name, label, tickBoxlabel, formik, disabled = f
     }
   }, []);
 
+  const handleChange = event => {
+    formik.setFieldValue(name, event.target.checked);
+  };
+
   return (
     <FormControl fullWidth error={fieldError}>
       <InputLabel htmlFor={name} className={classes} {...inputLabelProps}>
@@ -46,6 +49,8 @@ function TickField({ helperText, name, label, tickBoxlabel, formik, disabled = f
       <FormControlLabel
         label={tickBoxlabel || i18n.t("yes_label")}
         disabled={disabled}
+        onChange={handleChange}
+        checked={value}
         control={<FastField name={name} type="checkbox" component={Checkbox} {...fieldProps} indeterminate={false} />}
       />
       {displayHelperText}
