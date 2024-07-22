@@ -35,7 +35,7 @@ function Component({ open, onClose, currentRange, setRange }) {
       <DialogContent>
         <DialogContentText>{i18n.t("key_performance_indicators.date_range_dialog.description")}</DialogContentText>
         <FormControl>
-          <DateProvider>
+          <DateProvider excludeAdpaterLocale>
             <DatePicker
               variant="inline"
               format={DATE_FORMAT}

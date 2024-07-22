@@ -11,11 +11,12 @@ const localeText = {
   fieldDayPlaceholder: () => "dd"
 };
 
-function DateProvider({ children }) {
+function DateProvider({ children, excludeAdpaterLocale = false }) {
   const i18n = useI18n();
+  const adapterLocale = excludeAdpaterLocale ? null : localize(i18n);
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} localeText={localeText} adapterLocale={localize(i18n)}>
+    <LocalizationProvider dateAdapter={AdapterDateFns} localeText={localeText} adapterLocale={adapterLocale}>
       {children}
     </LocalizationProvider>
   );
@@ -24,7 +25,8 @@ function DateProvider({ children }) {
 DateProvider.displayName = "DateProvider";
 
 DateProvider.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  excludeAdpaterLocale: PropTypes.bool
 };
 
 export default DateProvider;

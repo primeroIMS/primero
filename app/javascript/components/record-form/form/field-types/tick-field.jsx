@@ -15,7 +15,7 @@ function TickField({ helperText, name, label, tickBoxlabel, formik, disabled = f
   const i18n = useI18n();
   const fieldProps = {
     name,
-    inputProps: { required: true },
+    inputProps: { required: true, name },
     disabled,
     ...pickBy(rest, (v, k) => ["disabled"].includes(k))
   };
@@ -51,7 +51,7 @@ function TickField({ helperText, name, label, tickBoxlabel, formik, disabled = f
         disabled={disabled}
         onChange={handleChange}
         checked={value}
-        control={<FastField name={name} type="checkbox" component={Checkbox} {...fieldProps} indeterminate={false} />}
+        control={<FastField type="checkbox" component={Checkbox} {...fieldProps} indeterminate={false} />}
       />
       {displayHelperText}
     </FormControl>
