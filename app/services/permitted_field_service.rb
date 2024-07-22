@@ -56,6 +56,17 @@ class PermittedFieldService
     Permission::ENABLE_DISABLE_RECORD => { 'record_state' => { 'type' => 'boolean' } },
     Permission::INCIDENT_FROM_CASE => {
       'incident_case_id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => UUID_REGEX }
+    },
+    Permission::ADD_REGISTRY_RECORD => {
+      'registry_record_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX }
+    },
+    Permission::CASE_FROM_FAMILY => {
+      'family_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX },
+      'family_member_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX }
+    },
+    Permission::LINK_FAMILY_RECORD => {
+      'family_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX },
+      'family_member_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX }
     }
   }.freeze
 
@@ -115,6 +126,7 @@ class PermittedFieldService
     update ? core_fields - %w[id] : core_fields
   end
 
+  # TODO:  The method is essentially duplicating some logic from permitted_field_names. DRY!
   def permitted_fields_schema
     schema = PERMITTED_CORE_FIELDS_SCHEMA.dup
     permitted_actions =

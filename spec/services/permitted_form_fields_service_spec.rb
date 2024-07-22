@@ -156,10 +156,10 @@ describe PermittedFormFieldsService do
   describe '#permitted_fields' do
     it 'lists all writeable fields' do
       permitted_fields = service.permitted_fields(role, 'case', true)
-      expect(permitted_fields.size).to eq(10)
+      expect(permitted_fields.size).to eq(11)
       expect(permitted_fields.map(&:name)).to match_array(
         %w[name age sex national_id_no consent_for_services current_address protection_concerns
-           registration_date created_on family_details]
+           registration_date created_on family_details other_documents]
       )
     end
 
@@ -174,9 +174,9 @@ describe PermittedFormFieldsService do
 
     it 'includes action subforms when writeable' do
       permitted_fields = service.permitted_fields(role_with_actions, 'case', true)
-      expect(permitted_fields.size).to eq(12)
+      expect(permitted_fields.size).to eq(13)
       expect(permitted_fields.map(&:name)).to match_array(
-        %w[name age sex national_id_no consent_for_services current_address protection_concerns
+        %w[name age sex national_id_no consent_for_services current_address protection_concerns other_documents
            registration_date created_on family_details notes_section services_section]
       )
     end
@@ -191,10 +191,10 @@ describe PermittedFormFieldsService do
   describe '#permitted_field_names' do
     it 'lists all writeable field names' do
       permitted_field_names = service.permitted_field_names(role, 'case', true)
-      expect(permitted_field_names.size).to eq(10)
+      expect(permitted_field_names.size).to eq(11)
       expect(permitted_field_names).to match_array(
         %w[name age sex national_id_no consent_for_services current_address protection_concerns
-           registration_date created_on family_details]
+           registration_date created_on family_details other_documents]
       )
     end
   end

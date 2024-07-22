@@ -11,6 +11,7 @@ class PermittedFormFieldsService
   PERMITTED_WRITEABLE_FIELD_TYPES = [
     Field::TEXT_FIELD, Field::TEXT_AREA, Field::RADIO_BUTTON, Field::TICK_BOX,
     Field::SELECT_BOX, Field::NUMERIC_FIELD, Field::DATE_FIELD,
+    Field::AUDIO_UPLOAD_BOX, Field::PHOTO_UPLOAD_BOX, Field::DOCUMENT_UPLOAD_BOX,
     Field::SUBFORM
   ].freeze
 
