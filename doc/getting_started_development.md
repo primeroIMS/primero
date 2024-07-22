@@ -150,9 +150,9 @@ nvm install --lts
 >
 > Docker can be installed in a number of different ways. As we are primarily using docker as a convenient way of running a database locally, it doesn't matter how it is installed.
 
-Install docker using apt:
+Install docker using [apt](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository):
 ```bash
-sudo apt install docker.io docker-compose
+sudo apt install docker.io docker-compose-plugin
 ```
 ## Building the Containers
 
@@ -160,14 +160,32 @@ sudo apt install docker.io docker-compose
 cd ./docker
 sudo ./build.sh postgres solr
 ```
+## Configuration file
+
+Before running the containers, make sure to copy the sample environment file to create the necessary `local.env` file. This file is required when using `compose.local.sh up`.
+
+```bash
+cp local.env.sample.development local.env
+```
 ## Running the Containers
 
 You should run this from inside the docker directory.
 ```bash
 sudo ./compose.local.sh up -d postgres
+```
+If you want to use **SOLR**, you can enable it by setting the environment variable `SOLR_ENABLED=true` before running the containers.
+
+> **Note:** By default **SOLR** service is disabled, but it is still required to enable **FTR, GBV** and **KPI** features.
+
+```bash
+export SOLR_ENABLED=true
 sudo ./compose.local.sh run solr make-primero-core.sh primero-test
 sudo ./compose.local.sh up -d solr
 ```
+
+## For more docker instructions
+
+For detailed Docker setup instructions, see the [Docker README](docker/README.md).
 
 # Configuring Primero for Local Development
 
@@ -178,8 +196,13 @@ Execute these from the root directory of the repository. You may want to review 
 cp config/database.yml.development config/database.yml
 cp config/locales.yml.development config/locales.yml
 cp config/mailers.yml.development config/mailers.yml
-cp config/sunspot.yml.development config/sunspot.yml
 mkdir log
+```
+
+If you are using SOLR enabled, you must copy sunspot file
+
+```bash
+cp config/sunspot.yml.development config/sunspot.yml
 ```
 
 You will also need to install some system-wide dependencies required to build and run Primero.
@@ -247,6 +270,8 @@ npm run dev
 
 In the other window, run the following command, which will run the rails server that hosts the Primero backend.
 
+> **Note:** If `SOLR_ENABLED` variable is set to true, primero will use solr service.
+
 ```bash
 rails s
 ```
@@ -301,11 +326,12 @@ To use the push notification features of Primero, you must set some environment 
 To generate a valid VAPID keypair, you can execute the following script to generate private and public keys for their respective environment variables. You will probably want to add the variables to your `~/.bashrc` file.
 
 ```bash
-rails r '
-keypair = WebPush.generate_key
-puts "Private Key: #{keypair.private_key}"
-puts "Public Key: #{keypair.public_key}"
-'
+  openssl ecparam -genkey -name prime256v1 -out private_key.pem
+  # generating public_vapid_key
+  openssl ec -in private_key.pem -pubout -outform DER|tail -c 65|base64|tr -d '\n'|tr -d '=' |tr '/+' '_-'
+  # generating private_vapid_key
+  openssl ec -in private_key.pem -outform DER|tail -c +8|head -c 32|base64|tr -d '\n'|tr -d '=' |tr '/+' '_-'
+  rm private_key.pem
 ```
 
 ```bash

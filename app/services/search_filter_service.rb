@@ -48,7 +48,7 @@ class SearchFilterService
       else
         SearchFilters::Value.new(field_name: key, value:)
       end
-    end
+    end.compact
   end
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/CyclomaticComplexity
