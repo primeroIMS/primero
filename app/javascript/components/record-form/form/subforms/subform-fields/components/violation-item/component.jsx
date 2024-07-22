@@ -4,8 +4,7 @@ import PropTypes from "prop-types";
 import { ListItemText, Button, InputAdornment } from "@mui/material";
 import { useParams } from "react-router-dom";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DatePicker } from "@mui/x-date-pickers";
 
 import ActionDialog from "../../../../../../action-dialog";
 import ViolationTitle from "../violation-title";
@@ -15,6 +14,7 @@ import { usePermissions } from "../../../../../../permissions";
 import { RECORD_ACTION_ABILITIES } from "../../../../../../record-actions/constants";
 import { useI18n } from "../../../../../../i18n";
 import { toServerDateFormat } from "../../../../../../../libs";
+import DateProvider from "../../../../../../../date-provider";
 
 import VerifySelect from "./select";
 import { getViolationTallyLabel } from "./utils";
@@ -102,7 +102,7 @@ function Component({ fields, values, locale, displayName, index, collapsedFieldV
 
   // Define MuiPickersUtilsProvider component
   const MuiPickersUtilsProviderComponent = (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <DateProvider>
       <div className={css.keyboardDatePickerWrapper}>
         <DatePicker
           clearLabel={i18n.t("buttons.clear")}
@@ -124,7 +124,7 @@ function Component({ fields, values, locale, displayName, index, collapsedFieldV
           format={DATE_FORMAT}
         />
       </div>
-    </LocalizationProvider>
+    </DateProvider>
   );
 
   return (

@@ -5,14 +5,13 @@ import PropTypes from "prop-types";
 import { Controller, useWatch } from "react-hook-form";
 import isEmpty from "lodash/isEmpty";
 import { parseISO } from "date-fns";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { DatePicker, DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
 
 import { toServerDateFormat } from "../../../libs";
 import { useI18n } from "../../i18n";
-import localize from "../../../libs/date-picker-localization";
 import { LOCALE_KEYS } from "../../../config";
 import NepaliCalendar from "../../nepali-calendar-input";
+import DateProvider from "../../../date-provider";
 
 function DateInput({ commonInputProps, metaInputProps = {}, formMethods }) {
   const i18n = useI18n();
@@ -79,7 +78,7 @@ function DateInput({ commonInputProps, metaInputProps = {}, formMethods }) {
   }
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localize(i18n)}>
+    <DateProvider>
       <Controller
         control={control}
         as={renderPicker}
@@ -87,7 +86,7 @@ function DateInput({ commonInputProps, metaInputProps = {}, formMethods }) {
         helperText={<>{helperText}</>}
         defaultValue=""
       />
-    </LocalizationProvider>
+    </DateProvider>
   );
 }
 

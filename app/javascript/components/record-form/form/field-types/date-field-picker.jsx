@@ -1,8 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { DatePicker, DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
 import { isString } from "formik";
 import { parseISO } from "date-fns";
 
@@ -10,7 +9,7 @@ import { useI18n } from "../../../i18n";
 import { displayNameHelper } from "../../../../libs";
 import { LOCALE_KEYS } from "../../../../config";
 import NepaliCalendar from "../../../nepali-calendar-input";
-import localize from "../../../../libs/date-picker-localization";
+import DateProvider from "../../../../date-provider";
 
 function DateFieldPicker({
   dateIncludeTime = false,
@@ -73,7 +72,7 @@ function DateFieldPicker({
   const DateComponent = dateIncludeTime ? DateTimePicker : DatePicker;
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localize(i18n)}>
+    <DateProvider>
       <DateComponent
         data-testid="date-time-picker"
         {...dialogLabels}
@@ -81,7 +80,7 @@ function DateFieldPicker({
         slotProps={textFieldProps}
         label={label}
       />
-    </LocalizationProvider>
+    </DateProvider>
   );
 }
 
