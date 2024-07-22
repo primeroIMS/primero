@@ -25,15 +25,7 @@ import { OPTION_TYPES } from "../../../../form/constants";
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
 
-function Component({
-  filter,
-  mode,
-  moreSectionFilters = {},
-  multiple = false,
-  reset,
-  setMoreSectionFilters,
-  setReset
-}) {
+function Component({ filter, mode, moreSectionFilters = {}, multiple = true, reset, setMoreSectionFilters, setReset }) {
   const i18n = useI18n();
   const formMethods = useFormContext();
   const valueRef = useRef();

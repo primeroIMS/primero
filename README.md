@@ -23,4 +23,4 @@ A guide to getting started with Primero development is available [here](doc/gett
 
 ## Production
 
-Primero is deployed in production using Docker. Detailed Docker instructions exist in the file [docker/README.md](docker/README.md)
+Primero is deployed in production using Ansible. Detailed Ansible instructions exist in the file [ansible/README.md](ansible/README.md)
