@@ -2,19 +2,17 @@
 
 import { useEffect } from "react";
 import { endOfDay, parseISO, startOfDay } from "date-fns";
-import { DatePicker, DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
 import { isString } from "formik";
 
 import { DATE_FORMAT, DATE_TIME_FORMAT, LOCALE_KEYS } from "../../../../../config";
 import { useI18n } from "../../../../i18n";
 import { toServerDateFormat } from "../../../../../libs";
-import localize from "../../../../../libs/date-picker-localization";
 import NepaliCalendar from "../../../../nepali-calendar-input";
 import css from "../styles.css";
+import DateProvider from "../../../../../date-provider";
 
 import { getDatesValue, getDateValue } from "./utils";
-import DateProvider from "../../../../../date-provider";
 
 function Component({
   dateIncludeTime,
