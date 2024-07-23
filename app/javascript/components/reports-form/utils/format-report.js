@@ -1,8 +1,10 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
+import isNil from "lodash/isNil";
+
 const formatFieldName = ({ name, adminLevel, optionStringsSource }) => {
   if (optionStringsSource === "Location") {
-    return `loc:${name}${adminLevel || ""}`;
+    return `loc:${name}${isNil(adminLevel) ? "" : adminLevel}`;
   }
 
   return name;
