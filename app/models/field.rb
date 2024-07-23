@@ -124,7 +124,7 @@ class Field < ApplicationRecord
     end
 
     def remove_location_parts(field_name)
-      field_name.gsub('loc:', '').gsub(/[0-#{Location::ADMIN_LEVELS.last}]$/, '')
+      field_name.gsub('loc:', '').gsub(ADMIN_LEVEL_REGEXP, '')
     end
   end
 
