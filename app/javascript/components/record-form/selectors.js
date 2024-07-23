@@ -318,7 +318,7 @@ export const getOrderedRecordForms = createCachedSelector(
 
 export const getRecordFormsByUniqueId = createCachedSelector(
   (state, query) => {
-    const { recordType, primeroModule, checkVisible, includeNested, fallbackModule } = query;
+    const { recordType, primeroModule, checkVisible, includeNested } = query;
 
     return getRecordForms(state, {
       recordType,
