@@ -11,11 +11,11 @@ import {
   DialogActions,
   Button
 } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DatePicker } from "@mui/x-date-pickers";
 
 import { useI18n } from "../../../i18n";
 import { DATE_FORMAT } from "../../../../config";
+import DateProvider from "../../../../date-provider";
 
 function Component({ open, onClose, currentRange, setRange }) {
   const i18n = useI18n();
@@ -35,7 +35,7 @@ function Component({ open, onClose, currentRange, setRange }) {
       <DialogContent>
         <DialogContentText>{i18n.t("key_performance_indicators.date_range_dialog.description")}</DialogContentText>
         <FormControl>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DateProvider excludeAdpaterLocale>
             <DatePicker
               variant="inline"
               format={DATE_FORMAT}
@@ -58,7 +58,7 @@ function Component({ open, onClose, currentRange, setRange }) {
                 "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.to")
               }}
             />
-          </LocalizationProvider>
+          </DateProvider>
         </FormControl>
       </DialogContent>
       <DialogActions>

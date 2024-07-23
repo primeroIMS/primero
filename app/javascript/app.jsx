@@ -4,8 +4,6 @@ import { ConnectedRouter } from "connected-react-router/immutable";
 import { Provider } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 import { useLayoutEffect } from "react";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 import Translations from "./db/collections/translations";
 import I18nProvider from "./components/i18n";
@@ -16,6 +14,7 @@ import ApplicationRoutes from "./components/application-routes";
 import ThemeProvider from "./theme-provider";
 import "mui-nepali-datepicker-reactjs/dist/index.css";
 import appInit from "./app-init";
+import DateProvider from "./date-provider";
 
 const { store } = appInit();
 
@@ -40,13 +39,13 @@ function App() {
     <Provider store={store}>
       <ThemeProvider>
         <I18nProvider>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DateProvider>
             <ApplicationProvider>
               <ConnectedRouter history={history}>
                 <ApplicationRoutes routes={routes} />
               </ConnectedRouter>
             </ApplicationProvider>
-          </LocalizationProvider>
+          </DateProvider>
         </I18nProvider>
       </ThemeProvider>
     </Provider>
