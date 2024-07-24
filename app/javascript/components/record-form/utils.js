@@ -39,18 +39,20 @@ import { RECORD_FORM_PERMISSION } from "./form/constants";
 const FIELD_TYPES_WITHOUT_DEFAULT = Object.freeze([SUBFORM_SECTION, PHOTO_FIELD, AUDIO_FIELD, DOCUMENT_FIELD]);
 
 function compareArray(value, base) {
-  return value.reduce((acc, v) => {
-    if (isObject(v)) {
+  return value.reduce((acc, elem) => {
+    if (isObject(elem)) {
       const baseSubform =
-        ("unique_id" in v || "id" in v) &&
-        find(base, b => (b.id && b.id === v.id) || (b.unique_id && b.unique_id === v.unique_id));
+        ("unique_id" in elem || "id" in elem) &&
+        find(base, b => (b.id && b.id === elem.id) || (b.unique_id && b.unique_id === elem.unique_id));
 
       if (baseSubform) {
-        const diff = difference(v, baseSubform, true);
+        const diff = difference(elem, baseSubform, true);
 
-        if (!isEmpty(diff) && !("unique_id" in diff && Object.keys(diff).length === 1)) acc.push(diff);
+        if (!isEmpty(diff) && !(("unique_id" in diff || "id" in diff) && Object.keys(diff).length === 1)) {
+          acc.push(diff);
+        }
       } else {
-        const newSubform = pickBy(v, identity);
+        const newSubform = pickBy(elem, identity);
 
         if (emptyValues(newSubform)) {
           return acc;
@@ -61,8 +63,8 @@ function compareArray(value, base) {
         }
       }
     } else {
-      if (!isEmpty(v)) {
-        acc.push(v);
+      if (!isEmpty(elem)) {
+        acc.push(elem);
       }
     }
 
@@ -72,7 +74,7 @@ function compareArray(value, base) {
 
 function difference(object, base, nested) {
   return transform(object, (result, value, key) => {
-    if (!isEqual(value, base[key]) || (nested && key === "unique_id")) {
+    if (!isEqual(value, base[key]) || (nested && ["unique_id", "id"].includes(key))) {
       let val = value;
 
       if (isDate(val)) {

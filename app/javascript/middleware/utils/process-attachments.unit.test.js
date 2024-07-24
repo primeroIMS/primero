@@ -21,7 +21,7 @@ describe("middleware/utils/process-attachments.js", () => {
   });
 
   it("should generate the attachment actions", () => {
-    const attachments = { field_1: [{ attachment: "attachment-data" }], field_2: [{ _destroy: 1 }] };
+    const attachments = { field_1: [{ attachment: "attachment-data" }], field_2: [{ id: 1, _destroy: true }] };
 
     processAttachments({ attachments, id: 10, recordType: RECORD_PATH.cases });
 
@@ -47,7 +47,13 @@ describe("middleware/utils/process-attachments.js", () => {
         },
         fromQueue: "1234",
         tries: 0,
-        fromAttachment: { id: 1, field_name: "field_2", record_type: RECORD_PATH.cases, record: { id: 10 } }
+        fromAttachment: {
+          id: 1,
+          field_name: "field_2",
+          record_type: RECORD_PATH.cases,
+          record: { id: 10 },
+          _destroy: true
+        }
       }
     ]);
   });
