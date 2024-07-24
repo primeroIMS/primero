@@ -184,7 +184,7 @@ function Component({
 
   useEffect(() => {
     if (firstTab && recordType && previousRecordType && recordType !== previousRecordType) {
-      dispatch(setSelectedForm(firstTab.unique_id));
+      // dispatch(setSelectedForm(firstTab.unique_id));
     }
   }, [recordType, previousRecordType, firstTab]);
 

@@ -31,6 +31,12 @@
   padding-bottom: 5em;
 }
 
+.text {
+  display: flex;
+  justify-content: space-between;
+  padding-right: var(--sp-1);
+}
+
 @media (max-width:900px) {
   .closeButtonRecordNav {
     display: flex;

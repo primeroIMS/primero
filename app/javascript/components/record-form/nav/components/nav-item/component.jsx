@@ -52,10 +52,10 @@ function Component({
         {!isNew && showJewel ? (
           <Jewel value={name} isForm isError={hasError} />
         ) : (
-          <>
+          <div className={css.text}>
             {name}
             {hasError && <Jewel isError={hasError} />}
-          </>
+          </div>
         )}
       </>
     );

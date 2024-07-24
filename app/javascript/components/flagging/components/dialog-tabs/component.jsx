@@ -29,8 +29,7 @@ function Component({ children, isBulkFlags, tab, setTab }) {
   const filterChildren = children.filter(child => ["false", undefined].includes(child.props.hidetab));
 
   const renderChildren = filterChildren.map((child, index) => (
-    // eslint-disable-next-line react/no-array-index-key
-    <TabPanel value={tab} index={index} key={`tab-${index}`}>
+    <TabPanel value={tab} index={index} key={`tab-${tab}`}>
       {child}
     </TabPanel>
   ));

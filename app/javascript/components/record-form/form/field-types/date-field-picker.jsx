@@ -39,6 +39,8 @@ function DateFieldPicker({
     disableFuture,
     dateIncludeTime: _dateIncludeTime,
     placeholder,
+    onChange,
+    error,
     ...textInputProps
   } = dateProps;
   const datePickerProps = {
@@ -65,7 +67,8 @@ function DateFieldPicker({
       InputProps: {
         readOnly: textInputProps?.readOnly
       },
-      placeholder: placeholder || ""
+      placeholder: placeholder || "",
+      error
     }
   };
 
@@ -75,6 +78,7 @@ function DateFieldPicker({
     <DateProvider>
       <DateComponent
         data-testid="date-time-picker"
+        onChange={onChange}
         {...dialogLabels}
         {...datePickerProps}
         slotProps={textFieldProps}

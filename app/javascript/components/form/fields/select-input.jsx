@@ -215,7 +215,11 @@ function SelectInput({ commonInputProps, metaInputProps, options: allOptions = [
   };
 
   const renderTags = (value, getTagProps) =>
-    value.map((option, index) => <Chip label={optionLabel(option)} {...getTagProps({ index })} disabled={disabled} />);
+    value.map((option, index) => {
+      const { key, ...tagProps } = getTagProps({ index });
+
+      return <Chip key={key} label={optionLabel(option)} {...tagProps} disabled={disabled} />;
+    });
 
   const getOptionDisabled = option => {
     if (option?.disabled) {
@@ -295,6 +299,11 @@ function SelectInput({ commonInputProps, metaInputProps, options: allOptions = [
           renderInput={renderInput(fieldValue)}
           renderTags={handleRenderTags}
           value={handleMultiSelectValue(fieldValue)}
+          renderOption={(props, option) => (
+            <li {...props} key={option.id}>
+              {option.display_text}
+            </li>
+          )}
         />
       )}
     />
