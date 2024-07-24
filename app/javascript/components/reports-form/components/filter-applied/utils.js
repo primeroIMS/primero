@@ -23,3 +23,6 @@ export const getConstraintLabel = (data, field, constraints, i18n) => {
 
   return Array.isArray(value) ? "" : i18n.t(constraints.default[constraint]);
 };
+
+export const getFieldNameForAttribute = attribute =>
+  attribute?.startsWith("loc:") ? attribute.replace("loc:", "").replace(/[0-5]/, "") : attribute;

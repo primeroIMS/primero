@@ -734,7 +734,7 @@ describe Report do
         name: 'Report by Custom Location and Sex',
         record_type: 'case',
         module_id: @module.unique_id,
-        aggregate_by: ['custom_abc4x5a11'],
+        aggregate_by: ['loc:custom_abc4x5a11'],
         disaggregate_by: ['sex']
       )
     end

@@ -7,12 +7,12 @@ class SearchFilters::TextList < SearchFilters::ValueList
   def query
     return unless values.present?
 
-    "(#{ActiveRecord::Base.sanitize_sql_for_conditions(['data->>? IS NOT NULL', field_name])} AND (#{values_query}))"
+    json_path_query
   end
 
-  def values_query
+  def json_path_value
     values.map do |value|
-      ActiveRecord::Base.sanitize_sql_for_conditions(['data->:field_name ? :value', { field_name:, value: }])
-    end.join(' OR ')
+      ActiveRecord::Base.sanitize_sql_for_conditions(['@ == "%s"', value])
+    end.join(' || ')
   end
 end

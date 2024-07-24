@@ -43,7 +43,7 @@ function Component({
               SubformDialog,
               SubformDialogFields,
               SubformFieldSubform,
-              SubformField: Component
+              SubformField: connect(Component)
             }}
             arrayHelpers={arrayHelpers}
             field={field}

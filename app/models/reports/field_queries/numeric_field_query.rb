@@ -7,9 +7,9 @@ class Reports::FieldQueries::NumericFieldQuery < Reports::FieldQueries::FieldQue
   attr_accessor :range, :abrreviate_range
 
   def to_sql
-    return default_query unless range.present?
+    return range_query if range.present?
 
-    range_query
+    "#{sort_query}, #{default_query}"
   end
 
   def range_query
@@ -22,15 +22,17 @@ class Reports::FieldQueries::NumericFieldQuery < Reports::FieldQueries::FieldQue
   end
 
   def sort_query
-    %(
-      case #{range.map.with_index { |range, index| build_range_order(field, range, index) }.join(' ')}
-      end as #{sort_field}
-    )
+    if range.present?
+      return %(
+        case #{range.map.with_index { |range, index| build_range_order(field, range, index) }.join(' ')}
+        end as #{sort_field}
+      )
+    end
+
+    ActiveRecord::Base.sanitize_sql_array(["data->'%s' as %s", record_field_name, sort_field])
   end
 
   def sort_field
-    return super unless range.present?
-
     column_name('sort')
   end
 

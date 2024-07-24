@@ -37,10 +37,7 @@ function AttachmentField({ name, index, attachment, disabled, mode, arrayHelpers
 
   const handleRemove = () => {
     if (attachmentUrl) {
-      arrayHelpers.replace(index, {
-        _destroy: id,
-        attachment_type: attachment
-      });
+      arrayHelpers.replace(index, { _destroy: true, id, attachment_type: attachment });
     } else {
       arrayHelpers.remove(index);
     }

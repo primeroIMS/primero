@@ -54,6 +54,10 @@ export const formatValue = (value, i18n, { field, lookups }) => {
         lookup => lookup.unique_id === field.option_strings_source.replace(/lookup /, "")
       )?.values;
 
+      if (!lookupValues || lookupValues.length <= 0) {
+        return value;
+      }
+
       return value
         .map(currentValue => {
           const text = lookupValues.find(option => option.id === currentValue);
