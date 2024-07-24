@@ -134,7 +134,7 @@ module Indicators
 
     def pivot_param(pivot)
       return pivot[:query_param] if pivot[:query_param].present?
-      return "loc:#{pivot[:field_name]}" if pivot[:type] == 'location'
+      return "loc:#{pivot[:field_name]}#{pivot[:admin_level]}" if pivot[:type] == 'location'
 
       pivot[:field_name]
     end

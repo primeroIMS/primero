@@ -104,7 +104,7 @@ class Filter < ValueObject
   REPORTING_LOCATION = lambda do |params|
     Filter.new(
       name: "location.base_types.#{params[:labels]&.first}",
-      field_name: "loc:#{params[:field]}",
+      field_name: "loc:#{params[:field]}#{params[:admin_level]}",
       option_strings_source: 'ReportingLocation',
       type: 'multi_select'
     )

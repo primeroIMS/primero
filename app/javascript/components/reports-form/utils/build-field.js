@@ -21,7 +21,7 @@ export const buildLocationFields = (current, formSection, i18n, reportingLocatio
   return [
     {
       ...buildField(current, formSection, locale),
-      id: current.get("name"),
+      id: `loc:${current.get("name")}`,
       display_text: `${displayNameHelper(current.get("display_name"), locale)}`
     }
   ].concat(
@@ -29,7 +29,7 @@ export const buildLocationFields = (current, formSection, i18n, reportingLocatio
       (acc, [key, value]) =>
         acc.concat({
           ...buildField(current, formSection, locale),
-          id: `${current.get("name")}${key}`,
+          id: `loc:${current.get("name")}${key}`,
           display_text: `${displayNameHelper(current.get("display_name"), locale)} (${i18n.t(
             `location.base_types.${value.first()}`
           )})`
