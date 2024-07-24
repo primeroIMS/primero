@@ -21,9 +21,9 @@ import { useDialog } from "../action-dialog";
 import InsightsFilters from "../insights-filters";
 import InsightFilterTags from "../insights-filters/components/insight-filter-tags";
 import { clearFilters } from "../insights-list/action-creators";
-import { get } from "../form/utils";
+import { selectInsightConfig } from "../insights-filters/utils";
 
-import { INSIGHTS_CONFIG, NAME, INSIGHTS_EXPORTER_DIALOG, MANAGED_REPORTS, REPORTS } from "./constants";
+import { NAME, INSIGHTS_EXPORTER_DIALOG, MANAGED_REPORTS, REPORTS } from "./constants";
 import css from "./styles.css";
 import InsightsExporter from "./components/insights-exporter";
 
@@ -53,7 +53,7 @@ function Component({ routes }) {
 
   const subReports = insight.get("subreports", fromJS([]));
 
-  const insightType = get(INSIGHTS_CONFIG, [moduleID, id], []);
+  const insightType = selectInsightConfig(moduleID, id);
 
   const name = i18n.t(insight.get("name"));
 

@@ -21,6 +21,7 @@ import omitBy from "lodash/omitBy";
 import { toServerDateFormat } from "../../libs";
 import {
   CUSTOM,
+  INSIGHTS_CONFIG,
   LAST_MONTH,
   LAST_QUARTER,
   LAST_WEEK,
@@ -30,6 +31,9 @@ import {
   THIS_WEEK,
   THIS_YEAR
 } from "../insights/constants";
+import { get } from "../form/utils";
+import includeCPByDefault from "../../libs/include-cp-by-default";
+import { MODULES } from "../../config";
 
 const startOfWeekOptions = { options: { weekStartsOn: 0 } };
 
@@ -92,3 +96,9 @@ export const transformFilters = data => {
     isNil
   );
 };
+
+export function selectInsightConfig(moduleID, id) {
+  const module = includeCPByDefault(moduleID) ? MODULES.CP : moduleID;
+
+  return get(INSIGHTS_CONFIG, [module, id], {});
+}

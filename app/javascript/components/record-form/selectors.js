@@ -17,6 +17,7 @@ import { getLocale } from "../i18n/selectors";
 import { getRecordFormAlerts, getSelectedRecordData, selectRecord } from "../records";
 import { selectorEqualityFn } from "../../libs/use-memoized-selector";
 import { getPermittedFormsIds } from "../user";
+import includeCPByDefault from "../../libs/include-cp-by-default";
 
 import getDefaultForms from "./form/utils/get-default-forms";
 import NAMESPACE from "./namespace";
@@ -29,14 +30,16 @@ const defaultCacheSelectorOptions = {
 };
 
 const filterForms = (forms, { recordType, primeroModule, checkVisible, includeNested }) => {
-  const formSections = forms.filter(
-    formSection =>
-      (Array.isArray(primeroModule)
-        ? formSection.module_ids.some(mod => primeroModule.includes(mod))
-        : formSection.module_ids.includes(primeroModule)) &&
+  const formSections = forms.filter(formSection => {
+    return (
+      ((includeCPByDefault(primeroModule) && formSection.module_ids.length) ||
+        (Array.isArray(primeroModule)
+          ? formSection.module_ids.some(mod => primeroModule.includes(mod))
+          : formSection.module_ids.includes(primeroModule))) &&
       formSection.parent_form === recordType &&
       (!includeNested ? !formSection.is_nested : true)
-  );
+    );
+  });
 
   if (checkVisible === false) {
     return formSections;
