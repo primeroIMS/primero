@@ -1,12 +1,16 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { sortWithSortedArray } from "../../insights-sub-report/utils";
 
+import sortByAge from "./sort-by-age";
 import sortByDate from "./sort-by-date";
 
 export default ({ field, data, sortByFn, ageRanges, groupAges, incompleteDataLabel, locale }) => {
-  if (field.name.startsWith("age") && groupAges) {
-    return sortWithSortedArray(data, ageRanges, sortByFn, incompleteDataLabel);
+  if (field.name.startsWith("age")) {
+    if (groupAges) {
+      return sortWithSortedArray(data, ageRanges, sortByFn, incompleteDataLabel);
+    }
+
+    return sortByAge(data, sortByFn);
   }
   if (field.option_labels) {
     return sortWithSortedArray(
