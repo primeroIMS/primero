@@ -14,10 +14,10 @@ module Indicators
     SELECT_LOCATION_PIVOT = %(
       (
         SELECT
-          CASE WHEN NLEVEL(hierarchy_path) > :admin_level THEN
-            LOWER(CAST(SUBPATH(locations.hierarchy_path, :admin_level, 1) AS VARCHAR))
-          ELSE NULL END
-        FROM locations WHERE location_code = data->>:field_name
+          LOWER(CAST(SUBPATH(locations.hierarchy_path, :admin_level, 1) AS VARCHAR))
+        FROM locations
+        WHERE location_code = data->>:field_name
+        AND NLEVEL(hierarchy_path) > :admin_level
       ) AS pivot:index
     )
 
