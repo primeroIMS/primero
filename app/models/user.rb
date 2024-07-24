@@ -290,10 +290,6 @@ class User < ApplicationRecord
     module_unique_ids.include?(module_unique_id)
   end
 
-  def gbv_or_mrm_user?
-    (module?(PrimeroModule::MRM) || module?(PrimeroModule::GBV)) && modules.size <= 1
-  end
-
   def permission?(permission)
     role.permissions && role.permissions
                             .map(&:actions).flatten.include?(permission)
@@ -484,6 +480,18 @@ class User < ApplicationRecord
 
   def gbv?
     module?(PrimeroModule::GBV)
+  end
+
+  def gbv_only?
+    gbv? && modules.size <= 1
+  end
+
+  def mrm?
+    module?(PrimeroModule::MRM)
+  end
+
+  def mrm_only?
+    mrm? && modules.size <= 1
   end
 
   def tasks(pagination = { per_page: 100, page: 1 }, sort_order = {})
