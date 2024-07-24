@@ -85,14 +85,14 @@ class Header < ValueObject
       header_list << CASE_ID_DISPLAY
       header_list << SHORT_ID
       # TODO: There's an id_search logic I'm not sure about
-      header_list << CASE_NAME if (!user.gbv_only? || !user.mrm_only?) && user.can_list_case_names?
+      header_list << CASE_NAME if !(user.gbv_only? || user.mrm_only?) && user.can_list_case_names?
       header_list << COMPLETE if user.can?(:sync_mobile, Child)
       header_list << SURVIVOR_CODE if user.gbv? && !user.manager?
       header_list << AGE unless user.gbv_only? || user.mrm_only?
       header_list << SEX unless user.gbv_only? || user.mrm_only?
       header_list << REGISTRATION_DATE unless user.gbv_only? || user.mrm_only?
       header_list << CASE_OPENING_DATE if user.gbv?
-      header_list << PHOTO if (!user.gbv_only? || !user.mrm_only?) && user.can?(:view_photo, Child)
+      header_list << PHOTO if !(user.gbv_only? || user.mrm_only?) && user.can?(:view_photo, Child)
       header_list << SOCIAL_WORKER if user.manager?
       header_list << ALERT_COUNT
       header_list << FLAG_COUNT
