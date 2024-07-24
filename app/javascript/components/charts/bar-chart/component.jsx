@@ -7,7 +7,7 @@ import arrayReverse from "lodash/reverse";
 
 import css from "./styles.css";
 
-const BarChart = ({ data, description, showDetails = false, hideLegend = false, reverse = false }) => {
+function BarChart({ data, description, showDetails = false, hideLegend = false, reverse = false }) {
   const chartRef = createRef();
 
   useEffect(() => {
@@ -92,7 +92,7 @@ const BarChart = ({ data, description, showDetails = false, hideLegend = false, 
       <canvas id="reportGraph" data-testid="canvas" ref={chartRef} height={!showDetails ? null : 400} />
     </div>
   );
-};
+}
 
 BarChart.displayName = "BarChart";
 

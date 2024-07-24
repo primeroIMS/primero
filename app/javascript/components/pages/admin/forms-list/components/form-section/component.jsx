@@ -2,16 +2,16 @@
 
 import PropTypes from "prop-types";
 import { Droppable } from "react-beautiful-dnd";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 
 import { useI18n } from "../../../../../i18n";
 import FormSectionList from "../form-section-list";
 import css from "../../styles.css";
 
-const Component = ({ group, collection, isDragDisabled }) => {
+function Component({ group, collection, isDragDisabled = false }) {
   const i18n = useI18n();
 
-  const classes = clsx(css.row, css.header);
+  const classes = cx(css.row, css.header);
 
   return (
     <Droppable droppableId={`fs-${collection}`} type="formSection">
@@ -29,13 +29,9 @@ const Component = ({ group, collection, isDragDisabled }) => {
       )}
     </Droppable>
   );
-};
+}
 
 Component.displayName = "FormSection";
-
-Component.defaultProps = {
-  isDragDisabled: false
-};
 
 Component.propTypes = {
   collection: PropTypes.string.isRequired,

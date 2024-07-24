@@ -3,32 +3,31 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { FastField, connect, getIn } from "formik";
-import { Checkbox } from "formik-material-ui";
 import pickBy from "lodash/pickBy";
-import { FormControlLabel, FormHelperText, InputLabel, FormControl } from "@material-ui/core";
-import clsx from "clsx";
+import { FormControlLabel, FormHelperText, InputLabel, FormControl, Checkbox } from "@mui/material";
+import { cx } from "@emotion/css";
 
 import { TICK_FIELD_NAME } from "../constants";
 import { useI18n } from "../../../i18n";
 import css from "../styles.css";
 
-const TickField = ({ helperText, name, label, tickBoxlabel, formik, disabled = false, ...rest }) => {
+function TickField({ helperText, name, label, tickBoxlabel, formik, disabled = false, ...rest }) {
   const i18n = useI18n();
-
   const fieldProps = {
     name,
-    inputProps: { required: true },
+    inputProps: { required: true, name },
     disabled,
     ...pickBy(rest, (v, k) => ["disabled"].includes(k))
   };
   const { InputLabelProps: inputLabelProps } = rest;
+  const value = getIn(formik.values, name);
   const fieldError = getIn(formik.errors, name);
   const displayHelperText = fieldError ? (
     <FormHelperText error>{fieldError}</FormHelperText>
   ) : (
     <FormHelperText>{helperText}</FormHelperText>
   );
-  const classes = clsx({
+  const classes = cx({
     [css.error]: Boolean(fieldError)
   });
 
@@ -38,6 +37,10 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, disabled = f
     }
   }, []);
 
+  const handleChange = event => {
+    formik.setFieldValue(name, event.target.checked);
+  };
+
   return (
     <FormControl fullWidth error={fieldError}>
       <InputLabel htmlFor={name} className={classes} {...inputLabelProps}>
@@ -46,12 +49,14 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, disabled = f
       <FormControlLabel
         label={tickBoxlabel || i18n.t("yes_label")}
         disabled={disabled}
-        control={<FastField name={name} type="checkbox" component={Checkbox} {...fieldProps} indeterminate={false} />}
+        onChange={handleChange}
+        checked={value}
+        control={<FastField type="checkbox" component={Checkbox} {...fieldProps} indeterminate={false} />}
       />
       {displayHelperText}
     </FormControl>
   );
-};
+}
 
 TickField.displayName = TICK_FIELD_NAME;
 

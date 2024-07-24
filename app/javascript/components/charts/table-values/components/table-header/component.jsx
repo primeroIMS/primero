@@ -1,9 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { TableCell, TableRow } from "@material-ui/core";
+import { TableCell, TableRow } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 
 import { useI18n } from "../../../../i18n";
 import generateKey from "../../utils";
@@ -12,7 +12,7 @@ import css from "./styles.css";
 import { emptyColumn } from "./utils";
 import { NAME } from "./constants";
 
-const TableHeader = ({ columns }) => {
+function TableHeader({ columns }) {
   const i18n = useI18n();
 
   let newColumns = columns;
@@ -49,7 +49,7 @@ const TableHeader = ({ columns }) => {
         const cells = isFirstHeading ? items : Array.from({ length: repeat }, () => items).flat();
         const allCells =
           isFirstHeading || addEmptyCell === false ? emptyCells.concat(cells) : emptyCells.concat(cells).concat("");
-        const classes = clsx({ [css.tableRowHeader]: index === 0, [css.tableRowSubHeader]: index > 0 });
+        const classes = cx({ [css.tableRowHeader]: index === 0, [css.tableRowSubHeader]: index > 0 });
 
         return (
           <TableRow className={classes} key={generateKey("column-row")}>
@@ -76,7 +76,7 @@ const TableHeader = ({ columns }) => {
       })}
     </>
   );
-};
+}
 
 TableHeader.displayName = NAME;
 

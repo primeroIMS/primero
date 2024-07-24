@@ -2,19 +2,19 @@
 
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Accordion, AccordionSummary, AccordionDetails, IconButton } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Accordion, AccordionSummary, AccordionDetails, IconButton } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import isEmpty from "lodash/isEmpty";
 
 import { RefreshIcon } from "../../../images/primero-icons";
 import { useI18n } from "../../i18n";
-import { buildNameFilter } from "../utils";
+import buildNameFilter from "../utils/build-name-filter";
 import { useApp } from "../../application";
 import { useThemeHelper } from "../../../libs";
 
 import css from "./styles.css";
 
-const Panel = ({ filter, getValues, selectedDefaultValueField, handleReset, moreSectionFilters, children }) => {
+function Panel({ filter, getValues, selectedDefaultValueField, handleReset, moreSectionFilters = {}, children }) {
   const { isRTL } = useThemeHelper();
   const { name, field_name: fieldName } = filter;
 
@@ -55,11 +55,7 @@ const Panel = ({ filter, getValues, selectedDefaultValueField, handleReset, more
       <AccordionDetails className={css.panelDetails}>{children}</AccordionDetails>
     </Accordion>
   );
-};
-
-Panel.defaultProps = {
-  moreSectionFilters: {}
-};
+}
 
 Panel.displayName = "Panel";
 

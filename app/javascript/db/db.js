@@ -7,7 +7,7 @@ import fuzzysort from "fuzzysort";
 import sortBy from "lodash/sortBy";
 import uniq from "lodash/uniq";
 
-import { DATABASE_NAME } from "../config/constants";
+import { DATABASE_NAME } from "../config";
 
 import recordMerge from "./utils/record-merge";
 import {

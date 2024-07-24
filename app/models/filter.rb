@@ -91,7 +91,7 @@ class Filter < ValueObject
   )
   CURRENT_LOCATION = Filter.new(
     name: 'cases.filter_by.current_location',
-    field_name: 'location_current',
+    field_name: 'loc:location_current',
     option_strings_source: 'Location',
     type: 'multi_select'
   )
@@ -104,7 +104,7 @@ class Filter < ValueObject
   REPORTING_LOCATION = lambda do |params|
     Filter.new(
       name: "location.base_types.#{params[:labels]&.first}",
-      field_name: "#{params[:field]}#{params[:admin_level]}",
+      field_name: "loc:#{params[:field]}#{params[:admin_level]}",
       option_strings_source: 'ReportingLocation',
       type: 'multi_select'
     )
@@ -166,7 +166,7 @@ class Filter < ValueObject
   )
   INCIDENT_LOCATION = Filter.new(
     name: 'incidents.filter_by.incident_location',
-    field_name: 'incident_location',
+    field_name: 'loc:incident_location',
     option_strings_source: 'Location',
     type: 'multi_select'
   )
@@ -193,7 +193,7 @@ class Filter < ValueObject
   )
   SEPARATION_LOCATION = Filter.new(
     name: 'tracing_requests.filter_by.location_separation',
-    field_name: 'location_separation',
+    field_name: 'loc:location_separation',
     option_strings_source: 'Location',
     type: 'multi_select'
   )
@@ -352,7 +352,7 @@ class Filter < ValueObject
 
   FAMILY_LOCATION_CURRENT = Filter.new(
     name: 'families.filter_by.current_location',
-    field_name: 'family_location_current',
+    field_name: 'loc:family_location_current',
     option_strings_source: 'Location',
     type: 'multi_select'
   )
@@ -675,7 +675,8 @@ class Filter < ValueObject
   def cases_by_date_options(opts = {})
     self.options = I18n.available_locales.map do |locale|
       locale_options = [registration_date_options(locale), assessment_requested_on_options(locale),
-                        date_case_plan_options(locale), date_closure_options(locale)]
+                        date_case_plan_options(locale), date_closure_options(locale), followup_date_options(locale),
+                        date_reunification_options(locale), tracing_date_options(locale), service_date_options(locale)]
       date_label = opts[:user].module?(PrimeroModule::GBV) ? 'created_at' : 'date_of_creation'
       locale_options << created_at_options(locale, date_label)
       { locale => locale_options }
@@ -714,6 +715,34 @@ class Filter < ValueObject
     {
       id: 'created_at',
       display_name: I18n.t("children.selectable_date_options.#{date_label}", locale:)
+    }
+  end
+
+  def followup_date_options(locale)
+    {
+      id: 'followup_dates',
+      display_name: I18n.t('children.selectable_date_options.followup_date', locale:)
+    }
+  end
+
+  def date_reunification_options(locale)
+    {
+      id: 'reunification_dates',
+      display_name: I18n.t('children.selectable_date_options.date_reunification', locale:)
+    }
+  end
+
+  def tracing_date_options(locale)
+    {
+      id: 'tracing_dates',
+      display_name: I18n.t('children.selectable_date_options.tracing_date', locale:)
+    }
+  end
+
+  def service_date_options(locale)
+    {
+      id: 'service_implemented_day_times',
+      display_name: I18n.t('children.selectable_date_options.service_implemented_day_time', locale:)
     }
   end
 

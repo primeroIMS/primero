@@ -100,3 +100,8 @@ export const setDataProtectionInitialValues = payload => ({
 export const clearDataProtectionInitialValues = () => ({
   type: Actions.CLEAR_DATA_PROTECTION_INITIAL_VALUES
 });
+
+export const setRedirectedToCreateNewRecord = payload => ({
+  type: Actions.REDIRECTED_TO_CREATE_NEW_RECORD,
+  payload
+});

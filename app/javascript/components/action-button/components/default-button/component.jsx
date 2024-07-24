@@ -2,15 +2,15 @@
 
 import { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Button, CircularProgress, Tooltip } from "@material-ui/core";
-import clsx from "clsx";
+import { Button, CircularProgress, Tooltip } from "@mui/material";
+import { cx } from "@emotion/css";
 
 import ButtonText from "../../../button-text";
 
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   id,
   icon,
   cancel,
@@ -22,14 +22,14 @@ const Component = ({
   tooltip,
   rest,
   ...options
-}) => {
+}) {
   const renderIcon = icon || null;
   const isPending = Boolean(pending);
   const renderLoadingIndicator = isPending && <CircularProgress size={24} className={css.buttonProgress} />;
   const renderContent = !renderIcon ? <>{text}</> : <ButtonText text={text} keepTextOnMobile={keepTextOnMobile} />;
 
-  const spanClasses = clsx({ [css.isDisabled]: rest.disabled || isPending });
-  const classes = clsx({
+  const spanClasses = cx({ [css.isDisabled]: rest.disabled || isPending });
+  const classes = cx({
     [css.defaultActionButton]: renderIcon,
     [css.isTransparent]: isTransparent,
     [rest.className]: Boolean(rest.className)
@@ -62,7 +62,7 @@ const Component = ({
       </span>
     </Parent>
   );
-};
+}
 
 Component.displayName = NAME;
 

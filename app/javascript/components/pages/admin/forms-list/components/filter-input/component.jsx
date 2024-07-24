@@ -1,12 +1,12 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 import css from "../../styles.css";
 
-const Component = ({ handleSetFilterValue, options, name, filterValues, id: filterID }) => {
+function Component({ handleSetFilterValue, options = [], name, filterValues = {}, id: filterID }) {
   const renderOptions = () =>
     options.map(option => {
       const { displayName, id } = option;
@@ -34,20 +34,14 @@ const Component = ({ handleSetFilterValue, options, name, filterValues, id: filt
       onChange={handleChange}
       size="small"
       exclusive
-      disabled
       classes={{ root: css.toggleContainer }}
     >
       {renderOptions()}
     </ToggleButtonGroup>
   );
-};
+}
 
 Component.displayName = "FilterInput";
-
-Component.defaultProps = {
-  filterValues: {},
-  options: []
-};
 
 Component.propTypes = {
   filterValues: PropTypes.object,

@@ -1,11 +1,10 @@
 /* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
 
 .recordFormFilters {
-  max-width: 300px;
-  width: 100%;
+  width: auto;
 }
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .recordFormFilters {
     text-align: center;
     flex: 0 1;

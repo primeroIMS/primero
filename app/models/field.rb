@@ -92,30 +92,6 @@ class Field < ApplicationRecord
       Field.joins(:form_section).where(form_sections: { parent_form:, is_nested: is_subform })
     end
 
-    def all_searchable_date_field_names(parent_form = 'case')
-      fields_for_record(parent_form).where(type: [Field::DATE_FIELD, Field::DATE_RANGE], date_include_time: false)
-                                    .pluck(:name)
-    end
-
-    def all_searchable_date_time_field_names(parent_form = 'case')
-      fields_for_record(parent_form).where(type: [Field::DATE_FIELD, Field::DATE_RANGE], date_include_time: true)
-                                    .pluck(:name)
-    end
-
-    def all_searchable_boolean_field_names(parent_form = 'case')
-      fields_for_record(parent_form).where(type: Field::TICK_BOX).pluck(:name)
-    end
-
-    def all_filterable_option_field_names(parent_form = 'case')
-      # TODO: TEXT_FIELD is being indexed for exact search? Makes sense for docuemt identifiers, but not much else.
-      fields_for_record(parent_form).where(type: [RADIO_BUTTON, SELECT_BOX], multi_select: false)
-                                    .pluck(:name)
-    end
-
-    def all_filterable_multi_field_names(parent_form = 'case')
-      fields_for_record(parent_form).where(type: Field::SELECT_BOX, multi_select: true).pluck(:name)
-    end
-
     def all_filterable_numeric_field_names(parent_form = 'case')
       fields_for_record(parent_form).where(type: Field::NUMERIC_FIELD).pluck(:name)
     end
@@ -132,23 +108,23 @@ class Field < ApplicationRecord
       field_names = [field_names] unless field_names.is_a?(Array)
       result = where(name: field_names)
       remainder = field_names - result.map(&:name)
-      remainder = remainder.select { |field_name| name_with_admin_level?(field_name) }
+      remainder = remainder.select { |field_name| location_prefix?(field_name) }
       return result unless remainder.present?
 
       result + find_as_location_fields(remainder)
     end
 
     def find_as_location_fields(field_names)
-      field_names = field_names.map { |field_name| remove_admin_level_from_name(field_name) }
+      field_names = field_names.map { |field_name| remove_location_parts(field_name) }
       where(name: field_names, option_strings_source: %w[Location ReportingLocation])
     end
 
-    def name_with_admin_level?(field_name)
-      ADMIN_LEVEL_REGEXP.match?(field_name)
+    def location_prefix?(field_name)
+      field_name.starts_with?('loc:')
     end
 
-    def remove_admin_level_from_name(field_name)
-      field_name.gsub(ADMIN_LEVEL_REGEXP, '')
+    def remove_location_parts(field_name)
+      field_name.gsub('loc:', '').gsub(ADMIN_LEVEL_REGEXP, '')
     end
   end
 

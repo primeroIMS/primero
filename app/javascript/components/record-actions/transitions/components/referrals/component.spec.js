@@ -54,17 +54,13 @@ describe("<ReferralForm />", () => {
 
     it("renders FormInternal", () => {
       mountedComponent(<ReferralForm {...props} />, initialState);
-      expect(screen.queryAllByRole("textbox")).toHaveLength(5);
+      expect(screen.queryAllByRole("combobox")).toHaveLength(4);
+      expect(screen.queryAllByRole("textbox")).toHaveLength(1);
     });
 
     it("renders ProvidedConsent", () => {
       mountedComponent(<ReferralForm {...props} />, initialState);
       expect(screen.getByText(/referral.provided_consent_label/i)).toBeInTheDocument();
-    });
-
-    it("renders FormControlLabel", () => {
-      mountedComponent(<ReferralForm {...props} />, initialState);
-      expect(screen.queryAllByRole("textbox")).toHaveLength(5);
     });
 
     it("renders MuiCheckbox", () => {

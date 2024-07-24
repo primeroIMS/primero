@@ -1,13 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 import TransitionStatus from "../TransitionStatus";
 import { useI18n } from "../../i18n";
 import { TRANSFER_REQUEST_SUMMARY_NAME } from "../constants";
 
-const Summary = ({ transition, classes }) => {
+function Summary({ transition, classes }) {
   const i18n = useI18n();
   const transitionStatus = transition.status ? (
     <Grid item md={2} xs={4}>
@@ -30,7 +30,7 @@ const Summary = ({ transition, classes }) => {
       {transitionStatus}
     </Grid>
   );
-};
+}
 
 Summary.displayName = TRANSFER_REQUEST_SUMMARY_NAME;
 

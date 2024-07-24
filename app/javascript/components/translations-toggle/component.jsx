@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Menu, MenuItem, Button } from "@material-ui/core";
-import LanguageIcon from "@material-ui/icons/Language";
+import { Menu, MenuItem, Button } from "@mui/material";
+import LanguageIcon from "@mui/icons-material/Language";
 import { useState } from "react";
 
 import { DropdownDoubleIcon } from "../../images/primero-icons";
@@ -13,7 +13,7 @@ import { useApp } from "../application";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const TranslationsToggle = () => {
+function TranslationsToggle() {
   const { changeLocale, locale, ...i18n } = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
   const { useContainedNavStyle } = useApp();
@@ -63,7 +63,7 @@ const TranslationsToggle = () => {
         aria-haspopup="true"
         aria-owns={anchorEl ? "simple-menu" : undefined}
       >
-        <LanguageIcon className={css.icon} />
+        <LanguageIcon />
         <div>{i18n.t(`home.${locale}`)}</div>
         <DropdownDoubleIcon />
       </Button>
@@ -87,7 +87,7 @@ const TranslationsToggle = () => {
       </Menu>
     </>
   );
-};
+}
 
 TranslationsToggle.displayName = NAME;
 

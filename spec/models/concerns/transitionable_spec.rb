@@ -112,6 +112,7 @@ describe Transitionable do
       @transfer3.status = Transition::STATUS_REJECTED
       @transfer4.status = Transition::STATUS_DONE
       [@transfer1, @transfer2, @transfer3, @transfer4].each(&:save!)
+      @case.save!
     end
 
     it 'should return the users with transfers' do
@@ -125,14 +126,14 @@ describe Transitionable do
       @referral2 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user3', record: @case)
       @referral3 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user4', record: @case)
       @referral4 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user4', record: @case)
-      @referral1.status = Transition::STATUS_INPROGRESS
-      @referral2.status = Transition::STATUS_ACCEPTED
-      @referral3.status = Transition::STATUS_REJECTED
-      @referral4.status = Transition::STATUS_DONE
+      @referral2.accept!
+      @referral3.reject!(@user4)
+      @referral4.accept!
+      @referral4.done!(@user4)
       [@referral1, @referral2, @referral3, @referral4].each(&:save!)
     end
 
-    it 'should return the users with transfers' do
+    it 'should return the users with referrals' do
       expect(@case.referred_users).to match_array(%w[user2 user3])
     end
   end

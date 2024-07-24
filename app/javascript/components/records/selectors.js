@@ -2,7 +2,7 @@
 
 import { Map, List, fromJS } from "immutable";
 
-import { RECORD_PATH } from "../../config/constants";
+import { RECORD_PATH } from "../../config";
 
 const fieldMapModule = (state, moduleID) =>
   state

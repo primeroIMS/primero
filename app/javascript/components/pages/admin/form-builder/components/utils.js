@@ -39,7 +39,7 @@ export const getFiedListItemTheme = currentTheme => ({
     },
     MuiButton: {
       root: {
-        "&$disabled": {
+        "&.Mui-disabled": {
           color: "rgba(0, 0, 0, 0.26)",
           backgroundColor: "transparent !important"
         }

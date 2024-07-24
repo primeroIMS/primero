@@ -13,7 +13,7 @@ import startCase from "lodash/startCase";
 import { RECORD_TYPES } from "../../../../../config";
 import { getEnabledAgencies } from "../../../../application";
 import { setServiceToRefer } from "../../../../record-form/action-creators";
-import { getServiceToRefer } from "../../../../record-form";
+import { getServiceToRefer } from "../../../../record-form/selectors";
 import { useI18n } from "../../../../i18n";
 import { saveReferral } from "../../action-creators";
 import { useMemoizedSelector } from "../../../../../libs";
@@ -32,7 +32,7 @@ import {
   TRANSITIONED_TO_FIELD
 } from "./constants";
 
-const ReferralForm = ({
+function ReferralForm({
   canConsentOverride,
   providedConsent,
   recordType,
@@ -42,7 +42,7 @@ const ReferralForm = ({
   setPending,
   disabled,
   setDisabled
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -133,7 +133,7 @@ const ReferralForm = ({
   };
 
   return <Formik {...formProps} />;
-};
+}
 
 ReferralForm.displayName = NAME;
 

@@ -12,7 +12,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
-const Component = ({
+function Component({
   close,
   dialogName,
   id,
@@ -20,11 +20,11 @@ const Component = ({
   pending,
   saveMethod,
   setPending,
-  open,
+  open = false,
   userData,
   userName,
   identityOptions
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -88,13 +88,9 @@ const Component = ({
       {dialogContent}
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  open: false
-};
 
 Component.propTypes = {
   close: PropTypes.func,

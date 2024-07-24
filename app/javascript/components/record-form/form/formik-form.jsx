@@ -11,7 +11,7 @@ import { useI18n } from "../../i18n";
 import { ValidationErrors } from "./components";
 import css from "./styles.css";
 
-const FormikForm = ({
+function FormikForm({
   handleSubmit,
   errors,
   isSubmitting,
@@ -32,7 +32,7 @@ const FormikForm = ({
   handleConfirm,
   externalComponents,
   submitCount
-}) => {
+}) {
   const i18n = useI18n();
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const FormikForm = ({
       <div className={css.spacer} />
     </Form>
   );
-};
+}
 
 FormikForm.displayName = "Form";
 

@@ -21,7 +21,7 @@ import { useMemoizedSelector } from "../../../libs";
 
 import { NAME, SERVICES_SUBFORM, SERVICES_SUBFORM_NAME } from "./constants";
 
-const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPending }) => {
+function Component({ open, close, pending, recordType, selectedRowsIndex, setPending }) {
   const formikRef = useRef();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -117,7 +117,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
       </ActionDialog>
     </Formik>
   );
-};
+}
 
 Component.propTypes = {
   close: PropTypes.func,

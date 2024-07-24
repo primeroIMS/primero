@@ -1,8 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Drawer } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import { Drawer } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
@@ -10,7 +10,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ open, cancelHandler, children, title }) => {
+function Component({ open, cancelHandler, children, title }) {
   return (
     <Drawer
       data-testid="drawer"
@@ -39,7 +39,7 @@ const Component = ({ open, cancelHandler, children, title }) => {
       </div>
     </Drawer>
   );
-};
+}
 
 Component.propTypes = {
   cancelHandler: PropTypes.func,

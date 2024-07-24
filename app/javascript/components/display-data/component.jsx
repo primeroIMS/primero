@@ -7,7 +7,7 @@ import { useI18n } from "../i18n";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const DisplayData = ({ label, value }) => {
+function DisplayData({ label, value }) {
   const i18n = useI18n();
 
   return (
@@ -16,7 +16,7 @@ const DisplayData = ({ label, value }) => {
       <div className={css.value}>{value || "--"}</div>
     </div>
   );
-};
+}
 
 DisplayData.displayName = NAME;
 

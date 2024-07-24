@@ -5,25 +5,24 @@ import { Route, Switch } from "react-router-dom";
 
 import AppRoute from "./app-route";
 
-const ApplicationRoutes = ({ routes }) => {
+function ApplicationRoutes({ routes }) {
   const appRoutes = routes.map((route, index) => {
     const { routes: subRoutes, exact, path } = route;
 
     const routeProps = {
-      key: path || index,
       path: subRoutes ? subRoutes.map(r => r.path) : path,
       exact: subRoutes ? routes.some(r => r.exact) : exact
     };
 
     return (
-      <Route {...routeProps}>
+      <Route key={path || index} {...routeProps}>
         <AppRoute route={route} />
       </Route>
     );
   });
 
   return <Switch>{appRoutes}</Switch>;
-};
+}
 
 ApplicationRoutes.displayName = "ApplicationRoutes";
 

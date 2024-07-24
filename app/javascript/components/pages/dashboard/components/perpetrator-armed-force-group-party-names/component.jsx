@@ -14,7 +14,7 @@ import { INDICATOR_NAMES } from "../../constants";
 
 import { NAME } from "./constants";
 
-const Component = ({ loadingIndicator }) => {
+function Component({ loadingIndicator }) {
   const i18n = useI18n();
 
   const armedForceGroupOrOtherParty = useOptions({ source: LOOKUPS.armed_force_group_or_other_party });
@@ -43,7 +43,7 @@ const Component = ({ loadingIndicator }) => {
       </OptionsBox>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Typography } from "@material-ui/core";
-import GetAppIcon from "@material-ui/icons/GetApp";
+import { Typography } from "@mui/material";
+import GetAppIcon from "@mui/icons-material/GetApp";
 
 import parentCss from "../../styles.css";
 import { useI18n } from "../../../../i18n";
@@ -13,7 +13,7 @@ import ActionButton from "../../../../action-button";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
 
   const agenciesWithTermsOfUse = useMemoizedSelector(state => getAgencyTermsOfUse(state));
@@ -47,7 +47,7 @@ const Component = () => {
       {renderAgencyWihTermsOfUse}
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -23,7 +23,7 @@ describe("<AttachmentPreview />", () => {
 
   it("should render an img", () => {
     mountedComponent(<AttachmentPreview {...props} />, {}, [], {}, formProps);
-    expect(screen.getByRole("img")).toBeInTheDocument();
+    expect(screen.getByRole("presentation")).toBeInTheDocument();
     expect(screen.getByTestId("attachment")).toBeInTheDocument();
   });
 });

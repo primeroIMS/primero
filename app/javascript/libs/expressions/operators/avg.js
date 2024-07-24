@@ -7,12 +7,12 @@ import { MATHEMATICAL_OPERATORS } from "../constants";
 
 import sumOperator from "./sum";
 
-export default expressions => ({
+export default (expressions, extra) => ({
   expressions,
   operator: MATHEMATICAL_OPERATORS.AVG,
   evaluate: data => {
+    const decimalPlaces = extra?.decimalPlaces;
     const sum = sumOperator(expressions).evaluate(data);
-
     const count = Object.values(expressions).reduce((prev, current) => {
       if (has(data, current) && !isNil(data[current]) && data[current] !== "") {
         return prev + 1;
@@ -21,6 +21,13 @@ export default expressions => ({
       return prev;
     }, 0);
 
-    return Math.floor(sum / (count === 0 ? 1 : count));
+    const res = sum / (count === 0 ? 1 : count);
+
+    if (decimalPlaces) {
+      return parseFloat(res.toFixed(decimalPlaces));
+    }
+
+    // Backwards compatible version rounds down
+    return Math.floor(res);
   }
 });

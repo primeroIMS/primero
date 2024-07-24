@@ -4,9 +4,9 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 import { fromJS } from "immutable";
-import { List, ListItemText } from "@material-ui/core";
+import { List, ListItemText } from "@mui/material";
 
 import ActionButton from "../../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
@@ -20,7 +20,7 @@ import useOptions from "../../../../../../form/use-options";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ tracingRequestValues, traceValues, recordType }) => {
+function Component({ tracingRequestValues, traceValues, recordType }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -80,7 +80,7 @@ const Component = ({ tracingRequestValues, traceValues, recordType }) => {
         name: "likelihood",
         options: {
           customBodyRender: value => {
-            const classes = clsx({ [css.likely]: value === POTENTIAL_MATCH_LIKELIHOOD.likely });
+            const classes = cx({ [css.likely]: value === POTENTIAL_MATCH_LIKELIHOOD.likely });
 
             return <span className={classes}>{i18n.t(`potential_match.likelihood_${value}`)}</span>;
           }
@@ -117,7 +117,7 @@ const Component = ({ tracingRequestValues, traceValues, recordType }) => {
       <IndexTable {...tableOptions} />
     </>
   );
-};
+}
 
 Component.propTypes = {
   recordType: PropTypes.string.isRequired,

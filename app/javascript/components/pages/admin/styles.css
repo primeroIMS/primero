@@ -5,8 +5,11 @@
 }
 
 .nav {
-  width: 250px;
-  padding-right: 1em;
+  width: 190px;
+}
+
+.nav :global(.MuiTypography-root) {
+  font-size: .89rem !important;
 }
 
 .content {
@@ -21,4 +24,3 @@
 .selectedItem {
   background-color: var(--c-light-blue-menu) !important;
 }
-

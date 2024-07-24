@@ -3,7 +3,7 @@
 import { fromJS } from "immutable";
 
 import { FieldRecord, TEXT_FIELD } from "../../../../../../form";
-import { addWithIndex } from "../utils";
+import addWithIndex from "../utils/add-with-index";
 
 import { validationSchema, generalFields, generalForm, visibilityForm } from "./base";
 

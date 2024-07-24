@@ -15,7 +15,7 @@ import { getColumns, getRecordPath } from "./utils";
 import { fetchActivityLog, setActivityLogsFilter } from "./action-creators";
 import css from "./styles.css";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const recordType = RESOURCES.activity_logs;
@@ -67,7 +67,7 @@ const Component = () => {
       </PageContent>
     </PageContainer>
   );
-};
+}
 
 Component.displayName = "ActivityLog";
 

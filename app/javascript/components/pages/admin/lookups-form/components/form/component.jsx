@@ -33,7 +33,7 @@ import { LOCALE_KEYS, SAVE_METHODS } from "../../../../../../config";
 
 import { NAME, FORM_ID } from "./constants";
 
-const Component = ({ formMode, isLockedLookup, lookup }) => {
+function Component({ formMode, isLockedLookup, lookup }) {
   const { id } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -139,7 +139,7 @@ const Component = ({ formMode, isLockedLookup, lookup }) => {
       />
     </form>
   );
-};
+}
 
 Component.displayName = NAME;
 

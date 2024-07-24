@@ -3,9 +3,8 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 require 'rails_helper'
-require 'sunspot'
 
-describe DuplicateBulkExport, search: true do
+describe DuplicateBulkExport do
   before :each do
     clean_data(BulkExport, User, Agency, Role, Location, UserGroup, Field,
                FormSection, Child, PrimeroModule, PrimeroProgram, SystemSettings,
@@ -69,7 +68,6 @@ describe DuplicateBulkExport, search: true do
       create(:child, age: 5, name: 'Test Child 6')
       @child1 = create(:child, national_id_no: 'test1', age: 5, name: 'Test Child 1')
       @child2 = create(:child, national_id_no: 'test1', age: 6, name: 'Test Child 2')
-      Sunspot.commit
     end
 
     it 'export cases with duplicate ids' do
@@ -82,7 +80,6 @@ describe DuplicateBulkExport, search: true do
       create(:child, national_id_no: 'test5', age: 3, name: 'Test Child 4')
       create(:child, national_id_no: 'test5', age: 3, name: 'Test Child 4')
       create(:child, national_id_no: 'test3', age: 3, name: 'Test Child 4')
-      Sunspot.commit
       expect(export_csv.count).to eq(7)
       ids_orderes = %w[test1 test3 test5]
       export_csv[1..].each_with_index do |row, index|
@@ -96,7 +93,6 @@ describe DuplicateBulkExport, search: true do
     before do
       @child1 = create(:child, national_id_no: 'test-1', age: 5, name: 'Test Child 1')
       @child2 = create(:child, national_id_no: 'test-1', age: 6, name: 'Test Child 2')
-      Sunspot.commit
     end
 
     it 'export cases with duplicate ids' do
@@ -114,7 +110,6 @@ describe DuplicateBulkExport, search: true do
       create(:child, national_id_no: 'test3', age: 3, name: 'Test Child 4')
       create(:child, age: 4, name: 'Test Child 5')
       create(:child, age: 5, name: 'Test Child 6')
-      Sunspot.commit
     end
 
     it 'exports no cases' do
@@ -131,7 +126,6 @@ describe DuplicateBulkExport, search: true do
       create(:child, age: 3, name: 'Test Child 4')
       create(:child, age: 4, name: 'Test Child 5')
       create(:child, age: 5, name: 'Test Child 6')
-      Sunspot.commit
     end
 
     it 'exports no cases' do

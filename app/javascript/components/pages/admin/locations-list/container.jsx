@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
-import { Grid } from "@material-ui/core";
+import Grid from "@mui/material/Unstable_Grid2";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
@@ -30,7 +30,7 @@ import { fetchLocations, setLocationsFilter } from "./action-creators";
 import { ACTION_NAME, DISABLED, NAME, COLUMNS, LOCATION_TYPE_LOOKUP, LOCATIONS_DIALOG } from "./constants";
 import { getColumns, getFilters } from "./utils";
 
-const Container = () => {
+function Container() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [selectedRecords, setSelectedRecords] = useState({});
@@ -128,7 +128,7 @@ const Container = () => {
       </PageHeading>
       <PageContent>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={9}>
+          <Grid item xs={12} sm={8}>
             <ImportDialog i18n={i18n} open={dialogOpen} pending={pending} close={dialogClose} />
             <DisableDialog
               selectedRecords={selectedRecords}
@@ -139,14 +139,14 @@ const Container = () => {
             {renderAlertNoLocations}
             <IndexTable title={i18n.t("location.label")} {...tableOptions} />
           </Grid>
-          <Grid item xs={12} sm={3}>
-            <FiltersForm {...filterProps} />
+          <Grid item xs={12} sm={4}>
+            <FiltersForm {...filterProps} noMargin />
           </Grid>
         </Grid>
       </PageContent>
     </Permission>
   );
-};
+}
 
 Container.displayName = NAME;
 

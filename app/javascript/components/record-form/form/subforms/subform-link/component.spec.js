@@ -1,6 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { mountedComponent, screen } from "test-utils";
+import { mountedComponent, screen, waitFor } from "test-utils";
+import { fireEvent } from "@testing-library/react";
 
 import SubformLink from "./component";
 
@@ -27,8 +28,8 @@ describe("<SubformLink />", () => {
   describe("When is disabled", () => {
     it("renders the SubformLink", async () => {
       mountedComponent(<SubformLink {...{ ...props, disabled: true }} />);
-
-      expect(screen.getByTitle("cases.access_denied")).toBeInTheDocument();
+      fireEvent.mouseOver(screen.getByText("href text"));
+      await waitFor(() => expect(screen.getByText("cases.access_denied")).toBeInTheDocument());
     });
   });
 });

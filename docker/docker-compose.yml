@@ -9,28 +9,38 @@ services:
       - docker/defaults.env
     volumes:
       - solr_cores:/var/solr
+    profiles:
+      - solr
     restart: always
   application:
     image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/application:${PRIMERO_TAG:-latest}'
     depends_on:
-      - solr
+      solr:
+        condition: 'service_started'
+        required: false
     volumes:
       - public:/share/public
       - storage:/srv/primero/application/storage
     env_file:
       - docker/defaults.env
+    profiles:
+      - app
     stdin_open: true
     tty: true
     restart: always
   worker:
     image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/application:${PRIMERO_TAG:-latest}'
     depends_on:
-      - solr
+      solr:
+        condition: 'service_started'
+        required: false
     volumes:
       - storage:/srv/primero/application/storage
     env_file:
       - docker/defaults.env
     command: ["primero-worker"]
+    profiles:
+      - app
     restart: always
 volumes:
   database:

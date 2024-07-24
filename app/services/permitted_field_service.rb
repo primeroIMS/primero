@@ -29,7 +29,8 @@ class PermittedFieldService
     or not cases_by_date record_in_scope associated_user_names not_edited_by_owner referred_users referred_users_present
     transferred_to_users transferred_to_user_groups has_photo survivor_code survivor_code_no case_id_display
     created_at has_incidents short_id record_state sex age registration_date date_closure
-    reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy
+    reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy followup_dates
+    reunification_dates tracing_dates service_implemented_day_times
   ].freeze
 
   PERMITTED_MRM_FILTER_FIELD_NAMES = %w[
@@ -108,6 +109,7 @@ class PermittedFieldService
     @permitted_field_names += permitted_overdue_task_field_names
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
     @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
+    @permitted_field_names << 'risk_level' if user.can?(:case_risk, Dashboard)
     @permitted_field_names += permitted_reporting_location_field
     @permitted_field_names += permitted_registry_record_id
     @permitted_field_names += permitted_family_id
@@ -141,7 +143,7 @@ class PermittedFieldService
 
     return [] if reporting_location_config.blank?
 
-    ["#{reporting_location_config.field_key}#{reporting_location_config.admin_level}"]
+    ["loc:#{reporting_location_config.field_key}"]
   end
 
   def permitted_registry_record_id

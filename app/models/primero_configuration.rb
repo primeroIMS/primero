@@ -5,7 +5,7 @@
 # This model persists the user-modifiable state of the Primero configuration as JSON.
 # If desired, this configuration state can replace the current Primero configuration state.
 class PrimeroConfiguration < ApplicationRecord
-  CONFIGURABLE_MODELS = %w[FormSection Lookup Agency Role UserGroup Report ContactInformation].freeze
+  CONFIGURABLE_MODELS = [FormSection, Lookup, Agency, Role, UserGroup, Report, ContactInformation].freeze
 
   PRIMERO_CONFIGURATION_FIELDS_SCHEMA = {
     'id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => PermittedFieldService::UUID_REGEX },
@@ -49,8 +49,7 @@ class PrimeroConfiguration < ApplicationRecord
 
     def current_configuration_data
       CONFIGURABLE_MODELS.each_with_object({}) do |model, data|
-        model_class = Kernel.const_get(model)
-        data[model] = model_class.all.map(&:configuration_hash)
+        data[model.name] = model.all.map(&:configuration_hash)
       end
     end
 
@@ -97,11 +96,10 @@ class PrimeroConfiguration < ApplicationRecord
 
   def configure!
     CONFIGURABLE_MODELS.each do |model|
-      next unless data.key?(model)
+      next unless data.key?(model.name)
 
-      model_class = Kernel.const_get(model)
-      model_class.sort_configuration_hash(data[model]).each do |configuration|
-        model_class.create_or_update!(configuration)
+      model.sort_configuration_hash(data[model.name]).each do |configuration|
+        model.create_or_update!(configuration)
       end
     end
   end
@@ -120,7 +118,7 @@ class PrimeroConfiguration < ApplicationRecord
 
   def validate_configuration_data
     data_is_valid = CONFIGURABLE_MODELS.reduce(true) do |valid, model|
-      valid && (%w[Report Location].include?(model) || data[model]&.size&.positive?)
+      valid && ([Report, Location].include?(model) || data[model.name]&.size&.positive?)
     end
     return if data_is_valid
 

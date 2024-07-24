@@ -1,9 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { useEffect } from "react";
-import AddIcon from "@material-ui/icons/Add";
+import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
-import { Grid } from "@material-ui/core";
+import Grid from "@mui/material/Unstable_Grid2";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 
@@ -27,7 +27,7 @@ import { getUserGroupFilters } from "./utils";
 import { AGENCY_UNIQUE_IDS, NAME } from "./constants";
 import { fetchUserGroups, setUserGroupsFilter } from "./action-creators";
 
-const Container = () => {
+function Container() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const canAddUserGroups = usePermissions(NAMESPACE, CREATE_RECORDS);
@@ -98,17 +98,17 @@ const Container = () => {
       <PageHeading title={i18n.t("user_groups.label")}>{newUserGroupBtn}</PageHeading>
       <PageContent>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={9}>
+          <Grid item xs={12} sm={8}>
             <IndexTable title={i18n.t("user_groups.label")} {...tableOptions} />
           </Grid>
-          <Grid item xs={12} sm={3}>
-            <FiltersForm {...filterProps} />
+          <Grid item xs={12} sm={4}>
+            <FiltersForm {...filterProps} noMargin />
           </Grid>
         </Grid>
       </PageContent>
     </>
   );
-};
+}
 
 Container.displayName = NAME;
 

@@ -90,7 +90,7 @@
   height: 36px;
 }
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .titleHeader {
     font-size: var(--fs-12);
   }

@@ -8,7 +8,7 @@ import OptionsBox from "../options-box";
 
 import css from "./styles.css";
 
-const Services = ({ servicesList }) => {
+function Services({ servicesList }) {
   const i18n = useI18n();
 
   const styleOverrides = {
@@ -34,7 +34,7 @@ const Services = ({ servicesList }) => {
       </OptionsBox>
     </>
   );
-};
+}
 
 Services.displayName = "Services";
 
