@@ -1,8 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { ListItemText } from "@material-ui/core";
-import clsx from "clsx";
+import { ListItemText } from "@mui/material";
+import { cx } from "@emotion/css";
 
 import { NAME_FIELD, DATE_FIELD, SELECT_FIELD, TICK_FIELD, RADIO_FIELD, TALLY_FIELD } from "../../../constants";
 import SubformLookupHeader from "../subform-header-lookup";
@@ -18,7 +18,7 @@ import { useI18n } from "../../../../i18n";
 
 import { ListItemTextSecondary } from "./components";
 
-const Component = ({
+function Component({
   field,
   values,
   locale,
@@ -29,11 +29,11 @@ const Component = ({
   renderSecondaryText = false,
   parentTitle,
   mode
-}) => {
+}) {
   const i18n = useI18n();
   const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
   const itemClasses = { primary: css.listText };
-  const listItemTextClasses = clsx({
+  const listItemTextClasses = cx({
     [css.listItemText]: true,
     [css.listItemNepaliItem]: i18n.locale === LOCALE_KEYS.ne
   });
@@ -132,7 +132,7 @@ const Component = ({
   }
 
   return <ListItemText classes={itemClasses}>{displayName?.[locale]}</ListItemText>;
-};
+}
 
 Component.displayName = SUBFORM_HEADER;
 

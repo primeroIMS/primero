@@ -1,13 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 import { useI18n } from "../../i18n";
 
 import { ASSIGNMENTS_SUMMARY_NAME as NAME } from "./constants";
 
-const AssignmentsSummary = ({ transition, classes }) => {
+function AssignmentsSummary({ transition, classes }) {
   const i18n = useI18n();
 
   // TODO: It has to be modified, on summary should print username
@@ -31,7 +31,7 @@ const AssignmentsSummary = ({ transition, classes }) => {
       {/* {renderTransitioned} */}
     </Grid>
   );
-};
+}
 
 AssignmentsSummary.displayName = NAME;
 

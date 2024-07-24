@@ -2,7 +2,7 @@
 
 /* eslint-disable react/no-multi-comp, react/display-name */
 import PropTypes from "prop-types";
-import CloseIcon from "@material-ui/icons/Close";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 import ActionButton from "../../../../../action-button";
@@ -12,7 +12,7 @@ import { useApp } from "../../../../../application";
 import { NAME, GROUP_BY, SORT_BY } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ setValue, subformField, subformSortBy, subformGroupBy }) => {
+function Component({ setValue, subformField, subformSortBy, subformGroupBy }) {
   const { limitedProductionSite } = useApp();
   const fieldName = subformField.get("name");
 
@@ -44,7 +44,7 @@ const Component = ({ setValue, subformField, subformSortBy, subformGroupBy }) =>
       <div className={css.fieldColumn}>{renderClearButton(GROUP_BY, onClearGroupBy)}</div>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

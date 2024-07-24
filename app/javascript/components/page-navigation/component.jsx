@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { List, ListItem, ListItemText, Drawer } from "@material-ui/core";
+import { List, ListItem, ListItemText, Drawer } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import { ConditionalWrapper } from "../../libs";
@@ -9,7 +9,7 @@ import { ConditionalWrapper } from "../../libs";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ handleToggleNav, menuList = [], mobileDisplay = false, selected, toggleNav }) => {
+function Component({ handleToggleNav, menuList = [], mobileDisplay = false, selected, toggleNav }) {
   const drawerProps = {
     anchor: "left",
     open: toggleNav,
@@ -52,7 +52,7 @@ const Component = ({ handleToggleNav, menuList = [], mobileDisplay = false, sele
       </List>
     </ConditionalWrapper>
   );
-};
+}
 
 Component.displayName = NAME;
 

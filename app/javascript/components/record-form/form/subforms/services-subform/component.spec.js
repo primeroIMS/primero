@@ -2,11 +2,13 @@
 
 import { mountedComponent, screen } from "../../../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../../records";
+import subformDialogFields from "../subform-dialog-fields";
 
 import ServicesSubform from "./component";
 
 describe("<ServicesSubform />", () => {
   const props = {
+    SubformDialogFields: subformDialogFields,
     field: FieldRecord({
       name: "services_section",
       subform_section_id: FormSectionRecord({
@@ -48,6 +50,7 @@ describe("<ServicesSubform />", () => {
 
   describe("when field is visible should not be render", () => {
     const propsFieldNotVisible = {
+      SubformDialogFields: subformDialogFields,
       field: FieldRecord({
         name: "services_section",
         subform_section_id: FormSectionRecord({

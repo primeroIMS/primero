@@ -165,14 +165,14 @@ describe Filter do
 
       it 'has current location filter' do
         expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'cases.filter_by.current_location',
-                                                                   field_name: 'location_current',
+                                                                   field_name: 'loc:location_current',
                                                                    type: 'multi_select'))
       end
 
       # TODO: test with different reporting location levels
       it 'has reporting location filter' do
         expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'location.base_types.district',
-                                                                   field_name: 'owned_by_location2',
+                                                                   field_name: 'loc:owned_by_location2',
                                                                    type: 'multi_select'))
       end
 
@@ -250,6 +250,10 @@ describe Filter do
           { id: 'assessment_requested_on', display_name: 'Date of Assessment' },
           { id: 'date_case_plan', display_name: 'Date of Case Plan' },
           { id: 'date_closure', display_name: 'Date of Case Closure ' },
+          { id: 'followup_dates', display_name: 'Date of Follow Up' },
+          { id: 'reunification_dates', display_name: 'Date of Reunification' },
+          { id: 'tracing_dates', display_name: 'Date of Tracing' },
+          { id: 'service_implemented_day_times', display_name: 'Date Service Completed' },
           { id: 'created_at', display_name: 'Case Open Date' }
         ]
         expect(

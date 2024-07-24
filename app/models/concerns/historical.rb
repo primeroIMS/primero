@@ -17,12 +17,10 @@ module Historical
 
     has_many :record_histories, as: :record
 
-    searchable do
-      %i[created_organization created_agency_office created_by last_updated_by last_updated_organization].each do |f|
-        string f, as: "#{f}_sci"
+    if Rails.configuration.solr_enabled
+      searchable do
+        time(:created_at)
       end
-      string(:created_by_groups, multiple: true)
-      %i[created_at last_updated_at posted_at].each { |f| time(f) }
     end
 
     validate :validate_created_at

@@ -22,17 +22,19 @@ describe("<FormsList />/components/<TableRow />", () => {
   };
 
   beforeEach(() => {
-    const RenderTableRow = () => (
-      <DragDropContext>
-        <Droppable droppableId="droppable" type="formSection">
-          {provided => (
-            <div ref={provided.innerRef}>
-              <TableRow {...props} />
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    );
+    function RenderTableRow() {
+      return (
+        <DragDropContext>
+          <Droppable droppableId="droppable" type="formSection">
+            {provided => (
+              <div ref={provided.innerRef}>
+                <TableRow {...props} />
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      );
+    }
 
     RenderTableRow.displayName = "RenderTableRow";
     mountedComponent(<RenderTableRow />);

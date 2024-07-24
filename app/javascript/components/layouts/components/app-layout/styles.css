@@ -2,6 +2,7 @@
 
 :global html, :global body {
   height: var(--doc-height, 100vh);
+  height: 100dvh;
 }
 
 .root {
@@ -17,11 +18,8 @@
   overflow: hidden;
   background: var(--c-content-grey);
   transition: var(--transition);
-  margin-left: -240px;
   overflow-x: hidden;
   padding-top: 0;
-  margin-left: 0;
-  width: 100%;
 
   &.demo {
     height: 96vh;

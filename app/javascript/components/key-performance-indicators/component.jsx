@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { withRouter } from "react-router-dom";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 import PageContainer, { PageHeading, PageContent } from "../page";
 import { useI18n } from "../i18n";
@@ -25,7 +25,7 @@ import ClientSatisfactionRate from "./components/client-satisfaction-rate";
 import SupervisorToCaseworkerRatio from "./components/supervisor-to-caseworker-ratio";
 import CaseLoad from "./components/case-load";
 
-const KeyPerformanceIndicators = () => {
+function KeyPerformanceIndicators() {
   const i18n = useI18n();
 
   const commonDateRanges = CommonDateRanges.from(new Date(), i18n);
@@ -184,7 +184,7 @@ const KeyPerformanceIndicators = () => {
       </PageContainer>
     </div>
   );
-};
+}
 
 KeyPerformanceIndicators.displayName = "KeyPerformanceIndicators";
 

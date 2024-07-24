@@ -8,17 +8,19 @@
 # TODO: Consider constraining outbound sends by a Role, like the webhook connector
 class ApiConnector::PrimeroConnector < ApiConnector::AbstractConnector
   def create(record)
-    # TODO: Retry logic
-    status, response = connection.post(record.class.api_path, params(record))
-    # TODO: Should we log on the record that it was sent?
-    { status:, response: }
+    with_retry do
+      status, response = connection.post(record.class.api_path, params(record))
+      # TODO: Should we log on the record that it was sent?
+      { status:, response: }
+    end
   end
 
   def update(record)
-    # TODO: Retry logic
-    status, response = connection.patch(record.api_path, params(record))
-    # TODO: Should we log on the record that it was sent?
-    { status:, response: }
+    with_retry do
+      status, response = connection.patch(record.api_path, params(record))
+      # TODO: Should we log on the record that it was sent?
+      { status:, response: }
+    end
   end
 
   def syncable?(_record)

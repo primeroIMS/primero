@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import css from "./styles.css";
 
-const Component = ({ percentage, className }) => {
+function Component({ percentage, className }) {
   const percentageValue = percentage * 100;
   const isSmall = percentage < 0.1;
 
@@ -22,7 +22,7 @@ const Component = ({ percentage, className }) => {
       </div>
     </div>
   );
-};
+}
 
 Component.displayName = "TablePercentageBar";
 

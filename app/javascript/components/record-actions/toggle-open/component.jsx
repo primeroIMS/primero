@@ -10,7 +10,7 @@ import { ACTIONS } from "../../permissions";
 
 import { NAME } from "./constants";
 
-const ToggleOpen = ({ close, open, record, recordType }) => {
+function ToggleOpen({ close, open, record, recordType }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const setValue = record && record.get("status") === "open" ? "close" : "reopen";
@@ -48,7 +48,7 @@ const ToggleOpen = ({ close, open, record, recordType }) => {
       confirmButtonLabel={i18n.t("cases.ok")}
     />
   );
-};
+}
 
 ToggleOpen.displayName = NAME;
 

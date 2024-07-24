@@ -1,14 +1,14 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import ErrorIcon from "@material-ui/icons/Error";
+import ErrorIcon from "@mui/icons-material/Error";
 
 import css from "../styles.css";
 import { useI18n } from "../../../../i18n";
 
 import { NAME } from "./constants";
 
-const Component = ({ subformName, single = false }) => {
+function Component({ subformName, single = false }) {
   const i18n = useI18n();
 
   return (
@@ -20,7 +20,7 @@ const Component = ({ subformName, single = false }) => {
       </span>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

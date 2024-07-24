@@ -19,7 +19,7 @@ import {
   FOLLOWUPS_SUBREPORTS,
   SERVICES_SUBREPORTS,
   CASES_WORKFLOW_SUBREPORTS
-} from "../../config/constants";
+} from "../../config";
 import { DATE_FIELD, SELECT_FIELD, HIDDEN_FIELD, OPTION_TYPES } from "../form/constants";
 import { FieldRecord } from "../form/records";
 

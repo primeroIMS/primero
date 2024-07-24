@@ -38,16 +38,14 @@
   padding: 0 1.3em;
 }
 
-@media ((min-width:960px) and (max-width:1279.95px)) {
+@media ((min-width:900px) and (max-width:1200px)) {
   .reportsListContainer {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .reportsListContainer {
     grid-template-columns: repeat(1, 1fr);
   }
 }
-
-

@@ -3,7 +3,7 @@
 /* eslint-disable camelcase */
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Grid } from "@material-ui/core";
+import Grid from "@mui/material/Unstable_Grid2";
 import { fromJS } from "immutable";
 
 import { getAppliedFilters, getMetadata } from "../../../record-list";
@@ -22,7 +22,7 @@ import { fetchAuditLogs, fetchPerformedBy, setAuditLogsFilters } from "./action-
 import { getFilterUsers } from "./selectors";
 import { buildAuditLogsQuery, getFilters } from "./utils";
 
-const Container = () => {
+function Container() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const recordType = ["admin", AUDIT_LOG];
@@ -126,17 +126,17 @@ const Container = () => {
       <PageHeading title={i18n.t("settings.navigation.audit_logs")} />
       <PageContent>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={9}>
+          <Grid item xs={12} sm={8}>
             <IndexTable title={i18n.t("settings.navigation.audit_logs")} {...tableOptions} />
           </Grid>
-          <Grid item xs={12} sm={3}>
-            <FiltersForm {...filterProps} />
+          <Grid item xs={12} sm={4}>
+            <FiltersForm {...filterProps} noMargin />
           </Grid>
         </Grid>
       </PageContent>
     </Permission>
   );
-};
+}
 
 Container.displayName = NAME;
 

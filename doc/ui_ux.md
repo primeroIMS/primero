@@ -94,12 +94,9 @@ v2 ui can be found in the `app/javascript` directory.
 ```js
 // component.js
 
-import styles from "./styles.css";
-import { makeStyles } from "@material-ui/styles";
+import css from "./styles.css";
 
 const TODO = () => {
-  const css = makeStyles(styles)();
-
   return (
     <div className={css.welcome}>Hello <span>Josh</span></div>
   )

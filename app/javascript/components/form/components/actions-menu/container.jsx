@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Menu, MenuItem } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { Menu, MenuItem } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import { NAME } from "./constants";
 
-const Container = ({ actionItems }) => {
+function Container({ actionItems = [] }) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -59,11 +59,7 @@ const Container = ({ actionItems }) => {
       </Menu>
     </>
   );
-};
-
-Container.defaultProps = {
-  actionItems: []
-};
+}
 
 Container.propTypes = {
   actionItems: PropTypes.array

@@ -2,7 +2,7 @@
 
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import AddIcon from "@material-ui/icons/Add";
+import AddIcon from "@mui/icons-material/Add";
 import { push } from "connected-react-router";
 
 import DisableOffline from "../disable-offline";
@@ -20,7 +20,7 @@ import IndexTable from "../index-table";
 import { fetchReports } from "./action-creators";
 import NAMESPACE from "./namespace";
 
-const Reports = () => {
+function Reports() {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -81,7 +81,7 @@ const Reports = () => {
       </PageContainer>
     </div>
   );
-};
+}
 
 Reports.displayName = "Reports";
 

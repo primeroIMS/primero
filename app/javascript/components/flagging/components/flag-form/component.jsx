@@ -16,7 +16,7 @@ const initialValues = {
   message: ""
 };
 
-const Component = ({ recordType, record, handleActiveTab }) => {
+function Component({ recordType, record, handleActiveTab }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ const Component = ({ recordType, record, handleActiveTab }) => {
       resetAfterSubmit
     />
   );
-};
+}
 
 Component.displayName = NAME;
 

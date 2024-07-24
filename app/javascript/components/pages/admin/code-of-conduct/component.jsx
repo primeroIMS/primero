@@ -5,9 +5,9 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation } from "react-router-dom";
-import CreateIcon from "@material-ui/icons/Create";
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
+import CreateIcon from "@mui/icons-material/Create";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 import { useI18n } from "../../../i18n";
 import { PageHeading, PageContent } from "../../../page";
@@ -22,7 +22,7 @@ import { form, validations } from "./form";
 import { getCodeOfConduct, getLoadingCodeOfConduct } from "./selectors";
 import { fetchCodeOfConduct, saveCodeOfConduct } from "./action-creators";
 
-const Component = ({ mode }) => {
+function Component({ mode }) {
   const formMode = whichFormMode(mode);
 
   const i18n = useI18n();
@@ -97,7 +97,7 @@ const Component = ({ mode }) => {
       </LoadingIndicator>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

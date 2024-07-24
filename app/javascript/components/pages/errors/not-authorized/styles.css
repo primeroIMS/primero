@@ -20,7 +20,7 @@
   }
 }
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .root {
     & h1 {
       font-size: var(--fs-130);

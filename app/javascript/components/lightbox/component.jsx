@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Backdrop, IconButton } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import { IconButton, Modal } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 import css from "./styles.css";
 
-const Component = ({ trigger, image }) => {
+function Component({ trigger, image }) {
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
@@ -17,21 +17,23 @@ const Component = ({ trigger, image }) => {
   };
 
   return (
-    <>
+    <div>
       <button onClick={handleClose} type="button" className={css.button}>
         {trigger}
       </button>
       {image && (
-        <Backdrop className={css.backdrop} open={open} onClick={handleClose}>
-          <IconButton className={css.backdropClose}>
-            <CloseIcon />
-          </IconButton>
-          {open && <img src={image} alt="" />}
-        </Backdrop>
+        <Modal open={open} onClick={handleClose}>
+          <div className={css.backdrop}>
+            <IconButton size="large" className={css.backdropClose}>
+              <CloseIcon />
+            </IconButton>
+            {open && <img src={image} alt="" />}
+          </div>
+        </Modal>
       )}
-    </>
+    </div>
   );
-};
+}
 
 Component.displayName = "Lightbox";
 

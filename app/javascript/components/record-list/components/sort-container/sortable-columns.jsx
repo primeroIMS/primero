@@ -2,9 +2,9 @@
 
 import { Fragment } from "react";
 import PropTypes from "prop-types";
-import { FormControlLabel, Radio, RadioGroup } from "@material-ui/core";
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 import { useI18n } from "../../../i18n";
 

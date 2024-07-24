@@ -30,6 +30,8 @@ services:
       - docker/local.env
     ports:
       - "8983:8983"
+    profiles:
+      - solr
   worker:
     env_file:
       - docker/defaults.env

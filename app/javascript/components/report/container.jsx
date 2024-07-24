@@ -3,11 +3,11 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { Paper, Typography } from "@material-ui/core";
+import { Paper, Typography } from "@mui/material";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
-import CreateIcon from "@material-ui/icons/Create";
-import DeleteIcon from "@material-ui/icons/Delete";
+import CreateIcon from "@mui/icons-material/Create";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { getAgeRanges } from "../application/selectors";
 import { BarChart as BarChartGraphic, TableValues } from "../charts";
@@ -32,7 +32,7 @@ import { NAME, DELETE_MODAL } from "./constants";
 import Exporter from "./components/exporter";
 import css from "./styles.css";
 
-const Report = ({ mode }) => {
+function Report({ mode }) {
   const { id } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -142,7 +142,7 @@ const Report = ({ mode }) => {
       </PageContent>
     </PageContainer>
   );
-};
+}
 
 Report.displayName = NAME;
 

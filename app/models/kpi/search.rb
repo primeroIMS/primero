@@ -4,13 +4,34 @@
 
 module Kpi
   SearchValue = Struct.new(:from, :to, :owned_by_groups, :owned_by_agency_id)
+  VALID_KPIS = ['Kpi::AssessmentStatus',
+                'Kpi::AverageFollowupMeetingsPerCase',
+                'Kpi::AverageReferrals',
+                'Kpi::CaseClosureRate',
+                'Kpi::CaseLoad',
+                'Kpi::ClientSatisfactionRate',
+                'Kpi::CompletedCaseActionPlans',
+                'Kpi::CompletedCaseSafetyPlans',
+                'Kpi::CompletedSupervisorApprovedCaseActionPlans',
+                'Kpi::GoalProgressPerNeed',
+                'Kpi::NumberOfCases',
+                'Kpi::NumberOfIncidents',
+                'Kpi::ReportingDelay',
+                'Kpi::ServicesProvided',
+                'Kpi::SupervisorToCaseworkerRatio',
+                'Kpi::TimeFromCaseOpenToClose'].freeze
 
   # Search
   #
   # An abstract class for search objects to subclass.
   class Search < SearchValue
     def self.find(id)
-      Object.const_get("Kpi::#{id.camelize}")
+      name = "Kpi::#{id.camelize}"
+      return unless VALID_KPIS.include?(name)
+
+      Object.const_get(name)
+    rescue NameError
+      nil
     end
 
     def self.search_model(model = nil)

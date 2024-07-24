@@ -1,10 +1,10 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { CircularProgress, FormControlLabel, Switch } from "@material-ui/core";
+import { CircularProgress, FormControlLabel, Switch } from "@mui/material";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import NotificationsOffIcon from "@material-ui/icons/NotificationsOff";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import NotificationsOffIcon from "@mui/icons-material/NotificationsOff";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useDispatch } from "react-redux";
 import isNil from "lodash/isNil";
 
@@ -46,7 +46,7 @@ function Component({ isNotificationsSupported }) {
   const notificationsNotSupported = !isNotificationsSupported || !receiveWebpush;
   const notificationsDenied = () => Notification.permission === NOTIFICATION_PERMISSIONS.DENIED;
 
-  useEffect(async () => {
+  async function setNotificationData() {
     if (isNil(notificationEndpoint)) {
       const dbEndpoint = await Common.find({ collection: DB_STORES.PUSH_NOTIFICATION_SUBSCRIPTION });
 
@@ -54,6 +54,10 @@ function Component({ isNotificationsSupported }) {
     } else {
       setValue(await Boolean(notificationEndpoint));
     }
+  }
+
+  useEffect(() => {
+    setNotificationData();
   }, []);
 
   const handleSwitch = opened => event => {

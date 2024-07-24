@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 import { useI18n } from "../../i18n";
 import PageContainer, { PageHeading, PageContent } from "../../page";
@@ -34,7 +34,7 @@ import NAMESPACE from "./namespace";
 import { NAME } from "./constants";
 import { fetchDashboards, fetchFlags } from "./action-creators";
 
-const Dashboard = () => {
+function Dashboard() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const canFetchFlags = usePermissions(RESOURCES.dashboards, [ACTIONS.DASH_FLAGS]);
@@ -96,7 +96,7 @@ const Dashboard = () => {
       </PageContent>
     </PageContainer>
   );
-};
+}
 
 Dashboard.displayName = NAME;
 

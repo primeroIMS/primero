@@ -1,10 +1,10 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { isImmutable, List, Map, Record } from "immutable";
-import { addHours, format, parseISO } from "date-fns";
+import { addHours, format } from "date-fns";
 import isString from "lodash/isString";
 
-import { API_DATE_FORMAT, API_DATE_TIME_FORMAT, ISO_DATE_REGEX, ISO_DATE_TIME_REGEX } from "../config/constants";
+import { API_DATE_FORMAT, API_DATE_TIME_FORMAT, ISO_DATE_REGEX, ISO_DATE_TIME_REGEX } from "../config";
 
 import displayNameHelper from "./display-name-helper";
 
@@ -62,16 +62,19 @@ export const normalizeTimezone = date => {
   return addHours(date, offset);
 };
 
-export const toServerDateFormat = (date, options) => {
+export const toServerDateFormat = (date, options = {}) => {
   const includeTime = options?.includeTime || false;
   const normalize = options?.normalize !== false;
 
   const normalizedDate = includeTime && normalize ? normalizeTimezone(date) : date;
+  const dateFormat = includeTime ? API_DATE_TIME_FORMAT : API_DATE_FORMAT;
 
-  return format(normalizedDate, includeTime ? API_DATE_TIME_FORMAT : API_DATE_FORMAT);
+  if (options.callback) {
+    return format(options.callback(normalizedDate), dateFormat);
+  }
+
+  return format(normalizedDate, dateFormat);
 };
-
-export const endOfDay = date => parseISO(date.toISOString().replace(/T.+/, "").concat("T23:59:59Z"));
 
 export const hasApiDateFormat = value =>
   isString(value) && Boolean(value.match(ISO_DATE_REGEX) || value.match(ISO_DATE_TIME_REGEX));

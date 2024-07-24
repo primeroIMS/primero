@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { useEffect, useRef, useCallback } from "react";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@material-ui/core";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
 import { useIdleTimer, workerTimers } from "react-idle-timer";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
@@ -14,7 +14,7 @@ import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { NAME } from "./constants";
 
-const SessionTimeoutDialog = () => {
+function SessionTimeoutDialog() {
   const { online } = useApp();
   const tokenRefreshTimer = useRef();
   const dispatch = useDispatch();
@@ -119,7 +119,7 @@ const SessionTimeoutDialog = () => {
       </Dialog>
     </>
   ) : null;
-};
+}
 
 SessionTimeoutDialog.displayName = NAME;
 

@@ -32,7 +32,7 @@ class Report < ApplicationRecord
   YEAR = 'year' # eg. 2015
   DATE_RANGES = [DAY, WEEK, MONTH, YEAR].freeze
   DATE_FORMAT = 'YYYY-MM-DD'
-  DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:MI:SS'
+  DATE_TIME_FORMAT = 'YYYY-MM-DD"T"HH24:MI:SS'
 
   localize_properties :name, :description
 
@@ -49,53 +49,25 @@ class Report < ApplicationRecord
 
   validates :record_type, presence: true
   validates :aggregate_by, presence: true
-  validate :modules_present
+  validate :validate_modules_present
   validate :validate_name_in_base_language
 
   before_create :generate_unique_id
   before_save :apply_default_filters
 
+  def self.new_with_properties(report_params)
+    report = Report.new(report_params.except(:name, :description, :fields))
+    report.name_i18n = report_params[:name]
+    report.description_i18n = report_params[:description]
+    report.aggregate_by = ReportFieldService.aggregate_by_from_params(report_params)
+    report.disaggregate_by = ReportFieldService.disaggregate_by_from_params(report_params)
+    report
+  end
+
   def validate_name_in_base_language
     return if name_en.present?
 
     errors.add(:name, I18n.t('errors.models.report.name_presence'))
-  end
-
-  class << self
-    def get_reportable_subform_record_field_name(model, record_type)
-      model = Record.model_from_name(model)
-      return unless model.try(:nested_reportable_types)
-
-      model.nested_reportable_types.select { |nrt| nrt.model_name.param_key == record_type }.first&.record_field_name
-    end
-
-    def get_reportable_subform_record_field_names(model)
-      model = Record.model_from_name(model)
-      return unless model.try(:nested_reportable_types)
-
-      model.nested_reportable_types.map { |nrt| nrt.model_name.param_key }
-    end
-
-    def record_type_is_nested_reportable_subform?(model, record_type)
-      get_reportable_subform_record_field_names(model).include?(record_type)
-    end
-
-    def all_nested_reportable_types
-      record_types = []
-      FormSection::RECORD_TYPES.each do |rt|
-        record_types += Record.model_from_name(rt).try(:nested_reportable_types)
-      end
-      record_types
-    end
-
-    def new_with_properties(report_params)
-      report = Report.new(report_params.except(:name, :description, :fields))
-      report.name_i18n = report_params[:name]
-      report.description_i18n = report_params[:description]
-      report.aggregate_by = ReportFieldService.aggregate_by_from_params(report_params)
-      report.disaggregate_by = ReportFieldService.disaggregate_by_from_params(report_params)
-      report
-    end
   end
 
   def update_properties(report_params)
@@ -158,7 +130,7 @@ class Report < ApplicationRecord
   end
 
   def model
-    @model ||= Record.model_from_name(record_type)
+    @model ||= PrimeroModelService.to_model(record_type)
   end
 
   def build_query
@@ -173,12 +145,7 @@ class Report < ApplicationRecord
   def join_nested_model
     model.parent_record_type.joins(
       ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          %(
-            CROSS JOIN jsonb_array_elements(data->:nested_field_name)
-            as #{ActiveRecord::Base.connection.quote_table_name(model.record_field_name)}
-          ), { nested_field_name: model.record_field_name }
-        ]
+        ["CROSS JOIN jsonb_array_elements(data->'%s') as %s", model.record_field_name, model.record_field_name]
       )
     )
   end
@@ -242,39 +209,37 @@ class Report < ApplicationRecord
   end
 
   def apply_filters(query)
-    filter_query = filters.reduce(query) do |current_query, filter|
-      field = filter_fields[filter['attribute']]
-      Reports::FilterFieldQuery.new(
-        query: current_query, field:, filter:, record_field_name: record_field_name(field)
-      ).apply
+    filter_query = query
+    if model.try(:parent_record_type).present?
+      filter_query = apply_filters_for_nested_model(filter_query)
+    else
+      search_filters = Reports::ReportFilterService.build_filters(filters, filters_map)
+      search_filters.each { |filter| filter_query = filter_query.where(filter.query) }
     end
 
     apply_permission_filter(filter_query)
   end
 
+  def apply_filters_for_nested_model(query)
+    filters.reduce(query) do |current_query, filter|
+      field = filter_fields[filter['attribute']]
+      current_query.where(
+        Reports::FilterFieldQuery.build(field:, filter:, record_field_name: record_field_name(field))
+      )
+    end
+  end
+
   def apply_permission_filter(query)
     return query unless permission_filter.present?
 
-    Reports::FilterFieldQuery.new(permission_filter:, query:).apply
+    query.where(Reports::FilterFieldQuery.build(permission_filter:))
   end
 
   def age_field?(field)
     field.type == Field::NUMERIC_FIELD && field.name.starts_with?(AGE)
   end
 
-  def filter_fields
-    @filter_fields ||= Field.find_by_name(filter_attributes).each_with_object({}) do |field, hash|
-      next if hash[field.name].present?
-
-      hash[field.name] = field
-    end
-  end
-
-  def filter_attributes
-    filters.map { |filter| filter['attribute'] }
-  end
-
-  def modules_present
+  def validate_modules_present
     if module_id.present? && module_id.length >= 1
       if module_id.split('-').first != 'primeromodule'
         errors.add(:module_id, I18n.t('errors.models.report.module_syntax'))
@@ -284,29 +249,46 @@ class Report < ApplicationRecord
     end
   end
 
-  def self.reportable_record_types
-    FormSection::RECORD_TYPES + ['violation'] + Report.all_nested_reportable_types.map { |nrt| nrt.name.underscore }
-  end
-
   def apply_default_filters
     return unless add_default_filters
 
     self.filters ||= []
-    default_filters = Record.model_from_name(record_type).report_filters
+    default_filters = model.report_filters
     self.filters = (self.filters + default_filters).uniq
+  end
+
+  def pivots_map
+    @pivots_map ||= build_fields_map(pivots, pivot_fields)
+  end
+
+  def pivot_fields
+    @pivot_fields ||= fields_by_name(pivots)
   end
 
   def pivots
     (aggregate_by || []) + (disaggregate_by || [])
   end
 
-  def pivot_fields
-    @pivot_fields ||= Field.find_by_name(pivots).group_by(&:name).transform_values(&:first)
+  def filters_map
+    @filters_map ||= build_fields_map(filter_attributes, filter_fields)
   end
 
-  def pivots_map
-    @pivots_map ||= pivots.to_h do |pivot|
-      [pivot, pivot_fields[pivot] || pivot_fields[Field.remove_admin_level_from_name(pivot)]]
+  def filter_fields
+    @filter_fields ||= fields_by_name(filter_attributes)
+  end
+
+  def filter_attributes
+    filters.map { |filter| filter['attribute'] }
+  end
+
+  def fields_by_name(field_names)
+    Field.find_by_name(field_names).group_by(&:name).transform_values(&:first)
+  end
+
+  def build_fields_map(field_names, fields)
+    field_names.to_h do |field_name|
+      field = fields[field_name] || fields[Field.remove_location_parts(field_name)]
+      [field_name, field]
     end
   end
 

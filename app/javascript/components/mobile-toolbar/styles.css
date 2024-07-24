@@ -83,7 +83,7 @@
   flex: 1;
 }
 
-@media (max-width: 959.95px) {
+@media (max-width: 900px) {
   .toolbar, .toolbar-demo {
     & img {
       margin: 0;

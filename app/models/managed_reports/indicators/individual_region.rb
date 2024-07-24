@@ -4,8 +4,6 @@
 
 # An indicator that returns the individual region
 class ManagedReports::Indicators::IndividualRegion < ManagedReports::SqlReportIndicator
-  include ManagedReports::MRMIndicatorHelper
-
   class << self
     def id
       'individual_region'

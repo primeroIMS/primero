@@ -1,9 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Grid, Divider } from "@material-ui/core";
+import { Grid, Divider } from "@mui/material";
 import { Form, Field } from "formik";
-import { TextField as MuiTextField } from "formik-material-ui";
+import { TextField as MuiTextField } from "formik-mui";
 
 import { useI18n } from "../../../i18n";
 import DisplayData from "../../../display-data";
@@ -16,7 +16,7 @@ const sharedTextFieldProps = {
   fullWidth: true
 };
 
-const RequestForm = ({ formProps, record }) => {
+function RequestForm({ formProps, record }) {
   const i18n = useI18n();
   const { handleSubmit } = formProps;
 
@@ -45,7 +45,7 @@ const RequestForm = ({ formProps, record }) => {
       </Form>
     </>
   );
-};
+}
 
 RequestForm.displayName = REQUEST_FORM_NAME;
 

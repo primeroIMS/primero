@@ -79,5 +79,27 @@ describe SystemSettings do
         expect(@system_settings.maximum_attachments_per_record).to eq(Attachment::DEFAULT_MAX_ATTACHMENTS)
       end
     end
+
+    describe '#primero_promote_config' do
+      context 'when primero_promote_config is not defined ' do
+        it 'return default value' do
+          expect(@system_settings.primero_promote_config).to match_array([])
+        end
+      end
+
+      context 'when primero_promote_config is defined ' do
+        it 'return value' do
+          @system_settings.primero_promote_config = [
+            {
+              tls: 'true', host: 'foo.bar', port: '443', basic_auth_secret: 'PRIMERO_PROMOTE_CONFIG_PROD_BASIC_AUTH'
+            }.with_indifferent_access
+          ]
+          @system_settings.save!
+
+          expect(@system_settings.primero_promote_config.length).to eq(1)
+          expect(@system_settings.primero_promote_config.first['host']).to eq('foo.bar')
+        end
+      end
+    end
   end
 end

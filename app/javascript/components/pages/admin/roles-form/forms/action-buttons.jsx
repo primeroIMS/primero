@@ -2,9 +2,9 @@
 
 import PropTypes from "prop-types";
 import { useLocation, Link } from "react-router-dom";
-import CreateIcon from "@material-ui/icons/Create";
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
+import CreateIcon from "@mui/icons-material/Create";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 import { ACTION_BUTTONS_NAME } from "../constants";
 import { useI18n } from "../../../../i18n";
@@ -15,7 +15,7 @@ import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { useMemoizedSelector } from "../../../../../libs";
 
-const Component = ({ formMode, formID, handleCancel, limitedProductionSite }) => {
+function Component({ formMode, formID, handleCancel, limitedProductionSite }) {
   const i18n = useI18n();
   const { pathname } = useLocation();
 
@@ -54,7 +54,7 @@ const Component = ({ formMode, formID, handleCancel, limitedProductionSite }) =>
       {saveButton}
     </>
   );
-};
+}
 
 Component.displayName = ACTION_BUTTONS_NAME;
 

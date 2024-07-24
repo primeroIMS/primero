@@ -11,7 +11,7 @@ import Permission from "../permissions";
 import { getCodeOfConductEnabled, getCodesOfConduct } from "../application/selectors";
 import { getCodeOfConductId } from "../user";
 
-const SubRoute = ({ subRoute }) => {
+function SubRoute({ subRoute }) {
   const { path, resources, actions, component: Component, extraProps } = subRoute;
 
   const codeOfConductAccepted = useMemoizedSelector(state => getCodeOfConductId(state));
@@ -38,7 +38,7 @@ const SubRoute = ({ subRoute }) => {
       </Permission>
     </ErrorBoundary>
   );
-};
+}
 
 SubRoute.displayName = "SubRoute";
 

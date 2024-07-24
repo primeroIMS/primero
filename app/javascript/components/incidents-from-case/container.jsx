@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import AddIcon from "@material-ui/icons/Add";
+import AddIcon from "@mui/icons-material/Add";
 
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
@@ -16,7 +16,7 @@ import css from "./styles.css";
 import { NAME } from "./constants";
 import IncidentPanel from "./components/panel";
 
-const Container = ({
+function Container({
   handleCreateIncident,
   record,
   incidents,
@@ -27,8 +27,8 @@ const Container = ({
   handleSubmit,
   recordType,
   primeroModule,
-  dirty
-}) => {
+  dirty = false
+}) {
   const i18n = useI18n();
 
   const incidentFromCaseForm = useMemoizedSelector(state =>
@@ -82,13 +82,9 @@ const Container = ({
       {renderIncidents}
     </div>
   );
-};
+}
 
 Container.displayName = NAME;
-
-Container.defaultProps = {
-  dirty: false
-};
 
 Container.propTypes = {
   dirty: PropTypes.bool,

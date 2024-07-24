@@ -11,7 +11,7 @@ import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const MoreSection = ({
+function MoreSection({
   allAvailable,
   defaultFilters,
   more,
@@ -20,7 +20,7 @@ const MoreSection = ({
   recordType,
   setMore,
   setMoreSectionFilters
-}) => {
+}) {
   const moreSectionKeys = Object.keys(moreSectionFilters);
   const mode = {
     secondary: true,
@@ -78,7 +78,7 @@ const MoreSection = ({
       />
     </>
   );
-};
+}
 
 MoreSection.displayName = NAME;
 

@@ -2,7 +2,7 @@
 
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import { useWatch } from "react-hook-form";
 import html2pdf from "html2pdf-dom-to-image-more";
 import { useDispatch } from "react-redux";
@@ -20,7 +20,7 @@ import {
   INCLUDE_OTHER_LOGOS
 } from "../record-actions/exports/constants";
 import useOptions from "../form/use-options";
-import { RECORD_TYPES } from "../../config/constants";
+import { RECORD_TYPES } from "../../config";
 
 import Signatures from "./components/signatures";
 import { HTML_2_PDF_OPTIONS, PDF_HEADER_LOOKUP } from "./constants";
@@ -39,7 +39,7 @@ const Component = forwardRef(
       formsSelectedSelector,
       formsSelectedFieldDefault,
       customFilenameField,
-      customFormProps,
+      customFormProps = {},
       currentUser,
       agenciesWithLogosEnabled,
       agencyLogosPdf
@@ -182,10 +182,6 @@ const Component = forwardRef(
 );
 
 Component.displayName = "PdfExporter";
-
-Component.defaultProps = {
-  customFormProps: {}
-};
 
 Component.propTypes = {
   agenciesWithLogosEnabled: PropTypes.array,

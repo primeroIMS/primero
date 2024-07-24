@@ -80,3 +80,11 @@
 .accordionTitle {
   align-self: center;
 }
+
+.expanded {
+  opacity: 1;
+}
+
+.content :global .Mui-expanded {
+  margin: 0;
+}

@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Divider } from "@material-ui/core";
+import { Divider } from "@mui/material";
 import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../../i18n";
@@ -18,7 +18,7 @@ import { usePermissions, FLAG_RESOLVE_ANY } from "../../../permissions";
 
 import { NAME } from "./constants";
 
-const Component = ({ flag }) => {
+function Component({ flag }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const canResolveAnyFlag = usePermissions(flag?.record_type, FLAG_RESOLVE_ANY);
@@ -71,7 +71,7 @@ const Component = ({ flag }) => {
   );
 
   return renderActions;
-};
+}
 
 Component.displayName = NAME;
 

@@ -2,7 +2,7 @@
 
 import { queueIndexedDB } from "../../db";
 import EventManager from "../messenger";
-import { METHODS } from "../../config/constants";
+import { METHODS } from "../../config";
 
 import { QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS } from "./constants";
 

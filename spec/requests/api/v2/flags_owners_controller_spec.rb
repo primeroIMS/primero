@@ -52,8 +52,8 @@ describe Api::V2::FlagsOwnersController, type: :request do
                                           owned_by: 'user2' })
 
     @case1.add_flag('This is a flag', Date.today, 'faketest')
-    @case3.add_flag('This is a flag', Date.today, 'faketest')
-    @flag_to_remove = @case1.add_flag('This is test flag 3', Date.today, 'faketest')
+    @case3.add_flag('This is a flag', Date.today - 1.days, 'faketest')
+    @flag_to_remove = @case1.add_flag('This is test flag 3', Date.today - 2.days, 'faketest')
     @case1.remove_flag(@flag_to_remove.id, 'faketest', 'Resolved Flag')
     @tracing_request1.add_flag('This is a flag TR', Date.today, 'faketest')
     @incident1.add_flag('This is a flag IN', Date.today, 'faketest')
@@ -197,6 +197,16 @@ describe Api::V2::FlagsOwnersController, type: :request do
           expect(flag_data['owned_by']).to eq('user1')
           expect(flag_data['removed']).to be_falsey
           expect(flag_data['short_id']).to eq(@case1.short_id)
+        end
+
+        it 'lists flags sorted by date for a record_type' do
+          get '/api/v2/flags?record_type=cases'
+
+          expect(response).to have_http_status(200)
+          expect(json['data'].size).to eq(3)
+          expect(json['data'].map { |flag| flag['date'] }).to eq(
+            3.times.map { |index| (Date.today - index.days).as_json }
+          )
         end
       end
 

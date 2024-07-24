@@ -40,6 +40,13 @@
     align-items: normal;
   }
 
+  &.disabled {
+    pointer-events: none;
+    &:hover {
+      opacity: 1
+    }
+  }
+
 
   &:hover {
     opacity: .8;

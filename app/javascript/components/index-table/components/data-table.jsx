@@ -8,11 +8,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { fromJS, List } from "immutable";
-import { ThemeProvider } from "@material-ui/core/styles";
+import { ThemeProvider } from "@mui/material/styles";
 
 import { dataToJS, ConditionalWrapper, useThemeHelper, useMemoizedSelector } from "../../../libs";
 import { useI18n } from "../../i18n";
-import { MAX_OFFLINE_ROWS_PER_PAGE, RECORD_PATH } from "../../../config/constants";
+import { MAX_OFFLINE_ROWS_PER_PAGE, RECORD_PATH } from "../../../config";
 import { ALERTS_COLUMNS } from "../../record-list/constants";
 import recordListTheme from "../theme";
 import { NAME } from "../config";
@@ -23,7 +23,7 @@ import { useApp } from "../../application";
 
 import TableLoadingIndicator from "./table-loading-indicator";
 
-const Datatable = ({
+function Datatable({
   arrayColumnsToString,
   bypassInitialFetch,
   canSelectAll,
@@ -47,7 +47,7 @@ const Datatable = ({
   title,
   customToolbarSelect = null,
   useReportingLocations
-}) => {
+}) {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { online } = useApp();
@@ -263,7 +263,7 @@ const Datatable = ({
       />
     </ConditionalWrapper>
   );
-};
+}
 
 Datatable.displayName = NAME;
 

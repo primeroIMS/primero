@@ -14,7 +14,7 @@ import {
 import { EXCLUDED_FIELD_TYPES } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ fields, isSubform, record }) => {
+function Component({ fields, isSubform = false, record }) {
   const i18n = useI18n();
 
   const classes = {
@@ -83,13 +83,9 @@ const Component = ({ fields, isSubform, record }) => {
       })}
     </>
   );
-};
+}
 
 Component.displayName = "Table";
-
-Component.defaultProps = {
-  isSubform: false
-};
 
 Component.propTypes = {
   fields: PropTypes.array.isRequired,

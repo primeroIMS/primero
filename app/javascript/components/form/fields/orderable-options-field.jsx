@@ -3,7 +3,7 @@
 /* eslint-disable react/no-multi-comp */
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 import { useFieldArray, useWatch } from "react-hook-form";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import isNil from "lodash/isNil";
@@ -17,7 +17,7 @@ import { generateIdForNewOption } from "../utils/handle-options";
 import { ORDERABLE_OPTIONS_FIELD_NAME } from "./constants";
 import css from "./styles.css";
 
-const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionButtons, formMethods, formMode }) => {
+function OrderableOptionsField({ commonInputProps, metaInputProps, showActionButtons = false, formMethods, formMode }) {
   const i18n = useI18n();
   const [disabledAddAction, setDisabledAddAction] = useState(false);
 
@@ -52,8 +52,8 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
   const lastColumnTitle = formMode.get("isNew") ? i18n.t("fields.remove") : i18n.t("fields.enabled");
   const renderLastColumn = (formMode.get("isNew") && showDeleteAction) || showDisableOption;
   const classes = [css.fieldColumn, css.fieldHeader];
-  const fieldHeaderClasses = clsx([...classes, css.fieldInput]);
-  const fieldRowClasses = clsx(classes);
+  const fieldHeaderClasses = cx([...classes, css.fieldInput]);
+  const fieldRowClasses = cx(classes);
 
   useEffect(() => {
     if (!isNil(maxOptionsAllowed) && fields.length >= maxOptionsAllowed && !disabledAddAction) {
@@ -106,13 +106,9 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
       )}
     </div>
   );
-};
+}
 
 OrderableOptionsField.displayName = ORDERABLE_OPTIONS_FIELD_NAME;
-
-OrderableOptionsField.defaultProps = {
-  showActionButtons: true
-};
 
 OrderableOptionsField.propTypes = {
   commonInputProps: PropTypes.shape({

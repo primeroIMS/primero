@@ -2,10 +2,10 @@
 
 import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { FormControlLabel } from "@material-ui/core";
+import { FormControlLabel } from "@mui/material";
 import { batch, useDispatch } from "react-redux";
 import { Form, Field } from "formik";
-import { Checkbox as MuiCheckbox } from "formik-material-ui";
+import { Checkbox as MuiCheckbox } from "formik-mui";
 
 import { getEnabledAgencies } from "../../../../application/selectors";
 import { useI18n } from "../../../../i18n";
@@ -13,7 +13,7 @@ import { RECORD_TYPES, LOOKUPS } from "../../../../../config";
 import { getUsersByTransitionType, getErrorsByTransitionType } from "../../selectors";
 import { fetchReferralUsers } from "../../action-creators";
 import { enqueueSnackbar } from "../../../../notifier";
-import { getOption, getServiceToRefer } from "../../../../record-form";
+import { getOption, getServiceToRefer } from "../../../../record-form/selectors";
 import { useMemoizedSelector } from "../../../../../libs";
 import { getLoading } from "../../../../index-table";
 import { getUserFilters } from "../utils";
@@ -25,7 +25,7 @@ import FormInternal from "./form-internal";
 import { TRANSITIONED_TO_FIELD, MAIN_FORM, SERVICE_RECORD_FIELD } from "./constants";
 import { buildFields } from "./utils";
 
-const MainForm = ({ formProps, rest }) => {
+function MainForm({ formProps, rest }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const firstUpdate = useRef(true);
@@ -147,7 +147,7 @@ const MainForm = ({ formProps, rest }) => {
       />
     </Form>
   );
-};
+}
 
 MainForm.displayName = MAIN_FORM;
 
