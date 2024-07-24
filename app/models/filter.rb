@@ -412,6 +412,8 @@ class Filter < ValueObject
       filters
     end
 
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/AbcSize
     def user_based_filters(user)
       filters = []
       filters += approvals_filters(user)
@@ -423,6 +425,8 @@ class Filter < ValueObject
       filters += reporting_location_filters(user)
       filters
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/AbcSize
 
     def approvals_filters(user)
       filters = []
