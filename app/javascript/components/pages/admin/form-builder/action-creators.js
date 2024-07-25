@@ -4,10 +4,10 @@ import isEmpty from "lodash/isEmpty";
 
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import { METHODS, RECORD_PATH, SAVE_METHODS } from "../../../../config";
+import { fetchForms } from "../forms-list/action-creators";
 
 import { getFormRequestPath } from "./utils";
 import actions from "./actions";
-import { fetchForms } from "../forms-list/action-creators";
 
 const saveFormSuccessCallback = (message, callback = true) => ({
   [callback ? "action" : "type"]: ENQUEUE_SNACKBAR,
