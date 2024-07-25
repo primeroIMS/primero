@@ -4,6 +4,7 @@ import isEmpty from "lodash/isEmpty";
 
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import { METHODS, RECORD_PATH, SAVE_METHODS } from "../../../../config";
+import { fetchForms } from "../forms-list/action-creators";
 
 import { getFormRequestPath } from "./utils";
 import actions from "./actions";
@@ -107,12 +108,13 @@ export const saveSubforms = (subforms, { id, body, saveMethod, message }) => {
   return {
     type: actions.SAVE_SUBFORMS,
     api: [...subformsRequest],
+    finalCallback: fetchForms(),
     ...(!isEmpty(body?.data?.fields)
       ? { finishedCallbackSubforms: saveForm({ id, body, saveMethod, message }) }
       : {
           finishedCallback: isEmpty(body?.data)
             ? [saveFormSuccessCallback(message, false), clearSubforms()]
-            : saveForm({ id, body, saveMethod, message })
+            : [saveForm({ id, body, saveMethod, message })]
         })
   };
 };

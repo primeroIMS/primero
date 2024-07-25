@@ -68,7 +68,7 @@ function fetchResources(fetchParams) {
 }
 
 function handleResponse(responses, store, action, options) {
-  const { type, finishedCallback, finishedCallbackSubforms } = action;
+  const { type, finishedCallback, finishedCallbackSubforms, finalCallback } = action;
 
   const results = responses.map(result => result.value);
 
@@ -92,6 +92,10 @@ function handleResponse(responses, store, action, options) {
           store.dispatch(callback);
         }
       });
+    }
+
+    if (finalCallback) {
+      store.dispatch(finalCallback);
     }
 
     if (finishedCallbackSubforms) {

@@ -79,7 +79,7 @@ function Component({ field, formMethods, index, subformField, subformSortBy, sub
 
       if (field?.get("type") === SUBFORM_SECTION) {
         const selectedSubformParams = {
-          id: field.get("subform_section_id") || field.get("subform_section_temp_id"),
+          id: field.get("subform_section_id", field.get("subform_section_temp_id")),
           isSubformNew:
             typeof field.get("subform_section_id") === "undefined" || Object.is(field.get("subform_section_id"), null)
         };
