@@ -3,10 +3,10 @@
 # ------------------------------------------------------------------ BUILD STAGE
 
 ARG BUILD_REGISTRY
-ARG version=1.25.4
+ARG version=1.27.0
 
 # TODO: Although the rest of Primero uses Alpine 3.19 base images, Nginx doesn't have one.
-FROM ${BUILD_REGISTRY}nginx:${version}-alpine3.18 AS builder
+FROM ${BUILD_REGISTRY}nginx:${version}-alpine3.19 AS builder
 ARG version
 
 WORKDIR /root/
@@ -30,7 +30,7 @@ RUN apk add --update --no-cache build-base git pcre-dev openssl-dev zlib-dev lin
 ARG BUILD_REGISTRY
 ARG version
 
-FROM ${BUILD_REGISTRY}nginx:${version}-alpine3.18
+FROM ${BUILD_REGISTRY}nginx:${version}-alpine3.19
 EXPOSE 80 443
 
 ARG version

@@ -3,7 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 source 'https://rubygems.org'
-ruby '3.3.1'
+ruby '3.3.4'
 
 gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
 gem 'aws-sdk-s3',          '~> 1.130', # Access and manage Amazon S3 storage (with ActiveStorage).
@@ -37,6 +37,7 @@ gem 'rack-attack',         '>= 6.6'    # Rack middleware to rate limit sensetive
 gem 'rails',               '6.1.7.8'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
+gem 'rexml',               '>= 3.3.2'  # Required to address CVE-2024-35176 and CVE-2024-39908
 gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files
     require: 'zip'
 gem 'spreadsheet',         '~> 1.3'    # Read XLS spreadsheets for imports (not XLSX!). TODO: Different gem? Reconsider?

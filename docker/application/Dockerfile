@@ -2,15 +2,16 @@
 
 # -------------------------------------------------------------------- BUILD STAGE
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}ruby:3.3.1-alpine3.20 AS build-env
+ARG RUBY_VERSION=3.3.4
+FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.20 AS build-env
 
-ENV BUILD_PACKAGES bash curl wget curl-dev build-base git
-ENV PYTHON_PACKAGES python3 py3-pip
-ENV BUILD_DEP_PACKAGES postgresql-dev
-ENV RUNTIME_PACKAGES libc6-compat nodejs gettext libintl npm imagemagick libsodium-dev
-ENV DEV_PACKAGES busybox-extras tree cairo pixman pixman-dev
-ENV RAILS_ENV production
-ENV PYTHON /usr/bin/python
+ENV BUILD_PACKAGES="bash curl wget curl-dev build-base git"
+ENV PYTHON_PACKAGES="python3 py3-pip"
+ENV BUILD_DEP_PACKAGES=postgresql-dev
+ENV RUNTIME_PACKAGES="libc6-compat nodejs gettext libintl npm imagemagick libsodium-dev"
+ENV DEV_PACKAGES="busybox-extras tree cairo pixman pixman-dev"
+ENV RAILS_ENV=production
+ENV PYTHON=/usr/bin/python
 
 # Grab our path from --build-arg and store it in an env
 ARG APP_ROOT
@@ -52,10 +53,11 @@ COPY [ "Gemfile", "Gemfile.lock", "$APP_ROOT/" ]
 RUN set -euox pipefail \
         ; if [ $RAILS_ENV == "production" ]; \
         then \
-        bundle install --without development test \
+        export BUNDLER_WITHOUT="development test" \
         ; else \
-        bundle install \
-        ; fi
+        export BUNDLER_WITHOUT="" \
+        ; fi \
+        && bundle install
 
 # Note: Deleting the Solr dev server is not strictly necessary since we don't run it
 # but its java packages are riddled with vulnerabilities that set off static security scans.
@@ -99,10 +101,10 @@ RUN set -euox pipefail \
 
 # -------------------------------------------------------------------- FINAL
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}ruby:3.3.1-alpine3.20
+FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.20
 
-ENV BUILD_PACKAGES bash
-ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip curl tini
+ENV BUILD_PACKAGES=bash
+ENV RUNTIME_PACKAGES="libpq gettext libintl imagemagick libsodium-dev p7zip curl tini"
 
 ARG APP_UID
 ARG APP_GID
@@ -111,8 +113,7 @@ ENV GROUP_ID=${APP_GID}
 
 ARG APP_ROOT
 ENV APP_ROOT=${APP_ROOT}
-ENV RAILS_ENV production
-ENV RAILS_PUBLIC_FILE_SERVER=${RAILS_PUBLIC_FILE_SERVER}
+ENV RAILS_ENV=production
 
 # Install our packages
 RUN set -euox pipefail \
