@@ -406,23 +406,27 @@ class Filter < ValueObject
       filters += [MY_CASES, WORKFLOW]
       filters << AGENCY if user.admin?
       filters += [STATUS, AGE_RANGE, SEX] + user_based_filters(user) + [NO_ACTIVITY]
-      filters << DATE_CASE if user.module?(PrimeroModule::CP)
+      filters << DATE_CASE unless user.gbv_only? || user.mrm_only?
       filters << ENABLED
       filters += photo_filters(user)
       filters
     end
 
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/AbcSize
     def user_based_filters(user)
       filters = []
       filters += approvals_filters(user)
       filters += field_based_filters(user)
-      filters << RISK_LEVEL if user.module?(PrimeroModule::CP)
-      filters << CURRENT_LOCATION if user.module?(PrimeroModule::CP)
-      filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
-      filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
+      filters << RISK_LEVEL unless user.gbv_only? || user.mrm_only?
+      filters << CURRENT_LOCATION unless user.gbv_only? || user.mrm_only?
+      filters << AGENCY_OFFICE if user.gbv?
+      filters << USER_GROUP if user.gbv? && user.user_group_filter?
       filters += reporting_location_filters(user)
       filters
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/AbcSize
 
     def approvals_filters(user)
       filters = []
@@ -452,46 +456,43 @@ class Filter < ValueObject
     end
 
     def gbv_displacement_filter(user, filter_fields)
-      if user.module?(PrimeroModule::GBV) && visible?('gbv_displacement_status', filter_fields)
-        return [GBV_DISPLACEMENT_STATUS]
-      end
+      return [GBV_DISPLACEMENT_STATUS] if user.gbv? && visible?('gbv_displacement_status', filter_fields)
 
       []
     end
 
     def protection_status_filter(user, filter_fields)
-      return [PROTECTION_STATUS] if visible?('protection_status', filter_fields) && user.module?(PrimeroModule::CP)
+      return [PROTECTION_STATUS] if visible?('protection_status', filter_fields) && !(user.gbv_only? || user.mrm_only?)
 
       []
     end
 
     def urgent_protection_concern_filter(user, filter_fields)
-      if user.module?(PrimeroModule::CP) && visible?('urgent_protection_concern', filter_fields)
-        return [URGENT_PROTECTION_CONCERN]
-      end
+      return [URGENT_PROTECTION_CONCERN] if !(user.gbv_only? || user.mrm_only?) && visible?('urgent_protection_concern',
+                                                                                            filter_fields)
 
       []
     end
 
     def type_of_risk_filter(user, filter_fields)
-      return [TYPE_OF_RISK] if user.module?(PrimeroModule::CP) && visible?('type_of_risk', filter_fields)
+      return [TYPE_OF_RISK] if !(user.gbv_only? || user.mrm_only?) && visible?('type_of_risk', filter_fields)
 
       []
     end
 
     def reporting_location_filters(user)
-      return [] unless user.module?(PrimeroModule::CP)
+      return [] if user.gbv_only? || user.mrm_only?
 
       role = user&.role
       return [] unless role
 
       filters = []
-      filters << REPORTING_LOCATION.call(reporting_location_data(role, 'case')) if user.module?(PrimeroModule::CP)
+      filters << REPORTING_LOCATION.call(reporting_location_data(role, 'case')) unless user.gbv_only? || user.mrm_only?
       filters
     end
 
     def photo_filters(user)
-      return [] unless user.module?(PrimeroModule::CP)
+      return [] if user.gbv_only? || user.mrm_only?
 
       role = user&.role
       return [] unless role
@@ -507,12 +508,12 @@ class Filter < ValueObject
       filters = [FLAGGED_CASE] + violence_type_filter(user) + social_worker_filter(user)
       filters += agency_office_filter(user) + user_group_filter(user) + status_filters(user)
       filters += violation_filter(user)
-      filters += [AGE_RANGE] if user.module?(PrimeroModule::GBV) || user.module?(PrimeroModule::CP)
+      filters += [AGE_RANGE] unless user.mrm?
       filters += children_verification_and_location_filters(user)
       filters += [INCIDENT_DATE] + unaccompanied_filter(user)
       filters += perpetrator_category_filters(user) + armed_force_group_filters(user)
       filters << ENABLED
-      filters += mrm_incident_filters if user.module?(PrimeroModule::MRM)
+      filters += mrm_incident_filters if user.mrm?
       filters
     end
     # rubocop:enable Metrics/AbcSize
@@ -528,7 +529,7 @@ class Filter < ValueObject
     end
 
     def violence_type_filter(user)
-      user.module?(PrimeroModule::GBV) ? [VIOLENCE_TYPE] : []
+      user.gbv? ? [VIOLENCE_TYPE] : []
     end
 
     def social_worker_filter(user)
@@ -536,19 +537,19 @@ class Filter < ValueObject
     end
 
     def agency_office_filter(user)
-      user.module?(PrimeroModule::GBV) ? [AGENCY_OFFICE] : []
+      user.gbv? ? [AGENCY_OFFICE] : []
     end
 
     def user_group_filter(user)
-      user.module?(PrimeroModule::GBV) && user.user_group_filter? ? [USER_GROUP] : []
+      user.gbv? && user.user_group_filter? ? [USER_GROUP] : []
     end
 
     def status_filters(user)
-      user.module?(PrimeroModule::MRM) ? [INCIDENT_STATUS] : [STATUS]
+      user.mrm? ? [INCIDENT_STATUS] : [STATUS]
     end
 
     def violation_filter(user)
-      return [] unless user.module?(PrimeroModule::MRM)
+      return [] unless user.mrm?
 
       [VIOLATION_FILTER]
     end
@@ -556,9 +557,7 @@ class Filter < ValueObject
     def children_verification_and_location_filters(user)
       filters = []
 
-      if user.module?(PrimeroModule::MRM)
-        filters = [CHILDREN, VERIFICATION_STATUS, LATE_VERIFIED_VIOLATIONS, VERIFIED_GHN_REPORTED]
-      end
+      filters = [CHILDREN, VERIFICATION_STATUS, LATE_VERIFIED_VIOLATIONS, VERIFIED_GHN_REPORTED] if user.mrm?
 
       filters += location_filters(user)
       filters
@@ -566,7 +565,7 @@ class Filter < ValueObject
 
     def location_filters(user)
       location_filters = [INCIDENT_LOCATION]
-      return location_filters unless user.module?(PrimeroModule::MRM)
+      return location_filters unless user.mrm?
 
       role = user&.role
       location_filters << REPORTING_LOCATION.call(reporting_location_data(role, 'incident'))
@@ -574,15 +573,15 @@ class Filter < ValueObject
     end
 
     def unaccompanied_filter(user)
-      user.module?(PrimeroModule::GBV) ? [UNACCOMPANIED_PROTECTION_STATUS] : []
+      user.gbv? ? [UNACCOMPANIED_PROTECTION_STATUS] : []
     end
 
     def perpetrator_category_filters(user)
-      user.module?(PrimeroModule::MRM) ? [PERPETRATOR_CATEGORY] : []
+      user.mrm? ? [PERPETRATOR_CATEGORY] : []
     end
 
     def armed_force_group_filters(user)
-      user.module?(PrimeroModule::MRM) ? [ARMED_FORCE_GROUP_PARTY] : []
+      user.mrm? ? [ARMED_FORCE_GROUP_PARTY] : []
     end
 
     def tracing_request_filter(user)
@@ -678,7 +677,7 @@ class Filter < ValueObject
       locale_options = [registration_date_options(locale), assessment_requested_on_options(locale),
                         date_case_plan_options(locale), date_closure_options(locale), followup_date_options(locale),
                         date_reunification_options(locale), tracing_date_options(locale), service_date_options(locale)]
-      date_label = opts[:user].module?(PrimeroModule::GBV) ? 'created_at' : 'date_of_creation'
+      date_label = opts[:user].gbv? ? 'created_at' : 'date_of_creation'
       locale_options << created_at_options(locale, date_label)
       { locale => locale_options }
     end.inject(&:merge)
@@ -750,8 +749,8 @@ class Filter < ValueObject
   def incidents_by_date_options(opts = {})
     self.options = I18n.available_locales.map do |locale|
       locale_options = []
-      locale_options << date_of_first_report_options(locale) if opts[:user].module?(PrimeroModule::GBV)
-      if opts[:user].module?(PrimeroModule::MRM)
+      locale_options << date_of_first_report_options(locale) if opts[:user].gbv?
+      if opts[:user].mrm?
         locale_options << date_of_first_report_options(locale, 'mrm_date_of_first_report')
         locale_options << ctfmr_verified_date_options(locale)
       end
