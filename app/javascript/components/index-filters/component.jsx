@@ -28,6 +28,8 @@ import { applyFilters, setFilters } from "./action-creators";
 import css from "./components/styles.css";
 import TabFilters from "./components/tab-filters";
 
+const tabs = [{ name: "saved_search.filters_tab", selected: true }, { name: "saved_search.saved_searches_tab" }];
+
 function Component({ recordType, setSelectedRecords, metadata }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -104,11 +106,6 @@ function Component({ recordType, setSelectedRecords, metadata }) {
     }
   }, [methods.reset, queryString]);
 
-  const tabs = [
-    { name: i18n.t("saved_search.filters_tab"), selected: true },
-    { name: i18n.t("saved_search.saved_searches_tab") }
-  ];
-
   const handleSubmit = useCallback(data => {
     const payload = omit(transformFilters.combine(compactFilters(data)), "filter_category");
 
@@ -147,7 +144,7 @@ function Component({ recordType, setSelectedRecords, metadata }) {
             <Tabs value={tabIndex} onChange={handleChangeTabs} classes={{ root: css.tabs }} variant="fullWidth">
               {tabs.map(({ name, selected, ...rest }) => (
                 <Tab
-                  label={name}
+                  label={i18n.t(name)}
                   key={name}
                   classes={{ root: css.tab, selected: css.tabselected }}
                   selected={selected}

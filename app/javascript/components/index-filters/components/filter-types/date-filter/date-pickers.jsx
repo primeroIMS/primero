@@ -95,10 +95,12 @@ function Component({
       return <NepaliCalendar label={label} dateProps={inputProps} />;
     }
 
+    const DateComponent = dateIncludeTime ? DateTimePicker : DatePicker;
+
     return (
       <div key={picker} className={css.dateInput}>
         <DateProvider>
-          {dateIncludeTime ? <DateTimePicker {...inputProps} /> : <DatePicker {...inputProps} />}
+          <DateComponent {...inputProps} />
         </DateProvider>
       </div>
     );

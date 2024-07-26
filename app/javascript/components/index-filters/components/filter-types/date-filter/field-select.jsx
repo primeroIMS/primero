@@ -5,7 +5,7 @@ import { Select, MenuItem } from "@mui/material";
 
 import css from "../styles.css";
 
-function Component({ handleSelectedField, options, selectedField }) {
+function Component({ handleSelectedField, options, selectedField = "" }) {
   return (
     <div className={css.dateInput}>
       <Select fullWidth value={selectedField} onChange={handleSelectedField} variant="outlined">

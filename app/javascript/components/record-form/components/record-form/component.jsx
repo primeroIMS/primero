@@ -206,7 +206,7 @@ function Component({
           dispatch(fetchRecord(params.recordType, params.id));
           // TODO: Remove this condition once alerts get implemented for registry_records
           if (params.recordType !== RECORD_TYPES_PLURAL.registry_record) {
-            dispatch(fetchRecordsAlerts(params.recordType, params.id));
+            dispatch(fetchRecordsAlerts(params.recordType, params.id), params);
           }
           dispatch(setPreviousRecord(fromJS({ id: params.id, recordType: params.recordType })));
         }
