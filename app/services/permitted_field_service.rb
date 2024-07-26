@@ -109,7 +109,9 @@ class PermittedFieldService
     @permitted_field_names += SYNC_FIELDS_SCHEMA.keys if external_sync?
     @permitted_field_names += permitted_incident_field_names
     @permitted_field_names << 'incident_details' if user.can?(:view_incident_from_case, model_class)
-    @permitted_field_names += permitted_approval_schema.keys
+    approval_fields = permitted_approval_schema.keys
+    @permitted_field_names += permitted_approval_schema.keys if approval_fields.present?
+    @permitted_field_names << 'approval_subforms' if approval_fields.present?
     @permitted_field_names += permitted_overdue_task_field_names
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
     @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
@@ -136,7 +138,7 @@ class PermittedFieldService
     schema['reporting_location_hierarchy'] = { 'type' => 'string' } if user.can?(:update, model_class)
     schema = schema.merge(SYNC_FIELDS_SCHEMA) if external_sync?
     # TODO: This seems wrong. Shouldn't we be getting this from the field definitions?
-    schema = schema.merge(permitted_mrm_entities_schema) if user.module?(PrimeroModule::MRM)
+    # schema = schema.merge(permitted_mrm_entities_schema) if user.module?(PrimeroModule::MRM)
     schema.merge(permitted_approval_schema)
   end
   # rubocop:enable Metrics/AbcSize
@@ -182,7 +184,6 @@ class PermittedFieldService
     Approval.types.each_with_object({}) do |approval_id, schema|
       next unless approval_access?(user, approval_id)
 
-      schema['approval_subforms'] = { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
       schema["#{approval_id}_approved"] = { 'type' => 'boolean' }
       schema["approval_status_#{approval_id}"] = { 'type' => 'string' }
       schema["#{approval_id}_approved_date"] = { 'type' => %w[date string], 'format' => 'date' }

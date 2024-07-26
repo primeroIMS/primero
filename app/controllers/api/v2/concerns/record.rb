@@ -66,8 +66,18 @@ module Api::V2::Concerns::Record
   end
 
   def index_params
-    @index_params ||= params.permit(
-      :fields, :order, :order_by, :page, :per, :id_search, :query, :query_scope, :phonetic, *@selected_field_names
+    return @index_params if @index_params
+
+    permitted_params = []
+    params.each do |k, v|
+      next unless @permitted_field_names.include?(k)
+
+      permitted_params << (v.is_a?(ActionController::Parameters) ? { k => {} } : k)
+    end
+    @index_params = params.permit(
+      :fields, :order, :order_by, :page, :per, :total,
+      :id_search, :query, :query_scope, :phonetic, :format,
+      *permitted_params
     )
   end
 
