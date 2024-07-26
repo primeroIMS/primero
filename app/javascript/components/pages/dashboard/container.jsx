@@ -22,9 +22,11 @@ import {
   Overview,
   PerpetratorArmedForceGroupPartyNames,
   ProtectionConcern,
+  Referrals,
   ReportingLocation,
   SharedFromMyTeam,
   SharedWithMyTeam,
+  Transfers,
   ViolationsCategoryRegion,
   ViolationsCategoryVerificationStatus,
   WorkflowIndividualCases,
@@ -88,6 +90,14 @@ function Dashboard() {
             <ViolationsCategoryVerificationStatus loadingIndicator={indicatorProps} />
             <ViolationsCategoryRegion loadingIndicator={indicatorProps} />
             <PerpetratorArmedForceGroupPartyNames loadingIndicator={indicatorProps} />
+            <Grid container spacing={1}>
+              <Grid item xl={4} md={6} xs={12}>
+                <Referrals loadingIndicator={indicatorProps} userPermissions={userPermissions} />
+              </Grid>
+              <Grid item xl={4} md={6} xs={12}>
+                <Transfers loadingIndicator={indicatorProps} userPermissions={userPermissions} />
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item xl={3} md={4} xs={12}>
             <Flags loadingIndicator={flagsIndicators} />

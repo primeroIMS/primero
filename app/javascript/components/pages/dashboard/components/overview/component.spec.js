@@ -103,11 +103,11 @@ describe("<Overview> - pages/dashboard/components/overview", () => {
   });
 
   it("should render a <OptionsBox /> component", () => {
-    expect(screen.getAllByTestId("option-box")).toHaveLength(5);
+    expect(screen.getAllByTestId("option-box")).toHaveLength(3);
   });
 
   it("should render a <OverviewBox /> component", () => {
-    expect(screen.getAllByTestId("overview-box")).toHaveLength(4);
+    expect(screen.getAllByTestId("overview-box")).toHaveLength(2);
   });
 
   it("renders the dash_group_overview dashboard", () => {
@@ -118,12 +118,12 @@ describe("<Overview> - pages/dashboard/components/overview", () => {
     expect(screen.getByText("dashboard.case_overview")).toBeInTheDocument();
   });
 
-  it("renders the shared_with_me dashboard", () => {
-    expect(screen.getByText("dashboard.dash_shared_with_me")).toBeInTheDocument();
+  it("does not render the shared_with_me dashboard", () => {
+    expect(screen.queryByText("dashboard.dash_shared_with_me")).toBeNull();
   });
 
-  it("renders the dash_shared_with_others dashboard", () => {
-    expect(screen.getByText("dashboard.dash_shared_with_others")).toBeInTheDocument();
+  it("does not render the dash_shared_with_others dashboard", () => {
+    expect(screen.queryByText("dashboard.dash_shared_with_others")).toBeNull();
   });
 
   describe("when the data is loading", () => {

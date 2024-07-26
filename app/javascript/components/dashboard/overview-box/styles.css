@@ -10,7 +10,11 @@
   text-transform: uppercase;
   font-weight: bold;
   margin-bottom: var(--sp-1);
-  font-size: var(--fs-13);
+  font-size: var(--fs-12);
+}
+
+.overviewBox {
+  padding-bottom: 10px
 }
 
 .overviewList {

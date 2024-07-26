@@ -29,7 +29,7 @@ const isPermittedIndicator = (userPermissions, indicatorName) => {
 export default (sharedWithMeDashboard, userPermissions) => {
   const permittedIndicators = sharedWithMeDashboard
     .get("indicators", fromJS({}))
-    .filter((v, k) => isPermittedIndicator(userPermissions, k));
+    .filter((_value, key) => isPermittedIndicator(userPermissions, key));
 
   return fromJS({
     indicators: permittedIndicators
