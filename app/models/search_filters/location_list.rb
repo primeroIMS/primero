@@ -11,6 +11,6 @@ class SearchFilters::LocationList < SearchFilters::ValueList
   end
 
   def query_conditions
-    { field_name: record_field_name, values: values.map { |value| value.to_s.upcase } }
+    { field_name: record_field_name, values: values.map { |value| value.to_s.upcase }, admin_level: }
   end
 end

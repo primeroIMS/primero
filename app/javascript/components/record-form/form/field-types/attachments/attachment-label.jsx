@@ -11,13 +11,14 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 function AttachmentLabel({ label, helpText, disabled, mode, arrayHelpers, handleAttachmentAddition, error }) {
   const isDisabled = !disabled && !mode.isShow;
   const onClick = () => handleAttachmentAddition(arrayHelpers);
+  const errorMessage = Array.isArray(error) ? error.join("\n") : error;
 
   return (
     <div className={css.attachmentHeading}>
       <div className={css.attachmentLabel}>
         <h4 data-testid="attachment-label">{label}</h4>
         <FormHelperText data-testid="attachment-label-helptext" error={Boolean(error)}>
-          {error || helpText}
+          {errorMessage || helpText}
         </FormHelperText>
       </div>
       {isDisabled && (

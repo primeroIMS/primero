@@ -6,12 +6,11 @@ import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
 import isEmpty from "lodash/isEmpty";
 import { MemoryRouter, Route, Router } from "react-router-dom";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers";
 
 import { ApplicationProvider } from "../components/application";
 import I18nProvider from "../components/i18n/provider";
 import ThemeProvider from "../theme-provider";
+import DateProvider from "../date-provider";
 
 import { createMockStore, DEFAULT_STATE } from "./create-mock-store";
 import { FormikProvider } from "./formik-utils";
@@ -35,7 +34,7 @@ function setupMountedComponent({ state, path, initialEntries, formProps, include
     return (
       <Provider store={store}>
         <I18nProvider>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DateProvider>
             <SnackbarProvider>
               <ApplicationProvider>
                 <ThemeProvider>
@@ -45,7 +44,7 @@ function setupMountedComponent({ state, path, initialEntries, formProps, include
                 </ThemeProvider>
               </ApplicationProvider>
             </SnackbarProvider>
-          </LocalizationProvider>
+          </DateProvider>
         </I18nProvider>
       </Provider>
     );

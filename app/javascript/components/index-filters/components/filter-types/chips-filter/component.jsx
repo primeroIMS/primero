@@ -106,7 +106,7 @@ function Component({ filter, moreSectionFilters = {}, setMoreSectionFilters, mod
 
       return (
         <Checkbox
-          key={`${fieldName}-${option.id}`}
+          key={`${fieldName}-${option.id}-checkbox`}
           onChange={handleChange}
           checked={inputValue.includes(option.id)}
           value={option.id}

@@ -16,7 +16,12 @@ ConditionalWrapper.displayName = "ConditionalWrapper";
 ConditionalWrapper.propTypes = {
   children: PropTypes.element,
   condition: PropTypes.bool,
-  wrapper: PropTypes.node
+  wrapper: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+    PropTypes.element,
+    PropTypes.elementType
+  ])
 };
 
 export { ConditionalWrapper };

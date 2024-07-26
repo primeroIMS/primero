@@ -107,8 +107,17 @@
   }
 }
 
+.attachmentActions{ 
+  display: flex;
+
+  & button {
+    display: inline-flex !important;
+    padding: 5px;
+  }
+}
+
 .attachmentUploadField {
-  margin-bottom: 3em;
+  margin-bottom: 1em;
   display: flex;
   align-items: center;
 }

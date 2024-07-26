@@ -16,7 +16,7 @@ import { CONSTRAINTS } from "../../constants";
 import { LOGICAL_OPERATORS } from "../../../../libs/expressions/constants";
 
 import { NAME } from "./constants";
-import { getConstraintLabel } from "./utils";
+import { getConstraintLabel, getFieldNameForAttribute } from "./utils";
 import css from "./styles.css";
 
 function Component({
@@ -32,7 +32,8 @@ function Component({
   const { isRTL } = useThemeHelper();
   const [index, { data }] = filter;
   const { attribute, value } = data;
-  const field = useMemoizedSelector(state => getFieldByName(state, attribute));
+
+  const field = useMemoizedSelector(state => getFieldByName(state, getFieldNameForAttribute(attribute)));
 
   const allLookups = useMemoizedSelector(state => getOptions(state));
   const location = useOptions({

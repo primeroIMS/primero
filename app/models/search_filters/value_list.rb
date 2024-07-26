@@ -9,11 +9,13 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
   def query
     return unless values.present?
 
-    "(#{ActiveRecord::Base.sanitize_sql_for_conditions(['data->>? IS NOT NULL', field_name])} AND (#{json_path_query}))"
+    json_path_query
   end
 
   def json_path_value
-    values.map { |value| ActiveRecord::Base.sanitize_sql_for_conditions(['@ == %s', value]) }.join(' || ')
+    values.map do |value|
+      ActiveRecord::Base.sanitize_sql_for_conditions(['@ == %s', value])
+    end.join(' || ')
   end
 
   def as_location_filter(record_class)

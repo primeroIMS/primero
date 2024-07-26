@@ -172,7 +172,7 @@ describe Filter do
       # TODO: test with different reporting location levels
       it 'has reporting location filter' do
         expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'location.base_types.district',
-                                                                   field_name: 'loc:owned_by_location',
+                                                                   field_name: 'loc:owned_by_location2',
                                                                    type: 'multi_select'))
       end
 

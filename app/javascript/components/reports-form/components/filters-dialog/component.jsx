@@ -11,6 +11,7 @@ import { RADIO_FIELD, SELECT_FIELD, whichFormMode } from "../../../form";
 import FormSection from "../../../form/components/form-section";
 import { useI18n } from "../../../i18n";
 import { NOT_NULL } from "../../constants";
+import { getFieldNameForAttribute } from "../filter-applied/utils";
 
 import { ATTRIBUTE, CONSTRAINT, NAME, VALUE, FORM_ID } from "./constants";
 import form, { validationSchema } from "./form";
@@ -65,12 +66,13 @@ function Component({ fields, open, setOpen, selectedIndex, setSelectedIndex, ind
 
   useEffect(() => {
     if (selectedIndex !== null) {
-      const { type } = fields.find(field => field.id === selectedReportFilter.attribute);
+      const selectedFieldName = getFieldNameForAttribute(selectedReportFilter.attribute);
+      const selectedField = fields.find(field => field.id === selectedFieldName);
 
       reset({
         ...selectedReportFilter,
-        [CONSTRAINT]: getFilterConstraint(selectedReportFilter, type),
-        [VALUE]: getFilterValue(selectedReportFilter, type)
+        [CONSTRAINT]: getFilterConstraint(selectedReportFilter, selectedField?.type),
+        [VALUE]: getFilterValue(selectedReportFilter, selectedField?.type)
       });
     }
     if (selectedIndex === null && open) {

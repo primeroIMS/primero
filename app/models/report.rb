@@ -213,7 +213,7 @@ class Report < ApplicationRecord
     if model.try(:parent_record_type).present?
       filter_query = apply_filters_for_nested_model(filter_query)
     else
-      search_filters = Reports::ReportFilterService.build_filters(filters, filter_fields)
+      search_filters = Reports::ReportFilterService.build_filters(filters, filters_map)
       search_filters.each { |filter| filter_query = filter_query.where(filter.query) }
     end
 
@@ -239,18 +239,6 @@ class Report < ApplicationRecord
     field.type == Field::NUMERIC_FIELD && field.name.starts_with?(AGE)
   end
 
-  def filter_fields
-    @filter_fields ||= Field.find_by_name(filter_attributes).each_with_object({}) do |field, hash|
-      next if hash[field.name].present?
-
-      hash[field.name] = field
-    end
-  end
-
-  def filter_attributes
-    filters.map { |filter| filter['attribute'] }
-  end
-
   def validate_modules_present
     if module_id.present? && module_id.length >= 1
       if module_id.split('-').first != 'primeromodule'
@@ -269,17 +257,38 @@ class Report < ApplicationRecord
     self.filters = (self.filters + default_filters).uniq
   end
 
+  def pivots_map
+    @pivots_map ||= build_fields_map(pivots, pivot_fields)
+  end
+
+  def pivot_fields
+    @pivot_fields ||= fields_by_name(pivots)
+  end
+
   def pivots
     (aggregate_by || []) + (disaggregate_by || [])
   end
 
-  def pivot_fields
-    @pivot_fields ||= Field.find_by_name(pivots).group_by(&:name).transform_values(&:first)
+  def filters_map
+    @filters_map ||= build_fields_map(filter_attributes, filter_fields)
   end
 
-  def pivots_map
-    @pivots_map ||= pivots.to_h do |pivot|
-      [pivot, pivot_fields[pivot] || pivot_fields[Field.remove_admin_level_from_name(pivot)]]
+  def filter_fields
+    @filter_fields ||= fields_by_name(filter_attributes)
+  end
+
+  def filter_attributes
+    filters.map { |filter| filter['attribute'] }
+  end
+
+  def fields_by_name(field_names)
+    Field.find_by_name(field_names).group_by(&:name).transform_values(&:first)
+  end
+
+  def build_fields_map(field_names, fields)
+    field_names.to_h do |field_name|
+      field = fields[field_name] || fields[Field.remove_location_parts(field_name)]
+      [field_name, field]
     end
   end
 

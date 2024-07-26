@@ -46,6 +46,16 @@ function conditionalFieldAttrs(conditions) {
   };
 }
 
+export const buildDocumentSchema = i18n =>
+  object().shape({
+    attachment: string()
+      .nullable()
+      .when(["_destroy", "attachment_url"], {
+        is: (destroy, attachmentUrl) => !destroy && !attachmentUrl,
+        then: schema => schema.required(i18n.t("fields.file_upload_box.no_file_selected"))
+      })
+  });
+
 export const fieldValidations = (field, { i18n, online = false }) => {
   const {
     multi_select: multiSelect,
@@ -118,16 +128,7 @@ export const fieldValidations = (field, { i18n, online = false }) => {
   }
 
   if (DOCUMENT_FIELD === type) {
-    validations[name] = array().of(
-      object().shape({
-        attachment: string()
-          .nullable()
-          .when(["_destroy", "attachment_url"], {
-            is: (destroy, attachmentUrl) => destroy !== 0 && !destroy && !attachmentUrl,
-            then: string().nullable().required(i18n.t("fields.file_upload_box.no_file_selected"))
-          })
-      })
-    );
+    validations[name] = array().of(buildDocumentSchema(i18n));
   }
 
   if (required) {

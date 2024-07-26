@@ -167,6 +167,15 @@ describe Attachment, search: true do
         expect(attachment.persisted?).to be_falsey
       end
 
+      it 'allows to perform updates on existing attachments' do
+        attachment = Attachment.first
+        attachment.comments = 'More comments'
+        attachment.save!
+        attachment.reload
+
+        expect(attachment.comments).to eq('More comments')
+      end
+
       after :each do
         clean_data(SystemSettings)
       end

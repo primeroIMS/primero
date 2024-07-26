@@ -5,8 +5,10 @@
 # Transform API query parameter field_name=value into a sql query
 class SearchFilters::TextValue < SearchFilters::Value
   def query
-    ActiveRecord::Base.sanitize_sql_for_conditions(
-      ['data->>:field_name IS NOT NULL AND data->:field_name ? :value', { field_name:, value: }]
-    )
+    json_path_query
+  end
+
+  def json_path_value
+    ActiveRecord::Base.sanitize_sql_for_conditions(['@ == "%s"', value])
   end
 end

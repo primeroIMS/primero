@@ -317,6 +317,6 @@ describe("<FormsBuilder /> - Action Creators", () => {
 
     const result = actionCreators.saveSubforms(subforms, parentFormParams);
 
-    expect(Object.keys(result)).to.deep.equal(["type", "api", "finishedCallback"]);
+    expect(Object.keys(result)).to.deep.equal(["type", "api", "finalCallback", "finishedCallback"]);
   });
 });

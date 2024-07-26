@@ -69,12 +69,14 @@ function Nav() {
 
   const permittedMenuEntries = menuEntries => {
     return menuEntries.map(menuEntry => {
+      const key = menuEntry.to || menuEntry.component;
+
       if (menuEntry.component) {
         const CustomComponent = {
           fieldMode: FieldMode
         }[menuEntry.component];
 
-        return <CustomComponent key={menuEntry.to} />;
+        return <CustomComponent key={key} />;
       }
 
       const jewel = dataAlerts.get(menuEntry?.jewelCount, null);
@@ -85,7 +87,7 @@ function Nav() {
         (hasUnsubmittedOfflineChanges && route === ROUTES.support);
       const renderedMenuEntries = (
         <MenuEntry
-          key={menuEntry.to}
+          key={key}
           menuEntry={menuEntry}
           mobileDisplay={mobileDisplay}
           jewelCount={jewelCount}
@@ -97,7 +99,7 @@ function Nav() {
       return PERMITTED_URL.includes(route) ? (
         renderedMenuEntries
       ) : (
-        <Permission key={menuEntry.to} resources={menuEntry.resources} actions={menuEntry.actions}>
+        <Permission key={key} resources={menuEntry.resources} actions={menuEntry.actions}>
           {renderedMenuEntries}
         </Permission>
       );

@@ -98,7 +98,7 @@ function Component({ filter, moreSectionFilters = {}, setMoreSectionFilters, mod
     filterOptions.map(option => {
       return (
         <FormControlLabel
-          key={`${fieldName}-${option.id}`}
+          key={`${fieldName}-${option.id}-form-control`}
           control={
             <Checkbox
               onChange={handleChange}

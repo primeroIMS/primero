@@ -130,7 +130,7 @@ function Container() {
             <IndexTable title={i18n.t("settings.navigation.audit_logs")} {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={4}>
-            <FiltersForm {...filterProps} />
+            <FiltersForm {...filterProps} noMargin />
           </Grid>
         </Grid>
       </PageContent>
