@@ -125,6 +125,9 @@ const components = {
   MuiInputLabel: {
     styleOverrides: {
       root: {
+        overflow: "auto",
+        textOverflow: "initial",
+        whiteSpace: "normal",
         lineHeight: "2em",
         // fontSize: `var(--fs-${isRTL ? 16 : 12})`,
         fontWeight: 700,

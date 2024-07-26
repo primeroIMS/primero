@@ -63,8 +63,7 @@ function Component({ name, field, label, disabled, formik, mode, recordType, hel
     values?.length > 0 &&
     values?.map((value, index) => {
       return (
-        // eslint-disable-next-line react/no-array-index-key
-        <div key={`${attachment}-${index}`}>
+        <div key={`${attachment}-${name}`}>
           {attachment === ATTACHMENT_TYPES.document ? (
             <DocumentField
               title={`${mode.isShow ? "" : i18n.t("fields.add")} ${label}`}

@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-/* eslint-disable  react/no-array-index-key */
+/* eslint-disable */
 import { useState } from "react";
 import PropTypes from "prop-types";
 import sortBy from "lodash/sortBy";

@@ -221,7 +221,7 @@ describe PhoneticSearchService, search: true do
 
       it 'matches the date range list' do
         filter = SearchFilters::RangeList.new(
-          field_name: 'date_of_birth', values: [{ 'from' => Date.new(2020, 8, 1), 'to' => Date.new(2022, 4, 30)}],
+          field_name: 'date_of_birth', values: [{ 'from' => Date.new(2020, 8, 1), 'to' => Date.new(2022, 4, 30) }],
           range_type: SearchFilters::DateRange
         )
         search = PhoneticSearchService.search(Child, filters: [filter])
@@ -269,14 +269,67 @@ describe PhoneticSearchService, search: true do
 
   describe 'Text search' do
     let(:record1) do
-      Child.create!(data: { name: 'Augustina Link', sex: 'female', national_id_no: 'ER/054/8/56/test-1' })
+      Child.create!(
+        id: '2f10eef2-4ad0-11ef-9559-18c04db5c362',
+        data: {
+          name: 'Augustina Link',
+          sex: 'female',
+          unique_identifier: '074b2516-4acd-11ef-858e-18c04db5c362',
+          national_id_no: 'ER/054/8/56/test-1',
+          case_id: '043854d4-4acd-11ef-a0cb-18c04db5c362',
+          short_id: '548561'
+        }
+      )
     end
     let(:record2) do
-      Child.create!(data: { name: 'Ahmad MacPherson', sex: 'male', national_id_no: 'ER/054/8/56/test-2' })
+      Child.create!(
+        id: '39531c32-4ad0-11ef-b0ed-18c04db5c362',
+        data: {
+          name: 'Ahmad MacPherson',
+          sex: 'male',
+          unique_identifier: '08149eaa-4acd-11ef-b594-18c04db5c362',
+          national_id_no: 'ER/054/8/56/test-2',
+          case_id: '08db9eec-4acd-11ef-91f0-18c04db5c362',
+          short_id: '548562'
+        }
+      )
     end
-    let(:record3) { Child.create!(data: { name: 'Numeric 0001', sex: 'male', short_id: '0001' }) }
-    let(:record4) { Child.create!(data: { name: 'Numeric 1234', sex: 'male', short_id: '1234' }) }
-    let(:record5) { Child.create!(data: { name: 'Numeric 01', sex: 'male', short_id: '01' }) }
+    let(:record3) do
+      Child.create!(
+        id: '4974e866-4ad0-11ef-918a-18c04db5c362',
+        data: {
+          name: 'Numeric 0001',
+          sex: 'male',
+          unique_identifier: '67529840-4acd-11ef-9384-18c04db5c362',
+          case_id: '67ea4c58-4acd-11ef-a3ee-18c04db5c362',
+          short_id: '0001'
+        }
+      )
+    end
+    let(:record4) do
+      Child.create!(
+        id: '4eed3c6c-4ad0-11ef-92b0-18c04db5c362',
+        data: {
+          name: 'Numeric 1234',
+          sex: 'male',
+          unique_identifier: '9c33e154-4acd-11ef-997f-18c04db5c362',
+          case_id: '9cd59602-4acd-11ef-821c-18c04db5c362',
+          short_id: '1234'
+        }
+      )
+    end
+    let(:record5) do
+      Child.create!(
+        id: '5516770c-4ad0-11ef-8c9b-18c04db5c362',
+        data: {
+          name: 'Numeric 01',
+          sex: 'male',
+          unique_identifier: 'b5c4b9b8-4acd-11ef-8037-18c04db5c362',
+          case_id: 'b6561c14-4acd-11ef-b83f-18c04db5c362',
+          short_id: '01'
+        }
+      )
+    end
 
     before do
       clean_data(Child)
