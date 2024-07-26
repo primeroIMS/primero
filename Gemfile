@@ -37,7 +37,6 @@ gem 'rack-attack',         '>= 6.6'    # Rack middleware to rate limit sensetive
 gem 'rails',               '6.1.7.8'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
-gem 'rexml',               '>= 3.3.2'  # Required to address CVE-2024-35176 and CVE-2024-39908
 gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files
     require: 'zip'
 gem 'spreadsheet',         '~> 1.3'    # Read XLS spreadsheets for imports (not XLSX!). TODO: Different gem? Reconsider?
