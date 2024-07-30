@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Grid } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { fromJS } from "immutable";
@@ -99,11 +99,11 @@ function Container() {
       <PageHeading title={i18n.t("agencies.label")}>{newAgencyBtn}</PageHeading>
       <PageContent>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={9}>
+          <Grid item xs={12} sm={8}>
             <IndexTable title={i18n.t("agencies.label")} {...tableOptions} />
           </Grid>
-          <Grid item xs={12} sm={3}>
-            <FiltersForm {...filterProps} />
+          <Grid item xs={12} sm={4}>
+            <FiltersForm {...filterProps} noMargin />
           </Grid>
         </Grid>
       </PageContent>

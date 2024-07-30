@@ -33,7 +33,7 @@ class Attachment < ApplicationRecord
             file_size: { less_than_or_equal_to: MAX_SIZE },
             file_content_type: { allow: ->(a) { a.valid_content_types } },
             if: :attached?
-  validate :maximum_attachments_exceeded
+  validate :maximum_attachments_exceeded, on: :create
 
   def attach
     return unless record.present?

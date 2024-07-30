@@ -41,7 +41,7 @@ describe("<ReportForm>/utils/build-field", () => {
 
     it("returns the location field and a location field for each level in the admin_level_map", () => {
       const locationField = {
-        id: "location",
+        id: "loc:location",
         display_text: "Location",
         formSection: "Form 1",
         type: "select_field",
@@ -64,9 +64,14 @@ describe("<ReportForm>/utils/build-field", () => {
 
       const expected = [
         locationField,
-        { ...locationField, id: "location0", display_text: "Location (location.base_types.country)" },
-        { ...locationField, id: "location1", display_text: "Location (location.base_types.city)", visible: true },
-        { ...locationField, id: "location2", display_text: "Location (location.base_types.district)", visible: true }
+        { ...locationField, id: "loc:location0", display_text: "Location (location.base_types.country)" },
+        { ...locationField, id: "loc:location1", display_text: "Location (location.base_types.city)", visible: true },
+        {
+          ...locationField,
+          id: "loc:location2",
+          display_text: "Location (location.base_types.district)",
+          visible: true
+        }
       ];
 
       expect(buildLocationFields(field, "Form 1", i18n, reportingLocationConfig)).to.deep.equal(expected);

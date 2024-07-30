@@ -23,7 +23,8 @@ function Component({
   clearFields,
   defaultFilters = {},
   initialFilters = {},
-  showDrawer = false
+  showDrawer = false,
+  noMargin = false
 }) {
   const methods = useForm();
 
@@ -84,7 +85,12 @@ function Component({
   return (
     <div className={css.recordFormFilters} data-testid="form-filter">
       {showFilterIcon}
-      <FilterContainer drawer={drawerOpen} handleDrawer={toggleDrawer} mobileDisplay={mobileDisplay && showDrawer}>
+      <FilterContainer
+        drawer={drawerOpen}
+        handleDrawer={toggleDrawer}
+        mobileDisplay={mobileDisplay && showDrawer}
+        noMargin={noMargin}
+      >
         <div className={css.filtersContainer} role="form">
           <FormProvider {...methods} user={userName}>
             <form onSubmit={methods.handleSubmit(handleOnSubmit)}>
@@ -107,6 +113,7 @@ Component.propTypes = {
   filters: PropTypes.array.isRequired,
   initialFilters: PropTypes.object,
   mobileDisplay: PropTypes.bool,
+  noMargin: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   showDrawer: PropTypes.bool
 };

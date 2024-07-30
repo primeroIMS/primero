@@ -42,15 +42,14 @@ describe("<ReportForm>/utils/formatReport()", () => {
         {
           admin_level: 1,
           name: "location",
-          position: {
-            type: "horizontal"
-          }
+          option_strings_source: "Location",
+          position: { type: "horizontal" }
         }
       ]
     };
 
     it("should return an array with a field containing the admin level as part of the string", () => {
-      expect(formatReport(reportWithAdminLevel).aggregate_by).to.deep.equal(["location1"]);
+      expect(formatReport(reportWithAdminLevel).aggregate_by).to.deep.equal(["loc:location1"]);
     });
 
     describe("when admin_level is zero", () => {
@@ -61,15 +60,14 @@ describe("<ReportForm>/utils/formatReport()", () => {
           {
             admin_level: 0,
             name: "location",
-            position: {
-              type: "horizontal"
-            }
+            option_strings_source: "Location",
+            position: { type: "horizontal" }
           }
         ]
       };
 
       it("should return an array with a field containing the admin level as part of the string", () => {
-        expect(formatReport(reportWithAdminLevelZero).aggregate_by).to.deep.equal(["location0"]);
+        expect(formatReport(reportWithAdminLevelZero).aggregate_by).to.deep.equal(["loc:location0"]);
       });
     });
   });
