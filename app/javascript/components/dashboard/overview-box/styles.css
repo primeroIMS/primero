@@ -26,6 +26,10 @@
   display: grid;
   grid-template-columns: auto 1fr;
   grid-gap: var(--sp-1);
+
+  & a:nth-child(1), a:nth-child(2), a:nth-child(3), a:nth-child(4) {
+    font-weight: 600;
+  }
 }
 
 .dashboardChart {
@@ -42,7 +46,6 @@
   background: none;
   cursor: pointer;
   padding: 0;
-  font-weight: 600;
 }
 
 [dir="rtl"] .itemButton, .itemButtonNumber {
@@ -59,6 +62,14 @@
 
 .itemButton:hover{
   text-decoration: underline;
+}
+
+.itemButtonNumber, .itemButton {
+  &.zero {
+    color: var(--c-black);
+    pointer-events: none;
+    cursor: default;
+  }
 }
 
 .item {

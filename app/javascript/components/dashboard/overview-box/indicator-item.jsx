@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
+import { cx } from "@emotion/css";
 
 import ActionButton from "../../action-button";
 import { useApp } from "../../application";
@@ -45,11 +46,14 @@ function IndicatorItem({ item, query, count }) {
 
   const labelItem = buildLabelItem(item, approvalsLabels, defaultLabel);
 
+  const numberClasses = cx({ [css.zero]: !count, [css.itemButtonNumber]: true });
+  const textClasses = cx({ [css.zero]: !count, [css.itemButton]: true });
+
   return (
     <>
       <ActionButton
         id={`overview-${item}-number`}
-        className={css.itemButtonNumber}
+        className={numberClasses}
         type="link"
         text={count}
         onClick={handleClick}
@@ -57,7 +61,7 @@ function IndicatorItem({ item, query, count }) {
       />
       <ActionButton
         id={`overview-${item}-text`}
-        className={css.itemButton}
+        className={textClasses}
         type="link"
         text={labelItem}
         onClick={handleClick}

@@ -4,13 +4,12 @@ import { Grid } from "@mui/material";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 
-import Permission, { RESOURCES } from "../../permissions";
 import DoughnutChart from "../doughnut-chart";
 
 import css from "./styles.css";
 import IndicatorSection from "./indicator-section";
 
-function OverviewBox({ items, chartData, sumTitle, withTotal = true, loading, errors, subColumns }) {
+function OverviewBox({ items, chartData, sumTitle, withTotal = true, loading, errors }) {
   const indicators = items.get("indicators", fromJS({}));
   const indicatorSection = (
     <>
@@ -21,21 +20,6 @@ function OverviewBox({ items, chartData, sumTitle, withTotal = true, loading, er
         sumTitle={sumTitle}
         withTotal={withTotal}
       />
-      {subColumns?.map(subColumn => {
-        const subIndicators = subColumn.items.get("indicators", fromJS({}));
-
-        return (
-          <Permission key={subColumn.actions} resources={RESOURCES.dashboards} actions={subColumn.actions}>
-            <IndicatorSection
-              indicators={subIndicators}
-              loading={loading}
-              errors={errors}
-              sumTitle={subColumn.sumTitle}
-              withTotal={subColumn.withTotal}
-            />
-          </Permission>
-        );
-      })}
     </>
   );
 
@@ -66,7 +50,6 @@ OverviewBox.propTypes = {
   errors: PropTypes.bool,
   items: PropTypes.object.isRequired,
   loading: PropTypes.bool,
-  subColumns: PropTypes.object,
   sumTitle: PropTypes.string,
   withTotal: PropTypes.bool
 };
