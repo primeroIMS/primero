@@ -44,29 +44,12 @@ class PermittedFormFieldsService
   end
 
   def permitted_fields_from_forms(roles, record_type, writeable, visible_only = false)
-    permission_level = writeable ? FormPermission::PERMISSIONS[:read_write] : writeable
-    eagerloaded_fields = Field.includes(subform: :fields).left_outer_joins(form_section: :roles)
-    fields = eagerloaded_fields.where(
-      fields: {
-        form_sections: { roles: { id: roles }, parent_form: record_type, visible: (visible_only || nil) }.compact,
-      }
-    )
-    if writeable
-      fields = fields.where(
-        fields: {
-          form_sections: { form_sections_roles: { permission: permission_level } },
-          type: PERMITTED_WRITEABLE_FIELD_TYPES
-        }
-      )
-      action_subform_fields = permitted_subforms_from_actions(roles, record_type)
-      if action_subform_fields.present?
-        fields = fields.or(eagerloaded_fields.where(
-          name: action_subform_fields,
-          type: Field::SUBFORM
-        ))
-      end
-    end
-    fields
+    fields = fetch_filtered_fields(roles, record_type, visible_only)
+    return fields unless writeable
+
+    filter_writeable_fields(fields, permission_level(writeable))
+    action_subform_fields = permitted_subforms_from_actions(roles, record_type)
+    append_action_subform_fields(fields, action_subform_fields)
   end
 
   alias with_cache? with_cache
@@ -92,7 +75,49 @@ class PermittedFormFieldsService
   def permitted_subforms_from_actions(roles, record_type)
     roles = [roles].flatten
     roles.map do |role|
-      PERMITTED_SUBFORMS_FOR_ACTION.select { |k, v| role.permits?(record_type, k) }.values
+      PERMITTED_SUBFORMS_FOR_ACTION.select { |k, _v| role.permits?(record_type, k) }.values
     end.flatten.uniq
+  end
+
+  private
+
+  def permission_level(writeable)
+    writeable ? FormPermission::PERMISSIONS[:read_write] : writeable
+  end
+
+  def eagerloaded_fields
+    Field.includes(subform: :fields).left_outer_joins(form_section: :roles)
+  end
+
+  def fetch_filtered_fields(roles, record_type, visible_only)
+    eagerloaded_fields.where(
+      fields: {
+        form_sections: {
+          roles: { id: roles },
+          parent_form: record_type,
+          visible: visible_only || nil
+        }.compact
+      }
+    )
+  end
+
+  def filter_writeable_fields(fields, permission_level)
+    fields.where(
+      fields: {
+        form_sections: { form_sections_roles: { permission: permission_level } },
+        type: PERMITTED_WRITEABLE_FIELD_TYPES
+      }
+    )
+  end
+
+  def append_action_subform_fields(fields, action_subform_fields)
+    return fields unless action_subform_fields.present?
+
+    fields.or(
+      eagerloaded_fields.where(
+        name: action_subform_fields,
+        type: Field::SUBFORM
+      )
+    )
   end
 end

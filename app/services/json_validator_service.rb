@@ -34,21 +34,27 @@ class JsonValidatorService < ValueObject
 
   def as_strong_params(name, object)
     type = [object['type']].flatten
-    if type.include?('object')
-      object['properties'].map { |k, v| as_strong_params(k, v) }
-    elsif type.include?('array')
-      items_type = [object['items']['type']].flatten
-      if items_type.include?('object')
-        { name.to_sym => object['items']['properties'].map { |k, v| as_strong_params(k, v) } }
-      else
-        { name.to_sym => [] }
-      end
-    else
-      name.to_sym
-    end
+
+    return object_properties_to_params(object) if type.include?('object')
+    return array_items_to_params(name, object) if type.include?('array')
+
+    name.to_sym
   end
 
   def build_schema(_fields)
     { 'type' => 'object', 'properties' => {}, 'additionalProperties' => false }
+  end
+
+  def object_properties_to_params(object)
+    object['properties'].map { |k, v| as_strong_params(k, v) }
+  end
+
+  def array_items_to_params(name, object)
+    items_type = [object['items']['type']].flatten
+    if items_type.include?('object')
+      { name.to_sym => object['items']['properties'].map { |k, v| as_strong_params(k, v) } }
+    else
+      { name.to_sym => [] }
+    end
   end
 end

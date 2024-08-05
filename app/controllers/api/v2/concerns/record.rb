@@ -68,16 +68,10 @@ module Api::V2::Concerns::Record
   def index_params
     return @index_params if @index_params
 
-    permitted_params = []
-    params.each do |k, v|
-      next unless @permitted_field_names.include?(k)
-
-      permitted_params << (v.is_a?(ActionController::Parameters) ? { k => {} } : k)
-    end
     @index_params = params.permit(
       :fields, :order, :order_by, :page, :per, :total,
       :id_search, :query, :query_scope, :phonetic, :format,
-      *permitted_params
+      *permitted_params(params)
     )
   end
 
@@ -88,7 +82,8 @@ module Api::V2::Concerns::Record
       authorized_roles, model_class.parent_form, write?
     )
     action_fields = @permitted_field_service.permitted_fields_schema
-    @json_validation_service = RecordJsonValidatorService.new(fields: permitted_fields, schema_supplement: action_fields)
+    @json_validation_service = RecordJsonValidatorService.new(fields: permitted_fields,
+                                                              schema_supplement: action_fields)
   end
 
   def validate_json!
@@ -175,6 +170,16 @@ module Api::V2::Concerns::Record
     else
       authorize!(:update, @record)
     end
+  end
+
+  def permitted_params(params)
+    permitted_params = []
+    params.each do |k, v|
+      next unless @permitted_field_names.include?(k)
+
+      permitted_params << (v.is_a?(ActionController::Parameters) ? { k => {} } : k)
+    end
+    permitted_params
   end
 end
 # rubocop:enable Metrics/ModuleLength
