@@ -32,29 +32,35 @@ class JsonValidatorService < ValueObject
 
   private
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/CyclomaticComplexity
   def as_strong_params(name, object)
     type = [object['type']].flatten
-
-    return object_properties_to_params(object) if type.include?('object')
-    return array_items_to_params(name, object) if type.include?('array')
-
-    name.to_sym
+    if type.include?('object')
+      if object['properties'].keys.include?('total')
+        { name.to_sym => object['properties'].map { |k, v| as_strong_params(k, v) } }
+      else
+        object['properties'].map { |k, v| as_strong_params(k, v) }
+      end
+    elsif type.include?('array')
+      items_type = [object['items']['type']].flatten
+      if items_type.include?('object')
+        { name.to_sym => object['items']['properties'].map { |k, v| as_strong_params(k, v) } }
+      else
+        { name.to_sym => [] }
+      end
+    else
+      name.to_sym
+    end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def build_schema(_fields)
     { 'type' => 'object', 'properties' => {}, 'additionalProperties' => false }
-  end
-
-  def object_properties_to_params(object)
-    object['properties'].map { |k, v| as_strong_params(k, v) }
-  end
-
-  def array_items_to_params(name, object)
-    items_type = [object['items']['type']].flatten
-    if items_type.include?('object')
-      { name.to_sym => object['items']['properties'].map { |k, v| as_strong_params(k, v) } }
-    else
-      { name.to_sym => [] }
-    end
   end
 end

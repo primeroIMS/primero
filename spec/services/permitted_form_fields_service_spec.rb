@@ -103,12 +103,49 @@ describe PermittedFormFieldsService do
     )
   end
 
+  let!(:form_section_mrm) do
+    killing_form = FormSection.create!(
+      unique_id: 'killing', parent_form: 'incident', name_en: 'family_details', is_nested: true,
+      fields: [
+        Field.new(name: 'description_text', type: Field::TEXT_FIELD, display_name_en: 'B'),
+        Field.new(name: 'violation_tally', type: Field::SELECT_BOX, display_name_en: 'C',
+                  tally_en: [
+                    { 'id' => 'boys', 'display_text' => 'Boys' },
+                    { 'id' => 'girls', 'display_text' => 'Girls' },
+                    { 'id' => 'unknown', 'display_text' => 'Unknown' }
+                  ]
+        )
+      ]
+    )
+    FormSection.create!(
+      unique_id: 'form_section6', parent_form: 'incident', name_en: 'form_section1',
+      fields: [
+        Field.new(name: 'another_field', type: Field::TEXT_FIELD, display_name_en: 'A'),
+        Field.new(
+          name: 'killing',
+          display_name_en: 'killing_form',
+          type: Field::SUBFORM,
+          subform: killing_form
+        )
+      ]
+    )
+  end
+
   let!(:primero_module) do
     PrimeroModule.create!(
       unique_id: 'primeromodule-cp-a', name: 'CPA', description: 'Child Protection A',
       associated_record_types: %w[case tracing_request incident],
       primero_program: PrimeroProgram.new(name: 'program'),
       form_sections: [form_section1, form_section2, form_section3, form_section4, form_section5]
+    )
+  end
+
+  let!(:primero_module_mrm) do
+    PrimeroModule.create!(
+      unique_id: 'primeromodule-mrm', name: 'MRM', description: 'MRM',
+      associated_record_types: %w[incident],
+      primero_program: PrimeroProgram.new(name: 'program'),
+      form_sections: [form_section_mrm]
     )
   end
 
@@ -151,6 +188,27 @@ describe PermittedFormFieldsService do
     )
   end
 
+  let!(:role_mrm) do
+    Role.create(
+      unique_id: 'role_test_03',
+      name: 'name_test_03',
+      description: 'description_test_03',
+      group_permission: 'all',
+      permissions: [
+        Permission.new(
+          resource: Permission::INCIDENT,
+          actions: [
+            Permission::READ, Permission::WRITE, Permission::CREATE
+          ]
+        )
+      ],
+      form_permissions: [
+        FormPermission.new(form_section: form_section_mrm, permission: FormPermission::PERMISSIONS[:read_write])
+      ],
+      modules: [primero_module_mrm]
+    )
+  end
+
   let(:service) { PermittedFormFieldsService.new }
 
   describe '#permitted_fields' do
@@ -185,6 +243,12 @@ describe PermittedFormFieldsService do
       permitted_fields = service.permitted_fields(role_with_actions, 'case', false)
       expect(permitted_fields.size).to eq(14)
       expect(permitted_fields.map(&:name)).to_not include(:notes_section, :services_section)
+    end
+
+    it 'includes mrm subforms when writeable' do
+      permitted_fields = service.permitted_fields(role_mrm, 'incident', true)
+      expect(permitted_fields.size).to eq(2)
+      expect(permitted_fields.map(&:name)).to match_array(%w[another_field killing])
     end
   end
 

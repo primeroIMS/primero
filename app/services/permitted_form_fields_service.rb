@@ -12,7 +12,7 @@ class PermittedFormFieldsService
     Field::TEXT_FIELD, Field::TEXT_AREA, Field::RADIO_BUTTON, Field::TICK_BOX,
     Field::SELECT_BOX, Field::NUMERIC_FIELD, Field::DATE_FIELD,
     Field::AUDIO_UPLOAD_BOX, Field::PHOTO_UPLOAD_BOX, Field::DOCUMENT_UPLOAD_BOX,
-    Field::SUBFORM
+    Field::SUBFORM, Field::TALLY_FIELD, Field::CALCULATED
   ].freeze
 
   # TODO: Primero is assuming that these forms exist in the configuration. If they
@@ -47,7 +47,7 @@ class PermittedFormFieldsService
     fields = fetch_filtered_fields(roles, record_type, visible_only)
     return fields unless writeable
 
-    filter_writeable_fields(fields, permission_level(writeable))
+    fields = filter_writeable_fields(fields, permission_level(writeable))
     action_subform_fields = permitted_subforms_from_actions(roles, record_type)
     append_action_subform_fields(fields, action_subform_fields)
   end
