@@ -153,14 +153,14 @@ class MatchingConfiguration
   def load_field_options(form_sections)
     form_sections.map do |fs|
       [fs.unique_id, fs.fields.select { |fd| fd.visible == true }
-      &.map { |fd| [fd.display_name, fs.unique_id + ID_SEPARATOR + fd.name] }]
+                       &.map { |fd| [fd.display_name, fs.unique_id + ID_SEPARATOR + fd.name] }]
     end
   end
 
   def update_form_section_for_filter(form_section, matchable_forms)
     [form_section.unique_id,
      form_section.fields.select { |fd| fd.visible == true && matchable_forms[form_section.unique_id].include?(fd.name) }
-    &.map { |fd| [fd.display_name, fd.name] }]
+                 &.map { |fd| [fd.display_name, fd.name] }]
   end
 
   def load_field_options_for_filter(form_sections, matchable_forms)
