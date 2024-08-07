@@ -119,9 +119,14 @@ module Api::V2::Concerns::Record
   def record_params
     return @record_params.to_h if @record_params.present?
 
-    strong_params = json_validation_service.strong_params
-    @record_params = params.require(:data).permit(strong_params).to_h
-    @record_params.to_h
+    if params[:data].present?
+      strong_params = json_validation_service.strong_params
+      @record_params = params.require(:data).permit(strong_params).to_h
+      @record_params.to_h
+    else
+      # We send empty data when we add an attachment
+      @record_params = {}
+    end
   end
 
   def find_record
