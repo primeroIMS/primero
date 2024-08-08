@@ -71,7 +71,7 @@ module Api::V2::Concerns::Record
     @index_params = params.permit(
       :fields, :order, :order_by, :page, :per, :total,
       :id_search, :query, :query_scope, :phonetic, :format,
-      *permitted_params(params)
+      *permitted_index_params(params)
     )
   end
 
@@ -117,12 +117,11 @@ module Api::V2::Concerns::Record
   end
 
   def record_params
-    return @record_params.to_h if @record_params.present?
+    return @record_params if @record_params.present?
 
     if params[:data].present?
       strong_params = json_validation_service.strong_params
       @record_params = params.require(:data).permit(strong_params).to_h
-      @record_params.to_h
     else
       # We send empty data when we add an attachment
       @record_params = {}
@@ -177,14 +176,20 @@ module Api::V2::Concerns::Record
     end
   end
 
-  def permitted_params(params)
+  def permitted_index_params(params)
     permitted_params = []
     params.each do |k, v|
-      next unless @permitted_field_names.include?(k)
+      next unless @permitted_field_names.include?(strip_location_prefix(k))
 
       permitted_params << (v.is_a?(ActionController::Parameters) ? { k => {} } : k)
     end
     permitted_params
+  end
+
+  def strip_location_prefix(param)
+    return param.delete_prefix('loc:') if param.start_with?('loc:')
+
+    param
   end
 end
 # rubocop:enable Metrics/ModuleLength

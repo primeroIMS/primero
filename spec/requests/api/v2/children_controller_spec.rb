@@ -9,8 +9,8 @@ describe Api::V2::ChildrenController, type: :request do
 
   before :each do
     clean_data(
-      Alert, Flag, Attachment, Trace, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord, Family,
-      Field, FormSection
+      Alert, Flag, Attachment, Trace, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord,
+      Family, Field, FormSection, Location
     )
 
     @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
@@ -115,6 +115,9 @@ describe Api::V2::ChildrenController, type: :request do
       user_group_ids: [@group1.id],
       role: @role1
     )
+    Location.create!(placename: 'Country', type: 'country', location_code: 'LOC')
+    Location.create!(placename: 'State', type: 'state', location_code: 'LOC01', hierarchy_path: 'LOC.LOC01')
+    Location.create!(placename: 'City', type: 'city', location_code: 'LOC0102', hierarchy_path: 'LOC.LOC01.LOC0102')
 
     Lookup.create!(
       unique_id: 'lookup-service-type',
@@ -127,7 +130,7 @@ describe Api::V2::ChildrenController, type: :request do
       registry_type: 'farmer', name: 'Jones', registry_no: 'GH123.ABC123'
     )
     @case1 = Child.create!(
-      data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false },
+      data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false, location_current: 'LOC0102' },
       registry_record: @registry_record1
     )
     Attachment.new(
@@ -135,7 +138,7 @@ describe Api::V2::ChildrenController, type: :request do
       file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
     ).attach!
     @case2 = Child.create!(
-      data: { name: 'Test2', age: 10, sex: 'female', urgent_protection_concern: true },
+      data: { name: 'Test2', age: 10, sex: 'female', urgent_protection_concern: true, location_current: 'LOC0102' },
       alerts: [
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request'),
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request')
@@ -146,7 +149,7 @@ describe Api::V2::ChildrenController, type: :request do
     @unique_id_uncle = SecureRandom.uuid
     @case3 = Child.create!(
       data: {
-        name: 'Test3', age: 6, sex: 'male',
+        name: 'Test3', age: 6, sex: 'male', location_current: 'LOC0101',
         family_details_section: [
           { unique_id: @unique_id_mother, relation_type: 'mother', relation_age: 33 },
           { unique_id: @unique_id_father, relation_type: 'father', relation_age: 32 }
@@ -393,6 +396,13 @@ describe Api::V2::ChildrenController, type: :request do
       get '/api/v2/cases?fields=short&order=asc&order_by=age'
       expect(json['data'].count).to eq(11)
       expect(json['data'].map { |rr| rr['age'] }).to eq([2, 5, 5, 6, 9, 10, 10, 12, 16, 17, 18])
+    end
+
+    it 'return records by location_current' do
+      login_for_test
+      get '/api/v2/cases?fields=short&loc:location_current[0]=LOC0102'
+      expect(json['data'].count).to eq(2)
+      expect(json['data'].map { |c| c['id'] }).to match_array([@case1.id, @case2.id])
     end
 
     context 'when a gbv case has in the associated_user_names a cp user' do
@@ -1426,7 +1436,7 @@ describe Api::V2::ChildrenController, type: :request do
   after :each do
     clean_data(
       Trace, Alert, Flag, Attachment, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord,
-      Field, FormSection
+      Field, FormSection, Location
     )
     clear_performed_jobs
     clear_enqueued_jobs
