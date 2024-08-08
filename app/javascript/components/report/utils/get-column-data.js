@@ -3,13 +3,17 @@
 import uniq from "lodash/uniq";
 import get from "lodash/get";
 
-import sortByDate from "./sort-by-date";
+import { REPORT_FIELD_TYPES } from "../../reports-form/constants";
 
-const getColumnData = (column, data, i18n, qtyColumns, qtyRows) => {
+import sortDataKeys from "./sort-data-keys";
+
+export default (column, data, i18n, qtyRows, fields, { ageRanges }) => {
   const totalLabel = i18n.t("report.total");
-  const keys = sortByDate(Object.keys(data));
+  const field = fields.find(reportField => reportField.position.type === REPORT_FIELD_TYPES.horizontal);
+  const optionLabels = field?.option_labels?.[i18n.locale]?.map(option => option.display_text) || [];
+  const keys = sortDataKeys(Object.keys(data), { ageRanges, optionLabels });
 
-  if (qtyRows >= 2 && qtyColumns > 0) {
+  if (qtyRows >= 2) {
     const firstRow = keys;
     const secondRow = uniq(firstRow.flatMap(row => Object.keys(data[row]).filter(key => key !== totalLabel)));
 
@@ -31,13 +35,7 @@ const getColumnData = (column, data, i18n, qtyColumns, qtyRows) => {
         return data[key][column][totalLabel];
       }
 
-      if (data[key][column]) {
-        return getColumnData(column, data[key], i18n, qtyColumns, qtyRows);
-      }
-
       return 0;
     })
     .flat();
 };
-
-export default (column, data, i18n, qtyColumns, qtyRows) => getColumnData(column, data, i18n, qtyColumns, qtyRows);
