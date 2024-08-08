@@ -24,7 +24,7 @@ class ApiConnector::AbstractConnector
     self.class.id
   end
 
-  def default_env_prefix
+  def self.default_env_prefix
     "PRIMERO_CONNECT_API_#{id.upcase}_"
   end
 
