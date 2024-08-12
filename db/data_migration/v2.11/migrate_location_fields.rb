@@ -39,7 +39,7 @@ Report.all.each do |report|
   report.filters = report.filters.map do |filter|
     next(filter) unless deprecated_field_name?(filter['attribute'], matchers)
 
-    filter['attribute'] = "loc:#{filter['attribute']}"
+    filter.merge('attribute' => "loc:#{filter['attribute']}")
   end
 
   next unless report.changed?
