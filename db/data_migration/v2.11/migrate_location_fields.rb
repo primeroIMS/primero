@@ -10,15 +10,15 @@ def print_log(message)
   puts message
 end
 
-def deprecated_location_name?(field_name)
-  return false unless field_name.present?
+def deprecated_field_name?(field_name, matchers)
+  return false if field_name.starts_with?('loc:')
 
-  field_name.match?(/[a-z]+[0-5]{1}$/) && !field_name.starts_with?('loc:')
+  matchers.any? { |matcher| matcher.match?(field_name) }
 end
 
-def rename_field_names(field_names)
+def rename_field_names(field_names, matchers)
   field_names.map do |field_name|
-    next(field_name) unless deprecated_location_name?(field_name)
+    next(field_name) unless deprecated_field_name?(field_name, matchers)
 
     "loc:#{field_name}"
   end
@@ -26,22 +26,18 @@ end
 
 save_records = ARGV[0] == 'true'
 
-reports = Report.joins('CROSS JOIN UNNEST(filters) AS report_filters')
-                .joins('CROSS JOIN UNNEST(disaggregate_by) AS report_dissagregate_by')
-                .joins('CROSS JOIN UNNEST(aggregate_by) AS report_aggregate_by')
-reports = reports.distinct.where(
-  %(
-    report_filters->>'attribute' ~ '[a-z]+[0-5]{1}$'
-    OR report_dissagregate_by ~ '[a-z]+[0-5]{1}$'
-    OR report_aggregate_by ~ '[a-z]+[0-5]{1}$'
-  )
-)
+location_field_names = Field.where(
+  type: Field::SELECT_BOX,
+  option_strings_source: %w[Location ReportingLocation]
+).pluck(:name)
 
-reports.each do |report|
-  report.disaggregate_by = rename_field_names(report.disaggregate_by)
-  report.aggregate_by = rename_field_names(report.aggregate_by)
+matchers = location_field_names.map { |field_name| Regexp.new("#{field_name}([0-5]{1})?$") }
+
+Report.all.each do |report|
+  report.disaggregate_by = rename_field_names(report.disaggregate_by, matchers)
+  report.aggregate_by = rename_field_names(report.aggregate_by, matchers)
   report.filters = report.filters.map do |filter|
-    next(filter) unless deprecated_location_name?(filter['attribute'])
+    next(filter) unless deprecated_field_name?(filter['attribute'], matchers)
 
     filter['attribute'] = "loc:#{filter['attribute']}"
   end
