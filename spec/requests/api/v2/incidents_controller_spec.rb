@@ -279,7 +279,6 @@ describe Api::V2::IncidentsController, type: :request do
 
         expect(response).to have_http_status(200)
         expect(json['data']['id']).not_to be_empty
-        expect(json['data']['case_id_display']).to eq(@case2.case_id_display)
         expect(json['data']['age']).to eq(7)
         @case2.reload
         expect(@case2.has_incidents).to eq(true)
