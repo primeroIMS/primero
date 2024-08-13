@@ -8,8 +8,8 @@
 # Comma delineated strings are converted to Arrays, Hashes with integer keys
 # are converted to Arrays, and values separated by .. are converted to ranges.
 class DestringifyService
-  def self.destringify(value, lists_and_ranges = false)
-    new.destringify(value, lists_and_ranges)
+  def self.destringify(value, lists_and_ranges = false, deep = true)
+    new.destringify(value, lists_and_ranges, deep)
   end
 
   # Disabling Rubocop because this really is a complex thing
@@ -17,7 +17,7 @@ class DestringifyService
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/PerceivedComplexity
-  def destringify(value, lists_and_ranges)
+  def destringify(value, lists_and_ranges, deep)
     # Recursively parse and cast a hash of string values to Dates, DateTimes, Integers, Booleans.
     # If all keys in a hash are numeric, convert it to an array.
     case value
@@ -40,24 +40,24 @@ class DestringifyService
     when /^\d+$/
       value.to_i
     when Array
-      value.map { |v| destringify(v, lists_and_ranges) }
+      value.map { |v| deep ? destringify(v, lists_and_ranges, deep) : v }
     when Hash
       # If value.keys is empty the expression returns true. For that reason we need the check for present?
       has_numeric_keys = value.keys.present? && value.keys.all? { |k| k.match?(/^\d+$/) }
       if has_numeric_keys
-        value.sort_by { |k, _| k.to_i }.map { |_, v| destringify(v, lists_and_ranges) }
+        value.sort_by { |k, _| k.to_i }.map { |_, v| deep ? destringify(v, lists_and_ranges, deep) : v }
       else
-        value.transform_values { |v| destringify(v, lists_and_ranges) }
+        value.transform_values { |v| deep ? destringify(v, lists_and_ranges, deep) : v }
       end
     else
       if lists_and_ranges && value.is_a?(String)
         if value.match?(/,/)
-          value.split(',').map { |v| destringify(v, lists_and_ranges) }
+          value.split(',').map { |v| deep ? destringify(v, lists_and_ranges, deep) : v}
         elsif value.match?(/\.\./)
           range = value.split('..')
           {
-            'from' => destringify(range[0], lists_and_ranges),
-            'to' => destringify(range[1], lists_and_ranges)
+            'from' => deep ? destringify(range[0], lists_and_ranges, deep) : range[0],
+            'to' => deep ? destringify(range[1], lists_and_ranges, deep) : range[1]
           }
         else
           value

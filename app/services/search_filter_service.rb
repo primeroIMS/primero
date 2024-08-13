@@ -5,12 +5,16 @@
 # Transform a params hash into SearchFilters::SearchFiklter objects
 class SearchFilterService
   EXCLUDED = %w[format controller action page per order order_by fields id_search].freeze
+  FILTERABLE_MODELS = [Child, Incident, TracingRequest, RegistryRecord, Family].freeze
 
   def self.build_filters(params, permitted_field_names)
     service = SearchFilterService.new
+    destringify_service = DestringifyService.new
     filter_params = service.select_filter_params(params, permitted_field_names)
-    filter_params = DestringifyService.destringify(filter_params.to_h, true)
-    service.build_filters(filter_params)
+    filter_params = destringify_service.destringify(filter_params.to_h, true, true)
+    id_params = service.select_id_params(params)
+    id_params = destringify_service.destringify(id_params, true, false)
+    service.build_filters(filter_params.merge(id_params))
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -46,7 +50,16 @@ class SearchFilterService
   # rubocop:enable Metrics/PerceivedComplexity
 
   def select_filter_params(params, permitted_field_names)
-    filter_params = params.except(*EXCLUDED)
+    excluded_params = EXCLUDED + filterable_id_fields
+    filter_params = params.except(*excluded_params)
     filter_params.select { |key, _| permitted_field_names.any? { |name| key.match?(/#{name}[0-5]?$/) } }
+  end
+
+  def select_id_params(params)
+    params.select { |key, _| filterable_id_fields.include?(key) }
+  end
+
+  def filterable_id_fields
+    @filterable_id_fields = FILTERABLE_MODELS.map { |model| model.filterable_id_fields }.flatten
   end
 end
