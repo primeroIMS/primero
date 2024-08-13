@@ -238,10 +238,14 @@ function Component({
   const familyMemberTitle = i18n.t(`family.family_member.${isNewSubform ? "save" : "update"}_and_return`);
   const handleBackLabel = isViolation || isViolationAssociation ? violationTitle : familyMemberTitle;
 
-  useEffect(() => {
-    if (open) {
-      setInitialValues(constructInitialValues([field.subform_section_id]));
+  async function setInitialValuesWhenOpen(subformSectionId, isOpen) {
+    if (isOpen) {
+      await setInitialValues(constructInitialValues([subformSectionId]));
     }
+  }
+
+  useEffect(() => {
+    setInitialValuesWhenOpen();
   }, [open]);
 
   return (
