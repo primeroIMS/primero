@@ -9,11 +9,9 @@ class SearchFilterService
 
   def self.build_filters(params, permitted_field_names)
     service = SearchFilterService.new
-    destringify_service = DestringifyService.new
     filter_params = service.select_filter_params(params, permitted_field_names)
-    filter_params = destringify_service.destringify(filter_params.to_h, true, true)
+    filter_params = DestringifyService.destringify(filter_params.to_h, true)
     id_params = service.select_id_params(params)
-    id_params = destringify_service.destringify(id_params, true, false)
     service.build_filters(filter_params.merge(id_params))
   end
 
@@ -60,6 +58,6 @@ class SearchFilterService
   end
 
   def filterable_id_fields
-    @filterable_id_fields = FILTERABLE_MODELS.map { |model| model.filterable_id_fields }.flatten
+    @filterable_id_fields = FILTERABLE_MODELS.map(&:filterable_id_fields).flatten
   end
 end
