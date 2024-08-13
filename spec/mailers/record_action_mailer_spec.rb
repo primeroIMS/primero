@@ -416,7 +416,7 @@ describe RecordActionMailer, type: :mailer do
       end
     end
 
-    describe 'transition request with diferent locale' do
+    describe 'transition request with different locale' do
       before do
         @user1.locale = 'ar-LB'
         @user1.save(validate: false)
@@ -432,7 +432,12 @@ describe RecordActionMailer, type: :mailer do
 
       it 'renders the body' do
         expect(mail.text_part.body.encoded)
-          .to match('مستخدم بريميرو user2 من مؤسسة Test Agency يطلب أن تنقل ملكية هذا السجل من نوع Case ومعرّف')
+          .to match(
+            %(مستخدم بريميرو user2 من الهيئة Test Agency يطلب أن تنقل ملكية هذا السجل من نوع Case ومعرّف
+              <a href=\"https://localhost:3000/v2/cases/#{@case.id}\">#{@case.short_id}</a>
+              بحيث يتمكنون من تقديم خدمات إدارة للشخص في منطقتهم. إذا كان التحويل مقبولا من طرفك، يرجى النقر على رابط معرف نوع السجل
+              Case في هذا الايميل لفتح نوع السجل Case في بريميرو والبدء بعملية التحويل.).squish
+            )
       end
     end
 
