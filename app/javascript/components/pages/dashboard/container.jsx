@@ -22,9 +22,11 @@ import {
   Overview,
   PerpetratorArmedForceGroupPartyNames,
   ProtectionConcern,
+  Referrals,
   ReportingLocation,
   SharedFromMyTeam,
   SharedWithMyTeam,
+  Transfers,
   ViolationsCategoryRegion,
   ViolationsCategoryVerificationStatus,
   WorkflowIndividualCases,
@@ -38,6 +40,13 @@ function Dashboard() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const canFetchFlags = usePermissions(RESOURCES.dashboards, [ACTIONS.DASH_FLAGS]);
+  const canSeeReferrals = usePermissions(RESOURCES.cases, [ACTIONS.RECEIVE_REFERRAL, ACTIONS.MANAGE]);
+  const canSeeTransfers = usePermissions(RESOURCES.cases, [ACTIONS.RECEIVE_TRANSFER, ACTIONS.MANAGE]);
+  const canSeeSharedWithMe = usePermissions(RESOURCES.dashboards, [ACTIONS.DASH_SHARED_WITH_ME]);
+  const canSeeSharedWithOthers = usePermissions(RESOURCES.dashboards, [ACTIONS.DASH_SHARED_WITH_OTHERS]);
+  const canSeeSharedWithMyTeamOverview = usePermissions(RESOURCES.dashboards, [
+    ACTIONS.DASH_SHARED_WITH_MY_TEAM_OVERVIEW
+  ]);
 
   useEffect(() => {
     dispatch(fetchDashboards());
@@ -53,6 +62,10 @@ function Dashboard() {
   const loadingFlags = useMemoizedSelector(state => getLoading(state, [NAMESPACE, "flags"]));
   const flagsErrors = useMemoizedSelector(state => getErrors(state, [NAMESPACE, "flags"]));
 
+  const showReferralsDashboard = (canSeeReferrals && canSeeSharedWithMe) || canSeeSharedWithOthers;
+  const showTransferDashboard =
+    canSeeSharedWithMyTeamOverview || canSeeSharedWithOthers || (canSeeSharedWithMe && canSeeTransfers);
+
   const indicatorProps = {
     overlay: true,
     type: NAMESPACE,
@@ -67,17 +80,35 @@ function Dashboard() {
     errors: flagsErrors
   };
 
+  const xlSize = canFetchFlags ? 9 : 12;
+  const mdSize = canFetchFlags ? 8 : 12;
+
+  const xlSizeTransition = showReferralsDashboard && showTransferDashboard ? 6 : 12;
+  const mdSizeTransition = showReferralsDashboard && showTransferDashboard ? 6 : 12;
+
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
       <PageContent>
         <OfflineAlert text={i18n.t("messages.dashboard_offline")} />
         <Grid container spacing={3}>
-          <Grid item xl={9} md={8} xs={12}>
+          <Grid item xl={xlSize} md={mdSize} xs={12}>
             <Overview loadingIndicator={indicatorProps} userPermissions={userPermissions} />
             <WorkflowIndividualCases loadingIndicator={indicatorProps} />
-            <CasesToAssign loadingIndicator={indicatorProps} />
             <Approvals loadingIndicator={indicatorProps} />
+            <Grid container spacing={1}>
+              {showReferralsDashboard && (
+                <Grid item xl={xlSizeTransition} md={mdSizeTransition} xs={12}>
+                  <Referrals loadingIndicator={indicatorProps} userPermissions={userPermissions} />
+                </Grid>
+              )}
+              {showTransferDashboard && (
+                <Grid item xl={xlSizeTransition} md={mdSizeTransition} xs={12}>
+                  <Transfers loadingIndicator={indicatorProps} userPermissions={userPermissions} />
+                </Grid>
+              )}
+            </Grid>
+            <CasesToAssign loadingIndicator={indicatorProps} />
             <SharedFromMyTeam loadingIndicator={indicatorProps} />
             <SharedWithMyTeam loadingIndicator={indicatorProps} />
             <OverdueTasks loadingIndicator={indicatorProps} />
@@ -89,9 +120,11 @@ function Dashboard() {
             <ViolationsCategoryRegion loadingIndicator={indicatorProps} />
             <PerpetratorArmedForceGroupPartyNames loadingIndicator={indicatorProps} />
           </Grid>
-          <Grid item xl={3} md={4} xs={12}>
-            <Flags loadingIndicator={flagsIndicators} />
-          </Grid>
+          {canFetchFlags && (
+            <Grid item xl={3} md={4} xs={12}>
+              <Flags loadingIndicator={flagsIndicators} />
+            </Grid>
+          )}
         </Grid>
       </PageContent>
     </PageContainer>
