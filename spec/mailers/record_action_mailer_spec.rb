@@ -41,20 +41,24 @@ describe RecordActionMailer, type: :mailer do
 
   describe 'approvals' do
     before do
-      clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency, Referral)
+      clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, Lookup, UserGroup, Agency,
+                 Referral)
 
       @lookup = Lookup.create!(id: 'lookup-approval-type', unique_id: 'lookup-approval-type', name: 'approval type',
                                lookup_values_en: [{ 'id' => 'value1', 'display_text' => 'value1' }])
       role = create(:role, is_manager: true)
       @manager1 = create(:user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1')
-      @manager2 = create(:user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2', settings: notification_settings)
+      @manager2 = create(:user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2',
+                                settings: notification_settings)
       @manager3 = create(
-        :user, role:, email: 'manager3@primero.dev', send_mail: true, user_name: 'manager3', locale: 'ar-LB', settings: notification_settings
+        :user, role:, email: 'manager3@primero.dev', send_mail: true, user_name: 'manager3', locale: 'ar-LB',
+               settings: notification_settings
       )
       @manager4 = create(
         :user, role:, email: 'manager4@primero.dev', send_mail: true, user_name: 'manager4', disabled: true
       )
-      @owner = create(:user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev', settings: notification_settings)
+      @owner = create(:user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev',
+                             settings: notification_settings)
       @disabled_user = create(
         :user, user_name: 'duser', full_name: 'Disabled User', email: 'duser@primero.dev', disabled: true
       )
@@ -189,7 +193,8 @@ describe RecordActionMailer, type: :mailer do
         end
 
         let(:user2) do
-          create(:user, user_name: 'user2', full_name: 'User random', email: 'user2@primero.dev', send_mail: true, settings: notification_settings)
+          create(:user, user_name: 'user2', full_name: 'User random', email: 'user2@primero.dev', send_mail: true,
+                        settings: notification_settings)
         end
         let(:assign1) do
           Assign.create!(transitioned_by: 'jnelson', transitioned_to_user: user2, record: @child)
