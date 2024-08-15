@@ -6,27 +6,10 @@ import { cx } from "@emotion/css";
 import ActionButton from "../../action-button";
 import { useApp } from "../../application";
 import { useI18n } from "../../i18n";
-import { buildFilter } from "../utils";
+import { buildFilter, buildLabelItem } from "../utils";
 import { ROUTES } from "../../../config";
 
 import css from "./styles.css";
-
-const buildLabelItem = (item, approvalsLabels, defaultLabel) => {
-  switch (item) {
-    case "approval_assessment_pending_group":
-      return approvalsLabels.get("assessment");
-    case "approval_case_plan_pending_group":
-      return approvalsLabels.get("case_plan");
-    case "approval_closure_pending_group":
-      return approvalsLabels.get("closure");
-    case "approval_action_plan_pending_group":
-      return approvalsLabels.get("action_plan");
-    case "approval_gbv_closure_pending_group":
-      return approvalsLabels.get("gbv_closure");
-    default:
-      return defaultLabel;
-  }
-};
 
 function IndicatorItem({ item, query, count }) {
   const i18n = useI18n();

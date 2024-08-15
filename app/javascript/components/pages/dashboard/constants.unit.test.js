@@ -27,6 +27,9 @@ describe("Verifying config constant", () => {
     const clone = { ...constants };
 
     expect(clone.DASHBOARD_NAMES).to.have.all.keys(
+      "ACTION_NEEDED_NEW_REFERRALS",
+      "ACTION_NEEDED_NEW_TRANSFER_AWAITING_ACCEPTANCE",
+      "ACTION_NEEDED_NEW_UPDATED",
       "APPROVALS_ASSESSMENT_PENDING",
       "APPROVALS_ASSESSMENT",
       "APPROVALS_CASE_PLAN_PENDING",

@@ -1,6 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 export { default as Overview } from "./overview";
+export { default as ActionNeeded } from "./action-needed";
 export { default as SharedFromMyTeam } from "./shared-from-my-team";
 export { default as SharedWithMyTeam } from "./shared-with-my-team";
 export { default as WorkflowIndividualCases } from "./workflow-individual-cases";

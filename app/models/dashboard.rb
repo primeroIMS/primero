@@ -50,6 +50,28 @@ class Dashboard < ValueObject
     indicators: [Indicators::Case::RISK]
   ).freeze
 
+  ACTION_NEEDED_NEW_UPDATED = Dashboard.new(
+    name: 'action_needed_new_updated',
+    type: 'indicator',
+    indicators: [Indicators::Case::UPDATED]
+  ).freeze
+
+  ACTION_NEEDED_NEW_REFERRALS = Dashboard.new(
+    name: 'action_needed_new_referrals',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::SHARED_WITH_ME_NEW_REFERRALS
+    ]
+  ).freeze
+
+  ACTION_NEEDED_TRANSFER_AWAITING_ACCEPTANCE = Dashboard.new(
+    name: 'action_needed_transfer_awaiting_acceptance',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::SHARED_WITH_ME_TRANSFERS_AWAITING_ACCEPTANCE
+    ]
+  ).freeze
+
   APPROVALS_ASSESSMENT = Dashboard.new(
     name: 'approvals_assessment',
     type: 'indicator',

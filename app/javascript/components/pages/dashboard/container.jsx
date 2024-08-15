@@ -14,6 +14,7 @@ import { RECORD_PATH } from "../../../config";
 import { useMemoizedSelector } from "../../../libs";
 
 import {
+  ActionNeeded,
   Approvals,
   CasesBySocialWorker,
   CasesToAssign,
@@ -47,6 +48,12 @@ function Dashboard() {
   const canSeeSharedWithMyTeamOverview = usePermissions(RESOURCES.dashboards, [
     ACTIONS.DASH_SHARED_WITH_MY_TEAM_OVERVIEW
   ]);
+  const canSeeActionNeededDashboards = usePermissions(RESOURCES.dashboards, [
+    ACTIONS.DASH_ACTION_NEEDED_NEW_UPDATED,
+    ACTIONS.DASH_ACTION_NEEDED_NEW_REFERRALS,
+    ACTIONS.DASH_ACTION_NEEDED_TRANSFER_AWAITING_ACCEPTANCE
+  ]);
+  const canSeeOverviewDashboard = usePermissions(RESOURCES.dashboards, [ACTIONS.DASH_CASE_OVERVIEW]);
 
   useEffect(() => {
     dispatch(fetchDashboards());
@@ -86,14 +93,22 @@ function Dashboard() {
   const xlSizeTransition = showReferralsDashboard && showTransferDashboard ? 6 : 12;
   const mdSizeTransition = showReferralsDashboard && showTransferDashboard ? 6 : 12;
 
+  const xlSizeOverview = canSeeActionNeededDashboards ? 4 : 12;
+  const xlSizeActionNeeded = canSeeOverviewDashboard ? 8 : 12;
+
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
       <PageContent>
         <OfflineAlert text={i18n.t("messages.dashboard_offline")} />
         <Grid container spacing={3}>
-          <Grid item xl={xlSize} md={mdSize} xs={12}>
+          <Grid item xl={xlSizeOverview} md={xlSizeOverview} xs={12}>
             <Overview loadingIndicator={indicatorProps} userPermissions={userPermissions} />
+          </Grid>
+          <Grid item xl={xlSizeActionNeeded} md={xlSizeActionNeeded} xs={12}>
+            <ActionNeeded loadingIndicator={indicatorProps} userPermissions={userPermissions} />
+          </Grid>
+          <Grid item xl={xlSize} md={mdSize} xs={12}>
             <WorkflowIndividualCases loadingIndicator={indicatorProps} />
             <Approvals loadingIndicator={indicatorProps} />
             <Grid container spacing={1}>
