@@ -29,7 +29,7 @@ function Component({ children, isBulkFlags, tab, setTab }) {
   const filterChildren = children.filter(child => ["false", undefined].includes(child.props.hidetab));
 
   const renderChildren = filterChildren.map((child, index) => (
-    <TabPanel value={tab} index={index} key={`tab-${tab}`}>
+    <TabPanel value={tab} index={index} key={`tab-${tabs[index]}`}>
       {child}
     </TabPanel>
   ));
@@ -41,7 +41,7 @@ function Component({ children, isBulkFlags, tab, setTab }) {
           <Box flexGrow={1}>
             <Tabs onChange={handleTabChange} value={tab}>
               {filteredTabs.map((t, index) => (
-                <Tab label={t} {...a11yProps(index)} key={t} className={css.flagTab} />
+                <Tab label={t} {...a11yProps(index)} key={`flagging-${t}`} className={css.flagTab} />
               ))}
             </Tabs>
           </Box>
