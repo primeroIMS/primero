@@ -40,8 +40,8 @@ function Component({ children, isBulkFlags, tab, setTab }) {
         <Box display="flex" className={css.containerTabs}>
           <Box flexGrow={1}>
             <Tabs onChange={handleTabChange} value={tab}>
-              {filteredTabs.map((t, index) => (
-                <Tab label={t} {...a11yProps(index)} key={`flagging-${t}`} className={css.flagTab} />
+              {filteredTabs.map((label, index) => (
+                <Tab label={label} key={label} {...a11yProps(index)} className={css.flagTab} />
               ))}
             </Tabs>
           </Box>
