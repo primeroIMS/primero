@@ -1,13 +1,14 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable camelcase */
+
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { subYears } from "date-fns";
 import { TextField as MuiTextField } from "formik-mui";
 import { useDispatch } from "react-redux";
 import { ButtonBase } from "@mui/material";
-import { FastField, connect, getIn } from "formik";
+import { FastField, connect } from "formik";
 import { useParams } from "react-router-dom";
 import omitBy from "lodash/omitBy";
 import isEmpty from "lodash/isEmpty";
@@ -28,7 +29,6 @@ function TextField({ name, field, formik, mode, recordType, recordID, formSectio
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const errors = getIn(formik.errors, name);
 
   const recordName = useMemoizedSelector(state => selectRecordAttribute(state, recordType, recordID, "name"));
 
@@ -81,7 +81,6 @@ function TextField({ name, field, formik, mode, recordType, recordID, formSectio
               data-testid="text-field"
               variant="outlined"
               form={renderProps.form}
-              error={errors}
               field={{
                 ...renderProps.field,
                 InputProps: { ...fieldProps.InputProps, ...(rest.error ? { error: rest.error } : {}) },
