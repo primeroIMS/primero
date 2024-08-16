@@ -1,5 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
+import { Fragment } from "react";
 import PropTypes from "prop-types";
 
 import Permission, { RESOURCES } from "../../permissions";
@@ -11,25 +12,23 @@ function DashboardColumns({ columns }) {
   return (
     <div className={css.container} data-testid="dashboard-columns">
       {columns.map((dashboards, index) => (
-        <>
+        <Fragment key={`columns-${dashboards.flatMap(dashboard => dashboard.actions).join("-")}`}>
           <div className={css.optionsBox} data-testid="dashboard-column">
             <OptionsBox flat>
-              <div>
-                {dashboards.map(dashboard => {
-                  const { type, actions, options } = dashboard;
-                  const Dashboard = dashboardType(type);
+              {dashboards.map(dashboard => {
+                const { type, actions, options } = dashboard;
+                const Dashboard = dashboardType(type);
 
-                  return (
-                    <Permission key={actions} resources={RESOURCES.dashboards} actions={actions}>
-                      <Dashboard {...options} />
-                    </Permission>
-                  );
-                })}
-              </div>
+                return (
+                  <Permission key={actions} resources={RESOURCES.dashboards} actions={actions}>
+                    <Dashboard {...options} />
+                  </Permission>
+                );
+              })}
             </OptionsBox>
           </div>
           {index === columns.length - 1 || <div className={css.divider} />}
-        </>
+        </Fragment>
       ))}
     </div>
   );

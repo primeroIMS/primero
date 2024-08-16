@@ -45,6 +45,7 @@ const colors = {
   purple: "#7c347b", // u
   red: "#d0021b", // u
   redLabelError: "#f44336",
+  scorpion: "#5f5f5f",
   solidBlack: "#000000",
   solidGreen: "#7ba024",
   solidOrange: "#ff9500",

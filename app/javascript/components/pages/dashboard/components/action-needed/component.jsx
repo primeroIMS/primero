@@ -72,11 +72,7 @@ function Component({ loadingIndicator }) {
 
   return (
     <Permission resources={RESOURCES.dashboards} actions={dashboardActions}>
-      <OptionsBox
-        title={i18n.t("dashboard.action_needed.header")}
-        hasData={actionNeededHasData || false}
-        {...loadingIndicator}
-      >
+      <OptionsBox title={i18n.t("dashboard.action_needed.header")} hasData={actionNeededHasData} {...loadingIndicator}>
         <DashboardColumns columns={columns} />
       </OptionsBox>
     </Permission>

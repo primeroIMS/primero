@@ -5,14 +5,6 @@
   padding: 15px;
 }
 
-.sectionTitle {
-  color: var(--c-warm-grey-4);
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: var(--sp-1);
-  font-size: var(--fs-12);
-}
-
 .overviewBox {
   padding-bottom: 10px
 }
@@ -62,14 +54,6 @@
 
 .itemButton:hover{
   text-decoration: underline;
-}
-
-.itemButtonNumber, .itemButton {
-  &.zero {
-    color: var(--c-black);
-    pointer-events: none;
-    cursor: default;
-  }
 }
 
 .item {

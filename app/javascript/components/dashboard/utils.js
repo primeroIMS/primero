@@ -22,7 +22,7 @@ export const buildFilter = (queryValue, isManager = false) => {
   return qs.stringify(value);
 };
 
-export const buildLabelItem = (item, approvalsLabels, defaultLabel) => {
+export const buildItemLabel = (item, approvalsLabels, defaultLabel) => {
   switch (item) {
     case "approval_assessment_pending_group":
       return approvalsLabels.get("assessment");

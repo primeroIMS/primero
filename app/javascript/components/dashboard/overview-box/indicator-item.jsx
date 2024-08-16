@@ -6,31 +6,27 @@ import { cx } from "@emotion/css";
 import ActionButton from "../../action-button";
 import { useApp } from "../../application";
 import { useI18n } from "../../i18n";
-import { buildFilter, buildLabelItem } from "../utils";
+import { buildFilter, buildItemLabel } from "../utils";
 import { ROUTES } from "../../../config";
+import dashboardsCss from "../styles.css";
 
 import css from "./styles.css";
 
-function IndicatorItem({ item, query, count }) {
+function IndicatorItem({ item, query, count, countClasses, labelClasses }) {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(
-      push({
-        pathname: ROUTES.cases,
-        search: buildFilter(query)
-      })
-    );
+    dispatch(push({ pathname: ROUTES.cases, search: buildFilter(query) }));
   };
 
   const defaultLabel = i18n.t(`dashboard.${item}`);
 
-  const labelItem = buildLabelItem(item, approvalsLabels, defaultLabel);
+  const itemLabel = buildItemLabel(item, approvalsLabels, defaultLabel);
 
-  const numberClasses = cx({ [css.zero]: !count, [css.itemButtonNumber]: true });
-  const textClasses = cx({ [css.zero]: !count, [css.itemButton]: true });
+  const numberClasses = countClasses || cx({ [dashboardsCss.zero]: !count, [css.itemButtonNumber]: true });
+  const textClasses = labelClasses || cx({ [dashboardsCss.zero]: !count, [css.itemButton]: true });
 
   return (
     <>
@@ -46,7 +42,7 @@ function IndicatorItem({ item, query, count }) {
         id={`overview-${item}-text`}
         className={textClasses}
         type="link"
-        text={labelItem}
+        text={itemLabel}
         onClick={handleClick}
         noTranslate
       />
@@ -58,7 +54,9 @@ IndicatorItem.displayName = "IndicatorItem";
 
 IndicatorItem.propTypes = {
   count: PropTypes.number,
+  countClasses: PropTypes.object,
   item: PropTypes.object,
+  labelClasses: PropTypes.object,
   query: PropTypes.object
 };
 

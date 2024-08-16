@@ -27,11 +27,3 @@
   gap: var(--sp-1);
   margin-top: var(--sp-2);
 }
-
-.sectionTitle {
-  color: var(--c-warm-grey-4);
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: var(--sp-1);
-  font-size: var(--fs-13);
-}

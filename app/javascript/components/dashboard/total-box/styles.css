@@ -4,14 +4,6 @@
   padding-bottom: 10px
 }
 
-.sectionTitle {
-  color: var(--c-warm-grey-4);
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: var(--sp-1);
-  font-size: var(--fs-12);
-}
-
 .total {
   font-size: var(--fs-96);
   font-weight: bold;
@@ -23,8 +15,7 @@
 }
 
 .zero {
-  color: var(--c-black);
-  pointer-events: none;
+  font-weight: normal;
 }
 
 .footer {
