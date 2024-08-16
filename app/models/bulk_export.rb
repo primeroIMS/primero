@@ -102,7 +102,7 @@ class BulkExport < ApplicationRecord
   end
 
   def generate_file_name
-    return if file_name.present?
+    return self.file_name = ActiveStorage::Filename.new(file_name).sanitized if file_name.present?
 
     self.file_name = "#{record_type&.pluralize}-#{Time.now.strftime('%Y%m%d.%M%S%M%L')}.#{exporter_type&.mime_type}"
   end
