@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable react/no-multi-comp, react/display-name */
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Formik, Form, getIn } from "formik";
@@ -238,14 +238,10 @@ function Component({
   const familyMemberTitle = i18n.t(`family.family_member.${isNewSubform ? "save" : "update"}_and_return`);
   const handleBackLabel = isViolation || isViolationAssociation ? violationTitle : familyMemberTitle;
 
-  async function setInitialValuesWhenOpen(subformSectionId, isOpen) {
-    if (isOpen) {
-      await setInitialValues(constructInitialValues([subformSectionId]));
+  useLayoutEffect(() => {
+    if (open) {
+      setInitialValues(constructInitialValues([field.subform_section_id]));
     }
-  }
-
-  useEffect(() => {
-    setInitialValuesWhenOpen();
   }, [open]);
 
   return (
