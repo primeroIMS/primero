@@ -2,15 +2,18 @@
 
 import { Fragment } from "react";
 import PropTypes from "prop-types";
+import { cx } from "@emotion/css";
 
 import Permission, { RESOURCES } from "../../permissions";
 import OptionsBox from "../options-box";
 import { dashboardType } from "../../pages/dashboard/utils";
 import css from "../../pages/dashboard/components/styles.css";
 
-function DashboardColumns({ columns }) {
+function DashboardColumns({ columns, keepRows }) {
+  const classes = cx({ [css.container]: !keepRows, [css.keepRows]: keepRows });
+
   return (
-    <div className={css.container} data-testid="dashboard-columns">
+    <div className={classes} data-testid="dashboard-columns">
       {columns.map((dashboards, index) => (
         <Fragment key={`columns-${dashboards.flatMap(dashboard => dashboard.actions).join("-")}`}>
           <div className={css.optionsBox} data-testid="dashboard-column">
@@ -37,7 +40,8 @@ function DashboardColumns({ columns }) {
 DashboardColumns.displayName = "DashboardColumns";
 
 DashboardColumns.propTypes = {
-  columns: PropTypes.array
+  columns: PropTypes.array,
+  keepRows: PropTypes.bool
 };
 
 export default DashboardColumns;

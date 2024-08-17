@@ -5,14 +5,28 @@
 }
 
 .total {
-  font-size: var(--fs-96);
+  font-size:var(--fs-80);
   font-weight: bold;
-  line-height: 1.0;
+  line-height: 1.2;
 
   &:hover {
     text-decoration: none;
   }
+
 }
+
+@media (max-width:1200px) {
+  .total {
+    font-size: var(--fs-60);
+  }
+}
+
+@media (max-width:600px) {
+  .total {
+    font-size: var(--fs-30);
+  }
+}
+
 
 .zero {
   font-weight: normal;
