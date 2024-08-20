@@ -17,7 +17,7 @@ function TallyField({ name, formik, field, helperText, InputLabelProps, label, m
   const tallyValues = compact(field.tally.map(option => getIn(formik.values, [name, option.id])));
   const errors = getIn(formik.errors, name);
   const touched = getIn(formik.touched, name);
-  const hasError = Object.values(errors || {}).some(val => !!val) && Object.values(touched || {}).some(val => !!val);
+  const hasError = errors && touched;
   const renderError = hasError && buildTallyErrors(errors);
   const renderErrorOnHelperText = hasError && { error: true };
 
