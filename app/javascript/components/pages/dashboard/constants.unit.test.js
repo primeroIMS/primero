@@ -12,6 +12,7 @@ describe("Verifying config constant", () => {
       "DASHBOARD_NAMES",
       "DASHBOARD_TYPES",
       "INDICATOR_NAMES",
+      "MAX_VISIBLE_DASHBOARDS",
       "NAME",
       "PROTECTION_CONCERNS_ORDER_NAMES",
       "RISK_LEVELS"

@@ -79,3 +79,5 @@ export const RISK_LEVELS = Object.freeze({
   HIGH: "high",
   LOW: "low"
 });
+
+export const MAX_VISIBLE_DASHBOARDS = 2;

@@ -31,7 +31,7 @@
 }
 
 .itemButton, .itemButtonNumber {
-  font-size: var(--fs-14);
+  font-size: var(--fs-16);
   border: none;
   line-height: 1.5em;
   text-align: left;
