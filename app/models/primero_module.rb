@@ -76,7 +76,7 @@ class PrimeroModule < ApplicationRecord
     find_by(unique_id: MRM)
   end
 
-  def self.permitted_modules
+  def self.available_module_ids
     all.map(&:unique_id)
   end
 
