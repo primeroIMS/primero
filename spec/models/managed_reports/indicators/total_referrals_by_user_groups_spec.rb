@@ -17,15 +17,15 @@ describe ManagedReports::Indicators::TotalReferralsByUserGroups do
 
     Referral.new(
       transitioned_to_user: group_user, transitioned_by_user: self_user, record: child1, consent_overridden: true,
-      created_at: Date.new(2021, 8, 12)
+      created_at: DateTime.new(2021, 8, 12, 10, 15, 13)
     ).save(validate: false)
     Referral.new(
       transitioned_to_user: group_user, transitioned_by_user: agency_user, record: child2, consent_overridden: true,
-      created_at: Date.new(2021, 9, 8)
+      created_at: DateTime.new(2021, 9, 8, 21, 12, 10)
     ).save(validate: false)
     Referral.new(
       transitioned_to_user: group_user, transitioned_by_user: all_user, record: child3, consent_overridden: true,
-      created_at: Date.new(2020, 10, 10)
+      created_at: DateTime.new(2020, 10, 10, 5, 10, 21)
     ).save(validate: false)
   end
 
@@ -204,11 +204,7 @@ describe ManagedReports::Indicators::TotalReferralsByUserGroups do
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
-            'created_at' => SearchFilters::DateRange.new(
-              field_name: 'created_at',
-              from: '2020-01-01',
-              to: '2021-12-10'
-            )
+            'created_at' => SearchFilters::DateRange.new(field_name: 'created_at', from: '2020-01-01', to: '2021-09-08')
           }
         ).data
 
@@ -241,11 +237,7 @@ describe ManagedReports::Indicators::TotalReferralsByUserGroups do
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
-            'created_at' => SearchFilters::DateRange.new(
-              field_name: 'created_at',
-              from: '2021-08-01',
-              to: '2021-09-30'
-            )
+            'created_at' => SearchFilters::DateRange.new(field_name: 'created_at', from: '2021-08-01', to: '2021-09-08')
           }
         ).data
 
@@ -276,11 +268,7 @@ describe ManagedReports::Indicators::TotalReferralsByUserGroups do
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
-            'created_at' => SearchFilters::DateRange.new(
-              field_name: 'created_at',
-              from: '2021-08-01',
-              to: '2021-09-30'
-            )
+            'created_at' => SearchFilters::DateRange.new(field_name: 'created_at', from: '2021-08-01', to: '2021-09-08')
           }
         ).data
 
@@ -305,11 +293,7 @@ describe ManagedReports::Indicators::TotalReferralsByUserGroups do
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'week'),
-            'created_at' => SearchFilters::DateRange.new(
-              field_name: 'created_at',
-              from: '2021-08-08',
-              to: '2021-08-13'
-            )
+            'created_at' => SearchFilters::DateRange.new(field_name: 'created_at', from: '2021-08-08', to: '2021-08-12')
           }
         ).data
 

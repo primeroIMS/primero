@@ -48,13 +48,6 @@ class PermittedFieldService
   ].freeze
 
   PERMITTED_FIELDS_FOR_ACTION_SCHEMA = {
-    Permission::ADD_NOTE => { 'notes_section' => { 'type' => %w[array null], 'items' => { 'type' => 'object' } } },
-    Permission::INCIDENT_DETAILS_FROM_CASE => {
-      'incident_details' => { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
-    },
-    Permission::SERVICES_SECTION_FROM_CASE => {
-      'services_section' => { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
-    },
     Permission::CLOSE => { 'status' => { 'type' => 'string' }, 'date_closure' => { 'type' => 'date' } },
     Permission::REOPEN => {
       'status' => { 'type' => 'string' }, 'workflow' => { 'type' => 'string' },
@@ -63,6 +56,17 @@ class PermittedFieldService
     Permission::ENABLE_DISABLE_RECORD => { 'record_state' => { 'type' => 'boolean' } },
     Permission::INCIDENT_FROM_CASE => {
       'incident_case_id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => UUID_REGEX }
+    },
+    Permission::ADD_REGISTRY_RECORD => {
+      'registry_record_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX }
+    },
+    Permission::CASE_FROM_FAMILY => {
+      'family_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX },
+      'family_member_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX }
+    },
+    Permission::LINK_FAMILY_RECORD => {
+      'family_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX },
+      'family_member_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX }
     }
   }.freeze
 
@@ -90,7 +94,7 @@ class PermittedFieldService
   # rubocop:disable Metrics/PerceivedComplexity
   def permitted_field_names(writeable = false, update = false, roles = [])
     return @permitted_field_names if @permitted_field_names.present?
-    return permitted_field_names_from_action_name if action_name.present?
+    return permitted_field_names_from_action_name if permitted_field_names_from_action_name.present?
 
     @permitted_field_names = permitted_core_fields(update) + PERMITTED_FILTER_FIELD_NAMES
     @permitted_field_names += PERMITTED_MRM_FILTER_FIELD_NAMES if user.module?(PrimeroModule::MRM)
@@ -105,7 +109,9 @@ class PermittedFieldService
     @permitted_field_names += SYNC_FIELDS_SCHEMA.keys if external_sync?
     @permitted_field_names += permitted_incident_field_names
     @permitted_field_names << 'incident_details' if user.can?(:view_incident_from_case, model_class)
-    @permitted_field_names += permitted_approval_schema.keys
+    approval_fields = permitted_approval_schema.keys
+    @permitted_field_names += permitted_approval_schema.keys if approval_fields.present?
+    @permitted_field_names << 'approval_subforms' if approval_fields.present?
     @permitted_field_names += permitted_overdue_task_field_names
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
     @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
@@ -122,6 +128,7 @@ class PermittedFieldService
     update ? core_fields - %w[id] : core_fields
   end
 
+  # TODO:  The method is essentially duplicating some logic from permitted_field_names. DRY!
   def permitted_fields_schema
     schema = PERMITTED_CORE_FIELDS_SCHEMA.dup
     permitted_actions =
@@ -130,7 +137,6 @@ class PermittedFieldService
     schema['hidden_name'] = { 'type' => 'boolean' } if user.can?(:update, model_class)
     schema['reporting_location_hierarchy'] = { 'type' => 'string' } if user.can?(:update, model_class)
     schema = schema.merge(SYNC_FIELDS_SCHEMA) if external_sync?
-    schema = schema.merge(permitted_mrm_entities_schema) if user.module?(PrimeroModule::MRM)
     schema.merge(permitted_approval_schema)
   end
   # rubocop:enable Metrics/AbcSize
@@ -176,7 +182,6 @@ class PermittedFieldService
     Approval.types.each_with_object({}) do |approval_id, schema|
       next unless approval_access?(user, approval_id)
 
-      schema['approval_subforms'] = { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
       schema["#{approval_id}_approved"] = { 'type' => 'boolean' }
       schema["approval_status_#{approval_id}"] = { 'type' => 'string' }
       schema["#{approval_id}_approved_date"] = { 'type' => %w[date string], 'format' => 'date' }
@@ -219,12 +224,6 @@ class PermittedFieldService
     incident_field_names << 'case_id_display'
 
     incident_field_names
-  end
-
-  def permitted_mrm_entities_schema
-    (Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS).each_with_object({}) do |entry, schema|
-      schema[entry] = { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
-    end
   end
 
   def permitted_attachment_fields

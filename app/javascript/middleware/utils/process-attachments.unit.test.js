@@ -31,7 +31,7 @@ describe("middleware/utils/process-attachments.js", () => {
         api: {
           path: `${RECORD_PATH.cases}/10/attachments`,
           method: METHODS.POST,
-          body: { data: { attachment: "attachment-data", field_name: "field_1" } },
+          body: { data: { attachment: "attachment-data" } },
           db: { collection: "records", id: 10, recordType: "cases" }
         },
         fromQueue: "1234",

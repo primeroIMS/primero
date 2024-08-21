@@ -87,7 +87,7 @@ describe("<Report /> - utils", () => {
         }
       };
 
-      expect(buildGraphData(report, i18n, { agencies })).to.deep.equal(expected);
+      expect(buildGraphData(report, i18n, { agencies, ageRanges: [] })).to.deep.equal(expected);
     });
   });
 
@@ -228,22 +228,22 @@ describe("<Report /> - utils", () => {
     const expected = {
       description: "Protection Concerns by Risk Level",
       data: {
-        labels: ["Abandonment", "Neglect", "Orphan", "Rape", "Separated", "Unaccompanied"],
+        labels: ["Rape", "Neglect", "Abandonment", "Unaccompanied", "Separated", "Orphan"],
         datasets: [
           {
             backgroundColor: "#e0dfd6",
-            data: [2, 1, 1, 0, 1, 1],
-            label: "Low"
+            data: [1, 0, 0, 0, 0, 0],
+            label: "High"
           },
           {
             backgroundColor: "#595951",
-            data: [0, 0, 0, 1, 0, 0],
-            label: "High"
+            data: [0, 1, 2, 1, 1, 1],
+            label: "Low"
           }
         ]
       }
     };
 
-    expect(buildGraphData(report, i18n, { agencies: [] })).to.deep.equal(expected);
+    expect(buildGraphData(report, i18n, { agencies: [], ageRanges: [] })).to.deep.equal(expected);
   });
 });

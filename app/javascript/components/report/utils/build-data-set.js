@@ -1,6 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import isEmpty from "lodash/isEmpty";
+import first from "lodash/first";
 
 import { REPORT_FIELD_TYPES } from "../../reports-form/constants";
 
@@ -8,23 +9,25 @@ import formattedDate from "./formatted-date";
 import getColors from "./get-colors";
 import getColumnData from "./get-column-data";
 import getTranslatedKey from "./get-translated-key";
-import sortByDate from "./sort-by-date";
+import sortDataKeys from "./sort-data-keys";
 
-export default (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies, locations }) => {
+export default (columns, data, i18n, fields, qtyRows, { agencies, ageRanges, locations }) => {
   const totalLabel = i18n.t("report.total");
   const dataResults = [];
   const field =
     fields.length > 1
       ? fields.find(reportField => reportField.position.type === REPORT_FIELD_TYPES.vertical)
-      : fields.shift();
+      : first(fields);
+
+  const optionLabels = field.option_labels?.[i18n.locale]?.map(option => option.display_text);
 
   if (!isEmpty(columns)) {
-    sortByDate(columns).forEach((column, index) => {
+    sortDataKeys(columns, { ageRanges, optionLabels }).forEach((column, index) => {
       const label = getTranslatedKey(column, field, { agencies, i18n, locations });
 
       dataResults.push({
         label: formattedDate(label, i18n),
-        data: getColumnData(column, data, i18n, qtyColumns, qtyRows),
+        data: getColumnData(column, data, i18n, qtyRows, fields, { ageRanges }),
         backgroundColor: getColors(index)
       });
     });

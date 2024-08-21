@@ -136,4 +136,18 @@ describe ManagedReports::Indicators::IndividualPerpetrator do
       )
     end
   end
+
+  describe 'when is filtered by violation_type' do
+    it 'return data for individual age indicator' do
+      data = ManagedReports::Indicators::IndividualViolationType.build(
+        nil,
+        {
+          'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
+          'violation_type' => SearchFilters::TextList.new(field_name: 'violation_type', values: %w[attack_on_schools])
+        }
+      ).data
+
+      expect(data).to match_array([{ id: 'attack_on_schools', total: 1 }])
+    end
+  end
 end

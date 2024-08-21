@@ -3,10 +3,11 @@
 # ------------------------------------------------------------------ BUILD STAGE
 
 ARG BUILD_REGISTRY
-ARG version=1.25.4
+ARG version=1.27.0
+# TODO: Although the rest of Primero uses Alpine 3.20 base images, Nginx doesn't have one.
+ARG ALPINE_VERSION=3.19
 
-# TODO: Although the rest of Primero uses Alpine 3.19 base images, Nginx doesn't have one.
-FROM ${BUILD_REGISTRY}nginx:${version}-alpine3.18 AS builder
+FROM ${BUILD_REGISTRY}nginx:${version}-alpine${ALPINE_VERSION} AS builder
 ARG version
 
 WORKDIR /root/
@@ -30,7 +31,7 @@ RUN apk add --update --no-cache build-base git pcre-dev openssl-dev zlib-dev lin
 ARG BUILD_REGISTRY
 ARG version
 
-FROM ${BUILD_REGISTRY}nginx:${version}-alpine3.18
+FROM ${BUILD_REGISTRY}nginx:${version}-alpine${ALPINE_VERSION}
 EXPOSE 80 443
 
 ARG version
@@ -38,6 +39,11 @@ ARG NGINX_UID
 ARG NGINX_GID
 ENV USER_ID=${NGINX_UID}
 ENV GROUP_ID=${NGINX_GID}
+# TODO:
+# If you are updating `version` or `ALPINE_VERSION`,
+# run: `docker scout cves primero/nginx:my-tag` to verify whether the versions of the security packages
+# listed in SECURITY_UPDATED_PACKAGES are still necessary.
+ENV SECURITY_UPDATED_PACKAGES="curl=8.9.0-r0"
 
 COPY [ "nginx/root/", "/" ]
 
@@ -51,6 +57,7 @@ RUN set -ex \
     ; chown -R docker-nginx:docker-nginx /certs \
     ; apk update \
     ; apk add openssl \
+    ; apk add --no-cache $SECURITY_UPDATED_PACKAGES \
     ; mkdir -p /etc/letsencrypt \
     ; mkdir -p /etc/letsencrypt/accounts \
     ; mkdir -p /etc/letsencrypt/archive \

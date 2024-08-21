@@ -220,7 +220,7 @@ class Exporters::FormExporter < ValueObject
   def field_options_select(field)
     return I18n.t('exports.forms.options.country', locale:) if lookup_country?(field)
 
-    %w[Location Agency User ReportingLocation].each do |option|
+    %w[Location Agency User ReportingLocation LinkedIncidents].each do |option|
       next unless field.option_strings_source&.start_with?(option)
 
       return I18n.t("exports.forms.options.#{option.downcase}", locale:)

@@ -301,7 +301,7 @@ function SelectInput({ commonInputProps, metaInputProps, options: allOptions = [
           value={handleMultiSelectValue(fieldValue)}
           renderOption={(props, option) => (
             <li {...props} key={option.id}>
-              {option.display_text}
+              {optionLabel(option)}
             </li>
           )}
         />

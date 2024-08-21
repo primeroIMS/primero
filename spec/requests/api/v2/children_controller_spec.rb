@@ -9,8 +9,8 @@ describe Api::V2::ChildrenController, type: :request do
 
   before :each do
     clean_data(
-      Alert, Flag, Attachment, Trace, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord, Family,
-      Field, FormSection
+      Alert, Flag, Attachment, Trace, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord,
+      Family, Field, FormSection, Location
     )
 
     @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
@@ -21,6 +21,7 @@ describe Api::V2::ChildrenController, type: :request do
         Field.create!(name: 'field_a', display_name: 'Field A', type: Field::TEXT_FIELD)
       ]
     )
+
     role_self = Role.create!(
       name: 'Test Role 3',
       unique_id: 'test-role-3',
@@ -114,6 +115,9 @@ describe Api::V2::ChildrenController, type: :request do
       user_group_ids: [@group1.id],
       role: @role1
     )
+    Location.create!(placename: 'Country', type: 'country', location_code: 'LOC')
+    Location.create!(placename: 'State', type: 'state', location_code: 'LOC01', hierarchy_path: 'LOC.LOC01')
+    Location.create!(placename: 'City', type: 'city', location_code: 'LOC0102', hierarchy_path: 'LOC.LOC01.LOC0102')
 
     Lookup.create!(
       unique_id: 'lookup-service-type',
@@ -126,7 +130,7 @@ describe Api::V2::ChildrenController, type: :request do
       registry_type: 'farmer', name: 'Jones', registry_no: 'GH123.ABC123'
     )
     @case1 = Child.create!(
-      data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false },
+      data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false, location_current: 'LOC0102' },
       registry_record: @registry_record1
     )
     Attachment.new(
@@ -134,7 +138,7 @@ describe Api::V2::ChildrenController, type: :request do
       file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
     ).attach!
     @case2 = Child.create!(
-      data: { name: 'Test2', age: 10, sex: 'female', urgent_protection_concern: true },
+      data: { name: 'Test2', age: 10, sex: 'female', urgent_protection_concern: true, location_current: 'LOC0102' },
       alerts: [
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request'),
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request')
@@ -145,7 +149,7 @@ describe Api::V2::ChildrenController, type: :request do
     @unique_id_uncle = SecureRandom.uuid
     @case3 = Child.create!(
       data: {
-        name: 'Test3', age: 6, sex: 'male',
+        name: 'Test3', age: 6, sex: 'male', location_current: 'LOC0101',
         family_details_section: [
           { unique_id: @unique_id_mother, relation_type: 'mother', relation_age: 33 },
           { unique_id: @unique_id_father, relation_type: 'father', relation_age: 32 }
@@ -392,6 +396,13 @@ describe Api::V2::ChildrenController, type: :request do
       get '/api/v2/cases?fields=short&order=asc&order_by=age'
       expect(json['data'].count).to eq(11)
       expect(json['data'].map { |rr| rr['age'] }).to eq([2, 5, 5, 6, 9, 10, 10, 12, 16, 17, 18])
+    end
+
+    it 'return records by location_current' do
+      login_for_test
+      get '/api/v2/cases?fields=short&loc:location_current[0]=LOC0102'
+      expect(json['data'].count).to eq(2)
+      expect(json['data'].map { |c| c['id'] }).to match_array([@case1.id, @case2.id])
     end
 
     context 'when a gbv case has in the associated_user_names a cp user' do
@@ -747,6 +758,19 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['data']['id']).to eq(@case1.id)
     end
 
+    it 'ignores unauthorized attributes' do
+      login_for_test
+      params = { data: {  name: 'TesterTester', unauthorized_field: '0001' } }
+
+      patch "/api/v2/cases/#{@case1.id}", params:, as: :json
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['name']).to eq('TesterTester')
+
+      case1 = Child.find_by(id: @case1.id)
+      expect(case1.data['unauthorized_field']).to be_nil
+    end
+
     it 'filters sensitive information from logs' do
       allow(Rails.logger).to receive(:debug).and_return(nil)
       login_for_test
@@ -862,6 +886,7 @@ describe Api::V2::ChildrenController, type: :request do
     describe 'when a user adds a service subform' do
       it 'updates the subforms if cannot update the record' do
         login_for_test(
+          permitted_fields: [],
           group_permission: Permission::SELF,
           permissions: [
             Permission.new(
@@ -887,6 +912,7 @@ describe Api::V2::ChildrenController, type: :request do
 
       it 'updates the subforms if cannot read/write cases' do
         login_for_test(
+          permitted_fields: [],
           group_permission: Permission::SELF,
           permissions: [
             Permission.new(
@@ -1250,6 +1276,7 @@ describe Api::V2::ChildrenController, type: :request do
     describe 'referral authorizations' do
       context 'when a record was referred' do
         it 'updates permitted fields based on the authorized roles' do
+
           sign_in(@user_referral)
 
           params = { data: { field_a: 'new value for field_a' } }
@@ -1260,20 +1287,6 @@ describe Api::V2::ChildrenController, type: :request do
           expect(json['data']['id']).to eq(@case11.id)
           expect(json['data']['field_a']).to eq('new value for field_a')
           expect(json['data']['permitted_forms']).to eq({ 'form_a' => 'rw' })
-        end
-
-        it 'returns 422 error if the updated field is not authorized' do
-          sign_in(@user_referral)
-
-          params = { data: { national_id_no: '0001' } }
-
-          patch "/api/v2/cases/#{@case11.id}", params:, as: :json
-
-          expect(response).to have_http_status(422)
-          expect(json['errors'][0]['status']).to eq(422)
-          expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case11.id}")
-          expect(json['errors'][0]['detail']).to match_array(['/national_id_no'])
-          expect(json['errors'][0]['message']).to eq('Invalid Record JSON')
         end
       end
     end
@@ -1423,7 +1436,7 @@ describe Api::V2::ChildrenController, type: :request do
   after :each do
     clean_data(
       Trace, Alert, Flag, Attachment, Incident, Child, User, Agency, Role, Lookup, PrimeroModule, RegistryRecord,
-      Field, FormSection
+      Field, FormSection, Location
     )
     clear_performed_jobs
     clear_enqueued_jobs

@@ -105,6 +105,10 @@ const fetchSinglePayload = async (action, store, options) => {
             throw new Error(window.I18n.t("error_message.error_401"));
           }
 
+          if (action.type === userActions.LOGIN) {
+            throw new Error(json.error);
+          }
+
           startSignout(store);
         }
 
