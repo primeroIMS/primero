@@ -10,7 +10,14 @@ describe PermittedFormFieldsService do
   end
 
   let!(:form_section1) do
-    FormSection.create(
+    family_details = FormSection.create!(
+      unique_id: 'family_details', parent_form: 'case', name_en: 'family_details', is_nested: true,
+      fields: [
+        Field.new(name: 'relation_name', type: Field::TEXT_FIELD, display_name_en: 'A'),
+        Field.new(name: 'relation_type', type: Field::SELECT_BOX, display_name_en: 'A')
+      ]
+    )
+    FormSection.create!(
       unique_id: 'form_section1', parent_form: 'case', name_en: 'form_section1',
       fields: [
         Field.new(name: 'name', type: Field::TEXT_FIELD, display_name_en: 'A'),
@@ -28,20 +35,15 @@ describe PermittedFormFieldsService do
           name: 'family_details',
           display_name_en: 'A',
           type: Field::SUBFORM,
-          subform: FormSection.new(
-            fields: [
-              Field.new(name: 'relation_name', type: Field::TEXT_FIELD),
-              Field.new(name: 'relation_type', type: Field::SELECT_BOX)
-            ]
-          )
+          subform: family_details
         )
       ]
     )
   end
 
   let!(:form_section2) do
-    FormSection.create(
-      unique_id: 'form_section2', parent_form: 'case', name_en: 'form_section2',
+    FormSection.create!(
+      unique_id: 'form_section2', parent_form: 'case', name_en: 'form_section2', is_nested: true,
       fields: [
         Field.new(name: 'interview_date', type: Field::DATE_FIELD, display_name_en: 'A'),
         Field.new(name: 'consent_for_referral', type: Field::TICK_BOX, display_name_en: 'A')
@@ -50,12 +52,100 @@ describe PermittedFormFieldsService do
   end
 
   let!(:form_section3) do
-    FormSection.create(
+    FormSection.create!(
       unique_id: 'form_section3', parent_form: 'case', name_en: 'form_section3',
       fields: [
         Field.new(name: 'interview_date3', type: Field::DATE_FIELD, display_name_en: 'A'),
         Field.new(name: 'consent_for_referral3', type: Field::TICK_BOX, display_name_en: 'A')
       ]
+    )
+  end
+
+  let!(:form_section4) do
+    notes_section = FormSection.create!(
+      unique_id: 'notes_section', parent_form: 'case', name_en: 'notes_section', is_nested: true,
+      fields: [
+        Field.new(name: 'note_field', type: Field::TEXT_FIELD, display_name_en: 'A'),
+        Field.new(name: 'separator2', type: Field::SEPARATOR, display_name_en: 'A'),
+      ]
+    )
+    FormSection.create!(
+      unique_id: 'form_section4', parent_form: 'case', name_en: 'form_section4',
+      fields: [
+        Field.new(
+          name: 'notes_section',
+          display_name_en: 'A',
+          type: Field::SUBFORM,
+          subform: notes_section
+        )
+      ]
+    )
+  end
+
+  let!(:form_section5) do
+    services_section = FormSection.create!(
+      unique_id: 'services_section', parent_form: 'case', name_en: 'services_section', is_nested: true,
+      fields: [
+        Field.new(name: 'service_description', type: Field::TEXT_FIELD, display_name_en: 'A'),
+        Field.new(name: 'separator3', type: Field::SEPARATOR, display_name_en: 'A'),
+      ]
+    )
+    FormSection.create(
+      unique_id: 'form_section5', parent_form: 'case', name_en: 'form_section5',
+      fields: [
+        Field.new(
+          name: 'services_section',
+          display_name_en: 'A',
+          type: Field::SUBFORM,
+          subform: services_section
+        )
+      ]
+    )
+  end
+
+  let!(:form_section_mrm) do
+    killing_form = FormSection.create!(
+      unique_id: 'killing', parent_form: 'incident', name_en: 'family_details', is_nested: true,
+      fields: [
+        Field.new(name: 'description_text', type: Field::TEXT_FIELD, display_name_en: 'B'),
+        Field.new(name: 'violation_tally', type: Field::SELECT_BOX, display_name_en: 'C',
+                  tally_en: [
+                    { 'id' => 'boys', 'display_text' => 'Boys' },
+                    { 'id' => 'girls', 'display_text' => 'Girls' },
+                    { 'id' => 'unknown', 'display_text' => 'Unknown' }
+                  ]
+        )
+      ]
+    )
+    FormSection.create!(
+      unique_id: 'form_section6', parent_form: 'incident', name_en: 'form_section1',
+      fields: [
+        Field.new(name: 'another_field', type: Field::TEXT_FIELD, display_name_en: 'A'),
+        Field.new(
+          name: 'killing',
+          display_name_en: 'killing_form',
+          type: Field::SUBFORM,
+          subform: killing_form
+        )
+      ]
+    )
+  end
+
+  let!(:primero_module) do
+    PrimeroModule.create!(
+      unique_id: 'primeromodule-cp-a', name: 'CPA', description: 'Child Protection A',
+      associated_record_types: %w[case tracing_request incident],
+      primero_program: PrimeroProgram.new(name: 'program'),
+      form_sections: [form_section1, form_section2, form_section3, form_section4, form_section5]
+    )
+  end
+
+  let!(:primero_module_mrm) do
+    PrimeroModule.create!(
+      unique_id: 'primeromodule-mrm', name: 'MRM', description: 'MRM',
+      associated_record_types: %w[incident],
+      primero_program: PrimeroProgram.new(name: 'program'),
+      form_sections: [form_section_mrm]
     )
   end
 
@@ -66,20 +156,56 @@ describe PermittedFormFieldsService do
       description: 'description_test_01',
       group_permission: 'all',
       permissions: [
-        Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+        Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
       ],
       form_permissions: [
         FormPermission.new(form_section: form_section1, permission: FormPermission::PERMISSIONS[:read_write]),
         FormPermission.new(form_section: form_section2, permission: FormPermission::PERMISSIONS[:read])
       ],
-      modules: [
-        PrimeroModule.new(
-          unique_id: 'primeromodule-cp-a', name: 'CPA', description: 'Child Protection A',
-          associated_record_types: %w[case tracing_request incident],
-          primero_program: PrimeroProgram.new(name: 'program'),
-          form_sections: [form_section1, form_section2]
+      modules: [primero_module]
+    )
+  end
+
+  let!(:role_with_actions) do
+    Role.create(
+      unique_id: 'role_test_02',
+      name: 'name_test_02',
+      description: 'description_test_02',
+      group_permission: 'all',
+      permissions: [
+        Permission.new(
+          resource: Permission::CASE,
+          actions: [
+            Permission::READ, Permission::WRITE, Permission::CREATE, Permission::ADD_NOTE, Permission::SERVICES_SECTION_FROM_CASE
+          ]
         )
-      ]
+      ],
+      form_permissions: [
+        FormPermission.new(form_section: form_section1, permission: FormPermission::PERMISSIONS[:read_write]),
+        FormPermission.new(form_section: form_section2, permission: FormPermission::PERMISSIONS[:read])
+      ],
+      modules: [primero_module]
+    )
+  end
+
+  let!(:role_mrm) do
+    Role.create(
+      unique_id: 'role_test_03',
+      name: 'name_test_03',
+      description: 'description_test_03',
+      group_permission: 'all',
+      permissions: [
+        Permission.new(
+          resource: Permission::INCIDENT,
+          actions: [
+            Permission::READ, Permission::WRITE, Permission::CREATE
+          ]
+        )
+      ],
+      form_permissions: [
+        FormPermission.new(form_section: form_section_mrm, permission: FormPermission::PERMISSIONS[:read_write])
+      ],
+      modules: [primero_module_mrm]
     )
   end
 
@@ -88,10 +214,10 @@ describe PermittedFormFieldsService do
   describe '#permitted_fields' do
     it 'lists all writeable fields' do
       permitted_fields = service.permitted_fields(role, 'case', true)
-      expect(permitted_fields.size).to eq(12)
+      expect(permitted_fields.size).to eq(11)
       expect(permitted_fields.map(&:name)).to match_array(
         %w[name age sex national_id_no consent_for_services current_address protection_concerns
-           registration_date created_on separator1 other_documents family_details]
+           registration_date created_on family_details other_documents]
       )
     end
 
@@ -103,15 +229,36 @@ describe PermittedFormFieldsService do
            registration_date created_on separator1 other_documents family_details interview_date consent_for_referral]
       )
     end
+
+    it 'includes action subforms when writeable' do
+      permitted_fields = service.permitted_fields(role_with_actions, 'case', true)
+      expect(permitted_fields.size).to eq(13)
+      expect(permitted_fields.map(&:name)).to match_array(
+        %w[name age sex national_id_no consent_for_services current_address protection_concerns other_documents
+           registration_date created_on family_details notes_section services_section]
+      )
+    end
+
+    it 'excludes action subforms when readable' do
+      permitted_fields = service.permitted_fields(role_with_actions, 'case', false)
+      expect(permitted_fields.size).to eq(14)
+      expect(permitted_fields.map(&:name)).to_not include(:notes_section, :services_section)
+    end
+
+    it 'includes mrm subforms when writeable' do
+      permitted_fields = service.permitted_fields(role_mrm, 'incident', true)
+      expect(permitted_fields.size).to eq(2)
+      expect(permitted_fields.map(&:name)).to match_array(%w[another_field killing])
+    end
   end
 
   describe '#permitted_field_names' do
     it 'lists all writeable field names' do
       permitted_field_names = service.permitted_field_names(role, 'case', true)
-      expect(permitted_field_names.size).to eq(12)
+      expect(permitted_field_names.size).to eq(11)
       expect(permitted_field_names).to match_array(
         %w[name age sex national_id_no consent_for_services current_address protection_concerns
-           registration_date created_on separator1 other_documents family_details]
+           registration_date created_on family_details other_documents]
       )
     end
   end

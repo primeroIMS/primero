@@ -13,7 +13,6 @@ import { useI18n } from "../../i18n";
 import { INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES, RECORD_OWNER } from "../../../config";
 import {
   getIncidentFromCaseForm,
-  getPreviousRecordType,
   getRecordFormsByUniqueId,
   getRecordInformationFormIds,
   getValidationErrors
@@ -72,7 +71,7 @@ function Component({
   const recordInformationFormIds = useMemoizedSelector(state =>
     getRecordInformationFormIds(state, { recordType: RECORD_TYPES[recordType], primeroModule })
   );
-  const previousRecordType = useMemoizedSelector(state => getPreviousRecordType(state));
+
   const selectedRecordId = useMemoizedSelector(state => getSelectedRecord(state, recordType));
 
   const formGroupLookup = useOptions({
@@ -181,12 +180,6 @@ function Component({
       setSelectedRecordChanged(false);
     }
   }, [selectedRecordChanged, isShow, firstTab]);
-
-  useEffect(() => {
-    if (firstTab && recordType && previousRecordType && recordType !== previousRecordType) {
-      dispatch(setSelectedForm(firstTab.unique_id));
-    }
-  }, [recordType, previousRecordType, firstTab]);
 
   const drawerClasses = { paper: css.drawerPaper };
 
