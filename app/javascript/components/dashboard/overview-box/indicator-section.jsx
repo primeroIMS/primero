@@ -3,6 +3,7 @@ import { useMemo } from "react";
 
 import LoadingIndicator from "../../loading-indicator";
 import NAMESPACE from "../../pages/dashboard/namespace";
+import dashboardsCss from "../styles.css";
 
 import css from "./styles.css";
 import IndicatorItem from "./indicator-item";
@@ -28,7 +29,7 @@ function IndicatorSection({ indicators, loading, errors, sumTitle, withTotal }) 
   return (
     <LoadingIndicator {...loadingIndicatorProps}>
       <div className={css.overviewBox} data-testid="overview-box">
-        <div className={css.sectionTitle}>{titleFormSum}</div>
+        <div className={dashboardsCss.sectionTitle}>{titleFormSum}</div>
         <div className={css.overviewList}>
           {indicators.entrySeq().map(([key, value]) => (
             <IndicatorItem item={key} key={key} count={value.get("count")} query={value.get("query")} />
