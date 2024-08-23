@@ -40,7 +40,7 @@ function Container({ modal = false }) {
   const formSections = form(i18n);
 
   const handleSubmit = async values => {
-    await dispatch(checkServerStatus(true));
+    await dispatch(checkServerStatus(true, false));
     setTimeout(() => dispatch(attemptLogin(values)), 1000);
   };
 

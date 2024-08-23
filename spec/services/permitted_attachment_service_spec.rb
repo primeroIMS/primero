@@ -9,7 +9,7 @@ describe PermittedAttachmentService, search: true do
     [
       FormSection.create!(
         unique_id: 'form1', name: 'Form 1', parent_form: 'case', form_group_id: 'form1', fields: [
-          Field.new(name: Attachable::PHOTOS_FIELD_NAME, display_name: 'Photos')
+          Field.new(name: Attachable::PHOTOS_FIELD_NAME, display_name: 'Photos', type: Field::PHOTO_UPLOAD_BOX)
         ]
       )
     ]

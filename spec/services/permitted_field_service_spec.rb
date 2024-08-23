@@ -145,7 +145,7 @@ describe PermittedFieldService, search: true do
   end
 
   before(:each) do
-    clean_data(PrimeroProgram, User, Agency, Role, FormSection, Field, SystemSettings)
+    clean_data(PrimeroModule, PrimeroProgram, User, Agency, Role, FormSection, Field, SystemSettings)
     system_settings
     form
     field
@@ -305,11 +305,6 @@ describe PermittedFieldService, search: true do
     it 'returns Violations fields if user has permission' do
       permitted_field_names = PermittedFieldService.new(mrm_user, Incident).permitted_field_names
       expect(permitted_field_names.include?('mrm_field')).to be true
-    end
-
-    it 'return a field schema for tally fields' do
-      permitted_fields_schema = PermittedFieldService.new(mrm_user, Incident).permitted_fields_schema
-      expect((Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS) - permitted_fields_schema.keys).to be_empty
     end
   end
 

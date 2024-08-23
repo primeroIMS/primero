@@ -67,13 +67,19 @@ export const setPendingUserLogin = payload => ({
   payload
 });
 
-export const getServerStatus = () => ({
+export const getServerStatus = ({ showSnackbars = true }) => ({
   type: actions.SERVER_STATUS,
   api: {
     path: ROUTES.check_server_health,
     external: true,
-    successCallback: [{ action: actions.SERVER_STATUS, payload: true }, onlineSnackbar(true, { forMiddleware: true })],
-    failureCallback: [{ action: actions.SERVER_STATUS, payload: false }, onlineSnackbar(false, { forMiddleware: true })]
+    successCallback: [
+      { action: actions.SERVER_STATUS, payload: true },
+      showSnackbars && onlineSnackbar(true, { forMiddleware: true })
+    ],
+    failureCallback: [
+      { action: actions.SERVER_STATUS, payload: false },
+      showSnackbars && onlineSnackbar(false, { forMiddleware: true })
+    ]
   }
 });
 
@@ -81,7 +87,7 @@ export function setFieldMode(dispatch) {
   dispatch(setNetworkStatus(false));
 }
 
-export const checkServerStatus = isOnline => (dispatch, getState) => {
+export const checkServerStatus = (isOnline, showSnackbars) => (dispatch, getState) => {
   const userToggledOffline = getState().getIn(["connectivity", "fieldMode"]);
 
   dispatch(closeSnackbar(isOnline ? CONNECTION_LOST : CONNECTED));
@@ -92,7 +98,7 @@ export const checkServerStatus = isOnline => (dispatch, getState) => {
     dispatch(closeSnackbar(FIELD_MODE_OFFLINE));
     dispatch(setNetworkStatus(isOnline));
     if (isOnline) {
-      dispatch(getServerStatus(isOnline));
+      dispatch(getServerStatus({ showSnackbars }));
     } else {
       dispatch({ type: ENQUEUE_SNACKBAR, ...onlineSnackbar(isOnline, { forMiddleware: true }) });
     }

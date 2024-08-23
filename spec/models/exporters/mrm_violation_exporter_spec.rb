@@ -216,6 +216,10 @@ module Exporters
         expect(workbook.sheets.size).to eq(6)
       end
 
+      it 'create worksheets with correct nams' do
+        expect(workbook.sheets).to match_array(Violation::MRM_ASSOCIATIONS_KEYS + %w[Violations])
+      end
+
       it 'prints the id headers' do
         expect(workbook.sheet(0).row(2)[0]).to eq('ID#')
         expect(workbook.sheet(0).row(3)[0..3]).to eq(

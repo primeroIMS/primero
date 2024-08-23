@@ -1054,6 +1054,7 @@ en:
         subforms: 'Subform: %{subform_name}'
         collapsed_fields: 'Collapsed Fields: %{fields}'
         country: Countries
+        linkedincidents: Linked Incidents
       summary_header:
         form_group: Primero Form Group
         form: Primero Forms
@@ -1816,6 +1817,15 @@ en:
       parish: Parish
       cercle: Cercle
       sub-county: Sub-county
+      departement_fr: 'Département'
+      region_fr: 'Région'
+      wilaya: 'Wilaya'
+      commune: 'Commune'
+      division_fr: 'Division'
+      prefecture: 'Prefecture'
+      moughataa: 'Moughataa'
+      sub_division: 'Sub-division'
+      sub-prefecture: 'Sub-Prefecture'
     label: Location
     name: Name
     code: Code

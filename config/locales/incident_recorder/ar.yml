@@ -1,7 +1,7 @@
 ar:
   permissions:
     permission:
-      export_incident_recorder_xls: "تحميل سجل الحوادث لجداول xls"
+      export_incident_recorder_xls: "تصدير سجل الحوادث xls"
   exports:
     incident_recorder_xls:
       all: سجل الحوادث
@@ -27,10 +27,10 @@ ar:
       service_referral:
         undecided: "غير مقرّر"
       headers:
-        incident_id: "رمز  الحادثة"
-        survivor_code: "رمز الناجية"
-        case_manager_code: "رمز مدير الحالة"
-        case_worker_code: "رمز الموظف المختص بالحالة"
+        incident_id: "كود  الحادثة"
+        survivor_code: "كود الناجية"
+        case_manager_code: "كود مدير الحالة"
+        case_worker_code: "كود اخصائي الحالة"
         date_of_interview: "تاريخ المقابلة"
         date_of_incident: "تاريخ الحادثة"
         date_of_birth: "تاريخ الميلاد"
@@ -39,13 +39,13 @@ ar:
         country_of_origin: "البلد الأصلي"
         marital_status: "الحالة المدنية / الزوجية "
         displacement_status: "وضع النزوح عند الإبلاغ عن الحادثة"
-        disability_type: "شخص يعاني من إعاقة؟"
+        disability_type: "شخص من ذوي الإعاقة؟"
         unaccompanied_separated_status: "طفل غير مصحوب أو منفصل عن ذويه؟"
         stage_of_displacement: "مرحلة النزوح عند وقوع الحادثة"
         time_of_day: "الوقت من اليوم الذي وقعت فيه الحادثة"
         location: "موقع الحادثة"
         county: "المقاطعة"
-        district: "القضاء"
+        district: "الحي"
         camp_town: "المخيم / البلدة"
         camp: "المخيم"
         gbv_type: "نوع العنف القائم على اساس النوع الاجتماعي"
@@ -54,7 +54,7 @@ ar:
         abduction_type: "نوع الاختطاف/الإجبار "
         previously_reported: "هل تم الإبلاغ عن هذه الحادثة سابقاً؟"
         gbv_previous_incidents: "حوادث عنف قائم على اساس النوع الاجتماعي سابقة؟"
-        number_primary_perpetrators: "عدد الجناة المزعومين"
+        number_primary_perpetrators: "رقم الجاني (الجناة) الرئيسيين المزعومين"
         perpetrator:
           sex: "جنس الجاني المزعوم"
           former: "حوادث سابقة ارتكبها هذا الجاني"
@@ -73,4 +73,4 @@ ar:
           livelihoods_referral: "برنامج سبل المعيشة"
           protection_referral: "خدمات حماية الطفل / خدمات تعليمية"
         consent: "تم إعطاء موافقة"
-        agency_code: "رمز المؤسسة المبلغة"
+        agency_code: "كود الهيئة المبلغة"

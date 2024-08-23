@@ -62,7 +62,7 @@ class WebpushSubscription < ApplicationRecord
 
     def current(user, params)
       subscription = user&.webpush_subscriptions
-          &.find_by(notification_url: params[:notification_url])
+                         &.find_by(notification_url: params[:notification_url])
       raise ActiveRecord::RecordNotFound if subscription&.disabled
 
       subscription

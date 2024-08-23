@@ -7,7 +7,7 @@ import getColumns from "./get-columns";
 import getLabels from "./get-labels";
 import translateReportData from "./translate-report-data";
 
-export default (report, i18n, { agencies, locations }) => {
+export default (report, i18n, { agencies, ageRanges, locations }) => {
   const reportData = report.toJS();
 
   if (!reportData.report_data) {
@@ -25,11 +25,9 @@ export default (report, i18n, { agencies, locations }) => {
   const graphData = {
     description: translatedReport.description ? translatedReport.description[i18n.locale] : "",
     data: {
-      labels: getLabels(columns, translatedReport.report_data, i18n, fields, qtyColumns, qtyRows, {
-        agencies,
-        locations
-      }),
-      datasets: buildDataSet(columns, translatedReport.report_data, i18n, fields, qtyColumns, qtyRows, {
+      labels: getLabels(translatedReport.report_data, i18n, fields, { ageRanges, agencies, locations }),
+      datasets: buildDataSet(columns, translatedReport.report_data, i18n, fields, qtyRows, {
+        ageRanges,
         agencies,
         locations
       })
