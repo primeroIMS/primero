@@ -76,6 +76,10 @@ class PrimeroModule < ApplicationRecord
     find_by(unique_id: MRM)
   end
 
+  def self.available_module_ids
+    all.pluck(:unique_id)
+  end
+
   def form_section_unique_ids
     form_sections.pluck(:unique_id)
   end
