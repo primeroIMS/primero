@@ -77,7 +77,7 @@ class PrimeroModule < ApplicationRecord
   end
 
   def self.available_module_ids
-    all.map(&:unique_id)
+    all.pluck(:unique_id)
   end
 
   def form_section_unique_ids
