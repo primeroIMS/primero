@@ -10,6 +10,8 @@ class PrimeroModule < ApplicationRecord
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
 
+  DEFAULT_CONSENT_FORM = 'consent'
+
   # allow_searchable_ids: TODO document
   # selectable_approval_types: TODO document
   # agency_code_indicator: TODO document. Still used?
@@ -26,7 +28,7 @@ class PrimeroModule < ApplicationRecord
     :allow_searchable_ids, :selectable_approval_types,
     :workflow_status_indicator, :agency_code_indicator, :use_workflow_service_implemented,
     :use_workflow_case_plan, :use_workflow_assessment, :reporting_location_filter,
-    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for
+    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for, :consent_form
   )
 
   belongs_to :primero_program, optional: true
@@ -38,7 +40,7 @@ class PrimeroModule < ApplicationRecord
   validates_presence_of :associated_record_types,
                         message: I18n.t('errors.models.primero_module.associated_record_types')
 
-  before_create :set_unique_id
+  before_create :set_unique_id, :set_consent_form
   after_save :sync_forms
 
   def program_name
@@ -95,6 +97,10 @@ class PrimeroModule < ApplicationRecord
     return if unique_id.present?
 
     self.unique_id = "#{self.class.name}-#{name}".parameterize.dasherize
+  end
+
+  def set_consent_form
+    self.consent_form ||= DEFAULT_CONSENT_FORM
   end
 
   def sync_forms
