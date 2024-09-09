@@ -301,7 +301,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.3.4)
+    rexml (3.3.6)
       strscan
     roo (2.10.0)
       nokogiri (~> 1)
@@ -494,7 +494,7 @@ DEPENDENCIES
   write_xlsx (~> 1.11)
 
 RUBY VERSION
-   ruby 3.3.4p94
+   ruby 3.3.5p100
 
 BUNDLED WITH
    2.4.18
