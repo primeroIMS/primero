@@ -9,12 +9,12 @@ class PrimeroModule < ApplicationRecord
   CP = 'primeromodule-cp'
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
-
   CP_DEFAULT_CASE_LIST_HEADERS = %w[id name complete age sex registration_date
                                     photo social_worker alert_count flag_count].freeze
   GBV_DEFAULT_CASE_LIST_HEADERS = %w[id complete survivor_code case_opening_date
-                                    social_worker alert_count flag_count].freeze
+                                     social_worker alert_count flag_count].freeze
   MRM_DEFAULT_CASE_LIST_HEADERS = %w[id complete social_worker alert_count flag_count].freeze
+  DEFAULT_CONSENT_FORM = 'consent'
 
   # allow_searchable_ids: TODO document
   # selectable_approval_types: TODO document
@@ -32,7 +32,7 @@ class PrimeroModule < ApplicationRecord
     :allow_searchable_ids, :selectable_approval_types,
     :workflow_status_indicator, :agency_code_indicator, :use_workflow_service_implemented,
     :use_workflow_case_plan, :use_workflow_assessment, :reporting_location_filter,
-    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for,
+    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for, :consent_form,
     :list_filters, :list_headers
   )
 
@@ -45,7 +45,7 @@ class PrimeroModule < ApplicationRecord
   validates_presence_of :associated_record_types,
                         message: I18n.t('errors.models.primero_module.associated_record_types')
 
-  before_create :set_unique_id
+  before_create :set_unique_id, :set_consent_form
   after_save :sync_forms
 
   def program_name
@@ -81,6 +81,10 @@ class PrimeroModule < ApplicationRecord
 
   def self.mrm
     find_by(unique_id: MRM)
+  end
+
+  def self.available_module_ids
+    all.pluck(:unique_id)
   end
 
   def form_section_unique_ids
@@ -120,6 +124,10 @@ class PrimeroModule < ApplicationRecord
     return if unique_id.present?
 
     self.unique_id = "#{self.class.name}-#{name}".parameterize.dasherize
+  end
+
+  def set_consent_form
+    self.consent_form ||= DEFAULT_CONSENT_FORM
   end
 
   def sync_forms

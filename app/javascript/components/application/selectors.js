@@ -56,6 +56,8 @@ export const selectModule = (state, id) => selectUserModules(state).find(f => f.
 export const getWorkflowLabels = (state, id, recordType) =>
   selectModule(state, id).getIn(["workflows", recordType], []);
 
+export const getConsentform = (state, id) => selectModule(state, id).getIn(["options", "consent_form"]);
+
 export const selectUserIdle = state => state.getIn([NAMESPACE, "userIdle"], false);
 
 export const getReportingLocationConfig = state => state.getIn([NAMESPACE, "reportingLocationConfig"], fromJS({}));
@@ -148,7 +150,7 @@ export const getCodesOfConduct = state => state.getIn([NAMESPACE, "codesOfConduc
 export const getOptionFromAppModule = (state, primeroModule, option) =>
   getAppModuleByUniqueId(state, primeroModule).getIn(
     ["options", option],
-    option === DATA_PROTECTION_FIELDS ? fromJS([]) : false
+    option === DATA_PROTECTION_FIELDS ? [] : false
   );
 
 export const getCodeOfConductEnabled = state =>

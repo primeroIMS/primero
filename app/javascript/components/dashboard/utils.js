@@ -21,3 +21,20 @@ export const buildFilter = (queryValue, isManager = false) => {
 
   return qs.stringify(value);
 };
+
+export const buildItemLabel = (item, approvalsLabels, defaultLabel) => {
+  switch (item) {
+    case "approval_assessment_pending_group":
+      return approvalsLabels.get("assessment");
+    case "approval_case_plan_pending_group":
+      return approvalsLabels.get("case_plan");
+    case "approval_closure_pending_group":
+      return approvalsLabels.get("closure");
+    case "approval_action_plan_pending_group":
+      return approvalsLabels.get("action_plan");
+    case "approval_gbv_closure_pending_group":
+      return approvalsLabels.get("gbv_closure");
+    default:
+      return defaultLabel;
+  }
+};

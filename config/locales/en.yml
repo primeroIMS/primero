@@ -612,6 +612,7 @@ en:
       new_this_week: New this Week
       referrals: Referrals
       transfers: Transfers
+      cases: Cases
     approval_action_plan_approved: Approved
     approval_action_plan_pending: Pending
     approval_action_plan_pending_group: Action Plan
@@ -709,7 +710,7 @@ en:
     dash_shared_from_my_team: Shared From My Team
     dash_shared_with_me: Shared With Me
     dash_shared_with_my_team: Shared With My Team
-    dash_shared_with_my_team_overview: Shared with my Team (Overview)
+    dash_shared_with_my_team_overview: Shared with my Team
     dash_shared_with_others: Shared With Others
     dash_national_admin_summary: Administrator Summary
     dash_violations_category_verification_status: Total number of Incidents per verification status
@@ -812,15 +813,15 @@ en:
     shared_from_my_team_pending_transfers: Pending Transfers
     shared_from_my_team_referrals: Referrals
     shared_from_my_team_rejected_transfers: Rejected Transfers
-    shared_with_me_new_referrals: New Referrals
-    shared_with_me_total_referrals: Total Referrals
-    shared_with_me_transfers_awaiting_acceptance: Transfers Awaiting Acceptance
-    shared_with_my_team_pending_transfers_overview: Transfers Awaiting Acceptance
+    shared_with_me_new_referrals: New
+    shared_with_me_total_referrals: Total
+    shared_with_me_transfers_awaiting_acceptance: Awaiting Acceptance
+    shared_with_my_team_pending_transfers_overview: Awaiting Acceptance
     shared_with_my_team_pending_transfers: Pending Transfers
     shared_with_my_team_referrals: Referrals
-    shared_with_others_pending_transfers: Pending Transfers
-    shared_with_others_referrals: Referrals
-    shared_with_others_rejected_transfers: Rejected Transfers
+    shared_with_others_pending_transfers: Pending
+    shared_with_others_referrals: Total
+    shared_with_others_rejected_transfers: Rejected
     status_of_cases: Status of Cases
     system_user: System
     total: Total

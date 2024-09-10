@@ -33,6 +33,7 @@ function Component({ loadingIndicator }) {
         isTransparent
         noTranslate
         rest={{ onClick: handleSeeAll }}
+        className={css.seeAllLink}
       />
     </div>
   );
@@ -40,9 +41,13 @@ function Component({ loadingIndicator }) {
   return (
     <Permission resources={RESOURCES.cases} actions={[ACTIONS.READ, ACTIONS.MANAGE]}>
       <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_FLAGS}>
-        <OptionsBox title={i18n.t("dashboard.flagged_cases")} hasData={Boolean(flags.size)} {...loadingIndicator}>
+        <OptionsBox
+          title={i18n.t("dashboard.flagged_cases")}
+          hasData={Boolean(flags.size)}
+          footer={renderSeeAll}
+          {...loadingIndicator}
+        >
           <FlagBox flags={flags} />
-          {renderSeeAll}
         </OptionsBox>
       </Permission>
     </Permission>
