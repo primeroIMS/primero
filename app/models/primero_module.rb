@@ -10,6 +10,12 @@ class PrimeroModule < ApplicationRecord
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
 
+  CP_DEFAULT_CASE_LIST_HEADERS = %w[id name complete age sex registration_date
+                                    photo social_worker alert_count flag_count].freeze
+  GBV_DEFAULT_CASE_LIST_HEADERS = %w[id complete survivor_code case_opening_date
+                                    social_worker alert_count flag_count].freeze
+  MRM_DEFAULT_CASE_LIST_HEADERS = %w[id complete social_worker alert_count flag_count].freeze
+
   # allow_searchable_ids: TODO document
   # selectable_approval_types: TODO document
   # agency_code_indicator: TODO document. Still used?
@@ -26,7 +32,8 @@ class PrimeroModule < ApplicationRecord
     :allow_searchable_ids, :selectable_approval_types,
     :workflow_status_indicator, :agency_code_indicator, :use_workflow_service_implemented,
     :use_workflow_case_plan, :use_workflow_assessment, :reporting_location_filter,
-    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for
+    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for,
+    :list_filters, :list_headers
   )
 
   belongs_to :primero_program, optional: true
@@ -84,6 +91,28 @@ class PrimeroModule < ApplicationRecord
     assign_attributes(params.except('form_section_unique_ids'))
     self.form_sections = FormSection.where(unique_id: params[:form_section_unique_ids])
   end
+
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/MethodLength
+  def record_list_headers
+    headers = {}
+    headers_from_module = list_headers&.[]('case')
+
+    headers[:case] = case unique_id
+                     when CP
+                       headers_from_module || CP_DEFAULT_CASE_LIST_HEADERS
+                     when GBV
+                       headers_from_module || GBV_DEFAULT_CASE_LIST_HEADERS
+                     when MRM
+                       headers_from_module || MRM_DEFAULT_CASE_LIST_HEADERS
+                     else
+                       headers_from_module
+                     end
+
+    headers
+  end
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/MethodLength
 
   private
 

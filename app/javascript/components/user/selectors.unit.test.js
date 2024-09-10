@@ -8,6 +8,7 @@ import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../config";
 import { MANAGED_REPORT_SCOPE } from "../permissions/constants";
 
 import * as selectors from "./selectors";
+import { FieldRecord } from "../form";
 
 const userGroups = fromJS([
   {
