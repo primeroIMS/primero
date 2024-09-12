@@ -100,6 +100,20 @@ class Filter < ValueObject
     field_name: 'owned_by_agency_office',
     option_strings_source: 'lookup-agency-office'
   )
+  DISABILITY_STATUS = Filter.new(
+    name: 'cases.filter_by.disability_status_pcm',
+    field_name: 'disability_status_pcm',
+  )
+  SOGIESC_SELF_IDENTIFYING = Filter.new(
+    name: 'cases.filter_by.sogiesc_self_identifying',
+    field_name: 'sogiesc_self_identifying',
+  )
+  PROTECTION_THREATS = Filter.new(
+    name: 'cases.filter_by.protection_threats',
+    field_name: 'protection_threats',
+    option_strings_source: 'lookup-protection-threats',
+    type: 'multi_select'
+  )
   USER_GROUP = Filter.new(name: 'permissions.permission.user_group', field_name: 'owned_by_groups')
   REPORTING_LOCATION = lambda do |params|
     Filter.new(
@@ -406,27 +420,26 @@ class Filter < ValueObject
       filters += [MY_CASES, WORKFLOW]
       filters << AGENCY if user.admin?
       filters += [STATUS, AGE_RANGE, SEX] + user_based_filters(user) + [NO_ACTIVITY]
-      filters << DATE_CASE unless user.gbv_only? || user.mrm_only?
+      filters << DATE_CASE
       filters << ENABLED
       filters += photo_filters(user)
       filters
     end
 
-    # rubocop:disable Metrics/CyclomaticComplexity
-    # rubocop:disable Metrics/AbcSize
     def user_based_filters(user)
       filters = []
       filters += approvals_filters(user)
       filters += field_based_filters(user)
-      filters << RISK_LEVEL unless user.gbv_only? || user.mrm_only?
-      filters << CURRENT_LOCATION unless user.gbv_only? || user.mrm_only?
-      filters << AGENCY_OFFICE if user.gbv?
-      filters << USER_GROUP if user.gbv? && user.user_group_filter?
+      filters << RISK_LEVEL
+      filters << DISABILITY_STATUS
+      filters << SOGIESC_SELF_IDENTIFYING
+      filters << PROTECTION_THREATS
+      filters << CURRENT_LOCATION
+      filters << AGENCY_OFFICE
+      filters << USER_GROUP if user.user_group_filter?
       filters += reporting_location_filters(user)
       filters
     end
-    # rubocop:enable Metrics/CyclomaticComplexity
-    # rubocop:enable Metrics/AbcSize
 
     def approvals_filters(user)
       filters = []
@@ -442,10 +455,10 @@ class Filter < ValueObject
       filter_fields = Field.where(name: CASE_FILTER_FIELD_NAMES).to_h { |f| [f.name, f] }
       filters = []
       filters += protection_concern_filter(user)
-      filters += gbv_displacement_filter(user, filter_fields)
-      filters += protection_status_filter(user, filter_fields)
-      filters += urgent_protection_concern_filter(user, filter_fields)
-      filters += type_of_risk_filter(user, filter_fields)
+      filters += gbv_displacement_filter(filter_fields)
+      filters += protection_status_filter(filter_fields)
+      filters += urgent_protection_concern_filter(filter_fields)
+      filters += type_of_risk_filter(filter_fields)
       filters
     end
 
@@ -455,27 +468,26 @@ class Filter < ValueObject
       []
     end
 
-    def gbv_displacement_filter(user, filter_fields)
-      return [GBV_DISPLACEMENT_STATUS] if user.gbv? && visible?('gbv_displacement_status', filter_fields)
+    def gbv_displacement_filter(filter_fields)
+      return [GBV_DISPLACEMENT_STATUS] if visible?('gbv_displacement_status', filter_fields)
 
       []
     end
 
-    def protection_status_filter(user, filter_fields)
-      return [PROTECTION_STATUS] if visible?('protection_status', filter_fields) && !(user.gbv_only? || user.mrm_only?)
+    def protection_status_filter(filter_fields)
+      return [PROTECTION_STATUS] if visible?('protection_status', filter_fields)
 
       []
     end
 
-    def urgent_protection_concern_filter(user, filter_fields)
-      return [URGENT_PROTECTION_CONCERN] if !(user.gbv_only? || user.mrm_only?) && visible?('urgent_protection_concern',
-                                                                                            filter_fields)
+    def urgent_protection_concern_filter(filter_fields)
+      return [URGENT_PROTECTION_CONCERN] if visible?('urgent_protection_concern', filter_fields)
 
       []
     end
 
-    def type_of_risk_filter(user, filter_fields)
-      return [TYPE_OF_RISK] if !(user.gbv_only? || user.mrm_only?) && visible?('type_of_risk', filter_fields)
+    def type_of_risk_filter(filter_fields)
+      return [TYPE_OF_RISK] if visible?('type_of_risk', filter_fields)
 
       []
     end

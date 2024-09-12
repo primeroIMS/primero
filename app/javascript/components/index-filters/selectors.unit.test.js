@@ -3,6 +3,7 @@
 import { fromJS } from "immutable";
 
 import { RECORD_PATH } from "../../config";
+import { PrimeroModuleRecord } from "../application/records";
 
 import { getFiltersByRecordType, getFiltersValuesByRecordType } from "./selectors";
 
@@ -10,6 +11,7 @@ const stateWithoutRecords = fromJS({});
 
 const state = fromJS({
   user: {
+    modules: ["test1"],
     filters: {
       cases: [
         {
@@ -35,6 +37,9 @@ const state = fromJS({
         filter1: true
       }
     }
+  },
+  application: {
+    modules: [PrimeroModuleRecord({ unique_id: "test1", list_filters: { cases: ["filter1"] } })]
   }
 });
 

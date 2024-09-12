@@ -140,7 +140,7 @@ describe Filter do
 
     describe 'case filters' do
       it 'has 18 filters' do
-        expect(@filters_cp[0]['cases'].count).to eq(18)
+        expect(@filters_cp[0]['cases'].count).to eq(19)
       end
 
       it 'has filters' do
