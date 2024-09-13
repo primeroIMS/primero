@@ -79,11 +79,11 @@ class PermittedFieldService
 
   ID_SEARCH_FIELDS = %w[age date_of_birth estimated name sex].freeze
 
-  def initialize(user, model_class, action_name = nil, id_search = nil, permitted_form_field_service = nil)
+  def initialize(user, model_class, permitted_form_field_service = nil, options = {})
     self.user = user
     self.model_class = model_class
-    self.action_name = action_name
-    self.id_search = id_search
+    self.action_name = options[:action_name]
+    self.id_search = options[:id_search]
     self.permitted_form_field_service = permitted_form_field_service || PermittedFormFieldsService.instance
   end
 
@@ -92,14 +92,15 @@ class PermittedFieldService
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/PerceivedComplexity
-  def permitted_field_names(writeable = false, update = false, roles = [])
+  # rubocop:disable Metrics/ParameterLists
+  def permitted_field_names(module_unique_id = nil, writeable = false, update = false, roles = [])
     return @permitted_field_names if @permitted_field_names.present?
     return permitted_field_names_from_action_name if permitted_field_names_from_action_name.present?
 
     @permitted_field_names = permitted_core_fields(update) + PERMITTED_FILTER_FIELD_NAMES
     @permitted_field_names += PERMITTED_MRM_FILTER_FIELD_NAMES if user.module?(PrimeroModule::MRM)
     @permitted_field_names += permitted_form_field_service.permitted_field_names(
-      roles.presence || [user.role], model_class.parent_form, writeable
+      roles.presence || [user.role], model_class.parent_form, module_unique_id, writeable
     )
     # TODO: Consider moving model specific permitted fields to the model class.
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
@@ -143,6 +144,7 @@ class PermittedFieldService
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/ParameterLists
 
   def permitted_reporting_location_field
     reporting_location_config = user.role.reporting_location_config

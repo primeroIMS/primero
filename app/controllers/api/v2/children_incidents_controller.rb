@@ -29,7 +29,7 @@ class Api::V2::ChildrenIncidentsController < Api::V2::RecordResourceController
   end
 
   def permit_fields
-    @permitted_field_names = PermittedFieldService.new(current_user, Incident).permitted_field_names
+    @permitted_field_names = PermittedFieldService.new(current_user, Incident).permitted_field_names(module_unique_id)
   end
 
   def select_fields
