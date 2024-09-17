@@ -154,7 +154,8 @@ class ManagedReports::SqlReportIndicator < ValueObject
     end
 
     def table_name_for_query(params)
-      return 'violations' if params['ctfmr_verified_date'].present?
+      return 'violations' if params['ctfmr_verified_date'].present? ||
+                             params&.[]('ghn_date_filter')&.field_name == 'ctfmr_verified_date'
 
       'incidents'
     end
