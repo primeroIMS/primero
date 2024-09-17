@@ -197,7 +197,7 @@ function RecordForm({
     return (
       <>
         <Formik
-          initialValues={{ ...initialValues, begin_closure_prompt: false }}
+          initialValues={{ ...initialValues }}
           validationSchema={validationSchema}
           validateOnBlur={false}
           validateOnChange={false}
