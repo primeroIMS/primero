@@ -2,7 +2,7 @@
 
 # -------------------------------------------------------------------- BUILD STAGE
 ARG BUILD_REGISTRY
-ARG RUBY_VERSION=3.3.4
+ARG RUBY_VERSION=3.3.5
 FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.20 AS build-env
 
 ENV BUILD_PACKAGES="bash curl wget curl-dev build-base git"
