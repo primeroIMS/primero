@@ -170,7 +170,7 @@ describe PermittedFieldService, search: true do
   end
 
   it 'returns the formsection permitted' do
-    permitted_field_names = PermittedFieldService.new(user, Child).permitted_field_names
+    permitted_field_names = PermittedFieldService.new(user, Child).permitted_field_names('primeromodule-cp')
 
     expect(permitted_field_names.include?(field.name)).to be true
   end

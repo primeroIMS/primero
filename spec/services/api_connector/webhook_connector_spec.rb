@@ -50,7 +50,11 @@ describe ApiConnector::WebhookConnector do
       'webhook_url' => url
     )
   end
-  let(:record) { Child.new(data: { name: 'Test', age: 12, sex: 'female', protection_concerns: %w[a b c] }) }
+  let(:record) do
+    Child.new(
+      data: { name: 'Test', age: 12, sex: 'female', protection_concerns: %w[a b c], module_id: 'primeromodule-cp' }
+    )
+  end
 
   # test creation/initializer parsing the webhook url correctly, setting role ,etc
   describe 'initialization' do

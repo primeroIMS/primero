@@ -95,7 +95,7 @@ class PermittedFormFieldsService
         form_sections: {
           roles: { id: roles },
           visible: visible_only || nil
-        }.merge(permitted_field_scope(record_type, module_unique_id)).compact
+        }.compact.merge(primero_modules: { unique_id: module_unique_id }, parent_form: record_type)
       }
     )
   end
@@ -104,8 +104,9 @@ class PermittedFormFieldsService
     fields.where(
       fields: {
         form_sections: {
-          form_sections_roles: { permission: permission_level }
-        }.merge(permitted_field_scope(record_type, module_unique_id)),
+          form_sections_roles: { permission: permission_level },
+          primero_modules: { unique_id: module_unique_id }, parent_form: record_type
+        },
         type: PERMITTED_WRITEABLE_FIELD_TYPES
       }
     )
@@ -118,15 +119,14 @@ class PermittedFormFieldsService
       eagerloaded_fields.where(
         name: action_subform_fields,
         type: Field::SUBFORM,
-        form_sections: permitted_field_scope(record_type, module_unique_id)
+        form_sections: { primero_modules: { unique_id: module_unique_id }, parent_form: record_type }
       )
     )
   end
 
   def permitted_field_scope(record_type, module_unique_id)
     {
-      primero_modules: { unique_id: module_unique_id || PrimeroModule::CP },
-      parent_form: record_type || Child.parent_form
+      primero_modules: { unique_id: module_unique_id }, parent_form: record_type
     }
   end
 end
