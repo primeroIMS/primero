@@ -12,7 +12,7 @@ import { getValidationErrors } from "../../selectors";
 import { setValidationErrors } from "../../action-creators";
 import { useMemoizedSelector } from "../../../../libs";
 
-import { removeEmptyArrays } from "./utils";
+import { buildErrorOutput, removeEmptyArrays } from "./utils";
 import { VALIDATION_ERRORS_NAME } from "./constants";
 
 function ValidationErrors({ formErrors, forms, submitCount }) {
@@ -45,9 +45,7 @@ function ValidationErrors({ formErrors, forms, submitCount }) {
               .get("fields")
               .filter(field => fieldNames.includes(field.get("name")))
               .map(field => ({
-                [field.get("name")]: Array.isArray(formErrors[field.get("name")])
-                  ? formErrors[field.get("name")].join("")
-                  : formErrors[field.get("name")]
+                [field.get("name")]: buildErrorOutput(formErrors, field, i18n.locale)
               }))
               .reduce((acc, subCurrent) => ({ ...acc, ...subCurrent }), {})
           }
