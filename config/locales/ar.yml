@@ -2181,35 +2181,10 @@ ar:
         date_of_first_report: تاريخ المقابلة
         incident_date: تاريخ الحادثة
       reports:
-        incidents: حوادث
         perpetrators: المسيئين
         survivors: الناجين
         referrals: الإحالات
       sub_reports:
-        combined: حوادث
-        total: عدد حوادث الGBV المبلغة
-        gbv_sexual_violence: عدد حوادث العنف الجنسي المبلغ عنها
-        gbv_previous_incidents: عدد الحوادث التي تم التبليغ عنها من قبل الناجيات مع حوادث سابقة للعنف المبني على النوع الإجتماعي
-        gbv_sexual_violence_type: نوع الحادثة
-        incident_timeofday: وقت الحادثة من اليوم
-        elapsed_reporting_time: الوقت بين الحادثة وتاريخ التقرير
-        elapsed_reporting_time_rape: حوادث الاغتصاب ، الوقت المنقضي بين وقوع الحادثة وتاريخ التبليغ
-        elapsed_reporting_time_rape_health_referral: حوادث الاغتصاب ، الوقت المنقضي بين وقوع الحادثة وتاريخ التبليغ(خدمة صحية أو إحالة)
-        incident_location_type: موقع الحادثة
-        number_of_perpetrators: 'عدد المسيئين '
-        perpetrator_relationship: علاقة المسيء الرئيسي بالناجي
-        perpetrator_age_group: الفئة العمرية للمسيئين الرئيسيين
-        perpetrator_occupation: طبيعة عمل المسيئين الرئيسيين
-        age: عدد الناجين حسب العمر
-        sex: عدد الناجين حسب الجنس
-        marital_status: الحالة الاجتماعية للناجين
-        displacement_status: حالة نزوح الناجين
-        displacement_incident: مرحلة النزوح وقت وقوع الحادث
-        gbv_case_context: سياق الحالة
-        incidents_first_point_of_contact: عدد الحوادث التي تكون فيها منظمتك هي نقطة الاتصال الأولى
-        incidents_from_other_service_provider: الحوادث التي تم احالتها من قبل مقدمي الخدمة الآخرين
-        number_of_services_provided: عدد الخدمات المقدمة للحوادث
-        number_of_services_provided_other: إحالات الحوادث الجديدة لمقدمي الخدمات الآخرين
         service_safehouse_referral: إحالة البيت الآمن / المأوى الآمن
         service_medical_referral: إحالة صحية / طبية
         service_psycho_referral: خدمات الاستشارة النفسية / الاجتماعية
@@ -2217,7 +2192,6 @@ ar:
         service_police_referral: الشرطة أو أي نوع آخر من خدمات الأمن
         service_livelihoods_referral: خدمات الاعاشة
         service_protection_referral: خدمات حماية الطفل
-        vulnerable_populations: الفئات السكانية الضعيفة
         survivors_disability_type: مع اعاقات
     workflow_report:
       name: سير العمل

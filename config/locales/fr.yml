@@ -167,6 +167,7 @@ fr:
     import: Importer
     login: Se connecter
     logout: 'Se déconnecter '
+    link: Lien
     mark_for_mobile: Marquer pour mobile
     new: Nouveau
     ok: OK
@@ -867,6 +868,8 @@ fr:
   errors:
     api:
       internal_server: Erreur du serveur
+    attachments:
+      maximum: Vous avez atteint le nombre maximum de pièces jointes par cas.
     error_loading: Erreur lors du chargement du(es) cas
     models:
       agency:
@@ -995,10 +998,11 @@ fr:
         location: 'Localisation '
         agency: 'Organisation '
         user: 'Utilisateurs '
-        reportinglocation: 'Lieu de rapportage '
+        reportinglocation: 'Lieu de déclaration '
         subforms: 'Sous formulaire %{subform_name}'
         collapsed_fields: 'Champs imbriqués :  %{fields}'
         country: Pays
+        linkedincidents: Incidents liés
       summary_header:
         form_group: Groupe de formulaire Primero
         form: 'Formulaire Primero '
@@ -1124,6 +1128,8 @@ fr:
     add_existing_field: 'Ajouter un champ existant '
     add_field: Ajouter un champ
     add_field_type: Ajouter %{file_type}
+    attachments:
+      maximum_attached: La limite maximale de pièces jointes par cas (%{maximumttachmentsPerRecord}) est atteinte. Cela inclut les photos, les fichiers audio et les documents. Veuillez supprimer un fichier avant d'en ajouter un autre.
     audio:
       current: Audio reçent
     audio_upload_box: Télécharger un audio
@@ -1430,6 +1436,8 @@ fr:
   incident:
     code: Code de l'incident
     associated_case: "Cas associé "
+    link_incident_to_case: Lier l'incident au cas
+    link_incident_to_case_success: Incident(s) lié(s) au cas
     messages:
       creation_success: 'Incident crée avec succès '
       creation_success_queue: Création réussie d'un incident en arrière-plan
@@ -1455,6 +1463,7 @@ fr:
         military_use: Utilisation militaire d'école(s) et/ou d'hôpital(s)
         denial_humanitarian_access: Refus de l'accès humanitaire aux enfants
   incidents:
+    change_status: Modifier le statut
     disable_dialog: En cliquant sur OK, le statut de cet incident passera à Désactivé.
     disable_dialog_title: 'Incident désactivé '
     disable_success: 'Incident désactivé avec succès '
@@ -1536,6 +1545,7 @@ fr:
     survivor_code: Code survivant-e
     show_incident: 'ID de l''incident %{short_id}'
     social_worker: 'Travailleur social '
+    verify_mrm: Vérifier le MRM
     violation_type: 'Type de violation '
     violence_type: 'Type de violence '
     type_violence: 'Type de violence '
@@ -1573,20 +1583,20 @@ fr:
       helptext: "En savoir plus sur les KPI."
     number_of_cases:
       title: "1. Nombre de cas enregistrés"
-      reporting_site: "Site de rapport"
+      reporting_site: "Site de déclaration "
       helptext: |
-        Cet indicateur compte le nombre de nouveaux cas ouverts chaque mois par site de rapportage.
+        Cet indicateur compte le nombre de nouveaux cas ouverts chaque mois par site de déclaration .
         Un site de rapportage est le site où l'organisation utilisatrice fournit des services et
         où le cas a été signalé au prestataire de services.
     number_of_incidents:
       title: "2. Nombre d'incidents enregistrés"
-      reporting_site: "Site de rapportage "
+      reporting_site: "Site de déclaration "
       helptext: |
         Cet indicateur compte le nombre de nouveaux incidents ouverts chaque mois par site de rapportage.
         Un site de rapportage est considéré comme le site où l'organisation utilisatrice fournit des services et
         où l'incident a été signalé au prestataire de services.
     reporting_delay:
-      title: "3. Retard de rapportage"
+      title: "3. Retard de déclaration "
       delay: "Retard "
       total_incidents: "Total des incidents "
       helptext: "Cet indicateur compte et catégorise le nombre de jours qui se sont écoulés entre le moment où \nla personne a été victime de violence basé sur le genre et lorsque la victime l'a signalé pour la première fois à un prestataire de services. Il s'agit de\ncalculé en fonction de la date à laquelle l'incident a été signalé pour la première fois à l'organisation utilisatrice. Les données sont\nclassés en fonction de différentes durées (0-3 jours ; 4-5 jours ; 6-14 jours ; 15-30 jours ; Plus de\n1 mois ; Plus de 3 mois).\n"
@@ -1659,11 +1669,8 @@ fr:
       helptext: "Cet indicateur mesure combien de temps le cas est resté ouvert, la durée à l'ouverture des cas, jusqu'à la clôture du cas\nLe processus va du contact initial à l'organisation utilisatrice jusqu'à la clôture du dossier. La durée est \nventilée selon les délais suivants : moins d'un mois ; entre 1 et 3 mois ; entre\n3-6 mois ; plus de 6 mois.\n"
     case_closure_rate:
       title: "12. Décompte des clôtures de dossiers"
-      reporting_site: "Site de rapportage "
-      helptext: |
-        Cet indicateur mesure le nombre de cas clôturés par mois et par site. Un site de rapportage
-        est entendu comme le site où l'organisation fournit des services et où
-        l'incident a été signalé au prestataire de services.
+      reporting_site: "Site de déclaration "
+      helptext: "Cet indicateur mesure le nombre de cas clôturés par mois et par site. Un site de déclaration \nest entendu comme le site où l'organisation fournit des services et où\nl'incident a été signalé au prestataire de services.\n"
     client_satisfaction_rate:
       title: "13. Taux de satisfaction des clients"
       label: "Satisfaction du client "
@@ -1725,6 +1732,7 @@ fr:
       autonomous_region: 'Région autonome '
       parish: Parish
       cercle: Cercle
+      sub-county: Sous-comté
       departement_fr: 'Département'
       region_fr: 'Région'
       wilaya: 'Wilaya'
@@ -1941,8 +1949,13 @@ fr:
       user_group: Groupe d'utilisateur
       agency: Organisation
       by: Par
+      workflow: Statut du workflow
       cp_incident_violence_type: Type de violence
       referral_transfer_status: Statut des Références / Transferts
+      protection_concerns: Problèmes de protection
+      location: 'Lieu de déclaration '
+      followup_type: 'Type de suivi '
+      service_type: Type de service
     status_options:
       open: Ouvert
       closed: Clôturé
@@ -1983,6 +1996,49 @@ fr:
         individual_violation_type: Enfant par type de violation
         individual_region: Enfant par région
         individual_perpetrator: Enfants par auteur
+    services:
+      name: Services
+      description: Cas avec les types de services sélectionnés, ventilés par âge et par sexe.
+    services_report:
+      reports:
+        services: Services
+        description: Cas avec les types de services sélectionnés, ventilés par âge et par sexe.
+      sub_reports:
+        services: Services
+      filter_options:
+        service_implemented_day_time: Service mis en œuvre
+    followups:
+      name: Suivi
+      description: Cas avec les types de suivi sélectionnés, ventilés par âge et par sexe.
+    followups_report:
+      filter_options:
+        followup_date: Date du suivi
+      reports:
+        followups: Suivi
+        description: Cas avec les types de suivi sélectionnés, ventilés par âge et par sexe.
+      sub_reports:
+        followups: Suivi
+    protection_concerns:
+      name: Problèmes de protection
+      description: Cas avec les problèmes de protection sélectionnés, ventilés par âge et par sexe.
+    protection_concerns_report:
+      reports:
+        protection_concerns: Problèmes de protection
+        description: Cas avec les problèmes de protection sélectionnés, ventilés par âge et par sexe.
+      sub_reports:
+        protection_concerns: Problèmes de protection
+      filter_options:
+        registration_date: Date d'enregistrement
+    reporting_locations:
+      name: 'Lieu de déclaration '
+      description: 'Cas avec le lieu de déclaration sélectionné, ventilés par âge et par sexe.'
+    reporting_locations_report:
+      reports:
+        reporting_locations: 'Lieu de déclaration '
+      sub_reports:
+        reporting_location_by_sex_and_age: 'Lieu de déclaration '
+      filter_options:
+        registration_date: Date d'enregistrement
     ghn_report:
       name: 'Note Global Horizontale '
       reports:
@@ -2071,35 +2127,10 @@ fr:
         date_of_first_report: Date de l'Interview
         incident_date: 'Date de l''incident '
       reports:
-        incidents: Incidents
         perpetrators: Auteur
         survivors: Survivants
         referrals: Références
       sub_reports:
-        combined: Incidents
-        total: Nombre de cas VBG rapporté
-        gbv_sexual_violence: Nombre d'incident ou violence sexuel rapporté
-        gbv_previous_incidents: Nombre d'incidents signalés par survivants ayant déjà été victimes de violence basée sur le genre.
-        gbv_sexual_violence_type: 'Type d''incident '
-        incident_timeofday: Heure de l'incident
-        elapsed_reporting_time: Délai entre l'incident et le signalement
-        elapsed_reporting_time_rape: Incidents de viol, temps écoulé entre l'incident et la date du signalement
-        elapsed_reporting_time_rape_health_referral: Incidents de viols, temps écoulé entre l'incident et la date du signalement (service de santé ou référence)
-        incident_location_type: 'Lieu de l''incident '
-        number_of_perpetrators: 'Nombre d''auteurs '
-        perpetrator_relationship: Relation entre le présumé auteur principal et la survivante
-        perpetrator_age_group: 'Groupe d''âge des principaux auteurs présumés '
-        perpetrator_occupation: 'Profession du présumé auteur principal '
-        age: 'Nombre de survivants par âge '
-        sex: Nombre de survivants par sexe
-        marital_status: Statut matrimonial des survivants
-        displacement_status: Statut de déplacement des survivants
-        displacement_incident: Étape du déplacement au moment de l'incident
-        gbv_case_context: Contexte du cas
-        incidents_first_point_of_contact: Nombre d'incidents pour lesquels votre organisation est le premier point de contact
-        incidents_from_other_service_provider: Incidents référés par d'autres prestataires de services
-        number_of_services_provided: Nombre de services fournis pour les incidents
-        number_of_services_provided_other: Nouveaux incidents référés vers d'autres prestataires de services
         service_safehouse_referral: Référence à une maison ou un abri sûr
         service_medical_referral: Référence sanitaire/médicale
         service_psycho_referral: Services psychosociaux/counseling
@@ -2107,10 +2138,10 @@ fr:
         service_police_referral: Police ou autre type de services de sécurité
         service_livelihoods_referral: Services relatifs aux moyens de subsistance
         service_protection_referral: Services de protection de l'enfant
-        vulnerable_populations: 'Populations vulnérables '
         survivors_disability_type: Avec des handicaps
     workflow_report:
       name: Étapes de prise en charge
+      description: Cas et incidents avec le workflow sélectionné, ventilés par âge et par sexe.
       reports:
         cases_workflow: Étapes de prise en charge des cas
         incidents_workflow: Étapes de prise en charge des incidents
@@ -2119,8 +2150,18 @@ fr:
       sub_reports:
         case_workflow_by_sex_and_age: Nombre total de cas par âge et par sexe
         incident_workflow_by_sex_and_age: 'Nombre total des incidents par sexe et par âge '
+    cases_workflow_report:
+      name: Workflow
+      description: Cas avec les types de suivi sélectionnés, ventilés par âge et par sexe.
+      reports:
+        cases_workflow: Workflow - Cas
+      filter_options:
+        registration_date: Date d'enregistrement
+      sub_reports:
+        case_workflow_by_sex_and_age: Nombre total de cas par sexe et âge 
     referrals_transfers_report:
       name: Références et transferts
+      description: Références et transferts qui ont eu lieu dans une période donnée. Ces données sont ventilées par organisation d'envoi et de réception ou par groupe d'utilisateurs.
       reports:
         total_referrals: Références
         total_transfers: Tranferts
@@ -2243,7 +2284,7 @@ fr:
       dash_protection_concerns: Afficher les problèmes de protection
       dash_protection_concerns_by_location: Voir les problèmes de protection par localité
       dash_referrals_by_socal_worker: Afficher les référencements par travailleur social
-      dash_reporting_location: Afficher les zones de rapportages
+      dash_reporting_location: 'Afficher les zones de déclaration '
       dash_service_provisions: Afficher les services fournis
       dash_shared_from_my_team: Partagé par mon équipe
       dash_shared_with_me: Partagé avec moi
@@ -2323,6 +2364,7 @@ fr:
       transfer: Peut être utilisé pour un transfert
       user: Utilisateurs
       user_group: Groupes d'utilisateurs
+      verify_mrm: Vérifier le MRM
       view_approvals: Voir Approbations
       view_assessment: Voir Evaluation
       view_photo: Afficher les photos
@@ -2378,7 +2420,7 @@ fr:
             label: Nombre d'incidents
           kpi_reporting_delay:
             explanation: Possibilité de voir, pour tous les incidents auxquels l'utilisateur a accès, le nombre de jours écoulés entre le moment où la victime a subi une violence basée sur le genre et celui où elle l'a signalée à un prestataire de services.
-            label: Retard de rapportage
+            label: Délai de déclaration
           kpi_services_provided:
             explanation: Possibilité de voir, dans tous les cas auxquels l'utilisateur a accès, quels types de services ont été fournis par l'organisation directement.
             label: Services fournis
@@ -2696,7 +2738,7 @@ fr:
             label: Voir les problèmes de protection par localité
           dash_reporting_location:
             explanation: Tableau qui indique le nombre de cas à chaque lieu (à un seul niveau ou spécification tel que "Province" ou "District"). Chaque ligne du tableau est un lieu, et les colonnes indiquent différents statuts pour les cas ("CAS OUVERTS", "NOUVEAU (DERNIÈRE SEMAINE)", "NOUVEAU (CETTE SEMAINE)", "FERMÉ (DERNIÈRE SEMAINE)", "FERMÉ (CETTE SEMAINE)"). Généralement utilisé pour les comptes des superviseurs ou des administrateurs.
-            label: Cas par zone de rapportage
+            label: Cas par zone de déclaration
           dash_service_provisions:
             explanation: Affiche le nombre de cas dans lesquels d'autres utilisateurs ont ajouté une prestation de service. Ce nombre apparaît dans la section principale du tableau de bord.
             label: 'Cas par types de services fournis '
@@ -2858,6 +2900,9 @@ fr:
           remove_alert:
             explanation: Cette autorisation permet à l'utilisateur de supprimer les mises à jour d'un incident. Les alertes sont généralement générées lorsqu'un champ particulier est modifié, par exemple lorsque des notes sont mises à jour. Les alertes sont généralement représentées par un point jaune à côté de l'incident.
             label: Supprimer les mises à jour d'un incident
+          link_incident_to_case:
+            explanation: Permet à l'utilisateur de lier l'incident au cas sélectionné.
+            label: Lier l'incident au cas
           manage:
             explanation: Permet à un utilisateur d'effectuer toutes les actions disponibles sur les incidents. La permission "Gérer" signifie essentiellement "tout".
             label: Gérer (toutes les autorisations pour ce type de ressources)
@@ -2867,6 +2912,9 @@ fr:
           sync_mobile:
             explanation: Cette autorisation permet généralement à l'utilisateur d'utiliser l'application mobile. Tout d'abord, elle permet à l'utilisateur de voir les actions "Marquer pour mobile" et "Supprimer le marquage pour mobile", qui apparaissent sur la liste des incidents et les pages d'affichage des incidents. Marquer un incident pour mobile indique que les informations sur cet incident doivent être synchronisées entre l'appareil mobile de l'utilisateur et l'application web, tandis que le fait de supprimer le marquage pour mobile d'un incident empêche cette synchronisation de se produire. Les utilisateurs sans cette autorisation ne peuvent pas non plus synchroniser leur appareil mobile avec l'application web, ce qui signifie qu'ils ne peuvent pas utiliser l'application mobile pour superviser les incidents.
             label: Synchroniser avec appareil mobile
+          verify_mrm:
+            explanation: L'utilisateur MRM peut modifier le statut des violations.
+            label: Vérifier le MRM
           write:
             explanation: Possibilité de cliquer sur le bouton "Modifier", de mettre à jour les informations relatives à l'incident et de cliquer sur "Enregistrer". Permet également à l'utilisateur de désactiver ou d'activer un incident.
             label: 'Editer '
@@ -2877,6 +2925,18 @@ fr:
         label: est ce un superviseur ?
       managed_report:
         actions:
+          reporting_locations_report:
+            label: Lieu de déclaration (Cas)
+            explanation: Possibilité de consulter des statistiques sur le nombre de cas enregistrés au cours d'une période donnée, filtrées par lieu de déclaration et ventilées par âge et par sexe. Cette autorisation permet également à l'utilisateur d'exporter les données d'un Insight.
+          followups_report:
+            label: Suivis (Cas)
+            explanation: Possibilité de consulter des statistiques sur le nombre de suivis effectués dans une période donnée, filtrées par type de suivi et ventilées par âge et par sexe. Cette autorisation permet également à l'utilisateur d'exporter les données d'un Insight.
+          services_report:
+            label: Services (Cas)
+            explanation: Possibilité de consulter des statistiques sur le nombre de services fournis au cours d'une période donnée, filtrées par type de service et ventilées par âge et par sexe. Cette autorisation permet également à l'utilisateur d'exporter les données d'un Insight.
+          protection_concerns_report:
+            label: Problèmes de protection (Cas)
+            explanation: Possibilité de consulter des statistiques sur les problèmes de protection des cas enregistrés dans une période donnée. Cette autorisation permet également à l'utilisateur d'exporter les données d'un Insight.
           managed_report_scope:
             label: Quels cas cette fonction doit-elle pouvoir consultées dans Insights ?
           managed_report_scope_all:
@@ -2897,9 +2957,17 @@ fr:
           individual_children:
             explanation: Possibilité d'accéder aux insights individuel des enfants du MRM.
             label: Enfant individuellement
+          workflow_report:
+            label: Workflow (Cas et Incidents)
+            explanation: Possibilité de consulter des statistiques sur l'état du flux de travail pour les cas et les incidents qui leur sont liés. Cette autorisation permet également à l'utilisateur d'exporter les données d'un Insight.
+          cases_workflow_report:
+            label: Workflow (Cas)
+            explanation: Possibilité de consulter les statistiques sur le workflow des cas. Cette autorisation permet également à l'utilisateur d'exporter les données d'un Insight.
           violence_type_report:
+            label: Type de violence (Cas et incidents)
             explanation: Possibilité de consulter les statistiques sur le type de violence. Cette autorisation permet également à l'utilisateur d'exporter les données d'un Insight.
           referrals_transfers_report:
+            label: Références et transferts (Cas)
             explanation: Les utilisateurs voient le nombre de cas référés et transférés d'un groupe d'utilisateurs à un autre groupe d'utilisateurs.
       matching_configuration:
         actions:
@@ -3538,6 +3606,24 @@ fr:
     mark_for_offline:
       title: Marquer pour hors ligne
       text: Êtes-vous sûr de vouloir marquer ces dossiers familiaux pour les utiliser lorsque vous êtes hors ligne ?
+      success: Les dossiers de la famille ont été enregistrés avec succès pour une utilisation hors ligne
+    filter_by:
+      by_date: Par date
+      status: Statut
+      current_location: Localisation de la famille
+  family:
+    family_member:
+      case_id: ID du cas
+      update_and_return: Mettre à jour et quitter
+      save_and_return: Ajouter et quitter
+      create_case: Créer un cas
+      back_to_family_members: Revenir aux membres de la famille
+      create: Créer
+    messages:
+      update_success: 'Le dossier de la famille %{record_id} a été mis à jour avec succès.'
+      creation_success: 'La famille a été créer avec succès'
+      disabled: 'La famille a été désactivée '
+      confirm_create_case: Souhaitez-vous créer un cas pour cette personne ?
   transfer:
     label: Transfert
     agency_label: Organisation
@@ -3583,6 +3669,7 @@ fr:
       inprogress: 'En attente '
       rejected: 'Rejeté '
       revoked: Révoqué
+    transferred_by: Transféré par
     type:
       assign: 'Assigner '
       reassign: 'Assigner '
@@ -3603,6 +3690,7 @@ fr:
     locale: Locale
     location: Lieu
     messages:
+      records_update: Primero est en train de mettre à jour les données de cet utilisateur pour refléter les changements que vous avez effectués. La mise à jour des tableaux de bord et des rapports peut prendre un certain temps.
       confirmation: Êtes-vous sûre de vouloir supprimer cet utilisateur ? La suppression est irréversible. Cliquez sur OK pour supprimer l'utilisateur.
       created: L'utilisateur a bien été créé.
       failure: Une erreur s'est produite, veuillez contacter le support s'il vous plaît.
@@ -3613,6 +3701,7 @@ fr:
       passwords_do_not_match: ne correspond pas au mot de passe actuel
       time_zone_updated: La modification a bien été mise à jour.
       updated: L'utilisateur a bien été mis à jour.
+      created_warning: Vous avez créé %{total_enabled} sur vos %{maximum_users} utilisateurs actifs autorisés.
     organization: Organisation
     agency: Organisation
     services_help_text: Si vous ne spécifiez pas de services, cet utilisateur bénéficiera des mêmes services que son organisation.
@@ -3631,6 +3720,21 @@ fr:
     provider_username_help: 'Exemple: mon.nom@%{domain}'
     role_id: Fonction
     send_mail: Recevoir des notifications par email?
+    send_mail_preferences:
+      label: Quels types de notifications par courrier électronique souhaitez-vous recevoir ?
+      help_text: Si vous laissez ce champ vide, vous recevrez toutes les notifications par courrier électronique.
+    receive_webpush:
+      label: Recevoir des notifications push ?
+      help_text: Notez que vous devrez toujours autoriser les notifications push dans le navigateur de votre appareil.
+      tooltip: Vous devez d'abord modifier votre compte et activer les notifications push pour votre utilisateur.
+    receive_webpush_preferences:
+      label: Quels types de notifications push souhaitez-vous recevoir ?
+      help_text: Si vous laissez ce champ vide, vous recevrez toutes les notifications push.
+    notification_preferences:
+      approval_request: 'Demande d''approbation (Superviseur)'
+      approval_response: 'Réponse à la demande d''approbation (travailleurs sociaux)'
+      transition_notification: 'Assignations, transferts et références'
+      transfer_request: 'Demande de transfert'
     user_group_unique_ids: Groupe d'utilisateur
     user_name: Nom d'utilisateur
     services: Services
@@ -3690,6 +3794,10 @@ fr:
       user_name: Nom d'utilisateur
       position: Poste
       agency: 'Organisation '
+    alerts:
+      total_users_created: 'Vous avez créé %{total_enabled} utilisateurs en dehors de la limite de votre système qui autorise %{maximum_users} utilisateurs autorisés. '
+      limit_user_reached: Vous avez atteint votre limite de %{maximum_users} utilisateurs actifs. Vous devez désactiver un ou plusieurs utilisateurs avant d'en créer d'autres.
+      limit_user_reached_on_enable: Vous avez atteint votre limite de %{maximum_users} utilisateurs actifs. Vous devez désactiver un ou plusieurs utilisateurs avant d'en créer d'autres.
   devise:
     failure:
       already_authenticated: "Vous êtes déjà enregistré."
@@ -3701,3 +3809,9 @@ fr:
       selected_records: '%{select_records} lieu(x) sélectionnés'
       selected_all_records: Sélectionnez tous les cas %{total_records} qui correspondent à cette requête.
       updated: '%{updated_records} localité(s) mis à jour '
+  push_notifications_dialog:
+    title: Notifications sur les appareils
+    body_blocked:
+      message: Vous avez bloqué les notifications pour Primero sur cet appareil. Pour remédier à ce problème, vous devez autoriser les notifications.
+      android: "Android : Allez dans Paramètres. Cliquez sur Applications. Trouvez Primero dans la liste des applications et cliquez dessus. Cliquez sur Notifications. Activez le bouton de notification."
+      ios: "iOS : Allez dans les réglages. Cliquez sur Notifications. Faites défiler vers le bas jusqu'à la liste des applications et trouvez Primero. Activez le bouton de Primero."

@@ -1895,35 +1895,10 @@ ro:
         date_of_first_report: Data intervievării
         incident_date: Dată incident
       reports:
-        incidents: Incidente
         perpetrators: Făptuitori
         survivors: Supraviețuitori
         referrals: Referiri
       sub_reports:
-        combined: Incidente
-        total: Număr incidente GBV/ Violență pe bază de gen raportate
-        gbv_sexual_violence: Numărul incidentelor de violență sexuală raportate
-        gbv_previous_incidents: Număr Incidente raportate în funcție de Supraviețuitori cu Incidente GBV/ Violență pe bază de gen anterioare
-        gbv_sexual_violence_type: Tip incident
-        incident_timeofday: Moment incident
-        elapsed_reporting_time: Intervalul de timp dintre incident și data raportării
-        elapsed_reporting_time_rape: Incidente precum Viol, Intervalul de timp scurs între Incident și Dată raportare
-        elapsed_reporting_time_rape_health_referral: Incidente de Viol, Timpul scurs între Incident și Data raportării (serviciu de sănătate sau referire)
-        incident_location_type: Locație incident
-        number_of_perpetrators: Număr făptuitori
-        perpetrator_relationship: Presupusa legătură dintre Făptuitor și Supraviețuitor
-        perpetrator_age_group: Grupă vârstă Presupus autor principal
-        perpetrator_occupation: Ocupația Presupusului autor principal
-        age: Număr Supraviețuitori în funcție de Vârstă
-        sex: Număr Supraviețuitori în funcție de Sex
-        marital_status: Statut marital Supraviețuitori
-        displacement_status: Status relocare Supraviețuitor
-        displacement_incident: Status relocare la momentul Incidentului
-        gbv_case_context: Context Caz
-        incidents_first_point_of_contact: Numărul de incidente pentru care organizația dumneavoastră este primul punct de contact
-        incidents_from_other_service_provider: Incidentele referite de alți furnizori de servicii
-        number_of_services_provided: Număr servicii furnizate pentru incidente
-        number_of_services_provided_other: Noi referiri de incidente către alți furnizori de servicii
         service_safehouse_referral: Referire Locație/ Adăpost sigur
         service_medical_referral: Referire pentru Sănătate/ Medicală
         service_psycho_referral: Servicii consiliere psihologică
@@ -1931,7 +1906,6 @@ ro:
         service_police_referral: Poliție sau alt tip de servicii de securitate
         service_livelihoods_referral: Servicii mijloace de subzistență
         service_protection_referral: Servicii protecția copilului
-        vulnerable_populations: Grupuri vulnerabile
         survivors_disability_type: Cu Dizabilități
     success_message: Fișier export generat cu succes
   messages:
@@ -2445,7 +2419,6 @@ ro:
             explanation: Permite unui coordonator să vadă câte înregistrări au sarcini restante de Servicii pentru fiecare dintre utilizatori.
             label: Sarcini restante Servicii
           dash_case_incident_overview:
-            explanation: .
             label: Sumar - Înregistrările mele/ Incidente
           dash_cases_by_social_worker:
             explanation: Tabel care arată cum sunt gestionate de către fiecare utilizator din grupurile de utilizatori ale utilizatorului curent totalul de cazuri deschise și numărul de cazuri noi. Fiecare rând reprezintă un utilizator din grupurile de utilizatori ale utilizatorului curent, în timp ce „Total” și „Nou” sunt cele două coloane.
@@ -2917,7 +2890,6 @@ ro:
     display: Afișează potențiale potriviri pentru %{type}%{id}
   reassign:
     multiple_error: S-a produs o eroare. %{select_records} caz(uri) neasignate.
-    multiple_successfully: '%{select_records} caz(uri) asignat(e) cu succes'
     notes_label: Notițe
     successfully: Reasignate cu succes
     user_mandatory_label: Beneficiarul este obligatoriu
