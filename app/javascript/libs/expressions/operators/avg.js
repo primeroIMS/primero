@@ -23,7 +23,7 @@ export default (expressions, extra) => ({
 
     const res = sum / (count === 0 ? 1 : count);
 
-    if (decimalPlaces) {
+    if (decimalPlaces || decimalPlaces === 0) {
       return parseFloat(res.toFixed(decimalPlaces));
     }
 
