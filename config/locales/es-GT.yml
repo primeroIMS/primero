@@ -495,10 +495,6 @@ es-GT:
       date_case_plan_initiated: Fecha del Plan del Caso
       date_of_creation: Fecha de Creación
       registration_date: Fecha de Registro
-      followup_date: Fecha del Seguimiento
-      date_reunification: Fecha de Reunificación
-      tracing_date: Fecha de Rastreo
-      service_implemented_day_time: Fecha de finalización del Servicio
   configurations:
     apply_label: ¿Está seguro(a)? Si usted aplica, los ajustes en esta configuración se aplicarán al sistema. Usted perderá todos sus ajustes actuales y no podrá recuperarlos a menos que ya los haya guardado en otra Configuración.
     apply_label_bold: Primero no estará disponible para sus usuario(a)s por unos minutos mientras se cargan los cambios.
@@ -554,13 +550,6 @@ es-GT:
     all_cases: Todos los Casos
     all_services_implemented: Todos los Servicios Implementados
     and: 'y'
-    action_needed:
-      awaiting_acceptance: Esperando Aceptación
-      header: Acción requerida
-      new: Nuevo
-      new_this_week: Nuevo esta Semana
-      referrals: Referencias
-      transfers: Transferencias
     approval_action_plan_approved: Aprobado
     approval_action_plan_pending: Pendiente
     approval_action_plan_pending_group: Plan de Acción
@@ -2099,35 +2088,10 @@ es-GT:
         date_of_first_report: Fecha de la Entrevista
         incident_date: Fecha del Incidente
       reports:
-        incidents: Incidentes
         perpetrators: Perpetradores
         survivors: Sobrevivientes
         referrals: Referencias
       sub_reports:
-        combined: Incidentes
-        total: Número de Incidentes de VBG Reportados
-        gbv_sexual_violence: Número de Incidentes de Violencia Sexual Reportados
-        gbv_previous_incidents: Número de Incidentes Reportados por Sobrevivientes con Incidentes de VBG previos
-        gbv_sexual_violence_type: Tipo de Incidente
-        incident_timeofday: Hora del día del Incidente
-        elapsed_reporting_time: Tiempo transcurrido entre el Incidente y la Fecha de Reporte
-        elapsed_reporting_time_rape: Incidentes de violación, tiempo transcurrido entre el Incidente y Fecha de Reporte
-        elapsed_reporting_time_rape_health_referral: Incidentes de violación, tiempo transcurrido entre el Incidente y Fecha de Reporte
-        incident_location_type: Ubicación del Incidente
-        number_of_perpetrators: Número de Perpetradores
-        perpetrator_relationship: Relación del Presunto Perpetrador Principal con la/el Sobreviviente
-        perpetrator_age_group: Grupo de edad de Presunto(s) Perpetrador(es) Principal(es)
-        perpetrator_occupation: Ocupación del Presunto Perpetrador Principal
-        age: Número de sobrevivientes por edad
-        sex: Número de sobrevivientes por sexo
-        marital_status: Estado civil de sobrevivientes
-        displacement_status: Estado civil de sobrevivientes
-        displacement_incident: Etapa de desplazamiento al momento del incidente
-        gbv_case_context: Contexto del Caso
-        incidents_first_point_of_contact: Número de incidentes donde tu organizacion es el primer punto de contacto
-        incidents_from_other_service_provider: Incidentes derivados de otros proveedores de servicios
-        number_of_services_provided: Número de servicios prestados por incidentes
-        number_of_services_provided_other: Referencia de nuevos incidente a otros proveedores de otros servicios
         service_safehouse_referral: Referencia a casa segura/refugio seguro
         service_medical_referral: Referencia médica/salud
         service_psycho_referral: Servicios psicosociales/consejería
@@ -2135,7 +2099,6 @@ es-GT:
         service_police_referral: Servicios de policía u otros servicios de seguridad
         service_livelihoods_referral: Servicios de Subsistencia
         service_protection_referral: Servicios de Protección a la Niñez
-        vulnerable_populations: Poblaciones vulnerables
         survivors_disability_type: Con discapacidad
     workflow_report:
       name: Flujo de Trabajo
@@ -2215,12 +2178,6 @@ es-GT:
     reports: Reportes
     insights: Perspectivas
     search: Buscar
-    phonetic_search:
-      title: Ingrese un nombre para buscar un registro existente.
-      label: Campos de Nombre de Usuario
-      help_text: La búsqueda fonética está disponible para campos de Nombre
-    id_search:
-      title: Ingrese el número de ID para buscar un registro existente.
     settings: Configuraciones
     support: Apoyo
     support_menu:
@@ -2668,15 +2625,6 @@ es-GT:
         label: Caso
       dashboard:
         actions:
-          action_needed_new_updated:
-            explanation: Muestra el indicador de "Nuevo y Actualizado" en el tablero de "Acción Requerida". Esto incluye Casos que han sido recientemente asignados al usuario actual, o aquellos que otro usuario ha actualizado desde la última vez que el usuario actual los haya actualizado.
-            label: 'Accion Requerida: Nuevo o Actualizado'
-          action_needed_new_referrals:
-            explanation: Muestra el indicador de "Nuevas Referencias" en el tablero de "Acción Requerida". Esto incluye cualquier Caso con una Referencia nueva enviada al usuario actual, donde el usuario actual no es la última persona en actualizar dicho Caso.
-            label: 'Acción Requerida: Nuevas Referencias'
-          action_needed_transfer_awaiting_acceptance:
-            explanation: 'Muestra el indicador de "Transferencias Esperando Aceptación" en el tablero de "Acción Requerida". Esto incluye cualquier Caso con una Transferencia al usuario actual, el cual el usuario actual no ha aceptado. '
-            label: 'Acción Requerida: Transferencias Esperando Aceptación'
           approvals_action_plan:
             explanation: Muestra el número de casos de el/la usuario(a) actual que cuentan con solicitud de aprobación de Plan de Acción la cual está Pendiente, Aprobada, o Rechazada.
             label: Aprobaciones %{approval_label} de la trabajadora del caso
