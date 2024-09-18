@@ -103,6 +103,10 @@ describe ActiveStorageAuth do
   end
 
   describe 'Record attachments' do
+    let(:primero_module) do
+      PrimeroModule.new(unique_id: PrimeroModule::CP, name: 'Primero Module CP', associated_record_types: %w[case])
+    end
+
     let(:photo_form) do
       photo_form = FormSection.new(
         unique_id: 'photo_form',
@@ -127,6 +131,9 @@ describe ActiveStorageAuth do
       role.save(validate: false)
 
       FormPermission.create!(form_section: photo_form, role:)
+      primero_module.roles = [role]
+      primero_module.form_sections = [photo_form]
+      primero_module.save(validate: false)
 
       role
     end
@@ -182,7 +189,7 @@ describe ActiveStorageAuth do
 
     let(:case_with_photo) do
       child = Child.create(
-        data: { name: 'Test', owned_by: 'user1' }
+        data: { name: 'Test', owned_by: 'user1', module_id: PrimeroModule::CP }
       )
       Attachment.new(
         record: child, field_name: 'photos', attachment_type: Attachment::IMAGE,
@@ -192,7 +199,7 @@ describe ActiveStorageAuth do
 
     let(:case_with_document) do
       child = Child.create(
-        data: { name: 'Test2', owned_by: 'user1' }
+        data: { name: 'Test2', owned_by: 'user1', module_id: PrimeroModule::CP }
       )
       Attachment.new(
         record: child, field_name: Attachable::DOCUMENTS_FIELD_NAME, file_name: 'dummy.pdf',
@@ -254,11 +261,15 @@ describe ActiveStorageAuth do
     end
 
     after(:each) do
-      clean_data(Attachment, Child, User, FormPermission, Role, FormSection)
+      clean_data(Attachment, Child, User, PrimeroModule, FormPermission, Role, FormSection)
     end
   end
 
   describe 'Export files' do
+    let(:primero_module) do
+      PrimeroModule.new(unique_id: PrimeroModule::CP, name: 'Primero Module CP', associated_record_types: %w[case])
+    end
+
     let(:role) do
       permissions = Permission.new(
         resource: Permission::CASE,

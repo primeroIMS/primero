@@ -55,6 +55,12 @@ class Api::V2::RecordResourceController < ApplicationApiController
     @record_data_service = RecordDataService.new
   end
 
+  def module_unique_id
+    return @record.module_id if @record.present?
+
+    params.dig(:data, :module_id)
+  end
+
   private
 
   def record_updated_fields(record)
