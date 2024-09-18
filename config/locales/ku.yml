@@ -2042,41 +2042,10 @@ ku:
         date_of_first_report: بەرواری چاوپێکەوتنەکە
         incident_date: بەرواری روداوەکە
       reports:
-        incidents: 'رووداوەكان
-
-           '
         perpetrators: ' تاوانباران'
         survivors: ڕزگاربووان
         referrals: ئیحالەکان- ڕەوانەكردنەكان
       sub_reports:
-        combined: 'رووداوەكان 
-
-           '
-        total: ' ژمارەی ئەو رووداوانەی توندوتیژی جێندەری كە هەواڵیان لەبارەوە دراوە'
-        gbv_sexual_violence: ' ژمارەی ئەو رووداوانەی توندوتیژی جنسی كە هەواڵی لەبارەوە دراوە'
-        gbv_previous_incidents: ژمارەی ئەو ڕووداوانەی کە لەلایەن ئەو ڕزگاربووانەوە ڕاپۆرتکراون کە پێشتر ڕووداوی GBV یان هەبووە
-        gbv_sexual_violence_type: جۆری رووداوەكە
-        incident_timeofday: ' كاتی رووداوەكە لە رۆژدا'
-        elapsed_reporting_time: کاتی نێوان ڕووداو و بەرواری ڕاپۆرت
-        elapsed_reporting_time_rape: ڕووداوەکانی دەستدرێژی سێکسی، کاتی بەسەرچوو لە نێوان ڕووداو و بەرواری ڕاپۆرت
-        elapsed_reporting_time_rape_health_referral: ڕووداوەکانی دەستدرێژی سێکسی، ماوەی تێپەڕبوو لە نێوان ڕووداو و بەرواری ڕاپۆرت (خزمەتگوزاری تەندروستی یان ڕەوانەکردن)
-        incident_location_type: 'شوێنی رووداوەكە
-
-           '
-        number_of_perpetrators: ژمارەی تاوانباران
-        perpetrator_relationship: پەیوەندی تاوانباری سەرەتایی گومانلێکراو لەگەڵ ڕزگاربوو
-        perpetrator_age_group: گروپی تەمەنی تاوانبارانی سەرەکی
-        perpetrator_occupation: پیشەی تاوانباری گومانلێکراوی سەرەکی
-        age: ژمارەی رزگاربوان بەپێی تەمەن
-        sex: ژمارەی رزگاربوان بەپێی ڕەگەز
-        marital_status: دۆخی خێزانی ڕزگاربوان
-        displacement_status: دۆخی ئاوارەبوونی ڕزگاربووان
-        displacement_incident: قۆناغی ئاوارەبوون لە کاتی ڕووداوەکەدا
-        gbv_case_context: سیاقی کەیسەکە
-        incidents_first_point_of_contact: ژمارەی ئەو ڕووداوانەی کە ڕێکخراوەکەت یەکەم خاڵی پەیوەندییە
-        incidents_from_other_service_provider: ئەو ڕووداوانەی کە لە پێشکەشکارانی خزمەتگوزارییەکانی ترەوە ڕەوانە دەکرێن
-        number_of_services_provided: ژمارەی ئەو خزمەتگوزارییانەی کە بۆ ڕووداوەکان پێشکەش دەکرێن
-        number_of_services_provided_other: ڕەوانەکردنی ڕووداوی نوێ بۆ پێشکەشکارانی خزمەتگوزاری تر
         service_safehouse_referral: ڕەوانەکردنی خانووی سەلامەت/پەناگەی سەلامەت
         service_medical_referral: ڕەوانەکردنی تەندروستی/پزیشکی
         service_psycho_referral: خزمەتگوزاری دەروونی کۆمەڵایەتی/ڕاوێژکاری
@@ -2084,7 +2053,6 @@ ku:
         service_police_referral: پۆلیس یان جۆرەکانی تری خزمەتگوزاری ئەمنی
         service_livelihoods_referral: خزمەتگوزاری بژێوی ژیان
         service_protection_referral: خزمەتگوزاری پاراستنی منداڵان
-        vulnerable_populations: دانیشتوانی لاواز
         survivors_disability_type: لەگەڵ خاوەن پێداویستییە تایبەتەکان
     success_message: بە سەرکەوتوویی فایلە هەناردەکراوەکانی دروست کرا
   messages:
@@ -2700,7 +2668,6 @@ ku:
                '
             label: ئەركە درەنگوەختەكانی خزمەتگوزاری
           dash_case_incident_overview:
-            explanation: '  '
             label: پوختە-كەیسەكانم/ رووداوەكانم
           dash_cases_by_social_worker:
             explanation: ' خشتەیەك ئەوە پیشان دەدات كە چۆن تێكڕای ژمارەی كەیسە كراوەكان و ژمارەی كەیسە نوێیە بەڕێوەبردرێن لەلایەن هەر بەكارهێنەرێكەوە لە گروپە بەكارهێنەرەكانی بەكارهێنەری ئێستا. هەر ریزێك بەكارهێنەرە لە گروپە بەكارهێنەرەكانی بەكارهێنەری ئێستا، كە "تێكڕا" و "نوێ" دوو ستوونی نوێن. '
@@ -3340,7 +3307,6 @@ ku:
     display: هاوبەشە شاراوەکان پیشانبدە بو  %{type} %{id}
   reassign:
     multiple_error: هەڵەیەك روویدا%{select_records}كەیسەكە(كەیسەكان) دەستنیشان نەكراون
-    multiple_successfully: '%{select_records}كەیس(ەكان) بە سەركەوتویی دەستنیشانكران'
     notes_label: تێبینیەکان
     successfully: سەرکەوتوانە دەستنیشانكرانەوە
     user_mandatory_label: وەرگر پێویستە
