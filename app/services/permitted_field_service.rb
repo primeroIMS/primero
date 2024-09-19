@@ -36,8 +36,8 @@ class PermittedFieldService
   PERMITTED_MRM_FILTER_FIELD_NAMES = %w[
     individual_violations individual_age individual_sex victim_deprived_liberty_security_reasons
     reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
-    violation_with_verification_status armed_force_group_party_names late_verified_violations perpetrator_category
-    date_of_first_report ctfmr_verified_date
+    violation_with_verification_status armed_force_group_party_names has_late_verified_violations perpetrator_category
+    date_of_first_report ctfmr_verified_date verification_status
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
@@ -118,6 +118,7 @@ class PermittedFieldService
     @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
     @permitted_field_names << 'risk_level' if user.can?(:case_risk, Dashboard)
     @permitted_field_names += permitted_reporting_location_field
+    @permitted_field_names += permitted_incident_reporting_location_field
     @permitted_field_names += permitted_registry_record_id
     @permitted_field_names += permitted_family_id
     @permitted_field_names += permitted_attachment_fields
@@ -151,7 +152,15 @@ class PermittedFieldService
 
     return [] if reporting_location_config.blank?
 
-    ["loc:#{reporting_location_config.field_key}"]
+    [reporting_location_config.field_key]
+  end
+
+  def permitted_incident_reporting_location_field
+    incident_reporting_location_config = user.role.incident_reporting_location_config
+
+    return [] if incident_reporting_location_config.blank?
+
+    [incident_reporting_location_config.field_key]
   end
 
   def permitted_registry_record_id
