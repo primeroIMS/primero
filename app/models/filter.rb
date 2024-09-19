@@ -115,7 +115,7 @@ class Filter < ValueObject
   )
   DISABILITY_STATUS = Filter.new(
     name: 'cases.filter_by.disability_status',
-    field_name: 'disability_status'
+    field_name: 'disability_status_yes_no'
   )
   SOGIESC_SELF_IDENTIFYING = Filter.new(
     name: 'cases.filter_by.sogiesc_self_identifying',
