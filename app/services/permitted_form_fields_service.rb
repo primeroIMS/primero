@@ -94,8 +94,9 @@ class PermittedFormFieldsService
       fields: {
         form_sections: {
           roles: { id: roles },
-          visible: visible_only || nil
-        }.compact.merge(primero_modules: { unique_id: module_unique_id }, parent_form: record_type)
+          visible: visible_only || nil,
+          parent_form: record_type
+        }.compact.merge(module_unique_id.present? ? { primero_modules: { unique_id: module_unique_id } } : {})
       }
     )
   end
