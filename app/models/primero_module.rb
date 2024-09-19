@@ -10,7 +10,6 @@ class PrimeroModule < ApplicationRecord
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
 
-  # TODO: REPORTING FILTER
   CP_DEFAULT_CASE_LIST_FILTERS = %w[flagged owned_by my_cases workflow owned_by_agency_id status
                                     age sex approval_status_assessment approval_status_case_plan approval_status_closure
                                     approval_status_action_plan approval_status_gbv_closure protection_concerns
