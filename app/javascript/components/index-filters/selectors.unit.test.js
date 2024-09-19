@@ -15,6 +15,7 @@ const state = fromJS({
     filters: {
       cases: [
         {
+          unique_id: "filter1",
           field_name: "filter1",
           name: "filter1",
           options: { en: [{ id: "true", display_name: "Filter 1" }] },
@@ -23,6 +24,7 @@ const state = fromJS({
       ],
       incidents: [
         {
+          unique_id: "filter2",
           field_name: "filter2",
           name: "filter3",
           options: { en: [{ id: "true", display_name: "Filter 3" }] },
@@ -48,6 +50,7 @@ describe("<IndexFilters /> - Selectors", () => {
     it("should return list of filters", () => {
       const expected = fromJS([
         {
+          unique_id: "filter1",
           field_name: "filter1",
           name: "filter1",
           options: { en: [{ id: "true", display_name: "Filter 1" }] },

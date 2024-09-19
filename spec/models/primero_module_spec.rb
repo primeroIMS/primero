@@ -100,7 +100,7 @@ describe PrimeroModule do
     it 'should return saved module filters array' do
       @primero_module = PrimeroModule.create!(
         unique_id: PrimeroModule::CP, name: 'Test Module 2', associated_record_types: ['case'],
-        list_filters: { case: %w[id flagged owned_by] }
+        list_filters: { cases: %w[id flagged owned_by] }
       )
 
       expect(@primero_module.record_list_filters[:cases]).to match_array(%w[id flagged owned_by])
