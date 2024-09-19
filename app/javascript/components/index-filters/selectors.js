@@ -18,7 +18,7 @@ const selectedFilters = (state, recordType) => {
     }, List());
 
     return moduleListFilters
-      ? filters.filter(listFilter => moduleListFilters.includes(listFilter.get("field_name")))
+      ? filters.filter(listFilter => moduleListFilters.includes(listFilter.get("unique_id")))
       : List();
   }
 

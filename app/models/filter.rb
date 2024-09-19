@@ -6,7 +6,13 @@
 # rubocop:disable Metrics/ClassLength
 class Filter < ValueObject
   attr_accessor :name, :field_name, :type, :options, :option_strings_source,
-                :toggle_include_disabled, :sort_options
+                :toggle_include_disabled, :sort_options, :unique_id
+
+  def initialize(args = {})
+    args = { unique_id: args[:field_name] }.merge(args)
+
+    super(args)
+  end
 
   FLAGGED_CASE = Filter.new(
     name: 'cases.filter_by.flag',
@@ -58,6 +64,12 @@ class Filter < ValueObject
     field_name: 'sex',
     option_strings_source: 'lookup-gender'
   )
+  GENDER_IDENTITY = Filter.new(
+    unique_id: 'gender_identity',
+    name: 'cases.filter_by.gender',
+    field_name: 'gender',
+    option_strings_source: 'lookup-gender-identity'
+  )
   PROTECTION_CONCERNS = Filter.new(
     name: 'cases.filter_by.protection_concerns',
     field_name: 'protection_concerns',
@@ -93,7 +105,8 @@ class Filter < ValueObject
     name: 'cases.filter_by.current_location',
     field_name: 'loc:location_current',
     option_strings_source: 'Location',
-    type: 'multi_select'
+    type: 'multi_select',
+    unique_id: 'location_current'
   )
   AGENCY_OFFICE = Filter.new(
     name: 'user.agency_office',
@@ -101,8 +114,8 @@ class Filter < ValueObject
     option_strings_source: 'lookup-agency-office'
   )
   DISABILITY_STATUS = Filter.new(
-    name: 'cases.filter_by.disability_status_pcm',
-    field_name: 'disability_status_pcm'
+    name: 'cases.filter_by.disability_status',
+    field_name: 'disability_status'
   )
   SOGIESC_SELF_IDENTIFYING = Filter.new(
     name: 'cases.filter_by.sogiesc_self_identifying',
@@ -117,6 +130,7 @@ class Filter < ValueObject
   USER_GROUP = Filter.new(name: 'permissions.permission.user_group', field_name: 'owned_by_groups')
   REPORTING_LOCATION = lambda do |params|
     Filter.new(
+      unique_id: 'reporting_location',
       name: "location.base_types.#{params[:labels]&.first}",
       field_name: "loc:#{params[:field]}#{params[:admin_level]}",
       option_strings_source: 'ReportingLocation',
@@ -368,7 +382,8 @@ class Filter < ValueObject
     name: 'families.filter_by.current_location',
     field_name: 'loc:family_location_current',
     option_strings_source: 'Location',
-    type: 'multi_select'
+    type: 'multi_select',
+    unique_id: 'family_location_current'
   )
 
   class << self
@@ -419,14 +434,14 @@ class Filter < ValueObject
       filters << SOCIAL_WORKER if user.manager?
       filters += [MY_CASES, WORKFLOW]
       filters << AGENCY if user.admin?
-      filters += [STATUS, AGE_RANGE, SEX] + user_based_filters(user) + [NO_ACTIVITY]
+      filters += [STATUS, AGE_RANGE, SEX, GENDER_IDENTITY] + user_based_filters(user) + [NO_ACTIVITY]
       filters << DATE_CASE
       filters << ENABLED
       filters += photo_filters(user)
       filters
     end
 
-    def user_based_filters(user)
+    def user_based_filters(user) # rubocop:disable Metrics/MethodLength
       filters = []
       filters += approvals_filters(user)
       filters += field_based_filters(user)
@@ -634,10 +649,6 @@ class Filter < ValueObject
       field = filter_fields[field_name]
       field.present? && field.visible?
     end
-  end
-
-  def initialize(args = {})
-    super(args)
   end
 
   def owned_by_options(opts = {})
@@ -879,7 +890,7 @@ class Filter < ValueObject
   end
 
   def inspect
-    "Filter(name: #{name}, field_name: #{field_name}, type: #{type})"
+    "Filter(name: #{name}, field_name: #{field_name}, type: #{type}, unique_id: #{unique_id})"
   end
 end
 # rubocop:enable Metrics/ClassLength

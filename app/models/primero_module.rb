@@ -15,7 +15,7 @@ class PrimeroModule < ApplicationRecord
                                     age sex approval_status_assessment approval_status_case_plan approval_status_closure
                                     approval_status_action_plan approval_status_gbv_closure protection_concerns
                                     protection_status urgent_protection_concern type_of_risk risk_level
-                                    loc:location_current last_updated_by cases_by_date
+                                    location_current reporting_location last_updated_by cases_by_date
                                     record_state has_photo].freeze
   GBV_DEFAULT_CASE_LIST_FILTERS = %w[flagged owned_by my_cases workflow owned_by_agency_id status
                                      age sex approval_status_assessment approval_status_case_plan
@@ -112,16 +112,16 @@ class PrimeroModule < ApplicationRecord
   # rubocop:disable Metrics/MethodLength
   def record_list_filters
     filters = {}
-    filters_from_module = list_filters&.[]('case')
+    filters_from_module = list_filters&.[](Child.table_name)
 
-    filters[Child.parent_form.pluralize.to_sym] = case unique_id
-                                                  when GBV
-                                                    filters_from_module || GBV_DEFAULT_CASE_LIST_FILTERS
-                                                  when MRM
-                                                    filters_from_module || MRM_DEFAULT_CASE_LIST_FILTERS
-                                                  else
-                                                    filters_from_module || CP_DEFAULT_CASE_LIST_FILTERS
-                                                  end
+    filters[Child.table_name.to_sym] = case unique_id
+                                       when GBV
+                                         filters_from_module || GBV_DEFAULT_CASE_LIST_FILTERS
+                                       when MRM
+                                         filters_from_module || MRM_DEFAULT_CASE_LIST_FILTERS
+                                       else
+                                         filters_from_module || CP_DEFAULT_CASE_LIST_FILTERS
+                                       end
     filters
   end
   # rubocop:enable Metrics/MethodLength
