@@ -30,7 +30,7 @@ function ValidationErrors({ formErrors, forms, submitCount }) {
       const formsWithErrors = forms.filter(value => {
         return value
           .get("fields", fromJS([]))
-          .filter(field => !field.get("disabled"))
+          .filter(field => !field.get("disabled") && field.get("visible"))
           .map(field => field.get("name"))
           .some(fieldName => fieldNames.includes(fieldName));
       });

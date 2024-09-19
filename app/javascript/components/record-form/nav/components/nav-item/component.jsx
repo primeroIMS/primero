@@ -53,7 +53,7 @@ function Component({
           <Jewel value={name} isForm isError={hasError} />
         ) : (
           <div className={css.text}>
-            {name}
+            <div>{name}</div>
             {hasError && <Jewel isError={hasError} />}
           </div>
         )}
