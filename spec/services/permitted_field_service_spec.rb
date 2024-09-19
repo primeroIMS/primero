@@ -215,7 +215,7 @@ describe PermittedFieldService, search: true do
     permitted_reporting_location_field = PermittedFieldService.new(user, Child).permitted_reporting_location_field.first
     reporting_location_config = system_settings.reporting_location_config
 
-    expect(permitted_reporting_location_field).to eq("loc:#{reporting_location_config.field_key}")
+    expect(permitted_reporting_location_field).to eq(reporting_location_config.field_key)
   end
 
   it 'returns the reporting_location field permitted for a role with a reporting_location_level set' do
@@ -245,7 +245,7 @@ describe PermittedFieldService, search: true do
     ).permitted_reporting_location_field.first
     reporting_location_config = system_settings.reporting_location_config
 
-    expect(permitted_reporting_location_field).to eq("loc:#{reporting_location_config.field_key}")
+    expect(permitted_reporting_location_field).to eq(reporting_location_config.field_key)
   end
 
   it 'return the risk_level field permitted for a role with a case_risk permission in dashboard' do

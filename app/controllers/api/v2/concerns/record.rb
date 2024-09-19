@@ -199,7 +199,7 @@ module Api::V2::Concerns::Record
   end
 
   def strip_location_prefix(param)
-    return param.delete_prefix('loc:') if param.start_with?('loc:')
+    return Field.remove_location_parts(param) if Field.location_prefix?(param)
 
     param
   end
