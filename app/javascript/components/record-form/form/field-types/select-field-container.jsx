@@ -186,7 +186,7 @@ function SelectFieldContainer({
 
   const fieldProps = {
     id: name,
-    error: error && touched ? error : null,
+    error: error || null,
     name,
     isDisabled: !filteredOptions || mode.isShow || disabled || apiSelectOptionsOffline,
     helperText: inputHelperText(),
@@ -196,7 +196,7 @@ function SelectFieldContainer({
     multiple: multiSelect,
     TextFieldProps: {
       label,
-      error: error && touched,
+      error,
       InputProps
     },
     onOpen: () => {
