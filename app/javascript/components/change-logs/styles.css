@@ -39,3 +39,9 @@
 .detailName {
   font-style: italic;
 }
+
+@media (min-width:600px) {
+  .container {
+    min-width: 28em;
+  }
+}

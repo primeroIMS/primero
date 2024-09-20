@@ -15,7 +15,6 @@ sk:
   unavailable_offline: Nedostupný offline
   online: Online
   yes_label: 'Áno'
-  or_label: alebo
   select_provider: vybrať dodávateľa
   select_language: Zvoliť si jazyk
   log_in_primero_idp: 'prihláste sa s používateľským menom %{idp_name} '
@@ -1114,7 +1113,6 @@ sk:
     english_text: Anglický text
     field_name: Názov Políčka
     field_type: Typ Políčka
-    attachment_too_large: Súbor nemôže byť väčší ako 10MB
     file_upload_box:
       add_document_label: Pridajte dokument
       add_new_document_button_text: Pridajte ďalší dokument
@@ -1300,7 +1298,6 @@ sk:
     dashboard: Palubná doska
     en: Anglický
     es: 'Španielsky '
-    es-GT: Španielsky (Guatemala)
     fr: Francúzky
     id: Bahasa
     km: ភាសាខ្មែរ
@@ -1342,7 +1339,6 @@ sk:
         killing: Zabíjanie detí
         maiming: Mrzačenie detí
         recruitment: Nábor a/alebo využívanie detí
-        sexual_violence: Znásilnenie a/alebo iný druh sexuálneho násilia
         abduction: Únos
         attack_on: Útok na školu(y) a/alebo nemocnicu(e)
         military_use: Vojenské využitie školy (škôl) a/alebo nemocnice (nemocníc)
@@ -1371,7 +1367,6 @@ sk:
       unknown: Neznáme
       verification_status: Stav overenia
       violence_type: Typ násilia
-      armed_force_group_name: Názov skupiny ozbrojených síl
       armed_force_group_type: Typ skupiny ozbrojených síl
     register_new_incident: Nový incident
     selectable_date_options:
@@ -1794,9 +1789,7 @@ sk:
         killing: Zabíjanie detí
         maiming: Mrzačenie detí
         recruitment: Nábor a/alebo využívanie detí
-        sexual_violence: Znásilnenie a/alebo iný druh sexuálneho násilia
         abduction: Únos
-        attack_on: Útok na školu(y) a/alebo nemocnicu(e)
         military_use: Vojenské využitie školy (škôl) a/alebo nemocnice (nemocníc)
         denial_humanitarian_access: Zamietnutie prístupu k humanitárnej pomoci deťom
       sub_reports:
@@ -1816,22 +1809,7 @@ sk:
         date_of_first_report: Dátum pohovoru
         incident_date: Dátum incidentu
       reports:
-        incidents: Incidenty
         perpetrators: Páchatelia
-      sub_reports:
-        combined: Incidenty
-        total: Počet nahlásených incidentov rodovo motivovaného násilia (GBV)
-        gbv_sexual_violence: Počet nahlásených prípadov sexuálneho násilia
-        gbv_previous_incidents: Počet incidentov nahlásených obeťami s predchádzajúcimi incidentmi rodovo motivovaného násilia (GBV)
-        gbv_sexual_violence_type: Typ incidentu
-        incident_timeofday: Denná doba incidentu
-        elapsed_reporting_time: Čas medzi incidentom a dátumom nahlásenia
-        elapsed_reporting_time_rape: Incidenty znásilnenia, čas, ktorý uplynul medzi incidentom a dátumom nahlásenia
-        incident_location_type: Miesto Incidentu
-        number_of_perpetrators: Počet primárnych páchateľov
-        perpetrator_relationship: Údajný vzťah primárneho páchateľa s obeťou
-        perpetrator_age_group: Veková skupina údajných primárnych páchateľov
-        perpetrator_occupation: Údajné povolanie hlavného páchateľa
   messages:
     alert_items: Máte %{items} poznámky.
     alerts_for:
@@ -2342,7 +2320,6 @@ sk:
             explanation: Umožňuje manažérovi vidieť, koľko prípadov má omeškané Servisné úlohy u každého z ich pracovníkov zaoberajúcich sa prípadom.
             label: ' Oneskorené servisné úlohy'
           dash_case_incident_overview:
-            explanation: .
             label: Prehľad – Moje prípady / Incidenty
           dash_cases_by_social_worker:
             explanation: Tabuľka, ktorá zobrazuje celkový počet otvorených prípadov a počet nových prípadov spravovaných každým používateľom v skupinách používateľov aktuálneho používateľa. Každý riadok predstavuje používateľa v skupinách používateľov aktuálneho používateľa, zatiaľ čo „Celkom“ a „Nový“ sú dva stĺpce.
@@ -2786,7 +2763,6 @@ sk:
     display: Zobrazujú sa možné zhody pre %{type} %{id}
   reassign:
     multiple_error: Nastala chyba. %{select_records} prípadov nepriradených.
-    multiple_successfully: '%{select_records} prípadov bolo úspešne priradených'
     notes_label: Poznámky
     successfully: Úspešne preradené
     user_mandatory_label: Príjemca je povinný
@@ -3111,7 +3087,7 @@ sk:
       failure: Vyskytla sa chyba, kontaktujte podporu.
       new_confirm_html: Chystáte sa pozvať používateľa <b>%{username}</b> z <b>%{identity}</b> s rolou<b>%{role}</b> používať Primero. Potvrdzujúci e-mail bude odoslaný na adresu <b>%{email}</b>. Chcete pokračovať?
       new_confirm_non_identity_html: Chystáte sa pozvať používateľa <b>%{username}</b> s rolou <b>%{role}</b> používať Primero. Potvrdzujúci e-mail bude odoslaný na adresu <b>%{email}</b>. Chcete pokračovať?
-      not_found: Používateľ s daným IČ sa nenašiel
+      not_found: Používateľ s daným ID sa nenašiel
       password_changed_successfully: Heslo úspešne zmenené
       passwords_do_not_match: nezhoduje sa so súčasným heslom
       time_zone_updated: Zmena bola úspešne aktualizovaná.
