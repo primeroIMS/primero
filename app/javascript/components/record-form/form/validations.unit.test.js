@@ -120,18 +120,19 @@ describe("<RecordForm>/form/validations", () => {
           required: true
         };
 
-        it("should not be valid if it is empty", () => {
+        it("should not be valid if it is empty array", () => {
           const schema = object().shape(validations.fieldValidations({ ...selectField, required: true }, { i18n }));
           const formData = { cities: [] };
 
           expect(schema.isValidSync(formData)).to.be.false;
         });
 
-        it("should not be valid if it is null", () => {
+        it("should not be valid if it is null or undefined", () => {
           const schema = object().shape(validations.fieldValidations({ ...selectField, required: true }, { i18n }));
-          const formData = { cities: null };
 
-          expect(schema.isValidSync(formData)).to.be.false;
+          expect(schema.isValidSync({ cities: null })).to.be.false;
+          expect(schema.isValidSync({ cities: undefined })).to.be.false;
+          expect(schema.isValidSync({})).to.be.false;
         });
 
         it("should not be valid if it is not present", () => {
@@ -168,7 +169,7 @@ describe("<RecordForm>/form/validations", () => {
             );
             const formData = { testField: 1 };
 
-            expect(schema.isValidSync(formData)).to.be.true;
+            expect(schema.isValidSync(formData)).to.be.false;
           });
         });
       });
