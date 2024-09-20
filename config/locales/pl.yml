@@ -15,7 +15,6 @@ pl:
   unavailable_offline: Niedostępne Offline
   online: Online
   yes_label: 'Tak'
-  or_label: lub
   select_provider: Wybierz dostawcę
   select_language: Wybierz język
   log_in_primero_idp: 'zaloguj się z następującą nazwą użytkownika: %{idp_name} '
@@ -1111,7 +1110,6 @@ pl:
     english_text: Tekst po Angielsku
     field_name: Nazwa Pola
     field_type: Typ Pola
-    attachment_too_large: Plik nie powinien przekraczać 10MB
     file_upload_box:
       add_document_label: Dodaj Dokument
       add_new_document_button_text: Dodaj kolejny dokument
@@ -1295,7 +1293,6 @@ pl:
     dashboard: Zestawienie
     en: English
     es: Español
-    es-GT: Español (Guatemala)
     fr: Français
     id: Bahasa
     km: ភាសាខ្មែរ
@@ -1337,7 +1334,6 @@ pl:
         killing: Zabójstwa Dzieci
         maiming: Okaleczanie Dzieci
         recruitment: Rekrutacja i/lub wykorzystywanie dzieci
-        sexual_violence: Gwałt i//lub inne formy przemocy seksualnej
         abduction: Uprowadzenie
         attack_on: Ataki na szkołę(y) i/lub szpital(e)
         military_use: Użycie szkoły(ół) i/lub szpitala(i) do celów militarnych
@@ -1366,7 +1362,6 @@ pl:
       unknown: Nieznane
       verification_status: Status Weryfikacji
       violence_type: Rodzaj Przemocy
-      armed_force_group_name: Nazwa Grupy Zbrojnej
       armed_force_group_type: Rodzaj Grupy Zbrojnej
     register_new_incident: Nowe Zdarzenie
     selectable_date_options:
@@ -1771,9 +1766,7 @@ pl:
         killing: Zabójstwa Dzieci
         maiming: Okaleczanie Dzieci
         recruitment: Rekrutacja i/lub wykorzystywanie dzieci
-        sexual_violence: Gwałt i//lub inne formy przemocy seksualnej
         abduction: Uprowadzenie
-        attack_on: Ataki na szkołę(y) i/lub szpital(e)
         military_use: Użycie szkoły(ół) i/lub szpitala(i) do celów militarnych
         denial_humanitarian_access: Odmowa pomocy humanitarnej dla dzieci
       sub_reports:
@@ -1793,22 +1786,7 @@ pl:
         date_of_first_report: Data Wywiadu
         incident_date: Data Zdarzenia
       reports:
-        incidents: Zdarzenia
         perpetrators: Sprawcy
-      sub_reports:
-        combined: Zdarzenia
-        total: 'Liczba zgłoszonych zdarzeń Przemocy ze względu na płeć '
-        gbv_sexual_violence: Liczba Zgłoszonych Incydentów Przemocy Seksualnej
-        gbv_previous_incidents: Liczba Zdarzeń Zgłoszonych przez Ocalałych z wcześniejszymi Zdarzeniami Przemocy ze względu na płeć
-        gbv_sexual_violence_type: Rodzaj Zdarzenia
-        incident_timeofday: Pora Dnia Zdarzenia
-        elapsed_reporting_time: Czas pomiędzy zdarzeniem a datą raportu
-        elapsed_reporting_time_rape: 'Przypadki Gwałtu, Czas Jaki Upłynął pomiędzy Zdarzeniem a Datą Zgłoszenia '
-        incident_location_type: Miejsce Zdarzenia
-        number_of_perpetrators: Liczba głównych sprawców
-        perpetrator_relationship: 'Domniemana Relacja Głównego Sprawcy w Stosunku do Ocalałego/ej '
-        perpetrator_age_group: Grupa Wiekowa Domniemanych Sprawców
-        perpetrator_occupation: Zajęcie Domniemanych Sprawców
   messages:
     alert_items: 'Masz %{items} pozycje wymagające uwagi. '
     alerts_for:
@@ -2301,7 +2279,6 @@ pl:
             explanation: Pozwala managerowi zobaczyć ile spraw każdego z pracowników ma zaległe zadania Świadczenia.
             label: Zaległe zadania Świadczenia
           dash_case_incident_overview:
-            explanation: .
             label: Przegląd - Moje Sprawy/Zdarzenia
           dash_cases_by_social_worker:
             label: Podgląd Spraw według Pracownika Socjalnego
@@ -2720,7 +2697,6 @@ pl:
     display: Wyświetlanie potencjalnych dopasowań do %{type} %{id}
   reassign:
     multiple_error: Wystąpił błąd. Sprawa(y) %{select_records} nie przypisana/e.
-    multiple_successfully: '%{select_records} sprawa(y) przypisana/e pomyślnie '
     notes_label: Uwagi
     successfully: Przepisano pomyślnie
     user_mandatory_label: Odbiorca jest wymagany

@@ -35,6 +35,7 @@ describe("<Transitions /> - Action Creators", () => {
     delete creators.fetchTransitionData;
     delete creators.fetchReferralUsers;
     delete creators.saveReferral;
+    delete creators.resetReferralSuccess;
 
     expect(creators).to.deep.equal({});
   });

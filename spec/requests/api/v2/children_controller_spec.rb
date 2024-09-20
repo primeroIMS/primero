@@ -81,6 +81,11 @@ describe Api::V2::ChildrenController, type: :request do
       form_section_read_write: { @form_a.unique_id => 'rw' }
     )
     @role_restricted.save!
+
+    @cp.form_sections = [@form_a]
+    @cp.roles = [@role_restricted]
+    @cp.save!
+
     @role1 = Role.create!(name: 'Role self permission', unique_id: 'role_self_permission', modules: [@cp],
                           referral: true, transfer: true, group_permission: 'self',
                           permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
@@ -760,7 +765,7 @@ describe Api::V2::ChildrenController, type: :request do
 
     it 'ignores unauthorized attributes' do
       login_for_test
-      params = { data: {  name: 'TesterTester', unauthorized_field: '0001' } }
+      params = { data: { name: 'TesterTester', unauthorized_field: '0001' } }
 
       patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
@@ -1276,7 +1281,6 @@ describe Api::V2::ChildrenController, type: :request do
     describe 'referral authorizations' do
       context 'when a record was referred' do
         it 'updates permitted fields based on the authorized roles' do
-
           sign_in(@user_referral)
 
           params = { data: { field_a: 'new value for field_a' } }

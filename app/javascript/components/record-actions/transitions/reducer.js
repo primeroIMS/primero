@@ -80,7 +80,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .update("data", data => {
           return data.unshift(TransitionRecord(payload.data));
         });
-    case Actions.REFER_USER_FINISHED:
+    case Actions.REFER_USER_SUCCESS_FINISHED:
       return state.setIn(["referral", "success"], false);
     default:
       return state;
