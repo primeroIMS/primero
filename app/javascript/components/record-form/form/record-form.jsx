@@ -55,6 +55,7 @@ function RecordForm({
   const formikValues = useRef();
   const bindedSetValues = useRef(null);
   const bindedResetForm = useRef(null);
+  const bindedRecalculateFields = useRef(null);
 
   const bindSetValues = setValues => {
     bindedSetValues.current = setValues;
@@ -63,6 +64,10 @@ function RecordForm({
   const bindResetForm = resetForm => {
     bindedResetForm.current = resetForm;
   };
+
+  const bindRecalculateFields = recalculateFields => {
+    bindedRecalculateFields.current = recalculateFields;
+  }
 
   const buildValidationSchema = formSections => {
     const schema = formSections.reduce((obj, item) => {
@@ -175,6 +180,14 @@ function RecordForm({
     }
   }, [mode.isNew, dataProtectionInitialValues]);
 
+  const calculatedFields = forms.flatMap(fs => fs.fields.filter(field => field.calculation?.expression));
+
+  useEffect(() => {
+    if (typeof bindedRecalculateFields.current === "function") {
+      bindedRecalculateFields.current();
+    }
+  })
+
   const handleConfirm = onConfirm => {
     onConfirm();
     if (incidentFromCase?.size) {
@@ -189,7 +202,6 @@ function RecordForm({
     formikValues.current = values;
   };
 
-  const calculatedFields = forms.flatMap(fs => fs.fields.filter(field => field.calculation?.expression));
 
   if (!isEmpty(initialValues) && !isEmpty(forms)) {
     const validationSchema = buildValidationSchema(forms);
@@ -215,17 +227,16 @@ function RecordForm({
             bindSubmitForm(submitForm);
             setFormikValuesForNav(values);
 
-            useEffect(() => {
+            bindRecalculateFields(() => {
               if (values) {
                 calculatedFields.forEach(field => {
                   const result = parseExpression(field.calculation.expression).evaluate(values);
-
                   if (values[field.name] !== result) {
                     setFieldValue(field.name, result, false);
                   }
                 });
               }
-            }, [values]);
+            });
 
             return (
               <FormikForm
