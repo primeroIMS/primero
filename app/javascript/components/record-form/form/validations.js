@@ -164,7 +164,7 @@ export const fieldValidations = (field, { i18n, online = false }) => {
         },
         then: $schema => {
           if (type === SELECT_FIELD && multiSelect) {
-            return $schema.min(1, requiredMessage);
+            return $schema.min(1, requiredMessage).default([]);
           }
 
           if (type === TALLY_FIELD) {
@@ -193,7 +193,7 @@ export const fieldValidations = (field, { i18n, online = false }) => {
       }
 
       if (type === SELECT_FIELD && multiSelect) {
-        validations[name] = schema.min(1, requiredMessage).required(requiredMessage);
+        validations[name] = schema.min(1, requiredMessage).required(requiredMessage).default([]);
       }
 
       if (type === TALLY_FIELD) {
