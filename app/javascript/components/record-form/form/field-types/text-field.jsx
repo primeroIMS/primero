@@ -5,10 +5,9 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { subYears } from "date-fns";
-import { TextField as MuiTextField } from "formik-mui";
 import { useDispatch } from "react-redux";
-import { ButtonBase } from "@mui/material";
-import { FastField, connect } from "formik";
+import { ButtonBase, TextField as MuiTextField } from "@mui/material";
+import { FastField, connect, getIn } from "formik";
 import { useParams } from "react-router-dom";
 import omitBy from "lodash/omitBy";
 import isEmpty from "lodash/isEmpty";
@@ -67,6 +66,8 @@ function TextField({ name, field, formik, mode, recordType, recordID, formSectio
     dispatch(saveRecord(recordType, "update", { data: { hidden_name: !isHiddenName } }, id, false, false, false));
   };
 
+  const fieldError = getIn(formik.errors, name);
+
   return (
     <FastField name={name} shouldUpdate={shouldFieldUpdate} locale={i18n.locale}>
       {renderProps => {
@@ -80,20 +81,19 @@ function TextField({ name, field, formik, mode, recordType, recordID, formSectio
               id={name}
               data-testid="text-field"
               variant="outlined"
-              form={renderProps.form}
-              field={{
-                ...renderProps.field,
-                InputProps: { ...fieldProps.InputProps, ...(rest.error ? { error: rest.error } : {}) },
-                value: fieldValue,
-                onChange(evt) {
-                  const value = valueParser(type, evt.target.value);
+              {...renderProps.field}
+              value={fieldValue}
+              inputProps={{ ...fieldProps.InputProps, ...(rest.error ? { error: rest.error } : {}) }}
+              error={!!fieldError}
+              onChange={evt => {
+                const value = valueParser(type, evt.target.value);
 
-                  updateDateBirthField(renderProps.form, value);
+                updateDateBirthField(renderProps.form, value);
 
-                  return renderProps.form.setFieldValue(renderProps.field.name, value, false);
-                }
+                return renderProps.form.setFieldValue(renderProps.field.name, value, false);
               }}
               {...fieldProps}
+              helperText={fieldError || fieldProps?.helperText}
             />
             {hiddenTextField && mode.isEdit && !rest?.formSection?.is_nested ? (
               <ButtonBase
