@@ -1,4 +1,4 @@
-es_ES:
+es-ES:
   'true': 'Sí'
   'false': 'No'
   accepted: Aceptado
@@ -14,7 +14,6 @@ es_ES:
   unavailable_offline: No está disponible fuera de línea
   online: En línea
   yes_label: 'Sí'
-  or_label: o
   select_provider: Seleccionar prestadora de servicios
   select_language: Seleccionar idioma
   log_in_primero_idp: iniciar sesión con%{idp_name} nombre de usuario
@@ -1046,7 +1045,6 @@ es_ES:
     english_text: Texto en Inglés
     field_name: Nombre del campo
     field_type: Tipo de Campo
-    attachment_too_large: El archivo no puede ser mayor a 10mb
     file_upload_box:
       add_document_label: Agregar Documento
       add_new_document_button_text: Agregar otro documento
@@ -2092,7 +2090,6 @@ es_ES:
             explanation: Permite a un(a) gerente ver cuántos casos tienen tareas de Servicios vencidas para cada una de sus trabajadoras de casos.
             label: tareas de Servicios Vencidas
           dash_case_incident_overview:
-            explanation: .
             label: Información General - Mis Casos /Incidentes
           dash_cases_by_social_worker:
             explanation: Tabla que muestra el número total de casos abiertos y el número de nuevos casos gestionados por cada usuario(a) en los grupos de usuario(a)s de el/la usuario(a) actual. Cada línea es un(a) usuario(a) dentro de los grupos de usuario(a)s de el/la usuario(a) actual, mientras que columnas son dos "Total" y "Nuevo".
@@ -2449,7 +2446,6 @@ es_ES:
     display: Mostrando posibles concordancias para %{type}%{id}
   reassign:
     multiple_error: Ha ocurrido un error. %{select_records} caso(a) no asignados.
-    multiple_successfully: '%{select_records} caso(s) asignados correctamente'
     notes_label: Notas
     successfully: Reasignado correctamente
     user_mandatory_label: Se requiere destinatario(a)

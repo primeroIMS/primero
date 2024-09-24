@@ -15,7 +15,6 @@ ru:
   unavailable_offline: Недоступен в режиме оффлайн
   online: Онлайн
   yes_label: 'Да'
-  or_label: или
   select_provider: Выбрать провайдера
   select_language: Выбрать язык
   log_in_primero_idp: 'Войти в систему с %{idp_name}именем '
@@ -1023,7 +1022,6 @@ ru:
     english_text: Английский текст
     field_name: Поле Имя
     field_type: Тип поля
-    attachment_too_large: Файл не должен быть больше 10mb
     file_upload_box:
       add_document_label: Добавить документ
       add_new_document_button_text: Добавить другой документ
@@ -1207,7 +1205,6 @@ ru:
     dashboard: Информационная панель
     en: English
     es: Español
-    es-GT: Español (Guatemala)
     fr: Français
     id: Bahasa
     km: ភាសាខ្មែរ
@@ -1249,7 +1246,6 @@ ru:
         killing: Убийство детей
         maiming: Калечение детей
         recruitment: Вербовка и/или использование детей
-        sexual_violence: Насилование и/или другие формы сексуального насилия
         abduction: Похищение
         attack_on: Атака на школу(ы) и/или больницу (ы)
         military_use: Военное использование школ(ы) и/или больниц(ы)
@@ -1278,7 +1274,6 @@ ru:
       unknown: Неизвестно
       verification_status: Статус проверки
       violence_type: Тип насилия
-      armed_force_group_name: Название военной организованной группировки
       armed_force_group_type: Тип военной организованной группировки
     register_new_incident: Новый инцидент
     selectable_date_options:
@@ -1678,9 +1673,7 @@ ru:
         killing: Убийство детей
         maiming: Калечение детей
         recruitment: Вербовка и/или использование детей
-        sexual_violence: Насилование и/или другие формы сексуального насилия
         abduction: Похищение
-        attack_on: Атака на школу(ы) и/или больницу (ы)
         military_use: Военное использование школ(ы) и/или больниц(ы)
         denial_humanitarian_access: Отказ в гуманитарном доступе к детям
       sub_reports:
@@ -1700,22 +1693,7 @@ ru:
         date_of_first_report: Дата интервью
         incident_date: Дата инцидента
       reports:
-        incidents: Инциденты
         perpetrators: Преступник
-      sub_reports:
-        combined: Инциденты
-        total: Количество инцидентов GBV заявленных
-        gbv_sexual_violence: 'Количество заявленных инцидентов сексуального насилия '
-        gbv_previous_incidents: Количество инцидентов заявленных выжившими с предыдущими GBV инцидентами
-        gbv_sexual_violence_type: Тип инцидента
-        incident_timeofday: Время суток инцидента
-        elapsed_reporting_time: Время между инцидентом и датой отчета
-        elapsed_reporting_time_rape: Инциденты насилия, время между инцидентом и датой заявления
-        incident_location_type: Место инцидента
-        number_of_perpetrators: Количество основных преступников
-        perpetrator_relationship: Предполагаемые взаимоотношени основных преступников и выжившего
-        perpetrator_age_group: Возрастная группа предполагаемых основных преступников
-        perpetrator_occupation: Профессия предполагаемых основных преступников
   messages:
     alert_items: У Вас %{items}примечаний
     alerts_for:
@@ -2226,7 +2204,6 @@ ru:
             explanation: Позволяет менеджеру увидеть сколько кейсов имеют просроченные сервисные задания по отслеживанию для каждого из его работников.
             label: Просроченные задания по сервису
           dash_case_incident_overview:
-            explanation: .
             label: Обзор - Мои кейсы/инциденты
           dash_cases_by_social_worker:
             explanation: Таблица, которая показывает сколько всего открытых кейсов и новых кейсов, которые ведет каждый пользователь в этой группе. Каждый ряд это группа пользователя, а "Всего" и "Новый" это две колонки.
@@ -2670,7 +2647,6 @@ ru:
     display: Отображение потенциальных совпадений для %{type}%{id}
   reassign:
     multiple_error: Произошла ошибка. %{select_records}кейс (ов) не назначены.
-    multiple_successfully: '%{select_records}кейс(ов) успешно назначены'
     notes_label: Заметки
     successfully: Успешно переназначен
     user_mandatory_label: Требуется получатель

@@ -19,6 +19,8 @@ I18n.fallbacks = {
   'ar-LB': AR_FALLBACK,
   'ar-JO': AR_FALLBACK,
   'ar-SD': AR_FALLBACK,
+  'ar-SY': AR_FALLBACK,
+  aeb: AR_FALLBACK,
   bn: EN_FALLBACK,
   es: EN_FALLBACK,
   'es-ES': ES_FALLBACK,

@@ -1724,20 +1724,7 @@ bn:
         date_of_first_report: সাক্ষাৎকারের তারিখ
         incident_date: ঘটনার তারিখ
       reports:
-        incidents: ঘটনাসমূহ
         perpetrators: অপরাধীরা
-      sub_reports:
-        combined: ঘটনাসমূহ
-        total: রিপোর্ট করা GBV ঘটনার সংখ্যা
-        gbv_sexual_violence: যৌন সহিংসতার ঘটনার সংখ্যা রিপোর্ট করা হয়েছে
-        gbv_previous_incidents: পূর্ববর্তী GBV ঘটনার সাথে বেঁচে থাকা ব্যক্তিদের দ্বারা রিপোর্ট করা ঘটনাগুলির সংখ্যা
-        gbv_sexual_violence_type: ঘটনার ধরন
-        incident_timeofday: দিনের ঘটনার সময়
-        elapsed_reporting_time: ঘটনা এবং প্রতিবেদনের তারিখের মধ্যবর্তী সময়
-        elapsed_reporting_time_rape: ধর্ষণের ঘটনা, ঘটনা এবং প্রতিবেদনের তারিখের মধ্যে সময় অতিবাহিত হয়েছে
-        incident_location_type: ঘটনার অবস্থান
-        perpetrator_age_group: অভিযুক্ত প্রাথমিক অপরাধীদের বয়স গ্রুপ
-        perpetrator_occupation: অভিযুক্ত প্রধান অপরাধী পেশা
   messages:
     alert_items: আপনার আছে %{items}জিনিসপত্রের চিহ্ন।
     alerts_for:
@@ -2359,7 +2346,6 @@ bn:
     display: ১% [টাইপ] এবং ২% [আইডি] এর জন্য সম্ভাব্য মিলগুলো প্রদর্শন করুন।
   reassign:
     multiple_error: একটি ত্রুটি ঘটেছে। %{select_records}কেস(গুলি) বরাদ্দ করা হয়নি।
-    multiple_successfully: '%{select_records}কেস(গুলি) সফলভাবে বরাদ্দ করা হয়েছে৷'
     notes_label: নোটসমুহ
     successfully: সফলভাবে পুনরায় বরাদ্দ করা হয়েছে৷
     user_mandatory_label: প্রাপক আবশ্যক

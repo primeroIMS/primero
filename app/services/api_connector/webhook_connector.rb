@@ -48,7 +48,7 @@ class ApiConnector::WebhookConnector < ApiConnector::AbstractConnector
   end
 
   def post_params(record)
-    field_names = PermittedFieldService.new(user, record.class).permitted_field_names
+    field_names = PermittedFieldService.new(user, record.class).permitted_field_names(record.module_id)
     data = {
       record_id: record.id,
       record_type: record.class.parent_form,

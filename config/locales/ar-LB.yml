@@ -1,19 +1,54 @@
 ar-LB:
   'true': 'نعم'
   'false': 'لا'
+  accepted: موافق
   cancel: إلغاء
+  connection_lost: غير متصل بالشبكة
+  connected: متصل بالشبكة
+  no_connection: غير متصل بالشبكة
   clear: إلغاء
+  sandbox_ui: تجربة
   description: الوصف
+  form: استمارة
+  minimum_reportable_fields: "الحد الأدنى من الحقول التي يجب الإبلاغ عنها"
+  name: الاسم
+  offline: غير متصل بالشبكة
+  field_mode_on: "تفعيل"
+  field_mode_off: "حظر"
+  unavailable_offline: غير متاح في وضع غير متصل بالشبكة
+  online: متصل بالشبكة
   yes_label: 'نعم'
+  or_label: أو
+  select_provider: تحديد المزود
+  select_language: تحديد اللغة
+  log_in_primero_idp: 'تسجيل الدخول باسم المستخدم%{idp_name} '
+  offline_submitted_changes: أنت حاليا غير متصل بالشبكة. سيتم حفظ التغييرات الخاصة بك عند معاودة الاتصال بالشبكة.
+  updated: محدث
+  go: اذهب
+  select_idp_error: الرجاء تحديد المزود
+  sync:
+    success: " تمت مزامنة%{records} بنجاح"
+    error:
+      create: لم يتم حفظ %{record_type} . يرجى الاتصال بالدعم.
+      update: لم يتم تحديث%{record_type}%{short_id} . يرجى الاتصال بالدعم.
   actions:
+    approvals: الموافقات
     button: إجراءات
+    close: إغلاق
     description:
       invalid: ملفّ غير صالح
       valid: ملفّ صالح
     disable: تعطيل
     enable: تفعيل/تمكين
     incident_details_from_case: إضافة حادثة
+    incident_from_case: اضافة حادثة
+    next: التالي
+    notes: إضافة ملاحظات
+    previous: السابق
     reopen: إعادة فتح
+    request_approval: طلب موافقة
+    revoke: الغاء
+    save: حفظ
     services_section_from_case: إضافة تقديم خدمة
   agencies:
     label: الوكالة
@@ -247,8 +282,6 @@ ar-LB:
     transfers_by_social_worker: عمليات التحويل/نقل الملفّات من قبل العامل الاجتماعي
     users: رمز الإعدادات
     violence_type: نوع العنف
-    worker_count_referrals_total:
-    worker_count_total:
     you_have: 'لديك'
   disabled:
     status:
@@ -271,10 +304,7 @@ ar-LB:
     file_name: قم بوضع إسم الملف الخاصّ بك (اختياري)
     password_label: الرجاء إدخال كلمة المرور التي سوف تشفّر ملفك.
   error_page:
-    not_authorized:
-      code: 403
     not_found:
-      code: 404
       contact_admin: في حال التواجد هنا عن طريق الخطأ،الرجاء التواصل مع المشرف التقني.
       something_went_wrong: نأسف، حدث خطأ ما!
   errors:
@@ -460,7 +490,6 @@ ar-LB:
       violation: انتهاك
   home:
     ar: العربية
-    ar-IQ: العربية (العراقية)
     ar-LB: العربية (اللبنانية)
     bn: বাংলা
     current_time_zone: المنطقة الزمنية الحالية
@@ -470,7 +499,6 @@ ar-LB:
     fr: الفرنسية
     id: Bahasa
     ku: کوردی
-    ku-IQ: کوردی (بادینی)
     label: الصفحة الرئيسية
     language: اللغة
     manage_system_users: إدارة مزامنة الخادم للمستخدمين
@@ -634,7 +662,6 @@ ar-LB:
       self: النفاذ إلى ملفّاتي أو إلى مستخدم فقط لا غير
       services_section_from_case: إضافة تقديم خدمة لحالة مستخدم آخر
       specific_roles: النفاذ إلى قائمة محددة من الأدوار
-      sync_mobile: مزامنة مع جهاز المحمول
       system: نظام
       tracing_request: طلب التتبع
       user: مستخدمون

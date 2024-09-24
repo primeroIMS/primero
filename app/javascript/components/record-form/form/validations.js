@@ -141,7 +141,7 @@ export const fieldValidations = (field, { i18n, online = false }) => {
         validations[name] = bool().oneOf([true], requiredMessage);
         break;
       case type === SELECT_FIELD && multiSelect:
-        validations[name] = array().min(1, requiredMessage);
+        validations[name] = array();
         break;
       default:
         validations[name] = (validations[name] || string()).nullable();
@@ -162,14 +162,26 @@ export const fieldValidations = (field, { i18n, online = false }) => {
             [relatedField]: relatedFieldValue
           });
         },
-        then:
-          type !== TALLY_FIELD
-            ? schema.required(requiredMessage)
-            : currentSchema =>
-                currentSchema.test(name, requiredMessage, value => {
-                  return compact(Object.values(value)).length > 0;
-                }),
-        otherwise: type !== TALLY_FIELD ? schema.notRequired() : currentSchema => currentSchema.notRequired()
+        then: $schema => {
+          if (type === SELECT_FIELD && multiSelect) {
+            return $schema.min(1, requiredMessage).default([]);
+          }
+
+          if (type === TALLY_FIELD) {
+            return $schema.test(name, requiredMessage, value => {
+              return compact(Object.values(value)).length > 0;
+            });
+          }
+
+          return $schema.required(requiredMessage);
+        },
+        otherwise: $schema => {
+          if (type === SELECT_FIELD && multiSelect) {
+            return $schema.min(0);
+          }
+
+          return $schema.notRequired();
+        }
       });
     } else {
       if (!([TICK_FIELD, SELECT_FIELD, TALLY_FIELD].includes(type) || (type !== SELECT_FIELD && multiSelect))) {
@@ -178,6 +190,10 @@ export const fieldValidations = (field, { i18n, online = false }) => {
 
       if (![TALLY_FIELD].includes(type)) {
         validations[name] = schema.required(requiredMessage);
+      }
+
+      if (type === SELECT_FIELD && multiSelect) {
+        validations[name] = schema.min(1, requiredMessage).required(requiredMessage).default([]);
       }
 
       if (type === TALLY_FIELD) {

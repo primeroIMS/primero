@@ -1,1 +1,73 @@
-hu: {}
+hu:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "'Incidensfelvevő' xls exportálása"
+  exports:
+    incident_recorder_xls:
+      all: Incidens rögzítő
+      'yes': "Igen"
+      'no': "Nem"
+      gender:
+        male: "M"
+        female: "F"
+        both: "M és F"
+      age_group:
+        age: "Életkor"
+        61_older: "61 éves és idősebb"
+        unknown: "Ismeretlen"
+        header: "FELTÉTELEZETT ELKÖVETŐ KORCSOPORTJA"
+      age_type:
+        adult: "Felnőtt"
+        minor: "Jelentéktelen"
+        both: "Felnőtt & kiskorú"
+        unknown: "Ismeretlen"
+        header: "FELTÉTELEZETT ELKÖVETŐ ÉLETKOR TÍPUSA"
+      service_referral:
+        undecided: "Döntésképtelen"
+      headers:
+        incident_id: "ESEMÉNY AZONOSÍTÓJA"
+        survivor_code: "TÚLÉLŐ KÓD"
+        case_manager_code: "ÜGYKEZELŐI KÓD"
+        case_worker_code: "ÜGYINTÉZŐ KÓDJA"
+        date_of_interview: "AZ INTERJÚ IDŐPONTJA"
+        date_of_incident: "AZ ESEMÉNY IDŐPONTJA"
+        date_of_birth: "SZÜLETÉSI DÁTUM"
+        sex: "NEME"
+        ethnicity: "ETNIKUM"
+        country_of_origin: "SZÁRMAZÁSI ORSZÁG"
+        marital_status: "POLGÁRI / CSALÁDI ÁLLAPOT"
+        displacement_status: "AZ ELMOZDULÁS HELYZETE A JELENTÉSKOR"
+        disability_type: "FOGYATÉKKAL ÉLŐ SZEMÉLY?"
+        unaccompanied_separated_status: "KÍSÉRŐ NÉLKÜLI VAGY ELKÜLÖNÍTETT GYERMEK?"
+        stage_of_displacement: "AZ ELMOZDULÁS FÁZISA AZ ESEMÉNYKOR"
+        location: "INCIDENS HELYSZÍNE"
+        county: "ESEMÉNY MEGYÉJE"
+        district: "INCIDENSKÖRZET"
+        camp_town: "INCIDENS TÁBOR / VÁROS"
+        camp: "INCIDENS TÁBOR"
+        gbv_type: "GBV TÍPUS"
+        harmful_traditional_practice: "ÁRTALMAS HAGYOMÁNYOS GYAKORLAT"
+        goods_money_exchanged: "PÉNZ, ÁRU, JUTTATÁS ÉS/VAGY SZOLGÁLTATÁS CSERÉJE?"
+        abduction_type: "AZ EMBERRABLÁS TÍPUSA"
+        previously_reported: "KORÁBBAN JELENTETTE EZT AZ ESETET?"
+        gbv_previous_incidents: "KORÁBBI GBV INCIDENSEK?"
+        number_primary_perpetrators: "Nem. FELTÉTELEZETT ELSŐDLEGES ELKÖVETŐ(K)"
+        perpetrator:
+          sex: "FELTÉTELEZETT ELKÖVETŐ NEME"
+          former: "KORÁBBI INCIDENS AZ ELKÖVETŐVEL"
+          relationship: "FELTÉTELEZETT ELKÖVETŐ-TÚLÉLŐ KAPCSOLAT"
+          occupation: "FELTÉTELEZETT ELKÖVETŐ FOGLALKOZÁSA"
+          age_group: "FELTÉTELEZETT ELKÖVETŐ KORCSOPORTJA"
+          age_type: "FELTÉTELEZETT ELKÖVETŐ ÉLETKOR TÍPUSA"
+        service:
+          referred_from: "AJÁNLOTTÁK ÖNNEK?"
+          safehouse_referral: "MENEDÉKHÁZ / MENEDÉKHELY"
+          medical_referral: "EGÉSZSÉGÜGYI / ORVOSI SZOLGÁLTATÁSOK"
+          psycho_referral: "PSZICHOSZOCIÁLIS SZOLGÁLTATÁSOK"
+          wants_legal_action: "JOGI LÉPÉSEKET AKAR TENNI?"
+          legal_referral: "JOGSEGÉLYSZOLGÁLATOK"
+          police_referral: "RENDŐRSÉG / MÁS BIZTONSÁGI SZEREPLŐ"
+          livelihoods_referral: "MEGÉLHETÉST SEGÍTŐ PROGRAM"
+          protection_referral: "GYERMEKVÉDELMI / OKTATÁSI SZOLGÁLTATÁSOK"
+        consent: "BELEEGYEZÉS MEGADVA"
+        agency_code: "ADATSZOLGÁLTATÓ ÜGYNÖKSÉG KÓDJA"

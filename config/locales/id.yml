@@ -4,7 +4,9 @@ id:
   accepted: Diterima
   cancel: Batal
   connection_lost: Saat ini menggunakan moda luring
+  field_mode_offline: Umur Perorangan
   connected: Terhubung
+  no_connection: Tak ada Koneksi
   clear: Hapus
   sandbox_ui: Demo
   description: Deskripsi
@@ -12,17 +14,22 @@ id:
   minimum_reportable_fields: "Minimum kolom yang dapat dilaporkan %{record_type}"
   name: Nama
   offline: Luring
+  field_mode: "Field Mode: %{mode}"
+  field_mode_on: "On"
+  field_mode_off: "Off"
   unavailable_offline: Tidak tersedia luring
   online: Daring
   yes_label: 'Ya'
-  or_label: atau
+  or_label: atau,
   select_provider: Pilih penyedia
   select_language: Pilih bahasa
-  log_in_primero_idp: Masuk menggunakan nama pengguna %{idp_name}
-  offline_submitted_changes: Saat ini Anda di luar jaringan. Perubahan Anda akan terkirim setelah Anda dalam jaringan lagi.
+  log_in_primero_idp: Login dengan menggunakan nama pengguna %{idp_name}
+  offline_submitted_changes: Saat ini Anda sedang offline. Perubahan Anda akan terkirim setelah Anda online lagi.
   updated: Diperbaharui
+  go: Jalankan
+  select_idp_error: Pilih penyedia layanan
   sync:
-    success: "%{records}rekaman berhasil disesuaikan."
+    success: "%{records}rekaman berhasil diselaraskan."
     error:
       create: Gagal membuat %{record_type}. Silakan menghubungi kontak bantuan.
       update: Pembaharuan untuk %{record_type}%{short_id}gagal. Silakan menghubungi kontak bantuan.
@@ -90,7 +97,7 @@ id:
     gbv_closure: Penghentian GBV
     status:
       approved: Disetujui
-      pending: Tertunda
+      pending: Ditunda
       rejected: Ditolak
       requested: Sudah diminta
   audit_log:
@@ -150,7 +157,7 @@ id:
     filter_clear: Hapus Filter
     filter_label: 'Filter:'
     filter_restore: Kembalikan ke Pengaturan Sistem
-    find_tracing_match: Temukan Kecocokan Pelacakan
+    find_tracing_match: Temukan Kecocokan Data Penelusuran
     flag_model: Tandai %{model}
     flag_records: Penanda
     flags: Penanda
@@ -180,7 +187,7 @@ id:
     select: Pilih
     send: Kirim
     sort_by_case: Kasus
-    sort_by_tr: Permintaan Pelacakan
+    sort_by_tr: Permintaan Penelusuran Keluarga
     sync: Penyelarasan
     submit: Kirim
     transfer: Pindahkan
@@ -191,6 +198,15 @@ id:
     view: Lihat
     view_flags_history: Lihat Riwayat
     return_to_case: Kembali ke Kasus
+  resync_records:
+    id: ID
+    record_type: Jenis rekaman/catatan
+    action: Tindakan
+    date: Tanggal
+    last_attempt: Upaya Terakhir
+    create: Buat
+    update: Perbarui
+    resync: Kirim
   case:
     label: Kasus
     create_new_case: Buat Kasus Baru
@@ -212,8 +228,8 @@ id:
       update_success_queue: 'Kasus %{record_id}  berhasil diperbarui pada latar belakang.'
       creation_success: 'Data kasus berhasil dibuat.'
       creation_success_queue: 'Data kasus berhasil dibuat pada latar belakang.'
-      already_matched: Penyelidik ini sudah dicocokkan dengan kasus Anda.
-      already_matched_not_current_case: Sudah ada kasus di sistem yang cocok dengan penyelidik ini.
+      already_matched: Pemohon pencarian ini sudah dicocokkan dengan kasus Anda.
+      already_matched_not_current_case: Sudah ada kasus di sistem yang cocok dengan permohonan pencarian ini.
       not_found_case: Tidak ada Kasus yang cocok dengan "%{search_value}". Buat Kasus baru.
       introductory_sentence: Mohon jelaskan persetujuan individu untuk menerima layanan manajemen kasus dan persetujuan untuk penyimpanan data mereka di Primero.
       consent_agreements_required: Silakan memilih salah satu pilihan dari kesepakatan persetujuan.
@@ -268,6 +284,7 @@ id:
     close_dialog_title: Kasus Ditutup
     close_success: Kasus berhasil ditutup
     closure: Dihentikan
+    complete: Tersedia luring
     date_of_birth: Tanggal lahir
     disable_dialog: Mengklik OK akan mengubah status kasus ini menjadi Dinonaktifkan
     disable_dialog_title: Kasus dinonaktifkan
@@ -405,12 +422,12 @@ id:
       label: Ringkasan
       find_match: Temukan Kecocokan
       matched_trace: 'Cocok #%{trace_id}'
-      cannot_find_matches: Tidak menemukan kecocokan. Kasus ini tidak mendapatkan persetujuan untuk mengungkap informasi yang diperlukan untuk tujuan pelacakan.
+      cannot_find_matches: Tidak ditemukan kecocokan data. Informasi kasus ini tidak disetujui untuk dibuka untuk tujuan penelusuran.
       matched: Cocok.
       fields:
         consent_for_tracing:
-          label: Mendapatkan persetujuan untuk mengungkap informasi yang diperlukan untuk tujuan pelacakan.
-          help_text: Jika kolom ini diisi 'Tidak', data kasus anak tidak akan muncul pada 'Kecocokan' dengan Permintaan Pelacakan oleh Penyelidik.
+          label: Persetujuan telah diperoleh untuk mengungkap informasi yang diperlukan untuk tujuan penelusuran.
+          help_text: Jika kolom ini diisi 'Tidak', data kasus anak tidak akan muncul pada 'Pencocokan' dengan Permintaan Penelusuran oleh Pemohon.
         wishes_child_family_tracing:
           label: Apakah anak ingin melacak anggota keluarga?
         wishes_reunification:
@@ -433,6 +450,7 @@ id:
     transfer_reject_reason_label: Alasan Penolakan
     transfer_rejected: Dengan menekan tombol 'Tolak' menunjukkan bahwa Anda belum siap untuk menerima tanggung jawab atas kasus ini saat ini. Mohon jelaskan alasan mengapa Anda menolak kasus ini; Setelah Anda menekan tombol 'Tolak' Anda tidak lagi memiliki akses ke data kasus ini.
     view_name: Tampilkan Nama
+    sort_by: Urutkan Berdasar
   change_logs:
     filters:
       form: Formulir
@@ -597,6 +615,9 @@ id:
     dash_shared_with_my_team_overview: Bagikan dengan Team saya (Overview)
     dash_shared_with_others: Bagikan Dengan Yang Lain
     dash_national_admin_summary: Ringkasan Administrator
+    dash_violations_category_verification_status: Jumlah kejadian per status verifikasi
+    dash_violations_category_region: Total Jumlah kejadian terverifikasi per wilayah
+    dash_perpetrator_armed_force_group_party_names: Total Jumlah kejadian per pelaku
     date: Tanggal
     date_of_incident: Tanggal dari Insiden
     date_of_interview: Tanggal Wawancara
@@ -705,7 +726,7 @@ id:
     total: Total
     total_cases: Total Jumlah Kasus
     total_referred: Total Rujukan
-    tr_stats: Permintaan Pelacakan
+    tr_stats: Permintaan Penelusuran
     transers_awaiting_acceptance: Pengalihan sedang Menunggu Persetujuan
     transfers_by_social_worker: Dialihkan oleh Pekerja Sosial
     users: tanda PENGATURAN
@@ -773,7 +794,7 @@ id:
         date_of_birth: Silahkan masukkan tanggal lahir yang benar untuk data kasus ini
       export_configuration:
         opt_out_field_does_not_exist: Bidang opt_out yang ditentukan tidak ada pada catatan.
-        record_type: Jenis catatan tidak valid. Harus Kasus Anak, Permintaan Pelacakan, atau Insiden.
+        record_type: Jenis catatan tidak valid. Harus Kasus Anak, Permintaan Penelusuran, atau Insiden.
       field:
         translated_options_do_not_match: Pilihan-pilihan bidang harus memiliki ID yang sama
       location:
@@ -1060,7 +1081,7 @@ id:
     english_text: Teks Bahasa Inggris
     field_name: Nama Kolom
     field_type: Tipe Kolom
-    attachment_too_large: Kolom tidak boleh lebih besar dari pada 10mb
+    attachment_too_large: File tidak boleh lebih dari 20mb
     file_upload_box:
       add_document_label: Tambah Dokumen
       add_new_document_button_text: Tambah dokumen lain
@@ -1078,7 +1099,7 @@ id:
     guidance: Panduan
     guiding_questions: Pertanyaan Panduan
     help_text: Teks bantuan
-    hide_on_view_page: Tampilkan laman
+    hide_on_view_page: Halaman Tampilkan
     label: Kolom
     mobile_visible: Aplikasi Seluler
     move_to: Pindah ke
@@ -1115,6 +1136,16 @@ id:
     show: Tunjukkan?
     show_on: Tunjukkan pada
     show_on_minify_form: Formulir Ringkas
+    skip_logic:
+      name: Skip Logic?
+      record_section:
+        title: Bidang ini harus terlihat jika catatan/rekaman
+        buttons:
+          add: Tambahkan kondisi syarat catatan/rekaman
+      subform_section:
+        title: Bidang ini harus terlihat jika sub-formulir
+        buttons:
+          add: Tambahkan kondisi syarat sub-formulir
     subform: Subform
     subform_group_by: Grup berdasarkan
     subform_remove_message: Yakin ingin menghapus subform ini?
@@ -1146,6 +1177,10 @@ id:
     less: Kurangi
     more: Lebihkan...
     save_filters: Simpan
+    categories:
+      violations: Pelanggaran
+      incidents: Kejadian
+      individual_victims: Korban Individual
   flags:
     add_flag_tab: Tambahkan Tanda Bendera Baru
     date: 'Tanggal:'
@@ -1208,7 +1243,7 @@ id:
       reportable_follow_up: Menindaklanjuti
       reportable_protection_concern: Masalah Perlindungan
       reportable_service: Pelayanan
-      tracing_request: Permintaan Pelacakan
+      tracing_request: Permintaan Penelusuran
       transfers_assignments: Transfer / Tugas
       violation: Pelanggaran
       registry_details: Detil Pendaftaran
@@ -1233,6 +1268,26 @@ id:
     type_label: Tipe
     visibility: Penglihatan
     web_app: Aplikasi Web
+    skip_logic:
+      name: Skip Logic?
+      section:
+        title: Form ini harus terlihat jika
+        buttons:
+          add: Tambah kondisi syarat
+    conditions:
+      add: Tambah kondisi syarat
+      update: Perbarui kondisi syarat
+      field_name: Nama Bidang
+      condition: Kondisi syarat
+      empty: Tak ada kondisi syarat yang ditambahkan
+      type: Jenis
+      types:
+        and:
+          display_text: Dan kondisi syarat ini
+          name: DAN
+        or:
+          display_text: Atau kondisi syarat ini
+          name: ATAU
   home:
     ar: العربية
     ar-IQ: Arab (Irak)
@@ -1244,8 +1299,10 @@ id:
     dashboard: Dashboard
     en: English
     es: Español
-    es-GT: Español (Guatemala)
+    es-GT: Spanyol
+    es-ES: Spanyol
     fr: Français
+    hu: Magyar
     id: Bahasa
     km: ភាសាខ្មែរ
     ku: کوردی
@@ -1255,21 +1312,28 @@ id:
     sw-KE: Kiswahili (Kenya)
     sw-TZ: Kiswahili (Tanzania)
     ne: Nepali
+    om: Oromo
+    am-ET: Amharic (Ethiopia)
     label: Beranda
     language: Bahasa
     manage_system_users: Mengelola Pengguna Sinkronisasi Server
     my: ဗမာစာ
+    pl: Polandia
     pt: Português
     pt-BR: Português (Brasil)
     records_need_attention: Data yang perlu perhatian
+    ro: Română
     ru: Русский
+    sk: Slowakia
     so: Af-Soomaali
     th: ไทย
+    uk: Ukrainia
     users: Kelola Para Pengguna
     view_records: Lihat Data
     welcome: Selamat Datang di Primero
     zh: 中文
   incident:
+    code: Kode Kejadian
     associated_case: "Kasus yang Berkaitan:"
     messages:
       creation_success: Data insiden berhasil dibuat.
@@ -1278,6 +1342,7 @@ id:
       update_success: 'Data Insiden %{record_id} berhasil diubah.'
       update_success_queue: 'Insiden %{record_id}  berhasil diperbarui pada latar belakang.'
     violation:
+      associated_violations: "Pelanggaran yang Terkait:"
       update_and_return: 'Perbarui dan Kembali ke %{association}'
       save_and_return: 'Tambahkan dan Kembali ke %{association}'
       pending: Verifikasi Tertunda
@@ -1286,9 +1351,11 @@ id:
         killing: Pembunuhan Anak-anak
         maiming: Mencederai Anak-anak
         recruitment: Merekrut dan/atau Memanfaatkan Anak-anak
-        sexual_violence: Perkosaan dan/atau Bentuk Lain Kekerasan Seksual
+        sexual_violence: Perkosaan dan Bentuk Kekerasan Seksual lainnya
         abduction: Penculikan
         attack_on: Serangan di Sekolah dan/atau Rumah sakit
+        attack_on_hospitals: Serangan terhadap Rumasakit
+        attack_on_schools: Serangan terhadap Sekolah
         military_use: Penggunaan Sekolah dan/atau Rumahsakit oleh Militer
         denial_humanitarian_access: Penolakan akses bantuan kemanusiaan untuk anak
   incidents:
@@ -1299,6 +1366,7 @@ id:
     enable_dialog_title: Insiden yang Diaktifkan
     enable_success: Insiden berhasil diaktifkan.
     id: ID#
+    complete: Tersedia Luring
     date_of_interview: Tanggal Wawancara
     date_of_incident: Tanggal dari Insiden
     incident_location: Lokasi insiden
@@ -1306,28 +1374,74 @@ id:
     export: Ekspor
     label: Insiden
     filter_by:
+      filter_category: Kategori Filter
       boys: Anak laki-laki
       by_date: Berdasarkan Tanggal
       children: Anak-anak
       girls: Anak perempuan
       incident_location: Lokasi Insiden
+      status: Status
       unaccompanied_separated_status: Status Perlindungan
       unknown: Tidak diketahui
       verification_status: Status Verifikasi
       violence_type: Jenis Kekerasan
-      armed_force_group_name: Nama Kelompok Bersenjata
+      armed_force_group_party_name: Angkatan bersenjata, kelompok bersenjata, dan pihak lainnya
       armed_force_group_type: Jenis Kelompok Bersenjata
+      violations: Pelanggaran
+      individual_violations: Pelanggaran Individual
+      individual_age: Usia Individual
+      individual_sex: Jenis Kelamin Perorangan
+      victim_deprived_liberty_security_reasons: Dirampas Kebebasannya
+      reasons_deprivation_liberty: Apa alasan atas perampasan kebebasannya?
+      victim_facilty_victims_held: Pilih fasilitas/tempat di mana korban ditahan
+      torture_punishment_while_deprivated_liberty: Apakah anak/korban mengalami penyiksaan atau hukuman yang kejam atau merendahkan martabat selama ditahan?
+      verified_ghn_reported: Tentukan GHN yang menyertakan insiden/kejadian ini
+      weapon_type: 'Jenis senjata/metode yang digunakan'
+      facility_impact: 'Jenis dan seberapa besar dampak fisik'
+      facility_attack_type: 'Jenis pelanggaran terkait kesehatan atau pendidikan'
+      child_role: 'Apa peran anak di dalam kelompok bersenjata?'
+      abduction_purpose_single: 'Tujuan penculikan'
+      military_use_type: 'Jenis penggunaan militer'
+      types_of_aid_disrupted_denial: 'Jenis bantuan/layanan yang ditolak/terganggu.'
+      late_verified_violations: Pelanggaran yang diverifikasi belakangan
+      perpetrator_category: Kategori Pelaku
+      record_owner: Pemilik Catatan
     register_new_incident: Insiden Baru
     selectable_date_options:
       date_of_first_report: Tanggal Wawancara
+      mrm_date_of_first_report: Tanggal pelaporan awal ke CTFMR
+      ctfmr_verified_date: Tanggal verifikasi oleh CTFMR
       incident_date_derived: Tanggal Kejadian
     selected_records: 'Insiden %{select_records} dipilih'
     selected_all_records: 'Pilih semua insiden %{total_records} yang cocok dengan permintaan ini.'
+    summary_mrm:
+      label: Ringkasan Kejadian
+      fields:
+        children_multiple_violation:
+          label: Anak-anak terdampak beberapa pelanggaran
+        summary_of_incident:
+          label: Ringkasan Kejadian
+        incident_total_tally:
+          label: Jumlah korban
+          boys: Anak Laki-laki
+          girls: Anak Perempuan
+          unknown: Tidak Diketahui
+        incident_date:
+          label: Tanggal Insiden
+        incident_location:
+          label: Lokasi Kejadian
+        incident_description:
+          label: Gambaran Kejadian
+        incident_update:
+          label: Update tentang Kejadian
     survivor_code: Kode Penyintas
     show_incident: 'ID Insiden: %{short_id}'
     social_worker: Pekerja Sosial
+    violation_type: Jenis Pelanggaran
     violence_type: Jenis Kekerasan
     type_violence: Jenis dari Kekerasan
+    violation_summary: Ringkasan
+    sort_by: Urutkan Berdasar
   key_performance_indicators:
     label: "Pulse/KPIs"
     case_assessment: "Penilaian Kasus"
@@ -1526,6 +1640,9 @@ id:
       central_warehouse: Gudang Pusat
       warehouse: Gudang
       buyingstation: Stasiun Pembelian
+      township: Kecamatan
+      municipality: Kota/Kabupaten
+      autonomous_region: Daerah Otonomi
     label: Lokasi
     name: Nama
     code: Kode
@@ -1715,12 +1832,16 @@ id:
     no_options: Pencarian pilihan ini tidak memiliki pilihan
     translation_label: Teks Terjemahan
     values: Pilihan
+    locked_alert_message: Referensi ini dikunci
   managed_reports:
+    generated_on: Dihasilkan pada
     label: Insights
     total: Total
+    violations_total: Pelanggaran
     filter_by:
       date: Tanggal
       verification_status: Status Verifikasi
+      violation_type: Jenis Pelanggaran
     date_range:
       month: Bulan
       quarter: Triwulan
@@ -1735,54 +1856,117 @@ id:
       custom: Sesuaikan
     no_data: Tidak ada data untuk insight ini
     no_data_table: Tidak ada data tabel untuk insight ini
+    incomplete_data: Data tidak lengkap
+    individual_children:
+      name: Jumlah Anak
+      reports:
+        individual_children: Jumlah Anak
+      sub_reports:
+        individual_age: Jumlah Anak berdasar Usia
+        individual_violation_type: Jumlah Anak berdasar Jenis Pelanggaran
+        individual_region: Jumlah Anak berdasar Wilayah
+        individual_perpetrator: Jumlah Anak berdasar Pelaku Penyerangan
+    ghn_report:
+      name: Global Horizontal Note
+      reports:
+        ghn_report: Global Horizontal Note
+      sub_reports:
+        verified_information: Informasi Terverifikasi - Korban
+        late_verification: Verifikasi Belakangan - Korban
+        unverified_information: Informasi yang Belum Terverifikasi - Korban
+        verified_information_violations: Informasi Terverifikasi - Pelanggaran
+        late_verification_violations: Terverifikasi Belakangan - Pelanggaran
+        unverified_information_violations: Informasi yang Belum Terverifikasi - Pelanggaran
+        killing: Pembunuhan Anak-anak
+        maiming: Melukai Anak-anak
+        recruitment: Perekrutan dan/atau Penggunaan Anak-anak
+        sexual_violence: Perkosaan dan Bentuk Kekerasan Sexual Lainnya
+        rape: Perkosaan dan Bentuk Kekerasan Sexual Lainnya
+        abduction: Penculikan
+        attack_on_hospitals: Serangan terhadap Rumasakit
+        attack_on_schools: Serangan terhadap Sekolah
+        military_use: Penggunaan Sekolah dan/atau Rumasakit untuk Keperluan Militer
+        denial_humanitarian_access: Penolakan bantuan kemanusiaan untuk anak
+        multiple_violations: Anak-anak terdampak beragam kekerasan
+        detention: Penahanan
+        boys: Anak Laki-laki
+        girls: Anak Perempuan
+        total: Total
+        unknown: Tidak Diketahui
+        associated_violations: 'Pelanggaran yang Terkait:'
     violations:
       name: Pelanggaran
       filter_options:
         incident_date: Tanggal Insiden
         date_of_report: Tanggal Laporan
         ctfmr_verified_date: Tanggal Verifikasi
+        verified: Terverifikasi
       reports:
         killing: Pembunuhan Anak-anak
         maiming: Mencederai Anak-anak
         recruitment: Rekrutmen dan/atau Pemanfaatan Anak-anak
-        sexual_violence: Perkosaan dan/atau Bentuk Kekerasan Seksual lainnya
+        sexual_violence: Perkosaan dan Bentuk Kekerasan Sexual Lainnya
+        rape: Perkosaan dan Bentuk Kekerasan Sexual Lainnya
         abduction: Penculikan
-        attack_on: Penyerangan di Sekolah dan/atau Rumahsakit
+        attack_on_hospitals: Serangan terhadap Rumasakit
+        attack_on_schools: Serangan terhadap Sekolah
         military_use: Penggunaan Sekolah dan/atau Rumahsakit oleh Militer
         denial_humanitarian_access: Penolakan akses bantuan kemanusdiaan untuk anak-anak
+        detention: Tahanan
       sub_reports:
+        children: Anak-anak
         combined: Pelanggaran
+        denial_humanitarian_access: Penolakan bantuan kemanusiaan
+        denial_type: Bentuk penolakan
         detention_detained: Tetap Ditahan
         detention_released: Dibebaskan
         perpetrators: Jumlah Anak berdasar Pelaku Kekerasan
+        perpetrators_denial: Jumlah Pelanggaran berdasar Pelaku
+        perpetrator_detention: Jumlah Anak berdasar Pelaku Kekerasan
+        perpetrators_incidents: Jumlah kejadian berdasar pelaku
+        reporting_location_incidents: Jumlah kejadian berdasar daerah
         reporting_location: Jumlah Anak berdasar Agama
+        reporting_location_detention: Jumlah anak berdasar daerah
+        reporting_location_denial: Jumlah pelanggaran berdasar daerah
         attack_type: Jumlah Anak berdasar Jenis Serangan
         boys: Anak Laki-laki
         girls: Anak Perempuan
         unknown: Tidak Diketahui
         total: Total
+        violation: Pelanggaran
+        sexual_violence_type: Bentuk-(bentuk) kekerasan seksual
+        detention_status: Status anak yang ditahan
+        type_of_use: Jenis penggunaan
+        factors_of_recruitment: Alasan perekrutan
+        still_being_held: Masih ditahan
+        released: 'Dibebaskan'
+        escaped: 'Melarikan diri'
+        abduction_reasons: Alasan penculikan
+        abducted_status: Status anak yang diculik
+        facility_attack_type: Jenis pelanggaran
+        received_response: Anak-anak yang mendapatkan respon
+        male: Laki-Laki
+        female: Perempuan
+        military_use_type_of_use: Jumlah pelanggaran berdasar jenis penggunaan
     gbv_statistics:
       name: Statistik KBG
       filter_options:
         date_of_first_report: Tanggal Wawancara
         incident_date: Tanggal Insiden
       reports:
-        incidents: Insiden
         perpetrators: Pelaku Kekerasan
+        survivors: Penyintas
+        referrals: Rujukan
       sub_reports:
-        combined: Insiden
-        total: Jumlah Insiden KBG yang Dilaporkan
-        gbv_sexual_violence: Jumlah Insiden Kekerasan Seksual yang Dilaporkan
-        gbv_previous_incidents: Jumlah Insiden yang Dilaporkan oleh Penyintas dengan Insiden GBV Sebelumnya
-        gbv_sexual_violence_type: Jenis Insiden
-        incident_timeofday: Waktu terjadinya Insiden
-        elapsed_reporting_time: Jeda antara Tanggal Insiden dan Pelaporan
-        elapsed_reporting_time_rape: Insiden Perkosaan, Jeda Waktu antara Tanggal Insiden dan Pelaporan
-        incident_location_type: Lokasi Insiden
-        number_of_perpetrators: Jumlah Pelaku (Kekerasan) Utama
-        perpetrator_relationship: Hubungan antara Terduga Pelaku Utama dengan Penyintas
-        perpetrator_age_group: Kelompok Usias Terduga Pelaku Utama
-        perpetrator_occupation: Pekerjaan Terduga Pelaku Utama
+        service_safehouse_referral: Rujukan Rumah Aman / Shelter
+        service_medical_referral: Rujukan Layanan Kesehatan/Medis
+        service_psycho_referral: Layanan Psikososial/Konseling
+        service_legal_referral: Layanan Bantuan Hukum
+        service_police_referral: Polisi atau layanan pengamanan lainnya
+        service_livelihoods_referral: Layanan mata pencarian
+        service_protection_referral: Layanan perlindungan anak
+        survivors_disability_type: Dengan disabilitas
+    success_message: Export File berhasil dilakukan
   messages:
     alert_items: Anda memiliki %{items} item yang dicatat.
     alerts_for:
@@ -1826,8 +2010,9 @@ id:
       code_of_conduct: Kode Etik
       terms_of_use: Syarat Penggunaan
       system_information: Informasi Sistem
+      resync: Perubahan offline belum dikirimkan
     tasks: Tugas-tugas
-    tracing_request: Permintaan Pelacakan
+    tracing_request: Permintaan Penelusuran
     activity_log: Log Aktivitas
     registry_records: Pendaftaran
   notes:
@@ -1910,7 +2095,7 @@ id:
       export_photowall: Ekspor Foto Dinding
       export_unhcr_csv: Ekspor unhcr csv
       export_xls: Ekspor XLS
-      find_tracing_match: Temukan kecocokan pelacakan dari kasus
+      find_tracing_match: Temukan kecocokan penelusuran dari kasus
       view_registry_record: Lihat catatan pendaftaran
       add_registry_record: Tambahkan catatan pendaftaran
       flag: Tandai dengan Bendera
@@ -1958,7 +2143,7 @@ id:
       sync_external: Sinkronkan dengan sistem manajemen informasi eksternal
       sync_mobile: Tandai untuk Offline
       system: Sistem
-      tracing_request: Permintaan Pelacakan
+      tracing_request: Permintaan Penelusuran
       transfer: Dapat digunakan untuk pemindahan
       user: Pengguna
       user_group: Grup Pengguna
@@ -2051,12 +2236,12 @@ id:
           read:
             explanation: Memungkinkan pengguna untuk melihat dan memfilter daftar semua tindakan yang dilakukan dalam sistem, dikelompokkan berdasarkan pengguna, jenis tindakan, ID rekaman, dan waktu tindakan. Ini paling cocok untuk administrator tingkat nasional atau lembaga, karena ini menunjukkan tindakan yang dilakukan oleh semua pengguna dalam sistem. Harap dicatat bahwa log audit tidak menampilkan informasi identitas pribadi tentang rekaman yang terlibat dalam setiap tindakan.
             label: Lihat
-        explanation: Daftar semua tindakan yang dilakukan dalam sistem yang dapat difilter. Tidak termasuk informasi yang dapat diidentifikasi pada Kasus, Insiden, atau Permintaan Pelacakan.
+        explanation: Daftar semua tindakan yang dilakukan dalam sistem yang dapat difilter. Tidak termasuk informasi yang dapat diidentifikasi pada Kasus, Insiden, atau Permintaan Penelusuran.
         label: Audit Log
       case:
         actions:
           add_note:
-            explanation: Memungkinkan pengguna untuk menambahkan entri ke dalam subformulir "Catatan" (kadang juga disebut "Komentar"). Pengguna melakukan ini dengan mengklik tombol "Tambah Catatan" pada laman pertunjukan kasus. Tindakan ini sangat berguna bagi manajer yang tidak memiliki kemampuan untuk mengubah kasus, tetapi ingin menambahkan pengingat ke kasus untuk pekerja kasus. Dengan cara ini, menambahkan catatan mirip dengan menambahkan bendera. Keuntungan menambahkan catatan adalah, ketika manajer menambahkan catatan ke kasus, pemberitahuan akan muncul di kasus untuk pekerja kasus ketika mereka melihat kasus di perangkat seluler mereka.
+            explanation: Memungkinkan pengguna untuk menambahkan entri ke dalam subformulir "Catatan" (kadang juga disebut "Komentar"). Pengguna melakukan ini dengan mengklik tombol "Tambah Catatan" pada halaman tampilan kasus. Tindakan ini sangat berguna bagi manajer yang tidak memiliki akses untuk mengubah kasus, tetapi ingin menambahkan pengingat ke kasus untuk pekerja kasus. Dengan cara ini, menambahkan catatan mirip dengan menambahkan bendera. Keuntungan menambahkan catatan adalah, ketika manajer menambahkan catatan ke kasus, pemberitahuan akan muncul di kasus untuk pekerja kasus ketika mereka melihat kasus di perangkat seluler mereka.
             label: Tambahkan Catatan pada kasus
           add_registry_record:
             explanation: Izinkan pengguna menautkan Nomor Pendaftaran ke Kasus dari formulir detail pendaftaran. Juga izinkan pengguna untuk melakukan pembatalan.
@@ -2101,7 +2286,7 @@ id:
             explanation: Kemampuan untuk membuat kasus
             label: Buat
           display_view_page:
-            explanation: Jika pengguna melakukan pencarian untuk kasus yang mereka tidak memiliki akses, izin ini memungkinkan mereka untuk melihat modal kecil dengan informasi dasar tentang kasus tersebut, bahkan jika pengguna tidak dapat mengklik ke dalam kasus untuk melihat semua informasinya. Kolom yang muncul di "Lihat Modal" ini adalah kolom yang telah dikonfigurasi ke "Tampilkan pada Formulir Ringkas". Modal ini juga berguna bagi pengguna yang melakukan tindakan Pelacakan Keluarga dan Penyatuan Kembali, karena "Lihat Modal" tersedia untuk diakses pengguna saat mereka meninjau kasus yang muncul sebagai "Kemungkinan Cocok" untuk Permintaan Pelacakan.
+            explanation: Jika pengguna melakukan pencarian untuk kasus yang mereka tidak memiliki akses, izin ini memungkinkan mereka untuk melihat modal kecil dengan informasi dasar tentang kasus tersebut, bahkan jika pengguna tidak dapat mengklik ke dalam kasus untuk melihat semua informasinya. Kolom yang muncul di "Lihat Modal" ini adalah kolom yang telah dikonfigurasi ke "Tampilkan pada Formulir Ringkas". Modal ini juga berguna bagi pengguna yang melakukan tindakan Penelusuran dan Reunifikasi Keluarga, karena "Lihat Modal" tersedia untuk diakses pengguna saat mereka meninjau kasus yang muncul sebagai "Kemungkinan Cocok" untuk Permintaan Pelacakan.
             label: Tampilkan Tinjauan Halaman
           enable_disable_record:
             explanation: Kemampuan untuk menonaktifkan atau mengaktifkan kasus. Kasus yang "dinonaktifkan" tidak muncul secara default dalam daftar kasus. Pengguna dapat melihat kasus yang dinonaktifkan dalam daftar kasus dengan menggunakan filter. Karena Primero tidak mengizinkan pengguna untuk menghapus kasus, pengguna mungkin ingin menonaktifkan kasus sebagai pengganti. Misalnya, jika pengguna membuat kasus secara tidak sengaja, atau kasus memiliki data yang buruk, pengguna harus menonaktifkannya.
@@ -2128,7 +2313,7 @@ id:
             explanation: Pengguna dapat menghasilkan ekspor file PDF dari daftar kasus atau halaman pertunjukan kasus, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua kasus yang dapat diakses oleh pengguna. Dalam file ekspor PDF, informasi didaftar pertama berdasarkan kasus, dan kemudian diatur lebih lanjut oleh formulir di mana informasi muncul.
             label: Ekspor PDF kasus
           export_photowall:
-            explanation: Memungkinkan pengguna untuk mengekspor file dari halaman daftar kasus yang berisi foto dari semua kasus yang dipilih. Ekspor ini terutama digunakan untuk kegiatan Family Tracing dan Reunification. Hanya dilakukan dari halaman daftar kasus.
+            explanation: Memungkinkan pengguna untuk mengekspor file dari halaman daftar kasus yang berisi foto dari semua kasus yang dipilih. Ekspor ini terutama digunakan untuk kegiatan Penelusuran dan Reunifikasi Keluarga. Hanya dilakukan dari halaman daftar kasus.
             label: Ekspor Foto Dinding
           export_unhcr_csv:
             label: Ekspor UNCHR CSV
@@ -2136,8 +2321,8 @@ id:
             explanation: 'Pengguna dapat membuat ekspor file XLS dari daftar kasus atau halaman pertunjukan kasus, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua kasus yang dapat diakses oleh pengguna. Dalam ekspor ini, setiap formulir diwakili di tabnya sendiri di dalam file XLS. CATATAN: Format XLS merender karakter non-Latin (misalnya Arab, Bangla) dalam format yang dapat dibaca, sedangkan ekspor CSV tidak.'
             label: Ekspor Excel (file XLS)
           find_tracing_match:
-            explanation: Ini digunakan secara eksklusif untuk konteks dengan aktivitas Pelacakan Keluarga dan Penyatuan Kembali. Pengguna dengan izin ini akan melihat tombol "Temukan Pelacakan yang Cocok" di halaman pertunjukan kasus. Ketika mereka mengkliknya, mereka akan sampai pada daftar permintaan pelacakan dalam sistem yang merupakan kemungkinan cocok untuk kasus mereka.
-            label: Temukan kecocokan pelacakan dari kasus
+            explanation: Ini digunakan khusus hanya untuk konteks terkait dengan aktivitas Penelusuran dan Reunifikasi Keluarga. Pengguna dengan izin ini akan melihat tombol "Temukan Penelusuran yang Cocok" di halaman tampilan kasus. Ketika mereka mengkliknya, mereka akan melihat daftar permintaan penelusuran dalam sistem yang mungkin cocok untuk kasus mereka.
+            label: Temukan kecocokan penelusuran dari kasus
           flag:
             explanation: Kemampuan untuk menambahkan tanda bendera ke kasus. Pengguna dengan izin ini juga dapat menghapus tanda bendera yang telah mereka tambahkan ke kasus.
             label: Tandai Bendera
@@ -2293,7 +2478,6 @@ id:
             explanation: Memungkinkan manajer untuk melihat berapa banyak kasus yang memiliki tugas Layanan yang terlambat untuk masing-masing pekerja kasus mereka.
             label: Tugas Layanan Terlambat
           dash_case_incident_overview:
-            explanation: .
             label: Ikhtisar - Kasus / Insiden Saya
           dash_cases_by_social_worker:
             explanation: Tabel yang menunjukkan bagaimana jumlah total kasus terbuka dan jumlah kasus baru yang dikelola oleh setiap pengguna di grup pengguna milik pengguna saat ini. Setiap baris adalah pengguna di grup pengguna pengguna saat ini, sedangkan "Total" dan "Baru" adalah dua kolom.
@@ -2336,6 +2520,15 @@ id:
           dash_shared_with_others:
             explanation: Menunjukkan berapa banyak kasus saya yang memiliki rujukan aktif, pemindahan tertunda, atau transfer ditolak. Biasanya tidak untuk manajer, kecuali jika mereka mengelola kasus sendiri.
             label: Bagikan Dengan Yang Lain
+          dash_violations_category_verification_status:
+            explanation: Tunjukkan jumlah pelanggaran MRM untuk setiap jenis, dipilah berdasar status verifikasi
+            label: MRM - Jumlah pelanggaran per status verifikasi
+          dash_violations_category_region:
+            explanation: Tunjukkan jumlah pelanggaran MRM untuk setiap wilayah, dipilah berdasar jenis pelanggaran
+            label: MRM - Jumlah pelanggaran per wilayah
+          dash_perpetrator_armed_force_group_party_names:
+            explanation: Tunjukkan jumlah pelanggaran MRM untuk setiap jenis, dipilah berdasar pelaku
+            label: MRM - Jumlah pelanggaran per status pelaku
           dash_show_none_values:
             explanation: Menambahkan kategori "Tanpa Tingkat Risiko" tambahan ke semua dashboard yang mengelompokkan kasus berdasarkan tingkat risiko. Ini khusus untuk konfigurasi yang memiliki opsi "Tanpa Risiko" keempat untuk bidang tingkat risiko.
             label: Lihat kasus dengan 'Tanpa Tingkat Risiko' di Dasbor Penilaian
@@ -2374,15 +2567,15 @@ id:
           explanation: 'Pembatasan akses pengguna ke formulir insiden membatasi informasi mana yang dapat dilihat pengguna pada suatu insiden. Misalnya, jika pengguna hanya memiliki akses ke formulir Pemilik Catatan, mereka juga hanya dapat melihat informasi yang terdapat dalam kolom pada formulir tersebut. Jika pengguna saat ini memiliki akses formulir terbatas dan memiliki kemampuan untuk mengelola konfigurasi formulir, membatasi akses formulir mereka juga membatasi formulir mana yang dapat mereka konfigurasi. CATATAN: Jika tidak ada formulir yang ditentukan, artinya peran tersebut memiliki akses ke semua formulir untuk insiden.'
           label: Formulir - Insiden
         tracing_request:
-          explanation: 'Membatasi akses pengguna ke formulir pada permintaan pelacakan membatasi informasi mana yang dapat dilihat pengguna pada permintaan pelacakan. Misalnya, jika pengguna hanya memiliki akses ke formulir Pemilik Rekaman, mereka juga hanya dapat melihat informasi yang terdapat dalam kolom pada formulir tersebut. Jika pengguna saat ini memiliki akses formulir terbatas dan memiliki kemampuan untuk mengelola konfigurasi formulir, membatasi akses formulir mereka juga membatasi formulir mana yang dapat mereka konfigurasi. CATATAN: Jika tidak ada formulir yang ditentukan, artinya peran tersebut memiliki akses ke semua formulir untuk Permintaan Pelacakan.'
-          label: Formulir - Permintaan Pelacakan
+          explanation: 'Membatasi akses pengguna ke formulir pada permintaan penelusuran akan membatasi informasi mana yang dapat dilihat pengguna pada permintaan penelusuran. Misalnya, jika pengguna hanya memiliki akses ke formulir Pemilik Catatan, mereka juga hanya dapat melihat informasi yang terdapat dalam kolom pada formulir tersebut. Jika pengguna saat ini memiliki akses formulir terbatas dan memiliki kemampuan untuk mengelola konfigurasi formulir, membatasi akses mereka ke formulir  juga akan membatasi formulir mana yang dapat mereka konfigurasi. CATATAN: Jika tidak ada formulir yang ditentukan, artinya peran tersebut memiliki akses ke semua formulir untuk Permintaan Penelusuran.'
+          label: Formulir - Permintaan Penelusuran
         registry_record:
           explanation: 'Pembatasan akses pengguna ke formulir Pendaftaran membatasi informasi mana yang dapat dilihat pengguna pada suatu Pendaftaran. Misalnya, jika pengguna hanya memiliki akses ke formulir Pemilik Catatan, mereka juga hanya dapat melihat informasi yang terdapat dalam kolom pada formulir tersebut. Jika pengguna saat ini memiliki akses formulir terbatas dan memiliki kemampuan untuk mengelola konfigurasi formulir, membatasi akses formulir mereka juga membatasi formulir mana yang dapat mereka konfigurasi. CATATAN: Jika tidak ada formulir yang ditentukan, artinya peran tersebut memiliki akses ke semua formulir untuk Pendaftaran.'
           label: Formulir - Pendaftaran
       group:
         actions:
           admin_only:
-            explanation: Artinya, pengguna dengan peran ini hanya akan dapat melihat hal-hal yang berkaitan dengan administrasi sistem, seperti laporan, konfigurasi formulir dan pencarian, pengguna, peran, dan grup pengguna. Mereka tidak akan melihat kasus individual, permintaan pelacakan, atau insiden apa pun.
+            explanation: Artinya, pengguna dengan peran ini hanya akan dapat melihat hal-hal yang berkaitan dengan administrasi sistem, seperti laporan, konfigurasi formulir dan referensi (lookup), pengguna, peran, dan grup pengguna. Mereka tidak akan melihat kasus individual, permintaan penelusuran, atau insiden apa pun.
             label: Tidak ada data - Hanya untuk Admin
           agency:
             explanation: Peran tersebut dapat mengakses rekaman yang dikelola oleh semua pengguna di lembaga mereka. Jika pengguna memiliki akses ke pengguna, mereka dapat mengakses semua pengguna di lembaga mereka.
@@ -2394,9 +2587,9 @@ id:
             explanation: Peran tersebut dapat mengakses rekaman yang dikelola oleh semua Pengguna di Grup Pengguna mereka. Mereka hanya dapat mengakses Pengguna di Grup Pengguna mereka. Mereka hanya dapat mengakses Grup Pengguna mereka sendiri.
             label: Akses semua data atau pengguna di grup saya
           self:
-            explanation: Peran dapat mengakses data mereka sendiri (kasus, permintaan pelacakan, atau insiden), dan dapat mengubah akun pengguna mereka sendiri.
+            explanation: Peran dapat mengakses data mereka sendiri (kasus, permintaan penelusuran, atau insiden), dan dapat mengubah akun pengguna mereka sendiri.
             label: Akses hanya data saya atau pengguna
-        explanation: Mengontrol rekaman mana (Kasus, Permintaan Pelacakan, atau Insiden), yang dapat diakses oleh peran. Jika peran memiliki akses ke Pengguna dan Grup Pengguna, ini juga mengontrol Pengguna dan Grup Pengguna mana yang dapat mereka akses. Peran dengan akses ke "Tidak Ada Data" hanya dapat mengakses konfigurasi sistem seperti Formulir, Pengguna, dan Laporan.
+        explanation: Mengontrol catatan yang mana (Kasus, Permintaan Penelusuran, atau Insiden), yang dapat diakses oleh peran ini. Jika peran memiliki akses ke Pengguna dan Grup Pengguna, berarti juga mengontrol Pengguna dan Grup Pengguna mana yang dapat mereka akses. Peran dengan akses ke "Tidak Ada Catatan" hanya dapat mengakses konfigurasi sistem seperti Formulir, Pengguna, dan Laporan.
         label: Data apa yang mempengaruhi peran ini?
       incident:
         actions:
@@ -2420,6 +2613,9 @@ id:
           export_incident_recorder_xls:
             explanation: Pengguna dapat membuat ekspor file XLS khusus yang memungkinkan pertukaran data dengan alat Perekam Insiden GBV.
             label: Perekam insiden ekspor xls
+          export_mrm_violation_xls:
+            explanation: Pengguna dapat membuat ekspor Excel (file XLS) khusus untuk Pelanggaran MRM. Tindakan ini tersedia di tampilan halaman Insiden dan daftar Insiden.
+            label: Eksport Pelanggaran MRM ke Excel (XLS file)
           export_json:
             explanation: Pengguna dapat membuat ekspor file JSON dari daftar insiden atau halaman acara insiden, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua insiden yang dapat diakses pengguna. Ekspor ini terutama digunakan untuk mereka yang ingin mengekspor insiden dari sistem Primero saat ini dan kemudian mengimpornya ke sistem Primero yang berbeda, atau ke sistem manajemen informasi lainnya. Format JSON dapat dibaca mesin dan tidak praktis untuk sebagian besar pengguna.
             label: Ekspor JSON
@@ -2461,12 +2657,16 @@ id:
             label: Pelanggaran
           gbv_statistics:
             label: Statistik KBG
+          ghn_report:
+            label: Global Horizontal Note
+          individual_children:
+            label: Jumlah Anak
       matching_configuration:
         actions:
           manage:
-            explanation: Kemampuan untuk mengontrol kolom mana yang dibandingkan untuk menemukan kecocokan antara permintaan pelacakan dan kasus. Karena ini mengontrol bagaimana pencocokan dijalankan di seluruh sistem, izin ini biasanya hanya tersedia untuk administrator sistem.
+            explanation: Kemampuan untuk mengontrol kolom-kolom mana yang akan dibandingkan untuk menemukan kecocokan antara permintaan penelusuran dan data kasus. Karena ini mengontrol bagaimana pencocokan dijalankan di seluruh sistem, izin ini biasanya hanya tersedia untuk administrator sistem.
             label: Kelola (semua izin untuk jenis sumber daya ini)
-        explanation: Mengatur bidang mana yang digunakan untuk membandingkan Permintaan Pelacakan dengan Kasus selama tahap Pelacakan dan Reunifikasi Keluarga.
+        explanation: Mengatur bidang mana yang digunakan untuk membandingkan Permintaan Penelusuran dengan Kasus dalam proses Penelusuran dan Reunifikasi Keluarga.
         label: Pengaturan Pencocokan
       metadata:
         actions:
@@ -2488,8 +2688,17 @@ id:
       potential_match:
         actions:
           read:
-            explanation: Mewakili hubungan antara Permintaan Pelacakan dan Kasus. Akses ke Kecocokan Potensial diperlukan untuk pekerjaan Family Tracing and Reunification (FTR). Memungkinkan pengguna untuk melihat formulir Ringkasan Pelacakan pada Kasus.
+            explanation: Mewakili hubungan antara sebuah Permintaan Penelusuran dan suatu Kasus. Akses ke Kecocokan Potensial diperlukan untuk pekerjaan Penelusuran dan Reunifikasi Keluarga  (FTR). Memungkinkan pengguna untuk melihat formulir Ringkasan Penelusuran sebuah Kasus.
             label: Lihat
+          view_audio:
+            explanation: Tentukan apakah pengguna yang mencari kecocokan penelusuran dapat melihat file audio untuk Kasus atau Permintaan Penelusuran yang terkait dengan Kecocokan Potensial.
+            label: Lihat Audio
+          view_photo:
+            explanation: Tentukan apakah pengguna yang mencari kecocokan penelusuran dapat melihat file Foto untuk Kasus atau Permintaan Penelusuran yang terkait dengan Kecocokan Potensial.
+            label: Lihat Foto
+          manage:
+            explanation: Memungkinkan pengguna untuk melakukan semua tindakan yang tersedia di Kecocokan Potensial. Izin "Kelola" pada dasarnya berarti "semuanya".
+            label: Kelola
         label: Potensi Kecocokan
       primero_configuration:
         actions:
@@ -2557,6 +2766,9 @@ id:
           write:
             explanation: Kemampuan untuk mengubah semua laporan (termasuk yang dibuat oleh pengguna lain).
             label: Ubah
+          agency_read:
+            explanation: Kemampuan untuk melihat semua laporan. Angka di setiap laporan hanya akan mencerminkan catatan yang dapat diakses oleh pengguna di Agensi pengguna saat ini. Izin ini sering digunakan untuk administrator agensi.
+            label: Lihat (data berbasis agensi)
         explanation: Alat analisis data agregat. Termasuk tabel dan grafik representasi data.
         label: Laporan
       reporting_location_level:
@@ -2603,49 +2815,49 @@ id:
             explanation: Pengguna dapat melihat riwayat semua perubahan yang dibuat pada catatan sejak dibuat. Ini termasuk nilai yang direkam untuk semua bidang.
             label: Ubah Log
           create:
-            explanation: Kemampuan untuk membuat permintaan pelacakan
+            explanation: Kemampuan untuk membuat permintaan penelusuran
             label: Buat
           enable_disable_record:
-            explanation: Kemampuan untuk menonaktifkan atau mengaktifkan Permintaan Pelacakan. Permintaan Pelacakan "Dinonaktifkan" tidak muncul secara default di daftar Permintaan Pelacakan. Pengguna dapat melihat Permintaan Pelacakan yang dinonaktifkan di daftar Permintaan Pelacakan dengan menerapkan filter.
+            explanation: Kemampuan untuk menonaktifkan atau mengaktifkan Permintaan Penelusuran. Permintaan Penelusuran yang "Dinonaktifkan" secara default tidak dimunculkan di daftar Permintaan Penelusuran. Pengguna dapat melihat Permintaan Penelusuran yang dinonaktifkan di daftar dengan cara menerapkan filter.
             label: Aktifkan / Nonaktifkan
           export_case_pdf:
-            explanation: Pengguna dapat menghasilkan ekspor file PDF dari daftar permintaan pelacakan atau halaman acara permintaan penelusuran, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua catatan yang dapat diakses pengguna. Dalam file ekspor PDF, informasi didaftar pertama berdasarkan kasus, dan kemudian diatur lebih lanjut oleh formulir di mana informasi muncul.
+            explanation: Pengguna dapat melakukan ekspor file PDF dari daftar permintaan penelusuran atau halaman tampilan permintaan penelusuran, yang berisi semua data yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua catatan yang dapat diakses pengguna. Dalam file ekspor PDF, informasi di urutkan berdasarkan kasus, dan kemudian diatur berdasar formulir tempat informasi berada.
             label: PDF Ekspor
           export_csv:
-            explanation: Pengguna dapat membuat ekspor file CSV dari daftar permintaan penelusuran atau halaman acara permintaan penelusuran, yang berisi semua kolom yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua permintaan pelacakan yang dapat diakses pengguna.
+            explanation: Pengguna dapat membuat ekspor file CSV dari daftar permintaan penelusuran atau halaman tampilan permintaan penelusuran, yang berisi semua data yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua permintaan penelusuran yang dapat diakses pengguna.
             label: Ekspor CSV
           export_custom:
-            explanation: Pengguna dapat membuat ekspor file XLS dari daftar permintaan pelacakan atau halaman acara permintaan pelacakan, yang berisi kumpulan formulir atau bidang khusus, untuk satu, beberapa, atau semua permintaan pelacakan yang dapat diakses pengguna. Dalam ekspor ini, setiap formulir diwakili di tabnya sendiri di dalam file XLS. Pengguna dapat memilih formulir atau bidang mana yang ingin mereka sertakan dalam ekspor menggunakan modal Ekspor Kustom. Harap diperhatikan bahwa pengguna hanya dapat menyertakan formulir dan bidang dalam ekspor jika mereka telah memiliki kemampuan untuk melihat formulir dan bidang tersebut saat melihat permintaan pelacakan dalam aplikasi.
+            explanation: Pengguna dapat melakukan ekspor file XLS dari daftar permintaan penelusuran atau halaman tampilan permintaan penelusuran, yang berisi sejumlah formulir atau kolom data, untuk satu, beberapa, atau semua permintaan penelusuraran yang dapat diakses pengguna. Dalam ekspor ini, masing-masing formulir diwakili di tabnya sendiri di dalam file XLS. Pengguna dapat memilih formulir atau bidang mana yang ingin mereka sertakan dalam ekspor menggunakan pilihan di Ekspor Kustom. Harap diperhatikan bahwa pengguna hanya dapat menyertakan formulir dan bidang dalam ekspor jika mereka telah memiliki kemampuan untuk melihat formulir dan bidang tersebut saat melihat permintaan penelusuran dalam aplikasi.
             label: Ekspor kustomisasi
           export_json:
-            explanation: Pengguna dapat membuat ekspor file JSON dari daftar permintaan penelusuran atau halaman acara permintaan penelusuran, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua permintaan pelacakan yang dapat diakses pengguna. Ekspor ini terutama digunakan bagi mereka yang ingin mengekspor permintaan pelacakan dari sistem Primero saat ini dan kemudian mengimpornya ke sistem Primero yang berbeda, atau ke sistem manajemen informasi lainnya. Format JSON dapat dibaca mesin dan tidak praktis untuk sebagian besar pengguna.
+            explanation: Pengguna dapat membuat ekspor file JSON dari daftar permintaan penelusuran atau halaman tampilan permintaan penelusuran, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua permintaan penelusuran yang boleh diakses pengguna. Ekspor ini terutama digunakan bagi mereka yang ingin mengekspor permintaan penelusuran dari SimfoniPPA saat ini dan kemudian mengimpornya ke sistem manajemen informasi lainnya. JSON adalah format yang dapat dibaca mesin, namun tidak praktis untuk sebagian besar pengguna.
             label: Ekspor JSON
           export_list_view_csv:
-            explanation: Pengguna dapat membuat ekspor file CSV dari halaman daftar permintaan pelacakan yang berisi bidang yang sama yang muncul untuk pengguna tersebut pada daftar permintaan pelacakan. Hanya dilakukan dari halaman daftar permintaan penelusuran.
+            explanation: Pengguna dapat membuat ekspor file CSV dari halaman daftar permintaan pelnelusuran yang berisi bidang yang sama dengan yang muncul untuk pengguna tersebut pada daftar permintaan penelusuran. Hanya dilakukan dari halaman daftar permintaan penelusuran.
             label: Tampilan daftar ekspor CSV
           export_pdf:
-            explanation: Pengguna dapat menghasilkan ekspor file PDF dari daftar permintaan pelacakan atau halaman acara permintaan penelusuran, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua catatan yang dapat diakses pengguna. Dalam file ekspor PDF, informasi didaftar pertama berdasarkan kasus, dan kemudian diatur lebih lanjut oleh formulir di mana informasi muncul.
+            explanation: Pengguna dapat menghasilkan ekspor file PDF dari daftar permintaan penelusuran atau halaman acara permintaan penelusuran, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua catatan yang dapat diakses pengguna. Dalam file ekspor PDF, informasi didaftar pertama berdasarkan kasus, dan kemudian diatur lebih lanjut oleh formulir di mana informasi muncul.
             label: PDF Ekspor
           export_xls:
-            explanation: 'Pengguna dapat membuat ekspor file XLS dari daftar Permintaan Pelacakan atau halaman tampilan Permintaan Pelacakan, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua Permintaan Pelacakan yang dapat diakses oleh pengguna. Dalam ekspor ini, setiap formulir diwakili di tabnya sendiri di dalam file XLS. CATATAN: Format XLS merender karakter non-Latin (misalnya Arab, Bangla) dalam format yang dapat dibaca, sedangkan ekspor CSV tidak.'
+            explanation: 'Pengguna dapat membuat ekspor file XLS dari daftar Permintaan Penelusuran atau halaman tampilan Permintaan Penelusuran, yang berisi semua bidang yang dapat diakses oleh pengguna saat ini, untuk satu, beberapa, atau semua Permintaan Penelusuran yang dapat diakses oleh pengguna. Dalam ekspor ini, setiap formulir diwakili di tabnya sendiri di dalam file XLS. CATATAN: Format XLS merender karakter non-Latin (misalnya Arab, Bangla) dalam format yang dapat dibaca, sedangkan ekspor CSV tidak.'
             label: Ekspor Excel (file XLS)
           flag:
-            explanation: Kemampuan untuk menambahkan tanda bendera ke permintaan pelacakan. Pengguna dengan izin ini juga dapat menghapus tanda bendera yang telah mereka tambahkan ke permintaan pelacakan.
+            explanation: Kemampuan untuk menambahkan tanda bendera ke permintaan penelusuran. Pengguna dengan izin ini juga dapat menghapus tanda bendera yang telah mereka tambahkan ke permintaan penelusuran.
             label: Tandai Bendera
           import:
             explanation: Memungkinkan pengguna membuat satu atau beberapa kasus baru dengan mengimpornya dari file CSV, Excel, atau JSON. File yang diimpor harus diformat *sangat* khusus agar informasi dapat diimpor dengan benar. Fungsi ini seharusnya hanya tersedia untuk pengguna administratif dengan keterampilan teknis tingkat lanjut dan pengetahuan mendalam tentang bagaimana data diformat di Primero. Hanya dilakukan dari halaman daftar kasus.
             label: Impor
           manage:
-            explanation: Memungkinkan pengguna untuk melakukan semua tindakan yang tersedia pada permintaan pelacakan. Izin "Kelola" pada dasarnya berarti "semuanya".
+            explanation: Memungkinkan pengguna untuk melakukan semua tindakan yang tersedia pada permintaan penelusuran. Izin "Kelola" pada dasarnya berarti izin untuk "semuanya".
             label: Kelola (semua izin untuk jenis sumber daya ini)
           read:
-            explanation: Kemampuan untuk melihat permintaan pelacakan. Peran dengan kemampuan untuk melihat permintaan pelacakan juga harus memiliki kemampuan untuk melihat jenis rekaman Kemungkinan Cocok.
+            explanation: Kemampuan untuk melihat permintaan penelusuran. Peran dengan kemampuan untuk melihat permintaan penelusuran juga harus memiliki kemampuan untuk melihat jenis catatan Kecocokan Potensial.
             label: Lihat
           write:
-            explanation: Kemampuan untuk mengklik tombol "Ubah", memperbarui informasi tentang permintaan pelacakan, dan mengklik "Simpan". Juga memungkinkan pengguna untuk menonaktifkan atau mengaktifkan permintaan pelacakan
+            explanation: Kemampuan untuk mengklik tombol "Ubah", untuk memperbarui informasi tentang permintaan penelusuran, dan mengklik "Simpan". Juga memungkinkan pengguna untuk menonaktifkan atau mengaktifkan permintaan penelusuran
             label: Ubah
         explanation: Mewakili individu yang mencoba menemukan dan menyatukan kembali dengan Kasus yang anak tanpa pendamping atau terpisah.
-        label: Permintaan Pelacakan
+        label: Permintaan Penelusuran
       transfer:
         actions:
           transfer:
@@ -2722,14 +2934,14 @@ id:
     child_age: Umur
     child_gender: Gender
     child_id: '#id anak'
-    inquirer_id: ID# Penyelidik
+    inquirer_id: ID# Pemohon Pencarian
     inquirer_tr_name: Permintaan Penelusuran
-    inquiry_date: Tanggal Penyelidikan
+    inquiry_date: tanggal Permohonan Pencarian
     name: Nama
     score: Nilai
     social_worker: Pekerja Sosial
     social_worker_agency: Agensi
-    tracing_request_id: 'ID Permintaan Pelacakan '
+    tracing_request_id: 'ID Permintaan Penelusuran '
     trace: Lacak
     likelihood_likely: Kemungkinan Besar
     likelihood_possible: Ada kemungkinan
@@ -2737,7 +2949,6 @@ id:
     display: Menampilkan kecocokan yang mungkin ada untuk %{type} %{id}
   reassign:
     multiple_error: Terjadi kesalahan. %{select_records} kasus tidak ditugaskan.
-    multiple_successfully: '%{select_records} kasus berhasil ditugaskan'
     notes_label: Catatan
     successfully: Berhasil ditugaskan kembali
     user_mandatory_label: Penerima diwajibkan
@@ -2914,7 +3125,7 @@ id:
       follow_up: Tindak Lanjut - %{subtype}
       service: Layanan - %{subtype}
   tracing_request:
-    label: Permintaan Pelacakan
+    label: Permintaan Penelusuran
     has_match: Cocok
     find_match: Temukan Kecocokan
     back_to_traces: Kembali ke Melacak
@@ -2924,14 +3135,18 @@ id:
     match: Cocok
     matches: Cocok
     unmatch: Tidak cocok
+    tracing_request_photos: Foto-foto untuk Permintaan Penelusuran ini.
+    case_photos: Foto-foto untuk Kasus ini
+    tracing_request_audios: Audio untuk Permintaan Penelusuran ini.
+    case_audios: Audio untuk Kasus ini
     messages:
-      already_matched: Sudah terdapat kecocokan dalam sistem dengan Penyelidik yang mencari anak ini.
-      disabled: Permintaan Pelacakan Dinonaktifkan
+      already_matched: Sudah terdapat kecocokan dalam sistem dengan Pemohon pencarian  anak ini.
+      disabled: Permintaan Penelusuran Dinonaktifkan
       nothing_found: Tidak ditemukan
       update_success: 'Permintaan Penelusuran %{record_id} telah berhasil diperbarui.'
-      creation_success: Rekaman Permintaan Pelacakan berhasil dibuat.
-      update_success_queue: 'Permintaan Pelacakan %{record_id} berhasil diperbarui di latar belakang.'
-      creation_success_queue: Rekaman Permintaan Pelacakan berhasil dibuat di latar belakang.
+      creation_success: Rekaman Permintaan Penelusuran berhasil dibuat.
+      update_success_queue: 'Permintaan Penelusuran %{record_id} berhasil diperbarui di latar belakang.'
+      creation_success_queue: Rekaman Permintaan Penelusuran berhasil dibuat di latar belakang.
       match_action: Berhasil cocok Pelacakan %{trace_id} dengan Kasus%{record_id}.
       unmatch_action: Berhasil membatalkan kecocokan Pelacakan %{trace_id} dan Kasus %{record_id}.
   registry_record:
@@ -2940,31 +3155,33 @@ id:
       creation_success: 'Catatan Pendaftaran berhasil dibuat.'
       disabled: Pencatatan Pendaftaran dinonaktifkan
   tracing_requests:
-    date_of_inquiry: Tanggal Penyelidikan
-    disable_dialog_title: Permintaan Pelacakan yang Dinonaktifkan
-    disable_dialog: Mengklik OK akan mengubah status pelacakan ini menjadi Dinonaktifkan
-    disable_success: Permintaan pelacakan berhasil dinonaktifkan
-    enable_dialog: Mengklik OK akan mengubah status permintaan pelacakan ini menjadi Diaktifkan.
-    enable_dialog_title: Aktifkan Permintaan Pelacakan
+    date_of_inquiry: Tanggal Permohonan Pencarian
+    disable_dialog_title: Permintaan Penelusuran yang Dinonaktifkan
+    disable_dialog: Mengklik OK akan mengubah status penelusuran ini menjadi Dinonaktifkan
+    disable_success: Permintaan penelusuran berhasil dinonaktifkan
+    enable_dialog: Mengklik OK akan mengubah status permintaan penelusuran ini menjadi Diaktifkan.
+    enable_dialog_title: Aktifkan Permintaan Penelusuran
     enable_success: Permintaan pelacakan berhasil diaktifkan.
     id: ID
+    complete: Tersedia Offline
     filter_by:
       by_date: Berdasarkan Tanggal
       location_separation: Lokasi Keterpisahan
       separation_cause: Penyebab Keterpisahan
       status: Status
-    label: Permintaan Pelacakan
-    name_of_inquirer: Nama dari Penyelidik
-    inquirer: Penyelidik
+    label: Permintaan Penelusuran
+    name_of_inquirer: Nama Pemohon Pencarian
+    inquirer: Pemohon Pencarian
     name: Nama
     register_new_tracing_request: Permintaan Penelusuran Baru
     selectable_date_options:
-      inquiry_date: Tanggal Penyelidikan
-    selected_records: '%{select_records} permintaan pelacakan telah dipilih'
-    selected_all_records: 'Pilih semua permintaan pelacakan %{total_records} yang cocok dengan permintaan ini.'
-    show_tracing_request: 'ID Permintaan Pelacakan %{short_id}'
-    tracing_requests: Permintaan Pelacakan
+      inquiry_date: Tanggal Permohonan Pencarian
+    selected_records: '%{select_records} permintaan penelusuran telah dipilih'
+    selected_all_records: 'Pilih semua permintaan penelusuran %{total_records} yang cocok dengan pencarian ini.'
+    show_tracing_request: 'ID Permintaan Penelusuran %{short_id}'
+    tracing_requests: Permintaan Penelusuran
     export: Ekspor
+    sort_by: Urutkan berdasar
   registry_records:
     id: ID
     label: Catatan Pendaftaran
@@ -2980,6 +3197,7 @@ id:
     enable_dialog_title: Aktifkan Catatan Pendaftaran
     enable_dialog: Mengklik OK akan mengubah status catatan pendaftaran ini menjadi Diaktifkan
     enable_success: Catatan Pendaftaran berhasil diaktifkan
+    complete: Tersedia Offline
     filter_by:
       by_date: Berdasarkan Tanggal
       status: Status

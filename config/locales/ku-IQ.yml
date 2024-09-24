@@ -1942,35 +1942,10 @@ ku-IQ:
         date_of_first_report: رێکه فتا چافپێکەفتنێ
         incident_date: رێکه فتا  رویدانێ
       reports:
-        incidents: رويدان
         perpetrators: تاوانبار
         survivors:  رزگاربووی
         referrals: رەوانەکرن
       sub_reports:
-        combined: رويدان
-        total: هژمارا وان روویدانێن توندوتیژی یێن جێندەری کو هاتینە ڕاپۆرت کرن
-        gbv_sexual_violence: هژمارا وان روویدانێن توندوتیژی یێن جنسی کو هاتینە راپورت کرن
-        gbv_previous_incidents: هژمارا وان روویدانێن کو هاتینە راگەهاندن ژ لایێ وان کەسان ئەوێن رزگار بوویی ل روویدانێن توندوتیژی یێن جێندەری
-        gbv_sexual_violence_type: جۆرێ رویدانێ
-        incident_timeofday: دەما رویدانێ د رۆژێدا
-        elapsed_reporting_time: دەما دناڤبەرا رویدانێ ورێکه فتا راپورت کرنێ
-        elapsed_reporting_time_rape: روویدانێن دەستدرێژیکرنێ، دەما د ناڤبەرا روویدانێ و راپۆرت کرنێ
-        elapsed_reporting_time_rape_health_referral: ' روویدانێن دەستدرێژیکرنا سێكسێ ل دەمێ دناڤبەرا روویدانێ و راپورتكرنێ (خزمەتگوزاریێت تەندروستێ یان رەوانەكرنێ) '
-        incident_location_type: جهێ رویدانێ
-        number_of_perpetrators: ژمارا تاوانباران
-        perpetrator_relationship: پەیوەندی دناڤبەرا رزگار بوویی و تاوانبارێ سەرەکی دا
-        perpetrator_age_group: 'گروپێ تەمەنێ  تاوانبارێن سەرەکی '
-        perpetrator_occupation: کار و پیشەیا  تاوانبارێن سەرەکی
-        age: هژمارا رزگاربویان ل دویڤ ژیێ وان
-        sex: هژمارا رزگاربویان ل دویڤ رەگەزێ وان
-        marital_status: بارێ خێزانی یێ رزگاربویان
-        displacement_status: بارودوخێ ئاوارەبوونێ یێ رزگاربویان
-        displacement_incident: قوناغا ئاوارەبوونێ ل دەمێ بوویەرێ
-        gbv_case_context: ناڤەروكا كەیسی
-        incidents_first_point_of_contact: 'هژمارا رویدانا یت كو رێكخراواتە ئێكەمین خالا پەیوەندێكرنێیە '
-        incidents_from_other_service_provider: ' روویدانێت هاتینە ریپورتكرن ژلایێ پێشكێشكەرێن خزمەتگوزاریان ڤە'
-        number_of_services_provided: هژمارا  خزمەتگوزاریا هاتینە پێشكێشكرن بو روویدانا
-        number_of_services_provided_other: 'رویدانا نوی هاتیە ریپورتكرن بو پێشكێشكەرێن خزمەتگوزاریا '
         service_safehouse_referral: خانیێ ئارام یان پەناگەها ئارام بو هاتیە رەوانەكرن
         service_medical_referral: رەوانەكرنێت ساخلەمی یان پزیشکی
         service_psycho_referral: خزمەتگوزارییت دەرونی/ راوێشكاری
@@ -1978,7 +1953,6 @@ ku-IQ:
         service_police_referral: 'خزمەتگوزاریێت پولیسی یان هەر جورەكێ خزمەتگوزاریێت دی یت ئێمناهیێ '
         service_livelihoods_referral: خزمەتگوزاریێن ژیارێ
         service_protection_referral: 'خزمەتگوزاریێت پاراستنا زاورکا '
-        vulnerable_populations: هژمارا دانیشتوانێت لاواز
         survivors_disability_type: كێم ئەندام
     success_message: فایلێ دەرخستنێ ب سەرکەفتیانە هاتە دروستکرن
   messages:
@@ -2496,7 +2470,6 @@ ku-IQ:
             explanation: رێکێ دەتە رێڤەبەری بۆ دیتنا کا چەند کەیسا کارێ خزمەتگوزاریا گیرو هەیە بۆ هەر ئێک ژ وان کارکەرێن کەیسی
             label: 'کارێن خزمەتگوزاریا گیرو هەی '
           dash_case_incident_overview:
-            explanation: .
             label: کورتی - کەیسێن من یان رویدان
           dash_cases_by_social_worker:
             explanation: خشتێ وێ چەندێ نیشانددەت کا چەوا سەرجەمێ ژمارا کەیسێن ڤەکری و ژمارا کەیسێن نی دهێنە برێڤەبرن ژ لایێ هەر ئێک بکارهێنەری د گروپێ نوکەیێ بکارهێنەرادا. هەر رێزەک بکارهێنەرەکە د گروپێ نوکەیێ بکارهێنەرادا، ل دەما کو سەرجەم و نی دوو لانە
@@ -2970,7 +2943,6 @@ ku-IQ:
     display: پێشاندانا وەکهەڤیێن دیار بو %{type}%{id}
   reassign:
     multiple_error: خەلەتیەک چێبوو. %{select_records} کەسی نەهاتنە دەستنیشانکرن
-    multiple_successfully: 'کەیس سەرکەفتیانە هاتنە دەستنیشانکرن %{select_records}'
     notes_label: تێبینی
     successfully: ب سەرکەفتیانە دوبارە هاتە دەستنیشانکرن
     user_mandatory_label: ' وه رگر یێ پێدڤیە'

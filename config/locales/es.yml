@@ -84,6 +84,7 @@ es:
     terms_of_use_download_button: Descargar PDF
     terms_of_use_enabled: ¿Mostrar Términos de su Uso?
   approvals:
+    no_requests: Caso
     approved_by: Aprobado Por
     case_plan_type_label: Tipo de Plan de Caso
     manager_comments_label: Comentarios de Gerente
@@ -166,6 +167,7 @@ es:
     import: Importar
     login: Iniciar sesión
     logout: Terminar sesión
+    link: Enlace
     mark_for_mobile: Marcar para móvil
     new: Nuevo
     ok: OK
@@ -198,6 +200,8 @@ es:
     view: Ver
     view_flags_history: Ver Historial
     return_to_case: Regresar al Caso
+    enable_webpush: notificaciones del dispositivo
+    dialog_yes: "Si"
   resync_records:
     id: Documento de Identificación (ID)
     record_type: Tipo de registro
@@ -210,7 +214,10 @@ es:
   case:
     label: Caso
     create_new_case: Crear Nuevo Caso
+    create_case: Crear caso
+    create: Crear
     add_new: Agregar Nuevo
+    back_to_family_details: Regresar a Datos de la Familia
     back_to_case: Regresar al Caso
     back_to_results: Regresar a Resultados
     back_to_search: Regresar a Buscar
@@ -234,6 +241,14 @@ es:
       introductory_sentence: Por favor especificque el consentimiento de la persona para recibir los servicios de gestión de casos y para que sus datos se almacenen en Primero.
       consent_agreements_required: Por favor seleccione al menos una opción de los acuerdos de consentimiento.
       legitimate_basis_required: Por favor seleccione al menos una opción de las clasificaciones base permitidas
+      confirm_create_case: ¿Desea crear un Caso para esta persona?
+      case_referral_pending: Hay una referencia de Caso pendiente.
+      case_transfer_pending: Hay una transferencia de Caso pendiente.
+      case_no_approval_request: No hay solicitudes de aprobación para este Caso.
+      bulk_assign_limit: No puede asignar mas de 100 Casos al mismo tiempo.
+      bulk_assign_limit_try_again: No puede asignar mas de 100 Casos al mismo tiempo. Por favor, seleccione 100 Casos o menos e inténtelo nuevamente.
+      referral_rejected: La Referencia ha sido rechazada.
+      transfer_request_made: Una solicitud de transferencia ha sido realizada para este caso.
     save: Guardar Caso
     save_text: Antes de continuar, por favor guarde los cambios hechos al Caso
     skip_and_create: Omitir y Crear Nuevo Caso
@@ -241,6 +256,7 @@ es:
     search_helper_text: ¿Para qué? Para evitar la creación de casos duplicados.
     consent_agreements: Selecciones todos los acuerdos de consentimiento que apliquen
     legitimate_basis: Seleccione todas las clasificaciones base permitidas que apliquen
+    family_linked_subform_delete_disabled: Este sub formulario está enlazado a un Registro Familiar. Por favor, remueva a este miembro de la familia del Registro Familiar, o desvincule el Caso del familiar del Registro Familiar.
     workflow:
       assessment: Evaluación
       case_plan: Plan del Caso
@@ -260,6 +276,7 @@ es:
     rejected_transfer: '%{to} transferencia rechazada de %{record_type}%{record_id} de %{from}'
   cases:
     action_plan: Plan de Acción
+    access_denied: "Usted no tiene acceso a este Caso."
     age: Edad
     age_estimated: ¿Edad Estimada?
     agency: Agencia
@@ -354,6 +371,7 @@ es:
       urgent_protection_concern: Inquietud sobre Protección Urgente
       user_group: Grupo de Usuario(a)s
       workflow: Casos por Flujo de Trabajo
+      include_disabled: Incluya personas con discapacidad
     flag_summary: Resumen de registros marcados
     full_name: Nombre Completo
     gbv_closure: Cierre de Violencia Basada en Género (GBV)
@@ -377,6 +395,8 @@ es:
     photos: Fotografía
     quick_view:
       tracing_message: 'Nota: Hay una concordancia en el sistema en la que un(a) Investigador(a) busca a este niño, niña, o adolescente. Contacte a la trabajadora social de este registro para acciones futuras si el niño, niña, o adolescente así lo desea.'
+    reassign:
+      multiple_successfully: Primero está reasignando %{select_records}Caso(s). La actualización de todos los Casos puede tomar varios minutos.
     referral_done: Hacer clic en "Realizado" significa que usted ha completado el trabajo de referencia relacionado a este caso. Una vez usted hace clic en "Realizado" ya no tendrá acceso a este registro.
     referral_done_success: Referencia Realizada.
     referral_accepted_header: Aceptar Referencia
@@ -414,6 +434,7 @@ es:
     save_filter: Guardar
     selected_all_records: Seleccione todos los casos %{total_records} que concuerden con esta consulta.
     selected_records: '%{select_records} caso(s) seleccionado(s)'
+    selected_records_assign: '%{select_records} caso(s) seleccionado(s)'
     sex: Sexo
     show_case: 'ID del Caso: %{short_id}'
     social_worker: Trabajadora Social
@@ -474,6 +495,10 @@ es:
       date_case_plan_initiated: Fecha del Plan del Caso
       date_of_creation: Fecha de Creación
       registration_date: Fecha de Registro
+      followup_date: Fecha del Seguimiento
+      date_reunification: Fecha de Reunificación
+      tracing_date: Fecha de seguimiento
+      service_implemented_day_time: Fecha de finalización del Servicio
   configurations:
     apply_label: ¿Está seguro(a)? Si usted aplica, los ajustes en esta configuración se aplicarán al sistema. Usted perderá todos sus ajustes actuales y no podrá recuperarlos a menos que ya los haya guardado en otra Configuración.
     apply_label_bold: Primero no estará disponible para sus usuario(a)s por unos minutos mientras se cargan los cambios.
@@ -529,6 +554,13 @@ es:
     all_cases: Todos los Casos
     all_services_implemented: Todos los Servicios Implementados
     and: 'y'
+    action_needed:
+      awaiting_acceptance: Esperando Aceptación
+      header: Acción requerida
+      new: Nuevo
+      new_this_week: Nuevo esta Semana
+      referrals: Referencias
+      transfers: Transferencias
     approval_action_plan_approved: Aprobado
     approval_action_plan_pending: Pendiente
     approval_action_plan_pending_group: Plan de Acción
@@ -801,6 +833,31 @@ es:
     assign_html: '<strong>%{user}</strong> le ha asignado el siguiente %{record_type}: <strong>%{record_id}</strong>.'
     transfer_request_html: 'El/la usuario(a) de Primero <strong>%{user}</strong> de %{agency} está solicitando que le transfiera la propiedad de este %{record_type} registro <strong>%{record_id}</strong> para que pueda prestarle servicios de gestión de %{record_type} a la persona en su área. Si esta transferencia le parece aceptable, por favor haga clic en el vínculo de ID %{record_type} en este correo para abrir el %{record_type} en Primero e iniciar la transferencia.'
     transfer_request_notes_html: 'Notas de la persona que hace la solicitud: %{request_transfer_notes}'
+    alert: '%{record_type}%{id}-%{form_name}ha sido actualizado. Por favor, ingrese a Primero para revisar los cambios.'
+    alert_subject: '%{record_type}:%{id} - %{form_name}Actualizado'
+  webpush_notification:
+    action_label: Ir al Caso
+    approval_request:
+      title: Solicitud de Aprobación
+      body: Un caso de su equipo tiene una solicitud de aprobación pendiente por %{type}.
+    approval_response:
+      title: Respuesta de aprobación
+      body: Uno de sus casos ha recibido una respuesta de aprobación.
+    assign:
+      title: Nueva tarea
+      body: Usted ha recibido una nueva Asignación de Caso.
+    referral:
+      title: Nueva Referencia
+      body: Usted ha recibido una nueva Referencia de Caso.
+    transfer:
+      title: Nueva Transferencia
+      body: Usted ha recibido una nueva Transferencia de Caso.
+    alert_case:
+      title: Caso Actualizado
+      body: "%{type}ha sido actualizado en uno de tus casos."
+    transfer_request:
+      title: Solicitud de Transferencia
+      body: Usted ha recibido una nueva solicitud de Transferencia de Caso.
   encrypt:
     export_type: Tipo de exportación
     file_name: Cree su propio nombre de archivo (Optativo)
@@ -810,6 +867,8 @@ es:
     address_fields: Necesita abordar %{fields} campos en %{forms} formularios
     address_form_fields: Necesita abordar %{fields} campos en este formulario
     address_subform_fields: '%{subform} tiene %{fields} campos inválidos'
+    error_401: Se ha cerrado su sesión. Por favor inicie sesión nuevamente.
+    error_something_went_wrong: Ha ocurrido un error.
   error_page:
     not_authorized:
       server_error: Usted no está autorizado(a) para acceder a esta página
@@ -818,6 +877,10 @@ es:
       contact_admin: Si cree que está aquí por error, por favor contacte a su admin.
       something_went_wrong: Lo sentimos ¡Algo salió mal!
   errors:
+    api:
+      internal_server: Error de Servidor
+    attachments:
+      maximum: Ha alcanzado la cantidad máxima de archivos adjuntos por Registro.
     error_loading: Error al Descargar Registro(s)
     models:
       agency:
@@ -862,6 +925,11 @@ es:
         title_present: El título no puede estar vacío
         content_present: El contenido no puede estar vacío
         created_by_present: Creado Por no debe estar vacío
+      webpush_subscription:
+        notification_url_present: notification_url no debe estar vacío
+        notification_url_format: notification_url debe tener un formato URL
+        auth_present: Auth no debe estar vacío
+        p256dh_present: p256dh no debe estar vacío
     not_found: No se Encon(tró)(traron) Registro(s)
     try_again: Trate de nuevo
   exports:
@@ -1070,6 +1138,8 @@ es:
     add_existing_field: Agregar Campo Existente
     add_field: Agregar Campo
     add_field_type: Agregar %{file_type}
+    attachments:
+      maximum_attached: Se ha alcanzado el límite máximo de archivos adjuntos por Registro (%{maximumttachmentsPerRecord}). Esto incluye fotos, audio y documentos. Por favor elimine un archivo adjunto antes de añadir otro.
     audio:
       current: Audio Actual
     audio_upload_box: Carga de Audio
@@ -1284,6 +1354,8 @@ es:
       violation: Violación
       registry_details: Detalles de Registro
       registry_record: Ficha de Registro
+      family_record: Registro de Familia
+      family: Registro de Familia
     required_field: '%{field} es un campo requerido'
     select_label: Seleccionar
     settings: Configuraciones
@@ -1331,6 +1403,7 @@ es:
     ar-LB: العربية (اللبنانية)
     ar-SD: العربية (السودانية)
     bn: বাংলা
+    cmn: Chino
     current_time_zone: Zona horaria actual
     dashboard: Tablero
     en: Inglés
@@ -1350,6 +1423,7 @@ es:
     ne: नेपाली
     om: Oromo
     am-ET: Amharic (Ethiopia)
+    tr: Turco
     label: Pagina de inicio
     language: Idioma
     manage_system_users: Administrar la Sincronización de Usuario(a)s en el Servidor
@@ -1371,12 +1445,15 @@ es:
   incident:
     code: Código de Incidente
     associated_case: "Caso Asociado:"
+    link_incident_to_case: Vincular Incidente al Caso
+    link_incident_to_case_success: Incidente(s) vinculado(s) al caso
     messages:
       creation_success: El registro del incidente se generó correctamente.
       creation_success_queue: El Registro del Incidente se generó correctamente (en background)
       disabled: El incidente está deshabilitado
       update_success: 'El incidente %{record_id} se actualizó correctamente.'
       update_success_queue: 'El Incidente %{record_id} se actualizó correctamente (en background).'
+      bulk_assign_limit_try_again: No puede asignar más de 100 incidentes al mismo tiempo. Por favor seleccione 100 incidentes o menos e inténtelo nuevamente.
     violation:
       associated_violations: "Violaciones asociadas:"
       update_and_return: 'Actualizar y Regresar a %{association}'
@@ -1395,6 +1472,7 @@ es:
         military_use: Uso militar de escuela(s) y/u hospital(es)
         denial_humanitarian_access: Negación de acceso a la ayuda humanitaria para los niños/niñas
   incidents:
+    change_status: Cambiar Estado
     disable_dialog: Al hacer clic en OK cambiará el estado de este incidente a Deshabilitado.
     disable_dialog_title: Deshabilitar Incidente
     disable_success: Incidente deshabilitado correctamente.
@@ -1443,12 +1521,15 @@ es:
       perpetrator_category: Tipo de perpetrador
       record_owner: Propietario(a) del Registro
     register_new_incident: Nuevo incidente
+    reassign:
+      multiple_successfully: 'Primero está reasignando %{select_records}incidente(s). Esta actualización puede demorar. Note que los incidentes ya vinculados a Casos no serán reasignados. '
     selectable_date_options:
       date_of_first_report: Fecha de la Entrevista
       mrm_date_of_first_report: Fecha del reporte inicial al miebro de CTFMR
       ctfmr_verified_date: Fecha de la decisión de verificación de CTFMR
       incident_date_derived: Fecha del incidente
     selected_records: '%{select_records} incidente(s) seleccionados'
+    selected_records_assign: '%{select_records} incidente(s) seleccionado(s). Tome en cuenta que los incidentes ya vinculados a Casos no serán asignados.'
     selected_all_records: 'Seleccione todos los incidentes %{total_records} que concuerdan con esta consulta.'
     summary_mrm:
       label: Resumen del incidente
@@ -1473,6 +1554,7 @@ es:
     survivor_code: Código de sobreviviente
     show_incident: 'ID del Incidente %{short_id}'
     social_worker: Trabajadora Social
+    verify_mrm: Verifique MRM
     violation_type: Tipo de violación
     violence_type: Tipo de Violencia
     type_violence: Tipo de Violencia
@@ -1665,6 +1747,8 @@ es:
       township: Municipio
       municipality: Municipalidad
       autonomous_region: Región autónoma
+      parish: Parroquia
+      sub-county: Sub condado
     label: Ubicación
     name: Nombre
     code: Código
@@ -1864,15 +1948,44 @@ es:
       date: Fecha
       verification_status: Estado de verificación
       violation_type: Tipo de violación
+      status: Estado
+      status_open: Abierto
+      status_closed: Cerrado
+      user_group: Grupo de Usuario(a)s
+      agency: Agencia
+      by: por
+      workflow: Estado del flujo de trabajo
+      cp_incident_violence_type: Tipo de Violencia
+      referral_transfer_status: Estado de la Referencia/Transferencia
+      protection_concerns: Preocupaciones de Protección
+      location: Ubicación de Reporte
+      followup_type: Tipo de Seguimiento
+      service_type: Tipo de Servicio
+    status_options:
+      open: Abierto
+      closed: Cerrado
+    by_options:
+      created_by_groups: Grupo de Usuario del(la) creador(a) del Registro
+      owned_by_groups: Grupo de Usuario del(la) dueño(a) del Registro
+      created_organization: Agencia del(la) Creador(a) del Registro
+      owned_by_agency_id: Agencia del(la) dueño(a) del Registro
+    referral_transfer_status_options:
+      in_progress: Pendiente
+      accepted: Aceptado
+      rejected: Rechazado
+      done: Realizado
     date_range:
       month: Mes
       quarter: Trimestre
       year: Año
+      week: Semana
     date_range_options:
       this_quarter: Este trimestre
       last_quarter: El trimestre pasado
       this_month: Este mes
       last_month: El mes pasado
+      this_week: Esta Semana
+      last_week: Semana Anterior
       this_year: Este año
       last_year: El año pasado
       custom: Personalizado
@@ -1888,6 +2001,49 @@ es:
         individual_violation_type: Niños individuales por tipo de violación
         individual_region: Niños individuales por región
         individual_perpetrator: Niños individuales por perpetrador
+    services:
+      name: Servicios
+      description: Casos con el tipo de Servicio seleccionado, desagregado por edad y sexo.
+    services_report:
+      reports:
+        services: Servicios
+        description: Casos con el tipo de Servicio seleccionado, desagregado por edad y sexo.
+      sub_reports:
+        services: Servicios
+      filter_options:
+        service_implemented_day_time: Servicio completado
+    followups:
+      name: Seguimientos
+      description: Casos con el tipo de Seguimiento seleccionado, desagregado por edad y sexo.
+    followups_report:
+      filter_options:
+        followup_date: Fecha del Seguimiento
+      reports:
+        followups: Seguimientos
+        description: Casos con el tipo de Seguimiento seleccionado, desagregado por edad y sexo.
+      sub_reports:
+        followups: Seguimientos
+    protection_concerns:
+      name: Preocupaciones de Protección
+      description: Casos con las Preocupaciones de Protección seleccionadas, desagregados por edad y sexo.
+    protection_concerns_report:
+      reports:
+        protection_concerns: Preocupaciones de Protección
+        description: Casos con las Preocupaciones de Protección seleccionadas, desagregados por edad y sexo.
+      sub_reports:
+        protection_concerns: Preocupaciones de Protección
+      filter_options:
+        registration_date: Fecha de Registro
+    reporting_locations:
+      name: Ubicación del Reporte
+      description: 'Casos con la Ubicación de Reporte seleccionada, desagregados por edad y sexo.'
+    reporting_locations_report:
+      reports:
+        reporting_locations: Ubicación del Reporte
+      sub_reports:
+        reporting_location_by_sex_and_age: Ubicación del Reporte
+      filter_options:
+        registration_date: Fecha de Registro
     ghn_report:
       name: Nota Horizontal Global
       reports:
@@ -1976,35 +2132,10 @@ es:
         date_of_first_report: Fecha de la Entrevista
         incident_date: Fecha del Incidente
       reports:
-        incidents: Incidentes
         perpetrators: Perpetradores
         survivors: Sobrevivientes
         referrals: Referencias
       sub_reports:
-        combined: Incidentes
-        total: Número de Incidentes de VBG Reportados
-        gbv_sexual_violence: Número de Incidentes de Violencia Sexual Reportados
-        gbv_previous_incidents: Número de Incidentes Reportados por Sobrevivientes con Incidentes de VBG previos
-        gbv_sexual_violence_type: Tipo de Incidente
-        incident_timeofday: Hora del día del Incidente
-        elapsed_reporting_time: Tiempo transcurrido entre el Incidente y la Fecha de Reporte
-        elapsed_reporting_time_rape: Incidentes de violación, tiempo transcurrido entre el Incidente y Fecha de Reporte
-        elapsed_reporting_time_rape_health_referral: Incidentes de violación, tiempo transcurrido entre el Incidente y Fecha de Reporte
-        incident_location_type: Ubicación del Incidente
-        number_of_perpetrators: Número de Perpetradores
-        perpetrator_relationship: Relación del Presunto Perpetrador Principal con la/el Sobreviviente
-        perpetrator_age_group: Grupo de edad de Presunto(s) Perpetrador(es) Principal(es)
-        perpetrator_occupation: Ocupación del Presunto Perpetrador Principal
-        age: Número de sobrevivientes por edad
-        sex: Número de sobrevivientes por sexo
-        marital_status: Estado civil de sobrevivientes
-        displacement_status: Estado civil de sobrevivientes
-        displacement_incident: Etapa de desplazamiento al momento del incidente
-        gbv_case_context: Contexto del Caso
-        incidents_first_point_of_contact: Número de incidentes donde tu organizacion es el primer punto de contacto
-        incidents_from_other_service_provider: Incidentes derivados de otros proveedores de servicios
-        number_of_services_provided: Número de servicios prestados por incidentes
-        number_of_services_provided_other: Referencia de nuevos incidente a otros proveedores de otros servicios
         service_safehouse_referral: Referencia a casa segura/refugio seguro
         service_medical_referral: Referencia médica/salud
         service_psycho_referral: Servicios psicosociales/consejería
@@ -2012,8 +2143,48 @@ es:
         service_police_referral: Servicios de policía u otros servicios de seguridad
         service_livelihoods_referral: Servicios de Subsistencia
         service_protection_referral: Servicios de Protección a la Niñez
-        vulnerable_populations: Poblaciones vulnerables
         survivors_disability_type: Con discapacidad
+    workflow_report:
+      name: Flujo de Trabajo
+      description: Casos e Incidentes con el Estado de Flujo de Trabajo seleccionado, desagregado por edad y sexo.
+      reports:
+        cases_workflow: Flujo de Trabajo - Casos
+        incidents_workflow: Flujo de Trabajo - Incidentes
+      filter_options:
+        registration_date: Fecha de Registro
+      sub_reports:
+        case_workflow_by_sex_and_age: Número total de Casos por Sexo y Edad
+        incident_workflow_by_sex_and_age: Número total de Incidentes por Sexo y Edad
+    cases_workflow_report:
+      name: Flujo de Trabajo
+      description: Casos con el Estado del Flujo de Trabajo seleccionado, desagregado por edad y sexo.
+      reports:
+        cases_workflow: Flujo de Trabajo - Casos
+      filter_options:
+        registration_date: Fecha de Registro
+      sub_reports:
+        case_workflow_by_sex_and_age: Número total de Casos por Sexo y Edad
+    referrals_transfers_report:
+      name: Referencias y Transferencias
+      description: 'Referencias y Transferencias que han ocurrido dentro de un período de tiempo. Desagregado por Agencias o Grupos de Usuario que han enviado y recibido. '
+      reports:
+        total_referrals: Referencias
+        total_transfers: Transferencias
+      sub_reports:
+        total_transfers_by_user_groups: Total de Transferencias
+        total_referrals_by_user_groups: Referencias Totales
+      filter_options:
+        registration_date: Fecha de Registro
+    violence_type_report:
+      name: Tipo de Violencia
+      reports:
+        cases_violence_type: Tipo de Violencia - Casos
+        incidents_violence_type: Tipo de Violencia - Incidentes
+      filter_options:
+        registration_date: Fecha de Registro
+      sub_reports:
+        case_violence_type_by_sex_and_age: Número total de Casos por Sexo y Edad
+        incident_violence_type_by_sex_and_age: Número total de Incidentes por Sexo y Edad
     success_message: Ha generado correctamente el archivo de exportación
   messages:
     alert_items: Usted tiene %{items} items de nota.
@@ -2063,6 +2234,7 @@ es:
     tracing_request: Solicitudes de Localización
     activity_log: Registro de Actividades
     registry_records: Registro
+    families: Familias
   notes:
     note_success: Nota agregada correctamente
   permissions:
@@ -2146,6 +2318,7 @@ es:
       find_tracing_match: Encontrar concordancia en localización desde el caso
       view_registry_record: Ver Ficha de Registro
       add_registry_record: Agregar Ficha de Registro
+      family: Familia
       flag: Marcar
       form: Formularios
       group: Acceso a todos los registros o usuarios en mi grupo
@@ -2173,6 +2346,7 @@ es:
       reopen: Reabrir
       report: Reporte
       managed_report: Perspectiva
+      resolve_any_flag: Resolver cualquier Bandera
       request_approval: Solicitud para Aprobación
       request_approval_action_plan: 'Sólicitar aprobación %{approval_label} '
       request_approval_assessment: 'Sólicitar aprobación %{approval_label} '
@@ -2195,6 +2369,7 @@ es:
       transfer: Puede utilizarse para transferir
       user: Usuarios
       user_group: Grupos de usuario(a)s
+      verify_mrm: Verifique MRM
       view_approvals: Ver Aprobaciones
       view_assessment: Ver Evaluación
       view_photo: Ver Fotografía
@@ -2205,6 +2380,7 @@ es:
       workflow_team: Flujo de Trabajo - Casos de Equipos
       write: Escribir
       activity_log: Registro de Actividades
+      remove_alert: Eliminar alerta
     resource:
       kpi:
         actions:
@@ -2365,6 +2541,7 @@ es:
             label: Exportar galería de fotos
           export_unhcr_csv:
             label: Exportar CSV de OACNUDH
+            explanation: OBSOLETO - Esta función ya no está en uso.
           export_xls:
             explanation: 'Desde las páginas de listado de casos, o de presentación de casos, el/la usuario(a) puede generar la exportación de un archivo XLS, que contenga todos los campos a los que el/la usuario(a) actual tiene acceso para uno, varios, o todos los casos a los que el/la usuario(a) tiene acceso. En esta exportación, cada formulario está representado en su propia pestaña dentro del archivo XLS. NOTA: El formato XLS procesa caracteres no latinos (ej. Árabe, Bengalí) en un formato legible, mientras que el CSV exportado no.'
             label: Exportación de Excel (archivo XLS)
@@ -2374,6 +2551,8 @@ es:
           flag:
             explanation: 'Habilitado(a) para agregar una marca a un caso. Lo(a)s usuario(a)s con este permiso también pueden eliminar las marcas que hayan agregado a un caso. '
             label: Marca
+          resolve_any_flag:
+            explanation: Permite al usuario resolver cualquier Alerta en el registro, independientemente de quién creó la Alerta.
           import:
             explanation: 'Permite a el/la usuario(a) crear uno o más casos nuevos importándolos desde un archivo CSV, Excel, o JSON. El archivo importado debe estar formateado "muy" específicamente para que la información se importe correctamente. Esta función sólo debe estar disponible para usuario(a)s administrativo(a)s con habilidades técnicas avanzadas y un conocimiento a fondo sobre cómo se formatean los datos en Primero. Sólo puede hacerse desde la página de listado de casos. '
             label: Importar
@@ -2477,6 +2656,15 @@ es:
         label: Caso
       dashboard:
         actions:
+          action_needed_new_updated:
+            explanation: Muestra el indicador de "Nuevo y Actualizado" en el tablero de "Acción Requerida". Esto incluye Casos que han sido recientemente asignados al usuario actual, o aquellos que otro usuario ha actualizado desde la última vez que el usuario actual los haya actualizado.
+            label: 'Accion Requerida: Nuevo o Actualizado'
+          action_needed_new_referrals:
+            explanation: Muestra el indicador de "Nuevas Referencias" en el tablero de "Acción Requerida". Esto incluye cualquier Caso con una Referencia nueva enviada al usuario actual, donde el usuario actual no es la última persona en actualizar dicho Caso.
+            label: 'Acción Requerida: Nuevas Referencias'
+          action_needed_transfer_awaiting_acceptance:
+            explanation: 'Muestra el indicador de "Transferencias Esperando Aceptación" en el tablero de "Acción Requerida". Esto incluye cualquier Caso con una Transferencia al usuario actual, el cual el usuario actual no ha aceptado. '
+            label: 'Acción Requerida: Transferencias Esperando Aceptación'
           approvals_action_plan:
             explanation: Muestra el número de casos de el/la usuario(a) actual que cuentan con solicitud de aprobación de Plan de Acción la cual está Pendiente, Aprobada, o Rechazada.
             label: Aprobaciones %{approval_label} de la trabajadora del caso
@@ -2526,7 +2714,6 @@ es:
             explanation: Permite a un(a) gerente ver cuántos casos tienen tareas de Servicios vencidas para cada una de sus trabajadoras de casos.
             label: tareas de Servicios Vencidas
           dash_case_incident_overview:
-            explanation: .
             label: Información General - Mis Casos /Incidentes
           dash_cases_by_social_worker:
             explanation: Tabla que muestra el número total de casos abiertos y el número de nuevos casos gestionados por cada usuario(a) en los grupos de usuario(a)s de el/la usuario(a) actual. Cada línea es un(a) usuario(a) dentro de los grupos de usuario(a)s de el/la usuario(a) actual, mientras que columnas son dos "Total" y "Nuevo".
@@ -2998,7 +3185,6 @@ es:
     display: Mostrando posibles concordancias para %{type}%{id}
   reassign:
     multiple_error: Ha ocurrido un error. %{select_records} caso(a) no asignados.
-    multiple_successfully: '%{select_records} caso(s) asignados correctamente'
     notes_label: Notas
     successfully: Reasignado correctamente
     user_mandatory_label: Se requiere destinatario(a)

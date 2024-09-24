@@ -2099,35 +2099,10 @@ es-GT:
         date_of_first_report: Fecha de la Entrevista
         incident_date: Fecha del Incidente
       reports:
-        incidents: Incidentes
         perpetrators: Perpetradores
         survivors: Sobrevivientes
         referrals: Referencias
       sub_reports:
-        combined: Incidentes
-        total: Número de Incidentes de VBG Reportados
-        gbv_sexual_violence: Número de Incidentes de Violencia Sexual Reportados
-        gbv_previous_incidents: Número de Incidentes Reportados por Sobrevivientes con Incidentes de VBG previos
-        gbv_sexual_violence_type: Tipo de Incidente
-        incident_timeofday: Hora del día del Incidente
-        elapsed_reporting_time: Tiempo transcurrido entre el Incidente y la Fecha de Reporte
-        elapsed_reporting_time_rape: Incidentes de violación, tiempo transcurrido entre el Incidente y Fecha de Reporte
-        elapsed_reporting_time_rape_health_referral: Incidentes de violación, tiempo transcurrido entre el Incidente y Fecha de Reporte
-        incident_location_type: Ubicación del Incidente
-        number_of_perpetrators: Número de Perpetradores
-        perpetrator_relationship: Relación del Presunto Perpetrador Principal con la/el Sobreviviente
-        perpetrator_age_group: Grupo de edad de Presunto(s) Perpetrador(es) Principal(es)
-        perpetrator_occupation: Ocupación del Presunto Perpetrador Principal
-        age: Número de sobrevivientes por edad
-        sex: Número de sobrevivientes por sexo
-        marital_status: Estado civil de sobrevivientes
-        displacement_status: Estado civil de sobrevivientes
-        displacement_incident: Etapa de desplazamiento al momento del incidente
-        gbv_case_context: Contexto del Caso
-        incidents_first_point_of_contact: Número de incidentes donde tu organizacion es el primer punto de contacto
-        incidents_from_other_service_provider: Incidentes derivados de otros proveedores de servicios
-        number_of_services_provided: Número de servicios prestados por incidentes
-        number_of_services_provided_other: Referencia de nuevos incidente a otros proveedores de otros servicios
         service_safehouse_referral: Referencia a casa segura/refugio seguro
         service_medical_referral: Referencia médica/salud
         service_psycho_referral: Servicios psicosociales/consejería
@@ -2135,7 +2110,6 @@ es-GT:
         service_police_referral: Servicios de policía u otros servicios de seguridad
         service_livelihoods_referral: Servicios de Subsistencia
         service_protection_referral: Servicios de Protección a la Niñez
-        vulnerable_populations: Poblaciones vulnerables
         survivors_disability_type: Con discapacidad
     workflow_report:
       name: Flujo de Trabajo

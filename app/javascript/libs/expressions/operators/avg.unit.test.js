@@ -7,7 +7,7 @@ import avgOperator from "./avg";
 describe("avgOperator", () => {
   const operator = avgOperator(["a", "b", "c"]);
   const decimalPlaceOperator = avgOperator(["a", "b", "c"], { decimalPlaces: 3 });
-  const roundOperator = avgOperator(["a", "b", "c"], {decimalPlaces: 0});
+  const roundOperator = avgOperator(["a", "b", "c"], { decimalPlaces: 0 });
 
   it("should return avg", () => {
     expect(operator.evaluate({ a: 3, b: 4, c: 2 })).to.deep.equals(3);
@@ -28,6 +28,6 @@ describe("avgOperator", () => {
     expect(decimalPlaceOperator.evaluate({ a: 1, b: 4 })).to.deep.equals(2.5);
   });
   it("rounds correctly if decimalPlaces are 0", () => {
-    expect(roundOperator.evaluate({a: 1, b: 1, c:3})).to.deep.equals(2);
-  })
+    expect(roundOperator.evaluate({ a: 1, b: 1, c: 3 })).to.deep.equals(2);
+  });
 });

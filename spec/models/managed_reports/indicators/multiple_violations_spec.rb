@@ -141,6 +141,10 @@ describe ManagedReports::Indicators::MultipleViolations do
           field_name: 'ghn_date_filter',
           from: '2021-04-01',
           to: '2022-06-10'
+        ),
+        'type' => SearchFilters::Value.new(
+          field_name: 'type',
+          value: 'ghn_report'
         )
       }
     ).data

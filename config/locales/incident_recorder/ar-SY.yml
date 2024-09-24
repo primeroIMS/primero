@@ -1,0 +1,76 @@
+ar-SY:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "تصدير سجل الحوادث xls"
+  exports:
+    incident_recorder_xls:
+      all: سجل الحوادث
+      one: سجل الحوادث
+      selected: 'تم اختياره لسجل الحوادث '
+      'yes': "نعم"
+      'no': "لا"
+      gender:
+        male: "ذكر"
+        female: "أنثى"
+        both: "ذكر وأنثى"
+      age_group:
+        age: "السن"
+        61_older: "61 عاما فأكثر"
+        unknown: "غير معروف"
+        header: "الفئة العمرية للجاني المزعوم"
+      age_type:
+        adult: "بالغ"
+        minor: "قاصر"
+        both: "شخص بالغ وشخص قاصر "
+        unknown: "غير معروف"
+        header: "نوع عمر الجاني المزعوم"
+      service_referral:
+        undecided: "غير مقرّر"
+      headers:
+        incident_id: "كود  الحادثة"
+        survivor_code: "كود الناجية"
+        case_manager_code: "كود مدير الحالة"
+        case_worker_code: "كود اخصائي الحالة"
+        date_of_interview: "تاريخ المقابلة"
+        date_of_incident: "تاريخ الحادثة"
+        date_of_birth: "تاريخ الميلاد"
+        sex: "الجنس"
+        ethnicity: "الإثنية"
+        country_of_origin: "البلد الأصلي"
+        marital_status: "الحالة المدنية / الزوجية "
+        displacement_status: "وضع النزوح عند الإبلاغ عن الحادثة"
+        disability_type: "شخص من ذوي الإعاقة؟"
+        unaccompanied_separated_status: "طفل غير مصحوب أو منفصل عن ذويه؟"
+        stage_of_displacement: "مرحلة النزوح عند وقوع الحادثة"
+        time_of_day: "الوقت من اليوم الذي وقعت فيه الحادثة"
+        location: "موقع الحادثة"
+        county: "المقاطعة"
+        district: "الحي"
+        camp_town: "المخيم / البلدة"
+        camp: "المخيم"
+        gbv_type: "نوع العنف القائم على اساس النوع الاجتماعي"
+        harmful_traditional_practice: "عادات وتقاليد ضارّة"
+        goods_money_exchanged: "هل تم تبادل أموال أو بضائع أو مزايا و / أو خدمات فيما يتعلق بالحادثة؟"
+        abduction_type: "نوع الاختطاف/الإجبار "
+        previously_reported: "هل تم الإبلاغ عن هذه الحادثة سابقاً؟"
+        gbv_previous_incidents: "حوادث عنف قائم على اساس النوع الاجتماعي سابقة؟"
+        number_primary_perpetrators: "رقم الجاني (الجناة) الرئيسيين المزعومين"
+        perpetrator:
+          sex: "جنس الجاني المزعوم"
+          former: "حوادث سابقة ارتكبها هذا الجاني"
+          relationship: "علاقة الجاني المزعوم مع الناجية"
+          occupation: "مهنة الجاني المزعوم"
+          age_group: "الفئة العمرية للجاني المزعوم"
+          age_type: "نوع عمر الجاني المزعوم"
+        service:
+          referred_from: "نموذج الإحالة إليك؟"
+          safehouse_referral: "بيت آمن / مأوى"
+          medical_referral: "خدمات صحية / طبية"
+          psycho_referral: "خدمات نفسية اجتماعية"
+          wants_legal_action: "يطلب اتخاذ إجراء قانوني؟"
+          legal_referral: "خدمات المساعدة القانونية"
+          police_referral: "الشرطة / جهة أمنية أخرى"
+          livelihoods_referral: "برنامج سبل المعيشة"
+          protection_referral: "خدمات حماية الطفل / خدمات تعليمية"
+        consent: "تم إعطاء موافقة"
+        agency_code: "كود الهيئة المبلغة"

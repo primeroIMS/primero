@@ -5,17 +5,22 @@ ar-SD:
   cancel: إلغاء
   connection_lost: حاليا خارج الاتصال
   connected: متصل
+  no_connection: غير متصل
   clear: فارغ
   sandbox_ui: تجريبي
   description: وصف
   form: شكل
+  minimum_reportable_fields: "الحد الأدنى من الحقول التي يجب الإبلاغ عنها"
   name: اسم
   offline: غير متصل بالشبكة
+  field_mode_on: "تفعيل"
+  field_mode_off: "غير فعال"
   unavailable_offline: غير موجود خارج الشبكة
   online: متصل
   yes_label: 'نعم'
-  or_label: أو
+  or_label: أو،
   select_provider: قم باختيار مزوّد
+  select_language: 'أختر اللغة '
   log_in_primero_idp: تسجيل دخول باسم مستخدم %{idp_name}
   offline_submitted_changes: أنت حاليا غير متصل بالشبكة. سيتم تقديم تعديلاتك بعد معاودتك الاتصال
   sync:
@@ -426,11 +431,11 @@ ar-SD:
     label_new: إعدادات جديدة
     messages:
       applied: تم تطبيق الإعدادات بنجاح
-      created: تم خلق الإعدادات بنجاح
+      created: تم إنشاء الإعدادات بنجاح
       deleted: تم حذف الإعدادات بنجاح
       updated: تم تحديث الإعدادات بنجاح
     not_allowed: غير مسموح به
-    unavailable_server: السيرفر غير متوفر مؤقتا
+    unavailable_server: الخادم غير متاح مؤقتًا.
   contact:
     field:
       email: بريد إلكتروني
@@ -929,7 +934,6 @@ ar-SD:
     english_text: نص إنجليزي
     field_name: اسم المجال
     field_type: نوع المجال
-    attachment_too_large: لا يحب أن يكون لبملف أكبر من 10 mb
     file_upload_box:
       add_document_label: أضف الوثيقة
       add_new_document_button_text: أضف وثيقة أخرى
@@ -1881,7 +1885,6 @@ ar-SD:
             explanation: يسمح للمدير بالاطلاع عاى عدد الحالات بمهام خدمة لم تتم بعد لكل مسؤول عن الحالة
             label: مهام خدمة لم تتم بعد
           dash_case_incident_overview:
-            explanation: .
             label: نظرة عامة - حالاتي/الأحداث
           dash_cases_by_social_worker:
             explanation: جدول يوضح جملة الحالات المفتوحة وعدد الحالات الجديدة المدارة بواسطة كل مستخدم في مجموعة المستخدمين للمستخدم الحالي. ويمثل كل صف مستخدم من مجموعات المستخدمين للمستخدم الحالي، بينما يمثل العمودان :الجملة" و "الجديدة"
@@ -2223,7 +2226,6 @@ ar-SD:
     display: عرض تطابق محتمل ل%{type} %{id}
   reassign:
     multiple_error: حدث خطا. %{select_records} حالة (حالات) لم يتم التكليف بها
-    multiple_successfully: '%{select_records} حالة(حالات) تم التكليف بها بنجاح'
     notes_label: ملحوظات
     successfully: إعادة تكليف ناجح
     user_mandatory_label: المتلقي مطلوب

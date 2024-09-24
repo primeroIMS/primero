@@ -15,6 +15,8 @@ export const getLocaleDir = locale => {
     case "ar-IQ":
     case "fa-AF":
     case "ps-AF":
+    case "aeb":
+    case "ar-SY":
       return ORIENTATION.rtl;
     default:
       return ORIENTATION.ltr;

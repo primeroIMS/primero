@@ -11,7 +11,7 @@ import Form, { OPTION_TYPES } from "../../../form";
 import { useI18n } from "../../../i18n";
 import { RECORD_TYPES } from "../../../../config";
 import { getRecordForms, getServiceToRefer } from "../../../record-form/selectors";
-import { saveReferral } from "../action-creators";
+import { resetReferralSuccess, saveReferral } from "../action-creators";
 import { getErrorsByTransitionType } from "../selectors";
 import { setServiceToRefer } from "../../../record-form/action-creators";
 import PdfExporter from "../../../pdf-exporter";
@@ -107,6 +107,7 @@ function Referrals({
   useEffect(() => {
     if (submittedSuccessfully && formValues.remote) {
       pdfExporterRef.current.savePdf({ setPending, close: handleClose, values: formValues });
+      dispatch(resetReferralSuccess());
     }
   }, [submittedSuccessfully]);
 

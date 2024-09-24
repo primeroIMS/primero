@@ -5,7 +5,22 @@
 require 'rails_helper'
 
 describe ApiConnector::WebhookConnector do
-  before(:each) { clean_data(Role, Field, FormSection, PrimeroModule, AuditLog) }
+  before(:each) do
+    clean_data(Role, Field, FormSection, PrimeroModule, AuditLog)
+
+    primero_module
+  end
+
+  let(:primero_module) do
+    PrimeroModule.create!(
+      unique_id: PrimeroModule::CP,
+      name: 'Primero Module CP',
+      associated_record_types: %w[case],
+      roles: [role],
+      form_sections: [form]
+    )
+  end
+
   let(:form) do
     FormSection.create!(
       unique_id: 'test_form_abc', parent_form: 'case', name_en: 'Basic Identity',
@@ -16,6 +31,7 @@ describe ApiConnector::WebhookConnector do
       ]
     )
   end
+
   let(:role) do
     Role.create!(
       name: 'Test Role 1',
@@ -34,7 +50,11 @@ describe ApiConnector::WebhookConnector do
       'webhook_url' => url
     )
   end
-  let(:record) { Child.new(data: { name: 'Test', age: 12, sex: 'female', protection_concerns: %w[a b c] }) }
+  let(:record) do
+    Child.new(
+      data: { name: 'Test', age: 12, sex: 'female', protection_concerns: %w[a b c], module_id: 'primeromodule-cp' }
+    )
+  end
 
   # test creation/initializer parsing the webhook url correctly, setting role ,etc
   describe 'initialization' do

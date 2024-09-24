@@ -10,3 +10,6 @@ sw-TZ:
       - Alhamisi
       - Ijumaa
       - Jumamosi
+    abbr_day_names:
+      - Jumapili
+      - Jumatatu

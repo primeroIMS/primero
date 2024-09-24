@@ -1799,7 +1799,6 @@ fa-AF:
     display: نشان دادن تطابقات باالقوه برای %{type} %{id}
   reassign:
     multiple_error: خطایی رخ داد. %{select_records} قضیه/قضایای اختصاص داده نشده.
-    multiple_successfully: '%{select_records} قضیه موفقانه اختصاص داده شد'
     notes_label: یاداشت
     successfully: موفقانه دوباره اختصاص داده شده
     user_mandatory_label: گیرنده لازم است
