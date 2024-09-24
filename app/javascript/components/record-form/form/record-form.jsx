@@ -67,7 +67,7 @@ function RecordForm({
 
   const bindRecalculateFields = recalculateFields => {
     bindedRecalculateFields.current = recalculateFields;
-  }
+  };
 
   const buildValidationSchema = formSections => {
     const schema = formSections.reduce((obj, item) => {
@@ -186,7 +186,7 @@ function RecordForm({
     if (typeof bindedRecalculateFields.current === "function") {
       bindedRecalculateFields.current();
     }
-  })
+  });
 
   const handleConfirm = onConfirm => {
     onConfirm();
@@ -201,7 +201,6 @@ function RecordForm({
   const setFormikValues = values => {
     formikValues.current = values;
   };
-
 
   if (!isEmpty(initialValues) && !isEmpty(forms)) {
     const validationSchema = buildValidationSchema(forms);
@@ -231,6 +230,7 @@ function RecordForm({
               if (values) {
                 calculatedFields.forEach(field => {
                   const result = parseExpression(field.calculation.expression).evaluate(values);
+
                   if (values[field.name] !== result) {
                     setFieldValue(field.name, result, false);
                   }
