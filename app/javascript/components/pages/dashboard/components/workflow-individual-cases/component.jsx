@@ -14,7 +14,7 @@ import css from "../styles.css";
 import { NAME, CLOSED } from "./constants";
 import WorkFlowStep from "./components";
 
-const Component = ({ loadingIndicator }) => {
+function Component({ loadingIndicator }) {
   const i18n = useI18n();
 
   const workflowLabels = useMemoizedSelector(state => getWorkflowLabels(state, MODULES.CP, RECORD_TYPES.cases));
@@ -33,7 +33,7 @@ const Component = ({ loadingIndicator }) => {
       </OptionsBox>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

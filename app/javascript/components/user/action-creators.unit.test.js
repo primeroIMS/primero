@@ -4,7 +4,7 @@ import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
 import { METHODS, RECORD_PATH, ROUTES } from "../../config";
-import { spy, stub } from "../../test";
+import { spy, stub } from "../../test-utils";
 import * as idpSelection from "../login/components/idp-selection";
 import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS, generate } from "../notifier";
 import { QUEUE_READY } from "../../libs/queue";

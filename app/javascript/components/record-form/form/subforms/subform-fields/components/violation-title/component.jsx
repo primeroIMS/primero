@@ -2,7 +2,7 @@
 
 /* eslint-disable camelcase */
 import PropTypes from "prop-types";
-import Chip from "@material-ui/core/Chip";
+import Chip from "@mui/material/Chip";
 
 import useOptions from "../../../../../../form/use-options";
 import { getShortIdFromUniqueId } from "../../../../../../records/utils";
@@ -11,7 +11,7 @@ import { getVerifiedValue } from "./utils";
 import { NAME, VIOLATION_STATUS } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ title, values, fields }) => {
+function Component({ title, values, fields }) {
   const shortUniqueId = getShortIdFromUniqueId(values?.unique_id);
   const violationVerifiedField = fields.find(field => field.name === VIOLATION_STATUS);
   const optionsStrings = useOptions({ source: violationVerifiedField?.option_strings_source });
@@ -22,14 +22,14 @@ const Component = ({ title, values, fields }) => {
   ) : null;
 
   return (
-    <div className={css.container}>
-      <div className={css.titleViolation}>
+    <div className={css.container} data-testid="violation-title">
+      <div className={css.title}>
         {title} {renderShortUniqueId}
       </div>
       <div>{renderChipStatus}</div>
     </div>
   );
-};
+}
 
 Component.propTypes = {
   fields: PropTypes.array.isRequired,

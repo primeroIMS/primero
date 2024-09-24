@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Drawer } from "@material-ui/core";
+import { Drawer } from "@mui/material";
 import PropTypes from "prop-types";
 
 import { useDrawer } from "../../../drawer";
@@ -8,7 +8,7 @@ import { useDrawer } from "../../../drawer";
 import { FILTER_DRAWER, NAME } from "./constants";
 import css from "./styles.css";
 
-const FilterContainer = ({ children, mobileDisplay }) => {
+function FilterContainer({ children, mobileDisplay, noMargin }) {
   const { drawerOpen, toggleDrawer } = useDrawer(FILTER_DRAWER);
 
   if (mobileDisplay) {
@@ -19,18 +19,15 @@ const FilterContainer = ({ children, mobileDisplay }) => {
     );
   }
 
-  return (
-    <div className={css.filterContainer} mx={2}>
-      {children}
-    </div>
-  );
-};
+  return <div className={noMargin || css.filterContainer}>{children}</div>;
+}
 
 FilterContainer.displayName = NAME;
 
 FilterContainer.propTypes = {
   children: PropTypes.node.isRequired,
-  mobileDisplay: PropTypes.bool.isRequired
+  mobileDisplay: PropTypes.bool.isRequired,
+  noMargin: PropTypes.bool
 };
 
 export default FilterContainer;

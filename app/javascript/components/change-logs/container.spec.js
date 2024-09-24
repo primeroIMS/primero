@@ -149,7 +149,7 @@ describe("ChangeLogs - Container", () => {
   });
 
   it("renders ChangeLogs", () => {
-    expect(screen.getAllByTestId("ChangeLogs")).toHaveLength(1);
+    expect(screen.getAllByTestId("change-logs")).toHaveLength(1);
   });
 
   it("renders ChangeLog", () => {

@@ -1,8 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { FormControl, InputLabel } from "@material-ui/core";
-import clsx from "clsx";
+import { FormControl, InputLabel } from "@mui/material";
+import { cx } from "@emotion/css";
 import { useEffect, useState } from "react";
 import isDate from "lodash/isDate";
 import { NepaliDatePicker } from "mui-nepali-datepicker-reactjs";
@@ -11,14 +11,14 @@ import { BSToAD } from "bikram-sambat-js";
 import css from "./styles.css";
 import { convertToNeDate, parseDate } from "./utils";
 
-const Component = ({ helpText, label, dateProps }) => {
+function Component({ helpText, label, dateProps }) {
   const { name, onChange, value, error, disabled, placeholder, dateIncludeTime, InputProps } = dateProps;
   const inputValue = convertToNeDate(value);
 
   const [inputDate, setInputDate] = useState(null);
   const [inputTime, setInputTime] = useState(null);
 
-  const containerClasses = clsx({ [css.includeTimeContainer]: dateIncludeTime });
+  const containerClasses = cx({ [css.includeTimeContainer]: dateIncludeTime });
 
   const dateTimeInputValue = () => {
     if (!isDate(inputDate) && isDate(inputTime)) {
@@ -66,7 +66,7 @@ const Component = ({ helpText, label, dateProps }) => {
   }, [inputDate, inputTime]);
 
   return (
-    <div className={containerClasses}>
+    <div className={containerClasses} data-testid="nepali-container">
       <FormControl fullWidth error={error}>
         <InputLabel htmlFor={name} shrink>
           {label}
@@ -90,7 +90,7 @@ const Component = ({ helpText, label, dateProps }) => {
       </FormControl>
     </div>
   );
-};
+}
 
 Component.propTypes = {
   dateProps: PropTypes.object,

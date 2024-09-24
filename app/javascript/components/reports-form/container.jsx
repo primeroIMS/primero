@@ -2,8 +2,8 @@
 
 /* eslint-disable camelcase */
 
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 import { push } from "connected-react-router";
 import omit from "lodash/omit";
 import PropTypes from "prop-types";
@@ -44,7 +44,7 @@ import { form, validations } from "./form";
 import NAMESPACE from "./namespace";
 import { buildMinimumReportableFields, buildReportFields, checkValue, formatAgeRange, formatReport } from "./utils";
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const formMode = whichFormMode(mode);
   const { dialogOpen, setDialog } = useDialog(TranslationsFormName);
 
@@ -213,7 +213,7 @@ const Container = ({ mode }) => {
       </PageContainer>
     </LoadingIndicator>
   );
-};
+}
 
 Container.displayName = NAME;
 

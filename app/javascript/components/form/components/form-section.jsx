@@ -3,9 +3,9 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { useState } from "react";
 import PropTypes from "prop-types";
-import clsx from "clsx";
-import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { cx } from "@emotion/css";
+import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import get from "lodash/get";
 
 import Tooltip from "../../tooltip";
@@ -17,7 +17,7 @@ import css from "./styles.css";
 import Fields from "./fields";
 import FormSectionActions from "./form-section-actions";
 
-const FormSection = ({ formSection, showTitle, disableUnderline, formMethods, formMode }) => {
+function FormSection({ formSection, showTitle = true, disableUnderline = false, formMethods, formMode }) {
   const { fields, check_errors: checkErrors, expandable, tooltip } = formSection;
   const { errors } = formMethods;
   const [expanded, setExpanded] = useState(formSection.expanded);
@@ -28,7 +28,7 @@ const FormSection = ({ formSection, showTitle, disableUnderline, formMethods, fo
     setExpanded(!expanded);
   };
 
-  const classes = clsx({
+  const classes = cx({
     [css.heading]: true,
     [css.error]: renderError()
   });
@@ -43,7 +43,7 @@ const FormSection = ({ formSection, showTitle, disableUnderline, formMethods, fo
             </Typography>
           </Tooltip>
         </AccordionSummary>
-        <AccordionDetails classes={{ root: css.panelContent }}>
+        <AccordionDetails data-testid="form-section" classes={{ root: css.panelContent }}>
           <Fields
             fields={fields}
             checkErrors={checkErrors}
@@ -73,14 +73,9 @@ const FormSection = ({ formSection, showTitle, disableUnderline, formMethods, fo
       <FormSectionActions actions={formSection.actions} css={css} />
     </>
   );
-};
+}
 
 FormSection.displayName = FORM_SECTION_NAME;
-
-FormSection.defaultProps = {
-  disableUnderline: false,
-  showTitle: true
-};
 
 FormSection.propTypes = {
   disableUnderline: PropTypes.bool,

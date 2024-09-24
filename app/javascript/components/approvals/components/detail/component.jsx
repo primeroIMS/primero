@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 import { CASE_PLAN, NAME_DETAIL } from "../../constants";
 import DisplayData from "../../../display-data";
@@ -9,7 +9,7 @@ import { useApp } from "../../../application";
 
 import { approvalLabel } from "./utils";
 
-const Component = ({ approvalSubform, isRequest, isResponse }) => {
+function Component({ approvalSubform, isRequest, isResponse }) {
   const { approvalsLabels } = useApp();
 
   const renderApprovalLabel =
@@ -38,7 +38,7 @@ const Component = ({ approvalSubform, isRequest, isResponse }) => {
 
   return (
     <>
-      <Grid container spacing={2} data-testid="container">
+      <Grid container spacing={2} data-testid="approval-detail">
         <Grid item md={6} xs={12}>
           <DisplayData label={renderApprovalLabel} value={renderApprovalValue} />
         </Grid>
@@ -53,7 +53,7 @@ const Component = ({ approvalSubform, isRequest, isResponse }) => {
       </Grid>
     </>
   );
-};
+}
 
 Component.displayName = NAME_DETAIL;
 

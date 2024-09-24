@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Tab, Tabs, Box } from "@material-ui/core";
+import { Tab, Tabs, Box } from "@mui/material";
 
 import { useI18n } from "../../../i18n";
 import TabPanel from "../TabPanel";
@@ -9,7 +9,7 @@ import css from "../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({ children, isBulkFlags, tab, setTab }) => {
+function Component({ children, isBulkFlags, tab, setTab }) {
   const i18n = useI18n();
 
   const tabs = [i18n.t("flags.flags_tab"), i18n.t("flags.add_flag_tab")];
@@ -29,8 +29,7 @@ const Component = ({ children, isBulkFlags, tab, setTab }) => {
   const filterChildren = children.filter(child => ["false", undefined].includes(child.props.hidetab));
 
   const renderChildren = filterChildren.map((child, index) => (
-    // eslint-disable-next-line react/no-array-index-key
-    <TabPanel value={tab} index={index} key={`tab-${index}`}>
+    <TabPanel value={tab} index={index} key={`tab-${tabs[index]}`}>
       {child}
     </TabPanel>
   ));
@@ -41,8 +40,8 @@ const Component = ({ children, isBulkFlags, tab, setTab }) => {
         <Box display="flex" className={css.containerTabs}>
           <Box flexGrow={1}>
             <Tabs onChange={handleTabChange} value={tab}>
-              {filteredTabs.map((t, index) => (
-                <Tab label={t} {...a11yProps(index)} key={t} className={css.flagTab} />
+              {filteredTabs.map((label, index) => (
+                <Tab label={label} key={label} {...a11yProps(index)} className={css.flagTab} />
               ))}
             </Tabs>
           </Box>
@@ -53,7 +52,7 @@ const Component = ({ children, isBulkFlags, tab, setTab }) => {
   }
 
   return null;
-};
+}
 
 Component.displayName = NAME;
 

@@ -1,10 +1,10 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import SearchIcon from "@material-ui/icons/Search";
-import CheckIcon from "@material-ui/icons/Check";
-import BlockIcon from "@material-ui/icons/Block";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import SearchIcon from "@mui/icons-material/Search";
+import CheckIcon from "@mui/icons-material/Check";
+import BlockIcon from "@mui/icons-material/Block";
 
 import Permission, { RESOURCES, SHOW_FIND_MATCH } from "../../../../../../permissions";
 import ActionButton from "../../../../../../action-button";
@@ -16,11 +16,11 @@ import { useMemoizedSelector } from "../../../../../../../libs";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedForm, mode }) => {
+function Component({ handleBack, handleConfirm, hasMatch, recordType, selectedForm, mode }) {
   const loading = useMemoizedSelector(state => getLoadingRecordState(state, recordType));
 
   return (
-    <div className={css.buttonsRow}>
+    <div className={css.buttonsRow} data-testid="trace-actions">
       {handleBack && (
         <ActionButton
           icon={<ArrowBackIosIcon />}
@@ -64,7 +64,7 @@ const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedFo
       )}
     </div>
   );
-};
+}
 
 Component.propTypes = {
   handleBack: PropTypes.func,

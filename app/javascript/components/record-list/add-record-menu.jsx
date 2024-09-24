@@ -3,8 +3,8 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Menu, MenuItem } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+import { Button, Menu, MenuItem } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
@@ -19,7 +19,7 @@ import { getOptionFromAppModule } from "../application/selectors";
 import CreateRecordDialog from "./create-record-dialog";
 import { SEARCH_AND_CREATE_WORKFLOW } from "./constants";
 
-const AddRecordMenu = ({ recordType }) => {
+function AddRecordMenu({ recordType }) {
   const dispatch = useDispatch();
   const [moduleUniqueId, setModuleUniqueId] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -65,7 +65,7 @@ const AddRecordMenu = ({ recordType }) => {
     const handleOnClickMenuItem = primeroModule => () => handleModuleClick(primeroModule);
 
     return primeroModules?.size > 1 ? (
-      <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+      <Menu data-testid="menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         {primeroModules.map(primeroModule => {
           return (
             <MenuItem key={primeroModule.unique_id} component={Button} onClick={handleOnClickMenuItem(primeroModule)}>
@@ -105,7 +105,7 @@ const AddRecordMenu = ({ recordType }) => {
       {renderCreateRecord}
     </>
   );
-};
+}
 
 AddRecordMenu.displayName = "AddRecordMenu";
 

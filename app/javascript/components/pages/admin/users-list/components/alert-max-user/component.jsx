@@ -21,7 +21,7 @@ function Component({ maximumUsers, totalUsersEnabled, limitUsersReached }) {
     return null;
   }
 
-  return <InternalAlert items={itemsForAlert} severity={SEVERITY.info} />;
+  return <InternalAlert items={itemsForAlert} severity={SEVERITY.info} data-testid="internal-alert" />;
 }
 
 Component.displayName = "AlertMaxUser";

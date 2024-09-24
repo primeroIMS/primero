@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import LookupValue from "../../../record-form/form/subforms/subform-header-lookup";
 import { useI18n } from "../../../i18n";
@@ -17,7 +17,7 @@ import { getFieldByName } from "../../../record-form/selectors";
 
 import { CP_VIOLENCE_TYPE, GBV_VIOLENCE_TYPE } from "./constants";
 
-const Component = ({
+function Component({
   incident,
   incidentCaseId,
   incidentCaseIdDisplay,
@@ -28,7 +28,7 @@ const Component = ({
   recordType,
   handleCreateIncident,
   dirty = false
-}) => {
+}) {
   const i18n = useI18n();
   const [expanded, setExpanded] = useState(false);
   const handleExpanded = () => {
@@ -69,7 +69,7 @@ const Component = ({
   };
 
   return (
-    <div key={incident.get("unique_id")}>
+    <div key={incident.get("unique_id")} data-testid="incident-panel">
       <Accordion expanded={expanded} onChange={handleExpanded} className={css.panel}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -92,7 +92,7 @@ const Component = ({
       </Accordion>
     </div>
   );
-};
+}
 
 Component.displayName = NAME_PANEL;
 

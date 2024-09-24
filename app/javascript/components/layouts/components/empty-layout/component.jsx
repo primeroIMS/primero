@@ -7,17 +7,17 @@ import { useApp } from "../../../application";
 import DemoIndicator from "../../../demo-indicator";
 import SessionTimeoutDialog from "../../../session-timeout-dialog";
 
-const Component = ({ children }) => {
+function Component({ children }) {
   const { demo } = useApp();
 
   return (
     <>
       <DemoIndicator isDemo={demo} />
       {children}
-      <SessionTimeoutDialog />
+      <SessionTimeoutDialog data-testid="session-time-dialog" />
     </>
   );
-};
+}
 
 Component.displayName = "EmptyLayout";
 

@@ -14,7 +14,7 @@ import { defaultTableOptions } from "../../index-table/utils";
 
 import css from "./styles.css";
 
-const DashboardTable = ({ columns, data, query, title, pathname }) => {
+function DashboardTable({ columns, data, query, title, pathname }) {
   const userPermissions = useMemoizedSelector(state => getPermissions(state));
   const clickableCell = [...userPermissions.keys()].includes(pathname.split("/")[1]);
 
@@ -66,11 +66,11 @@ const DashboardTable = ({ columns, data, query, title, pathname }) => {
   };
 
   return (
-    <div className={css.tableContainer}>
+    <div className={css.tableContainer} data-testid="dashboard-table">
       <MUIDataTable {...tableOptions} />
     </div>
   );
-};
+}
 
 DashboardTable.displayName = "DashboardTable";
 

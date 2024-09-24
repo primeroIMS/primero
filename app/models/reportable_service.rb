@@ -4,6 +4,8 @@
 
 # Class for Reportable Service
 class ReportableService
+  include ReportableNestedRecord
+
   def self.parent_record_type
     Child
   end
@@ -19,18 +21,6 @@ class ReportableService
       { 'attribute' => 'service_type', 'value' => 'not_null' },
       { 'attribute' => 'service_appointment_date', 'constraint' => 'not_null' }
     ]
-  end
-
-  include ReportableNestedRecord
-
-  searchable do
-    extend ReportableNestedRecord::Searchable
-    configure_searchable(ReportableService)
-
-    %w[service_response_type service_type service_implemented].each do |field|
-      string(field, as: "#{field}_sci".to_sym) { object_value(field) }
-    end
-    time :service_due_date
   end
 
   def service_due_date

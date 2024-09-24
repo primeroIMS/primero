@@ -36,7 +36,7 @@ describe("<ApprovalSummary /> - Component", () => {
   });
 
   it("render ApprovalSummary component", () => {
-    expect(screen.getAllByTestId("sectionheader")).toHaveLength(1);
+    expect(screen.getAllByTestId("approval-summary")).toHaveLength(1);
   });
 
   it("render a Chip with the correct approvals label", () => {

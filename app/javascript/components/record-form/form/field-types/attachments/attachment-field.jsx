@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Box } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { Box } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import css from "../../styles.css";
 import ActionButton from "../../../../action-button";
@@ -16,7 +16,7 @@ import { buildAttachmentFieldsObject, buildBase64URL } from "./utils";
 import AttachmentInput from "./attachment-input";
 import AttachmentPreview from "./attachment-preview";
 
-const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers, value }) => {
+function AttachmentField({ name, index, attachment, disabled, mode, arrayHelpers, value }) {
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
 
@@ -37,10 +37,7 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
 
   const handleRemove = () => {
     if (attachmentUrl) {
-      arrayHelpers.replace(index, {
-        _destroy: id,
-        attachment_type: attachment
-      });
+      arrayHelpers.replace(index, { _destroy: true, id, attachment_type: attachment });
     } else {
       arrayHelpers.remove(index);
     }
@@ -97,7 +94,7 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
       </Box>
     </div>
   );
-};
+}
 
 AttachmentField.displayName = "AttachmentField";
 

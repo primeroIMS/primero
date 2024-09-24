@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Backdrop, IconButton } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
-import clsx from "clsx";
+import { Backdrop, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import { cx } from "@emotion/css";
 
 import css from "../../styles.css";
 
-const PhotoArray = ({ images = [], isGallery = false }) => {
+function PhotoArray({ images = [], isGallery = false }) {
   const [selected, setSelected] = useState({ index: 0, open: false });
 
   const handleToggle = index => {
@@ -21,12 +21,12 @@ const PhotoArray = ({ images = [], isGallery = false }) => {
     setSelected({ index, open: false });
   };
 
-  const imageClasses = clsx({
+  const imageClasses = cx({
     [css.imgGallery]: isGallery,
     [css.imgContainer]: !isGallery
   });
 
-  const wrapperClasses = clsx({
+  const wrapperClasses = cx({
     [css.imgGalleryWrapper]: isGallery,
     [css.imgsContainer]: !isGallery
   });
@@ -55,13 +55,13 @@ const PhotoArray = ({ images = [], isGallery = false }) => {
   };
 
   const prevButton = isGallery && (
-    <IconButton onClick={onPrevClick} disabled={selected.index === 0}>
+    <IconButton size="large" onClick={onPrevClick} disabled={selected.index === 0}>
       <NavigateBeforeIcon />
     </IconButton>
   );
 
   const nextButton = isGallery && (
-    <IconButton onClick={onNextClick} disabled={selected.index + 1 === images.length}>
+    <IconButton size="large" onClick={onNextClick} disabled={selected.index + 1 === images.length}>
       <NavigateNextIcon />
     </IconButton>
   );
@@ -81,14 +81,14 @@ const PhotoArray = ({ images = [], isGallery = false }) => {
         {nextButton}
       </div>
       <Backdrop className={css.backdrop} open={selected.open} onClick={() => handleClose(selected.index)}>
-        <IconButton className={css.backdropClose}>
+        <IconButton size="large" className={css.backdropClose}>
           <CloseIcon />
         </IconButton>
         <img src={images[selected.index]} alt="" />
       </Backdrop>
     </>
   );
-};
+}
 
 PhotoArray.displayName = "PhotoArray";
 

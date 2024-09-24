@@ -5,9 +5,9 @@ import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { format, parseISO } from "date-fns";
 import { isEmpty } from "lodash";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
-import { ROUTES } from "../../config";
+import { ROUTES, CODE_OF_CONDUCT_DATE_FORMAT } from "../../config";
 import TranslationsToggle from "../translations-toggle";
 import ModuleLogo from "../module-logo";
 import { useI18n } from "../i18n";
@@ -15,7 +15,6 @@ import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getCodeOfConductId, getUser } from "../user";
 import LoadingIndicator from "../loading-indicator";
 import { getCodesOfConduct } from "../application/selectors";
-import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../config/constants";
 
 import { NAME, ID } from "./constants";
 import css from "./styles.css";
@@ -23,7 +22,7 @@ import { acceptCodeOfConduct } from "./action-creators";
 import { selectUpdatingCodeOfConduct } from "./selectors";
 import { Actions, CancelDialog } from "./components";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -83,7 +82,7 @@ const Component = () => {
       </div>
     </LoadingIndicator>
   );
-};
+}
 
 Component.displayName = NAME;
 

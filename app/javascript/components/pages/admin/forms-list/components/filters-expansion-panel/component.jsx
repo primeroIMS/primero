@@ -1,14 +1,14 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Accordion, AccordionSummary, AccordionDetails } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import FilterInput from "../filter-input";
 
-const Component = ({ name, handleSetFilterValue, options, id, filterValues }) => {
+function Component({ name, handleSetFilterValue, options = [], id, filterValues = {} }) {
   return (
-    <Accordion elevation={3} defaultExpanded data-testid="test">
+    <Accordion elevation={3} defaultExpanded data-testid="accordion">
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>{name}</AccordionSummary>
       <AccordionDetails>
         <FilterInput
@@ -21,14 +21,9 @@ const Component = ({ name, handleSetFilterValue, options, id, filterValues }) =>
       </AccordionDetails>
     </Accordion>
   );
-};
+}
 
 Component.displayName = "FiltersExpansionPanel";
-
-Component.defaultProps = {
-  filterValues: {},
-  options: []
-};
 
 Component.propTypes = {
   filterValues: PropTypes.object,

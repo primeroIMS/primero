@@ -40,7 +40,7 @@ describe("<ApprovalDetail /> - Component", () => {
   });
 
   it("render a DisplayData", () => {
-    expect(screen.getAllByTestId("container")).toHaveLength(1);
+    expect(screen.getAllByTestId("display-data")).toHaveLength(4);
   });
 
   it("render the correct approvals label", () => {

@@ -1,15 +1,15 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
-import Chip from "@material-ui/core/Chip";
-import clsx from "clsx";
+import { Grid } from "@mui/material";
+import Chip from "@mui/material/Chip";
+import { cx } from "@emotion/css";
 
 import { useI18n } from "../../../i18n";
 import { NAME_SUMMARY } from "../../constants";
 import { useApp } from "../../../application";
 
-const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
+function Component({ approvalSubform, css, isRequest, isResponse }) {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const status = approvalSubform.get("approval_status");
@@ -22,7 +22,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
       ? approvalsLabels.get(approvalSubform.get("approval_requested_for"))
       : approvalsLabels.get(approvalSubform.get("approval_response_for"));
 
-  const classes = clsx(css.chip, css[status]);
+  const classes = cx(css.chip, css[status]);
 
   const renderStatus = isResponse ? (
     <Grid item md={2} xs={4}>
@@ -43,7 +43,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
   };
 
   return (
-    <Grid container spacing={2} alignItems="center" data-testid="sectionheader">
+    <Grid container spacing={2} alignItems="center" data-testid="approval-summary">
       <Grid item md={10} xs={8}>
         <div className={css.wrapper}>
           {/* TODO: The date should be localized */}
@@ -56,7 +56,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
       {renderStatus}
     </Grid>
   );
-};
+}
 
 Component.displayName = NAME_SUMMARY;
 

@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { useEffect } from "react";
-import AddIcon from "@material-ui/icons/Add";
+import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -23,7 +23,7 @@ import { fetchAdminLookups, setLookupsFilter } from "./action-creators";
 import css from "./styles.css";
 import { columns } from "./utils";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -76,7 +76,7 @@ const Component = () => {
       </PageContent>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

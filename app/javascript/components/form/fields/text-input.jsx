@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
-import { TextField } from "@material-ui/core";
+import { TextField } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
 import { TEXT_AREA } from "../constants";
@@ -10,7 +10,7 @@ import InputLabel from "../components/input-label";
 
 import css from "./styles.css";
 
-const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
+function TextInput({ commonInputProps, metaInputProps = {}, formMethods }) {
   const { control } = formMethods;
   const { type, password, hint, tooltip, numeric, onBlur, onKeyPress, maxlength } = metaInputProps;
   let inputType = "text";
@@ -42,6 +42,7 @@ const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
       type={inputType}
       as={TextField}
       label={renderLabel}
+      aria-label={renderLabel}
       {...rest}
       {...(isEmpty(inputProps) ? {} : { inputProps })}
       helperText={
@@ -56,11 +57,7 @@ const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
       defaultValue={defaultValue || ""}
     />
   );
-};
-
-TextInput.defaultProps = {
-  metaInputProps: {}
-};
+}
 
 TextInput.displayName = "TextInput";
 

@@ -16,7 +16,7 @@ import { fetchInsights } from "./action-creators";
 import { selectInsights, selectLoading } from "./selectors";
 import NAMESPACE from "./namespace";
 
-const Container = () => {
+function Container() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const insights = useMemoizedSelector(state => selectInsights(state));
@@ -60,7 +60,7 @@ const Container = () => {
       </PageContainer>
     </div>
   );
-};
+}
 
 Container.displayName = "InsightsList";
 

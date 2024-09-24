@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable";
 
-import { translateOptions } from "../../../../../test";
+import { translateOptions } from "../../../../../test-utils";
 
 import getSubformErrorMessages from "./get-subform-error-messages";
 

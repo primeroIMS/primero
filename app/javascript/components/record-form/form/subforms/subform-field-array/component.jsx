@@ -3,12 +3,11 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { getIn } from "formik";
-import clsx from "clsx";
-import { List } from "@material-ui/core";
+import { cx } from "@emotion/css";
+import { List } from "@mui/material";
 
 import SubformFields from "../subform-fields";
 import SubformEmptyData from "../subform-empty-data";
-import SubformItem from "../subform-item";
 import SubformAddEntry from "../subform-add-entry";
 import { SUBFORM_FIELD_ARRAY } from "../constants";
 import { VIOLATIONS_ASSOCIATIONS_FORM } from "../../../../../config";
@@ -18,7 +17,7 @@ import { GuidingQuestions } from "../../components";
 
 import { isEmptyOrAllDestroyed, isTracesSubform } from "./utils";
 
-const Component = ({
+function Component({
   arrayHelpers,
   field,
   formik,
@@ -35,8 +34,9 @@ const Component = ({
   violationOptions,
   renderAsAccordion = false,
   entryFilter = false,
-  customTitle = false
-}) => {
+  customTitle = false,
+  components
+}) {
   const {
     display_name: displayName,
     name,
@@ -65,7 +65,7 @@ const Component = ({
   const isViolationAssociation = VIOLATIONS_ASSOCIATIONS_FORM.includes(formSection.unique_id);
   const renderAddFieldTitle = !isViolation && !mode.isShow && !displayConditions && i18n.t("fields.add");
 
-  const cssContainer = clsx(css.subformFieldArrayContainer, {
+  const cssContainer = cx(css.subformFieldArrayContainer, {
     [css.subformFieldArrayAccordion]: renderAsAccordion && mode.isShow,
     [css.subformFieldArrayShow]: renderAsAccordion && !mode.isShow
   });
@@ -111,10 +111,10 @@ const Component = ({
   );
 
   return (
-    <div className={css.fieldArray}>
+    <div className={css.fieldArray} data-testid="subform-field-array">
       <div className={cssContainer}>
         {!renderAsAccordion && (
-          <div>
+          <div data-testid="subForm-header">
             <h3 className={css.subformTitle}>
               {renderAddFieldTitle} {title} {parentTitle}
             </h3>
@@ -137,7 +137,8 @@ const Component = ({
       </div>
       {renderGuidingQuestions}
       {renderEmptyData}
-      <SubformItem
+      <components.SubformItem
+        components={components}
         arrayHelpers={arrayHelpers}
         dialogIsNew={dialogIsNew}
         field={field}
@@ -165,12 +166,19 @@ const Component = ({
       />
     </div>
   );
-};
+}
 
 Component.displayName = SUBFORM_FIELD_ARRAY;
 
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
+  components: PropTypes.objectOf({
+    SubformItem: PropTypes.elementType.isRequired,
+    SubformDialog: PropTypes.elementType.isRequired,
+    SubformDialogFields: PropTypes.elementType.isRequired,
+    SubformFieldSubform: PropTypes.elementType.isRequired,
+    SubformField: PropTypes.elementType.isRequired
+  }),
   customTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   entryFilter: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   field: PropTypes.object.isRequired,

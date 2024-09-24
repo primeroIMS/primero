@@ -7,17 +7,23 @@ class ApplicationApiController < ActionController::API
   include CanCan::ControllerAdditions
   include AuditLogActions
   include ErrorHandling
+  include CsrfProtection
 
   # check_authorization #TODO: Uncomment after upgrading to CanCanCan v3
+
   before_action :authenticate_user!
   before_action :check_config_update_lock!
+  before_action :set_csrf_cookie, unless: -> { request_from_basic_auth? }
+
+  protect_from_forgery with: :exception, if: -> { use_csrf_protection? }
 
   class << self
     attr_accessor :model_class
   end
 
+  # NOTE: If request unit tests are breaking, make sure to update the list of permitted models in PrimeroModelService
   def model_class
-    @model_class ||= Record.model_from_name(request.path.split('/')[3].singularize)
+    @model_class ||= PrimeroModelService.to_model(request.path.split('/')[3].singularize)
   end
 
   def record_id

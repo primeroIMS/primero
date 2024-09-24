@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import ApprovalSummary from "../summary";
 import ApprovalDetail from "../detail";
 import { NAME_PANEL } from "../../constants";
 
-const Component = ({ approvalSubform, css }) => {
+function Component({ approvalSubform, css }) {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpanded = () => {
@@ -27,7 +27,7 @@ const Component = ({ approvalSubform, css }) => {
   };
 
   return (
-    <div key={approvalSubform.get("unique_id")}>
+    <div key={approvalSubform.get("unique_id")} data-testid="approval-panel">
       <Accordion expanded={expanded} onChange={handleExpanded} className={css.panel}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -45,7 +45,7 @@ const Component = ({ approvalSubform, css }) => {
       </Accordion>
     </div>
   );
-};
+}
 
 Component.displayName = NAME_PANEL;
 

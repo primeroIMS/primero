@@ -3,7 +3,7 @@
 import configureStore from "redux-mock-store";
 import { fromJS } from "immutable";
 
-import { spy, stub } from "../../test";
+import { spy, stub } from "../../test-utils";
 import * as methods from "../../components/login/components/idp-selection/auth-provider";
 import * as actions from "../../components/user/action-creators";
 

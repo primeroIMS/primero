@@ -9,7 +9,13 @@ import { DATE_FORMATS } from "./constants";
 
 global.html2pdf = {};
 
-document.head.insertBefore(document.createComment("jss-insertion-point"), document.head.firstChild);
+if (typeof jest !== "undefined") {
+  global.window.fetch = jest.fn();
+}
+
+global.innerWidth = 2000;
+
+document.head.insertBefore(document.createComment("emotion-insertion-point"), document.head.firstChild);
 
 global.window.I18n = {
   defaultLocale: "en",

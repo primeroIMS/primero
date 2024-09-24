@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 
 import fieldKey from "../utils/field-key";
 import formComponent from "../utils/form-component";
@@ -11,7 +11,7 @@ import FormSectionField from "./form-section-field";
 
 const Fields = ({ fields, checkErrors, disableUnderline, formSection, css, formMethods, formMode }) => {
   const calculatedClasses = field =>
-    clsx({
+    cx({
       [css.notEqual]: field.equalColumns === false,
       [css.row]: !field?.customRowStyle,
       [css.rowCustom]: field?.customRowStyle,
@@ -25,7 +25,7 @@ const Fields = ({ fields, checkErrors, disableUnderline, formSection, css, formM
       const formUniqueId = formSection?.unique_id || field?.unique_id;
 
       return (
-        <div key={`${formUniqueId}-row`} className={calculatedClasses(field)}>
+        <div key={`${formUniqueId}-row`} className={calculatedClasses(field)} data-testid="form-fields">
           <Fields
             fields={field.row}
             checkErrors={checkErrors}

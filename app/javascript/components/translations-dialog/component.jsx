@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import CheckIcon from "@material-ui/icons/Check";
+import CheckIcon from "@mui/icons-material/Check";
 import PropTypes from "prop-types";
 import first from "lodash/first";
 import get from "lodash/get";
@@ -15,7 +15,7 @@ import { translationsForm, validationSchema } from "./form";
 import { localesToRender } from "./utils";
 import css from "./styles.css";
 
-const Component = ({ formMethods, mode, dialogTitle }) => {
+function Component({ formMethods, mode, dialogTitle }) {
   const i18n = useI18n();
   const validations = validationSchema(i18n);
   const currentValues = formMethods.getValues({ nest: true });
@@ -80,7 +80,7 @@ const Component = ({ formMethods, mode, dialogTitle }) => {
       />
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
 

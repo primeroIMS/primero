@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { queueIndexedDB } from "../../db";
-import { stub } from "../../test";
+import { stub } from "../../test-utils";
 import { METHODS, RECORD_PATH } from "../../config";
 import uuid from "../../libs/uuid";
 
@@ -21,7 +21,7 @@ describe("middleware/utils/process-attachments.js", () => {
   });
 
   it("should generate the attachment actions", () => {
-    const attachments = { field_1: [{ attachment: "attachment-data" }], field_2: [{ _destroy: 1 }] };
+    const attachments = { field_1: [{ attachment: "attachment-data" }], field_2: [{ id: 1, _destroy: true }] };
 
     processAttachments({ attachments, id: 10, recordType: RECORD_PATH.cases });
 
@@ -31,7 +31,7 @@ describe("middleware/utils/process-attachments.js", () => {
         api: {
           path: `${RECORD_PATH.cases}/10/attachments`,
           method: METHODS.POST,
-          body: { data: { attachment: "attachment-data", field_name: "field_1" } },
+          body: { data: { attachment: "attachment-data" } },
           db: { collection: "records", id: 10, recordType: "cases" }
         },
         fromQueue: "1234",
@@ -47,7 +47,13 @@ describe("middleware/utils/process-attachments.js", () => {
         },
         fromQueue: "1234",
         tries: 0,
-        fromAttachment: { id: 1, field_name: "field_2", record_type: RECORD_PATH.cases, record: { id: 10 } }
+        fromAttachment: {
+          id: 1,
+          field_name: "field_2",
+          record_type: RECORD_PATH.cases,
+          record: { id: 10 },
+          _destroy: true
+        }
       }
     ]);
   });

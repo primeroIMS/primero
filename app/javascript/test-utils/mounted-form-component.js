@@ -8,11 +8,12 @@ import { useEffect, cloneElement } from "react";
 import { render } from "@testing-library/react";
 
 import { whichFormMode } from "../components/form";
+import { FieldRecord } from "../components/record-form";
 
 import { setupMountedComponent } from "./mounted-component";
 
-const setupFormFieldRecord = (FieldRecord, field = {}) => {
-  return FieldRecord({
+const setupFormFieldRecord = (fieldRecord, field = {}) => {
+  return fieldRecord({
     display_name: "Test Field 2",
     name: "test_field_2",
     type: "text_field",
@@ -52,7 +53,7 @@ function setupMockFormComponent({
   state,
   additionalProps
 }) {
-  const MockFormComponent = ({ children, inputProps, field, mode }) => {
+  function MockFormComponent({ children, inputProps, field, mode }) {
     const formMethods = useForm({ defaultValues });
     const formMode = whichFormMode(mode || "new");
 
@@ -84,14 +85,16 @@ function setupMockFormComponent({
     }
 
     return cloneElement(children, { formMode, formMethods, ...componentProps });
-  };
+  }
 
   const { AppProviders, history, store } = setupMountedComponent({ state });
 
-  function Providers({ children }) {
+  function Providers({ children, ...rest }) {
     return (
       <AppProviders>
-        <MockFormComponent {...children.props}>{children}</MockFormComponent>
+        <MockFormComponent {...children.props} {...rest}>
+          {children}
+        </MockFormComponent>
       </AppProviders>
     );
   }
@@ -121,15 +124,17 @@ function mountedFormComponent(
 
 function mountedFieldComponent(
   Component,
-  FieldRecord,
-  fieldRecordSettings = {},
-  inputProps = {},
-  metaInputProps = {},
-  mode = "new",
-  errors,
-  options
+  {
+    fieldRecord = FieldRecord,
+    fieldRecordSettings = {},
+    inputProps = {},
+    metaInputProps = {},
+    mode = "new",
+    errors,
+    options
+  } = {}
 ) {
-  const field = setupFormFieldRecord(FieldRecord, fieldRecordSettings);
+  const field = setupFormFieldRecord(fieldRecord, fieldRecordSettings);
 
   const { history, store, Providers } = setupMockFormComponent({
     additionalProps: {
@@ -141,8 +146,8 @@ function mountedFieldComponent(
     errors
   });
 
-  const component = render(Component, {
-    wrapper: Providers,
+  const component = render(cloneElement(Component), {
+    wrapper: props => <Providers {...props} mode={mode} field={field} inputProps={inputProps} />,
     ...options
   });
 

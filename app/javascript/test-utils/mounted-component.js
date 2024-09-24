@@ -1,8 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable react/no-multi-comp, react/display-name, react/prop-types */
-import DateFnsUtils from "@date-io/date-fns";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { SnackbarProvider } from "notistack";
 import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
@@ -12,12 +10,13 @@ import { MemoryRouter, Route, Router } from "react-router-dom";
 import { ApplicationProvider } from "../components/application";
 import I18nProvider from "../components/i18n/provider";
 import ThemeProvider from "../theme-provider";
+import DateProvider from "../date-provider";
 
 import { createMockStore, DEFAULT_STATE } from "./create-mock-store";
 import { FormikProvider } from "./formik-utils";
 
-function setupMountedComponent({ state, path, initialEntries, formProps } = {}) {
-  const { store, history } = createMockStore(DEFAULT_STATE, state);
+function setupMountedComponent({ state, path, initialEntries, formProps, includeRestMiddleware } = {}) {
+  const { store, history } = createMockStore(DEFAULT_STATE, state, includeRestMiddleware);
 
   function RouteProvider({ children }) {
     if (isEmpty(initialEntries)) {
@@ -35,7 +34,7 @@ function setupMountedComponent({ state, path, initialEntries, formProps } = {}) 
     return (
       <Provider store={store}>
         <I18nProvider>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <DateProvider>
             <SnackbarProvider>
               <ApplicationProvider>
                 <ThemeProvider>
@@ -45,7 +44,7 @@ function setupMountedComponent({ state, path, initialEntries, formProps } = {}) 
                 </ThemeProvider>
               </ApplicationProvider>
             </SnackbarProvider>
-          </MuiPickersUtilsProvider>
+          </DateProvider>
         </I18nProvider>
       </Provider>
     );
@@ -54,8 +53,22 @@ function setupMountedComponent({ state, path, initialEntries, formProps } = {}) 
   return { store, history, AppProviders };
 }
 
-function mountedComponent(Component, state = {}, options = {}, initialEntries = [], formProps = {}, path = "") {
-  const { store, history, AppProviders } = setupMountedComponent({ state, path, formProps, initialEntries });
+function mountedComponent(
+  Component,
+  state = {},
+  options = {},
+  initialEntries = [],
+  formProps = {},
+  path = "",
+  includeRestMiddleware = false
+) {
+  const { store, history, AppProviders } = setupMountedComponent({
+    state,
+    path,
+    formProps,
+    initialEntries,
+    includeRestMiddleware
+  });
 
   const component = render(Component, {
     wrapper: AppProviders,

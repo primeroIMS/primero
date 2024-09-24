@@ -3,9 +3,9 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
 import PropTypes from "prop-types";
-import { ListItem, ListItemText } from "@material-ui/core";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
+import { ListItem, ListItemText } from "@mui/material";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 import isEmpty from "lodash/isEmpty";
 
 import Jewel from "../../../../jewel";
@@ -14,7 +14,7 @@ import { useApp } from "../../../../application";
 
 import { NAME } from "./constants";
 
-const Component = ({
+function Component({
   form,
   groupItem,
   handleClick,
@@ -25,8 +25,9 @@ const Component = ({
   open,
   recordAlerts,
   selectedForm,
-  hasError
-}) => {
+  hasError,
+  testID
+}) {
   const { disabledApplication } = useApp();
 
   const { formId, group } = form;
@@ -51,10 +52,10 @@ const Component = ({
         {!isNew && showJewel ? (
           <Jewel value={name} isForm isError={hasError} />
         ) : (
-          <>
-            {name}
+          <div className={css.text}>
+            <div>{name}</div>
             {hasError && <Jewel isError={hasError} />}
-          </>
+          </div>
         )}
       </>
     );
@@ -62,6 +63,8 @@ const Component = ({
 
   return (
     <ListItem
+      data-testid={testID || "list-item"}
+      aria-expanded={open}
       id={`${formId}-${group}`}
       selected={selectedForm === formId && !isNested}
       button
@@ -73,11 +76,13 @@ const Component = ({
       }}
       disabled={disabledApplication}
     >
-      <ListItemText className={groupItem ? css.nestedItem : css.item}>{formText()}</ListItemText>
+      <ListItemText data-testid="list-item-text" className={groupItem ? css.nestedItem : css.item}>
+        {formText()}
+      </ListItemText>
       {isNested && (open ? <ExpandMore /> : <ExpandLess />)}
     </ListItem>
   );
-};
+}
 
 Component.displayName = NAME;
 
@@ -92,7 +97,8 @@ Component.propTypes = {
   name: PropTypes.string,
   open: PropTypes.bool,
   recordAlerts: PropTypes.object,
-  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  testID: PropTypes.string
 };
 
 export default Component;

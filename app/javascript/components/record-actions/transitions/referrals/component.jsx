@@ -10,11 +10,10 @@ import startCase from "lodash/startCase";
 import Form, { OPTION_TYPES } from "../../../form";
 import { useI18n } from "../../../i18n";
 import { RECORD_TYPES } from "../../../../config";
-import { getRecordForms } from "../../../record-form/selectors";
-import { saveReferral } from "../action-creators";
+import { getRecordForms, getServiceToRefer } from "../../../record-form/selectors";
+import { resetReferralSuccess, saveReferral } from "../action-creators";
 import { getErrorsByTransitionType } from "../selectors";
 import { setServiceToRefer } from "../../../record-form/action-creators";
-import { getServiceToRefer } from "../../../record-form";
 import PdfExporter from "../../../pdf-exporter";
 import { useMemoizedSelector } from "../../../../libs";
 import { fetchReferralAuthorizationRoles } from "../../../application/action-creators";
@@ -32,7 +31,7 @@ import {
 } from "./constants";
 import { form, validations } from "./form";
 
-const Referrals = ({
+function Referrals({
   formID,
   providedConsent,
   canConsentOverride,
@@ -41,7 +40,7 @@ const Referrals = ({
   setDisabled,
   setPending,
   handleClose
-}) => {
+}) {
   const i18n = useI18n();
   const pdfExporterRef = useRef();
   const dispatch = useDispatch();
@@ -108,6 +107,7 @@ const Referrals = ({
   useEffect(() => {
     if (submittedSuccessfully && formValues.remote) {
       pdfExporterRef.current.savePdf({ setPending, close: handleClose, values: formValues });
+      dispatch(resetReferralSuccess());
     }
   }, [submittedSuccessfully]);
 
@@ -147,7 +147,7 @@ const Referrals = ({
       />
     </LoadingIndicator>
   );
-};
+}
 
 Referrals.displayName = "Referrals";
 

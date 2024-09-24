@@ -3,7 +3,7 @@
 import configureStore from "redux-mock-store";
 
 import { RECORD_TYPES } from "../../config";
-import { spy } from "../../test";
+import { spy } from "../../test-utils";
 
 import defaultErrorCallback from "./default-error-callback";
 import * as handleRestCallback from "./handle-rest-callback";

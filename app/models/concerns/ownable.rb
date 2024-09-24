@@ -2,25 +2,28 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
+# rubocop:disable Metrics/ModuleLength
 # This describes all models that may be owned by a particular user
 module Ownable
   extend ActiveSupport::Concern
 
+  # rubocop:disable Metrics/BlockLength
   included do
     store_accessor :data, :owned_by, :owned_by_full_name, :owned_by_agency_id, :owned_by_groups, :owned_by_location,
                    :owned_by_user_code, :owned_by_agency_office, :previously_owned_by, :previously_owned_by_full_name,
                    :previously_owned_by_agency, :previously_owned_by_location, :previously_owned_by_agency_office,
                    :assigned_user_names, :module_id, :associated_user_groups, :associated_user_agencies,
-                   :associated_user_names
+                   :associated_user_names, :not_edited_by_owner
 
-    searchable do
-      %i[
-        associated_user_names associated_user_groups associated_user_agencies owned_by_groups assigned_user_names
-      ].each { |field| string(field, multiple: true) }
-      %i[
-        owned_by_agency_id owned_by_location owned_by_agency_office module_id owned_by
-      ].each { |field| string(field, as: "#{field}_sci") }
-      boolean :not_edited_by_owner
+    if Rails.configuration.solr_enabled
+      searchable do
+        %i[
+          associated_user_names associated_user_groups associated_user_agencies owned_by_groups assigned_user_names
+        ].each { |field| string(field, multiple: true) }
+        %i[
+          owned_by_agency_id owned_by_location owned_by_agency_office module_id owned_by
+        ].each { |field| string(field, as: "#{field}_sci") }
+      end
     end
 
     scope :owned_by, ->(username) { where('data @> ?', { owned_by: username }.to_json) }
@@ -33,8 +36,10 @@ module Ownable
 
     before_save :update_associated
     before_save :update_owned_by
+    before_save :calculate_not_edited_by_owner
     before_update :update_previously_owned_by
   end
+  # rubocop:enable Metrics/BlockLength
 
   def owner_fields_for(user)
     self.owned_by ||= user&.user_name
@@ -63,10 +68,13 @@ module Ownable
     @record_agency ||= Agency.find_by(unique_id: owned_by_agency_id)&.agency_code if owned_by_agency_id
   end
 
-  def not_edited_by_owner
+  def not_edited_by_owner?
     (data['last_updated_by'] != data['owned_by']) && data['last_updated_by'].present?
   end
-  alias not_edited_by_owner? not_edited_by_owner
+
+  def calculate_not_edited_by_owner
+    self.not_edited_by_owner = not_edited_by_owner?
+  end
 
   # rubocop:disable Metrics/AbcSize
   def update_owned_by
@@ -133,3 +141,4 @@ module Ownable
     owned_by == user&.user_name
   end
 end
+# rubocop:enable Metrics/ModuleLength

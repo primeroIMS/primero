@@ -2,12 +2,12 @@
 
 import PropTypes from "prop-types";
 
-const Label = ({ commonInputProps }) => {
+function Label({ commonInputProps }) {
   const { label, className } = commonInputProps;
   const classToApply = className || "";
 
   return <div className={classToApply}>{label}</div>;
-};
+}
 
 Label.displayName = "Label";
 

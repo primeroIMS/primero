@@ -3,8 +3,8 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
-import { TextField, Checkbox, FormControl, FormGroup, FormControlLabel } from "@material-ui/core";
-import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
+import { TextField, Checkbox, FormControl, FormGroup, FormControlLabel } from "@mui/material";
+import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { sortBy } from "lodash";
 
 import Panel from "../../panel";
@@ -25,7 +25,7 @@ import { OPTION_TYPES } from "../../../../form/constants";
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
 
-const Component = ({ filter, mode, moreSectionFilters, multiple, reset, setMoreSectionFilters, setReset }) => {
+function Component({ filter, mode, moreSectionFilters = {}, multiple = true, reset, setMoreSectionFilters, setReset }) {
   const i18n = useI18n();
   const formMethods = useFormContext();
   const valueRef = useRef();
@@ -174,10 +174,11 @@ const Component = ({ filter, mode, moreSectionFilters, multiple, reset, setMoreS
         onChange={handleChange}
         options={filterOptions}
         value={inputValue}
-        getOptionSelected={handleOptionSelected}
+        isOptionEqualToValue={handleOptionSelected}
         renderInput={handleRenderInput}
         filterOptions={filterOptionsProp}
         filterSelectedOptions
+        data-testid="select-filter"
       />
       {toggleIncludeDisabled && (
         <FormControl>
@@ -192,12 +193,7 @@ const Component = ({ filter, mode, moreSectionFilters, multiple, reset, setMoreS
       )}
     </Panel>
   );
-};
-
-Component.defaultProps = {
-  moreSectionFilters: {},
-  multiple: true
-};
+}
 
 Component.displayName = NAME;
 

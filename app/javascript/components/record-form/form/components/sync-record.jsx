@@ -3,8 +3,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { Link } from "@material-ui/core";
-import RefreshIcon from "@material-ui/icons/Refresh";
+import { Link } from "@mui/material";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
@@ -14,7 +14,7 @@ import { SYNC_RECORD_NAME, SYNC_RECORD_STATUS } from "./constants";
 import { buildLabelSync } from "./utils";
 import css from "./styles.css";
 
-const SyncRecord = ({ i18n, isEnabledWebhookSyncFor, syncedAt, syncStatus, params }) => {
+function SyncRecord({ i18n, isEnabledWebhookSyncFor, syncedAt, syncStatus, params }) {
   const dispatch = useDispatch();
 
   if (!isEnabledWebhookSyncFor) {
@@ -64,7 +64,7 @@ const SyncRecord = ({ i18n, isEnabledWebhookSyncFor, syncedAt, syncStatus, param
       {renderCheckStatusBtn}
     </div>
   );
-};
+}
 
 SyncRecord.displayName = SYNC_RECORD_NAME;
 

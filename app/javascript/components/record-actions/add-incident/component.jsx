@@ -23,7 +23,7 @@ import { NAME, INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./constants";
 import { validationSchema } from "./utils";
 import Fields from "./fields";
 
-const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPending }) => {
+function Component({ open, close, pending, recordType, selectedRowsIndex, setPending }) {
   const formikRef = useRef();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -127,7 +127,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
       </ActionDialog>
     </Formik>
   );
-};
+}
 
 Component.propTypes = {
   close: PropTypes.func,

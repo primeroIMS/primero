@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Menu } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { Menu } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import ActionButton, { ACTION_BUTTON_TYPES } from "../action-button";
 
 import { MenuItems } from "./components";
 
-const Component = ({ actions, disabledCondition, showMenu }) => {
+function Component({ actions = [], disabledCondition = () => {}, showMenu = false }) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -37,6 +37,7 @@ const Component = ({ actions, disabledCondition, showMenu }) => {
       )}
       <Menu
         id="long-menu"
+        data-testid="long-menu"
         variant="menu"
         anchorEl={anchorEl}
         keepMounted
@@ -48,13 +49,7 @@ const Component = ({ actions, disabledCondition, showMenu }) => {
       </Menu>
     </>
   );
-};
-
-Component.defaultProps = {
-  actions: [],
-  disabledCondition: () => {},
-  showMenu: false
-};
+}
 
 Component.displayName = "Menu";
 

@@ -1,9 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import CreateIcon from "@material-ui/icons/Create";
+import { Grid } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import CreateIcon from "@mui/icons-material/Create";
 
 import { usePermissions, READ_RECORDS, RESOURCES, WRITE_RECORDS } from "../../../permissions";
 import { useI18n } from "../../../i18n";
@@ -14,7 +14,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import { EDIT, VIEW } from "./constants";
 
-const Component = ({
+function Component({
   css,
   incidentDateInterview,
   incidentDate,
@@ -23,7 +23,7 @@ const Component = ({
   handleCreateIncident,
   incidentAvailable,
   dirty = false
-}) => {
+}) {
   const i18n = useI18n();
   const canViewIncidents = usePermissions(RESOURCES.incidents, READ_RECORDS);
   const canEditIncidents = usePermissions(RESOURCES.incidents, WRITE_RECORDS);
@@ -92,7 +92,7 @@ const Component = ({
       </Grid>
     </>
   );
-};
+}
 
 Component.displayName = NAME_DETAIL;
 

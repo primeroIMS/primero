@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { ListItemText, Button, InputAdornment } from "@material-ui/core";
+import { ListItemText, Button, InputAdornment } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { DatePicker } from "@mui/x-date-pickers";
 
 import ActionDialog from "../../../../../../action-dialog";
 import ViolationTitle from "../violation-title";
@@ -15,12 +14,13 @@ import { usePermissions } from "../../../../../../permissions";
 import { RECORD_ACTION_ABILITIES } from "../../../../../../record-actions/constants";
 import { useI18n } from "../../../../../../i18n";
 import { toServerDateFormat } from "../../../../../../../libs";
+import DateProvider from "../../../../../../../date-provider";
 
 import VerifySelect from "./select";
 import { getViolationTallyLabel } from "./utils";
 import { NAME } from "./constants";
 
-const Component = ({ fields, values, locale, displayName, index, collapsedFieldValues, mode }) => {
+function Component({ fields, values, locale, displayName, index, collapsedFieldValues, mode }) {
   const currentValues = values[index];
   const verifyParams = useParams();
   const i18n = useI18n();
@@ -102,7 +102,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
 
   // Define MuiPickersUtilsProvider component
   const MuiPickersUtilsProviderComponent = (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <DateProvider>
       <div className={css.keyboardDatePickerWrapper}>
         <DatePicker
           clearLabel={i18n.t("buttons.clear")}
@@ -124,11 +124,12 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
           format={DATE_FORMAT}
         />
       </div>
-    </MuiPickersUtilsProvider>
+    </DateProvider>
   );
 
   return (
     <ListItemText
+      data-testid="violation-item"
       id="subform-header-button"
       classes={{ primary: css.listText, secondary: css.listTextSecondary }}
       secondary={
@@ -167,7 +168,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
       </ActionDialog>
     </ListItemText>
   );
-};
+}
 
 Component.propTypes = {
   collapsedFieldValues: PropTypes.node,

@@ -2,7 +2,7 @@
 
 .inputLabel {
   width: 100%;
-  line-height: 1.5em;
+  line-height: 2em;
   position: relative;
 }
 
@@ -107,12 +107,17 @@
   }
 }
 
-.field {
-  margin: 0 0 var(--sp-3)
+.attachmentActions{ 
+  display: flex;
+
+  & button {
+    display: inline-flex !important;
+    padding: 5px;
+  }
 }
 
 .attachmentUploadField {
-  margin-bottom: 3em;
+  margin-bottom: 1em;
   display: flex;
   align-items: center;
 }
@@ -295,13 +300,17 @@
     border: none;
   }
 
-  & input {
+  & input, & textarea {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
 
-  & input::placeholder {
+  & input::placeholder, & textarea::placeholder {
     color: var(--c-black) !important;
+  }
+
+  button {
+    display: none;
   }
 }
 
@@ -324,7 +333,7 @@
 }
 
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .imgCurrent {
     height: 80px;
   }

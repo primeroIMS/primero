@@ -3,7 +3,7 @@
 import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 
 import { useI18n } from "../../i18n";
 import {
@@ -20,7 +20,7 @@ import {
 } from "../constants";
 import Tooltip from "../../tooltip";
 import { ConditionalWrapper, displayNameHelper } from "../../../libs";
-import { OPTION_TYPES } from "../../form";
+import { OPTION_TYPES } from "../../form/constants";
 import { useApp } from "../../application";
 import { RECORD_TYPES } from "../../../config";
 
@@ -38,7 +38,7 @@ import TallyField from "./field-types/tally-field";
 import css from "./styles.css";
 import { asyncFieldOffline } from "./utils";
 
-const FormSectionField = ({
+function FormSectionField({
   name,
   field,
   mode,
@@ -51,7 +51,7 @@ const FormSectionField = ({
   isReadWriteForm,
   violationOptions,
   tags
-}) => {
+}) {
   const i18n = useI18n();
   const { online } = useApp();
   const {
@@ -71,7 +71,7 @@ const FormSectionField = ({
     options
   } = field;
 
-  const classes = clsx(css.field, { [css.readonly]: mode.isShow });
+  const classes = cx(css.field, { [css.readonly]: mode.isShow });
 
   const filterOptionStringSource =
     optionStringsSource === CUSTOM_STRINGS_SOURCE.user ? OPTION_TYPES.REFER_TO_USERS : optionStringsSource;
@@ -158,13 +158,13 @@ const FormSectionField = ({
 
   return (
     <ConditionalWrapper condition={!mode.isShow && disabled} wrapper={Tooltip} title={i18n.t("messages.cannot_edit")}>
-      <div className={classes}>
+      <div className={classes} data-testid="form-section-field">
         <FieldComponent {...fieldProps} mode={mode} formSection={formSection} />
         {renderGuidingQuestions}
       </div>
     </ConditionalWrapper>
   );
-};
+}
 
 FormSectionField.displayName = FORM_SECTION_FIELD_NAME;
 

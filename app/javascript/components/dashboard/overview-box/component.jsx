@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { Fragment } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
@@ -18,7 +18,7 @@ import ActionButton from "../../action-button";
 
 import css from "./styles.css";
 
-const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors }) => {
+function OverviewBox({ items, chartData, sumTitle, withTotal = true, loading, errors }) {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
@@ -97,7 +97,7 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
   // eslint-disable-next-line react/no-multi-comp, react/display-name
   const renderItems = () => (
     <LoadingIndicator {...loadingIndicatorProps}>
-      <div className={css.overviewBox}>
+      <div className={css.overviewBox} data-testid="overview-box">
         <div className={css.sectionTitle}>{renderSum()}</div>
         <div className={css.overviewList}>{statItems()}</div>
       </div>
@@ -106,7 +106,7 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
 
   // eslint-disable-next-line react/no-multi-comp, react/display-name
   const renderWithChart = () => (
-    <div className={css.root}>
+    <div className={css.root} data-testid="overview-box">
       <Grid container spacing={3}>
         {chartData && (
           <Grid item md={4} xs={12} className={css.dashboardChart}>
@@ -123,11 +123,7 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
   const renderOverviewBox = chartData ? renderWithChart() : renderItems();
 
   return <>{renderOverviewBox}</>;
-};
-
-OverviewBox.defaultProps = {
-  withTotal: true
-};
+}
 
 OverviewBox.displayName = "OverviewBox";
 

@@ -29,14 +29,15 @@ class PermittedFieldService
     or not cases_by_date record_in_scope associated_user_names not_edited_by_owner referred_users referred_users_present
     transferred_to_users transferred_to_user_groups has_photo survivor_code survivor_code_no case_id_display
     created_at has_incidents short_id record_state sex age registration_date date_closure
-    reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy
+    reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy followup_dates
+    reunification_dates tracing_dates service_implemented_day_times
   ].freeze
 
   PERMITTED_MRM_FILTER_FIELD_NAMES = %w[
     individual_violations individual_age individual_sex victim_deprived_liberty_security_reasons
     reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
-    violation_with_verification_status armed_force_group_party_names late_verified_violations perpetrator_category
-    date_of_first_report ctfmr_verified_date
+    violation_with_verification_status armed_force_group_party_names has_late_verified_violations perpetrator_category
+    date_of_first_report ctfmr_verified_date verification_status
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
@@ -47,13 +48,6 @@ class PermittedFieldService
   ].freeze
 
   PERMITTED_FIELDS_FOR_ACTION_SCHEMA = {
-    Permission::ADD_NOTE => { 'notes_section' => { 'type' => %w[array null], 'items' => { 'type' => 'object' } } },
-    Permission::INCIDENT_DETAILS_FROM_CASE => {
-      'incident_details' => { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
-    },
-    Permission::SERVICES_SECTION_FROM_CASE => {
-      'services_section' => { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
-    },
     Permission::CLOSE => { 'status' => { 'type' => 'string' }, 'date_closure' => { 'type' => 'date' } },
     Permission::REOPEN => {
       'status' => { 'type' => 'string' }, 'workflow' => { 'type' => 'string' },
@@ -62,6 +56,17 @@ class PermittedFieldService
     Permission::ENABLE_DISABLE_RECORD => { 'record_state' => { 'type' => 'boolean' } },
     Permission::INCIDENT_FROM_CASE => {
       'incident_case_id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => UUID_REGEX }
+    },
+    Permission::ADD_REGISTRY_RECORD => {
+      'registry_record_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX }
+    },
+    Permission::CASE_FROM_FAMILY => {
+      'family_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX },
+      'family_member_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX }
+    },
+    Permission::LINK_FAMILY_RECORD => {
+      'family_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX },
+      'family_member_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX }
     }
   }.freeze
 
@@ -74,11 +79,11 @@ class PermittedFieldService
 
   ID_SEARCH_FIELDS = %w[age date_of_birth estimated name sex].freeze
 
-  def initialize(user, model_class, action_name = nil, id_search = nil, permitted_form_field_service = nil)
+  def initialize(user, model_class, permitted_form_field_service = nil, options = {})
     self.user = user
     self.model_class = model_class
-    self.action_name = action_name
-    self.id_search = id_search
+    self.action_name = options[:action_name]
+    self.id_search = options[:id_search]
     self.permitted_form_field_service = permitted_form_field_service || PermittedFormFieldsService.instance
   end
 
@@ -87,14 +92,15 @@ class PermittedFieldService
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/PerceivedComplexity
-  def permitted_field_names(writeable = false, update = false, roles = [])
+  # rubocop:disable Metrics/ParameterLists
+  def permitted_field_names(module_unique_id = nil, writeable = false, update = false, roles = [])
     return @permitted_field_names if @permitted_field_names.present?
-    return permitted_field_names_from_action_name if action_name.present?
+    return permitted_field_names_from_action_name if permitted_field_names_from_action_name.present?
 
     @permitted_field_names = permitted_core_fields(update) + PERMITTED_FILTER_FIELD_NAMES
     @permitted_field_names += PERMITTED_MRM_FILTER_FIELD_NAMES if user.module?(PrimeroModule::MRM)
     @permitted_field_names += permitted_form_field_service.permitted_field_names(
-      roles.presence || [user.role], model_class.parent_form, writeable
+      roles.presence || [user.role], model_class.parent_form, module_unique_id, writeable
     )
     # TODO: Consider moving model specific permitted fields to the model class.
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
@@ -104,11 +110,15 @@ class PermittedFieldService
     @permitted_field_names += SYNC_FIELDS_SCHEMA.keys if external_sync?
     @permitted_field_names += permitted_incident_field_names
     @permitted_field_names << 'incident_details' if user.can?(:view_incident_from_case, model_class)
-    @permitted_field_names += permitted_approval_schema.keys
+    approval_fields = permitted_approval_schema.keys
+    @permitted_field_names += permitted_approval_schema.keys if approval_fields.present?
+    @permitted_field_names << 'approval_subforms' if approval_fields.present?
     @permitted_field_names += permitted_overdue_task_field_names
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
     @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
-    @permitted_field_names += permitted_reporting_location_field
+    @permitted_field_names << 'risk_level' if user.can?(:case_risk, Dashboard)
+    @permitted_field_names += permitted_reporting_location_field if model_class == Child
+    @permitted_field_names += permitted_incident_reporting_location_field if model_class == Incident
     @permitted_field_names += permitted_registry_record_id
     @permitted_field_names += permitted_family_id
     @permitted_field_names += permitted_attachment_fields
@@ -120,6 +130,7 @@ class PermittedFieldService
     update ? core_fields - %w[id] : core_fields
   end
 
+  # TODO:  The method is essentially duplicating some logic from permitted_field_names. DRY!
   def permitted_fields_schema
     schema = PERMITTED_CORE_FIELDS_SCHEMA.dup
     permitted_actions =
@@ -128,20 +139,28 @@ class PermittedFieldService
     schema['hidden_name'] = { 'type' => 'boolean' } if user.can?(:update, model_class)
     schema['reporting_location_hierarchy'] = { 'type' => 'string' } if user.can?(:update, model_class)
     schema = schema.merge(SYNC_FIELDS_SCHEMA) if external_sync?
-    schema = schema.merge(permitted_mrm_entities_schema) if user.module?(PrimeroModule::MRM)
     schema.merge(permitted_approval_schema)
   end
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/ParameterLists
 
   def permitted_reporting_location_field
     reporting_location_config = user.role.reporting_location_config
 
     return [] if reporting_location_config.blank?
 
-    ["#{reporting_location_config.field_key}#{reporting_location_config.admin_level}"]
+    [reporting_location_config.field_key]
+  end
+
+  def permitted_incident_reporting_location_field
+    incident_reporting_location_config = user.role.incident_reporting_location_config
+
+    return [] if incident_reporting_location_config.blank?
+
+    [incident_reporting_location_config.field_key]
   end
 
   def permitted_registry_record_id
@@ -174,7 +193,6 @@ class PermittedFieldService
     Approval.types.each_with_object({}) do |approval_id, schema|
       next unless approval_access?(user, approval_id)
 
-      schema['approval_subforms'] = { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
       schema["#{approval_id}_approved"] = { 'type' => 'boolean' }
       schema["approval_status_#{approval_id}"] = { 'type' => 'string' }
       schema["#{approval_id}_approved_date"] = { 'type' => %w[date string], 'format' => 'date' }
@@ -217,12 +235,6 @@ class PermittedFieldService
     incident_field_names << 'case_id_display'
 
     incident_field_names
-  end
-
-  def permitted_mrm_entities_schema
-    (Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS).each_with_object({}) do |entry, schema|
-      schema[entry] = { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
-    end
   end
 
   def permitted_attachment_fields

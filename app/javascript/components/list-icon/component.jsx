@@ -16,10 +16,10 @@ import {
   People,
   SettingsApplications,
   LibraryBooks
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import PropTypes from "prop-types";
-import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
-import SignalWifi4BarIcon from "@material-ui/icons/SignalWifi4Bar";
+import SignalWifiOffIcon from "@mui/icons-material/SignalWifiOff";
+import SignalWifi4BarIcon from "@mui/icons-material/SignalWifi4Bar";
 
 import {
   CasesIcon,
@@ -30,16 +30,16 @@ import {
   RegistryRecordIcon
 } from "../../images/primero-icons";
 
-const ListIcon = ({ icon }) => {
+function ListIcon({ icon }) {
   switch (icon) {
     case "home":
       return <Home />;
     case "activity_log":
       return <LibraryBooks />;
     case "cases":
-      return <CasesIcon />;
+      return <CasesIcon data-testid="cases-icon" />;
     case "incidents":
-      return <IncidentsIcon />;
+      return <IncidentsIcon data-testid="incidents-icon" />;
     case "tracing_request":
       return <ListAlt />;
     case "matches":
@@ -83,7 +83,7 @@ const ListIcon = ({ icon }) => {
     default:
       return null;
   }
-};
+}
 
 ListIcon.displayName = "ListIcon";
 

@@ -16,7 +16,7 @@ import renderTransition from "./render-transition";
 import css from "./styles.css";
 import { fetchTransitions } from "./action-creators";
 
-const Transitions = ({
+function Transitions({
   fetchable = false,
   isReferral,
   recordType,
@@ -24,7 +24,7 @@ const Transitions = ({
   showMode,
   mobileDisplay,
   handleToggleNav
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -47,7 +47,7 @@ const Transitions = ({
   }, []);
 
   return (
-    <div>
+    <div data-testid="transitions">
       <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={transitionTitle} />
       <RecordFormAlerts
         form={{ unique_id: isReferral ? "referral" : "transfers_assignments" }}
@@ -57,7 +57,7 @@ const Transitions = ({
       <div>{renderDataTransitions}</div>
     </div>
   );
-};
+}
 
 Transitions.displayName = TRANSITIONS_NAME;
 

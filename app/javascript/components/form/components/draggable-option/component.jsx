@@ -1,13 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 import { Draggable } from "react-beautiful-dnd";
 import { Controller, useWatch } from "react-hook-form";
-import { makeStyles, Radio } from "@material-ui/core";
+import { Radio } from "@mui/material";
 import get from "lodash/get";
-import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
 
 import TextInput from "../../fields/text-input";
 import SwitchInput from "../../fields/switch-input";
@@ -15,9 +15,10 @@ import css from "../../fields/styles.css";
 import DragIndicator from "../../../pages/admin/forms-list/components/drag-indicator";
 import { generateIdFromDisplayText } from "../../utils/handle-options";
 
+import textInputCss from "./styles.css";
 import { NAME } from "./constants";
 
-const Component = ({
+function Component({
   defaultOptionId,
   index,
   name,
@@ -25,11 +26,11 @@ const Component = ({
   onRemoveClick,
   formMethods,
   formMode,
-  showDefaultAction,
-  showDeleteAction,
-  showDisableOption,
-  optionFieldName
-}) => {
+  showDefaultAction = true,
+  showDeleteAction = true,
+  showDisableOption = true,
+  optionFieldName = "option_strings_text"
+}) {
   const {
     errors,
     setValue,
@@ -49,17 +50,6 @@ const Component = ({
   const selectedValue = useWatch({ control, name: `${name}.selected_value`, defaultValue: defaultOptionId });
 
   const error = errors ? get(errors, displayTextFieldName) : undefined;
-
-  const classes = makeStyles({
-    disabled: {
-      "&&&:before": {
-        borderBottomStyle: "solid"
-      },
-      "&&:after": {
-        borderBottomStyle: "solid"
-      }
-    }
-  })();
 
   const handleChange = event => {
     const { value } = event.currentTarget;
@@ -87,12 +77,12 @@ const Component = ({
   const handleRemoveClick = () => onRemoveClick(index);
 
   const renderRemoveButton = formMode.get("isNew") && showDeleteAction && (
-    <IconButton aria-label="delete" className={css.removeIcon} onClick={handleRemoveClick}>
+    <IconButton size="large" aria-label="delete" className={css.removeIcon} onClick={handleRemoveClick}>
       <DeleteIcon />
     </IconButton>
   );
-  const classesDragIndicator = clsx([css.fieldColumn, css.dragIndicatorColumn]);
-  const classesTextInput = clsx([css.fieldColumn, css.fieldInput]);
+  const classesDragIndicator = cx([css.fieldColumn, css.dragIndicatorColumn]);
+  const classesTextInput = cx([css.fieldColumn, css.fieldInput]);
   const handleOnBlur = event => handleChange(event, index);
 
   return (
@@ -114,7 +104,7 @@ const Component = ({
                   // eslint-disable-next-line camelcase
                   defaultValue: option?.display_text?.en,
                   InputProps: {
-                    classes,
+                    classes: { disabled: textInputCss.disabled },
                     onBlur: handleOnBlur
                   }
                 }}
@@ -150,15 +140,7 @@ const Component = ({
       )}
     </Draggable>
   );
-};
-
-Component.defaultProps = {
-  disabled: false,
-  optionFieldName: "option_strings_text",
-  showDefaultAction: true,
-  showDeleteAction: true,
-  showDisableOption: true
-};
+}
 
 Component.propTypes = {
   defaultOptionId: PropTypes.string,

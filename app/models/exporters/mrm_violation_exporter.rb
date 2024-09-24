@@ -74,8 +74,19 @@ module Exporters
 
     def export(records)
       violations = Violation.where(incident_id: records).order(:incident_id, :id)
+      build_worksheets_with_headers
       write_violations(violations)
       write_violation_associations(violations)
+    end
+
+    def build_worksheets_with_headers
+      return if worksheets.present?
+
+      write_worksheet_headers(2, 4, :violations, I18n.t('incident.violation.title'), all_shared_violation_fields)
+      association_forms.each do |form|
+        association_form_fields = exportable_form_fields(form).sort_by(&:order)
+        write_worksheet_headers(1, 6, form.unique_id, form.name(locale), association_form_fields)
+      end
     end
 
     def establish_export_constraints
@@ -165,7 +176,6 @@ module Exporters
     end
 
     def write_violations(violations)
-      write_worksheet_headers(2, 4, :violations, I18n.t('incident.violation.title'), all_shared_violation_fields)
       @record_row = worksheets[:violations][:row]
       write_violations_data(violations, worksheets[:violations][:worksheet])
       worksheets[:violations][:row] = @record_row
@@ -185,7 +195,7 @@ module Exporters
       write_association_header(worksheet, id) if id != :violations
       write_field_headers(worksheet, fields)
       write_violation_headers_by_type(worksheet) if id == :violations
-      self.worksheets = { id => { worksheet:, row: id == :violations ? 3 : 2 } }
+      worksheets[id] = { worksheet:, row: id == :violations ? 3 : 2 }
     end
 
     def write_association_header(worksheet, id)
@@ -391,7 +401,6 @@ module Exporters
     def write_violation_associations(violations)
       association_forms.each do |form|
         association_form_fields = exportable_form_fields(form).sort_by(&:order)
-        write_worksheet_headers(1, 6, form.unique_id, form.name(locale), association_form_fields)
         write_associations(violations, form, association_form_fields)
       end
     end

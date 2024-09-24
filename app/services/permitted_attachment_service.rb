@@ -63,7 +63,8 @@ class PermittedAttachmentService
   def permitted_field_names
     @permitted_field_names ||= permitted_form_fields_service.permitted_field_names(
       authorized_roles,
-      Record.map_name(attachment.record_type),
+      PrimeroModelService.to_name(attachment.record_type),
+      attachment.record&.module_id,
       write
     )
   end

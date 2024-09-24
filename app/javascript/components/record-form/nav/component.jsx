@@ -4,16 +4,15 @@
 
 import { useState, useEffect, useCallback, memo } from "react";
 import PropTypes from "prop-types";
-import { List, Drawer } from "@material-ui/core";
+import { List, Drawer } from "@mui/material";
 import { useDispatch } from "react-redux";
-import Divider from "@material-ui/core/Divider";
+import Divider from "@mui/material/Divider";
 import { useHistory } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
 import { INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES, RECORD_OWNER } from "../../../config";
 import {
   getIncidentFromCaseForm,
-  getPreviousRecordType,
   getRecordFormsByUniqueId,
   getRecordInformationFormIds,
   getValidationErrors
@@ -30,7 +29,7 @@ import css from "./styles.css";
 import CloseButtonNavBar from "./components/close-button-nav-bar";
 import FormGroup from "./components/form-groups";
 
-const Component = ({
+function Component({
   firstTab,
   formNav,
   hasForms,
@@ -45,7 +44,7 @@ const Component = ({
   primeroModule,
   selectedForm,
   formikValuesForNav
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -72,7 +71,7 @@ const Component = ({
   const recordInformationFormIds = useMemoizedSelector(state =>
     getRecordInformationFormIds(state, { recordType: RECORD_TYPES[recordType], primeroModule })
   );
-  const previousRecordType = useMemoizedSelector(state => getPreviousRecordType(state));
+
   const selectedRecordId = useMemoizedSelector(state => getSelectedRecord(state, recordType));
 
   const formGroupLookup = useOptions({
@@ -182,12 +181,6 @@ const Component = ({
     }
   }, [selectedRecordChanged, isShow, firstTab]);
 
-  useEffect(() => {
-    if (firstTab && recordType && previousRecordType && recordType !== previousRecordType) {
-      dispatch(setSelectedForm(firstTab.unique_id));
-    }
-  }, [recordType, previousRecordType, firstTab]);
-
   const drawerClasses = { paper: css.drawerPaper };
 
   if (!formNav) return null;
@@ -205,7 +198,7 @@ const Component = ({
         classes={drawerClasses}
       >
         <CloseButtonNavBar handleToggleNav={handleToggleNav} mobileDisplay={mobileDisplay} />
-        <List className={css.listRecordNav}>
+        <List data-testid="nav-list" className={css.listRecordNav}>
           <RecordInformation
             handleClick={handleClick}
             open={open}
@@ -233,7 +226,7 @@ const Component = ({
       </ConditionalWrapper>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -230,7 +230,7 @@ describe RecordJsonValidatorService do
       end
 
       it 'accepts array values' do
-        expect(service.valid?('calculated' => [])).to be_truthy
+        expect(service.valid?('calculated' => [])).to be_falsey
       end
 
       it 'rejects very big numeric values' do

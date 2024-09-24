@@ -487,4 +487,16 @@ describe("<RecordForm /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("handles forms/REDIRECTED_TO_CREATE_NEW_RECORD", () => {
+    const initialState = fromJS({});
+
+    const expected = fromJS({ redirectedToCreateNewRecord: true });
+
+    const action = { type: actions.REDIRECTED_TO_CREATE_NEW_RECORD, payload: true };
+
+    const newState = reducer.forms(initialState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });

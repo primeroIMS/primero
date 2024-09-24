@@ -10,14 +10,14 @@ import {
   FormControl,
   DialogActions,
   Button
-} from "@material-ui/core";
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
+} from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers";
 
 import { useI18n } from "../../../i18n";
-import { DATE_FORMAT } from "../../../../config/constants";
+import { DATE_FORMAT } from "../../../../config";
+import DateProvider from "../../../../date-provider";
 
-const Component = ({ open, onClose, currentRange, setRange }) => {
+function Component({ open, onClose, currentRange, setRange }) {
   const i18n = useI18n();
   const [from, setFrom] = useState(currentRange.from);
   const [to, setTo] = useState(currentRange.to);
@@ -35,8 +35,8 @@ const Component = ({ open, onClose, currentRange, setRange }) => {
       <DialogContent>
         <DialogContentText>{i18n.t("key_performance_indicators.date_range_dialog.description")}</DialogContentText>
         <FormControl>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
+          <DateProvider excludeAdpaterLocale>
+            <DatePicker
               variant="inline"
               format={DATE_FORMAT}
               margin="normal"
@@ -47,7 +47,7 @@ const Component = ({ open, onClose, currentRange, setRange }) => {
                 "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.from")
               }}
             />
-            <KeyboardDatePicker
+            <DatePicker
               variant="inline"
               format={DATE_FORMAT}
               margin="normal"
@@ -58,7 +58,7 @@ const Component = ({ open, onClose, currentRange, setRange }) => {
                 "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.to")
               }}
             />
-          </MuiPickersUtilsProvider>
+          </DateProvider>
         </FormControl>
       </DialogContent>
       <DialogActions>
@@ -68,7 +68,7 @@ const Component = ({ open, onClose, currentRange, setRange }) => {
       </DialogActions>
     </Dialog>
   );
-};
+}
 
 Component.displayName = "DateRangeDialog";
 

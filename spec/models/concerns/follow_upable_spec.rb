@@ -78,6 +78,27 @@ describe FollowUpable do
     end
   end
 
+  describe 'followup_dates' do
+    it 'stores the followup_dates' do
+      @child.followup_subform_section = [
+        {
+          'unique_id' => '4b7c1011-a63e-422c-b6fb-a64cdcc2d472',
+          'followup_type' => 'visit1',
+          'followup_child_labor' => 'in_child_labor',
+          'followup_date' => '2022-10-04'
+        },
+        {
+          'unique_id' => 'f732a61c-cdae-435c-9c0c-55a893321fed',
+          'followup_type' => 'visit2',
+          'followup_child_labor' => 'in_child_labor',
+          'followup_date' => '2022-12-04'
+        }
+      ]
+      @child.save!
+      expect(@child.reload.followup_dates).to eq([Date.new(2022, 10, 4), Date.new(2022, 12, 4)])
+    end
+  end
+
   after :each do
     clean_data(Child)
   end

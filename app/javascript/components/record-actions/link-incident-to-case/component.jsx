@@ -9,7 +9,7 @@ import buildSelectedIds from "../utils/build-selected-ids";
 import { useMemoizedSelector } from "../../../libs";
 import { getRecordsData, getRecords } from "../../index-table";
 import { linkIncidentToCase, setCaseIdForIncident, fetchLinkIncidentToCaseData } from "../../records";
-import { Search } from "../../index-filters/components/filter-types";
+import SearchBox from "../../index-filters/components/search-box";
 import { clearDialog } from "../../action-dialog/action-creators";
 import SubformDrawer from "../../record-form/form/subforms/subform-drawer";
 import { RECORD_TYPES_PLURAL } from "../../../config";
@@ -18,7 +18,7 @@ import { NAME } from "./constants";
 import css from "./styles.css";
 import Content from "./content";
 
-const Component = ({ close, open, currentPage, selectedRecords, recordType, record }) => {
+function Component({ close, open, currentPage, selectedRecords, recordType, record }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { ...methods } = useForm();
@@ -78,7 +78,7 @@ const Component = ({ close, open, currentPage, selectedRecords, recordType, reco
         <div className={css.form}>
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(handleSubmit)} data-testid="search-form-for-link-to-case">
-              <Search />
+              <SearchBox />
             </form>
           </FormProvider>
         </div>
@@ -93,7 +93,7 @@ const Component = ({ close, open, currentPage, selectedRecords, recordType, reco
       </SubformDrawer>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

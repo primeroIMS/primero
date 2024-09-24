@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
-import { FormGroup, FormControlLabel, FormLabel, FormControl, Checkbox } from "@material-ui/core";
+import { FormGroup, FormControlLabel, FormLabel, FormControl, Checkbox } from "@mui/material";
 
 import Panel from "../../panel";
 import { getOption } from "../../../../record-form";
@@ -21,7 +21,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
-const Component = ({ filter, moreSectionFilters, setMoreSectionFilters, mode, reset, setReset }) => {
+function Component({ filter, moreSectionFilters = {}, setMoreSectionFilters, mode, reset, setReset }) {
   const i18n = useI18n();
   const { register, unregister, setValue, user, getValues } = useFormContext();
   const valueRef = useRef();
@@ -98,7 +98,7 @@ const Component = ({ filter, moreSectionFilters, setMoreSectionFilters, mode, re
     filterOptions.map(option => {
       return (
         <FormControlLabel
-          key={`${fieldName}-${option.id}`}
+          key={`${fieldName}-${option.id}-form-control`}
           control={
             <Checkbox
               onChange={handleChange}
@@ -124,11 +124,7 @@ const Component = ({ filter, moreSectionFilters, setMoreSectionFilters, mode, re
       </FormControl>
     </Panel>
   );
-};
-
-Component.defaultProps = {
-  moreSectionFilters: {}
-};
+}
 
 Component.displayName = NAME;
 

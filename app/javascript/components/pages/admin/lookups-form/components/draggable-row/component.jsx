@@ -12,7 +12,7 @@ import { LOCALE_KEYS } from "../../../../../../config";
 
 import { NAME } from "./constants";
 
-const Component = ({
+function Component({
   firstLocaleOption,
   index,
   isDragDisabled,
@@ -22,7 +22,7 @@ const Component = ({
   uniqueId,
   formMode,
   formMethods
-}) => {
+}) {
   const renderTranslationValues = () => {
     return localesKeys.map(localeKey => {
       const name = `values.${localeKey}.${uniqueId}`;
@@ -53,7 +53,13 @@ const Component = ({
   );
 
   return (
-    <Draggable key={uniqueId} draggableId={uniqueId} index={index} isDragDisabled={isDragDisabled}>
+    <Draggable
+      data-testid="draggable"
+      key={uniqueId}
+      draggableId={uniqueId}
+      index={index}
+      isDragDisabled={isDragDisabled}
+    >
       {provider => {
         return (
           <div ref={provider.innerRef} {...provider.draggableProps} {...provider.dragHandleProps} className={css.row}>
@@ -67,7 +73,7 @@ const Component = ({
       }}
     </Draggable>
   );
-};
+}
 
 Component.displayName = NAME;
 

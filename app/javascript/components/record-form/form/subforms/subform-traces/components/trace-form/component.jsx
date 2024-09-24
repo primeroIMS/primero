@@ -17,7 +17,7 @@ import { useI18n } from "../../../../../../i18n";
 
 import { NAME } from "./constants";
 
-const Component = ({ setSelectedForm, traceValues, formSection, recordType, selectedForm, handleClose, mode }) => {
+function Component({ setSelectedForm, traceValues, formSection, recordType, selectedForm, handleClose, mode }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formMode = whichFormMode(MODES.show);
@@ -73,7 +73,7 @@ const Component = ({ setSelectedForm, traceValues, formSection, recordType, sele
       />
     </>
   );
-};
+}
 
 Component.propTypes = {
   formSection: PropTypes.object.isRequired,

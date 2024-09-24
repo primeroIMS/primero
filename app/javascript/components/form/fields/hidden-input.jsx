@@ -2,12 +2,12 @@
 
 import PropTypes from "prop-types";
 
-const HiddenInput = ({ commonInputProps, formMethods }) => {
+function HiddenInput({ commonInputProps, formMethods }) {
   const { name } = commonInputProps;
   const { register } = formMethods;
 
   return <input id={name} type="hidden" ref={register} name={name} />;
-};
+}
 
 HiddenInput.displayName = "HiddenInput";
 

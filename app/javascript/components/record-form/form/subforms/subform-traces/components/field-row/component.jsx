@@ -1,9 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import PropTypes from "prop-types";
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 import { useI18n } from "../../../../../../i18n";
 import { MATCH_VALUES } from "../../../../../../../config";
@@ -13,7 +13,7 @@ import { isTextField, getValueLabel } from "./utils";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ field, traceValue, caseValue, match }) => {
+function Component({ field, traceValue, caseValue, match }) {
   const i18n = useI18n();
   const {
     display_name: displayName,
@@ -41,11 +41,12 @@ const Component = ({ field, traceValue, caseValue, match }) => {
         {caseValueLabel}
       </Grid>
       <Grid item xs={2} className={className}>
-        {!isTextField(field) && (matched && traceValue ? <CheckIcon /> : <ClearIcon />)}
+        {!isTextField(field) &&
+          (matched && traceValue ? <CheckIcon data-testid="check-icon" /> : <ClearIcon data-testid="clear-icon" />)}
       </Grid>
     </Grid>
   );
-};
+}
 
 Component.displayName = NAME;
 

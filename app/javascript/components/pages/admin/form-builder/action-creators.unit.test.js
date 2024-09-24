@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable";
 
-import { stub } from "../../../../test";
+import { stub } from "../../../../test-utils";
 import { generate, ENQUEUE_SNACKBAR } from "../../../notifier";
 
 import * as actionCreators from "./action-creators";
@@ -317,6 +317,6 @@ describe("<FormsBuilder /> - Action Creators", () => {
 
     const result = actionCreators.saveSubforms(subforms, parentFormParams);
 
-    expect(Object.keys(result)).to.deep.equal(["type", "api", "finishedCallback"]);
+    expect(Object.keys(result)).to.deep.equal(["type", "api", "finalCallback", "finishedCallback"]);
   });
 });

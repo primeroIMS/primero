@@ -1,4 +1,4 @@
-import { Box, FormControl, MenuItem, Select } from "@material-ui/core";
+import { FormControl, MenuItem, Select } from "@mui/material";
 import PropTypes from "prop-types";
 
 import useOptions from "../../../../../../form/use-options";
@@ -18,7 +18,7 @@ const MENU_PROPS = {
   }
 };
 
-const Component = ({ selectedValue, setSelectedValue }) => {
+function Component({ selectedValue, setSelectedValue }) {
   const verificationStatus = useOptions({ source: LOOKUPS.verification_status });
   const classesFormCotnrol = { root: css.verifyFormControlRoot };
   const classesSelect = {
@@ -35,7 +35,7 @@ const Component = ({ selectedValue, setSelectedValue }) => {
   const onSel = true;
 
   return (
-    <Box className={css.selectWrapper}>
+    <div className={css.selectWrapper}>
       <FormControl fullWidth classes={classesFormCotnrol}>
         <Select
           value={selectedValue}
@@ -53,9 +53,9 @@ const Component = ({ selectedValue, setSelectedValue }) => {
           ))}
         </Select>
       </FormControl>
-    </Box>
+    </div>
   );
-};
+}
 
 Component.propTypes = {
   selectedValue: PropTypes.string,

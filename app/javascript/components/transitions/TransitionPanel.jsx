@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Accordion } from "@material-ui/core";
+import { Accordion } from "@mui/material";
 
 import { TRANSITION_PANEL_NAME as NAME } from "./constants";
 import css from "./styles.css";
 
-const TransitionPanel = ({ children }) => {
+function TransitionPanel({ children }) {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpanded = () => {
@@ -15,11 +15,11 @@ const TransitionPanel = ({ children }) => {
   };
 
   return (
-    <Accordion expanded={expanded} onChange={handleExpanded} className={css.panel}>
+    <Accordion data-testId="accordion" expanded={expanded} onChange={handleExpanded} className={css.panel}>
       {children}
     </Accordion>
   );
-};
+}
 
 TransitionPanel.displayName = NAME;
 

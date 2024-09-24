@@ -1,13 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { IconButton } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
+import { IconButton } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 import { NAME } from "./constants";
 
-const Component = ({ addField, field, removeField, selected }) => {
+function Component({ addField, field, removeField, selected = false }) {
   const onAdd = () => {
     addField(field);
   };
@@ -17,21 +17,17 @@ const Component = ({ addField, field, removeField, selected }) => {
   };
 
   return selected ? (
-    <IconButton onClick={onRemove}>
+    <IconButton size="large" onClick={onRemove} data-testid="remove-button">
       <RemoveIcon />
     </IconButton>
   ) : (
-    <IconButton onClick={onAdd}>
+    <IconButton size="large" onClick={onAdd} data-testid="add-button">
       <AddIcon />
     </IconButton>
   );
-};
+}
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  selected: false
-};
 
 Component.propTypes = {
   addField: PropTypes.func.isRequired,

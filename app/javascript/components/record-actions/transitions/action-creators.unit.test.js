@@ -5,7 +5,7 @@ import configureStore from "redux-mock-store";
 import sinon from "sinon";
 
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
-import { stub } from "../../../test";
+import { stub } from "../../../test-utils";
 import { CLEAR_DIALOG } from "../../action-dialog";
 
 import * as actionCreators from "./action-creators";
@@ -35,6 +35,7 @@ describe("<Transitions /> - Action Creators", () => {
     delete creators.fetchTransitionData;
     delete creators.fetchReferralUsers;
     delete creators.saveReferral;
+    delete creators.resetReferralSuccess;
 
     expect(creators).to.deep.equal({});
   });

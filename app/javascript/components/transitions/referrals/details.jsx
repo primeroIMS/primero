@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable no-nested-ternary */
-import { Divider, Grid, FormControlLabel } from "@material-ui/core";
+import { Divider, Grid, FormControlLabel } from "@mui/material";
 import PropTypes from "prop-types";
 
 import { getOption } from "../../record-form";
@@ -17,7 +17,7 @@ import DateTransitions from "../components/date-transitions";
 import renderIconValue from "./render-icon-value";
 import { referralAgencyName } from "./utils";
 
-const Details = ({ transition, classes }) => {
+function Details({ transition, classes }) {
   const i18n = useI18n();
 
   const service = useMemoizedSelector(state => {
@@ -79,7 +79,7 @@ const Details = ({ transition, classes }) => {
       </Grid>
       {renderRejected}
       <Grid item md={12} xs={12}>
-        <Divider className={classes.divider} />
+        <Divider data-testid="divider" className={classes.divider} />
         <DisplayData label="referral.notes_label" value={transition.notes} />
       </Grid>
       {transition.rejection_note && (
@@ -90,7 +90,7 @@ const Details = ({ transition, classes }) => {
       )}
     </Grid>
   );
-};
+}
 
 Details.displayName = REFERRAL_DETAILS_NAME;
 

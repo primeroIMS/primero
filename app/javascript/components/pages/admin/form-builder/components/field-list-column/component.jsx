@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
-import { Radio } from "@material-ui/core";
+import { Radio } from "@mui/material";
 
 import { SUBFORM_SECTION_CONFIGURATION } from "../field-list-item/constants";
 import css from "../fields-list/styles.css";

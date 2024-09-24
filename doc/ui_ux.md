@@ -94,12 +94,9 @@ v2 ui can be found in the `app/javascript` directory.
 ```js
 // component.js
 
-import styles from "./styles.css";
-import { makeStyles } from "@material-ui/styles";
+import css from "./styles.css";
 
 const TODO = () => {
-  const css = makeStyles(styles)();
-
   return (
     <div className={css.welcome}>Hello <span>Josh</span></div>
   )
@@ -165,13 +162,12 @@ const testFunc = async options => {
 ### Libs
 - [chai](https://www.chaijs.com/)
 - [chai-immutable](https://github.com/astorije/chai-immutable)
-- [enzyme](https://github.com/airbnb/enzyme)
 - [mocha](https://mochajs.org/)
 - [sinon](https://sinonjs.org/)
 - [require-hacker](https://github.com/catamphetamine/require-hacker)
 - [jsdom](https://github.com/jsdom/jsdom)
 - [react-test-renderer](https://reactjs.org/docs/test-renderer.html)
-- [material-ui/testing](https://material-ui.com/guides/testing/#testing) : Material iu has testing helpers simular to enzyme's methods.
+- [material-ui/testing](https://material-ui.com/guides/testing/#testing)
 
 There are also some helpers and setup in the `javascript/test` dir. The helpers in `javascript/test/unit-test-helpers.js` wrap components in the needed providers to mount components. Take a look at files with the name of *.unit.test.js for examples. Test should reside aside their component.
 

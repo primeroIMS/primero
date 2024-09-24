@@ -18,6 +18,7 @@ import PasswordResetDialog from "../password-reset-dialog";
 import { getUseIdentityProvider } from "../../selectors";
 import utils from "../../utils";
 import DisableOffline, { OfflineAlert } from "../../../disable-offline";
+import { checkServerStatus } from "../../../connectivity/action-creators";
 
 import { NAME, FORM_ID } from "./constants";
 import css from "./styles.css";
@@ -25,7 +26,7 @@ import { attemptLogin } from "./action-creators";
 import { selectAuthErrors } from "./selectors";
 import { form, validationSchema } from "./form";
 
-const Container = ({ modal }) => {
+function Container({ modal = false }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { demo, online } = useApp();
@@ -38,8 +39,9 @@ const Container = ({ modal }) => {
   const validations = validationSchema(i18n);
   const formSections = form(i18n);
 
-  const handleSubmit = values => {
-    dispatch(attemptLogin(values));
+  const handleSubmit = async values => {
+    await dispatch(checkServerStatus(true, false));
+    setTimeout(() => dispatch(attemptLogin(values)), 1000);
   };
 
   const onClickForgotLink = () => {
@@ -97,13 +99,9 @@ const Container = ({ modal }) => {
       {renderForgotPassword}
     </>
   );
-};
+}
 
 Container.displayName = NAME;
-
-Container.defaultProps = {
-  modal: false
-};
 
 Container.propTypes = {
   modal: PropTypes.bool

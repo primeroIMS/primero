@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import isString from "lodash/isString";
 
-import { useApp } from "../application";
+import { useApp } from "../application/use-app";
 import { useI18n } from "../i18n";
 
 import { buttonType } from "./utils";
@@ -16,12 +16,12 @@ function Component({
   isTransparent,
   pending,
   text,
-  type,
-  outlined,
+  type = ACTION_BUTTON_TYPES.default,
+  outlined = false,
   keepTextOnMobile,
   tooltip,
   noTranslate = false,
-  rest,
+  rest = {},
   disabled,
   ...options
 }) {
@@ -41,6 +41,7 @@ function Component({
 
   return (
     <ButtonType
+      data-testid="action-button"
       id={buttonID}
       icon={icon}
       cancel={cancel}
@@ -58,12 +59,6 @@ function Component({
 }
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  outlined: false,
-  rest: {},
-  type: ACTION_BUTTON_TYPES.default
-};
 
 Component.propTypes = {
   cancel: PropTypes.bool,

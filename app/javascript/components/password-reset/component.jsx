@@ -3,7 +3,7 @@
 import qs from "qs";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import CheckIcon from "@material-ui/icons/Check";
+import CheckIcon from "@mui/icons-material/Check";
 
 import { PageHeading } from "../page";
 import Form, { FormAction } from "../form";
@@ -14,7 +14,7 @@ import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { form, validationSchema } from "./form";
 import { NAME, RESET_PASSWORD_FORM } from "./constants";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ const Component = () => {
       />
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Grid } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+import Grid from "@mui/material/Unstable_Grid2";
+import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { fromJS } from "immutable";
 
@@ -27,7 +27,7 @@ import { fetchAgencies, setAgenciesFilter } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
 import NAMESPACE from "./namespace";
 
-const Container = () => {
+function Container() {
   const recordType = RESOURCES.agencies;
 
   const i18n = useI18n();
@@ -99,17 +99,17 @@ const Container = () => {
       <PageHeading title={i18n.t("agencies.label")}>{newAgencyBtn}</PageHeading>
       <PageContent>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={9}>
+          <Grid item xs={12} sm={8}>
             <IndexTable title={i18n.t("agencies.label")} {...tableOptions} />
           </Grid>
-          <Grid item xs={12} sm={3}>
-            <FiltersForm {...filterProps} />
+          <Grid item xs={12} sm={4}>
+            <FiltersForm {...filterProps} noMargin />
           </Grid>
         </Grid>
       </PageContent>
     </>
   );
-};
+}
 
 Container.displayName = NAME;
 

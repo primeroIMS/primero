@@ -7,6 +7,7 @@ describe("User - Actions", () => {
     const cloneActions = { ...Actions };
 
     [
+      "LOGIN",
       "FETCH_USER_DATA",
       "FETCH_USER_DATA_SUCCESS",
       "LOGOUT",

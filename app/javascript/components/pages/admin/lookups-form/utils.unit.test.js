@@ -3,7 +3,7 @@
 import { fromJS } from "immutable";
 
 import uuid from "../../../../libs/uuid";
-import { stub } from "../../../../test";
+import { stub } from "../../../../test-utils";
 
 import * as utils from "./utils";
 

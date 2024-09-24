@@ -4,7 +4,7 @@
 
 require 'rails_helper'
 
-describe Kpi::CaseClosureRate, search: true do
+describe Kpi::CaseClosureRate, { search: true, skip_when_solr_disabled: true } do
   include FormAndFieldHelper
   include SunspotHelper
 

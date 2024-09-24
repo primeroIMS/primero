@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import AddIcon from "@material-ui/icons/Add";
-import { Button, Menu, MenuItem } from "@material-ui/core";
+import AddIcon from "@mui/icons-material/Add";
+import { Button, Menu, MenuItem } from "@mui/material";
 
 import { useThemeHelper } from "../../../../../libs";
 import ActionButton from "../../../../action-button";
@@ -15,7 +15,7 @@ import css from "../styles.css";
 
 import { NAME, NEW } from "./constants";
 
-const Component = ({
+function Component({
   arrayHelpers,
   field,
   formik,
@@ -28,7 +28,7 @@ const Component = ({
   setDialogIsNew,
   parentTitle,
   parentValues
-}) => {
+}) {
   const i18n = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
   const { mobileDisplay } = useThemeHelper();
@@ -86,9 +86,10 @@ const Component = ({
   };
 
   return (
-    <div>
+    <div data-testid="subForm-add">
       <ActionButton
         id="fields.add"
+        data-testid="fields-add"
         icon={<AddIcon />}
         text={renderAddText}
         type={ACTION_BUTTON_TYPES.default}
@@ -98,10 +99,11 @@ const Component = ({
         }}
       />
       {shouldRenderViolationAssociationMenu && (
-        <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+        <Menu data-testid="menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
           {associationOptions.map(option => {
             return (
               <MenuItem
+                data-testid="menu-item"
                 key={option.id}
                 component={Button}
                 value={option.id}
@@ -117,7 +119,7 @@ const Component = ({
       )}
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

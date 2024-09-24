@@ -21,7 +21,7 @@ import { NAME } from "./constants";
 import { getChangeLogs } from "./selectors";
 import css from "./styles.css";
 
-const Container = ({
+function Container({
   selectedForm,
   recordID,
   recordType,
@@ -29,7 +29,7 @@ const Container = ({
   mobileDisplay,
   handleToggleNav,
   fetchable = false
-}) => {
+}) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -67,7 +67,7 @@ const Container = ({
   };
 
   return (
-    <div className={css.container} data-testid="ChangeLogs">
+    <div className={css.container} data-testid="change-logs">
       <RecordFormTitle
         mobileDisplay={mobileDisplay}
         handleToggleNav={handleToggleNav}
@@ -82,7 +82,7 @@ const Container = ({
       />
     </div>
   );
-};
+}
 
 Container.displayName = NAME;
 

@@ -1,9 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import { useDispatch, batch } from "react-redux";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 
 import { NAME as FieldTranslationsDialogName } from "../../../field-translations-dialog";
 import { setSelectedField, setSelectedSubform } from "../../../../action-creators";
@@ -17,7 +17,7 @@ import { useApp } from "../../../../../../../application";
 
 import { NAME } from "./constants";
 
-const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
+function Component({ field, selectedLocaleId, formMethods, formMode }) {
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
   const locales = localesToRender(i18n);
@@ -58,7 +58,7 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
     });
   };
 
-  const classes = clsx(css.fieldTitle, css.translationsRow);
+  const classes = cx(css.fieldTitle, css.translationsRow);
 
   return (
     <>
@@ -85,7 +85,7 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
       </Grid>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

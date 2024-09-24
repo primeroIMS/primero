@@ -495,6 +495,10 @@ es:
       date_case_plan_initiated: Fecha del Plan del Caso
       date_of_creation: Fecha de Creación
       registration_date: Fecha de Registro
+      followup_date: Fecha del Seguimiento
+      date_reunification: Fecha de Reunificación
+      tracing_date: Fecha de seguimiento
+      service_implemented_day_time: Fecha de finalización del Servicio
   configurations:
     apply_label: ¿Está seguro(a)? Si usted aplica, los ajustes en esta configuración se aplicarán al sistema. Usted perderá todos sus ajustes actuales y no podrá recuperarlos a menos que ya los haya guardado en otra Configuración.
     apply_label_bold: Primero no estará disponible para sus usuario(a)s por unos minutos mientras se cargan los cambios.
@@ -550,6 +554,13 @@ es:
     all_cases: Todos los Casos
     all_services_implemented: Todos los Servicios Implementados
     and: 'y'
+    action_needed:
+      awaiting_acceptance: Esperando Aceptación
+      header: Acción requerida
+      new: Nuevo
+      new_this_week: Nuevo esta Semana
+      referrals: Referencias
+      transfers: Transferencias
     approval_action_plan_approved: Aprobado
     approval_action_plan_pending: Pendiente
     approval_action_plan_pending_group: Plan de Acción
@@ -2645,6 +2656,15 @@ es:
         label: Caso
       dashboard:
         actions:
+          action_needed_new_updated:
+            explanation: Muestra el indicador de "Nuevo y Actualizado" en el tablero de "Acción Requerida". Esto incluye Casos que han sido recientemente asignados al usuario actual, o aquellos que otro usuario ha actualizado desde la última vez que el usuario actual los haya actualizado.
+            label: 'Accion Requerida: Nuevo o Actualizado'
+          action_needed_new_referrals:
+            explanation: Muestra el indicador de "Nuevas Referencias" en el tablero de "Acción Requerida". Esto incluye cualquier Caso con una Referencia nueva enviada al usuario actual, donde el usuario actual no es la última persona en actualizar dicho Caso.
+            label: 'Acción Requerida: Nuevas Referencias'
+          action_needed_transfer_awaiting_acceptance:
+            explanation: 'Muestra el indicador de "Transferencias Esperando Aceptación" en el tablero de "Acción Requerida". Esto incluye cualquier Caso con una Transferencia al usuario actual, el cual el usuario actual no ha aceptado. '
+            label: 'Acción Requerida: Transferencias Esperando Aceptación'
           approvals_action_plan:
             explanation: Muestra el número de casos de el/la usuario(a) actual que cuentan con solicitud de aprobación de Plan de Acción la cual está Pendiente, Aprobada, o Rechazada.
             label: Aprobaciones %{approval_label} de la trabajadora del caso

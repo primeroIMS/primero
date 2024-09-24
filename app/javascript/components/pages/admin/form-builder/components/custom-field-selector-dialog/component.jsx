@@ -2,17 +2,9 @@
 
 import { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import {
-  Radio,
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
-  List,
-  ListSubheader,
-  Divider
-} from "@material-ui/core";
+import { Radio, ListItem, ListItemSecondaryAction, ListItemText, List, ListSubheader, Divider } from "@mui/material";
 import { useDispatch, batch } from "react-redux";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import {
@@ -66,7 +58,7 @@ const fields = [
   [SUBFORM_SECTION, SubformField]
 ];
 
-const Component = ({ isSubform }) => {
+function Component({ isSubform }) {
   const [selectedItem, setSelectedItem] = useState("");
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -149,7 +141,7 @@ const Component = ({ isSubform }) => {
     return fields.map(field => {
       const [name, Icon] = field;
 
-      const classes = clsx(css.inputIcon, {
+      const classes = cx(css.inputIcon, {
         [css.inputIconTickBox]: [RADIO_FIELD, TICK_FIELD].includes(name)
       });
 
@@ -161,7 +153,7 @@ const Component = ({ isSubform }) => {
         <Fragment key={field}>
           <ListItem selected={isItemSelected(name)} onClick={handleClickListItem(name)}>
             <ListItemText className={css.label}>
-              <div>{i18n.t(`fields.${name}`)}</div>
+              <div data-testid="field">{i18n.t(`fields.${name}`)}</div>
               <div className={css.inputPreviewContainer}>
                 <Icon className={classes} />
               </div>
@@ -198,7 +190,7 @@ const Component = ({ isSubform }) => {
       </ActionDialog>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

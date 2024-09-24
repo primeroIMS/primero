@@ -3,7 +3,7 @@
 import { get } from "../../components/form/utils";
 import { getFieldMap, offlineIncidentFromCase } from "../../components/records";
 import { ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD, MODULE_TYPE_FIELD } from "../../config";
-import { buildFieldMap } from "../../libs";
+import buildFieldMap from "../../libs/build-field-map";
 
 export default (store, data = {}) => {
   const moduleID = get(data, MODULE_TYPE_FIELD);

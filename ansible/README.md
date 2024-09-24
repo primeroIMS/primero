@@ -16,13 +16,15 @@
             $ cd ansible
             $ bin/activate
 
-2.  Edit the Ansible inventory file and primero variables.  Refer to the [Deploy](#markdown-header-deploy) section for more info.  Create a copy of the template file and modify to get started quickly.
+2.  Edit the Ansible inventory file and primero variables.  Refer to the [Deploy](#markdown-header-deploy) section for more info. Create a copy of the template file and modify to get started quickly.
 
             (venv) $ cp inventory/inventory.yml.temnplate inventory/inventory.yml
             (venv) $ vim inventory/inventory.yml
 
 
     The inventory file should include the Primero server you want to deploy to. You can refer to this [sample](inventory/inventory.yml.template) for further documentation.
+
+    > **Note:** If you want to use SOLR, ensure that `SOLR_ENABLED: 'true'` is set in the inventory file. To disable SOLR, set it to `false`.
 
 
 3.  Create the `secrets.yml`.  Refer to the [Deploy](#markdown-header-deploy) section for more info.
@@ -37,7 +39,6 @@
             primero_message_secret: 'generated_secret'
             postgres_password: 'generated_secret'
             devise_secret_key: 'generated_secret'
-            devise_jwt_secret_key: 'generated_secret'
             ssh_private_key: |
             -----BEGIN RSA PRIVATE KEY-----
             klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
@@ -131,6 +132,8 @@ certbot.yml
 In order to deploy primero using Ansible you will first need to create an ansible `inventory.yml` file located at `ansible/inventory/inventory.yml`.
 Below is example of what the file should look like. There is also a sample template file provided in the repo, `ansible/inventory/inventory.yml.template`.
 
+> **Note:**  You can enable or disable the **SOLR** service by setting the `SOLR_ENABLED` variable to true or false in your inventory file.
+
             ---
             all:
 
@@ -154,6 +157,9 @@ Below is example of what the file should look like. There is also a sample templ
                   primero_configuration_repo: 'git@bitbucket.org:quoin/primero-x-configuration.git'
                   primero_configuration_repo_branch: 'main'
                   primero_configuration_path: 'directory/of/config/loader/script.rb'
+                  environment_variables
+                    RUN_DEFAULT_PRIMERO_SEEDS: 'false'
+                    SOLR_ENABLED: 'true'
 
 
 All these variables are required with the exception of `certbot_domain` and `certbot_email`.  These certbot variables are required only when using certbot.
@@ -206,7 +212,6 @@ key just leave the variable `ssh_private_key` out of the secrets.yml file.
                 primero_message_secret: 'generated_secret'
                 postgres_password: 'generated_secret'
                 devise_secret_key: 'generated_secret'
-                devise_jwt_secret_key: 'generated_secret'
                 secret_environment_variables:
                   SMTP_USER: 'secret'
                   SMTP_PASSWORD: 'secret'
@@ -234,7 +239,7 @@ The optional dictionary `secret_environment_variables` can contain key/value pai
 
 ## Config promotion
 
-In order to enable configuration promotion between two servers handled by ansible, you have to set some environment variables on the **demo** server, the one responsible to handle and sed the configuration to the production server.
+In order to enable configuration promotion between two servers handled by ansible, you have to set some environment variables on the **demo** server, the one responsible to handle and send the configuration to the production server.
 
 ```shell
   PRIMERO_SANDBOX_UI: 'true'
@@ -340,3 +345,4 @@ To execute the migrations, run:
 This command will execute migrations and also attempt to run the configuration indicated in `primero_configuration_repo_branch`.
 
 **Please be cautious as this could overwrite the current system configuration**. if you want to prevent a configuration from being applied, make sure to set the configuration version that is applied to the system.
+Also in your inventory file you can add `RUN_DEFAULT_PRIMERO_SEEDS: 'false'` to the variables and remove `primero_configuration_path` keys to prevent that the configuration will not be applied

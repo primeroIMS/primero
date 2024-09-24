@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { batch, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
-import { Grid } from "@material-ui/core";
+import Grid from "@mui/material/Unstable_Grid2";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -31,7 +31,7 @@ import AlertMaxUser from "./components/alert-max-user";
 import CustomToolbar from "./components/custom-toolbar";
 import NewUserBtn from "./components/new-user-button";
 
-const Container = () => {
+function Container() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { maximumUsers, maximumUsersWarning } = useApp();
@@ -96,6 +96,7 @@ const Container = () => {
         limitUsersReached={limitUsersReached}
         maximumUsers={maximumUsersLimit}
         totalUsersEnabled={totalUsersEnabled}
+        data-testid="custom-toolbar"
       />
     )
   };
@@ -131,7 +132,7 @@ const Container = () => {
       </PageHeading>
       <PageContent>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={9}>
+          <Grid item xs={12} sm={8}>
             <AlertMaxUser
               limitUsersReached={limitUsersReached}
               maximumUsers={maximumUsersLimit}
@@ -139,14 +140,14 @@ const Container = () => {
             />
             <IndexTable title={i18n.t("users.label")} {...tableOptions} showCustomToolbar renderTitleMessage />
           </Grid>
-          <Grid item xs={12} sm={3}>
-            <FiltersForm {...filterProps} />
+          <Grid item xs={12} sm={4}>
+            <FiltersForm {...filterProps} noMargin />
           </Grid>
         </Grid>
       </PageContent>
     </>
   );
-};
+}
 
 Container.displayName = "UsersList";
 

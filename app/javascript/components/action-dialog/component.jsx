@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { Dialog, DialogActions, DialogContent, DialogContentText, Typography } from "@material-ui/core";
-import CheckIcon from "@material-ui/icons/Check";
-import CloseIcon from "@material-ui/icons/Close";
+import { Dialog, DialogActions, DialogContent, DialogContentText, Typography } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch } from "react-redux";
 
 import useMemoizedSelector from "../../libs/use-memoized-selector";
@@ -17,8 +17,8 @@ import css from "./styles.css";
 import { clearDialog } from "./action-creators";
 import { getAsyncLoading } from "./selectors";
 
-const ActionDialog = ({
-  cancelButtonProps,
+function ActionDialog({
+  cancelButtonProps = {},
   cancelHandler,
   children,
   confirmButtonLabel,
@@ -27,23 +27,22 @@ const ActionDialog = ({
   dialogSubHeader,
   dialogSubtitle,
   dialogText,
-  dialogTitle,
+  dialogTitle = "",
   disableActions,
-  disableBackdropClick,
-  disableClose,
-  enabledSuccessButton,
-  hideIcon,
+  disableClose = false,
+  enabledSuccessButton = true,
+  hideIcon = false,
   maxSize,
   omitCloseAfterSuccess,
   onClose,
   open,
   pending,
-  showSuccessButton,
+  showSuccessButton = true,
   successHandler,
   fetchAction,
-  fetchArgs,
+  fetchArgs = [],
   fetchLoadingPath
-}) => {
+}) {
   const dispatch = useDispatch();
 
   const { disabledApplication } = useApp();
@@ -56,15 +55,16 @@ const ActionDialog = ({
 
   const isPending = asyncLoading || pending;
 
-  const handleClose = event => {
+  const handleClose = (event, reason) => {
     event.stopPropagation();
-
-    if (cancelHandler) {
-      cancelHandler();
-    } else if (onClose) {
-      onClose();
-    } else {
-      dispatch(clearDialog());
+    if (reason !== "backdropClick") {
+      if (cancelHandler) {
+        cancelHandler();
+      } else if (onClose) {
+        onClose();
+      } else {
+        dispatch(clearDialog());
+      }
     }
   };
 
@@ -132,7 +132,7 @@ const ActionDialog = ({
   }, [open, fetchAction]);
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div onClick={stopPropagation}>
       <Dialog
         open={open}
@@ -141,7 +141,6 @@ const ActionDialog = ({
         maxWidth={maxSize || "sm"}
         aria-labelledby="action-dialog-title"
         aria-describedby="action-dialog-description"
-        disableBackdropClick={disableBackdropClick}
       >
         {dialogHeader}
         {subHeader}
@@ -167,20 +166,9 @@ const ActionDialog = ({
       </Dialog>
     </div>
   );
-};
+}
 
 ActionDialog.displayName = "ActionDialog";
-
-ActionDialog.defaultProps = {
-  cancelButtonProps: {},
-  dialogTitle: "",
-  disableBackdropClick: false,
-  disableClose: false,
-  enabledSuccessButton: true,
-  fetchArgs: [],
-  hideIcon: false,
-  showSuccessButton: true
-};
 
 ActionDialog.propTypes = {
   cancelButtonProps: PropTypes.object,
@@ -194,7 +182,6 @@ ActionDialog.propTypes = {
   dialogText: PropTypes.string,
   dialogTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   disableActions: PropTypes.bool,
-  disableBackdropClick: PropTypes.bool,
   disableClose: PropTypes.bool,
   enabledSuccessButton: PropTypes.bool,
   fetchAction: PropTypes.func,

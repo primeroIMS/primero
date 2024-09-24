@@ -26,7 +26,7 @@ import { getRole, getCopiedRole } from "./selectors";
 import { NAME, FORM_ID } from "./constants";
 import RolesActions from "./roles-actions";
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const formMode = whichFormMode(mode);
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
@@ -134,7 +134,7 @@ const Container = ({ mode }) => {
       </PageContent>
     </LoadingIndicator>
   );
-};
+}
 
 Container.displayName = NAME;
 

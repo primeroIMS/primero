@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable camelcase */
-import { Stepper, Step, StepLabel, useMediaQuery, Badge } from "@material-ui/core";
+import { Stepper, Step, StepLabel, useMediaQuery, Badge } from "@mui/material";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 
@@ -12,7 +12,7 @@ import { displayNameHelper, useMemoizedSelector } from "../../../../libs";
 import css from "./styles.css";
 import { WORKFLOW_INDICATOR_NAME, CLOSED } from "./constants";
 
-const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
+function WorkflowIndicator({ locale, primeroModule, recordType, record }) {
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
 
   const workflowLabels = useMemoizedSelector(state =>
@@ -36,7 +36,7 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
     return (
       <>
         <div className={css.mobileStepper}>
-          <Badge color="primary" badgeContent={(activeStep + 1)?.toString()} />
+          <Badge data-testid="badge" color="primary" badgeContent={(activeStep + 1)?.toString()} />
           <div>{displayNameHelper(workflowSteps?.[activeStep]?.display_text, locale)}</div>
         </div>
       </>
@@ -44,19 +44,19 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
   }
 
   return (
-    <Stepper classes={{ root: css.stepper }} activeStep={activeStep || 0}>
+    <Stepper data-testid="stepper" classes={{ root: css.stepper }} activeStep={activeStep || 0}>
       {workflowSteps?.map((s, index) => {
         const label = displayNameHelper(s.display_text, locale) || "";
 
         return (
-          <Step key={s.id} complete={Boolean(index < activeStep)}>
+          <Step data-testid="step" key={s.id} complete={Boolean(index < activeStep)}>
             <StepLabel classes={{ label: css.stepLabel, active: css.styleLabelActive }}>{label}</StepLabel>
           </Step>
         );
       })}
     </Stepper>
   );
-};
+}
 
 WorkflowIndicator.displayName = WORKFLOW_INDICATOR_NAME;
 

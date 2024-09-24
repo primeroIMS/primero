@@ -12,19 +12,20 @@ module Api::V2::Concerns::Record
   included do
     before_action :display_permitted_forms
     before_action :instantiate_app_services
-    before_action :permit_params, only: %i[index create update]
     before_action :permit_fields, only: %i[index create]
     before_action :select_fields_for_index, only: [:index]
   end
 
   def index
     authorize! :index, model_class
-    search = SearchService.search(
-      model_class, filters: search_filters, query_scope:, query: params[:query],
-                   sort: sort_order, pagination:
+    search = PhoneticSearchService.search(
+      model_class, {
+        query: index_params[:query], phonetic: index_params[:phonetic], filters: search_filters,
+        sort: sort_order, scope: query_scope, pagination:
+      }
     )
-    @records = search.results
     @total = search.total
+    @records = search.records
     render 'api/v2/records/index'
   end
 
@@ -64,20 +65,29 @@ module Api::V2::Concerns::Record
     render 'api/v2/records/destroy'
   end
 
-  def permit_params
-    # We do not use strong params for record updates but rely on:
-    # 1. Validation against a generated JSON schema
-    # 2. Intersection with a generated @permitted_field_name list
-    params.permit!
+  def index_params
+    return @index_params if @index_params
+
+    @index_params = params.permit(
+      :fields, :order, :order_by, :page, :per, :total,
+      :id_search, :query, :query_scope, :phonetic, :format,
+      *permitted_index_params(params)
+    )
+  end
+
+  def json_validation_service
+    return @json_validation_service if @json_validation_service
+
+    permitted_fields = @permitted_form_fields_service.permitted_fields(
+      authorized_roles, model_class.parent_form, module_unique_id, write?
+    )
+    action_fields = @permitted_field_service.permitted_fields_schema
+    @json_validation_service = RecordJsonValidatorService.new(fields: permitted_fields,
+                                                              schema_supplement: action_fields)
   end
 
   def validate_json!
-    permitted_fields = @permitted_form_fields_service.permitted_fields(
-      authorized_roles, model_class.parent_form, write?
-    )
-    action_fields = @permitted_field_service.permitted_fields_schema
-    service = RecordJsonValidatorService.new(fields: permitted_fields, schema_supplement: action_fields)
-    service.validate!(params[:data].to_h)
+    json_validation_service.validate!(record_params)
   end
 
   def authorized_roles
@@ -85,7 +95,9 @@ module Api::V2::Concerns::Record
   end
 
   def permit_fields
-    @permitted_field_names = @permitted_field_service.permitted_field_names(write?, update?, authorized_roles)
+    @permitted_field_names = @permitted_field_service.permitted_field_names(
+      module_unique_id, write?, update?, authorized_roles
+    )
   end
 
   def select_fields_for_show
@@ -107,8 +119,16 @@ module Api::V2::Concerns::Record
   end
 
   def record_params
-    record_params = params['data'].try(:to_h) || {}
-    record_params.select { |k, _| @permitted_field_names.include?(k) }
+    return @record_params.to_h if @record_params.present?
+
+    if params[:data].present?
+      strong_params = json_validation_service.strong_params
+      @record_params = params.require(:data).permit(strong_params).to_h
+      @record_params.to_h
+    else
+      # We send empty data when we add an attachment
+      @record_params = {}
+    end
   end
 
   def find_record
@@ -121,7 +141,10 @@ module Api::V2::Concerns::Record
     @record_data_service = RecordDataService.new
     @permitted_form_fields_service = PermittedFormFieldsService.instance
     @permitted_field_service = PermittedFieldService.new(
-      current_user, model_class, params[:record_action], params[:id_search], @permitted_form_fields_service
+      current_user,
+      model_class,
+      @permitted_form_fields_service,
+      { action_name: params[:record_action], id_search: params[:id_search] }
     )
   end
 
@@ -130,11 +153,17 @@ module Api::V2::Concerns::Record
   end
 
   def search_filters
-    SearchFilterService.build_filters(params, @permitted_field_names)
+    SearchFilterService.build_filters(index_params, @permitted_field_names)
   end
 
   def display_permitted_forms
     @display_permitted_forms = false
+  end
+
+  def module_unique_id
+    return @record.module_id if @record.present?
+
+    params.dig(:data, :module_id)
   end
 
   private
@@ -157,6 +186,22 @@ module Api::V2::Concerns::Record
     else
       authorize!(:update, @record)
     end
+  end
+
+  def permitted_index_params(params)
+    permitted_params = []
+    params.each do |k, v|
+      next unless @permitted_field_names.include?(strip_location_prefix(k))
+
+      permitted_params << (v.is_a?(ActionController::Parameters) ? { k => {} } : k)
+    end
+    permitted_params
+  end
+
+  def strip_location_prefix(param)
+    return Field.remove_location_parts(param) if Field.location_prefix?(param)
+
+    param
   end
 end
 # rubocop:enable Metrics/ModuleLength

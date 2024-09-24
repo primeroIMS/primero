@@ -791,8 +791,7 @@ describe User do
                                    password_confirmation: 'a12345678', email: 'user_admin@localhost.com',
                                    agency_id: @agency1.id, role: @role1, user_groups: [@group1])
       @child1 = Child.new_with_user(@current_user, name: 'Child 3')
-      [@child1].each(&:save!)
-      Sunspot.commit
+      @child1.save!
     end
 
     it 'return the scope of the user' do

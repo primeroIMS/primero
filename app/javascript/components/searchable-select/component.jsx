@@ -2,8 +2,8 @@
 
 /* eslint-disable react/display-name */
 import PropTypes from "prop-types";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { Chip } from "@material-ui/core";
+import Autocomplete from "@mui/material/Autocomplete";
+import { Chip } from "@mui/material";
 
 import AutoCompleteInput from "./components/auto-complete-input";
 import { NAME } from "./constants";
@@ -11,26 +11,26 @@ import css from "./styles.css";
 import { optionLabel, optionEquality, optionDisabled, filterOptions } from "./utils";
 import { listboxClasses, virtualize } from "./components/listbox-component";
 
-const SearchableSelect = ({
+function SearchableSelect({
   error,
-  defaultValues,
-  helperText,
-  isClearable,
-  isDisabled,
-  isLoading,
-  multiple,
+  defaultValues = null,
+  helperText = "",
+  isClearable = true,
+  isDisabled = false,
+  isLoading = false,
+  multiple = false,
   onChange,
   onBlur,
   onOpen,
-  options,
-  TextFieldProps,
-  mode,
+  options = [],
+  TextFieldProps = {},
+  mode = {},
   InputLabelProps,
-  optionIdKey,
-  optionLabelKey,
+  optionIdKey = "value",
+  optionLabelKey = "label",
   name,
   value: fieldValue
-}) => {
+}) {
   const defaultEmptyValue = multiple ? [] : null;
 
   const initialValues = (() => {
@@ -63,6 +63,7 @@ const SearchableSelect = ({
 
       return (
         <Chip
+          data-testid="chip"
           size="small"
           label={optionLabel(option, options, optionIdKey, optionLabelKey)}
           {...chipProps}
@@ -79,13 +80,14 @@ const SearchableSelect = ({
 
   return (
     <Autocomplete
+      data-testid="autocomplete"
       id={name}
       onChange={handleOnChange}
       options={options}
       disabled={isDisabled}
       getOptionLabel={getOptionLabel}
       getOptionDisabled={optionDisabled}
-      getOptionSelected={getSelectedOptions}
+      isOptionEqualToValue={getSelectedOptions}
       loading={isLoading}
       disableClearable={!isClearable}
       filterSelectedOptions
@@ -95,12 +97,13 @@ const SearchableSelect = ({
       multiple={multiple}
       onBlur={onBlur}
       ListboxComponent={virtualize(options.length)}
-      classes={listboxClasses}
+      classes={{ listbox: listboxClasses }}
       disableListWrap
       renderInput={params => (
         <AutoCompleteInput
           ref={params.InputProps.ref}
           mode={mode}
+          data-testid="autocomplete-input"
           params={params}
           value={initialValues}
           helperText={helperText}
@@ -119,23 +122,9 @@ const SearchableSelect = ({
       renderTags={handleRenderTags}
     />
   );
-};
+}
 
 SearchableSelect.displayName = NAME;
-
-SearchableSelect.defaultProps = {
-  defaultValues: null,
-  helperText: "",
-  isClearable: true,
-  isDisabled: false,
-  isLoading: false,
-  mode: {},
-  multiple: false,
-  optionIdKey: "value",
-  optionLabelKey: "label",
-  options: [],
-  TextFieldProps: {}
-};
 
 SearchableSelect.propTypes = {
   defaultValues: PropTypes.oneOfType([PropTypes.array, PropTypes.string, PropTypes.object]),

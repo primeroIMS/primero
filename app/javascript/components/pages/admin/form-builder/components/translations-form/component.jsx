@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
-import clsx from "clsx";
+import { Grid } from "@mui/material";
+import { cx } from "@emotion/css";
 
 import { FormSectionField, FieldRecord, TEXT_FIELD, SELECT_FIELD, whichFormMode } from "../../../../../form";
 import { useI18n } from "../../../../../i18n";
@@ -17,7 +17,7 @@ import { FieldTranslationRow } from "./components";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ mode, formMethods }) => {
+function Component({ mode, formMethods }) {
   const i18n = useI18n();
   const locales = localesToRender(i18n);
   const formMode = whichFormMode(mode);
@@ -90,7 +90,7 @@ const Component = ({ mode, formMethods }) => {
     }
   }, []);
 
-  const classes = clsx(css.fieldTitle, css.translationsRow);
+  const classes = cx(css.fieldTitle, css.translationsRow);
 
   const onBlur = event => onEnglishTextChange(event);
 
@@ -183,7 +183,7 @@ const Component = ({ mode, formMethods }) => {
       </Grid>
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

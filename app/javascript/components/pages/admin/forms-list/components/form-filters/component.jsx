@@ -1,16 +1,16 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 
-import { RECORD_TYPES } from "../../../../../../config/constants";
+import { RECORD_TYPES } from "../../../../../../config";
 import css from "../../styles.css";
 import { useI18n } from "../../../../../i18n";
 import FiltersExpansionPanel from "../filters-expansion-panel";
 import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
-const Component = ({ filterValues, modules, handleSetFilterValue, handleClearValue, disabled }) => {
+function Component({ filterValues = {}, modules, handleSetFilterValue, handleClearValue, disabled = false }) {
   const i18n = useI18n();
 
   const filters = [
@@ -52,10 +52,10 @@ const Component = ({ filterValues, modules, handleSetFilterValue, handleClearVal
         filterValues={filterValues}
       />
     ));
-  const classes = clsx({ [css.disabledFilters]: disabled });
+  const classes = cx({ [css.disabledFilters]: disabled });
 
   return (
-    <div className={classes}>
+    <div className={classes} data-testid="forms-list">
       <ActionButton
         text="clear"
         type={ACTION_BUTTON_TYPES.default}
@@ -70,14 +70,9 @@ const Component = ({ filterValues, modules, handleSetFilterValue, handleClearVal
       {renderExpansionPanels()}
     </div>
   );
-};
+}
 
 Component.displayName = "FormFilters";
-
-Component.defaultProps = {
-  disabled: false,
-  filterValues: {}
-};
 
 Component.propTypes = {
   disabled: PropTypes.bool,

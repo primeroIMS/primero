@@ -4,7 +4,7 @@ import { mountedComponent, userEvent, screen } from "test-utils";
 
 import { ACCEPTED, REJECTED } from "../../config";
 import { ACTIONS } from "../permissions";
-import { lookups, stub } from "../../test";
+import { lookups, stub } from "../../test-utils";
 
 import ActivityLog from "./component";
 
