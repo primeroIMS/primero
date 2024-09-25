@@ -761,6 +761,8 @@ describe Api::V2::ChildrenController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@case1.id)
+      @case1.reload
+      expect(@case1.data['id']).to be_nil
     end
 
     it 'ignores unauthorized attributes' do
