@@ -10,6 +10,7 @@ import { ROUTES } from "../../../config";
 import { buildFilter } from "../utils";
 import LoadingIndicator from "../../loading-indicator";
 import NAMESPACE from "../../pages/dashboard/namespace";
+import dashboardsCss from "../styles.css";
 
 import css from "./styles.css";
 
@@ -56,7 +57,7 @@ function BadgedIndicator({ data, lookup, sectionTitle, indicator, loading, error
   return (
     <>
       <LoadingIndicator {...loadingIndicatorProps} data-testid="badged-indicator">
-        <div className={css.sectionTitle}>{sectionTitle}</div>
+        <div className={dashboardsCss.sectionTitle}>{sectionTitle}</div>
         <div className={css.content}>{dashboardChips}</div>
       </LoadingIndicator>
     </>
