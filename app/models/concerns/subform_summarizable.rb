@@ -11,7 +11,7 @@ module SubformSummarizable
   end
 
   def calculate_summary_fields
-    subform_summary_fields.each do |field|
+    SubformSummaryFieldsService.instance.subform_summary_fields(self.class.parent_form).each do |field|
       next unless subform_to_summarize_changed?(field)
 
       data[field.name] = calculate_summary(field)
@@ -29,13 +29,5 @@ module SubformSummarizable
     function_name = field.subform_summary.keys.reject { |key| key == 'subform_unique_id' }.first
     function_args = field.subform_summary[function_name]
     SubformSummaryService.new(subforms:, args: function_args).send(function_name)
-  end
-
-  def subform_summary_fields
-    # TODO: Should this be cached somewhere else?
-    # TODO: Review permitted fields caching
-    @subform_summary_fields ||= Field.joins(:form_section).where(
-      form_section: { parent_form: self.class.parent_form }, visible: true
-    ).where.not(subform_summary: nil)
   end
 end
