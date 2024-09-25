@@ -1174,19 +1174,21 @@ describe Ability do
       [
         FormSection.create!(
           unique_id: 'form1', name: 'Form 1', parent_form: 'case', form_group_id: 'form1', fields: [
-            Field.new(name: Attachable::PHOTOS_FIELD_NAME, display_name: 'Photos'),
-            Field.new(name: Attachable::AUDIOS_FIELD_NAME, display_name: 'Recorded Audio'),
-            Field.new(name: Attachable::DOCUMENTS_FIELD_NAME, display_name: 'Other Documents')
+            Field.new(name: Attachable::PHOTOS_FIELD_NAME, display_name: 'Photos', type: Field::PHOTO_UPLOAD_BOX),
+            Field.new(name: Attachable::AUDIOS_FIELD_NAME, display_name: 'Recorded Audio',
+                      type: Field::AUDIO_UPLOAD_BOX),
+            Field.new(name: Attachable::DOCUMENTS_FIELD_NAME, display_name: 'Other Documents',
+                      type: Field::DOCUMENT_UPLOAD_BOX)
           ]
         ),
         FormSection.create!(
           unique_id: 'form2', name: 'Form 2', parent_form: 'case', form_group_id: 'form2', fields: [
-            Field.new(name: Attachable::PHOTOS_FIELD_NAME, display_name: 'Photos')
+            Field.new(name: Attachable::PHOTOS_FIELD_NAME, display_name: 'Photos', type: Field::PHOTO_UPLOAD_BOX)
           ]
         ),
         FormSection.create!(
           unique_id: 'form3', name: 'Form 3', parent_form: 'case', form_group_id: 'form3', fields: [
-            Field.new(name: 'current_photos', display_name: 'Current Photos')
+            Field.new(name: 'current_photos', display_name: 'Current Photos', type: Field::PHOTO_UPLOAD_BOX)
           ]
         )
       ]
@@ -1197,11 +1199,18 @@ describe Ability do
     context 'when a user can access a record' do
       context 'and read access is permitted' do
         before do
+          clean_data(PrimeroModule)
           permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+          primero_module = PrimeroModule.new(
+            unique_id: PrimeroModule::CP, name: 'Primero Module CP', associated_record_types: %w[case]
+          )
           role = Role.new_with_properties(
             name: 'read_attachment', permissions: [permission], form_section_read_write: { form1: 'r' }
           )
           role.save!
+          primero_module.form_sections = [form_sections.first]
+          primero_module.roles = [role]
+          primero_module.save!
           attachment_user.role = role
           attachment_user.save!
         end
@@ -1223,11 +1232,18 @@ describe Ability do
 
       context 'and write access is permitted' do
         before do
+          clean_data(PrimeroModule)
+          primero_module = PrimeroModule.new(
+            unique_id: PrimeroModule::CP, name: 'Primero Module CP', associated_record_types: %w[case]
+          )
           permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
           role = Role.new_with_properties(
             name: 'write_attachment', permissions: [permission], form_section_read_write: { form1: 'rw' }
           )
           role.save!
+          primero_module.form_sections = [form_sections.first]
+          primero_module.roles = [role]
+          primero_module.save!
           attachment_user.role = role
           attachment_user.save!
         end
@@ -1249,11 +1265,18 @@ describe Ability do
 
       context 'and can view audio for potential matches' do
         before do
+          clean_data(PrimeroModule)
+          primero_module = PrimeroModule.new(
+            unique_id: PrimeroModule::CP, name: 'Primero Module CP', associated_record_types: %w[case]
+          )
           permission = Permission.new(resource: Permission::POTENTIAL_MATCH, actions: [Permission::VIEW_AUDIO])
           role = Role.new_with_properties(
             name: 'read_audio_potential_match', permissions: [permission], form_section_read_write: {}
           )
           role.save!
+          primero_module.form_sections = [form_sections.first]
+          primero_module.roles = [role]
+          primero_module.save!
           attachment_user.role = role
           attachment_user.save!
         end
@@ -1310,11 +1333,18 @@ describe Ability do
       context 'and is a referred record' do
         context 'and the authorized role permits read access' do
           before do
+            clean_data(PrimeroModule)
+            primero_module = PrimeroModule.new(
+              unique_id: PrimeroModule::CP, name: 'Primero Module CP', associated_record_types: %w[case]
+            )
             permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
             role = Role.new_with_properties(
               unique_id: 'referred_read_attachment', name: 'referred_read_attachment', permissions: [permission],
               form_section_read_write: { form1: 'r' }
             )
+            primero_module.form_sections = [form_sections.first]
+            primero_module.roles = [role]
+            primero_module.save!
             role.save!
             Referral.create!(
               transitioned_by_user: attachment_user, transitioned_to_user: referred_user, record: child_with_attachment,
@@ -1339,12 +1369,19 @@ describe Ability do
 
         context 'and the authorized role permits write access' do
           before do
+            clean_data(PrimeroModule)
+            primero_module = PrimeroModule.new(
+              unique_id: PrimeroModule::CP, name: 'Primero Module CP', associated_record_types: %w[case]
+            )
             permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
             role = Role.new_with_properties(
               unique_id: 'referred_write_attachment', name: 'referred_write_attachment', permissions: [permission],
               form_section_read_write: { form1: 'rw' }
             )
             role.save!
+            primero_module.form_sections = [form_sections.first]
+            primero_module.roles = [role]
+            primero_module.save!
             Referral.create!(
               transitioned_by_user: attachment_user, transitioned_to_user: referred_user, record: child_with_attachment,
               authorized_role_unique_id: 'referred_write_attachment'

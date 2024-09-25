@@ -27,7 +27,7 @@ export default async ({ attachments, id, recordType }) => {
           api: {
             path,
             method,
-            ...(!isDelete && { body: { data: { ...attachment, field_name: current } } }),
+            ...(!isDelete && { body: { data: { ...attachment } } }),
             db: { id, collection: DB_COLLECTIONS_NAMES.RECORDS, recordType }
           },
           fromQueue: uuid.v4(),

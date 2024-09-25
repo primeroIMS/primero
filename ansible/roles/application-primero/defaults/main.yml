@@ -2,4 +2,4 @@
 
 ---
 # TODO Change this to PG15 with v2.11.0
-primero_postgres_version: "14"
+primero_postgres_version: "15"

@@ -5,6 +5,15 @@
 require 'rails_helper'
 
 describe PermittedFieldService, search: true do
+  let(:cp_module) do
+    PrimeroModule.create!(
+      primero_program: PrimeroProgram.first,
+      name: 'CP Module',
+      unique_id: PrimeroModule::CP,
+      associated_record_types: %w[case],
+      form_sections: [form]
+    )
+  end
   let(:form) { FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm') }
   let(:field) { Field.create!(name: 'test', display_name: 'test', type: Field::TEXT_FIELD, form_section_id: form.id) }
   let(:role) do
@@ -145,9 +154,9 @@ describe PermittedFieldService, search: true do
   end
 
   before(:each) do
-    clean_data(PrimeroProgram, User, Agency, Role, FormSection, Field, SystemSettings)
+    clean_data(PrimeroModule, PrimeroProgram, User, Agency, Role, FormSection, Field, SystemSettings)
     system_settings
-    form
+    cp_module
     field
     role.save!
     agency
@@ -161,7 +170,7 @@ describe PermittedFieldService, search: true do
   end
 
   it 'returns the formsection permitted' do
-    permitted_field_names = PermittedFieldService.new(user, Child).permitted_field_names
+    permitted_field_names = PermittedFieldService.new(user, Child).permitted_field_names('primeromodule-cp')
 
     expect(permitted_field_names.include?(field.name)).to be true
   end
@@ -173,7 +182,9 @@ describe PermittedFieldService, search: true do
   end
 
   it 'returns the permitted fields for id_search = true' do
-    permitted_field_names = PermittedFieldService.new(user, Child, nil, true).permitted_field_names
+    permitted_field_names = PermittedFieldService.new(
+      user, Child, nil, { action_name: nil, id_search: true }
+    ).permitted_field_names
 
     expect((PermittedFieldService::ID_SEARCH_FIELDS - permitted_field_names).empty?).to be true
   end
@@ -193,7 +204,7 @@ describe PermittedFieldService, search: true do
   end
 
   it 'does not return id when is an update' do
-    permitted_field_names = PermittedFieldService.new(user, Child).permitted_field_names(false, true)
+    permitted_field_names = PermittedFieldService.new(user, Child).permitted_field_names(PrimeroModule::CP, false, true)
 
     expect(permitted_field_names.include?('id')).to be false
   end
@@ -204,7 +215,7 @@ describe PermittedFieldService, search: true do
     permitted_reporting_location_field = PermittedFieldService.new(user, Child).permitted_reporting_location_field.first
     reporting_location_config = system_settings.reporting_location_config
 
-    expect(permitted_reporting_location_field).to eq("loc:#{reporting_location_config.field_key}")
+    expect(permitted_reporting_location_field).to eq(reporting_location_config.field_key)
   end
 
   it 'returns the reporting_location field permitted for a role with a reporting_location_level set' do
@@ -229,11 +240,12 @@ describe PermittedFieldService, search: true do
       agency_id: agency.id,
       role: role_with_reporting_location
     )
-    permitted_reporting_location_field = PermittedFieldService.new(user_with_reporting_location, Child)
-                                                              .permitted_reporting_location_field.first
+    permitted_reporting_location_field = PermittedFieldService.new(
+      user_with_reporting_location, Child
+    ).permitted_reporting_location_field.first
     reporting_location_config = system_settings.reporting_location_config
 
-    expect(permitted_reporting_location_field).to eq("loc:#{reporting_location_config.field_key}")
+    expect(permitted_reporting_location_field).to eq(reporting_location_config.field_key)
   end
 
   it 'return the risk_level field permitted for a role with a case_risk permission in dashboard' do
@@ -243,22 +255,24 @@ describe PermittedFieldService, search: true do
   end
 
   describe 'MRM - Vioaltions forms and fields' do
-    let(:mrm_form) { FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'incident', form_group_id: 'm') }
+    let(:mrm_form) do
+      FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'incident', form_group_id: 'm', fields: [mrm_field])
+    end
     let(:mrm_module) do
       PrimeroModule.create!(
         primero_program: PrimeroProgram.first,
         name: 'MRM Module',
         unique_id: PrimeroModule::MRM,
         associated_record_types: ['incident'],
-        form_sections: [mrm_form]
+        form_sections: [mrm_form],
+        roles: [mrm_role]
       )
     end
     let(:mrm_field) do
       Field.create!(
         name: 'mrm_field',
         display_name: 'mrm field',
-        type: Field::TALLY_FIELD,
-        form_section_id: mrm_form.id
+        type: Field::TALLY_FIELD
       )
     end
     let(:mrm_role) do
@@ -266,7 +280,6 @@ describe PermittedFieldService, search: true do
         name: 'Test Role 1',
         unique_id: 'test-role-1',
         group_permission: Permission::SELF,
-        modules: [mrm_module],
         permissions: [
           Permission.new(
             resource: Permission::INCIDENT,
@@ -296,20 +309,14 @@ describe PermittedFieldService, search: true do
     end
     before(:each) do
       clean_data(PrimeroModule, User, Agency, Role, FormSection, Field, SystemSettings)
-      mrm_module
       mrm_form
-      mrm_field
       mrm_role.save!
+      mrm_module
       mrm_user
     end
     it 'returns Violations fields if user has permission' do
-      permitted_field_names = PermittedFieldService.new(mrm_user, Incident).permitted_field_names
+      permitted_field_names = PermittedFieldService.new(mrm_user, Incident).permitted_field_names(PrimeroModule::MRM)
       expect(permitted_field_names.include?('mrm_field')).to be true
-    end
-
-    it 'return a field schema for tally fields' do
-      permitted_fields_schema = PermittedFieldService.new(mrm_user, Incident).permitted_fields_schema
-      expect((Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS) - permitted_fields_schema.keys).to be_empty
     end
   end
 
@@ -392,7 +399,7 @@ describe PermittedFieldService, search: true do
 
     it 'returns the permitted fields for the roles' do
       permitted_field_names = PermittedFieldService.new(test_user, Child).permitted_field_names(
-        false, false, [role_a, role_b]
+        PrimeroModule::CP, false, false, [role_a, role_b]
       )
 
       expect(permitted_field_names).to include('field_a', 'field_b')

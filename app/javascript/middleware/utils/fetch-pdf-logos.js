@@ -40,7 +40,11 @@ const fetchPdfLogos = (action, store, options, next) => {
       fetchStatus({ store, type }, "FAILURE", false);
     }
 
-    return fetchPayload(action, store, options);
+    if (action?.api?.path) {
+      return fetchPayload(action, store, options);
+    }
+
+    return next(action);
   };
 
   return fetch();

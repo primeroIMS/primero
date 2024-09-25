@@ -100,3 +100,7 @@ export const saveReferral = (recordId, recordType, body, message) => {
     }
   };
 };
+
+export const resetReferralSuccess = () => ({
+  type: actions.REFER_USER_SUCCESS_FINISHED
+});

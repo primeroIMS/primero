@@ -1053,6 +1053,7 @@ en:
         subforms: 'Subform: %{subform_name}'
         collapsed_fields: 'Collapsed Fields: %{fields}'
         country: Countries
+        linkedincidents: Linked Incidents
       summary_header:
         form_group: Primero Form Group
         form: Primero Forms
@@ -1451,6 +1452,8 @@ en:
     ar-JO: العربية (الأردنية)
     ar-LB: العربية (اللبنانية)
     ar-SD: العربية (السودانية)
+    aeb: العربية (التونسية)
+    ar-SY: العربية (السورية)
     bn: বাংলা
     cmn: 中文
     current_time_zone: Current time zone
@@ -1815,6 +1818,15 @@ en:
       parish: Parish
       cercle: Cercle
       sub-county: Sub-county
+      departement_fr: 'Département'
+      region_fr: 'Région'
+      wilaya: 'Wilaya'
+      commune: 'Commune'
+      division_fr: 'Division'
+      prefecture: 'Prefecture'
+      moughataa: 'Moughataa'
+      sub_division: 'Sub-division'
+      sub-prefecture: 'Sub-Prefecture'
     label: Location
     name: Name
     code: Code

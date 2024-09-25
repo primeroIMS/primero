@@ -17,7 +17,7 @@ import { generateIdForNewOption } from "../utils/handle-options";
 import { ORDERABLE_OPTIONS_FIELD_NAME } from "./constants";
 import css from "./styles.css";
 
-function OrderableOptionsField({ commonInputProps, metaInputProps, showActionButtons = false, formMethods, formMode }) {
+function OrderableOptionsField({ commonInputProps, metaInputProps, showActionButtons = true, formMethods, formMode }) {
   const i18n = useI18n();
   const [disabledAddAction, setDisabledAddAction] = useState(false);
 

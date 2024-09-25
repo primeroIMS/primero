@@ -34,7 +34,7 @@ class ManagedReports::Indicators::IndividualViolationType < ManagedReports::SqlR
         #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
         #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
-        #{equal_value_query_multiple(params['violation_type'], 'violations', 'type')&.prepend('and ')}
+        #{equal_value_query_multiple(params['violation_type'], 'violations', 'data', 'type')&.prepend('and ')}
         group by violations.data ->> 'type', name
         #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
         order by name

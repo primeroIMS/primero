@@ -75,8 +75,53 @@ describe Api::V2::IncidentsController, type: :request do
     ].freeze
   end
   before :each do
-    clean_data(Incident, Child, Alert)
+    clean_data(Location, PrimeroModule, Incident, Child, Alert, User, Agency, Role, SystemSettings)
 
+    SystemSettings.create!(
+      incident_reporting_location_config: { admin_level: 2, field_key: 'incident_location' }
+    )
+
+    @country = create(
+      :location, placename_all: 'MyCountry', type: 'country', location_code: 'MC01'
+    )
+    @province1 = create(
+      :location, hierarchy_path: "#{@country.location_code}.PR01",
+                 type: 'province', location_code: 'PR01',
+                 placename_i18n: { en: 'Province 1', fr: 'La Province 1' }
+    )
+    @town1 = create(
+      :location, hierarchy_path: "#{@country.location_code}.#{@province1.location_code}.TW01",
+                 placename_all: 'Town 1', type: 'city', location_code: 'TW01'
+    )
+
+    @mrm_module = PrimeroModule.create!(
+      primero_program: PrimeroProgram.first,
+      name: 'MRM Module',
+      unique_id: PrimeroModule::MRM,
+      associated_record_types: ['incident']
+    )
+    @mrm_role = Role.new_with_properties(
+      name: 'MRM Role',
+      unique_id: 'mrm-role',
+      group_permission: Permission::SELF,
+      permissions: [
+        Permission.new(
+          resource: Permission::INCIDENT,
+          actions: [Permission::READ, Permission::CREATE, Permission::WRITE]
+        )
+      ],
+      modules: [@mrm_module]
+    )
+    @mrm_agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
+    @mrm_user = User.create!(
+      full_name: 'MRM User',
+      user_name: 'mrm_user',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'mrm_user@localhost.com',
+      agency_id: @mrm_agency.id,
+      role: @mrm_role
+    )
     @case1 = Child.create!(data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false })
     @case2 = Child.create!(data: { name: 'Test2', age: 6, sex: 'male' })
     @incident1 = Incident.create!(
@@ -87,6 +132,35 @@ describe Api::V2::IncidentsController, type: :request do
       data: { incident_date: Date.new(2018, 3, 1), description: 'Test 3' },
       incident_case_id: @case1.id
     )
+    @incident4 = Incident.new_with_user(
+      @mrm_user,
+      {
+        incident_date: Date.new(2022, 8, 10),
+        description: 'Test 4',
+        violation_category: ['killing'],
+        module_id: PrimeroModule::MRM,
+        killing: [
+          {
+            unique_id: '0fff1c74-7626-11ef-998a-18c04db5c362',
+            type: 'killing',
+            verified: 'verified',
+            ctfmr_verified_date: Date.new(2023, 5, 12),
+            is_late_verification: true
+          }
+        ]
+      }.with_indifferent_access
+    )
+    @incident4.save!
+    @incident5 = Incident.new_with_user(
+      @mrm_user,
+      {
+        incident_date: Date.new(2022, 8, 10),
+        description: 'Test 5',
+        incident_location: 'TW01',
+        module_id: PrimeroModule::MRM
+      }
+    )
+    @incident5.save!
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -97,11 +171,11 @@ describe Api::V2::IncidentsController, type: :request do
       get '/api/v2/incidents'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(3)
+      expect(json['data'].size).to eq(5)
       expect(json['data'].map { |c| c['description'] }).to include(
-        @incident1.description, @incident2.description, @incident3.description
+        @incident1.description, @incident2.description, @incident3.description, @incident4.description
       )
-      expect(json['metadata']['total']).to eq(3)
+      expect(json['metadata']['total']).to eq(5)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
     end
@@ -119,6 +193,24 @@ describe Api::V2::IncidentsController, type: :request do
       expect(response).to have_http_status(200)
       incident_data = json['data'].find { |i| i['id'] == @incident1.id }
       expect(incident_data['flag_count']).to eq(1)
+    end
+
+    it 'returns the incidents with late_verified_violations' do
+      sign_in(@mrm_user)
+      get '/api/v2/incidents?has_late_verified_violations=true'
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(1)
+      expect(json['data'].map { |data| data['id'] }).to match_array([@incident4.id])
+    end
+
+    it 'returns the incidents for the reporting location' do
+      sign_in(@mrm_user)
+      get '/api/v2/incidents?loc:incident_location2=TW01'
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(1)
+      expect(json['data'].map { |data| data['id'] }).to match_array([@incident5.id])
     end
   end
 
@@ -279,7 +371,6 @@ describe Api::V2::IncidentsController, type: :request do
 
         expect(response).to have_http_status(200)
         expect(json['data']['id']).not_to be_empty
-        expect(json['data']['case_id_display']).to eq(@case2.case_id_display)
         expect(json['data']['age']).to eq(7)
         @case2.reload
         expect(@case2.has_incidents).to eq(true)

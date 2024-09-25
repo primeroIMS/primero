@@ -5,6 +5,7 @@ import { namespaceActions } from "../../libs";
 import NAMESPACE from "./namespace";
 
 export default namespaceActions(NAMESPACE, [
+  "LOGIN",
   "FETCH_USER_DATA",
   "FETCH_USER_DATA_SUCCESS",
   "LOGOUT",

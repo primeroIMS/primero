@@ -3,7 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 source 'https://rubygems.org'
-ruby '3.3.1'
+ruby '3.3.5'
 
 gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
 gem 'aws-sdk-s3',          '~> 1.130', # Access and manage Amazon S3 storage (with ActiveStorage).
@@ -55,7 +55,7 @@ gem 'will_paginate',       '~> 4.0'    # Paginates ActiveRecord models  TODO: Th
 gem 'write_xlsx',          '~> 1.11'   # Exports XLSX
 
 group :development, :test do
-  gem 'bundler-audit',              '~> 0.8'
+  gem 'bundler-audit',              '~> 0.9'
   gem 'ci_reporter',                '~> 2.0'
   gem 'factory_bot',                '~> 5.0'
   gem 'foreman'
@@ -81,6 +81,7 @@ group :development, :test do
   gem 'rspec-rails',                '~> 6.0'
   gem 'rubocop',                    '~> 1.54'
   gem 'rubocop-performance',        '~> 1.18'
+  gem 'ruby-lsp',                   '~> 0.17'
   gem 'ruby-prof',                  '~> 0.17'
   gem 'simplecov',                  '~> 0.18'
   # TODO: Latest version (1.2.5) of this conflicts with sunspot gem. Upgrade when we upgrade sunspot

@@ -91,6 +91,7 @@ module ManagedReports::SqlQueryHelpers
       )
     end
 
+    # rubocop:disable Metrics/MethodLength
     def date_range_query(param, table_name = nil, hash_field = 'data', map_to = nil)
       return unless param.present?
 
@@ -99,18 +100,35 @@ module ManagedReports::SqlQueryHelpers
       return date_range_hash_query(param, field_name, table_name, hash_field) if hash_field.present?
 
       ActiveRecord::Base.sanitize_sql_for_conditions(
-        ["#{quoted_query(table_name, field_name)}  between ? and ?", param.from, param.to]
-      )
-    end
-
-    def date_range_hash_query(param, field_name, table_name = nil, hash_field = 'data')
-      ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          "to_timestamp(#{quoted_query(table_name, hash_field)} ->> ?, ?) between ? and ?",
-          field_name, Report::DATE_TIME_FORMAT, param.from, param.to
+          %(
+            CAST(#{quoted_query(table_name, field_name)} AS TIMESTAMP) >= to_timestamp(:from, :date_format)
+            AND CAST(#{quoted_query(table_name, field_name)} AS TIMESTAMP) <= (
+              to_timestamp(:to, :date_format) + interval '1 day' - interval '1 second'
+            )
+          ), { from: param.from, to: param.to, date_format: Report::DATE_FORMAT }
         ]
       )
     end
+    # rubocop:enable Metrics/MethodLength
+
+    # rubocop:disable Metrics/MethodLength
+    def date_range_hash_query(param, field_name, table_name = nil, hash_field = 'data')
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          %(
+            to_timestamp(
+              #{quoted_query(table_name, hash_field)} ->> :field_name, :date_format
+            ) >= to_timestamp(:from, :date_format)
+            AND to_timestamp(
+              #{quoted_query(table_name, hash_field)} ->> :field_name, :date_format
+            ) <= to_timestamp(:to, :date_format) + interval '1 day' - interval '1 second'
+          ),
+          { field_name:, date_format: Report::DATE_FORMAT, from: param.from, to: param.to }
+        ]
+      )
+    end
+    # rubocop:enable Metrics/MethodLength
 
     def agency_scope_query(current_user, table_name = nil)
       ActiveRecord::Base.sanitize_sql_for_conditions(

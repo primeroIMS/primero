@@ -26,7 +26,39 @@ class JsonValidatorService < ValueObject
     raise error
   end
 
+  def strong_params
+    as_strong_params(:strong_params, schema)
+  end
+
   private
+
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/CyclomaticComplexity
+  def as_strong_params(name, object)
+    type = [object['type']].flatten
+    if type.include?('object')
+      if object['properties'].keys.include?('total')
+        { name.to_sym => object['properties'].map { |k, v| as_strong_params(k, v) } }
+      else
+        object['properties'].map { |k, v| as_strong_params(k, v) }
+      end
+    elsif type.include?('array')
+      items_type = [object['items']['type']].flatten
+      if items_type.include?('object')
+        { name.to_sym => object['items']['properties'].map { |k, v| as_strong_params(k, v) } }
+      else
+        { name.to_sym => [] }
+      end
+    else
+      name.to_sym
+    end
+  end
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def build_schema(_fields)
     { 'type' => 'object', 'properties' => {}, 'additionalProperties' => false }
