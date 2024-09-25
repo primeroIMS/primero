@@ -50,6 +50,11 @@ class Exporters::CsvListViewExporter < Exporters::BaseExporter
   def list_headers
     return @list_headers if @list_headers
 
+    if record_type == Child.parent_form
+      module_headers = user.modules.map{|primero_module| primero_module.record_list_headers[Child.parent_form.to_sym] }.flatten.compact.uniq
+      return Header.get_headers(user, record_type).filter{ |header| module_headers.include?(header.name) }
+    end
+
     @list_headers = record_type && Header.get_headers(user, record_type)
   end
 
