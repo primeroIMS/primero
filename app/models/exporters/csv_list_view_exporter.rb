@@ -47,15 +47,21 @@ class Exporters::CsvListViewExporter < Exporters::BaseExporter
     end
   end
 
+  def filtered_list_headers
+    module_headers = user.modules.map do |primero_module|
+      primero_module.record_list_headers[Child.parent_form.to_sym]
+    end.flatten.compact.uniq
+    Header.get_headers(user, record_type).filter { |header| module_headers.include?(header.name) }
+  end
+
   def list_headers
     return @list_headers if @list_headers
 
-    if record_type == Child.parent_form
-      module_headers = user.modules.map{|primero_module| primero_module.record_list_headers[Child.parent_form.to_sym] }.flatten.compact.uniq
-      return Header.get_headers(user, record_type).filter{ |header| module_headers.include?(header.name) }
-    end
-
-    @list_headers = record_type && Header.get_headers(user, record_type)
+    @list_headers = if record_type == Child.parent_form
+                      filtered_list_headers
+                    else
+                      record_type && Header.get_headers(user, record_type)
+                    end
   end
 
   def headers(list_headers)
