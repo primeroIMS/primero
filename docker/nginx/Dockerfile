@@ -3,9 +3,9 @@
 # ------------------------------------------------------------------ BUILD STAGE
 
 ARG BUILD_REGISTRY
-ARG version=1.27.0
+ARG version=1.27.1
 # TODO: Although the rest of Primero uses Alpine 3.20 base images, Nginx doesn't have one.
-ARG ALPINE_VERSION=3.19
+ARG ALPINE_VERSION=3.20
 
 FROM ${BUILD_REGISTRY}nginx:${version}-alpine${ALPINE_VERSION} AS builder
 ARG version
@@ -43,7 +43,7 @@ ENV GROUP_ID=${NGINX_GID}
 # If you are updating `version` or `ALPINE_VERSION`,
 # run: `docker scout cves primero/nginx:my-tag` to verify whether the versions of the security packages
 # listed in SECURITY_UPDATED_PACKAGES are still necessary.
-ENV SECURITY_UPDATED_PACKAGES="curl=8.9.0-r0"
+ENV SECURITY_UPDATED_PACKAGES="libexpat=2.6.3-r0 curl=8.9.1-r2"
 
 COPY [ "nginx/root/", "/" ]
 

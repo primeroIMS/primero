@@ -15,7 +15,6 @@ uk:
   unavailable_offline: Недоступно в автономному режимі
   online: Онлайн
   yes_label: 'Так'
-  or_label: або
   select_provider: Вибрати надавача
   select_language: Вибрати мову
   log_in_primero_idp: увійти під іменем %{idp_name}
@@ -281,7 +280,7 @@ uk:
       text: Ви впевнені, що хочете позначити ці кейси для використання в автономному режимі?
       success: Кейси успішно позначені для використання поза мережею
     filter_by:
-      3month_inactivity: На 3+ місяці
+      3month_inactivity: Більше 3+ місяців
       action_plan: План дій
       age_0_5: 0 - 5
       age_12_17: 12 - 17
@@ -330,7 +329,7 @@ uk:
       registration_date: Дата реєстрації
       risk_level: Рівень ризику
       sex: Стать
-      social_worker: Поле/кейс/соціальний працівник
+      social_worker: Сфера/кейс/соціальний працівник
       status: Статус
       transferred: Переслано
       type_of_risk: Тип ризику
@@ -493,7 +492,7 @@ uk:
       phone: Телефон
       position: Позиція
       primero_version: Primero версія
-      support_forum: Форуи підтримки
+      support_forum: Форма підтримки
       system_version: Версія системи
     info_label: Контактна інформація
     updated: Контактна інформація була успішно оновлена.
@@ -706,7 +705,7 @@ uk:
     number_of_violations: Кількість порушень
     number_of_violations_verified: Порушення підтверджені
     open: Відкрити
-    open_cases: Відкрити кейси
+    open_cases: Відкриті кейси
     open_incidents: Відкрити інциденти
     outstanding_transfers: Незакриті трансфери
     overdue_activities: Протерміновані заходи
@@ -741,8 +740,8 @@ uk:
     shared_from_my_team_rejected_transfers: Відхилені трансфери
     shared_with_me_new_referrals: Нові направлення
     shared_with_me_total_referrals: Загальні направлення
-    shared_with_me_transfers_awaiting_acceptance: Трансфери, які очікують прийняття
-    shared_with_my_team_pending_transfers_overview: Трансфери, які очікують прийняття
+    shared_with_me_transfers_awaiting_acceptance: Переведення, які очікують прийняття
+    shared_with_my_team_pending_transfers_overview: Переведення, які очікують прийняття
     shared_with_my_team_pending_transfers: Очікують переведення
     shared_with_my_team_referrals: Направлення
     shared_with_others_pending_transfers: Очікують переведення
@@ -754,7 +753,7 @@ uk:
     total_cases: Загальні кейси
     total_referred: Загальна кількість направлень
     tr_stats: Запити на відстеження
-    transers_awaiting_acceptance: Трансфери, які очікують прийняття
+    transers_awaiting_acceptance: Переведення, які очікують прийняття
     transfers_by_social_worker: Переведення соціального працівника
     users: Іконка налаштувань
     violence_type: Тип насильства
@@ -1114,7 +1113,6 @@ uk:
     english_text: Текст англійською мовою
     field_name: Назва поля
     field_type: Тип Поля
-    attachment_too_large: Розмір файлу не повинен перевищувати 10 Мб
     file_upload_box:
       add_document_label: Додати документ
       add_new_document_button_text: Додати інший документ
@@ -1298,7 +1296,6 @@ uk:
     dashboard: Панель
     en: English
     es: Español
-    es-GT: Español (Guatemala)
     fr: Français
     id: Bahasa
     km: ភាសាខ្មែរ
@@ -1340,7 +1337,6 @@ uk:
         killing: Вбивство дітей
         maiming: Покалічення дітей
         recruitment: Вербування та/або використання дітей
-        sexual_violence: Зґвалтування та/або інші форми сексуального насильства
         abduction: Викрадення
         attack_on: Напади на школу(и) та/або лікарню(і)
         military_use: Військове використання школи(іл) та/або госпіталю(ів)
@@ -1369,7 +1365,6 @@ uk:
       unknown: Невідомо
       verification_status: Статус підтвердження
       violence_type: Тип насильства
-      armed_force_group_name: Назва групи Збройних Сил
       armed_force_group_type: Тип групи Збройних Сил
     register_new_incident: Новий інцидент
     selectable_date_options:
@@ -1799,9 +1794,7 @@ uk:
         killing: Вбивство дітей
         maiming: Покалічення дітей
         recruitment: Вербування та/або використання дітей
-        sexual_violence: Зґвалтування та/або інші форми сексуального насильства
         abduction: Викрадення
-        attack_on: Напади на школу(и) та/або лікарню(і)
         military_use: Військове використання школи(іл) та/або госпіталю(ів)
         denial_humanitarian_access: Відмова у гуманітарному доступі для дітей
       sub_reports:
@@ -1821,22 +1814,7 @@ uk:
         date_of_first_report: Дата інтерв'ю
         incident_date: Дата інциденту
       reports:
-        incidents: Інциденти
         perpetrators: Зловмисники
-      sub_reports:
-        combined: Інциденти
-        total: Кількість зареєстрованих інцидентів ГЗН
-        gbv_sexual_violence: Кількість повідомлень про випадки сексуального насильства
-        gbv_previous_incidents: Кількість інцидентів, про які повідомили постраждалі з попередніми інцидентами ГЗН
-        gbv_sexual_violence_type: Тип інциденту
-        incident_timeofday: Час інциденту
-        elapsed_reporting_time: Час між датою інциденту та датою повідомлення
-        elapsed_reporting_time_rape: Випадки зґвалтування, час, що минув між інцидентом та датою повідомлення
-        incident_location_type: Місце події
-        number_of_perpetrators: Кількість основних винних
-        perpetrator_relationship: Відносини підозрюваного та постраждалого
-        perpetrator_age_group: Вікова група підозрюваного
-        perpetrator_occupation: Професія підозрюваного
   messages:
     alert_items: У вас є %{items} важливі речі.
     alerts_for:
@@ -1861,7 +1839,7 @@ uk:
       column_header_tooltip: Сортувати за %{column}
       of: з
       no_match: На жаль, відповідних записів не знайдено
-      rows_per_page: Рядків на сторінку
+      rows_per_page: Рядків на сторінці
       sort: Сортувати
   navigation:
     bulk_exports: Експорти
@@ -1880,6 +1858,7 @@ uk:
       code_of_conduct: Норми поведінки
       terms_of_use: Умови використання
       system_information: Системна інформація
+      resync: Неотправленные изменения в автономном режиме
     tasks: Задачі
     tracing_request: Запит на відстеження
     activity_log: Журнал активності
@@ -2347,7 +2326,6 @@ uk:
             explanation: Дозволяє менеджеру побачити, скільки справ мають прострочені завдання з послуг для кожного з його співробітників.
             label: Прострочені завдання з послуг
           dash_case_incident_overview:
-            explanation: .
             label: Огляд - Мої кейси / інциденти
           dash_cases_by_social_worker:
             explanation: Таблиця, яка показує, як загальна кількість відкритих справ і кількість нових справ, якими керує кожен користувач у групах користувачів поточного користувача. Кожен рядок є користувачем у групах користувачів поточного користувача, тоді як "Усього" і "Новий" - це два стовпці.
@@ -2594,6 +2572,10 @@ uk:
             label: Позначити для режиму поза мережею
         explanation: Це може представляти особу чи установу, яку необхідно пов’язати з іншими записами, як-от випадки чи інциденти, є дуже численними та постійно оновлюються новою інформацією. Вони схожі на пошукові запити, але мають більш складний набір інформації для кожного запису.
         label: Запис реєстру
+      family:
+        actions:
+          change_log:
+            label: Журнал змін
       report:
         actions:
           create:
@@ -2791,7 +2773,6 @@ uk:
     display: Відображення потенційних збігів для %{type} %{id}
   reassign:
     multiple_error: Виникла помилка. %{select_records}кейс(и) не призначено.
-    multiple_successfully: '%{select_records} кейс(и) успішно призначено'
     notes_label: Нотатки
     successfully: Успішно перепризначено
     user_mandatory_label: Отримувач обов`язковий
@@ -2805,7 +2786,7 @@ uk:
     module_id: Модуль
     owned_by: Код кейс-працівника
     owned_by_agency_id: Агенція
-    owned_by_text: Польови/кейс/соціальний працівник
+    owned_by_text: Сфера/кейс/соціальний працівник
     previously_owned_by: Попередній власник
     previously_owned_by_agency: Попередня агенція
     reassigned_tranferred_on: Перепризначено / передано
@@ -3046,6 +3027,9 @@ uk:
       title: Позначити для режиму поза мережею
       text: Ви впевнені, що хочете позначити ці записи реєстру для використання в автономному режимі?
       success: Записи реєстру успішно позначено для використання поза мережею
+  family:
+    family_member:
+      save_and_return: Додати та повернутись
   transfer:
     label: Трансфер
     agency_label: Агенція
@@ -3139,6 +3123,11 @@ uk:
     provider_username_help: 'Приклад: my.username@%{domain}'
     role_id: Роль
     send_mail: Отримувати сповіщення електронною поштою?
+    notification_preferences:
+      approval_request: 'Запит на ухвалення (супервізори)'
+      approval_response: 'Відповідь про ухвалення (кейс-працівники)'
+      transition_notification: 'Призначення, переведення та перенаправлення'
+      transfer_request: 'Запити на переведення'
     user_group_unique_ids: Групи Користувачів
     user_name: Ім'я користувача
     services: Послуги
