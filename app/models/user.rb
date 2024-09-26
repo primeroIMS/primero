@@ -531,6 +531,10 @@ class User < ApplicationRecord
     receive_webpush == true && !disabled?
   end
 
+  def messageable?
+    receive_messages == true && !disabled?
+  end
+
   def authorized_referral_roles(record)
     return Role.none unless record.respond_to?(:referrals_to_user)
 
