@@ -129,7 +129,7 @@ function Component({
   const buttonDialogText = dialogIsNew ? "buttons.add" : "buttons.update";
 
   const dialogActions =
-    field.subform_section_id.unique_id === "services_section" &&
+    field.name === "services_section" &&
     mode.isShow &&
     // eslint-disable-next-line camelcase
     serviceHasReferFields(formik.values?.services_section?.[index]) ? (
@@ -137,7 +137,7 @@ function Component({
     ) : null;
 
   const renderSubform = (subformField, subformIndex, values, setFieldValue) => {
-    if (subformField.subform_section_id.unique_id === "services_section") {
+    if (subformField.name === "services_section") {
       return (
         <ServicesSubform
           field={subformField}
