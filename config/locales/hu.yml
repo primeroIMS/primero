@@ -12,6 +12,8 @@ hu:
   minimum_reportable_fields: "Minimális mezők %{record_type}"
   name: Név
   offline: Offline
+  field_mode_on: "Bekapcsolva"
+  field_mode_off: "Kikapcsolva"
   unavailable_offline: Nem elérhető
   online: Online
   yes_label: 'Igen'
@@ -21,6 +23,8 @@ hu:
   log_in_primero_idp: Lépj be%{idp_name}
   offline_submitted_changes: Jelenleg offline módban van. A módosítások mentve lesznek ha újra online módban lesz.
   updated: Frissítve
+  go: Mehet
+  select_idp_error: Válassz szolgáltatót
   sync:
     success: "%{records} rekordok sikeresen szinkronizálva."
     error:
@@ -28,7 +32,7 @@ hu:
       update: A %{record_type} %{short_id} frissítése sikertelen. Kérjük, forduljon az ügyfélszolgálathoz.
   actions:
     approvals: ' Jóváhagyások'
-    button: Cselekvények
+    button: Cselekmények
     close: Bezárni
     description:
       invalid: Érvénytelen adat
@@ -94,7 +98,7 @@ hu:
       rejected: Elutasítva
       requested: Kérvényezve
   audit_log:
-    action: Cselekvény
+    action: Cselekmény
     description: Leírás
     record_owner: Adattulajdonos
     timestamp: Idő
@@ -113,7 +117,7 @@ hu:
   buttons:
     accept: Elfogadom
     add: Hozzáaddni
-    add_another_option: Hozzáadni egy másikat
+    add_another_option: Egy másik opció hozzáadása
     add_note: Jegyzetek hozzáadása
     apply: Alkalmazni
     approvals: Jóváhagyások
@@ -141,7 +145,7 @@ hu:
     disable_photo_wall: Fotófalat letiltani
     done: Kész
     download: Letöltés
-    edit: Módosítás
+    edit: Szerkesztés
     edit_subform: Alűrlap módosítása
     enable: Engedélyezni
     enable_photo_wall: Fotófalat engedélyezni
@@ -155,16 +159,17 @@ hu:
     flag_records: Megjelölni
     flags: Megjelölések
     guidance: Tanácsadó
-    guiding_questions: Tanácsadó kérdések
+    guiding_questions: Útmutató kérdések
     import: Import
-    login: Belépés
+    login: Bejelentkezés
     logout: Kilépés
+    link: Hivatkozás
     mark_for_mobile: Jelölje meg mobilra
     new: Új
     ok: OK
     print: Nyomtatás
     reassign: Kiosztani
-    referral: Utal
+    referral: Hivatkozás
     referral_again: Újra utal
     reject: Elutasít
     remove_referrals: Referenciák eltávolítása
@@ -191,11 +196,24 @@ hu:
     view: Megtekintés
     view_flags_history: Előzmények megtekintése
     return_to_case: Vissza az Esetre
+    enable_webpush: Értesítések
+    dialog_yes: "Igen"
+  resync_records:
+    id: Azonosító
+    action: Tevékenység
+    date: Dátum
+    last_attempt: Utolsó próbálkozás
+    create: Létrehozás
+    update: Frissítés
+    resync: Beküldés
   case:
     label: Eset
-    create_new_case: Új Eset Létrehozása
-    add_new: Újat Hozzáadni
-    back_to_case: Vissza az Esetre
+    create_new_case: Új ügyfél regisztrációja
+    create_case: Új ügyfél regisztrációja
+    create: Létrehozás
+    add_new: Új hozzáadása
+    back_to_family_details: Vissza a családi részletekhez
+    back_to_case: Vissza az Ügyfélhez
     back_to_results: Vissza az Eredményekhez
     back_to_search: Vissza a Kereséshez
     search_by: Keresni
@@ -262,7 +280,7 @@ hu:
     assessment: Értékelés
     case_opening_date: Az Eset megnyitásának dátuma
     case_plan: Esetterv
-    case_worker_code: Esetkód
+    case_worker_code: Ügyintéző kódja
     clear_filter: Törölni
     close_dialog: Az OK gombra kattintva az ügy állapota Lezártra változik
     close_dialog_title: Eset Lezárása
@@ -295,7 +313,7 @@ hu:
         pending: Függőben levő
         rejected: Elutasítva
       bia: BIA
-      by_date: Dátum szerint
+      by_date: Dátummal
       case_open_date: Az Eset megnyitásának dátuma
       case_plan: Esetterv
       closed: Lezárva
@@ -306,7 +324,7 @@ hu:
       district: Kerület
       duplicate: Kettőzött
       enabled_disabled: Engedélyezve / Tiltva
-      female: Női
+      female: Nő
       flag: Megjelölve
       flag_label: Meg van jelölve?
       gbv_closure: GBV Lezárni
@@ -339,7 +357,7 @@ hu:
       workflow: Esetek munkafolyamat szerint
     flag_summary: Ellenőrizze az összefoglalót
     full_name: Teljes név
-    gbv_closure: GBV Lezárni
+    gbv_closure: GBV Lezárás
     hide_name: Név elrejtése
     hide_name_error: Hiba történt a módosítások mentésekor. Kérjük, próbálja meg újra.
     id: ID#
@@ -394,7 +412,7 @@ hu:
     revoke_failure: Hiba történt a %{transition_type} visszavonása közben. Kérjük, forduljon az ügyfélszolgálathoz.
     revoke_message: A „Visszavonás” gombra kattintva eltávolítja a %{transition_type} címzett hozzáférését az esethez.
     revoke_success_message: A %{case_id}%{transition_type}%{recipient_username}eset visszavonva.
-    save_filter: Menteni
+    save_filter: Mentés
     selected_all_records: Válassza ki az összes %{total_records} esetet, amely megfelel ennek a lekérdezésnek.
     selected_records: '%{select_records}kiválasztott eset(ek)'
     sex: Nem
@@ -403,7 +421,7 @@ hu:
     status: Állapot
     summary:
       label: Összefoglaló
-      find_match: Egyezést keresni
+      find_match: Találj egyezést
       matched_trace: 'Egyezik # %{trace_id}'
       cannot_find_matches: Nem található egyezés. Ebben az ügyben nem kaptunk hozzájárulást az információk nyomon követési célú közzétételéhez.
       matched: Egyezett
@@ -442,7 +460,7 @@ hu:
     create: Adat létrehozva
     deleted_subform: 'Eltávolítva "%{subform_name}" alűrlap bejegyzés száma %{short_id}'
     label: Változási napló
-    see_details: Megtekinteni a részleteket
+    see_details: Lásd a részleteket.
     change: '"%{from_value}"-tól "%{to_value}"-ig'
     updated_subform: 'Frissítve " %{subform_name}" alűrlap bejegyzés száma %{short_id}'
     update_subform: 'Frissítve "%{subform_name}" alűrlap'
@@ -486,7 +504,7 @@ hu:
   contact:
     field:
       email: E-mail
-      location: Hely
+      location: Helyszín
       name: Név
       organization: Szervezet
       other_information: Egyéb információk
@@ -540,7 +558,7 @@ hu:
     approved: Jóváhagyva
     assessment: Értékelés
     awaiting_acceptance: Elfogadásra vár
-    cases_by_social_worker_total: Teljes
+    cases_by_social_worker_total: Összesen
     cases_by_social_worker_new_or_updated: Új és frissített
     case_id: 'Esetszám'
     case_management_service: Ügykezelési szolgáltatás
@@ -551,7 +569,7 @@ hu:
     case_stat_by_assessment_level: Az esetek értékelési szint szerint
     case_stat_referrals: Referenciák
     case_stats: Esetek
-    case_worker: A munkás esetei
+    case_worker: Ügyintéző
     cases_by_social_worker: A szociális munkás esetei
     cases_by_task_overdue: Lejárt feladatok
     cases_by_workflow: Esetek munkafolyamat szerint
@@ -570,14 +588,45 @@ hu:
     count_new_closure_approvals:
       one: '%{stat} új %{stat_type} jóváhagyás'
       other: '%{stat} új %{stat_type} jóváhagyások'
+    count_pending_approval_total:
+      one: Önnek %{stat}függőben lévő %{stat_type}jóváhagyása van
+      other: Önnek %{stat}függőben lévő%{stat_type}jóváhagyása van
+    count_pending_transfers:
+      one: Önnek %{stat}függőben lévő átutalása van
+      other: Önnek %{stat}függőben lévő átutalása van
+    count_records_new:
+      one: és %{stat}új esete van
+      other: és %{stat}új esete van
+    count_records_total:
+      one: Önnek összesen %{stat}esete van
+      other: Önnek összesen %{stat}esete van
+    count_referrals_new:
+      one: és %{stat}új ajánlása van
+      other: és %{stat}új ajánlása van
+    count_referrals_total:
+      one: Önnek összesen %{stat}ajánlása van
+      other: Önnek összesen %{stat}ajánlása van
+    count_rejected_approval_total:
+      one: és %{stat} elutasított %{stat_type} jóváhagyás
+      other: és %{stat} elutasított %{stat_type} jóváhagyás
+    count_rejected_transfers:
+      one: és %{stat} elutasított átutalás
+      other: és %{stat} elutasított átutalás
+    count_risk_level_new:
+      one: és %{stat} új %{stat_type} kockázati eset
+      other: és %{stat} új %{stat_type} kockázati eset
+    count_risk_level_total:
+      one: 'Önnek van %{stat} %{stat_type} kockázati esete '
+      other: 'Önnek van %{stat} %{stat_type} kockázati esete '
+    count_waiting_for_acceptance_transfers: '%{stat}átutalás vár az Ön elfogadására'
     current_owner: Jelenlegi tulajdonos
     dash_case_incident_overview: Saját Esetek
-    dash_group_overview: Csapat esetei
+    dash_group_overview: A csoportom esetei
     dash_shared_from_my_team: Megosztva a csapatomtól
-    dash_shared_with_me: Megosztotta velem
+    dash_shared_with_me: Megosztva velem
     dash_shared_with_my_team: Megosztva a csapatommal
     dash_shared_with_my_team_overview: Megosztva a csapatommal (áttekintés)
-    dash_shared_with_others: Megosztva másokkal
+    dash_shared_with_others: Másokkal megosztva
     dash_national_admin_summary: Rendszergazdai összefoglaló
     date: Dátum
     date_of_incident: Az incidens dátuma
@@ -604,6 +653,15 @@ hu:
     link_see_all: Megtekinteni az összeset
     low_level: Alacsony
     low_risk: Alacsony prioritás
+    manager_count_closed_total:
+      one: és %{stat} lezárt eset
+      other: és %{stat} lezárt eset
+    manager_count_open_total:
+      one: Önnek %{stat} nyitott ügye van
+      other: Önnek %{stat} nyitott ügye van
+    manager_transfers_totals:
+      one: 'Önnek %{stat} %{stat_type} átutalása van '
+      other: 'Önnek %{stat} %{stat_type} átutalása van '
     match_result: Egyező eredmények
     medium_level: Közepes
     medium_risk: Közepes prioritás
@@ -620,18 +678,27 @@ hu:
     new_referred: Új Referenciák
     new_service_provision: 'Új szolgáltatásnyújtás '
     new_this_week: Új (ezen a héten)
-    no_action_risk: Cselekvény Mentes
+    no_action_risk: Cselekmény Mentes
     no_case_stats: Statisztika mentes
     no_caseworker_data: Nincsenek ügykezelői adatok
     no_flagged_child: Nincsenek megjelölt esetek
     no_flagged_incident: Nincsenek megjelölt incidensek
     no_open_incidents: Nincsenek nyitott incidensek
     no_overdue_activities: Nincsenek lejárt tevékenységek
+    no_recent_activities: Nincs friss tevékenység
+    no_scheduled_activities: Nincsenek ütemezett tevékenység
+    none_risk: Nincs elsőbbség
+    number_of_victims: Áldozatok száma
+    number_of_violations: Szabálysértések száma
+    number_of_violations_verified: Igazolt szabálysértések
+    open: Nyitott
     open_cases: Nyitott ügyek
     open_incidents: Nyitott incidensek
     outstanding_transfers: Kiemelkedő átvitelek
     overdue_activities: Lejárt tevékenységek
     overdue_cases_to_assign: Lejárt esetek kiosztása
+    overdue_cases_to_assign_high: Ezek az esetek már több mint 1 órája fennállnak
+    overdue_cases_to_assign_low: Ezek az esetek már több mint három órája fennállnak
     overview: Áttekintés
     pending: Függőben
     pending_approvals: Függőben lévő jóváhagyások
@@ -643,12 +710,16 @@ hu:
     range4_8: 4-8
     range8_12: 8-12
     recent_activities: Legutóbbi tevékenységek
+    recently_flagged_child: Nemrégiben megjelölt esetek
+    recently_flagged_incident: Nemrégiben megjelölt incidensek
     referrals_by_social_worker: Szociális munkás referenciái
     registration: Registráció
     rejected: Elutasítva
     rejected_transfers: Elutasított átvitelek
     response: Válasz (Folyamatban)
     scheduled_activities: Tervezett tevékenységek
+    score_range: Pontszámtartomány
+    screening_service: Szűrőszolgáltatás
     services: Szolgáltatások
     services_implemented: Megvalósult szolgáltatások
     shared_from_my_team_pending_transfers: Függőben levő átvitelek
@@ -663,225 +734,1909 @@ hu:
     shared_with_others_pending_transfers: Függőben levő átvitelek
     shared_with_others_referrals: Referenciák
     shared_with_others_rejected_transfers: Elutasított átvitelek
+    status_of_cases: Az ügyek helyzete
     system_user: Rendszer
     total: Összesen
+    total_cases: Összes eset
     total_referred: Összes Referenciák
+    tr_stats: Nyomkövetési kérelmek
     transers_awaiting_acceptance: Elfogadásra váró átvitelek
     transfers_by_social_worker: A szociális munkás átvitelei
+    users: BEÁLLÍTÁSOK ikon
+    violence_type: Erőszak típusa
+    with_incidents: Incidensekkel
+    with_new_incidents: Új incedensekkel
+    without_incidents: Incidensek nélkúl
+    worker_count_referrals_total:
+      one: '%{case_worker} ősszesen %{stat}ajánlással rendelkezik'
+      other: '%{case_worker} ősszesen %{stat}ajánlással rendelkezik'
+    worker_count_total:
+      one: '%{case_worker} ősszesen %{stat}esettel rendelkezik'
+      other: '%{case_worker} ősszesen %{stat}esettel rendelkezik'
+    workflow: Munkafolyamat
+    workflow_team: Munkafolyamat - Csapatok esetei
+    you_have: 'Önnek van'
+  disabled:
+    status:
+      disabled: Korlátozva
+      enabled: Engedélyezve
   email_notification:
     assign: '%{user}A következő %{record_type}kiosztva önhöz: %{record_id}'
     assign_subject: '%{record_type}:%{id}- Önhöz kiosztott'
+    approval_request: 'A felhasználó %{user}  %{approval_type} jóváhagyást kér %{case_id}ügyhöz.'
+    approval_request_subject: 'Ügy: %{id} - jóváhagyási kérelem'
+    approval_response: '%{user}  %{status} jóváhagyási kérelmet nyújtott be %{approval_type} a/az %{case_id} esethez.'
+    approval_response_subject: 'Eset: %{id} - jóváhagyási válasz'
+    referral: '%{user} a/az %{agency} a következő %{record_type}adatot küldte Önnek: %{record_id} a %{service_type}számára.'
     transfer: '%{user}a következőket adta át %{record_type}önnek: %{record_id}. '
     transfer_request_subject: Átvitelési kérvényezés az egyik esetéhez
     transfer_subject: '%{record_type}:%{id}- Átadta'
+    referral_subject: '%{record_type}: %{id} - Ajánlás'
     transfer_request: 'A Primero felhasználója %{user}az %{agency}től, kérvényezi, hogy adja át ennek a rekordnak %{record_type}%{record_id}a tulajdonjogát hogy biztosítani tudják az %{record_type}kezelését a környéken élő személynek. Ha ez az átvitel delfogadható az Ön számára, kérjük, kattintson az ebben az e-mailben található %{record_type} azonosító linkre az %{record_type} megnyitásához  Primero-ban és az átvitel elindításához.'
+    approval_request_html: 'A felhasználó <strong>%{user}</strong><strong> %{approval_type} </strong>jóváhagyást kér <strong>%{case_id}</strong>ügyhöz.'
+    approval_response_html: '<strong>%{user}</strong>rendelkezik <strong>%{status}</strong>a jóváhagyási kérelemmel <strong>%{approval_type}</strong>az <strong>%{case_id}</strong> ügyben.'
     transfer_html: '<strong>%{user}</strong>átkerült az%{record_type}Önhöz:<strong>%{record_id}</strong>'
     assign_html: '<strong>%{user}</strong>Aakövetkező %{record_type}kiosztva önhöz: <strong>%{record_id}</strong>.'
     transfer_request_html: 'A Primero felhasználója <strong>%{user}</strong>%{agency}től, kérvényezi, hogy adja át ennek a rekordnak %{record_type}<strong>%{record_id}</strong> a tulajdonjogát hogy biztosítani tudják az %{record_type} kezelését a környéken élő személynek. Ha ez az átvitel delfogadható az Ön számára, kérjük, kattintson az ebben az e-mailben található %{record_type} azonosító linkre az %{record_type} megnyitásához Primero-ban és az átvitel elindításához.'
     transfer_request_notes_html: 'A kérvény benyújtó személy megjegyzései:%{request_transfer_notes}'
+  encrypt:
+    export_type: Az export típusa
+    file_name: Saját fájlnév létrehozása (választató)
+    password_extra_info: A jelszónak legalább 8 karakterből kell állnia. Ez a jelszó az exportált fájlhoz lesz rendelve, és a jövőben bárkinek, aki megnyitja a fájlt, be kell írnia.
+    password_label: Kérjük, adjon meg egy jelszót, amely titkosítja a fájlt.
+  error_message:
+    address_fields: '%{fields} mezőt kell kitöltenie %{forms} nyomtatványon'
+    address_form_fields: Az űrlapon  %{fields} mezőt kell kitöltenie
+    address_subform_fields: '%{subform} %{fields} érvénytelen mezőket tartalmaz'
+  error_page:
+    not_authorized:
+      server_error: Nincs jogosultsága az oldal eléréséhez.
+      title: Nem engedélyezett
+    not_found:
+      contact_admin: Ha úgy gondolja, hogy tévedésből került ide, kérjük, lépjen kapcsolatba az adminisztrátorral.
+      something_went_wrong: Elnézést, valami elromlott.
   errors:
+    error_loading: Hiba az adat(ok) betöltése során
     models:
       agency:
         code_present: nem lehet üresen
+        logo_format: A fájlnak png formátumban kell lennie
+        terms_of_use_format: A fájlnak png formátumban kell lennie
         name_present: nem lehet üresen
+      child:
+        age: Az életkornak 0 és 130 között kell lennie
+        date_of_birth: Kérjük, adjon meg egy érvényes születési dátumot ehhez az esethez.
+      export_configuration:
+        opt_out_field_does_not_exist: A megadott opt_out mező nem létezik a feljegyzésben.
+        record_type: Érvénytelen bejegyzés. "Gyermek", "Nyomon követési kérelem", vagy "Incidens" kell legyen.
+      field:
+        translated_options_do_not_match: A mező lefordított opcióinak azonos azonosítókkal kell rendelkezniük
       location:
         admin_level_present: nem lehet üresen
         code_present: nem lehet üresen
         name_present: nem lehet üresen
+        unique_location_code: Ezzel a helykóddal már létezik egy "Helyszín", kérjük, adjon meg egy másik helykódot.
       lookup:
+        being_used: Ez a keresés használatban van, és nem törölhető.
         name_present: A név nem maradhat üresen
+        values_ids_blank: A lookup_value azonosító üres
       primero_module:
+        associated_record_types: Legalább egy rekordtípust kell társítani ehhez a modulhoz.
+        form_section_ids: Legalább egy űrlapot kell társítani ehhez a modulhoz.
         name_present: A név nem maradhat üresen
+        unique_name: Egy ilyen nevű modul már létezik, kérjük, adjon meg egy másik nevet.
       report:
+        module_presence: A modul nem maradhat üresen
+        module_syntax: Minden jelentésmodulnak már léteznie kell
         name_presence: A név nem maradhat üresen
+      role:
+        permission_presence: Kérjük, válasszon ki legalább egy engedélyt
       user:
         email: "Kérjük, adjon meg egy érvényes e-mail címet (pl.: name@example.org)"
+        password_mismatch: A jelszó mezők nem ugyanazzal a jelszóval rendelkeznek
+        password_length: A jelszónak legalább %{min}karakterből kell állnia
         email_uniqueness: Már van egy felhasználó ezzel az e-mail címmel. Kérjük, adjon meg egy másikat
+      code_of_conduct:
+        title_present: A "Cím" nem lehet üres
+        content_present: A "Tartalom" nem lehet üres
+        created_by_present: A "Létrehozta" nem lehet üres
+    not_found: Nem talált feljegyzés(ek)
     try_again: Próbálja újra
   exports:
     case_pdf:
       all: PDF
       one: PDF
+      selected: Kiválasztva PDF-be
+    csv:
+      all: CSV
+      one: CSV
+      selected: Kiválasztva CSV-be
+    custom:
+      all: Egyéni
     custom_exports:
+      all: Egyéni
+      choose_fields: Szeretné kiválasztani az űrlap egyes mezőit?
+      empty_fields_forms: Kérjük, válasszon ki néhány űrlapot vagy mezőt az exportáláshoz.
+      empty_format: Kérjük, válassza ki az exportálandó formátumot.
+      empty_module: Kérjük, válassza ki az exportálandó modult.
+      empty_password: Kérjük, adjon meg egy jelszót, amely titkosítja a fájlt.
+      field_label: Mező
+      fields: Válassza ki az exportálandó mezőket
+      form_label: Formanyomtatvány
+      format_label: Formátum kiválasztása
+      forms: Válassza a "Forms" menüpontot az exportáláshoz
+      label: Egyéni export
+      module_placeholder: Kérjük, válasszon egy modult.
+      select_module: Válasszon modult
       submit: OK
+      header: Fejléc
+      custom_header: Egyéni fejléc
+      include_implementation_logos: Tartalmazza a végrehajtási logókat?
+      include_agency_logo: Tartalmazza az ügynökség logóját?
     duplicate_id_csv:
+      all: Duplikált azonosító
       female_abbreviation: F
       headers:
         age: Életkor
+        case_id: Ügy azonosítója
         child_name_last_first: Gyermek neve
+        family_size: Család mérete
+        national_id_no: Nemzeti azonosítószám
+        progress_id: Haladás azonosító
+        sex_mapping_m_f_u: Nem
+        other_agency_id: Kórházi kód és a beteg száma
       male_abbreviation: M
       unknown_abbreviation: U
+    exported: Az export fájl sikeresen generálva
+    exported_error: Hiba az exportfájl generálásában
     forms:
+      button: Formanyomtatványok exportálása
       label: Export
+      header:
+        form_name: Formanyomtatvány neve
+        field_id: Mező azonosítója
+        field_type: Mező típusa
+        field_name: Mezőnév
+        required: Kötelező
+        on_mobile: Mobilon
+        on_short_form: Rövidített formában
+        option_ids: Opciók azonosítói
+        options: Opciók
+        options_lookup: Keresés
+        help_text: Súgó szöveg
+        guiding_questions: Útmutató kérdések
+        visible: Látható
+        lookup_id: Keresési azonosító
+        lookup_name: Név keresés
+        option_id: Opció azonosítója
+        option_name: Opció neve
+      options:
+        location: Helyszínek
+        agency: Ügynökségek
+        user: Felhasználók
+        reportinglocation: Helyszínek bejelentése
+        subforms: 'Alnyomtatvány: %{subform_name}'
+        collapsed_fields: 'Összeomlott mezők:%{fields}'
+        country: Országok
+      summary_header:
+        status: Állapot
+        notes: Jegyzetek
+    json:
+      all: JSON
+      one: JSON
+      selected: Kiválasztva JSON-ba
+    list_view_csv:
+      all: Listanézet exportálása
+      selected: Kiválasztva CSV-be
+    messages:
+      no_exporter: Nincs megnevezett exportőr
+    mrm_violation_xls:
+      all: MRM szabálysértések
+      one: MRM szabálysértések
+      selected: MRM jogsértésekhez kiválasztva
+    no_records: Nincsenek rendelkezésre álló feljegyzések!
     pdf:
+      all: PDF (nem titkosított)
       one: PDF
+      selected: Kiválasztva PDF-be
     pdf_exports:
       label: PDF
       recipient: Címzett
+      case_worker: Ügyintéző
+      client: Ügyfél
       date: Dátum
       recipient_name: Címzett neve
       recipient_agency: A ügynökség címzettje
+      caseworker_name: Ügyintéző neve
+      caseworker_agency: Ügyintéző iroda
+    photowall:
+      all: Fotófal
+      no_photos_available: Nincsenek rendelkezésre álló fényképek
+      one: Fotófal
+      reunited: Újraegyesített
+      selected: Kiválasztva a Fénykép falra
+    queueing: Az exportfájl %{file_name}létrehozása
+    selected_xls:
+      all: Excel
+      one: Excel
+      selected: Kiválasztva Excelbe
+      selected_fields: Kiválasztott mezők
     unhcr_csv:
+      all: ENSZ MENEKÜLTÜGYI FŐBIZTOSSÁG
       female_abbreviation: F
       headers:
         age: Életkor
+        causes_of_separation: Az elkülönülés okai
+        country_of_origin: Származási ország
+        cpims_code: CPIMS-kód
+        current_care_arrangement: Jelenlegi gondozási rendszer
         date_of_birth: Születési dátum
+        date_of_identification: Azonosítás dátuma
+        family_count_no: A család számlálószáma
+        governorate_country: Kormányzóság - Ország
+        id: Azonosító
+        individual_progress_id: Egyéni fejlődési azonosító
+        locations_by_level: Cím (tábor, tömb, és egyéb alkalmazható címszintek, például a menedékhely GPS-koordinátái)
+        long_id: Hosszú azonosító
+        moha_id: MOHA azonosító
+        name_of_caregiver: A gondozó teljes neve
+        name_of_child_last_first: Gyermek teljes neve
+        primary_protection_concerns: Elsődleges védelmi aggályok
+        progres_id: Haladás azonosító
+        reunification_status: Újraegyesítési állapot
+        secondary_protection_concerns: Másodlagos védelmi aggályok
+        sex: Nem
+        sex_mapping_m_f_u: Nem
+        short_id: Rövid azonosító
+        vulnerability_code: Sérülékenységi kódok
       male_abbreviation: M
+      one: ENSZ MENEKÜLTÜGYI FŐBIZTOSSÁG
+      selected: Az UNHCR számára kiválasztott
+      unknown_abbreviation: U
+    xlsx:
+      all: Excel
+      one: Excel
+      selected: Kiválasztva Excelbe
+  imports:
+    csv_hxl_location:
+      messages:
+        success: '''Helyszínek'' importálása sikeres'
+        no_data: 'Nem feldolgozott import: Nincs adatátvitel'
+        csv_parse_error: 'Nem feldolgozott import: CSV-adatok elemzési hibája'
+        db_error: 'Hiba létrehozása %{location_code}:%{message}'
+        locale_invalid: 'Kihagyás %{column_name}: Érvénytelen helyszín'
+        insert_all_error: 'Nem feldolgozott import. Adatbázis hiba:%{message}'
+    csv_record:
+      messages:
+        success: '''Bejegyzések'' importálása sikeres'
+        no_data: 'Nem feldolgozott import: Nincs adatátvitel'
+        no_file: 'Nem feldolgozott import: A fájl nem létezik'
+        csv_parse_error: 'Nem feldolgozott import: CSV-adatok elemzési hibája'
+        error: 'Nem feldolgozott: %{message}sor %{row_number}'
+        db_error: 'Hiba létrehozása %{location_code}:%{message}'
+        locale_invalid: 'Kihagyás %{column_name}: Érvénytelen helyszín'
+        insert_all_error: 'Nem feldolgozott import. Adatbázis hiba:%{message}'
+  sync_record:
+    failed: 'Utolsó szinkronizálás: Sikertelen'
+    last: 'Utolsó szinkronizáció: %{date_time}'
+    not_found: 'Utolsó szinkronizálás: Adat nem található'
+    retrieving: Adatok lekérése.
+    see_details: Lásd a részleteket.
+  fields:
+    action: Cselekmény
+    actions: Cselekmények
+    add: Hozzáaddni
+    add_new_field: Új mező létrehozása
+    add_field: Mező hozzáadása
+    add_field_type: Hozzáadás %{file_type}
+    audio:
+      current: Jelenlegi Audio
+    audio_upload_box: Audio feltöltés
+    bia_document: BIA dokumentum
+    bid_document: BID dokumentum
+    check_box: Ellenőrizze a 'Dobozok' jelölőnégyzeteket
+    copy_from_another_form: Ez a mező egy másik űrlapról lett átmásolva
+    create_field: Mező létrehozása
+    create_unique_values: Egyedi értékek létrehozása
+    date_field: Dátum mező
+    date_help: dd-mmm-yyyy
+    date_help_with_time: dd-mmm-yyyy hh:mm
+    date_not_valid: Ez a dátum nem érvényes.
+    time: Idő
+    date_range:
+      date: Dátum
+      date_range: Dátumtartomány
+      from: tól
+    date_range_field: Dátumtartomány
+    date_time: Dátum- Idő
+    db_name: Adatbázis neve
+    default: Alapértelmezett?
+    default_date_validation: Alapértelmezett dátum érvényesítése
+    default_value: Alapérték
+    deleted: A %{display_name}mező törlésre került.
+    detail: Részlet
+    disabled: Letiltva
+    display_name: Megjelenítendő név
+    document:
+      comments: Megjegyzések
+      current: Ez az aktuális dokumentum?
+      date: Dokumentum dátuma
+      name: Dokumentum neve
+      is_current: Ez az aktuális dokumentum?
+    document_upload_box: Dokumentum feltöltése
+    edit_label: Mező szerkesztése
+    enabled: Engedélyezve?
+    enabled_label: Engedélyezve
+    english_text: Angol szöveg
+    field_name: Mezőnév
+    field_type: Mező típusa
+    file_upload_box:
+      add_document_label: Dokumentum hozzáadása
+      add_new_document_button_text: Újabb dokumentum hozzáadása
+      add_new_photo_button_text: Újabb fénykép hozzáadása
+      add_photo_label: Fénykép hozzáadása
+      document_description: Dokumentum leírása
+      document_file_restrictions_message: A fájlok mérete nem lehet nagyobb 2 MB-nál (futtatható (.exe) fájlok nem tölthetők fel).
+      no_file_selected: Nincs kiválasztott fájl.
+      photo_file_restrictions_message: A fényképek mérete nem lehet nagyobb 10 MB-nál. A hangfájlok nem lehetnek nagyobbak 10 MB-nál. Minél kisebb, annál jobb.
+      recorded_audio_label: Felvett hangfelvétel
+      select_file_button_text: Fájl kiválasztása
+    form_name: Formanyomtatvány neve
+    future_date_not_valid: A jövőben nem lehetséges.
+    guidance: Tanácsadó
+    guiding_questions: Útmutató kérdések
+    help_text: Súgó szöveg
+    hide_on_view_page: Oldal megjelenítése
+    label: Mezők
+    mobile_visible: Mobil alkalmazás
+    move_to: Tovább a
+    multi_select: Több opciót is kiválaszthat
+    multi_select_box: Több választási lehetőség
+    must_be_english: Angol nyelven kell beadni
+    name: Név
+    not_future_date: Nem jövőbeli dátum
+    number_not_valid: Kérjük, adjon meg numerikus adatokat
+    numeric_field: Numerikus mező
+    option_strings_add_option: Opció hozzáadása
+    option_strings_source: Keresések
+    option_strings_text: Opciók
+    option_strings_text_display: Szöveg opció
+    option_strings_text_key: Kulcs opció
+    options_indications_lookup_values: Használhat előre megadott kereséseket vagy egyedi értékeket is létrehozhat.
+    options_indications_restrictions: Mindkettő nem lehetséges.
+    options_or_lookup_warning: Kérjük, adjon hozzá opciókat vagy válasszon egy keresést. Ne adja meg mindkettőt.
+    other_documents: Egyéb dokumentum
+    photo_upload_box: Fénykép feltöltése
+    predifined_lookups: Előre meghatározott keresés használata
+    radio_button: Rádió gomb
+    remove: Távolítsa el
+    remove_attachment_confirmation: Biztos, hogy el akarja távolítani ezt a mellékletet?
+    required: Kötelező
+    required_field: '%{field}szükséges'
+    search_existing: Meglévő mezők keresése
+    select_box: Drop Down kiválasztása
+    select_date_validation: Válassza ki a dátum érvényesítési módszert
+    select_multiple: Válassza ki az összes megfelelőt
+    select_single: (Válasszon...)
+    separator: Elválasztó
+    show: Mutatni?
+    show_on: Mutassa tovább
+    show_on_minify_form: Rövidített forma
+    subform: Alűrlap
+    subform_group_by: Csoportosítva
+    subform_remove_message: Biztos, hogy el akarja távolítani ezt az alnyomtatványt?
+    subform_section:
+      description: Alforma leírása
+      name: Alűrlap címe
+      starts_with_one_entry: Kezdd egy alnyomtatvány bejegyzéssel?
+      subform_append_only: Szelektív szinkronizálás mobilon
+      subform_prevent_item_removal: Alforma bejegyzés eltávolításának megakadályozása?
+    subform_sort_by: Rendezés
+    successfully_added: Mező sikeresen hozzáadva
+    tally_items_maximum: (Maximum 5)
+    text_area: Szövegterület
+    text_field: Szövegmező
+    textarea: Szövegterület
+    tick_box: Jelölőnégyzet
+    tick_box_label: A jelölőnégyzet címkéje
+    total: Összesen
+    type: Típus
+    updated: Mező frissítve
+    visibility: Láthatóság
+    web_app: Webalkalmazás
+  filters:
+    apply_filters: Alkalmazni
+    clear_filters: Törölni
+    less: Kevesebb...
+    more: Több...
+    save_filters: Mentés
+  flags:
+    date: 'Dátum:'
+    flag_reason_maximun_label: Maximum 255 karakter.
+    resolved_date: 'Megoldva:'
+  followup_reminders:
+    system_generated_followup_flag: kötelező ellenőrző vizsgálat
+  form_section:
+    form_name: Formanyomtatvány neve
+    module: Modul
+    name: Név
+    record_type: Felvétel típusa
+    required_field: '%{field}szükséges'
   forms:
+    add: Formanyomtatvány hozzáadása
+    fields: Mezők
+    form_description: Leírás
+    help_text:
+      summariaze_purpose: Összefoglalja az űrlap célját. Angol nyelven kell beírni
+    invalid_characters_field: '%{field} érvénytelen karaktereket tartalmaz.'
+    label: Nyomtatványok
+    manage: Kezelje
+    messages:
+      created: Sikeresen létrehozott űrlaprész
+      save_with_errors: Probléma merült fel, és néhány űrlaprészlet nem frissült.
+      updated: Az űrlaprész sikeresen frissült
+      use_existing: A meglévő űrlapok használatát javasoljuk, mivel ez megkönnyíti az intézmények közötti adatmegosztást és adategyesítést.
+    mobile_app: Mobil alkalmazás
+    module: Modul
+    no_subform_filters_added: Ez az alűrlap jelenleg nem rendelkezik mezőkkel.
+    record_type: Felvétel típusa
     record_types:
+      approvals: ' Jóváhagyások'
+      case: Eset
+      child: Eset
+      incident: Incidens
+      individual_victim: Egyéni áldozat
+      potential_match: Potenciális egyezés
+      record_information: Információk felvétele
       referrals: Referenciák
+      reportable_follow_up: Folytatás
+      reportable_protection_concern: Védelmi aggály
+      reportable_service: Szolgáltatás
+      tracing_request: Nyomkövetési kérelem
       transfers_assignments: Átvitelek / Kiosztások
+      violation: Szabálysértés
+      registry_details: Nyilvántartás részletei
+      registry_record: Nyilvántartási bejegyzés
+    select_label: Válassza ki
+    settings: Beállítások
+    show_on: Mutassa tovább
+    subform_need_to_be_added: Ezt hozzá kell adni.
+    subform_need_to_be_added_single: Ezt hozzá kell adni.
+    subform_not_found: Nem találtunk %{subform_name}.
+    title: Formanyomtatvány címe
+    translations:
+      edit: Fordítások szerkesztése
+      no_changes_message: Nem hajtott végre fordítási változtatásokat
+      note: 'Megjegyzés:'
+      select_language: Válasszon nyelvet
+      title: Fordítások
+    type_label: Típus
+    visibility: Láthatóság
+    web_app: Webalkalmazás
+  home:
+    ar: العربية
+    ar-IQ: العربية (العراقية)
+    ar-JO: العربية (الأردنية)
+    ar-LB: العربية (اللبنانية)
+    ar-SD: العربية (السودانية)
+    bn: বাংলা
+    current_time_zone: Aktuális időzóna
+    dashboard: Irányítópult
+    en: Angol
+    es: Español
+    fr: Français
+    id: Bahasa
+    km: ភាសាខ្មែរ
+    ku: کوردی
+    ku-IQ: کوردی (بادینی)
+    fa-AF: فارسی (افغانستان)
+    ps-AF: پښتو (افغانستان)
+    sw-KE: Kiswahili (Kenya)
+    sw-TZ: Kiswahili (Tanzania)
+    ne: नेपाली
+    label: Főoldal
+    language: Nyelv
+    manage_system_users: A "Kiszolgálói szinkronizálás felhasználói" kezelése
+    my: ဗမာစာ
+    pt: Português
+    pt-BR: Português (Brasil)
+    records_need_attention: Feljegyzések figyelemre szorulnak
+    ru: Русский
+    so: Af-Soomaali
+    th: ไทย
+    users: Felhasználók kezelése
+    view_records: Bejegyzések megtekintése
+    welcome: Üdvözöljük a Primero-ban
+    zh: 中文
+  incident:
+    associated_case: "Kapcsolódó ügy:"
+    messages:
+      creation_success: Sikeresen létrehozott eseménynyilvántartás.
+      creation_success_queue: Sikeresen létrehozott incidens nyilvántartás a háttérben
+      disabled: Incidens letiltva
+      update_success: 'Az incidens %{record_id} sikeresen frissült.'
+      update_success_queue: 'Az incidens %{record_id}sikeresen frissült a háttérben.'
+    violation:
+      update_and_return: 'Frissítés és visszatérés a%{association}'
+      save_and_return: 'Hozzáadás és visszatérés a%{association}'
+      pending: Ellenőrzés folyamatban
+      title: Szabálysértések
+      types:
+        killing: Gyermekek meggyilkolása
+        maiming: Gyermekek megcsonkítása
+        recruitment: Gyermekek toborzása és/vagy kihasználása
+        abduction: Emberrablás
+        attack_on: Iskola(k) és/vagy kórház(ak) elleni támadások
+        military_use: Iskola(k) és/vagy kórház(ak) katonai célú használata
+        denial_humanitarian_access: A gyermekek humanitárius segítségnyújtásának megtagadása
+  incidents:
+    disable_dialog_title: Incidens letiltása
+    disable_success: Sikeresen letiltott incidens
+    enable_dialog_title: Incidens engedélyezése
+    id: Azonosítószám
+    date_of_interview: Az interjú dátuma
+    date_of_incident: Az incidens dátuma
+    incident_location: Incidens helye
+    violations: Szabálysértések
+    export: Exportálás
+    label: Incidensek
+    filter_by:
+      boys: Fiúk
+      by_date: Dátummal
+      children: Gyermekek
+      girls: Lányok
+      incident_location: Incidens helye
+      unaccompanied_separated_status: Védelmi állapot
+      unknown: Ismeretlen
+      verification_status: Ellenőrzési állapot
+      violence_type: Erőszak típusa
+    register_new_incident: Új incidens
+    selectable_date_options:
+      date_of_first_report: Interjú időpontja
+      incident_date_derived: Incidens dátuma
+    selected_records: '%{select_records}kiválasztott incidens(ek)'
+    selected_all_records: 'Válassza ki az összes %{total_records} eseményt, amely megfelel a lekérdezésnek.'
+    survivor_code: Túlélő Kód
+    show_incident: 'Incidens azonosítója %{short_id}'
+    social_worker: Szociális munkás
+    type_violence: Az erőszak típusa
   key_performance_indicators:
+    case_closure: "Ügy lezárása"
+    feedback: "Visszajelzés"
+    other: "Egyéb"
+    date_format: "%b %Y"
+    date_range_select:
+      custom_range: 'Egyéni'
+    long_date_format: "dd/MM/yyyy"
+    time_periods:
+      all_time: 'Minden időben'
+      current_month: "Aktuális hónap"
+      last_3_months: "Az elmúlt 3 hónap"
+      last_6_months: "Az elmúlt 6 hónap"
+      0-3days: "0 - 3 nap"
+      4-5days: "4 - 5 nap"
+      6-14days: "6 - 14 nap"
+      15-30days: "15 - 30 nap"
+      1-3months: "1 - 3 hónapig"
+      4months: "> 3 hónap"
+      1-month: "< 1 hónap"
+      3-6months: "3 - 6 hónapig"
+      7-months: "> 6 hónap"
+    number_of_cases:
+      title: "1. A rögzített esetek száma"
+    reporting_delay:
+      delay: "Késleltetés"
+      total_incidents: "Összes incidens"
+    service_access_delay:
+      delay: "Késleltetés"
+      total_incidents: "Összes incidens"
+    assessment_status:
+      title: "4. Értékelési státusz"
+      completed: "Befejezett"
+    services_provided:
+      title: "8. Szolgáltatások"
+      service: "Szolgáltatás"
+      count: "A megadott időpontok"
+      male: "Férfi"
+      female: "Nő"
+      0-11: "0-11"
+      12-17: "12-17"
+      '>18': ">18"
+      disability: "Fogyatékosság"
+      no_disability: "Nincs fogyatékosság"
     average_referrals:
       title: "9. Átlagos Referenciák"
       label: "Átlagos referenciák esetenként"
     referrals_per_service:
       title: "Átlagos referenciák szolgáltatásonként"
+    average_followup_meetings_per_case:
+      title: "10. Átlagos nyomon követési találkozók esetenként"
+    time_from_case_open_to_close:
+      title: "11. Az ügy megnyitásától az ügy lezárásáig eltelt idő"
+      percent: "Az esetek százalékos aránya"
+    case_closure_rate:
+      title: "12. Az ügy lezárásának száma"
+    client_satisfaction_rate:
+      title: "13. Ügyfél-elégedettségi arány"
+      label: "Ügyfél-elégedettség"
+      invalid: "Ezt jelenleg nem tudjuk kiszámítani."
+    supervisor_to_caseworker_ratio:
+      title: "14. Felügyelő és ügyintéző közötti arány"
+    case_load:
+      title: "15. Ügyszám"
+      case_load: "Ügyszám"
+      percent: "az ügyintézők százalékos aránya"
+      10cases: "< 10 eset"
+      20cases: "11 - 20 eset"
+      21-30cases: "21 - 30 eset"
+      30cases: "> 30 eset"
+    date_range_dialog:
+      title: "Egyéni dátumtartomány"
+      description: "Ha ezt a módosítást alkalmazza, az adatok az alábbi két dátum között lesznek kiválasztva."
+      apply: 'Alkalmazni'
+      aria-labels:
+        from: "Az adatok kiválasztására ezen időpont után kerül sor"
+        to: "Az adatok kiválasztására ezen időpont előtt kerül sor"
+  location:
+    base_types:
+      camp: Tábor
+      chiefdom: Törzshely
+      city: Város
+      community: Közösség
+      country: Ország
+      county: Megye
+      district: Kerület
+      governorate: Kormányzóhivatal
+      locality: Helyszín
+      other: Egyéb
+      province: Tartomány
+      region: Régió
+      site: Oldal
+      state: Állapot
+      sub-district: Alkörzet
+      village: Falu
+      zone: Zóna
+      association: Szövetség
+    label: Helyszín
+    name: Név
+    code: Kód
+    admin_level: Admin-szint
+    type: Típus
+    hierarchy: Hierarchia
+    import_title: '''Helyszín'' importálása'
+    no_location: Kérjük, a Felhasználói fiókok létrehozása előtt importálja a Helyszíneket.
+    enable_title: Helyszín engedélyezése
+    enable_text: Biztos benne? Ha engedélyezi a kiválasztott Helyeket, akkor a Helyek mezőkben opcióként jelennek meg.
+    disable_title: Helyszín letiltása
   logger:
     actions:
+      _approved: Jóváhagyva
+      _rejected: Elutasítva
+      _requested: Kérvényezve
+      add_note: Jegyzet hozzáadása
       assign: Kiosztani
+      attach: Csatlakoztassa
+      bulk_assign: Tömeges hozzárendelés
+      bulk_create: Tömeges létrehozás
+      bulk_index: Tömegindex
+      case_plan_approved: Jóváhagyott esetterv
+      case_plan_rejected: Elutasított esetterv
+      case_plan_requested: Igényelt esetterv
+      close: Bezárni
+      create: Hozzon létre
+      create_bulk: Tömeges létrehozás
+      delete: Törölni
+      destroy: Megsemmisíteni
+      detach: Leválasztani
+      enable_disable_record: Rekord letiltásának engedélyezése
+      export: Exportálás
+      flag: Megjelölni
+      import: Import
+      incident_details_from_case: Az eset részletei az ügyből
+      index: Index
+      list: Lista
+      login: Bejelentkezés
+      password_reset: Jelszó visszaállítása
+      password_reset_request: Jelszó visszaállítási kérelem
+      refer: Hivatkozás
       refer_accepted: A referencia elfogadva.
+      refer_done: Hivatkozás megtörtént
+      refer_rejected: Hivatkozás elutasítva
+      refer_revoke: Hivatkozás visszavonása
+      refer_to: Hivatkozzon a
+      reopen: Újranyitni
+      services_section_from_case: Szolgáltatások szekció az esetből
+      show: Mutassa
+      show_alerts: Figyelmeztetések megjelenítése
+      traces: Nyomok
       transfer: Adatátvitel
       transfer_accepted: Átvitel elfogadva.
       transfer_rejected: Átvitel elutasítva.
       transfer_request: Átvitelési kérvény
       transfer_to: Átvitelni
+      update: Frissítés
+      user_password_reset_request: Felhasználói jelszó visszaállításának kérelmezése
+    approve_form:
+      bia: BIA nyomtatvány
+      case_plan: Esetterv űrlap
+      closure: Lezárási formanyomtatvány
+      'false': Elutasítás
+      gbv_closure: GBV Zárónyomtatvány
+      'true': Jóváhagyás
+    assessment_approved: "%{approval_label}jóváhagyva"
+    bulk_index: Sorolja fel az összes
+    by_user: felhasználó által
+    case_plan_approved: "%{approval_label}jóváhagyva"
+    close: Bezárni
+    closure_approved: "%{approval_label}jóváhagyva"
     consent_count: Hozzájárulás száma
+    copy: Másolás
+    create: A létrehozása
+    create_subform: Al-formanyomtatvány létrehozása
+    destroy: A törlése
+    edit: Szerkesztés
+    enable_disable_record: Engedélyezés / Tiltás
+    export: Adatok exportálása a
+    flag: Jelölés
+    flag_records: Jelölés
+    graph_data: Grafikus adatok megtekintése
+    hide_name:
+      protect: Név elrejtése
+      view: Név Megtekintése
+    index: Bejegyzések listázása
+    list: Lista
+    login: Bejelentkezés
+    logout: Kijelentkezés
+    lookups_for_field: Mező keresése
+    mark_for_mobile:
+      'false': Törölje a mobil kijelölését
+      'true': Jelölés mobilra
+    match_record: Egyezik a Bejegyzéssel
+    permitted_field_list: Engedélyezett mezők listája
+    quick_view: Gyorsnézet megtekintése
+    reassign: kijelölése
     resources:
+      audit_log: Ellenőrzési napló
+      user: Felhasználó
+      agency: Ügynökség
       user_group: Felhasználói csoport
+      child: Gyermek
+      alert: Figyelmeztetés
+      form_section: Formanyomtatvány
+      lookup: Keresés
+      system_settings: Rendszerbeállítások
+      permission: Engedély
+      dashboard: Irányítópult
+      report: Jelentés
+      bulk_export: Tömeges export
+      saved_search: Elmentett keresés
       role: Szerepkör
+      incident: Incidens
+      location: Helyszín
+      primero_configuration: Primero konfiguráció
+      code_of_conduct: Magatartási kódex
+      task: Feladat
+    record_state:
+      'true': Engedélyezés
+    refer: Hivatkozás
     refer_to: Keresni a referencia címzettjét
+    referral: Hivatkozó
+    relinquish_referral: A "Kész" hivatkozásról való lemondás
+    reopen: Újranyitni
+    reopen_case: Újbóli megnyitás
+    request_approval:
+      bia: Kérelem jóváhagyás a BIA űrlaphoz
+      case_plan: Az " Esetterv " formanyomtatvány jóváhagyása iránti kérelem
+      closure: A "Lezárás jóváhagyása" nyomtatvány igénylése
     request_transfer: Átviteli kérvényezés küldése
     request_transfer_view: Átviteli kérvényezés megtekintése
+    save_subform: Alforma elmentése
+    search: API-keresés
+    show: Megtekintés
+    show_alerts: Figyelmeztetések megtekintése
+    to: ig
+    to_user: a felhasználónak
     transfer: Átadás
     transfer_status:
       Accepted: Átvitel elfogadva
       Rejected: Átvitel elutasítva
+    unflag: Feloldás
+    update: Frissítés
   login:
+    label: Bejelentkezés
+    password:
+      label: Jelszó
+    password_confirmation:
+      label: Jelszó megerősítés
+    password_match:
+      label: A jelszónak egyeznie kell
+    title: Bejelentkezés
+    username: Felhasználó neve
+    password_reset_modal: Jelszó visszaállítása
     password_reset_modal_text: Primero elküld egy jelszó-visszaállítási linket az Ön e-mail címére
     password_reset_email: E-mail
+    forgot_password: Elfelejtette jelszavát?
     email:
       label: E-mail
+  lookup:
+    create: Új keresés
+    enabled_label: Engedélyezve?
+    english_label: Angol szöveg
+    label: Keresés
+    language_label: Nyelv
+    messages:
+      cannot_create: A keresést nem sikerült létrehozni
+      correct_errors: 'Kérjük, javítsa ki az alábbi hibákat, és küldje be újra:'
+      created: A keresés sikeresen létrejött.
+      updated: A keresés sikeresen frissült.
+    name: Név
+    no_options: Ez a keresés jelenleg nem rendelkezik beállításokkal.
+    values: Opciók
+  managed_reports:
+    date_range:
+      month: Hónap
+      quarter: Negyedév
+      year: Év
+    date_range_options:
+      this_quarter: Ebben a negyedévben
+      last_quarter: Utolsó negyedév
+      this_month: Ebben a hónapban
+      last_month: Múlt hónapban
+      this_year: Idén
+      last_year: Tavaly
+      custom: Egyéni
+    no_data: Erre a felismerésre vonatkozóan nincsenek adatok
+    no_data_table: Ehhez a betekintéshez nem léteznek táblázatadatok
+    violations:
+      name: Szabálysértések
+      filter_options:
+        incident_date: Az incidens dátuma
+        date_of_report: Jelentés időpontja
+        ctfmr_verified_date: Az ellenőrzés dátuma
+      reports:
+        killing: Gyermekek meggyilkolása
+        maiming: Gyermekek megcsonkítása
+        recruitment: Gyermekek toborzása és/vagy kihasználása
+        denial_humanitarian_access: A gyermekek humanitárius segítségnyújtásának megtagadása
+      sub_reports:
+        detention_detained: Maradjon őrizetben
+        perpetrators: A gyermekek száma az elkövetők szerint
+        reporting_location: Gyermekek száma régiónként
+        attack_type: Gyermekek száma támadás típusa szerint
+        boys: Fiúk
+        girls: Lányok
+        unknown: Ismeretlen
+        total: Összesen
+    gbv_statistics:
+      filter_options:
+        date_of_first_report: Az interjú dátuma
+        incident_date: Az incidens dátuma
   messages:
     alerts_for:
+      field_change: '%{form_section_name}frissítésre került%{alert_time}'
       transfer_request: Új átviteli kérvény érkezett  %{date}, %{user} által ehez az %{agency}hez
+    cannot_edit: Ezt nem szerkesztheti
+    confirmation_message: Az OK gombra kattintva a nem mentett módosításokat elveti, és visszatér a lista nézethez . Kattintson a törlés gombra a rekordhoz való visszatéréshez.
+    dashboard_offline: Offline vagy. A műszerfal teljesen működőképes lesz, amikor újra online lesz.
+    logout_confirmation: Folytatni szeretné a munkamenetet?
+    logout_offline_warning: Biztos, hogy ki szeretne jelentkezni? Ha igen, akkor nem fog tudni újra bejelentkezni, amíg újra nem lesz online. Az offline állapotban végzett módosítások elvesznek.
+    logout_warning: 5 perc múlva kijelentkezik a rendszerből
+    logout_dialog_header: Offline kijelentkezés
+    logout_confirmation_title: Kijelentkezés megerősítése
+    logout_confirmation_text: Biztos, hogy ki akar jelentkezni?
+    no_changes: Nem hajtott végre mezőváltoztatásokat
+    not_available: Nem elérhető
+    record_list:
+      column_header_tooltip: Válogassa szét %{column}
+      no_match: Sajnálom, nem találtunk megfelelő bejegyzéseket
+  navigation:
+    bulk_exports: Exportálások
+    cases: Esetek
+    home: Főoldal
+    incidents: Incidensek
+    logout: Kilépés
+    reports: Jelentések
+    insights: Betekintések
+    search: Keresés
+    settings: Beállítások
+    support: Támogatás
+    support_menu:
+      code_of_conduct: Magatartási kódex
+      terms_of_use: Felhasználási feltételek
+      system_information: Rendszerinformáció
+    tasks: Feladatok
+    tracing_request: Nyomkövetési kérelem
+    registry_records: Nyilvántartás
+  notes:
+    note_success: Sikeresen hozzáadott megjegyzés
   permissions:
+    label: Engedélyek
     permission:
+      All: Összes
+      add_note: Jegyzetek hozzáadása
+      admin_only: Nincsenek bejegyzések - Csak admin funkciók
+      administrator_read: Rendszergazda Olvassa
+      agency: Ügynökség
+      agency_read: Ügynökség Olvassa
+      all: Hozzáférés az összes bejegyzéshez vagy felhasználóhoz
+      approvals_assessment: '%{approval_label}'
+      approvals_assessment_pending: '%{approval_label} függőben'
+      approvals_case_plan: '%{approval_label}'
+      approvals_case_plan_pending: '%{approval_label} függőben'
+      approvals_closure: '%{approval_label}'
+      approvals_closure_pending: '%{approval_label} függőben'
+      approve_action_plan: Jóváhagyás%{approval_label}
+      approve_assessment: '%{approval_label}Nyomtatvány jóváhagyása'
+      approve_case_plan: Jóváhagyás%{approval_label}
+      approve_closure: '%{approval_label}Nyomtatvány jóváhagyása'
+      approve_gbv_closure: '%{approval_label}Nyomtatvány jóváhagyása'
+      assign: Illetékes személy
+      assign_within_agency: Ügynökségen belüli kijelölés
+      assign_within_user_group: Felhasználói csoporton belüli kijelölés
+      audit_log: Ellenőrzési napló
+      case: Eset
+      case_approvals: Eseti jóváhagyások
       case_assignments_referrals_transfers: Esetkiosztások, referenciák és átvitelek
+      case_overview: Saját Esetek
+      close: Bezárni
       consent_override: Hozzájárulás felülbírálása
+      copy: Másolás
+      copy_of: Másolata
+      create: Hozzon létre
+      dash_case_incident_overview: Eseteim / incidenseim
+      dash_cases_by_social_worker: Szociális munkás által végzett 'Esetek' megtekintése
+      dash_cases_by_task_overdue: Ügyek megtekintése 'Túl késedelmes feladat' szerint
+      dash_cases_by_workflow: Esetek megtekintése munkafolyamatok szerint
+      dash_cases_to_assign: Hozzárendelendő esetek megtekintése
       dash_manager_transfers: Kezelői átvitelek megtekintése
+      dash_matching_results: Találatok megtekintése
+      dash_protection_concerns: Védelmi aggályok megtekintése
+      dash_protection_concerns_by_location: Védelmi aggályok megtekintése "Helyszín" szerint
+      dash_referrals_by_socal_worker: Szociális munkás által végzett Ajánlások megtekintése
+      dash_reporting_location: Jelentési helyszínek megtekintése
+      dash_service_provisions: Szolgáltatási rendelkezések megtekintése
+      dash_shared_with_me: Megosztva velem
+      dash_shared_with_my_team: Megosztva a csapatommal
+      dash_shared_with_others: Másokkal megosztva
+      dash_show_none_values: '''Nincsenek értékek'' megtekintése'
+      dash_tasks: Feladatok megtekintése
       dash_transfers_by_socal_worker: A szociális munkás által végzett átvitelek megtekintése
+      dash_national_admin_summary: Rendszergazdai összefoglaló
+      dashboard: Irányítópult
+      display_view_page: '''Oldal megtekintése'' kijelző'
+      duplicate: Duplikált 'Keresés'
+      enable_disable_record: Letiltás
+      export_csv: CSV exportálása
+      export_custom: Egyéni exportálás
+      export_duplicate_id_csv: Másolatok exportálása
+      export_json: Json exportálása
+      export_list_view_csv: Listanézet csv exportálása
+      export_mrm_violation_xls: '''mrm jogsértés'' xls exportálása'
+      export_pdf: PDF exportálása
+      export_photowall: Fotófal exportálása
+      export_unhcr_csv: Unhcr csv exportálása
+      export_xls: xls exportálása
+      find_tracing_match: Nyomkövetési egyezés keresése az esetből
+      view_registry_record: Nyilvántartási bejegyzés megtekintése
+      add_registry_record: Nyilvántartási bejegyzés hozzáadása
+      flag: Megjelölni
+      form: Nyomtatványok
+      group: Hozzáférés a csoportom összes bejegyzéséhez vagy felhasználójához
+      group_read: Csoport 'Olvasás'
+      import: Import
+      incident: Incidens
+      incident_details_from_case: Incidens részletek hozzáadása egy másik felhasználó ügyéhez
+      incident_from_case: Incidens létrehozása egy esetből
+      lookup: Keresések
+      manage: Kezelje
+      mark_for_offline: '"Offline" jelölés'
+      matching_configuration: Egyező konfiguráció
+      metadata: Nyomtatványok, keresések
+      potential_match: Potenciális egyezés
+      primero_configuration: Konfiguráció
+      read: Olvassa el
+      reassign: Újra kijelölni
+      receive_referral: Referencia fogadása
       receive_transfer: Átvitel fogadása
+      referral: Ajánlásra használható
+      registry_record: Nyilvántartás
+      remove_assigned_users: Más hozzárendelt felhasználók eltávolítása (ajánlások)
+      reopen: Újranyitni
+      report: Jelentés
+      managed_report: Betekintések
+      request_approval: Jóváhagyás iránti kérelem
+      request_approval_action_plan: Jóváhagyás iránti %{approval_label}kérelem
+      request_approval_assessment: Jóváhagyás iránti %{approval_label}kérelem
+      request_approval_case_plan: Jóváhagyás iránti %{approval_label}kérelem
+      request_approval_closure: Jóváhagyás iránti %{approval_label}kérelem
+      request_approval_gbv_closure: Jóváhagyás iránti %{approval_label}kérelem
       request_transfer: Átvitel kérvényezése
       role: Szerepkörök
+      save_search: Keresések mentése
+      saved_search: Elmentett keresés
+      search_owned_by_others: Más felhasználók által birtokolt ügyiratok keresése
+      self: Csak a saját bejegyzéseimhez vagy felhasználóimhoz való hozzáférés
+      service_provision_incident_details: Lásd a Szolgáltatásnyújtás hozzáadása gombot az Incidens részletek modulon.
+      services_section_from_case: Szolgáltatásnyújtás hozzáadása egy másik felhasználó esetéhez
       specific_roles: Hozzáférés a szerepkörök meghatározott listájához
+      sync_external: Szinkronizálás külső információkezelő rendszerrel
+      sync_mobile: '"Offline" jelölés'
+      system: Rendszer
+      tracing_request: Nyomkövetési kérelem
       transfer: Átvitelre használható
+      user: Felhasználók
       user_group: Felhasználói csoportok
+      view_approvals: Engedélyek megtekintése
+      view_assessment: Értékelés megtekintése
+      view_photo: Fénykép megtekintése
+      view_protection_concerns_filter: Védelmi aggályok szűrőjének megtekintése
+      view_response: Válaszok megtekintése
+      workflow: Munkafolyamat - Egyéni esetek
+      workflow_team: Munkafolyamat - Csapatok esetei
+      write: Írjon
+      activity_log: Tevékenység Napló
     resource:
+      kpi:
+        actions:
+          kpi_assessment_status:
+            explanation: Lehetőség annak megtekintésére, hogy a felhasználó által hozzáférhető aktív ügyek milyen arányban rendelkeznek kitöltött értékelő űrlappal.
+          kpi_case_load:
+            label: Ügyszám
+          kpi_completed_case_action_plans:
+            label: Befejezett Eseti cselekvési tervek
+          kpi_completed_supervisor_approved_case_action_plans:
+            label: A felügyelő által jóváhagyott, befejezett cselekvési terv
+          kpi_number_of_cases:
+            label: Esetek száma
+          kpi_number_of_incidents:
+            label: Incidensek száma
+        label: KPI
+      agency:
+        actions:
+          create:
+            explanation: Ügynökség létrehozásának lehetősége.
+            label: Hozzon létre
+          manage:
+            label: Kezelés (az adott erőforrástípus teljes körű engedélyezése)
+          read:
+            explanation: Lehetőség az ügynökségek megtekintésére.
+            label: Megtekintés
+          write:
+            explanation: Lehetőség az ügynökségekre vonatkozó információk szerkesztésére. Felhívjuk figyelmét, hogy ez a rendszerben lévő összes ügynökségre vonatkozik.
+            label: Szerkesztés
+        explanation: Olyan szervezetet képvisel, amelynek tagjai a Primero-t használják. Az ügynökségek a felhasználói csoportoktól függetlenül léteznek.
+        label: Ügynökség
+      audit_log:
+        actions:
+          read:
+            label: Megtekintés
+        explanation: A rendszerben végrehajtott összes művelet szűrhető listája. Nem tartalmaz semmilyen azonosítható információt az Ügyekről, Eseményekről vagy Nyomonkövetési kérelmekről.
+        label: Ellenőrzési napló
       case:
         actions:
+          add_registry_record:
+            explanation: Lehetővé teszi a felhasználó számára, hogy a nyilvántartás adatait tartalmazó űrlapon keresztül összekapcsoljon egy nyilvántartást egy esettel. Lehetővé teszi továbbá, hogy a felhasználó visszavonja az Ügyhöz már hozzákapcsolt nyilvántartás összekapcsolását.
+            label: Nyilvántartási rekord hozzáadása/frissítése az Ügyiratból
+          approve_action_plan:
+            explanation: Lehetővé teszi a menedzser számára, hogy jóváhagyja a %{approval_label}az ügyintézők eseteit.
+            label: Jóváhagyás%{approval_label}
+          approve_assessment:
+            explanation: Lehetővé teszi a menedzser számára, hogy jóváhagyja a %{approval_label}az ügyintézők eseteit.
+            label: '%{approval_label}Nyomtatvány jóváhagyása'
+          approve_bia:
+            explanation: Lehetővé teszi a menedzser számára, hogy jóváhagyja a %{approval_label}az ügyintézők eseteit.
+            label: '%{approval_label}Nyomtatvány jóváhagyása'
+          approve_case_plan:
+            explanation: Lehetővé teszi a menedzser számára, hogy jóváhagyja a %{approval_label}az ügyintézők eseteit.
+            label: Jóváhagyás%{approval_label}
+          approve_closure:
+            label: '%{approval_label}Nyomtatvány jóváhagyása'
+          approve_gbv_closure:
+            explanation: Lehetővé teszi a menedzser számára, hogy jóváhagyja a %{approval_label}az ügyintézők eseteit.
+            label: '%{approval_label}Nyomtatvány jóváhagyása'
           assign:
             explanation: Megengedi a felhasználót, hogy elküldje az esetet az eredeti rekordtulajdonostól a rendszer bármely más felhasználójának. Ehhez nem szükséges a gyermek hozzájárulása. Az átvitelekkel ellentétben, a címzettnek nincs lehetősége elfogadni vagy elutasítani a megbízást.
           assign_within_agency:
             explanation: Megengedi a felhasználót, hogy elküldje az esetet az eredeti rekordtulajdonostól a ügynökség bármely más felhasználójának. Ehhez nem szükséges a gyermek hozzájárulása. Az átvitelekkel ellentétben, a címzettnek nincs lehetősége elfogadni vagy elutasítani a megbízást.
           assign_within_user_group:
             explanation: Megengedi a felhasználót, hogy elküldje az esetet az eredeti rekordtulajdonostól az aktuális felhasználói csoportok bármely más felhasználójának. Ehhez nem szükséges a gyermek hozzájárulása. Az átvitelekkel ellentétben, a címzettnek nincs lehetősége elfogadni vagy elutasítani a megbízást.
+            label: Hozzárendelés a saját felhasználói csoportomban lévő felhasználóhoz
+          change_log:
+            explanation: A felhasználó láthatja a bejegyzés létrehozásától kezdve a rajta végrehajtott összes változtatás előzményeit.
           consent_override:
             explanation: Megengedi a felhasználót, hogy beutalást vagy átvitelt hajtson végre olyan ügyben, amelyhez nem adtak hozzájárulást.
             label: A hozzájárulás hiányának felülbírálása utaláskor vagy átvitelkor
+          create:
+            explanation: Eset létrehozásának lehetősége
+            label: Hozzon létre
+          enable_disable_record:
+            label: Engedélyezés / Tiltás
+          export_csv:
+            label: CSV exportálása
+          export_custom:
+            label: Egyéni exportálás
+          export_duplicate_id_csv:
+            label: Másolatok exportálása
+          export_json:
+            label: JSON exportálása
+          export_list_view_csv:
+            label: Listanézet csv exportálása
+          export_photowall:
+            label: Fotófal exportálása
+          export_unhcr_csv:
+            label: UNHCR CSV exportálása
+          export_xls:
+            label: Excel (XLS fájl) exportálása
+          find_tracing_match:
+            label: Nyomkövetési egyezés keresése az esetből
+          import:
+            label: Import
+          incident_details_from_case:
+            label: Esemény részleteinek hozzáadása egy másik felhasználó esetéhez a keresési eredmények oldaláról
+          incident_from_case:
+            explanation: Ez az engedély lehetővé teszi a felhasználó számára, hogy az "Incidens létrehozása" gombra kattintson. Ez egy incidenst generál, amely tartalmazhat néhány, az ügyből átmásolt információt. A GBV-ügyek esetében ez a gomb az ügyet megjelenítő oldal tetején található, és az ügy egészére vonatkozó információknak felel meg. Egyes incidenskövető kontextusokban ez a gomb az "Incidens részletei" alűrlapon található. Ebben a helyzetben bizonyos információk átmásolhatók az incidens részleteit tartalmazó alűrlapról, ahol a gombra kattintottak, valamint az eset egészéből. Vagyis a létrehozott új incidens tartalmazhatja az "Erőszak típusa" mezőt az egyedi incidens részleteit tartalmazó alűrlapról, de tartalmazhatja magának az esetnek a korát és nemét is. Megjegyzendő, hogy ez a jogosultság lehetővé teszi a felhasználó számára a létrehozott incidensre mutató link megtekintését is.
+            label: Incidens létrehozása egy esetből
+          manage:
+            explanation: Lehetővé teszi a felhasználó számára, hogy az összes rendelkezésre álló műveletet elvégezze az ügyeken. A "Kezelés" engedély lényegében "mindent" jelent.
+            label: Kezelés (az adott erőforrástípus teljes körű engedélyezése)
+          read:
+            explanation: Az ügy megtekintésének képessége
+            label: Megtekintés
+          receive_referral:
+            label: Referencia fogadása
           receive_transfer:
             explanation: Megengedi a felhasználót hogy elfogadja az átvitelet. Az ezzel az engedéllyel rendelkező felhasználók az átviteli művelet lehetséges címzettjeként jelennek meg, míg az ezzel az engedéllyel nem rendelkező felhasználók nem jelennek meg potenciális címzettként, amikor valaki az átviteli módban címzettet keres.
             label: Átvitel fogadása
+          referral:
+            explanation: Lehetővé teszi a felhasználó számára, hogy ideiglenesen hozzáférést adjon egy ügyhöz egy másik felhasználónak. Az átirányítás címzettje ugyanazokat a műveleteket végezheti el az átirányított ügyön, mint a saját ügyein. Amikor a címzettnek már nincs szüksége az ügyhöz való hozzáférésre, az "Átirányítások és átadások" alűrlapon a "Kész" gombra kattintva elveszíti az ügyhöz való hozzáférést. Ügyet csak olyan felhasználónak lehet átirányítani, akinek a szerepkörében lehetőség van átirányítások fogadására.
+            label: Ajánlás
+          reopen:
+            explanation: Lehetővé teszi a felhasználó számára, hogy megnyisson egy jelenleg lezárt ügyet.
+          request_approval_action_plan:
+            label: Jóváhagyás iránti %{approval_label}kérelem
+          request_approval_assessment:
+            label: Jóváhagyás iránti %{approval_label}kérelem
+          request_approval_bia:
+            label: Jóváhagyás iránti %{approval_label}kérelem
+          request_approval_case_plan:
+            explanation: Lehetővé teszi a felhasználó (általában az ügyintéző) számára, hogy kérje, hogy a vezetője hagyja jóvá az ügyet%{approval_label}
+            label: Jóváhagyás iránti %{approval_label}kérelem
+          request_approval_closure:
+            explanation: Lehetővé teszi a felhasználó (általában az ügyintéző) számára, hogy kérje, hogy a vezetője hagyja jóvá az ügyet%{approval_label}
+            label: Jóváhagyás iránti %{approval_label}kérelem
+          request_approval_gbv_closure:
+            label: Jóváhagyás iránti %{approval_label}kérelem
           request_transfer:
             explanation: Megjeleníti az „Átvitel kérése” gombot a „Modális megtekintés” menüben. A gomb segítségével a felhasználó személyre szabott megjegyzéssel üzenetet küldhet e-mailben az ügy aktuális irattulajdonosának, arra kérve, hogy az irattulajdonos adja át az ügyet a kérelmet küldő felhasználónak. Ez olyan helyzetekben hasznos, amikor a gyerekek gyakran változtatják a helyszínt, és a szociális munkásoknak szükségük van a gyermek korábbi ügyvezetőjére, hogy információkat küldjenek a gyermekről, hogy elkerüljék az ismétlődő rekordok létrehozását.
             label: Átvitel kérvényezése
+          search_owned_by_others:
+            label: Más felhasználók által birtokolt ügyiratok keresése
+          service_provision_incident_details:
+            explanation: Lehetővé teszi a felhasználó számára, hogy az Esemény hozzáadása modal alján megjelenjen a "Mentés és szolgáltatásnyújtás hozzáadása" feliratú gomb. Erre a gombra kattintva a felhasználó elmenti az incidenssel kapcsolatban jelenleg megadott információkat, és közvetlenül a Szolgáltatás hozzáadása modalra lép. Mivel ez a művelet közvetlenül kapcsolódik az Esemény hozzáadása és a Szolgáltatásnyújtás hozzáadása műveletekhez, csak akkor van értelme ezt a jogosultságot megadni egy szerepkörnek, ha az adott szerepkör rendelkezik az "Eseményadatok hozzáadása egy másik felhasználó ügyéhez" és a "Szolgáltatásnyújtás hozzáadása egy másik felhasználó ügyéhez" jogosultságokkal is.
+            label: Lásd a Szolgáltatásnyújtás hozzáadása gombot az Incidens részletek modulon.
+          sync_mobile:
+            label: '"Offline" jelölés'
           transfer:
             label: Adatátvitel
+          view_photo:
+            label: Fénykép megtekintése az esetlista nézetéből
+          view_incident_from_case:
+            label: '''Események'' megtekintése az ''Ügy'' menüpontból'
+          view_registry_record:
+            explanation: Lehetővé teszi a felhasználó számára, hogy megtekintse az Ügyhöz kapcsolódó bármely nyilvántartás adatait. Lehetővé teszi továbbá a felhasználó számára, hogy megnézze az Ügy nyilvántartási adatlapját.
+            label: A nyilvántartási rekord megtekintése az Ügyiratból
+          mark_for_offline:
+            explanation: Lehetővé teszi a felhasználó számára az "Ügy" gyorsítótárba helyezését offline használatra.
+            label: '"Offline" jelölés'
+        explanation: Egyéni gyermeket, túlélő hozzátartozót vagy más kedvezményezettet képvisel.
+        label: Eset
+      dashboard:
+        actions:
+          approvals_action_plan:
+            label: Az ügyintéző %{approval_label} jóváhagyásai
+          approvals_action_plan_pending:
+            label: '%{approval_label}Menedzseri jóváhagyások'
+          approvals_assessment:
+            label: Az ügyintéző %{approval_label} jóváhagyásai
+          approvals_assessment_pending:
+            label: '%{approval_label}Menedzseri jóváhagyások'
+          approvals_case_plan:
+            explanation: Megmutatja az aktuális felhasználó "Esetterv" jóváhagyási kérelmekkel rendelkező ügyeinek számát, amelyek Függőben, Jóváhagyva vagy Elutasítva vannak.
+          approvals_case_plan_pending:
+            label: '%{approval_label}Menedzseri jóváhagyások'
+          approvals_closure:
+            explanation: Megmutatja az aktuális felhasználó "Lezárási jóváhagyási kérelemmel" rendelkező ügyeinek számát, amelyek Függőben, Jóváhagyva vagy Elutasítva vannak.
+            label: Az ügyintéző %{approval_label} jóváhagyásai
+          approvals_closure_pending:
+            label: '%{approval_label}Menedzseri jóváhagyások'
+          approvals_gbv_closure:
+            explanation: Megmutatja az aktuális felhasználó azon ügyeinek számát, amelyekben a GBV lezárási jóváhagyási kérelmek függőben, jóváhagyva vagy elutasítva vannak.
+            label: Az ügyintéző %{approval_label} jóváhagyásai
+          approvals_gbv_closure_pending:
+            label: '%{approval_label}Menedzseri jóváhagyások'
+          case_overview:
+            explanation: A kezdőlap tetején található áttekintő műszerfal-kártya, amely olyan számadatokat tartalmaz, mint az "Összes" és az "Új esetek".
+          case_risk:
+            explanation: Megmutatja, mennyi eset tartozik az egyes kockázati szintekhez.
+            label: Esetek kockázati szintek szerint
+          cases_by_task_overdue_services:
+            explanation: Lehetővé teszi a menedzser számára, hogy lássa, hány esetben van lejárt Szolgáltatási feladat az egyes esetkezelői számára.
+          dash_case_incident_overview:
+            label: Áttekintés - Eseteim / incidenseim
+          dash_cases_to_assign:
+            label: (Menedzsereknek) Esetek, amelyeket a csapatomban dolgozóknak kell kiosztanom
+          dash_flags:
+            explanation: Megjeleníti azoknak a zászlóknak a listáját, amelyeket más felhasználók adtak hozzá a bejegyzéseimhez, valamint azoknak a zászlóknak a listáját, amelyeket én adtam hozzá más felhasználók bejegyzéseihez.
+            label: Megjelölt bejegyzések
+          dash_group_overview:
+            label: A csoportom esetei
+          dash_matching_results:
+            explanation: MEGSZÜNTETVE. Ez a műszerfal nem funkcionális, és a v2-ben eltávolításra kerül.
+            label: Találatok megtekintése
+          dash_protection_concerns:
+            label: Védelmi aggályok szerinti esetek
+          dash_shared_from_my_team:
+            explanation: Megmutatja a menedzsereknek, hogy csapatuk egyes felhasználói hány olyan ügyet kezelnek, amelyeket más felhasználóknak továbbítanak vagy átadnak.
+          dash_shared_with_me:
+            label: Megosztva velem
+          dash_shared_with_my_team:
+            label: Megosztva a csapatommal
+          dash_shared_with_others:
+            label: Másokkal megosztva
+          dash_tasks:
+            label: Feladatok oldala
+          dash_national_admin_summary:
+            label: Rendszergazdai összefoglaló
+          view_response:
+            label: Válaszok megtekintése
+          workflow:
+            explanation: Lehetővé teszi az ügyintéző számára, hogy egy kördiagramon lássa, hány ügye van az ügykezelési munkafolyamat egyes szakaszaiban.
+        explanation: Meghatározza, milyen összefoglaló információk jelenjenek meg a kezdőlapon.
+        label: Irányítópult
+      disabled:
+        explanation: Ha letiltja ezt a szerepet, többé nem tudja hozzáadni a felhasználói fiókokhoz.
+        label: Letiltva
+      duplicate:
+        actions:
+          read:
+            explanation: Lehetővé teszi a felhasználó számára, hogy a rendszerben lévő összes esetre kiterjedő keresést végezzen, számos kritérium, többek között a név, becenév, nem, életkor és állampolgárság alapján.
+            label: Megtekintés
+        explanation: Részletes ügykeresés az adminisztrátorok számára.
+        label: Duplikált 'Keresés'
+      forms:
+        case:
+          label: Nyomtatványok - Eset
+        incident:
+          label: Nyomtatványok - incidensek
+        registry_record:
+          explanation: 'A felhasználó hozzáférésének korlátozása a bejegyzések űrlapjaihoz behatárolja, hogy a felhasználó milyen információkat láthat a bejegyzésekben. Ha például a felhasználónak csak a Nyilvántartás-tulajdonos űrlaphoz van hozzáférése, akkor csak az ezen az űrlapon található mezőkben szereplő információkat láthatja. Ha az aktuális felhasználó korlátozott űrlap-hozzáféréssel rendelkezik, és képes kezelni az űrlapok konfigurációját, az űrlap-hozzáférés korlátozása azt is limitálja, hogy mely űrlapokat konfigurálhatja. MEGJEGYZÉS: Ha nincsenek űrlapok megadva, az azt jelenti, hogy a szerepkörnek hozzáférése van a nyilvántartások összes űrlapjához.'
+          label: Nyomtatványok - Nyilvántartás
+      group:
+        actions:
+          admin_only:
+            label: Nincsenek bejegyzések - Csak admin funkciók
+          agency:
+            label: Az ügynökségem összes bejegyzése vagy felhasználója
+          all:
+            label: Hozzáférés az összes bejegyzéshez vagy felhasználóhoz
+          group:
+            explanation: A szerepkör hozzáférhet a Felhasználói csoportok összes Felhasználója által kezelt bejegyzésekhez. Csak a saját felhasználói csoportjukban lévő felhasználókhoz férhetnek hozzá. Csak a saját felhasználói csoportjaikhoz férhetnek hozzá.
+            label: Hozzáférés a csoportom összes bejegyzéséhez vagy felhasználójához
+          self:
+            label: Csak a saját bejegyzéseimhez vagy felhasználóimhoz való hozzáférés
+        label: Milyen bejegyzéseket érint ez a szerepkör?
+      incident:
+        actions:
+          create:
+            explanation: Esemény létrehozásának képessége.
+            label: Hozzon létre
+          export_case_pdf:
+            label: PDF exportálása
+          export_custom:
+            label: Egyéni exportálás
+          export_json:
+            label: JSON exportálása
+          export_list_view_csv:
+            explanation: A felhasználó az incidenslista oldalról CSV fájl exportálást generálhat, amely ugyanazokat a mezőket tartalmazza, amelyek az adott felhasználó esetében az incidenslistán megjelennek. Csak az incidenslista oldalról végezhető el.
+            label: Listanézet csv exportálása
+          export_xls:
+            label: Excel (XLS fájl) exportálása
+          import:
+            label: Import
+          manage:
+            label: Kezelés (az adott erőforrástípus teljes körű engedélyezése)
+          read:
+            explanation: Lehetőség az incidens megtekintésére
+            label: Megtekintés
+          sync_mobile:
+            label: Szinkronizálás mobileszközzel
+          write:
+            label: Szerkesztés
+        explanation: Egy bekövetkezett eseményt képvisel. Ezek általában bántalmazási vagy erőszakos esetek, bár megfelelhetnek olyan eseményeknek is, mint például a bűnüldöző szervekkel való összetűzések. Az incidensek gyakran kapcsolódnak az Ügyekhez.
+        label: Incidens
+      is_manager:
+        explanation: Minden olyan felhasználói szerepkörre vonatkozik, amely általában más felhasználókat felügyel. Ez lehetővé teszi a felhasználó számára, hogy olyan műszerfalakat és szűrőket lásson, amelyek segítenek a felhasználónak a csapat irányításában.
+        label: Menedzser?
+      managed_report:
+        actions:
+          violations:
+            label: Szabálysértések
+          gbv_statistics:
+            label: GBV statisztikák
+      matching_configuration:
+        actions:
+          manage:
+            label: Kezelés (az adott erőforrástípus teljes körű engedélyezése)
+        explanation: Szabályozza, hogy a családok felkutatása és újraegyesítése során mely mezőket használják a Nyomkövetési kérelmek és az Ügyek összehasonlítására.
+        label: Egyező konfiguráció
+      metadata:
+        actions:
+          manage:
+            label: Kezelés (az adott erőforrástípus teljes körű engedélyezése)
+        explanation: A Primero űrlapok és mezők, valamint a bennük használt keresési opciók konfigurálásának lehetőségét vezérli.
+        label: Nyomtatványok, keresések
+      module:
+        actions:
+          cp:
+            label: CP
+          gbv:
+            label: GBV
+          mrm:
+            label: MRM
+        explanation: Szabályozza, mely modulokra vonatkozik ez a szerepkör
+      potential_match:
+        actions:
+          read:
+            label: Megtekintés
+        label: Potenciális egyezés
+      primero_configuration:
+        actions:
+          manage:
+            explanation: Konfigurációk mentésének, alkalmazásának és küldésének lehetősége. Ez a jogosultság általában a rendszergazdának van fenntartva.
+            label: Kezelés (az adott erőforrástípus teljes körű engedélyezése)
+        label: Konfiguráció
+      referral:
+        actions:
+          refer:
+            label: Használható-e ez a szerep külső Ajánlásokhoz?
+        label: Ajánlás
+      registry_record:
+        actions:
+          change_log:
+            explanation: A felhasználó láthatja a bejegyzés létrehozásától kezdve a rajta végrehajtott összes változtatás előzményeit.
+            label: Változási napló
+          create:
+            explanation: Képes nyilvántartási bejegyzés létrehozására.
+            label: Hozzon létre
+          enable_disable_record:
+            explanation: Lehetőség a nyilvántartási bejegyzések letiltására vagy engedélyezésére. A "letiltott" bejegyzések alapértelmezés szerint nem jelennek meg a nyilvántartási listában. A felhasználók egy szűrő használatával láthatják a letiltott " Nyilvántartási bejegyzéseket" a "Nyilvántartási listában".
+            label: Engedélyezés / Tiltás
+          export_csv:
+            explanation: 'A felhasználó a Nyilvántartási lista vagy a Nyilvántartás megjelenítése oldalakról CSV fájl exportálást hozhat létre, amely tartalmazza az összes olyan mezőt, amelyhez az aktuális felhasználónak hozzáférése van, egy, több vagy az összes olyan nyilvántartási bejegyzéshez, amelyhez a felhasználónak hozzáférése van. MEGJEGYZÉS: A CSV export nem jeleníti meg a nem latin betűket (pl. arab, bangla).'
+            label: CSV exportálása
+          export_json:
+            explanation: A felhasználó létrehozhat egy JSON fájl exportot a Nyilvántartási lista vagy a Nyilvántartás megjelenítése oldalakról, amely tartalmazza az összes olyan mezőt, amelyhez az aktuális felhasználónak hozzáférése van. A JSON formátum gépileg olvasható, és a legtöbb felhasználó számára nem praktikus.
+            label: JSON exportálása
+          export_xls:
+            explanation: 'A felhasználó a Nyilvántartási lista vagy a Nyilvántartás megjelenítése oldalakról XLS fájl exportálást készíthet, amely tartalmazza az összes olyan mezőt, amelyhez az aktuális felhasználónak hozzáférése van. MEGJEGYZÉS: Az XLS formátum a nem latin betűket (pl. arab, bangla) olvasható formában adja vissza, míg a CSV export nem.'
+            label: Excel (XLS fájl) exportálása
+          flag:
+            explanation: Lehetőség a nyilvántartási bejegyzések megjelölésének hozzáadására. Az ezzel a jogosultsággal rendelkező felhasználók eltávolíthatják az általuk a nyilvántartási bejegyzésekhez hozzáadott jelöléseket is.
+            label: Megjelölni
+          manage:
+            explanation: Lehetővé teszi a felhasználó számára, hogy a nyilvántartási bejegyzéseken az összes rendelkezésre álló műveletet elvégezze. A "Kezelés" engedély lényegében "mindent" jelent.
+            label: Kezelés (az adott erőforrástípus teljes körű engedélyezése)
+          read:
+            explanation: A "Nyilvántartási bejegyzések" megtekintése
+            label: Megtekintés
+          write:
+            explanation: Lehetővé teszi a "Szerkesztés" gombra való kattintást, a nyilvántartási bejegyzésre vonatkozó információk frissítését és a "Mentés" gombra való kattintást.
+            label: Szerkesztés
+          sync_mobile:
+            explanation: Lehetővé teszi a felhasználó számára, hogy a nyilvántartási bejegyzéseket offline használatra gyorsítótárba helyezze.
+            label: '"Offline" jelölés'
+        explanation: Ez egy személyt vagy intézményt képviselhet, amelyet más nyilvántartásokkal, például esetekkel vagy eseményekkel kell összekapcsolni, amelyek igen nagy számban léteznek, és amelyeket folyamatosan új információkkal frissítenek. Hasonlóak a keresésekhez, de minden egyes bejegyzéshez összetettebb információkészletet tartalmaznak.
+        label: Nyilvántartási bejegyzés
+      report:
+        actions:
+          create:
+            label: Hozzon létre
+          group_read:
+            explanation: Lehetőség az összes jelentés megtekintésére. Az egyes jelentésekben szereplő számok csak azokat a rekordokat tükrözik, amelyek az aktuális felhasználó felhasználói csoportjába tartozó felhasználók számára elérhetőek. Ezt a jogosultságot gyakran használják helyi, regionális vagy ügynökségi adminisztrátorok, akik betekintést szeretnének nyerni saját csapatuk vagy szervezetük teljesítményébe. Ez a jogosultság lehetőséget ad a felhasználónak arra is, hogy a jelentésből adatokat exportáljon.
+            label: Nézet (csoportalapú adatok)
+          manage:
+            explanation: Lehetővé teszi a felhasználó számára, hogy az "Ügynökségek" összes rendelkezésre álló műveletét elvégezze. A "Kezelés" engedély lényegében "mindent" jelent.
+            label: Kezelés (az adott erőforrástípus teljes körű engedélyezése)
+          read:
+            label: Megtekintés
+          write:
+            explanation: Lehetőség az összes jelentés szerkesztésére (beleértve a más felhasználók által létrehozott jelentéseket is).
+        explanation: 'Összesített adatelemző eszköz. Tartalmazza az adatok táblázatos és grafikus megjelenítését. '
+        label: Jelentés
+      reporting_location_level:
+        label: Milyen helyszíntípust kell használni a jelentéskészítéshez ebben a szerepkörben?
       role:
+        actions:
+          copy:
+            label: Másolás
+          create:
+            explanation: Szerepkör létrehozásának lehetősége
+            label: Hozzon létre
+          delete:
+            explanation: Szerepkörök törlésének lehetősége.
+            label: Törölni
+          manage:
+            label: Kezelés (az adott erőforrástípus teljes körű engedélyezése)
+          permitted_roles:
+            label: A szerepkör által kezelt egyéb feladatok
+          read:
+            explanation: Lehetőség a szerepek megtekintésére
+            label: Megtekintés
+          write:
+            explanation: Lehetőség a "Szerkesztés" gombra kattintani a szerepek megjelenítése oldalon, frissíteni a szerep jogosultságait, majd elmenteni a szerepet.
+            label: Szerkesztés
+        explanation: Meghatározza, hogy a Felhasználó milyen műveleteket hajthat végre a Primero rendszerben.
         label: Szerepkörök
       system:
         actions:
           manage:
             explanation: Megtekintheti és frissítheti a rendszer kapcsolati adatait, az alapértelmezett értesítési és üdvözlő e-mail beállításokat, valamint a szinkronizált szervereket.. Ez az engedély általában a rendszergazdának van fenntartva
+            label: Kezelés (az adott erőforrástípus teljes körű engedélyezése)
+        explanation: Különféle rendszerszintű konfigurációs beállítások.
+        label: Rendszer
+      tracing_request:
+        actions:
+          change_log:
+            explanation: A felhasználó láthatja a bejegyzés létrehozásától kezdve a rajta végrehajtott összes változtatás előzményeit.
+            label: Változási napló
+          create:
+            explanation: Nyomkövetési kérelem létrehozásának képessége
+            label: Hozzon létre
+          enable_disable_record:
+            label: Engedélyezés / Tiltás
+          export_case_pdf:
+            label: PDF exportálása
+          export_csv:
+            label: CSV exportálása
+          export_custom:
+            label: Egyéni exportálás
+          export_json:
+            label: JSON exportálása
+          export_list_view_csv:
+            label: Listanézet csv exportálása
+          export_pdf:
+            label: PDF exportálása
+          export_xls:
+            label: Excel (XLS fájl) exportálása
+          import:
+            label: Import
+          manage:
+            explanation: Lehetővé teszi a felhasználó számára, hogy a nyomonkövetési kérelmekkel kapcsolatos összes rendelkezésre álló műveletet elvégezze. A "Kezelés" engedély lényegében "mindent" jelent.
+            label: Kezelés (az adott erőforrástípus teljes körű engedélyezése)
+          read:
+            label: Megtekintés
+          write:
+            label: Szerkesztés
+        explanation: Olyan személyt képvisel, aki megpróbálja felkutatni és újraegyesíteni kísérő nélküli vagy különélő "ügyét".
+        label: Nyomkövetési kérelem
       transfer:
+        actions:
+          transfer:
+            explanation: Ez azt jelenti, hogy a szerepkör a "Címzett típusa" opcióként jelenik meg, amikor a felhasználó külső átirányítást végez. Ha a felhasználó ezt a szerepet választja az átutalás típusaként, akkor a Primero által az átutalás benyújtásakor generált export csak azokat az információkat fogja tartalmazni, amelyek az adott szerepkör által használt űrlapokon találhatók. Így például, ha a felhasználó az "Orvosi szolgáltató" opciót választja a címzett típusaként, és az Orvosi szolgáltató szerepkör csak az Alapvető személyazonosság és a Védelmi aggályok űrlapokhoz rendelkezik hozzáféréssel, a Primero által a külső átutaláshoz exportált exportfájl csak azokat a mezőket fogja tartalmazni, amelyek ebben a két űrlapban szerepelnek.
+            label: Használható-e ez a szerep külső átutalásokra?
         label: Adatátvitel
       user:
         actions:
+          agency_read:
+            label: Nézet (ügynökségen belül)
+          create:
+            explanation: Felhasználói fiók létrehozásának lehetősége.
+            label: Hozzon létre
+          manage:
+            label: Kezelés (az adott erőforrástípus teljes körű engedélyezése)
           read:
             explanation: Lehetőség a felhasználói fiókok megtekintésére. Alapértelmezés szerint minden felhasználó megtekintheti és szerkesztheti a saját felhasználói fiókjával kapcsolatos információkat (pl. jelszó, e-mail).
+            label: Megtekintés
+          write:
+            explanation: Lehetőség a "felhasználó megjelenítése" oldalon a "Szerkesztés" gombra kattintani, frissíteni a felhasználóra vonatkozó információkat, majd elmenteni őket. Felhívjuk figyelmét, hogy ez a jogosultság a felhasználói fiókok letiltására is lehetőséget ad.
+            label: Szerkesztés
+        explanation: Egyedi felhasználói fiókot képvisel.
+        label: Felhasználók
       user_group:
+        actions:
+          assign:
+            label: Illetékes személy
+          create:
+            explanation: Felhasználói csoport létrehozásának lehetősége.
+            label: Hozzon létre
+          delete:
+            explanation: Felhasználói csoport törlésének lehetősége.
+            label: Törölni
+          manage:
+            label: Kezelés (az adott erőforrástípus teljes körű engedélyezése)
+          read:
+            explanation: A felhasználói csoportok megtekintésének lehetősége.
+            label: Megtekintés
+          write:
+            explanation: Felhasználói csoportok szerkesztésének lehetősége.
+            label: Szerkesztés
+        explanation: Egy csapatot vagy olyan felhasználók együttműködő csoportját jelképezi, akik információt oszthatnak meg egymással. A menedzserek általában a "felhasználói csoportjukban" lévő szociális munkások által kezelt összes bejegyzést láthatják.
         label: Felhasználói csoportok
+      webhook:
+        actions:
+          read:
+            label: Megtekintés
+          write:
+            label: Szerkesztés
+          create:
+            label: Hozzon létre
+          delete:
+            label: Törölni
+          manage:
+            label: Kezelés (az adott erőforrástípus teljes körű engedélyezése)
       activity_log:
         actions:
           transfer:
             label: Adatátvitelek
+          manage:
+            label: Kezelés (az adott erőforrástípus teljes körű engedélyezése)
+  potential_match:
+    case_id: Ügy azonosítója
+    child_age: Életkor
+    child_gender: Nem
+    child_id: gyermek azonosítószáma
+    inquirer_id: kérdező azonosítószáma
+    inquirer_tr_name: Nyomkövetési kérelem
+    inquiry_date: A vizsgálat időpontja
+    name: Név
+    score: Pontszám
+    social_worker: Szociális munkás
+    social_worker_agency: Ügynökség
+    trace: Nyomkövetés
+    likelihood_likely: Valószínűleg
+    likelihood_possible: Lehetséges
+  potential_matches:
+    display: Potenciális találatok megjelenítése a%{type}%{id}
   reassign:
+    multiple_error: Hibát észleltünk. %{select_records}nem rendelt eset(ek).
+    notes_label: Jegyzetek
+    successfully: Sikeresen átcsoportosítva
     user_mandatory_label: A címzett megadása kötelező
     users_label: Címzett
+  record_information:
+    created_at: A bejegyzés létrejötte
+    created_by: A bejegyzést létrehozta
+    created_organization: Ügynökség által létrehozott
+    current_owner_separator: Jelenlegi tulajdonos
+    module_id: Modul
+    owned_by: Ügyintéző kódja
+    owned_by_agency_id: Ügynökség
+    owned_by_text: Terep/Eset/Szociális Munkás
+    previously_owned_by: Előző tulajdonos
+    previously_owned_by_agency: Előző ügynökség
+    reassigned_tranferred_on: Áthelyezés / átcsoportosítás
+    record_history_separator: Rekordtörténet
+    last_updated_at: Utoljára frissítve
+    last_updated_by: 'Utolsó frissítés:'
+  record_panel:
+    record_information: Információk felvétele
   referral:
     type_of_recipient: Címzett típusa
+    type_of_referral_required: '"Beutalás típusa" szükséges'
+    agency_label: Ügynökség
+    is_remote_label: Távoli rendszerre utal?
+    location_label: Helyszín
+    notes_label: Jegyzetek
     provided_consent_label: ' A hozzájárulás nincs megadva az űrlapokon.'
     recipient_label: Címzett
+    refer_anyway_label: Egyébként is ajánlja?
+    service_label: Szolgáltatás
+    success: '%{record_type}%{id}sikeresen átirányított'
     user_mandatory_label: A címzett megadása kötelező
+    date: Dátum
+    rejected_reason: Elutasítás oka
+  report:
+    aggregate_by: Csoportosítás soronként
+    constraint: Korlátozás
+    date_ranges:
+      date: Nap
+      month: Hónap
+      quarter: Negyedév
+      quarter_abbr: Q%{quarter}
+      week: Hét
+      year: Év
+    description: Leírás
+    disabled:
+      explanation: Ha letiltja ezt a jelentést, az nem jelenik meg a rendelkezésre álló jelentések között.
+      label: Letiltva
+    exclude_empty_rows: Ne jelenítsen meg üres sorokat
+    disaggregate_by: Group by column
+    filters:
+      label: Jelentés szűrők
+      label_new: Új jelentésszűrő
+      attribute: Szűrő
+      value: -val
+      not_null: Nem üres?
+      less_than: Kevesebb, mint
+      greater_than: Nagyobb, mint
+      equal_to: Egyenlő a
+      not_blank: Nem üres
+      before: Mielőtt
+      after: Miután
+      delete_filter_message: Biztos, hogy törölni szeretné ezt a szűrőt?
+    group_ages: Használjon korhatárokat
+    group_dates_by: Használjon különböző dátumtartományokat
+    is_graph: Grafikon generálása?
+    messages:
+      delete_success: A jelentést sikeresen töröltük.
+      updated: A jelentés sikeresen frissült.
+    modules: Modulok
+    name: Név
+    name_mandatory: A név kötelező
+    no_data: Ehhez a jelentéshez nem állnak rendelkezésre adatok
+    no_filters_added: Nincsenek hozzáadott szűrők
+    not_selected: Nincs kiválasztva
+    record_type: Felvétel típusa
+    total: Összesen
+    value: Érték
+  reports:
+    delete_report_message: Biztos, hogy törölni szeretné ezt a jelentést? A törlés nem vonható vissza. Kattintson az OK gombra a jelentés törléséhez
+    label: Jelentések
+    register_new_report: Jelentés létrehozása
+    translations:
+      edit: Fordítások szerkesztése
+      manage: Fordítások kezelése
+      select_language: Válasszon nyelvet
+    error_loading: Hiba a jelentés(ek) betöltése során
   request_transfer:
+    notes_label: Jegyzetek
+    submit_label: Kérelem küldése
     success: Átvitel kérvényezés küldése
   role:
+    agency_ids_label: A szerepkör által irányított ügynökségek
+    copy_failure: Hiba a Szerep másolásában. Győződjön meg róla, hogy a név nem ütközik egy másik Szerepkörrel.
+    copy_success: A szerepkör sikeresen másolva.
+    create: Szerepkör létrehozása
+    delete_header: Szerepkör törlése
+    description: Leírás
+    edit: '''Szerep'' szerkesztése'
+    error_in_updating: Hiba a 'Szerepkör adatainak' frissítésében.
+    group_permission_label: Milyen bejegyzéseket érint ez a szerepkör?
     label: Szerepkör
+    manager: Menedzser
+    messages:
+      confirmation: Biztos, hogy törölni szeretné ezt a szerepet? A törlés nem vonható vissza. Kattintson az OK gombra a szerepkör törléséhez.
+      created: A szerepkör sikeresen létrejött.
+      updated: A szerepkör sikeresen frissült.
+    name: Név
+    referral_label: Használható ez a szerepkör Ajánlásokhoz?
+    reporting_location_level_label: Milyen helyszíntípust kell használni a jelentéskészítéshez ebben a szerepkörben?
+    role_ids_label: A szerepkör által kezelt egyéb feladatok
+    successfully_updated: A szerepkör adatai sikeresen frissültek.
     transfer_label: Használható ez a szerep átigazolásokhoz?
+    hide: Rejtse el
+    read: Mutassa
+    read_write: Megjelenítés és szerkesztés
   roles:
     label: Szerepkörök
+  saved_search:
+    deleted: A keresés sikeresen törölve.
+    filters_tab: Szűrők
+    no_filters: Nincsenek kiválasztott szűrők
+    save_success: Keresés sikeresen elmentve.
+    saved_searches_tab: Elmentett keresések
+    title_description: Biztos, hogy törölni szeretné ezt a mentett keresést?
+    title_modal: Elmentett keresések törlése
+  saved_searches:
+    no_save_searches: Nincsenek elmentett keresései.
+    save_search: Keresés mentése
   settings:
     navigation:
+      agencies: Ügynökségek
+      configurations: Konfigurációk
+      contact_information: Kapcsolatfelvételi adatok
+      forms: Nyomtatványok
+      locations: Helyszínek
+      lookups: Keresések
       user_groups: Felhasználói csoportok
+      users: Felhasználók
       roles: Szerepkörök
+    title: Beállítások
+  system_settings:
+    label: Rendszerbeállítások
   task:
+    due_date: Esedékesség dátuma
+    id: Azonosítószám
+    name: Név
+    priorities:
+      low_level: Alacsony
+      medium_level: Közepes
+      no_action_level: Cselekmény Mentes
+    priority: Prioritás szint
+    status: Állapot
     statuses:
       overdue: Lejárt
+      upcoming_soon: Majdnem esedékes
+    type: Művelet típusa
+    types:
+      assessment: Értékelés
+      case_plan: Esetterv
+      follow_up: Folytatás - %{subtype}
+      service: Szolgáltatás  - %{subtype}
+  tracing_request:
+    label: Nyomkövetési kérelem
+    find_match: Találj egyezést
+    traces: Nyomok
+    match: Találat
+    matches: Találatok
+    unmatch: Nem egyező
+    messages:
+      disabled: A Nyomkövetési kérelem le van tiltva
+      nothing_found: Semmit sem találtunk
+      update_success: 'A Nyomkövetési kérelem %{record_id}sikeresen frissült.'
+      creation_success: Nyomonkövetési kérelem bejegyzés sikeresen létrehozva.
+      update_success_queue: 'A nyomkövetési kérelem %{record_id}sikeresen frissült a háttérben.'
+  registry_record:
+    messages:
+      update_success: 'A nyilvántartási bejegyzés %{record_id}sikeresen frissült.'
+      creation_success: 'Regisztrációs bejegyzés sikeresen létrehozva.'
+      disabled: A nyilvántartási bejegyzés le van tiltva
+  tracing_requests:
+    disable_dialog: Az OK gombra kattintva a nyomkövetési kérelem állapota Letiltottra változik.
+    disable_success: Sikeresen letiltotta a nyomkövetési kérelmet
+    enable_dialog: Az OK gombra kattintva a nyomkövetési kérelem állapota Engedélyezve állapotra változik.
+    enable_success: Sikeresen engedélyezte a nyomkövetési kérelmet.
+    id: Azonosító
+    filter_by:
+      by_date: Dátummal
+      location_separation: Elkülönítés helye
+      separation_cause: Elválasztás oka
+      status: Állapot
+    label: Nyomkövetési kérelmek
+    name_of_inquirer: A kérelmező neve
+    register_new_tracing_request: Új nyomonkövetési kérelem
+    selectable_date_options:
+      inquiry_date: A vizsgálat időpontja
+    selected_records: '%{select_records}kiválasztott nyomkövetési kérelem(ek)'
+    selected_all_records: 'Válassza ki az összes %{total_records} nyomkövetési kérelmet, amely megfelel ennek a lekérdezésnek.'
+    show_tracing_request: 'Nyomkövetési kérelem azonosítója %{short_id}'
+    tracing_requests: Nyomkövetési kérelmek
+    export: Exportálás
+  registry_records:
+    id: Azonosító
+    label: Nyilvántartási bejegyzések
+    name: Név
+    registry_no: Nyilvántartási szám
+    location: Helyszín
+    registration_date: Regisztráció dátuma
+    selected_records: '%{select_records}kiválasztott nyilvántartási bejegyzés(ek)'
+    selected_all_records: 'Válassza ki az összes  %{total_records} nyilvántartási bejegyzést, amely megfelel a lekérdezésnek.'
+    disable_dialog_title: Nyilvántartási bejegyzés letiltása
+    disable_dialog: Az OK gombra kattintva a nyilvántartási bejegyzés állapota "Letiltott"-ra változik.
+    disable_success: Sikeresen letiltotta a nyilvántartási bejegyzést
+    enable_dialog_title: Nyilvántartási bejegyzés engedélyezése
+    enable_dialog: Az OK gombra kattintva a nyilvántartási bejegyzés állapota "Engedélyezve" állapotra változik.
+    enable_success: Sikeresen engedélyezte a nyilvántartási bejegyzést.
+    filter_by:
+      by_date: Dátummal
+      status: Állapot
+    selectable_date_options:
+      registration_date: A regisztráció dátuma
+    show_registry_record: 'Nyilvántartási bejegyzés azonosítója: %{short_id}'
+    register_new_registry_record: Új nyilvántartási bejegyzés
+    export: Exportálás
+    mark_for_offline:
+      title: '"Offline" jelölés'
+      text: Biztos, hogy ezeket a nyilvántartási bejegyzéseket offline állapotban is használni kívánja?
+      success: Offline használatra sikeresen megjelölt nyilvántartási bejegyzések
   transfer:
     label: Adatátvitel
+    agency_label: Ügynökség
     consent_from_individual_label: Rendelkezik a személy hozzájárulásával az átvitelhez?
     consent_label: a nyilvántartások nem tükrözték a hozzájárulást.
+    consent_override_label: Szeretné felülbírálni ezt a beállítást?
     is_remote_label: Átvitel egy távoli rendszerre?
+    location_label: Helyszín
+    notes_label: Jegyzetek
     provided_consent_label: ' A hozzájárulás nincs megadva az űrlapokon.'
     recipient_label: Címzett
+    select_label: Válassza ki
     success: Az átvitel sikeres volt
-    transfer_label: Átvitelni mégis?
+    transfer_label: Egyébként is átutalja?
     user_mandatory: A címzett megadása kötelező
+    rejected_reason: Elutasított "Indok"
   transfer_assignment:
     title: Átvitelek és Kiosztások
   transition:
+    agency_label: Ügynökség
+    consent_individual_transfer_value:
+      true_label: 'Igen'
+      false_label: 'Nem'
+    consent_overridden_value:
+      false_label: 'Nem'
+      true_label: 'Igen'
     errors:
       consent: Hozzájárulás nincs megadva
     individual_consent: Az ügyet intéző dolgozó rendelkezik a személy hozzájárulásával az átvitelhez?
     no_consent_share: Hozzájárul a megosztási beállítás felülírásához?
+    notes: Jegyzetek
     recipient: Címzett
+    rejected: Elutasítás oka
+    requested_by: Kérte
+    service_label: Szolgáltatás
+    status:
+      accepted: Elfogadva
+      in_progress: Függőben
+      inprogress: Függőben
+      rejected: Elutasítva
+      revoked: Visszavont
     type:
+      assign: Hozzárendelés
+      reassign: Hozzárendelés
+      referral: Ajánlás
+      external_referral: Külső hivatkozás
       transfer: Adatátvitel
       transferRequest: Átvitelési kérvény
   user:
+    agency_office: Ügynökségi iroda (GBV terület)
+    code: Felhasználói kód
+    disabled: Letiltva
     email: E-mail
+    full_name: Teljes név
+    label: Felhasználó
+    language: Nyelv
+    locale: Helyszín
+    location: Helyszín
     messages:
+      confirmation: Biztos, hogy törölni szeretné ezt a felhasználót? A törlés nem vonható vissza. Kattintson az OK gombra a felhasználó törléséhez.
+      created: A felhasználó sikeresen létre lett hozva.
+      failure: Hiba történt, kérjük, forduljon az ügyfélszolgálathoz.
       new_confirm_html: Arra készül, hogy meghívja <b>%{username}</b> felhasználót, <b>%{identity}</b>tól (től), a következő szerepkörrel <b>%{role}</b>, a Primero használatára. A megerősítő e-mailt a <b>%{email}</b> címre lesz elküldve. Szeretné folytatni?
       new_confirm_non_identity_html: Arra készül, hogy meghívja <b>%{username}</b> felhasználót, a következő szerepkörrel <b>%{role}</b>, a Primero használatára. A megerősítő e-mailt a <b>%{email}</b> címre lesz elküldve. Szeretné folytatni?
+      not_found: A megadott azonosítóval rendelkező felhasználó nem található
+      password_changed_successfully: A jelszó sikeresen megváltozott
+      passwords_do_not_match: nem egyezik a jelenlegi jelszóval
+      time_zone_updated: A módosítás sikeresen frissült.
+      updated: '''Felhasználó'' sikeresen frissült.'
+    organization: Szervezet
+    agency: Ügynökség
+    services_help_text: Ha nem ad meg szolgáltatásokat, akkor ez a Felhasználó ugyanazokat a szolgáltatásokat kapja, mint az Ügynökség.
     password_setting:
+      label: Hogyan állítsa be a Primero a felhasználó jelszavát?
+      self: Megadom a jelszót
       user: A felhasználó az üdvözlő e-mailben állítja be a jelszót
+      help_text: Ne feledje, ha Ön, a rendszergazda kézzel állítja be a jelszót, akkor azt biztonságos módon kell megosztania a felhasználóval.
     password_reset_header: Jelszó-visszaállítási e-mail küldése
     password_reset_text: Ha a „Küldés” gombra kattint, ez a felhasználó egy e-mailt fog kapni a jelszava visszaállításához szükséges linkkel.
     password_reset_request: Jelszó-visszaállítási e-mail küldése
+    password: Jelszó
+    password_confirmation: Jelszó megerősítés
+    phone: Telefon
+    position: Pozíció
+    provider_username_help: 'Például: my.username@%{domain}'
     role_id: Szerepkör
     send_mail: Szeretne e-mail értesítéseket kapni?
     user_group_unique_ids: Felhasználói csoportok
     user_name: Felhasználónév
+    services: Szolgáltatások
     welcome_email:
+      subject: 'Üdvözöljük a %{system}!'
+      greeting: 'Üdvözöljük a %{system}!'
       body_native: 'Ön hozzá lett adva a %{role_name}. Kérjük, lépjen kapcsolatba a %{admin_full_name} (%{admin_email}) a további utasításokért a %{host}val való munka megkezdéséhez.'
       sso:
         footer: 'Kérjük, lépjen kapcsolatba a %{admin_full_name} (%{admin_email}) további részletekért.'
       otp:
+        body: 'Önt hozzáadták, mint%{role_name}'
         step1: 'Kérjük, lépjen kapcsolatba a %{admin_full_name} (%{admin_email}) hogy megkapja felhasználói nevét.'
+        step2: 'Menjen a %{host} és kattintson a "bejelentkezés a Primero felhasználónévvel." gombra.'
+        step4: 'Ha a rendszer kéri, állítsa vissza a jelszavát.'
       url_label: Primero
       enabled_label: Szeretne üdvözlő e-mailt küldeni?
       text_label: Üdvözlő e-mail szöveg
     password_reset:
+      subject: 'Jelszó-visszaállítási utasítások'
+      email_greeting: "Tisztelt %{full_name} "
+      email_body1: "Valaki kérte, hogy állítsa be a jelszavát a %{host_href}. Kattintson az alábbi url-re az indításhoz:"
       email_body2: "Ez a link lejár %{hours} belül, és csak egyszer használható. Kérjük, hagyja figyelmen kívül ezt az e-mailt, ha nem kért jelszó-visszaállítást, vagy ha nem regisztráltak új Primero-felhasználót az Ön nevében. Ha a fenti link lejárt, kattintson az %{reset_request_href}, a jelszó-visszaállítási kérelem újra küldéséhez."
       email_body_link: itt
       request_submitted: "Jelszó visszaállítási kérelem elküldve"
@@ -890,12 +2645,17 @@ hu:
         reset_password_token: "Érvénytelen jelszó - visszaállítási token"
         password_confirmation: "A jelszavaknak egyezniük kell"
     onboard_email:
+      greeting: "Tisztelt %{full_name} ,"
       body1: "Üdvözöljük a Primero-ban"
       body2_reset_notification: "További e-mailt fog kapni, amely felszólítja jelszava visszaállítására."
   user_group:
+    associated_agencies: A felhasználói csoporthoz kapcsolódó ügynökségek
     description: Leírás
     disabled:
       label: Letiltva
+    messages:
+      created: A felhasználói csoport sikeresen létrejött.
+      updated: A felhasználói csoportot sikeresen frissítettük.
     name: Név
   user_groups:
     label: Felhasználói csoportok
@@ -909,4 +2669,10 @@ hu:
   devise:
     failure:
       already_authenticated: "Már bejelentkezett."
+      invalid: "Érvénytelen %{authentication_keys} vagy jelszó."
       locked: "Fiókja zárolva van."
+      last_attempt: "Még egy próbálkozása van, mielőtt a fiókját zárolják."
+  admin:
+    locations:
+      selected_records: '%{select_records}kiválasztott helyszín(ek)'
+      updated: '%{updated_records}frissített helyszín(ek)'

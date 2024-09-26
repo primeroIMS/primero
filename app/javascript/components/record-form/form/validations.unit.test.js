@@ -120,18 +120,19 @@ describe("<RecordForm>/form/validations", () => {
           required: true
         };
 
-        it("should not be valid if it is empty", () => {
+        it("should not be valid if it is empty array", () => {
           const schema = object().shape(validations.fieldValidations({ ...selectField, required: true }, { i18n }));
           const formData = { cities: [] };
 
           expect(schema.isValidSync(formData)).to.be.false;
         });
 
-        it("should not be valid if it is null", () => {
+        it("should not be valid if it is null or undefined", () => {
           const schema = object().shape(validations.fieldValidations({ ...selectField, required: true }, { i18n }));
-          const formData = { cities: null };
 
-          expect(schema.isValidSync(formData)).to.be.false;
+          expect(schema.isValidSync({ cities: null })).to.be.false;
+          expect(schema.isValidSync({ cities: undefined })).to.be.false;
+          expect(schema.isValidSync({})).to.be.false;
         });
 
         it("should not be valid if it is not present", () => {
@@ -139,6 +140,37 @@ describe("<RecordForm>/form/validations", () => {
           const formData = {};
 
           expect(schema.isValidSync(formData)).to.be.false;
+        });
+
+        describe("select with a display condition", () => {
+          const selectFieldWithDisplayCondition = {
+            name: "cities",
+            display_name: { en: "Cities" },
+            type: SELECT_FIELD,
+            multi_select: true,
+            required: true,
+            display_conditions_record: {
+              eq: { testField: 1 }
+            }
+          };
+
+          it("should not validate", () => {
+            const schema = object().shape(
+              validations.fieldValidations({ ...selectFieldWithDisplayCondition, required: true }, { i18n })
+            );
+            const formData = {};
+
+            expect(schema.isValidSync(formData)).to.be.true;
+          });
+
+          it("should validate", () => {
+            const schema = object().shape(
+              validations.fieldValidations({ ...selectFieldWithDisplayCondition, required: true }, { i18n })
+            );
+            const formData = { testField: 1 };
+
+            expect(schema.isValidSync(formData)).to.be.false;
+          });
         });
       });
 

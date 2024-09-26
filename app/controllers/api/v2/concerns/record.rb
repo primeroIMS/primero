@@ -79,7 +79,7 @@ module Api::V2::Concerns::Record
     return @json_validation_service if @json_validation_service
 
     permitted_fields = @permitted_form_fields_service.permitted_fields(
-      authorized_roles, model_class.parent_form, write?
+      authorized_roles, model_class.parent_form, module_unique_id, write?
     )
     action_fields = @permitted_field_service.permitted_fields_schema
     @json_validation_service = RecordJsonValidatorService.new(fields: permitted_fields,
@@ -95,7 +95,9 @@ module Api::V2::Concerns::Record
   end
 
   def permit_fields
-    @permitted_field_names = @permitted_field_service.permitted_field_names(write?, update?, authorized_roles)
+    @permitted_field_names = @permitted_field_service.permitted_field_names(
+      module_unique_id, write?, update?, authorized_roles
+    )
   end
 
   def select_fields_for_show
@@ -139,7 +141,10 @@ module Api::V2::Concerns::Record
     @record_data_service = RecordDataService.new
     @permitted_form_fields_service = PermittedFormFieldsService.instance
     @permitted_field_service = PermittedFieldService.new(
-      current_user, model_class, params[:record_action], params[:id_search], @permitted_form_fields_service
+      current_user,
+      model_class,
+      @permitted_form_fields_service,
+      { action_name: params[:record_action], id_search: params[:id_search] }
     )
   end
 
@@ -153,6 +158,12 @@ module Api::V2::Concerns::Record
 
   def display_permitted_forms
     @display_permitted_forms = false
+  end
+
+  def module_unique_id
+    return @record.module_id if @record.present?
+
+    params.dig(:data, :module_id)
   end
 
   private
@@ -188,7 +199,7 @@ module Api::V2::Concerns::Record
   end
 
   def strip_location_prefix(param)
-    return param.delete_prefix('loc:') if param.start_with?('loc:')
+    return Field.remove_location_parts(param) if Field.location_prefix?(param)
 
     param
   end
