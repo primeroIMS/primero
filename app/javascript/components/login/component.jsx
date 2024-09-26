@@ -36,7 +36,7 @@ function Component({ modal = false }) {
 
   return (
     <LoadingIndicator loading={isLoading} hasData={!isLoading}>
-      <LoginComponent modal={modal} />
+      <LoginComponent modal={modal} showTitle={false} />
     </LoadingIndicator>
   );
 }
