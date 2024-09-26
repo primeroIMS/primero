@@ -34,7 +34,8 @@ describe("<Application /> - index", () => {
       "useApp",
       "ApplicationProvider",
       "getAppData",
-      "getWebpushConfig"
+      "getWebpushConfig",
+      "getListHeaders"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
