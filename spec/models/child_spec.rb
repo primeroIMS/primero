@@ -23,6 +23,14 @@ describe Child do
       expect(search_result.first.survivor_code_no).to eq('ABC123XYZ')
     end
 
+    it 'can find a child by client code' do
+      Child.create!(data: { name: 'Lonnie', client_code: 'ABC123XYZ' })
+
+      search_result = PhoneticSearchService.search(Child, query: 'ABC123XYZ').records
+      expect(search_result).to have(1).child
+      expect(search_result.first.client_code).to eq('ABC123XYZ')
+    end
+
     it 'can find a child by family number' do
       family = Family.create!(
         family_number: '4225',
