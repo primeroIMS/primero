@@ -100,18 +100,18 @@ class PrimeroModule < ApplicationRecord
   # rubocop:disable Metrics/MethodLength
   def record_list_headers
     headers = {}
-    headers_from_module = list_headers&.[]('case')
+    headers_from_module = list_headers&.[](Child.table_name)
 
-    headers[:case] = case unique_id
-                     when CP
-                       headers_from_module || CP_DEFAULT_CASE_LIST_HEADERS
-                     when GBV
-                       headers_from_module || GBV_DEFAULT_CASE_LIST_HEADERS
-                     when MRM
-                       headers_from_module || MRM_DEFAULT_CASE_LIST_HEADERS
-                     else
-                       headers_from_module
-                     end
+    headers[Child.table_name.to_sym] = case unique_id
+                                       when CP
+                                         headers_from_module || CP_DEFAULT_CASE_LIST_HEADERS
+                                       when GBV
+                                         headers_from_module || GBV_DEFAULT_CASE_LIST_HEADERS
+                                       when MRM
+                                         headers_from_module || MRM_DEFAULT_CASE_LIST_HEADERS
+                                       else
+                                         headers_from_module
+                                       end
 
     headers
   end

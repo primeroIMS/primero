@@ -10,10 +10,10 @@ import displayNameHelper from "../../libs/display-name-helper";
 import { getLocale } from "../i18n/selectors";
 import { DATA_PROTECTION_FIELDS } from "../record-creation-flow/constants";
 import { currentUser } from "../user/selectors";
+import { RECORD_TYPES_PLURAL } from "../../config";
 
 import { PERMISSIONS, RESOURCE_ACTIONS, DEMO, LIMITED } from "./constants";
 import NAMESPACE from "./namespace";
-import { RECORD_TYPES, RECORD_TYPES_PLURAL } from "../../config";
 
 const getAppModuleByUniqueId = (state, uniqueId) =>
   state
@@ -231,12 +231,14 @@ export const getListHeaders = (state, namespace) => {
 
   if (namespace === RECORD_TYPES_PLURAL.case) {
     const moduleListHeaders = selectUserModules(state)?.reduce((prev, current) => {
-      const moduleHeaders = current.getIn(["list_headers", RECORD_TYPES[namespace]]);
+      const moduleHeaders = current.getIn(["list_headers", namespace]);
 
       return moduleHeaders ? prev.merge(moduleHeaders) : prev;
     }, List());
 
-    return moduleListHeaders ? listHeaders.filter(header => moduleListHeaders.includes(header.get("name"))) : List();
+    return moduleListHeaders
+      ? listHeaders.filter(header => moduleListHeaders.includes(header.get("field_name")))
+      : List();
   }
 
   return listHeaders;
