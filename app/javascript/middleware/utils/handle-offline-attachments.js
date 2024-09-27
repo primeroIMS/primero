@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import isEqual from "date-fns/isEqual";
 import merge from "deepmerge";
+import isEqual from "lodash/isEqual";
 
 import { syncIndexedDB } from "../../db";
 import { getAttachmentFields } from "../../components/record-form";
@@ -36,10 +36,12 @@ export const skipSyncedAttachments = async (store, action) => {
       if (bodyAttachments.length) {
         payload.api.body.data[field] = bodyAttachments.filter(
           elem =>
-            !dbAttachments.some(dbElem =>
-              dbElem.id
-                ? dbElem.id === elem.id
-                : dbElem.attachment === elem.attachment && isEqual(elem.date, dbElem.date)
+            !dbAttachments.some(
+              dbElem =>
+                (dbElem.id ? dbElem.id === elem.id : dbElem.attachment === elem.attachment) &&
+                isEqual(elem.date, dbElem.date) &&
+                isEqual(elem.description, dbElem.description) &&
+                isEqual(elem.comments, dbElem.comments)
             )
         );
       }

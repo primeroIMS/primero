@@ -10,10 +10,11 @@ import { ROUTES } from "../../../config";
 import { buildFilter } from "../utils";
 import LoadingIndicator from "../../loading-indicator";
 import NAMESPACE from "../../pages/dashboard/namespace";
+import dashboardsCss from "../styles.css";
 
 import css from "./styles.css";
 
-const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, errors }) => {
+function BadgedIndicator({ data, lookup, sectionTitle, indicator, loading, errors }) {
   const dispatch = useDispatch();
 
   const loadingIndicatorProps = {
@@ -24,15 +25,21 @@ const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, error
     errors
   };
 
-  const handleClick = queryValue => () => {
-    if (!isEmpty(queryValue)) {
-      dispatch(
-        push({
-          pathname: ROUTES.cases,
-          search: buildFilter(queryValue)
-        })
-      );
+  const handleClick = queryValue => {
+    if (isEmpty(queryValue)) {
+      return null;
     }
+
+    return () => {
+      if (!isEmpty(queryValue)) {
+        dispatch(
+          push({
+            pathname: ROUTES.cases,
+            search: buildFilter(queryValue)
+          })
+        );
+      }
+    };
   };
 
   const dashboardChips = lookup.map(lk => {
@@ -50,12 +57,12 @@ const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, error
   return (
     <>
       <LoadingIndicator {...loadingIndicatorProps} data-testid="badged-indicator">
-        <div className={css.sectionTitle}>{sectionTitle}</div>
+        <div className={dashboardsCss.sectionTitle}>{sectionTitle}</div>
         <div className={css.content}>{dashboardChips}</div>
       </LoadingIndicator>
     </>
   );
-};
+}
 
 BadgedIndicator.displayName = "BadgedIndicator";
 

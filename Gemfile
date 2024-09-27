@@ -3,7 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 source 'https://rubygems.org'
-ruby '3.3.1'
+ruby '3.3.5'
 
 gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
 gem 'aws-sdk-s3',          '~> 1.130', # Access and manage Amazon S3 storage (with ActiveStorage).
@@ -42,8 +42,11 @@ gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files
 gem 'spreadsheet',         '~> 1.3'    # Read XLS spreadsheets for imports (not XLSX!). TODO: Different gem? Reconsider?
 # Note: if upgrading Sunspot, update the corresponding version of Solr on the Docker image
 # Current Solr version is 5.3.1
-gem 'sunspot_rails',       '~> 2.6'    # Rails ODM bindings to Solr
-gem 'sunspot_solr',        '~> 2.6'    # Ruby bindings to Solr
+gem 'sunspot_rails',       '~> 2.6',    # Rails ODM bindings to Solr
+    require: false
+gem 'sunspot_solr',        '~> 2.6',    # Ruby bindings to Solr
+    require: false
+gem 'text',                '~> 1.3'    # Phonetic Search Algorithms
 gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
 gem 'tzinfo-data',         '~> 1.2023' # Timezone Data for TZInfo
 gem 'uri',                 '~> 0.12'   # CVE-2023-36617: ReDoS vulnerability in URI
@@ -52,7 +55,7 @@ gem 'will_paginate',       '~> 4.0'    # Paginates ActiveRecord models  TODO: Th
 gem 'write_xlsx',          '~> 1.11'   # Exports XLSX
 
 group :development, :test do
-  gem 'bundler-audit',              '~> 0.8'
+  gem 'bundler-audit',              '~> 0.9'
   gem 'ci_reporter',                '~> 2.0'
   gem 'factory_bot',                '~> 5.0'
   gem 'foreman'
@@ -78,6 +81,7 @@ group :development, :test do
   gem 'rspec-rails',                '~> 6.0'
   gem 'rubocop',                    '~> 1.54'
   gem 'rubocop-performance',        '~> 1.18'
+  gem 'ruby-lsp',                   '~> 0.17'
   gem 'ruby-prof',                  '~> 0.17'
   gem 'simplecov',                  '~> 0.18'
   # TODO: Latest version (1.2.5) of this conflicts with sunspot gem. Upgrade when we upgrade sunspot

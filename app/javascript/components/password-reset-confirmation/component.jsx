@@ -9,7 +9,7 @@ import useMemoizedSelector from "../../libs/use-memoized-selector";
 
 import { NAME } from "./constants";
 
-const Component = ({ open, handleCancel, handleSuccess }) => {
+function Component({ open = false, handleCancel, handleSuccess }) {
   const i18n = useI18n();
 
   const pending = useMemoizedSelector(state => getPasswordResetLoading(state));
@@ -35,13 +35,9 @@ const Component = ({ open, handleCancel, handleSuccess }) => {
       <p>{i18n.t("user.password_reset_text")}</p>
     </ActionDialog>
   );
-};
+}
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  open: false
-};
 
 Component.propTypes = {
   handleCancel: PropTypes.func,

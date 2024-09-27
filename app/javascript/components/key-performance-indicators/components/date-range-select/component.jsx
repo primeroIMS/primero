@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Select, MenuItem, FormControl } from "@material-ui/core";
+import { Select, MenuItem, FormControl } from "@mui/material";
 
 import DateRangeDialog from "../date-range-dialog";
 import DateRange from "../../utils/date-range";
 
 import { CUSTOM_RANGE } from "./constants";
 
-const Component = ({ ranges, selectedRange, withCustomRange, setSelectedRange, disabled, i18n }) => {
+function Component({ ranges, selectedRange, withCustomRange, setSelectedRange, disabled, i18n }) {
   const [showRangePicker, setShowRangePicker] = useState(false);
 
   const [customRange, setCustomRange] = useState(
@@ -88,7 +88,7 @@ const Component = ({ ranges, selectedRange, withCustomRange, setSelectedRange, d
       />
     </FormControl>
   );
-};
+}
 
 Component.displayName = "DateRangeSelect";
 

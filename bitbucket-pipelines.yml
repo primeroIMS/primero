@@ -4,7 +4,7 @@ definitions:
   steps:
     - step: &server-test
         name: Server tests
-        image: ruby:3.3.1-bookworm
+        image: ruby:3.3.5-bookworm
         script:
           - ./bin/install_local_test_solr.sh
           - ./bin/run_server_tests.sh
@@ -14,22 +14,22 @@ definitions:
           - bundler
     - step: &client-test
         name: Client tests
-        image: node:18.13.0
+        image: node:20.14.0
         size: 2x
         script:
+          - npm config set legacy-peer-deps true
           - npm ci
-          - npm run test:batch:1
-          - npm run test:batch:2
-          - npm run test:batch:3
-          - npm run test:batch:4
-          - npm run test:batch:5
+          - npm run test
           - npm run test:components -- --maxWorkers=2
           - npm run lint:run
         caches:
           - node
     - step: &push-branch
+        image: atlassian/default-image:4
+        clone:
+          depth: full
         script:
-          - git push unicef@vs-ssh.visualstudio.com:v3/unicef/ICTD%20-%20Primero%20X%20DEV/primero $BITBUCKET_BRANCH
+          - git push https://$azdotoken@unicef.visualstudio.com/ICTD%20-%20Primero%20X%20DEV/_git/primero $BITBUCKET_BRANCH
           - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_BRANCH
   services:
     postgres:
@@ -52,9 +52,11 @@ pipelines:
   tags:
     v*:
       - step:
+          image: atlassian/default-image:4
           script:
-            - git push unicef@vs-ssh.visualstudio.com:v3/unicef/ICTD%20-%20Primero%20X%20DEV/primero $BITBUCKET_TAG
+            - git push https://$azdotoken@unicef.visualstudio.com/ICTD%20-%20Primero%20X%20DEV/_git/primero $BITBUCKET_TAG
             - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_TAG
+
   pull-requests:
     '**':
       - parallel:

@@ -1,15 +1,15 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-/* eslint-disable  react/no-array-index-key */
+/* eslint-disable */
 import { useState } from "react";
 import PropTypes from "prop-types";
 import sortBy from "lodash/sortBy";
 import isEmpty from "lodash/isEmpty";
 import omit from "lodash/omit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import { ListItem, ListItemSecondaryAction } from "@material-ui/core";
+import DeleteIcon from "@mui/icons-material/Delete";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import { ListItem, ListItemSecondaryAction } from "@mui/material";
 
 import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
@@ -26,7 +26,7 @@ import css from "../styles.css";
 
 import { TracingRequestStatus } from "./components";
 
-const Component = ({
+function Component({
   arrayHelpers,
   field,
   isTracesSubform,
@@ -44,7 +44,7 @@ const Component = ({
   isFamilyMember,
   isFamilyDetail,
   isReadWriteForm
-}) => {
+}) {
   const i18n = useI18n();
 
   const { isRTL } = useThemeHelper();
@@ -228,7 +228,7 @@ const Component = ({
   }
 
   return null;
-};
+}
 
 Component.displayName = SUBFORM_FIELDS;
 

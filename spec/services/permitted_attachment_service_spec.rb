@@ -5,11 +5,21 @@
 require 'rails_helper'
 
 describe PermittedAttachmentService, search: true do
+  let(:primero_module) do
+    PrimeroModule.create!(
+      unique_id: PrimeroModule::CP,
+      name: 'Primero Module CP',
+      associated_record_types: %w[case],
+      roles: [role_with_write_form_permission, role_with_read_form_permission],
+      form_sections:
+    )
+  end
+
   let(:form_sections) do
     [
       FormSection.create!(
         unique_id: 'form1', name: 'Form 1', parent_form: 'case', form_group_id: 'form1', fields: [
-          Field.new(name: Attachable::PHOTOS_FIELD_NAME, display_name: 'Photos')
+          Field.new(name: Attachable::PHOTOS_FIELD_NAME, display_name: 'Photos', type: Field::PHOTO_UPLOAD_BOX)
         ]
       )
     ]
@@ -19,24 +29,20 @@ describe PermittedAttachmentService, search: true do
 
   let(:role_with_write_form_permission) do
     role = Role.new_with_properties(
-      name: 'write_attachment', permissions: [permission], form_section_read_write: { form1: 'rw' }
+      name: 'write_attachment', permissions: [permission], form_section_read_write: { form_sections.first.unique_id => 'rw' }
     )
-    role.save!
-    role
+    role.save! && role
   end
 
   let(:role_with_read_form_permission) do
     role = Role.new_with_properties(
-      name: 'read_attachment', permissions: [permission], form_section_read_write: { form1: 'r' }
+      name: 'read_attachment', permissions: [permission], form_section_read_write: { form_sections.first.unique_id => 'r' }
     )
-    role.save!
-    role
+    role.save! && role
   end
 
   let(:role_without_form_permissions) do
-    role = Role.new_with_properties(name: 'no_attachment', permissions: [permission])
-    role.save!
-    role
+    Role.new_with_properties(name: 'no_attachment', permissions: [permission])
   end
 
   let(:user) do
@@ -46,13 +52,13 @@ describe PermittedAttachmentService, search: true do
   end
 
   let(:record_with_access) do
-    child = Child.new_with_user(user, { name: 'Child 1', age: 5, sex: 'male' })
+    child = Child.new_with_user(user, { name: 'Child 1', age: 5, sex: 'male', module_id: PrimeroModule::CP })
     child.save!
     child
   end
 
   let(:record_without_access) do
-    Child.create!(data: { name: 'Child 2', age: 8, sex: 'female' })
+    Child.create!(data: { name: 'Child 2', age: 8, sex: 'female', module_id: PrimeroModule::CP })
   end
 
   let(:attachment_with_access) do
@@ -97,11 +103,8 @@ describe PermittedAttachmentService, search: true do
   end
 
   before do
-    clean_data(
-      User, Role, PrimeroModule, PrimeroProgram,
-      Child, Field, FormSection, Agency, UserGroup
-    )
-    form_sections
+    clean_data(PrimeroModule, User, Agency, Role, FormSection, Field, Child)
+    primero_module
   end
 
   describe '#permitted_to_read?' do
@@ -326,9 +329,6 @@ describe PermittedAttachmentService, search: true do
   end
 
   after do
-    clean_data(
-      User, Role, PrimeroModule, PrimeroProgram,
-      Child, Field, FormSection, Agency, UserGroup
-    )
+    clean_data(PrimeroModule, User, Agency, Role, FormSection, Field, Child)
   end
 end

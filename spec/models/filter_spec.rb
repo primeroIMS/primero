@@ -39,6 +39,14 @@ describe Filter do
       primero_program: @program,
       form_sections: [FormSection.create!(name: 'form_3')]
     )
+    @custom_module = PrimeroModule.create!(
+      unique_id: 'primeromodule-custom',
+      name: 'CUSTOM-MODULE',
+      description: 'Child Protection',
+      associated_record_types: %w[case tracing_request incident],
+      primero_program: @program,
+      form_sections: [FormSection.create!(name: 'form_1')]
+    )
     @role_a = Role.create!(
       name: 'Test Role 1',
       unique_id: 'test-role-1',
@@ -58,6 +66,14 @@ describe Filter do
         Permission.new(resource: Permission::INCIDENT, actions: [Permission::MANAGE])
       ],
       modules: [@mrm]
+    )
+    @role_d = Role.create!(
+      name: 'Test Role 4',
+      unique_id: 'test-role-4',
+      permissions: [
+        Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])
+      ],
+      modules: [@custom_module]
     )
     @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
     @group1 = UserGroup.create!(name: 'Group1')
@@ -91,6 +107,15 @@ describe Filter do
       agency_id: @agency_a.id,
       role: @role_c
     )
+    @user_d = User.create!(
+      full_name: 'Test User 4',
+      user_name: 'test_user_4',
+      password: 'a12345678',
+      password_confirmation: 'a12345678',
+      email: 'test_user_4@localhost.com',
+      agency_id: @agency_a.id,
+      role: @role_d
+    )
     SystemSettings.create!(
       primary_age_range: 'primary',
       age_ranges: { 'primary' => [1..2, 3..4] },
@@ -102,10 +127,10 @@ describe Filter do
     SystemSettings.current(true)
   end
 
-  context 'when CP' do
+  shared_examples 'default filters' do
     before do
       @filters_cp = %w[case incident tracing_request].map do |record_type|
-        { record_type.pluralize => Filter.filters(@user_a, record_type) }
+        { record_type.pluralize => Filter.filters(user, record_type) }
       end
     end
 
@@ -165,14 +190,14 @@ describe Filter do
 
       it 'has current location filter' do
         expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'cases.filter_by.current_location',
-                                                                   field_name: 'location_current',
+                                                                   field_name: 'loc:location_current',
                                                                    type: 'multi_select'))
       end
 
       # TODO: test with different reporting location levels
       it 'has reporting location filter' do
         expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'location.base_types.district',
-                                                                   field_name: 'owned_by_location2',
+                                                                   field_name: 'loc:owned_by_location2',
                                                                    type: 'multi_select'))
       end
 
@@ -191,7 +216,19 @@ describe Filter do
                                                                    field_name: 'record_state', type: 'multi_toggle'))
       end
     end
+  end
 
+  context 'when CP' do
+    it_should_behave_like 'default filters' do
+      let(:user) { @user_a }
+    end
+    # TODO: test incident & tracing_request filters
+  end
+
+  context 'when custom module' do
+    it_should_behave_like 'default filters' do
+      let(:user) { @user_d }
+    end
     # TODO: test incident & tracing_request filters
   end
 
@@ -250,6 +287,10 @@ describe Filter do
           { id: 'assessment_requested_on', display_name: 'Date of Assessment' },
           { id: 'date_case_plan', display_name: 'Date of Case Plan' },
           { id: 'date_closure', display_name: 'Date of Case Closure ' },
+          { id: 'followup_dates', display_name: 'Date of Follow Up' },
+          { id: 'reunification_dates', display_name: 'Date of Reunification' },
+          { id: 'tracing_dates', display_name: 'Date of Tracing' },
+          { id: 'service_implemented_day_times', display_name: 'Date Service Completed' },
           { id: 'created_at', display_name: 'Case Open Date' }
         ]
         expect(

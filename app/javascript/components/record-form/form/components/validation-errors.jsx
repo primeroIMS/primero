@@ -12,10 +12,10 @@ import { getValidationErrors } from "../../selectors";
 import { setValidationErrors } from "../../action-creators";
 import { useMemoizedSelector } from "../../../../libs";
 
-import { removeEmptyArrays } from "./utils";
+import { buildErrorOutput, removeEmptyArrays } from "./utils";
 import { VALIDATION_ERRORS_NAME } from "./constants";
 
-const ValidationErrors = ({ formErrors, forms, submitCount }) => {
+function ValidationErrors({ formErrors, forms, submitCount }) {
   const dispatch = useDispatch();
   const i18n = useI18n();
 
@@ -30,7 +30,7 @@ const ValidationErrors = ({ formErrors, forms, submitCount }) => {
       const formsWithErrors = forms.filter(value => {
         return value
           .get("fields", fromJS([]))
-          .filter(field => !field.get("disabled"))
+          .filter(field => !field.get("disabled") && field.get("visible"))
           .map(field => field.get("name"))
           .some(fieldName => fieldNames.includes(fieldName));
       });
@@ -45,9 +45,7 @@ const ValidationErrors = ({ formErrors, forms, submitCount }) => {
               .get("fields")
               .filter(field => fieldNames.includes(field.get("name")))
               .map(field => ({
-                [field.get("name")]: Array.isArray(formErrors[field.get("name")])
-                  ? formErrors[field.get("name")].join("")
-                  : formErrors[field.get("name")]
+                [field.get("name")]: buildErrorOutput(formErrors, field, i18n.locale)
               }))
               .reduce((acc, subCurrent) => ({ ...acc, ...subCurrent }), {})
           }
@@ -72,7 +70,7 @@ const ValidationErrors = ({ formErrors, forms, submitCount }) => {
   }, [formErrors, submitCount]);
 
   return null;
-};
+}
 
 ValidationErrors.displayName = VALIDATION_ERRORS_NAME;
 

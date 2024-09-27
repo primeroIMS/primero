@@ -10,14 +10,14 @@ import {
   Radio,
   Select,
   FormHelperText
-} from "@material-ui/core";
+} from "@mui/material";
 
 import { useI18n } from "../../i18n";
 
 import { APPROVAL_FORM } from "./constants";
 import css from "./styles.css";
 
-const Component = ({
+function Component({
   approval,
   disabled,
   handleChangeApproval,
@@ -25,7 +25,7 @@ const Component = ({
   handleChangeType,
   requestType,
   selectOptions
-}) => {
+}) {
   const i18n = useI18n();
 
   return (
@@ -69,11 +69,10 @@ const Component = ({
             id="outlined-multiline-static"
             multiline
             fullWidth
-            rows="4"
+            minRows="4"
             defaultValue=""
             variant="outlined"
             onChange={handleChangeComment}
-            labelWidth={0}
             shrink
             label={i18n.t("cases.approval_comments")}
           />
@@ -81,7 +80,7 @@ const Component = ({
       </form>
     </>
   );
-};
+}
 
 Component.displayName = APPROVAL_FORM;
 

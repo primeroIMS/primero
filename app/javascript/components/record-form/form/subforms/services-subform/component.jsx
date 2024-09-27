@@ -4,11 +4,9 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { getIn, connect } from "formik";
 
-import SubformDialogFields from "../subform-dialog-fields";
-
 import { NAME } from "./constants";
 
-const Component = ({
+function Component({
   formik,
   field,
   index,
@@ -18,8 +16,9 @@ const Component = ({
   parentValues,
   recordModuleID,
   recordType,
-  values
-}) => {
+  values,
+  SubformDialogFields
+}) {
   const [filterState, setFilterState] = useState({
     filtersChanged: false,
     userIsSelected: false
@@ -66,7 +65,7 @@ const Component = ({
       values={values}
     />
   );
-};
+}
 
 Component.displayName = NAME;
 
@@ -80,6 +79,7 @@ Component.propTypes = {
   parentValues: PropTypes.object.isRequired,
   recordModuleID: PropTypes.string,
   recordType: PropTypes.string,
+  SubformDialogFields: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired
 };
 

@@ -5,12 +5,8 @@
   padding: 15px;
 }
 
-.sectionTitle {
-  color: var(--c-warm-grey-4);
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: var(--sp-1);
-  font-size: var(--fs-13);
+.overviewBox {
+  padding-bottom: 10px
 }
 
 .overviewList {
@@ -22,6 +18,10 @@
   display: grid;
   grid-template-columns: auto 1fr;
   grid-gap: var(--sp-1);
+
+  & a:nth-child(1), a:nth-child(2), a:nth-child(3), a:nth-child(4) {
+    font-weight: 600;
+  }
 }
 
 .dashboardChart {
@@ -31,14 +31,13 @@
 }
 
 .itemButton, .itemButtonNumber {
-  font-size: var(--fs-14);
+  font-size: var(--fs-16);
   border: none;
   line-height: 1.5em;
   text-align: left;
   background: none;
   cursor: pointer;
   padding: 0;
-  font-weight: 600;
 }
 
 [dir="rtl"] .itemButton, .itemButtonNumber {
@@ -61,7 +60,7 @@
   margin-bottom: var(--sp-1);
 }
 
-@media (max-width:959.95px) {
+@media (max-width:900px) {
   .dashboardChart {
     margin: 0;
     border-right: none;

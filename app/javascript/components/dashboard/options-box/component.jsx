@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Card, CardHeader, CardContent } from "@material-ui/core";
+import { Card, CardHeader, CardContent, CardActions } from "@mui/material";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -10,7 +10,19 @@ import { ConditionalWrapper } from "../../../libs";
 
 import css from "./styles.css";
 
-const OptionsBox = ({ title, action, children, to, flat, overlay, type, loading, errors, hasData }) => {
+function OptionsBox({
+  title,
+  action,
+  children,
+  to,
+  flat,
+  overlay,
+  type = "",
+  loading,
+  errors,
+  hasData = true,
+  footer
+}) {
   const loadingIndicatorProps = {
     overlay,
     type,
@@ -42,25 +54,22 @@ const OptionsBox = ({ title, action, children, to, flat, overlay, type, loading,
           {cardTitle}
           <LoadingIndicator {...loadingIndicatorProps}>
             <CardContent className={css.content}>{children}</CardContent>
+            {footer && <CardActions>{footer}</CardActions>}
           </LoadingIndicator>
         </>
       </ConditionalWrapper>
     </Card>
   );
-};
+}
 
 OptionsBox.displayName = "OptionsBox";
-
-OptionsBox.defaultProps = {
-  hasData: true,
-  type: ""
-};
 
 OptionsBox.propTypes = {
   action: PropTypes.node,
   children: PropTypes.node,
   errors: PropTypes.bool,
   flat: PropTypes.bool,
+  footer: PropTypes.node,
   hasData: PropTypes.bool,
   loading: PropTypes.bool,
   overlay: PropTypes.bool,

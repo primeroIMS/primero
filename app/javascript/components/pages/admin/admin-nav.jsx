@@ -1,11 +1,11 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { Fragment, useState } from "react";
-import { List, Collapse } from "@material-ui/core";
+import { List, Collapse } from "@mui/material";
 import { isEqual } from "lodash";
 
 import { getPermissions } from "../../user/selectors";
-import { ADMIN_NAV, LOCATION_PATH } from "../../../config/constants";
+import { ADMIN_NAV, LOCATION_PATH } from "../../../config";
 import { usePermissions, checkPermissions, RESOURCES, MANAGE } from "../../permissions";
 import { useMemoizedSelector } from "../../../libs";
 import { getLocationsAvailable } from "../../application/selectors";
@@ -16,7 +16,7 @@ import css from "./styles.css";
 import AdminNavItem from "./admin-nav-item";
 import { getAdminResources } from "./utils";
 
-const AdminNav = () => {
+function AdminNav() {
   const i18n = useI18n();
 
   const userPermissions = useMemoizedSelector(state => getPermissions(state), isEqual);
@@ -81,7 +81,7 @@ const AdminNav = () => {
       <List component="nav">{renderNavItems}</List>
     </>
   );
-};
+}
 
 AdminNav.displayName = "AdminNav";
 

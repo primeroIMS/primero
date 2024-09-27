@@ -47,7 +47,7 @@ class BulkExport < ApplicationRecord
   end
 
   def model_class
-    @model_class ||= Record.model_from_name(record_type)
+    @model_class ||= PrimeroModelService.to_model(record_type)
   end
 
   def exporter_type
@@ -102,7 +102,7 @@ class BulkExport < ApplicationRecord
   end
 
   def generate_file_name
-    return if file_name.present?
+    return self.file_name = ActiveStorage::Filename.new(file_name).sanitized if file_name.present?
 
     self.file_name = "#{record_type&.pluralize}-#{Time.now.strftime('%Y%m%d.%M%S%M%L')}.#{exporter_type&.mime_type}"
   end
@@ -122,14 +122,24 @@ class BulkExport < ApplicationRecord
     page = 1
     order = self.order || { created_at: :desc }
     loop do
-      results = SearchService.search(model_class, { filters: search_filters, query_scope: record_query_scope, query:,
-                                                    sort: order, pagination: { page:, per_page: batch } }).results
-      exporter.single_record_export = results.total_count == 1
-      yield(results)
-      # Set again the values of the pagination variable because the method modified the variable.
-      page = results.next_page
-      break if page.nil?
+      result = search_records(search_filters, batch, page, order)
+      break if result.records.blank?
+
+      exporter.single_record_export = result.total == 1
+      yield(result.records)
+      page += 1
     end
+  end
+
+  def search_records(filters, batch, page, order)
+    PhoneticSearchService.search(
+      model_class,
+      {
+        filters:,
+        scope: record_query_scope, query:,
+        sort: order, pagination: { page:, per_page: batch }
+      }
+    )
   end
 
   def attach_export_file(file)

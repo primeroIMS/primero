@@ -18,7 +18,7 @@ import { MODULES_FIELD, RECORD_TYPE_FIELD } from "../../constants";
 
 import { NAME } from "./constants";
 
-const Component = ({ mode, index, tab, formMethods }) => {
+function Component({ mode, index, tab, formMethods }) {
   const { id } = useParams();
   const { limitedProductionSite } = useApp();
 
@@ -71,7 +71,7 @@ const Component = ({ mode, index, tab, formMethods }) => {
       />
     </TabPanel>
   );
-};
+}
 
 Component.displayName = NAME;
 

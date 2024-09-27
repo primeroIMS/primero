@@ -14,6 +14,6 @@ module.exports = {
         "nesting-rules": true
       },
       stage: 0
-    }),
+    })
   ]
 };

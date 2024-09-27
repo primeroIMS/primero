@@ -2,22 +2,21 @@
 
 /* eslint-disable react/display-name, react/no-multi-comp */
 import PropTypes from "prop-types";
-import DateFnsUtils from "@date-io/date-fns";
 import { Controller, useWatch } from "react-hook-form";
-import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import isEmpty from "lodash/isEmpty";
 import { parseISO } from "date-fns";
+import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
 
 import { toServerDateFormat } from "../../../libs";
 import { useI18n } from "../../i18n";
-import localize from "../../../libs/date-picker-localization";
 import { LOCALE_KEYS } from "../../../config";
 import NepaliCalendar from "../../nepali-calendar-input";
+import DateProvider from "../../../date-provider";
 
-const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
+function DateInput({ commonInputProps, metaInputProps = {}, formMethods }) {
   const i18n = useI18n();
   const { setValue, control } = formMethods;
-  const { name, label, helperText, error, disabled, placeholder } = commonInputProps;
+  const { name, label, helperText, error, disabled, placeholder, fullWidth, required } = commonInputProps;
 
   const currentValue = useWatch({ name, control });
 
@@ -47,12 +46,31 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
 
   const fieldValue = isEmpty(currentValue) ? null : parseISO(currentValue);
 
+  const inputProps = {
+    slotProps: {
+      actionBar: {
+        actions: ["clear", "accept"]
+      },
+      textField: { InputLabelProps: { shrink: true }, fullWidth, required, helperText, clearable: true }
+    }
+  };
+
   const renderPicker = () => {
     if (dateIncludeTime) {
-      return <DateTimePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} value={fieldValue} />;
+      return (
+        <DateTimePicker
+          {...dialogLabels}
+          {...commonInputProps}
+          {...inputProps}
+          onChange={handleChange}
+          value={fieldValue}
+        />
+      );
     }
 
-    return <DatePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} value={fieldValue} />;
+    return (
+      <DatePicker {...dialogLabels} {...commonInputProps} {...inputProps} onChange={handleChange} value={fieldValue} />
+    );
   };
 
   if (i18n.locale === LOCALE_KEYS.ne) {
@@ -60,7 +78,7 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
   }
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
+    <DateProvider>
       <Controller
         control={control}
         as={renderPicker}
@@ -68,13 +86,9 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
         helperText={<>{helperText}</>}
         defaultValue=""
       />
-    </MuiPickersUtilsProvider>
+    </DateProvider>
   );
-};
-
-DateInput.defaultProps = {
-  metaInputProps: {}
-};
+}
 
 DateInput.displayName = "DateInput";
 

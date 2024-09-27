@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Paper, Table, TableBody, TableHead } from "@material-ui/core";
+import { Paper, Table, TableBody, TableHead } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
 import EmptyState from "../../loading-indicator/components/empty-state";
@@ -10,7 +10,7 @@ import InsightsTableHeader from "../../insights-sub-report/components/insights-t
 import { TableHeader, TableRows } from "./components";
 import css from "./styles.css";
 
-const TableValues = ({
+function TableValues({
   columns,
   values,
   showPlaceholder = false,
@@ -18,7 +18,7 @@ const TableValues = ({
   emptyMessage = "",
   useInsightsHeader = false,
   subColumnItemsSize
-}) => {
+}) {
   const Header = useInsightsHeader ? InsightsTableHeader : TableHeader;
 
   return (
@@ -37,7 +37,7 @@ const TableValues = ({
       )}
     </Paper>
   );
-};
+}
 
 TableValues.displayName = "TableValues";
 

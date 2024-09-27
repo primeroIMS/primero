@@ -7,3 +7,4 @@ export { default as isDisabledAction } from "./is-disabled-action";
 export { default as subformExists } from "./subform-exists";
 export { default as buildAppliedFilters } from "./build-applied-filters";
 export { default as getRequestedApprovals } from "./get-requested-approvals";
+export { default as buildSelectedIds } from "./build-selected-ids";

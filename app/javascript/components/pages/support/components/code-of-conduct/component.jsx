@@ -1,19 +1,19 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { format, parseISO } from "date-fns";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
 import { useI18n } from "../../../../i18n";
 import css from "../../../../code-of-conduct/styles.css";
 import { useMemoizedSelector } from "../../../../../libs";
 import { getCodeOfConductAccepteOn } from "../../../../user";
 import { getCodesOfConduct } from "../../../../application/selectors";
-import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../../../../config/constants";
+import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../../../../config";
 import parentCss from "../../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = () => {
+function Component() {
   const i18n = useI18n();
 
   const codeOfConductAccepteOn = useMemoizedSelector(state => getCodeOfConductAccepteOn(state));
@@ -35,7 +35,7 @@ const Component = () => {
       <Typography className={css.text}>{applicationCodeOfConduct?.get("content")}</Typography>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

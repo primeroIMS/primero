@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { List } from "@material-ui/core";
-import FlagIcon from "@material-ui/icons/Flag";
+import { List } from "@mui/material";
+import FlagIcon from "@mui/icons-material/Flag";
 import PropTypes from "prop-types";
 
 import { useMemoizedSelector } from "../../../../libs";
@@ -12,7 +12,7 @@ import css from "../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({ recordType, record }) => {
+function Component({ recordType, record }) {
   const i18n = useI18n();
 
   const flagsActived = useMemoizedSelector(state => getActiveFlags(state, record, recordType));
@@ -54,7 +54,7 @@ const Component = ({ recordType, record }) => {
       )}
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

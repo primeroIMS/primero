@@ -9,7 +9,7 @@ import { RECORD_PATH } from "../../../config";
 import { RECORD_FORM_TOOLBAR_PAGE_HEADING_NAME } from "./constants";
 import { SyncRecord } from "./components";
 
-const Component = ({
+function Component({
   i18n,
   mode,
   params,
@@ -23,7 +23,7 @@ const Component = ({
   isEnabledWebhookSyncFor,
   syncedAt,
   syncStatus
-}) => {
+}) {
   let heading = "";
 
   if (mode.isNew) {
@@ -65,7 +65,7 @@ const Component = ({
       {syncRecord}
     </>
   );
-};
+}
 
 Component.displayName = RECORD_FORM_TOOLBAR_PAGE_HEADING_NAME;
 

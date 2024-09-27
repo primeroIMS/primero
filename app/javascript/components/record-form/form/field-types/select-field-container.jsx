@@ -26,7 +26,7 @@ import { OPTION_TYPES } from "../../../form";
 import useOptions from "../../../form/use-options";
 import { RECORD_TYPES } from "../../../../config";
 
-const SelectFieldContainer = ({
+function SelectFieldContainer({
   field,
   value,
   disabled,
@@ -44,7 +44,7 @@ const SelectFieldContainer = ({
   helperText,
   recordType,
   recordModuleID
-}) => {
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { online } = useApp();
@@ -186,7 +186,7 @@ const SelectFieldContainer = ({
 
   const fieldProps = {
     id: name,
-    error: error && touched ? error : null,
+    error: error || null,
     name,
     isDisabled: !filteredOptions || mode.isShow || disabled || apiSelectOptionsOffline,
     helperText: inputHelperText(),
@@ -196,7 +196,7 @@ const SelectFieldContainer = ({
     multiple: multiSelect,
     TextFieldProps: {
       label,
-      error: error && touched,
+      error,
       InputProps
     },
     onOpen: () => {
@@ -252,7 +252,7 @@ const SelectFieldContainer = ({
       options={filteredOptions}
     />
   );
-};
+}
 
 SelectFieldContainer.displayName = "SelectFieldContainer";
 

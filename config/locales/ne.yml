@@ -1,21 +1,8 @@
-# encoding: utf-8
-#
-# This is the English localization file for Primero.  It is based on the sample
-# English localization file found in the repository linked below[1].
-#
-# Anyone editing this file is strongly encouraged to use yamllint[2] to ensure
-# that this document remains valid YAML.
-#
-# [1] https://github.com/svenfuchs/rails-i18n/
-# [2] https://yamllint.readthedocs.io/en/stable/
-
-
----
 ne:
   'true': 'हो'
   'false': 'होइन '
   accepted: स्वीकार गरिएको
-  cancel: "रद्द "
+  cancel: 'रद्द '
   connection_lost: हाल अफलाईन मोडमा
   field_mode_offline: हाल फिल्ड मोडमा रहेको
   connected: जोडिएको
@@ -23,20 +10,20 @@ ne:
   clear: खाली
   sandbox_ui: डेमो
   description: विवरण
-  form: "फारम "
+  form: 'फारम '
   minimum_reportable_fields: "न्यूनतम प्रतिवेदन योग्य क्षेत्रहरु %{record_type}"
-  name: "नाम "
+  name: 'नाम '
   offline: अफलाईन
   field_mode: "फिल्ड मोड: %{mode}"
   field_mode_on: "अन"
   field_mode_off: "अफ"
   unavailable_offline: अफलाईन उपलब्ध नभएको
-  online: "अनलाईन "
+  online: 'अनलाईन '
   yes_label: 'हो'
-  or_label: "वा,"
+  or_label: वा,
   select_provider: प्रदायक छनौट गर्नुहोस्
   select_language: भाषा छनौट गर्नुहोस्
-  log_in_primero_idp: "%{idp_name} प्रयोगकर्ताको रूपमा लगईन गर्नुहोस्"
+  log_in_primero_idp: '%{idp_name} प्रयोगकर्ताको रूपमा लगईन गर्नुहोस्'
   offline_submitted_changes: हाल तपाई अफलाईन हुनुहुन्छ। तपाईले गर्नु भएका परिवर्तनहरू अनलाईन भएपछि पेस हुने छन् ।
   updated: अद्यावधिक भएको
   go: जानुहोस्
@@ -44,9 +31,8 @@ ne:
   sync:
     success: "%{records} रेकर्डहरू सफलतापूर्वक सिंक्रोनाइज्ड भयो ।"
     error:
-      create: "%{record_type}सिर्जना गर्न असफल भयो । सहयोगका लागि सम्पर्क गर्नुहोस् ।  "
-      update: "%{record_type}%{short_id}अद्यावधिक असफल भयो । सहयोगका लागि सम्पर्क गर्नुहोस् ।  "
-
+      create: '%{record_type}सिर्जना गर्न असफल भयो । सहयोगका लागि सम्पर्क गर्नुहोस् ।  '
+      update: '%{record_type}%{short_id}अद्यावधिक असफल भयो । सहयोगका लागि सम्पर्क गर्नुहोस् ।  '
   actions:
     approvals: स्वीकृति
     button: कार्यहरू
@@ -55,7 +41,7 @@ ne:
       invalid: अवैध अभिलेख
       valid: प्रमाणीत अभिलेख
     disable: निष्क्रिय पार्नुहोस्
-    enable: "सक्रिय पार्नुहोस् "
+    enable: 'सक्रिय पार्नुहोस् '
     incident_details_from_case: घटना थप्‍नुहोस्
     incident_from_case: घटना सिर्जना गर्नुहोस्
     next: अर्को
@@ -78,25 +64,25 @@ ne:
     description: विवरण
     disabled: निष्क्रिय पारिएको
     exclude_agency_from_lookups: खोजी तथा छनोटबाट यो निकायलाई हटाउनुहोस्
-    exclude_agency_from_lookups_help: "यस निकायका प्रयोगकर्ताहरू छैनन् भन्ने कुराको जाँच गर्नुहोस् । (उदाहरणको लागि, लोगो निर्यात गर्न सकियोस भन्नका लागि निकायलाई जोडिएको थियो कि)"
+    exclude_agency_from_lookups_help: यस निकायका प्रयोगकर्ताहरू छैनन् भन्ने कुराको जाँच गर्नुहोस् । (उदाहरणको लागि, लोगो निर्यात गर्न सकियोस भन्नका लागि निकायलाई जोडिएको थियो कि)
     label: निकाय
-    logo_enabled: "प्रिमेरोमा यो निकायको लोगो देखाउन चाहानुहुन्छ ?"
-    logo_enabled_help: "प्रिमेरोमा यो निकायको लोगो देखाउन चाहानुहुन्छ ?"
+    logo_enabled: प्रिमेरोमा यो निकायको लोगो देखाउन चाहानुहुन्छ ?
+    logo_enabled_help: प्रिमेरोमा यो निकायको लोगो देखाउन चाहानुहुन्छ ?
     logo_icon: लोगो
-    logo_icon_help: "यो सानो आकारको स्क्रिन, ट्याब्लेट र फोनमा देखा पर्नेछ। यो वर्गाकार हुनुपर्दछ ।"
+    logo_icon_help: यो सानो आकारको स्क्रिन, ट्याब्लेट र फोनमा देखा पर्नेछ। यो वर्गाकार हुनुपर्दछ ।
     logo_large: ठुलो लोगो
     logo_large_help: यो ठुलो आकारको स्क्रिन र PDF डाउनलोडमा देखा पर्नेछ । यो उचाइभन्दा लामो लम्बाइ भएको आयतकार हुनुपर्दछ ।
     messages:
       created: निकाय सफलतापूर्वक सिर्जना भयो
       updated: निकाय सफलतापूर्वक अद्यावधिक भयो
     name: निकायको नाम
-    pdf_logo_option: "PDF डाउनलोडमा लोगो उपलब्ध गराउन चाहानुहुन्छ ?"
+    pdf_logo_option: PDF डाउनलोडमा लोगो उपलब्ध गराउन चाहानुहुन्छ ?
     pdf_logo_option_help: 'नोट : प्रयोगकर्ताका लागि निकायको लोगो पूर्वनिर्धारित नै उपलब्ध छन् । त्यसैले तपाईँले यो लोगो सबै प्रयोगकर्ताहरूका लागि उपलब्ध गराउन चाहानु हुन्छ भने मात्र यो जाँच गर्नुहोस् ।'
     services: निकायको सेवाहरु
     terms_of_use: प्रयोगको नियम
     terms_of_use_help: PDF फाईलहरु मात्र समावेश गर्नसकिने
     terms_of_use_download_button: PDF डाउनलोड गर्नुहोस्
-    terms_of_use_enabled: "प्रयोगको सर्तहरू प्रदर्शन गर्नुहुन्छ ?"
+    terms_of_use_enabled: प्रयोगको सर्तहरू प्रदर्शन गर्नुहुन्छ ?
   approvals:
     approved_by: स्वीकृत गर्ने
     case_plan_type_label: घटनाको योजना प्रकार
@@ -105,7 +91,7 @@ ne:
     requested_by: अनुरोध गरिएको
     requested_for_label: स्वीकृतिको लागि ‌ अनुरोध
     requested_for_title: स्वीकृति अनुरोध
-    response_for_label: "स्वीकृतिको लागि "
+    response_for_label: 'स्वीकृतिको लागि '
     response_for_title: स्वीकृति
     action_plan: कार्ययोजना
     gbv_closure: GBV समापन
@@ -123,12 +109,12 @@ ne:
   bulk_export:
     file_name: फाईल
     record_type: प्रकार
-    retry: "यो export अवैध छ । कृपया तपाईको export पुन: सिर्जना गर्ने प्रयास गर्नुहोस् ।"
+    retry: 'यो export अवैध छ । कृपया तपाईको export पुन: सिर्जना गर्ने प्रयास गर्नुहोस् ।'
     started_on: सुरुवात
     status: स्थिति
   form_export:
     label: Export फारम कन्फिगरेसन
-    include_hidden: "लुकेका फारमहरू र फिल्डहरुलाई समावेश गर्नुहुन्छ?"
+    include_hidden: लुकेका फारमहरू र फिल्डहरुलाई समावेश गर्नुहुन्छ?
     file_name: तपाईको आफ्नै फाईल नाम सिर्जना गर्नुहोस् (वैकल्पिक)
     success_message: Export फाईल सफलतापूर्वक सिर्जना गरियो
   buttons:
@@ -156,7 +142,7 @@ ne:
     continue: जारी राख्नुहोस्
     create_case: घटना सिर्जना गर्नुहोस्
     create_incident: घटना सिर्जना गर्नुहोस्
-    create_new_record: "नयाँ %{model}सिर्जना गर्नुहोस्"
+    create_new_record: नयाँ %{model}सिर्जना गर्नुहोस्
     delete: मेटाउनुस्
     disable: असक्षम गर्नुहोस्
     disable_photo_wall: फोटो वाल निस्कृय पार्नुहोस्
@@ -172,7 +158,7 @@ ne:
     filter_label: 'फिल्टर'
     filter_restore: प्रणाली सेटिङ पूर्वावस्थामा ल्याउनुहोस्
     find_tracing_match: ट्रेसिङ जोडा फेला पार्नुहोस्
-    flag_model: "फ्ल्याग %{model}"
+    flag_model: फ्ल्याग %{model}
     flag_records: फ्ल्याग
     flags: फ्ल्यागहरू
     guidance: मार्गदर्शन
@@ -186,13 +172,13 @@ ne:
     print: छाप्नुहोस्
     reassign: तोक्नुहोस्
     referral: रिफर
-    referral_again: "पुन : रिफर गर्ने"
+    referral_again: 'पुन : रिफर गर्ने'
     reject: अस्वीकार गर्नुहोस्
     remove_referrals: रिफरलहरु हटाउनुहोस्
-    reorder: "पुन: क्रमबद्ध गर्नुहोस्"
+    reorder: 'पुन: क्रमबद्ध गर्नुहोस्'
     request_approval: स्वीकृतिका लागि अनुरोध
     request_transfer: स्थानान्तरण अनुरोध गर्नुहोस्
-    reunite: "पुन: एक गर्नुहोस्"
+    reunite: 'पुन: एक गर्नुहोस्'
     save: सुरक्षित गर्नुहोस्
     save_and_add_service_provision: सुरक्षित गरी सेवा प्रावधान थप्नुहोस्
     save_and_return: सुरक्षित गरी फिर्ता हुनुहोस्
@@ -205,8 +191,8 @@ ne:
     sync: Sync
     submit: पेस गर्नुहोस्
     transfer: स्थान्तरण गर्नुहोस्
-    unflag_model: "फ्ल्याग हटाउनुहोस् %{model}"
-    unflag_model_history: "इतिहास फ्ल्याग गर्नुहोस् %{model}"
+    unflag_model: फ्ल्याग हटाउनुहोस् %{model}
+    unflag_model_history: इतिहास फ्ल्याग गर्नुहोस् %{model}
     unmark_for_mobile: मोबाइलका लागि चिह्न हटाउनुहोस्
     update: अद्यावधिक गर्नुहोस्
     view: हेर्नुहोस्
@@ -229,13 +215,13 @@ ne:
     back_to_results: नतिजामा फर्किनुहोस्
     back_to_search: खोजमा फर्किनुहोस्
     search_by: द्वारा खोजी गर्नुहोस्
-    search_for: "%{record_type} को लागि खोजी गर्नुहोस्"
+    search_for: '%{record_type} को लागि खोजी गर्नुहोस्'
     results: नतिजाहरु
     details: विवरणहरु
     select: छनौट गर्नुहोस्
     deselect: छनौट हटाउनुहोस्
     enter_id_number: अभिलेख खोजी गर्न आईडी नम्बर प्रविष्ट गर्नुहोस्
-    id_search_no_results: "\"%{search_query}\" यो प्रणालीमा छैन । कृपया नयाँ अभिलेख सिर्जना गर्नुहोस् ।"
+    id_search_no_results: '"%{search_query}" यो प्रणालीमा छैन । कृपया नयाँ अभिलेख सिर्जना गर्नुहोस् ।'
     messages:
       disabled: घटना निस्क्रिय छ
       update_success: 'केस %{record_id} सफलतापूर्वक अद्यावधिक गरियो ।  '
@@ -244,15 +230,15 @@ ne:
       creation_success_queue: 'घटनाको अभिलेख पृष्ठभूमिमा सफलतापूर्वक सिर्जना भयो ।'
       already_matched: यो जाँचकर्ता पहिले नै तपाईँको घटनासँग मेल खाएको छ ।
       already_matched_not_current_case: यो जाँचकर्तासँग मेल खाने घटना पहिला नै प्रणालीमा छ ।
-      not_found_case: "%{search_value}सँग मिल्दो कुनै पनि घटना फेला परेन। नयाँ घटना सिर्जना गर्नुहोस् ।"
+      not_found_case: '%{search_value}सँग मिल्दो कुनै पनि घटना फेला परेन। नयाँ घटना सिर्जना गर्नुहोस् ।'
       introductory_sentence: कृपया घटना व्यवस्थापन सेवाहरू प्राप्त गर्न र तिनीहरूको तथ्याङ्क प्रीमेरोमा भण्डारण गर्न व्यक्तिको सहमति प्राप्त गर्नुहोस् ।
       consent_agreements_required: कृपया सहमति सम्झौताबाट कम्तीमा एउटा विकल्प छान्नुहोस् ।
       legitimate_basis_required: कृपया वैध आधार वर्गीकरणबाट कम्तीमा एउटा विकल्प छान्नुहोस्।
     save: घटना सुरक्षित गर्नुहोस्
-    save_text: "अघिबढ्नु पूर्व, कृपया घटनामा तपाइँको परिवर्तनहरू सुरक्षित गर्नुहोस् ।"
+    save_text: अघिबढ्नु पूर्व, कृपया घटनामा तपाइँको परिवर्तनहरू सुरक्षित गर्नुहोस् ।
     skip_and_create: छोड्नुहोस् र नयाँ घटना सिर्जना गर्नुहोस्
     search_existing: हाल रहेका घटनाहरू खोजी गर्नुहोस्
-    search_helper_text: "किन ? डुप्लिकेट घटनाहरू सिर्जना गर्न रोक्न।"
+    search_helper_text: किन ? डुप्लिकेट घटनाहरू सिर्जना गर्न रोक्न।
     consent_agreements: लागु हुने सबै सहमती प्राप्त सम्झौताहरू छान्नुहोस्
     legitimate_basis: लागु हुने सबै वैध आधार वर्गिकरण छनौट गर्नुहोस्
     workflow:
@@ -263,7 +249,7 @@ ne:
       in_progress: प्रगति ‍भईरहेको
       new: नयाँ
       on_label: 'on'
-      reopened: "पुन: खोलिएको"
+      reopened: 'पुन: खोलिएको'
       service_implemented: सेवा लागु गरिएको
       services_implemented: सेवा लागु गरिएको
   linkedincidents:
@@ -275,7 +261,7 @@ ne:
   cases:
     action_plan: कार्ययोजना
     age: उमेर
-    age_estimated: "अनुमानित उमेर ?"
+    age_estimated: अनुमानित उमेर ?
     agency: निकाय
     apply_filter: लागु गर्नुहोस्
     approval_comments: टिप्पणी गर्नुहोस्
@@ -294,22 +280,22 @@ ne:
     case_plan: घटना योजना
     case_worker_code: केस कार्यकर्ताको कोड
     clear_filter: खाली गर्नुहोस्
-    close_dialog: "'ठिक छ' क्लिक गर्दा यो घटनाको स्थिति बन्द हुनेछ ।"
+    close_dialog: '''ठिक छ'' क्लिक गर्दा यो घटनाको स्थिति बन्द हुनेछ ।'
     close_dialog_title: घटना बन्द गर्नुहोस्
     close_success: घटना सफलतापूर्वक बन्द भयो
     closure: समापन गर्नुहोस्
     complete: अफलाईन उपलब्ध रहेको
     date_of_birth: जन्ममिति
-    disable_dialog: "'ठिक छ' क्लिक गर्दा यो घटनाको स्थिति निस्क्रियमा परिवर्तन हुनेछ ।"
+    disable_dialog: '''ठिक छ'' क्लिक गर्दा यो घटनाको स्थिति निस्क्रियमा परिवर्तन हुनेछ ।'
     disable_dialog_title: घटना निस्क्रिय पार्नुहोस्
     disable_success: सफलतापूर्वक निस्क्रिय पारिएको घटना
-    enable_dialog: "'ठिक छ' क्लिक गर्दा  घटनाको स्थिति सक्रिय हुनेछ ।"
+    enable_dialog: '''ठिक छ'' क्लिक गर्दा  घटनाको स्थिति सक्रिय हुनेछ ।'
     enable_dialog_title: घटना सक्रिय पार्नुहोस्
     enable_success: सफलतापूर्वक सक्रिय पारिएको घटना
     export: Export गर्नुहोस्
     mark_for_offline:
       title: अफलाईनको लागि चिन्ह लगाउनुहोस्
-      text: "तपाई अफलाईन हुँदा प्रयोग गर्नको लागि यी घटनाहरूलाई चिन्ह लगाउन निश्चित हुनुहुन्छ?"
+      text: तपाई अफलाईन हुँदा प्रयोग गर्नको लागि यी घटनाहरूलाई चिन्ह लगाउन निश्चित हुनुहुन्छ?
       success: अफलाईन प्रयोगको लागि घटनाहरुमा सफलतापूर्वक चिन्ह लगाईएको
     filter_by:
       3month_inactivity: ३+ महिनाका लागि
@@ -329,31 +315,31 @@ ne:
       by_date: मिति अनुसार
       case_open_date: घटना शुरु मिति
       case_plan: घटना योजना
-      closed: "बन्द "
+      closed: 'बन्द '
       closure: समापन
       current_location: हालको स्थान
-      date: "मिति "
+      date: 'मिति '
       displacement_status: विस्थापन स्थिति
       district: जिल्ला
       duplicate: दोहोर्‍याउनुहोस्
       enabled_disabled: सक्रिय पार्नुहोस् / निष्क्रिय पार्नुहोस्
       female: महिला
       flag: फ्ल्याग गरिएको
-      flag_label: "फ्ल्याग गरिएको ?"
+      flag_label: फ्ल्याग गरिएको ?
       gbv_closure: GBV समापन गरिएको
       high: उच्च
-      low: "न्यून "
+      low: 'न्यून '
       male: पुरुष
       medium: मध्यम
       mobile: मोबाइल
-      mobile_label: "मोबाइलका लागि चिह्न लगाइयो ?"
+      mobile_label: मोबाइलका लागि चिह्न लगाइयो ?
       my_cases: मेरो केसहरू
       no_action: कुनै कारबाही नभएको
       no_activity: कुनै गतिविधि नभएको
       open: खोल्नुहोस्
       other: अन्य
       photo: तस्बिर
-      photo_label: "तस्बिर छ ?"
+      photo_label: तस्बिर छ ?
       protection_concerns: संरक्षण सवालहरु
       protection_status: संरक्षण स्थिति
       record_state: अभिलेख स्थिति
@@ -372,11 +358,11 @@ ne:
     full_name: ‌पूरा नाम
     gbv_closure: GBV समापन
     hide_name: नाम लुकाउनुहोस्
-    hide_name_error: "तपाईँको परिवर्तनहरू सुरक्षित गर्दा एउटा त्रुटि देखा पर्‍यो । कृपया पुन: प्रयास गर्नुहोस् ।"
+    hide_name_error: 'तपाईँको परिवर्तनहरू सुरक्षित गर्दा एउटा त्रुटि देखा पर्‍यो । कृपया पुन: प्रयास गर्नुहोस् ।'
     id: आईडी#
     label: घटनाहरू
     my_filters: मेरो फिल्टर
-    name: " नाम "
+    name: ' नाम '
     notes_dialog_title: नोटहरू थप्‍नुहोस्
     notes_form_notes: नोटहरू
     notes_form_subject: विषय
@@ -384,19 +370,19 @@ ne:
     order_by:
       label: क्रम अनुसार
       most_recently: हालैसालैको
-      name: " नाम "
+      name: ' नाम '
     owned_by: अभिलेखकर्ता
     owned_by_agency: अभिलेखवाला निकाय
     photo: तस्बिर
     photos: तस्बिर
     quick_view:
       tracing_message: 'नोट: प्रणालीमा यस बच्चाको बारे पहिलैनै खोजी भएको छ । यदि बच्चाले चाहान्छ भने थप कारबाहीका लागि यो अभिलेखको सामाजिक कार्यकर्तालाई सम्पर्क गर्नुहोस् ।'
-    referral_done: "\"सम्पन्न\" क्लिक गर्दा तपाईले यस घटनासँग सम्बन्धित रिफरल कार्य पूरा गर्नुभएको सङ्केत गर्दछ । \"सम्पन्न\" क्लिक गरेपछि अब तपाइले यो अभिलेखमा पहुँच पाउनु हुने छैन।"
+    referral_done: '"सम्पन्न" क्लिक गर्दा तपाईले यस घटनासँग सम्बन्धित रिफरल कार्य पूरा गर्नुभएको सङ्केत गर्दछ । "सम्पन्न" क्लिक गरेपछि अब तपाइले यो अभिलेखमा पहुँच पाउनु हुने छैन।'
     referral_done_success: रिफरल गरियो
     referral_accepted_header: रिफरल स्वीकार गर्नुहोस्
-    referral_accepted: "यस रेफरलसँग सम्बन्धित कार्य पूरा गर्नका लागि अब तपाई जिम्मेवार हुनुहुनेछ । के तपाई यो कार्यको लागि निश्चित हुनुहुन्छ ?"
+    referral_accepted: यस रेफरलसँग सम्बन्धित कार्य पूरा गर्नका लागि अब तपाई जिम्मेवार हुनुहुनेछ । के तपाई यो कार्यको लागि निश्चित हुनुहुन्छ ?
     referral_accepted_success: रिफरल स्वीकृत भयो
-    referral_rejected: "'अस्वीकार' मा क्लिक गरेर तपाईले यो रिफरलको जिम्मेवारी, यो समयमा स्वीकार गर्न तयार हुनुहुन्न भन्ने कुरा सङ्केत गरिरहनुभएको छ । कृपया तपाईले यो रिफर अस्वीकार गर्दै हुनुहुन्छ भन्ने कारण प्रविष्ट गर्नुहोस् । 'अस्वीकार गर्नुहोस्' क्लिक गरेपछि तपाईले अब यो घटना अभिलेखमा पहुँच प्राप्त गर्न सक्नुहुने छैन ।"
+    referral_rejected: '''अस्वीकार'' मा क्लिक गरेर तपाईले यो रिफरलको जिम्मेवारी, यो समयमा स्वीकार गर्न तयार हुनुहुन्न भन्ने कुरा सङ्केत गरिरहनुभएको छ । कृपया तपाईले यो रिफर अस्वीकार गर्दै हुनुहुन्छ भन्ने कारण प्रविष्ट गर्नुहोस् । ''अस्वीकार गर्नुहोस्'' क्लिक गरेपछि तपाईले अब यो घटना अभिलेखमा पहुँच प्राप्त गर्न सक्नुहुने छैन ।'
     referral_rejected_success: रिफरल अस्वीकृत भयो
     register_new_case: नयाँ घटना
     registration_date: दर्ता मिति
@@ -406,27 +392,27 @@ ne:
     rejected_success_case_plan: '%{approval_label} - स्वीकृत नभएको'
     rejected_success_closure: '%{approval_label} - स्वीकृत नभएको'
     rejected_success_gbv_closure: '%{approval_label} - स्वीकृत नभएको'
-    reopen_dialog: "'ठिक छ' क्लिक गर्दा यो केसको स्थिति खुल्ला हुनेछ ।"
-    reopen_dialog_title: "घटना पुन: सुरुगर्नुहोस्"
-    reopen_success: "घटना सफलतापूर्वक पुन: सुरुगरियो"
-    request_approval_failure: "एउटा त्रुटि देखा पर्‍यो, कृपया सहयोगका लागि सम्पर्क गर्नुहोस्"
+    reopen_dialog: '''ठिक छ'' क्लिक गर्दा यो केसको स्थिति खुल्ला हुनेछ ।'
+    reopen_dialog_title: 'घटना पुन: सुरुगर्नुहोस्'
+    reopen_success: 'घटना सफलतापूर्वक पुन: सुरुगरियो'
+    request_approval_failure: एउटा त्रुटि देखा पर्‍यो, कृपया सहयोगका लागि सम्पर्क गर्नुहोस्
     request_approval_select: स्वीकृतिका लागि सहयोग अनुरोध गर्नुहोस्
-    request_approval_success_action_plan: "%{approval_label}फारम स्वीकृतिको लागि अनुरोध गरिएको छ"
-    request_approval_success_assessment: "%{approval_label}फारम स्वीकृतिको लागि अनुरोध गरिएको छ"
-    request_approval_success_case_plan: "%{approval_label} फारम स्वीकृतिको लागि अनुरोध गरिएको छ"
-    request_approval_success_closure: "%{approval_label} फारम स्वीकृतिको लागि अनुरोध गरिएको छ"
-    request_approval_success_gbv_closure: "%{approval_label} फारम स्वीकृतिको लागि अनुरोध गरिएको छ"
+    request_approval_success_action_plan: '%{approval_label}फारम स्वीकृतिको लागि अनुरोध गरिएको छ'
+    request_approval_success_assessment: '%{approval_label}फारम स्वीकृतिको लागि अनुरोध गरिएको छ'
+    request_approval_success_case_plan: '%{approval_label} फारम स्वीकृतिको लागि अनुरोध गरिएको छ'
+    request_approval_success_closure: '%{approval_label} फारम स्वीकृतिको लागि अनुरोध गरिएको छ'
+    request_approval_success_gbv_closure: '%{approval_label} फारम स्वीकृतिको लागि अनुरोध गरिएको छ'
     request_approval_type_of_case_plan: घटना योजना स्वीकृतिका प्रकारहरू
-    request_approve_action_plan: "कार्य योजना ‌स्वीकृत गर्नुहुन्छ ?"
-    request_approve_bia: "मूल्याङ्कन स्वीकृत गर्नुहुन्छ ?"
-    request_approve_case_plan: "घटना योजना स्वीकृत गर्नुहुोस ?"
-    request_approve_closure: "समापन गर्न अनुमति दिन्छ?"
-    request_approve_gbv_closure: "GBV समापन गर्न अनुमति दिनुहुन्छ ?"
-    revoke_failure: "%{transition_type} रद्द गर्दा एउटा त्रुटि देखापर्यो, कृपया सहयोगको लागि सम्पर्क गर्नुहोस्।"
-    revoke_message: "\" रद्द गर्नुहोस्\" क्लिक गरेर, तपाईँले घटनामा %{transition_type} प्रापकको पहुँच हटाउनु हुनेछ ।"
-    revoke_success_message: "%{case_id}%{transition_type}घटना लाई %{recipient_username}रद्द गर्नुपर्ने "
+    request_approve_action_plan: कार्य योजना ‌स्वीकृत गर्नुहुन्छ ?
+    request_approve_bia: मूल्याङ्कन स्वीकृत गर्नुहुन्छ ?
+    request_approve_case_plan: घटना योजना स्वीकृत गर्नुहुोस ?
+    request_approve_closure: समापन गर्न अनुमति दिन्छ?
+    request_approve_gbv_closure: GBV समापन गर्न अनुमति दिनुहुन्छ ?
+    revoke_failure: '%{transition_type} रद्द गर्दा एउटा त्रुटि देखापर्यो, कृपया सहयोगको लागि सम्पर्क गर्नुहोस्।'
+    revoke_message: '" रद्द गर्नुहोस्" क्लिक गरेर, तपाईँले घटनामा %{transition_type} प्रापकको पहुँच हटाउनु हुनेछ ।'
+    revoke_success_message: '%{case_id}%{transition_type}घटना लाई %{recipient_username}रद्द गर्नुपर्ने '
     save_filter: सुरक्षित गर्नुहोस्
-    selected_all_records: "यो प्रश्नसँग मिल्ने सबै %{total_records} घटनाहरू छनौट गर्नुहोस्"
+    selected_all_records: यो प्रश्नसँग मिल्ने सबै %{total_records} घटनाहरू छनौट गर्नुहोस्
     selected_records: '%{select_records} घटना(हरु) छनौट गरिएको '
     sex: लिङ्ग
     show_case: 'घटना आईडी : %{short_id}'
@@ -443,12 +429,12 @@ ne:
           label: ट्रेसिंगका लागि सूचनाहरू प्रदान गर्न अनुमति प्राप्त भएको छ ।
           help_text: यदि यो क्षेत्र "होइन" भएमा बालबालिकाको घटना अभिलेख ट्रेसिङ अनुरोधको खोजमा देखिनेछैन ।
         wishes_child_family_tracing:
-          label: "के बच्चाले परिवारका सदस्यहरूलाई पत्ता लगाउन चाहन्छ ?"
+          label: के बच्चाले परिवारका सदस्यहरूलाई पत्ता लगाउन चाहन्छ ?
         wishes_reunification:
-          label: "के बच्चा परिवार पुनर्मिलन चाहन्छ ?"
+          label: के बच्चा परिवार पुनर्मिलन चाहन्छ ?
           options:
-            yes_as_soon_as_possible: "हो, जति सक्दो चाँडो"
-            yes_but_later: "हो, तर पछि"
+            yes_as_soon_as_possible: हो, जति सक्दो चाँडो
+            yes_but_later: हो, तर पछि
             not_sure: निश्चित छैन
             'no': 'होइन'
         data_confidentiality_link:
@@ -456,13 +442,13 @@ ne:
         child_wishes_link:
           label: बच्चाको इच्छाहरू हेर्नुहोस्
     survivor_code: Survivor कोड
-    transfer_accepted: "\"स्वीकार गर्नुहोस्\" क्लिक गरेर तपाई यस घटनाको लागि जिम्मेवारी स्वीकार गर्नुहुन्छ । एक पटक तपाई \"स्वीकार गर्नुहोस्\" क्लिक गरेपछि तपाई प्रणालीमा रहेको अभिलेखको स्वामित्व ग्रहण गर्नुहुनेछ । "
-    transfer_managed_user_accepted: "यदि तपाईले 'स्वीकार गर्नुहोस्' क्लिक गर्नुभयो भने, %{transitioned_to} यस घटनाको लागि जिम्मेवार हुनेछ; तपाईले 'स्वीकार गर्नुहोस्' क्लिक गरेपछि, %{transitioned_to}प्रणालीमा रेकर्ड मालिक बन्नुहुनेछ।"
-    transfer_managed_user_rejected: "'अस्वीकार गर्नुहोस्' मा क्लिक गरेर तपाईले %{transitioned_to} ले यो घटनाको जिम्मेवारी स्वीकार गर्न तयार नभएको संकेत गरिरहनुभएको छ। तपाईले यो घटना अस्वीकार गरिरहनुभएको कारण प्रविष्टि गर्नुहोस्; एकचोटि तपाईले 'अस्वीकार गर्नुहोस्' क्लिक गरेपछि %{transitioned_to} सँग यो घटनाको पहुँच हुनेछैन।"
-    transfer_accepted_rejected: "%{record_id} घटनाको स्थानान्तरण अस्वीकार गरियो"
+    transfer_accepted: '"स्वीकार गर्नुहोस्" क्लिक गरेर तपाई यस घटनाको लागि जिम्मेवारी स्वीकार गर्नुहुन्छ । एक पटक तपाई "स्वीकार गर्नुहोस्" क्लिक गरेपछि तपाई प्रणालीमा रहेको अभिलेखको स्वामित्व ग्रहण गर्नुहुनेछ । '
+    transfer_managed_user_accepted: यदि तपाईले 'स्वीकार गर्नुहोस्' क्लिक गर्नुभयो भने, %{transitioned_to} यस घटनाको लागि जिम्मेवार हुनेछ; तपाईले 'स्वीकार गर्नुहोस्' क्लिक गरेपछि, %{transitioned_to}प्रणालीमा रेकर्ड मालिक बन्नुहुनेछ।
+    transfer_managed_user_rejected: '''अस्वीकार गर्नुहोस्'' मा क्लिक गरेर तपाईले %{transitioned_to} ले यो घटनाको जिम्मेवारी स्वीकार गर्न तयार नभएको संकेत गरिरहनुभएको छ। तपाईले यो घटना अस्वीकार गरिरहनुभएको कारण प्रविष्टि गर्नुहोस्; एकचोटि तपाईले ''अस्वीकार गर्नुहोस्'' क्लिक गरेपछि %{transitioned_to} सँग यो घटनाको पहुँच हुनेछैन।'
+    transfer_accepted_rejected: '%{record_id} घटनाको स्थानान्तरण अस्वीकार गरियो'
     transfer_accepted_success: केस स्थानान्तरण सफलतापूर्वक स्वीकार गरियो
     transfer_reject_reason_label: अस्वीकारको कारण
-    transfer_rejected: "\"अस्वीकार गर्नुहोस्\" क्लिक गरेर तपाईले यो समयमा यो घटनाको जिम्मेवारी स्वीकार गर्न तयार हुनुहुन्न भन्ने सङ्केत गर्दै हुनुहुन्छ । कृपया तपाईले यो घटना अस्वीकार गर्दै हुनुहुन्छ भन्ने एउटा कारण प्रविष्ट गर्नुहोस् । \"अस्वीकार गर्नुहोस्\" क्लिक गरेपछि तपाईले अब यो घटना अभिलेखमा पहुँच प्राप्त गर्न सक्नुहुने छैन ।"
+    transfer_rejected: '"अस्वीकार गर्नुहोस्" क्लिक गरेर तपाईले यो समयमा यो घटनाको जिम्मेवारी स्वीकार गर्न तयार हुनुहुन्न भन्ने सङ्केत गर्दै हुनुहुन्छ । कृपया तपाईले यो घटना अस्वीकार गर्दै हुनुहुन्छ भन्ने एउटा कारण प्रविष्ट गर्नुहोस् । "अस्वीकार गर्नुहोस्" क्लिक गरेपछि तपाईले अब यो घटना अभिलेखमा पहुँच प्राप्त गर्न सक्नुहुने छैन ।'
     view_name: नाम हेर्नुहोस्
     sort_by: क्रमबद्ध गर्नुहोस्
   change_logs:
@@ -489,21 +475,21 @@ ne:
       date_of_creation: सिर्जना गरेको मिति
       registration_date: दर्ता भएको मिति
   configurations:
-    apply_label: "के तपाई निश्चित हुनुहुन्छ ? यदि तपाईले लागु गर्नुभयो भने, यो कन्फिगरेसनको सेटिङ प्रणालीमा लागु गरिने छ । तपाईको हालका सबै सेटिङ हराउनु हुने छ र तपाईले तिनीहरूलाई अर्को कन्फिगरेसनमा पहिल्यै सुरक्षित नगरेसम्म तिनीहरूलाई फिर्ता प्राप्त गर्न सक्षम हुनुहुने छैन ।"
-    apply_label_bold: "परिवर्तन लोड हुँदा प्रीमेरो, प्रयोगकर्ताका लागि केही मिनेटका लागि उपलब्ध हुने छैन ।"
-    version_mismatch_tooltip: "तपाईले यो कन्फिगरेसन लागु गर्न सक्नुहुन्न किनकि तपाईको हाल चलिरहेकोभन्दा उच्च संस्करणको  प्रीमेरो प्रयोग गरेर सिर्जना गरिएको थियो । तपाईले प्रीमेरोको नयाँ संस्करण नचलाएसम्म कृपया यो कन्फिगरेसन लागु गर्न प्रतीक्षा गर्नुहोस् । "
+    apply_label: के तपाई निश्चित हुनुहुन्छ ? यदि तपाईले लागु गर्नुभयो भने, यो कन्फिगरेसनको सेटिङ प्रणालीमा लागु गरिने छ । तपाईको हालका सबै सेटिङ हराउनु हुने छ र तपाईले तिनीहरूलाई अर्को कन्फिगरेसनमा पहिल्यै सुरक्षित नगरेसम्म तिनीहरूलाई फिर्ता प्राप्त गर्न सक्षम हुनुहुने छैन ।
+    apply_label_bold: परिवर्तन लोड हुँदा प्रीमेरो, प्रयोगकर्ताका लागि केही मिनेटका लागि उपलब्ध हुने छैन ।
+    version_mismatch_tooltip: 'तपाईले यो कन्फिगरेसन लागु गर्न सक्नुहुन्न किनकि तपाईको हाल चलिरहेकोभन्दा उच्च संस्करणको  प्रीमेरो प्रयोग गरेर सिर्जना गरिएको थियो । तपाईले प्रीमेरोको नयाँ संस्करण नचलाएसम्म कृपया यो कन्फिगरेसन लागु गर्न प्रतीक्षा गर्नुहोस् । '
     send_header: प्रोडक्सनमा पठाउनुहोस्
-    send_text: "के तपाई निश्चित हुनुहुन्छ ? यदि तपाईले 'पठाउनुहोस्' क्लिक गर्नुभयो भने तपाईले यो कन्फिगरेसन प्रोडक्सन साइटमा पठाउनु हुनेछ । त्यो साइटको प्रशासकले यसलाई म्यानुअल रूपमा लागु नगरेसम्म यो कन्फिगरेसन उत्पादनमा लागु गरिने छैन ।"
+    send_text: के तपाई निश्चित हुनुहुन्छ ? यदि तपाईले 'पठाउनुहोस्' क्लिक गर्नुभयो भने तपाईले यो कन्फिगरेसन प्रोडक्सन साइटमा पठाउनु हुनेछ । त्यो साइटको प्रशासकले यसलाई म्यानुअल रूपमा लागु नगरेसम्म यो कन्फिगरेसन उत्पादनमा लागु गरिने छैन ।
     attributes:
-      created_by: "सिर्जना गर्ने :"
+      created_by: 'सिर्जना गर्ने :'
       date_created: सिर्जना गरिएको मिति
       description: विवरण
-      last_applied_by: "अन्तिम पटक लागु गर्ने :"
+      last_applied_by: 'अन्तिम पटक लागु गर्ने :'
       last_applied_on: मा अन्तिम पटक लागु गरिएको
-      name: " नाम "
+      name: ' नाम '
       version: कन्फिगरेसन संस्करण
       primero_version: प्राइमरो संस्करण
-    delete_label: "तपाई यो कार्य गर्न निश्चित हुनुहुन्छ ? यसले कन्फिगरेसन सिर्जना भएको समयदेखि सबै सेटिङको प्रतिनिधित्व गर्दछ । तपाईले यो कन्फिगरेसन मेटनु भयो भने यी सेटिङहरू पुन: प्राप्त गर्न सक्नुहुने छैन ।"
+    delete_label: 'तपाई यो कार्य गर्न निश्चित हुनुहुन्छ ? यसले कन्फिगरेसन सिर्जना भएको समयदेखि सबै सेटिङको प्रतिनिधित्व गर्दछ । तपाईले यो कन्फिगरेसन मेटनु भयो भने यी सेटिङहरू पुन: प्राप्त गर्न सक्नुहुने छैन ।'
     explanation: '"सुरक्षित" क्लिक गर्दा यो समयमा हालको सबै कन्फिगरेसन सेटिङ (उदाहरणका लागि : ‌भूमिका, एजेन्सी, फारम) को अभिलेख सिर्जना हुने छ । सुरक्षित गरेपछि, तपाईले यी परिवर्तनहरूलाई प्रीमेरोको अर्को संस्करणमा पठाउन सक्नुहुन्छ । यदि, भविष्यमा, तपाईले पूर्वस्थितिमा फर्काउन चाहेर कन्फिगरेसन परिवर्तन गरेमा, तपाईले यो बेलामा भएको सबै कन्फिगरेसन परिवर्तनहरू पूर्वावस्थामा ल्याउन यो कन्फिगरेसन अभिलेखबाट गर्न सक्नुहुन्छ ।'
     label: कन्फिगरेसन
     label_new: नयाँ कन्फिगरेसन
@@ -539,28 +525,28 @@ ne:
     updated: आचार संहिता सफलतापूर्वक अद्यावधिक गरियो ।
   dashboard:
     activity: क्रियाकलाप
-    admin_only: "आवेदनमा परिवर्तन गर्न %{links}मा क्लिक गर्नुहोस्"
+    admin_only: आवेदनमा परिवर्तन गर्न %{links}मा क्लिक गर्नुहोस्
     all_cases: सबै घटनाहरू
     all_services_implemented: सबै सेवाहरू कार्यान्वयन गरियो
     and: 'र'
     approval_action_plan_approved: स्वीकृत
-    approval_action_plan_pending: "विचाराधीन "
+    approval_action_plan_pending: 'विचाराधीन '
     approval_action_plan_pending_group: कार्य योजना
     approval_action_plan_rejected: अस्वीकृत
     approval_assessment_approved: स्वीकृत
-    approval_assessment_pending: "विचाराधीन "
+    approval_assessment_pending: 'विचाराधीन '
     approval_assessment_pending_group: मूल्याङ्कन गर्नुहोस्
     approval_assessment_rejected: अस्वीकृत
     approval_case_plan_approved: स्वीकृत
-    approval_case_plan_pending: "विचाराधीन "
+    approval_case_plan_pending: 'विचाराधीन '
     approval_case_plan_pending_group: घटना योजना
     approval_case_plan_rejected: अस्वीकृत
     approval_closure_approved: स्वीकृत
-    approval_closure_pending: "विचाराधीन "
+    approval_closure_pending: 'विचाराधीन '
     approval_closure_pending_group: समापन
     approval_closure_rejected: अस्वीकृत
     approval_gbv_closure_approved: स्वीकृत
-    approval_gbv_closure_pending: "विचाराधीन "
+    approval_gbv_closure_pending: 'विचाराधीन '
     approval_gbv_closure_pending_group: GBV समापन
     approval_gbv_closure_rejected: अस्वीकृत
     approvals: अनुमतिहरू
@@ -572,7 +558,7 @@ ne:
     approved: स्वीकृत
     assessment: मूल्याङ्कन गर्नुहोस्
     awaiting_acceptance: स्वीकृति पर्खिरहेको छ
-    cases_by_social_worker_total: "जम्मा "
+    cases_by_social_worker_total: 'जम्मा '
     cases_by_social_worker_new_or_updated: नयाँ र अद्यावधिक
     case_id: 'घटना आइ डी#'
     case_management_service: घटना व्यवस्थापन सेवा
@@ -583,10 +569,10 @@ ne:
     case_stat_by_assessment_level: मूल्याङ्कनस्तर अनुसार घटनाहरु
     case_stat_referrals: रिफरलहरु
     case_stats: घटनाहरू
-    case_worker: "घटना कामदार "
+    case_worker: 'घटना कामदार '
     cases_by_social_worker: सामाजिक कार्यकर्ता अनुसार घटनाहरु
     cases_by_task_overdue: म्याद नाघेको कार्य
-    cases_by_workflow: "कार्य प्रवाह अनुसार घटनाहरू "
+    cases_by_workflow: 'कार्य प्रवाह अनुसार घटनाहरू '
     cases_this_week: यो हप्ताका घटनाहरू
     cases_to_assign: जिम्मेवारी तोक्नुपर्ने घटना
     closed: बन्द गरिएको
@@ -603,17 +589,17 @@ ne:
       one: '%{stat}नयाँ %{stat_type} स्वीकृतिहरू'
       other: '%{stat}नयाँ %{stat_type} स्वीकृतिहरू'
     count_pending_approval_total:
-      one: 'तपाईंँसित %{stat}विचाराधीन स्वीकृतिहरू %{stat_type}छन् ।'
-      other: 'तपाईसँग %{stat} विचाराधीन %{stat_type}स्वीकृतिहरू छन् ।'
+      one: तपाईंँसित %{stat}विचाराधीन स्वीकृतिहरू %{stat_type}छन् ।
+      other: तपाईसँग %{stat} विचाराधीन %{stat_type}स्वीकृतिहरू छन् ।
     count_pending_transfers:
-      one: 'तपाईंँसित %{stat}विचाराधीन स्थानान्तरणहरू छन्। '
-      other: 'तपाईसँग %{stat}विचाराधीन स्थानान्तरणहरू छन् ।'
+      one: तपाईंँसित %{stat}विचाराधीन स्थानान्तरणहरू छन्। 
+      other: तपाईसँग %{stat}विचाराधीन स्थानान्तरणहरू छन् ।
     count_records_new:
       one: र %{stat}नयाँ केस 
       other: र %{stat}नयाँ केसहरु
     count_records_total:
       one: 'तपाईंँसित जम्मा %{stat}केसहरू छन्। '
-      other: 'तपाईसँग %{stat}जम्मा केसहरू छन्'
+      other: तपाईसँग %{stat}जम्मा केसहरू छन्
     count_referrals_new:
       one: र %{stat} नयाँ रेफेरलहरू
       other: 'र %{stat}नयाँ रेफेरलहरू  '
@@ -621,18 +607,18 @@ ne:
       one: 'तपाईंँसित %{stat}जम्मा रेफेरलहरू छन्। '
       other: 'तपाईसँग जम्मा %{stat}रेफेरलहरू छन्।  '
     count_rejected_approval_total:
-      one: 'र %{stat}अस्वीकृत %{stat_type}स्वीकृति'
+      one: र %{stat}अस्वीकृत %{stat_type}स्वीकृति
       other: '%{stat}र अस्वीकृत %{stat_type}स्वीकृतिहरू'
     count_rejected_transfers:
-      one: 'तपाईंँसित %{stat}अस्वीकृत रेफेरलहरू छन्।'
-      other: 'र %{stat}अस्वीकृत स्थानान्तरणहरू'
+      one: तपाईंँसित %{stat}अस्वीकृत रेफेरलहरू छन्।
+      other: र %{stat}अस्वीकृत स्थानान्तरणहरू
     count_risk_level_new:
       one: 'र %{stat}नयाँ%{stat_type}जोखिम केसहरू '
       other: 'र %{stat}नयाँ %{stat_type}जोखिम केसहरू '
     count_risk_level_total:
-      one: 'तपाईंँसित %{stat} %{stat_type}जोखिम केसहरू छन्। '
-      other: 'तपाईसँग %{stat} %{stat_type}जोखिम केसहरू छन्।'
-    count_waiting_for_acceptance_transfers: "%{stat}स्थानान्तरणको लागि तपाईँले स्वीकृतिको प्रतीक्षा रहेको छ"
+      one: तपाईंँसित %{stat} %{stat_type}जोखिम केसहरू छन्। 
+      other: तपाईसँग %{stat} %{stat_type}जोखिम केसहरू छन्।
+    count_waiting_for_acceptance_transfers: '%{stat}स्थानान्तरणको लागि तपाईँले स्वीकृतिको प्रतीक्षा रहेको छ'
     current_owner: हालको मालिक
     dash_case_incident_overview: मेरो केसहरू
     dash_group_overview: मेरो समूहको केसहरू
@@ -671,15 +657,15 @@ ne:
     low_level: न्यून
     low_risk: न्यून प्राथमिकता
     manager_count_closed_total:
-      one: 'र %{stat}बन्द केसहरू'
-      other: 'र %{stat}बन्द केसहरू'
+      one: र %{stat}बन्द केसहरू
+      other: र %{stat}बन्द केसहरू
     manager_count_open_total:
-      one: 'तपाईंँसित %{stat}खुल्ला  केसहरू छन्। '
+      one: तपाईंँसित %{stat}खुल्ला  केसहरू छन्। 
       other: 'तपाईसँग %{stat} खुल्ला केसहरू छन्।   '
     manager_transfers_totals:
-      one: 'तपाईंँसित %{stat}%{stat_type} स्थानान्तरणहरू छन्। '
-      other: 'तपाईसँग %{stat}%{stat_type} स्थानान्तरणहरू छन्।'
-    match_result: "मिलदो नतिजा "
+      one: तपाईंँसित %{stat}%{stat_type} स्थानान्तरणहरू छन्। 
+      other: तपाईसँग %{stat}%{stat_type} स्थानान्तरणहरू छन्।
+    match_result: 'मिलदो नतिजा '
     medium_level: मध्यम
     medium_risk: मध्यम प्राथमिकता
     missed_cases: छुटेका घटनाहरू
@@ -710,22 +696,22 @@ ne:
     number_of_violations_verified: उल्लङ्घन प्रमाणित भएको
     open: खोल्नुहोस्
     open_cases: घटनाहरू खोल्नुहोस्
-    open_incidents: "खुला घटना "
+    open_incidents: 'खुला घटना '
     outstanding_transfers: Outstanding ट्रान्सफर
     overdue_activities: म्याद नाघेका क्रियाकलापहरू
     overdue_cases_to_assign: तोकिनुपर्ने म्याद नाघेका घटनाहरू
     overdue_cases_to_assign_high: तपाई सँग यी घटनाहरू १ घण्टा भन्दा बढी देखी रहेको छ ।
     overdue_cases_to_assign_low: तपाई सँग यी घटनाहरू ३ घण्टा भन्दा बढी देखी रहेको छ ।
     overview: अवलोकन
-    pending: "विचाराधीन "
+    pending: 'विचाराधीन '
     pending_approvals: विचाराधीन स्वीकृति
     pending_transfers: विचाराधीन स्थानान्तरण
     protection_concern: संरक्षण सवालहरु
     protection_concerns: संरक्षण सवालहरु
     range12+: १२+
-    range4: "०-४ "
+    range4: '०-४ '
     range4_8: ४-८
-    range8_12: "८-१२ "
+    range8_12: '८-१२ '
     recent_activities: हालका गतिविधिहरू
     recently_flagged_child: हालसालै फ्ल्याग गरिएका घटनाहरू
     recently_flagged_incident: हालसालै फ्ल्याग गरिएका घटनाहरू
@@ -744,7 +730,7 @@ ne:
     shared_from_my_team_rejected_transfers: अस्वीकृत स्थानान्तरणहरू
     shared_with_me_new_referrals: नयाँ रेफेरलहरू
     shared_with_me_total_referrals: जम्मा रेफेरलहरू
-    shared_with_me_transfers_awaiting_acceptance: "स्वीकृतिको प्रतीक्षामा स्थानान्तरणहरू "
+    shared_with_me_transfers_awaiting_acceptance: 'स्वीकृतिको प्रतीक्षामा स्थानान्तरणहरू '
     shared_with_my_team_pending_transfers_overview: स्थानान्तरण स्वीकृतिको लागि पर्खिरहेको छ
     shared_with_my_team_pending_transfers: विचाराधीन स्थानान्तरणहरू
     shared_with_my_team_referrals: रेफेरलहरू
@@ -803,18 +789,16 @@ ne:
     password_extra_info: पासवर्ड कम्‍तीमा ८अक्षरको हुनुपर्छ । यो पासवर्ड export गरिएको फाइलसँग सम्बन्धित हुने छ र भविष्यमा यो फाइल खोल्ने जोसुकैद्वारा प्रविष्ट गर्नुपर्ने छ ।
     password_label: कृपया तपाईको फाइल encrypt गर्ने पासवर्ड प्रविष्ट गर्नुहोस् ।
   error_message:
-    address_fields: "तपाईले %{forms} फारमका %{fields} फिल्डहरूलाई सम्बोधन गर्न आवश्यक छ"
-    address_form_fields: "तपाईले फारमका %{fields} क्षेत्रहरूलाई सम्बोधन गर्न आवश्यक छ"
+    address_fields: तपाईले %{forms} फारमका %{fields} फिल्डहरूलाई सम्बोधन गर्न आवश्यक छ
+    address_form_fields: तपाईले फारमका %{fields} क्षेत्रहरूलाई सम्बोधन गर्न आवश्यक छ
     address_subform_fields: '%{subform} मा %{fields} अवैध फिल्डहरु छन्'
   error_page:
     not_authorized:
-      code: 403
       server_error: तपाईलाई यो पृष्ठमा पहुँच राख्न अधिकार प्राप्त छैन ।
       title: अधिकार प्राप्त छैन
     not_found:
-      code: 404
-      contact_admin: "यदि तपाई त्रुटिको कारण यहाँ छु भन्ने लाग्छ छ भने, कृपया तपाईको एडमिनसँग सम्पर्क गर्नुहोस् ।"
-      something_went_wrong: "माफ गर्नुहोस्, केही त्रुटि भयो"
+      contact_admin: यदि तपाई त्रुटिको कारण यहाँ छु भन्ने लाग्छ छ भने, कृपया तपाईको एडमिनसँग सम्पर्क गर्नुहोस् ।
+      something_went_wrong: माफ गर्नुहोस्, केही त्रुटि भयो
   errors:
     error_loading: रेकर्ड(हरु) लोड गर्दा त्रुटि
     models:
@@ -828,23 +812,23 @@ ne:
         date_of_birth: कृपया यो घटना अभिलेखका लागि वैध जन्ममिति प्रविष्ट गर्नुहोस् ।
       export_configuration:
         opt_out_field_does_not_exist: निर्दिष्ट opt_out  क्षेत्र अभिलेखमा छैन ।
-        record_type: "अवैध अभिलेख प्रकार। बालबालिका, ट्रेसिङ अनुरोध वा घटना हुनैपर्छ। "
+        record_type: 'अवैध अभिलेख प्रकार। बालबालिका, ट्रेसिङ अनुरोध वा घटना हुनैपर्छ। '
       field:
-        translated_options_do_not_match: "फिल्ड अनुवाद गरिएको विकल्पमा उस्तै आईडी हुनुपर्दछ । "
+        translated_options_do_not_match: 'फिल्ड अनुवाद गरिएको विकल्पमा उस्तै आईडी हुनुपर्दछ । '
       location:
         admin_level_present: खाली हुनु हुँदैन
         code_present: खाली हुनु हुँदैन
         name_present: खाली हुनु हुँदैन
-        unique_location_code: "त्यो लोकेसन कोड भएको स्थान पहिलै ने अवस्थित छ, कृपया फरक लोकेसन कोड प्रविष्ट गर्नुहोस् ।"
+        unique_location_code: त्यो लोकेसन कोड भएको स्थान पहिलै ने अवस्थित छ, कृपया फरक लोकेसन कोड प्रविष्ट गर्नुहोस् ।
       lookup:
         being_used: यो खोजी भइरहेको छ र मेट्न सकिँदैन ।
         name_present: नाम खाली हुनु हुँदैन
-        values_ids_blank: " एउटा lookup_value आईडी खाली छ"
+        values_ids_blank: ' एउटा lookup_value आईडी खाली छ'
       primero_module:
         associated_record_types: कम्‍तीमा एउटा अभिलेख प्रकार यो मोड्युलसँग सम्बन्धित हुनुपर्दछ
         form_section_ids: ‌कम्तीमा एउटा फारम यो मोड्युलसँग सम्बन्धित हुनुपर्दछ
         name_present: नाम खाली हुनु हुँदैन
-        unique_name: "त्यो नामको मोड्युल पहिल्यै रहेको छ, कृपया फरक नाम प्रविष्ट गर्नुहोस् ।"
+        unique_name: त्यो नामको मोड्युल पहिल्यै रहेको छ, कृपया फरक नाम प्रविष्ट गर्नुहोस् ।
       report:
         module_presence: मोड्युल खाली हुनु ‌हुँदैन
         module_syntax: सबै प्रतिवेदन मोड्युल पहिल्यै रहेको हुनुपर्दछ
@@ -854,7 +838,7 @@ ne:
       user:
         email: "कृपया वैध इमेल प्रविष्ट गर्नुहोस् (उदाहरण: 'name@example.org')"
         password_mismatch: पासवर्ड क्षेत्रमा प्रविष्टि गरिएको पासवर्ड समान छैन
-        password_length: "पासवर्ड कम्तीमा %{min} अक्षरको हुनुपर्दछ"
+        password_length: पासवर्ड कम्तीमा %{min} अक्षरको हुनुपर्दछ
         email_uniqueness: यो इमेल भएको प्रयोगकर्ता पहिले नै हुनुहुन्छ । कृपया भिन्न इमेल प्रविष्ट गर्नुहोस् ।
       code_of_conduct:
         title_present: शीर्षक खाली हुनु हुँदैन
@@ -875,7 +859,7 @@ ne:
       all: कस्टम
     custom_exports:
       all: कस्टम
-      choose_fields: "के तपाई फारमका लागि एउटा-एउटा गरी फिल्डहरु रोज्न चाहनु हुन्छ ?"
+      choose_fields: के तपाई फारमका लागि एउटा-एउटा गरी फिल्डहरु रोज्न चाहनु हुन्छ ?
       empty_fields_forms: निर्यात गर्नका लागि कृपया केही फारामहरू वा फिल्डहरू छनौट गर्नुहोस् ।
       empty_format: कृपया export गर्न का लागि एउटा ढाँचा छनौट गर्नुहोस् ।
       empty_module: कृपया export गर्न का लागि एउटा मोड्युल छनौट गर्नुहोस् ।
@@ -886,16 +870,16 @@ ne:
       format_label: ढाँचा छनौट गर्नुहोस्
       forms: export गर्न फारम छनौट गर्नुहोस्
       label: कस्टम export
-      module_placeholder: "मोड्युल छनौट गर्नुहोस् "
-      select_module: "मोड्युल छनौट गर्नुहोस् "
+      module_placeholder: 'मोड्युल छनौट गर्नुहोस् '
+      select_module: 'मोड्युल छनौट गर्नुहोस् '
       submit: ‌ठिक छ
       header: हेडर
       custom_header: कस्टम हेडर
       signatures: यसका लागि हस्ताक्षर लाइनहरू समावेश गर्नुहोस्
-      include_implementation_logos: "कार्यान्वयन लोगो समावेश गर्नुहुन्छ ?"
+      include_implementation_logos: कार्यान्वयन लोगो समावेश गर्नुहुन्छ ?
       include_implementation_logos_help_text: यसले नेभिगेसन मेनु र लगइन पृष्ठमा देखिने लोगो समावेश गर्ने छ ।
-      include_agency_logo: "निकायको लोगो समावेश गर्नुहुन्छ ?"
-      include_other_logos: "अन्य लोगो समावेश गर्नुहुन्छ ?"
+      include_agency_logo: निकायको लोगो समावेश गर्नुहुन्छ ?
+      include_other_logos: अन्य लोगो समावेश गर्नुहुन्छ ?
     duplicate_id_csv:
       all: दोहोरिएको आईडी
       female_abbreviation: महिला
@@ -908,7 +892,7 @@ ne:
         national_id_no: राष्ट्रिय परिचयपत्र नं
         progress_id: प्रगति आईडी
         sex_mapping_m_f_u: लिङ्ग
-        other_agency_id: " अस्पतालको कोड र बिरामी नम्बर"
+        other_agency_id: ' अस्पतालको कोड र बिरामी नम्बर'
       male_abbreviation: पुरुष
       unknown_abbreviation: U
     exported: Export फाइल सफलतापूर्वक सिर्जना गरियो
@@ -927,7 +911,7 @@ ne:
         on_short_form: छोटकरीमा
         option_ids: विकल्पहरुको आईडी
         options: विकल्पहरु
-        options_lookup: "खोजी "
+        options_lookup: 'खोजी '
         help_text: सहयोगी पाठ
         guiding_questions: मार्गदर्शक प्रश्नहरू
         visible: दृश्यात्मक
@@ -948,15 +932,14 @@ ne:
         form: प्रीमेरो फारमहरु
         status: स्थिति
         notes: नोटहरू
-
     go_to_exports: डाउनलोड गर्न Export पेजमा जानुहोस्
     incident_recorder_xls:
       all: घटना अभिलेखकर्ता
       one: घटना अभिलेखकर्ता
       selected: घटना अभिलेखकर्तामा छनौट गरिएको
     json:
-      all: "JSON "
-      one: "JSON "
+      all: 'JSON '
+      one: 'JSON '
       selected: JSON मा छनौट गरिएको
     list_view_csv:
       all: list view export गर्नुहोस्
@@ -987,11 +970,11 @@ ne:
       flag_suspect_record: शंकास्पद अभिलेखको रूपमा फ्ल्याग्ड गरिएको
       no_photos_available: कुनै तस्बिर उपलब्ध छैन
       one: भित्ता चित्र
-      reunited: "पुन: एक भएको"
+      reunited: 'पुन: एक भएको'
       selected: भित्ता चित्रमा छनौट गरिएको
-      success_message: "%{file_name} फोटोवाल सिर्जना गर्दै।  तस्बिर बिनाका घटनाहरू समावेश हुनै छैन ।"
+      success_message: '%{file_name} फोटोवाल सिर्जना गर्दै।  तस्बिर बिनाका घटनाहरू समावेश हुनै छैन ।'
     printed: 'छापिएको: %{date}'
-    queueing: "export फाईल %{file_name}सिर्जना भईरहेको"
+    queueing: export फाईल %{file_name}सिर्जना भईरहेको
     selected_xls:
       all: एक्सेल
       one: एक्सेल
@@ -1013,7 +996,7 @@ ne:
         governorate_country: राज्यपाल - देश
         id: आईडी#
         individual_progress_id: व्यक्तिगत प्रगति आईडी
-        locations_by_level: "ठेगाना (शिविर, ब्लक र अन्य लागु हुने ठेगानाका स्तरहरू जस्तै आश्रयस्थलको जीपीएस तथ्याङ्क)"
+        locations_by_level: ठेगाना (शिविर, ब्लक र अन्य लागु हुने ठेगानाका स्तरहरू जस्तै आश्रयस्थलको जीपीएस तथ्याङ्क)
         long_id: लामो आईडी
         moha_id: MOHA आईडी
         name_of_caregiver: हेरचाहकर्ताको पूरा नाम
@@ -1059,7 +1042,7 @@ ne:
     failed: 'Last sync: असफल'
     last: 'Last Sync:%{date_time}'
     not_found: 'Last Sync: तथ्याङ्क भेटिएन'
-    retrieving: "तथ्याङ्क पुन: प्राप्ति"
+    retrieving: 'तथ्याङ्क पुन: प्राप्ति'
     see_details: विवरण हेर्नुहोस्
   fields:
     action: कार्य
@@ -1068,7 +1051,7 @@ ne:
     add_new_field: नयाँ फिल्ड सिर्जना गर्नुहोस्
     add_existing_field: अवस्थित फिल्ड थप्नुहोस्
     add_field: फिल्ड थप्नुहोस्
-    add_field_type: "%{file_type}थप्नुहोस्"
+    add_field_type: '%{file_type}थप्नुहोस्'
     audio:
       current: वर्तमान अडियो
     audio_upload_box: अडियो अपलोड गर्नुहोस्
@@ -1082,7 +1065,7 @@ ne:
     create_unique_values: युनिक value हरु सिर्जना गर्नुहोस्
     date_field: मिति क्षेत्र
     date_help: मिति-महिना-वर्ष
-    date_help_with_time: "मिति-महिना-वर्ष घण्टा:मिनेट"
+    date_help_with_time: मिति-महिना-वर्ष घण्टा:मिनेट
     date_not_valid: यो मिति मान्य छैन
     time: समय
     date_range:
@@ -1094,21 +1077,21 @@ ne:
     date_range_field: मिति दायरा
     date_time: मिति समय
     db_name: डाटाबेस नाम
-    default: "पूर्वनिर्धारित ?"
+    default: पूर्वनिर्धारित ?
     default_date_validation: पूर्वनिर्धारित मिति प्रमाणीकरण
     default_to_current_date: वर्तमान मितिमा पूर्वनिर्धारित
-    default_to_current_datetime: "वर्तमान मिति र समयमा पूर्वनिर्धारित ?"
+    default_to_current_datetime: वर्तमान मिति र समयमा पूर्वनिर्धारित ?
     default_value: पूर्वनिर्धारित मान
-    deleted: "%{display_name}फिल्ड मेटिएको छ"
+    deleted: '%{display_name}फिल्ड मेटिएको छ'
     detail: विस्तार
     disabled: निष्क्रिय पारिएको
     display_name: देखाउने नाम
     document:
       comments: टिप्पणीहरू
-      current: "के यो वर्तमान दस्तावेज हो ?"
+      current: के यो वर्तमान दस्तावेज हो ?
       date: दस्तावेज मिति
       name: दस्तावेजको नाम
-      is_current: "के यो वर्तमान दस्तावेज हो ?"
+      is_current: के यो वर्तमान दस्तावेज हो ?
     document_upload_box: दस्तावेज अपलोड गर्नुहोस् ।
     edit_label: फिल्ड सम्पादन गर्नुहोस्
     enabled: सक्रिय पारिएको
@@ -1121,7 +1104,7 @@ ne:
       add_document_label: दस्तावेज थप्नुहोस्
       add_new_document_button_text: अर्को दस्तावेज थप्नुहोस्
       add_new_photo_button_text: अर्को फोटो थप्नुहोस्
-      add_photo_label: " फोटो थप्नुहोस्"
+      add_photo_label: ' फोटो थप्नुहोस्'
       document_description: दस्तावेज विवरण
       document_file_restrictions_message: फाईलहरू २ MB भन्दा ठुलो हुनु हुँदैन (executable (.exe) फाईलहरु अपलोड गर्न सकिँदैन)।
       no_file_selected: कुनै फाइल चयन गरिएको छैन
@@ -1145,7 +1128,7 @@ ne:
     not_future_date: भविष्यको मिति होइन
     number_not_valid: कृपया संख्यात्मक तथ्याङ्क प्रविष्ट गर्नुहोस्
     numeric_field: नम्बर फिल्ड
-    on_collapsed_subform: "कोल्यापस भएका सहायक फारममा ?"
+    on_collapsed_subform: कोल्यापस भएका सहायक फारममा ?
     option_strings_add_option: विकल्प थप्नुहोस्
     option_strings_source: खोजी
     option_strings_text: विकल्प
@@ -1159,7 +1142,7 @@ ne:
     predifined_lookups: पूर्व परिभाषित लुकअपको प्रयोग गर्नुहोस्
     radio_button: रेडियो बटन
     remove: हटाउनुहोस्
-    remove_attachment_confirmation: "के तपाई यहाँ संलग्न सामाग्री पक्का हटाउन चाहानुहुन्छ ?"
+    remove_attachment_confirmation: के तपाई यहाँ संलग्न सामाग्री पक्का हटाउन चाहानुहुन्छ ?
     required: आवश्यक छ
     required_field: '%{field}आवश्यक छ'
     search_existing: पहिल्यै रहेको फिल्डहरु खोज्नुहोस्
@@ -1168,11 +1151,11 @@ ne:
     select_multiple: लागु हुने सबै छनौट गर्नुहोस्
     select_single: (छनौट गर्नुहोस् ...)
     separator: विभाजक
-    show: "देखाउनु ?"
+    show: देखाउनु ?
     show_on: देखाउनुहोस्
     show_on_minify_form: छोटो रूप
     skip_logic:
-      name: "स्किप लजिक?"
+      name: स्किप लजिक?
       record_section:
         title: रेकर्ड भएमा यो फिल्ड देखिने हुनुपर्छ
         buttons:
@@ -1181,15 +1164,15 @@ ne:
         title: यदि सहायक फारम छ भने यो फिल्ड देखिने हुनुपर्छ
         buttons:
           add: सहायक फारमको शर्त थप्नुहोस्
-    subform: "साहयक फारम "
-    subform_group_by: "समूहगत बनाउनुहोस् । "
-    subform_remove_message: "के तपाइँ यो सहायक फारम पक्का हटाउन चाहानु हुन्छ?"
+    subform: 'साहयक फारम '
+    subform_group_by: 'समूहगत बनाउनुहोस् । '
+    subform_remove_message: के तपाइँ यो सहायक फारम पक्का हटाउन चाहानु हुन्छ?
     subform_section:
       description: सहायक फारमको विवरण
       name: सहायक फारमको शीर्षक
-      starts_with_one_entry: "एउटा सहायक फारमको प्रविष्टिबाट सुरु गर्ने ? "
+      starts_with_one_entry: 'एउटा सहायक फारमको प्रविष्टिबाट सुरु गर्ने ? '
       subform_append_only: मोबाइलमा Selective syncing
-      subform_prevent_item_removal: "सहायक फारम प्रविष्टि हटाउन रोक्नुहोस् ?"
+      subform_prevent_item_removal: सहायक फारम प्रविष्टि हटाउन रोक्नुहोस् ?
     subform_sort_by: Sort by
     successfully_added: क्षेत्र सफलतापूर्वक थपियो
     tally_field: तुलना गर्नुहोस्
@@ -1204,7 +1187,7 @@ ne:
     total: जम्मा
     type: प्रकार
     updated: फिल्ड अपडेट गरियो
-    visibility: "दृश्यता "
+    visibility: 'दृश्यता '
     web_app: वेब एप
   filters:
     apply_filters: पेश गर्नु
@@ -1270,11 +1253,11 @@ ne:
       approvals: अनुमतिहरू
       case: घटना
       child: घटना
-      incident: "घटना "
+      incident: 'घटना '
       individual_victim: व्यक्तिगत पीडित व्यक्ति
       potential_match: मेल खाने सम्भावना भएको
       record_information: रेकर्ड विवरण
-      referrals: "रेफेरलहरू "
+      referrals: 'रेफेरलहरू '
       reportable_follow_up: फलोअप
       reportable_protection_concern: संरक्षण सवालहरु
       reportable_service: सेवाहरू
@@ -1289,7 +1272,7 @@ ne:
     show_on: मा देखाइएको छ
     subform_need_to_be_added: उनीहरूलाई थप्नु आवश्यक छ
     subform_need_to_be_added_single: यो थप्न आवश्यक छ।
-    subform_not_found: "%{subform_name} भेटिएन"
+    subform_not_found: '%{subform_name} भेटिएन'
     title: फारम शीर्षक
     translations:
       edit: अनुवाद सम्पादन गर्नुहोस्
@@ -1301,10 +1284,10 @@ ne:
       select_language: भाषा छनोट गर्नुस्
       title: अनुवाद
     type_label: प्रकार
-    visibility: "दृश्यता "
+    visibility: 'दृश्यता '
     web_app: वेब एप
     skip_logic:
-      name: "स्किप लजिक?"
+      name: स्किप लजिक?
       section:
         title: यो फारम देखिनु पर्दछ यदि
         buttons:
@@ -1324,7 +1307,7 @@ ne:
           display_text: वा यो अवस्था
           name: वा
   home:
-    ar: " अरबी"
+    ar: ' अरबी'
     ar-IQ: अरबी (इराकी)
     ar-JO: अरबी (जोर्डन)
     ar-LB: अरबी (लेबनानी)
@@ -1371,9 +1354,9 @@ ne:
     code: घटना कोड
     associated_case: "सम्बन्धित केस :"
     messages:
-      creation_success: "घटना अभिलेख सफलतापूर्वक सिर्जना गरिएको "
-      creation_success_queue: "घटना अभिलेख सफलतापूर्वक पृष्ठभूमिमा सिर्जना गरिएको "
-      disabled: "घटना निष्क्रिय पारिएको "
+      creation_success: 'घटना अभिलेख सफलतापूर्वक सिर्जना गरिएको '
+      creation_success_queue: 'घटना अभिलेख सफलतापूर्वक पृष्ठभूमिमा सिर्जना गरिएको '
+      disabled: 'घटना निष्क्रिय पारिएको '
       update_success: '%{record_id}घटना सफलतापूर्वक अद्यावधिक गरिएको छ'
       update_success_queue: '%{record_id}घटना सफलतापूर्वक पृष्ठभूमिमा अद्यावधिक गरिएको छ'
     violation:
@@ -1394,10 +1377,10 @@ ne:
         military_use: विद्यालय(हरू) र/वा अस्पताल(हरू) सैन्य कार्यको लागि प्रयोग
         denial_humanitarian_access: बालबालिकाको लागि मानवीय सेावको पहुँच अस्वीकार
   incidents:
-    disable_dialog: "'ठीक छ' क्लिक गर्दा यो घटनाको स्थिति निष्क्रियमा परिवर्तन हुनेछ ।"
+    disable_dialog: '''ठीक छ'' क्लिक गर्दा यो घटनाको स्थिति निष्क्रियमा परिवर्तन हुनेछ ।'
     disable_dialog_title: घटनालाई निष्क्रिय पार्नुहोस्
     disable_success: सफलतापूर्वक निष्कृय भएको घटना
-    enable_dialog: "'ठीक छ' क्लिक गर्दा यो घटनाको स्थिति सक्रियमा परिवर्तन हुनेछ ।"
+    enable_dialog: '''ठीक छ'' क्लिक गर्दा यो घटनाको स्थिति सक्रियमा परिवर्तन हुनेछ ।'
     enable_dialog_title: घटनालाई सकृय  पार्नुहोस्
     enable_success: घटना सफलतापूर्वक सकृय भयो
     id: आईडी#
@@ -1407,7 +1390,7 @@ ne:
     incident_location: घटना स्थान
     violations: उल्लङ्घनहरू
     export: Export
-    label: "घटना "
+    label: 'घटना '
     filter_by:
       filter_category: फिल्टर समूह
       boys: बालकहरू
@@ -1420,16 +1403,16 @@ ne:
       unknown: अज्ञात
       verification_status: प्रमाणीकरण स्थिति
       violence_type: हिंसाको प्रकार
-      armed_force_group_party_name: "सशस्त्र बल, समूह, वा अन्य टोली"
+      armed_force_group_party_name: सशस्त्र बल, समूह, वा अन्य टोली
       armed_force_group_type: सशस्त्र बल समूहको प्रकार
       violations: उल्लङ्घनहरू
       individual_violations: व्यक्तिगत उल्लङ्घनहरू
       individual_age: व्यक्तिगत उमेर
       individual_sex: व्यक्तिगत लिङ्ग
       victim_deprived_liberty_security_reasons: स्वतन्त्रताबाट वञ्चित
-      reasons_deprivation_liberty: "स्वतन्त्रताबाट वञ्चित हुनुको कारण के हो ?"
+      reasons_deprivation_liberty: स्वतन्त्रताबाट वञ्चित हुनुको कारण के हो ?
       victim_facilty_victims_held: कृपया पीडित(हरू) लाई राखिएको स्थान चयन गर्नुहोस्
-      torture_punishment_while_deprivated_liberty: "के बालबालिका(हरु) स्वतन्त्रताबाट वञ्चित हुँदा यातना वा अन्य क्रूर, अमानवीय वा अपमानजनक व्यवहार वा सजायको अधिनमा थिए?"
+      torture_punishment_while_deprivated_liberty: के बालबालिका(हरु) स्वतन्त्रताबाट वञ्चित हुँदा यातना वा अन्य क्रूर, अमानवीय वा अपमानजनक व्यवहार वा सजायको अधिनमा थिए?
       verified_ghn_reported: यो घटना समावेश भएको GHN निर्दिष्ट गर्नुहोस्
       weapon_type: 'प्रयोग गरिएको हतियार/विधिको प्रकार'
       facility_impact: 'भौतिक प्रभावको प्रकार र सीमा'
@@ -1510,26 +1493,16 @@ ne:
     number_of_cases:
       title: "१. अभिलेख गरिएका केसहरूको संख्या"
       reporting_site: "रिपोर्टिङ साईट"
-      helptext: |
-        यो सूचकले प्रति महिना प्रति रिपोर्टिङ साइट कति वटा नयाँ केस खोलिन्छ भनेर गणना गर्दछ । 
-        रिपोर्टिङ साइट भन्नाले प्रयोगकर्ता संस्थाले सेवाहरू प्रदान गरिरहेको साइट र
-         सेवा प्रदायकलाई कहाँ केस रिपोर्ट गरियो भन्ने बुझिन्छ ।
+      helptext: "यो सूचकले प्रति महिना प्रति रिपोर्टिङ साइट कति वटा नयाँ केस खोलिन्छ भनेर गणना गर्दछ । \nरिपोर्टिङ साइट भन्नाले प्रयोगकर्ता संस्थाले सेवाहरू प्रदान गरिरहेको साइट र\n सेवा प्रदायकलाई कहाँ केस रिपोर्ट गरियो भन्ने बुझिन्छ ।\n"
     number_of_incidents:
       title: "२ अभिलेख गरिएका घटनाहरूको संख्या"
       reporting_site: "रिपोर्टिङ साईट"
-      helptext: |
-        यो सूचकले प्रति महिना प्रति रिपोर्टिङ साइट कति वटा नयाँ घटना खोलियो भनेर गणना गर्दछ ।
-        रिपोर्टिङ साइट भन्नाले प्रयोगकर्ता संस्थाले सेवाहरू प्रदान गरिरहेको साइट र सेवा प्रदायकलाई घटना रिपोर्ट गरिएको ठाउँ भन्ने बुझिन्छ । 
+      helptext: "यो सूचकले प्रति महिना प्रति रिपोर्टिङ साइट कति वटा नयाँ घटना खोलियो भनेर गणना गर्दछ ।\nरिपोर्टिङ साइट भन्नाले प्रयोगकर्ता संस्थाले सेवाहरू प्रदान गरिरहेको साइट र सेवा प्रदायकलाई घटना रिपोर्ट गरिएको ठाउँ भन्ने बुझिन्छ । \n"
     reporting_delay:
       title: "३. रिपोर्टिङमा ढिलाइ"
       delay: "ढिला"
       total_incidents: "कुल घटनाहरू"
-      helptext: |
-        यो सूचकले सर्भाइभरले 
-        लैङ्गिक हिंसा अनुभव गरेको र सेवा प्रदायकलाई पहिलो पटक रिपोर्ट गरेको बिचको दिनहरूको संख्यालाई गणना र वर्गीकृत गर्छ । प्रयोगकर्ता संस्थालाई पहिलो पटक घटना कहिले रिपोर्ट गरिएको थियो भन्ने आधारमा 
-        गणना गरिन्छ । विभिन्न समयावधीलाई
-         (०-३ दिन, ४-५ दिन, ६-१४ दिन, १५-३० दिन, १ महिनाभन्दा बढी; ३ महिनाभन्दा बढी) आधारमानी 
-        तथ्याङ्क वर्गीकृत गरिन्छ।
+      helptext: "यो सूचकले सर्भाइभरले \nलैङ्गिक हिंसा अनुभव गरेको र सेवा प्रदायकलाई पहिलो पटक रिपोर्ट गरेको बिचको दिनहरूको संख्यालाई गणना र वर्गीकृत गर्छ । प्रयोगकर्ता संस्थालाई पहिलो पटक घटना कहिले रिपोर्ट गरिएको थियो भन्ने आधारमा \nगणना गरिन्छ । विभिन्न समयावधीलाई\n (०-३ दिन, ४-५ दिन, ६-१४ दिन, १५-३० दिन, १ महिनाभन्दा बढी; ३ महिनाभन्दा बढी) आधारमानी \nतथ्याङ्क वर्गीकृत गरिन्छ।\n"
     service_access_delay:
       title: "सेवाको पहुँचमा ढिलाइ"
       delay: "ढिला"
@@ -1538,33 +1511,20 @@ ne:
       title: "४. मूल्याङ्कन स्थिति"
       completed: "पूरा गरिएको "
       completed_supervisor_approved: "पूरा भई पर्यवेक्षकद्वारा स्वीकृत भएको ।"
-      helptext: |
-        यो सूचकले मूल्याङ्कन फारम 
-        पूरा भएको सक्रिय केसहरूको अनुपात गणना गर्दछ । सर्भाइभरले 
-        मूल्याङ्कन फारम भित्रका अनिवार्य फिल्डहरू पूरा गरेमा मात्र मूल्याङ्कन पूरा भएको मानिन्छ ।
+      helptext: "यो सूचकले मूल्याङ्कन फारम \nपूरा भएको सक्रिय केसहरूको अनुपात गणना गर्दछ । सर्भाइभरले \nमूल्याङ्कन फारम भित्रका अनिवार्य फिल्डहरू पूरा गरेमा मात्र मूल्याङ्कन पूरा भएको मानिन्छ ।\n"
     completed_case_safety_plans:
       title: "५. केसको सुरक्षा योजना पूरा भएको"
       completed: "केसको सुरक्षा योजना पूरा भएको"
-      helptext: |
-        यो सूचकले सुरक्षा योजना आवश्यक र पूरा भइसकेको सक्रिय केसहरूको अनुपात गणना गर्दछ (जस्तै: अन्तरङ्ग साथी द्वारा हिंसा, आत्महत्या/हत्याको जोखिम, बाल संरक्षण ) ।
-        सुरक्षा योजना फारम भित्र भएको अनिवार्य फिल्डहरू पूरा भएपछि मात्र सुरक्षा योजना पूरा भएको मानिन्छ । 
+      helptext: "यो सूचकले सुरक्षा योजना आवश्यक र पूरा भइसकेको सक्रिय केसहरूको अनुपात गणना गर्दछ (जस्तै: अन्तरङ्ग साथी द्वारा हिंसा, आत्महत्या/हत्याको जोखिम, बाल संरक्षण ) ।\nसुरक्षा योजना फारम भित्र भएको अनिवार्य फिल्डहरू पूरा भएपछि मात्र सुरक्षा योजना पूरा भएको मानिन्छ । \n"
     completed_case_action_plans:
       title: "६. केसको कार्य योजना पूरा भएको"
       completed: "केसको कार्य योजना पूरा भएको"
       label: "केसको कार्य योजना पूरा भएको"
-      helptext: |
-        यो सूचकले केस कार्य योजना पूरा भएको सक्रिय केसहरूको अनुपात गणना गर्दछ । 
-        केस योजना फारमका 
-        अनिवार्य फिल्डहरु पूरा भएपछि मात्र केस कार्य योजना सम्पन्न भएको मानिन्छ ।
+      helptext: "यो सूचकले केस कार्य योजना पूरा भएको सक्रिय केसहरूको अनुपात गणना गर्दछ । \nकेस योजना फारमका \nअनिवार्य फिल्डहरु पूरा भएपछि मात्र केस कार्य योजना सम्पन्न भएको मानिन्छ ।\n"
     completed_supervisor_approved_case_action_plans:
       title: "७. पर्यवेक्षकबाट स्वीकृत भएको केसको कार्य योजना"
       completed_and_approved: "पर्यवेक्षकबाट स्वीकृत सम्पन्न भएको केसको कार्य योजना"
-      helptext: |
-        यो सूचकले केस कार्य योजना पूरा भएको 
-        र पर्यवेक्षणद्वारा स्विकृत भएको सक्रिय केसहरूको अनुपात गणना गर्दछ । केस योजना फारमका 
-        अनिवार्य फिल्डहरु पूरा भएपछि मात्र केस कार्य योजना सम्पन्न भएको मानिन्छ ।केसवर्करले कार्य योजनाको लागि स्विकृति अनुरोध गरेर पर्यवेक्षणद्वारा प्लेटफर्ममा 
-        स्विकृत भएपछि केस कार्य योजना 
-        स्वीकृत भएको मानिन्छ ।
+      helptext: "यो सूचकले केस कार्य योजना पूरा भएको \nर पर्यवेक्षणद्वारा स्विकृत भएको सक्रिय केसहरूको अनुपात गणना गर्दछ । केस योजना फारमका \nअनिवार्य फिल्डहरु पूरा भएपछि मात्र केस कार्य योजना सम्पन्न भएको मानिन्छ ।केसवर्करले कार्य योजनाको लागि स्विकृति अनुरोध गरेर पर्यवेक्षणद्वारा प्लेटफर्ममा \nस्विकृत भएपछि केस कार्य योजना \nस्वीकृत भएको मानिन्छ ।\n"
     services_provided:
       title: "८. प्रदान गरिएको सेवाहरु"
       service: "सेवा"
@@ -1573,13 +1533,10 @@ ne:
       female: "महिला"
       0-11: "०-११"
       12-17: "१२-१७ "
-      ">18": ">१८ "
+      '>18': ">१८ "
       disability: "अशक्त"
       no_disability: "अशक्त  नभएको"
-      helptext: |
-        यो सूचकले घटना व्यवस्थापन 
-        प्रक्रियामा सर्भाइभरहरूलाई प्रदान गरिएको सेवा(हरू) को प्रकारको गणना गर्दछ। सेवा प्रदान गरिएको भन्नाले संस्था भित्रबाटै प्रदान गरिएको सेवा बुझिन्छ 
-        र यसले अन्य सेवाहरू गरिएको रिफरल वा आन्तरिक रिफरललाई बुझिदैन । 
+      helptext: "यो सूचकले घटना व्यवस्थापन \nप्रक्रियामा सर्भाइभरहरूलाई प्रदान गरिएको सेवा(हरू) को प्रकारको गणना गर्दछ। सेवा प्रदान गरिएको भन्नाले संस्था भित्रबाटै प्रदान गरिएको सेवा बुझिन्छ \nर यसले अन्य सेवाहरू गरिएको रिफरल वा आन्तरिक रिफरललाई बुझिदैन । \n"
     average_referrals:
       title: "९. औसत रिफरल"
       label: "प्रति केस औसत रिफरल"
@@ -1590,41 +1547,25 @@ ne:
     average_followup_meetings_per_case:
       title: "१०. प्रति केस औसत फलोअप बैठकहरू"
       label: "प्रति केस औसत फलोअप बैठकहरू"
-      helptext: |
-        यो सूचकले प्लेटफर्ममा रहेको केसमा 
-        काम गर्ने व्यक्तिको प्रत्येक सक्रिय केसको लागि आयोजित अनुगमन बैठकहरूको औसत संख्या गणना गर्दछ । फलोअप बैठक भनेको केसमा काम गर्ने व्यक्ति र 
-        सर्भाइभर बीच भएको प्रारम्भिक अन्तरवार्ता /साक्षात्कारपछि हुने बैठक हो ।
+      helptext: "यो सूचकले प्लेटफर्ममा रहेको केसमा \nकाम गर्ने व्यक्तिको प्रत्येक सक्रिय केसको लागि आयोजित अनुगमन बैठकहरूको औसत संख्या गणना गर्दछ । फलोअप बैठक भनेको केसमा काम गर्ने व्यक्ति र \nसर्भाइभर बीच भएको प्रारम्भिक अन्तरवार्ता /साक्षात्कारपछि हुने बैठक हो ।\n"
     time_from_case_open_to_close:
       title: "११. केसहरू खुल्लाबाट बन्द हुन लाग्ने समय"
       time: "समय"
       percent: "केसहरूको प्रतिशत"
-      helptext: |
-        यो सूचकले कति समयसम्म केस खुल्ला राखिन्छ, पहिलो पटक गरिएको रिपोर्टलाई केस 
-        व्यवस्थापनले केस खुलालाई कति समय लगाएर केस बन्द गर्दछ भन्ने कुराको मापन गर्दछ । समयको अवधि निम्न समय सीमाद्वारा 
-        विभाजित गरिएको हुन्छ : १ महिनाभन्दा कम; १ र ३ महिनाको बीच;
-        ३ र ६ महिनाको बीच; ६ महिना भन्दा बढी ।
+      helptext: "यो सूचकले कति समयसम्म केस खुल्ला राखिन्छ, पहिलो पटक गरिएको रिपोर्टलाई केस \nव्यवस्थापनले केस खुलालाई कति समय लगाएर केस बन्द गर्दछ भन्ने कुराको मापन गर्दछ । समयको अवधि निम्न समय सीमाद्वारा \nविभाजित गरिएको हुन्छ : १ महिनाभन्दा कम; १ र ३ महिनाको बीच;\n३ र ६ महिनाको बीच; ६ महिना भन्दा बढी ।\n"
     case_closure_rate:
       title: "१२. बन्द भएका केसका संख्या"
       reporting_site: "प्रतिवेदन स्थान"
-      helptext: |
-        यो सूचकले प्रति रिपोर्टिङ साइट प्रति महिना बन्द गरिएका केसहरूको गणना मापन गर्दछ । रिपोर्टिङ साइट भन्नाले 
-        त्यो स्थानलाई बुझाउँछ जहाँ प्रयोगकर्ता संस्था सेवाहरूले सेवा प्रदान गरिरहेको छ र जुन स्थानमा 
-        सेवा प्रदायकलाई घटना रिपोर्ट गरिएको थियो । 
+      helptext: "यो सूचकले प्रति रिपोर्टिङ साइट प्रति महिना बन्द गरिएका केसहरूको गणना मापन गर्दछ । रिपोर्टिङ साइट भन्नाले \nत्यो स्थानलाई बुझाउँछ जहाँ प्रयोगकर्ता संस्था सेवाहरूले सेवा प्रदान गरिरहेको छ र जुन स्थानमा \nसेवा प्रदायकलाई घटना रिपोर्ट गरिएको थियो । \n"
     client_satisfaction_rate:
       title: "१३. ग्राहक सन्तुष्टि दर "
       label: "ग्राहक सन्तुष्टि"
       invalid: "अहिले यो गणना गर्न सक्दैनौं।"
-      helptext: |
-        यो सूचकले घटना व्यवस्थापन सेवाहरूसँग सन्तुष्ट भएर ग्राहक प्रतिक्रिया सर्वेक्षण पुरा गरेका 
-        सर्भाइभरहरूको प्रतिशत मापन गर्दछ । यो सूचक
-         सर्भाइभरलाई सेवा प्रदान गर्ने र केसमा काम गर्ने कर्मचारी सदस्य नभएर 
-        अन्य कर्मचारी सदस्य द्वारा GBVIMS+ मा भएको ग्राहक प्रतिक्रिया फारम भरेको आधारमा सूचित गरिन्छ। 
+      helptext: "यो सूचकले घटना व्यवस्थापन सेवाहरूसँग सन्तुष्ट भएर ग्राहक प्रतिक्रिया सर्वेक्षण पुरा गरेका \nसर्भाइभरहरूको प्रतिशत मापन गर्दछ । यो सूचक\n सर्भाइभरलाई सेवा प्रदान गर्ने र केसमा काम गर्ने कर्मचारी सदस्य नभएर \nअन्य कर्मचारी सदस्य द्वारा GBVIMS+ मा भएको ग्राहक प्रतिक्रिया फारम भरेको आधारमा सूचित गरिन्छ। \n"
     supervisor_to_caseworker_ratio:
       title: "१४. पर्यवेक्षक र केस कामदारको अनुपात"
       label: "प्रति पर्यवेक्षक केस कार्यकर्ताहरु "
-      helptext: |
-        यो सूचक एउटा पर्यवेक्षकले पर्यवेषण गर्ने केस कामदारको संख्या हो : पर्यवेक्षक र 
-        केस कामदारको अनुपात । यो गणना प्लेटफर्ममा तोकिएको प्रणाली भूमिकाहरूमा आधारित छ।
+      helptext: "यो सूचक एउटा पर्यवेक्षकले पर्यवेषण गर्ने केस कामदारको संख्या हो : पर्यवेक्षक र \nकेस कामदारको अनुपात । यो गणना प्लेटफर्ममा तोकिएको प्रणाली भूमिकाहरूमा आधारित छ।\n"
     case_load:
       title: "केस भार"
       case_load: " केस भार"
@@ -1633,10 +1574,7 @@ ne:
       20cases: "११-२० केसहरु"
       21-30cases: "२१-३० केसहरु"
       30cases: "> ३०  केसहरु"
-      helptext: |
-        यो सूचकले सक्रिय केसहरूमा प्रति केस कामदार औसत केसको भार मापन गर्दछ । 
-        केसमा कामदार र केसको अनुपात निम्नानुसार विभाजिन गरीएको छ: १० भन्दा कम
-         खुला केसहरू, १०-२० बीचका खुला केसहरू, २१-३० बीचको खुला केसहरू, ३० भन्दा बढी खुल्ला केसहरू। 
+      helptext: "यो सूचकले सक्रिय केसहरूमा प्रति केस कामदार औसत केसको भार मापन गर्दछ । \nकेसमा कामदार र केसको अनुपात निम्नानुसार विभाजिन गरीएको छ: १० भन्दा कम\n खुला केसहरू, १०-२० बीचका खुला केसहरू, २१-३० बीचको खुला केसहरू, ३० भन्दा बढी खुल्ला केसहरू। \n"
     date_range_dialog:
       title: "मिति दायरा अनुकूल पार्ने"
       description: "एक पटक यो परिवर्तन लागू भएपछि, तल दिइएका दुई मितिहरूबीचबाट तथ्याङ्क छनौट गरिनेछ ।"
@@ -1646,7 +1584,6 @@ ne:
       aria-labels:
         from: "यो मितिपछिको तथ्याङ्क छनौट गरिनेछ ।"
         to: "यो मितिभन्दा अघिको तथ्याङ्क छनौट गरिनेछ ।"
-
   location:
     base_types:
       camp: शिविर
@@ -1661,7 +1598,7 @@ ne:
       other: अन्य
       province: प्रदेश
       region: क्षेत्र
-      site: "स्थान "
+      site: 'स्थान '
       state: प्रदेश
       sub-district: उप-जिल्ला
       village: गाउँ
@@ -1683,10 +1620,10 @@ ne:
     import_title: स्थान आयात गर्नुहोस् ।
     message: कृपया अपलोड गर्नका लागि एउटा csv फाइल छनौट गर्नुहोस् । यो फाइलमा प्रत्येक स्तम्भको दोस्रो पङ्कति मा UTF-8 encoding  र HXL hashtags प्रयोग गर्नुपर्छ ।
     no_location: कुनै पनि प्रयोगकर्ता खाताहरू सिर्जना गर्नुअघि स्थानहरू Import गर्नुहोस् ।
-    enable_title: "स्थान सकृय पार्नुहोस्  । "
-    enable_text: "के तपाई साच्चै अगाडि बढ्न चाहानुहुन्छ?  ? यदि तपाईले छनौट गर्नु भएको स्थानहरूलाई सक्रिय गर्नु भयो भने ती स्थान क्षेत्रहरूमा विकल्पको रूपमा देखा पर्नेछन् । "
+    enable_title: 'स्थान सकृय पार्नुहोस्  । '
+    enable_text: 'के तपाई साच्चै अगाडि बढ्न चाहानुहुन्छ?  ? यदि तपाईले छनौट गर्नु भएको स्थानहरूलाई सक्रिय गर्नु भयो भने ती स्थान क्षेत्रहरूमा विकल्पको रूपमा देखा पर्नेछन् । '
     disable_title: स्थान निस्कृय पार्नुहोस् ।
-    disable_text: "के तपाई साच्चै अगाडि बढ्न चाहानुहुन्छ? ? यदि तपाईले छनौट गर्नु भएको स्थानहरूलाई निष्क्रिय गर्नु भयो भने  ती स्थान क्षेत्रहरूमा विकल्पको रूपमा देखा पर्ने छैनन्  । "
+    disable_text: 'के तपाई साच्चै अगाडि बढ्न चाहानुहुन्छ? ? यदि तपाईले छनौट गर्नु भएको स्थानहरूलाई निष्क्रिय गर्नु भयो भने  ती स्थान क्षेत्रहरूमा विकल्पको रूपमा देखा पर्ने छैनन्  । '
   logger:
     actions:
       _approved: स्वीकृत
@@ -1712,7 +1649,7 @@ ne:
       export: एक्सपोर्ट
       flag: फ्ल्याग
       import: ईमपोर्ट
-      incident_details_from_case: "केसबाट घटना विवरण "
+      incident_details_from_case: 'केसबाट घटना विवरण '
       index: ईन्डेक्स
       list: सूची
       login: लग-इन
@@ -1732,7 +1669,7 @@ ne:
       transfer: स्थानान्तरण गर्नुहोस् ।
       transfer_accepted: स्थानान्तरण स्वीकार गरियो ।
       transfer_rejected: स्थानान्तरण अस्वीकृत गरियो ।
-      transfer_request: "स्थानान्तरणको लागि अनुरोध "
+      transfer_request: 'स्थानान्तरणको लागि अनुरोध '
       transfer_to: मा स्थानान्तरण गर्नुहोस् ।
       unflag: अनफ्ल्याग गर्नुहोस् ।
       update: अद्यावधिक गर्नुहोस् ।
@@ -1763,21 +1700,21 @@ ne:
     edit: सम्पादन
     enable_disable_record: सक्रिय / निष्क्रिय पार्नुहोस्
     export: को लागि तथ्याङ्क export गर्दै
-    flag: "फ्ल्यागिङ गर्दै "
-    flag_records: "फ्ल्यागिङ गर्दै "
+    flag: 'फ्ल्यागिङ गर्दै '
+    flag_records: 'फ्ल्यागिङ गर्दै '
     graph_data: ग्राफ तथ्याङ्क हेर्नुहोस् ।
     hide_name:
       protect: नाम लुकाउनुहोस् ।
       view: नाम हेर्नुहोस् ।
-    index: "अभिलेखहरूलाई सूचिकृत गर्दै "
+    index: 'अभिलेखहरूलाई सूचिकृत गर्दै '
     list: सूची
     login: लगईन
-    logout: "लग-आउट "
+    logout: 'लग-आउट '
     lookups_for_field: फिल्डका लागि खोजीहरू
     mark_for_mobile:
       'false': मोबाइलका लागि चिन्ह हटाउनुहोस् ।
       'true': मोबाइलका लागि चिन्ह लगाउनुहोस्  ।
-    match_record: "अभिलेख मिलाउने "
+    match_record: 'अभिलेख मिलाउने '
     permitted_field_list: अनुमति दिइएको फिल्ड सूची
     quick_view: quick view हेर्दै
     reassign: तोकिदै
@@ -1785,8 +1722,8 @@ ne:
       audit_log: अडिट लग
       user: प्रयोगकर्ता
       agency: निकाय
-      user_group: "प्रयोगकर्ताको समुह "
-      child: "बालबालिका "
+      user_group: 'प्रयोगकर्ताको समुह '
+      child: 'बालबालिका '
       alert: सतर्कता
       form_section: फारम
       lookup: खोजी
@@ -1797,7 +1734,7 @@ ne:
       bulk_export: बल्कमा export गर्नुहोस् ।
       saved_search: सुरक्षित गरिएको खोजहरु
       role: भूमिका
-      incident: "घटना "
+      incident: 'घटना '
       location: स्थान
       primero_configuration: प्रीमेरो कन्फिगरेसन
       code_of_conduct: आचार संहिता
@@ -1823,7 +1760,7 @@ ne:
     search: API सर्च
     show: हेर्दै
     show_alerts: को लागि अलर्ट हेर्नुहोस् ।
-    to: "को लागि "
+    to: 'को लागि '
     to_user: प्रयोगकर्ताको लागि
     transfer: स्थानान्तरण गरिदै ।
     transfer_status:
@@ -1834,23 +1771,23 @@ ne:
   login:
     label: लग–इन
     password:
-      label: "पासवर्ड "
+      label: 'पासवर्ड '
     password_confirmation:
       label: पासवर्ड पुष्टि
     password_match:
       label: पासवर्ड मिल्नु पर्छ ।
-    provider_title: "%{provider} संग"
+    provider_title: '%{provider} संग'
     title: लग-इन गर्नुहोस्
     username: प्रयोगकर्ता नाम
     password_reset_modal: पासवर्ड रिसेट गर्नुहोस्
     password_reset_modal_text: प्राइमेरोले तपाईंको ईमेल ठेगानामा पासवर्ड रिसेट गर्ने लिङ्क पठाउनेछ ।
     password_reset_email: इमेल
-    forgot_password: "तपाइँको पासवर्ड बिर्सनुभयो?"
+    forgot_password: तपाइँको पासवर्ड बिर्सनुभयो?
     email:
       label: इमेल
   lookup:
-    create: "नयाँ खोजी "
-    enabled_label: "सक्रिय पारिएको?"
+    create: 'नयाँ खोजी '
+    enabled_label: सक्रिय पारिएको?
     english_label: अङ्ग्रेजी पाठ
     label: खोजी
     language_label: भाषा
@@ -1890,7 +1827,6 @@ ne:
     incomplete_data: अपूर्ण तथ्याङ्क
     individual_children:
       name: बालबालिका
-      description: ''
       reports:
         individual_children: बालबालिका
       sub_reports:
@@ -1900,7 +1836,6 @@ ne:
         individual_perpetrator: पीडक अनुसार बालबालिका
     ghn_report:
       name: ग्लोबल होरिजन्टल नोट
-      description: ''
       reports:
         ghn_report: ग्लोबल होरिजन्टल नोट
       sub_reports:
@@ -1929,7 +1864,6 @@ ne:
         associated_violations: सम्बन्धित उल्लङ्घनहरू
     violations:
       name: उल्लङ्घनहरू
-      description: ''
       filter_options:
         incident_date: घटना मिति
         date_of_report: प्रतिवेदन मिति
@@ -1984,40 +1918,14 @@ ne:
         military_use_type_of_use: प्रयोगको प्रकार अनुसार उल्लङ्घन संख्या
     gbv_statistics:
       name: लैङ्गिक हिंसाको तथ्याङ्क
-      description: ''
       filter_options:
         date_of_first_report: अन्तर्वार्ताको मिति
         incident_date: घटना मिति
       reports:
-        incidents: घटनाहरु
         perpetrators: पीडकहरु
         survivors: पीडितहरु
         referrals: रिफरलहरु
       sub_reports:
-        combined: घटनाहरु
-        total: प्रतिवेदन गरिएको लैङ्गिक हिंसाका घटनाहरूको संख्या
-        gbv_sexual_violence: प्रतिवेदन गरिएको यौन हिंसाका घटनाहरूको संख्या
-        gbv_previous_incidents: अघिल्लो GBV घटनाहरू भएका बाँचेकाहरूद्वारा रिपोर्ट गरिएका घटनाहरूको सङ्ख्या
-        gbv_sexual_violence_type: घटनाको प्रकार
-        incident_timeofday: घटना समय
-        elapsed_reporting_time: घटना मिति र प्रतिवेदन मिति बीचको समय
-        elapsed_reporting_time_rape: "बलात्कारका घटनाहरू, घटना र रिपोर्ट मिति बीचको समय"
-        elapsed_reporting_time_rape_health_referral: "बलात्कारका घटनाहरू, घटना र प्रतिवेदन मिति (स्वास्थ्य सेवामा वा रेफरल) बीच बितेको समय"
-        incident_location_type: घटना स्थान
-        number_of_perpetrators: पीडकहरूको संख्या
-        perpetrator_relationship: पीडित सँग आरोपित मुख्य पीडकको सम्बन्ध
-        perpetrator_age_group: आरोपित प्राथमिक पीडकको उमेर समूह
-        perpetrator_occupation: आरोपित प्राथमिक पीडकको पेशा
-        age: उमेर अनुसार पीडित संख्या
-        sex: लिङ्ग अनुसार पीडित संख्या
-        marital_status: पीडितहरूको वैवाहिक स्थिति
-        displacement_status: पीडितहरूको विस्थापन स्थिति
-        displacement_incident: घटनाको समयमा विस्थापनको चरण
-        gbv_case_context: घटनाको सन्दर्भ
-        incidents_first_point_of_contact: तपाईको संस्था सम्पर्कको पहिलो बिन्दु भएको घटना संख्या
-        incidents_from_other_service_provider: अन्य सेवा प्रदायकहरूबाट रिफर गरिएका घटनाहरू
-        number_of_services_provided: घटनाहरूको लागि प्रदान गरिएका सेवाहरूको संख्या
-        number_of_services_provided_other: अन्य सेवा प्रदायकहरूलाई नयाँ घटना रिफरल
         service_safehouse_referral: सुरक्षित घर/सुरक्षित आश्रयस्थललाई रिफरल
         service_medical_referral: स्वास्थ्य/चिकित्सा सेवाको रिफरल
         service_psycho_referral: मनोसामाजिक/परामर्श सेवाहरू
@@ -2025,33 +1933,32 @@ ne:
         service_police_referral: प्रहरी वा अन्य प्रकारका सुरक्षा सेवाहरू
         service_livelihoods_referral: जीविकोपार्जन सेवाहरु
         service_protection_referral: बाल संरक्षण सेवाहरु
-        vulnerable_populations: जोखिमपूर्ण जनसंख्या
         survivors_disability_type: अपाङ्गता भएकाहरु
     success_message: एक्सपोर्ट फाईल सफलतापूर्वक उत्पन्न भयो
   messages:
-    alert_items: "तपाईंसँग नोट गर्नु पर्ने %{items} आइटमहरू छन् ।"
+    alert_items: तपाईंसँग नोट गर्नु पर्ने %{items} आइटमहरू छन् ।
     alerts_for:
-      approval: "%{form_section_name}को लागि स्वीकृति बाँकी छ ।"
+      approval: '%{form_section_name}को लागि स्वीकृति बाँकी छ ।'
       field_change: '%{form_section_name}%{alert_time}मा अद्यावधिक गरिएको थियो ।'
-      transfer_request: "%{date}मा%{user}द्वारा%{agency}मा एउटा नयाँ स्थानान्तरण अनुरोध गरिएको थियो ।"
-      duplicate_field: "प्रणालीमा रहेको अर्को केसमा %{field_name} जस्तै रहेको छ।"
+      transfer_request: '%{date}मा%{user}द्वारा%{agency}मा एउटा नयाँ स्थानान्तरण अनुरोध गरिएको थियो ।'
+      duplicate_field: प्रणालीमा रहेको अर्को केसमा %{field_name} जस्तै रहेको छ।
     cannot_edit: तपाईले यो सम्पादन गर्न सक्नुहुन्न ।
-    confirmation_message: "'ठीक छ' क्लिक गर्दा असुरक्षित परिवर्तनहरू हराएर जानेछन् र लिष्ट भ्यूमा फर्किनेछ। अभिलेखमा फर्कन 'रद्द' मा क्लिक गर्नुहोस् ।"
+    confirmation_message: '''ठीक छ'' क्लिक गर्दा असुरक्षित परिवर्तनहरू हराएर जानेछन् र लिष्ट भ्यूमा फर्किनेछ। अभिलेखमा फर्कन ''रद्द'' मा क्लिक गर्नुहोस् ।'
     confirmation_message_subform: ठीक छ क्लिक गर्नाले सुरक्षित नगरिएका परिवर्तनहरू खारेज हुनेछ। परिवर्तन जारी राख्न रद्द क्लिक गर्नुहोस्
     dashboard_offline: तपाई अफलाईन हुनुहुन्छ । तपाई अनलाइनमा आएपछि ड्यासबोर्ड पुरा तरिकाले काम गर्नेछ ।
     field_name_on_form_name: '''%{form_name}'' फारममा भएको ''%{field_name}'' फिल्डहरु'
-    logout_confirmation: "के तपाई यो सत्र जारी राख्न चाहनुहुन्छ ? "
-    logout_offline_warning: "के तपाई निश्चित रूपमा लग आउट गर्न चाहनुहुन्छ ? गर्न चाहनुहुन्छ भने तपाई फेरि अनलाइन नहुँदासम्म लग इन हुन सक्नुहुन्न । अफलाईन हुँदा तपाईले गर्नुभएका सबै परिवर्तनहरू हराउनेछन् ।"
+    logout_confirmation: 'के तपाई यो सत्र जारी राख्न चाहनुहुन्छ ? '
+    logout_offline_warning: के तपाई निश्चित रूपमा लग आउट गर्न चाहनुहुन्छ ? गर्न चाहनुहुन्छ भने तपाई फेरि अनलाइन नहुँदासम्म लग इन हुन सक्नुहुन्न । अफलाईन हुँदा तपाईले गर्नुभएका सबै परिवर्तनहरू हराउनेछन् ।
     logout_warning: तपाई ५ मिनेटमा लग आउट हुनुहुनेछ ।
     logout_dialog_header: अफलाइन लग आउट
     logout_confirmation_title: लग आउट पुष्टि
-    logout_confirmation_text: "के तपाईं पक्का लग आउट गर्न चाहनुहुन्छ ?"
+    logout_confirmation_text: के तपाईं पक्का लग आउट गर्न चाहनुहुन्छ ?
     no_changes: तपाईंले कुनै फिल्ड परिवर्तन गर्नुभएको छैन ।
     not_available: उपलब्ध छैन
     record_list:
-      column_header_tooltip: "%{column}को लागि sort गर्नुहोस्"
+      column_header_tooltip: '%{column}को लागि sort गर्नुहोस्'
       of: को
-      no_match: "माफ गर्नुहोस्, कुनै मिल्दो अभिलेख भेटिएन ।"
+      no_match: माफ गर्नुहोस्, कुनै मिल्दो अभिलेख भेटिएन ।
       rows_per_page: प्रति पृष्ठ पंक्तिहरु
       sort: क्रमबद्ध
   navigation:
@@ -2059,13 +1966,13 @@ ne:
     cases: घटनाहरू
     home: गृहपृष्ठ
     key_performance_indicators: Pulse/KPIs
-    incidents: "घटना "
+    incidents: 'घटना '
     logout: लगआउट गर्नुहोस्
     reports: रिपोर्ट
     insights: अन्तर्दृष्टिहरू
     search: खोज
     settings: सेटिङ्
-    support: "सहयोग "
+    support: 'सहयोग '
     support_menu:
       contact_information: सम्पर्क जानकारी
       code_of_conduct: आचारसंहिता
@@ -2094,18 +2001,18 @@ ne:
       approvals_case_plan_pending: '%{approval_label} विचाराधीन'
       approvals_closure: '%{approval_label}'
       approvals_closure_pending: '%{approval_label} विचाराधीन'
-      approve_action_plan: "स्वीकृत%{approval_label}"
-      approve_assessment: "स्वीकृत%{approval_label} फारम"
-      approve_case_plan: "स्वीकृत%{approval_label}"
-      approve_closure: "स्वीकृत%{approval_label} फारम"
-      approve_gbv_closure: "स्वीकृत%{approval_label}फारम"
+      approve_action_plan: स्वीकृत%{approval_label}
+      approve_assessment: स्वीकृत%{approval_label} फारम
+      approve_case_plan: स्वीकृत%{approval_label}
+      approve_closure: स्वीकृत%{approval_label} फारम
+      approve_gbv_closure: स्वीकृत%{approval_label}फारम
       assign: तोक्नुहोस् ।
       assign_within_agency: निकाय भित्र तोक्नुहोस् ।
       assign_within_user_group: प्रयोगकर्ता समूह भित्र तोक्नुहोस् ।
       audit_log: अडिट लग
       case: घटना
       case_approvals: घटना अनुमतिहरू
-      case_assignments_referrals_transfers: "केस कार्यभार, रिफर र स्थानान्तरण"
+      case_assignments_referrals_transfers: केस कार्यभार, रिफर र स्थानान्तरण
       case_exports: केस Export
       case_overview: मेरो केसहरू
       case_risk: मूल्याङ्कनस्तर अनुसार घटनाहरु
@@ -2132,7 +2039,7 @@ ne:
       dash_referrals_by_socal_worker: सामाजिक कार्यकर्ता अनुसार रिफरल हेर्नुहोस् ।
       dash_reporting_location: रिपोर्टिङ स्थानहरू हेर्नुहोस् ।
       dash_service_provisions: सेवा प्रावधान हेर्नुहोस् ।
-      dash_shared_from_my_team: "मेरो समूहबाट शेयर गरिएको "
+      dash_shared_from_my_team: 'मेरो समूहबाट शेयर गरिएको '
       dash_shared_with_me: मलाई शेयर भएको
       dash_shared_with_my_team: मेरो समूहसँग शेयर गरिएको
       dash_shared_with_others: अरुलाई शेयर भएको
@@ -2142,12 +2049,12 @@ ne:
       dash_national_admin_summary: प्रशासकीय सारांश
       dashboard: ड्यासबोर्ड
       delete: मेटाउनहोस्
-      display_view_page: " भ्यू पृष्ठ प्रदर्शन गर्नुहोस् ।"
+      display_view_page: ' भ्यू पृष्ठ प्रदर्शन गर्नुहोस् ।'
       duplicate: डुप्लिकेट खोज
       enable_disable_record: असक्षम गर्नुहोस्
-      export_case_pdf: "केस pdf export गर्नुहोस्। "
+      export_case_pdf: 'केस pdf export गर्नुहोस्। '
       export_csv: Export csv
-      export_custom: "कस्टम export गर्नुहोस्। "
+      export_custom: 'कस्टम export गर्नुहोस्। '
       export_duplicate_id_csv: दोहोरिएकाहरू export गर्नुहोस्।
       export_json: Export json
       export_list_view_csv: लिष्ट भ्यू CSV मा export गर्नुहोस् ।
@@ -2155,16 +2062,16 @@ ne:
       export_pdf: Export pdf
       export_photowall: भित्ते चित्र export गर्नुहोस् ।
       export_unhcr_csv: UNHCR csv मा export गर्नुहोस्।
-      export_xls: "xls export  गर्नुहोस्। "
+      export_xls: 'xls export  गर्नुहोस्। '
       find_tracing_match: केसबाट ट्रेसिङ्ग मिलान पत्ता लगाउनुहोस् ।
       view_registry_record: रजिस्ट्री रेकर्ड हेर्नुहोस्
       add_registry_record: रजिस्ट्री रेकर्ड थप्नुहोस्
       flag: फ्ल्याग
       form: फारमहरू
       group: मेरो समूहमा भएका सबै अभिलेखहरू वा प्रयोगकर्ताहरूलाई पहुँच गर्नुहोस् ।
-      group_read: "समूहगत अध्ययन   "
+      group_read: 'समूहगत अध्ययन   '
       import: आयात गर्नुहोस्
-      incident: "घटना "
+      incident: 'घटना '
       incident_details_from_case: अर्को प्रयोगकर्ताको केसमा घटना विवरण थप्नुहोस् ।
       incident_from_case: एउटा केसबाट घटना सिर्जना गर्नुहोस् ।
       kpi: Pulse/KPIs
@@ -2172,8 +2079,8 @@ ne:
       manage: प्रबन्ध गर्नुहोस्
       mark_for_offline: अफलाईनको लागि चिन्ह लगाउनुहोस्
       matching_configuration: कन्फिगरेसन मिलाईदैछ
-      metadata: "फारमहरू, लुकअप "
-      potential_match: "सम्भावित मिलान "
+      metadata: 'फारमहरू, लुकअप '
+      potential_match: 'सम्भावित मिलान '
       primero_configuration: कन्फिगरेसन
       read: पढ्नुहोस् ।
       reassign: पुनः तोक्नुहोस् ।
@@ -2187,11 +2094,11 @@ ne:
       report: रिपोर्ट
       managed_report: अन्तर्दृष्टिहरू
       request_approval: स्वीकृतिका लागि अनुरोध गर्नुहोस्
-      request_approval_action_plan: "%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्"
-      request_approval_assessment: "%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्"
-      request_approval_case_plan: "%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्"
-      request_approval_closure: "%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्"
-      request_approval_gbv_closure: "%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्"
+      request_approval_action_plan: '%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्'
+      request_approval_assessment: '%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्'
+      request_approval_case_plan: '%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्'
+      request_approval_closure: '%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्'
+      request_approval_gbv_closure: '%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्'
       request_transfer: स्थानान्तरण अनुरोध गर्नुहोस्
       role: भूमिकाहरू
       save_search: खोजहरू सुरक्षित गर्नुहोस् ।
@@ -2228,20 +2135,20 @@ ne:
             explanation: प्रयोगकर्ताको पहुँच भएको सक्रिय केसहरूमध्ये कतिको अनुपातले मूल्याङ्कन फारम भरेका छन् हेर्न सक्ने क्षमता
             label: मूल्याङ्कन स्थिति
           kpi_average_followup_meetings_per_case:
-            explanation: "प्रयोगकर्ताको पहुँच भएको सक्रिय केसहरूमध्ये, निश्चित समयावधीमा फलोअप बैठक आयोजना गरिएको औसत संख्या"
+            explanation: प्रयोगकर्ताको पहुँच भएको सक्रिय केसहरूमध्ये, निश्चित समयावधीमा फलोअप बैठक आयोजना गरिएको औसत संख्या
             label: प्रति केस औसत फलो-अप बैठकहरू
           kpi_average_referrals:
-            explanation: "प्रयोगकर्ताको पहुँच भएको सबै सक्रिय केसहरूको संंख्या, प्रत्येक प्रकारको सेवाहरूका लागि गरिएको रेफरलको औसत संख्या हेर्न सक्ने क्षमता"
-            label: " औसत रिफरल"
+            explanation: प्रयोगकर्ताको पहुँच भएको सबै सक्रिय केसहरूको संंख्या, प्रत्येक प्रकारको सेवाहरूका लागि गरिएको रेफरलको औसत संख्या हेर्न सक्ने क्षमता
+            label: ' औसत रिफरल'
           kpi_case_closure_rate:
             explanation: प्रत्येक साइटमा प्रति महिना कति केसहरू बन्द गरिएको थियो भनेर हेर्ने क्षमता
             label: बन्द भएका केसका संख्या
           kpi_case_load:
             explanation: प्रत्येक केस कामदारसित भएको केसहरूको औसत संख्या हेर्ने क्षमता
-            label: " केस भार"
+            label: ' केस भार'
           kpi_client_satisfaction_rate:
-            explanation: "प्रयोगकर्ताको पहुँच भएको केसहरूमा, कति अनुपातमा पृष्ठपोषण फारम भरेका सर्भाइभरहरु सन्तुष्ट थिए भनेर हेर्न सक्ने क्षमता"
-            label: "ग्राहक सन्तुष्टि दर "
+            explanation: प्रयोगकर्ताको पहुँच भएको केसहरूमा, कति अनुपातमा पृष्ठपोषण फारम भरेका सर्भाइभरहरु सन्तुष्ट थिए भनेर हेर्न सक्ने क्षमता
+            label: 'ग्राहक सन्तुष्टि दर '
           kpi_completed_case_action_plans:
             explanation: प्रयोगकर्ताको पहुँच भएको सक्रिय केसहरूमध्ये कतिको अनुपातमा केस कार्य योजना पूरा भएको छ भनेर हेर्न सक्ने क्षमता
             label: सम्पन्न भएका केस कार्य योजनाहरू
@@ -2252,7 +2159,7 @@ ne:
             explanation: प्रयोगकर्ताको पहुँच भएको सक्रिय केसहरूमध्ये कुन अनुपातमा पर्यवेक्षकद्वारा स्वीकृत केस सुरक्षा योजनाहरू पूरा भए भनेर हेर्न सक्ने क्षमता
             label: पर्यवेक्षकद्वारा स्वीकृत सम्पन्न भएका केस सुरक्षा योजनाहरू
           kpi_goal_progress_per_need:
-            explanation: "प्रयोगकर्ताको पहुँच भएको केसहरूको प्रत्येक वर्गमा कति प्रतिशत लक्ष्य प्राप्त भयो भनेर हेर्न सक्ने क्षमता "
+            explanation: 'प्रयोगकर्ताको पहुँच भएको केसहरूको प्रत्येक वर्गमा कति प्रतिशत लक्ष्य प्राप्त भयो भनेर हेर्न सक्ने क्षमता '
             label: लक्ष्य प्राप्तिका लागि गरिएको प्रगति
           kpi_number_of_cases:
             explanation: प्रति साइट प्रति महिना कति रिपोर्ट गरिएका नयाँ केसहरू खोलिन्छ भनेर हेर्न सक्ने क्षमता
@@ -2295,44 +2202,44 @@ ne:
       audit_log:
         actions:
           read:
-            explanation: "प्रयोगकर्तालाई यो प्रणालीको सूचीमा भएका र गरिएका सबै कार्यहरू, प्रयोगकर्ताद्वारा नष्ट पारिएका कार्य, कार्यको प्रकार, अभिलेख आईडी र कार्यको समय हेर्न र फिल्टर गर्न अनुमति दिन्छ । यो राष्ट्रिय स्तर वा निकाय स्तरका प्रशासकहरूको लागि सबैभन्दा उपयुक्त छ किनभने यो प्रणालीमा सबै प्रयोगकर्ताहरूद्वारा गरिएका कार्यहरू देखिन्छन् । कृपया ध्यान दिनुहोस् कि अडिट लगले प्रत्येक कार्यमा संलग्न अभिलेखको बारेमा व्यक्तिगत पहिचानयोग्य जानकारी देखाउँदैन । "
+            explanation: 'प्रयोगकर्तालाई यो प्रणालीको सूचीमा भएका र गरिएका सबै कार्यहरू, प्रयोगकर्ताद्वारा नष्ट पारिएका कार्य, कार्यको प्रकार, अभिलेख आईडी र कार्यको समय हेर्न र फिल्टर गर्न अनुमति दिन्छ । यो राष्ट्रिय स्तर वा निकाय स्तरका प्रशासकहरूको लागि सबैभन्दा उपयुक्त छ किनभने यो प्रणालीमा सबै प्रयोगकर्ताहरूद्वारा गरिएका कार्यहरू देखिन्छन् । कृपया ध्यान दिनुहोस् कि अडिट लगले प्रत्येक कार्यमा संलग्न अभिलेखको बारेमा व्यक्तिगत पहिचानयोग्य जानकारी देखाउँदैन । '
             label: हेर्नुहोस
-        explanation: "प्रणालीमा गरिएका सबै कार्यहरूको फिल्टर गर्न मिल्ने सूची। केसहरू, घटनाहरू, वा ट्रेसिङ अनुरोधहरूमा कुनै पनि पहिचान योग्य जानकारी समावेश हुदैन।"
+        explanation: प्रणालीमा गरिएका सबै कार्यहरूको फिल्टर गर्न मिल्ने सूची। केसहरू, घटनाहरू, वा ट्रेसिङ अनुरोधहरूमा कुनै पनि पहिचान योग्य जानकारी समावेश हुदैन।
         label: अडिट लग
       case:
         actions:
           add_note:
-            explanation: "प्रयोगकर्तालाई \"नोट्स\" (कहिलेकाहिँ \"टिप्पणी\" भनिने) सहायक फारममा प्रविष्टि थप्नको लागि अनुमति दिन्छ । यसको लागि प्रयोगकर्ताले 'केस देखाउनुहोस्' पृष्ठमा भएको \"नोट्स थप्नुहोस्\" बटनमा क्लिक गर्नुपर्छ । यो विशेष गरी त्यस्ता प्रबन्धकहरूको लागि उपयोगी छ जसमा केसहरू सम्पादन गर्न क्षमता हुँदैन र केस कार्यकर्ताको लागि रिमाईन्डर राख्न चाहन्छन् । यसरी, एउटा नोट थप्नु भनेको फ्ल्याग गर्नु जस्तै हो । एउटा नोट थप्नुको फाइदा यो हो कि जब प्रबन्धकले केसमा एउटा नोट थप्छ तब केस कामदारले आफ्नो मोबाइल उपकरणमा केस हेर्दा एउटा सूचना देखापर्छ ।"
+            explanation: प्रयोगकर्तालाई "नोट्स" (कहिलेकाहिँ "टिप्पणी" भनिने) सहायक फारममा प्रविष्टि थप्नको लागि अनुमति दिन्छ । यसको लागि प्रयोगकर्ताले 'केस देखाउनुहोस्' पृष्ठमा भएको "नोट्स थप्नुहोस्" बटनमा क्लिक गर्नुपर्छ । यो विशेष गरी त्यस्ता प्रबन्धकहरूको लागि उपयोगी छ जसमा केसहरू सम्पादन गर्न क्षमता हुँदैन र केस कार्यकर्ताको लागि रिमाईन्डर राख्न चाहन्छन् । यसरी, एउटा नोट थप्नु भनेको फ्ल्याग गर्नु जस्तै हो । एउटा नोट थप्नुको फाइदा यो हो कि जब प्रबन्धकले केसमा एउटा नोट थप्छ तब केस कामदारले आफ्नो मोबाइल उपकरणमा केस हेर्दा एउटा सूचना देखापर्छ ।
             label: केसमा नोट थप्नुहोस् ।
           add_registry_record:
             explanation: प्रयोगकर्तालाई रजिस्ट्री विवरण फारमबाट केसमा रजिस्ट्री लिङ्क गर्न अनुमति दिन्छ। प्रयोगकर्तालाई केससँग पहिले नै लिङ्क गरिएको कुनै पनि रजिस्ट्री अनलिंक गर्न अनुमति दिन्छ।
             label: केसबाट रजिस्ट्री रेकर्ड थप्नुहोस्/अद्यावधिक गर्नुहोस्
           approve_action_plan:
-            explanation: "प्रबन्धकलाई उनीहरूको केस कामदारहरूको %{approval_label}स्वीकृत गर्न अनुमति दिन्छ।"
-            label: "%{approval_label}स्वीकृत गर्नुहोस् ।"
+            explanation: प्रबन्धकलाई उनीहरूको केस कामदारहरूको %{approval_label}स्वीकृत गर्न अनुमति दिन्छ।
+            label: '%{approval_label}स्वीकृत गर्नुहोस् ।'
           approve_assessment:
-            explanation: "प्रबन्धकलाई उनीहरूको केस कामदारहरूको %{approval_label} स्वीकृत गर्न अनुमति दिन्छ।"
-            label: " %{approval_label}फारम स्वीकृत गर्नुहोस्"
+            explanation: प्रबन्धकलाई उनीहरूको केस कामदारहरूको %{approval_label} स्वीकृत गर्न अनुमति दिन्छ।
+            label: ' %{approval_label}फारम स्वीकृत गर्नुहोस्'
           approve_bia:
-            explanation: "प्रबन्धकलाई उनीहरूको केस कामदारहरूको %{approval_label} स्वीकृत गर्न अनुमति दिन्छ।"
-            label: "%{approval_label} फारम स्वीकृत गर्नुहोस् "
+            explanation: प्रबन्धकलाई उनीहरूको केस कामदारहरूको %{approval_label} स्वीकृत गर्न अनुमति दिन्छ।
+            label: '%{approval_label} फारम स्वीकृत गर्नुहोस् '
           approve_case_plan:
-            explanation: "प्रबन्धकलाई उनीहरूको केस कामदारहरूको %{approval_label} स्वीकृत गर्न अनुमति दिन्छ।"
-            label: "%{approval_label} स्वीकृत गर्नुहोस् ।"
+            explanation: प्रबन्धकलाई उनीहरूको केस कामदारहरूको %{approval_label} स्वीकृत गर्न अनुमति दिन्छ।
+            label: '%{approval_label} स्वीकृत गर्नुहोस् ।'
           approve_closure:
-            explanation: "प्रबन्धकलाई उनीहरूको केस कामदारहरूको %{approval_label} स्वीकृत गर्न अनुमति दिन्छ।"
-            label: "%{approval_label} फारम स्वीकृत गर्नुहोस्"
+            explanation: प्रबन्धकलाई उनीहरूको केस कामदारहरूको %{approval_label} स्वीकृत गर्न अनुमति दिन्छ।
+            label: '%{approval_label} फारम स्वीकृत गर्नुहोस्'
           approve_gbv_closure:
-            explanation: "प्रबन्धकलाई उनीहरूको केस कामदारहरूको %{approval_label} स्वीकृत गर्न अनुमति दिन्छ।"
-            label: "%{approval_label} फारम स्वीकृत गर्नुहोस् "
+            explanation: प्रबन्धकलाई उनीहरूको केस कामदारहरूको %{approval_label} स्वीकृत गर्न अनुमति दिन्छ।
+            label: '%{approval_label} फारम स्वीकृत गर्नुहोस् '
           assign:
-            explanation: "प्रयोगकर्तालाई मूल अभिलेख मालिकसँग भएको केसलाई प्रणालीमा भएको अन्य कुनै प्रयोगकर्तालाई केस पठाउन अनुमति दिन्छ। यो कार्यको लागि बालबालिकाको सहमति आवश्यक छैन । स्थानान्तरणमा जस्तै, प्राप्तकर्तालाई असाइनमेन्ट स्वीकार गर्ने वा अस्वीकार गर्ने मौका दिइएको छैन ।"
-            label: "तोक्नुहोस् "
+            explanation: प्रयोगकर्तालाई मूल अभिलेख मालिकसँग भएको केसलाई प्रणालीमा भएको अन्य कुनै प्रयोगकर्तालाई केस पठाउन अनुमति दिन्छ। यो कार्यको लागि बालबालिकाको सहमति आवश्यक छैन । स्थानान्तरणमा जस्तै, प्राप्तकर्तालाई असाइनमेन्ट स्वीकार गर्ने वा अस्वीकार गर्ने मौका दिइएको छैन ।
+            label: 'तोक्नुहोस् '
           assign_within_agency:
-            explanation: "प्रयोगकर्तालाई मूल अभिलेख मालिकसँग भएको केसलाई हालको प्रयोगकर्ता निकायभित्र भएको अन्य कुनै प्रयोगकर्तालाई केस पठाउन अनुमति दिन्छ। यो कार्यको लागि बालबालिकाको सहमति आवश्यक छैन। स्थानान्तरणमा जस्तै, प्राप्तकर्तालाई असाइनमेन्ट स्वीकार गर्ने वा अस्वीकार गर्ने मौका दिइएको छैन ।"
+            explanation: प्रयोगकर्तालाई मूल अभिलेख मालिकसँग भएको केसलाई हालको प्रयोगकर्ता निकायभित्र भएको अन्य कुनै प्रयोगकर्तालाई केस पठाउन अनुमति दिन्छ। यो कार्यको लागि बालबालिकाको सहमति आवश्यक छैन। स्थानान्तरणमा जस्तै, प्राप्तकर्तालाई असाइनमेन्ट स्वीकार गर्ने वा अस्वीकार गर्ने मौका दिइएको छैन ।
             label: मेरो निकायभित्रको प्रयोगकर्तालाई तोक्नुहोस् ।
           assign_within_user_group:
-            explanation: "प्रयोगकर्तालाई मूल अभिलेख मालिकसँग भएको केसलाई हालको प्रयोगकर्ता रहेको प्रयोगकर्ता समूहको अन्य कुनै प्रयोगकर्तालाई केस पठाउन अनुमति दिन्छ। यो कार्यको लागि बालबालिकाको सहमति आवश्यक छैन । स्थानान्तरणमा जस्तै, प्राप्तकर्तालाई असाइनमेन्ट स्वीकार गर्ने वा अस्वीकार गर्ने मौका दिइएको छैन ।"
+            explanation: प्रयोगकर्तालाई मूल अभिलेख मालिकसँग भएको केसलाई हालको प्रयोगकर्ता रहेको प्रयोगकर्ता समूहको अन्य कुनै प्रयोगकर्तालाई केस पठाउन अनुमति दिन्छ। यो कार्यको लागि बालबालिकाको सहमति आवश्यक छैन । स्थानान्तरणमा जस्तै, प्राप्तकर्तालाई असाइनमेन्ट स्वीकार गर्ने वा अस्वीकार गर्ने मौका दिइएको छैन ।
             label: मेरो प्रयोगकर्ता समूहभित्रको प्रयोगकर्तालाई तोक्नुहोस् ।
           change_log:
             explanation: प्रयोगकर्ताले अभिलेख सिर्जना भएदेखि त्यसमा गरिएका सबै परिवर्तनहरूको इतिहास देख्न सक्छ । यसअन्तर्गत सबै फिल्डहरूको लागि अभिलेख गरिएका मानहरू पनि सामेल छन् ।
@@ -2341,7 +2248,7 @@ ne:
             explanation: प्रयोगकर्तालाई खुला केसको स्थिति बन्द गर्नको लागि अनुमति दिन्छ ।
             label: बन्द गर्नुहोस्
           consent_override:
-            explanation: "प्रयोगकर्तालाई अनुमति नभएको केस रिफर गर्न वा स्थानान्तरण गर्न अनुमति दिन्छ । "
+            explanation: 'प्रयोगकर्तालाई अनुमति नभएको केस रिफर गर्न वा स्थानान्तरण गर्न अनुमति दिन्छ । '
             label: रिफर वा स्थानान्तरण गर्दा सहमतिको कमीलाई ओभरराइड गर्नुहोस् ।
           create:
             explanation: केस सिर्जना गर्ने क्षमता
@@ -2350,37 +2257,37 @@ ne:
             explanation: यदि प्रयोगकर्ताले उनीहरूलाई पहुँच नभएको केसबारे खोजी गर्दछन भने यो अनुमतिले उनीहरूलाई केसमा क्लिक गरेर त्यसबारे सबै जानकारी हेर्ने अनुमति नदिएता पनि आधारभूत जानकारीसँगै एउटा सानो मोडाल हेर्ने अनुमति दिन्छ । यस "भ्यू मोडल" मा देखा पर्ने फिल्डरू "छोटो फारममा देखाउनुहोस् ।" को लागि कन्फिगर गरिएका छन् । ट्रेसिंङ अनुरोधको लागि प्रयोगकर्ताले "सम्भावित मिलान" अन्तर्गत केसहरूको समीक्षा गरिरहँदा "भ्यू मोडल" मा उनीहरूको पहुँच हुने हुँदा यो मोडल परिवारबारे पत्ता लगाउने र पुनर्मिलन कार्यहरू गर्नको लागि पनि उपयोगी छ ।
             label: भ्यू पृष्ठ प्रदर्शन गर्नुहोस् ।
           enable_disable_record:
-            explanation: "केसलाई सकृय वा निस्कृय बनाउने सक्ने क्षमता । \"निष्कृय\" केसहरू केस सूचीमा पूर्वनिर्धारित रूपमा देखा पर्दैनन् । प्रयोगकर्ताहरूले छनोटको उपयोग गरेर केस सूचीमा भएका निष्कृय केसहरू देख्न सक्छन् । प्रीमेरोले प्रयोगकर्ताहरूलाई केसहरू मेटाउने अनुमति नदिने हुनाले, प्रयोगकर्ताले विकल्पको रूपमा केसलाई निष्कृय बनाउन सक्दछन् । उदाहरणको लागि, यदि प्रयोगकर्ताले गल्तीले केस सिर्जना गरेको छ वा केसको तथ्याङ्क बिग्रेको छ भने प्रयोगकर्ताले केसलाई निष्कृय गर्नुपर्छ । "
+            explanation: 'केसलाई सकृय वा निस्कृय बनाउने सक्ने क्षमता । "निष्कृय" केसहरू केस सूचीमा पूर्वनिर्धारित रूपमा देखा पर्दैनन् । प्रयोगकर्ताहरूले छनोटको उपयोग गरेर केस सूचीमा भएका निष्कृय केसहरू देख्न सक्छन् । प्रीमेरोले प्रयोगकर्ताहरूलाई केसहरू मेटाउने अनुमति नदिने हुनाले, प्रयोगकर्ताले विकल्पको रूपमा केसलाई निष्कृय बनाउन सक्दछन् । उदाहरणको लागि, यदि प्रयोगकर्ताले गल्तीले केस सिर्जना गरेको छ वा केसको तथ्याङ्क बिग्रेको छ भने प्रयोगकर्ताले केसलाई निष्कृय गर्नुपर्छ । '
             label: सक्रिय/निष्क्रिय पार्नुहोस् ।
           export_case_pdf:
-            explanation: "प्रयोगकर्ताले केस सूची वा केस  देखाउनुहोस् पृष्ठहरू बाट PDF फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसका सबै फिल्डहरु हुन्छ । PDF export फाइलमा, सूचनालाई पहिला केस सूची अनुसार र त्यसपछि जानकारी देखा पर्ने फारम अनुसार थप व्यवस्थित गरिएको छ ।"
-            label: "PDF मा केस export गर्नुहोस्। "
+            explanation: प्रयोगकर्ताले केस सूची वा केस  देखाउनुहोस् पृष्ठहरू बाट PDF फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसका सबै फिल्डहरु हुन्छ । PDF export फाइलमा, सूचनालाई पहिला केस सूची अनुसार र त्यसपछि जानकारी देखा पर्ने फारम अनुसार थप व्यवस्थित गरिएको छ ।
+            label: 'PDF मा केस export गर्नुहोस्। '
           export_csv:
             explanation: 'प्रयोगकर्ताले केस सूची वा केस देखाउनुहोस् पृष्ठहरू बाट CSV फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसका सबै फिल्डहरु हुन्छ । नोट: CSV export ले अरबी र बंगाली जस्ता गैर ल्याटिन वर्णहरूलाई पठनीय ढाँचामा प्रस्तुत गर्दैन।'
             label: Export csv
           export_custom:
-            explanation: "प्रयोगकर्ताले केस सूची वा केस देखाउनुहोस् पृष्ठहरू बाट CSV फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसका कस्टम फारम र फिल्डहरु हुन्छ । यो export मा, प्रत्येक फारमलाई XLS फाइल भित्रको आफ्नै ट्याबमा प्रतिनिधित्व गरीन्छ। कस्टम export मोडलको प्रयोग गरेर प्रयोगकर्ताले  export मा आफुले समावेश गर्न चाहे जस्तो फारम वा क्षेत्रहरु छनौट गर्न सक्नुहुन्छ । कृपया ध्यान दिनुहोस् कि प्रयोगकर्ताहरुले application मा केस हेर्दा फारमहरु र क्षेत्रहरु हेर्ने क्षमता छ भने मात्र  export मा फारमहरु र क्षेत्रहरु समावेश गर्न सक्छन् ।"
+            explanation: प्रयोगकर्ताले केस सूची वा केस देखाउनुहोस् पृष्ठहरू बाट CSV फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसका कस्टम फारम र फिल्डहरु हुन्छ । यो export मा, प्रत्येक फारमलाई XLS फाइल भित्रको आफ्नै ट्याबमा प्रतिनिधित्व गरीन्छ। कस्टम export मोडलको प्रयोग गरेर प्रयोगकर्ताले  export मा आफुले समावेश गर्न चाहे जस्तो फारम वा क्षेत्रहरु छनौट गर्न सक्नुहुन्छ । कृपया ध्यान दिनुहोस् कि प्रयोगकर्ताहरुले application मा केस हेर्दा फारमहरु र क्षेत्रहरु हेर्ने क्षमता छ भने मात्र  export मा फारमहरु र क्षेत्रहरु समावेश गर्न सक्छन् ।
             label: कस्टम export गर्नुहोस्।
           export_duplicate_id_csv:
             explanation: एउटै राष्ट्रिय आईडी फिल्ड (कन्फिगरेसनको आधारमा भिन्न लेबल हुनसक्दछ) भएका केसहरूको CSV export  सिर्जना गर्दछ। केस सुची पृष्‍ठ बाट मात्रै सिर्जना गरिएको ।
             label: दोहोरिएकाहरू export गर्नुहोस्।
           export_json:
-            explanation: "प्रयोगकर्ताले केस सूची वा केस देखाउने पृष्ठहरूबाट JSON फाइल export गर्न सक्छ जसमा समा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसका सबै फिल्डहरु हुन्छ । यो export मुख्य रूपमा ती सबैको लागि प्रयोग गरिन्छ जस्ले हालको प्रीमेरो प्रणाली बाट केस export गरेर भिन्न प्रीमेरो प्रणालीमा वा अन्य सूचना व्यवस्थापन प्रणालीमा import गर्न चाहन्छन् । JSON ढाँचा मेशिनद्वारा पठनीय छ र धेरै प्रयोगकर्ताहरूको लागी व्यावहारिक छैन।"
+            explanation: प्रयोगकर्ताले केस सूची वा केस देखाउने पृष्ठहरूबाट JSON फाइल export गर्न सक्छ जसमा समा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसका सबै फिल्डहरु हुन्छ । यो export मुख्य रूपमा ती सबैको लागि प्रयोग गरिन्छ जस्ले हालको प्रीमेरो प्रणाली बाट केस export गरेर भिन्न प्रीमेरो प्रणालीमा वा अन्य सूचना व्यवस्थापन प्रणालीमा import गर्न चाहन्छन् । JSON ढाँचा मेशिनद्वारा पठनीय छ र धेरै प्रयोगकर्ताहरूको लागी व्यावहारिक छैन।
             label: Export JSON
           export_list_view_csv:
             explanation: केस सूची पृष्ठबाट प्रयोगकर्ताले CSV फाईल export गर्न सक्दछन् र सो पृष्ठमा देखा पर्ने फिल्डहरु अर्को प्रयोगकर्ताको केस लिष्टमा देखिनेछ । केस सुची पृष्‍ठ बाट मात्रै कार्य गर्ने सकिनेछ ।
             label: लिस्ट भ्यू  CSV मा export गर्नुहोस् ।
           export_pdf:
-            explanation: "प्रयोगकर्ताले केस सूची वा केस देखाउने पृष्ठहरूबाट PDF फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसहरुको फिल्ड रहेको  हुन्छ । PDF export फाइलमा, सूचनालाई पहिला केस सूची अनुसार र त्यसपछि सूचना देखा पर्ने फारम अनुसार थप व्यवस्थित गरीएको छ ।"
-            label: "PDF मा केस export गर्नुहोस्। "
+            explanation: प्रयोगकर्ताले केस सूची वा केस देखाउने पृष्ठहरूबाट PDF फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसहरुको फिल्ड रहेको  हुन्छ । PDF export फाइलमा, सूचनालाई पहिला केस सूची अनुसार र त्यसपछि सूचना देखा पर्ने फारम अनुसार थप व्यवस्थित गरीएको छ ।
+            label: 'PDF मा केस export गर्नुहोस्। '
           export_photowall:
             explanation: प्रयोगकर्तालाई छनौट गरिएका सबै केसहरूको फोटोहरू भएको केस सूची पृष्ठ बाट एउटा फाइल export गर्ने अनुमति दिन्छ । यो export मुख्य रूपमा परिवार पत्ता लगाउने र पुनर्मिलन गरिएका गतिविधिहरूको लागी प्रयोग गरीन्छ। केस सुची पृष्‍ठ बाट मात्रै कार्यगर्ने सकिने ।
             label: फोटोवाल export गर्नुहोस् ।
           export_unhcr_csv:
-            label: "UNHCR CSV export गर्नुहोस्। "
+            label: 'UNHCR CSV export गर्नुहोस्। '
           export_xls:
             explanation: 'प्रयोगकर्ताले केस सूची वा केस देखाउने पृष्ठहरू बाट XLS फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसहरुको फिल्ड रहेको हुन्छ । यो export मा, प्रत्येक फारमलाई XLS फाइल भित्रको आफ्नै ट्याबमा प्रतिनिधित्व गरीन्छ। नोट:  XLS फरम्याटले गैर ल्याटिन वर्णहरूलाई (उदाहरणः अरबी र बंगाली) पठनीय ढाँचामा प्रस्तुत गर्दैछ तर CSV ले गर्दैन।'
-            label: "Excel (XLS file) export गर्नुहोस्। "
+            label: 'Excel (XLS file) export गर्नुहोस्। '
           find_tracing_match:
             explanation: यो विशेष गरी परिवार पत्ता लगाउने  र पुनर्मिलन गतिविधिको सन्दर्भहरूमा प्रयोग गरीन्छ। यो अनुमति पाएका प्रयोगकर्ताहरूले केस देखाउने पृष्ठमा  "Tracing match खोज्नुहोस् " बटन देख्नेछन्। उनीहरूले बटनलाई क्लिक गर्दा प्रणालीमा उनीहरूको केस संग मिल्ने सम्भावना भएका ट्रेसिङ्ग अनुरोधहरूको सूचीमा देखिनेछन ।
             label: केस बाट ट्रेसिंग मिलान पत्ता लगाउनुहोस् ।
@@ -2388,16 +2295,16 @@ ne:
             explanation: प्रयोगकर्तालाई केसमा फ्ल्याग थप्ने क्षमता छ।  यो अनुमति पाएका प्रयोगकर्ताले क्षमता केसमा थपेका फ्ल्यागहरू हटाउन पनि सक्छन्।
             label: फ्ल्याग
           import:
-            explanation: "CSV, एक्सेल, वा JSON फाइल बाट import गरेर प्रयोगकर्तालाई एक वा एक भन्दा बढी नयाँ केसहरू सिर्जना गर्न अनुमति दिन्छ। सही तरिकाले जानकारी import गर्न आयातित फाइलको ढाँचा \"अत्ती नै\" विशेष हुनुपर्छ । यो सुविधा प्रीमेरोमा तथ्याड़कलाई कसरी फरम्याट गरिन्छ भन्ने उच्च प्राविधिक सीप र गहन ज्ञान भएको प्रशासनिक प्रयोगकर्ताहरूलाई उपलब्ध हुनु पर्छ। केस सूची पृष्ठबाट मात्र प्रयोग गर्न मिल्ने छ ।   "
+            explanation: 'CSV, एक्सेल, वा JSON फाइल बाट import गरेर प्रयोगकर्तालाई एक वा एक भन्दा बढी नयाँ केसहरू सिर्जना गर्न अनुमति दिन्छ। सही तरिकाले जानकारी import गर्न आयातित फाइलको ढाँचा "अत्ती नै" विशेष हुनुपर्छ । यो सुविधा प्रीमेरोमा तथ्याड़कलाई कसरी फरम्याट गरिन्छ भन्ने उच्च प्राविधिक सीप र गहन ज्ञान भएको प्रशासनिक प्रयोगकर्ताहरूलाई उपलब्ध हुनु पर्छ। केस सूची पृष्ठबाट मात्र प्रयोग गर्न मिल्ने छ ।   '
             label: Import गर्नुहोस्
           incident_details_from_case:
-            explanation: "तपाइँले खोजी गर्दा भेटेको तर तपाइँको पहुँचको नभएको केसमा घटना विवरण सहायक फारममा प्रविष्टि गर्न सक्ने क्षमता । प्रयोगकर्ताले खोज नतिजा पृष्ठबाट एक वा धेरै केसहरू छनौट गरेपछि कार्य मेनुको \"घटना थप्नुहोस्\" छनौट गरेर यो कार्य गर्दछन् । प्रयोगकर्ताले त्यस्पछि घटना विवरण सहायक फारममा सबै फिल्डहरु भएका मोडल देख्छन् जहाँ उनीहरूले सेवा बारे जानकारी प्रविष्ट र सबमिट गर्न सक्छन् । यो कार्य खोज परिणाम पृष्ठ बाट मात्र गर्न सकिने हुनाले र यदि भूमिकालाई \"अन्य प्रयोगकर्ताहरूको स्वामित्वमा रहेको केस अभिलेख खोज गर्ने\" अनुमति छ भने उनीहरूले यो अनुमति पाउन जायज छ । "
+            explanation: 'तपाइँले खोजी गर्दा भेटेको तर तपाइँको पहुँचको नभएको केसमा घटना विवरण सहायक फारममा प्रविष्टि गर्न सक्ने क्षमता । प्रयोगकर्ताले खोज नतिजा पृष्ठबाट एक वा धेरै केसहरू छनौट गरेपछि कार्य मेनुको "घटना थप्नुहोस्" छनौट गरेर यो कार्य गर्दछन् । प्रयोगकर्ताले त्यस्पछि घटना विवरण सहायक फारममा सबै फिल्डहरु भएका मोडल देख्छन् जहाँ उनीहरूले सेवा बारे जानकारी प्रविष्ट र सबमिट गर्न सक्छन् । यो कार्य खोज परिणाम पृष्ठ बाट मात्र गर्न सकिने हुनाले र यदि भूमिकालाई "अन्य प्रयोगकर्ताहरूको स्वामित्वमा रहेको केस अभिलेख खोज गर्ने" अनुमति छ भने उनीहरूले यो अनुमति पाउन जायज छ । '
             label: अर्को प्रयोगकर्ताको केसमा खोज परिणाम पृष्ठ बाट घटना विवरण थप्नुहोस् ।
           incident_from_case:
-            explanation: "प्रयोगकर्तालाई \"घटना सिर्जना गर्नुहोस्\" बटन क्लिक गर्न अनुमति दिन्छ।  यसले एउटा  घटना उत्पन्न गर्दछ जसमा केहि जानकारी केस बाट साभार गरिएको हुन सक्छ। GBV केसहरूको लागी यो बटन केस देखाउने पृष्ठको शीर्षमा छ र समग्रमा केसको जानकारी संग मेल खान्छ। केही घटना ट्रयाकिंग गर्ने सन्दर्भमा, यो बटन \"घटना विवरण\" सहायक फारममा छ। यस स्थितिमा, केहि जानकारी बटन क्लिक गरिएको घटना विवरण सहायक फारम बाट साभार भएको हुन सक्छ । साथै, समग्रमा केस बाट नै  साभार भएको पनि हुन सक्छ। भन्नाले, सिर्जना गरिएको नयाँ घटनामा व्यक्तिगत घटना विवरण सहायक फारममा भएको  \"हिंसाको प्रकार\" भन्ने फिल्ड हुन सक्छ र उमेर अनि केसको लिंग पनि समावेश भएको हुन सक्छ। ध्यान दिनुहोस् कि यो अनुमतिले  प्रयोगकर्तालाई घटना सँग सम्बन्धित एउटा लिंक हेर्ने अनुमति पनि दिन्छ।"
+            explanation: प्रयोगकर्तालाई "घटना सिर्जना गर्नुहोस्" बटन क्लिक गर्न अनुमति दिन्छ।  यसले एउटा  घटना उत्पन्न गर्दछ जसमा केहि जानकारी केस बाट साभार गरिएको हुन सक्छ। GBV केसहरूको लागी यो बटन केस देखाउने पृष्ठको शीर्षमा छ र समग्रमा केसको जानकारी संग मेल खान्छ। केही घटना ट्रयाकिंग गर्ने सन्दर्भमा, यो बटन "घटना विवरण" सहायक फारममा छ। यस स्थितिमा, केहि जानकारी बटन क्लिक गरिएको घटना विवरण सहायक फारम बाट साभार भएको हुन सक्छ । साथै, समग्रमा केस बाट नै  साभार भएको पनि हुन सक्छ। भन्नाले, सिर्जना गरिएको नयाँ घटनामा व्यक्तिगत घटना विवरण सहायक फारममा भएको  "हिंसाको प्रकार" भन्ने फिल्ड हुन सक्छ र उमेर अनि केसको लिंग पनि समावेश भएको हुन सक्छ। ध्यान दिनुहोस् कि यो अनुमतिले  प्रयोगकर्तालाई घटना सँग सम्बन्धित एउटा लिंक हेर्ने अनुमति पनि दिन्छ।
             label: एउटा केसबाट घटना सिर्जना गर्नुहोस् ।
           manage:
-            explanation: "प्रयोगकर्तालाई केसहरूमा सबै उपलब्ध कार्यहरू गर्ने अनुमति दिन्छ । \"प्रबन्ध\" अनुमतिले मुख्यत \"सबै कुरा\" भन्ने अर्थ दिन्छ । "
+            explanation: 'प्रयोगकर्तालाई केसहरूमा सबै उपलब्ध कार्यहरू गर्ने अनुमति दिन्छ । "प्रबन्ध" अनुमतिले मुख्यत "सबै कुरा" भन्ने अर्थ दिन्छ । '
             label: प्रबन्ध गर्नुहोस् (यो स्रोत प्रकारको लागि सबै अनुमतिहरू)
           read:
             explanation: केस हेर्न  गर्ने क्षमता
@@ -2406,52 +2313,52 @@ ne:
             explanation: प्रयोगकर्तालाई  रेफरल प्राप्त गर्न अनुमति दिन्छ। यो अनुमति पाएका प्रयोगकर्ताहरू रेफरल कार्यको सम्भावित प्राप्तकर्ताको रूपमा देखा पर्नेछन् भने कसैले रेफरल मोडलमा प्राप्तकर्ता खोजी गर्दा यो अनुमति नपाएका प्रयोगकर्ताहरू सम्भावित प्राप्तकर्ताको रूपमा देखा पर्ने छैनन् ।
             label: रिफरल प्राप्त गर्नुहोस् ।
           receive_referral_different_module:
-            explanation: " प्रयोगकर्तालाई फरक प्रीमेरो मोड्युलमा बनाईएको अभिलेखको रेफरल प्राप्त गर्न अनुमति दिन्छ। यो अनुमति पाएका प्रयोगकर्ताहरू रेफरल कार्यको सम्भावित प्राप्तकर्ताको रूपमा देखा पर्नेछन् भने कसैले रेफरल मोडलमा प्राप्तकर्ता खोजी गर्दा  प्रयोगकर्ताहरू सम्भावित प्राप्तकर्ताको रूपमा देखा पर्ने छैनन् ।  "
+            explanation: ' प्रयोगकर्तालाई फरक प्रीमेरो मोड्युलमा बनाईएको अभिलेखको रेफरल प्राप्त गर्न अनुमति दिन्छ। यो अनुमति पाएका प्रयोगकर्ताहरू रेफरल कार्यको सम्भावित प्राप्तकर्ताको रूपमा देखा पर्नेछन् भने कसैले रेफरल मोडलमा प्राप्तकर्ता खोजी गर्दा  प्रयोगकर्ताहरू सम्भावित प्राप्तकर्ताको रूपमा देखा पर्ने छैनन् ।  '
             label: प्रयोगकर्ता बाट फरक मोड्युलमा रेफरल प्राप्त गर्नुहोस् ।
           receive_transfer:
             explanation: प्रयोगकर्तालाई स्थानान्तरण प्राप्त गर्न अनुमति दिन्छ। यो अनुमति पाएका प्रयोगकर्ताहरू स्थानान्तरण कार्यको सम्भावित प्राप्तकर्ताको रूपमा देखा पर्नेछन् भने कसैले स्थानान्तरण मोडलमा प्राप्तकर्ता खोजी गर्दा यो अनुमति नपाएका प्रयोगकर्ताहरू सम्भावित प्राप्तकर्ताको रूपमा देखा पर्ने छैनन् ।
             label: स्थानान्तरण प्राप्त गर्नुहोस् ।
           referral:
             explanation: प्रयोगकर्ताले अस्थायी रूपमा अर्को प्रयोगकर्तालाई केसमा पहुँच दिन अनुमति दिन्छ। रेफरलको प्राप्तकर्ताले रेफर गरिएको केसहरुमा आफ्नै केसमा जस्तै कार्यहरू गर्न सक्षम हुनेछन । जब प्राप्तकर्तालाई  केसमा पहुँचको आवश्यकता छैन तब उनीहरूले रेफरलहरू र स्थानान्तरण सहायक फारममा भएको "सम्पन्न" बटन क्लिक गर्न सक्छन् । त्यसपछि उनीहरूले केसमा पहुँच गुमाउनेछन्। तपाइँले त्यस्ता प्रयोगकर्तालाई  मात्र केस रेफर गर्न सक्नुहुनेछ जसको भूमिकामा रेफरल प्राप्त गर्ने क्षमता छ ।
-            label: "रेफेरल "
+            label: 'रेफेरल '
           referral_from_service:
-            explanation: "प्रयोगकर्तालाई सेवाहरू सहायक फारममा भएको  \"रेफेर \" बटन हेर्न अनुमति दिन्छ।  प्रयोगकर्ताले  यो बटन क्लिक गर्दा  सेवा प्रकार, निकाय, सेवा प्रदायक र स्थान फिल्डहरु सहितको रेफरल मोडल देखा पर्नेछ र  प्रयोगकर्ताले रिफर बटन क्लिक गर्दा सेवा सहायक फारमको फिल्डमा सूचनाहरु स्वचालित रुपमा भरिएको हुन्छ ।"
+            explanation: प्रयोगकर्तालाई सेवाहरू सहायक फारममा भएको  "रेफेर " बटन हेर्न अनुमति दिन्छ।  प्रयोगकर्ताले  यो बटन क्लिक गर्दा  सेवा प्रकार, निकाय, सेवा प्रदायक र स्थान फिल्डहरु सहितको रेफरल मोडल देखा पर्नेछ र  प्रयोगकर्ताले रिफर बटन क्लिक गर्दा सेवा सहायक फारमको फिल्डमा सूचनाहरु स्वचालित रुपमा भरिएको हुन्छ ।
             label: सेवा सहायक फारामबाट केस रेफेर गर्नुहोस् ।
           remove_assigned_users:
-            explanation: "प्रयोगकर्तालाई \"अन्य तोकिएका प्रयोगकर्ताहरू\" फिल्डबाट अन्य प्रयोगकर्ताहरूलाई हटाउन अनुमति दिन्छ। केसको लागी  रेफरल वा स्थानान्तरण प्राप्त भएको तर उनीहरूले अझै स्वीकार वा अस्वीकार नगरेको  प्रयोगकर्ता यहाँ सूचीबद्ध  हुन्छ । तपाइँले  \"अन्य तोकिएका प्रयोगकर्ताहरू\" फिल्डबाट प्रयोगकर्तालाई हटाउँदा उनीहरूको पहुँच पनि हटाउनुहुनेछ । त्यसैले, अनुमति  पाएका  प्रयोगकर्ताहरूले पहिले रेफरल पाएका वा केसको स्थानान्तरण बाँकी रहेको प्रयोगकर्ताहरूको केसबाट पहुँच हटाउन सक्छन्। ध्यान राख्नुहोस् कि यो अनुमतिले तब मात्र काम गर्दछ जब यदि वर्तमान प्रयोगकर्ता सँग केस सम्पादन गर्ने क्षमता छ।"
+            explanation: प्रयोगकर्तालाई "अन्य तोकिएका प्रयोगकर्ताहरू" फिल्डबाट अन्य प्रयोगकर्ताहरूलाई हटाउन अनुमति दिन्छ। केसको लागी  रेफरल वा स्थानान्तरण प्राप्त भएको तर उनीहरूले अझै स्वीकार वा अस्वीकार नगरेको  प्रयोगकर्ता यहाँ सूचीबद्ध  हुन्छ । तपाइँले  "अन्य तोकिएका प्रयोगकर्ताहरू" फिल्डबाट प्रयोगकर्तालाई हटाउँदा उनीहरूको पहुँच पनि हटाउनुहुनेछ । त्यसैले, अनुमति  पाएका  प्रयोगकर्ताहरूले पहिले रेफरल पाएका वा केसको स्थानान्तरण बाँकी रहेको प्रयोगकर्ताहरूको केसबाट पहुँच हटाउन सक्छन्। ध्यान राख्नुहोस् कि यो अनुमतिले तब मात्र काम गर्दछ जब यदि वर्तमान प्रयोगकर्ता सँग केस सम्पादन गर्ने क्षमता छ।
             label: तोकिएका अन्य प्रयोगकर्तालाई हटाउनुहोस् (रिफर गरिएको प्रयोगकर्ताबाट केसको पहुँचलाई फिर्ता लाने)
           reopen:
-            explanation: " प्रयोगकर्तालाई हाल बन्द भएको केस खोल्न अनुमति दिन्छ।"
+            explanation: ' प्रयोगकर्तालाई हाल बन्द भएको केस खोल्न अनुमति दिन्छ।'
             label: पुनः खोल्नुहोस् ।
           request_approval_action_plan:
-            explanation: " प्रयोगकर्ता (प्राय: केस कामदार) ले प्रबन्धकलाई उनीहरुको %{approval_label}केस स्वीकृतिको अनुरोध गर्ने अनुमति दिन्छ।"
-            label: "%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्"
+            explanation: ' प्रयोगकर्ता (प्राय: केस कामदार) ले प्रबन्धकलाई उनीहरुको %{approval_label}केस स्वीकृतिको अनुरोध गर्ने अनुमति दिन्छ।'
+            label: '%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्'
           request_approval_assessment:
-            explanation: "प्रयोगकर्ता (प्राय: केस कामदार) ले प्रबन्धकलाई उनीहरुको %{approval_label} केस स्वीकृतिको अनुरोध गर्ने अनुमति दिन्छ।"
-            label: "%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्"
+            explanation: 'प्रयोगकर्ता (प्राय: केस कामदार) ले प्रबन्धकलाई उनीहरुको %{approval_label} केस स्वीकृतिको अनुरोध गर्ने अनुमति दिन्छ।'
+            label: '%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्'
           request_approval_bia:
-            explanation: "प्रयोगकर्ता (प्राय: केस कामदार) ले प्रबन्धकलाई उनिहरुको%{approval_label}केस स्वीकृतिको अनुरोध गर्ने अनुमति दिन्छ।"
-            label: "%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्"
+            explanation: 'प्रयोगकर्ता (प्राय: केस कामदार) ले प्रबन्धकलाई उनिहरुको%{approval_label}केस स्वीकृतिको अनुरोध गर्ने अनुमति दिन्छ।'
+            label: '%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्'
           request_approval_case_plan:
-            explanation: "प्रयोगकर्ता (प्राय: केस कामदार) ले प्रबन्धकलाई उनीहरुको %{approval_label}केस स्वीकृतिको अनुरोध गर्ने अनुमति दिन्छ।"
-            label: "%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्"
+            explanation: 'प्रयोगकर्ता (प्राय: केस कामदार) ले प्रबन्धकलाई उनीहरुको %{approval_label}केस स्वीकृतिको अनुरोध गर्ने अनुमति दिन्छ।'
+            label: '%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्'
           request_approval_closure:
-            explanation: "प्रयोगकर्ता (प्राय: केस कामदार) ले प्रबन्धकलाई उनीहरुको %{approval_label} केस स्वीकृतिको अनुरोध गर्ने अनुमति दिन्छ।"
-            label: "%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्"
+            explanation: 'प्रयोगकर्ता (प्राय: केस कामदार) ले प्रबन्धकलाई उनीहरुको %{approval_label} केस स्वीकृतिको अनुरोध गर्ने अनुमति दिन्छ।'
+            label: '%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्'
           request_approval_gbv_closure:
-            explanation: "प्रयोगकर्ता (प्राय: केस कामदार) ले प्रबन्धकलाई उनीहरुको %{approval_label} केस स्वीकृतिको अनुरोध गर्ने अनुमति दिन्छ।"
-            label: "%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्"
+            explanation: 'प्रयोगकर्ता (प्राय: केस कामदार) ले प्रबन्धकलाई उनीहरुको %{approval_label} केस स्वीकृतिको अनुरोध गर्ने अनुमति दिन्छ।'
+            label: '%{approval_label}स्वीकृतिका लागि अनुरोध गर्नुहोस्'
           request_transfer:
-            explanation: "\"मोडल हेर्नुहोस्\" मा भएको \"स्थानान्तरण अनुरोध\" बटन देखाउँछ । बटनले प्रयोगकर्तालाई  ईमेलको माध्यम बाट वर्तमान अभिलेख मालिकलाई केस स्थानान्तरणको अनुरोधको लागि व्यक्तिगत सन्देश पठाउन अनुमति दिन्छ ।  बालबालिकाहरुले प्राय: स्थान परिवर्तन गर्ने हुँदा अभिलेख दोहोरिनबाट बच्न केस कामदारहरूलाई जानकारी पठाउन उपयोगी हुन्छ ।"
+            explanation: '"मोडल हेर्नुहोस्" मा भएको "स्थानान्तरण अनुरोध" बटन देखाउँछ । बटनले प्रयोगकर्तालाई  ईमेलको माध्यम बाट वर्तमान अभिलेख मालिकलाई केस स्थानान्तरणको अनुरोधको लागि व्यक्तिगत सन्देश पठाउन अनुमति दिन्छ ।  बालबालिकाहरुले प्राय: स्थान परिवर्तन गर्ने हुँदा अभिलेख दोहोरिनबाट बच्न केस कामदारहरूलाई जानकारी पठाउन उपयोगी हुन्छ ।'
             label: स्थानान्तरण अनुरोध गर्नुहोस्
           search_owned_by_others:
-            explanation: "प्रयोगकर्तालाई त्यस्ता अभिलेखहरू खोज गर्न अनुमति दिईन्छ जुनमा या त उनीहरूलाई सामान्यतया पहुँच छैन या उनीहरू त्यो केसका अभिलेख मालिक होइनन् , वा (प्रबन्धकहरूको अवस्थामा) किनभने अभिलेख मालिक आफ्नो प्रयोगकर्ता समूहहरूमा छैनन्। ध्यान दिनुहोस् कि, जब प्रयोगकर्ताले सर्च रिजल्ट भ्यूमा केस देख्नेछन्, उनीहरू त्यो केसको लागी केस देखाउनुहोस्  पृष्ठमा क्लिक गर्न  सक्षम हुनेछैनन् । यसको मतलब उनीहरू केस बारे कुनै विस्तृत जानकारी हेर्न सक्षम हुनेछैनन्।"
+            explanation: प्रयोगकर्तालाई त्यस्ता अभिलेखहरू खोज गर्न अनुमति दिईन्छ जुनमा या त उनीहरूलाई सामान्यतया पहुँच छैन या उनीहरू त्यो केसका अभिलेख मालिक होइनन् , वा (प्रबन्धकहरूको अवस्थामा) किनभने अभिलेख मालिक आफ्नो प्रयोगकर्ता समूहहरूमा छैनन्। ध्यान दिनुहोस् कि, जब प्रयोगकर्ताले सर्च रिजल्ट भ्यूमा केस देख्नेछन्, उनीहरू त्यो केसको लागी केस देखाउनुहोस्  पृष्ठमा क्लिक गर्न  सक्षम हुनेछैनन् । यसको मतलब उनीहरू केस बारे कुनै विस्तृत जानकारी हेर्न सक्षम हुनेछैनन्।
             label: अन्य प्रयोगकर्ताहरूको स्वामित्वमा रहेका केस अभिलेखहरूको खोज गर्नुहोस् ।
           service_provision_incident_details:
             explanation: प्रयोगकर्तालाई घटना मोडल थप्नुहोस् को तल भएको "सुरक्षित गर्नुहोस् र सेवा प्रावधान थप्नुहोस्" भन्ने लेबल भएको बटन हेर्न अनुमति दिन्छ। यो बटन क्लिक गर्नाले घटनाको हाल प्रविष्ट गरेको जानकारी सुरक्षित गर्दछ र प्रयोगकर्तालाई सीधा सेवा प्रावधान थप्नुहोस् मोडलमा लैजान्छ । यो कार्य सीधै घटना थप्नुहोस् र सेवा प्रावधान कार्यहरू थप्नुहोस् संग जोडिएको हुनाले "अर्को प्रयोगकर्ताको केसमा घटनाको विवरण थप्नुहोस्" र "अर्को प्रयोगकर्ताको केसमा सेवा प्रावधान थप्नुहोस्" को अनुमति पाएको भूमिकालाई यो अनुमति दिन जायज हुन्छ ।
             label: घटना विवरण मोडलमा सेवा प्रावधान थप्ने बटन हेर्नुहोस् ।
           services_section_from_case:
-            explanation: "तपाइँले खोजी परीणामहरुमा केस भेटेको तर जसमा तपाइँको पहुँचको नभएको सेवाहरू सहायक फारममा एउटा प्रविष्टि थप्न सक्ने क्षमता । प्रयोगकर्ताले एक वा धेरै केसहरू छनौट गरेपछि कार्य मेनु बाट \"सेवा प्रावधान थप्नुहोस्\" बटन छनौट गरी खोज परिणाम पृष्ठ बाट यो कार्य गर्दछन् । प्रयोगकर्ताले त्यसपछि सहायक फारममा सबै क्षेत्रहरू भएका मोडल देख्छन् जहाँ उनीहरूले सेवा बारे जानकारी प्रविष्ट र पेश गर्न सक्छन् । यो कार्य खोज परिणाम पृष्ठबाट मात्र गर्न सकिने हुनाले र यदि भूमिकालाई \"अन्य प्रयोगकर्ताहरूको स्वामित्वमा रहेको केस अभिलेख खोज गर्ने\" अनुमति छ भने उनीहरूले यो अनुमति पाउन जायज छ । "
+            explanation: 'तपाइँले खोजी परीणामहरुमा केस भेटेको तर जसमा तपाइँको पहुँचको नभएको सेवाहरू सहायक फारममा एउटा प्रविष्टि थप्न सक्ने क्षमता । प्रयोगकर्ताले एक वा धेरै केसहरू छनौट गरेपछि कार्य मेनु बाट "सेवा प्रावधान थप्नुहोस्" बटन छनौट गरी खोज परिणाम पृष्ठ बाट यो कार्य गर्दछन् । प्रयोगकर्ताले त्यसपछि सहायक फारममा सबै क्षेत्रहरू भएका मोडल देख्छन् जहाँ उनीहरूले सेवा बारे जानकारी प्रविष्ट र पेश गर्न सक्छन् । यो कार्य खोज परिणाम पृष्ठबाट मात्र गर्न सकिने हुनाले र यदि भूमिकालाई "अन्य प्रयोगकर्ताहरूको स्वामित्वमा रहेको केस अभिलेख खोज गर्ने" अनुमति छ भने उनीहरूले यो अनुमति पाउन जायज छ । '
             label: अर्को प्रयोगकर्ताको केसमा सेवा प्रावधान थप्नुहोस् ।
           sync_external:
             explanation: बाह्य सूचना व्यवस्थापन प्रणालीसँग अभिलेखलाई  sync गर्ने क्षमता ।
@@ -2463,65 +2370,65 @@ ne:
             explanation: प्रयोगकर्तालाई स्थानान्तरण प्राप्त गर्ने क्षमता सँगै आफ्नो वर्तमान अभिलेख मालिक बाट प्रणालीमा भएको कुनै पनी प्रयोगकर्तालाई केस पठाउन अनुमति दिन्छ। स्थानान्तरणको प्राप्तकर्ताले "स्वीकार" नगरे सम्म केसको अभिलेख मालिक परिवर्तन हुँदैन । यदि प्राप्तकर्ताले स्थानान्तरण "अस्वीकार" गरेमा केसको पहुँच गुमाउँछ र यसको मूल अभिलेख मालिक पहिले कै रहन्छ ।
             label: स्थानान्तरण गर्नुहोस् ।
           view_photo:
-            explanation: "प्रयोगकर्तालाई केस सूची बाट केसको फोटो हेर्न अनुमति दिन्छ। यो अनुमति बिना, प्रयोगकर्ताले केस सूची तालिका को \"फोटो\" स्तम्भ, वा फोटो आइकनहरू देख्न सक्दैनन् । यो अनुमतिले प्रयोगकर्तालाई \"मोडल हेर्नुहोस्\" मा बालबालिकाको फोटो हेर्ने अनुमति पनि दिन्छ।"
+            explanation: प्रयोगकर्तालाई केस सूची बाट केसको फोटो हेर्न अनुमति दिन्छ। यो अनुमति बिना, प्रयोगकर्ताले केस सूची तालिका को "फोटो" स्तम्भ, वा फोटो आइकनहरू देख्न सक्दैनन् । यो अनुमतिले प्रयोगकर्तालाई "मोडल हेर्नुहोस्" मा बालबालिकाको फोटो हेर्ने अनुमति पनि दिन्छ।
             label: केस लिस्ट भ्यू बाट फोटो हेर्नुहोस्
           view_incident_from_case:
-            explanation: "\"प्रयोगकर्ताले केस हेर्दै गर्दा केस संग जोडिएको घटनाहरूको सूची देख्न सक्छ र साथै प्रत्येक केसको बारे सारांशमा केही जानकारी पनि देख्न सक्छ ।"
+            explanation: '"प्रयोगकर्ताले केस हेर्दै गर्दा केस संग जोडिएको घटनाहरूको सूची देख्न सक्छ र साथै प्रत्येक केसको बारे सारांशमा केही जानकारी पनि देख्न सक्छ ।'
             label: केस बाट घटनाहरू हेर्नुहोस्।
           view_protection_concerns_filter:
             explanation: प्रयोगकर्तालाई केस सूची पृष्ठमा संरक्षण चासो सम्बन्धी फिल्टर हेर्ने अनुमति दिन्छ।
-            label: " केस सूची पृष्ठमा संरक्षण चासो सम्बन्धी फिल्टरहरू हेर्नुहोस्"
+            label: ' केस सूची पृष्ठमा संरक्षण चासो सम्बन्धी फिल्टरहरू हेर्नुहोस्'
           view_registry_record:
             explanation: प्रयोगकर्तालाई केससँग लिङ्क गरिएको कुनै पनि रजिस्ट्रीको जानकारी हेर्न अनुमति दिन्छ। साथै प्रयोगकर्तालाई घटनाको रजिस्ट्री विवरण हेर्न अनुमति दिन्छ।
             label: केसबाट रजिस्ट्री रेकर्ड हेर्नुहोस्
           write:
-            explanation: "\"सम्पादन\" बटन क्लिक गर्ने, केसमा जानकारी अद्यावधिक गर्ने र 'सुरक्षित गर्नुहोस्' बटनमा क्लिक गर्ने क्षमता"
+            explanation: '"सम्पादन" बटन क्लिक गर्ने, केसमा जानकारी अद्यावधिक गर्ने र ''सुरक्षित गर्नुहोस्'' बटनमा क्लिक गर्ने क्षमता'
             label: सम्पादन गर्नुहोस्
           accept_or_reject_transfer:
-            explanation: "प्रयोगकर्तालाई तपाईको टोलीमा रहेको अर्को प्रयोगकर्ताको तर्फबाट स्थानान्तरण स्वीकार वा अस्वीकार गर्न अनुमति दिन्छ (उदाहरणका लागि, सामाजिक कार्यकर्तालाई स्थानान्तरण स्वीकार गर्न पठाइएको घटना पर्यवेक्षकले स्वीकार गर्नु)।"
+            explanation: प्रयोगकर्तालाई तपाईको टोलीमा रहेको अर्को प्रयोगकर्ताको तर्फबाट स्थानान्तरण स्वीकार वा अस्वीकार गर्न अनुमति दिन्छ (उदाहरणका लागि, सामाजिक कार्यकर्तालाई स्थानान्तरण स्वीकार गर्न पठाइएको घटना पर्यवेक्षकले स्वीकार गर्नु)।
             label: तपाईको टोलीमा अर्को प्रयोगकर्ताको लागि स्थानान्तरण स्वीकार वा अस्वीकार गर्नुहोस्।
           list_case_names:
-            explanation: "प्रबन्धकहरूले सामान्यतया केस सूचीमा केसहरूको नाम देख्न सक्दैनन्। यदि प्रबन्धकसँग यो अनुमति छ भने, उनीहरूले सूचीमा नामहरू हेर्न सक्षम हुनेछन्।"
-            label: "यदि प्रबन्धकले चाहेको खण्डमा, केस सूचीमा रहेको केस नामहरू हेर्न सक्दछन् ।"
+            explanation: प्रबन्धकहरूले सामान्यतया केस सूचीमा केसहरूको नाम देख्न सक्दैनन्। यदि प्रबन्धकसँग यो अनुमति छ भने, उनीहरूले सूचीमा नामहरू हेर्न सक्षम हुनेछन्।
+            label: यदि प्रबन्धकले चाहेको खण्डमा, केस सूचीमा रहेको केस नामहरू हेर्न सक्दछन् ।
           mark_for_offline:
             explanation: प्रयोगकर्तालाई अफलाईन प्रयोगको लागि केस cache गर्न अनुमति दिन्छ।
             label: अफलाईनको लागि चिन्ह लगाउनुहोस्
-        explanation: "बालबालिका, हिंसाबाट बचेका, वा अन्य लाभग्राहीको प्रतिनिधित्व गर्दछ।"
+        explanation: बालबालिका, हिंसाबाट बचेका, वा अन्य लाभग्राहीको प्रतिनिधित्व गर्दछ।
         label: केस
       dashboard:
         actions:
           approvals_action_plan:
-            explanation: "विचाराधीन, स्वीकृत वा अस्वीकृत कार्य योजना स्वीकृति अनुरोधहरूको संख्या चालु प्रयोगकर्तालाई देखाउँछ। "
-            label: "केस कामदारद्वारा स्वीकृत %{approval_label}"
+            explanation: 'विचाराधीन, स्वीकृत वा अस्वीकृत कार्य योजना स्वीकृति अनुरोधहरूको संख्या चालु प्रयोगकर्तालाई देखाउँछ। '
+            label: केस कामदारद्वारा स्वीकृत %{approval_label}
           approvals_action_plan_pending:
             explanation: प्रबन्धकको टोलीमा भएको विचाराधीन कार्य योजना स्वीकृति अनुरोधहरूको संख्या देखाउँछ।
-            label: "प्रबन्धकद्वारा स्वीकृत %{approval_label}"
+            label: प्रबन्धकद्वारा स्वीकृत %{approval_label}
           approvals_assessment:
-            explanation: "विचाराधीन, स्वीकृत वा अस्वीकृत मूल्यांकन स्वीकृतिको अनुरोध संख्या चालु प्रयोगकर्तालाई देखाउँछ। "
-            label: "केस कामदारद्वारा स्वीकृत%{approval_label}"
+            explanation: 'विचाराधीन, स्वीकृत वा अस्वीकृत मूल्यांकन स्वीकृतिको अनुरोध संख्या चालु प्रयोगकर्तालाई देखाउँछ। '
+            label: केस कामदारद्वारा स्वीकृत%{approval_label}
           approvals_assessment_pending:
             explanation: प्रबन्धकको टोलीमा भएको विचाराधीन मूल्यांकन स्वीकृतिको अनुरोध संख्या देखाउँछ।
-            label: "प्रबन्धकद्वारा स्वीकृत %{approval_label}"
+            label: प्रबन्धकद्वारा स्वीकृत %{approval_label}
           approvals_case_plan:
-            explanation: "विचाराधीन, स्वीकृत वा अस्वीकृत  केस योजना स्वीकृतिको अनुरोध संख्या चालु प्रयोगकर्ताहरुलाई देखाउँछ। "
-            label: "केस कामदारद्वारा स्वीकृत %{approval_label}"
+            explanation: 'विचाराधीन, स्वीकृत वा अस्वीकृत  केस योजना स्वीकृतिको अनुरोध संख्या चालु प्रयोगकर्ताहरुलाई देखाउँछ। '
+            label: केस कामदारद्वारा स्वीकृत %{approval_label}
           approvals_case_plan_pending:
             explanation: प्रबन्धकको टोलीमा भएको विचाराधीन केस योजना स्वीकृतिहरुको अनुरोध संख्या देखाउँछ।
-            label: "प्रबन्धकद्वारा स्वीकृत %{approval_label}"
+            label: प्रबन्धकद्वारा स्वीकृत %{approval_label}
           approvals_closure:
-            explanation: "विचाराधीन, स्वीकृत वा अस्वीकृत समापन स्वीकृतिको लागि गरिएको अनुरोधहरूको संख्या प्रयोगकर्तालाई देखाउँछ। "
-            label: "केस कामदारद्वारा स्वीकृत %{approval_label}"
+            explanation: 'विचाराधीन, स्वीकृत वा अस्वीकृत समापन स्वीकृतिको लागि गरिएको अनुरोधहरूको संख्या प्रयोगकर्तालाई देखाउँछ। '
+            label: केस कामदारद्वारा स्वीकृत %{approval_label}
           approvals_closure_pending:
             explanation: प्रबन्धकको टोलीमा भएको विचाराधीन समापन स्वीकृति अनुरोधहरूको संख्या देखाउँछ।
-            label: "प्रबन्धकद्वारा स्वीकृत %{approval_label}"
+            label: प्रबन्धकद्वारा स्वीकृत %{approval_label}
           approvals_gbv_closure:
-            explanation: "विचाराधीन, स्वीकृत वा अस्वीकृत GBV समापन स्वीकृतिका अनुरोधहरू केस संख्या चालु प्रयोगकर्तालाई देखाउँछ। "
-            label: "केस कामदारद्वारा स्वीकृत %{approval_label}"
+            explanation: 'विचाराधीन, स्वीकृत वा अस्वीकृत GBV समापन स्वीकृतिका अनुरोधहरू केस संख्या चालु प्रयोगकर्तालाई देखाउँछ। '
+            label: केस कामदारद्वारा स्वीकृत %{approval_label}
           approvals_gbv_closure_pending:
             explanation: प्रबन्धकको टोलीमा भएको विचाराधीन GBV बन्द गर्न स्वीकृतिका लागि अनुरोध संख्या देखाउँछ।
-            label: "प्रबन्धकद्वारा स्वीकृत %{approval_label}"
+            label: प्रबन्धकद्वारा स्वीकृत %{approval_label}
           case_overview:
-            explanation: "कुल र नयाँ केसहरू समावेश तथ्याङ्क ड्यासबोर्डको गृह पृष्ठको माथिल्लो भागमा समावेश गरिनेछ । "
+            explanation: 'कुल र नयाँ केसहरू समावेश तथ्याङ्क ड्यासबोर्डको गृह पृष्ठको माथिल्लो भागमा समावेश गरिनेछ । '
             label: ड्यासबोर्ड अवलोकन गर्नुहोस्
           case_risk:
             explanation: प्रत्येक जोखिम स्तरमा कति वटा केसहरू छन् भन्ने देखाउँछ।
@@ -2530,19 +2437,18 @@ ne:
             explanation: प्रबन्धकलाई प्रत्येक केस कामदारहरूको  म्याद नाघेको मूल्या्कन कार्यहरूको केस संख्या हेर्ने अनुमति दिन्छ  ।
             label: म्याद नाघेको मूल्याङकन कार्यहरू
           cases_by_task_overdue_case_plan:
-            explanation: "प्रबन्धकलाई प्रत्येक केस कामदारहरूको  म्याद नाघेको केस योजना कार्यहरूको केस संख्या हेर्ने अनुमति दिन्छ  । "
+            explanation: 'प्रबन्धकलाई प्रत्येक केस कामदारहरूको  म्याद नाघेको केस योजना कार्यहरूको केस संख्या हेर्ने अनुमति दिन्छ  । '
             label: म्याद नाघेको केस योजना कार्यहरू
           cases_by_task_overdue_followups:
-            explanation: "प्रबन्धकलाई प्रत्येक केस कामदारहरूको म्याद नाघेको फलोअप कार्यहरूको केस संख्या हेर्नेअनुमति दिन्छ  । "
+            explanation: 'प्रबन्धकलाई प्रत्येक केस कामदारहरूको म्याद नाघेको फलोअप कार्यहरूको केस संख्या हेर्नेअनुमति दिन्छ  । '
             label: म्याद नाघेको फलोअप कार्यहरू
           cases_by_task_overdue_services:
-            explanation: "प्रबन्धकलाई प्रत्येक केस कामदारहरूको म्याद नाघेको सेवा कार्यहरूको केस संख्या हेर्ने अनुमति दिन्छ  । "
+            explanation: 'प्रबन्धकलाई प्रत्येक केस कामदारहरूको म्याद नाघेको सेवा कार्यहरूको केस संख्या हेर्ने अनुमति दिन्छ  । '
             label: म्याद नाघेको सेवा कार्यहरू
           dash_case_incident_overview:
-            explanation: .
             label: संक्षेपमा मेरो केस/घटनाहरू
           dash_cases_by_social_worker:
-            explanation: "वर्तमान प्रयोगकर्ता समूहका प्रत्यक प्रयोगकर्ताले खुल्ला केस र नयाँ केसहरूको व्यवस्थापन कसरी गरिरहेका छन् भनेर देखाउने तालिका । तालिकाको प्रत्येक पंक्ति वर्तमान प्रयोगकर्ता समूहमा भएको प्रयोगकर्ता हो भने \"कुल\" र \"नयाँ\"  दुई स्तम्भहरू हुन् ।  "
+            explanation: 'वर्तमान प्रयोगकर्ता समूहका प्रत्यक प्रयोगकर्ताले खुल्ला केस र नयाँ केसहरूको व्यवस्थापन कसरी गरिरहेका छन् भनेर देखाउने तालिका । तालिकाको प्रत्येक पंक्ति वर्तमान प्रयोगकर्ता समूहमा भएको प्रयोगकर्ता हो भने "कुल" र "नयाँ"  दुई स्तम्भहरू हुन् ।  '
             label: सामाजिक कार्यकर्ताहरू अनुसार केसहरू हेर्नुहोस् ।
           dash_cases_to_assign:
             explanation: 'महत्वपूर्ण: प्रबन्धकहरूको लागी मात्र। वर्तमान प्रयोगकर्ता (प्रबन्धक हुनु पर्छ) को स्वामित्वमा रहेका केसहरूको संख्या देखाउँछ। यो ड्यासबोर्डको मान्यता अनुसार प्रबन्धकहरूले आफ्नो केसहरू ब्यबस्थापन गर्दैनन् र यदि प्रबन्धकको आफ्नै केसहरू छन्, भने उनीहरूले ती केसहरूलाई आफ्नो टोलिमा भएका केस कामदारहरूलाई  तोक्नु पर्छ।'
@@ -2557,17 +2463,17 @@ ne:
             explanation: DEPRECATED । यो ड्यासबोर्ड हाल संचालनमा छैन र यसलाई दोस्रो संस्करण v2 मा हटाइनेछ।
             label: मिलन भएका नतिजाहरू हेर्नुहोस्
           dash_protection_concerns:
-            explanation: "कति केसहरूमा संरक्षण चासो छन् भनेर देखाउने तालिका । तालिकाको प्रत्येक पंक्ति संरक्षण चासो हो, र स्तम्भहरूले केसहरूको बिभिन्न स्थितिको संकेत गर्दछ (जस्तै : \"सबै केसहरू\", \"खुला केस,\" \"नयाँ(यो हप्ता),\" \"बन्द (यो हप्ता)\")।"
-            label: "संरक्षणको चासो अनुसार केसहरू "
+            explanation: 'कति केसहरूमा संरक्षण चासो छन् भनेर देखाउने तालिका । तालिकाको प्रत्येक पंक्ति संरक्षण चासो हो, र स्तम्भहरूले केसहरूको बिभिन्न स्थितिको संकेत गर्दछ (जस्तै : "सबै केसहरू", "खुला केस," "नयाँ(यो हप्ता)," "बन्द (यो हप्ता)")।'
+            label: 'संरक्षणको चासो अनुसार केसहरू '
           dash_protection_concerns_by_location:
             explanation: यो "संरक्षण चासो देखाउनुहोस् " ड्यासबोर्ड जस्तै हो । फरक यति मात्र हो कि प्रयोगकर्ताले एउटा  ड्रपडाउन बाट स्थान छनौट गरेर त्यस स्थानमा मात्र रहेको संरक्षण चासोको तथ्याङ्क देखाउन सक्छन् ।
-            label: "स्थान अनुसार संरक्षणको चासोहरू हेर्नुहोस्  । "
+            label: 'स्थान अनुसार संरक्षणको चासोहरू हेर्नुहोस्  । '
           dash_reporting_location:
-            explanation: "प्रत्येक स्थानमा कति केसहरू छन् भनेर देखाउने  तालिका  (\"प्रदेश\" वा \"जिल्ला\" को स्तरमा )। तालिका को प्रत्येक पंक्ति एउटा स्थान हो, र स्तम्भहरूले केसहरूको बिभिन्न स्थितिको संकेत गर्दछ (जस्तै : \"खुला केस,\" \"नयाँ (गत हप्ता),\" \"नयाँ (यो हप्ता),\" \"बन्द (गत हप्ता),\" \"बन्द (यो हप्ता)\")। सामान्यतया प्रबन्धक वा प्रशासक खाता को लागी प्रयोग गरीन्छ। "
+            explanation: 'प्रत्येक स्थानमा कति केसहरू छन् भनेर देखाउने  तालिका  ("प्रदेश" वा "जिल्ला" को स्तरमा )। तालिका को प्रत्येक पंक्ति एउटा स्थान हो, र स्तम्भहरूले केसहरूको बिभिन्न स्थितिको संकेत गर्दछ (जस्तै : "खुला केस," "नयाँ (गत हप्ता)," "नयाँ (यो हप्ता)," "बन्द (गत हप्ता)," "बन्द (यो हप्ता)")। सामान्यतया प्रबन्धक वा प्रशासक खाता को लागी प्रयोग गरीन्छ। '
             label: रिपोर्टि स्थानहरू अनुसार केसहरू
           dash_service_provisions:
             explanation: अन्य प्रयोगकर्ताहरूले सेवा प्रावधान थपेका केसहरूको संख्या देखाउँछ। यो नम्बर ड्यासबोर्डको मुख्य खण्डमा देखिन्छ।
-            label: " सेवा प्रावधानको प्रकार अनुसार केसहरू"
+            label: ' सेवा प्रावधानको प्रकार अनुसार केसहरू'
           dash_shared_from_my_team:
             explanation: प्रबन्धकलाई उनीहरूको टोलीको प्रत्येक प्रयोगकर्ता द्वारा अन्य प्रयोगकर्ताहरूलाई रेफर वा हस्तान्तरण गरिएको केसहरूको संख्या देखाउँछ।
             label: मेरो समूहबाट शेयर गरिएको
@@ -2580,7 +2486,7 @@ ne:
           dash_shared_with_my_team_overview:
             label: मेरो समूहमा आदानप्रदान गरिएको (संक्षेपमा)
           dash_shared_with_others:
-            explanation: "मेरा केसहरू मध्ये कति सक्रिय रेफरलहरु, विचाराधीन स्थानान्तरण, वा अस्वीकृत स्थानान्तरण छन् भन्ने देखाउँछ। यो सामान्यतया प्रबन्धकहरूको लागी होईन, यदि उनीहरु आफैं केसहरूको ब्यबस्थापन गर्दैनन् भने ।"
+            explanation: मेरा केसहरू मध्ये कति सक्रिय रेफरलहरु, विचाराधीन स्थानान्तरण, वा अस्वीकृत स्थानान्तरण छन् भन्ने देखाउँछ। यो सामान्यतया प्रबन्धकहरूको लागी होईन, यदि उनीहरु आफैं केसहरूको ब्यबस्थापन गर्दैनन् भने ।
             label: अरुलाई शेयर भएको
           dash_violations_category_verification_status:
             explanation: प्रमाणीकरण स्थिति अनुसार प्रत्येक प्रकार को कति MRM उल्लङ्घनहरू भएको छ भन्ने देखाउँछ ।
@@ -2592,35 +2498,35 @@ ne:
             explanation: पीडक अनुसार कति MRM उल्लङ्घनहरू भएका छन् भन्ने देखाउँछ
             label: MRM - पीडक अनुसार उल्लङ्घनको संख्या
           dash_show_none_values:
-            explanation: " \"कुनै जोखिम स्तर छैन\" भन्ने वर्ग सबै ड्यासबोर्डहरूमा थपिन्छ जसले जोखिम स्तरको आधारमा केसहरूलाई छुट्टयाउँछ । यो विशेष गरी जोखिम स्तर क्षेत्रहरूको लागी  \"कुनै जोखिम छैन\" भन्ने चौथो विकल्प भएको कन्फिगरेसनको लागी हो।"
+            explanation: ' "कुनै जोखिम स्तर छैन" भन्ने वर्ग सबै ड्यासबोर्डहरूमा थपिन्छ जसले जोखिम स्तरको आधारमा केसहरूलाई छुट्टयाउँछ । यो विशेष गरी जोखिम स्तर क्षेत्रहरूको लागी  "कुनै जोखिम छैन" भन्ने चौथो विकल्प भएको कन्फिगरेसनको लागी हो।'
             label: मूल्याङकन ड्यासबोर्डमा 'कुनै जोखिम स्तर छैन' अनुसार केसहरू हेर्नुहोस् ।
           dash_tasks:
             explanation: प्रयोगकर्तालाई कार्य पृष्ठ हेर्ने अनुमति दिन्छ। संख्याहरू विशेष गरी तपाइँले प्रत्यक्ष व्यवस्थापन गर्ने केसको लागी हुनाले यो केस कामदारहरू र सेवा प्रदायकहरूको लागी प्रयोग गरिनु पर्दछ। प्रबन्धकहरूलाई  "म्याद नाघेका कार्यहरू द्वारा केसहरू हेर्नुहोस्" ड्यासबोर्डमा पाउनेछन जसले गर्दा उनीहरूलाई प्रयोगकर्ता समूहहरूमा भएका सबै म्याद नाघेका कार्यहरू हेर्न दिन्छ।
             label: कार्य पृष्ठ
           dash_national_admin_summary:
-            explanation: "प्रणालीमा भएका कुल खुल्ला केसहरू,  गत दुई हप्तामा सिर्जना गरिएका नयाँ केसहरूको संख्या र प्रत्येक गत दुई हप्तामा बन्द गरिएका केसहरूको संख्या देखाउँछ।"
+            explanation: प्रणालीमा भएका कुल खुल्ला केसहरू,  गत दुई हप्तामा सिर्जना गरिएका नयाँ केसहरूको संख्या र प्रत्येक गत दुई हप्तामा बन्द गरिएका केसहरूको संख्या देखाउँछ।
             label: प्रशासकीय सारांश
           view_response:
-            explanation: "प्रत्येक प्रतिक्रिया प्रकारको लागी, म्याद नजिक पुगेका वा म्याद नाघेका सेवाहरू प्रत्येक जोखिम स्तरमा कति केसहरू छन् भन्ने देखाउँछ ।"
+            explanation: प्रत्येक प्रतिक्रिया प्रकारको लागी, म्याद नजिक पुगेका वा म्याद नाघेका सेवाहरू प्रत्येक जोखिम स्तरमा कति केसहरू छन् भन्ने देखाउँछ ।
             label: प्रतिक्रियाहरू हेर्नुहोस् ।
           workflow:
-            explanation: "केस कामदारलाई एउटा पाई ग्राफमा केस व्यवस्थापन कार्यप्रवाहको प्रत्येक चरणमा उनीहरूको केसहरूको  संख्या हेर्ने अनुमति दिन्छ । "
+            explanation: 'केस कामदारलाई एउटा पाई ग्राफमा केस व्यवस्थापन कार्यप्रवाहको प्रत्येक चरणमा उनीहरूको केसहरूको  संख्या हेर्ने अनुमति दिन्छ । '
             label: कार्यप्रवाहको आधारमा विभाजन गरिएका केसहरू
           workflow_team:
-            explanation: "प्रबन्धकलाई एउटा तालिकामा केस व्यवस्थापन प्रकृयाको प्रत्येक चरणमा भएका सामाजिक कार्यकर्ताका केसहरूको  संख्या हेर्ने अनुमति दिन्छ । "
+            explanation: 'प्रबन्धकलाई एउटा तालिकामा केस व्यवस्थापन प्रकृयाको प्रत्येक चरणमा भएका सामाजिक कार्यकर्ताका केसहरूको  संख्या हेर्ने अनुमति दिन्छ । '
             label: कार्यप्रवाह र केस कामदारहरूको आधारमा केसहरू
         explanation: गृह पृष्ठमा कुन सारांश जानकारी देखा पर्दछ भनेर निर्धारण गर्दछ।
         label: ड्यासबोर्ड
       disabled:
-        explanation: "यदि तपाईंले यो भूमिकालाई निष्कृय गर्नु भयो भने, अब उप्रान्त प्रयोगकर्ता खाताहरूलाई तोक्न सक्षम हुनुहुने छैन ।"
+        explanation: यदि तपाईंले यो भूमिकालाई निष्कृय गर्नु भयो भने, अब उप्रान्त प्रयोगकर्ता खाताहरूलाई तोक्न सक्षम हुनुहुने छैन ।
         label: निष्क्रिय पारिएको
       duplicate:
         actions:
           read:
-            explanation: "नाम, उपनाम, लिंग, उमेर, र राष्ट्रियता सहितको  मापदण्ड प्रयोग गरेर प्रणालीमा भएका सबै केसहरूको उच्च स्तरको खोज गर्न प्रयोगकर्तालाई अनुमति दिन्छ।"
+            explanation: नाम, उपनाम, लिंग, उमेर, र राष्ट्रियता सहितको  मापदण्ड प्रयोग गरेर प्रणालीमा भएका सबै केसहरूको उच्च स्तरको खोज गर्न प्रयोगकर्तालाई अनुमति दिन्छ।
             label: हेर्नुहोस ।
         explanation: प्रशासकहरूको लागि एड्भान्स केस सर्च
-        label: "डुप्लिकेटको खोजी "
+        label: 'डुप्लिकेटको खोजी '
       forms:
         case:
           explanation: 'केस फारममा प्रयोगकर्ताको पहुँच सीमित गर्नाले प्रयोगकर्ताले एउटा घटनामा हेर्न सक्ने जानकारी पनि सीमित गर्दछ । उदाहरणको लागी, यदि प्रयोगकर्तालाई अभिलेख मालिक फारममा मात्र पहुँच छ भने उनीहरूले त्यो फारमको फिल्डहरूमा रहेको जानकारी मात्र हेर्न सक्षम हुनेछन्। यदि वर्तमान प्रयोगकर्ताको फारममा सीमित पहुँच छ र फारम कन्फिगरेसन व्यवस्थापन गर्ने क्षमता छ भने उनीहरुलाई फारमको पहुँचमा सीमित हुनुका साथै फारम कन्फिगरेसन गर्नमा पनि पहुँच सीमित गर्छ। नोट: यदि कुनै फारम निर्दिष्ट गरीएको छैन भने त्यसको मतलब केसको सबै फारमको पहुँचको भूमिका रहन्छ ।  '
@@ -2637,82 +2543,82 @@ ne:
       group:
         actions:
           admin_only:
-            explanation: "यसको मतलब यो भूमिकाका भएको प्रयोगकर्ताहरूले प्रणालीको प्रशासनसंग सम्बन्धित रिपोर्ट, फारम र लुकअप कन्फिगरेसन, प्रयोगकर्ताहरू, भूमिकाहरू, र प्रयोगकर्ता समूहहरू जस्ता कुराहरू मात्र हेर्न सक्षम हुनेछन् । उनीहरूले कुनै पनी व्यक्तिगत केसहरू, ट्रेसिङ्ग अनुरोधहरू वा घटनाहरू देख्ने छैनन्।"
+            explanation: यसको मतलब यो भूमिकाका भएको प्रयोगकर्ताहरूले प्रणालीको प्रशासनसंग सम्बन्धित रिपोर्ट, फारम र लुकअप कन्फिगरेसन, प्रयोगकर्ताहरू, भूमिकाहरू, र प्रयोगकर्ता समूहहरू जस्ता कुराहरू मात्र हेर्न सक्षम हुनेछन् । उनीहरूले कुनै पनी व्यक्तिगत केसहरू, ट्रेसिङ्ग अनुरोधहरू वा घटनाहरू देख्ने छैनन्।
             label: कुनै अभिलेख छैन - व्यवस्थापक कार्यक्षमताको लागि मात्र
           agency:
             explanation: भूमिकाले आफ्नो निकायमा भएका सबै प्रयोगकर्ताहरू द्वारा व्यवस्थित अभिलेखहरू पहुँच गर्न सक्छन् । यदि प्रयोगकर्तालाई  प्रयोगकर्ताको पहुँच छ भने उनीहरूले आफ्नो निकायका सबै प्रयोगकर्ताहरूलाई पहुँच गर्न सक्छन्।
             label: मेरो निकायमा भएका सबै अभिलेखहरू वा प्रयोगकर्ताहरू।
           all:
-            explanation: "यस भूमिकाले आफु जुन सुकै प्रयोगकर्ता समूह सँग सम्बन्धित भएता पनि प्रणालीमा भएका सबै अभिलेखहरू, प्रयोगकर्ताहरू र प्रयोगकर्ता समूहहरू पहुँच गर्न सक्छन् ।"
+            explanation: यस भूमिकाले आफु जुन सुकै प्रयोगकर्ता समूह सँग सम्बन्धित भएता पनि प्रणालीमा भएका सबै अभिलेखहरू, प्रयोगकर्ताहरू र प्रयोगकर्ता समूहहरू पहुँच गर्न सक्छन् ।
             label: सबै अभिलेख वा प्रयोगकर्ताहरू पहुँच गर्नुहोस् ।
           group:
-            explanation: "यो भूमिकाले प्रयोगकर्ता समूहमा भएका सबै प्रयोगकर्ताहरूद्वारा व्यवस्थित अभिलेखहरू पहुँच गर्न सक्छन् । उनीहरूले आफ्नो प्रयोगकर्ता समूहमा भएका प्रयोगकर्ताहरूमा मात्र पहुँच गर्न सक्छन्। उनीहरूले आफ्नो प्रयोगकर्ता समूह मात्र पहुँच गर्न सक्छन्।  "
+            explanation: 'यो भूमिकाले प्रयोगकर्ता समूहमा भएका सबै प्रयोगकर्ताहरूद्वारा व्यवस्थित अभिलेखहरू पहुँच गर्न सक्छन् । उनीहरूले आफ्नो प्रयोगकर्ता समूहमा भएका प्रयोगकर्ताहरूमा मात्र पहुँच गर्न सक्छन्। उनीहरूले आफ्नो प्रयोगकर्ता समूह मात्र पहुँच गर्न सक्छन्।  '
             label: मेरो समूहमा भएका सबै अभिलेखहरू वा प्रयोगकर्ताहरूलाई पहुँच गर्नुहोस् ।
           self:
-            explanation: "भूमिकाले आफ्नो अभिलेख (केस हरू, ट्रेसिङ्ग अनुरोधहरू वा घटनाहरू) पहुँच गर्न र आफ्नो प्रयोगकर्ता खाता सम्पादन गर्न सक्नुहुन्छ।"
+            explanation: भूमिकाले आफ्नो अभिलेख (केस हरू, ट्रेसिङ्ग अनुरोधहरू वा घटनाहरू) पहुँच गर्न र आफ्नो प्रयोगकर्ता खाता सम्पादन गर्न सक्नुहुन्छ।
             label: मेरो वा प्रयोगकर्ताको अभिलेखहरू मात्र पहुँच गर्नुहोस् ।
-        explanation: "यो भूमिकाले पहुँच गर्न सक्ने अभिलेखहरू (केसहरु, ट्रेसिङ्ग अनुरोधहरू वा घटनाहरू) नियन्त्रण गर्दछ । यदि भूमिकालाई प्रयोगकर्ताहरू र प्रयोगकर्ता समूहहरूको पहुँच छ भने उनीहरूले पहुँच गर्न सक्ने प्रयोगकर्ताहरू र प्रयोगकर्ता समूहहरू पनि नियन्त्रण गर्दछ । \"कुनै अभिलेखहरू छैन \" को पहुँच भएका भूमिकाहरूबाट फारमहरू, प्रयोगकर्ताहरू र अभिलेखहरू जस्तो प्रणाली कन्फिगरेसन मात्र पहुँच गर्न सक्छन् । "
-        label: "यो रेकर्डले कुन भूमिकालाई असर गर्छ ?"
+        explanation: 'यो भूमिकाले पहुँच गर्न सक्ने अभिलेखहरू (केसहरु, ट्रेसिङ्ग अनुरोधहरू वा घटनाहरू) नियन्त्रण गर्दछ । यदि भूमिकालाई प्रयोगकर्ताहरू र प्रयोगकर्ता समूहहरूको पहुँच छ भने उनीहरूले पहुँच गर्न सक्ने प्रयोगकर्ताहरू र प्रयोगकर्ता समूहहरू पनि नियन्त्रण गर्दछ । "कुनै अभिलेखहरू छैन " को पहुँच भएका भूमिकाहरूबाट फारमहरू, प्रयोगकर्ताहरू र अभिलेखहरू जस्तो प्रणाली कन्फिगरेसन मात्र पहुँच गर्न सक्छन् । '
+        label: यो रेकर्डले कुन भूमिकालाई असर गर्छ ?
       incident:
         actions:
           change_log:
             explanation: प्रयोगकर्ताले अभिलेख सिर्जना भएदेखि त्यसमा गरिएका सबै परिवर्तनहरूको इतिहास देख्न सक्छ । यसअन्तर्गत सबै फिल्डहरुको लागि अभिलेख गरिएका मानहरू पनि सामेल छन् ।
-            label: " परिवर्तन लग"
+            label: ' परिवर्तन लग'
           create:
             explanation: घटना सिर्जना गर्न सक्ने क्षमता
-            label: "सिर्जना गर्नुहोस् "
+            label: 'सिर्जना गर्नुहोस् '
           enable_disable_record:
             explanation: घटनालाई सक्रिय वा निष्क्रिय गर्ने क्षमता। "निष्क्रिय" घटनाहरू घटना सूचीमा पूर्वनिर्धारित रूपमा देखा पर्दैन। प्रयोगकर्ताहरूले फिल्टर प्रयोग गरेर घटना सूचीमा निष्क्रिय घटनाहरू देख्न सक्छन् ।
             label: सक्रिय/निष्क्रिय पार्नुहोस्
           export_case_pdf:
-            explanation: "प्रयोगकर्ताले घटना सूची वा घटना देखाउने पृष्ठहरू बाट PDF फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसहरुको फिल्ड रहेको हुन्छ । PDF export फाइलमा, सूचनालाई पहिला केस सूची अनुसार र त्यसपछि सूचना देखा पर्ने फारम अनुसार थप व्यवस्थित गरीएको छ ।"
+            explanation: प्रयोगकर्ताले घटना सूची वा घटना देखाउने पृष्ठहरू बाट PDF फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसहरुको फिल्ड रहेको हुन्छ । PDF export फाइलमा, सूचनालाई पहिला केस सूची अनुसार र त्यसपछि सूचना देखा पर्ने फारम अनुसार थप व्यवस्थित गरीएको छ ।
             label: PDF Export गर्नुहोस्
           export_csv:
-            explanation: "प्रयोगकर्ताले घटना सूची वा घटना देखाउने पृष्ठहरू बाट CSV फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसहरुको फिल्ड रहेको हुन्छ ।"
-            label: "CSV Export गर्नुहोस्। "
+            explanation: प्रयोगकर्ताले घटना सूची वा घटना देखाउने पृष्ठहरू बाट CSV फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसहरुको फिल्ड रहेको हुन्छ ।
+            label: 'CSV Export गर्नुहोस्। '
           export_custom:
-            label: "कस्टम export गर्नुहोस्। "
+            label: 'कस्टम export गर्नुहोस्। '
           export_incident_recorder_xls:
-            explanation: "प्रयोगकर्ताले विशेष XLS फाइल export गर्न सक्दछन् र यो export बाट GBV घटना रेकर्डर प्रणाली सँग तथ्याड़क  साटासाट गर्ने सुविधा प्रदान गर्दछ । "
-            label: "घटना अभिलेख XLS मा export गर्नुहोस् "
+            explanation: 'प्रयोगकर्ताले विशेष XLS फाइल export गर्न सक्दछन् र यो export बाट GBV घटना रेकर्डर प्रणाली सँग तथ्याड़क  साटासाट गर्ने सुविधा प्रदान गर्दछ । '
+            label: 'घटना अभिलेख XLS मा export गर्नुहोस् '
           export_mrm_violation_xls:
             explanation: प्रयोगकर्ताले MRM उल्लङ्घनहरूको लागि विशेष एक्सेल (XLS फाइल) डाउनलोड गर्न सक्दछन्। यो कार्य घटना पृष्ठ र घटना सूचीमा उपलब्ध छ।
-            label: "MRM उल्लङ्घनहरू एक्सेल (XLS फाइल) मा डाउनलोड गर्नुहोस् "
+            label: 'MRM उल्लङ्घनहरू एक्सेल (XLS फाइल) मा डाउनलोड गर्नुहोस् '
           export_json:
-            explanation: "प्रयोगकर्ताले घटना सूची वा घटना देखाउने पृष्ठहरूबाट JSON फाइल export गर्न सक्दछन जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण घटनाहरुको फिल्ड रहेको हुन्छ । यो export मुख्य रूपमा ती सबैको लागि प्रयोग गरिन्छ जसले हालको प्रीमेरो प्रणालीबाट घटना export गरेर फरक प्रीमेरो प्रणालीमा वा अन्य सूचना व्यवस्थापन प्रणालीमा import गर्न चाहन्छन् । JSON ढाँचा मेशिन द्वारा पठनीय छ र धेरै प्रयोगकर्ताहरूको लागी व्यावहारिक छैन।"
+            explanation: प्रयोगकर्ताले घटना सूची वा घटना देखाउने पृष्ठहरूबाट JSON फाइल export गर्न सक्दछन जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण घटनाहरुको फिल्ड रहेको हुन्छ । यो export मुख्य रूपमा ती सबैको लागि प्रयोग गरिन्छ जसले हालको प्रीमेरो प्रणालीबाट घटना export गरेर फरक प्रीमेरो प्रणालीमा वा अन्य सूचना व्यवस्थापन प्रणालीमा import गर्न चाहन्छन् । JSON ढाँचा मेशिन द्वारा पठनीय छ र धेरै प्रयोगकर्ताहरूको लागी व्यावहारिक छैन।
             label: JSON export गर्नुहोस्।
           export_list_view_csv:
             explanation: घटना सूचीमा प्रयोगकर्ताको लागी देखा पर्ने फिल्डहरुबाट प्रयोगकर्ताले एउटा CSV फाइल export गर्न सक्छ । घटना सूची पृष्‍ठ बाट मात्रै कार्य गर्न सकिने।
             label: लिस्ट भ्यू CSV मा Export गर्नुहोस्
           export_pdf:
-            explanation: "प्रयोगकर्ताले घटना सूची वा घटना देखाउने पृष्ठहरूबाट PDF फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसहरुको फिल्ड रहेको हुन्छ । PDF export फाइलमा, सूचनालाई पहिला केस सूची अनुसार र त्यसपछि सूचना देखा पर्ने फारम अनुसार थप व्यवस्थित गरीएको छ ।"
-            label: "PDF export गर्नुहोस्। "
+            explanation: प्रयोगकर्ताले घटना सूची वा घटना देखाउने पृष्ठहरूबाट PDF फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसहरुको फिल्ड रहेको हुन्छ । PDF export फाइलमा, सूचनालाई पहिला केस सूची अनुसार र त्यसपछि सूचना देखा पर्ने फारम अनुसार थप व्यवस्थित गरीएको छ ।
+            label: 'PDF export गर्नुहोस्। '
           export_xls:
-            explanation: "प्रयोगकर्ताले घटना सूची वा घटना देखाउने पृष्ठहरूबाट XLS फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसहरुको कस्टम फाईल वा फिल्ड रहेको हुन्छ । यो export मा, प्रत्येक फारमलाई XLS फाइल भित्रको आफ्नै ट्याबमा प्रतिनिधित्व गरीन्छ। कस्टम export मोडलको प्रयोग गरेर प्रयोगकर्ताले  export मा आफुले समावेश गर्न चाहे जस्तो फारम वा फिल्डहरु छनौट गर्न सक्नुहुन्छ । कृपया ध्यान दिनुहोस् कि प्रयोगकर्ताहरुले प्रणालीमा केस हेर्दा फारमहरु र फिल्डहरु हेर्ने क्षमता छ भने मात्र  export मा फारमहरु र क्षेत्रहरु समावेश गर्न सक्छन् । "
-            label: "Excel (XLS file) export गर्नुहोस्। "
+            explanation: 'प्रयोगकर्ताले घटना सूची वा घटना देखाउने पृष्ठहरूबाट XLS फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण केसहरुको कस्टम फाईल वा फिल्ड रहेको हुन्छ । यो export मा, प्रत्येक फारमलाई XLS फाइल भित्रको आफ्नै ट्याबमा प्रतिनिधित्व गरीन्छ। कस्टम export मोडलको प्रयोग गरेर प्रयोगकर्ताले  export मा आफुले समावेश गर्न चाहे जस्तो फारम वा फिल्डहरु छनौट गर्न सक्नुहुन्छ । कृपया ध्यान दिनुहोस् कि प्रयोगकर्ताहरुले प्रणालीमा केस हेर्दा फारमहरु र फिल्डहरु हेर्ने क्षमता छ भने मात्र  export मा फारमहरु र क्षेत्रहरु समावेश गर्न सक्छन् । '
+            label: 'Excel (XLS file) export गर्नुहोस्। '
           flag:
             explanation: प्रयोगकर्तालाई घटनामा फ्ल्याग थप्ने अनुमति दिन्छ।  यो अनुमति पाएका प्रयोगकर्ताले घटनामा थपेका फ्ल्यागहरू हटाउन पनि सक्छन्।
             label: फ्ल्याग
           import:
-            explanation: "CSV, एक्सेल, वा JSON फाइल बाट Import गरेर प्रयोगकर्तालाई एक वा एक भन्दा बढी नयाँ घटनाहरू सिर्जना गर्न अनुमति दिन्छ। सही तरिकाले जानकारी import गर्न आयातित फाइलको ढाँचा \"अत्ती नै\" विशेष हुनुपर्छ । यो सुविधा प्रीमेरोमा तथ्याड़कलाई कसरी फरम्याट गरिन्छ भन्ने उच्च प्राविधिक सीप र गहन ज्ञान भएको प्रशासनिक प्रयोगकर्ताहरूलाई उपलब्ध हुनु पर्छ। घटना सूची पृष्ठ बाट मात्र कार्य गर्न मिल्छ ।   "
+            explanation: 'CSV, एक्सेल, वा JSON फाइल बाट Import गरेर प्रयोगकर्तालाई एक वा एक भन्दा बढी नयाँ घटनाहरू सिर्जना गर्न अनुमति दिन्छ। सही तरिकाले जानकारी import गर्न आयातित फाइलको ढाँचा "अत्ती नै" विशेष हुनुपर्छ । यो सुविधा प्रीमेरोमा तथ्याड़कलाई कसरी फरम्याट गरिन्छ भन्ने उच्च प्राविधिक सीप र गहन ज्ञान भएको प्रशासनिक प्रयोगकर्ताहरूलाई उपलब्ध हुनु पर्छ। घटना सूची पृष्ठ बाट मात्र कार्य गर्न मिल्छ ।   '
             label: Import गर्नुहोस्
           manage:
-            explanation: "प्रयोगकर्तालाई घटनाहरूमा सबै उपलब्ध कार्यहरू गर्ने अनुमति दिन्छ । \"प्रबन्ध\" अनुमतिले मुख्यत \"सबै कुरा\" भन्ने अर्थ दिन्छ । "
+            explanation: 'प्रयोगकर्तालाई घटनाहरूमा सबै उपलब्ध कार्यहरू गर्ने अनुमति दिन्छ । "प्रबन्ध" अनुमतिले मुख्यत "सबै कुरा" भन्ने अर्थ दिन्छ । '
             label: प्रबन्ध गर्नुहोस् (यो स्रोत प्रकारको लागि सबै अनुमतिहरू)
           read:
             explanation: घटना हेर्न सक्ने क्षमता
             label: हेर्नुहोस ।
           sync_mobile:
-            explanation: "यो अनुमतिले प्राय: प्रयोगकर्तालाई  मोबाइल एपलिकेसनको प्रयोग गर्ने अनुमति दिन्छ। सबै भन्दा पहिला,  प्रयोगकर्तालाई घटना सूची र घटना देखाउनुहोस् पृष्ठहरुमा देखिने  \"मोबाइल को लागी चिन्ह लगाउने \" र \"मोबाइल को लागी चिन्ह नलगाउने\" कार्यहरू हेर्ने अनुमति दिन्छ। मोबाइलमा घटना चिन्ह लगाउनाले प्रयोगकर्ताको मोबाइल उपकरण र वेब एपलिकेसन बीच घटनाको बारे जानकारी sync हुन पर्छ भन्ने संकेत गर्दछ भने मोबाइल बाट घटना चिन्ह हटाउनाले  sync हुन बाट रोक्छ। यो अनुमति बिना प्रयोगकर्ताहरूले सामान्य रूपमा वेब एपलिकेसनसंग आफ्नो मोबाइल उपकरणहरू sync गर्न सक्दैनन् र यसको अर्थ घटनाहरूको व्यवस्थापन गर्न उनीहरूले मोबाइल एपको प्रयोग गर्न सक्दैनन्।"
+            explanation: 'यो अनुमतिले प्राय: प्रयोगकर्तालाई  मोबाइल एपलिकेसनको प्रयोग गर्ने अनुमति दिन्छ। सबै भन्दा पहिला,  प्रयोगकर्तालाई घटना सूची र घटना देखाउनुहोस् पृष्ठहरुमा देखिने  "मोबाइल को लागी चिन्ह लगाउने " र "मोबाइल को लागी चिन्ह नलगाउने" कार्यहरू हेर्ने अनुमति दिन्छ। मोबाइलमा घटना चिन्ह लगाउनाले प्रयोगकर्ताको मोबाइल उपकरण र वेब एपलिकेसन बीच घटनाको बारे जानकारी sync हुन पर्छ भन्ने संकेत गर्दछ भने मोबाइल बाट घटना चिन्ह हटाउनाले  sync हुन बाट रोक्छ। यो अनुमति बिना प्रयोगकर्ताहरूले सामान्य रूपमा वेब एपलिकेसनसंग आफ्नो मोबाइल उपकरणहरू sync गर्न सक्दैनन् र यसको अर्थ घटनाहरूको व्यवस्थापन गर्न उनीहरूले मोबाइल एपको प्रयोग गर्न सक्दैनन्।'
             label: मोबाइल उपकरणसँग sync गर्नुहोस् ।
           write:
-            explanation: "\"सम्पादन\" बटन क्लिक गर्ने , घटना बारे जानकारी अपडेट गर्ने  र \"सुरक्षित\" मा क्लिक गर्ने क्षमता भएको । साथै, प्रयोगकर्तालाई  घटना  निस्कृय वा सकृय  गर्ने अनुमति पनि दिन्छ । "
+            explanation: '"सम्पादन" बटन क्लिक गर्ने , घटना बारे जानकारी अपडेट गर्ने  र "सुरक्षित" मा क्लिक गर्ने क्षमता भएको । साथै, प्रयोगकर्तालाई  घटना  निस्कृय वा सकृय  गर्ने अनुमति पनि दिन्छ । '
             label: सम्पादन गर्नुहोस् ।
-        explanation: "घटेको घटनाको प्रतिनिधित्व गर्दछ। यी सामान्यतया दुर्व्यवहार वा हिंसाका घटनाहरू हुन्, यद्यपि तिनीहरू कानून प्रवर्तन सँग मुठभेड जस्ता घटनाहरूसँग पनि मेल खान सक्छन्। घटनाहरू प्रायः केसहरूसँग जोडिएका हुन्छन्।"
-        label: "घटना "
+        explanation: घटेको घटनाको प्रतिनिधित्व गर्दछ। यी सामान्यतया दुर्व्यवहार वा हिंसाका घटनाहरू हुन्, यद्यपि तिनीहरू कानून प्रवर्तन सँग मुठभेड जस्ता घटनाहरूसँग पनि मेल खान सक्छन्। घटनाहरू प्रायः केसहरूसँग जोडिएका हुन्छन्।
+        label: 'घटना '
       is_manager:
         explanation: सामान्यतया अन्य प्रयोगकर्ताहरूलाई सुपरिवेक्षण गर्ने कुनै पनि प्रयोगकर्ताको भूमिकाको लागी लागू हुन्छ। यसले  प्रयोगकर्तालाई टोलिको व्यवस्थापन गर्नमा मद्दत पुर्‍याउन ड्यासबोर्ड र फिल्टर  हेर्न अनुमति दिन्छ।
-        label: "प्रबन्धक हो ?"
+        label: प्रबन्धक हो ?
       managed_report:
         actions:
           violations:
@@ -2726,17 +2632,17 @@ ne:
       matching_configuration:
         actions:
           manage:
-            explanation: "केसहरू र ट्रेसिङ्ग अनुरोध बीच मेल खोज्नको लागि कुन फिल्डहरूलाई तुलना गरिन्छ भनेर नियन्त्रण गर्ने क्षमता। यसले सम्पूर्ण प्रणालीमा कसरी मेल गराइन्छ भनेर नियन्त्रण गर्ने हुनाले यो अनुमति सामान्यतया प्रणाली प्रशासकलाई  मात्र उपलब्ध हुनु पर्छ। "
+            explanation: 'केसहरू र ट्रेसिङ्ग अनुरोध बीच मेल खोज्नको लागि कुन फिल्डहरूलाई तुलना गरिन्छ भनेर नियन्त्रण गर्ने क्षमता। यसले सम्पूर्ण प्रणालीमा कसरी मेल गराइन्छ भनेर नियन्त्रण गर्ने हुनाले यो अनुमति सामान्यतया प्रणाली प्रशासकलाई  मात्र उपलब्ध हुनु पर्छ। '
             label: प्रबन्ध गर्नुहोस् (यो स्रोत प्रकारको लागि सबै अनुमतिहरू दिइएको  ) ।
         explanation: परिवार ट्रेसिङ र पुनर्मिलन को समयमा केसहरु सँग ट्रेसिङ अनुरोध तुलना गर्न को लागी कुन फिल्डहरु प्रयोग गरिन्छ भन्ने नियन्त्रण गर्दछ।
         label: कन्फिगरेसन मिलाउदै
       metadata:
         actions:
           manage:
-            explanation: "सिर्जना, सम्पादन, अनुवाद गर्न सक्ने  र फारम, फारम क्षेत्रहरू र खोजीहरू मेटाउने क्षमता। कृपया ध्यान दिनुहोस् कि यो अनुमति भएको प्रयोगकर्ता सँग उनीहरूको पहुँच भएको फारमहरू मात्र व्यवस्थापन गर्न सक्षम हुनेछ। उदाहरणको लागि, यदि  एउटा राष्ट्रिय प्रशासकलाई केसहरूमा अभिलेख मालिक मात्र हेर्ने क्षमता छ भने त्यो फारमको लागि मात्र कन्फिगरेसन अद्यावधिक गर्न सक्षम हुनेछन्।"
+            explanation: सिर्जना, सम्पादन, अनुवाद गर्न सक्ने  र फारम, फारम क्षेत्रहरू र खोजीहरू मेटाउने क्षमता। कृपया ध्यान दिनुहोस् कि यो अनुमति भएको प्रयोगकर्ता सँग उनीहरूको पहुँच भएको फारमहरू मात्र व्यवस्थापन गर्न सक्षम हुनेछ। उदाहरणको लागि, यदि  एउटा राष्ट्रिय प्रशासकलाई केसहरूमा अभिलेख मालिक मात्र हेर्ने क्षमता छ भने त्यो फारमको लागि मात्र कन्फिगरेसन अद्यावधिक गर्न सक्षम हुनेछन्।
             label: प्रबन्ध गर्नुहोस् (यो स्रोत प्रकारको लागि सबै अनुमतिहरू ) ।
-        explanation: "प्रीमेरो फारम र फिल्डहरू, साथै त्यहाँ भित्र प्रयोग गरिएका लुकअपको विकल्पहरू कन्फिगर गर्ने क्षमता नियन्त्रण गर्दछ।"
-        label: "फारमहरू, खोजी"
+        explanation: प्रीमेरो फारम र फिल्डहरू, साथै त्यहाँ भित्र प्रयोग गरिएका लुकअपको विकल्पहरू कन्फिगर गर्ने क्षमता नियन्त्रण गर्दछ।
+        label: फारमहरू, खोजी
       module:
         actions:
           cp:
@@ -2761,19 +2667,19 @@ ne:
           manage:
             explanation: प्रयोगकर्तालाई सम्भावित मिलानहरूमा सबै उपलब्ध कार्यहरू गर्न अनुमति दिन्छ। "व्यवस्थापन" अनुमति भन्नाले अनिवार्य रूपमा "सबै कुरा" हो।
             label: प्रबन्ध गर्नुहोस्
-        label: "सम्भावित मिलान "
+        label: 'सम्भावित मिलान '
       primero_configuration:
         actions:
           manage:
-            explanation: "सुरक्षित गर्ने , लागू गर्ने र कन्फिगरेसनहरू पठाउने क्षमता। यो अनुमति सामान्यतया प्रणाली प्रशासकको लागी सुरक्षित छ।"
+            explanation: सुरक्षित गर्ने , लागू गर्ने र कन्फिगरेसनहरू पठाउने क्षमता। यो अनुमति सामान्यतया प्रणाली प्रशासकको लागी सुरक्षित छ।
             label: प्रबन्ध गर्नुहोस् (यो स्रोत प्रकारको लागि सबै अनुमतिहरू)
         label: कन्फिगरेसन
       referral:
         actions:
           refer:
-            explanation: "यसको मतलब प्रयोगकर्ताले बाह्य रेफरल  प्रयोग गर्दा भूमिका \"प्रापक को प्रकार\" को विकल्पको रूपमा देखिनेछ। यदि प्रयोगकर्ताले रेफेरलको प्रकारको रूपमा यो भूमिका छनौट गरेमा प्रयोगकर्ताले स्थानान्तरण पेश गर्दा प्रीमेरोले उत्पन्न गर्ने export मा यो भूमिकाको पहुँच भएको फारममा हुने जानकारी मात्र हुन्छ । उदाहरणको लागी, यदि प्रयोगकर्ताले प्राप्तकर्ताको प्रकारको रूपमा \"चिकित्सा सेवा प्रदायक\" छनौट गरेमा  र चिकित्सा सेवा प्रदायक भूमिकालाई आधारभूत पहिचान र संरक्षण चासोको फारामहरू मात्र पहुँच छ भने  Primero ले बाह्य स्थानान्तरणको लागि export गर्ने फाईलमा  यी दुई फारमहरूमा भएका फिल्डहरु मात्र समावेश हुनेछन् । "
-            label: "के यो भूमिका बाह्य रेफेरलहरूको लागी प्रयोग गर्न सकिन्छ?"
-        label: "रेफेरल "
+            explanation: 'यसको मतलब प्रयोगकर्ताले बाह्य रेफरल  प्रयोग गर्दा भूमिका "प्रापक को प्रकार" को विकल्पको रूपमा देखिनेछ। यदि प्रयोगकर्ताले रेफेरलको प्रकारको रूपमा यो भूमिका छनौट गरेमा प्रयोगकर्ताले स्थानान्तरण पेश गर्दा प्रीमेरोले उत्पन्न गर्ने export मा यो भूमिकाको पहुँच भएको फारममा हुने जानकारी मात्र हुन्छ । उदाहरणको लागी, यदि प्रयोगकर्ताले प्राप्तकर्ताको प्रकारको रूपमा "चिकित्सा सेवा प्रदायक" छनौट गरेमा  र चिकित्सा सेवा प्रदायक भूमिकालाई आधारभूत पहिचान र संरक्षण चासोको फारामहरू मात्र पहुँच छ भने  Primero ले बाह्य स्थानान्तरणको लागि export गर्ने फाईलमा  यी दुई फारमहरूमा भएका फिल्डहरु मात्र समावेश हुनेछन् । '
+            label: के यो भूमिका बाह्य रेफेरलहरूको लागी प्रयोग गर्न सकिन्छ?
+        label: 'रेफेरल '
       registry_record:
         actions:
           change_log:
@@ -2789,7 +2695,7 @@ ne:
             explanation: 'प्रयोगकर्ताले रजिस्ट्री सूची वा रजिस्ट्री पृष्ठहरूबाट CSV फाइल export गर्न सक्दछन्, जसमा हालको प्रयोगकर्ताको पहुँचमा रहेको एउटा, धेरै वा सबै रजिस्ट्री रेकर्डका सबै क्षेत्रहरू समावेश छन्। नोट: CSV export ले गैर-ल्याटिन वर्णहरू (जस्तै अरबी, बांग्ला) रेन्डर गर्दैन।'
             label: Export CSV
           export_json:
-            explanation: "प्रयोगकर्ताले रजिस्ट्री सूची वा रजिस्ट्री पृष्ठहरूबाट JSON फाइल export गर्न सक्दछन्, जसमा हालको प्रयोगकर्ताले पहुँच गरेको सबै क्षेत्रहरू समावेश रहेको हुन्छ। JSON ढाँचा मेसिन रिडेबल छ र धेरै प्रयोगकर्ताहरूको लागि व्यावहारिक छैन।"
+            explanation: प्रयोगकर्ताले रजिस्ट्री सूची वा रजिस्ट्री पृष्ठहरूबाट JSON फाइल export गर्न सक्दछन्, जसमा हालको प्रयोगकर्ताले पहुँच गरेको सबै क्षेत्रहरू समावेश रहेको हुन्छ। JSON ढाँचा मेसिन रिडेबल छ र धेरै प्रयोगकर्ताहरूको लागि व्यावहारिक छैन।
             label: JSON Export गर्नुहोस्
           export_xls:
             explanation: 'प्रयोगकर्ताले रजिस्ट्री सूची वा रजिस्ट्री पृष्ठहरूबाट XLS फाईल export गर्न सक्छ, जसमा हालको प्रयोगकर्ताको पहुँच भएको सबै क्षेत्रहरू समावेश छन्। नोट: XLS ढाँचाले गैर-ल्याटिन वर्णहरू (जस्तै अरबी, बांग्ला) पढ्न योग्य ढाँचामा रेन्डर गर्दछ, जबकि CSV ले गर्दैन।'
@@ -2804,29 +2710,29 @@ ne:
             explanation: रजिस्ट्री रेकर्ड हेर्न सक्ने क्षमता
             label: हेर्नुहोस्
           write:
-            explanation: "\"सम्पादन गर्नुहोस्\" बटन क्लिक गर्ने क्षमता, रजिस्ट्री रेकर्डको सूचना अध्यावधिक गर्नुहोस्, र \"बचत गर्नुहोस्\"।"
+            explanation: '"सम्पादन गर्नुहोस्" बटन क्लिक गर्ने क्षमता, रजिस्ट्री रेकर्डको सूचना अध्यावधिक गर्नुहोस्, र "बचत गर्नुहोस्"।'
             label: सम्पादन
           sync_mobile:
             explanation: प्रयोगकर्तालाई अफलाईन प्रयोगको लागि रजिस्ट्री रेकर्डहरू cache गर्न अनुमति दिन्छ
             label: अफलाईनको लागि चिन्ह लगाउनुहोस्
-        explanation: "यसले व्यक्ति वा संस्थालाई प्रतिनिधित्व गर्न सक्छ जसलाई अन्य अभिलेखहरू जस्तै केस वा घटनाहरूसँग जोड्न आवश्यक छ, धेरै संख्यामा छन्, र बारम्बार नयाँ जानकारीको साथ अध्यावधिक हुन्छन्। तिनीहरू लुकअपहरू जस्तै छन्, तर प्रत्येक प्रविष्टिको लागि जानकारीहरु थप जटिल हुन्छन।"
+        explanation: यसले व्यक्ति वा संस्थालाई प्रतिनिधित्व गर्न सक्छ जसलाई अन्य अभिलेखहरू जस्तै केस वा घटनाहरूसँग जोड्न आवश्यक छ, धेरै संख्यामा छन्, र बारम्बार नयाँ जानकारीको साथ अध्यावधिक हुन्छन्। तिनीहरू लुकअपहरू जस्तै छन्, तर प्रत्येक प्रविष्टिको लागि जानकारीहरु थप जटिल हुन्छन।
         label: रजिष्ट्री रेकर्ड
       report:
         actions:
           create:
-            explanation: "नयाँ रिपोर्ट बनाउन सक्ने क्षमता। प्रयोगकर्ताले रिपोर्ट बनाउँदा सो रिपोर्ट सबै प्रयोगकर्ताले देख्नन् सक्नेछन र रिपोर्टमा \"पढ्नुहोस्\" वा \"समूहमा पढ्नुहोस्\" पहुँच प्राप्त गर्नेछन् । "
+            explanation: 'नयाँ रिपोर्ट बनाउन सक्ने क्षमता। प्रयोगकर्ताले रिपोर्ट बनाउँदा सो रिपोर्ट सबै प्रयोगकर्ताले देख्नन् सक्नेछन र रिपोर्टमा "पढ्नुहोस्" वा "समूहमा पढ्नुहोस्" पहुँच प्राप्त गर्नेछन् । '
             label: सिर्जना गर्नुहोस् ।
           group_read:
-            explanation: "सबै रिपोर्ट हेर्न सक्ने क्षमता। प्रत्येक रिपोर्टमा भएको संख्याले वर्तमान प्रयोगकर्ताले आफ्नो प्रयोगकर्ता समूहहरूका लागि पहुँच योग्य अभिलेखहरू मात्र प्रतिबिम्बित गर्नेछ । यो अनुमति प्राय: स्थानीय, क्षेत्रीय, वा निकाय प्रशासकहरूको लागी आफ्नै टोलीहरू वा संस्थाहरूले गर्ने काम बारे बुझनको लागी प्रयोग गरिन्छ। यो अनुमतिले प्रयोगकर्तालाई रिपोर्ट बाट तथ्याङ्क export गर्ने क्षमता पनि दिन्छ। "
-            label: " हेर्नुहोस (समूह-आधारित तथ्याड़क)"
+            explanation: 'सबै रिपोर्ट हेर्न सक्ने क्षमता। प्रत्येक रिपोर्टमा भएको संख्याले वर्तमान प्रयोगकर्ताले आफ्नो प्रयोगकर्ता समूहहरूका लागि पहुँच योग्य अभिलेखहरू मात्र प्रतिबिम्बित गर्नेछ । यो अनुमति प्राय: स्थानीय, क्षेत्रीय, वा निकाय प्रशासकहरूको लागी आफ्नै टोलीहरू वा संस्थाहरूले गर्ने काम बारे बुझनको लागी प्रयोग गरिन्छ। यो अनुमतिले प्रयोगकर्तालाई रिपोर्ट बाट तथ्याङ्क export गर्ने क्षमता पनि दिन्छ। '
+            label: ' हेर्नुहोस (समूह-आधारित तथ्याड़क)'
           manage:
-            explanation: "प्रयोगकर्तालाई निकायहरूमा सबै उपलब्ध कार्यहरू गर्ने अनुमति दिन्छ । \"प्रबन्ध\" अनुमतिले मुख्यत \"सबै कुरा\" भन्ने अर्थ दिन्छ । "
+            explanation: 'प्रयोगकर्तालाई निकायहरूमा सबै उपलब्ध कार्यहरू गर्ने अनुमति दिन्छ । "प्रबन्ध" अनुमतिले मुख्यत "सबै कुरा" भन्ने अर्थ दिन्छ । '
             label: प्रबन्ध गर्नुहोस् (यो स्रोत प्रकारको लागि सबै अनुमतिहरू)
           read:
             explanation: सबै रिपोर्ट हेर्ने क्षमता। प्रत्येक रिपोर्टमा भएको संख्याले वर्तमान प्रयोगकर्ताको पहुँच भएको अभिलेखहरू मात्र  नभएर प्रणालीमा भएको सबै अभिलेखहरूको संख्या प्रतिबिम्बित गर्दछ ।  यो अनुमतिले प्रयोगकर्तालाई रिपोर्ट बाट तथ्याड़क export गर्ने क्षमता पनि दिन्छ।
             label: हेर्नुहोस ।
           write:
-            explanation: "अन्य प्रयोगकर्ताहरूद्वारा बनाईएको सहित, सबै रिपोर्टहरू सम्पादन गर्ने क्षमता।"
+            explanation: अन्य प्रयोगकर्ताहरूद्वारा बनाईएको सहित, सबै रिपोर्टहरू सम्पादन गर्ने क्षमता।
             label: सम्पादन गर्नुहोस् ।
           agency_read:
             explanation: सबै रिपोर्टहरू हेर्न क्षमता। प्रत्येक प्रतिवेदनमा भएका संख्याहरूले हालको प्रयोगकर्ताको एजेन्सीमा प्रयोगकर्ताहरूका लागि पहुँचयोग्य रेकर्डहरू मात्र प्रतिबिम्बित गर्नेछ। यो अनुमति प्रायः एजेन्सी प्रशासकहरूको लागि प्रयोग गरिन्छ।
@@ -2835,7 +2741,7 @@ ne:
         label: प्रतिवेदन
       reporting_location_level:
         explanation: 'यस भूमिकामा ड्यासबोर्ड, फिल्टर, रेफरल मोडल, र स्थानान्तरण मोडलमा कुन स्तरको स्थानहरू देखा पर्दछ भन्ने कुरा यसले नियन्त्रण गर्दछ। यदि तपाइले यो क्षेत्र खाली छोड्नु भयो भने यो भूमिकाले प्रणालीको पूर्वनिर्धारित रिपोर्टिंग स्थानको स्तर देखिनेछ।  '
-        label: "यो भूमिकाको रिपोर्टिङ्को लागि कुन प्रकारको स्थान उपयोग गर्नुपर्छ ?"
+        label: यो भूमिकाको रिपोर्टिङ्को लागि कुन प्रकारको स्थान उपयोग गर्नुपर्छ ?
       role:
         actions:
           assign:
@@ -2849,25 +2755,25 @@ ne:
             label: सिर्जना गर्नुहोस् ।
           delete:
             explanation: भूमिका मेटाउने क्षमता
-            label: "मेटाउनुहोस्। "
+            label: 'मेटाउनुहोस्। '
           manage:
             explanation: 'प्रयोगकर्तालाई भूमिकाहरूमा सबै उपलब्ध कार्यहरू गर्ने अनुमति दिन्छ । "प्रबन्ध" अनुमतिले मुख्यत "सबै कुरा" भन्ने अर्थ दिन्छ । महत्त्वपूर्ण : यसले  भूमिकाहरू सिर्जना गर्ने र मेटाउने क्षमता पनि दिन्छ ।'
             label: प्रबन्ध गर्नुहोस् (यो स्रोत प्रकारको लागि सबै अनुमतिहरू)
           permitted_roles:
-            explanation: "यदि भूमिकालाई भूमिका माथि भनिएका कुनै पनि कार्यहरू गर्ने क्षमता छ भने उनीहरूलाई यो सूचीमा निर्दिष्ट गरिएका भूमिकामा ती कार्यहरू गर्न सक्षम हुनेछन्। त्यसैले, उदाहरणको लागी, यदि भूमिकालाई \"पढ्नुहोस्\" र \"असाइन\" अनुमति छ तर \"व्यवस्थित भूमिका\" को रूपमा  \"बाल संरक्षण केस कामदार\" र \"बाल संरक्षण प्रबन्धक\" मात्र सूचीबद्ध छ भने यी दुई भूमिका मात्र देखा पर्दछ र ती भूमिका मात्र तोक्न सक्षम हुनेछ।  यदि उक्त भूमिकालाई  कुनै \"व्यवस्थित भूमिका\" निर्दिष्ट छैन भने उसले सबै भूमिकाहरू देख्न सक्षम हुनेछ र प्रणालीमा कुनै पनि भूमिकाको रूपमा नयाँ प्रयोगकर्ता खाताहरू बनाउन सक्षम हुनेछ।   "
+            explanation: 'यदि भूमिकालाई भूमिका माथि भनिएका कुनै पनि कार्यहरू गर्ने क्षमता छ भने उनीहरूलाई यो सूचीमा निर्दिष्ट गरिएका भूमिकामा ती कार्यहरू गर्न सक्षम हुनेछन्। त्यसैले, उदाहरणको लागी, यदि भूमिकालाई "पढ्नुहोस्" र "असाइन" अनुमति छ तर "व्यवस्थित भूमिका" को रूपमा  "बाल संरक्षण केस कामदार" र "बाल संरक्षण प्रबन्धक" मात्र सूचीबद्ध छ भने यी दुई भूमिका मात्र देखा पर्दछ र ती भूमिका मात्र तोक्न सक्षम हुनेछ।  यदि उक्त भूमिकालाई  कुनै "व्यवस्थित भूमिका" निर्दिष्ट छैन भने उसले सबै भूमिकाहरू देख्न सक्षम हुनेछ र प्रणालीमा कुनै पनि भूमिकाको रूपमा नयाँ प्रयोगकर्ता खाताहरू बनाउन सक्षम हुनेछ।   '
             label: यो भूमिकाद्वारा व्यवस्थित अन्य भूमिकाहरू
           read:
-            explanation: "भूमिकाहरू हेर्ने क्षमता भएको "
+            explanation: 'भूमिकाहरू हेर्ने क्षमता भएको '
             label: हेर्नुहोस ।
           write:
-            explanation: "भूमिका देखाउने पृष्ठमा \"सम्पादन\" बटन क्लिक गर्ने, भूमिकाको अनुमतिहरूलाई अद्यावधिक गर्ने र त्यसपछि भूमिकालाई सुरक्षित गर्ने क्षमता ।"
+            explanation: भूमिका देखाउने पृष्ठमा "सम्पादन" बटन क्लिक गर्ने, भूमिकाको अनुमतिहरूलाई अद्यावधिक गर्ने र त्यसपछि भूमिकालाई सुरक्षित गर्ने क्षमता ।
             label: सम्पादन गर्नुहोस् ।
         explanation: प्रयोगकर्ताले प्रीमेरोमा कुन-कुन कार्यहरू गर्न सक्छन् भनेर निर्धारण गर्दछ।
         label: भूमिकाहरू
       system:
         actions:
           manage:
-            explanation: "प्रणालीको सम्पर्क सूचना, पूर्वनिर्धारित नोटिफिकेसन,  स्वागत ईमेल सेटिङ्ग र synchronized सर्भरहरू                      हेर्न र अपडेट गर्ने क्षमता। यो अनुमति सामान्यतया प्रणाली प्रशासकको लागी सुरक्षित छ ।"
+            explanation: प्रणालीको सम्पर्क सूचना, पूर्वनिर्धारित नोटिफिकेसन,  स्वागत ईमेल सेटिङ्ग र synchronized सर्भरहरू                      हेर्न र अपडेट गर्ने क्षमता। यो अनुमति सामान्यतया प्रणाली प्रशासकको लागी सुरक्षित छ ।
             label: प्रबन्ध गर्नुहोस् (यो स्रोत प्रकारको लागि सबै अनुमतिहरू दिइएको ) ।
         explanation: विविध प्रणाली-व्यापी कन्फिगरेसन सेटिङहरू।
         label: प्रणाली
@@ -2877,29 +2783,29 @@ ne:
             explanation: प्रयोगकर्ताले अभिलेख सिर्जना भएदेखि त्यसमा गरिएका सबै परिवर्तनहरूको इतिहास देख्न सक्छ । यसअन्तर्गत सबै फिल्डहरूको लागि अभिलेख गरिएका मानहरू पनि सामेल छन् ।
             label: परिवर्तन लग
           create:
-            explanation: "ट्रेसिङ्ग अनुरोध सिर्जना गर्ने क्षमता भएको "
+            explanation: 'ट्रेसिङ्ग अनुरोध सिर्जना गर्ने क्षमता भएको '
             label: सिर्जना गर्नुहोस् ।
           enable_disable_record:
-            explanation: "ट्रेसिङ्ग अनुरोध सक्रिय वा निष्क्रिय गर्ने क्षमता। ट्रेसिङ्ग अनुरोध सूचीमा \"निस्कृय\" भएको पूर्वनिर्धारित रूपमा देखा पर्दैन।  निस्कृय भएको ट्रेसिङ्ग अनुरोध हेर्न प्रयोगकर्ताहरूले फिल्टर गर्नुपर्छ।  "
+            explanation: 'ट्रेसिङ्ग अनुरोध सक्रिय वा निष्क्रिय गर्ने क्षमता। ट्रेसिङ्ग अनुरोध सूचीमा "निस्कृय" भएको पूर्वनिर्धारित रूपमा देखा पर्दैन।  निस्कृय भएको ट्रेसिङ्ग अनुरोध हेर्न प्रयोगकर्ताहरूले फिल्टर गर्नुपर्छ।  '
             label: सक्रिय पार्नुहोस् ।/ निष्क्रिय पार्नुहोस् ।
           export_case_pdf:
-            explanation: "प्रयोगकर्ताले ट्रेसिङ्ग अनुरोध सूची वा ट्रेसिङ्ग अनुरोध देखिने पृष्ठहरू बाट PDF फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको पहुँचमा रहेको सबै फिल्डहरु रहेको हुन्छ र सोमा एक, धेरै वा सबै अभिलेखहरु हुन्छ । PDF export फाईलमा, सूचनालाई पहिला केस सूची अनुसार र त्यसपछि सूचना देखा पर्ने फारम अनुसार थप व्यवस्थित गरीएको छ ।"
-            label: " Pdf export गर्नुहोस्।"
+            explanation: प्रयोगकर्ताले ट्रेसिङ्ग अनुरोध सूची वा ट्रेसिङ्ग अनुरोध देखिने पृष्ठहरू बाट PDF फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको पहुँचमा रहेको सबै फिल्डहरु रहेको हुन्छ र सोमा एक, धेरै वा सबै अभिलेखहरु हुन्छ । PDF export फाईलमा, सूचनालाई पहिला केस सूची अनुसार र त्यसपछि सूचना देखा पर्ने फारम अनुसार थप व्यवस्थित गरीएको छ ।
+            label: ' Pdf export गर्नुहोस्।'
           export_csv:
-            explanation: "प्रयोगकर्ताले ट्रेसिङ्ग अनुरोध सूची वा ट्रेसिङ्ग अनुरोध देखाउने पृष्ठहरूबाट CSV फाइल export  गर्न सक्छ जसमा प्रयोगकर्ताको पहुँचमा रहेको सबै फिल्डहरु रहेको हुन्छ र सोमा एक, धेरै वा सबै ट्रेसिङ्ग अनुरोधहरु हुन्छ ।"
-            label: "CSV export गर्नुहोस्। "
+            explanation: प्रयोगकर्ताले ट्रेसिङ्ग अनुरोध सूची वा ट्रेसिङ्ग अनुरोध देखाउने पृष्ठहरूबाट CSV फाइल export  गर्न सक्छ जसमा प्रयोगकर्ताको पहुँचमा रहेको सबै फिल्डहरु रहेको हुन्छ र सोमा एक, धेरै वा सबै ट्रेसिङ्ग अनुरोधहरु हुन्छ ।
+            label: 'CSV export गर्नुहोस्। '
           export_custom:
-            explanation: "प्रयोगकर्ताले ट्रेसिङ्ग अनुरोध सूची वा ट्रेसिङ्ग अनुरोध देखाउने पृष्ठहरूबाट XLS फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण ट्रेसिङ्ग अनुरोधहरुको कस्टम फिल्ड वा फारम रहेको हुन्छ । यो export मा, प्रत्येक फारमलाई XLS फाइल भित्रको आफ्नै ट्याबमा प्रतिनिधित्व गरीन्छ। कस्टम export मोडलको प्रयोग गरेर प्रयोगकर्ताले export मा आफुले समावेश गर्न चाहे जस्तो फारम वा फिल्डहरु छनौट गर्न सक्नुहुन्छ । कृपया ध्यान दिनुहोस् कि प्रयोगकर्ताहरुले प्रणालीमा ट्रेसिङ्ग अनुरोधहरू हेर्दा फारमहरु र फिल्डहरु हेर्ने क्षमता छ भने मात्र export मा फारमहरु र फिल्डहरु समावेश गर्न सक्छन् ।"
-            label: "कस्टम export गर्नुहोस्। "
+            explanation: प्रयोगकर्ताले ट्रेसिङ्ग अनुरोध सूची वा ट्रेसिङ्ग अनुरोध देखाउने पृष्ठहरूबाट XLS फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण ट्रेसिङ्ग अनुरोधहरुको कस्टम फिल्ड वा फारम रहेको हुन्छ । यो export मा, प्रत्येक फारमलाई XLS फाइल भित्रको आफ्नै ट्याबमा प्रतिनिधित्व गरीन्छ। कस्टम export मोडलको प्रयोग गरेर प्रयोगकर्ताले export मा आफुले समावेश गर्न चाहे जस्तो फारम वा फिल्डहरु छनौट गर्न सक्नुहुन्छ । कृपया ध्यान दिनुहोस् कि प्रयोगकर्ताहरुले प्रणालीमा ट्रेसिङ्ग अनुरोधहरू हेर्दा फारमहरु र फिल्डहरु हेर्ने क्षमता छ भने मात्र export मा फारमहरु र फिल्डहरु समावेश गर्न सक्छन् ।
+            label: 'कस्टम export गर्नुहोस्। '
           export_json:
-            explanation: "प्रयोगकर्ताले ट्रेसिङ्ग अनुरोध सूची वा ट्रेसिङ्ग अनुरोध देखाउने पृष्ठहरू बाट JSON फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण ट्रेसिङ्ग अनुरोधहरुको फिल्ड रहेको हुन्छ । यो export मुख्य रूपमा ती सबैको लागि प्रयोग गरिन्छ जसले हालको प्रीमेरो प्रणालीबाट ट्रेसिङ्ग अनुरोध export गरेर फरक प्रीमेरो प्रणालीमा वा अन्य सूचना व्यवस्थापन प्रणालीमा import गर्न चाहन्छन् । JSON ढाँचा मेशिन द्वारा पठनीय छ र धेरै प्रयोगकर्ताहरूको लागी व्यावहारिक छैन।"
+            explanation: प्रयोगकर्ताले ट्रेसिङ्ग अनुरोध सूची वा ट्रेसिङ्ग अनुरोध देखाउने पृष्ठहरू बाट JSON फाइल export गर्न सक्छ जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण ट्रेसिङ्ग अनुरोधहरुको फिल्ड रहेको हुन्छ । यो export मुख्य रूपमा ती सबैको लागि प्रयोग गरिन्छ जसले हालको प्रीमेरो प्रणालीबाट ट्रेसिङ्ग अनुरोध export गरेर फरक प्रीमेरो प्रणालीमा वा अन्य सूचना व्यवस्थापन प्रणालीमा import गर्न चाहन्छन् । JSON ढाँचा मेशिन द्वारा पठनीय छ र धेरै प्रयोगकर्ताहरूको लागी व्यावहारिक छैन।
             label: JSON export गर्नुहोस्।
           export_list_view_csv:
             explanation: केस सूचीमा प्रयोगकर्ताको लागी देखा पर्ने फिल्डहरु जस्ता ट्रेसिङ्ग अनुरोध सूची पृष्ठ बाट प्रयोगकर्ताले एउटा CSV फाइल export गर्न सक्दछन् । ट्रेसिङ्ग अनुरोध सुची पृष्‍ठ बाट मात्रै सिर्जना गरिएको ।
             label: लिस्ट भ्यू  CSV मा export गर्नुहोस् ।
           export_pdf:
-            explanation: "ट्रेसिङ्ग अनुरोध सूची वा ट्रेसिङ्ग अनुरोध देखाउने पेजबाट (जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण रेकर्डहरु भएका फिल्डहरु हुनेछन) प्रयोगकर्ताले  PDF फाइल export उत्पन्न गर्न सक्दछन् । PDF export फाइलमा, सूचनालाई केसको आधारमा सूचीबद्ध गरिएको छ र त्यसपछि सूचना देखा पर्ने फारम अनुसार थप व्यवस्थित गरिएको छ ।"
-            label: "Pdf export गर्नुहोस्। "
+            explanation: ट्रेसिङ्ग अनुरोध सूची वा ट्रेसिङ्ग अनुरोध देखाउने पेजबाट (जसमा प्रयोगकर्ताको हाल पहुँचमा रहेको एउटा, धेरै वा सम्पूर्ण रेकर्डहरु भएका फिल्डहरु हुनेछन) प्रयोगकर्ताले  PDF फाइल export उत्पन्न गर्न सक्दछन् । PDF export फाइलमा, सूचनालाई केसको आधारमा सूचीबद्ध गरिएको छ र त्यसपछि सूचना देखा पर्ने फारम अनुसार थप व्यवस्थित गरिएको छ ।
+            label: 'Pdf export गर्नुहोस्। '
           export_xls:
             explanation: 'प्रयोगकर्ताले ट्रेसिङ अनुरोध सूची वा ट्रेसिङ अनुरोध पृष्ठहरूबाट XLS फाइल export गर्न सक्छ, जसमा हालको प्रयोगकर्ताले पहुँचमा रहेको एउटा, धेरै वा सबै ट्रेसिङ अनुरोधका सबै फिल्डहरू समावेश हुन्छन। यस export मा, प्रत्येक फारम XLS फाइल भित्र आफ्नै ट्याबमा प्रतिनिधित्व गरिन्छ। नोट: XLS ढाँचाले गैर-ल्याटिन वर्णहरू (जस्तै अरबी, बांग्ला) पढ्न योग्य ढाँचामा रेन्डर गर्दछ, जबकि CSV ले गर्दैन।'
             label: एक्सेल (XLS फाइल) export
@@ -2907,29 +2813,29 @@ ne:
             explanation: प्रयोगकर्तालाई ट्रेसिङ्ग अनुरोधमा फ्ल्याग थप्ने अनुमति दिन्छ। यो अनुमति पाएका प्रयोगकर्ताले ट्रेसिङ्ग अनुरोधमा थपेका फ्ल्यागहरू हटाउन पनि सक्छन्।
             label: फ्ल्याग
           import:
-            explanation: "CSV, Excel, वा JSON फाइल बाट import गरेर प्रयोगकर्तालाई एक वा एक भन्दा बढी नयाँ केसहरू सिर्जना गर्न अनुमति दिन्छ। सही तरिकाले जानकारी import गर्न imported फाइलको ढाँचा \"अत्ती नै\" विशेष हुनुपर्छ । यो कार्य प्रीमेरोमा तथ्याड़कलाई कसरी फर्मयाट गरिन्छ भन्ने उच्च प्राविधिक सीप र गहन ज्ञान भएको प्रशासनिक प्रयोगकर्ताहरूलाई उपलब्ध हुनु पर्छ। केस लिस्ट पेजबाट मात्र गर्न मिल्ने ।"
+            explanation: CSV, Excel, वा JSON फाइल बाट import गरेर प्रयोगकर्तालाई एक वा एक भन्दा बढी नयाँ केसहरू सिर्जना गर्न अनुमति दिन्छ। सही तरिकाले जानकारी import गर्न imported फाइलको ढाँचा "अत्ती नै" विशेष हुनुपर्छ । यो कार्य प्रीमेरोमा तथ्याड़कलाई कसरी फर्मयाट गरिन्छ भन्ने उच्च प्राविधिक सीप र गहन ज्ञान भएको प्रशासनिक प्रयोगकर्ताहरूलाई उपलब्ध हुनु पर्छ। केस लिस्ट पेजबाट मात्र गर्न मिल्ने ।
             label: Import गर्नुहोस्
           manage:
-            explanation: "प्रयोगकर्तालाई ट्रेसिङ्ग अनुरोधहरूमा सबै उपलब्ध कार्यहरू गर्ने अनुमति दिन्छ । \"प्रबन्ध\" अनुमतिले मुख्यत \"सबै कुरा\" भन्ने अर्थ दिन्छ । "
+            explanation: 'प्रयोगकर्तालाई ट्रेसिङ्ग अनुरोधहरूमा सबै उपलब्ध कार्यहरू गर्ने अनुमति दिन्छ । "प्रबन्ध" अनुमतिले मुख्यत "सबै कुरा" भन्ने अर्थ दिन्छ । '
             label: प्रबन्ध गर्नुहोस् (यो स्रोत प्रकारको लागि सबै अनुमतिहरू)
           read:
             explanation: ट्रेसिङ्ग अनुरोध हेर्ने क्षमता। ट्रेसिङ्ग अनुरोध हेर्ने क्षमता भएका भूमिकामा हुने संग सम्भावित अभिलेखको मिलानको हेर्ने क्षमता पनि हुनु पर्छ।
             label: हेर्नुहोस ।
           write:
-            explanation: "\"सम्पादन\" बटन क्लिक गर्ने , 'ट्रेसिङ्ग अनुरोधहरू' बारे जानकारी अद्यावधिक गर्ने र \"सुरक्षित\" मा क्लिक गर्ने क्षमता भएको । साथै, प्रयोगकर्तालाई  ट्रेसिङ्ग अनुरोध निस्कृय वा सकृय गर्ने अनुमति पनि दिन्छ ।"
+            explanation: '"सम्पादन" बटन क्लिक गर्ने , ''ट्रेसिङ्ग अनुरोधहरू'' बारे जानकारी अद्यावधिक गर्ने र "सुरक्षित" मा क्लिक गर्ने क्षमता भएको । साथै, प्रयोगकर्तालाई  ट्रेसिङ्ग अनुरोध निस्कृय वा सकृय गर्ने अनुमति पनि दिन्छ ।'
             label: सम्पादन गर्नुहोस् ।
-        explanation: "बेसाहारा तथा छुट्टिएका केसहरुलाई खोज्ने र पुन: एकीकरण गर्न प्रयास गर्ने व्यक्तिलाई प्रतिनिधित्व गर्दछ।"
+        explanation: 'बेसाहारा तथा छुट्टिएका केसहरुलाई खोज्ने र पुन: एकीकरण गर्न प्रयास गर्ने व्यक्तिलाई प्रतिनिधित्व गर्दछ।'
         label: पत्ता लगाउन अनुरोध
       transfer:
         actions:
           transfer:
-            explanation: " यसको मतलब प्रयोगकर्ताले बाह्य रेफरल  प्रयोग गर्दा भूमिका \"प्रापक को प्रकार\" विकल्पको रूपमा देखिनेछ । यदि प्रयोगकर्ताले स्थानान्तरणको प्रकारको रूपमा यो भूमिका छनौट गरेमा प्रयोगकर्ताले स्थानान्तरण पेश गर्दा प्रीमेरोले निकाल्ने export मा यो भूमिकाको पहुँच भएको फारममा हुने जानकारी मात्र हुन्छ । उदाहरणको लागी, यदि प्रयोगकर्ताले प्राप्तकर्ताको प्रकारको रूपमा \"चिकित्सा सेवा प्रदायक\" छनौट गरेमा र चिकित्सा सेवा प्रदायक भूमिकालाई आधारभूत पहिचान र संरक्षण चासोका फारामहरू मात्र पहुँच छ भने प्रीमेरोले बाह्य स्थानान्तरणको लागि export गर्ने फाईलमा यी दुई फारमहरूमा भएका फिल्डहरु मात्र समावेश हुनेछन् । "
-            label: "के यो भूमिका बाह्य स्थानान्तरणको लागी प्रयोग गर्न सकिन्छ?"
+            explanation: ' यसको मतलब प्रयोगकर्ताले बाह्य रेफरल  प्रयोग गर्दा भूमिका "प्रापक को प्रकार" विकल्पको रूपमा देखिनेछ । यदि प्रयोगकर्ताले स्थानान्तरणको प्रकारको रूपमा यो भूमिका छनौट गरेमा प्रयोगकर्ताले स्थानान्तरण पेश गर्दा प्रीमेरोले निकाल्ने export मा यो भूमिकाको पहुँच भएको फारममा हुने जानकारी मात्र हुन्छ । उदाहरणको लागी, यदि प्रयोगकर्ताले प्राप्तकर्ताको प्रकारको रूपमा "चिकित्सा सेवा प्रदायक" छनौट गरेमा र चिकित्सा सेवा प्रदायक भूमिकालाई आधारभूत पहिचान र संरक्षण चासोका फारामहरू मात्र पहुँच छ भने प्रीमेरोले बाह्य स्थानान्तरणको लागि export गर्ने फाईलमा यी दुई फारमहरूमा भएका फिल्डहरु मात्र समावेश हुनेछन् । '
+            label: के यो भूमिका बाह्य स्थानान्तरणको लागी प्रयोग गर्न सकिन्छ?
         label: स्थानान्तरण गर्नुहोस् ।
       user:
         actions:
           agency_read:
-            explanation: "वर्तमान प्रयोगकर्ताको निकायमा भएको प्रयोगकर्ता खाताहरू मात्र हेर्ने  क्षमता। यसले वर्तमान प्रयोगकर्ताले  कुन प्रयोगकर्ता खाताहरूमा अन्य कार्यहरू गर्न सक्छ भन्ने कुराले पनि प्रभावित गर्दछ । उदाहरणको लागी, यदि वर्तमान प्रयोगकर्तालाई प्रयोगकर्ताहरूमा \"लेख्ने\" अनुमति छ र  साथै \"निकाय द्वारा पढिएको\" अनुमति छ भने उनीहरू आफ्नो  निकायमा भएका प्रयोगकर्ता खाताहरू मात्र सम्पादन गर्न सक्षम हुनेछन्। त्यस्तै गरी, यदि वर्तमान प्रयोगकर्तालाई प्रयोगकर्ताहरूमा \"व्यवस्थापन\" को अनुमति छ तर \"निकाय द्वारा पढिएको\" अनुमति छ भने उनीहरु आफ्नो निकायमा मात्र प्रयोगकर्ताहरू बनाउन सक्षम हुनेछन् ।"
+            explanation: वर्तमान प्रयोगकर्ताको निकायमा भएको प्रयोगकर्ता खाताहरू मात्र हेर्ने  क्षमता। यसले वर्तमान प्रयोगकर्ताले  कुन प्रयोगकर्ता खाताहरूमा अन्य कार्यहरू गर्न सक्छ भन्ने कुराले पनि प्रभावित गर्दछ । उदाहरणको लागी, यदि वर्तमान प्रयोगकर्तालाई प्रयोगकर्ताहरूमा "लेख्ने" अनुमति छ र  साथै "निकाय द्वारा पढिएको" अनुमति छ भने उनीहरू आफ्नो  निकायमा भएका प्रयोगकर्ता खाताहरू मात्र सम्पादन गर्न सक्षम हुनेछन्। त्यस्तै गरी, यदि वर्तमान प्रयोगकर्तालाई प्रयोगकर्ताहरूमा "व्यवस्थापन" को अनुमति छ तर "निकाय द्वारा पढिएको" अनुमति छ भने उनीहरु आफ्नो निकायमा मात्र प्रयोगकर्ताहरू बनाउन सक्षम हुनेछन् ।
             label: हेर्नुहोस् (निकाय भित्र)
           create:
             explanation: प्रयोगकर्ता खाता सिर्जना गर्ने क्षमता भएको
@@ -2938,32 +2844,32 @@ ne:
             explanation: 'प्रयोगकर्तालाई प्रयोगकर्ताहरूमा सबै उपलब्ध कार्यहरू गर्ने अनुमति दिन्छ । "प्रबन्ध" अनुमतिले मुख्यत "सबै कुरा" भन्ने अर्थ दिन्छ । महत्त्वपूर्ण : यसले  नयाँ प्रयोगकर्ता खाता सिर्जना गर्ने क्षमता पनि दिन्छ ।'
             label: प्रबन्ध गर्नुहोस् (यो स्रोत प्रकारको लागि सबै अनुमतिहरू)
           read:
-            explanation: "प्रयोगकर्ता खाता हेर्ने क्षमता भएको। प्रत्येक प्रयोगकर्ताले आफ्नो प्रयोगकर्ता खातामा भएको पासवर्ड र ईमेल जस्ता जानकारी हेर्ने र सम्पादन हेर्ने पूर्वनिर्धारित क्षमता छ। (उदाहरणः पासवर्ड, इमेल) "
+            explanation: 'प्रयोगकर्ता खाता हेर्ने क्षमता भएको। प्रत्येक प्रयोगकर्ताले आफ्नो प्रयोगकर्ता खातामा भएको पासवर्ड र ईमेल जस्ता जानकारी हेर्ने र सम्पादन हेर्ने पूर्वनिर्धारित क्षमता छ। (उदाहरणः पासवर्ड, इमेल) '
             label: हेर्नुहोस ।
           write:
-            explanation: "सो युजेर पेजमा \"सम्पादन\" बटन क्लिक गर्ने, प्रयोगकर्ताको बारेमा जानकारी अपडेट गर्ने  र 'सुरक्षित गर्नुहोस्' गर्न सक्ने क्षमता । कृपया ध्यान दिनुहोस् कि यो अनुमतिले प्रयोगकर्ता खाताहरू निस्कृय पार्ने क्षमता पनि दिन्छ। "
+            explanation: 'सो युजेर पेजमा "सम्पादन" बटन क्लिक गर्ने, प्रयोगकर्ताको बारेमा जानकारी अपडेट गर्ने  र ''सुरक्षित गर्नुहोस्'' गर्न सक्ने क्षमता । कृपया ध्यान दिनुहोस् कि यो अनुमतिले प्रयोगकर्ता खाताहरू निस्कृय पार्ने क्षमता पनि दिन्छ। '
             label: सम्पादन गर्नुहोस् ।
         explanation: व्यक्तिगत प्रयोगकर्ता खाता प्रतिनिधित्व गर्दछ।
         label: प्रयोगकर्ताहरू
       user_group:
         actions:
           assign:
-            explanation: "प्रयोगकर्ता खाता सिर्जना वा सम्पादन गर्दा प्रयोगकर्ता समूहहरू छनौट गर्ने क्षमता। कृपया ध्यान दिनुहोस् कि यदि हालको प्रयोगकर्तासँग \"मेरो समूहको रेकर्डहरू वा प्रयोगकर्ताहरू\" स्तरको पहुँच छ भने, उनीहरूले सिर्जना वा सम्पादन गरिरहेको प्रयोगकर्ता खाताको लागि आफ्नो प्रयोगकर्ता समूहहरू मध्ये छनौट गर्न सक्नेछन् । यसको मतलब यो हो कि प्रयोगकर्ता समूहहरू तोक्ने क्षमता भएको प्रबन्धकले प्रयोगकर्तालाई हालको प्रबन्धक समूहहरूमा मात्र थप्न सक्षम हुनेछ। प्रयोगकर्ता खाताहरू सिर्जना वा सम्पादन गर्ने भूमिकामा रहेको जो कसैलाई पनि यो अनुमति आवश्यक छ ।"
+            explanation: प्रयोगकर्ता खाता सिर्जना वा सम्पादन गर्दा प्रयोगकर्ता समूहहरू छनौट गर्ने क्षमता। कृपया ध्यान दिनुहोस् कि यदि हालको प्रयोगकर्तासँग "मेरो समूहको रेकर्डहरू वा प्रयोगकर्ताहरू" स्तरको पहुँच छ भने, उनीहरूले सिर्जना वा सम्पादन गरिरहेको प्रयोगकर्ता खाताको लागि आफ्नो प्रयोगकर्ता समूहहरू मध्ये छनौट गर्न सक्नेछन् । यसको मतलब यो हो कि प्रयोगकर्ता समूहहरू तोक्ने क्षमता भएको प्रबन्धकले प्रयोगकर्तालाई हालको प्रबन्धक समूहहरूमा मात्र थप्न सक्षम हुनेछ। प्रयोगकर्ता खाताहरू सिर्जना वा सम्पादन गर्ने भूमिकामा रहेको जो कसैलाई पनि यो अनुमति आवश्यक छ ।
             label: तोक्नुहोस् ।
           create:
-            explanation: "प्रयोगकर्ता समूह सिर्जना गर्ने क्षमता भएको "
+            explanation: 'प्रयोगकर्ता समूह सिर्जना गर्ने क्षमता भएको '
             label: सिर्जना गर्नुहोस् ।
           delete:
-            explanation: " प्रयोगकर्ता समूह मेटाउने क्षमता भएको"
-            label: "मेटाउनुहोस्। "
+            explanation: ' प्रयोगकर्ता समूह मेटाउने क्षमता भएको'
+            label: 'मेटाउनुहोस्। '
           manage:
             explanation: 'प्रयोगकर्तालाई प्रयोगकर्ता समूहहरूमा सबै उपलब्ध कार्यहरू गर्ने अनुमति दिन्छ । "प्रबन्ध" अनुमतिले मुख्यत "सबै कुरा" भन्ने अर्थ दिन्छ । महत्त्वपूर्ण : यसले  प्रयोगकर्ता समूहहरू सिर्जना गर्ने र मेटाउने क्षमता पनि दिन्छ ।'
             label: प्रबन्ध गर्नुहोस् (यो स्रोत प्रकारको लागि सबै अनुमतिहरू)
           read:
-            explanation: " प्रयोगकर्ता समूहहरू हेर्ने क्षमता भएको"
+            explanation: ' प्रयोगकर्ता समूहहरू हेर्ने क्षमता भएको'
             label: हेर्नुहोस्
           write:
-            explanation: " प्रयोगकर्ता समूहहरू सम्पादन गर्ने क्षमता भएको"
+            explanation: ' प्रयोगकर्ता समूहहरू सम्पादन गर्ने क्षमता भएको'
             label: सम्पादन गर्नुहोस्
         explanation: जानकारी आदानप्रदान गर्न सक्ने प्रयोगकर्ताहरूको टोली वा सहयोगी समूहको प्रतिनिधित्व गर्दछ। प्रबन्धकहरूले सामान्यतया उनीहरूको प्रयोगकर्ता समूहहरूमा सामाजिक कार्यकर्ताहरूद्वारा व्यवस्थित गरिएका सबै रेकर्डहरू हेर्न सक्छन्।
         label: प्रयोगकर्ता समूह
@@ -2980,10 +2886,9 @@ ne:
             label: सिर्जना गर्नुहोस
           delete:
             explanation: API बाट webhook कन्फिगरेसन मेटाउने क्षमता भएको
-            label: "मेटाउनुहोस्। "
+            label: 'मेटाउनुहोस्। '
           manage:
             label: प्रबन्ध गर्नुहोस् (यो स्रोत प्रकारको लागि सबै अनुमतिहरू)
-            explanation:
       activity_log:
         actions:
           transfer:
@@ -2991,7 +2896,6 @@ ne:
             label: स्थानान्तरणहरु
           manage:
             label: प्रबन्ध गर्नुहोस् (यस स्रोत प्रकारका लागि सबै अनुमतिहरू)
-            explanation:
         label: गतिविधि लग
   potential_match:
     case_id: घटना आइडी
@@ -3006,14 +2910,13 @@ ne:
     social_worker: सामाजिक कार्यकर्ता
     social_worker_agency: निकाय
     tracing_request_id: ट्रेसिङ्ग अनुरोध आईडी
-    trace: "पत्ता लगाउने "
+    trace: 'पत्ता लगाउने '
     likelihood_likely: हुन सक्ने
     likelihood_possible: सम्भावित
   potential_matches:
-    display: "%{type}%{id} को लागी सम्भावित मिलान देखाइएको"
+    display: '%{type}%{id} को लागी सम्भावित मिलान देखाइएको'
   reassign:
-    multiple_error: "एउटा त्रुटि देखापर्यो । %{select_records}केस (हरू) तोकिएका छैनन् ।"
-    multiple_successfully: '%{select_records}केस (हरू) सफलतापूर्वक तोकियो'
+    multiple_error: एउटा त्रुटि देखापर्यो । %{select_records}केस (हरू) तोकिएका छैनन् ।
     notes_label: नोटहरू
     successfully: सफलतापूर्वक पुनः तोकिएको ।
     user_mandatory_label: प्रापक आवश्यक छ ।
@@ -3040,19 +2943,19 @@ ne:
     type_of_recipient: प्रापकको प्रकार
     type_of_referral_required: रेफेरलको प्रकार आवश्यक छ
     agency_label: निकाय
-    is_remote_label: "के तपाईं रिमोट प्रणालीका बारे उल्लेख गर्दै हुनुहुन्छ ?"
+    is_remote_label: के तपाईं रिमोट प्रणालीका बारे उल्लेख गर्दै हुनुहुन्छ ?
     location_label: स्थान
     notes_label: नोटहरु
     notes_on_referral: रेफेरलमा नोट
     note_on_referral_from_provider: प्रदायकबाट रेफेरलमा नोटहरु
     provided_consent_label: फारमहरूमा सहमति प्रदान गरिएको छैन ।
     recipient_label: प्रापक
-    refer_anyway_label: "जे भए पनि रिफर गर्ने ? "
+    refer_anyway_label: 'जे भए पनि रिफर गर्ने ? '
     service_label: सेवा
     success: ' %{record_type}%{id} सफलतापूर्वक रिफर गरियो'
     user_mandatory_label: प्रापक आवश्यक छ ।
     date: मिति
-    rejected_reason: "अस्वीकार गर्नुको कारण "
+    rejected_reason: 'अस्वीकार गर्नुको कारण '
   report:
     aggregate_by: पक्तिको आधारमा समूह बनाउनुहोस् ।
     attribute: विशेषता
@@ -3061,32 +2964,32 @@ ne:
       date: दिन
       month: महिना
       quarter: त्रैमासिक
-      quarter_abbr: "Q%{quarter}"
+      quarter_abbr: Q%{quarter}
       week: हप्ता
       year: वर्ष
     description: विवरण
     disabled:
-      explanation: "यदि तपाईंले यो प्रतिवेदनलाई निष्कृय पार्नुभयो भने, उपलब्ध प्रतिवेदनहरूमा यो देखिने छैन ।"
+      explanation: यदि तपाईंले यो प्रतिवेदनलाई निष्कृय पार्नुभयो भने, उपलब्ध प्रतिवेदनहरूमा यो देखिने छैन ।
       label: निष्क्रिय पारिएको
-    exclude_empty_rows: "खाली पक्तिहरु नदेखाउनुहोस्। "
+    exclude_empty_rows: 'खाली पक्तिहरु नदेखाउनुहोस्। '
     disaggregate_by: कोलुमको समूह बनाउनुहोस
     filters:
-      label: " प्रतिवेदन फिल्टरहरू"
+      label: ' प्रतिवेदन फिल्टरहरू'
       label_new: नयाँ प्रतिवेदन फिल्टर
       attribute: फिल्टर
       value: संग
-      not_null: "खाली छैन ?"
+      not_null: खाली छैन ?
       less_than: भन्दा कम
       greater_than: भन्दा ठुलो
       equal_to: बराबर
-      not_blank: "खाली छैन "
+      not_blank: 'खाली छैन '
       is: हो छ
-      before: "अघि "
+      before: 'अघि '
       after: पछि
-      delete_filter_message: "के तपाईं यो फिल्टर पक्का हटाउन चाहनुहुन्छ ?"
+      delete_filter_message: के तपाईं यो फिल्टर पक्का हटाउन चाहनुहुन्छ ?
     group_ages: उमेर दायराहरूको प्रयोग गर्नुहोस् ।
     group_dates_by: मिति दायराहरूको प्रयोग गर्नुहोस् ।
-    is_graph: "ग्राफ सिर्जना गर्न चाहनुहुन्छ ?"
+    is_graph: ग्राफ सिर्जना गर्न चाहनुहुन्छ ?
     messages:
       delete_success: रिपोर्ट सफलतापूर्वक मेटाइएको  ।
       success: रिपोर्ट सफलतापूर्वक सिर्जना गरिएको  ।
@@ -3102,17 +3005,17 @@ ne:
     value: Value
   reports:
     delete_report: प्रतिवेदन मेटाउनुहोस्
-    delete_report_message: "के तपाईं पक्का यो प्रतिवेदन मेटाउन चाहनुहुन्छ ? मेटाएपछि पुन: प्रतिवेदन पाउन सकिँदैन । प्रतिवेदन मेटाउन \"ठीक छ\" क्लिक गर्नुहोस् ।"
+    delete_report_message: 'के तपाईं पक्का यो प्रतिवेदन मेटाउन चाहनुहुन्छ ? मेटाएपछि पुन: प्रतिवेदन पाउन सकिँदैन । प्रतिवेदन मेटाउन "ठीक छ" क्लिक गर्नुहोस् ।'
     label: प्रतिवेदनहरू
     register_new_report: प्रतिवेदन सिर्जना गर्नुहोस
     translations:
       edit: अनुवाद सम्पादन गर्नुहोस् ।
       manage: अनुवादहरूको प्रबन्ध मिलाउनुहोस् ।
-      select_language: "भाषा छनौट गर्नुहोस्  "
+      select_language: 'भाषा छनौट गर्नुहोस्  '
     error_loading: प्रतिवेदन(हरु) लोड गर्दा त्रुटि
   request_transfer:
     notes_label: नोटहरु
-    submit_label: "अनुरोध पठाउनुहोस । "
+    submit_label: 'अनुरोध पठाउनुहोस । '
     success: स्थानान्तरण अनुरोध पठाइयो ।
   role:
     agency_ids_label: यस भूमिकाद्वारा व्यवस्थित निकायहरू
@@ -3123,20 +3026,20 @@ ne:
     description: विवरण
     edit: भूमिका सम्पादन गर्नुहोस्।
     error_in_updating: भूमिका विवरण अद्यावधिक गर्दा त्रुटि देखियो
-    group_permission_label: "यो भूमिकाले कुन रेकर्डलाई असर गर्छ ?"
+    group_permission_label: यो भूमिकाले कुन रेकर्डलाई असर गर्छ ?
     label: भूमिका
     manager: प्रबन्धक
     messages:
-      confirmation: "के तपाईं यो भूमिका पक्का मेटाउन चाहनुहुन्छ ? मेटाएपछि पुन: भूमिका पाउन सकिँदैन । भूमिका मेटाउन \"ठीक छ\" क्लिक गर्नुहोस् ।"
+      confirmation: 'के तपाईं यो भूमिका पक्का मेटाउन चाहनुहुन्छ ? मेटाएपछि पुन: भूमिका पाउन सकिँदैन । भूमिका मेटाउन "ठीक छ" क्लिक गर्नुहोस् ।'
       created: भूमिका सफलतापूर्वक सिर्जना गरिएको ।
       deleted: भूमिका सफलतापूर्वक मेटाइएको  ।
       updated: भूमिका सफलतापूर्वक अद्यावधिक गरिएको  ।
     name: नाम
-    referral_label: "के यो भूमिका रेफरलको लागि प्रयोग गर्न सकिन्छ ?"
-    reporting_location_level_label: "यो भूमिकाको प्रतिवेदनको लागि कुन प्रकारको स्थान उपयोग गर्नुपर्छ ?"
+    referral_label: के यो भूमिका रेफरलको लागि प्रयोग गर्न सकिन्छ ?
+    reporting_location_level_label: यो भूमिकाको प्रतिवेदनको लागि कुन प्रकारको स्थान उपयोग गर्नुपर्छ ?
     role_ids_label: यो भूमिकाद्वारा व्यवस्थित अन्य भूमिकाहरू
-    successfully_updated: "भूमिका विवरण सफलतापूर्वक अद्यावधिक गरिएको छ । "
-    transfer_label: "के यो भूमिका स्थानान्तरणको लागि प्रयोग गर्न सकिन्छ ?"
+    successfully_updated: 'भूमिका विवरण सफलतापूर्वक अद्यावधिक गरिएको छ । '
+    transfer_label: के यो भूमिका स्थानान्तरणको लागि प्रयोग गर्न सकिन्छ ?
     hide: लुकाउनुहोस्
     read: देखाउनु
     read_write: देखाउनुहोस् र सम्पादन गर्नुहोस्।
@@ -3145,13 +3048,13 @@ ne:
   saved_search:
     deleted: खोज सफलतापूर्वक मेटाइएको ।
     filters_tab: फिल्टर
-    no_filters: " कुनै फिल्टर छनौट गरिएको छैन।"
-    save_success: "खोज सफलतापूर्वक सुरक्षित गरिएको ।  "
+    no_filters: ' कुनै फिल्टर छनौट गरिएको छैन।'
+    save_success: 'खोज सफलतापूर्वक सुरक्षित गरिएको ।  '
     saved_searches_tab: सुरक्षित गरिएको खोजहरु
-    title_description: "के तपाईं यो सुरक्षित गरिएको खोज पक्का मेटाउन चाहनुहुन्छ ?"
+    title_description: के तपाईं यो सुरक्षित गरिएको खोज पक्का मेटाउन चाहनुहुन्छ ?
     title_modal: सुरक्षित गरिएको खोजहरु मेटाउनुहोस्
   saved_searches:
-    no_save_searches: "तपाइँसँग कुनै खोज सुरक्षित गरिएको  छैन । "
+    no_save_searches: 'तपाइँसँग कुनै खोज सुरक्षित गरिएको  छैन । '
     save_search: खोज सुरक्षित गर्नुहोस् ।
   settings:
     navigation:
@@ -3182,22 +3085,22 @@ ne:
     status: स्थिति
     statuses:
       overdue: म्याद नाघेको
-      upcoming_soon: "लगभग म्याद सकिएको "
+      upcoming_soon: 'लगभग म्याद सकिएको '
     type: कार्यको प्रकार
     types:
       assessment: मूल्याङ्कन गर्नुहोस्
       case_plan: घटना योजना
-      follow_up: "फलोअप - %{subtype}"
-      service: "सेवा - %{subtype}"
+      follow_up: फलोअप - %{subtype}
+      service: सेवा - %{subtype}
   tracing_request:
     label: ट्रेसिङ्ग अनुरोध
     has_match: मिल्दो फेला परेको छ।
     find_match: मिल्दो फेला पार्नुहोस्
-    back_to_traces: "ट्रेसहरु पुन:फर्कनुहोस"
+    back_to_traces: ट्रेसहरु पुन:फर्कनुहोस
     back_to_potential_matches: सम्भावित मेलमा फर्कनुहोस् ।
     traces: ट्रेसहरु
     trace: ट्रेस
-    match: "मेल खायो "
+    match: 'मेल खायो '
     matches: मेलहरु
     unmatch: मेल खाएन
     tracing_request_photos: यस ट्रेसिङ अनुरोधको लागि फोटोहरू
@@ -3209,23 +3112,23 @@ ne:
       disabled: ट्रेसिङ्ग अनुरोध निष्कृय पारिएको छ ।
       nothing_found: केहीपनि भेटिएन
       update_success: 'ट्रेसिङ्ग अनुरोध %{record_id} सफलतापूर्वक अद्यावधिक गरियो ।'
-      creation_success: "ट्रेसिङ्ग अनुरोधको अभिलेख सफलतापूर्वक सिर्जना गरियो । "
+      creation_success: 'ट्रेसिङ्ग अनुरोधको अभिलेख सफलतापूर्वक सिर्जना गरियो । '
       update_success_queue: 'ट्रेसिङ्ग अनुरोध %{record_id} पृष्ठभूमिमा सफलतापूर्वक अद्यावधिक गरियो'
       creation_success_queue: ट्रेसिङ अनुरोधको अभिलेख पृष्ठभूमिमा सफलतापूर्वक सिर्जना गरियो ।
-      match_action: "ट्रेस %{trace_id} सँग केस%{record_id} सफलतापूर्वक मिलान गरियो ।"
-      unmatch_action: "ट्रेस %{trace_id}सँग केस%{record_id} मेल नखाने कार्य सफलतापूर्वक गरियो ।"
+      match_action: ट्रेस %{trace_id} सँग केस%{record_id} सफलतापूर्वक मिलान गरियो ।
+      unmatch_action: ट्रेस %{trace_id}सँग केस%{record_id} मेल नखाने कार्य सफलतापूर्वक गरियो ।
   registry_record:
     messages:
       update_success: '%{record_id} रजिस्ट्री रेकर्डहरु सफलतापूर्वक अद्यावधिक गरिएको ।'
       creation_success: 'रजिस्ट्री रेकर्ड सफलतापूर्वक सिर्जना गरिएको'
       disabled: रजिस्ट्री रेकर्ड निस्कृय रहेको छ
   tracing_requests:
-    date_of_inquiry: "सोधपुछको मिति "
+    date_of_inquiry: 'सोधपुछको मिति '
     disable_dialog_title: ट्रेसिङ्ग अनुरोध निष्कृय पार्नुहोस् ।
-    disable_dialog: "'ठिक छ' मा क्लिक गर्नाले ट्रेसिङ्ग अनुरोधको स्थितिलाई निष्कृय बनाउनेछ"
+    disable_dialog: '''ठिक छ'' मा क्लिक गर्नाले ट्रेसिङ्ग अनुरोधको स्थितिलाई निष्कृय बनाउनेछ'
     disable_success: ट्रेसिङ्ग अनुरोध सफलतापूर्वक निष्कृय पारियो ।
-    enable_dialog: "'ठिक छ' मा क्लिक गर्नाले ट्रेसिङ्ग अनुरोधको स्थितिलाई सकृय बनाउनेछ"
-    enable_dialog_title: "ट्रेसिङ्ग अनुरोधहरू सकृय पार्नुहोस् ?"
+    enable_dialog: '''ठिक छ'' मा क्लिक गर्नाले ट्रेसिङ्ग अनुरोधको स्थितिलाई सकृय बनाउनेछ'
+    enable_dialog_title: ट्रेसिङ्ग अनुरोधहरू सकृय पार्नुहोस् ?
     enable_success: ट्रेसिङ्ग अनुरोधहरू सफलतापूर्वक सकृय पारियो ।
     id: आईडी
     complete: अफलाईन उपलब्ध रहेको
@@ -3240,12 +3143,12 @@ ne:
     name: नाम
     register_new_tracing_request: नयाँ ट्रेसिङ्गको लागि अनुरोध
     selectable_date_options:
-      inquiry_date: "सोधपुछको मिति "
+      inquiry_date: 'सोधपुछको मिति '
     selected_records: '%{select_records} ट्रेसिङ्ग अनुरोध (हरू) छनौट गरियो'
     selected_all_records: 'यो जिज्ञासासँग मेल सबै %{total_records} ट्रेसिङ्ग अनुरोधहरू छान्नुहोस् ।'
     show_tracing_request: 'ट्रेसिङ्ग अनुरोध आईडी%{short_id}'
     tracing_requests: ट्रेसिङ्ग अनुरोधहरू
-    export: "Export गर्नुहोस् । "
+    export: 'Export गर्नुहोस् । '
     sort_by: क्रमबद्ध गर्नुहोस्
   registry_records:
     id: आईडी
@@ -3273,24 +3176,24 @@ ne:
     export: निर्यात
     mark_for_offline:
       title: अफलाईनको लागि चिन्ह लगाउनुहोस्
-      text: "के तपाई अफलाईन हुँदा प्रयोगको लागि यी रजिस्ट्री रेकर्डहरू चिन्ह लगाउन निश्चित हुनुहुन्छ?"
+      text: के तपाई अफलाईन हुँदा प्रयोगको लागि यी रजिस्ट्री रेकर्डहरू चिन्ह लगाउन निश्चित हुनुहुन्छ?
       success: अफलाईन प्रयोगको लागि रजिस्ट्री रेकर्डहरू सफलतापूर्वक चिन्ह लगाइएको
   transfer:
     label: ट्रान्सफर
-    agency_label: "निकाय "
-    consent_from_individual_label: "के यो स्थानान्तरण गर्नको लागि तपाईंले व्यक्तिबाट सहमति पाउनु भएको छ ? "
+    agency_label: 'निकाय '
+    consent_from_individual_label: 'के यो स्थानान्तरण गर्नको लागि तपाईंले व्यक्तिबाट सहमति पाउनु भएको छ ? '
     consent_label: अभिलेखद्वारा सहमति प्रदान गरिएको छैन ।
-    consent_override_label: "के तपाइँ यो सेटिंग ओभरराइड गर्न चाहानुहुन्छ?"
-    is_remote_label: "के तपाईं रिमोट सिस्टममा स्थानान्तरण गर्दै हुनुहुन्छ ? "
+    consent_override_label: के तपाइँ यो सेटिंग ओभरराइड गर्न चाहानुहुन्छ?
+    is_remote_label: 'के तपाईं रिमोट सिस्टममा स्थानान्तरण गर्दै हुनुहुन्छ ? '
     location_label: स्थान
     notes_label: नोटहरु
     provided_consent_label: फारममा सहमति प्रदान गरिएको छैन ।
     recipient_label: प्रापक
     select_label: छनौट गर्नुहोस्
     success: सफलतापूर्वक स्थानान्तरण गरियो । 
-    transfer_label: "जे भए पनि स्थानान्तरण गर्ने ? "
+    transfer_label: 'जे भए पनि स्थानान्तरण गर्ने ? '
     user_mandatory: प्रापक आवश्यक छ ।
-    rejected_reason: "अस्वीकार गर्नुको कारण "
+    rejected_reason: 'अस्वीकार गर्नुको कारण '
   transfer_assignment:
     title: स्थानान्तरण र  कार्यभारहरू
   transition:
@@ -3305,8 +3208,8 @@ ne:
     errors:
       consent: सहमति प्रदान गरिएको छैन ।
       to_user_can_receive: यो प्रयोगकर्ता यो अभिलेख प्राप्त गर्न सक्दैन ।
-    individual_consent: "के यो स्थानान्तरण गर्नको लागि घटना कार्यकर्तालाई व्यक्तिबाट सहमति थियो ?"
-    no_consent_share: "ओभरराईड गरिएको सेटिङहरु शेयर गर्न सहमति छ ?"
+    individual_consent: के यो स्थानान्तरण गर्नको लागि घटना कार्यकर्तालाई व्यक्तिबाट सहमति थियो ?
+    no_consent_share: ओभरराईड गरिएको सेटिङहरु शेयर गर्न सहमति छ ?
     notes: नोटहरु
     recipient: प्रापक
     rejected: कारण अस्वीकृत गरियो
@@ -3314,19 +3217,19 @@ ne:
     service_label: सेवा
     responded_at: रेसपन्स गरिएको समय
     status:
-      accepted: "स्वीकार गरिएको "
+      accepted: 'स्वीकार गरिएको '
       done: सम्पन्न
-      in_progress: "विचाराधीन "
-      inprogress: "विचाराधीन "
+      in_progress: 'विचाराधीन '
+      inprogress: 'विचाराधीन '
       rejected: अस्वीकृत
       revoked: खारेज गरिएको
     type:
       assign: तोक्नुहोस् ।
       reassign: तोक्नुहोस् ।
-      referral: "रेफेरल "
-      external_referral: "बाह्य रेफेरल "
+      referral: 'रेफेरल '
+      external_referral: 'बाह्य रेफेरल '
       transfer: स्थानान्तरण गर्नुहोस् ।
-      transferRequest: "स्थानान्तरण अनुरोध "
+      transferRequest: 'स्थानान्तरण अनुरोध '
   user:
     agency_office: निकाय कार्यालय (GBV क्षेत्र)
     code: प्रयोगकर्ता कोड
@@ -3340,11 +3243,11 @@ ne:
     locale: स्थान
     location: स्थान
     messages:
-      confirmation: "के तपाईं यो प्रयोगकर्तालाई मेटाउन चाहनुहुन्छ ? मेटाएपछि पुन: पाउन सकिँदैन । प्रयोगकर्ता मेटाउन 'ठीक छ' क्लिक गर्नुहोस् ।"
+      confirmation: 'के तपाईं यो प्रयोगकर्तालाई मेटाउन चाहनुहुन्छ ? मेटाएपछि पुन: पाउन सकिँदैन । प्रयोगकर्ता मेटाउन ''ठीक छ'' क्लिक गर्नुहोस् ।'
       created: प्रयोगकर्तालाई सफलतापूर्वक सिर्जना गरियो
       failure: त्रुटि देखा परेकोले कृपया सहयोगको लागि सम्पर्क गर्नुहोस् ।
-      new_confirm_html: "प्रीमेरो प्रयोग गर्नको लागि तपाईले <b>%{identity}</b> बाट <b>%{username}</b> लाई<b> %{role} </b>को भुमिकामा आमन्त्रित गर्न लाग्नु भएको छ । पुष्टिको लागि<b> %{email} </b>मा ईमेल पठाइनेछ । के तपाई अघि बढ्न चाहनुहुन्छ ?"
-      new_confirm_non_identity_html: "प्रीमेरो प्रयोग गर्नको लागि तपाईंले भूमिका <b>%{role}</b> भएको प्रयोगकर्ता <b>%{username}</b> लाई  आमन्त्रित गर्न लाग्नु भएको छ । पुष्टिको लागि  <b>%{email}</b>  मा ईमेल पठाइने छ । के तपाई अघि बढ्न चाहनुहुन्छ ?"
+      new_confirm_html: प्रीमेरो प्रयोग गर्नको लागि तपाईले <b>%{identity}</b> बाट <b>%{username}</b> लाई<b> %{role} </b>को भुमिकामा आमन्त्रित गर्न लाग्नु भएको छ । पुष्टिको लागि<b> %{email} </b>मा ईमेल पठाइनेछ । के तपाई अघि बढ्न चाहनुहुन्छ ?
+      new_confirm_non_identity_html: प्रीमेरो प्रयोग गर्नको लागि तपाईंले भूमिका <b>%{role}</b> भएको प्रयोगकर्ता <b>%{username}</b> लाई  आमन्त्रित गर्न लाग्नु भएको छ । पुष्टिको लागि  <b>%{email}</b>  मा ईमेल पठाइने छ । के तपाई अघि बढ्न चाहनुहुन्छ ?
       not_found: दिइएको आईडीसँग मेल खाने प्रयोगकर्ता फेला परेन ।
       password_changed_successfully: पासवर्ड सफलतापूर्वक परिवर्तन भयो  ।
       passwords_do_not_match: वर्तमान पासवर्डसँग मिल्दैन ।
@@ -3352,24 +3255,24 @@ ne:
       updated: प्रयोगकर्तालाई सफलतापूर्वक अद्यावधिक गरिएको ।
     organization: संस्था
     agency: निकाय
-    services_help_text: "यदि तपाईंले सेवाहरू खुलाउन भएन भने, यो प्रयोगकर्तालाई निकायमा भएका सेवाहरू प्रदान गरिनेछ ।"
+    services_help_text: यदि तपाईंले सेवाहरू खुलाउन भएन भने, यो प्रयोगकर्तालाई निकायमा भएका सेवाहरू प्रदान गरिनेछ ।
     password_setting:
-      label: "प्रीमेरो प्रयोगकर्ताले पासवर्ड कसरी सेट गर्नुपर्छ ?"
-      self: "म पासवर्ड सेट गर्छु । "
+      label: प्रीमेरो प्रयोगकर्ताले पासवर्ड कसरी सेट गर्नुपर्छ ?
+      self: 'म पासवर्ड सेट गर्छु । '
       user: प्रयोगकर्ताले स्वागत ईमेलको उपयोग गरी पासवर्ड सेट गर्दछन् ।
-      help_text: "कृपया याद गर्नुहोस् कि यदि तपाईं प्रशासक हो र तपाईं पासवर्ड आफैले सेट गर्नु हुन्छ भने तपाईंले सुरक्षित तरिकाले प्रयोगकर्तालाई पासवर्ड प्रदान गर्नुपर्दछ । "
+      help_text: 'कृपया याद गर्नुहोस् कि यदि तपाईं प्रशासक हो र तपाईं पासवर्ड आफैले सेट गर्नु हुन्छ भने तपाईंले सुरक्षित तरिकाले प्रयोगकर्तालाई पासवर्ड प्रदान गर्नुपर्दछ । '
     password_reset_header: पासवर्ड रिसेट ईमेल पठाउनुहोस् ।
-    password_reset_text: "यदि तपाईंले 'पठाउनुहोस्' मा क्लिक गर्नु भयो भने, यो प्रयोगकर्तालाई पासवर्ड परिवर्तन गर्न एउटा लिङ्क सहितको ईमेल प्राप्त हुनेछ । "
-    password_reset_request: "पासवर्ड रिसेट ईमेल सूचनाहरू पठाउन चाहनुहुन्छ ?"
-    password: "पासवर्ड "
+    password_reset_text: 'यदि तपाईंले ''पठाउनुहोस्'' मा क्लिक गर्नु भयो भने, यो प्रयोगकर्तालाई पासवर्ड परिवर्तन गर्न एउटा लिङ्क सहितको ईमेल प्राप्त हुनेछ । '
+    password_reset_request: पासवर्ड रिसेट ईमेल सूचनाहरू पठाउन चाहनुहुन्छ ?
+    password: 'पासवर्ड '
     password_confirmation: पासवर्ड पुष्टी
     phone: फोन
     position: पद
     provider_username_help: 'Example: my.username@%{domain}'
     role_id: भूमिका
-    send_mail: "ईमेल सूचना प्राप्त गर्न चाहानुहुन्छ ?"
+    send_mail: ईमेल सूचना प्राप्त गर्न चाहानुहुन्छ ?
     user_group_unique_ids: प्रयोगकर्ता समूह
-    user_name: " प्रयोगकर्ता नाम"
+    user_name: ' प्रयोगकर्ता नाम'
     services: सेवाहरू
     welcome_email:
       subject: '%{system}मा स्वागत छ'
@@ -3387,8 +3290,8 @@ ne:
         step2: '%{host}मा जानुहोस् र "प्रीमेरो प्रयोगकर्ता नामबाट लगईन गर्नुहोस्"मा क्लिक गर्नुहोस्।'
         step3: 'तपाँईको प्रीमेरो प्रयोगकर्ता नाम र यो अस्थाई पासवर्ड %{otp} प्रयोग गरी लगईन गर्नुहोस्।'
         step4: 'सङ्केत पाएपछि तपाईंको पासवर्ड रिसेट गर्नुहोस् । '
-      url_label: "प्रीमेरो "
-      enabled_label: "स्वागत ईमेल पठाउन चाहनुहुन्छ ?"
+      url_label: 'प्रीमेरो '
+      enabled_label: स्वागत ईमेल पठाउन चाहनुहुन्छ ?
       text_label: स्वागत ईमेल सन्देश  
     password_reset:
       subject: 'पासवर्ड रिसेटको निर्देशनहरू'
@@ -3412,18 +3315,18 @@ ne:
     associated_agencies: यस प्रयोगकर्ता समूहसँग सम्बन्धित निकायहरू
     description: विवरण
     disabled:
-      explanation: "यदि तपाईंले यो प्रयोगकर्ता समूहलाई निष्कृय गर्नु भयो भने, तपाईंले अब उप्रान्त यो समूह प्रयोगकर्ताहरुलाई तोक्न पाउनु हुनेछैन ।"
+      explanation: यदि तपाईंले यो प्रयोगकर्ता समूहलाई निष्कृय गर्नु भयो भने, तपाईंले अब उप्रान्त यो समूह प्रयोगकर्ताहरुलाई तोक्न पाउनु हुनेछैन ।
       label: निष्क्रिय पारिएको
     messages:
       created: प्रयोगकर्ता समूह सफलतापूर्वक सिर्जना भयो
       updated: प्रयोगकर्ता समूह सफलतापूर्वक सिर्जना भयो
-    name: " नाम "
+    name: ' नाम '
   user_groups:
     label: प्रयोगकर्ता समूह
   users:
     label: प्रयोगकर्ताहरू
     headers:
-      full_name: "पुरा नाम "
+      full_name: 'पुरा नाम '
       user_name: युजरनेम
       position: पद
       agency: निकाय
@@ -3436,5 +3339,5 @@ ne:
   admin:
     locations:
       selected_records: '%{select_records}स्थान (हरु) छनौट गरियो ।'
-      selected_all_records: "यो प्रश्न सँग मेल खाने सबै %{total_records} घटनाहरु छान्नुहोस्  । "
+      selected_all_records: 'यो प्रश्न सँग मेल खाने सबै %{total_records} घटनाहरु छान्नुहोस्  । '
       updated: '%{updated_records}स्थान(हरु) अद्यावधिक गरियो।'

@@ -284,6 +284,43 @@ module Exporters
       end
     end
 
+    context 'when fields has special option_strings_source' do
+      before do
+        clean_data(Field, FormSection, PrimeroModule)
+        form1 = FormSection.new(
+          name: 'Form1', parent_form: 'case', visible: true,
+          order_form_group: 2, order: 0, order_subform: 0, form_group_id: 'form_group1',
+          unique_id: 'basic_identity'
+        )
+        form1.fields << Field.new(
+          name: 'service_incident',
+          type: Field::SELECT_BOX,
+          display_name: 'Incident action addresses',
+          option_strings_source: 'LinkedIncidents'
+        )
+        form1.fields << Field.new(
+          name: 'service_delivery_location',
+          type: Field::SELECT_BOX,
+          display_name: 'Service delivery location',
+          option_strings_source: 'ReportingLocation'
+        )
+        form1.save!
+
+        create(:primero_module, unique_id: 'primeromodule-cp', name: 'CP', form_sections: [form1])
+
+        exporter = Exporters::FormExporter.new
+        exporter.export
+        @book = Roo::Spreadsheet.open(exporter.file_name)
+
+        @test_xlsx_files << exporter.file_name
+      end
+
+      it 'export fields options' do
+        expected_values = [nil, 'Options', 'Linked Incidents', 'Reporting Locations']
+        expect(@book.sheet('Form1').column(9)).to match_array(expected_values)
+      end
+    end
+
     after do
       clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Lookup)
 

@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { List, Collapse } from "@material-ui/core";
+import { List, Collapse } from "@mui/material";
 
 import NavItem from "../nav-item";
 import { useI18n } from "../../../../i18n";
@@ -9,7 +9,7 @@ import { useI18n } from "../../../../i18n";
 import { NAME } from "./constants";
 import { getFormGroupName } from "./utils";
 
-const Component = ({
+function Component({
   group,
   handleClick,
   isNew,
@@ -19,7 +19,7 @@ const Component = ({
   validationErrors,
   formGroupLookup,
   testID
-}) => {
+}) {
   const [...forms] = group.values();
   const isNested = forms.length > 1;
   const parentForm = forms[0];
@@ -71,7 +71,7 @@ const Component = ({
       )}
     </>
   );
-};
+}
 
 Component.displayName = NAME;
 

@@ -55,35 +55,36 @@ ar:
     services_section_from_case: إضافة تقديم خدمة
     mark_for_offline: وضع علامة على عدم الاتصال بالانترنت
   agencies:
-    label: المؤسسة
+    label: الهيئة
     translations:
       manage: إدارة الترجمات
   agency:
-    agency_logos: شعارات الوكالة
-    code: رمز المؤسسة
+    agency_logos: شعارات الهيئة
+    code: كود الهيئة
     description: الوصف
     disabled: 'مُعطلة '
-    exclude_agency_from_lookups: استبعاد هذه الوكالة من عمليات البحث وعوامل التصفية
-    exclude_agency_from_lookups_help: تحقق من هذا إذا لم يكن لدى الوكالة مستخدمون (على سبيل المثال ، تمت إضافة الوكالة حتى يمكن تطبيق الشعار على الصادرات.
-    label: وكالة
-    logo_enabled: عرض شعار هذه الوكالة في Primero؟
-    logo_enabled_help: عرض شعار هذه الوكالة في Primero؟
+    exclude_agency_from_lookups: استبعاد هذه الهيئة من عمليات البحث وعوامل التصفية
+    exclude_agency_from_lookups_help: تحقق من هذا إذا لم يكن لدى الهيئة مستخدمون (على سبيل المثال ، تمت إضافة الهيئة حتى يمكن تطبيق الشعار على التصديرات.
+    label: الهيئة
+    logo_enabled: عرض شعار هذه الهيئة في Primero؟
+    logo_enabled_help: عرض شعار هذه الهيئة في Primero؟
     logo_icon: شعار الايقونة
     logo_icon_help: سيظهر هذا على الشاشات صغيرة الحجم والأجهزة اللوحية والهواتف. يجب أن يكون هذا على شكل مربع.
     logo_large: شعار كبير
     logo_large_help: سيظهر هذا على الشاشات كبيرة الحجم و في صيغة PDF. يجب أن يكون هذا على شكل مستطيل و يجب ان يكون الطول اكبر من الارتفاع
     messages:
-      created: تم انشاء الوكالة بنجاح
-      updated: تم تحديث الوكالة بنجاح
-    name: اسم المؤسسة
+      created: تم انشاء الهيئة بنجاح
+      updated: تم تحديث الهيئة بنجاح
+    name: اسم الهيئة
     pdf_logo_option: جعل الشعار متاح في صيغة PDF ؟
-    pdf_logo_option_help: 'ملاحظة: شعارات الوكالة الخاصة بالمستخدم متاحة لهم بشكل افتراضي ، لذلك يمكنك تحديد هذا فقط إذا كنت تريد أن يكون هذا الشعار متاحًا لجميع المستخدمين.'
-    services: خدمات المؤسسة
+    pdf_logo_option_help: 'ملاحظة: شعارات الهيئة الخاصة بالمستخدم متاحة لهم بشكل افتراضي ، لذلك يمكنك تحديد هذا فقط إذا كنت تريد أن يكون هذا الشعار متاحًا لجميع المستخدمين.'
+    services: خدمات الهيئة
     terms_of_use: شروط الاستخدام
     terms_of_use_help: يسمح فقط بملفات PDF
     terms_of_use_download_button: تحميل PDF
     terms_of_use_enabled: عرض شروط الاستخدام؟
   approvals:
+    no_requests: لا توجد طلبات موافقة لهذه الحالة
     approved_by: تمت الموافقة عليه من قبل
     case_plan_type_label: نوع خطة الحالة
     manager_comments_label: تعليقات المدير
@@ -109,11 +110,11 @@ ar:
   bulk_export:
     file_name: ملف
     record_type: نوع
-    retry: هذا النقل غير صحيح. أرجو حاول إعادة عمل عملية النقل الخاصة بك.
+    retry: هذا النقل غير صحيح. رجاء حاول إعادة عملية النقل الخاصة بك.
     started_on: 'بدء '
     status: 'وضع الحالة '
   form_export:
-    label: تصدير نموذج التكوين
+    label: تصدير نموذج الإعدادات
     include_hidden: تضمين النماذج والحقول المخفية؟
     file_name: قم بإنشاء اسم الملف الخاص بك (اختياري)
     success_message: تم إنشاء ملف التصدير بنجاح
@@ -125,13 +126,13 @@ ar:
     apply: تطبيق
     approvals: المصادقات
     approve_action_plan: موافقة خطة العمل
-    approve_bia: المصادقة على BIA
-    approve_case_plan: المصادقة على خطة الحالة
+    approve_bia: الموافقة على المصلحة الفضلى
+    approve_case_plan: الموافقة على خطة الحالة
     approve_closure: الموافقة على الإغلاق
     approve_gbv_closure: الموافقة على اغلاق العنف القائم على نوع الجنس
     back: السابق
-    bundle_export: حزمة التكوين
-    bundle_import: حزمة التكوين
+    bundle_export: حزمة الإعدادات
+    bundle_import: حزمة الإعدادات
     cancel: إلغاء
     change_password: تغيير كلمة المرور
     check_status: تحقق من حالة
@@ -141,17 +142,17 @@ ar:
     close: اغلاق
     continue: استمر
     create_case: إنشاء حالة
-    create_incident: إنشاء حادثة جديدة
+    create_incident: 'إنشاء حادثة '
     create_new_record: إنشاء %{model} جديد
     delete: حذف
     disable: إيقاف
-    disable_photo_wall: تعطيل photo wall
+    disable_photo_wall: تعطيل عرض الصور
     done: تم
     download: تحميل
     edit: تعديل
     edit_subform: تعديل النموذج الفرعي
     enable: تشغيل
-    enable_photo_wall: تفعيل photo wall
+    enable_photo_wall: تفعيل  عرض الصور
     export: تصدير ملف
     filter: تطبيق عامل التصفية
     filter_clear: مسح عوامل التصفية
@@ -166,6 +167,7 @@ ar:
     import: استيراد
     login: تسجيل الدخول
     logout: تسجيل خروج
+    link: رابط
     mark_for_mobile: وضع علامة للمحمول
     new: 'جديدة '
     ok: موافق
@@ -176,7 +178,7 @@ ar:
     reject: رفض
     remove_referrals: إلغاء الإحالات
     reorder: اعادة ترتيب
-    request_approval: طلب المصادقة
+    request_approval: طلب الموافقة
     request_transfer: طلب نقل
     reunite: إعادة لمّ الشمل
     save: حفظ
@@ -198,6 +200,8 @@ ar:
     view: عرض
     view_flags_history: عرض التاريخ
     return_to_case: العودة إلى الحالة
+    enable_webpush: إشعارات الجهاز
+    dialog_yes: "نعم"
   resync_records:
     id: رقم الحالة في النظام
     record_type: نوع السجل
@@ -210,7 +214,10 @@ ar:
   case:
     label: حالة
     create_new_case: انشاء حالة جديدة
+    create_case: إنشاء حالة
+    create: إنشاء
     add_new: أضف جديد
+    back_to_family_details: العودة إلى تفاصيل العائلة
     back_to_case: العودة إلى الحالة
     back_to_results: العودة إلى النتائج
     back_to_search: العودة الى البحث
@@ -220,7 +227,7 @@ ar:
     details: تفاصيل
     select: اختيار
     deselect: ازالة الاختيار
-    enter_id_number: قم بإدخال رقم الهوية الشخصية/الوثيقة التعريفية لسجل موجود
+    enter_id_number: قم بإدخال رقم الهوية الشخصية/رقم المنهل
     id_search_no_results: لا يوجد متشابه في النظام ل "%{id}"، يُرجى عمل سجل جديد.
     messages:
       disabled: تم تعطيل الحالة
@@ -233,19 +240,28 @@ ar:
       not_found_case: لم يتم العثور على حالة تطابق "%{search_value}" إنشاء حالة جديدة
       introductory_sentence: يرجى تحديد موافقة الفرد على تلقي خدمات إدارة الحالة وتخزين بياناته في Primero.
       consent_agreements_required: الرجاء تحديد خيار واحد على الأقل من اتفاقيات الموافقة.
-      legitimate_basis_required: الرجاء تحديد خيار واحد على الأقل من تصنيفات الأساس المشروعة.
+      legitimate_basis_required: الرجاء تحديد خيار واحد على الأقل من التصنيفات الأساسية القانونية.
+      confirm_create_case: هل تريد انشاء حالة لهذا الفرد؟
+      case_referral_pending: إحالة الحالة في انتظار المراجعة.
+      case_transfer_pending: نقل الحالة في انتظار المراجعة.
+      case_no_approval_request: لا توجد طلبات موافقة لهذه الحالة.
+      bulk_assign_limit: لا يمكنك تعيين أكثر من 100 حالة في وقت واحد.
+      bulk_assign_limit_try_again: لا يمكنك تعيين أكثر من 100 حالة في وقت واحد. يرجى تحديد 100 حالة أو أقل ثم حاول مرة أخرى
+      referral_rejected: تم رفض الإحالة.
+      transfer_request_made: تم تقديم طلب نقل لهذه الحالة.
     save: حفظ الحالة
     save_text: قبل المتابعة يرجى حفظ التغييرات التي أجريت على الحالة
     skip_and_create: تخطي وإنشاء حالة جديدة
     search_existing: بحث في الحالات الموجودة
     search_helper_text: لماذا ا؟ لمنع إنشاء حالات مكررة.
     consent_agreements: حدد جميع اتفاقيات الموافقة التي تنطبق
-    legitimate_basis: حدد كل تصنيفات الأساس الشرعي التي تنطبق
+    legitimate_basis: حدد كل التصنيفات الأساسية القانونية التي تنطبق
+    family_linked_subform_delete_disabled: يرتبط إدخال النموذج الفرعي هذا بسجل العائلة. يرجى إما إزالة عضو العائلة هذا من سجل العائلة، أو إلغاء ربط حالة فرد العائلة من سجل العائلة.
     workflow:
       assessment: التقييم
       case_plan: خطة الحالة
       closed: مغلقة
-      created_on: تم تسجيل حالة جديدة في
+      created_on: تم تسجيل في
       in_progress: جاري
       new: 'جديدة '
       on_label: 'في'
@@ -260,9 +276,10 @@ ar:
     rejected_transfer: '%{to} رفض نقل %{record_type} %{record_id} من %{from}'
   cases:
     action_plan: خطة العمل
+    access_denied: "ليس لديك حق الوصول إلى هذه الحالة."
     age: العمر
     age_estimated: ما هو العمر المقدّر؟
-    agency: وكالة
+    agency: الهيئة
     apply_filter: تطبيق
     approval_comments: تعليقات
     approval_radio: أودّ أن
@@ -278,7 +295,7 @@ ar:
     assessment: التقييم
     case_opening_date: تاريخ فتح الحالة
     case_plan: خطة الحالة
-    case_worker_code: رمز الإختصاصي الإجتماعي
+    case_worker_code: كود اخصائي الحالة
     clear_filter: مسح
     close_dialog: بالنقر على "تمّ" سيُصبح وضع هذه الحالة مغلقًا
     close_dialog_title: اغلاق الحالة
@@ -305,13 +322,13 @@ ar:
       age_18_more: 18+
       age_6_11: 6 - 11
       age_range: الفئة العمرية
-      agency: وكالة
+      agency: الهيئة
       approval_status: وضع الموافقات
       approvals:
         approved: تم الموافقة عليه
         pending: معلّقة
         rejected: رُفض
-      bia: BIA
+      bia: المصلحة الفضلى
       by_date: حسب التاريخ
       case_open_date: تاريخ فتح الحالة
       case_plan: خطة الحالة
@@ -320,7 +337,7 @@ ar:
       current_location: الموقع الحالي
       date: تاريخ
       displacement_status: وضع النزوح
-      district: قضاء
+      district: الحي
       duplicate: كرّر
       enabled_disabled: 'مُفعلة/مُعطلة '
       female: أنثى
@@ -340,20 +357,21 @@ ar:
       other: أخرى
       photo: صورة
       photo_label: هل توجد صورة؟
-      protection_concerns: مخاوف تتعلّق بالحماية (المشاكل/الحماية)
+      protection_concerns: مخاوف تتعلّق بالحماية
       protection_status: وضع الحماية
       record_state: حالة السجل
       referred_cases: الحالات التي تم إحالتها الي
       registration_date: تاريخ التسجيل
       risk_level: مستوى الخطورة
       sex: الجنس
-      social_worker: حقل/حالة/اختصاصي إجتماعي
+      social_worker: حقل/حالة/اخصائي حالة
       status: وضع
       transferred: تم النقل
       type_of_risk: نوع المخاطر
       urgent_protection_concern: مخاوف عاجلة بشأن الحماية
       user_group: مجموعة المستخدم
       workflow: الحالات حسب سريان العمل
+      include_disabled: اضف الحالات التي تم الغائها
     flag_summary: ملخص العلامة
     full_name: الاسم الكامل
     gbv_closure: اغلاق العنف القائم على النوع الإجتماعي
@@ -372,11 +390,13 @@ ar:
       most_recently: الأحدث
       name: الاسم
     owned_by: مالك السجلّ
-    owned_by_agency: وكالة مالك السجلّ
+    owned_by_agency: الهيئة مالكة السجلّ
     photo: صورة فوتوغرافية
     photos: صورة
     quick_view:
-      tracing_message: 'ملاحظة: توجد نتائج مطابقة في النظام لما يبحث عنه المستعلم من أجل هذا الطفل. اتصل بالاخصائي الاجتماعي المعني بهذا السجل لاتخاذ خطوات إضافية إذا رغب الطفل.'
+      tracing_message: 'ملاحظة: توجد نتائج مطابقة في النظام لما يبحث عنه المستعلم من أجل هذا الطفل. اتصل باخصائي الحالة المعني بهذا السجل لاتخاذ خطوات إضافية إذا رغب الطفل.'
+    reassign:
+      multiple_successfully: Primero يقوم بإعادة تحديث % {select _ records} الحالة (s). قد يستغرق تحديث كل هذه الحالات عدة دقائق.
     referral_done: يشير النقر على "اكمل" إلى استكمال الإحالة المرتبطة بهذه الحالة. ما إن تنقر على "اكمل" لن تتمكّن من الاطلاع مجدّدًا على هذا السجل.
     referral_done_success: تمّت الإحالة
     referral_accepted_header: قبول الإحالة
@@ -414,9 +434,10 @@ ar:
     save_filter: حفّظ
     selected_all_records: اختيار كلّ %{total_records}الحالات التي تطابق هذا الاستعلام.
     selected_records: '%{select_records} حالة (حالات) مختارة'
+    selected_records_assign: ' %{select_records}  حالة (حالات) مختارة'
     sex: الجنس
     show_case: 'معرّف الحالة: %{short_id}'
-    social_worker: الاخصائي الاجتماعي
+    social_worker: اخصائي الحالة
     status: الوضع
     summary:
       label: ملخص
@@ -441,7 +462,7 @@ ar:
           label: راجع سريّة البيانات
         child_wishes_link:
           label: راجع رغبات الطفل
-    survivor_code: رمز الناجية
+    survivor_code: كود الناجية
     transfer_accepted: بالنقر على "موافقة" فإنك توافق على تحمّل مسؤولية هذه الحالة؛ وبمجرد النقر على "موافقة" ستصبح أنت مالك السجل في النظام.
     transfer_managed_user_accepted: إذا قمت بالنقر فوق "قبول" ،%{transitioned_to} ستصبح مسؤولاً عن هذه الحالة ؛ بمجرد النقر فوق "قبول" ، %{transitioned_to} ستصبح مالك السجل في النظام.
     transfer_managed_user_rejected: 'بالنقر فوق "رفض" ، فإنك تشير إلى أنك %{transitioned_to} غير مستعد لقبول المسؤولية عن هذه الحالة في الوقت الحالي. الرجاء إدخال سبب رفضك لهذه الحالة ؛ بمجرد النقر فوق "رفض" %{transitioned_to} لن تتمكن من الوصول إلى سجل هذه الحالة '
@@ -474,12 +495,16 @@ ar:
       date_case_plan_initiated: تاريخ خطة الحالة
       date_of_creation: تاريخ الإنشاء
       registration_date: تارخ التسجيل
+      followup_date: تاريخ المتابعة
+      date_reunification: تاريخ لم الشمل
+      tracing_date: تاريخ التتبع
+      service_implemented_day_time: تاريخ انتهاء الخدمة
   configurations:
-    apply_label: هل أنت متأكد؟ إذا قمت بتطبيق الإعدادات الموجودة في هذا التضبيط، ستُطبّق على النظام. ستفقدكلّ إعداداتك الحالية ولن تتمكن من استعادتها ما لم تكن قد حفظتها سابقًا في تضبيط آخر.
+    apply_label: هل أنت متأكد؟ إذا قمت بتطبيق الإعدادات الموجودة في هذا الإعدادات، ستُطبّق على النظام. ستفقدكلّ إعداداتك الحالية ولن تتمكن من استعادتها ما لم تكن قد حفظتها سابقًا في إعداد آخر.
     apply_label_bold: لن يكون بريميرو Primero متاحًا للمستخدمين لبضع دقائق أثناء تحميل التغييرات.
-    version_mismatch_tooltip: لا يمكنك تطبيق هذا التكوين ، لأنه تم إنشاؤه باستخدام إصدار أعلى من Primero من الإصدار الذي يعمل به موقعك. يرجى الانتظار لتطبيق هذا التكوين حتى تقوم بتشغيل أحدث إصدار من Primero.
+    version_mismatch_tooltip: لا يمكنك تطبيق هذا الإعدادات ، لأنه تم إنشاؤه باستخدام إصدار أعلى من Primero من الإصدار الذي يعمل به موقعك. يرجى الانتظار لتطبيق هذا الإعدادات حتى تقوم بتشغيل أحدث إصدار من Primero.
     send_header: أرسل إلى الإنتاج
-    send_text: هل أنت متأكد؟ إذا نقرت على أرسل، سوف ترسل هذا التضبيط إلى موقع الإنتاج الخاص بك. لن يتم تطبيق هذا التضبيط على الإنتاج حتى يقوم مسؤول في هذا الموقع بتطبيقه يدويًا.
+    send_text: هل أنت متأكد؟ إذا نقرت على أرسل، سوف ترسل هذا الإعدادات إلى موقع الإنتاج الخاص بك. لن يتم تطبيق هذا الإعدادات على الإنتاج حتى يقوم مسؤول في هذا الموقع بتطبيقه يدويًا.
     attributes:
       created_by: تمّ الإنشاء من قِبَل
       date_created: تاريخ الإنشاء
@@ -487,20 +512,20 @@ ar:
       last_applied_by: تمّ التطبيق الأخير من قِبَل
       last_applied_on: تمّ التطبيق الأخير في
       name: الإسم
-      version: إصدار التكوين
+      version: إصدار الإعدادات
       primero_version: نسخة "Primero"
-    delete_label: هل انت متأكد من أنك تريد أن تفعل هذا؟ يمثل هذا الأمر جميع الإعدادات منذ إنشاء هذا التضبيط. لن تتمكن من العودة واستعادة هذه الإعدادات بمجرد حذف هذا التضبيط.
-    explanation: 'سيؤدي النقر على "حفظ" إلى إنشاء سجل بجميع إعدادات التضبيط الحالية (على سبيل المثال: الأدوار والوكالات والنماذج) في هذه المرحلة الزمنية. بعد الحفظ، يمكنك تكرار هذه التغييرات في فقرة أخرى من بريميرو Primero. إذا أجريت، في المستقبل، تغييرات على التضبيط وتريد التراجع عنها، يمكنك تطبيق سجل التضبيط هذا لاسترجاع جميع تغييرات التضبيط التي أجريتها في هذا الوقت.'
-    label: تضبيطات
-    label_new: تضبيط جديد
+    delete_label: هل انت متأكد من أنك تريد أن تفعل هذا؟ يمثل هذا الأمر جميع الإعدادات منذ إنشاء هذا الإعدادات. لن تتمكن من العودة واستعادة هذه الإعدادات بمجرد حذف هذا الإعدادات.
+    explanation: 'سيؤدي النقر على "حفظ" إلى إنشاء سجل بجميع إعدادات الإعدادات الحالية (على سبيل المثال: الأدوار والهيئات والنماذج) في هذه المرحلة الزمنية. بعد الحفظ، يمكنك تكرار هذه التغييرات في فقرة أخرى من بريميرو Primero. إذا أجريت، في المستقبل، تغييرات على الإعدادات وتريد التراجع عنها، يمكنك تطبيق سجل الإعدادات هذا لاسترجاع جميع تغييرات الإعدادات التي أجريتها في هذا الوقت.'
+    label: إعدادات
+    label_new: إعداد جديد
     messages:
-      applied: تمّ تطبيق التضبيط بنجاح.
-      created: تمّ إنشاء التضبيط بنجاح.
-      deleted: تمّ حذف التضبيط بنجاح.
-      updated: تمّ تحديث التضبيط بنجاح.
-      sent: إرسال التكوين إلى الإنتاج. يرجى التحقق من موقع الإنتاج لمعرفة ما إذا كان التكوين الخاص بك قد وصل.
+      applied: تمّ تطبيق الإعدادات بنجاح.
+      created: تمّ إنشاء الإعدادات بنجاح.
+      deleted: تمّ حذف الإعدادات بنجاح.
+      updated: تمّ تحديث الإعدادات بنجاح.
+      sent: إرسال الإعدادات إلى الإنتاج. يرجى التحقق من موقع الإنتاج لمعرفة ما إذا كان الإعدادات الخاص بك قد وصل.
     not_allowed: غير مسموح
-    unavailable_server: الخادم غير متاح مؤقتًا.
+    unavailable_server: السرفر غير متاح مؤقتًا.
   contact:
     field:
       email: البريد الإلكتروني
@@ -569,14 +594,14 @@ ar:
     case_stat_by_assessment_level: تصنيف الحالات بحسب مستوى التقييم
     case_stat_referrals: الإحالات
     case_stats: الحالات
-    case_worker: 'باحث اجتماعي:'
-    cases_by_social_worker: الحالات حسب الاخصائي الاجتماعي
+    case_worker: اخصائي حالة
+    cases_by_social_worker: الحالات حسب اخصائي الحالة
     cases_by_task_overdue: المهام المتأخرة
     cases_by_workflow: الحالات حسب سريان العمل
     cases_this_week: الحالات هذا الأسبوع
     cases_to_assign: الحالات منتظرة التعيين
     closed: مغلقة
-    closed_last_week: أُغلقت (الأسبوع المنصرم)
+    closed_last_week: أُغلقت (الأسبوع الماضي)
     closed_this_week: أُغلقت (هذا الاسبوع)
     comprehensive_need_intervention: تدخل شامل
     count_new_bia_approvals:
@@ -585,7 +610,7 @@ ar:
       two: '%{stat}الجدي%{stat_type}الموافقات'
       few: '%{stat}الجدي%{stat_type}الموافقات'
       many: '%{stat}الجدي%{stat_type}الموافقات'
-      other: '%{stat}الجدي%{stat_type}الموافقات'
+      other: '%{stat}الجديدة%{stat_type}الموافقات'
     count_new_case_plan_approvals:
       zero: '%{stat} موافقات %{stat_type} جديدة'
       one: '%{stat}موافقة %{stat_type}جديدة'
@@ -679,7 +704,7 @@ ar:
     dash_shared_with_my_team: تمّ تشاركها مع فريقي
     dash_shared_with_my_team_overview: تم مشاركته مع فريقي (نظرة عامة)
     dash_shared_with_others: تمّ تشاركها مع آخرين
-    dash_national_admin_summary: ملخص المسؤول
+    dash_national_admin_summary: ملخص المدير
     dash_violations_category_verification_status: إجمالي عدد الحوادث لكل حالة تحقق
     dash_violations_category_region: إجمالي عدد الحوادث التي تم التحقق منها لكل منطقة
     dash_perpetrator_armed_force_group_party_names: إجمالي عدد الحوادث لكل مرتكب
@@ -732,22 +757,22 @@ ar:
     match_result: نتائج متشابهة
     medium_level: متوسط
     medium_risk: أولوية متوسطة
-    missed_cases: الحالات الفائتة
+    missed_cases: الحالات المفقودة
     name: الاسم
-    name_or_survivor_code: اسم الناجي أو رمزه
+    name_or_survivor_code: اسم الناجي أو كوده
     near_deadline: 'قاربت على تاريخ الانتهاء '
     new: جديد ومحدث
     new_child_assigned_to_you: حالات جديدة تم تعيينها لك
     new_incident: حالات جديدة
     new_incident_assigned_to_you: حوادث جديدة تم تعيينها لك
-    new_last_week: جديد (الاسبوع المنصرم)
+    new_last_week: جديد (الاسبوع الماضي)
     new_or_updated: جديد أو مُحدث
     new_referred: إحالات جديدة
     new_service_provision: تقديم خدمة جديدة
     new_this_week: جديد(هذا الاسبوع)
     no_action_risk: لا يوجد إجراء
     no_case_stats: لا يوجد إحصائيات حالة
-    no_caseworker_data: ' بيانات الباحث الاجتماعي غير موجودة:'
+    no_caseworker_data: ' بيانات الباحث الاجتماعي غير موجودة'
     no_flagged_child: لا يوجد حالات مميزة بعلامة
     no_flagged_incident: لا يوجد حوادث مميزة بعلامة
     no_open_incidents: لا يوجد حوادث مفتوحة
@@ -770,8 +795,8 @@ ar:
     pending: قيد الانتظار
     pending_approvals: الموافقات المعلّقة
     pending_transfers: عمليات النقل المُعلّقة
-    protection_concern: شؤون تنتهك الحماية
-    protection_concerns: شؤون تنتهك الحماية (المشاكل/الحماية)
+    protection_concern: شواغل الحماية
+    protection_concerns: مخاوف تتعلق بالحماية
     range12+: '+12'
     range4: 0-4
     range4_8: 4-8
@@ -779,7 +804,7 @@ ar:
     recent_activities: أنشطة حديثة
     recently_flagged_child: حالات تم تمميزها بعلامة مؤخرا
     recently_flagged_incident: حوادث مميزة بعلامة مؤخرًا
-    referrals_by_social_worker: الإحالات بواسطة الاخصائي الاجتماعي
+    referrals_by_social_worker: الإحالات بواسطة اخصائي الحالة
     registration: التسجيل
     rejected: رُفض
     rejected_transfers: عمليات النقل المرفوضة
@@ -808,7 +833,7 @@ ar:
     total_referred: مجموع الإحالات
     tr_stats: تتبع الطلبات
     transers_awaiting_acceptance: عمليات النقل بانتظار القبول
-    transfers_by_social_worker: التحويلات/النقل حسب الاخصائي الاجتماعي
+    transfers_by_social_worker: التحويلات/النقل حسب اخصائي الحالة
     users: أيقونة الإعدادات
     violence_type: نوع العنف
     with_incidents: مع حوادث
@@ -839,22 +864,47 @@ ar:
     assign: 'المستخدم %{user} قد عيّن السجل التالي %{record_type} لك: %{record_id}'
     assign_subject: '%{record_type}: %{id} - مُعيّن لك'
     approval_request: 'المستخدم %{user} يطلب موافقة من نوع%{approval_type} بخصوص الحالة %{case_id}'
-    approval_request_subject: 'حالة: %{id} طلب المصادقة'
+    approval_request_subject: 'حالة: %{id} طلب الموافقة'
     approval_response: '%{user} لديه %{status} طلب الموافقة من نوع %{approval_type} للحالة %{case_id}.'
-    approval_response_subject: 'حالة: %{id} الإجابة على طلب المصادقة'
-    referral: 'المستخدم %{user} من مؤسسة %{agency} قد أحال نوع السجل التالي %{record_type} إليك: رقم السجل %{record_id} لنوع الخدمة %{service_type}'
+    approval_response_subject: 'حالة: %{id} الإجابة على طلب الموافقة'
+    referral: 'المستخدم %{user} من الهيئة %{agency} قد أحال نوع السجل التالي %{record_type} إليك: رقم السجل %{record_id} لنوع الخدمة %{service_type}'
     transfer: 'المستخدم %{user} قد حوّل السجل التالي %{record_type}لك: %{record_id}'
     transfer_request_subject: طلب تحويل لحالة من حالاتك
     transfer_subject: '%{record_type}: %{id} - التحويل'
     referral_subject: '%{record_type}: %{id}- الإحالة'
-    transfer_request: 'مستخدم بريميرو %{user} من مؤسسة %{agency} يطلب أن تنقل ملكية هذا السجل من نوع %{record_type} ومعرّف %{record_id} بحيث يتمكنون من تقديم خدمات إدارة للشخص في منطقتهم. إذا كان التحويل مقبولا من طرفك، يرجى النقر على رابط معرف نوع السجل %{record_type} في هذا الايميل لفتح نوع السجل %{record_type} في بريميرو والبدء بعملية التحويل.'
+    transfer_request: 'مستخدم بريميرو %{user} من الهيئة %{agency} يطلب أن تنقل ملكية هذا السجل من نوع %{record_type} ومعرّف %{record_id} بحيث يتمكنون من تقديم خدمات إدارة للشخص في منطقتهم. إذا كان التحويل مقبولا من طرفك، يرجى النقر على رابط معرف نوع السجل %{record_type} في هذا الايميل لفتح نوع السجل %{record_type} في بريميرو والبدء بعملية التحويل.'
     approval_request_html: 'المستخدم <strong> %{user} </strong> يطلب موافقة من نوع <strong> %{approval_type} </strong> بخصوص الحالة <strong> %{case_id} </strong>.'
     approval_response_html: 'المستخدم <strong>%{user}</strong> لديه <strong>%{status} </strong>طلب الموافقة من نوع <strong> %{approval_type} </strong> للحالة <strong> %{case_id} </strong>.'
-    referral_html: 'المستخدم<strong> %{user} </strong> من مؤسسة %{agency} قد أحال نوع السجل التالي %{record_type} إليك: رقم السجل <strong>%{record_id} </strong> لنوع الخدمة %{service_type}'
+    referral_html: 'المستخدم<strong> %{user} </strong> من الهيئة %{agency} قد أحال نوع السجل التالي %{record_type} إليك: رقم السجل <strong>%{record_id} </strong> لنوع الخدمة %{service_type}'
     transfer_html: 'المستخدم <strong> %{user} </strong> قد حوّل السجل التالي %{record_type}لك: <strong>%{record_id}</strong>.'
     assign_html: '<strong>%{user}</strong> عيّن السجلّ التالي %{record_type} لك: <strong>%{record_id}</strong>.'
-    transfer_request_html: 'مستخدم بريميرو <strong>%{user} </strong> من مؤسسة %{agency} يطلب أن تنقل ملكية هذا السجل من نوع %{record_type} ومعرّف <strong> %{record_id} </strong> بحيث يتمكنون من تقديم خدمات إدارة للشخص في منطقتهم. إذا كان التحويل مقبولا من طرفك، يرجى النقر على رابط معرف نوع السجل %{record_type} في هذا الايميل لفتح نوع السجل %{record_type} في بريميرو والبدء بعملية التحويل.'
+    transfer_request_html: 'مستخدم بريميرو <strong>%{user} </strong> من الهيئة %{agency} يطلب أن تنقل ملكية هذا السجل من نوع %{record_type} ومعرّف <strong> %{record_id} </strong> بحيث يتمكنون من تقديم خدمات إدارة للشخص في منطقتهم. إذا كان التحويل مقبولا من طرفك، يرجى النقر على رابط معرف نوع السجل %{record_type} في هذا الايميل لفتح نوع السجل %{record_type} في بريميرو والبدء بعملية التحويل.'
     transfer_request_notes_html: 'ملاحظات من الشخص مقدم الطلب: %{request_transfer_notes}'
+    alert: 'تم تحديث% {record _ type}% {id} -% {form _ name}. يرجى تسجيل الدخول إلى Primero لمراجعة التغييرات.'
+    alert_subject: '% {سجل _ نوع}:% {معرف} -% {شكل _ اسم} محدث'
+  webpush_notification:
+    action_label: الذهاب الى الحالة
+    approval_request:
+      title: طلب الموافقة
+      body: ' طلب موافقة معلق لـلحالة% {نوع}.'
+    approval_response:
+      title: الرد بالموافقة
+      body: لقد تلقت إحدى حالاتك ردًا بالموافقة.
+    assign:
+      title: تكليف جديد
+      body: لقد تلقيت تكليف بحالة جديدة
+    referral:
+      title: إحالة جديدة
+      body: لقد تلقيت إحالة لحالة جديدة
+    transfer:
+      title: تحويل جديد
+      body: لقد تلقيت طلب تحويل لحالة جديدة
+    alert_case:
+      title: الحالة محدثة
+      body: "تم تحديث% {نوع} في إحدى حالاتك."
+    transfer_request:
+      title: طلب تحويل
+      body: لقد تلقيت طلب تحويل لحالة جديدة
   encrypt:
     export_type: نوع التصدير
     file_name: قم بإنشاء اسم الملف الخاص بك (اختياري)
@@ -864,6 +914,8 @@ ar:
     address_fields: يجب عليك معالجة الحقول %{fields} في النماذج %{forms}
     address_form_fields: يجب عليك معالجة الحقول %{fields} في هذا النموذج
     address_subform_fields: 'النموذج الفرعي %{subform} يحتوي على عدد %{fields} من الحقول غير الصالحة'
+    error_401: لقد قمت بتسجيل الخروج. الرجاء تسجيل الدخول مجددا
+    error_something_went_wrong: حدث خطأ ما
   error_page:
     not_authorized:
       server_error: أنت غير مخوّل لدخول هذه الصفحة.
@@ -872,6 +924,10 @@ ar:
       contact_admin: إذا كنت تعتقد إنك جئت إلى هنا بالخطأ يرجى الاتصال بالمشرف.
       something_went_wrong: نأسف, يوجد خطأ.
   errors:
+    api:
+      internal_server: خطأ في السيرفر
+    attachments:
+      maximum: لقد تخطيت عدد الملفات المسموح به في السجل
     error_loading: خطأ في تحميل السجل (السجلات)
     models:
       agency:
@@ -891,7 +947,7 @@ ar:
         admin_level_present: لا يجب أن يكون فارغا
         code_present: لا يجب أن يكون فارغًا
         name_present: لا يجب أن يكون فارغًا
-        unique_location_code: يوجد موقع له نفس الرمز بالفعل، يرجى إدخال رمز مختلف
+        unique_location_code: يوجد موقع له نفس الكود بالفعل، يرجى إدخال كود مختلف
       lookup:
         being_used: هذا البحث مستخدم  ولا يمكن حذفه
         name_present: لا يجب أن يكون الاسم فارغاً
@@ -916,6 +972,11 @@ ar:
         title_present: يجب ألا يكون العنوان فارغًا
         content_present: يجب ألا يكون المحتوى فارغًا
         created_by_present: يجب ألا يكون حقل الإنشاء بواسطة فارغًا
+      webpush_subscription:
+        notification_url_present: notification_url يجب ألا تكون فارغ
+        notification_url_format: يجب  تنسيق عنوان URL لnotification_url
+        auth_present: يجب ألا يكون Auth فارغًا
+        p256dh_present: p256dh يجب ألا تكون فارغة
     not_found: لم يتمّ العثور على أي سجل (سجلات)
     try_again: حاول مجدّدًا
   exports:
@@ -950,7 +1011,7 @@ ar:
       signatures: تضمين أسطر التوقيع لـ
       include_implementation_logos: هل تريد تضمين شعارات التنفيذ؟
       include_implementation_logos_help_text: سيشمل ذلك الشعارات التي تظهر في قائمة التنقل وعلى صفحة تسجيل الدخول.
-      include_agency_logo: هل تريد تضمين شعار الوكالة؟
+      include_agency_logo: هل تريد تضمين شعار الهيئة؟
       include_other_logos: هل تريد تضمين شعارات أخرى؟
     duplicate_id_csv:
       all: معرف مكرر
@@ -964,7 +1025,7 @@ ar:
         national_id_no: رقم الهوية الوطنية
         progress_id: معرف التقدم
         sex_mapping_m_f_u: 'الجنس  '
-        other_agency_id: رمز المستشفى ورقم المريض
+        other_agency_id: كود المستشفى ورقم المريض
       male_abbreviation: ذكر
       unknown_abbreviation: U
     exported: تمّ إنشاء ملف التصدير بنجاح
@@ -993,12 +1054,13 @@ ar:
         option_name: اسم الخيار
       options:
         location: المواقع
-        agency: الوكالات
+        agency: الهيئات
         user: المستخدمون
         reportinglocation: مواقع الإبلاغ
         subforms: 'النموذج الفرعي: %{subform_name}'
         collapsed_fields: 'الحقول الهابطة: %{fields}'
         country: بلاد
+        linkedincidents: ربط الحوادث
       summary_header:
         form_group: مجموعة نموذج بريميرو
         form: نماذج بريميرو
@@ -1030,13 +1092,13 @@ ar:
     pdf_exports:
       label: PDF
       recipient: المستلِم
-      case_worker: الإختصاصي الإجتماعي
+      case_worker: اخصائي الحالة
       client: العميل
       date: التاريخ
       recipient_name: اسم المستلِم
-      recipient_agency: وكالة المستلِم
-      caseworker_name: اسم الإختصاصي الإجتماعي
-      caseworker_agency: وكالة الإختصاصي الإجتماعي
+      recipient_agency: الهيئة المستلِمة
+      caseworker_name: اسم اخصائي الحالة
+      caseworker_agency: هيئة اخصائي الحالة
     photowall:
       all: Photo Wall
       flag_suspect_record: مميّز بعلامة كسجلّ المشتبه به
@@ -1044,7 +1106,7 @@ ar:
       one: Photo Wall
       reunited: إعادة لمّ الشمل
       selected: تحديد إلى Photo Wall
-      success_message: إنشاء جدار الصور الفوتوغرافية%{file_name} لن يتم تضمين الحالات التي لا تحتوي على صور.
+      success_message: إنشاء جدار Photo wall%{file_name} لن يتم تضمين الحالات التي لا تحتوي على صور.
     printed: 'تمّت الطباعة %{date}'
     queueing: جاري إنشاء ملف التصدير %{file_name}
     selected_xls:
@@ -1060,7 +1122,7 @@ ar:
         case_status: 'وضع الحالة  '
         causes_of_separation: سبب الانفصال
         country_of_origin: البلد الأصلي
-        cpims_code: رمز نظام المعلومات الخاص بحماية الطفل
+        cpims_code: كود نظام المعلومات الخاص بحماية الطفل
         current_care_arrangement: ترتيبات الرعاية الحالية
         date_of_birth: 'تاريخ الميلاد '
         date_of_identification: تاريخ التحديد
@@ -1080,8 +1142,8 @@ ar:
         sex: 'الجنس  '
         sex_mapping_m_f_u: 'الجنس  '
         short_id: هوية شخصية قصيرة
-        vulnerability_code: 'رموز الضعف '
-        vulnerability_details_code: 'رموز تفاصيل الضعف '
+        vulnerability_code: 'كود الضعف '
+        vulnerability_details_code: 'كود تفاصيل الضعف '
       male_abbreviation: ذكر
       one: المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
       selected: تحديد إلى المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
@@ -1124,11 +1186,13 @@ ar:
     add_existing_field: إضافة حقل موجود
     add_field: إضافة حقل
     add_field_type: إضافة%{file_type}
+    attachments:
+      maximum_attached: تخطيت الحد الأقصى للمرفقات لكل سجل (% {maximumtachmentsPerRecord}) . يتضمن ذلك الصور والصوت والمستندات. الرجاء إزالة ملف قبل إضافة آخر.
     audio:
       current: التسجيل الصوتي الحالي
     audio_upload_box: تحميل التسجيل الصوتي
-    bia_document: مستند BIA
-    bid_document: مستند BID
+    bia_document: مستند المصلحة الفضلى
+    bid_document: مستند المصلحة الفضلى
     check_box: خانات اختيار
     clear_group_by: مسح المجموعة حسب
     clear_sort_by: مسح الترتيب حسب
@@ -1331,13 +1395,15 @@ ar:
       record_information: معلومات السجلّ
       referrals: الإحالات
       reportable_follow_up: متابعة
-      reportable_protection_concern: امر مقلق خاص بالحماية
+      reportable_protection_concern: مخاوف تتعلق بالحماية
       reportable_service: خدمة
       tracing_request: طلب التتبع
       transfers_assignments: عمليات النقل والتعيينات
       violation: انتهاك
       registry_details: تفاصيل التسجيل
       registry_record: سجل التسجيل
+      family_record: سجل الأسرة
+      family: سجل الأسرة
     required_field: '%{field} هو حقل مطلوب'
     select_label: اختيار
     settings: إعدادات
@@ -1374,7 +1440,7 @@ ar:
       types:
         and:
           display_text: بالاضافة الى هذا الشرط
-          name: و (بالاضافة الى)
+          name: 'و '
         or:
           display_text: أو هذا الشرط
           name: أو
@@ -1385,6 +1451,7 @@ ar:
     ar-LB: العربية (اللبنانية)
     ar-SD: العربية (السودانية)
     bn: বাংলা
+    cmn: اللغة الصينية
     current_time_zone: المنطقة الزمنية الحالية
     dashboard: لوحة المعلومات
     en: English
@@ -1404,9 +1471,10 @@ ar:
     ne: النيبالية
     om: أورومو
     am-ET: الأمهرية (إثيوبيا)
+    tr: تركي
     label: الصفحة الرئيسية
     language: اللغة
-    manage_system_users: إدارة مستخدمي مزامنة الخادم
+    manage_system_users: إدارة مستخدمي مزامنة السيرفر
     my: ဗမာစာ
     pl: بولندي
     pt: Português
@@ -1422,15 +1490,19 @@ ar:
     view_records: عرض السجلات
     welcome: مرحبا بكم في بريميرو
     zh: 中文
+    tet: لغة التيتوم
   incident:
-    code: رمز الحادثة
+    code: كود الحادثة
     associated_case: "الحالة المرتبطة:"
+    link_incident_to_case: ربط الحادثة بحالة
+    link_incident_to_case_success: حادثة(حوداث) مرتبطة بحالة
     messages:
       creation_success: تم إنشاء سجل الحادثة بنجاح.
       creation_success_queue: تمّ إنشاء سجل الحادثة بنجاح في الخلفية
       disabled: تم تعطيل الحادثة
       update_success: 'تم تحديث الحادثة %{record_id} بنجاح.'
       update_success_queue: 'تم تحديث الحادثة %{record_id} بنجاح في الخلفية'
+      bulk_assign_limit_try_again: لا يمكنك تعيين أكثر من 100 حادثة في وقت واحد. يرجى تحديد 100 حادثة أو أقل ثم المحاولة مرة أخرى.
     violation:
       associated_violations: "المخالفات ذات الصلة:"
       update_and_return: 'تحديث والرجوع الى %{association}'
@@ -1440,7 +1512,7 @@ ar:
       types:
         killing: قتل الاطفال
         maiming: تشويه الاطفال
-        recruitment: تجنيد(توظيف) و/او استخدام الاطفال
+        recruitment: تجنيد و/او استخدام الاطفال
         sexual_violence: الاغتصاب و / أو غيره من أشكال العنف الجنسي
         abduction: الخطف
         attack_on: الهجوم على المدرسة(المدارس) و/او المستشفى(المستشفيات)
@@ -1449,6 +1521,7 @@ ar:
         military_use: الاستخدام العسكري للمدرسة(المدارس) و/او المستشفى(المستشفيات)
         denial_humanitarian_access: منع وصول الخدمات الإنسانية للأطفال
   incidents:
+    change_status: تغُير في الوضع
     disable_dialog: بالنقر على "تمّ" سيُصبح وضع هذه الحادثة معطّلًا.
     disable_dialog_title: تعطيل الحادثة
     disable_success: تمّ تعطيل الحادثة بنجاح
@@ -1497,12 +1570,15 @@ ar:
       perpetrator_category: نوع المسيء
       record_owner: مالك السجل
     register_new_incident: حادثة جديدة
+    reassign:
+      multiple_successfully: Primero يقوم حاليا باعادة تخصيص الحوادث الخاص ب% {select _ records}. قد يستغرق تحديث كل هذه الحوادث عدة دقائق. لاحظ أن الحوادث المربوطة سابقاً لن يتم ربطها مجدداً.
     selectable_date_options:
       date_of_first_report: تاريخ المقابلة
       mrm_date_of_first_report: تاريخ التقرير الأولي لعضوCTFMR
       ctfmr_verified_date: تاريخ قرار التحقق من قبل CTFMR
       incident_date_derived: تاريخ الحادثة
     selected_records: 'سجل %{select_records} الحادثة (الحوادث) المختارة'
+    selected_records_assign: '% {حدد _ سجلات} حادثة (حوادث) مختارة. لاحظ أن الحوادث التي تم ربطها سابقاً لن يتم تحديدها.'
     selected_all_records: 'اختَر جميع الحوادث %{total_records} التي تطابق هذا الاستعلام.'
     summary_mrm:
       label: ملخص الحادث
@@ -1524,9 +1600,10 @@ ar:
           label: حساب الحادثة
         incident_update:
           label: تحديث الحادثة
-    survivor_code: رمز الناجية
+    survivor_code: كود الناجية
     show_incident: 'مُعرِّف الحادثة %{short_id}'
-    social_worker: الإختصاصي الإجتماعي
+    social_worker: اخصائي الحالة
+    verify_mrm: تحقق من MRM
     violation_type: نوع الانتهاك
     violence_type: نوع العنف
     type_violence: نوع العنف
@@ -1588,7 +1665,7 @@ ar:
     assessment_status:
       title: "4. وضع التقييم"
       completed: "مكتمل"
-      completed_supervisor_approved: "مكتمل وتمّت الموافقة على الناجية"
+      completed_supervisor_approved: "مكتمل وتمّت موافقة الحالات"
       helptext: |
         يحتسب هذا المؤشر نسبة الحالات النشطة التي استكمل نموذج تقييم بشأنها.
         يعتبر التقييم مكتملاً عندما يتمّ إكمال مجموعة من الحقول الإلزامية
@@ -1607,9 +1684,9 @@ ar:
       label: "6. خطّة عمل حالة مكتملة"
       helptext: "يحتسب هذا المؤشر نسبة الحالات النشطة التي استكملت خطة عمل حالة بشأنها. \nتُعتبر خطة عمل حالة مكتملة عندما يتمّ إكمال مجموعة من الحقول الإلزامية\nفي نموذج خطّة العمل.\n"
     completed_supervisor_approved_case_action_plans:
-      title: "7. وافق المشرف على خطط عمل الحالة"
-      completed_and_approved: "تمّت الموافقة على خطط عمل الحالة المكتملة من قبل المشرف"
-      helptext: "يحتسب هذا المؤشر نسبة الحالات النشطة التي استكملت خطة عمل حالة بشأنها \nوالموافقة عليها من قبل المشرف. تعتبر خطة عمل حالة مكتملة \nعندما يتمّ إكمال مجموعة من الحقول الإلزامية في نموذج خطّة العمل. تعتبر خطة الحالة\nمعتمدة عندما يطلب الإختصاصي الإجتماعي الموافقة على خطة الحالة\nووافق المشرف على خطة الحالة على المنصة.\n"
+      title: "7. وافق مشرف الحالات على خطط عمل الحالة"
+      completed_and_approved: "تمّت الموافقة على خطط عمل الحالة المكتملة من قبل مشرف الحالات"
+      helptext: "يحتسب هذا المؤشر نسبة الحالات النشطة التي استكملت خطة عمل حالة بشأنها \nوالموافقة عليها من قبل مشرف الحالات. تعتبر خطة عمل حالة مكتملة \nعندما يتمّ إكمال مجموعة من الحقول الإلزامية في نموذج خطّة العمل. تعتبر خطة الحالة\nمعتمدة عندما يطلب اخصائي الحالة الموافقة على خطة الحالة\nووافق مشرف الحالات على خطة الحالة على المنصة.\n"
     services_provided:
       title: "8. الخدمات المقدَّمة"
       service: "الخدمة"
@@ -1641,7 +1718,7 @@ ar:
       label: "متوسط اجتماعات المتابعة لكل حالة"
       helptext: |
         يحتسب هذا المؤشر متوسط عدد اجتماعات المتابعة التي أجريت لكلّ حالة نشطة
-        من قبل كلّ إختصاصي إجتماعي على المنصة. يتمّ اجتماع المتابعة بين الإختصاصي الإجتماعي والناجية
+        من قبل كلّ اخصائي الحالة على المنصة. يتمّ اجتماع المتابعة بين اخصائي الحالة والناجية
         بعد المقابلة الأوّليّة / الإفصاح الأولي.
     time_from_case_open_to_close:
       title: "11. الوقت المستغرق من فتح الحالة إلى اغلاقها"
@@ -1660,22 +1737,22 @@ ar:
         يقيس هذا المؤشر النسبة المئوية للناجين الذين أكملوا استبيان آراء العملاء
         والذين يشعرون بالرضا عن خدمات إدارة الحالة المقدّمة لهم.
         يتمّ إحتساب هذا المؤشر من خلال استكمال نموذج استبيان آراء العميل على +GBVIMS من قبل موظف
-        مختلف عن الإختصاصي الإجتماعي الذي قدّم الخدمة للناجية.
+        مختلف عن اخصائي الحالة الذي قدّم الخدمة للناجية.
     supervisor_to_caseworker_ratio:
-      title: "14. عدد الإخصائيين الإجتماعيين لكل مشرف."
-      label: "عدد الإختصاصيين الإجتماعيين لكلّ مشرف"
-      helptext: "يعكس هذا المؤشر عدد الإختصاصيين الإجتماعيين الذين يشرف عليهم المشرف: ويُعرف بعدد الإختصاصيين الإجتماعيين لكلّ مشرف. \nيعتمد هذا الحساب على الأدوار المخصّصة من النظام على المنصّة.\n"
+      title: "14. عدد اخصائيين الحالة لكل مشرف."
+      label: "عدد اخصائيين الحالة لكلّ مشرف"
+      helptext: "يعكس هذا المؤشر عدد  اخصائيين الحالة الذين يشرف عليهم مشرف الحالات: ويُعرف بعدد  اخصائيين الحالة لكلّ مشرف. \nيعتمد هذا الحساب على الأدوار المخصّصة من النظام على المنصّة.\n"
     case_load:
       title: "15. عدد الحالات"
       case_load: "عدد الحالات"
-      percent: "النسبة المئوية للإختصاصيين الإجتماعيين العاملين على حالات"
+      percent: "النسبة المئوية لاخصائيين الحالة العاملين على حالات"
       10cases: "أقل من 10 حالات"
       20cases: "11 - 20 حالة"
       21-30cases: "21 - 30 حالة"
       30cases: "أكثر من 30 حالة"
       helptext: |
-        يقيس هذا المؤشر متوسط عدد الحالات لكلّ إختصاصي إجتماعي فاعل بناءً على الحالات النشطة.
-        يتمّ تقسيم نسبة الحالات إلى الإختصاصيين الإجتماعيين وفقًا للتقسيم التالي:
+        يقيس هذا المؤشر متوسط عدد الحالات لكلّ  اخصائي الحالة فاعل بناءً على الحالات النشطة.
+        يتمّ تقسيم نسبة الحالات إلى  اخصائيين الحالة وفقًا للتقسيم التالي:
         أقلّ من 10 حالات مفتوحة ، بين 10-20 حالة مفتوحة ، بين 21-30 حالة مفتوحة أكثر من 30 حالة مفتوحة.
     date_range_dialog:
       title: "نطاق تاريخ مُخصّص"
@@ -1691,18 +1768,18 @@ ar:
       camp: مخيم
       chiefdom: مشيخة
       city: مدينة
-      community: مجتمع
+      community: مجتمع محلي
       country: دولة
       county: مقاطعة
-      district: قضاء
-      governorate: محافظة
+      district: الحي
+      governorate: إمارة
       locality: ناحية
       other: أشياء أخرى
       province: إقليم
       region: منطقة
       site: موقع
       state: ولاية
-      sub-district: قضاء فرعي
+      sub-district: حي فرعي
       village: قرية
       zone: منطقة
       association: منظمة
@@ -1713,12 +1790,24 @@ ar:
       township: بلدة
       municipality: بلدية
       autonomous_region: منطقة الحكم الذاتي
+      parish: الرعية
+      cercle: الدائرة
+      sub-county: المناطق
+      departement_fr: 'المقاطعات'
+      region_fr: 'المنطقة'
+      wilaya: 'ولاية'
+      commune: 'البلدة'
+      division_fr: 'القسم'
+      prefecture: 'المقاطعات'
+      moughataa: 'مقطعة'
+      sub_division: 'القسم الفرعي'
+      sub-prefecture: 'المقاطعات الفرعية '
     label: الموقع
     name: الإسم
-    code: 'الرمز '
+    code: الكود
     admin_level: مستوى المسؤول
     type: النوع
-    hierarchy: التراتبية الهرمية
+    hierarchy: التسلسل الهرمي
     import_title: موقع الاستيراد
     message: يرجى تحديد ملف CSV للتحميل. يجب أن يستخدم هذا الملف ترميز UTF-8 وأن يتضمن علامات تصنيف HXL في الرأسيّة الثانية من كلّ عمود.
     no_location: يرجى استيراد المواقع قبل إنشاء أي حسابات مستخدمين.
@@ -1741,15 +1830,15 @@ ar:
       case_plan_approved: تمت الموافقة على خطة الحالة
       case_plan_rejected: تم رفض خطة الحالة
       case_plan_requested: مطلوب خطة حالة
-      close: يغلق
-      create: يخلق
+      close: غلق
+      create: إنشاء
       create_bulk: إنشاء الجزء الأكبر
       delete: حذف
       destroy: هدم
       detach: فصل
       enable_disable_record: تمكين تعطيل السجل
       export: يصدر
-      flag: علم
+      flag: علامة
       import: يستورد
       incident_details_from_case: تفاصيل الحادث من القضية
       index: فهرس
@@ -1757,15 +1846,15 @@ ar:
       login: تسجيل الدخول
       password_reset: إعادة تعيين كلمة المرور
       password_reset_request: طلب إعادة تعيين كلمة المرور
-      refer: أشير
+      refer: إحالة
       refer_accepted: تم قبول الإحالة
-      refer_done: تمت الإشارة
+      refer_done: تمت الإحالة
       refer_rejected: إحالة مرفوضة
       refer_revoke: إبطال الإحالة
-      refer_to: تشير إلى
+      refer_to: إحالة إلى
       reopen: أعد فتح
       services_section_from_case: قسم الخدمات من القضية
-      show: تبين
+      show: عرض
       show_alerts: عرض التنبيهات
       traces: آثار
       transfer: تحويل
@@ -1773,13 +1862,13 @@ ar:
       transfer_rejected: تم رفض التحويل
       transfer_request: طلب تحويل
       transfer_to: حول إلى
-      unflag: غير متخلف
+      unflag: إزالة العلامة
       update: تحديث
       user_password_reset_request: طلب إعادة تعيين كلمة مرور المستخدم
       webhook: الويب هوك
     approve_form:
       action_plan: نموذج خطّة العمل
-      bia: نموذج BIA
+      bia: نموذج المصلحة الفضلى
       case_plan: نموذج خطة الحالة
       closure: نموذج إغلاق
       'false': رفض
@@ -1823,7 +1912,7 @@ ar:
     resources:
       audit_log: سجل التدقيق
       user: المستعمل
-      agency: وكالة
+      agency: الهيئة
       user_group: مجموعة المستخدمين
       child: طفل
       alert: يحذر
@@ -1832,13 +1921,13 @@ ar:
       system_settings: اعدادات النظام
       permission: الإذن
       dashboard: لوحة القيادة
-      report: نقل
+      report: تقرير
       bulk_export: تصدير بالجملة
       saved_search: تم الحفظ
       role: دور
       incident: حادث
       location: موقع
-      primero_configuration: تكوين Primero
+      primero_configuration: إعدادات Primero
       code_of_conduct: مدونة قواعد السلوك
       task: مهمة
     record_state:
@@ -1852,7 +1941,7 @@ ar:
     reopen_case: جاري إعادة الفتح
     request_approval:
       action_plan: طلب الموافقة على نموذج خطة العمل
-      bia: طلب مصادقة على نموذج BIA
+      bia: طلب مصادقة على نموذج المصلحة الفضلى
       case_plan: طلب مصادقة على نموذج خطة الحالة
       closure: طلب مصادقة على نموذج الإغلاق
       gbv_closure: طلب الموافقة على نموذج إغلاق العنف القائم على النوع الإجتماعي
@@ -1912,15 +2001,44 @@ ar:
       date: التاريخ
       verification_status: وضع التحقق
       violation_type: نوع الانتهاك
+      status: الوضع
+      status_open: 'مفتوح '
+      status_closed: مغلق
+      user_group: مجموعة مستخدمين
+      agency: الهيئة
+      by: بواسطة
+      workflow: حالة سير العمل
+      cp_incident_violence_type: نوع العنف
+      referral_transfer_status: وضع الإحالة / النقل
+      protection_concerns: مخاوف تتعلق بالحماية
+      location: مكان الإبلاغ
+      followup_type: نوع المتابعة
+      service_type: نوع الخدمة
+    status_options:
+      open: فتح
+      closed: غلق
+    by_options:
+      created_by_groups: مجموعات المستخدمين لمنشئ السجل
+      owned_by_groups: مجموعات المستخدمين لمنشئ السجل
+      created_organization: هيئة من أنشأ السجل
+      owned_by_agency_id: هيئة مالك السجل
+    referral_transfer_status_options:
+      in_progress: معلق
+      accepted: تمت الموافقة
+      rejected: رُفض
+      done: تم
     date_range:
       month: شهر
       quarter: ربع
       year: سنة
+      week: أسبوع
     date_range_options:
       this_quarter: الربع الحالي
       last_quarter: الربع الماضي
       this_month: الشهر الحالي
       last_month: الشهر الماضي
+      this_week: هذا الأسبوع
+      last_week: الاسبوع الماضي
       this_year: العام الحالي
       last_year: العام الماضي
       custom: مخصّص
@@ -1936,6 +2054,49 @@ ar:
         individual_violation_type: الأطفال الفرديين حسب نوع الانتهاك
         individual_region: الأطفال الفرديين حسب المنطقة
         individual_perpetrator: عدد الاطفال حسب المسيئين
+    services:
+      name: الخدمات
+      description: الحالات التي تحتوي على أنواع الخدمة المحددة، مقسمة حسب العمر والجنس.
+    services_report:
+      reports:
+        services: خدمات
+        description: الحالات التي تحتوي على أنواع الخدمة المحددة، مقسمة حسب العمر والجنس.
+      sub_reports:
+        services: خدمات
+      filter_options:
+        service_implemented_day_time: خدمات اكتملت
+    followups:
+      name: المتابعات
+      description: الحالات مع أنواع المتابعة المحددة، مقسمة حسب العمر والجنس.
+    followups_report:
+      filter_options:
+        followup_date: تاريخ المتابعة
+      reports:
+        followups: المتابعات
+        description: الحالات مع أنواع المتابعة المحددة، مقسمة حسب العمر والجنس.
+      sub_reports:
+        followups: المتابعات
+    protection_concerns:
+      name: مخاوف تتعلق بالحماية
+      description: الحالات المتعلقة بمخاوف الحماية المحددة، مقسمة حسب العمر والجنس.
+    protection_concerns_report:
+      reports:
+        protection_concerns: مخاوف تتعلق بالحماية
+        description: الحالات المتعلقة بمخاوف الحماية المحددة، مقسمة حسب العمر والجنس.
+      sub_reports:
+        protection_concerns: مخاوف تتعلق بالحماية
+      filter_options:
+        registration_date: تاريخ التسجيل
+    reporting_locations:
+      name: مكان الإبلاغ
+      description: 'الحالات التي تم تحديد موقع الإبلاغ عنها، مقسمة حسب العمر والجنس.'
+    reporting_locations_report:
+      reports:
+        reporting_locations: مكان الإبلاغ
+      sub_reports:
+        reporting_location_by_sex_and_age: مكان الإبلاغ
+      filter_options:
+        registration_date: تاريخ التسجيل
     ghn_report:
       name: المذكرة الافقية الشاملة
       reports:
@@ -1949,7 +2110,7 @@ ar:
         unverified_information_violations: معلومات لم يتم التحقق منها - الانتهاكات
         killing: قتل الاطفال
         maiming: تشويه الاطفال
-        recruitment: تجنيد(توظيف) و/او استخدام الاطفال
+        recruitment: تجنيد و/او استخدام الاطفال
         sexual_violence: الاغتصاب و / أو غيره من أشكال العنف الجنسي
         rape: الاغتصاب و / أو غيره من أشكال العنف الجنسي
         abduction: الخطف
@@ -1974,7 +2135,7 @@ ar:
       reports:
         killing: قتل الاطفال
         maiming: تشويه الاطفال
-        recruitment: تجنيد(توظيف) و/او استخدام الاطفال
+        recruitment: تجنيد و/او استخدام الاطفال
         sexual_violence: الاغتصاب و / أو غيره من أشكال العنف الجنسي
         rape: الاغتصاب و / أو غيره من أشكال العنف الجنسي
         abduction: الخطف
@@ -1991,9 +2152,9 @@ ar:
         detention_detained: البقاء محتجزا
         detention_released: الافراج
         perpetrators: عدد الاطفال حسب المسيئين
-        perpetrators_denial: عدد الاختراقات حسب المسيئين
+        perpetrators_denial: عدد الانتهاكات حسب المسيئين
         perpetrator_detention: عدد الاطفال حسب المسيئين
-        perpetrators_incidents: عدد الاطفال حسب المسيئين
+        perpetrators_incidents: عدد الحوادث حسب المسيئين
         reporting_location_incidents: عدد الحوادث حسب المنطقة
         reporting_location: عدد الاطفال حسب المنطقة
         reporting_location_detention: عدد الاطفال حسب المنطقة
@@ -2017,42 +2178,17 @@ ar:
         received_response: تلقى الأطفال استجابة
         male: ذكر
         female: أنثى
-        military_use_type_of_use: عدد الاختراقات حسب نوع الاستخدام
+        military_use_type_of_use: عدد الانتهاكات حسب نوع الاستخدام
     gbv_statistics:
       name: احصاءات GBV
       filter_options:
         date_of_first_report: تاريخ المقابلة
         incident_date: تاريخ الحادثة
       reports:
-        incidents: حوادث
         perpetrators: المسيئين
         survivors: الناجين
         referrals: الإحالات
       sub_reports:
-        combined: حوادث
-        total: عدد حوادث الGBV المبلغة
-        gbv_sexual_violence: عدد حوادث العنف الجنسي المبلغ عنها
-        gbv_previous_incidents: عدد الحوادث التي تم التبليغ عنها من قبل الناجيات مع حوادث سابقة للعنف المبني على النوع الإجتماعي
-        gbv_sexual_violence_type: نوع الحادثة
-        incident_timeofday: وقت الحادثة من اليوم
-        elapsed_reporting_time: الوقت بين الحادثة وتاريخ التقرير
-        elapsed_reporting_time_rape: حوادث الاغتصاب ، الوقت المنقضي بين وقوع الحادثة وتاريخ التبليغ
-        elapsed_reporting_time_rape_health_referral: حوادث الاغتصاب ، الوقت المنقضي بين وقوع الحادثة وتاريخ التبليغ(خدمة صحية أو إحالة)
-        incident_location_type: موقع الحادثة
-        number_of_perpetrators: 'عدد المسيئين '
-        perpetrator_relationship: علاقة المسيء الرئيسي بالناجي
-        perpetrator_age_group: الفئة العمرية للمسيئين الرئيسيين
-        perpetrator_occupation: طبيعة عمل المسيئين الرئيسيين
-        age: عدد الناجين حسب العمر
-        sex: عدد الناجين حسب الجنس
-        marital_status: الحالة الاجتماعية للناجين
-        displacement_status: حالة نزوح الناجين
-        displacement_incident: مرحلة النزوح وقت وقوع الحادث
-        gbv_case_context: سياق الحالة
-        incidents_first_point_of_contact: عدد الحوادث التي تكون فيها منظمتك هي نقطة الاتصال الأولى
-        incidents_from_other_service_provider: الحوادث التي تم احالتها من قبل مقدمي الخدمة الآخرين
-        number_of_services_provided: عدد الخدمات المقدمة للحوادث
-        number_of_services_provided_other: إحالات الحوادث الجديدة لمقدمي الخدمات الآخرين
         service_safehouse_referral: إحالة البيت الآمن / المأوى الآمن
         service_medical_referral: إحالة صحية / طبية
         service_psycho_referral: خدمات الاستشارة النفسية / الاجتماعية
@@ -2060,8 +2196,48 @@ ar:
         service_police_referral: الشرطة أو أي نوع آخر من خدمات الأمن
         service_livelihoods_referral: خدمات الاعاشة
         service_protection_referral: خدمات حماية الطفل
-        vulnerable_populations: الفئات السكانية الضعيفة
         survivors_disability_type: مع اعاقات
+    workflow_report:
+      name: سير العمل
+      description: الحالات والحوادث مع أوضاع  سير عمل محددة، مقسمة حسب العمر والجنس.
+      reports:
+        cases_workflow: سير العمل - الحالات
+        incidents_workflow: سير العمل - الحوادث
+      filter_options:
+        registration_date: تاريخ التسجيل
+      sub_reports:
+        case_workflow_by_sex_and_age: إجمالي عدد الحالات حسب الجنس والعمر
+        incident_workflow_by_sex_and_age: إجمالي عدد الحوادث حسب الجنس والعمر
+    cases_workflow_report:
+      name: سير العمل
+      description: الحالات والحوادث مع أوضاع سير عمل محددة، مقسمة حسب العمر والجنس.
+      reports:
+        cases_workflow: سير العمل - الحالات
+      filter_options:
+        registration_date: تاريخ التسجيل
+      sub_reports:
+        case_workflow_by_sex_and_age: إجمالي عدد الحالات حسب الجنس والعمر
+    referrals_transfers_report:
+      name: الإحالات والانتقالات
+      description: الإحالات والانتقالات التي حدثت خلال فترة زمنية محددة. مقسمة حسب هيئات المرسلة والمستقبلة أو مجموعات المستخدمين.
+      reports:
+        total_referrals: الإحالات
+        total_transfers: الانتقالات
+      sub_reports:
+        total_transfers_by_user_groups: إجمالي عمليات النقل
+        total_referrals_by_user_groups: إجمالي عمليات الإحالة
+      filter_options:
+        registration_date: تاريج التسجيل
+    violence_type_report:
+      name: نوع العنف
+      reports:
+        cases_violence_type: نوع العنف- الحالات
+        incidents_violence_type: نوع العنف- الحوداث
+      filter_options:
+        registration_date: تاريخ التسجيل
+      sub_reports:
+        case_violence_type_by_sex_and_age: إجمالي عدد الحالات حسب الجنس والعمر
+        incident_violence_type_by_sex_and_age: إجمالي عدد الحوادث حسب الجنس والعمر
     success_message: تمّ إنشاء ملف التصدير بنجاح
   messages:
     alert_items: لديك%{items} عناصر ملحوظة.
@@ -2118,6 +2294,7 @@ ar:
     tracing_request: طلبات التتبع
     activity_log: سجل التغيير
     registry_records: السجل
+    families: العائلات
   notes:
     note_success: تمّت إضافة الملاحظة بنجاح
   permissions:
@@ -2127,8 +2304,8 @@ ar:
       add_note: إضافة ملاحظات
       admin_only: لا توجد سجلات - وظائف المشرف فقط
       administrator_read: قراءات عن المشرف
-      agency: مؤسسة
-      agency_read: قراءة المؤسسة
+      agency: الهيئة
+      agency_read: قراءة الهيئة
       all: الوصول لجميع السجلات أو المستخدمين
       approvals_assessment: '%{approval_label}'
       approvals_assessment_pending: '%{approval_label} معلّق'
@@ -2142,7 +2319,7 @@ ar:
       approve_closure: الموافقة على نموذج %{approval_label}
       approve_gbv_closure: الموافقة على نموذج %{approval_label}
       assign: تعيين/نقل
-      assign_within_agency: تعيين ضمن المؤسسة
+      assign_within_agency: تعيين ضمن الهيئة
       assign_within_user_group: تعيين ضمن مجموعة المستخدمين
       audit_log: سجل التدقيق
       case: حالة
@@ -2162,16 +2339,16 @@ ar:
       copy_of: نسخة من
       create: انشاء
       dash_case_incident_overview: حالاتي/حوادثي
-      dash_cases_by_social_worker: عرض الحالات التي تولاها الاخصائي الاجتماعي
-      dash_cases_by_task_overdue: عرض الحالات حسب استحقاق المهمة
+      dash_cases_by_social_worker: عرض الحالات التي تولاها اخصائي الحالة
+      dash_cases_by_task_overdue: عرض الحالات حسب المهمة المتأخرة
       dash_cases_by_workflow: عرض الحالات حسب مخطط سير العمل
       dash_cases_to_assign: عرض الحالات التي بانتظار التعيين
       dash_group_overview: حالات مجموعتي
-      dash_manager_transfers: عرض عمليات التحويل الخاصة بالمدير
+      dash_manager_transfers: عرض عمليات النقل الخاصة بالمدير
       dash_matching_results: عرض النتائج المتشابهة
-      dash_protection_concerns: عرض الأمور الخاصة بالحماية
+      dash_protection_concerns: عرض المخاوف المتعلقة بالحماية
       dash_protection_concerns_by_location: عرض المخاوف المرتبطة بالحماية بحسب الموقع
-      dash_referrals_by_socal_worker: عرض الإحالات التي قام بها الاخصائي الاجتماعي
+      dash_referrals_by_socal_worker: عرض الإحالات التي قام بها اخصائي الحالة
       dash_reporting_location: عرض مواقع الإبلاغ
       dash_service_provisions: عرض تقديم الخدمات
       dash_shared_from_my_team: تمّ تشاركها من فريقي
@@ -2180,8 +2357,8 @@ ar:
       dash_shared_with_others: تمّ تشاركها مع آخرين
       dash_show_none_values: عرض القيم الخالية
       dash_tasks: عرض المهام
-      dash_transfers_by_socal_worker: عرض عمليات التحويل التي قام بها  الباحث الاجتماعي
-      dash_national_admin_summary: ملخص المسؤول
+      dash_transfers_by_socal_worker: عرض عمليات النقل التي قام بها  اخصائي الحالة
+      dash_national_admin_summary: ملخص المدير
       dashboard: لوحة التحكم
       delete: حذف
       display_view_page: إظهار صفحة العرض
@@ -2201,6 +2378,7 @@ ar:
       find_tracing_match: ايجاد تطابق التتبع للحالة
       view_registry_record: عرض سجل التسجيل
       add_registry_record: اضافة سجل التسجيل
+      family: العائلة
       flag: تمييز بعلامة
       form: نماذج
       group: 'الوصول لجميع السجلات أو المستخدمين في مجموعتي '
@@ -2213,10 +2391,10 @@ ar:
       lookup: عمليات البحث
       manage: إدارة
       mark_for_offline: وضع علامة على عدم الاتصال بالانترنت
-      matching_configuration: إعدادات المطابقة
+      matching_configuration: إعدادات مطابقة
       metadata: النماذج، البحث
       potential_match: تشابه محتمل
-      primero_configuration: ترتيب
+      primero_configuration: إعدادات
       read: قراءة
       reassign: إعادة تعيين/نقل
       receive_referral: تلقّي الإحالة
@@ -2228,7 +2406,8 @@ ar:
       reopen: إعادة فتح
       report: تقرير
       managed_report: رؤى
-      request_approval: طلب للمصادقة
+      resolve_any_flag: حل أي علامة
+      request_approval: طلب للموافقة
       request_approval_action_plan: طلب موافقة %{approval_label}
       request_approval_assessment: طلب موافقة %{approval_label}
       request_approval_case_plan: طلب موافقة %{approval_label}
@@ -2238,7 +2417,7 @@ ar:
       role: أدوار المستخدم
       save_search: عمليات بحث محفوظة
       saved_search: عملية بحث محفوظة
-      search_owned_by_others: البحث عن سجل الحالة من خلال مستخدم آخر
+      search_owned_by_others: ابحث عن سجلات الحالة المملوكة لمستخدمين آخرين
       self: الوصول لسجلاتي أو المستخدم فقط
       service_provision_incident_details: عرض زر إضافة تقديم خدمة على جزء عرض تفاصيل الحادثة
       services_section_from_case: إضافة تقديم خدمة لحالة مستخدم آخر
@@ -2250,16 +2429,18 @@ ar:
       transfer: يمكن استخدامها للتحويل
       user: مستخدمون
       user_group: مجموعات المستخدمين
-      view_approvals: 'عرض المصادقات '
+      verify_mrm: تحقق من MRM
+      view_approvals: عرض الموافقات
       view_assessment: عرض التقييم
       view_photo: عرض الصورة
-      view_protection_concerns_filter: عرض عامل التصفية الخاص بعملية الحماية
+      view_protection_concerns_filter: عرض حسب المخاوف المتعلقة بالحماية
       view_response: عرض الاستجابات
       webhook: الويب هوك
       workflow: سير العمل - الحالات الفردية
       workflow_team: سير العمل - حالات الفريق/الفرق
       write: كتابة
       activity_log: سجل التغيير
+      remove_alert: إزالة تنبيه
     resource:
       kpi:
         actions:
@@ -2279,7 +2460,7 @@ ar:
             explanation: القدرة على معرفة عدد الحالات التي أُغلقت شهريًا في كلّ موقع.
             label: عدد إغلاق الحالات
           kpi_case_load:
-            explanation: القدرة على معرفة متوسط عدد الحالات المفتوحة لكلّ إختصاصي إجتماعي.
+            explanation: القدرة على معرفة متوسط عدد الحالات المفتوحة لكلّ  اخصائي الحالة.
             label: عدد الحالات
           kpi_client_satisfaction_rate:
             explanation: القدرة على معرفة معدّل الناجين الذين أكملوا استبان آراء العملاء وكانوا راضين بالنسبة إلى كلّ حالة يمكن للمستخدم الوصول إليها.
@@ -2288,11 +2469,11 @@ ar:
             explanation: القدرة على معرفة نسبة  الذين أكملوا خطة عمل الحالة بالنسبة إلى الحالات النشطة التي يمكن للمستخدم الوصول إليها.
             label: خطّة عمل حالة مكتملة
           kpi_completed_case_safety_plans:
-            explanation: القدرة على معرفة نسبة  الذين احتاجوا إلى خطّة سلامة وأكملوها بالنسبة إلى الحالات النشطة التي يمكن للمستخدم الوصول إليها.
-            label: خطّة سلامة الحالة المكتملة
+            explanation: القدرة على معرفة النسبة المطلوبة وإكمال خطة الأمان، بالنسبة للحالات النشطة التي يمكن للمستخدم الوصول إليها.
+            label: خطّة أمان الحالة المكتملة
           kpi_completed_supervisor_approved_case_action_plans:
-            explanation: القدرة على معرفة نسبة  الذين أكملوا خطة عمل الحالة وتمّ الموافقة عليها من قبل المشرف بالنسبة إلى الحالات النشطة التي يمكن للمستخدم الوصول إليها.
-            label: تمّت الموافقة على خطط عمل الحالة المكتملة من قبل المشرف
+            explanation: القدرة على معرفة نسبة  الذين أكملوا خطة عمل الحالة وتمّ الموافقة عليها من قبل مشرف الحالات بالنسبة إلى الحالات النشطة التي يمكن للمستخدم الوصول إليها.
+            label: تمّت الموافقة على خطط عمل الحالة المكتملة من قبل مشرف الحالات
           kpi_goal_progress_per_need:
             explanation: القدرة على معرفة النسبة المئوية للأهداف التي تم تحقيقها في كل فئة من فئات الاحتياجات بالنسبة إلى الحالات النشطة التي يمكن للمستخدم الوصول إليها.
             label: التقدّم المُحرز نحو الأهداف
@@ -2309,8 +2490,8 @@ ar:
             explanation: 'القدرة على معرفة نوع الخدمات التي قدّمتها المنظمة داخليًّا لجميع الحالات التي يمكن للمستخدم الوصول إليها. '
             label: الخدمات المقدَّمة
           kpi_supervisor_to_caseworker_ratio:
-            explanation: القدرة على معرفة متوسط عدد الإختصاصيين الإجتماعيين لكلّ مشرف.
-            label: عدد الإختصاصيين الإجتماعيين لكلّ مشرف.
+            explanation: القدرة على معرفة متوسط عدد  اخصائيين الحالة لكلّ مشرف.
+            label: عدد  اخصائيين الحالة لكلّ مشرف.
           kpi_time_from_case_open_to_close:
             explanation: القدرة على معرفة مدّة الإبقاء على الحالة مفتوحة بالنسبة إلى كلّ الحالات التي يمكن للمستخدم الوصول إليها.
             label: الوقت من فتح القضية إلى إغلاقها
@@ -2318,61 +2499,61 @@ ar:
       agency:
         actions:
           assign:
-            explanation: القدرة على اختيار وكالة عند إنشاء حساب مستخدم أو تعديله. إذا كان لدى المستخدم الحالي هذا الإذن بالإضافة إلى إذن "قراءة الوكالة" للمستخدمين، فسيكون بإمكانه فقط إضافة مستخدم إلى وكالته الخاصة.
+            explanation: القدرة على اختيار الهيئة عند إنشاء حساب مستخدم أو تعديله. إذا كان لدى المستخدم الحالي هذا الإذن بالإضافة إلى إذن "قراءة الهيئة" للمستخدمين، فسيكون بإمكانه فقط إضافة مستخدم إلى وكالته الخاصة.
             label: تعيين
           create:
-            explanation: القدرة على إنشاء وكالة
+            explanation: القدرة على إنشاء هيئة
             label: إنشاء
           manage:
-            explanation: 'يسمح للمستخدم بتنفيذ جميع الإجراءات المتاحة على الوكالات. إذن "الإدارة" يعني أساسًا "كل شيء". هام: يمنح هذا الإذن أيضًا القدرة على إنشاء وكالة جديدة.'
+            explanation: 'يسمح للمستخدم بتنفيذ جميع الإجراءات المتاحة على الهيئات. إذن "الإدارة" يعني أساسًا "كل شيء". هام: يمنح هذا الإذن أيضًا القدرة على إنشاء الهيئة جديدة.'
             label: إدارة (كافة الأذونات لهذا النوع من الموارد)
           read:
-            explanation: القدرة على رؤية الوكالات.
+            explanation: القدرة على رؤية الهيئات.
             label: عرض
           write:
             explanation: القدرة على تعديل المعلومات حول الوكالات. يرجى الإنتباه إلى أن هذا الأمر ينطبق على جميع الوكالات في النظام.
             label: تعديل
-        explanation: يمثل منظمة بها أعضاء يستخدمون بريميرو. توجد الوكالات بشكل مستقل عن مجموعات المستخدمين.
-        label: وكالة
+        explanation: يمثل منظمة بها أعضاء يستخدمون بريميرو. توجد الهيئات بشكل مستقل عن مجموعات المستخدمين.
+        label: الهيئة
       audit_log:
         actions:
           read:
-            explanation: يسمح للمستخدم بمشاهدة قائمة بجميع الإجراءات التي تم تنفيذها في النظام وتصفيتها، وتكون مقسّمة حسب المستخدم ونوع الإجراء ومُعرِّف السجل ووقت الإجراء. تُناسب هذه الخاصيّة المسؤولين على المستوى الوطني أو مستوى الوكالة ، لأنّها تعرض الإجراءات التي يقوم بها جميع المستخدمين في النظام. يرجى الإنتباه إلى أن سجل التدقيق لا يعرض معلومات التعريف الشخصية في السجلات المتضمنة في كل إجراء.
+            explanation: يسمح للمستخدم بمشاهدة قائمة بجميع الإجراءات التي تم تنفيذها في النظام وتصفيتها، وتكون مقسّمة حسب المستخدم ونوع الإجراء ومُعرِّف السجل ووقت الإجراء. تُناسب هذه الخاصيّة المسؤولين على المستوى الوطني أو مستوى الهيئة ، لأنّها تعرض الإجراءات التي يقوم بها جميع المستخدمين في النظام. يرجى الإنتباه إلى أن سجل التدقيق لا يعرض معلومات التعريف الشخصية في السجلات المتضمنة في كل إجراء.
             label: عرض
         explanation: قائمة قابلة للتصفية لجميع الإجراءات التي تم تنفيذها في النظام. لا تتضمن أي معلومات تعريفية عن الحالات أو الحوادث أو طلبات البحث عن المفقودين.
         label: سجل التدقيق
       case:
         actions:
           add_note:
-            explanation: يسمح للمستخدم بإضافة مُدخَل إلى نموذج "الملاحظات" الفرعي (يُطلق عليه أحيانًا اسم "التعليقات"). يقوم المستخدم بذلك عن طريق النقر فوق زر "إضافة ملاحظات" في صفحة عرض الحالة. هذا الإجراء مفيد بشكل خاص للمديرين الذين ليس لديهم القدرة على تعديل الحالات، ولكنّهم يريدون إضافة تذكيرات عن حالة للإختصاصي الإجتماعي. بهذه الطريقة، يُشبِه إضافة ملاحظة إضافة علم. ميزة إضافة ملاحظة هي أنه عندما يضيف المدير ملاحظة إلى حالة ما، سيظهر إشعار على الحالة للإختصاصي الإجتماعي عندما يعرض الحالة على هاتفه الجوّال.
+            explanation: يسمح للمستخدم بإضافة مُدخَل إلى نموذج "الملاحظات" الفرعي (يُطلق عليه أحيانًا اسم "التعليقات"). يقوم المستخدم بذلك عن طريق النقر فوق زر "إضافة ملاحظات" في صفحة عرض الحالة. هذا الإجراء مفيد بشكل خاص للمديرين الذين ليس لديهم القدرة على تعديل الحالات، ولكنّهم يريدون إضافة تذكيرات عن حالة لاخصائي الحالة. بهذه الطريقة، يُشبِه إضافة ملاحظة إضافة علم. ميزة إضافة ملاحظة هي أنه عندما يضيف المدير ملاحظة إلى حالة ما، سيظهر إشعار على الحالة لاخصائي الحالة عندما يعرض الحالة على هاتفه الجوّال.
             label: اضافة ملاحظات إلى حالة
           add_registry_record:
             explanation: يسمح للمستخدم بربط سجل بحالة من نموذج تفاصيل السجل. يسمح أيضًا للمستخدم بإلغاء ربط أي سجل مرتبط بالحالة اساسا.
             label: إضافة / تحديث سجل التسجيل من الحالة
           approve_action_plan:
-            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم.
+            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات اختصاصيين الحالة لديهم.
             label: الموافقة على %{approval_label}
           approve_assessment:
-            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم.
+            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات اختصاصيين الحالة لديهم.
             label: الموافقة على نموذج %{approval_label}
           approve_bia:
-            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم.
+            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات اختصاصيين الحالة لديهم.
             label: الموافقة على نموذج %{approval_label}
           approve_case_plan:
-            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم.
+            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات اختصاصيين الحالة لديهم.
             label: الموافقة على %{approval_label}
           approve_closure:
-            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم.
+            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات اختصاصيين الحالة لديهم.
             label: الموافقة على نموذج %{approval_label}
           approve_gbv_closure:
-            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم.
+            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات اختصاصيين الحالة لديهم.
             label: الموافقة على نموذج %{approval_label}
           assign:
             explanation: يسمح للمستخدم بإرسال حالة من مالك السجل الأصلي إلى أي مستخدم آخر في النظام. لا حاجة لموافقة الطفل لهذا الإجراء. على عكس عمليات التحويل لا يُمنح المستلِم الفرصة لقبول التعيين أو رفضه.
             label: تعيين
           assign_within_agency:
-            explanation: يسمح للمستخدم بإرسال حالة من مالك السجل الأصلي إلى أي مستخدم آخر في وكالة المستخدم الحالية. لا حاجة لموافقة الطفل لهذا الإجراء. على عكس عمليات التحويل، لا يُمنح المستلِم الفرصة لقبول التعيين أو رفضه.
-            label: تعيين لمستخدم ضمن وكالتي
+            explanation: يسمح للمستخدم بإرسال حالة من مالك السجل الأصلي إلى أي مستخدم آخر في هيئة المستخدم الحالية. لا حاجة لموافقة الطفل لهذا الإجراء. على عكس عمليات التحويل، لا يُمنح المستلِم الفرصة لقبول التعيين أو رفضه.
+            label: تعيين لمستخدم ضمن هيئتي
           assign_within_user_group:
             explanation: يسمح للمستخدم بإرسال حالة من مالك السجل الأصلي إلى أي مستخدم آخر في مجموعات مستخدمي المستخدم الحالية. لا حاجة لموافقة الطفل لهذا الإجراء. على عكس عمليات التحويل، لا يُمنح المستلِم الفرصة لقبول التعيين أو رفضه
             label: تعيين لمستخدم ضمن مجموعة المستخدمين الخاصة بي
@@ -2404,7 +2585,7 @@ ar:
             explanation: يمكن للمستخدم إنشاء  ملف تصدير XLS من قائمة الحالة أو صفحات عرض الحالة، والتي تحتوي على مجموعة مخصّصة من النماذج أو الحقول، بالنسبة إلى حالة واحدة أو متعددة أو جميع الحالات التي يمكن للمستخدم الوصول إليها. في هذا التصدير، يتمّ تمثيل كلّ نموذج في علامة التبويب الخاصة به داخل ملف XLS. يمكن للمستخدم اختيار النماذج أو الحقول التي يريد تضمينها في التصدير باستخدام قسم التصدير المخصّص. يرجى ملاحظة أنه لا يمكن للمستخدمين تضمين النماذج والحقول في التصدير إلا إذا كان لديهم بالفعل القدرة على رؤية تلك النماذج والحقول عند عرض حالة في التطبيق.
             label: تصدير مخصص
           export_duplicate_id_csv:
-            explanation: إنشاء تصدير CSV للحالات التي لها نفس حقل "الهوية الوطنية" (قد يكون لها تسمية مختلفة، اعتمادًا على التشكيل). يتمّ تنفيذه فقط من صفحة قائمة الحالة.
+            explanation: إنشاء تصدير CSV للحالات التي لها نفس حقل "الهوية الوطنية" (قد يكون لها تسمية مختلفة، اعتمادًا على الإعدادات). يتمّ تنفيذه فقط من صفحة قائمة الحالة.
             label: تصدير التكرارات
           export_json:
             explanation: يمكن للمستخدم إنشاء ملف تصدير  JSON من قائمة الحالة أو صفحات عرض الحالة، والتي تحتوي على جميع الحقول التي يمكن للمستخدم الحالي الوصول إليها ،والمرتبطة بحالة واحدة أو متعددة أو جميع الحالات التي يمكن للمستخدم الوصول إليها. يستخدم هذا التصدير بشكل أساسي من قبل الذين يرغبون في تصدير الحالات من نظام Primero الحالي ثم استيرادها إلى نظام Primero مختلف، أو إلى نظام إدارة معلومات آخر. تعتبر صيغة JSON قابلة للقراءة آليًا وغير عمليّة لمعظم المستخدمين.
@@ -2420,6 +2601,7 @@ ar:
             label: تصدير ملف photowall
           export_unhcr_csv:
             label: تصدير مفوضية الأمم المتحدة لشؤون اللاجئين CSV
+            explanation: لم تعد هذه الميزة قيد الاستخدام.
           export_xls:
             explanation: 'يمكن للمستخدم إنشاء  ملف تصدير XLS من قائمة الحالة أو صفحات عرض الحالة، والتي تحتوي على جميع الحقول التي يمكن للمستخدم الحالي الوصول إليها، والمرتبطة بحالة واحدة أو متعددة أو جميع الحالات التي يمكن للمستخدم الوصول إليها. في هذا التصدير، يُمثّل كلّ نموذج في علامة التبويب الخاصة به داخل ملف XLS. ملاحظة: تعرض صيغة XLS الأحرف غير اللاتينية (مثل العربية والبنغالية) بصيغة قابلة للقراءة، بينما لا تعرض صيغة CSV هذا الأمر.'
             label: تصدير EXCEL (ملف XLS)
@@ -2429,6 +2611,9 @@ ar:
           flag:
             explanation: القدرة على إضافة علم إلى حالة. يمكن للمستخدمين الذين لديهم هذا الإذن أيضًا إزالة العلامات التي أضافوها إلى إحدى الحالات.
             label: تمييز بعلامة
+          resolve_any_flag:
+            explanation: يسمح للمستخدم بحل أي علامة في السجل، بغض النظر عمن قام بإنشاء العلامة.
+            label: حل إية علامات
           import:
             explanation: يسمح للمستخدم بإنشاء حالة واحدة جديدة أو أكثر من خلال استيرادها من ملف CSV أو Excel أو JSON. يجب أن يكون الملف المستورد  مهيّأ *جدًّا* وخصوصًا حتى يتمّ استيراد المعلومات بشكل صحيح. يجب أن تكون هذه الوظيفة متاحة فقط للمستخدمين الإداريين ذوي المهارات التقنية المتقدّمة والمعرفة العميقة بكيفية تهيئة البيانات في Primero. يتمّ تنفيذها فقط من صفحة قائمة الحالة.
             label: استيراد
@@ -2438,6 +2623,9 @@ ar:
           incident_from_case:
             explanation: يسمح هذا الإذن للمستخدم بالنقر فوق زر "إنشاء حادثة". يؤدي هذا إلى إنشاء حادثة قد تحتوي على بعض المعلومات المنسوخة من الحالة. بالنسبة إلى حالات العنف القائم على النوع الاجتماعي، يتواجد هذا الزر أعلى صفحة عرض الحالة ويتوافق مع المعلومات المتعلقة بالحالة ككلّ. في بعض سياقات تتبع الحوادث، يكون هذا الزر في نموذج "تفاصيل الحادثة" الفرعي. في هذه الحالة، قد يتم نسخ بعض المعلومات من نموذج تفاصيل الحادثة الفرعي حيث تم النقر فوق الزر ، وكذلك من الحالة ككلّ. بمعنى آخر، قد تحتوي الحادثة الجديدة الذي تمّ إنشاؤها على حقل "نوع العنف" من النموذج الفرعي لتفاصيل الحادثة الفردية، ولكن قد يحتوي أيضًا على عمر وجنس الحالة نفسها. لاحظ أن هذا الإذن يسمح أيضًا للمستخدم بمشاهدة رابط الحادثة الذي تمّ إنشاؤها.
             label: إنشاء حادثة من حالة
+          remove_alert:
+            explanation: يسمح هذا الإذن للمستخدم بإزالة تنبيه من الحالة. يتم عادةً إنشاء التنبيهات عند تحرير حقل معين، كما هو الحال عند تحديث الملاحظات. تظهر التنبيهات عادة بنقطة صفراء بجوار الحالة.
+            label: إزالة التنبيه من حالة
           manage:
             explanation: يسمح للمستخدم بتنفيذ جميع الإجراءات المتاحة للحالات. يعني إذْن "الإدارة" بشكل أساسي "كل شيء".
             label: إدارة (كافة الأذونات لهذا النوع من الموارد)
@@ -2457,7 +2645,7 @@ ar:
             explanation: يسمح لمستخدم بمنح مستخدم آخر حق الوصول المؤقت إلى حالة. سيتمكن مستلم الإحالة من تنفيذ الإجراءات نفسها في الحالة المُحالة كما لو أنّه ينفذها على حالاته الخاصة. عندما لا يعود المستلم بحاجة إلى الوصول إلى الحالة ، يمكنه النقر فوق زر "أكتمل" في النموذج الفرعي للإحالات والتحويلات، وسيفقد إمكانية الوصول إلى الحالة. لا يمكنك إحالة حالة إلّا لمستخدم يسمح له دوره بتلقّي الإحالات.
             label: إحالة
           referral_from_service:
-            explanation: يسمح للمستخدم برؤية زر "الإحالة" في نموذج الخدمات الفرعي. عندما ينقر المستخدم على هذا الزر، سيظهر قسم الإحالة مع تعطيل حقول نوع الخدمة والوكالة ومقدّم الخدمة والموقع، ولكن يتمّ ملؤها تلقائيًا بالمعلومات الخاصة بهذه الحقول في نموذج الخدمات الفرعي الذي نقر المستخدم على زر الإحالة المرتبط به.
+            explanation: يسمح للمستخدم برؤية زر "الإحالة" في نموذج الخدمات الفرعي. عندما ينقر المستخدم على هذا الزر، سيظهر قسم الإحالة مع تعطيل حقول نوع الخدمة والهيئة ومقدّم الخدمة والموقع، ولكن يتمّ ملؤها تلقائيًا بالمعلومات الخاصة بهذه الحقول في نموذج الخدمات الفرعي الذي نقر المستخدم على زر الإحالة المرتبط به.
             label: إحالة حالة من نموذج الخدمة الفرعي
           remove_assigned_users:
             explanation: يسمح للمستخدم بإزالة المستخدمين الآخرين من حقل "المستخدمون الآخرون المعيّنون". يتمّ إدراج المستخدم هنا إذا تلقى إحالة أو تحويل للحالة ولكنّه لم يقبلها أو يرفضها بعد. عندما تقوم بإزالة مستخدم من حقل "المستخدمون الآخرون المعيّنون"، فإنك تزيل إمكانية وصولهم إلى الحالة. وبالتالي، يمكن للمستخدمين الذين لديهم هذا الإذن إزالة إمكانية الوصول إلى الحالة من المستخدمين الذين سبق لهم وتلقوا إحالات أو عمليات نحويل معلّقة للحالة. لاحظ أنّ هذا الإذن لا يعمل إلا إذا كان المستخدم الحالي لديه أيضًا القدرة على تعديل الحالة.
@@ -2466,25 +2654,25 @@ ar:
             explanation: يسمح للمستخدم بفتح حالة مغلقة حاليًّا
             label: إعادة فتح
           request_approval_action_plan:
-            explanation: يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}.
+            explanation: يسمح للمستخدم (عادة ما يكون إخصائي الحالة) الطلب من مديره الموافقة على حالتهم %{approval_label}.
             label: طلب موافقة %{approval_label}
           request_approval_assessment:
-            explanation: يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}.
+            explanation: يسمح للمستخدم (عادة ما يكون اخصائي الحالة) الطلب من مديره الموافقة على حالتهم %{approval_label}.
             label: طلب موافقة %{approval_label}
           request_approval_bia:
-            explanation: يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}.
+            explanation: يسمح للمستخدم (عادة ما يكون اخصائي الحالة) الطلب من مديره الموافقة على حالتهم %{approval_label}.
             label: طلب موافقة %{approval_label}
           request_approval_case_plan:
-            explanation: يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}.
+            explanation: يسمح للمستخدم (عادة ما يكون اخصائي الحالة) الطلب من مديره الموافقة على حالتهم %{approval_label}.
             label: طلب موافقة %{approval_label}
           request_approval_closure:
-            explanation: يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}.
+            explanation: يسمح للمستخدم (عادة ما يكون اخصائي الحالة) الطلب من مديره الموافقة على حالتهم %{approval_label}.
             label: طلب موافقة %{approval_label}
           request_approval_gbv_closure:
-            explanation: يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}.
+            explanation: يسمح للمستخدم (عادة ما يكون اخصائي حالة) الطلب من مديره الموافقة على حالتهم %{approval_label}.
             label: طلب موافقة %{approval_label}
           request_transfer:
-            explanation: يكشف عن زر "طلب التحويل" الموجود على "عرض القسم". يسمح الزر للمستخدم بإرسال رسالة مع ملاحظة شخصية عبر البريد الإلكتروني إلى مالك سجل الحالة الحالي، يطلب من مالك السجل تحويل الحالة إلى المستخدم الذي أرسل الطلب. يُعدّ هذا مفيدًا في السياقات التي يغيّر فيها الأطفال المواقع كثيرًا، ويحتاج الإختصاصيّون الإجتماعيّون إلى الإختصاصيّين الإجتماعيّين السابقين الذين عملوا مع الطفل لإرسال معلومات حول الطفل لتجنب إنشاء سجل مكرّر.
+            explanation: يكشف عن زر "طلب التحويل" الموجود على "عرض القسم". يسمح الزر للمستخدم بإرسال رسالة مع ملاحظة شخصية عبر البريد الإلكتروني إلى مالك سجل الحالة الحالي، يطلب من مالك السجل تحويل الحالة إلى المستخدم الذي أرسل الطلب. يُعدّ هذا مفيدًا في السياقات التي يغيّر فيها الأطفال المواقع كثيرًا، ويحتاج اخصائيين الحالة إلى اخصائيين الحالة السابقين الذين عملوا مع الطفل لإرسال معلومات حول الطفل لتجنب إنشاء سجل مكرّر.
             label: طلب تحويل
           search_owned_by_others:
             explanation: يسمح لمستخدم بإجراء بحث عن السجلات التي عادة لا يملك إمكانية الوصول إليها، إما لأنه ليس مالك سجل هذه الحالة، أو (للمديرين) لأن مالك السجل ليس ضمن مجموعات المستخدمين الخاصة بهم. لاحظ أنه في حين سيرى المستخدم الحالة من ضمن عرض نتائج البحث، لن يتمكن من النقر فوق صفحة عرض الحالة لهذه الحالة، ممّا يعني أنّه لن يتمكّن من رؤية أي معلومات تفصيلية حول الحالة.
@@ -2520,7 +2708,7 @@ ar:
             explanation: القدرة على نقر زر "تعديل" وتحديث المعلومات في الحالة ثم النقر على "حفظ"
             label: تعديل
           accept_or_reject_transfer:
-            explanation: السماح للمستخدم بقبول أو رفض النقل نيابة عن مستخدم آخر موجود في فريقك (على سبيل المثال ، يقبل المشرف نقل تم إرساله إلى الاخصائي الاجتماعي).
+            explanation: السماح للمستخدم بقبول أو رفض النقل نيابة عن مستخدم آخر موجود في فريقك (على سبيل المثال ، يقبل مشرف الحالات نقل تم إرساله إلى اخصائي الحالة).
             label: قبول أو رفض النقل لمستخدم آخر في فريقك.
           list_case_names:
             explanation: 'لا يمكن للمديرين عادةً رؤية أسماء الحالات في قائمة الحالات. إذا حصل المدير على هذا الإذن ، فسيكون قادرًا على رؤية الأسماء في القائمة. '
@@ -2528,37 +2716,46 @@ ar:
           mark_for_offline:
             explanation: يسمح للمستخدم بالتخزين المؤقت للحالة للاستخدام في وضع عدم الاتصال.
             label: وضع علامة على عدم الاتصال بالانترنت
+          view_family_record:
+            explanation: يمكن للمستخدمين عرض نموذج "سجل العائلة" الخاص بالحالة، والذي يتضمن رابطًا لسجل عائلة الحالة.
+            label: عرض سجل العائلة من الحالة
+          case_from_family:
+            explanation: يمكن للمستخدمين إنشاء حالة لأحد أفراد عائلة الحالة في النموذج الفرعي "تفاصيل العائلة". لاحظ أنه سيتم إنشاء سجل العائلة تلقائيًا لربط هاتين الحالتين.
+            label: إنشاء حالة من تفاصيل العائلة
+          link_family_record:
+            explanation: يسمح للمستخدم بالبحث عن سجل العائلة الموجود وربطه بحالته. كما يسمح للمستخدمين بإلغاء ربط سجل العائلة من الحالة.
+            label: ربط / إلغاء ربط سجل العائلة من الحالة
         explanation: يمثل طفلاً فرديًا أو ناجٍ أو مستفيد آخر.
         label: حالة
       dashboard:
         actions:
           approvals_action_plan:
             explanation: يعرض عدد حالات المستخدم الحالي مع طلبات الموافقة على خطة العمل المعلّقة أو الموافق عليها أو المرفوضة.
-            label: موافقات الإختصاصي الإجتماعي %{approval_label}
+            label: موافقات اخصائي الحالة %{approval_label}
           approvals_action_plan_pending:
             explanation: يعرض عدد الحالات في فريق المدير مع طلبات الموافقة على خطة العمل المعلّقة.
             label: موافقات المدير %{approval_label}
           approvals_assessment:
             explanation: يعرض عدد حالات المستخدم الحالي مع طلبات الموافقة على التقييم المعلّقة أو الموافق عليها أو المرفوضة.
-            label: موافقات الإختصاصي الإجتماعي %{approval_label}
+            label: موافقات اخصائي الحالة %{approval_label}
           approvals_assessment_pending:
             explanation: يعرض عدد الحالات في فريق المدير مع طلبات الموافقة على التقييم المعلّقة.
             label: موافقات المدير %{approval_label}
           approvals_case_plan:
             explanation: يعرض عدد حالات المستخدم الحالي مع طلبات الموافقة على خطة الحالة المعلّقة أو الموافق عليها أو المرفوضة.
-            label: موافقات الإختصاصي الإجتماعي %{approval_label}
+            label: موافقات اخصائي الحالة %{approval_label}
           approvals_case_plan_pending:
             explanation: يعرض عدد الحالات في فريق المدير مع طلبات الموافقة على خطة الحالة المعلّقة.
             label: موافقات المدير %{approval_label}
           approvals_closure:
             explanation: يعرض عدد حالات المستخدم الحالي مع طلبات الموافقة على الإغلاق المعلّقة أو الموافق عليها أو المرفوضة.
-            label: موافقات الإختصاصي الإجتماعي %{approval_label}
+            label: موافقات اخصائي الحالة %{approval_label}
           approvals_closure_pending:
             explanation: يعرض عدد الحالات في فريق المدير مع طلبات الموافقة على الإغلاق المعلّقة.
             label: موافقات المدير %{approval_label}
           approvals_gbv_closure:
             explanation: يعرض عدد حالات المستخدم الحالي مع طلبات الموافقة على إغلاق العنف القائم على النوع الإجتماعي المعلّقة أو الموافق عليها أو المرفوضة.
-            label: موافقات الإختصاصي الإجتماعي %{approval_label}
+            label: موافقات  اخصائي الحالة %{approval_label}
           approvals_gbv_closure_pending:
             explanation: يعرض عدد الحالات في فريق المدير مع طلبات الموافقة على إغلاق العنف القائم على النوع الإجتماعي المعلّقة.
             label: موافقات المدير %{approval_label}
@@ -2569,25 +2766,25 @@ ar:
             explanation: يظهر عدد الحالات في كلّ مستوى خطر.
             label: الحالات حسب مستوى الخطر
           cases_by_task_overdue_assessment:
-            explanation: يسمح للمدير بمعرفة عدد الحالات التي تأخرت فيها مهام التقييم لكلّ من الإختصاصيين الإجتماعيين.
+            explanation: يسمح للمدير بمعرفة عدد الحالات التي تأخرت فيها مهام التقييم لكلّ من  اخصائيين الحالة.
             label: مهام التقييم المتأخرة
           cases_by_task_overdue_case_plan:
-            explanation: يسمح للمدير بمعرفة عدد الحالات التي تأخرت فيها مهام خطة الحالة لكلّ من الإختصاصيين الإجتماعيين.
+            explanation: يسمح للمدير بمعرفة عدد الحالات التي تأخرت فيها مهام خطة الحالة لكلّ من  اخصائيين الحالة.
             label: مهام خطة الحالة المتأخرة
           cases_by_task_overdue_followups:
-            explanation: يسمح للمدير بمعرفة عدد الحالات التي تأخرت فيها مهام المتابعة لكلّ من الإختصاصيين الإجتماعيين.
+            explanation: يسمح للمدير بمعرفة عدد الحالات التي تأخرت فيها مهام المتابعة لكلّ من اخصائيين الحالة.
             label: مهام المتابعة المتأخرة
           cases_by_task_overdue_services:
-            explanation: يسمح للمدير بمعرفة عدد الحالات التي تأخرت فيها مهام الخدمات لكلّ من الإختصاصيين الإجتماعيين.
+            explanation: يسمح للمدير بمعرفة عدد الحالات التي تأخرت فيها مهام الخدمات لكلّ من اخصائيين الحالة.
             label: مهام الخدمات المتأخرة
           dash_case_incident_overview:
-            explanation: .
+            explanation: يُظهر للمدير عدد الحالات التي يديرها كل مستخدم في فريقه، والتي تتم إحالتها أو نقلها إلى مستخدمين آخرين.
             label: لمحة عامّة - حالاتي/حوادثي
           dash_cases_by_social_worker:
             explanation: الجدول الذي يوضح كيفية إدارة العدد الإجمالي للحالات المفتوحة وعدد الحالات الجديدة التي يديرها كل مستخدم في مجموعات المستخدمين الحالية للمستخدم. يمثّل كل صف مستخدمًا من مجموعات المستخدمين الخاصة بالمستخدم الحالي ، بينما يمثل "الإجمالي" و "الجديد" عمودين.
-            label: عرض الحالات حسب الإختصاصي الإجتماعي
+            label: عرض الحالات حسب  اخصائي الحالة
           dash_cases_to_assign:
-            explanation: 'هام: للمديرين فقط. يعرض عدد الحالات التي يمتلكها المستخدم الحالي بشكل مباشر (يجب أن يكون مديرًا). تفترض لوحة المعلومات هذه أن المديرين لا يديرون حالاتهم الخاصة، وأنه إذا كان للمدير حالاته الخاصة، يجب عليه تعيين هذه الحالات لإختصاصيين إجتماعيين في فريقه.'
+            explanation: 'هام: للمديرين فقط. يعرض عدد الحالات التي يمتلكها المستخدم الحالي بشكل مباشر (يجب أن يكون مديرًا). تفترض لوحة المعلومات هذه أن المديرين لا يديرون حالاتهم الخاصة، وأنه إذا كان للمدير حالاته الخاصة، يجب عليه تعيين هذه الحالات لاخصائيين الحالة في فريقه.'
             label: (للمديرين) الحالات التي أحتاج إلى تعيينها لأشخاص في فريقي
           dash_flags:
             explanation: يعرض قائمة بالعلامات التي أضافها المستخدمون الآخرون إلى سجلاتي، بالإضافة إلى العلامات التي أضفتها إلى سجلات المستخدمين الآخرين.
@@ -2620,6 +2817,7 @@ ar:
             explanation: يعرض للمدير عدد الحالات التي تمّ تحويلها أو إحالتها إلى كلّ مستخدم في فريقه.
             label: تمّ تشاركها مع فريقي
           dash_shared_with_my_team_overview:
+            explanation: يُظهر للمدير عدد الحالات المُحالة أو المنقولة إلى كل مستخدم في فريقه.
             label: تم مشاركته مع فريقي (نظرة عامة)
           dash_shared_with_others:
             explanation: يوضح عدد حالاتي التي تحتوي على إحالات نشطة أو عمليات تحويل معلّقة أو مرفوضة. لا تُستخدم عادةً من قبل المديرين، إلّا إذا كانوا يديرون القضايا بأنفسهم.
@@ -2634,10 +2832,10 @@ ar:
             explanation: يُظهر عدد انتهاكات MRM من كل نوع والتي تم تصنيفها حسب المسيء
             label: MRM - عدد الانتهاكات حسب المسيء
           dash_show_none_values:
-            explanation: يضيف فئة "لا مستوى خطورة" إضافية لجميع لوحات المعلومات التي تقسّم الحالات حسب مستوى الخطورة. ينطبق هذا على وجه التحديد على التضبيطات التي لديها خيار رابع "لا مخاطر" لحقول مستوى الخطورة.
+            explanation: يضيف فئة "لا مستوى خطورة" إضافية لجميع لوحات المعلومات التي تقسّم الحالات حسب مستوى الخطورة. ينطبق هذا على وجه التحديد على الإعدادات التي لديها خيار رابع "لا مخاطر" لحقول مستوى الخطورة.
             label: عرض الحالات مع "لا مستوى خطورة" في لوحة معلومات التقييم
           dash_tasks:
-            explanation: يسمح للمستخدم برؤية صفحة المهام. يجب أن تُستخدم للإختصاصيين الإجتماعيين ومقدمي الخدمات، حيث ستكون الأرقام مخصّصة للحالات التي تديرها مباشرة. يجب على المديرين بدلاً من ذلك الحصول على لوحة المعلومات المرتبطة بـ "عرض الحالات حسب المهمة المتأخرة" ، لأن هذا يتيح لهم رؤية المهام المتأخرة لكلّ شخص في مجموعات المستخدمين الخاصة بهم.
+            explanation: يسمح للمستخدم برؤية صفحة المهام. يجب أن تُستخدم لاخصائيين الحالة ومقدمي الخدمات، حيث ستكون الأرقام مخصّصة للحالات التي تديرها مباشرة. يجب على المديرين بدلاً من ذلك الحصول على لوحة المعلومات المرتبطة بـ "عرض الحالات حسب المهمة المتأخرة" ، لأن هذا يتيح لهم رؤية المهام المتأخرة لكلّ شخص في مجموعات المستخدمين الخاصة بهم.
             label: صفحة المهام
           dash_national_admin_summary:
             explanation: يظهر إجمالي الحالات المفتوحة في النظام ، وعدد الحالات الجديدة التي تم إنشاؤها في كل من الأسبوعين الماضيين ، وعدد الحالات التي تم إغلاقها في كل من الأسبوعين الماضيين.
@@ -2646,16 +2844,19 @@ ar:
             explanation: لكلّ نوع من أنواع الاستجابة، يوضح عدد الحالات في كل مستوى من مستويات الخطورة التي لديها خدمات على وشك الإنتهاء أو متأخّرة.
             label: عرض الاستجابات
           workflow:
-            explanation: يسمح لإختصاصي إجتماعي برؤية رسم بياني دائري يوضح عدد الحالات الخاصة به والموجودة في كلّ مرحلة من مراحل سير عمل إدارة الحالة.
+            explanation: يسمح لإخصائي الحالة برؤية رسم بياني دائري يوضح عدد الحالات الخاصة به والموجودة في كلّ مرحلة من مراحل سير عمل إدارة الحالة.
             label: الحالات مقسّمة حسب سريان العمل
           workflow_team:
-            explanation: 'يسمح للمدير برؤية جدول يوضح عدد حالات الإختصاصيين الاجتماعيين في كلّ مرحلة من مراحل عملية إدارة الحالة.  '
-            label: الحالات حسب سير العمل والإختصاصي الإجتماعي
+            explanation: 'يسمح للمدير برؤية جدول يوضح عدد حالات اختصاصيين الحالة في كلّ مرحلة من مراحل عملية إدارة الحالة.  '
+            label: الحالات حسب سير العمل واخصائي الحالة
         explanation: تملي المعلومات الموجزة التي تظهر على الصفحة الرئيسية.
         label: لوحة المعلومات
       disabled:
         explanation: إذا قمت بتعطيل هذا الدور، لن تتمكن من تعيينه إلى حسابات المستخدمين.
         label: 'مُعطلة '
+      referral_authorization:
+        explanation: ويعني أن الدور سيظهر كخيار للقائمة المنسدلة "نوع الإحالة" عندما يقوم المستخدم بإجراء إحالة داخلية. إذا اختار المستخدم هذا الدور كنوع الإحالة، فلن يتمكن متلقي الإحالة من الوصول إلا إلى النماذج التي يمكن للدور المحدد الوصول إليها. لذا، على سبيل المثال، إذا اختار المستخدم "مقدم الخدمة الطبية" كنوع الإحالة، وكان لدور مقدم الخدمة الطبية حق الوصول فقط إلى نماذج الهوية الأساسية ومخاوف الحماية، فلن يرى المستلم سوى هذه النماذج.
+        label: هل يمكن استخدام هذا الدور في القائمة المنسدلة "نوع الإحالة"؟
       duplicate:
         actions:
           read:
@@ -2665,25 +2866,28 @@ ar:
         label: بحث مكرر
       forms:
         case:
-          explanation: 'يقيّد وصول المستخدم إلى نماذج الحالات ويحدّ من المعلومات التي يمكن للمستخدم رؤيتها في الحادثة. مثلاً، إذا كان للمستخدم حق الوصول إلى نموذج مالك السجل فقط، فسيكون  قادرًا أيضًا على رؤية المعلومات الواردة في الحقول الموجودة في هذا النموذج فقط. إذا كان المستخدم الحالي لديه وصول محدود إلى النموذج ولديه القدرة على إدارة تضبيطات النموذج، فإن تقييد وصوله إلى النموذج يحدّ أيضًا النماذج التي يمكنه تضبيطها. ملاحظة: إذا لم يتمّ تحديد أي نموذج، فهذا يعني أنّ الدور لديه حق الوصول إلى جميع نماذج الحالات.'
+          explanation: 'يقيّد وصول المستخدم إلى نماذج الحالات ويحدّ من المعلومات التي يمكن للمستخدم رؤيتها في الحادثة. مثلاً، إذا كان للمستخدم حق الوصول إلى نموذج مالك السجل فقط، فسيكون  قادرًا أيضًا على رؤية المعلومات الواردة في الحقول الموجودة في هذا النموذج فقط. إذا كان المستخدم الحالي لديه وصول محدود إلى النموذج ولديه القدرة على إدارة إعدادات النموذج، فإن تقييد وصوله إلى النموذج يحدّ أيضًا النماذج التي يمكنه تضبيطها. ملاحظة: إذا لم يتمّ تحديد أي نموذج، فهذا يعني أنّ الدور لديه حق الوصول إلى جميع نماذج الحالات.'
           label: نماذج - حالة
         incident:
-          explanation: 'تقييد وصول المستخدم إلى النماذج الخاصة بالحوادث يحد من المعلومات التي يمكن للمستخدم رؤيتها في الحادث. على سبيل المثال ، إذا كان المستخدم لديه حق الوصول إلى نموذج مالك السجل فقط ، فسيكون أيضًا قادرًا فقط على رؤية المعلومات الواردة في الحقول الموجودة في هذا النموذج. إذا كان لدى المستخدم الحالي وصول محدود إلى النموذج ولديه القدرة على إدارة تكوين النموذج ، فإن تقييد وصوله إلى النموذج يحد أيضًا من النماذج التي يمكنه تكوينها. ملاحظة: إذا لم يتم تحديد أي نماذج ، فهذا يعني أن الدور لديه حق الوصول إلى جميع نماذج الحوادث.'
+          explanation: 'تقييد وصول المستخدم إلى النماذج الخاصة بالحوادث يحد من المعلومات التي يمكن للمستخدم رؤيتها في الحادث. على سبيل المثال ، إذا كان المستخدم لديه حق الوصول إلى نموذج مالك السجل فقط ، فسيكون أيضًا قادرًا فقط على رؤية المعلومات الواردة في الحقول الموجودة في هذا النموذج. إذا كان لدى المستخدم الحالي وصول محدود إلى النموذج ولديه القدرة على إدارة إعدادات النموذج ، فإن تقييد وصوله إلى النموذج يحد أيضًا من النماذج التي يمكنه تكوينها. ملاحظة: إذا لم يتم تحديد أي نماذج ، فهذا يعني أن الدور لديه حق الوصول إلى جميع نماذج الحوادث.'
           label: نماذج - حوادث
         tracing_request:
-          explanation: 'يقيّد وصول المستخدم إلى النماذج في طلبات التتبّع ويحدّ من المعلومات التي يمكن للمستخدم رؤيتها في طلب التتبّع. مثلاً، إذا كان للمستخدم حق الوصول إلى نموذج مالك السجل فقط، فسيكون  قادرًا أيضًا على رؤية المعلومات الواردة في الحقول الموجودة في هذا النموذج فقط. إذا كان المستخدم الحالي لديه وصول محدود إلى النموذج ولديه القدرة على إدارة تضبيطات النموذج، فإن تقييد وصوله إلى النموذج يحدّ أيضًا النماذج التي يمكنه تضبيطها. ملاحظة: إذا لم يتمّ تحديد أي نموذج، فهذا يعني أنّ الدور لديه حق الوصول إلى جميع النماذج لطلبات التتبّع.'
+          explanation: 'يقيّد وصول المستخدم إلى النماذج في طلبات التتبّع ويحدّ من المعلومات التي يمكن للمستخدم رؤيتها في طلب التتبّع. مثلاً، إذا كان للمستخدم حق الوصول إلى نموذج مالك السجل فقط، فسيكون  قادرًا أيضًا على رؤية المعلومات الواردة في الحقول الموجودة في هذا النموذج فقط. إذا كان المستخدم الحالي لديه وصول محدود إلى النموذج ولديه القدرة على إدارة إعدادات النموذج، فإن تقييد وصوله إلى النموذج يحدّ أيضًا النماذج التي يمكنه إعدادها. ملاحظة: إذا لم يتمّ تحديد أي نموذج، فهذا يعني أنّ الدور لديه حق الوصول إلى جميع النماذج لطلبات التتبّع.'
           label: النماذج - طلبات التتبع
         registry_record:
-          explanation: 'تقييد وصول المستخدم إلى النماذج الموجودة في السجلات يحد من المعلومات التي يمكن للمستخدم رؤيتها في السجل. على سبيل المثال ، إذا كان المستخدم لديه حق الوصول إلى نموذج مالك السجل فقط ، فسيكون أيضًا قادرًا فقط على رؤية المعلومات الواردة في الحقول الموجودة في هذا النموذج. إذا كان لدى المستخدم الحالي وصول محدود إلى النموذج ولديه القدرة على إدارة تكوين النموذج ، فإن تقييد وصوله إلى النموذج يحد أيضًا من النماذج التي يمكنه تكوينها. ملاحظة: إذا لم يتم تحديد أي نماذج ، فهذا يعني أن الدور له حق الوصول إلى جميع نماذج السجلات.'
+          explanation: 'تقييد وصول المستخدم إلى النماذج الموجودة في السجلات يحد من المعلومات التي يمكن للمستخدم رؤيتها في السجل. على سبيل المثال ، إذا كان المستخدم لديه حق الوصول إلى نموذج مالك السجل فقط ، فسيكون أيضًا قادرًا فقط على رؤية المعلومات الواردة في الحقول الموجودة في هذا النموذج. إذا كان لدى المستخدم الحالي وصول محدود إلى النموذج ولديه القدرة على إدارة إعدادات النموذج ، فإن تقييد وصوله إلى النموذج يحد أيضًا من النماذج التي يمكنه إعدادها. ملاحظة: إذا لم يتم تحديد أي نماذج ، فهذا يعني أن الدور له حق الوصول إلى جميع نماذج السجلات.'
           label: النماذج - التسجيل
+        family:
+          label: النماذج - العائلة
+          explanation: 'يؤدي تقييد وصول المستخدم إلى نماذج العائلات إلى تحديد المعلومات التي يمكن للمستخدم رؤيتها حول العائلة. على سبيل المثال، إذا كان المستخدم لديه حق الوصول إلى نموذج مالك السجل فقط، فسيكون قادرًا أيضًا على رؤية المعلومات الموجودة في الحقول الموجودة في هذا النموذج فقط. إذا كان لدى المستخدم الحالي وصول محدود إلى النموذج ولديه القدرة على إدارة إعداد النموذج، فإن تقييد وصوله إلى النموذج يحد أيضًا من النماذج التي يمكنه تكوينها.'
       group:
         actions:
           admin_only:
-            explanation: هذا يعني أنّ المستخدمين الذين يؤدّون هذا الدور لن يتمكنوا إلا من رؤية الأمور المتعلّقة بإدارة النظام، مثل التقارير، وتضبيط النموذج والبحث، والمستخدمين، والأدوار، ومجموعات المستخدمين. لن يروا أي حالات فردية أو طلبات تتبّع أو حوادث.
+            explanation: هذا يعني أنّ المستخدمين الذين يؤدّون هذا الدور لن يتمكنوا إلا من رؤية الأمور المتعلّقة بإدارة النظام، مثل التقارير، وإعداد النموذج والبحث، والمستخدمين، والأدوار، ومجموعات المستخدمين. لن يروا أي حالات فردية أو طلبات تتبّع أو حوادث.
             label: لا توجد سجلات - وظائف المسؤول فقط
           agency:
-            explanation: يمكن للدور الوصول إلى السجلات التي يديرها جميع المستخدمين في وكالتهم. إذا كان للمستخدم الحق في الوصول إلى المستخدمين، يمكنه الوصول إلى جميع المستخدمين في وكالته.
-            label: 'كلّ السجلات أو المستخدمين في وكالتي '
+            explanation: يمكن للدور الوصول إلى السجلات التي يديرها جميع المستخدمين في هيئاتهم. إذا كان للمستخدم الحق في الوصول إلى المستخدمين، يمكنه الوصول إلى جميع المستخدمين في هيئته.
+            label: كلّ السجلات أو المستخدمين في هيئتي
           all:
             explanation: يمكن للدور الوصول إلى جميع السجلات والمستخدمين ومجموعات المستخدمين في النظام، بغض النظر عن مجموعات المستخدمين التي ينتمون هم إليها.
             label: الوصول لجميع السجلات أو المستخدمين
@@ -2693,10 +2897,13 @@ ar:
           self:
             explanation: يمكن للدور الوصول إلى السجلات الخاصة بهم (الحالات أو طلبات التتبّع أو الحوادث)، ويمكنه تعديل حساب المستخدم الخاص به.
             label: الوصول لسجلاتي أو المستخدم الخاص بي فقط
-        explanation: يتحكّم في السجلات (الحالات أو طلبات التتبّع أو الحوادث) التي يمكن للدور الوصول إليها. إذا كان للدور الحق في الوصول إلى المستخدمين ومجموعات المستخدمين، يستطيع بذلك التحكّم أيضًا بالمستخدمين ومجموعات المستخدمين التي يمكنه الوصول إليهم. يمكن للأدوار التي لها حق الوصول إلى "بلا سجلات" الوصول فقط إلى تضبيط النظام مثل النماذج والمستخدمين والتقارير.
+        explanation: يتحكّم في السجلات (الحالات أو طلبات التتبّع أو الحوادث) التي يمكن للدور الوصول إليها. إذا كان للدور الحق في الوصول إلى المستخدمين ومجموعات المستخدمين، يستطيع بذلك التحكّم أيضًا بالمستخدمين ومجموعات المستخدمين التي يمكنه الوصول إليهم. يمكن للأدوار التي لها حق الوصول إلى "بلا سجلات" الوصول فقط إلى إعداد النظام مثل النماذج والمستخدمين والتقارير.
         label: ما هي السجلات التي يؤثر فيها هذا الدور؟
       incident:
         actions:
+          assign:
+            explanation: يسمح للمستخدم بإرسال حادثة من مالك السجل الأصلي إلى أي مستخدم آخر في النظام. لا يمكن تعيين الحوادث المرتبطة بالفعل بحالة ما؛ يجب عليك بدلاً من ذلك إعادة تعيين الحالة المرتبطة، مما سيؤدي إلى تحديث ملكية سجل الحادث.
+            label: تعيين
           change_log:
             explanation: يمكن للمستخدم رؤية تاريخ التغييرات التي تم إجراؤها على السجل منذ إنشائه. يتضمن هذا القيم المسجلة لجميع الحقول.
             label: تغيير السجل
@@ -2713,6 +2920,7 @@ ar:
             explanation: 'يمكن للمستخدم إنشاء  ملف تصدير CSV من قائمة الحوادث أو صفحات عرض الحوادث، والتي تحتوي على جميع الحقول التي يمكن للمستخدم الحالي الوصول إليها، والمرتبطة بحادثة واحدة أو حوادث متعددة أو جميع الحوادث التي يمكن للمستخدم الوصول إليها. '
             label: تصدير CSV
           export_custom:
+            explanation: يمكن للمستخدم تحديد نماذج أو حقول محددة لتصديرها إلى ملف XLS.
             label: تصدير ملف مخصص
           export_incident_recorder_xls:
             explanation: يمكن للمستخدم إنشاء تصدير ملف XLS متخصّص يسمح بتبادل البيانات باستخدام أداة تسجيل حادثة العنف القائم على النوع الإجتماعي.
@@ -2735,9 +2943,18 @@ ar:
           flag:
             explanation: القدرة على إضافة علم إلى حادثة. يمكن للمستخدمين الذين لديهم هذا الإذن أيضًا إزالة العلامات التي أضافوها إلى إحدى الحوادث.
             label: تمييز بعلامة
+          resolve_any_flag:
+            explanation: يسمح للمستخدم بحل أي علامة في السجل، بغض النظر عمن قام بإنشاء العلامة.
+            label: إزالة أية علامة
           import:
             explanation: يسمح للمستخدم بإنشاء حادثة واحدة جديدة أو أكثر من خلال استيرادها من ملف CSV أو Excel أو JSON. يجب أن يكون الملف المستورد  مهيّأ *جدًّا* وخصوصًا حتى يتمّ استيراد المعلومات بشكل صحيح. يجب أن تكون هذه الوظيفة متاحة فقط للمستخدمين الإداريين ذوي المهارات التقنية المتقدّمة والمعرفة العميقة بكيفية تهيئة البيانات في Primero. يتمّ تنفيذها فقط من صفحة قائمة الحوادث.
             label: استيراد
+          remove_alert:
+            explanation: يسمح هذا الإذن للمستخدم بإزالة تنبيه من حادث ما. يتم عادةً إنشاء التنبيهات عند تحرير حقل معين، كما هو الحال عند تحديث الملاحظات. تظهر التنبيهات عادةً بنقطة صفراء بجوار الحادث.
+            label: إزالة التنبيه من الحادث
+          link_incident_to_case:
+            explanation: يسمح للمستخدم بربط الحادث بالحالة المحددة.
+            label: ربط حادث بحالة
           manage:
             explanation: يسمح للمستخدم بتنفيذ جميع الإجراءات المتاحة للحوادث. يعني إذْن "الإدارة" بشكل أساسي "كل شيء".
             label: إدارة (كافة الأذونات لهذا النوع من الموارد)
@@ -2747,6 +2964,9 @@ ar:
           sync_mobile:
             explanation: يسمح هذا الإذن بشكل عام للمستخدم باستخدام تطبيق الهاتف المحمول. أولاً ، يسمح للمستخدم بمشاهدة إجراءات "تحديد للهاتف الجوال" و "ازالة التحديد للهاتف الجوال"، والتي تظهر في قائمة الحوادث وصفحات عرض الحوادث. يشير تحديد الحادثة للجوال إلى أنه يجب مزامنة المعلومات الخاصة بهذه الحادثة بين جهاز المستخدم  المحمول والتطبيق على الإنترنت، بينما يؤدي إلغاء تحديد الحادثة للهاتف الجوال إلى إيقاف هذه المزامنة. بالإضافة إلى ذلك، لا يمكن للمستخدمين الذين ليس لديهم هذا الإذن مزامنة هواتفهم المحمولة مع التطبيق على الإنترنت بشكل عام، ممّا يعني أنه لا يمكنهم استخدام تطبيق الهاتف لإدارة الحوادث.
             label: مزامنة مع الهاتف المحمول
+          verify_mrm:
+            explanation: يمكن لمستخدم MRM تغيير لائحة الانتهاكات.
+            label: تحقق من MRM
           write:
             explanation: القدرة على نقر زر "تعديل" وتحديث المعلومات عن الحادثة ثم النقر على "حفظ". تسمح أيضًا للمستخدم بتعطيل حادثة أو تفعيلها.
             label: تعديل
@@ -2757,34 +2977,70 @@ ar:
         label: هل هو مدير؟
       managed_report:
         actions:
+          reporting_locations_report:
+            label: موقع الإبلاغ (حالات)
+            explanation: القدرة على عرض إحصائيات حول عدد الحالات المسجلة خلال نطاق زمني معين، وتصفيتها حسب موقع الإبلاغ، ومقسمة حسب العمر والجنس. يسمح هذا الإذن أيضًا للمستخدم بتصدير البيانات من Insight.
+          followups_report:
+            label: متابعات (حالات)
+            explanation: القدرة على عرض إحصائيات حول عدد المتابعات التي تم إجراؤها خلال نطاق زمني محدد، والتي تمت تصفيتها حسب نوع المتابعة، ومقسمة حسب العمر والجنس. يسمح هذا الإذن أيضًا للمستخدم بتصدير البيانات من Insight.
+          services_report:
+            label: خدمات (حالات)
+            explanation: القدرة على عرض إحصائيات حول عدد الخدمات المقدمة خلال نطاق زمني معين، مفلترة حسب نوع الخدمة، ومقسمة حسب العمر والجنس. يسمح هذا الإذن أيضًا للمستخدم بتصدير البيانات من Insight.
+          protection_concerns_report:
+            label: مخاوف تتعلق بالحماية (حالات)
+            explanation: القدرة على عرض إحصائيات حول اهتمامات الحماية للحالات المسجلة خلال نطاق زمني محدد. يسمح هذا الإذن أيضًا للمستخدم بتصدير البيانات من Insight.
+          managed_report_scope:
+            label: ما السجلات التي يجب أن يتمكن هذا الدور من رؤيتها في Insights؟
+          managed_report_scope_all:
+            label: الكل
+          managed_report_scope_group:
+            label: البيانات المستندة إلى المجموعة فقط
+          managed_report_scope_agency:
+            label: البيانات المستندة إلى الهيئة فقط
           violations:
+            explanation: القدرة على الوصول إلى MRM Violences Insight.
             label: الانتهاكات
           gbv_statistics:
+            explanation: القدرة على الوصول لرؤية إحصاءات العنف القائم على النوع الاجتماعي.
             label: احصاءات GBV
           ghn_report:
+            explanation: القدرة على الوصول إلى MRM Global Horizontal Note Insight.
             label: المذكرة الافقية الشاملة
           individual_children:
+            explanation: القدرة على الوصول إلى MRM Individual Children Insight.
             label: الأطفال الفرديين
+          workflow_report:
+            label: سير العمل (حالات و حوادث)
+            explanation: القدرة على عرض إحصائيات حالة سير العمل لكلا الحالتين والأحداث المرتبطة بهما. يسمح هذا الإذن أيضًا للمستخدم بتصدير البيانات من Insight.
+          cases_workflow_report:
+            label: سير العمل (حالات)
+            explanation: القدرة على عرض الإحصائيات حول حالات حالة سير العمل. يسمح هذا الإذن أيضًا للمستخدم بتصدير البيانات من Insight.
+          violence_type_report:
+            label: نوع العنف (حالات وحوادث)
+            explanation: القدرة على عرض إحصائيات عن نوع العنف. يسمح هذا الإذن أيضًا للمستخدم بتصدير البيانات من Insight.
+          referrals_transfers_report:
+            label: الإحالات والانتقالات (حالات)
+            explanation: يرى المستخدمون عدد الحالات التي تم إحالتها ونقلها من كل مجموعة مستخدمين إلى كل مجموعة مستخدمين أخرى.
       matching_configuration:
         actions:
           manage:
             explanation: القدرة على التحكم في الحقول التي تتم مقارنتها للعثور على التطابقات بين طلب التتبع والحالة. نظرًا لأن هذا يتحكم في كيفية تشغيل المطابقة في النظام بأكمله، يجب أن يكون هذا الإذن متاحًا فقط لمسؤول النظام.
             label: إدارة (كافة الأذونات لهذا النوع من الموارد)
         explanation: يتحكم في الحقول المستخدمة لمقارنة طلبات التتبع بالحالات أثناء تتبع الأسرة ولم شملها.
-        label: تضبيطات المطابقة
+        label: إعدادات مطابقة
       metadata:
         actions:
           manage:
-            explanation: القدرة على إنشاء وتعديل وترجمة وحذف النماذج وحقول النماذج وعمليات البحث. يرجى ملاحظة أن المستخدم الذي لديه هذا الإذن سيكون قادرًا فقط على إدارة النماذج التي يمكنه الوصول إليها. على سبيل المثال، إذا كان للمسؤول الوطني القدرة فقط على رؤية نموذج مالك السجل في الحالات، لن يتمكن إلا من تحديث تضبيط هذا النموذج.
+            explanation: القدرة على إنشاء وتعديل وترجمة وحذف النماذج وحقول النماذج وعمليات البحث. يرجى ملاحظة أن المستخدم الذي لديه هذا الإذن سيكون قادرًا فقط على إدارة النماذج التي يمكنه الوصول إليها. على سبيل المثال، إذا كان للمسؤول الوطني القدرة فقط على رؤية نموذج مالك السجل في الحالات، لن يتمكن إلا من تحديث إعداد هذا النموذج.
             label: إدارة (كافة الأذونات لهذا النوع من الموارد)
         explanation: يتحكم في القدرة على تكوين نماذج وحقول Primero ، بالإضافة إلى خيارات البحث المستخدمة داخلها.
         label: النماذج، البحث
       module:
         actions:
           cp:
-            label: CP
+            label: حماية الطفل
           gbv:
-            label: العنق القائم على النوع الإجتماعي
+            label: العنف القائم على النوع الإجتماعي
           mrm:
             label: MRM
         explanation: يتحكّم في الوحدات النمطية التي ينطبق عليها هذا الدور
@@ -2807,9 +3063,9 @@ ar:
       primero_configuration:
         actions:
           manage:
-            explanation: القدرة على حفظ التكوينات وتطبيقها وإرسالها. عادة ما يكون هذا الإذن محجوزًا لمسؤول النظام.
+            explanation: القدرة على حفظ الإعدادات وتطبيقها وإرسالها. عادة ما يكون هذا الإذن محجوزًا لمسؤول النظام.
             label: إدارة (كافة الأذونات لنوع المورد هذا)
-        label: ترتيب
+        label: إعدادات
       referral:
         actions:
           refer:
@@ -2839,6 +3095,9 @@ ar:
           flag:
             explanation: القدرة على إضافة علامة إلى سجل التسجيل. يمكن للمستخدمين الذين لديهم هذا الإذن أيضًا إزالة العلامات التي قاموا بإضافتها إلى سجل التسجيل.
             label: تمييز بعلامة/وضع علامة
+          resolve_any_flag:
+            explanation: يسمح للمستخدم بحل أي علامة في السجل، بغض النظر عمن قام بإنشاء العلامة.
+            label: حل أي علامة
           manage:
             explanation: يسمح للمستخدم بتنفيذ جميع الإجراءات المتاحة على سجلات التسجيل. إذن "الإدارة" يعني أساسًا "كل شيء".
             label: إدارة (كافة الأذونات لهذا النوع من الموارد)
@@ -2853,13 +3112,70 @@ ar:
             label: وضع علامة على عدم الاتصال بالانترنت
         explanation: يمكن أن يمثل هذا فردًا أو مؤسسة تحتاج إلى ربطها بسجلات أخرى مثل الحالات أو الحوادث ، وهي كثيرة جدًا ويتم تحديثها بشكل متكرر بمعلومات جديدة. إنها تشبه عمليات البحث ، ولكن مع مجموعة أكثر تعقيدًا من المعلومات لكل إدخال.
         label: سجل التسجيل
+      family:
+        actions:
+          change_log:
+            explanation: يمكن للمستخدم رؤية سجل بجميع التغييرات التي تم إجراؤها على السجل منذ إنشائه. يتضمن ذلك القيم المسجلة لجميع الحقول.
+            label: سجل التغيير
+          create:
+            explanation: القدرة على إنشاء سجل العائلة
+            label: إنشاء
+          enable_disable_record:
+            explanation: القدرة على تعطيل أو تفعيل الأسرة. لا تظهر العائلات "المعطلة" بشكل افتراضي في قائمة العائلة. يمكن للمستخدمين رؤية العائلات المعطلة في قائمة العائلة باستخدام عامل التصفية.
+            label: تفعيل / تعطيل
+          export_csv:
+            explanation: 'يمكن للمستخدم إنشاء تصدير ملف CSV من قائمة العائلة أو صفحات عرض العائلة، والتي تحتوي على جميع المجالات التي يمكن للمستخدم الحالي الوصول إليها، لاسرة واحد أو اكثر ا. ملاحظة: لا يعطي تصدير CSV حروف غير لاتينية (مثل العربية)'
+            label: تصدير من نوع CSV
+          export_json:
+            explanation: يمكن للمستخدم إنشاء تصدير ملف JSON من قائمة العائلة أو صفحات عرض العائلة، والتي تحتوي على جميع المجالات التي يمكن للمستخدم الحالي الوصول إليها. تنسيق JSON قابل للقراءة آليًا وليس عمليًا لمعظم المستخدمين.
+            label: تصدير من نوع JSON
+          export_xls:
+            explanation: 'يمكن للمستخدم إنشاء تصدير ملف XLS من قائمة العائلة أو صفحات عرض العائلة، والتي تحتوي على جميع المجالات التي يمكن للمستخدم الحالي الوصول إليها. ملاحظة: يجعل  XLS الأحرف غير اللاتينية (مثل العربية) مقروئة، في حين أن تصدير CSV لا يفعل ذلك.'
+            label: تصدير من نوع XLS
+          export_list_view_csv:
+            explanation: يمكن للمستخدم إنشاء تصدير ملف CSV من صفحة قائمة العائلة والتي تحتوي على نفس الحقول التي تظهر لذلك المستخدم في قائمة العائلة. يؤدى فقط من صفحة قائمة العائلة.
+            label: تصدير للائحة على شكل CSV
+          export_pdf:
+            explanation: يمكن للمستخدم إنشاء تصدير ملف PDF من قائمة العائلة أو صفحات العرض العائلي، والتي تحتوي على جميع المجالات التي يمكن للمستخدم الحالي الوصول إليها، لسجل واحد أو اكثر والتي يمكن للمستخدم الوصول إليها. في ملف تصدير PDF، يتم سرد المعلومات أولاً حسب الأسرة، ثم يتم تنظيمها من خلال النموذج الذي تظهر عليه المعلومات.
+            label: تصدير على شكل PDF
+          export_custom:
+            label: تصدير لحقول مخصصة من الملف
+            explanation: يمكن للمستخدم اختيار نماذج أو حقول محددة من قائمة العائلة أو صفحات عرض العائلة للتصدير إلى ملف XLS.
+          flag:
+            explanation: القدرة على إضافة اشارة علم إلى العائلة. يمكن للمستخدمين الحاصلين على هذا الإذن أيضًا إزالة اشارات الأعلام التي أضافوها إلى العائلة.
+            label: علامة
+          resolve_any_flag:
+            explanation: يسمح للمستخدم بحل أي علامة في السجل، بغض النظر عمن قام بإنشاء العلامة.
+            label: حل أية علامة
+          manage:
+            explanation: يسمح للمستخدم بتنفيذ جميع الإجراءات المتاحة على العائلات. إذن "الإدارة" يعني في الأساس "كل شيء".
+            label: إدارة (جميع الأذونات لهذا النوع من الموارد)
+          read:
+            explanation: القدرة على رؤية العائلات
+            label: عرض
+          write:
+            explanation: القدرة على الضغط على زر "تعديل" وتحديث المعلومات الخاصة بالعائلة والنقر على "حفظ".
+            label: تعديل
+          sync_mobile:
+            explanation: يسمح للمستخدم بتخزين سجلات العائلة مؤقتًا للاستخدام دون الاتصال بالإنترنت.
+            label: وضع علامة على غير متصل
+          close:
+            explanation: يسمح للمستخدم بتعيين حالة عائلة مفتوحة إلى مغلقة.
+            label: غلق
+          reopen:
+            explanation: يمكن أن تساعد هذه الحالات على فتح أبوابها.
+            label: إعادة فتح
+          case_from_family:
+            explanation: يسمح للمستخدمين بإنشاء حالة جديدة من نموذج فرعي لأعضاء العائلة داخل سجل العائلة.
+            label: إنشاء حالة
+        label: العائلة
       report:
         actions:
           create:
             explanation: القدرة على إنشاء تقرير جديد. عندما يُنشئ المستخدم تقريرًا، يصبح مرئيًا لجميع المستخدمين الذين لديهم حق الوصول "للقراءة" أو "قراءة المجموعة" في التقارير.
             label: إنشاء
           group_read:
-            explanation: القدرة على عرض جميع التقارير. ستعكس الأرقام في كلّ تقرير فقط السجلات التي يمكن الوصول إليها من قبل المستخدمين في مجموعات المستخدمين المستخدم الحالي. غالبًا ما يستخدم هذا الإذن للمسؤولين المحليين أو الإقليميين أو الوكالات الذين يتطلعون إلى الإطلاع على أداء فرقهم أو منظماتهم. يمنح هذا الإذن المستخدم أيضًا القدرة على تصدير البيانات من تقرير معيّن.
+            explanation: القدرة على عرض جميع التقارير. ستعكس الأرقام في كلّ تقرير فقط السجلات التي يمكن الوصول إليها من قبل المستخدمين في مجموعات المستخدمين المستخدم الحالي. غالبًا ما يستخدم هذا الإذن للمسؤولين المحليين أو الإقليميين أو الهيئات الذين يتطلعون إلى الإطلاع على أداء فرقهم أو منظماتهم. يمنح هذا الإذن المستخدم أيضًا القدرة على تصدير البيانات من تقرير معيّن.
             label: عرض (البيانات المستندة إلى المجموعة)
           manage:
             explanation: يسمح للمستخدم بتنفيذ جميع الإجراءات المتاحة للوكالات. يعني إذْن "الإدارة" بشكل أساسي "كل شيء".
@@ -2871,8 +3187,8 @@ ar:
             explanation: القدرة على تعديل كلّ التقارير (بما في ذلك تلك التي أنشأها مستخدمون آخرون).
             label: تعديل
           agency_read:
-            explanation: القدرة على عرض جميع التقارير. ستعكس الأرقام الواردة في كل تقرير فقط تلك السجلات التي يمكن الوصول إليها من قبل المستخدمين في وكالة المستخدم الحالية. غالبًا ما يستخدم هذا الإذن لمسؤولي نظام الوكالة.
-            label: عرض (البيانات المستندة إلى المنظمة)
+            explanation: القدرة على عرض جميع التقارير. ستعكس الأرقام الواردة في كل تقرير فقط تلك السجلات التي يمكن الوصول إليها من قبل المستخدمين في الهيئة المستخدمة الحالية. غالبًا ما يستخدم هذا الإذن لمسؤولي نظام الهيئة.
+            label: عرض (البيانات المستندة إلى الهيئة)
         explanation: أداة تحليل البيانات المجمعة. يشمل تمثيلات الجدول والرسم البياني للبيانات.
         label: تقرير
       reporting_location_level:
@@ -2896,7 +3212,7 @@ ar:
             explanation: 'يسمح للمستخدم بتنفيذ جميع الإجراءات المتاحة على الأدوار. إذن "الإدارة" يعني أساسًا "كل شيء". هام: يمنح هذا الإذن أيضًا القدرة على إنشاء أدوار وحذفها.'
             label: إدارة (كافة الأذونات لهذا النوع من الموارد)
           permitted_roles:
-            explanation: إذا كان لدور ما القدرة على تنفيذ أي من الإجراءات المذكورة أعلاه على دور، فسيكون قادرًا على تنفيذ تلك الإجراءات على الأدوار المحددة في هذه القائمة. لذلك، على سبيل المثال، إذا كان الدور لديه إذن "قراءة" و "تعيين" للأدوار، ولكن تمّ إدراج "الإختصاصي الإجتماعي CP" و "المدير CP" فقط على أنّهما "الأدوار المُدارة"، فسيكون قادرًا فقط على رؤية هذين الدورين وسيكون قادرًا فقط على تعيين مستخدمين جدد لهذين الدورين. إذا لم يتمّ تحديد "الأدوار المُدارة" للدور نفسه، فسيكون قادرًا على رؤية جميع الأدوار وسيكون قادرًا على إنشاء حسابات مستخدمين جديدة بأي دور في النظام.
+            explanation: إذا كان لدور ما القدرة على تنفيذ أي من الإجراءات المذكورة أعلاه على دور، فسيكون قادرًا على تنفيذ تلك الإجراءات على الأدوار المحددة في هذه القائمة. لذلك، على سبيل المثال، إذا كان الدور لديه إذن "قراءة" و "تعيين" للأدوار، ولكن تمّ إدراج "اخصائي الحالة CP" و "المدير CP" فقط على أنّهما "الأدوار المُدارة"، فسيكون قادرًا فقط على رؤية هذين الدورين وسيكون قادرًا فقط على تعيين مستخدمين جدد لهذين الدورين. إذا لم يتمّ تحديد "الأدوار المُدارة" للدور نفسه، فسيكون قادرًا على رؤية جميع الأدوار وسيكون قادرًا على إنشاء حسابات مستخدمين جديدة بأي دور في النظام.
             label: الأدوار الأخرى التي يديرها هذا الدور
           read:
             explanation: القدرة على إنشاء الأدوار
@@ -2911,7 +3227,7 @@ ar:
           manage:
             explanation: القدرة على رؤية المعلومات وتحديثها ضمن معلومات الاتصال في النظام والإشعارات الافتراضية وإعدادات البريد الإلكتروني والإعداد الترحيبية والخوادم المتزامنة. عادة ما يكون هذا الإذن مخصّصًا لمسؤول النظام
             label: إدارة (كافة الأذونات لهذا النوع من الموارد)
-        explanation: إعدادات التكوين المتنوعة على مستوى النظام.
+        explanation: ' الإعدادات المتنوعة على مستوى النظام.'
         label: النظام
       tracing_request:
         actions:
@@ -2948,6 +3264,9 @@ ar:
           flag:
             explanation: القدرة على إضافة علم إلى طلب تتبّع. يمكن للمستخدمين الذين لديهم هذا الإذن أيضًا إزالة العلامات التي أضافوها إلى إحدى طلبات التتبّع.
             label: تمييز بعلامة
+          resolve_any_flag:
+            explanation: يسمح للمستخدم بحل أي علامة في السجل، بغض النظر عمن قام بإنشاء العلامة.
+            label: حل أية علامة
           import:
             explanation: يسمح للمستخدم بإنشاء حالة واحدة جديدة أو أكثر من خلال استيرادها من ملف CSV أو Excel أو JSON. يجب أن يكون الملف المستورد  مهيّأ *جدًّا* وخصوصًا حتى يتمّ استيراد المعلومات بشكل صحيح. يجب أن تكون هذه الوظيفة متاحة فقط للمستخدمين الإداريين ذوي المهارات التقنية المتقدّمة والمعرفة العميقة بكيفية تهيئة البيانات في Primero. يتمّ تنفيذها فقط من صفحة قائمة الحالة.
             label: استيراد
@@ -2971,8 +3290,8 @@ ar:
       user:
         actions:
           agency_read:
-            explanation: القدرة على رؤية حسابات المستخدمين في وكالة المستخدم الحالية فقط. يؤثر هذا أيضًا على حسابات المستخدمين التي يمكن للمستخدم الحالي تنفيذ إجراءات أخرى عليها. على سبيل المثال ، إذا كان المستخدم الحالي لديه إذن "كتابة" على المستخدمين، ولكن لديه أيضًا إذن قراءة الوكالة، فسيكون قادرًا فقط على تعديل حسابات المستخدمين الموجودة في وكالته الخاصة. وبالمثل، إذا كان المستخدم الحالي لديه إذن "إدارة" للمستخدمين، ولكن لديه إذن "قراءة الوكالة"، فسيكون قادرًا فقط على إنشاء مستخدمين لوكالته الخاصة.
-            label: عرض (ضمن الوكالة)
+            explanation: القدرة على رؤية حسابات المستخدمين في الهيئة المستخدمة الحالية فقط. يؤثر هذا أيضًا على حسابات المستخدمين التي يمكن للمستخدم الحالي تنفيذ إجراءات أخرى عليها. على سبيل المثال ، إذا كان المستخدم الحالي لديه إذن "كتابة" على المستخدمين، ولكن لديه أيضًا إذن قراءة الهيئة، فسيكون قادرًا فقط على تعديل حسابات المستخدمين الموجودة في هيئته الخاصة. وبالمثل، إذا كان المستخدم الحالي لديه إذن "إدارة" للمستخدمين، ولكن لديه إذن "قراءة الهيئة"، فسيكون قادرًا فقط على إنشاء مستخدمين لهيئته الخاصة.
+            label: عرض (ضمن الهيئة)
           create:
             explanation: القدرة على إنشاء حساب مستخدم
             label: إنشاء
@@ -3007,31 +3326,33 @@ ar:
           write:
             explanation: القدرة على تعديل مجموعات المستخدمين.
             label: تعديل
-        explanation: يمثل فريقًا أو مجموعة متعاونة من المستخدمين الذين يمكنهم مشاركة المعلومات. يمكن للمديرين عادةً رؤية جميع السجلات التي يديرها الأخصائيون الاجتماعيون في مجموعات المستخدمين الخاصة بهم.
+        explanation: يمثل فريقًا أو مجموعة متعاونة من المستخدمين الذين يمكنهم مشاركة المعلومات. يمكن للمديرين عادةً رؤية جميع السجلات التي يديرها اخصائيون الحالة في مجموعات المستخدمين الخاصة بهم.
         label: مجموعات المستخدمين
       webhook:
         actions:
           read:
             label: رؤية/تصفح
-            explanation: القدرة على سرد ومراجعة تكوينات webhook عبر واجهة برمجة التطبيقات
+            explanation: القدرة على سرد ومراجعة إعدادات webhook عبر واجهة برمجة التطبيقات
           write:
             label: تعديل
-            explanation: القدرة على إنشاء وتعديل تكوين webhook عبر واجهة برمجة التطبيقات.
+            explanation: القدرة على إنشاء وتعديل إعدادات webhook عبر واجهة برمجة التطبيقات.
           create:
-            explanation: القدرة على إنشاء تكوين webhook عبر واجهة برمجة التطبيقات.
+            explanation: القدرة على إنشاء إعدادات webhook عبر واجهة برمجة التطبيقات.
             label: إنشاء
           delete:
-            explanation: القدرة على حذف تكوين webhook عبر واجهة برمجة التطبيقات.
+            explanation: القدرة على حذف إعدادات webhook عبر واجهة برمجة التطبيقات.
             label: حذف/إزالة
           manage:
             label: إدارة (كافة الأذونات لهذا النوع من الموارد)
+            explanation: يُستخدم لأدوار النظام التي تصل إلى Primero Webhooks للأنظمة الأخرى. لا ينصح باستخدامه لغير المطورين.
       activity_log:
         actions:
           transfer:
-            explanation: يمكن للمستخدم النقر فوق قسم سجل التغيير/النشاطات في لوحة ملخص البيانات (داشبورد) والاطلاع على سجل بجميع عمليات النقل المقبولة أو المرفوضة للحالات التي يمكنهم الوصول إليها.
+            explanation: يمكن للمستخدم النقر فوق قسم سجل النشاطات في لوحة ملخص البيانات والاطلاع على سجل بجميع عمليات النقل المقبولة أو المرفوضة للحالات التي يمكنهم الوصول إليها.
             label: عمليات النقل
           manage:
             label: إدارة (كافة الأذونات لهذا النوع من الموارد)
+            explanation: القدرة على الوصول إلى كافة.
         label: سجل التغيير
   potential_match:
     case_id: هوية الحالة
@@ -3043,8 +3364,8 @@ ar:
     inquiry_date: تاريخ الاستفسار
     name: الاسم
     score: النتيجة
-    social_worker: 'الاخصائي الاجتماعي\ الاخصائية الاجتماعية '
-    social_worker_agency: مؤسسة
+    social_worker: 'اخصائي الحالة '
+    social_worker_agency: الهيئة
     tracing_request_id: معرّف طلبات التتبّع
     trace: تتبّع
     likelihood_likely: مرجح
@@ -3053,23 +3374,24 @@ ar:
     display: عرض النتائج المطابقة المحتملة لـ %{type} %{id}
   reassign:
     multiple_error: حدث خطأ. لم يتم تعيين الحالة (الحالات) %{select_records}.
-    multiple_successfully: 'تم تعيين الحالة (الحالات) %{select_records} بنجاح'
+    multiple_successfully: Primero يحدث في هذه الاثنات الحالات % {select _ records} . قد يستغرق تحديث كل هذه الحالات عدة دقائق.
     notes_label: ملاحظات
     successfully: تمت إعادة التعيين بنجاح
     user_mandatory_label: يجب إدخال إسم المستلِم
     users_label: المستلِم
+    incident_from_case_warning: لا يمكنك تعيين هذه الحادثة، لأنها مرتبطة بالفعل بحالة ما. عندما تقوم بتعيين الحالة، يتم تعيين الحادث أيضًا.
   record_information:
     assigned_user_names: 'المستخدمين الأخرين '
     created_at: تم إنشاء السجل في
     created_by: تم إنشاء السجل بواسطة
-    created_organization: 'تم الإنشاء بواسطة مؤسسة/ منظمة '
+    created_organization: تم الإنشاء بواسطة الهيئة
     current_owner_separator: المالك الحالي
     module_id: وحدة
-    owned_by: 'رمز الاخصائي الاجتماعي '
-    owned_by_agency_id: وكالة
-    owned_by_text: الحقل/حالة/اختصاصي إجتماعي
+    owned_by: 'كود اخصائي الحالة '
+    owned_by_agency_id: الهيئة
+    owned_by_text: الحقل/حالة/اخصائي الحالة
     previously_owned_by: المستخدم السابق
-    previously_owned_by_agency: 'المنظمة السابقة '
+    previously_owned_by_agency: 'الهيئة السابقة '
     reassigned_tranferred_on: إعادة التعيين / التحويل في
     record_history_separator: تسجيل التاريخ
     last_updated_at: تاريخ اخر تحديث
@@ -3079,7 +3401,9 @@ ar:
   referral:
     type_of_recipient: نوع المستلِم
     type_of_referral_required: مطلوب إدخال نوع الإحالة
-    agency_label: مؤسسة
+    referral_authorization_label: هل ترغب في تحديد نوع الإحالة؟
+    referral_authorization_help_text: سيؤدي هذا إلى تحديد النماذج التي يمكن للمستلم الوصول إليها.
+    agency_label: الهيئة
     is_remote_label: هل ترغب في احالة الحالة لمؤسسة من خارج النظام؟
     location_label: الموقع
     notes_label: ملاحظات
@@ -3140,6 +3464,7 @@ ar:
     record_type: نوع السجل
     total: الإجمالي
     value: قيمة
+    incomplete_data: بيانات غير مكتملة
   reports:
     delete_report: حذف التقرير
     delete_report_message: هل أنت متأكد أنك تريد حذف هذا التقرير؟ لا يمكن التراجع عن الحذف. انقر فوق تمّ لحذف التقرير.
@@ -3178,7 +3503,7 @@ ar:
     successfully_updated: تم تحديث تفاصيل الدور بنجاح.
     transfer_label: هل يمكن استخدام هذا الدور لعمليات النقل؟
     hide: إخفاء
-    read: تبين
+    read: عرض
     read_write: عرض وتحرير
   roles:
     label: دور المستخدم
@@ -3195,9 +3520,9 @@ ar:
     save_search: عملية بحث محفوظة
   settings:
     navigation:
-      agencies: الوكالات
+      agencies: الهيئات
       audit_logs: سجلات التدقيق
-      configurations: تضبيطات
+      configurations: إعدادات
       contact_information: معلومات الاتصال
       forms: النماذج
       locations: المواقع
@@ -3221,7 +3546,7 @@ ar:
     priority: مستوى الأولوية
     status: الوضع
     statuses:
-      overdue: متأخة
+      overdue: متأخرة
       upcoming_soon: أوشك على الاستحقاق
     type: نوع الإجراء
     types:
@@ -3315,9 +3640,45 @@ ar:
       title: وضع علامة على عدم الاتصال بالانترنت
       text: هل أنت متأكد أنك تريد وضع علامة على سجلات التسجيل هذه لاستخدامها عندما تكون غير متصل؟
       success: تم وضع علامة على سجلات التسجيل بنجاح للاستخدام دون اتصال بالانترنت
+  families:
+    id: بطاقة تعريف
+    label: العائلة
+    family_id: معرف العائلة
+    family_number: رقم العائلة
+    family_name: اسم العائلة
+    family_registration_date: تاريخ التسجيل
+    family_location_current: مكان العائلة
+    export: استيراد
+    register_new_family: عائلة جديدة
+    show_family: 'رقم ملف العائلة %{short_id}'
+    disable_dialog_title: سجل عائلة معطل
+    disable_dialog: سيؤدي النقر فوق "موافق" إلى تغيير حالة هذه العائلة إلى "معطل".
+    selected_records: '%{select_records} سجل (سجلات) عائلية تم اختيارها'
+    selected_all_records: 'حدد جميع %{total_records} العائلات التي تطابق هذا الاستعلام.'
+    mark_for_offline:
+      title: وضع علامة على غير متصل
+      text: هل أنت متأكد من أنك تريد وضع علامة على سجلات العائلة هذه لاستخدامها عندما تكون غير متصل بالإنترنت؟
+      success: تم وضع علامة على سجلات العائلة بنجاح للاستخدام دون اتصال
+    filter_by:
+      by_date: ب تاريخ
+      status: الوضع
+      current_location: مكان العائلة
+  family:
+    family_member:
+      case_id: معرف الحالة
+      update_and_return: التحديث والعودة
+      save_and_return: إضافة والعودة
+      create_case: إنشاء حالة
+      back_to_family_members: العودة إلى أعضاء العائلة
+      create: إنشاء
+    messages:
+      update_success: 'تم تحديث ملف العائلة رقم % {record _ id} بنجاح.'
+      creation_success: 'تم إنشاء سجل العائلة بنجاح.'
+      disabled: العائلة معطلة
+      confirm_create_case: هل تريد إنشاء حالة لهذا الشخص؟
   transfer:
     label: نقل
-    agency_label: مؤسسة
+    agency_label: الهيئة
     consent_from_individual_label: هل حصلت على موافقة الشخص لإجراء هذا التحويل؟
     consent_label: لم توفر السجلات الموافقة.
     consent_override_label: هل ترغب في تجاوز تعبئة نموذج الموافقة؟
@@ -3334,7 +3695,7 @@ ar:
   transfer_assignment:
     title: عمليات النقل والتعيينات
   transition:
-    agency_label: وكالة
+    agency_label: الهيئة
     assigned_by: تعيين من قِبَل
     consent_individual_transfer_value:
       true_label: 'نعم'
@@ -3360,6 +3721,7 @@ ar:
       inprogress: معلّقة
       rejected: رُفض
       revoked: تم الغاء او ملغي
+    transferred_by: منقول بواسطة
     type:
       assign: تعيين
       reassign: تعيين
@@ -3368,8 +3730,8 @@ ar:
       transfer: تحويل
       transferRequest: طلب التحويل
   user:
-    agency_office: مكتب المؤسسة (موقع العنف المبني على النوع الاجتماعي)
-    code: 'رمز المستخدم '
+    agency_office: مكتب الهيئة (موقع العنف المبني على النوع الاجتماعي)
+    code: 'كود المستخدم '
     disabled: 'مُعطلة  '
     email: البريد الإلكتروني
     full_name: الاسم الكامل
@@ -3380,6 +3742,7 @@ ar:
     locale: موضع
     location: الموقع
     messages:
+      records_update: يقوم Primero بتحديث سجلات هذا المستخدم لتعكس التغييرات التي أجريتها. قد يستغرق تحديث لوحات المعلومات والتقارير بعض الوقت.
       confirmation: 'هل أنت متأكد أنك تريد حذف هذا المستخدم؟ لا يمكن التراجع عن الحذف. انقر فوق موافق لحذف المستخدم. '
       created: تم إنشاء المستخدم بنجاح.
       failure: حدث خطأ، يرجى الاتصال بالدعم.
@@ -3390,9 +3753,10 @@ ar:
       passwords_do_not_match: لا تطابق كلمة المرور الحالية
       time_zone_updated: تم تحديث التغيير بنجاح.
       updated: تم تحديث المستخدم بنجاح.
+      created_warning: لقد قمت بإنشاء% {إجمالي _ تمكين} من% {الحد الأقصى _ المستخدمين} المسموح للمستخدمين.
     organization: المنظمة
-    agency: وكالة
-    services_help_text: إذا لم تحدّد الخدمات، سيتم منح هذا المستخدم نفس الخدمات التي تتوفر لوكالته.
+    agency: الهيئة
+    services_help_text: إذا لم تحدّد الخدمات، سيتم منح هذا المستخدم نفس الخدمات التي تتوفر لهيئته.
     password_setting:
       label: كيف يجب على بريميرو Primero تعيين كلمة مرور المستخدم؟
       self: سوف أقوم بتعيين كلمة المرور
@@ -3408,6 +3772,21 @@ ar:
     provider_username_help: 'مثلاً:  %{domain}@my.username'
     role_id: دور
     send_mail: استلام إشعارات عبر الايميل؟
+    send_mail_preferences:
+      label: ما أنواع إشعارات البريد الإلكتروني التي ترغب في تلقيها؟
+      help_text: إذا تركت هذا الحقل فارغًا، فستتلقى جميع إشعارات البريد الإلكتروني.
+    receive_webpush:
+      label: تلقي الإخطارات؟
+      help_text: لاحظ أنك ستظل بحاجة إلى السماح بدفع الإشعارات على متصفح جهازك.
+      tooltip: يجب عليك أولاً تعديل حسابك وتمكين الإشعارات المباشرة للمستخدم الخاص بك.
+    receive_webpush_preferences:
+      label: ما هي أنواع الإشعارات الفورية التي ترغب في تلقيها؟
+      help_text: إذا تركت هذا الحقل فارغًا، فستتلقى جميع الإشعارات الفورية.
+    notification_preferences:
+      approval_request: 'طلب الموافقة (المديرين)'
+      approval_response: 'الاستجابة للموافقة (اخصائيون الحالة)'
+      transition_notification: 'التعيينات والانتقالات والإحالات'
+      transfer_request: 'طلب نقل'
     user_group_unique_ids: مجموعات المستخدمين
     user_name: اسم المستخدم
     services: الخدمات
@@ -3439,7 +3818,7 @@ ar:
       request_submitted: "تم إرسال طلب إعادة تعيين كلمة المرور"
       success: "تمّ تغيير كلمة المرور بنجاح"
       errors:
-        reset_password_token: "رمز إعادة تعيين كلمة المرور غير صالح"
+        reset_password_token: "كود إعادة تعيين كلمة المرور غير صالح"
         password_confirmation: "يجب أن تتطابق كلمات المرور"
     onboard_email:
       subject: "الإنضمام إلى %{system}"
@@ -3449,7 +3828,7 @@ ar:
       body2_reset_notification: "ستتلقى رسالة بريد إلكتروني إضافية تطالبك بإعادة تعيين كلمة المرور الخاصة بك."
       body3: "أنت مسؤول عن ضمان التنفيذ الآمن وفي الوقت المناسب. لكلّ عملية مطروحة، يجب أن تكون قد أكملت خطة التنفيذ مع إستراتيجية إدارة المستخدم والإنضمام وبروتوكول مشاركة المعلومات. أنت مسؤول أيضًا عن ضمان توقيع شروط الاستخدام من قبل جميع المنظمات المُستخدمة ووضع الشروط الموقعة في ملفّ المنظمات."
   user_group:
-    associated_agencies: المؤسسات المرتبطة بمجموعة المستخدمين هذه
+    associated_agencies: الهيئات المرتبطة بمجموعة المستخدمين هذه
     description: الوصف
     disabled:
       explanation: إذا قمت بتعطيل مجموعة المستخدمين هذه، لن تتمكن من تعيينها إلى حسابات المستخدمين.
@@ -3466,7 +3845,11 @@ ar:
       full_name: الاسم الكامل
       user_name: اسم المستخدم
       position: الوظيفة
-      agency: وكالة
+      agency: الهيئة
+    alerts:
+      total_users_created: 'لقد قمت بإنشاء% {إجمالي _ تمكين} من التطبيق % {الحد الأقصى _ المستخدمين} '
+      limit_user_reached: لقد وصلت إلى حد% {الحد الأقصى _ المستخدمين} للمستخدمين. يجب عليك تعطيل مستخدم واحد أو أكثر قبل إنشاء المزيد.
+      limit_user_reached_on_enable: لقد وصلت إلى الحد الأقصى للمستخدمين %{maximum_users} . يجب عليك تعطيل مستخدم واحد أو أكثر قبل إنشاء أو تمكين المزيد.
   devise:
     failure:
       already_authenticated: "انت مُسجّل مسبقا."
@@ -3478,3 +3861,16 @@ ar:
       selected_records: '%{select_records} الموقع (المواقع) المحدد/ة'
       selected_all_records: اختيار كلّ %{total_records}الحالات التي تطابق هذا الاستعلام.
       updated: '%{updated_records} تحديث الموقع(المواقع)'
+  push_notifications_dialog:
+    title: إشعارات الجهاز
+    body_blocked:
+      message: لقد قمت بحظر إشعارات Primero على هذا الجهاز. لإصلاح هذه المشكلة، ستحتاج إلى تشغيل إشعار الأذونات.
+      android: "أندرويد: انتقل إلى الإعدادات. انقر على التطبيقات. ابحث عن Primero في قائمة التطبيقات وانقر فوقه. انقر فوق الإخطارات. قم بتبديل مفتاح التبديل للإشعارات إلى وضع التشغيل."
+      ios: "iOS: انتقل إلى تطبيق الإعدادات. انقر على الإخطارات. قم بالتمرير لأسفل إلى قائمة التطبيقات وابحث عن Primero. قم بتبديل مفتاح التبديل لـ Primero إلى وضع التشغيل."
+    body:
+      zero: '0'
+      one: '1'
+      two: '2'
+      few: قليل
+      many: كثير
+      other: هل تريد السماح لـ Primero بإرسال إشعارات لك ؟ تذكر أنك ستستمر في تلقي الإشعارات على هذا الجهاز بعد%{count} أيام من تسجيل الخروج. هذا غير موصى به للأجهزة المستخدمة من قبل اكثر من شخص.

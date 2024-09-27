@@ -24,3 +24,19 @@ export const buildLabelSync = (syncedStatus, syncedAt, i18n) => {
       return i18n.t(`sync_record.last`, { date_time: lastDate });
   }
 };
+
+export function buildErrorOutput(formErrors, field, locale) {
+  const fieldError = formErrors[field.get("name")];
+
+  if (Array.isArray(fieldError)) {
+    if (fieldError.every(error => typeof error === "object")) {
+      return formErrors[field.get("name")]
+        .map((error, index) => `(${index + 1}) ${field.getIn(["display_name", locale])}: ${Object.values(error)}`)
+        .join("\n");
+    }
+
+    return fieldError.join("");
+  }
+
+  return fieldError;
+}

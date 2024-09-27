@@ -2,7 +2,7 @@
 
 import { batch, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress } from "@mui/material";
 
 import { getEnabledAgencies } from "../../../../application/selectors";
 import { getLoadingTransitionType, getUsersByTransitionType } from "../../../../record-actions/transitions/selectors";
@@ -21,7 +21,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 import ReferAction from "./components/refer-action";
 import { NAME } from "./constants";
 
-const Component = ({ index, values }) => {
+function Component({ index, values }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -58,7 +58,7 @@ const Component = ({ index, values }) => {
       </Permission>
     </DisableOffline>
   );
-};
+}
 
 Component.displayName = NAME;
 

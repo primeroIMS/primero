@@ -14,13 +14,15 @@ import { defaultTableOptions } from "../../index-table/utils";
 
 import css from "./styles.css";
 
-const DashboardTable = ({ columns, data, query, title, pathname }) => {
+function DashboardTable({ columns, data, query, title, pathname }) {
   const userPermissions = useMemoizedSelector(state => getPermissions(state));
   const clickableCell = [...userPermissions.keys()].includes(pathname.split("/")[1]);
 
   const dispatch = useDispatch();
   const options = {
     ...defaultTableOptions({ simple: true, title }),
+    tableBodyMaxHeight: "260px",
+    fixedHeader: true,
     onCellClick: (colData, cellMeta) => {
       const { colIndex, rowIndex } = cellMeta;
       const columnName = columns[colIndex].name;
@@ -70,7 +72,7 @@ const DashboardTable = ({ columns, data, query, title, pathname }) => {
       <MUIDataTable {...tableOptions} />
     </div>
   );
-};
+}
 
 DashboardTable.displayName = "DashboardTable";
 

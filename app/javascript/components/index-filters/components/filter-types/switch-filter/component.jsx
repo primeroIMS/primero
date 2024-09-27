@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
-import { Checkbox, FormControl, FormGroup, FormControlLabel } from "@material-ui/core";
+import { Checkbox, FormControl, FormGroup, FormControlLabel } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 
 import Panel from "../../panel";
@@ -12,7 +12,7 @@ import handleFilterChange from "../value-handlers";
 
 import { NAME } from "./constants";
 
-const Component = ({ filter, moreSectionFilters, setMoreSectionFilters, mode, reset, setReset }) => {
+function Component({ filter, moreSectionFilters = {}, setMoreSectionFilters, mode, reset, setReset }) {
   const i18n = useI18n();
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState();
@@ -82,11 +82,7 @@ const Component = ({ filter, moreSectionFilters, setMoreSectionFilters, mode, re
       </FormControl>
     </Panel>
   );
-};
-
-Component.defaultProps = {
-  moreSectionFilters: {}
-};
+}
 
 Component.displayName = NAME;
 

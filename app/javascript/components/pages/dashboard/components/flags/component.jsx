@@ -16,7 +16,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const Component = ({ loadingIndicator }) => {
+function Component({ loadingIndicator }) {
   const i18n = useI18n();
 
   const flags = useMemoizedSelector(state => getDashboardFlags(state));
@@ -33,6 +33,7 @@ const Component = ({ loadingIndicator }) => {
         isTransparent
         noTranslate
         rest={{ onClick: handleSeeAll }}
+        className={css.seeAllLink}
       />
     </div>
   );
@@ -40,14 +41,18 @@ const Component = ({ loadingIndicator }) => {
   return (
     <Permission resources={RESOURCES.cases} actions={[ACTIONS.READ, ACTIONS.MANAGE]}>
       <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_FLAGS}>
-        <OptionsBox title={i18n.t("dashboard.flagged_cases")} hasData={Boolean(flags.size)} {...loadingIndicator}>
+        <OptionsBox
+          title={i18n.t("dashboard.flagged_cases")}
+          hasData={Boolean(flags.size)}
+          footer={renderSeeAll}
+          {...loadingIndicator}
+        >
           <FlagBox flags={flags} />
-          {renderSeeAll}
         </OptionsBox>
       </Permission>
     </Permission>
   );
-};
+}
 
 Component.displayName = NAME;
 

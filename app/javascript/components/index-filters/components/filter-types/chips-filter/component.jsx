@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
-import { Chip, Checkbox } from "@material-ui/core";
+import { Chip, Checkbox } from "@mui/material";
 
 import Panel from "../../panel";
 import { getOption } from "../../../../record-form";
@@ -22,7 +22,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
-const Component = ({ filter, moreSectionFilters, setMoreSectionFilters, mode, reset, setReset }) => {
+function Component({ filter, moreSectionFilters = {}, setMoreSectionFilters, mode, reset, setReset }) {
   const i18n = useI18n();
 
   const { register, unregister, setValue, getValues } = useFormContext();
@@ -106,7 +106,7 @@ const Component = ({ filter, moreSectionFilters, setMoreSectionFilters, mode, re
 
       return (
         <Checkbox
-          key={`${fieldName}-${option.id}`}
+          key={`${fieldName}-${option.id}-checkbox`}
           onChange={handleChange}
           checked={inputValue.includes(option.id)}
           value={option.id}
@@ -125,11 +125,7 @@ const Component = ({ filter, moreSectionFilters, setMoreSectionFilters, mode, re
       <div className={css.chipsContainer}>{renderOptions()}</div>
     </Panel>
   );
-};
-
-Component.defaultProps = {
-  moreSectionFilters: {}
-};
+}
 
 Component.displayName = NAME;
 

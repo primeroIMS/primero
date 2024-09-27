@@ -3,9 +3,9 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { Dialog, DialogActions, CircularProgress } from "@material-ui/core";
-import CheckIcon from "@material-ui/icons/Check";
-import CloseIcon from "@material-ui/icons/Close";
+import { Dialog, DialogActions, CircularProgress } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { ENQUEUE_SNACKBAR, generate } from "../../../../../notifier";
 import { useI18n } from "../../../../../i18n";
@@ -17,7 +17,7 @@ import { getReorderIsLoading, getReorderErrors, getReorderPendings } from "../..
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const Component = ({ handleCancel, handleSuccess, open }) => {
+function Component({ handleCancel, handleSuccess, open = false }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -47,14 +47,7 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
   const icon = !reorderLoading ? <CheckIcon /> : <CircularProgress size={24} className={css.buttonProgress} />;
 
   return (
-    <Dialog
-      id="reorder-actions"
-      disableEnforceFocus
-      open={open}
-      className={css.dialog}
-      disableBackdropClick
-      hideBackdrop={!reorderLoading}
-    >
+    <Dialog id="reorder-actions" disableEnforceFocus open={open} className={css.dialog} hideBackdrop={!reorderLoading}>
       <DialogActions classes={{ root: css.reorderActions }}>
         <ActionButton
           icon={<CloseIcon />}
@@ -79,13 +72,9 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
       </DialogActions>
     </Dialog>
   );
-};
+}
 
 Component.displayName = NAME;
-
-Component.defaultProps = {
-  open: false
-};
 
 Component.propTypes = {
   handleCancel: PropTypes.func,

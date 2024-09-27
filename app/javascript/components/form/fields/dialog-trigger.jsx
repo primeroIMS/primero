@@ -1,11 +1,11 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Button, Link } from "@material-ui/core";
+import { Button, Link } from "@mui/material";
 
 import css from "./styles.css";
 
-const DialogTrigger = ({ commonInputProps, metaInputProps }) => {
+function DialogTrigger({ commonInputProps, metaInputProps }) {
   const { label, id } = commonInputProps;
   const { onClick } = metaInputProps;
 
@@ -14,7 +14,7 @@ const DialogTrigger = ({ commonInputProps, metaInputProps }) => {
       {label}
     </Button>
   );
-};
+}
 
 DialogTrigger.displayName = "DialogTrigger";
 

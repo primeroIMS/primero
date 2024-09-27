@@ -3,6 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Query for records using Sunspot Solr
+# TODO this will be deleted once exports are migrated
 class SearchService
   class << self
     # rubocop:disable Metrics/MethodLength

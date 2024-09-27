@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe Api::V2::RecordHistoriesController, type: :request do
   before :each do
-    clean_data(User, Role, Agency, Child, TracingRequest, Incident, RecordHistory)
+    clean_data(User, Role, Agency, Incident, TracingRequest, Child, RecordHistory)
 
     agency_a = Agency.create!(
       unique_id: 'agency_1',
@@ -81,8 +81,10 @@ describe Api::V2::RecordHistoriesController, type: :request do
         user_name: 'faketest', action: 'create',
         record_changes: [
           { 'status' => { 'from' => nil, 'to' => 'open' } },
+          { 'flagged' => { 'from' => nil, 'to' => false } },
           { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'short_id' => { 'from' => nil, 'to' => TracingRequest.first.short_id } },
+          { 'has_photo' => { 'from' => nil, 'to' => false } },
           { 'posted_at' => { 'from' => nil,
                              'to' => TracingRequest.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_at' => { 'from' => nil,
@@ -95,6 +97,8 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'created_by_groups' => { 'from' => nil, 'to' => [] } },
           { 'unique_identifier' => { 'from' => nil, 'to' => TracingRequest.first.unique_identifier } },
           { 'tracing_request_id' => { 'from' => nil, 'to' => TracingRequest.first.tracing_request_id } },
+          { 'current_alert_types' => { 'from' => nil, 'to' => [] } },
+          { 'not_edited_by_owner' => { 'from' => nil, 'to' => false } },
           { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
           { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } }
@@ -148,8 +152,10 @@ describe Api::V2::RecordHistoriesController, type: :request do
         action: 'create',
         record_changes: [
           { 'status' => { 'from' => nil, 'to' => 'open' } },
+          { 'flagged' => { 'from' => nil, 'to' => false } },
           { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'short_id' => { 'from' => nil, 'to' => Incident.first.short_id } },
+          { 'has_photo' => { 'from' => nil, 'to' => false } },
           { 'posted_at' => { 'from' => nil, 'to' => Incident.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_at' => { 'from' => nil, 'to' => Incident.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_by' => { 'from' => nil, 'to' => 'faketest' } },
@@ -158,15 +164,21 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'record_state' => { 'from' => nil, 'to' => true } },
           { 'incident_code' => { 'from' => nil, 'to' => Incident.first.incident_code } },
           { 'incident_date' => { 'from' => nil, 'to' => '2019-04-01' } },
+          { 'referred_users' => { 'from' => nil, 'to' => [] } },
           { 'owned_by_groups' => { 'from' => nil, 'to' => [] } },
           { 'gbv_case_context' => { 'from' => nil, 'to' => [] } },
           { 'created_by_groups' => { 'from' => nil, 'to' => [] } },
           { 'unique_identifier' => { 'from' => nil, 'to' => Incident.first.incident_id } },
+          { 'current_alert_types' => { 'from' => nil, 'to' => [] } },
+          { 'not_edited_by_owner' => { 'from' => nil, 'to' => false } },
           { 'date_of_first_report' => { 'from' => nil, 'to' => Incident.first.date_of_first_report.iso8601 } },
+          { 'transferred_to_users' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
           { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
           { 'elapsed_reporting_time' => { 'from' => nil, 'to' => 'over_1_month' } },
-          { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } }
+          { 'referred_users_present' => { 'from' => nil, 'to' => false } },
+          { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } },
+          { 'transferred_to_user_groups' => { 'from' => nil, 'to' => [] } }
         ]
       }
 
@@ -219,26 +231,38 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'name' => { 'from' => nil, 'to' => 'Test' } },
           { 'status' => { 'from' => nil, 'to' => 'open' } },
           { 'case_id' => { 'from' => nil, 'to' => Child.first.case_id } },
+          { 'flagged' => { 'from' => nil, 'to' => false } },
           { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'short_id' => { 'from' => nil, 'to' => Child.first.short_id } },
           { 'workflow' => { 'from' => nil, 'to' => 'new' } },
+          { 'has_photo' => { 'from' => nil, 'to' => false } },
           { 'posted_at' => { 'from' => nil, 'to' => Child.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_at' => { 'from' => nil, 'to' => Child.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'record_state' => { 'from' => nil, 'to' => true } },
           { 'has_case_plan' => { 'from' => nil, 'to' => false } },
+          { 'has_incidents' => { 'from' => nil, 'to' => false } },
           { 'notes_section' => { 'from' => nil, 'to' => [] } },
           { 'reopened_logs' => { 'from' => nil, 'to' => [] } },
+          { 'referred_users' => { 'from' => nil, 'to' => [] } },
           { 'case_id_display' => { 'from' => nil, 'to' => Child.first.case_id_display } },
           { 'followup_status' => { 'from' => nil, 'to' => 'follow_ups_not_planned' } },
           { 'owned_by_groups' => { 'from' => nil, 'to' => [] } },
           { 'created_by_groups' => { 'from' => nil, 'to' => [] } },
           { 'registration_date' => { 'from' => nil, 'to' => Child.first.registration_date.iso8601 } },
           { 'unique_identifier' => { 'from' => nil, 'to' => Child.first.unique_identifier } },
+          { 'followup_due_dates' => { 'from' => nil, 'to' => [] } },
+          { 'case_plan_due_dates' => { 'from' => nil, 'to' => [] } },
+          { 'current_alert_types' => { 'from' => nil, 'to' => [] } },
+          { 'not_edited_by_owner' => { 'from' => nil, 'to' => false } },
           { 'protection_concerns' => { 'from' => nil, 'to' => [] } },
+          { 'assessment_due_dates' => { 'from' => nil, 'to' => [] } },
+          { 'transferred_to_users' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
           { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
-          { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } }
+          { 'referred_users_present' => { 'from' => nil, 'to' => false } },
+          { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } },
+          { 'transferred_to_user_groups' => { 'from' => nil, 'to' => [] } }
         ]
       }
 

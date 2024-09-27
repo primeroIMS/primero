@@ -7,6 +7,7 @@
 
 .item {
   font-size: var(--fs-16);
+  position: relative;
 
   & span {
     font-weight: 600;
@@ -31,7 +32,18 @@
   padding-bottom: 5em;
 }
 
-@media (max-width:959.95px) {
+.text {
+  display: flex;
+  justify-content: space-between;
+  padding-right: var(--sp-1);
+  align-items: center;
+
+  & div:last-child {
+    display: contents;
+  }
+}
+
+@media (max-width:900px) {
   .closeButtonRecordNav {
     display: flex;
     flex-direction: row;

@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Menu, MenuItem } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { Menu, MenuItem } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import DisableOffline from "../../../disable-offline";
 import { TRANSITION_STATUS, TRANSITIONS_TYPES } from "../../constants";
@@ -23,7 +23,7 @@ import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME, REVOKE_MODAL } from "./constants";
 
-const Component = ({ transition, showMode, recordType, classes }) => {
+function Component({ transition, showMode, recordType, classes }) {
   const i18n = useI18n();
   const {
     id,
@@ -216,7 +216,7 @@ const Component = ({ transition, showMode, recordType, classes }) => {
       )}
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

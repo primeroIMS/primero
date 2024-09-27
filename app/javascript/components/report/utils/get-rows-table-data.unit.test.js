@@ -385,4 +385,60 @@ describe("report/utils/get-rows-table-data", () => {
       ["gbv_survivor", false, 1, 1, 2, 0, 0, 0, 2]
     ]);
   });
+
+  it("return the rows for a display_text with dots", () => {
+    const i18n = {
+      t: value => (value === "report.total" ? "_total" : value),
+      locale: "en"
+    };
+    const data = {
+      fields: [
+        {
+          name: "risk_level",
+          display_name: {
+            en: "Risk Level"
+          },
+          position: {
+            type: "horizontal",
+            order: 0
+          },
+          option_labels: {
+            en: [
+              { id: "high", display_text: "high" },
+              { id: "medium", display_text: "medium" },
+              { id: "low", display_text: "low" }
+            ]
+          }
+        },
+        {
+          name: "protection_concerns",
+          display_name: {
+            en: "Protection Concerns"
+          },
+          position: {
+            type: "vertical",
+            order: 1
+          },
+          option_labels: {
+            en: [
+              { id: "abandoment", display_text: "abandoment" },
+              { id: "neglect", display_text: "neglect" },
+              { id: "security.e.g_safe_shelter", display_text: "security.e.g_safe_shelter" }
+            ]
+          }
+        }
+      ],
+      report_data: {
+        high: {
+          abandoment: { _total: 1 },
+          neglect: { _total: 1 },
+          "security.e.g_safe_shelter": { _total: 2 },
+          _total: 4
+        }
+      }
+    };
+    const columns = ["abandoment", "neglect", "security.e.g_safe_shelter", "_total"];
+
+    expect(getRowsTableData(data, columns, [], i18n)).to.deep.equal([["high", false, 1, 1, 2, 4]]);
+  });
 });

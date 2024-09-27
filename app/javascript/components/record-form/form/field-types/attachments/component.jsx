@@ -5,7 +5,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { FieldArray, connect } from "formik";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 
 import { useI18n } from "../../../../i18n";
 import { ATTACHMENT_FIELD_NAME } from "../../constants";
@@ -23,7 +23,7 @@ import PhotoArray from "./photo-array";
 import { buildBase64URL } from "./utils";
 
 // TODO: No link to display / download upload
-const Component = ({ name, field, label, disabled, formik, mode, recordType, helperText }) => {
+function Component({ name, field, label, disabled, formik, mode, recordType, helperText }) {
   const i18n = useI18n();
 
   const loading = useMemoizedSelector(state => getLoadingRecordState(state, recordType));
@@ -63,8 +63,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType, hel
     values?.length > 0 &&
     values?.map((value, index) => {
       return (
-        // eslint-disable-next-line react/no-array-index-key
-        <div key={`${attachment}-${index}`}>
+        <div key={`${attachment}-${name}`}>
           {attachment === ATTACHMENT_TYPES.document ? (
             <DocumentField
               title={`${mode.isShow ? "" : i18n.t("fields.add")} ${label}`}
@@ -143,7 +142,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType, hel
       )}
     </FieldArray>
   );
-};
+}
 
 Component.displayName = ATTACHMENT_FIELD_NAME;
 

@@ -10,7 +10,7 @@ import NepaliCalendar from "../../../../nepali-calendar-input";
 
 import css from "./styles.css";
 
-const Component = ({ value, includeTime }) => {
+function Component({ value, includeTime }) {
   const i18n = useI18n();
 
   if (isEmpty(value)) return value || "";
@@ -33,7 +33,7 @@ const Component = ({ value, includeTime }) => {
   }
 
   return <span data-testid="date-header">{dateValue}</span>;
-};
+}
 
 Component.displayName = SUBFORM_HEADER_DATE;
 

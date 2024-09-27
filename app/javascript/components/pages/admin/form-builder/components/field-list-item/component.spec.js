@@ -12,25 +12,27 @@ describe("<FieldListItem />", () => {
   describe("when the field is editable", () => {
     beforeEach(() => {
       // eslint-disable-next-line react/display-name, react/prop-types
-      const Component = ({ formMethods }) => (
-        <DragDropContext>
-          <Droppable droppableId="droppable" type="field">
-            {() => (
-              <FieldListItem
-                field={fromJS({
-                  name: "field_1",
-                  editable: true,
-                  display_name: { en: "Field 1" },
-                  type: TEXT_FIELD
-                })}
-                getValues={() => ({ field_1: true })}
-                index={0}
-                formMethods={formMethods}
-              />
-            )}
-          </Droppable>
-        </DragDropContext>
-      );
+      function Component({ formMethods }) {
+        return (
+          <DragDropContext>
+            <Droppable droppableId="droppable" type="field">
+              {() => (
+                <FieldListItem
+                  field={fromJS({
+                    name: "field_1",
+                    editable: true,
+                    display_name: { en: "Field 1" },
+                    type: TEXT_FIELD
+                  })}
+                  getValues={() => ({ field_1: true })}
+                  index={0}
+                  formMethods={formMethods}
+                />
+              )}
+            </Droppable>
+          </DragDropContext>
+        );
+      }
 
       mountedFormComponent(<Component />);
     });
@@ -55,26 +57,28 @@ describe("<FieldListItem />", () => {
   describe("when the field is not editable", () => {
     beforeEach(() => {
       // eslint-disable-next-line react/display-name, react/no-multi-comp, react/prop-types
-      const Component = ({ formMethods }) => (
-        <DragDropContext>
-          <Droppable droppableId="droppable" type="field">
-            {() => (
-              <FieldListItem
-                field={fromJS({
-                  name: "field_1",
-                  editable: false,
-                  display_name: { en: "Field 1" },
-                  multi_select: true,
-                  type: SELECT_FIELD
-                })}
-                getValues={() => ({ field_1: true })}
-                index={0}
-                formMethods={formMethods}
-              />
-            )}
-          </Droppable>
-        </DragDropContext>
-      );
+      function Component({ formMethods }) {
+        return (
+          <DragDropContext>
+            <Droppable droppableId="droppable" type="field">
+              {() => (
+                <FieldListItem
+                  field={fromJS({
+                    name: "field_1",
+                    editable: false,
+                    display_name: { en: "Field 1" },
+                    multi_select: true,
+                    type: SELECT_FIELD
+                  })}
+                  getValues={() => ({ field_1: true })}
+                  index={0}
+                  formMethods={formMethods}
+                />
+              )}
+            </Droppable>
+          </DragDropContext>
+        );
+      }
 
       mountedFormComponent(<Component />);
     });

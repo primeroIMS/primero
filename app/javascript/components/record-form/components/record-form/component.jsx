@@ -2,10 +2,10 @@
 
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useMediaQuery } from "@material-ui/core";
+import { useMediaQuery } from "@mui/material";
 import { batch, useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
-import clsx from "clsx";
+import { cx } from "@emotion/css";
 import { fromJS } from "immutable";
 
 import FormFilters from "../../../form-filters";
@@ -29,7 +29,7 @@ import css from "../../styles.css";
 import { compactBlank, compactReadOnlyFields, compactValues, getRedirectPath } from "../../utils";
 import externalForms from "../external-forms";
 
-const Component = ({
+function Component({
   approvalSubforms,
   attachmentForms,
   canRefer,
@@ -54,7 +54,7 @@ const Component = ({
   shouldFetchRecord,
   summaryForm,
   userPermittedFormsIds
-}) => {
+}) {
   let submitForm = null;
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
 
@@ -206,7 +206,7 @@ const Component = ({
           dispatch(fetchRecord(params.recordType, params.id));
           // TODO: Remove this condition once alerts get implemented for registry_records
           if (params.recordType !== RECORD_TYPES_PLURAL.registry_record) {
-            dispatch(fetchRecordsAlerts(params.recordType, params.id));
+            dispatch(fetchRecordsAlerts(params.recordType, params.id), params);
           }
           dispatch(setPreviousRecord(fromJS({ id: params.id, recordType: params.recordType })));
         }
@@ -279,11 +279,11 @@ const Component = ({
   const loading = Boolean(loadingForm || loadingRecord);
   const renderRecordFormToolbar = selectedModule.primeroModule && <RecordFormToolbar {...toolbarProps} />;
 
-  const containerClasses = clsx(css.recordContainer, {
+  const containerClasses = cx(css.recordContainer, {
     [css.formNavOpen]: toggleNav && mobileDisplay
   });
-  const navContainerClasses = clsx(css.recordNav, { [css.demo]: demo });
-  const demoClasses = clsx({ [css.demo]: demo });
+  const navContainerClasses = cx(css.recordNav, { [css.demo]: demo });
+  const demoClasses = cx({ [css.demo]: demo });
 
   const recordFormExternalForms = externalForms({
     approvalSubforms,
@@ -350,7 +350,7 @@ const Component = ({
       </LoadingIndicator>
     </PageContainer>
   );
-};
+}
 
 Component.displayName = "RecordForm";
 

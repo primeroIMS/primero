@@ -1,11 +1,22 @@
 import { RECORD_TYPES_PLURAL } from "../../../../../config";
-import { mountedComponent, screen } from "../../../../../test-utils";
+import { act, fireEvent, mountedComponent, screen } from "../../../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../../records";
+import SubformField from "../component";
+import SubformFieldSubform from "../subform-field-subform";
+import SubformDialogFields from "../subform-dialog-fields";
+import SubformItem from "../subform-item/component";
 
 import SubformDialog from "./component";
 
 describe("<SubformDialog />", () => {
   const props = {
+    components: {
+      SubformItem,
+      SubformDialog,
+      SubformDialogFields,
+      SubformFieldSubform,
+      SubformField
+    },
     arrayHelpers: {},
     dialogIsNew: true,
     field: FieldRecord({
@@ -16,12 +27,20 @@ describe("<SubformDialog />", () => {
           FieldRecord({
             name: "relation_name",
             visible: true,
-            type: "text_field"
+            type: "text_field",
+            required: true
           }),
           FieldRecord({
             name: "relation_child_is_in_contact",
             visible: true,
-            type: "text_field"
+            type: "text_field",
+            required: true
+          }),
+          FieldRecord({
+            name: "relation_nationality",
+            visible: true,
+            type: "select_field",
+            required: true
           })
         ]
       })
@@ -60,21 +79,36 @@ describe("<SubformDialog />", () => {
 
   it("renders the FormSectionField", () => {
     mountedComponent(<SubformDialog {...props} />, {}, [], {}, formProps);
-    expect(screen.getAllByRole("textbox")).toHaveLength(2);
+    expect(screen.getAllByRole("textbox")).toHaveLength(3);
   });
 
-  it("renders an InternalAlert if there are errors", () => {
+  it("renders an InternalAlert if there are errors", async () => {
     mountedComponent(<SubformDialog {...props} />, {}, [], {}, formProps);
-    expect(screen.getAllByTestId("internal-alert-message")).toHaveLength(1);
+
+    await act(() => {
+      fireEvent.click(screen.getByText("buttons.add"));
+    });
+
+    expect(screen.getByText("error_message.address_form_fields")).toBeInTheDocument();
+    expect(screen.getAllByRole("textbox").at(0)).not.toBeValid();
+    expect(screen.getAllByRole("textbox").at(1)).not.toBeValid();
+    expect(screen.getAllByRole("textbox").at(2)).not.toBeValid();
   });
 
   it("renders the ConfirmationModal component", () => {
     mountedComponent(<SubformDialog {...props} />, {}, [], {}, formProps);
-    expect(screen.getByRole("presentation")).toBeInTheDocument();
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
   describe("when field is visible should not be render", () => {
     const propsFieldNotVisible = {
+      components: {
+        SubformItem,
+        SubformDialog,
+        SubformDialogFields,
+        SubformFieldSubform,
+        SubformField
+      },
       arrayHelpers: {},
       dialogIsNew: true,
       field: FieldRecord({
@@ -121,7 +155,7 @@ describe("<SubformDialog />", () => {
 
     it("render the subform", () => {
       mountedComponent(<SubformDialog {...propsFieldNotVisible} />, {}, [], {}, visibleFieldFormProps);
-      expect(screen.getByRole("presentation")).toBeInTheDocument();
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
     });
 
     it("renders the visible FormSectionField", () => {
@@ -132,6 +166,13 @@ describe("<SubformDialog />", () => {
 
   describe("when the dialog is open", () => {
     const subformProps = {
+      components: {
+        SubformItem,
+        SubformDialog,
+        SubformDialogFields,
+        SubformFieldSubform,
+        SubformField
+      },
       arrayHelpers: {},
       dialogIsNew: true,
       field: FieldRecord({
@@ -200,6 +241,13 @@ describe("<SubformDialog />", () => {
 
   describe("when a list of field is present on subform_section_configuration", () => {
     const propsRenderSomeFields = {
+      components: {
+        SubformItem,
+        SubformDialog,
+        SubformDialogFields,
+        SubformFieldSubform,
+        SubformField
+      },
       arrayHelpers: {},
       dialogIsNew: true,
       field: FieldRecord({
@@ -302,6 +350,13 @@ describe("<SubformDialog />", () => {
 
   describe("when is a family member", () => {
     const familyProps = {
+      components: {
+        SubformItem,
+        SubformDialog,
+        SubformDialogFields,
+        SubformFieldSubform,
+        SubformField
+      },
       arrayHelpers: {},
       dialogIsNew: true,
       formik: { values: [], errors: {} },

@@ -8,7 +8,7 @@ import NepaliCalendar from "../../nepali-calendar-input";
 
 import css from "./styles.css";
 
-const DateCell = ({ value, withTime }) => {
+function DateCell({ value, withTime }) {
   const i18n = useI18n();
 
   if (i18n.locale === LOCALE_KEYS.ne) {
@@ -26,7 +26,7 @@ const DateCell = ({ value, withTime }) => {
   }
 
   return <>{i18n.l(`date.formats.${withTime ? "with_time" : "default"}`, value)}</>;
-};
+}
 
 DateCell.displayName = "DateCell";
 

@@ -3,7 +3,7 @@
 import { getAgencyLogosPdf } from "../../components/application/selectors";
 import { METHODS, syncIndexedDB } from "../../db";
 import Logos from "../../db/collections/logos";
-import { reduceMapToObject } from "../../libs";
+import { reduceMapToObject } from "../../libs/component-helpers";
 
 import fetchPayload from "./fetch-payload";
 import fetchStatus from "./fetch-status";
@@ -40,7 +40,11 @@ const fetchPdfLogos = (action, store, options, next) => {
       fetchStatus({ store, type }, "FAILURE", false);
     }
 
-    return fetchPayload(action, store, options);
+    if (action?.api?.path) {
+      return fetchPayload(action, store, options);
+    }
+
+    return next(action);
   };
 
   return fetch();

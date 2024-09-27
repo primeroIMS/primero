@@ -5,7 +5,7 @@
 json.merge!(
   transition.attributes.to_h do |attr, value|
     if attr == 'record_type'
-      [attr, Record.map_name(value)]
+      [attr, PrimeroModelService.to_name(value)]
     else
       [attr, value]
     end

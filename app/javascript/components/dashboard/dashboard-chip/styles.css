@@ -6,7 +6,7 @@
   text-transform: uppercase;
   width: 100%;
   padding: var(--sp-1);
-  border-radius: 0;
+  border-radius: 6px;
 
   &.high {
     background-color: var(--c-red);
@@ -38,6 +38,13 @@
     background-color: var(--c-light-blue-menu);
     font-size: var(--fs-12);
     align-items: normal;
+  }
+
+  &.disabled {
+    pointer-events: none;
+    &:hover {
+      opacity: 1
+    }
   }
 
 

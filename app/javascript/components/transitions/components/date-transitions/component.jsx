@@ -11,7 +11,7 @@ import css from "../../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({ name, label, value }) => {
+function Component({ name, label, value }) {
   const i18n = useI18n();
 
   if (isEmpty(value)) {
@@ -35,7 +35,7 @@ const Component = ({ name, label, value }) => {
   }
 
   return <DisplayData label={label} value={i18n.localizeDate(value, DATE_TIME_FORMAT)} />;
-};
+}
 
 Component.displayName = NAME;
 

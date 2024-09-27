@@ -2,12 +2,12 @@
 
 /* eslint-disable react/no-multi-comp, react/display-name */
 import PropTypes from "prop-types";
-import { FormHelperText } from "@material-ui/core";
+import { FormHelperText } from "@mui/material";
 
 import { SEPERATOR_NAME } from "../constants";
 import css from "../styles.css";
 
-const Seperator = ({ helperText, label, mode }) => {
+function Seperator({ helperText, label, mode }) {
   return (
     <div className={css.seperator}>
       <div className={css.separatorTitle}>
@@ -16,7 +16,7 @@ const Seperator = ({ helperText, label, mode }) => {
       {(mode.isEdit || mode.isNew) && helperText && <FormHelperText>{helperText}</FormHelperText>}
     </div>
   );
-};
+}
 
 Seperator.displayName = SEPERATOR_NAME;
 

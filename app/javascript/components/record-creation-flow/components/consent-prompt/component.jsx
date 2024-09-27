@@ -3,7 +3,7 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import Add from "@material-ui/icons/Add";
+import Add from "@mui/icons-material/Add";
 import isEmpty from "lodash/isEmpty";
 
 import { useMemoizedSelector } from "../../../../libs";
@@ -16,12 +16,13 @@ import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { setDataProtectionInitialValues } from "../../../record-form/action-creators";
 import useOptions from "../../../form/use-options";
+import { getConsentform } from "../../../application/selectors";
 
-import { NAME, CONSENT, FORM_ID, LEGITIMATE_BASIS } from "./constants";
+import { NAME, FORM_ID, LEGITIMATE_BASIS } from "./constants";
 import css from "./styles.css";
 import { consentPromptForm } from "./forms";
 
-const Component = ({
+function Component({
   i18n,
   recordType,
   searchValue,
@@ -29,7 +30,7 @@ const Component = ({
   dataProtectionFields,
   goToNewCase,
   openConsentPrompt
-}) => {
+}) {
   const dispatch = useDispatch();
   const formMode = whichFormMode(FORM_MODE_NEW);
   const methods = useForm();
@@ -42,11 +43,12 @@ const Component = ({
 
   const legitimateBasisLookup = useOptions({ source: LOOKUPS.legitimate_basis });
   const legitimateBasisExplanationsLookup = useOptions({ source: LOOKUPS.legitimate_basis_explanations });
+  const formName = useMemoizedSelector(state => getConsentform(state, primeroModule));
 
   const consentForm = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       checkVisible: false,
-      formName: CONSENT,
+      formName,
       primeroModule,
       recordType: RECORD_TYPES[recordType],
       getFirst: true
@@ -57,7 +59,7 @@ const Component = ({
     return null;
   }
 
-  const consentAgreementFields = consentForm.fields.filter(
+  const consentAgreementFields = consentForm?.fields?.filter(
     field =>
       (field.type === RADIO_FIELD ? field.option_strings_source === "lookup-yes-no" : field.type === TICK_FIELD) &&
       dataProtectionFields.filter(dataProtectionField => dataProtectionField !== LEGITIMATE_BASIS).includes(field.name)
@@ -103,7 +105,7 @@ const Component = ({
       </form>
     </div>
   );
-};
+}
 
 Component.displayName = NAME;
 

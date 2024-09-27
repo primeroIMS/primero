@@ -4,7 +4,7 @@ import isEmpty from "lodash/isEmpty";
 import every from "lodash/every";
 
 import { CONSENT_GIVEN_FIELD_BY_MODULE, MODULE_TYPE_FIELD } from "../../../../config";
-import { buildAppliedFilters } from "../../utils";
+import buildAppliedFilters from "../../utils/build-applied-filters";
 
 export const getInternalFields = (values, fields) => {
   return Object.entries(values).reduce((obj, item) => {

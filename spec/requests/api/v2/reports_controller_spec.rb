@@ -80,7 +80,7 @@ describe Api::V2::ReportsController, type: :request do
                                 associated_record_types: %w[case tracing_request incident],
                                 primero_program: @program, form_sections: [FormSection.create!(name: 'form_1')])
     @report1 = Report.create(name_en: 'Protection Concerns By Location', description_en: '',
-                             module_id: PrimeroModule::CP, record_type: 'case', aggregate_by: ['owned_by_location0'],
+                             module_id: PrimeroModule::CP, record_type: 'case', aggregate_by: ['loc:owned_by_location'],
                              disaggregate_by: ['protection_concerns'],
                              filters: [{ 'attribute' => 'status', 'value' => [Record::STATUS_OPEN] },
                                        { 'attribute' => 'record_state', 'value' => ['true'] }],
@@ -131,8 +131,6 @@ describe Api::V2::ReportsController, type: :request do
                                              }
                                            ])
     @child_concerns2.save!
-
-    Sunspot.commit
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -546,7 +544,7 @@ describe Api::V2::ReportsController, type: :request do
           graph: true,
           disabled: false,
           editable: true,
-          aggregate_by: %w[owned_by_location],
+          aggregate_by: %w[loc:owned_by_location],
           fields: [
             {
               name: 'owned_by_location',

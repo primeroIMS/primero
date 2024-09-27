@@ -24,7 +24,6 @@ describe Attachment, search: true do
       @record_updated_on = child.last_updated_at
       child.reload
       attachment.attach!
-      Sunspot.commit
     end
 
     it 'attaches a base64 encoded file' do
@@ -32,7 +31,11 @@ describe Attachment, search: true do
     end
 
     it 'has_photo is true for the record' do
-      expect(Child.search { with(:has_photo, true) }.results.size).to eq(1)
+      expect(
+        PhoneticSearchService.search(
+          Child, { filters: [SearchFilters::Value.new(field_name: 'has_photo', value: true)] }
+        ).total
+      ).to eq(1)
     end
 
     xit 'updates the associated record' do
@@ -49,7 +52,6 @@ describe Attachment, search: true do
       attachment.attach!
       child.reload
       attachment.detach!
-      Sunspot.commit
     end
 
     it 'detaches the file and removes the attachment record' do
@@ -58,7 +60,11 @@ describe Attachment, search: true do
     end
 
     it 'has_photo is false for the record' do
-      expect(Child.search { with(:has_photo, true) }.results.size).to eq(0)
+      expect(
+        PhoneticSearchService.search(
+          Child, { filters: [SearchFilters::Value.new(field_name: 'has_photo', value: true)] }
+        ).total
+      ).to eq(0)
     end
 
     xit 'updates the associated record' do
@@ -159,6 +165,15 @@ describe Attachment, search: true do
         expect { attachment.attach! }.to raise_error(ActiveRecord::RecordInvalid)
         expect(attachment.errors.full_messages).to eq ['errors.attachments.maximum']
         expect(attachment.persisted?).to be_falsey
+      end
+
+      it 'allows to perform updates on existing attachments' do
+        attachment = Attachment.first
+        attachment.comments = 'More comments'
+        attachment.save!
+        attachment.reload
+
+        expect(attachment.comments).to eq('More comments')
       end
 
       after :each do

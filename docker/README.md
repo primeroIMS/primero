@@ -26,7 +26,7 @@ cd docker
 Build your container images and tag with `latest`:
 
 ```
-./build all
+./build.sh all
 ```
 
 Create a `local.env` environment configuration file by

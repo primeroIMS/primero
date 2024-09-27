@@ -52,7 +52,7 @@ const RecordFilters = ({
 
     return (
       <Filter
-        key={filter.field_name}
+        key={`${filter.name}-filter`}
         filter={filter}
         moreSectionFilters={moreSectionFilters}
         setMoreSectionFilters={setMoreSectionFilters}

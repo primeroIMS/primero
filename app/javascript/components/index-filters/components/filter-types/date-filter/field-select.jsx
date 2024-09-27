@@ -1,11 +1,11 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { Select, MenuItem } from "@material-ui/core";
+import { Select, MenuItem } from "@mui/material";
 
 import css from "../styles.css";
 
-const Component = ({ handleSelectedField, options, selectedField }) => {
+function Component({ handleSelectedField, options, selectedField = "" }) {
   return (
     <div className={css.dateInput}>
       <Select fullWidth value={selectedField} onChange={handleSelectedField} variant="outlined">
@@ -17,7 +17,7 @@ const Component = ({ handleSelectedField, options, selectedField }) => {
       </Select>
     </div>
   );
-};
+}
 
 Component.displayName = "FieldSelect";
 

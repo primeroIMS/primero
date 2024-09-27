@@ -5,9 +5,9 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
-import CreateIcon from "@material-ui/icons/Create";
-import CheckIcon from "@material-ui/icons/Check";
-import ClearIcon from "@material-ui/icons/Clear";
+import CreateIcon from "@mui/icons-material/Create";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 import { useI18n } from "../../../i18n";
 import Form, { FormAction, whichFormMode } from "../../../form";
@@ -24,7 +24,7 @@ import { fetchUserGroup, clearSelectedUserGroup, saveUserGroup } from "./action-
 import { getUserGroup, getServerErrors, getSavingRecord } from "./selectors";
 import { NAME, FORM_ID } from "./constants";
 
-const Container = ({ mode }) => {
+function Container({ mode }) {
   const formMode = whichFormMode(mode);
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
@@ -117,7 +117,7 @@ const Container = ({ mode }) => {
       </PageContent>
     </LoadingIndicator>
   );
-};
+}
 
 Container.displayName = NAME;
 

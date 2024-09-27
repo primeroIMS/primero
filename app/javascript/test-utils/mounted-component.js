@@ -1,8 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable react/no-multi-comp, react/display-name, react/prop-types */
-import DateFnsUtils from "@date-io/date-fns";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { SnackbarProvider } from "notistack";
 import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
@@ -12,6 +10,7 @@ import { MemoryRouter, Route, Router } from "react-router-dom";
 import { ApplicationProvider } from "../components/application";
 import I18nProvider from "../components/i18n/provider";
 import ThemeProvider from "../theme-provider";
+import DateProvider from "../date-provider";
 
 import { createMockStore, DEFAULT_STATE } from "./create-mock-store";
 import { FormikProvider } from "./formik-utils";
@@ -35,7 +34,7 @@ function setupMountedComponent({ state, path, initialEntries, formProps, include
     return (
       <Provider store={store}>
         <I18nProvider>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <DateProvider>
             <SnackbarProvider>
               <ApplicationProvider>
                 <ThemeProvider>
@@ -45,7 +44,7 @@ function setupMountedComponent({ state, path, initialEntries, formProps, include
                 </ThemeProvider>
               </ApplicationProvider>
             </SnackbarProvider>
-          </MuiPickersUtilsProvider>
+          </DateProvider>
         </I18nProvider>
       </Provider>
     );

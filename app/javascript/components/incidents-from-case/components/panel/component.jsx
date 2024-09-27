@@ -2,22 +2,22 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import LookupValue from "../../../record-form/form/subforms/subform-header-lookup";
 import { useI18n } from "../../../i18n";
 import { NAME_PANEL } from "../../constants";
-import { MODULES } from "../../../../config";
 import IncidentSummary from "../summary";
 import IncidentDetail from "../detail";
-import { useMemoizedSelector } from "../../../../libs";
+import useMemoizedSelector from "../../../../libs/use-memoized-selector";
 import { getIncidentAvailable } from "../../../records";
 import { getFieldByName } from "../../../record-form/selectors";
+import includeCPByDefault from "../../../../libs/include-cp-by-default";
 
 import { CP_VIOLENCE_TYPE, GBV_VIOLENCE_TYPE } from "./constants";
 
-const Component = ({
+function Component({
   incident,
   incidentCaseId,
   incidentCaseIdDisplay,
@@ -28,14 +28,14 @@ const Component = ({
   recordType,
   handleCreateIncident,
   dirty = false
-}) => {
+}) {
   const i18n = useI18n();
   const [expanded, setExpanded] = useState(false);
   const handleExpanded = () => {
     setExpanded(!expanded);
   };
 
-  const violationType = incident.get("module_id", false) === MODULES.CP ? CP_VIOLENCE_TYPE : GBV_VIOLENCE_TYPE;
+  const violationType = includeCPByDefault(incident.get("module_id", false)) ? CP_VIOLENCE_TYPE : GBV_VIOLENCE_TYPE;
   const incidentTypeData = incident.get(violationType, false) || undefined;
   const incidentUniqueID = incident.get("unique_id", false);
   const incidentDateData = incident.get("incident_date", false);
@@ -92,7 +92,7 @@ const Component = ({
       </Accordion>
     </div>
   );
-};
+}
 
 Component.displayName = NAME_PANEL;
 

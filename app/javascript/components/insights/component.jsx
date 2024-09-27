@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useLocation, useParams } from "react-router-dom";
-import { Hidden, IconButton, useMediaQuery } from "@material-ui/core";
-import { MenuOpen } from "@material-ui/icons";
-import FilterListIcon from "@material-ui/icons/FilterList";
+import { Box, IconButton, useMediaQuery } from "@mui/material";
+import { MenuOpen } from "@mui/icons-material";
+import FilterListIcon from "@mui/icons-material/FilterList";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 
@@ -21,13 +21,13 @@ import { useDialog } from "../action-dialog";
 import InsightsFilters from "../insights-filters";
 import InsightFilterTags from "../insights-filters/components/insight-filter-tags";
 import { clearFilters } from "../insights-list/action-creators";
-import { get } from "../form/utils";
+import { selectInsightConfig } from "../insights-filters/utils";
 
-import { INSIGHTS_CONFIG, NAME, INSIGHTS_EXPORTER_DIALOG, MANAGED_REPORTS, REPORTS } from "./constants";
+import { NAME, INSIGHTS_EXPORTER_DIALOG, MANAGED_REPORTS, REPORTS } from "./constants";
 import css from "./styles.css";
 import InsightsExporter from "./components/insights-exporter";
 
-const Component = ({ routes }) => {
+function Component({ routes }) {
   const { id, moduleID } = useParams();
   const i18n = useI18n();
   const { pathname } = useLocation();
@@ -53,7 +53,7 @@ const Component = ({ routes }) => {
 
   const subReports = insight.get("subreports", fromJS([]));
 
-  const insightType = get(INSIGHTS_CONFIG, [moduleID, id], []);
+  const insightType = selectInsightConfig(moduleID, id);
 
   const name = i18n.t(insight.get("name"));
 
@@ -89,7 +89,7 @@ const Component = ({ routes }) => {
         />
       </PageHeading>
       <PageContent hasNav>
-        <Hidden smDown implementation="css">
+        <Box sx={{ display: { xs: "none", sm: "block" } }}>
           <div>
             <PageNavigation
               menuList={menuList}
@@ -99,16 +99,16 @@ const Component = ({ routes }) => {
               toggleNav={toggleNav}
             />
           </div>
-        </Hidden>
+        </Box>
         <div>
           <div className={css.title}>
-            <Hidden mdUp implementation="css">
+            <Box sx={{ display: { xs: "none", md: "block" } }}>
               <div>
-                <IconButton onClick={handleToggleNav}>
+                <IconButton size="large" onClick={handleToggleNav}>
                   <MenuOpen />
                 </IconButton>
               </div>
-            </Hidden>
+            </Box>
             <h2>{subReportTitle}</h2>
           </div>
           <ApplicationRoutes routes={routes} />
@@ -116,7 +116,7 @@ const Component = ({ routes }) => {
       </PageContent>
     </PageContainer>
   );
-};
+}
 
 Component.displayName = NAME;
 

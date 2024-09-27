@@ -3,20 +3,25 @@
 /* eslint-disable import/prefer-default-export */
 import PropTypes from "prop-types";
 
-const ConditionalWrapper = ({ condition, wrapper: Wrapper, children, ...rest }) => {
+function ConditionalWrapper({ condition, wrapper: Wrapper, children, ...rest }) {
   if (condition) {
     return typeof Wrapper === "function" ? Wrapper({ children, ...rest }) : <Wrapper {...rest}>{children}</Wrapper>;
   }
 
   return children;
-};
+}
 
 ConditionalWrapper.displayName = "ConditionalWrapper";
 
 ConditionalWrapper.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.element,
   condition: PropTypes.bool,
-  wrapper: PropTypes.node
+  wrapper: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+    PropTypes.element,
+    PropTypes.elementType
+  ])
 };
 
 export { ConditionalWrapper };

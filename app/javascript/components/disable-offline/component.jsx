@@ -2,18 +2,18 @@
 
 import { cloneElement } from "react";
 import PropTypes from "prop-types";
-import { Tooltip } from "@material-ui/core";
-import clsx from "clsx";
+import { Tooltip } from "@mui/material";
+import { cx } from "@emotion/css";
 
 import { useApp } from "../application";
 import { useI18n } from "../i18n";
 
 import css from "./styles.css";
 
-const Component = ({ overrideCondition, children, button, offlineTextKey }) => {
+function Component({ overrideCondition = false, children, button = false, offlineTextKey = null }) {
   const { online } = useApp();
   const i18n = useI18n();
-  const classes = clsx(css.disabledLink, {
+  const classes = cx(css.disabledLink, {
     [css.disabled]: !button
   });
 
@@ -29,13 +29,7 @@ const Component = ({ overrideCondition, children, button, offlineTextKey }) => {
   }
 
   return children;
-};
-
-Component.defaultProps = {
-  button: false,
-  offlineTextKey: null,
-  overrideCondition: false
-};
+}
 
 Component.propTypes = {
   button: PropTypes.bool,

@@ -3,12 +3,13 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import Queue, { QUEUE_HALTED, QUEUE_READY } from "../../libs/queue";
+import { QUEUE_HALTED, QUEUE_READY } from "../../libs/queue/constants";
+import Queue from "../../libs/queue";
 import { getIsAuthenticated } from "../user/selectors";
 import { clearDialog } from "../action-dialog/action-creators";
 import { selectDialog } from "../action-dialog/selectors";
-import { useRefreshUserToken } from "../user";
-import { LOGIN_DIALOG } from "../login-dialog";
+import useRefreshUserToken from "../user/use-refresh-token";
+import { LOGIN_DIALOG } from "../login-dialog/constants";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import DB, { DB_STORES } from "../../db";
 
