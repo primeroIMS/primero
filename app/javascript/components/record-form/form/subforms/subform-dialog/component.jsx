@@ -31,7 +31,7 @@ import {
   getCaseFormFamilyMemberLoading
 } from "../../../../records";
 import { useMemoizedSelector } from "../../../../../libs";
-import { RECORD_TYPES_PLURAL } from "../../../../../config";
+import { RECORD_TYPES_PLURAL, SERVICES_SUBFORM_FIELD } from "../../../../../config";
 
 function Component({
   arrayHelpers,
@@ -129,7 +129,7 @@ function Component({
   const buttonDialogText = dialogIsNew ? "buttons.add" : "buttons.update";
 
   const dialogActions =
-    field.name === "services_section" &&
+    field.name === SERVICES_SUBFORM_FIELD &&
     mode.isShow &&
     // eslint-disable-next-line camelcase
     serviceHasReferFields(formik.values?.services_section?.[index]) ? (
@@ -137,7 +137,7 @@ function Component({
     ) : null;
 
   const renderSubform = (subformField, subformIndex, values, setFieldValue) => {
-    if (subformField.name === "services_section") {
+    if (subformField.name === SERVICES_SUBFORM_FIELD) {
       return (
         <ServicesSubform
           field={subformField}
