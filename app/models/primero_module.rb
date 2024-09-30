@@ -9,12 +9,12 @@ class PrimeroModule < ApplicationRecord
   CP = 'primeromodule-cp'
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
-  CP_DEFAULT_CASE_LIST_HEADERS = %w[id name complete age sex registration_date
-                                    photo social_worker alert_count flag_count].freeze
-  GBV_DEFAULT_CASE_LIST_HEADERS = %w[id complete survivor_code case_opening_date
-                                     social_worker alert_count flag_count].freeze
-  MRM_DEFAULT_CASE_LIST_HEADERS = %w[id complete social_worker alert_count flag_count].freeze
   DEFAULT_CONSENT_FORM = 'consent'
+  DEFAULT_CASE_LIST_HEADERS = {
+    CP => %w[id name complete age sex registration_date photo social_worker alert_count flag_count],
+    GBV => %w[id complete survivor_code case_opening_date social_worker alert_count flag_count],
+    MRM => %w[id complete social_worker alert_count flag_count]
+  }.freeze
 
   # allow_searchable_ids: TODO document
   # selectable_approval_types: TODO document
@@ -96,27 +96,12 @@ class PrimeroModule < ApplicationRecord
     self.form_sections = FormSection.where(unique_id: params[:form_section_unique_ids])
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity
-  # rubocop:disable Metrics/MethodLength
   def record_list_headers
     headers = {}
-    headers_from_module = list_headers&.[](Child.table_name)
-
-    headers[Child.table_name.to_sym] = case unique_id
-                                       when CP
-                                         headers_from_module || CP_DEFAULT_CASE_LIST_HEADERS
-                                       when GBV
-                                         headers_from_module || GBV_DEFAULT_CASE_LIST_HEADERS
-                                       when MRM
-                                         headers_from_module || MRM_DEFAULT_CASE_LIST_HEADERS
-                                       else
-                                         headers_from_module
-                                       end
-
+    headers_from_module = list_headers&.[](Child.parent_form.pluralize)
+    headers[Child.parent_form.pluralize.to_sym] = headers_from_module || DEFAULT_CASE_LIST_HEADERS[unique_id]
     headers
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
-  # rubocop:enable Metrics/MethodLength
 
   private
 

@@ -48,10 +48,14 @@ class Exporters::CsvListViewExporter < Exporters::BaseExporter
   end
 
   def filtered_list_headers
-    module_headers = user.modules.map do |primero_module|
-      primero_module.record_list_headers[Child.table_name.to_sym]
-    end.flatten.compact.uniq
+    module_headers = user_module_headers
     Header.get_headers(user, record_type).filter { |header| module_headers.include?(header.name) }
+  end
+
+  def user_module_headers
+    user.modules.map do |primero_module|
+      primero_module.record_list_headers[Child.parent_form.pluralize.to_sym]
+    end.flatten.compact.uniq
   end
 
   def list_headers
