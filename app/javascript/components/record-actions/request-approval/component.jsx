@@ -6,7 +6,6 @@ import { batch, useDispatch } from "react-redux";
 import { InputLabel, MenuItem, Select } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
-import { MODULES } from "../../../config";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { fetchAlerts } from "../../nav/action-creators";
@@ -15,6 +14,7 @@ import { currentUser } from "../../user";
 import { useApp } from "../../application";
 import { useMemoizedSelector } from "../../../libs";
 import useOptions from "../../form/use-options";
+import includeCPByDefault from "../../../libs/include-cp-by-default";
 
 import { approvalRecord } from "./action-creators";
 import ApprovalForm from "./approval-form";
@@ -49,7 +49,7 @@ function Component({
   const alertTypes = useOptions({ source: APPROVAL_TYPE_LOOKUP });
 
   const showTypeOfCasePlan = userModules
-    .filter(userModule => userModule.unique_id === MODULES.CP)
+    .filter(userModule => includeCPByDefault(userModule.unique_id))
     // eslint-disable-next-line camelcase
     ?.first()?.options?.selectable_approval_types;
 

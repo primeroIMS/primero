@@ -482,6 +482,18 @@ class User < ApplicationRecord
     module?(PrimeroModule::GBV)
   end
 
+  def gbv_only?
+    gbv? && modules.size <= 1
+  end
+
+  def mrm?
+    module?(PrimeroModule::MRM)
+  end
+
+  def mrm_only?
+    mrm? && modules.size <= 1
+  end
+
   def tasks(pagination = { per_page: 100, page: 1 }, sort_order = {})
     cases = Child.owned_by(user_name)
                  .where('data @> ?', { record_state: true, status: Child::STATUS_OPEN }.to_json)

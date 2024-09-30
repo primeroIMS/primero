@@ -29,14 +29,15 @@ const defaultCacheSelectorOptions = {
 };
 
 const filterForms = (forms, { recordType, primeroModule, checkVisible, includeNested }) => {
-  const formSections = forms.filter(
-    formSection =>
+  const formSections = forms.filter(formSection => {
+    return (
       (Array.isArray(primeroModule)
         ? formSection.module_ids.some(mod => primeroModule.includes(mod))
         : formSection.module_ids.includes(primeroModule)) &&
       formSection.parent_form === recordType &&
       (!includeNested ? !formSection.is_nested : true)
-  );
+    );
+  });
 
   if (checkVisible === false) {
     return formSections;
@@ -347,6 +348,16 @@ export const getRecordFormsByUniqueId = createCachedSelector(
     return allRecordForms;
   }
 )(defaultCacheSelectorOptions);
+
+export const getRecordFormsByUniqueIdWithFallback = (state, query) => {
+  const form = getRecordFormsByUniqueId(state, query);
+
+  if (form.isEmpty()) {
+    return getRecordFormsByUniqueId(state, { ...query, primeroModule: query.fallbackModule });
+  }
+
+  return form;
+};
 
 export const getIncidentFromCaseForm = (state, query) =>
   getRecordFormsByUniqueId(state, { ...query, formName: INCIDENT_FROM_CASE, getFirst: true });

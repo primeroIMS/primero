@@ -6,14 +6,15 @@ import { ACTIONS } from "../../permissions";
 import Dashboard from "./container";
 
 describe("<Dashboard />", () => {
+  const reportingLocationConfig = {
+    field_key: "owned_by_location",
+    admin_level: 2,
+    admin_level_map: { 1: ["province"], 2: ["district"] },
+    label_keys: ["district"]
+  };
   const initialState = fromJS({
     user: {
-      reportingLocationConfig: {
-        field_key: "owned_by_location",
-        admin_level: 2,
-        admin_level_map: { 1: ["province"], 2: ["district"] },
-        label_keys: ["district"]
-      },
+      reportingLocationConfig,
       permissions: {
         dashboards: [
           ACTIONS.DASH_FLAGS,
@@ -79,5 +80,103 @@ describe("<Dashboard />", () => {
 
   it("should render a <ProtectionConcern /> component", () => {
     expect(screen.queryAllByText(/dashboard.protection_concerns/i)).toHaveLength(3);
+  });
+
+  describe("when a user has SHARED_WITH_ME permission", () => {
+    const stateSharedWithMe = fromJS({
+      user: { reportingLocationConfig, permissions: { dashboards: [ACTIONS.DASH_SHARED_WITH_ME] } }
+    });
+
+    it("renders a <Referrals /> component and dashboard for a user with the RECEIVE_REFERRAL permission", () => {
+      const stateWithReferrals = stateSharedWithMe.setIn(
+        ["user", "permissions", "cases"],
+        fromJS([ACTIONS.RECEIVE_REFERRAL])
+      );
+
+      mountedComponent(<Dashboard />, stateWithReferrals);
+
+      expect(screen.queryByText(/dashboard.action_needed.referrals/i)).toBeInTheDocument();
+      expect(screen.queryByText(/dashboard.dash_shared_with_me/i)).toBeInTheDocument();
+    });
+
+    it("does not render a <Referrals /> component for a user without the RECEIVE_REFERRAL permission", () => {
+      mountedComponent(<Dashboard />, stateSharedWithMe);
+
+      expect(screen.queryByText(/dashboard.action_needed.referrals/i)).toBeNull();
+      expect(screen.queryByText(/dashboard.dash_shared_with_me/i)).toBeNull();
+    });
+
+    it("renders a <Transfer /> component and dashboard for a user with the RECEIVE_TRANSFER permission", () => {
+      const stateWithTransfers = stateSharedWithMe.setIn(
+        ["user", "permissions", "cases"],
+        fromJS([ACTIONS.RECEIVE_TRANSFER])
+      );
+
+      mountedComponent(<Dashboard />, stateWithTransfers);
+
+      expect(screen.queryByText(/dashboard.action_needed.transfers/i)).toBeInTheDocument();
+      expect(screen.queryByText(/dashboard.dash_shared_with_me/i)).toBeInTheDocument();
+    });
+
+    it("does not render a <Transfer /> component for a user without the RECEIVE_TRANSFER permission", () => {
+      mountedComponent(<Dashboard />, stateSharedWithMe);
+
+      expect(screen.queryByText(/dashboard.action_needed.transfers/i)).toBeNull();
+      expect(screen.queryByText(/dashboard.dash_shared_with_me/i)).toBeNull();
+    });
+  });
+
+  describe("when a user has DASH_SHARED_WITH_OTHERS permission", () => {
+    const stateSharedWithOther = fromJS({
+      user: { reportingLocationConfig, permissions: { dashboards: [ACTIONS.DASH_SHARED_WITH_OTHERS] } }
+    });
+
+    it("renders a <Referrals /> component", () => {
+      mountedComponent(<Dashboard />, stateSharedWithOther);
+
+      expect(screen.queryByText(/dashboard.action_needed.referrals/i)).toBeInTheDocument();
+      expect(screen.queryAllByText(/dashboard.dash_shared_with_others/i)).toHaveLength(2);
+    });
+
+    it("renders a <Transfer /> component and dashboard", () => {
+      mountedComponent(<Dashboard />, stateSharedWithOther);
+
+      expect(screen.queryByText(/dashboard.action_needed.transfers/i)).toBeInTheDocument();
+      expect(screen.queryAllByText(/dashboard.dash_shared_with_others/i)).toHaveLength(2);
+    });
+  });
+
+  describe("when a user has DASH_SHARED_WITH_MY_TEAM_OVERVIEW permission", () => {
+    const stateSharedWithMyTeamOverview = fromJS({
+      user: { reportingLocationConfig, permissions: { dashboards: [ACTIONS.DASH_SHARED_WITH_MY_TEAM_OVERVIEW] } }
+    });
+
+    it("renders a <Transfer /> component with the dashboard", () => {
+      mountedComponent(<Dashboard />, stateSharedWithMyTeamOverview);
+
+      expect(screen.queryByText(/dashboard.action_needed.transfers/i)).toBeInTheDocument();
+      expect(screen.queryByText(/dashboard.dash_shared_with_my_team_overview/i)).toBeInTheDocument();
+    });
+
+    it("renders a <Transfer /> component with an the dashboard for the SHARED_WITH_ME permission", () => {
+      const stateWithSharedWithMe = stateSharedWithMyTeamOverview
+        .setIn(["user", "permissions", "cases"], fromJS([ACTIONS.RECEIVE_TRANSFER]))
+        .setIn(
+          ["user", "permissions", "dashboards"],
+          fromJS([ACTIONS.DASH_SHARED_WITH_ME, ACTIONS.DASH_SHARED_WITH_MY_TEAM_OVERVIEW])
+        );
+
+      mountedComponent(<Dashboard />, stateWithSharedWithMe);
+
+      expect(screen.queryByText(/dashboard.action_needed.transfers/i)).toBeInTheDocument();
+      expect(screen.queryByText(/dashboard.dash_shared_with_me/i)).toBeInTheDocument();
+      expect(screen.queryByText(/dashboard.dash_shared_with_my_team_overview/i)).toBeInTheDocument();
+    });
+
+    it("does not renders a <Referral /> component", () => {
+      mountedComponent(<Dashboard />, stateSharedWithMyTeamOverview);
+
+      expect(screen.queryByText(/dashboard.action_needed.referrals/i)).toBeNull();
+    });
   });
 });

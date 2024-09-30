@@ -5,3 +5,14 @@
   text-align: center;
   margin: var(--sp-1);
 }
+
+.seeAllLink {
+  color: var(--c-blue);
+  background-color: transparent;
+
+  &:hover, &:active {
+    background-color: transparent !important;
+    text-decoration: underline;
+    color: var(--c-blue-hover);
+  }
+}

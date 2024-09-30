@@ -8,12 +8,12 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import LookupValue from "../../../record-form/form/subforms/subform-header-lookup";
 import { useI18n } from "../../../i18n";
 import { NAME_PANEL } from "../../constants";
-import { MODULES } from "../../../../config";
 import IncidentSummary from "../summary";
 import IncidentDetail from "../detail";
-import { useMemoizedSelector } from "../../../../libs";
+import useMemoizedSelector from "../../../../libs/use-memoized-selector";
 import { getIncidentAvailable } from "../../../records";
 import { getFieldByName } from "../../../record-form/selectors";
+import includeCPByDefault from "../../../../libs/include-cp-by-default";
 
 import { CP_VIOLENCE_TYPE, GBV_VIOLENCE_TYPE } from "./constants";
 
@@ -35,7 +35,7 @@ function Component({
     setExpanded(!expanded);
   };
 
-  const violationType = incident.get("module_id", false) === MODULES.CP ? CP_VIOLENCE_TYPE : GBV_VIOLENCE_TYPE;
+  const violationType = includeCPByDefault(incident.get("module_id", false)) ? CP_VIOLENCE_TYPE : GBV_VIOLENCE_TYPE;
   const incidentTypeData = incident.get(violationType, false) || undefined;
   const incidentUniqueID = incident.get("unique_id", false);
   const incidentDateData = incident.get("incident_date", false);

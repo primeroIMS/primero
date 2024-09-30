@@ -147,3 +147,11 @@ export const getDashboardFlags = (state, excludeResolved = false) => {
 };
 
 export const getCasesToAssign = state => getDashboardByName(state, DASHBOARD_NAMES.CASES_TO_ASSIGN);
+
+export const getActionNeededNewUpdated = state => getDashboardByName(state, DASHBOARD_NAMES.ACTION_NEEDED_NEW_UPDATED);
+
+export const getActionNeededNewReferrals = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.ACTION_NEEDED_NEW_REFERRALS);
+
+export const getActionNeededTransferAwaitingAcceptance = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.ACTION_NEEDED_NEW_TRANSFER_AWAITING_ACCEPTANCE);

@@ -33,6 +33,17 @@ describe PrimeroModule do
     primero_module.unique_id.should == 'primeromodule-test-module-1234'
   end
 
+  it 'should set the default consent_form' do
+    primero_module = create(:primero_module, name: 'test module 1234')
+    expect(primero_module.consent_form).to eq(PrimeroModule::DEFAULT_CONSENT_FORM)
+  end
+
+  it 'should set the consent_form' do
+    consent_form = 'other_consent_form'
+    primero_module = create(:primero_module, name: 'test module 1234', consent_form:)
+    expect(primero_module.consent_form).to eq(consent_form)
+  end
+
   describe 'associated forms' do
     before do
       @form_section_a = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')

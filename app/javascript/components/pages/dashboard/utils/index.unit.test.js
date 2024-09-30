@@ -11,6 +11,7 @@ describe("index - pages/dashboard/utils/", () => {
     expect(indexValues).to.be.an("object");
     [
       "dashboardType",
+      "filterIndicatorsByKey",
       "permittedSharedWithMe",
       "taskOverdueHasData",
       "teamSharingTable",

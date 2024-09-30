@@ -21,6 +21,8 @@ function DashboardTable({ columns, data, query, title, pathname }) {
   const dispatch = useDispatch();
   const options = {
     ...defaultTableOptions({ simple: true, title }),
+    tableBodyMaxHeight: "260px",
+    fixedHeader: true,
     onCellClick: (colData, cellMeta) => {
       const { colIndex, rowIndex } = cellMeta;
       const columnName = columns[colIndex].name;

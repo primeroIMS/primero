@@ -228,35 +228,6 @@ namespace :primero do
   #   rails primero:import_records[<path>/registry_records.csv,system_user]
   #
   #   rails primero:import_records[<path>/registry_records.csv,system_user,owned_by_user]
-  desc 'Import a Record csv file'
-  task :import_records, %i[file_name created_by_user owned_by_user] => :environment do |_, args|
-    file_name = args[:file_name]
-    if file_name.blank?
-      puts 'ERROR: No input file provided'
-      return
-    end
-
-    file_path = Rails.root.join(file_name)
-
-    created_by_user = args[:created_by_user]
-    if created_by_user.blank?
-      puts 'ERROR: No created_by_user provided'
-      return
-    end
-
-    owned_by_user = args[:owned_by_user].presence || created_by_user
-    puts "Importing Records from #{file_name}"
-    importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_path:,
-                                                created_by: created_by_user, owned_by: owned_by_user)
-    importer.import
-    puts "Batch Size: #{importer.batch_size}"
-    puts "Total Batches: #{importer.batch_total}"
-    puts "Total Rows: #{importer.total}"
-    puts "Total Rows Processed: #{importer.success_total}"
-    puts "Failed rows: #{importer.failures}" if importer.failures.present?
-    puts "Error Messages: #{importer.errors}" if importer.errors.present?
-  end
-
   desc 'Set a default password for all generic users.'
   task default_password: :environment do
     require 'io/console'

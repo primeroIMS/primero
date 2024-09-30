@@ -4,6 +4,19 @@
   max-width: 88em;
 }
 
+.flex {
+  display: flex;
+}
+
+.flexFlow {
+  display: flex;
+  flex-flow: column;
+}
+
+.flexGrow {
+  flex: 1 1 auto;
+}
+
 .title {
   height: 28px;
   font-family: var(--ff);
