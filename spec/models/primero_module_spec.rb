@@ -94,7 +94,7 @@ describe PrimeroModule do
         unique_id: PrimeroModule::CP, name: 'Test Module', associated_record_types: ['case']
       )
 
-      expect(@primero_module.record_list_filters[:cases]).to match_array(PrimeroModule::CP_DEFAULT_CASE_LIST_FILTERS)
+      expect(@primero_module.record_list_filters[:cases]).to match_array(PrimeroModule::DEFAULT_CASE_LIST_FILTERS[PrimeroModule::CP])
     end
 
     it 'should return saved module filters array' do
