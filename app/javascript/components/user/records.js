@@ -15,6 +15,7 @@ export const PermissionRecord = Record({
 
 export const FilterRecord = Record({
   name: null,
+  unique_id: null,
   field_name: null,
   option_strings_source: null,
   options: [],

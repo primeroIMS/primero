@@ -9,11 +9,37 @@ class PrimeroModule < ApplicationRecord
   CP = 'primeromodule-cp'
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
+
   DEFAULT_CONSENT_FORM = 'consent'
+
   DEFAULT_CASE_LIST_HEADERS = {
     CP => %w[id name complete age sex registration_date photo social_worker alert_count flag_count],
     GBV => %w[id complete survivor_code case_opening_date social_worker alert_count flag_count],
     MRM => %w[id complete social_worker alert_count flag_count]
+  }.freeze
+
+  DEFAULT_CASE_LIST_FILTERS = {
+    CP => %w[
+      flagged owned_by my_cases workflow owned_by_agency_id status
+      age sex approval_status_assessment approval_status_case_plan approval_status_closure
+      approval_status_action_plan approval_status_gbv_closure protection_concerns
+      protection_status urgent_protection_concern type_of_risk risk_level
+      location_current reporting_location last_updated_by cases_by_date
+      record_state has_photo
+    ],
+    GBV => %w[
+      flagged owned_by my_cases workflow owned_by_agency_id status
+      age sex approval_status_assessment approval_status_case_plan
+      approval_status_closure approval_status_action_plan approval_status_gbv_closure
+      protection_concerns gbv_displacement_status
+      owned_by_agency_office owned_by_groups last_updated_by record_state
+    ],
+    MRM => %w[
+      flagged owned_by my_cases workflow owned_by_agency_id status
+      age sex approval_status_assessment approval_status_case_plan
+      approval_status_closure approval_status_action_plan approval_status_gbv_closure
+      protection_concerns last_updated_by record_state
+    ]
   }.freeze
 
   # allow_searchable_ids: TODO document
@@ -94,6 +120,13 @@ class PrimeroModule < ApplicationRecord
   def update_with_properties(params)
     assign_attributes(params.except('form_section_unique_ids'))
     self.form_sections = FormSection.where(unique_id: params[:form_section_unique_ids])
+  end
+
+  def record_list_filters
+    filters = {}
+    filters_from_module = list_filters&.[](Child.parent_form.pluralize)
+    filters[Child.parent_form.pluralize.to_sym] = filters_from_module || DEFAULT_CASE_LIST_FILTERS[unique_id]
+    filters
   end
 
   def record_list_headers
