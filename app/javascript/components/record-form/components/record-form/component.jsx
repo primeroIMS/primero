@@ -20,8 +20,7 @@ import { clearRecordAttachments, fetchRecordsAlerts } from "../../../records/act
 import useIncidentFromCase from "../../../records/use-incident-form-case";
 import SaveAndRedirectDialog from "../../../save-and-redirect-dialog";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
-import { SERVICES_SUBFORM } from "../../../record-actions/add-service/constants";
-import { getLoadingState, getErrors, getSelectedForm } from "../../selectors";
+import { getLoadingState, getErrors, getSelectedForm, getIsServicesForm } from "../../selectors";
 import { clearDataProtectionInitialValues, clearValidationErrors, setPreviousRecord } from "../../action-creators";
 import Nav from "../../nav";
 import { RecordForm, RecordFormToolbar } from "../../form";
@@ -89,6 +88,9 @@ function Component({
   const selectedForm = useMemoizedSelector(state => getSelectedForm(state));
   const isProcessingSomeAttachment = useMemoizedSelector(state =>
     getIsProcessingSomeAttachment(state, params.recordType)
+  );
+  const isServicesForm = useMemoizedSelector(state =>
+    getIsServicesForm(state, { recordType, primeroModule: selectedModule.primeroModule, formName: selectedForm })
   );
 
   const handleFormSubmit = e => {
@@ -230,7 +232,7 @@ function Component({
   }, []);
 
   useEffect(() => {
-    if (isNotANewCase && canRefer && selectedForm === SERVICES_SUBFORM) {
+    if (isNotANewCase && canRefer && isServicesForm) {
       dispatch(
         fetchReferralUsers({
           record_type: RECORD_TYPES[params.recordType],
@@ -238,7 +240,7 @@ function Component({
         })
       );
     }
-  }, [selectedForm]);
+  }, [isServicesForm]);
 
   const isNotANewIncident = !containerMode.isNew && params.recordType === RECORD_PATH.incidents;
 

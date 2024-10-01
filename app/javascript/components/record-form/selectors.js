@@ -10,9 +10,16 @@ import { createSelectorCreator, defaultMemoize } from "reselect";
 import { denormalizeFormData } from "../../schemas";
 import displayNameHelper from "../../libs/display-name-helper";
 import { checkPermissions, getPermissionsByRecord } from "../permissions";
-import { ALERTS_FOR, INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_PLURAL } from "../../config";
+import {
+  ALERTS_FOR,
+  INCIDENT_FROM_CASE,
+  MODULES,
+  RECORD_INFORMATION_GROUP,
+  RECORD_TYPES_PLURAL,
+  SERVICES_SUBFORM_FIELD
+} from "../../config";
 import { FieldRecord } from "../form/records";
-import { OPTION_TYPES } from "../form/constants";
+import { OPTION_TYPES, SUBFORM_SECTION } from "../form/constants";
 import { getLocale } from "../i18n/selectors";
 import { getRecordFormAlerts, getSelectedRecordData, selectRecord } from "../records";
 import { selectorEqualityFn } from "../../libs/use-memoized-selector";
@@ -607,3 +614,12 @@ export const getDuplicatedFields = createCachedSelector(getDuplicatedFieldAlerts
 })(defaultCacheSelectorOptions);
 
 export const getRedirectedToCreateNewRecord = state => state.getIn([NAMESPACE, "redirectedToCreateNewRecord"], false);
+
+export const getIsServicesForm = createCachedSelector(
+  (state, query) =>
+    getRecordFormsByUniqueIdWithFallback(state, { ...query, fallbackModule: query.fallbackModule || MODULES.CP }),
+  formSections =>
+    formSections
+      ?.first()
+      ?.fields?.some(field => field.name === SERVICES_SUBFORM_FIELD && field.type === SUBFORM_SECTION)
+)(defaultCacheSelectorOptions);
