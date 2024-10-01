@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Map, fromJS } from "immutable";
+import { List, Map, fromJS } from "immutable";
 import { isEqual, isNil, omitBy } from "lodash";
 import createCachedSelector from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
@@ -10,6 +10,7 @@ import displayNameHelper from "../../libs/display-name-helper";
 import { getLocale } from "../i18n/selectors";
 import { DATA_PROTECTION_FIELDS } from "../record-creation-flow/constants";
 import { currentUser } from "../user/selectors";
+import { RECORD_TYPES_PLURAL } from "../../config";
 
 import { PERMISSIONS, RESOURCE_ACTIONS, DEMO, LIMITED } from "./constants";
 import NAMESPACE from "./namespace";
@@ -224,3 +225,21 @@ export const getReferralAuthorizationRoles = state =>
 
 export const getReferralAuthorizationRolesLoading = state =>
   state.getIn([NAMESPACE, "referralAuthorizationRoles", "loading"], fromJS({}));
+
+export const getListHeaders = (state, namespace) => {
+  const listHeaders = state.getIn(["user", "listHeaders", namespace], List([]));
+
+  if (namespace === RECORD_TYPES_PLURAL.case) {
+    const moduleListHeaders = selectUserModules(state)?.reduce((prev, current) => {
+      const moduleHeaders = current.getIn(["list_headers", namespace]);
+
+      return moduleHeaders ? prev.merge(moduleHeaders) : prev;
+    }, List());
+
+    return moduleListHeaders
+      ? listHeaders.filter(header => moduleListHeaders.includes(header.get("field_name")))
+      : List();
+  }
+
+  return listHeaders;
+};

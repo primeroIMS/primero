@@ -5,6 +5,7 @@ import { describe } from "mocha";
 
 import { RECORD_TYPES, MODULES } from "../../config";
 import { GROUP_PERMISSIONS, ACTIONS } from "../permissions";
+import { FieldRecord } from "../form";
 
 import { PrimeroModuleRecord } from "./records";
 import * as selectors from "./selectors";
@@ -618,6 +619,59 @@ describe("Application - Selectors", () => {
       const result = selectors.getMaximumAttachmentsPerRecord(stateWithRecords);
 
       expect(result).to.be.equal(55);
+    });
+  });
+
+  describe("getListHeaders", () => {
+    const agencies = fromJS([
+      { name: "Name", field_name: "agency.name", id_search: false },
+      {
+        name: "Description",
+        field_name: "agency.description",
+        id_search: false
+      }
+    ]);
+    const field = FieldRecord({
+      display_name: "Test Field 1",
+      name: "test_field_1",
+      type: "text_field"
+    });
+
+    const metadata = fromJS({
+      total: 24,
+      per: 20,
+      page: 1
+    });
+
+    it("should return list of headers allowed to the user", () => {
+      const expected = agencies;
+      const values = selectors.getListHeaders(
+        fromJS({
+          user: {
+            listHeaders: {
+              agencies
+            }
+          },
+          forms: {
+            fields: field
+          },
+          records: {
+            cases: {
+              metadata,
+              filters: { disabled: ["true"] }
+            }
+          }
+        }),
+        "agencies"
+      );
+
+      expect(values).to.deep.equal(agencies);
+    });
+
+    it("should return false when there are not users in store", () => {
+      const values = selectors.getListHeaders(fromJS({}));
+
+      expect(values).to.be.empty;
     });
   });
 });

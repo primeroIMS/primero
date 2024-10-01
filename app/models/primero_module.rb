@@ -9,8 +9,12 @@ class PrimeroModule < ApplicationRecord
   CP = 'primeromodule-cp'
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
-
   DEFAULT_CONSENT_FORM = 'consent'
+  DEFAULT_CASE_LIST_HEADERS = {
+    CP => %w[id name complete age sex registration_date photo social_worker alert_count flag_count],
+    GBV => %w[id complete survivor_code case_opening_date social_worker alert_count flag_count],
+    MRM => %w[id complete social_worker alert_count flag_count]
+  }.freeze
 
   # allow_searchable_ids: TODO document
   # selectable_approval_types: TODO document
@@ -28,7 +32,8 @@ class PrimeroModule < ApplicationRecord
     :allow_searchable_ids, :selectable_approval_types,
     :workflow_status_indicator, :agency_code_indicator, :use_workflow_service_implemented,
     :use_workflow_case_plan, :use_workflow_assessment, :reporting_location_filter,
-    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for, :consent_form
+    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for, :consent_form,
+    :list_filters, :list_headers
   )
 
   belongs_to :primero_program, optional: true
@@ -89,6 +94,13 @@ class PrimeroModule < ApplicationRecord
   def update_with_properties(params)
     assign_attributes(params.except('form_section_unique_ids'))
     self.form_sections = FormSection.where(unique_id: params[:form_section_unique_ids])
+  end
+
+  def record_list_headers
+    headers = {}
+    headers_from_module = list_headers&.[](Child.parent_form.pluralize)
+    headers[Child.parent_form.pluralize.to_sym] = headers_from_module || DEFAULT_CASE_LIST_HEADERS[unique_id]
+    headers
   end
 
   private
