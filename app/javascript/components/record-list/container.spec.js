@@ -293,7 +293,10 @@ describe("<RecordList />", () => {
         PrimeroModuleRecord({
           unique_id: "primeromodule-cp",
           name: "CP",
-          associated_record_types: ["case"]
+          associated_record_types: ["case"],
+          list_headers: {
+            cases: ["id", "name", "age"]
+          }
         })
       ]
     },

@@ -50,7 +50,7 @@ class Child < ApplicationRecord
   # rubocop:disable Naming/VariableNumber
   store_accessor(
     :data,
-    :case_id, :case_id_code, :case_id_display,
+    :case_id, :case_id_code, :case_id_display, :client_code,
     :nickname, :name, :protection_concerns, :consent_for_tracing, :hidden_name,
     :name_first, :name_middle, :name_last, :name_nickname, :name_other,
     :registration_date, :age, :estimated, :date_of_birth, :sex, :address_last,
@@ -84,7 +84,7 @@ class Child < ApplicationRecord
   def self.filterable_id_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
     # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
-    %w[ unique_identifier short_id case_id_display case_id
+    %w[ unique_identifier short_id case_id_display case_id client_code
         ration_card_no icrc_ref_no rc_id_no unhcr_id_no unhcr_individual_no un_no
         other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
         family_count_no dss_id camp_id tent_number nfi_distribution_id oscar_number registry_no

@@ -9,7 +9,7 @@ import isEmpty from "lodash/isEmpty";
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
-import { getListHeaders } from "../../../user";
+import { getListHeaders } from "../../../application";
 import Permission, { RESOURCES, MANAGE } from "../../../permissions";
 import { filterOnTableChange, headersToColumns, onSubmitFilters } from "../utils";
 import { FiltersForm } from "../../../form-filters/components";

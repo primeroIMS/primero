@@ -10,6 +10,14 @@ class PrimeroModule < ApplicationRecord
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
 
+  DEFAULT_CONSENT_FORM = 'consent'
+
+  DEFAULT_CASE_LIST_HEADERS = {
+    CP => %w[id name complete age sex registration_date photo social_worker alert_count flag_count],
+    GBV => %w[id complete survivor_code case_opening_date social_worker alert_count flag_count],
+    MRM => %w[id complete social_worker alert_count flag_count]
+  }.freeze
+
   DEFAULT_CASE_LIST_FILTERS = {
     CP => %w[
       flagged owned_by my_cases workflow owned_by_agency_id status
@@ -34,8 +42,6 @@ class PrimeroModule < ApplicationRecord
     ]
   }.freeze
 
-  DEFAULT_CONSENT_FORM = 'consent'
-
   # allow_searchable_ids: TODO document
   # selectable_approval_types: TODO document
   # agency_code_indicator: TODO document. Still used?
@@ -53,7 +59,7 @@ class PrimeroModule < ApplicationRecord
     :workflow_status_indicator, :agency_code_indicator, :use_workflow_service_implemented,
     :use_workflow_case_plan, :use_workflow_assessment, :reporting_location_filter,
     :user_group_filter, :use_webhooks_for, :use_webhook_sync_for, :consent_form,
-    :list_filters
+    :list_filters, :list_headers
   )
 
   belongs_to :primero_program, optional: true
@@ -121,6 +127,13 @@ class PrimeroModule < ApplicationRecord
     filters_from_module = list_filters&.[](Child.parent_form.pluralize)
     filters[Child.parent_form.pluralize.to_sym] = filters_from_module || DEFAULT_CASE_LIST_FILTERS[unique_id]
     filters
+  end
+
+  def record_list_headers
+    headers = {}
+    headers_from_module = list_headers&.[](Child.parent_form.pluralize)
+    headers[Child.parent_form.pluralize.to_sym] = headers_from_module || DEFAULT_CASE_LIST_HEADERS[unique_id]
+    headers
   end
 
   private

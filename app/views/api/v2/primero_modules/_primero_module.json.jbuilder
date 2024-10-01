@@ -11,6 +11,7 @@ json.form_section_unique_ids primero_module.form_section_unique_ids
 json.field_map IncidentCreationService.new(primero_module:).field_map
 json.module_options primero_module.module_options
 json.list_filters primero_module.record_list_filters
+json.list_headers primero_module.record_list_headers
 json.options primero_module.module_options # TODO: Change the front end to use the 'module_options' key above
 # For now only CP case is supported, but the structure can be extended
 if primero_module.unique_id == PrimeroModule::CP
