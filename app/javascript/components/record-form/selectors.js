@@ -615,6 +615,17 @@ export const getDuplicatedFields = createCachedSelector(getDuplicatedFieldAlerts
 
 export const getRedirectedToCreateNewRecord = state => state.getIn([NAMESPACE, "redirectedToCreateNewRecord"], false);
 
+export const getSubFormForFieldName = createCachedSelector(
+  (state, query) =>
+    getRecordForms(state, { ...query, includeNested: true, primeroModule: query.primeroModule || MODULES.CP }),
+  (_state, query) => query,
+  (formSections, query) => {
+    const formSection = formSections.find(form => form.fields.some(field => field.name === query.fieldName));
+
+    return formSection?.fields?.find(field => field.name === query.fieldName)?.subform_section_id;
+  }
+)(defaultCacheSelectorOptions);
+
 export const getIsServicesForm = createCachedSelector(
   (state, query) =>
     getRecordFormsByUniqueIdWithFallback(state, { ...query, fallbackModule: query.fallbackModule || MODULES.CP }),
