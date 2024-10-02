@@ -45,21 +45,6 @@ const stateWithRecords = fromJS({
 });
 
 describe("<RecordList /> - Selectors", () => {
-  describe("getListHeaders", () => {
-    it("should return list of headers allowed to the user", () => {
-      const expected = agencies;
-      const values = selectors.getListHeaders(stateWithRecords, "agencies");
-
-      expect(values).to.deep.equal(agencies);
-    });
-
-    it("should return false when there are not users in store", () => {
-      const values = selectors.getListHeaders(stateWithoutRecords);
-
-      expect(values).to.be.empty;
-    });
-  });
-
   describe("getFields", () => {
     it("should return all fields", () => {
       const values = selectors.getFields(stateWithRecords);

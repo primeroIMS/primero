@@ -12,7 +12,6 @@ describe("<RecordList /> - index", () => {
       "buildTableColumns",
       "default",
       "getAppliedFilters",
-      "getListHeaders",
       "getMetadata",
       "SET_PAGINATION",
       "RECORDS",

@@ -12,6 +12,36 @@ class PrimeroModule < ApplicationRecord
 
   DEFAULT_CONSENT_FORM = 'consent'
 
+  DEFAULT_CASE_LIST_HEADERS = {
+    CP => %w[id name complete age sex registration_date photo social_worker alert_count flag_count],
+    GBV => %w[id complete survivor_code case_opening_date social_worker alert_count flag_count],
+    MRM => %w[id complete social_worker alert_count flag_count]
+  }.freeze
+
+  DEFAULT_CASE_LIST_FILTERS = {
+    CP => %w[
+      flagged owned_by my_cases workflow owned_by_agency_id status
+      age sex approval_status_assessment approval_status_case_plan approval_status_closure
+      approval_status_action_plan approval_status_gbv_closure protection_concerns
+      protection_status urgent_protection_concern type_of_risk risk_level
+      location_current reporting_location last_updated_by cases_by_date
+      record_state has_photo
+    ],
+    GBV => %w[
+      flagged owned_by my_cases workflow owned_by_agency_id status
+      age sex approval_status_assessment approval_status_case_plan
+      approval_status_closure approval_status_action_plan approval_status_gbv_closure
+      protection_concerns gbv_displacement_status
+      owned_by_agency_office owned_by_groups last_updated_by record_state
+    ],
+    MRM => %w[
+      flagged owned_by my_cases workflow owned_by_agency_id status
+      age sex approval_status_assessment approval_status_case_plan
+      approval_status_closure approval_status_action_plan approval_status_gbv_closure
+      protection_concerns last_updated_by record_state
+    ]
+  }.freeze
+
   # allow_searchable_ids: TODO document
   # selectable_approval_types: TODO document
   # agency_code_indicator: TODO document. Still used?
@@ -28,7 +58,8 @@ class PrimeroModule < ApplicationRecord
     :allow_searchable_ids, :selectable_approval_types,
     :workflow_status_indicator, :agency_code_indicator, :use_workflow_service_implemented,
     :use_workflow_case_plan, :use_workflow_assessment, :reporting_location_filter,
-    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for, :consent_form
+    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for, :consent_form,
+    :list_filters, :list_headers
   )
 
   belongs_to :primero_program, optional: true
@@ -89,6 +120,20 @@ class PrimeroModule < ApplicationRecord
   def update_with_properties(params)
     assign_attributes(params.except('form_section_unique_ids'))
     self.form_sections = FormSection.where(unique_id: params[:form_section_unique_ids])
+  end
+
+  def record_list_filters
+    filters = {}
+    filters_from_module = list_filters&.[](Child.parent_form.pluralize)
+    filters[Child.parent_form.pluralize.to_sym] = filters_from_module || DEFAULT_CASE_LIST_FILTERS[unique_id]
+    filters
+  end
+
+  def record_list_headers
+    headers = {}
+    headers_from_module = list_headers&.[](Child.parent_form.pluralize)
+    headers[Child.parent_form.pluralize.to_sym] = headers_from_module || DEFAULT_CASE_LIST_HEADERS[unique_id]
+    headers
   end
 
   private

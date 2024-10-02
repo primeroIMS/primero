@@ -25,6 +25,7 @@ export {
   getEnabledUserGroups,
   getWorkflowLabels,
   getAppData,
-  getWebpushConfig
+  getWebpushConfig,
+  getListHeaders
 } from "./selectors";
 export { PERMISSIONS, RESOURCES, RESOURCE_ACTIONS } from "./constants";
