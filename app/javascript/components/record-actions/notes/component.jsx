@@ -1,10 +1,12 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
+import { useMemo } from "react";
 import PropTypes from "prop-types";
 import { List } from "immutable";
 import { batch, useDispatch } from "react-redux";
 import { object } from "yup";
 
+import { useApp } from "../../application";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import Form, { FORM_MODE_DIALOG } from "../../form";
@@ -16,14 +18,20 @@ import { useMemoizedSelector } from "../../../libs";
 import { getSubFormForFieldName } from "../../record-form/selectors";
 import { RECORD_TYPES } from "../../../config";
 import { fieldValidations } from "../../record-form/form/validations";
+import displayConditionsEnabled from "../../record-form/form/utils/display-conditions-enabled";
+import getDisplayConditions from "../../record-form/form/utils/get-display-conditions";
+import { parseExpression } from "../../../libs/expressions";
 
 import { NAME, FORM_ID } from "./constants";
+
+const HIDDEN_FIELD_NAMES = ["note_date", "note_created_by"];
 
 function Component({ close, open, pending, record, recordType, setPending, primeroModule }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const { online } = useApp();
 
-  const formSection = useMemoizedSelector(state =>
+  const notesSubform = useMemoizedSelector(state =>
     getSubFormForFieldName(state, {
       recordType: RECORD_TYPES[recordType],
       primeroModule,
@@ -31,12 +39,40 @@ function Component({ close, open, pending, record, recordType, setPending, prime
       checkVisible: false
     })
   );
+
   const recordAlerts = useMemoizedSelector(state => getRecordAlerts(state, recordType));
 
-  const validationSchema = object().shape(
-    formSection?.fields
-      ?.filter(field => !field.disabled)
-      .reduce((acc, field) => ({ ...acc, ...fieldValidations(field, { i18n, online: true }) }), {})
+  const formSection = useMemo(() => {
+    const fields = notesSubform?.fields?.map(field => {
+      if (HIDDEN_FIELD_NAMES.includes(field.name)) {
+        return field.merge({ visible: false });
+      }
+
+      if (displayConditionsEnabled(field.display_conditions_subform)) {
+        return field.merge({
+          watchedInputs: notesSubform.fields
+            .filter(subformField => !HIDDEN_FIELD_NAMES.includes(subformField.name))
+            .map(watchedField => watchedField.name),
+          showIf: values => parseExpression(getDisplayConditions(field.display_conditions_subform)).evaluate(values)
+        });
+      }
+
+      return field;
+    });
+
+    return notesSubform?.set("fields", fields);
+  }, [notesSubform]);
+
+  const formSections = useMemo(() => (formSection ? List([formSection]) : List([])), [formSection]);
+
+  const validationSchema = useMemo(
+    () =>
+      object().shape(
+        formSection?.fields
+          ?.filter(field => !field.disabled)
+          ?.reduce((acc, field) => ({ ...acc, ...fieldValidations(field, { i18n, online }) }), {})
+      ),
+    [formSection]
   );
 
   const handleSubmit = data => {
@@ -63,8 +99,6 @@ function Component({ close, open, pending, record, recordType, setPending, prime
     }
   };
 
-  const formSections = List([formSection]);
-
   return (
     <ActionDialog
       open={open}
@@ -84,6 +118,7 @@ function Component({ close, open, pending, record, recordType, setPending, prime
         onSubmit={handleSubmit}
         validations={validationSchema}
         formID={FORM_ID}
+        showTitle={false}
       />
     </ActionDialog>
   );
