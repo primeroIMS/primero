@@ -10,7 +10,7 @@ import displayNameHelper from "../../libs/display-name-helper";
 import { getLocale } from "../i18n/selectors";
 import { DATA_PROTECTION_FIELDS } from "../record-creation-flow/constants";
 import { currentUser } from "../user/selectors";
-import { RECORD_TYPES_PLURAL } from "../../config";
+import { MODULES, RECORD_TYPES_PLURAL } from "../../config";
 
 import { PERMISSIONS, RESOURCE_ACTIONS, DEMO, LIMITED } from "./constants";
 import NAMESPACE from "./namespace";
@@ -51,10 +51,21 @@ export const selectUserModules = state =>
     return userModules ? userModules.includes(m.unique_id) : false;
   });
 
-export const selectModule = (state, id) => selectUserModules(state).find(f => f.unique_id === id, null, fromJS({}));
+export const selectModule = (state, id) =>
+  selectUserModules(state).find(userModule => userModule.unique_id === id, null, fromJS({}));
 
 export const getWorkflowLabels = (state, id, recordType) =>
   selectModule(state, id).getIn(["workflows", recordType], []);
+
+export const getAllWorkflowLabels = (state, recordType) => {
+  return selectUserModules(state).reduce((prev, current) => {
+    if (![MODULES.GBV, MODULES.MRM].includes(current.get("unique_id"))) {
+      prev.push([current.name, current.getIn(["workflows", recordType], [])]);
+    }
+
+    return prev;
+  }, []);
+};
 
 export const getConsentform = (state, id) => selectModule(state, id).getIn(["options", "consent_form"]);
 

@@ -13,8 +13,7 @@ json.module_options primero_module.module_options
 json.list_filters primero_module.record_list_filters
 json.list_headers primero_module.record_list_headers
 json.options primero_module.module_options # TODO: Change the front end to use the 'module_options' key above
-# For now only CP case is supported, but the structure can be extended
-if primero_module.unique_id == PrimeroModule::CP
+unless [PrimeroModule::MRM, PrimeroModule::GBV].include?(primero_module.unique_id)
   json.workflows do
     if primero_module.workflow_status_indicator
       ['case'].each do |record_type|
