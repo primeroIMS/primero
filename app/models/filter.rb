@@ -67,7 +67,7 @@ class Filter < ValueObject
   GENDER_IDENTITY = Filter.new(
     unique_id: 'gender_identity',
     name: 'cases.filter_by.gender',
-    field_name: 'gender',
+    field_name: 'gender_identity',
     option_strings_source: 'lookup-gender-identity'
   )
   PROTECTION_CONCERNS = Filter.new(
@@ -115,11 +115,21 @@ class Filter < ValueObject
   )
   DISABILITY_STATUS = Filter.new(
     name: 'cases.filter_by.disability_status',
-    field_name: 'disability_status_yes_no'
+    field_name: 'disability_status_yes_no',
+    option_strings_source: 'lookup-yes-no',
+    type: 'multi_toggle'
   )
   SOGIESC_SELF_IDENTIFYING = Filter.new(
     name: 'cases.filter_by.sogiesc_self_identifying',
-    field_name: 'sogiesc_self_identifying'
+    field_name: 'sogiesc_self_identifying',
+    option_strings_source: 'lookup-yes-no-unknown',
+    type: 'multi_toggle'
+  )
+  DISPLACEMENT_STATUS = Filter.new(
+    name: 'cases.filter_by.displacement_status',
+    field_name: 'displacement_status',
+    option_strings_source: 'lookup-displacement-status',
+    type: 'multi_select'
   )
   PROTECTION_THREATS = Filter.new(
     name: 'cases.filter_by.protection_threats',
@@ -435,7 +445,7 @@ class Filter < ValueObject
       filters += [MY_CASES, WORKFLOW]
       filters << AGENCY if user.admin?
       filters += [STATUS, AGE_RANGE, SEX, GENDER_IDENTITY] + user_based_filters(user) + [NO_ACTIVITY]
-      filters << DATE_CASE
+      filters << DATE_CASE unless user.gbv_only? || user.mrm_only?
       filters << ENABLED
       filters += photo_filters(user)
       filters
@@ -446,6 +456,7 @@ class Filter < ValueObject
       filters += approvals_filters(user)
       filters += field_based_filters(user)
       filters << RISK_LEVEL
+      filters << DISPLACEMENT_STATUS
       filters << DISABILITY_STATUS
       filters << SOGIESC_SELF_IDENTIFYING
       filters << PROTECTION_THREATS
