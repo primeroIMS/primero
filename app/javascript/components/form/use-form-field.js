@@ -168,6 +168,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     asyncParamsFromWatched,
     clearDependentValues,
     clearDependentReason,
+    dateIncludeTime,
     disableClearable,
     fileFormat,
     freeSolo,

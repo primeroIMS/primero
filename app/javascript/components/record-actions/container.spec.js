@@ -166,10 +166,81 @@ describe("<RecordActions />", () => {
   const defaultStateWithDialog = dialog =>
     defaultState.merge(
       fromJS({
-        ui: {
-          dialogs: {
-            dialog,
-            open: true
+        ui: { dialogs: { dialog, open: true } },
+        forms: {
+          formSections: {
+            1: FormSectionRecord({
+              id: 1,
+              unique_id: "notes_form",
+              name: { en: "Notes Form" },
+              visible: true,
+              is_first_tab: true,
+              order: 20,
+              order_form_group: 10,
+              parent_form: "case",
+              editable: true,
+              module_ids: ["primeromodule-cp"],
+              form_group_id: "notes",
+              form_group_name: { en: "Notes" },
+              fields: [1],
+              is_nested: false,
+              subform_prevent_item_removal: false
+            }),
+            2: FormSectionRecord({
+              id: 2,
+              unique_id: "nested_notes_form",
+              name: { en: "Nested Notes Form" },
+              visible: false,
+              is_first_tab: true,
+              order: 10,
+              order_form_group: 10,
+              parent_form: "case",
+              editable: true,
+              module_ids: ["primeromodule-cp"],
+              form_group_id: "nested_notes",
+              form_group_name: { en: "Nested Notes" },
+              fields: [2, 3, 4, 5],
+              is_nested: true,
+              subform_prevent_item_removal: false
+            })
+          },
+          fields: {
+            1: FieldRecord({
+              id: 1,
+              name: "notes_section",
+              visible: true,
+              type: "subform",
+              display_text: { en: "Notes Section Field" },
+              subform_section_id: 2
+            }),
+            2: FieldRecord({
+              id: 2,
+              name: "note_date",
+              visible: true,
+              type: "date_field",
+              display_name: { en: "Date" }
+            }),
+            3: FieldRecord({
+              id: 3,
+              name: "note_subject",
+              visible: true,
+              type: "text_field",
+              display_name: { en: "Subject" }
+            }),
+            4: FieldRecord({
+              id: 4,
+              name: "note_created_by",
+              visible: true,
+              type: "text_field",
+              display_name: { en: "Manager" }
+            }),
+            5: FieldRecord({
+              id: 5,
+              name: "note_text",
+              visible: true,
+              type: "text_field",
+              display_name: { en: "Notes" }
+            })
           }
         }
       })
