@@ -46,6 +46,7 @@ class Child < ApplicationRecord
   include LocationCacheable
   include FamilyLinkable
   include PhoneticSearchable
+  include ReportableLocation
 
   # rubocop:disable Naming/VariableNumber
   store_accessor(
@@ -103,6 +104,7 @@ class Child < ApplicationRecord
     common_summary_fields + %w[
       case_id_display name survivor_code_no age sex registration_date
       hidden_name workflow case_status_reopened module_id registry_record_id
+      client_code gender reporting_location_hierarchy
     ]
   end
 

@@ -133,7 +133,7 @@ describe Header do
     expect(Header.get_headers(@user_cp_worker, 'case')).to eq(
       [
         Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::COMPLETE, Header::CLIENT_CODE,
-        Header::SURVIVOR_CODE, Header::AGE, Header::SEX,
+        Header::SURVIVOR_CODE, Header::AGE, Header::SEX, Header::GENDER,
         Header::REGISTRATION_DATE, Header::CASE_OPENING_DATE, Header::PHOTO, Header::LOCATION, Header::ALERT_COUNT,
         Header::FLAG_COUNT
       ]
@@ -142,7 +142,7 @@ describe Header do
     expect(Header.get_headers(@user_cp_manager, 'case')).to eq(
       [
         Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::COMPLETE, Header::CLIENT_CODE,
-        Header::AGE, Header::SEX,
+        Header::AGE, Header::SEX, Header::GENDER,
         Header::REGISTRATION_DATE, Header::CASE_OPENING_DATE, Header::PHOTO,
         Header::SOCIAL_WORKER, Header::LOCATION, Header::ALERT_COUNT, Header::FLAG_COUNT
       ]
@@ -150,7 +150,7 @@ describe Header do
 
     expect(Header.get_headers(@user_cp_manager_read_case, 'case')).to eq(
       [
-        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CLIENT_CODE, Header::AGE, Header::SEX,
+        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CLIENT_CODE, Header::AGE, Header::SEX, Header::GENDER,
         Header::REGISTRATION_DATE, Header::CASE_OPENING_DATE, Header::SOCIAL_WORKER, Header::LOCATION,
         Header::ALERT_COUNT, Header::FLAG_COUNT
       ]
@@ -159,7 +159,7 @@ describe Header do
     expect(Header.get_headers(@user_gbv_worker, 'case')).to eq(
       [
         Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::COMPLETE, Header::CLIENT_CODE,
-        Header::SURVIVOR_CODE, Header::AGE, Header::SEX,
+        Header::SURVIVOR_CODE, Header::AGE, Header::SEX, Header::GENDER,
         Header::REGISTRATION_DATE, Header::CASE_OPENING_DATE, Header::PHOTO,
         Header::LOCATION, Header::ALERT_COUNT, Header::FLAG_COUNT
       ]
@@ -168,7 +168,7 @@ describe Header do
     expect(Header.get_headers(@user_gbv_manager, 'case')).to eq(
       [
         Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::COMPLETE, Header::CLIENT_CODE,
-        Header::AGE, Header::SEX,
+        Header::AGE, Header::SEX, Header::GENDER,
         Header::REGISTRATION_DATE, Header::CASE_OPENING_DATE, Header::PHOTO, Header::SOCIAL_WORKER,
         Header::LOCATION, Header::ALERT_COUNT, Header::FLAG_COUNT
       ]
@@ -177,7 +177,7 @@ describe Header do
     expect(Header.get_headers(@user_test_worker, 'case')).to eq(
       [
         Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::COMPLETE, Header::CLIENT_CODE,
-        Header::SURVIVOR_CODE, Header::AGE, Header::SEX,
+        Header::SURVIVOR_CODE, Header::AGE, Header::SEX, Header::GENDER,
         Header::REGISTRATION_DATE, Header::CASE_OPENING_DATE, Header::PHOTO,
         Header::LOCATION, Header::ALERT_COUNT, Header::FLAG_COUNT
       ]

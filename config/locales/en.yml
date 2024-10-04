@@ -399,6 +399,7 @@ en:
     flag_summary: Flag summary
     full_name: Full Name
     gbv_closure: GBV Closure
+    gender_identity: Gender
     hide_name: Hide Name
     hide_name_error: An error ocurred when saving your changes. Please try again.
     id: ID#
