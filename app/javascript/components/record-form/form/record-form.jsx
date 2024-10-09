@@ -18,6 +18,7 @@ import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD } from "../constants";
 import { LEGITIMATE_BASIS } from "../../record-creation-flow/components/consent-prompt/constants";
 import renderFormSections from "../components/render-form-sections";
 import { useApp } from "../../application";
+import { parseExpression } from "../../../libs/expressions";
 
 import { RECORD_FORM_NAME } from "./constants";
 import { fieldValidations } from "./validations";
@@ -54,6 +55,7 @@ function RecordForm({
   const formikValues = useRef();
   const bindedSetValues = useRef(null);
   const bindedResetForm = useRef(null);
+  const bindedRecalculateFields = useRef(null);
 
   const bindSetValues = setValues => {
     bindedSetValues.current = setValues;
@@ -61,6 +63,10 @@ function RecordForm({
 
   const bindResetForm = resetForm => {
     bindedResetForm.current = resetForm;
+  };
+
+  const bindRecalculateFields = recalculateFields => {
+    bindedRecalculateFields.current = recalculateFields;
   };
 
   const buildValidationSchema = formSections => {
@@ -174,6 +180,14 @@ function RecordForm({
     }
   }, [mode.isNew, dataProtectionInitialValues]);
 
+  const calculatedFields = forms.flatMap(fs => fs.fields.filter(field => field.calculation?.expression));
+
+  useEffect(() => {
+    if (typeof bindedRecalculateFields.current === "function") {
+      bindedRecalculateFields.current();
+    }
+  });
+
   const handleConfirm = onConfirm => {
     onConfirm();
     if (incidentFromCase?.size) {
@@ -207,10 +221,22 @@ function RecordForm({
         >
           {props => {
             // eslint-disable-next-line react/prop-types
-            const { submitForm, values } = props;
+            const { submitForm, values, setFieldValue } = props;
 
             bindSubmitForm(submitForm);
             setFormikValuesForNav(values);
+
+            bindRecalculateFields(() => {
+              if (values) {
+                calculatedFields.forEach(field => {
+                  const result = parseExpression(field.calculation.expression).evaluate(values);
+
+                  if (values[field.name] !== result) {
+                    setFieldValue(field.name, result, false);
+                  }
+                });
+              }
+            });
 
             return (
               <FormikForm
