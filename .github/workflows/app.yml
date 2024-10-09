@@ -88,5 +88,5 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
       - name: Run client linter
         run: |
-          npm ci
+          npm config set legacy-peer-deps true && npm ci
           npm run lint
