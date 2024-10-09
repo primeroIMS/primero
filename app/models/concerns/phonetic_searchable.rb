@@ -11,7 +11,7 @@ module PhoneticSearchable
     store_accessor :phonetic_data, :tokens
 
     before_save :recalculate_phonetic_tokens
-    before_save :recalculate_searchable_identifiers
+    after_save :recalculate_searchable_identifiers
   end
 
   # Class methods to indicate the phonetic_field_names of a record
@@ -43,7 +43,9 @@ module PhoneticSearchable
   end
 
   def create_or_update_searchable_identifier!(field_name, value)
-    searchable_identifier = searchable_identifiers.select { |identifier| identifier.field_name == field_name }
+    searchable_identifier = searchable_identifiers.find { |identifier| identifier.field_name == field_name }
+
+    return if searchable_identifier.present? && searchable_identifier.value == value
 
     if searchable_identifier.present? && searchable_identifier.value != value
       searchable_identifier.value = value
@@ -54,7 +56,7 @@ module PhoneticSearchable
   end
 
   def searchable_identifiers_changed?
-    (changes_to_save_for_record.keys & self.class.filterable_id_fields).present?
+    (saved_changes_to_record.keys & self.class.filterable_id_fields).present?
   end
 
   def generate_tokens

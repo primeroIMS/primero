@@ -13,7 +13,7 @@ describe PhoneticSearchService, search: true do
       let(:record4) { Child.create!(data: { name: 'Record 3', sex: nil }) }
 
       before do
-        clean_data(Child)
+        clean_data(SearchableIdentifier, Child)
         record1
         record2
         record3
@@ -60,7 +60,7 @@ describe PhoneticSearchService, search: true do
       let(:record4) { Child.create!(data: { name: 'Record 4', urgent_protection_concern: nil }) }
 
       before do
-        clean_data(Child)
+        clean_data(SearchableIdentifier, Child)
         record1
         record2
         record3
@@ -121,7 +121,7 @@ describe PhoneticSearchService, search: true do
       let(:record4) { Child.create!(data: { name: 'Record 4', age: nil }) }
 
       before do
-        clean_data(Child)
+        clean_data(SearchableIdentifier, Child)
         record1
         record2
         record3
@@ -194,7 +194,7 @@ describe PhoneticSearchService, search: true do
       let(:record4) { Child.create!(data: { name: 'Record 4', date_of_birth: nil }) }
 
       before do
-        clean_data(Child)
+        clean_data(SearchableIdentifier, Child)
         record1
         record2
         record3
@@ -244,7 +244,7 @@ describe PhoneticSearchService, search: true do
       let(:record2) { Child.create!(data: { name: 'Record 2', sex: 'male' }) }
 
       before do
-        clean_data(Child)
+        clean_data(SearchableIdentifier, Child)
         record1
         record2
       end
@@ -332,7 +332,7 @@ describe PhoneticSearchService, search: true do
     end
 
     before do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
       record1
       record2
       record3
@@ -393,7 +393,7 @@ describe PhoneticSearchService, search: true do
     let(:record3) { Child.create!(data: { name: 'Augustina Applebee', sex: 'male' }) }
 
     before do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
       record1
       record2
       record3
@@ -440,7 +440,7 @@ describe PhoneticSearchService, search: true do
     end
 
     before do
-      clean_data(User, UserGroup, Agency, Child)
+      clean_data(User, UserGroup, Agency, SearchableIdentifier, Child)
       user1
       user2
       user3
@@ -531,7 +531,7 @@ describe PhoneticSearchService, search: true do
     end
 
     before do
-      clean_data(Location, FormSection, Field, User, UserGroup, Agency, Child)
+      clean_data(Location, FormSection, Field, User, UserGroup, Agency, SearchableIdentifier, Child)
 
       create(
         :form_section,
@@ -577,7 +577,7 @@ describe PhoneticSearchService, search: true do
     let(:record2) { Child.create!(data: { name: 'Record 2', module_id: 'primeromodule-gbv' }) }
 
     before do
-      clean_data(User, UserGroup, Agency, Child)
+      clean_data(User, UserGroup, Agency, SearchableIdentifier, Child)
       record1
       record2
     end
@@ -636,7 +636,7 @@ describe PhoneticSearchService, search: true do
       )
     end
     before do
-      clean_data(Incident)
+      clean_data(SearchableIdentifier, Incident)
       record1
       record2
       record3
