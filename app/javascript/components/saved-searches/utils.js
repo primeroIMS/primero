@@ -10,6 +10,7 @@ export const buildFiltersApi = filters => {
 
     if (
       value === undefined ||
+      value === null ||
       (isArray && value.length <= 0) ||
       (isObject && Object.keys(value).length <= 0) ||
       excludeDefaultFiltersKeys.includes(key)
