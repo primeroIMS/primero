@@ -3,6 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Concern that allow records to be searchable through phonetics
+# TODO: Once the Searchable concern is deprecated this concern will be renamed to Searchable
 module PhoneticSearchable
   extend ActiveSupport::Concern
 
@@ -36,8 +37,6 @@ module PhoneticSearchable
   def generate_searchable_identifiers
     self.class.filterable_id_fields.each do |field_name|
       value = data[field_name]
-      next unless value.present?
-
       create_or_update_searchable_identifier!(field_name, value)
     end
   end
@@ -45,12 +44,10 @@ module PhoneticSearchable
   def create_or_update_searchable_identifier!(field_name, value)
     searchable_identifier = searchable_identifiers.find { |identifier| identifier.field_name == field_name }
 
-    return if searchable_identifier.present? && searchable_identifier.value == value
-
-    if searchable_identifier.present? && searchable_identifier.value != value
+    if searchable_identifier.present?
       searchable_identifier.value = value
       searchable_identifier.save!
-    else
+    elsif value.present?
       searchable_identifiers << SearchableIdentifier.new(field_name:, value:)
     end
   end

@@ -12,9 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2024_10_09_000000) do
 
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
+  enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -527,8 +527,8 @@ ActiveRecord::Schema.define(version: 2024_10_09_000000) do
     t.uuid "record_id"
     t.string "field_name"
     t.string "value"
-    t.index ["record_type", "record_id", "field_name"], name: "searchable_identifiers_unique_idx", unique: true
     t.index ["record_type", "record_id"], name: "index_searchable_identifiers_on_record"
+    t.index ["value"], name: "searchable_identifiers_value_idx", opclass: :gin_trgm_ops, using: :gin
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
