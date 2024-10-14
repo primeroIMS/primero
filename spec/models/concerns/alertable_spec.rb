@@ -75,6 +75,7 @@ describe Alertable do
       @group_a = UserGroup.create!(name: 'Group1')
       @group_b = UserGroup.create!(name: 'Group2')
       @group_c = UserGroup.create!(name: 'Group3')
+      @group_d = UserGroup.create!(name: 'Group4')
       @user_a = User.create!(
         full_name: 'Test User 1',
         user_name: 'test_user_1',
@@ -103,7 +104,7 @@ describe Alertable do
         email: 'test_user_3@localhost.com',
         agency_id: agency_b.id,
         role: role_group,
-        user_groups: [@group_a]
+        user_groups: [@group_a, @group_d]
       )
       @user_d = User.create!(
         full_name: 'Test User 4',
@@ -246,7 +247,9 @@ describe Alertable do
           transitioned_by: 'test_user_2', transitioned_to: 'test_user_4', record: @test_class,
           type: Transfer.name, consent_overridden: true
         )
-        child_tranferred = Child.create(name: 'bar', data: { owned_by: @user_c.user_name, module_id: 'primeromodule-cp' })
+        child_tranferred = Child.create(name: 'bar',
+                                        data: { owned_by: @user_c.user_name,
+                                                module_id: 'primeromodule-cp' })
         Transfer.create!(
           transitioned_by: 'test_user_3', transitioned_to: 'test_user_1', record: child_tranferred,
           type: Transfer.name, consent_overridden: true

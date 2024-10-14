@@ -177,9 +177,9 @@ module ClassMethods
 
   def alert_count_group(current_user)
     user_groups_unique_id = current_user.user_groups.pluck(:unique_id)
+    user_groups_filter = user_groups_unique_id.map { |unique_id| "@ == #{unique_id.to_json}" }.join(' || ')
     open_enabled_records.where(
-      "data -> 'associated_user_groups' ?& array[:group]",
-      group: user_groups_unique_id
+      "data %s '$.associated_user_groups %s (%s)'", '@?', '?', user_groups_filter
     ).distinct.count
   end
 
