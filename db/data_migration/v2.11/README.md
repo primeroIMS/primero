@@ -29,3 +29,8 @@ rails r ./db/data_migration/v2.11/calculate_solr_fields.rb Child true file/path.
 ```bash
 rails r ./db/data_migration/v2.11/migrate_location_fields.rb true
 ```
+Remove stale solr jobs. pass until what date you want to delete them.
+```bash
+rails r ./db/data_migration/v2.11/remove_solr_jobs.rb 2024-09-30
+```
+
