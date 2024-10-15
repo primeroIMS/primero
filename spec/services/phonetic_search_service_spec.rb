@@ -458,8 +458,7 @@ describe PhoneticSearchService, search: true do
 
     it 'limits access by user group if group scope is provided' do
       search = PhoneticSearchService.search(
-        Child,
-        query_scope: { user: { Permission::GROUP => [user_group1.unique_id, user_group2.unique_id] } }
+        Child, scope: { user: { 'group' => [user_group1.unique_id, user_group2.unique_id] } }
       )
 
       expect(search.total).to eq(3)
@@ -467,7 +466,7 @@ describe PhoneticSearchService, search: true do
     end
 
     it 'limits access by agency if agency scope is provided' do
-      search = PhoneticSearchService.search(Child, scope: { user: { Permission::AGENCY => agency.unique_id } })
+      search = PhoneticSearchService.search(Child, scope: { user: { 'agency' => agency.unique_id } })
       expect(search.total).to eq(2)
       expect(search.records.map(&:name)).to include(record1.name, record3.name)
     end
