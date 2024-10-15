@@ -47,11 +47,13 @@ class Search::SearchQuery
   def filter_ids(value)
     return self unless value.present?
 
-    record_ids = SearchableIdentifier.where(record_type: record_class.name).where(
-      'value ilike :value', value: "#{ActiveRecord::Base.sanitize_sql_like(value)}%"
-    ).pluck(:record_id).uniq
+    @query = @query.where(
+      'id in (:records)',
+      records: SearchableIdentifier.select('record_id').where(record_type: record_class.name).where(
+        'value ilike :value', value: "#{ActiveRecord::Base.sanitize_sql_like(value)}%"
+      )
+    )
 
-    @query = @query.where(id: record_ids)
     self
   end
 
