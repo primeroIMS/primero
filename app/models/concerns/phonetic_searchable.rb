@@ -11,8 +11,11 @@ module PhoneticSearchable
     has_many :searchable_identifiers, as: :record
     store_accessor :phonetic_data, :tokens
 
+    accepts_nested_attributes_for :searchable_identifiers
+
     before_save :recalculate_phonetic_tokens
-    after_save :recalculate_searchable_identifiers
+    before_create :recalculate_searchable_identifiers
+    before_update :recalculate_searchable_identifiers
   end
 
   # Class methods to indicate the phonetic_field_names of a record
@@ -29,31 +32,33 @@ module PhoneticSearchable
   end
 
   def recalculate_searchable_identifiers
-    return unless searchable_identifiers_changed?
+    return unless filterable_id_fields_to_save.present?
 
-    generate_searchable_identifiers
+    identifiers_to_save = identifiers_to_update
+
+    filterable_id_fields_to_save.each do |field_name|
+      next if data[field_name].blank? || identifiers_to_save.any? { |identifier| identifier[:field_name] == field_name }
+
+      identifiers_to_save << { field_name:, value: data[field_name] }
+    end
+
+    self.searchable_identifiers_attributes = identifiers_to_save
   end
 
-  def generate_searchable_identifiers
-    self.class.filterable_id_fields.each do |field_name|
-      value = data[field_name]
-      create_or_update_searchable_identifier!(field_name, value)
+  def identifiers_to_update
+    return [] unless filterable_id_fields_to_save.present?
+
+    searchable_identifiers.map do |searchable_identifier|
+      {
+        field_name: searchable_identifier.field_name,
+        value: data[searchable_identifier.field_name],
+        id: searchable_identifier.id
+      }
     end
   end
 
-  def create_or_update_searchable_identifier!(field_name, value)
-    searchable_identifier = searchable_identifiers.find { |identifier| identifier.field_name == field_name }
-
-    if searchable_identifier.present?
-      searchable_identifier.value = value
-      searchable_identifier.save!
-    elsif value.present?
-      searchable_identifiers << SearchableIdentifier.new(field_name:, value:)
-    end
-  end
-
-  def searchable_identifiers_changed?
-    (saved_changes_to_record.keys & self.class.filterable_id_fields).present?
+  def filterable_id_fields_to_save
+    changes_to_save_for_record.keys & self.class.filterable_id_fields
   end
 
   def generate_tokens
