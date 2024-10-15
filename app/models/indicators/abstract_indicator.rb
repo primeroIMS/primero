@@ -47,11 +47,7 @@ module Indicators
     end
 
     def query(indicator_filters, user_query_scope)
-      query = Search::SearchScope.apply(user_query_scope, record_model)
-      indicator_filters.each do |filter|
-        query = filter.not_filter ? query.where.not(filter.query) : query.where(filter.query)
-      end
-      query
+      Search::SearchQuery.new(record_model).with_filters(indicator_filters).with_scope(user_query_scope).result.records
     end
 
     protected

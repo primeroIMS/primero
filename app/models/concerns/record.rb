@@ -40,7 +40,7 @@ module Record
     end
 
     def find_by_unique_identifier(unique_identifier)
-      find_by('data @> ?', { unique_identifier: }.to_json)
+      find_by("data %s '$.unique_identifier %s (@ == %s)'", '@?', '?', unique_identifier.to_json)
     end
 
     def parent_form
