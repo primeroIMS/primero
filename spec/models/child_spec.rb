@@ -8,7 +8,7 @@ require 'sunspot' if Rails.configuration.solr_enabled
 describe Child do
   describe 'quicksearch' do
     before do
-      clean_data(Child, Family)
+      clean_data(SearchableIdentifier, Child, Family)
     end
 
     it 'has a searchable case id, survivor number' do
@@ -30,6 +30,7 @@ describe Child do
           { unique_id: '123', relation_name: 'Family Name', relation_age: 5, relation_sex: 'male' }
         ]
       )
+
       child = Child.create!(data: { name: 'Lonnie', survivor_code_no: 'ABC123XYZ' })
       child.family = family
       child.save!
@@ -42,6 +43,10 @@ describe Child do
   end
 
   describe 'update_properties' do
+    before do
+      clean_data(SearchableIdentifier, Child)
+    end
+
     it 'should replace old properties with updated ones' do
       child = Child.new(data: { 'name' => 'Dave', 'age' => 28, 'last_known_location' => 'London' })
       new_properties = { 'name' => 'Dave', 'age' => 35 }
@@ -74,6 +79,7 @@ describe Child do
       let(:uuid) { SecureRandom.uuid }
 
       before do
+        clean_data(SearchableIdentifier, Child)
         data = case1.data.clone
         data['incident_details'] = [
           { 'unique_id' => incident1.id, 'description' => 'incident1 - modified' },
@@ -114,7 +120,7 @@ describe Child do
 
   describe 'registry_record' do
     before do
-      clean_data(Child, RegistryRecord)
+      clean_data(SearchableIdentifier, Child, RegistryRecord)
     end
 
     let(:registry_record1) { RegistryRecord.create!(registry_type: 'farmer') }
@@ -128,13 +134,13 @@ describe Child do
     end
 
     after do
-      clean_data(Child, RegistryRecord)
+      clean_data(SearchableIdentifier, Child, RegistryRecord)
     end
   end
 
   describe 'family record' do
     before do
-      clean_data(Child, Family)
+      clean_data(SearchableIdentifier, Child, Family)
     end
 
     let(:family1) do
@@ -441,7 +447,8 @@ describe Child do
 
   describe 'record ownership' do
     before do
-      clean_data(User, Agency, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection)
+      clean_data(SearchableIdentifier, User, Agency, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup,
+                 FormSection)
 
       @owner = create :user
       @previous_owner = create :user
@@ -456,13 +463,15 @@ describe Child do
     end
 
     after do
-      clean_data(User, Agency, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup, FormSection)
+      clean_data(SearchableIdentifier, User, Agency, Incident, Child, Role, PrimeroModule, PrimeroProgram, UserGroup,
+                 FormSection)
     end
   end
 
   describe 'case id code' do
     before do
-      clean_data(User, Location, Role, Agency, PrimeroModule, PrimeroProgram, UserGroup, SystemSettings)
+      clean_data(SearchableIdentifier, User, Location, Role, Agency, PrimeroModule, PrimeroProgram, UserGroup,
+                 SystemSettings)
 
       @permission_case ||= Permission.new(
         resource: Permission::CASE,
@@ -622,13 +631,14 @@ describe Child do
     end
 
     after do
-      clean_data(User, Location, Role, Agency, PrimeroModule, PrimeroProgram, UserGroup, SystemSettings)
+      clean_data(SearchableIdentifier, User, Location, Role, Agency, PrimeroModule, PrimeroProgram, UserGroup,
+                 SystemSettings)
     end
   end
 
   describe 'syncing of protection concerns' do
     before do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
       User.stub(:find_by_user_name).and_return(double(organization: double(unique_id: 'UNICEF')))
       @protection_concerns = %w[Separated Unaccompanied]
     end
@@ -665,13 +675,13 @@ describe Child do
     end
 
     after do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
     end
   end
 
   describe '.match_criteria' do
     before do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
     end
 
     let(:case1) do
@@ -729,13 +739,13 @@ describe Child do
     end
 
     after do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
     end
   end
 
   context 'testing service_implemented field' do
     before do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
     end
 
     it 'not_implemented in service_implemented field' do
@@ -764,13 +774,13 @@ describe Child do
     end
 
     after do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
     end
   end
 
   describe 'current care arrangements' do
     before do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
     end
 
     context 'when all care arrangements have a start date' do
@@ -913,7 +923,7 @@ describe Child do
       end
 
       after :each do
-        clean_data(Child)
+        clean_data(SearchableIdentifier, Child)
       end
 
       let(:most_recent_care_arrangement) { case1.most_recent_care_arrangement }
@@ -979,7 +989,7 @@ describe Child do
       end
 
       after :each do
-        clean_data(Child)
+        clean_data(SearchableIdentifier, Child)
       end
 
       let(:most_recent_care_arrangement) { case1.most_recent_care_arrangement }
@@ -1007,7 +1017,7 @@ describe Child do
       end
     end
     after do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
     end
   end
 
@@ -1051,7 +1061,7 @@ describe Child do
 
   describe 'calculate_has_case_plan' do
     before do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
     end
 
     let(:child1) do
@@ -1094,13 +1104,13 @@ describe Child do
     end
 
     after do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
     end
   end
 
   describe 'family_members' do
     before do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
     end
 
     let(:member_unique_id1) { SecureRandom.uuid }
@@ -1137,13 +1147,13 @@ describe Child do
     end
 
     after do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
     end
   end
 
   describe 'phonetic tokens' do
     before do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
     end
 
     it 'generates the phonetic tokens' do
@@ -1154,7 +1164,7 @@ describe Child do
 
   describe 'reunification_dates' do
     before do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
     end
 
     it 'stores the reunification_dates' do
@@ -1173,7 +1183,7 @@ describe Child do
 
   describe 'tracing_dates' do
     before do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
     end
 
     it 'stores the tracing_dates' do
@@ -1191,7 +1201,7 @@ describe Child do
   end
 
   after do
-    clean_data(Incident, Child, Field, FormSection, PrimeroModule)
+    clean_data(SearchableIdentifier, Incident, Child, Field, FormSection, PrimeroModule)
   end
 
   private
