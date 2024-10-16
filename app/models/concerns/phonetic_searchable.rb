@@ -32,11 +32,15 @@ module PhoneticSearchable
   end
 
   def recalculate_searchable_identifiers
-    return unless filterable_id_fields_to_save.present?
+    return unless filterable_id_fields_changed?
 
+    generate_searchable_identifiers
+  end
+
+  def generate_searchable_identifiers
     identifiers_to_save = identifiers_to_update
 
-    filterable_id_fields_to_save.each do |field_name|
+    self.class.filterable_id_fields.each do |field_name|
       next if data[field_name].blank? || identifiers_to_save.any? { |identifier| identifier[:field_name] == field_name }
 
       identifiers_to_save << { field_name:, value: data[field_name] }
@@ -46,8 +50,6 @@ module PhoneticSearchable
   end
 
   def identifiers_to_update
-    return [] unless filterable_id_fields_to_save.present?
-
     searchable_identifiers.map do |searchable_identifier|
       {
         field_name: searchable_identifier.field_name,
@@ -57,8 +59,8 @@ module PhoneticSearchable
     end
   end
 
-  def filterable_id_fields_to_save
-    changes_to_save_for_record.keys & self.class.filterable_id_fields
+  def filterable_id_fields_changed?
+    (changes_to_save_for_record.keys & self.class.filterable_id_fields).present?
   end
 
   def generate_tokens

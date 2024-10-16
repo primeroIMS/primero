@@ -6,7 +6,7 @@
 # rails r bin/calculate_solr_fields Child,Incident,TracingRequest true file/path.txt
 
 def print_log(message)
-  message = "[#{DateTime.now.strftime('%m/%d/%Y %H:%M')}]: #{message}"
+  message = "[#{DateTime.now.strftime('%m/%d/%Y %H:%M:%S')}]: #{message}"
   puts message
 end
 
@@ -28,17 +28,18 @@ models.map(&:constantize).each do |model|
   records_to_process(model, file_path).find_in_batches(batch_size: 1000).with_index do |records, batch|
     print_log("Process #{model.name} batch #{batch}...")
     records.each do |record|
+      current_size = record.searchable_identifiers.size
+      record.generate_searchable_identifiers
+      generated_size = record.searchable_identifiers.size
+      total = generated_size - current_size
+      record_info = "record_type: #{model.name}, record_id: #{record.id}"
+      field_names = record.searchable_identifiers.map(&:field_name)
+      identifiers_info = "Searchable Identifiers[#{field_names.join(', ')}]"
       if save_records
-        current_size = record.searchable_identifiers.size
-        record.generate_searchable_identifiers
-        generated_size = record.searchable_identifiers.size
-        total = generated_size - current_size
-        print_log("#{total} Searchable Identifiers generated for record_type: #{model.name}, record_id: #{record.id}")
-      elsif record.searchable_identifiers.present?
-        identifiers_size = record.searchable_identifiers.size
-        print_log("record_type: #{model.name}, record_id: #{record.id} has #{identifiers_size} Searchable Identifiers")
+        record.save!
+        print_log("#{total} - #{identifiers_info} generated for #{record_info}")
       else
-        print_log("record_type: #{model.name}, record_id: #{record.id} does not have Searchable Identifiers")
+        print_log("#{total} -  #{identifiers_info} will be generated for #{record_info}")
       end
     end
   end
