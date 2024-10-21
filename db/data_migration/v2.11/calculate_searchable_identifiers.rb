@@ -24,23 +24,44 @@ def records_to_process(model_class, ids_file_path)
   model_class.where(id: ids_to_update)
 end
 
+def update_records(model_class, record_hashes, _batch)
+  model_class.transaction do
+    InsertAllService.insert_all(model_class, record_hashes, 'id')
+  end
+end
+
+def generate_searchable_identifiers(record)
+  record.generate_searchable_identifiers.map do |searchable_identifier|
+    searchable_identifier.merge(record_type: record.class.name, record_id: record.id)
+  end
+end
+
 models.map(&:constantize).each do |model|
   records_to_process(model, file_path).find_in_batches(batch_size: 1000).with_index do |records, batch|
     print_log("Process #{model.name} batch #{batch}...")
+    searchable_identifiers_to_generate = []
     records.each do |record|
       current_size = record.searchable_identifiers.size
-      record.generate_searchable_identifiers
-      generated_size = record.searchable_identifiers.size
+      searchable_identifiers = generate_searchable_identifiers(record)
+      generated_size = searchable_identifiers.size
       total = generated_size - current_size
       record_info = "record_type: #{model.name}, record_id: #{record.id}"
-      field_names = record.searchable_identifiers.map(&:field_name)
+      field_names = searchable_identifiers.map { |searchable_identifier| searchable_identifier[:field_name] }
       identifiers_info = "Searchable Identifiers[#{field_names.join(', ')}]"
-      if save_records
-        record.save!
-        print_log("#{total} - #{identifiers_info} generated for #{record_info}")
-      else
+      if total.positive?
+        searchable_identifiers_to_generate += searchable_identifiers
         print_log("#{total} -  #{identifiers_info} will be generated for #{record_info}")
+      else
+        print_log("No Searchable Identifiers will be generated for #{record_info}")
       end
     end
+
+    if save_records && searchable_identifiers_to_generate.size.positive?
+      update_records(SearchableIdentifier, searchable_identifiers_to_generate, batch)
+    end
+
+    print_log("#{model.name} batch #{batch} completed.")
+  rescue StandardError => e
+    print_log("Error #{e.message} when processing the records for batch #{batch}")
   end
 end
