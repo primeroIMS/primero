@@ -31,7 +31,7 @@ class Incident < ApplicationRecord
     :health_medical_referral_subform_section, :psychosocial_counseling_services_subform_section,
     :legal_assistance_services_subform_section, :police_or_other_type_of_security_services_subform_section,
     :livelihoods_services_subform_section, :child_protection_services_subform_section, :violation_category,
-    :incident_date_end, :is_incident_date_range
+    :incident_date_end, :is_incident_date_range, :incident_date_derived
   )
 
   DEFAULT_ALERT_FORM_UNIQUE_ID = 'incident_from_case'
@@ -78,6 +78,7 @@ class Incident < ApplicationRecord
 
   after_initialize :set_unique_id
   before_save :copy_from_case
+  before_save :calculate_incident_date_derived
   # TODO: Reconsider whether this is necessary.
   # We will only be creating an incident from a case using a special business logic that
   # will certainly trigger a reindex on the case
@@ -109,8 +110,10 @@ class Incident < ApplicationRecord
     self.unique_id = id
   end
 
-  def incident_date_derived
-    incident_date || date_of_incident_from || date_of_incident
+  def calculate_incident_date_derived
+    self.incident_date_derived = incident_date || date_of_incident_from || date_of_incident
+
+    incident_date_derived
   end
 
   def case_id_display
