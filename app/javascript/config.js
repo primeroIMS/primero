@@ -182,6 +182,7 @@ const ROUTES = {
   admin_users: "/admin/users",
   admin_users_new: "/admin/users/new",
   audit_logs: "/admin/audit_logs",
+  admin_messages: "/admin/messages",
   cases: "/cases",
   configurations: "/admin/configurations",
   admin_configurations_new: "/admin/configurations/new",

@@ -25,6 +25,7 @@ import {
   UsersList,
   ConfigurationsList,
   ConfigurationsForm,
+  MessagesList,
   CodeOfConduct as AdminCodeOfConduct,
   Support
 } from "./components/pages";
@@ -450,6 +451,11 @@ export default [
               resources: RESOURCES.roles
             },
             {
+              path: ROUTES.admin_messages,
+              component: MessagesList,
+              resources: RESOURCES.messages
+            },
+            {
               path: `${ROUTES.forms}/new`,
               component: FormBuilder,
               resources: RESOURCES.forms,
@@ -495,7 +501,7 @@ export default [
               path: ROUTES.locations,
               component: LocationsList,
               resources: RESOURCES.locations
-            }
+            },
           ]
         }
       },

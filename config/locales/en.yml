@@ -4187,6 +4187,7 @@ en:
       users: Users
       roles: Roles
       code_of_conduct: Code of Conduct
+      messages: Messages
     title: Settings
   system_settings:
     label: System Settings
