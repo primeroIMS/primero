@@ -1,7 +1,7 @@
 import { namespaceActions } from "../../../../libs";
 import namespace from "./namespace";
 
-namespaceActions(namespace, [
+export default namespaceActions(namespace, [
     "FETCH_MESSAGES",
     "FETCH_MESSAGES_STARTED",
     "FETCH_MESSAGES_SUCCESS",
