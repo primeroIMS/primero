@@ -123,7 +123,7 @@ export const ACTIONS = {
   WRITE: "write",
   VIEW_FAMILY_RECORD: "view_family_record",
   LINK_FAMILY_RECORD: "link_family_record",
-  REMOVE_ALERT: "remove_alert"
+  REMOVE_ALERT: "remove_alert",
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -154,7 +154,8 @@ export const RESOURCES = {
   tracing_requests: "tracing_requests",
   user_groups: "user_groups",
   users: "users",
-  webhooks: "webhooks"
+  webhooks: "webhooks",
+  messages: "messages",
 };
 
 export const RECORD_RESOURCES = [RESOURCES.cases, RESOURCES.incidents, RESOURCES.tracing_requests];
@@ -169,7 +170,8 @@ export const ADMIN_RESOURCES = [
   RESOURCES.forms,
   RESOURCES.metadata,
   RESOURCES.audit_logs,
-  RESOURCES.webhooks
+  RESOURCES.webhooks,
+  RESOURCES.messages
 ];
 
 export const SEARCH_OTHERS = [...MANAGE, ACTIONS.SEARCH_OWNED_BY_OTHERS];

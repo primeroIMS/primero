@@ -186,6 +186,7 @@ class Permission < ValueObject
   LINK_INCIDENT_TO_CASE = 'link_incident_to_case'
   LINK_FAMILY_RECORD = 'link_family_record'
   REMOVE_ALERT = 'remove_alert'
+  MESSAGE = 'message'
 
   RESOURCE_ACTIONS = {
     CASE => [
@@ -261,7 +262,8 @@ class Permission < ValueObject
       KPI_SUPERVISOR_TO_CASEWORKER_RATIO, KPI_TIME_FROM_CASE_OPEN_TO_CLOSE
     ],
     CODE_OF_CONDUCT => [MANAGE],
-    ACTIVITY_LOG => [MANAGE, TRANSFER]
+    ACTIVITY_LOG => [MANAGE, TRANSFER],
+    MESSAGE => [MANAGE]
   }.freeze
 
   RESOURCE_FORM_ACTIONS = {
@@ -321,7 +323,7 @@ class Permission < ValueObject
     def resources
       [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH, REGISTRY_RECORD, ROLE, USER, USER_GROUP, AGENCY, WEBHOOK,
        METADATA, SYSTEM, REPORT, MANAGED_REPORT, DASHBOARD, AUDIT_LOG, MATCHING_CONFIGURATION, DUPLICATE,
-       CODE_OF_CONDUCT, ACTIVITY_LOG]
+       CODE_OF_CONDUCT, ACTIVITY_LOG, MESSAGE]
     end
 
     def records
