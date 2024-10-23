@@ -4536,3 +4536,8 @@ en:
     body:
       one: Do you want to allow Primero to send you notifications? Remember that you will continue to receive notifications on this device %{count} day after you log out. This is not recommended for shared devices.
       other: Do you want to allow Primero to send you notifications? Remember that you will continue to receive notifications on this device %{count} days after you log out. This is not recommended for shared devices.
+  messages:
+    attributes:
+      created_at: Created At
+      body: Body
+    send_message: Send Message
