@@ -4,6 +4,9 @@
 
 # Superclass for all Mailers
 class ApplicationMailer < ActionMailer::Base
+  before_action :theme
+  before_action :system_admin
+
   layout 'mailer'
 
   rescue_from StandardError do |error|
@@ -21,5 +24,13 @@ class ApplicationMailer < ActionMailer::Base
     else
       Rails.logger.error(error.message)
     end
+  end
+
+  def theme
+    @theme = Rails.configuration.use_theme ? Theme.current : Theme.default
+  end
+
+  def system_admin
+    @system_admin = ContactInformation.first
   end
 end

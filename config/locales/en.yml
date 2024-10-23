@@ -4543,3 +4543,6 @@ en:
     body:
       one: Do you want to allow Primero to send you notifications? Remember that you will continue to receive notifications on this device %{count} day after you log out. This is not recommended for shared devices.
       other: Do you want to allow Primero to send you notifications? Remember that you will continue to receive notifications on this device %{count} days after you log out. This is not recommended for shared devices.
+  email:
+    greeting: "Dear %{full_name}"
+    admin_closing: "To report or troubleshoot issues please contact your %{sys_admin}"
