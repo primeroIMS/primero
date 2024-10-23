@@ -24,6 +24,10 @@ function Component() {
     onTableChange: fetchMessages
   };
 
+  const closeDialog = () => {
+    setOpen(false);
+  };
+
   const newMessageButton = (
     <ActionButton
       icon={<AddIcon />}
@@ -35,7 +39,7 @@ function Component() {
   return (
     <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
       <PageHeading title={i18n.t("settings.navigation.messages")}>{newMessageButton}</PageHeading>
-      <MessageDialog open={open} />
+      <MessageDialog open={open} onClose={closeDialog} />
       <PageContent>
         <IndexTable title={i18n.t("settings.navigation.messages")} {...tableOptions} />
       </PageContent>
