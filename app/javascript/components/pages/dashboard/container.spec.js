@@ -19,6 +19,7 @@ describe("<Dashboard />", () => {
       modules: ["cp"],
       permissions: {
         dashboards: [
+          ACTIONS.DASH_CASE_OVERVIEW,
           ACTIONS.DASH_FLAGS,
           ACTIONS.DASH_CASE_RISK,
           ACTIONS.DASH_SHARED_FROM_MY_TEAM,
@@ -64,6 +65,7 @@ describe("<Dashboard />", () => {
   });
 
   it("should render a dashboard overview component", () => {
+    screen.debug();
     expect(screen.getByText(/dashboard.overview/i)).toBeInTheDocument();
   });
 
