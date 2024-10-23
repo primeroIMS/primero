@@ -6,7 +6,7 @@ import { useI18n } from "../../../../i18n";
 
 function Component({open, onClose}) {
     const i18n = useI18n();
-    return <ActionDialog dialogTitle={i18n.t("messages.send_message")} open={open} cancelHandler={onClose}>
+    return <ActionDialog dialogTitle={i18n.t("rp_messages.send_message")} open={open} cancelHandler={onClose}>
         <Form
             formID="messages-form"
             formSections={form(i18n)}

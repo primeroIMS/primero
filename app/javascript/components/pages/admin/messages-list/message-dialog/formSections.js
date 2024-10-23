@@ -15,7 +15,7 @@ const form = i18n =>
         }),
         FieldRecord({
           name: "body",
-          display_name: i18n.t("messages.attributes.body"),
+          display_name: i18n.t("rp_messages.attributes.body"),
           required: true,
           type: TEXT_AREA
         })

@@ -18,8 +18,8 @@ function Component() {
   const tableOptions = {
     recordType: ["admin", NAMESPACE],
     columns: [
-      { name: "created_at", label: i18n.t("messages.attributes.created_at") },
-      { name: "body", label: i18n.t("messages.attributes.body") }
+      { name: "created_at", label: i18n.t("rp_messages.attributes.created_at") },
+      { name: "body", label: i18n.t("rp_messages.attributes.body") }
     ],
     onTableChange: fetchMessages
   };
