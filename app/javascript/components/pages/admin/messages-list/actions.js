@@ -7,4 +7,7 @@ export default namespaceActions(namespace, [
     "FETCH_MESSAGES_SUCCESS",
     "FETCH_MESSAGES_FAILURE",
     "FETCH_MESSAGES_FINISHED",
+    "SAVE_MESSAGE",
+    "SAVE_MESSAGE_SUCCESS",
+    "SAVE_MESSAGE_FAILURE",
 ]);
