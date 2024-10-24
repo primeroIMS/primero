@@ -7,9 +7,11 @@ import { FormHelperText } from "@mui/material/";
 import css from "../../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
+import { useI18n } from "../../../../i18n";
 
 function AttachmentLabel({ label, helpText, disabled, mode, arrayHelpers, handleAttachmentAddition, error }) {
   const isDisabled = !disabled && !mode.isShow;
+  const i18n = useI18n();
   const onClick = () => handleAttachmentAddition(arrayHelpers);
   const errorMessage = Array.isArray(error) ? error.join("\n") : error;
 
@@ -24,10 +26,12 @@ function AttachmentLabel({ label, helpText, disabled, mode, arrayHelpers, handle
       {isDisabled && (
         <div>
           <ActionButton
-            icon={<AddIcon />}
-            text="Add"
-            type={ACTION_BUTTON_TYPES.icon}
+            id="fields.add"
             data-testid="attachment-label-action-button"
+            icon={<AddIcon />}
+            text={i18n.t("fields.add")}
+            type={ACTION_BUTTON_TYPES.default}
+            noTranslate
             rest={{
               onClick
             }}
