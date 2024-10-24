@@ -41,11 +41,15 @@ def process_records(model_class, record_hashes, batch)
 end
 
 def records_to_process(model_class, ids_file_path)
-  return model_class unless ids_file_path.present?
+  model_class_and_relations = model_class.eager_loaded_class
+  model_class_and_relations = model_class_and_relations.includes(:transitions) if model_class.name == 'Child'
+  model_class_and_relations = model_class_and_relations.includes(:incidents) if model_class.name == 'Child'
+
+  return model_class_and_relations unless ids_file_path.present?
 
   print_log("Loading record ids from #{ids_file_path}...")
   ids_to_update = File.read(ids_file_path).split
-  model_class.where(id: ids_to_update)
+  model_class_and_relations.where(id: ids_to_update)
 end
 
 # rubocop:disable Metrics/BlockLength
