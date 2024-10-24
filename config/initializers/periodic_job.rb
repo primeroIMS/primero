@@ -9,7 +9,10 @@ return unless HealthCheckService.database_accessible? && ActiveRecord::Base.conn
 
 Rails.logger.info('Setting up PeriodicJobs')
 
-%w[ArchiveBulkExports OptimizeSolr RecalculateAge].each do |job_name|
+jobs = %w[ArchiveBulkExports RecalculateAge]
+jobs << OptimizeSolr.to_s if Rails.configuration.solr_enabled
+
+jobs.each do |job_name|
   next if Delayed::Job.where('handler LIKE :job_class', job_class: "%job_class: #{job_name}%").exists?
 
   Rails.logger.info("#{job_name} executed at #{DateTime.now}")

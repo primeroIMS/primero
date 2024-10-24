@@ -5,7 +5,7 @@
 # Service to handle deletion of data for a specific model and its associations
 # rubocop:disable Metrics/ClassLength
 class ModelDeletionService < ValueObject
-  UUID_REFERENCED_MODELS = [Alert, Attachment, Trace, Violation].freeze
+  UUID_REFERENCED_MODELS = [Alert, Attachment, Trace, Violation, SearchableIdentifier].freeze
   attr_accessor :model_class
 
   def delete_records!(query)

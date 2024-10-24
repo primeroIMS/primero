@@ -170,15 +170,16 @@ module ClassMethods
 
   def alert_count_agency(current_user)
     agency_unique_id = current_user.agency.unique_id
-    open_enabled_records.where("data -> 'associated_user_agencies' ? :agency", agency: agency_unique_id)
-                        .distinct.count
+    open_enabled_records.where(
+      "data %s '$.associated_user_agencies %s (@ == %s)'", '@?', '?', agency_unique_id.to_json
+    ).distinct.count
   end
 
   def alert_count_group(current_user)
     user_groups_unique_id = current_user.user_groups.pluck(:unique_id)
+    user_groups_filter = user_groups_unique_id.map { |unique_id| "@ == #{unique_id.to_json}" }.join(' || ')
     open_enabled_records.where(
-      "data -> 'associated_user_groups' ?& array[:group]",
-      group: user_groups_unique_id
+      "data %s '$.associated_user_groups %s (%s)'", '@?', '?', user_groups_filter
     ).distinct.count
   end
 
@@ -187,6 +188,8 @@ module ClassMethods
   end
 
   def open_enabled_records
-    joins(:alerts).where('data @> ?', { record_state: true, status: Record::STATUS_OPEN }.to_json)
+    joins(:alerts).where(
+      "data %s '$[*] %s (@.record_state == true && @.status == %s)'", '@?', '?', Record::STATUS_OPEN.to_json
+    )
   end
 end

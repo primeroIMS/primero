@@ -40,20 +40,22 @@ class Search::SearchScope < ValueObject
   end
 
   def apply_user_associated_scope
-    @query.where("data->'associated_user_names' ? :user", user: user_scope['user'])
+    @query.where(SearchFilters::TextValue.new(field_name: 'associated_user_names', value: user_scope['user']).query)
   end
 
   def apply_agency_associated_scope
-    @query.where("data->'associated_user_agencies' ? :agency", agency: user_scope['agency'])
+    @query.where(
+      SearchFilters::TextValue.new(field_name: 'associated_user_agencies', value: user_scope['agency']).query
+    )
   end
 
   def apply_group_associated_scope
-    @query.where("data->'associated_user_groups' ?| array[:groups]", groups: user_scope['group'])
+    @query.where(SearchFilters::TextList.new(field_name: 'associated_user_groups', values: user_scope['group']).query)
   end
 
   def apply_module_scope
     return @query unless module_scope.present?
 
-    @query.where("data->>'module_id' = :module_id", module_id: module_scope)
+    @query.where(SearchFilters::TextList.new(field_name: 'module_id', values: module_scope).query)
   end
 end

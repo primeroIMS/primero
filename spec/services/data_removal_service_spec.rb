@@ -70,6 +70,7 @@ describe DataRemovalService do
       expect(Alert.all).to be_empty
       expect(Transition.all).to be_empty
       expect(Attachment.all).to be_empty
+      expect(SearchableIdentifier.all).to be_empty
       expect(
         ActiveRecord::Base.connection.exec_query('SELECT id FROM active_storage_attachments').to_a
       ).to be_empty
@@ -93,6 +94,7 @@ describe DataRemovalService do
       expect(Alert.all).to be_empty
       expect(Transition.all).to be_empty
       expect(Attachment.all.size).to eq(1)
+      expect(SearchableIdentifier.all.size).to eq(7)
     end
 
     it 'removes records Incidents that meet the filters without deleting the associated cases' do
