@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_06_154915) do
+ActiveRecord::Schema.define(version: 2024_10_09_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
+  enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -519,6 +520,15 @@ ActiveRecord::Schema.define(version: 2024_03_06_154915) do
     t.integer "user_id"
     t.jsonb "filters"
     t.index ["user_id"], name: "index_saved_searches_on_user_id"
+  end
+
+  create_table "searchable_identifiers", force: :cascade do |t|
+    t.string "record_type"
+    t.uuid "record_id"
+    t.string "field_name"
+    t.string "value"
+    t.index ["record_type", "record_id"], name: "index_searchable_identifiers_on_record"
+    t.index ["value"], name: "searchable_identifiers_value_idx", opclass: :gin_trgm_ops, using: :gin
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
