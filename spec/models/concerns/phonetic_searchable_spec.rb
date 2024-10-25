@@ -32,6 +32,21 @@ describe PhoneticSearchable do
       )
     end
 
+    it 'creates the searchable identifiers without leading/trailing whitespaces' do
+      child = Child.create!(
+        data: { name_first: 'First 3', name_last: 'Last 3', unhcr_id_no: '    UNHCR/2024-003   ', national_id_no: '   NID-003' }
+      )
+      searchable_identifiers = SearchableIdentifier.where(record_type: Child.name, record_id: child.id)
+
+      expect(searchable_identifiers.size).to eq(6)
+      expect(searchable_identifiers.map(&:field_name)).to match_array(
+        %w[unhcr_id_no national_id_no unique_identifier short_id case_id case_id_display]
+      )
+      expect(searchable_identifiers.map(&:value)).to match_array(
+        ['UNHCR/2024-003', 'NID-003', child.unique_identifier, child.short_id, child.case_id, child.case_id_display]
+      )
+    end
+
     it 'updates the searchable identifiers for the record' do
       child1.unhcr_id_no = 'UNHCR/2025-001'
       child1.national_id_no = nil

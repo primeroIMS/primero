@@ -110,7 +110,9 @@ function Component({ recordType, setSelectedRecords, metadata }) {
     const payload = omit(transformFilters.combine(compactFilters(data)), "filter_category");
 
     resetSelectedRecords();
-    dispatch(applyFilters({ recordType, data: payload }));
+    dispatch(
+      applyFilters({ recordType, data: { ...payload, ...(payload.query ? { query: payload.query?.trim() } : {}) } })
+    );
   }, []);
 
   const handleSave = useCallback(() => {
