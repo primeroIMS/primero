@@ -18,6 +18,8 @@ class Theme < ApplicationRecord
     show_powered_by_primero: false,
     use_contained_nav_style: false,
     site_title: 'Primero',
+    product_name: 'Primero',
+    system_name: nil,
     site_description: 'Primero is an open source software platform that helps social services,
     humanitarian and development workers manage protection-related data, with tools that facilitate case management,
     incident monitoring and family tracing and reunification.',
@@ -36,10 +38,12 @@ class Theme < ApplicationRecord
         'any third party or otherwise use this message.'
         ].join('')
     },
-    email_welcome_greeting: { en:'Welcome to the Primero Community' },
+    email_welcome_greeting: { en: 'Welcome to the Primero team' },
+    email_welcome_closing: { en:'Welcome to the Primero Community' },
+    email_instruction_url: 'https://www.youtube.com/watch?v=I5Lfi_8A4iU',
     email_closing: { en:'At your service'},
     email_signature: { en: 'Primero team' },
-    email_admin_name: { en: 'Primero System Administrator' },
+    email_admin_name: { en: 'System Administrator' },
     email_help_links: [
       {
         name: { en: 'Primero Support Hub' },
@@ -57,19 +61,18 @@ class Theme < ApplicationRecord
         name: { en: 'Instagram' },
         href: 'https://www.instagram.com/primeroprotects/',
         description: { en: 'Stay in touch and follow our work' },
-        icon_url: 'https://uploads.strikinglycdn.com/static/icons/black/instagram-icon.png'
+        icon_url: 'https://custom-images.strikinglycdn.com/res/hrscywv4p/image/upload/c_limit,fl_lossy,h_960,w_480,f_auto,q_auto/195711/450778_603552.png'
       },
       {
         name: { en: 'Youtube' },
         href: 'https://www.youtube.com/channel/UCRe6ziywtDB4FbPLLg-Ogzw',
         description: { en: 'View instructional videos' },
-        icon_url: 'https://custom-images.strikinglycdn.com/res/hrscywv4p/image/upload/c_limit,fl_lossy,h_960,w_480,f_auto,q_auto/195711/421819_837492.png'
+        icon_url: 'https://custom-images.strikinglycdn.com/res/hrscywv4p/image/upload/c_limit,fl_lossy,h_960,w_480,f_auto,q_auto/195711/175162_632591.png'
       }
     ],
     email_link_color: '#0093B8',
     email_footer_background_color: '#F3F3F3',
     email_help_link_background_color: '#F8FCFD',
-    email_logo: 'https://custom-images.strikinglycdn.com/res/hrscywv4p/image/upload/c_limit,fl_lossy,h_300,w_300,f_auto,q_auto/195711/_IMS-logos_all_TM-02_no_bg_2_rlfcbj.png',
     colors: {
       'manifestThemeColor' => '#0093ba'
     },
@@ -80,8 +83,9 @@ class Theme < ApplicationRecord
 
   store_accessor :data, :site_description, :site_title, :colors, :use_contained_nav_style, :show_powered_by_primero,
                  :revision, :email_link_color, :email_footer_background_color, :email_help_link_background_color,
-                 :email_logo, :email_help_links, :email_signature, :email_closing, :email_welcome_greeting,
-                 :email_warning, :email_copyright, :email_disclaimer, :email_disclaimer_pre, :email_admin_name
+                 :email_help_links, :email_signature, :email_closing, :email_welcome_greeting,
+                 :email_warning, :email_copyright, :email_disclaimer, :email_disclaimer_pre, :email_admin_name,
+                 :email_welcome_closing, :email_instruction_url, :product_name, :system_name
 
   has_one_attached :login_background
   has_one_attached :logo
@@ -115,6 +119,10 @@ class Theme < ApplicationRecord
     return unless invalid_color_keys.present?
 
     errors.add(:colors, "must be a valid hexadecimal color (#{invalid_color_keys.join(',')})")
+  end
+
+  def site_name
+    system_name || product_name
   end
 
   class << self
