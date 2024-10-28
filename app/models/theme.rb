@@ -44,34 +44,7 @@ class Theme < ApplicationRecord
     email_closing: { en:'At your service'},
     email_signature: { en: 'Primero team' },
     email_admin_name: { en: 'System Administrator' },
-    email_help_links: [
-      {
-        name: { en: 'Primero Support Hub' },
-        href: 'http://support.primero.org/',
-        description: { en: 'You can access comprehensive user guides and documentation' },
-        icon_url: 'https://custom-images.strikinglycdn.com/res/hrscywv4p/image/upload/c_limit,fl_lossy,h_960,w_480,f_auto,q_auto/195711/367136_502444.png'
-      },
-      {
-        name: { en: 'Primero Community Forum' },
-        href: 'https://community.primero.org/',
-        description: { en: 'Technical support for system administrators' },
-        icon_url: 'https://custom-images.strikinglycdn.com/res/hrscywv4p/image/upload/c_limit,fl_lossy,h_960,w_480,f_auto,q_auto/195711/586625_291148.png'
-      },
-      {
-        name: { en: 'Instagram' },
-        href: 'https://www.instagram.com/primeroprotects/',
-        description: { en: 'Stay in touch and follow our work' },
-        icon_url: 'https://custom-images.strikinglycdn.com/res/hrscywv4p/image/upload/c_limit,fl_lossy,h_960,w_480,f_auto,q_auto/195711/450778_603552.png',
-        size: 50
-      },
-      {
-        name: { en: 'Youtube' },
-        href: 'https://www.youtube.com/channel/UCRe6ziywtDB4FbPLLg-Ogzw',
-        description: { en: 'View instructional videos' },
-        icon_url: 'https://custom-images.strikinglycdn.com/res/hrscywv4p/image/upload/c_limit,fl_lossy,h_960,w_480,f_auto,q_auto/195711/175162_632591.png',
-        size: 50
-      }
-    ],
+    email_help_links: [],
     email_link_color: '#0093B8',
     email_footer_background_color: '#F3F3F3',
     email_help_link_background_color: '#F8FCFD',
