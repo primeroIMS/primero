@@ -9,7 +9,7 @@ class Api::V2::MessagesController < ApplicationApiController
   end
 
   def create
-    permitted = params.permit(:body)
+    permitted = params.permit(:body, recipient_groups: [])
     @message = Message.new(permitted)
     @message.save
     # status = params[:data][:id].present? ? 204 : 200

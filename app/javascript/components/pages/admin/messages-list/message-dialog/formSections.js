@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { FieldRecord, FormSectionRecord, TEXT_AREA, TEXT_FIELD } from "../../../../form";
+import { FieldRecord, FormSectionRecord, OPTION_TYPES, SELECT_FIELD, TEXT_AREA, TEXT_FIELD } from "../../../../form";
 
 const form = i18n =>
   fromJS([
@@ -7,11 +7,13 @@ const form = i18n =>
       unique_id: "message",
       fields: [
         FieldRecord({
-            name: "recipient",
-            display_name: i18n.t("messages.attribute.recipient"),
+            name: "recipient_groups",
+            display_name: i18n.t("messages.attribute.recipient_groups"),
             required: true,
             autoFocus: true,
-            type: TEXT_FIELD
+            type: SELECT_FIELD,
+            multi_select: true,
+            option_strings_source: OPTION_TYPES.USER_GROUP
         }),
         FieldRecord({
           name: "body",
