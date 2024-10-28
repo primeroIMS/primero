@@ -36,11 +36,11 @@ class Theme < ApplicationRecord
         'or entities, and may be confidential, proprietary or privileged. If you are not the intended recipient,',
         'please notify the sender immediately, delete this message and do not disclose, distribute or copy it to',
         'any third party or otherwise use this message.'
-        ].join('')
+        ].join(' ')
     },
     email_welcome_greeting: { en: 'Welcome to the Primero team' },
     email_welcome_closing: { en:'Welcome to the Primero Community' },
-    email_instruction_url: 'https://www.youtube.com/watch?v=I5Lfi_8A4iU',
+    email_instructional_video: 'https://www.youtube.com/watch?v=I5Lfi_8A4iU',
     email_closing: { en:'At your service'},
     email_signature: { en: 'Primero team' },
     email_admin_name: { en: 'System Administrator' },
@@ -61,13 +61,15 @@ class Theme < ApplicationRecord
         name: { en: 'Instagram' },
         href: 'https://www.instagram.com/primeroprotects/',
         description: { en: 'Stay in touch and follow our work' },
-        icon_url: 'https://custom-images.strikinglycdn.com/res/hrscywv4p/image/upload/c_limit,fl_lossy,h_960,w_480,f_auto,q_auto/195711/450778_603552.png'
+        icon_url: 'https://custom-images.strikinglycdn.com/res/hrscywv4p/image/upload/c_limit,fl_lossy,h_960,w_480,f_auto,q_auto/195711/450778_603552.png',
+        size: 50
       },
       {
         name: { en: 'Youtube' },
         href: 'https://www.youtube.com/channel/UCRe6ziywtDB4FbPLLg-Ogzw',
         description: { en: 'View instructional videos' },
-        icon_url: 'https://custom-images.strikinglycdn.com/res/hrscywv4p/image/upload/c_limit,fl_lossy,h_960,w_480,f_auto,q_auto/195711/175162_632591.png'
+        icon_url: 'https://custom-images.strikinglycdn.com/res/hrscywv4p/image/upload/c_limit,fl_lossy,h_960,w_480,f_auto,q_auto/195711/175162_632591.png',
+        size: 50
       }
     ],
     email_link_color: '#0093B8',
@@ -85,7 +87,7 @@ class Theme < ApplicationRecord
                  :revision, :email_link_color, :email_footer_background_color, :email_help_link_background_color,
                  :email_help_links, :email_signature, :email_closing, :email_welcome_greeting,
                  :email_warning, :email_copyright, :email_disclaimer, :email_disclaimer_pre, :email_admin_name,
-                 :email_welcome_closing, :email_instruction_url, :product_name, :system_name
+                 :email_welcome_closing, :email_instructional_video, :product_name, :system_name
 
   has_one_attached :login_background
   has_one_attached :logo

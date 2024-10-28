@@ -4,7 +4,7 @@
   xmlns:o="urn:schemas-microsoft-com:office:office" lang="<%= I18n.locale %>">
 
 <head>
-  <title>Email Subject</title><!--[if !mso]><!-->
+  <title><%= @subject %></title><!--[if !mso]><!-->
   <meta http-equiv="X-UA-Compatible" content="IE=edge"><!--<![endif]-->
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -150,7 +150,7 @@
                         style="font-size:0px;padding:10px 25px;word-break:break-word;">
                         <div
                           style="font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:18px;font-weight:bold;line-height:30px;text-align:left;color:#4a4a4a;">
-                          <%= t('email.greeting', locale: @user.locale, full_name: @user.full_name) %>,</div>
+                          <%= t('email.greeting', locale: @locale, full_name: @user&.full_name) %>,</div>
                       </td>
                     </tr>
                   </tbody>
@@ -185,8 +185,8 @@
                         style="font-size:0px;padding:10px 25px;word-break:break-word;">
                         <div
                           style="font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:18px;line-height:30px;text-align:left;color:#4a4a4a;">
-                          <p><i><%= @theme.email_closing[@user.locale] %>,</i></p>
-                          <p><b><%= @theme.email_signature[@user.locale] %></b></p>
+                          <p><i><%= @theme.email_closing[@locale] %>,</i></p>
+                          <p><b><%= @theme.email_signature[@locale] %></b></p>
                         </div>
                       </td>
                     </tr>
@@ -204,7 +204,7 @@
                                   style="font-size:0;padding:10px 25px;word-break:break-word">
                                   <div
                                       style="color:#000;font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:15px;font-weight:700;line-height:30px;text-align:left">
-                                      <%= @theme.email_warning[@user.locale] %></div>
+                                      <%= @theme.email_warning[@locale] %></div>
                               </td>
                           </tr>
                       </tbody>
@@ -254,18 +254,18 @@
                                               <td style="vertical-align: top"
                                                 width="80px"><img
                                                   src="<%= link[:icon_url] %>"
-                                                  alt="<%= link[:name][@user.locale] %> icon"
+                                                  alt="<%= link[:name][@locale] %> icon"
                                                   width="70px"
                                                   height="70px"></td>
                                               <td
                                                 style="vertical-align: top">
                                                 <h4
                                                   style="padding: 0; margin: 0; color: <%= @theme.email_link_color %>">
-                                                  <%= link[:name][@user.locale] %>
+                                                  <%= link[:name][@locale] %>
                                                 </h4>
                                                 <p
                                                   style="margin-top: 0; height: 50px">
-                                                  <%= link[:description][@user.locale] %></p>
+                                                  <%= link[:description][@locale] %></p>
                                               </td>
                                             </tr>
                                           </table>
@@ -295,11 +295,11 @@
                         <div
                           style="font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:18px;line-height:30px;text-align:left;color:#4a4a4a;">
                           <p style="text-align: center">
-                            <%= t('email.admin_closing', locale: @user.locale,
+                            <%= t('email.admin_closing', locale: @locale,
                               sys_admin: @system_admin&.email ?
                                   mail_to(@system_admin&.email, t('email.system_admin'), style: "color: #{@theme.email_link_color}") :
                                 t('email.system_admin')
-                              ) %>
+                              ).html_safe %>
                           </p>
                         </div>
                       </td>
@@ -335,7 +335,7 @@
                                 style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                 <div
                                   style="font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:14px;line-height:25px;text-align:left;color:#4a4a4a;">
-                                  <b><%= @theme.email_disclaimer_pre[@user.locale] %>. </b><%= @theme.email_disclaimer[@user.locale] %></div>
+                                  <b><%= @theme.email_disclaimer_pre[@locale] %>. </b><%= @theme.email_disclaimer[@locale] %></div>
                               </td>
                             </tr>
                             <tr>
@@ -352,7 +352,7 @@
                                 style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                 <div
                                   style="font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:13px;line-height:30px;text-align:left;color:#4a4a4a;">
-                                  <%= @theme.email_copyright[@user.locale] %></div>
+                                  <%= @theme.email_copyright[@locale] %></div>
                               </td>
                             </tr>
                           </tbody>

@@ -858,7 +858,7 @@ en:
     assign_subject: '%{record_type}: %{id} - Assigned to you'
     approval_request: '%{user} is requesting a %{approval_type} approval on case (%{case_id}). Please log in your account to review.'
     approval_request_subject: 'Case: %{id} - Approval Request'
-    approval_response: '%{user} has %{status} to your request for %{approval_type} approval on case (%{case_id}). Please log in to your account to review.'
+    approval_response: '%{user} has %{status} your request for %{approval_type} approval on case (%{case_id}). Please log in to your account to review.'
     approval_response_subject: 'Case: %{id} - Approval Response'
     referral: '%{user} from %{agency} has referred the following %{record_type} to you: %{record_id} for %{service_type}.'
     transfer: '%{user} has transferred the following %{record_type} to you: %{record_id}.'
@@ -868,8 +868,8 @@ en:
     transfer_request: 'Primero user %{user} from %{agency} is requesting that you transfer ownership of this %{record_type} record %{record_id} so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer.'
     approval_request_html: 'The user <strong>%{user}</strong> is requesting approval for <strong> %{approval_type}</strong> on case <strong>%{case_id}</strong>.'
     approval_response_html: '<strong>%{user}</strong> has <strong>%{status}</strong> the request for approval for <strong>%{approval_type}</strong> for case <strong>%{case_id}</strong>.'
-    referral_html: 'You have received a referral for %{record_type} (${record_id}) for  %{service_type} from %{user} from %{agency}. Please log in to your account to review.'
-    transfer_html: 'You have received a transfer for %{record_type} (${record_id}) from %{user} from %{agency}. Please login into your account to review.'
+    referral_html: 'You have received a referral for %{record_type} (${record_id}) for  %{service_type} from %{user} from %{agency}. Please %{login_url} to your account to review.'
+    transfer_html: 'You have received a transfer for %{record_type} (${record_id}) from %{user} from %{agency}. Please %{login_url} into your account to review.'
     assign_html: You have been assigned a new %{record_type} (${record_id}) from %{user}. Please %{login_url} to your account to review.
     transfer_request_html: 'You have received a transfer request for %{record_type} ${record_id} from %{user} from %{agency}. The individual making the request has included a transfer note: %{request_transfer_notes}. If this transfer is acceptable to you, please log in to access Primero to initiate the transfer.'
     alert: '%{record_type} %{id} - %{form_name} has been updated. Please log in to Primero to review the changes.'
@@ -4465,16 +4465,18 @@ en:
       subject: 'Welcome to %{system}!'
       subject_instructions: '%{system} Login Instructions'
       greeting: 'Welcome to %{system}!'
-      body_native: '%{greeting}! We are creating a %{role_name} account for you. You will receive a separate email to set up your password shortly.'
+      body_native: "%{greeting}! We are creating a %{role_name} account for you. You will receive a separate email to set up your password shortly. Once logged in please go to your user profile to find your username. You will find your user profile in the left navigation of Primero."
+      body_native2: "You can watch this %{instructional_video} if you need additional guidance."
+      instructional_video: instructional video
+      additional_support: 'Please contact your %{admin_email} if you need additional support.'
       sso:
         body: 'You have been added as a %{role_name}.'
-        step1: 'To log in, go to %{site_title} and select your organization %{identity_provider} to log in with single-sign on. Use the same password you always use for your %{identity_provider} account. Note: You will not be able to reset your password in %{site_title} and will only be able to reset your password through your %{identity_provider} account. Please contact your %{admin_email} if you need additional support.'
+        step1: 'Welcome to %{system}! To log in, go to %{system} and select your organization %{identity_provider} to log in with single-sign on. Use the same password you always use for your %{identity_provider} account.'
+        step2: 'Note: You will not be able to reset your password in %{product_name} and will only be able to reset your password through your %{identity_provider} account.'
       otp:
         body: 'You have been added as a %{role_name}.'
         step1: 'Once logged in please go to your user profile to find your username. You will find your user profile in the left navigation of %{site_title}.'
         step2: 'Use the following to reset your password to <b>%{otp}</b>'
-        instructional_html: "You can watch this %{href} if you need additional guidance."
-        instruction: "instruction"
       url_label: Primero
       enabled_label: Send Welcome Email?
       text_label: Welcome Email Text
@@ -4492,7 +4494,7 @@ en:
     onboard_email:
       subject: "Onboarding System Administrator to %{system}"
       body1: "Welcome to %{system}! You have been designated as the system administrator."
-      body2: "You are responsible for this implementation of %{system}, including managing the users and the configuration. For this rollout, you should follow the Implementation Plan which includes the onboarding process, security protocols, user management strategy and information sharing protocol."
+      body2: "You are responsible for this implementation of %{product_name}, including managing the users and the configuration. For this rollout, you should follow the Implementation Plan which includes the onboarding process, security protocols, user management strategy and information sharing protocol."
   user_group:
     associated_agencies: Agencies associated with this User Group
     description: Description
@@ -4540,6 +4542,6 @@ en:
   email:
     greeting: "Dear %{full_name}"
     admin_closing: "To report or troubleshoot issues please contact your %{sys_admin}"
-    login: login in
+    login: login
     system_admin: 'System Administrator'
     unsubscribe: 'Unsubscribe'

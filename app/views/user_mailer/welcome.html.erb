@@ -1,17 +1,26 @@
 <%# Copyright (c) 2014 - 2023 UNICEF. All rights reserved. %>
 
 <% if @email_body.is_a?(String) %>
-  <p><%= @email_body %></p>
+  <p>
+  <%= @email_body.html_safe %>
+  </p>
+  <% if @theme.email_instructional_video.present? %>
+  <p>
+    <%= I18n.t('user.welcome_email.body_native2',
+              instructional_video: link_to(I18n.t('user.welcome_email.instructional_video', locale: @user.locale),
+                                           @theme.email_instructional_video, style: "color: #{@theme.email_link_color}"),
+              locale: @user.locale
+    ).html_safe %>
+  </p>
+  <% end %>
   <p style="color:#4a4a4a;font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:18px;font-weight:700;line-height:30px;text-align:left">
-    <%= @theme&.email_welcome_closing[@user.locale] %>
+  <%= @theme&.email_welcome_closing[@user.locale] %>
   </p>
 <% else %>
   <p><%= @email_body[:header] %></p>
-  <p><%= @email_body[:step1] %></p>
-  <p><%= @email_body[:step2]&.html_safe %></p>
-  <% if @email_body[:is_otp] %>
-    <p>
-      <%= I18n.t('user.welcome_email.otp.instructional_html', href: link_to(I18n.t('user.welcome_email.otp.instruction', locale: @user.locale), @theme.email_instruction_url, style: "color: #{@theme.email_link_color}", target: '_blank'), locale: @user.locale).html_safe %>
-    </p>
-  <% end %>
+  <p><%= @email_body[:step1].html_safe %></p>
+  <p><%= @email_body[:step2] %> <%= I18n.t('user.welcome_email.additional_support',
+      admin_email: @system_admin&.email ?  mail_to(@system_admin&.email, I18n.t('email.system_admin'), style: "color: #{@theme.email_link_color}") : I18n.t('email.system_admin'),
+      locale: @user.locale
+    ).html_safe  %></p>
 <% end %>

@@ -8,9 +8,11 @@ class UserMailer < ApplicationMailer
     load_users!(user_id)
     @email_body = email_body(@user, one_time_password)
     @email_greeting = greeting(@user)
+    @subject = subject(@user)
+    @locale = @user.locale
     mail(
       to: @user.email,
-      subject: subject(@user)
+      subject: @subject
     )
   end
 
@@ -56,15 +58,13 @@ class UserMailer < ApplicationMailer
   def email_body_sso(user)
     idp_name = user.identity_provider&.name
     prefix = 'user.welcome_email.sso.'
-    admin_email = @system_admin&.email ?
-      mail_to(@system_admin&.email, I18n.t('email.system_admin'), style: "color: #{@theme.email_link_color}") :
-      I18n.t('email.system_admin')
 
     {
       header: I18n.t("#{prefix}body", role_name: user.role.name, locale: user.locale),
-      step1: I18n.t("#{prefix}step1", site_title: @theme.site_title, host: root_url, identity_provider: idp_name, admin_email: admin_email, locale: user.locale),
-      step2: '',
-      is_otp: true
+      step1: I18n.t("#{prefix}step1", system: site_path(@theme.site_name), product_name: @theme.product_name,
+                    identity_provider: idp_name, locale: user.locale),
+      step2: I18n.t("#{prefix}step2", product_name: @theme.product_name, host: root_url,
+        identity_provider: idp_name)
     }
   end
   # rubocop:enable Metrics/AbcSize
@@ -75,11 +75,14 @@ class UserMailer < ApplicationMailer
       header: I18n.t("#{prefix}body", role_name: user.role.name, locale: user.locale),
       step1: I18n.t("#{prefix}step1", site_title: @theme.site_title, locale: user.locale),
       step2: I18n.t("#{prefix}step2", otp: one_time_password, host: root_url, locale: user.locale),
-      is_otp: true
     }
   end
 
   def load_users!(user_id)
     @user = User.find(user_id)
+  end
+
+  def site_path(name, path = root_url)
+    ActionController::Base.helpers.link_to(name, path, style: "color: #{@theme.email_link_color}")
   end
 end

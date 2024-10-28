@@ -1,13 +1,22 @@
 <%# Copyright (c) 2014 - 2023 UNICEF. All rights reserved. %>
 
 <% if @email_body.is_a?(String) %>
-  <%= @email_body %>
-  <%= @theme&.email_welcome_closing[@user.locale] %>
+<%= @email_body %>
+
+<%= I18n.t('user.welcome_email.body_native2',
+  instructional_video: "#{I18n.t('user.welcome_email.instructional_video', locale: @user.locale)} (#{url_for(@theme.email_instructional_video)})",
+  locale: @user.locale
+) %>
+<%= @theme&.email_welcome_closing[@user.locale] %>
 <% else %>
-  <%= @email_body[:header] %>
-  <%= @email_body[:step1] %>
-  <%= @email_body[:step2] %>
-  <% if @email_body[:is_otp] %>
-    <%= I18n.t('user.welcome_email.otp.instructional', href: link_to(I18n.t('user.welcome_email.otp.instruction', locale: @user.locale), @theme.email_instruction_url, target: '_blank'), locale: @user.locale) %>
-  <% end %>
+<%= @email_body[:header] %>
+
+<%= @email_body[:step1] %>
+
+<%= @email_body[:step2] %>
+
+<%= I18n.t('user.welcome_email.additional_support',
+  admin_email: @system_admin&.email ? "#{I18n.t('email.system_admin')} (#{@system_admin&.email})" : I18n.t('email.system_admin'),
+  locale: @user.locale
+)  %>
 <% end %>
