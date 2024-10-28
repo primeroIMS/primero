@@ -41,9 +41,10 @@ module PhoneticSearchable
     identifiers_to_save = identifiers_to_update
 
     self.class.filterable_id_fields.each do |field_name|
-      next if data[field_name].blank? || identifiers_to_save.any? { |identifier| identifier[:field_name] == field_name }
+      value = data[field_name]&.strip
+      next if value.blank? || identifiers_to_save.any? { |identifier| identifier[:field_name] == field_name }
 
-      identifiers_to_save << { field_name:, value: data[field_name] }
+      identifiers_to_save << { field_name:, value: }
     end
 
     self.searchable_identifiers_attributes = identifiers_to_save
@@ -53,7 +54,7 @@ module PhoneticSearchable
     searchable_identifiers.map do |searchable_identifier|
       {
         field_name: searchable_identifier.field_name,
-        value: data[searchable_identifier.field_name],
+        value: data[searchable_identifier.field_name]&.strip,
         id: searchable_identifier.id
       }
     end

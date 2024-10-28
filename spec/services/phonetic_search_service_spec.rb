@@ -365,7 +365,7 @@ describe PhoneticSearchService, search: true do
     it 'finds a numeric short_id=01' do
       search = PhoneticSearchService.search(Child, query: '01')
 
-      expect(search.total).to eq(1)
+      expect(search.total).to eq(2)
       expect(search.records.first.short_id).to eq('01')
       expect(search.records.first.name).to eq(record5.name)
     end
@@ -380,6 +380,14 @@ describe PhoneticSearchService, search: true do
 
     it 'finds a numeric short_id with different numbers' do
       search = PhoneticSearchService.search(Child, query: '1234')
+
+      expect(search.total).to eq(1)
+      expect(search.records.first.short_id).to eq('1234')
+      expect(search.records.first.name).to eq(record4.name)
+    end
+
+    it 'finds a numeric short_id with leading/trailing whitespaces' do
+      search = PhoneticSearchService.search(Child, query: '   1234   ')
 
       expect(search.total).to eq(1)
       expect(search.records.first.short_id).to eq('1234')

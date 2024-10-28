@@ -123,6 +123,6 @@ function SearchBox() {
   );
 }
 
-SearchBox.displayName = "Search";
+SearchBox.displayName = "SearchBox";
 
 export default SearchBox;

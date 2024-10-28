@@ -48,9 +48,9 @@ class Search::SearchQuery
     return self unless value.present?
 
     @query = @query.where(
-      'id in (:records)',
+      'id IN (:records)',
       records: SearchableIdentifier.select('record_id').where(record_type: record_class.name).where(
-        'value ilike :value', value: "#{ActiveRecord::Base.sanitize_sql_like(value)}%"
+        'value ILIKE :value', value: "%#{ActiveRecord::Base.sanitize_sql_like(value&.strip)}%"
       )
     )
 
