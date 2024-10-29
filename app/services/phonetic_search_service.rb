@@ -26,7 +26,6 @@ class PhoneticSearchService
   def search
     search_query.with_scope(search_params[:scope])
                 .with_filters(search_params[:filters])
-                .with_sort(search_params[:sort])
                 .result
                 .paginate(search_params[:pagination])
   end
@@ -40,6 +39,6 @@ class PhoneticSearchService
   def search_query
     return Search::SearchQuery.phonetic(record_class, search_params[:query]) if phonetic?
 
-    Search::SearchQuery.filter_ids(record_class, search_params[:query])
+    Search::SearchQuery.filter_ids(record_class, search_params[:query]).with_sort(search_params[:sort])
   end
 end
