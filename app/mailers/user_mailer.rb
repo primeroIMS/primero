@@ -54,7 +54,6 @@ class UserMailer < ApplicationMailer
     )
   end
 
-  # rubocop:disable Metrics/AbcSize
   def email_body_sso(user)
     idp_name = user.identity_provider&.name
     prefix = 'user.welcome_email.sso.'
@@ -62,19 +61,18 @@ class UserMailer < ApplicationMailer
     {
       header: I18n.t("#{prefix}body", role_name: user.role.name, locale: user.locale),
       step1: I18n.t("#{prefix}step1", system: site_path(@theme.site_name), product_name: @theme.product_name,
-                    identity_provider: idp_name, locale: user.locale),
+                                      identity_provider: idp_name, locale: user.locale),
       step2: I18n.t("#{prefix}step2", product_name: @theme.product_name, host: root_url,
-        identity_provider: idp_name)
+                                      identity_provider: idp_name)
     }
   end
-  # rubocop:enable Metrics/AbcSize
 
   def email_body_otp(user, one_time_password)
     prefix = 'user.welcome_email.otp.'
     {
       header: I18n.t("#{prefix}body", role_name: user.role.name, locale: user.locale),
       step1: I18n.t("#{prefix}step1", site_title: @theme.site_title, locale: user.locale),
-      step2: I18n.t("#{prefix}step2", otp: one_time_password, host: root_url, locale: user.locale),
+      step2: I18n.t("#{prefix}step2", otp: one_time_password, host: root_url, locale: user.locale)
     }
   end
 

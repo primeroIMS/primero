@@ -413,7 +413,7 @@ class User < ApplicationRecord
     role&.user_admin_role? && group_permission?(Permission::ADMIN_ONLY)
   end
 
-  def send_welcome_email(admin_user)
+  def send_welcome_email
     return if !emailable? || identity_provider&.sync_identity?
 
     UserMailJob.perform_later(id)

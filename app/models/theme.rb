@@ -25,23 +25,21 @@ class Theme < ApplicationRecord
     incident monitoring and family tracing and reunification.',
     email_disclaimer_pre: { en: 'DO NOT REPLY TO THIS EMAIL' },
     email_disclaimer: { en: [
-        'The content of this message does not necessarily reflect the official position of UNICEF. Electronic messages',
-        'are not secure or error free and may contain viruses or may be delayed, and the sender is not liable for any',
-        'of these occurrences. The sender reserves the right to monitor, record and retain electronic messages.',
-        ].join(' ')
-    },
-    email_copyright: { en:'' },
+      'The content of this message does not necessarily reflect the official position of UNICEF. Electronic messages',
+      'are not secure or error free and may contain viruses or may be delayed, and the sender is not liable for any',
+      'of these occurrences. The sender reserves the right to monitor, record and retain electronic messages.'
+    ].join(' ') },
+    email_copyright: { en: '' },
     email_warning: { en: [
-        'The information contained in this electronic message and any attachments is intended for specific individuals',
-        'or entities, and may be confidential, proprietary or privileged. If you are not the intended recipient,',
-        'please notify the sender immediately, delete this message and do not disclose, distribute or copy it to',
-        'any third party or otherwise use this message.'
-        ].join(' ')
-    },
+      'The information contained in this electronic message and any attachments is intended for specific individuals',
+      'or entities, and may be confidential, proprietary or privileged. If you are not the intended recipient,',
+      'please notify the sender immediately, delete this message and do not disclose, distribute or copy it to',
+      'any third party or otherwise use this message.'
+    ].join(' ') },
     email_welcome_greeting: { en: 'Welcome to the Primero team' },
-    email_welcome_closing: { en:'Welcome to the Primero Community' },
+    email_welcome_closing: { en: 'Welcome to the Primero Community' },
     email_instructional_video: 'https://www.youtube.com/watch?v=I5Lfi_8A4iU',
-    email_closing: { en:'At your service'},
+    email_closing: { en: 'At your service' },
     email_signature: { en: 'Primero team' },
     email_admin_name: { en: 'System Administrator' },
     email_help_links: [],
