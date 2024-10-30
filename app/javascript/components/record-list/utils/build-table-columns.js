@@ -121,7 +121,7 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online, 
                       : columnMeta.label;
 
                     return (
-                      <Tooltip title="Sort disabled when searching by name fields">
+                      <Tooltip title={i18n.t("messages.record_list.sort_disabled_name_fields")}>
                         <TableCell className={css.disabled}>
                           <div>{headLabelRender}</div>
                         </TableCell>
