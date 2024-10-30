@@ -28,38 +28,41 @@ function Component({ loadingIndicator }) {
     actionNeededNewUpdated.size || actionNeededNewReferrals.size || actionNeededTransferAwaitingAcceptance.size
   );
 
-  const columns = [
-    [
-      {
-        type: DASHBOARD_TYPES.TOTAL_BOX,
-        actions: ACTIONS.DASH_ACTION_NEEDED_NEW_UPDATED,
-        options: {
-          data: actionNeededNewUpdated,
-          title: i18n.t("dashboard.action_needed.cases")
+  const columns = useMemo(
+    () => [
+      [
+        {
+          type: DASHBOARD_TYPES.TOTAL_BOX,
+          actions: ACTIONS.DASH_ACTION_NEEDED_NEW_UPDATED,
+          options: {
+            data: actionNeededNewUpdated,
+            title: i18n.t("dashboard.action_needed.cases")
+          }
         }
-      }
+      ],
+      [
+        {
+          type: DASHBOARD_TYPES.TOTAL_BOX,
+          actions: ACTIONS.DASH_ACTION_NEEDED_NEW_REFERRALS,
+          options: {
+            data: actionNeededNewReferrals,
+            title: i18n.t("dashboard.action_needed.referrals")
+          }
+        }
+      ],
+      [
+        {
+          type: DASHBOARD_TYPES.TOTAL_BOX,
+          actions: ACTIONS.DASH_ACTION_NEEDED_TRANSFER_AWAITING_ACCEPTANCE,
+          options: {
+            data: actionNeededTransferAwaitingAcceptance,
+            title: i18n.t("dashboard.action_needed.transfers")
+          }
+        }
+      ]
     ],
-    [
-      {
-        type: DASHBOARD_TYPES.TOTAL_BOX,
-        actions: ACTIONS.DASH_ACTION_NEEDED_NEW_REFERRALS,
-        options: {
-          data: actionNeededNewReferrals,
-          title: i18n.t("dashboard.action_needed.referrals")
-        }
-      }
-    ],
-    [
-      {
-        type: DASHBOARD_TYPES.TOTAL_BOX,
-        actions: ACTIONS.DASH_ACTION_NEEDED_TRANSFER_AWAITING_ACCEPTANCE,
-        options: {
-          data: actionNeededTransferAwaitingAcceptance,
-          title: i18n.t("dashboard.action_needed.transfers")
-        }
-      }
-    ]
-  ];
+    [actionNeededHasData]
+  );
 
   const dashboardActions = useMemo(
     () =>

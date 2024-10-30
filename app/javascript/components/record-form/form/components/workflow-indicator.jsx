@@ -20,10 +20,10 @@ function WorkflowIndicator({ locale, primeroModule, recordType, record }) {
   );
 
   const workflowSteps = workflowLabels.filter(
-    w =>
+    workflowLabel =>
       !(
-        (record.get("case_status_reopened") && w.id === "new") ||
-        (!record.get("case_status_reopened") && w.id === "reopened")
+        (record.get("case_status_reopened") && workflowLabel.id === "new") ||
+        (!record.get("case_status_reopened") && workflowLabel.id === "reopened")
       )
   );
 

@@ -1,13 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
+import { useMemo } from "react";
 import PropTypes from "prop-types";
 import { List } from "immutable";
 import { batch, useDispatch } from "react-redux";
-import { object, string } from "yup";
 
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
-import Form, { FieldRecord, FormSectionRecord, FORM_MODE_DIALOG } from "../../form";
+import Form, { FORM_MODE_DIALOG } from "../../form";
 import { getRecordAlerts, saveRecord } from "../../records";
 import { ACTIONS } from "../../permissions";
 import { fetchAlerts } from "../../nav/action-creators";
@@ -15,17 +15,14 @@ import { NOTES_DIALOG } from "../constants";
 import { useMemoizedSelector } from "../../../libs";
 
 import { NAME, FORM_ID } from "./constants";
+import useNotesForm from "./use-notes-form";
 
-const validationSchema = object().shape({
-  note_subject: string().required(),
-  note_text: string().required()
-});
-
-function Component({ close, open, pending, record, recordType, setPending }) {
+function Component({ close, open, pending, record, recordType, setPending, primeroModule }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
-
   const recordAlerts = useMemoizedSelector(state => getRecordAlerts(state, recordType));
+  const { validationSchema, formSection } = useNotesForm({ recordType, primeroModule });
+  const formSections = useMemo(() => (formSection ? List([formSection]) : List([])), [formSection]);
 
   const handleSubmit = data => {
     setPending(true);
@@ -51,27 +48,6 @@ function Component({ close, open, pending, record, recordType, setPending }) {
     }
   };
 
-  const formSections = List([
-    FormSectionRecord({
-      unique_id: "notes_section",
-      fields: List([
-        FieldRecord({
-          display_name: i18n.t("cases.notes_form_subject"),
-          name: "note_subject",
-          type: "text_field",
-          required: true,
-          autoFocus: true
-        }),
-        FieldRecord({
-          display_name: i18n.t("cases.notes_form_notes"),
-          name: "note_text",
-          type: "textarea",
-          required: true
-        })
-      ])
-    })
-  ]);
-
   return (
     <ActionDialog
       open={open}
@@ -91,6 +67,7 @@ function Component({ close, open, pending, record, recordType, setPending }) {
         onSubmit={handleSubmit}
         validations={validationSchema}
         formID={FORM_ID}
+        showTitle={false}
       />
     </ActionDialog>
   );
@@ -102,6 +79,7 @@ Component.propTypes = {
   close: PropTypes.func,
   open: PropTypes.bool,
   pending: PropTypes.bool.isRequired,
+  primeroModule: PropTypes.string.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   setPending: PropTypes.func.isRequired

@@ -105,7 +105,7 @@ function Component({
         filterState &&
         setFilterState && {
           filters: {
-            values: filterFunc(field, subformSectionField),
+            values: filterFunc(values, field, subformSectionField),
             filterState,
             setFilterState
           }

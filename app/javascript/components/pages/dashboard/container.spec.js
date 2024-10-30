@@ -2,6 +2,7 @@ import { fromJS } from "immutable";
 
 import { mountedComponent, screen } from "../../../test-utils";
 import { ACTIONS } from "../../permissions";
+import { PrimeroModuleRecord } from "../../application/records";
 
 import Dashboard from "./container";
 
@@ -15,8 +16,10 @@ describe("<Dashboard />", () => {
   const initialState = fromJS({
     user: {
       reportingLocationConfig,
+      modules: ["cp"],
       permissions: {
         dashboards: [
+          ACTIONS.DASH_CASE_OVERVIEW,
           ACTIONS.DASH_FLAGS,
           ACTIONS.DASH_CASE_RISK,
           ACTIONS.DASH_SHARED_FROM_MY_TEAM,
@@ -31,6 +34,17 @@ describe("<Dashboard />", () => {
           ACTIONS.DASH_PROTECTION_CONCERNS
         ]
       }
+    },
+    application: {
+      modules: [
+        PrimeroModuleRecord({
+          unique_id: "cp",
+          name: "CP",
+          workflows: {
+            case: [{ id: "new", display_text: { en: "New" } }]
+          }
+        })
+      ]
     }
   });
 
@@ -59,7 +73,7 @@ describe("<Dashboard />", () => {
   });
 
   it("should render a <WorkflowIndividualCases /> component", () => {
-    expect(screen.queryAllByText(/dashboard.workflow/i)).toHaveLength(4);
+    expect(screen.queryAllByText("dashboard.workflow - CP")).toHaveLength(1);
   });
 
   it("should render a <Approvals /> component", () => {

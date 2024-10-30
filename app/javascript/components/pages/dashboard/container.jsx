@@ -153,9 +153,11 @@ function Dashboard() {
       <PageContent>
         <OfflineAlert text={i18n.t("messages.dashboard_offline")} />
         <Grid container spacing={3}>
-          <Grid item xl={xlSizeOverview} md={xlSizeOverview} xs={12} className={css.flex}>
-            <Overview loadingIndicator={indicatorProps} userPermissions={userPermissions} />
-          </Grid>
+          {canSeeOverviewDashboard && (
+            <Grid item xl={xlSizeOverview} md={xlSizeOverview} xs={12} className={css.flex}>
+              <Overview loadingIndicator={indicatorProps} userPermissions={userPermissions} />
+            </Grid>
+          )}
           {canSeeActionNeededDashboards && (
             <Grid item xl={xlSizeActionNeeded} md={xlSizeActionNeeded} xs={12} className={css.flex}>
               <ActionNeeded loadingIndicator={indicatorProps} userPermissions={userPermissions} />

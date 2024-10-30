@@ -139,8 +139,8 @@ describe Filter do
     end
 
     describe 'case filters' do
-      it 'has 18 filters' do
-        expect(@filters_cp[0]['cases'].count).to eq(18)
+      it 'has 24 filters' do
+        expect(@filters_cp[0]['cases'].count).to eq(24)
       end
 
       it 'has filters' do
@@ -191,14 +191,16 @@ describe Filter do
       it 'has current location filter' do
         expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'cases.filter_by.current_location',
                                                                    field_name: 'loc:location_current',
-                                                                   type: 'multi_select'))
+                                                                   type: 'multi_select',
+                                                                   unique_id: 'location_current'))
       end
 
       # TODO: test with different reporting location levels
       it 'has reporting location filter' do
         expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'location.base_types.district',
                                                                    field_name: 'loc:owned_by_location2',
-                                                                   type: 'multi_select'))
+                                                                   type: 'multi_select',
+                                                                   unique_id: 'reporting_location'))
       end
 
       it 'has No Activity filter' do
@@ -244,8 +246,8 @@ describe Filter do
     end
 
     describe 'case filters' do
-      it 'has 20 filters' do
-        expect(@filters_cp_gbv[0]['cases'].count).to eq(20)
+      it 'has 25 filters' do
+        expect(@filters_cp_gbv[0]['cases'].count).to eq(25)
       end
 
       it 'has filters' do

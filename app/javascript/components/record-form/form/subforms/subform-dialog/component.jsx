@@ -11,9 +11,14 @@ import { useDispatch } from "react-redux";
 
 import { fieldValidations } from "../../validations";
 import { SUBFORM_CREATE_CASE_DIALOG, SUBFORM_DIALOG } from "../constants";
-import ServicesSubform from "../services-subform/component";
 import SubformMenu from "../subform-menu";
-import { getSubformValues, serviceHasReferFields, updateSubformEntries, addSubformEntries } from "../../utils";
+import {
+  getSubformValues,
+  serviceHasReferFields,
+  updateSubformEntries,
+  addSubformEntries,
+  serviceFilterFunc
+} from "../../utils";
 import ActionDialog, { useDialog } from "../../../../action-dialog";
 import SubformDrawer from "../subform-drawer";
 import { compactValues, constructInitialValues } from "../../../utils";
@@ -31,7 +36,7 @@ import {
   getCaseFormFamilyMemberLoading
 } from "../../../../records";
 import { useMemoizedSelector } from "../../../../../libs";
-import { RECORD_TYPES_PLURAL } from "../../../../../config";
+import { RECORD_TYPES_PLURAL, SERVICES_SUBFORM_FIELD } from "../../../../../config";
 
 function Component({
   arrayHelpers,
@@ -63,6 +68,10 @@ function Component({
   const params = useParams();
   const dispatch = useDispatch();
   const [initialValues, setInitialValues] = useState({});
+  const [filterState, setFilterState] = useState({
+    filtersChanged: false,
+    userIsSelected: false
+  });
   const { dialogOpen, setDialog } = useDialog(SUBFORM_CREATE_CASE_DIALOG);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const caseFromFamilyMemberLoading = useMemoizedSelector(state => getCaseFormFamilyMemberLoading(state, recordType));
@@ -129,49 +138,43 @@ function Component({
   const buttonDialogText = dialogIsNew ? "buttons.add" : "buttons.update";
 
   const dialogActions =
-    field.subform_section_id.unique_id === "services_section" &&
+    field.name === SERVICES_SUBFORM_FIELD &&
     mode.isShow &&
     // eslint-disable-next-line camelcase
     serviceHasReferFields(formik.values?.services_section?.[index]) ? (
       <SubformMenu index={index} values={formik.values.services_section} />
     ) : null;
 
-  const renderSubform = (subformField, subformIndex, values, setFieldValue) => {
-    if (subformField.subform_section_id.unique_id === "services_section") {
-      return (
-        <ServicesSubform
-          field={subformField}
-          index={subformIndex}
-          mode={mode}
-          formSection={formSection}
-          isReadWriteForm={isReadWriteForm}
-          recordType={recordType}
-          recordModuleID={recordModuleID}
-          values={values}
-          parentValues={formik.values}
-          SubformDialogFields={components.SubformDialogFields}
-        />
-      );
-    }
+  const subformFieldProps = {
+    mode,
+    parentTitle: title,
+    parentViolationOptions: violationOptions,
+    isViolationAssociation,
+    isViolation,
+    arrayHelpers
+  };
 
-    return (
-      <components.SubformDialogFields
-        components={components}
-        field={subformField}
-        mode={mode}
-        index={subformIndex}
-        formSection={formSection}
-        isReadWriteForm={isReadWriteForm}
-        values={values}
-        parentValues={formik.values}
-        parentTitle={title}
-        parentViolationOptions={violationOptions}
-        arrayHelpers={arrayHelpers}
-        isViolation={isViolation}
-        isViolationAssociation={isViolationAssociation}
-        setFieldValue={setFieldValue}
-      />
-    );
+  const defaultSubformFieldProps = {
+    components,
+    formSection,
+    isReadWriteForm,
+    recordType,
+    recordModuleID,
+    parentValues: formik.values
+  };
+
+  const serviceSubformFieldProps = {
+    mode:
+      isReadWriteForm === false
+        ? {
+            isShow: true,
+            isEdit: false,
+            isNew: false
+          }
+        : mode,
+    filterState,
+    setFilterState,
+    filterFunc: serviceFilterFunc
   };
 
   const modalConfirmationProps = {
@@ -305,7 +308,16 @@ function Component({
                     disabled={!subformValues?.can_read_record}
                   />
                 )}
-                {renderSubform(field, index, values, setFieldValue)}
+                <components.SubformDialogFields
+                  {...{
+                    ...defaultSubformFieldProps,
+                    field,
+                    index,
+                    values,
+                    setFieldValue,
+                    ...(field.name === SERVICES_SUBFORM_FIELD ? serviceSubformFieldProps : subformFieldProps)
+                  }}
+                />
               </Form>
             );
           }}

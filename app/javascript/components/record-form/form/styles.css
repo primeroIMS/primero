@@ -72,6 +72,7 @@
 
 .attachmentHeading {
   display: flex;
+  align-items: center;
 
   & .attachmentLabel {
     flex: 1;
@@ -107,7 +108,7 @@
   }
 }
 
-.attachmentActions{ 
+.attachmentActions{
   display: flex;
 
   & button {

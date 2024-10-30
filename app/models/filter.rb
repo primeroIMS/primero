@@ -6,7 +6,13 @@
 # rubocop:disable Metrics/ClassLength
 class Filter < ValueObject
   attr_accessor :name, :field_name, :type, :options, :option_strings_source,
-                :toggle_include_disabled, :sort_options
+                :toggle_include_disabled, :sort_options, :unique_id
+
+  def initialize(args = {})
+    args = { unique_id: args[:field_name] }.merge(args)
+
+    super(args)
+  end
 
   FLAGGED_CASE = Filter.new(
     name: 'cases.filter_by.flag',
@@ -58,6 +64,12 @@ class Filter < ValueObject
     field_name: 'sex',
     option_strings_source: 'lookup-gender'
   )
+  GENDER_IDENTITY = Filter.new(
+    unique_id: 'gender_identity',
+    name: 'cases.filter_by.gender',
+    field_name: 'gender_identity',
+    option_strings_source: 'lookup-gender-identity'
+  )
   PROTECTION_CONCERNS = Filter.new(
     name: 'cases.filter_by.protection_concerns',
     field_name: 'protection_concerns',
@@ -93,16 +105,42 @@ class Filter < ValueObject
     name: 'cases.filter_by.current_location',
     field_name: 'loc:location_current',
     option_strings_source: 'Location',
-    type: 'multi_select'
+    type: 'multi_select',
+    unique_id: 'location_current'
   )
   AGENCY_OFFICE = Filter.new(
     name: 'user.agency_office',
     field_name: 'owned_by_agency_office',
     option_strings_source: 'lookup-agency-office'
   )
+  DISABILITY_STATUS = Filter.new(
+    name: 'cases.filter_by.disability_status',
+    field_name: 'disability_status_yes_no',
+    option_strings_source: 'lookup-yes-no',
+    type: 'multi_toggle'
+  )
+  SOGIESC_SELF_IDENTIFYING = Filter.new(
+    name: 'cases.filter_by.sogiesc_self_identifying',
+    field_name: 'sogiesc_self_identifying',
+    option_strings_source: 'lookup-yes-no-unknown',
+    type: 'multi_toggle'
+  )
+  DISPLACEMENT_STATUS = Filter.new(
+    name: 'cases.filter_by.displacement_status',
+    field_name: 'displacement_status',
+    option_strings_source: 'lookup-displacement-status',
+    type: 'multi_select'
+  )
+  PROTECTION_THREATS = Filter.new(
+    name: 'cases.filter_by.protection_threats',
+    field_name: 'protection_threats',
+    option_strings_source: 'lookup-protection-threats',
+    type: 'multi_select'
+  )
   USER_GROUP = Filter.new(name: 'permissions.permission.user_group', field_name: 'owned_by_groups')
   REPORTING_LOCATION = lambda do |params|
     Filter.new(
+      unique_id: 'reporting_location',
       name: "location.base_types.#{params[:labels]&.first}",
       field_name: "loc:#{params[:field]}#{params[:admin_level]}",
       option_strings_source: 'ReportingLocation',
@@ -354,7 +392,8 @@ class Filter < ValueObject
     name: 'families.filter_by.current_location',
     field_name: 'loc:family_location_current',
     option_strings_source: 'Location',
-    type: 'multi_select'
+    type: 'multi_select',
+    unique_id: 'family_location_current'
   )
 
   class << self
@@ -405,28 +444,28 @@ class Filter < ValueObject
       filters << SOCIAL_WORKER if user.manager?
       filters += [MY_CASES, WORKFLOW]
       filters << AGENCY if user.admin?
-      filters += [STATUS, AGE_RANGE, SEX] + user_based_filters(user) + [NO_ACTIVITY]
+      filters += [STATUS, AGE_RANGE, SEX, GENDER_IDENTITY] + user_based_filters(user) + [NO_ACTIVITY]
       filters << DATE_CASE unless user.gbv_only? || user.mrm_only?
       filters << ENABLED
       filters += photo_filters(user)
       filters
     end
 
-    # rubocop:disable Metrics/CyclomaticComplexity
-    # rubocop:disable Metrics/AbcSize
-    def user_based_filters(user)
+    def user_based_filters(user) # rubocop:disable Metrics/MethodLength
       filters = []
       filters += approvals_filters(user)
       filters += field_based_filters(user)
-      filters << RISK_LEVEL unless user.gbv_only? || user.mrm_only?
-      filters << CURRENT_LOCATION unless user.gbv_only? || user.mrm_only?
-      filters << AGENCY_OFFICE if user.gbv?
-      filters << USER_GROUP if user.gbv? && user.user_group_filter?
+      filters << RISK_LEVEL
+      filters << DISPLACEMENT_STATUS
+      filters << DISABILITY_STATUS
+      filters << SOGIESC_SELF_IDENTIFYING
+      filters << PROTECTION_THREATS
+      filters << CURRENT_LOCATION
+      filters << AGENCY_OFFICE
+      filters << USER_GROUP if user.user_group_filter?
       filters += reporting_location_filters(user)
       filters
     end
-    # rubocop:enable Metrics/CyclomaticComplexity
-    # rubocop:enable Metrics/AbcSize
 
     def approvals_filters(user)
       filters = []
@@ -442,10 +481,10 @@ class Filter < ValueObject
       filter_fields = Field.where(name: CASE_FILTER_FIELD_NAMES).to_h { |f| [f.name, f] }
       filters = []
       filters += protection_concern_filter(user)
-      filters += gbv_displacement_filter(user, filter_fields)
-      filters += protection_status_filter(user, filter_fields)
-      filters += urgent_protection_concern_filter(user, filter_fields)
-      filters += type_of_risk_filter(user, filter_fields)
+      filters += gbv_displacement_filter(filter_fields)
+      filters += protection_status_filter(filter_fields)
+      filters += urgent_protection_concern_filter(filter_fields)
+      filters += type_of_risk_filter(filter_fields)
       filters
     end
 
@@ -455,27 +494,26 @@ class Filter < ValueObject
       []
     end
 
-    def gbv_displacement_filter(user, filter_fields)
-      return [GBV_DISPLACEMENT_STATUS] if user.gbv? && visible?('gbv_displacement_status', filter_fields)
+    def gbv_displacement_filter(filter_fields)
+      return [GBV_DISPLACEMENT_STATUS] if visible?('gbv_displacement_status', filter_fields)
 
       []
     end
 
-    def protection_status_filter(user, filter_fields)
-      return [PROTECTION_STATUS] if visible?('protection_status', filter_fields) && !(user.gbv_only? || user.mrm_only?)
+    def protection_status_filter(filter_fields)
+      return [PROTECTION_STATUS] if visible?('protection_status', filter_fields)
 
       []
     end
 
-    def urgent_protection_concern_filter(user, filter_fields)
-      return [URGENT_PROTECTION_CONCERN] if !(user.gbv_only? || user.mrm_only?) && visible?('urgent_protection_concern',
-                                                                                            filter_fields)
+    def urgent_protection_concern_filter(filter_fields)
+      return [URGENT_PROTECTION_CONCERN] if visible?('urgent_protection_concern', filter_fields)
 
       []
     end
 
-    def type_of_risk_filter(user, filter_fields)
-      return [TYPE_OF_RISK] if !(user.gbv_only? || user.mrm_only?) && visible?('type_of_risk', filter_fields)
+    def type_of_risk_filter(filter_fields)
+      return [TYPE_OF_RISK] if visible?('type_of_risk', filter_fields)
 
       []
     end
@@ -622,10 +660,6 @@ class Filter < ValueObject
       field = filter_fields[field_name]
       field.present? && field.visible?
     end
-  end
-
-  def initialize(args = {})
-    super(args)
   end
 
   def owned_by_options(opts = {})
@@ -867,7 +901,7 @@ class Filter < ValueObject
   end
 
   def inspect
-    "Filter(name: #{name}, field_name: #{field_name}, type: #{type})"
+    "Filter(name: #{name}, field_name: #{field_name}, type: #{type}, unique_id: #{unique_id})"
   end
 end
 # rubocop:enable Metrics/ClassLength

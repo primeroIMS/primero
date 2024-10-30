@@ -209,7 +209,8 @@ function Container({
           selectedRowsIndex,
           setPending: setDialogPending,
           userPermissions: permittedAbilities,
-          mode
+          mode,
+          primeroModule
         })}
     </>
   );

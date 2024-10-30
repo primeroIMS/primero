@@ -19,14 +19,14 @@ import { removeBulkAssignMessages } from "../record-actions/bulk-transtions";
 import { clearPreviousRecord, setSelectedForm } from "../record-form/action-creators";
 import { enqueueSnackbar } from "../notifier";
 import { useMetadata } from "../records";
-import { useApp } from "../application";
+import { useApp, getListHeaders } from "../application";
 import { usePermissions, ACTIONS } from "../permissions";
 import PageContainer, { PageContent } from "../page";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
 import { buildTableColumns } from "./utils";
 import RecordListToolbar from "./record-list-toolbar";
-import { getListHeaders, getMetadata, getAppliedFiltersAsQueryString } from "./selectors";
+import { getMetadata, getAppliedFiltersAsQueryString } from "./selectors";
 import css from "./styles.css";
 import ViewModal from "./view-modal";
 import SortContainer from "./components/sort-container";

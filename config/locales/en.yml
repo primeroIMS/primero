@@ -315,6 +315,7 @@ en:
     case_opening_date: Case Open Date
     case_plan: Case Plan
     case_worker_code: Case Worker Code
+    client_code: Client Code
     clear_filter: Clear
     close_dialog: Clicking OK will change the status of this case to Closed
     close_dialog_title: Close Case
@@ -355,6 +356,7 @@ en:
       closure: Closure
       current_location: Current Location
       date: Date
+      disability_status: Disability Status
       displacement_status: Displacement Status
       district: District
       duplicate: Duplicate
@@ -363,6 +365,7 @@ en:
       flag: Flagged
       flag_label: Flagged?
       gbv_closure: GBV Closure
+      gender: Gender
       high: High
       low: Low
       male: Male
@@ -378,12 +381,14 @@ en:
       photo_label: Has Photo?
       protection_concerns: Protection Concerns
       protection_status: Protection Status
+      protection_threats: Protection Threats
       record_state: Record State
       referred_cases: Cases referred to me
       registration_date: Registration Date
       risk_level: Risk Level
       sex: Sex
       social_worker: Field/Case/Social Worker
+      sogiesc_self_identifying: Client identifies as part of the SOGIESC community?
       status: Status
       transferred: Transferred
       type_of_risk: Type of Risk
@@ -394,10 +399,12 @@ en:
     flag_summary: Flag summary
     full_name: Full Name
     gbv_closure: GBV Closure
+    gender_identity: Gender
     hide_name: Hide Name
     hide_name_error: An error ocurred when saving your changes. Please try again.
     id: ID#
     label: Cases
+    location_current: Location
     my_filters: My Filters
     name: Name
     notes_dialog_title: Add Notes

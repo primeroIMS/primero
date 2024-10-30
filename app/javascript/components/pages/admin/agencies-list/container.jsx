@@ -11,7 +11,7 @@ import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
-import { getListHeaders } from "../../../user";
+import { getListHeaders, useApp } from "../../../application";
 import { usePermissions, CREATE_RECORDS, RESOURCES } from "../../../permissions";
 import { filterOnTableChange, getFilters, headersToColumns, onSubmitFilters } from "../utils";
 import { FiltersForm } from "../../../form-filters/components";
@@ -19,7 +19,6 @@ import { getAppliedFilters, getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
-import { useApp } from "../../../application";
 import { useMemoizedSelector } from "../../../../libs";
 import { DEFAULT_FILTERS, DATA } from "../constants";
 
