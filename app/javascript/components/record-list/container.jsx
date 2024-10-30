@@ -171,6 +171,7 @@ function Container({ match, location }) {
           currentPage={currentPage}
           selectedRecords={selectedRecords}
           clearSelectedRecords={clearSelectedRecords}
+          phonetic={phonetic}
         />
         <PageContent flex>
           <div className={css.tableContainer}>
@@ -191,7 +192,9 @@ function Container({ match, location }) {
             </div>
           </div>
 
-          {mobileDisplay && <SortContainer columns={columns} recordType={recordType} applyFilters={applyFilters} />}
+          {mobileDisplay && !phonetic && (
+            <SortContainer columns={columns} recordType={recordType} applyFilters={applyFilters} />
+          )}
           <FilterContainer mobileDisplay={mobileDisplay}>
             <Filters recordType={recordType} setSelectedRecords={handleSelectedRecords} metadata={metadata} />
           </FilterContainer>
