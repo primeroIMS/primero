@@ -19,14 +19,14 @@ module SubformSummarizable
   end
 
   def subform_to_summarize_changed?(field)
-    subform_unique_id = field.subform_summary['subform_unique_id']
-    changes_to_save_for_record.key?(subform_unique_id)
+    subform_field_name = field.subform_summary['subform_field_name']
+    changes_to_save_for_record.key?(subform_field_name)
   end
 
   def calculate_summary(field)
-    subform_unique_id = field.subform_summary['subform_unique_id']
-    subforms = data[subform_unique_id]
-    function_name = field.subform_summary.keys.reject { |key| key == 'subform_unique_id' }.first
+    subform_field_name = field.subform_summary['subform_field_name']
+    subforms = data[subform_field_name]
+    function_name = field.subform_summary.keys.reject { |key| key == 'subform_field_name' }.first
     function_args = field.subform_summary[function_name]
     SubformSummaryService.new(subforms:, args: function_args).send(function_name)
   end
