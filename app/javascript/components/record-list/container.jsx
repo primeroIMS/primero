@@ -149,9 +149,11 @@ function Container({ match, location }) {
 
   const rowSelectable = useCallback(record => recordAvailable(record) || online, [online]);
 
+  const phonetic = useMemo(() => queryParams.phonetic === "true", [queryParams.phonetic]);
+
   const columns = useMemo(
-    () => buildTableColumns(listHeaders, i18n, recordType, css, recordAvailable, online),
-    [online, listHeaders, recordType]
+    () => buildTableColumns(listHeaders, i18n, recordType, css, recordAvailable, online, phonetic),
+    [online, listHeaders, recordType, phonetic]
   );
 
   const handleSelectedRecords = useCallback(ids => {
