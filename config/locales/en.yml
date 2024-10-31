@@ -4195,6 +4195,7 @@ en:
       users: Users
       roles: Roles
       code_of_conduct: Code of Conduct
+      messages: Messages
     title: Settings
   system_settings:
     label: System Settings
@@ -4543,3 +4544,9 @@ en:
     body:
       one: Do you want to allow Primero to send you notifications? Remember that you will continue to receive notifications on this device %{count} day after you log out. This is not recommended for shared devices.
       other: Do you want to allow Primero to send you notifications? Remember that you will continue to receive notifications on this device %{count} days after you log out. This is not recommended for shared devices.
+  rp_messages:
+    attributes:
+      created_at: Created At
+      body: Body
+      recipient_groups: Recipient User Groups
+    send_message: Send Message

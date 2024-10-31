@@ -52,6 +52,7 @@ import { reducer as kpiReducer } from "./components/key-performance-indicators";
 import { reducer as configurationsListReducer } from "./components/pages/admin/configurations-list";
 import { reducer as configurationsFormReducer } from "./components/pages/admin/configurations-form";
 import { reducer as activityLogReducer } from "./components/activity-log";
+import { reducer as messageListReducer} from "./components/pages/admin/messages-list";
 import {
   reducer as locationsListReducer,
   importReducer as locationsImportReducer
@@ -115,7 +116,8 @@ const rootReducer = {
         roles: reduceReducers(initialState, rolesListReducer, rolesFormReducer),
         lookups: reduceReducers(initialState, lookupsListReducer, AdminLookupsFormReducers),
         configurations: reduceReducers(initialState, configurationsListReducer, configurationsFormReducer),
-        locations: reduceReducers(initialState, locationsListReducer, locationsImportReducer)
+        locations: reduceReducers(initialState, locationsListReducer, locationsImportReducer),
+        messages: reduceReducers(initialState, messageListReducer)
       }),
       activity_logs: activityLogReducer,
       ...kpiReducer

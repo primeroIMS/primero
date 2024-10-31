@@ -3,6 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 Rails.application.routes.draw do
+  get 'message/index'
   root to: 'home#v2'
 
   scope :v2 do
@@ -137,6 +138,7 @@ Rails.application.routes.draw do
       resources :key_performance_indicators, path: :kpis, only: [:show]
       resources :codes_of_conduct, only: %i[index create], controller: 'codes_of_conduct'
       resources :activity_log, only: [:index]
+      resources :messages, only: %i[index create]
       resources :managed_reports, only: %i[index show] do
         collection do
           get :export, to: 'managed_reports#export'

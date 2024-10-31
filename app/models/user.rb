@@ -29,6 +29,7 @@ class User < ApplicationRecord
     'password_reset' => { 'type' => 'boolean' }, 'role_id' => { 'type' => 'string' },
     'agency_office' => { 'type' => %w[string null] }, 'code_of_conduct_id' => { 'type' => 'integer' },
     'send_mail' => { 'type' => 'boolean' }, 'receive_webpush' => { 'type' => 'boolean' },
+    'rapidpro_urn' => { 'type' => 'string' },
     'settings' => {
       'type' => %w[object null], 'properties' => {
         'notifications' => {
@@ -541,6 +542,10 @@ class User < ApplicationRecord
 
   def receive_webpush?
     receive_webpush == true && !disabled?
+  end
+
+  def messageable?
+    receive_messages == true && !disabled?
   end
 
   def authorized_referral_roles(record)

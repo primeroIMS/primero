@@ -19,7 +19,7 @@ import {
   SHOW_SUMMARY,
   READ_MANAGED_REPORTS,
   READ_REGISTRY_RECORD,
-  READ_FAMILY_RECORD
+  READ_FAMILY_RECORD,
 } from "./components/permissions/constants";
 import getAdminResources from "./components/pages/admin/utils/get-admin-resources";
 
@@ -138,7 +138,8 @@ const RECORD_PATH = {
   users: "users",
   activity_log: "activity_log",
   registry_records: "registry_records",
-  webpush_config: "webpush/config"
+  webpush_config: "webpush/config",
+  messages: "messages"
 };
 
 const RECORD_INFORMATION_GROUP = "record_information";
@@ -182,6 +183,7 @@ const ROUTES = {
   admin_users: "/admin/users",
   admin_users_new: "/admin/users/new",
   audit_logs: "/admin/audit_logs",
+  admin_messages: "/admin/messages",
   cases: "/cases",
   configurations: "/admin/configurations",
   admin_configurations_new: "/admin/configurations/new",
@@ -354,6 +356,12 @@ const ADMIN_NAV = [
     label: "settings.navigation.audit_logs",
     permission: SHOW_AUDIT_LOGS,
     recordType: RESOURCES.audit_logs
+  },
+  {
+    to: "/messages",
+    label: "settings.navigation.messages",
+    permission: MANAGE,
+    recordType: RESOURCES.messages
   }
 ];
 

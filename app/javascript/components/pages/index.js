@@ -25,5 +25,6 @@ export {
   ConfigurationsList,
   ConfigurationsForm,
   LocationsList,
+  MessagesList,
   CodeOfConduct
 } from "./admin";

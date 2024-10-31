@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_06_154915) do
+ActiveRecord::Schema.define(version: 2024_10_28_142603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -387,6 +387,17 @@ ActiveRecord::Schema.define(version: 2024_03_06_154915) do
     t.index ["unique_id"], name: "index_lookups_on_unique_id", unique: true
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.text "body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "messages_recipients", id: false, force: :cascade do |t|
+    t.bigint "message_id", null: false
+    t.bigint "user_id", null: false
+  end
+
   create_table "perpetrators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.index ["data"], name: "index_perpetrators_on_data", using: :gin
@@ -668,6 +679,8 @@ ActiveRecord::Schema.define(version: 2024_03_06_154915) do
     t.bigint "code_of_conduct_id"
     t.boolean "receive_webpush"
     t.jsonb "settings"
+    t.text "rapidpro_urn"
+    t.boolean "receive_messages"
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["code_of_conduct_id"], name: "index_users_on_code_of_conduct_id"
     t.index ["email"], name: "index_users_on_email", unique: true

@@ -205,6 +205,11 @@ const sharedUserFields = (
     required: true
   },
   {
+    display_name: i18n.t("user.rapidpro_urn"),
+    name: FIELD_NAMES.RAPIDPRO_URN,
+    type: TEXT_FIELD,
+  },
+  {
     display_name: i18n.t("user.disabled"),
     name: FIELD_NAMES.DISABLED,
     type: TICK_FIELD,
