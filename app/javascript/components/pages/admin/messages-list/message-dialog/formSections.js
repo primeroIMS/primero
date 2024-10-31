@@ -8,7 +8,7 @@ const form = i18n =>
       fields: [
         FieldRecord({
             name: "recipient_groups",
-            display_name: i18n.t("messages.attribute.recipient_groups"),
+            display_name: i18n.t("rp_messages.attributes.recipient_groups"),
             required: true,
             autoFocus: true,
             type: SELECT_FIELD,
