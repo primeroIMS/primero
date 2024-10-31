@@ -3,13 +3,13 @@
 import PropTypes from "prop-types";
 import { Box, IconButton } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import ImportExportIcon from "@mui/icons-material/ImportExport";
 
 import { PageHeading } from "../../page";
 import RecordActions from "../../record-actions";
 import Permission, { CREATE_RECORDS } from "../../permissions";
 import AddRecordMenu from "../add-record-menu";
 import { useDrawer } from "../../drawer";
+import SortButton from "../components/sort-container/sort-button";
 import { FILTER_DRAWER } from "../components/filter-container/constants";
 import { SORT_DRAWER } from "../components/sort-container/constants";
 
@@ -17,16 +17,14 @@ import { NAME } from "./constants";
 
 const mode = { isShow: true };
 
-function Component({ title, recordType, selectedRecords, currentPage, clearSelectedRecords }) {
+function Component({ title, recordType, selectedRecords, currentPage, clearSelectedRecords, phonetic = false }) {
   const { toggleDrawer: toggleFilterDrawer } = useDrawer(FILTER_DRAWER);
   const { toggleDrawer: toggleSortDrawer } = useDrawer(SORT_DRAWER);
 
   return (
     <PageHeading title={title}>
       <Box sx={{ display: { md: "none", xs: "block" } }}>
-        <IconButton size="large" onClick={toggleSortDrawer} color="primary">
-          <ImportExportIcon />
-        </IconButton>
+        <SortButton phonetic={phonetic} toggleSortDrawer={toggleSortDrawer} />
         <IconButton size="large" onClick={toggleFilterDrawer} color="primary">
           <FilterListIcon />
         </IconButton>
@@ -49,6 +47,7 @@ function Component({ title, recordType, selectedRecords, currentPage, clearSelec
 Component.propTypes = {
   clearSelectedRecords: PropTypes.func,
   currentPage: PropTypes.number,
+  phonetic: PropTypes.bool,
   recordType: PropTypes.string.isRequired,
   selectedRecords: PropTypes.object,
   title: PropTypes.string.isRequired
