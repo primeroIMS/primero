@@ -22,6 +22,10 @@ class ApiConnector::RapidproConnector < ApiConnector::AbstractConnector
     connection.post('/api/v2/broadcasts.json', post_params(urn, text))
   end
 
+  def send_message_bulk(urns, text)
+    connection.post('/api/v2/broadcasts.json', { urns:, text: })
+  end
+
   def post_params(urn, text)
     {
       urns: [urn],

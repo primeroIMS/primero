@@ -6,6 +6,8 @@ class Message < ApplicationRecord
 
   before_create :materialize_recipients
 
+  after_create :send_message
+
   def materialize_recipients
     recipient_users = Set.new
     @recipient_groups ||= []
@@ -14,5 +16,9 @@ class Message < ApplicationRecord
       recipient_users.add(group.users)
     end
     recipients << recipient_users.to_a
+  end
+
+  def send_message
+    SendRapidproMessagesJob.perform_later(id)
   end
 end
