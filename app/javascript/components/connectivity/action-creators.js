@@ -67,14 +67,15 @@ export const setPendingUserLogin = payload => ({
   payload
 });
 
-export const getServerStatus = ({ showSnackbars = true }) => ({
+export const getServerStatus = ({ showSnackbars = true, successCallback = [] }) => ({
   type: actions.SERVER_STATUS,
   api: {
     path: ROUTES.check_server_health,
     external: true,
     successCallback: [
       { action: actions.SERVER_STATUS, payload: true },
-      showSnackbars && onlineSnackbar(true, { forMiddleware: true })
+      showSnackbars && onlineSnackbar(true, { forMiddleware: true }),
+      ...successCallback
     ],
     failureCallback: [
       { action: actions.SERVER_STATUS, payload: false },
@@ -87,23 +88,25 @@ export function setFieldMode(dispatch) {
   dispatch(setNetworkStatus(false));
 }
 
-export const checkServerStatus = (isOnline, showSnackbars) => (dispatch, getState) => {
-  const userToggledOffline = getState().getIn(["connectivity", "fieldMode"]);
+export const checkServerStatus =
+  (isOnline, showSnackbars, successCallback = []) =>
+  (dispatch, getState) => {
+    const userToggledOffline = getState().getIn(["connectivity", "fieldMode"]);
 
-  dispatch(closeSnackbar(isOnline ? CONNECTION_LOST : CONNECTED));
+    dispatch(closeSnackbar(isOnline ? CONNECTION_LOST : CONNECTED));
 
-  if (userToggledOffline) {
-    setFieldMode(dispatch);
-  } else {
-    dispatch(closeSnackbar(FIELD_MODE_OFFLINE));
-    dispatch(setNetworkStatus(isOnline));
-    if (isOnline) {
-      dispatch(getServerStatus({ showSnackbars }));
+    if (userToggledOffline) {
+      setFieldMode(dispatch);
     } else {
-      dispatch({ type: ENQUEUE_SNACKBAR, ...onlineSnackbar(isOnline, { forMiddleware: true }) });
+      dispatch(closeSnackbar(FIELD_MODE_OFFLINE));
+      dispatch(setNetworkStatus(isOnline));
+      if (isOnline) {
+        dispatch(getServerStatus({ showSnackbars, successCallback }));
+      } else {
+        dispatch({ type: ENQUEUE_SNACKBAR, ...onlineSnackbar(isOnline, { forMiddleware: true }) });
+      }
     }
-  }
-};
+  };
 
 export const setQueueData = payload => ({
   type: actions.SET_QUEUE_DATA,

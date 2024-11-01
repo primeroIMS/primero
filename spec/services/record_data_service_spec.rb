@@ -15,6 +15,7 @@ describe RecordDataService do
     @user = User.new(user_name: 'user1', role: @role)
     @record = Child.new_with_user(@user, name: 'Test', hidden_name: true, field1: 'value1', field2: nil)
     @incident = Incident.new_with_user(@user, incident_date: Date.today, violation_category: %w[foo bar])
+    @incident.save!
     allow(@record).to receive(:flag_count).and_return(2)
   end
 

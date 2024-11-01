@@ -854,6 +854,19 @@ describe Incident do
     end
   end
 
+  describe '#calculate_incident_date_derived' do
+    before do
+      clean_data(Incident)
+    end
+
+    it 'sets the incident_date_derived field' do
+      incident = Incident.create!(data: { super_incident_name: 'George', incident_description: 'New Incident',
+                                          incident_date: '2024-10-08' })
+
+      expect(incident.incident_date_derived).to eq(Date.new(2024, 10, 8))
+    end
+  end
+
   private
 
   def create_incident_with_created_by(created_by, options = {})

@@ -75,3 +75,9 @@
   width: .8em;
   height: .8em;
 }
+
+.disabled {
+  cursor: not-allowed;
+  font-weight: 900;
+}
+

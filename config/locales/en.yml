@@ -2325,6 +2325,7 @@ en:
       no_match: Sorry, no matching records found
       rows_per_page: Rows per page
       sort: Sort
+      sort_disabled_name_fields: Sort disabled when searching by name fields
   navigation:
     bulk_exports: Exports
     cases: Cases

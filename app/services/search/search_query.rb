@@ -11,13 +11,6 @@ class Search::SearchQuery
     )
   )
 
-  MISMATCHED_QUERY_COUNT = %(
-    (
-      SELECT COUNT(phonetic) FROM JSONB_ARRAY_ELEMENTS_TEXT(phonetic_data->'tokens') AS phonetic
-      wHERE NOT ARRAY[:values] @> ARRAY[phonetic]
-    )
-  )
-
   attr_accessor :record_class
 
   class << self
@@ -40,7 +33,7 @@ class Search::SearchQuery
 
     tokens = LanguageService.tokenize(value)
     @query = @query.where("phonetic_data ->'tokens' ?| array[:values]", values: tokens)
-                   .order(Arel.sql(phonetic_score_query(tokens)))
+                   .order(Arel.sql("#{phonetic_score_query(tokens)} #{similarity_score_query(value)}"))
     self
   end
 
@@ -48,9 +41,9 @@ class Search::SearchQuery
     return self unless value.present?
 
     @query = @query.where(
-      'id in (:records)',
+      'id IN (:records)',
       records: SearchableIdentifier.select('record_id').where(record_type: record_class.name).where(
-        'value ilike :value', value: "#{ActiveRecord::Base.sanitize_sql_like(value)}%"
+        'value ILIKE :value', value: "%#{ActiveRecord::Base.sanitize_sql_like(value&.strip)}%"
       )
     )
 
@@ -93,9 +86,15 @@ class Search::SearchQuery
   private
 
   def phonetic_score_query(values)
-    ActiveRecord::Base.sanitize_sql_for_conditions(
-      ["(#{MATCHED_QUERY_COUNT} - #{MISMATCHED_QUERY_COUNT}) DESC", { values: }]
-    )
+    ActiveRecord::Base.sanitize_sql_for_conditions(["(#{MATCHED_QUERY_COUNT}) DESC", { values: }])
+  end
+
+  def similarity_score_query(value)
+    record_class.phonetic_field_names.map do |field_name|
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        ['WORD_SIMILARITY(data->>:field_name, :value) DESC', { field_name:, value: }]
+      )
+    end.join(', ')&.prepend(', ')
   end
 
   def order_direction(order_direction)

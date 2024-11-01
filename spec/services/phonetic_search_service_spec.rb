@@ -365,7 +365,7 @@ describe PhoneticSearchService, search: true do
     it 'finds a numeric short_id=01' do
       search = PhoneticSearchService.search(Child, query: '01')
 
-      expect(search.total).to eq(1)
+      expect(search.total).to eq(2)
       expect(search.records.first.short_id).to eq('01')
       expect(search.records.first.name).to eq(record5.name)
     end
@@ -385,12 +385,20 @@ describe PhoneticSearchService, search: true do
       expect(search.records.first.short_id).to eq('1234')
       expect(search.records.first.name).to eq(record4.name)
     end
+
+    it 'finds a numeric short_id with leading/trailing whitespaces' do
+      search = PhoneticSearchService.search(Child, query: '   1234   ')
+
+      expect(search.total).to eq(1)
+      expect(search.records.first.short_id).to eq('1234')
+      expect(search.records.first.name).to eq(record4.name)
+    end
   end
 
   describe 'Sorting search' do
-    let(:record1) { Child.create!(data: { name: 'Augustina Link', sex: 'female' }) }
-    let(:record2) { Child.create!(data: { name: 'Augustina MacPherson', sex: 'male' }) }
-    let(:record3) { Child.create!(data: { name: 'Augustina Applebee', sex: 'male' }) }
+    let(:record1) { Child.create!(data: { name: 'Augustina Link', national_id_no: '001', sex: 'female' }) }
+    let(:record2) { Child.create!(data: { name: 'Augustina MacPherson', national_id_no: '011', sex: 'male' }) }
+    let(:record3) { Child.create!(data: { name: 'Augustina Applebee', national_id_no: '100', sex: 'male' }) }
 
     before do
       clean_data(SearchableIdentifier, Child)
@@ -399,14 +407,9 @@ describe PhoneticSearchService, search: true do
       record3
     end
 
-    it 'sorts sortable fields' do
-      search = PhoneticSearchService.search(Child, query: 'Augustina', sort: { name: :asc }, phonetic: 'true')
-      expect(search.records.map(&:name)).to eq([record3, record1, record2].map(&:name))
-    end
-
-    it 'sorts fields' do
-      search = PhoneticSearchService.search(Child, query: 'Augustina', sort: { sex: :desc }, phonetic: 'true')
-      expect(search.records.map(&:sex)).to eq([record2, record3, record1].map(&:sex))
+    it 'sorts a phonetic search by similarity' do
+      search = PhoneticSearchService.search(Child, query: 'Augustina Link', phonetic: 'true')
+      expect(search.records.map(&:name)).to eq([record1, record3, record2].map(&:name))
     end
   end
 

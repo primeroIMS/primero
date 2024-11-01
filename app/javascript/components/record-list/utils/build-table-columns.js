@@ -3,7 +3,7 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
 import { fromJS } from "immutable";
-import { Tooltip } from "@mui/material";
+import { TableCell, Tooltip } from "@mui/material";
 import { OfflinePin } from "@mui/icons-material";
 
 import { ToggleIconCell } from "../../index-table";
@@ -12,7 +12,7 @@ import { ALERTS_COLUMNS, ALERTS, ID_COLUMNS, COMPLETE } from "../constants";
 import PhotoColumnBody from "../components/photo-column-body";
 import DisableColumnOffline from "../components/disable-column-offline";
 
-export default (allowedColumns, i18n, recordType, css, recordAvailable, online) => {
+export default (allowedColumns, i18n, recordType, css, recordAvailable, online, phonetic = false) => {
   const iconColumns = Object.values(ALERTS_COLUMNS);
   // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label
   const emptyHeader = name => <th key={name} className={css.overdueHeading} />;
@@ -94,11 +94,13 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online) 
               return {
                 sort: column.get("sort", true),
                 customBodyRender: (value, { rowIndex }) => (
-                  <DisableColumnOffline
-                    value={value}
-                    rowAvailable={rowAvailable(rowIndex, data)}
-                    type={name.includes("date") ? "date" : ""}
-                  />
+                  <Tooltip open title="Sort disabled when searching by name fields">
+                    <DisableColumnOffline
+                      value={value}
+                      rowAvailable={rowAvailable(rowIndex, data)}
+                      type={name.includes("date") ? "date" : ""}
+                    />
+                  </Tooltip>
                 )
               };
           }
@@ -110,6 +112,24 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online) 
           id: column.get("id_search"),
           options: {
             ...options,
+            ...(phonetic
+              ? {
+                  sort: false,
+                  customHeadRender: columnMeta => {
+                    const headLabelRender = options?.customHeadLabelRender
+                      ? options.customHeadLabelRender(columnMeta)
+                      : columnMeta.label;
+
+                    return (
+                      <Tooltip title={i18n.t("messages.record_list.sort_disabled_name_fields")}>
+                        <TableCell className={css.disabled}>
+                          <div>{headLabelRender}</div>
+                        </TableCell>
+                      </Tooltip>
+                    );
+                  }
+                }
+              : {}),
             display: !(
               RECORD_TYPES[recordType] === RECORD_TYPES.cases && column.get("field_name") === ID_COLUMNS.short_id
             )
