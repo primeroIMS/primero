@@ -14,7 +14,7 @@ class IdpTokenStrategy < Warden::Strategies::Base
 
   # This is an override for warden to skip storing session in a cookie
   def store?
-    false
+    true
   end
 
   def authenticate!

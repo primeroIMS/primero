@@ -25,8 +25,8 @@ describe Record do
 
     it "should keep unique_identifier, short_id and #{record_id_name} if they are provided" do
       unique_identifier = '123456789'
-      short_id = '1234567',
-                 record_id = '987654320'
+      short_id = '1234567'
+      record_id = '987654320'
 
       record = model_class.new(:unique_identifier => unique_identifier, :short_id => short_id,
                                record_id_name.to_s => record_id)
@@ -47,8 +47,8 @@ describe Record do
     it "should not change unique_identifier, short_id and #{record_id_name} on saving operations" do
       date_value = Date.new(1990, 7, 21)
       unique_identifier = '123456789'
-      short_id = '1234567',
-                 record_id = '987654321'
+      short_id = '1234567'
+      record_id = '987654321'
       record = model_class.new(:unique_identifier => unique_identifier, :short_id => short_id,
                                record_id_name.to_s => record_id)
       record.save

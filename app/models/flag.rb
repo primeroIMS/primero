@@ -22,17 +22,22 @@ class Flag < ApplicationRecord
   }
 
   scope :by_record_associated_user, lambda { |params|
+    owner_json = params[:owner].to_json
     join_record(params[:type]).where(
-      "(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)", username: params[:owner]
+      "data %s '$[*] %s (@.assigned_user_names == %s || @.owned_by == %s)'", '@?', '?', owner_json, owner_json
     )
   }
 
   scope :by_record_associated_groups, lambda { |params|
-    join_record(params[:type]).where("(data -> 'associated_user_groups' ?| array[:group])", group: params[:group])
+    groups = params[:group].map do |group|
+      ActiveRecord::Base.sanitize_sql_for_conditions(['@ == %s', group.to_json])
+    end.join('||')
+
+    join_record(params[:type]).where("data %s '$.associated_user_groups %s (%s)'", '@?', '?', groups)
   }
 
   scope :by_record_agency, lambda { |params|
-    join_record(params[:type]).where("(data -> 'owned_by_agency_id' ? :agency)", agency: params[:agency])
+    join_record(params[:type]).where("data %s '$.owned_by_agency_id %s (@ == %s)'", '@?', '?', params[:agency].to_json)
   }
 
   validates :message, presence: { message: 'errors.models.flags.message' }

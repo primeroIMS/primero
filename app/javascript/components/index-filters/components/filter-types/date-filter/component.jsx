@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { useLocation } from "react-router-dom";
@@ -28,14 +28,20 @@ function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilter
   )?.[0]?.id;
   const [selectedField, setSelectedField] = useState(valueSelectedField || "");
   const location = useLocation();
-  const queryParams = qs.parse(location.search.replace("?", ""));
-  const queryParamsKeys = Object.keys(queryParams);
+  const queryString = location.search.replace("?", "");
+  const queryParams = useMemo(() => qs.parse(queryString), [queryString]);
+  const queryParamsKeys = useMemo(() => Object.keys(queryParams), [queryString]);
+
+  const setSecondaryValues = (name, values) => {
+    setValue(name, getDatesValue(values, dateIncludeTime));
+    setInputValue(getDatesValue(values, dateIncludeTime));
+  };
 
   const handleSelectedField = event => {
     const { value } = event.target;
 
     setSelectedField(value);
-    setValue(value, getDatesValue(undefined, dateIncludeTime));
+    setSecondaryValues(value, inputValue);
 
     if (mode?.secondary) {
       handleMoreFiltersChange(moreSectionFilters, setMoreSectionFilters, value, {});
@@ -55,11 +61,6 @@ function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilter
         setMoreSectionFilters
       );
     }
-  };
-
-  const setSecondaryValues = (name, values) => {
-    setValue(name, getDatesValue(values, dateIncludeTime));
-    setInputValue(getDatesValue(values, dateIncludeTime));
   };
 
   useEffect(() => {
@@ -85,7 +86,7 @@ function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilter
         }
       }
     };
-  }, [selectedField]);
+  }, [selectedField, queryParams]);
 
   return (
     <Panel

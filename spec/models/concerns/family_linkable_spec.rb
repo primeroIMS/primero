@@ -5,7 +5,7 @@
 require 'rails_helper'
 
 describe FamilyLinkable do
-  before(:each) { clean_data(User, Child, Family) }
+  before(:each) { clean_data(SearchableIdentifier, User, Child, Family) }
 
   let(:user) do
     user = User.new(user_name: 'user_cp', full_name: 'Test User CP')
