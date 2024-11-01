@@ -39,6 +39,8 @@ class LanguageService
     end
 
     def tokenize(value)
+      return [] unless value.is_a?(String)
+
       value&.split&.map do |elem|
         diacriticless = strip_diacritics(elem)
         # NOTE: Text::Metaphone produces upcase strings. Upcasing to keep consistent output.
