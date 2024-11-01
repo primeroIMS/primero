@@ -10,7 +10,7 @@
             ),
             service_type: @transition_notification.transition&.service,
             locale: @transition_notification&.locale,
-            login_url: link_to(I18n.t('email.login'), root_url, style: "color: #{@theme.email_link_color}")
+            login_url: link_to(I18n.t('email.login'), root_url, style: "color: #{@theme.get('email_link_color')}")
         ).html_safe
     %>
 </p>

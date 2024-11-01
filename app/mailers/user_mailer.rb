@@ -22,7 +22,7 @@ class UserMailer < ApplicationMailer
     key = user.using_idp? ? 'subject' : 'subject_instructions'
     I18n.t(
       "user.welcome_email.#{key}",
-      system: @theme.site_name,
+      system: @theme.get('site_title'),
       locale: user.locale
     )
   end
@@ -30,13 +30,13 @@ class UserMailer < ApplicationMailer
   def greeting(user)
     I18n.t(
       'user.welcome_email.greeting',
-      system: @theme.site_name,
+      system: @theme.get('site_title'),
       locale: user.locale
     )
   end
 
   def email_body(user, one_time_password)
-    # return email_body_native(user) unless user.using_idp?
+    return email_body_native(user) unless user.using_idp?
 
     if one_time_password
       email_body_otp(user, one_time_password)
@@ -49,7 +49,7 @@ class UserMailer < ApplicationMailer
     I18n.t(
       'user.welcome_email.body_native',
       role_name: user.role.name,
-      greeting: @theme.email_welcome_greeting[user.locale],
+      greeting: @theme.t('email_welcome_greeting', user.locale),
       locale: user.locale
     )
   end
@@ -60,9 +60,10 @@ class UserMailer < ApplicationMailer
 
     {
       header: I18n.t("#{prefix}body", role_name: user.role.name, locale: user.locale),
-      step1: I18n.t("#{prefix}step1", system: site_path(@theme.site_name), product_name: @theme.product_name,
+      step1: I18n.t("#{prefix}step1", system: site_path(@theme.get('site_title')),
+                                      product_name: @theme.get('product_name'),
                                       identity_provider: idp_name, locale: user.locale),
-      step2: I18n.t("#{prefix}step2", product_name: @theme.product_name, host: root_url,
+      step2: I18n.t("#{prefix}step2", product_name: @theme.get('product_name'), host: root_url,
                                       identity_provider: idp_name)
     }
   end
@@ -71,7 +72,7 @@ class UserMailer < ApplicationMailer
     prefix = 'user.welcome_email.otp.'
     {
       header: I18n.t("#{prefix}body", role_name: user.role.name, locale: user.locale),
-      step1: I18n.t("#{prefix}step1", site_title: @theme.site_title, locale: user.locale),
+      step1: I18n.t("#{prefix}step1", site_title: @theme.get('site_title'), locale: user.locale),
       step2: I18n.t("#{prefix}step2", otp: one_time_password, host: root_url, locale: user.locale)
     }
   end
@@ -81,6 +82,6 @@ class UserMailer < ApplicationMailer
   end
 
   def site_path(name, path = root_url)
-    ActionController::Base.helpers.link_to(name, path, style: "color: #{@theme.email_link_color}")
+    ActionController::Base.helpers.link_to(name, path, style: "color: #{@theme.get('email_link_color')}")
   end
 end

@@ -4,20 +4,20 @@
 
 <%= yield %>
 
-<%= @theme.email_closing[@locale] %>,
-<%= @theme.email_signature[@locale] %>
+<%= @theme.t('email_closing', @locale)%>,
+<%= @theme.t('email_signature', @locale)%>
 
-<% @theme.email_help_links.each do |link| %>
+<% @theme.get('email_help_links', []).each do |link| %>
 <%= link[:name][@locale] %> (<%= url_for(link[:href]) %>)
 <%= link[:description][@locale] %>
 <% end %>
 
-<% email = @system_admin&.email.present? ?  "#{@theme.email_admin_name[@locale]} (#{@system_admin&.email})" : @theme.email_admin_name[@locale] %>
+<% email = @system_admin&.email.present? ?  "#{@theme.t('email_admin_name', @locale)} (#{@system_admin&.email})" : @theme.t('email_admin_name', @locale) %>
 <%= t('email.admin_closing', locale: @locale, sys_admin: email) %>
 
 --
 
-<%= @theme.email_disclaimer_pre[@locale] %> <%= @theme.email_disclaimer[@locale] %>
+<%= @theme.t('email_disclaimer_pre', @locale) %> <%= @theme.t('email_disclaimer', @locale) %>
 
 --
-<%= @theme.email_copyright[@locale] %>
+<%= @theme.t('email_copyright', @locale) %>

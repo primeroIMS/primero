@@ -7,11 +7,21 @@ class Importers::YmlConfigImporter < ValueObject
   attr_accessor :file_name, :class_to_import, :locale, :errors, :failures
 
   def initialize(opts = {})
-    if opts[:file_name].present?
-      opts[:class_to_import] = opts[:file_name].downcase.include?('lookup') ? 'Lookup' : 'FormSection'
-    end
+    opts[:class_to_import] = selected_import_class(opts[:file_name]) if opts[:file_name].present?
     opts.merge!(errors: [], failures: [])
     super(opts)
+  end
+
+  def selected_import_class(filename = '')
+    filename_str = filename.downcase
+
+    if filename_str.include?('theme')
+      'Theme'
+    elsif filename_str.include?('lookup')
+      'Lookup'
+    else
+      'FormSection'
+    end
   end
 
   def import
@@ -54,7 +64,8 @@ class Importers::YmlConfigImporter < ValueObject
   def process_config_data(config_data)
     config_data.each_value do |config|
       config = strip_hash_values!(config)
-      send("import_#{class_to_import.underscore}", locale, config) if %w[FormSection Lookup].include?(class_to_import)
+      send("import_#{class_to_import.underscore}", locale, config) if %w[FormSection Lookup
+                                                                         Theme].include?(class_to_import)
     end
   end
 
@@ -83,6 +94,19 @@ class Importers::YmlConfigImporter < ValueObject
       Rails.logger.info "Updating Lookup translation: Lookup [#{key}] locale [#{locale}]"
       lookup.save!
     end
+  end
+
+  def import_theme(locale, config)
+    theme = Theme.current
+
+    config.each do |key, value|
+      Rails.logger.info "Updating theme translation: [#{key}] locale [#{locale}]"
+      theme.data[key] = {} unless theme.data[key].present?
+      theme.data[key][locale] = value
+    end
+
+    Rails.logger.info 'Updating theme'
+    theme.save!
   end
 
   def strip_hash_values!(hash)

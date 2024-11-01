@@ -27,7 +27,7 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def theme
-    @theme = Rails.configuration.use_theme ? Theme.current : Theme.default
+    @theme = ThemeService.new
   end
 
   def system_admin

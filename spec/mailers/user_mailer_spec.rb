@@ -38,7 +38,7 @@ describe UserMailer, type: :mailer do
       fragment = 'Once logged in please go to your user profile to find your username. ' \
                  'You will find your user profile in the left navigation of Primero'
       expect(body).to include(fragment)
-      expect(body).to include('You have been added as a Social Worker.')
+      expect(body).to include('We are creating a Social Worker account for you')
     end
   end
 
@@ -64,7 +64,7 @@ describe UserMailer, type: :mailer do
         header: 'You have been added as a Social Worker.',
         step1: 'Once logged in please go to your user profile to find your username',
         step2: 'Use the following to reset your password to <b>OTP123</b>',
-        otp: 'OTP123',
+        otp: 'OTP123'
       }
 
       expect(body).to include(expected[:header])
@@ -95,7 +95,7 @@ describe UserMailer, type: :mailer do
         header: 'You have been added as a Social Worker.',
         step1: 'Once logged in please go to your user profile to find your username. You will find your user profile ' \
                'in the left navigation of Primero.',
-        step2: 'Use the following to reset your password to <b>2</b>',
+        step2: 'Use the following to reset your password to <b>2</b>'
       }
 
       expect(body).to include(expected[:header])

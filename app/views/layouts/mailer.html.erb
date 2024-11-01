@@ -119,8 +119,8 @@
                           <tbody>
                             <tr>
                               <td style="width:150px;">
-                                <% if @theme.logo.present? %>
-                                  <%= image_tag @theme.logo,
+                                <% if @theme.theme.logo.present? %>
+                                  <%= image_tag @theme.theme.logo,
                                     height: 'auto',
                                     style: 'border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:18px;',
                                     width: '150' %>
@@ -185,8 +185,8 @@
                         style="font-size:0px;padding:10px 25px;word-break:break-word;">
                         <div
                           style="font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:18px;line-height:30px;text-align:left;color:#4a4a4a;">
-                          <p><i><%= @theme.email_closing[@locale] %>,</i></p>
-                          <p><b><%= @theme.email_signature[@locale] %></b></p>
+                          <p><i><%= @theme.t('email_closing', @locale) %>,</i></p>
+                          <p><b><%= @theme.t('email_signature', @locale) %></b></p>
                         </div>
                       </td>
                     </tr>
@@ -204,7 +204,7 @@
                                   style="font-size:0;padding:10px 25px;word-break:break-word">
                                   <div
                                       style="color:#000;font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:15px;font-weight:700;line-height:30px;text-align:left">
-                                      <%= @theme.email_warning[@locale] %></div>
+                                      <%= @theme.t('email_warning', @locale) %></div>
                               </td>
                           </tr>
                       </tbody>
@@ -222,7 +222,7 @@
         <tbody>
           <tr>
             <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-              <%= @theme.email_help_links.each do |link| %>
+              <%= @theme.get('email_help_links', []).each do |link| %>
               <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:432px;" ><![endif]-->
               <div class="mj-column-per-48 mj-outlook-group-fix"
                 style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
@@ -244,10 +244,10 @@
                                     <tr>
                                       <td align="center"
                                         role="presentation"
-                                        style="border:none;border-radius:10px;cursor:auto;mso-padding-alt:2%;background:<%= @theme.email_help_link_background_color %>;"
+                                        style="border:none;border-radius:10px;cursor:auto;mso-padding-alt:2%;background:<%= @theme.get('email_help_link_background_color') %>;"
                                         valign="middle"><a
                                           href="<%= link[:href] %>"
-                                          style="width: 100%; display: inline-block; background: <%= @theme.email_help_link_background_color %>; color: #4a4a4a; font-family: -apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; font-size: 18px; font-weight: normal; line-height: 30px; margin: 0; text-decoration: none; text-transform: none; padding: 2%; mso-padding-alt: 0px; border-radius: 10px;"
+                                          style="width: 100%; display: inline-block; background: <%= @theme.get('email_help_link_background_color') %>; color: #4a4a4a; font-family: -apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; font-size: 18px; font-weight: normal; line-height: 30px; margin: 0; text-decoration: none; text-transform: none; padding: 2%; mso-padding-alt: 0px; border-radius: 10px;"
                                           target="_blank">
                                           <table width="100%">
                                             <tr>
@@ -260,7 +260,7 @@
                                               <td
                                                 style="vertical-align: top">
                                                 <h4
-                                                  style="padding: 0; margin: 0; color: <%= @theme.email_link_color %>">
+                                                  style="padding: 0; margin: 0; color: <%= @theme.get('email_link_color') %>">
                                                   <%= link[:name][@locale] %>
                                                 </h4>
                                                 <p
@@ -297,7 +297,7 @@
                           <p style="text-align: center">
                             <%= t('email.admin_closing', locale: @locale,
                               sys_admin: @system_admin&.email ?
-                                  mail_to(@system_admin&.email, t('email.system_admin'), style: "color: #{@theme.email_link_color}") :
+                                  mail_to(@system_admin&.email, t('email.system_admin'), style: "color: #{@theme.get('email_link_color')}") :
                                 t('email.system_admin')
                               ).html_safe %>
                           </p>
@@ -313,10 +313,10 @@
       </table>
     </div><!--[if mso | IE]></td></tr></table><![endif]--><!-- Footer -->
     <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
-      style="background:<%= @theme.email_footer_background_color %>;background-color:<%= @theme.email_footer_background_color %>;width:100%;">
+      style="background:<%= @theme.get('email_footer_background_color') %>;background-color:<%= @theme.get('email_footer_background_color') %>;width:100%;">
       <tbody>
         <tr>
-          <td><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:900px;" width="900" bgcolor="<%= @theme.email_footer_background_color %>" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+          <td><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:900px;" width="900" bgcolor="<%= @theme.get('email_footer_background_color') %>" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
             <div style="margin:0px auto;max-width:900px;">
               <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
                 style="width:100%;">
@@ -335,7 +335,7 @@
                                 style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                 <div
                                   style="font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:14px;line-height:25px;text-align:left;color:#4a4a4a;">
-                                  <b><%= @theme.email_disclaimer_pre[@locale] %>. </b><%= @theme.email_disclaimer[@locale] %></div>
+                                  <b><%= @theme.t('email_disclaimer_pre', @locale) %>. </b><%= @theme.t('email_disclaimer', @locale) %></div>
                               </td>
                             </tr>
                             <tr>
@@ -352,7 +352,7 @@
                                 style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                 <div
                                   style="font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:13px;line-height:30px;text-align:left;color:#4a4a4a;">
-                                  <%= @theme.email_copyright[@locale] %></div>
+                                  <%= @theme.t('email_copyright', @locale) %></div>
                               </td>
                             </tr>
                           </tbody>

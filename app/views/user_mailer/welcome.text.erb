@@ -4,10 +4,10 @@
 <%= @email_body %>
 
 <%= I18n.t('user.welcome_email.body_native2',
-  instructional_video: "#{I18n.t('user.welcome_email.instructional_video', locale: @user.locale)} (#{url_for(@theme.email_instructional_video)})",
+  instructional_video: "#{I18n.t('user.welcome_email.instructional_video', locale: @user.locale)} (#{url_for(@theme.get('email_instructional_video'))})",
   locale: @user.locale
 ) %>
-<%= @theme&.email_welcome_closing[@user.locale] %>
+<%= @theme.t('email_welcome_closing', @user.locale) %>
 <% else %>
 <%= @email_body[:header] %>
 
