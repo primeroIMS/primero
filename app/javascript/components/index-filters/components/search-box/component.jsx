@@ -57,8 +57,6 @@ function SearchBox() {
   }, [register, unregister]);
 
   const handleChange = event => {
-    const { value } = event.target;
-
     handleFilterChange({
       type: "basic",
       event,
@@ -69,7 +67,7 @@ function SearchBox() {
       fieldName: FIELD_NAME_QUERY
     });
 
-    setValue(FIELD_NAME_ID_SEARCH, !!value);
+    setValue(FIELD_NAME_ID_SEARCH, !watchPhonetic);
   };
 
   const handleSwitchChange = event => {
@@ -82,6 +80,8 @@ function SearchBox() {
       setValue,
       fieldName: PHONETIC_FIELD_NAME
     });
+
+    setValue(FIELD_NAME_ID_SEARCH, !event.target.checked);
   };
 
   const handleClear = () => {
