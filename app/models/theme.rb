@@ -24,21 +24,12 @@ class Theme < ApplicationRecord
     humanitarian and development workers manage protection-related data, with tools that facilitate case management,
     incident monitoring and family tracing and reunification.',
     email_disclaimer_pre: { en: 'DO NOT REPLY TO THIS EMAIL' },
-    email_disclaimer: { en: [
-      'The content of this message does not necessarily reflect the official position of UNICEF. Electronic messages',
-      'are not secure or error free and may contain viruses or may be delayed, and the sender is not liable for any',
-      'of these occurrences. The sender reserves the right to monitor, record and retain electronic messages.'
-    ].join(' ') },
+    email_disclaimer: { en: '' },
     email_copyright: { en: '' },
-    email_warning: { en: [
-      'The information contained in this electronic message and any attachments is intended for specific individuals',
-      'or entities, and may be confidential, proprietary or privileged. If you are not the intended recipient,',
-      'please notify the sender immediately, delete this message and do not disclose, distribute or copy it to',
-      'any third party or otherwise use this message.'
-    ].join(' ') },
+    email_warning: { en: '' },
     email_welcome_greeting: { en: 'Welcome to the Primero team' },
     email_welcome_closing: { en: 'Welcome to the Primero Community' },
-    email_instructional_video: 'https://www.youtube.com/watch?v=I5Lfi_8A4iU',
+    email_instructional_video: '',
     email_closing: { en: 'At your service' },
     email_signature: { en: 'Primero team' },
     email_admin_name: { en: 'System Administrator' },
@@ -53,6 +44,8 @@ class Theme < ApplicationRecord
   }.freeze.with_indifferent_access
 
   PICTORIAL_SIZES = %w[144 192 256].freeze
+
+  attr_accessor :bypass_logos
 
   store_accessor :data, :site_description, :site_title, :colors, :use_contained_nav_style, :show_powered_by_primero,
                  :revision, :email_link_color, :email_footer_background_color, :email_help_link_background_color,
@@ -69,12 +62,12 @@ class Theme < ApplicationRecord
   has_one_attached :favicon
 
   validate :valid_html_colors
-  validates :logo, presence: true
-  validates :logo_white, presence: true
-  validates :logo_pictorial_144, presence: true
-  validates :logo_pictorial_192, presence: true
-  validates :logo_pictorial_256, presence: true
-  validates :favicon, presence: true
+  validates :logo, presence: true, unless: :bypass_logos
+  validates :logo_white, presence: true, unless: :bypass_logos
+  validates :logo_pictorial_144, presence: true, unless: :bypass_logos
+  validates :logo_pictorial_192, presence: true, unless: :bypass_logos
+  validates :logo_pictorial_256, presence: true, unless: :bypass_logos
+  validates :favicon, presence: true, unless: :bypass_logos
   # rubocop:enable Naming/VariableNumber
 
   before_save :generate_new_revision
@@ -101,6 +94,13 @@ class Theme < ApplicationRecord
   class << self
     def default
       @default ||= new(DEFAULT_THEME)
+    end
+
+    def create_or_update!(hash = {})
+      theme = current || new(DEFAULT_THEME)
+      theme.assign_attributes(hash)
+      theme.save!
+      theme
     end
 
     def current

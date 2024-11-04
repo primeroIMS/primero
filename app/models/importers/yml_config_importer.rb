@@ -12,10 +12,11 @@ class Importers::YmlConfigImporter < ValueObject
     super(opts)
   end
 
+  # TODO: Refactor when other classes are needed for import
   def selected_import_class(filename = '')
     filename_str = filename.downcase
 
-    if filename_str.include?('theme')
+    if filename_str.include?('system')
       'Theme'
     elsif filename_str.include?('lookup')
       'Lookup'
@@ -99,13 +100,13 @@ class Importers::YmlConfigImporter < ValueObject
   def import_theme(locale, config)
     theme = Theme.current
 
-    config.each do |key, value|
-      Rails.logger.info "Updating theme translation: [#{key}] locale [#{locale}]"
+    config['theme'].each do |key, value|
       theme.data[key] = {} unless theme.data[key].present?
       theme.data[key][locale] = value
     end
 
     Rails.logger.info 'Updating theme'
+    theme.bypass_logos = true
     theme.save!
   end
 
