@@ -12,6 +12,10 @@ class Search::SearchResult
   def initialize(query)
     @query = query
     self.total = @query.count
+  rescue ActiveRecord::StatementInvalid => e
+    Rails.logger.error(e)
+    self.total = 0
+    @query = @query.model.none
   end
 
   def records
