@@ -4,17 +4,23 @@
 
 # Sends out notifications to the email associated with this User.
 class UserMailer < ApplicationMailer
+  # rubocop:disable Metrics/MethodLength
   def welcome(user_id, one_time_password = nil)
     load_users!(user_id)
     @email_body = email_body(@user, one_time_password)
     @email_greeting = greeting(@user)
     @subject = subject(@user)
     @locale = @user.locale
-    mail(
-      to: @user.email,
-      subject: @subject
-    )
+    begin
+      mail(
+        to: @user.email,
+        subject: @subject
+      )
+    rescue error
+      Rails.logger.error(error.message)
+    end
   end
+  # rubocop:enable Metrics/MethodLength
 
   private
 
