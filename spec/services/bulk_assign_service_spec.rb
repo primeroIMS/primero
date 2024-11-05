@@ -71,11 +71,8 @@ describe BulkAssignService do
     context 'when model_class is Child' do
       let(:bulk_assign_params) do
         {
-          filters: { short_id: [child.short_id, child2.short_id, child3.short_id] }
+          filters: { id: [child.id, child2.id, child3.id] }
         }.merge(bulk_assign_shared_params)
-      end
-      before :each do
-        BulkAssignService.any_instance.stub(:search_results_ids).and_return([child.id, child2.id, child3.id])
       end
 
       it 'creates an Transition record' do
@@ -106,11 +103,8 @@ describe BulkAssignService do
     context 'when model_class is Incident' do
       let(:bulk_assign_params) do
         {
-          filters: { short_id: [incident.short_id, incident2.short_id, incident3.short_id] }
+          filters: { id: [incident.id, incident2.id, incident3.id] }
         }.merge(bulk_assign_shared_params)
-      end
-      before :each do
-        BulkAssignService.any_instance.stub(:search_results_ids).and_return([incident.id, incident2.id, incident3.id])
       end
 
       it 'creates an Transition record' do

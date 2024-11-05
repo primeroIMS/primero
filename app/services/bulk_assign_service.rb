@@ -11,7 +11,7 @@ class BulkAssignService
   end
 
   def assign_records!
-    @model_class.where(id: search_results_ids).find_in_batches(batch_size: 10) do |records|
+    @model_class.where(id: record_ids).find_in_batches(batch_size: 10) do |records|
       assign_records_batch(records)
     end
   end
@@ -39,17 +39,7 @@ class BulkAssignService
     )
   end
 
-  def search_results_ids
-    PhoneticSearchService.search(
-      @model_class, query:, filters: search_filters, pagination: { page: 1, per_page: Assign::MAX_BULK_RECORDS }
-    ).records.map(&:id)
-  end
-
-  def query
-    @args[:query] || ''
-  end
-
-  def search_filters
-    SearchFilterService.new.build_filters(DestringifyService.destringify(@args[:filters], true))
+  def record_ids
+    @args.dig(:filters, :id)
   end
 end
