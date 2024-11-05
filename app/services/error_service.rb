@@ -29,6 +29,9 @@ class ErrorService
     when Errors::InvalidPrimeroEntityType
       code = 422
       errors = [ApplicationError.new(code: 422, message: error.message, resource: request.path)]
+    when ActionController::ParameterMissing
+      code = 422
+      errors = [ApplicationError.new(code: 422, message: error.message, resource: request.path)]
     when Errors::InvalidRecordJson
       code = 422
       errors = [
