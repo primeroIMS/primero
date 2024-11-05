@@ -59,7 +59,9 @@ class Api::V2::AssignsController < Api::V2::RecordResourceController
   end
 
   def bulk_assign_params
-    @bulk_assign_params ||= params.require(:data).permit(:transitioned_to, :notes, :query, { filters: { id: [] } })
+    @bulk_assign_params ||= params.require(:data)
+                                  .permit(:transitioned_to, :notes, filters: { id: [] })
+                                  .tap { |data_param| data_param.require(:filters) }
   end
 
   def find_records
@@ -67,8 +69,8 @@ class Api::V2::AssignsController < Api::V2::RecordResourceController
   end
 
   def verify_bulk_records_size
-    if bulk_assign_params.dig(:filters, :id).blank? ||
-       bulk_assign_params.dig(:filters, :id).length <= Assign::MAX_BULK_RECORDS
+    if bulk_assign_params[:filters][:id].blank? ||
+       bulk_assign_params[:filters][:id].length <= Assign::MAX_BULK_RECORDS
       return
     end
 

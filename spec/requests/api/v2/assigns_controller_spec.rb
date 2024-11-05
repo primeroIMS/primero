@@ -100,12 +100,12 @@ describe Api::V2::AssignsController, type: :request do
     context 'bulk assign with valid permissions' do
       it 'assigns multiple records to the target user' do
         sign_in(@user1)
-        filters = { status: ['open'], record_state: ['true'], age: ['6..11'] }
+        filters = { id: [@case.id, @case2.id] }
         params = { data: { transitioned_to: 'user2', notes: 'Test Notes', filters: } }
         post('/api/v2/cases/assigns', params:)
 
         expect(response).to have_http_status(200)
-        expect(json['data']['filters'].keys).to match_array(%w[status record_state age])
+        expect(json['data']['filters'].keys).to match_array(%w[id])
         expect(json['data']['transitioned_to']).to eq('user2')
 
         expect(audit_params['action']).to eq('bulk_assign')
@@ -138,6 +138,36 @@ describe Api::V2::AssignsController, type: :request do
         post('/api/v2/cases/assigns', params:)
 
         expect(response).to have_http_status(403)
+      end
+    end
+
+    context 'when invalid filters are send' do
+      it 'returns a 422 error when the filters param is not specified' do
+        sign_in(@user1)
+        params = { data: { transitioned_to: 'user2', notes: 'Test Notes' } }
+        post('/api/v2/cases/assigns', params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['resource']).to eq('/api/v2/cases/assigns')
+      end
+
+      it 'returns a 422 error when the filters param is specified but the content is invalid' do
+        sign_in(@user1)
+        filters = { status: ['open'], record_state: ['true'], age: ['6..11'] }
+        params = { data: { transitioned_to: 'user2', notes: 'Test Notes', filters: } }
+        post('/api/v2/cases/assigns', params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['resource']).to eq('/api/v2/cases/assigns')
+      end
+
+      it 'returns a 422 error when the filters param is specified but the id param is nil' do
+        sign_in(@user1)
+        params = { data: { transitioned_to: 'user2', notes: 'Test Notes', filters: { id: nil } } }
+        post('/api/v2/cases/assigns', params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['resource']).to eq('/api/v2/cases/assigns')
       end
     end
   end
