@@ -5,21 +5,17 @@ import { List, Map } from "immutable";
 const paramQueryString = (key, value) => {
   if (List.isList(value)) {
     return value.reduce((prev, elem, index) => {
-      if (!prev) {
-        return `${key}[${index}]=${elem}`;
-      }
+      const param = paramQueryString(`${key}[${index}]`, elem);
 
-      return `${prev}&${key}[${index}]=${elem}`;
+      return !prev ? param : `${prev}&${param}`;
     }, "");
   }
 
   if (Map.isMap(value)) {
     return value.entrySeq().reduce((prev, [elemKey, elemValue]) => {
-      if (!prev) {
-        return `${key}[${elemKey}]=${elemValue}`;
-      }
+      const param = paramQueryString(`${key}[${elemKey}]`, elemValue);
 
-      return `${prev}&${key}[${elemKey}]=${elemValue}`;
+      return !prev ? param : `${prev}&${param}`;
     }, "");
   }
 

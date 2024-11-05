@@ -18,14 +18,9 @@ module Api::V2::Concerns::Record
 
   def index
     authorize! :index, model_class
-    search = PhoneticSearchService.search(
-      model_class, {
-        query: index_params[:query], phonetic: index_params[:phonetic], filters: search_filters,
-        sort: sort_order, scope: query_scope, pagination:
-      }
-    )
-    @total = search.total
-    @records = search.records
+    result = search_records
+    @total = result[:total]
+    @records = result[:records]
     render 'api/v2/records/index'
   end
 
@@ -167,6 +162,19 @@ module Api::V2::Concerns::Record
   end
 
   private
+
+  def search_records
+    search = PhoneticSearchService.search(
+      model_class, {
+        query: index_params[:query], phonetic: index_params[:phonetic], filters: search_filters,
+        sort: sort_order, scope: query_scope, pagination:
+      }
+    )
+    { total: search.total, records: search.records }
+  rescue ActiveRecord::StatementInvalid => e
+    Rails.logger.error(e)
+    { total: 0, records: model_class.none }
+  end
 
   def write?
     action_name.in?(%w[create update])
