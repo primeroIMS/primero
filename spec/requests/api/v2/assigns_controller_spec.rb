@@ -132,7 +132,7 @@ describe Api::V2::AssignsController, type: :request do
 
       it 'raises Errors::ForbiddenOperation' do
         sign_in(@user1)
-        filters = { short_id: %w[fbd6839 4c7084f 2d4bc3d] }
+        filters = { id: %w[fbd6839 4c7084f 2d4bc3d] }
         params = { data: { transitioned_to: 'user2', notes: 'Test Notes', filters: } }
 
         post('/api/v2/cases/assigns', params:)
