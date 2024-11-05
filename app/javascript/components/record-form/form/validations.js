@@ -196,6 +196,12 @@ export const fieldValidations = (field, { i18n, online = false }) => {
         validations[name] = schema.min(1, requiredMessage).required(requiredMessage).default([]);
       }
 
+      if (type === SUBFORM_SECTION) {
+        validations[name] = schema.test(name, requiredMessage, value => {
+          return value.filter(subformItem => !subformItem?._destroy).length > 0;
+        });
+      }
+
       if (type === TALLY_FIELD) {
         validations[name] = schema.test(name, requiredMessage, value => {
           return compact(Object.values(value)).length > 0;

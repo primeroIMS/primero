@@ -66,7 +66,7 @@ const handleRestCallback = (store, callback, response, json, fromQueue = false) 
             payload: { response, json }
           };
 
-      store.dispatch(isApiCallback ? { type: callback.action, api: callback.api } : successPayload);
+      store.dispatch(isApiCallback ? { type: callback.action || callback.type, api: callback.api } : successPayload);
 
       if (isObjectCallback && callback.redirect && !fromQueue) {
         const { preventSyncAfterRedirect } = callback;

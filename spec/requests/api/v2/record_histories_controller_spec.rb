@@ -140,7 +140,8 @@ describe Api::V2::RecordHistoriesController, type: :request do
         record_changes: [
           { unique_id: { from: nil, to: Incident.first.id } },
           { description: { from: 'Test', to: 'Tester' } },
-          { incident_date: { from: '2019-04-01', to: '2019-02-01' } }
+          { incident_date: { from: '2019-04-01', to: '2019-02-01' } },
+          { incident_date_derived: { from: '2019-04-01', to: '2019-02-01' } }
         ]
       }
 
@@ -174,6 +175,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'date_of_first_report' => { 'from' => nil, 'to' => Incident.first.date_of_first_report.iso8601 } },
           { 'transferred_to_users' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
+          { 'incident_date_derived' => { 'from' => nil, 'to' => '2019-04-01' } },
           { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
           { 'elapsed_reporting_time' => { 'from' => nil, 'to' => 'over_1_month' } },
           { 'referred_users_present' => { 'from' => nil, 'to' => false } },
