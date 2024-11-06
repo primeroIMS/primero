@@ -56,7 +56,6 @@ function RadioField({ name, helperText, label, disabled, field, formik, mode, ..
   };
 
   const fieldError = getIn(formik.errors, name);
-  const fieldTouched = getIn(formik.touched, name);
 
   useEffect(() => {
     if (mode.isNew && selectedValue && value === "") {
@@ -87,14 +86,14 @@ function RadioField({ name, helperText, label, disabled, field, formik, mode, ..
   const renderOption = options.length > 0 && options.map(opt => renderFormControl(opt));
 
   return (
-    <FormControl id={name} fullWidth error={!!(fieldError && fieldTouched)}>
+    <FormControl id={name} fullWidth error={!!fieldError}>
       <InputLabel shrink htmlFor={fieldProps.name} required={field.required}>
         {label}
       </InputLabel>
       <Field component={RadioGroup} {...fieldProps}>
         <div className={css.radioOption}>{renderOption}</div>
       </Field>
-      <FormHelperText>{fieldError && fieldTouched ? fieldError : helperText}</FormHelperText>
+      <FormHelperText>{fieldError || helperText}</FormHelperText>
     </FormControl>
   );
 }

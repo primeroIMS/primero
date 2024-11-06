@@ -28,9 +28,9 @@ module Ownable
 
     scope :owned_by, ->(username) { where('data @> ?', { owned_by: username }.to_json) }
     scope :associated_with, (lambda do |username|
+      username_json = username.to_json
       where(
-        "(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)",
-        username:
+        "data %s '$[*] %s (@.assigned_user_names == %s || @.owned_by == %s)'", '@?', '?', username_json, username_json
       )
     end)
 

@@ -381,7 +381,7 @@ en:
       photo_label: Has Photo?
       protection_concerns: Protection Concerns
       protection_status: Protection Status
-      protection_threats: Protection Threats
+      protection_threats: Protection Risks
       record_state: Record State
       referred_cases: Cases referred to me
       registration_date: Registration Date
@@ -2333,6 +2333,7 @@ en:
       no_match: Sorry, no matching records found
       rows_per_page: Rows per page
       sort: Sort
+      sort_disabled_name_fields: Sort disabled when searching by name fields
   navigation:
     bulk_exports: Exports
     cases: Cases

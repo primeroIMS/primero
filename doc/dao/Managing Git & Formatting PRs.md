@@ -22,6 +22,8 @@ git push --set-upstream fork my-branch-name
 
 Once you are ready to have your contribution reviewed by the core development team, you should open a Pull Request on the Primero repository. The development team will then review the contribution, and suggest changes. Once you implement those changes, the team will review the contribution again, and either the review process will continue, or the changes will be approved for merging. Once the changes are merged, and the contribution is concluded, you will be able to ask for payment from the DAO.
 
+Please include the string "DAO" in the pull request title and a link to the proposal pitch from the [UNICEF DAO discussion forum](https://unicef.tomars.co/c/pp/) in the pull request description. We will not merge pull requests that have not been approved by the DAO voting members. This ensures that developers are fully compensated for the pull requests submitted through the DAO.
+
 If your contribution is not ready, but you need a place to discuss the changes you are making, you can make a pull request, and mark it as a draft.
 
 Over time, as code is merged into Primero whilst your PR is pending, your PR will become stale. You should periodically merge in the most recent changes on the develop branch to ensure that there are no conflicts and that your code remains up-to-date. **You must always merge upstream changes, do not rebase.**

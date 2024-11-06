@@ -13,7 +13,7 @@ describe PhoneticSearchService, search: true do
       let(:record4) { Child.create!(data: { name: 'Record 3', sex: nil }) }
 
       before do
-        clean_data(Child)
+        clean_data(SearchableIdentifier, Child)
         record1
         record2
         record3
@@ -60,7 +60,7 @@ describe PhoneticSearchService, search: true do
       let(:record4) { Child.create!(data: { name: 'Record 4', urgent_protection_concern: nil }) }
 
       before do
-        clean_data(Child)
+        clean_data(SearchableIdentifier, Child)
         record1
         record2
         record3
@@ -121,7 +121,7 @@ describe PhoneticSearchService, search: true do
       let(:record4) { Child.create!(data: { name: 'Record 4', age: nil }) }
 
       before do
-        clean_data(Child)
+        clean_data(SearchableIdentifier, Child)
         record1
         record2
         record3
@@ -194,7 +194,7 @@ describe PhoneticSearchService, search: true do
       let(:record4) { Child.create!(data: { name: 'Record 4', date_of_birth: nil }) }
 
       before do
-        clean_data(Child)
+        clean_data(SearchableIdentifier, Child)
         record1
         record2
         record3
@@ -244,7 +244,7 @@ describe PhoneticSearchService, search: true do
       let(:record2) { Child.create!(data: { name: 'Record 2', sex: 'male' }) }
 
       before do
-        clean_data(Child)
+        clean_data(SearchableIdentifier, Child)
         record1
         record2
       end
@@ -332,7 +332,7 @@ describe PhoneticSearchService, search: true do
     end
 
     before do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
       record1
       record2
       record3
@@ -365,7 +365,7 @@ describe PhoneticSearchService, search: true do
     it 'finds a numeric short_id=01' do
       search = PhoneticSearchService.search(Child, query: '01')
 
-      expect(search.total).to eq(1)
+      expect(search.total).to eq(2)
       expect(search.records.first.short_id).to eq('01')
       expect(search.records.first.name).to eq(record5.name)
     end
@@ -385,28 +385,31 @@ describe PhoneticSearchService, search: true do
       expect(search.records.first.short_id).to eq('1234')
       expect(search.records.first.name).to eq(record4.name)
     end
+
+    it 'finds a numeric short_id with leading/trailing whitespaces' do
+      search = PhoneticSearchService.search(Child, query: '   1234   ')
+
+      expect(search.total).to eq(1)
+      expect(search.records.first.short_id).to eq('1234')
+      expect(search.records.first.name).to eq(record4.name)
+    end
   end
 
   describe 'Sorting search' do
-    let(:record1) { Child.create!(data: { name: 'Augustina Link', sex: 'female' }) }
-    let(:record2) { Child.create!(data: { name: 'Augustina MacPherson', sex: 'male' }) }
-    let(:record3) { Child.create!(data: { name: 'Augustina Applebee', sex: 'male' }) }
+    let(:record1) { Child.create!(data: { name: 'Augustina Link', national_id_no: '001', sex: 'female' }) }
+    let(:record2) { Child.create!(data: { name: 'Augustina MacPherson', national_id_no: '011', sex: 'male' }) }
+    let(:record3) { Child.create!(data: { name: 'Augustina Applebee', national_id_no: '100', sex: 'male' }) }
 
     before do
-      clean_data(Child)
+      clean_data(SearchableIdentifier, Child)
       record1
       record2
       record3
     end
 
-    it 'sorts sortable fields' do
-      search = PhoneticSearchService.search(Child, query: 'Augustina', sort: { name: :asc }, phonetic: 'true')
-      expect(search.records.map(&:name)).to eq([record3, record1, record2].map(&:name))
-    end
-
-    it 'sorts fields' do
-      search = PhoneticSearchService.search(Child, query: 'Augustina', sort: { sex: :desc }, phonetic: 'true')
-      expect(search.records.map(&:sex)).to eq([record2, record3, record1].map(&:sex))
+    it 'sorts a phonetic search by similarity' do
+      search = PhoneticSearchService.search(Child, query: 'Augustina Link', phonetic: 'true')
+      expect(search.records.map(&:name)).to eq([record1, record3, record2].map(&:name))
     end
   end
 
@@ -440,7 +443,7 @@ describe PhoneticSearchService, search: true do
     end
 
     before do
-      clean_data(User, UserGroup, Agency, Child)
+      clean_data(User, UserGroup, Agency, SearchableIdentifier, Child)
       user1
       user2
       user3
@@ -458,8 +461,7 @@ describe PhoneticSearchService, search: true do
 
     it 'limits access by user group if group scope is provided' do
       search = PhoneticSearchService.search(
-        Child,
-        query_scope: { user: { Permission::GROUP => [user_group1.unique_id, user_group2.unique_id] } }
+        Child, scope: { user: { 'group' => [user_group1.unique_id, user_group2.unique_id] } }
       )
 
       expect(search.total).to eq(3)
@@ -467,7 +469,7 @@ describe PhoneticSearchService, search: true do
     end
 
     it 'limits access by agency if agency scope is provided' do
-      search = PhoneticSearchService.search(Child, scope: { user: { Permission::AGENCY => agency.unique_id } })
+      search = PhoneticSearchService.search(Child, scope: { user: { 'agency' => agency.unique_id } })
       expect(search.total).to eq(2)
       expect(search.records.map(&:name)).to include(record1.name, record3.name)
     end
@@ -531,7 +533,7 @@ describe PhoneticSearchService, search: true do
     end
 
     before do
-      clean_data(Location, FormSection, Field, User, UserGroup, Agency, Child)
+      clean_data(Location, FormSection, Field, User, UserGroup, Agency, SearchableIdentifier, Child)
 
       create(
         :form_section,
@@ -577,7 +579,7 @@ describe PhoneticSearchService, search: true do
     let(:record2) { Child.create!(data: { name: 'Record 2', module_id: 'primeromodule-gbv' }) }
 
     before do
-      clean_data(User, UserGroup, Agency, Child)
+      clean_data(User, UserGroup, Agency, SearchableIdentifier, Child)
       record1
       record2
     end
@@ -636,7 +638,7 @@ describe PhoneticSearchService, search: true do
       )
     end
     before do
-      clean_data(Incident)
+      clean_data(SearchableIdentifier, Incident)
       record1
       record2
       record3

@@ -8,8 +8,8 @@ require 'will_paginate'
 describe Incident do
   before do
     clean_data(
-      User, Agency, Role, Incident, Child, PrimeroModule, PrimeroProgram, UserGroup, FormSection, Field,
-      Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
+      SearchableIdentifier, User, Agency, Role, Incident, Child, PrimeroModule, PrimeroProgram, UserGroup, FormSection,
+      Field, Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
     )
 
     create(:agency)
@@ -117,7 +117,8 @@ describe Incident do
         }
       end
       before :each do
-        clean_data(Incident, Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim)
+        clean_data(SearchableIdentifier, Incident, Violation, Response, IndividualVictim, Source, Perpetrator,
+                   GroupVictim)
         incident_record = Incident.new_with_user(fake_user, incident_data)
         incident_record.save!
       end
@@ -175,7 +176,7 @@ describe Incident do
             'incident_location' => 'IQG08Q02N02',
             'incident_description' => 'none',
             'incident_total_tally' => { 'boys' => 1, 'total' => 1 },
-            'incident_code': '9f88531',
+            incident_code: '9f88531',
             'individual_victims' =>
              [{ 'violations_ids' => ['222d97fb-b49d-401a-aff5-55dbe81a6fbf'],
                 'individual_multiple_violations' => false,
@@ -219,7 +220,8 @@ describe Incident do
             'module_id' => 'primeromodule-mrm' }
         end
         before :each do
-          clean_data(Incident, Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim)
+          clean_data(SearchableIdentifier, Incident, Violation, Response, IndividualVictim, Source, Perpetrator,
+                     GroupVictim)
           incident_record = Incident.new_with_user(fake_user, data)
           incident_record.save!
         end
@@ -309,7 +311,7 @@ describe Incident do
 
   describe '.copy_from_case' do
     before(:each) do
-      clean_data(Incident, Child, PrimeroModule, User) && module_cp
+      clean_data(SearchableIdentifier, Incident, Child, PrimeroModule, User) && module_cp
       module_cp = PrimeroModule.new(
         unique_id: 'primeromodule-cp',
         field_map: {
@@ -409,7 +411,7 @@ describe Incident do
     end
 
     before :each do
-      clean_data(Incident, Violation)
+      clean_data(SearchableIdentifier, Incident, Violation)
       incident_record = Incident.new_with_user(fake_user, incident_data)
       incident_record.save!
     end
@@ -442,7 +444,9 @@ describe Incident do
 
   describe 'add_alert_on_case' do
     before(:each) do
-      clean_data(Agency, SystemSettings, User, Incident, Child, PrimeroModule, Violation) && module_cp
+      clean_data(
+        SearchableIdentifier, Agency, SystemSettings, User, Incident, Child, PrimeroModule, Violation
+      ) && module_cp
 
       Agency.create!(unique_id: 'agency-1', agency_code: 'a1', name: 'Agency')
 
@@ -614,7 +618,7 @@ describe Incident do
     end
 
     before(:each) do
-      clean_data(Incident, Violation, IndividualVictim)
+      clean_data(SearchableIdentifier, Incident, Violation, IndividualVictim)
       data = incident.data.clone
       data['recruitment'] = [
         {
@@ -841,12 +845,25 @@ describe Incident do
 
   describe 'phonetic tokens' do
     before do
-      clean_data(Incident)
+      clean_data(SearchableIdentifier, Incident)
     end
 
     it 'generates the phonetic tokens' do
       incident = Incident.create!(data: { super_incident_name: 'George', incident_description: 'New Incident' })
       expect(incident.tokens).to eq(%w[JRJ N ANST])
+    end
+  end
+
+  describe '#calculate_incident_date_derived' do
+    before do
+      clean_data(Incident)
+    end
+
+    it 'sets the incident_date_derived field' do
+      incident = Incident.create!(data: { super_incident_name: 'George', incident_description: 'New Incident',
+                                          incident_date: '2024-10-08' })
+
+      expect(incident.incident_date_derived).to eq(Date.new(2024, 10, 8))
     end
   end
 
@@ -859,8 +876,8 @@ describe Incident do
 
   after do
     clean_data(
-      User, Agency, Role, Incident, Child, PrimeroModule, PrimeroProgram, UserGroup, FormSection, Field,
-      Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
+      SearchableIdentifier, User, Agency, Role, Incident, Child, PrimeroModule, PrimeroProgram, UserGroup, FormSection,
+      Field, Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
     )
   end
 end

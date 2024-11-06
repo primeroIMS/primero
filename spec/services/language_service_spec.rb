@@ -14,4 +14,14 @@ describe LanguageService do
       ).to eq(['فتح', 'أصلا', 'عنف', 'طفل', 'ملف', 'راح إلى محطة', 'احمد', 'محمد'])
     end
   end
+
+  describe 'when values include an integer' do
+    it 'should skip integer values' do
+      expect(
+        [0, 1, 'sample'].map do |elem|
+          LanguageService.tokenize(elem).uniq
+        end
+      ).to match_array([[], [], ['SMPL']])
+    end
+  end
 end
