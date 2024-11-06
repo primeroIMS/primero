@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { List, Map, fromJS } from "immutable";
-import { isEqual, isNil, omitBy } from "lodash";
+import { isEqual, isNil, omitBy, uniqBy } from "lodash";
 import createCachedSelector from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import { memoize } from "proxy-memoize";
@@ -54,8 +54,19 @@ export const selectUserModules = state =>
 export const selectModule = (state, id) =>
   selectUserModules(state).find(userModule => userModule.unique_id === id, null, fromJS({}));
 
-export const getWorkflowLabels = (state, id, recordType) =>
-  selectModule(state, id).getIn(["workflows", recordType], []);
+export const getWorkflowLabels = (state, id, recordType, all = false) => {
+  if (!all) {
+    return selectModule(state, id).getIn(["workflows", recordType], []);
+  }
+
+  return uniqBy(
+    selectModules(state)
+      .reduce((prev, current) => [...prev, current.get("workflows")[recordType]], [])
+      .filter(workflow => workflow)
+      .flat(),
+    "id"
+  );
+};
 
 export const getAllWorkflowLabels = (state, recordType) => {
   return selectUserModules(state).reduce((prev, current) => {
