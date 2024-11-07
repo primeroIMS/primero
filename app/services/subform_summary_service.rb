@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+# A class that defines aggregate functions to be applied in subforms to calculate summary field values
 class SubformSummaryService < ValueObject
   attr_accessor :subforms, :args
 
