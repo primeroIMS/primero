@@ -54,8 +54,8 @@ export const selectUserModules = state =>
 export const selectModule = (state, id) =>
   selectUserModules(state).find(userModule => userModule.unique_id === id, null, fromJS({}));
 
-export const getWorkflowLabels = (state, id, recordType, all = false) => {
-  if (!all) {
+export const getWorkflowLabels = (state, id, recordType) => {
+  if (id) {
     return selectModule(state, id).getIn(["workflows", recordType], []);
   }
 
