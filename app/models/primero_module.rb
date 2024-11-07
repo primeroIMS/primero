@@ -13,9 +13,10 @@ class PrimeroModule < ApplicationRecord
   DEFAULT_CONSENT_FORM = 'consent'
 
   DEFAULT_CASE_LIST_HEADERS = {
-    CP => %w[id name complete age sex registration_date photo social_worker alert_count flag_count],
-    GBV => %w[id complete survivor_code case_opening_date social_worker alert_count flag_count],
-    MRM => %w[id complete social_worker alert_count flag_count]
+    CP => %w[id case_id_display short_id name complete age sex registration_date photo owned_by alert_count
+             flag_count],
+    GBV => %w[case_id_display short_id complete survivor_code_no created_at owned_by alert_count flag_count],
+    MRM => %w[case_id_display short_id complete owned_by alert_count flag_count]
   }.freeze
 
   DEFAULT_CASE_LIST_FILTERS = {
@@ -25,20 +26,20 @@ class PrimeroModule < ApplicationRecord
       approval_status_action_plan approval_status_gbv_closure protection_concerns
       protection_status urgent_protection_concern type_of_risk risk_level
       location_current reporting_location last_updated_by cases_by_date
-      record_state has_photo
+      record_state has_photo last_updated_at
     ],
     GBV => %w[
       flagged owned_by my_cases workflow owned_by_agency_id status
       age sex approval_status_assessment approval_status_case_plan
       approval_status_closure approval_status_action_plan approval_status_gbv_closure
       protection_concerns gbv_displacement_status
-      owned_by_agency_office owned_by_groups last_updated_by record_state
+      owned_by_agency_office owned_by_groups last_updated_by record_state last_updated_at
     ],
     MRM => %w[
       flagged owned_by my_cases workflow owned_by_agency_id status
       age sex approval_status_assessment approval_status_case_plan
       approval_status_closure approval_status_action_plan approval_status_gbv_closure
-      protection_concerns last_updated_by record_state
+      protection_concerns last_updated_by record_state last_updated_at
     ]
   }.freeze
 
