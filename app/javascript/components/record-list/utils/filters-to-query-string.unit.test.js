@@ -20,4 +20,32 @@ describe("<RecordList />/utils - filtersToQueryString", () => {
       "date[from]=2010-01-05&date[to]=2010-01-08"
     );
   });
+
+  it("returns a query string for a hash with a nested list", () => {
+    expect(filtersToQueryString(fromJS({ not: { last_updated_by: ["user1", "user2"] }, status: ["open"] }))).to.equals(
+      "not[last_updated_by][0]=user1&not[last_updated_by][1]=user2&status[0]=open"
+    );
+  });
+
+  it("returns a query string for a list with hashes", () => {
+    expect(
+      filtersToQueryString(fromJS({ not: [{ user_name: "user1" }, { user_name: "user2" }], status: ["open"] }))
+    ).to.equals("not[0][user_name]=user1&not[1][user_name]=user2&status[0]=open");
+  });
+
+  it("returns a query string for a list with nested lists", () => {
+    expect(
+      filtersToQueryString(
+        fromJS({
+          user_name: [
+            ["user1", "user2"],
+            ["user3", "user4"]
+          ],
+          status: ["open"]
+        })
+      )
+    ).to.equals(
+      "user_name[0][0]=user1&user_name[0][1]=user2&user_name[1][0]=user3&user_name[1][1]=user4&status[0]=open"
+    );
+  });
 });
