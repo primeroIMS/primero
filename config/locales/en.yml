@@ -396,6 +396,8 @@ en:
       user_group: User Group
       workflow: Cases by Workflow
       include_disabled: Include disabled
+      safety_plan_needed: Is a safety plan needed for this case?
+      mhpss_suicidal_thoughts_last_month_most_recent: In the past month, have you had serious thoughts or plans to end your own life?
     flag_summary: Flag summary
     full_name: Full Name
     gbv_closure: GBV Closure

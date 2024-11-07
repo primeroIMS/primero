@@ -396,6 +396,18 @@ class Filter < ValueObject
     unique_id: 'family_location_current'
   )
 
+  SAFETY_PLAN_NEEDED = Filter.new(
+    name: 'cases.filter_by.safety_plan_needed',
+    field_name: 'safety_plan_needed',
+    option_strings_source: 'lookup-yes-no'
+  )
+
+  MHPSS_SUICIDAL_THOUGHTS_LAST_MONTH_MOST_RECENT = Filter.new(
+    name: 'cases.filter_by.mhpss_suicidal_thoughts_last_month_most_recent',
+    field_name: 'mhpss_suicidal_thoughts_last_month_most_recent',
+    option_strings_source: 'lookup-yes-no'
+  )
+
   class << self
     def filters(user, record_type)
       filters = case record_type
@@ -462,6 +474,8 @@ class Filter < ValueObject
       filters << PROTECTION_THREATS
       filters << CURRENT_LOCATION
       filters << AGENCY_OFFICE
+      filters << SAFETY_PLAN_NEEDED
+      filters << MHPSS_SUICIDAL_THOUGHTS_LAST_MONTH_MOST_RECENT
       filters << USER_GROUP if user.user_group_filter?
       filters += reporting_location_filters(user)
       filters
