@@ -740,6 +740,10 @@ describe Ability do
 
   describe 'User Groups' do
     before :each do
+      clean_data(UserGroup)
+
+      @user_group1 = UserGroup.create!(unique_id: 'usergroup-1', name: 'User Group 1')
+      @user_group2 = UserGroup.create!(unique_id: 'usergroup-2', name: 'User Group 2')
       @permission_user_group_read = Permission.new(resource: Permission::USER_GROUP, actions: [Permission::READ])
       @permission_user_group_read_write = Permission.new(
         resource: Permission::USER_GROUP, actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
@@ -755,6 +759,20 @@ describe Ability do
 
       expect(ability).to authorize(:read, UserGroup)
       expect(ability).not_to authorize(:write, UserGroup)
+    end
+
+    it 'allows a user with agency scope and read permissions to read its own user groups' do
+      role = create :role, permissions: [@permission_user_group_read], group_permission: Permission::AGENCY
+      @user1.role = role
+      @user1.user_groups = [@user_group1]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, UserGroup)
+      expect(ability).not_to authorize(:write, UserGroup)
+      expect(ability).to authorize(:read, @user_group1)
+      expect(ability).not_to authorize(:write, @user_group1)
     end
 
     it 'allows a user with read and write permissions to read and edit user groups' do
