@@ -131,10 +131,10 @@ class Filter < ValueObject
     option_strings_source: 'lookup-displacement-status',
     type: 'multi_select'
   )
-  PROTECTION_THREATS = Filter.new(
-    name: 'cases.filter_by.protection_threats',
-    field_name: 'protection_threats',
-    option_strings_source: 'lookup-protection-threats',
+  PROTECTION_RISKS = Filter.new(
+    name: 'cases.filter_by.protection_risks',
+    field_name: 'protection_risks',
+    option_strings_source: 'lookup-protection-risks',
     type: 'multi_select'
   )
   USER_GROUP = Filter.new(name: 'permissions.permission.user_group', field_name: 'owned_by_groups')
@@ -459,7 +459,7 @@ class Filter < ValueObject
       filters << DISPLACEMENT_STATUS
       filters << DISABILITY_STATUS
       filters << SOGIESC_SELF_IDENTIFYING
-      filters << PROTECTION_THREATS
+      filters << PROTECTION_RISKS
       filters << CURRENT_LOCATION
       filters << AGENCY_OFFICE
       filters << USER_GROUP if user.user_group_filter?
