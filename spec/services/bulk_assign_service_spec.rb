@@ -28,17 +28,17 @@ describe BulkAssignService do
   end
 
   let!(:child) do
-    create(:child, name: 'Test', owned_by: user.user_name, consent_for_services: true,
+    create(:child, name: 'Test', sex: 'female', owned_by: user.user_name, consent_for_services: true,
                    disclosure_other_orgs: true, module_id: PrimeroModule::CP)
   end
 
   let!(:child2) do
-    create(:child, name: 'Test2', owned_by: user.user_name, consent_for_services: true,
+    create(:child, name: 'Test2', sex: 'male', owned_by: user.user_name, consent_for_services: true,
                    disclosure_other_orgs: true, module_id: PrimeroModule::CP)
   end
 
   let!(:child3) do
-    create(:child, name: 'Test2', owned_by: user.user_name, consent_for_services: true,
+    create(:child, name: 'Test2', sex: 'female', owned_by: user.user_name, consent_for_services: true,
                    disclosure_other_orgs: true, module_id: PrimeroModule::CP)
   end
 
@@ -69,33 +69,51 @@ describe BulkAssignService do
     end
 
     context 'when model_class is Child' do
-      let(:bulk_assign_params) do
-        {
-          filters: { id: [child.id, child2.id, child3.id] }
-        }.merge(bulk_assign_shared_params)
-      end
+      context 'when filter by id' do
+        let(:bulk_assign_params) do
+          {
+            filters: { 'id' => [child.id, child2.id, child3.id] }
+          }.merge(bulk_assign_shared_params)
+        end
 
-      it 'creates an Transition record' do
-        BulkAssignService.new(Child, user, **bulk_assign_params).assign_records!
-        expect(Assign.count).to eq(3)
-        assigns = Transition.all
-        expect(assigns.pluck(:type).uniq).to eq(['Assign'])
-        expect(assigns.pluck(:record_id)).to match_array([child.id, child2.id, child3.id])
-      end
-
-      context 'when there is a problem at least one of the record' do
-        it 'inserts records and handles failures' do
-          expect(Assign).to receive(:create!).with({ record: child }.merge(bulk_assign_shared_params))
-
-          expect(Assign).to receive(:create!).with(
-            { record: child2 }.merge(bulk_assign_shared_params)
-          ).and_raise(StandardError)
-
-          expect(Assign).to receive(:create!).with({ record: child3 }.merge(bulk_assign_shared_params))
-
-          expect(Rails.logger).to receive(:error).with(/StandardError/).once
-
+        it 'creates an Transition record' do
           BulkAssignService.new(Child, user, **bulk_assign_params).assign_records!
+          expect(Assign.count).to eq(3)
+          assigns = Transition.all
+          expect(assigns.pluck(:type).uniq).to eq(['Assign'])
+          expect(assigns.pluck(:record_id)).to match_array([child.id, child2.id, child3.id])
+        end
+
+        context 'when there is a problem at least one of the record' do
+          it 'inserts records and handles failures' do
+            expect(Assign).to receive(:create!).with({ record: child }.merge(bulk_assign_shared_params))
+
+            expect(Assign).to receive(:create!).with(
+              { record: child2 }.merge(bulk_assign_shared_params)
+            ).and_raise(StandardError)
+
+            expect(Assign).to receive(:create!).with({ record: child3 }.merge(bulk_assign_shared_params))
+
+            expect(Rails.logger).to receive(:error).with(/StandardError/).once
+
+            BulkAssignService.new(Child, user, **bulk_assign_params).assign_records!
+          end
+        end
+      end
+
+      context 'when filter by sex' do
+        let(:bulk_assign_params) do
+          {
+            filters: { 'sex' => 'female' }
+          }.merge(bulk_assign_shared_params)
+        end
+
+        it 'creates an Transition record' do
+          BulkAssignService.new(Child, user, **bulk_assign_params).assign_records!
+          expect(Assign.count).to eq(2)
+          assigns = Transition.all
+          expect(assigns.pluck(:type).uniq).to eq(['Assign'])
+          expect(assigns.pluck(:record_id)).to match_array([child.id, child3.id])
         end
       end
     end
@@ -103,7 +121,7 @@ describe BulkAssignService do
     context 'when model_class is Incident' do
       let(:bulk_assign_params) do
         {
-          filters: { id: [incident.id, incident2.id, incident3.id] }
+          filters: { 'id' => [incident.id, incident2.id, incident3.id] }
         }.merge(bulk_assign_shared_params)
       end
 

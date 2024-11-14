@@ -100,12 +100,12 @@ describe Api::V2::AssignsController, type: :request do
     context 'bulk assign with valid permissions' do
       it 'assigns multiple records to the target user' do
         sign_in(@user1)
-        filters = { id: [@case.id, @case2.id] }
+        filters = { status: ['open'], record_state: ['true'], age: ['6..11'] }
         params = { data: { transitioned_to: 'user2', notes: 'Test Notes', filters: } }
         post('/api/v2/cases/assigns', params:)
 
         expect(response).to have_http_status(200)
-        expect(json['data']['filters'].keys).to match_array(%w[id])
+        expect(json['data']['filters'].keys).to match_array(%w[status record_state age])
         expect(json['data']['transitioned_to']).to eq('user2')
 
         expect(audit_params['action']).to eq('bulk_assign')
@@ -132,7 +132,7 @@ describe Api::V2::AssignsController, type: :request do
 
       it 'raises Errors::ForbiddenOperation' do
         sign_in(@user1)
-        filters = { id: %w[fbd6839 4c7084f 2d4bc3d] }
+        filters = { id: Array.new(3) { SecureRandom.uuid } }
         params = { data: { transitioned_to: 'user2', notes: 'Test Notes', filters: } }
 
         post('/api/v2/cases/assigns', params:)
@@ -151,23 +151,14 @@ describe Api::V2::AssignsController, type: :request do
         expect(json['errors'][0]['resource']).to eq('/api/v2/cases/assigns')
       end
 
-      it 'returns a 422 error when the filters param is specified but the content is invalid' do
+      it 'returns a 200 when the filters param is sent' do
         sign_in(@user1)
         filters = { status: ['open'], record_state: ['true'], age: ['6..11'] }
         params = { data: { transitioned_to: 'user2', notes: 'Test Notes', filters: } }
         post('/api/v2/cases/assigns', params:)
 
-        expect(response).to have_http_status(422)
-        expect(json['errors'][0]['resource']).to eq('/api/v2/cases/assigns')
-      end
-
-      it 'returns a 422 error when the filters param is specified but the id param is nil' do
-        sign_in(@user1)
-        params = { data: { transitioned_to: 'user2', notes: 'Test Notes', filters: { id: nil } } }
-        post('/api/v2/cases/assigns', params:)
-
-        expect(response).to have_http_status(422)
-        expect(json['errors'][0]['resource']).to eq('/api/v2/cases/assigns')
+        expect(response).to have_http_status(200)
+        expect(json['errors']).to be_nil
       end
     end
   end
