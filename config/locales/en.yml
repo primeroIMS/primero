@@ -2956,6 +2956,11 @@ en:
               if they also have the "Search for case records owned by other users"
               permission.
             label: Add Service provision to another user's case
+          service_own_entries_only:
+            explanation: Users with this permission, when accessing a Case which has been referred to them,
+              will see only entries in the Services subform for which they have been selected as the service provider.
+              This is typically used for Service Provider roles.
+            label: Access only my own Services subform entries
           sync_external:
             explanation: Ability to sync a Record with an external information management system
             label: Sync with an external information management system
