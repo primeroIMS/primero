@@ -162,6 +162,10 @@ class Role < ApplicationRecord
     permits?(Permission::DASHBOARD, dashboard_name)
   end
 
+  def service_own_entries_only?
+    permits?(Permission::CASE, Permission::SERVICE_OWN_ENTRIES_ONLY)
+  end
+
   def dashboards
     dashboard_permissions = permissions.find { |p| p.resource == Permission::DASHBOARD }
     update_dashboard_permissions(dashboard_permissions)&.compact || []

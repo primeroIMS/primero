@@ -23,6 +23,7 @@ class RecordDataService
     data = embed_photo_metadata(data, record, selected_field_names)
     data = embed_attachments(data, record, selected_field_names)
     data = embed_associations_as_data(data, record, selected_field_names, user)
+    data = select_service_section(data, record, selected_field_names, user)
     data['last_updated_at'] = record.last_updated_at
     embed_computed_fields(data, record, selected_field_names)
   end
@@ -47,6 +48,20 @@ class RecordDataService
     return data unless selected_field_names.include?('record_in_scope')
 
     data['record_in_scope'] = user.can?(:read, record)
+    data
+  end
+
+  def select_service_section(data, record, selected_field_names, user)
+    return data unless record.is_a?(Child)
+
+    return data if record&.services_section.blank? || !selected_field_names.include?('services_section')
+
+    data['services_section'] = if should_filter_services?(record, user)
+                                 filter_services_by_user(record.services_section, user)
+                               else
+                                 record.services_section
+                               end
+
     data
   end
 
@@ -183,6 +198,19 @@ class RecordDataService
       family_member['can_read_record'] = user.can_read_record?(
         family_member_record
       )
+    end
+  end
+
+  # Check if the record is not owned by the current user and if the user has the SERVICE_OWN_ENTRIES_ONLY permission
+  def should_filter_services?(record, user)
+    return false if record.owner?(user) || user.admin_query_scope?
+
+    user.role.service_own_entries_only?
+  end
+
+  def filter_services_by_user(services, user)
+    services.select do |service|
+      user.user_name == service['service_implementing_agency_individual']
     end
   end
 end
