@@ -107,24 +107,6 @@ module Transitionable
     )
   end
 
-  def referrals_without_service_own_entries_permission?(user)
-    !referrals_to_user(user)
-      .joins(:role)
-      .where.not('permissions->? @> ?', self.class.parent_form, [Permission::SERVICE_OWN_ENTRIES_ONLY].to_json)
-      .exists?
-  end
-
-  def all_referrals_have_service_own_entries_permission?(user)
-    referrals = referrals_to_user(user)
-    return false if referrals.empty?
-
-    referrals.joins(:role).where(
-      'permissions->? @> ?',
-      self.class.parent_form,
-      [Permission::SERVICE_OWN_ENTRIES_ONLY].to_json
-    ).count == referrals.count
-  end
-
   def can_be_assigned?
     true
   end

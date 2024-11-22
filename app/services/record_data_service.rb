@@ -203,13 +203,9 @@ class RecordDataService
 
   # Check if the record is not owned by the current user and if the user has the SERVICE_OWN_ENTRIES_ONLY permission
   def should_filter_services?(record, user)
-    return false if record.owner?(user)
+    return false if record.owner?(user) || user.admin_query_scope?
 
-    if user.role.service_own_entries_only?
-      record.referrals_without_service_own_entries_permission?(user)
-    else
-      record.all_referrals_have_service_own_entries_permission?(user)
-    end
+    user.role.service_own_entries_only?
   end
 
   def filter_services_by_user(services, user)

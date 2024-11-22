@@ -367,10 +367,24 @@ describe RecordDataService do
       )
     end
 
+    let!(:role_mgr_with_service_own_entries) do
+      Role.create!(
+        name: 'Role Manager with SERVICE_OWN_ENTRIES_ONLY', group_permission: Permission::GROUP,
+        permissions: [service_own_entries_permission], modules: [@module_cp]
+      )
+    end
+
     let!(:user2) do
       create(
         :user, user_name: 'user2', role: role_with_service_own_entries,
-               full_name: 'Test user 2', email: 'user7@primero.dev'
+               full_name: 'Test user 2', email: 'user2@primero.dev'
+      )
+    end
+
+    let!(:user3) do
+      create(
+        :user, user_name: 'user3', role: role_mgr_with_service_own_entries,
+               full_name: 'Test user 3', email: 'user3@primero.dev'
       )
     end
 
@@ -385,13 +399,24 @@ describe RecordDataService do
       end
     end
 
-    context 'when user is record owner' do
-      it 'return all services_section' do
+    context 'when user is referred' do
+      it 'return only services_section where the user was referred to' do
         data = RecordDataService.new.select_service_section({}, case2, %w[services_section], user2)
         expect(
           data['services_section'].map { |service| service['unique_id'] }
         ).to match_array(
           %w[72bf540f-75fc-473d-951a-5f271f19f0a4 9fe0516f-a227-42d7-b30c-eb2d75994dd8]
+        )
+      end
+    end
+
+    context 'when user is manager' do
+      it 'return only services_section where the user was referred to' do
+        data = RecordDataService.new.select_service_section({}, case2, %w[services_section], user3)
+        expect(
+          data['services_section'].map { |service| service['unique_id'] }
+        ).to match_array(
+          case2.services_section.map { |service| service['unique_id'] }
         )
       end
     end
