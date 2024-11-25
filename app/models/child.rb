@@ -47,6 +47,7 @@ class Child < ApplicationRecord
   include FamilyLinkable
   include PhoneticSearchable
   include ReportableLocation
+  include Normalizeable
 
   # rubocop:disable Naming/VariableNumber
   store_accessor(
@@ -106,6 +107,15 @@ class Child < ApplicationRecord
       hidden_name workflow case_status_reopened module_id registry_record_id
       client_code gender reporting_location_hierarchy
     ]
+  end
+
+  def normalized_field_names
+    {
+      'reportable_date_values' => %w[registration_date],
+      'reportable_values' => %w[sex],
+      'reportable_numeric_values' => %w[age psychsocial_assessment_score_most_recent
+                                        psychsocial_assessment_score_initial]
+    }
   end
 
   def self.alert_count_self(current_user)

@@ -618,5 +618,25 @@ export const INSIGHTS_CONFIG = {
         RECORD_FILTERS[DATE]
       ].map(filter => FieldRecord(filter))
     }
+  },
+  // TODO: We need to not hardcode modules
+  ['primeromodule-pcm']: {
+    protection_outcomes: {
+      ids: ['improved_wellbeing_after_support'],
+      defaultFilterValues: {
+        [GROUPED_BY]: MONTH,
+        [DATE_RANGE]: LAST_MONTH,
+        [STATUS]: [],
+        [DATE]: REGISTRATION_DATE,
+      },
+      filters: [
+        RECORD_FILTERS[GROUPED_BY],
+        RECORD_FILTERS[DATE_RANGE],
+        RECORD_FILTERS[FROM],
+        RECORD_FILTERS[TO],
+        RECORD_FILTERS[STATUS],
+        RECORD_FILTERS[DATE]
+      ].map(filter => FieldRecord(filter))
+    }
   }
 };

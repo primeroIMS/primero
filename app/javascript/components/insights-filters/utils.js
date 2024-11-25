@@ -98,7 +98,5 @@ export const transformFilters = data => {
 };
 
 export function selectInsightConfig(moduleID, id) {
-  const module = includeCPByDefault(moduleID) ? MODULES.CP : moduleID;
-
-  return get(INSIGHTS_CONFIG, [module, id], {});
+  return get(INSIGHTS_CONFIG, [moduleID, id], {});
 }

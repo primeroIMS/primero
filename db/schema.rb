@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_09_000000) do
+ActiveRecord::Schema.define(version: 2024_10_09_000003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -468,6 +468,33 @@ ActiveRecord::Schema.define(version: 2024_10_09_000000) do
     t.jsonb "phonetic_data"
     t.index "((phonetic_data -> 'tokens'::text))", name: "registry_records_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_registry_records_on_data", using: :gin
+  end
+
+  create_table "reportable_date_values", force: :cascade do |t|
+    t.string "record_type"
+    t.uuid "record_id"
+    t.string "field_name"
+    t.datetime "value"
+    t.index ["record_type", "record_id"], name: "index_reportable_date_values_on_record"
+    t.index ["value"], name: "index_reportable_date_values_on_value"
+  end
+
+  create_table "reportable_numeric_values", force: :cascade do |t|
+    t.string "record_type"
+    t.uuid "record_id"
+    t.string "field_name"
+    t.integer "value"
+    t.index ["record_type", "record_id"], name: "index_reportable_numeric_values_on_record"
+    t.index ["value"], name: "index_reportable_numeric_values_on_value"
+  end
+
+  create_table "reportable_values", force: :cascade do |t|
+    t.string "record_type"
+    t.uuid "record_id"
+    t.string "field_name"
+    t.string "value"
+    t.index ["record_type", "record_id"], name: "index_reportable_values_on_record"
+    t.index ["value"], name: "index_reportable_values_on_value"
   end
 
   create_table "reports", id: :serial, force: :cascade do |t|
