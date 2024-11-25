@@ -10,17 +10,20 @@ def fields_with_old_avg_calculations
   avg_fields.filter { |f| f.calculation.dig('expression', 'avg').is_a?(Array) }
 end
 
-def migrate_field(field, save)
-  old_avg_data = field.calculation.dig('expression', 'avg')
-  field.calculation = { type: 'number', expression: { avg: { data: old_avg_data, extra: { decimalPlaces: 2 } } } }
-  field.disabled = true
-  field.type = 'calculated'
+def migrate_field(orig_field, save)
+  old_avg_data = orig_field.calculation.dig('expression', 'avg')
+  new_field = orig_field.dup
+  new_field.calculation = { type: 'number', expression: { avg: { data: old_avg_data, extra: { decimalPlaces: 2 } } } }
+  new_field.disabled = true
+  new_field.type = 'calculated'
   if save
-    field.save!
-    puts "Updated field #{field.name}"
+    # We because the type of a field cannot be changed, we need to destroy and recreate
+    orig_field.destroy!
+    new_field.save!
+    puts "Updated field #{new_field.name}"
   else
-    puts "Would update #{field.name} to the following"
-    puts field.inspect
+    puts "Would update #{new_field.name} to the following"
+    puts new_field.inspect
   end
 end
 
