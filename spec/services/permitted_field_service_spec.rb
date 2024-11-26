@@ -78,6 +78,28 @@ describe PermittedFieldService, search: true do
     )
   end
 
+  let(:shared_with_other_dashboard_role) do
+    Role.new_with_properties(
+      name: 'Test Role 2',
+      unique_id: 'test-role-2',
+      group_permission: Permission::SELF,
+      permissions: [
+        Permission.new(resource: Permission::DASHBOARD, actions: [Permission::DASH_SHARED_WITH_OTHERS])
+      ]
+    )
+  end
+
+  let(:shared_from_my_team_dashboard_role) do
+    Role.new_with_properties(
+      name: 'Test Role 3',
+      unique_id: 'test-role-3',
+      group_permission: Permission::SELF,
+      permissions: [
+        Permission.new(resource: Permission::DASHBOARD, actions: [Permission::DASH_SHARED_FROM_MY_TEAM])
+      ]
+    )
+  end
+
   let(:agency) do
     Agency.create!(
       name: 'Test Agency',
@@ -134,6 +156,32 @@ describe PermittedFieldService, search: true do
       email: 'test_user_3@localhost.com',
       agency_id: agency.id,
       role: case_risk_dashboard_role,
+      services: ['Test type']
+    )
+  end
+
+  let(:user_with_shared_with_others) do
+    User.create!(
+      full_name: 'User With Shared With Others',
+      user_name: 'user_with_shared_with_others',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'user_with_shared_with_others@localhost.com',
+      agency_id: agency.id,
+      role: shared_with_other_dashboard_role,
+      services: ['Test type']
+    )
+  end
+
+  let(:user_with_shared_from_my_team) do
+    User.create!(
+      full_name: 'User With Shared From My Team',
+      user_name: 'user_with_shared_from_my_team',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'user_with_shared_from_my_team@localhost.com',
+      agency_id: agency.id,
+      role: shared_from_my_team_dashboard_role,
       services: ['Test type']
     )
   end
@@ -252,6 +300,18 @@ describe PermittedFieldService, search: true do
     permitted_field_names = PermittedFieldService.new(user_with_risk_level, Child).permitted_field_names
 
     expect(permitted_field_names).to include('risk_level')
+  end
+
+  it 'returns the transfer_status field permitted for a role with a shared_with_other permission in dashboard' do
+    permitted_field_names = PermittedFieldService.new(user_with_shared_with_others, Child).permitted_field_names
+
+    expect(permitted_field_names).to include('transfer_status')
+  end
+
+  it 'returns the transfer_status field permitted for a role with a shared_from_my_team permission in dashboard' do
+    permitted_field_names = PermittedFieldService.new(user_with_shared_from_my_team, Child).permitted_field_names
+
+    expect(permitted_field_names).to include('transfer_status')
   end
 
   describe 'MRM - Vioaltions forms and fields' do

@@ -47,6 +47,12 @@ class PermittedFieldService
     consent_for_services disclosure_other_orgs
   ].freeze
 
+  PERMITTED_DASHBOARD_FILTERS = {
+    Permission::DASH_CASE_RISK => %w[risk_level],
+    Permission::DASH_SHARED_WITH_OTHERS => %w[transfer_status],
+    Permission::DASH_SHARED_FROM_MY_TEAM => %w[transfer_status]
+  }.freeze
+
   PERMITTED_FIELDS_FOR_ACTION_SCHEMA = {
     Permission::CLOSE => { 'status' => { 'type' => 'string' }, 'date_closure' => { 'type' => 'date' } },
     Permission::REOPEN => {
@@ -116,7 +122,7 @@ class PermittedFieldService
     @permitted_field_names += permitted_overdue_task_field_names
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
     @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
-    @permitted_field_names << 'risk_level' if user.can?(:case_risk, Dashboard)
+    @permitted_field_names += permitted_dashboard_filter_field_names
     @permitted_field_names += permitted_reporting_location_field if model_class == Child
     @permitted_field_names += permitted_incident_reporting_location_field if model_class == Incident
     @permitted_field_names += permitted_registry_record_id
@@ -247,6 +253,14 @@ class PermittedFieldService
     attachment_field_names << 'photo' if user.can?(:view_photo, model_class)
 
     attachment_field_names
+  end
+
+  def permitted_dashboard_filter_field_names
+    PERMITTED_DASHBOARD_FILTERS.reduce([]) do |memo, (dashboard, field_names)|
+      next memo unless user.can?(dashboard.to_sym, Dashboard)
+
+      memo + field_names
+    end
   end
 end
 # rubocop:enable Metrics/ClassLength
