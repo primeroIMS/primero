@@ -98,7 +98,8 @@ describe("<Report /> - constants", () => {
 
   it("should have properties for INSIGHTS_CONFIG", () => {
     const clonedInsightsConfig = { ...constants.INSIGHTS_CONFIG };
-    const expectModuleKeys = [MODULES.MRM, MODULES.GBV, MODULES.CP];
+    // TODO: Will need to be fixed when restructing config object
+    const expectModuleKeys = [MODULES.MRM, MODULES.GBV, MODULES.CP, "primeromodule-pcm"];
 
     expect(Object.keys(clonedInsightsConfig)).to.eql(expectModuleKeys);
     expect(Object.keys(clonedInsightsConfig[MODULES.MRM])).to.eql(["violations", "ghn_report", "individual_children"]);

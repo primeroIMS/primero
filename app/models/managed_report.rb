@@ -154,7 +154,7 @@ class ManagedReport < ValueObject
         subreports: %w[protection_outcomes],
         permitted_filters: [
           :grouped_by, :by, :created_by_groups, :owned_by_groups,
-          :created_organization, :owned_by_agency_id, :location, { status: {}, registration_date: {} }
+          :created_organization, :owned_by_agency_id, :location, { status: {}, registration_date: {}, date_closure: {} }
         ],
         module_id: 'primeromodule-pcm' # TODO: What to do?
       )

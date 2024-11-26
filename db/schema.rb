@@ -470,33 +470,6 @@ ActiveRecord::Schema.define(version: 2024_10_09_000003) do
     t.index ["data"], name: "index_registry_records_on_data", using: :gin
   end
 
-  create_table "reportable_date_values", force: :cascade do |t|
-    t.string "record_type"
-    t.uuid "record_id"
-    t.string "field_name"
-    t.datetime "value"
-    t.index ["record_type", "record_id"], name: "index_reportable_date_values_on_record"
-    t.index ["value"], name: "index_reportable_date_values_on_value"
-  end
-
-  create_table "reportable_numeric_values", force: :cascade do |t|
-    t.string "record_type"
-    t.uuid "record_id"
-    t.string "field_name"
-    t.integer "value"
-    t.index ["record_type", "record_id"], name: "index_reportable_numeric_values_on_record"
-    t.index ["value"], name: "index_reportable_numeric_values_on_value"
-  end
-
-  create_table "reportable_values", force: :cascade do |t|
-    t.string "record_type"
-    t.uuid "record_id"
-    t.string "field_name"
-    t.string "value"
-    t.index ["record_type", "record_id"], name: "index_reportable_values_on_record"
-    t.index ["value"], name: "index_reportable_values_on_value"
-  end
-
   create_table "reports", id: :serial, force: :cascade do |t|
     t.jsonb "name_i18n"
     t.jsonb "description_i18n"
@@ -549,6 +522,15 @@ ActiveRecord::Schema.define(version: 2024_10_09_000003) do
     t.index ["user_id"], name: "index_saved_searches_on_user_id"
   end
 
+  create_table "searchable_datetimes", force: :cascade do |t|
+    t.string "record_type"
+    t.uuid "record_id"
+    t.string "field_name"
+    t.datetime "value"
+    t.index ["record_type", "record_id"], name: "index_searchable_datetimes_on_record"
+    t.index ["value"], name: "index_searchable_datetimes_on_value"
+  end
+
   create_table "searchable_identifiers", force: :cascade do |t|
     t.string "record_type"
     t.uuid "record_id"
@@ -556,6 +538,24 @@ ActiveRecord::Schema.define(version: 2024_10_09_000003) do
     t.string "value"
     t.index ["record_type", "record_id"], name: "index_searchable_identifiers_on_record"
     t.index ["value"], name: "searchable_identifiers_value_idx", opclass: :gin_trgm_ops, using: :gin
+  end
+
+  create_table "searchable_numerics", force: :cascade do |t|
+    t.string "record_type"
+    t.uuid "record_id"
+    t.string "field_name"
+    t.integer "value"
+    t.index ["record_type", "record_id"], name: "index_searchable_numerics_on_record"
+    t.index ["value"], name: "index_searchable_numerics_on_value"
+  end
+
+  create_table "searchable_values", force: :cascade do |t|
+    t.string "record_type"
+    t.uuid "record_id"
+    t.string "field_name"
+    t.string "value"
+    t.index ["record_type", "record_id"], name: "index_searchable_values_on_record"
+    t.index ["value"], name: "index_searchable_values_on_value"
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

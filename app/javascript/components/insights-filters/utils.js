@@ -32,8 +32,6 @@ import {
   THIS_YEAR
 } from "../insights/constants";
 import { get } from "../form/utils";
-import includeCPByDefault from "../../libs/include-cp-by-default";
-import { MODULES } from "../../config";
 
 const startOfWeekOptions = { options: { weekStartsOn: 0 } };
 

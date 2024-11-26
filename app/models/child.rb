@@ -111,10 +111,9 @@ class Child < ApplicationRecord
 
   def normalized_field_names
     {
-      'reportable_date_values' => %w[registration_date],
-      'reportable_values' => %w[sex],
-      'reportable_numeric_values' => %w[age psychsocial_assessment_score_most_recent
-                                        psychsocial_assessment_score_initial]
+      'searchable_datetimes' => %w[registration_date date_closure],
+      'searchable_values' => %w[sex],
+      'searchable_numerics' => %w[age]
     }
   end
 
