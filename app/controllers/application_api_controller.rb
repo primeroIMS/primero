@@ -27,6 +27,8 @@ class ApplicationApiController < ActionController::API
   end
 
   def record_id
+    return if action_name == 'index'
+
     params[:id]
   end
 
