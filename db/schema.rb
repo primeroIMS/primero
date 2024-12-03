@@ -527,8 +527,8 @@ ActiveRecord::Schema.define(version: 2024_10_09_000003) do
     t.uuid "record_id"
     t.string "field_name"
     t.datetime "value"
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_datetimes_filter_idx"
     t.index ["record_type", "record_id"], name: "index_searchable_datetimes_on_record"
-    t.index ["value"], name: "index_searchable_datetimes_on_value"
   end
 
   create_table "searchable_identifiers", force: :cascade do |t|
@@ -545,8 +545,8 @@ ActiveRecord::Schema.define(version: 2024_10_09_000003) do
     t.uuid "record_id"
     t.string "field_name"
     t.integer "value"
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_numerics_filter_idx"
     t.index ["record_type", "record_id"], name: "index_searchable_numerics_on_record"
-    t.index ["value"], name: "index_searchable_numerics_on_value"
   end
 
   create_table "searchable_values", force: :cascade do |t|
@@ -554,8 +554,8 @@ ActiveRecord::Schema.define(version: 2024_10_09_000003) do
     t.uuid "record_id"
     t.string "field_name"
     t.string "value"
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_values_filter_idx"
     t.index ["record_type", "record_id"], name: "index_searchable_values_on_record"
-    t.index ["value"], name: "index_searchable_values_on_value"
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

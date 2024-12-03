@@ -6,19 +6,27 @@
 class SearchFilters::SearchFilter < ValueObject
   OPERATORS = %w[= > < >= <=].freeze
 
-  attr_accessor :field_name, :not_filter, :column_name
+  attr_accessor :field_name, :not_filter, :column_name, :table_name
 
   def initialize(args = {})
     super(args)
     @safe_operator = OPERATORS.include?(args[:operator]) ? args[:operator] : '='
+    self.column_name = args[:column_name] || 'data'
+    self.table_name = args[:table_name] || ''
   end
 
   def query
     raise NotImplementedError
   end
 
+  def json_column
+    return ActiveRecord::Base.sanitize_sql_for_conditions(['%s', column_name]) unless table_name.present?
+
+    ActiveRecord::Base.sanitize_sql_for_conditions(['%s.%s', table_name, column_name])
+  end
+
   def json_path_query
-    "data @? '#{json_field_query} ? (#{json_path_value})'"
+    "#{json_column} @? '#{json_field_query} ? (#{json_path_value})'"
   end
 
   def json_field_query

@@ -9,6 +9,6 @@ class CreateSearchableValues < ActiveRecord::Migration[6.1]
       t.string :value
     end
 
-    add_index :searchable_values, :value
+    add_index :searchable_values, %i[field_name record_id record_type value], name: 'searchable_values_filter_idx'
   end
 end

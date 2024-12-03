@@ -9,6 +9,6 @@ class CreateSearchableDatetimes < ActiveRecord::Migration[6.1]
       t.datetime :value
     end
 
-    add_index :searchable_datetimes, :value
+    add_index :searchable_datetimes, %i[field_name record_id record_type value], name: 'searchable_datetimes_filter_idx'
   end
 end

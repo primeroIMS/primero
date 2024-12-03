@@ -2317,6 +2317,9 @@ en:
         date_closure: Date of Closure
       sub_reports:
         improved_wellbeing_after_support: '% of clients with improved psychosocial wellbeing'
+      improved_wellbeing_after_support:
+        improve_by_at_least_3_points: '% Improved by at least 3 points'
+        not_improve_by_at_least_3_points: '% Did not improve by at leaast 3 points'
 
   messages:
     alert_items: You have %{items} items of note.

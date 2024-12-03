@@ -9,6 +9,6 @@ class CreateSearchableNumerics < ActiveRecord::Migration[6.1]
       t.integer :value
     end
 
-    add_index :searchable_numerics, :value
+    add_index :searchable_numerics, %i[field_name record_id record_type value], name: 'searchable_numerics_filter_idx'
   end
 end
