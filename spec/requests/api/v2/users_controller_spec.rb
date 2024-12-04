@@ -733,6 +733,7 @@ describe Api::V2::UsersController, type: :request do
         data: {
           role_unique_id: 'test-role-1',
           identity_provider_unique_id: 'primeroims_2',
+          agency_id: @agency_a.id,
           user_name:
         }
       }
@@ -744,6 +745,7 @@ describe Api::V2::UsersController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@user_d.id)
       expect(@user_d.role.unique_id).to eq(@role_manage_user.unique_id)
+      expect(@user_d.agency.unique_id).to eq(@agency_b.unique_id)
       expect(@user_d.user_name).not_to eq(user_name)
       expect(@user_d.identity_provider.unique_id).to eq(@identity_provider_a.unique_id)
     end
