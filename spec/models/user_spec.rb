@@ -1075,7 +1075,7 @@ describe User do
     context 'when user is not admin' do
       it 'should not returm that are not allowed' do
         expect(User.permitted_api_params(@user1, @user1)).not_to include(
-          'role_unique_id', 'role_id', 'user_group_unique_ids', 'agency_id'
+          *User.self_hidden_attributes
         )
       end
     end
