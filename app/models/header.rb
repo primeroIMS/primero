@@ -14,7 +14,7 @@ class Header < ValueObject
   SURVIVOR_CODE_INCIDENT = Header.new(name: 'survivor_code', field_name: 'survivor_code')
   AGE = Header.new(name: 'age', field_name: 'age', id_search: true)
   SEX = Header.new(name: 'sex', field_name: 'sex', id_search: true)
-  GENDER = Header.new(name: 'gender_identity', field_name: 'gender', id_search: true)
+  GENDER = Header.new(name: 'gender', field_name: 'gender', id_search: true)
   REGISTRATION_DATE = Header.new(name: 'registration_date', field_name: 'registration_date')
   CASE_OPENING_DATE = Header.new(name: 'case_opening_date', field_name: 'created_at')
   PHOTO = Header.new(name: 'photo', field_name: 'photo')
