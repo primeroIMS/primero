@@ -17,6 +17,14 @@ class ManagedReports::Indicators::ImprovedWellbeingAfterSupport < ManagedReports
       date_param = filter_date(params)
       date_query = grouped_date_query(params['grouped_by'], date_param, 'searchable_datetimes', nil, 'value')
       group_id = date_query.present? ? 'group_id' : nil
+      join_searchable_datetimes = if date_param.present?
+                                    %(
+                                      INNER JOIN searchable_datetimes searchable_datetimes
+                                      ON cases.id = searchable_datetimes.record_id
+                                      AND searchable_datetimes.record_type = 'Child'
+                                    )
+                                  end
+
       join_searchable_values = if params['status'].present?
                                  %(INNER JOIN searchable_values searchable_values
                                    ON cases.id = searchable_values.record_id
@@ -37,15 +45,13 @@ class ManagedReports::Indicators::ImprovedWellbeingAfterSupport < ManagedReports
             data->>'sex' AS sex
           FROM cases
           #{join_searchable_values}
-          INNER JOIN searchable_datetimes searchable_datetimes ON cases.id = searchable_datetimes.record_id
-          AND searchable_datetimes.record_type = 'Child'
+          #{join_searchable_datetimes}
           WHERE (cases.data @? '$.next_steps ? (@ == "a_continue_protection_assessment")')
           AND cases.data->>'psychsocial_assessment_score_initial' IS NOT NULL
           AND cases.data->>'psychsocial_assessment_score_most_recent' IS NOT NULL
-          AND searchable_datetimes.field_name = 'registration_date'
           #{user_scope_query(current_user)&.prepend('AND ')}
           #{searchable_equal_value_multiple(params['status'])&.prepend('AND ')}
-          #{searchable_date_range_query(date_param, 'searchable_datetimes', nil, 'value')&.prepend('AND ')}
+          #{searchable_date_range_query(date_param)&.prepend('AND ')}
         ),
         percentages AS (
           SELECT

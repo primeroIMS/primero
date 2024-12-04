@@ -41,17 +41,16 @@ module ManagedReports::SqlQueryHelpers
       return unless param.present?
 
       field_name = map_to || param.field_name
-      filter = 'searchable_values.value = ? AND searchable_values.field_name = ?'
 
       if param.respond_to?(:value)
-        return ActiveRecord::Base.sanitize_sql_for_conditions([filter, param.value, field_name])
+        return ActiveRecord::Base.sanitize_sql_for_conditions(
+          ['(searchable_values.field_name = ? AND searchable_values.value = ?)', field_name, param.value]
+        )
       end
 
-      query = param.values.map do |value|
-        ActiveRecord::Base.sanitize_sql_for_conditions([filter, value, field_name])
-      end.join(' OR ')
-
-      "(#{query})"
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        ['(searchable_values.field_name = ? AND searchable_values.value IN (?))', field_name, param.values]
+      )
     end
 
     def equal_value_nested_query(param, _nested_field, table_name = nil, map_to = nil)
@@ -127,41 +126,22 @@ module ManagedReports::SqlQueryHelpers
       )
     end
 
-    def searchable_date_range_query(param, table_name = nil, hash_field = 'data', map_to = nil)
+    def searchable_date_range_query(param)
       return unless param.present?
-
-      field_name = map_to || param.field_name
-
-      return searchable_date_range_hash_query(param, field_name, table_name, hash_field) if hash_field.present?
 
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           %(
-            #{quoted_query(table_name, field_name)} >= to_timestamp(:from, :date_format)
-            AND #{quoted_query(table_name, field_name)} <= (
-              to_timestamp(:to, :date_format) + interval '1 day' - interval '1 second'
+            (
+              searchable_datetimes.field_name = :field_name AND
+              searchable_datetimes.value >= to_timestamp(:from, :date_format) AND
+              searchable_datetimes.value <= (to_timestamp(:to, :date_format) + interval '1 day' - interval '1 second')
             )
-          ), { from: param.from, to: param.to, date_format: Report::DATE_FORMAT }
-        ]
-      )
-    end
-    # rubocop:enable Metrics/MethodLength
-
-    def searchable_date_range_hash_query(param, field_name, table_name = nil, hash_field = 'data')
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          %(#{quoted_query(table_name, hash_field)} >= to_timestamp(:from, :date_format)
-            AND
-          #{quoted_query(
-            table_name, hash_field
-          )} <= to_timestamp(:to, :date_format) + interval '1 day' - interval '1 second'
-          ),
-          { field_name:, date_format: Report::DATE_FORMAT, from: param.from, to: param.to }
+          ), { field_name: param.field_name, from: param.from, to: param.to, date_format: Report::DATE_FORMAT }
         ]
       )
     end
 
-    # rubocop:disable Metrics/MethodLength
     def date_range_hash_query(param, field_name, table_name = nil, hash_field = 'data')
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
