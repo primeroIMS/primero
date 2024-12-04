@@ -13,9 +13,7 @@ import IncidentDetail from "../detail";
 import useMemoizedSelector from "../../../../libs/use-memoized-selector";
 import { getIncidentAvailable } from "../../../records";
 import { getFieldByName } from "../../../record-form/selectors";
-import includeCPByDefault from "../../../../libs/include-cp-by-default";
-
-import { CP_VIOLENCE_TYPE, GBV_VIOLENCE_TYPE } from "./constants";
+import { getViolenceType } from "../../selectors";
 
 function Component({
   incident,
@@ -34,8 +32,7 @@ function Component({
   const handleExpanded = () => {
     setExpanded(!expanded);
   };
-
-  const violationType = includeCPByDefault(incident.get("module_id", false)) ? CP_VIOLENCE_TYPE : GBV_VIOLENCE_TYPE;
+  const violationType = useMemoizedSelector(state => getViolenceType(state, incident.get("module_id")));
   const incidentTypeData = incident.get(violationType, false) || undefined;
   const incidentUniqueID = incident.get("unique_id", false);
   const incidentDateData = incident.get("incident_date", false);
@@ -46,7 +43,6 @@ function Component({
 
   const isIncidentAvailable = useMemoizedSelector(state => getIncidentAvailable(state, incidentUniqueID));
   const violenceTypeField = useMemoizedSelector(state => getFieldByName(state, violationType));
-
   const lookupViolenceType = violenceTypeField.option_strings_source?.replace(/lookup /, "");
 
   const incidentType = lookupViolenceType && (
