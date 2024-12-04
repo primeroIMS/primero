@@ -22,7 +22,8 @@ module AuditLogActions
       remote_ip: LogUtils.remote_ip(request),
       agency_id: current_user.try(:agency_id),
       role_id: current_user.try(:role_id),
-      http_method: request.method
+      http_method: request.method,
+      record_ids: metadata_record_ids
     }
   end
 
