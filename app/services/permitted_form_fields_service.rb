@@ -108,7 +108,8 @@ class PermittedFormFieldsService
           form_sections_roles: { permission: permission_level },
           primero_modules: { unique_id: module_unique_id }, parent_form: record_type
         },
-        type: PERMITTED_WRITEABLE_FIELD_TYPES
+        type: PERMITTED_WRITEABLE_FIELD_TYPES,
+        subform_summary: nil
       }
     )
   end
@@ -123,11 +124,5 @@ class PermittedFormFieldsService
         form_sections: { primero_modules: { unique_id: module_unique_id }, parent_form: record_type }
       )
     )
-  end
-
-  def permitted_field_scope(record_type, module_unique_id)
-    {
-      primero_modules: { unique_id: module_unique_id }, parent_form: record_type
-    }
   end
 end
