@@ -41,7 +41,7 @@ class Api::V2::UsersController < ApplicationApiController
     validate_json!(User::USER_FIELDS_SCHEMA, user_params)
     @user.update_with_properties(@user_params)
     @user.save!
-    keep_logged_in
+    keep_user_signed_in
   end
 
   def destroy
@@ -75,7 +75,7 @@ class Api::V2::UsersController < ApplicationApiController
     @user.identity_sync(current_user)
   end
 
-  def keep_logged_in
+  def keep_user_signed_in
     bypass_sign_in(@user) if @user.saved_change_to_encrypted_password?
   end
 end
