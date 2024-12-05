@@ -6,8 +6,8 @@ require 'rails_helper'
 
 describe Transitionable do
   before :each do
-    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Referral)
-    @module_cp = PrimeroModule.new(name: 'CP')
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Referral, Agency)
+    @module_cp = PrimeroModule.new(name: 'CP', associated_record_types: %w[case incident])
     @module_cp.save(validate: false)
 
     permission_case = Permission.new(

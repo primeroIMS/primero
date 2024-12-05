@@ -65,9 +65,9 @@ class Filter < ValueObject
     option_strings_source: 'lookup-gender'
   )
   GENDER_IDENTITY = Filter.new(
-    unique_id: 'gender_identity',
+    unique_id: 'gender',
     name: 'cases.filter_by.gender',
-    field_name: 'gender_identity',
+    field_name: 'gender',
     option_strings_source: 'lookup-gender-identity'
   )
   PROTECTION_CONCERNS = Filter.new(

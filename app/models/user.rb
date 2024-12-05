@@ -581,6 +581,10 @@ class User < ApplicationRecord
     (notifications&.[](notifier) || {}).select { |_key, value| value }.keys.include?(action)
   end
 
+  def admin_query_scope?
+    [Permission::ALL, Permission::AGENCY, Permission::GROUP].include?(user_query_scope)
+  end
+
   private
 
   def set_locale

@@ -22,6 +22,35 @@ describe Api::V2::ChildrenController, type: :request do
       ]
     )
 
+    @score_section = FormSection.create!(
+      unique_id: 'score_section', name: 'Scores', fields: [
+        Field.create!(name: 'score', display_name: 'Score', type: Field::NUMERIC_FIELD),
+        Field.create!(name: 'score_date', display_name: 'Date', type: Field::DATE_FIELD)
+      ]
+    )
+
+    @score_form = FormSection.create!(
+      unique_id: 'score_form', name: 'Score Form', parent_form: 'case', form_group_id: 'm', fields: [
+        Field.new(
+          name: 'scores',
+          type: 'subform',
+          editable: true,
+          subform_section: @score_section,
+          display_name_en: 'Scores',
+          subform_sort_by: 'score_date'
+        ),
+        Field.create!(
+          name: 'most_recent_score',
+          display_name: 'Most Recent Score',
+          type: Field::NUMERIC_FIELD,
+          subform_summary: {
+            subform_field_name: 'scores',
+            first: { field_name: 'score', order_by: 'score_date', order: 'desc' }
+          }
+        )
+      ]
+    )
+
     role_self = Role.create!(
       name: 'Test Role 3',
       unique_id: 'test-role-3',
@@ -718,6 +747,18 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['errors'][0]['resource']).to eq('/api/v2/cases')
     end
 
+    it 'does not write in a subform summary fields' do
+      login_for_test
+      params = {
+        data: { name: 'Test', age: 12, sex: 'female', most_recent_score: 10 }
+      }
+      post '/api/v2/cases', params:, as: :json
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['most_recent_score']).to be_nil
+      expect(Child.find(json['data']['id']).data['most_recent_score']).to be_nil
+    end
+
     describe 'family' do
       it 'links a new case to a family' do
         login_for_test(
@@ -772,6 +813,8 @@ describe Api::V2::ChildrenController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@case1.id)
+      @case1.reload
+      expect(@case1.data['id']).to be_nil
     end
 
     it 'ignores unauthorized attributes' do

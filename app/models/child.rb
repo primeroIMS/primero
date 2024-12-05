@@ -48,6 +48,7 @@ class Child < ApplicationRecord
   include PhoneticSearchable
   include ReportableLocation
   include Normalizeable
+  include SubformSummarizable
 
   # rubocop:disable Naming/VariableNumber
   store_accessor(

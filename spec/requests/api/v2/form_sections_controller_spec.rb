@@ -102,6 +102,29 @@ describe Api::V2::FormSectionsController, type: :request do
         )
       ]
     )
+
+    @form6 = FormSection.create!(
+      unique_id: 'form_section_6',
+      name_i18n: { en: 'Form Section 6' },
+      parent_form: 'case',
+      editable: false,
+      fields: [
+        Field.new(
+          name: 'fs6_field_1',
+          type: Field::NUMERIC_FIELD,
+          display_name_i18n: { en: 'First field in form section' },
+          subform_summary: {
+            subform_field_name: 'scores',
+            first: {
+              field_name: 'score',
+              order_by: 'score_date',
+              order: 'desc'
+            }
+          },
+          editable: false
+        )
+      ]
+    )
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -114,8 +137,10 @@ describe Api::V2::FormSectionsController, type: :request do
         get '/api/v2/forms'
 
         expect(response).to have_http_status(200)
-        expect(json['data'].size).to eq(5)
-        expected = [@form1.unique_id, @form2.unique_id, @form3.unique_id, @form4.unique_id, @form5.unique_id]
+        expect(json['data'].size).to eq(6)
+        expected = [
+          @form1.unique_id, @form2.unique_id, @form3.unique_id, @form4.unique_id, @form5.unique_id, @form6.unique_id
+        ]
         expect(json['data'].map { |c| c['unique_id'] }).to match_array(expected)
       end
     end
@@ -128,8 +153,8 @@ describe Api::V2::FormSectionsController, type: :request do
         get('/api/v2/forms', params:)
 
         expect(response).to have_http_status(200)
-        expect(json['data'].size).to eq(4)
-        expected = [@form1.unique_id, @form2.unique_id, @form3.unique_id, @form5.unique_id]
+        expect(json['data'].size).to eq(5)
+        expected = [@form1.unique_id, @form2.unique_id, @form3.unique_id, @form5.unique_id, @form6.unique_id]
         expect(json['data'].map { |c| c['unique_id'] }).to match_array(expected)
       end
     end
@@ -240,11 +265,11 @@ describe Api::V2::FormSectionsController, type: :request do
           },
           fields: [
             {
-              'name': 'custom_field_by_api',
-              'type': 'separator',
-              'order': 777,
-              'display_name': {
-                'en': 'Custom Field by API'
+              name: 'custom_field_by_api',
+              type: 'separator',
+              order: 777,
+              display_name: {
+                en: 'Custom Field by API'
               }
             }
           ]
@@ -269,13 +294,13 @@ describe Api::V2::FormSectionsController, type: :request do
           unique_id: 'client_created_form_1', name: { en: 'Client Created Form 1' },
           fields: [
             {
-              'name': 'custom_field_0', 'type': 'separator', 'display_name': { 'en': 'Custom Field 1' }
+              name: 'custom_field_0', type: 'separator', display_name: { en: 'Custom Field 1' }
             },
             {
-              'name': 'custom_field_1', 'type': 'separator', 'display_name': { 'en': 'Custom Field 2' }
+              name: 'custom_field_1', type: 'separator', display_name: { en: 'Custom Field 2' }
             },
             {
-              'name': 'custom_field_2', 'type': 'separator', 'display_name': { 'en': 'Custom Field 3' }
+              name: 'custom_field_2', type: 'separator', display_name: { en: 'Custom Field 3' }
             }
           ]
         }
@@ -295,14 +320,14 @@ describe Api::V2::FormSectionsController, type: :request do
           unique_id: 'client_created_form_1', name: { en: 'Client Created Form 1' },
           fields: [
             {
-              'name': 'custom_field_0', 'type': 'separator', 'display_name': { 'en': 'Custom Field 1' }
+              name: 'custom_field_0', type: 'separator', display_name: { en: 'Custom Field 1' }
             },
             {
-              'name': 'custom_field_1', 'type': 'separator', 'display_name': { 'en': 'Custom Field 2' },
+              name: 'custom_field_1', type: 'separator', display_name: { en: 'Custom Field 2' },
               order: 777
             },
             {
-              'name': 'custom_field_2', 'type': 'separator', 'display_name': { 'en': 'Custom Field 3' }
+              name: 'custom_field_2', type: 'separator', display_name: { en: 'Custom Field 3' }
             }
           ]
         }
@@ -326,11 +351,11 @@ describe Api::V2::FormSectionsController, type: :request do
           },
           fields: [
             {
-              'name': 'custom_field_by_api',
-              'type': 'separator',
-              'display_name': {
-                'en': 'Custom Field by API',
-                'es': 'Campo personalizado por API'
+              name: 'custom_field_by_api',
+              type: 'separator',
+              display_name: {
+                en: 'Custom Field by API',
+                es: 'Campo personalizado por API'
               }
             }
           ]
@@ -607,6 +632,35 @@ describe Api::V2::FormSectionsController, type: :request do
       field = @form5.fields.last
       expect(field.name).to eq(params[:data][:fields][0][:name])
       expect(field.display_conditions_record).to be_nil
+    end
+
+    it 'does not make changes in the subform_summary' do
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
+
+      params = {
+        data: {
+          fields: [
+            {
+              name: 'fs6_field_1',
+              type: Field::NUMERIC_FIELD,
+              display_name_i18n: { en: 'First field in form section' },
+              subform_summary: { subform_field_name: 'new_scores' },
+              editable: false
+            }
+          ]
+        }
+      }
+
+      patch "/api/v2/forms/#{@form6.id}", params:, as: :json
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@form6.id)
+      expect(Field.find_by(name: 'fs6_field_1').subform_summary).to eq(
+        {
+          'subform_field_name' => 'scores',
+          'first' => { 'field_name' => 'score', 'order_by' => 'score_date', 'order' => 'desc' }
+        }
+      )
     end
 
     it "returns 403 if user isn't authorized to update records" do

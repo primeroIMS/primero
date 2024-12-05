@@ -131,8 +131,8 @@ class PermittedFieldService
   end
 
   # TODO:  The method is essentially duplicating some logic from permitted_field_names. DRY!
-  def permitted_fields_schema
-    schema = PERMITTED_CORE_FIELDS_SCHEMA.dup
+  def permitted_fields_schema(update = false)
+    schema = update ? PERMITTED_CORE_FIELDS_SCHEMA.except('id') : PERMITTED_CORE_FIELDS_SCHEMA.dup
     permitted_actions =
       PERMITTED_FIELDS_FOR_ACTION_SCHEMA.keys.select { |a| user.role.permits?(model_class.parent_form, a) }
     schema = schema.merge(PERMITTED_FIELDS_FOR_ACTION_SCHEMA.slice(*permitted_actions).values.reduce({}, :merge))

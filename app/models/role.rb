@@ -162,6 +162,10 @@ class Role < ApplicationRecord
     permits?(Permission::DASHBOARD, dashboard_name)
   end
 
+  def service_own_entries_only?
+    permits?(Permission::CASE, Permission::SERVICE_OWN_ENTRIES_ONLY)
+  end
+
   def dashboards
     dashboard_permissions = permissions.find { |p| p.resource == Permission::DASHBOARD }
     update_dashboard_permissions(dashboard_permissions)&.compact || []
@@ -215,6 +219,7 @@ class Role < ApplicationRecord
 
     ReportingLocation.new(field_key: ss_reporting_location.field_key,
                           admin_level: reporting_location_level,
+                          record_list_admin_level: ss_reporting_location.record_list_admin_level,
                           hierarchy_filter: ss_reporting_location.hierarchy_filter,
                           admin_level_map: ss_reporting_location.admin_level_map)
   end
