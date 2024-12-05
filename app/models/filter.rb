@@ -65,9 +65,9 @@ class Filter < ValueObject
     option_strings_source: 'lookup-gender'
   )
   GENDER_IDENTITY = Filter.new(
-    unique_id: 'gender_identity',
+    unique_id: 'gender',
     name: 'cases.filter_by.gender',
-    field_name: 'gender_identity',
+    field_name: 'gender',
     option_strings_source: 'lookup-gender-identity'
   )
   PROTECTION_CONCERNS = Filter.new(
@@ -131,10 +131,10 @@ class Filter < ValueObject
     option_strings_source: 'lookup-displacement-status',
     type: 'multi_select'
   )
-  PROTECTION_THREATS = Filter.new(
-    name: 'cases.filter_by.protection_threats',
-    field_name: 'protection_threats',
-    option_strings_source: 'lookup-protection-threats',
+  PROTECTION_RISKS = Filter.new(
+    name: 'cases.filter_by.protection_risks',
+    field_name: 'protection_risks',
+    option_strings_source: 'lookup-protection-risks',
     type: 'multi_select'
   )
   USER_GROUP = Filter.new(name: 'permissions.permission.user_group', field_name: 'owned_by_groups')
@@ -396,6 +396,18 @@ class Filter < ValueObject
     unique_id: 'family_location_current'
   )
 
+  SAFETY_PLAN_NEEDED = Filter.new(
+    name: 'cases.filter_by.safety_plan_needed',
+    field_name: 'safety_plan_needed',
+    option_strings_source: 'lookup-yes-no'
+  )
+
+  MHPSS_SUICIDAL_THOUGHTS_LAST_MONTH_MOST_RECENT = Filter.new(
+    name: 'cases.filter_by.mhpss_suicidal_thoughts_last_month_most_recent',
+    field_name: 'mhpss_suicidal_thoughts_last_month_most_recent',
+    option_strings_source: 'lookup-yes-no'
+  )
+
   class << self
     def filters(user, record_type)
       filters = case record_type
@@ -459,9 +471,11 @@ class Filter < ValueObject
       filters << DISPLACEMENT_STATUS
       filters << DISABILITY_STATUS
       filters << SOGIESC_SELF_IDENTIFYING
-      filters << PROTECTION_THREATS
+      filters << PROTECTION_RISKS
       filters << CURRENT_LOCATION
       filters << AGENCY_OFFICE
+      filters << SAFETY_PLAN_NEEDED
+      filters << MHPSS_SUICIDAL_THOUGHTS_LAST_MONTH_MOST_RECENT
       filters << USER_GROUP if user.user_group_filter?
       filters += reporting_location_filters(user)
       filters

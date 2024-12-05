@@ -73,7 +73,7 @@ class Ability
       # TODO-permission: replace the if staemnet with the super_user? and user_admin? functions
       if user.group_permission?(Permission::ALL) || user.group_permission?(Permission::ADMIN_ONLY)
         true
-      elsif user.group_permission?(Permission::GROUP)
+      elsif user.group_permission?(Permission::GROUP) || user.group_permission?(Permission::AGENCY)
         user.user_group_ids.include? instance.id
       else
         false
