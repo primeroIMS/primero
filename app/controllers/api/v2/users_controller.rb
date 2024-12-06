@@ -76,6 +76,6 @@ class Api::V2::UsersController < ApplicationApiController
   end
 
   def keep_user_signed_in
-    bypass_sign_in(@user) if @user.saved_change_to_encrypted_password?
+    bypass_sign_in(@user) if @user.saved_change_to_encrypted_password? && current_user == @user
   end
 end
