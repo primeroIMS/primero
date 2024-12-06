@@ -25,11 +25,32 @@ class ManagedReports::Indicators::ImprovedWellbeingAfterSupport < ManagedReports
                                     )
                                   end
 
-      join_searchable_values = if params['status'].present?
-                                 %(INNER JOIN searchable_values searchable_values
-                                   ON cases.id = searchable_values.record_id
-                                   AND searchable_values.record_type = 'Child')
-                               end
+      status_query = searchable_equal_value_multiple(params['status'])
+      join_statuses_values = if status_query.present?
+                               %(
+                                 INNER JOIN (
+                                   SELECT
+                                     record_id
+                                   FROM searchable_values
+                                   WHERE searchable_values.record_type = 'Child'
+                                   AND #{status_query}
+                                 ) AS statuses ON statuses.record_id = cases.id
+                               )
+                             end
+
+      scope_query = searchable_user_scope_query(current_user)
+
+      join_searchable_scope_query = if scope_query.present?
+                                      %(
+                                        INNER JOIN (
+                                          SELECT
+                                            DISTINCT(record_id)
+                                          FROM searchable_values
+                                          WHERE searchable_values.record_type = 'Child'
+                                          AND #{scope_query}
+                                        ) AS scope_ids ON scope_ids.record_id = cases.id
+                                      )
+                                    end
       %{
         WITH improvement_ranges_and_groups AS (
           SELECT
@@ -44,13 +65,15 @@ class ManagedReports::Indicators::ImprovedWellbeingAfterSupport < ManagedReports
             END AS improvement_range,
             data->>'sex' AS sex
           FROM cases
-          #{join_searchable_values}
+          #{join_statuses_values}
           #{join_searchable_datetimes}
-          WHERE (cases.data @? '$.next_steps ? (@ == "a_continue_protection_assessment")')
-          AND cases.data->>'psychsocial_assessment_score_initial' IS NOT NULL
-          AND cases.data->>'psychsocial_assessment_score_most_recent' IS NOT NULL
-          #{user_scope_query(current_user)&.prepend('AND ')}
-          #{searchable_equal_value_multiple(params['status'])&.prepend('AND ')}
+          #{join_searchable_scope_query}
+          WHERE (
+            cases.data @? '$[*]
+              ? (@.next_steps == "a_continue_protection_assessment")
+              ? (@.psychsocial_assessment_score_initial >= 0)
+              ? (@.psychsocial_assessment_score_most_recent >= 0)'
+          )
           #{searchable_date_range_query(date_param)&.prepend('AND ')}
         ),
         percentages AS (

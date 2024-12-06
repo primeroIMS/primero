@@ -110,10 +110,12 @@ class Child < ApplicationRecord
     ]
   end
 
-  def normalized_field_names
+  def self.normalized_field_names
     {
       'searchable_datetimes' => %w[registration_date date_closure created_at],
-      'searchable_values' => %w[sex workflow risk_level status],
+      'searchable_values' => %w[
+        sex workflow risk_level status associated_user_groups associated_user_agencies associated_user_names
+      ],
       'searchable_numerics' => %w[age]
     }
   end

@@ -3,6 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Class to hold SQL results
+# rubocop:disable Metrics/ClassLength
 class ManagedReports::SqlReportIndicator < ValueObject
   include ManagedReports::SqlQueryHelpers
 
@@ -112,6 +113,26 @@ class ManagedReports::SqlReportIndicator < ValueObject
       end
     end
 
+    def searchable_user_scope_query(current_user, table_name = 'searchable_values')
+      return if current_user.blank? || current_user.managed_report_scope_all?
+
+      if current_user.managed_report_scope == Permission::AGENCY
+        searchable_scope_query(table_name, 'associated_user_agencies', [current_user.agency.unique_id])
+      elsif current_user.managed_report_scope == Permission::GROUP
+        searchable_scope_query(table_name, 'associated_user_groups', current_user.user_group_unique_ids)
+      else
+        searchable_scope_query(table_name, 'associated_user_names', [current_user.user_name])
+      end
+    end
+
+    def searchable_scope_query(table_name, field_name, values)
+      field_name_query = ActiveRecord::Base.sanitize_sql_for_conditions(['%s.field_name', table_name])
+      value_query = ActiveRecord::Base.sanitize_sql_for_conditions(['%s.value', table_name])
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        ["(#{field_name_query} = ? AND #{value_query} IN (?))", field_name, values]
+      )
+    end
+
     def grouped_date_query(grouped_by_param, date_param, table_name = nil, hash_field = 'data', map_to = nil)
       return unless grouped_by_param.present? && date_param.present?
 
@@ -165,3 +186,4 @@ class ManagedReports::SqlReportIndicator < ValueObject
     ActiveRecord::Base.connection.execute(self.class.sql(current_user, params))
   end
 end
+# rubocop:enable Metrics/ClassLength
