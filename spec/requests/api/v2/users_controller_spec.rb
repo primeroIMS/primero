@@ -682,6 +682,21 @@ describe Api::V2::UsersController, type: :request do
       expect(controller.current_user).to eq(@user_d)
     end
 
+    it 'does not change logged in user session when password changed on another user' do
+      sign_in(@super_user)
+      params = {
+        data: {
+          password: 'primer0!',
+          password_confirmation: 'primer0!'
+        }
+      }
+      patch("/api/v2/users/#{@user_c.id}", params:)
+      expect(response).to have_http_status(200)
+      get('/api/v2/roles')
+      expect(response).to have_http_status(200)
+      expect(controller.current_user).to eq(@super_user)
+    end
+
     it "returns 403 if user isn't authorized to update users" do
       login_for_test
       params = {
