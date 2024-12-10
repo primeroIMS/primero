@@ -10,10 +10,12 @@ module Normalizeable
     has_many :searchable_values, as: :record
     has_many :searchable_numerics, as: :record
     has_many :searchable_datetimes, as: :record
+    has_many :searchable_booleans, as: :record
 
     accepts_nested_attributes_for :searchable_values, allow_destroy: true
     accepts_nested_attributes_for :searchable_numerics, allow_destroy: true
     accepts_nested_attributes_for :searchable_datetimes, allow_destroy: true
+    accepts_nested_attributes_for :searchable_booleans, allow_destroy: true
 
     before_save :save_normalized_data
   end
@@ -56,7 +58,7 @@ module Normalizeable
 
   def searchable_values_to_update(key)
     send(key).map do |searchable|
-      value = data[searchable.field_name]
+      value = searchable_value(searchable)
       searchable_attributes = { field_name: searchable.field_name, id: searchable.id }
       if searchable_multivalue?(searchable)
         searchable_attributes.merge(value: searchable.value, _destroy: value.exclude?(searchable.value))
@@ -64,6 +66,14 @@ module Normalizeable
         searchable_attributes.merge(value:)
       end
     end
+  end
+
+  def searchable_value(searchable)
+    value = data[searchable.field_name]
+    return value unless value.is_a?(SearchableBoolean)
+    return [true, 'true'].include?(value) unless value.is_a?(Array)
+
+    value.map { |elem| [true, 'true'].include?(elem) }
   end
 
   def searchable_multivalue?(searchable)

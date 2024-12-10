@@ -116,7 +116,8 @@ class Child < ApplicationRecord
       'searchable_values' => %w[
         sex workflow risk_level status associated_user_groups associated_user_agencies associated_user_names
       ],
-      'searchable_numerics' => %w[age]
+      'searchable_numerics' => %w[age],
+      'searchable_booleans' => %w[record_state not_edited_by_owner]
     }
   end
 
