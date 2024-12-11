@@ -1,7 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import {
-  MODULES,
   MRM_INSIGHTS_SUBREPORTS,
   GBV_INSIGHTS_SUBREPORTS,
   LOOKUPS,
@@ -34,6 +33,7 @@ const FILTER_OPTIONS = "filter_options";
 const DATE_OF_FIRST_REPORT = "date_of_first_report";
 const BY_OPTIONS = "by_options";
 const REFERRAL_TRANSFER_STATUS_OPTIONS = "referral_transfer_status_options";
+const MODULE = "module_id";
 
 const CTFMR_VERIFIED_DATE = "ctfmr_verified_date";
 const VERIFIED_CTFMR_TECHNICAL = "ctfmr_verified";
@@ -51,6 +51,7 @@ const FOLLOWUP_DATE = "followup_date";
 const GBV_STATISTICS = "gbv_statistics";
 const VIOLATIONS = "violations";
 
+export const MODULE_ID = "module_id";
 export const REPORTS = "reports";
 export const DATE_RANGE = "date_range";
 export const GROUPED_BY = "grouped_by";
@@ -107,6 +108,7 @@ export const WEEK_OPTION_IDS = [THIS_WEEK, LAST_WEEK, CUSTOM];
 export const EXPORT_INSIGHTS_PATH = "/managed_reports/export";
 export const INSIGHTS_EXPORTER_DIALOG = "insights_exporter_dialog";
 
+export const MODULE_ID_NAME = [MANAGED_REPORTS, FILTER_BY, MODULE_ID];
 export const DATE_RANGE_VIEW_BY_DISPLAY_NAME = [FIELDS, DATE_RANGE, VIEW_BY];
 export const DATE_RANGE_DISPLAY_NAME = [FIELDS, DATE_RANGE, DATE_RANGE];
 export const DATE_RANGE_FROM_DISPLAY_NAME = [FIELDS, DATE_RANGE, FROM];
@@ -185,6 +187,12 @@ export const SHARED_FILTERS = {
     type: DATE_FIELD,
     watchedInputs: DATE_RANGE,
     showIf: value => value === CUSTOM
+  },
+  [MODULE]: {
+    name: MODULE,
+    type: SELECT_FIELD,
+    display_name: MODULE_ID_NAME,
+    option_strings_source: OPTION_TYPES.MODULE
   }
 };
 
@@ -295,6 +303,7 @@ export const VIOLATIONS_FILTERS = [
   SHARED_FILTERS[DATE_RANGE],
   SHARED_FILTERS[FROM],
   SHARED_FILTERS[TO],
+  SHARED_FILTERS[MODULE],
   {
     name: DATE,
     display_name: FILTER_BY_DATE_DISPLAY_NAME,
@@ -337,6 +346,7 @@ export const SHARED_WORKFLOW_CONFIG = {
     RECORD_FILTERS[DATE_RANGE],
     RECORD_FILTERS[FROM],
     RECORD_FILTERS[TO],
+    SHARED_FILTERS[MODULE],
     RECORD_FILTERS[STATUS],
     {
       name: WORKFLOW,
@@ -353,270 +363,270 @@ export const SHARED_WORKFLOW_CONFIG = {
 };
 
 export const INSIGHTS_CONFIG = {
-  [MODULES.MRM]: {
-    violations: {
-      ids: MRM_INSIGHTS_SUBREPORTS,
-      localeKeys: [MANAGED_REPORTS, VIOLATIONS, REPORTS],
-      defaultFilterValues: DEFAULT_VIOLATION_FILTERS,
-      filters: VIOLATIONS_FILTERS.map(filter => FieldRecord(filter))
-    },
-    ghn_report: {
-      ids: GHN_REPORT_SUBREPORTS,
-      localeKeys: [MANAGED_REPORTS, GHN_REPORT_SUBREPORTS, REPORTS],
-      filters: [
-        SHARED_FILTERS[GROUPED_BY],
-        SHARED_FILTERS[DATE_RANGE],
-        SHARED_FILTERS[FROM],
-        SHARED_FILTERS[TO],
-        {
-          name: DATE,
-          type: HIDDEN_FIELD
-        }
-      ].map(filter => FieldRecord(filter)),
-      defaultFilterValues: {
-        [GROUPED_BY]: QUARTER,
-        [DATE_RANGE]: LAST_QUARTER,
-        [DATE]: GHN_DATE_FILTER
+  violations: {
+    ids: MRM_INSIGHTS_SUBREPORTS,
+    localeKeys: [MANAGED_REPORTS, VIOLATIONS, REPORTS],
+    defaultFilterValues: DEFAULT_VIOLATION_FILTERS,
+    filters: VIOLATIONS_FILTERS.map(filter => FieldRecord(filter))
+  },
+  ghn_report: {
+    ids: GHN_REPORT_SUBREPORTS,
+    localeKeys: [MANAGED_REPORTS, GHN_REPORT_SUBREPORTS, REPORTS],
+    filters: [
+      SHARED_FILTERS[GROUPED_BY],
+      SHARED_FILTERS[DATE_RANGE],
+      SHARED_FILTERS[FROM],
+      SHARED_FILTERS[TO],
+      {
+        name: DATE,
+        type: HIDDEN_FIELD
       }
-    },
-    individual_children: {
-      ids: INDIVIDUAL_CHILDREN,
-      localeKeys: [MANAGED_REPORTS, INDIVIDUAL_CHILDREN, REPORTS],
-      defaultFilterValues: DEFAULT_VIOLATION_FILTERS,
-      filters: [
-        ...VIOLATIONS_FILTERS,
-        {
-          name: VIOLATION_TYPE,
-          display_name: FILTER_BY_VIOLATION_TYPE_DISPLAY_NAME,
-          option_strings_source: LOOKUPS.violation_type,
-          multi_select: true,
-          type: SELECT_FIELD
-        }
-      ].map(filter => FieldRecord(filter))
+    ].map(filter => FieldRecord(filter)),
+    defaultFilterValues: {
+      [GROUPED_BY]: QUARTER,
+      [DATE_RANGE]: LAST_QUARTER,
+      [DATE]: GHN_DATE_FILTER
     }
   },
-  [MODULES.GBV]: {
-    gbv_statistics: {
-      ids: GBV_INSIGHTS_SUBREPORTS,
-      localeKeys: [MANAGED_REPORTS, GBV_STATISTICS, REPORTS],
-      defaultFilterValues: {
-        [GROUPED_BY]: MONTH,
-        [DATE_RANGE]: LAST_MONTH,
-        [DATE]: INCIDENT_DATE
-      },
-      filters: [
-        SHARED_FILTERS[GROUPED_BY],
-        SHARED_FILTERS[DATE_RANGE],
-        SHARED_FILTERS[FROM],
-        SHARED_FILTERS[TO],
-        {
-          name: DATE,
-          display_name: FILTER_BY_DATE_DISPLAY_NAME,
-          option_strings_text: [
-            {
-              id: DATE_OF_FIRST_REPORT,
-              display_name: [MANAGED_REPORTS, GBV_STATISTICS, FILTER_OPTIONS, DATE_OF_FIRST_REPORT]
-            },
-            { id: INCIDENT_DATE, display_name: [MANAGED_REPORTS, GBV_STATISTICS, FILTER_OPTIONS, INCIDENT_DATE] }
-          ],
-          watchedInputs: GROUPED_BY,
-          type: SELECT_FIELD,
-          handleWatchedInputs: value => ({
-            disabled: !value
-          })
-        }
-      ].map(filter => FieldRecord(filter))
-    }
+  individual_children: {
+    ids: INDIVIDUAL_CHILDREN,
+    localeKeys: [MANAGED_REPORTS, INDIVIDUAL_CHILDREN, REPORTS],
+    defaultFilterValues: DEFAULT_VIOLATION_FILTERS,
+    filters: [
+      ...VIOLATIONS_FILTERS,
+      {
+        name: VIOLATION_TYPE,
+        display_name: FILTER_BY_VIOLATION_TYPE_DISPLAY_NAME,
+        option_strings_source: LOOKUPS.violation_type,
+        multi_select: true,
+        type: SELECT_FIELD
+      }
+    ].map(filter => FieldRecord(filter))
   },
-  [MODULES.CP]: {
-    protection_concerns_report: {
-      ids: PROTECTION_CONCERNS_SUBREPORTS,
-      defaultFilterValues: {
-        [GROUPED_BY]: WEEK,
-        [DATE_RANGE]: LAST_WEEK,
-        [STATUS]: [STATUS_OPEN],
-        [DATE]: REGISTRATION_DATE,
-        [BY]: OWNED_BY_GROUPS
-      },
-      filters: [
-        RECORD_FILTERS[GROUPED_BY],
-        RECORD_FILTERS[DATE_RANGE],
-        RECORD_FILTERS[FROM],
-        RECORD_FILTERS[TO],
-        RECORD_FILTERS[STATUS],
-        {
-          name: PROTECTION_CONCERNS,
-          type: SELECT_FIELD,
-          display_name: PROTECTION_CONCERNS_DISPLAY_NAME,
-          multi_select: true,
-          option_strings_source: LOOKUPS.protection_concerns
-        },
-        RECORD_FILTERS[BY],
-        RECORD_FILTERS[CREATED_BY_GROUPS],
-        RECORD_FILTERS[OWNED_BY_GROUPS],
-        RECORD_FILTERS[CREATED_ORGANIZATION],
-        RECORD_FILTERS[OWNED_BY_AGENCY_ID],
-        RECORD_FILTERS[DATE]
-      ].map(filter => FieldRecord(filter))
+  gbv_statistics: {
+    ids: GBV_INSIGHTS_SUBREPORTS,
+    localeKeys: [MANAGED_REPORTS, GBV_STATISTICS, REPORTS],
+    defaultFilterValues: {
+      [GROUPED_BY]: MONTH,
+      [DATE_RANGE]: LAST_MONTH,
+      [DATE]: INCIDENT_DATE
     },
-    reporting_locations_report: {
-      ids: REPORTING_LOCATIONS_SUBREPORTS,
-      defaultFilterValues: {
-        [GROUPED_BY]: WEEK,
-        [DATE_RANGE]: LAST_WEEK,
-        [STATUS]: [STATUS_OPEN],
-        [DATE]: REGISTRATION_DATE,
-        [BY]: OWNED_BY_GROUPS
-      },
-      filters: [
-        RECORD_FILTERS[GROUPED_BY],
-        RECORD_FILTERS[DATE_RANGE],
-        RECORD_FILTERS[FROM],
-        RECORD_FILTERS[TO],
-        RECORD_FILTERS[STATUS],
-        {
-          name: REPORTING_LOCATIONS,
-          type: SELECT_FIELD,
-          display_name: REPORTING_LOCATIONS_DISPLAY_NAME,
-          option_strings_source: LOOKUPS.reporting_locations
-        },
-        RECORD_FILTERS[BY],
-        RECORD_FILTERS[CREATED_BY_GROUPS],
-        RECORD_FILTERS[OWNED_BY_GROUPS],
-        RECORD_FILTERS[CREATED_ORGANIZATION],
-        RECORD_FILTERS[OWNED_BY_AGENCY_ID],
-        RECORD_FILTERS[DATE]
-      ].map(filter => FieldRecord(filter))
+    filters: [
+      SHARED_FILTERS[GROUPED_BY],
+      SHARED_FILTERS[DATE_RANGE],
+      SHARED_FILTERS[FROM],
+      SHARED_FILTERS[TO],
+      {
+        name: DATE,
+        display_name: FILTER_BY_DATE_DISPLAY_NAME,
+        option_strings_text: [
+          {
+            id: DATE_OF_FIRST_REPORT,
+            display_name: [MANAGED_REPORTS, GBV_STATISTICS, FILTER_OPTIONS, DATE_OF_FIRST_REPORT]
+          },
+          { id: INCIDENT_DATE, display_name: [MANAGED_REPORTS, GBV_STATISTICS, FILTER_OPTIONS, INCIDENT_DATE] }
+        ],
+        watchedInputs: GROUPED_BY,
+        type: SELECT_FIELD,
+        handleWatchedInputs: value => ({
+          disabled: !value
+        })
+      }
+    ].map(filter => FieldRecord(filter))
+  },
+  protection_concerns_report: {
+    ids: PROTECTION_CONCERNS_SUBREPORTS,
+    defaultFilterValues: {
+      [GROUPED_BY]: WEEK,
+      [DATE_RANGE]: LAST_WEEK,
+      [STATUS]: [STATUS_OPEN],
+      [DATE]: REGISTRATION_DATE,
+      [BY]: OWNED_BY_GROUPS
     },
-    followups_report: {
-      ids: FOLLOWUPS_SUBREPORTS,
-      defaultFilterValues: {
-        [GROUPED_BY]: WEEK,
-        [DATE_RANGE]: LAST_WEEK,
-        [STATUS]: [STATUS_OPEN],
-        [DATE]: FOLLOWUP_DATE,
-        [BY]: OWNED_BY_GROUPS
+    filters: [
+      RECORD_FILTERS[GROUPED_BY],
+      RECORD_FILTERS[DATE_RANGE],
+      RECORD_FILTERS[FROM],
+      RECORD_FILTERS[TO],
+      SHARED_FILTERS[MODULE],
+      RECORD_FILTERS[STATUS],
+      {
+        name: PROTECTION_CONCERNS,
+        type: SELECT_FIELD,
+        display_name: PROTECTION_CONCERNS_DISPLAY_NAME,
+        multi_select: true,
+        option_strings_source: LOOKUPS.protection_concerns
       },
-      filters: [
-        RECORD_FILTERS[GROUPED_BY],
-        RECORD_FILTERS[DATE_RANGE],
-        RECORD_FILTERS[FROM],
-        RECORD_FILTERS[TO],
-        RECORD_FILTERS[STATUS],
-        {
-          name: FOLLOWUPS,
-          type: SELECT_FIELD,
-          display_name: FOLLOWUPS_DISPLAY_NAME,
-          multi_select: true,
-          option_strings_source: LOOKUPS.followup_type
-        },
-        RECORD_FILTERS[BY],
-        RECORD_FILTERS[CREATED_BY_GROUPS],
-        RECORD_FILTERS[OWNED_BY_GROUPS],
-        RECORD_FILTERS[CREATED_ORGANIZATION],
-        RECORD_FILTERS[OWNED_BY_AGENCY_ID],
-        RECORD_FILTERS[DATE]
-      ].map(filter => FieldRecord(filter))
+      RECORD_FILTERS[BY],
+      RECORD_FILTERS[CREATED_BY_GROUPS],
+      RECORD_FILTERS[OWNED_BY_GROUPS],
+      RECORD_FILTERS[CREATED_ORGANIZATION],
+      RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+      RECORD_FILTERS[DATE]
+    ].map(filter => FieldRecord(filter))
+  },
+  reporting_locations_report: {
+    ids: REPORTING_LOCATIONS_SUBREPORTS,
+    defaultFilterValues: {
+      [GROUPED_BY]: WEEK,
+      [DATE_RANGE]: LAST_WEEK,
+      [STATUS]: [STATUS_OPEN],
+      [DATE]: REGISTRATION_DATE,
+      [BY]: OWNED_BY_GROUPS
     },
-    services_report: {
-      ids: SERVICES_SUBREPORTS,
-      defaultFilterValues: {
-        [GROUPED_BY]: WEEK,
-        [DATE_RANGE]: LAST_WEEK,
-        [STATUS]: [STATUS_OPEN],
-        [DATE]: SERVICE_IMPLEMENTED_DAY_TIME,
-        [BY]: OWNED_BY_GROUPS
+    filters: [
+      RECORD_FILTERS[GROUPED_BY],
+      RECORD_FILTERS[DATE_RANGE],
+      RECORD_FILTERS[FROM],
+      RECORD_FILTERS[TO],
+      SHARED_FILTERS[MODULE],
+      RECORD_FILTERS[STATUS],
+      {
+        name: REPORTING_LOCATIONS,
+        type: SELECT_FIELD,
+        display_name: REPORTING_LOCATIONS_DISPLAY_NAME,
+        option_strings_source: LOOKUPS.reporting_locations
       },
-      filters: [
-        RECORD_FILTERS[GROUPED_BY],
-        RECORD_FILTERS[DATE_RANGE],
-        RECORD_FILTERS[FROM],
-        RECORD_FILTERS[TO],
-        RECORD_FILTERS[STATUS],
-        {
-          name: SERVICES,
-          type: SELECT_FIELD,
-          display_name: SERVICES_DISPLAY_NAME,
-          multi_select: true,
-          option_strings_source: LOOKUPS.service_type
-        },
-        RECORD_FILTERS[BY],
-        RECORD_FILTERS[CREATED_BY_GROUPS],
-        RECORD_FILTERS[OWNED_BY_GROUPS],
-        RECORD_FILTERS[CREATED_ORGANIZATION],
-        RECORD_FILTERS[OWNED_BY_AGENCY_ID],
-        RECORD_FILTERS[DATE]
-      ].map(filter => FieldRecord(filter))
+      RECORD_FILTERS[BY],
+      RECORD_FILTERS[CREATED_BY_GROUPS],
+      RECORD_FILTERS[OWNED_BY_GROUPS],
+      RECORD_FILTERS[CREATED_ORGANIZATION],
+      RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+      RECORD_FILTERS[DATE]
+    ].map(filter => FieldRecord(filter))
+  },
+  followups_report: {
+    ids: FOLLOWUPS_SUBREPORTS,
+    defaultFilterValues: {
+      [GROUPED_BY]: WEEK,
+      [DATE_RANGE]: LAST_WEEK,
+      [STATUS]: [STATUS_OPEN],
+      [DATE]: FOLLOWUP_DATE,
+      [BY]: OWNED_BY_GROUPS
     },
-    workflow_report: SHARED_WORKFLOW_CONFIG,
-    cases_workflow_report: {
-      ids: CASES_WORKFLOW_SUBREPORTS,
-      ...SHARED_WORKFLOW_CONFIG
-    },
-    violence_type_report: {
-      ids: VIOLENCE_TYPE_SUBREPORTS,
-      defaultFilterValues: {
-        [GROUPED_BY]: WEEK,
-        [DATE_RANGE]: LAST_WEEK,
-        [STATUS]: [STATUS_OPEN],
-        [DATE]: REGISTRATION_DATE,
-        [BY]: OWNED_BY_GROUPS
+    filters: [
+      RECORD_FILTERS[GROUPED_BY],
+      RECORD_FILTERS[DATE_RANGE],
+      RECORD_FILTERS[FROM],
+      RECORD_FILTERS[TO],
+      SHARED_FILTERS[MODULE],
+      RECORD_FILTERS[STATUS],
+      {
+        name: FOLLOWUPS,
+        type: SELECT_FIELD,
+        display_name: FOLLOWUPS_DISPLAY_NAME,
+        multi_select: true,
+        option_strings_source: LOOKUPS.followup_type
       },
-      filters: [
-        RECORD_FILTERS[GROUPED_BY],
-        RECORD_FILTERS[DATE_RANGE],
-        RECORD_FILTERS[FROM],
-        RECORD_FILTERS[TO],
-        RECORD_FILTERS[STATUS],
-        {
-          name: VIOLENCE_TYPE,
-          type: SELECT_FIELD,
-          display_name: VIOLENCE_TYPE_DISPLAY_NAME,
-          option_strings_source: "lookup lookup-gbv-sexual-violence-type"
-        },
-        RECORD_FILTERS[BY],
-        RECORD_FILTERS[CREATED_BY_GROUPS],
-        RECORD_FILTERS[OWNED_BY_GROUPS],
-        RECORD_FILTERS[CREATED_ORGANIZATION],
-        RECORD_FILTERS[OWNED_BY_AGENCY_ID],
-        RECORD_FILTERS[DATE]
-      ].map(filter => FieldRecord(filter))
+      RECORD_FILTERS[BY],
+      RECORD_FILTERS[CREATED_BY_GROUPS],
+      RECORD_FILTERS[OWNED_BY_GROUPS],
+      RECORD_FILTERS[CREATED_ORGANIZATION],
+      RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+      RECORD_FILTERS[DATE]
+    ].map(filter => FieldRecord(filter))
+  },
+  services_report: {
+    ids: SERVICES_SUBREPORTS,
+    defaultFilterValues: {
+      [GROUPED_BY]: WEEK,
+      [DATE_RANGE]: LAST_WEEK,
+      [STATUS]: [STATUS_OPEN],
+      [DATE]: SERVICE_IMPLEMENTED_DAY_TIME,
+      [BY]: OWNED_BY_GROUPS
     },
-    referrals_transfers_report: {
-      ids: REFERRAL_TRANSFERS_SUBREPORTS,
-      defaultFilterValues: {
-        [GROUPED_BY]: WEEK,
-        [DATE_RANGE]: LAST_WEEK,
-        [STATUS]: [STATUS_OPEN],
-        [DATE]: CREATED_AT,
-        [BY]: OWNED_BY_GROUPS,
-        [REFERRAL_TRANSFER_STATUS]: [ACCEPTED]
+    filters: [
+      RECORD_FILTERS[GROUPED_BY],
+      RECORD_FILTERS[DATE_RANGE],
+      RECORD_FILTERS[FROM],
+      RECORD_FILTERS[TO],
+      SHARED_FILTERS[MODULE],
+      RECORD_FILTERS[STATUS],
+      {
+        name: SERVICES,
+        type: SELECT_FIELD,
+        display_name: SERVICES_DISPLAY_NAME,
+        multi_select: true,
+        option_strings_source: LOOKUPS.service_type
       },
-      filters: [
-        RECORD_FILTERS[GROUPED_BY],
-        RECORD_FILTERS[DATE_RANGE],
-        RECORD_FILTERS[FROM],
-        RECORD_FILTERS[TO],
-        RECORD_FILTERS[STATUS],
-        RECORD_FILTERS[BY],
-        RECORD_FILTERS[CREATED_BY_GROUPS],
-        RECORD_FILTERS[OWNED_BY_GROUPS],
-        RECORD_FILTERS[CREATED_ORGANIZATION],
-        RECORD_FILTERS[OWNED_BY_AGENCY_ID],
-        {
-          name: REFERRAL_TRANSFER_STATUS,
-          type: SELECT_FIELD,
-          display_name: REFERRAL_TRANSFER_STATUS_DISPLAY_NAME,
-          multi_select: true,
-          option_strings_text: [
-            { id: INPROGRESS, display_name: [MANAGED_REPORTS, REFERRAL_TRANSFER_STATUS_OPTIONS, INPROGRESS] },
-            { id: ACCEPTED, display_name: [MANAGED_REPORTS, REFERRAL_TRANSFER_STATUS_OPTIONS, ACCEPTED] },
-            { id: REJECTED, display_name: [MANAGED_REPORTS, REFERRAL_TRANSFER_STATUS_OPTIONS, REJECTED] },
-            { id: DONE, display_name: [MANAGED_REPORTS, REFERRAL_TRANSFER_STATUS_OPTIONS, DONE] }
-          ]
-        },
-        RECORD_FILTERS[DATE]
-      ].map(filter => FieldRecord(filter))
-    }
+      RECORD_FILTERS[BY],
+      RECORD_FILTERS[CREATED_BY_GROUPS],
+      RECORD_FILTERS[OWNED_BY_GROUPS],
+      RECORD_FILTERS[CREATED_ORGANIZATION],
+      RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+      RECORD_FILTERS[DATE]
+    ].map(filter => FieldRecord(filter))
+  },
+  workflow_report: SHARED_WORKFLOW_CONFIG,
+  cases_workflow_report: {
+    ids: CASES_WORKFLOW_SUBREPORTS,
+    ...SHARED_WORKFLOW_CONFIG
+  },
+  violence_type_report: {
+    ids: VIOLENCE_TYPE_SUBREPORTS,
+    defaultFilterValues: {
+      [GROUPED_BY]: WEEK,
+      [DATE_RANGE]: LAST_WEEK,
+      [STATUS]: [STATUS_OPEN],
+      [DATE]: REGISTRATION_DATE,
+      [BY]: OWNED_BY_GROUPS
+    },
+    filters: [
+      RECORD_FILTERS[GROUPED_BY],
+      RECORD_FILTERS[DATE_RANGE],
+      RECORD_FILTERS[FROM],
+      RECORD_FILTERS[TO],
+      SHARED_FILTERS[MODULE],
+      RECORD_FILTERS[STATUS],
+      {
+        name: VIOLENCE_TYPE,
+        type: SELECT_FIELD,
+        display_name: VIOLENCE_TYPE_DISPLAY_NAME,
+        option_strings_source: "lookup lookup-gbv-sexual-violence-type"
+      },
+      RECORD_FILTERS[BY],
+      RECORD_FILTERS[CREATED_BY_GROUPS],
+      RECORD_FILTERS[OWNED_BY_GROUPS],
+      RECORD_FILTERS[CREATED_ORGANIZATION],
+      RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+      RECORD_FILTERS[DATE]
+    ].map(filter => FieldRecord(filter))
+  },
+  referrals_transfers_report: {
+    ids: REFERRAL_TRANSFERS_SUBREPORTS,
+    defaultFilterValues: {
+      [GROUPED_BY]: WEEK,
+      [DATE_RANGE]: LAST_WEEK,
+      [STATUS]: [STATUS_OPEN],
+      [DATE]: CREATED_AT,
+      [BY]: OWNED_BY_GROUPS,
+      [REFERRAL_TRANSFER_STATUS]: [ACCEPTED]
+    },
+    filters: [
+      RECORD_FILTERS[GROUPED_BY],
+      RECORD_FILTERS[DATE_RANGE],
+      RECORD_FILTERS[FROM],
+      RECORD_FILTERS[TO],
+      SHARED_FILTERS[MODULE],
+      RECORD_FILTERS[STATUS],
+      RECORD_FILTERS[BY],
+      RECORD_FILTERS[CREATED_BY_GROUPS],
+      RECORD_FILTERS[OWNED_BY_GROUPS],
+      RECORD_FILTERS[CREATED_ORGANIZATION],
+      RECORD_FILTERS[OWNED_BY_AGENCY_ID],
+      {
+        name: REFERRAL_TRANSFER_STATUS,
+        type: SELECT_FIELD,
+        display_name: REFERRAL_TRANSFER_STATUS_DISPLAY_NAME,
+        multi_select: true,
+        option_strings_text: [
+          { id: INPROGRESS, display_name: [MANAGED_REPORTS, REFERRAL_TRANSFER_STATUS_OPTIONS, INPROGRESS] },
+          { id: ACCEPTED, display_name: [MANAGED_REPORTS, REFERRAL_TRANSFER_STATUS_OPTIONS, ACCEPTED] },
+          { id: REJECTED, display_name: [MANAGED_REPORTS, REFERRAL_TRANSFER_STATUS_OPTIONS, REJECTED] },
+          { id: DONE, display_name: [MANAGED_REPORTS, REFERRAL_TRANSFER_STATUS_OPTIONS, DONE] }
+        ]
+      },
+      RECORD_FILTERS[DATE]
+    ].map(filter => FieldRecord(filter))
   }
 };
