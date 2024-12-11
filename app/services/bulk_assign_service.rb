@@ -11,9 +11,17 @@ class BulkAssignService
   end
 
   def assign_records!
-    @model_class.where(id: search_results_ids).find_in_batches(batch_size: 10) do |records|
+    # # Using unscope(:includes) to exclude eager loading, as relationships are not needed for this query.
+    search_records.records.unscope(:includes).in_batches(of: 10) do |records|
       assign_records_batch(records)
     end
+  end
+
+  def search_records
+    PhoneticSearchService.search(
+      @model_class, query:, phonetic:, filters: search_filters,
+                    sort: sort_order, scope: query_scope
+    )
   end
 
   private
@@ -39,10 +47,20 @@ class BulkAssignService
     )
   end
 
-  def search_results_ids
-    PhoneticSearchService.search(
-      @model_class, query:, filters: search_filters, pagination: { page: 1, per_page: Assign::MAX_BULK_RECORDS }
-    ).records.map(&:id)
+  def query_scope
+    @transitioned_by.record_query_scope(@model_class, @args[:id_search])
+  end
+
+  def sort_order
+    { order_by => @args[:order] || 'desc' }
+  end
+
+  def order_by
+    @order_by ||= @args[:order_by] || 'created_at'
+  end
+
+  def phonetic
+    @args.dig(:filters, :phonetic) || 'false'
   end
 
   def query
@@ -50,6 +68,6 @@ class BulkAssignService
   end
 
   def search_filters
-    SearchFilterService.new.build_filters(DestringifyService.destringify(@args[:filters], true))
+    SearchFilterService.new.build_filters(DestringifyService.destringify(@args[:filters].except(:phonetic).to_h, true))
   end
 end

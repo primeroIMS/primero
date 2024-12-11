@@ -27,7 +27,16 @@ class ApplicationApiController < ActionController::API
   end
 
   def record_id
+    return unless params[:id].is_a?(String)
+
     params[:id]
+  end
+
+  def metadata_record_ids
+    return [] unless params[:id].present?
+    return [params[:id]] if params[:id].is_a?(String)
+
+    params[:id].values
   end
 
   def authorize_all!(permission, records)

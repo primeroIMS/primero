@@ -128,7 +128,9 @@ class User < ApplicationRecord
     end
 
     def self_hidden_attributes
-      %w[role_unique_id identity_provider_unique_id user_name]
+      %w[role_unique_id identity_provider_unique_id user_name user_group_unique_ids agency_id
+         identity_provider_id reset_password_token reset_password_sent_at service_account
+         unlock_token locked_at failed_attempts identity_provider_sync]
     end
 
     def password_parameters

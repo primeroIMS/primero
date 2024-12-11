@@ -34,7 +34,7 @@ gem 'prawn-table',         '~> 0.2'    # PDF generation
 gem 'puma',                '~> 6.4'    # Ruby Rack server
 gem 'rack',                '~> 2.2'
 gem 'rack-attack',         '>= 6.6'    # Rack middleware to rate limit sensetive routes, such as those used for auth
-gem 'rails',               '6.1.7.8'
+gem 'rails',               '6.1.7.9'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files
