@@ -2033,6 +2033,7 @@ en:
     total: Total
     violations_total: Violations
     filter_by:
+      module_id: Module
       date: Date
       verification_status: Verification Status
       violation_type: Violation Type

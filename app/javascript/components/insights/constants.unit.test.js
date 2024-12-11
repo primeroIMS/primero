@@ -2,8 +2,6 @@
 
 import { expect } from "chai";
 
-import { MODULES } from "../../config";
-
 import * as constants from "./constants";
 
 describe("<Report /> - constants", () => {
@@ -87,7 +85,9 @@ describe("<Report /> - constants", () => {
       "FOLLOWUPS_DISPLAY_NAME",
       "SERVICES",
       "SERVICES_DISPLAY_NAME",
-      "SHARED_WORKFLOW_CONFIG"
+      "SHARED_WORKFLOW_CONFIG",
+      "MODULE_ID",
+      "MODULE_ID_NAME"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
@@ -98,11 +98,21 @@ describe("<Report /> - constants", () => {
 
   it("should have properties for INSIGHTS_CONFIG", () => {
     const clonedInsightsConfig = { ...constants.INSIGHTS_CONFIG };
-    // TODO: Will need to be fixed when restructing config object
-    const expectModuleKeys = [MODULES.MRM, MODULES.GBV, MODULES.CP, "primeromodule-pcm"];
 
-    expect(Object.keys(clonedInsightsConfig)).to.eql(expectModuleKeys);
-    expect(Object.keys(clonedInsightsConfig[MODULES.MRM])).to.eql(["violations", "ghn_report", "individual_children"]);
-    expect(Object.keys(clonedInsightsConfig[MODULES.GBV])).to.eql(["gbv_statistics"]);
+    expect(Object.keys(clonedInsightsConfig)).to.eql([
+      "violations",
+      "ghn_report",
+      "individual_children",
+      "gbv_statistics",
+      "protection_concerns_report",
+      "reporting_locations_report",
+      "followups_report",
+      "services_report",
+      "workflow_report",
+      "cases_workflow_report",
+      "violence_type_report",
+      "referrals_transfers_report",
+      "protection_outcomes"
+    ]);
   });
 });

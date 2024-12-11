@@ -12,7 +12,7 @@ function RadioInput({ commonInputProps, options, formMethods }) {
 
   return (
     <FormControl id={name} error={error} className={className}>
-      <FormLabel component="legend" className="MuiInputLabel-root">
+      <FormLabel component="label" className={css.radioLabel}>
         {radioGroupLabel}
       </FormLabel>
       <Controller

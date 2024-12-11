@@ -33,7 +33,8 @@ describe Api::V2::TokensController, type: :request do
 
     it 'enqueues an audit log job that records the login attempt' do
       metadata = {
-        user_name: @user.user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: nil, http_method: 'POST'
+        user_name: @user.user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: nil, http_method: 'POST',
+        record_ids: []
       }
       post '/api/v2/tokens', params: @params
       expect(AuditLogJob).to have_been_enqueued
