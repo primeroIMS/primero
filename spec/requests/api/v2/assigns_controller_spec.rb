@@ -132,12 +132,33 @@ describe Api::V2::AssignsController, type: :request do
 
       it 'raises Errors::ForbiddenOperation' do
         sign_in(@user1)
-        filters = { short_id: %w[fbd6839 4c7084f 2d4bc3d] }
+        filters = { id: Array.new(3) { SecureRandom.uuid } }
         params = { data: { transitioned_to: 'user2', notes: 'Test Notes', filters: } }
 
         post('/api/v2/cases/assigns', params:)
 
         expect(response).to have_http_status(403)
+      end
+    end
+
+    context 'when invalid filters are send' do
+      it 'returns a 422 error when the filters param is not specified' do
+        sign_in(@user1)
+        params = { data: { transitioned_to: 'user2', notes: 'Test Notes' } }
+        post('/api/v2/cases/assigns', params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['resource']).to eq('/api/v2/cases/assigns')
+      end
+
+      it 'returns a 200 when the filters param is sent' do
+        sign_in(@user1)
+        filters = { status: ['open'], record_state: ['true'], age: ['6..11'] }
+        params = { data: { transitioned_to: 'user2', notes: 'Test Notes', filters: } }
+        post('/api/v2/cases/assigns', params:)
+
+        expect(response).to have_http_status(200)
+        expect(json['errors']).to be_nil
       end
     end
   end
