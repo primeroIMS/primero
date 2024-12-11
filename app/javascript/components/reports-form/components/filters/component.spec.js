@@ -212,10 +212,11 @@ describe("<ReportFilters /> - Component", () => {
     describe("and the selectedRecordType is reportable_service", () => {
       it("should render the default service filters", () => {
         let appliedFilters = [];
+
         const componentProps = {
           ...props,
           allRecordForms: fromJS([
-            {
+            FormSectionRecord({
               id: 1,
               unique_id: "services",
               name: { en: "Services Section" },
@@ -248,7 +249,7 @@ describe("<ReportFilters /> - Component", () => {
                   })
                 })
               ]
-            }
+            })
           ]),
           indexes: [],
           setIndexes: filters => {
@@ -260,7 +261,7 @@ describe("<ReportFilters /> - Component", () => {
           formattedMinimumReportableFields
         };
 
-        mountedComponent(<ReportFilters {...componentProps} />, initialState);
+        mountedComponent(<ReportFilters {...componentProps} />);
 
         expect(appliedFilters.map(filter => filter.data.attribute)).toStrictEqual([
           "status",
