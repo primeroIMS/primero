@@ -74,6 +74,15 @@ class Incident < ApplicationRecord
         'date' => %w[incident_date_derived]
       }
     end
+
+    def normalized_field_names
+      {
+        'searchable_datetimes' => %w[created_at incident_date],
+        'searchable_values' => %w[status],
+        'searchable_numerics' => %w[age],
+        'searchable_booleans' => %w[record_state flagged]
+      }
+    end
   end
 
   after_initialize :set_unique_id
