@@ -2,8 +2,6 @@
 
 import { expect } from "chai";
 
-import { MODULES } from "../../config";
-
 import * as constants from "./constants";
 
 describe("<Report /> - constants", () => {
