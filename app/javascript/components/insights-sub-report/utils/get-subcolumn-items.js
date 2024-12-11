@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 
 const subColumLookupValues = (subColumnLookups, valueKey) => {
   if (subColumnLookups && subColumnLookups[valueKey]) {
@@ -52,5 +52,11 @@ export default ({
     return ageRangeOptions;
   }
 
-  return indicatorsSubcolumns.get(valueKey, fromJS([])).toJS();
+  const subcolumns = indicatorsSubcolumns.get(valueKey, fromJS([]));
+
+  if (List.isList(subcolumns)) {
+    return subcolumns.toJS();
+  }
+
+  return [];
 };

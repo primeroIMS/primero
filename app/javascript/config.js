@@ -668,6 +668,8 @@ const SERVICES_SUBREPORTS = ["services"];
 
 const REFERRAL_TRANSFERS_SUBREPORTS = ["total_transfers", "total_referrals"];
 
+const PROTECTION_OUTCOMES_SUBREPORTS = ["improved_wellbeing_after_support"];
+
 const VIOLENCE_TYPE_SUBREPORTS = ["cases_violence_type", "incidents_violence_type"];
 
 const CHART_COLORS = Object.freeze({
@@ -898,5 +900,6 @@ export {
   DATE_SORTABLE_FIELDS,
   NOTIFICATION_PERMISSIONS,
   POST_MESSAGES,
-  SERVICES_SUBFORM_FIELD
+  SERVICES_SUBFORM_FIELD,
+  PROTECTION_OUTCOMES_SUBREPORTS
 };

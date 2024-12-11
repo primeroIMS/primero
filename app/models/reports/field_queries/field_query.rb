@@ -4,6 +4,7 @@
 
 # Represents a query against a field
 class Reports::FieldQueries::FieldQuery < ValueObject
+  # TODO: This constants are not used.
   DATE_FORMAT = 'YYYY-MM-DD'
   DATE_TIME_FORMAT = "YYYY-MM-DD'T'HH:MI:SS"
 

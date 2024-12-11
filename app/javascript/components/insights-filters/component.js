@@ -58,7 +58,7 @@ function Component({ moduleID, id, subReport, toggleControls }) {
     resolver: yupResolver(
       validations(
         i18n,
-        insightsConfig.filters.map(filter => filter.name)
+        insightsConfig.filters?.map(filter => filter.name)
       )
     ),
     ...(defaultFilterValues && {

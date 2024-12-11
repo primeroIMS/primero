@@ -48,6 +48,14 @@ class TracingRequest < ApplicationRecord
       }
     end
 
+    def normalized_field_names
+      {
+        'searchable_datetimes' => %w[created_at inquiry_date],
+        'searchable_values' => %w[status],
+        'searchable_booleans' => %w[record_state]
+      }
+    end
+
     def phonetic_field_names
       %w[relation_name relation_nickname relation_other_family tracing_names tracing_nicknames]
     end
