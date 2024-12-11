@@ -8,7 +8,9 @@ export default ({
   recordReportingLocationHierarchy
 }) => {
   if (useReportingLocations === true && fieldName === reportingLocationConfig?.get("field_key")) {
-    return recordReportingLocationHierarchy?.split(".")[reportingLocationConfig?.get("admin_level")];
+    return recordReportingLocationHierarchy?.split(".")[
+      reportingLocationConfig?.get("record_list_admin_level", reportingLocationConfig?.get("admin_level"))
+    ];
   }
 
   return value;

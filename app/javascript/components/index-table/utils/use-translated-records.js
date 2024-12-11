@@ -87,18 +87,25 @@ export function useTranslatedRecords({
 
   const locationIDS = useMemo(() => buildLocationsList(records, columnsWithLookups), [records, columnsWithLookups]);
 
-  const locations = useOptions({
-    source: useReportingLocations ? LOOKUPS.reporting_locations : STRING_SOURCES_TYPES.LOCATION,
-    run: optionsList.includes(LOOKUPS.reporting_locations) || optionsList.includes(STRING_SOURCES_TYPES.LOCATION),
-    filterOptions: options => options.filter(location => locationIDS.includes(location.id)),
-    useIncidentReportingLocationConfig: recordType === RECORD_TYPES_PLURAL.incident
-  });
-
   const reportingLocationConfig = useMemoizedSelector(state =>
     useReportingLocations && recordType === RECORD_TYPES_PLURAL.incident
       ? getIncidentReportingLocationConfig(state)
       : getReportingLocationConfig(state)
   );
+
+  const recordListAdminLevel = reportingLocationConfig.get("record_list_admin_level");
+
+  const source =
+    useReportingLocations && !recordListAdminLevel ? LOOKUPS.reporting_locations : STRING_SOURCES_TYPES.LOCATION;
+
+  const locations = useOptions({
+    source,
+    run: optionsList.includes(LOOKUPS.reporting_locations) || optionsList.includes(STRING_SOURCES_TYPES.LOCATION),
+    filterOptions: options => options.filter(location => locationIDS.includes(location.id)),
+    useIncidentReportingLocationConfig: recordType === RECORD_TYPES_PLURAL.incident,
+    useReportingLocationName: Boolean(recordListAdminLevel),
+    level: recordListAdminLevel
+  });
 
   const reducedRecords = useCallback(
     () =>
