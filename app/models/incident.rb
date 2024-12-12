@@ -78,7 +78,7 @@ class Incident < ApplicationRecord
     def normalized_field_names
       {
         'searchable_datetimes' => %w[created_at incident_date],
-        'searchable_values' => %w[status],
+        'searchable_values' => %w[status associated_user_groups associated_user_agencies associated_user_names],
         'searchable_numerics' => %w[age],
         'searchable_booleans' => %w[record_state flagged]
       }
