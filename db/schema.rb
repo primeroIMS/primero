@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_12_05_000004) do
+ActiveRecord::Schema.define(version: 2024_12_12_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -142,7 +142,6 @@ ActiveRecord::Schema.define(version: 2024_12_05_000004) do
     t.uuid "registry_record_id"
     t.uuid "family_id"
     t.jsonb "phonetic_data"
-    t.index "((data -> 'unique_identifier'::text))", name: "cases_unique_identifier", using: :gin
     t.index "((data ->> 'case_id'::text))", name: "cases_case_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "cases_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_cases_on_data", using: :gin
@@ -530,7 +529,7 @@ ActiveRecord::Schema.define(version: 2024_12_05_000004) do
     t.uuid "record_id"
     t.string "field_name"
     t.boolean "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_booleans_filter_idx"
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_booleans_unique_idx", unique: true
     t.index ["record_type", "record_id"], name: "index_searchable_booleans_on_record"
   end
 
@@ -539,9 +538,7 @@ ActiveRecord::Schema.define(version: 2024_12_05_000004) do
     t.uuid "record_id"
     t.string "field_name"
     t.datetime "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_datetimes_filter_idx"
-    t.index ["field_name", "record_type", "record_id"], name: "searchable_datetimes_new_idx"
-    t.index ["field_name", "record_type"], name: "searchable_datetimes_record_type_field_name_idx"
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_datetimes_unique_idx", unique: true
     t.index ["record_type", "record_id"], name: "index_searchable_datetimes_on_record"
   end
 
@@ -559,7 +556,7 @@ ActiveRecord::Schema.define(version: 2024_12_05_000004) do
     t.uuid "record_id"
     t.string "field_name"
     t.integer "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_numerics_filter_idx"
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_numerics_unique_idx", unique: true
     t.index ["record_type", "record_id"], name: "index_searchable_numerics_on_record"
   end
 
@@ -568,7 +565,7 @@ ActiveRecord::Schema.define(version: 2024_12_05_000004) do
     t.uuid "record_id"
     t.string "field_name"
     t.string "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_values_filter_idx"
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_values_unique_idx", unique: true
     t.index ["record_type", "record_id"], name: "index_searchable_values_on_record"
   end
 
