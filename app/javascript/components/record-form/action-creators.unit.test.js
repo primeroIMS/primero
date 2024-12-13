@@ -46,7 +46,9 @@ describe("<RecordForm /> - Action Creators", () => {
       "setRedirectedToCreateNewRecord",
       "setSelectedForm",
       "setServiceToRefer",
-      "setValidationErrors"
+      "setValidationErrors",
+      "setTempInitialValues",
+      "clearTempInitialValues"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");

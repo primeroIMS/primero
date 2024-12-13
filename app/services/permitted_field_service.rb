@@ -20,6 +20,7 @@ class PermittedFieldService
     'registry_record_id' => { 'type' => '%w[string null]', 'format' => 'regex', 'pattern' => UUID_REGEX },
     'family_id' => { 'type' => '%w[string null]', 'format' => 'regex', 'pattern' => UUID_REGEX },
     'created_at' => { 'type' => 'date-time' },
+    'source_case_display_id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => UUID_REGEX },
     'owned_by' => { 'type' => 'string' },
     'module_id' => { 'type' => 'string', 'enum' => PrimeroModule.available_module_ids }
   }.freeze

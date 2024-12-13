@@ -224,7 +224,7 @@ describe("<ReportFilters /> - Component", () => {
               parent_form: "case",
               fields: [
                 FieldRecord({
-                  name: "nested_services",
+                  name: "services_section",
                   type: SUBFORM_SECTION,
                   subform_section_id: FormSectionRecord({
                     fields: [

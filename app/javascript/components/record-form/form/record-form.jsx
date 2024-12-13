@@ -13,7 +13,7 @@ import { useI18n } from "../../i18n";
 import { constructInitialValues, sortSubformValues } from "../utils";
 import { useMemoizedSelector } from "../../../libs";
 import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
-import { getDataProtectionInitialValues } from "../selectors";
+import { getDataProtectionInitialValues, getInitalValuesFromStore } from "../selectors";
 import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD } from "../constants";
 import { LEGITIMATE_BASIS } from "../../record-creation-flow/components/consent-prompt/constants";
 import renderFormSections from "../components/render-form-sections";
@@ -51,6 +51,7 @@ function RecordForm({
   const [formTouched, setFormTouched] = useState({});
   const [formIsSubmitting, setFormIsSubmitting] = useState(false);
   const dataProtectionInitialValues = useMemoizedSelector(state => getDataProtectionInitialValues(state));
+  const initialValuesFromStore = useMemoizedSelector(state => getInitalValuesFromStore(state));
 
   const formikValues = useRef();
   const bindedSetValues = useRef(null);
@@ -149,6 +150,12 @@ function RecordForm({
       setInitialValues({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
     }
   }, [incidentFromCase, recordType]);
+
+  useEffect(() => {
+    if (initialValuesFromStore) {
+      setInitialValues({ ...initialValues, ...initialValuesFromStore.toJS() });
+    }
+  }, [initialValuesFromStore]);
 
   useEffect(() => {
     if (bindedSetValues.current && initialValues && !isEmpty(formTouched) && !formIsSubmitting) {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_12_05_000000) do
+ActiveRecord::Schema.define(version: 2024_12_10_190223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -625,6 +625,7 @@ ActiveRecord::Schema.define(version: 2024_12_05_000000) do
     t.string "transitioned_to_user_agency"
     t.string "transitioned_to_user_groups", array: true
     t.string "authorized_role_unique_id"
+    t.boolean "allow_case_creation"
     t.index ["authorized_role_unique_id"], name: "index_transitions_on_authorized_role_unique_id"
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"
