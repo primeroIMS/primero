@@ -166,7 +166,7 @@ function Component({ filter, mode, moreSectionFilters = {}, multiple = true, res
   return (
     <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
       <Autocomplete
-        classes={{ root: css.select, ...listboxClasses }}
+        classes={{ paper: css.paper, root: css.select, ...listboxClasses }}
         ListboxComponent={virtualize(filterOptions.length)}
         disableListWrap
         multiple={multiple}

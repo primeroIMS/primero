@@ -7,12 +7,13 @@ class DataRemovalService
   RECORD_MODELS = [Child, Incident, TracingRequest].freeze
   DATA_MODELS = [
     Trace, Flag, Alert, Attachment, AuditLog, BulkExport, RecordHistory, SavedSearch, Transition, Violation,
-    SearchableIdentifier
+    SearchableIdentifier, SearchableValue, SearchableDatetime, SearchableNumeric, SearchableBoolean
   ].freeze
   METADATA_MODELS = [
     Agency, ContactInformation, Field, FormSection, Location, Lookup, PrimeroModule, PrimeroProgram, Report, Role,
     SystemSettings, UserGroup, ExportConfiguration, PrimeroConfiguration, Webhook, IdentityProvider
   ].freeze
+  # TODO: This format might be erroneous see report.rb#35
   DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:MI:SS'
 
   class << self

@@ -30,11 +30,26 @@ module ManagedReports::SqlQueryHelpers
 
       field_name = map_to || param.field_name
 
+      if param.respond_to?(:values)
+        SearchFilters::TextList.new(field_name:, column_name: hash_field, table_name:, values: param.values).query
+      else
+        SearchFilters::TextValue.new(field_name:, column_name: hash_field, table_name:, value: param.value).query
+      end
+    end
+
+    def searchable_equal_value_multiple(param, map_to = nil)
+      return unless param.present?
+
+      field_name = map_to || param.field_name
+
+      if param.respond_to?(:value)
+        return ActiveRecord::Base.sanitize_sql_for_conditions(
+          ['(searchable_values.field_name = ? AND searchable_values.value = ?)', field_name, param.value]
+        )
+      end
+
       ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          "#{quoted_query(table_name, hash_field)}->:field_name ?| array[:values]",
-          { values: param.respond_to?(:values) ? param.values : param.value, field_name: }
-        ]
+        ['(searchable_values.field_name = ? AND searchable_values.value IN (?))', field_name, param.values]
       )
     end
 
@@ -110,9 +125,23 @@ module ManagedReports::SqlQueryHelpers
         ]
       )
     end
-    # rubocop:enable Metrics/MethodLength
 
-    # rubocop:disable Metrics/MethodLength
+    def searchable_date_range_query(param)
+      return unless param.present?
+
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          %(
+            (
+              searchable_datetimes.field_name = :field_name AND
+              searchable_datetimes.value >= to_timestamp(:from, :date_format) AND
+              searchable_datetimes.value <= (to_timestamp(:to, :date_format) + interval '1 day' - interval '1 second')
+            )
+          ), { field_name: param.field_name, from: param.from, to: param.to, date_format: Report::DATE_FORMAT }
+        ]
+      )
+    end
+
     def date_range_hash_query(param, field_name, table_name = nil, hash_field = 'data')
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
@@ -131,30 +160,21 @@ module ManagedReports::SqlQueryHelpers
     # rubocop:enable Metrics/MethodLength
 
     def agency_scope_query(current_user, table_name = nil)
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          "#{quoted_query(table_name, 'data')} #> '{associated_user_agencies}' ?| array[:agencies]",
-          { agencies: [current_user.agency.unique_id] }
-        ]
-      )
+      SearchFilters::TextValue.new(
+        field_name: 'associated_user_agencies', value: current_user.agency.unique_id, table_name:
+      ).query
     end
 
     def group_scope_query(current_user, table_name = nil)
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          "#{quoted_query(table_name, 'data')} #> '{associated_user_groups}' ?| array[:groups]",
-          { groups: current_user.user_group_unique_ids }
-        ]
-      )
+      SearchFilters::TextList.new(
+        field_name: 'associated_user_groups', values: current_user.user_group_unique_ids, table_name:
+      ).query
     end
 
     def self_scope_query(current_user, table_name = nil)
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          "#{quoted_query(table_name, 'data')} #> '{associated_user_names}' ?| array[:user_names]",
-          { user_names: [current_user.user_name] }
-        ]
-      )
+      SearchFilters::TextValue.new(
+        field_name: 'associated_user_names', value: current_user.user_name, table_name:
+      ).query
     end
 
     def quoted_query(table_name, column_name)

@@ -42,6 +42,14 @@ class RegistryRecord < ApplicationRecord
                                  module_id name location_current registry_no]
     end
 
+    def normalized_field_names
+      {
+        'searchable_datetimes' => %w[created_at registration_date],
+        'searchable_values' => %w[status],
+        'searchable_booleans' => %w[record_state]
+      }
+    end
+
     def phonetic_field_names
       %w[name]
     end

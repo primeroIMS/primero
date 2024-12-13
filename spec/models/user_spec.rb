@@ -1056,6 +1056,35 @@ describe User do
     end
   end
 
+  describe '.permitted_api_params' do
+    before do
+      clean_data(User, Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, Child)
+      @module_cp = PrimeroModule.new(name: 'CP')
+      @module_cp.save(validate: false)
+
+      permission_case = Permission.new(
+        resource: Permission::CASE,
+        actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
+      )
+      @role = Role.new(permissions: [permission_case], modules: [@module_cp])
+      @role.save(validate: false)
+      @group1 = UserGroup.create!(name: 'Group1')
+      @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
+      @user1.save(validate: false)
+    end
+    context 'when user is not admin' do
+      it 'should not returm that are not allowed' do
+        expect(User.permitted_api_params(@user1, @user1)).not_to include(
+          *User.self_hidden_attributes
+        )
+      end
+    end
+
+    after do
+      clean_data(User, Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, Child)
+    end
+  end
+
   after do
     clean_data(Alert, User, Agency, Role, FormSection, Field)
   end

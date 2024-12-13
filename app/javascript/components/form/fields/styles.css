@@ -145,3 +145,8 @@
 .downloadButton {
   padding-top: 10px;
 }
+
+.radioLabel {
+  font-weight: bold;
+  color: var(--c-solid-black);
+}
