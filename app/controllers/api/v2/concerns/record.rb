@@ -12,28 +12,23 @@ module Api::V2::Concerns::Record
   included do
     before_action :display_permitted_forms
     before_action :instantiate_app_services
-    before_action :permit_fields, only: %i[index create]
+    before_action :permit_readable_fields, only: [:index]
     before_action :select_fields_for_index, only: [:index]
   end
 
   def index
     authorize! :index, model_class
-    search = PhoneticSearchService.search(
-      model_class, {
-        query: index_params[:query], phonetic: index_params[:phonetic], filters: search_filters,
-        sort: sort_order, scope: query_scope, pagination:
-      }
-    )
-    @total = search.total
-    @records = search.records
+    result = search_records
+    @total = result[:total]
+    @records = result[:records]
     render 'api/v2/records/index'
   end
 
   def show
     authorize! :read, model_class
     @record = find_record
-    permit_fields
     authorize! :read, @record
+    permit_readable_fields
     select_fields_for_show
     render 'api/v2/records/show'
   end
@@ -42,6 +37,7 @@ module Api::V2::Concerns::Record
     authorize_create! && validate_json!
     @record = model_class.new_with_user(current_user, record_params)
     @record.save!
+    permit_readable_fields
     select_updated_fields
     status = params[:data][:id].present? ? 204 : 200
     render 'api/v2/records/create', status:
@@ -49,10 +45,10 @@ module Api::V2::Concerns::Record
 
   def update
     @record = find_record
-    permit_fields
     authorize_update! && validate_json!
     @record.update_properties(current_user, record_params)
     @record.save!
+    permit_readable_fields
     select_updated_fields
     render 'api/v2/records/update'
   end
@@ -81,7 +77,7 @@ module Api::V2::Concerns::Record
     permitted_fields = @permitted_form_fields_service.permitted_fields(
       authorized_roles, model_class.parent_form, module_unique_id, write?
     )
-    action_fields = @permitted_field_service.permitted_fields_schema
+    action_fields = @permitted_field_service.permitted_fields_schema(update?)
     @json_validation_service = RecordJsonValidatorService.new(fields: permitted_fields,
                                                               schema_supplement: action_fields)
   end
@@ -94,9 +90,9 @@ module Api::V2::Concerns::Record
     @authorized_roles ||= [current_user.role]
   end
 
-  def permit_fields
+  def permit_readable_fields
     @permitted_field_names = @permitted_field_service.permitted_field_names(
-      module_unique_id, write?, update?, authorized_roles
+      module_unique_id, false, false, authorized_roles
     )
   end
 
@@ -167,6 +163,19 @@ module Api::V2::Concerns::Record
   end
 
   private
+
+  def search_records
+    search = PhoneticSearchService.search(
+      model_class, {
+        query: index_params[:query], phonetic: index_params[:phonetic], filters: search_filters,
+        sort: sort_order, scope: query_scope, pagination:
+      }
+    )
+    { total: search.total, records: search.records }
+  rescue ActiveRecord::StatementInvalid => e
+    Rails.logger.error(e)
+    { total: 0, records: model_class.none }
+  end
 
   def write?
     action_name.in?(%w[create update])

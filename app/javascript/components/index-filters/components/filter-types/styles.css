@@ -39,6 +39,13 @@
   width: 100%;
 }
 
+.paper {
+  & ul {
+    width: fit-content;
+    overflow: auto;
+  }
+}
+
 .dateContainer {
   width: 100%
 }

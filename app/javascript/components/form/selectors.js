@@ -213,7 +213,7 @@ const locations = memoize(([state, options]) => {
   return locationsParser(data, {
     ...options,
     locale,
-    adminLevel: options?.useReportingLocationName && reportingLocationData?.get("admin_level")
+    adminLevel: options?.useReportingLocationName && (options.level || reportingLocationData?.get("admin_level"))
   });
 });
 
@@ -221,7 +221,6 @@ const locations = memoize(([state, options]) => {
 const reportingLocations = memoize(([state, options]) => {
   const locale = getLocale(state);
   const data = locationList(state);
-
   const reportingLocationData = options?.useIncidentReportingLocationConfig
     ? getIncidentReportingLocationConfig(state)
     : getReportingLocationConfig(state);

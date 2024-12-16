@@ -139,8 +139,8 @@ describe Filter do
     end
 
     describe 'case filters' do
-      it 'has 24 filters' do
-        expect(@filters_cp[0]['cases'].count).to eq(24)
+      it 'has 26 filters' do
+        expect(@filters_cp[0]['cases'].count).to eq(26)
       end
 
       it 'has filters' do
@@ -246,8 +246,8 @@ describe Filter do
     end
 
     describe 'case filters' do
-      it 'has 25 filters' do
-        expect(@filters_cp_gbv[0]['cases'].count).to eq(25)
+      it 'has 27 filters' do
+        expect(@filters_cp_gbv[0]['cases'].count).to eq(27)
       end
 
       it 'has filters' do

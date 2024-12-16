@@ -4,7 +4,7 @@
 
 # API endpoints that handle record reassignment
 class Api::V2::AssignsController < Api::V2::RecordResourceController
-  before_action :bulk_approval_params, only: [:create_bulk]
+  before_action :bulk_assign_params, only: [:create_bulk]
   before_action :verify_bulk_records_size, only: [:create_bulk]
 
   def index
@@ -22,7 +22,7 @@ class Api::V2::AssignsController < Api::V2::RecordResourceController
 
   def create_bulk
     authorize_assign!(model_class)
-    BulkAssignRecordsJob.perform_later(model_class, current_user, bulk_approval_params)
+    BulkAssignRecordsJob.perform_later(model_class, current_user, bulk_assign_params)
   end
 
   private
@@ -43,10 +43,7 @@ class Api::V2::AssignsController < Api::V2::RecordResourceController
     transitioned_to = params[:data][:transitioned_to]
     notes = params[:data][:notes]
     transitioned_by = current_user.user_name
-    Assign.create!(
-      record:, transitioned_to:,
-      transitioned_by:, notes:
-    )
+    Assign.create!(record:, transitioned_to:, transitioned_by:, notes:)
   end
 
   def create_action_message
@@ -61,19 +58,19 @@ class Api::V2::AssignsController < Api::V2::RecordResourceController
     'bulk_assign'
   end
 
-  def bulk_approval_params
-    @bulk_approval_params ||= params.require(:data).permit(:transitioned_to, :notes, :query, { filters: {} }).to_h
+  def bulk_assign_params
+    @bulk_assign_params ||= params.require(:data)
+                                  .permit(:transitioned_to, :notes, :query, filters: {})
+                                  .tap { |data_param| data_param.require(:filters) }
   end
 
   def find_records
     @records = []
+    @records_total = BulkAssignService.new(model_class, current_user, bulk_assign_params).search_records.total
   end
 
   def verify_bulk_records_size
-    if @bulk_approval_params[:filters][:short_id].blank? ||
-       @bulk_approval_params[:filters][:short_id].length <= Assign::MAX_BULK_RECORDS
-      return
-    end
+    return if @records_total <= Assign::MAX_BULK_RECORDS
 
     raise(Errors::BulkAssignRecordsSizeError, 'case.messages.bulk_assign_limit')
   end
