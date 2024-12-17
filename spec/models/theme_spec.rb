@@ -30,6 +30,7 @@ RSpec.describe Theme, type: :model do
   end
 
   after do
+    Rails.configuration.use_theme = false
     clean_data(Theme)
   end
 end
