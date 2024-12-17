@@ -2,21 +2,18 @@ require 'rails_helper'
 
 RSpec.describe Theme, type: :model do
   before do
-    Rails.configuration.use_theme = true
     I18n.locale = :en
     # rubocop:disable Naming/VariableNumber
-    create(:theme,
-           data: {
-             email_signature: { en: 'email signature', fr: 'email signature fr' }
-           },
-           logo:,
-           logo_white: logo,
-           logo_pictorial_144: logo,
-           logo_pictorial_192: logo,
-           logo_pictorial_256: logo,
-           favicon: logo)
-    # rubocop:enable Naming/VariableNumber
-    @theme = Theme.default
+    @theme = create(:theme,
+                    data: {
+                      email_signature: { en: 'email signature', fr: 'email signature fr' }
+                    },
+                    logo:,
+                    logo_white: logo,
+                    logo_pictorial_144: logo,
+                    logo_pictorial_192: logo,
+                    logo_pictorial_256: logo,
+                    favicon: logo)
   end
 
   describe 't' do
@@ -30,7 +27,6 @@ RSpec.describe Theme, type: :model do
   end
 
   after do
-    Rails.configuration.use_theme = false
     clean_data(Theme)
   end
 end
