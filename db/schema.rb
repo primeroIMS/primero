@@ -142,7 +142,6 @@ ActiveRecord::Schema.define(version: 2024_12_10_190223) do
     t.uuid "registry_record_id"
     t.uuid "family_id"
     t.jsonb "phonetic_data"
-    t.index "((data -> 'unique_identifier'::text))", name: "cases_unique_identifier", using: :gin
     t.index "((data ->> 'case_id'::text))", name: "cases_case_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "cases_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_cases_on_data", using: :gin
@@ -540,8 +539,6 @@ ActiveRecord::Schema.define(version: 2024_12_10_190223) do
     t.string "field_name"
     t.datetime "value"
     t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_datetimes_filter_idx"
-    t.index ["field_name", "record_type", "record_id"], name: "searchable_datetimes_new_idx"
-    t.index ["field_name", "record_type"], name: "searchable_datetimes_record_type_field_name_idx"
     t.index ["record_type", "record_id"], name: "index_searchable_datetimes_on_record"
   end
 
@@ -664,7 +661,7 @@ ActiveRecord::Schema.define(version: 2024_12_10_190223) do
     t.string "transitioned_to_user_agency"
     t.string "transitioned_to_user_groups", array: true
     t.string "authorized_role_unique_id"
-    t.boolean "allow_case_creation"
+    t.boolean "allow_case_creation", default: false, null: false
     t.index ["authorized_role_unique_id"], name: "index_transitions_on_authorized_role_unique_id"
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"
