@@ -12,7 +12,6 @@ class RecordActionMailer < ApplicationMailer
     @approval_notification = approval_notification
     @subject = @approval_notification.subject
     @locale = @approval_notification.locale
-
     return unless @approval_notification.send_notification?
     return unless assert_notifications_enabled(@approval_notification.manager, Approval::NOTIFICATION_ACTIONS_REQUEST)
 

@@ -4,7 +4,7 @@
 
 # Superclass for all Mailers
 class ApplicationMailer < ActionMailer::Base
-  before_action :theme
+  before_action :load_theme
   before_action :system_admin
 
   layout 'mailer'
@@ -26,8 +26,8 @@ class ApplicationMailer < ActionMailer::Base
     end
   end
 
-  def theme
-    @theme = ThemeService.new
+  def load_theme
+    @theme = Theme.default
   end
 
   def system_admin

@@ -91,9 +91,21 @@ class Theme < ApplicationRecord
     system_name || product_name
   end
 
+  def t(key, locale)
+    data.dig(key, locale) || data.dig(key, I18n.locale.to_s) || ''
+  end
+
+  def get(key, default_value = '')
+    data[key] || default_value
+  end
+
   class << self
     def default
-      @default ||= new(DEFAULT_THEME)
+      @default ||= if Rails.configuration.use_theme
+                     where(disabled: false).order(created_at: :desc).first
+                   else
+                     new(DEFAULT_THEME)
+                   end
     end
 
     def create_or_update!(hash = {})
@@ -101,10 +113,6 @@ class Theme < ApplicationRecord
       theme.assign_attributes(hash)
       theme.save!
       theme
-    end
-
-    def current
-      where(disabled: false).order(created_at: :desc).first
     end
   end
 end

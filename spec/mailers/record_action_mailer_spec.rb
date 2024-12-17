@@ -48,7 +48,7 @@ describe RecordActionMailer, type: :mailer do
                                lookup_values_en: [{ 'id' => 'value1', 'display_text' => 'value1' }])
       role = create(:role, is_manager: true)
       @manager1 = create(:user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1',
-                            full_name: 'manager1')
+                                full_name: 'manager1')
       @manager2 = create(:user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2',
                                 settings: notification_settings, full_name: 'manager2')
       @manager3 = create(
@@ -57,7 +57,7 @@ describe RecordActionMailer, type: :mailer do
       )
       @manager4 = create(
         :user, role:, email: 'manager4@primero.dev', send_mail: true, user_name: 'manager4', disabled: true,
-                  full_name: 'manager1'
+               full_name: 'manager1'
       )
       @owner = create(:user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev',
                              settings: notification_settings)

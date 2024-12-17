@@ -13,7 +13,7 @@ class ThemesController < ApplicationController
   def manifest; end
 
   def theme
-    @theme = ThemeService.new.theme
+    @theme = Theme.default
   end
 
   def request_not_from_app_host?
