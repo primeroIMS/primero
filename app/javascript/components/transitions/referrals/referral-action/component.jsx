@@ -6,17 +6,40 @@ import PropTypes from "prop-types";
 import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { ACCEPTED, REJECTED, MODES } from "../../../../config";
+import { ACCEPTED, REJECTED, MODES, RECORD_TYPES_PLURAL } from "../../../../config";
 import { FieldRecord, FormSectionRecord, whichFormMode, TEXT_FIELD } from "../../../form";
 import FormSection from "../../../form/components/form-section";
 import { submitHandler } from "../../../form/utils/form-submission";
 import { useI18n } from "../../../i18n";
 import ActionDialog from "../../../action-dialog";
-import { DONE } from "../constants";
+import { CREATE_CASE, DONE } from "../constants";
+import { useMemoizedSelector } from "../../../../libs";
+import { getSelectedRecordData } from "../../../records";
+import { selectModule } from "../../../application";
 
-import { referralAccepted, referralDone, referralRejected } from "./action-creators";
 import { NAME, FORM_ID, FORM_NOTE_FIELD_ID } from "./constants";
+import { referralAccepted, referralCaseCreation, referralDone, referralRejected } from "./action-creators";
 
+function mapRecordForCaseCreation(record, creationMap) {
+  if (!creationMap) return {};
+
+  return creationMap.fields.reduce((prev, current) => {
+    return { ...prev, [current.target]: record.get(current.source, null) };
+  }, {});
+}
+
+function referralHeader(i18n, recordType, referralType, moduleID) {
+  const headers = {
+    [ACCEPTED]: "referral_accepted_header",
+    [CREATE_CASE]: "referral_create_case_header"
+  };
+
+  if (headers[referralType]) {
+    return i18n.t(`${recordType}.${headers[referralType]}`, moduleID ? { module_id: moduleID } : {});
+  }
+
+  return "";
+}
 function Component({
   openReferralDialog = false,
   close,
@@ -26,11 +49,13 @@ function Component({
   recordId,
   recordType,
   transistionId,
-  referralType
+  referralType,
+  caseCreationModule
 }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
-
+  const record = useMemoizedSelector(state => getSelectedRecordData(state, RECORD_TYPES_PLURAL.case));
+  const recordModule = useMemoizedSelector(state => selectModule(state, record.get("module_id"), false));
   const requiredMessage = i18n.t("form_section.required_field", { field: i18n.t("referral.rejected_reason") });
 
   const initialValues = { note_on_referral_from_provider: "", rejected_reason: "" };
@@ -95,6 +120,18 @@ function Component({
             recordId,
             recordType,
             transistionId
+          })
+        );
+        break;
+      case CREATE_CASE:
+        dispatch(
+          referralCaseCreation({
+            ...mapRecordForCaseCreation(
+              record,
+              recordModule?.creation_field_map?.find(fieldMap => fieldMap.map_to === caseCreationModule?.[0])
+            ),
+            source_case_display_id: record.get("case_id"),
+            module_id: caseCreationModule?.[0]
           })
         );
         break;
@@ -184,7 +221,7 @@ function Component({
       open={openReferralDialog}
       cancelHandler={handleCancel}
       successHandler={methods.handleSubmit(handleSubmit)}
-      dialogTitle={referralType === ACCEPTED ? i18n.t(`${recordType}.referral_accepted_header`) : ""}
+      dialogTitle={referralHeader(i18n, recordType, referralType, caseCreationModule?.[1])}
       pending={pending}
       omitCloseAfterSuccess
       confirmButtonLabel={i18n.t(confirmButtonLabel)}
@@ -199,6 +236,7 @@ function Component({
 Component.displayName = NAME;
 
 Component.propTypes = {
+  caseCreationModule: PropTypes.string,
   close: PropTypes.func,
   dialogName: PropTypes.string,
   openReferralDialog: PropTypes.bool,

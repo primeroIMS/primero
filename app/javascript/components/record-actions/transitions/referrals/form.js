@@ -197,6 +197,15 @@ const commonReferralFields = ({ isReferralFromService, isExternalReferralFromSer
       order: 4
     },
     {
+      display_name: i18n.t("referral.allow_case_creation"),
+      name: FIELDS.ALLOW_CASE_CREATION,
+      type: TICK_FIELD,
+      help_text: i18n.t("referral.allow_case_creation_help_text"),
+      disabled: false,
+      ...commonHandleWatched,
+      order: 98
+    },
+    {
       display_name: i18n.t("transfer.notes_label"),
       name: FIELDS.NOTES,
       type: TEXT_AREA,

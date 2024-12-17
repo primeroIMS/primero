@@ -60,7 +60,7 @@ class PrimeroModule < ApplicationRecord
     :workflow_status_indicator, :agency_code_indicator, :use_workflow_service_implemented,
     :use_workflow_case_plan, :use_workflow_assessment, :reporting_location_filter,
     :user_group_filter, :use_webhooks_for, :use_webhook_sync_for, :consent_form,
-    :list_filters, :list_headers
+    :list_filters, :list_headers, :creation_field_map
   )
 
   belongs_to :primero_program, optional: true
