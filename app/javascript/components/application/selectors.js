@@ -51,8 +51,11 @@ export const selectUserModules = state =>
     return userModules ? userModules.includes(m.unique_id) : false;
   });
 
-export const selectModule = (state, id) =>
-  selectUserModules(state).find(userModule => userModule.unique_id === id, null, fromJS({}));
+export const selectModule = (state, id, fromUserModule = true) => {
+  const moduleState = fromUserModule ? selectUserModules(state) : selectModules(state);
+
+  return moduleState.find(userModule => userModule.unique_id === id, null, fromJS({}));
+};
 
 export const getWorkflowLabels = (state, id, recordType) => {
   if (id) {

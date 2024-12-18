@@ -14,12 +14,13 @@ import { ACCEPTED, REJECTED } from "../../../../config";
 import RevokeModal from "../revoke-modal";
 import TransferApproval from "../../transfers/transfer-approval";
 import ReferralAction from "../../referrals/referral-action";
-import { DONE, REFERRAL_DONE_DIALOG } from "../../referrals/constants";
+import { CREATE_CASE, DONE, REFERRAL_DONE_DIALOG } from "../../referrals/constants";
 import { TRANSFER_APPROVAL_DIALOG } from "../../transfers/constants";
 import { useDialog } from "../../../action-dialog";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMemoizedSelector } from "../../../../libs";
+import { selectUserModules } from "../../../application";
 
 import { NAME, REVOKE_MODAL } from "./constants";
 
@@ -31,7 +32,8 @@ function Component({ transition, showMode, recordType, classes }) {
     status,
     transitioned_to: transitionedTo,
     type,
-    user_can_accept_or_reject: userCanAcceptOrReject
+    user_can_accept_or_reject: userCanAcceptOrReject,
+    allow_case_creation: allowCaseCreation
   } = transition;
 
   const transitionType = type.toLowerCase();
@@ -48,6 +50,9 @@ function Component({ transition, showMode, recordType, classes }) {
   ]);
 
   const [transitionStatus, setTransitionStatus] = useState(ACCEPTED);
+  const [caseCreationModule, setCaseCreationModule] = useState();
+
+  const userModules = useMemoizedSelector(state => selectUserModules(state));
 
   const setRevokeDialog = open => setDialog({ dialog: revokeModalName, open });
   const setOpenTransitionDialog = open =>
@@ -58,9 +63,10 @@ function Component({ transition, showMode, recordType, classes }) {
   const isInProgress = status === TRANSITION_STATUS.inProgress;
   const isAccepted = status === ACCEPTED;
 
-  const { canReceiveReferral, canRevokeTransition } = usePermissions(recordType, {
+  const { canReceiveReferral, canRevokeTransition, canCreateCaseFromReferral } = usePermissions(recordType, {
     canReceiveReferral: [ACTIONS.RECEIVE_REFERRAL, ACTIONS.MANAGE],
-    canRevokeTransition: [ACTIONS.REMOVE_ASSIGNED_USERS, ACTIONS.MANAGE]
+    canRevokeTransition: [ACTIONS.REMOVE_ASSIGNED_USERS, ACTIONS.MANAGE],
+    canCreateCaseFromReferral: [ACTIONS.CREATE_CASE_FROM_REFERRAL, ACTIONS.MANAGE]
   });
   const isCurrentUserRecipient = transitionedTo === username;
 
@@ -91,6 +97,12 @@ function Component({ transition, showMode, recordType, classes }) {
     setOpenTransitionDialog(true);
   };
 
+  const handleCreateCase = async (moduleID, moduleName) => {
+    await setOpenTransitionDialog(true);
+    await setCaseCreationModule([moduleID, moduleName]);
+    setTransitionStatus(CREATE_CASE);
+  };
+
   const options = [
     {
       name: i18n.t("actions.revoke"),
@@ -115,7 +127,13 @@ function Component({ transition, showMode, recordType, classes }) {
       name: i18n.t("buttons.done"),
       condition: showReferralDone,
       action: event => handleDoneOpen(event)
-    }
+    },
+    ...userModules.map(module => ({
+      name: i18n.t("buttons.referral_create_case", { module_id: module.name }),
+      condition:
+        transitionType === TRANSITIONS_TYPES.referral && canCreateCaseFromReferral && isAccepted && allowCaseCreation,
+      action: () => handleCreateCase(module.unique_id, module.name)
+    }))
   ];
 
   const handleClick = event => {
@@ -212,6 +230,7 @@ function Component({ transition, showMode, recordType, classes }) {
           recordType={recordType}
           dialogName={referralModalName}
           referralType={transitionStatus}
+          caseCreationModule={caseCreationModule}
         />
       )}
     </div>

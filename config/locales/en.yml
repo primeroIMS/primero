@@ -159,6 +159,7 @@ en:
     close: Close
     continue: Continue
     create_case: Create Case
+    referral_create_case: Create %{module_id} Case
     create_incident: Create Incident
     create_new_record: Create New %{model}
     delete: Delete
@@ -430,6 +431,9 @@ en:
     referral_done: Clicking 'Done' signifies that you have completed the referral
       work associated with this case. Once you click 'Done' you will no longer have
       access to this record.
+    referral_create_case_header: Create %{module_id} Case
+    referral_create_case: Are you sure? You will now be responsible for completing work
+      associated with this Referral.
     referral_done_success: Referral done.
     referral_accepted_header: Accept Referral
     referral_accepted: Are you sure? You will now be responsible for completing work
@@ -2527,6 +2531,7 @@ en:
       write: Write
       activity_log: Activity Log
       remove_alert: Remove Alert
+      create_case_from_referral: Create a case from a referral
     resource:
       kpi:
         actions:
@@ -2695,6 +2700,9 @@ en:
               is needed for this action. Unlike with transfers, the recipient is not
               given the chance to accept or reject the assignment.
             label: Assign to user within my user group
+          create_case_from_referral:
+            label: Create a case from a referral
+            explanation: User can create a case from a referral
           change_log:
             explanation: User can see a history of all changes made to the record
               since it was created. This includes values recorded for all fields.
@@ -4102,6 +4110,8 @@ en:
     user_mandatory_label: Recipient is required
     date: Date
     rejected_reason: Rejection Reason
+    allow_case_creation: Allow case creation with this referral
+    allow_case_creation_help_text: Checking this box will allow the recipient to create their own case record to provide case management services for the client.
   report:
     aggregate_by: Group by row
     attribute: Attribute

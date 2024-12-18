@@ -661,6 +661,7 @@ ActiveRecord::Schema.define(version: 2024_12_12_000000) do
     t.string "transitioned_to_user_agency"
     t.string "transitioned_to_user_groups", array: true
     t.string "authorized_role_unique_id"
+    t.boolean "allow_case_creation", default: false, null: false
     t.index ["authorized_role_unique_id"], name: "index_transitions_on_authorized_role_unique_id"
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"

@@ -20,7 +20,7 @@ describe("<ReferralAction /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    ["referralAccepted", "referralDone", "referralRejected"].forEach(method => {
+    ["referralAccepted", "referralDone", "referralRejected", "referralCaseCreation"].forEach(method => {
       expect(creators).to.have.property(method);
       expect(creators[method]).to.be.a("function");
       delete creators[method];
