@@ -8,7 +8,5 @@ class CreateSearchableBooleans < ActiveRecord::Migration[6.1]
       t.string :field_name
       t.boolean :value
     end
-
-    add_index :searchable_booleans, %i[field_name record_id record_type value], name: 'searchable_booleans_filter_idx'
   end
 end
