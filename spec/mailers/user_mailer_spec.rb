@@ -6,7 +6,6 @@ require 'rails_helper'
 
 describe UserMailer, type: :mailer do
   before do
-    allow(SystemSettings).to receive(:default).and_return(theme)
     allow(User).to receive(:find).with(1).and_return(user)
     allow(User).to receive(:find).with(2).and_return(admin)
   end
