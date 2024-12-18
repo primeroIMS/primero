@@ -61,7 +61,9 @@ module Normalizeable
       value = searchable_value(searchable)
       searchable_attributes = { field_name: searchable.field_name, id: searchable.id }
       if searchable_multivalue?(searchable)
-        searchable_attributes.merge(value: searchable.value, _destroy: value.exclude?(searchable.value))
+        next(searchable_attributes.merge(value: searchable.value)) unless value.exclude?(searchable.value)
+
+        searchable_attributes.merge(value: searchable.value, _destroy: true)
       else
         searchable_attributes.merge(value:)
       end

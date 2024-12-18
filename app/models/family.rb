@@ -40,7 +40,7 @@ class Family < ApplicationRecord
     def normalized_field_names
       {
         'searchable_datetimes' => %w[created_at registration_date],
-        'searchable_values' => %w[status],
+        'searchable_values' => %w[status associated_user_groups associated_user_agencies associated_user_names],
         'searchable_booleans' => %w[record_state]
       }
     end

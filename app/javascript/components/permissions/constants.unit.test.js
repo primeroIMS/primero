@@ -104,6 +104,7 @@ describe("Verifying config constant", () => {
       "LINK_FAMILY_RECORD",
       "MANAGE",
       "MARK_FOR_OFFLINE",
+      "PROTECTION_OUTCOMES",
       "READ",
       "RECEIVE_REFERRAL",
       "RECEIVE_TRANSFER",
