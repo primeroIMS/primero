@@ -131,6 +131,19 @@ RSpec.configure do |config|
   end
 
   config.before(:each) { I18n.locale = I18n.default_locale = :en }
+
+  # Uncomment if you need to route stdout into the rspec logs,
+  # useful to debug buried errors, or CI pipelines
+  # config.before(:suite) do
+  #   Rails.logger = Logger.new($stdout)
+  #   Rails.logger.level = Logger::ERROR # Adjust the log level as needed
+  # end
+  # # Optional: if you want each example to include logs for better context
+  # config.before(:each) do
+  #   allow(Rails.logger).to receive(:error) do |message|
+  #     puts "[Rails.logger.error] #{message}"
+  #   end
+  # end
 end
 
 def stub_env(new_env)

@@ -10,7 +10,7 @@ export default {
       <% end %>
     <% end %>
     <% if @theme.login_background.present? %>
-    loginBackgroundImage: "url('<%= "https://#{Rails.application.routes.default_url_options[:host]}" %><%= rails_blob_path(@theme.login_background, only_path: true) %>')"
+    loginBackgroundImage: "url('<%= url_to_asset(rails_blob_path(@theme.login_background, only_path: true)) %>')"
     <% end %>
   },
   images: {
@@ -31,4 +31,3 @@ export default {
   }
   <% end %>
 }
-

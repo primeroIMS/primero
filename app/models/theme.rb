@@ -20,19 +20,17 @@ class Theme < ApplicationRecord
     site_title: 'Primero',
     product_name: 'Primero',
     system_name: nil,
-    site_description: 'Primero is an open source software platform that helps social services,
-    humanitarian and development workers manage protection-related data, with tools that facilitate case management,
-    incident monitoring and family tracing and reunification.',
-    email_disclaimer_pre: { en: 'DO NOT REPLY TO THIS EMAIL' },
+    site_description: { en: I18n.t('email.site_description', locale: :en) },
+    email_disclaimer_pre: { en: I18n.t('email.email_disclaimer_pre', locale: :en) },
     email_disclaimer: { en: '' },
     email_copyright: { en: '' },
     email_warning: { en: '' },
-    email_welcome_greeting: { en: 'Welcome to the Primero team' },
-    email_welcome_closing: { en: 'Welcome to the Primero Community' },
+    email_welcome_greeting: { en: I18n.t('email.email_welcome_greeting', locale: :en) },
+    email_welcome_closing: { en: I18n.t('email.email_welcome_closing', locale: :en) },
     email_instructional_video: '',
-    email_closing: { en: 'At your service' },
-    email_signature: { en: 'Primero team' },
-    email_admin_name: { en: 'System Administrator' },
+    email_closing: { en: I18n.t('email.email_closing', locale: :en) },
+    email_signature: { en: I18n.t('email.email_signature', locale: :en) },
+    email_admin_name: { en: I18n.t('email.email_admin_name', locale: :en) },
     email_help_links: [],
     email_link_color: '#0093B8',
     email_footer_background_color: '#F3F3F3',
@@ -100,8 +98,8 @@ class Theme < ApplicationRecord
   end
 
   class << self
-    def default
-      @default ||= if Rails.configuration.use_theme
+    def current
+      @current ||= if Rails.configuration.use_theme
                      where(disabled: false).order(created_at: :desc).first
                    else
                      new(DEFAULT_THEME)

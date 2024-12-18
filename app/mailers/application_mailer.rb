@@ -27,7 +27,7 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def load_theme
-    @theme = Theme.default
+    @theme = Theme.current
   end
 
   def system_admin
