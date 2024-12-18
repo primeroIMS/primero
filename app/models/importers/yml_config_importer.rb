@@ -19,7 +19,7 @@ class Importers::YmlConfigImporter < ValueObject
     filename_str = filename.downcase
 
     if filename_str.include?('system')
-      ['Theme']
+      %w[Theme]
     elsif filename_str.include?('lookup')
       'Lookup'
     else
