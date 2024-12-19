@@ -39,7 +39,7 @@ class Theme < ApplicationRecord
       'manifestThemeColor' => '#0093ba'
     },
     revision: SecureRandom.uuid
-  }.freeze.with_indifferent_access
+  }.with_indifferent_access.freeze
 
   PICTORIAL_SIZES = %w[144 192 256].freeze
 
