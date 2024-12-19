@@ -7,7 +7,7 @@ class SubformSummaryFieldsService
   attr_accessor :with_cache
 
   def self.instance
-    @instance ||= new(Rails.configuration.use_app_cache)
+    new(Rails.configuration.use_app_cache)
   end
 
   alias with_cache? with_cache
