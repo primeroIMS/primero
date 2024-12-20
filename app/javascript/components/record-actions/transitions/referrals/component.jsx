@@ -35,6 +35,7 @@ function Referrals({
   formID,
   providedConsent,
   canConsentOverride,
+  allowCaseCreationFromReferral,
   record,
   recordType,
   setDisabled,
@@ -71,7 +72,8 @@ function Referrals({
     recordModuleID: record?.get("module_id"),
     isReferralFromService,
     isExternalReferralFromService,
-    hasReferralRoles: !referralAuthorizationRoles.isEmpty()
+    hasReferralRoles: !referralAuthorizationRoles.isEmpty(),
+    allowCaseCreationFromReferral
   });
 
   const handleSubmit = values => {
@@ -152,6 +154,7 @@ function Referrals({
 Referrals.displayName = "Referrals";
 
 Referrals.propTypes = {
+  allowCaseCreationFromReferral: PropTypes.bool,
   canConsentOverride: PropTypes.bool,
   formID: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,

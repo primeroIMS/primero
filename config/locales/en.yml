@@ -432,8 +432,7 @@ en:
       work associated with this case. Once you click 'Done' you will no longer have
       access to this record.
     referral_create_case_header: Create %{module_id} Case
-    referral_create_case: Are you sure? You will now be responsible for completing work
-      associated with this Referral.
+    referral_create_case: Are you sure? You will be responsible for managing the Case you create.
     referral_done_success: Referral done.
     referral_accepted_header: Accept Referral
     referral_accepted: Are you sure? You will now be responsible for completing work

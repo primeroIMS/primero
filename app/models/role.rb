@@ -127,6 +127,15 @@ class Role < ApplicationRecord
         end
       end
     end
+
+    def create_case_from_referral?
+      list.any? do |role|
+        role.permissions&.any? do |permission|
+          Permission.records.include?(permission.resource) &&
+            permission.actions.include?(Permission::CREATE_CASE_FROM_REFERRAL)
+        end
+      end
+    end
   end
 
   def permitted_forms(record_type = nil, visible_only = false, include_subforms = false)
