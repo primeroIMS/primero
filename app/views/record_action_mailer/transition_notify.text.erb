@@ -1,15 +1,12 @@
 <%# Copyright (c) 2014 - 2023 UNICEF. All rights reserved. %>
 
-===============================================
-
 <%= t("email_notification.#{@transition_notification.transition&.key}",
       user: @transition_notification.transition&.transitioned_by,
       agency: @transition_notification.transition&.transitioned_by_user&.agency&.name,
       record_type: t("forms.record_types.#{@transition_notification.record.class&.parent_form}"),
-      record_id: link_to(
-          @transition_notification.record&.short_id, url_for_v2(@transition_notification.record)
-      ),
+      record_id: "#{@transition_notification&.record&.short_id} (#{url_for_v2(@transition_notification&.record)})",
       service_type: @transition_notification.transition&.service,
-      locale: @transition_notification&.locale
+      locale: @transition_notification&.locale,
+      login_url: "#{I18n.t('email.login')} (#{url_for(root_url)})"
      ).html_safe
 %>

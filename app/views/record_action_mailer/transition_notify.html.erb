@@ -1,22 +1,16 @@
 <%# Copyright (c) 2014 - 2023 UNICEF. All rights reserved. %>
 
-<!DOCTYPE html>
-<html lang="<%= @transition_notification&.locale %>">
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-  </head>
-  <body>
-    <p><%= t("email_notification.#{@transition_notification.transition&.key}_html",
-             user: @transition_notification.transition&.transitioned_by,
-             agency: @transition_notification.transition&.transitioned_by_user&.agency&.name,
-             record_type: t("forms.record_types.#{@transition_notification.record.class&.parent_form}"),
-             record_id: link_to(
-                 @transition_notification.record&.short_id, url_for_v2(@transition_notification.record)
-             ),
-             service_type: @transition_notification.transition&.service,
-             locale: @transition_notification&.locale
-            ).html_safe
-       %>
-    </p>
-  </body>
-</html>
+<p lang="<%= @transition_notification&.locale %>">
+    <%= t("email_notification.#{@transition_notification.transition&.key}_html",
+            user: @transition_notification.transition&.transitioned_by,
+            agency: @transition_notification.transition&.transitioned_by_user&.agency&.name,
+            record_type: t("forms.record_types.#{@transition_notification.record.class&.parent_form}"),
+            record_id: link_to(
+                @transition_notification.record&.short_id, url_for_v2(@transition_notification.record)
+            ),
+            service_type: @transition_notification.transition&.service,
+            locale: @transition_notification&.locale,
+            login_url: link_to(I18n.t('email.login'), root_url, style: "color: #{@theme.get('email_link_color')}")
+        ).html_safe
+    %>
+</p>

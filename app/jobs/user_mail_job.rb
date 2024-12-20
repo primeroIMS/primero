@@ -6,7 +6,7 @@
 class UserMailJob < ApplicationJob
   queue_as :mailer
 
-  def perform(user_id, admin_user_id)
-    UserMailer.welcome(user_id, admin_user_id).deliver_now
+  def perform(user_id)
+    UserMailer.welcome(user_id).deliver_now
   end
 end

@@ -11,6 +11,7 @@ Rails.application.configure do
   config.consider_all_requests_local = true
   config.eager_load = ENV['PROFILE'] == 'true'
   config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.delivery_method = :letter_opener
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
   storage_type = %w[test local microsoft amazon].find do |t|

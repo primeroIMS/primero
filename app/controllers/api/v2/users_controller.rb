@@ -68,7 +68,7 @@ class Api::V2::UsersController < ApplicationApiController
   end
 
   def welcome
-    @user.send_welcome_email(current_user)
+    @user.send_welcome_email
   end
 
   def identity_sync
