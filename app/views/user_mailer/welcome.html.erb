@@ -1,33 +1,26 @@
 <%# Copyright (c) 2014 - 2023 UNICEF. All rights reserved. %>
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-  </head>
-  <body>
-    <h1><%= @email_greeting %></h1>
-    <% if @email_body.is_a?(String) %>
-      <p><%= @email_body %></p>
-    <% else %>
-      <p><%= @email_body[:header] %></p>
-      <ol>
-        <li><%= @email_body[:step1] %></li>
-        <li><%= @email_body[:step2] %></li>
-        <li>
-          <%= @email_body[:step3] %>
-          <% if @email_body[:otp].present? %>
-            <br/>
-            <strong><%= @email_body[:otp] %></strong>
-          <% end %>
-        </li>
-        <% if @email_body[:step4].present? %>
-          <li><%= @email_body[:step4] %></li>
-        <% end %>
-      </ol>
-      <% if @email_body[:footer].present? %>
-        <p><%= @email_body[:footer] %></p>
-      <% end %>
-    <% end %>
-  </body>
-</html>
+<% if @email_body.is_a?(String) %>
+  <p>
+  <%= @email_body.html_safe %>
+  </p>
+  <% if @theme.get('email_instructional_video').present? %>
+  <p>
+    <%= I18n.t('user.welcome_email.body_native2',
+              instructional_video: link_to(I18n.t('user.welcome_email.instructional_video', locale: @user.locale),
+                                           @theme.get('email_instructional_video'), style: "color: #{@theme.get('email_link_color')}"),
+              locale: @user.locale
+    ).html_safe %>
+  </p>
+  <% end %>
+  <p style="color:#4a4a4a;font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:18px;font-weight:700;line-height:30px;text-align:left">
+  <%= @theme.t('email_welcome_closing', @user.locale) %>
+  </p>
+<% else %>
+  <p><%= @email_body[:header] %></p>
+  <p><%= @email_body[:step1].html_safe %></p>
+  <p><%= @email_body[:step2] %> <%= I18n.t('user.welcome_email.additional_support',
+      admin_email: @system_admin&.email ?  mail_to(@system_admin&.email, I18n.t('email.system_admin'), style: "color: #{@theme.get('email_link_color')}") : I18n.t('email.system_admin'),
+      locale: @user.locale
+    ).html_safe  %></p>
+<% end %>

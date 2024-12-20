@@ -9,8 +9,6 @@ FactoryBot.define do
     average_rating { 5.4321 }
     unique_identifier { counter.to_s }
 
-    after(:build) do |potential_match, _factory|
-      PotentialMatch.stub(:get).with(potential_match.id).and_return(potential_match)
-    end
+    to_create { |instance| instance.save(validate: false) }
   end
 end

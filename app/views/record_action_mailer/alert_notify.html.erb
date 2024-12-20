@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="<%= @alert_notification.locale || I18n.locale %>">
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-  </head>
-  <body>
-    <p>
-      <%= t("email_notification.alert",
-          record_type: @alert_notification.record_type_translated,
-          id: link_to(@alert_notification.record.short_id, url_for_v2(@alert_notification.record)),
-          form_name: @alert_notification.form_section_name_translated,
-          locale: @alert_notification.locale
-      ).html_safe %>
-    </p>
-  </body>
-
-</html>
+<p lang="<%= @alert_notification.locale || I18n.locale %>">
+    <%= t("email_notification.alert",
+        record_type: @alert_notification.record_type_translated,
+        id: link_to(@alert_notification.record.short_id, url_for_v2(@alert_notification.record)),
+        form_name: @alert_notification.form_section_name_translated,
+        locale: @alert_notification.locale
+    ).html_safe %>
+</p>

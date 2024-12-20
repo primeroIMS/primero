@@ -355,7 +355,7 @@ describe PermittedFormFieldsService do
 
   describe '#permitted_fields' do
     it 'lists all writeable fields' do
-      permitted_fields = service.permitted_fields(role, 'case', 'primeromodule-cpa', true)
+      permitted_fields = service.permitted_fields([role], 'case', 'primeromodule-cpa', true)
       expect(permitted_fields.size).to eq(11)
       expect(permitted_fields.map(&:name)).to match_array(
         %w[name age sex national_id_no consent_for_services current_address protection_concerns
@@ -364,7 +364,7 @@ describe PermittedFormFieldsService do
     end
 
     it 'lists all readable fields' do
-      permitted_fields = service.permitted_fields(role, 'case', 'primeromodule-cpa', false)
+      permitted_fields = service.permitted_fields([role], 'case', 'primeromodule-cpa', false)
       expect(permitted_fields.size).to eq(14)
       expect(permitted_fields.map(&:name)).to match_array(
         %w[name age sex national_id_no consent_for_services current_address protection_concerns
@@ -373,7 +373,7 @@ describe PermittedFormFieldsService do
     end
 
     it 'includes action subforms when writeable for the module' do
-      permitted_fields = service.permitted_fields(role_with_actions, 'case', 'primeromodule-cpa', true)
+      permitted_fields = service.permitted_fields([role_with_actions], 'case', 'primeromodule-cpa', true)
       expect(permitted_fields.size).to eq(13)
       expect(permitted_fields.map(&:name)).to match_array(
         %w[name age sex national_id_no consent_for_services current_address protection_concerns other_documents
@@ -382,35 +382,55 @@ describe PermittedFormFieldsService do
     end
 
     it 'excludes action subforms when readable' do
-      permitted_fields = service.permitted_fields(role_with_actions, 'case', 'primeromodule-cpa', false)
+      permitted_fields = service.permitted_fields([role_with_actions], 'case', 'primeromodule-cpa', false)
       expect(permitted_fields.size).to eq(14)
       expect(permitted_fields.map(&:name)).to_not include(:notes_section, :services_section)
     end
 
     it 'includes mrm subforms when writeable' do
-      permitted_fields = service.permitted_fields(role_mrm, 'incident', PrimeroModule::MRM, true)
+      permitted_fields = service.permitted_fields([role_mrm], 'incident', PrimeroModule::MRM, true)
       expect(permitted_fields.size).to eq(2)
       expect(permitted_fields.map(&:name)).to match_array(%w[another_field killing])
     end
 
     context 'when a user has access to the notes_section field and can add notes' do
       it 'returns fields for the specified parent_form and module' do
-        permitted_fields = service.permitted_fields(role_with_notes, 'case', 'primeromodule-cpa', true)
+        permitted_fields = service.permitted_fields([role_with_notes], 'case', 'primeromodule-cpa', true)
         expect(permitted_fields.size).to eq(1)
         expect(permitted_fields.map { |field| field.form_section.parent_form }).to match_array(%w[case])
         expect(permitted_fields.map(&:name)).to match_array(%w[notes_section])
       end
 
       it 'returns the notes_section fields for the cp module' do
-        permitted_fields = service.permitted_fields(role_cp, 'case', PrimeroModule::CP, true)
+        permitted_fields = service.permitted_fields([role_cp], 'case', PrimeroModule::CP, true)
         expect(permitted_fields.size).to eq(1)
         expect(permitted_fields.first.subform.fields.map(&:name)).to match_array(%w[name comment])
       end
 
       it 'returns the notes_section fields for the gbv module' do
-        permitted_fields = service.permitted_fields(role_gbv, 'case', PrimeroModule::GBV, true)
+        permitted_fields = service.permitted_fields([role_gbv], 'case', PrimeroModule::GBV, true)
         expect(permitted_fields.size).to eq(1)
         expect(permitted_fields.first.subform.fields.map(&:name)).to match_array(%w[name age])
+      end
+    end
+
+    describe 'when with_cache?' do
+      let(:service_with_cache) { PermittedFormFieldsService.new(true) }
+
+      it 'lists all writeable and readable fields' do
+        permitted_writeable_fields = service_with_cache.permitted_fields([role], 'case', 'primeromodule-cpa', true)
+        permitted_readable_fields = service_with_cache.permitted_fields([role], 'case', 'primeromodule-cpa', false)
+
+        expect(permitted_writeable_fields.size).to eq(11)
+        expect(permitted_writeable_fields.map(&:name)).to match_array(
+          %w[name age sex national_id_no consent_for_services current_address protection_concerns
+             registration_date created_on family_details other_documents]
+        )
+        expect(permitted_readable_fields.size).to eq(14)
+        expect(permitted_readable_fields.map(&:name)).to match_array(
+          %w[name age sex national_id_no consent_for_services current_address protection_concerns
+             registration_date created_on separator1 other_documents family_details interview_date consent_for_referral]
+        )
       end
     end
   end

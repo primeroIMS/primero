@@ -13,7 +13,7 @@ class ThemesController < ApplicationController
   def manifest; end
 
   def theme
-    @theme = Rails.configuration.use_theme ? Theme.current : Theme.default
+    @theme = Theme.current
   end
 
   def request_not_from_app_host?

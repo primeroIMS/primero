@@ -6,10 +6,6 @@ require 'rails_helper'
 
 describe UserMailer, type: :mailer do
   before do
-    system_settings = instance_double(
-      'SystemSettings', system_name: 'Test CPIMS+'
-    )
-    allow(SystemSettings).to receive(:current).and_return(system_settings)
     allow(User).to receive(:find).with(1).and_return(user)
     allow(User).to receive(:find).with(2).and_return(admin)
   end
@@ -23,22 +19,22 @@ describe UserMailer, type: :mailer do
       instance_double(
         'User',
         email: 'user@test.org',
+        full_name: 'James Joy',
         role:, locale: 'en', using_idp?: false
       )
     end
-    let(:mail) { UserMailer.welcome(1, 2) }
+    let(:mail) { UserMailer.welcome(1, 1) }
 
     it 'renders the subject' do
-      expect(mail.subject).to eq('Welcome to Test CPIMS+!')
+      expect(mail.subject).to eq('Primero Login Instructions')
     end
 
     it 'renders the body' do
       body = mail.body.encoded
-      expect(body).to include('Welcome to Test CPIMS+!')
-      fragment = 'You have been added as a Social Worker. ' \
-                 'Please contact Admin (admin@test.org) for follow up instructions ' \
-                 'to get started working with https://localhost:3000/'
+      fragment = 'Once logged in please go to your user profile to find your username. ' \
+                 'You will find your user profile in the left navigation of Primero'
       expect(body).to include(fragment)
+      expect(body).to include('We are creating a Social Worker account for you')
     end
   end
 
@@ -47,33 +43,29 @@ describe UserMailer, type: :mailer do
       instance_double(
         'User',
         email: 'user@test.org',
+        full_name: 'James Joy',
         role:, locale: 'en', using_idp?: true
       )
     end
-    let(:mail) { UserMailer.welcome(1, 2, 'OTP123') }
+    let(:mail) { UserMailer.welcome(1, 'OTP123') }
 
     it 'renders the subject' do
-      expect(mail.subject).to eq('Welcome to Test CPIMS+!')
+      expect(mail.subject).to eq('Welcome to Primero!')
     end
 
     it 'renders the body' do
       body = mail.body.encoded
-      expect(body).to include('Welcome to Test CPIMS+!')
+      expect(body).to include('Welcome to Primero!')
       expected = {
         header: 'You have been added as a Social Worker.',
-        step1: 'Please contact Admin (admin@test.org) to receive your user name.',
-        step2: 'Go to https://localhost:3000/ and click "login with Primero user name.".',
-        step3: 'Login with your user name and the temporary password .',
-        otp: 'OTP123',
-        step4: 'When prompted, reset your password.'
+        step1: 'Once logged in please go to your user profile to find your username',
+        step2: 'Use the following to reset your password to <b>OTP123</b>',
+        otp: 'OTP123'
       }
 
       expect(body).to include(expected[:header])
       expect(body).to include(expected[:step1])
       expect(body).to include(expected[:step2])
-      expect(body).to include(expected[:step3])
-      expect(body).to include(expected[:otp])
-      expect(body).to include(expected[:step4])
     end
   end
 
@@ -82,6 +74,7 @@ describe UserMailer, type: :mailer do
     let(:user) do
       instance_double(
         'User',
+        full_name: 'James Joy',
         email: 'user@test.org', agency:, user_name: 'user@test.org',
         role:, locale: 'en', using_idp?: true, identity_provider:
       )
@@ -89,25 +82,21 @@ describe UserMailer, type: :mailer do
     let(:mail) { UserMailer.welcome(1, 2) }
 
     it 'renders the subject' do
-      expect(mail.subject).to eq('Welcome to Test CPIMS+!')
+      expect(mail.subject).to eq('Welcome to Primero!')
     end
 
     it 'renders the body' do
       body = mail.body.encoded
-      expect(body).to include('Welcome to Test CPIMS+!')
       expected = {
         header: 'You have been added as a Social Worker.',
-        step1: 'Go to https://localhost:3000/ and click Test.',
-        step2: 'Login with your Test account user@test.org.',
-        step3: 'Use the same password you always use for your Test account.',
-        footer: 'Please contact Admin (admin@test.org) for further details.'
+        step1: 'Once logged in please go to your user profile to find your username. You will find your user profile ' \
+               'in the left navigation of Primero.',
+        step2: 'Use the following to reset your password to <b>2</b>'
       }
 
       expect(body).to include(expected[:header])
       expect(body).to include(expected[:step1])
       expect(body).to include(expected[:step2])
-      expect(body).to include(expected[:step3])
-      expect(body).to include(expected[:footer])
     end
   end
 end
