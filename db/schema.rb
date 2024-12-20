@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_12_12_000000) do
+ActiveRecord::Schema.define(version: 2024_12_19_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -253,6 +253,7 @@ ActiveRecord::Schema.define(version: 2024_12_12_000000) do
     t.index ["name"], name: "index_fields_on_name"
     t.index ["subform_summary"], name: "index_fields_on_subform_summary", using: :gin
     t.index ["type"], name: "index_fields_on_type"
+    t.index ["updated_at"], name: "index_fields_on_updated_at"
   end
 
   create_table "flags", id: :serial, force: :cascade do |t|
