@@ -201,6 +201,9 @@ export const getMaximumUsersWarning = state => state.getIn([NAMESPACE, "systemOp
 export const getMaximumAttachmentsPerRecord = state =>
   state.getIn([NAMESPACE, "systemOptions", "maximum_attachments_per_record"]);
 
+export const getAllowCaseCreationFromReferral = state =>
+  state.getIn([NAMESPACE, "systemOptions", "allow_case_creation_from_referral"]);
+
 export const getTheme = state => state.getIn([NAMESPACE, "theme"], fromJS({}));
 
 export const getShowPoweredByPrimero = state => state.getIn([NAMESPACE, "theme", "showPoweredByPrimero"], false);

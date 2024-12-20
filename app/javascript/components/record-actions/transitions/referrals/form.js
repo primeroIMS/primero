@@ -177,7 +177,12 @@ const remoteReferralFields = ({ i18n, isExternalReferralFromService }) =>
     };
   });
 
-const commonReferralFields = ({ isReferralFromService, isExternalReferralFromService, i18n }) =>
+const commonReferralFields = ({
+  isReferralFromService,
+  isExternalReferralFromService,
+  i18n,
+  allowCaseCreationFromReferral
+}) =>
   [
     {
       display_name: i18n.t("referral.is_remote_label"),
@@ -203,7 +208,8 @@ const commonReferralFields = ({ isReferralFromService, isExternalReferralFromSer
       help_text: i18n.t("referral.allow_case_creation_help_text"),
       disabled: false,
       ...commonHandleWatched,
-      order: 98
+      order: 98,
+      showIf: () => allowCaseCreationFromReferral
     },
     {
       display_name: i18n.t("transfer.notes_label"),

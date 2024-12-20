@@ -154,6 +154,10 @@ class SystemSettings < ApplicationRecord
     super || []
   end
 
+  def create_case_from_referral?
+    Role.create_case_from_referral?
+  end
+
   class << self
     def current(rebuild = false)
       return @current unless @current.nil? || rebuild
