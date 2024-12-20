@@ -6,9 +6,12 @@
 class OnboardMailer < ApplicationMailer
   def onboard(user_id)
     @user = User.find(user_id)
+    @subject = I18n.t('user.onboard_email.subject', system: @theme.get('site_title'), locale: @user.locale)
+    @locale = @user.locale
+
     mail(
       to: @user.email,
-      subject: I18n.t('user.onboard_email.subject', system: SystemSettings.current.system_name, locale: @user.locale)
+      subject: @subject
     )
   end
 end

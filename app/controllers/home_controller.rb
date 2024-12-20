@@ -5,6 +5,6 @@
 # Default Rails route
 class HomeController < ApplicationController
   def v2
-    @theme = Rails.configuration.use_theme ? Theme.current : Theme.default
+    @theme = Theme.current
   end
 end
