@@ -670,7 +670,7 @@ export const INSIGHTS_CONFIG = {
     defaultFilterValues: {
       [GROUPED_BY]: MONTH,
       [DATE_RANGE]: LAST_MONTH,
-      [STATUS]: [],
+      [STATUS]: [STATUS_OPEN],
       [DATE]: REGISTRATION_DATE
     },
     filters: [

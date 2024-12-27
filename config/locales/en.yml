@@ -2326,6 +2326,7 @@ en:
     process_and_quality:
       reports:
         process_quality_total_cases: 'Total protection case management clients'
+        process_quality_average_cases: 'Cases per case worker'
       description: Total number of cases broken down by case status, gender, and timeframe.
       name: Process and Quality
       filter_options:
@@ -2333,6 +2334,9 @@ en:
         date_closure: Date of Closure
       sub_reports:
         total_protection_management_cases: '# of total protection case management clients'
+        average_cases_per_case_worker: 'Average # of cases per case worker'
+      process_quality_average_cases:
+        average_cases_per_case_worker: 'Average # of cases per case worker'
 
   messages:
     alert_items: You have %{items} items of note.
