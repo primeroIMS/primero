@@ -2323,12 +2323,12 @@ en:
       improved_wellbeing_after_support:
         improve_by_at_least_3_points: '% Improved by at least 3 points'
         not_improve_by_at_least_3_points: '% Did not improve by at least 3 points'
-    process_and_quality:
+    process_quality_total_cases:
       reports:
         process_quality_total_cases: 'Total protection case management clients'
         process_quality_average_cases: 'Cases per case worker'
       description: Total number of cases broken down by case status, gender, and timeframe.
-      name: Process and Quality
+      name: 'Process and Quality - # of total protection case management clients'
       filter_options:
         registration_date: Registration Date
         date_closure: Date of Closure
@@ -3542,7 +3542,7 @@ en:
           protection_outcomes:
             label: Protection Outcomes
             explanation: Protection Outcomes originally developed for the PCM module. Includes % of clients who demonstrate improved psychosocial wellbeing and % who report being less impacted by protection risks.
-          process_and_quality:
+          process_quality_total_cases:
             label: 'Process and Quality - # of total protection case management clients'
             explanation: Only relevant for the PCM (Protection Case Management) module. Shows the total number of cases undergoing Protection Case Management.
       matching_configuration:
