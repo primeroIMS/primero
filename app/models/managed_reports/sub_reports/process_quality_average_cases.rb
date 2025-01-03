@@ -39,7 +39,7 @@ class ManagedReports::SubReports::ProcessQualityAverageCases < ManagedReports::S
   def average_cases_per_case_worker_display_texts
     I18n.available_locales.each_with_object({}) do |locale, memo|
       memo[locale] = I18n.t(
-        'managed_reports.process_and_quality.process_quality_average_cases.average_cases_per_case_worker', locale:
+        'managed_reports.process_quality_average_cases.average_cases_per_case_worker', locale:
       )
     end
   end

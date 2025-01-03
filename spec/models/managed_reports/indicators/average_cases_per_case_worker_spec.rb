@@ -14,7 +14,7 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
         Permission.new(
           resource: Permission::MANAGED_REPORT,
           actions: [
-            Permission::PROCESS_AND_QUALITY
+            Permission::PROCESS_QUALITY_AVERAGE_CASES
           ]
         )
       ]

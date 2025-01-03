@@ -113,7 +113,8 @@ describe("<Report /> - constants", () => {
       "violence_type_report",
       "referrals_transfers_report",
       "protection_outcomes",
-      "process_quality_total_cases"
+      "process_quality_total_cases",
+      "process_quality_average_cases"
     ]);
   });
 });
