@@ -30,7 +30,7 @@ describe ManagedReport do
                                                    Permission::VIOLENCE_TYPE_REPORT,
                                                    Permission::REFERRALS_TRANSFERS_REPORT,
                                                    Permission::PROTECTION_OUTCOMES,
-                                                   Permission::PROCESS_AND_QUALITY])
+                                                   Permission::PROCESS_QUALITY_TOTAL_CASES])
     end
 
     it 'should return subreports of gbv_statistics' do

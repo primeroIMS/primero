@@ -670,7 +670,7 @@ const REFERRAL_TRANSFERS_SUBREPORTS = ["total_transfers", "total_referrals"];
 
 const PROTECTION_OUTCOMES_SUBREPORTS = ["improved_wellbeing_after_support"];
 
-const PROCESS_AND_QUALITY_SUBREPORTS = ["process_quality_total_cases"];
+const PROCESS_QUALITY_TOTAL_CASES_SUBREPORTS = ["process_quality_total_cases"];
 
 const VIOLENCE_TYPE_SUBREPORTS = ["cases_violence_type", "incidents_violence_type"];
 
@@ -904,5 +904,5 @@ export {
   POST_MESSAGES,
   SERVICES_SUBFORM_FIELD,
   PROTECTION_OUTCOMES_SUBREPORTS,
-  PROCESS_AND_QUALITY_SUBREPORTS
+  PROCESS_QUALITY_TOTAL_CASES_SUBREPORTS
 };

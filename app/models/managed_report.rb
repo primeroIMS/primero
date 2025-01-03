@@ -158,10 +158,10 @@ class ManagedReport < ValueObject
         ],
         module_id: 'primeromodule-pcm' # TODO: What to do?
       ),
-      Permission::PROCESS_AND_QUALITY => ManagedReport.new(
-        id: 'process_and_quality',
-        name: 'managed_reports.process_and_quality.name',
-        description: 'managed_reports.process_and_quality.description',
+      Permission::PROCESS_QUALITY_TOTAL_CASES => ManagedReport.new(
+        id: 'process_quality_total_cases',
+        name: 'managed_reports.process_quality_total_cases.name',
+        description: 'managed_reports.process_quality_total_cases.description',
         subreports: %w[process_quality_total_cases],
         permitted_filters: [
           :grouped_by, :by, :created_by_groups, :owned_by_groups,

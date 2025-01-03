@@ -19,7 +19,7 @@ import {
   SERVICES_SUBREPORTS,
   CASES_WORKFLOW_SUBREPORTS,
   PROTECTION_OUTCOMES_SUBREPORTS,
-  PROCESS_AND_QUALITY_SUBREPORTS
+  PROCESS_QUALITY_TOTAL_CASES_SUBREPORTS
 } from "../../config";
 import { DATE_FIELD, SELECT_FIELD, HIDDEN_FIELD, OPTION_TYPES } from "../form/constants";
 import { FieldRecord } from "../form/records";
@@ -54,7 +54,7 @@ const FOLLOWUP_DATE = "followup_date";
 const GBV_STATISTICS = "gbv_statistics";
 const VIOLATIONS = "violations";
 const PROTECTION_OUTCOMES = "protection_outcomes";
-const PROCESS_AND_QUALITY = "process_and_quality";
+const PROCESS_QUALITY_TOTAL_CASES = "process_quality_total_cases";
 
 export const MODULE_ID = "module_id";
 export const REPORTS = "reports";
@@ -665,8 +665,8 @@ export const INSIGHTS_CONFIG = {
       }
     ].map(filter => FieldRecord(filter))
   },
-  process_and_quality: {
-    ids: PROCESS_AND_QUALITY_SUBREPORTS,
+  process_quality_total_cases: {
+    ids: PROCESS_QUALITY_TOTAL_CASES_SUBREPORTS,
     defaultFilterValues: {
       [GROUPED_BY]: MONTH,
       [DATE_RANGE]: LAST_MONTH,
@@ -685,11 +685,11 @@ export const INSIGHTS_CONFIG = {
         option_strings_text: [
           {
             id: REGISTRATION_DATE,
-            display_name: [MANAGED_REPORTS, PROCESS_AND_QUALITY, FILTER_OPTIONS, REGISTRATION_DATE]
+            display_name: [MANAGED_REPORTS, PROCESS_QUALITY_TOTAL_CASES, FILTER_OPTIONS, REGISTRATION_DATE]
           },
           {
             id: DATE_CLOSURE,
-            display_name: [MANAGED_REPORTS, PROCESS_AND_QUALITY, FILTER_OPTIONS, DATE_CLOSURE]
+            display_name: [MANAGED_REPORTS, PROCESS_QUALITY_TOTAL_CASES, FILTER_OPTIONS, DATE_CLOSURE]
           }
         ],
         type: SELECT_FIELD
