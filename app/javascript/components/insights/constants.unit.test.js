@@ -112,7 +112,8 @@ describe("<Report /> - constants", () => {
       "cases_workflow_report",
       "violence_type_report",
       "referrals_transfers_report",
-      "protection_outcomes"
+      "protection_outcomes",
+      "process_quality_total_cases"
     ]);
   });
 });
