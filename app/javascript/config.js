@@ -674,6 +674,8 @@ const PROCESS_QUALITY_TOTAL_CASES_SUBREPORTS = ["process_quality_total_cases"];
 
 const PROCESS_QUALITY_AVERAGE_CASES_SUBREPORTS = ["process_quality_average_cases"];
 
+const PROCESS_QUALITY_SUCCESSFUL_REFERRALS_SUBREPORTS = ["process_quality_successful_referrals"];
+
 const VIOLENCE_TYPE_SUBREPORTS = ["cases_violence_type", "incidents_violence_type"];
 
 const CHART_COLORS = Object.freeze({
@@ -907,5 +909,6 @@ export {
   SERVICES_SUBFORM_FIELD,
   PROTECTION_OUTCOMES_SUBREPORTS,
   PROCESS_QUALITY_AVERAGE_CASES_SUBREPORTS,
+  PROCESS_QUALITY_SUCCESSFUL_REFERRALS_SUBREPORTS,
   PROCESS_QUALITY_TOTAL_CASES_SUBREPORTS
 };

@@ -34,7 +34,7 @@ module Normalizeable
         value = data[field_name]
         next if value.blank?
 
-        data_to_save += generate_searchable_hashes(data_to_save, field_name, value)
+        data_to_save += generate_searchable_hashes(data_to_save, field_name, value).uniq
       end
 
       send("#{searchable_type}_attributes=", data_to_save)

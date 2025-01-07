@@ -20,7 +20,8 @@ import {
   CASES_WORKFLOW_SUBREPORTS,
   PROTECTION_OUTCOMES_SUBREPORTS,
   PROCESS_QUALITY_TOTAL_CASES_SUBREPORTS,
-  PROCESS_QUALITY_AVERAGE_CASES_SUBREPORTS
+  PROCESS_QUALITY_AVERAGE_CASES_SUBREPORTS,
+  PROCESS_QUALITY_SUCCESSFUL_REFERRALS_SUBREPORTS
 } from "../../config";
 import { DATE_FIELD, SELECT_FIELD, HIDDEN_FIELD, OPTION_TYPES } from "../form/constants";
 import { FieldRecord } from "../form/records";
@@ -49,14 +50,18 @@ const GHN_DATE_FILTER = "ghn_date_filter";
 const VIOLATION_TYPE = "violation_type";
 const REGISTRATION_DATE = "registration_date";
 const SERVICE_IMPLEMENTED_DAY_TIME = "service_implemented_day_time";
+const SERVICE_RESPONSE_DAY_TIME = "service_response_day_time";
 const CREATED_AT = "created_at";
 const FOLLOWUP_DATE = "followup_date";
+const REFERRAL_CREATED_AT = "referral_created_at";
+const CASE_STATUS = "case_status";
 
 const GBV_STATISTICS = "gbv_statistics";
 const VIOLATIONS = "violations";
 const PROTECTION_OUTCOMES = "protection_outcomes";
 const PROCESS_QUALITY_TOTAL_CASES = "process_quality_total_cases";
 const PROCESS_QUALITY_AVERAGE_CASES = "process_quality_average_cases";
+const PROCESS_QUALITY_SUCCESSFUL_REFERRALS = "process_quality_successful_referrals";
 
 export const MODULE_ID = "module_id";
 export const REPORTS = "reports";
@@ -723,6 +728,51 @@ export const INSIGHTS_CONFIG = {
           {
             id: DATE_CLOSURE,
             display_name: [MANAGED_REPORTS, PROCESS_QUALITY_AVERAGE_CASES, FILTER_OPTIONS, DATE_CLOSURE]
+          }
+        ],
+        type: SELECT_FIELD
+      }
+    ].map(filter => FieldRecord(filter))
+  },
+  process_quality_successful_referrals: {
+    ids: PROCESS_QUALITY_SUCCESSFUL_REFERRALS_SUBREPORTS,
+    defaultFilterValues: {
+      [GROUPED_BY]: MONTH,
+      [DATE_RANGE]: LAST_MONTH,
+      [STATUS]: [STATUS_OPEN],
+      [DATE]: SERVICE_RESPONSE_DAY_TIME
+    },
+    filters: [
+      RECORD_FILTERS[GROUPED_BY],
+      RECORD_FILTERS[DATE_RANGE],
+      RECORD_FILTERS[FROM],
+      RECORD_FILTERS[TO],
+      {
+        ...RECORD_FILTERS[STATUS],
+        display_name: [MANAGED_REPORTS, PROCESS_QUALITY_SUCCESSFUL_REFERRALS, FILTER_OPTIONS, CASE_STATUS]
+      },
+      {
+        name: REPORTING_LOCATIONS,
+        type: SELECT_FIELD,
+        display_name: REPORTING_LOCATIONS_DISPLAY_NAME,
+        option_strings_source: LOOKUPS.reporting_locations
+      },
+      {
+        name: DATE,
+        display_name: FILTER_BY_DATE_DISPLAY_NAME,
+        option_strings_text: [
+          {
+            id: SERVICE_RESPONSE_DAY_TIME,
+            display_name: [
+              MANAGED_REPORTS,
+              PROCESS_QUALITY_SUCCESSFUL_REFERRALS,
+              FILTER_OPTIONS,
+              SERVICE_RESPONSE_DAY_TIME
+            ]
+          },
+          {
+            id: REFERRAL_CREATED_AT,
+            display_name: [MANAGED_REPORTS, PROCESS_QUALITY_SUCCESSFUL_REFERRALS, FILTER_OPTIONS, REFERRAL_CREATED_AT]
           }
         ],
         type: SELECT_FIELD
