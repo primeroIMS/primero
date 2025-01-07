@@ -3,9 +3,9 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Describes Cases based on in Primero.
-class ManagedReports::SubReports::ProtectionOutcomes < ManagedReports::SubReport
+class ManagedReports::SubReports::ImprovedPsychosocialWellbeing < ManagedReports::SubReport
   def id
-    'protection_outcomes'
+    'improved_psychosocial_wellbeing'
   end
 
   def indicators

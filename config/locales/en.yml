@@ -2312,17 +2312,22 @@ en:
     success_message: Successfully generated the export file
     protection_outcomes:
       reports:
-        protection_outcomes: '% demonstrating improved psychosocial wellbeing'
-      description: '% of clients who demonstrate improved psychosocial wellbeing after receiving protection case management support'
+        improved_psychosocial_wellbeing: '% demonstrating improved psychosocial wellbeing'
+        impacted_protection_risks: '% less impacted by protection risks'
+      description: 'Key outcomes including clients with improved psychosocial wellbeing and clients less impacted by risks after case management'
       name: Protection Outcome
       filter_options:
         registration_date: Registration Date
         date_closure: Date of Closure
       sub_reports:
         improved_wellbeing_after_support: '% of clients with improved psychosocial wellbeing'
+        less_impacted_after_support: '% less impacted by protection risks'
       improved_wellbeing_after_support:
         improve_by_at_least_3_points: '% Improved by at least 3 points'
         not_improve_by_at_least_3_points: '% Did not improve by at least 3 points'
+      less_impacted_after_support:
+        clients_report_less_impacted: '% of clients who report being less impacted'
+        clients_report_equally_or_more_severely_impacted: '% of clients who report being equally or more severely impacted'
     process_quality_total_cases:
       reports:
         process_quality_total_cases: 'Total protection case management clients'
