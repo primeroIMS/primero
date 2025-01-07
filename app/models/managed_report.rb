@@ -168,6 +168,17 @@ class ManagedReport < ValueObject
           :created_organization, :owned_by_agency_id, { status: {}, registration_date: {}, date_closure: {} }
         ],
         module_id: 'primeromodule-pcm' # TODO: What to do?
+      ),
+      Permission::PROCESS_QUALITY_AVERAGE_CASES => ManagedReport.new(
+        id: 'process_quality_average_cases',
+        name: 'managed_reports.process_quality_average_cases.name',
+        description: 'managed_reports.process_quality_average_cases.description',
+        subreports: %w[process_quality_average_cases],
+        permitted_filters: [
+          :grouped_by, :by, :created_by_groups, :owned_by_groups,
+          :created_organization, :owned_by_agency_id, { status: {}, registration_date: {}, date_closure: {} }
+        ],
+        module_id: 'primeromodule-pcm' # TODO: What to do?
       )
     }.freeze
   end

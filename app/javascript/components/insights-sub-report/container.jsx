@@ -152,7 +152,7 @@ function Component() {
       <LoadingIndicator
         overlay
         emptyMessage={emptyMessage}
-        hasData={hasData}
+        hasData={hasData && !loading}
         type={namespace}
         loading={loading}
         errors={errors}

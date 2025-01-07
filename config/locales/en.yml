@@ -2338,6 +2338,17 @@ en:
         date_closure: Date of Closure
       sub_reports:
         total_protection_management_cases: '# of total protection case management clients'
+    process_quality_average_cases:
+      reports:
+        process_quality_average_cases: 'Cases per case worker'
+      description: Number of cases per case worker, broken down by gender and timeframe.
+      name: 'Process and Quality - Average # of cases per case worker'
+      filter_options:
+        registration_date: Registration Date
+        date_closure: Date of Closure
+      sub_reports:
+        average_cases_per_case_worker: 'Average # of cases per case worker'
+      average_cases_per_case_worker: 'Average # of cases per case worker'
 
   messages:
     alert_items: You have %{items} items of note.
@@ -3546,6 +3557,9 @@ en:
           process_quality_total_cases:
             label: 'Process and Quality - # of total protection case management clients'
             explanation: Only relevant for the PCM (Protection Case Management) module. Shows the total number of cases undergoing Protection Case Management.
+          process_quality_average_cases:
+            label: 'Process and Quality - Average # of cases per case worker'
+            explanation: Only relevant for the PCM (Protection Case Management) module. Shows the average number of PCM cases per case worker.
       matching_configuration:
         actions:
           manage:
