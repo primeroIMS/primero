@@ -162,10 +162,11 @@ function TaskList() {
 
     const formName = selectedForms.some(form => form.is_nested)
       ? filterFormsWithModule(record.get("module_unique_id"), selectedForms)
-      : selectedForms.first().unique_id;
+      : selectedForms.find(form => form.module_ids.includes(record.get("module_unique_id"))).unique_id;
 
     batch(() => {
       dispatch(push(`${to}/${record.get("id")}`));
+
       if (formName !== "basic_identity") {
         dispatch(setSelectedForm(formName));
       }
