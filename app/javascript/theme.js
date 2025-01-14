@@ -299,7 +299,7 @@ const components = {
     styleOverrides: {
       root: {
         padding: "8px",
-        backgroundColor: "var(--c-white)",
+        backgroundColor: "var(--c-white)"
       }
     }
   },
