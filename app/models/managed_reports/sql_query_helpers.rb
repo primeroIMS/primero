@@ -95,6 +95,7 @@ module ManagedReports::SqlQueryHelpers
     end
     # rubocop:enable Metrics/MethodLength
 
+    # rubocop:disable Metrics/MethodLength
     def searchable_reporting_location_query(param, record_type = 'Child', map_to = nil)
       return unless param.present?
 
@@ -124,6 +125,7 @@ module ManagedReports::SqlQueryHelpers
         ]
       )
     end
+    # rubocop:enable Metrics/MethodLength
 
     def in_value_query(param, table_name = nil, _hash_field = 'data', map_to = nil)
       return unless param.present?
