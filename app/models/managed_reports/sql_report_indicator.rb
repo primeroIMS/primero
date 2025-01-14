@@ -158,9 +158,9 @@ class ManagedReports::SqlReportIndicator < ValueObject
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           %(
-            to_char(date_trunc('week', #{quoted_field}) - '1 days'::interval, 'yyyy-mm-dd')
+            to_char(date_trunc('week', #{quoted_field} + interval '1 days') - '1 days'::interval, 'yyyy-mm-dd')
             || ' - ' ||
-            to_char(date_trunc('week', #{quoted_field}) + '5 days'::interval, 'yyyy-mm-dd')
+            to_char(date_trunc('week', #{quoted_field} + interval '1 days') + '5 days'::interval, 'yyyy-mm-dd')
           ),
           grouped_date_params(field_name, hash_field)
         ]

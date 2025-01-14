@@ -106,7 +106,10 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
     # rubocop:enable Metrics/CyclomaticComplexity
 
     def service_date_query(grouped_by, date_param)
+      return unless date_param&.field_name.present?
+
       config = DATE_PARAM_CONFIG[date_param.field_name]
+      return unless config.present?
 
       grouped_date_query(grouped_by, date_param, config[:table_name], nil, config[:field_name])
     end
