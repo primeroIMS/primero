@@ -298,7 +298,8 @@ const components = {
   MuiTableCell: {
     styleOverrides: {
       root: {
-        padding: "8px"
+        padding: "8px",
+        backgroundColor: "var(--c-white)",
       }
     }
   },

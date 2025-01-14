@@ -14,6 +14,7 @@ export default ({ overrides = {} } = {}) => {
 
   const themeOverrides = isFunction(overrides) ? overrides(appTheme) : overrides;
   const mobileDisplay = useMediaQuery(appTheme.breakpoints.down("sm"));
+  const tabletDisplay = useMediaQuery(appTheme.breakpoints.down("md"));
   const theme = createTheme(appTheme, themeOverrides);
 
   const direction = useMemoizedSelector(state => getAppDirection(state));
@@ -23,6 +24,7 @@ export default ({ overrides = {} } = {}) => {
   return {
     isRTL,
     theme,
-    mobileDisplay
+    mobileDisplay,
+    tabletDisplay
   };
 };
