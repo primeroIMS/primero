@@ -110,13 +110,9 @@ class Child < ApplicationRecord
     ]
   end
 
-  # rubocop:disable Metrics/MethodLength
   def self.normalized_field_names
     {
-      'searchable_datetimes' => %w[
-        registration_date date_closure created_at assessment_due_dates case_plan_due_dates service_due_dates
-        followup_due_dates
-      ],
+      'searchable_datetimes' => %w[registration_date date_closure created_at],
       'searchable_values' => %w[
         sex workflow risk_level status associated_user_groups associated_user_agencies associated_user_names
         last_updated_by approval_status_case_plan approval_status_assessment approval_status_closure
@@ -126,7 +122,6 @@ class Child < ApplicationRecord
       'searchable_booleans' => %w[record_state not_edited_by_owner flagged]
     }
   end
-  # rubocop:enable Metrics/MethodLength
 
   def self.alert_count_self(current_user)
     records_owned_by = open_enabled_records.owned_by(current_user.user_name).ids
