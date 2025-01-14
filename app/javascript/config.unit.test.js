@@ -153,7 +153,8 @@ describe("Verifying config constant", () => {
       "REPORTING_LOCATIONS_SUBREPORTS",
       "SERVICES_SUBREPORTS",
       "FOLLOWUPS_SUBREPORTS",
-      "PROTECTION_OUTCOMES_SUBREPORTS"
+      "PROTECTION_OUTCOMES_SUBREPORTS",
+      "PROCESS_QUALITY_SUCCESSFUL_REFERRALS_SUBREPORTS"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);
