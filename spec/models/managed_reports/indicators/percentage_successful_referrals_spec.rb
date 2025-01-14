@@ -264,136 +264,126 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
 
   describe 'grouped by' do
     context 'when is year' do
-      context 'and service_response_day_time' do
-        it 'should return results grouped by year' do
-          data = ManagedReports::Indicators::PercentageSuccessfulReferrals.build(
-            nil,
-            {
-              'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
-              'service_response_day_time' => SearchFilters::DateRange.new(
-                field_name: 'service_response_day_time',
-                from: '2021-01-01',
-                to: '2021-12-31'
-              )
-            }
-          ).data
+      it 'should return results grouped by year for service_response_day_time' do
+        data = ManagedReports::Indicators::PercentageSuccessfulReferrals.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
+            'service_response_day_time' => SearchFilters::DateRange.new(
+              field_name: 'service_response_day_time',
+              from: '2021-01-01',
+              to: '2021-12-31'
+            )
+          }
+        ).data
 
-          expect(data).to match_array(
-            [
-              {
-                group_id: 2021,
-                data: [
-                  { id: 'implemented', male: 40.0, total: 28.57 },
-                  { id: 'not_implemented', female: 100.0, male: 60.0, total: 71.43 }
-                ]
-              }
-            ]
-          )
-        end
+        expect(data).to match_array(
+          [
+            {
+              group_id: 2021,
+              data: [
+                { id: 'implemented', male: 40.0, total: 28.57 },
+                { id: 'not_implemented', female: 100.0, male: 60.0, total: 71.43 }
+              ]
+            }
+          ]
+        )
       end
 
-      context 'and is referral_created_at' do
-        it 'should return results grouped by year' do
-          data = ManagedReports::Indicators::PercentageSuccessfulReferrals.build(
-            nil,
-            {
-              'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
-              'referral_created_at' => SearchFilters::DateRange.new(
-                field_name: 'referral_created_at',
-                from: '2021-01-01',
-                to: '2021-12-31'
-              )
-            }
-          ).data
+      it 'should return results grouped by year for referral_created_at' do
+        data = ManagedReports::Indicators::PercentageSuccessfulReferrals.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
+            'referral_created_at' => SearchFilters::DateRange.new(
+              field_name: 'referral_created_at',
+              from: '2021-01-01',
+              to: '2021-12-31'
+            )
+          }
+        ).data
 
-          expect(data).to match_array(
-            [
-              {
-                group_id: 2021,
-                data: [
-                  { id: 'implemented', male: 40.0, total: 33.33 },
-                  { id: 'not_implemented', female: 100.0, male: 60.0, total: 66.67 }
-                ]
-              }
-            ]
-          )
-        end
+        expect(data).to match_array(
+          [
+            {
+              group_id: 2021,
+              data: [
+                { id: 'implemented', male: 40.0, total: 33.33 },
+                { id: 'not_implemented', female: 100.0, male: 60.0, total: 66.67 }
+              ]
+            }
+          ]
+        )
       end
     end
 
     context 'when is month' do
-      context 'and service_response_day_time' do
-        it 'should return results grouped by month' do
-          data = ManagedReports::Indicators::PercentageSuccessfulReferrals.build(
-            nil,
-            {
-              'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
-              'service_response_day_time' => SearchFilters::DateRange.new(
-                field_name: 'service_response_day_time',
-                from: '2021-10-01',
-                to: '2021-11-30'
-              )
-            }
-          ).data
+      it 'should return results grouped by month for service_response_day_time' do
+        data = ManagedReports::Indicators::PercentageSuccessfulReferrals.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
+            'service_response_day_time' => SearchFilters::DateRange.new(
+              field_name: 'service_response_day_time',
+              from: '2021-10-01',
+              to: '2021-11-30'
+            )
+          }
+        ).data
 
-          expect(data).to match_array(
-            [
-              {
-                group_id: '2021-10',
-                data: [
-                  { id: 'implemented', male: 33.33, total: 20.0 },
-                  { id: 'not_implemented', female: 100.0, male: 66.67, total: 80.0 }
-                ]
-              },
-              {
-                group_id: '2021-11',
-                data: [
-                  { id: 'implemented', male: 50.0, total: 50.0 },
-                  { id: 'not_implemented', male: 50.0, total: 50.0 }
-                ]
-              }
-            ]
-          )
-        end
+        expect(data).to match_array(
+          [
+            {
+              group_id: '2021-10',
+              data: [
+                { id: 'implemented', male: 33.33, total: 20.0 },
+                { id: 'not_implemented', female: 100.0, male: 66.67, total: 80.0 }
+              ]
+            },
+            {
+              group_id: '2021-11',
+              data: [
+                { id: 'implemented', male: 50.0, total: 50.0 },
+                { id: 'not_implemented', male: 50.0, total: 50.0 }
+              ]
+            }
+          ]
+        )
       end
 
-      context 'and is referral_created_at' do
-        it 'should return results grouped by month' do
-          data = ManagedReports::Indicators::PercentageSuccessfulReferrals.build(
-            nil,
-            {
-              'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
-              'referral_created_at' => SearchFilters::DateRange.new(
-                field_name: 'referral_created_at',
-                from: '2021-10-01',
-                to: '2021-11-30'
-              )
-            }
-          ).data
+      it 'should return results grouped by month for referral_created_at' do
+        data = ManagedReports::Indicators::PercentageSuccessfulReferrals.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
+            'referral_created_at' => SearchFilters::DateRange.new(
+              field_name: 'referral_created_at',
+              from: '2021-10-01',
+              to: '2021-11-30'
+            )
+          }
+        ).data
 
-          expect(data).to match_array(
-            [
-              {
-                group_id: '2021-10',
-                data: [
-                  { id: 'not_implemented', female: 100.0, male: 100.0, total: 100.0 }
-                ]
-              },
-              {
-                group_id: '2021-11',
-                data: [
-                  { id: 'implemented', male: 66.67, total: 66.67 },
-                  { id: 'not_implemented', male: 33.33, total: 33.33 }
-                ]
-              }
-            ]
-          )
-        end
+        expect(data).to match_array(
+          [
+            {
+              group_id: '2021-10',
+              data: [{ id: 'not_implemented', female: 100.0, male: 100.0, total: 100.0 }]
+            },
+            {
+              group_id: '2021-11',
+              data: [
+                { id: 'implemented', male: 66.67, total: 66.67 },
+                { id: 'not_implemented', male: 33.33, total: 33.33 }
+              ]
+            }
+          ]
+        )
       end
     end
 
     context 'when is week' do
-      it 'should return results grouped by week' do
+      it 'should return results grouped by week for service_response_day_time' do
         data = ManagedReports::Indicators::PercentageSuccessfulReferrals.build(
           nil,
           {
@@ -421,9 +411,38 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
             },
             {
               group_id: '2021-10-10 - 2021-10-16',
-              data: [
-                { id: 'not_implemented', female: 100.0, male: 100.0, total: 100.0 }
-              ]
+              data: [{ id: 'not_implemented', female: 100.0, male: 100.0, total: 100.0 }]
+            }
+          ]
+        )
+      end
+
+      it 'should return results grouped by week for referral_created_at' do
+        data = ManagedReports::Indicators::PercentageSuccessfulReferrals.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'week'),
+            'referral_created_at' => SearchFilters::DateRange.new(
+              field_name: 'referral_created_at',
+              from: '2021-10-01',
+              to: '2021-10-16'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              group_id: '2021-09-26 - 2021-10-02',
+              data: []
+            },
+            {
+              group_id: '2021-10-03 - 2021-10-09',
+              data: [{ id: 'not_implemented', male: 100.0, total: 100.0 }]
+            },
+            {
+              group_id: '2021-10-10 - 2021-10-16',
+              data: [{ id: 'not_implemented', female: 100.0, total: 100.0 }]
             }
           ]
         )
