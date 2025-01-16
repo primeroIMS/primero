@@ -2362,6 +2362,17 @@ en:
         percentage_successful_referrals: '% of successful referrals'
       implemented: '% successful'
       not_implemented: '% non successful'
+    process_quality_implemented_referrals:
+      reports:
+        process_quality_implemented_referrals: 'Successful referrals by date implemented'
+      description: Successful service referrals brokend own by date implemented, gender, and timeframe
+      name: Process and Quality - Successful referrals by date implemented
+      filter_options:
+        case_status: Case Status
+        service_implemented_day_time: Service Implemented On
+      sub_reports:
+        implemented_successful_referrals: Successful referrals by date implemented
+      implemented: Succesful referrals
 
 
   messages:
@@ -3577,6 +3588,9 @@ en:
           process_quality_successful_referrals:
             label: 'Process and Quality - % of successful referrals'
             explanation: Only relevant for the PCM (Protection Case Management) module. Shows the percentage of service referrals which were successfully implemented.
+          process_quality_implemented_referrals:
+            label: Process and Quality -  Successful referrals by date implemented
+            explanation: Only relevant for the PCM (Protection Case Management) module. Shows the number of successful service referrals which were implemented in each month.
       matching_configuration:
         actions:
           manage:

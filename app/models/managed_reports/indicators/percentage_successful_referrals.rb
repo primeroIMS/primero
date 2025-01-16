@@ -63,7 +63,6 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
             service_status_referred,
             service_response_day_time,
             service_implemented,
-            service_record_id,
             service_unique_id,
             data->>'sex' AS sex,
             data->>'owned_by_location' AS owned_by_location,
@@ -130,7 +129,6 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
                 services_section->>'service_status_referred' AS service_status_referred,
                 TO_TIMESTAMP(services_section->>'service_response_day_time', :format) AS service_response_day_time,
                 services_section->>'service_implemented' AS service_implemented,
-                services_section->>'service_record_id' AS service_record_id,
                 services_section->>'unique_id' AS service_unique_id
               FROM JSONB_ARRAY_ELEMENTS(data->'services_section') AS services_section
               WHERE services_section @? '$[*] ? (@.service_status_referred == true)'

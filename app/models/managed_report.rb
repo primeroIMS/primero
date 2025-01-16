@@ -10,6 +10,7 @@ class ManagedReport < ValueObject
   attr_accessor :id, :name, :description, :module_id, :subreports, :data, :permitted_filters, :user, :filters
 
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def self.list
     {
       Permission::GBV_STATISTICS_REPORT => ManagedReport.new(
@@ -153,8 +154,7 @@ class ManagedReport < ValueObject
         description: 'managed_reports.protection_outcomes.description',
         subreports: %w[improved_psychosocial_wellbeing impacted_protection_risks],
         permitted_filters: [
-          :grouped_by, :by, :created_by_groups, :owned_by_groups,
-          :created_organization, :owned_by_agency_id, :location, { status: {}, registration_date: {}, date_closure: {} }
+          :grouped_by, :by, { status: {}, registration_date: {}, date_closure: {} }
         ],
         module_id: 'primeromodule-pcm' # TODO: What to do?
       ),
@@ -164,8 +164,7 @@ class ManagedReport < ValueObject
         description: 'managed_reports.process_quality_total_cases.description',
         subreports: %w[process_quality_total_cases],
         permitted_filters: [
-          :grouped_by, :by, :created_by_groups, :owned_by_groups,
-          :created_organization, :owned_by_agency_id, { status: {}, registration_date: {}, date_closure: {} }
+          :grouped_by, :by, { status: {}, registration_date: {}, date_closure: {} }
         ],
         module_id: 'primeromodule-pcm' # TODO: What to do?
       ),
@@ -175,8 +174,7 @@ class ManagedReport < ValueObject
         description: 'managed_reports.process_quality_average_cases.description',
         subreports: %w[process_quality_average_cases],
         permitted_filters: [
-          :grouped_by, :by, :created_by_groups, :owned_by_groups,
-          :created_organization, :owned_by_agency_id, { status: {}, registration_date: {}, date_closure: {} }
+          :grouped_by, :by, { status: {}, registration_date: {}, date_closure: {} }
         ],
         module_id: 'primeromodule-pcm' # TODO: What to do?
       ),
@@ -186,16 +184,24 @@ class ManagedReport < ValueObject
         description: 'managed_reports.process_quality_successful_referrals.description',
         subreports: %w[process_quality_successful_referrals],
         permitted_filters: [
-          :grouped_by, :by, :created_by_groups, :owned_by_groups,
-          :created_organization, :owned_by_agency_id, :location, {
-            status: {}, service_response_day_time: {}, referral_created_at: {}
-          }
+          :grouped_by, :by, :location, { status: {}, service_response_day_time: {}, referral_created_at: {} }
+        ],
+        module_id: 'primeromodule-pcm' # TODO: What to do?
+      ),
+      Permission::PROCESS_QUALITY_IMPLEMENTED_REFERRALS => ManagedReport.new(
+        id: 'process_quality_implemented_referrals',
+        name: 'managed_reports.process_quality_implemented_referrals.name',
+        description: 'managed_reports.process_quality_implemented_referrals.description',
+        subreports: %w[process_quality_implemented_referrals],
+        permitted_filters: [
+          :grouped_by, :by, :location, :service_type, { status: {}, service_implemented_day_time: {} }
         ],
         module_id: 'primeromodule-pcm' # TODO: What to do?
       )
     }.freeze
   end
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def build_report(user, filters = [], opts = {})
     self.user = user
