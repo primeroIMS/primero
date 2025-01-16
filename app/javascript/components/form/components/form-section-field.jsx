@@ -52,6 +52,7 @@ function FormSectionField({ checkErrors, field, formMethods, formMode, disableUn
         <div className={classes} data-testid="form-section-field">
           {renderField}
         </div>
+        <div className={`${classes} ${css[commonInputProps.id]}`}>{renderField}</div>
       </ConditionalWrapper>
     )
   );

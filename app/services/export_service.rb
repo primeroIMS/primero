@@ -10,7 +10,7 @@ class ExportService
         Exporters::IncidentRecorderExporter, Exporters::CsvListViewExporter, Exporters::CsvExporter,
         Exporters::ExcelExporter, Exporters::JsonExporter, Exporters::PhotoWallExporter, Exporters::UNHCRCsvExporter,
         Exporters::DuplicateIdCsvExporter, Exporters::SelectedFieldsExcelExporter, Exporters::IncidentRecorderExporter,
-        Exporters::RolePermissionsExporter, Exporters::MRMViolationExporter
+        Exporters::RolePermissionsExporter, Exporters::MRMViolationExporter, Exporters::UsageReportExporter
       ].find do |exporter|
         exporter.id == format.to_s && exporter.supported_models.include?(record_type)
       end
@@ -36,11 +36,11 @@ class ExportService
       end
     end
 
-    def enqueue(bulk_export, password = nil)
+    def enqueue(bulk_export, password = nil, start_date = nil, end_date = nil, request = nil)
       return log_missing_password(bulk_export) if ZipService.require_password? && password.blank?
 
       encrypted_password = EncryptionService.encrypt(password)
-      BulkExportJob.perform_later(bulk_export.id, encrypted_password)
+      BulkExportJob.perform_later(bulk_export.id, encrypted_password, start_date, end_date, request)
     end
 
     def log_missing_password(bulk_export)
