@@ -6,12 +6,12 @@
 class BulkExportJob < ApplicationJob
   queue_as :export
 
-  def perform(bulk_export_id, encrypted_password, start_date = nil, end_date = nil, request = nil)
+  def perform(bulk_export_id, encrypted_password, kpi_parameters)
     bulk_export = BulkExport.find_by(id: bulk_export_id)
     password = EncryptionService.decrypt(encrypted_password)
     return log_bulk_export_missing(bulk_export_id) unless bulk_export.present?
 
-    bulk_export.export(password, start_date, end_date, request)
+    bulk_export.export(password, kpi_parameters)
   rescue Errors::MisconfiguredEncryptionError => e
     log_encryption_error(bulk_export_id, e)
   end

@@ -36,11 +36,15 @@ class ExportService
       end
     end
 
-    def enqueue(bulk_export, password = nil, start_date = nil, end_date = nil, request = nil)
+    def set_kpi_parameters
+
+    end
+
+    def enqueue(bulk_export, password = nil, kpi_parameters = nil)
       return log_missing_password(bulk_export) if ZipService.require_password? && password.blank?
 
       encrypted_password = EncryptionService.encrypt(password)
-      BulkExportJob.perform_later(bulk_export.id, encrypted_password, start_date, end_date, request)
+      BulkExportJob.perform_later(bulk_export.id, encrypted_password, kpi_parameters)
     end
 
     def log_missing_password(bulk_export)

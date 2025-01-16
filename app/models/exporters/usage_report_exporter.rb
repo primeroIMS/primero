@@ -36,57 +36,53 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
   private
 
   def export_modules(modul, start_date, end_date)
-    return if modul.blank? or modul.instance_of?(ActiveRecord::Relation)
+    return if modul.blank? || modul.instance_of?(ActiveRecord::Relation)
 
     export_module_to_workbook(modul, start_date, end_date)
   end
 
   def export_module_to_workbook(modul, start_date, end_date)
     worksheet = workbook.add_worksheet(modul.name)
-    set_column_width(worksheet)
+    adjust_column_width(worksheet)
     worksheet.write(0, 0, module_header(modul.name))
-    worksheet.write(1, 0, module_content(modul.unique_id,start_date,end_date,modul.name))
+    worksheet.write(1, 0, module_content(modul.unique_id, start_date, end_date, modul.name))
   end
-
 
   def module_header(modul_name)
-    common_keys = [modul_name, "Total Cases", "Open Cases", "Closed Cases", "Open this quarter", "Closed this Quarter", "Total Services", "Total incidents", "Incidents this quarter"]
-
-    keys = case modul_name
-           when "MRM"
-             [modul_name, "Total incidents", "Incidents this quarter"]
-           when "GBV"
-             common_keys
-           else
-             common_keys + ["Total followups"]
-           end
+    common_keys = [modul_name, 'Total Cases', 'Open Cases', 'Closed Cases', 'Open this quarter', 'Closed this Quarter', 'Total Services', 'Total incidents', 'Incidents this quarter']
+    case modul_name
+    when 'MRM'
+      [modul_name, 'Total incidents', 'Incidents this quarter']
+    when 'GBV'
+      common_keys
+    else
+      common_keys + ['Total followups']
+    end
   end
 
-
-  def module_content(module_id,start_date,end_date,modul_name)
-    common_keys = ["",
-                   UsageReport.total_records(module_id,Child).count,
+  def module_content(module_id, start_date, end_date, modul_name)
+    common_keys = ['',
+                   UsageReport.total_records(module_id, Child).count,
                    UsageReport.open_cases(module_id).count,
                    UsageReport.closed_cases(module_id).count,
-                   UsageReport.new_records_quarter(module_id, start_date, end_date,Child).count,
+                   UsageReport.new_records_quarter(module_id, start_date, end_date, Child).count,
                    UsageReport.closed_cases_quarter(module_id, start_date, end_date).count,
                    UsageReport.total_services(module_id).count,      
-                   UsageReport.total_records(module_id,Incident).count,
-                   UsageReport.new_records_quarter(module_id, start_date, end_date,Incident).count]
-
-    keys =  case modul_name
-            when "MRM"
-              ["", UsageReport.total_records(module_id,Incident).count, UsageReport.new_records_quarter(module_id, start_date, end_date,Incident).count] 
-            when "GBV"
-              common_keys 
-            else
-              common_keys + [UsageReport.total_followup(module_id).count]
-            end
+                   UsageReport.total_records(module_id, Incident).count,
+                   UsageReport.new_records_quarter(module_id, start_date, end_date, Incident).count]
+    case modul_name
+    when 'MRM'
+      ['', UsageReport.total_records(module_id, Incident).count, UsageReport.new_records_quarter(module_id, start_date, end_date, Incident).count] 
+    when 'GBV'
+      common_keys 
+    else
+      common_keys + [UsageReport.total_followup(module_id).count]
+    end
   end
 
   def export_user_row(start_date, end_date, request)
     worksheet = workbook.add_worksheet('Users')
-    set_column_width(worksheet)
+    adjust_column_width(worksheet)
     worksheet.write(0, 0, user_url_header(request))
     worksheet.write(1, 0, user_start_date_header(start_date))
     worksheet.write(2, 0, user_end_date_header(end_date))
@@ -95,29 +91,29 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
     modules = UsageReport.modules
     row_indx = 6
     modules.each do |modul|
-      worksheet.write(row_indx, 0, module_tabs(modul.unique_id,modul.name))
-      row_indx += 1 
+      worksheet.write(row_indx, 0, module_tabs(modul.unique_id, modul.name))
+      row_indx += 1
     end
     worksheet.write(10, 0, user_header)
     worksheet.write(11, 0, user_content(start_date, end_date))
   end
 
   def quarter_for_date(end_date)
-    ["Quarter", determine_quarter(end_date)]
+    ['Quarter', determine_quarter(end_date)]
   end
 
   def determine_quarter(end_date)
     case end_date.month
     when 1..3
-      "Q1"
+      'Q1'
     when 4..6
-      "Q2"
+      'Q2'
     when 7..9
-      "Q3"
+      'Q3'
     when 10..12
-      "Q4"
+      'Q4'
     else
-      "Invalid date"
+      'Invalid date'
     end
   end
 
@@ -138,10 +134,10 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
   end
 
   def module_tabs(module_id, modul_name)
-    if modul_name == "MRM"
-      [modul_name, UsageReport.total_records(module_id,Incident).count > 0 ? " Yes" : " No"]
+    if modul_name == 'MRM'
+      [modul_name, UsageReport.total_records(module_id, Incident).count > 0 ? ' Yes' : ' No']
     else
-      [modul_name, UsageReport.total_records(module_id,Child).count > 0 ? " Yes" : " No"]
+      [modul_name, UsageReport.total_records(module_id, Child).count > 0 ? ' Yes' : ' No']
     end
   end
 
@@ -157,16 +153,13 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
        UsageReport.disabled_users(agency).count,
        UsageReport.new_quarter_users(agency, start_date, end_date).count]
     end
-
     data.transpose
   end
 
-
-  def set_column_width(worksheet)
-    ('A'..'L').each_with_index do |col_letter, col_index|
+  def adjust_column_width(worksheet)
+    ('A'..'L').each_with_index do |_, col_index|
       worksheet.set_column(col_index, col_index, 20) # Adjust column width
     end
   end
-
 end
 # rubocop:enable Metrics/ClassLength
