@@ -49,10 +49,8 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
   end
 
   def module_header(modul_name)
-    common_keys = [ modul_name, 'Total Cases', 'Open Cases', 'Closed Cases', 'Open this quarter', 
-                    'Closed this Quarter', 'Total Services', 'Total incidents', 
-                    'Incidents this quarter'
-                  ]
+    common_keys = [modul_name, 'Total Cases', 'Open Cases', 'Closed Cases', 'Open this quarter',
+                   'Closed this Quarter', 'Total Services', 'Total incidents', 'Incidents this quarter']
     case modul_name
     when 'MRM'
       [modul_name, 'Total incidents', 'Incidents this quarter']
@@ -64,15 +62,11 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
   end
 
   def module_content(module_id, start_date, end_date, modul_name)
-    common_keys = ['']
-    common_keys << UsageReport.total_records(module_id, Child).count
-    common_keys << UsageReport.open_cases(module_id).count
-    common_keys << UsageReport.closed_cases(module_id).count
-    common_keys << UsageReport.new_records_quarter(module_id, start_date, end_date, Child).count
-    common_keys << UsageReport.closed_cases_quarter(module_id, start_date, end_date).count
-    common_keys << UsageReport.total_services(module_id).count
-    common_keys << UsageReport.total_records(module_id, Incident).count
-    common_keys << UsageReport.new_records_quarter(module_id, start_date, end_date, Incident).count
+    common_keys = ["", UsageReport.total_records(module_id,Child).count, UsageReport.open_cases(module_id).count,
+                   UsageReport.closed_cases(module_id).count, UsageReport.new_records_quarter(module_id, start_date, end_date,Child).count,
+                   UsageReport.closed_cases_quarter(module_id, start_date, end_date).count,
+                   UsageReport.total_services(module_id).count, UsageReport.total_records(module_id,Incident).count,
+                   UsageReport.new_records_quarter(module_id, start_date, end_date,Incident).count]
     case modul_name
     when 'MRM'
       ['', UsageReport.total_records(module_id, Incident).count, 

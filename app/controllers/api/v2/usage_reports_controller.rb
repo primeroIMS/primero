@@ -7,11 +7,10 @@ class Api::V2::UsageReportsController < ApplicationApiController
   def create
     @export = ExportService.build(export_params, current_user)
     @export.mark_started!
-    ExportService.enqueue(@export, export_params[:password], 
-                          { 'start_date' => export_params[:selected_from_date], 
-                            'end_date' => export_params[:selected_to_date], 
-                            'request' => request.url
-                          })
+    ExportService.enqueue(@export, export_params[:password],
+                          { 'start_date' => export_params[:selected_from_date],
+                            'end_date' => export_params[:selected_to_date],
+                            'request' => request.url })
   end
 
   private
