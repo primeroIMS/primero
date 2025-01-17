@@ -61,16 +61,17 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
     end
   end
 
-  def get_common_keys(module_id, start_date, end_date, modul_name)
+  def get_common_keys(module_id, start_date, end_date)
     ['', UsageReport.total_records(module_id, Child).count, UsageReport.open_cases(module_id).count,
-     UsageReport.closed_cases(module_id).count, UsageReport.new_records_quarter(module_id, start_date, end_date, Child).count,
+     UsageReport.closed_cases(module_id).count,
+     UsageReport.new_records_quarter(module_id, start_date, end_date, Child).count,
      UsageReport.closed_cases_quarter(module_id, start_date, end_date).count,
      UsageReport.total_services(module_id).count, UsageReport.total_records(module_id, Incident).count,
      UsageReport.new_records_quarter(module_id, start_date, end_date, Incident).count]
   end
 
   def module_content(module_id, start_date, end_date, modul_name)
-    common_keys = get_common_keys(module_id, start_date, end_date, modul_name)
+    common_keys = get_common_keys(module_id, start_date, end_date)
     case modul_name
     when 'MRM'
       ['', UsageReport.total_records(module_id, Incident).count,
@@ -94,9 +95,8 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
     worksheet = workbook.add_worksheet('Users')
     adjust_column_width(worksheet)
     kpi_user_header(start_date, end_date, request, worksheet)
-    modules = UsageReport.modules
     row_indx = 6
-    modules.each do |modul|
+    UsageReport.modules.each do |modul|
       worksheet.write(row_indx, 0, module_tabs(modul.unique_id, modul.name))
       row_indx += 1
     end
@@ -116,10 +116,8 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
       'Q2'
     when 7..9
       'Q3'
-    when 10..12
-      'Q4'
     else
-      'Invalid date'
+      'Q4'
     end
   end
 
