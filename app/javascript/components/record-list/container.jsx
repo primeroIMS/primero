@@ -33,7 +33,7 @@ import SortContainer from "./components/sort-container";
 import FilterContainer from "./components/filter-container";
 
 function Container({ match, location }) {
-  const { mobileDisplay } = useThemeHelper();
+  const { mobileDisplay, tabletDisplay } = useThemeHelper();
   const i18n = useI18n();
   const currentQueryString = location.search.replace("?", "");
   const { online } = useApp();
@@ -195,7 +195,7 @@ function Container({ match, location }) {
           {mobileDisplay && !phonetic && (
             <SortContainer columns={columns} recordType={recordType} applyFilters={applyFilters} />
           )}
-          <FilterContainer mobileDisplay={mobileDisplay}>
+          <FilterContainer mobileDisplay={tabletDisplay}>
             <Filters recordType={recordType} setSelectedRecords={handleSelectedRecords} metadata={metadata} />
           </FilterContainer>
         </PageContent>
