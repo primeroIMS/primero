@@ -36,10 +36,6 @@ class ExportService
       end
     end
 
-    def set_kpi_parameters
-
-    end
-
     def enqueue(bulk_export, password = nil, kpi_parameters = nil)
       return log_missing_password(bulk_export) if ZipService.require_password? && password.blank?
 

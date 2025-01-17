@@ -2,8 +2,7 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# Usage Report
-
+# class for Usage Report
 class UsageReport
   include ActiveModel::Model
 
@@ -49,11 +48,13 @@ class UsageReport
     end
 
     def new_records_quarter(module_id, start_date, end_date, recordtype)
-      recordtype.where("data->>'module_id' = ? AND CAST(data->>'created_at' AS DATE) BETWEEN ? AND ?", module_id, start_date, end_date)
+      recordtype.where("data->>'module_id' = ? AND CAST(data->>'created_at' AS DATE) BETWEEN ? AND ?", 
+                        module_id, start_date, end_date)
     end
 
     def closed_cases_quarter(module_id, start_date, end_date)
-      Child.where("data->>'module_id' = ? AND CAST(data->>'date_closure' AS DATE) BETWEEN ? AND ?", module_id, start_date, end_date)
+      Child.where("data->>'module_id' = ? AND CAST(data->>'date_closure' AS DATE) BETWEEN ? AND ?", 
+                   module_id, start_date, end_date)
     end
 
     def total_services(module_id)
