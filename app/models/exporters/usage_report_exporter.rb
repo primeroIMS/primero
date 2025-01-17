@@ -61,15 +61,19 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
     end
   end
 
+  def get_common_keys(module_id, start_date, end_date, modul_name)
+    ['', UsageReport.total_records(module_id, Child).count, UsageReport.open_cases(module_id).count,
+     UsageReport.closed_cases(module_id).count, UsageReport.new_records_quarter(module_id, start_date, end_date, Child).count,
+     UsageReport.closed_cases_quarter(module_id, start_date, end_date).count,
+     UsageReport.total_services(module_id).count, UsageReport.total_records(module_id, Incident).count,
+     UsageReport.new_records_quarter(module_id, start_date, end_date, Incident).count]
+  end
+
   def module_content(module_id, start_date, end_date, modul_name)
-    common_keys = ["", UsageReport.total_records(module_id,Child).count, UsageReport.open_cases(module_id).count,
-                   UsageReport.closed_cases(module_id).count, UsageReport.new_records_quarter(module_id, start_date, end_date,Child).count,
-                   UsageReport.closed_cases_quarter(module_id, start_date, end_date).count,
-                   UsageReport.total_services(module_id).count, UsageReport.total_records(module_id,Incident).count,
-                   UsageReport.new_records_quarter(module_id, start_date, end_date,Incident).count]
+    common_keys = get_common_keys(module_id, start_date, end_date, modul_name)
     case modul_name
     when 'MRM'
-      ['', UsageReport.total_records(module_id, Incident).count, 
+      ['', UsageReport.total_records(module_id, Incident).count,
        UsageReport.new_records_quarter(module_id, start_date, end_date, Incident).count]
     when 'GBV'
       common_keys
@@ -78,14 +82,18 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
     end
   end
 
-  def export_user_row(start_date, end_date, request)
-    worksheet = workbook.add_worksheet('Users')
-    adjust_column_width(worksheet)
+  def kpi_user_header(start_date, end_date, request, worksheet)
     worksheet.write(0, 0, user_url_header(request))
     worksheet.write(1, 0, user_start_date_header(start_date))
     worksheet.write(2, 0, user_end_date_header(end_date))
     worksheet.write(3, 0, quarter_for_date(end_date))
     worksheet.write(4, 0, total_agencies)
+  end
+
+  def export_user_row(start_date, end_date, request)
+    worksheet = workbook.add_worksheet('Users')
+    adjust_column_width(worksheet)
+    kpi_user_header(start_date, end_date, request, worksheet)
     modules = UsageReport.modules
     row_indx = 6
     modules.each do |modul|
