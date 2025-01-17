@@ -126,7 +126,16 @@ export const getPrimaryAgeRanges = state => getAgeRanges(state, getPrimaryAgeRan
 
 export const getReportableTypes = state => state.getIn([NAMESPACE, "reportableTypes"], fromJS([]));
 
-export const approvalsLabels = state => state.getIn([NAMESPACE, "approvalsLabels"], fromJS({}));
+export const approvalsLabels = state => {
+  const systemApprovalLabels = state.getIn([NAMESPACE, "approvalsLabels"], fromJS({}));
+  const userModules = selectUserModules(state);
+
+  if (userModules.size === 1) {
+    return userModules.first()?.approvalsLabels || systemApprovalLabels;
+  }
+
+  return systemApprovalLabels;
+};
 
 export const getApprovalsLabels = createCachedSelector(getLocale, approvalsLabels, (locale, data) => {
   const labels = data.entrySeq().reduce((acc, [key, value]) => {

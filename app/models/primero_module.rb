@@ -4,6 +4,7 @@
 
 # Configures the behavior of a module of Primero
 class PrimeroModule < ApplicationRecord
+  include LocalizableJsonProperty
   include ConfigurationRecord
 
   CP = 'primeromodule-cp'
@@ -60,8 +61,12 @@ class PrimeroModule < ApplicationRecord
     :workflow_status_indicator, :agency_code_indicator, :use_workflow_service_implemented,
     :use_workflow_case_plan, :use_workflow_assessment, :reporting_location_filter,
     :user_group_filter, :use_webhooks_for, :use_webhook_sync_for, :consent_form,
-    :list_filters, :list_headers
+    :list_filters, :list_headers, :primary_age_range, :approval_forms_to_alert,
+    :approvals_labels_i18n, :changes_field_to_form, :search_and_create_workflow,
+    :violation_type_field, :creation_field_map
   )
+
+  localize_jsonb_properties %i[approvals_labels]
 
   belongs_to :primero_program, optional: true
   has_and_belongs_to_many :form_sections, inverse_of: :primero_modules
