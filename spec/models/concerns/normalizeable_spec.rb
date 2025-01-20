@@ -43,12 +43,29 @@ describe Normalizeable do
     end
 
     it 'updates a searchable value' do
+      child.sex = 'male'
+      child.save!
+
+      values = SearchableValue.where(record_id: child.id, record_type: Child.name, field_name: 'sex')
+      expect(values.size).to eq(1)
+      expect(values.first.value).to eq('male')
+    end
+
+    it 'removes a searchable value when is nil' do
       child.sex = nil
       child.save!
 
-      booleans = SearchableValue.where(record_id: child.id, record_type: Child.name, field_name: 'sex')
-      expect(booleans.size).to eq(1)
-      expect(booleans.first.value).to be_nil
+      values = SearchableValue.where(record_id: child.id, record_type: Child.name, field_name: 'sex')
+      expect(values.size).to eq(0)
+    end
+
+    it 'does not create duplicates for duplicated values' do
+      child.protection_concerns = %w[value1 value2 value1]
+      child.save!
+
+      values = SearchableValue.where(record_id: child.id, record_type: Child.name, field_name: 'protection_concerns')
+      expect(values.size).to eq(2)
+      expect(values.map(&:value)).to match_array(%w[value1 value2])
     end
   end
 
