@@ -332,7 +332,6 @@ class Child < ApplicationRecord
   end
 
   def calculate_assessment_due_dates
-    # TODO: Tests fail if I don't have a flat_map here
     self.assessment_due_dates = Tasks::AssessmentTask.from_case(self).map(&:due_date).compact
 
     assessment_due_dates
@@ -345,7 +344,7 @@ class Child < ApplicationRecord
   end
 
   def calculate_followup_due_dates
-    self.followup_due_dates = Tasks::FollowUpTask.from_case(self).map(&:due_date).compact
+    self.followup_due_dates = Tasks::FollowUpTask.from_case(self).map(&:due_date).compact.uniq
 
     followup_due_dates
   end

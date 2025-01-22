@@ -34,6 +34,7 @@ module Normalizeable
         value = data[field_name]
         next if value.blank?
 
+        value = value.uniq if value.is_a?(Array)
         data_to_save += generate_searchable_hashes(data_to_save, field_name, value)
       end
 
@@ -65,7 +66,7 @@ module Normalizeable
 
         searchable_attributes.merge(value: searchable.value, _destroy: true)
       else
-        searchable_attributes.merge(value:)
+        searchable_attributes.merge(value:, _destroy: value.nil?)
       end
     end
   end

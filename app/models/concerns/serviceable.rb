@@ -100,7 +100,7 @@ module Serviceable
       # TODO: only use services that is of the type of the current workflow
       reportable_services = nested_reportables_hash[ReportableService]
       if reportable_services.present?
-        self.service_due_dates = reportable_services.reject(&:service_implemented?).map(&:service_due_date).compact
+        self.service_due_dates = reportable_services.reject(&:service_implemented?).map(&:service_due_date).compact.uniq
       end
 
       service_due_dates
@@ -109,7 +109,7 @@ module Serviceable
     def calculate_service_implemented_day_times
       self.service_implemented_day_times = services_section&.map do |service|
         service['service_implemented_day_time']
-      end&.compact
+      end&.compact&.uniq
 
       service_implemented_day_times
     end
