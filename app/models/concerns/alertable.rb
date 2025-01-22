@@ -120,25 +120,27 @@ module Alertable
     alert.destroy! && save!
   end
 
-  def get_alert(approval_type, system_settings)
-    system_settings ||= SystemSettings.current
-    system_settings.approval_forms_to_alert.key(approval_type)
+  def get_alert(approval_type, system_settings, record_module)
+    approval_forms_to_alert = record_module.approval_forms_to_alert ||=
+      (system_settings || SystemSettings.current).approval_forms_to_alert
+    approval_forms_to_alert.key(approval_type)
   end
 
-  def add_approval_alert(approval_type, system_settings)
+  def add_approval_alert(approval_type, system_settings, record_module)
     return if alerts.any? { |a| a.type == approval_type }
 
     add_alert(type: approval_type, date: DateTime.now.to_date,
-              form_sidebar_id: get_alert(approval_type, system_settings), alert_for: APPROVAL)
+              form_sidebar_id: get_alert(approval_type, system_settings, record_module), alert_for: APPROVAL)
   end
 
   def alerts_on_change
     @system_settings ||= SystemSettings.current
+    changes_field_to_form = self.module&.changes_field_to_form || @system_settings&.changes_field_to_form
     # changes field to form needs to be backwards compatible, so each of the
     # values in the hash is either a string or a hash. If it's a string, it's
     # the form section unique id. If it's a hash, it's the form section unique
     # id and the alert strategy
-    (@system_settings&.changes_field_to_form&.map do |field_name, form_section_uid_or_hash|
+    (changes_field_to_form&.map do |field_name, form_section_uid_or_hash|
       [field_name, AlertConfigEntryService.new(form_section_uid_or_hash)]
     end).to_h
   end

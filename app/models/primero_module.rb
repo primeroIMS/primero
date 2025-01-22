@@ -119,6 +119,10 @@ class PrimeroModule < ApplicationRecord
     all.pluck(:unique_id)
   end
 
+  def self.primary_age_range(module_id)
+    find_by(unique_id: module_id)&.primary_age_range
+  end
+
   def form_section_unique_ids
     form_sections.pluck(:unique_id)
   end

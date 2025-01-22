@@ -71,8 +71,8 @@ module LocalizableJsonProperty
 
     def define_current_accessors(store, property, jsonb: false)
       define_method property do |locale = I18n.locale|
-        locale_store = jsonb ? read_jsonb_attribute(store, locale) : read_store_attribute(store, locale)
-        return read_attribute_by_locale(store, locale, jsonb:) if locale_store.nil?
+        locale_store = read_attribute_by_locale(store, locale, jsonb:)
+        return read_attribute_by_locale(store, I18n.default_locale, jsonb:) if locale_store.nil?
 
         locale_field_value(store, locale_store)
       end
@@ -135,9 +135,9 @@ module LocalizableJsonProperty
 
   def read_attribute_by_locale(store, locale, jsonb: false)
     if jsonb
-      read_jsonb_attribute(store, locale, value)
+      read_jsonb_attribute(store, locale)
     else
-      read_attribute(store, locale, value)
+      read_store_attribute(store, locale)
     end
   end
 

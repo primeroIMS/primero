@@ -120,7 +120,16 @@ export const getResourceActions = (state, resource) =>
 
 export const getAgeRanges = (state, name = "primero") => state.getIn([NAMESPACE, "ageRanges", name], fromJS([]));
 
-export const getPrimaryAgeRange = state => state.getIn([NAMESPACE, "primaryAgeRange"], "primero");
+export const getPrimaryAgeRange = state => {
+  const systemAgeRanges = state.getIn([NAMESPACE, "primaryAgeRange"], "primero");
+  const userModules = selectUserModules(state);
+
+  if (userModules.size === 1) {
+    return userModules.first()?.primary_age_range || systemAgeRanges;
+  }
+
+  return systemAgeRanges;
+};
 
 export const getPrimaryAgeRanges = state => getAgeRanges(state, getPrimaryAgeRange(state));
 
@@ -131,7 +140,7 @@ export const approvalsLabels = state => {
   const userModules = selectUserModules(state);
 
   if (userModules.size === 1) {
-    return userModules.first()?.approvalsLabels || systemApprovalLabels;
+    return fromJS(userModules.first()?.approvals_labels) || systemApprovalLabels;
   }
 
   return systemApprovalLabels;

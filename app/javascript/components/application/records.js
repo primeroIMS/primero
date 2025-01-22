@@ -14,6 +14,5 @@ export const PrimeroModuleRecord = Record({
   list_filters: fromJS([]),
   list_headers: fromJS([]),
   primary_age_range: null,
-  changes_field_to_form: null,
   approvals_labels: null
 });
