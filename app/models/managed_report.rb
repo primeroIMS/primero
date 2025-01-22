@@ -197,6 +197,16 @@ class ManagedReport < ValueObject
           :grouped_by, :by, :location, :service_type, { status: {}, service_implemented_day_time: {} }
         ],
         module_id: 'primeromodule-pcm' # TODO: What to do?
+      ),
+      Permission::CASE_CHARACTERISTICS => ManagedReport.new(
+        id: 'case_characteristics',
+        name: 'managed_reports.case_characteristics.name',
+        description: 'managed_reports.case_characteristics.description',
+        subreports: %w[case_protection_risk],
+        permitted_filters: [
+          :grouped_by, :by, :location, { status: {}, registration_date: {}, date_closure: {} }
+        ],
+        module_id: 'primeromodule-pcm' # TODO: What to do?
       )
     }.freeze
   end
