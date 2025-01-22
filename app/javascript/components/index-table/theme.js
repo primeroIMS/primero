@@ -6,6 +6,7 @@ export default theme => ({
       styleOverrides: {
         body: {
           padding: ".5em",
+          backgroundColor: "var(--c-white)",
           [theme.breakpoints.down("sm")]: {
             border: "none",
             "& div": {
