@@ -17,7 +17,8 @@ class ManagedReports::Indicators::IndividualAge < ManagedReports::SqlReportIndic
 
       %{
         select
-          #{age_ranges_query(field_name: 'individual_age', table_name: 'individual_children', is_json_field: false)} as name,
+          #{age_ranges_query(field_name: 'individual_age',
+                             table_name: 'individual_children', is_json_field: false)} as name,
           'total' as key,
           #{grouped_date_query(params['grouped_by'], date_filter, 'individual_children')&.concat(' as group_id,')}
           count(*) as sum
