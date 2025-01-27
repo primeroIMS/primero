@@ -2376,6 +2376,7 @@ en:
     case_characteristics:
       reports:
         case_protection_risk: Cases by protection risk
+        case_risk_level: Cases by risk level
       description: Percentage of cases with each protection risk within gender and timeframe cohorts
       name: Case Characteristics
       filter_options:
@@ -2383,6 +2384,7 @@ en:
         date_closure: Date of Closure
       sub_reports:
         percentage_cases_protection_risk: '% of cases by protection risk'
+        percentage_cases_risk_level: '% of cases by risk level'
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
