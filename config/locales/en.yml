@@ -2373,8 +2373,16 @@ en:
       sub_reports:
         implemented_successful_referrals: Successful referrals by date implemented
       implemented: Succesful referrals
-
-
+    case_characteristics:
+      reports:
+        case_protection_risk: Cases by protection risk
+      description: Percentage of cases with each protection risk within gender and timeframe cohorts
+      name: Case Characteristics
+      filter_options:
+        registration_date: Registration Date
+        date_closure: Date of Closure
+      sub_reports:
+        percentage_cases_protection_risk: '% of cases by protection risk'
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
@@ -3591,6 +3599,9 @@ en:
           process_quality_implemented_referrals:
             label: Process and Quality -  Successful referrals by date implemented
             explanation: Only relevant for the PCM (Protection Case Management) module. Shows the number of successful service referrals which were implemented in each month.
+          case_characteristics:
+            label: 'Case Characteristics'
+            explanation: 'Only relevant for the PCM (Protection Case Management) module. Disaggregates cases by a number of key characteristics: protection risk, risk level, duration, disability status, completion of a safety plan, and gender.'
       matching_configuration:
         actions:
           manage:

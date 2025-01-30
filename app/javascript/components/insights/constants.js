@@ -22,7 +22,8 @@ import {
   PROCESS_QUALITY_TOTAL_CASES_SUBREPORTS,
   PROCESS_QUALITY_AVERAGE_CASES_SUBREPORTS,
   PROCESS_QUALITY_SUCCESSFUL_REFERRALS_SUBREPORTS,
-  PROCESS_QUALITY_IMPLEMENTED_REFERRALS_SUBREPORTS
+  PROCESS_QUALITY_IMPLEMENTED_REFERRALS_SUBREPORTS,
+  CASE_CHARACTERISTICS_SUBREPORTS
 } from "../../config";
 import { DATE_FIELD, SELECT_FIELD, HIDDEN_FIELD, OPTION_TYPES } from "../form/constants";
 import { FieldRecord } from "../form/records";
@@ -64,6 +65,7 @@ const PROCESS_QUALITY_TOTAL_CASES = "process_quality_total_cases";
 const PROCESS_QUALITY_AVERAGE_CASES = "process_quality_average_cases";
 const PROCESS_QUALITY_SUCCESSFUL_REFERRALS = "process_quality_successful_referrals";
 const PROCESS_QUALITY_IMPLEMENTED_REFERRALS = "process_quality_implemented_referrals";
+const CASE_CHARACTERISTICS = "case_characteristics";
 
 export const MODULE_ID = "module_id";
 export const REPORTS = "reports";
@@ -759,6 +761,7 @@ export const INSIGHTS_CONFIG = {
         display_name: REPORTING_LOCATIONS_DISPLAY_NAME,
         option_strings_source: LOOKUPS.reporting_locations
       },
+
       {
         name: DATE,
         display_name: FILTER_BY_DATE_DISPLAY_NAME,
@@ -819,6 +822,43 @@ export const INSIGHTS_CONFIG = {
         type: SELECT_FIELD,
         display_name: SERVICES_DISPLAY_NAME,
         option_strings_source: LOOKUPS.service_type
+      },
+      {
+        name: REPORTING_LOCATIONS,
+        type: SELECT_FIELD,
+        display_name: REPORTING_LOCATIONS_DISPLAY_NAME,
+        option_strings_source: LOOKUPS.reporting_locations
+      }
+    ].map(filter => FieldRecord(filter))
+  },
+  case_characteristics: {
+    ids: CASE_CHARACTERISTICS_SUBREPORTS,
+    defaultFilterValues: {
+      [GROUPED_BY]: MONTH,
+      [DATE_RANGE]: LAST_MONTH,
+      [STATUS]: [STATUS_OPEN],
+      [DATE]: REGISTRATION_DATE
+    },
+    filters: [
+      RECORD_FILTERS[GROUPED_BY],
+      RECORD_FILTERS[DATE_RANGE],
+      RECORD_FILTERS[FROM],
+      RECORD_FILTERS[TO],
+      RECORD_FILTERS[STATUS],
+      {
+        name: DATE,
+        display_name: FILTER_BY_DATE_DISPLAY_NAME,
+        option_strings_text: [
+          {
+            id: REGISTRATION_DATE,
+            display_name: [MANAGED_REPORTS, CASE_CHARACTERISTICS, FILTER_OPTIONS, REGISTRATION_DATE]
+          },
+          {
+            id: DATE_CLOSURE,
+            display_name: [MANAGED_REPORTS, CASE_CHARACTERISTICS, FILTER_OPTIONS, DATE_CLOSURE]
+          }
+        ],
+        type: SELECT_FIELD
       },
       {
         name: REPORTING_LOCATIONS,

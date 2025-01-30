@@ -155,7 +155,8 @@ describe("Verifying config constant", () => {
       "FOLLOWUPS_SUBREPORTS",
       "PROTECTION_OUTCOMES_SUBREPORTS",
       "PROCESS_QUALITY_SUCCESSFUL_REFERRALS_SUBREPORTS",
-      "PROCESS_QUALITY_IMPLEMENTED_REFERRALS_SUBREPORTS"
+      "PROCESS_QUALITY_IMPLEMENTED_REFERRALS_SUBREPORTS",
+      "CASE_CHARACTERISTICS_SUBREPORTS"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);
