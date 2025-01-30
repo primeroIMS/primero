@@ -276,8 +276,14 @@ module ManagedReports::SqlQueryHelpers
       { date_field: field_name, format: Report::DATE_TIME_FORMAT }
     end
 
-    def age_ranges_query(field_name = 'age', table_name = nil, is_json_field = true)
-      SystemSettings.primary_age_ranges.reduce("case \n") do |acc, range|
+    def module_primary_age_range(module_id = nil)
+      return nil unless module_id.present?
+
+      PrimeroModule.primary_age_range(module_id)
+    end
+
+    def age_ranges_query(field_name: 'age', table_name: nil, is_json_field: true, module_id: nil)
+      SystemSettings.primary_age_ranges(module_primary_age_range(module_id)).reduce("case \n") do |acc, range|
         column = age_range_column(field_name, table_name, is_json_field)
 
         acc + ActiveRecord::Base.sanitize_sql_for_conditions(
