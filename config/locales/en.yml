@@ -2349,6 +2349,20 @@ en:
       sub_reports:
         average_cases_per_case_worker: 'Average # of cases per case worker'
       average_cases_per_case_worker: 'Average # of cases per case worker'
+    process_quality_successful_referrals:
+      reports:
+        process_quality_successful_referrals: Successful referrals
+      description: Percentage of service referrals which are successful and non-successful, within gender and timeframe cohorts
+      name: 'Process and Quality - % of successful referrals'
+      filter_options:
+        referral_created_at: Date Service Referred
+        service_response_day_time: Date Service Created
+        case_status: Case Status
+      sub_reports:
+        percentage_successful_referrals: '% of successful referrals'
+      implemented: '% successful'
+      not_implemented: '% non successful'
+
 
   messages:
     alert_items: You have %{items} items of note.
@@ -3560,6 +3574,9 @@ en:
           process_quality_average_cases:
             label: 'Process and Quality - Average # of cases per case worker'
             explanation: Only relevant for the PCM (Protection Case Management) module. Shows the average number of PCM cases per case worker.
+          process_quality_successful_referrals:
+            label: 'Process and Quality - % of successful referrals'
+            explanation: Only relevant for the PCM (Protection Case Management) module. Shows the percentage of service referrals which were successfully implemented.
       matching_configuration:
         actions:
           manage:

@@ -77,7 +77,7 @@ module ManagedReports::SqlQueryHelpers
         [
           %(
             (
-              data ? :field_name AND data->>:field_name IS NOT NULL AND EXISTS
+              data->>:field_name IS NOT NULL AND EXISTS
               (
                 SELECT
                   1
@@ -90,6 +90,38 @@ module ManagedReports::SqlQueryHelpers
             )
           ),
           { param_value:, field_name: }
+        ]
+      )
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    # rubocop:disable Metrics/MethodLength
+    def searchable_reporting_location_query(param, record_type = 'Child', map_to = nil)
+      return unless param.present?
+
+      field_name = map_to || param.field_name
+
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          %(
+              (
+                SELECT
+                  record_id
+                FROM searchable_values
+                INNER JOIN (
+                  SELECT
+                    descendants.location_code
+                  FROM locations
+                  INNER JOIN locations AS descendants
+                  ON locations.admin_level <= descendants.admin_level
+                  AND locations.hierarchy_path @> descendants.hierarchy_path
+                  WHERE locations.location_code = :location_code
+                ) AS reporting_locations ON reporting_locations.location_code = searchable_values.value
+                WHERE searchable_values.record_type = :record_type
+	              AND searchable_values.field_name = :field_name
+              )
+          ),
+          { record_type:, field_name:, location_code: param.value }
         ]
       )
     end
