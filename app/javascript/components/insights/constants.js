@@ -21,7 +21,8 @@ import {
   PROTECTION_OUTCOMES_SUBREPORTS,
   PROCESS_QUALITY_TOTAL_CASES_SUBREPORTS,
   PROCESS_QUALITY_AVERAGE_CASES_SUBREPORTS,
-  PROCESS_QUALITY_SUCCESSFUL_REFERRALS_SUBREPORTS
+  PROCESS_QUALITY_SUCCESSFUL_REFERRALS_SUBREPORTS,
+  PROCESS_QUALITY_IMPLEMENTED_REFERRALS_SUBREPORTS
 } from "../../config";
 import { DATE_FIELD, SELECT_FIELD, HIDDEN_FIELD, OPTION_TYPES } from "../form/constants";
 import { FieldRecord } from "../form/records";
@@ -62,6 +63,7 @@ const PROTECTION_OUTCOMES = "protection_outcomes";
 const PROCESS_QUALITY_TOTAL_CASES = "process_quality_total_cases";
 const PROCESS_QUALITY_AVERAGE_CASES = "process_quality_average_cases";
 const PROCESS_QUALITY_SUCCESSFUL_REFERRALS = "process_quality_successful_referrals";
+const PROCESS_QUALITY_IMPLEMENTED_REFERRALS = "process_quality_implemented_referrals";
 
 export const MODULE_ID = "module_id";
 export const REPORTS = "reports";
@@ -776,6 +778,53 @@ export const INSIGHTS_CONFIG = {
           }
         ],
         type: SELECT_FIELD
+      }
+    ].map(filter => FieldRecord(filter))
+  },
+  process_quality_implemented_referrals: {
+    ids: PROCESS_QUALITY_IMPLEMENTED_REFERRALS_SUBREPORTS,
+    defaultFilterValues: {
+      [GROUPED_BY]: MONTH,
+      [DATE_RANGE]: LAST_MONTH,
+      [STATUS]: [STATUS_OPEN],
+      [DATE]: SERVICE_IMPLEMENTED_DAY_TIME
+    },
+    filters: [
+      RECORD_FILTERS[GROUPED_BY],
+      RECORD_FILTERS[DATE_RANGE],
+      RECORD_FILTERS[FROM],
+      RECORD_FILTERS[TO],
+      {
+        name: DATE,
+        display_name: FILTER_BY_DATE_DISPLAY_NAME,
+        option_strings_text: [
+          {
+            id: SERVICE_IMPLEMENTED_DAY_TIME,
+            display_name: [
+              MANAGED_REPORTS,
+              PROCESS_QUALITY_IMPLEMENTED_REFERRALS,
+              FILTER_OPTIONS,
+              SERVICE_IMPLEMENTED_DAY_TIME
+            ]
+          }
+        ],
+        type: SELECT_FIELD
+      },
+      {
+        ...RECORD_FILTERS[STATUS],
+        display_name: [MANAGED_REPORTS, PROCESS_QUALITY_IMPLEMENTED_REFERRALS, FILTER_OPTIONS, CASE_STATUS]
+      },
+      {
+        name: SERVICES,
+        type: SELECT_FIELD,
+        display_name: SERVICES_DISPLAY_NAME,
+        option_strings_source: LOOKUPS.service_type
+      },
+      {
+        name: REPORTING_LOCATIONS,
+        type: SELECT_FIELD,
+        display_name: REPORTING_LOCATIONS_DISPLAY_NAME,
+        option_strings_source: LOOKUPS.reporting_locations
       }
     ].map(filter => FieldRecord(filter))
   }

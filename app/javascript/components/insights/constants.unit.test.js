@@ -115,7 +115,8 @@ describe("<Report /> - constants", () => {
       "protection_outcomes",
       "process_quality_total_cases",
       "process_quality_average_cases",
-      "process_quality_successful_referrals"
+      "process_quality_successful_referrals",
+      "process_quality_implemented_referrals"
     ]);
   });
 });
