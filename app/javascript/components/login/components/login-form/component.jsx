@@ -40,7 +40,7 @@ function Container({ modal = false }) {
   const formSections = form(i18n);
 
   const handleSubmit = async values => {
-    dispatch(attemptLogin(values));
+    dispatch(checkServerStatus(true, false, [attemptLogin(values)]));
   };
 
   const onClickForgotLink = () => {

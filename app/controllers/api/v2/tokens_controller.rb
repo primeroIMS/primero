@@ -26,6 +26,7 @@ class Api::V2::TokensController < Devise::SessionsController
     if Rails.configuration.x.idp.use_identity_provider
       create_idp
     else
+      sign_out unless current_user_match_params?
       super
     end
   end
@@ -67,5 +68,9 @@ class Api::V2::TokensController < Devise::SessionsController
 
   def current_token
     IdpTokenStrategy.token_from_header(request.headers)
+  end
+
+  def current_user_match_params?
+    current_user.user_name == params[:user][:user_name] if current_user.present?
   end
 end
