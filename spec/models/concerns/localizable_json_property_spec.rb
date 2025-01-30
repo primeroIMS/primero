@@ -73,4 +73,74 @@ describe LocalizableJsonProperty do
     merged_options = @object.merge_options(@object.option_strings_text, option_string_text.last(1))
     expect(merged_options).to match_array(option_string_text)
   end
+
+  describe 'when jsonb properties' do
+    before :each do
+      allow(I18n).to receive(:available_locales) { %i[a b] }
+
+      @klass = Class.new(PrimeroModule) do
+        include LocalizableJsonProperty
+
+        store_accessor :module_options, :approvals_labels_i18n, :option_strings_text_i18n
+
+        localize_jsonb_properties [:approvals_labels]
+        localize_jsonb_properties [:option_strings_text], options_list: true
+      end
+      @object = @klass.new
+    end
+
+    it 'should create localized properties' do
+      expect(@object).to respond_to('approvals_labels_b', 'approvals_labels_b')
+    end
+
+    it 'should create default property which sets system default locale' do
+      I18n.stub locale: :b
+      @object.approvals_labels = {
+        assessment: 'Protection Eligibility',
+        case_plan: 'Case Plan',
+        closure: 'Case Closure',
+        action_plan: 'Action Plan',
+        gbv_closure: 'GBV Closure'
+      }
+      @object.option_strings_text = [{ id: '1', display_text: 'test 1' }, { id: '2', display_text: 'test 2' }]
+
+      expect(@object.approvals_labels_a).to be_nil
+      expect(@object.approvals_labels_b.with_indifferent_access).to match({ assessment: 'Protection Eligibility',
+                                                                            case_plan: 'Case Plan',
+                                                                            closure: 'Case Closure',
+                                                                            action_plan: 'Action Plan',
+                                                                            gbv_closure: 'GBV Closure' })
+      expect(@object.approvals_labels.with_indifferent_access).to match({ assessment: 'Protection Eligibility',
+                                                                          case_plan: 'Case Plan',
+                                                                          closure: 'Case Closure',
+                                                                          action_plan: 'Action Plan',
+                                                                          gbv_closure: 'GBV Closure' })
+
+      expect(@object.option_strings_text_a).to match_array([{ 'display_text' => nil, 'id' => '1' },
+                                                            { 'display_text' => nil, 'id' => '2' }])
+      expect(@object.option_strings_text_b).to match_array([{ 'display_text' => 'test 1', 'id' => '1' },
+                                                            { 'display_text' => 'test 2', 'id' => '2' }])
+      expect(@object.option_strings_text).to match_array([{ 'display_text' => 'test 1', 'id' => '1' },
+                                                          { 'display_text' => 'test 2', 'id' => '2' }])
+    end
+
+    it 'should create all property which sets all locales' do
+      @object.approvals_labels_all = 'test'
+      expect(@object.approvals_labels_a).to eq('test')
+      expect(@object.approvals_labels_b).to eq('test')
+    end
+
+    it 'should use constructor for default property' do
+      I18n.stub locale: :b
+      @object = @klass.new('approvals_labels' => 'test')
+      expect(@object.approvals_labels_a).to be_nil
+      expect(@object.approvals_labels_b).to eq('test')
+    end
+
+    it 'should use constructor for all properties' do
+      @object = @klass.new('approvals_labels_all' => 'test')
+      expect(@object.approvals_labels_a).to eq('test')
+      expect(@object.approvals_labels_b).to eq('test')
+    end
+  end
 end
