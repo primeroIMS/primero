@@ -111,7 +111,7 @@ class Approval < ValueObject
   protected
 
   def load_request
-    record.add_approval_alert(approval_id, SystemSettings.current)
+    record.add_approval_alert(approval_id, SystemSettings.current, record.module)
 
     return unless record.module.selectable_approval_types.present? && approval_id == Approval::CASE_PLAN
 

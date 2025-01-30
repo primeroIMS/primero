@@ -19,7 +19,7 @@ class ManagedReports::Indicators::IncidentWorkflowBySexAndAge < ManagedReports::
           with incident_workflow_by_sex_and_age as (
             select
               cases.data->> 'sex' as name,
-              #{age_ranges_query('age', 'cases')} as key,
+              #{age_ranges_query(field_name: 'age', table_name: 'cases', module_id: params['module_id'])} as key,
               #{grouped_date_query(params['grouped_by'], filter_date(params), 'cases')&.concat(' as group_id,')}
               count(*) as sum
             from incidents

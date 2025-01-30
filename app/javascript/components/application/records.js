@@ -12,5 +12,7 @@ export const PrimeroModuleRecord = Record({
   workflows: {},
   field_map: fromJS([]),
   list_filters: fromJS([]),
-  list_headers: fromJS([])
+  list_headers: fromJS([]),
+  primary_age_range: null,
+  approvals_labels: null
 });

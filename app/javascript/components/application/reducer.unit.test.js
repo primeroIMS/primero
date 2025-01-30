@@ -50,6 +50,8 @@ describe("Application - Reducers", () => {
       modules: [
         {
           unique_id: "primeromodule-cp",
+          approvals_labels: null,
+          primary_age_range: null,
           field_map: [],
           list_filters: [],
           list_headers: [],
@@ -66,6 +68,8 @@ describe("Application - Reducers", () => {
         },
         {
           unique_id: "primeromodule-gbv",
+          approvals_labels: null,
+          primary_age_range: null,
           field_map: [],
           list_filters: [],
           list_headers: [],
@@ -157,6 +161,8 @@ describe("Application - Reducers", () => {
             },
             {
               unique_id: "primeromodule-gbv",
+              approvals_labels: null,
+              primary_age_range: null,
               name: "GBV",
               field_map: [],
               associated_record_types: ["case", "incident"],
